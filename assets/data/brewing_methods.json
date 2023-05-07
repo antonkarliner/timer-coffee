@@ -1,0 +1,13 @@
+[
+    {
+      "id": "hario_v60",
+      "name": "Hario V60",
+      "recipe_file": "recipes_v60.json"
+    },
+    {
+      "id": "aeropress",
+      "name": "Aeropress",
+      "recipe_file": "recipes_aeropress.json"
+    }
+  ]
+  

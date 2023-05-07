@@ -1,0 +1,60 @@
+[
+  {
+    "id": "1",
+    "name": "James Hoffman recipe",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "grind_size": "Medium fine",
+    "brew_time": "3min 30s",
+    "short_description": "An easy-to-follow recipe by James Hoffman. [Watch the tutorial video](https://www.youtube.com/watch?v=AI4ynXzkSQo).",
+    "steps": [
+      {
+        "order": 1,
+        "description": "Rinse filter & pre-heat V60",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Pour in grounds, create well in the middle.",
+        "time": 0
+      },
+      {
+        "order": 3,
+        "description": "Pre-wet with (2 x <final_coffee_amount>)g of water.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Swirl brewer until the slurry is even.",
+        "time": 5
+      },
+      {
+        "order": 5,
+        "description": "Complete the first main pour till (0.6 x <final_water_amount>)g in the next 30s.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Gently complete second main pour till <final_water_amount>g in the next 30s.",
+        "time": 30
+      },      
+      {
+        "order": 7,
+        "description": "Stir gently clockwise and anticlockwise to kick grounds from the sides",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "Gently swirl brewer to flatten coffee bed for even extraction",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "Aim to finish drawdown by 3min 30s.",
+        "time": 115
+      }
+    ]
+  }
+]
