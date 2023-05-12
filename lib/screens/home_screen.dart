@@ -6,6 +6,8 @@ import '../models/brewing_method.dart';
 import '../providers/recipe_provider.dart';
 import '../models/recipe.dart';
 import 'recipe_detail_screen.dart';
+import 'about_screen.dart';
+import 'coffee_tips_screen.dart'; // Import the CoffeeTipsScreen here
 
 class HomeScreen extends StatefulWidget {
   final List<BrewingMethod> brewingMethods;
@@ -73,6 +75,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
+              // Move the button here
+              ElevatedButton(
+                child: Text('Coffee Brewing Tips'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CoffeeTipsScreen(),
+                    ),
+                  );
+                },
+              ),
             ],
           );
         },
@@ -84,10 +98,34 @@ class _HomeScreenState extends State<HomeScreen> {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       return CupertinoNavigationBar(
         middle: Text('Coffee Timer'),
+        trailing: IconButton(
+          icon: Icon(Icons.info),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AboutScreen(),
+              ),
+            );
+          },
+        ),
       );
     } else {
       return AppBar(
         title: Text('Coffee Timer'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.info),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AboutScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       );
     }
   }
