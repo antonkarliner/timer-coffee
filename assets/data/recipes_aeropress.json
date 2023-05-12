@@ -1,0 +1,47 @@
+[
+    {
+      "id": "1",
+      "name": "Tim Wendelboe recipe",
+      "brewing_method_id": "aeropress",
+      "brewing_method": "Aeropress",
+      "coffee_amount": 14,
+      "water_amount": 200,
+      "grind_size": "Fine",
+      "brew_time": "1min 50s",
+      "short_description": "A recipe by Tim Wendelboe, World Barista Champion and World Cup Tasters Champion. [Watch the tutorial here](https://timwendelboe.no/brew-guides/aeropress/).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Rinse the paper filter with running tap water for a few seconds and pour in coffee grounds",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Pour <final_water_amount>g of water at boiling temperature over the coffee.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Stir 3 times.",
+          "time": 10
+        },
+        {
+          "order": 4,
+          "description": "Place the plunger on the Aeropress in order to prevent the water from draining through the filter and let the coffee steep.",
+          "time": 60
+        },
+        {
+          "order": 5,
+          "description": "Take the plunger off and  stir 3 times back to front.",
+          "time": 10
+        },
+        {
+          "order": 6,
+          "description": "Place the plunger on top of the Aeropress and press the contents into a large cup or pitcher by using your body weight.",
+          "time": 20
+        }
+      ]
+    }
+]

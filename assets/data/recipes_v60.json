@@ -1,7 +1,7 @@
 [
   {
     "id": "1",
-    "name": "James Hoffman recipe",
+    "name": "James Hoffman V60 recipe",
     "brewing_method_id": "hario_v60",
     "brewing_method": "Hario V60",
     "coffee_amount": 30,
@@ -9,6 +9,8 @@
     "grind_size": "Medium fine",
     "brew_time": "3min 30s",
     "short_description": "An easy-to-follow recipe by James Hoffman. [Watch the tutorial video](https://www.youtube.com/watch?v=AI4ynXzkSQo).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
     "steps": [
       {
         "order": 1,
@@ -56,5 +58,55 @@
         "time": 115
       }
     ]
+  },
+  {
+    "id": "2",
+    "name": "Scott Rao classic V60 recipe",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 22,
+    "water_amount": 360,
+    "grind_size": "Medium fine",
+    "brew_time": "3min 0s",
+    "short_description": "Scott Rao's V60 recipe focuses on even extraction and a consistent brew. Scott Rao [recommends](https://www.youtube.com/watch?v=c0Qe_ASxfNM) using a plastic V60 to retain the heat of the brew and allows to manipulate the funnel during the brew without burning yourself.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Rinse filter & pre-heat V60, Pour in grounds, flatten",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Pre-wet with (3 x <final_coffee_amount>)g of water.",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "Gently excavate to wet all the grounds",
+        "time": 30
+      },
+      {
+        "order": 4,
+        "description": "At 45s, start main pour until <final_water_amount>g.",
+        "time": 50
+      },
+      {
+      "order": 5,
+      "description": "Gently stir to stop grounds from clinging to sides",
+      "time": 25
+    },
+    {
+      "order": 6,
+      "description": "Swirl V60 to flatten coffee bed for even brew",
+      "time": 10
+    },
+    {
+      "order": 7,
+      "description": "Drawdown should be complete within 3 minutes.",
+      "time": 50
+    }
+  ]
   }
 ]

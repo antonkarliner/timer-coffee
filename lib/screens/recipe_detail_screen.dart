@@ -1,8 +1,12 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../models/recipe.dart';
 import 'preparation_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
+import 'package:provider/provider.dart';
+import '../providers/recipe_provider.dart';
+import '../widgets/favorite_button.dart';
 
 class RecipeDetailScreen extends StatefulWidget {
   final Recipe recipe;
@@ -18,14 +22,26 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   final TextEditingController _waterController = TextEditingController();
   late double initialRatio;
 
+  Recipe? _updatedRecipe;
+
   @override
   void initState() {
     super.initState();
-    initialRatio = widget.recipe.waterAmount / widget.recipe.coffeeAmount;
-    _coffeeController.text = widget.recipe.coffeeAmount.toString();
-    _waterController.text = widget.recipe.waterAmount.toString();
-    _coffeeController.addListener(_updateAmounts);
-    _waterController.addListener(_updateAmounts);
+    _loadRecipes();
+  }
+
+  void _loadRecipes() async {
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
+    await recipeProvider.fetchRecipes(widget.recipe.brewingMethodId);
+    _updatedRecipe = recipeProvider.getRecipeById(widget.recipe.id);
+    initialRatio = _updatedRecipe!.waterAmount / _updatedRecipe!.coffeeAmount;
+    _coffeeController.text = _updatedRecipe!.coffeeAmount.toString();
+    _waterController.text = _updatedRecipe!.waterAmount.toString();
+    _coffeeController
+        .addListener(() => _updateAmounts(context, _updatedRecipe!));
+    _waterController
+        .addListener(() => _updateAmounts(context, _updatedRecipe!));
+    setState(() {});
   }
 
   @override
@@ -35,7 +51,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     super.dispose();
   }
 
-  void _updateAmounts() {
+  void _updateAmounts(BuildContext context, Recipe updatedRecipe) {
     double? newCoffee = double.tryParse(_coffeeController.text);
     double? newWater = double.tryParse(_waterController.text);
 
@@ -43,27 +59,27 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       return;
     }
 
-    double currentCoffee = widget.recipe.coffeeAmount;
-    double currentWater = widget.recipe.waterAmount;
+    double currentCoffee = updatedRecipe.coffeeAmount;
+    double currentWater = updatedRecipe.waterAmount;
 
     if (_coffeeController.text != currentCoffee.toString()) {
-      setState(() {
-        double ratio = currentWater / currentCoffee;
-        currentCoffee = newCoffee;
-        currentWater = newCoffee * ratio;
-        _waterController.removeListener(_updateAmounts);
-        _waterController.text = currentWater.toStringAsFixed(1);
-        _waterController.addListener(_updateAmounts);
-      });
+      double ratio = currentWater / currentCoffee;
+      currentCoffee = newCoffee;
+      currentWater = newCoffee * ratio;
+      _waterController
+          .removeListener(() => _updateAmounts(context, updatedRecipe));
+      _waterController.text = currentWater.toStringAsFixed(1);
+      _waterController
+          .addListener(() => _updateAmounts(context, updatedRecipe));
     } else if (_waterController.text != currentWater.toString()) {
-      setState(() {
-        double ratio = currentCoffee / currentWater;
-        currentWater = newWater;
-        currentCoffee = newWater * ratio;
-        _coffeeController.removeListener(_updateAmounts);
-        _coffeeController.text = currentCoffee.toStringAsFixed(1);
-        _coffeeController.addListener(_updateAmounts);
-      });
+      double ratio = currentCoffee / currentWater;
+      currentWater = newWater;
+      currentCoffee = newWater * ratio;
+      _coffeeController
+          .removeListener(() => _updateAmounts(context, updatedRecipe));
+      _coffeeController.text = currentCoffee.toStringAsFixed(1);
+      _coffeeController
+          .addListener(() => _updateAmounts(context, updatedRecipe));
     }
   }
 
@@ -71,52 +87,75 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   Widget build(BuildContext context) {
     TextStyle defaultStyle = Theme.of(context).textTheme.bodyText1!;
     return Scaffold(
-      appBar: AppBar(title: Text(widget.recipe.name)),
+      appBar: AppBar(
+        title:
+            Text(_updatedRecipe == null ? 'Loading...' : _updatedRecipe!.name),
+        actions: [
+          if (_updatedRecipe != null) ...[
+            FavoriteButton(
+              recipeId: _updatedRecipe!.id,
+              onToggleFavorite: (isFavorite) {
+                Provider.of<RecipeProvider>(context, listen: false)
+                    .toggleFavorite(_updatedRecipe!.id);
+              },
+            )
+          ]
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.recipe.brewingMethodName),
-            SizedBox(height: 16),
-            _buildRichText(context, widget.recipe.shortDescription),
-            SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _coffeeController,
-                    decoration: InputDecoration(labelText: 'Coffee amount (g)'),
-                    keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
+        child: _updatedRecipe == null
+            ? Center(child: CircularProgressIndicator())
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(_updatedRecipe!.brewingMethodName),
+                  SizedBox(height: 16),
+                  _buildRichText(context, _updatedRecipe!.shortDescription),
+                  SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _coffeeController,
+                          decoration:
+                              InputDecoration(labelText: 'Coffee amount (g)'),
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: TextField(
+                          controller: _waterController,
+                          decoration:
+                              InputDecoration(labelText: 'Water amount (ml)'),
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(width: 16),
-                Expanded(
-                  child: TextField(
-                    controller: _waterController,
-                    decoration: InputDecoration(labelText: 'Water amount (ml)'),
-                    keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-            Text('Grind size: ${widget.recipe.grindSize}'),
-            SizedBox(height: 16),
-            Text(
-                'Brew Time: ${widget.recipe.brewTime.toString().split('.').first.padLeft(8, "0")}')
-          ],
-        ),
+                  SizedBox(height: 16),
+                  Text('Grind size: ${_updatedRecipe!.grindSize}'),
+                  SizedBox(height: 16),
+                  Text(
+                      'Brew Time: ${_updatedRecipe!.brewTime.toString().split('.').first.padLeft(8, "0")}')
+                ],
+              ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          final recipeProvider =
+              Provider.of<RecipeProvider>(context, listen: false);
+          Recipe updatedRecipe =
+              await recipeProvider.updateLastUsed(_updatedRecipe!.id);
+
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => PreparationScreen(
-                recipe: widget.recipe.copyWith(
+                recipe: updatedRecipe.copyWith(
                   coffeeAmount: double.tryParse(_coffeeController.text),
                   waterAmount: double.tryParse(_waterController.text),
                 ),
@@ -129,12 +168,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     );
   }
 
-  Future<bool> canLaunchUrl(String urlString) async {
-    return await canLaunch(urlString);
+  Future<bool> canLaunchUrl(Uri url) async {
+    return await canLaunch(url.toString());
   }
 
-  Future<void> launchUrl(String urlString) async {
-    await launch(urlString);
+  Future<void> launchUrl(Uri url) async {
+    await launch(url.toString());
   }
 
   Widget _buildRichText(BuildContext context, String text) {
@@ -160,8 +199,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                   color: Colors.blue, decoration: TextDecoration.underline),
               recognizer: TapGestureRecognizer()
                 ..onTap = () async {
-                  if (await canLaunchUrl(linkUrl)) {
-                    await launchUrl(linkUrl);
+                  Uri url = Uri.parse(linkUrl);
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url);
                   } else {
                     throw 'Could not launch $linkUrl';
                   }

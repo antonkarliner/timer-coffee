@@ -11,6 +11,8 @@ class Recipe {
   final Duration brewTime;
   final String shortDescription;
   final List<BrewStep> steps;
+  final DateTime? lastUsed;
+  final bool isFavorite;
 
   Recipe({
     required this.id,
@@ -23,22 +25,25 @@ class Recipe {
     required this.brewTime,
     required this.shortDescription,
     required this.steps,
+    this.lastUsed,
+    this.isFavorite = false,
   });
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     List<dynamic> stepsJson = json['steps'];
     List<BrewStep> steps = stepsJson.map((s) => BrewStep.fromJson(s)).toList();
 
-    // Regular expression to match the "3min 30s" format
     RegExp regExp = RegExp(r"(\d+)min (\d+)s");
 
-    // Extract the minutes and seconds from the brew_time string
     Match match = regExp.firstMatch(json['brew_time'])!;
     int minutes = int.parse(match.group(1)!);
     int seconds = int.parse(match.group(2)!);
 
-    // Create a Duration object with the extracted minutes and seconds
     Duration brewTime = Duration(minutes: minutes, seconds: seconds);
+
+    DateTime? lastUsed =
+        json['last_used'] != null ? DateTime.parse(json['last_used']) : null;
+    bool isFavorite = json['is_favorite'] ?? false;
 
     return Recipe(
       id: json['id'],
@@ -48,15 +53,35 @@ class Recipe {
       coffeeAmount: json['coffee_amount'].toDouble(),
       waterAmount: json['water_amount'].toDouble(),
       grindSize: json['grind_size'],
-      brewTime: brewTime, // use the parsed brewTime
+      brewTime: brewTime,
       shortDescription: json['short_description'],
       steps: steps,
+      lastUsed: lastUsed,
+      isFavorite: isFavorite,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'brewing_method_id': brewingMethodId,
+        'brewing_method': brewingMethodName,
+        'coffee_amount': coffeeAmount,
+        'water_amount': waterAmount,
+        'grind_size': grindSize,
+        'brew_time':
+            '${brewTime.inMinutes}min ${brewTime.inSeconds.remainder(60)}s',
+        'short_description': shortDescription,
+        'steps': steps.map((step) => step.toJson()).toList(),
+        'last_used': lastUsed?.toIso8601String(),
+        'is_favorite': isFavorite,
+      };
 
   Recipe copyWith({
     double? coffeeAmount,
     double? waterAmount,
+    DateTime? lastUsed,
+    bool? isFavorite,
   }) {
     return Recipe(
       id: this.id,
@@ -69,6 +94,8 @@ class Recipe {
       brewTime: this.brewTime,
       shortDescription: this.shortDescription,
       steps: this.steps,
+      lastUsed: lastUsed ?? this.lastUsed,
+      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 }

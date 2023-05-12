@@ -16,4 +16,10 @@ class BrewStep {
       time: Duration(seconds: json['time'] as int),
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'order': order,
+        'description': description,
+        'time': time.inSeconds,
+      };
 }
