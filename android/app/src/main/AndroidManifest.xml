@@ -3,7 +3,7 @@
    <application
         android:label="coffee_timer"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/coffee_timer">
         <activity
             android:name=".MainActivity"
             android:exported="true"
