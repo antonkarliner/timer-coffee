@@ -1,4 +1,4 @@
-# coffee_timer
+# Сoffee Timer
 
 Coffee Timer is a free and open source app which can help you to brew great coffee. Currently supported brewing techniques are: Hario V60, Aeropress, Chemex, French Press, Kalita Wave. The app features 18 recipes with more on the way.
 
