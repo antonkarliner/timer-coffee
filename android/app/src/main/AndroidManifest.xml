@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.coffee_timer">
    <application
-        android:label="coffee_timer"
+        android:label="Timer.Cofee"
         android:name="${applicationName}"
         android:icon="@mipmap/coffee_timer">
         <activity
