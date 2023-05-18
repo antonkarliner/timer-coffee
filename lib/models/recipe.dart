@@ -7,6 +7,7 @@ class Recipe {
   final String brewingMethodName;
   final double coffeeAmount;
   final double waterAmount;
+  final double? waterTemp;
   final String grindSize;
   final Duration brewTime;
   final String shortDescription;
@@ -21,6 +22,7 @@ class Recipe {
     required this.brewingMethodName,
     required this.coffeeAmount,
     required this.waterAmount,
+    required this.waterTemp,
     required this.grindSize,
     required this.brewTime,
     required this.shortDescription,
@@ -52,6 +54,8 @@ class Recipe {
       brewingMethodName: json['brewing_method'],
       coffeeAmount: json['coffee_amount'].toDouble(),
       waterAmount: json['water_amount'].toDouble(),
+      waterTemp:
+          json['water_temp'] != null ? json['water_temp'].toDouble() : null,
       grindSize: json['grind_size'],
       brewTime: brewTime,
       shortDescription: json['short_description'],
@@ -68,6 +72,7 @@ class Recipe {
         'brewing_method': brewingMethodName,
         'coffee_amount': coffeeAmount,
         'water_amount': waterAmount,
+        'water_temp': waterTemp,
         'grind_size': grindSize,
         'brew_time':
             '${brewTime.inMinutes}min ${brewTime.inSeconds.remainder(60)}s',
@@ -90,6 +95,7 @@ class Recipe {
       brewingMethodName: this.brewingMethodName,
       coffeeAmount: coffeeAmount ?? this.coffeeAmount,
       waterAmount: waterAmount ?? this.waterAmount,
+      waterTemp: this.waterTemp,
       grindSize: this.grindSize,
       brewTime: this.brewTime,
       shortDescription: this.shortDescription,

@@ -137,6 +137,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                     ],
                   ),
                   SizedBox(height: 16),
+                  Text(
+                      'Water Temperature: ${_updatedRecipe!.waterTemp ?? "Not provided"}ºC / ${(_updatedRecipe!.waterTemp != null ? (_updatedRecipe!.waterTemp! * 9 / 5 + 32).toStringAsFixed(1) : "Not provided")}ºF'),
+                  SizedBox(height: 16),
                   Text('Grind size: ${_updatedRecipe!.grindSize}'),
                   SizedBox(height: 16),
                   Text(

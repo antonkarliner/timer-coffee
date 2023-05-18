@@ -45,6 +45,18 @@ class RecipeProvider extends ChangeNotifier {
       case 'aeropress':
         jsonFileName = 'recipes_aeropress.json';
         break;
+      case 'chemex':
+        jsonFileName = 'recipes_chemex.json';
+        break;
+      case 'french_press':
+        jsonFileName = 'recipes_frenchpress.json';
+        break;
+      case 'clever_dripper':
+        jsonFileName = 'recipes_clever.json';
+        break;
+      case 'kalita_wave':
+        jsonFileName = 'recipes_kalita.json';
+        break;
       default:
         throw Exception('Unknown brewing method ID: $brewingMethodId');
     }

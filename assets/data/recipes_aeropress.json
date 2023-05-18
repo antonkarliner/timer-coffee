@@ -1,11 +1,12 @@
 [
     {
       "id": "1",
-      "name": "Tim Wendelboe recipe",
+      "name": "Tim Wendelboe Aeropress recipe",
       "brewing_method_id": "aeropress",
       "brewing_method": "Aeropress",
       "coffee_amount": 14,
       "water_amount": 200,
+      "water_temp": 100,
       "grind_size": "Fine",
       "brew_time": "1min 50s",
       "short_description": "A recipe by Tim Wendelboe, World Barista Champion and World Cup Tasters Champion. [Watch the tutorial here](https://timwendelboe.no/brew-guides/aeropress/).",
@@ -19,7 +20,7 @@
         },
         {
           "order": 2,
-          "description": "Pour <final_water_amount>g of water at boiling temperature over the coffee.",
+          "description": "Pour <final_water_amount>g of water over the coffee.",
           "time": 10
         },
         {
@@ -40,6 +41,190 @@
         {
           "order": 6,
           "description": "Place the plunger on top of the Aeropress and press the contents into a large cup or pitcher by using your body weight.",
+          "time": 20
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "James Hoffman Aeropress recipe",
+      "brewing_method_id": "aeropress",
+      "brewing_method": "Aeropress",
+      "coffee_amount": 11,
+      "water_amount": 200,
+      "water_temp": 95,
+      "grind_size": "Fine/Medium",
+      "brew_time": "3min 25s",
+      "short_description": "A recipe by James Hoffman, winner of World barista Championship, YouTuber, coffee consultant, and author. For medium roast coffee, using 90-95°C water will give you better results. For dark roast coffee, try 85-90°C water for the brew. Grind your coffee at the finer end of medium, assuming this is light roasted coffee. The darker you go the more you may prefer to increase the dose and coarsen the grind [Watch the tutorial here](https://www.youtube.com/watch?v=j6VlT_jUVPc).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Set brewer in standard position on a server. Don't rinse or preheat the brewer (it doesn't make any difference). Pour in coffee grounds",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Pour <final_water_amount>g of water aiming to wet all the coffee during pouring.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Place the plunger on top of the brewer, about 1cm in.",
+          "time": 5
+        },
+        {
+          "order": 4,
+          "description": "Wait 2 minutes.",
+          "time": 120
+        },
+        {
+          "order": 5,
+          "description": "Holding the brewer and the plunger, gently swirl the brewer.",
+          "time": 10
+        },
+        {
+          "order": 6,
+          "description": "Wait 30 seconds.",
+          "time": 30
+        },
+        {
+          "order": 7,
+          "description": "Press gently all the way.",
+          "time": 30
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Alan Adler Aeropress recipe",
+      "brewing_method_id": "aeropress",
+      "brewing_method": "Aeropress",
+      "coffee_amount": 16,
+      "water_amount": 95,
+      "water_temp": 80,
+      "grind_size": "Fine",
+      "brew_time": "1min 0s",
+      "short_description": "A recipe by Alan Alder, the inventor of Aeropress. This recipe produces a concentrate or 'espresso' style coffee. Simply add hot water to your tasting to make more of an 'Americano' style coffee. [Watch the tutorial here](https://www.youtube.com/watch?v=9c14DxfVOY4).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": " Add ground coffee to the brew chamber. Give chamber a shake to level the bed of coffee.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Pour <final_water_amount>g of water to the chamber.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": " Stir using the paddle.",
+          "time": 10
+        },
+        {
+          "order": 4,
+          "description": "Insert plunger and press gently.",
+          "time": 40
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Wendelien van Bunnik Aeropress recipe",
+      "brewing_method_id": "aeropress",
+      "brewing_method": "Aeropress",
+      "coffee_amount": 16,
+      "water_amount": 230,
+      "water_temp": 95,
+      "grind_size": "Coarse",
+      "brew_time": "1min 30s",
+      "short_description": "A recipe by Wendelien van Bunnik, a Dutch barista and the 2019 World AeroPress Champion. Note that this is an inverted method. If you're not sure how it works, [watch the tutorial first](https://www.youtube.com/watch?v=jLNIGf-lf3s).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": " Place two paper filters in the cap and rinse with hot water. Push any air bubbles out using the paddle. Discard the rinse water. Add ground coffee to the brew chamber. Give it a shake to even out the grounds.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Pour <final_water_amount>g of over the grounds.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Stir gently 5 times.",
+          "time": 10
+        },
+        {
+          "order": 4,
+          "description": "Fasten the filter cap and let sit.",
+          "time": 40
+        },
+        {
+          "order": 5,
+          "description": "Flip the AeroPress and press into a cup. Stop when you hear a hissing sound.",
+          "time": 30
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Alexander Mills Iced Aeropress recipe",
+      "brewing_method_id": "aeropress",
+      "brewing_method": "Aeropress",
+      "coffee_amount": 20,
+      "water_amount": 150,
+      "water_temp": 99,
+      "grind_size": "Medium/Fine",
+      "brew_time": "3min 20s",
+      "short_description": "A recipe by Alexander Mills, a consultant in the coffee industry from Canada. Note that this is an inverted method. Here's [the tutorial ](https://alexandermills.ca/blog/iced-aeropress).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Pre-rinse two paper filters in the cap to wash the papery taste out of them and preheat the brewer. Discard water and set cap aside. Fill your server with ice in amount equal to water amount. Pour in coffee grounds to Aeropress.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": " With the Aeropress inverted, pour (0.3 x <final_water_amount>)g of boiled water.",
+          "time": 5
+        },
+        {
+          "order": 3,
+          "description": "Stir thoroughly.",
+          "time": 5
+        },
+        {
+          "order": 4,
+          "description": "Let the coffee bloom.",
+          "time": 20
+        },
+        {
+          "order": 5,
+          "description": "Pour the remaining (0.7 x <final_water_amount>) of water rather quickly in concentric circles.",
+          "time": 10
+        },
+        {
+          "order": 6,
+          "description": "Give the slurry one deep stir and then cap your AeroPress.",
+          "time": 100
+        },
+        {
+          "order": 7,
+          "description": "Flip your AeroPress on top of your server and press steadily for 30s over ice. Stop your press when the AeroPress hisses.",
+          "time": 30
+        },
+        {
+          "order": 8,
+          "description": "Give your iced coffee a good swirl in your server to exchange those final molecules of heat for some cooler ones and then serve in a chilled glass.",
           "time": 20
         }
       ]

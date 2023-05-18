@@ -131,9 +131,14 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(brewingSteps[currentStepIndex].description,
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    brewingSteps[currentStepIndex].description,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 24)),
+                    style: TextStyle(fontSize: 24),
+                  ),
+                ),
                 SizedBox(height: 20),
                 Text(
                     '$currentStepTime/${brewingSteps[currentStepIndex].time.inSeconds} seconds',

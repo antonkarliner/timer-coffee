@@ -1,0 +1,109 @@
+[
+    {
+      "id": "1",
+      "name": "James Hoffman French Press recipe",
+      "brewing_method_id": "french_press",
+      "brewing_method": "French Press",
+      "coffee_amount": 30,
+      "water_amount": 500,
+      "water_temp": 95,
+      "grind_size": "Medium-coarse",
+      "brew_time": "10min 0s",
+      "short_description": "French Press recipe by James Hoffman, winner of World barista Championship, YouTuber, coffee consultant, and author. [Watch the tutorial](https://www.youtube.com/watch?v=st571DYYTR8).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Grind the coffee and put it into French Press. Place on scale and zero it out.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Add <final_water_amount>g. of water",
+          "time": 15
+        },
+        {
+          "order": 3,
+          "description": "Let the coffee sit.",
+          "time": 240
+        },
+        {
+          "order": 4,
+          "description": "Use a tablespoon to stir the crust on top of the brew. Remove the foam and floating particles.",
+          "time": 30
+        },
+        {
+          "order": 5,
+          "description": "Let the coffee rest for additional 5 minutes.",
+          "time": 300
+        },
+        {
+          "order": 6,
+          "description": "Put the plunger in, but don't press it all the way down, leave it on top of the brew.",
+          "time": 15
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Gwilym Davies French Press recipe",
+      "brewing_method_id": "french_press",
+      "brewing_method": "French Press",
+      "coffee_amount": 16,
+      "water_amount": 250,
+      "water_temp": 95,
+      "grind_size": "Medium",
+      "brew_time": "12min 45s",
+      "short_description": "French press recipe by Gwilym Davies, World barista champion and SCA authorized trainer. Here's the [tutorial](https://www.youtube.com/watch?v=AkrqY8LkWM4).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Grind the coffee and put it into French Press. Place on scale and zero it out.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Quickly add <final_water_amount>g of water.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Wait 5 minutes.",
+          "time": 300
+        },
+        {
+          "order": 4,
+          "description": "Use a tablespoon to mix coffee with water.",
+          "time": 10
+        },
+        {
+        "order": 5,
+        "description": "Insert the plunger, but don't press it down yet.",
+        "time": 5
+      },
+      {
+        "order": 6,
+        "description": "Wait 3 minutes.",
+        "time": 180
+      },
+      {
+        "order": 7,
+        "description": "Press the plunger down slowly.",
+        "time": 20
+      },
+      {
+        "order": 8,
+        "description": "Wait 2 minutes.",
+        "time": 120
+      },
+      {
+        "order": 9,
+        "description": "Pour the coffee into the carafe and wait for another 2 minutes before serving.",
+        "time": 120
+      }
+    ]
+    }
+  ]

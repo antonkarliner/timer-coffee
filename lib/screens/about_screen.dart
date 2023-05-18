@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
+import 'package:ionicons/ionicons.dart';
 
 class AboutScreen extends StatelessWidget {
   void _launchURL(String url) async {
@@ -21,7 +22,7 @@ class AboutScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               ExpansionTile(
                 title: Text('About'),
@@ -34,11 +35,11 @@ class AboutScreen extends StatelessWidget {
                         children: [
                           TextSpan(
                             text:
-                                'Coffee Timer App is created by Anton Karliner, a coffee enthusiast, media specialist, and photojournalist. You can view my photojournalistic work on my ',
+                                'Coffee Timer App is created by Anton Karliner, a coffee enthusiast, media specialist, and photojournalist. You can view my photojournalistic work ',
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
                           TextSpan(
-                            text: 'website',
+                            text: 'here',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1!
@@ -50,7 +51,7 @@ class AboutScreen extends StatelessWidget {
                           ),
                           TextSpan(
                             text:
-                                '. I hope that this app will help you enjoy your coffee. Feel free to contribute on Github.',
+                                '. I hope that this app will help you enjoy your coffee. Feel free to contribute on Github. Icons by Ionicons (MIT license).',
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
                         ],
@@ -118,7 +119,7 @@ We may update our Privacy Policy from time to time. Thus, you are advised to rev
 
 7. CONTACT US
 
-For any questions or clarifications regarding the Privacy Policy, please contact us.
+For any questions or clarifications regarding the Privacy Policy, please contact us at support@timer.coffee
 
 8. HOW TO CONTACT THE APPROPRIATE AUTHORITY
 
@@ -132,25 +133,27 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                 ],
               ),
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 12.0, // space between buttons
+                runSpacing: 2.0, // space between lines
                 children: [
                   ElevatedButton.icon(
                     onPressed: () => _launchURL('https://your-website.com'),
-                    icon: Icon(Icons.web),
+                    icon: Icon(Ionicons.globe_outline),
                     label: Text('Website'),
                   ),
                   ElevatedButton.icon(
-                    onPressed: () =>
-                        _launchURL('https://github.com/your-github-username'),
-                    icon: Icon(Icons.code),
+                    onPressed: () => _launchURL(
+                        'https://github.com/antonkarliner/coffee-timer'),
+                    icon: Icon(Ionicons.logo_github),
                     label: Text('Github'),
                   ),
                   ElevatedButton.icon(
                     onPressed: () =>
-                        _launchURL('https://your-donation-link.com'),
-                    icon: Icon(Icons.monetization_on),
-                    label: Text('Donate'),
+                        _launchURL('https://www.buymeacoffee.com/timercoffee'),
+                    icon: Icon(Ionicons.cafe),
+                    label: Text('Buy me a coffee'),
                   ),
                 ],
               ),

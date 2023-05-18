@@ -75,17 +75,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              // Move the button here
-              ElevatedButton(
-                child: Text('Coffee Brewing Tips'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CoffeeTipsScreen(),
-                    ),
-                  );
-                },
+              Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: ElevatedButton(
+                  child: Text('Coffee Brewing Tips'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CoffeeTipsScreen(),
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           );

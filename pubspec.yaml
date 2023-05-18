@@ -14,6 +14,7 @@ dependencies:
   url_launcher: ^6.0.12
   provider: ^6.0.5
   shared_preferences: ^2.1.0
+  ionicons: ^0.2.2
 
 dev_dependencies:
   flutter_test:
@@ -27,3 +28,8 @@ flutter:
     - assets/data/brewing_methods.json
     - assets/data/recipes_v60.json
     - assets/data/recipes_aeropress.json
+    - assets/data/recipes_chemex.json
+    - assets/data/recipes_frenchpress.json
+    - assets/data/recipes_clever.json
+    - assets/data/recipes_kalita.json
+    - assets/data/coffee_facts.json
