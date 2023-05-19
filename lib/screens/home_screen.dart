@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     } else {
       return AppBar(
-        title: Text('Coffee Timer'),
+        title: Text('Timer.coffee'),
         actions: [
           IconButton(
             icon: Icon(Icons.info),
