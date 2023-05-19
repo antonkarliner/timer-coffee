@@ -139,7 +139,7 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                 runSpacing: 2.0, // space between lines
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () => _launchURL('https://your-website.com'),
+                    onPressed: () => _launchURL('https://www.timer.coffee'),
                     icon: Icon(Ionicons.globe_outline),
                     label: Text('Website'),
                   ),
