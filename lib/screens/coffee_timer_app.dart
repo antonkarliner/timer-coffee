@@ -14,7 +14,8 @@ class CoffeeTimerApp extends StatelessWidget {
     return ChangeNotifierProvider<RecipeProvider>(
       create: (context) => RecipeProvider(),
       child: MaterialApp(
-        title: 'Coffee Timer',
+        debugShowCheckedModeBanner: false,
+        title: 'Timer.Coffee',
         theme: ThemeData(
           primarySwatch: Colors.brown,
           visualDensity: VisualDensity.adaptivePlatformDensity,

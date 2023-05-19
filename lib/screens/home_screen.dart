@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
   PreferredSizeWidget buildPlatformSpecificAppBar() {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       return CupertinoNavigationBar(
-        middle: Text('Coffee Timer'),
+        middle: Text('Timer.Coffee'),
         trailing: IconButton(
           icon: Icon(Icons.info),
           onPressed: () {
