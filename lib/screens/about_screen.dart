@@ -35,7 +35,7 @@ class AboutScreen extends StatelessWidget {
                         children: [
                           TextSpan(
                             text:
-                                'Coffee Timer App is created by Anton Karliner, a coffee enthusiast, media specialist, and photojournalist. You can view my photojournalistic work ',
+                                'Timer.Coffee App is created by Anton Karliner, a coffee enthusiast, media specialist, and photojournalist. You can view my photojournalistic work ',
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
                           TextSpan(
@@ -91,19 +91,19 @@ class AboutScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0),
                     child: Text('''
-Privacy Policy for Coffee Timer
+Privacy Policy for Timer.Cofee
 
 1. INTRODUCTION
 
-Coffee Timer respects the privacy of its users and is committed to protecting it in all respects. This policy will explain how Coffee Timer uses the personal data we collect from you when you use our app.
+Timer.Cofee respects the privacy of its users and is committed to protecting it in all respects. This policy will explain how Coffee Timer uses the personal data we collect from you when you use our app.
 
 2. DATA COLLECTION AND USAGE
 
-Coffee Timer does not collect any personal data. We do not process any personal identification information or collect any data indirectly from other sources. As we do not collect any personal data, we have no data to share, sell, or use in any way.
+Timer.Cofee does not collect any personal data. We do not process any personal identification information or collect any data indirectly from other sources. As we do not collect any personal data, we have no data to share, sell, or use in any way.
 
 3. COOKIES
 
-Coffee Timer does not use cookies. 
+Timer.Cofee does not use cookies. 
 
 4. SECURITY
 
@@ -111,7 +111,7 @@ We value your trust in providing us your personal information, thus we are striv
 
 5. PRIVACY POLICIES OF OTHER WEBSITES
 
-The Coffee Timer app contains links to other websites. Our privacy policy applies only to our app, so if you click on a link to another website or service, you should read their privacy policy.
+The Timer.Cofee app contains links to other websites. Our privacy policy applies only to our app, so if you click on a link to another website or service, you should read their privacy policy.
 
 6. CHANGES TO OUR PRIVACY POLICY
 
