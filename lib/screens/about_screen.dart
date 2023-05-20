@@ -123,7 +123,7 @@ For any questions or clarifications regarding the Privacy Policy, please contact
 
 8. HOW TO CONTACT THE APPROPRIATE AUTHORITY
 
-Should you wish to report a complaint or if you feel that Coffee Timer has not addressed your concern in a satisfactory manner, you may contact your local data protection authority. 
+Should you wish to report a complaint or if you feel that Timer.Coffee has not addressed your concern in a satisfactory manner, you may contact your local data protection authority. 
 
 9. TRADEMARKS
 
