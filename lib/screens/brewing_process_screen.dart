@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../models/recipe.dart';
 import '../models/brew_step.dart';
 import 'finish_screen.dart';
+import 'package:wakelock/wakelock.dart';
 
 class BrewingProcessScreen extends StatefulWidget {
   final Recipe recipe;
@@ -61,6 +62,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
   @override
   void initState() {
     super.initState();
+    Wakelock.enable();
     brewingSteps = widget.recipe.steps
         .map((step) => BrewStep(
               order: step.order,
@@ -79,6 +81,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
   @override
   void dispose() {
     timer.cancel();
+    Wakelock.disable();
     super.dispose();
   }
 
