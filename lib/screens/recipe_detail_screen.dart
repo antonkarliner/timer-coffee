@@ -21,6 +21,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   final TextEditingController _coffeeController = TextEditingController();
   final TextEditingController _waterController = TextEditingController();
   late double initialRatio;
+  bool _editingCoffee = false;
+  bool _isEditingText = false;
+  double? originalCoffee;
+  double? originalWater;
 
   Recipe? _updatedRecipe;
 
@@ -34,13 +38,11 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
     await recipeProvider.fetchRecipes(widget.recipe.brewingMethodId);
     _updatedRecipe = recipeProvider.getRecipeById(widget.recipe.id);
-    initialRatio = _updatedRecipe!.waterAmount / _updatedRecipe!.coffeeAmount;
+    originalCoffee = _updatedRecipe!.coffeeAmount;
+    originalWater = _updatedRecipe!.waterAmount;
+    initialRatio = originalWater! / originalCoffee!;
     _coffeeController.text = _updatedRecipe!.coffeeAmount.toString();
     _waterController.text = _updatedRecipe!.waterAmount.toString();
-    _coffeeController
-        .addListener(() => _updateAmounts(context, _updatedRecipe!));
-    _waterController
-        .addListener(() => _updateAmounts(context, _updatedRecipe!));
     setState(() {});
   }
 
@@ -52,35 +54,26 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   }
 
   void _updateAmounts(BuildContext context, Recipe updatedRecipe) {
-    double? newCoffee = double.tryParse(_coffeeController.text);
-    double? newWater = double.tryParse(_waterController.text);
-
-    if (newCoffee == null || newWater == null) {
+    _isEditingText = true;
+    if (_coffeeController.text.isEmpty ||
+        _waterController.text.isEmpty ||
+        double.tryParse(_coffeeController.text) == null ||
+        double.tryParse(_waterController.text) == null) {
+      _isEditingText = false;
       return;
     }
 
-    double currentCoffee = updatedRecipe.coffeeAmount;
-    double currentWater = updatedRecipe.waterAmount;
+    double newCoffee = double.parse(_coffeeController.text);
+    double newWater = double.parse(_waterController.text);
 
-    if (_coffeeController.text != currentCoffee.toString()) {
-      double ratio = currentWater / currentCoffee;
-      currentCoffee = newCoffee;
-      currentWater = newCoffee * ratio;
-      _waterController
-          .removeListener(() => _updateAmounts(context, updatedRecipe));
-      _waterController.text = currentWater.toStringAsFixed(1);
-      _waterController
-          .addListener(() => _updateAmounts(context, updatedRecipe));
-    } else if (_waterController.text != currentWater.toString()) {
-      double ratio = currentCoffee / currentWater;
-      currentWater = newWater;
-      currentCoffee = newWater * ratio;
-      _coffeeController
-          .removeListener(() => _updateAmounts(context, updatedRecipe));
-      _coffeeController.text = currentCoffee.toStringAsFixed(1);
-      _coffeeController
-          .addListener(() => _updateAmounts(context, updatedRecipe));
+    if (_editingCoffee) {
+      double newWaterAmount = newCoffee * initialRatio;
+      _waterController.text = newWaterAmount.toStringAsFixed(1);
+    } else {
+      double newCoffeeAmount = newWater / initialRatio;
+      _coffeeController.text = newCoffeeAmount.toStringAsFixed(1);
     }
+    _isEditingText = false;
   }
 
   @override
@@ -122,6 +115,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                               InputDecoration(labelText: 'Coffee amount (g)'),
                           keyboardType:
                               TextInputType.numberWithOptions(decimal: true),
+                          onChanged: (text) {
+                            _updateAmounts(context, _updatedRecipe!);
+                          },
+                          onTap: () {
+                            _editingCoffee = true;
+                          },
                         ),
                       ),
                       SizedBox(width: 16),
@@ -132,6 +131,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                               InputDecoration(labelText: 'Water amount (ml)'),
                           keyboardType:
                               TextInputType.numberWithOptions(decimal: true),
+                          onChanged: (text) {
+                            _updateAmounts(context, _updatedRecipe!);
+                          },
+                          onTap: () {
+                            _editingCoffee = false;
+                          },
                         ),
                       ),
                     ],
