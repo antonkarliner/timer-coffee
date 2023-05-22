@@ -1,6 +1,6 @@
 # Timer.Coffee
 
-[<img src="https://www.timer.coffee/images/app-store-badge.png" width="27%">](https://apple.co/42WfmtI) [<img src="https://www.timer.coffee/images/web-app-badge.png" width="30%">](https://app.timer.coffee)
+[<img src="https://www.timer.coffee/images/app-store-badge.png" width="27%">](https://apple.co/42WfmtI) [<img src="https://www.timer.coffee/images/google-play-badge.png" width="30%">](https://play.google.com/store/apps/details?id=com.coffee.timer) [<img src="https://www.timer.coffee/images/web-app-badge.png" width="30%">](https://app.timer.coffee)
 
 Timer.Coffee is a free and open source app which can help you to brew great coffee. Currently supported brewing techniques are: Hario V60, Aeropress, Chemex, French Press, Kalita Wave. The app features 18 recipes with more on the way.
 
