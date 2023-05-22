@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**Recipe name:**
+**Recipe name and source link:**
 **Brewing method:**
 **Short description:**
 **Coffee amount (g):**
