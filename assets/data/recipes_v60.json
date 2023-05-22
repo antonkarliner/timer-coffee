@@ -1,6 +1,6 @@
 [
   {
-    "id": "1",
+    "id": "101",
     "name": "James Hoffman V60 recipe",
     "brewing_method_id": "hario_v60",
     "brewing_method": "Hario V60",
@@ -61,7 +61,7 @@
     ]
   },
   {
-    "id": "2",
+    "id": "102",
     "name": "Scott Rao classic V60 recipe",
     "brewing_method_id": "hario_v60",
     "brewing_method": "Hario V60",

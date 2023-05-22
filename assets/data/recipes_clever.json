@@ -1,6 +1,6 @@
 [
     {
-      "id": "1",
+      "id": "501",
       "name": "James Hoffman Ultimate Clever Dripper recipe",
       "brewing_method_id": "clever_dripper",
       "brewing_method": "Clever Dripper",
@@ -46,7 +46,7 @@
       ]
     },
     {
-      "id": "2",
+      "id": "502",
       "name": "Clever Dripper recipe by European Coffee Trip",
       "brewing_method_id": "clever_dripper",
       "brewing_method": "Clever Dripper",
@@ -92,7 +92,7 @@
     ]
     },
     {
-      "id": "3",
+      "id": "503",
       "name": "Clever Dripper recipe by Coffee and Water",
       "brewing_method_id": "clever_dripper",
       "brewing_method": "Clever Dripper",

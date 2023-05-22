@@ -1,6 +1,6 @@
 [
     {
-      "id": "1",
+      "id": "301",
       "name": "James Hoffman Chemex recipe",
       "brewing_method_id": "chemex",
       "brewing_method": "Chemex",
@@ -56,7 +56,7 @@
       ]
     },
     {
-      "id": "2",
+      "id": "302",
       "name": "Chemex recipe by Caffeine Feind",
       "brewing_method_id": "chemex",
       "brewing_method": "Chemex",
@@ -102,7 +102,7 @@
     ]
     },
     {
-        "id": "3",
+        "id": "303",
         "name": "Chemex recipe by Epicurious",
         "brewing_method_id": "chemex",
         "brewing_method": "Chemex",
