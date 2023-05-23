@@ -1,4 +1,4 @@
-package com.example.coffee_timer
+package com.coffee.timer
 
 import io.flutter.embedding.android.FlutterActivity
 
