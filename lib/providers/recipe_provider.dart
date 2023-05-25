@@ -57,6 +57,9 @@ class RecipeProvider extends ChangeNotifier {
       case 'kalita_wave':
         jsonFileName = 'recipes_kalita.json';
         break;
+      case 'wilfa_svart':
+        jsonFileName = 'recipes_wilfa.json';
+        break;
       default:
         throw Exception('Unknown brewing method ID: $brewingMethodId');
     }

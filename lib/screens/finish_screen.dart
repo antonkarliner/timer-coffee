@@ -1,6 +1,7 @@
 // lib/screens/finish_screen.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/services.dart' show rootBundle;
@@ -17,6 +18,8 @@ class FinishScreen extends StatefulWidget {
 class _FinishScreenState extends State<FinishScreen> {
   late Future<String> coffeeFact;
 
+  final InAppReview inAppReview = InAppReview.instance;
+
   Future<String> getRandomCoffeeFact() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String coffeeFactsString =
@@ -32,10 +35,44 @@ class _FinishScreenState extends State<FinishScreen> {
     return coffeeFactsList[nextFactIndex];
   }
 
+  Future<void> requestReview() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final DateTime firstUsageDate = DateTime.fromMillisecondsSinceEpoch(
+        prefs.getInt('firstUsageDate') ??
+            DateTime.now().millisecondsSinceEpoch);
+    final DateTime lastRequestedReview = DateTime.fromMillisecondsSinceEpoch(
+        prefs.getInt('lastRequestedReview') ?? 0);
+    final DateTime now = DateTime.now();
+
+    final List<int> reviewSchedule = [
+      10,
+      30,
+      180,
+      375,
+      405,
+      440,
+      480,
+      525
+    ]; // Days after first usage
+
+    for (int days in reviewSchedule) {
+      DateTime reviewDate = firstUsageDate.add(Duration(days: days));
+
+      if (now.isAfter(reviewDate) &&
+          lastRequestedReview.isBefore(reviewDate) &&
+          await inAppReview.isAvailable()) {
+        inAppReview.requestReview();
+        await prefs.setInt('lastRequestedReview', now.millisecondsSinceEpoch);
+        break; // Exit the loop once a review has been requested
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     coffeeFact = getRandomCoffeeFact();
+    requestReview();
   }
 
   @override
@@ -47,7 +84,7 @@ class _FinishScreenState extends State<FinishScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Thanks for using coffee timer! Enjoy your ${widget.brewingMethodName}!',
+              'Thanks for using Timer.Coffee! Enjoy your ${widget.brewingMethodName}!',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 24),
             ),

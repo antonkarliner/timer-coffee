@@ -1,0 +1,105 @@
+[
+    {
+      "id": "701",
+      "name": "Wilfa Svart Pour Over immersion recipe",
+      "brewing_method_id": "wilfa_svart",
+      "brewing_method": "Wilfa Svart Pour Over",
+      "coffee_amount": 18,
+      "water_amount": 300,
+      "water_temp": 95,
+      "grind_size": "Medium-coarse",
+      "brew_time": "3min 30s",
+      "short_description": "This is a recipe I used a lot with Wilfa Dripper. I'm not really sure of its author, but it's similar to many immersion recipes.",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Rinse filter and brewer with hot water. Grind your coffee. Pour in grounds, zero out the scales. Close the flow restrictor.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Pour in <final_water_amount>g. of water",
+          "time": 15
+        },
+        {
+          "order": 3,
+          "description": "Swirl the brewer a little.",
+          "time": 5
+        },
+        {
+          "order": 4,
+          "description": "Let the coffee steep.",
+          "time": 130
+        },
+        {
+          "order": 5,
+          "description": "Gently break the coffee crust with a spoon.",
+          "time": 10
+        },
+        {
+          "order": 6,
+          "description": "Wait a little more.",
+          "time": 20
+        },      
+        {
+          "order": 7,
+          "description": "Fully open the flow control, wait for the complete drawdown.",
+          "time": 30
+        }
+      ]
+    },
+    {
+      "id": "702",
+      "name": "Wilfa Svart Pour Over pour over recipe by Best Coffee",
+      "brewing_method_id": "wilfa_svart",
+      "brewing_method": "Wilfa Svart Pour Over",
+      "coffee_amount": 18,
+      "water_amount": 300,
+      "water_temp": 95,
+      "grind_size": "Coarse",
+      "brew_time": "3min 0s",
+      "short_description": "Another method of brewing with Wilfa Svart Pour Over is, you guessed it, pour over! This is a recipe by [Best Coffee](https://www.bestcoffee.guide/blogs/product-reviews/wilfa-pour-over-smart-dripper-review).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Rinse filter and brewer with hot water. Grind your coffee. Pour in grounds, zero out the scales. Close the flow restrictor.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Pre-wet with (2.2 x <final_coffee_amount>)g of water.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Let the coffee bloom.",
+          "time": 20
+        },
+        {
+          "order": 4,
+          "description": "Open the flow control to the halfway point.",
+          "time": 5
+        },
+        {
+        "order": 5,
+        "description": "Add water up to (0.6 x <final_water_amount>)g.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Continue to add water until you reach <final_water_amount>g.",
+        "time": 30
+      },
+      {
+        "order": 7,
+        "description": "Wait for the complete drawdown and close the the flow control.",
+        "time": 115
+      }
+    ]
+    }
+  ]
+  

@@ -28,6 +28,11 @@
       "id": "kalita_wave",
       "name": "Kalita Wave",
       "recipe_file": "recipes_kalita.json"
+    },
+    {
+      "id": "wilfa_svart",
+      "name": "Wilfa Svart Pour Over",
+      "recipe_file": "recipes_wilfa.json"
     }
   ]
   
