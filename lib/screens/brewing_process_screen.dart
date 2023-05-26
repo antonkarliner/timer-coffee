@@ -145,7 +145,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
                 SizedBox(height: 20),
                 Text(
                     '$currentStepTime/${brewingSteps[currentStepIndex].time.inSeconds} seconds',
-                    style: TextStyle(fontSize: 18)),
+                    style: TextStyle(fontSize: 22)),
               ],
             ),
           ),

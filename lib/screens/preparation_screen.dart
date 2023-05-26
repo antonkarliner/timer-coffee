@@ -21,13 +21,24 @@ class _PreparationScreenState extends State<PreparationScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text('Preparation')),
-      body: ListView.builder(
-        itemCount: preparationSteps.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(preparationSteps[index].description),
-          );
-        },
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.all(16.0), // Adds padding around the column
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: preparationSteps
+                .map((step) => Container(
+                      width: double
+                          .infinity, // Makes the container expand to fill the width of the screen
+                      child: Text(
+                        step.description,
+                        style: TextStyle(fontSize: 24),
+                        textAlign: TextAlign.center,
+                      ),
+                    ))
+                .toList(),
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

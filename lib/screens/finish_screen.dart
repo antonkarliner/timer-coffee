@@ -26,12 +26,27 @@ class _FinishScreenState extends State<FinishScreen> {
         await rootBundle.loadString('assets/data/coffee_facts.json');
     final List<String> coffeeFactsList =
         List<String>.from(jsonDecode(coffeeFactsString));
-    final int lastFactIndex = prefs.getInt('lastFactIndex') ?? -1;
-    final int nextFactIndex =
-        (lastFactIndex + 1 + Random().nextInt(coffeeFactsList.length - 1)) %
-            coffeeFactsList.length;
 
-    prefs.setInt('lastFactIndex', nextFactIndex);
+    List<int> shownFactsIndices =
+        (prefs.getStringList('shownFactsIndices') ?? [])
+            .map(int.parse)
+            .toList();
+
+    if (shownFactsIndices.length == coffeeFactsList.length) {
+      shownFactsIndices = [];
+    }
+
+    List<int> unseenFactsIndices =
+        List<int>.generate(coffeeFactsList.length, (i) => i)
+          ..removeWhere((index) => shownFactsIndices.contains(index));
+
+    final int nextFactIndex =
+        unseenFactsIndices[Random().nextInt(unseenFactsIndices.length)];
+    shownFactsIndices.add(nextFactIndex);
+
+    prefs.setStringList('shownFactsIndices',
+        shownFactsIndices.map((i) => i.toString()).toList());
+
     return coffeeFactsList[nextFactIndex];
   }
 
@@ -63,7 +78,7 @@ class _FinishScreenState extends State<FinishScreen> {
           await inAppReview.isAvailable()) {
         inAppReview.requestReview();
         await prefs.setInt('lastRequestedReview', now.millisecondsSinceEpoch);
-        break; // Exit the loop once a review has been requested
+        break;
       }
     }
   }

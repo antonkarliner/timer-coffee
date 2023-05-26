@@ -22,12 +22,12 @@ class CoffeeTipsScreen extends StatelessWidget {
     {
       'title': 'Use the right grinder:',
       'content':
-          'Use a coffee grinder that matches your brewing method. The quality of the grinder can significantly affect the taste of the coffee.',
+          'Use a coffee grinder that matches your brewing method. The quality of the grinder can significantly affect the taste of the coffee. Choose a grinder with burrs if possible.',
     },
     {
       'title': 'Adjust grind size:',
       'content':
-          'The particle size of your coffee plays a significant role in extraction and brewing time. Adjust the grind size if your espresso pours out too quickly or too slowly.',
+          'The particle size of your coffee plays a significant role in extraction and brewing time. Adjust the grind size if the drawdown time is too quick or too slow.',
     },
     {
       'title': 'Measure your coffee:',
@@ -38,11 +38,6 @@ class CoffeeTipsScreen extends StatelessWidget {
       'title': 'Use good water:',
       'content':
           'Since water makes up 99% of your cup, its quality greatly impacts the taste of your coffee. Avoid using hard tap water, instead opt for filtered or bottled water.',
-    },
-    {
-      'title': 'Time your brews:',
-      'content':
-          'Timing your coffee brews can lead to more consistent and better-tasting coffee. Adjust your grind size or brewing technique if your brew takes longer than the suggested time.',
     },
     {
       'title': 'Understand brewing temperatures:',
