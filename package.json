@@ -7,6 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
+    "install": "npm install",
     "test": "echo \"Error: no test specified\" && exit 1",
     "vercel-build": "node insert-script.js && flutter/bin/flutter build web --release"
   },
