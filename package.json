@@ -1,0 +1,19 @@
+{
+  "name": "coffee_timer",
+  "version": "1.0.0",
+  "description": "[<img src=\"https://www.timer.coffee/images/app-store-badge.png\" width=\"27%\">](https://apple.co/42WfmtI) [<img src=\"https://www.timer.coffee/images/google-play-badge.png\" width=\"30%\">](https://play.google.com/store/apps/details?id=com.coffee.timer) [<img src=\"https://www.timer.coffee/images/web-app-badge.png\" width=\"30%\">](https://app.timer.coffee)",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "vercel-build": "node insert-script.js && flutter/bin/flutter build web --release"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12"
+  }
+}
