@@ -72,6 +72,7 @@ android {
            signingConfig signingConfigs.release
        }
    }
+    namespace 'com.coffee.timer'
 }
 
 flutter {
