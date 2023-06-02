@@ -1,23 +1,13 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart'
-    show kIsWeb, LicenseRegistry, LicenseEntryWithLineBreaks;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:google_fonts/google_fonts.dart';
 import 'screens/coffee_timer_app.dart';
 import 'models/brewing_method.dart';
 import 'models/recipe.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  if (kIsWeb) {
-    LicenseRegistry.addLicense(() async* {
-      final license =
-          await rootBundle.loadString('assets/google_fonts/OFL.txt');
-      yield LicenseEntryWithLineBreaks(['google_fonts'], license);
-    });
-  }
 
   List<BrewingMethod> brewingMethods = await loadBrewingMethodsFromAssets();
 
@@ -34,11 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Coffee Timer App',
       theme: ThemeData(
-        textTheme: kIsWeb
-            ? GoogleFonts.latoTextTheme(
-                Theme.of(context).textTheme,
-              )
-            : Theme.of(context).textTheme,
+        fontFamily: kIsWeb ? 'Lato' : null,
       ),
       home: CoffeeTimerApp(brewingMethods: brewingMethods),
     );
