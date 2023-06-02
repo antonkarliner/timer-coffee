@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee with Timer.Coffee
 publish_to: 'none'
-version: 1.0.6+7
+version: 1.0.7+8
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
@@ -18,6 +18,7 @@ dependencies:
   wakelock: ^0.6.2
   in_app_review: ^2.0.6
   package_info_plus: ^3.0.0
+  google_fonts: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -37,3 +38,4 @@ flutter:
     - assets/data/recipes_kalita.json
     - assets/data/recipes_wilfa.json
     - assets/data/coffee_facts.json
+    - assets/google_fonts/
