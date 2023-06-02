@@ -3,8 +3,14 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:flutter/foundation.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class AboutScreen extends StatelessWidget {
+  Future<String> getVersionNumber() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version;
+  }
+
   void _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url, forceSafariVC: false, forceWebView: false);
@@ -177,17 +183,17 @@ For any questions or clarifications regarding the Privacy Policy, please contact
 
 8. HOW TO CONTACT THE APPROPRIATE AUTHORITY
 
-Should you wish to report a complaint or if you feel that Timer.Coffee has not addressed your concern in a satisfactory manner, you may contact your local data protection authority. 
+Should you wish to report a complaint or if you feel that Timer.Cofee has not addressed your concern in a satisfactory manner, you may contact your local data protection authority.
 
 9. TRADEMARKS
 
 All trademarks, service marks, trade names, trade dress, product names and logos appearing in the app are the property of their respective owners.
 ''',
+                      textAlign: TextAlign.justify,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
               Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 12.0, // space between buttons
@@ -211,6 +217,21 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                     label: Text('Buy me a coffee'),
                   ),
                 ],
+              ),
+              SizedBox(height: 20),
+              FutureBuilder<String>(
+                future: getVersionNumber(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                      'App Version: ${snapshot.data}',
+                      style: TextStyle(fontSize: 16.0, color: Colors.grey),
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
               ),
             ],
           ),
