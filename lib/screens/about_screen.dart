@@ -241,47 +241,22 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                 spacing: 12.0, // space between buttons
                 runSpacing: 2.0, // space between lines
                 children: [
-                  ElevatedButton(
+                  ElevatedButton.icon(
                     onPressed: () => _launchURL('https://www.timer.coffee'),
-                    child: Row(
-                      mainAxisSize: MainAxisSize
-                          .min, // Ensures the Row takes as little space as possible
-                      children: <Widget>[
-                        Icon(CoffeeTimerIcons.globe),
-                        SizedBox(
-                            width:
-                                8.0), // Creates a space between the icon and the text
-                        Text('Website'),
-                      ],
-                    ),
+                    icon: const Icon(Icons.language),
+                    label: const Text('Website'),
                   ),
-                  ElevatedButton(
+                  ElevatedButton.icon(
                     onPressed: () => _launchURL(
                         'https://github.com/antonkarliner/coffee-timer'),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Icon(CoffeeTimerIcons.mark_github),
-                        SizedBox(
-                            width:
-                                8.0), // Creates a space between the icon and the text
-                        Text('Github'),
-                      ],
-                    ),
+                    icon: const Icon(Icons.code),
+                    label: const Text('Source code'),
                   ),
-                  ElevatedButton(
+                  ElevatedButton.icon(
                     onPressed: () =>
                         _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Icon(CoffeeTimerIcons.coffee_mug),
-                        SizedBox(
-                            width:
-                                8.0), // Creates a space between the icon and the text
-                        Text('Buy me a coffee'),
-                      ],
-                    ),
+                    icon: const Icon(Icons.local_cafe),
+                    label: const Text('Buy me a coffee'),
                   ),
                 ],
               ),
