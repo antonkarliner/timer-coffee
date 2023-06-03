@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_markdown/flutter_markdown.dart';
+import '../visual/coffee_timer_icons_icons.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -242,19 +243,19 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                 children: [
                   ElevatedButton.icon(
                     onPressed: () => _launchURL('https://www.timer.coffee'),
-                    icon: const Icon(Ionicons.globe_outline),
+                    icon: const Icon(CoffeeTimerIcons.globe),
                     label: const Text('Website'),
                   ),
                   ElevatedButton.icon(
                     onPressed: () => _launchURL(
                         'https://github.com/antonkarliner/coffee-timer'),
-                    icon: const Icon(Ionicons.logo_github),
+                    icon: const Icon(CoffeeTimerIcons.mark_github),
                     label: const Text('Github'),
                   ),
                   ElevatedButton.icon(
                     onPressed: () =>
                         _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                    icon: const Icon(Ionicons.cafe),
+                    icon: const Icon(CoffeeTimerIcons.coffee_mug),
                     label: const Text('Buy me a coffee'),
                   ),
                 ],

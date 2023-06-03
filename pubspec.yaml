@@ -27,6 +27,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+   - family:  CoffeeTimerIcons
+     fonts:
+     - asset: fonts/CoffeeTimerIcons.ttf
 
   assets:
     - assets/data/brewing_methods.json
