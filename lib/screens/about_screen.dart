@@ -243,19 +243,21 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                 children: [
                   ElevatedButton.icon(
                     onPressed: () => _launchURL('https://www.timer.coffee'),
-                    icon: const Icon(CoffeeTimerIcons.globe),
+                    icon: Center(child: const Icon(CoffeeTimerIcons.globe)),
                     label: const Text('Website'),
                   ),
                   ElevatedButton.icon(
                     onPressed: () => _launchURL(
                         'https://github.com/antonkarliner/coffee-timer'),
-                    icon: const Icon(CoffeeTimerIcons.mark_github),
+                    icon:
+                        Center(child: const Icon(CoffeeTimerIcons.mark_github)),
                     label: const Text('Github'),
                   ),
                   ElevatedButton.icon(
                     onPressed: () =>
                         _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                    icon: const Icon(CoffeeTimerIcons.coffee_mug),
+                    icon:
+                        Center(child: const Icon(CoffeeTimerIcons.coffee_mug)),
                     label: const Text('Buy me a coffee'),
                   ),
                 ],
