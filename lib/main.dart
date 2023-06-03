@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
         fontFamily: kIsWeb ? 'Lato' : null,
       ),
       home: CoffeeTimerApp(brewingMethods: brewingMethods),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
