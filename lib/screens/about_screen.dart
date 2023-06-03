@@ -4,6 +4,8 @@ import 'package:flutter/gestures.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -11,6 +13,10 @@ class AboutScreen extends StatelessWidget {
   Future<String> getVersionNumber() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.version;
+  }
+
+  Future<String> loadContributors() async {
+    return await rootBundle.loadString('assets/CONTRIBUTORS.md');
   }
 
   void _launchURL(String url) async {
@@ -45,13 +51,13 @@ class AboutScreen extends StatelessWidget {
                           TextSpan(
                             text:
                                 'Timer.Coffee App is created by Anton Karliner, a coffee enthusiast, media specialist, and photojournalist. You can view my photojournalistic work ',
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           TextSpan(
                             text: 'here',
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText1!
+                                .bodyLarge!
                                 .copyWith(color: Colors.blue),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
@@ -61,11 +67,44 @@ class AboutScreen extends StatelessWidget {
                           TextSpan(
                             text:
                                 '. I hope that this app will help you enjoy your coffee. Feel free to contribute on Github. Icons by Ionicons (MIT license).',
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ],
                       ),
                     ),
+                  ),
+                ],
+              ),
+              ExpansionTile(
+                title: const Text('Contributors'),
+                children: <Widget>[
+                  FutureBuilder<String>(
+                    future: loadContributors(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.hasData) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: Container(
+                            height: 200, // Adjust this as necessary
+                            child: Markdown(
+                              data: snapshot.data!,
+                              styleSheet: MarkdownStyleSheet(
+                                p: Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                              onTapLink: (text, url, title) {
+                                _launchURL(url!);
+                              },
+                            ),
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text(
+                            "Error loading contributors: ${snapshot.error}");
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
                   ),
                 ],
               ),
@@ -228,7 +267,8 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                   if (snapshot.hasData) {
                     return Text(
                       'App Version: ${snapshot.data}',
-                      style: const TextStyle(fontSize: 16.0, color: Colors.grey),
+                      style:
+                          const TextStyle(fontSize: 16.0, color: Colors.grey),
                     );
                   } else {
                     return const CircularProgressIndicator();

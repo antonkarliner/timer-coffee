@@ -78,7 +78,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle defaultStyle = Theme.of(context).textTheme.bodyText1!;
+    TextStyle defaultStyle = Theme.of(context).textTheme.bodyLarge!;
     return Scaffold(
       appBar: AppBar(
         title:
@@ -111,10 +111,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                       Expanded(
                         child: TextField(
                           controller: _coffeeController,
-                          decoration:
-                              const InputDecoration(labelText: 'Coffee amount (g)'),
-                          keyboardType:
-                              const TextInputType.numberWithOptions(decimal: true),
+                          decoration: const InputDecoration(
+                              labelText: 'Coffee amount (g)'),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
                           onChanged: (text) {
                             _updateAmounts(context, _updatedRecipe!);
                           },
@@ -127,10 +127,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                       Expanded(
                         child: TextField(
                           controller: _waterController,
-                          decoration:
-                              const InputDecoration(labelText: 'Water amount (ml)'),
-                          keyboardType:
-                              const TextInputType.numberWithOptions(decimal: true),
+                          decoration: const InputDecoration(
+                              labelText: 'Water amount (ml)'),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
                           onChanged: (text) {
                             _updateAmounts(context, _updatedRecipe!);
                           },

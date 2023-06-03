@@ -18,6 +18,7 @@ dependencies:
   wakelock: ^0.6.2
   in_app_review: ^2.0.6
   package_info_plus: ^3.0.0
+  flutter_markdown: ^0.6.15
 
 dev_dependencies:
   flutter_test:
@@ -37,3 +38,4 @@ flutter:
     - assets/data/recipes_kalita.json
     - assets/data/recipes_wilfa.json
     - assets/data/coffee_facts.json
+    - assets/CONTRIBUTORS.md
