@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'; // Add this line
 import '../models/brewing_method.dart';
@@ -19,6 +20,7 @@ class CoffeeTimerApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.brown,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          fontFamily: kIsWeb ? 'Lato' : null,
         ),
         home: HomeScreen(brewingMethods: brewingMethods),
       ),
