@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class AboutScreen extends StatelessWidget {
+  const AboutScreen({super.key});
+
   Future<String> getVersionNumber() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.version;
@@ -23,7 +25,7 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About'),
+        title: const Text('About'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -32,7 +34,7 @@ class AboutScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               ExpansionTile(
-                title: Text('About'),
+                title: const Text('About'),
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(
@@ -68,20 +70,20 @@ class AboutScreen extends StatelessWidget {
                 ],
               ),
               ExpansionTile(
-                title: Text('License'),
+                title: const Text('License'),
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Copyright (c) 2023 Anton Karliner'),
-                        Text(
+                        const Text('Copyright (c) 2023 Anton Karliner'),
+                        const Text(
                             'This application is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.'),
                         TextButton(
                           onPressed: () => _launchURL(
                               'https://www.gnu.org/licenses/gpl-3.0.html'),
-                          child: Text(
+                          child: const Text(
                             'Read the GNU General Public License v3',
                             style:
                                 TextStyle(decoration: TextDecoration.underline),
@@ -92,11 +94,11 @@ class AboutScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              ExpansionTile(
+              const ExpansionTile(
                 title: Text('Privacy policy'),
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
+                    padding: EdgeInsets.only(left: 16.0),
                     child: Text(
                       kIsWeb
                           ? '''
@@ -201,24 +203,24 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                 children: [
                   ElevatedButton.icon(
                     onPressed: () => _launchURL('https://www.timer.coffee'),
-                    icon: Icon(Ionicons.globe_outline),
-                    label: Text('Website'),
+                    icon: const Icon(Ionicons.globe_outline),
+                    label: const Text('Website'),
                   ),
                   ElevatedButton.icon(
                     onPressed: () => _launchURL(
                         'https://github.com/antonkarliner/coffee-timer'),
-                    icon: Icon(Ionicons.logo_github),
-                    label: Text('Github'),
+                    icon: const Icon(Ionicons.logo_github),
+                    label: const Text('Github'),
                   ),
                   ElevatedButton.icon(
                     onPressed: () =>
                         _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                    icon: Icon(Ionicons.cafe),
-                    label: Text('Buy me a coffee'),
+                    icon: const Icon(Ionicons.cafe),
+                    label: const Text('Buy me a coffee'),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               FutureBuilder<String>(
                 future: getVersionNumber(),
                 builder:
@@ -226,10 +228,10 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                   if (snapshot.hasData) {
                     return Text(
                       'App Version: ${snapshot.data}',
-                      style: TextStyle(fontSize: 16.0, color: Colors.grey),
+                      style: const TextStyle(fontSize: 16.0, color: Colors.grey),
                     );
                   } else {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                 },
               ),

@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 
 class CoffeeTipsScreen extends StatelessWidget {
-  final List<Map<String, String>> brewingTips = [
+  const CoffeeTipsScreen({super.key});
+
+  final List<Map<String, String>> brewingTips = const [
     {
       'title': 'Use fresh coffee:',
       'content':
@@ -55,7 +57,7 @@ class CoffeeTipsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Coffee Brewing Tips'),
+        title: const Text('Coffee Brewing Tips'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -70,7 +72,7 @@ class CoffeeTipsScreen extends StatelessWidget {
                   children: <TextSpan>[
                     TextSpan(
                       text: brewingTips[index]['title'],
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     TextSpan(text: brewingTips[index]['content']),
                   ],

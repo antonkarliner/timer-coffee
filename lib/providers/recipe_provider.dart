@@ -5,8 +5,8 @@ import '../models/recipe.dart';
 import 'package:flutter/foundation.dart';
 
 class RecipeProvider extends ChangeNotifier {
-  List<Recipe> _recipes = [];
-  ValueNotifier<Set<String>> _favoriteRecipeIds =
+  final List<Recipe> _recipes = [];
+  final ValueNotifier<Set<String>> _favoriteRecipeIds =
       ValueNotifier<Set<String>>({});
 
   RecipeProvider() {

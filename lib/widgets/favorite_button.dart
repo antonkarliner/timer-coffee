@@ -6,7 +6,8 @@ class FavoriteButton extends StatelessWidget {
   final String recipeId;
   final ValueChanged<bool> onToggleFavorite;
 
-  FavoriteButton({
+  const FavoriteButton({
+    super.key,
     required this.recipeId,
     required this.onToggleFavorite,
   });

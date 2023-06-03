@@ -13,10 +13,10 @@ import 'coffee_tips_screen.dart'; // Import the CoffeeTipsScreen here
 class HomeScreen extends StatefulWidget {
   final List<BrewingMethod> brewingMethods;
 
-  HomeScreen({required this.brewingMethods});
+  const HomeScreen({super.key, required this.brewingMethods});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         future: recipeProvider.getLastUsedRecipe(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           Recipe? mostRecentRecipe = snapshot.data;
@@ -79,12 +79,12 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: ElevatedButton(
-                  child: Text('Coffee Brewing Tips'),
+                  child: const Text('Coffee Brewing Tips'),
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CoffeeTipsScreen(),
+                        builder: (context) => const CoffeeTipsScreen(),
                       ),
                     );
                   },
@@ -102,12 +102,12 @@ class _HomeScreenState extends State<HomeScreen> {
       return CupertinoNavigationBar(
         middle: const Text('Timer.Coffee', style: TextStyle(fontFamily: kIsWeb ? 'Lato' : null)),
         trailing: IconButton(
-          icon: Icon(Icons.info),
+          icon: const Icon(Icons.info),
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AboutScreen(),
+                builder: (context) => const AboutScreen(),
               ),
             );
           },
@@ -115,15 +115,15 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     } else {
       return AppBar(
-        title: Text('Timer.Coffee'),
+        title: const Text('Timer.Coffee'),
         actions: [
           IconButton(
-            icon: Icon(Icons.info),
+            icon: const Icon(Icons.info),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AboutScreen(),
+                  builder: (context) => const AboutScreen(),
                 ),
               );
             },
