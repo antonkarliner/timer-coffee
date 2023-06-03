@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -99,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
   PreferredSizeWidget buildPlatformSpecificAppBar() {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       return CupertinoNavigationBar(
-        middle: Text('Timer.Coffee'),
+        middle: const Text('Timer.Coffee', style: TextStyle(fontFamily: kIsWeb ? 'Lato' : null)),
         trailing: IconButton(
           icon: Icon(Icons.info),
           onPressed: () {
