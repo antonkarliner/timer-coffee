@@ -2,32 +2,38 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'screens/coffee_timer_app.dart';
-import 'models/brewing_method.dart';
-import 'models/recipe.dart';
+import 'package:provider/provider.dart';
+import './models/brewing_method.dart';
+import './providers/recipe_provider.dart';
+import './screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   List<BrewingMethod> brewingMethods = await loadBrewingMethodsFromAssets();
 
-  runApp(MyApp(brewingMethods: brewingMethods));
+  runApp(CoffeeTimerApp(brewingMethods: brewingMethods));
 }
 
-class MyApp extends StatelessWidget {
+class CoffeeTimerApp extends StatelessWidget {
   final List<BrewingMethod> brewingMethods;
 
-  MyApp({required this.brewingMethods});
+  const CoffeeTimerApp({super.key, required this.brewingMethods});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Coffee Timer App',
-      theme: ThemeData(
-        fontFamily: kIsWeb ? 'Lato' : null,
+    return ChangeNotifierProvider<RecipeProvider>(
+      create: (context) => RecipeProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Coffee Timer App',
+        theme: ThemeData(
+          primarySwatch: Colors.brown,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          fontFamily: kIsWeb ? 'Lato' : null,
+        ),
+        home: HomeScreen(brewingMethods: brewingMethods),
       ),
-      home: CoffeeTimerApp(brewingMethods: brewingMethods),
-      debugShowCheckedModeBanner: false,
     );
   }
 }

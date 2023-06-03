@@ -12,14 +12,15 @@ class BrewingProcessScreen extends StatefulWidget {
   final double coffeeAmount;
   final double waterAmount;
 
-  BrewingProcessScreen({
+  const BrewingProcessScreen({
+    super.key,
     required this.recipe,
     required this.coffeeAmount,
     required this.waterAmount,
   });
 
   @override
-  _BrewingProcessScreenState createState() => _BrewingProcessScreenState();
+  State<BrewingProcessScreen> createState() => _BrewingProcessScreenState();
 }
 
 class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
@@ -86,7 +87,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
   }
 
   void startTimer() {
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (currentStepTime >= brewingSteps[currentStepIndex].time.inSeconds) {
         if (currentStepIndex < brewingSteps.length - 1) {
           setState(() {
@@ -126,7 +127,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Brewing Process')),
+      appBar: AppBar(title: const Text('Brewing Process')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -139,13 +140,13 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
                   child: Text(
                     brewingSteps[currentStepIndex].description,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 24),
+                    style: const TextStyle(fontSize: 24),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                     '$currentStepTime/${brewingSteps[currentStepIndex].time.inSeconds} seconds',
-                    style: TextStyle(fontSize: 22)),
+                    style: const TextStyle(fontSize: 22)),
               ],
             ),
           ),

@@ -11,10 +11,10 @@ import '../widgets/favorite_button.dart';
 class RecipeDetailScreen extends StatefulWidget {
   final Recipe recipe;
 
-  RecipeDetailScreen({required this.recipe});
+  const RecipeDetailScreen({super.key, required this.recipe});
 
   @override
-  _RecipeDetailScreenState createState() => _RecipeDetailScreenState();
+  State<RecipeDetailScreen> createState() => _RecipeDetailScreenState();
 }
 
 class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
@@ -98,23 +98,23 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: _updatedRecipe == null
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(_updatedRecipe!.brewingMethodName),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   _buildRichText(context, _updatedRecipe!.shortDescription),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Row(
                     children: [
                       Expanded(
                         child: TextField(
                           controller: _coffeeController,
                           decoration:
-                              InputDecoration(labelText: 'Coffee amount (g)'),
+                              const InputDecoration(labelText: 'Coffee amount (g)'),
                           keyboardType:
-                              TextInputType.numberWithOptions(decimal: true),
+                              const TextInputType.numberWithOptions(decimal: true),
                           onChanged: (text) {
                             _updateAmounts(context, _updatedRecipe!);
                           },
@@ -123,14 +123,14 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                           },
                         ),
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       Expanded(
                         child: TextField(
                           controller: _waterController,
                           decoration:
-                              InputDecoration(labelText: 'Water amount (ml)'),
+                              const InputDecoration(labelText: 'Water amount (ml)'),
                           keyboardType:
-                              TextInputType.numberWithOptions(decimal: true),
+                              const TextInputType.numberWithOptions(decimal: true),
                           onChanged: (text) {
                             _updateAmounts(context, _updatedRecipe!);
                           },
@@ -141,12 +141,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
                       'Water Temperature: ${_updatedRecipe!.waterTemp ?? "Not provided"}ºC / ${(_updatedRecipe!.waterTemp != null ? (_updatedRecipe!.waterTemp! * 9 / 5 + 32).toStringAsFixed(1) : "Not provided")}ºF'),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text('Grind size: ${_updatedRecipe!.grindSize}'),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
                       'Brew Time: ${_updatedRecipe!.brewTime.toString().split('.').first.padLeft(8, "0")}')
                 ],
@@ -171,7 +171,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
             ),
           );
         },
-        child: Icon(Icons.arrow_forward),
+        child: const Icon(Icons.arrow_forward),
       ),
     );
   }

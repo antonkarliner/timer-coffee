@@ -10,10 +10,10 @@ class RecipeListScreen extends StatefulWidget {
   final BrewingMethod brewingMethod;
   final List<Recipe> recipes;
 
-  RecipeListScreen({required this.brewingMethod, required this.recipes});
+  const RecipeListScreen({super.key, required this.brewingMethod, required this.recipes});
 
   @override
-  _RecipeListScreenState createState() => _RecipeListScreenState();
+  State<RecipeListScreen> createState() => _RecipeListScreenState();
 }
 
 class _RecipeListScreenState extends State<RecipeListScreen>
@@ -39,7 +39,7 @@ class _RecipeListScreenState extends State<RecipeListScreen>
         title: Text(widget.brewingMethod.name),
         bottom: TabBar(
           controller: _tabController,
-          tabs: [
+          tabs: const [
             Tab(text: 'All Recipes'),
             Tab(text: 'Favorite Recipes'),
           ],

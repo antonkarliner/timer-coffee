@@ -7,10 +7,10 @@ import '../models/brew_step.dart';
 class PreparationScreen extends StatefulWidget {
   final Recipe recipe;
 
-  PreparationScreen({required this.recipe});
+  const PreparationScreen({super.key, required this.recipe});
 
   @override
-  _PreparationScreenState createState() => _PreparationScreenState();
+  State<PreparationScreen> createState() => _PreparationScreenState();
 }
 
 class _PreparationScreenState extends State<PreparationScreen> {
@@ -20,10 +20,10 @@ class _PreparationScreenState extends State<PreparationScreen> {
         widget.recipe.steps.where((step) => step.time.inSeconds == 0).toList();
 
     return Scaffold(
-      appBar: AppBar(title: Text('Preparation')),
+      appBar: AppBar(title: const Text('Preparation')),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(16.0), // Adds padding around the column
+          padding: const EdgeInsets.all(16.0), // Adds padding around the column
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: preparationSteps
@@ -32,7 +32,7 @@ class _PreparationScreenState extends State<PreparationScreen> {
                           .infinity, // Makes the container expand to fill the width of the screen
                       child: Text(
                         step.description,
-                        style: TextStyle(fontSize: 24),
+                        style: const TextStyle(fontSize: 24),
                         textAlign: TextAlign.center,
                       ),
                     ))
@@ -53,7 +53,7 @@ class _PreparationScreenState extends State<PreparationScreen> {
             ),
           );
         },
-        child: Icon(Icons.play_arrow),
+        child: const Icon(Icons.play_arrow),
       ),
     );
   }
