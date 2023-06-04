@@ -99,57 +99,59 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
         padding: const EdgeInsets.all(16.0),
         child: _updatedRecipe == null
             ? const Center(child: CircularProgressIndicator())
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(_updatedRecipe!.brewingMethodName),
-                  const SizedBox(height: 16),
-                  _buildRichText(context, _updatedRecipe!.shortDescription),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _coffeeController,
-                          decoration: const InputDecoration(
-                              labelText: 'Coffee amount (g)'),
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true),
-                          onChanged: (text) {
-                            _updateAmounts(context, _updatedRecipe!);
-                          },
-                          onTap: () {
-                            _editingCoffee = true;
-                          },
+            : SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(_updatedRecipe!.brewingMethodName),
+                    const SizedBox(height: 16),
+                    _buildRichText(context, _updatedRecipe!.shortDescription),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _coffeeController,
+                            decoration: const InputDecoration(
+                                labelText: 'Coffee amount (g)'),
+                            keyboardType: const TextInputType.numberWithOptions(
+                                decimal: true),
+                            onChanged: (text) {
+                              _updateAmounts(context, _updatedRecipe!);
+                            },
+                            onTap: () {
+                              _editingCoffee = true;
+                            },
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: TextField(
-                          controller: _waterController,
-                          decoration: const InputDecoration(
-                              labelText: 'Water amount (ml)'),
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true),
-                          onChanged: (text) {
-                            _updateAmounts(context, _updatedRecipe!);
-                          },
-                          onTap: () {
-                            _editingCoffee = false;
-                          },
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: TextField(
+                            controller: _waterController,
+                            decoration: const InputDecoration(
+                                labelText: 'Water amount (ml)'),
+                            keyboardType: const TextInputType.numberWithOptions(
+                                decimal: true),
+                            onChanged: (text) {
+                              _updateAmounts(context, _updatedRecipe!);
+                            },
+                            onTap: () {
+                              _editingCoffee = false;
+                            },
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                      'Water Temperature: ${_updatedRecipe!.waterTemp ?? "Not provided"}ºC / ${(_updatedRecipe!.waterTemp != null ? (_updatedRecipe!.waterTemp! * 9 / 5 + 32).toStringAsFixed(1) : "Not provided")}ºF'),
-                  const SizedBox(height: 16),
-                  Text('Grind size: ${_updatedRecipe!.grindSize}'),
-                  const SizedBox(height: 16),
-                  Text(
-                      'Brew Time: ${_updatedRecipe!.brewTime.toString().split('.').first.padLeft(8, "0")}')
-                ],
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                        'Water Temperature: ${_updatedRecipe!.waterTemp ?? "Not provided"}ºC / ${(_updatedRecipe!.waterTemp != null ? (_updatedRecipe!.waterTemp! * 9 / 5 + 32).toStringAsFixed(1) : "Not provided")}ºF'),
+                    const SizedBox(height: 16),
+                    Text('Grind size: ${_updatedRecipe!.grindSize}'),
+                    const SizedBox(height: 16),
+                    Text(
+                        'Brew Time: ${_updatedRecipe!.brewTime.toString().split('.').first.padLeft(8, "0")}'),
+                  ],
+                ),
               ),
       ),
       floatingActionButton: FloatingActionButton(
