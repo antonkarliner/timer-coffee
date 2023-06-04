@@ -1,7 +1,7 @@
 [
     {
       "id": "301",
-      "name": "James Hoffman Chemex recipe",
+      "name": "James Hoffmann Chemex recipe",
       "brewing_method_id": "chemex",
       "brewing_method": "Chemex",
       "coffee_amount": 30,
@@ -9,7 +9,7 @@
       "water_temp": 95,
       "grind_size": "Medium fine",
       "brew_time": "4min 10s",
-      "short_description": "Chemex recipe by James Hoffman, winner of World barista Championship, YouTuber, coffee consultant, and author. For Chemex James recommeds almost the same technique as for V60. [Watch the tutorial](https://www.youtube.com/watch?v=ikt-X5x7yoc).",
+      "short_description": "Chemex recipe by James Hoffmann, winner of World barista Championship, YouTuber, coffee consultant, and author. For Chemex James recommeds almost the same technique as for V60. [Watch the tutorial](https://www.youtube.com/watch?v=ikt-X5x7yoc).",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,
       "steps": [

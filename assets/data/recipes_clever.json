@@ -1,7 +1,7 @@
 [
     {
       "id": "501",
-      "name": "James Hoffman Ultimate Clever Dripper recipe",
+      "name": "James Hoffmann Ultimate Clever Dripper recipe",
       "brewing_method_id": "clever_dripper",
       "brewing_method": "Clever Dripper",
       "coffee_amount": 15,
@@ -9,7 +9,7 @@
       "water_temp": 95,
       "grind_size": "Medium-fine",
       "brew_time": "3min 30s",
-      "short_description": "Clever Dripper recipe by James Hoffman, winner of World barista Championship, YouTuber, coffee consultant, and author. [Watch the tutorial](https://www.youtube.com/watch?v=RpOdennxP24).",
+      "short_description": "Clever Dripper recipe by James Hoffmann, winner of World barista Championship, YouTuber, coffee consultant, and author. [Watch the tutorial](https://www.youtube.com/watch?v=RpOdennxP24).",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,
       "steps": [

@@ -1,7 +1,7 @@
 [
   {
     "id": "101",
-    "name": "James Hoffman V60 recipe",
+    "name": "James Hoffmann V60 recipe",
     "brewing_method_id": "hario_v60",
     "brewing_method": "Hario V60",
     "coffee_amount": 30,
@@ -9,7 +9,7 @@
     "water_temp": 95,
     "grind_size": "Medium fine",
     "brew_time": "3min 30s",
-    "short_description": "An easy-to-follow recipe by James Hoffman. [Watch the tutorial video](https://www.youtube.com/watch?v=AI4ynXzkSQo).",
+    "short_description": "An easy-to-follow recipe by James Hoffmann. [Watch the tutorial video](https://www.youtube.com/watch?v=AI4ynXzkSQo).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [

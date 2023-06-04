@@ -1,7 +1,7 @@
 [
     {
       "id": "401",
-      "name": "James Hoffman French Press recipe",
+      "name": "James Hoffmann French Press recipe",
       "brewing_method_id": "french_press",
       "brewing_method": "French Press",
       "coffee_amount": 30,
@@ -9,7 +9,7 @@
       "water_temp": 95,
       "grind_size": "Medium-coarse",
       "brew_time": "10min 0s",
-      "short_description": "French Press recipe by James Hoffman, winner of World barista Championship, YouTuber, coffee consultant, and author. [Watch the tutorial](https://www.youtube.com/watch?v=st571DYYTR8).",
+      "short_description": "French Press recipe by James Hoffmann, winner of World barista Championship, YouTuber, coffee consultant, and author. [Watch the tutorial](https://www.youtube.com/watch?v=st571DYYTR8).",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,
       "steps": [
