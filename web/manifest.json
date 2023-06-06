@@ -1,6 +1,6 @@
 {
     "name": "Timer.Coffee",
-    "short_name": "coffee_timer",
+    "short_name": "Timer.Coffee",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
