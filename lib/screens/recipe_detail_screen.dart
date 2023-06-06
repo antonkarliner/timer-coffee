@@ -7,6 +7,7 @@ import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import '../providers/recipe_provider.dart';
 import '../widgets/favorite_button.dart';
+import '../models/recipe_summary.dart';
 
 class RecipeDetailScreen extends StatefulWidget {
   final Recipe recipe;
@@ -150,6 +151,21 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                     const SizedBox(height: 16),
                     Text(
                         'Brew Time: ${_updatedRecipe!.brewTime.toString().split('.').first.padLeft(8, "0")}'),
+                    const SizedBox(height: 16),
+                    ExpansionTile(
+                      title: const Text('Recipe summary'),
+                      subtitle: const Text(
+                          'Note: this is a basic recipe with default coffee and water amounts.'),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(RecipeSummary.fromRecipe(_updatedRecipe!)
+                              .summary),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),

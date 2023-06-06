@@ -209,7 +209,7 @@
         },
         {
           "order": 5,
-          "description": "Pour the remaining (0.7 x <final_water_amount>) of water rather quickly in concentric circles.",
+          "description": "Pour the remaining (0.7 x <final_water_amount>)g. of water rather quickly in concentric circles.",
           "time": 10
         },
         {
@@ -226,6 +226,77 @@
           "order": 8,
           "description": "Give your iced coffee a good swirl in your server to exchange those final molecules of heat for some cooler ones and then serve in a chilled glass.",
           "time": 20
+        }
+      ]
+    },
+    {
+      "id": "206",
+      "name": "Mark Prince Aeropress recipe",
+      "brewing_method_id": "aeropress",
+      "brewing_method": "Aeropress",
+      "coffee_amount": 21,
+      "water_amount": 225,
+      "water_temp": 97,
+      "grind_size": "Medium",
+      "brew_time": "1min 30s",
+      "short_description": "A recipe by Mark Prince, Canadian, USA, and World Barista Championship Judge and founder of CoffeeGeek. Here's [the detailed and interesting tutorial](https://www.coffeegeek.com/guides/aeropress-inverted-brew-method-how-to/). Note that this is an inverted method and Mike strongly advises to use metal filter instead of paper one.",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Arrange all your equipment and coffee together. Boil the water. Assemble the AeroPress. Take the plunger and insert it into the AeroPress piston just shy of 1cm into the piston, making sure it is perfectly lined up. Measure and grind your coffee. Place Aeropress on scale, pour in grounds and zero out.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": " Pour (0.45 x <final_water_amount>)g of boiled water into the inverted plunger.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Allow a slight bloom to form.",
+          "time": 5
+        },
+        {
+          "order": 4,
+          "description": "Give a few stirs to the slurry.",
+          "time": 10
+        },
+        {
+          "order": 5,
+          "description": "Continue pouring hot water until you reach <final_water_amount>g. of water.",
+          "time": 15
+        },
+        {
+          "order": 6,
+          "description": "Do two more stirs of the slurry, being careful not to overflow the top.",
+          "time": 10
+        },
+        {
+          "order": 7,
+          "description": "Add another 40-50g of water if possible, filling the brew chamber to as close to the rim as you can.",
+          "time": 5
+        },
+        {
+          "order": 8,
+          "description": "Attach the filter and filter holder to the AeroPress.",
+          "time": 10
+        },
+        {
+          "order": 9,
+          "description": "Place mug or server on top of the inverted AeroPress.",
+          "time": 5
+        },
+        {
+          "order": 10,
+          "description": "Flip the AeroPress and server.",
+          "time": 10
+        },
+        {
+          "order": 10,
+          "description": "Plunge down on the AeroPress, to extract the brewed coffee.",
+          "time": 10
         }
       ]
     }
