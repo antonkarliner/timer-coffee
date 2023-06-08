@@ -29,7 +29,7 @@ class CoffeeTimerApp extends StatelessWidget {
         title: 'Coffee Timer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme(
+          colorScheme: const ColorScheme(
             brightness: Brightness.light,
             primary: Color.fromRGBO(121, 85, 72, 1),
             onPrimary: Colors.white,

@@ -206,7 +206,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     RegExp linkRegExp = RegExp(r'\[(.*?)\]\((.*?)\)');
     Match? match = linkRegExp.firstMatch(text);
 
-    TextStyle defaultTextStyle = Theme.of(context).textTheme.bodyText1!;
+    TextStyle defaultTextStyle = Theme.of(context).textTheme.bodyLarge!;
 
     if (match != null) {
       String linkText = match.group(1)!;
