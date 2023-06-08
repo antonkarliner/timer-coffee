@@ -19,6 +19,7 @@ dependencies:
   in_app_review: ^2.0.6
   package_info_plus: ^3.0.0
   flutter_markdown: ^0.6.15
+  cupertino_icons: ^1.0.0
 
 dev_dependencies:
   flutter_test:
