@@ -58,14 +58,15 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     _isEditingText = true;
     if (_coffeeController.text.isEmpty ||
         _waterController.text.isEmpty ||
-        double.tryParse(_coffeeController.text) == null ||
-        double.tryParse(_waterController.text) == null) {
+        double.tryParse(_coffeeController.text.replaceAll(',', '.')) == null ||
+        double.tryParse(_waterController.text.replaceAll(',', '.')) == null) {
       _isEditingText = false;
       return;
     }
 
-    double newCoffee = double.parse(_coffeeController.text);
-    double newWater = double.parse(_waterController.text);
+    double newCoffee =
+        double.parse(_coffeeController.text.replaceAll(',', '.'));
+    double newWater = double.parse(_waterController.text.replaceAll(',', '.'));
 
     if (_editingCoffee) {
       double newWaterAmount = newCoffee * initialRatio;
@@ -123,6 +124,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                             onTap: () {
                               _editingCoffee = true;
                             },
+                            onSubmitted: (text) {
+                              _coffeeController.text =
+                                  text.replaceAll(',', '.');
+                            },
                           ),
                         ),
                         const SizedBox(width: 16),
@@ -138,6 +143,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                             },
                             onTap: () {
                               _editingCoffee = false;
+                            },
+                            onSubmitted: (text) {
+                              _waterController.text = text.replaceAll(',', '.');
                             },
                           ),
                         ),
@@ -182,8 +190,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
             MaterialPageRoute(
               builder: (context) => PreparationScreen(
                 recipe: updatedRecipe.copyWith(
-                  coffeeAmount: double.tryParse(_coffeeController.text),
-                  waterAmount: double.tryParse(_waterController.text),
+                  coffeeAmount: double.tryParse(
+                      _coffeeController.text.replaceAll(',', '.')),
+                  waterAmount: double.tryParse(
+                      _waterController.text.replaceAll(',', '.')),
                 ),
               ),
             ),
@@ -221,17 +231,11 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
             ),
             TextSpan(
               text: linkText,
-              style: defaultTextStyle.copyWith(
-                  color: Colors.brown,
-                  decoration: TextDecoration.underline,
-                  decorationColor: Colors.brown),
+              style: defaultTextStyle.copyWith(color: Colors.blue),
               recognizer: TapGestureRecognizer()
                 ..onTap = () async {
-                  Uri url = Uri.parse(linkUrl);
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url);
-                  } else {
-                    throw 'Could not launch $linkUrl';
+                  if (await canLaunchUrl(Uri.parse(linkUrl))) {
+                    launchUrl(Uri.parse(linkUrl));
                   }
                 },
             ),
@@ -243,7 +247,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
         ),
       );
     } else {
-      return Text(text);
+      return Text(text, style: defaultTextStyle);
     }
   }
 }
