@@ -55,7 +55,7 @@
       "water_temp": 95,
       "grind_size": "Fine/Medium",
       "brew_time": "3min 25s",
-      "short_description": "A recipe by James Hoffmann, winner of World barista Championship, YouTuber, coffee consultant, and author. For medium roast coffee, using 90-95°C water will give you better results. For dark roast coffee, try 85-90°C water for the brew. Grind your coffee at the finer end of medium, assuming this is light roasted coffee. The darker you go the more you may prefer to increase the dose and coarsen the grind [Watch the tutorial here](https://www.youtube.com/watch?v=j6VlT_jUVPc).",
+      "short_description": "A recipe by James Hoffmann, winner of World barista Championship, YouTuber, coffee consultant, and author. For medium roast coffee, using 90-95°C water will give you better results. For dark roast coffee, try 85-90°C water for the brew. Grind your coffee at the finer end of medium, assuming this is light roasted coffee. The darker you go the more you may prefer to increase the dose and coarsen the grind. [Watch the tutorial here](https://www.youtube.com/watch?v=j6VlT_jUVPc).",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,
       "steps": [

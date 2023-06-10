@@ -137,10 +137,20 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    brewingSteps[currentStepIndex].description,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 24),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Step ${currentStepIndex + 1}/${brewingSteps.length}',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      SizedBox(height: 20), // Add some space between the texts
+                      Text(
+                        brewingSteps[currentStepIndex].description,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 20),
