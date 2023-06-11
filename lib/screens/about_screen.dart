@@ -86,7 +86,7 @@ class AboutScreen extends StatelessWidget {
                         return Padding(
                           padding: const EdgeInsets.only(left: 16.0),
                           child: Container(
-                            height: 200, // Adjust this as necessary
+                            height: 300, // Adjust this as necessary
                             child: Markdown(
                               data: snapshot.data!,
                               styleSheet: MarkdownStyleSheet(
