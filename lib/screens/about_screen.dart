@@ -173,7 +173,7 @@ We value your trust in providing us your personal information, thus we are striv
 
 5. PRIVACY POLICIES OF OTHER WEBSITES
 
-The Timer.Cofee app contains links to other websites. Our privacy policy applies only to our app, so if you click on a link to another website or service, you should read their privacy policy.
+The Timer.Coffee app contains links to other websites. Our privacy policy applies only to our app, so if you click on a link to another website or service, you should read their privacy policy.
 
 6. CHANGES TO OUR PRIVACY POLICY
 
@@ -192,19 +192,19 @@ Should you wish to report a complaint or if you feel that Timer.Coffee has not a
 All trademarks, service marks, trade names, trade dress, product names and logos appearing in the app are the property of their respective owners.
 '''
                           : '''
-Privacy Policy for Timer.Cofee
+Privacy Policy for Timer.Coffee
 
 1. INTRODUCTION
 
-Timer.Cofee respects the privacy of its users and is committed to protecting it in all respects. This policy will explain how Coffee Timer uses the personal data we collect from you when you use our app.
+Timer.Coffee respects the privacy of its users and is committed to protecting it in all respects. This policy will explain how Timer.Coffee uses the personal data we collect from you when you use our app.
 
 2. DATA COLLECTION AND USAGE
 
-Timer.Cofee does not collect any personal data. We do not process any personal identification information or collect any data indirectly from other sources. As we do not collect any personal data, we have no data to share, sell, or use in any way.
+Timer.Coffee does not collect any personal data. We do not process any personal identification information or collect any data indirectly from other sources. As we do not collect any personal data, we have no data to share, sell, or use in any way.
 
 3. COOKIES
 
-Timer.Cofee does not use cookies. 
+Timer.Coffee does not use cookies. 
 
 4. SECURITY
 
@@ -212,7 +212,7 @@ We value your trust in providing us your personal information, thus we are striv
 
 5. PRIVACY POLICIES OF OTHER WEBSITES
 
-The Timer.Cofee app contains links to other websites. Our privacy policy applies only to our app, so if you click on a link to another website or service, you should read their privacy policy.
+The Timer.Coffee app contains links to other websites. Our privacy policy applies only to our app, so if you click on a link to another website or service, you should read their privacy policy.
 
 6. CHANGES TO OUR PRIVACY POLICY
 
@@ -224,7 +224,7 @@ For any questions or clarifications regarding the Privacy Policy, please contact
 
 8. HOW TO CONTACT THE APPROPRIATE AUTHORITY
 
-Should you wish to report a complaint or if you feel that Timer.Cofee has not addressed your concern in a satisfactory manner, you may contact your local data protection authority.
+Should you wish to report a complaint or if you feel that Timer.Coffee has not addressed your concern in a satisfactory manner, you may contact your local data protection authority.
 
 9. TRADEMARKS
 
