@@ -110,5 +110,46 @@
       "time": 50
     }
   ]
+  },
+  {
+    "id": "103",
+    "name": "Lance Hedrick's ultimate flash brew",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 240,
+    "water_temp": 93,
+    "grind_size": "Medium fine",
+    "brew_time": "3min 0s",
+    "short_description": "High extraction, low bitterness, and all delicacies of the beans in iced coffee. [Watch the tutorial video](https://www.youtube.com/watch?v=qwvnQcojq9Q&) ",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Bloom (0.25 x <final_water_amount>)g of water.",
+        "time": 60
+      },
+      {
+        "order": 2,
+        "description": "Pour (0.375 x <final_water_amount>)g of water.",
+        "time": 45
+      },
+      {
+        "order": 3,
+        "description": "Pour (0.375 x <final_water_amount>)g again and swirl gently. Wait until completely drained.",
+        "time": 0
+      },
+      {
+        "order": 4,
+        "description": "Add (0.25 x <final_water_amount>)g of ice and stir until cooled to 5-10°C",
+        "time": 50
+      },
+      {
+      "order": 5,
+      "description": "Serve over fresh ice cubes",
+      "time": 25
+    }
+  ]
   }
 ]
