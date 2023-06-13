@@ -23,7 +23,7 @@ class RecipeSummary {
 
       // Replace placeholders in step description
       String stepDescription = step.description
-          .replaceAll('<final_coffee_amount>', recipe.coffeeAmount.toString())
+          .replaceAll('<final_coffee_amount>', recipe.coffeeAmount.toString());
           .replaceAll('<final_water_amount>', recipe.waterAmount.toString());
 
       // Add step description and time to summary
