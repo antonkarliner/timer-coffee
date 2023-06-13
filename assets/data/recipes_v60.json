@@ -120,7 +120,7 @@
     "water_amount": 240,
     "water_temp": 93,
     "grind_size": "Medium fine",
-    "brew_time": "3min 0s",
+    "brew_time": "3min 25s",
     "short_description": "High extraction, low bitterness, and all delicacies of the beans in iced coffee. [Watch the tutorial video](https://www.youtube.com/watch?v=qwvnQcojq9Q&) ",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
@@ -132,7 +132,7 @@
       },
       {
         "order": 2,
-        "description": "Bloom (0.25 x <final_water_amount>)g of water.",
+        "description": "Bloom with (0.25 x <final_water_amount>)g of water.",
         "time": 60
       },
       {
@@ -143,12 +143,12 @@
       {
         "order": 4,
         "description": "Pour (0.375 x <final_water_amount>)g again and swirl gently. Wait until completely drained.",
-        "time": 0
+        "time": 45
       },
       {
         "order": 5,
         "description": "Add (0.25 x <final_water_amount>)g of ice and stir until cooled to 5-10°C",
-        "time": 50
+        "time": 30
       },
       {
       "order": 6,
