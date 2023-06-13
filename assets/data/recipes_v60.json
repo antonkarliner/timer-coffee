@@ -127,26 +127,31 @@
     "steps": [
       {
         "order": 1,
+        "description": "Rinse filter & pre-heat V60, Pour in grounds, flatten",
+        "time": 0
+      },
+      {
+        "order": 2,
         "description": "Bloom (0.25 x <final_water_amount>)g of water.",
         "time": 60
       },
       {
-        "order": 2,
+        "order": 3,
         "description": "Pour (0.375 x <final_water_amount>)g of water.",
         "time": 45
       },
       {
-        "order": 3,
+        "order": 4,
         "description": "Pour (0.375 x <final_water_amount>)g again and swirl gently. Wait until completely drained.",
         "time": 0
       },
       {
-        "order": 4,
+        "order": 5,
         "description": "Add (0.25 x <final_water_amount>)g of ice and stir until cooled to 5-10°C",
         "time": 50
       },
       {
-      "order": 5,
+      "order": 6,
       "description": "Serve over fresh ice cubes",
       "time": 25
     }
