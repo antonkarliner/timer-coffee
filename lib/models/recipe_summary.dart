@@ -15,6 +15,32 @@ class RecipeSummary {
     String summary = "";
     int cumulativeTime = 0; // total seconds
 
+    String replacePlaceholders(String description, double coffeeAmount, double waterAmount) {
+      RegExp exp = RegExp(
+          r'\(([\d.]+) x <(coffee_amount|water_amount|final_coffee_amount|final_water_amount)>\)');
+      String replacedText = description.replaceAllMapped(exp, (match) {
+        double multiplier = double.parse(match.group(1)!);
+        String variable = match.group(2)!;
+        double result;
+
+        if (variable == 'coffee_amount' || variable == 'final_coffee_amount') {
+          result = multiplier * coffeeAmount;
+        } else {
+          result = multiplier * waterAmount;
+        }
+
+        return result.toStringAsFixed(1);
+      });
+
+      replacedText = replacedText
+          .replaceAll('<coffee_amount>', coffeeAmount.toStringAsFixed(1))
+          .replaceAll('<water_amount>', waterAmount.toStringAsFixed(1))
+          .replaceAll('<final_coffee_amount>', coffeeAmount.toStringAsFixed(1))
+          .replaceAll('<final_water_amount>', waterAmount.toStringAsFixed(1));
+
+      return replacedText;
+    }
+
     for (final step in recipe.steps) {
       // Check if the step time is 0, if so, continue to the next iteration
       if (step.time.inSeconds.toInt() == 0) {
@@ -22,10 +48,12 @@ class RecipeSummary {
       }
 
       // Replace placeholders in step description
-      String stepDescription = step.description
-          .replaceAll('<final_coffee_amount>', recipe.coffeeAmount.toString())
-          .replaceAll('<final_water_amount>', recipe.waterAmount.toString());
-    
+      String stepDescription = replacePlaceholders(
+        step.description,
+        recipe.coffeeAmount,
+        recipe.waterAmount,
+      );
+
       // Add step description and time to summary
       summary += '${formatTime(cumulativeTime)} $stepDescription\n';
       cumulativeTime += step.time.inSeconds.toInt(); // add seconds
