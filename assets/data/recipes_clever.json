@@ -15,7 +15,7 @@
       "steps": [
         {
           "order": 1,
-          "description": "Insert the paper filter into CLever Dripper and rinse it with water. Grind the coffee, but don't put into Clever Dripper yet. Place on scale and zero it out. Get a spoon.",
+          "description": "Insert the paper filter into Clever Dripper and rinse it with water. Grind the coffee, but don't put into Clever Dripper yet. Place on scale and zero it out. Get a spoon.",
           "time": 0
         },
         {
@@ -136,5 +136,51 @@
         "time": 60
       }
     ]
+    },
+    {
+      "id": "504",
+      "name": "James Hoffmann Ultimate Clever Dripper recipe on ice",
+      "brewing_method_id": "clever_dripper",
+      "brewing_method": "Clever Dripper",
+      "coffee_amount": 32.5,
+      "water_amount": 500,
+      "water_temp": 95,
+      "grind_size": "Medium-fine",
+      "brew_time": "4min 0s",
+      "short_description": "This recipe is based on Clever Dripper recipe by James Hoffmann. I added ice and it worked quite well! Brew time is a little bit prolonged according to advices from James.",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Insert the paper filter into Clever Dripper and rinse it with water. Grind the coffee, but don't put into Clever Dripper yet. Place on scale and zero it out. Get a spoon. Prepare (0.4 x <final_water_amount>)g of ice.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Add (0.6 x <final_water_amount>)g. of water to the Clever Dripper",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Put the coffee in the water and stir it a little with a spoon.",
+          "time": 10
+        },
+        {
+          "order": 4,
+          "description": "Let the coffee steep for 2,5 minutes. In the meantime put (0.4 x <final_water_amount>)g of ice into the server.",
+          "time": 150
+        },
+        {
+          "order": 5,
+          "description": "Stir the brew with a spoon or shake the brewer a little to break the crust.",
+          "time": 10
+        },
+        {
+          "order": 6,
+          "description": "Place the Clever Dripper on a server and wait for the complete drawdown.",
+          "time": 60
+        }
+      ]
     }
   ]

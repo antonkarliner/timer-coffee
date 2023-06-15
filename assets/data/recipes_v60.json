@@ -20,7 +20,7 @@
       },
       {
         "order": 2,
-        "description": "Pre-wet with (2 x <final_coffee_amount>)g of water.",
+        "description": "Pre-wet with (2 x <final_coffee_amount>)g. of water.",
         "time": 10
       },
       {
@@ -35,12 +35,12 @@
       },
       {
         "order": 5,
-        "description": "Complete the first main pour till (0.6 x <final_water_amount>)g in the next 30s.",
+        "description": "Complete the first main pour till (0.6 x <final_water_amount>)g. in the next 30s.",
         "time": 30
       },
       {
         "order": 6,
-        "description": "Gently complete second main pour till <final_water_amount>g in the next 30s.",
+        "description": "Gently complete second main pour till <final_water_amount>g. in the next 30s.",
         "time": 30
       },      
       {
@@ -156,5 +156,56 @@
       "time": 25
     }
   ]
+  },
+  {
+    "id": "104",
+    "name": "James Hoffmann iced V60 recipe",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 32.5,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "Medium fine",
+    "brew_time": "2min 55s",
+    "short_description": "James Hoffmann's take on iced filter coffee. [Watch the tutorial video](https://www.youtube.com/watch?v=PApBycDrPo0).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Rinse filter above the sink to avoid heating the server. Pour in coffee grounds. Place (0.4 x <final_water_amount>)g of ice. in the server",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Pre-wet with (3 x <final_coffee_amount>)g of water.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Stir the bloom a little.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Let the coffee bloom.",
+        "time": 25
+      },
+      {
+        "order": 5,
+        "description": "Slowly pour till <final_water_amount>g.",
+        "time": 105
+      },
+      {
+        "order": 6,
+        "description": "Stir once clockwise and anticlockwise.",
+        "time": 10
+      },      
+      {
+        "order": 7,
+        "description": "Swrl the server to melt the ice. Pour over fresh ice cubes in the glass.",
+        "time": 15
+      }
+    ]
   }
 ]

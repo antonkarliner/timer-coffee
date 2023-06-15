@@ -299,5 +299,61 @@
           "time": 10
         }
       ]
+    },
+    {
+      "id": "207",
+      "name": "James Hoffmann's Iced AeroPress",
+      "brewing_method_id": "aeropress",
+      "brewing_method": "Aeropress",
+      "coffee_amount": 22,
+      "water_amount": 400,
+      "water_temp": 100,
+      "grind_size": "Fine/Medium",
+      "brew_time": "3min 25s",
+      "short_description": "Iced aeropress recipe by James Hoffmann is essentially a scaled-up version of his ultimate technique with ice as bypass. [Watch the tutorial here](https://youtu.be/DlaEwef6MTg).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": " Put (0.4 x <final_water_amount>)g. of ice in the server. Set brewer in standard position on a server. Don't rinse or preheat the brewer (it doesn't make any difference). Pour in coffee grounds",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Pour (0.6 x <final_water_amount>)g. of water aiming to wet all the coffee during pouring.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Place the plunger on top of the brewer, about 1cm in.",
+          "time": 5
+        },
+        {
+          "order": 4,
+          "description": "Wait 4 minutes.",
+          "time": 240
+        },
+        {
+          "order": 5,
+          "description": "Holding the brewer and the plunger, gently swirl the brewer.",
+          "time": 10
+        },
+        {
+          "order": 6,
+          "description": "Wait 30 seconds.",
+          "time": 30
+        },
+        {
+          "order": 7,
+          "description": "Press gently all the way.",
+          "time": 30
+        },
+        {
+          "order": 8,
+          "description": "Swirl to melt all ice. Serve over fresh ice cubes.",
+          "time": 30
+        }
+      ]
     }
 ]
