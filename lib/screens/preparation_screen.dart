@@ -1,8 +1,7 @@
-// lib/screens/preparation_screen.dart
 import 'package:flutter/material.dart';
 import '../models/recipe.dart';
-import 'brewing_process_screen.dart'; // Import the BrewingProcessScreen
 import '../models/brew_step.dart';
+import 'brewing_process_screen.dart'; // Import the BrewingProcessScreen
 
 class PreparationScreen extends StatefulWidget {
   final Recipe recipe;
@@ -14,10 +13,50 @@ class PreparationScreen extends StatefulWidget {
 }
 
 class _PreparationScreenState extends State<PreparationScreen> {
+  String replacePlaceholders(
+    String description,
+    double coffeeAmount,
+    double waterAmount,
+  ) {
+    RegExp exp = RegExp(
+        r'\(([\d.]+) x <(coffee_amount|water_amount|final_coffee_amount|final_water_amount)>\)');
+    String replacedText = description.replaceAllMapped(exp, (match) {
+      double multiplier = double.parse(match.group(1)!);
+      String variable = match.group(2)!;
+      double result;
+
+      if (variable == 'coffee_amount' || variable == 'final_coffee_amount') {
+        result = multiplier * coffeeAmount;
+      } else {
+        result = multiplier * waterAmount;
+      }
+
+      return result.toStringAsFixed(1);
+    });
+
+    replacedText = replacedText
+        .replaceAll('<coffee_amount>', coffeeAmount.toStringAsFixed(1))
+        .replaceAll('<water_amount>', waterAmount.toStringAsFixed(1))
+        .replaceAll('<final_coffee_amount>', coffeeAmount.toStringAsFixed(1))
+        .replaceAll('<final_water_amount>', waterAmount.toStringAsFixed(1));
+
+    return replacedText;
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<BrewStep> preparationSteps =
-        widget.recipe.steps.where((step) => step.time.inSeconds == 0).toList();
+    List<BrewStep> preparationSteps = widget.recipe.steps
+        .map((step) => BrewStep(
+              order: step.order,
+              description: replacePlaceholders(
+                step.description,
+                widget.recipe.coffeeAmount,
+                widget.recipe.waterAmount,
+              ),
+              time: step.time,
+            ))
+        .where((step) => step.time.inSeconds == 0)
+        .toList();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Preparation')),
