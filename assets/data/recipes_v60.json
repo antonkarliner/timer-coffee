@@ -207,5 +207,86 @@
         "time": 15
       }
     ]
+  },
+  {
+    "id": "105",
+    "name": "James Hoffmann V60 - One cup recipe",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 15,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "Medium fine",
+    "brew_time": "3min 0s",
+    "short_description": "James Hoffmann's recipe for one-cup V60. [Watch the tutorial video](https://www.youtube.com/watch?v=1oB1oDrDkHM).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Rinse filter & pre-heat V60. Pour in grounds.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Pre-wet with (0.2 x <final_water_amount>)g of water.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Gently Swirl the V60.",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "Let the coffee bloom.",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "Pour up to (0.4 x <final_water_amount>)g. total.",
+        "time": 15
+      },
+      {
+        "order": 6,
+        "description": "Wait.",
+        "time": 10
+      },      
+      {
+        "order": 7,
+        "description": "Pour up to (0.6 x <final_water_amount>)g. total.",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "Wait.",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "Pour up to (0.8 x <final_water_amount>)g. total.",
+        "time": 10
+      },
+      {
+        "order": 10,
+        "description": "Wait.",
+        "time": 10
+      },
+      {
+        "order": 11,
+        "description": "Pour up to <final_water_amount>g. total.",
+        "time": 10
+      },
+      {
+        "order": 12,
+        "description": "Gently swirl.",
+        "time": 5
+      },
+      {
+        "order": 13,
+        "description": "Wait for the complete drawdown.",
+        "time": 55
+      }
+    ]
   }
 ]
