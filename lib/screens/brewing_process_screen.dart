@@ -144,7 +144,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
                         textAlign: TextAlign.center,
                         style: const TextStyle(fontSize: 20),
                       ),
-                      SizedBox(height: 20), // Add some space between the texts
+                      const SizedBox(
+                          height: 20), // Add some space between the texts
                       Text(
                         brewingSteps[currentStepIndex].description,
                         textAlign: TextAlign.center,
