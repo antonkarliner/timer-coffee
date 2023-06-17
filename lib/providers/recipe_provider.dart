@@ -60,6 +60,9 @@ class RecipeProvider extends ChangeNotifier {
       case 'wilfa_svart':
         jsonFileName = 'recipes_wilfa.json';
         break;
+      case 'origami':
+        jsonFileName = 'recipes_origami.json';
+        break;
       default:
         throw Exception('Unknown brewing method ID: $brewingMethodId');
     }

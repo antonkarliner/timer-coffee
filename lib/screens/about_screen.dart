@@ -66,7 +66,7 @@ class AboutScreen extends StatelessWidget {
                           ),
                           TextSpan(
                             text:
-                                '. I hope that this app will help you enjoy your coffee. Feel free to contribute on Github. Icons by Ionicons (MIT license).',
+                                '. I hope that this app will help you enjoy your coffee. Feel free to contribute on Github.',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ],

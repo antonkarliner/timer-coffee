@@ -33,6 +33,11 @@
       "id": "wilfa_svart",
       "name": "Wilfa Svart Pour Over",
       "recipe_file": "recipes_wilfa.json"
+    },
+    {
+      "id": "origami",
+      "name": "Origami Dripper",
+      "recipe_file": "recipes_origami.json"
     }
   ]
   
