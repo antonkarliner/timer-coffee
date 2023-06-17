@@ -156,6 +156,62 @@
           "time": 60
         }
       ]
-      }
+      },
+      {
+          "id": "304",
+          "name": "Scott Rao Chemex recipe",
+          "brewing_method_id": "chemex",
+          "brewing_method": "Chemex",
+          "coffee_amount": 30,
+          "water_amount": 510,
+          "water_temp": 97,
+          "grind_size": "Medium",
+          "brew_time": "2min 30s",
+          "short_description": "Chemex recipe by Scott Rao, a coffee expert and author specializing in cafe operation, barista training, and coffee roasting and brewing.",
+          "last_used": "2023-05-01T12:00:00Z",
+          "is_favorite": false,
+          "steps": [
+            {
+              "order": 1,
+              "description": "Grind the coffee, heat water, fold the paper filter and insert it into Chemex, rinse the Filter and Carafe, add coffee grounds.",
+              "time": 0
+            },
+            {
+              "order": 2,
+              "description": "Pre-wet with about (1.5 x <final_coffee_amount>)g of water.",
+              "time": 10
+            },
+            {
+              "order": 3,
+              "description": "Gently dig in the coffee bed with a small spoon.",
+              "time": 25
+            },
+            {
+              "order": 4,
+              "description": "Wait, allowing the coffee to bloom.",
+              "time": 5
+            },
+            {
+            "order": 5,
+            "description": "Pour until <final_water_amount>g. of water in circular patterns.",
+            "time": 30
+          },
+          {
+            "order": 6,
+            "description": "Give the outer edge of the slurry a very slow, light stir.",
+            "time": 10
+          },
+          {
+            "order": 7,
+            "description": "Hold the outside of the Chemex and move it a few circles.",
+            "time": 10
+          },
+          {
+            "order": 8,
+            "description": "Wait for the complete drawdown.",
+            "time": 60
+          }
+        ]
+        }
   ]
   
