@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:core';
 import 'dart:core' as core;
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import '../models/recipe.dart';
 import '../models/brew_step.dart';
 import 'finish_screen.dart';
@@ -11,12 +12,14 @@ class BrewingProcessScreen extends StatefulWidget {
   final Recipe recipe;
   final double coffeeAmount;
   final double waterAmount;
+  final bool soundEnabled; // new parameter
 
   const BrewingProcessScreen({
     super.key,
     required this.recipe,
     required this.coffeeAmount,
     required this.waterAmount,
+    required this.soundEnabled, // new initializer
   });
 
   @override
@@ -29,6 +32,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
   int currentStepTime = 0;
   late Timer timer;
   bool _isPaused = false;
+  final _player = AudioPlayer(); // new player instance
 
   String replacePlaceholders(
     String description,
@@ -83,13 +87,18 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
   void dispose() {
     timer.cancel();
     Wakelock.disable();
+    _player.dispose(); // dispose the player when the screen is disposed
     super.dispose();
   }
 
   void startTimer() {
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       if (currentStepTime >= brewingSteps[currentStepIndex].time.inSeconds) {
         if (currentStepIndex < brewingSteps.length - 1) {
+          if (widget.soundEnabled) {
+            await _player.setAsset('assets/audio/next.mp3');
+            await _player.play();
+          }
           setState(() {
             currentStepIndex++;
             currentStepTime = 0;

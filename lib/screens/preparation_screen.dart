@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/recipe.dart';
 import '../models/brew_step.dart';
-import 'brewing_process_screen.dart'; // Import the BrewingProcessScreen
+import 'brewing_process_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PreparationScreen extends StatefulWidget {
   final Recipe recipe;
@@ -13,6 +14,8 @@ class PreparationScreen extends StatefulWidget {
 }
 
 class _PreparationScreenState extends State<PreparationScreen> {
+  bool _soundEnabled = false;
+
   String replacePlaceholders(
     String description,
     double coffeeAmount,
@@ -44,6 +47,29 @@ class _PreparationScreenState extends State<PreparationScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _loadSoundSetting();
+  }
+
+  Future<void> _loadSoundSetting() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _soundEnabled = prefs.getBool('soundEnabled') ?? false;
+    });
+  }
+
+  void _toggleSound() {
+    SharedPreferences.getInstance().then((prefs) {
+      bool currentSoundSetting = prefs.getBool('soundEnabled') ?? false;
+      prefs.setBool('soundEnabled', !currentSoundSetting);
+      setState(() {
+        _soundEnabled = !currentSoundSetting;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<BrewStep> preparationSteps = widget.recipe.steps
         .map((step) => BrewStep(
@@ -62,13 +88,12 @@ class _PreparationScreenState extends State<PreparationScreen> {
       appBar: AppBar(title: const Text('Preparation')),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0), // Adds padding around the column
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: preparationSteps
                 .map((step) => Container(
-                      width: double
-                          .infinity, // Makes the container expand to fill the width of the screen
+                      width: double.infinity,
                       child: Text(
                         step.description,
                         style: const TextStyle(fontSize: 24),
@@ -79,20 +104,36 @@ class _PreparationScreenState extends State<PreparationScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BrewingProcessScreen(
-                recipe: widget.recipe,
-                coffeeAmount: widget.recipe.coffeeAmount,
-                waterAmount: widget.recipe.waterAmount,
-              ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            FloatingActionButton(
+              heroTag: 'soundButton',
+              onPressed: _toggleSound,
+              child: Icon(_soundEnabled ? Icons.volume_up : Icons.volume_off),
             ),
-          );
-        },
-        child: const Icon(Icons.play_arrow),
+            FloatingActionButton(
+              heroTag: 'playButton',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BrewingProcessScreen(
+                      recipe: widget.recipe,
+                      coffeeAmount: widget.recipe.coffeeAmount,
+                      waterAmount: widget.recipe.waterAmount,
+                      soundEnabled: _soundEnabled,
+                    ),
+                  ),
+                );
+              },
+              child: const Icon(Icons.play_arrow),
+            ),
+          ],
+        ),
       ),
     );
   }
