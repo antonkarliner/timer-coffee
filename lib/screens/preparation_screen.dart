@@ -3,6 +3,7 @@ import '../models/recipe.dart';
 import '../models/brew_step.dart';
 import 'brewing_process_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:just_audio/just_audio.dart';
 
 class PreparationScreen extends StatefulWidget {
   final Recipe recipe;
@@ -15,6 +16,7 @@ class PreparationScreen extends StatefulWidget {
 
 class _PreparationScreenState extends State<PreparationScreen> {
   bool _soundEnabled = false;
+  late AudioPlayer player;
 
   String replacePlaceholders(
     String description,
@@ -49,7 +51,9 @@ class _PreparationScreenState extends State<PreparationScreen> {
   @override
   void initState() {
     super.initState();
+    player = AudioPlayer();
     _loadSoundSetting();
+    _preloadAudio();
   }
 
   Future<void> _loadSoundSetting() async {
@@ -59,6 +63,14 @@ class _PreparationScreenState extends State<PreparationScreen> {
     });
   }
 
+  Future<void> _preloadAudio() async {
+    try {
+      await player.setAsset('assets/audio/next.mp3');
+    } catch (e) {
+      // catch load errors
+    }
+  }
+
   void _toggleSound() {
     SharedPreferences.getInstance().then((prefs) {
       bool currentSoundSetting = prefs.getBool('soundEnabled') ?? false;
@@ -66,6 +78,10 @@ class _PreparationScreenState extends State<PreparationScreen> {
       setState(() {
         _soundEnabled = !currentSoundSetting;
       });
+      if (_soundEnabled) {
+        player.seek(Duration.zero);
+        player.play();
+      }
     });
   }
 
@@ -118,6 +134,10 @@ class _PreparationScreenState extends State<PreparationScreen> {
             FloatingActionButton(
               heroTag: 'playButton',
               onPressed: () {
+                if (_soundEnabled) {
+                  player.seek(Duration.zero);
+                  player.play();
+                }
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -136,5 +156,11 @@ class _PreparationScreenState extends State<PreparationScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
   }
 }

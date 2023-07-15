@@ -80,7 +80,17 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
             ))
         .where((step) => step.time.inSeconds > 0)
         .toList();
+    _preloadAudio();
     startTimer();
+  }
+
+  Future<void> _preloadAudio() async {
+    try {
+      await _player.setAsset('assets/audio/next.mp3');
+    } catch (e) {
+      // catch load errors
+      print('Failed to load audio: $e');
+    }
   }
 
   @override
@@ -104,6 +114,10 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
             currentStepTime = 0;
           });
         } else {
+          if (widget.soundEnabled) {
+            await _player.setAsset('assets/audio/next.mp3');
+            await _player.play();
+          }
           timer.cancel();
           Navigator.push(
             context,
