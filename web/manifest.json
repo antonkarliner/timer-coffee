@@ -7,13 +7,7 @@
     "theme_color": "#0175C2",
     "description": "Brew better with Timer.Coffee App",
     "orientation": "portrait-primary",
-    "prefer_related_applications": true,
-    "related_applications": [
-        {
-        "platform": "play",
-        "id": "com.coffee.timer"
-        }
-    ],
+    "prefer_related_applications": false,
     "icons": [
         {
             "src": "\/icons/android-icon-36x36.png",
@@ -50,12 +44,6 @@
             "sizes": "192x192",
             "type": "image\/png",
             "density": "4.0"
-        },
-        {
-            "src": "\/icons/android-icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image\/png",
-            "density": "10.0"
         }
     ]
 }
