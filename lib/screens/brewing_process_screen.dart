@@ -107,7 +107,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
         if (currentStepIndex < brewingSteps.length - 1) {
           if (widget.soundEnabled) {
             await _player.setAsset('assets/audio/next.mp3');
-            await _player.play();
+            _player.play(); // removed 'await'
           }
           setState(() {
             currentStepIndex++;
@@ -116,7 +116,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
         } else {
           if (widget.soundEnabled) {
             await _player.setAsset('assets/audio/next.mp3');
-            await _player.play();
+            _player.play(); // removed 'await'
           }
           timer.cancel();
           Navigator.push(
