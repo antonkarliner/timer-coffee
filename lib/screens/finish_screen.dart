@@ -5,6 +5,9 @@ import 'package:in_app_review/in_app_review.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:auto_route/auto_route.dart';
+import '../app_router.gr.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
@@ -51,35 +54,8 @@ class _FinishScreenState extends State<FinishScreen> {
   }
 
   Future<void> requestReview() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final DateTime firstUsageDate = DateTime.fromMillisecondsSinceEpoch(
-        prefs.getInt('firstUsageDate') ??
-            DateTime.now().millisecondsSinceEpoch);
-    final DateTime lastRequestedReview = DateTime.fromMillisecondsSinceEpoch(
-        prefs.getInt('lastRequestedReview') ?? 0);
-    final DateTime now = DateTime.now();
-
-    final List<int> reviewSchedule = [
-      10,
-      30,
-      180,
-      375,
-      405,
-      440,
-      480,
-      525
-    ]; // Days after first usage
-
-    for (int days in reviewSchedule) {
-      DateTime reviewDate = firstUsageDate.add(Duration(days: days));
-
-      if (now.isAfter(reviewDate) &&
-          lastRequestedReview.isBefore(reviewDate) &&
-          await inAppReview.isAvailable()) {
-        inAppReview.requestReview();
-        await prefs.setInt('lastRequestedReview', now.millisecondsSinceEpoch);
-        break;
-      }
+    if (await inAppReview.isAvailable()) {
+      inAppReview.requestReview();
     }
   }
 
@@ -88,6 +64,14 @@ class _FinishScreenState extends State<FinishScreen> {
     super.initState();
     coffeeFact = getRandomCoffeeFact();
     requestReview();
+  }
+
+  Future<void> _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url, forceSafariVC: false, forceWebView: false);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -139,9 +123,16 @@ class _FinishScreenState extends State<FinishScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.popUntil(context, ModalRoute.withName('/'));
+                context.router.push(const HomeRoute());
               },
               child: const Text('Home'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton.icon(
+              onPressed: () =>
+                  _launchURL('https://www.buymeacoffee.com/timercoffee'),
+              icon: const Icon(Icons.local_cafe),
+              label: const Text('Buy me a coffee'),
             ),
           ],
         ),

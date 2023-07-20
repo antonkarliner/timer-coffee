@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import '../models/recipe.dart';
 import 'preparation_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,6 +11,7 @@ import '../providers/recipe_provider.dart';
 import '../widgets/favorite_button.dart';
 import '../models/recipe_summary.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:share_plus/share_plus.dart';
 
 @RoutePage()
 class RecipeDetailScreen extends StatefulWidget {
@@ -84,15 +87,34 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     _isEditingText = false;
   }
 
+  void _onShare(BuildContext context) async {
+    final box = context.findRenderObject() as RenderBox?;
+    await Share.share(
+      'https://app.timer.coffee/recipes/${widget.brewingMethodId}/${widget.recipeId}',
+      subject: 'Check out this recipe: ${_updatedRecipe!.name}',
+      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     TextStyle defaultStyle = Theme.of(context).textTheme.bodyLarge!;
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text(_updatedRecipe == null ? 'Loading...' : _updatedRecipe!.name),
+        title: Text(
+          _updatedRecipe == null
+              ? 'Loading...'
+              : _updatedRecipe!.brewingMethodName,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
         actions: [
           if (_updatedRecipe != null) ...[
+            IconButton(
+              icon: Icon(defaultTargetPlatform == TargetPlatform.iOS
+                  ? CupertinoIcons.share
+                  : Icons.share),
+              onPressed: () => _onShare(context),
+            ),
             FavoriteButton(
               recipeId: _updatedRecipe!.id,
               onToggleFavorite: (isFavorite) {
@@ -111,7 +133,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(_updatedRecipe!.brewingMethodName),
+                    Text(
+                      _updatedRecipe!.name,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
                     const SizedBox(height: 16),
                     _buildRichText(context, _updatedRecipe!.shortDescription),
                     const SizedBox(height: 16),

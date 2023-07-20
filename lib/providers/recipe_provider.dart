@@ -27,7 +27,6 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Recipe getRecipeById(String recipeId) {
-    print('getRecipeById: $recipeId, _recipes: $_recipes');
     int index = _recipes.indexWhere((recipe) => recipe.id == recipeId);
     if (index != -1) {
       return _recipes[index];
@@ -37,7 +36,6 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<List<Recipe>> fetchRecipes(String? brewingMethodId) async {
-    print('fetchRecipes start');
     if (brewingMethodId == null) {
       _recipes.clear();
       return [..._recipes];
@@ -95,7 +93,6 @@ class RecipeProvider extends ChangeNotifier {
     }
 
     notifyListeners();
-    print('fetchRecipes end');
 
     return [..._recipes];
   }

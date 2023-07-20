@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/recipe.dart';
-import '../models/brewing_method.dart';
 import '../providers/recipe_provider.dart';
 import '../widgets/favorite_button.dart';
 import 'package:auto_route/auto_route.dart';
@@ -126,8 +125,8 @@ class _RecipeListScreenState extends State<RecipeListScreen>
             recipeProvider.updateLastUsed(recipes[index].id);
 
             context.router.push(RecipeDetailRoute(
-              brewingMethodId: recipes[index].brewingMethodId,
-              recipeId: recipes[index].id));
+                brewingMethodId: recipes[index].brewingMethodId,
+                recipeId: recipes[index].id));
           },
           trailing: FavoriteButton(
             recipeId: recipes[index]
