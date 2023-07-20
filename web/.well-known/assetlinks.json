@@ -1,0 +1,11 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.coffee.timer",
+        "sha256_cert_fingerprints":
+          ["C8:C5:E6:9D:D7:38:27:FA:DB:7E:D9:8D:34:04:A8:44:95:39:B6:19:06:F9:AF:0F:79:65:32:72:D9:1D:E8:CE"]
+      }
+    }
+  ]

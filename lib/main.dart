@@ -5,10 +5,8 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import './models/brewing_method.dart';
 import './providers/recipe_provider.dart';
-import './screens/home_screen.dart';
-import 'package:auto_route/auto_route.dart';
-import './app_router.gr.dart';
 import './app_router.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +14,7 @@ void main() async {
   List<BrewingMethod> brewingMethods = await loadBrewingMethodsFromAssets();
 
   final appRouter = AppRouter();
-
+  usePathUrlStrategy();
   runApp(CoffeeTimerApp(
     brewingMethods: brewingMethods,
     appRouter: appRouter,

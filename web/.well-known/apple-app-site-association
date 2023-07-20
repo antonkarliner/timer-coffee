@@ -1,0 +1,11 @@
+{
+  "applinks": {
+      "apps": [],
+      "details": [
+      {
+        "appID": "M9YGUG9LDA.timer.coffee",
+        "paths": ["*"]
+      }
+    ]
+  }
+}

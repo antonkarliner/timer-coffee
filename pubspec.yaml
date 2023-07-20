@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
   flutter_linkify: ^5.0.2
   intl: ^0.17.0
   url_launcher: ^6.0.12
