@@ -89,7 +89,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
       await _player.setAsset('assets/audio/next.mp3');
     } catch (e) {
       // catch load errors
-      print('Failed to load audio: $e');
     }
   }
 

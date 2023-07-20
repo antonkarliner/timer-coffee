@@ -137,7 +137,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
               ? const Center(child: CircularProgressIndicator())
               : NotificationListener<OverscrollIndicatorNotification>(
                   onNotification: (OverscrollIndicatorNotification overscroll) {
-                    overscroll.disallowGlow();
                     FocusScope.of(context).unfocus();
                     return true;
                   },
