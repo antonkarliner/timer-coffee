@@ -45,8 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       'Most Recently Used Recipe: ${mostRecentRecipe.name}'),
                   onTap: () {
                     context.router.push(RecipeDetailRoute(
-                        parent: mostRecentRecipe.brewingMethodId,
-                        recipeId: mostRecentRecipe.id));
+                      brewingMethodId: mostRecentRecipe.brewingMethodId,
+                      recipeId: mostRecentRecipe.id));
                   },
                 ),
               Expanded(
