@@ -12,12 +12,10 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: RecipeListRoute.page,
           path: '/recipes/:brewingMethodId',
-          children: [
-            AutoRoute(
-              page: RecipeDetailRoute.page,
-              path: ':id',
-            ),
-          ],
+        ),
+        AutoRoute(
+          page: RecipeDetailRoute.page,
+          path: '/recipes/:brewingMethodId/:recipeId'
         ),
         AutoRoute(
           page: AboutRoute.page,

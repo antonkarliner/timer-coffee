@@ -50,14 +50,14 @@ abstract class $AppRouter extends _i6.RootStackRouter {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<RecipeDetailRouteArgs>(
           orElse: () => RecipeDetailRouteArgs(
-                parent: pathParams.getString('parent'),
-                recipeId: pathParams.getString('id'),
+                brewingMethodId: pathParams.getString('brewingMethodId'),
+                recipeId: pathParams.getString('recipeId'),
               ));
       return _i6.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i4.RecipeDetailScreen(
           key: args.key,
-          parent: args.parent,
+          brewingMethodId: args.brewingMethodId,
           recipeId: args.recipeId,
         ),
       );
@@ -143,19 +143,19 @@ class RecipeListRouteArgs {
 class RecipeDetailRoute extends _i6.PageRouteInfo<RecipeDetailRouteArgs> {
   RecipeDetailRoute({
     _i7.Key? key,
-    required String parent,
+    required String brewingMethodId,
     required String recipeId,
     List<_i6.PageRouteInfo>? children,
   }) : super(
           RecipeDetailRoute.name,
           args: RecipeDetailRouteArgs(
             key: key,
-            parent: parent,
+            brewingMethodId: brewingMethodId,
             recipeId: recipeId,
           ),
           rawPathParams: {
-            'parent': parent,
-            'id': recipeId,
+            'brewingMethodId': brewingMethodId,
+            'recipeId': recipeId,
           },
           initialChildren: children,
         );
@@ -169,19 +169,19 @@ class RecipeDetailRoute extends _i6.PageRouteInfo<RecipeDetailRouteArgs> {
 class RecipeDetailRouteArgs {
   const RecipeDetailRouteArgs({
     this.key,
-    required this.parent,
+    required this.brewingMethodId,
     required this.recipeId,
   });
 
   final _i7.Key? key;
 
-  final String parent;
+  final String brewingMethodId;
 
   final String recipeId;
 
   @override
   String toString() {
-    return 'RecipeDetailRouteArgs{key: $key, parent: $parent, recipeId: $recipeId}';
+    return 'RecipeDetailRouteArgs{key: $key, brewingMethodId: $brewingMethodId, recipeId: $recipeId}';
   }
 }
 

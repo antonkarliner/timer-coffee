@@ -126,8 +126,8 @@ class _RecipeListScreenState extends State<RecipeListScreen>
             recipeProvider.updateLastUsed(recipes[index].id);
 
             context.router.push(RecipeDetailRoute(
-                parent: widget.brewingMethodId ?? 'default',
-                recipeId: recipes[index].id));
+              brewingMethodId: recipes[index].brewingMethodId,
+              recipeId: recipes[index].id));
           },
           trailing: FavoriteButton(
             recipeId: recipes[index]
