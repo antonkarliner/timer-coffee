@@ -5,8 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_markdown/flutter_markdown.dart';
-import '../visual/coffee_timer_icons_icons.dart';
+import 'package:auto_route/auto_route.dart';
 
+@RoutePage()
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 

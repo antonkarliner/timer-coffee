@@ -21,12 +21,14 @@ dependencies:
   flutter_markdown: ^0.6.15
   cupertino_icons: ^1.0.0
   just_audio: ^0.9.34
-  go_router: ^9.0.3
+  auto_route: ^7.7.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  auto_route_generator: ^7.2.0
+  build_runner: ^2.2.0
 
 flutter:
   uses-material-design: true

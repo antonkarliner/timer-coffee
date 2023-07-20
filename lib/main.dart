@@ -6,25 +6,43 @@ import 'package:provider/provider.dart';
 import './models/brewing_method.dart';
 import './providers/recipe_provider.dart';
 import './screens/home_screen.dart';
+import 'package:auto_route/auto_route.dart';
+import './app_router.gr.dart';
+import './app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   List<BrewingMethod> brewingMethods = await loadBrewingMethodsFromAssets();
 
-  runApp(CoffeeTimerApp(brewingMethods: brewingMethods));
+  final appRouter = AppRouter();
+
+  runApp(CoffeeTimerApp(
+    brewingMethods: brewingMethods,
+    appRouter: appRouter,
+  ));
 }
 
 class CoffeeTimerApp extends StatelessWidget {
+  final AppRouter appRouter;
   final List<BrewingMethod> brewingMethods;
 
-  const CoffeeTimerApp({super.key, required this.brewingMethods});
+  const CoffeeTimerApp(
+      {Key? key, required this.appRouter, required this.brewingMethods})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<RecipeProvider>(
-      create: (context) => RecipeProvider(),
-      child: MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<RecipeProvider>(
+          create: (context) => RecipeProvider(),
+        ),
+        Provider<List<BrewingMethod>>(create: (_) => brewingMethods),
+      ],
+      child: MaterialApp.router(
+        routerDelegate: appRouter.delegate(),
+        routeInformationParser: appRouter.defaultRouteParser(),
         debugShowCheckedModeBanner: false,
         title: 'Coffee Timer App',
         theme: ThemeData(
@@ -45,7 +63,6 @@ class CoffeeTimerApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           fontFamily: kIsWeb ? 'Lato' : null,
         ),
-        home: HomeScreen(brewingMethods: brewingMethods),
       ),
     );
   }

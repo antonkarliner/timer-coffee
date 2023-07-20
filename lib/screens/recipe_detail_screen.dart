@@ -8,11 +8,18 @@ import 'package:provider/provider.dart';
 import '../providers/recipe_provider.dart';
 import '../widgets/favorite_button.dart';
 import '../models/recipe_summary.dart';
+import 'package:auto_route/auto_route.dart';
 
+@RoutePage()
 class RecipeDetailScreen extends StatefulWidget {
-  final Recipe recipe;
+  final String parent;
+  final String recipeId;
 
-  const RecipeDetailScreen({super.key, required this.recipe});
+  const RecipeDetailScreen(
+      {Key? key,
+      @PathParam('parent') required this.parent,
+      @PathParam('id') required this.recipeId})
+      : super(key: key);
 
   @override
   State<RecipeDetailScreen> createState() => _RecipeDetailScreenState();
@@ -32,13 +39,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   @override
   void initState() {
     super.initState();
-    _loadRecipes();
+    _loadRecipe();
   }
 
-  void _loadRecipes() async {
+  Future<void> _loadRecipe() async {
     final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
-    await recipeProvider.fetchRecipes(widget.recipe.brewingMethodId);
-    _updatedRecipe = recipeProvider.getRecipeById(widget.recipe.id);
+    _updatedRecipe = await recipeProvider.getRecipeById(widget.recipeId);
     originalCoffee = _updatedRecipe!.coffeeAmount;
     originalWater = _updatedRecipe!.waterAmount;
     initialRatio = originalWater! / originalCoffee!;

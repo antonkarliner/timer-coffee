@@ -8,12 +8,13 @@ import '../providers/recipe_provider.dart';
 import '../models/recipe.dart';
 import 'recipe_detail_screen.dart';
 import 'about_screen.dart';
-import 'coffee_tips_screen.dart'; // Import the CoffeeTipsScreen here
+import 'coffee_tips_screen.dart';
+import 'package:auto_route/auto_route.dart';
+import '../app_router.gr.dart';
 
+@RoutePage()
 class HomeScreen extends StatefulWidget {
-  final List<BrewingMethod> brewingMethods;
-
-  const HomeScreen({super.key, required this.brewingMethods});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -23,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
+    final brewingMethods = Provider.of<List<BrewingMethod>>(context);
 
     return Scaffold(
       appBar: buildPlatformSpecificAppBar(),
@@ -42,35 +44,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: Text(
                       'Most Recently Used Recipe: ${mostRecentRecipe.name}'),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RecipeDetailScreen(
-                          recipe: mostRecentRecipe,
-                        ),
-                      ),
-                    );
+                    context.router.push(RecipeDetailRoute(
+                        parent: mostRecentRecipe.brewingMethodId,
+                        recipeId: mostRecentRecipe.id));
                   },
                 ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: widget.brewingMethods.length,
+                  itemCount: brewingMethods.length,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
-                      title: Text(widget.brewingMethods[index].name),
-                      onTap: () async {
-                        final recipes = await recipeProvider
-                            .fetchRecipes(widget.brewingMethods[index].id);
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RecipeListScreen(
-                              brewingMethod: widget.brewingMethods[index],
-                              recipes: recipes,
-                            ),
-                          ),
-                        );
+                      title: Text(brewingMethods[index].name),
+                      onTap: () {
+                        context.router.push(RecipeListRoute(
+                            brewingMethodId: brewingMethods[index].id));
                       },
                     );
                   },
@@ -81,12 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ElevatedButton(
                   child: const Text('Coffee Brewing Tips'),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CoffeeTipsScreen(),
-                      ),
-                    );
+                    context.router.push(const CoffeeTipsRoute());
                   },
                 ),
               ),
@@ -100,16 +82,12 @@ class _HomeScreenState extends State<HomeScreen> {
   PreferredSizeWidget buildPlatformSpecificAppBar() {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       return CupertinoNavigationBar(
-        middle: const Text('Timer.Coffee', style: TextStyle(fontFamily: kIsWeb ? 'Lato' : null)),
+        middle: const Text('Timer.Coffee',
+            style: TextStyle(fontFamily: kIsWeb ? 'Lato' : null)),
         trailing: IconButton(
           icon: const Icon(Icons.info),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const AboutScreen(),
-              ),
-            );
+            context.router.push(const AboutRoute());
           },
         ),
       );

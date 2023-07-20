@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'recipe_detail_screen.dart';
 import '../models/recipe.dart';
 import '../models/brewing_method.dart';
 import '../providers/recipe_provider.dart';
 import '../widgets/favorite_button.dart';
+import 'package:auto_route/auto_route.dart';
+import '../app_router.gr.dart';
 
+@RoutePage()
 class RecipeListScreen extends StatefulWidget {
-  final BrewingMethod brewingMethod;
-  final List<Recipe> recipes;
+  final String? brewingMethodId;
 
-  const RecipeListScreen({super.key, required this.brewingMethod, required this.recipes});
+  const RecipeListScreen({
+    Key? key,
+    @PathParam('brewingMethodId') this.brewingMethodId,
+  }) : super(key: key);
 
   @override
   State<RecipeListScreen> createState() => _RecipeListScreenState();
@@ -19,11 +23,28 @@ class RecipeListScreen extends StatefulWidget {
 class _RecipeListScreenState extends State<RecipeListScreen>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
+  Future<String> brewingMethodName = Future.value("");
+  Future<List<Recipe>>? allRecipes;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    getBrewingMethodName();
+    allRecipes = fetchAllRecipes();
+  }
+
+  getBrewingMethodName() {
+    brewingMethodName = Provider.of<RecipeProvider>(context, listen: false)
+        .getBrewingMethodName(widget.brewingMethodId);
+
+    // Set state to refresh UI
+    setState(() {});
+  }
+
+  Future<List<Recipe>> fetchAllRecipes() {
+    return Provider.of<RecipeProvider>(context, listen: false)
+        .fetchRecipes(widget.brewingMethodId);
   }
 
   @override
@@ -34,9 +55,24 @@ class _RecipeListScreenState extends State<RecipeListScreen>
 
   @override
   Widget build(BuildContext context) {
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.brewingMethod.name),
+        title: FutureBuilder<String>(
+          future: brewingMethodName,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            }
+
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+
+            return Text(snapshot.data!);
+          },
+        ),
         bottom: TabBar(
           controller: _tabController,
           tabs: const [
@@ -48,25 +84,28 @@ class _RecipeListScreenState extends State<RecipeListScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          Consumer<RecipeProvider>(
-            builder: (context, recipeProvider, child) {
-              List<Recipe> allRecipes = recipeProvider
-                  .getRecipes()
-                  .where((recipe) =>
-                      recipe.brewingMethodId == widget.brewingMethod.id)
-                  .toList();
+          FutureBuilder<List<Recipe>>(
+            future: allRecipes,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              }
+
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
+
+              final allRecipes = snapshot.data!;
               return _buildRecipeListView(allRecipes);
             },
           ),
-          Consumer<RecipeProvider>(
-            builder: (context, recipeProvider, child) {
-              List<Recipe> favoriteRecipes = recipeProvider
+          ValueListenableBuilder<Set<String>>(
+            valueListenable: recipeProvider.favoriteRecipeIds,
+            builder: (context, favoriteRecipeIds, child) {
+              return _buildRecipeListView(recipeProvider
                   .getRecipes()
-                  .where((recipe) =>
-                      recipe.brewingMethodId == widget.brewingMethod.id &&
-                      recipe.isFavorite)
-                  .toList();
-              return _buildRecipeListView(favoriteRecipes);
+                  .where((recipe) => favoriteRecipeIds.contains(recipe.id))
+                  .toList());
             },
           ),
         ],
@@ -75,38 +114,30 @@ class _RecipeListScreenState extends State<RecipeListScreen>
   }
 
   Widget _buildRecipeListView(List<Recipe> recipes) {
-    return Consumer<RecipeProvider>(
-      builder: (context, recipeProvider, child) {
-        return ListView.builder(
-          itemCount: recipes.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(recipes[index].name),
-              onTap: () {
-                final recipeProvider =
-                    Provider.of<RecipeProvider>(context, listen: false);
-                recipeProvider.updateLastUsed(recipes[index].id);
+    return ListView.builder(
+      itemCount: recipes.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          title: Text(recipes[index].name),
+          onTap: () {
+            final recipeProvider =
+                Provider.of<RecipeProvider>(context, listen: false);
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RecipeDetailScreen(
-                      recipe: recipes[index],
-                    ),
-                  ),
-                );
-              },
-              trailing: FavoriteButton(
-                recipeId: recipes[index]
-                    .id, // Use recipes[index].id to access the id of the current recipe
-                onToggleFavorite: (bool isFavorite) {
-                  Provider.of<RecipeProvider>(context, listen: false)
-                      .toggleFavorite(recipes[index]
-                          .id); // Use recipes[index].id to access the id of the current recipe
-                },
-              ),
-            );
+            recipeProvider.updateLastUsed(recipes[index].id);
+
+            context.router.push(RecipeDetailRoute(
+                parent: widget.brewingMethodId ?? 'default',
+                recipeId: recipes[index].id));
           },
+          trailing: FavoriteButton(
+            recipeId: recipes[index]
+                .id, // Use recipes[index].id to access the id of the current recipe
+            onToggleFavorite: (bool isFavorite) {
+              Provider.of<RecipeProvider>(context, listen: false)
+                  .toggleFavorite(recipes[index]
+                      .id); // Use recipes[index].id to access the id of the current recipe
+            },
+          ),
         );
       },
     );

@@ -27,6 +27,7 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Recipe getRecipeById(String recipeId) {
+    print('getRecipeById: $recipeId, _recipes: $_recipes');
     int index = _recipes.indexWhere((recipe) => recipe.id == recipeId);
     if (index != -1) {
       return _recipes[index];
@@ -35,7 +36,13 @@ class RecipeProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<Recipe>> fetchRecipes(String brewingMethodId) async {
+  Future<List<Recipe>> fetchRecipes(String? brewingMethodId) async {
+    print('fetchRecipes start');
+    if (brewingMethodId == null) {
+      _recipes.clear();
+      return [..._recipes];
+    }
+
     String jsonFileName;
 
     switch (brewingMethodId) {
@@ -70,10 +77,10 @@ class RecipeProvider extends ChangeNotifier {
     String jsonString =
         await rootBundle.loadString('assets/data/$jsonFileName');
     final List<dynamic> jsonData = json.decode(jsonString);
+    _recipes.clear();
     List<Recipe> recipes =
         jsonData.map((json) => Recipe.fromJson(json)).toList();
 
-    // Update the _recipes list instead of overwriting it
     for (Recipe recipe in recipes) {
       int index = _recipes.indexWhere((r) => r.id == recipe.id);
       if (index != -1) {
@@ -88,8 +95,32 @@ class RecipeProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+    print('fetchRecipes end');
 
     return [..._recipes];
+  }
+
+  Future<String> getBrewingMethodName(String? brewingMethodId) async {
+    if (brewingMethodId == null) {
+      return "Default name";
+    }
+
+    final brewingMethods = {
+      'hario_v60': 'Hario V60',
+      'aeropress': 'Aeropress',
+      'chemex': 'Chemex',
+      'french_press': 'French Press',
+      'clever_dripper': 'Clever Dripper',
+      'kalita_wave': 'Kalita Wave',
+      'wilfa_svart': 'Wilfa Svart',
+      'origami': 'Origami'
+    };
+
+    if (!brewingMethods.containsKey(brewingMethodId)) {
+      throw Exception('Unknown brewing method ID: $brewingMethodId');
+    }
+
+    return brewingMethods[brewingMethodId]!;
   }
 
   Future<void> saveLastUsedRecipe(Recipe recipe) async {

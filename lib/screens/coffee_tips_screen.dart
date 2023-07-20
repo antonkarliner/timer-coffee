@@ -1,7 +1,9 @@
 // lib/screens/coffee_tips_screen.dart
 
 import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
 
+@RoutePage()
 class CoffeeTipsScreen extends StatelessWidget {
   const CoffeeTipsScreen({super.key});
 
