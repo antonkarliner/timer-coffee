@@ -10,6 +10,8 @@ Current features include:
 - Adjust the coffee or water amount in recipes to brew as much coffee as you wish.
 - Mark recipes as favorites.
 - Show last used recipe.
+- Share your favorite recipes with friends.
+- Turn on sound chime to infrom you about the next brewing step.
 
 Coming soon:
 - Tetsu Kasuya 4:6 brewing method for Hario V60
