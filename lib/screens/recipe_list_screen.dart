@@ -73,8 +73,7 @@ class _RecipeListScreenState extends State<RecipeListScreen>
 
             if (kIsWeb) {
               // Update HTML title
-              html.document.title =
-                  'Check out ${snapshot.data!} recipes on Timer.Coffee';
+              html.document.title = '${snapshot.data!} recipes on Timer.Coffee';
             }
 
             return Text(snapshot.data!);

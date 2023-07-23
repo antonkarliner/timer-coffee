@@ -104,7 +104,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     TextStyle defaultStyle = Theme.of(context).textTheme.bodyLarge!;
     if (kIsWeb && _updatedRecipe != null) {
       // update HTML title
-      html.document.title = 'Check out ${_updatedRecipe!.name} on Timer.Coffee';
+      html.document.title = '${_updatedRecipe!.name} on Timer.Coffee';
     }
     return GestureDetector(
       onTap: () {
