@@ -55,7 +55,20 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     initialRatio = originalWater! / originalCoffee!;
     _coffeeController.text = _updatedRecipe!.coffeeAmount.toString();
     _waterController.text = _updatedRecipe!.waterAmount.toString();
+    if (kIsWeb && _updatedRecipe != null) {
+      updateOgTitle('Check out ${_updatedRecipe!.name} on Timer.Coffee');
+    }
     setState(() {});
+  }
+
+  void updateOgTitle(String newTitle) {
+    html.MetaElement? ogTitleMetaTag =
+        html.querySelector('meta[property="og:title"]') as html.MetaElement?;
+    if (ogTitleMetaTag == null) {
+      ogTitleMetaTag = html.MetaElement()..setAttribute('property', 'og:title');
+      html.document.head!.append(ogTitleMetaTag);
+    }
+    ogTitleMetaTag.content = newTitle;
   }
 
   @override
