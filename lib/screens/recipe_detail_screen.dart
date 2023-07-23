@@ -13,6 +13,7 @@ import '../models/recipe_summary.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:ui';
+import 'dart:html' as html;
 
 @RoutePage()
 class RecipeDetailScreen extends StatefulWidget {
@@ -101,6 +102,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   @override
   Widget build(BuildContext context) {
     TextStyle defaultStyle = Theme.of(context).textTheme.bodyLarge!;
+    if (kIsWeb && _updatedRecipe != null) {
+      // update HTML title
+      html.document.title = 'Check out ${_updatedRecipe!.name} on Timer.Coffee';
+    }
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();

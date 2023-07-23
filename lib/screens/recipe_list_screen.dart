@@ -5,6 +5,8 @@ import '../providers/recipe_provider.dart';
 import '../widgets/favorite_button.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:html' as html;
 
 @RoutePage()
 class RecipeListScreen extends StatefulWidget {
@@ -67,6 +69,12 @@ class _RecipeListScreenState extends State<RecipeListScreen>
 
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
+            }
+
+            if (kIsWeb) {
+              // Update HTML title
+              html.document.title =
+                  'Check out ${snapshot.data!} recipes on Timer.Coffee';
             }
 
             return Text(snapshot.data!);

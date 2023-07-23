@@ -11,6 +11,8 @@ import 'about_screen.dart';
 import 'coffee_tips_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
+import 'dart:html' as html;
+import 'package:flutter/widgets.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -20,7 +22,30 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+    if (kIsWeb) {
+      html.document.title = 'Timer.Coffee App';
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed && kIsWeb) {
+      html.document.title = 'Timer.Coffee App';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
@@ -45,8 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       'Most Recently Used Recipe: ${mostRecentRecipe.name}'),
                   onTap: () {
                     context.router.push(RecipeDetailRoute(
-                      brewingMethodId: mostRecentRecipe.brewingMethodId,
-                      recipeId: mostRecentRecipe.id));
+                        brewingMethodId: mostRecentRecipe.brewingMethodId,
+                        recipeId: mostRecentRecipe.id));
                   },
                 ),
               Expanded(
