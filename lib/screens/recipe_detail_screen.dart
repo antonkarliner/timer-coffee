@@ -13,7 +13,7 @@ import '../models/recipe_summary.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:ui';
-import 'dart:html' as html;
+import "package:universal_html/html.dart" as html;
 
 @RoutePage()
 class RecipeDetailScreen extends StatefulWidget {

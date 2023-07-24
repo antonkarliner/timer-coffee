@@ -54,8 +54,29 @@ class _FinishScreenState extends State<FinishScreen> {
   }
 
   Future<void> requestReview() async {
-    if (await inAppReview.isAvailable()) {
-      inAppReview.requestReview();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final int firstLaunchMillis = prefs.getInt('firstLaunchMillis') ??
+        DateTime.now().millisecondsSinceEpoch;
+
+    if (prefs.getInt('firstLaunchMillis') == null) {
+      await prefs.setInt('firstLaunchMillis', firstLaunchMillis);
+    }
+
+    final int nowMillis = DateTime.now().millisecondsSinceEpoch;
+    const int threeDaysMillis = 3 * 24 * 60 * 60 * 1000;
+    const int oneWeekMillis = 7 * 24 * 60 * 60 * 1000;
+
+    if (nowMillis - firstLaunchMillis < 1000 // if this is the first launch
+        ||
+        (nowMillis - firstLaunchMillis > threeDaysMillis &&
+            nowMillis - firstLaunchMillis <
+                oneWeekMillis) // if it's after 3 days but before a week from the first launch
+        ||
+        nowMillis - firstLaunchMillis > oneWeekMillis) {
+      // if it's a week or more after the first launch
+      if (await inAppReview.isAvailable()) {
+        inAppReview.requestReview();
+      }
     }
   }
 

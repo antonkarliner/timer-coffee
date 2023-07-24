@@ -11,7 +11,7 @@ import 'about_screen.dart';
 import 'coffee_tips_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
-import 'dart:html' as html;
+import "package:universal_html/html.dart" as html;
 import 'package:flutter/widgets.dart';
 
 @RoutePage()

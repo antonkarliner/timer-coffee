@@ -6,7 +6,7 @@ import '../widgets/favorite_button.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:html' as html;
+import "package:universal_html/html.dart" as html;
 
 @RoutePage()
 class RecipeListScreen extends StatefulWidget {
