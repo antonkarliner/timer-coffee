@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 1.2.1+18
+version: 1.2.2+19
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
@@ -28,6 +28,7 @@ dependencies:
   universal_html: ^2.2.3
   flutter_native_splash: ^2.3.1
   quick_actions: ^1.0.5
+  introduction_screen: ^3.1.11
 
 dev_dependencies:
   flutter_test:
@@ -65,3 +66,6 @@ flutter:
     - assets/data/coffee_facts.json
     - assets/CONTRIBUTORS.md
     - assets/audio/next.mp3
+    - assets/onboarding/android/
+    - assets/onboarding/ios/
+    - assets/onboarding/gifs/

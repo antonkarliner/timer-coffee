@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './models/brewing_method.dart';
 import './providers/recipe_provider.dart';
 import './app_router.dart';
@@ -14,6 +15,9 @@ import './models/recipe.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
+
   List<BrewingMethod> brewingMethods = await loadBrewingMethodsFromAssets();
 
   final appRouter = AppRouter();
@@ -21,15 +25,25 @@ void main() async {
   runApp(CoffeeTimerApp(
     brewingMethods: brewingMethods,
     appRouter: appRouter,
+    initialRoute: isFirstLaunch ? '/firstlaunch' : '/',
   ));
+
+  // Mark 'firstLaunch' as false after the first launch
+  if (isFirstLaunch) {
+    await prefs.setBool('firstLaunch', false);
+  }
 }
 
 class CoffeeTimerApp extends StatelessWidget {
   final AppRouter appRouter;
   final List<BrewingMethod> brewingMethods;
+  final String initialRoute;
 
   const CoffeeTimerApp(
-      {Key? key, required this.appRouter, required this.brewingMethods})
+      {Key? key,
+      required this.appRouter,
+      required this.brewingMethods,
+      required this.initialRoute})
       : super(key: key);
 
   @override
@@ -42,7 +56,9 @@ class CoffeeTimerApp extends StatelessWidget {
         Provider<List<BrewingMethod>>(create: (_) => brewingMethods),
       ],
       child: MaterialApp.router(
-        routerDelegate: appRouter.delegate(),
+        routerDelegate: appRouter.delegate(
+          initialDeepLink: initialRoute,
+        ),
         routeInformationParser: appRouter.defaultRouteParser(),
         builder: (_, router) {
           return QuickActionsManager(
@@ -112,7 +128,6 @@ class _QuickActionsManagerState extends State<QuickActionsManager> {
 
     quickActions.initialize((shortcutType) async {
       if (shortcutType == 'action_last_recipe') {
-        print('User tapped on the "Open last recipe" action.');
         RecipeProvider recipeProvider =
             Provider.of<RecipeProvider>(context, listen: false);
         Recipe? mostRecentRecipe = await recipeProvider.getLastUsedRecipe();

@@ -14,9 +14,8 @@ class AppRouter extends $AppRouter {
           path: '/recipes/:brewingMethodId',
         ),
         AutoRoute(
-          page: RecipeDetailRoute.page,
-          path: '/recipes/:brewingMethodId/:recipeId'
-        ),
+            page: RecipeDetailRoute.page,
+            path: '/recipes/:brewingMethodId/:recipeId'),
         AutoRoute(
           page: AboutRoute.page,
           path: '/about',
@@ -24,6 +23,11 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: CoffeeTipsRoute.page,
           path: '/tips',
+        ),
+        AutoRoute(
+          page: OnboardingRoute.page,
+          path: '/firstlaunch',
+          initial: true,
         ),
       ];
 }
