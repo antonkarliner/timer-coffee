@@ -13,28 +13,61 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import './models/recipe.dart';
 import 'package:flutter/widgets.dart' show RouteInformation;
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+}
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
-  if (kIsWeb) {
-    isFirstLaunch = false;
+class MyApp extends StatelessWidget {
+  final AppRouter appRouter = AppRouter();
+
+  Future<String> determineInitialRoute() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
+    if (kIsWeb) {
+      isFirstLaunch = false;
+    }
+    if (!kIsWeb && isFirstLaunch) {
+      await prefs.setBool('firstLaunch', false);
+    }
+    return isFirstLaunch ? '/firstlaunch' : '/';
   }
 
-  List<BrewingMethod> brewingMethods = await loadBrewingMethodsFromAssets();
+  Future<List<BrewingMethod>> loadBrewingMethodsFromAssets() async {
+    String jsonString =
+        await rootBundle.loadString('assets/data/brewing_methods.json');
+    List<dynamic> jsonList = json.decode(jsonString);
+    return jsonList
+        .map((json) => BrewingMethod.fromJson(json))
+        .toList()
+        .cast<BrewingMethod>();
+  }
 
-  final appRouter = AppRouter();
-  usePathUrlStrategy();
-  runApp(CoffeeTimerApp(
-    brewingMethods: brewingMethods,
-    appRouter: appRouter,
-    initialRoute: isFirstLaunch ? '/firstlaunch' : '/',
-  ));
-
-  // Mark 'firstLaunch' as false after the first launch
-  if (!kIsWeb && isFirstLaunch) {
-    await prefs.setBool('firstLaunch', false);
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<String>(
+      future: determineInitialRoute(),
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return FutureBuilder<List<BrewingMethod>>(
+              future: loadBrewingMethodsFromAssets(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<BrewingMethod>> snapshotBrew) {
+                if (snapshotBrew.connectionState == ConnectionState.done) {
+                  return CoffeeTimerApp(
+                    initialRoute: snapshot.data!,
+                    appRouter: appRouter,
+                    brewingMethods: snapshotBrew.data!,
+                  );
+                } else {
+                  return CircularProgressIndicator();
+                }
+              });
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
   }
 }
 
@@ -98,16 +131,6 @@ class CoffeeTimerApp extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<List<BrewingMethod>> loadBrewingMethodsFromAssets() async {
-  String jsonString =
-      await rootBundle.loadString('assets/data/brewing_methods.json');
-  List<dynamic> jsonList = json.decode(jsonString);
-  return jsonList
-      .map((json) => BrewingMethod.fromJson(json))
-      .toList()
-      .cast<BrewingMethod>();
 }
 
 class QuickActionsManager extends StatefulWidget {
