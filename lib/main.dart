@@ -22,28 +22,36 @@ void main() async {
 
   final appRouter = AppRouter();
   usePathUrlStrategy();
-  runApp(CoffeeTimerApp(
-    brewingMethods: brewingMethods,
-    appRouter: appRouter,
-    initialRoute: isFirstLaunch ? '/firstlaunch' : '/',
-  ));
 
-  // Mark 'firstLaunch' as false after the first launch
-  if (isFirstLaunch) {
-    await prefs.setBool('firstLaunch', false);
+  if (kIsWeb) {
+    runApp(CoffeeTimerApp(
+      brewingMethods: brewingMethods,
+      appRouter: appRouter,
+    ));
+  } else {
+    runApp(CoffeeTimerApp(
+      brewingMethods: brewingMethods,
+      appRouter: appRouter,
+      initialRoute: isFirstLaunch ? '/firstlaunch' : '/',
+    ));
+
+    // Mark 'firstLaunch' as false after the first launch
+    if (isFirstLaunch) {
+      await prefs.setBool('firstLaunch', false);
+    }
   }
 }
 
 class CoffeeTimerApp extends StatelessWidget {
   final AppRouter appRouter;
   final List<BrewingMethod> brewingMethods;
-  final String initialRoute;
+  final String? initialRoute;
 
   const CoffeeTimerApp(
       {Key? key,
       required this.appRouter,
       required this.brewingMethods,
-      required this.initialRoute})
+      this.initialRoute})
       : super(key: key);
 
   @override
