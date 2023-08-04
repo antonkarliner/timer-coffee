@@ -11,12 +11,16 @@ import './app_router.dart';
 import './app_router.gr.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import './models/recipe.dart';
+import 'package:flutter/widgets.dart' show RouteInformation;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
+  if (kIsWeb) {
+    isFirstLaunch = false;
+  }
 
   List<BrewingMethod> brewingMethods = await loadBrewingMethodsFromAssets();
 
@@ -29,7 +33,7 @@ void main() async {
   ));
 
   // Mark 'firstLaunch' as false after the first launch
-  if (isFirstLaunch) {
+  if (!kIsWeb && isFirstLaunch) {
     await prefs.setBool('firstLaunch', false);
   }
 }
@@ -60,6 +64,11 @@ class CoffeeTimerApp extends StatelessWidget {
           initialDeepLink: initialRoute,
         ),
         routeInformationParser: appRouter.defaultRouteParser(),
+        routeInformationProvider: kIsWeb
+            ? PlatformRouteInformationProvider(
+                initialRouteInformation:
+                    RouteInformation(location: Uri.base.path))
+            : null,
         builder: (_, router) {
           return QuickActionsManager(
             child: router!,
