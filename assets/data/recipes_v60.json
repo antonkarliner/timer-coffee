@@ -87,25 +87,30 @@
       {
         "order": 3,
         "description": "Gently excavate to wet all the grounds",
-        "time": 30
+        "time": 10
       },
       {
         "order": 4,
+        "description": "Let the coffee bloom.",
+        "time": 20
+      },
+      {
+        "order": 5,
         "description": "At 45s, start main pour until <final_water_amount>g.",
         "time": 50
       },
       {
-      "order": 5,
+      "order": 6,
       "description": "Gently stir to stop grounds from clinging to sides",
       "time": 25
     },
     {
-      "order": 6,
+      "order": 7,
       "description": "Swirl V60 to flatten coffee bed for even brew",
       "time": 10
     },
     {
-      "order": 7,
+      "order": 8,
       "description": "Drawdown should be complete within 3 minutes.",
       "time": 50
     }
