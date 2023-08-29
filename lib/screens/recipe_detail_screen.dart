@@ -34,7 +34,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   final TextEditingController _waterController = TextEditingController();
   late double initialRatio;
   bool _editingCoffee = false;
-  bool _isEditingText = false;
   double? originalCoffee;
   double? originalWater;
 
@@ -66,12 +65,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   }
 
   void _updateAmounts(BuildContext context, Recipe updatedRecipe) {
-    _isEditingText = true;
     if (_coffeeController.text.isEmpty ||
         _waterController.text.isEmpty ||
         double.tryParse(_coffeeController.text.replaceAll(',', '.')) == null ||
         double.tryParse(_waterController.text.replaceAll(',', '.')) == null) {
-      _isEditingText = false;
       return;
     }
 
@@ -86,7 +83,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       double newCoffeeAmount = newWater / initialRatio;
       _coffeeController.text = newCoffeeAmount.toStringAsFixed(1);
     }
-    _isEditingText = false;
   }
 
   void _onShare(BuildContext context) async {
@@ -101,7 +97,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle defaultStyle = Theme.of(context).textTheme.bodyLarge!;
     if (kIsWeb && _updatedRecipe != null) {
       // update HTML title
       html.document.title = '${_updatedRecipe!.name} on Timer.Coffee';
