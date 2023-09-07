@@ -178,7 +178,7 @@
     "steps": [
       {
         "order": 1,
-        "description": "Rinse filter above the sink to avoid heating the server. Pour in coffee grounds. Place (0.4 x <final_water_amount>)g of ice. in the server",
+        "description": "Rinse filter above the sink to avoid heating the server. Pour in coffee grounds. Place (0.4 x <final_water_amount>)g of ice in the server",
         "time": 0
       },
       {
