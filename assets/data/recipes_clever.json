@@ -139,47 +139,47 @@
     },
     {
       "id": "504",
-      "name": "James Hoffmann Ultimate Clever Dripper recipe on ice",
+      "name": "James Hoffmann Iced Clever Dripper recipe",
       "brewing_method_id": "clever_dripper",
       "brewing_method": "Clever Dripper",
-      "coffee_amount": 32.5,
+      "coffee_amount": 37.5,
       "water_amount": 500,
       "water_temp": 95,
-      "grind_size": "Medium-fine",
-      "brew_time": "4min 0s",
-      "short_description": "This recipe is based on Clever Dripper recipe by James Hoffmann. I added ice and it worked quite well! Brew time is a little bit prolonged according to advices from James.",
+      "grind_size": "Fine",
+      "brew_time": "6min 35s",
+      "short_description": "This recipe uses an improved immersion iced coffee technique by James Hoffman. Check the the [tutorial here](https://www.youtube.com/watch?v=8uGGeV8A-BM). Optional: you can add a few drops of saline (a solution of 20% salt and 80% water) in the end to reduce the bitterness. Note: you need to grind finer than you normally do for pour over, but not espresso-fine.",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,
       "steps": [
         {
           "order": 1,
-          "description": "Insert the paper filter into Clever Dripper and rinse it with water. Grind the coffee, but don't put into Clever Dripper yet. Place on scale and zero it out. Get a spoon. Prepare (0.4 x <final_water_amount>)g of ice.",
+          "description": "Insert the paper filter into Clever Dripper and rinse it with water. Grind the coffee, but don't put into Clever Dripper yet. Place on scale and zero it out. Get a spoon. You'll need (0.34 x <final_water_amount>)g of ice, but keep it in the freezer for now.",
           "time": 0
         },
         {
           "order": 2,
-          "description": "Add (0.6 x <final_water_amount>)g. of water to the Clever Dripper",
+          "description": "Add (0.66 x <final_water_amount>)g. of water to the Clever Dripper",
           "time": 10
         },
         {
           "order": 3,
-          "description": "Put the coffee in the water and stir it a little with a spoon.",
+          "description": "Put the coffee in the water and stir it with a spoon, making sure that all the coffee is wet.",
           "time": 10
         },
         {
           "order": 4,
-          "description": "Let the coffee steep for 2,5 minutes. In the meantime put (0.4 x <final_water_amount>)g of ice into the server.",
-          "time": 150
+          "description": "Let the coffee steep. When the steep time is almost over, place (0.34 x <final_water_amount>)g of ice into the server.",
+          "time": 300
         },
         {
           "order": 5,
-          "description": "Stir the brew with a spoon or shake the brewer a little to break the crust.",
-          "time": 10
+          "description": "Place the Clever Dripper on a server and wait for the complete drawdown.",
+          "time": 60
         },
         {
           "order": 6,
-          "description": "Place the Clever Dripper on a server and wait for the complete drawdown.",
-          "time": 60
+          "description": "Swirl the server or stir with a spoon to dilute the remaining ice. Optional: add a few drops of saline to reduce bitterness.",
+          "time": 15
         }
       ]
     }
