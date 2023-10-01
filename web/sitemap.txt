@@ -35,6 +35,7 @@ https://app.timer.coffee/recipes/kalita_wave/603
 https://app.timer.coffee/recipes/wilfa_svart
 https://app.timer.coffee/recipes/wilfa_svart/701
 https://app.timer.coffee/recipes/wilfa_svart/702
+https://app.timer.coffee/recipes/wilfa_svart/703
 https://app.timer.coffee/recipes/origami
 https://app.timer.coffee/recipes/origami/801
 https://app.timer.coffee/recipes/origami/802
