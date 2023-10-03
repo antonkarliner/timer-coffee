@@ -177,6 +177,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.5.0"
+  coffeico:
+    dependency: "direct main"
+    description:
+      name: coffeico
+      sha256: "4c7ee254f755d46fd287cd3c9164640ff1b6796ccd033a1628cd9a38aa8a74af"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   collection:
     dependency: transitive
     description:
