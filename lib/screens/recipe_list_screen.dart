@@ -7,6 +7,7 @@ import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import 'package:flutter/foundation.dart';
 import "package:universal_html/html.dart" as html;
+import '../utils/icon_utils.dart';
 
 @RoutePage()
 class RecipeListScreen extends StatefulWidget {
@@ -60,24 +61,32 @@ class _RecipeListScreenState extends State<RecipeListScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: FutureBuilder<String>(
-          future: brewingMethodName,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            }
-
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            }
-
-            if (kIsWeb) {
-              // Update HTML title
-              html.document.title = '${snapshot.data!} recipes on Timer.Coffee';
-            }
-
-            return Text(snapshot.data!);
-          },
+        leading: const BackButton(), // This is your back button
+        title: Row(
+          children: [
+            getIconByBrewingMethod(
+                widget.brewingMethodId), // This is your brewing method icon
+            const SizedBox(
+                width:
+                    8), // Optional: Add a little space between the icon and text
+            FutureBuilder<String>(
+              future: brewingMethodName,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                }
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                if (kIsWeb) {
+                  // Update HTML title
+                  html.document.title =
+                      '${snapshot.data!} recipes on Timer.Coffee';
+                }
+                return Text(snapshot.data!);
+              },
+            ),
+          ],
         ),
         bottom: TabBar(
           controller: _tabController,

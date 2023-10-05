@@ -14,6 +14,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:ui';
 import "package:universal_html/html.dart" as html;
+import '../utils/icon_utils.dart';
+import 'dart:io';
 
 @RoutePage()
 class RecipeDetailScreen extends StatefulWidget {
@@ -85,14 +87,32 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     }
   }
 
-  void _onShare(BuildContext context) async {
-    final box = context.findRenderObject() as RenderBox;
+  bool isIpad() {
+    if (Platform.isIOS) {
+      final double scale = window.devicePixelRatio;
+      final double width = window.physicalSize.width;
+      final double height = window.physicalSize.height;
+      final double largerSide = (width > height) ? width : height;
+      return largerSide > 1366.0 * scale;
+    }
+    return false;
+  }
 
-    await Share.share(
-      'https://app.timer.coffee/recipes/${widget.brewingMethodId}/${widget.recipeId}',
-      subject: 'Check out this recipe: ${_updatedRecipe!.name}',
-      sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
-    );
+  void _onShare(BuildContext context) async {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    final Rect rect = box.localToGlobal(Offset.zero) & box.size;
+    final String textToShare =
+        'https://app.timer.coffee/recipes/${widget.brewingMethodId}/${widget.recipeId}';
+
+    try {
+      await Share.share(
+        textToShare,
+        subject: 'Check out this recipe: ${_updatedRecipe!.name}',
+        sharePositionOrigin: rect,
+      );
+    } catch (e) {
+      print('Share failed: $e');
+    }
   }
 
   @override
@@ -107,19 +127,33 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            _updatedRecipe == null
-                ? 'Loading...'
-                : _updatedRecipe!.brewingMethodName,
-            style: Theme.of(context).textTheme.titleLarge,
+          leading: const BackButton(), // This is your back button
+          title: Row(
+            children: [
+              getIconByBrewingMethod(
+                  widget.brewingMethodId), // This is your brewing method icon
+              const SizedBox(
+                  width:
+                      8), // Optional: Add a little space between the icon and text
+              Flexible(
+                child: Text(
+                  _updatedRecipe == null
+                      ? 'Loading...'
+                      : _updatedRecipe!.brewingMethodName,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              )
+            ],
           ),
           actions: [
             if (_updatedRecipe != null) ...[
-              IconButton(
-                icon: Icon(defaultTargetPlatform == TargetPlatform.iOS
-                    ? CupertinoIcons.share
-                    : Icons.share),
-                onPressed: () => _onShare(context),
+              Builder(
+                builder: (BuildContext context) => IconButton(
+                  icon: Icon(defaultTargetPlatform == TargetPlatform.iOS
+                      ? CupertinoIcons.share
+                      : Icons.share),
+                  onPressed: () => _onShare(context),
+                ),
               ),
               FavoriteButton(
                 recipeId: _updatedRecipe!.id,

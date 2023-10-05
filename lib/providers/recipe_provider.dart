@@ -109,8 +109,8 @@ class RecipeProvider extends ChangeNotifier {
       'french_press': 'French Press',
       'clever_dripper': 'Clever Dripper',
       'kalita_wave': 'Kalita Wave',
-      'wilfa_svart': 'Wilfa Svart',
-      'origami': 'Origami'
+      'wilfa_svart': 'Wilfa Svart Pour Over',
+      'origami': 'Origami Dripper'
     };
 
     if (!brewingMethods.containsKey(brewingMethodId)) {

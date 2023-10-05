@@ -9,7 +9,7 @@ import 'about_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import "package:universal_html/html.dart" as html;
-import "package:coffeico/coffeico.dart";
+import '../utils/icon_utils.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -63,6 +63,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             children: [
               if (mostRecentRecipe != null)
                 ListTile(
+                  leading:
+                      getIconByBrewingMethod(mostRecentRecipe.brewingMethodId),
                   title: Text(
                       'Most Recently Used Recipe: ${mostRecentRecipe.name}'),
                   onTap: () {
@@ -76,7 +78,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   itemCount: brewingMethods.length,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
-                      leading: _icons[brewingMethods[index].id],
+                      leading: getIconByBrewingMethod(brewingMethods[index]
+                          .id), // Use the brewing method id from the list
                       title: Text(brewingMethods[index].name),
                       onTap: () {
                         context.router.push(RecipeListRoute(
@@ -133,15 +136,4 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       );
     }
   }
-
-  static const _icons = {
-    "aeropress": Icon(Coffeico.aeropress),
-    "chemex": Icon(Coffeico.chemex),
-    "clever_dripper": Icon(Coffeico.clever_dripper),
-    "french_press": Icon(Coffeico.french_press),
-    "hario_v60": Icon(Coffeico.hario_v60),
-    "kalita_wave": Icon(Coffeico.kalita_wave),
-    "origami": Icon(Coffeico.origami),
-    "wilfa_svart": Icon(Coffeico.wilfa_svart)
-  };
 }
