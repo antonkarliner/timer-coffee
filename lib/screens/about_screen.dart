@@ -6,6 +6,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:auto_route/auto_route.dart';
+import 'dart:io';
 
 @RoutePage()
 class AboutScreen extends StatelessWidget {
@@ -252,12 +253,13 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                     icon: const Icon(Icons.code),
                     label: const Text('Source code'),
                   ),
-                  ElevatedButton.icon(
-                    onPressed: () =>
-                        _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                    icon: const Icon(Icons.local_cafe),
-                    label: const Text('Buy me a coffee'),
-                  ),
+                  if (!Platform.isIOS) // Conditional statement
+                    ElevatedButton.icon(
+                      onPressed: () => _launchURL(
+                          'https://www.buymeacoffee.com/timercoffee'),
+                      icon: const Icon(Icons.local_cafe),
+                      label: const Text('Buy me a coffee'),
+                    ),
                 ],
               ),
               const SizedBox(height: 20),

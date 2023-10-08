@@ -104,15 +104,11 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     final String textToShare =
         'https://app.timer.coffee/recipes/${widget.brewingMethodId}/${widget.recipeId}';
 
-    try {
-      await Share.share(
-        textToShare,
-        subject: 'Check out this recipe: ${_updatedRecipe!.name}',
-        sharePositionOrigin: rect,
-      );
-    } catch (e) {
-      print('Share failed: $e');
-    }
+    await Share.share(
+      textToShare,
+      subject: 'Check out this recipe: ${_updatedRecipe!.name}',
+      sharePositionOrigin: rect,
+    );
   }
 
   @override
