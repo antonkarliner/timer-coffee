@@ -8,6 +8,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:io';
 
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
@@ -149,12 +150,13 @@ class _FinishScreenState extends State<FinishScreen> {
               child: const Text('Home'),
             ),
             const SizedBox(height: 20),
-            ElevatedButton.icon(
-              onPressed: () =>
-                  _launchURL('https://www.buymeacoffee.com/timercoffee'),
-              icon: const Icon(Icons.local_cafe),
-              label: const Text('Buy me a coffee'),
-            ),
+            if (!Platform.isIOS) // Conditional statement
+              ElevatedButton.icon(
+                onPressed: () =>
+                    _launchURL('https://www.buymeacoffee.com/timercoffee'),
+                icon: const Icon(Icons.local_cafe),
+                label: const Text('Buy me a coffee'),
+              ),
           ],
         ),
       ),
