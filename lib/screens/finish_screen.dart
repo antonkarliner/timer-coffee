@@ -1,7 +1,6 @@
 // lib/screens/finish_screen.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:advanced_in_app_review/advanced_in_app_review.dart'; // Replaced in_app_review
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/services.dart' show rootBundle;
@@ -24,9 +23,6 @@ class FinishScreen extends StatefulWidget {
 
 class _FinishScreenState extends State<FinishScreen> {
   late Future<String> coffeeFact;
-
-  final AdvancedInAppReview advancedInAppReview =
-      AdvancedInAppReview(); // Replaced InAppReview
 
   Future<String> getRandomCoffeeFact() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -62,17 +58,6 @@ class _FinishScreenState extends State<FinishScreen> {
     return coffeeFactsList[nextFactIndex];
   }
 
-  Future<void> requestReview() async {
-    if (Platform.isIOS && !kIsWeb) {
-      advancedInAppReview
-          .setMinDaysBeforeRemind(7)
-          .setMinDaysAfterInstall(2)
-          .setMinLaunchTimes(2)
-          .setMinSecondsBeforeShowDialog(4);
-      advancedInAppReview.monitor();
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -84,7 +69,6 @@ class _FinishScreenState extends State<FinishScreen> {
     });
 
     coffeeFact = getRandomCoffeeFact();
-    requestReview();
   }
 
   Future<void> _launchURL(String url) async {
