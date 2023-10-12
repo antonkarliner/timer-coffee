@@ -85,7 +85,14 @@ class _FinishScreenState extends State<FinishScreen> {
   @override
   void initState() {
     super.initState();
-    WakelockPlus.disable();
+
+    // Check if wakelock is enabled and disable it
+    WakelockPlus.enabled.then((bool wakelockEnabled) {
+      if (wakelockEnabled) {
+        WakelockPlus.disable();
+      }
+    });
+
     coffeeFact = getRandomCoffeeFact();
     requestReview();
   }
