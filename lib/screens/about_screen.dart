@@ -253,7 +253,7 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                     icon: const Icon(Icons.code),
                     label: const Text('Source code'),
                   ),
-                  if (!Platform.isIOS) // Conditional statement
+                  if (kIsWeb || !Platform.isIOS) // Conditional statement
                     ElevatedButton.icon(
                       onPressed: () => _launchURL(
                           'https://www.buymeacoffee.com/timercoffee'),
