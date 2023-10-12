@@ -17,14 +17,14 @@ dependencies:
   provider: ^6.0.5
   shared_preferences: ^2.1.0
   ionicons: ^0.2.2
-  wakelock: ^0.6.2
+  wakelock_plus: ^1.1.2
   in_app_review: ^2.0.6
-  package_info_plus: ^3.0.0
+  package_info_plus: ^4.1.0
   flutter_markdown: ^0.6.15
   cupertino_icons: ^1.0.0
   just_audio: ^0.9.34
   auto_route: ^7.7.1
-  share_plus: ^6.3.4
+  share_plus: ^7.1.0
   universal_html: ^2.2.3
   flutter_native_splash: ^2.3.1
   quick_actions: ^1.0.5

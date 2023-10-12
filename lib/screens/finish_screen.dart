@@ -9,6 +9,7 @@ import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
@@ -84,6 +85,7 @@ class _FinishScreenState extends State<FinishScreen> {
   @override
   void initState() {
     super.initState();
+    WakelockPlus.disable();
     coffeeFact = getRandomCoffeeFact();
     requestReview();
   }
