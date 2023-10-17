@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 1.3.1+25
+version: 1.3.2+26
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
@@ -30,6 +30,13 @@ dependencies:
   quick_actions: ^1.0.5
   introduction_screen: ^3.1.11
   coffeico: ^0.0.1
+
+dependency_overrides:
+  flutter_keyboard_visibility:
+    git:
+      url: https://github.com/MisterJimson/flutter_keyboard_visibility.git
+      ref: b5e7b0de4fa9eb6a6c076f1120e5f92a77b7679d # https://github.com/MisterJimson/flutter_keyboard_visibility/commit/b5e7b0de4fa9eb6a6c076f1120e5f92a77b7679d
+      path: flutter_keyboard_visibility
 
 dev_dependencies:
   flutter_test:
