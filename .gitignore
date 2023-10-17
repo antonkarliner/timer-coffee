@@ -9,6 +9,7 @@
 .history
 .svn/
 migrate_working_dir/
+update_flutter.sh
 
 # IntelliJ related
 *.iml
