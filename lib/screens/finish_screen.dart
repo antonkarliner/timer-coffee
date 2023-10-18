@@ -1,7 +1,7 @@
 // lib/screens/finish_screen.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:in_app_review/in_app_review.dart';
+import 'package:advanced_in_app_review/advanced_in_app_review.dart'; // Replaced in_app_review
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/services.dart' show rootBundle;
@@ -24,7 +24,8 @@ class FinishScreen extends StatefulWidget {
 class _FinishScreenState extends State<FinishScreen> {
   late Future<String> coffeeFact;
 
-  final InAppReview inAppReview = InAppReview.instance;
+  final AdvancedInAppReview advancedInAppReview =
+      AdvancedInAppReview(); // Replaced InAppReview
 
   Future<String> getRandomCoffeeFact() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -58,31 +59,12 @@ class _FinishScreenState extends State<FinishScreen> {
 
   Future<void> requestReview() async {
     if (Platform.isIOS && !kIsWeb) {
-      // Updated condition
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final int firstLaunchMillis = prefs.getInt('firstLaunchMillis') ??
-          DateTime.now().millisecondsSinceEpoch;
-
-      if (prefs.getInt('firstLaunchMillis') == null) {
-        await prefs.setInt('firstLaunchMillis', firstLaunchMillis);
-      }
-
-      final int nowMillis = DateTime.now().millisecondsSinceEpoch;
-      const int threeDaysMillis = 3 * 24 * 60 * 60 * 1000;
-      const int oneWeekMillis = 7 * 24 * 60 * 60 * 1000;
-
-      if (nowMillis - firstLaunchMillis < 1000 // if this is the first launch
-          ||
-          (nowMillis - firstLaunchMillis > threeDaysMillis &&
-              nowMillis - firstLaunchMillis <
-                  oneWeekMillis) // if it's after 3 days but before a week from the first launch
-          ||
-          nowMillis - firstLaunchMillis > oneWeekMillis) {
-        // if it's a week or more after the first launch
-        if (await inAppReview.isAvailable()) {
-          inAppReview.requestReview();
-        }
-      }
+      advancedInAppReview
+          .setMinDaysBeforeRemind(7)
+          .setMinDaysAfterInstall(2)
+          .setMinLaunchTimes(2)
+          .setMinSecondsBeforeShowDialog(4);
+      advancedInAppReview.monitor();
     }
   }
 
@@ -90,7 +72,6 @@ class _FinishScreenState extends State<FinishScreen> {
   void initState() {
     super.initState();
 
-    // Check if wakelock is enabled and disable it
     WakelockPlus.enabled.then((bool wakelockEnabled) {
       if (wakelockEnabled) {
         WakelockPlus.disable();
