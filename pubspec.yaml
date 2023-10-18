@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 1.3.2+26
+version: 1.3.3+27
 
 environment:
   sdk: '>=2.19.6 <4.0.0'
