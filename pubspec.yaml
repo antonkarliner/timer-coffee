@@ -18,7 +18,7 @@ dependencies:
   shared_preferences: ^2.1.0
   ionicons: ^0.2.2
   wakelock_plus: ^1.1.2
-  in_app_review: ^2.0.6
+  in_app_review: ^2.0.8
   package_info_plus: ^4.1.0
   flutter_markdown: ^0.6.15
   cupertino_icons: ^1.0.0
