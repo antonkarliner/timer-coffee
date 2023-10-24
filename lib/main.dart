@@ -1,3 +1,4 @@
+import 'dart:async'; // Import for StreamSubscription
 import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -5,15 +6,20 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:in_app_purchase/in_app_purchase.dart'; // Import for In-App Purchase
 import './models/brewing_method.dart';
 import './providers/recipe_provider.dart';
 import './app_router.dart';
 import './app_router.gr.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import './models/recipe.dart';
+import './purchase_manager.dart'; // Import PurchaseManager
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize In-App Purchase
+  InAppPurchase.instance.restorePurchases();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
@@ -35,7 +41,6 @@ void main() async {
       initialRoute: isFirstLaunch ? '/firstlaunch' : '/',
     ));
 
-    // Mark 'firstLaunch' as false after the first launch
     if (isFirstLaunch) {
       await prefs.setBool('firstLaunch', false);
     }
@@ -122,11 +127,14 @@ class QuickActionsManager extends StatefulWidget {
 
 class _QuickActionsManagerState extends State<QuickActionsManager> {
   QuickActions quickActions = QuickActions();
+  StreamSubscription<List<PurchaseDetails>>?
+      _subscription; // Add this line for In-App Purchase
 
   @override
   void initState() {
     super.initState();
-    // Set quick actions
+
+    // Initialize quick actions
     quickActions.setShortcutItems(<ShortcutItem>[
       const ShortcutItem(
           type: 'action_last_recipe',
@@ -146,6 +154,23 @@ class _QuickActionsManagerState extends State<QuickActionsManager> {
         }
       }
     });
+
+    // Initialize In-App Purchase
+    _subscription = InAppPurchase.instance.purchaseStream.listen((purchases) {
+      for (var purchase in purchases) {
+        final PurchaseDetails purchaseDetails = purchase;
+        if (purchaseDetails.pendingCompletePurchase) {
+          InAppPurchase.instance.completePurchase(purchaseDetails);
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // Unsubscribe from the In-App Purchase Stream
+    _subscription?.cancel();
+    super.dispose();
   }
 
   @override

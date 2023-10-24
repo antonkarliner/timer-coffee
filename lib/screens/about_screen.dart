@@ -6,6 +6,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:auto_route/auto_route.dart';
+import '../app_router.gr.dart';
 import 'dart:io';
 
 @RoutePage()
@@ -253,10 +254,21 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                     icon: const Icon(Icons.code),
                     label: const Text('Source code'),
                   ),
-                  if (kIsWeb || !Platform.isIOS) // Conditional statement
+                  if (kIsWeb ||
+                      !Platform
+                          .isIOS) // Existing condition for non-iOS platforms
                     ElevatedButton.icon(
                       onPressed: () => _launchURL(
                           'https://www.buymeacoffee.com/timercoffee'),
+                      icon: const Icon(Icons.local_cafe),
+                      label: const Text('Buy me a coffee'),
+                    ),
+                  if (Platform.isIOS) // New condition specifically for iOS
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        context.router
+                            .push(const DonationRoute()); // Your routing logic
+                      },
                       icon: const Icon(Icons.local_cafe),
                       label: const Text('Buy me a coffee'),
                     ),
