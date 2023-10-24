@@ -263,7 +263,8 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                       icon: const Icon(Icons.local_cafe),
                       label: const Text('Buy me a coffee'),
                     ),
-                  if (Platform.isIOS) // New condition specifically for iOS
+                  if (!kIsWeb &&
+                      Platform.isIOS) // New condition specifically for iOS
                     ElevatedButton.icon(
                       onPressed: () {
                         context.router
