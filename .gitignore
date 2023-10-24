@@ -10,7 +10,6 @@
 .svn/
 migrate_working_dir/
 update_flutter.sh
-ios/Runner/donationtest.storekit
 
 # IntelliJ related
 *.iml
