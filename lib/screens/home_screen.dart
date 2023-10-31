@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
 import '../models/brewing_method.dart';
 import '../providers/recipe_provider.dart';
@@ -10,6 +11,7 @@ import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import "package:universal_html/html.dart" as html;
 import '../utils/icon_utils.dart';
+import '../purchase_manager.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -27,6 +29,33 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     if (kIsWeb) {
       html.document.title = 'Timer.Coffee App';
     }
+    // Initialize the purchase manager and set up the callback
+    PurchaseManager().initialize();
+    PurchaseManager().deliverProductCallback = (details) {
+      _showThankYouPopup(details);
+    };
+  }
+
+  // Method to show the popup
+  void _showThankYouPopup(PurchaseDetails details) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Thank You!"),
+          content: const Text(
+              "I really appreciate your support! Wish you a lot of great brews! ☕️"),
+          actions: [
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

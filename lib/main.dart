@@ -127,8 +127,50 @@ class QuickActionsManager extends StatefulWidget {
 
 class _QuickActionsManagerState extends State<QuickActionsManager> {
   QuickActions quickActions = QuickActions();
-  StreamSubscription<List<PurchaseDetails>>?
-      _subscription; // Add this line for In-App Purchase
+  StreamSubscription<List<PurchaseDetails>>? _subscription; // In-App Purchase
+
+  // Deliver Product
+  void _deliverProduct(PurchaseDetails purchaseDetails) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Thank You!"),
+          content: const Text(
+              "I really appreciate your support! Wish you a lot of great brews! ☕️"),
+          actions: [
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _handleError(IAPError error) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Error"),
+          content:
+              const Text("Error processing the purchase, please try again."),
+          actions: [
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -159,6 +201,11 @@ class _QuickActionsManagerState extends State<QuickActionsManager> {
     _subscription = InAppPurchase.instance.purchaseStream.listen((purchases) {
       for (var purchase in purchases) {
         final PurchaseDetails purchaseDetails = purchase;
+        if (purchaseDetails.status == PurchaseStatus.purchased) {
+          _deliverProduct(purchaseDetails);
+        } else if (purchaseDetails.status == PurchaseStatus.error) {
+          _handleError(purchaseDetails.error!);
+        }
         if (purchaseDetails.pendingCompletePurchase) {
           InAppPurchase.instance.completePurchase(purchaseDetails);
         }

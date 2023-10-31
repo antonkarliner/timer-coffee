@@ -90,5 +90,76 @@
         "time": 30
       }
     ]
+    },
+    {
+      "id": "803",
+      "name": "Carlos Medina's Origami Dripper recipe",
+      "brewing_method_id": "origami",
+      "brewing_method": "Origami Dripper",
+      "coffee_amount": 15.5,
+      "water_amount": 250,
+      "water_temp": 91,
+      "grind_size": "Medium-coarse",
+      "brew_time": "2min 40s",
+      "short_description": "This is a recipe by Carlos Medina from Chile, who won World Brewers Cup with it in 2023. Look at the recording of his winning perfomance [here](https://www.youtube.com/watch?v=Ed8w-RKhR5U). Note that Carlos used conical filters for this recipe.",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Rinse Origami dripper and filter with hot water. Grind your coffee. Pour in grounds, zero out the scales.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Pour (0.2 x <final_water_amount>)g. of water.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Wait.",
+          "time": 20
+        },
+        {
+          "order": 4,
+          "description": "Pour (0.2 x <final_water_amount>)g. of water.",
+          "time": 10
+        },
+        {
+        "order": 5,
+        "description": "Wait.",
+        "time": 20
+      },
+      {
+        "order": 6,
+        "description": "Pour (0.2 x <final_water_amount>)g. of water.",
+        "time": 10
+      },
+      {
+        "order": 7,
+        "description": "Wait.",
+        "time": 20
+      },
+      {
+        "order": 8,
+        "description": "Pour (0.2 x <final_water_amount>)g. of water.",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "Wait.",
+        "time": 20
+      },
+      {
+        "order": 10,
+        "description": "Pour (0.2 x <final_water_amount>)g. of water.",
+        "time": 10
+      },
+      {
+        "order": 11,
+        "description": "Wait for the complete drawdown.",
+        "time": 40
+      }
+    ]
     }
   ]

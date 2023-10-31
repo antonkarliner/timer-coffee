@@ -28,8 +28,7 @@ class _DonationScreenState extends State<DonationScreen> {
   void initState() {
     super.initState();
     _loadProducts();
-    PurchaseManager().initialize(
-        _listenToPurchaseUpdated); // Initialize global subscription here
+    PurchaseManager().initialize(); // Initialize global subscription here
   }
 
   @override
