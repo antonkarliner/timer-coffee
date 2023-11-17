@@ -1,0 +1,216 @@
+[
+  {
+    "id" : "301",
+    "name" : "Recette Chemex James Hoffmann",
+    "brewing_method_id" : "chemex",
+    "brewing_method" : "Chemex",
+    "coffee_amount" : 30,
+    "water_amount" : 500,
+    "water_temp" : 95,
+    "grind_size" : "Moyenne fin ",
+    "brew_time" : "4min 10s",
+    "short_description" : "Recette Chemex par James Hoffmann, vainqueur du Championnat du monde des baristas, YouTuber, consultant en café et auteur. Pour la Chemex, James recommande pratiquement la même technique que pour la V60. [Voir le tutoriel](https://www.youtube.com/watch?v=ikt-X5x7yoc).",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Moudre les grains de café, faire bouillir l'eau. Mettre le filtre en papier dans le Chemex (3 plis vers le bec). Rincer le filtre avec de l'eau bouillante, vider l'eau. Ajouter le café moulu, faire une entaille au milieu. Placez la balance et mettez-la à zéro",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : "Ajouter (2 x <final_coffee_amount>)- (3 x <final_coffee_amount>)g. d'eau",
+        "time" : 10
+      },
+      {
+        "order" : 3,
+        "description" : "Remuer pour mouiller tous les sols, laisser fleurir",
+        "time" : 35
+      },
+      {
+        "order" : 4,
+        "description" : "Ajoutez de l'eau dans un mouvement circulaire, en brisant tout amas jusqu'à ce que vous atteigniez (0,6 x <final_water_amount>)g.",
+        "time" : 30
+      },
+      {
+        "order" : 5,
+        "description" : "Continuez à ajouter de l'eau jusqu'à ce que vous atteigniez <final_water_amount>g",
+        "time" : 30
+      },
+      {
+        "order" : 6,
+        "description" : "Utilisez une cuillère pour bien remuer dans le sens des aiguilles d'une montre, puis dans le sens inverse des aiguilles d'une montre",
+        "time" : 15
+      },      
+      {
+        "order" : 7,
+        "description" : "Donnez une petite secousse au chemex",
+        "time" : 10
+      },
+      {
+        "order" : 8,
+        "description" : " Attendre la fin du tirage au sort ",
+        "time" : 120
+      }
+    ]
+  },
+  {
+    "id" : "302",
+    "name" : "Recette Chemex par Caffeine Feind ",
+    "brewing_method_id" : "chemex",
+    "brewing_method" : "Chemex",
+    "coffee_amount" : 32,
+    "water_amount" : 480,
+    "water_temp" : 95,
+    "grind_size" : "Moyennement grossier (sel de mer) ",
+    "brew_time" : "4min 0s",
+    "short_description" : "Recette Chemex par [Caffeine Feind](https://caffeinefiend.co/chemex-recipe/).",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Moudre le café, chauffer l'eau, plier le filtre en papier et l'insérer dans la Chemex, rincer le Filtre et la Carafe, ajouter le café moulu",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : "Pré-humidifier avec (2 x <final_coffee_amount>)g d'eau. Versez lentement en spirale, en commençant par le centre et en progressant vers l'extérieur",
+        "time" : 15
+      },
+      {
+        "order" : 3,
+        "description" : "Laissez le café fleurir",
+        "time" : 45
+      },
+      {
+        "order" : 4,
+        "description" : "Versez en cercles concentriques jusqu'à ce que le niveau d'eau atteigne le haut de la Chemex",
+        "time" : 20
+      },
+      {
+      "order" : 5,
+      "description" : "Attendre que le café moulu redescende à peu près à son niveau initial",
+      "time" : 30
+    },
+    {
+      "order" : 6,
+      "description" : "Répétez le même processus pour des coulées supplémentaires en immersion complète jusqu'à ce que vous atteigniez <final_water_amount>g d'eau. Attendez la vidange complète",
+      "time" : 130
+    }
+  ]
+  },
+  {
+      "id" : "303",
+      "name" : "Chemex recipe by Epicurious",
+      "brewing_method_id" : "chemex",
+      "brewing_method" : "Chemex",
+      "coffee_amount" : 42,
+      "water_amount" : 700,
+      "water_temp" : 95,
+      "grind_size" : "Moyenne (comme le sel kasher) ",
+      "brew_time" : "5min 0s",
+      "short_description" : "Chemex recipe by [Epicurious](https://www.epicurious.com/expert-advice/how-to-make-chemex-coffee-right-way-gallery).",
+      "last_used" : "2023-05-01T12:00:00Z",
+      "is_favorite" : false,
+      "steps" : [
+        {
+          "order" : 1,
+          "description" : "Moudre le café, chauffer l'eau, plier le filtre en papier et l'insérer dans la Chemex, rincer le Filtre et la Carafe, ajouter le café moulu",
+          "time" : 0
+        },
+        {
+          "order" : 2,
+          "description" : "Pré-humidifier avec environ (2 x <final_coffee_amount>)g d'eau. Versez juste assez d'eau sur la mouture pour la couvrir et la saturer",
+          "time" : 15
+        },
+        {
+          "order" : 3,
+          "description" : "Laissez le café fleurir",
+          "time" : 30
+        },
+        {
+          "order" : 4,
+          "description" : "Ajouter jusqu'à (0,33 x <final_water_amount>)g. d'eau, en versant dans un mouvement lent et circulaire",
+          "time" : 15
+        },
+        {
+        "order" : 5,
+        "description" : "Attendre",
+        "time" : 40
+      },
+      {
+        "order" : 6,
+        "description" : "Maintenant, ajoutez de l'eau, jusqu'à ce que la balance indique (0,64 x <final_water_amount>)g.",
+        "time" : 20
+      },
+      {
+        "order" : 7,
+        "description" : "Attendre 2 minutes",
+        "time" : 120
+      },
+      {
+        "order" : 8,
+        "description" : "Ajouter de l'eau jusqu'à atteindre <final_water_amount>g. et attendre le rabattement complet",
+        "time" : 60
+      }
+    ]
+    },
+    {
+        "id" : "304",
+        "name" : "Recette Scott Rao Chemex ",
+        "brewing_method_id" : "chemex",
+        "brewing_method" : "Chemex",
+        "coffee_amount" : 30,
+        "water_amount" : 510,
+        "water_temp" : 97,
+        "grind_size" : "Moyenne",
+        "brew_time" : "2min 30s",
+        "short_description" : "Recette Chemex de Scott Rao, expert en café et auteur spécialisé dans la gestion des cafés, la formation des baristas, la torréfaction et l'infusion du café",
+        "last_used" : "2023-05-01T12:00:00Z",
+        "is_favorite" : false,
+        "steps" : [
+          {
+            "order" : 1,
+            "description" : "Moudre le café, chauffer l'eau, plier le filtre en papier et l'insérer dans la Chemex, rincer le Filtre et la Carafe, ajouter le café moulu",
+            "time" : 0
+          },
+          {
+            "order" : 2,
+            "description" : "Pré-humidifier avec environ (1,5 x <final_coffee_amount>)g d'eau",
+            "time" : 10
+          },
+          {
+            "order" : 3,
+            "description" : "Creuser délicatement le lit de café avec une petite cuillère",
+            "time" : 25
+          },
+          {
+            "order" : 4,
+            "description" : "Attendre que le café fleurisse",
+            "time" : 5
+          },
+          {
+          "order" : 5,
+          "description" : "Verser jusqu'à <final_water_amount>g. d'eau en motifs circulaires",
+          "time" : 30
+        },
+        {
+          "order" : 6,
+          "description" : "Remuer très lentement et légèrement le bord extérieur de la boue",
+          "time" : 10
+        },
+        {
+          "order" : 7,
+          "description" : "Tenez l'extérieur de la Chemex et déplacez-la de quelques cercles",
+          "time" : 10
+        },
+        {
+          "order" : 8,
+          "description" : " Attendre le tirage complet ",
+          "time" : 60
+        }
+      ]
+      }
+]

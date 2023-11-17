@@ -1,0 +1,151 @@
+[
+  {
+    "id": "701",
+    "name": "وصفة Wilfa Svart للتقطير بطريقة الغمر",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "متوسط خشن",
+    "brew_time": "3min 30s",
+    "short_description": "هذه الوصفة استخدمتها كثيرًا مع Wilfa Dripper. لست متأكدًا من مؤلفها، لكنها مشابهة للعديد من وصفات الغمر.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "شطف الفلتر والصانع بالماء الساخن. طحن القهوة. صب البن وضبط الميزان على الصفر. أغلق مقيد تدفق الماء.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "صب <final_water_amount>غ من الماء.",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "حرك الصانع قليلاً.",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "اترك القهوة تنقع.",
+        "time": 130
+      },
+      {
+        "order": 5,
+        "description": "كسر قشرة القهوة برفق بالملعقة.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "انتظر قليلاً أكثر.",
+        "time": 20
+      },      
+      {
+        "order": 7,
+        "description": "افتح مقيد تدفق الماء بالكامل، انتظر حتى يكتمل الاستخلاص.",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "702",
+    "name": "وصفة تقطير Wilfa Svart Pour Over من Best Coffee",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "خشن",
+    "brew_time": "3min 0s",
+    "short_description": "طريقة أخرى للتحضير باستخدام Wilfa Svart Pour Over، ألا وهي التقطير! هذه وصفة من [Best Coffee](https://www.bestcoffee.guide/blogs/product-reviews/wilfa-pour-over-smart-dripper-review).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "شطف الفلتر والصانع بالماء الساخن. طحن القهوة. صب البن وضبط الميزان على الصفر. أغلق مقيد تدفق الماء.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "التبليل المسبق بـ(2.2 x <final_coffee_amount>)غ من الماء.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "اترك القهوة تتفتح.",
+        "time": 20
+      },
+      {
+        "order": 4,
+        "description": "افتح مقيد تدفق الماء إلى منتصف الطريق.",
+        "time": 5
+      },
+      {
+      "order": 5,
+      "description": "أضف الماء حتى (0.6 x <final_water_amount>)غ.",
+      "time": 30
+    },
+    {
+      "order": 6,
+      "description": "استمر في إضافة الماء حتى تصل إلى <final_water_amount>غ.",
+      "time": 30
+    },
+    {
+      "order": 7,
+      "description": "انتظر حتى يكتمل الاستخلاص وأغلق مقيد تدفق الماء.",
+      "time": 115
+    }
+  ]
+  },
+  {
+    "id": "703",
+    "name": "وصفة Wilfa Svart Pour Over المثلجة (جيمس هوفمان)",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 22.5,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "ناعم",
+    "brew_time": "6min 35s",
+    "short_description": "تستخدم هذه الوصفة تقنية محسنة لتحضير القهوة المثلجة بالغمر من جيمس هوفمان. شاهد [الدليل هنا](https://www.youtube.com/watch?v=8uGGeV8A-BM). اختياري: يمكنك إضافة بضع قطرات من المحلول الملحي (محلول 20% ملح و80% ماء) في النهاية لتقليل المرارة. ملاحظة: تحتاج إلى طحن القهوة أنعم مما تستخدمه عادةً للتقطير، لكن ليس بنعومة الإسبريسو.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "ضع الفلتر الورقي في Wilfa Svart Pour Over واشطفه بالماء. طحن القهوة، لكن لا تضعها في الصانع بعد. ضعه على الميزان وضبطه على الصفر. أحضر ملعقة. ستحتاج إلى (0.34 x <final_water_amount>)غ من الثلج، لكن احتفظ به في الفريزر للآن.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "أضف (0.66 x <final_water_amount>)غ من الماء إلى الصانع",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "ضع القهوة في الماء وقلبها بالملعقة، مع التأكد من تبليل كل القهوة.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "اترك القهوة تنقع. عندما يقترب وقت النقع من الانتهاء، ضع (0.34 x <final_water_amount>)غ من الثلج في الإبريق.",
+        "time": 300
+      },
+      {
+        "order": 5,
+        "description": "ضع الصانع فوق الإبريق وانتظر حتى يكتمل الاستخلاص.",
+        "time": 60
+      },
+      {
+        "order": 6,
+        "description": "حرك الإبريق أو حركه بالملعقة لتخفيف الثلج المتبقي. اختياري: أضف بضع قطرات من المحلول الملحي لتقليل المرارة.",
+        "time": 15
+      }
+    ]
+  }
+  ]
+  

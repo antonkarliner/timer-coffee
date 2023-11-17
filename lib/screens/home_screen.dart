@@ -12,6 +12,8 @@ import '../app_router.gr.dart';
 import "package:universal_html/html.dart" as html;
 import '../utils/icon_utils.dart';
 import '../purchase_manager.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -29,22 +31,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     if (kIsWeb) {
       html.document.title = 'Timer.Coffee App';
     }
-    // Initialize the purchase manager and set up the callback
+
     PurchaseManager().initialize();
     PurchaseManager().deliverProductCallback = (details) {
       _showThankYouPopup(details);
     };
   }
 
-  // Method to show the popup
   void _showThankYouPopup(PurchaseDetails details) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Thank You!"),
-          content: const Text(
-              "I really appreciate your support! Wish you a lot of great brews! ☕️"),
+          title: Text(AppLocalizations.of(context)!.donationok),
+          content: Text(AppLocalizations.of(context)!.donationtnx),
           actions: [
             TextButton(
               child: const Text("OK"),
@@ -62,14 +62,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed && kIsWeb) {
-      html.document.title = 'Timer.Coffee App';
-    }
   }
 
   @override
@@ -95,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   leading:
                       getIconByBrewingMethod(mostRecentRecipe.brewingMethodId),
                   title: Text(
-                      'Most Recently Used Recipe: ${mostRecentRecipe.name}'),
+                      '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
                   onTap: () {
                     context.router.push(RecipeDetailRoute(
                         brewingMethodId: mostRecentRecipe.brewingMethodId,
@@ -107,8 +99,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   itemCount: brewingMethods.length,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
-                      leading: getIconByBrewingMethod(brewingMethods[index]
-                          .id), // Use the brewing method id from the list
+                      leading: getIconByBrewingMethod(brewingMethods[index].id),
                       title: Text(brewingMethods[index].name),
                       onTap: () {
                         context.router.push(RecipeListRoute(
@@ -118,18 +109,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: ElevatedButton(
-                  child: const Text('Coffee Brewing Tips'),
-                  onPressed: () {
-                    context.router.push(const CoffeeTipsRoute());
-                  },
-                ),
-              ),
             ],
           );
         },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton.small(
+        onPressed: _changeLocale,
+        tooltip: 'Change Locale',
+        child: Text(recipeProvider.currentLocale.languageCode.toUpperCase()),
       ),
     );
   }
@@ -155,14 +143,103 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const AboutScreen(),
-                ),
+                MaterialPageRoute(builder: (context) => const AboutScreen()),
               );
             },
           ),
         ],
       );
     }
+  }
+
+  void _changeLocale() async {
+    final result = await showModalBottomSheet<Locale>(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: const Text('English'),
+                onTap: () => Navigator.pop(context, const Locale('en')),
+              ),
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: const Text('Español'), // Spanish
+                onTap: () => Navigator.pop(context, const Locale('es')),
+              ),
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: const Text('Português'), // Portuguese
+                onTap: () => Navigator.pop(context, const Locale('pt')),
+              ),
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: const Text('Deutsch'), // German
+                onTap: () => Navigator.pop(context, const Locale('de')),
+              ),
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: const Text('Français'), // French
+                onTap: () => Navigator.pop(context, const Locale('fr')),
+              ),
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: const Text('Русский'), // Russian
+                onTap: () => Navigator.pop(context, const Locale('ru')),
+              ),
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: const Text('Polski'), // Polish
+                onTap: () => Navigator.pop(context, const Locale('pl')),
+              ),
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: const Text('العربية'), // Arabic
+                trailing: const Badge(
+                  label: Text('Beta', style: TextStyle(color: Colors.white)),
+                  backgroundColor: Colors.brown,
+                ),
+                onTap: () => Navigator.pop(context, const Locale('ar')),
+              ),
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: const Text('中文'), // Chinese
+                trailing: const Badge(
+                  label: Text('Beta', style: TextStyle(color: Colors.white)),
+                  backgroundColor: Colors.brown,
+                ),
+                onTap: () => Navigator.pop(context, const Locale('zh')),
+              ),
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: const Text('日本語'), // Japanese
+                trailing: const Badge(
+                  label: Text('Beta', style: TextStyle(color: Colors.white)),
+                  backgroundColor: Colors.brown,
+                ),
+                onTap: () => Navigator.pop(context, const Locale('ja')),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (result != null) {
+      _setLocale(result);
+    }
+  }
+
+  void _setLocale(Locale newLocale) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('locale', newLocale.toString());
+
+    Provider.of<RecipeProvider>(context, listen: false).setLocale(newLocale);
+
+    // Use AutoRouter to navigate
+    context.router.replace(const HomeRoute());
   }
 }

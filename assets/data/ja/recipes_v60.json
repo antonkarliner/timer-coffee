@@ -1,0 +1,297 @@
+[
+  {
+    "id": "101",
+    "name": "ジェームズ・ホフマンV60レシピ",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "中細挽き",
+    "brew_time": "3min 30s",
+    "short_description": "ジェームズ・ホフマンによる簡単レシピ。[チュートリアルビデオを見る](https://www.youtube.com/watch?v=AI4ynXzkSQo)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "フィルターをすすぎ,V60を予熱する。粉を入れ,真ん中に井戸を作る。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(2x<final_coffee_amount>)gの水でプレウェット",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "スラリーが均一になるまでブリューワーを回す",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "コーヒーの花を咲かせよう",
+        "time": 25
+      },
+      {
+        "order": 5,
+        "description": "次の30秒間に(0.6 x <final_water_amount>)gまで最初の本注を完了する。",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Gently complete second main pour until <final_water_amount>g. in the next 30s.",
+        "time": 30
+      },      
+      {
+        "order": 7,
+        "description": "時計回り,反時計回りに軽くかき混ぜる",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "抽出を均一にするために,コーヒーベッドを平らにするために優しくブリューワーを旋回させる",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "3min30sまでにドローダウン終了を目指す。",
+        "time": 85
+      }
+    ]
+  },
+  {
+    "id": "102",
+    "name": "スコット・ラオのクラシックV60レシピ",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 22,
+    "water_amount": 360,
+    "water_temp": 95,
+    "grind_size": "中細挽き",
+    "brew_time": "3min 0s",
+    "short_description": "スコット・ラオのV60レシピは均一な抽出と安定した抽出に重点を置いています。スコット・ラオ[推奨](https://www.youtube.com/watch?v=c0Qe_ASxfNM)はプラスチック製のV60を使用することで,抽出の熱を保持し,やけどすることなく抽出中に漏斗を操作することができます。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "フィルターをすすぎ,V60を予熱し,粉を入れ,平らにする",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(3x<final_coffee_amount>)gの水でプレウェット",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "すべての敷地を濡らすためにそっと掘る",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "コーヒーの花を咲かせよう",
+        "time": 20
+      },
+      {
+        "order": 5,
+        "description": "45秒後,<final_water_amount>gまで本流しを開始する。",
+        "time": 50
+      },
+      {
+      "order": 6,
+      "description": "そっとかき混ぜて,粉が側面に付着するのを止める",
+      "time": 25
+    },
+    {
+      "order": 7,
+      "description": "スワールV60でコーヒーベッドを平らにし,均一な抽出を行う",
+      "time": 10
+    },
+    {
+      "order": 8,
+      "description": "ドローダウンは3分以内に完了すること。",
+      "time": 50
+    }
+  ]
+  },
+  {
+    "id": "103",
+    "name": "ランス・ヘドリックの究極のフラッシュ・ブルー",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 240,
+    "water_temp": 93,
+    "grind_size": "中細挽き",
+    "brew_time": "3min 25s",
+    "short_description": "High extraction, low bitterness, and all delicies of the beans in iced coffee. [チュートリアルビデオを見る](https://www.youtube.com/watch?v=qwvnQcojq9Q&) ",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "フィルターをすすぎ,V60を予熱し,粉を入れ,平らにする",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "0.25x<final_water_amount>)gの水でブルームさせる",
+        "time": 60
+      },
+      {
+        "order": 3,
+        "description": "(0.375x<final_water_amount>)gの水を注ぐ。",
+        "time": 45
+      },
+      {
+        "order": 4,
+        "description": "(0.375x<final_water_amount>)gを注ぎ,静かに振り混ぜる。完全に水がなくなるまで待つ",
+        "time": 45
+      },
+      {
+        "order": 5,
+        "description": "(0.25x<final_water_amount>)gの氷を加え,5-10℃に冷めるまで撹拌する",
+        "time": 30
+      },
+      {
+      "order": 6,
+      "description": "新鮮な氷にかける",
+      "time": 25
+    }
+  ]
+  },
+  {
+    "id": "104",
+    "name": "ジェームス・ホフマン アイスV60レシピ",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 32.5,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "中細挽き",
+    "brew_time": "2min 55s",
+    "short_description": "ジェームズ・ホフマンによるアイスフィルターコーヒー。[チュートリアルビデオを見る](https://www.youtube.com/watch?v=PApBycDrPo0)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "サーバーが熱くならないように,シンクの上でフィルターをすすぐ。コーヒーの粉を入れる。(0.4x<final_water_amount>)gの氷をサーバーに入れる。はかりに載せてゼロにする",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(3x<final_coffee_amount>)gの水でプレウェット",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "花を少しかき混ぜる。",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "コーヒーの花を咲かせよう",
+        "time": 25
+      },
+      {
+        "order": 5,
+        "description": "0.6x<final_water_amount>)g.の水までゆっくり注ぐ。",
+        "time": 105
+      },
+      {
+        "order": 6,
+        "description": "時計回りと反時計回りに1回ずつかき混ぜる。",
+        "time": 10
+      },      
+      {
+        "order": 7,
+        "description": "サーバーで氷を溶かす。新鮮な氷をグラスに注ぐ。",
+        "time": 15
+      }
+    ]
+  },
+  {
+    "id": "105",
+    "name": "ジェームス・ホフマンV60-ワンカップ・レシピ",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 15,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "中細挽き",
+    "brew_time": "3min 0s",
+    "short_description": "ジェームズ・ホフマンのワンカップV60のレシピ。[チュートリアルビデオを見る](https://www.youtube.com/watch?v=1oB1oDrDkHM)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "フィルターをすすぎ,V60を予熱する。粉を入れる",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "0.2x<final_water_amount>)gの水でプレウェットする",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "V60を優しく振り回す。",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "コーヒーの花を咲かせよう",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "合計(0.4 x <final_water_amount>)gまで注ぐ。",
+        "time": 15
+      },
+      {
+        "order": 6,
+        "description": "待つ",
+        "time": 10
+      },      
+      {
+        "order": 7,
+        "description": "合計(0.6 x <final_water_amount>)gまで注ぐ。",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "待つ",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "合計(0.8 x <final_water_amount>)gまで注ぐ。",
+        "time": 10
+      },
+      {
+        "order": 10,
+        "description": "待つ",
+        "time": 10
+      },
+      {
+        "order": 11,
+        "description": "合計<final_water_amount>gまで注ぐ。",
+        "time": 10
+      },
+      {
+        "order": 12,
+        "description": "静かに渦を巻く",
+        "time": 5
+      },
+      {
+        "order": 13,
+        "description": "完全なドローダウンを待つ",
+        "time": 55
+      }
+    ]
+  }
+]

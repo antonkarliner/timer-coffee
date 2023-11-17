@@ -16,6 +16,7 @@ import 'dart:ui';
 import "package:universal_html/html.dart" as html;
 import '../utils/icon_utils.dart';
 import 'dart:io';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class RecipeDetailScreen extends StatefulWidget {
@@ -106,7 +107,8 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
 
     await Share.share(
       textToShare,
-      subject: 'Check out this recipe: ${_updatedRecipe!.name}',
+      subject:
+          '${AppLocalizations.of(context)!.sharemsg} ${_updatedRecipe!.name}',
       sharePositionOrigin: rect,
     );
   }
@@ -187,8 +189,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                             Expanded(
                               child: TextField(
                                 controller: _coffeeController,
-                                decoration: const InputDecoration(
-                                    labelText: 'Coffee amount (g)'),
+                                decoration: InputDecoration(
+                                    labelText: AppLocalizations.of(context)!
+                                        .coffeeamount),
                                 keyboardType:
                                     const TextInputType.numberWithOptions(
                                         decimal: true),
@@ -208,8 +211,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                             Expanded(
                               child: TextField(
                                 controller: _waterController,
-                                decoration: const InputDecoration(
-                                    labelText: 'Water amount (ml)'),
+                                decoration: InputDecoration(
+                                    labelText: AppLocalizations.of(context)!
+                                        .wateramount),
                                 keyboardType:
                                     const TextInputType.numberWithOptions(
                                         decimal: true),
@@ -229,17 +233,20 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                            'Water Temperature: ${_updatedRecipe!.waterTemp ?? "Not provided"}ºC / ${(_updatedRecipe!.waterTemp != null ? (_updatedRecipe!.waterTemp! * 9 / 5 + 32).toStringAsFixed(1) : "Not provided")}ºF'),
-                        const SizedBox(height: 16),
-                        Text('Grind size: ${_updatedRecipe!.grindSize}'),
+                          '${AppLocalizations.of(context)!.watertemp}: ${_updatedRecipe!.waterTemp ?? "Not provided"}ºC / ${(_updatedRecipe!.waterTemp != null ? (_updatedRecipe!.waterTemp! * 9 / 5 + 32).toStringAsFixed(1) : "Not provided")}ºF',
+                        ),
                         const SizedBox(height: 16),
                         Text(
-                            'Brew Time: ${_updatedRecipe!.brewTime.toString().split('.').first.padLeft(8, "0")}'),
+                            '${AppLocalizations.of(context)!.grindsize}: ${_updatedRecipe!.grindSize}'),
+                        const SizedBox(height: 16),
+                        Text(
+                            '${AppLocalizations.of(context)!.brewtime}: ${_updatedRecipe!.brewTime.toString().split('.').first.padLeft(8, "0")}'),
                         const SizedBox(height: 16),
                         ExpansionTile(
-                          title: const Text('Recipe summary'),
-                          subtitle: const Text(
-                              'Note: this is a basic recipe with default coffee and water amounts.'),
+                          title:
+                              Text(AppLocalizations.of(context)!.recipesummary),
+                          subtitle: Text(
+                              AppLocalizations.of(context)!.recipesummarynote),
                           controlAffinity: ListTileControlAffinity.leading,
                           children: [
                             Padding(

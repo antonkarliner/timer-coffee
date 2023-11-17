@@ -1,0 +1,297 @@
+[
+  {
+    "id": "101",
+    "name": "Рецепт V60 от Джеймса Хоффмана",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "средне-мелкий",
+    "brew_time": " 3min 30s",
+    "short_description": "Простой в исполнении рецепт Джеймса Хоффмана. [Смотрите обучающее видео](https://www.youtube.com/watch?v=AI4ynXzkSQo).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Промойте фильтр и разогрейте V60. Засыпьте в него молотый кофе, создайте лунку в центре",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Предварительно смочите (2 x <final_coffee_amount>)г воды",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": " Вращайте заварник до тех пор, пока суспензия не станет равномерной.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Дайте кофе расцвести.",
+        "time": 25
+      },
+      {
+        "order": 5,
+        "description": " Завершите первую основную заливку до (0,6 x <final_water_amount>)г. в течение следующих 30 с.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Аккуратно завершите вторую основную заливку до <final_water_amount>г. в течение следующих 30 с.",
+        "time": 30
+      },      
+      {
+        "order": 7,
+        "description": "Аккуратно перемешайте по часовой стрелке и против часовой стрелки, чтобы выбить измельченные частицы с боков",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "Мягко вращайте заварник, чтобы разровнять слой кофе для равномерной экстракции",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": " Стремитесь завершить стекание к 3мин 30с.",
+        "time": 85
+      }
+    ]
+  },
+  {
+    "id": "102",
+    "name": "Классический рецепт V60 от Скотта Рао",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 22,
+    "water_amount": 360,
+    "water_temp": 95,
+    "grind_size": "средне-мелкий",
+    "brew_time": " 3min 0s",
+    "short_description": "Рецепт V60 Скотта Рао ориентирован на равномерную экстракцию и стабильную заварку. Скотт Рао [рекомендует](https://www.youtube.com/watch?v=c0Qe_ASxfNM) использовать пластиковый V60, который удерживает тепло при заваривании и позволяет манипулировать воронкой во время заваривания, не обжигаясь",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Промыть фильтр и предварительно нагреть V60, засыпать основания, разровнять",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Предварительно смочить (3 x <final_coffee_amount>)г воды",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "Аккуратно раскопать, чтобы смочить все основания",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Дайте кофе расцвести.",
+        "time": 20
+      },
+      {
+        "order": 5,
+        "description": "В 45 с начать основную заливку до <final_water_amount>г.",
+        "time": 50
+      },
+      {
+      "order": 6,
+      "description": "Слегка перемешать, чтобы кофе не приставал к бокам",
+      "time": 25
+    },
+    {
+      "order": 7,
+      "description": " Вращайте V60, чтобы разровнять слой кофе для равномерного заваривания",
+      "time": 10
+    },
+    {
+      "order": 8,
+      "description": "Стекание должно быть завершено в течение 3 минут",
+      "time": 50
+    }
+  ]
+  },
+  {
+    "id": "103",
+    "name": "Ultimate flash brew от Лэнса Хедрика",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 240,
+    "water_temp": 93,
+    "grind_size": "средне-мелкий",
+    "brew_time": " 3min 25s",
+    "short_description": "Высокая экстракция, низкая горечь и все вкусовые качества зерен в кофе со льдом. [Смотрите обучающее видео](https://www.youtube.com/watch?v=qwvnQcojq9Q&) ",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Промыть фильтр и предварительно нагреть V60, засыпать основания, разровнять",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Залейте (0,25 x <final_water_amount>)г воды",
+        "time": 60
+      },
+      {
+        "order": 3,
+        "description": "Налейте (0,375 x <final_water_amount>)г воды",
+        "time": 45
+      },
+      {
+        "order": 4,
+        "description": "Снова налейте (0,375 x <final_water_amount>)г и аккуратно перемешайте. Подождите, пока вода не будет полностью слита",
+        "time": 45
+      },
+      {
+        "order": 5,
+        "description": "Добавить (0,25 x <final_water_amount>)г льда и перемешивать до охлаждения до 5-10°C",
+        "time": 30
+      },
+      {
+      "order": 6,
+      "description": "Подавать с кубиками свежего льда",
+      "time": 25
+    }
+  ]
+  },
+  {
+    "id": "104",
+    "name": "Рецепт холодного  V60 от Джеймса Хоффмана",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 32.5,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "средне-мелкий",
+    "brew_time": " 2min 55s",
+    "short_description": " Это вариант холодного фильтр-кофе от Джеймса Хоффмана. [Смотрите обучающее видео](https://www.youtube.com/watch?v=PApBycDrPo0)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Промойте фильтр над раковиной, чтобы избежать нагрева сервера. Засыпьте молотый кофе. Поместите в сервер (0,4 x <final_water_amount>) г льда. Поставьте на весы и обнулите их.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Предварительно смочите (3 x <final_coffee_amount>)г воды",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Немного перемешать смесь",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Дайте кофе расцвести.",
+        "time": 25
+      },
+      {
+        "order": 5,
+        "description": "Медленно налейте до (0,6 x <final_water_amount>)г воды",
+        "time": 105
+      },
+      {
+        "order": 6,
+        "description": "Перемешать один раз по часовой стрелке и против часовой стрелки",
+        "time": 10
+      },      
+      {
+        "order": 7,
+        "description": "Растопите лед в серверах. Налейте в бокал поверх свежих кубиков льда",
+        "time": 15
+      }
+    ]
+  },
+  {
+    "id": "105",
+    "name": "Рецепт V60 на одну чашку от Джеймса Хоффмана",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 15,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "средне-мелкий",
+    "brew_time": " 3min 0s",
+    "short_description": "Рецепт Джеймса Хоффмана для приготовления одной чашки V60. [Смотрите обучающее видео](https://www.youtube.com/watch?v=1oB1oDrDkHM)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Промойте фильтр и разогрейте V60. Засыпьте в него кофейные зерна",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Предварительно смочите (0,2 x <final_water_amount>)г воды",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Мягко вращайте V60",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "Дайте кофе расцвести.",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "Налейте до (0,4 x <final_water_amount>)г. всего",
+        "time": 15
+      },
+      {
+        "order": 6,
+        "description": "Ожидание",
+        "time": 10
+      },      
+      {
+        "order": 7,
+        "description": "Налейте до (0,6 x <final_water_amount>)г. всего",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "Ожидание",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "Налейте до (0,8 x <final_water_amount>)г. всего",
+        "time": 10
+      },
+      {
+        "order": 10,
+        "description": "Ожидание",
+        "time": 10
+      },
+      {
+        "order": 11,
+        "description": "Налить до <final_water_amount>г. всего",
+        "time": 10
+      },
+      {
+        "order": 12,
+        "description": "Мягко вращайте",
+        "time": 5
+      },
+      {
+        "order": 13,
+        "description": "Дождаться полного стекания",
+        "time": 55
+      }
+    ]
+  }
+]

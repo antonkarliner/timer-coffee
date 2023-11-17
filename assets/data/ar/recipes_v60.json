@@ -1,0 +1,297 @@
+[
+  {
+    "id": "101",
+    "name": "وصفة جيمس هوفمان لـ Hario V60",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "متوسط ناعم",
+    "brew_time": "3min 30s",
+    "short_description": "وصفة سهلة المتابعة من جيمس هوفمان. [شاهد الفيديو التعليمي](https://www.youtube.com/watch?v=AI4ynXzkSQo).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "شطف الفلتر وتسخين V60. صب البن وخلق حفرة في الوسط.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "التبليل المسبق بـ(2 x <final_coffee_amount>)غ من الماء.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "دوران الصانع حتى يتساوى الخليط.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "اترك القهوة تتفتح.",
+        "time": 25
+      },
+      {
+        "order": 5,
+        "description": "أكمل الصب الرئيسي الأول حتى (0.6 x <final_water_amount>)غ خلال 30 ثانية.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "أكمل الصب الرئيسي الثاني بلطف حتى <final_water_amount>غ خلال 30 ثانية.",
+        "time": 30
+      },      
+      {
+        "order": 7,
+        "description": "حرك برفق باتجاه عقارب الساعة وعكسها لإزالة البن من الجوانب.",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "دوران V60 بلطف لتسوية سرير القهوة لاستخلاص متساوي.",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "هدف لإكمال الاستخلاص بحلول 3 دقائق و30 ثانية.",
+        "time": 85
+      }
+    ]
+  },
+  {
+    "id": "102",
+    "name": "وصفة سكوت راو الكلاسيكية لـ Hario V60",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 22,
+    "water_amount": 360,
+    "water_temp": 95,
+    "grind_size": "متوسط ناعم",
+    "brew_time": "3min 0s",
+    "short_description": "تركز وصفة سكوت راو لـ V60 على الاستخلاص المتساوي والتحضير الثابت. يوصي سكوت راو [باستخدام](https://www.youtube.com/watch?v=c0Qe_ASxfNM) V60 بلاستيكي للاحتفاظ بحرارة القهوة ويسمح بالتحكم في القمع أثناء التحضير دون الإصابة بحروق.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "شطف الفلتر وتسخين V60، صب البن، وتسويته.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "التبليل المسبق بـ(3 x <final_coffee_amount>)غ من الماء.",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "حفر برفق لتبليل كل البن.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "اترك القهوة تتفتح.",
+        "time": 20
+      },
+      {
+        "order": 5,
+        "description": "في 45 ثانية، ابدأ الصب الرئيسي حتى <final_water_amount>غ.",
+        "time": 50
+      },
+      {
+      "order": 6,
+      "description": "حرك برفق لمنع البن من الالتصاق بالجوانب.",
+      "time": 25
+    },
+    {
+      "order": 7,
+      "description": "دوران V60 بلطف لتسوية سرير القهوة لتحضير متساو.",
+      "time": 10
+    },
+    {
+      "order": 8,
+      "description": "يجب أن يكتمل الاستخلاص خلال 3 دقائق.",
+      "time": 50
+    }
+  ]
+  },
+  {
+    "id": "103",
+    "name": "أفضل وصفة تحضير سريع للقهوة من لانس هيدريك",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 240,
+    "water_temp": 93,
+    "grind_size": "متوسط ناعم",
+    "brew_time": "3min 25s",
+    "short_description": "استخلاص عالي، مرارة منخفضة، وكل تفاصيل حبوب القهوة في قهوة مثلجة. [شاهد الفيديو التعليمي](https://www.youtube.com/watch?v=qwvnQcojq9Q&)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "شطف الفلتر وتسخين V60، صب البن وتسويته.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "التفتيح بـ(0.25 x <final_water_amount>)غ من الماء.",
+        "time": 60
+      },
+      {
+        "order": 3,
+        "description": "صب (0.375 x <final_water_amount>)غ من الماء.",
+        "time": 45
+      },
+      {
+        "order": 4,
+        "description": "صب (0.375 x <final_water_amount>)غ مرة أخرى وحرك برفق. انتظر حتى يتم الاستخلاص بالكامل.",
+        "time": 45
+      },
+      {
+        "order": 5,
+        "description": "أضف (0.25 x <final_water_amount>)غ من الثلج وحرك حتى تبرد القهوة إلى 5-10 درجات مئوية.",
+        "time": 30
+      },
+      {
+      "order": 6,
+      "description": "قدم فوق مكعبات ثلج جديدة.",
+      "time": 25
+    }
+  ]
+  },
+  {
+    "id": "104",
+    "name": "وصفة جيمس هوفمان لـ V60 مثلج",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 32.5,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "متوسط ناعم",
+    "brew_time": "2min 55s",
+    "short_description": "رؤية جيمس هوفمان للقهوة المثلجة المصفاة. [شاهد الفيديو التعليمي](https://www.youtube.com/watch?v=PApBycDrPo0).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "شطف الفلتر فوق الحوض لتجنب تسخين الإبريق. صب البن. ضع (0.4 x <final_water_amount>)غ من الثلج في الإبريق. ضعه على الميزان وضبطه على الصفر.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "التبليل المسبق بـ(3 x <final_coffee_amount>)غ من الماء.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "حرك القهوة قليلاً.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "اترك القهوة تتفتح.",
+        "time": 25
+      },
+      {
+        "order": 5,
+        "description": "صب ببطء حتى (0.6 x <final_water_amount>)غ من الماء.",
+        "time": 105
+      },
+      {
+        "order": 6,
+        "description": "حرك مرة باتجاه عقارب الساعة ومرة عكسها.",
+        "time": 10
+      },      
+      {
+        "order": 7,
+        "description": "حرك الإبريق برفق لإذابة الثلج. صب فوق مكعبات ثلج جديدة في الكوب.",
+        "time": 15
+      }
+    ]
+  },
+  {
+    "id": "105",
+    "name": "وصفة جيمس هوفمان لـ Hario V60 - كوب واحد",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 15,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "متوسط ناعم",
+    "brew_time": "3min 0s",
+    "short_description": "وصفة جيمس هوفمان لتحضير كوب واحد باستخدام V60. [شاهد الفيديو التعليمي](https://www.youtube.com/watch?v=1oB1oDrDkHM).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "شطف الفلتر وتسخين V60. صب البن.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "التبليل المسبق بـ(0.2 x <final_water_amount>)غ من الماء.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "حرك V60 بلطف.",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "اترك القهوة تتفتح.",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "صب حتى (0.4 x <final_water_amount>)غ من الماء بالمجموع.",
+        "time": 15
+      },
+      {
+        "order": 6,
+        "description": "انتظر.",
+        "time": 10
+      },      
+      {
+        "order": 7,
+        "description": "صب حتى (0.6 x <final_water_amount>)غ من الماء بالمجموع.",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "انتظر.",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "صب حتى (0.8 x <final_water_amount>)غ من الماء بالمجموع.",
+        "time": 10
+      },
+      {
+        "order": 10,
+        "description": "انتظر.",
+        "time": 10
+      },
+      {
+        "order": 11,
+        "description": "صب حتى <final_water_amount>غ من الماء بالمجموع.",
+        "time": 10
+      },
+      {
+        "order": 12,
+        "description": "حرك برفق.",
+        "time": 5
+      },
+      {
+        "order": 13,
+        "description": "انتظر حتى يكتمل الاستخلاص.",
+        "time": 55
+      }
+    ]
+  }
+]

@@ -1,0 +1,185 @@
+[
+  {
+    "id" : "601",
+    "name" : "Recette de Scott Rao Kalita Wave",
+    "brewing_method_id" : "kalita_wave",
+    "brewing_method" : "Kalita Wave",
+    "coffee_amount" : 20,
+    "water_amount" : 340,
+    "water_temp" : 95,
+    "grind_size" : "Moyenne fin",
+    "brew_time" : "4min 20s",
+    "short_description" : "Une recette de Kalita Wave par Scott Rao. [Voir la vidéo tutorielle](https://www.youtube.com/watch?v=BjsGf3R9mc0).",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Moudre le café, rincer le filtre en papier à l'eau chaude et le placer dans la Kalita Wave. Mettre le café moulu",
+        "time" : 0
+      },
+      {
+        "order" : 3,
+        "description" : "Pré-humidification avec (3 x <final_coffee_amount>)g d'eau",
+        "time" : 10
+      },
+      {
+        "order" : 4,
+        "description" : "Donner un petit tour au brasseur, utiliser la cuillère pour mélanger si nécessaire.",
+        "time" : 10
+      },
+      {
+        "order" : 5,
+        "description" : "Laissez le café fleurir",
+        "time" : 25
+      },
+      {
+        "order" : 6,
+        "description" : "Verser jusqu'à (0,6 x <final_water_amount>)g.",
+        "time" : 30
+      },      
+      {
+        "order" : 7,
+        "description" : "Attendre que la boue s'écoule à peu près à moitié",
+        "time" : 40
+      },
+      {
+        "order" : 8,
+        "description" : "Ajouter de l'eau jusqu'à ce que <final_water_amount>g.",
+        "time" : 10
+      },
+      {
+        "order" : 9,
+        "description" : "Faire tourner doucement le brasseur et attendre le tirage complet",
+        "time" : 135
+      }
+    ]
+  },
+  {
+    "id" : "602",
+    "name" : "Recette James McCarthy Kalita Wave",
+    "brewing_method_id" : "kalita_wave",
+    "brewing_method" : "Kalita Wave",
+    "coffee_amount" : 24,
+    "water_amount" : 380,
+    "water_temp" : 96,
+    "grind_size" : "Grossier ",
+    "brew_time" : "3min 30s",
+    "short_description" : "Recette de James McCarthy, qui a remporté le championnat de la Coupe du monde des brasseurs en 2013 avec la Kalita Wave. Plus de détails [ici](https://sprudge.com/meet-the-worlds-best-brewer-james-mccarthy-brewers-cup-champ-38672.html).",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Moudre et tamiser (facultatif) le café. Rincer le filtre, verser le café dans le Kalita et secouer pour égaliser le café moulu",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : "Pré-humidification avec (2 x <final_coffee_amount>)g d'eau",
+        "time" : 15
+      },
+      {
+        "order" : 3,
+        "description" : "Laissez le café fleurir",
+        "time" : 30
+      },
+      {
+        "order" : 4,
+        "description" : "Verser par impulsion jusqu'à (0,5 x <final_water_amount>)g., en maintenant une colonne d'eau régulière au-dessus du terrain",
+        "time" : 30
+      },
+      {
+      "order" : 5,
+      "description" : "Verser par impulsions jusqu'à <final_water_amount>g., utiliser si possible une bouilloire à débit limité",
+      "time" : 30
+    },
+    {
+      "order" : 6,
+      "description" : " Attendre le tirage complet ",
+      "time" : 75
+    }
+  ]
+  },
+  {
+    "id" : "603",
+    "name" : "Recette du George Howell Coffee Kalita Wave ",
+    "brewing_method_id" : "kalita_wave",
+    "brewing_method" : "Kalita Wave",
+    "coffee_amount" : 25,
+    "water_amount" : 390,
+    "water_temp" : 96,
+    "grind_size" : "Moyenne",
+    "brew_time" : "3min 30s",
+    "short_description" : "Une recette inhabituelle de [George Howell Coffee](https://georgehowellcoffee.com/pages/brew-guide-kalita-185/).",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Rincer le filtre jusqu'à ce que le goutteur soit chaud. Peser le café et le moudre. Verser dans la Kalita Wave et secouer pour égaliser les marcs",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : "Verser jusqu'à (0,16 x <nombre_d'eau_final>)g. d'eau",
+        "time" : 15
+      },
+      {
+        "order" : 3,
+        "description" : "Attendre",
+        "time" : 15
+      },
+      {
+        "order" : 4,
+        "description" : "Verser jusqu'à (0,33 x <final_water_amount>)g. d'eau",
+        "time" : 15
+      },
+      {
+        "order" : 5,
+        "description" : "Attendre",
+        "time" : 15
+      },
+      {
+        "order" : 6,
+        "description" : "Verser jusqu'à (0,5 x <nombre_d'eau_final>)g. d'eau",
+        "time" : 15
+      },
+      {
+        "order" : 7,
+        "description" : "Attendre",
+        "time" : 15
+      },
+      {
+        "order" : 8,
+        "description" : "Verser jusqu'à (0,66 x <nombre_d'eau_final>)g. d'eau",
+        "time" : 15
+      },
+      {
+        "order" : 9,
+        "description" : "Attendre",
+        "time" : 15
+      },
+      {
+        "order" : 10,
+        "description" : "Verser jusqu'à (0,83 x <nombre_d'eau_final>)g. d'eau",
+        "time" : 15
+      },
+      {
+        "order" : 11,
+        "description" : "Attendre",
+        "time" : 15
+      },
+      {
+        "order" : 12,
+        "description" : "Verser jusqu'à <final_water_amount>g. d'eau",
+        "time" : 15
+      },
+      {
+        "order" : 13,
+        "description" : "Attendre la fin du prélèvement",
+        "time" : 45
+      }
+  ]
+  }
+]

@@ -13,5 +13,5 @@ Icon getIconByBrewingMethod(String? brewingMethodId) {
     "wilfa_svart": Icon(Coffeico.wilfa_svart),
   };
 
-  return icons[brewingMethodId] ?? Icon(Icons.error);
+  return icons[brewingMethodId] ?? const Icon(Icons.error);
 }

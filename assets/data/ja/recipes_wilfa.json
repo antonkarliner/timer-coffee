@@ -1,0 +1,150 @@
+[
+  {
+    "id": "701",
+    "name": "Wilfa Svart Pour Over没入レシピ",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "中粗挽き",
+    "brew_time": "3min 30s",
+    "short_description": "これは私がWilfaドリッパーでよく使ったレシピです。作者はよくわかりませんが,多くのイマージョンレシピに似ています。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "フィルターとブリューワーをお湯で洗います。コーヒーを挽く。粉を入れ,目盛りをゼロにします。流量制限器を閉める",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "<final_water_amount>gの水を注ぐ",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "ブリューワーを少し回す",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "コーヒーを蒸らす",
+        "time": 130
+      },
+      {
+        "order": 5,
+        "description": "コーヒーの皮をスプーンでそっと割る。",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "もう少し待ってください",
+        "time": 20
+      },      
+      {
+        "order": 7,
+        "description": "フロー制御を全開にし,完全なドローダウンを待つ。",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "702",
+    "name": "Wilfa Svart Pour Over 注ぎ足しレシピ by Best Coffee",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method":"Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "粗挽き",
+    "brew_time": "3min 0s",
+    "short_description": "Wilfa Svart Pour Overで淹れるもう一つの方法は,ご想像の通り,注ぐことです！これは[Best Coffee](https://www.bestcoffee.guide/blogs/product-reviews/wilfa-pour-over-smart-dripper-review)のレシピです。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "フィルターとブリューワーをお湯で洗います。コーヒーを挽く。粉を入れ,目盛りをゼロにします。流量制限器を閉める",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(2.2x<final_coffee_amount>)gの水でプレウェット",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "コーヒーの花を咲かせましょう",
+        "time": 20
+      },
+      {
+        "order": 4,
+        "description": "フロー制御を途中まで開く",
+        "time": 5
+      },
+      {
+      "order": 5,
+      "description": "(0.6x<final_water_amount>)gまで水を加える。",
+      "time": 30
+    },
+    {
+      "order": 6,
+      "description": "<final_water_amount>gに達するまで水を加え続ける。",
+      "time": 30
+    },
+    {
+      "order": 7,
+      "description": "ドローダウンが完了するのを待ち,フロー制御を閉じる",
+      "time": 115
+    }
+  ]
+  },
+  {
+    "id": "703",
+    "name": "Wilfa Svart Pour Over アイスレシピ(ジェームズ・ホフマン)",
+    "brewing_method_id": "wilfa_svart",
+"brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 22.5,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "細目",
+    "brew_time": "6min 35s",
+    "short_description": "このレシピはジェームス・ホフマンによる改良された浸漬アイスコーヒーのテクニックを使っています。チュートリアルはこちら](https://www.youtube.com/watch?v=8uGGeV8A-BM)をご覧ください。オプション:苦味を減らすために,最後に生理食塩水(塩20%と水80%の溶液)を数滴加えることができます。注:エスプレッソの細挽きではなく,通常の注ぎ方よりも細挽きにする必要がある",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "ペーパーフィルターをWilfa Svart Pour Overに挿入し,水ですすいでください。コーヒーを挽きますが,まだ抽出器には入れないでください。はかりの上に置き,ゼロにします。スプーンを用意する。(0.34x<final_water_amount>)gの氷が必要ですが,とりあえず冷凍庫に入れておいてください",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(0.66x<final_water_amount>)gの水をブリューワーに加える",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "コーヒーを水に入れ,スプーンでかき混ぜ,コーヒー全体が濡れるようにする。",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "コーヒーを蒸らします。蒸らし時間が終わりそうになったら,(0.34 x <final_water_amount>)gの氷をサーバーに入れます。",
+        "time": 300
+      },
+      {
+        "order": 5,
+        "description": "サーバーにブリューワーを置き,完全なドローダウンを待つ。",
+        "time": 60
+      },
+      {
+        "order": 6,
+        "description": "サーバーをくるくる回すか,スプーンでかき混ぜて残った氷を薄める。オプション:苦味を減らすために生理食塩水を数滴加える。",
+        "time": 15
+      }
+    ]
+  }
+]

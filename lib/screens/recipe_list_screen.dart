@@ -8,6 +8,7 @@ import '../app_router.gr.dart';
 import 'package:flutter/foundation.dart';
 import "package:universal_html/html.dart" as html;
 import '../utils/icon_utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class RecipeListScreen extends StatefulWidget {
@@ -90,9 +91,9 @@ class _RecipeListScreenState extends State<RecipeListScreen>
         ),
         bottom: TabBar(
           controller: _tabController,
-          tabs: const [
-            Tab(text: 'All Recipes'),
-            Tab(text: 'Favorite Recipes'),
+          tabs: [
+            Tab(text: AppLocalizations.of(context)!.allrecipes),
+            Tab(text: AppLocalizations.of(context)!.favoriterecipes),
           ],
         ),
       ),
@@ -103,7 +104,7 @@ class _RecipeListScreenState extends State<RecipeListScreen>
             future: allRecipes,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
 
               if (snapshot.hasError) {

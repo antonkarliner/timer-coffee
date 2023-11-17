@@ -1,0 +1,165 @@
+[
+  {
+    "id": "801",
+    "name": "Рецепт Origami Dripper от Александра Миллса",
+    "brewing_method_id": "origami",
+    "brewing_method": "Origami Dripper",
+    "coffee_amount": 12.5,
+    "water_amount": 200,
+    "water_temp": 99,
+    "grind_size": "средне-мелкий",
+    "brew_time": "3min 0s",
+    "short_description": "Рецепт Origami Dripper от [Александра Миллса](https://alexandermills.ca/), консультанта в кофейной индустрии и увлеченного домашнего варщика. Обратите внимание, что в этом рецепте используются фильтры Kalita Coffee.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Измельчите кофе, предварительно промойте фильтр и добавьте кофе. Поставьте на весы и обнулите",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Залейте кофе (0,2 x < final_water_amount>) г воды и перемешайте несколькими легкими вращениями дриппера",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Дайте кофе расцвести",
+        "time": 30
+      },
+      {
+        "order": 4,
+        "description": "Налейте оставшиеся (0,8 x <final_water_amount>) г воды медленными концентрическими кругами, завершая последнюю заливку вокруг внешней стороны фильтра. Слегка покрутите заварник еще раз",
+        "time": 50
+      },
+      {
+        "order": 5,
+        "description": "Дождаться окончания процесса",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "802",
+    "name": "Рецепт Origami Dripper от Цзя Нин Ду",
+    "brewing_method_id": "origami",
+    "brewing_method": "Origami Dripper",
+    "coffee_amount": 16,
+    "water_amount": 240,
+    "water_temp": 94,
+    "grind_size": "Средний",
+    "brew_time": "1min 46s",
+    "short_description": "Рецепт Origami Dripper от Цзя Нин Ду, первого китайского бариста, выигравшего World Brewers Cup (WBrC). Это его победный рецепт. [Вот руководство](https://www.youtube.com/watch?v=HNDnngFhZMU)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Промойте фильтр и заварник горячей водой. Измельчите кофе. Засыпьте кофе, обнулите весы",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Налейте (0,25 x <final_water_amount>)г воды",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Ожидание",
+        "time": 8
+      },
+      {
+        "order": 4,
+        "description": "Налейте (5 x <final_coffee_amount>)г воды",
+        "time": 20
+      },
+      {
+      "order": 5,
+      "description": "Ожидание",
+      "time": 18
+    },
+    {
+      "order": 6,
+      "description": "Завершите заливку, чтобы достичь <final_water_amount>g.",
+      "time": 20
+    },
+    {
+      "order": 7,
+      "description": "Дождаться окончания процесса",
+      "time": 30
+    }
+  ]
+  },
+  {
+    "id": "803",
+    "name": "Рецепт Origami Dripper от Карлоса Медины",
+    "brewing_method_id": "origami",
+    "brewing_method": "Origami Dripper",
+    "coffee_amount": 15.5,
+    "water_amount": 250,
+    "water_temp": 91,
+    "grind_size": "средне-грубый",
+    "brew_time": "2min 40s",
+    "short_description": "Это рецепт Карлоса Медины из Чили, который выиграл с ним World Brewers Cup в 2023 году. Посмотрите запись его победного выступления [здесь](https://www.youtube.com/watch?v=Ed8w-RKhR5U). Обратите внимание, что для этого рецепта Карлос использовал конические фильтры.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Ополосните Origami Dripper и фильтр горячей водой. Помолите кофе. Засыпьте кофе, обнулите весы",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Налейте (0,2 x <final_water_amount>)г воды",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Ожидание",
+        "time": 20
+      },
+      {
+        "order": 4,
+        "description": "Налейте (0,2 x <final_water_amount>)г воды",
+        "time": 10
+      },
+      {
+      "order": 5,
+      "description": "Ожидание",
+      "time": 20
+    },
+    {
+      "order": 6,
+      "description": "Налейте (0,2 x <final_water_amount>)г воды",
+      "time": 10
+    },
+    {
+      "order": 7,
+      "description": "Ожидание",
+      "time": 20
+    },
+    {
+      "order": 8,
+      "description": "Налейте (0,2 x <final_water_amount>)г воды",
+      "time": 10
+    },
+    {
+      "order": 9,
+      "description": "Ожидание",
+      "time": 20
+    },
+    {
+      "order": 10,
+      "description": "Налейте (0,2 x <final_water_amount>)г воды",
+      "time": 10
+    },
+    {
+      "order": 11,
+      "description": "Дождаться окончания процесса",
+      "time": 40
+    }
+  ]
+  }
+]

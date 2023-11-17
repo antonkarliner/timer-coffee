@@ -13,7 +13,8 @@ import './app_router.dart';
 import './app_router.gr.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import './models/recipe.dart';
-import './purchase_manager.dart'; // Import PurchaseManager
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,26 +25,24 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
 
+  String? savedLocale = prefs.getString('locale');
+  Locale initialLocale = savedLocale != null
+      ? Locale(savedLocale.split('_')[0])
+      : WidgetsBinding.instance.window.locale;
+
   List<BrewingMethod> brewingMethods = await loadBrewingMethodsFromAssets();
 
   final appRouter = AppRouter();
   usePathUrlStrategy();
 
-  if (kIsWeb) {
-    runApp(CoffeeTimerApp(
-      brewingMethods: brewingMethods,
-      appRouter: appRouter,
-    ));
-  } else {
-    runApp(CoffeeTimerApp(
-      brewingMethods: brewingMethods,
-      appRouter: appRouter,
-      initialRoute: isFirstLaunch ? '/firstlaunch' : '/',
-    ));
+  runApp(CoffeeTimerApp(
+    brewingMethods: brewingMethods,
+    appRouter: appRouter,
+    locale: initialLocale,
+  ));
 
-    if (isFirstLaunch) {
-      await prefs.setBool('firstLaunch', false);
-    }
+  if (isFirstLaunch) {
+    await prefs.setBool('firstLaunch', false);
   }
 }
 
@@ -51,54 +50,78 @@ class CoffeeTimerApp extends StatelessWidget {
   final AppRouter appRouter;
   final List<BrewingMethod> brewingMethods;
   final String? initialRoute;
+  final Locale locale;
 
-  const CoffeeTimerApp(
-      {Key? key,
-      required this.appRouter,
-      required this.brewingMethods,
-      this.initialRoute})
-      : super(key: key);
+  const CoffeeTimerApp({
+    Key? key,
+    required this.appRouter,
+    required this.brewingMethods,
+    this.initialRoute,
+    required this.locale,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<RecipeProvider>(
-          create: (context) => RecipeProvider(),
+          create: (_) => RecipeProvider(locale),
         ),
         Provider<List<BrewingMethod>>(create: (_) => brewingMethods),
       ],
-      child: MaterialApp.router(
-        routerDelegate: appRouter.delegate(
-          initialDeepLink: initialRoute,
-        ),
-        routeInformationParser: appRouter.defaultRouteParser(),
-        builder: (_, router) {
-          return QuickActionsManager(
-            child: router!,
-            appRouter: appRouter,
+      child: Consumer<RecipeProvider>(
+        builder: (context, recipeProvider, child) {
+          return MaterialApp.router(
+            locale: recipeProvider
+                .currentLocale, // Use the locale from RecipeProvider
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'),
+              Locale('ru'),
+              Locale('de'),
+              Locale('fr'),
+              Locale('es'),
+              Locale('ja'),
+              Locale('zh'),
+              Locale('ar'),
+              Locale('pt'),
+              Locale('pl'),
+            ],
+            routerDelegate: appRouter.delegate(
+              initialDeepLink: initialRoute,
+            ),
+            routeInformationParser: appRouter.defaultRouteParser(),
+            builder: (_, router) => QuickActionsManager(
+              child: router!,
+              appRouter: appRouter,
+            ),
+            debugShowCheckedModeBanner: false,
+            title: 'Coffee Timer App',
+            theme: ThemeData(
+              useMaterial3: true,
+              colorScheme: const ColorScheme(
+                brightness: Brightness.light,
+                primary: Color.fromRGBO(121, 85, 72, 1),
+                onPrimary: Colors.white,
+                secondary: Colors.white,
+                onSecondary: Color.fromRGBO(121, 85, 72, 1),
+                error: Colors.red,
+                onError: Colors.white,
+                background: Colors.white,
+                onBackground: Colors.black,
+                surface: Colors.white,
+                onSurface: Colors.black,
+              ),
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              fontFamily: kIsWeb ? 'Lato' : null,
+            ),
           );
         },
-        debugShowCheckedModeBanner: false,
-        title: 'Coffee Timer App',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: const ColorScheme(
-            brightness: Brightness.light,
-            primary: Color.fromRGBO(121, 85, 72, 1),
-            onPrimary: Colors.white,
-            secondary: Colors.white,
-            onSecondary: Color.fromRGBO(121, 85, 72, 1),
-            error: Colors.red,
-            onError: Colors.white,
-            background: Colors.white,
-            onBackground: Colors.black,
-            surface: Colors.white,
-            onSurface: Colors.black,
-          ),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          fontFamily: kIsWeb ? 'Lato' : null,
-        ),
       ),
     );
   }
@@ -129,15 +152,62 @@ class _QuickActionsManagerState extends State<QuickActionsManager> {
   QuickActions quickActions = QuickActions();
   StreamSubscription<List<PurchaseDetails>>? _subscription; // In-App Purchase
 
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize In-App Purchase
+    _subscription = InAppPurchase.instance.purchaseStream.listen((purchases) {
+      for (var purchase in purchases) {
+        final PurchaseDetails purchaseDetails = purchase;
+        if (purchaseDetails.status == PurchaseStatus.purchased) {
+          _deliverProduct(purchaseDetails);
+        } else if (purchaseDetails.status == PurchaseStatus.error) {
+          _handleError(purchaseDetails.error!);
+        }
+        if (purchaseDetails.pendingCompletePurchase) {
+          InAppPurchase.instance.completePurchase(purchaseDetails);
+        }
+      }
+    });
+
+    // Setup Quick Actions after build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setupQuickActions();
+    });
+  }
+
+  void setupQuickActions() {
+    quickActions.setShortcutItems([
+      ShortcutItem(
+        type: 'action_last_recipe',
+        localizedTitle: AppLocalizations.of(context)!.quickactionmsg,
+        icon: 'icon_coffee_cup',
+      ),
+    ]);
+
+    quickActions.initialize((shortcutType) async {
+      if (shortcutType == 'action_last_recipe') {
+        RecipeProvider recipeProvider =
+            Provider.of<RecipeProvider>(context, listen: false);
+        Recipe? mostRecentRecipe = await recipeProvider.getLastUsedRecipe();
+        if (mostRecentRecipe != null) {
+          widget.appRouter.push(RecipeDetailRoute(
+              brewingMethodId: mostRecentRecipe.brewingMethodId,
+              recipeId: mostRecentRecipe.id));
+        }
+      }
+    });
+  }
+
   // Deliver Product
   void _deliverProduct(PurchaseDetails purchaseDetails) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Thank You!"),
-          content: const Text(
-              "I really appreciate your support! Wish you a lot of great brews! ☕️"),
+          title: Text(AppLocalizations.of(context)!.donationok),
+          content: Text(AppLocalizations.of(context)!.donationtnx),
           actions: [
             TextButton(
               child: const Text("OK"),
@@ -156,9 +226,8 @@ class _QuickActionsManagerState extends State<QuickActionsManager> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Error"),
-          content:
-              const Text("Error processing the purchase, please try again."),
+          title: Text(AppLocalizations.of(context)!.donationerr),
+          content: Text(AppLocalizations.of(context)!.donationerrmsg),
           actions: [
             TextButton(
               child: const Text("OK"),
@@ -173,49 +242,7 @@ class _QuickActionsManagerState extends State<QuickActionsManager> {
   }
 
   @override
-  void initState() {
-    super.initState();
-
-    // Initialize quick actions
-    quickActions.setShortcutItems(<ShortcutItem>[
-      const ShortcutItem(
-          type: 'action_last_recipe',
-          localizedTitle: 'Open last recipe',
-          icon: 'icon_coffee_cup'),
-    ]);
-
-    quickActions.initialize((shortcutType) async {
-      if (shortcutType == 'action_last_recipe') {
-        RecipeProvider recipeProvider =
-            Provider.of<RecipeProvider>(context, listen: false);
-        Recipe? mostRecentRecipe = await recipeProvider.getLastUsedRecipe();
-        if (mostRecentRecipe != null) {
-          widget.appRouter.push(RecipeDetailRoute(
-              brewingMethodId: mostRecentRecipe.brewingMethodId,
-              recipeId: mostRecentRecipe.id));
-        }
-      }
-    });
-
-    // Initialize In-App Purchase
-    _subscription = InAppPurchase.instance.purchaseStream.listen((purchases) {
-      for (var purchase in purchases) {
-        final PurchaseDetails purchaseDetails = purchase;
-        if (purchaseDetails.status == PurchaseStatus.purchased) {
-          _deliverProduct(purchaseDetails);
-        } else if (purchaseDetails.status == PurchaseStatus.error) {
-          _handleError(purchaseDetails.error!);
-        }
-        if (purchaseDetails.pendingCompletePurchase) {
-          InAppPurchase.instance.completePurchase(purchaseDetails);
-        }
-      }
-    });
-  }
-
-  @override
   void dispose() {
-    // Unsubscribe from the In-App Purchase Stream
     _subscription?.cancel();
     super.dispose();
   }

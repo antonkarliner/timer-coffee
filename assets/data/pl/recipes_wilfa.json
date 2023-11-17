@@ -1,0 +1,150 @@
+[
+  {
+    "id": "701",
+    "name": "Przepis zanurzeniowy Wilfa Svart Pour Over",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "Średnio-zgrubny",
+    "brew_time": "3min 30s",
+    "short_description": "Jest to przepis, którego często używałem z Wilfa Dripper. Nie jestem pewien jego autora, ale jest podobny do wielu przepisów zanurzeniowych.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Przepłucz filtr i zaparzacz gorącą wodą. Zmiel kawę. Wsyp fusy, wyzeruj wagę. Zamknij ogranicznik przepływu.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Wlej <final_water_amount> g. wody",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "Zawiruj trochę zaparzaczem",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "Pozwól kawie się zaparzyć",
+        "time": 130
+      },
+      {
+        "order": 5,
+        "description": "Delikatnie rozbij skórkę kawy łyżeczką",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Czekaj jeszcze trochę",
+        "time": 20
+      },      
+      {
+        "order": 7,
+        "description": "Całkowicie otwórz kontrolę przepływu, czekaj na całkowite przesączanie",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "702",
+    "name": "Przepis na kawę Wilfa Svart Pour Over według Best Coffee",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "grubo",
+    "brew_time": "3min 0s",
+    "short_description": "Inną metodą parzenia za pomocą Wilfa Svart Pour Over jest, zgadliście, przelewanie! Jest to przepis autorstwa [Best Coffee](https://www.bestcoffee.guide/blogs/product-reviews/wilfa-pour-over-smart-dripper-review).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Przepłucz filtr i zaparzacz gorącą wodą. Zmiel kawę. Wsyp fusy, wyzeruj wagę. Zamknij ogranicznik przepływu.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Wstępnie zwilżono (2,2 x <final_coffee_amount>)g wody",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Niech kawa rozkwitnie",
+        "time": 20
+      },
+      {
+        "order": 4,
+        "description": "Otwórz sterowanie przepływem do połowy",
+        "time": 5
+      },
+      {
+      "order": 5,
+      "description": "Dodaj wodę do (0,6 x <final_water_amount>)g.",
+      "time": 30
+    },
+    {
+      "order": 6,
+      "description": "Kontynuuj dodawanie wody, aż osiągniesz <final_water_amount> g.",
+      "time": 30
+    },
+    {
+      "order": 7,
+      "description": "Czekaj na całkowite przesączanie i zamknij sterowanie przepływem",
+      "time": 115
+    }
+  ]
+  },
+  {
+    "id": "703",
+    "name": "Przepis na Wilfa Svart Pour Over Iced (James Hoffmann)",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 22.5,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "drobno",
+    "brew_time": "6min 35s",
+    "short_description": "Ten przepis wykorzystuje ulepszoną technikę zanurzeniowego parzenia kawy mrożonej autorstwa Jamesa Hoffmana. Sprawdź [tutorial tutaj](https://www.youtube.com/watch?v=8uGGeV8A-BM). Opcjonalnie: na koniec można dodać kilka kropli soli fizjologicznej (roztwór 20% soli i 80% wody), aby zmniejszyć gorycz. Uwaga: należy zmielić drobniej niż zwykle do zalewania, ale nie do espresso.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Włóż papierowy filtr do Wilfa Svart Pour Over i przepłucz go wodą. Zmiel kawę, ale nie wkładaj jej jeszcze do zaparzacza. Umieść na wadze i wyzeruj. Weź łyżkę. Będziesz potrzebować (0,34 x <final_water_amount>)g lodu, ale na razie trzymaj go w zamrażarce.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Dodaj (0,66 x <final_water_amount>)g. wody do zaparzacza",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Wsyp kawę do wody i zamieszaj łyżką, upewniając się, że cała kawa jest mokra",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Pozostaw kawę do zaparzenia. Gdy czas parzenia dobiegnie końca, umieść (0,34 x <final_water_amount>)g lodu w dzbanku.",
+        "time": 300
+      },
+      {
+        "order": 5,
+        "description": "Umieść zaparzacz na dzbanku i czekaj na całkowite przesączanie",
+        "time": 60
+      },
+      {
+        "order": 6,
+        "description": "Zawiruj dzbanek lub zamieszaj łyżką, aby rozcieńczyć pozostały lód. Opcjonalnie: dodaj kilka kropli soli fizjologicznej, aby zmniejszyć gorycz",
+        "time": 15
+      }
+    ]
+  }
+]

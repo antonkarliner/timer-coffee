@@ -7,6 +7,7 @@ import '../models/recipe.dart';
 import '../models/brew_step.dart';
 import 'finish_screen.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BrewingProcessScreen extends StatefulWidget {
   final Recipe recipe;
@@ -149,7 +150,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Brewing Process')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.brewingprocess)),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -162,7 +163,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
                   child: Column(
                     children: [
                       Text(
-                        'Step ${currentStepIndex + 1}/${brewingSteps.length}',
+                        '${AppLocalizations.of(context)!.step} ${currentStepIndex + 1}/${brewingSteps.length}',
                         textAlign: TextAlign.center,
                         style: const TextStyle(fontSize: 20),
                       ),
@@ -178,7 +179,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                    '$currentStepTime/${brewingSteps[currentStepIndex].time.inSeconds} seconds',
+                    '$currentStepTime/${brewingSteps[currentStepIndex].time.inSeconds} ${AppLocalizations.of(context)!.seconds(brewingSteps[currentStepIndex].time.inSeconds)}',
                     style: const TextStyle(fontSize: 22)),
               ],
             ),

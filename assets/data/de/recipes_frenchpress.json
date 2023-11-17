@@ -1,0 +1,155 @@
+[
+  {
+    "id": "401",
+    "name": "James Hoffmann French Press Rezept",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "Mittel-grob",
+    "brew_time": "10min 0s",
+    "short_description": "French Press Rezept von James Hoffmann, Gewinner der Barista-Weltmeisterschaft, YouTuber, Kaffeeberater und Autor. [Tutorial ansehen](https://www.youtube.com/watch?v=st571DYYTR8).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Mahlen Sie den Kaffee und geben Sie ihn in eine French Press. Auf die Waage stellen und auf Null stellen.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": " <final_water_amount>g. Wasser hinzufügen",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "Lass den Kaffee stehen.",
+        "time": 240
+      },
+      {
+        "order": 4,
+        "description": "Verwenden Sie einen Esslöffel, um die Kruste auf dem Gebräu umzurühren. Entfernen Sie den Schaum und die Schwebeteilchen.",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "Lassen Sie den Kaffee für weitere 5 Minuten ruhen.",
+        "time": 300
+      },
+      {
+        "order": 6,
+        "description": "Setzen Sie den Stößel ein, aber drücken Sie ihn nicht ganz herunter, sondern lassen Sie ihn oben auf dem Sud liegen.",
+        "time": 15
+      }
+    ]
+  },
+  {
+    "id": "402",
+    "name": "Gwilym Davies French Press Rezept",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 16,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "Mittel",
+    "brew_time": "12min 45s",
+    "short_description": "French Press Rezept von Gwilym Davies, Barista-Weltmeister und autorisierter SCA-Trainer. Hier ist die [Anleitung](https://www.youtube.com/watch?v=AkrqY8LkWM4).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Mahlen Sie den Kaffee und geben Sie ihn in eine French Press. Auf die Waage stellen und auf Null stellen.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Füge schnell <final_water_amount>g Wasser hinzu.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Warte 5 Minuten.",
+        "time": 300
+      },
+      {
+        "order": 4,
+        "description": "Verwenden Sie einen Esslöffel, um Kaffee mit Wasser zu mischen.",
+        "time": 10
+      },
+      {
+      "order": 5,
+      "description": "Setzen Sie den Stößel ein, aber drücken Sie ihn noch nicht herunter.",
+      "time": 5
+    },
+    {
+      "order": 6,
+      "description": "Warte 3 Minuten.",
+      "time": 180
+    },
+    {
+      "order": 7,
+      "description": "Drücken Sie den Stößel langsam nach unten",
+      "time": 20
+    },
+    {
+      "order": 8,
+      "description": "Warte 2 Minuten.",
+      "time": 120
+    },
+    {
+      "order": 9,
+      "description": "Gießen Sie den Kaffee in die Karaffe und warten Sie weitere 2 Minuten, bevor Sie ihn servieren.",
+      "time": 120
+    }
+  ]
+  },
+  {
+    "id": "403",
+    "name": "Scott Rao French Press Rezept",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 30,
+    "water_amount": 540,
+    "water_temp": 95,
+    "grind_size": "Mittel",
+    "brew_time": "5min 20s",
+    "short_description": "French Press-Rezept von Scott Rao, einem Kaffeeexperten und Autor, der sich auf den Betrieb von Cafés, Barista-Schulungen und das Rösten und Brühen von Kaffee spezialisiert hat.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Mahlen Sie den Kaffee und geben Sie ihn in eine French Press. Auf die Waage stellen und auf Null stellen.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Gieße <final_water_amount>g Wasser auf einmal, schnell, und stelle sicher, dass der gesamte Boden nass ist.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Stößel 1 cm unter die Oberfläche des Kaffees setzen.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Warte 4 Minuten.",
+        "time": 240
+      },
+      {
+      "order": 5,
+      "description": "Den Fiter sanft eintauchen",
+      "time": 10
+    },
+    {
+      "order": 6,
+      "description": "Warten Sie, bis sich die Kaffeepartikel abgesetzt haben und servieren Sie.",
+      "time": 180
+    }
+  ]
+  }
+]

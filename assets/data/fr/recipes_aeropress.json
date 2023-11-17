@@ -1,0 +1,405 @@
+[
+  {
+    "id" : "201",
+    "name" : "Recette Aeropress de Tim Wendelboe",
+    "brewing_method_id" : "aeropress",
+    "brewing_method" : "Aeropress",
+    "coffee_amount" : 14,
+    "water_amount" : 200,
+    "water_temp" : 100,
+    "grind_size" : " Fin",
+    "brew_time" : "1min 50s",
+    "short_description" : "Une recette de Tim Wendelboe, champion du monde des baristas et champion de la Coupe du monde des dégustateurs. [Regardez le tutoriel ici](https://timwendelboe.no/brew-guides/aeropress/).",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Rincer le filtre en papier à l'eau du robinet pendant quelques secondes et verser le café moulu",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : "Versez <final_water_amount>g d'eau sur le café",
+        "time" : 10
+      },
+      {
+        "order" : 3,
+        "description" : "Remuer 3 fois",
+        "time" : 10
+      },
+      {
+        "order" : 4,
+        "description" : "Placer le piston sur l'Aeropress afin d'empêcher l'eau de s'écouler à travers le filtre et laisser le café infuser",
+        "time" : 60
+      },
+      {
+        "order" : 5,
+        "description" : "Enlever le piston et remuer 3 fois de l'avant vers l'arrière",
+        "time" : 10
+      },
+      {
+        "order" : 6,
+        "description" : "Placez le piston sur le dessus de l'Aeropress et pressez le contenu dans une grande tasse ou un pichet en utilisant le poids de votre corps",
+        "time" : 20
+      }
+    ]
+  },
+  {
+    "id" : "202",
+    "name" : "Recette Aeropress James Hoffmann",
+    "brewing_method_id" : "aeropress",
+    "brewing_method" : "Aeropress",
+    "coffee_amount" : 11,
+    "water_amount" : 200,
+    "water_temp" : 95,
+    "grind_size" : " Fin/Moyen ",
+    "brew_time" : "3min 25s",
+    "short_description" : "Une recette de James Hoffmann, vainqueur du Championnat du monde des baristas, YouTuber, consultant en café et auteur. Pour un café de torréfaction moyenne, l'utilisation d'une eau à 90-95°C donnera de meilleurs résultats. Pour un café de torréfaction foncée, essayez d'utiliser de l'eau à 85-90°C pour l'infusion. Moulez votre café à l'extrémité la plus fine de la mouture moyenne, en supposant qu'il s'agit d'un café de torréfaction légère. Plus la torréfaction est foncée, plus il est préférable d'augmenter la dose et de moudre grossièrement. [Regardez le tutoriel ici](https://www.youtube.com/watch?v=j6VlT_jUVPc).",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Placez le brasseur en position standard sur un serveur. Ne pas rincer ni préchauffer la cafetière (cela ne fait aucune différence). Verser le café moulu",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : "Verser <final_water_amount>g d'eau en visant à mouiller tout le café pendant l'écoulement",
+        "time" : 10
+      },
+      {
+        "order" : 3,
+        "description" : "Placez le piston sur le dessus de la cafetière, à environ 1 cm de profondeur",
+        "time" : 5
+      },
+      {
+        "order" : 4,
+        "description" : "Attendre 2 minutes",
+        "time" : 120
+      },
+      {
+        "order" : 5,
+        "description" : "En tenant l'infuseur et le piston, faire tourner doucement l'infuseur",
+        "time" : 10
+      },
+      {
+        "order" : 6,
+        "description" : "Attendre 30 secondes",
+        "time" : 30
+      },
+      {
+        "order" : 7,
+        "description" : "Appuyer doucement jusqu'au bout",
+        "time" : 30
+      }
+    ]
+  },
+  {
+    "id" : "203",
+    "name" : "Recette d'Aeropress d'Alan Adler ",
+    "brewing_method_id" : "aeropress",
+    "brewing_method" : "Aeropress",
+    "coffee_amount" : 16,
+    "water_amount" : 95,
+    "water_temp" : 80,
+    "grind_size" : " Fin",
+    "brew_time" : "1min 0s",
+    "short_description" : "Une recette d'Alan Adler, l'inventeur de l'Aeropress. Cette recette permet d'obtenir un concentré ou un café de type 'espresso'. Il suffit d'ajouter de l'eau chaude à votre dégustation pour obtenir un café de type 'Americano'. [Regardez le tutoriel ici](https://www.youtube.com/watch?v=9c14DxfVOY4).",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : " Ajouter du café moulu dans la chambre d'infusion. Secouez la chambre pour niveler le lit de café ",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : "Verser <final_water_amount>g d'eau dans la chambre",
+        "time" : 10
+      },
+      {
+        "order" : 3,
+        "description" : "Remuer en utilisant la pagaie",
+        "time" : 10
+      },
+      {
+        "order" : 4,
+        "description" : "Insérer le piston et appuyer doucement",
+        "time" : 40
+      }
+    ]
+  },
+  {
+    "id" : "204",
+    "name" : "Recette Aeropress de Wendelien van Bunnik",
+    "brewing_method_id" : "aeropress",
+    "brewing_method" : "Aeropress",
+    "coffee_amount" : 16,
+    "water_amount" : 230,
+    "water_temp" : 95,
+    "grind_size" : "Gros",
+    "brew_time" : "1min 30s",
+    "short_description" : "Une recette de Wendelien van Bunnik, un barista néerlandais et le champion du monde 2019 d'AeroPress. Notez qu'il s'agit d'une méthode inversée. Si vous n'êtes pas sûr de savoir comment cela fonctionne, [regardez d'abord le tutoriel](https://www.youtube.com/watch?v=jLNIGf-lf3s).",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : " Placez deux filtres en papier dans le bouchon et rincez-les à l'eau chaude. Pousser les éventuelles bulles d'air à l'aide de la palette. Jeter l'eau de rinçage. Ajoutez le café moulu dans la chambre d'infusion. Secouez la machine pour répartir le café moulu",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : "Verser <final_water_amount>g de sur les terrains",
+        "time" : 10
+      },
+      {
+        "order" : 3,
+        "description" : "Remuer doucement 5 fois",
+        "time" : 10
+      },
+      {
+        "order" : 4,
+        "description" : "Fixer le bouchon du filtre et laisser reposer",
+        "time" : 40
+      },
+      {
+        "order" : 5,
+        "description" : "Retournez l'AeroPress et pressez dans une tasse. Arrêtez-vous lorsque vous entendez un sifflement",
+        "time" : 30
+      }
+    ]
+  },
+  {
+    "id" : "205",
+    "name" : "Recette d'Aeropress glacé Alexander Mills",
+    "brewing_method_id" : "aeropress",
+    "brewing_method" : "Aeropress",
+    "coffee_amount" : 20,
+    "water_amount" : 150,
+    "water_temp" : 99,
+    "grind_size" : " Moyenne/Fine ",
+    "brew_time" : "3min 20s",
+    "short_description" : "Une recette d'Alexander Mills, un consultant dans l'industrie du café au Canada. Notez qu'il s'agit d'une méthode inversée. Voici [le tutoriel](https://alexandermills.ca/blog/iced-aeropress).",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Pré-rincer deux filtres en papier dans le bouchon pour les débarrasser de leur goût de papier et préchauffer la cafetière. Jetez l'eau et mettez le bouchon de côté. Remplissez votre serveur de glace en quantité égale à celle de l'eau. Versez le marc de café dans l'Aeropress.",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : " L'Aeropress étant inversée, verser (0,3 x <montant_eau_final>)g d'eau bouillie ",
+        "time" : 5
+      },
+      {
+        "order" : 3,
+        "description" : "Remuer soigneusement",
+        "time" : 5
+      },
+      {
+        "order" : 4,
+        "description" : "Let the coffee bloom",
+        "time" : 20
+      },
+      {
+        "order" : 5,
+        "description" : "Versez assez rapidement en cercles concentriques les (0,7 x <nombre_final_water_amount>)g. d'eau restants",
+        "time" : 10
+      },
+      {
+        "order" : 6,
+        "description" : "Remuez profondément la suspension, puis bouchez votre AeroPress",
+        "time" : 100
+      },
+      {
+        "order" : 7,
+        "description" : "Retournez votre AeroPress sur votre serveur et pressez régulièrement pendant 30 secondes sur de la glace. Arrêtez de presser lorsque l'AeroPress siffle",
+        "time" : 30
+      },
+      {
+        "order" : 8,
+        "description" : "Faites tourner votre café glacé dans votre serveur pour échanger ces dernières molécules de chaleur contre d'autres plus froides, puis servez-le dans un verre réfrigéré",
+        "time" : 20
+      }
+    ]
+  },
+  {
+    "id" : "206",
+    "name" : "Recette Mark Prince Aeropress",
+    "brewing_method_id" : "aeropress",
+    "brewing_method" : "Aeropress",
+    "coffee_amount" : 21,
+    "water_amount" : 225,
+    "water_temp" : 97,
+    "grind_size" : "Medium",
+    "brew_time" : "1min 30s",
+    "short_description" : "Une recette de Mark Prince, juge au championnat canadien, américain et mondial des baristas et fondateur de CoffeeGeek. Voici [le tutoriel détaillé et intéressant](https://www.coffeegeek.com/guides/aeropress-inverted-brew-method-how-to/). Notez qu'il s'agit d'une méthode inversée et que Mike conseille vivement d'utiliser un filtre métallique plutôt qu'un filtre en papier",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Rassemblez tout votre matériel et votre café. Faites bouillir l'eau. Assemblez l'AeroPress. Prenez le piston et insérez-le dans le piston de l'AeroPress à un peu moins d'un centimètre, en veillant à ce qu'il soit parfaitement aligné. Mesurez et moulez votre café. Placez l'Aeropress sur la balance, versez le café moulu et mettez à zéro",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : " Verser (0,45 x <final_water_amount>)g d'eau bouillie dans le piston inversé ",
+        "time" : 10
+      },
+      {
+        "order" : 3,
+        "description" : "Permettre la formation d'une légère floraison",
+        "time" : 5
+      },
+      {
+        "order" : 4,
+        "description" : "Donnez quelques coups de fouet à la bouillie",
+        "time" : 10
+      },
+      {
+        "order" : 5,
+        "description" : "Continuez à verser de l'eau chaude jusqu'à ce que vous atteigniez <final_water_amount>g. d'eau",
+        "time" : 15
+      },
+      {
+        "order" : 6,
+        "description" : "Remuer encore deux fois la bouillie, en veillant à ne pas faire déborder la partie supérieure",
+        "time" : 10
+      },
+      {
+        "order" : 7,
+        "description" : "Ajoutez encore 40 à 50 g d'eau si possible, en remplissant la chambre d'infusion aussi près du bord que possible",
+        "time" : 5
+      },
+      {
+        "order" : 8,
+        "description" : " Fixer le filtre et le porte-filtre à l'AeroPress ",
+        "time" : 10
+      },
+      {
+        "order" : 9,
+        "description" : "Placez la tasse ou le serveur sur l'AeroPress inversée",
+        "time" : 5
+      },
+      {
+        "order" : 10,
+        "description" : "Retourner l'AeroPress et le serveur",
+        "time" : 10
+      },
+      {
+        "order" : 11,
+        "description" : "Plonger dans l'AeroPress, pour extraire le café infusé",
+        "time" : 10
+      }
+    ]
+  },
+  {
+    "id" : "207",
+    "name" : "AeroPress glacée de James Hoffmann",
+    "brewing_method_id" : "aeropress",
+    "brewing_method" : "Aeropress",
+    "coffee_amount" : 22,
+    "water_amount" : 400,
+    "water_temp" : 100,
+    "grind_size" : " Fin/Moyen ",
+    "brew_time" : "3min 25s",
+    "short_description" : "La recette d'aéropresse glacée de James Hoffmann est essentiellement une version agrandie de sa technique ultime avec de la glace en guise de dérivation. [Voir le tutoriel ici](https://youtu.be/DlaEwef6MTg).",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Mettre (0,4 x <final_water_amount>)g. de glace dans le serveur. Placez la cafetière en position standard sur un serveur. Ne pas rincer ou préchauffer la cafetière (cela ne fait aucune différence). Versez le café moulu",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : "Verser (0,6 x <nombre_d'eau_final>)g. d'eau en visant à mouiller tout le café pendant l'écoulement",
+        "time" : 10
+      },
+      {
+        "order" : 3,
+        "description" : "Placez le piston sur le dessus de la cafetière, à environ 1 cm de profondeur",
+        "time" : 5
+      },
+      {
+        "order" : 4,
+        "description" : "Attendre 4 minutes",
+        "time" : 240
+      },
+      {
+        "order" : 5,
+        "description" : "En tenant l'infuseur et le piston, faire tourner doucement l'infuseur",
+        "time" : 10
+      },
+      {
+        "order" : 6,
+        "description" : "Attendre 30 secondes",
+        "time" : 30
+      },
+      {
+        "order" : 7,
+        "description" : "Appuyer doucement jusqu'au bout",
+        "time" : 30
+      },
+      {
+        "order" : 8,
+        "description" : "Faire tourner pour faire fondre toute la glace. Servir sur des glaçons frais",
+        "time" : 30
+      }
+    ]
+  },
+  {
+    "id" : "208",
+    "name" : "Recette AeroPress par Coffee with April ",
+    "brewing_method_id" : "aeropress",
+    "brewing_method" : "Aeropress",
+    "coffee_amount" : 13,
+    "water_amount" : 200,
+    "water_temp" : 88,
+    "grind_size" : "Medium-Coarse",
+    "brew_time" : "2min 0s",
+    "short_description" : "La recette permet d'obtenir un café léger et juteux avec une faible amertume et une bonne acidité. [Regardez le tutoriel ici](https://www.youtube.com/watch?v=PUsHI7jdX1k).",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Mettez le filtre en papier, rincez-le et placez l'AeroPress sur le serveur en position standard. Versez le café",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : "Versez rapidement (0,25 x <final_water_amount>)g. d'eau, remuez un peu et mettez le piston pour éviter les gouttes",
+        "time" : 15
+      },
+      {
+        "order" : 3,
+        "description" : "Attendre",
+        "time" : 15
+      },
+      {
+        "order" : 4,
+        "description" : "Retirez le piston, versez le reste (0,75 x <final_water_amount>)g.d'eau. Remettez le piston en place",
+        "time" : 30
+      },
+      {
+        "order" : 5,
+        "description" : "Attendre",
+        "time" : 30
+      },
+      {
+        "order" : 6,
+        "description" : "Appuyer lentement, s'arrêter au sifflement",
+        "time" : 30
+      }
+    ]
+  }
+]

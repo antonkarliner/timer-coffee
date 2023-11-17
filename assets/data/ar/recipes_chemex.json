@@ -1,0 +1,217 @@
+[
+  {
+    "id": "301",
+    "name": "وصفة جيمس هوفمان للكيمكس",
+    "brewing_method_id": "chemex",
+    "brewing_method": "Chemex",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "متوسط ناعم",
+    "brew_time": "4min 10s",
+    "short_description": "وصفة الكيمكس من جيمس هوفمان، الفائز ببطولة العالم للباريستا، يوتيوبر، مستشار القهوة ومؤلف. يوصي جيمس باستخدام تقنية مشابهة لتقنية V60 تقريبًا للكيمكس. [شاهد الدليل](https://www.youtube.com/watch?v=ikt-X5x7yoc).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "طحن الحبوب، غلي الماء. وضع الفلتر الورقي في الكيمكس (3 طيات نحو الفوهة). شطف الفلتر بالماء المغلي، إفراغ الماء. إضافة البن، عمل حفرة في الوسط. وضعها على الميزان وضبطه على الصفر.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "إضافة (2 x <final_coffee_amount>)- (3 x <final_coffee_amount>)غ من الماء",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "التحريك لتبليل كل البن، السماح له بالتفتح",
+        "time": 35
+      },
+      {
+        "order": 4,
+        "description": "إضافة الماء بحركة دائرية، تفتيت أي تكتلات حتى الوصول إلى (0.6 x <final_water_amount>)غ.",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "مواصلة إضافة الماء حتى الوصول إلى <final_water_amount>غ.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "استخدام ملعقة لتحريكها جيدًا باتجاه عقارب الساعة، ثم بالاتجاه المعاكس",
+        "time": 15
+      },      
+      {
+        "order": 7,
+        "description": "رج الكيمكس قليلاً.",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "الانتظار حتى اكتمال الاستخلاص.",
+        "time": 120
+      }
+    ]
+  },
+  {
+    "id": "302",
+    "name": "وصفة الكيمكس من كافيين فيند",
+    "brewing_method_id": "chemex",
+    "brewing_method": "Chemex",
+    "coffee_amount": 32,
+    "water_amount": 480,
+    "water_temp": 95,
+    "grind_size": "متوسط خشن (مثل ملح البحر)",
+    "brew_time": "4min 0s",
+    "short_description": "وصفة الكيمكس من [كافيين فيند](https://caffeinefiend.co/chemex-recipe/).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "طحن القهوة، تسخين الماء، طي الفلتر الورقي وإدخاله في الكيمكس، شطف الفلتر والإبريق، إضافة القهوة المطحونة.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "التبليل المسبق بـ(2 x <final_coffee_amount>)غ من الماء. الصب ببطء بنمط حلزوني، بدءًا من المركز والعمل نحو الخارج.",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "السماح للقهوة بالتفتح.",
+        "time": 45
+      },
+      {
+        "order": 4,
+        "description": "الصب في دوائر متحدة المركز حتى يصل مستوى الماء إلى أعلى الكيمكس.",
+        "time": 20
+      },
+      {
+      "order": 5,
+      "description": "الانتظار حتى تعود القهوة المطحونة إلى مستواها الأصلي تقريبًا",
+      "time": 30
+    },
+    {
+      "order": 6,
+      "description": "تكرار نفس العملية للصب الكامل حتى الوصول إلى <final_water_amount>غ من الماء. الانتظار لاكتمال الاستخلاص.",
+      "time": 130
+    }
+  ]
+  },
+  {
+    "id": "303",
+    "name": "وصفة الكيمكس من إيبيكيوريوس",
+    "brewing_method_id": "chemex",
+    "brewing_method": "Chemex",
+    "coffee_amount": 42,
+    "water_amount": 700,
+    "water_temp": 95,
+    "grind_size": "متوسط",
+    "brew_time": "5min 0s",
+    "short_description": "وصفة الكيمكس من [إيبيكيوريوس](https://www.epicurious.com/expert-advice/how-to-make-chemex-coffee-right-way-gallery).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "طحن القهوة، تسخين الماء، طي الفلتر الورقي وإدخاله في الكيمكس، شطف الفلتر والإبريق، إضافة القهوة المطحونة.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "التبليل المسبق بحوالي (2 x <final_coffee_amount>)غ من الماء. صب كمية كافية من الماء على البن لتغطيته وتشبعه.",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "السماح للقهوة بالتفتح.",
+        "time": 30
+      },
+      {
+        "order": 4,
+        "description": "إضافة حتى (0.33 x <final_water_amount>)غ من الماء، مع الصب ببطء وبحركة دائرية.",
+        "time": 15
+      },
+      {
+      "order": 5,
+      "description": "الانتظار.",
+      "time": 40
+    },
+    {
+      "order": 6,
+      "description": "الآن إضافة المزيد من الماء، حتى يصل الميزان إلى (0.64 x <final_water_amount>)غ.",
+      "time": 20
+    },
+    {
+      "order": 7,
+      "description": "الانتظار لمدة دقيقتين.",
+      "time": 120
+    },
+    {
+      "order": 8,
+      "description": "إضافة الماء حتى تصل إلى <final_water_amount>غ وانتظار اكتمال الاستخلاص.",
+      "time": 60
+    }
+  ]
+  },
+  {
+      "id": "304",
+      "name": "وصفة الكيمكس من سكوت راو",
+      "brewing_method_id": "chemex",
+      "brewing_method": "Chemex",
+      "coffee_amount": 30,
+      "water_amount": 510,
+      "water_temp": 97,
+      "grind_size": "متوسط",
+      "brew_time": "2min 30s",
+      "short_description": "وصفة الكيمكس من سكوت راو، خبير القهوة ومؤلف متخصص في تشغيل المقاهي، تدريب الباريستا، وتحميص وتخمير القهوة.",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "طحن القهوة، تسخين الماء، طي الفلتر الورقي وإدخاله في الكيمكس، شطف الفلتر والإبريق، إضافة القهوة المطحونة.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "التبليل المسبق بحوالي (1.5 x <final_coffee_amount>)غ من الماء.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "الحفر بلطف في سرير القهوة بملعقة صغيرة.",
+          "time": 25
+        },
+        {
+          "order": 4,
+          "description": "الانتظار، السماح للقهوة بالتفتح.",
+          "time": 5
+        },
+        {
+        "order": 5,
+        "description": "الصب حتى <final_water_amount>غ من الماء بنمط دائري.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "تحريك حافة الخليط ببطء وخفة.",
+        "time": 10
+      },
+      {
+        "order": 7,
+        "description": "حمل الكيمكس من الخارج وتحريكه في بعض الدوائر.",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "الانتظار لاكتمال الاستخلاص.",
+        "time": 60
+      }
+    ]
+    }
+  ]
+  

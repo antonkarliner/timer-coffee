@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import 'dart:async';
 import '../purchase_manager.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class DonationScreen extends StatefulWidget {
@@ -16,11 +17,6 @@ class _DonationScreenState extends State<DonationScreen> {
     'tip_large_coffee',
     'tip_medium_coffee',
     'tip_small_coffee'
-  };
-  final Map<String, String> _productTitles = {
-    'tip_small_coffee': 'Buy a small coffee',
-    'tip_medium_coffee': 'Buy a medium coffee',
-    'tip_large_coffee': 'Buy a large coffee',
   };
   late List<ProductDetails> _products;
 
@@ -42,9 +38,9 @@ class _DonationScreenState extends State<DonationScreen> {
         await InAppPurchase.instance.queryProductDetails(_kIds);
     setState(() {
       _products = response.productDetails;
-      // Reverse sort based on the title so it shows small, medium, large
-      _products.sort(
-          (a, b) => _productTitles[b.id]!.compareTo(_productTitles[a.id]!));
+      // Sort the products based on the predefined order of _kIds
+      _products.sort((a, b) =>
+          _kIds.toList().indexOf(a.id).compareTo(_kIds.toList().indexOf(b.id)));
     });
   }
 
@@ -72,9 +68,8 @@ class _DonationScreenState extends State<DonationScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Error"),
-          content:
-              const Text("Error processing the purchase, please try again."),
+          title: Text(AppLocalizations.of(context)!.donationerr),
+          content: Text(AppLocalizations.of(context)!.donationerrmsg),
           actions: [
             TextButton(
               child: const Text("OK"),
@@ -93,9 +88,8 @@ class _DonationScreenState extends State<DonationScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Thank You!"),
-          content: const Text(
-              "I really appreciate your support! Wish you a lot of great brews! ☕️"),
+          title: Text(AppLocalizations.of(context)!.donationok),
+          content: Text(AppLocalizations.of(context)!.donationtnx),
           actions: [
             TextButton(
               child: const Text("OK"),
@@ -109,62 +103,65 @@ class _DonationScreenState extends State<DonationScreen> {
     );
   }
 
+  Map<String, String> getProductTitles(BuildContext context) {
+    return {
+      'tip_small_coffee': AppLocalizations.of(context)!.tipsmall,
+      'tip_medium_coffee': AppLocalizations.of(context)!.tipmedium,
+      'tip_large_coffee': AppLocalizations.of(context)!.tiplarge,
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
+    final productTitles = getProductTitles(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Support the development'),
+        title: Text(AppLocalizations.of(context)!.supportdevelopment),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
-              'Thanks for considering to donate!',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Text(
+              AppLocalizations.of(context)!.supportdevtnx,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Your donations help to cover the maintenance costs (such as developer licenses, for example). They also allow me to try more coffee brewing devices and add more recipes to the app.',
-            ),
+            Text(AppLocalizations.of(context)!.supportdevmsg),
             const SizedBox(height: 32),
             ..._products.map((product) {
+              Widget button = ElevatedButton(
+                onPressed: () => _makePurchase(product),
+                child: Text(productTitles[product.id] ?? 'Unknown Product'),
+              );
+
+              // Add badge for the medium tip
               if (product.id == 'tip_medium_coffee') {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () => _makePurchase(product),
-                        child: Text(
-                            _productTitles[product.id] ?? 'Unknown Product'),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: const BoxDecoration(
-                            color: Colors.brown,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(Icons.star,
-                              size: 10, color: Colors.white),
+                button = Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    button,
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: Colors.brown,
+                          shape: BoxShape.circle,
                         ),
+                        child: const Icon(Icons.star,
+                            size: 10, color: Colors.white),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
               }
+
               return Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: ElevatedButton(
-                  onPressed: () => _makePurchase(product),
-                  child: Text(_productTitles[product.id] ?? 'Unknown Product'),
-                ),
-              );
+                  padding: const EdgeInsets.only(bottom: 8.0), child: button);
             }),
             const SizedBox(height: 16),
             Center(
@@ -172,7 +169,7 @@ class _DonationScreenState extends State<DonationScreen> {
                 onPressed: () {
                   context.router.push(const HomeRoute());
                 },
-                child: const Text('Home'),
+                child: Text(AppLocalizations.of(context)!.home),
               ),
             ),
           ],

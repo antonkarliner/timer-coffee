@@ -1,0 +1,165 @@
+[
+  {
+    "id" : "801",
+    "name" : "Recette Origami Dripper d'Alexander Mills",
+    "brewing_method_id" : "origami",
+    "brewing_method" : "Origami Dripper",
+    "coffee_amount" : 12.5,
+    "water_amount" : 200,
+    "water_temp" : 99,
+    "grind_size" : "Moyen-fin",
+    "brew_time" : "3min 0s",
+    "short_description" : "Recette d'Origami Dripper par [Alexander Mills](https://alexandermills.ca/), un consultant dans l'industrie du café et un brasseur à domicile dévoué. Notez que cette recette utilise des filtres à café Kalita",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Moudre le café, pré-rincer le filtre et ajouter le café. Placer sur la balance et mettre à zéro",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : " Fleurir le café avec (0,2 x <final_water_amount>)g. d'eau et l'agiter avec quelques légers mouvements du dripper ",
+        "time" : 10
+      },
+      {
+        "order" : 3,
+        "description" : "Laissez le café fleurir",
+        "time" : 30
+      },
+      {
+        "order" : 4,
+        "description" : " Verser les (0,8 x <final_water_amount>)g. d'eau restants en cercles lents et concentriques, en terminant par votre dernier versement autour de l'extérieur du filtre. Faites tourner doucement la cafetière une dernière fois",
+        "time" : 50
+      },
+      {
+        "order" : 5,
+        "description" : "Attendre la baisse complète",
+        "time" : 30
+      }
+    ]
+  },
+  {
+    "id" : "802",
+    "name" : "Recette Jia Ning Du Origami Dripper",
+    "brewing_method_id" : "origami",
+    "brewing_method" : "Origami Dripper",
+    "coffee_amount" : 16,
+    "water_amount" : 240,
+    "water_temp" : 94,
+    "grind_size" : "Moyenne",
+    "brew_time" : "1min 46s",
+    "short_description" : "Recette d'Origami Dripper de Jia Ning Du, le premier barista chinois qui a remporté la World Brewers Cup (WBrC). Voici sa recette gagnante. [Voici le tutoriel](https://www.youtube.com/watch?v=HNDnngFhZMU).",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Rincez le filtre et la cafetière à l'eau chaude. Moulez votre café. Versez le café moulu, mettez la balance à zéro",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : "Verser (0,25 x <final_water_amount>)g. d'eau",
+        "time" : 10
+      },
+      {
+        "order" : 3,
+        "description" : "Attendre",
+        "time" : 8
+      },
+      {
+        "order" : 4,
+        "description" : "Verser (5 x <final_coffee_amount>)g. d'eau",
+        "time" : 20
+      },
+      {
+      "order" : 5,
+      "description" : "Attendre",
+      "time" : 18
+    },
+    {
+      "order" : 6,
+      "description" : "Terminer la coulée pour atteindre <final_water_amount>g",
+      "time" : 20
+    },
+    {
+      "order" : 7,
+      "description" : " Attendre le tirage complet ",
+      "time" : 30
+    }
+  ]
+  },
+  {
+    "id" : "803",
+    "name" : "Recette Origami Dripper de Carlos Medina",
+    "brewing_method_id" : "origami",
+    "brewing_method" : "Origami Dripper",
+    "coffee_amount" : 15.5,
+    "water_amount" : 250,
+    "water_temp" : 91,
+    "grind_size" : "Moyenne-grossière",
+    "brew_time" : "2min 40s",
+    "short_description" : "Il s'agit d'une recette de Carlos Medina du Chili, qui a remporté la Coupe du monde des brasseurs avec cette recette en 2023. Regardez l'enregistrement de sa performance [ici](https://www.youtube.com/watch?v=Ed8w-RKhR5U). Notez que Carlos a utilisé des filtres coniques pour cette recette.",
+    "last_used" : "2023-05-01T12:00:00Z",
+    "is_favorite" : false,
+    "steps" : [
+      {
+        "order" : 1,
+        "description" : "Rincez le dripper et le filtre Origami avec de l'eau chaude. Moudre le café. Versez la mouture, mettez la balance à zéro",
+        "time" : 0
+      },
+      {
+        "order" : 2,
+        "description" : "Verser (0,2 x <final_water_amount>)g. d'eau",
+        "time" : 10
+      },
+      {
+        "order" : 3,
+        "description" : "Attendre",
+        "time" : 20
+      },
+      {
+        "order" : 4,
+        "description" : "Verser (0,2 x <final_water_amount>)g. d'eau",
+        "time" : 10
+      },
+      {
+      "order" : 5,
+      "description" : "Attendre",
+      "time" : 20
+    },
+    {
+      "order" : 6,
+      "description" : "Verser (0,2 x <final_water_amount>)g. d'eau",
+      "time" : 10
+    },
+    {
+      "order" : 7,
+      "description" : "Attendre",
+      "time" : 20
+    },
+    {
+      "order" : 8,
+      "description" : "Verser (0,2 x <final_water_amount>)g. d'eau",
+      "time" : 10
+    },
+    {
+      "order" : 9,
+      "description" : "Attendre",
+      "time" : 20
+    },
+    {
+      "order" : 10,
+      "description" : "Verser (0,2 x <final_water_amount>)g. d'eau",
+      "time" : 10
+    },
+    {
+      "order" : 11,
+      "description" : " Attendre le tirage complet ",
+      "time" : 40
+    }
+  ]
+  }
+]

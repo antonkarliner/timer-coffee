@@ -1,0 +1,217 @@
+[
+  {
+    "id": "301",
+    "name": "Рецепт Chemex от Джеймса Хоффманна",
+    "brewing_method_id": "chemex",
+    "brewing_method": "Chemex",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "средне-мелкий",
+    "brew_time": " 4min 10s",
+    "short_description": "Рецепт Chemex от Джеймса Хоффмана, победителя Мирового чемпионата бариста, ютубера, кофейного консультанта и автора. Для Chemex Джеймс рекомендует практически ту же технику, что и для V60. [Смотрите руководство](https://www.youtube.com/watch?v=ikt-X5x7yoc).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Измельчите бобы, вскипятите воду. Положите бумажный фильтр в кофейник Chemex (3 сгиба по направлению к носику). Ополосните фильтр кипятком, слейте воду. Добавьте кофе, сделайте углубление в центре. Поставьте на весы и обнулите показания.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Добавить (2 x <final_coffee_amount>)- (3 x <final_coffee_amount>)г воды",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Перемешать, чтобы смочить всё кофе, дать зацвести",
+        "time": 35
+      },
+      {
+        "order": 4,
+        "description": "Добавляйте воду круговыми движениями, разбивая все комки, пока не достигнете (0,6 x <final_water_amount>)г",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "Продолжайте добавлять воду до достижения <final_water_amount>г.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "С помощью ложки хорошо перемешать по часовой стрелке, а затем еще раз против часовой стрелки",
+        "time": 15
+      },      
+      {
+        "order": 7,
+        "description": "Слегка встряхните Chemex",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "Дождаться завершения процесса",
+        "time": 120
+      }
+    ]
+  },
+  {
+    "id": "302",
+    "name": "Рецепт Chemex от Caffeine Feind",
+    "brewing_method_id": "chemex",
+    "brewing_method": "Chemex",
+    "coffee_amount": 32,
+    "water_amount": 480,
+    "water_temp": 95,
+    "grind_size": "средне-грубый (морская соль)",
+    "brew_time": " 4min 0s",
+    "short_description": "Рецепт Chemex от [Caffeine Feind](https://caffeinefiend.co/chemex-recipe/)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Смолоть кофе, нагреть воду, сложить бумажный фильтр и вставить его в Chemex, промыть фильтр и графин, добавить смолотый кофе",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Предварительно смочите (2 x <final_coffee_amount>)г воды. Наливайте медленно по спирали, начиная от центра и двигаясь наружу",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "Цветение кофе",
+        "time": 45
+      },
+      {
+        "order": 4,
+        "description": "Наливайте воду концентрическими кругами до тех пор, пока уровень воды не достигнет верха Chemex",
+        "time": 20
+      },
+      {
+      "order": 5,
+      "description": "Подождите, пока кофейная гуща вернется примерно на прежний уровень",
+      "time": 30
+    },
+    {
+      "order": 6,
+      "description": "Повторите тот же процесс для дополнительных заливок с полным погружением до достижения <final_water_amount> г воды. Дождитесь полного просачивания",
+      "time": 130
+    }
+  ]
+  },
+  {
+    "id": "303",
+    "name": "Рецепт Chemex от Epicurious",
+    "brewing_method_id": "chemex",
+    "brewing_method": "Chemex",
+    "coffee_amount": 42,
+    "water_amount": 700,
+    "water_temp": 95,
+    "grind_size": "Средний (как кошерная соль)",
+    "brew_time": " 5min 0s",
+    "short_description": "Рецепт Chemex от [Epicurious](https://www.epicurious.com/expert-advice/how-to-make-chemex-coffee-right-way-gallery).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Смолоть кофе, нагреть воду, сложить бумажный фильтр и вставить его в Chemex, промыть фильтр и графин, добавить кофейную гущу",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Предварительно смочите примерно (2 x <final_coffee_amount>)г воды. Залейте водой столько, чтобы покрыть и насытить зерно",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": " Позвольте кофе расцвести",
+        "time": 30
+      },
+      {
+        "order": 4,
+        "description": "Добавить до (0,33 x <final_water_amount>)г воды, наливая медленными круговыми движениями.",
+        "time": 15
+      },
+      {
+      "order": 5,
+      "description": "Ожидание",
+      "time": 40
+    },
+    {
+      "order": 6,
+      "description": "Теперь добавьте еще воды, пока весы не покажут (0,64 x <final_water_amount>)г",
+      "time": 20
+    },
+    {
+      "order": 7,
+      "description": "Подождите 2 минуты",
+      "time": 120
+    },
+    {
+      "order": 8,
+      "description": "Добавляйте воду до достижения<final_water_amount>г. и дождитесь полного просачивания",
+      "time": 60
+    }
+  ]
+  },
+  {
+      "id": "304",
+      "name": "Рецепт Chemex Скотта Рао",
+      "brewing_method_id": "chemex",
+      "brewing_method": "Chemex",
+      "coffee_amount": 30,
+      "water_amount": 510,
+      "water_temp": 97,
+      "grind_size": "Средний",
+      "brew_time": " 2min 30s",
+      "short_description": "Рецепт Chemex от Скотта Рао, кофейного эксперта и автора, специализирующегося на работе в кафе, обучении бариста, обжарке и варке кофе",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Смолоть кофе, нагреть воду, сложить бумажный фильтр и вставить его в Chemex, промыть фильтр и графин, добавить кофейную гущу",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Предварительно смочите примерно (1,5 x <final_coffee_amount>)г воды",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Аккуратно покопайтесь в кофейной гуще маленькой ложечкой",
+          "time": 25
+        },
+        {
+          "order": 4,
+          "description": "Подождите, позволяя кофе расцвести",
+          "time": 5
+        },
+        {
+        "order": 5,
+        "description": "Налейте до <final_water_amount>г. воды круговыми движениями",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Очень медленно, слегка перемешать внешнюю кромку смеси",
+        "time": 10
+      },
+      {
+        "order": 7,
+        "description": "Держась за внешнюю сторону кофейника, совершайте им несколько круговых движений",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "Дождаться завершения процесса",
+        "time": 60
+      }
+    ]
+    }
+  ]
+  

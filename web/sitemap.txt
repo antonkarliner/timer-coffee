@@ -39,5 +39,6 @@ https://app.timer.coffee/recipes/wilfa_svart/703
 https://app.timer.coffee/recipes/origami
 https://app.timer.coffee/recipes/origami/801
 https://app.timer.coffee/recipes/origami/802
+https://app.timer.coffee/recipes/origami/803
 https://app.timer.coffee/about
 https://app.timer.coffee/tips

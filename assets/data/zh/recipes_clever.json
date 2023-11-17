@@ -1,0 +1,186 @@
+[
+  {
+    "id": "501",
+    "name": "James Hoffmann 终极 Clever Dripper 配方",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 15,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "中细",
+    "brew_time": "3min 30s",
+    "short_description": "世界咖啡师冠军、YouTuber、咖啡顾问及作者 James Hoffmann 的 Clever Dripper 配方。[观看教程](https://www.youtube.com/watch?v=RpOdennxP24)。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "将纸过滤器放入 Clever Dripper 并用水冲洗。研磨咖啡，但暂时不要放入 Clever Dripper。放在秤上，归零。准备一把勺子。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "向 Clever Dripper 中加入 <final_water_amount>g 水",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "将咖啡放入水中，并用勺子稍微搅拌一下。",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "让咖啡浸泡 2 分钟。",
+        "time": 120
+      },
+      {
+        "order": 5,
+        "description": "用勺子搅拌或轻轻摇晃冲泡器，打破表面的咖啡粉壳。",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "将 Clever Dripper 放在容器上，等待完全过滤。",
+        "time": 60
+      }
+    ]
+  },
+  {
+    "id": "502",
+    "name": "European Coffee Trip 的 Clever Dripper 配方",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 20,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "粗",
+    "brew_time": "5min 20s",
+    "short_description": "由 Youtube 频道 European Coffee Trip 提供的 Clever Dripper 配方。这里是[教程](https://www.youtube.com/watch?v=H4-XTUpX9Mo)。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "将纸过滤器放入 Clever dripper，并用热水冲洗。研磨咖啡并将咖啡粉放入冲泡器。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "向冲泡器中加入 <final_water_amount>g 水。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "等待 2 分钟。",
+        "time": 120
+      },
+      {
+        "order": 4,
+        "description": "用勺子轻轻打破表面的咖啡粉壳。",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "再等待 2 分钟。",
+        "time": 120
+      },
+      {
+        "order": 6,
+        "description": "将 Clever Dripper 放在玻璃瓶上，让咖啡排出。",
+        "time": 60
+      }
+    ]
+  },  
+  {
+    "id": "503",
+    "name": "Coffee and Water 的 Clever Dripper 配方",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 28,
+    "water_amount": 420,
+    "water_temp": 95,
+    "grind_size": "中粗",
+    "brew_time": "5min 20s",
+    "short_description": "由 Youtube 频道 Coffee and Water 提供的 Clever Dripper 配方。这里是[教程](https://www.youtube.com/watch?v=gyZ7Zvvl3uk)。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "将纸过滤器放入 Clever dripper，并用热水冲洗。研磨咖啡并将咖啡粉放入冲泡器。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "向冲泡器中加入 <final_water_amount>g 水。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "让咖啡浸泡。",
+        "time": 50
+      },
+      {
+        "order": 4,
+        "description": "用勺子打破表面的咖啡粉壳，搅拌 3 次。",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "继续让咖啡浸泡。",
+        "time": 80
+      },
+      {
+        "order": 6,
+        "description": "将 Clever Dripper 放在玻璃瓶上，让咖啡排出。",
+        "time": 60
+      }
+    ]
+  },
+  {
+    "id": "504",
+    "name": "James Hoffmann 冰 Clever Dripper 配方",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 37.5,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "细",
+    "brew_time": "6min 35s",
+    "short_description": "James Hoffman 使用改进的浸泡式冰咖啡技术的配方。查看[教程](https://www.youtube.com/watch?v=8uGGeV8A-BM)。可选：最后可以加入少量生理盐水（20% 盐和 80% 水的溶液）以减少苦味。注意：需要比手冲时更细的研磨，但不是意式浓缩咖啡那么细。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "将纸过滤器放入 Clever Dripper 并用水冲洗。研磨咖啡，但暂时不要放入 Clever Dripper。放在秤上，归零。准备一把勺子。您将需要 (0.34 x <final_water_amount>)g 冰块，但现在先保持在冰箱中。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "向 Clever Dripper 中加入 (0.66 x <final_water_amount>)g 水",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "将咖啡放入水中，并用勺子搅拌，确保所有咖啡都被湿润。",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "让咖啡浸泡。浸泡时间快结束时，将 (0.34 x <final_water_amount>)g 冰块放入容器中。",
+        "time": 300
+      },
+      {
+        "order": 5,
+        "description": "将 Clever Dripper 放在容器上，等待完全过滤。",
+        "time": 60
+      },
+      {
+        "order": 6,
+        "description": "摇晃容器或用勺子搅拌以稀释剩余的冰块。可选：添加几滴生理盐水以减少苦味。",
+        "time": 15
+      }
+    ]
+  }  
+  ]

@@ -1,0 +1,216 @@
+[
+  {
+    "id": "301",
+    "name": "Przepis James Hoffmann Chemex",
+    "brewing_method_id": "chemex",
+    "brewing_method": "Chemex",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "Średnio drobno",
+    "brew_time": "4min 10s",
+    "short_description": "Przepis na Chemex autorstwa Jamesa Hoffmanna, zwycięzcy World Barista Championship, YouTubera, konsultanta kawowego i autora. W przypadku Chemexa James zaleca prawie taką samą technikę jak w przypadku V60. [Obejrzyj samouczek](https://www.youtube.com/watch?v=ikt-X5x7yoc).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Zmiel ziarna, zagotuj wodę. Włóż papierowy filtr do ekspresu Chemex (3 zagięcia w kierunku wylewki). Przepłukać filtr wrzącą wodą, wylać wodę. Dodaj fusy, zrób wgłębienie na środku. Umieść na wadze i wyzeruj.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Dodaj (2 x <final_coffee_amount>)- (3 x <final_coffee_amount>)g. wody",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Wymieszaj, aby zwilżyć wszystkie fusy, pozwól im zakwitnąć",
+        "time": 35
+      },
+      {
+        "order": 4,
+        "description": "Dodawaj wodę ruchem okrężnym, rozbijając wszelkie grudki, aż osiągniesz (0,6 x <final_water_amount>)g.",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "Kontynuuj dodawanie wody, aż osiągniesz <final_water_amount> g.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Użyj łyżki, aby dobrze zamieszać zgodnie z ruchem wskazówek zegara, a następnie jeszcze raz przeciwnie do ruchu wskazówek zegara",
+        "time": 15
+      },      
+      {
+        "order": 7,
+        "description": "Potrząśnij trochę chemexem",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "Czekaj na zakończenie przesączania",
+        "time": 120
+      }
+    ]
+  },
+  {
+    "id": "302",
+    "name": "Przepis Chemex autorstwa Caffeine Feind",
+    "brewing_method_id": "chemex",
+    "brewing_method": "Chemex",
+    "coffee_amount": 32,
+    "water_amount": 480,
+    "water_temp": 95,
+    "grind_size": "Średnio grubo (sól morska)",
+    "brew_time": "4min 0s",
+    "short_description": "Przepis na Chemex autorstwa [Caffeine Feind](https://caffeinefiend.co/chemex-recipe/)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Zmiel kawę, podgrzej wodę, złóż papierowy filtr i włóż go do Chemexa, przepłucz filtr i karafkę, dodaj fusy z kawy.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Wstępnie zwilżyć (2 x <final_coffee_amount>)g wody. Wlewaj powoli w spiralny wzór, zaczynając od środka i kierując się na zewnątrz",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "Niech kawa rozkwitnie",
+        "time": 45
+      },
+      {
+        "order": 4,
+        "description": "Wlewaj koncentrycznie, aż poziom wody osiągnie górną część Chemexa",
+        "time": 20
+      },
+      {
+      "order": 5,
+      "description": "Czekaj, aż fusy po kawie wrócą z powrotem do mniej więcej pierwotnego poziomu",
+      "time": 30
+    },
+    {
+      "order": 6,
+      "description": "Powtórz ten sam proces dla dodatkowych wlewów pełnego zanurzenia, aż osiągniesz <final_water_amount> g wody. Czekaj na całkowite przesączanie.",
+      "time": 130
+    }
+  ]
+  },
+  {
+      "id": "303",
+      "name": "Przepis na Chemex według Epicurious",
+      "brewing_method_id": "chemex",
+      "brewing_method": "Chemex",
+      "coffee_amount": 42,
+      "water_amount": 700,
+      "water_temp": 95,
+      "grind_size": "Średni (jak sól koszerna)",
+      "brew_time": "5min 0s",
+      "short_description": "Przepis na Chemex według [Epicurious](https://www.epicurious.com/expert-advice/how-to-make-chemex-coffee-right-way-gallery).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Zmiel kawę, podgrzej wodę, złóż papierowy filtr i włóż go do Chemexa, przepłucz filtr i karafkę, dodaj fusy z kawy.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Wstępnie zwilżyć około (2 x <final_coffee_amount>)g wody. Wlej tyle wody na fusy, aby je przykryć i nasycić",
+          "time": 15
+        },
+        {
+          "order": 3,
+          "description": "Niech kawa rozkwitnie",
+          "time": 30
+        },
+        {
+          "order": 4,
+          "description": "Dodaj do (0,33 x <final_water_amount>)g. wody, wlewając powolnym, okrężnym ruchem.",
+          "time": 15
+        },
+        {
+        "order": 5,
+        "description": "Czekaj",
+        "time": 40
+      },
+      {
+        "order": 6,
+        "description": " Teraz dodaj więcej wody, aż skala odczyta (0,64 x <final_water_amount>)g.",
+        "time": 20
+      },
+      {
+        "order": 7,
+        "description": "Czekaj 2 minuty",
+        "time": 120
+      },
+      {
+        "order": 8,
+        "description": "Dodawaj wodę aż do osiągnięcia<final_water_amount>g. i czekaj na całkowite przesączanie",
+        "time": 60
+      }
+    ]
+    },
+    {
+        "id": "304",
+        "name": "Przepis Scott Rao Chemex",
+        "brewing_method_id": "chemex",
+        "brewing_method": "Chemex",
+        "coffee_amount": 30,
+        "water_amount": 510,
+        "water_temp": 97,
+        "grind_size": "Średni",
+        "brew_time": "2min 30s",
+        "short_description": "Przepis na Chemex autorstwa Scotta Rao, eksperta w dziedzinie kawy i autora specjalizującego się w prowadzeniu kawiarni, szkoleniu baristów oraz paleniu i parzeniu kawy.",
+        "last_used": "2023-05-01T12:00:00Z",
+        "is_favorite": false,
+        "steps": [
+          {
+            "order": 1,
+            "description": "Zmiel kawę, podgrzej wodę, złóż papierowy filtr i włóż go do Chemexa, przepłucz filtr i karafkę, dodaj fusy z kawy.",
+            "time": 0
+          },
+          {
+            "order": 2,
+            "description": "Wstępnie zwilżyć około (1,5 x <final_coffee_amount>)g wody",
+            "time": 10
+          },
+          {
+            "order": 3,
+            "description": "Delikatnie grzeb w kawowym łożu małą łyżeczką",
+            "time": 25
+          },
+          {
+            "order": 4,
+            "description": "Czekaj, pozwalając kawie rozkwitnąć",
+            "time": 5
+          },
+          {
+          "order": 5,
+          "description": "Wlewaj do <final_water_amount> g. wody w kolistych wzorach",
+          "time": 30
+        },
+        {
+          "order": 6,
+          "description": "Bardzo powoli, lekko wymieszaj zewnętrzną krawędź zawiesiny",
+          "time": 10
+        },
+        {
+          "order": 7,
+          "description": "Przytrzymując zewnętrzną część Chemexa, wykonaj kilka powolnych okrężnych ruchów.",
+          "time": 10
+        },
+        {
+          "order": 8,
+          "description": "Czekaj na całkowite przesączanie",
+          "time": 60
+        }
+      ]
+      }
+]

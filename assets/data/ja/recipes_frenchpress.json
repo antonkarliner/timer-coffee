@@ -1,0 +1,155 @@
+[
+  {
+    "id": "401",
+    "name": "ジェームズ・ホフマンのFrench Pressレシピ",
+"brewing_method_id": "french_press", 
+"brewing_method": "French Press",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "中粗挽き",
+    "brew_time": "10min 0s",
+    "short_description": "世界バリスタチャンピオンシップ優勝者,YouTuber,コーヒーコンサルタント,作家のジェームス・ホフマンによるフレンチプレスのレシピ。[チュートリアルを見る](https://www.youtube.com/watch?v=st571DYYTR8)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "コーヒーを挽き,French Pressに入れる。はかりにのせてゼロにする",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "<final_water_amount>g.の水を加える",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "コーヒーを置く",
+        "time": 240
+      },
+      {
+        "order": 4,
+        "description": "大さじ1杯を使って,コーヒーの上にあるクラストをかき混ぜる。泡と浮遊物を取り除く",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "コーヒーをさらに5分間休ませる",
+        "time": 300
+      },
+      {
+        "order": 6,
+        "description": "プランジャーを入れるが,下まで押し込まず,抽出液の上に置いておく。",
+        "time": 15
+      }
+    ]
+  },
+  {
+    "id": "402",
+    "name": "グウィリム・デイヴィスのFrench Pressレシピ",
+    "brewing_method_id": "french_press", 
+    "brewing_method": "French Press",
+    "coffee_amount": 16,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "ミディアム",
+    "brew_time": "12min 45s",
+    "short_description": "バリスタ世界チャンピオンでSCA公認トレーナーのGwilym Daviesによるフレンチプレスのレシピ。チュートリアル](https://www.youtube.com/watch?v=AkrqY8LkWM4)はこちら。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "コーヒーを挽き,French Pressに入れる。はかりにのせてゼロにする",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "<final_water_amount>gの水を素早く加える。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "5分待つ",
+        "time": 300
+      },
+      {
+        "order": 4,
+        "description": "コーヒーと水を混ぜるのに大さじを使う。",
+        "time": 10
+      },
+      {
+      "order": 5,
+      "description": "プランジャーを挿入するが,まだ押し込まないでください。",
+      "time": 5
+    },
+    {
+      "order": 6,
+      "description": "3分待つ",
+      "time": 180
+    },
+    {
+      "order": 7,
+      "description": "プランジャーをゆっくり押し下げる",
+      "time": 20
+    },
+    {
+      "order": 8,
+      "description": "2分待つ",
+      "time": 120
+    },
+    {
+      "order": 9,
+      "description": "コーヒーをカラフェに注ぎ,提供する前にさらに2分間待つ。",
+      "time": 120
+    }
+  ]
+  },
+  {
+    "id": "403",
+    "name": "スコット・ラオ・French Pressレシピ",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 30,
+    "water_amount": 540,
+    "water_temp": 95,
+    "grind_size": "ミディアム",
+    "brew_time": "5min 20s",
+    "short_description": "カフェの運営,バリスタ・トレーニング,コーヒーの焙煎と抽出を専門とするコーヒーの専門家であり著者であるスコット・ラオによるフレンチプレスのレシピ",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "コーヒーを挽き,French Pressに入れる。はかりにのせてゼロにする",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "<final_water_amount>gの水を一気に注ぎ,素早く,すべてのグラウンドが濡れるようにする。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "プランジャーをコーヒーの表面から1cm下に置く",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "4分待つ",
+        "time": 240
+      },
+      {
+      "order": 5,
+      "description": "優しくフィルターを突っ込む",
+      "time": 10
+    },
+    {
+      "order": 6,
+      "description": "コーヒーの粒子が落ち着くのを待ってサーブする",
+      "time": 180
+    }
+  ]
+  }
+]

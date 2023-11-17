@@ -1,0 +1,297 @@
+[
+  {
+    "id": "101",
+    "name": "Przepis James Hoffmann V60",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "Średnio drobno",
+    "brew_time": "3min 30s",
+    "short_description": "Łatwy do wykonania przepis autorstwa Jamesa Hoffmanna. [Obejrzyj film instruktażowy](https://www.youtube.com/watch?v=AI4ynXzkSQo).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Przepłukać filtr i podgrzać V60. Wsyp fusy, utwórz zagłębienie pośrodku",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Wstępnie zwilżyć (2 x <final_coffee_amount>)g. wody.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Wiruj zaparzaczem, aż zawiesina będzie równomierna",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Niech kawa rozkwitnie",
+        "time": 25
+      },
+      {
+        "order": 5,
+        "description": "Zakończ pierwszy główny nalew do (0,6 x <final_water_amount>)g. w ciągu następnych 30s.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Delikatnie dokończ drugi główny nalew do <final_water_amount> g. w ciągu następnych 30s.",
+        "time": 30
+      },      
+      {
+        "order": 7,
+        "description": "Delikatnie mieszaj zgodnie z ruchem wskazówek zegara i przeciwnie do ruchu wskazówek zegara, aby wybić fusy z boków",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "Delikatnie zawiruj zaparzaczem, aby spłaszczyć złoże kawy w celu równomiernej ekstrakcji",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "Cel: zakończenie przesączania do 3min 30s",
+        "time": 85
+      }
+    ]
+  },
+  {
+    "id": "102",
+    "name": "Przepis na Scott Rao classic V60",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 22,
+    "water_amount": 360,
+    "water_temp": 95,
+    "grind_size": "Średnio drobno",
+    "brew_time": "3min 0s",
+    "short_description": "Receptura V60 Scotta Rao koncentruje się na równomiernej ekstrakcji i spójnym naparze. Scott Rao [zaleca](https://www.youtube.com/watch?v=c0Qe_ASxfNM) używanie plastikowego V60, aby zatrzymać ciepło naparu i pozwala manipulować lejkiem podczas parzenia bez poparzenia.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Przepłukać filtr i wstępnie podgrzać V60, wsypać fusy, spłaszczyć",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Wstępnie zwilżyć (3 x <final_coffee_amount>)g wody",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "Delikatnie wykop, aby zwilżyć wszystkie grunty",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Niech kawa rozkwitnie",
+        "time": 20
+      },
+      {
+        "order": 5,
+        "description": "Rozpocznij główny nalew od 45s do <final_water_amount>g.",
+        "time": 50
+      },
+      {
+      "order": 6,
+      "description": "Delikatnie wymieszaj, aby fusy nie przywarły do boków",
+      "time": 25
+    },
+    {
+      "order": 7,
+      "description": "Wirowanie V60 w celu spłaszczenia łoża kawy dla równomiernego parzenia",
+      "time": 10
+    },
+    {
+      "order": 8,
+      "description": "Przesączanie powinno zostać zakończone w ciągu 3 minut",
+      "time": 50
+    }
+  ]
+  },
+  {
+    "id": "103",
+    "name": "Ultimate Flash Brew Lance'a Hedricka",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 240,
+    "water_temp": 93,
+    "grind_size": "Średnio drobno",
+    "brew_time": "3min 25s",
+    "short_description": "Wysoka ekstrakcja, niska goryczka i wszystkie smakołyki z ziaren w kawie mrożonej. [Obejrzyj film instruktażowy](https://www.youtube.com/watch?v=qwvnQcojq9Q&) ",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Przepłukać filtr i wstępnie podgrzać V60, wsypać fusy, spłaszczyć",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Bloom with (0.25 x <final_water_amount>)g of water.",
+        "time": 60
+      },
+      {
+        "order": 3,
+        "description": "Wlej (0,375 x <final_water_amount>)g wody",
+        "time": 45
+      },
+      {
+        "order": 4,
+        "description": "Ponownie wlej (0,375 x <final_water_amount>)g i delikatnie zawiruj. Czekaj do całkowitego opróżnienia.",
+        "time": 45
+      },
+      {
+        "order": 5,
+        "description": "Dodaj (0,25 x <final_water_amount>)g lodu i mieszaj do schłodzenia do temperatury 5-10°C",
+        "time": 30
+      },
+      {
+      "order": 6,
+      "description": "Podawać z kostkami świeżego lodu",
+      "time": 25
+    }
+  ]
+  },
+  {
+    "id": "104",
+    "name": "Przepis na mrożone V60 James Hoffmann",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 32.5,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "Średnio drobno",
+    "brew_time": "2min 55s",
+    "short_description": "Sposób Jamesa Hoffmanna na mrożoną kawę filtrowaną. [Obejrzyj film instruktażowy](https://www.youtube.com/watch?v=PApBycDrPo0).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Przepłucz filtr nad zlewem, aby uniknąć podgrzania dzbanka. Wsyp fusy z kawy. Umieść (0,4 x <final_water_amount>)g lodu w dzbanku. Umieść na wadze i wyzeruj.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Wstępnie zwilżyć (3 x <final_coffee_amount>)g wody",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Wymieszaj trochę kwiat",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Niech kawa rozkwitnie",
+        "time": 25
+      },
+      {
+        "order": 5,
+        "description": "Powoli wlewaj do (0,6 x <final_water_amount>)g. wody",
+        "time": 105
+      },
+      {
+        "order": 6,
+        "description": "Wymieszaj raz zgodnie i przeciwnie do ruchu wskazówek zegara",
+        "time": 10
+      },      
+      {
+        "order": 7,
+        "description": "Zawiruj dzbankiem, aby roztopić lód. Nalej napar na świeże kostki lodu w szklance.",
+        "time": 15
+      }
+    ]
+  },
+  {
+    "id": "105",
+    "name": "James Hoffmann V60 - Przepis na jedną filiżankę",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 15,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "Średnio drobno",
+    "brew_time": "3min 0s",
+    "short_description": "Przepis Jamesa Hoffmanna na kawę V60 na jedną filiżankę. [Obejrzyj film instruktażowy](https://www.youtube.com/watch?v=1oB1oDrDkHM).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Przepłucz filtr i podgrzej V60. Wsyp fusy.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Wstępnie zwilżono (0,2 x <final_water_amount>)g wody",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Delikatnie wiruj V60",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "Niech kawa rozkwitnie",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "Wlej łącznie do (0,4 x <final_water_amount>)g.",
+        "time": 15
+      },
+      {
+        "order": 6,
+        "description": "Czekaj",
+        "time": 10
+      },      
+      {
+        "order": 7,
+        "description": "Wlej łącznie do (0,6 x <final_water_amount>)g.",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "Czekaj",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "Wlej do (0,8 x <final_water_amount>)g. łącznie",
+        "time": 10
+      },
+      {
+        "order": 10,
+        "description": "Czekaj",
+        "time": 10
+      },
+      {
+        "order": 11,
+        "description": "Wlej do <final_water_amount> g. łącznie",
+        "time": 10
+      },
+      {
+        "order": 12,
+        "description": "Delikatnie wiruj",
+        "time": 5
+      },
+      {
+        "order": 13,
+        "description": "Czekaj na całkowite przesączanie",
+        "time": 55
+      }
+    ]
+  }
+]

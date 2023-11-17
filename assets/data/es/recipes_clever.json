@@ -1,0 +1,186 @@
+[
+  {
+    "id": "501",
+    "name": "Receta James Hoffmann Ultimate Clever Dripper ",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 15,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "Medio-fino",
+    "brew_time": "3min 30s",
+    "short_description": "Receta Clever Dripper de James Hoffmann, ganador del Campeonato Mundial de Baristas, YouTuber, consultor de café y autor. [Ver el tutorial](https://www.youtube.com/watch?v=RpOdennxP24).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Introduzca el filtro de papel en Clever Dripper y enjuáguelo con agua. Muela el café, pero no lo ponga aún en el Clever Dripper. Colóquelo en la balanza y póngalo a cero. Coge una cuchara",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Añade <final_water_amount>g. de agua al Clever Dripper",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Pon el café en el agua y mézclalo un poco con una cuchara",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Dejar reposar el café durante 2 minutos",
+        "time": 120
+      },
+      {
+        "order": 5,
+        "description": "Mezclar con una cuchara o agitar un poco la cafetera para romper la corteza",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Coloca el Clever Dripper en una jarra y espera a que se complete el drenaje",
+        "time": 60
+      }
+    ]
+  },
+  {
+    "id": "502",
+    "name": "Receta Clever Dripper de European Coffee Trip",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 20,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "Grueso",
+    "brew_time": "5min 20s",
+    "short_description": "Receta Clever Dripper del canal de Youtube European Coffee Trip. Aquí está el [tutorial](https://www.youtube.com/watch?v=H4-XTUpX9Mo).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Coloque el filtro de papel en el Clever Dripper, enjuáguelo con agua caliente. Muela el café y ponga los posos en la cafetera",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Añade <final_water_amount>g de agua a la cafetera",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Espera 2 minutos",
+        "time": 120
+      },
+      {
+        "order": 4,
+        "description": "Romper suavemente la corteza de la parte superior con una cuchara",
+        "time": 10
+      },
+      {
+      "order": 5,
+      "description": "Espera otros 2 minutos",
+      "time": 120
+    },
+    {
+      "order": 6,
+      "description": "Coloca el Clever Dripper en la jarra y deja que escurra el café",
+      "time": 60
+    }
+  ]
+  },
+  {
+    "id": "503",
+    "name": "Receta Clever Dripper de Café y Agua",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 28,
+    "water_amount": 420,
+    "water_temp": 95,
+    "grind_size": "Medio-grueso",
+    "brew_time": "5min 20s",
+    "short_description": "Receta de Clever Dripper por el canal de Youtube Café y Agua. Aquí está el [tutorial](https://www.youtube.com/watch?v=gyZ7Zvvl3uk).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Coloque el filtro de papel en el Clever Dripper, enjuáguelo con agua caliente. Muela el café y ponga los posos en la cafetera",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Añade <final_water_amount>g de agua a la cafetera",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Dejar reposar el café",
+        "time": 50
+      },
+      {
+        "order": 4,
+        "description": "Romper la costra de la parte superior de la infusión con una cuchara, mezclando 3 veces",
+        "time": 10
+      },
+      {
+      "order": 5,
+      "description": "Dejar reposar el café",
+      "time": 80
+    },
+    {
+      "order": 6,
+      "description": "Coloca tu Clever Dripper sobre la jarra y deja que escurra el café",
+      "time": 60
+    }
+  ]
+  },
+  {
+    "id": "504",
+    "name": "Receta James Hoffmann Iced Clever Dripper",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 37.5,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "fino",
+    "brew_time": "6min 35s",
+    "short_description": "Esta receta utiliza una técnica mejorada de café helado por inmersión de James Hoffman. Consulte el [tutorial aquí](https://www.youtube.com/watch?v=8uGGeV8A-BM). Opcional: puedes añadir unas gotas de solución salina (una solución de 20% de sal y 80% de agua) al final para reducir el amargor. Nota: hay que moler más fino de lo normal para el pour over, pero no espresso-fino.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Introduzca el filtro de papel en Clever Dripper y enjuáguelo con agua. Muela el café, pero no lo ponga aún en el Clever Dripper. Colóquelo en la balanza y póngalo a cero. Coge una cuchara. Necesitará (0,34 x <final_water_amount>)g de hielo, pero guárdelo en el congelador por ahora",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Añadir (0,66 x <final_water_amount>)g. de agua al Clever Dripper",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Pon el café en el agua y mézclalo con una cuchara, asegurándote de que todo el café está mojado",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Deje reposar el café. Cuando el tiempo de reposo esté a punto de terminar, coloque (0,34 x <final_water_amount>)g de hielo en la jarra.",
+        "time": 300
+      },
+      {
+        "order": 5,
+        "description": "Coloca el Clever Dripper en una jarra y espera a que se complete el drenaje",
+        "time": 60
+      },
+      {
+        "order": 6,
+        "description": "Agitar la jarra o mezclar con una cuchara para diluir el hielo restante. Opcional: añadir unas gotas de solución salina para reducir el amargor",
+        "time": 15
+      }
+    ]
+  }
+]
