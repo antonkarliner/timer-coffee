@@ -66,16 +66,6 @@ flutter:
   generate: true
 
   assets:
-    - assets/data/brewing_methods.json
-    - assets/data/recipes_v60.json
-    - assets/data/recipes_aeropress.json
-    - assets/data/recipes_chemex.json
-    - assets/data/recipes_frenchpress.json
-    - assets/data/recipes_clever.json
-    - assets/data/recipes_kalita.json
-    - assets/data/recipes_wilfa.json
-    - assets/data/recipes_origami.json
-    - assets/data/coffee_facts.json
     - assets/data/ar/
     - assets/data/de/
     - assets/data/en/
