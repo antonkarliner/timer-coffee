@@ -57,7 +57,7 @@
     },
     {
       "id": "302",
-      "name": "Chemex recipe by Caffeine Feind",
+      "name": "Chemex recipe by Caffeine Fiend",
       "brewing_method_id": "chemex",
       "brewing_method": "Chemex",
       "coffee_amount": 32,
@@ -65,7 +65,7 @@
       "water_temp": 95,
       "grind_size": "Medium-coarse (sea salt)",
       "brew_time": "4min 0s",
-      "short_description": "Chemex recipe by [Caffeine Feind](https://caffeinefiend.co/chemex-recipe/).",
+      "short_description": "Chemex recipe by [Caffeine Fiend](https://caffeinefiend.co/chemex-recipe/).",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,
       "steps": [
