@@ -9,38 +9,38 @@
     "water_temp": 95,
     "grind_size": "Medio-grueso",
     "brew_time": "10min 0s",
-    "short_description": "Receta French Press de James Hoffmann, ganador del Campeonato Mundial de baristas, YouTuber, consultor de café y autor. [Ver el tutorial](https://www.youtube.com/watch?v=st571DYYTR8).",
+    "short_description": "Receta de French Press por James Hoffmann, campeón mundial de baristas y experto en café. [Ver el tutorial](https://www.youtube.com/watch?v=st571DYYTR8).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Moler el café y ponerlo en French Press. Colóquelo en la balanza y póngalo a cero",
+        "description": "Muela el café y colóquelo en la French Press. Póngala en la balanza y tare.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Añadir <final_water_amount>g. de agua",
+        "description": "Agregue <final_water_amount>g de agua.",
         "time": 15
       },
       {
         "order": 3,
-        "description": "Deja reposar el café",
+        "description": "Deje reposar el café durante 4 minutos.",
         "time": 240
       },
       {
         "order": 4,
-        "description": "Utiliza una cucharada para mezclar la costra encima de la infusión. Retire la espuma y las partículas flotantes",
+        "description": "Retire la espuma y las partículas flotantes con una cuchara.",
         "time": 30
       },
       {
         "order": 5,
-        "description": "Dejar reposar el café 5 minutos más",
+        "description": "Deje reposar 5 minutos más.",
         "time": 300
       },
       {
         "order": 6,
-        "description": "Mete el émbolo, pero no lo aprietes hasta el fondo, déjalo encima de la infusión",
+        "description": "Coloque el émbolo en la parte superior sin presionarlo completamente.",
         "time": 15
       }
     ]
@@ -53,58 +53,58 @@
     "coffee_amount": 16,
     "water_amount": 250,
     "water_temp": 95,
-    "grind_size": "Medium",
+    "grind_size": "Medio",
     "brew_time": "12min 45s",
-    "short_description": "Receta de French Press de Gwilym Davies, campeón mundial de baristas y entrenador autorizado de SCA. Aquí está el [tutorial](https://www.youtube.com/watch?v=AkrqY8LkWM4).",
+    "short_description": "Receta de French Press de Gwilym Davies, campeón mundial de baristas. [Ver tutorial](https://www.youtube.com/watch?v=AkrqY8LkWM4).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Moler el café y ponerlo en French Press. Colóquelo en la balanza y póngalo a cero",
+        "description": "Muela el café y colóquelo en la French Press. Póngala en la balanza y tare.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Añade rápidamente <final_water_amount>g de agua",
+        "description": "Añada rápidamente <final_water_amount>g de agua.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Espera 5 minutos",
+        "description": "Deje reposar durante 5 minutos.",
         "time": 300
       },
       {
         "order": 4,
-        "description": "Usa una cucharada para mezclar café con agua",
+        "description": "Mezcle con una cuchara.",
         "time": 10
       },
       {
-      "order": 5,
-      "description": "Inserta el émbolo, pero no lo presiones todavía",
-      "time": 5
-    },
-    {
-      "order": 6,
-      "description": "Espera 3 minutos",
-      "time": 180
-    },
-    {
-      "order": 7,
-      "description": "Presiona el émbolo hacia abajo lentamente",
-      "time": 20
-    },
-    {
-      "order": 8,
-      "description": "Espera 2 minutos",
-      "time": 120
-    },
-    {
-      "order": 9,
-      "description": "Vierte el café en la jarra y espera otros 2 minutos antes de servir",
-      "time": 120
-    }
-  ]
+        "order": 5,
+        "description": "Inserte el émbolo sin presionar.",
+        "time": 5
+      },
+      {
+        "order": 6,
+        "description": "Espere 3 minutos.",
+        "time": 180
+      },
+      {
+        "order": 7,
+        "description": "Presione el émbolo lentamente.",
+        "time": 20
+      },
+      {
+        "order": 8,
+        "description": "Deje reposar 2 minutos.",
+        "time": 120
+      },
+      {
+        "order": 9,
+        "description": "Vierta el café en una jarra y espere 2 minutos más antes de servir.",
+        "time": 120
+      }
+    ]
   },
   {
     "id": "403",
@@ -114,42 +114,42 @@
     "coffee_amount": 30,
     "water_amount": 540,
     "water_temp": 95,
-    "grind_size": "Medium",
+    "grind_size": "Medio",
     "brew_time": "5min 20s",
-    "short_description": "Receta de French Press de Scott Rao, experto en café y autor especializado en el funcionamiento de cafeterías, formación de baristas y tostado y preparación de café.",
+    "short_description": "Receta de French Press de Scott Rao, experto en café y autor. [Ver tutorial](https://www.youtube.com/watch?v=sPyXZBwJ4Ho).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Moler el café y ponerlo en French Press. Colóquelo en la balanza y póngalo a cero",
+        "description": "Muela el café y colóquelo en la French Press. Póngala en la balanza y tare.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Verter <final_water_amount>g de agua de una vez, rápidamente, asegurándose de que todo el café molido está mojado",
+        "description": "Vierta <final_water_amount>g de agua asegurándose de que todo el café esté mojado.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Colocar el émbolo 1 cm por debajo de la superficie del café",
+        "description": "Coloque el émbolo justo por debajo de la superficie del café.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Espera 4 minutos",
+        "description": "Espere 4 minutos.",
         "time": 240
       },
       {
-      "order": 5,
-      "description": "Sumerge el fiter suavemente",
-      "time": 10
-    },
-    {
-      "order": 6,
-      "description": "Esperar a que se asienten las partículas de café y servir",
-      "time": 180
-    }
-  ]
+        "order": 5,
+        "description": "Sumerja el filtro suavemente.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Espere a que se asienten las partículas de café antes de servir.",
+        "time": 180
+      }
+    ]
   }
 ]

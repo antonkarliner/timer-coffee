@@ -9,38 +9,38 @@
     "water_temp": 100,
     "grind_size": "fino",
     "brew_time": "1min 50s",
-    "short_description": "Una receta de Tim Wendelboe, Campeón del Mundo de Baristas y Campeón de la Copa del Mundo de Catadores. [Vea el tutorial aquí](https://timwendelboe.no/brew-guides/aeropress/).",
+    "short_description": "Receta de Tim Wendelboe, Campeón Mundial de Baristas y de Cata de Cafés. [Tutorial disponible aquí](https://timwendelboe.no/brew-guides/aeropress/).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Enjuagar el filtro de papel con agua corriente del grifo durante unos segundos y verter el café molido",
+        "description": "Enjuaga el filtro de papel con agua del grifo durante unos segundos y añade el café molido.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Vierte <final_water_amount>g de agua sobre el café",
+        "description": "Agrega <final_water_amount>g de agua al café.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Mezclar 3 veces",
+        "description": "Revuelve 3 veces.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Coloca el émbolo en la Aeropress para evitar que el agua salga por el filtro y deja reposar el café",
+        "description": "Inserta el émbolo en la Aeropress para retener el agua y deja reposar.",
         "time": 60
       },
       {
         "order": 5,
-        "description": "Quitar el émbolo y mezclar 3 veces de atrás hacia adelante",
+        "description": "Retira el émbolo y remueve el café 3 veces de adelante hacia atrás.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Coloca el émbolo en la parte superior de la Aeropress y presiona el contenido en una taza o jarra grande utilizando el peso de tu cuerpo.",
+        "description": "Coloca el émbolo en la cima de la Aeropress y presiona suavemente, usando tu peso corporal, para filtrar el café en una taza o jarra.",
         "time": 20
       }
     ]
@@ -55,43 +55,43 @@
     "water_temp": 95,
     "grind_size": "Fino/Medio",
     "brew_time": "3min 25s",
-    "short_description": "Una receta de James Hoffmann, ganador del Campeonato Mundial de Baristas, YouTuber, consultor de café y autor. Para café de tueste medio, utilizar agua a 90-95°C te dará mejores resultados. Para café de tueste oscuro, prueba con agua a 85-90°C para la infusión. Muela su café en el extremo más fino del medio, suponiendo que se trata de café de tueste claro. Cuanto más oscuro sea, preferirá aumentar la dosis y moler más grueso. [Mira el tutorial aquí](https://www.youtube.com/watch?v=j6VlT_jUVPc).",
+    "short_description": "Receta de James Hoffmann, Campeón Mundial de Baristas y experto en café. Usa agua a 90-95°C para café de tueste medio, y 85-90°C para tueste oscuro. Muele el café fino si es de tueste claro; para tueste oscuro, aumenta la cantidad y usa un molido más grueso. [Tutorial aquí](https://www.youtube.com/watch?v=j6VlT_jUVPc).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Coloca la cafetera en posición estándar en una jarra. No enjuague ni precaliente la cafetera (no hay ninguna diferencia). Vierta el café molido",
+        "description": "Coloca la Aeropress en posición normal sobre una jarra. No es necesario enjuagar ni precalentar. Añade el café molido.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Vierte <final_water_amount>g de agua con el objetivo de mojar todo el café durante el vertido",
+        "description": "Verte <final_water_amount>g de agua asegurándote de humedecer todo el café.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Coloca el émbolo en la parte superior de la cafetera, aproximadamente a 1 cm",
+        "description": "Coloca el émbolo en la parte superior, dejando un espacio de 1 cm.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Espera 2 minutos",
+        "description": "Espera 2 minutos.",
         "time": 120
       },
       {
         "order": 5,
-        "description": "Sujetando la cafetera y el émbolo, agitar suavemente la cafetera",
+        "description": "Sujeta firmemente la Aeropress y el émbolo, y agita suavemente.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Espera 30 segundos",
+        "description": "Deja reposar durante 30 segundos.",
         "time": 30
       },
       {
         "order": 7,
-        "description": "Presiona suavemente hasta el final",
+        "description": "Presiona lentamente hasta vaciar completamente.",
         "time": 30
       }
     ]
@@ -106,28 +106,28 @@
     "water_temp": 80,
     "grind_size": "fino",
     "brew_time": "1min 0s",
-    "short_description": "Una receta de Alan Adler, el inventor de la Aeropress. Esta receta produce un café concentrado o estilo 'espresso'. Basta con añadir agua caliente a su degustación para obtener un café más parecido al 'Americano'. [Vea el tutorial aquí](https://www.youtube.com/watch?v=9c14DxfVOY4).",
+    "short_description": "Receta de Alan Adler, creador de la Aeropress. Esta técnica produce un café estilo 'espresso' concentrado. Para un café al estilo 'Americano', simplemente agrega más agua caliente al gusto. [Tutorial aquí](https://www.youtube.com/watch?v=9c14DxfVOY4).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Añade café molido a la cámara de infusión. Dar a la cámara una sacudida para nivelar el lecho de café",
+        "description": "Introduce el café molido en la cámara de infusión. Nivela el café con un ligero sacudimiento.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Vierte <final_water_amount>g de agua en la cámara",
+        "description": "Vierte <final_water_amount>g de agua en la cámara.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Mezclar usando la paleta",
+        "description": "Remueve la mezcla con la paleta.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Inserte el émbolo y presione suavemente",
+        "description": "Coloca el émbolo y presiona de forma gradual.",
         "time": 40
       }
     ]
@@ -142,33 +142,33 @@
     "water_temp": 95,
     "grind_size": "Grueso",
     "brew_time": "1min 30s",
-    "short_description": "Una receta de Wendelien van Bunnik, barista holandés y campeón del mundo de AeroPress en 2019. Ten en cuenta que se trata de un método invertido. Si no estás seguro de cómo funciona, [mira primero el tutorial](https://www.youtube.com/watch?v=jLNIGf-lf3s).",
+    "short_description": "Receta de Wendelien van Bunnik, campeón mundial de AeroPress 2019. Utiliza el método invertido. Para más información, [consulta el tutorial](https://www.youtube.com/watch?v=jLNIGf-lf3s).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Coloque dos filtros de papel en la tapa y enjuáguelos con agua caliente. Expulse las burbujas de aire con la pala. Deseche el agua de enjuague. Añada café molido a la cámara de infusión. Agítala para uniformizar el café molido",
+        "description": "Coloca dos filtros de papel en la tapa y enjuágalos con agua caliente. Elimina las burbujas de aire con la paleta y desecha el agua. Añade café molido a la cámara y agítala para distribuirlo de manera uniforme.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Verter <final_water_amount>g de sobre el café molido",
+        "description": "Vierte <final_water_amount>g de agua sobre el café.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Mezclar suavemente 5 veces",
+        "description": "Revuelve la mezcla delicadamente 5 veces.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Ajustar la tapa del filtro y dejar reposar",
+        "description": "Coloca la tapa del filtro y deja reposar la mezcla.",
         "time": 40
       },
       {
         "order": 5,
-        "description": "Dé la vuelta a la AeroPress y presione en una taza. Deténgase cuando oiga un silbido",
+        "description": "Gira la AeroPress y presiona el contenido en una taza, deteniéndote al oír un silbido.",
         "time": 30
       }
     ]
@@ -181,50 +181,50 @@
     "coffee_amount": 20,
     "water_amount": 150,
     "water_temp": 99,
-    "grind_size": "Medium/Fine",
+    "grind_size": "Medio/Fino",
     "brew_time": "3min 20s",
-    "short_description": "Una receta de Alexander Mills, un consultor en la industria del café de Canadá. Tenga en cuenta que se trata de un método invertido. Aquí está [el tutorial ](https://alexandermills.ca/blog/iced-aeropress).",
+    "short_description": "Receta de Alexander Mills, experto canadiense en café. Se utiliza el método invertido. [Tutorial disponible aquí](https://alexandermills.ca/blog/iced-aeropress).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Enjuague previamente dos filtros de papel en la tapa para quitarles el sabor a papel y precaliente la cafetera. Deseche el agua y aparte la tapa. Llene la jarra con hielo en cantidad igual a la del agua. Vierta el café molido en la Aeropress",
+        "description": "Pre-enjuague dos filtros de papel y precaliente la Aeropress. Descarte el agua y reserve la tapa. Llene una jarra con hielo en proporción igual al agua. Añada el café molido en la Aeropress.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Con la Aeropress invertida, vierta (0,3 x <final_water_amount>)g de agua hervida",
+        "description": "Con la Aeropress invertida, agregue (0,3 x <final_water_amount>)g de agua hirviendo.",
         "time": 5
       },
       {
         "order": 3,
-        "description": "Mezclar bien",
+        "description": "Mezcle bien.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Que florezca el café",
+        "description": "Deje que el café florezca.",
         "time": 20
       },
       {
         "order": 5,
-        "description": "Vierte los (0,7 x <final_water_amount>)g. de agua restantes con bastante rapidez en círculos concéntricos",
+        "description": "Añada los (0,7 x <final_water_amount>)g restantes de agua rápidamente en círculos concéntricos.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Mezcle bien la papilla y tape la AeroPress",
+        "description": "Remueva bien la mezcla y tape la Aeropress.",
         "time": 100
       },
       {
         "order": 7,
-        "description": "Pon tu AeroPress encima de tu jarra y presiona constantemente durante 30s sobre hielo. Deje de prensar cuando la AeroPress silbe",
+        "description": "Coloque la Aeropress sobre la jarra y presione uniformemente durante 30 segundos sobre el hielo. Deténgase cuando escuche un silbido.",
         "time": 30
       },
       {
         "order": 8,
-        "description": "Dale a tu café helado un buen remolino en tu jarra para intercambiar esas últimas moléculas de calor por otras más frías y luego sírvelo en un vaso frío",
+        "description": "Revuelva el café helado en la jarra para enfriarlo aún más y luego sírvalo en un vaso frío.",
         "time": 20
       }
     ]
@@ -237,65 +237,65 @@
     "coffee_amount": 21,
     "water_amount": 225,
     "water_temp": 97,
-    "grind_size": "Medium",
+    "grind_size": "Medio",
     "brew_time": "1min 30s",
-    "short_description": "Una receta de Mark Prince, juez canadiense, estadounidense y del Campeonato Mundial de Baristas y fundador de CoffeeGeek. Aquí está [el detallado e interesante tutorial](https://www.coffeegeek.com/guides/aeropress-inverted-brew-method-how-to/). Ten en cuenta que se trata de un método invertido y Mike aconseja encarecidamente utilizar filtro metálico en lugar de uno de papel.",
+    "short_description": "Receta de Mark Prince, juez de barismo y fundador de CoffeeGeek. Usa el método invertido y se recomienda filtro metálico. [Tutorial detallado aquí](https://www.coffeegeek.com/guides/aeropress-inverted-brew-method-how-to/).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Disponga todo su equipo y el café juntos. Hierva el agua. Monte la AeroPress. Coja el émbolo e introdúzcalo en el pistón de la AeroPress justo 1 cm dentro del pistón, asegurándose de que esté perfectamente alineado. Mida y muela su café. Coloque la AeroPress en la balanza, vierta el café molido y ponga a cero",
+        "description": "Prepare su equipo y café. Hierva el agua y monte la Aeropress. Introduzca el émbolo 1 cm en el cilindro, alineándolo correctamente. Muela y pese el café. Coloque la Aeropress en la balanza, vierta el café y tare.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Verter (0,45 x <final_water_amount>)g de agua hervida en el émbolo invertido",
+        "description": "Vierta (0,45 x <final_water_amount>)g de agua hirviendo en la Aeropress invertida.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Permitir que se forme una ligera floración",
+        "description": "Permita que el café florezca ligeramente.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Dar unos cuantos revueltos a la papilla",
+        "description": "Revuelva la mezcla un par de veces.",
         "time": 10
       },
       {
         "order": 5,
-        "description": "Continúa vertiendo agua caliente hasta alcanzar <final_water_amount>g. de agua",
+        "description": "Siga añadiendo agua caliente hasta llegar a <final_water_amount>g.",
         "time": 15
       },
       {
         "order": 6,
-        "description": "Hacer dos mezclas más de la papilla, con cuidado de no desbordar la parte superior",
+        "description": "Mezcle dos veces más, evitando que se derrame por la parte superior.",
         "time": 10
       },
       {
         "order": 7,
-        "description": "Añade otros 40-50g de agua si es posible, llenando la cámara de infusión hasta lo más cerca posible del borde",
+        "description": "Añada otros 40-50g de agua, llenando la cámara lo más posible sin derramar.",
         "time": 5
       },
       {
         "order": 8,
-        "description": "Acople el filtro y el portafiltro a la AeroPress",
+        "description": "Coloque el filtro y la tapa en la Aeropress.",
         "time": 10
       },
       {
         "order": 9,
-        "description": "Coloca la taza o la jarra encima de la AeroPress invertida",
+        "description": "Posicione una taza o jarra sobre la Aeropress invertida.",
         "time": 5
       },
       {
         "order": 10,
-        "description": "Voltea la AeroPress y la jarra",
+        "description": "Voltee la Aeropress y la jarra.",
         "time": 10
       },
       {
-        "order": 10,
-        "description": "Sumergir hacia abajo la AeroPress, para extraer el café colado",
+        "order": 11,
+        "description": "Presione hacia abajo la Aeropress para extraer el café.",
         "time": 10
       }
     ]
@@ -310,48 +310,48 @@
     "water_temp": 100,
     "grind_size": "Fino/Medio",
     "brew_time": "3min 25s",
-    "short_description": "Iced aeropress recipe by James Hoffmann is essentially a scaled-up version of his ultimate technique with ice as bypass. [Vea el tutorial aquí](https://youtu.be/DlaEwef6MTg).",
+    "short_description": "Receta de AeroPress helada de James Hoffmann, una versión ampliada de su técnica definitiva con hielo como sustituto. [Ver tutorial aquí](https://youtu.be/DlaEwef6MTg).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Ponga (0,4 x <final_water_amount>)g. de hielo en la jarra. Coloque la cafetera en posición estándar sobre la jarra. No enjuague ni precaliente la cafetera (no hay ninguna diferencia). Vierta el café molido",
+        "description": "Coloca (0,4 x <final_water_amount>)g de hielo en la jarra. Sitúa la AeroPress en posición estándar encima de la jarra. No es necesario enjuagar o precalentar. Añade el café molido.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Verter (0,6 x <final_water_amount>)g. de agua procurando mojar todo el café durante el vertido",
+        "description": "Añade (0,6 x <final_water_amount>)g de agua, asegurándote de humedecer todo el café.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Coloca el émbolo en la parte superior de la cafetera, aproximadamente a 1 cm",
+        "description": "Coloca el émbolo en la parte superior de la AeroPress, dejando un margen de 1 cm.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Espera 4 minutos",
+        "description": "Espera 4 minutos.",
         "time": 240
       },
       {
         "order": 5,
-        "description": "Sujetando la cafetera y el émbolo, agitar suavemente la cafetera",
+        "description": "Agita suavemente la AeroPress mientras sujetas el émbolo.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Espera 30 segundos",
+        "description": "Espera 30 segundos.",
         "time": 30
       },
       {
         "order": 7,
-        "description": "Presiona suavemente hasta el final",
+        "description": "Presiona suavemente hasta completar la extracción.",
         "time": 30
       },
       {
         "order": 8,
-        "description": "Remolino para derretir todo el hielo. Servir sobre cubitos de hielo fresco",
+        "description": "Haz un remolino para derretir todo el hielo y sirve sobre cubitos de hielo frescos.",
         "time": 30
       }
     ]
@@ -364,40 +364,40 @@
     "coffee_amount": 13,
     "water_amount": 200,
     "water_temp": 88,
-    "grind_size": "Medium-Coarse",
+    "grind_size": "Medio/Grosero",
     "brew_time": "2min 0s",
-    "short_description": "La receta produce un café ligero y jugoso con poco amargor y buena acidez. [Vea el tutorial aquí](https://www.youtube.com/watch?v=PUsHI7jdX1k).",
+    "short_description": "Esta receta produce un café ligero y jugoso con poco amargor y acidez agradable. [Ver tutorial aquí](https://www.youtube.com/watch?v=PUsHI7jdX1k).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Poner el filtro de papel, enjuagarlo y poner AeroPress en la jarra en posición estándar. Vierta el café",
+        "description": "Coloca y enjuaga el filtro de papel en la AeroPress, situada en posición estándar sobre la jarra. Añade el café.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Verter (0,25 x <final_water_amount>)g. de agua rápidamente, mezclar un poco y poner el pistón para evitar el goteo",
+        "description": "Vierte (0,25 x <final_water_amount>)g de agua rápidamente, remueve ligeramente y coloca el émbolo para prevenir goteos.",
         "time": 15
       },
       {
         "order": 3,
-        "description": "Espera",
+        "description": "Espera 15 segundos.",
         "time": 15
       },
       {
         "order": 4,
-        "description": "Retire el pistón, vierta los (0,75 x <final_water_amount>)g.de agua restantes. Vuelva a colocar el pistón",
+        "description": "Retira el émbolo, vierte los (0,75 x <final_water_amount>)g de agua restantes y vuelve a colocar el émbolo.",
         "time": 30
       },
       {
         "order": 5,
-        "description": "Espera",
+        "description": "Espera 30 segundos.",
         "time": 30
       },
       {
         "order": 6,
-        "description": "Presione hacia abajo lentamente, deténgase en el silbido",
+        "description": "Presiona lentamente, deteniéndote cuando la AeroPress comience a silbar.",
         "time": 30
       }
     ]

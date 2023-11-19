@@ -9,53 +9,53 @@
     "water_temp": 95,
     "grind_size": "Mittelfein",
     "brew_time": "3min 30s",
-    "short_description": "Ein einfach zu befolgendes Rezept von James Hoffmann. [Watch the tutorial video](https://www.youtube.com/watch?v=AI4ynXzkSQo).",
+    "short_description": "Ein leicht nachvollziehbares Rezept von James Hoffmann. [Anleitungsvideo ansehen](https://www.youtube.com/watch?v=AI4ynXzkSQo).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Filter ausspülen und V60 vorheizen. Kaffeesatz einfüllen, in der Mitte eine Vertiefung bilden.",
+        "description": "Filter ausspülen, V60 vorheizen. Kaffee in die V60 geben und Vertiefung in der Mitte bilden.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Vornässen mit (2 x <final_coffee_amount>)g. Wasser.",
+        "description": "Vornässen mit (2 x <final_coffee_amount>)g Wasser.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Wirbeln Sie den Brüher, bis die Gülle gleichmäßig ist.",
+        "description": "Brüher schwenken, um die Gülle zu vereinheitlichen.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Lass den Kaffee blühen.",
+        "description": "Kaffee blühen lassen.",
         "time": 25
       },
       {
         "order": 5,
-        "description": "Schließe den ersten Hauptguss bis (0,6 x <final_water_amount>)g. in den nächsten 30s ab.",
+        "description": "Ersten Hauptguss bis (0,6 x <final_water_amount>)g innerhalb von 30 Sekunden beenden.",
         "time": 30
       },
       {
         "order": 6,
-        "description": "Zweiter Hauptguss bis <final_water_amount>g. in den nächsten 30s sanft vollenden.",
+        "description": "Zweiten Hauptguss bis <final_water_amount>g sanft innerhalb von 30 Sekunden vervollständigen.",
         "time": 30
-      },      
+      },
       {
         "order": 7,
-        "description": "Leicht im und gegen den Uhrzeigersinn rühren, um den Boden von den Seiten zu lösen",
+        "description": "Mit einer kreisenden Bewegung rühren, um das Kaffeepulver von den Seiten zu lösen.",
         "time": 10
       },
       {
         "order": 8,
-        "description": "Wirbelt den Brüher sanft, um das Kaffeebett für eine gleichmäßige Extraktion zu glätten",
+        "description": "Brüher leicht schwenken, um das Kaffeebett zu glätten.",
         "time": 10
       },
       {
         "order": 9,
-        "description": "Ziel ist es, den Drawdown bis 3min 30s zu beenden.",
+        "description": "Ziel ist es, die Absenkung bis 3min 30s zu beenden.",
         "time": 85
       }
     ]
@@ -70,13 +70,13 @@
     "water_temp": 95,
     "grind_size": "Mittelfein",
     "brew_time": "3min 0s",
-    "short_description": "Das V60-Rezept von Scott Rao konzentriert sich auf eine gleichmäßige Extraktion und ein konsistentes Gebräu. Scott Rao [empfiehlt](https://www.youtube.com/watch?v=c0Qe_ASxfNM) die Verwendung eines V60 aus Kunststoff, um die Hitze des Suds zu halten und den Trichter während des Suds zu manipulieren, ohne sich zu verbrennen.",
+    "short_description": "Scott Raos V60-Rezept zielt auf eine gleichmäßige Extraktion ab. [Empfohlen](https://www.youtube.com/watch?v=c0Qe_ASxfNM) wird ein V60 aus Kunststoff.",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Filter spülen & V60 vorheizen, Kaffeesatz einfüllen, glattstreichen",
+        "description": "Filter spülen und V60 vorheizen. Kaffee in den V60 geben und glattstreichen.",
         "time": 0
       },
       {
@@ -86,39 +86,39 @@
       },
       {
         "order": 3,
-        "description": "Vorsichtig ausgraben, um den gesamten Boden zu befeuchten",
+        "description": "Vorsichtig ausgraben, um alles zu befeuchten.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Lass den Kaffee blühen.",
+        "description": "Kaffee blühen lassen.",
         "time": 20
       },
       {
         "order": 5,
-        "description": "At 45s, start main pour until <final_water_amount>g.",
+        "description": "Hauptguss bei 45 Sekunden starten, bis <final_water_amount>g Wasser erreicht sind.",
         "time": 50
       },
       {
-      "order": 6,
-      "description": "Vorsichtig umrühren, damit der Brei nicht an den Seiten kleben bleibt",
-      "time": 25
-    },
-    {
-      "order": 7,
-      "description": "Swirl V60, um das Kaffeebett für einen gleichmäßigen Brühvorgang zu glätten",
-      "time": 10
-    },
-    {
-      "order": 8,
-      "description": "Drawdown sollte innerhalb von 3 Minuten abgeschlossen sein.",
-      "time": 50
-    }
-  ]
-  },
+        "order": 6,
+        "description": "Vorsichtig umrühren, damit der Kaffee nicht an den Seiten klebt.",
+        "time": 25
+      },
+      {
+        "order": 7,
+        "description": "V60 schwenken, um das Kaffeebett zu glätten.",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "Der Durchlauf sollte innerhalb von 3 Minuten abgeschlossen sein.",
+        "time": 50
+      }
+    ]
+  },  
   {
     "id": "103",
-    "name": "Lance Hedricks ultimatives Blitzgebräu",
+    "name": "Lance Hedricks Ultimate flash brew",
     "brewing_method_id": "hario_v60",
     "brewing_method": "Hario V60",
     "coffee_amount": 20,
@@ -126,41 +126,41 @@
     "water_temp": 93,
     "grind_size": "Mittelfein",
     "brew_time": "3min 25s",
-    "short_description": "Hohe Extraktion, geringe Bitterkeit und alle Köstlichkeiten der Bohnen in Eiskaffee. [Schauen Sie sich das Tutorial-Video an](https://www.youtube.com/watch?v=qwvnQcojq9Q&) ",
+    "short_description": "Hoch extrahierter, wenig bitterer Eiskaffee mit allen Aromen der Bohnen. [Tutorial-Video ansehen](https://www.youtube.com/watch?v=qwvnQcojq9Q&).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Filter spülen & V60 vorheizen, Kaffeesatz einfüllen, glattstreichen",
+        "description": "Filter spülen und V60 vorheizen, Kaffeesatz einfüllen und glattstreichen.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Blüte mit (0,25 x <final_water_amount>)g Wasser.",
+        "description": "Blühen mit (0,25 x <final_water_amount>)g Wasser.",
         "time": 60
       },
       {
         "order": 3,
-        "description": "Gieße (0,375 x <final_water_amount>)g Wasser ein.",
+        "description": "(0,375 x <final_water_amount>)g Wasser aufgießen.",
         "time": 45
       },
       {
         "order": 4,
-        "description": "Gießen Sie erneut (0,375 x <final_water_amount>)g ein und verwirbeln Sie leicht. Warten, bis das Wasser vollständig abgelaufen ist.",
+        "description": "Erneut (0,375 x <final_water_amount>)g Wasser gießen und leicht verwirbeln. Warten, bis das Wasser abgelaufen ist.",
         "time": 45
       },
       {
         "order": 5,
-        "description": "(0,25 x <final_water_amount>)g Eis hinzufügen und umrühren, bis auf 5-10°C abgekühlt",
+        "description": "(0,25 x <final_water_amount>)g Eis hinzufügen und umrühren, bis es auf 5-10°C abgekühlt ist.",
         "time": 30
       },
       {
-      "order": 6,
-      "description": "Über frischen Eiswürfeln servieren",
-      "time": 25
-    }
-  ]
+        "order": 6,
+        "description": "Über frischem Eis servieren.",
+        "time": 25
+      }
+    ]
   },
   {
     "id": "104",
@@ -172,13 +172,13 @@
     "water_temp": 95,
     "grind_size": "Mittelfein",
     "brew_time": "2min 55s",
-    "short_description": "James Hoffmanns Interpretation von gefrorenem Filterkaffee. [Sehen Sie sich das Tutorial-Video an](https://www.youtube.com/watch?v=PApBycDrPo0).",
+    "short_description": "Interpretation von gefrorenem Filterkaffee von James Hoffmann. [Tutorial-Video ansehen](https://www.youtube.com/watch?v=PApBycDrPo0).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Filter über der Spüle ausspülen, um den Server nicht zu erhitzen. Kaffeesatz hineinschütten. (0,4 x <final_water_amount>)g Eis in den Server geben. Auf die Waage stellen und auf Null stellen.",
+        "description": "Filter ausspülen, um den Server nicht zu erhitzen. Kaffeesatz einfüllen. (0,4 x <final_water_amount>)g Eis in den Server geben. Auf Waage stellen und tara einstellen.",
         "time": 0
       },
       {
@@ -188,31 +188,31 @@
       },
       {
         "order": 3,
-        "description": "Die Blüte ein wenig umrühren.",
+        "description": "Die Blüte leicht umrühren.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Lass den Kaffee blühen.",
+        "description": "Kaffee blühen lassen.",
         "time": 25
       },
       {
         "order": 5,
-        "description": "Gieße langsam bis (0,6 x <final_water_amount>)g. Wasser.",
+        "description": "Langsam bis (0,6 x <final_water_amount>)g Wasser aufgießen.",
         "time": 105
       },
       {
         "order": 6,
-        "description": "Einmal im Uhrzeigersinn und einmal gegen den Uhrzeigersinn rühren.",
+        "description": "Einmal im Uhrzeigersinn und einmal gegen den Uhrzeigersinn umrühren.",
         "time": 10
-      },      
+      },
       {
         "order": 7,
-        "description": "Swrl den Server, um das Eis zu schmelzen. Über frische Eiswürfel im Glas gießen.",
+        "description": "Server schwenken, um das Eis zu schmelzen. Über frische Eiswürfel im Glas servieren.",
         "time": 15
       }
     ]
-  },
+  },  
   {
     "id": "105",
     "name": "James Hoffmann V60 - Rezept für eine Tasse",
@@ -223,7 +223,7 @@
     "water_temp": 95,
     "grind_size": "Mittelfein",
     "brew_time": "3min 0s",
-    "short_description": "James Hoffmanns Rezept für eine Tasse V60. [Watch the tutorial video](https://www.youtube.com/watch?v=1oB1oDrDkHM).",
+    "short_description": "James Hoffmanns V60 Rezept für eine Tasse. [Anleitungsvideo ansehen](https://www.youtube.com/watch?v=1oB1oDrDkHM).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
@@ -239,47 +239,47 @@
       },
       {
         "order": 3,
-        "description": "Wirbeln Sie die V60 sanft durch.",
+        "description": "V60 sanft wirbeln.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Lass den Kaffee blühen.",
+        "description": "Kaffee blühen lassen.",
         "time": 30
       },
       {
         "order": 5,
-        "description": "Gießen Sie bis zu (0,4 x <final_water_amount>)g. insgesamt",
+        "description": "Bis zu (0,4 x <final_water_amount>)g Wasser insgesamt gießen.",
         "time": 15
       },
       {
         "order": 6,
-        "description": "Warte.",
+        "description": "Warten.",
         "time": 10
-      },      
+      },
       {
         "order": 7,
-        "description": "Gießen Sie bis zu (0,6 x <final_water_amount>)g. insgesamt",
+        "description": "Bis zu (0,6 x <final_water_amount>)g Wasser insgesamt gießen.",
         "time": 10
       },
       {
         "order": 8,
-        "description": "Warten",
+        "description": "Warten.",
         "time": 10
       },
       {
         "order": 9,
-        "description": "Gießen Sie bis zu (0,8 x <final_water_amount>)g. insgesamt",
+        "description": "Bis zu (0,8 x <final_water_amount>)g Wasser insgesamt gießen.",
         "time": 10
       },
       {
         "order": 10,
-        "description": "Warte.",
+        "description": "Warten.",
         "time": 10
       },
       {
         "order": 11,
-        "description": "Gießen Sie bis zu <final_water_amount>g. gesamt",
+        "description": "Bis zu <final_water_amount>g Wasser insgesamt gießen.",
         "time": 10
       },
       {
@@ -289,9 +289,9 @@
       },
       {
         "order": 13,
-        "description": "Warte auf die vollständige Inanspruchnahme.",
+        "description": "Auf die vollständige Entnahme warten.",
         "time": 55
       }
     ]
-  }
+  }  
 ]

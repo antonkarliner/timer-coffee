@@ -9,13 +9,13 @@
     "water_temp": 100,
     "grind_size": "Fein",
     "brew_time": "1min 50s",
-    "short_description": "Ein Rezept von Tim Wendelboe, World Barista Champion und World Cup Tasters Champion. [Watch the tutorial here](https://timwendelboe.no/brew-guides/aeropress/).",
+    "short_description": "Ein Rezept von Tim Wendelboe, World Barista Champion und World Cup Tasters Champion. [Sehen Sie das Tutorial hier](https://timwendelboe.no/brew-guides/aeropress/).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Papierfilter einige Sekunden lang unter fließendem Leitungswasser ausspülen und Kaffeesatz einfüllen",
+        "description": "Spülen Sie den Papierfilter kurz unter fließendem Wasser und füllen Sie dann den Kaffeesatz ein.",
         "time": 0
       },
       {
@@ -25,22 +25,22 @@
       },
       {
         "order": 3,
-        "description": "Stir 3 times.",
+        "description": "Dreimal umrühren.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Setzen Sie den Stößel auf die Aeropress, um zu verhindern, dass das Wasser durch den Filter läuft, und lassen Sie den Kaffee ziehen.",
+        "description": "Setzen Sie den Stößel auf die Aeropress, um ein Durchlaufen des Wassers zu verhindern, und lassen Sie den Kaffee ziehen.",
         "time": 60
       },
       {
         "order": 5,
-        "description": "Nehmen Sie den Kolben ab und rühren Sie 3 Mal von hinten nach vorne.",
+        "description": "Entfernen Sie den Kolben und rühren Sie den Kaffee dreimal von hinten nach vorne.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Setzen Sie den Stößel oben auf die Aeropress und drücken Sie den Inhalt mit Ihrem Körpergewicht in eine große Tasse oder einen Krug.",
+        "description": "Setzen Sie den Stößel erneut auf und pressen Sie den Inhalt mit Ihrem Körpergewicht in eine große Tasse oder einen Krug.",
         "time": 20
       }
     ]
@@ -55,47 +55,47 @@
     "water_temp": 95,
     "grind_size": "Fein/Mittel",
     "brew_time": "3min 25s",
-    "short_description": "Ein Rezept von James Hoffmann, Gewinner der Barista-Weltmeisterschaft, YouTuber, Kaffeeberater und Autor. Bei mittelstark geröstetem Kaffee erzielen Sie bessere Ergebnisse, wenn Sie 90-95°C warmes Wasser verwenden. Für dunklen Röstkaffee versuchen Sie es mit 85-90°C warmem Wasser für den Aufguss. Mahlen Sie Ihren Kaffee am feineren Ende der mittleren Stufe, vorausgesetzt, es handelt sich um einen hell gerösteten Kaffee. Je dunkler Ihr Kaffee ist, desto mehr sollten Sie die Dosis erhöhen und den Mahlgrad gröber einstellen. [Sehen Sie sich die Anleitung hier an](https://www.youtube.com/watch?v=j6VlT_jUVPc).",
+    "short_description": "Ein Rezept von James Hoffmann, Barista-Weltmeister, YouTuber, Kaffeeberater und Autor. Für mittelstark gerösteten Kaffee ist Wasser mit 90-95°C ideal. Für dunkel gerösteten Kaffee nutzen Sie 85-90°C. Mahlen Sie hellen Kaffee feiner und dunklen Kaffee gröber. [Anleitung hier ansehen](https://www.youtube.com/watch?v=j6VlT_jUVPc).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Brüher in Standardposition auf einen Server stellen. Spülen Sie den Brüher nicht aus und heizen Sie ihn nicht vor (es macht keinen Unterschied). Kaffeesatz einfüllen",
+        "description": "Stellen Sie den Brüher in Standardposition auf einen Server. Nicht ausspülen oder vorheizen. Füllen Sie den Kaffeesatz ein.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Gießen Sie <final_water_amount>g Wasser mit dem Ziel, den gesamten Kaffee beim Einschenken zu benetzen.",
+        "description": "Gießen Sie <final_water_amount>g Wasser ein, sodass der gesamte Kaffee benetzt wird.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Platzieren Sie den Kolben oben auf dem Brüher, etwa 1 cm tief.",
+        "description": "Setzen Sie den Kolben etwa 1 cm tief auf den Brüher.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Warte 2 Minuten.",
+        "description": "Warten Sie 2 Minuten.",
         "time": 120
       },
       {
         "order": 5,
-        "description": "Halten Sie die Brühgruppe und den Kolben und wirbeln Sie die Brühgruppe sanft umher.",
+        "description": "Halten Sie Brüher und Kolben fest und schwenken Sie alles sanft.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Warte 30 Sekunden.",
+        "description": "Warten Sie weitere 30 Sekunden.",
         "time": 30
       },
       {
         "order": 7,
-        "description": "Vorsichtig bis zum Anschlag drücken.",
+        "description": "Drücken Sie vorsichtig bis zum Ende.",
         "time": 30
       }
     ]
-  },
+  },  
   {
     "id": "203",
     "name": "Alan Adler Aeropress Rezept",
@@ -106,28 +106,28 @@
     "water_temp": 80,
     "grind_size": "Fein",
     "brew_time": "1min 0s",
-    "short_description": "Ein Rezept von Alan Adler, dem Erfinder der Aeropress. Dieses Rezept erzeugt ein Konzentrat oder einen Kaffee im Espresso-Stil. Fügen Sie einfach heißes Wasser hinzu, um einen Kaffee im Stil eines 'Americano' zu erhalten. [Sehen Sie sich die Anleitung hier an](https://www.youtube.com/watch?v=9c14DxfVOY4).",
+    "short_description": "Ein Rezept von Alan Adler, dem Erfinder der Aeropress. Ideal für ein Konzentrat oder Espresso-ähnlichen Kaffee. Fügen Sie heißes Wasser hinzu für einen 'Americano'-Stil. [Anleitung hier](https://www.youtube.com/watch?v=9c14DxfVOY4).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Füllen Sie gemahlenen Kaffee in die Brühkammer. Schütteln Sie die Kammer, um das Kaffeebett auszugleichen.",
+        "description": "Gemahlenen Kaffee in die Brühkammer füllen und die Kammer schütteln, um das Kaffeepulver zu nivellieren.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Gieße <final_water_amount>g Wasser in die Kammer.",
+        "description": "Gießen Sie <final_water_amount>g Wasser in die Kammer.",
         "time": 10
       },
       {
         "order": 3,
-        "description": " Rühren mit dem Paddel.",
+        "description": "Mit dem Paddel umrühren.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Stößel einführen und leicht drücken",
+        "description": "Den Stößel einsetzen und sanft drücken.",
         "time": 40
       }
     ]
@@ -142,23 +142,23 @@
     "water_temp": 95,
     "grind_size": "grob",
     "brew_time": "1min 30s",
-    "short_description": "Ein Rezept von Wendelien van Bunnik, einem niederländischen Barista und dem AeroPress-Weltmeister 2019. Beachten Sie, dass dies eine umgekehrte Methode ist. Wenn Sie nicht sicher sind, wie es funktioniert, [schauen Sie sich zuerst das Tutorial an](https://www.youtube.com/watch?v=jLNIGf-lf3s).",
+    "short_description": "Ein Rezept von Wendelien van Bunnik, niederländische Barista und AeroPress-Weltmeisterin 2019. Nutzt eine umgekehrte Methode. [Tutorial hier ansehen](https://www.youtube.com/watch?v=jLNIGf-lf3s), falls nötig.",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Legen Sie zwei Papierfilter in den Deckel und spülen Sie sie mit heißem Wasser aus. Drücken Sie eventuelle Luftblasen mit dem Paddel heraus. Entsorgen Sie das Spülwasser. Füllen Sie gemahlenen Kaffee in die Brühkammer. Schütteln Sie ihn, um das Kaffeemehl gleichmäßig zu verteilen.",
+        "description": "Zwei Papierfilter im Deckel mit heißem Wasser ausspülen. Luftblasen mit dem Paddel entfernen und das Wasser abgießen. Gemahlenen Kaffee in die Brühkammer füllen und für eine gleichmäßige Verteilung schütteln.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Gieße <final_water_amount>g über das Gelände.",
+        "description": "Gießen Sie <final_water_amount>g Wasser über das Kaffeepulver.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "5 mal sanft umrühren.",
+        "description": "Fünfmal sanft umrühren.",
         "time": 10
       },
       {
@@ -168,11 +168,11 @@
       },
       {
         "order": 5,
-        "description": "Drehen Sie die AeroPress und drücken Sie sie in eine Tasse. Hören Sie auf, wenn Sie ein zischendes Geräusch hören.",
+        "description": "Die AeroPress umdrehen und in eine Tasse pressen. Stoppen Sie, sobald Sie ein Zischen hören.",
         "time": 30
       }
     ]
-  },
+  },  
   {
     "id": "205",
     "name": "Alexander Mills Iced Aeropress Rezept",
@@ -183,18 +183,18 @@
     "water_temp": 99,
     "grind_size": "Mittel/Fein",
     "brew_time": "3min 20s",
-    "short_description": "Ein Rezept von Alexander Mills, einem Berater in der Kaffeeindustrie aus Kanada. Beachten Sie, dass dies eine umgekehrte Methode ist. Hier ist [die Anleitung ](https://alexandermills.ca/blog/iced-aeropress).",
+    "short_description": "Ein Rezept von Alexander Mills, einem Kaffeeberater aus Kanada. Dies ist eine umgekehrte Methode. [Anleitung hier](https://alexandermills.ca/blog/iced-aeropress).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Spülen Sie zwei Papierfilter in der Kappe vor, um den Papiergeschmack herauszuwaschen, und heizen Sie den Brüher vor. Schütten Sie das Wasser weg und legen Sie den Deckel beiseite. Füllen Sie Ihren Server mit Eis in der gleichen Menge wie die Wassermenge. Den Kaffeesatz in die Aeropress einfüllen.",
+        "description": "Zwei Papierfilter in der Kappe vorab ausspülen, um Papiergeschmack zu entfernen, und den Brüher vorwärmen. Wasser weggießen, den Deckel beiseitelegen. Server mit Eis in Höhe der Wassermenge füllen. Kaffeesatz in die Aeropress geben.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Gießen Sie bei umgekehrter Aeropress (0,3 x <final_water_amount>)g abgekochtes Wasser ein.",
+        "description": "Gießen Sie (0,3 x <final_water_amount>)g abgekochtes Wasser in die umgekehrte Aeropress.",
         "time": 5
       },
       {
@@ -204,27 +204,27 @@
       },
       {
         "order": 4,
-        "description": "Lass den Kaffee blühen.",
+        "description": "Den Kaffee blühen lassen.",
         "time": 20
       },
       {
         "order": 5,
-        "description": "Gieße das restliche (0,7 x <final_water_amount>)g. Wasser ziemlich schnell in konzentrischen Kreisen.",
+        "description": "Das restliche (0,7 x <final_water_amount>)g Wasser in konzentrischen Kreisen schnell einfüllen.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Rühren Sie den Brei einmal kräftig um und verschließen Sie dann Ihre AeroPress.",
+        "description": "Einmal kräftig umrühren und die AeroPress verschließen.",
         "time": 100
       },
       {
         "order": 7,
-        "description": "Stellen Sie Ihre AeroPress auf Ihren Server und pressen Sie 30 Sekunden lang gleichmäßig über Eis. Stoppen Sie Ihre Presse, wenn die AeroPress zischt.",
+        "description": "Die AeroPress auf den Server stellen und 30 Sekunden lang gleichmäßig über das Eis pressen. Stoppen, wenn die AeroPress zischt.",
         "time": 30
       },
       {
         "order": 8,
-        "description": "Wirbeln Sie Ihren Eiskaffee im Servierer, um die letzten Wärmemoleküle gegen kühlere auszutauschen, und servieren Sie ihn dann in einem gekühlten Glas.",
+        "description": "Den Eiskaffee im Server schwenken, um die letzten warmen Moleküle zu kühlen, und in einem gekühlten Glas servieren.",
         "time": 20
       }
     ]
@@ -239,48 +239,48 @@
     "water_temp": 97,
     "grind_size": "Mittel",
     "brew_time": "1min 30s",
-    "short_description": "Ein Rezept von Mark Prince, kanadischer, US-amerikanischer und World Barista Championship Judge und Gründer von CoffeeGeek. Hier ist [die detaillierte und interessante Anleitung](https://www.coffeegeek.com/guides/aeropress-inverted-brew-method-how-to/). Beachten Sie, dass es sich um eine umgekehrte Methode handelt, und Mike rät dringend dazu, Metallfilter statt Papierfilter zu verwenden.",
+    "short_description": "Ein Rezept von Mark Prince, einem kanadischen und US-amerikanischen Barista Championship Judge und Gründer von CoffeeGeek. Diese umgekehrte Methode bevorzugt Metallfilter. [Ausführliche Anleitung hier](https://www.coffeegeek.com/guides/aeropress-inverted-brew-method-how-to/).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Stellen Sie alle Ihre Geräte und den Kaffee zusammen. Bringen Sie das Wasser zum Kochen. Bauen Sie die AeroPress zusammen. Nehmen Sie den Kolben und stecken Sie ihn knapp 1 cm tief in den Kolben der AeroPress und achten Sie darauf, dass er perfekt ausgerichtet ist. Messen und mahlen Sie Ihren Kaffee. Legen Sie die AeroPress auf die Waage, füllen Sie das Kaffeemehl ein und stellen Sie den Nullpunkt ein",
+        "description": "Bereiten Sie alle Geräte und Kaffee vor. Wasser zum Kochen bringen. AeroPress zusammenbauen. Kolben knapp 1 cm in den Zylinder stecken, darauf achten, dass er gerade ist. Kaffee abmessen, mahlen, in die AeroPress füllen und auf der Waage auf Null stellen.",
         "time": 0
       },
       {
         "order": 2,
-        "description": " Gieße (0,45 x <final_water_amount>)g abgekochtes Wasser in den umgedrehten Kolben.",
+        "description": "Gießen Sie (0,45 x <final_water_amount>)g abgekochtes Wasser in den umgedrehten Kolben.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Lassen Sie eine leichte Blüte entstehen.",
+        "description": "Eine leichte Blüte entstehen lassen.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Rühren Sie die Gülle ein wenig um.",
+        "description": "Die Gülle leicht umrühren.",
         "time": 10
       },
       {
         "order": 5,
-        "description": "Gieße weiter heißes Wasser ein, bis du <final_water_amount>g Wasser erreicht hast.",
+        "description": "Weiter heißes Wasser bis zu <final_water_amount>g hinzufügen.",
         "time": 15
       },
       {
         "order": 6,
-        "description": "Rühren Sie die Gülle noch zweimal um und achten Sie dabei darauf, dass sie nicht überläuft.",
+        "description": "Zweimal umrühren, darauf achten, dass nichts überläuft.",
         "time": 10
       },
       {
         "order": 7,
-        "description": "Fügen Sie nach Möglichkeit weitere 40-50 g Wasser hinzu und füllen Sie die Brühkammer so weit wie möglich bis zum Rand auf.",
+        "description": "Falls möglich, weitere 40-50 g Wasser hinzufügen, bis die Brühkammer fast voll ist.",
         "time": 5
       },
       {
         "order": 8,
-        "description": "Befestigen Sie den Filter und den Filterhalter an der AeroPress.",
+        "description": "Filter und Filterhalter an der AeroPress befestigen.",
         "time": 10
       },
       {
@@ -290,19 +290,19 @@
       },
       {
         "order": 10,
-        "description": "Drehen Sie die AeroPress und den Server um.",
+        "description": "AeroPress und Server umdrehen.",
         "time": 10
       },
       {
         "order": 11,
-        "description": "Tauchen Sie die AeroPress nach unten, um den gebrühten Kaffee zu extrahieren.",
+        "description": "Die AeroPress nach unten drücken, um den Kaffee zu extrahieren.",
         "time": 10
       }
     ]
-  },
+  },  
   {
     "id": "207",
-    "name": "James Hoffmann's Iced AeroPress",
+    "name": "James Hoffmann's Iced AeroPress-Rezept",
     "brewing_method_id": "aeropress",
     "brewing_method": "Aeropress",
     "coffee_amount": 22,
@@ -310,48 +310,48 @@
     "water_temp": 100,
     "grind_size": "Fein/Mittel",
     "brew_time": "3min 25s",
-    "short_description": "Das eisgekühlte Aeropress-Rezept von James Hoffmann ist im Wesentlichen eine vergrößerte Version seiner ultimativen Technik mit Eis als Bypass. [Watch the tutorial here](https://youtu.be/DlaEwef6MTg).",
+    "short_description": "Ein eisgekühltes Aeropress-Rezept von James Hoffmann, erweitert seine ultimative Technik mit Eis als Bypass. [Tutorial ansehen](https://youtu.be/DlaEwef6MTg).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Lege (0,4 x <final_water_amount>)g. Eis in den Server. Stellen Sie den Brüher in die Standardposition auf dem Server. Spülen Sie den Brüher nicht aus und heizen Sie ihn nicht vor (es macht keinen Unterschied). Kaffeesatz einfüllen.",
+        "description": "(0,4 x <final_water_amount>)g Eis in den Server geben. Brüher in Standardposition auf dem Server aufstellen. Nicht ausspülen oder vorheizen. Kaffeesatz einfüllen.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Gießen Sie (0,6 x <final_water_amount>)g. Wasser mit dem Ziel, den gesamten Kaffee während des Ausgießens zu benetzen.",
+        "description": "Gießen Sie (0,6 x <final_water_amount>)g Wasser, sodass der gesamte Kaffee beim Ausgießen benetzt wird.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Platzieren Sie den Kolben oben auf dem Brüher, etwa 1 cm tief.",
+        "description": "Platzieren Sie den Kolben ca. 1 cm tief auf dem Brüher.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Warte 4 Minuten.",
+        "description": "4 Minuten warten.",
         "time": 240
       },
       {
         "order": 5,
-        "description": "Halten Sie die Brühgruppe und den Kolben und wirbeln Sie die Brühgruppe sanft umher.",
+        "description": "Brühgruppe und Kolben halten und sanft schwenken.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Warte 30 Sekunden.",
+        "description": "30 Sekunden warten.",
         "time": 30
       },
       {
         "order": 7,
-        "description": "Vorsichtig bis zum Anschlag drücken.",
+        "description": "Vorsichtig bis zum Ende drücken.",
         "time": 30
       },
       {
         "order": 8,
-        "description": "Wirbeln, um das gesamte Eis zu schmelzen. Über frischen Eiswürfeln servieren.",
+        "description": "Schwenken, bis das gesamte Eis geschmolzen ist. Über frischem Eis servieren.",
         "time": 30
       }
     ]
@@ -366,40 +366,40 @@
     "water_temp": 88,
     "grind_size": "Mittel-Grob",
     "brew_time": "2min 0s",
-    "short_description": "Das Rezept ergibt einen leichten und saftigen Kaffee mit geringer Bitterkeit und guter Säure. [Watch the tutorial here](https://www.youtube.com/watch?v=PUsHI7jdX1k).",
+    "short_description": "Das Rezept liefert einen leichten, saftigen Kaffee mit geringer Bitterkeit und ausgeprägter Säure. [Tutorial ansehen](https://www.youtube.com/watch?v=PUsHI7jdX1k).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Setzen Sie den Papierfilter ein, spülen Sie ihn aus und stellen Sie die AeroPress in Standardposition auf den Server. Den Kaffee einfüllen.",
+        "description": "Papierfilter einsetzen, ausspülen und die AeroPress in Standardposition auf den Server stellen. Kaffee einfüllen.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Gieße (0,25 x <final_water_amount>)g. Wasser schnell ein, rühre es ein wenig um und setze den Kolben auf, damit es nicht tropft.",
+        "description": "(0,25 x <final_water_amount>)g Wasser schnell eingießen, umrühren und Kolben aufsetzen, um Tropfen zu vermeiden.",
         "time": 15
       },
       {
         "order": 3,
-        "description": "Warten",
+        "description": "Warten.",
         "time": 15
       },
       {
         "order": 4,
-        "description": "Entfernen Sie den Kolben, gießen Sie das restliche (0,75 x <final_water_amount>)g.Wasser ein. Setzen Sie den Kolben wieder auf.",
+        "description": "Kolben entfernen, restliches (0,75 x <final_water_amount>)g Wasser eingießen und Kolben wieder aufsetzen.",
         "time": 30
       },
       {
         "order": 5,
-        "description": "Warte.",
+        "description": "Warten.",
         "time": 30
       },
       {
         "order": 6,
-        "description": "Langsam runterdrücken, beim Zischen aufhören.",
+        "description": "Langsam herunterdrücken, beim Zischen stoppen.",
         "time": 30
       }
     ]
-  }
+  }  
 ]
