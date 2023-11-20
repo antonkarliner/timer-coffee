@@ -9,3 +9,5 @@ Neue Rezepte hinzugefügt von [@Fplas](https://github.com/Fplas), [@trommelaere]
 [@Mearman](https://github.com/Mearman) - korrigierte Github README
 
 [@typomanka](https://github.com/typomanka) – meine liebe Freundin Julia hat tolle Icons für Kaffeebrühmethoden erstellt. Schau dir auch ihr [Instagram](https://www.instagram.com/typomanka/) an!
+
+[Diana](https://diana.karliner.pro/) hat die russische Übersetzung der Rezepte bearbeitet

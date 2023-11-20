@@ -9,3 +9,5 @@
 [@Mearman](https://github.com/Mearman) - GithubのREADMEを修正しました。
 
 [@typomanka](https://github.com/typomanka) – 私の親友のジュリアは、コーヒーの抽出方法のための素晴らしいアイコンを作成しました。彼女の[Instagram](https://www.instagram.com/typomanka/)もチェックしてみてください！
+
+[Diana](https://diana.karliner.pro/)はレシピのロシア語訳を編集しました

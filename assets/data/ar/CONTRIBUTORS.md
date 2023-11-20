@@ -9,3 +9,5 @@
 [@Mearman](https://github.com/Mearman) - أصلح Github README
 
 [@typomanka](https://github.com/typomanka) – صديقتي العزيزة جوليا خلقت أيقونات رائعة لطرق تحضير القهوة. تحقق من [إنستغرام](https://www.instagram.com/typomanka/) أيضًا!
+
+[ديانا](https://diana.karliner.pro/) قامت بتحرير الترجمة الروسية للوصفات

@@ -9,3 +9,5 @@
 [@Mearman](https://github.com/Mearman) - исправил README на Github
 
 [@typomanka](https://github.com/typomanka) – моя дорогая подруга Юлия создала потрясающие иконки для методов заваривания кофе. Посмотрите также её [Instagram](https://www.instagram.com/typomanka/)!
+
+[Диана](https://diana.karliner.pro/) отредактировала перевод рецептов на русский язык

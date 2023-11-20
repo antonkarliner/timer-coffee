@@ -9,3 +9,5 @@
 [@Mearman](https://github.com/Mearman) - 修复了Github自述文件
 
 [@typomanka](https://github.com/typomanka) – 亲爱的朋友朱莉亚为咖啡冲泡方法创建了很棒的图标。
+
+[Diana](https://diana.karliner.pro/) 编辑了食谱的俄语翻译
