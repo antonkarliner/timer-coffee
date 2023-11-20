@@ -9,23 +9,23 @@
     "water_temp": 95,
     "grind_size": " средне-мелкий",
     "brew_time": "3min 30s",
-    "short_description": "Рецепт Clever Dripper от Джеймса Хоффмана, победителя Мирового чемпионата бариста, YouTuber, кофейного консультанта и автора. [Смотрите учебное пособие](https://www.youtube.com/watch?v=RpOdennxP24).",
+    "short_description": "Рецепт Clever Dripper от Джеймса Хоффмана, победителя чемпионата мира среди бариста, кофейного консультанта и писателя. [Смотрите учебное пособие](https://www.youtube.com/watch?v=RpOdennxP24).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Вставьте бумажный фильтр в Clever Dripper и ополосните его водой. Измельчите кофе, но пока не помещайте его в Clever Dripper. Поставьте на весы и обнулите их. Возьмите ложку",
+        "description": "Вставьте бумажный фильтр в Clever Dripper и ополосните его водой. Измельчите кофе, но пока не помещайте его в заварник. Поставьте его на весы, обнулите их. Возьмите ложку",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Добавить <final_water_amount>г. воды в Clever Dripper",
+        "description": "Добавьте <final_water_amount>г. воды в Clever Dripper",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Положите кофе в воду и немного размешайте ложкой",
+        "description": "Насыпьте кофе в воду и немного помешайте ложкой",
         "time": 10
       },
       {
@@ -40,14 +40,14 @@
       },
       {
         "order": 6,
-        "description": "Разместите Clever Dripper на сервере и дождитесь завершения процесса",
+        "description": "Поставьте Clever Dripper на сервер и дождитесь завершения процесса",
         "time": 60
       }
     ]
   },
   {
     "id": "502",
-    "name": "Clever Dripper recipe от European Coffee Trip",
+    "name": "Рецепт Clever Dripper от youtube-канала European Coffee Trip",
     "brewing_method_id": "clever_dripper",
     "brewing_method": "Clever Dripper",
     "coffee_amount": 20,
@@ -55,7 +55,7 @@
     "water_temp": 95,
     "grind_size": "грубый",
     "brew_time": "5min 20s",
-    "short_description": "Рецепт Clever Dripper от Youtube-канала European Coffee Trip. Вот [инструкция](https://www.youtube.com/watch?v=H4-XTUpX9Mo).",
+    "short_description": "Рецепт Clever Dripper от youtube-канала European Coffee Trip. Вот [инструкция](https://www.youtube.com/watch?v=H4-XTUpX9Mo).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
@@ -66,7 +66,7 @@
       },
       {
         "order": 2,
-        "description": "Добавить в заварник <final_water_amount> г воды",
+        "description": "Добавить в заварник <final_water_amount> г. воды",
         "time": 10
       },
       {
@@ -76,7 +76,7 @@
       },
       {
         "order": 4,
-        "description": "Аккуратно разломить ложкой корочку сверху",
+        "description": "Аккуратно разломите ложкой кофейную корку",
         "time": 10
       },
       {
@@ -86,14 +86,14 @@
     },
     {
       "order": 6,
-      "description": "Установите Clever Dripper на графин и дайте кофе стечь",
+      "description": "Поставьте Clever Dripper на сервер и дайте кофе стечь",
       "time": 60
     }
   ]
   },
   {
     "id": "503",
-    "name": "Clever Dripper от Coffee and Water",
+    "name": "Рецепт Clever Dripper от youtube-канала Coffee and Water",
     "brewing_method_id": "clever_dripper",
     "brewing_method": "Clever Dripper",
     "coffee_amount": 28,
@@ -101,7 +101,7 @@
     "water_temp": 95,
     "grind_size": "средне-грубый",
     "brew_time": " 5min 20s",
-    "short_description": "Рецепт Clever Dripper от Youtube-канала Coffee and Water. Вот [инструкция](https://www.youtube.com/watch?v=gyZ7Zvvl3uk).",
+    "short_description": "Рецепт Clever Dripper от youtube-канала Coffee and Water. Вот [инструкция](https://www.youtube.com/watch?v=gyZ7Zvvl3uk).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
@@ -112,27 +112,27 @@
       },
       {
         "order": 2,
-        "description": "Добавить в заварник <final_water_amount> г воды",
+        "description": "Добавить в заварник <final_water_amount> г. воды",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Дайте кофе завариться",
+        "description": "Подождите",
         "time": 50
       },
       {
         "order": 4,
-        "description": "Ложкой разбить корочку на верхней части заварки, перемешивая 3 раза",
+        "description": "Разломите ложкой кофейную корку, перемешайте верхнюю часть заварки 3 раза",
         "time": 10
       },
       {
       "order": 5,
-      "description": "Дайте кофе завариться",
+      "description": "Подождите, пока кофе заваривается",
       "time": 80
     },
     {
       "order": 6,
-      "description": "Поместите свой Clever Dripper на графин и дайте кофе стечь",
+      "description": "Поставьте Clever Dripper на сервер и дайте кофе стечь",
       "time": 60
     }
   ]
@@ -147,7 +147,7 @@
     "water_temp": 95,
     "grind_size": "Мелкий",
     "brew_time": " 6min 35s",
-    "short_description": "В этом рецепте используется усовершенствованная техника приготовления холодного кофе методом погружения, разработанная Джеймсом Хоффманом. Посмотрите [инструкцию](https://www.youtube.com/watch?v=8uGGeV8A-BM). Дополнительно: в конце приготовления можно добавить несколько капель солевого раствора (раствор 20% соли и 80% воды), чтобы уменьшить горечь. Примечание: помол должен быть более мелким, чем обычно для заваривания, но не эспрессо.",
+    "short_description": "В этом рецепте холодного кофе используется усовершенствованная техника приготовления, разработанная кофейным консультантом Джеймсом Хоффманом. Посмотрите [инструкцию](https://www.youtube.com/watch?v=8uGGeV8A-BM). Дополнительно: в конце приготовления можно добавить несколько капель солевого раствора (раствор 20% соли и 80% воды), чтобы уменьшить горечь. Примечание: помол должен быть более мелким, чем обычно для заваривания, но не эспрессо.",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
@@ -163,22 +163,22 @@
       },
       {
         "order": 3,
-        "description": "Положите кофе в воду и размешайте его ложкой, следя за тем, чтобы весь кофе был смочен",
+        "description": "Положите кофе в воду и размешайте его ложкой так, чтобы весь кофе намок",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Дайте кофе завариться. Когда время заваривания почти закончится, положите в сервер (0,34 x <final_water_amount>) г льда",
+        "description": "Дайте кофе завариться. Когда время заваривания почти закончится, положите в сервер (0,34 x <final_water_amount>) г. льда",
         "time": 300
       },
       {
         "order": 5,
-        "description": "Разместить Clever Dripper на сервере и дождаться полной просадки",
+        "description": "Поставьте Clever Dripper на сервер и дождитесь стекания кофе",
         "time": 60
       },
       {
         "order": 6,
-        "description": "Покрутите сервер или размешайте ложкой, чтобы разбавить оставшийся лед. Дополнительно: добавьте несколько капель солевого раствора для уменьшения горечи",
+        "description": "Покрутите сервер или размешайте ложкой, чтобы разбавить оставшийся лед. Для уменьшения горечи можно добавить несколько капель солевого раствора",
         "time": 15
       }
     ]

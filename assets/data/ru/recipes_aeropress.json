@@ -1,7 +1,7 @@
 [
   {
     "id": "201",
-    "name": "Рецепт Аэропресса от Тима Вендельбоу",
+    "name": "Рецепт Аэропресса от Тима Вендельбё",
     "brewing_method_id": "aeropress",
     "brewing_method": "Aeropress",
     "coffee_amount": 14,
@@ -9,7 +9,7 @@
     "water_temp": 100,
     "grind_size": " Мелкий",
     "brew_time": " 1min 50s",
-    "short_description": "Рецепт Тима Вендельбоу, чемпиона мира среди бариста и дегустаторов. [Смотрите учебное пособие здесь](https://timwendelboe.no/brew-guides/aeropress/)",
+    "short_description": "Рецепт Тима Вендельбё, чемпиона мира среди бариста и дегустаторов. [Смотрите учебное пособие здесь](https://timwendelboe.no/brew-guides/aeropress/)",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
