@@ -1,7 +1,7 @@
 [
   {
     "id": "601",
-    "name": "Scott Rao Kalita Wave recipe",
+    "name": "Scott Rao Kalita Wave Rezept",
     "brewing_method_id": "kalita_wave",
     "brewing_method": "Kalita Wave",
     "coffee_amount": 20,
@@ -9,13 +9,13 @@
     "water_temp": 95,
     "grind_size": "Mittelfein",
     "brew_time": "4min 20s",
-    "short_description": "Ein Kalita Wave Rezept von Scott Rao. [Watch the tutorial video](https://www.youtube.com/watch?v=BjsGf3R9mc0).",
+    "short_description": "Ein Kalita Wave Rezept von Scott Rao. [Anleitungsvideo ansehen](https://www.youtube.com/watch?v=BjsGf3R9mc0).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Mahlen Sie den Kaffee, spülen Sie den Papierfilter mit heißem Wasser aus und legen Sie ihn in die Kalita Wave. Geben Sie den Kaffeesatz hinein.",
+        "description": "Kaffee mahlen, Papierfilter mit heißem Wasser ausspülen und in die Kalita Wave legen. Kaffeesatz hinzufügen.",
         "time": 0
       },
       {
@@ -25,32 +25,32 @@
       },
       {
         "order": 4,
-        "description": "Drehen Sie den Brüher ein wenig, benutzen Sie den Löffel, um zu mischen, falls nötig.",
+        "description": "Den Brüher leicht drehen und bei Bedarf mit einem Löffel mischen.",
         "time": 10
       },
       {
         "order": 5,
-        "description": "Lass den Kaffee blühen.",
+        "description": "Kaffee blühen lassen.",
         "time": 25
       },
       {
         "order": 6,
-        "description": "Gießen, bis (0,6 x <final_water_amount>)g.",
+        "description": "Bis zu (0,6 x <final_water_amount>)g aufgießen.",
         "time": 30
-      },      
+      },
       {
         "order": 7,
-        "description": "Warten, bis die Gülle etwa zur Hälfte abgelaufen ist",
+        "description": "Warten, bis die Gülle zur Hälfte abgelaufen ist.",
         "time": 40
       },
       {
         "order": 8,
-        "description": "Wasser hinzufügen bis <final_water_amount>g.",
+        "description": "Wasser bis zu <final_water_amount>g nachgießen.",
         "time": 10
       },
       {
         "order": 9,
-        "description": "Drehen Sie den Brüher sanft und warten Sie auf die vollständige Entnahme",
+        "description": "Den Brüher sanft drehen und auf die komplette Entnahme warten.",
         "time": 135
       }
     ]
@@ -65,13 +65,13 @@
     "water_temp": 96,
     "grind_size": "grob",
     "brew_time": "3min 30s",
-    "short_description": "Rezept von James McCarthy, der 2013 mit Kalita Wave die World Brewers Cup Championship gewonnen hat. Mehr Details [hier](https://sprudge.com/meet-the-worlds-best-brewer-james-mccarthy-brewers-cup-champ-38672.html).",
+    "short_description": "Ein Rezept von James McCarthy, Gewinner der World Brewers Cup Championship 2013 mit der Kalita Wave. Mehr Details [hier](https://sprudge.com/meet-the-worlds-best-brewer-james-mccarthy-brewers-cup-champ-38672.html).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Kaffee mahlen und durchsieben (optional). Filter ausspülen, Kaffee in die Kalita füllen und schütteln, um den Kaffeesatz zu glätten.",
+        "description": "Kaffee mahlen und sieben (optional). Filter ausspülen, Kaffee in die Kalita geben und schütteln, um den Kaffeesatz zu ebnen.",
         "time": 0
       },
       {
@@ -81,29 +81,29 @@
       },
       {
         "order": 3,
-        "description": "Lass den Kaffee blühen.",
+        "description": "Kaffee blühen lassen.",
         "time": 30
       },
       {
         "order": 4,
-        "description": "Pulse pour up to (0.5 x <final_water_amount>)g., maintaining a even column of water above the grounds.",
+        "description": "In Pulsen bis zu (0,5 x <final_water_amount>)g gießen, gleichmäßige Wassersäule über dem Kaffeesatz halten.",
         "time": 30
       },
       {
-      "order": 5,
-      "description": "Pulse pour up to <final_water_amount>g., use flow-restricted kettle if possible.",
-      "time": 30
-    },
-    {
-      "order": 6,
-      "description": "Warte auf die vollständige Inanspruchnahme.",
-      "time": 75
-    }
-  ]
-  },
+        "order": 5,
+        "description": "Weiter in Pulsen bis zu <final_water_amount>g gießen, falls möglich mit einem Wasserkessel mit Flussregulierung.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Auf die vollständige Entnahme warten.",
+        "time": 75
+      }
+    ]
+  },  
   {
     "id": "603",
-    "name": "George Howell Coffee Kalita Wave recipe",
+    "name": "George Howell Coffee Kalita Wave Rezept",
     "brewing_method_id": "kalita_wave",
     "brewing_method": "Kalita Wave",
     "coffee_amount": 25,
@@ -111,75 +111,75 @@
     "water_temp": 96,
     "grind_size": "Mittel",
     "brew_time": "3min 30s",
-    "short_description": "Ein ungewöhnliches Rezept von [George Howell Coffee](https://georgehowellcoffee.com/pages/brew-guide-kalita-185/).",
+    "short_description": "Ein spezielles Rezept von [George Howell Coffee](https://georgehowellcoffee.com/pages/brew-guide-kalita-185/).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Filter ausspülen, bis sich der Tropfer warm anfühlt. Kaffee abwiegen und mahlen. In Kalita Wave einfüllen und schütteln, um das Kaffeemehl zu verteilen.",
+        "description": "Filter ausspülen, bis der Tropfer warm wird. Kaffee abwiegen, mahlen, in die Kalita Wave füllen und schütteln, um das Kaffeemehl gleichmäßig zu verteilen.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Gießen, bis (0,16 x <final_water_amount>)g. Wasser.",
+        "description": "Gießen, bis (0,16 x <final_water_amount>)g Wasser erreicht sind.",
         "time": 15
       },
       {
         "order": 3,
-        "description": "Warten",
+        "description": "Kurze Pause.",
         "time": 15
       },
       {
         "order": 4,
-        "description": "Gießen, bis (0,33 x <final_water_amount>)g. Wasser.",
+        "description": "Weiter gießen, bis (0,33 x <final_water_amount>)g Wasser.",
         "time": 15
       },
       {
         "order": 5,
-        "description": "Warte.",
+        "description": "Pause.",
         "time": 15
       },
       {
         "order": 6,
-        "description": "Gießen bis (0,5 x <final_water_amount>)g. Wasser.",
+        "description": "Gießen bis (0,5 x <final_water_amount>)g Wasser.",
         "time": 15
       },
       {
         "order": 7,
-        "description": "Warten",
+        "description": "Kurze Pause.",
         "time": 15
       },
       {
         "order": 8,
-        "description": "Gießen, bis (0,66 x <final_water_amount>)g. Wasser.",
+        "description": "Gießen, bis (0,66 x <final_water_amount>)g Wasser erreicht sind.",
         "time": 15
       },
       {
         "order": 9,
-        "description": "Warte.",
+        "description": "Pause.",
         "time": 15
       },
       {
         "order": 10,
-        "description": "Gießen, bis (0,83 x <final_water_amount>)g. Wasser.",
+        "description": "Gießen, bis (0,83 x <final_water_amount>)g Wasser.",
         "time": 15
       },
       {
         "order": 11,
-        "description": "Warte.",
+        "description": "Pause.",
         "time": 15
       },
       {
         "order": 12,
-        "description": "Gießen bis <final_water_amount>g. Wasser",
+        "description": "Gießen bis <final_water_amount>g Wasser erreicht sind.",
         "time": 15
       },
       {
         "order": 13,
-        "description": "Warten, bis die Inanspruchnahme abgeschlossen ist.",
+        "description": "Warten, bis der Brühvorgang vollständig abgeschlossen ist.",
         "time": 45
       }
-  ]
-  }
+    ]
+  }  
 ]

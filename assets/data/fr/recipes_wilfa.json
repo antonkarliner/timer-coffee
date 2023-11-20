@@ -1,150 +1,150 @@
 [
   {
-    "id" : "701",
-    "name" : "Wilfa Svart Pour Over recette par immersion",
-    "brewing_method_id" : "wilfa_svart",
-    "brewing_method" : "Wilfa Svart Pour Over",
-    "coffee_amount" : 18,
-    "water_amount" : 300,
-    "water_temp" : 95,
-    "grind_size" : "Moyenne-grossière",
-    "brew_time" : "3min 30s",
-    "short_description" : "Il s'agit d'une recette que j'ai beaucoup utilisée avec le Dripper Wilfa. Je ne suis pas vraiment sûr de son auteur, mais elle est similaire à de nombreuses recettes d'immersion",
-    "last_used" : "2023-05-01T12:00:00Z",
-    "is_favorite" : false,
-    "steps" : [
-      {
-        "order" : 1,
-        "description" : "Rincez le filtre et la cafetière à l'eau chaude. Moulez votre café. Versez la mouture, mettez la balance à zéro. Fermez le limiteur de débit",
-        "time" : 0
-      },
-      {
-        "order" : 2,
-        "description" : "Verser dans <final_water_amount>g. d'eau",
-        "time" : 15
-      },
-      {
-        "order" : 3,
-        "description" : "Faire tourner un peu le brasseur",
-        "time" : 5
-      },
-      {
-        "order" : 4,
-        "description" : "Laisser le café infuser",
-        "time" : 130
-      },
-      {
-        "order" : 5,
-        "description" : "Casser délicatement la croûte de café à l'aide d'une cuillère",
-        "time" : 10
-      },
-      {
-        "order" : 6,
-        "description" : "Attendez encore un peu",
-        "time" : 20
-      },      
-      {
-        "order" : 7,
-        "description" : "Ouvrir complètement le régulateur de débit, attendre la vidange complète",
-        "time" : 30
-      }
+    "id": "701",
+    "name": "Wilfa Svart Pour Over - Recette par immersion",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "Moyenne-grossière",
+    "brew_time": "3min 30s",
+    "short_description": "Cette recette, que j'ai fréquemment utilisée avec le Dripper Wilfa, est similaire à plusieurs autres recettes d'immersion.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+        {
+            "order": 1,
+            "description": "Rincez le filtre et la cafetière avec de l'eau chaude. Moulez le café, versez-le et mettez la balance à zéro. Fermez le limiteur de débit.",
+            "time": 0
+        },
+        {
+            "order": 2,
+            "description": "Versez <final_water_amount>g d'eau.",
+            "time": 15
+        },
+        {
+            "order": 3,
+            "description": "Tournez doucement le brasseur.",
+            "time": 5
+        },
+        {
+            "order": 4,
+            "description": "Laissez infuser le café.",
+            "time": 130
+        },
+        {
+            "order": 5,
+            "description": "Cassez délicatement la croûte avec une cuillère.",
+            "time": 10
+        },
+        {
+            "order": 6,
+            "description": "Patientez encore un moment.",
+            "time": 20
+        },
+        {
+            "order": 7,
+            "description": "Ouvrez le régulateur de débit et attendez la vidange complète.",
+            "time": 30
+        }
     ]
-  },
-  {
-    "id" : "702",
-    "name" : "Wilfa Svart Pour Over recette de pour over par Best Coffee",
-    "brewing_method_id" : "wilfa_svart",
-    "brewing_method" : "Wilfa Svart Pour Over",
-    "coffee_amount" : 18,
-    "water_amount" : 300,
-    "water_temp" : 95,
-    "grind_size" : "Grossière",
-    "brew_time" : "3min 0s",
-    "short_description" : "Une autre méthode d'infusion avec Wilfa Svart Pour Over est, vous l'avez deviné, le pour over ! Il s'agit d'une recette de [Best Coffee](https://www.bestcoffee.guide/blogs/product-reviews/wilfa-pour-over-smart-dripper-review).",
-    "last_used" : "2023-05-01T12:00:00Z",
-    "is_favorite" : false,
-    "steps" : [
+},
+{
+    "id": "702",
+    "name": "Wilfa Svart Pour Over - Recette de pour over par Best Coffee",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "Grossière",
+    "brew_time": "3min 0s",
+    "short_description": "Une méthode alternative d'infusion avec le Wilfa Svart Pour Over est le pour over, selon une recette de [Best Coffee](https://www.bestcoffee.guide/blogs/product-reviews/wilfa-pour-over-smart-dripper-review).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+        {
+            "order": 1,
+            "description": "Rincez le filtre et la cafetière à l'eau chaude. Moulez le café et versez-le dans le V60, réinitialisez la balance et fermez le régulateur de débit.",
+            "time": 0
+        },
+        {
+            "order": 2,
+            "description": "Pré-humidifiez avec (2,2 x <final_coffee_amount>)g d'eau.",
+            "time": 10
+        },
+        {
+            "order": 3,
+            "description": "Laissez fleurir le café.",
+            "time": 20
+        },
+        {
+            "order": 4,
+            "description": "Ouvrez le régulateur de débit jusqu'à mi-chemin.",
+            "time": 5
+        },
+        {
+            "order": 5,
+            "description": "Versez de l'eau jusqu'à (0,6 x <final_water_amount>)g.",
+            "time": 30
+        },
+        {
+            "order": 6,
+            "description": "Continuez de verser jusqu'à atteindre <final_water_amount>g.",
+            "time": 30
+        },
+        {
+            "order": 7,
+            "description": "Attendez la fin de l'infusion et fermez le régulateur de débit.",
+            "time": 115
+        }
+    ]
+},
+{
+  "id": "703",
+  "name": "Wilfa Svart Pour Over - Recette glacée (James Hoffmann)",
+  "brewing_method_id": "wilfa_svart",
+  "brewing_method": "Wilfa Svart Pour Over",
+  "coffee_amount": 22.5,
+  "water_amount": 300,
+  "water_temp": 95,
+  "grind_size": "Fin",
+  "brew_time": "6min 35s",
+  "short_description": "Cette recette, inspirée par James Hoffmann, utilise une technique améliorée de café glacé par immersion. [Consultez le tutoriel ici](https://www.youtube.com/watch?v=8uGGeV8A-BM). Optionnel : ajoutez quelques gouttes de saline (20% de sel, 80% d'eau) pour atténuer l'amertume. Remarque : moulez plus finement que pour un café filtre classique, sans atteindre la finesse d'un espresso.",
+  "last_used": "2023-05-01T12:00:00Z",
+  "is_favorite": false,
+  "steps": [
       {
-        "order" : 1,
-        "description" : "Rincez le filtre et la cafetière à l'eau chaude. Moulez votre café. Versez la mouture, mettez la balance à zéro. Fermez le régulateur de débit",
-        "time" : 0
+          "order": 1,
+          "description": "Placez le filtre en papier dans la Wilfa Svart et rincez-le. Moulez le café sans le verser dans la cafetière. Préparez la balance et une cuillère. Gardez (0,34 x <final_water_amount>)g de glace au congélateur.",
+          "time": 0
       },
       {
-        "order" : 2,
-        "description" : "Pré-humidification avec (2,2 x <final_coffee_amount>)g d'eau",
-        "time" : 10
+          "order": 2,
+          "description": "Versez (0,66 x <final_water_amount>)g d'eau dans la cafetière.",
+          "time": 10
       },
       {
-        "order" : 3,
-        "description" : "Laissez le café fleurir",
-        "time" : 20
+          "order": 3,
+          "description": "Ajoutez le café moulu dans l'eau et remuez pour bien l'humidifier.",
+          "time": 10
       },
       {
-        "order" : 4,
-        "description" : "Ouvrir le régulateur de débit jusqu'au point médian",
-        "time" : 5
+          "order": 4,
+          "description": "Laissez infuser le café. Peu avant la fin, placez (0,34 x <final_water_amount>)g de glace dans le carafe.",
+          "time": 300
       },
       {
-      "order" : 5,
-      "description" : "Ajouter de l'eau jusqu'à (0,6 x <final_water_amount>)g.",
-      "time" : 30
-    },
-    {
-      "order" : 6,
-      "description" : "Continuez à ajouter de l'eau jusqu'à ce que vous atteigniez <final_water_amount>g",
-      "time" : 30
-    },
-    {
-      "order" : 7,
-      "description" : "Attendre le rabattement complet et fermer le régulateur de débit",
-      "time" : 115
-    }
+          "order": 5,
+          "description": "Placez le brasseur sur la carafe et attendez l'écoulement complet.",
+          "time": 60
+      },
+      {
+          "order": 6,
+          "description": "Remuez le café dans la carafe pour dissoudre la glace restante. Optionnel : ajoutez de la solution saline pour réduire l'amertume.",
+          "time": 15
+      }
   ]
-  },
-  {
-    "id" : "703",
-    "name" : "Wilfa Svart Pour Over recette glacée (James Hoffmann)",
-    "brewing_method_id" : "wilfa_svart",
-    "brewing_method" : "Wilfa Svart Pour Over",
-    "coffee_amount" : 22.5,
-    "water_amount" : 300,
-    "water_temp" : 95,
-    "grind_size" : "Fin",
-    "brew_time" : "6min 35s",
-    "short_description" : "Cette recette utilise une technique améliorée de café glacé par immersion de James Hoffman. Consultez le [tutoriel ici](https://www.youtube.com/watch?v=8uGGeV8A-BM). Facultatif : vous pouvez ajouter quelques gouttes de saline (une solution de 20% de sel et 80% d'eau) à la fin pour réduire l'amertume. Note : vous devez moudre plus finement que vous ne le faites normalement pour le café à verser, mais pas à la manière d'un espresso",
-    "last_used" : "2023-05-01T12:00:00Z",
-    "is_favorite" : false,
-    "steps" : [
-      {
-        "order" : 1,
-        "description" : "Insérez le filtre en papier dans la Wilfa Svart Pour Over et rincez-le à l'eau. Moulez le café, mais ne le mettez pas encore dans la cafetière. Placez la machine sur la balance et mettez-la à zéro. Prenez une cuillère. Vous aurez besoin de (0,34 x <final_water_amount>)g de glace, mais gardez-la au congélateur pour l'instant.",
-        "time" : 0
-      },
-      {
-        "order" : 2,
-        "description" : "Ajouter (0,66 x <final_water_amount>)g. d'eau dans le brasseur",
-        "time" : 10
-      },
-      {
-        "order" : 3,
-        "description" : "Mettez le café dans l'eau et remuez-le avec une cuillère, en veillant à ce que tout le café soit mouillé",
-        "time" : 10
-      },
-      {
-        "order" : 4,
-        "description" : "Laissez le café infuser. Lorsque le temps d'infusion est presque terminé, placez (0,34 x <final_water_amount>)g de glace dans le carafe.",
-        "time" : 300
-      },
-      {
-        "order" : 5,
-        "description" : "Placer le brasseur sur un carafe et attendre le tirage complet",
-        "time" : 60
-      },
-      {
-        "order" : 6,
-        "description" : "Faites tourner le carafe ou remuez avec une cuillère pour diluer la glace restante. Facultatif : ajouter quelques gouttes de solution saline pour réduire l'amertume",
-        "time" : 15
-      }
-    ]
-  }
+}
 ]

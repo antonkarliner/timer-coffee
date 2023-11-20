@@ -3,49 +3,49 @@
     "id": "701",
     "name": "Wilfa Svart Pour Over Eintauchrezept",
     "brewing_method_id": "wilfa_svart",
-    "brewing_method": "Wilfa Svart Übergießen",
+    "brewing_method": "Wilfa Svart Pour Over",
     "coffee_amount": 18,
     "water_amount": 300,
     "water_temp": 95,
     "grind_size": "Mittel-grob",
     "brew_time": "3min 30s",
-    "short_description": "Dies ist ein Rezept, das ich oft mit dem Wilfa Dripper verwendet habe. Ich bin mir über den Autor nicht ganz sicher, aber es ähnelt vielen Immersionsrezepten.",
+    "short_description": "Dies ist ein Rezept, das häufig mit dem Wilfa Dripper verwendet wird. Der genaue Autor ist unbekannt, aber es ähnelt vielen Immersionsrezepten.",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Filter und Brühgruppe mit heißem Wasser ausspülen. Den Kaffee mahlen. Kaffeemehl einfüllen, Waage auf Null stellen. Schließen Sie den Durchflussbegrenzer.",
+        "description": "Filter und Brühgruppe mit heißem Wasser ausspülen. Kaffee mahlen, in den Brüher geben und die Waage auf Null stellen. Durchflussbegrenzer schließen.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Gießen Sie <final_water_amount>g Wasser ein",
+        "description": "<final_water_amount>g Wasser eingießen.",
         "time": 15
       },
       {
         "order": 3,
-        "description": "Wirbeln Sie den Brauer ein wenig.",
+        "description": "Den Brüher leicht wirbeln.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Lass den Kaffee ziehen.",
+        "description": "Kaffee ziehen lassen.",
         "time": 130
       },
       {
         "order": 5,
-        "description": "Brechen Sie die Kaffeekruste vorsichtig mit einem Löffel auf.",
+        "description": "Kaffeekruste vorsichtig mit einem Löffel aufbrechen.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Warte noch ein wenig.",
+        "description": "Kurz warten.",
         "time": 20
-      },      
+      },
       {
         "order": 7,
-        "description": "Die Durchflusskontrolle vollständig öffnen und die vollständige Absenkung abwarten.",
+        "description": "Durchflusskontrolle öffnen und auf die vollständige Absenkung warten.",
         "time": 30
       }
     ]
@@ -60,13 +60,13 @@
     "water_temp": 95,
     "grind_size": "grob",
     "brew_time": "3min 0s",
-    "short_description": "Eine weitere Zubereitungsmethode mit Wilfa Svart Pour Over ist, Sie haben es erraten, Pour Over! Dies ist ein Rezept von [Best Coffee](https://www.bestcoffee.guide/blogs/product-reviews/wilfa-pour-over-smart-dripper-review).",
+    "short_description": "Eine weitere Zubereitungsmethode mit dem Wilfa Svart Pour Over ist das Übergießen. Rezept von [Best Coffee](https://www.bestcoffee.guide/blogs/product-reviews/wilfa-pour-over-smart-dripper-review).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Filter und Brühgruppe mit heißem Wasser ausspülen. Den Kaffee mahlen. Kaffeemehl einfüllen, Waage auf Null stellen. Schließen Sie den Durchflussbegrenzer.",
+        "description": "Filter und Brühgruppe mit heißem Wasser ausspülen. Kaffee mahlen, in den Brüher geben und die Waage auf Null stellen. Durchflussbegrenzer schließen.",
         "time": 0
       },
       {
@@ -76,31 +76,31 @@
       },
       {
         "order": 3,
-        "description": "Lass den Kaffee blühen.",
+        "description": "Kaffee blühen lassen.",
         "time": 20
       },
       {
         "order": 4,
-        "description": "Öffne die Durchflusskontrolle bis zur Hälfte.",
+        "description": "Durchflusskontrolle halb öffnen.",
         "time": 5
       },
       {
-      "order": 5,
-      "description": "Füge Wasser bis zu (0,6 x <final_water_amount>)g hinzu.",
-      "time": 30
-    },
-    {
-      "order": 6,
-      "description": "Füge weiter Wasser hinzu, bis du <final_water_amount>g erreichst.",
-      "time": 30
-    },
-    {
-      "order": 7,
-      "description": "Warte auf die vollständige Absenkung und schließe die Durchflusskontrolle.",
-      "time": 115
-    }
-  ]
-  },
+        "order": 5,
+        "description": "Wasser bis zu (0,6 x <final_water_amount>)g hinzufügen.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Weiter Wasser hinzufügen bis <final_water_amount>g erreicht sind.",
+        "time": 30
+      },
+      {
+        "order": 7,
+        "description": "Auf die vollständige Absenkung warten und dann die Durchflusskontrolle schließen.",
+        "time": 115
+      }
+    ]
+  },  
   {
     "id": "703",
     "name": "Wilfa Svart Pour Over Iced Rezept (James Hoffmann)",
@@ -111,40 +111,40 @@
     "water_temp": 95,
     "grind_size": "Fein",
     "brew_time": "6min 35s",
-    "short_description": "Dieses Rezept verwendet eine verbesserte Immersions-Eiskaffeetechnik von James Hoffman. Sehen Sie sich die [Anleitung hier] an (https://www.youtube.com/watch?v=8uGGeV8A-BM). Optional: Sie können am Ende ein paar Tropfen Kochsalzlösung (eine Lösung aus 20% Salz und 80% Wasser) hinzufügen, um die Bitterkeit zu reduzieren. Hinweis: Sie müssen feiner mahlen, als Sie es normalerweise für Pour Over tun, aber nicht espressofein.",
+    "short_description": "Ein verbessertes Rezept für Eiskaffee mit Immersionstechnik von James Hoffmann. [Anleitungsvideo ansehen](https://www.youtube.com/watch?v=8uGGeV8A-BM). Optional: Am Ende einige Tropfen einer 20%igen Salzlösung hinzufügen, um Bitterkeit zu reduzieren. Hinweis: Feiner mahlen als üblich für Pour Over, aber nicht so fein wie für Espresso.",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Setzen Sie den Papierfilter in die Wilfa Svart Pour Over ein und spülen Sie ihn mit Wasser aus. Mahlen Sie den Kaffee, aber geben Sie ihn noch nicht in den Brüher. Auf die Waage stellen und die Waage auf Null stellen. Holen Sie einen Löffel. Du brauchst (0,34 x <final_water_amount>)g Eis, aber bewahre es vorerst im Gefrierschrank auf.",
+        "description": "Papierfilter in die Wilfa Svart einsetzen und mit Wasser ausspülen. Kaffee mahlen, aber noch nicht in den Brüher geben. Alles auf der Waage platzieren und auf Null stellen. Einen Löffel bereitlegen. (0,34 x <final_water_amount>)g Eis im Gefrierschrank aufbewahren.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Füge (0,66 x <final_water_amount>)g. Wasser in den Brüher",
+        "description": "(0,66 x <final_water_amount>)g Wasser in den Brüher geben.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Geben Sie den Kaffee ins Wasser und rühren Sie ihn mit einem Löffel um, so dass der ganze Kaffee nass ist.",
+        "description": "Kaffee ins Wasser geben und mit einem Löffel umrühren, sodass alles benetzt ist.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Lassen Sie den Kaffee ziehen. Wenn die steep time fast vorbei ist, gib (0,34 x <final_water_amount>)g Eis in den Server.",
+        "description": "Kaffee ziehen lassen. Kurz vor Ende der Ziehzeit (0,34 x <final_water_amount>)g Eis in den Server geben.",
         "time": 300
       },
       {
         "order": 5,
-        "description": "Legen Sie die Brauerei auf einen Server und warten Sie auf die vollständige Entnahme.",
+        "description": "Die Wilfa Svart auf den Server stellen und auf die vollständige Extraktion warten.",
         "time": 60
       },
       {
         "order": 6,
-        "description": "Schwenken Sie den Server oder rühren Sie mit einem Löffel um, um das restliche Eis zu verdünnen. Optional: einige Tropfen Kochsalzlösung hinzufügen, um die Bitterkeit zu reduzieren.",
+        "description": "Server schwenken oder mit einem Löffel umrühren, um das restliche Eis zu verdünnen. Optional: Einige Tropfen Salzlösung hinzufügen, um Bitterkeit zu reduzieren.",
         "time": 15
       }
     ]
-  }
+  }  
 ]
