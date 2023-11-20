@@ -1,7 +1,7 @@
 [
   {
     "id": "501",
-    "name": "Przepis James Hoffmann Ultimate Clever Dripper",
+    "name": "Najlepszy Przepis na Clever Dripper Jamesa Hoffmanna",
     "brewing_method_id": "clever_dripper",
     "brewing_method": "Clever Dripper",
     "coffee_amount": 15,
@@ -9,45 +9,45 @@
     "water_temp": 95,
     "grind_size": "Średnio-drobne",
     "brew_time": "3min 30s",
-    "short_description": "Przepis na Clever Dripper autorstwa Jamesa Hoffmanna, zwycięzcy World Barista Championship, YouTubera, konsultanta ds. kawy i autora. [Obejrzyj samouczek](https://www.youtube.com/watch?v=RpOdennxP24).",
+    "short_description": "Metoda zaparzania Clever Dripper stworzona przez Jamesa Hoffmanna, mistrza World Barista Championship i eksperta kawowego. [Zobacz samouczek](https://www.youtube.com/watch?v=RpOdennxP24).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Włóż papierowy filtr do urządzenia Clever Dripper i przepłucz go wodą. Zmiel kawę, ale nie wkładaj jej jeszcze do urządzenia Clever Dripper. Umieść na wadze i wyzeruj. Weź łyżkę.",
+        "description": "Przygotuj filtr papierowy w Clever Dripper, przepłucz go. Zmiel kawę, ale jeszcze jej nie dodawaj. Przygotuj wagę i łyżkę.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Dodaj <final_water_amount> g. wody do urządzenia Clever Dripper",
+        "description": "Wlej <final_water_amount> g wody do Clever Dripper.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Wsyp kawę do wody i zamieszaj trochę łyżką",
+        "description": "Dodaj kawę do wody i lekko zamieszaj.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Pozwól kawie parzyć się przez 2 minuty",
+        "description": "Pozwól kawie zaparzać przez 2 minuty.",
         "time": 120
       },
       {
         "order": 5,
-        "description": "Wymieszaj łyżką lub lekko potrząśnij zaparzaczem, aby rozbić skórkę",
+        "description": "Zamieszaj łyżką lub delikatnie potrząśnij zaparzaczem, aby przełamać warstwę skórki.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Umieść Clever Dripper na dzbanku i czekaj na całkowite przesączanie",
+        "description": "Umieść Clever Dripper na dzbanku i poczekaj na przesączenie.",
         "time": 60
       }
     ]
   },
   {
     "id": "502",
-    "name": "Przepis na Clever Dripper według European Coffee Trip",
+    "name": "Przepis na Clever Dripper od European Coffee Trip",
     "brewing_method_id": "clever_dripper",
     "brewing_method": "Clever Dripper",
     "coffee_amount": 20,
@@ -55,45 +55,45 @@
     "water_temp": 95,
     "grind_size": "grubo",
     "brew_time": "5min 20s",
-    "short_description": "Przepis na Clever Dripper autorstwa kanału Youtube European Coffee Trip. Oto [tutorial](https://www.youtube.com/watch?v=H4-XTUpX9Mo).",
+    "short_description": "Metoda zaparzania Clever Dripper od kanału Youtube European Coffee Trip. [Tutorial](https://www.youtube.com/watch?v=H4-XTUpX9Mo).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Umieść papierowy filtr w urządzeniu Clever Dripper, przepłucz go gorącą wodą. Zmiel kawę i umieść fusy w zaparzaczu",
+        "description": "Przygotuj filtr papierowy w Clever Dripper, przepłucz go gorącą wodą. Zmiel kawę i wsyp ją do zaparzacza.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Dodaj <final_water_amount> g wody do zaparzacza",
+        "description": "Dodaj <final_water_amount> g wody do zaparzacza.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Czekaj 2 minuty",
+        "description": "Czekaj 2 minuty.",
         "time": 120
       },
       {
         "order": 4,
-        "description": "Delikatnie rozbij skórkę na wierzchu łyżką",
+        "description": "Delikatnie przełam skórkę na powierzchni łyżką.",
         "time": 10
       },
       {
-      "order": 5,
-      "description": "Czekaj kolejne 2 minuty",
-      "time": 120
-    },
-    {
-      "order": 6,
-      "description": "Umieść Clever Dripper na karafce i pozwól kawie spłynąć",
-      "time": 60
-    }
-  ]
-  },
+        "order": 5,
+        "description": "Czekaj kolejne 2 minuty.",
+        "time": 120
+      },
+      {
+        "order": 6,
+        "description": "Umieść Clever Dripper na karafce i pozwól kawie przesączyć.",
+        "time": 60
+      }
+    ]
+  },  
   {
     "id": "503",
-    "name": "Przepis Clever Dripper według Coffee and Water",
+    "name": "Przepis na Clever Dripper od Coffee and Water",
     "brewing_method_id": "clever_dripper",
     "brewing_method": "Clever Dripper",
     "coffee_amount": 28,
@@ -101,45 +101,45 @@
     "water_temp": 95,
     "grind_size": "Średnio-zgrubny",
     "brew_time": "5min 20s",
-    "short_description": "Przepis na Clever Dripper autorstwa kanału Youtube Kawa i Woda. Oto [tutorial](https://www.youtube.com/watch?v=gyZ7Zvvl3uk).",
+    "short_description": "Metoda zaparzania Clever Dripper od kanału YouTube Coffee and Water. [Obejrzyj tutorial](https://www.youtube.com/watch?v=gyZ7Zvvl3uk).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Umieść papierowy filtr w urządzeniu Clever Dripper, przepłucz go gorącą wodą. Zmiel kawę i umieść fusy w zaparzaczu",
+        "description": "Przygotuj filtr papierowy w Clever Dripper, przepłucz go. Zmiel kawę i wsyp do zaparzacza.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Dodaj <final_water_amount> g wody do zaparzacza",
+        "description": "Wlej <final_water_amount> g wody do zaparzacza.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Pozwól kawie się zaparzyć",
+        "description": "Pozwól kawie zaparzać.",
         "time": 50
       },
       {
         "order": 4,
-        "description": "Rozbij skórkę na wierzchu naparu łyżką, mieszając 3 razy",
+        "description": "Przełam skórkę na powierzchni naparu, mieszając 3 razy.",
         "time": 10
       },
       {
-      "order": 5,
-      "description": "Pozwól kawie się zaparzyć",
-      "time": 80
-    },
-    {
-      "order": 6,
-      "description": "Umieść swój Clever Dripper na karafce i pozwól kawie spłynąć",
-      "time": 60
-    }
-  ]
+        "order": 5,
+        "description": "Pozwól kawie dalej zaparzać.",
+        "time": 80
+      },
+      {
+        "order": 6,
+        "description": "Umieść Clever Dripper na karafce i pozwól kawie przesączyć się.",
+        "time": 60
+      }
+    ]
   },
   {
     "id": "504",
-    "name": "Przepis na James Hoffmann Iced Clever Dripper",
+    "name": "Przepis na Mrożony Clever Dripper Jamesa Hoffmanna",
     "brewing_method_id": "clever_dripper",
     "brewing_method": "Clever Dripper",
     "coffee_amount": 37.5,
@@ -147,40 +147,40 @@
     "water_temp": 95,
     "grind_size": "drobny",
     "brew_time": "6min 35s",
-    "short_description": "Ten przepis wykorzystuje ulepszoną technikę zanurzeniowego parzenia kawy mrożonej autorstwa Jamesa Hoffmana. Sprawdź [tutorial tutaj](https://www.youtube.com/watch?v=8uGGeV8A-BM). Opcjonalnie: można dodać kilka kropli soli fizjologicznej (roztwór 20% soli i 80% wody) na koniec, aby zmniejszyć gorycz. Uwaga: należy zmielić drobniej niż zwykle do zalewania, ale nie do espresso.",
+    "short_description": "Technika parzenia mrożonej kawy w Clever Dripper opracowana przez Jamesa Hoffmanna. [Sprawdź tutorial](https://www.youtube.com/watch?v=8uGGeV8A-BM). Opcjonalnie można dodać kilka kropli roztworu soli fizjologicznej (20% soli, 80% wody) na koniec, aby zredukować gorycz.",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Włóż papierowy filtr do urządzenia Clever Dripper i przepłucz go wodą. Zmiel kawę, ale nie wkładaj jej jeszcze do urządzenia Clever Dripper. Umieść na wadze i wyzeruj. Weź łyżkę. Będziesz potrzebować (0,34 x <final_water_amount>)g lodu, ale na razie trzymaj go w zamrażarce.",
+        "description": "Przygotuj filtr w Clever Dripper, przepłucz go. Zmiel kawę. Przygotuj wagę, łyżkę i (0,34 x <final_water_amount>)g lodu (trzymaj go na razie w zamrażarce).",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Dodaj (0,66 x <final_water_amount>)g. wody do urządzenia Clever Dripper",
+        "description": "Wlej (0,66 x <final_water_amount>)g wody do zaparzacza.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Wsyp kawę do wody i zamieszaj łyżką, upewniając się, że cała kawa jest mokra",
+        "description": "Dodaj kawę do wody i zamieszaj, upewniając się, że wszystkie ziarna są zwilżone.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Pozostaw kawę do zaparzenia. Gdy czas parzenia dobiegnie końca, umieść (0,34 x <final_water_amount>)g lodu w dzbanku.",
+        "description": "Pozostaw kawę do zaparzenia. Po upływie czasu, umieść (0,34 x <final_water_amount>)g lodu w dzbanku.",
         "time": 300
       },
       {
         "order": 5,
-        "description": "Umieść Clever Dripper na dzbanku i czekaj na całkowite przesączanie",
+        "description": "Umieść Clever Dripper na dzbanku, pozwól kawie przesączyć się.",
         "time": 60
       },
       {
         "order": 6,
-        "description": "Zawiruj dzbanek lub zamieszaj łyżką, aby rozcieńczyć pozostały lód. Opcjonalnie: dodaj kilka kropli soli fizjologicznej, aby zmniejszyć gorycz",
+        "description": "Zamieszaj dzbanek, aby rozpuścić pozostały lód. Opcjonalnie: dodaj kilka kropli roztworu soli fizjologicznej, aby zniwelować gorycz.",
         "time": 15
       }
     ]
-  }
+  }  
 ]

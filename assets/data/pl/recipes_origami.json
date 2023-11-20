@@ -1,7 +1,7 @@
 [
   {
     "id": "801",
-    "name": "Przepis Alexander Mills Origami Dripper",
+    "name": "Przepis Alexandra Millsa na Origami Dripper",
     "brewing_method_id": "origami",
     "brewing_method": "Origami Dripper",
     "coffee_amount": 12.5,
@@ -9,40 +9,40 @@
     "water_temp": 99,
     "grind_size": "Średnio-drobne",
     "brew_time": "3min 0s",
-    "short_description": "Przepis na Origami Dripper autorstwa [Alexander Mills](https://alexandermills.ca/), konsultanta w branży kawowej i oddanego piwowara domowego. Należy pamiętać, że przepis ten wykorzystuje filtry Kalita Coffee.",
+    "short_description": "Metoda parzenia kawy w Origami Dripper od Alexandra Millsa, konsultanta branży kawowej. Używane są filtry Kalita Coffee. [Więcej informacji](https://alexandermills.ca/).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Zmiel kawę, wstępnie przepłucz filtr i dodaj kawę. Umieść na wadze i wyzeruj",
+        "description": "Zmiel kawę, przepłucz filtr i wsyp kawę do Origami Dripper. Umieść na wadze i wyzeruj.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Zakwitnij kawę za pomocą (0,2 x <final_water_amount>)g. wody i zamieszaj kilkoma delikatnymi muśnięciami drippera.",
+        "description": "Zakwitnij kawę (0,2 x <final_water_amount>)g wody, delikatnie mieszając.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Niech kawa rozkwitnie",
+        "description": "Pozwól kawie rozkwitnąć.",
         "time": 30
       },
       {
         "order": 4,
-        "description": "Wlej pozostałe (0,8 x <final_water_amount>)g. wody w powolnych, koncentrycznych kręgach, kończąc ostatnim nalaniem wokół zewnętrznej strony filtra. Delikatnie obróć zaparzacz jeszcze raz.",
+        "description": "Wlej resztę wody (0,8 x <final_water_amount>)g, w koncentrycznych kręgach, zakończ wokół zewnętrznej strony filtra. Obróć zaparzacz.",
         "time": 50
       },
       {
         "order": 5,
-        "description": "Czekaj na całkowite przesączanie",
+        "description": "Czekaj na przesączenie.",
         "time": 30
       }
     ]
   },
   {
     "id": "802",
-    "name": "Przepis na Jia Ning Du Origami Dripper",
+    "name": "Przepis Jia Ning Du na Origami Dripper",
     "brewing_method_id": "origami",
     "brewing_method": "Origami Dripper",
     "coffee_amount": 16,
@@ -50,50 +50,50 @@
     "water_temp": 94,
     "grind_size": "Średni",
     "brew_time": "1min 46s",
-    "short_description": "Przepis na Origami Dripper autorstwa Jia Ning Du, pierwszego chińskiego baristy, który wygrał World Brewers Cup (WBrC). Oto jego zwycięski przepis. [Oto samouczek](https://www.youtube.com/watch?v=HNDnngFhZMU).",
+    "short_description": "Zwycięski przepis Jia Ning Du na Origami Dripper, pierwszej chińskiej baristki, która wygrała World Brewers Cup. [Zobacz samouczek](https://www.youtube.com/watch?v=HNDnngFhZMU).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Przepłucz filtr i zaparzacz gorącą wodą. Zmiel kawę. Wsyp fusy, wyzeruj wagę",
+        "description": "Przepłucz filtr i zaparzacz, zmiel kawę, wsyp do Origami Dripper. Wyzeruj wagę.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Wlej (0,25 x <final_water_amount>)g. wody.",
+        "description": "Wlej (0,25 x <final_water_amount>)g wody.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Czekaj",
+        "description": "Czekaj.",
         "time": 8
       },
       {
         "order": 4,
-        "description": "Wlej (5 x <final_coffee_amount>)g. wody",
+        "description": "Dodaj (5 x <final_coffee_amount>)g wody.",
         "time": 20
       },
       {
-      "order": 5,
-      "description": "Czekaj",
-      "time": 18
-    },
-    {
-      "order": 6,
-      "description": "Zakończ nalewanie, aby osiągnąć <final_water_amount> g.",
-      "time": 20
-    },
-    {
-      "order": 7,
-      "description": "Czekaj na całkowite przesączanie",
-      "time": 30
-    }
-  ]
+        "order": 5,
+        "description": "Czekaj.",
+        "time": 18
+      },
+      {
+        "order": 6,
+        "description": "Dokończ do <final_water_amount> g wody.",
+        "time": 20
+      },
+      {
+        "order": 7,
+        "description": "Czekaj na przesączenie.",
+        "time": 30
+      }
+    ]
   },
   {
     "id": "803",
-    "name": "Przepis na Origami Dripper Carlosa Mediny",
+    "name": "Przepis Carlosa Mediny na Origami Dripper",
     "brewing_method_id": "origami",
     "brewing_method": "Origami Dripper",
     "coffee_amount": 15.5,
@@ -101,65 +101,65 @@
     "water_temp": 91,
     "grind_size": "Średnio-zgrubny",
     "brew_time": "2min 40s",
-    "short_description": "Jest to przepis Carlosa Mediny z Chile, który wygrał z nim World Brewers Cup w 2023 roku. Zobacz nagranie jego zwycięskiego występu [tutaj](https://www.youtube.com/watch?v=Ed8w-RKhR5U). Zwróć uwagę, że Carlos użył do tego przepisu filtrów stożkowych.",
+    "short_description": "Zwycięski przepis Carlosa Mediny z Chile na World Brewers Cup 2023. Używane są filtry stożkowe. [Zobacz nagranie](https://www.youtube.com/watch?v=Ed8w-RKhR5U).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Przepłucz Origami Dripper i filtr gorącą wodą. Zmiel kawę. Wsyp fusy, wyzeruj wagę.",
+        "description": "Przepłucz Origami Dripper i filtr. Zmiel kawę, wsyp do zaparzacza. Wyzeruj wagę.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Wlej (0,2 x <final_water_amount>)g. wody.",
+        "description": "Wlej (0,2 x <final_water_amount>)g wody.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Czekaj",
+        "description": "Czekaj.",
         "time": 20
       },
       {
         "order": 4,
-        "description": "Wlej (0,2 x <final_water_amount>)g. wody.",
+        "description": "Dodaj kolejne (0,2 x <final_water_amount>)g wody.",
         "time": 10
       },
       {
-      "order": 5,
-      "description": "Czekaj",
-      "time": 20
-    },
-    {
-      "order": 6,
-      "description": "Wlej (0,2 x <final_water_amount>)g. wody.",
-      "time": 10
-    },
-    {
-      "order": 7,
-      "description": "Czekaj",
-      "time": 20
-    },
-    {
-      "order": 8,
-      "description": "Wlej (0,2 x <final_water_amount>)g. wody.",
-      "time": 10
-    },
-    {
-      "order": 9,
-      "description": "Czekaj",
-      "time": 20
-    },
-    {
-      "order": 10,
-      "description": "Wlej (0,2 x <final_water_amount>)g. wody.",
-      "time": 10
-    },
-    {
-      "order": 11,
-      "description": "Czekaj na całkowite przesączanie",
-      "time": 40
-    }
-  ]
+        "order": 5,
+        "description": "Czekaj.",
+        "time": 20
+      },
+      {
+        "order": 6,
+        "description": "Dodaj kolejne (0,2 x <final_water_amount>)g wody.",
+        "time": 10
+      },
+      {
+        "order": 7,
+        "description": "Czekaj.",
+        "time": 20
+      },
+      {
+        "order": 8,
+        "description": "Dodaj kolejne (0,2 x <final_water_amount>)g wody.",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "Czekaj.",
+        "time": 20
+      },
+      {
+        "order": 10,
+        "description": "Dodaj ostatnie (0,2 x <final_water_amount>)g wody.",
+        "time": 10
+      },
+      {
+        "order": 11,
+        "description": "Czekaj na całkowite przesączenie.",
+        "time": 40
+      }
+    ]
   }
 ]

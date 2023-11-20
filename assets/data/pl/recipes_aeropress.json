@@ -1,53 +1,53 @@
 [
   {
     "id": "201",
-    "name": "Przepis na Aeropress Tim Wendelboe",
+    "name": "Przepis na Aeropress wg Tima Wendelboe",
     "brewing_method_id": "aeropress",
     "brewing_method": "Aeropress",
     "coffee_amount": 14,
     "water_amount": 200,
     "water_temp": 100,
-    "grind_size": " drobny",
+    "grind_size": "drobny",
     "brew_time": "1min 50s",
-    "short_description": "Przepis autorstwa Tima Wendelboe, mistrza świata baristów i mistrza World Cup Tasters. [Obejrzyj samouczek tutaj](https://timwendelboe.no/brew-guides/aeropress/).",
+    "short_description": "Przepis stworzony przez Tima Wendelboe, mistrza World Barista Championship i World Cup Tasters. [Zobacz instruktaż tutaj](https://timwendelboe.no/brew-guides/aeropress/).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Przepłucz papierowy filtr bieżącą wodą z kranu przez kilka sekund i wsyp fusy z kawy",
+        "description": "Opłucz papierowy filtr wodą z kranu przez kilka sekund, a następnie wsyp mieloną kawę.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Zalej kawę <final_water_amount> g wody",
+        "description": "Zalej kawę <final_water_amount> g wody.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Wymieszaj 3 razy",
+        "description": "Delikatnie wymieszaj trzy razy.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Umieść tłok na Aeropressie, aby zapobiec spływaniu wody przez filtr i pozwól kawie się zaparzyć.",
+        "description": "Umieść tłok na Aeropressie, zatrzymując przepływ wody przez filtr, i pozwól kawie parzyć.",
         "time": 60
       },
       {
         "order": 5,
-        "description": "Zdejmij tłok i zamieszaj 3 razy od tyłu do przodu",
+        "description": "Usuń tłok i zamieszaj kawę trzy razy od tyłu do przodu.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Umieść tłok na górze Aeropressu i wyciśnij zawartość do dużego kubka lub dzbanka, używając ciężaru swojego ciała.",
+        "description": "Ponownie umieść tłok na Aeropressie i wyciśnij zawartość do dużego kubka lub dzbanka, używając swojej wagi ciała.",
         "time": 20
       }
     ]
   },
   {
     "id": "202",
-    "name": "Przepis James Hoffmann Aeropress",
+    "name": "Przepis na Aeropress Jamesa Hoffmanna",
     "brewing_method_id": "aeropress",
     "brewing_method": "Aeropress",
     "coffee_amount": 11,
@@ -55,50 +55,50 @@
     "water_temp": 95,
     "grind_size": "drobny/średni",
     "brew_time": "3min 25s",
-    "short_description": "Przepis autorstwa Jamesa Hoffmanna, zwycięzcy mistrzostw świata baristów, YouTubera, konsultanta ds. kawy i autora. W przypadku średnio palonej kawy, użycie wody o temperaturze 90-95°C zapewni lepsze rezultaty. W przypadku kawy ciemno palonej należy użyć wody o temperaturze 85-90°C. Zmiel kawę drobniej niż średnio, zakładając, że jest to kawa jasno palona. Im ciemniejsza kawa, tym bardziej preferowane może być zwiększenie dawki i grubsze mielenie. [Obejrzyj samouczek tutaj](https://www.youtube.com/watch?v=j6VlT_jUVPc).",
+    "short_description": "Metoda zaparzania Jamesa Hoffmanna, zdobywcy tytułu mistrza świata baristów, youtubera, doradcy ds. kawy i autora. Dla średnio palonej kawy zalecana jest woda o temperaturze 90-95°C. Dla ciemno palonej - 85-90°C. Im ciemniejsza kawa, tym grubsze mielenie i większa dawka kawy są zalecane. [Zobacz instruktaż tutaj](https://www.youtube.com/watch?v=j6VlT_jUVPc).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Ustaw zaparzacz w standardowej pozycji na dzbanku. Nie płucz ani nie podgrzewaj zaparzacza (nie ma to żadnego znaczenia). Wsyp fusy z kawy",
+        "description": "Ustaw Aeropress w standardowej pozycji na dzbanku. Nie płucz i nie podgrzewaj zaparzacza. Wsyp mieloną kawę.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Wlej <final_water_amount> g wody, dążąc do zwilżenia całej kawy podczas nalewania.",
+        "description": "Dodaj <final_water_amount> g wody, starając się zwilżyć całą kawę.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Umieść tłok na górze zaparzacza, około 1 cm w głąb",
+        "description": "Umieść tłok na zaparzaczu, wsuwając go około 1 cm w głąb.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Czekaj 2 minuty",
+        "description": "Poczekaj 2 minuty.",
         "time": 120
       },
       {
         "order": 5,
-        "description": "Trzymając zaparzacz i tłok, delikatnie zawiruj zaparzaczem",
+        "description": "Delikatnie obróć zaparzacz, trzymając go razem z tłokiem.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Czekaj 30 sekund",
+        "description": "Odczekaj kolejne 30 sekund.",
         "time": 30
       },
       {
         "order": 7,
-        "description": "Naciśnij delikatnie do końca",
+        "description": "Delikatnie naciśnij tłok do końca.",
         "time": 30
       }
     ]
   },
   {
     "id": "203",
-    "name": "Przepis Alan Adler Aeropress",
+    "name": "Przepis na Aeropress Alana Adlera",
     "brewing_method_id": "aeropress",
     "brewing_method": "Aeropress",
     "coffee_amount": 16,
@@ -106,32 +106,32 @@
     "water_temp": 80,
     "grind_size": "drobny",
     "brew_time": "1min 0s",
-    "short_description": "Przepis autorstwa Alana Adlera, wynalazcy Aeropressu. Ten przepis pozwala uzyskać koncentrat lub kawę w stylu 'espresso'. Wystarczy dodać gorącą wodę, aby uzyskać kawę w stylu 'Americano'. [Obejrzyj samouczek tutaj](https://www.youtube.com/watch?v=9c14DxfVOY4).",
+    "short_description": "Metoda zaparzania od Alana Adlera, wynalazcy Aeropressu. Pozwala na uzyskanie mocnego koncentratu lub kawy w stylu 'espresso'. Dodaj gorącą wodę, aby uzyskać kawę Americano. [Zobacz instruktaż tutaj](https://www.youtube.com/watch?v=9c14DxfVOY4).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": " Dodaj zmieloną kawę do komory parzenia. Wstrząśnij komorą, aby wyrównać warstwę kawy",
+        "description": "Wsyp zmieloną kawę do komory zaparzającej i wstrząśnij, by wyrównać warstwę kawy.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Wlej <final_water_amount> g wody do komory",
+        "description": "Dodaj <final_water_amount> g wody do komory.",
         "time": 10
       },
       {
         "order": 3,
-        "description": " Mieszaj za pomocą wiosła",
+        "description": "Mieszaj za pomocą specjalnego wiosła.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Włóż tłok i delikatnie naciśnij",
+        "description": "Umieść tłok na komorze i delikatnie naciśnij.",
         "time": 40
       }
     ]
-  },
+  },  
   {
     "id": "204",
     "name": "Przepis na Aeropress Wendelien van Bunnik",
@@ -142,40 +142,40 @@
     "water_temp": 95,
     "grind_size": "grubo",
     "brew_time": "1min 30s",
-    "short_description": "Przepis autorstwa Wendeliena van Bunnika, holenderskiego baristy i Mistrza Świata AeroPress 2019. Należy pamiętać, że jest to metoda odwrócona. Jeśli nie jesteś pewien, jak to działa, [najpierw obejrzyj samouczek](https://www.youtube.com/watch?v=jLNIGf-lf3s).",
+    "short_description": "Autorstwa Wendelien van Bunnik, holenderskiej mistrzyni AeroPress 2019. To metoda odwrócona - szczegóły znajdziesz w [samouczku](https://www.youtube.com/watch?v=jLNIGf-lf3s).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": " Umieść dwa papierowe filtry w nasadce i przepłucz gorącą wodą. Wypchnij wszelkie pęcherzyki powietrza za pomocą łopatki. Wyrzuć wodę z płukania. Dodaj zmieloną kawę do komory parzenia. Wstrząśnij, aby wyrównać fusy",
+        "description": "Umieść dwa filtry w nasadce i opłucz gorącą wodą. Usuń pęcherzyki powietrza łopatką. Wyrzuć wodę do płukania i wsyp zmieloną kawę do komory, wyrównując fusy.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Wlej <final_water_amount> g nad fusy",
+        "description": "Zalej fusy <final_water_amount> g wody.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Wymieszaj delikatnie 5 razy",
+        "description": "Delikatnie wymieszaj 5 razy.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Zakręć pokrywę filtra i odstaw.",
+        "description": "Zamknij pokrywę filtra i odstaw.",
         "time": 40
       },
       {
         "order": 5,
-        "description": "Odwróć AeroPress i wciśnij do filiżanki. Zatrzymaj, gdy usłyszysz syczący dźwięk",
+        "description": "Odwróć AeroPress i prasuj do filiżanki. Zatrzymaj się, gdy usłyszysz syczenie.",
         "time": 30
       }
     ]
   },
   {
     "id": "205",
-    "name": "Przepis Alexander Mills Iced Aeropress",
+    "name": "Przepis na Iced Aeropress Alexandra Millsa",
     "brewing_method_id": "aeropress",
     "brewing_method": "Aeropress",
     "coffee_amount": 20,
@@ -183,55 +183,55 @@
     "water_temp": 99,
     "grind_size": "Średni/Drobny",
     "brew_time": "3min 20s",
-    "short_description": "Przepis autorstwa Alexandra Millsa, konsultanta w branży kawowej z Kanady. Należy pamiętać, że jest to metoda odwrócona. Oto [samouczek](https://alexandermills.ca/blog/iced-aeropress).",
+    "short_description": "Przepis Alexandra Millsa, kanadyjskiego konsultanta kawowego. Metoda odwrócona. Szczegóły w [samouczku](https://alexandermills.ca/blog/iced-aeropress).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Przepłucz wstępnie dwa papierowe filtry w nasadce, aby zmyć z nich papierowy posmak i podgrzej zaparzacz. Wylej wodę i odłóż nasadkę na bok. Napełnij dzbanek lodem w ilości równej ilości wody. Wsyp fusy z kawy do Aeropressu.",
+        "description": "Przepłucz dwa filtry w nasadce i podgrzej Aeropress. Wyrzuć wodę i odłóż nasadkę. Napełnij dzbanek lodem w równowartości ilości wody. Wsyp kawę do Aeropressu.",
         "time": 0
       },
       {
         "order": 2,
-        "description": " Z odwróconym Aeropressem wlej (0,3 x <final_water_amount>)g przegotowanej wody.",
+        "description": "Wlej (0,3 x <final_water_amount>)g przegotowanej wody do odwróconego Aeropressu.",
         "time": 5
       },
       {
         "order": 3,
-        "description": "Dokładnie wymieszaj",
+        "description": "Dokładnie wymieszaj.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Niech kawa rozkwitnie",
+        "description": "Pozwól kawie rozkwitnąć.",
         "time": 20
       },
       {
         "order": 5,
-        "description": "Wylej pozostałe (0,7 x <final_water_amount>)g. wody dość szybko w koncentrycznych kręgach.",
+        "description": "Dodaj pozostałe (0,7 x <final_water_amount>)g wody w koncentrycznych kręgach.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Dokładnie wymieszaj zawiesinę, a następnie zakryj AeroPress",
+        "description": "Wymieszaj zawartość i zakryj Aeropress.",
         "time": 100
       },
       {
         "order": 7,
-        "description": "Odwróć AeroPress na dzbanek i naciskaj stabilnie przez 30 sekund nad lodem. Zatrzymaj prasowanie, gdy AeroPress zacznie syczeć",
+        "description": "Odwróć Aeropress nad dzbanek z lodem i stabilnie prasuj przez 30 sekund. Zatrzymaj się, gdy zacznie syczeć.",
         "time": 30
       },
       {
         "order": 8,
-        "description": "Give your iced coffee a good swirl in your dzbanek to exchange those final molecules of heat for some cooler ones and then serve in a chilled glass.",
+        "description": "Zamieszaj kawę z lodem w dzbanku, a następnie podaj w schłodzonym szkle.",
         "time": 20
       }
     ]
   },
   {
     "id": "206",
-    "name": "Przepis na Aeropress Mark Prince",
+    "name": "Przepis na Aeropress Marka Prince'a",
     "brewing_method_id": "aeropress",
     "brewing_method": "Aeropress",
     "coffee_amount": 21,
@@ -239,70 +239,70 @@
     "water_temp": 97,
     "grind_size": "średni",
     "brew_time": "1min 30s",
-    "short_description": "Przepis autorstwa Marka Prince'a, sędziego Mistrzostw Kanady, USA i Świata Baristów oraz założyciela CoffeeGeek. Oto [szczegółowy i interesujący samouczek](https://www.coffeegeek.com/guides/aeropress-inverted-brew-method-how-to/). Należy pamiętać, że jest to metoda odwrócona i Mike zdecydowanie zaleca użycie metalowego filtra zamiast papierowego.",
+    "short_description": "Autorstwa Marka Prince'a, sędziego baristów i założyciela CoffeeGeek. Metoda odwrócona z zaleceniem użycia metalowego filtra. Więcej w [samouczku](https://www.coffeegeek.com/guides/aeropress-inverted-brew-method-how-to/).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Ułóż razem cały sprzęt i kawę. Zagotuj wodę. Zmontuj AeroPress. Weź tłok i włóż go do tłoka AeroPress na głębokość nieco mniejszą niż 1 cm, upewniając się, że jest idealnie ustawiony. Odmierz i zmiel kawę. Umieść Aeropress na wadze, wsyp fusy i wyzeruj.",
+        "description": "Przygotuj sprzęt i kawę. Zagotuj wodę. Zmontuj Aeropress. Wsuń tłok do Aeropressu nieco poniżej 1 cm, upewniając się, że jest równo ustawiony. Odmierz i zmiel kawę, umieść Aeropress na wadze, wsyp kawę i wyzeruj wagę.",
         "time": 0
       },
       {
         "order": 2,
-        "description": " Wlej (0,45 x <final_water_amount>)g przegotowanej wody do odwróconego tłoka.",
+        "description": "Wlej (0,45 x <final_water_amount>)g przegotowanej wody do odwróconego Aeropressu.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Pozwól na uformowanie się lekkiego rozkwitu",
+        "description": "Pozwól na rozkwit.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Wykonaj kilka ruchów zawiesiną",
+        "description": "Delikatnie mieszaj zawiesinę.",
         "time": 10
       },
       {
         "order": 5,
-        "description": "Kontynuuj nalewanie gorącej wody, aż osiągniesz <final_water_amount> g. wody",
+        "description": "Dolewaj gorącą wodę do osiągnięcia <final_water_amount> g.",
         "time": 15
       },
       {
         "order": 6,
-        "description": "Wykonaj jeszcze dwa mieszania zawiesiny, uważając, aby nie przelać jej do góry",
+        "description": "Mieszaj zawiesinę, unikając przelewu.",
         "time": 10
       },
       {
         "order": 7,
-        "description": "Dodaj kolejne 40-50 g wody, jeśli to możliwe, wypełniając komorę zaparzania tak blisko krawędzi, jak to możliwe",
+        "description": "Dodaj 40-50 g wody, wypełniając komorę do granic możliwości.",
         "time": 5
       },
       {
         "order": 8,
-        "description": "Przymocuj filtr i uchwyt filtra do AeroPress.",
+        "description": "Zakręć filtr i nasadkę na Aeropressie.",
         "time": 10
       },
       {
         "order": 9,
-        "description": "Umieść kubek lub dzbanek na odwróconym AeroPressie",
+        "description": "Umieść kubek lub dzbanek na odwróconym Aeropressie.",
         "time": 5
       },
       {
         "order": 10,
-        "description": "Odwróć AeroPress i dzbanek",
+        "description": "Odwróć Aeropress i dzbanek.",
         "time": 10
       },
       {
         "order": 11,
-        "description": "Zanurz AeroPress, aby wydobyć zaparzoną kawę",
+        "description": "Prasuj kawę do dzbanka.",
         "time": 10
       }
     ]
   },
   {
     "id": "207",
-    "name": "James Hoffmann's Iced AeroPress",
+    "name": "Mrożony AeroPress Jamesa Hoffmanna",
     "brewing_method_id": "aeropress",
     "brewing_method": "Aeropress",
     "coffee_amount": 22,
@@ -310,55 +310,55 @@
     "water_temp": 100,
     "grind_size": "drobny/średni",
     "brew_time": "3min 25s",
-    "short_description": "Przepis na mrożony aeropress autorstwa Jamesa Hoffmanna jest zasadniczo skalowaną wersją jego ostatecznej techniki z lodem jako obejściem. [Obejrzyj samouczek tutaj](https://youtu.be/DlaEwef6MTg).",
+    "short_description": "Przepis Jamesa Hoffmanna na mrożony AeroPress, będący modyfikacją jego techniki z dodatkiem lodu. [Zobacz samouczek](https://youtu.be/DlaEwef6MTg).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Umieść (0,4 x <final_water_amount>)g. lodu w dzbanku. Ustaw zaparzacz w standardowej pozycji na dzbanku. Nie płucz ani nie podgrzewaj zaparzacza (nie ma to żadnego znaczenia). Wsyp fusy z kawy.",
+        "description": "Umieść (0,4 x <final_water_amount>)g lodu w dzbanku. Ustaw AeroPress w standardowej pozycji na dzbanku. Nie płucz i nie podgrzewaj zaparzacza. Wsyp mieloną kawę.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Wlej (0,6 x <final_water_amount>)g. wody, dążąc do zwilżenia całej kawy podczas nalewania.",
+        "description": "Dodaj (0,6 x <final_water_amount>)g wody, równomiernie zwilżając kawę.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Umieść tłok na górze zaparzacza, około 1 cm w głąb",
+        "description": "Umieść tłok na górze zaparzacza, wsuwając go około 1 cm w głąb.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Czekaj 4 minuty",
+        "description": "Odczekaj 4 minuty.",
         "time": 240
       },
       {
         "order": 5,
-        "description": "Trzymając zaparzacz i tłok, delikatnie zawiruj zaparzaczem",
+        "description": "Delikatnie obróć zaparzacz, trzymając go razem z tłokiem.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Czekaj 30 sekund",
+        "description": "Poczekaj 30 sekund.",
         "time": 30
       },
       {
         "order": 7,
-        "description": "Naciśnij delikatnie do końca",
+        "description": "Naciśnij tłok aż do końca.",
         "time": 30
       },
       {
         "order": 8,
-        "description": "Zawirować, aby rozpuścić cały lód. Podawać na świeżych kostkach lodu.",
+        "description": "Zamieszaj, aby rozpuścić cały lód. Podawaj na świeżych kostkach lodu.",
         "time": 30
       }
     ]
   },
   {
     "id": "208",
-    "name": "Przepis na AeroPress by Coffee with April",
+    "name": "AeroPress wg Coffee with April",
     "brewing_method_id": "aeropress",
     "brewing_method": "Aeropress",
     "coffee_amount": 13,
@@ -366,38 +366,38 @@
     "water_temp": 88,
     "grind_size": "średnio-ziarnisty",
     "brew_time": "2min 0s",
-    "short_description": "Przepis daje lekką i soczystą kawę z niską goryczką i dobrą kwasowością. [Obejrzyj samouczek tutaj](https://www.youtube.com/watch?v=PUsHI7jdX1k).",
+    "short_description": "Przepis na delikatną i orzeźwiającą kawę z niską goryczką i wyraźną kwasowością. [Obejrzyj samouczek](https://www.youtube.com/watch?v=PUsHI7jdX1k).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Włóż papierowy filtr, przepłucz go i umieść AeroPress na dzbanku w standardowej pozycji. Wlej kawę.",
+        "description": "Przygotuj AeroPress z papierowym filtrem. Opłucz filtr i ustaw AeroPress na dzbanku. Wsyp kawę.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Szybko wlej (0,25 x <final_water_amount>)g. wody, lekko zamieszaj i załóż tłok, aby uniknąć kapania.",
+        "description": "Szybko dodaj (0,25 x <final_water_amount>)g wody, lekko zamieszaj i umieść tłok, aby zapobiec kapaniu.",
         "time": 15
       },
       {
         "order": 3,
-        "description": "Czekaj",
+        "description": "Odczekaj chwilę.",
         "time": 15
       },
       {
         "order": 4,
-        "description": "Zdejmij tłok, wlej pozostałe (0,75 x <final_water_amount>)g.wody. Załóż tłok z powrotem.",
+        "description": "Zdejmij tłok, wlej resztę wody (0,75 x <final_water_amount>)g. Umieść tłok z powrotem.",
         "time": 30
       },
       {
         "order": 5,
-        "description": "Czekaj",
+        "description": "Poczekaj krótko.",
         "time": 30
       },
       {
         "order": 6,
-        "description": "Naciśnij powoli, zatrzymaj się przy syczeniu",
+        "description": "Naciśnij tłok powoli, zatrzymując się, gdy poczujesz syczenie.",
         "time": 30
       }
     ]

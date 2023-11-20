@@ -1,99 +1,99 @@
 [
   {
     "id": "801",
-    "name": "アレクサンダー・ミルズ Origami Dripper レシピ",
+    "name": "アレクサンダー・ミルズのOrigami Dripperレシピ",
     "brewing_method_id": "origami",
-    "brewing_method":  "Origami",
+    "brewing_method": "Origami",
     "coffee_amount": 12.5,
     "water_amount": 200,
     "water_temp": 99,
     "grind_size": "中細挽き",
     "brew_time": "3min 0s",
-    "short_description": "コーヒー業界のコンサルタントであり,熱心な自家焙煎家でもある[Alexander Mills](https://alexandermills.ca/)によるOrigami Dripperのレシピ。このレシピはカリタコーヒーのフィルターを使用していることに注意してください。",
+    "short_description": "コーヒー業界のコンサルタントで自家焙煎家の[Alexander Mills](https://alexandermills.ca/)によるOrigami Dripperレシピ。このレシピではカリタコーヒーのフィルターを使用しています。",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "コーヒーを挽き,フィルターを予洗いし,コーヒーを入れる。秤の上に置き,ゼロにする",
+        "description": "フィルターをOrigami Dripperにセットし、お湯ですすぎます。コーヒーを量って挽き、Origami Dripperに入れ、秤の上に置き、ゼロにします。",
         "time": 0
       },
       {
         "order": 2,
-        "description": "コーヒーを(0.2 x <final_water_amount>)gの水で膨らませ,ドリッパーを優しく数回振って撹拌する。",
+        "description": "(0.2 x <final_water_amount>)gの水でコーヒーを膨らませ、軽く撹拌します。",
         "time": 10
       },
       {
         "order": 3,
-        "description": "コーヒーの花を咲かせましょう",
+        "description": "コーヒーの花を咲かせます。",
         "time": 30
       },
       {
         "order": 4,
-        "description": "残りの(0.8x<final_water_amount>)gの水をゆっくりと同心円を描くように注ぎ,最後にフィルターの外側を一周するように注ぎ終える。最後にフィルターの外側を一周するように注ぎます",
+        "description": "残りの(0.8x<final_water_amount>)gの水をゆっくりと同心円を描くように注ぎます。",
         "time": 50
       },
       {
         "order": 5,
-        "description": "完全なドローダウンを待つ",
+        "description": "完全なドローダウンを待ちます。",
         "time": 30
       }
     ]
   },
   {
     "id": "802",
-    "name": "佳寧杜 Origami Dripper レシピ",
+    "name": "佳寧杜のOrigami Dripperレシピ",
     "brewing_method_id": "origami",
-    "brewing_method": " Origami Dripper",
+    "brewing_method": "Origami Dripper",
     "coffee_amount": 16,
     "water_amount": 240,
     "water_temp": 94,
     "grind_size": "ミディアム",
     "brew_time": "1min 46s",
-    "short_description": "ワールド・ブリュワーズ・カップ(WBrC)で優勝した中国初のバリスタ,Jia Ning Du氏によるOrigami Dripperのレシピ。これは彼の優勝レシピです。[チュートリアルはこちら](https://www.youtube.com/watch?v=HNDnngFhZMU)",
+    "short_description": "ワールド・ブリュワーズ・カップ優勝者である佳寧杜氏によるOrigami Dripperレシピ。これは彼女の優勝レシピです。[チュートリアルはこちら](https://www.youtube.com/watch?v=HNDnngFhZMU)",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "フィルターとブリューワーをお湯で洗います。コーヒーを挽く。粉を入れ,目盛りをゼロにします。",
+        "description": "フィルターとブリューワーをお湯ですすぎます。コーヒーを挽いてOrigami Dripperに入れ、秤に置きます。",
         "time": 0
       },
       {
         "order": 2,
-        "description": "(0.25x<final_water_amount>)gの水を注ぐ。",
+        "description": "(0.25x<final_water_amount>)gの水を注ぎます。",
         "time": 10
       },
       {
         "order": 3,
-        "description": "待つ",
+        "description": "少し待ちます。",
         "time": 8
       },
       {
         "order": 4,
-        "description": "水を(5 x <final_coffee_amount>)g 注ぐ",
+        "description": "(5 x <final_coffee_amount>)gの水を注ぎます。",
         "time": 20
       },
       {
-      "order": 5,
-      "description": "待つ",
-      "time": 18
-    },
-    {
-      "order": 6,
-      "description": "<final_water_amount>gになるように注ぎ終える。",
-      "time": 20
-    },
-    {
-      "order": 7,
-      "description": "完全なドローダウンを待つ",
-      "time": 30
-    }
-  ]
-  },
+        "order": 5,
+        "description": "再び待ちます。",
+        "time": 18
+      },
+      {
+        "order": 6,
+        "description": "<final_water_amount>gになるまで水を注ぎ終えます。",
+        "time": 20
+      },
+      {
+        "order": 7,
+        "description": "完全なドローダウンを待ちます。",
+        "time": 30
+      }
+    ]
+  },  
   {
     "id": "803",
-    "name": "カルロス・メディーナの Origami Dripper レシピ",
+    "name": "カルロス・メディーナのOrigami Dripperレシピ",
     "brewing_method_id": "origami",
     "brewing_method": "Origami",
     "coffee_amount": 15.5,
@@ -101,65 +101,65 @@
     "water_temp": 91,
     "grind_size": "中粗挽き",
     "brew_time": "2min 40s",
-    "short_description": "これはチリのカルロス・メディナのレシピで,2023年にこのレシピでワールド・ブリュワーズ・カップで優勝した。彼の優勝の記録[こちら](https://www.youtube.com/watch?v=Ed8w-RKhR5U)をご覧ください。カルロスはこのレシピにコニカルフィルターを使っていることに注意してください。",
+    "short_description": "2023年のワールド・ブリュワーズ・カップ優勝者、チリのカルロス・メディーナによるOrigami Dripperレシピ。彼はこのレシピでコニカルフィルターを使用しています。[優勝の記録はこちら](https://www.youtube.com/watch?v=Ed8w-RKhR5U)。",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Origami Dripperとフィルターをお湯で洗います。コーヒーを挽きます。粉を入れ,目盛りをゼロにする。",
+        "description": "Origami Dripperとフィルターをお湯で洗い、コーヒーを挽きます。Origami Dripperにコーヒー粉を入れ、秤に置いてゼロにします。",
         "time": 0
       },
       {
         "order": 2,
-        "description": "(0.2x<final_water_amount>)gの水を注ぐ。",
+        "description": "(0.2x<final_water_amount>)gの水を注ぎます。",
         "time": 10
       },
       {
         "order": 3,
-        "description": "待つ",
+        "description": "少し待ちます。",
         "time": 20
       },
       {
         "order": 4,
-        "description": "(0.2x<final_water_amount>)gの水を注ぐ。",
+        "description": "再び(0.2x<final_water_amount>)gの水を注ぎます。",
         "time": 10
       },
       {
-      "order": 5,
-      "description": "待つ",
-      "time": 20
-    },
-    {
-      "order": 6,
-      "description": "(0.2x<final_water_amount>)gの水を注ぐ。",
-      "time": 10
-    },
-    {
-      "order": 7,
-      "description": "待つ",
-      "time": 20
-    },
-    {
-      "order": 8,
-      "description": "(0.2x<final_water_amount>)gの水を注ぐ。",
-      "time": 10
-    },
-    {
-      "order": 9,
-      "description": "待つ",
-      "time": 20
-    },
-    {
-      "order": 10,
-      "description": "(0.2x<final_water_amount>)gの水を注ぐ。",
-      "time": 10
-    },
-    {
-      "order": 11,
-      "description": "完全なドローダウンを待つ",
-      "time": 40
-    }
-  ]
-  }
+        "order": 5,
+        "description": "再び待ちます。",
+        "time": 20
+      },
+      {
+        "order": 6,
+        "description": "(0.2x<final_water_amount>)gの水を注ぎます。",
+        "time": 10
+      },
+      {
+        "order": 7,
+        "description": "さらに待ちます。",
+        "time": 20
+      },
+      {
+        "order": 8,
+        "description": "再び(0.2x<final_water_amount>)gの水を注ぎます。",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "待ちます。",
+        "time": 20
+      },
+      {
+        "order": 10,
+        "description": "(0.2x<final_water_amount>)gの水を最後に注ぎます。",
+        "time": 10
+      },
+      {
+        "order": 11,
+        "description": "完全なドローダウンを待ちます。",
+        "time": 40
+      }
+    ]
+  }  
 ]

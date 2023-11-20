@@ -1,7 +1,7 @@
 [
   {
     "id": "601",
-    "name": "スコット・ラオ Kalita Wave レシピ",
+    "name": "スコット・ラオのKalita Waveレシピ",
     "brewing_method_id": "kalita_wave",
     "brewing_method": "Kalita Wave",
     "coffee_amount": 20,
@@ -15,49 +15,49 @@
     "steps": [
       {
         "order": 1,
-        "description": "コーヒーを挽き,ペーパーフィルターをお湯ですすぎ,Kalita Waveに入れる。コーヒー粉を入れる",
+        "description": "コーヒーを挽き、ペーパーフィルターをKalita Waveにセットし、お湯ですすぎます。次に、コーヒー粉を入れます。",
         "time": 0
       },
       {
         "order": 3,
-        "description": "(3x<final_coffee_amount>)gの水でプレウェット",
+        "description": "(3x<final_coffee_amount>)gの水でプレウェットします。",
         "time": 10
       },
       {
         "order": 4,
-        "description": "ブリューワーを少し回して,必要ならスプーンで混ぜる。",
+        "description": "ブリュワーを回して均一にし、必要に応じてスプーンで混ぜます。",
         "time": 10
       },
       {
         "order": 5,
-        "description": "コーヒーの花を咲かせよう",
+        "description": "コーヒーの花を咲かせます。",
         "time": 25
       },
       {
         "order": 6,
-        "description": "注ぎ足し (0.6 x <final_water_amount>)g.",
+        "description": "(0.6 x <final_water_amount>)gまで注ぎ足します。",
         "time": 30
-      },      
+      },
       {
         "order": 7,
-        "description": "スラリーが半分ほど排出されるのを待つ。",
+        "description": "スラリーが半分ほど抽出されるのを待ちます。",
         "time": 40
       },
       {
         "order": 8,
-        "description": "<final_water_amount>g.まで水を加える",
+        "description": "<final_water_amount>gまで水を加えます。",
         "time": 10
       },
       {
         "order": 9,
-        "description": "ブリューワーをゆっくり回転させ,完全なドローダウンを待つ。",
+        "description": "ブリュワーをゆっくり回転させ、完全なドローダウンを待ちます。",
         "time": 135
       }
     ]
   },
   {
     "id": "602",
-    "name": "ジェームズ・マッカーシー Kalita Wave レシピ",
+    "name": "ジェームズ・マッカーシーのKalita Waveレシピ",
     "brewing_method_id": "kalita_wave",
     "brewing_method": "Kalita Wave",
     "coffee_amount": 24,
@@ -65,45 +65,45 @@
     "water_temp": 96,
     "grind_size": "粗挽き",
     "brew_time": "3min 30s",
-    "short_description": "2013年にKalita Waveでワールド・ブリュワーズ・カップ・チャンピオンシップを制したジェームズ・マッカーシーによるレシピ。詳細はこちら](https://sprudge.com/meet-the-worlds-best-brewer-james-mccarthy-brewers-cup-champ-38672.html)",
+    "short_description": "2013年ワールド・ブリュワーズ・カップ・チャンピオンのジェームズ・マッカーシーによるレシピ。[詳細はこちら](https://sprudge.com/meet-the-worlds-best-brewer-james-mccarthy-brewers-cup-champ-38672.html)",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "コーヒーを挽き,ふるいにかける。フィルターを洗い,カリタにコーヒーを注ぎ,振って粉を均す。",
+        "description": "コーヒーを挽き、Kalita Waveに入れます。フィルターを洗ってから、コーヒーを加え、均一になるように振ります。",
         "time": 0
       },
       {
         "order": 2,
-        "description": "(2x<final_coffee_amount>)gの水でプレウェット",
+        "description": "(2x<final_coffee_amount>)gの水でプレウェットします。",
         "time": 15
       },
       {
         "order": 3,
-        "description": "コーヒーの花を咲かせましょう",
+        "description": "コーヒーの花を咲かせます。",
         "time": 30
       },
       {
         "order": 4,
-        "description": "(0.5x<final_water_amount>)g.まで,グラウンドの上に均等な水柱を維持しながらパルス注湯する",
+        "description": "(0.5x<final_water_amount>)gまで、均等に水を注ぎます。",
         "time": 30
       },
       {
-      "order": 5,
-      "description": "<final_water_amount>g.までパルス注湯,可能であれば流量制限のあるケトルを使う。",
-      "time": 30
-    },
-    {
-      "order": 6,
-      "description": "完全なドローダウンを待つ。",
-      "time": 75
-    }
-  ]
+        "order": 5,
+        "description": "<final_water_amount>gまでパルス注湯を続けます。可能であれば流量制限のあるケトルを使用します。",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "完全なドローダウンを待ちます。",
+        "time": 75
+      }
+    ]
   },
   {
     "id": "603",
-    "name": "ジョージ・ハウエル・コーヒー Kalita Wave レシピ",
+    "name": "ジョージ・ハウエル・コーヒーのKalita Waveレシピ",
     "brewing_method_id": "kalita_wave",
     "brewing_method": "Kalita Wave",
     "coffee_amount": 25,
@@ -111,75 +111,75 @@
     "water_temp": 96,
     "grind_size": "ミディアム",
     "brew_time": "3min 30s",
-    "short_description": "[ジョージ・ハウエル・コーヒー](https://georgehowellcoffee.com/pages/brew-guide-kalita-185/)による珍しいレシピ",
+    "short_description": "[ジョージ・ハウエル・コーヒー](https://georgehowellcoffee.com/pages/brew-guide-kalita-185/)によるユニークなレシピ。",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "ドリッパーが温かく感じるまでフィルターをすすぐ。コーヒーを量り,挽く。Kalita Waveに注ぎ,粉が均等になるように振る。",
+        "description": "フィルターをすすぎ、ドリッパーを温めます。コーヒーを量って挽き、Kalita Waveに入れ、均等になるように振ります。",
         "time": 0
       },
       {
         "order": 2,
-        "description": "(0.16x<final_water_amount>)gの水が出るまで注ぐ。",
+        "description": "(0.16x<final_water_amount>)gの水を注ぎます。",
         "time": 15
       },
       {
         "order": 3,
-        "description": "待つ",
+        "description": "少し待ちます。",
         "time": 15
       },
       {
         "order": 4,
-        "description": "(0.33x<final_water_amount>)gの水が出るまで注ぐ。",
+        "description": "(0.33x<final_water_amount>)gの水を注ぎます。",
         "time": 15
       },
       {
         "order": 5,
-        "description": "待つ",
+        "description": "また待ちます。",
         "time": 15
       },
       {
         "order": 6,
-        "description": "(0.5x<final_water_amount>)gの水が出るまで注ぐ。",
+        "description": "(0.5x<final_water_amount>)gの水を注ぎます。",
         "time": 15
       },
       {
         "order": 7,
-        "description": "待つ",
+        "description": "さらに待ちます。",
         "time": 15
       },
       {
         "order": 8,
-        "description": "(0.66x<final_water_amount>)gの水が出るまで注ぐ。",
+        "description": "(0.66x<final_water_amount>)gの水を注ぎます。",
         "time": 15
       },
       {
         "order": 9,
-        "description": "待つ",
+        "description": "また待ちます。",
         "time": 15
       },
       {
         "order": 10,
-        "description": "(0.83x<final_water_amount>)gの水が出るまで注ぐ。",
+        "description": "(0.83x<final_water_amount>)gの水を注ぎます。",
         "time": 15
       },
       {
         "order": 11,
-        "description": "待つ",
+        "description": "待ちます。",
         "time": 15
       },
       {
         "order": 12,
-        "description": "<final_water_amount>g.の水まで注ぐ。",
+        "description": "<final_water_amount>gの水を注ぎます。",
         "time": 15
       },
       {
         "order": 13,
-        "description": "ドローダウンが完了するまで待つ",
+        "description": "ドローダウンが完了するまで待ちます。",
         "time": 45
       }
-  ]
-  }
+    ]
+  }  
 ]

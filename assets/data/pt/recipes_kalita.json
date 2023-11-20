@@ -15,42 +15,42 @@
     "steps": [
       {
         "order": 1,
-        "description": "Moa o café, passe o filtro de papel por água quente e coloque-o na Kalita Wave. Colocar o café moído",
+        "description": "Moa o café, enxágue o filtro de papel com água quente e coloque-o na Kalita Wave. Adicione o café moído.",
         "time": 0
       },
       {
         "order": 3,
-        "description": "Humedecer previamente com (3 x <final_coffee_amount>)g de água.",
+        "description": "Humedecer com (3 x <final_coffee_amount>)g de água.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Rodar um pouco o Kalita Wave, utilizar a colher para misturar, se necessário",
+        "description": "Agite um pouco a Kalita Wave e misture com uma colher, se necessário.",
         "time": 10
       },
       {
         "order": 5,
-        "description": "Deixa o café florescer.",
+        "description": "Deixe o café florescer.",
         "time": 25
       },
       {
         "order": 6,
-        "description": "Despejar até (0,6 x <final_water_amount>)g.",
+        "description": "Despeje até (0,6 x <final_water_amount>)g de água.",
         "time": 30
       },      
       {
         "order": 7,
-        "description": "Esperar que a mistura escorra até cerca de metade",
+        "description": "Aguarde até que a mistura escorra até cerca de metade.",
         "time": 40
       },
       {
         "order": 8,
-        "description": "Adicionar água até <final_water_amount>g.",
+        "description": "Adicione água até <final_water_amount>g.",
         "time": 10
       },
       {
         "order": 9,
-        "description": "Rodar suavemente a máquina de infusão e aguardar a extração completa",
+        "description": "Agite suavemente a Kalita Wave e aguarde a extração completa.",
         "time": 135
       }
     ]
@@ -65,41 +65,41 @@
     "water_temp": 96,
     "grind_size": "Grosso",
     "brew_time": "3min 30s",
-    "short_description": "Receita de James McCarthy, que ganhou o Campeonato Mundial da Taça dos Cervejeiros em 2013 com a Kalita Wave. Mais pormenores [aqui](https://sprudge.com/meet-the-worlds-best-brewer-james-mccarthy-brewers-cup-champ-38672.html).",
+    "short_description": "Receita de James McCarthy, campeão da Taça dos Cervejeiros em 2013 com a Kalita Wave. [Mais detalhes aqui](https://sprudge.com/meet-the-worlds-best-brewer-james-mccarthy-brewers-cup-champ-38672.html).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Moer e peneirar (opcionalmente) o café. Enxaguar o filtro, deitar o café no Kalita e agitar para nivelar o café moído.",
+        "description": "Moa e peneire (opcional) o café. Enxágue o filtro, coloque o café na Kalita Wave e agite para nivelar.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Humedecer previamente com (2 x <final_coffee_amount>)g de água.",
+        "description": "Humedecer com (2 x <final_coffee_amount>)g de água.",
         "time": 15
       },
       {
         "order": 3,
-        "description": "Deixa o café florescer.",
+        "description": "Deixe o café florescer.",
         "time": 30
       },
       {
         "order": 4,
-        "description": "Despejar por impulsos até (0,5 x <final_water_amount>)g., mantendo uma coluna uniforme de água acima do café moído.",
+        "description": "Despeje por impulsos até (0,5 x <final_water_amount>)g, mantendo uma coluna uniforme de água.",
         "time": 30
       },
       {
-      "order": 5,
-      "description": "Despejar em pulsos até atingir <final_water_amount>g., utilizando uma chaleira com restrição de fluxo, se possível.",
-      "time": 30
-    },
-    {
-      "order": 6,
-      "description": "Aguardar a completa drenagem do café",
-      "time": 75
-    }
-  ]
+        "order": 5,
+        "description": "Continue a despejar em pulsos até atingir <final_water_amount>g, usando uma chaleira com restrição de fluxo, se possível.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Aguarde a drenagem completa do café.",
+        "time": 75
+      }
+    ]
   },
   {
     "id": "603",
@@ -111,75 +111,75 @@
     "water_temp": 96,
     "grind_size": "Médio",
     "brew_time": "3min 30s",
-    "short_description": "Uma receita invulgar de [George Howell Coffee](https://georgehowellcoffee.com/pages/brew-guide-kalita-185/).",
+    "short_description": "Receita invulgar de Kalita Wave por [George Howell Coffee](https://georgehowellcoffee.com/pages/brew-guide-kalita-185/).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Passar o filtro por água até o gotejador ficar quente. Pesar o café e moer. Despejar na Kalita Wave e agitar para nivelar o café moído",
+        "description": "Enxágue o filtro até o gotejador ficar quente. Pese e moa o café, coloque na Kalita Wave e agite para nivelar.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Despejar até (0,16 x <final_water_amount>)g. de água.",
+        "description": "Despeje até (0,16 x <final_water_amount>)g de água.",
         "time": 15
       },
       {
         "order": 3,
-        "description": "Espera",
+        "description": "Aguarde.",
         "time": 15
       },
       {
         "order": 4,
-        "description": "Despejar até (0,33 x <final_water_amount>)g. de água.",
+        "description": "Despeje até (0,33 x <final_water_amount>)g de água.",
         "time": 15
       },
       {
         "order": 5,
-        "description": "Espera",
+        "description": "Aguarde.",
         "time": 15
       },
       {
         "order": 6,
-        "description": "Despejar até (0,5 x <final_water_amount>)g. de água.",
+        "description": "Despeje até (0,5 x <final_water_amount>)g de água.",
         "time": 15
       },
       {
         "order": 7,
-        "description": "Espera",
+        "description": "Aguarde.",
         "time": 15
       },
       {
         "order": 8,
-        "description": "Despejar até (0,66 x <final_water_amount>)g. de água.",
+        "description": "Despeje até (0,66 x <final_water_amount>)g de água.",
         "time": 15
       },
       {
         "order": 9,
-        "description": "Espera",
+        "description": "Aguarde.",
         "time": 15
       },
       {
         "order": 10,
-        "description": "Despejar até (0,83 x <final_water_amount>)g. de água.",
+        "description": "Despeje até (0,83 x <final_water_amount>)g de água.",
         "time": 15
       },
       {
         "order": 11,
-        "description": "Espera",
+        "description": "Aguarde.",
         "time": 15
       },
       {
         "order": 12,
-        "description": "Despejar até <final_water_amount>g. de água",
+        "description": "Despeje até <final_water_amount>g de água.",
         "time": 15
       },
       {
         "order": 13,
-        "description": "Aguardar a completa drenagem do café",
+        "description": "Aguarde a drenagem completa do café.",
         "time": 45
       }
-  ]
-  }
+    ]
+  }  
 ]

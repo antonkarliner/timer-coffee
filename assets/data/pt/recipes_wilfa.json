@@ -9,43 +9,43 @@
     "water_temp": 95,
     "grind_size": "Médio-grosso",
     "brew_time": "3min 30s",
-    "short_description": "Esta é uma receita que utilizei muito com o Wilfa Dripper. Não tenho a certeza do seu autor, mas é semelhante a muitas receitas de imersão",
+    "short_description": "Esta é uma receita popular de imersão com o Wilfa Dripper. A autoria é desconhecida, mas é similar a muitas outras receitas de imersão.",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Lavar o filtro e a máquina de café com água quente. Moer o café. Despejar o café moído, zerar a balança. Fechar o limitador de caudal",
+        "description": "Enxágue o filtro e a cafeteira com água quente. Moa o café, adicione ao dispositivo e zero a balança. Feche o regulador de fluxo.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Despejar em <final_water_amount>g. de água",
+        "description": "Despeje <final_water_amount>g de água.",
         "time": 15
       },
       {
         "order": 3,
-        "description": "Agitar um pouco a máquina de cerveja.",
+        "description": "Agite levemente a cafeteira.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Deixar o café em infusão.",
+        "description": "Deixe o café em infusão.",
         "time": 130
       },
       {
         "order": 5,
-        "description": "Partir suavemente a crosta de café com uma colher",
+        "description": "Quebre suavemente a crosta de café com uma colher.",
         "time": 10
       },
       {
         "order": 6,
-        "description": "Espera um pouco mais",
+        "description": "Aguarde um pouco mais.",
         "time": 20
       },      
       {
         "order": 7,
-        "description": "Abrir totalmente o controlo do caudal, aguardar a descarga completa",
+        "description": "Abra totalmente o controle de fluxo e aguarde a drenagem completa.",
         "time": 30
       }
     ]
@@ -60,13 +60,13 @@
     "water_temp": 95,
     "grind_size": "Grosso",
     "brew_time": "3min 0s",
-    "short_description": "Outro método de preparação do café com a Wilfa Svart Pour Over é, adivinhou, verter! Esta é uma receita de [Best Coffee](https://www.bestcoffee.guide/blogs/product-reviews/wilfa-pour-over-smart-dripper-review).",
+    "short_description": "Receita para preparar café com a Wilfa Svart Pour Over por [Best Coffee](https://www.bestcoffee.guide/blogs/product-reviews/wilfa-pour-over-smart-dripper-review).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Lavar o filtro e a máquina de café com água quente. Moer o café. Despejar o café moído, zerar a balança. Fechar o limitador de caudal",
+        "description": "Enxágue o filtro e a cafeteira com água quente. Moa o café e coloque na Wilfa Svart, zerando a balança. Feche o limitador de caudal.",
         "time": 0
       },
       {
@@ -76,30 +76,30 @@
       },
       {
         "order": 3,
-        "description": "Deixa o café florescer.",
+        "description": "Deixe o café florescer.",
         "time": 20
       },
       {
         "order": 4,
-        "description": "Abrir o controlo de fluxo até meio ponto",
+        "description": "Abra o controlo de fluxo até meio.",
         "time": 5
       },
       {
-      "order": 5,
-      "description": "Adicionar água até (0,6 x <quantidade_final_water_amount>)g.",
-      "time": 30
-    },
-    {
-      "order": 6,
-      "description": "Continuar a adicionar água até atingir <quantidade_final_water_amount>g",
-      "time": 30
-    },
-    {
-      "order": 7,
-      "description": "Aguardar a descarga completa e fechar o controlo de caudal",
-      "time": 115
-    }
-  ]
+        "order": 5,
+        "description": "Adicione água até (0,6 x <final_water_amount>)g.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Continue adicionando água até atingir <final_water_amount>g.",
+        "time": 30
+      },
+      {
+        "order": 7,
+        "description": "Aguarde a drenagem completa e feche o controlo de caudal.",
+        "time": 115
+      }
+    ]
   },
   {
     "id": "703",
@@ -111,40 +111,40 @@
     "water_temp": 95,
     "grind_size": "Fino",
     "brew_time": "6min 35s",
-    "short_description": "Esta receita utiliza uma técnica melhorada de café gelado por imersão de James Hoffman. Veja o [tutorial aqui](https://www.youtube.com/watch?v=8uGGeV8A-BM). Opcional: pode adicionar algumas gotas de solução salina (uma solução de 20% de sal e 80% de água) no final para reduzir o amargor. Nota: é necessário moer mais fino do que o normal para o pour over, mas não fino como o expresso",
+    "short_description": "Receita aprimorada de café gelado por imersão de James Hoffmann. [Veja o tutorial](https://www.youtube.com/watch?v=8uGGeV8A-BM). Opcional: adicione gotas de solução salina no final para reduzir amargor. Moer mais fino que o habitual para pour over, mas não tão fino quanto para expresso.",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Insira o filtro de papel na Wilfa Svart Pour Over e passe-o por água. Moa o café, mas não o coloque ainda na máquina de café. Colocar na balança e colocar a zero. Pega numa colher. Vai precisar de (0,34 x <final_water_amount>)g de gelo, mas guarde-o no congelador por enquanto.",
+        "description": "Insira o filtro na Wilfa Svart e passe-o por água. Moa o café, mas não o coloque ainda na cafeteira. Zere a balança. Prepare uma colher e (0,34 x <final_water_amount>)g de gelo.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Adicionar (0,66 x <final_water_amount>)g de água à Wilfa Svart Pour Over",
+        "description": "Adicione (0,66 x <final_water_amount>)g de água à Wilfa Svart.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Coloque o café na água e mexa-o com uma colher, certificando-se de que todo o café fica molhado",
+        "description": "Coloque o café na água e mexa para umedecer todo o café.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Deixar o café em infusão. Quando o tempo de infusão estiver quase a terminar, coloque (0,34 x <final_water_amount>)g de gelo no jarro.",
+        "description": "Deixe o café infusionar. Antes de terminar, adicione (0,34 x <final_water_amount>)g de gelo no jarro.",
         "time": 300
       },
       {
         "order": 5,
-        "description": "Colocar a Wilfa Svart Pour Over sobre o recipiente e aguardar a finalização da drenagem.",
+        "description": "Coloque a Wilfa Svart sobre o recipiente e aguarde a drenagem final.",
         "time": 60
       },
       {
         "order": 6,
-        "description": "Agitar o jarro ou mexer com uma colher para diluir o gelo restante. Opcional: adicionar algumas gotas de solução salina para reduzir o amargor",
+        "description": "Agite o jarro ou mexa para diluir o gelo restante. Opcional: adicione solução salina para reduzir o amargor.",
         "time": 15
       }
     ]
-  }
+  }  
 ]

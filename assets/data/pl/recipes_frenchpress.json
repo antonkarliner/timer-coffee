@@ -1,7 +1,7 @@
 [
   {
     "id": "401",
-    "name": "Przepis James Hoffmann French Press",
+    "name": "Przepis James Hoffmann na French Press",
     "brewing_method_id": "french_press",
     "brewing_method": "French Press",
     "coffee_amount": 30,
@@ -9,45 +9,45 @@
     "water_temp": 95,
     "grind_size": "Średnio-zgrubny",
     "brew_time": "10min 0s",
-    "short_description": "Przepis na French Press autorstwa Jamesa Hoffmanna, zwycięzcy World Barista Championship, YouTubera, konsultanta ds. kawy i autora. [Obejrzyj samouczek](https://www.youtube.com/watch?v=st571DYYTR8).",
+    "short_description": "Metoda French Press stworzona przez Jamesa Hoffmanna, mistrza World Barista Championship. [Zobacz samouczek](https://www.youtube.com/watch?v=st571DYYTR8).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Zmiel kawę i wsyp ją do French Press. Umieść na wadze i wyzeruj",
+        "description": "Zmiel kawę i wsyp do French Press. Umieść na wadze, wyzeruj.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Dodaj <final_water_amount> g. wody",
+        "description": "Dodaj <final_water_amount> g wody.",
         "time": 15
       },
       {
         "order": 3,
-        "description": "Pozwól kawie usiąść",
+        "description": "Pozwól kawie osiąść.",
         "time": 240
       },
       {
         "order": 4,
-        "description": "Użyj łyżki stołowej, aby wymieszać skórkę na wierzchu naparu. Usuń pianę i unoszące się cząsteczki",
+        "description": "Zmieszaj kawę łyżką stołową, usuwając pianę i unoszące się cząstki.",
         "time": 30
       },
       {
         "order": 5,
-        "description": "Pozwól kawie odpocząć przez dodatkowe 5 minut",
+        "description": "Pozwól kawie odpocząć przez 5 minut.",
         "time": 300
       },
       {
         "order": 6,
-        "description": "Włóż tłok, ale nie wciskaj go do końca, pozostaw go na górze naparu",
+        "description": "Umieść tłok na powierzchni kawy, ale nie wciskaj go.",
         "time": 15
       }
     ]
   },
   {
     "id": "402",
-    "name": "Przepis Gwilym Davies French Press",
+    "name": "Przepis Gwilyma Daviesa na French Press",
     "brewing_method_id": "french_press",
     "brewing_method": "French Press",
     "coffee_amount": 16,
@@ -55,60 +55,60 @@
     "water_temp": 95,
     "grind_size": "Średni",
     "brew_time": "12min 45s",
-    "short_description": "Przepis na French Press autorstwa Gwilyma Daviesa, mistrza świata baristów i autoryzowanego trenera SCA. Oto [samouczek](https://www.youtube.com/watch?v=AkrqY8LkWM4).",
+    "short_description": "Metoda French Press od Gwilyma Daviesa, mistrza świata baristów. [Zobacz samouczek](https://www.youtube.com/watch?v=AkrqY8LkWM4).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Zmiel kawę i wsyp ją do French Press. Umieść na wadze i wyzeruj",
+        "description": "Zmiel kawę i wsyp do French Press. Przygotuj wagę.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Szybko dodaj <final_water_amount> g wody",
+        "description": "Szybko dodaj <final_water_amount> g wody.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Czekaj 5 minut",
+        "description": "Odczekaj 5 minut.",
         "time": 300
       },
       {
         "order": 4,
-        "description": "Użyj łyżki stołowej, aby wymieszać kawę z wodą",
+        "description": "Zmieszaj kawę z wodą łyżką stołową.",
         "time": 10
       },
       {
-      "order": 5,
-      "description": "Włóż tłok, ale jeszcze go nie wciskaj",
-      "time": 5
-    },
-    {
-      "order": 6,
-      "description": "Czekaj 3 minuty",
-      "time": 180
-    },
-    {
-      "order": 7,
-      "description": "Naciśnij powoli tłok w dół",
-      "time": 20
-    },
-    {
-      "order": 8,
-      "description": "Czekaj 2 minuty",
-      "time": 120
-    },
-    {
-      "order": 9,
-      "description": "Wlej kawę do karafki i czekaj przez kolejne 2 minuty przed podaniem",
-      "time": 120
-    }
-  ]
+        "order": 5,
+        "description": "Umieść tłok, ale jeszcze go nie wciskaj.",
+        "time": 5
+      },
+      {
+        "order": 6,
+        "description": "Czekaj 3 minuty.",
+        "time": 180
+      },
+      {
+        "order": 7,
+        "description": "Powoli naciśnij tłok.",
+        "time": 20
+      },
+      {
+        "order": 8,
+        "description": "Czekaj 2 minuty.",
+        "time": 120
+      },
+      {
+        "order": 9,
+        "description": "Wlej kawę do karafki, poczekaj 2 minuty przed podaniem.",
+        "time": 120
+      }
+    ]
   },
   {
     "id": "403",
-    "name": "Przepis Scott Rao French Press",
+    "name": "Przepis Scotta Rao na French Press",
     "brewing_method_id": "french_press",
     "brewing_method": "French Press",
     "coffee_amount": 30,
@@ -116,40 +116,40 @@
     "water_temp": 95,
     "grind_size": "Średni",
     "brew_time": "5min 20s",
-    "short_description": "Przepis na French Press autorstwa Scotta Rao, eksperta w dziedzinie kawy i autora specjalizującego się w prowadzeniu kawiarni, szkoleniu baristów oraz paleniu i parzeniu kawy.",
+    "short_description": "Metoda French Press od Scotta Rao, eksperta w dziedzinie kawy. [Tutorial](https://www.youtube.com/watch?v=AkrqY8LkWM4).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Zmiel kawę i wsyp ją do French Press. Umieść na wadze i wyzeruj",
+        "description": "Zmiel kawę i wsyp do French Press. Przygotuj wagę.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Wlej <final_water_amount> g wody na raz, szybko, upewniając się, że wszystkie fusy są mokre.",
+        "description": "Wlej <final_water_amount> g wody, upewniając się, że wszystkie fusy są mokre.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Umieść tłok 1 cm pod powierzchnią kawy",
+        "description": "Umieść tłok 1 cm pod powierzchnią kawy.",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Czekaj 4 minuty",
+        "description": "Czekaj 4 minuty.",
         "time": 240
       },
       {
-      "order": 5,
-      "description": "Delikatnie naciśnij tłok",
-      "time": 10
-    },
-    {
-      "order": 6,
-      "description": "Czekaj, aż cząsteczki kawy osiądą i podaj",
-      "time": 180
-    }
-  ]
-  }
+        "order": 5,
+        "description": "Delikatnie naciśnij tłok.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Czekaj, aż fusy osiądą, a następnie podaj kawę.",
+        "time": 180
+      }
+    ]
+  }  
 ]

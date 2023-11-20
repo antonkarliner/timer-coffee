@@ -1,7 +1,7 @@
 [
   {
     "id": "101",
-    "name": "ジェームズ・ホフマンV60レシピ",
+    "name": "ジェームズ・ホフマンのV60レシピ",
     "brewing_method_id": "hario_v60",
     "brewing_method": "Hario V60",
     "coffee_amount": 30,
@@ -9,53 +9,53 @@
     "water_temp": 95,
     "grind_size": "中細挽き",
     "brew_time": "3min 30s",
-    "short_description": "ジェームズ・ホフマンによる簡単レシピ。[チュートリアルビデオを見る](https://www.youtube.com/watch?v=AI4ynXzkSQo)",
+    "short_description": "簡潔で効果的なジェームズ・ホフマンによるV60レシピ。[チュートリアルビデオを見る](https://www.youtube.com/watch?v=AI4ynXzkSQo)",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "フィルターをすすぎ,V60を予熱する。粉を入れ,真ん中に井戸を作る。",
+        "description": "フィルターをすすぎ、V60を予熱します。コーヒーを挽き、中央に井戸を作ります。",
         "time": 0
       },
       {
         "order": 2,
-        "description": "(2x<final_coffee_amount>)gの水でプレウェット",
+        "description": "(2x<final_coffee_amount>)gの水でコーヒーをプレウェットします。",
         "time": 10
       },
       {
         "order": 3,
-        "description": "スラリーが均一になるまでブリューワーを回す",
+        "description": "ブリューワーを回してスラリーを均一にします。",
         "time": 10
       },
       {
         "order": 4,
-        "description": "コーヒーの花を咲かせよう",
+        "description": "コーヒーの花を咲かせます。",
         "time": 25
       },
       {
         "order": 5,
-        "description": "次の30秒間に(0.6 x <final_water_amount>)gまで最初の本注を完了する。",
+        "description": "次の30秒で(0.6 x <final_water_amount>)gまで初注を完了します。",
         "time": 30
       },
       {
         "order": 6,
-        "description": "Gently complete second main pour until <final_water_amount>g. in the next 30s.",
+        "description": "次の30秒で<final_water_amount>gまで二回目の注ぎを優しく行います。",
         "time": 30
-      },      
+      },
       {
         "order": 7,
-        "description": "時計回り,反時計回りに軽くかき混ぜる",
+        "description": "時計回り、反時計回りに軽くかき混ぜます。",
         "time": 10
       },
       {
         "order": 8,
-        "description": "抽出を均一にするために,コーヒーベッドを平らにするために優しくブリューワーを旋回させる",
+        "description": "ブリューワーを優しく回してコーヒーベッドを平らにし、均一な抽出を促します。",
         "time": 10
       },
       {
         "order": 9,
-        "description": "3min30sまでにドローダウン終了を目指す。",
+        "description": "3分30秒までにドローダウンを完了します。",
         "time": 85
       }
     ]
@@ -70,55 +70,55 @@
     "water_temp": 95,
     "grind_size": "中細挽き",
     "brew_time": "3min 0s",
-    "short_description": "スコット・ラオのV60レシピは均一な抽出と安定した抽出に重点を置いています。スコット・ラオ[推奨](https://www.youtube.com/watch?v=c0Qe_ASxfNM)はプラスチック製のV60を使用することで,抽出の熱を保持し,やけどすることなく抽出中に漏斗を操作することができます。",
+    "short_description": "スコット・ラオのV60レシピは均一な抽出に重点を置いています。彼はプラスチック製のV60の使用を推奨しており、これにより抽出中の熱が保持されます。[推奨の方法を見る](https://www.youtube.com/watch?v=c0Qe_ASxfNM)",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "フィルターをすすぎ,V60を予熱し,粉を入れ,平らにする",
+        "description": "フィルターをすすぎ、V60を予熱し、コーヒー粉を入れ、平らにします。",
         "time": 0
       },
       {
         "order": 2,
-        "description": "(3x<final_coffee_amount>)gの水でプレウェット",
+        "description": "(3x<final_coffee_amount>)gの水でプレウェットします。",
         "time": 15
       },
       {
         "order": 3,
-        "description": "すべての敷地を濡らすためにそっと掘る",
+        "description": "コーヒーのすべての部分を濡らすために優しく掘ります。",
         "time": 10
       },
       {
         "order": 4,
-        "description": "コーヒーの花を咲かせよう",
+        "description": "コーヒーの花を咲かせます。",
         "time": 20
       },
       {
         "order": 5,
-        "description": "45秒後,<final_water_amount>gまで本流しを開始する。",
+        "description": "45秒後、<final_water_amount>gまで本流しを開始します。",
         "time": 50
       },
       {
-      "order": 6,
-      "description": "そっとかき混ぜて,粉が側面に付着するのを止める",
-      "time": 25
-    },
-    {
-      "order": 7,
-      "description": "スワールV60でコーヒーベッドを平らにし,均一な抽出を行う",
-      "time": 10
-    },
-    {
-      "order": 8,
-      "description": "ドローダウンは3分以内に完了すること。",
-      "time": 50
-    }
-  ]
+        "order": 6,
+        "description": "優しくかき混ぜ、粉が側面に付着しないようにします。",
+        "time": 25
+      },
+      {
+        "order": 7,
+        "description": "V60をスワールしてコーヒーベッドを平らにし、均一な抽出を行います。",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "ドローダウンが3分以内に完了します。",
+        "time": 50
+      }
+    ]
   },
   {
     "id": "103",
-    "name": "ランス・ヘドリックの究極のフラッシュ・ブルー",
+    "name": "ランス・ヘドリックの究極のフラッシュ・ブルーV60レシピ",
     "brewing_method_id": "hario_v60",
     "brewing_method": "Hario V60",
     "coffee_amount": 20,
@@ -126,45 +126,45 @@
     "water_temp": 93,
     "grind_size": "中細挽き",
     "brew_time": "3min 25s",
-    "short_description": "High extraction, low bitterness, and all delicies of the beans in iced coffee. [チュートリアルビデオを見る](https://www.youtube.com/watch?v=qwvnQcojq9Q&) ",
+    "short_description": "高い抽出率と低い苦味、アイスコーヒーのための豆の美味しさを引き出すランス・ヘドリックのレシピ。[チュートリアルビデオを見る](https://www.youtube.com/watch?v=qwvnQcojq9Q&)",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "フィルターをすすぎ,V60を予熱し,粉を入れ,平らにする",
+        "description": "フィルターをすすぎ、V60を予熱し、コーヒー粉を入れ、平らにします。",
         "time": 0
       },
       {
         "order": 2,
-        "description": "0.25x<final_water_amount>)gの水でブルームさせる",
+        "description": "(0.25x<final_water_amount>)gの水でブルーミングします。",
         "time": 60
       },
       {
         "order": 3,
-        "description": "(0.375x<final_water_amount>)gの水を注ぐ。",
+        "description": "(0.375x<final_water_amount>)gの水を注ぎます。",
         "time": 45
       },
       {
         "order": 4,
-        "description": "(0.375x<final_water_amount>)gを注ぎ,静かに振り混ぜる。完全に水がなくなるまで待つ",
+        "description": "(0.375x<final_water_amount>)gの水を注ぎ、静かにかき混ぜます。水がなくなるまで待ちます。",
         "time": 45
       },
       {
         "order": 5,
-        "description": "(0.25x<final_water_amount>)gの氷を加え,5-10℃に冷めるまで撹拌する",
+        "description": "(0.25x<final_water_amount>)gの氷を加え、5-10℃に冷やします。",
         "time": 30
       },
       {
-      "order": 6,
-      "description": "新鮮な氷にかける",
-      "time": 25
-    }
-  ]
+        "order": 6,
+        "description": "新鮮な氷の上にコーヒーを注ぎます。",
+        "time": 25
+      }
+    ]
   },
   {
     "id": "104",
-    "name": "ジェームス・ホフマン アイスV60レシピ",
+    "name": "ジェームス・ホフマンのアイスV60レシピ",
     "brewing_method_id": "hario_v60",
     "brewing_method": "Hario V60",
     "coffee_amount": 32.5,
@@ -178,44 +178,44 @@
     "steps": [
       {
         "order": 1,
-        "description": "サーバーが熱くならないように,シンクの上でフィルターをすすぐ。コーヒーの粉を入れる。(0.4x<final_water_amount>)gの氷をサーバーに入れる。はかりに載せてゼロにする",
+        "description": "フィルターをすすぎ、サーバーが熱くならないように注意します。コーヒー粉を入れ、(0.4x<final_water_amount>)gの氷をサーバーに入れ、はかりでゼロに設定します。",
         "time": 0
       },
       {
         "order": 2,
-        "description": "(3x<final_coffee_amount>)gの水でプレウェット",
+        "description": "(3x<final_coffee_amount>)gの水でプレウェットします。",
         "time": 10
       },
       {
         "order": 3,
-        "description": "花を少しかき混ぜる。",
+        "description": "コーヒーの花を少しだけかき混ぜます。",
         "time": 10
       },
       {
         "order": 4,
-        "description": "コーヒーの花を咲かせよう",
+        "description": "コーヒーの花を咲かせます。",
         "time": 25
       },
       {
         "order": 5,
-        "description": "0.6x<final_water_amount>)g.の水までゆっくり注ぐ。",
+        "description": "(0.6x<final_water_amount>)gの水をゆっくりと注ぎます。",
         "time": 105
       },
       {
         "order": 6,
-        "description": "時計回りと反時計回りに1回ずつかき混ぜる。",
+        "description": "時計回りと反時計回りに1回ずつかき混ぜます。",
         "time": 10
-      },      
+      },
       {
         "order": 7,
-        "description": "サーバーで氷を溶かす。新鮮な氷をグラスに注ぐ。",
+        "description": "サーバーで氷を溶かし、新鮮な氷をグラスに注ぎます。",
         "time": 15
       }
     ]
   },
   {
     "id": "105",
-    "name": "ジェームス・ホフマンV60-ワンカップ・レシピ",
+    "name": "ジェームス・ホフマンのV60ワンカップレシピ",
     "brewing_method_id": "hario_v60",
     "brewing_method": "Hario V60",
     "coffee_amount": 15,
@@ -223,75 +223,75 @@
     "water_temp": 95,
     "grind_size": "中細挽き",
     "brew_time": "3min 0s",
-    "short_description": "ジェームズ・ホフマンのワンカップV60のレシピ。[チュートリアルビデオを見る](https://www.youtube.com/watch?v=1oB1oDrDkHM)",
+    "short_description": "ジェームス・ホフマンによるワンカップV60レシピ。[チュートリアルビデオを見る](https://www.youtube.com/watch?v=1oB1oDrDkHM)",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "フィルターをすすぎ,V60を予熱する。粉を入れる",
+        "description": "フィルターをすすぎ、V60を予熱し、コーヒー粉を入れます。",
         "time": 0
       },
       {
         "order": 2,
-        "description": "0.2x<final_water_amount>)gの水でプレウェットする",
+        "description": "(0.2x<final_water_amount>)gの水でプレウェットします。",
         "time": 10
       },
       {
         "order": 3,
-        "description": "V60を優しく振り回す。",
+        "description": "V60を軽く振ります。",
         "time": 5
       },
       {
         "order": 4,
-        "description": "コーヒーの花を咲かせよう",
+        "description": "コーヒーの花を咲かせます。",
         "time": 30
       },
       {
         "order": 5,
-        "description": "合計(0.4 x <final_water_amount>)gまで注ぐ。",
+        "description": "合計(0.4x<final_water_amount>)gまで注ぎます。",
         "time": 15
       },
       {
         "order": 6,
-        "description": "待つ",
+        "description": "待ちます。",
         "time": 10
-      },      
+      },
       {
         "order": 7,
-        "description": "合計(0.6 x <final_water_amount>)gまで注ぐ。",
+        "description": "合計(0.6x<final_water_amount>)gまで注ぎます。",
         "time": 10
       },
       {
         "order": 8,
-        "description": "待つ",
+        "description": "待ちます。",
         "time": 10
       },
       {
         "order": 9,
-        "description": "合計(0.8 x <final_water_amount>)gまで注ぐ。",
+        "description": "合計(0.8x<final_water_amount>)gまで注ぎます。",
         "time": 10
       },
       {
         "order": 10,
-        "description": "待つ",
+        "description": "待ちます。",
         "time": 10
       },
       {
         "order": 11,
-        "description": "合計<final_water_amount>gまで注ぐ。",
+        "description": "合計<final_water_amount>gまで注ぎます。",
         "time": 10
       },
       {
         "order": 12,
-        "description": "静かに渦を巻く",
+        "description": "静かに渦を巻きます。",
         "time": 5
       },
       {
         "order": 13,
-        "description": "完全なドローダウンを待つ",
+        "description": "完全なドローダウンを待ちます。",
         "time": 55
       }
     ]
-  }
+  }  
 ]
