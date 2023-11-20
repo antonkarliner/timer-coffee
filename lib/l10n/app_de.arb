@@ -46,6 +46,7 @@
     "donationerr": "Fehler",
     "donationerrmsg": "Fehler bei der Verarbeitung des Kaufs, bitte versuchen Sie es erneut.",
     "sharemsg": "Schauen Sie sich dieses Rezept an:",
-    "quickactionmsg": "Letztes Rezept öffnen"
+    "quickactionmsg": "Letztes Rezept öffnen",
+    "finishbrew": "Fertig"
   }
   

@@ -46,6 +46,7 @@
     "donationerr": "Erro",
     "donationerrmsg": "Erro ao processar a compra, por favor, tente novamente.",
     "sharemsg": "Confira esta receita:",
-    "quickactionmsg": "Abrir última receita"
+    "quickactionmsg": "Abrir última receita",
+    "finishbrew": "Finalizar"
   }
   

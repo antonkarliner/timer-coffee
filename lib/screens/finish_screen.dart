@@ -98,7 +98,7 @@ class _FinishScreenState extends State<FinishScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Finish')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.finishbrew)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
