@@ -45,7 +45,7 @@
       },
       {
         "order": 8,
-        "description": "Добавляйте воду до <final_water_amount> г.",
+        "description": "Добавляйте воду до <final_water_amount>г.",
         "time": 10
       },
       {
@@ -76,7 +76,7 @@
       },
       {
         "order": 2,
-        "description": "Добавьте (2 x <final_coffee_amount>) г. воды",
+        "description": "Добавьте (2 x <final_coffee_amount>)г. воды",
         "time": 15
       },
       {
