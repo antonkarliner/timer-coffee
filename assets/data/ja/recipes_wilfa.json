@@ -71,7 +71,7 @@
       },
       {
         "order": 2,
-        "description": "(2.2x<final_coffee_amount>)gの水でプレウェットします。",
+        "description": "(2.2 x <final_coffee_amount>)gの水でプレウェットします。",
         "time": 10
       },
       {
@@ -86,7 +86,7 @@
       },
       {
         "order": 5,
-        "description": "(0.6x<final_water_amount>)gの水を加えます。",
+        "description": "(0.6 x <final_water_amount>)gの水を加えます。",
         "time": 30
       },
       {
@@ -117,12 +117,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "ペーパーフィルターをWilfa Svart Pour Overにセットし、水ですすぎます。コーヒーを挽き、抽出器には入れずに秤に置き、ゼロにします。スプーンを用意し、(0.34x<final_water_amount>)gの氷を冷凍庫に入れておきます。",
+        "description": "ペーパーフィルターをWilfa Svart Pour Overにセットし、水ですすぎます。コーヒーを挽き、抽出器には入れずに秤に置き、ゼロにします。スプーンを用意し、(0.34 x <final_water_amount>)gの氷を冷凍庫に入れておきます。",
         "time": 0
       },
       {
         "order": 2,
-        "description": "(0.66x<final_water_amount>)gの水をブリューワーに加えます。",
+        "description": "(0.66 x <final_water_amount>)gの水をブリューワーに加えます。",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 4,
-        "description": "コーヒーを蒸らします。蒸らし時間がほぼ終了する頃に、(0.34x<final_water_amount>)gの氷をサーバーに入れます。",
+        "description": "コーヒーを蒸らします。蒸らし時間がほぼ終了する頃に、(0.34 x <final_water_amount>)gの氷をサーバーに入れます。",
         "time": 300
       },
       {

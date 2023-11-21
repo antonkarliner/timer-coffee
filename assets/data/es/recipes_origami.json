@@ -20,7 +20,7 @@
       },
       {
         "order": 2,
-        "description": "Humedezca el café con (0,2 x <final_water_amount>)g de agua y agite suavemente el gotero.",
+        "description": "Humedezca el café con (0.2 x <final_water_amount>)g de agua y agite suavemente el gotero.",
         "time": 10
       },
       {
@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "Vierta los (0,8 x <final_water_amount>)g de agua restantes en círculos lentos y concéntricos, terminando con un vertido alrededor del filtro. Agite suavemente el gotero.",
+        "description": "Vierta los (0.8 x <final_water_amount>)g de agua restantes en círculos lentos y concéntricos, terminando con un vertido alrededor del filtro. Agite suavemente el gotero.",
         "time": 50
       },
       {
@@ -61,7 +61,7 @@
       },
       {
         "order": 2,
-        "description": "Humedezca el café con (0,25 x <final_water_amount>)g de agua.",
+        "description": "Humedezca el café con (0.25 x <final_water_amount>)g de agua.",
         "time": 10
       },
       {
@@ -112,7 +112,7 @@
       },
       {
         "order": 2,
-        "description": "Vierta (0,2 x <final_water_amount>)g de agua.",
+        "description": "Vierta (0.2 x <final_water_amount>)g de agua.",
         "time": 10
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "order": 4,
-        "description": "Vierta otros (0,2 x <final_water_amount>)g de agua.",
+        "description": "Vierta otros (0.2 x <final_water_amount>)g de agua.",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 6,
-        "description": "Vierta (0,2 x <final_water_amount>)g de agua.",
+        "description": "Vierta (0.2 x <final_water_amount>)g de agua.",
         "time": 10
       },
       {
@@ -142,7 +142,7 @@
       },
       {
         "order": 8,
-        "description": "Vierta (0,2 x <final_water_amount>)g de agua.",
+        "description": "Vierta (0.2 x <final_water_amount>)g de agua.",
         "time": 10
       },
       {
@@ -152,7 +152,7 @@
       },
       {
         "order": 10,
-        "description": "Vierta (0,2 x <final_water_amount>)g de agua.",
+        "description": "Vierta (0.2 x <final_water_amount>)g de agua.",
         "time": 10
       },
       {

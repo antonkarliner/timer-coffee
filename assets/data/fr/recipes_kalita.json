@@ -35,7 +35,7 @@
         },
         {
             "order": 6,
-            "description": "Versez jusqu'à (0,6 x <final_water_amount>)g d'eau.",
+            "description": "Versez jusqu'à (0.6 x <final_water_amount>)g d'eau.",
             "time": 30
         },
         {
@@ -86,7 +86,7 @@
         },
         {
             "order": 4,
-            "description": "Versez en alternant jusqu'à (0,5 x <final_water_amount>)g, en gardant une colonne d'eau constante.",
+            "description": "Versez en alternant jusqu'à (0.5 x <final_water_amount>)g, en gardant une colonne d'eau constante.",
             "time": 30
         },
         {
@@ -122,7 +122,7 @@
       },
       {
           "order": 2,
-          "description": "Versez jusqu'à (0,16 x <nombre_d'eau_final>)g d'eau.",
+          "description": "Versez jusqu'à (0.16 x <final_water_amount>)g d'eau.",
           "time": 15
       },
       {
@@ -132,7 +132,7 @@
       },
       {
           "order": 4,
-          "description": "Ajoutez jusqu'à (0,33 x <final_water_amount>)g d'eau.",
+          "description": "Ajoutez jusqu'à (0.33 x <final_water_amount>)g d'eau.",
           "time": 15
       },
       {
@@ -142,7 +142,7 @@
       },
       {
           "order": 6,
-          "description": "Versez jusqu'à (0,5 x <nombre_d'eau_final>)g d'eau.",
+          "description": "Versez jusqu'à (0.5 x <final_water_amount>)g d'eau.",
           "time": 15
       },
       {
@@ -152,7 +152,7 @@
       },
       {
           "order": 8,
-          "description": "Ajoutez jusqu'à (0,66 x <nombre_d'eau_final>)g d'eau.",
+          "description": "Ajoutez jusqu'à (0.66 x <final_water_amount>)g d'eau.",
           "time": 15
       },
       {
@@ -162,7 +162,7 @@
       },
       {
           "order": 10,
-          "description": "Versez jusqu'à (0,83 x <nombre_d'eau_final>)g d'eau.",
+          "description": "Versez jusqu'à (0.83 x <final_water_amount>)g d'eau.",
           "time": 15
       },
       {

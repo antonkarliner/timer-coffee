@@ -153,12 +153,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "Insira o filtro no Clever Dripper e enxágue com água. Prepare o café, mas não o adicione ainda. Zere a balança e prepare uma colher. Separe (0,34 x <final_water_amount>)g de gelo.",
+        "description": "Insira o filtro no Clever Dripper e enxágue com água. Prepare o café, mas não o adicione ainda. Zere a balança e prepare uma colher. Separe (0.34 x <final_water_amount>)g de gelo.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Adicione (0,66 x <final_water_amount>)g de água ao dispositivo.",
+        "description": "Adicione (0.66 x <final_water_amount>)g de água ao dispositivo.",
         "time": 10
       },
       {
@@ -168,7 +168,7 @@
       },
       {
         "order": 4,
-        "description": "Deixe o café infusionar. Antes de terminar, adicione (0,34 x <final_water_amount>)g de gelo no jarro.",
+        "description": "Deixe o café infusionar. Antes de terminar, adicione (0.34 x <final_water_amount>)g de gelo no jarro.",
         "time": 300
       },
       {

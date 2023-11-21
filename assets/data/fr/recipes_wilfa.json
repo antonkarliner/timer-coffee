@@ -71,7 +71,7 @@
         },
         {
             "order": 2,
-            "description": "Pré-humidifiez avec (2,2 x <final_coffee_amount>)g d'eau.",
+            "description": "Pré-humidifiez avec (2.2 x <final_coffee_amount>)g d'eau.",
             "time": 10
         },
         {
@@ -86,7 +86,7 @@
         },
         {
             "order": 5,
-            "description": "Versez de l'eau jusqu'à (0,6 x <final_water_amount>)g.",
+            "description": "Versez de l'eau jusqu'à (0.6 x <final_water_amount>)g.",
             "time": 30
         },
         {
@@ -117,12 +117,12 @@
   "steps": [
       {
           "order": 1,
-          "description": "Placez le filtre en papier dans la Wilfa Svart et rincez-le. Moulez le café sans le verser dans la cafetière. Préparez la balance et une cuillère. Gardez (0,34 x <final_water_amount>)g de glace au congélateur.",
+          "description": "Placez le filtre en papier dans la Wilfa Svart et rincez-le. Moulez le café sans le verser dans la cafetière. Préparez la balance et une cuillère. Gardez (0.34 x <final_water_amount>)g de glace au congélateur.",
           "time": 0
       },
       {
           "order": 2,
-          "description": "Versez (0,66 x <final_water_amount>)g d'eau dans la cafetière.",
+          "description": "Versez (0.66 x <final_water_amount>)g d'eau dans la cafetière.",
           "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
           "order": 4,
-          "description": "Laissez infuser le café. Peu avant la fin, placez (0,34 x <final_water_amount>)g de glace dans le carafe.",
+          "description": "Laissez infuser le café. Peu avant la fin, placez (0.34 x <final_water_amount>)g de glace dans le carafe.",
           "time": 300
       },
       {

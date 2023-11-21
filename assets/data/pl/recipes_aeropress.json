@@ -194,7 +194,7 @@
       },
       {
         "order": 2,
-        "description": "Wlej (0,3 x <final_water_amount>)g przegotowanej wody do odwróconego Aeropressu.",
+        "description": "Wlej (0.3 x <final_water_amount>)g przegotowanej wody do odwróconego Aeropressu.",
         "time": 5
       },
       {
@@ -209,7 +209,7 @@
       },
       {
         "order": 5,
-        "description": "Dodaj pozostałe (0,7 x <final_water_amount>)g wody w koncentrycznych kręgach.",
+        "description": "Dodaj pozostałe (0.7 x <final_water_amount>)g wody w koncentrycznych kręgach.",
         "time": 10
       },
       {
@@ -250,7 +250,7 @@
       },
       {
         "order": 2,
-        "description": "Wlej (0,45 x <final_water_amount>)g przegotowanej wody do odwróconego Aeropressu.",
+        "description": "Wlej (0.45 x <final_water_amount>)g przegotowanej wody do odwróconego Aeropressu.",
         "time": 10
       },
       {
@@ -316,12 +316,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "Umieść (0,4 x <final_water_amount>)g lodu w dzbanku. Ustaw AeroPress w standardowej pozycji na dzbanku. Nie płucz i nie podgrzewaj zaparzacza. Wsyp mieloną kawę.",
+        "description": "Umieść (0.4 x <final_water_amount>)g lodu w dzbanku. Ustaw AeroPress w standardowej pozycji na dzbanku. Nie płucz i nie podgrzewaj zaparzacza. Wsyp mieloną kawę.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Dodaj (0,6 x <final_water_amount>)g wody, równomiernie zwilżając kawę.",
+        "description": "Dodaj (0.6 x <final_water_amount>)g wody, równomiernie zwilżając kawę.",
         "time": 10
       },
       {
@@ -377,7 +377,7 @@
       },
       {
         "order": 2,
-        "description": "Szybko dodaj (0,25 x <final_water_amount>)g wody, lekko zamieszaj i umieść tłok, aby zapobiec kapaniu.",
+        "description": "Szybko dodaj (0.25 x <final_water_amount>)g wody, lekko zamieszaj i umieść tłok, aby zapobiec kapaniu.",
         "time": 15
       },
       {
@@ -387,7 +387,7 @@
       },
       {
         "order": 4,
-        "description": "Zdejmij tłok, wlej resztę wody (0,75 x <final_water_amount>)g. Umieść tłok z powrotem.",
+        "description": "Zdejmij tłok, wlej resztę wody (0.75 x <final_water_amount>)g. Umieść tłok z powrotem.",
         "time": 30
       },
       {

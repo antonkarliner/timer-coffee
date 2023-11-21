@@ -71,7 +71,7 @@
       },
       {
         "order": 2,
-        "description": "Wstępnie zwilż (2,2 x <final_coffee_amount>)g wody.",
+        "description": "Wstępnie zwilż (2.2 x <final_coffee_amount>)g wody.",
         "time": 10
       },
       {
@@ -86,7 +86,7 @@
       },
       {
         "order": 5,
-        "description": "Dodaj wody do (0,6 x <final_water_amount>)g.",
+        "description": "Dodaj wody do (0.6 x <final_water_amount>)g.",
         "time": 30
       },
       {
@@ -117,12 +117,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "Przygotuj filtr w Wilfa Svart Pour Over, przepłucz. Zmiel kawę, umieść na wadze, wyzeruj. Przygotuj łyżkę i (0,34 x <final_water_amount>)g lodu.",
+        "description": "Przygotuj filtr w Wilfa Svart Pour Over, przepłucz. Zmiel kawę, umieść na wadze, wyzeruj. Przygotuj łyżkę i (0.34 x <final_water_amount>)g lodu.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Dodaj (0,66 x <final_water_amount>)g wody do zaparzacza.",
+        "description": "Dodaj (0.66 x <final_water_amount>)g wody do zaparzacza.",
         "time": 10
       },
       {

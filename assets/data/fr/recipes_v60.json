@@ -35,7 +35,7 @@
         },
         {
             "order": 5,
-            "description": "Terminez la première coulée jusqu'à (0,6 x <final_water_amount>)g.",
+            "description": "Terminez la première coulée jusqu'à (0.6 x <final_water_amount>)g.",
             "time": 30
         },
         {
@@ -137,22 +137,22 @@
       },
       {
           "order": 2,
-          "description": "Fleurir avec (0,25 x <final_water_amount>)g d'eau.",
+          "description": "Fleurir avec (0.25 x <final_water_amount>)g d'eau.",
           "time": 60
       },
       {
           "order": 3,
-          "description": "Versez (0,375 x <final_water_amount>)g d'eau.",
+          "description": "Versez (0.375 x <final_water_amount>)g d'eau.",
           "time": 45
       },
       {
           "order": 4,
-          "description": "Ajoutez encore (0,375 x <final_water_amount>)g d'eau et agitez doucement. Attendez l'écoulement complet.",
+          "description": "Ajoutez encore (0.375 x <final_water_amount>)g d'eau et agitez doucement. Attendez l'écoulement complet.",
           "time": 45
       },
       {
           "order": 5,
-          "description": "Ajoutez (0,25 x <final_water_amount>)g de glace et remuez jusqu'à refroidissement à 5-10°C.",
+          "description": "Ajoutez (0.25 x <final_water_amount>)g de glace et remuez jusqu'à refroidissement à 5-10°C.",
           "time": 30
       },
       {
@@ -178,7 +178,7 @@
   "steps": [
       {
           "order": 1,
-          "description": "Rincez le filtre au-dessus de l'évier. Versez le café moulu dans le V60. Mettez (0,4 x <final_water_amount>)g de glace dans la carafe et placez le tout sur une balance.",
+          "description": "Rincez le filtre au-dessus de l'évier. Versez le café moulu dans le V60. Mettez (0.4 x <final_water_amount>)g de glace dans la carafe et placez le tout sur une balance.",
           "time": 0
       },
       {
@@ -198,7 +198,7 @@
       },
       {
           "order": 5,
-          "description": "Versez lentement jusqu'à (0,6 x <final_water_amount>)g d'eau.",
+          "description": "Versez lentement jusqu'à (0.6 x <final_water_amount>)g d'eau.",
           "time": 105
       },
       {
@@ -234,7 +234,7 @@
       },
       {
           "order": 2,
-          "description": "Pré-humidifiez avec (0,2 x <final_water_amount>)g d'eau.",
+          "description": "Pré-humidifiez avec (0.2 x <final_water_amount>)g d'eau.",
           "time": 10
       },
       {
@@ -249,7 +249,7 @@
       },
       {
           "order": 5,
-          "description": "Versez jusqu'à (0,4 x <final_water_amount>)g au total.",
+          "description": "Versez jusqu'à (0.4 x <final_water_amount>)g au total.",
           "time": 15
       },
       {
@@ -259,7 +259,7 @@
       },
       {
           "order": 7,
-          "description": "Ajoutez de l'eau jusqu'à (0,6 x <final_water_amount>)g au total.",
+          "description": "Ajoutez de l'eau jusqu'à (0.6 x <final_water_amount>)g au total.",
           "time": 10
       },
       {
@@ -269,7 +269,7 @@
       },
       {
           "order": 9,
-          "description": "Versez jusqu'à (0,8 x <final_water_amount>)g au total.",
+          "description": "Versez jusqu'à (0.8 x <final_water_amount>)g au total.",
           "time": 10
       },
       {

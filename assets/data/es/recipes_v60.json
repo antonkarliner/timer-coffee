@@ -35,7 +35,7 @@
       },
       {
         "order": 5,
-        "description": "Realice el primer vertido principal hasta (0,6 x <final_water_amount>)g en 30 segundos.",
+        "description": "Realice el primer vertido principal hasta (0.6 x <final_water_amount>)g en 30 segundos.",
         "time": 30
       },
       {
@@ -137,22 +137,22 @@
       },
       {
         "order": 2,
-        "description": "Realice el bloom con (0,25 x <final_water_amount>)g de agua.",
+        "description": "Realice el bloom con (0.25 x <final_water_amount>)g de agua.",
         "time": 60
       },
       {
         "order": 3,
-        "description": "Vierta (0,375 x <final_water_amount>)g de agua.",
+        "description": "Vierta (0.375 x <final_water_amount>)g de agua.",
         "time": 45
       },
       {
         "order": 4,
-        "description": "Agregue otros (0,375 x <final_water_amount>)g de agua y agite suavemente. Espere hasta que termine el drenaje.",
+        "description": "Agregue otros (0.375 x <final_water_amount>)g de agua y agite suavemente. Espere hasta que termine el drenaje.",
         "time": 45
       },
       {
         "order": 5,
-        "description": "Añada (0,25 x <final_water_amount>)g de hielo y mezcle hasta enfriar a 5-10°C.",
+        "description": "Añada (0.25 x <final_water_amount>)g de hielo y mezcle hasta enfriar a 5-10°C.",
         "time": 30
       },
       {
@@ -178,7 +178,7 @@
     "steps": [
       {
         "order": 1,
-        "description": "Enjuague el filtro sin calentar la jarra. Añada el café molido. Coloque (0,4 x <final_water_amount>)g de hielo en la jarra y ponga a cero la balanza.",
+        "description": "Enjuague el filtro sin calentar la jarra. Añada el café molido. Coloque (0.4 x <final_water_amount>)g de hielo en la jarra y ponga a cero la balanza.",
         "time": 0
       },
       {
@@ -198,7 +198,7 @@
       },
       {
         "order": 5,
-        "description": "Vierta lentamente hasta (0,6 x <final_water_amount>)g de agua.",
+        "description": "Vierta lentamente hasta (0.6 x <final_water_amount>)g de agua.",
         "time": 105
       },
       {
@@ -234,7 +234,7 @@
       },
       {
         "order": 2,
-        "description": "Prehumecte con (0,2 x <final_water_amount>)g de agua.",
+        "description": "Prehumecte con (0.2 x <final_water_amount>)g de agua.",
         "time": 10
       },
       {
@@ -249,7 +249,7 @@
       },
       {
         "order": 5,
-        "description": "Vierta hasta (0,4 x <final_water_amount>)g de agua en total.",
+        "description": "Vierta hasta (0.4 x <final_water_amount>)g de agua en total.",
         "time": 15
       },
       {
@@ -259,7 +259,7 @@
       },      
       {
         "order": 7,
-        "description": "Vierta hasta (0,6 x <final_water_amount>)g de agua en total.",
+        "description": "Vierta hasta (0.6 x <final_water_amount>)g de agua en total.",
         "time": 10
       },
       {
@@ -269,7 +269,7 @@
       },
       {
         "order": 9,
-        "description": "Vierta hasta (0,8 x <final_water_amount>)g de agua en total.",
+        "description": "Vierta hasta (0.8 x <final_water_amount>)g de agua en total.",
         "time": 10
       },
       {

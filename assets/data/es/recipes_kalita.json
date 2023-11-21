@@ -35,7 +35,7 @@
       },
       {
         "order": 5,
-        "description": "Vierta hasta (0,6 x <final_water_amount>)g de agua.",
+        "description": "Vierta hasta (0.6 x <final_water_amount>)g de agua.",
         "time": 30
       },
       {
@@ -86,7 +86,7 @@
       },
       {
         "order": 4,
-        "description": "Realice vertidos a pulsos hasta (0,5 x <final_water_amount>)g, manteniendo una columna de agua uniforme.",
+        "description": "Realice vertidos a pulsos hasta (0.5 x <final_water_amount>)g, manteniendo una columna de agua uniforme.",
         "time": 30
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "order": 2,
-        "description": "Vierta hasta (0,16 x <final_water_amount>)g de agua.",
+        "description": "Vierta hasta (0.16 x <final_water_amount>)g de agua.",
         "time": 15
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 4,
-        "description": "Vierta hasta (0,33 x <final_water_amount>)g de agua.",
+        "description": "Vierta hasta (0.33 x <final_water_amount>)g de agua.",
         "time": 15
       },
       {
@@ -142,7 +142,7 @@
       },
       {
         "order": 6,
-        "description": "Vierta hasta (0,5 x <final_water_amount>)g de agua.",
+        "description": "Vierta hasta (0.5 x <final_water_amount>)g de agua.",
         "time": 15
       },
       {
@@ -152,7 +152,7 @@
       },
       {
         "order": 8,
-        "description": "Vierta hasta (0,66 x <final_water_amount>)g de agua.",
+        "description": "Vierta hasta (0.66 x <final_water_amount>)g de agua.",
         "time": 15
       },
       {
@@ -162,7 +162,7 @@
       },
       {
         "order": 10,
-        "description": "Vierta hasta (0,83 x <final_water_amount>)g de agua.",
+        "description": "Vierta hasta (0.83 x <final_water_amount>)g de agua.",
         "time": 15
       },
       {

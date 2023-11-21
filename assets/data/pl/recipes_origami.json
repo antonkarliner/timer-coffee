@@ -20,7 +20,7 @@
       },
       {
         "order": 2,
-        "description": "Zakwitnij kawę (0,2 x <final_water_amount>)g wody, delikatnie mieszając.",
+        "description": "Zakwitnij kawę (0.2 x <final_water_amount>)g wody, delikatnie mieszając.",
         "time": 10
       },
       {
@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "Wlej resztę wody (0,8 x <final_water_amount>)g, w koncentrycznych kręgach, zakończ wokół zewnętrznej strony filtra. Obróć zaparzacz.",
+        "description": "Wlej resztę wody (0.8 x <final_water_amount>)g, w koncentrycznych kręgach, zakończ wokół zewnętrznej strony filtra. Obróć zaparzacz.",
         "time": 50
       },
       {
@@ -61,7 +61,7 @@
       },
       {
         "order": 2,
-        "description": "Wlej (0,25 x <final_water_amount>)g wody.",
+        "description": "Wlej (0.25 x <final_water_amount>)g wody.",
         "time": 10
       },
       {
@@ -112,7 +112,7 @@
       },
       {
         "order": 2,
-        "description": "Wlej (0,2 x <final_water_amount>)g wody.",
+        "description": "Wlej (0.2 x <final_water_amount>)g wody.",
         "time": 10
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "order": 4,
-        "description": "Dodaj kolejne (0,2 x <final_water_amount>)g wody.",
+        "description": "Dodaj kolejne (0.2 x <final_water_amount>)g wody.",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 6,
-        "description": "Dodaj kolejne (0,2 x <final_water_amount>)g wody.",
+        "description": "Dodaj kolejne (0.2 x <final_water_amount>)g wody.",
         "time": 10
       },
       {
@@ -142,7 +142,7 @@
       },
       {
         "order": 8,
-        "description": "Dodaj kolejne (0,2 x <final_water_amount>)g wody.",
+        "description": "Dodaj kolejne (0.2 x <final_water_amount>)g wody.",
         "time": 10
       },
       {
@@ -152,7 +152,7 @@
       },
       {
         "order": 10,
-        "description": "Dodaj ostatnie (0,2 x <final_water_amount>)g wody.",
+        "description": "Dodaj ostatnie (0.2 x <final_water_amount>)g wody.",
         "time": 10
       },
       {

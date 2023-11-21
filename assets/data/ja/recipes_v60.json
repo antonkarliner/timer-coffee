@@ -20,7 +20,7 @@
       },
       {
         "order": 2,
-        "description": "(2x<final_coffee_amount>)gの水でコーヒーをプレウェットします。",
+        "description": "(2 x <final_coffee_amount>)gの水でコーヒーをプレウェットします。",
         "time": 10
       },
       {
@@ -81,7 +81,7 @@
       },
       {
         "order": 2,
-        "description": "(3x<final_coffee_amount>)gの水でプレウェットします。",
+        "description": "(3 x <final_coffee_amount>)gの水でプレウェットします。",
         "time": 15
       },
       {
@@ -137,22 +137,22 @@
       },
       {
         "order": 2,
-        "description": "(0.25x<final_water_amount>)gの水でブルーミングします。",
+        "description": "(0.25 x <final_water_amount>)gの水でブルーミングします。",
         "time": 60
       },
       {
         "order": 3,
-        "description": "(0.375x<final_water_amount>)gの水を注ぎます。",
+        "description": "(0.375 x <final_water_amount>)gの水を注ぎます。",
         "time": 45
       },
       {
         "order": 4,
-        "description": "(0.375x<final_water_amount>)gの水を注ぎ、静かにかき混ぜます。水がなくなるまで待ちます。",
+        "description": "(0.375 x <final_water_amount>)gの水を注ぎ、静かにかき混ぜます。水がなくなるまで待ちます。",
         "time": 45
       },
       {
         "order": 5,
-        "description": "(0.25x<final_water_amount>)gの氷を加え、5-10℃に冷やします。",
+        "description": "(0.25 x <final_water_amount>)gの氷を加え、5-10℃に冷やします。",
         "time": 30
       },
       {
@@ -178,12 +178,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "フィルターをすすぎ、サーバーが熱くならないように注意します。コーヒー粉を入れ、(0.4x<final_water_amount>)gの氷をサーバーに入れ、はかりでゼロに設定します。",
+        "description": "フィルターをすすぎ、サーバーが熱くならないように注意します。コーヒー粉を入れ、(0.4 x <final_water_amount>)gの氷をサーバーに入れ、はかりでゼロに設定します。",
         "time": 0
       },
       {
         "order": 2,
-        "description": "(3x<final_coffee_amount>)gの水でプレウェットします。",
+        "description": "(3 x <final_coffee_amount>)gの水でプレウェットします。",
         "time": 10
       },
       {
@@ -198,7 +198,7 @@
       },
       {
         "order": 5,
-        "description": "(0.6x<final_water_amount>)gの水をゆっくりと注ぎます。",
+        "description": "(0.6 x <final_water_amount>)gの水をゆっくりと注ぎます。",
         "time": 105
       },
       {
@@ -234,7 +234,7 @@
       },
       {
         "order": 2,
-        "description": "(0.2x<final_water_amount>)gの水でプレウェットします。",
+        "description": "(0.2 x <final_water_amount>)gの水でプレウェットします。",
         "time": 10
       },
       {
@@ -249,7 +249,7 @@
       },
       {
         "order": 5,
-        "description": "合計(0.4x<final_water_amount>)gまで注ぎます。",
+        "description": "合計(0.4 x <final_water_amount>)gまで注ぎます。",
         "time": 15
       },
       {
@@ -259,7 +259,7 @@
       },
       {
         "order": 7,
-        "description": "合計(0.6x<final_water_amount>)gまで注ぎます。",
+        "description": "合計(0.6 x <final_water_amount>)gまで注ぎます。",
         "time": 10
       },
       {
@@ -269,7 +269,7 @@
       },
       {
         "order": 9,
-        "description": "合計(0.8x<final_water_amount>)gまで注ぎます。",
+        "description": "合計(0.8 x <final_water_amount>)gまで注ぎます。",
         "time": 10
       },
       {

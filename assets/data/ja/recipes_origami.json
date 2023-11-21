@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "残りの(0.8x<final_water_amount>)gの水をゆっくりと同心円を描くように注ぎます。",
+        "description": "残りの(0.8 x <final_water_amount>)gの水をゆっくりと同心円を描くように注ぎます。",
         "time": 50
       },
       {
@@ -61,7 +61,7 @@
       },
       {
         "order": 2,
-        "description": "(0.25x<final_water_amount>)gの水を注ぎます。",
+        "description": "(0.25 x <final_water_amount>)gの水を注ぎます。",
         "time": 10
       },
       {
@@ -112,7 +112,7 @@
       },
       {
         "order": 2,
-        "description": "(0.2x<final_water_amount>)gの水を注ぎます。",
+        "description": "(0.2 x <final_water_amount>)gの水を注ぎます。",
         "time": 10
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "order": 4,
-        "description": "再び(0.2x<final_water_amount>)gの水を注ぎます。",
+        "description": "再び(0.2 x <final_water_amount>)gの水を注ぎます。",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 6,
-        "description": "(0.2x<final_water_amount>)gの水を注ぎます。",
+        "description": "(0.2 x <final_water_amount>)gの水を注ぎます。",
         "time": 10
       },
       {
@@ -142,7 +142,7 @@
       },
       {
         "order": 8,
-        "description": "再び(0.2x<final_water_amount>)gの水を注ぎます。",
+        "description": "再び(0.2 x <final_water_amount>)gの水を注ぎます。",
         "time": 10
       },
       {
@@ -152,7 +152,7 @@
       },
       {
         "order": 10,
-        "description": "(0.2x<final_water_amount>)gの水を最後に注ぎます。",
+        "description": "(0.2 x <final_water_amount>)gの水を最後に注ぎます。",
         "time": 10
       },
       {

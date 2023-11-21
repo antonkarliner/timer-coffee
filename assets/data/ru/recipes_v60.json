@@ -35,7 +35,7 @@
       },
       {
         "order": 5,
-        "description": "Налейте воды до (0,6 x <final_water_amount>)г.",
+        "description": "Налейте воды до (0.6 x <final_water_amount>)г.",
         "time": 30
       },
       {
@@ -137,22 +137,22 @@
       },
       {
         "order": 2,
-        "description": "Налейте (0,25 x <final_water_amount>)г. воды",
+        "description": "Налейте (0.25 x <final_water_amount>)г. воды",
         "time": 60
       },
       {
         "order": 3,
-        "description": "Налейте (0,375 x <final_water_amount>)г. воды",
+        "description": "Налейте (0.375 x <final_water_amount>)г. воды",
         "time": 45
       },
       {
         "order": 4,
-        "description": "Снова налейте (0,375 x <final_water_amount>)г. и аккуратно перемешайте ложкой. Подождите, пока вода полностью стечет",
+        "description": "Снова налейте (0.375 x <final_water_amount>)г. и аккуратно перемешайте ложкой. Подождите, пока вода полностью стечет",
         "time": 45
       },
       {
         "order": 5,
-        "description": "Добавьте (0,25 x <final_water_amount>)г. льда и перемешайте, чтобы охладить кофе",
+        "description": "Добавьте (0.25 x <final_water_amount>)г. льда и перемешайте, чтобы охладить кофе",
         "time": 30
       },
       {
@@ -178,7 +178,7 @@
     "steps": [
       {
         "order": 1,
-        "description": "Промойте фильтр над раковиной, чтобы избежать нагрева сервера. Засыпьте молотый кофе. Поместите в сервер (0,4 x <final_water_amount>)г. льда. Поставьте на весы и обнулите их.",
+        "description": "Промойте фильтр над раковиной, чтобы избежать нагрева сервера. Засыпьте молотый кофе. Поместите в сервер (0.4 x <final_water_amount>)г. льда. Поставьте на весы и обнулите их.",
         "time": 0
       },
       {
@@ -198,7 +198,7 @@
       },
       {
         "order": 5,
-        "description": "Медленно налейте воду до (0,6 x <final_water_amount>)г.",
+        "description": "Медленно налейте воду до (0.6 x <final_water_amount>)г.",
         "time": 105
       },
       {
@@ -234,7 +234,7 @@
       },
       {
         "order": 2,
-        "description": "Налейте (0,2 x <final_water_amount>)г. воды",
+        "description": "Налейте (0.2 x <final_water_amount>)г. воды",
         "time": 10
       },
       {
@@ -249,7 +249,7 @@
       },
       {
         "order": 5,
-        "description": "Налейте воды до (0,4 x <final_water_amount>)г.",
+        "description": "Налейте воды до (0.4 x <final_water_amount>)г.",
         "time": 15
       },
       {
@@ -259,7 +259,7 @@
       },      
       {
         "order": 7,
-        "description": "Налейте воды до (0,6 x <final_water_amount>)г.",
+        "description": "Налейте воды до (0.6 x <final_water_amount>)г.",
         "time": 10
       },
       {
@@ -269,7 +269,7 @@
       },
       {
         "order": 9,
-        "description": "Налейте воды до (0,8 x <final_water_amount>)г.",
+        "description": "Налейте воды до (0.8 x <final_water_amount>)г.",
         "time": 10
       },
       {

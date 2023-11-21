@@ -54,7 +54,7 @@
     "water_amount": 300,
     "water_temp": 95,
     "grind_size": "粗挽き",
-    "brew_time": "5分20秒",
+    "brew_time": "5min 20s",
     "short_description": "YouTubeチャンネルEuropean Coffee TripによるClever Dripperレシピ。[チュートリアルを見る](https://www.youtube.com/watch?v=H4-XTUpX9Mo)",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
@@ -153,7 +153,7 @@
     "steps": [
       {
         "order": 1,
-        "description": "ペーパーフィルターをClever Dripperに挿入し、水ですすぎます。コーヒーを挽き、計量器に置き、ゼロにします。スプーンを用意します。(0.34x<final_water_amount>)gの氷を用意し、冷凍庫に保管します。",
+        "description": "ペーパーフィルターをClever Dripperに挿入し、水ですすぎます。コーヒーを挽き、計量器に置き、ゼロにします。スプーンを用意します。(0.34 x <final_water_amount>)gの氷を用意し、冷凍庫に保管します。",
         "time": 0
       },
       {

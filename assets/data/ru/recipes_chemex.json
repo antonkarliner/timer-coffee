@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "Добавляйте воду круговыми движениями, разбивая все комки, до (0,6 x <final_water_amount>) г.",
+        "description": "Добавляйте воду круговыми движениями, разбивая все комки, до (0.6 x <final_water_amount>) г.",
         "time": 30
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 4,
-        "description": "Добавить до (0,33 x <final_water_amount>)г воды, наливая медленными круговыми движениями",
+        "description": "Добавить до (0.33 x <final_water_amount>)г воды, наливая медленными круговыми движениями",
         "time": 15
       },
       {
@@ -142,7 +142,7 @@
     },
     {
       "order": 6,
-      "description": "Теперь добавьте еще воды, пока весы не покажут (0,64 x <final_water_amount>)г.",
+      "description": "Теперь добавьте еще воды, пока весы не покажут (0.64 x <final_water_amount>)г.",
       "time": 20
     },
     {
@@ -178,7 +178,7 @@
         },
         {
           "order": 2,
-          "description": "Добавьте (1,5 x <final_coffee_amount>)г. воды",
+          "description": "Добавьте (1.5 x <final_coffee_amount>)г. воды",
           "time": 10
         },
         {

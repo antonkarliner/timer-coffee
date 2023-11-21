@@ -20,7 +20,7 @@
       },
       {
         "order": 2,
-        "description": "Inicie o bloom com (0,2 x <final_water_amount>)g de água e agite suavemente o Origami Dripper.",
+        "description": "Inicie o bloom com (0.2 x <final_water_amount>)g de água e agite suavemente o Origami Dripper.",
         "time": 10
       },
       {
@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "Despeje os restantes (0,8 x <final_water_amount>)g de água em movimentos circulares lentos, finalizando ao redor do exterior do filtro. Agite suavemente a cafeteira novamente.",
+        "description": "Despeje os restantes (0.8 x <final_water_amount>)g de água em movimentos circulares lentos, finalizando ao redor do exterior do filtro. Agite suavemente a cafeteira novamente.",
         "time": 50
       },
       {
@@ -61,7 +61,7 @@
       },
       {
         "order": 2,
-        "description": "Despeje (0,25 x <final_water_amount>)g de água.",
+        "description": "Despeje (0.25 x <final_water_amount>)g de água.",
         "time": 10
       },
       {
@@ -112,7 +112,7 @@
       },
       {
         "order": 2,
-        "description": "Despeje (0,2 x <final_water_amount>)g de água.",
+        "description": "Despeje (0.2 x <final_water_amount>)g de água.",
         "time": 10
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "order": 4,
-        "description": "Adicione mais (0,2 x <final_water_amount>)g de água.",
+        "description": "Adicione mais (0.2 x <final_water_amount>)g de água.",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 6,
-        "description": "Despeje novamente (0,2 x <final_water_amount>)g de água.",
+        "description": "Despeje novamente (0.2 x <final_water_amount>)g de água.",
         "time": 10
       },
       {
@@ -142,7 +142,7 @@
       },
       {
         "order": 8,
-        "description": "Continue com mais (0,2 x <final_water_amount>)g de água.",
+        "description": "Continue com mais (0.2 x <final_water_amount>)g de água.",
         "time": 10
       },
       {
@@ -152,7 +152,7 @@
       },
       {
         "order": 10,
-        "description": "Despeje a última parte de (0,2 x <final_water_amount>)g de água.",
+        "description": "Despeje a última parte de (0.2 x <final_water_amount>)g de água.",
         "time": 10
       },
       {

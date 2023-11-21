@@ -20,7 +20,7 @@
       },
       {
         "order": 2,
-        "description": "Залейте кофе (0,2 x < final_water_amount>)г. воды и перемешайте, вращая Origami Dripper",
+        "description": "Залейте кофе (0.2 x <final_water_amount>)г. воды и перемешайте, вращая Origami Dripper",
         "time": 10
       },
       {
@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "Медленно налейте (0,8 x <final_water_amount>)г. воды по спирали. Слегка покрутите заварник",
+        "description": "Медленно налейте (0.8 x <final_water_amount>)г. воды по спирали. Слегка покрутите заварник",
         "time": 50
       },
       {
@@ -42,7 +42,7 @@
   },
   {
     "id": "802",
-    "name": "Рецепт Origami Dripper от ",
+    "name": "Рецепт Origami Dripper от Цзя Нин Ду",
     "brewing_method_id": "origami",
     "brewing_method": "Origami Dripper",
     "coffee_amount": 16,
@@ -61,7 +61,7 @@
       },
       {
         "order": 2,
-        "description": "Налейте (0,25 x <final_water_amount>)г. воды",
+        "description": "Налейте (0.25 x <final_water_amount>)г. воды",
         "time": 10
       },
       {
@@ -93,7 +93,7 @@
   },
   {
     "id": "803",
-    "name": "Рецепт Origami Dripper от победителя мира среди бариста 2023 года Карлоса Медины",
+    "name": "Рецепт Origami Dripper от Карлоса Медины",
     "brewing_method_id": "origami",
     "brewing_method": "Origami Dripper",
     "coffee_amount": 15.5,
@@ -112,7 +112,7 @@
       },
       {
         "order": 2,
-        "description": "Налейте (0,2 x <final_water_amount>)г. воды",
+        "description": "Налейте (0.2 x <final_water_amount>)г. воды",
         "time": 10
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "order": 4,
-        "description": "Налейте (0,2 x <final_water_amount>)г. воды",
+        "description": "Налейте (0.2 x <final_water_amount>)г. воды",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
     },
     {
       "order": 6,
-      "description": "Налейте (0,2 x <final_water_amount>)г. воды",
+      "description": "Налейте (0.2 x <final_water_amount>)г. воды",
       "time": 10
     },
     {
@@ -142,7 +142,7 @@
     },
     {
       "order": 8,
-      "description": "Налейте (0,2 x <final_water_amount>)г. воды",
+      "description": "Налейте (0.2 x <final_water_amount>)г. воды",
       "time": 10
     },
     {
@@ -152,7 +152,7 @@
     },
     {
       "order": 10,
-      "description": "Налейте (0,2 x <final_water_amount>)г. воды",
+      "description": "Налейте (0.2 x <final_water_amount>)г. воды",
       "time": 10
     },
     {

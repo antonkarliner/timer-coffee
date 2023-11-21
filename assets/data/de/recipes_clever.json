@@ -153,12 +153,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "Papierfilter in den Clever Dripper einsetzen und spülen. Kaffee mahlen, noch nicht einfüllen. Alles auf der Waage auf Null stellen. Löffel bereitlegen. (0,34 x <final_water_amount>)g Eis im Gefrierschrank aufbewahren.",
+        "description": "Papierfilter in den Clever Dripper einsetzen und spülen. Kaffee mahlen, noch nicht einfüllen. Alles auf der Waage auf Null stellen. Löffel bereitlegen. (0.34 x <final_water_amount>)g Eis im Gefrierschrank aufbewahren.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "(0,66 x <final_water_amount>)g Wasser in den Clever Dripper geben.",
+        "description": "(0.66 x <final_water_amount>)g Wasser in den Clever Dripper geben.",
         "time": 10
       },
       {
@@ -168,7 +168,7 @@
       },
       {
         "order": 4,
-        "description": "Kaffee ziehen lassen. Kurz vor Ende der Ziehzeit (0,34 x <final_water_amount>)g Eis in den Server geben.",
+        "description": "Kaffee ziehen lassen. Kurz vor Ende der Ziehzeit (0.34 x <final_water_amount>)g Eis in den Server geben.",
         "time": 300
       },
       {

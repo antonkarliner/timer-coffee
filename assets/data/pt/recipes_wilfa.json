@@ -71,7 +71,7 @@
       },
       {
         "order": 2,
-        "description": "Pré-molhado com (2,2 x <final_coffee_amount>)g de água.",
+        "description": "Pré-molhado com (2.2 x <final_coffee_amount>)g de água.",
         "time": 10
       },
       {
@@ -86,7 +86,7 @@
       },
       {
         "order": 5,
-        "description": "Adicione água até (0,6 x <final_water_amount>)g.",
+        "description": "Adicione água até (0.6 x <final_water_amount>)g.",
         "time": 30
       },
       {
@@ -117,12 +117,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "Insira o filtro na Wilfa Svart e passe-o por água. Moa o café, mas não o coloque ainda na cafeteira. Zere a balança. Prepare uma colher e (0,34 x <final_water_amount>)g de gelo.",
+        "description": "Insira o filtro na Wilfa Svart e passe-o por água. Moa o café, mas não o coloque ainda na cafeteira. Zere a balança. Prepare uma colher e (0.34 x <final_water_amount>)g de gelo.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Adicione (0,66 x <final_water_amount>)g de água à Wilfa Svart.",
+        "description": "Adicione (0.66 x <final_water_amount>)g de água à Wilfa Svart.",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 4,
-        "description": "Deixe o café infusionar. Antes de terminar, adicione (0,34 x <final_water_amount>)g de gelo no jarro.",
+        "description": "Deixe o café infusionar. Antes de terminar, adicione (0.34 x <final_water_amount>)g de gelo no jarro.",
         "time": 300
       },
       {

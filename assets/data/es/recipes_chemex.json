@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "Vierta agua en un movimiento circular para deshacer los grumos hasta alcanzar (0,6 x <final_water_amount>)g.",
+        "description": "Vierta agua en un movimiento circular para deshacer los grumos hasta alcanzar (0.6 x <final_water_amount>)g.",
         "time": 30
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 4,
-        "description": "Agregue hasta (0,33 x <final_water_amount>)g de agua, vertiendo lentamente en movimiento circular.",
+        "description": "Agregue hasta (0.33 x <final_water_amount>)g de agua, vertiendo lentamente en movimiento circular.",
         "time": 15
       },
       {
@@ -142,7 +142,7 @@
       },
       {
         "order": 6,
-        "description": "Añada más agua hasta alcanzar (0,64 x <final_water_amount>)g.",
+        "description": "Añada más agua hasta alcanzar (0.64 x <final_water_amount>)g.",
         "time": 20
       },
       {
@@ -178,7 +178,7 @@
       },
       {
         "order": 2,
-        "description": "Humedezca con aproximadamente (1,5 x <final_coffee_amount>)g de agua.",
+        "description": "Humedezca con aproximadamente (1.5 x <final_coffee_amount>)g de agua.",
         "time": 10
       },
       {

@@ -194,7 +194,7 @@
       },
       {
         "order": 2,
-        "description": "Con la Aeropress invertida, agregue (0,3 x <final_water_amount>)g de agua hirviendo.",
+        "description": "Con la Aeropress invertida, agregue (0.3 x <final_water_amount>)g de agua hirviendo.",
         "time": 5
       },
       {
@@ -209,7 +209,7 @@
       },
       {
         "order": 5,
-        "description": "Añada los (0,7 x <final_water_amount>)g restantes de agua rápidamente en círculos concéntricos.",
+        "description": "Añada los (0.7 x <final_water_amount>)g restantes de agua rápidamente en círculos concéntricos.",
         "time": 10
       },
       {
@@ -250,7 +250,7 @@
       },
       {
         "order": 2,
-        "description": "Vierta (0,45 x <final_water_amount>)g de agua hirviendo en la Aeropress invertida.",
+        "description": "Vierta (0.45 x <final_water_amount>)g de agua hirviendo en la Aeropress invertida.",
         "time": 10
       },
       {
@@ -316,12 +316,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "Coloca (0,4 x <final_water_amount>)g de hielo en la jarra. Sitúa la AeroPress en posición estándar encima de la jarra. No es necesario enjuagar o precalentar. Añade el café molido.",
+        "description": "Coloca (0.4 x <final_water_amount>)g de hielo en la jarra. Sitúa la AeroPress en posición estándar encima de la jarra. No es necesario enjuagar o precalentar. Añade el café molido.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Añade (0,6 x <final_water_amount>)g de agua, asegurándote de humedecer todo el café.",
+        "description": "Añade (0.6 x <final_water_amount>)g de agua, asegurándote de humedecer todo el café.",
         "time": 10
       },
       {
@@ -377,7 +377,7 @@
       },
       {
         "order": 2,
-        "description": "Vierte (0,25 x <final_water_amount>)g de agua rápidamente, remueve ligeramente y coloca el émbolo para prevenir goteos.",
+        "description": "Vierte (0.25 x <final_water_amount>)g de agua rápidamente, remueve ligeramente y coloca el émbolo para prevenir goteos.",
         "time": 15
       },
       {
@@ -387,7 +387,7 @@
       },
       {
         "order": 4,
-        "description": "Retira el émbolo, vierte los (0,75 x <final_water_amount>)g de agua restantes y vuelve a colocar el émbolo.",
+        "description": "Retira el émbolo, vierte los (0.75 x <final_water_amount>)g de agua restantes y vuelve a colocar el émbolo.",
         "time": 30
       },
       {

@@ -194,7 +194,7 @@
       },
       {
           "order": 2,
-          "description": "Avec l'Aeropress inversée, versez (0,3 x <montant_eau_final>)g d'eau bouillie.",
+          "description": "Avec l'Aeropress inversée, versez (0.3 x <final_water_amount>)g d'eau bouillie.",
           "time": 5
       },
       {
@@ -209,7 +209,7 @@
       },
       {
           "order": 5,
-          "description": "Versez rapidement en cercles concentriques les (0,7 x <nombre_final_water_amount>)g d'eau restante.",
+          "description": "Versez rapidement en cercles concentriques les (0.7 x <final_water_amount>)g d'eau restante.",
           "time": 10
       },
       {
@@ -250,7 +250,7 @@
       },
       {
           "order": 2,
-          "description": "Versez (0,45 x <final_water_amount>)g d'eau bouillie dans l'AeroPress inversée.",
+          "description": "Versez (0.45 x <final_water_amount>)g d'eau bouillie dans l'AeroPress inversée.",
           "time": 10
       },
       {
@@ -316,12 +316,12 @@
   "steps": [
       {
           "order": 1,
-          "description": "Placez (0,4 x <final_water_amount>)g de glace dans le récipient. Installez l'AeroPress en position standard sur le récipient. Pas besoin de rincer ou préchauffer. Ajoutez le café moulu.",
+          "description": "Placez (0.4 x <final_water_amount>)g de glace dans le récipient. Installez l'AeroPress en position standard sur le récipient. Pas besoin de rincer ou préchauffer. Ajoutez le café moulu.",
           "time": 0
       },
       {
           "order": 2,
-          "description": "Versez (0,6 x <nombre_d'eau_final>)g d'eau, en couvrant uniformément le café.",
+          "description": "Versez (0.6 x <final_water_amount>)g d'eau, en couvrant uniformément le café.",
           "time": 10
       },
       {
@@ -377,7 +377,7 @@
       },
       {
           "order": 2,
-          "description": "Versez rapidement (0,25 x <final_water_amount>)g d'eau, remuez légèrement et placez le piston pour éviter les gouttes.",
+          "description": "Versez rapidement (0.25 x <final_water_amount>)g d'eau, remuez légèrement et placez le piston pour éviter les gouttes.",
           "time": 15
       },
       {
@@ -387,7 +387,7 @@
       },
       {
           "order": 4,
-          "description": "Retirez le piston, versez le reste (0,75 x <final_water_amount>)g d'eau. Replacez le piston.",
+          "description": "Retirez le piston, versez le reste (0.75 x <final_water_amount>)g d'eau. Replacez le piston.",
           "time": 30
       },
       {

@@ -153,12 +153,12 @@
   "steps": [
       {
           "order": 1,
-          "description": "Placez le filtre dans le Clever Dripper, rincez-le. Moulez le café sans l'ajouter encore. Installez le café sur la balance, réinitialisez à zéro. Gardez (0,34 x <final_water_amount>)g de glace au congélateur.",
+          "description": "Placez le filtre dans le Clever Dripper, rincez-le. Moulez le café sans l'ajouter encore. Installez le café sur la balance, réinitialisez à zéro. Gardez (0.34 x <final_water_amount>)g de glace au congélateur.",
           "time": 0
       },
       {
           "order": 2,
-          "description": "Versez (0,66 x <final_water_amount>)g d'eau dans le Clever Dripper.",
+          "description": "Versez (0.66 x <final_water_amount>)g d'eau dans le Clever Dripper.",
           "time": 10
       },
       {
@@ -168,7 +168,7 @@
       },
       {
           "order": 4,
-          "description": "Laissez infuser. Avant la fin, placez (0,34 x <final_water_amount>)g de glace dans la carafe.",
+          "description": "Laissez infuser. Avant la fin, placez (0.34 x <final_water_amount>)g de glace dans la carafe.",
           "time": 300
       },
       {

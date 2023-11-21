@@ -194,7 +194,7 @@
       },
       {
         "order": 2,
-        "description": "Com a Aeropress invertida, adicione (0,3 x <final_water_amount>)g de água fervente.",
+        "description": "Com a Aeropress invertida, adicione (0.3 x <final_water_amount>)g de água fervente.",
         "time": 5
       },
       {
@@ -209,7 +209,7 @@
       },
       {
         "order": 5,
-        "description": "Despeje rapidamente o restante (0,7 x <final_water_amount>)g de água em círculos concêntricos.",
+        "description": "Despeje rapidamente o restante (0.7 x <final_water_amount>)g de água em círculos concêntricos.",
         "time": 10
       },
       {
@@ -250,7 +250,7 @@
       },
       {
         "order": 2,
-        "description": "Adicione (0,45 x <final_water_amount>)g de água fervente no êmbolo invertido.",
+        "description": "Adicione (0.45 x <final_water_amount>)g de água fervente no êmbolo invertido.",
         "time": 10
       },
       {
@@ -316,12 +316,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "Coloque (0,4 x <final_water_amount>)g de gelo no jarro. Prepare a Aeropress na posição normal sem enxaguar ou pré-aquecer. Adicione o café moído.",
+        "description": "Coloque (0.4 x <final_water_amount>)g de gelo no jarro. Prepare a Aeropress na posição normal sem enxaguar ou pré-aquecer. Adicione o café moído.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Verta (0,6 x <final_water_amount>)g de água, assegurando que todo o café seja umedecido.",
+        "description": "Verta (0.6 x <final_water_amount>)g de água, assegurando que todo o café seja umedecido.",
         "time": 10
       },
       {
@@ -377,7 +377,7 @@
       },
       {
         "order": 2,
-        "description": "Verta rapidamente (0,25 x <final_water_amount>)g de água, mexa brevemente e insira o êmbolo para evitar gotejamento.",
+        "description": "Verta rapidamente (0.25 x <final_water_amount>)g de água, mexa brevemente e insira o êmbolo para evitar gotejamento.",
         "time": 15
       },
       {
@@ -387,7 +387,7 @@
       },
       {
         "order": 4,
-        "description": "Remova o êmbolo, adicione o restante (0,75 x <final_water_amount>)g de água e recoloque o êmbolo.",
+        "description": "Remova o êmbolo, adicione o restante (0.75 x <final_water_amount>)g de água e recoloque o êmbolo.",
         "time": 30
       },
       {

@@ -71,7 +71,7 @@
       },
       {
         "order": 2,
-        "description": "Vornässen mit (2,2 x <final_coffee_amount>)g Wasser.",
+        "description": "Vornässen mit (2.2 x <final_coffee_amount>)g Wasser.",
         "time": 10
       },
       {
@@ -86,7 +86,7 @@
       },
       {
         "order": 5,
-        "description": "Wasser bis zu (0,6 x <final_water_amount>)g hinzufügen.",
+        "description": "Wasser bis zu (0.6 x <final_water_amount>)g hinzufügen.",
         "time": 30
       },
       {
@@ -117,12 +117,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "Papierfilter in die Wilfa Svart einsetzen und mit Wasser ausspülen. Kaffee mahlen, aber noch nicht in den Brüher geben. Alles auf der Waage platzieren und auf Null stellen. Einen Löffel bereitlegen. (0,34 x <final_water_amount>)g Eis im Gefrierschrank aufbewahren.",
+        "description": "Papierfilter in die Wilfa Svart einsetzen und mit Wasser ausspülen. Kaffee mahlen, aber noch nicht in den Brüher geben. Alles auf der Waage platzieren und auf Null stellen. Einen Löffel bereitlegen. (0.34 x <final_water_amount>)g Eis im Gefrierschrank aufbewahren.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "(0,66 x <final_water_amount>)g Wasser in den Brüher geben.",
+        "description": "(0.66 x <final_water_amount>)g Wasser in den Brüher geben.",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 4,
-        "description": "Kaffee ziehen lassen. Kurz vor Ende der Ziehzeit (0,34 x <final_water_amount>)g Eis in den Server geben.",
+        "description": "Kaffee ziehen lassen. Kurz vor Ende der Ziehzeit (0.34 x <final_water_amount>)g Eis in den Server geben.",
         "time": 300
       },
       {

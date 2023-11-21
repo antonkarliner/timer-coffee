@@ -20,7 +20,7 @@
       },
       {
         "order": 2,
-        "description": "Mit (0,2 x <final_water_amount>)g Wasser aufgießen und den Dripper sanft schwenken.",
+        "description": "Mit (0.2 x <final_water_amount>)g Wasser aufgießen und den Dripper sanft schwenken.",
         "time": 10
       },
       {
@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "Restliches (0,8 x <final_water_amount>)g Wasser in langsamen, konzentrischen Kreisen aufgießen, um den Filterrand gießen und den Brüher sanft schwenken.",
+        "description": "Restliches (0.8 x <final_water_amount>)g Wasser in langsamen, konzentrischen Kreisen aufgießen, um den Filterrand gießen und den Brüher sanft schwenken.",
         "time": 50
       },
       {
@@ -61,7 +61,7 @@
       },
       {
         "order": 2,
-        "description": "(0,25 x <final_water_amount>)g Wasser aufgießen.",
+        "description": "(0.25 x <final_water_amount>)g Wasser aufgießen.",
         "time": 10
       },
       {
@@ -112,7 +112,7 @@
       },
       {
         "order": 2,
-        "description": "(0,2 x <final_water_amount>)g Wasser aufgießen.",
+        "description": "(0.2 x <final_water_amount>)g Wasser aufgießen.",
         "time": 10
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "order": 4,
-        "description": "Weiter mit (0,2 x <final_water_amount>)g Wasser gießen.",
+        "description": "Weiter mit (0.2 x <final_water_amount>)g Wasser gießen.",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 6,
-        "description": "(0,2 x <final_water_amount>)g Wasser nachgießen.",
+        "description": "(0.2 x <final_water_amount>)g Wasser nachgießen.",
         "time": 10
       },
       {
@@ -142,7 +142,7 @@
       },
       {
         "order": 8,
-        "description": "Weiter mit (0,2 x <final_water_amount>)g Wasser gießen.",
+        "description": "Weiter mit (0.2 x <final_water_amount>)g Wasser gießen.",
         "time": 10
       },
       {
@@ -152,7 +152,7 @@
       },
       {
         "order": 10,
-        "description": "(0,2 x <final_water_amount>)g Wasser aufgießen.",
+        "description": "(0.2 x <final_water_amount>)g Wasser aufgießen.",
         "time": 10
       },
       {

@@ -20,7 +20,7 @@
         },
         {
             "order": 2,
-            "description": "Fleurir le café avec (0,2 x <final_water_amount>)g d'eau et agitez légèrement le dripper.",
+            "description": "Fleurir le café avec (0.2 x <final_water_amount>)g d'eau et agitez légèrement le dripper.",
             "time": 10
         },
         {
@@ -30,7 +30,7 @@
         },
         {
             "order": 4,
-            "description": "Versez les (0,8 x <final_water_amount>)g d'eau restants en cercles lents, finissez par l'extérieur du filtre et tournez doucement la cafetière.",
+            "description": "Versez les (0.8 x <final_water_amount>)g d'eau restants en cercles lents, finissez par l'extérieur du filtre et tournez doucement la cafetière.",
             "time": 50
         },
         {
@@ -61,7 +61,7 @@
       },
       {
           "order": 2,
-          "description": "Verser (0,25 x <final_water_amount>)g. d'eau pour la pré-infusion.",
+          "description": "Verser (0.25 x <final_water_amount>)g. d'eau pour la pré-infusion.",
           "time": 10
       },
       {
@@ -112,7 +112,7 @@
       },
       {
           "order": 2,
-          "description": "Versez (0,2 x <final_water_amount>)g d'eau.",
+          "description": "Versez (0.2 x <final_water_amount>)g d'eau.",
           "time": 10
       },
       {
@@ -122,7 +122,7 @@
       },
       {
           "order": 4,
-          "description": "Ajoutez encore (0,2 x <final_water_amount>)g d'eau.",
+          "description": "Ajoutez encore (0.2 x <final_water_amount>)g d'eau.",
           "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
           "order": 6,
-          "description": "Versez (0,2 x <final_water_amount>)g d'eau.",
+          "description": "Versez (0.2 x <final_water_amount>)g d'eau.",
           "time": 10
       },
       {
@@ -142,7 +142,7 @@
       },
       {
           "order": 8,
-          "description": "Ajoutez (0,2 x <final_water_amount>)g d'eau.",
+          "description": "Ajoutez (0.2 x <final_water_amount>)g d'eau.",
           "time": 10
       },
       {
@@ -152,7 +152,7 @@
       },
       {
           "order": 10,
-          "description": "Versez les derniers (0,2 x <final_water_amount>)g d'eau.",
+          "description": "Versez les derniers (0.2 x <final_water_amount>)g d'eau.",
           "time": 10
       },
       {

@@ -194,7 +194,7 @@
       },
       {
         "order": 2,
-        "description": "Gießen Sie (0,3 x <final_water_amount>)g abgekochtes Wasser in die umgekehrte Aeropress.",
+        "description": "Gießen Sie (0.3 x <final_water_amount>)g abgekochtes Wasser in die umgekehrte Aeropress.",
         "time": 5
       },
       {
@@ -209,7 +209,7 @@
       },
       {
         "order": 5,
-        "description": "Das restliche (0,7 x <final_water_amount>)g Wasser in konzentrischen Kreisen schnell einfüllen.",
+        "description": "Das restliche (0.7 x <final_water_amount>)g Wasser in konzentrischen Kreisen schnell einfüllen.",
         "time": 10
       },
       {
@@ -250,7 +250,7 @@
       },
       {
         "order": 2,
-        "description": "Gießen Sie (0,45 x <final_water_amount>)g abgekochtes Wasser in den umgedrehten Kolben.",
+        "description": "Gießen Sie (0.45 x <final_water_amount>)g abgekochtes Wasser in den umgedrehten Kolben.",
         "time": 10
       },
       {
@@ -316,12 +316,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "(0,4 x <final_water_amount>)g Eis in den Server geben. Brüher in Standardposition auf dem Server aufstellen. Nicht ausspülen oder vorheizen. Kaffeesatz einfüllen.",
+        "description": "(0.4 x <final_water_amount>)g Eis in den Server geben. Brüher in Standardposition auf dem Server aufstellen. Nicht ausspülen oder vorheizen. Kaffeesatz einfüllen.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Gießen Sie (0,6 x <final_water_amount>)g Wasser, sodass der gesamte Kaffee beim Ausgießen benetzt wird.",
+        "description": "Gießen Sie (0.6 x <final_water_amount>)g Wasser, sodass der gesamte Kaffee beim Ausgießen benetzt wird.",
         "time": 10
       },
       {
@@ -377,7 +377,7 @@
       },
       {
         "order": 2,
-        "description": "(0,25 x <final_water_amount>)g Wasser schnell eingießen, umrühren und Kolben aufsetzen, um Tropfen zu vermeiden.",
+        "description": "(0.25 x <final_water_amount>)g Wasser schnell eingießen, umrühren und Kolben aufsetzen, um Tropfen zu vermeiden.",
         "time": 15
       },
       {
@@ -387,7 +387,7 @@
       },
       {
         "order": 4,
-        "description": "Kolben entfernen, restliches (0,75 x <final_water_amount>)g Wasser eingießen und Kolben wieder aufsetzen.",
+        "description": "Kolben entfernen, restliches (0.75 x <final_water_amount>)g Wasser eingießen und Kolben wieder aufsetzen.",
         "time": 30
       },
       {

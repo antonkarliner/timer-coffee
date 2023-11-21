@@ -153,12 +153,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "Coloque el filtro de papel en el Clever Dripper y enjuáguelo con agua. Muela el café y péselo, pero no lo añada todavía al Clever Dripper. Tare la balanza. Prepare una cuchara. Guarde (0,34 x <final_water_amount>)g de hielo en el congelador.",
+        "description": "Coloque el filtro de papel en el Clever Dripper y enjuáguelo con agua. Muela el café y péselo, pero no lo añada todavía al Clever Dripper. Tare la balanza. Prepare una cuchara. Guarde (0.34 x <final_water_amount>)g de hielo en el congelador.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Añada (0,66 x <final_water_amount>)g de agua al Clever Dripper.",
+        "description": "Añada (0.66 x <final_water_amount>)g de agua al Clever Dripper.",
         "time": 10
       },
       {
@@ -168,7 +168,7 @@
       },
       {
         "order": 4,
-        "description": "Deje reposar el café. Antes de que termine el tiempo de reposo, añada (0,34 x <final_water_amount>)g de hielo a la jarra.",
+        "description": "Deje reposar el café. Antes de que termine el tiempo de reposo, añada (0.34 x <final_water_amount>)g de hielo a la jarra.",
         "time": 300
       },
       {

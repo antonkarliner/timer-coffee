@@ -71,7 +71,7 @@
       },
       {
         "order": 2,
-        "description": "Prehumedezca con (2,2 x <final_coffee_amount>)g de agua.",
+        "description": "Prehumedezca con (2.2 x <final_coffee_amount>)g de agua.",
         "time": 10
       },
       {
@@ -86,7 +86,7 @@
       },
       {
         "order": 5,
-        "description": "Añada agua hasta (0,6 x <final_water_amount>)g.",
+        "description": "Añada agua hasta (0.6 x <final_water_amount>)g.",
         "time": 30
       },
       {
@@ -117,12 +117,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "Coloque el filtro de papel en la Wilfa Svart Pour Over y enjuáguelo. Muela el café y colóquelo en la balanza sin añadirlo aún a la cafetera. Prepare una cuchara y guarde (0,34 x <final_water_amount>)g de hielo en el congelador.",
+        "description": "Coloque el filtro de papel en la Wilfa Svart Pour Over y enjuáguelo. Muela el café y colóquelo en la balanza sin añadirlo aún a la cafetera. Prepare una cuchara y guarde (0.34 x <final_water_amount>)g de hielo en el congelador.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Añada (0,66 x <final_water_amount>)g de agua a la cafetera.",
+        "description": "Añada (0.66 x <final_water_amount>)g de agua a la cafetera.",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 4,
-        "description": "Deje reposar el café. Antes de que termine el tiempo de reposo, coloque (0,34 x <final_water_amount>)g de hielo en la jarra.",
+        "description": "Deje reposar el café. Antes de que termine el tiempo de reposo, coloque (0.34 x <final_water_amount>)g de hielo en la jarra.",
         "time": 300
       },
       {

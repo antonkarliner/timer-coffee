@@ -194,7 +194,7 @@
       },
       {
         "order": 2,
-        "description": "沸騰した水を(0.3x<final_water_amount>)g、Aeropressに注ぎます。",
+        "description": "沸騰した水を(0.3 x <final_water_amount>)g、Aeropressに注ぎます。",
         "time": 5
       },
       {
@@ -316,12 +316,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "サーバーに(0.4x<final_water_amount>)gの氷を入れ、エアロプレスをセットします。コーヒー粉を入れます。",
+        "description": "サーバーに(0.4 x <final_water_amount>)gの氷を入れ、エアロプレスをセットします。コーヒー粉を入れます。",
         "time": 0
       },
       {
         "order": 2,
-        "description": "(0.6x<final_water_amount>)gの水を注ぎ、コーヒーが均等に濡れるようにします。",
+        "description": "(0.6 x <final_water_amount>)gの水を注ぎ、コーヒーが均等に濡れるようにします。",
         "time": 10
       },
       {
@@ -377,7 +377,7 @@
       },
       {
         "order": 2,
-        "description": "(0.25x<final_water_amount>)gの水を迅速に注ぎ、かき混ぜ、ピストンを取り付けます。",
+        "description": "(0.25 x <final_water_amount>)gの水を迅速に注ぎ、かき混ぜ、ピストンを取り付けます。",
         "time": 15
       },
       {

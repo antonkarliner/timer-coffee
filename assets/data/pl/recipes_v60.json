@@ -35,7 +35,7 @@
         },
         {
           "order": 5,
-          "description": "Pierwszy główny nalew do (0,6 x <final_water_amount>)g w 30s.",
+          "description": "Pierwszy główny nalew do (0.6 x <final_water_amount>)g w 30s.",
           "time": 30
         },
         {
@@ -137,22 +137,22 @@
         },
         {
           "order": 2,
-          "description": "Zakwitnij kawę (0,25 x <final_water_amount>)g wody.",
+          "description": "Zakwitnij kawę (0.25 x <final_water_amount>)g wody.",
           "time": 60
         },
         {
           "order": 3,
-          "description": "Dodaj (0,375 x <final_water_amount>)g wody.",
+          "description": "Dodaj (0.375 x <final_water_amount>)g wody.",
           "time": 45
         },
         {
           "order": 4,
-          "description": "Ponownie dodaj (0,375 x <final_water_amount>)g wody, delikatnie zawiruj.",
+          "description": "Ponownie dodaj (0.375 x <final_water_amount>)g wody, delikatnie zawiruj.",
           "time": 45
         },
         {
           "order": 5,
-          "description": "Dodaj (0,25 x <final_water_amount>)g lodu, mieszaj do schłodzenia.",
+          "description": "Dodaj (0.25 x <final_water_amount>)g lodu, mieszaj do schłodzenia.",
           "time": 30
         },
         {
@@ -178,7 +178,7 @@
       "steps": [
         {
           "order": 1,
-          "description": "Przepłucz filtr, unikając podgrzewania dzbanka. Wsyp fusy. Dodaj (0,4 x <final_water_amount>)g lodu do dzbanka. Wyzeruj wagę.",
+          "description": "Przepłucz filtr, unikając podgrzewania dzbanka. Wsyp fusy. Dodaj (0.4 x <final_water_amount>)g lodu do dzbanka. Wyzeruj wagę.",
           "time": 0
         },
         {
@@ -198,7 +198,7 @@
         },
         {
           "order": 5,
-          "description": "Powoli wlej (0,6 x <final_water_amount>)g wody.",
+          "description": "Powoli wlej (0.6 x <final_water_amount>)g wody.",
           "time": 105
         },
         {
@@ -234,7 +234,7 @@
         },
         {
           "order": 2,
-          "description": "Zakwitnij kawę (0,2 x <final_water_amount>)g wody.",
+          "description": "Zakwitnij kawę (0.2 x <final_water_amount>)g wody.",
           "time": 10
         },
         {
@@ -249,7 +249,7 @@
         },
         {
           "order": 5,
-          "description": "Wlej do (0,4 x <final_water_amount>)g.",
+          "description": "Wlej do (0.4 x <final_water_amount>)g.",
           "time": 15
         },
         {
@@ -259,7 +259,7 @@
         },      
         {
           "order": 7,
-          "description": "Wlej do (0,6 x <final_water_amount>)g.",
+          "description": "Wlej do (0.6 x <final_water_amount>)g.",
           "time": 10
         },
         {
@@ -269,7 +269,7 @@
         },
         {
           "order": 9,
-          "description": "Wlej do (0,8 x <final_water_amount>)g.",
+          "description": "Wlej do (0.8 x <final_water_amount>)g.",
           "time": 10
         },
         {

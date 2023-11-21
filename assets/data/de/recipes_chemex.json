@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "Wasser in kreisenden Bewegungen hinzufügen, Klumpen aufbrechen, bis (0,6 x <final_water_amount>)g erreicht sind.",
+        "description": "Wasser in kreisenden Bewegungen hinzufügen, Klumpen aufbrechen, bis (0.6 x <final_water_amount>)g erreicht sind.",
         "time": 30
       },
       {
@@ -132,7 +132,7 @@
         },
         {
           "order": 4,
-          "description": "Bis zu (0,33 x <final_water_amount>)g Wasser in langsamen, kreisförmigen Bewegungen hinzufügen.",
+          "description": "Bis zu (0.33 x <final_water_amount>)g Wasser in langsamen, kreisförmigen Bewegungen hinzufügen.",
           "time": 15
         },
         {
@@ -142,7 +142,7 @@
         },
         {
           "order": 6,
-          "description": "Weiteres Wasser hinzufügen, bis die Waage (0,64 x <final_water_amount>)g anzeigt.",
+          "description": "Weiteres Wasser hinzufügen, bis die Waage (0.64 x <final_water_amount>)g anzeigt.",
           "time": 20
         },
         {
@@ -178,7 +178,7 @@
         },
         {
           "order": 2,
-          "description": "Vornässen mit etwa (1,5 x <final_coffee_amount>)g Wasser.",
+          "description": "Vornässen mit etwa (1.5 x <final_coffee_amount>)g Wasser.",
           "time": 10
         },
         {

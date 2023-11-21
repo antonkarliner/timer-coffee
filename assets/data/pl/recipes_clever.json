@@ -153,12 +153,12 @@
     "steps": [
       {
         "order": 1,
-        "description": "Przygotuj filtr w Clever Dripper, przepłucz go. Zmiel kawę. Przygotuj wagę, łyżkę i (0,34 x <final_water_amount>)g lodu (trzymaj go na razie w zamrażarce).",
+        "description": "Przygotuj filtr w Clever Dripper, przepłucz go. Zmiel kawę. Przygotuj wagę, łyżkę i (0.34 x <final_water_amount>)g lodu (trzymaj go na razie w zamrażarce).",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Wlej (0,66 x <final_water_amount>)g wody do zaparzacza.",
+        "description": "Wlej (0.66 x <final_water_amount>)g wody do zaparzacza.",
         "time": 10
       },
       {
@@ -168,7 +168,7 @@
       },
       {
         "order": 4,
-        "description": "Pozostaw kawę do zaparzenia. Po upływie czasu, umieść (0,34 x <final_water_amount>)g lodu w dzbanku.",
+        "description": "Pozostaw kawę do zaparzenia. Po upływie czasu, umieść (0.34 x <final_water_amount>)g lodu w dzbanku.",
         "time": 300
       },
       {

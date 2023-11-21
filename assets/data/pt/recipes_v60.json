@@ -35,7 +35,7 @@
       },
       {
         "order": 5,
-        "description": "Complete o primeiro despejo principal até (0,6 x <final_water_amount>)g em 30 segundos.",
+        "description": "Complete o primeiro despejo principal até (0.6 x <final_water_amount>)g em 30 segundos.",
         "time": 30
       },
       {
@@ -137,22 +137,22 @@
       },
       {
         "order": 2,
-        "description": "Inicie o bloom com (0,25 x <final_water_amount>)g de água.",
+        "description": "Inicie o bloom com (0.25 x <final_water_amount>)g de água.",
         "time": 60
       },
       {
         "order": 3,
-        "description": "Despeje (0,375 x <final_water_amount>)g de água.",
+        "description": "Despeje (0.375 x <final_water_amount>)g de água.",
         "time": 45
       },
       {
         "order": 4,
-        "description": "Adicione mais (0,375 x <final_water_amount>)g de água e agite suavemente. Aguarde a drenagem completa.",
+        "description": "Adicione mais (0.375 x <final_water_amount>)g de água e agite suavemente. Aguarde a drenagem completa.",
         "time": 45
       },
       {
         "order": 5,
-        "description": "Coloque (0,25 x <final_water_amount>)g de gelo e mexa até esfriar a 5-10°C.",
+        "description": "Coloque (0.25 x <final_water_amount>)g de gelo e mexa até esfriar a 5-10°C.",
         "time": 30
       },
       {
@@ -178,7 +178,7 @@
     "steps": [
       {
         "order": 1,
-        "description": "Enxágue o filtro acima do lava-louças, adicione café moído à V60. Coloque (0,4 x <final_water_amount>)g de gelo no jarro e zero a balança.",
+        "description": "Enxágue o filtro acima do lava-louças, adicione café moído à V60. Coloque (0.4 x <final_water_amount>)g de gelo no jarro e zero a balança.",
         "time": 0
       },
       {
@@ -198,7 +198,7 @@
       },
       {
         "order": 5,
-        "description": "Despeje lentamente até (0,6 x <final_water_amount>)g de água.",
+        "description": "Despeje lentamente até (0.6 x <final_water_amount>)g de água.",
         "time": 105
       },
       {
@@ -234,7 +234,7 @@
       },
       {
         "order": 2,
-        "description": "Comece o bloom com (0,2 x <final_water_amount>)g de água.",
+        "description": "Comece o bloom com (0.2 x <final_water_amount>)g de água.",
         "time": 10
       },
       {
@@ -249,7 +249,7 @@
       },
       {
         "order": 5,
-        "description": "Despeje até (0,4 x <final_water_amount>)g no total.",
+        "description": "Despeje até (0.4 x <final_water_amount>)g no total.",
         "time": 15
       },
       {
@@ -259,7 +259,7 @@
       },      
       {
         "order": 7,
-        "description": "Despeje até (0,6 x <final_water_amount>)g no total.",
+        "description": "Despeje até (0.6 x <final_water_amount>)g no total.",
         "time": 10
       },
       {
@@ -269,7 +269,7 @@
       },
       {
         "order": 9,
-        "description": "Despeje até (0,8 x <final_water_amount>)g no total.",
+        "description": "Despeje até (0.8 x <final_water_amount>)g no total.",
         "time": 10
       },
       {

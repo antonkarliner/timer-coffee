@@ -35,7 +35,7 @@
       },
       {
         "order": 5,
-        "description": "Ersten Hauptguss bis (0,6 x <final_water_amount>)g innerhalb von 30 Sekunden beenden.",
+        "description": "Ersten Hauptguss bis (0.6 x <final_water_amount>)g innerhalb von 30 Sekunden beenden.",
         "time": 30
       },
       {
@@ -137,22 +137,22 @@
       },
       {
         "order": 2,
-        "description": "Blühen mit (0,25 x <final_water_amount>)g Wasser.",
+        "description": "Blühen mit (0.25 x <final_water_amount>)g Wasser.",
         "time": 60
       },
       {
         "order": 3,
-        "description": "(0,375 x <final_water_amount>)g Wasser aufgießen.",
+        "description": "(0.375 x <final_water_amount>)g Wasser aufgießen.",
         "time": 45
       },
       {
         "order": 4,
-        "description": "Erneut (0,375 x <final_water_amount>)g Wasser gießen und leicht verwirbeln. Warten, bis das Wasser abgelaufen ist.",
+        "description": "Erneut (0.375 x <final_water_amount>)g Wasser gießen und leicht verwirbeln. Warten, bis das Wasser abgelaufen ist.",
         "time": 45
       },
       {
         "order": 5,
-        "description": "(0,25 x <final_water_amount>)g Eis hinzufügen und umrühren, bis es auf 5-10°C abgekühlt ist.",
+        "description": "(0.25 x <final_water_amount>)g Eis hinzufügen und umrühren, bis es auf 5-10°C abgekühlt ist.",
         "time": 30
       },
       {
@@ -178,7 +178,7 @@
     "steps": [
       {
         "order": 1,
-        "description": "Filter ausspülen, um den Server nicht zu erhitzen. Kaffeesatz einfüllen. (0,4 x <final_water_amount>)g Eis in den Server geben. Auf Waage stellen und tara einstellen.",
+        "description": "Filter ausspülen, um den Server nicht zu erhitzen. Kaffeesatz einfüllen. (0.4 x <final_water_amount>)g Eis in den Server geben. Auf Waage stellen und tara einstellen.",
         "time": 0
       },
       {
@@ -198,7 +198,7 @@
       },
       {
         "order": 5,
-        "description": "Langsam bis (0,6 x <final_water_amount>)g Wasser aufgießen.",
+        "description": "Langsam bis (0.6 x <final_water_amount>)g Wasser aufgießen.",
         "time": 105
       },
       {
@@ -234,7 +234,7 @@
       },
       {
         "order": 2,
-        "description": "Vornässen mit (0,2 x <final_water_amount>)g Wasser.",
+        "description": "Vornässen mit (0.2 x <final_water_amount>)g Wasser.",
         "time": 10
       },
       {
@@ -249,7 +249,7 @@
       },
       {
         "order": 5,
-        "description": "Bis zu (0,4 x <final_water_amount>)g Wasser insgesamt gießen.",
+        "description": "Bis zu (0.4 x <final_water_amount>)g Wasser insgesamt gießen.",
         "time": 15
       },
       {
@@ -259,7 +259,7 @@
       },
       {
         "order": 7,
-        "description": "Bis zu (0,6 x <final_water_amount>)g Wasser insgesamt gießen.",
+        "description": "Bis zu (0.6 x <final_water_amount>)g Wasser insgesamt gießen.",
         "time": 10
       },
       {
@@ -269,7 +269,7 @@
       },
       {
         "order": 9,
-        "description": "Bis zu (0,8 x <final_water_amount>)g Wasser insgesamt gießen.",
+        "description": "Bis zu (0.8 x <final_water_amount>)g Wasser insgesamt gießen.",
         "time": 10
       },
       {

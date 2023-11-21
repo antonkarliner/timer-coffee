@@ -35,7 +35,7 @@
       },
       {
         "order": 6,
-        "description": "Добавьте воды до (0,6 x <final_water_amount>)г.",
+        "description": "Добавьте воды до (0.6 x <final_water_amount>)г.",
         "time": 30
       },      
       {
@@ -86,7 +86,7 @@
       },
       {
         "order": 4,
-        "description": "Быстро налейте воды до (0,5 x <final_water_amount>)г. Струя воды должна быть всё время на одном уровне от заварника",
+        "description": "Быстро налейте воды до (0.5 x <final_water_amount>)г. Струя воды должна быть всё время на одном уровне от заварника",
         "time": 30
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "order": 2,
-        "description": "Налейте воды до (0,16 x <final_water_amount>)г.",
+        "description": "Налейте воды до (0.16 x <final_water_amount>)г.",
         "time": 15
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 4,
-        "description": "Налейте воды до (0,33 x <final_water_amount>)г.",
+        "description": "Налейте воды до (0.33 x <final_water_amount>)г.",
         "time": 15
       },
       {
@@ -142,7 +142,7 @@
       },
       {
         "order": 6,
-        "description": "Налейте воды до (0,5 x <final_water_amount>)г.",
+        "description": "Налейте воды до (0.5 x <final_water_amount>)г.",
         "time": 15
       },
       {
@@ -152,7 +152,7 @@
       },
       {
         "order": 8,
-        "description": "Налейте воды до (0,66 x <final_water_amount>)г.",
+        "description": "Налейте воды до (0.66 x <final_water_amount>)г.",
         "time": 15
       },
       {
@@ -162,7 +162,7 @@
       },
       {
         "order": 10,
-        "description": "Налейте воды до (0,83 x <final_water_amount>)г.",
+        "description": "Налейте воды до (0.83 x <final_water_amount>)г.",
         "time": 15
       },
       {

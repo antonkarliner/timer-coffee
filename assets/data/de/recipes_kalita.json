@@ -35,7 +35,7 @@
       },
       {
         "order": 6,
-        "description": "Bis zu (0,6 x <final_water_amount>)g aufgießen.",
+        "description": "Bis zu (0.6 x <final_water_amount>)g aufgießen.",
         "time": 30
       },
       {
@@ -86,7 +86,7 @@
       },
       {
         "order": 4,
-        "description": "In Pulsen bis zu (0,5 x <final_water_amount>)g gießen, gleichmäßige Wassersäule über dem Kaffeesatz halten.",
+        "description": "In Pulsen bis zu (0.5 x <final_water_amount>)g gießen, gleichmäßige Wassersäule über dem Kaffeesatz halten.",
         "time": 30
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "order": 2,
-        "description": "Gießen, bis (0,16 x <final_water_amount>)g Wasser erreicht sind.",
+        "description": "Gießen, bis (0.16 x <final_water_amount>)g Wasser erreicht sind.",
         "time": 15
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 4,
-        "description": "Weiter gießen, bis (0,33 x <final_water_amount>)g Wasser.",
+        "description": "Weiter gießen, bis (0.33 x <final_water_amount>)g Wasser.",
         "time": 15
       },
       {
@@ -142,7 +142,7 @@
       },
       {
         "order": 6,
-        "description": "Gießen bis (0,5 x <final_water_amount>)g Wasser.",
+        "description": "Gießen bis (0.5 x <final_water_amount>)g Wasser.",
         "time": 15
       },
       {
@@ -152,7 +152,7 @@
       },
       {
         "order": 8,
-        "description": "Gießen, bis (0,66 x <final_water_amount>)g Wasser erreicht sind.",
+        "description": "Gießen, bis (0.66 x <final_water_amount>)g Wasser erreicht sind.",
         "time": 15
       },
       {
@@ -162,7 +162,7 @@
       },
       {
         "order": 10,
-        "description": "Gießen, bis (0,83 x <final_water_amount>)g Wasser.",
+        "description": "Gießen, bis (0.83 x <final_water_amount>)g Wasser.",
         "time": 15
       },
       {
