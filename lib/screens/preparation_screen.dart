@@ -151,7 +151,12 @@ class _PreparationScreenState extends State<PreparationScreen> {
                   ),
                 );
               },
-              child: const Icon(Icons.play_arrow),
+              // Check the directionality and choose the icon accordingly
+              child: Icon(
+                Directionality.of(context) == TextDirection.rtl
+                    ? Icons.arrow_back_ios_new
+                    : Icons.play_arrow,
+              ),
             ),
           ],
         ),

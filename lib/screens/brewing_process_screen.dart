@@ -8,19 +8,47 @@ import '../models/brew_step.dart';
 import 'finish_screen.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart' as intl; // Corrected import statement
+
+class LocalizedNumberText extends StatelessWidget {
+  final int currentNumber;
+  final int totalNumber;
+  final TextStyle? style;
+
+  const LocalizedNumberText({
+    Key? key,
+    required this.currentNumber,
+    required this.totalNumber,
+    this.style,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var isRTL = Directionality.of(context) == TextDirection.rtl;
+    var formattedText = isRTL
+        ? '${intl.NumberFormat().format(currentNumber)}\\${intl.NumberFormat().format(totalNumber)}'
+        : '${intl.NumberFormat().format(currentNumber)}/${intl.NumberFormat().format(totalNumber)}';
+
+    return Text(
+      formattedText,
+      style: style,
+      textAlign: TextAlign.center,
+    );
+  }
+}
 
 class BrewingProcessScreen extends StatefulWidget {
   final Recipe recipe;
   final double coffeeAmount;
   final double waterAmount;
-  final bool soundEnabled; // new parameter
+  final bool soundEnabled;
 
   const BrewingProcessScreen({
     super.key,
     required this.recipe,
     required this.coffeeAmount,
     required this.waterAmount,
-    required this.soundEnabled, // new initializer
+    required this.soundEnabled,
   });
 
   @override
@@ -33,7 +61,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
   int currentStepTime = 0;
   late Timer timer;
   bool _isPaused = false;
-  final _player = AudioPlayer(); // new player instance
+  final _player = AudioPlayer();
 
   String replacePlaceholders(
     String description,
@@ -97,7 +125,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
   void dispose() {
     timer.cancel();
     WakelockPlus.disable();
-    _player.dispose(); // dispose the player when the screen is disposed
+    _player.dispose();
     super.dispose();
   }
 
@@ -107,7 +135,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
         if (currentStepIndex < brewingSteps.length - 1) {
           if (widget.soundEnabled) {
             await _player.setAsset('assets/audio/next.mp3');
-            _player.play(); // removed 'await'
+            _player.play();
           }
           setState(() {
             currentStepIndex++;
@@ -116,7 +144,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
         } else {
           if (widget.soundEnabled) {
             await _player.setAsset('assets/audio/next.mp3');
-            _player.play(); // removed 'await'
+            _player.play();
           }
           timer.cancel();
           Navigator.push(
@@ -162,13 +190,21 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
-                      Text(
-                        '${AppLocalizations.of(context)!.step} ${currentStepIndex + 1}/${brewingSteps.length}',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.step + ' ',
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          LocalizedNumberText(
+                            currentNumber: currentStepIndex + 1,
+                            totalNumber: brewingSteps.length,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                          height: 20), // Add some space between the texts
+                      const SizedBox(height: 20),
                       Text(
                         brewingSteps[currentStepIndex].description,
                         textAlign: TextAlign.center,
@@ -178,9 +214,21 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text(
-                    '$currentStepTime/${brewingSteps[currentStepIndex].time.inSeconds} ${AppLocalizations.of(context)!.seconds(brewingSteps[currentStepIndex].time.inSeconds)}',
-                    style: const TextStyle(fontSize: 22)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    LocalizedNumberText(
+                      currentNumber: currentStepTime,
+                      totalNumber:
+                          brewingSteps[currentStepIndex].time.inSeconds,
+                      style: const TextStyle(fontSize: 22),
+                    ),
+                    Text(
+                      ' ${AppLocalizations.of(context)!.seconds(brewingSteps[currentStepIndex].time.inSeconds)}',
+                      style: const TextStyle(fontSize: 22),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -197,7 +245,14 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _togglePause,
-        child: Icon(_isPaused ? Icons.play_arrow : Icons.pause),
+        child: Icon(
+          _isPaused
+              ? (Directionality.of(context) == TextDirection.rtl
+                  ? Icons
+                      .arrow_back_ios_new // or another suitable RTL icon for play
+                  : Icons.play_arrow) // default LTR play icon
+              : Icons.pause, // pause icon remains the same
+        ),
       ),
     );
   }
