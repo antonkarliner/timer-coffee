@@ -1,0 +1,15 @@
+Timer.Coffee ist eine kostenlose und Open-Source Brüh-Timer- und Kaffeerechner-App, die dazu dient, Ihre Kaffeebrüh-Abenteuer zu unterstützen. Die App bietet derzeit Unterstützung für verschiedene Brühmethoden, einschließlich: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over und Origami Dripper. Die App bietet mehr als 30 Rezepte mit weiteren in Planung.
+
+Aktuelle Funktionen umfassen:
+
+Verwenden Sie den Kaffeerechner, um die Kaffee- oder Wassermengen in den Rezepten anzupassen, damit Sie so viel Kaffee brühen können, wie Sie möchten.
+Markieren Sie Ihre beliebtesten Kaffeerezepte als Favoriten für einen schnellen Zugriff.
+Rufen Sie Ihr zuletzt verwendetes Rezept sofort wieder auf.
+Teilen Sie Ihre Lieblingsrezepte mit Freunden.
+Aktivieren Sie den Klingelton, um Sie über den nächsten Brühschritt zu informieren.
+
+Hier ist, was wir für zukünftige Updates brauen:
+
+Einbeziehung der Tetsu Kasuya 4:6 Brühmethode für Hario V60.
+Eine Erweiterung unserer Sammlung an Kaffeerezepten.
+Design-Upgrades.

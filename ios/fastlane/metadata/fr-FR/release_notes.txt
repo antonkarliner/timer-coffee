@@ -1,0 +1,4 @@
++Correction de la mise en page pour la locale arabe.
++Correction de bugs mineurs et de fautes de frappe.
+
+Timer.Coffee est maintenant disponible en 10 langues ! Les langues prises en charge sont : anglais, espagnol, portugais, allemand, français, russe, polonais, arabe, chinois et japonais. Veuillez noter que les traductions sont en cours d'amélioration, si vous remarquez des erreurs – envoyez des captures d'écran à support@timer.coffee ou ouvrez un problème sur Github. Vous pouvez toujours revenir à l'anglais depuis l'écran principal de l'application.

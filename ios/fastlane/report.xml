@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000208">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: translate_gpt_release_notes" time="9.977559">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

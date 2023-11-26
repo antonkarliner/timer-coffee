@@ -1,0 +1,4 @@
++Layout für arabisches Gebietsschema korrigiert.
++Kleinere Fehler und Tippfehler behoben.
+
+Timer.Coffee spricht jetzt 10 Sprachen! Unterstützte Sprachen sind: Englisch, Spanisch, Portugiesisch, Deutsch, Französisch, Russisch, Polnisch, Arabisch, Chinesisch und Japanisch. Bitte beachten Sie, dass die Übersetzungen kontinuierlich verbessert werden. Sollten Sie Fehler bemerken, senden Sie bitte Screenshots an support@timer.coffee oder eröffnen Sie ein Issue auf Github. Sie können jederzeit vom Hauptbildschirm der App zurück zur englischen Sprache wechseln.

@@ -1,0 +1,46 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new release build to the App Store"
+  lane :release do
+    translate_gpt_release_notes(
+      master_locale: 'en-US',
+      platform: 'ios',
+      context: 'Timer.Coffee is a coffee brew timer app, please pay special attention to correct usage of coffee-related terms.'
+      # other necessary parameters...
+    )
+    app_store_connect_api_key(
+    key_id: ENV['APPLE_API_KEY_ID'],
+    issuer_id: ENV['APPLE_API_ISSUER_ID'],
+    key_content: ENV['APPLE_API_KEY_CONTENT'],
+    )
+    match(type: "appstore")
+    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+    upload_to_app_store(precheck_include_in_app_purchases: false)
+  end
+
+  lane :translate_release_notes do
+    translate_gpt_release_notes(
+      master_locale: 'en-US',
+      platform: 'ios',
+      context: 'Timer.Coffee is a coffee brew timer app, please pay special attention to correct usage of coffee-related terms.'
+      # other necessary parameters...
+    )
+  end
+  
+end

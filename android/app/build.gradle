@@ -35,15 +35,15 @@ android {
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+   compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_9 // or VERSION_17
+        targetCompatibility JavaVersion.VERSION_1_9 // or VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17' // or '17'
     }
-
+    
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }

@@ -16,6 +16,12 @@ allprojects {
         google()
         mavenCentral()
     }
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:-options" // Suppress certain lint warnings
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 }
 
 rootProject.buildDir = '../build'

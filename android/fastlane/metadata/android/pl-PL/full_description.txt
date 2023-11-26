@@ -1,0 +1,15 @@
+Timer.Coffee to darmowa i open-source'owa aplikacja do odmierzania czasu parzenia i kalkulatora kawy, zaprojektowana, aby pomóc w Twoich kawowych przygodach. Aplikacja obecnie oferuje wsparcie dla różnych technik parzenia, w tym: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over i Origami Dripper. Aplikacja zawiera ponad 30 przepisów i ciągle powstają nowe.
+
+Obecne funkcje to:
+
+Użyj kalkulatora kawy, aby dostosować ilość kawy lub wody w przepisach, pozwalając parzyć tyle kawy, ile chcesz.
+Oznacz swoje ulubione przepisy na kawę jako faworyty, dla łatwego dostępu.
+Natychmiastowo wróć do ostatnio używanego przepisu.
+Udostępnij swoje ulubione przepisy znajomym.
+Włącz dźwięk sygnału, aby informować Cię o następnym kroku parzenia.
+
+Oto co planujemy w przyszłych aktualizacjach:
+
+Włączenie metody parzenia Tetsu Kasuya 4:6 dla Hario V60.
+Rozszerzenie naszej kolekcji przepisów na kawę.
+Ulepszenia w designie.
