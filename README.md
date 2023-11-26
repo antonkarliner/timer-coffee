@@ -24,4 +24,4 @@ If you find the app useful and you want to support the development, you can use 
 
 Enjoy your coffee!
 
-![image](https://i.imgur.com/ODmHOWB.png)
+![image](https://i.imgur.com/xN1b9gk.png)
