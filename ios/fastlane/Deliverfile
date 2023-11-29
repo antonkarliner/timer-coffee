@@ -1,5 +1,7 @@
 username(ENV['APPLE_ID'])
 skip_screenshots(true)
+submit_for_review(true)
+precheck_include_in_app_purchases(false)
 # The Deliverfile allows you to store various App Store Connect metadata
 # For more information, check out the docs
 # https://docs.fastlane.tools/actions/deliver/
