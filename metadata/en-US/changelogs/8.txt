@@ -1,1 +1,0 @@
-App now features much more modern and clean design and optimised codebase thanks to @kinolaev. Remember, you can also contribute and be featured here!

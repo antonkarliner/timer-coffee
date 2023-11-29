@@ -1,9 +1,0 @@
-Summer heat is here! To help you stay cool, now there are more iced coffee recipes in the app 🧊
-
-Improved: 
-- Recipe summary (thanks @jymmyboi)
-- Readability and typos fix (thanks, @Fplas)
-- Preparation screen
-- Decimal separator on Recipe screen can now be dot or comma
-
-Thanks to all the contributors!

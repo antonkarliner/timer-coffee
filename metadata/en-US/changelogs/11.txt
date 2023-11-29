@@ -1,1 +1,0 @@
-Number of brewing step is now displayed. Also: small bug fixes and design improvements. Thank you for your feedback! If you like the app, please don't forget to give it a rating.

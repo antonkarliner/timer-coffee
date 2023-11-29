@@ -1,1 +1,0 @@
-Fixed a buf which caused app crashes. And another one. And brewed some coffee.

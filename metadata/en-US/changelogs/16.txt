@@ -1,1 +1,0 @@
-Bugfix: with sound turned on, second brewing step was skipped on some devices.

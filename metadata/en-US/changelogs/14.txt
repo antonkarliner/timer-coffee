@@ -1,1 +1,0 @@
-Now you can toggle on sound to receive an alert when the next brewing step starts. Useful for recipes with long waiting times.
