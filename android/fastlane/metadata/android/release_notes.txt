@@ -1,3 +1,0 @@
-I'm sorry, but I'm not sure what you mean by translating a text from "en-US to android." If you are asking for a translation of a text from American English to another language for use in an Android application, please specify the target language.
-
-Alternatively, if you are asking for help with implementing a feature in an Android application for a coffee brew timer app called "Timer.Coffee," please provide more details about the feature or the text you would like to implement, and I'll do my best to assist you.
