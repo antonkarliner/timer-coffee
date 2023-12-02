@@ -1,0 +1,5 @@
+Kleinere Fehlerbehebungen und Stabilitätsverbesserungen.
+
+Timer.Coffee spricht jetzt 10 Sprachen! Unterstützte Sprachen sind: Englisch, Spanisch, Portugiesisch, Deutsch, Französisch, Russisch, Polnisch, Arabisch, Chinesisch und Japanisch. Falls Sie Übersetzungsfehler bemerken, senden Sie bitte Screenshots an support@timer.coffee oder melden Sie das Problem auf Github.
+
+Hinweis: Der übersetzte Text sollte maximal 500 Zeichen lang sein. Formulieren Sie bei Bedarf etwas um.

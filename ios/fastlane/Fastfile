@@ -18,12 +18,7 @@ default_platform(:ios)
 platform :ios do
   desc "Push a new release build to the App Store"
   lane :release do
-    translate_gpt_release_notes(
-      master_locale: 'en-US',
-      platform: 'ios',
-      context: 'Timer.Coffee is a coffee brew timer app, please pay special attention to correct usage of coffee-related terms.'
-      # other necessary parameters...
-    )
+    
     app_store_connect_api_key(
     key_id: ENV['APPLE_API_KEY_ID'],
     issuer_id: ENV['APPLE_API_ISSUER_ID'],

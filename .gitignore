@@ -46,3 +46,6 @@ app.*.map.json
 
 # Node.js related
 node_modules
+ios/fastlane/Preview.html
+ios/fastlane/report.xml
+android/fastlane/report.xml

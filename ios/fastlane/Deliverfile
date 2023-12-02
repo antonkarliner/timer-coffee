@@ -2,6 +2,16 @@ username(ENV['APPLE_ID'])
 skip_screenshots(true)
 submit_for_review(true)
 precheck_include_in_app_purchases(false)
+
+# Add IDFA settings
+submission_information({
+    add_id_info_limits_tracking: false,
+    add_id_info_serves_ads: false,
+    add_id_info_tracks_action: false,
+    add_id_info_tracks_install: false,
+    add_id_info_uses_idfa: false
+})
+
 # The Deliverfile allows you to store various App Store Connect metadata
 # For more information, check out the docs
 # https://docs.fastlane.tools/actions/deliver/
