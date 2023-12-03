@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 1.5.3+33
+version: 1.5.5+34
 
 environment:
   sdk: '>=2.19.6 <4.0.0'
@@ -76,6 +76,8 @@ flutter:
     - assets/data/recipes_wilfa.json
     - assets/data/recipes_origami.json
     - assets/data/coffee_facts.json
+    - assets/data/privacy_policy.md
+    - assets/data/privacy_policy_web.md
     - assets/data/ar/
     - assets/data/de/
     - assets/data/en/
