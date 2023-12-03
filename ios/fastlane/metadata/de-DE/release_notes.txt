@@ -1,3 +1,7 @@
-Kleinere Fehlerbehebungen und Stabilitätsupdates.
+Dunkles Design!
 
-Timer.Coffee spricht jetzt 10 Sprachen! Unterstützte Sprachen sind: Englisch, Spanisch, Portugiesisch, Deutsch, Französisch, Russisch, Polnisch, Arabisch, Chinesisch und Japanisch. Bitte beachten Sie, dass die Übersetzungen verbessert werden. Wenn Ihnen Fehler auffallen, senden Sie Screenshots an support@timer.coffee oder eröffnen Sie ein Problem auf Github. Sie können jederzeit über den Hauptbildschirm der App zurück zu Englisch wechseln.
+Wir präsentieren das dunkle Design für alle, die dunklere Röstungen oder dunklere Bildschirme lieben, oder gerne nachts Kaffee brühen... die Wahl liegt bei Ihnen! Sie können das Design und die Sprache im neuen Einstellungsmenü auswählen.
+
+Wenn Ihnen die App gefällt – können Sie die Entwicklung jederzeit unterstützen und mir einen Kaffee ausgeben.
+
+Bleiben Sie dran für zukünftige Updates!

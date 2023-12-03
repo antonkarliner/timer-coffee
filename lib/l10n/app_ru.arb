@@ -47,5 +47,8 @@
     "donationerrmsg": "Ошибка обработки платежа, пожалуйста попробуйте ещё раз",
     "sharemsg": "Попробуй рецепт:",
     "quickactionmsg": "Открыть последний рецепт",
-    "finishbrew": "Конец заварки"
+    "finishbrew": "Конец заварки",
+    "settings": "Настройки",
+    "settingstheme": "Тёмная тема",
+    "settingslang": "Язык"
 }

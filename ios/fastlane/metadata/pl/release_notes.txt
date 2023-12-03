@@ -1,3 +1,7 @@
-Drobne poprawki błędów i aktualizacje stabilności.
+Motyw ciemny!
 
-Timer.Coffee teraz mówi w 10 językach! Obsługiwane języki to: angielski, hiszpański, portugalski, niemiecki, francuski, rosyjski, polski, arabski, chiński i japoński. Prosimy zwrócić uwagę, że tłumaczenia są stale ulepszane, jeśli zauważysz jakiekolwiek błędy – wyślij zrzuty ekranu na support@timer.coffee lub zgłoś problem na Githubie. Zawsze możesz wrócić do angielskiej wersji językowej z Głównego Ekranu aplikacji.
+Przedstawiamy motyw ciemny dla tych, którzy uwielbiają ciemniejsze palenie kawy lub ciemniejsze ekrany, albo lubią zaparzać kawę w nocy... wybór należy do Ciebie! Możesz wybrać motyw i język z nowego ekranu ustawień.
+
+Jeśli podoba Ci się aplikacja – zawsze możesz wesprzeć rozwój i postawić mi kawę.
+
+Bądź na bieżąco z przyszłymi aktualizacjami!

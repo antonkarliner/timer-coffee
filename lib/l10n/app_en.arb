@@ -47,5 +47,8 @@
   "donationerrmsg": "Error processing the purchase, please try again.",
   "sharemsg": "Check out this recipe:",
   "quickactionmsg": "Open last recipe",
-  "finishbrew": "Finish"
+  "finishbrew": "Finish",
+  "settings": "Settings",
+  "settingstheme": "Use dark theme",
+  "settingslang": "Language"
 }

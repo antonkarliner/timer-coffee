@@ -1,3 +1,7 @@
-Correções de pequenos erros e atualizações de estabilidade.
+Tema escuro!
 
-Timer.Coffee agora está disponível em 10 idiomas! Os idiomas suportados são: Inglês, Espanhol, Português, Alemão, Francês, Russo, Polonês, Árabe, Chinês e Japonês. Por favor, note que as traduções estão em constante aprimoramento, se notar algum erro – envie capturas de tela para support@timer.coffee ou abra uma solicitação no Github. Você sempre pode voltar para o Inglês a partir da Tela Principal do aplicativo.
+Apresentando o tema escuro para aqueles que amam torras mais escuras ou telas mais escuras, ou que adoram preparar café à noite... a escolha é sua! Você pode selecionar o tema e o idioma na nova tela de configurações.
+
+Além disso, se você gostar do aplicativo – você pode sempre apoiar o desenvolvimento e me comprar um café.
+
+Fique atento para as futuras atualizações!

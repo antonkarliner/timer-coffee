@@ -47,6 +47,9 @@
     "donationerrmsg": "Error al procesar la compra, por favor intenta de nuevo.",
     "sharemsg": "Revisa esta receta:",
     "quickactionmsg": "Abrir la última receta",
-    "finishbrew": "Finalizar"
+    "finishbrew": "Finalizar",
+    "settings": "Configuraciones",
+    "settingstheme": "Usar tema oscuro",
+    "settingslang": "Idioma"
   }
   

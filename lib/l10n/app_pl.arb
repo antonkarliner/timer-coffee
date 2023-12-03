@@ -47,6 +47,9 @@
     "donationerrmsg": "Błąd przetwarzania zakupu, spróbuj ponownie.",
     "sharemsg": "Sprawdź ten przepis:",
     "quickactionmsg": "Otwórz ostatni przepis",
-    "finishbrew": "Zakończ"
+    "finishbrew": "Zakończ",
+    "settings": "Ustawienia",
+    "settingstheme": "Użyj ciemnego motywu",
+    "settingslang": "Język"
   }
   

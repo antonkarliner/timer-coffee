@@ -47,6 +47,9 @@
     "donationerrmsg": "处理购买时出错，请重试。",
     "sharemsg": "查看这个食谱：",
     "quickactionmsg": "打开最近的食谱",
-    "finishbrew": "完成"
+    "finishbrew": "完成",
+    "settings": "設定",
+    "settingstheme": "ダークテーマを使用する",
+    "settingslang": "言語"
   }
   

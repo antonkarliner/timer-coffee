@@ -31,7 +31,10 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: OnboardingRoute.page,
           path: '/firstlaunch',
-          initial: true,
+        ),
+        AutoRoute(
+          page: SettingsRoute.page,
+          path: '/settings',
         ),
       ];
 }

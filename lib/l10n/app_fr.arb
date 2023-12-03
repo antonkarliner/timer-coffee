@@ -47,6 +47,9 @@
     "donationerrmsg": "Erreur lors du traitement de l'achat, veuillez réessayer.",
     "sharemsg": "Découvrez cette recette :",
     "quickactionmsg": "Ouvrir la dernière recette",
-    "finishbrew": "Terminer"
+    "finishbrew": "Terminer",
+    "settings": "Paramètres",
+    "settingstheme": "Utiliser le thème sombre",
+    "settingslang": "Langue"
   }
   

@@ -47,6 +47,9 @@
     "donationerrmsg": "خطأ في معالجة الشراء، الرجاء المحاولة مرة أخرى.",
     "sharemsg": "تحقق من هذه الوصفة:",
     "quickactionmsg": "فتح آخر وصفة",
-    "finishbrew": "انتهاء"
+    "finishbrew": "انتهاء",
+    "settings": "الإعدادات",
+    "settingstheme": "استخدم الوضع الداكن",
+    "settingslang": "اللغة"
   }
   

@@ -9,12 +9,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:in_app_purchase/in_app_purchase.dart'; // Import for In-App Purchase
 import './models/brewing_method.dart';
 import './providers/recipe_provider.dart';
+import './providers/theme_provider.dart'; // Import ThemeProvider
 import './app_router.dart';
 import './app_router.gr.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import './models/recipe.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import './visual/color_shemes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +26,7 @@ void main() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
+  bool isDarkTheme = prefs.getBool('isDarkTheme') ?? false; // Added for theme
 
   String? savedLocale = prefs.getString('locale');
   Locale initialLocale = savedLocale != null
@@ -39,6 +42,7 @@ void main() async {
     brewingMethods: brewingMethods,
     appRouter: appRouter,
     locale: initialLocale,
+    isDarkTheme: isDarkTheme, // Added for theme
   ));
 
   if (isFirstLaunch) {
@@ -51,6 +55,7 @@ class CoffeeTimerApp extends StatelessWidget {
   final List<BrewingMethod> brewingMethods;
   final String? initialRoute;
   final Locale locale;
+  final bool isDarkTheme; // Added for theme
 
   const CoffeeTimerApp({
     Key? key,
@@ -58,6 +63,7 @@ class CoffeeTimerApp extends StatelessWidget {
     required this.brewingMethods,
     this.initialRoute,
     required this.locale,
+    required this.isDarkTheme, // Added for theme
   }) : super(key: key);
 
   @override
@@ -67,12 +73,19 @@ class CoffeeTimerApp extends StatelessWidget {
         ChangeNotifierProvider<RecipeProvider>(
           create: (_) => RecipeProvider(locale),
         ),
+        ChangeNotifierProvider<ThemeProvider>(
+          // Added for theme
+          create: (_) => ThemeProvider(
+            isDarkTheme ? _darkTheme() : _lightTheme(),
+          ),
+        ),
         Provider<List<BrewingMethod>>(create: (_) => brewingMethods),
       ],
-      child: Consumer<RecipeProvider>(
-        builder: (context, recipeProvider, child) {
+      child: Consumer<ThemeProvider>(
+        // Changed for theme
+        builder: (context, themeProvider, child) {
           return MaterialApp.router(
-            locale: recipeProvider
+            locale: Provider.of<RecipeProvider>(context)
                 .currentLocale, // Use the locale from RecipeProvider
             localizationsDelegates: const [
               AppLocalizations.delegate,
@@ -102,27 +115,35 @@ class CoffeeTimerApp extends StatelessWidget {
             ),
             debugShowCheckedModeBanner: false,
             title: 'Coffee Timer App',
-            theme: ThemeData(
-              useMaterial3: true,
-              colorScheme: const ColorScheme(
-                brightness: Brightness.light,
-                primary: Color.fromRGBO(121, 85, 72, 1),
-                onPrimary: Colors.white,
-                secondary: Colors.white,
-                onSecondary: Color.fromRGBO(121, 85, 72, 1),
-                error: Colors.red,
-                onError: Colors.white,
-                background: Colors.white,
-                onBackground: Colors.black,
-                surface: Colors.white,
-                onSurface: Colors.black,
-              ),
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-              fontFamily: kIsWeb ? 'Lato' : null,
-            ),
+            theme: themeProvider
+                .themeData, // Use theme from ThemeProvider for both light and dark
+            darkTheme: themeProvider.themeData, // Use same theme for dark mode
           );
         },
       ),
+    );
+  }
+
+  ThemeData _lightTheme() {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: lightColorScheme,
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+      fontFamily: kIsWeb ? 'Lato' : null,
+      appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white, foregroundColor: Colors.black),
+    );
+  }
+
+  ThemeData _darkTheme() {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: darkColorScheme,
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+      fontFamily: kIsWeb ? 'Lato' : null,
+      appBarTheme: const AppBarTheme(
+          backgroundColor: Color.fromRGBO(48, 48, 48, 1),
+          foregroundColor: Colors.white),
     );
   }
 }
@@ -149,7 +170,7 @@ class QuickActionsManager extends StatefulWidget {
 }
 
 class _QuickActionsManagerState extends State<QuickActionsManager> {
-  QuickActions quickActions = QuickActions();
+  QuickActions quickActions = const QuickActions();
   StreamSubscription<List<PurchaseDetails>>? _subscription; // In-App Purchase
 
   @override

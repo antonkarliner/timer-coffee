@@ -115,9 +115,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton.small(
-        onPressed: _changeLocale,
-        tooltip: 'Change Locale',
-        child: Text(recipeProvider.currentLocale.languageCode.toUpperCase()),
+        onPressed: () {
+          // Navigate to the SettingsScreen using auto_route
+          context.router.push(const SettingsRoute());
+        },
+        tooltip: 'Settings',
+        child: const Icon(Icons.settings), // Using a settings icon
       ),
     );
   }
@@ -125,121 +128,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   PreferredSizeWidget buildPlatformSpecificAppBar() {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       return CupertinoNavigationBar(
-        middle: const Text('Timer.Coffee',
-            style: TextStyle(fontFamily: kIsWeb ? 'Lato' : null)),
-        trailing: IconButton(
-          icon: const Icon(Icons.info),
-          onPressed: () {
-            context.router.push(const AboutRoute());
-          },
-        ),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        middle: Text('Timer.Coffee',
+            style: TextStyle(
+                fontFamily: kIsWeb ? 'Lato' : null,
+                color: Theme.of(context).appBarTheme.foregroundColor)),
       );
     } else {
       return AppBar(
         title: const Text('Timer.Coffee'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.info),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const AboutScreen()),
-              );
-            },
-          ),
-        ],
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
       );
     }
-  }
-
-  void _changeLocale() async {
-    final result = await showModalBottomSheet<Locale>(
-      context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('English'),
-                onTap: () => Navigator.pop(context, const Locale('en')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('Español'), // Spanish
-                onTap: () => Navigator.pop(context, const Locale('es')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('Português'), // Portuguese
-                onTap: () => Navigator.pop(context, const Locale('pt')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('Deutsch'), // German
-                onTap: () => Navigator.pop(context, const Locale('de')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('Français'), // French
-                onTap: () => Navigator.pop(context, const Locale('fr')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('Русский'), // Russian
-                onTap: () => Navigator.pop(context, const Locale('ru')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('Polski'), // Polish
-                onTap: () => Navigator.pop(context, const Locale('pl')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('العربية'), // Arabic
-                trailing: const Badge(
-                  label: Text('Beta', style: TextStyle(color: Colors.white)),
-                  backgroundColor: Colors.brown,
-                ),
-                onTap: () => Navigator.pop(context, const Locale('ar')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('中文'), // Chinese
-                trailing: const Badge(
-                  label: Text('Beta', style: TextStyle(color: Colors.white)),
-                  backgroundColor: Colors.brown,
-                ),
-                onTap: () => Navigator.pop(context, const Locale('zh')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('日本語'), // Japanese
-                trailing: const Badge(
-                  label: Text('Beta', style: TextStyle(color: Colors.white)),
-                  backgroundColor: Colors.brown,
-                ),
-                onTap: () => Navigator.pop(context, const Locale('ja')),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-
-    if (result != null) {
-      _setLocale(result);
-    }
-  }
-
-  void _setLocale(Locale newLocale) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('locale', newLocale.toString());
-
-    Provider.of<RecipeProvider>(context, listen: false).setLocale(newLocale);
-
-    // Use AutoRouter to navigate
-    context.router.replace(const HomeRoute());
   }
 }
