@@ -1,0 +1,13 @@
+TImer.Coffee is a free and open-source brew timer and coffee calculator app, designed to aid in your coffee brewing adventures. The app presently offers support for various brewing techniques including: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over and Origami Dripper. The app features more than 30 recipes with more on the way.
+
+Current features include:
+- Use the coffee calculator to tweak the coffee or water quantities in the recipes, allowing you to brew as much coffee as you desire.
+- Mark your most-loved coffee recipes as favorites for easy access.
+- Instantly revisit your last used recipe.
+- Share your favorite recipes with friends.
+- Turn on sound chime to infrom you about the next brewing step.
+
+Here's what we're brewing for future updates:
+- Inclusion of the Tetsu Kasuya 4:6 brewing method for Hario V60.
+- An expansion of our coffee recipes collection.
+- Design upgrades.
