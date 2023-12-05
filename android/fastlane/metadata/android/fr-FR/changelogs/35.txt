@@ -1,0 +1,3 @@
+Vous pouvez désormais opter pour le thème système au lieu de configurer manuellement le thème sombre/clair.
+
+De plus, si vous appréciez l'application, vous pouvez toujours soutenir le développement en m'offrant un café.

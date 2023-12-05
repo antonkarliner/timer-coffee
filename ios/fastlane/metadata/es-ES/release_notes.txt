@@ -1,7 +1,3 @@
-¡Tema oscuro!
-
-Presentamos el tema oscuro para aquellos a quienes les gustan los tuestes más intensos o las pantallas más oscuras, o para quienes disfrutan preparando café por la noche... ¡la elección es tuya! Puedes seleccionar el tema y el idioma desde la nueva pantalla de ajustes.
+Ahora puedes elegir usar el tema del sistema en lugar de configurar el tema oscuro/claro manualmente.
 
 Además, si te gusta la aplicación, siempre puedes apoyar el desarrollo y comprarme un café.
-
-¡Mantente atento a las futuras actualizaciones!

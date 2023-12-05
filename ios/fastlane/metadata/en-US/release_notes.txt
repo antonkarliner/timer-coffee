@@ -1,7 +1,3 @@
-Dark theme!
-
-Introducing dark theme for those who love darker roasts or darker screens, or love to brew coffee at night... the choice is yours! You can select theme and language from the new settings screen.
+You can now choose to use system theme instead of setting dark/light theme manually.
 
 Also, if you like the app – you can always support the development and buy me a coffee.
-
-Stay tuned for the future updates!

@@ -49,7 +49,10 @@
     "quickactionmsg": "Abrir la última receta",
     "finishbrew": "Finalizar",
     "settings": "Configuraciones",
-    "settingstheme": "Usar tema oscuro",
+    "settingstheme": "Tema",
+    "settingsthemelight": "Claro",
+    "settingsthemedark": "Oscuro",
+    "settingsthemesystem": "Sistema", 
     "settingslang": "Idioma"
   }
   

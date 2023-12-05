@@ -1,0 +1,3 @@
+Agora você pode optar por usar o tema do sistema em vez de definir o tema escuro/claro manualmente.
+
+Além disso, se você gosta do aplicativo, pode sempre apoiar o desenvolvimento e me comprar um café.

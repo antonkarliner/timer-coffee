@@ -37,12 +37,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           ListTile(
             title: Text(AppLocalizations.of(context)!.settingstheme),
-            trailing: Switch(
-              value: themeProvider.themeData.brightness == Brightness.dark,
-              onChanged: (value) {
-                themeProvider.toggleTheme(value);
-              },
-            ),
+            trailing: Text(_getLocalizedThemeModeText()),
+            onTap: _changeTheme,
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.settingslang),
@@ -225,6 +221,37 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  void _changeTheme() async {
+    final result = await showModalBottomSheet<ThemeMode>(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.settingsthemelight),
+                onTap: () => Navigator.pop(context, ThemeMode.light),
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.settingsthemedark),
+                onTap: () => Navigator.pop(context, ThemeMode.dark),
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.settingsthemesystem),
+                onTap: () => Navigator.pop(context, ThemeMode.system),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (result != null) {
+      Provider.of<ThemeProvider>(context, listen: false).setThemeMode(result);
+    }
+  }
+
   void _changeLocale() async {
     final result = await showModalBottomSheet<Locale>(
       context: context,
@@ -303,6 +330,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     if (result != null) {
       _setLocale(result);
+    }
+  }
+
+  String _getLocalizedThemeModeText() {
+    var themeMode =
+        Provider.of<ThemeProvider>(context, listen: false).themeMode;
+    switch (themeMode) {
+      case ThemeMode.light:
+        return AppLocalizations.of(context)!.settingsthemelight;
+      case ThemeMode.dark:
+        return AppLocalizations.of(context)!.settingsthemedark;
+      case ThemeMode.system:
+        return AppLocalizations.of(context)!.settingsthemesystem;
+      default:
+        return AppLocalizations.of(context)!
+            .settingsthemesystem; // Default case
     }
   }
 

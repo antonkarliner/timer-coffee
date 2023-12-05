@@ -49,6 +49,9 @@
     "quickactionmsg": "Открыть последний рецепт",
     "finishbrew": "Конец заварки",
     "settings": "Настройки",
-    "settingstheme": "Тёмная тема",
+    "settingstheme": "Тема",
+    "settingsthemelight": "Светлая",
+    "settingsthemedark": "Тёмная",
+    "settingsthemesystem": "Системная",
     "settingslang": "Язык"
 }

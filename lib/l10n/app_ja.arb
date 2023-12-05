@@ -49,7 +49,10 @@
     "quickactionmsg": "最後のレシピを開く",
     "finishbrew": "終了",
     "settings": "設定",
-    "settingstheme": "ダークテーマを使用する",
+    "settingstheme": "テーマ",
+    "settingsthemelight": "ライト",
+    "settingsthemedark": "ダーク",
+    "settingsthemesystem": "システム",
     "settingslang": "言語"
   }
   

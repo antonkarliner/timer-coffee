@@ -4,31 +4,33 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../visual/color_shemes.dart';
 
 class ThemeProvider with ChangeNotifier {
-  ThemeData _themeData;
+  ThemeMode _themeMode;
 
-  ThemeProvider(this._themeData);
+  ThemeProvider(this._themeMode);
 
-  ThemeData get themeData => _themeData;
+  ThemeMode get themeMode => _themeMode;
+  ThemeData get lightTheme => _lightTheme();
+  ThemeData get darkTheme => _darkTheme();
 
-  // Method to toggle the theme
-  void toggleTheme(bool isDark) {
-    _themeData = isDark ? _darkTheme() : _lightTheme();
+  void setThemeMode(ThemeMode themeMode) {
+    _themeMode = themeMode;
     notifyListeners();
-    _saveThemePreference(isDark);
+    _saveThemeModePreference(themeMode);
   }
 
-  // Method to load theme preference
-  Future<void> loadThemePreference() async {
+  Future<void> loadThemeModePreference() async {
     final prefs = await SharedPreferences.getInstance();
-    bool isDark = prefs.getBool('isDarkTheme') ?? false;
-    _themeData = isDark ? _darkTheme() : _lightTheme();
+    String themeModeString = prefs.getString('themeMode') ?? 'system';
+    _themeMode = ThemeMode.values.firstWhere(
+      (e) => e.toString().split('.').last == themeModeString,
+      orElse: () => ThemeMode.system,
+    );
     notifyListeners();
   }
 
-  // Method to save theme preference
-  Future<void> _saveThemePreference(bool isDark) async {
+  Future<void> _saveThemeModePreference(ThemeMode themeMode) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isDarkTheme', isDark);
+    await prefs.setString('themeMode', themeMode.toString().split('.').last);
   }
 
   ThemeData _lightTheme() {

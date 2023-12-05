@@ -1,7 +1,3 @@
-Thème sombre !
-
-Nous introduisons le thème sombre pour ceux qui préfèrent les torréfactions foncées ou les écrans moins lumineux, ou qui aiment préparer leur café la nuit... le choix vous appartient ! Vous pouvez choisir le thème et la langue depuis le nouvel écran de paramètres.
+Vous pouvez désormais choisir d'utiliser le thème système au lieu de configurer manuellement le thème sombre/clair.
 
 De plus, si l'application vous plaît – vous pouvez toujours soutenir le développement et m'offrir un café.
-
-Restez à l'écoute pour les futures mises à jour !

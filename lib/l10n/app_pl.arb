@@ -49,7 +49,10 @@
     "quickactionmsg": "Otwórz ostatni przepis",
     "finishbrew": "Zakończ",
     "settings": "Ustawienia",
-    "settingstheme": "Użyj ciemnego motywu",
+    "settingstheme": "Motyw",
+    "settingsthemelight": "Jasny",
+    "settingsthemedark": "Ciemny",
+    "settingsthemesystem": "System",
     "settingslang": "Język"
   }
   

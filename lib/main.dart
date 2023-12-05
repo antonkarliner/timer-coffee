@@ -26,8 +26,11 @@ void main() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
-  bool isDarkTheme = prefs.getBool('isDarkTheme') ?? false; // Added for theme
-
+  String themeModeString = prefs.getString('themeMode') ?? 'system';
+  ThemeMode themeMode = ThemeMode.values.firstWhere(
+    (e) => e.toString().split('.').last == themeModeString,
+    orElse: () => ThemeMode.system,
+  );
   String? savedLocale = prefs.getString('locale');
   Locale initialLocale = savedLocale != null
       ? Locale(savedLocale.split('_')[0])
@@ -42,7 +45,7 @@ void main() async {
     brewingMethods: brewingMethods,
     appRouter: appRouter,
     locale: initialLocale,
-    isDarkTheme: isDarkTheme, // Added for theme
+    themeMode: themeMode, // Pass the theme mode
   ));
 
   if (isFirstLaunch) {
@@ -55,7 +58,7 @@ class CoffeeTimerApp extends StatelessWidget {
   final List<BrewingMethod> brewingMethods;
   final String? initialRoute;
   final Locale locale;
-  final bool isDarkTheme; // Added for theme
+  final ThemeMode themeMode; // Add this line
 
   const CoffeeTimerApp({
     Key? key,
@@ -63,7 +66,7 @@ class CoffeeTimerApp extends StatelessWidget {
     required this.brewingMethods,
     this.initialRoute,
     required this.locale,
-    required this.isDarkTheme, // Added for theme
+    required this.themeMode, // Update constructor
   }) : super(key: key);
 
   @override
@@ -74,15 +77,11 @@ class CoffeeTimerApp extends StatelessWidget {
           create: (_) => RecipeProvider(locale),
         ),
         ChangeNotifierProvider<ThemeProvider>(
-          // Added for theme
-          create: (_) => ThemeProvider(
-            isDarkTheme ? _darkTheme() : _lightTheme(),
-          ),
+          create: (_) => ThemeProvider(themeMode), // Initialize with ThemeMode
         ),
         Provider<List<BrewingMethod>>(create: (_) => brewingMethods),
       ],
       child: Consumer<ThemeProvider>(
-        // Changed for theme
         builder: (context, themeProvider, child) {
           return MaterialApp.router(
             locale: Provider.of<RecipeProvider>(context)
@@ -115,35 +114,12 @@ class CoffeeTimerApp extends StatelessWidget {
             ),
             debugShowCheckedModeBanner: false,
             title: 'Coffee Timer App',
-            theme: themeProvider
-                .themeData, // Use theme from ThemeProvider for both light and dark
-            darkTheme: themeProvider.themeData, // Use same theme for dark mode
+            theme: themeProvider.lightTheme,
+            darkTheme: themeProvider.darkTheme,
+            themeMode: themeProvider.themeMode, // Use ThemeMode from provider
           );
         },
       ),
-    );
-  }
-
-  ThemeData _lightTheme() {
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: lightColorScheme,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-      fontFamily: kIsWeb ? 'Lato' : null,
-      appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white, foregroundColor: Colors.black),
-    );
-  }
-
-  ThemeData _darkTheme() {
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: darkColorScheme,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-      fontFamily: kIsWeb ? 'Lato' : null,
-      appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromRGBO(48, 48, 48, 1),
-          foregroundColor: Colors.white),
     );
   }
 }

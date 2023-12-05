@@ -49,7 +49,10 @@
     "quickactionmsg": "فتح آخر وصفة",
     "finishbrew": "انتهاء",
     "settings": "الإعدادات",
-    "settingstheme": "استخدم الوضع الداكن",
+    "settingstheme": "الثيم",
+    "settingsthemelight": "فاتح",
+    "settingsthemedark": "داكن",
+    "settingsthemesystem": "النظام",
     "settingslang": "اللغة"
   }
   

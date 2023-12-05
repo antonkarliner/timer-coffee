@@ -49,7 +49,10 @@
     "quickactionmsg": "Letztes Rezept öffnen",
     "finishbrew": "Fertig",
     "settings": "Einstellungen",
-    "settingstheme": "Dunkles Thema",
+    "settingstheme": "Thema",
+    "settingsthemelight": "Hell",
+    "settingsthemedark": "Dunkel",
+    "settingsthemesystem": "System",
     "settingslang": "Sprache"
   }
   

@@ -49,6 +49,9 @@
   "quickactionmsg": "Open last recipe",
   "finishbrew": "Finish",
   "settings": "Settings",
-  "settingstheme": "Use dark theme",
+  "settingstheme": "Theme",
+  "settingsthemelight": "Light",
+  "settingsthemedark": "Dark",
+  "settingsthemesystem": "System",
   "settingslang": "Language"
 }

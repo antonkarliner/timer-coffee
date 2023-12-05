@@ -1,7 +1,3 @@
-Dunkles Design!
+Sie können jetzt wählen, ob Sie das Systemdesign verwenden möchten, anstatt das dunkle/helle Design manuell einzustellen.
 
-Wir präsentieren das dunkle Design für alle, die dunklere Röstungen oder dunklere Bildschirme lieben, oder gerne nachts Kaffee brühen... die Wahl liegt bei Ihnen! Sie können das Design und die Sprache im neuen Einstellungsmenü auswählen.
-
-Wenn Ihnen die App gefällt – können Sie die Entwicklung jederzeit unterstützen und mir einen Kaffee ausgeben.
-
-Bleiben Sie dran für zukünftige Updates!
+Wenn Ihnen die App gefällt – können Sie jederzeit die Entwicklung unterstützen und mir einen Kaffee ausgeben.

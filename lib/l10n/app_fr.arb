@@ -49,7 +49,10 @@
     "quickactionmsg": "Ouvrir la dernière recette",
     "finishbrew": "Terminer",
     "settings": "Paramètres",
-    "settingstheme": "Utiliser le thème sombre",
+    "settingstheme": "Thème",
+    "settingsthemelight": "Clair",
+    "settingsthemedark": "Sombre",
+    "settingsthemesystem": "Système",
     "settingslang": "Langue"
   }
   

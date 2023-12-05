@@ -49,7 +49,10 @@
     "quickactionmsg": "打开最近的食谱",
     "finishbrew": "完成",
     "settings": "設定",
-    "settingstheme": "ダークテーマを使用する",
+    "settingstheme": "主题",
+    "settingsthemelight": "浅色",
+    "settingsthemedark": "深色",
+    "settingsthemesystem": "系统",
     "settingslang": "言語"
   }
   
