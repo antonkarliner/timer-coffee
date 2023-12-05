@@ -230,14 +230,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
             shrinkWrap: true,
             children: <Widget>[
               ListTile(
+                leading: const Icon(Icons.light_mode),
                 title: Text(AppLocalizations.of(context)!.settingsthemelight),
                 onTap: () => Navigator.pop(context, ThemeMode.light),
               ),
               ListTile(
+                leading: const Icon(Icons.dark_mode),
                 title: Text(AppLocalizations.of(context)!.settingsthemedark),
                 onTap: () => Navigator.pop(context, ThemeMode.dark),
               ),
               ListTile(
+                leading: const Icon(Icons.brightness_medium),
                 title: Text(AppLocalizations.of(context)!.settingsthemesystem),
                 onTap: () => Navigator.pop(context, ThemeMode.system),
               ),

@@ -1,3 +1,3 @@
-Agora você pode escolher usar o tema do sistema em vez de definir o tema escuro/claro manualmente.
+Agora você pode optar por usar o tema do sistema em vez de configurar o tema escuro/claro manualmente.
 
-Além disso, se você gosta do aplicativo – você pode sempre apoiar o desenvolvimento e me comprar um café.
+Além disso, se você gosta do aplicativo, você pode sempre apoiar o desenvolvimento e me comprar um café.
