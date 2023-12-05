@@ -1,0 +1,3 @@
+¡Timer.Coffee ahora está disponible en 10 idiomas! Los idiomas soportados son: inglés, español, portugués, alemán, francés, ruso, polaco, árabe, chino y japonés. Ten en cuenta que las traducciones están mejorando, si encuentras errores, envía capturas a support@timer.coffee o reporta en Github. Siempre puedes volver al inglés desde la pantalla principal de la app.
+
++Se corrigió la disposición para árabe.
