@@ -1,3 +1,1 @@
-Agora pode optar por usar o tema do sistema em vez de definir manualmente o tema escuro/claro.
-
-Além disso, se gosta da aplicação – pode sempre apoiar o desenvolvimento e comprar-me um café.
+O ecrã de abertura agora também suporta o modo escuro! Viva!

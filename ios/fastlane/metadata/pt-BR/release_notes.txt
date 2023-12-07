@@ -1,3 +1,1 @@
-Agora você pode optar por usar o tema do sistema em vez de configurar o tema escuro/claro manualmente.
-
-Além disso, se você gosta do aplicativo, você pode sempre apoiar o desenvolvimento e me comprar um café.
+A tela de abertura agora também suporta o modo escuro! Eba!

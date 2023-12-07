@@ -1,3 +1,1 @@
-Puede elegir usar el tema del sistema en lugar de configurar el tema oscuro o claro manualmente.
-
-Además, si le gusta la aplicación, siempre puede apoyar el desarrollo y comprarme un café.
+La pantalla de inicio ahora también es compatible con el modo oscuro. ¡Genial!

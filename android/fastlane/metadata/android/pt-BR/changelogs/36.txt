@@ -1,0 +1,1 @@
+A tela de abertura agora também tem suporte para modo escuro! Obá!

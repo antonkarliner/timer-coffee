@@ -43,6 +43,24 @@
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
 		89656570BF02614C4F922715 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
+		8B0FAAA62B1F82FA00BA115B /* ar */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ar; path = ar.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8B0FAAA72B1F82FA00BA115B /* ar */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ar; path = ar.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B0FAAA82B1F836F00BA115B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hans"; path = "zh-Hans.lproj/Main.storyboard"; sourceTree = "<group>"; };
+		8B0FAAA92B1F836F00BA115B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+		8B0FAAAA2B1F838200BA115B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = fr; path = fr.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8B0FAAAB2B1F838200BA115B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = fr; path = fr.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B0FAAAC2B1F83A600BA115B /* de */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = de; path = de.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8B0FAAAD2B1F83A600BA115B /* de */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = de; path = de.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B0FAAAE2B1F83BD00BA115B /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ja; path = ja.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8B0FAAAF2B1F83BD00BA115B /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ja; path = ja.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B0FAAB02B1F83CA00BA115B /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = pl; path = pl.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8B0FAAB12B1F83CA00BA115B /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = pl; path = pl.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B0FAAB22B1F83D300BA115B /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "pt-PT"; path = "pt-PT.lproj/Main.storyboard"; sourceTree = "<group>"; };
+		8B0FAAB32B1F83D300BA115B /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "pt-PT"; path = "pt-PT.lproj/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+		8B0FAAB42B1F83E200BA115B /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ru; path = ru.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8B0FAAB52B1F83E200BA115B /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ru; path = ru.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B0FAAB62B1F83EC00BA115B /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = es.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8B0FAAB72B1F83EC00BA115B /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = es.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B375E602AD4498C00347BBA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		8B589E342A6971880079991C /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		8B74FB2C2AF002AA00701B6B /* Timer.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Timer.storekit; sourceTree = "<group>"; };
@@ -183,6 +201,15 @@
 			knownRegions = (
 				en,
 				Base,
+				ar,
+				"zh-Hans",
+				fr,
+				de,
+				ja,
+				pl,
+				"pt-PT",
+				ru,
+				es,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
@@ -300,6 +327,15 @@
 			isa = PBXVariantGroup;
 			children = (
 				97C146FB1CF9000F007C117D /* Base */,
+				8B0FAAA62B1F82FA00BA115B /* ar */,
+				8B0FAAA82B1F836F00BA115B /* zh-Hans */,
+				8B0FAAAA2B1F838200BA115B /* fr */,
+				8B0FAAAC2B1F83A600BA115B /* de */,
+				8B0FAAAE2B1F83BD00BA115B /* ja */,
+				8B0FAAB02B1F83CA00BA115B /* pl */,
+				8B0FAAB22B1F83D300BA115B /* pt-PT */,
+				8B0FAAB42B1F83E200BA115B /* ru */,
+				8B0FAAB62B1F83EC00BA115B /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -308,6 +344,15 @@
 			isa = PBXVariantGroup;
 			children = (
 				97C147001CF9000F007C117D /* Base */,
+				8B0FAAA72B1F82FA00BA115B /* ar */,
+				8B0FAAA92B1F836F00BA115B /* zh-Hans */,
+				8B0FAAAB2B1F838200BA115B /* fr */,
+				8B0FAAAD2B1F83A600BA115B /* de */,
+				8B0FAAAF2B1F83BD00BA115B /* ja */,
+				8B0FAAB12B1F83CA00BA115B /* pl */,
+				8B0FAAB32B1F83D300BA115B /* pt-PT */,
+				8B0FAAB52B1F83E200BA115B /* ru */,
+				8B0FAAB72B1F83EC00BA115B /* es */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -319,6 +364,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -398,6 +444,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -454,6 +501,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
