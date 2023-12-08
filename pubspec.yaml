@@ -26,7 +26,7 @@ dependencies:
   auto_route: ^7.7.1
   share_plus: ^7.1.0
   universal_html: ^2.2.3
-  flutter_native_splash: ^2.3.1
+  flutter_native_splash: ^2.3.7
   quick_actions: ^1.0.5
   introduction_screen: ^3.1.11
   coffeico: ^0.0.1
