@@ -10,27 +10,7 @@
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: translate_gpt_release_notes" time="31.386359">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="2: app_store_connect_api_key" time="0.006439">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="3: match" time="3.010003">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="4: build_app" time="50.730744">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="5: upload_to_app_store" time="1899.151846">
+      <testcase classname="fastlane.lanes" name="1: translate_gpt_release_notes" time="0.00052">
         
       </testcase>
     
