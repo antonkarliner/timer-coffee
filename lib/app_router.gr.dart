@@ -19,7 +19,7 @@ import 'package:coffee_timer/screens/recipe_list_screen.dart' as _i7;
 import 'package:coffee_timer/screens/settings_screen.dart' as _i8;
 import 'package:flutter/material.dart' as _i10;
 
-abstract class $AppRouter extends _i10.RootStackRouter {
+abstract class $AppRouter extends _i9.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
@@ -43,13 +43,13 @@ abstract class $AppRouter extends _i10.RootStackRouter {
       );
     },
     HomeRoute.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i4.HomeScreen(),
       );
     },
     OnboardingRoute.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i5.OnboardingScreen(),
       );
@@ -61,9 +61,9 @@ abstract class $AppRouter extends _i10.RootStackRouter {
                 brewingMethodId: pathParams.getString('brewingMethodId'),
                 recipeId: pathParams.getString('recipeId'),
               ));
-      return _i10.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i6.RecipeDetailScreen(
+        child: _i5.RecipeDetailScreen(
           key: args.key,
           brewingMethodId: args.brewingMethodId,
           recipeId: args.recipeId,
@@ -77,9 +77,9 @@ abstract class $AppRouter extends _i10.RootStackRouter {
                 brewingMethodId: pathParams.getString('brewingMethodId'),
                 recipeId: pathParams.getString('recipeId'),
               ));
-      return _i10.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i7.RecipeDetailTKScreen(
+        child: _i6.RecipeDetailTKScreen(
           key: args.key,
           brewingMethodId: args.brewingMethodId,
           recipeId: args.recipeId,
@@ -91,18 +91,18 @@ abstract class $AppRouter extends _i10.RootStackRouter {
       final args = routeData.argsAs<RecipeListRouteArgs>(
           orElse: () => RecipeListRouteArgs(
               brewingMethodId: pathParams.optString('brewingMethodId')));
-      return _i10.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i8.RecipeListScreen(
+        child: _i7.RecipeListScreen(
           key: args.key,
           brewingMethodId: args.brewingMethodId,
         ),
       );
     },
     SettingsRoute.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i9.SettingsScreen(),
+        child: const _i8.SettingsScreen(),
       );
     },
   };
@@ -137,9 +137,9 @@ class DonationRoute extends _i9.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.HomeScreen]
-class HomeRoute extends _i10.PageRouteInfo<void> {
-  const HomeRoute({List<_i10.PageRouteInfo>? children})
+/// [_i3.HomeScreen]
+class HomeRoute extends _i9.PageRouteInfo<void> {
+  const HomeRoute({List<_i9.PageRouteInfo>? children})
       : super(
           HomeRoute.name,
           initialChildren: children,
@@ -147,13 +147,13 @@ class HomeRoute extends _i10.PageRouteInfo<void> {
 
   static const String name = 'HomeRoute';
 
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i5.OnboardingScreen]
-class OnboardingRoute extends _i10.PageRouteInfo<void> {
-  const OnboardingRoute({List<_i10.PageRouteInfo>? children})
+/// [_i4.OnboardingScreen]
+class OnboardingRoute extends _i9.PageRouteInfo<void> {
+  const OnboardingRoute({List<_i9.PageRouteInfo>? children})
       : super(
           OnboardingRoute.name,
           initialChildren: children,
@@ -161,17 +161,17 @@ class OnboardingRoute extends _i10.PageRouteInfo<void> {
 
   static const String name = 'OnboardingRoute';
 
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i6.RecipeDetailScreen]
-class RecipeDetailRoute extends _i10.PageRouteInfo<RecipeDetailRouteArgs> {
+/// [_i5.RecipeDetailScreen]
+class RecipeDetailRoute extends _i9.PageRouteInfo<RecipeDetailRouteArgs> {
   RecipeDetailRoute({
-    _i11.Key? key,
+    _i10.Key? key,
     required String brewingMethodId,
     required String recipeId,
-    List<_i10.PageRouteInfo>? children,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
           RecipeDetailRoute.name,
           args: RecipeDetailRouteArgs(
@@ -188,8 +188,8 @@ class RecipeDetailRoute extends _i10.PageRouteInfo<RecipeDetailRouteArgs> {
 
   static const String name = 'RecipeDetailRoute';
 
-  static const _i10.PageInfo<RecipeDetailRouteArgs> page =
-      _i10.PageInfo<RecipeDetailRouteArgs>(name);
+  static const _i9.PageInfo<RecipeDetailRouteArgs> page =
+      _i9.PageInfo<RecipeDetailRouteArgs>(name);
 }
 
 class RecipeDetailRouteArgs {
@@ -199,7 +199,7 @@ class RecipeDetailRouteArgs {
     required this.recipeId,
   });
 
-  final _i11.Key? key;
+  final _i10.Key? key;
 
   final String brewingMethodId;
 
@@ -259,11 +259,11 @@ class RecipeDetailTKRouteArgs {
 }
 
 /// generated route for
-/// [_i8.RecipeListScreen]
-class RecipeListRoute extends _i10.PageRouteInfo<RecipeListRouteArgs> {
+/// [_i7.RecipeListScreen]
+class RecipeListRoute extends _i9.PageRouteInfo<RecipeListRouteArgs> {
   RecipeListRoute({
     _i9.Key? key,
-    _i10.Key? key,
+    _i11.Key? key,
     String? brewingMethodId,
     List<_i9.PageRouteInfo>? children,
   }) : super(
@@ -278,8 +278,8 @@ class RecipeListRoute extends _i10.PageRouteInfo<RecipeListRouteArgs> {
 
   static const String name = 'RecipeListRoute';
 
-  static const _i10.PageInfo<RecipeListRouteArgs> page =
-      _i10.PageInfo<RecipeListRouteArgs>(name);
+  static const _i9.PageInfo<RecipeListRouteArgs> page =
+      _i9.PageInfo<RecipeListRouteArgs>(name);
 }
 
 class RecipeListRouteArgs {
@@ -288,7 +288,7 @@ class RecipeListRouteArgs {
     this.brewingMethodId,
   });
 
-  final _i11.Key? key;
+  final _i10.Key? key;
 
   final String? brewingMethodId;
 
@@ -299,9 +299,9 @@ class RecipeListRouteArgs {
 }
 
 /// generated route for
-/// [_i9.SettingsScreen]
-class SettingsRoute extends _i10.PageRouteInfo<void> {
-  const SettingsRoute({List<_i10.PageRouteInfo>? children})
+/// [_i8.SettingsScreen]
+class SettingsRoute extends _i9.PageRouteInfo<void> {
+  const SettingsRoute({List<_i9.PageRouteInfo>? children})
       : super(
           SettingsRoute.name,
           initialChildren: children,
@@ -309,5 +309,5 @@ class SettingsRoute extends _i10.PageRouteInfo<void> {
 
   static const String name = 'SettingsRoute';
 
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
