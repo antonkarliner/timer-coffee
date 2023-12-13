@@ -151,5 +151,61 @@
         "time": 180
       }
     ]
-  }  
+  },
+  {
+    "id": "404",
+    "name": "スーパーテイスター向けフレンチプレス by The Coffee Chronicler",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 22,
+    "water_amount": 330,
+    "water_temp": 97,
+    "grind_size": "細かい",
+    "brew_time": "4min 0s",
+    "short_description": "The Coffee Chronicler、Asser Christensenによるフレンチプレスレシピ。このレシピは、クリーンで美味しい淹れ方を目指しています。注：このレシピでは紙フィルターの使用が必要です。Asserはバスケット型のフィルターの使用を推奨しており、フィルターはプランジャーを完全に覆い、側面に2-3cm以上延びる必要があります。[詳しいチュートリアルをチェック](https://coffeechronicler.com/how-to-make-french-press-recipe/)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "紙フィルターを折り、抽出器にセットして熱湯で洗い流します。フィルターを取り出し、カップにセットします。水を捨てます。コーヒーを挽いてフレンチプレスに入れ、スケールに置いてゼロに戻します。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "<final_water_amount>gの水を加え、積極的に注ぎます。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "8回かき混ぜます。",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "紙フィルターをやさしく絞って余分な水を取り除き、プランジャーに巻き付けます。",
+        "time": 60
+      },
+      {
+        "order": 5,
+        "description": "淹れたコーヒーの表面を優しくかき混ぜて、表面の膜を壊します。",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "待ちます。",
+        "time": 60
+      },
+      {
+        "order": 7,
+        "description": "紙フィルターを付けたプランジャーを慎重に挿入し、ゆっくりと押し下げます。",
+        "time": 60
+      },
+      {
+        "order": 8,
+        "description": "淹れたコーヒーをカラフに移し、理想的な飲用温度にします。",
+        "time": 30
+      }
+  ]
+}
 ]

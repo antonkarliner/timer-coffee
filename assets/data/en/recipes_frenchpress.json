@@ -151,5 +151,61 @@
         "time": 180
       }
     ]
+    },
+    {
+      "id": "404",
+      "name": "French Press for Supertasters by The Coffee Chronicler",
+      "brewing_method_id": "french_press",
+      "brewing_method": "French Press",
+      "coffee_amount": 22,
+      "water_amount": 330,
+      "water_temp": 97,
+      "grind_size": "Fine",
+      "brew_time": "4min 0s",
+      "short_description": "French press recipe by Asser Christensen aka The Coffee Chronicler. This recipe aims for a clean and tasty brew. Note: this recipe requires you to use paper filters. Asser recommends to use basket-shape filters, the filter should fully cover the plunger and extend 2-3 cm on the sides or a bit more. [Check out detailed tutorial](https://coffeechronicler.com/how-to-make-french-press-recipe/).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Fold your paper filter, place it in the brewer and rinse with hot water. Remove the filter and place it into the cup. Discard the water. Grind the coffee and put it into French Press. Place on scale and zero it out.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Add <final_water_amount>g of water, pouring aggressively.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Stir 8 times.",
+          "time": 10
+        },
+        {
+          "order": 4,
+          "description": "Gently squeeze the paper filter to get rid of excess water, and wrap it around the plunger.",
+          "time": 60
+        },
+        {
+          "order": 5,
+          "description": "Stir the surface of the brew gently to break any crust.",
+          "time": 10
+        },
+        {
+          "order": 6,
+          "description": "Wait.",
+          "time": 60
+        },
+        {
+          "order": 7,
+          "description": "Carefully insert the plunger with the paper filter attached. Plunge slowly.",
+          "time": 60
+        },
+        {
+          "order": 8,
+          "description": "Decant the brewed coffee into a carafe to bring it to an ideal drinking temperature.",
+          "time": 30
+        }
+    ]
     }
   ]

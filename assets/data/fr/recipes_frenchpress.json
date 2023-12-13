@@ -151,5 +151,61 @@
           "time": 180
       }
   ]
+},
+{
+    "id": "404",
+    "name": "French Press pour les Supertasters par The Coffee Chronicler",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 22,
+    "water_amount": 330,
+    "water_temp": 97,
+    "grind_size": "Fin",
+    "brew_time": "4min 0s",
+    "short_description": "Recette de French Press par Asser Christensen, alias The Coffee Chronicler. Cette recette vise à obtenir une infusion propre et savoureuse. Note : cette recette nécessite l'utilisation de filtres en papier. Asser recommande d'utiliser des filtres en forme de panier, le filtre doit couvrir entièrement le piston et s'étendre de 2-3 cm sur les côtés ou un peu plus. [Consultez le tutoriel détaillé](https://coffeechronicler.com/how-to-make-french-press-recipe/).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Pliez votre filtre en papier, placez-le dans la cafetière et rincez-le à l'eau chaude. Retirez le filtre et placez-le dans la tasse. Jetez l'eau. Moudre le café et le mettre dans la French Press. Placez sur la balance et remettez à zéro.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Ajoutez <final_water_amount>g d'eau, en versant de manière agressive.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Remuez 8 fois.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Pressez doucement le filtre en papier pour éliminer l'excès d'eau et enroulez-le autour du piston.",
+        "time": 60
+      },
+      {
+        "order": 5,
+        "description": "Remuez doucement la surface de l'infusion pour briser toute croûte.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Attendez.",
+        "time": 60
+      },
+      {
+        "order": 7,
+        "description": "Insérez soigneusement le piston avec le filtre en papier attaché. Pressez lentement.",
+        "time": 60
+      },
+      {
+        "order": 8,
+        "description": "Transvasez le café infusé dans une carafe pour le porter à la température idéale de dégustation.",
+        "time": 30
+      }
+  ]
 }
 ]

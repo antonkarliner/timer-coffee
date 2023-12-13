@@ -151,5 +151,61 @@
         "time": 180
       }
     ]
-  }  
+  },
+  {
+    "id": "404",
+    "name": "由咖啡编年史者Asser Christensen提供的超级品鉴师专用French Press",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 22,
+    "water_amount": 330,
+    "water_temp": 97,
+    "grind_size": "细",
+    "brew_time": "4min 0s",
+    "short_description": "由咖啡编年史者Asser Christensen提供的French Press配方。这个配方旨在制作出干净且美味的咖啡。注意：这个配方需要使用纸过滤器。Asser推荐使用篮形过滤器，过滤器应完全覆盖活塞并在两侧延伸2-3厘米或更多。[查看详细教程](https://coffeechronicler.com/how-to-make-french-press-recipe/)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "折叠你的纸过滤器，放入咖啡机中并用热水冲洗。取出过滤器并放入杯中。丢弃水分。研磨咖啡并放入French Press中。放在秤上并归零。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "加入<final_water_amount>克水，大力倒入。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "搅拌8次。",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "轻轻挤压纸过滤器以去除多余的水分，并将其包裹在活塞周围。",
+        "time": 60
+      },
+      {
+        "order": 5,
+        "description": "轻轻搅动酿造液的表面，以打破任何结块。",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "等待。",
+        "time": 60
+      },
+      {
+        "order": 7,
+        "description": "小心地将带有纸过滤器的活塞插入。缓慢下压。",
+        "time": 60
+      },
+      {
+        "order": 8,
+        "description": "将煮好的咖啡倒入玻璃瓶中，使其达到理想的饮用温度。",
+        "time": 30
+      }
+  ]
+}
   ]

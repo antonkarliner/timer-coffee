@@ -151,5 +151,61 @@
         "time": 180
       }
     ]
-  }  
+  },
+  {
+    "id": "404",
+    "name": "French Press für Supertaster von The Coffee Chronicler",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 22,
+    "water_amount": 330,
+    "water_temp": 97,
+    "grind_size": "Fein",
+    "brew_time": "4min 0s",
+    "short_description": "French-Press-Rezept von Asser Christensen, auch bekannt als The Coffee Chronicler. Dieses Rezept zielt auf einen sauberen und schmackhaften Brühvorgang ab. Hinweis: Dieses Rezept erfordert die Verwendung von Papierfiltern. Asser empfiehlt Korbfilter, der Filter sollte den Stempel vollständig abdecken und 2-3 cm oder etwas mehr an den Seiten überstehen. [Ausführliches Tutorial ansehen](https://coffeechronicler.com/how-to-make-french-press-recipe/).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Falten Sie Ihren Papierfilter, legen Sie ihn in die Kaffeemaschine und spülen Sie ihn mit heißem Wasser ab. Entfernen Sie den Filter und legen Sie ihn in die Tasse. Verwerfen Sie das Wasser. Mahlen Sie den Kaffee und geben Sie ihn in die French Press. Stellen Sie sie auf die Waage und setzen Sie sie auf null.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Fügen Sie <final_water_amount>g Wasser hinzu, gießen Sie kräftig.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Rühren Sie 8 Mal um.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Drücken Sie den Papierfilter sanft zusammen, um überschüssiges Wasser zu entfernen, und wickeln Sie ihn um den Stempel.",
+        "time": 60
+      },
+      {
+        "order": 5,
+        "description": "Rühren Sie vorsichtig die Oberfläche des Gebräus, um jegliche Kruste zu brechen.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Warten.",
+        "time": 60
+      },
+      {
+        "order": 7,
+        "description": "Setzen Sie den Stempel mit dem angebrachten Papierfilter vorsichtig ein. Drücken Sie langsam nach unten.",
+        "time": 60
+      },
+      {
+        "order": 8,
+        "description": "Dekantieren Sie den gebrühten Kaffee in eine Karaffe, um ihn auf die ideale Trinktemperatur zu bringen.",
+        "time": 30
+      }
+  ]
+}
 ]

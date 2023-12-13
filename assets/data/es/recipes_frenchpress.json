@@ -151,5 +151,61 @@
         "time": 180
       }
     ]
-  }
+  },
+  {
+    "id": "404",
+    "name": "French Press para Supercatadores por The Coffee Chronicler",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 22,
+    "water_amount": 330,
+    "water_temp": 97,
+    "grind_size": "Fino",
+    "brew_time": "4min 0s",
+    "short_description": "Receta de French Press por Asser Christensen, también conocido como The Coffee Chronicler. Esta receta busca una infusión limpia y sabrosa. Nota: esta receta requiere usar filtros de papel. Asser recomienda usar filtros en forma de cesta, el filtro debe cubrir completamente el émbolo y extenderse 2-3 cm por los lados o un poco más. [Consulta el tutorial detallado](https://coffeechronicler.com/how-to-make-french-press-recipe/).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Dobla tu filtro de papel, colócalo en la cafetera y enjuágalo con agua caliente. Retira el filtro y colócalo en la taza. Desecha el agua. Muele el café y ponlo en la French Press. Colócala en la balanza y ponla a cero.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Añade <final_water_amount>g de agua, vertiendo agresivamente.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Remueve 8 veces.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Exprime suavemente el filtro de papel para eliminar el exceso de agua y envuélvelo alrededor del émbolo.",
+        "time": 60
+      },
+      {
+        "order": 5,
+        "description": "Remueve suavemente la superficie de la infusión para romper cualquier costra.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Espera.",
+        "time": 60
+      },
+      {
+        "order": 7,
+        "description": "Inserta con cuidado el émbolo con el filtro de papel adjunto. Presiona lentamente.",
+        "time": 60
+      },
+      {
+        "order": 8,
+        "description": "Decanta el café preparado en una jarra para llevarlo a la temperatura ideal de consumo.",
+        "time": 30
+      }
+  ]
+}
 ]

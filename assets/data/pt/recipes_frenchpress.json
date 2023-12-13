@@ -151,5 +151,61 @@
         "time": 180
       }
     ]
-  }  
+  },
+  {
+    "id": "404",
+    "name": "French Press para Superdegustadores por The Coffee Chronicler",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 22,
+    "water_amount": 330,
+    "water_temp": 97,
+    "grind_size": "Fina",
+    "brew_time": "4min 0s",
+    "short_description": "Receita de French Press por Asser Christensen, conhecido como The Coffee Chronicler. Esta receita visa uma infusão limpa e saborosa. Nota: esta receita requer o uso de filtros de papel. Asser recomenda usar filtros em forma de cesta, o filtro deve cobrir completamente o êmbolo e se estender por 2-3 cm nas laterais ou um pouco mais. [Confira o tutorial detalhado](https://coffeechronicler.com/how-to-make-french-press-recipe/).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Dobre seu filtro de papel, coloque-o na cafeteira e enxágue com água quente. Retire o filtro e coloque-o na xícara. Descarte a água. Moa o café e coloque-o na French Press. Coloque na balança e zere.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Adicione <final_water_amount>g de água, despejando agressivamente.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Mexa 8 vezes.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Esprema suavemente o filtro de papel para se livrar do excesso de água e envolva-o ao redor do êmbolo.",
+        "time": 60
+      },
+      {
+        "order": 5,
+        "description": "Mexa suavemente a superfície da infusão para quebrar qualquer crosta.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Aguarde.",
+        "time": 60
+      },
+      {
+        "order": 7,
+        "description": "Insira cuidadosamente o êmbolo com o filtro de papel anexado. Pressione lentamente.",
+        "time": 60
+      },
+      {
+        "order": 8,
+        "description": "Decante o café preparado em uma jarra para levá-lo à temperatura ideal de consumo.",
+        "time": 30
+      }
+  ]
+}
 ]

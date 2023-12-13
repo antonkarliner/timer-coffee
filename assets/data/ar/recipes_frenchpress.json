@@ -151,5 +151,61 @@
       "time": 180
     }
   ]
-  }
+  },
+  {
+    "id": "404",
+    "name": "French Press للمتذوقين الخبراء بواسطة The Coffee Chronicler",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 22,
+    "water_amount": 330,
+    "water_temp": 97,
+    "grind_size": "ناعم",
+    "brew_time": "4min 0s",
+    "short_description": "وصفة French press من Asser Christensen المعروف بـ The Coffee Chronicler. هذه الوصفة تهدف لتحضير قهوة نظيفة ولذيذة. ملاحظة: هذه الوصفة تتطلب استخدام فلاتر ورقية. ينصح Asser باستخدام فلاتر على شكل سلة، يجب أن تغطي الفلتر كامل الضاغط وتمتد من 2-3 سم على الجوانب أو أكثر قليلاً. [تحقق من الدليل التفصيلي](https://coffeechronicler.com/how-to-make-french-press-recipe/)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "اطوِ فلتر الورق وضعه في الإبريق واشطفه بالماء الساخن. أزل الفلتر وضعه في الكوب. تخلص من الماء. طحن القهوة ووضعها في French Press. ضعه على الميزان وأعد ضبطه.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "أضف <final_water_amount>g من الماء، صب بقوة.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "حرك 8 مرات.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "اضغط برفق على فلتر الورق للتخلص من الماء الزائد، ولفه حول الضاغط.",
+        "time": 60
+      },
+      {
+        "order": 5,
+        "description": "حرك سطح المشروب برفق لكسر أي قشرة.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "انتظر.",
+        "time": 60
+      },
+      {
+        "order": 7,
+        "description": "أدخل الضاغط برفق مع الفلتر الورقي المرفق. اضغط ببطء.",
+        "time": 60
+      },
+      {
+        "order": 8,
+        "description": "صب القهوة المحضرة في إبريق لتصل إلى درجة الحرارة المثالية للشرب.",
+        "time": 30
+      }
+  ]
+}
   ]

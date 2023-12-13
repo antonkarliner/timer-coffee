@@ -151,5 +151,61 @@
         "time": 180
       }
     ]
-  }  
+  },
+  {
+    "id": "404",
+    "name": "French Press dla wytrawnych smakoszy od The Coffee Chronicler",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 22,
+    "water_amount": 330,
+    "water_temp": 97,
+    "grind_size": "Drobno",
+    "brew_time": "4min 0s",
+    "short_description": "Przepis na French Press od Assera Christensena, znanego jako The Coffee Chronicler. Ten przepis ma na celu uzyskanie czystego i smacznego naparu. Uwaga: ten przepis wymaga użycia filtrów papierowych. Asser poleca używać filtrów w kształcie koszyka, filtr powinien całkowicie pokrywać tłok i wystawać o 2-3 cm po bokach lub trochę więcej. [Sprawdź szczegółowy poradnik](https://coffeechronicler.com/how-to-make-french-press-recipe/).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Złóż swój papierowy filtr, umieść go w zaparzaczu i opłucz gorącą wodą. Wyjmij filtr i umieść go w filiżance. Wylej wodę. Zmiel kawę i wsyp do French Press. Umieść na wadze i wyzeruj.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Dodaj <final_water_amount>g wody, wlewając energicznie.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Mieszaj 8 razy.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Delikatnie wyciśnij papierowy filtr, aby pozbyć się nadmiaru wody, i owiń go wokół tłoka.",
+        "time": 60
+      },
+      {
+        "order": 5,
+        "description": "Delikatnie mieszaj powierzchnię naparu, aby złamać ewentualną skorupę.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Czekaj.",
+        "time": 60
+      },
+      {
+        "order": 7,
+        "description": "Ostrożnie włóż tłok z przyczepionym filtrem papierowym. Naciskaj powoli.",
+        "time": 60
+      },
+      {
+        "order": 8,
+        "description": "Dekantuj zaparzoną kawę do dzbanka, aby osiągnąć idealną temperaturę do picia.",
+        "time": 30
+      }
+  ]
+}
 ]
