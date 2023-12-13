@@ -47,10 +47,6 @@ class AppRouter extends $AppRouter {
           path: '/tips',
         ),
         AutoRoute(
-          page: DonationRoute.page,
-          path: '/donate',
-        ),
-        AutoRoute(
           page: OnboardingRoute.page,
           path: '/firstlaunch',
         ),

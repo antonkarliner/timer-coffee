@@ -142,15 +142,6 @@ class _FinishScreenState extends State<FinishScreen> {
                 icon: const Icon(Icons.local_cafe),
                 label: Text(AppLocalizations.of(context)!.support),
               ),
-            if (!kIsWeb && Platform.isIOS) // New condition specifically for iOS
-              ElevatedButton.icon(
-                onPressed: () {
-                  context.router
-                      .push(const DonationRoute()); // Your routing logic
-                },
-                icon: const Icon(Icons.local_cafe),
-                label: Text(AppLocalizations.of(context)!.support),
-              ),
           ],
         ),
       ),

@@ -277,9 +277,9 @@ class RecipeDetailTKRouteArgs {
 /// [_i8.RecipeListScreen]
 class RecipeListRoute extends _i10.PageRouteInfo<RecipeListRouteArgs> {
   RecipeListRoute({
-    _i11.Key? key,
+    _i10.Key? key,
     String? brewingMethodId,
-    List<_i10.PageRouteInfo>? children,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
           RecipeListRoute.name,
           args: RecipeListRouteArgs(
