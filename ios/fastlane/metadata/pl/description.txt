@@ -1,17 +1,19 @@
-Uwaga: aplikacja jest BEZPŁATNA, dobrowolne datki w aplikacji są całkowicie opcjonalne i nie wpływają w żaden sposób na funkcjonalność.
+Timer.coffee jest DARMOWY. Dobrowolne datki w aplikacji są całkowicie opcjonalne i nie wpływają w żaden sposób na funkcjonalność.
 
-Timer.Coffee to darmowa i open-source'owa aplikacja do odmierzania czasu parzenia i kalkulatora kawy, zaprojektowana, aby pomóc w Twoich kawowych przygodach. Aplikacja obecnie oferuje wsparcie dla różnych technik parzenia, w tym: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over i Origami Dripper. Aplikacja zawiera ponad 30 przepisów i ciągle powstają nowe.
+Timer.Coffee to darmowa i otwarta aplikacja do odmierzania czasu parzenia i kalkulator kawy, zaprojektowana, aby pomóc w Twoich przygodach z parzeniem kawy. Aplikacja obecnie oferuje wsparcie dla różnych technik parzenia, w tym: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over oraz Origami Dripper. Aplikacja zawiera ponad 30 przepisów, a kolejne są w drodze.
 
-Obecne funkcje to:
+Z Timer.Coffee możesz:
 
-Użyj kalkulatora kawy, aby dostosować ilość kawy lub wody w przepisach, pozwalając parzyć tyle kawy, ile chcesz.
-Oznacz swoje ulubione przepisy na kawę jako faworyty, dla łatwego dostępu.
-Natychmiastowo wróć do ostatnio używanego przepisu.
-Udostępnij swoje ulubione przepisy znajomym.
-Włącz dźwięk sygnału, aby informować Cię o następnym kroku parzenia.
+- Korzystać z kalkulatora kawy, aby dostosować ilość kawy lub wody w przepisach, pozwalając Ci zaparzyć tyle kawy, ile chcesz.
+- Oznaczać ulubione przepisy na kawę jako ulubione dla łatwego dostępu.
+- Natychmiast wrócić do ostatnio używanego przepisu.
+- Dzielić się ulubionymi przepisami z przyjaciółmi.
+- Włączyć dźwiękowy sygnał informujący o kolejnym kroku parzenia.
 
-Oto co planujemy w przyszłych aktualizacjach:
+Aplikacja obsługuje 10 języków i tryb ciemny.
 
-Włączenie metody parzenia Tetsu Kasuya 4:6 dla Hario V60.
-Rozszerzenie naszej kolekcji przepisów na kawę.
-Ulepszenia w designie.
+Oto, co szykujemy na przyszłe aktualizacje:
+
+- Włączenie metody parzenia Tetsu Kasuya 4:6 dla Hario V60.
+- Rozszerzenie naszej kolekcji przepisów na kawę.
+- Ulepszenia w designie.
