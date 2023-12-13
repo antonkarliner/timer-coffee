@@ -18,6 +18,8 @@ import './models/recipe.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import './visual/color_shemes.dart';
+import './providers/snow_provider.dart';
+import 'widgets/global_snow_overlay.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -81,10 +83,14 @@ class CoffeeTimerApp extends StatelessWidget {
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(themeMode), // Initialize with ThemeMode
         ),
+        ChangeNotifierProvider<SnowEffectProvider>(
+          // Add SnowEffectProvider
+          create: (_) => SnowEffectProvider(),
+        ),
         Provider<List<BrewingMethod>>(create: (_) => brewingMethods),
       ],
-      child: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, child) {
+      child: Consumer2<ThemeProvider, SnowEffectProvider>(
+        builder: (context, themeProvider, snowProvider, child) {
           return MaterialApp.router(
             locale: Provider.of<RecipeProvider>(context)
                 .currentLocale, // Use the locale from RecipeProvider
@@ -110,9 +116,14 @@ class CoffeeTimerApp extends StatelessWidget {
               initialDeepLink: initialRoute,
             ),
             routeInformationParser: appRouter.defaultRouteParser(),
-            builder: (_, router) => QuickActionsManager(
-              child: router!,
-              appRouter: appRouter,
+            builder: (context, router) => Stack(
+              children: [
+                QuickActionsManager(
+                  child: router!,
+                  appRouter: appRouter,
+                ),
+                GlobalSnowOverlay(isSnowing: snowProvider.isSnowing),
+              ],
             ),
             debugShowCheckedModeBanner: false,
             title: 'Coffee Timer App',

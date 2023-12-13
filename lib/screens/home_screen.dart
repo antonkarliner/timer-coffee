@@ -6,14 +6,13 @@ import 'package:provider/provider.dart';
 import '../models/brewing_method.dart';
 import '../providers/recipe_provider.dart';
 import '../models/recipe.dart';
-import 'about_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import "package:universal_html/html.dart" as html;
 import '../utils/icon_utils.dart';
 import '../purchase_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../providers/snow_provider.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -68,59 +67,85 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
     final brewingMethods = Provider.of<List<BrewingMethod>>(context);
+    final snowEffectProvider =
+        Provider.of<SnowEffectProvider>(context); // Access SnowEffectProvider
 
     return Scaffold(
       appBar: buildPlatformSpecificAppBar(),
-      body: FutureBuilder<Recipe?>(
-        future: recipeProvider.getLastUsedRecipe(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: Stack(
+        children: [
+          FutureBuilder<Recipe?>(
+            future: recipeProvider.getLastUsedRecipe(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-          Recipe? mostRecentRecipe = snapshot.data;
+              Recipe? mostRecentRecipe = snapshot.data;
 
-          return Column(
-            children: [
-              if (mostRecentRecipe != null)
-                ListTile(
-                  leading:
-                      getIconByBrewingMethod(mostRecentRecipe.brewingMethodId),
-                  title: Text(
-                      '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
-                  onTap: () {
-                    context.router.push(RecipeDetailRoute(
-                        brewingMethodId: mostRecentRecipe.brewingMethodId,
-                        recipeId: mostRecentRecipe.id));
-                  },
-                ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: brewingMethods.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      leading: getIconByBrewingMethod(brewingMethods[index].id),
-                      title: Text(brewingMethods[index].name),
+              return Column(
+                children: [
+                  if (mostRecentRecipe != null)
+                    ListTile(
+                      leading: getIconByBrewingMethod(
+                          mostRecentRecipe.brewingMethodId),
+                      title: Text(
+                          '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
                       onTap: () {
-                        context.router.push(RecipeListRoute(
-                            brewingMethodId: brewingMethods[index].id));
+                        context.router.push(RecipeDetailRoute(
+                            brewingMethodId: mostRecentRecipe.brewingMethodId,
+                            recipeId: mostRecentRecipe.id));
                       },
-                    );
-                  },
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton.small(
-        onPressed: () {
-          // Navigate to the SettingsScreen using auto_route
-          context.router.push(const SettingsRoute());
-        },
-        tooltip: 'Settings',
-        child: const Icon(Icons.settings), // Using a settings icon
+                    ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: brewingMethods.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          leading:
+                              getIconByBrewingMethod(brewingMethods[index].id),
+                          title: Text(brewingMethods[index].name),
+                          onTap: () {
+                            context.router.push(RecipeListRoute(
+                                brewingMethodId: brewingMethods[index].id));
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+          // Positioned Snow Toggle Button
+          Positioned(
+            left: 20,
+            bottom: 20,
+            child: FloatingActionButton.small(
+                heroTag: 'snowToggle',
+                onPressed: () =>
+                    snowEffectProvider.toggleSnowEffect(), // Toggle snow effect
+                tooltip: 'Toggle Snow',
+                backgroundColor: Colors.lightBlue[100]!,
+                foregroundColor: const Color(0xFFFFFFFF),
+                child: Icon(
+                  snowEffectProvider.isSnowing ? Icons.cloud : Icons.ac_unit,
+                )),
+          ),
+          // Positioned Settings Button
+          Positioned(
+            right: 20,
+            bottom: 20,
+            child: FloatingActionButton.small(
+              heroTag: 'settingsButton',
+              onPressed: () {
+                context.router.push(const SettingsRoute());
+              },
+              tooltip: 'Settings',
+              child: const Icon(Icons.settings),
+            ),
+          ),
+        ],
       ),
     );
   }
