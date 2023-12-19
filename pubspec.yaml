@@ -29,7 +29,6 @@ dependencies:
   quick_actions: ^1.0.5
   introduction_screen: ^3.1.11
   coffeico: ^0.0.1
-  in_app_purchase: ^3.1.11
   flutter_localizations:
     sdk: flutter
 

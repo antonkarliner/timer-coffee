@@ -2,7 +2,6 @@ import 'package:coffee_timer/widgets/launch_popup.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
 import '../models/brewing_method.dart';
 import '../providers/recipe_provider.dart';
@@ -11,7 +10,6 @@ import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import "package:universal_html/html.dart" as html;
 import '../utils/icon_utils.dart';
-import '../purchase_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 //import '../providers/snow_provider.dart';
 
@@ -30,54 +28,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     if (kIsWeb) {
       html.document.title = 'Timer.Coffee App';
-    }
-
-    // Set up PurchaseManager callbacks
-    PurchaseManager().setDeliverProductCallback(_showThankYouPopup);
-    PurchaseManager().setPurchaseErrorCallback(_showErrorDialog);
-  }
-
-  void _showThankYouPopup(PurchaseDetails details) {
-    if (mounted) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(AppLocalizations.of(context)!.donationok),
-            content: Text(AppLocalizations.of(context)!.donationtnx),
-            actions: [
-              TextButton(
-                child: const Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
-
-  void _showErrorDialog(IAPError error) {
-    if (mounted) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(AppLocalizations.of(context)!.donationerr),
-            content: Text(AppLocalizations.of(context)!.donationerrmsg),
-            actions: [
-              TextButton(
-                child: const Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
     }
   }
 

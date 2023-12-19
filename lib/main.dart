@@ -9,7 +9,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:in_app_purchase/in_app_purchase.dart'; // Import for In-App Purchase
 import './models/brewing_method.dart';
 import './providers/recipe_provider.dart';
 import './providers/theme_provider.dart'; // Import ThemeProvider
@@ -29,12 +28,6 @@ void main() async {
     SystemUiMode.manual,
     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
   );
-
-  // Initialize PurchaseManager
-  PurchaseManager();
-
-  // Restore previous purchases
-  InAppPurchase.instance.restorePurchases();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
@@ -203,47 +196,6 @@ class _QuickActionsManagerState extends State<QuickActionsManager> {
         }
       }
     });
-  }
-
-  // Deliver Product
-  void _deliverProduct(PurchaseDetails purchaseDetails) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.donationok),
-          content: Text(AppLocalizations.of(context)!.donationtnx),
-          actions: [
-            TextButton(
-              child: const Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _handleError(IAPError error) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.donationerr),
-          content: Text(AppLocalizations.of(context)!.donationerrmsg),
-          actions: [
-            TextButton(
-              child: const Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
