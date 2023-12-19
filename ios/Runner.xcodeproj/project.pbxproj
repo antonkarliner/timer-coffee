@@ -13,11 +13,24 @@
 		8B375E612AD4498C00347BBA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B375E602AD4498C00347BBA /* StoreKit.framework */; };
 		8B74FB2D2AF002AA00701B6B /* Timer.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 8B74FB2C2AF002AA00701B6B /* Timer.storekit */; };
 		8B9C76F12AE7320600E54A4B /* donationtest.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 8B9C76F02AE7320600E54A4B /* donationtest.storekit */; };
+		8BBB2BC72B30D9A5007860F6 /* Timer_CoffeeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBB2BC62B30D9A5007860F6 /* Timer_CoffeeUITests.swift */; };
+		8BBB2BC92B30D9A5007860F6 /* Timer_CoffeeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBB2BC82B30D9A5007860F6 /* Timer_CoffeeUITestsLaunchTests.swift */; };
+		8BBB2BD12B30DAAD007860F6 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBB2BD02B30DAAD007860F6 /* SnapshotHelper.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		C5EE1C5067E3ADBBAC80262A /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1271F5F1323DC86B3E58DFC2 /* Pods_Runner.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8BBB2BCA2B30D9A5007860F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 97C146ED1CF9000F007C117D;
+			remoteInfo = Runner;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
@@ -65,6 +78,10 @@
 		8B589E342A6971880079991C /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		8B74FB2C2AF002AA00701B6B /* Timer.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Timer.storekit; sourceTree = "<group>"; };
 		8B9C76F02AE7320600E54A4B /* donationtest.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = donationtest.storekit; sourceTree = "<group>"; };
+		8BBB2BC42B30D9A5007860F6 /* Timer.CoffeeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Timer.CoffeeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BBB2BC62B30D9A5007860F6 /* Timer_CoffeeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer_CoffeeUITests.swift; sourceTree = "<group>"; };
+		8BBB2BC82B30D9A5007860F6 /* Timer_CoffeeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer_CoffeeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8BBB2BD02B30DAAD007860F6 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +92,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8BBB2BC12B30D9A5007860F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97C146EB1CF9000F007C117D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -97,6 +121,16 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		8BBB2BC52B30D9A5007860F6 /* Timer.CoffeeUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8BBB2BD02B30DAAD007860F6 /* SnapshotHelper.swift */,
+				8BBB2BC62B30D9A5007860F6 /* Timer_CoffeeUITests.swift */,
+				8BBB2BC82B30D9A5007860F6 /* Timer_CoffeeUITestsLaunchTests.swift */,
+			);
+			path = Timer.CoffeeUITests;
+			sourceTree = "<group>";
+		};
 		9740EEB11CF90186004384FC /* Flutter */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +147,7 @@
 			children = (
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
+				8BBB2BC52B30D9A5007860F6 /* Timer.CoffeeUITests */,
 				97C146EF1CF9000F007C117D /* Products */,
 				67104B78FA59373BA08278D8 /* Pods */,
 				D0C1EDA75D6A32C30DDA3906 /* Frameworks */,
@@ -123,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				97C146EE1CF9000F007C117D /* Runner.app */,
+				8BBB2BC42B30D9A5007860F6 /* Timer.CoffeeUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -157,6 +193,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8BBB2BC32B30D9A5007860F6 /* Timer.CoffeeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8BBB2BCF2B30D9A5007860F6 /* Build configuration list for PBXNativeTarget "Timer.CoffeeUITests" */;
+			buildPhases = (
+				8BBB2BC02B30D9A5007860F6 /* Sources */,
+				8BBB2BC12B30D9A5007860F6 /* Frameworks */,
+				8BBB2BC22B30D9A5007860F6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8BBB2BCB2B30D9A5007860F6 /* PBXTargetDependency */,
+			);
+			name = Timer.CoffeeUITests;
+			productName = Timer.CoffeeUITests;
+			productReference = 8BBB2BC42B30D9A5007860F6 /* Timer.CoffeeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		97C146ED1CF9000F007C117D /* Runner */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
@@ -185,9 +239,14 @@
 		97C146E61CF9000F007C117D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1510;
 				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
+					8BBB2BC32B30D9A5007860F6 = {
+						CreatedOnToolsVersion = 15.1;
+						TestTargetID = 97C146ED1CF9000F007C117D;
+					};
 					97C146ED1CF9000F007C117D = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 1100;
@@ -217,11 +276,19 @@
 			projectRoot = "";
 			targets = (
 				97C146ED1CF9000F007C117D /* Runner */,
+				8BBB2BC32B30D9A5007860F6 /* Timer.CoffeeUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8BBB2BC22B30D9A5007860F6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97C146EC1CF9000F007C117D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -311,6 +378,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8BBB2BC02B30D9A5007860F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BBB2BC92B30D9A5007860F6 /* Timer_CoffeeUITestsLaunchTests.swift in Sources */,
+				8BBB2BC72B30D9A5007860F6 /* Timer_CoffeeUITests.swift in Sources */,
+				8BBB2BD12B30DAAD007860F6 /* SnapshotHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97C146EA1CF9000F007C117D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -321,6 +398,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8BBB2BCB2B30D9A5007860F6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 97C146ED1CF9000F007C117D /* Runner */;
+			targetProxy = 8BBB2BCA2B30D9A5007860F6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
@@ -437,6 +522,93 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Profile;
+		};
+		8BBB2BCC2B30D9A5007860F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M9YGUG9LDA;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "timer.coffee.Timer-CoffeeUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Runner;
+			};
+			name = Debug;
+		};
+		8BBB2BCD2B30D9A5007860F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M9YGUG9LDA;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "timer.coffee.Timer-CoffeeUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Runner;
+			};
+			name = Release;
+		};
+		8BBB2BCE2B30D9A5007860F6 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M9YGUG9LDA;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "timer.coffee.Timer-CoffeeUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Runner;
 			};
 			name = Profile;
 		};
@@ -611,6 +783,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8BBB2BCF2B30D9A5007860F6 /* Build configuration list for PBXNativeTarget "Timer.CoffeeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BBB2BCC2B30D9A5007860F6 /* Debug */,
+				8BBB2BCD2B30D9A5007860F6 /* Release */,
+				8BBB2BCE2B30D9A5007860F6 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		97C146E91CF9000F007C117D /* Build configuration list for PBXProject "Runner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
