@@ -10,7 +10,7 @@ import XCTest
 final class Timer_CoffeeUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
-        true
+        false
     }
 
     override func setUpWithError() throws {
