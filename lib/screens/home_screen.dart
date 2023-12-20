@@ -31,35 +31,61 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       html.document.title = 'Timer.Coffee App';
     }
 
-    PurchaseManager().initialize();
-    PurchaseManager().deliverProductCallback = (details) {
-      _showThankYouPopup(details);
-    };
+    // Set up PurchaseManager callbacks
+    PurchaseManager().setDeliverProductCallback(_showThankYouPopup);
+    PurchaseManager().setPurchaseErrorCallback(_showErrorDialog);
   }
 
   void _showThankYouPopup(PurchaseDetails details) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.donationok),
-          content: Text(AppLocalizations.of(context)!.donationtnx),
-          actions: [
-            TextButton(
-              child: const Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+    if (mounted) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(AppLocalizations.of(context)!.donationok),
+            content: Text(AppLocalizations.of(context)!.donationtnx),
+            actions: [
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  void _showErrorDialog(IAPError error) {
+    if (mounted) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(AppLocalizations.of(context)!.donationerr),
+            content: Text(AppLocalizations.of(context)!.donationerrmsg),
+            actions: [
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    // It's important to dispose the callbacks when the widget is disposed
+    PurchaseManager().setDeliverProductCallback(null);
+    PurchaseManager().setPurchaseErrorCallback(null);
     super.dispose();
   }
 
@@ -67,85 +93,92 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
     final brewingMethods = Provider.of<List<BrewingMethod>>(context);
-    final snowEffectProvider =
-        Provider.of<SnowEffectProvider>(context); // Access SnowEffectProvider
+    final snowEffectProvider = Provider.of<SnowEffectProvider>(context);
 
     return Scaffold(
       appBar: buildPlatformSpecificAppBar(),
       body: Stack(
         children: [
-          FutureBuilder<Recipe?>(
-            future: recipeProvider.getLastUsedRecipe(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              Recipe? mostRecentRecipe = snapshot.data;
-
-              return Column(
-                children: [
-                  if (mostRecentRecipe != null)
-                    ListTile(
-                      leading: getIconByBrewingMethod(
-                          mostRecentRecipe.brewingMethodId),
-                      title: Text(
-                          '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
-                      onTap: () {
-                        context.router.push(RecipeDetailRoute(
-                            brewingMethodId: mostRecentRecipe.brewingMethodId,
-                            recipeId: mostRecentRecipe.id));
-                      },
-                    ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: brewingMethods.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          leading:
-                              getIconByBrewingMethod(brewingMethods[index].id),
-                          title: Text(brewingMethods[index].name),
-                          onTap: () {
-                            context.router.push(RecipeListRoute(
-                                brewingMethodId: brewingMethods[index].id));
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-          // Positioned Snow Toggle Button
-          Positioned(
-            left: 20,
-            bottom: 20,
-            child: FloatingActionButton.small(
-                heroTag: 'snowToggle',
-                onPressed: () =>
-                    snowEffectProvider.toggleSnowEffect(), // Toggle snow effect
-                tooltip: 'Toggle Snow',
-                backgroundColor: Colors.lightBlue[100]!,
-                foregroundColor: const Color(0xFFFFFFFF),
-                child: Icon(
-                  snowEffectProvider.isSnowing ? Icons.cloud : Icons.ac_unit,
-                )),
-          ),
-          // Positioned Settings Button
-          Positioned(
-            right: 20,
-            bottom: 20,
-            child: FloatingActionButton.small(
-              heroTag: 'settingsButton',
-              onPressed: () {
-                context.router.push(const SettingsRoute());
-              },
-              tooltip: 'Settings',
-              child: const Icon(Icons.settings),
-            ),
-          ),
+          buildRecipeList(recipeProvider, brewingMethods),
+          buildSnowToggleButton(snowEffectProvider),
+          buildSettingsButton(),
         ],
+      ),
+    );
+  }
+
+  Widget buildRecipeList(
+      RecipeProvider recipeProvider, List<BrewingMethod> brewingMethods) {
+    return FutureBuilder<Recipe?>(
+      future: recipeProvider.getLastUsedRecipe(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        Recipe? mostRecentRecipe = snapshot.data;
+
+        return Column(
+          children: [
+            if (mostRecentRecipe != null)
+              ListTile(
+                leading:
+                    getIconByBrewingMethod(mostRecentRecipe.brewingMethodId),
+                title: Text(
+                    '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
+                onTap: () {
+                  context.router.push(RecipeDetailRoute(
+                      brewingMethodId: mostRecentRecipe.brewingMethodId,
+                      recipeId: mostRecentRecipe.id));
+                },
+              ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: brewingMethods.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    leading: getIconByBrewingMethod(brewingMethods[index].id),
+                    title: Text(brewingMethods[index].name),
+                    onTap: () {
+                      context.router.push(RecipeListRoute(
+                          brewingMethodId: brewingMethods[index].id));
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget buildSnowToggleButton(SnowEffectProvider snowEffectProvider) {
+    return Positioned(
+      left: 20,
+      bottom: 20,
+      child: FloatingActionButton.small(
+        heroTag: 'snowToggle',
+        onPressed: snowEffectProvider.toggleSnowEffect,
+        tooltip: 'Toggle Snow',
+        backgroundColor: Colors.lightBlue[100]!,
+        foregroundColor: const Color(0xFFFFFFFF),
+        child: Icon(snowEffectProvider.isSnowing ? Icons.cloud : Icons.ac_unit),
+      ),
+    );
+  }
+
+  Widget buildSettingsButton() {
+    return Positioned(
+      right: 20,
+      bottom: 20,
+      child: FloatingActionButton.small(
+        heroTag: 'settingsButton',
+        onPressed: () {
+          context.router.push(const SettingsRoute());
+        },
+        tooltip: 'Settings',
+        child: const Icon(Icons.settings),
       ),
     );
   }

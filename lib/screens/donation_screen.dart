@@ -19,18 +19,14 @@ class _DonationScreenState extends State<DonationScreen> {
     'tip_small_coffee'
   };
   late List<ProductDetails> _products;
+  final PurchaseManager _purchaseManager = PurchaseManager();
 
   @override
   void initState() {
     super.initState();
     _loadProducts();
-    PurchaseManager().initialize(); // Initialize global subscription here
-  }
-
-  @override
-  void dispose() {
-    PurchaseManager().dispose(); // Dispose of the global subscription here
-    super.dispose();
+    _purchaseManager.setDeliverProductCallback(_deliverProduct);
+    _purchaseManager.setPurchaseErrorCallback(_handleError);
   }
 
   Future<void> _loadProducts() async {
@@ -38,7 +34,6 @@ class _DonationScreenState extends State<DonationScreen> {
         await InAppPurchase.instance.queryProductDetails(_kIds);
     setState(() {
       _products = response.productDetails;
-      // Sort the products based on the predefined order of _kIds
       _products.sort((a, b) =>
           _kIds.toList().indexOf(a.id).compareTo(_kIds.toList().indexOf(b.id)));
     });
@@ -50,57 +45,46 @@ class _DonationScreenState extends State<DonationScreen> {
     InAppPurchase.instance.buyConsumable(purchaseParam: purchaseParam);
   }
 
-  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
-    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
-      if (purchaseDetails.status == PurchaseStatus.error) {
-        _handleError(purchaseDetails.error!);
-      } else if (purchaseDetails.status == PurchaseStatus.purchased) {
-        _deliverProduct(purchaseDetails);
-      }
-      if (purchaseDetails.pendingCompletePurchase) {
-        await InAppPurchase.instance.completePurchase(purchaseDetails);
-      }
-    });
+  void _deliverProduct(PurchaseDetails purchaseDetails) {
+    if (mounted) {
+      Future.microtask(() => showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(AppLocalizations.of(context)!.donationok),
+                content: Text(AppLocalizations.of(context)!.donationtnx),
+                actions: [
+                  TextButton(
+                    child: const Text("OK"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          ));
+    } else {}
   }
 
   void _handleError(IAPError error) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.donationerr),
-          content: Text(AppLocalizations.of(context)!.donationerrmsg),
-          actions: [
-            TextButton(
-              child: const Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _deliverProduct(PurchaseDetails purchaseDetails) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.donationok),
-          content: Text(AppLocalizations.of(context)!.donationtnx),
-          actions: [
-            TextButton(
-              child: const Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+    Future.microtask(() => showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(AppLocalizations.of(context)!.donationerr),
+              content: Text(AppLocalizations.of(context)!.donationerrmsg),
+              actions: [
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        ));
   }
 
   Map<String, String> getProductTitles(BuildContext context) {
@@ -109,6 +93,16 @@ class _DonationScreenState extends State<DonationScreen> {
       'tip_medium_coffee': AppLocalizations.of(context)!.tipmedium,
       'tip_large_coffee': AppLocalizations.of(context)!.tiplarge,
     };
+  }
+
+  @override
+  void dispose() {
+    // It's important to dispose the callbacks when the widget is disposed
+    PurchaseManager().setDeliverProductCallback(null);
+    PurchaseManager().setPurchaseErrorCallback(null);
+
+    // Call dispose on super class
+    super.dispose();
   }
 
   @override
@@ -132,49 +126,52 @@ class _DonationScreenState extends State<DonationScreen> {
             Text(AppLocalizations.of(context)!.supportdevmsg),
             const SizedBox(height: 32),
             ..._products.map((product) {
-              Widget button = ElevatedButton(
-                onPressed: () => _makePurchase(product),
-                child: Text(productTitles[product.id] ?? 'Unknown Product'),
-              );
-
-              // Add badge for the medium tip
-              if (product.id == 'tip_medium_coffee') {
-                button = Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    button,
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: const BoxDecoration(
-                          color: Colors.brown,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(Icons.star,
-                            size: 10, color: Colors.white),
-                      ),
-                    ),
-                  ],
-                );
-              }
-
               return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0), child: button);
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: _buildProductButton(product, productTitles),
+              );
             }),
             const SizedBox(height: 16),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  context.router.push(const HomeRoute());
-                },
-                child: Text(AppLocalizations.of(context)!.home),
-              ),
+            ElevatedButton(
+              onPressed: () {
+                context.router.push(const HomeRoute());
+              },
+              child: Text(AppLocalizations.of(context)!.home),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildProductButton(
+      ProductDetails product, Map<String, String> productTitles) {
+    Widget button = ElevatedButton(
+      onPressed: () => _makePurchase(product),
+      child: Text(productTitles[product.id] ?? 'Unknown Product'),
+    );
+
+    if (product.id == 'tip_medium_coffee') {
+      button = Stack(
+        alignment: Alignment.center,
+        children: [
+          button,
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(4),
+              decoration: const BoxDecoration(
+                color: Colors.brown,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.star, size: 10, color: Colors.white),
+            ),
+          ),
+        ],
+      );
+    }
+
+    return button;
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async'; // Import for StreamSubscription
 import 'dart:convert';
+import 'package:coffee_timer/purchase_manager.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -25,7 +26,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.remove();
 
-  // Initialize In-App Purchase
+  // Initialize PurchaseManager
+  PurchaseManager();
+
+  // Restore previous purchases
   InAppPurchase.instance.restorePurchases();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -160,26 +164,10 @@ class QuickActionsManager extends StatefulWidget {
 
 class _QuickActionsManagerState extends State<QuickActionsManager> {
   QuickActions quickActions = const QuickActions();
-  StreamSubscription<List<PurchaseDetails>>? _subscription; // In-App Purchase
 
   @override
   void initState() {
     super.initState();
-
-    // Initialize In-App Purchase
-    _subscription = InAppPurchase.instance.purchaseStream.listen((purchases) {
-      for (var purchase in purchases) {
-        final PurchaseDetails purchaseDetails = purchase;
-        if (purchaseDetails.status == PurchaseStatus.purchased) {
-          _deliverProduct(purchaseDetails);
-        } else if (purchaseDetails.status == PurchaseStatus.error) {
-          _handleError(purchaseDetails.error!);
-        }
-        if (purchaseDetails.pendingCompletePurchase) {
-          InAppPurchase.instance.completePurchase(purchaseDetails);
-        }
-      }
-    });
 
     // Setup Quick Actions after build
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -253,7 +241,6 @@ class _QuickActionsManagerState extends State<QuickActionsManager> {
 
   @override
   void dispose() {
-    _subscription?.cancel();
     super.dispose();
   }
 
