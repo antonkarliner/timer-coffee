@@ -3,6 +3,7 @@
 # A list of devices you want to take the screenshots from
 devices([
    "iPhone 15 Pro Max"
+   "iPhone 15 Pro Max"
 #   "iPhone 8",
 #   "iPhone 8 Plus",
 #   "iPhone SE",
@@ -38,6 +39,5 @@ languages([
 # For more information about all available options run
 # fastlane action snapshot
 
+headless(false)
 localize_simulator(true)
-clear_previous_screenshots(true)
-number_of_retries("0")
