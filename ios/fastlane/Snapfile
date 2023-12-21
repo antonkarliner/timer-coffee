@@ -3,7 +3,6 @@
 # A list of devices you want to take the screenshots from
 devices([
    "iPhone 15 Pro Max"
-   "iPhone 15 Pro Max"
 #   "iPhone 8",
 #   "iPhone 8 Plus",
 #   "iPhone SE",
