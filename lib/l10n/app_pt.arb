@@ -53,6 +53,12 @@
     "settingsthemelight": "Claro",
     "settingsthemedark": "Escuro",
     "settingsthemesystem": "Sistema",
-    "settingslang": "Idioma"
+    "settingslang": "Idioma",
+    "sweet": "Doce",
+    "balance": "Equilíbrio",
+    "acidic": "Ácido",
+    "light": "Leve",
+    "strong": "Forte",
+    "slidertitle": "Use os controles deslizantes para ajustar o sabor"
   }
   

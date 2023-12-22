@@ -1,7 +1,7 @@
 class BrewStep {
   final int order;
   final String description;
-  final Duration time;
+  Duration time;
 
   BrewStep({
     required this.order,
@@ -14,11 +14,12 @@ class BrewStep {
     Duration timeDuration;
 
     if (timeData is String && timeData.contains('<')) {
-      // Placeholder case - initially set as zero Duration
+      // Since it's a placeholder, let's initially set it as zero Duration
+      // but ideally, this should be processed later to replace with actual values
       timeDuration = Duration.zero;
     } else {
-      // Numerical value case
-      timeDuration = Duration(seconds: int.tryParse(timeData.toString()) ?? 0);
+      int seconds = int.tryParse(timeData.toString()) ?? 0;
+      timeDuration = Duration(seconds: seconds);
     }
 
     return BrewStep(
@@ -29,7 +30,6 @@ class BrewStep {
   }
 
   Map<String, dynamic> toJson() {
-    // Convert time to appropriate format for JSON
     return {
       'order': order,
       'description': description,

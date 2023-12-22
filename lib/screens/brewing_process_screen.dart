@@ -120,24 +120,22 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
     return replacedText;
   }
 
-  String replaceTimePlaceholder(
-    String time, // This can be a numerical value or a placeholder
+  Duration replaceTimePlaceholder(
+    Duration time,
     int sweetnessSliderPosition,
     int strengthSliderPosition,
   ) {
-    // Check if time is a direct numerical value
-    if (RegExp(r'^\d+$').hasMatch(time)) {
-      // Regex to check if the string is a number
-      return time; // Return the numerical value as a string
-    }
-    // Define the values based on slider positions for sweetness
+    // First, check if time is a placeholder that needs replacement
+    String timeString = time.inSeconds
+        .toString(); // Convert Duration to string representation of seconds for matching
+
+    // Define the values based on slider positions for sweetness and strength
     List<Map<String, double>> sweetnessValues = [
       {"m1": 0.16, "m2": 0.24}, // Sweetness
       {"m1": 0.20, "m2": 0.20}, // Balance
       {"m1": 0.24, "m2": 0.16}, // Acidity
     ];
 
-    // Define the values based on slider positions for strength
     List<Map<String, double>> strengthValues = [
       {
         "m3": 0.6,
@@ -174,19 +172,34 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
       }, // Strong
     ];
 
-    // Replace time placeholders
-    sweetnessValues[sweetnessSliderPosition].forEach((key, value) {
-      if (key.startsWith('t')) {
-        time = time.replaceAll('<$key>', value.toStringAsFixed(0));
-      }
-    });
-    strengthValues[strengthSliderPosition].forEach((key, value) {
-      if (key.startsWith('t')) {
-        time = time.replaceAll('<$key>', value.toStringAsFixed(0));
-      }
-    });
+    // Check if time is a direct numerical value (if time is a placeholder, it would be set to zero initially)
+    if (time != Duration.zero) {
+      return time; // It's a direct value, return as is.
+    }
 
-    return time;
+    // Assume that the placeholder is in a predictable format, such as <t1> or <t2>, etc.
+    RegExp exp = RegExp(r'<(t\d+)>');
+    var matches = exp.allMatches(timeString);
+
+    for (var match in matches) {
+      String placeholder = match.group(1)!;
+      // Identify which value set to use and replace placeholders
+      double? replacementValue;
+      if (sweetnessValues[sweetnessSliderPosition].containsKey(placeholder)) {
+        replacementValue =
+            sweetnessValues[sweetnessSliderPosition][placeholder];
+      } else if (strengthValues[strengthSliderPosition]
+          .containsKey(placeholder)) {
+        replacementValue = strengthValues[strengthSliderPosition][placeholder];
+      }
+
+      // Convert the replacement value to a Duration, assuming the values are seconds
+      if (replacementValue != null) {
+        time = Duration(seconds: replacementValue.toInt());
+      }
+    }
+
+    return time; // Return the modified Duration
   }
 
   @override
@@ -196,31 +209,30 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
 
     brewingSteps = widget.recipe.steps
         .map((step) {
-          // Handle both placeholder and direct numerical values in the time field
-          String timeString = replaceTimePlaceholder(
-            step.time.toString(),
-            widget.recipe.sweetnessSliderPosition,
-            widget.recipe.strengthSliderPosition,
+          // Replace placeholders with actual time duration
+          Duration stepDuration = replaceTimePlaceholder(
+            step.time, // pass the current duration
+            widget.sweetnessSliderPosition, // current sweetness slider position
+            widget.strengthSliderPosition, // current strength slider position
           );
-          int timeInSeconds = int.tryParse(timeString) ?? 0;
-          Duration timeDuration = Duration(seconds: timeInSeconds);
 
           String description = replacePlaceholders(
             step.description,
             widget.coffeeAmount,
             widget.waterAmount,
-            widget.recipe.sweetnessSliderPosition,
-            widget.recipe.strengthSliderPosition,
+            widget.sweetnessSliderPosition,
+            widget.strengthSliderPosition,
           );
 
           return BrewStep(
             order: step.order,
             description: description,
-            time: timeDuration,
+            time: stepDuration,
           );
         })
         .where((step) => step.time.inSeconds > 0)
-        .toList(); // Filter out steps with time = 0
+        .toList();
+
     _preloadAudio();
     startTimer();
   }

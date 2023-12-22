@@ -127,9 +127,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 title: Text(
                     '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
                 onTap: () {
-                  context.router.push(RecipeDetailRoute(
-                      brewingMethodId: mostRecentRecipe.brewingMethodId,
-                      recipeId: mostRecentRecipe.id));
+                  // Add the routing logic based on recipe ID
+                  if (mostRecentRecipe.id == "106") {
+                    // If the recipe id is 106, navigate to RecipeDetailTKRoute
+                    context.router.push(RecipeDetailTKRoute(
+                        brewingMethodId: mostRecentRecipe.brewingMethodId,
+                        recipeId: mostRecentRecipe.id));
+                  } else {
+                    // For all other recipes, navigate to RecipeDetailRoute
+                    context.router.push(RecipeDetailRoute(
+                        brewingMethodId: mostRecentRecipe.brewingMethodId,
+                        recipeId: mostRecentRecipe.id));
+                  }
                 },
               ),
             Expanded(

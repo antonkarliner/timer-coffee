@@ -53,6 +53,12 @@
     "settingsthemelight": "Jasny",
     "settingsthemedark": "Ciemny",
     "settingsthemesystem": "System",
-    "settingslang": "Język"
+    "settingslang": "Język",
+    "sweet": "Słodki",
+    "balance": "Równowaga",
+    "acidic": "Kwasowy",
+    "light": "Lekki",
+    "strong": "Mocny",
+    "slidertitle": "Użyj suwaków, aby dostosować smak"
   }
   

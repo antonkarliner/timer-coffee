@@ -53,6 +53,12 @@
     "settingsthemelight": "Hell",
     "settingsthemedark": "Dunkel",
     "settingsthemesystem": "System",
-    "settingslang": "Sprache"
+    "settingslang": "Sprache",
+    "sweet": "Süß",
+    "balance": "Balance",
+    "acidic": "Sauer",
+    "light": "Leicht",
+    "strong": "Stark",
+    "slidertitle": "Verwenden Sie Schieberegler, um den Geschmack anzupassen"
   }
   

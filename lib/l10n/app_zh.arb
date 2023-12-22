@@ -53,6 +53,12 @@
     "settingsthemelight": "浅色",
     "settingsthemedark": "深色",
     "settingsthemesystem": "系统",
-    "settingslang": "言語"
+    "settingslang": "言語",
+    "sweet": "甜",
+    "balance": "平衡",
+    "acidic": "酸",
+    "light": "轻",
+    "strong": "强",
+    "slidertitle": "使用滑块调整口味"
   }
   

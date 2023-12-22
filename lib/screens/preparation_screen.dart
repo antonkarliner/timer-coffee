@@ -26,14 +26,68 @@ class _PreparationScreenState extends State<PreparationScreen> {
     int sweetnessSliderPosition,
     int strengthSliderPosition,
   ) {
-    // Define the values based on slider positions for sweetness
+    // Define the values based on slider positions for sweetness and strength
     List<Map<String, double>> sweetnessValues = [
       {"m1": 0.16, "m2": 0.24}, // Sweetness
       {"m1": 0.20, "m2": 0.20}, // Balance
       {"m1": 0.24, "m2": 0.16}, // Acidity
     ];
 
-    // Define the values based on slider positions for strength
+    List<Map<String, double>> strengthValues = [
+      {"m3": 0.6, "m4": 0, "m5": 0}, // Light
+      {"m3": 0.3, "m4": 0.3, "m5": 0}, // Balanced
+      {"m3": 0.2, "m4": 0.2, "m5": 0.2}, // Strong
+    ];
+
+    // Replace sweetness and strength placeholders
+    Map<String, double> selectedSweetnessValues =
+        sweetnessValues[sweetnessSliderPosition];
+    Map<String, double> selectedStrengthValues =
+        strengthValues[strengthSliderPosition];
+    Map<String, double> allValues = {
+      ...selectedSweetnessValues,
+      ...selectedStrengthValues,
+      'coffee_amount': coffeeAmount,
+      'water_amount': waterAmount,
+      'final_coffee_amount': coffeeAmount,
+      'final_water_amount': waterAmount,
+    };
+
+    RegExp exp = RegExp(r'<([\w_]+)>');
+    String replacedText = description.replaceAllMapped(exp, (match) {
+      String variable = match.group(1)!;
+      return allValues.containsKey(variable)
+          ? allValues[variable]!.toStringAsFixed(2)
+          : match.group(0)!;
+    });
+
+    // Handle mathematical expressions (e.g., "(0.8 x <final_water_amount>)")
+    RegExp mathExp = RegExp(r'\(([\d.]+) x ([\d.]+)\)');
+    replacedText = replacedText.replaceAllMapped(mathExp, (match) {
+      double multiplier = double.parse(match.group(1)!);
+      double value = double.parse(match.group(2)!);
+      return (multiplier * value).toStringAsFixed(1);
+    });
+
+    return replacedText;
+  }
+
+  Duration replaceTimePlaceholder(
+    Duration time,
+    int sweetnessSliderPosition,
+    int strengthSliderPosition,
+  ) {
+    // First, check if time is a placeholder that needs replacement
+    String timeString = time.inSeconds
+        .toString(); // Convert Duration to string representation of seconds for matching
+
+    // Define the values based on slider positions for sweetness and strength
+    List<Map<String, double>> sweetnessValues = [
+      {"m1": 0.16, "m2": 0.24}, // Sweetness
+      {"m1": 0.20, "m2": 0.20}, // Balance
+      {"m1": 0.24, "m2": 0.16}, // Acidity
+    ];
+
     List<Map<String, double>> strengthValues = [
       {
         "m3": 0.6,
@@ -70,40 +124,34 @@ class _PreparationScreenState extends State<PreparationScreen> {
       }, // Strong
     ];
 
-    // Replace coffee and water amount placeholders
-    RegExp exp = RegExp(
-        r'\(([\d.]+) x <(coffee_amount|water_amount|final_coffee_amount|final_water_amount)>\)');
-    String replacedText = description.replaceAllMapped(exp, (match) {
-      double multiplier = double.parse(match.group(1)!);
-      String variable = match.group(2)!;
-      double result;
+    // Check if time is a direct numerical value (if time is a placeholder, it would be set to zero initially)
+    if (time != Duration.zero) {
+      return time; // It's a direct value, return as is.
+    }
 
-      if (variable == 'coffee_amount' || variable == 'final_coffee_amount') {
-        result = multiplier * coffeeAmount;
-      } else {
-        result = multiplier * waterAmount;
+    // Assume that the placeholder is in a predictable format, such as <t1> or <t2>, etc.
+    RegExp exp = RegExp(r'<(t\d+)>');
+    var matches = exp.allMatches(timeString);
+
+    for (var match in matches) {
+      String placeholder = match.group(1)!;
+      // Identify which value set to use and replace placeholders
+      double? replacementValue;
+      if (sweetnessValues[sweetnessSliderPosition].containsKey(placeholder)) {
+        replacementValue =
+            sweetnessValues[sweetnessSliderPosition][placeholder];
+      } else if (strengthValues[strengthSliderPosition]
+          .containsKey(placeholder)) {
+        replacementValue = strengthValues[strengthSliderPosition][placeholder];
       }
 
-      return result.toStringAsFixed(1);
-    });
+      // Convert the replacement value to a Duration, assuming the values are seconds
+      if (replacementValue != null) {
+        time = Duration(seconds: replacementValue.toInt());
+      }
+    }
 
-    replacedText = replacedText
-        .replaceAll('<coffee_amount>', coffeeAmount.toStringAsFixed(1))
-        .replaceAll('<water_amount>', waterAmount.toStringAsFixed(1))
-        .replaceAll('<final_coffee_amount>', coffeeAmount.toStringAsFixed(1))
-        .replaceAll('<final_water_amount>', waterAmount.toStringAsFixed(1));
-
-    // Replace sweetness and strength placeholders
-    sweetnessValues[sweetnessSliderPosition].forEach((key, value) {
-      replacedText =
-          replacedText.replaceAll('<$key>', value.toStringAsFixed(2));
-    });
-    strengthValues[strengthSliderPosition].forEach((key, value) {
-      replacedText =
-          replacedText.replaceAll('<$key>', value.toStringAsFixed(2));
-    });
-
-    return replacedText;
+    return time; // Return the modified Duration
   }
 
   @override

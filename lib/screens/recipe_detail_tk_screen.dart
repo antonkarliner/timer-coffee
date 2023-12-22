@@ -118,12 +118,28 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
   @override
   Widget build(BuildContext context) {
     if (kIsWeb && _updatedRecipe != null) {
-      // update HTML title
+      // Update HTML title
       html.document.title = '${_updatedRecipe!.name} on Timer.Coffee';
     }
+
+    final localizations = AppLocalizations.of(context)!;
+
+    // Define the localized labels for the sliders
+    List<String> sweetnessLabels = [
+      localizations.sweet, // "Sweet"
+      localizations.balance, // "Balance"
+      localizations.acidic, // "Acidic"
+    ];
+    List<String> strengthLabels = [
+      localizations.light, // "Light"
+      localizations.balance, // "Balance"
+      localizations.strong, // "Strong"
+    ];
+
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).unfocus();
+        FocusScope.of(context)
+            .unfocus(); // Dismiss the keyboard when tapping outside
       },
       child: Scaffold(
         appBar: AppBar(
@@ -234,41 +250,57 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
                           ],
                         ),
                         const SizedBox(height: 16),
-                        Text('Sweetness'),
-                        Slider(
-                          value: _sweetnessSliderPosition.toDouble(),
-                          min: 0,
-                          max: 2,
-                          divisions: 2,
-                          label: _sweetnessSliderPosition.toString(),
-                          onChanged: (double value) {
-                            setState(() {
-                              _sweetnessSliderPosition = value.toInt();
-                              // Optional: Update recipe here if needed
-                            });
-                          },
+                        Text(AppLocalizations.of(context)!.slidertitle),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(AppLocalizations.of(context)!.sweet),
+                            Expanded(
+                              child: Slider(
+                                value: _sweetnessSliderPosition.toDouble(),
+                                min: 0,
+                                max: 2,
+                                divisions: 2,
+                                label:
+                                    sweetnessLabels[_sweetnessSliderPosition],
+                                onChanged: (double value) {
+                                  setState(() {
+                                    _sweetnessSliderPosition = value.toInt();
+                                  });
+                                },
+                              ),
+                            ),
+                            Text(AppLocalizations.of(context)!.acidic),
+                          ],
                         ),
-                        Text('Strength'),
-                        Slider(
-                          value: _strengthSliderPosition.toDouble(),
-                          min: 0,
-                          max: 2,
-                          divisions: 2,
-                          label: _strengthSliderPosition.toString(),
-                          onChanged: (double value) {
-                            setState(() {
-                              _strengthSliderPosition = value.toInt();
-                              // Optional: Update recipe here if needed
-                            });
-                          },
+
+                        // Strength Slider
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(AppLocalizations.of(context)!.light),
+                            Expanded(
+                              child: Slider(
+                                value: _strengthSliderPosition.toDouble(),
+                                min: 0,
+                                max: 2,
+                                divisions: 2,
+                                label: strengthLabels[_strengthSliderPosition],
+                                onChanged: (double value) {
+                                  setState(() {
+                                    _strengthSliderPosition = value.toInt();
+                                  });
+                                },
+                              ),
+                            ),
+                            Text(AppLocalizations.of(context)!.strong),
+                          ],
                         ),
                         Text(
-                          '${AppLocalizations.of(context)!.watertemp}: ${_updatedRecipe!.waterTemp ?? "Not provided"}ºC / ${(_updatedRecipe!.waterTemp != null ? (_updatedRecipe!.waterTemp! * 9 / 5 + 32).toStringAsFixed(1) : "Not provided")}ºF',
-                        ),
+                            '${AppLocalizations.of(context)!.watertemp}: ${_updatedRecipe!.waterTemp ?? "Not provided"}ºC / ${(_updatedRecipe!.waterTemp != null ? (_updatedRecipe!.waterTemp! * 9 / 5 + 32).toStringAsFixed(1) : "Not provided")}ºF'),
                         const SizedBox(height: 16),
                         Text(
                             '${AppLocalizations.of(context)!.grindsize}: ${_updatedRecipe!.grindSize}'),
-                        const SizedBox(height: 16),
                         const SizedBox(height: 16),
                       ],
                     ),
