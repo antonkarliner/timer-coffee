@@ -42,6 +42,8 @@ class BrewingProcessScreen extends StatefulWidget {
   final double coffeeAmount;
   final double waterAmount;
   final bool soundEnabled;
+  final int sweetnessSliderPosition;
+  final int strengthSliderPosition;
 
   const BrewingProcessScreen({
     super.key,
@@ -49,6 +51,8 @@ class BrewingProcessScreen extends StatefulWidget {
     required this.coffeeAmount,
     required this.waterAmount,
     required this.soundEnabled,
+    required this.sweetnessSliderPosition,
+    required this.strengthSliderPosition,
   });
 
   @override
@@ -67,48 +71,156 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
     String description,
     double coffeeAmount,
     double waterAmount,
+    int sweetnessSliderPosition,
+    int strengthSliderPosition,
   ) {
-    RegExp exp = RegExp(
-        r'\(([\d.]+) x <(coffee_amount|water_amount|final_coffee_amount|final_water_amount)>\)');
+    // Define the values based on slider positions for sweetness and strength
+    List<Map<String, double>> sweetnessValues = [
+      {"m1": 0.16, "m2": 0.24}, // Sweetness
+      {"m1": 0.20, "m2": 0.20}, // Balance
+      {"m1": 0.24, "m2": 0.16}, // Acidity
+    ];
+
+    List<Map<String, double>> strengthValues = [
+      {"m3": 0.6, "m4": 0, "m5": 0}, // Light
+      {"m3": 0.3, "m4": 0.3, "m5": 0}, // Balanced
+      {"m3": 0.2, "m4": 0.2, "m5": 0.2}, // Strong
+    ];
+
+    // Replace sweetness and strength placeholders
+    Map<String, double> selectedSweetnessValues =
+        sweetnessValues[sweetnessSliderPosition];
+    Map<String, double> selectedStrengthValues =
+        strengthValues[strengthSliderPosition];
+    Map<String, double> allValues = {
+      ...selectedSweetnessValues,
+      ...selectedStrengthValues,
+      'coffee_amount': coffeeAmount,
+      'water_amount': waterAmount,
+      'final_coffee_amount': coffeeAmount,
+      'final_water_amount': waterAmount,
+    };
+
+    RegExp exp = RegExp(r'<([\w_]+)>');
     String replacedText = description.replaceAllMapped(exp, (match) {
-      double multiplier = double.parse(match.group(1)!);
-      String variable = match.group(2)!;
-      double result;
-
-      if (variable == 'coffee_amount' || variable == 'final_coffee_amount') {
-        result = multiplier * coffeeAmount;
-      } else {
-        result = multiplier * waterAmount;
-      }
-
-      return result.toStringAsFixed(1);
+      String variable = match.group(1)!;
+      return allValues.containsKey(variable)
+          ? allValues[variable]!.toStringAsFixed(2)
+          : match.group(0)!;
     });
 
-    replacedText = replacedText
-        .replaceAll('<coffee_amount>', coffeeAmount.toStringAsFixed(1))
-        .replaceAll('<water_amount>', waterAmount.toStringAsFixed(1))
-        .replaceAll('<final_coffee_amount>', coffeeAmount.toStringAsFixed(1))
-        .replaceAll('<final_water_amount>', waterAmount.toStringAsFixed(1));
+    // Handle mathematical expressions (e.g., "(0.8 x <final_water_amount>)")
+    RegExp mathExp = RegExp(r'\(([\d.]+) x ([\d.]+)\)');
+    replacedText = replacedText.replaceAllMapped(mathExp, (match) {
+      double multiplier = double.parse(match.group(1)!);
+      double value = double.parse(match.group(2)!);
+      return (multiplier * value).toStringAsFixed(1);
+    });
 
     return replacedText;
+  }
+
+  String replaceTimePlaceholder(
+    String time, // This can be a numerical value or a placeholder
+    int sweetnessSliderPosition,
+    int strengthSliderPosition,
+  ) {
+    // Check if time is a direct numerical value
+    if (RegExp(r'^\d+$').hasMatch(time)) {
+      // Regex to check if the string is a number
+      return time; // Return the numerical value as a string
+    }
+    // Define the values based on slider positions for sweetness
+    List<Map<String, double>> sweetnessValues = [
+      {"m1": 0.16, "m2": 0.24}, // Sweetness
+      {"m1": 0.20, "m2": 0.20}, // Balance
+      {"m1": 0.24, "m2": 0.16}, // Acidity
+    ];
+
+    // Define the values based on slider positions for strength
+    List<Map<String, double>> strengthValues = [
+      {
+        "m3": 0.6,
+        "t1": 10,
+        "t2": 35,
+        "m4": 0,
+        "t3": 0,
+        "t4": 0,
+        "m5": 0,
+        "t5": 0,
+        "t6": 0
+      }, // Light
+      {
+        "m3": 0.3,
+        "t1": 10,
+        "t2": 35,
+        "m4": 0.3,
+        "t3": 10,
+        "t4": 35,
+        "m5": 0,
+        "t5": 0,
+        "t6": 0
+      }, // Balanced
+      {
+        "m3": 0.2,
+        "t1": 10,
+        "t2": 35,
+        "m4": 0.2,
+        "t3": 10,
+        "t4": 35,
+        "m5": 0.2,
+        "t5": 10,
+        "t6": 35
+      }, // Strong
+    ];
+
+    // Replace time placeholders
+    sweetnessValues[sweetnessSliderPosition].forEach((key, value) {
+      if (key.startsWith('t')) {
+        time = time.replaceAll('<$key>', value.toStringAsFixed(0));
+      }
+    });
+    strengthValues[strengthSliderPosition].forEach((key, value) {
+      if (key.startsWith('t')) {
+        time = time.replaceAll('<$key>', value.toStringAsFixed(0));
+      }
+    });
+
+    return time;
   }
 
   @override
   void initState() {
     super.initState();
     WakelockPlus.enable();
+
     brewingSteps = widget.recipe.steps
-        .map((step) => BrewStep(
-              order: step.order,
-              description: replacePlaceholders(
-                step.description,
-                widget.coffeeAmount,
-                widget.waterAmount,
-              ),
-              time: step.time,
-            ))
+        .map((step) {
+          // Handle both placeholder and direct numerical values in the time field
+          String timeString = replaceTimePlaceholder(
+            step.time.toString(),
+            widget.recipe.sweetnessSliderPosition,
+            widget.recipe.strengthSliderPosition,
+          );
+          int timeInSeconds = int.tryParse(timeString) ?? 0;
+          Duration timeDuration = Duration(seconds: timeInSeconds);
+
+          String description = replacePlaceholders(
+            step.description,
+            widget.coffeeAmount,
+            widget.waterAmount,
+            widget.recipe.sweetnessSliderPosition,
+            widget.recipe.strengthSliderPosition,
+          );
+
+          return BrewStep(
+            order: step.order,
+            description: description,
+            time: timeDuration,
+          );
+        })
         .where((step) => step.time.inSeconds > 0)
-        .toList();
+        .toList(); // Filter out steps with time = 0
     _preloadAudio();
     startTimer();
   }

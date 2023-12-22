@@ -14,6 +14,8 @@ class Recipe {
   final List<BrewStep> steps;
   final DateTime? lastUsed;
   final bool isFavorite;
+  final int sweetnessSliderPosition;
+  final int strengthSliderPosition;
 
   Recipe({
     required this.id,
@@ -29,6 +31,8 @@ class Recipe {
     required this.steps,
     this.lastUsed,
     this.isFavorite = false,
+    this.sweetnessSliderPosition = 1, // default value
+    this.strengthSliderPosition = 2, // default value
   });
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
@@ -87,6 +91,8 @@ class Recipe {
     double? waterAmount,
     DateTime? lastUsed,
     bool? isFavorite,
+    int? sweetnessSliderPosition,
+    int? strengthSliderPosition,
   }) {
     return Recipe(
       id: this.id,
@@ -102,6 +108,10 @@ class Recipe {
       steps: this.steps,
       lastUsed: lastUsed ?? this.lastUsed,
       isFavorite: isFavorite ?? this.isFavorite,
+      sweetnessSliderPosition:
+          sweetnessSliderPosition ?? this.sweetnessSliderPosition,
+      strengthSliderPosition:
+          strengthSliderPosition ?? this.strengthSliderPosition,
     );
   }
 }

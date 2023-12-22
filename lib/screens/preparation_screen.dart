@@ -23,7 +23,54 @@ class _PreparationScreenState extends State<PreparationScreen> {
     String description,
     double coffeeAmount,
     double waterAmount,
+    int sweetnessSliderPosition,
+    int strengthSliderPosition,
   ) {
+    // Define the values based on slider positions for sweetness
+    List<Map<String, double>> sweetnessValues = [
+      {"m1": 0.16, "m2": 0.24}, // Sweetness
+      {"m1": 0.20, "m2": 0.20}, // Balance
+      {"m1": 0.24, "m2": 0.16}, // Acidity
+    ];
+
+    // Define the values based on slider positions for strength
+    List<Map<String, double>> strengthValues = [
+      {
+        "m3": 0.6,
+        "t1": 10,
+        "t2": 35,
+        "m4": 0,
+        "t3": 0,
+        "t4": 0,
+        "m5": 0,
+        "t5": 0,
+        "t6": 0
+      }, // Light
+      {
+        "m3": 0.3,
+        "t1": 10,
+        "t2": 35,
+        "m4": 0.3,
+        "t3": 10,
+        "t4": 35,
+        "m5": 0,
+        "t5": 0,
+        "t6": 0
+      }, // Balanced
+      {
+        "m3": 0.2,
+        "t1": 10,
+        "t2": 35,
+        "m4": 0.2,
+        "t3": 10,
+        "t4": 35,
+        "m5": 0.2,
+        "t5": 10,
+        "t6": 35
+      }, // Strong
+    ];
+
+    // Replace coffee and water amount placeholders
     RegExp exp = RegExp(
         r'\(([\d.]+) x <(coffee_amount|water_amount|final_coffee_amount|final_water_amount)>\)');
     String replacedText = description.replaceAllMapped(exp, (match) {
@@ -45,6 +92,16 @@ class _PreparationScreenState extends State<PreparationScreen> {
         .replaceAll('<water_amount>', waterAmount.toStringAsFixed(1))
         .replaceAll('<final_coffee_amount>', coffeeAmount.toStringAsFixed(1))
         .replaceAll('<final_water_amount>', waterAmount.toStringAsFixed(1));
+
+    // Replace sweetness and strength placeholders
+    sweetnessValues[sweetnessSliderPosition].forEach((key, value) {
+      replacedText =
+          replacedText.replaceAll('<$key>', value.toStringAsFixed(2));
+    });
+    strengthValues[strengthSliderPosition].forEach((key, value) {
+      replacedText =
+          replacedText.replaceAll('<$key>', value.toStringAsFixed(2));
+    });
 
     return replacedText;
   }
@@ -95,10 +152,15 @@ class _PreparationScreenState extends State<PreparationScreen> {
                 step.description,
                 widget.recipe.coffeeAmount,
                 widget.recipe.waterAmount,
+                widget.recipe.sweetnessSliderPosition,
+                widget.recipe.strengthSliderPosition,
               ),
               time: step.time,
             ))
-        .where((step) => step.time.inSeconds == 0)
+        .where((step) =>
+            step.time is Duration &&
+            step.time.inSeconds == 0 &&
+            step.order == 1)
         .toList();
 
     return Scaffold(
@@ -146,6 +208,10 @@ class _PreparationScreenState extends State<PreparationScreen> {
                       recipe: widget.recipe,
                       coffeeAmount: widget.recipe.coffeeAmount,
                       waterAmount: widget.recipe.waterAmount,
+                      sweetnessSliderPosition:
+                          widget.recipe.sweetnessSliderPosition,
+                      strengthSliderPosition:
+                          widget.recipe.strengthSliderPosition,
                       soundEnabled: _soundEnabled,
                     ),
                   ),
