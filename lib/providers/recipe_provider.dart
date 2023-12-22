@@ -3,15 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/recipe.dart';
 import 'package:flutter/foundation.dart';
+import 'dart:ui';
 
 class RecipeProvider extends ChangeNotifier {
   final List<Recipe> _recipes = [];
   final ValueNotifier<Set<String>> _favoriteRecipeIds =
       ValueNotifier<Set<String>>({});
+  Locale _locale; // Non-nullable
 
-  RecipeProvider() {
+  RecipeProvider(this._locale) {
     _loadFavoriteRecipeIds();
+    fetchRecipes(null); // Initial fetch with the provided locale
   }
+
+  Locale get currentLocale => _locale;
 
   Future<void> _loadFavoriteRecipeIds() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -27,7 +32,6 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Recipe getRecipeById(String recipeId) {
-    print('getRecipeById: $recipeId, _recipes: $_recipes');
     int index = _recipes.indexWhere((recipe) => recipe.id == recipeId);
     if (index != -1) {
       return _recipes[index];
@@ -37,8 +41,7 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<List<Recipe>> fetchRecipes(String? brewingMethodId) async {
-    print('fetchRecipes start');
-    if (brewingMethodId == null) {
+    if (brewingMethodId == null || _locale == null) {
       _recipes.clear();
       return [..._recipes];
     }
@@ -74,8 +77,8 @@ class RecipeProvider extends ChangeNotifier {
         throw Exception('Unknown brewing method ID: $brewingMethodId');
     }
 
-    String jsonString =
-        await rootBundle.loadString('assets/data/$jsonFileName');
+    String localizedPath = 'assets/data/${_locale?.languageCode}/$jsonFileName';
+    String jsonString = await rootBundle.loadString(localizedPath);
     final List<dynamic> jsonData = json.decode(jsonString);
     _recipes.clear();
     List<Recipe> recipes =
@@ -84,19 +87,15 @@ class RecipeProvider extends ChangeNotifier {
     for (Recipe recipe in recipes) {
       int index = _recipes.indexWhere((r) => r.id == recipe.id);
       if (index != -1) {
-        // Update existing recipe
         _recipes[index] = recipe.copyWith(
             isFavorite: _favoriteRecipeIds.value.contains(recipe.id));
       } else {
-        // Add new recipe
         _recipes.add(recipe.copyWith(
             isFavorite: _favoriteRecipeIds.value.contains(recipe.id)));
       }
     }
 
     notifyListeners();
-    print('fetchRecipes end');
-
     return [..._recipes];
   }
 
@@ -112,8 +111,8 @@ class RecipeProvider extends ChangeNotifier {
       'french_press': 'French Press',
       'clever_dripper': 'Clever Dripper',
       'kalita_wave': 'Kalita Wave',
-      'wilfa_svart': 'Wilfa Svart',
-      'origami': 'Origami'
+      'wilfa_svart': 'Wilfa Svart Pour Over',
+      'origami': 'Origami Dripper'
     };
 
     if (!brewingMethods.containsKey(brewingMethodId)) {
@@ -180,6 +179,14 @@ class RecipeProvider extends ChangeNotifier {
       notifyListeners();
     } else {
       throw Exception('Recipe not found');
+    }
+  }
+
+  void setLocale(Locale newLocale) async {
+    if (_locale.languageCode != newLocale.languageCode) {
+      _locale = newLocale;
+      await fetchRecipes(null); // Reload recipes with the new locale
+      notifyListeners();
     }
   }
 

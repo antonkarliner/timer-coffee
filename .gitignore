@@ -9,6 +9,7 @@
 .history
 .svn/
 migrate_working_dir/
+update_flutter.sh
 
 # IntelliJ related
 *.iml
@@ -45,3 +46,8 @@ app.*.map.json
 
 # Node.js related
 node_modules
+ios/fastlane/Preview.html
+ios/fastlane/report.xml
+android/fastlane/report.xml
+android/last_successful_run.txt
+ios/last_successful_run.txt

@@ -1,0 +1,405 @@
+[
+  {
+    "id": "201",
+    "name": "ティム・ウェンデルボーのAeropressレシピ",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 14,
+    "water_amount": 200,
+    "water_temp": 100,
+    "grind_size": "細め",
+    "brew_time": "1min 50s",
+    "short_description": "世界バリスタチャンピオンおよびワールドカップテイスターズチャンピオン、ティム・ウェンデルボーによるレシピ。[チュートリアルはこちら](https://timwendelboe.no/brew-guides/aeropress/)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "ペーパーフィルターを水で軽くすすぎ、コーヒー粉を入れます",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "コーヒーに<final_water_amount>gの水をゆっくり注ぎます。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "3回かき混ぜて均一にします",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "プランジャーをエアロプレスの上に軽く置き、蒸らし時間を取ります。",
+        "time": 60
+      },
+      {
+        "order": 5,
+        "description": "プランジャーを外し、さらに3回かき混ぜます",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "プランジャーを再度エアロプレスに設置し、均等に圧力をかけてコーヒーを抽出します。",
+        "time": 20
+      }
+    ]
+  },
+  {
+    "id": "202",
+    "name": "ジェームズ・ホフマンのAeropressレシピ",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 11,
+    "water_amount": 200,
+    "water_temp": 95,
+    "grind_size": "中細挽き/中挽き",
+    "brew_time": "3min 25s",
+    "short_description": "世界バリスタチャンピオンシップ優勝者であり、YouTuber、コーヒーコンサルタント、作家でもあるジェームス・ホフマンによるレシピです。ミディアムロースト用には90～95℃のお湯を使用し、深煎りの場合は85～90℃を推奨します。浅煎りの場合はより細かく挽き、深煎りになるほど量を増やし、粗く挽くのが効果的です。[チュートリアルはこちら](https://www.youtube.com/watch?v=j6VlT_jUVPc)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "サーバーにブリューワーをセットし、コーヒー粉を入れます。予熱は不要です。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "<final_water_amount>gの水を均等に注ぎます。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "プランジャーをブリューワーの上に軽く置きます。",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "2分間待機します",
+        "time": 120
+      },
+      {
+        "order": 5,
+        "description": "ブリューワーを持ち、軽く振ります。",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "さらに30秒待ちます",
+        "time": 30
+      },
+      {
+        "order": 7,
+        "description": "ゆっくりと一定の圧力で押し出します",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "203",
+    "name": "アラン・アドラーのAeropressレシピ",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 16,
+    "water_amount": 95,
+    "water_temp": 80,
+    "grind_size": "細め",
+    "brew_time": "1min 0s",
+    "short_description": "Aeropressの発明者アラン・アドラーによるレシピ。このレシピでは濃縮コーヒーやエスプレッソスタイルを提供します。お湯を加えることでアメリカーノスタイルにも変化します。[チュートリアルはこちら](https://www.youtube.com/watch?v=9c14DxfVOY4)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "コーヒー粉を抽出室に入れ、平らにします。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "<final_water_amount>gの水を加えます。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "パドルでかき混ぜます。",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "プランジャーを挿入し、ゆっくり押します。",
+        "time": 40
+      }
+    ]
+  },  
+  {
+    "id": "204",
+    "name": "ウェンデリアン・ファン・ブニックのAeropressレシピ",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 16,
+    "water_amount": 230,
+    "water_temp": 95,
+    "grind_size": "粗挽き",
+    "brew_time": "1min 30s",
+    "short_description": "2019年Aeropress世界チャンピオン、オランダのバリスタ、Wendelien van Bunnikによる倒立法のレシピ。[チュートリアルはこちら](https://www.youtube.com/watch?v=jLNIGf-lf3s)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "ペーパーフィルター2枚をキャップにセットし、お湯ですすぎ、気泡を取り除きます。抽出チャンバーに挽いたコーヒーを均等に入れます。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "グラウンドコーヒーに<final_water_amount>gの水を注ぎます。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "5回ゆっくりとかき混ぜます。",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "フィルターキャップを締め、そのまま蒸らします。",
+        "time": 40
+      },
+      {
+        "order": 5,
+        "description": "Aeropressを反転させ、カップに押し出します。ヒュー音がするまで押します。",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "205",
+    "name": "アレクサンダー・ミルズのアイスAeropressレシピ",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 20,
+    "water_amount": 150,
+    "water_temp": 99,
+    "grind_size": "中細挽き",
+    "brew_time": "3min 20s",
+    "short_description": "カナダのコンサルタント、アレクサンダー・ミルズの倒立法アイスAeropressレシピ。[チュートリアルはこちら](https://alexandermills.ca/blog/iced-aeropress)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "ペーパーフィルター2枚をキャップで予洗いし、抽出器を予熱します。コーヒー粉をAeropressに入れ、サーバーに氷と水を準備します。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "沸騰した水を(0.3 x <final_water_amount>)g、Aeropressに注ぎます。",
+        "time": 5
+      },
+      {
+        "order": 3,
+        "description": "十分にかき混ぜてコーヒーを蒸らします。",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "さらに(0.7 x <final_water_amount>)gの水を追加します。",
+        "time": 20
+      },
+      {
+        "order": 5,
+        "description": "スラリーを深くかき混ぜ、キャップを取り付けます。",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "キャップをしたAeropressをサーバーの上に置き、氷の上で30秒間均等にプレスします。",
+        "time": 100
+      },
+      {
+        "order": 7,
+        "description": "ヒスノイズがするまでAeropressを押し続け、完成したアイスコーヒーをサーバーで冷やします。",
+        "time": 30
+      },
+      {
+        "order": 8,
+        "description": "アイスコーヒーをサーバーで混ぜてから、冷えたグラスに注ぎます。",
+        "time": 20
+      }
+    ]
+  },  
+  {
+    "id": "206",
+    "name": "マーク・プリンスのAeropressレシピ",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 21,
+    "water_amount": 225,
+    "water_temp": 97,
+    "grind_size": "ミディアム",
+    "brew_time": "1min 30s",
+    "short_description": "カナダとアメリカのバリスタチャンピオンシップ審査員、CoffeeGeek創設者Mark Princeのレシピ。裏返し方法を使用し、金属フィルターを推奨。[詳細なチュートリアル](https://www.coffeegeek.com/guides/aeropress-inverted-brew-method-how-to/)はこちら。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "必要な道具とコーヒーを準備し、エアロプレスを組み立てます。プランジャーを1cm差し込み、コーヒー粉を計量しエアロプレスに入れます。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(0.45 x <final_water_amount>)gの熱湯をエアロプレスに注ぎます。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "軽く蒸らして花を咲かせます。",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "スラリーを軽くかき混ぜます。",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "<final_water_amount>gになるまで熱湯を注ぎ続けます。",
+        "time": 15
+      },
+      {
+        "order": 6,
+        "description": "スラリーをさらに2回かき混ぜます。",
+        "time": 10
+      },
+      {
+        "order": 7,
+        "description": "さらに40~50gの水を加え、エアロプレスをほぼ満たします。",
+        "time": 5
+      },
+      {
+        "order": 8,
+        "description": "フィルターとフィルターホルダーをエアロプレスに取り付けます。",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "マグカップまたはサーバーをエアロプレスの上に置きます。",
+        "time": 5
+      },
+      {
+        "order": 10,
+        "description": "エアロプレスとサーバーを反転させます。",
+        "time": 10
+      },
+      {
+        "order": 11,
+        "description": "エアロプレスを押し下げ、コーヒーを抽出します。",
+        "time": 10
+      }
+    ]
+  },
+  {
+    "id": "207",
+    "name": "ジェームズ・ホフマンのアイスAeropressレシピ",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 22,
+    "water_amount": 400,
+    "water_temp": 100,
+    "grind_size": "細挽き/中挽き",
+    "brew_time": "3min 25s",
+    "short_description": "ジェームズ・ホフマンによるアイスAeropressレシピ。彼の究極の手法をアイスコーヒーに適応させたもので、バイパスに氷を使用します。[チュートリアルはこちら](https://youtu.be/DlaEwef6MTg)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "サーバーに(0.4 x <final_water_amount>)gの氷を入れ、エアロプレスをセットします。コーヒー粉を入れます。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(0.6 x <final_water_amount>)gの水を注ぎ、コーヒーが均等に濡れるようにします。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "プランジャーをエアロプレスに1cmほどセットします。",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "4分間待機します。",
+        "time": 240
+      },
+      {
+        "order": 5,
+        "description": "エアロプレスを軽く振ります。",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "さらに30秒待機します。",
+        "time": 30
+      },
+      {
+        "order": 7,
+        "description": "優しく一定の圧力でプレスします。",
+        "time": 30
+      },
+      {
+        "order": 8,
+        "description": "氷を溶かしながら渦を巻き、新鮮な氷の上でサーブします。",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "208",
+    "name": "コーヒー・ウィズ・エイプリルのAeropressレシピ",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 13,
+    "water_amount": 200,
+    "water_temp": 88,
+    "grind_size": "中粗挽き",
+    "brew_time": "2min 0s",
+    "short_description": "苦味が少なく、酸味が豊かで軽くジューシーなコーヒーを作るレシピ。[チュートリアルはこちら](https://www.youtube.com/watch?v=PUsHI7jdX1k)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "ペーパーフィルターをエアロプレスに入れ、すすぎ、サーバーにセットします。コーヒー粉を注ぎます。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(0.25 x <final_water_amount>)gの水を迅速に注ぎ、かき混ぜ、ピストンを取り付けます。",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "少し待ちます。",
+        "time": 15
+      },
+      {
+        "order": 4,
+        "description": "ピストンを外し、残りの水を注ぎ、再びピストンをセットします。",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "さらに待機します。",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "ゆっくりとプレスし、ヒス音で止めます。",
+        "time": 30
+      }
+    ]
+  }  
+]

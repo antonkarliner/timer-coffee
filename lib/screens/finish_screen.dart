@@ -1,10 +1,17 @@
 // lib/screens/finish_screen.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:in_app_review/in_app_review.dart';
+import 'package:advanced_in_app_review/advanced_in_app_review.dart'; // Replaced in_app_review
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:auto_route/auto_route.dart';
+import '../app_router.gr.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:io';
+import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
@@ -18,12 +25,17 @@ class FinishScreen extends StatefulWidget {
 class _FinishScreenState extends State<FinishScreen> {
   late Future<String> coffeeFact;
 
-  final InAppReview inAppReview = InAppReview.instance;
+  final AdvancedInAppReview advancedInAppReview =
+      AdvancedInAppReview(); // Replaced InAppReview
 
   Future<String> getRandomCoffeeFact() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Locale locale = Localizations.localeOf(context);
+    final String localizedFilePath =
+        'assets/data/${locale.languageCode}/coffee_facts.json';
+
     final String coffeeFactsString =
-        await rootBundle.loadString('assets/data/coffee_facts.json');
+        await rootBundle.loadString(localizedFilePath);
     final List<String> coffeeFactsList =
         List<String>.from(jsonDecode(coffeeFactsString));
 
@@ -51,55 +63,48 @@ class _FinishScreenState extends State<FinishScreen> {
   }
 
   Future<void> requestReview() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final DateTime firstUsageDate = DateTime.fromMillisecondsSinceEpoch(
-        prefs.getInt('firstUsageDate') ??
-            DateTime.now().millisecondsSinceEpoch);
-    final DateTime lastRequestedReview = DateTime.fromMillisecondsSinceEpoch(
-        prefs.getInt('lastRequestedReview') ?? 0);
-    final DateTime now = DateTime.now();
-
-    final List<int> reviewSchedule = [
-      10,
-      30,
-      180,
-      375,
-      405,
-      440,
-      480,
-      525
-    ]; // Days after first usage
-
-    for (int days in reviewSchedule) {
-      DateTime reviewDate = firstUsageDate.add(Duration(days: days));
-
-      if (now.isAfter(reviewDate) &&
-          lastRequestedReview.isBefore(reviewDate) &&
-          await inAppReview.isAvailable()) {
-        inAppReview.requestReview();
-        await prefs.setInt('lastRequestedReview', now.millisecondsSinceEpoch);
-        break;
-      }
+    if (Platform.isIOS && !kIsWeb) {
+      advancedInAppReview
+          .setMinDaysBeforeRemind(7)
+          .setMinDaysAfterInstall(2)
+          .setMinLaunchTimes(2)
+          .setMinSecondsBeforeShowDialog(4);
+      advancedInAppReview.monitor();
     }
   }
 
   @override
   void initState() {
     super.initState();
+
+    WakelockPlus.enabled.then((bool wakelockEnabled) {
+      if (wakelockEnabled) {
+        WakelockPlus.disable();
+      }
+    });
+
     coffeeFact = getRandomCoffeeFact();
     requestReview();
+  }
+
+  Future<void> _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url, forceSafariVC: false, forceWebView: false);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Finish')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.finishbrew)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Thanks for using Timer.Coffee! Enjoy your ${widget.brewingMethodName}!',
+              '${AppLocalizations.of(context)!.finishmsg} ${widget.brewingMethodName}!',
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 24),
             ),
@@ -117,10 +122,12 @@ class _FinishScreenState extends State<FinishScreen> {
                         text: TextSpan(
                           style: DefaultTextStyle.of(context).style,
                           children: <TextSpan>[
-                            const TextSpan(
-                                text: 'Coffee Fact: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20)),
+                            TextSpan(
+                              text:
+                                  '${AppLocalizations.of(context)!.coffeefact}: ',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
                             TextSpan(
                                 text: '${snapshot.data}',
                                 style: const TextStyle(fontSize: 20)),
@@ -139,10 +146,27 @@ class _FinishScreenState extends State<FinishScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.popUntil(context, ModalRoute.withName('/'));
+                context.router.push(const HomeRoute());
               },
-              child: const Text('Home'),
+              child: Text(AppLocalizations.of(context)!.home),
             ),
+            const SizedBox(height: 20),
+            if (kIsWeb || !Platform.isIOS) // Conditional statement
+              ElevatedButton.icon(
+                onPressed: () =>
+                    _launchURL('https://www.buymeacoffee.com/timercoffee'),
+                icon: const Icon(Icons.local_cafe),
+                label: Text(AppLocalizations.of(context)!.support),
+              ),
+            if (!kIsWeb && Platform.isIOS) // New condition specifically for iOS
+              ElevatedButton.icon(
+                onPressed: () {
+                  context.router
+                      .push(const DonationRoute()); // Your routing logic
+                },
+                icon: const Icon(Icons.local_cafe),
+                label: Text(AppLocalizations.of(context)!.support),
+              ),
           ],
         ),
       ),

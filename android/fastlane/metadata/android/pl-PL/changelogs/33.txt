@@ -1,0 +1,5 @@
+Drobne poprawki i aktualizacje stabilności.
+
+Timer.Coffee teraz dostępny w 10 językach! Obsługiwane języki to: angielski, hiszpański, portugalski, niemiecki, francuski, rosyjski, polski, arabski, chiński i japoński. Jeśli zauważysz jakiekolwiek błędy w tłumaczeniu – wyślij zrzuty ekranu na support@timer.coffee lub zgłoś problem na Githubie.
+
+Uwaga: Maksymalna długość tekstu to 500 znaków. Jeśli potrzeba, przepisz nieco.

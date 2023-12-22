@@ -1,0 +1,3 @@
+Poprawiono układ dla języka arabskiego.
+
+Timer.Coffee teraz w 10 językach! Obsługiwane języki to: angielski, hiszpański, portugalski, niemiecki, francuski, rosyjski, polski, arabski, chiński i japoński. Prosimy zwrócić uwagę, że tłumaczenia są ulepszane. Jeśli zauważysz błędy – wyślij zrzuty ekranu na support@timer.coffee lub zgłoś problem na Githubie. Zawsze możesz wrócić do angielskiego z głównego ekranu aplikacji.

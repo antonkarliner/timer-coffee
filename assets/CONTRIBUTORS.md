@@ -5,3 +5,7 @@
 [@jymmyboi](https://github.com/jymmyboi) - improved recipe summary.
 
 New recipes added by [@Fplas](https://github.com/Fplas), [@trommelaere](https://github.com/trommelaere)
+
+[@Mearman](https://github.com/Mearman) - fixed Github README
+
+[@typomanka](https://github.com/typomanka) – my dear friend Julia created awesome icons for coffee brewing methods. Check her [Instagram](https://www.instagram.com/typomanka/) too!

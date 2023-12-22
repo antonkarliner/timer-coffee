@@ -1,0 +1,19 @@
+Timer.coffee es GRATIS. Las donaciones dentro de la aplicación son puramente opcionales y no afectan la funcionalidad de ninguna manera.
+
+Timer.Coffee es una aplicación gratuita y de código abierto para temporizador de preparación de café y calculadora de café, diseñada para ayudar en tus aventuras de preparación de café. La aplicación actualmente ofrece soporte para varias técnicas de preparación, incluyendo: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over y Origami Dripper. La aplicación cuenta con más de 30 recetas con más en camino.
+
+Con Timer.Coffee puedes:
+
+- Usar la calculadora de café para ajustar las cantidades de café o agua en las recetas, permitiéndote preparar tanto café como desees.
+- Marcar tus recetas de café más queridas como favoritas para un fácil acceso.
+- Revisar al instante tu última receta utilizada.
+- Compartir tus recetas favoritas con amigos.
+- Activar el timbre de sonido para informarte sobre el siguiente paso en la preparación.
+
+La aplicación soporta 10 idiomas y modo oscuro.
+
+Esto es lo que estamos preparando para futuras actualizaciones:
+
+- Inclusión del método de preparación Tetsu Kasuya 4:6 para Hario V60.
+- Una expansión de nuestra colección de recetas de café.
+- Mejoras de diseño.

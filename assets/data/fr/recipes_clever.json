@@ -1,0 +1,186 @@
+[
+  {
+    "id": "501",
+    "name": "Recette Ultimate Clever Dripper de James Hoffmann",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 15,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "Moyen-fin",
+    "brew_time": "3min 30s",
+    "short_description": "Recette Clever Dripper de James Hoffmann, champion du monde des baristas. [Voir le tutoriel](https://www.youtube.com/watch?v=RpOdennxP24).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+        {
+            "order": 1,
+            "description": "Placez le filtre dans le Clever Dripper et rincez-le. Moulez le café sans le mettre dans le Dripper. Installez le tout sur une balance, réinitialisez à zéro et prenez une cuillère.",
+            "time": 0
+        },
+        {
+            "order": 2,
+            "description": "Ajoutez <final_water_amount>g d'eau dans le Clever Dripper.",
+            "time": 10
+        },
+        {
+            "order": 3,
+            "description": "Ajoutez le café dans l'eau et remuez légèrement avec la cuillère.",
+            "time": 10
+        },
+        {
+            "order": 4,
+            "description": "Laissez infuser le café pendant 2 minutes.",
+            "time": 120
+        },
+        {
+            "order": 5,
+            "description": "Remuez avec une cuillère ou agitez doucement pour casser la croûte.",
+            "time": 10
+        },
+        {
+            "order": 6,
+            "description": "Placez le Clever Dripper sur une carafe et attendez la fin de l'écoulement.",
+            "time": 60
+        }
+    ]
+},
+{
+    "id": "502",
+    "name": "Recette Clever Dripper par European Coffee Trip",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 20,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "Grossière",
+    "brew_time": "5min 20s",
+    "short_description": "Recette Clever Dripper de European Coffee Trip. [Voir le tutoriel](https://www.youtube.com/watch?v=H4-XTUpX9Mo).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+        {
+            "order": 1,
+            "description": "Insérez le filtre dans le Clever Dripper et rincez-le. Moulez le café et mettez-le dans l'infuseur.",
+            "time": 0
+        },
+        {
+            "order": 2,
+            "description": "Ajoutez <final_water_amount>g d'eau dans l'infuseur.",
+            "time": 10
+        },
+        {
+            "order": 3,
+            "description": "Attendez 2 minutes.",
+            "time": 120
+        },
+        {
+            "order": 4,
+            "description": "Cassez la croûte délicatement avec une cuillère.",
+            "time": 10
+        },
+        {
+            "order": 5,
+            "description": "Attendez encore 2 minutes.",
+            "time": 120
+        },
+        {
+            "order": 6,
+            "description": "Placez le Clever Dripper sur la carafe et laissez le café s'écouler.",
+            "time": 60
+        }
+    ]
+},
+{
+  "id": "503",
+  "name": "Recette Clever Dripper de Coffee and Water",
+  "brewing_method_id": "clever_dripper",
+  "brewing_method": "Clever Dripper",
+  "coffee_amount": 28,
+  "water_amount": 420,
+  "water_temp": 95,
+  "grind_size": "Moyenne-grossière",
+  "brew_time": "5min 20s",
+  "short_description": "Recette de Clever Dripper par Coffee and Water. [Voir le tutoriel](https://www.youtube.com/watch?v=gyZ7Zvvl3uk).",
+  "last_used": "2023-05-01T12:00:00Z",
+  "is_favorite": false,
+  "steps": [
+      {
+          "order": 1,
+          "description": "Insérez le filtre en papier dans le Clever Dripper et rincez-le à l'eau chaude. Moulez le café et ajoutez-le dans l'infuseur.",
+          "time": 0
+      },
+      {
+          "order": 2,
+          "description": "Versez <final_water_amount>g d'eau dans l'infuseur.",
+          "time": 10
+      },
+      {
+          "order": 3,
+          "description": "Laissez infuser le café.",
+          "time": 50
+      },
+      {
+          "order": 4,
+          "description": "Brisez la croûte à la surface avec une cuillère en remuant trois fois.",
+          "time": 10
+      },
+      {
+          "order": 5,
+          "description": "Poursuivez l'infusion.",
+          "time": 80
+      },
+      {
+          "order": 6,
+          "description": "Placez le Clever Dripper sur une carafe et laissez le café s'écouler.",
+          "time": 60
+      }
+  ]
+},
+{
+  "id": "504",
+  "name": "Recette du Clever Dripper glacé de James Hoffmann",
+  "brewing_method_id": "clever_dripper",
+  "brewing_method": "Clever Dripper",
+  "coffee_amount": 37.5,
+  "water_amount": 500,
+  "water_temp": 95,
+  "grind_size": "Fin",
+  "brew_time": "6min 35s",
+  "short_description": "Technique améliorée de café glacé par immersion de James Hoffmann. [Voir le tutoriel](https://www.youtube.com/watch?v=8uGGeV8A-BM). Optionnel : Ajoutez quelques gouttes de saline pour atténuer l'amertume.",
+  "last_used": "2023-05-01T12:00:00Z",
+  "is_favorite": false,
+  "steps": [
+      {
+          "order": 1,
+          "description": "Placez le filtre dans le Clever Dripper, rincez-le. Moulez le café sans l'ajouter encore. Installez le café sur la balance, réinitialisez à zéro. Gardez (0.34 x <final_water_amount>)g de glace au congélateur.",
+          "time": 0
+      },
+      {
+          "order": 2,
+          "description": "Versez (0.66 x <final_water_amount>)g d'eau dans le Clever Dripper.",
+          "time": 10
+      },
+      {
+          "order": 3,
+          "description": "Ajoutez le café dans l'eau et remuez pour bien l'humidifier.",
+          "time": 10
+      },
+      {
+          "order": 4,
+          "description": "Laissez infuser. Avant la fin, placez (0.34 x <final_water_amount>)g de glace dans la carafe.",
+          "time": 300
+      },
+      {
+          "order": 5,
+          "description": "Placez le Clever Dripper sur la carafe et attendez l'écoulement complet.",
+          "time": 60
+      },
+      {
+          "order": 6,
+          "description": "Remuez la carafe pour diluer la glace restante. Optionnel : ajoutez de la saline pour réduire l'amertume.",
+          "time": 15
+      }
+  ]
+}
+]

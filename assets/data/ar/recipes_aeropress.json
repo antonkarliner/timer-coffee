@@ -1,0 +1,405 @@
+[
+  {
+    "id": "201",
+    "name": "وصفة تيم ويندلبو للايروبرس",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 14,
+    "water_amount": 200,
+    "water_temp": 100,
+    "grind_size": "ناعم",
+    "brew_time": "1min 50s",
+    "short_description": "وصفة من تيم ويندلبو، بطل العالم في باريستا وبطل العالم في تذوق القهوة. [شاهد الدليل هنا](https://timwendelboe.no/brew-guides/aeropress/).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "شطف الفلتر الورقي بالماء الجاري لبضع ثوانٍ ووضع القهوة المطحونة",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "صب <final_water_amount>غ من الماء فوق القهوة.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "تقليب 3 مرات.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "وضع الضاغط على الأيروبرس لمنع الماء من التصفية عبر الفلتر وترك القهوة تتخمر.",
+        "time": 60
+      },
+      {
+        "order": 5,
+        "description": "إزالة الضاغط وتقليب 3 مرات من الأمام إلى الخلف.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "وضع الضاغط على أعلى الأيروبرس وضغط المحتويات في كوب كبير أو إبريق باستخدام وزن الجسم.",
+        "time": 20
+      }
+    ]
+  },
+  {
+    "id": "202",
+    "name": "وصفة جيمس هوفمان للايروبرس",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 11,
+    "water_amount": 200,
+    "water_temp": 95,
+    "grind_size": "ناعم/متوسط",
+    "brew_time": "3min 25s",
+    "short_description": "وصفة من جيمس هوفمان، الفائز في بطولة العالم للباريستا، يوتيوبر، مستشار قهوة، ومؤلف. بالنسبة لقهوة التحميص المتوسط، استخدام ماء بدرجة حرارة 90-95 درجة مئوية سيعطيك نتائج أفضل. بالنسبة لقهوة التحميص الداكن، جرب استخدام ماء بدرجة حرارة 85-90 درجة مئوية للتخمير. طحن القهوة عند الطرف الأدق للطحن المتوسط، بفرض أن هذه قهوة محمصة فاتحة. كلما كان التحميص أغمق، قد تفضل زيادة الجرعة وجعل الطحن أكبر. [شاهد الدليل هنا](https://www.youtube.com/watch?v=j6VlT_jUVPc).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "وضع الآلة في وضعها القياسي على إبريق. لا تشطف أو تسخن الآلة مسبقاً (لا يحدث فرقاً). صب القهوة المطحونة",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "صب <final_water_amount>غ من الماء بهدف ترطيب كل القهوة أثناء الصب.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "وضع الضاغط فوق الآلة، حوالي 1 سم داخلها.",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "انتظار دقيقتين.",
+        "time": 120
+      },
+      {
+        "order": 5,
+        "description": "مع الإمساك بالآلة والضاغط، تحريك الآلة برفق.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "انتظار 30 ثانية.",
+        "time": 30
+      },
+      {
+        "order": 7,
+        "description": "الضغط برفق حتى النهاية.",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "203",
+    "name": "وصفة ألان أدلر للايروبرس",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 16,
+    "water_amount": 95,
+    "water_temp": 80,
+    "grind_size": "ناعم",
+    "brew_time": "1min 0s",
+    "short_description": "وصفة من ألان أدلر، مخترع الأيروبرس. هذه الوصفة تنتج تركيز القهوة أو قهوة على طراز 'الاسبريسو'. ببساطة أضف الماء الساخن حسب ذوقك لصنع قهوة على طراز 'أمريكانو'. [شاهد الدليل هنا](https://www.youtube.com/watch?v=9c14DxfVOY4).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "أضف القهوة المطحونة إلى غرفة التخمير. رج الغرفة لتوزيع القهوة بالتساوي.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "صب <final_water_amount>غ من الماء في الغرفة.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "قلب باستخدام المجرفة.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "أدخل الضاغط واضغط برفق.",
+        "time": 40
+      }
+    ]
+  },
+  {
+    "id": "204",
+    "name": "وصفة وينديلين فان بونيك للايروبرس",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 16,
+    "water_amount": 230,
+    "water_temp": 95,
+    "grind_size": "خشن",
+    "brew_time": "1min 30s",
+    "short_description": "وصفة من وينديلين فان بونيك، باريستا هولندية وبطلة العالم في أيروبرس لعام 2019. لاحظ أن هذه الطريقة معكوسة. إذا لم تكن متأكداً من كيفية عملها، [شاهد الدليل أولاً](https://www.youtube.com/watch?v=jLNIGf-lf3s).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "ضع فلترين ورقيين في الغطاء واشطفهما بالماء الساخن. أزل أي فقاعات هواء باستخدام المجرفة. تخلص من ماء الشطف. أضف القهوة المطحونة إلى غرفة التخمير. رجها لتوزيع القهوة بالتساوي.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "صب <final_water_amount>غ من الماء فوق القهوة.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "قلب برفق 5 مرات.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "ثبت غطاء الفلتر واتركه يرتاح.",
+        "time": 40
+      },
+      {
+        "order": 5,
+        "description": "قلب الأيروبرس واضغط في الكوب. توقف عند سماع صوت صفير.",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "205",
+    "name": "وصفة ألكسندر ميلز للايروبرس المثلج",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 20,
+    "water_amount": 150,
+    "water_temp": 99,
+    "grind_size": "متوسط/ناعم",
+    "brew_time": "3min 20s",
+    "short_description": "وصفة من ألكسندر ميلز، مستشار في صناعة القهوة من كندا. لاحظ أن هذه الطريقة معكوسة. هنا [الدليل](https://alexandermills.ca/blog/iced-aeropress).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "اغسل مسبقاً فلترين ورقيين في الغطاء لإزالة طعم الورق وسخن الآلة مسبقاً. تخلص من الماء واترك الغطاء جانباً. املأ الإبريق بالثلج بكمية مساوية لكمية الماء. أضف القهوة المطحونة للايروبرس.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "مع الأيروبرس المقلوب، صب (0.3 x <final_water_amount>)غ من الماء المغلي.",
+        "time": 5
+      },
+      {
+        "order": 3,
+        "description": "قلب جيداً.",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "اترك القهوة لتتفتح.",
+        "time": 20
+      },
+      {
+        "order": 5,
+        "description": "صب باقي (0.7 x <final_water_amount>)غ من الماء بسرعة في دوائر متحدة المركز.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "قم بتقليب الخليط مرة واحدة بعمق ثم غطي الأيروبرس.",
+        "time": 100
+      },
+      {
+        "order": 7,
+        "description": "قلب الأيروبرس فوق الإبريق واضغط بثبات لمدة 30 ثانية فوق الثلج. توقف عندما يصدر الأيروبرس صوت صفير.",
+        "time": 30
+      },
+      {
+        "order": 8,
+        "description": "قلب قهوتك المثلجة جيداً في الإبريق لتبادل الجزيئات الأخيرة من الحرارة ببعض الجزيئات الأبرد ثم قدمها في كوب مبرد.",
+        "time": 20
+      }
+    ]
+  },
+  {
+    "id": "206",
+    "name": "وصفة مارك برينس للايروبرس",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 21,
+    "water_amount": 225,
+    "water_temp": 97,
+    "grind_size": "متوسط",
+    "brew_time": "1min 30s",
+    "short_description": "وصفة من مارك برينس، قاضي بطولات الباريستا الكندية والأمريكية والعالمية ومؤسس CoffeeGeek. هنا [الدليل التفصيلي والمثير للاهتمام](https://www.coffeegeek.com/guides/aeropress-inverted-brew-method-how-to/). لاحظ أن هذه الطريقة معكوسة وينصح مارك بشدة باستخدام فلتر معدني بدلاً من الورقي.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "رتب جميع معداتك والقهوة معاً. اغلي الماء. اجمع الأيروبرس. ضع الضاغط في مكبس الأيروبرس بعمق أقل من 1 سم، مع التأكد من محاذاته بشكل مثالي. قس وطحن قهوتك. ضع الأيروبرس على الميزان، أضف القهوة وأعد ضبط الميزان.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "صب (0.45 x <final_water_amount>)غ من الماء المغلي في المكبس المقلوب.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "اترك مساحة صغيرة لتفتح القهوة.",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "قلب الخليط قليلاً.",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "واصل الصب حتى تصل إلى <final_water_amount>غ من الماء.",
+        "time": 15
+      },
+      {
+        "order": 6,
+        "description": "قم بتقليب الخليط مرتين أخرتين، مع الحرص على عدم امتلاء الجزء العلوي.",
+        "time": 10
+      },
+      {
+        "order": 7,
+        "description": "أضف 40-50غ أخرى من الماء إذا أمكن، مملئاً غرفة التخمير قدر الإمكان حتى الحافة.",
+        "time": 5
+      },
+      {
+        "order": 8,
+        "description": "أرفق الفلتر وحامل الفلتر بالأيروبرس.",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "ضع الكوب أو الإبريق فوق الأيروبرس المقلوب.",
+        "time": 5
+      },
+      {
+        "order": 10,
+        "description": "قلب الأيروبرس والإبريق.",
+        "time": 10
+      },
+      {
+        "order": 11,
+        "description": "اضغط على الأيروبرس لاستخلاص القهوة.",
+        "time": 10
+      }
+    ]
+  },
+  {
+    "id": "207",
+    "name": "وصفة جيمس هوفمان للايروبرس المثلج",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 22,
+    "water_amount": 400,
+    "water_temp": 100,
+    "grind_size": "ناعم/متوسط",
+    "brew_time": "3min 25s",
+    "short_description": "وصفة الأيروبرس المثلج من جيمس هوفمان هي في الأساس نسخة مكبرة من تقنيته النهائية مع الثلج كبديل. [شاهد الدليل هنا](https://youtu.be/DlaEwef6MTg).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "ضع (0.4 x <final_water_amount>)غ من الثلج في الإبريق. ضع الآلة في وضعها القياسي على الإبريق. لا تشطف أو تسخن الآلة مسبقاً (لا يحدث فرقاً). صب القهوة المطحونة.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "صب (0.6 x <final_water_amount>)غ من الماء بهدف ترطيب كل القهوة أثناء الصب.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "ضع الضاغط فوق الآلة، حوالي 1 سم داخلها.",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "انتظر 4 دقائق.",
+        "time": 240
+      },
+      {
+        "order": 5,
+        "description": "مع الإمساك بالآلة والضاغط، قم بتدوير الآلة برفق.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "انتظر 30 ثانية.",
+        "time": 30
+      },
+      {
+        "order": 7,
+        "description": "اضغط برفق حتى النهاية.",
+        "time": 30
+      },
+      {
+        "order": 8,
+        "description": "قم بالتقليب لإذابة كل الثلج. قدم فوق مكعبات ثلج جديدة.",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "208",
+    "name": "وصفة الأيروبرس من كوفي ويذ أبريل",
+    "brewing_method_id": "aeropress",
+    "brewing_method": "Aeropress",
+    "coffee_amount": 13,
+    "water_amount": 200,
+    "water_temp": 88,
+    "grind_size": "متوسط-خشن",
+    "brew_time": "2min 0s",
+    "short_description": "تُنتج الوصفة قهوة خفيفة وعصيرية مع مرارة منخفضة وحموضة جيدة. [شاهد الدليل هنا](https://www.youtube.com/watch?v=PUsHI7jdX1k).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "ضع الفلتر الورقي، اشطفه ثم ضع الأيروبرس على الإبريق في وضعه القياسي. صب القهوة.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "صب (0.25 x <final_water_amount>)غ من الماء بسرعة، قلب قليلاً وضع الضاغط لمنع التقطير.",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "انتظر.",
+        "time": 15
+      },
+      {
+        "order": 4,
+        "description": "أزل الضاغط، صب باقي (0.75 x <final_water_amount>)غ من الماء. أعد وضع الضاغط.",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "انتظر.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "اضغط ببطء، توقف عند الصفير.",
+        "time": 30
+      }
+    ]
+  }
+]

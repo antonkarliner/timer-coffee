@@ -1,0 +1,186 @@
+[
+  {
+    "id": "501",
+    "name": "James Hoffmann Ultimatives Clever Dripper Rezept",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 15,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "Mittelfein",
+    "brew_time": "3min 30s",
+    "short_description": "Ein Clever Dripper Rezept von James Hoffmann, World Barista Champion und Kaffeeexperte. [Anleitung ansehen](https://www.youtube.com/watch?v=RpOdennxP24).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Papierfilter in den Clever Dripper einsetzen und mit Wasser spülen. Kaffee mahlen, noch nicht in den Dripper geben. Alles auf die Waage stellen, tara setzen und einen Löffel bereitlegen.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "<final_water_amount>g Wasser in den Clever Dripper füllen.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Kaffee hinzugeben und leicht umrühren.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Kaffee 2 Minuten ziehen lassen.",
+        "time": 120
+      },
+      {
+        "order": 5,
+        "description": "Mit einem Löffel umrühren oder den Brüher schütteln, um die Kruste zu brechen.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Clever Dripper auf einen Server stellen und den Durchlauf abwarten.",
+        "time": 60
+      }
+    ]
+  },
+  {
+    "id": "502",
+    "name": "Clever Dripper Rezept von European Coffee Trip",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 20,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "grob",
+    "brew_time": "5min 20s",
+    "short_description": "Ein Rezept für den Clever Dripper vom YouTube-Kanal European Coffee Trip. [Anleitung hier](https://www.youtube.com/watch?v=H4-XTUpX9Mo).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Papierfilter im Clever Dripper platzieren und mit heißem Wasser spülen. Kaffee mahlen und in den Brüher geben.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "<final_water_amount>g Wasser in den Brüher gießen.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "2 Minuten warten.",
+        "time": 120
+      },
+      {
+        "order": 4,
+        "description": "Die Kruste mit einem Löffel vorsichtig aufbrechen.",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "Weitere 2 Minuten warten.",
+        "time": 120
+      },
+      {
+        "order": 6,
+        "description": "Den Clever Dripper auf eine Karaffe setzen und den Kaffee durchlaufen lassen.",
+        "time": 60
+      }
+    ]
+  },  
+  {
+    "id": "503",
+    "name": "Clever Dripper Rezept von Coffee and Water",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 28,
+    "water_amount": 420,
+    "water_temp": 95,
+    "grind_size": "Mittel-grob",
+    "brew_time": "5min 20s",
+    "short_description": "Ein Rezept für den Clever Dripper vom YouTube-Kanal Coffee and Water. [Tutorial ansehen](https://www.youtube.com/watch?v=gyZ7Zvvl3uk).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Papierfilter in den Clever Dripper einlegen und mit heißem Wasser spülen. Mahlen Sie den Kaffee und geben Sie ihn in den Brüher.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "<final_water_amount>g Wasser in den Brüher geben.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Kaffee ziehen lassen.",
+        "time": 50
+      },
+      {
+        "order": 4,
+        "description": "Kruste auf dem Kaffee mit einem Löffel aufbrechen und dreimal umrühren.",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "Kaffee weiterziehen lassen.",
+        "time": 80
+      },
+      {
+        "order": 6,
+        "description": "Clever Dripper auf eine Karaffe setzen und den Kaffee ablaufen lassen.",
+        "time": 60
+      }
+    ]
+  },
+  {
+    "id": "504",
+    "name": "James Hoffmann Iced Clever Dripper Rezept",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 37.5,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "Fein",
+    "brew_time": "6min 35s",
+    "short_description": "Eine verbesserte Immersions-Eiskaffeetechnik von James Hoffmann. [Anleitung hier](https://www.youtube.com/watch?v=8uGGeV8A-BM). Optional: Am Ende einige Tropfen einer 20% Salzlösung hinzufügen, um Bitterkeit zu reduzieren. Hinweis: Feiner mahlen als für Pour Over, aber nicht espressofein.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Papierfilter in den Clever Dripper einsetzen und spülen. Kaffee mahlen, noch nicht einfüllen. Alles auf der Waage auf Null stellen. Löffel bereitlegen. (0.34 x <final_water_amount>)g Eis im Gefrierschrank aufbewahren.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(0.66 x <final_water_amount>)g Wasser in den Clever Dripper geben.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Kaffee hinzugeben und umrühren, bis alles benetzt ist.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Kaffee ziehen lassen. Kurz vor Ende der Ziehzeit (0.34 x <final_water_amount>)g Eis in den Server geben.",
+        "time": 300
+      },
+      {
+        "order": 5,
+        "description": "Clever Dripper auf den Server setzen und den Durchlauf abwarten.",
+        "time": 60
+      },
+      {
+        "order": 6,
+        "description": "Server schwenken oder umrühren, um das restliche Eis zu verdünnen. Optional: einige Tropfen Salzlösung hinzufügen, um Bitterkeit zu reduzieren.",
+        "time": 15
+      }
+    ]
+  }  
+]

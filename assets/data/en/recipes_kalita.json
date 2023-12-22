@@ -1,0 +1,186 @@
+[
+    {
+      "id": "601",
+      "name": "Scott Rao Kalita Wave recipe",
+      "brewing_method_id": "kalita_wave",
+      "brewing_method": "Kalita Wave",
+      "coffee_amount": 20,
+      "water_amount": 340,
+      "water_temp": 95,
+      "grind_size": "Medium fine",
+      "brew_time": "4min 20s",
+      "short_description": "A Kalita Wave recipe by Scott Rao. [Watch the tutorial video](https://www.youtube.com/watch?v=BjsGf3R9mc0).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Grind the coffee, rinse the paper filter with hot water and place it into the Kalita Wave. Put in the coffee grounds.",
+          "time": 0
+        },
+        {
+          "order": 3,
+          "description": "Pre-wet with (3 x <final_coffee_amount>)g of water.",
+          "time": 10
+        },
+        {
+          "order": 4,
+          "description": "Give the brewer a little spin, use the spoon to mix if needed.",
+          "time": 10
+        },
+        {
+          "order": 5,
+          "description": "Let the coffee bloom.",
+          "time": 25
+        },
+        {
+          "order": 6,
+          "description": "Pour untill (0.6 x <final_water_amount>)g.",
+          "time": 30
+        },      
+        {
+          "order": 7,
+          "description": "Wait for slurry to drain about halfway.",
+          "time": 40
+        },
+        {
+          "order": 8,
+          "description": "Add water until <final_water_amount>g.",
+          "time": 10
+        },
+        {
+          "order": 9,
+          "description": "Gently spin the brewer and wait for the complete drawdown.",
+          "time": 135
+        }
+      ]
+    },
+    {
+      "id": "602",
+      "name": "James McCarthy Kalita Wave recipe",
+      "brewing_method_id": "kalita_wave",
+      "brewing_method": "Kalita Wave",
+      "coffee_amount": 24,
+      "water_amount": 380,
+      "water_temp": 96,
+      "grind_size": "Coarse",
+      "brew_time": "3min 30s",
+      "short_description": "Recipe by James McCarthy, who won the World Brewers Cup Championship in 2013 with Kalita Wave. More details [here](https://sprudge.com/meet-the-worlds-best-brewer-james-mccarthy-brewers-cup-champ-38672.html).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Grind and sift (optionally) coffee. Rinse filter, pour coffee into the Kalita, and shake to level the grounds.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Pre-wet with (2 x <final_coffee_amount>)g of water.",
+          "time": 15
+        },
+        {
+          "order": 3,
+          "description": "Let the coffee bloom.",
+          "time": 30
+        },
+        {
+          "order": 4,
+          "description": "Pulse pour up to (0.5 x <final_water_amount>)g., maintaining an even column of water above the grounds.",
+          "time": 30
+        },
+        {
+        "order": 5,
+        "description": "Pulse pour up to <final_water_amount>g., use flow-restricted kettle if possible.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Wait for the complete drawdown.",
+        "time": 75
+      }
+    ]
+    },
+    {
+      "id": "603",
+      "name": "George Howell Coffee Kalita Wave recipe",
+      "brewing_method_id": "kalita_wave",
+      "brewing_method": "Kalita Wave",
+      "coffee_amount": 25,
+      "water_amount": 390,
+      "water_temp": 96,
+      "grind_size": "Medium",
+      "brew_time": "3min 30s",
+      "short_description": "An unusual recipe by [George Howell Coffee](https://georgehowellcoffee.com/pages/brew-guide-kalita-185/).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Rinse filter until dripper feels warm. Weigh coffee and grind. Pour into Kalita Wave and shake to level grounds.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Pour until (0.16 x <final_water_amount>)g. of water.",
+          "time": 15
+        },
+        {
+          "order": 3,
+          "description": "Wait.",
+          "time": 15
+        },
+        {
+          "order": 4,
+          "description": "Pour until (0.33 x <final_water_amount>)g. of water.",
+          "time": 15
+        },
+        {
+          "order": 5,
+          "description": "Wait.",
+          "time": 15
+        },
+        {
+          "order": 6,
+          "description": "Pour until (0.5 x <final_water_amount>)g. of water.",
+          "time": 15
+        },
+        {
+          "order": 7,
+          "description": "Wait.",
+          "time": 15
+        },
+        {
+          "order": 8,
+          "description": "Pour until (0.66 x <final_water_amount>)g. of water.",
+          "time": 15
+        },
+        {
+          "order": 9,
+          "description": "Wait.",
+          "time": 15
+        },
+        {
+          "order": 10,
+          "description": "Pour until (0.83 x <final_water_amount>)g. of water.",
+          "time": 15
+        },
+        {
+          "order": 11,
+          "description": "Wait.",
+          "time": 15
+        },
+        {
+          "order": 12,
+          "description": "Pour until <final_water_amount>g. of water.",
+          "time": 15
+        },
+        {
+          "order": 13,
+          "description": "Wait for the drawdown to complete.",
+          "time": 45
+        }
+    ]
+    }
+  ]
+  

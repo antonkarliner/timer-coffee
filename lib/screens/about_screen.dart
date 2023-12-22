@@ -6,6 +6,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:auto_route/auto_route.dart';
+import '../app_router.gr.dart';
+import 'dart:io';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class AboutScreen extends StatelessWidget {
@@ -16,8 +19,10 @@ class AboutScreen extends StatelessWidget {
     return packageInfo.version;
   }
 
-  Future<String> loadContributors() async {
-    return await rootBundle.loadString('assets/CONTRIBUTORS.md');
+  Future<String> loadContributors(Locale locale) async {
+    String localePath = locale.languageCode; // 'en', 'ru', etc.
+    String filePath = 'assets/data/$localePath/CONTRIBUTORS.md';
+    return await rootBundle.loadString(filePath);
   }
 
   void _launchURL(String url) async {
@@ -32,7 +37,7 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('About'),
+        title: Text(AppLocalizations.of(context)!.about),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -41,92 +46,72 @@ class AboutScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               ExpansionTile(
-                title: const Text('About'),
+                title: Text(AppLocalizations.of(context)!.author),
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 16.0, top: 8.0, right: 16.0, bottom: 8.0),
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text:
-                                'Timer.Coffee App is created by Anton Karliner, a coffee enthusiast, media specialist, and photojournalist. You can view my photojournalistic work ',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          TextSpan(
-                            text: 'here',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(color: Colors.blue),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                _launchURL('https://www.karliner.photo/');
-                              },
-                          ),
-                          TextSpan(
-                            text:
-                                '. I hope that this app will help you enjoy your coffee. Feel free to contribute on Github.',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ],
-                      ),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      AppLocalizations.of(context)!.authortext,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
                 ],
               ),
               ExpansionTile(
-                title: const Text('Contributors'),
+                title: Text(AppLocalizations.of(context)!.contributors),
                 children: <Widget>[
                   FutureBuilder<String>(
-                    future: loadContributors(),
+                    future: loadContributors(Localizations.localeOf(context)),
                     builder:
                         (BuildContext context, AsyncSnapshot<String> snapshot) {
                       if (snapshot.hasData) {
                         return Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
+                          padding: const EdgeInsets.all(16.0),
                           child: Container(
-                            height: 300, // Adjust this as necessary
+                            height: 300, // Adjust as necessary
                             child: Markdown(
                               data: snapshot.data!,
                               styleSheet: MarkdownStyleSheet(
                                 p: Theme.of(context).textTheme.bodyLarge!,
                               ),
-                              onTapLink: (text, url, title) {
-                                _launchURL(url!);
-                              },
+                              onTapLink: (text, url, title) => _launchURL(url!),
                             ),
                           ),
                         );
                       } else if (snapshot.hasError) {
-                        return Text(
-                            "Error loading contributors: ${snapshot.error}");
+                        return Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            AppLocalizations.of(context)!
+                                .errorLoadingContributors,
+                          ),
+                        );
                       } else {
-                        return const CircularProgressIndicator();
+                        return const Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: CircularProgressIndicator(),
+                        );
                       }
                     },
                   ),
                 ],
               ),
               ExpansionTile(
-                title: const Text('License'),
+                title: Text(AppLocalizations.of(context)!.license),
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Copyright (c) 2023 Anton Karliner'),
-                        const Text(
-                            'This application is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.'),
+                        Text(AppLocalizations.of(context)!.licensetext),
                         TextButton(
                           onPressed: () => _launchURL(
                               'https://www.gnu.org/licenses/gpl-3.0.html'),
-                          child: const Text(
-                            'Read the GNU General Public License v3',
-                            style:
-                                TextStyle(decoration: TextDecoration.underline),
+                          child: Text(
+                            AppLocalizations.of(context)!.licensebutton,
+                            style: const TextStyle(
+                                decoration: TextDecoration.underline),
                           ),
                         ),
                       ],
@@ -243,21 +228,34 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                 children: [
                   ElevatedButton.icon(
                     onPressed: () => _launchURL('https://www.timer.coffee'),
-                    icon: const Icon(Icons.language),
-                    label: const Text('Website'),
+                    icon: const Icon(Icons.explore),
+                    label: Text(AppLocalizations.of(context)!.website),
                   ),
                   ElevatedButton.icon(
                     onPressed: () => _launchURL(
                         'https://github.com/antonkarliner/coffee-timer'),
                     icon: const Icon(Icons.code),
-                    label: const Text('Source code'),
+                    label: Text(AppLocalizations.of(context)!.sourcecode),
                   ),
-                  ElevatedButton.icon(
-                    onPressed: () =>
-                        _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                    icon: const Icon(Icons.local_cafe),
-                    label: const Text('Buy me a coffee'),
-                  ),
+                  if (kIsWeb ||
+                      !Platform
+                          .isIOS) // Existing condition for non-iOS platforms
+                    ElevatedButton.icon(
+                      onPressed: () => _launchURL(
+                          'https://www.buymeacoffee.com/timercoffee'),
+                      icon: const Icon(Icons.local_cafe),
+                      label: Text(AppLocalizations.of(context)!.support),
+                    ),
+                  if (!kIsWeb &&
+                      Platform.isIOS) // New condition specifically for iOS
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        context.router
+                            .push(const DonationRoute()); // Your routing logic
+                      },
+                      icon: const Icon(Icons.local_cafe),
+                      label: Text(AppLocalizations.of(context)!.support),
+                    ),
                 ],
               ),
               const SizedBox(height: 20),
@@ -267,7 +265,7 @@ All trademarks, service marks, trade names, trade dress, product names and logos
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   if (snapshot.hasData) {
                     return Text(
-                      'App Version: ${snapshot.data}',
+                      '${AppLocalizations.of(context)!.appversion}: ${snapshot.data}',
                       style:
                           const TextStyle(fontSize: 16.0, color: Colors.grey),
                     );

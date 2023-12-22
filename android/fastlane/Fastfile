@@ -1,0 +1,72 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+# Helper method to get version code from pubspec.yaml
+def get_version_code
+  require 'yaml'
+
+  # Navigate up to the project root from android/fastlane directory
+  project_root = Dir.pwd.split("/android").first
+  pubspec_path = File.join(project_root, 'pubspec.yaml')
+  pubspec = YAML.load_file(pubspec_path)
+  version_string = pubspec['version']
+  version_code = version_string.split('+').last
+  version_code
+end
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    gradle(task: "clean assembleRelease")
+    crashlytics
+  
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    translate_gpt_release_notes(
+      master_locale: 'en-US',
+      platform: 'android',
+      context: 'Timer.Coffee is a coffee brew timer app, please pay special attention to correct usage of coffee-related terms.'
+      # other necessary parameters...
+    )
+    gradle(
+      task: "bundle",
+      build_type: "Release"
+    )
+    upload_to_play_store(
+      version_code: get_version_code,
+      aab: "../build/app/outputs/bundle/release/app-release.aab"
+    )
+  end
+
+  lane :translate_release_notes do
+    translate_gpt_release_notes(
+      master_locale: 'en-US',
+      platform: 'android',
+      context: 'Timer.Coffee is a coffee brew timer app, please pay special attention to correct usage of coffee-related terms.'
+      # other necessary parameters...
+    )
+  end
+end

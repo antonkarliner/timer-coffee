@@ -1,0 +1,186 @@
+[
+  {
+    "id": "501",
+    "name": "ジェームス・ホフマンの究極のClever Dripperレシピ",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 15,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "中細挽き",
+    "brew_time": "3min 30s",
+    "short_description": "世界バリスタチャンピオンでありYouTuber, コーヒーコンサルタント, 作家のジェームス・ホフマンによるClever Dripperレシピ。[チュートリアルはこちら](https://www.youtube.com/watch?v=RpOdennxP24)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "ペーパーフィルターをClever Dripperに挿入し、水ですすいでください。コーヒーを挽き、Clever Dripperに入れずに計量器に置き、ゼロを出します。スプーンを準備しておきます。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Clever Dripperに<final_water_amount>gの水を注ぎます。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "コーヒー粉を水に入れ、軽くスプーンでかき混ぜます。",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "2分間コーヒーを蒸らします。",
+        "time": 120
+      },
+      {
+        "order": 5,
+        "description": "スプーンを使ってかき混ぜるか、ブリュワーを少し振ってコーヒーのクラストを壊します。",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Clever Dripperをサーバーにセットし、コーヒーの完全なドローダウンを待ちます。",
+        "time": 60
+      }
+    ]
+  },
+  {
+    "id": "502",
+    "name": "ヨーロッパコーヒートリップのClever Dripperレシピ",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 20,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "粗挽き",
+    "brew_time": "5min 20s",
+    "short_description": "YouTubeチャンネルEuropean Coffee TripによるClever Dripperレシピ。[チュートリアルを見る](https://www.youtube.com/watch?v=H4-XTUpX9Mo)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "ペーパーフィルターをClever Dripperにセットし、お湯ですすいだ後、コーヒー粉をブリューワーに入れます。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "<final_water_amount>gの水をブリューワーに加えます。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "2分間待ちます。",
+        "time": 120
+      },
+      {
+        "order": 4,
+        "description": "スプーンでコーヒーのクラストを優しく割ります。",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "さらに2分待ちます。",
+        "time": 120
+      },
+      {
+        "order": 6,
+        "description": "Clever Dripperをカラフェの上にセットし、コーヒーを抽出します。",
+        "time": 60
+      }
+    ]
+  },  
+  {
+    "id": "503",
+    "name": "コーヒーと水のClever Dripperレシピ",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 28,
+    "water_amount": 420,
+    "water_temp": 95,
+    "grind_size": "中粗挽き",
+    "brew_time": "5min 20s",
+    "short_description": "YouTubeチャンネル「Coffee and Water」によるClever Dripperレシピ。[チュートリアルを見る](https://www.youtube.com/watch?v=gyZ7Zvvl3uk)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "ペーパーフィルターをClever Dripperにセットし、お湯ですすぎます。その後、コーヒーを挽き、ブリューワーに入れます。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "<final_water_amount>gの水をブリューワーに注ぎます。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "コーヒーを蒸らします。",
+        "time": 50
+      },
+      {
+        "order": 4,
+        "description": "3回かき混ぜて、スプーンでコーヒーのクラストを破ります。",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "さらにコーヒーを蒸らします。",
+        "time": 80
+      },
+      {
+        "order": 6,
+        "description": "Clever Dripperをカラフェの上にセットし、コーヒーを抽出します。",
+        "time": 60
+      }
+    ]
+  },
+  {
+    "id": "504",
+    "name": "ジェームズ・ホフマンのアイスClever Dripperレシピ",
+    "brewing_method_id": "clever_dripper",
+    "brewing_method": "Clever Dripper",
+    "coffee_amount": 37.5,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "細目",
+    "brew_time": "6min 35s",
+    "short_description": "ジェームス・ホフマンによる浸漬式アイスコーヒーレシピ。[チュートリアルはこちら](https://www.youtube.com/watch?v=8uGGeV8A-BM)。オプション:苦味を減らすために、最後に生理食塩水を数滴加えることができます。注:エスプレッソ用の細かさよりは粗いが、通常のドリップよりは細かく挽く必要があります。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "ペーパーフィルターをClever Dripperに挿入し、水ですすぎます。コーヒーを挽き、計量器に置き、ゼロにします。スプーンを用意します。(0.34 x <final_water_amount>)gの氷を用意し、冷凍庫に保管します。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(0.66 x <final_water_amount>)gの水をClever Dripperに加えます。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "コーヒーを水に入れ、かき混ぜて全体を濡らします。",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "コーヒーを蒸らし、蒸らし時間終了前にサーバーに(0.34 x <final_water_amount>)gの氷を入れます。",
+        "time": 300
+      },
+      {
+        "order": 5,
+        "description": "Clever Dripperをサーバーにセットし、完全なドローダウンを待ちます。",
+        "time": 60
+      },
+      {
+        "order": 6,
+        "description": "サーバーを回すか、スプーンでかき混ぜて氷を薄めます。オプションで生理食塩水を数滴加えることができます。",
+        "time": 15
+      }
+    ]
+  }  
+]

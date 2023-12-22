@@ -1,10 +1,10 @@
 name: coffee_timer
-description: Brew delicious coffee with Timer.Coffee
+description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 1.1.5+16
+version: 1.5.9+38
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
+  sdk: '>=2.19.6 <4.0.0'
 
 dependencies:
   flutter:
@@ -12,18 +12,34 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   flutter_linkify: ^5.0.2
-  intl: ^0.17.0
+  intl: any
   url_launcher: ^6.0.12
   provider: ^6.0.5
   shared_preferences: ^2.1.0
   ionicons: ^0.2.2
-  wakelock: ^0.6.2
-  in_app_review: ^2.0.6
-  package_info_plus: ^3.0.0
+  wakelock_plus: ^1.1.2
+  advanced_in_app_review: ^1.2.1
+  package_info_plus: ^4.1.0
   flutter_markdown: ^0.6.15
   cupertino_icons: ^1.0.0
-  just_audio: ^0.9.34
+  just_audio: ^0.9.36
   auto_route: ^7.7.1
+  share_plus: ^7.1.0
+  universal_html: ^2.2.3
+  flutter_native_splash: ^2.3.7
+  quick_actions: ^1.0.5
+  introduction_screen: ^3.1.11
+  coffeico: ^0.0.1
+  in_app_purchase: ^3.1.11
+  flutter_localizations:
+    sdk: flutter
+
+dependency_overrides:
+  flutter_keyboard_visibility:
+    git:
+      url: https://github.com/MisterJimson/flutter_keyboard_visibility.git
+      ref: b5e7b0de4fa9eb6a6c076f1120e5f92a77b7679d # https://github.com/MisterJimson/flutter_keyboard_visibility/commit/b5e7b0de4fa9eb6a6c076f1120e5f92a77b7679d
+      path: flutter_keyboard_visibility
 
 dev_dependencies:
   flutter_test:
@@ -31,6 +47,12 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   auto_route_generator: ^7.2.0
   build_runner: ^2.2.0
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/splash.png
+  color_dark: "303030"
+  fullscreen: true
 
 flutter:
   uses-material-design: true
@@ -43,6 +65,7 @@ flutter:
      - asset: fonts/Lato-Regular.ttf
      - asset: fonts/Lato-Bold.ttf
        weight: 700
+  generate: true
 
   assets:
     - assets/data/brewing_methods.json
@@ -55,5 +78,20 @@ flutter:
     - assets/data/recipes_wilfa.json
     - assets/data/recipes_origami.json
     - assets/data/coffee_facts.json
+    - assets/data/privacy_policy.md
+    - assets/data/privacy_policy_web.md
+    - assets/data/ar/
+    - assets/data/de/
+    - assets/data/en/
+    - assets/data/es/
+    - assets/data/fr/
+    - assets/data/ja/
+    - assets/data/pl/
+    - assets/data/pt/
+    - assets/data/ru/
+    - assets/data/zh/
     - assets/CONTRIBUTORS.md
     - assets/audio/next.mp3
+    - assets/onboarding/android/
+    - assets/onboarding/ios/
+    - assets/onboarding/gifs/

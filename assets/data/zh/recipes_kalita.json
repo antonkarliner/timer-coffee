@@ -1,0 +1,186 @@
+[
+  {
+    "id": "601",
+    "name": "Scott Rao Kalita Wave 配方",
+    "brewing_method_id": "kalita_wave",
+    "brewing_method": "Kalita Wave",
+    "coffee_amount": 20,
+    "water_amount": 340,
+    "water_temp": 95,
+    "grind_size": "中细",
+    "brew_time": "4min 20s",
+    "short_description": "由 Scott Rao 提供的 Kalita Wave 配方。[观看教程视频](https://www.youtube.com/watch?v=BjsGf3R9mc0)。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "研磨咖啡，用热水冲洗纸过滤器并放入 Kalita Wave。加入咖啡粉。",
+        "time": 0
+      },
+      {
+        "order": 3,
+        "description": "用 (3 x <final_coffee_amount>)g 水预湿。",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "轻轻旋转冲泡器，必要时用勺子混合。",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "让咖啡开花。",
+        "time": 25
+      },
+      {
+        "order": 6,
+        "description": "倒水至 (0.6 x <final_water_amount>)g。",
+        "time": 30
+      },      
+      {
+        "order": 7,
+        "description": "等待咖啡液排到大约一半。",
+        "time": 40
+      },
+      {
+        "order": 8,
+        "description": "加水至 <final_water_amount>g。",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "轻轻旋转冲泡器，等待完全过滤。",
+        "time": 135
+      }
+    ]
+  },
+  {
+    "id": "602",
+    "name": "James McCarthy Kalita Wave 配方",
+    "brewing_method_id": "kalita_wave",
+    "brewing_method": "Kalita Wave",
+    "coffee_amount": 24,
+    "water_amount": 380,
+    "water_temp": 96,
+    "grind_size": "粗",
+    "brew_time": "3min 30s",
+    "short_description": "2013年世界冲泡杯冠军 James McCarthy 使用 Kalita Wave 的配方。更多详情[在此](https://sprudge.com/meet-the-worlds-best-brewer-james-mccarthy-brewers-cup-champ-38672.html)。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "研磨并（可选）筛选咖啡。冲洗过滤器，将咖啡倒入 Kalita，摇动使咖啡粉平整。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "用 (2 x <final_coffee_amount>)g 水预湿。",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "让咖啡开花。",
+        "time": 30
+      },
+      {
+        "order": 4,
+        "description": "脉冲式倒水至 (0.5 x <final_water_amount>)g，保持水柱均匀覆盖咖啡粉。",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "脉冲式倒水至 <final_water_amount>g，如果可能，使用限流壶。",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "等待完全过滤。",
+        "time": 75
+      }
+    ]
+  },  
+  {
+    "id": "603",
+    "name": "George Howell Coffee 的 Kalita Wave 配方",
+    "brewing_method_id": "kalita_wave",
+    "brewing_method": "Kalita Wave",
+    "coffee_amount": 25,
+    "water_amount": 390,
+    "water_temp": 96,
+    "grind_size": "中等",
+    "brew_time": "3min 30s",
+    "short_description": "由 [George Howell Coffee](https://georgehowellcoffee.com/pages/brew-guide-kalita-185/) 提供的不同寻常的配方。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "冲洗过滤器，直到滴漏器感觉温暖。称量咖啡并研磨。倒入 Kalita Wave 并摇动使咖啡粉平整。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "倒入 (0.16 x <final_water_amount>)g 水。",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "等待。",
+        "time": 15
+      },
+      {
+        "order": 4,
+        "description": "倒入 (0.33 x <final_water_amount>)g 水。",
+        "time": 15
+      },
+      {
+        "order": 5,
+        "description": "等待。",
+        "time": 15
+      },
+      {
+        "order": 6,
+        "description": "倒入 (0.5 x <final_water_amount>)g 水。",
+        "time": 15
+      },
+      {
+        "order": 7,
+        "description": "等待。",
+        "time": 15
+      },
+      {
+        "order": 8,
+        "description": "倒入 (0.66 x <final_water_amount>)g 水。",
+        "time": 15
+      },
+      {
+        "order": 9,
+        "description": "等待。",
+        "time": 15
+      },
+      {
+        "order": 10,
+        "description": "倒入 (0.83 x <final_water_amount>)g 水。",
+        "time": 15
+      },
+      {
+        "order": 11,
+        "description": "等待。",
+        "time": 15
+      },
+      {
+        "order": 12,
+        "description": "倒入 <final_water_amount>g 水。",
+        "time": 15
+      },
+      {
+        "order": 13,
+        "description": "等待过滤完成。",
+        "time": 45
+      }
+    ]
+  }  
+  ]
+  

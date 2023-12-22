@@ -1,0 +1,150 @@
+[
+  {
+    "id": "701",
+    "name": "Иммерсивный рецепт Wilfa Svart Pour Over от известного бариста Тима Вендельбё",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "средне-грубый",
+    "brew_time": "3min 30s",
+    "short_description": "Иммерсивный рецепт Wilfa Svart Pour Over от чемпиона мира среди бариста Тима Вендельбё, который изобрёл эту воронку",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Промойте фильтр и заварник горячей водой. Слейте воду и закройте ограничитель потока. Измельчите кофе, засыпьте его в заварник, обнулите показания весов",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Налейте <final_water_amount>г. воды",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "Немного покрутите заварник",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "Дайте кофе завариться",
+        "time": 130
+      },
+      {
+        "order": 5,
+        "description": "Аккуратно ложкой разломите кофейную корочку",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Подождите еще немного",
+        "time": 20
+      },      
+      {
+        "order": 7,
+        "description": "Полностью откройте регулятор потока, дождитесь полного стекания кофе",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "702",
+    "name": "Проливной рецепт для Wilfa Svart Pour Over от проекта Best Coffee",
+    "brewing_method_id": "wilfa_svart", 
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "грубый",
+    "brew_time": "3min 0s",
+    "short_description": "Проливной рецепт для Wilfa Svart Pour Over от [Best Coffee](https://www.bestcoffee.guide/blogs/product-reviews/wilfa-pour-over-smart-dripper-review).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Промойте фильтр и заварник горячей водой. Слейте воду и закройте ограничитель потока. Измельчите кофе, засыпьте его в заварник, обнулите показания весов",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Налейте (2.2 x <final_coffee_amount>) г. воды",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Подождите, пока происходит блуминг",
+        "time": 20
+      },
+      {
+        "order": 4,
+        "description": "Откройте регулятор потока наполовину",
+        "time": 5
+      },
+      {
+      "order": 5,
+      "description": "Добавьте воды до (0.6 x <final_water_amount>)г.",
+      "time": 30
+    },
+    {
+      "order": 6,
+      "description": "Продолжайте наливать воду круговыми движениями до <final_water_amount> г.",
+      "time": 30
+    },
+    {
+      "order": 7,
+      "description": "Дождитесь полного стекания кофе и закройте регулятор потока",
+      "time": 115
+    }
+  ]
+  },
+  {
+    "id": "703",
+    "name": "Рецепт холодного кофе для Wilfa Svart Pour Over от Джеймса Хоффманна",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 22.5,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "Мелкий",
+    "brew_time": "6min 35s",
+    "short_description": "Этот кофе готовится методом погружения, придуманного победителем чемпионата мира среди бариста, кофейным консультантом и писателем Джеймсом Хоффманом. Тут можно посмотреть [тьюториал](https://www.youtube.com/watch?v=8uGGeV8A-BM). Дополнительно: в конце приготовления можно добавить несколько капель солевого раствора (раствор 20% соли и 80% воды) для уменьшения горечи. Примечание: помол должен быть более мелким, чем обычно для заваривания, но не эспрессо",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Вставьте бумажный фильтр в заварник Wilfa Svart Pour Over и промойте его водой. Измельчите кофе, но пока не засыпайте его в заварник. Поставьте на весы и обнулите их. Возьмите ложку. Вам понадобится (0.34 x <final_water_amount>)г льда, но пока держите его в морозилке.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Добавить в заварник (0.66 x <final_water_amount>)г. воды",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Насыпьте молотые зёрна в воду и размешайте ложкой, чтобы смочить веcь кофе",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Дайте кофе завариться. Перед окончанием времени заваривания положите в сервер (0.34 x <final_water_amount>)г. льда",
+        "time": 300
+      },
+      {
+        "order": 5,
+        "description": "Поставьте Wilfa Pour Over на сервер и дождитесь полного стекания кофе",
+        "time": 60
+      },
+      {
+        "order": 6,
+        "description": "Покрутите сервер или размешайте кофе ложкой, чтобы растопить весь лед. При желании добавьте несколько капель солевого раствора для уменьшения горечи",
+        "time": 15
+      }
+    ]
+  }
+]

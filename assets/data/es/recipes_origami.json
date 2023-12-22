@@ -1,0 +1,165 @@
+[
+  {
+    "id": "801",
+    "name": "Receta Alexander Mills Origami Dripper",
+    "brewing_method_id": "origami",
+    "brewing_method": "Origami Dripper",
+    "coffee_amount": 12.5,
+    "water_amount": 200,
+    "water_temp": 99,
+    "grind_size": "Medio-fino",
+    "brew_time": "3min 0s",
+    "short_description": "Receta de Origami Dripper por Alexander Mills, consultor en la industria del café. Utiliza filtros de café Kalita. [Ver tutorial](https://alexandermills.ca/).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Muela el café, enjuague el filtro de papel con agua caliente y añádalo al Origami Dripper. Coloque la balanza en cero.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Humedezca el café con (0.2 x <final_water_amount>)g de agua y agite suavemente el gotero.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Deje que el café florezca.",
+        "time": 30
+      },
+      {
+        "order": 4,
+        "description": "Vierta los (0.8 x <final_water_amount>)g de agua restantes en círculos lentos y concéntricos, terminando con un vertido alrededor del filtro. Agite suavemente el gotero.",
+        "time": 50
+      },
+      {
+        "order": 5,
+        "description": "Espere hasta que se complete el drenaje.",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "802",
+    "name": "Receta Jia Ning Du Origami Dripper",
+    "brewing_method_id": "origami",
+    "brewing_method": "Origami Dripper",
+    "coffee_amount": 16,
+    "water_amount": 240,
+    "water_temp": 94,
+    "grind_size": "Medio",
+    "brew_time": "1min 46s",
+    "short_description": "Receta de Jia Ning Du con el Origami Dripper, campeona mundial de Cerveceros. [Ver tutorial](https://www.youtube.com/watch?v=HNDnngFhZMU).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Enjuague el filtro y la cafetera con agua caliente. Muela el café. Viértalo en la Kalita Wave y ponga la balanza en cero.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Humedezca el café con (0.25 x <final_water_amount>)g de agua.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Espere 8 segundos.",
+        "time": 8
+      },
+      {
+        "order": 4,
+        "description": "Vierta (5 x <final_coffee_amount>)g de agua.",
+        "time": 20
+      },
+      {
+        "order": 5,
+        "description": "Espere 18 segundos.",
+        "time": 18
+      },
+      {
+        "order": 6,
+        "description": "Complete el vertido hasta alcanzar <final_water_amount>g.",
+        "time": 20
+      },
+      {
+        "order": 7,
+        "description": "Espere hasta que se complete el drenaje.",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "803",
+    "name": "Receta Origami Dripper de Carlos Medina",
+    "brewing_method_id": "origami",
+    "brewing_method": "Origami Dripper",
+    "coffee_amount": 15.5,
+    "water_amount": 250,
+    "water_temp": 91,
+    "grind_size": "Medio-grueso",
+    "brew_time": "2min 40s",
+    "short_description": "Receta de Carlos Medina de Chile, ganador de la Copa Mundial de Cerveceros en 2023. Utiliza filtros cónicos. [Ver actuación ganadora](https://www.youtube.com/watch?v=Ed8w-RKhR5U).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Enjuague el Origami Dripper y el filtro con agua caliente. Muela el café, viértalo y tare la balanza.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Vierta (0.2 x <final_water_amount>)g de agua.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Espere 20 segundos.",
+        "time": 20
+      },
+      {
+        "order": 4,
+        "description": "Vierta otros (0.2 x <final_water_amount>)g de agua.",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "Espere 20 segundos.",
+        "time": 20
+      },
+      {
+        "order": 6,
+        "description": "Vierta (0.2 x <final_water_amount>)g de agua.",
+        "time": 10
+      },
+      {
+        "order": 7,
+        "description": "Espere 20 segundos.",
+        "time": 20
+      },
+      {
+        "order": 8,
+        "description": "Vierta (0.2 x <final_water_amount>)g de agua.",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "Espere 20 segundos.",
+        "time": 20
+      },
+      {
+        "order": 10,
+        "description": "Vierta (0.2 x <final_water_amount>)g de agua.",
+        "time": 10
+      },
+      {
+        "order": 11,
+        "description": "Espere al drenaje completo.",
+        "time": 40
+      }
+    ]
+  }
+]

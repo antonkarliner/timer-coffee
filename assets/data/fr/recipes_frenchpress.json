@@ -1,0 +1,211 @@
+[
+  {
+    "id": "401",
+    "name": "Recette French Press de James Hoffmann",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "Moyenne-grossière",
+    "brew_time": "10min 0s",
+    "short_description": "Recette de French Press par James Hoffmann, champion du monde des baristas. [Voir le tutoriel](https://www.youtube.com/watch?v=st571DYYTR8).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+        {
+            "order": 1,
+            "description": "Moulez le café et mettez-le dans la French Press. Placez-la sur une balance, réinitialisez à zéro.",
+            "time": 0
+        },
+        {
+            "order": 2,
+            "description": "Ajoutez <final_water_amount>g d'eau.",
+            "time": 15
+        },
+        {
+            "order": 3,
+            "description": "Laissez reposer le café pendant 4 minutes.",
+            "time": 240
+        },
+        {
+            "order": 4,
+            "description": "Utilisez une cuillère pour remuer la croûte sur le dessus. Éliminez la mousse et les particules flottantes.",
+            "time": 30
+        },
+        {
+            "order": 5,
+            "description": "Laissez reposer le café pendant 5 minutes supplémentaires.",
+            "time": 300
+        },
+        {
+            "order": 6,
+            "description": "Positionnez le piston en haut de l'infusion, sans le pousser.",
+            "time": 15
+        }
+    ]
+},
+{
+    "id": "402",
+    "name": "Recette French Press de Gwilym Davies",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 16,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "Moyenne",
+    "brew_time": "12min 45s",
+    "short_description": "Recette de French Press par Gwilym Davies, champion du monde de barista. [Voir le tutoriel](https://www.youtube.com/watch?v=AkrqY8LkWM4).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+        {
+            "order": 1,
+            "description": "Moulez le café et mettez-le dans la French Press. Placez-la sur une balance, réinitialisez à zéro.",
+            "time": 0
+        },
+        {
+            "order": 2,
+            "description": "Versez rapidement <final_water_amount>g d'eau.",
+            "time": 10
+        },
+        {
+            "order": 3,
+            "description": "Attendez 5 minutes.",
+            "time": 300
+        },
+        {
+            "order": 4,
+            "description": "Mélangez délicatement le café avec de l'eau à l'aide d'une cuillère.",
+            "time": 10
+        },
+        {
+            "order": 5,
+            "description": "Insérez le piston sans l'enfoncer.",
+            "time": 5
+        },
+        {
+            "order": 6,
+            "description": "Patientez 3 minutes.",
+            "time": 180
+        },
+        {
+            "order": 7,
+            "description": "Pressez lentement sur le piston.",
+            "time": 20
+        },
+        {
+            "order": 8,
+            "description": "Attendez 2 minutes.",
+            "time": 120
+        },
+        {
+            "order": 9,
+            "description": "Versez le café dans une carafe et attendez 2 minutes avant de servir.",
+            "time": 120
+        }
+    ]
+},
+{
+  "id": "403",
+  "name": "Recette French Press de Scott Rao",
+  "brewing_method_id": "french_press",
+  "brewing_method": "French Press",
+  "coffee_amount": 30,
+  "water_amount": 540,
+  "water_temp": 95,
+  "grind_size": "Moyenne",
+  "brew_time": "5min 20s",
+  "short_description": "Recette de French Press par Scott Rao, expert en café et auteur spécialisé dans la gestion des cafés, la formation des baristas, la torréfaction et l'infusion du café.",
+  "last_used": "2023-05-01T12:00:00Z",
+  "is_favorite": false,
+  "steps": [
+      {
+          "order": 1,
+          "description": "Moulez le café et ajoutez-le dans la French Press. Placez-la sur une balance et remettez-la à zéro.",
+          "time": 0
+      },
+      {
+          "order": 2,
+          "description": "Versez rapidement <final_water_amount>g d'eau, en assurant que tout le café soit mouillé.",
+          "time": 10
+      },
+      {
+          "order": 3,
+          "description": "Positionnez le piston juste sous la surface du café, à environ 1 cm.",
+          "time": 10
+      },
+      {
+          "order": 4,
+          "description": "Laissez infuser pendant 4 minutes.",
+          "time": 240
+      },
+      {
+          "order": 5,
+          "description": "Abaissez doucement le filtre.",
+          "time": 10
+      },
+      {
+          "order": 6,
+          "description": "Attendez que les particules de café se déposent au fond, puis servez.",
+          "time": 180
+      }
+  ]
+},
+{
+    "id": "404",
+    "name": "French Press pour les Supertasters par The Coffee Chronicler",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 22,
+    "water_amount": 330,
+    "water_temp": 97,
+    "grind_size": "Fin",
+    "brew_time": "4min 0s",
+    "short_description": "Recette de French Press par Asser Christensen, alias The Coffee Chronicler. Cette recette vise à obtenir une infusion propre et savoureuse. Note : cette recette nécessite l'utilisation de filtres en papier. Asser recommande d'utiliser des filtres en forme de panier, le filtre doit couvrir entièrement le piston et s'étendre de 2-3 cm sur les côtés ou un peu plus. [Consultez le tutoriel détaillé](https://coffeechronicler.com/how-to-make-french-press-recipe/).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Pliez votre filtre en papier, placez-le dans la cafetière et rincez-le à l'eau chaude. Retirez le filtre et placez-le dans la tasse. Jetez l'eau. Moudre le café et le mettre dans la French Press. Placez sur la balance et remettez à zéro.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Ajoutez <final_water_amount>g d'eau, en versant de manière agressive.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Remuez 8 fois.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Pressez doucement le filtre en papier pour éliminer l'excès d'eau et enroulez-le autour du piston.",
+        "time": 60
+      },
+      {
+        "order": 5,
+        "description": "Remuez doucement la surface de l'infusion pour briser toute croûte.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Attendez.",
+        "time": 60
+      },
+      {
+        "order": 7,
+        "description": "Insérez soigneusement le piston avec le filtre en papier attaché. Pressez lentement.",
+        "time": 60
+      },
+      {
+        "order": 8,
+        "description": "Transvasez le café infusé dans une carafe pour le porter à la température idéale de dégustation.",
+        "time": 30
+      }
+  ]
+}
+]

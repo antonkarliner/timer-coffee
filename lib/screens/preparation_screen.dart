@@ -4,6 +4,7 @@ import '../models/brew_step.dart';
 import 'brewing_process_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PreparationScreen extends StatefulWidget {
   final Recipe recipe;
@@ -101,7 +102,7 @@ class _PreparationScreenState extends State<PreparationScreen> {
         .toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Preparation')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.preparation)),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -150,7 +151,12 @@ class _PreparationScreenState extends State<PreparationScreen> {
                   ),
                 );
               },
-              child: const Icon(Icons.play_arrow),
+              // Check the directionality and choose the icon accordingly
+              child: Icon(
+                Directionality.of(context) == TextDirection.rtl
+                    ? Icons.arrow_back_ios_new
+                    : Icons.play_arrow,
+              ),
             ),
           ],
         ),

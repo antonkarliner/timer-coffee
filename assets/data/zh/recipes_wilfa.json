@@ -1,0 +1,151 @@
+[
+  {
+    "id": "701",
+    "name": "Wilfa Svart Pour Over 沉浸式配方",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "中粗",
+    "brew_time": "3min 30s",
+    "short_description": "这是我在 Wilfa Dripper 上经常使用的配方。我不太确定它的作者，但它与许多沉浸式配方相似。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "用热水冲洗过滤器和冲泡器。研磨咖啡。倒入咖啡粉，秤上归零。关闭流量控制器。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "倒入 <final_water_amount>g 水。",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "轻轻旋转冲泡器。",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "让咖啡浸泡。",
+        "time": 130
+      },
+      {
+        "order": 5,
+        "description": "用勺子轻轻打破咖啡壳。",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "再等待一会儿。",
+        "time": 20
+      },      
+      {
+        "order": 7,
+        "description": "完全打开流量控制器，等待完全过滤。",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "702",
+    "name": "Wilfa Svart Pour Over 淋洒法配方，由 Best Coffee 提供",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "粗",
+    "brew_time": "3min 0s",
+    "short_description": "另一种 Wilfa Svart Pour Over 的冲泡方法，你猜对了，是淋洒法！这是由 [Best Coffee](https://www.bestcoffee.guide/blogs/product-reviews/wilfa-pour-over-smart-dripper-review) 提供的配方。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "用热水冲洗过滤器和冲泡器。研磨咖啡。倒入咖啡粉，秤上归零。关闭流量控制器。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "用 (2.2 x <final_coffee_amount>)g 水预湿。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "让咖啡开花。",
+        "time": 20
+      },
+      {
+        "order": 4,
+        "description": "将流量控制开至一半。",
+        "time": 5
+      },
+      {
+        "order": 5,
+        "description": "加水至 (0.6 x <final_water_amount>)g。",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "继续加水直至达到 <final_water_amount>g。",
+        "time": 30
+      },
+      {
+        "order": 7,
+        "description": "等待完全过滤并关闭流量控制。",
+        "time": 115
+      }
+    ]
+  },  
+  {
+    "id": "703",
+    "name": "Wilfa Svart Pour Over 冰咖啡配方(James Hoffmann)",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 22.5,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "细",
+    "brew_time": "6min 35s",
+    "short_description": "这个配方使用了 James Hoffman 改进的浸泡式冰咖啡技术。查看[教程](https://www.youtube.com/watch?v=8uGGeV8A-BM)。可选：最后可以加入几滴生理盐水(20% 盐和 80% 水的溶液)以减少苦味。注意：需要比平时滤泡时更细的研磨，但不是意式浓缩咖啡那么细。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "将纸过滤器放入 Wilfa Svart Pour Over 并用水冲洗。研磨咖啡，但暂时不要放入冲泡器。放在秤上，归零。准备一把勺子。您将需要 (0.34 x <final_water_amount>)g 冰块，但现在先保持在冰箱中。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "向冲泡器中加入 (0.66 x <final_water_amount>)g 水",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "将咖啡放入水中，并用勺子搅拌，确保所有咖啡都被湿润。",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "让咖啡浸泡。浸泡时间快结束时，将 (0.34 x <final_water_amount>)g 冰块放入容器中。",
+        "time": 300
+      },
+      {
+        "order": 5,
+        "description": "将冲泡器放在容器上，等待完全过滤。",
+        "time": 60
+      },
+      {
+        "order": 6,
+        "description": "摇晃容器或用勺子搅拌以稀释剩余的冰块。可选：添加几滴生理盐水以减少苦味。",
+        "time": 15
+      }
+    ]
+  }  
+  ]
+  

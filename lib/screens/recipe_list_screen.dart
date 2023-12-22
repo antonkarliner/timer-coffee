@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/recipe.dart';
-import '../models/brewing_method.dart';
 import '../providers/recipe_provider.dart';
 import '../widgets/favorite_button.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
+import 'package:flutter/foundation.dart';
+import "package:universal_html/html.dart" as html;
+import '../utils/icon_utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class RecipeListScreen extends StatefulWidget {
@@ -59,25 +62,38 @@ class _RecipeListScreenState extends State<RecipeListScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: FutureBuilder<String>(
-          future: brewingMethodName,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            }
-
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            }
-
-            return Text(snapshot.data!);
-          },
+        leading: const BackButton(), // This is your back button
+        title: Row(
+          children: [
+            getIconByBrewingMethod(
+                widget.brewingMethodId), // This is your brewing method icon
+            const SizedBox(
+                width:
+                    8), // Optional: Add a little space between the icon and text
+            FutureBuilder<String>(
+              future: brewingMethodName,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                }
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                if (kIsWeb) {
+                  // Update HTML title
+                  html.document.title =
+                      '${snapshot.data!} recipes on Timer.Coffee';
+                }
+                return Text(snapshot.data!);
+              },
+            ),
+          ],
         ),
         bottom: TabBar(
           controller: _tabController,
-          tabs: const [
-            Tab(text: 'All Recipes'),
-            Tab(text: 'Favorite Recipes'),
+          tabs: [
+            Tab(text: AppLocalizations.of(context)!.allrecipes),
+            Tab(text: AppLocalizations.of(context)!.favoriterecipes),
           ],
         ),
       ),
@@ -88,7 +104,7 @@ class _RecipeListScreenState extends State<RecipeListScreen>
             future: allRecipes,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
 
               if (snapshot.hasError) {
@@ -126,8 +142,8 @@ class _RecipeListScreenState extends State<RecipeListScreen>
             recipeProvider.updateLastUsed(recipes[index].id);
 
             context.router.push(RecipeDetailRoute(
-              brewingMethodId: recipes[index].brewingMethodId,
-              recipeId: recipes[index].id));
+                brewingMethodId: recipes[index].brewingMethodId,
+                recipeId: recipes[index].id));
           },
           trailing: FavoriteButton(
             recipeId: recipes[index]

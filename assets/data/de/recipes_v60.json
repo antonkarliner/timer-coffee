@@ -1,0 +1,297 @@
+[
+  {
+    "id": "101",
+    "name": "James Hoffmann V60 Rezept",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "Mittelfein",
+    "brew_time": "3min 30s",
+    "short_description": "Ein leicht nachvollziehbares Rezept von James Hoffmann. [Anleitungsvideo ansehen](https://www.youtube.com/watch?v=AI4ynXzkSQo).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Filter ausspülen, V60 vorheizen. Kaffee in die V60 geben und Vertiefung in der Mitte bilden.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Vornässen mit (2 x <final_coffee_amount>)g Wasser.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Brüher schwenken, um die Gülle zu vereinheitlichen.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Kaffee blühen lassen.",
+        "time": 25
+      },
+      {
+        "order": 5,
+        "description": "Ersten Hauptguss bis (0.6 x <final_water_amount>)g innerhalb von 30 Sekunden beenden.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Zweiten Hauptguss bis <final_water_amount>g sanft innerhalb von 30 Sekunden vervollständigen.",
+        "time": 30
+      },
+      {
+        "order": 7,
+        "description": "Mit einer kreisenden Bewegung rühren, um das Kaffeepulver von den Seiten zu lösen.",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "Brüher leicht schwenken, um das Kaffeebett zu glätten.",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "Ziel ist es, die Absenkung bis 3min 30s zu beenden.",
+        "time": 85
+      }
+    ]
+  },
+  {
+    "id": "102",
+    "name": "Scott Rao klassisches V60-Rezept",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 22,
+    "water_amount": 360,
+    "water_temp": 95,
+    "grind_size": "Mittelfein",
+    "brew_time": "3min 0s",
+    "short_description": "Scott Raos V60-Rezept zielt auf eine gleichmäßige Extraktion ab. [Empfohlen](https://www.youtube.com/watch?v=c0Qe_ASxfNM) wird ein V60 aus Kunststoff.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Filter spülen und V60 vorheizen. Kaffee in den V60 geben und glattstreichen.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Vornässen mit (3 x <final_coffee_amount>)g Wasser.",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "Vorsichtig ausgraben, um alles zu befeuchten.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Kaffee blühen lassen.",
+        "time": 20
+      },
+      {
+        "order": 5,
+        "description": "Hauptguss bei 45 Sekunden starten, bis <final_water_amount>g Wasser erreicht sind.",
+        "time": 50
+      },
+      {
+        "order": 6,
+        "description": "Vorsichtig umrühren, damit der Kaffee nicht an den Seiten klebt.",
+        "time": 25
+      },
+      {
+        "order": 7,
+        "description": "V60 schwenken, um das Kaffeebett zu glätten.",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "Der Durchlauf sollte innerhalb von 3 Minuten abgeschlossen sein.",
+        "time": 50
+      }
+    ]
+  },  
+  {
+    "id": "103",
+    "name": "Lance Hedricks Ultimate flash brew",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 240,
+    "water_temp": 93,
+    "grind_size": "Mittelfein",
+    "brew_time": "3min 25s",
+    "short_description": "Hoch extrahierter, wenig bitterer Eiskaffee mit allen Aromen der Bohnen. [Tutorial-Video ansehen](https://www.youtube.com/watch?v=qwvnQcojq9Q&).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Filter spülen und V60 vorheizen, Kaffeesatz einfüllen und glattstreichen.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Blühen mit (0.25 x <final_water_amount>)g Wasser.",
+        "time": 60
+      },
+      {
+        "order": 3,
+        "description": "(0.375 x <final_water_amount>)g Wasser aufgießen.",
+        "time": 45
+      },
+      {
+        "order": 4,
+        "description": "Erneut (0.375 x <final_water_amount>)g Wasser gießen und leicht verwirbeln. Warten, bis das Wasser abgelaufen ist.",
+        "time": 45
+      },
+      {
+        "order": 5,
+        "description": "(0.25 x <final_water_amount>)g Eis hinzufügen und umrühren, bis es auf 5-10°C abgekühlt ist.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Über frischem Eis servieren.",
+        "time": 25
+      }
+    ]
+  },
+  {
+    "id": "104",
+    "name": "James Hoffmann eisgekühltes V60 Rezept",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 32.5,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "Mittelfein",
+    "brew_time": "2min 55s",
+    "short_description": "Interpretation von gefrorenem Filterkaffee von James Hoffmann. [Tutorial-Video ansehen](https://www.youtube.com/watch?v=PApBycDrPo0).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Filter ausspülen, um den Server nicht zu erhitzen. Kaffeesatz einfüllen. (0.4 x <final_water_amount>)g Eis in den Server geben. Auf Waage stellen und tara einstellen.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Vornässen mit (3 x <final_coffee_amount>)g Wasser.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Die Blüte leicht umrühren.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Kaffee blühen lassen.",
+        "time": 25
+      },
+      {
+        "order": 5,
+        "description": "Langsam bis (0.6 x <final_water_amount>)g Wasser aufgießen.",
+        "time": 105
+      },
+      {
+        "order": 6,
+        "description": "Einmal im Uhrzeigersinn und einmal gegen den Uhrzeigersinn umrühren.",
+        "time": 10
+      },
+      {
+        "order": 7,
+        "description": "Server schwenken, um das Eis zu schmelzen. Über frische Eiswürfel im Glas servieren.",
+        "time": 15
+      }
+    ]
+  },  
+  {
+    "id": "105",
+    "name": "James Hoffmann V60 - Rezept für eine Tasse",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 15,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": "Mittelfein",
+    "brew_time": "3min 0s",
+    "short_description": "James Hoffmanns V60 Rezept für eine Tasse. [Anleitungsvideo ansehen](https://www.youtube.com/watch?v=1oB1oDrDkHM).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Filter ausspülen und V60 vorheizen. Kaffeesatz einfüllen.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Vornässen mit (0.2 x <final_water_amount>)g Wasser.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "V60 sanft wirbeln.",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "Kaffee blühen lassen.",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "Bis zu (0.4 x <final_water_amount>)g Wasser insgesamt gießen.",
+        "time": 15
+      },
+      {
+        "order": 6,
+        "description": "Warten.",
+        "time": 10
+      },
+      {
+        "order": 7,
+        "description": "Bis zu (0.6 x <final_water_amount>)g Wasser insgesamt gießen.",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "Warten.",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "Bis zu (0.8 x <final_water_amount>)g Wasser insgesamt gießen.",
+        "time": 10
+      },
+      {
+        "order": 10,
+        "description": "Warten.",
+        "time": 10
+      },
+      {
+        "order": 11,
+        "description": "Bis zu <final_water_amount>g Wasser insgesamt gießen.",
+        "time": 10
+      },
+      {
+        "order": 12,
+        "description": "Sanft wirbeln.",
+        "time": 5
+      },
+      {
+        "order": 13,
+        "description": "Auf die vollständige Entnahme warten.",
+        "time": 55
+      }
+    ]
+  }  
+]

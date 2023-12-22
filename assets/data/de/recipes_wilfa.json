@@ -1,0 +1,150 @@
+[
+  {
+    "id": "701",
+    "name": "Wilfa Svart Pour Over Eintauchrezept",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "Mittel-grob",
+    "brew_time": "3min 30s",
+    "short_description": "Dies ist ein Rezept, das häufig mit dem Wilfa Dripper verwendet wird. Der genaue Autor ist unbekannt, aber es ähnelt vielen Immersionsrezepten.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Filter und Brühgruppe mit heißem Wasser ausspülen. Kaffee mahlen, in den Brüher geben und die Waage auf Null stellen. Durchflussbegrenzer schließen.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "<final_water_amount>g Wasser eingießen.",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "Den Brüher leicht wirbeln.",
+        "time": 5
+      },
+      {
+        "order": 4,
+        "description": "Kaffee ziehen lassen.",
+        "time": 130
+      },
+      {
+        "order": 5,
+        "description": "Kaffeekruste vorsichtig mit einem Löffel aufbrechen.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Kurz warten.",
+        "time": 20
+      },
+      {
+        "order": 7,
+        "description": "Durchflusskontrolle öffnen und auf die vollständige Absenkung warten.",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "702",
+    "name": "Wilfa Svart Pour Over übergießen Rezept von Best Coffee",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 18,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "grob",
+    "brew_time": "3min 0s",
+    "short_description": "Eine weitere Zubereitungsmethode mit dem Wilfa Svart Pour Over ist das Übergießen. Rezept von [Best Coffee](https://www.bestcoffee.guide/blogs/product-reviews/wilfa-pour-over-smart-dripper-review).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Filter und Brühgruppe mit heißem Wasser ausspülen. Kaffee mahlen, in den Brüher geben und die Waage auf Null stellen. Durchflussbegrenzer schließen.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Vornässen mit (2.2 x <final_coffee_amount>)g Wasser.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Kaffee blühen lassen.",
+        "time": 20
+      },
+      {
+        "order": 4,
+        "description": "Durchflusskontrolle halb öffnen.",
+        "time": 5
+      },
+      {
+        "order": 5,
+        "description": "Wasser bis zu (0.6 x <final_water_amount>)g hinzufügen.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Weiter Wasser hinzufügen bis <final_water_amount>g erreicht sind.",
+        "time": 30
+      },
+      {
+        "order": 7,
+        "description": "Auf die vollständige Absenkung warten und dann die Durchflusskontrolle schließen.",
+        "time": 115
+      }
+    ]
+  },  
+  {
+    "id": "703",
+    "name": "Wilfa Svart Pour Over Iced Rezept (James Hoffmann)",
+    "brewing_method_id": "wilfa_svart",
+    "brewing_method": "Wilfa Svart Pour Over",
+    "coffee_amount": 22.5,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "Fein",
+    "brew_time": "6min 35s",
+    "short_description": "Ein verbessertes Rezept für Eiskaffee mit Immersionstechnik von James Hoffmann. [Anleitungsvideo ansehen](https://www.youtube.com/watch?v=8uGGeV8A-BM). Optional: Am Ende einige Tropfen einer 20%igen Salzlösung hinzufügen, um Bitterkeit zu reduzieren. Hinweis: Feiner mahlen als üblich für Pour Over, aber nicht so fein wie für Espresso.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Papierfilter in die Wilfa Svart einsetzen und mit Wasser ausspülen. Kaffee mahlen, aber noch nicht in den Brüher geben. Alles auf der Waage platzieren und auf Null stellen. Einen Löffel bereitlegen. (0.34 x <final_water_amount>)g Eis im Gefrierschrank aufbewahren.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(0.66 x <final_water_amount>)g Wasser in den Brüher geben.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Kaffee ins Wasser geben und mit einem Löffel umrühren, sodass alles benetzt ist.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Kaffee ziehen lassen. Kurz vor Ende der Ziehzeit (0.34 x <final_water_amount>)g Eis in den Server geben.",
+        "time": 300
+      },
+      {
+        "order": 5,
+        "description": "Die Wilfa Svart auf den Server stellen und auf die vollständige Extraktion warten.",
+        "time": 60
+      },
+      {
+        "order": 6,
+        "description": "Server schwenken oder mit einem Löffel umrühren, um das restliche Eis zu verdünnen. Optional: Einige Tropfen Salzlösung hinzufügen, um Bitterkeit zu reduzieren.",
+        "time": 15
+      }
+    ]
+  }  
+]

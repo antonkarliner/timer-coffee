@@ -1,0 +1,165 @@
+[
+  {
+    "id": "801",
+    "name": "Alexander Mills Origami Dripper 配方",
+    "brewing_method_id": "origami",
+    "brewing_method": "Origami Dripper",
+    "coffee_amount": 12.5,
+    "water_amount": 200,
+    "water_temp": 99,
+    "grind_size": "中细",
+    "brew_time": "3min 0s",
+    "short_description": "咖啡行业顾问和专业家庭冲泡者 [Alexander Mills](https://alexandermills.ca/) 提供的 Origami Dripper 配方。注意，此配方使用 Kalita 咖啡过滤器。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "研磨咖啡，预先冲洗过滤器并加入咖啡。放在秤上归零。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "用 (0.2 x <final_water_amount>)g 水浸泡咖啡，并轻轻旋转 dripper。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "让咖啡开花。",
+        "time": 30
+      },
+      {
+        "order": 4,
+        "description": "以慢速同心圆形式倒入剩余的 (0.8 x <final_water_amount>)g 水，最后一次倒水环绕过滤器外部。再轻轻旋转冲泡器一次。",
+        "time": 50
+      },
+      {
+        "order": 5,
+        "description": "等待完全过滤。",
+        "time": 30
+      }
+    ]
+  },
+  {
+    "id": "802",
+    "name": "Jia Ning Du Origami Dripper 配方",
+    "brewing_method_id": "origami",
+    "brewing_method": "Origami Dripper",
+    "coffee_amount": 16,
+    "water_amount": 240,
+    "water_temp": 94,
+    "grind_size": "中等",
+    "brew_time": "1min 46s",
+    "short_description": "由首位赢得世界冲泡杯(WBrC)的中国女咖啡师 Jia Ning Du 提供的 Origami Dripper 配方。这是她的获胜配方。[这里是教程](https://www.youtube.com/watch?v=HNDnngFhZMU)。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "用热水冲洗过滤器和冲泡器。研磨咖啡。倒入咖啡粉，秤上归零。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "倒入 (0.25 x <final_water_amount>)g 水。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "等待。",
+        "time": 8
+      },
+      {
+        "order": 4,
+        "description": "倒入 (5 x <final_coffee_amount>)g 水",
+        "time": 20
+      },
+      {
+        "order": 5,
+        "description": "等待。",
+        "time": 18
+      },
+      {
+        "order": 6,
+        "description": "完成倒水直到达到 <final_water_amount>g。",
+        "time": 20
+      },
+      {
+        "order": 7,
+        "description": "等待完全过滤。",
+        "time": 30
+      }
+    ]
+  },  
+  {
+    "id": "803",
+    "name": "Carlos Medina 的 Origami Dripper 配方",
+    "brewing_method_id": "origami",
+    "brewing_method": "Origami Dripper",
+    "coffee_amount": 15.5,
+    "water_amount": 250,
+    "water_temp": 91,
+    "grind_size": "中粗",
+    "brew_time": "2min 40s",
+    "short_description": "这是来自智利的 Carlos Medina 在 2023 年赢得世界冲泡杯的配方。观看他获胜表演的录像[在这里](https://www.youtube.com/watch?v=Ed8w-RKhR5U)。注意，Carlos 在此配方中使用了圆锥形过滤器。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "用热水冲洗 Origami dripper 和过滤器。研磨咖啡。倒入咖啡粉，秤上归零。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "倒入 (0.2 x <final_water_amount>)g 水。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "等待。",
+        "time": 20
+      },
+      {
+        "order": 4,
+        "description": "再倒入 (0.2 x <final_water_amount>)g 水。",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "等待。",
+        "time": 20
+      },
+      {
+        "order": 6,
+        "description": "再倒入 (0.2 x <final_water_amount>)g 水。",
+        "time": 10
+      },
+      {
+        "order": 7,
+        "description": "等待。",
+        "time": 20
+      },
+      {
+        "order": 8,
+        "description": "再倒入 (0.2 x <final_water_amount>)g 水。",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "等待。",
+        "time": 20
+      },
+      {
+        "order": 10,
+        "description": "再倒入 (0.2 x <final_water_amount>)g 水。",
+        "time": 10
+      },
+      {
+        "order": 11,
+        "description": "等待完全过滤。",
+        "time": 40
+      }
+    ]
+  }  
+  ]

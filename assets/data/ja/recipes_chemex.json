@@ -1,0 +1,216 @@
+[
+  {
+    "id": "301",
+    "name": "ジェームズ・ホフマンのケメックスレシピ",
+    "brewing_method_id": "chemex",
+    "brewing_method": "Chemex",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "中細挽き",
+    "brew_time": "4min 10s",
+    "short_description": "世界バリスタチャンピオンでYouTuber、コンサルタント、作家のJames Hoffmannのケメックスレシピ。V60と似たテクニックを採用。[チュートリアルを見る](https://www.youtube.com/watch?v=ikt-X5x7yoc)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "豆を挽き、お湯を沸騰させる。ペーパーフィルターをケメックスにセットし、熱湯でフィルターをすすぎ、余分な水を捨てる。豆を入れ、中央をくぼませて計量器に置き、ゼロにする。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(2 x <final_coffee_amount>)-(3 x <final_coffee_amount>)gの水を加える。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "攪拌して粉全体を濡らし、花を咲かせる。",
+        "time": 35
+      },
+      {
+        "order": 4,
+        "description": "(0.6 x <final_water_amount>)gになるまで円を描くように水を加え、塊を砕く。",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "<final_water_amount>gに達するまで水を加え続ける。",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "スプーンを使って時計回りによくかき混ぜ、その後反時計回りにかき混ぜる。",
+        "time": 15
+      },
+      {
+        "order": 7,
+        "description": "ケメックスを軽く振る。",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "ドローダウンが完了するまで待つ。",
+        "time": 120
+      }
+    ]
+  },
+  {
+    "id": "302",
+    "name": "カフェインフィーンドのケメックスレシピ",
+    "brewing_method_id": "chemex",
+    "brewing_method": "Chemex",
+    "coffee_amount": 32,
+    "water_amount": 480,
+    "water_temp": 95,
+    "grind_size": "中粗挽き（海塩サイズ）",
+    "brew_time": "4min 0s",
+    "short_description": "[Caffeine Fiend](https://caffeinefiend.co/chemex-recipe/)によるChemexレシピ。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "コーヒーを挽き、お湯を沸かし、ペーパーフィルターをケメックスにセットし、フィルターとカラフェをすすぎ、コーヒー粉を入れる。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(2 x <final_coffee_amount>)gの水で濡らしておく。中心から外側に向かって、らせん状にゆっくりと注ぐ。",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "コーヒーの花を咲かせる。",
+        "time": 45
+      },
+      {
+        "order": 4,
+        "description": "水位がケメックスの上部に達するまで、同心円状に注ぐ。",
+        "time": 20
+      },
+      {
+        "order": 5,
+        "description": "コーヒー粉が元のレベルまで戻るのを待つ。",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "<final_water_amount>gに達するまで、同じ手順を繰り返し、完全にドローダウンするまで待つ。",
+        "time": 130
+      }
+    ]
+  },  
+  {
+    "id": "303",
+    "name": "エピキュリアスのケメックスレシピ",
+    "brewing_method_id": "chemex",
+    "brewing_method": "Chemex",
+    "coffee_amount": 42,
+    "water_amount": 700,
+    "water_temp": 95,
+    "grind_size": "ミディアム（コーシャーソルトサイズ）",
+    "brew_time": "5min 0s",
+    "short_description": "[Epicurious](https://www.epicurious.com/expert-advice/how-to-make-chemex-coffee-right-way-gallery)のケメックスレシピ。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "コーヒーを挽き、お湯を沸かし、ペーパーフィルターをケメックスにセットしてフィルターとカラフェをすすぎ、コーヒー粉を入れる。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(2 x <final_coffee_amount>)g程度の水でコーヒー粉を予湿し、飽和させる。",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "コーヒーの花を咲かせる。",
+        "time": 30
+      },
+      {
+        "order": 4,
+        "description": "(0.33 x <final_water_amount>)gの水をゆっくりと円を描くように注ぐ。",
+        "time": 15
+      },
+      {
+        "order": 5,
+        "description": "待機。",
+        "time": 40
+      },
+      {
+        "order": 6,
+        "description": "(0.64 x <final_water_amount>)gまで水を追加。",
+        "time": 20
+      },
+      {
+        "order": 7,
+        "description": "2分待つ。",
+        "time": 120
+      },
+      {
+        "order": 8,
+        "description": "<final_water_amount>gに達するまで水を追加し、完全なドローダウンを待つ。",
+        "time": 60
+      }
+    ]
+  },
+  {
+    "id": "304",
+    "name": "スコット・ラオのケメックスレシピ",
+    "brewing_method_id": "chemex",
+    "brewing_method": "Chemex",
+    "coffee_amount": 30,
+    "water_amount": 510,
+    "water_temp": 97,
+    "grind_size": "ミディアム",
+    "brew_time": "2min 30s",
+    "short_description": "カフェ運営とバリスタトレーニングの専門家、著者スコット・ラオによるケメックスレシピ。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "コーヒーを挽き、お湯を沸かし、ペーパーフィルターをケメックスにセットしてフィルターとカラフェをすすぎ、コーヒー粉を入れる。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "(1.5 x <final_coffee_amount>)gの水で予湿する。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "コーヒーベッドを小さなスプーンで軽く掘る。",
+        "time": 25
+      },
+      {
+        "order": 4,
+        "description": "開花中に待機。",
+        "time": 5
+      },
+      {
+        "order": 5,
+        "description": "<final_water_amount>gの水を円形に注ぐ。",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "スラリーの周辺を非常にゆっくりかき混ぜる。",
+        "time": 10
+      },
+      {
+        "order": 7,
+        "description": "ケメックスを持ち、ゆっくり回す。",
+        "time": 10
+      },
+      {
+        "order": 8,
+        "description": "完全なドローダウンを待つ。",
+        "time": 60
+      }
+    ]
+  }  
+]

@@ -1,0 +1,185 @@
+[
+  {
+    "id": "601",
+    "name": "Przepis na Kalita Wave Scotta Rao",
+    "brewing_method_id": "kalita_wave",
+    "brewing_method": "Kalita Wave",
+    "coffee_amount": 20,
+    "water_amount": 340,
+    "water_temp": 95,
+    "grind_size": "Średnio drobno",
+    "brew_time": "4min 20s",
+    "short_description": "Metoda parzenia kawy Kalita Wave według Scotta Rao. [Zobacz film instruktażowy](https://www.youtube.com/watch?v=BjsGf3R9mc0).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Zmiel kawę, przepłucz filtr w Kalita Wave gorącą wodą i dodaj kawę.",
+        "time": 0
+      },
+      {
+        "order": 3,
+        "description": "Wstępnie zwilżyć (3 x <final_coffee_amount>)g wody.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Zakręć zaparzaczem, w razie potrzeby mieszaj łyżką.",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "Pozwól kawie rozkwitnąć.",
+        "time": 25
+      },
+      {
+        "order": 6,
+        "description": "Wlewaj do (0.6 x <final_water_amount>)g wody.",
+        "time": 30
+      },      
+      {
+        "order": 7,
+        "description": "Czekaj, aż poziom kawy obniży się mniej więcej do połowy.",
+        "time": 40
+      },
+      {
+        "order": 8,
+        "description": "Dolewaj wodę do <final_water_amount> g.",
+        "time": 10
+      },
+      {
+        "order": 9,
+        "description": "Delikatnie zakręć zaparzaczem i poczekaj na całkowite przesączenie.",
+        "time": 135
+      }
+    ]
+  },
+  {
+    "id": "602",
+    "name": "Przepis Jamesa McCarthy'ego na Kalita Wave",
+    "brewing_method_id": "kalita_wave",
+    "brewing_method": "Kalita Wave",
+    "coffee_amount": 24,
+    "water_amount": 380,
+    "water_temp": 96,
+    "grind_size": "grubo",
+    "brew_time": "3min 30s",
+    "short_description": "Metoda parzenia kawy w Kalita Wave autorstwa Jamesa McCarthy'ego, mistrza World Brewers Cup 2013. [Więcej szczegółów](https://sprudge.com/meet-the-worlds-best-brewer-james-mccarthy-brewers-cup-champ-38672.html).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Zmiel kawę, przesiej (opcjonalnie). Przepłucz filtr, wsyp kawę do Kalita Wave, wyrównaj fusy.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Wstępnie zwilż fusy (2 x <final_coffee_amount>)g wody.",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "Pozwól kawie rozkwitnąć.",
+        "time": 30
+      },
+      {
+        "order": 4,
+        "description": "Wlej pulsacyjnie do (0.5 x <final_water_amount>)g, utrzymując równy poziom wody.",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "Wlej pulsacyjnie do <final_water_amount> g, używając czajnika z ograniczonym przepływem.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Czekaj na zakończenie przesączania.",
+        "time": 75
+      }
+    ]
+  },
+  {
+    "id": "603",
+    "name": "Przepis George Howell Coffee na Kalita Wave",
+    "brewing_method_id": "kalita_wave",
+    "brewing_method": "Kalita Wave",
+    "coffee_amount": 25,
+    "water_amount": 390,
+    "water_temp": 96,
+    "grind_size": "Średni",
+    "brew_time": "3min 30s",
+    "short_description": "Wyjątkowa metoda parzenia kawy w Kalita Wave od George Howell Coffee. [Obejrzyj tutorial](https://georgehowellcoffee.com/pages/brew-guide-kalita-185/).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Przygotuj filtr w Kalita Wave, przepłucz go. Zważ i zmiel kawę, wsyp do zaparzacza.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Wlewaj do (0.16 x <final_water_amount>)g wody.",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "Czekaj chwilę.",
+        "time": 15
+      },
+      {
+        "order": 4,
+        "description": "Wlewaj do (0.33 x <final_water_amount>)g wody.",
+        "time": 15
+      },
+      {
+        "order": 5,
+        "description": "Czekaj chwilę.",
+        "time": 15
+      },
+      {
+        "order": 6,
+        "description": "Wlewaj do (0.5 x <final_water_amount>)g wody.",
+        "time": 15
+      },
+      {
+        "order": 7,
+        "description": "Czekaj chwilę.",
+        "time": 15
+      },
+      {
+        "order": 8,
+        "description": "Wlewaj do (0.66 x <final_water_amount>)g wody.",
+        "time": 15
+      },
+      {
+        "order": 9,
+        "description": "Czekaj chwilę.",
+        "time": 15
+      },
+      {
+        "order": 10,
+        "description": "Wlewaj do (0.83 x <final_water_amount>)g wody.",
+        "time": 15
+      },
+      {
+        "order": 11,
+        "description": "Czekaj chwilę.",
+        "time": 15
+      },
+      {
+        "order": 12,
+        "description": "Wlewaj do <final_water_amount> g wody.",
+        "time": 15
+      },
+      {
+        "order": 13,
+        "description": "Czekaj na zakończenie przesączania.",
+        "time": 45
+      }
+    ]
+  }  
+]

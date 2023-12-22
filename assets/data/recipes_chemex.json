@@ -35,7 +35,7 @@
         },
         {
           "order": 5,
-          "description": "Continue to add water until you reach <final_water_amount>)g.",
+          "description": "Continue to add water until you reach <final_water_amount>g.",
           "time": 30
         },
         {
@@ -132,7 +132,7 @@
           },
           {
             "order": 4,
-            "description": "Add (0.21 x <final_water_amount>)g. water, pouring in a slow, circular motion.",
+            "description": "Add up to (0.33 x <final_water_amount>)g. water, pouring in a slow, circular motion.",
             "time": 15
           },
           {

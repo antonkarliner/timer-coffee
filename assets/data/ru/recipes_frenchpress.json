@@ -1,0 +1,211 @@
+[
+  {
+    "id": "401",
+    "name": "Рецепт френч-пресса от Джеймса Хоффмана",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 30,
+    "water_amount": 500,
+    "water_temp": 95,
+    "grind_size": "средне-грубый",
+    "brew_time": " 10min 0s",
+    "short_description": "Рецепт френч-пресса от Джеймса Хоффмана, Рецепт Джеймса Хоффмана, победителя чемпионата мира среди бариста, кофейного консультанта и писателя. [Смотрите руководство](https://www.youtube.com/watch?v=st571DYYTR8).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Измельчите кофе и поместите его во френч-пресс. Поcтавьте на весы, обнулите их",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Добавьте <final_water_amount>г. воды",
+        "time": 15
+      },
+      {
+        "order": 3,
+        "description": "Дайте кофе настояться",
+        "time": 240
+      },
+      {
+        "order": 4,
+        "description": "Столовой ложкой перемешайте корку на вершине заварки. Удалите пену и плавающие частицы",
+        "time": 30
+      },
+      {
+        "order": 5,
+        "description": "Дайте кофе настояться еще 5 минут",
+        "time": 300
+      },
+      {
+        "order": 6,
+        "description": "Вставьте поршень, но не нажимайте на него до конца, оставьте его поверх кофе. Аккуратно разлейте по кружкам",
+        "time": 15
+      }
+    ]
+  },
+  {
+    "id": "402",
+    "name": "Рецепт френч-пресса от Гвилима Дэвиса",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 16,
+    "water_amount": 250,
+    "water_temp": 95,
+    "grind_size": " Средний",
+    "brew_time": " 12min 45s",
+    "short_description": "Рецепт френч-пресса от Гвилима Дэвиса, чемпиона мира среди бариста и тренера Specialty Coffee Association. Вот [тьюториал](https://www.youtube.com/watch?v=AkrqY8LkWM4)",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Измельчите кофе и поместите его во френч-пресс. Поcтавьте на весы, обнулите их",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Быстро добавьте <final_water_amount> г воды",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Подождите 5 минут",
+        "time": 300
+      },
+      {
+        "order": 4,
+        "description": "Смешайте кофе с водой столовой ложкой",
+        "time": 10
+      },
+      {
+      "order": 5,
+      "description": "Вставьте поршень, но пока не нажимайте на него",
+      "time": 5
+    },
+    {
+      "order": 6,
+      "description": "Подождите 3 минуты",
+      "time": 180
+    },
+    {
+      "order": 7,
+      "description": "Медленно нажимайте на поршень",
+      "time": 20
+    },
+    {
+      "order": 8,
+      "description": "Подождите 2 минуты",
+      "time": 120
+    },
+    {
+      "order": 9,
+      "description": "Перелейте кофе в сервер. Подождите еще 2 минуты перед подачей",
+      "time": 120
+    }
+  ]
+  },
+  {
+    "id": "403",
+    "name": "Рецепт френч-пресса от Скотта Рао",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 30,
+    "water_amount": 540,
+    "water_temp": 95,
+    "grind_size": " Средний",
+    "brew_time": " 5min 20s",
+    "short_description": "Рецепт френч-пресса от Скотта Рао, кофейного эксперта по обжарке и варке кофе",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Измельчите кофе и поместите его во френч-пресс. Поcтавьте на весы, обнулите их",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Быстро налейте <final_water_amount> г. воды, чтобы намочить весь кофе",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Поместите поршень на глубину 1см ниже поверхности кофе",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Подождите 4 минуты",
+        "time": 240
+      },
+      {
+      "order": 5,
+      "description": "Осторожно нажмите на поршень",
+      "time": 10
+    },
+    {
+      "order": 6,
+      "description": "Подождите, пока частицы кофе осядут, и подавайте",
+      "time": 180
+    }
+  ]
+  },
+  {
+    "id": "404",
+    "name": "Френч-пресс для гурманов от блога The Coffee Chronicler",
+    "brewing_method_id": "french_press",
+    "brewing_method": "French Press",
+    "coffee_amount": 22,
+    "water_amount": 330,
+    "water_temp": 97,
+    "grind_size": "Fine",
+    "brew_time": "4min 0s",
+    "short_description": "Рецепт френч-пресса от Ассера Кристенсена, автора блога The Coffee Chronicler. Этот рецепт рассчитан на получение чистой и вкусной чашки кофе. Обратите внимание: для этого рецепта необходимо использовать бумажный фильтр. Ассер рекомендует использовать фильтры с плоским дном. Фильтр должен полностью закрывать поршень и выступать на 2-3 см. по краям.[Посмотрите подробную инструкцию](https://coffeechronicler.com/how-to-make-french-press-recipe/).",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Сверните бумажный фильтр, поместите во френч-пресс, промойте горячей водой и достаньте фильтр в чашку. Слейте воду, засыпьте кофе, поставьте на весы и обнулите показания.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Добавьте <final_water_amount>г. воды, наливайте агрессивно.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Помешайте 8 раз.",
+        "time": 10
+      },
+      {
+        "order": 4,
+        "description": "Аккуратно выжмите фильтр и оберните вокруг поршня.",
+        "time": 60
+      },
+      {
+        "order": 5,
+        "description": "Аккуратно помешайте поверхность заварки, чтобы разбить корку.",
+        "time": 10
+      },
+      {
+        "order": 6,
+        "description": "Подождите.",
+        "time": 60
+      },
+      {
+        "order": 7,
+        "description": "Аккуратно вставьте поршень с надетым бумажным фильтром и медленно нажимайте.",
+        "time": 60
+      },
+      {
+        "order": 8,
+        "description": "Перелейте кофе в сервер, чтобы достичь идеальной температуры для питья.",
+        "time": 30
+      }
+  ]
+  }
+]
