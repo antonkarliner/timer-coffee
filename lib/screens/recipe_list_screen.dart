@@ -141,17 +141,23 @@ class _RecipeListScreenState extends State<RecipeListScreen>
 
             recipeProvider.updateLastUsed(recipes[index].id);
 
-            context.router.push(RecipeDetailRoute(
-                brewingMethodId: recipes[index].brewingMethodId,
-                recipeId: recipes[index].id));
+            if (recipes[index].id == "106") {
+              // If the recipe id is 106, navigate to RecipeDetailTKRoute
+              context.router.push(RecipeDetailTKRoute(
+                  brewingMethodId: recipes[index].brewingMethodId,
+                  recipeId: recipes[index].id));
+            } else {
+              // For all other recipes, navigate to RecipeDetailRoute
+              context.router.push(RecipeDetailRoute(
+                  brewingMethodId: recipes[index].brewingMethodId,
+                  recipeId: recipes[index].id));
+            }
           },
           trailing: FavoriteButton(
-            recipeId: recipes[index]
-                .id, // Use recipes[index].id to access the id of the current recipe
+            recipeId: recipes[index].id,
             onToggleFavorite: (bool isFavorite) {
               Provider.of<RecipeProvider>(context, listen: false)
-                  .toggleFavorite(recipes[index]
-                      .id); // Use recipes[index].id to access the id of the current recipe
+                  .toggleFavorite(recipes[index].id);
             },
           ),
         );

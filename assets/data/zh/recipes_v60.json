@@ -293,5 +293,76 @@
         "time": 55
       }
     ]
+  },
+  {
+    "id": "106",
+    "name": "Tetsu Kasuya 4:6 法",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "中粗磨",
+    "brew_time": "3min 45s",
+    "short_description": "4:6 法的命名来源于热水在倾倒阶段的分配方式——40% 和 60% ——这允许你调整咖啡的风味和浓度。创造这种技术的 Tetsu Kasuya 在 2016 年赢得了世界冲泡杯冠军。[阅读教程](https://en.philocoffea.com/blogs/blog/coffee-brewing-method)以更好地理解这种方法的工作原理。我的建议是尝试冲泡相同的豆子，每次只调整一个参数，以查看它如何真正产生差异。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "冲洗过滤器并预热 V60。倒入咖啡粉。放在秤上并归零。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "倒入(<m1> x <final_water_amount>)克水。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "等待。",
+        "time": 35
+      },
+      {
+        "order": 4,
+        "description": "倒入(<m2> x <final_water_amount>)克水。",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "等待。",
+        "time": 35
+      },
+      {
+        "order": 6,
+        "description": "倒入(<m3> x <final_water_amount>)克水。",
+        "time": "<t1>"
+      },      
+      {
+        "order": 7,
+        "description": "等待。",
+        "time": "<t2>"
+      },
+      {
+        "order": 8,
+        "description": "倒入(<m4> x <final_water_amount>)克水。",
+        "time": "<t3>"
+      },
+      {
+        "order": 9,
+        "description": "等待。",
+        "time": "<t4>"
+      },
+      {
+        "order": 10,
+        "description": "倒入(<m5> x <final_water_amount>)克水。",
+        "time": "<t5>"
+      },
+      {
+        "order": 11,
+        "description": "等待。",
+        "time": "<t6>"
+      }
+    ]
   }  
 ]

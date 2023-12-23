@@ -53,5 +53,13 @@
     "settingsthemelight": "Светлая",
     "settingsthemedark": "Тёмная",
     "settingsthemesystem": "Системная",
-    "settingslang": "Язык"
+    "settingslang": "Язык",
+    "sweet": "Сладкий",
+    "balance": "Сбалансированный",
+    "acidic": "Кислый",
+    "light": "Лёгкий",
+    "strong": "Крепкий",
+    "slidertitle": "Используйте слайдеры, чтобы настроить вкус",
+    "whatsnewtitle": "Что нового",
+    "whatsnewclose": "Закрыть"
 }

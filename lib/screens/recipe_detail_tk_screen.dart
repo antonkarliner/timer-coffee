@@ -9,7 +9,6 @@ import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import '../providers/recipe_provider.dart';
 import '../widgets/favorite_button.dart';
-import '../models/recipe_summary.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:ui';
@@ -19,20 +18,20 @@ import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
-class RecipeDetailScreen extends StatefulWidget {
+class RecipeDetailTKScreen extends StatefulWidget {
   final String brewingMethodId;
   final String recipeId;
 
-  const RecipeDetailScreen(
+  const RecipeDetailTKScreen(
       {super.key,
       @PathParam('brewingMethodId') required this.brewingMethodId,
       @PathParam('recipeId') required this.recipeId});
 
   @override
-  State<RecipeDetailScreen> createState() => _RecipeDetailScreenState();
+  State<RecipeDetailTKScreen> createState() => _RecipeDetailTKScreenState();
 }
 
-class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
+class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
   final TextEditingController _coffeeController = TextEditingController();
   final TextEditingController _waterController = TextEditingController();
   late double initialRatio;
@@ -41,6 +40,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   double? originalWater;
 
   Recipe? _updatedRecipe;
+
+  int _sweetnessSliderPosition = 1; // Default position for Sweetness slider
+  int _strengthSliderPosition = 2; // Default position for Strength slider
 
   @override
   void initState() {
@@ -116,12 +118,28 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   @override
   Widget build(BuildContext context) {
     if (kIsWeb && _updatedRecipe != null) {
-      // update HTML title
+      // Update HTML title
       html.document.title = '${_updatedRecipe!.name} on Timer.Coffee';
     }
+
+    final localizations = AppLocalizations.of(context)!;
+
+    // Define the localized labels for the sliders
+    List<String> sweetnessLabels = [
+      localizations.sweet, // "Sweet"
+      localizations.balance, // "Balance"
+      localizations.acidic, // "Acidic"
+    ];
+    List<String> strengthLabels = [
+      localizations.light, // "Light"
+      localizations.balance, // "Balance"
+      localizations.strong, // "Strong"
+    ];
+
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).unfocus();
+        FocusScope.of(context)
+            .unfocus(); // Dismiss the keyboard when tapping outside
       },
       child: Scaffold(
         appBar: AppBar(
@@ -232,31 +250,57 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                           ],
                         ),
                         const SizedBox(height: 16),
-                        Text(
-                          '${AppLocalizations.of(context)!.watertemp}: ${_updatedRecipe!.waterTemp ?? "Not provided"}ºC / ${(_updatedRecipe!.waterTemp != null ? (_updatedRecipe!.waterTemp! * 9 / 5 + 32).toStringAsFixed(1) : "Not provided")}ºF',
+                        Text(AppLocalizations.of(context)!.slidertitle),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(AppLocalizations.of(context)!.sweet),
+                            Expanded(
+                              child: Slider(
+                                value: _sweetnessSliderPosition.toDouble(),
+                                min: 0,
+                                max: 2,
+                                divisions: 2,
+                                label:
+                                    sweetnessLabels[_sweetnessSliderPosition],
+                                onChanged: (double value) {
+                                  setState(() {
+                                    _sweetnessSliderPosition = value.toInt();
+                                  });
+                                },
+                              ),
+                            ),
+                            Text(AppLocalizations.of(context)!.acidic),
+                          ],
                         ),
+
+                        // Strength Slider
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(AppLocalizations.of(context)!.light),
+                            Expanded(
+                              child: Slider(
+                                value: _strengthSliderPosition.toDouble(),
+                                min: 0,
+                                max: 2,
+                                divisions: 2,
+                                label: strengthLabels[_strengthSliderPosition],
+                                onChanged: (double value) {
+                                  setState(() {
+                                    _strengthSliderPosition = value.toInt();
+                                  });
+                                },
+                              ),
+                            ),
+                            Text(AppLocalizations.of(context)!.strong),
+                          ],
+                        ),
+                        Text(
+                            '${AppLocalizations.of(context)!.watertemp}: ${_updatedRecipe!.waterTemp ?? "Not provided"}ºC / ${(_updatedRecipe!.waterTemp != null ? (_updatedRecipe!.waterTemp! * 9 / 5 + 32).toStringAsFixed(1) : "Not provided")}ºF'),
                         const SizedBox(height: 16),
                         Text(
                             '${AppLocalizations.of(context)!.grindsize}: ${_updatedRecipe!.grindSize}'),
-                        const SizedBox(height: 16),
-                        Text(
-                            '${AppLocalizations.of(context)!.brewtime}: ${_updatedRecipe!.brewTime.toString().split('.').first.padLeft(8, "0")}'),
-                        const SizedBox(height: 16),
-                        ExpansionTile(
-                          title:
-                              Text(AppLocalizations.of(context)!.recipesummary),
-                          subtitle: Text(
-                              AppLocalizations.of(context)!.recipesummarynote),
-                          controlAffinity: ListTileControlAffinity.leading,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                  RecipeSummary.fromRecipe(_updatedRecipe!)
-                                      .summary),
-                            ),
-                          ],
-                        ),
                         const SizedBox(height: 16),
                       ],
                     ),
@@ -279,6 +323,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                         _coffeeController.text.replaceAll(',', '.')),
                     waterAmount: double.tryParse(
                         _waterController.text.replaceAll(',', '.')),
+                    // Add slider values here
+                    sweetnessSliderPosition: _sweetnessSliderPosition,
+                    strengthSliderPosition: _strengthSliderPosition,
                   ),
                 ),
               ),

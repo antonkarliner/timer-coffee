@@ -293,5 +293,76 @@
         "time": 55
       }
     ]
+  },
+  {
+    "id": "106",
+    "name": "テツ・カスヤの4:6方法",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "中粗挽き",
+    "brew_time": "3min 45s",
+    "short_description": "4:6方法は、注ぎ段階で熱湯を40％と60％に分けることから名付けられ、コーヒーの風味と濃度を調整することができます。この技術を作り出したテツ・カスヤは、それで2016年の世界ブリュワーズカップチャンピオンを獲得しました。[チュートリアルを読む](https://en.philocoffea.com/blogs/blog/coffee-brewing-method)この方法の仕組みをより深く理解するために。同じ豆で抽出を試み、一度に一つのパラメーターだけを調整して、それがどのように実際の違いをもたらすかを見てみることをお勧めします。",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "フィルターをすすぎ、V60を予熱します。コーヒー粉を入れます。スケールにセットしてゼロにします。",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "水(<m1> x <final_water_amount>)gを注ぎます。",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "待つ。",
+        "time": 35
+      },
+      {
+        "order": 4,
+        "description": "水(<m2> x <final_water_amount>)gを注ぎます。",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "待つ。",
+        "time": 35
+      },
+      {
+        "order": 6,
+        "description": "水(<m3> x <final_water_amount>)gを注ぎます。",
+        "time": "<t1>"
+      },
+      {
+        "order": 7,
+        "description": "待つ。",
+        "time": "<t2>"
+      },
+      {
+        "order": 8,
+        "description": "水(<m4> x <final_water_amount>)gを注ぎます。",
+        "time": "<t3>"
+      },
+      {
+        "order": 9,
+        "description": "待つ。",
+        "time": "<t4>"
+      },
+      {
+        "order": 10,
+        "description": "水(<m5> x <final_water_amount>)gを注ぎます。",
+        "time": "<t5>"
+      },
+      {
+        "order": 11,
+        "description": "待つ。",
+        "time": "<t6>"
+      }
+    ]
   }  
 ]

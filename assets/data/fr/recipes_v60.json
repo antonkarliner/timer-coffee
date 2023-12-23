@@ -293,5 +293,76 @@
           "time": 55
       }
   ]
-}
+},
+{
+    "id": "106",
+    "name": "Méthode Tetsu Kasuya 4:6",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "Moyen-grossier",
+    "brew_time": "3min 45s",
+    "short_description": "La méthode 4:6 tire son nom de la manière dont l'eau chaude est divisée pendant les étapes de versement — 40% et 60% — ce qui vous permet d'ajuster la saveur et la concentration du café. Tetsu Kasuya, qui a créé cette technique, a remporté le Championnat du monde des brasseurs de 2016 avec celle-ci. [Lisez le tutoriel](https://en.philocoffea.com/blogs/blog/coffee-brewing-method) pour mieux comprendre comment fonctionne cette méthode. Mon conseil est d'essayer de brasser les mêmes grains et de ne modifier qu'un seul paramètre à la fois pour voir comment cela fait une réelle différence.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Rincer le filtre et préchauffer le V60. Verser le café moulu. Placer sur la balance et tarer à zéro.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Verser (<m1> x <final_water_amount>)g d'eau.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Attendre.",
+        "time": 35
+      },
+      {
+        "order": 4,
+        "description": "Verser (<m2> x <final_water_amount>)g d'eau.",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "Attendre.",
+        "time": 35
+      },
+      {
+        "order": 6,
+        "description": "Verser (<m3> x <final_water_amount>)g d'eau.",
+        "time": "<t1>"
+      },
+      {
+        "order": 7,
+        "description": "Attendre.",
+        "time": "<t2>"
+      },
+      {
+        "order": 8,
+        "description": "Verser (<m4> x <final_water_amount>)g d'eau.",
+        "time": "<t3>"
+      },
+      {
+        "order": 9,
+        "description": "Attendre.",
+        "time": "<t4>"
+      },
+      {
+        "order": 10,
+        "description": "Verser (<m5> x <final_water_amount>)g d'eau.",
+        "time": "<t5>"
+      },
+      {
+        "order": 11,
+        "description": "Attendre.",
+        "time": "<t6>"
+      }
+    ]
+  }
 ]

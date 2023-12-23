@@ -53,6 +53,14 @@
     "settingsthemelight": "Clair",
     "settingsthemedark": "Sombre",
     "settingsthemesystem": "Système",
-    "settingslang": "Langue"
+    "settingslang": "Langue",
+    "sweet": "Doux",
+    "balance": "Équilibre",
+    "acidic": "Acide",
+    "light": "Léger",
+    "strong": "Fort",
+    "slidertitle": "Utilisez les curseurs pour ajuster le goût",
+    "whatsnewtitle": "Quoi de neuf",
+    "whatsnewclose": "Fermer"
   }
   

@@ -53,5 +53,13 @@
   "settingsthemelight": "Light",
   "settingsthemedark": "Dark",
   "settingsthemesystem": "System",
-  "settingslang": "Language"
+  "settingslang": "Language",
+  "sweet": "Sweet",
+  "balance": "Balance",
+  "acidic": "Acidic",
+  "light": "Light",
+  "strong": "Strong",
+  "slidertitle": "Use sliders to adjust taste",
+  "whatsnewtitle": "What's new",
+  "whatsnewclose": "Close"
 }

@@ -53,6 +53,14 @@
     "settingsthemelight": "ライト",
     "settingsthemedark": "ダーク",
     "settingsthemesystem": "システム",
-    "settingslang": "言語"
+    "settingslang": "言語",
+    "sweet": "甘い",
+    "balance": "バランス",
+    "acidic": "酸っぱい",
+    "light": "ライト",
+    "strong": "強い",
+    "slidertitle": "スライダーを使用して味を調整する",
+    "whatsnewtitle": "新着情報",
+    "whatsnewclose": "閉じる"
   }
   

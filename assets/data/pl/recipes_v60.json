@@ -293,5 +293,76 @@
           "time": 55
         }
       ]
-    }    
+    },
+    {
+      "id": "106",
+      "name": "Metoda Tetsu Kasuya 4:6",
+      "brewing_method_id": "hario_v60",
+      "brewing_method": "Hario V60",
+      "coffee_amount": 20,
+      "water_amount": 300,
+      "water_temp": 95,
+      "grind_size": "Średnio-Gruba",
+      "brew_time": "3min 45s",
+      "short_description": "Metoda 4:6 zyskała swoją nazwę od sposobu dzielenia gorącej wody podczas etapów nalewania - 40% i 60% - co pozwala na dostosowanie smaku i stężenia kawy. Tetsu Kasuya, który stworzył tę technikę, wygrał z nią Mistrzostwa Świata Brewers Cup w 2016 roku. [Przeczytaj samouczek](https://en.philocoffea.com/blogs/blog/coffee-brewing-method), aby lepiej zrozumieć, jak działa ta metoda. Moją radą jest próba parzenia tych samych ziaren i dostosowanie tylko jednego parametru za każdym razem, aby zobaczyć, jak to robi realną różnicę.",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Opłucz filtr i rozgrzej V60. Wsyp zmieloną kawę. Umieść na wagach i wyzeruj.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Wlej (<m1> x <final_water_amount>)g wody.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Czekaj.",
+          "time": 35
+        },
+        {
+          "order": 4,
+          "description": "Wlej (<m2> x <final_water_amount>)g wody.",
+          "time": 10
+        },
+        {
+          "order": 5,
+          "description": "Czekaj.",
+          "time": 35
+        },
+        {
+          "order": 6,
+          "description": "Wlej (<m3> x <final_water_amount>)g wody.",
+          "time": "<t1>"
+        },      
+        {
+          "order": 7,
+          "description": "Czekaj.",
+          "time": "<t2>"
+        },
+        {
+          "order": 8,
+          "description": "Wlej (<m4> x <final_water_amount>)g wody.",
+          "time": "<t3>"
+        },
+        {
+          "order": 9,
+          "description": "Czekaj.",
+          "time": "<t4>"
+        },
+        {
+          "order": 10,
+          "description": "Wlej (<m5> x <final_water_amount>)g wody.",
+          "time": "<t5>"
+        },
+        {
+          "order": 11,
+          "description": "Czekaj.",
+          "time": "<t6>"
+        }
+      ]
+    }
 ]

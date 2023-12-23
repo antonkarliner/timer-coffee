@@ -17,6 +17,9 @@ class AppRouter extends $AppRouter {
             page: RecipeDetailRoute.page,
             path: '/recipes/:brewingMethodId/:recipeId'),
         AutoRoute(
+            page: RecipeDetailTKRoute.page,
+            path: '/recipes/:brewingMethodId/:recipeId'),
+        AutoRoute(
           page: AboutRoute.page,
           path: '/about',
         ),
