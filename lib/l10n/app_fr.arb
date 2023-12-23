@@ -59,6 +59,8 @@
     "acidic": "Acide",
     "light": "Léger",
     "strong": "Fort",
-    "slidertitle": "Utilisez les curseurs pour ajuster le goût"
+    "slidertitle": "Utilisez les curseurs pour ajuster le goût",
+    "whatsnewtitle": "Quoi de neuf",
+    "whatsnewclose": "Fermer"
   }
   

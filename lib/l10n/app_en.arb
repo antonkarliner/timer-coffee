@@ -59,5 +59,7 @@
   "acidic": "Acidic",
   "light": "Light",
   "strong": "Strong",
-  "slidertitle": "Use sliders to adjust taste"
+  "slidertitle": "Use sliders to adjust taste",
+  "whatsnewtitle": "What's new",
+  "whatsnewclose": "Close"
 }
