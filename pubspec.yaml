@@ -90,6 +90,16 @@ flutter:
     - assets/data/pt/
     - assets/data/ru/
     - assets/data/zh/
+    - assets/data/ar/startpopup/
+    - assets/data/de/startpopup/
+    - assets/data/en/startpopup/
+    - assets/data/es/startpopup/
+    - assets/data/fr/startpopup/
+    - assets/data/ja/startpopup/
+    - assets/data/pl/startpopup/
+    - assets/data/pt/startpopup/
+    - assets/data/ru/startpopup/
+    - assets/data/zh/startpopup/
     - assets/CONTRIBUTORS.md
     - assets/audio/next.mp3
     - assets/onboarding/android/
