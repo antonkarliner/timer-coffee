@@ -122,12 +122,11 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
 
   Duration replaceTimePlaceholder(
     Duration time,
+    String? timeString,
     int sweetnessSliderPosition,
     int strengthSliderPosition,
   ) {
-    // First, check if time is a placeholder that needs replacement
-    String timeString = time.inSeconds
-        .toString(); // Convert Duration to string representation of seconds for matching
+    if (timeString == null) return time;
 
     // Define the values based on slider positions for sweetness and strength
     List<Map<String, double>> sweetnessValues = [
@@ -211,7 +210,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
         .map((step) {
           // Replace placeholders with actual time duration
           Duration stepDuration = replaceTimePlaceholder(
-            step.time, // pass the current duration
+            step.time,
+            step.timePlaceholder, // pass the current duration
             widget.sweetnessSliderPosition, // current sweetness slider position
             widget.strengthSliderPosition, // current strength slider position
           );
