@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../app_router.gr.dart';
 import 'dart:async';
 import '../purchase_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 @RoutePage()
 class DonationScreen extends StatefulWidget {
@@ -105,6 +108,14 @@ class _DonationScreenState extends State<DonationScreen> {
     super.dispose();
   }
 
+  Future<void> _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url, forceSafariVC: false, forceWebView: false);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final productTitles = getProductTitles(context);
@@ -125,12 +136,23 @@ class _DonationScreenState extends State<DonationScreen> {
             const SizedBox(height: 16),
             Text(AppLocalizations.of(context)!.supportdevmsg),
             const SizedBox(height: 32),
-            ..._products.map((product) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: _buildProductButton(product, productTitles),
-              );
-            }),
+            // Conditionally render widgets based on platform
+            if (!kIsWeb &&
+                Platform.isIOS) // For iOS, show the products for purchase
+              ..._products.map((product) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: _buildProductButton(product, productTitles),
+                );
+              })
+            else if (kIsWeb ||
+                !Platform.isIOS) // For web and Android, show a different button
+              ElevatedButton.icon(
+                onPressed: () =>
+                    _launchURL('https://www.buymeacoffee.com/timercoffee'),
+                icon: const Icon(Icons.local_cafe),
+                label: Text(AppLocalizations.of(context)!.support),
+              ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
