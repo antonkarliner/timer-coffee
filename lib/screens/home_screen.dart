@@ -1,3 +1,4 @@
+import 'package:coffee_timer/widgets/launch_popup.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -102,6 +103,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           buildRecipeList(recipeProvider, brewingMethods),
           buildSnowToggleButton(snowEffectProvider),
           buildSettingsButton(),
+          LaunchPopupWidget(),
         ],
       ),
     );
