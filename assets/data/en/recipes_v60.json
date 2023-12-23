@@ -303,14 +303,14 @@
     "water_amount": 300,
     "water_temp": 95,
     "grind_size": "Medium-coarse",
-    "brew_time": "3min 0s",
-    "short_description": "Tetsu Kasuya 4:6 Method [Watch the tutorial video](https://www.youtube.com/watch?v=1oB1oDrDkHM).",
+    "brew_time": "3min 45s",
+    "short_description": "The 4:6 method gets its name by how the hot water is divided during the pouring stages—40% and 60%—which allows you to adjust the flavor and concentration of the coffee. Tetsu Kasuya, who created this technique won the 2016 World Brewers Cup Champion with it. [Read the tutorial](https://en.philocoffea.com/blogs/blog/coffee-brewing-method) to better understand how this method works. My advice is to try brewing the same beans and only adjust one parameter at time to see how it makes a real difference.",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Rinse filter & pre-heat V60. Pour in grounds.",
+        "description": "Rinse filter & pre-heat V60. Pour in coffee grounds. Set on te scales and zero out.",
         "time": 0
       },
       {

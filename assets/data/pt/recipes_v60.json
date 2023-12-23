@@ -293,5 +293,77 @@
         "time": 55
       }
     ]
-  }  
+  },
+  {
+    "id": "106",
+    "name": "Método Tetsu Kasuya 4:6",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "Médio-grosso",
+    "brew_time": "3min 45s",
+    "short_description": "O método 4:6 recebe seu nome pela forma como a água quente é dividida durante as etapas de derramamento - 40% e 60% - o que permite ajustar o sabor e a concentração do café. Tetsu Kasuya, que criou esta técnica, venceu o Campeonato Mundial de Brewers Cup de 2016 com ela. [Leia o tutorial](https://en.philocoffea.com/blogs/blog/coffee-brewing-method) para entender melhor como esse método funciona. Meu conselho é tentar preparar os mesmos grãos e ajustar apenas um parâmetro de cada vez para ver como isso faz uma diferença real.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Enxague o filtro e pré-aqueça o V60. Despeje o café moído. Coloque na balança e zere.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Despeje (<m1> x <final_water_amount>)g de água.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Espere.",
+        "time": 35
+      },
+      {
+        "order": 4,
+        "description": "Despeje (<m2> x <final_water_amount>)g de água.",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "Espere.",
+        "time": 35
+      },
+      {
+        "order": 6,
+        "description": "Despeje (<m3> x <final_water_amount>)g de água.",
+        "time": "<t1>"
+      },      
+      {
+        "order": 7,
+        "description": "Espere.",
+        "time": "<t2>"
+      },
+      {
+        "order": 8,
+        "description": "Despeje (<m4> x <final_water_amount>)g de água.",
+        "time": "<t3>"
+      },
+      {
+        "order": 9,
+        "description": "Espere.",
+        "time": "<t4>"
+      },
+      {
+        "order": 10,
+        "description": "Despeje (<m5> x <final_water_amount>)g de água.",
+        "time": "<t5>"
+      },
+      {
+        "order": 11,
+        "description": "Espere.",
+        "time": "<t6>"
+      }
+    ]
+  }
+  
 ]

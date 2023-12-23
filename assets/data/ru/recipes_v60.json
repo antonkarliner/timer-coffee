@@ -293,5 +293,76 @@
         "time": 55
       }
     ]
+  },
+  {
+    "id": "106",
+    "name": "Метод 4:6 от Тетсу Кацуи",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "Средне-крупный",
+    "brew_time": "3min 45s",
+    "short_description": "Метод 4:6 получил своё название от двух стадий заваривания, для первой используется 40% от общего объёма воды, для второй – 60%. По-разному распределяя воду, вы можете контроллировать вкус и насыщенность кофе. Создатель этой техники, Тетсу Кацуя, выиграл с ней World Brewers Cup в 2016 году. [Почитайте туториал](https://en.philocoffea.com/blogs/blog/coffee-brewing-method), чтобы лучше понять, как этот метод работает. Мой совет: попробуйте заварить одни и те же зёрна, меняя только один параметр, чтобы оценить, как меняется вкус.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Промойте фильтр и воронку горячей водой. Засыпьте молотый кофе, поставьте на весы и обнулите показания.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Налейте (<m1> x <final_water_amount>)г. воды.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Подождите.",
+        "time": 35
+      },
+      {
+        "order": 4,
+        "description": "Налейте (<m2> x <final_water_amount>)г. воды.",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "Подождите.",
+        "time": 35
+      },
+      {
+        "order": 6,
+        "description": "Налейте (<m3> x <final_water_amount>)г. воды.",
+        "time": "<t1>"
+      },      
+      {
+        "order": 7,
+        "description": "Подождите.",
+        "time": "<t2>"
+      },
+      {
+        "order": 8,
+        "description": "Налейте (<m4> x <final_water_amount>)г. воды.",
+        "time": "<t3>"
+      },
+      {
+        "order": 9,
+        "description": "Подождите.",
+        "time": "<t4>"
+      },
+      {
+        "order": 10,
+        "description": "Налейте (<m5> x <final_water_amount>)г. воды.",
+        "time": "<t5>"
+      },
+      {
+        "order": 11,
+        "description": "Подождите.",
+        "time": "<t6>"
+      }
+    ]
   }
 ]

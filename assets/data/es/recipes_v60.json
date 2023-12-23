@@ -293,5 +293,76 @@
         "time": 55
       }
     ]
+  },
+  {
+    "id": "106",
+    "name": "Método Tetsu Kasuya 4:6",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "Medio-grueso",
+    "brew_time": "3min 45s",
+    "short_description": "El método 4:6 obtiene su nombre por cómo se divide el agua caliente durante las etapas de vertido —40% y 60%— lo que permite ajustar el sabor y la concentración del café. Tetsu Kasuya, quien creó esta técnica, ganó con ella el Campeonato del Mundo de Brewers Cup 2016. [Lea el tutorial](https://en.philocoffea.com/blogs/blog/coffee-brewing-method) para entender mejor cómo funciona este método. Mi consejo es intentar preparar los mismos granos y ajustar solo un parámetro cada vez para ver cómo realmente hace una diferencia.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Enjuagar el filtro y precalentar el V60. Verter los granos de café. Colocar en la balanza y tarear a cero.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Verter (<m1> x <final_water_amount>)g de agua.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Esperar.",
+        "time": 35
+      },
+      {
+        "order": 4,
+        "description": "Verter (<m2> x <final_water_amount>)g de agua.",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "Esperar.",
+        "time": 35
+      },
+      {
+        "order": 6,
+        "description": "Verter (<m3> x <final_water_amount>)g de agua.",
+        "time": "<t1>"
+      },      
+      {
+        "order": 7,
+        "description": "Esperar.",
+        "time": "<t2>"
+      },
+      {
+        "order": 8,
+        "description": "Verter (<m4> x <final_water_amount>)g de agua.",
+        "time": "<t3>"
+      },
+      {
+        "order": 9,
+        "description": "Esperar.",
+        "time": "<t4>"
+      },
+      {
+        "order": 10,
+        "description": "Verter (<m5> x <final_water_amount>)g de agua.",
+        "time": "<t5>"
+      },
+      {
+        "order": 11,
+        "description": "Esperar.",
+        "time": "<t6>"
+      }
+    ]
   }
 ]

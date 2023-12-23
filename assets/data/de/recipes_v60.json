@@ -293,5 +293,76 @@
         "time": 55
       }
     ]
+  },
+  {
+    "id": "106",
+    "name": "Tetsu Kasuya 4:6 Methode",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "Mittel-grob",
+    "brew_time": "3min 45s",
+    "short_description": "Die 4:6 Methode erhält ihren Namen durch die Aufteilung des heißen Wassers während des Gießens — 40% und 60% — was es ermöglicht, den Geschmack und die Konzentration des Kaffees anzupassen. Tetsu Kasuya, der diese Technik kreierte, gewann damit den Weltmeisterschaft der Brewers Cup 2016. [Lese das Tutorial](https://en.philocoffea.com/blogs/blog/coffee-brewing-method), um besser zu verstehen, wie diese Methode funktioniert. Mein Rat ist, dieselben Bohnen zu brühen und jeweils nur einen Parameter zu ändern, um zu sehen, wie es einen echten Unterschied macht.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "Filter spülen & V60 vorheizen. Kaffeemehl einfüllen. Auf die Waage stellen und auf Null stellen.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "Gieße (<m1> x <final_water_amount>)g Wasser.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "Warten.",
+        "time": 35
+      },
+      {
+        "order": 4,
+        "description": "Gieße (<m2> x <final_water_amount>)g Wasser.",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "Warten.",
+        "time": 35
+      },
+      {
+        "order": 6,
+        "description": "Gieße (<m3> x <final_water_amount>)g Wasser.",
+        "time": "<t1>"
+      },
+      {
+        "order": 7,
+        "description": "Warten.",
+        "time": "<t2>"
+      },
+      {
+        "order": 8,
+        "description": "Gieße (<m4> x <final_water_amount>)g Wasser.",
+        "time": "<t3>"
+      },
+      {
+        "order": 9,
+        "description": "Warten.",
+        "time": "<t4>"
+      },
+      {
+        "order": 10,
+        "description": "Gieße (<m5> x <final_water_amount>)g Wasser.",
+        "time": "<t5>"
+      },
+      {
+        "order": 11,
+        "description": "Warten.",
+        "time": "<t6>"
+      }
+    ]
   }  
 ]

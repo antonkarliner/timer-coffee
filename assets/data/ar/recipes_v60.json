@@ -293,5 +293,76 @@
         "time": 55
       }
     ]
+  },
+  {
+    "id": "106",
+    "name": "طريقة تيتسو كاسويا 4:6",
+    "brewing_method_id": "hario_v60",
+    "brewing_method": "Hario V60",
+    "coffee_amount": 20,
+    "water_amount": 300,
+    "water_temp": 95,
+    "grind_size": "متوسطة إلى خشنة",
+    "brew_time": "3min 45s",
+    "short_description": "تحصل طريقة 4:6 على اسمها من طريقة تقسيم الماء الساخن أثناء مراحل الصب - 40٪ و 60٪ - مما يتيح لك ضبط نكهة وتركيز القهوة. تيتسو كاسويا، الذي ابتكر هذه الطريقة، فاز ببطولة العالم للمقهوين لعام 2016 باستخدامها. [اقرأ الدليل](https://en.philocoffea.com/blogs/blog/coffee-brewing-method) لفهم أفضل كيف تعمل هذه الطريقة. نصيحتي هي أن تجرب تحضير نفس الحبوب وتغير معامل واحد فقط في كل مرة لترى كيف يحدث فرقاً حقيقياً.",
+    "last_used": "2023-05-01T12:00:00Z",
+    "is_favorite": false,
+    "steps": [
+      {
+        "order": 1,
+        "description": "اشطف الفلتر وسخن V60 مسبقًا. ضع القهوة المطحونة. ضعها على الميزان وصفره.",
+        "time": 0
+      },
+      {
+        "order": 2,
+        "description": "صب (<m1> x <final_water_amount>)جرام من الماء.",
+        "time": 10
+      },
+      {
+        "order": 3,
+        "description": "انتظر.",
+        "time": 35
+      },
+      {
+        "order": 4,
+        "description": "صب (<m2> x <final_water_amount>)جرام من الماء.",
+        "time": 10
+      },
+      {
+        "order": 5,
+        "description": "انتظر.",
+        "time": 35
+      },
+      {
+        "order": 6,
+        "description": "صب (<m3> x <final_water_amount>)جرام من الماء.",
+        "time": "<t1>"
+      },      
+      {
+        "order": 7,
+        "description": "انتظر.",
+        "time": "<t2>"
+      },
+      {
+        "order": 8,
+        "description": "صب (<m4> x <final_water_amount>)جرام من الماء.",
+        "time": "<t3>"
+      },
+      {
+        "order": 9,
+        "description": "انتظر.",
+        "time": "<t4>"
+      },
+      {
+        "order": 10,
+        "description": "صب (<m5> x <final_water_amount>)جرام من الماء.",
+        "time": "<t5>"
+      },
+      {
+        "order": 11,
+        "description": "انتظر.",
+        "time": "<t6>"
+      }
+    ]
   }
 ]

@@ -364,7 +364,7 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
             ),
             TextSpan(
               text: linkText,
-              style: defaultTextStyle.copyWith(color: Colors.blue),
+              style: defaultTextStyle.copyWith(color: Colors.brown),
               recognizer: TapGestureRecognizer()
                 ..onTap = () async {
                   if (await canLaunchUrl(Uri.parse(linkUrl))) {
