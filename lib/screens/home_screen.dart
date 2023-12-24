@@ -35,8 +35,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     // It's important to dispose the callbacks when the widget is disposed
-    PurchaseManager().setDeliverProductCallback(null);
-    PurchaseManager().setPurchaseErrorCallback(null);
     super.dispose();
   }
 

@@ -8,31 +8,30 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i10;
+import 'package:auto_route/auto_route.dart' as _i9;
 import 'package:coffee_timer/screens/coffee_tips_screen.dart' as _i1;
 import 'package:coffee_timer/screens/donation_screen.dart' as _i2;
-import 'package:coffee_timer/screens/favorite_recipes_screen.dart' as _i3;
-import 'package:coffee_timer/screens/home_screen.dart' as _i4;
-import 'package:coffee_timer/screens/onboarding_screen.dart' as _i5;
-import 'package:coffee_timer/screens/recipe_detail_screen.dart' as _i6;
-import 'package:coffee_timer/screens/recipe_detail_tk_screen.dart' as _i7;
-import 'package:coffee_timer/screens/recipe_list_screen.dart' as _i8;
-import 'package:coffee_timer/screens/settings_screen.dart' as _i9;
-import 'package:flutter/material.dart' as _i11;
+import 'package:coffee_timer/screens/home_screen.dart' as _i3;
+import 'package:coffee_timer/screens/onboarding_screen.dart' as _i4;
+import 'package:coffee_timer/screens/recipe_detail_screen.dart' as _i5;
+import 'package:coffee_timer/screens/recipe_detail_tk_screen.dart' as _i6;
+import 'package:coffee_timer/screens/recipe_list_screen.dart' as _i7;
+import 'package:coffee_timer/screens/settings_screen.dart' as _i8;
+import 'package:flutter/material.dart' as _i10;
 
 abstract class $AppRouter extends _i10.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i10.PageFactory> pagesMap = {
+  final Map<String, _i9.PageFactory> pagesMap = {
     CoffeeTipsRoute.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i1.CoffeeTipsScreen(),
       );
     },
     DonationRoute.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i2.DonationScreen(),
       );
@@ -111,8 +110,8 @@ abstract class $AppRouter extends _i10.RootStackRouter {
 
 /// generated route for
 /// [_i1.CoffeeTipsScreen]
-class CoffeeTipsRoute extends _i10.PageRouteInfo<void> {
-  const CoffeeTipsRoute({List<_i10.PageRouteInfo>? children})
+class CoffeeTipsRoute extends _i9.PageRouteInfo<void> {
+  const CoffeeTipsRoute({List<_i9.PageRouteInfo>? children})
       : super(
           CoffeeTipsRoute.name,
           initialChildren: children,
@@ -120,13 +119,13 @@ class CoffeeTipsRoute extends _i10.PageRouteInfo<void> {
 
   static const String name = 'CoffeeTipsRoute';
 
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i2.DonationScreen]
-class DonationRoute extends _i10.PageRouteInfo<void> {
-  const DonationRoute({List<_i10.PageRouteInfo>? children})
+class DonationRoute extends _i9.PageRouteInfo<void> {
+  const DonationRoute({List<_i9.PageRouteInfo>? children})
       : super(
           DonationRoute.name,
           initialChildren: children,
@@ -134,21 +133,7 @@ class DonationRoute extends _i10.PageRouteInfo<void> {
 
   static const String name = 'DonationRoute';
 
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i3.FavoriteRecipesScreen]
-class FavoriteRecipesRoute extends _i10.PageRouteInfo<void> {
-  const FavoriteRecipesRoute({List<_i10.PageRouteInfo>? children})
-      : super(
-          FavoriteRecipesRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'FavoriteRecipesRoute';
-
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
@@ -277,6 +262,7 @@ class RecipeDetailTKRouteArgs {
 /// [_i8.RecipeListScreen]
 class RecipeListRoute extends _i10.PageRouteInfo<RecipeListRouteArgs> {
   RecipeListRoute({
+    _i9.Key? key,
     _i10.Key? key,
     String? brewingMethodId,
     List<_i9.PageRouteInfo>? children,
