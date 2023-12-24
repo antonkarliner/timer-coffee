@@ -83,14 +83,14 @@ class _PreparationScreenState extends State<PreparationScreen> {
 
     // Define the values based on slider positions for sweetness and strength
     List<Map<String, double>> sweetnessValues = [
-      {"m1": 0.16, "m2": 0.24}, // Sweetness
-      {"m1": 0.20, "m2": 0.20}, // Balance
-      {"m1": 0.24, "m2": 0.16}, // Acidity
+      {"m1": 0.16, "m2": 0.4}, // Sweetness
+      {"m1": 0.20, "m2": 0.4}, // Balance
+      {"m1": 0.24, "m2": 0.4}, // Acidity
     ];
 
     List<Map<String, double>> strengthValues = [
       {
-        "m3": 0.6,
+        "m3": 1.0,
         "t1": 10,
         "t2": 35,
         "m4": 0,
@@ -101,10 +101,10 @@ class _PreparationScreenState extends State<PreparationScreen> {
         "t6": 0
       }, // Light
       {
-        "m3": 0.3,
+        "m3": 0.7,
         "t1": 10,
         "t2": 35,
-        "m4": 0.3,
+        "m4": 1.0,
         "t3": 10,
         "t4": 35,
         "m5": 0,
@@ -112,13 +112,13 @@ class _PreparationScreenState extends State<PreparationScreen> {
         "t6": 0
       }, // Balanced
       {
-        "m3": 0.2,
+        "m3": 0.6,
         "t1": 10,
         "t2": 35,
-        "m4": 0.2,
+        "m4": 0.8,
         "t3": 10,
         "t4": 35,
-        "m5": 0.2,
+        "m5": 1.0,
         "t5": 10,
         "t6": 35
       }, // Strong

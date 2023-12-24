@@ -325,7 +325,7 @@
         },
         {
           "order": 4,
-          "description": "Wlej (<m2> x <final_water_amount>)g wody.",
+          "description": "Wlej do (<m2> x <final_water_amount>)g wody.",
           "time": 10
         },
         {
@@ -335,7 +335,7 @@
         },
         {
           "order": 6,
-          "description": "Wlej (<m3> x <final_water_amount>)g wody.",
+          "description": "Wlej do (<m3> x <final_water_amount>)g wody.",
           "time": "<t1>"
         },      
         {
@@ -345,7 +345,7 @@
         },
         {
           "order": 8,
-          "description": "Wlej (<m4> x <final_water_amount>)g wody.",
+          "description": "Wlej do (<m4> x <final_water_amount>)g wody.",
           "time": "<t3>"
         },
         {
@@ -355,7 +355,7 @@
         },
         {
           "order": 10,
-          "description": "Wlej (<m5> x <final_water_amount>)g wody.",
+          "description": "Wlej do (<m5> x <final_water_amount>)g wody.",
           "time": "<t5>"
         },
         {

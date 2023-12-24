@@ -325,7 +325,7 @@
       },
       {
         "order": 4,
-        "description": "Gieße (<m2> x <final_water_amount>)g Wasser.",
+        "description": "Gieße bis (<m2> x <final_water_amount>)g Wasser.",
         "time": 10
       },
       {
@@ -335,7 +335,7 @@
       },
       {
         "order": 6,
-        "description": "Gieße (<m3> x <final_water_amount>)g Wasser.",
+        "description": "Gieße bis (<m3> x <final_water_amount>)g Wasser.",
         "time": "<t1>"
       },
       {
@@ -345,7 +345,7 @@
       },
       {
         "order": 8,
-        "description": "Gieße (<m4> x <final_water_amount>)g Wasser.",
+        "description": "Gieße bis (<m4> x <final_water_amount>)g Wasser.",
         "time": "<t3>"
       },
       {
@@ -355,7 +355,7 @@
       },
       {
         "order": 10,
-        "description": "Gieße (<m5> x <final_water_amount>)g Wasser.",
+        "description": "Gieße bis (<m5> x <final_water_amount>)g Wasser.",
         "time": "<t5>"
       },
       {

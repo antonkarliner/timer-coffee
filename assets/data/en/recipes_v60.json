@@ -325,7 +325,7 @@
       },
       {
         "order": 4,
-        "description": "Pour (<m2> x <final_water_amount>)g of water.",
+        "description": "Pour up to (<m2> x <final_water_amount>)g of water.",
         "time": 10
       },
       {
@@ -335,7 +335,7 @@
       },
       {
         "order": 6,
-        "description": "Pour (<m3> x <final_water_amount>)g of water.",
+        "description": "Pour up to (<m3> x <final_water_amount>)g of water.",
         "time": "<t1>"
       },      
       {
@@ -345,7 +345,7 @@
       },
       {
         "order": 8,
-        "description": "Pour (<m4> x <final_water_amount>)g of water.",
+        "description": "Pour up to (<m4> x <final_water_amount>)g of water.",
         "time": "<t3>"
       },
       {
@@ -355,7 +355,7 @@
       },
       {
         "order": 10,
-        "description": "Pour (<m5> x <final_water_amount>)g of water.",
+        "description": "Pour up to (<m5> x <final_water_amount>)g of water.",
         "time": "<t5>"
       },
       {

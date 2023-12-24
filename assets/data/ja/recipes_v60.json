@@ -315,7 +315,7 @@
       },
       {
         "order": 2,
-        "description": "水(<m1> x <final_water_amount>)gを注ぎます。",
+        "description": "水(<m1> x <final_water_amount>)gまで注ぎます。",
         "time": 10
       },
       {
@@ -325,7 +325,7 @@
       },
       {
         "order": 4,
-        "description": "水(<m2> x <final_water_amount>)gを注ぎます。",
+        "description": "水(<m2> x <final_water_amount>)gまで注ぎます。",
         "time": 10
       },
       {
@@ -335,7 +335,7 @@
       },
       {
         "order": 6,
-        "description": "水(<m3> x <final_water_amount>)gを注ぎます。",
+        "description": "水(<m3> x <final_water_amount>)gまで注ぎます。",
         "time": "<t1>"
       },
       {
@@ -345,7 +345,7 @@
       },
       {
         "order": 8,
-        "description": "水(<m4> x <final_water_amount>)gを注ぎます。",
+        "description": "水(<m4> x <final_water_amount>)gまで注ぎます。",
         "time": "<t3>"
       },
       {
@@ -355,7 +355,7 @@
       },
       {
         "order": 10,
-        "description": "水(<m5> x <final_water_amount>)gを注ぎます。",
+        "description": "水(<m5> x <final_water_amount>)gまで注ぎます。",
         "time": "<t5>"
       },
       {

@@ -325,7 +325,7 @@
       },
       {
         "order": 4,
-        "description": "Налейте (<m2> x <final_water_amount>)г. воды.",
+        "description": "Налейте до (<m2> x <final_water_amount>)г. воды.",
         "time": 10
       },
       {
@@ -335,7 +335,7 @@
       },
       {
         "order": 6,
-        "description": "Налейте (<m3> x <final_water_amount>)г. воды.",
+        "description": "Налейте до (<m3> x <final_water_amount>)г. воды.",
         "time": "<t1>"
       },      
       {
@@ -345,7 +345,7 @@
       },
       {
         "order": 8,
-        "description": "Налейте (<m4> x <final_water_amount>)г. воды.",
+        "description": "Налейте до (<m4> x <final_water_amount>)г. воды.",
         "time": "<t3>"
       },
       {
@@ -355,7 +355,7 @@
       },
       {
         "order": 10,
-        "description": "Налейте (<m5> x <final_water_amount>)г. воды.",
+        "description": "Налейте до (<m5> x <final_water_amount>)г. воды.",
         "time": "<t5>"
       },
       {

@@ -325,7 +325,7 @@
       },
       {
         "order": 4,
-        "description": "Despeje (<m2> x <final_water_amount>)g de água.",
+        "description": "Despeje até (<m2> x <final_water_amount>)g de água.",
         "time": 10
       },
       {
@@ -335,7 +335,7 @@
       },
       {
         "order": 6,
-        "description": "Despeje (<m3> x <final_water_amount>)g de água.",
+        "description": "Despeje até (<m3> x <final_water_amount>)g de água.",
         "time": "<t1>"
       },      
       {
@@ -345,7 +345,7 @@
       },
       {
         "order": 8,
-        "description": "Despeje (<m4> x <final_water_amount>)g de água.",
+        "description": "Despeje até (<m4> x <final_water_amount>)g de água.",
         "time": "<t3>"
       },
       {
@@ -355,7 +355,7 @@
       },
       {
         "order": 10,
-        "description": "Despeje (<m5> x <final_water_amount>)g de água.",
+        "description": "Despeje até (<m5> x <final_water_amount>)g de água.",
         "time": "<t5>"
       },
       {

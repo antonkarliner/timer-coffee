@@ -325,7 +325,7 @@
       },
       {
         "order": 4,
-        "description": "Verter (<m2> x <final_water_amount>)g de agua.",
+        "description": "Verter hasta (<m2> x <final_water_amount>)g de agua.",
         "time": 10
       },
       {
@@ -335,7 +335,7 @@
       },
       {
         "order": 6,
-        "description": "Verter (<m3> x <final_water_amount>)g de agua.",
+        "description": "Verter hasta (<m3> x <final_water_amount>)g de agua.",
         "time": "<t1>"
       },      
       {
@@ -345,7 +345,7 @@
       },
       {
         "order": 8,
-        "description": "Verter (<m4> x <final_water_amount>)g de agua.",
+        "description": "Verter hasta (<m4> x <final_water_amount>)g de agua.",
         "time": "<t3>"
       },
       {
@@ -355,7 +355,7 @@
       },
       {
         "order": 10,
-        "description": "Verter (<m5> x <final_water_amount>)g de agua.",
+        "description": "Verter hasta (<m5> x <final_water_amount>)g de agua.",
         "time": "<t5>"
       },
       {

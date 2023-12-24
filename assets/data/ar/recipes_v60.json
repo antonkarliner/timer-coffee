@@ -315,7 +315,7 @@
       },
       {
         "order": 2,
-        "description": "صب (<m1> x <final_water_amount>)جرام من الماء.",
+        "description": "صب حتى يصل إلى (<m1> x <final_water_amount>)جرام من الماء.",
         "time": 10
       },
       {
@@ -325,7 +325,7 @@
       },
       {
         "order": 4,
-        "description": "صب (<m2> x <final_water_amount>)جرام من الماء.",
+        "description": "صب حتى يصل إلى (<m2> x <final_water_amount>)جرام من الماء.",
         "time": 10
       },
       {
@@ -335,9 +335,9 @@
       },
       {
         "order": 6,
-        "description": "صب (<m3> x <final_water_amount>)جرام من الماء.",
+        "description": "صب حتى يصل إلى (<m3> x <final_water_amount>)جرام من الماء.",
         "time": "<t1>"
-      },      
+      },
       {
         "order": 7,
         "description": "انتظر.",
@@ -345,7 +345,7 @@
       },
       {
         "order": 8,
-        "description": "صب (<m4> x <final_water_amount>)جرام من الماء.",
+        "description": "صب حتى يصل إلى (<m4> x <final_water_amount>)جرام من الماء.",
         "time": "<t3>"
       },
       {
@@ -355,7 +355,7 @@
       },
       {
         "order": 10,
-        "description": "صب (<m5> x <final_water_amount>)جرام من الماء.",
+        "description": "صب حتى يصل إلى (<m5> x <final_water_amount>)جرام من الماء.",
         "time": "<t5>"
       },
       {

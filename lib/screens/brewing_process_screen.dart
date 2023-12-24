@@ -76,15 +76,15 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
   ) {
     // Define the values based on slider positions for sweetness and strength
     List<Map<String, double>> sweetnessValues = [
-      {"m1": 0.16, "m2": 0.24}, // Sweetness
-      {"m1": 0.20, "m2": 0.20}, // Balance
-      {"m1": 0.24, "m2": 0.16}, // Acidity
+      {"m1": 0.16, "m2": 0.4}, // Sweetness
+      {"m1": 0.20, "m2": 0.4}, // Balance
+      {"m1": 0.24, "m2": 0.4}, // Acidity
     ];
 
     List<Map<String, double>> strengthValues = [
-      {"m3": 0.6, "m4": 0, "m5": 0}, // Light
-      {"m3": 0.3, "m4": 0.3, "m5": 0}, // Balanced
-      {"m3": 0.2, "m4": 0.2, "m5": 0.2}, // Strong
+      {"m3": 1.0, "m4": 0, "m5": 0}, // Light
+      {"m3": 0.7, "m4": 1.0, "m5": 0}, // Balanced
+      {"m3": 0.6, "m4": 0.8, "m5": 1.0}, // Strong
     ];
 
     // Replace sweetness and strength placeholders
