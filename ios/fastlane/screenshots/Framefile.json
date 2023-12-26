@@ -1,0 +1,58 @@
+{
+    "default": {
+     
+      "title": {
+        "fonts": [
+          {
+            "font": "./fonts/Lato-Bold.ttf",
+            "supported": ["de-DE", "en-US", "es-ES", "fr-FR", "es-MX", "pl", "pt-PT", "pt-BR"]
+          },
+          {
+            "font": "./fonts/23605.otf",
+            "supported": ["zh-Hans"]
+          },
+          {
+            "font": "./fonts/NotoSansJP-Bold.ttf",
+            "supported": ["ja-JP"]
+          },
+          {
+            "font": "./fonts/IBMPlexSansArabic-Bold.ttf",
+            "supported": ["ar-SA"]
+          },
+          {
+            "font": "./fonts/OpenSans-Bold.ttf",
+            "supported": ["ru-RU"]
+          }
+        ],
+        "color": "#000000"
+      },
+      "background": "./background.jpg",
+      "padding": 50
+    },
+    "data": [
+        {
+          "filter": "01Home"
+        },
+        {
+          "filter": "02Recipelist"
+        },
+        {
+          "filter": "03Tetsu"
+        },
+        {
+          "filter": "04Recipedetail"
+        },
+        {
+          "filter": "05Preparation"
+        },
+        {
+          "filter": "06Brewing"
+        },
+        {
+          "filter": "07Darktheme"
+        },
+        {
+          "filter": "08Languages"
+        }
+      ]
+  }
