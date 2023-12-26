@@ -14,6 +14,5 @@ Aplikacja obsługuje 10 języków i tryb ciemny.
 
 Oto, co szykujemy na przyszłe aktualizacje:
 
-- Włączenie metody parzenia Tetsu Kasuya 4:6 dla Hario V60.
 - Rozszerzenie naszej kolekcji przepisów na kawę.
 - Ulepszenia w designie.

@@ -112,7 +112,7 @@
       },
       {
         "order": 2,
-        "description": "倒入 (0.2 x <final_water_amount>)g 水。",
+        "description": "倒入至多 (0.2 x <final_water_amount>)g 水。",
         "time": 10
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "order": 4,
-        "description": "再倒入 (0.2 x <final_water_amount>)g 水。",
+        "description": "倒入至多 (0.4 x <final_water_amount>)g 水。",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 6,
-        "description": "再倒入 (0.2 x <final_water_amount>)g 水。",
+        "description": "倒入至多 (0.6 x <final_water_amount>)g 水。",
         "time": 10
       },
       {
@@ -142,7 +142,7 @@
       },
       {
         "order": 8,
-        "description": "再倒入 (0.2 x <final_water_amount>)g 水。",
+        "description": "倒入至多 (0.8 x <final_water_amount>)g 水。",
         "time": 10
       },
       {
@@ -152,7 +152,7 @@
       },
       {
         "order": 10,
-        "description": "再倒入 (0.2 x <final_water_amount>)g 水。",
+        "description": "倒入至多 (1.0 x <final_water_amount>)g 水。",
         "time": 10
       },
       {
@@ -160,6 +160,6 @@
         "description": "等待完全过滤。",
         "time": 40
       }
-    ]
+    ]    
   }  
   ]

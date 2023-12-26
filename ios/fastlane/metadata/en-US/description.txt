@@ -12,6 +12,5 @@ With Timer.Coffee you can:
 The app supports 10 languages and dark mode.
 
 Here's what we're brewing for future updates:
-- Inclusion of the Tetsu Kasuya 4:6 brewing method for Hario V60.
 - An expansion of our coffee recipes collection.
 - Design upgrades.

@@ -112,7 +112,7 @@
       },
       {
         "order": 2,
-        "description": "صب (0.2 x <final_water_amount>)غ من الماء.",
+        "description": "صب حتى (0.2 x <final_water_amount>)غ من الماء.",
         "time": 10
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "order": 4,
-        "description": "صب (0.2 x <final_water_amount>)غ من الماء.",
+        "description": "صب حتى (0.4 x <final_water_amount>)غ من الماء.",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
     },
     {
       "order": 6,
-      "description": "صب (0.2 x <final_water_amount>)غ من الماء.",
+      "description": "صب حتى (0.6 x <final_water_amount>)غ من الماء.",
       "time": 10
     },
     {
@@ -142,7 +142,7 @@
     },
     {
       "order": 8,
-      "description": "صب (0.2 x <final_water_amount>)غ من الماء.",
+      "description": "صب حتى (0.8 x <final_water_amount>)غ من الماء.",
       "time": 10
     },
     {
@@ -152,7 +152,7 @@
     },
     {
       "order": 10,
-      "description": "صب (0.2 x <final_water_amount>)غ من الماء.",
+      "description": "صب حتى (1.0 x <final_water_amount>)غ من الماء.",
       "time": 10
     },
     {
@@ -161,5 +161,6 @@
       "time": 40
     }
   ]
+
   }
   ]

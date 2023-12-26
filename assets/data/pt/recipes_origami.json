@@ -112,7 +112,7 @@
       },
       {
         "order": 2,
-        "description": "Despeje (0.2 x <final_water_amount>)g de água.",
+        "description": "Despeje até (0.2 x <final_water_amount>)g de água.",
         "time": 10
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "order": 4,
-        "description": "Adicione mais (0.2 x <final_water_amount>)g de água.",
+        "description": "Despeje até (0.4 x <final_water_amount>)g de água.",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 6,
-        "description": "Despeje novamente (0.2 x <final_water_amount>)g de água.",
+        "description": "Despeje até (0.6 x <final_water_amount>)g de água.",
         "time": 10
       },
       {
@@ -142,7 +142,7 @@
       },
       {
         "order": 8,
-        "description": "Continue com mais (0.2 x <final_water_amount>)g de água.",
+        "description": "Despeje até (0.8 x <final_water_amount>)g de água.",
         "time": 10
       },
       {
@@ -152,7 +152,7 @@
       },
       {
         "order": 10,
-        "description": "Despeje a última parte de (0.2 x <final_water_amount>)g de água.",
+        "description": "Despeje até (1.0 x <final_water_amount>)g de água.",
         "time": 10
       },
       {
@@ -160,6 +160,6 @@
         "description": "Aguarde a drenagem completa.",
         "time": 40
       }
-    ]
+    ]    
   }  
 ]

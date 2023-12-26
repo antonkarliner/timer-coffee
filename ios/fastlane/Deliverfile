@@ -2,6 +2,7 @@ username(ENV['APPLE_ID'])
 skip_screenshots(true)
 submit_for_review(true)
 precheck_include_in_app_purchases(false)
+force (true)
 
 # Add IDFA settings
 submission_information({

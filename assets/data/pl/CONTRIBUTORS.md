@@ -1,4 +1,4 @@
-[@kinolaev](https://github.com/kinolaev) – pomógł zoptymalizować kod aplikacji webowej, aby działała na starszych urządzeniach, pomógł przy czcionkach dla webu, przedstawił mi Material 3.
+[@kinolaev](https://github.com/kinolaev) - pomógł zoptymalizować kod dla aplikacji webowej, aby działała na starszych urządzeniach, pomógł z fontami do webu, wprowadził mnie do Material 3. Pomógł przy kluczowych częściach metody Tetsu Kasuya 4:6.
 
 [@Fplas](https://github.com/Fplas) - naprawił wiele błędów ortograficznych, poprawił czytelność.
 

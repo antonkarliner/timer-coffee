@@ -14,6 +14,5 @@ La aplicación soporta 10 idiomas y modo oscuro.
 
 Esto es lo que estamos preparando para futuras actualizaciones:
 
-- Inclusión del método de preparación Tetsu Kasuya 4:6 para Hario V60.
 - Una expansión de nuestra colección de recetas de café.
 - Mejoras de diseño.

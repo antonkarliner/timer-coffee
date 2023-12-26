@@ -14,6 +14,5 @@ Die App unterstützt 10 Sprachen und einen Dunkelmodus.
 
 Hier ist, was wir für zukünftige Updates planen:
 
-- Einbeziehung der Tetsu Kasuya 4:6 Brühmethode für Hario V60.
 - Erweiterung unserer Sammlung von Kaffeerezepten.
 - Design-Upgrades.

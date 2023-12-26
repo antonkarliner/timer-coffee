@@ -122,7 +122,7 @@
       },
       {
         "order": 4,
-        "description": "Налейте (0.2 x <final_water_amount>)г. воды",
+        "description": "Налейте до (0.4 x <final_water_amount>)г. воды",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
     },
     {
       "order": 6,
-      "description": "Налейте (0.2 x <final_water_amount>)г. воды",
+      "description": "Налейте до (0.6 x <final_water_amount>)г. воды",
       "time": 10
     },
     {
@@ -142,7 +142,7 @@
     },
     {
       "order": 8,
-      "description": "Налейте (0.2 x <final_water_amount>)г. воды",
+      "description": "Налейте до (0.8 x <final_water_amount>)г. воды",
       "time": 10
     },
     {
@@ -152,7 +152,7 @@
     },
     {
       "order": 10,
-      "description": "Налейте (0.2 x <final_water_amount>)г. воды",
+      "description": "Налейте до (1.0 x <final_water_amount>)г. воды",
       "time": 10
     },
     {

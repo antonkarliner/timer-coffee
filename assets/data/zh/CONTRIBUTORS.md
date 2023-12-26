@@ -1,4 +1,4 @@
-[@kinolaev](https://github.com/kinolaev) – 帮助优化代码以使Web应用在旧设备上运行，帮助处理Web字体，向我介绍了Material 3。
+[@kinolaev](https://github.com/kinolaev) - 帮助优化代码以便web应用在较旧的设备上运行，协助web字体，向我介绍了Material 3。在铁户笠谷4:6方法的关键部分提供帮助。
 
 [@Fplas](https://github.com/Fplas) - 修正了多处打字错误，提高了可读性。
 

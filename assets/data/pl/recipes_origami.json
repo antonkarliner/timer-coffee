@@ -112,7 +112,7 @@
       },
       {
         "order": 2,
-        "description": "Wlej (0.2 x <final_water_amount>)g wody.",
+        "description": "Wlej do (0.2 x <final_water_amount>)g wody.",
         "time": 10
       },
       {
@@ -122,7 +122,7 @@
       },
       {
         "order": 4,
-        "description": "Dodaj kolejne (0.2 x <final_water_amount>)g wody.",
+        "description": "Wlej do (0.4 x <final_water_amount>)g wody.",
         "time": 10
       },
       {
@@ -132,7 +132,7 @@
       },
       {
         "order": 6,
-        "description": "Dodaj kolejne (0.2 x <final_water_amount>)g wody.",
+        "description": "Wlej do (0.6 x <final_water_amount>)g wody.",
         "time": 10
       },
       {
@@ -142,7 +142,7 @@
       },
       {
         "order": 8,
-        "description": "Dodaj kolejne (0.2 x <final_water_amount>)g wody.",
+        "description": "Wlej do (0.8 x <final_water_amount>)g wody.",
         "time": 10
       },
       {
@@ -152,7 +152,7 @@
       },
       {
         "order": 10,
-        "description": "Dodaj ostatnie (0.2 x <final_water_amount>)g wody.",
+        "description": "Wlej do (1.0 x <final_water_amount>)g wody.",
         "time": 10
       },
       {
@@ -160,6 +160,6 @@
         "description": "Czekaj na całkowite przesączenie.",
         "time": 40
       }
-    ]
+    ]    
   }
 ]

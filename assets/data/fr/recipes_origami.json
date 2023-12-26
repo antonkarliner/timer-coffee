@@ -105,61 +105,61 @@
   "last_used": "2023-05-01T12:00:00Z",
   "is_favorite": false,
   "steps": [
-      {
-          "order": 1,
-          "description": "Rincez le dripper et le filtre Origami à l'eau chaude. Moulez le café. Versez le café moulu et réinitialisez la balance.",
-          "time": 0
-      },
-      {
-          "order": 2,
-          "description": "Versez (0.2 x <final_water_amount>)g d'eau.",
-          "time": 10
-      },
-      {
-          "order": 3,
-          "description": "Patientez.",
-          "time": 20
-      },
-      {
-          "order": 4,
-          "description": "Ajoutez encore (0.2 x <final_water_amount>)g d'eau.",
-          "time": 10
-      },
-      {
-          "order": 5,
-          "description": "Patientez.",
-          "time": 20
-      },
-      {
-          "order": 6,
-          "description": "Versez (0.2 x <final_water_amount>)g d'eau.",
-          "time": 10
-      },
-      {
-          "order": 7,
-          "description": "Patientez.",
-          "time": 20
-      },
-      {
-          "order": 8,
-          "description": "Ajoutez (0.2 x <final_water_amount>)g d'eau.",
-          "time": 10
-      },
-      {
-          "order": 9,
-          "description": "Patientez.",
-          "time": 20
-      },
-      {
-          "order": 10,
-          "description": "Versez les derniers (0.2 x <final_water_amount>)g d'eau.",
-          "time": 10
-      },
-      {
-          "order": 11,
-          "description": "Attendez la fin de l'extraction.",
-          "time": 40
-      }
-  ]
+    {
+      "order": 1,
+      "description": "Rincez le dripper et le filtre Origami à l'eau chaude. Moulez le café. Versez le café moulu et réinitialisez la balance.",
+      "time": 0
+    },
+    {
+      "order": 2,
+      "description": "Versez jusqu'à (0.2 x <final_water_amount>)g d'eau.",
+      "time": 10
+    },
+    {
+      "order": 3,
+      "description": "Patientez.",
+      "time": 20
+    },
+    {
+      "order": 4,
+      "description": "Versez jusqu'à (0.4 x <final_water_amount>)g d'eau.",
+      "time": 10
+    },
+    {
+      "order": 5,
+      "description": "Patientez.",
+      "time": 20
+    },
+    {
+      "order": 6,
+      "description": "Versez jusqu'à (0.6 x <final_water_amount>)g d'eau.",
+      "time": 10
+    },
+    {
+      "order": 7,
+      "description": "Patientez.",
+      "time": 20
+    },
+    {
+      "order": 8,
+      "description": "Versez jusqu'à (0.8 x <final_water_amount>)g d'eau.",
+      "time": 10
+    },
+    {
+      "order": 9,
+      "description": "Patientez.",
+      "time": 20
+    },
+    {
+      "order": 10,
+      "description": "Versez jusqu'à (1.0 x <final_water_amount>)g d'eau.",
+      "time": 10
+    },
+    {
+      "order": 11,
+      "description": "Attendez la fin de l'extraction.",
+      "time": 40
+    }
+  ]  
 }
 ]

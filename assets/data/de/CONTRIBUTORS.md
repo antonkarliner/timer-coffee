@@ -1,4 +1,5 @@
-[@kinolaev](https://github.com/kinolaev) – half dabei, den Code für die Web-App zu optimieren, damit sie auf älteren Geräten funktioniert, half bei den Schriftarten für das Web, stellte mir Material 3 vor.
+[@kinolaev](https://github.com/kinolaev) - half dabei, den Code für die Web-App zu optimieren, damit sie auf älteren Geräten funktioniert, half bei den Schriften für das Web, stellte mir Material 3 vor. Half bei entscheidenden Teilen der Tetsu Kasuya 4:6 Methode.
+
 
 [@Fplas](https://github.com/Fplas) - korrigierte mehrere Tippfehler, verbesserte die Lesbarkeit.
 

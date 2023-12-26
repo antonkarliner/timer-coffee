@@ -14,6 +14,5 @@ L'application prend en charge 10 langues et le mode sombre.
 
 Voici ce que nous préparons pour les futures mises à jour :
 
-- Inclusion de la méthode de brassage Tetsu Kasuya 4:6 pour Hario V60.
 - Une expansion de notre collection de recettes de café.
 - Améliorations de design.
