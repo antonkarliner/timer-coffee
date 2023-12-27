@@ -30,7 +30,7 @@
         },
         {
             "order": 4,
-            "description": "Versez jusqu'à  (1.0 x <final_water_amount>)g d'eau en cercles lents, finissez par l'extérieur du filtre et tournez doucement la cafetière.",
+            "description": "Versez jusqu'à (1.0 x <final_water_amount>)g d'eau en cercles lents, finissez par l'extérieur du filtre et tournez doucement la cafetière.",
             "time": 50
         },
         {
@@ -71,7 +71,7 @@
       },
       {
           "order": 4,
-          "description": "Continuez avec (5 x <final_coffee_amount>)g. d'eau, en versant de manière uniforme.",
+          "description": "Versez jusqu'à (0.5835 x <final_water_amount>)g. d'eau, en versant de manière uniforme.",
           "time": 20
       },
       {

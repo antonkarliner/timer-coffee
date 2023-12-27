@@ -71,7 +71,7 @@
         },
         {
           "order": 4,
-          "description": "Pour (5 x <final_coffee_amount>)g. of water",
+          "description": "Pour up to (0.5835 x <final_water_amount>)g. of water",
           "time": 20
         },
         {

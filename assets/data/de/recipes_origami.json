@@ -71,7 +71,7 @@
       },
       {
         "order": 4,
-        "description": "(5 x <final_coffee_amount>)g Wasser aufgießen.",
+        "description": "Bis (0.5835 x <final_water_amount>)g Wasser aufgießen.",
         "time": 20
       },
       {

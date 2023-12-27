@@ -61,7 +61,7 @@
       },
       {
         "order": 2,
-        "description": "(0.25 x <final_water_amount>)gの水を注ぎます。",
+        "description": "(0.25 x <final_water_amount>)gまでの水を注ぎます。",
         "time": 10
       },
       {
@@ -71,7 +71,7 @@
       },
       {
         "order": 4,
-        "description": "(5 x <final_coffee_amount>)gの水を注ぎます。",
+        "description": "(0.5835 x <final_water_amount>)gまでの水を注ぎます。",
         "time": 20
       },
       {
@@ -89,7 +89,7 @@
         "description": "完全なドローダウンを待ちます。",
         "time": 30
       }
-    ]
+    ]    
   },  
   {
     "id": "803",

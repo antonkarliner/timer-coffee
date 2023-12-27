@@ -61,7 +61,7 @@
       },
       {
         "order": 2,
-        "description": "صب (0.25 x <final_water_amount>)غ من الماء.",
+        "description": "صب ما يصل إلى (0.25 x <final_water_amount>)غ من الماء.",
         "time": 10
       },
       {
@@ -71,25 +71,25 @@
       },
       {
         "order": 4,
-        "description": "صب (5 x <final_coffee_amount>)غ من الماء",
+        "description": "صب ما يصل إلى (0.5835 x <final_water_amount>)غ من الماء",
         "time": 20
       },
       {
-      "order": 5,
-      "description": "انتظر.",
-      "time": 18
-    },
-    {
-      "order": 6,
-      "description": "اكمل الصب حتى تصل إلى <final_water_amount>غ.",
-      "time": 20
-    },
-    {
-      "order": 7,
-      "description": "انتظر حتى يكتمل الاستخلاص.",
-      "time": 30
-    }
-  ]
+        "order": 5,
+        "description": "انتظر.",
+        "time": 18
+      },
+      {
+        "order": 6,
+        "description": "اكمل الصب حتى تصل إلى <final_water_amount>غ.",
+        "time": 20
+      },
+      {
+        "order": 7,
+        "description": "انتظر حتى يكتمل الاستخلاص.",
+        "time": 30
+      }
+    ]    
   },
   {
     "id": "803",

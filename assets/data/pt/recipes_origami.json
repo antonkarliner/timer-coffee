@@ -71,7 +71,7 @@
       },
       {
         "order": 4,
-        "description": "Adicione (5 x <final_coffee_amount>)g de água.",
+        "description": "Adicione até (0.5835 x <final_water_amount>)g de água.",
         "time": 20
       },
       {

@@ -61,7 +61,7 @@
       },
       {
         "order": 2,
-        "description": "倒入 (0.25 x <final_water_amount>)g 水。",
+        "description": "倒入最多 (0.25 x <final_water_amount>)g 水。",
         "time": 10
       },
       {
@@ -71,7 +71,7 @@
       },
       {
         "order": 4,
-        "description": "倒入 (5 x <final_coffee_amount>)g 水",
+        "description": "倒入最多 (0.5835 x <final_water_amount>)g 水",
         "time": 20
       },
       {
@@ -89,7 +89,7 @@
         "description": "等待完全过滤。",
         "time": 30
       }
-    ]
+    ]    
   },  
   {
     "id": "803",

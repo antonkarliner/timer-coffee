@@ -71,7 +71,7 @@
       },
       {
         "order": 4,
-        "description": "Налейте (5 x <final_coffee_amount>)г. воды",
+        "description": "Налейте до (0.5835 x <final_water_amount>)г. воды",
         "time": 20
       },
       {
