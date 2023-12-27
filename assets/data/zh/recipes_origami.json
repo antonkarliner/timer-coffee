@@ -14,31 +14,31 @@
     "is_favorite": false,
     "steps": [
       {
-        "order": 1,
-        "description": "研磨咖啡，预先冲洗过滤器并加入咖啡。放在秤上归零。",
-        "time": 0
+      "order": 1,
+      "description": "研磨咖啡，预先冲洗过滤器并加入咖啡。放在秤上归零。",
+      "time": 0
       },
       {
-        "order": 2,
-        "description": "用 (0.2 x <final_water_amount>)g 水浸泡咖啡，并轻轻旋转 dripper。",
-        "time": 10
+      "order": 2,
+      "description": "用最多 (0.2 x <final_water_amount>)g 水浸泡咖啡，并轻轻旋转 dripper。",
+      "time": 10
       },
       {
-        "order": 3,
-        "description": "让咖啡开花。",
-        "time": 30
+      "order": 3,
+      "description": "让咖啡开花。",
+      "time": 30
       },
       {
-        "order": 4,
-        "description": "以慢速同心圆形式倒入剩余的 (0.8 x <final_water_amount>)g 水，最后一次倒水环绕过滤器外部。再轻轻旋转冲泡器一次。",
-        "time": 50
+      "order": 4,
+      "description": "慢慢倒入最多 (1.0 x <final_water_amount>)g 水，做同心圆形式，完成最后一次倒水围绕过滤器外部。再轻轻旋转冲泡器一次。",
+      "time": 50
       },
       {
-        "order": 5,
-        "description": "等待完全过滤。",
-        "time": 30
+      "order": 5,
+      "description": "等待完全过滤。",
+      "time": 30
       }
-    ]
+      ]
   },
   {
     "id": "802",

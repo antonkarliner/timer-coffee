@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "Wlej resztę wody (0.8 x <final_water_amount>)g, w koncentrycznych kręgach, zakończ wokół zewnętrznej strony filtra. Obróć zaparzacz.",
+        "description": "Wlej do (1.0 x <final_water_amount>)g wody, w koncentrycznych kręgach, zakończ wokół zewnętrznej strony filtra. Obróć zaparzacz.",
         "time": 50
       },
       {

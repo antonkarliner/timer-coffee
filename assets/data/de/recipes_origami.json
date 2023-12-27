@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "Restliches (0.8 x <final_water_amount>)g Wasser in langsamen, konzentrischen Kreisen aufgießen, um den Filterrand gießen und den Brüher sanft schwenken.",
+        "description": "Bis (1.0 x <final_water_amount>)g Wasser in langsamen, konzentrischen Kreisen aufgießen, um den Filterrand gießen und den Brüher sanft schwenken.",
         "time": 50
       },
       {

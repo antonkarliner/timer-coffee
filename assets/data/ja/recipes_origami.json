@@ -14,31 +14,31 @@
     "is_favorite": false,
     "steps": [
       {
-        "order": 1,
-        "description": "フィルターをOrigami Dripperにセットし、お湯ですすぎます。コーヒーを量って挽き、Origami Dripperに入れ、秤の上に置き、ゼロにします。",
-        "time": 0
+      "order": 1,
+      "description": "フィルターをOrigami Dripperにセットし、お湯ですすぎます。コーヒーを量って挽き、Origami Dripperに入れ、秤の上に置き、ゼロにします。",
+      "time": 0
       },
       {
-        "order": 2,
-        "description": "(0.2 x <final_water_amount>)gの水でコーヒーを膨らませ、軽く撹拌します。",
-        "time": 10
+      "order": 2,
+      "description": "(0.2 x <final_water_amount>)gの水でコーヒーを膨らませ、軽く撹拌します。",
+      "time": 10
       },
       {
-        "order": 3,
-        "description": "コーヒーの花を咲かせます。",
-        "time": 30
+      "order": 3,
+      "description": "コーヒーの花を咲かせます。",
+      "time": 30
       },
       {
-        "order": 4,
-        "description": "残りの(0.8 x <final_water_amount>)gの水をゆっくりと同心円を描くように注ぎます。",
-        "time": 50
+      "order": 4,
+      "description": "最大(1.0 x <final_water_amount>)gまでの水をゆっくりと同心円を描くように注ぎ、最後はフィルターの外側を一回りします。ドリッパーをもう一度軽く振ります。",
+      "time": 50
       },
       {
-        "order": 5,
-        "description": "完全なドローダウンを待ちます。",
-        "time": 30
+      "order": 5,
+      "description": "完全なドローダウンを待ちます。",
+      "time": 30
       }
-    ]
+      ]
   },
   {
     "id": "802",

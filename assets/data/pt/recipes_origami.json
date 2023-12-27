@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "Despeje os restantes (0.8 x <final_water_amount>)g de água em movimentos circulares lentos, finalizando ao redor do exterior do filtro. Agite suavemente a cafeteira novamente.",
+        "description": "Despeje até (1.0 x <final_water_amount>)g de água em movimentos circulares lentos, finalizando ao redor do exterior do filtro. Agite suavemente a cafeteira novamente.",
         "time": 50
       },
       {

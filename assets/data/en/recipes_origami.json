@@ -30,7 +30,7 @@
         },
         {
           "order": 4,
-          "description": "Pour remaining (0.8 x <final_water_amount>)g. of water in slow, concentric circles, finishing with your last pour around the outside of the filter. Gently swirl the brewer one more time.",
+          "description": "Pour up to (1.0 x <final_water_amount>)g. of water in slow, concentric circles, finishing with your last pour around the outside of the filter. Gently swirl the brewer one more time.",
           "time": 50
         },
         {

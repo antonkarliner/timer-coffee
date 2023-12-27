@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "Vierta los (0.8 x <final_water_amount>)g de agua restantes en círculos lentos y concéntricos, terminando con un vertido alrededor del filtro. Agite suavemente el gotero.",
+        "description": "Vierta hasta (1.0 x <final_water_amount>)g de agua en círculos lentos y concéntricos, terminando con un vertido alrededor del filtro. Agite suavemente el gotero.",
         "time": 50
       },
       {
