@@ -11,3 +11,5 @@ Nowe przepisy dodane przez [@Fplas](https://github.com/Fplas), [@trommelaere](ht
 [@typomanka](https://github.com/typomanka) – moja droga przyjaciółka Julia stworzyła niesamowite ikony do metod parzenia kawy. Sprawdź jej [Instagram](https://www.instagram.com/typomanka/) również!
 
 [Diana](https://diana.karliner.pro/) edytowała rosyjskie tłumaczenie przepisów
+
+[phernst](https://github.com/phernst) - pomógł poprawić tłumaczenie na język niemiecki

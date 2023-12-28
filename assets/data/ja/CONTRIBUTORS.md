@@ -11,3 +11,5 @@
 [@typomanka](https://github.com/typomanka) – 私の親友のジュリアは、コーヒーの抽出方法のための素晴らしいアイコンを作成しました。彼女の[Instagram](https://www.instagram.com/typomanka/)もチェックしてみてください！
 
 [Diana](https://diana.karliner.pro/)はレシピのロシア語訳を編集しました
+
+[phernst](https://github.com/phernst) - ドイツ語翻訳の改善に協力しました

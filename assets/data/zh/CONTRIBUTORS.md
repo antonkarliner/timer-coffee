@@ -11,3 +11,5 @@
 [@typomanka](https://github.com/typomanka) – 亲爱的朋友朱莉亚为咖啡冲泡方法创建了很棒的图标。
 
 [Diana](https://diana.karliner.pro/) 编辑了食谱的俄语翻译
+
+[phernst](https://github.com/phernst) - 帮助改进德语翻译

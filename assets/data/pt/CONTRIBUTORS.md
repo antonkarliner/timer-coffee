@@ -11,3 +11,5 @@ Novas receitas adicionadas por [@Fplas](https://github.com/Fplas), [@trommelaere
 [@typomanka](https://github.com/typomanka) – minha querida amiga Julia criou ícones incríveis para métodos de preparo de café. Confira também o [Instagram](https://www.instagram.com/typomanka/) dela!
 
 [Diana](https://diana.karliner.pro/) editou a tradução russa das receitas
+
+[phernst](https://github.com/phernst) - ajudou a melhorar a tradução para o alemão

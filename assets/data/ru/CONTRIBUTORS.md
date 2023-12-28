@@ -11,3 +11,5 @@
 [@typomanka](https://github.com/typomanka) – моя дорогая подруга Юлия создала потрясающие иконки для методов заваривания кофе. Посмотрите также её [Instagram](https://www.instagram.com/typomanka/)!
 
 [Диана](https://diana.karliner.pro/) – редактор русскоязычной версии
+
+[phernst](https://github.com/phernst) - помог улучшить качество перевода на немецкий
