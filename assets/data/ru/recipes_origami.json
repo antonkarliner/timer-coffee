@@ -81,7 +81,7 @@
     },
     {
       "order": 6,
-      "description": "Налейте воды <final_water_amount>г.",
+      "description": "Налейте воды до <final_water_amount>г.",
       "time": 20
     },
     {
