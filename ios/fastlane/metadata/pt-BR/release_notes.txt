@@ -1,1 +1,3 @@
-É sempre bom começar o Ano Novo com uma limpeza! Nesta atualização, tornei algumas receitas mais fáceis de seguir e otimizei tudo um pouco. Parabéns para @phernst por melhorar a tradução para o alemão!
+Removemos alguns códigos não utilizados para otimizar o aplicativo.
+
+P.S. Se você sentir falta do botão de neve – você pode encontrá-lo nas Configurações.

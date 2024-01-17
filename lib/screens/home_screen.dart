@@ -13,7 +13,7 @@ import "package:universal_html/html.dart" as html;
 import '../utils/icon_utils.dart';
 import '../purchase_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../providers/snow_provider.dart';
+//import '../providers/snow_provider.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -94,14 +94,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
     final brewingMethods = Provider.of<List<BrewingMethod>>(context);
-    final snowEffectProvider = Provider.of<SnowEffectProvider>(context);
+    //final snowEffectProvider = Provider.of<SnowEffectProvider>(context);
 
     return Scaffold(
       appBar: buildPlatformSpecificAppBar(),
       body: Stack(
         children: [
           buildRecipeList(recipeProvider, brewingMethods),
-          buildSnowToggleButton(snowEffectProvider),
+          //buildSnowToggleButton(snowEffectProvider),
           buildSettingsButton(),
           LaunchPopupWidget(),
         ],
@@ -164,20 +164,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget buildSnowToggleButton(SnowEffectProvider snowEffectProvider) {
-    return Positioned(
-      left: 20,
-      bottom: 20,
-      child: FloatingActionButton.small(
-        heroTag: 'snowToggle',
-        onPressed: snowEffectProvider.toggleSnowEffect,
-        tooltip: 'Toggle Snow',
-        backgroundColor: Colors.lightBlue[100]!,
-        foregroundColor: const Color(0xFFFFFFFF),
-        child: Icon(snowEffectProvider.isSnowing ? Icons.cloud : Icons.ac_unit),
-      ),
-    );
-  }
+  //Widget buildSnowToggleButton(SnowEffectProvider snowEffectProvider) {
+  //return Positioned(
+  //left: 20,
+  //bottom: 20,
+  //child: FloatingActionButton.small(
+  //heroTag: 'snowToggle',
+  //onPressed: snowEffectProvider.toggleSnowEffect,
+  //tooltip: 'Toggle Snow',
+  //backgroundColor: Colors.lightBlue[100]!,
+  //foregroundColor: const Color(0xFFFFFFFF),
+  //child: Icon(snowEffectProvider.isSnowing ? Icons.cloud : Icons.ac_unit),
+  //),
+  //);
+  //}
 
   Widget buildSettingsButton() {
     return Positioned(

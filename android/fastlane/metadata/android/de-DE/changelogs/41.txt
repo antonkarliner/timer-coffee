@@ -1,0 +1,3 @@
+Wir haben ungenutzten Code entfernt, um die App zu optimieren.
+
+P.S. Falls Ihnen der Schneeflocken-Button fehlt – Sie finden ihn in den Einstellungen.

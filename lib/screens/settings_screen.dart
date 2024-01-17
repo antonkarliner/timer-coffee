@@ -13,6 +13,7 @@ import '../providers/theme_provider.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../providers/snow_provider.dart';
 
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
@@ -27,6 +28,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final snowEffectProvider = Provider.of<SnowEffectProvider>(context);
     String currentLanguage = _getLanguageName(recipeProvider.currentLocale);
 
     return Scaffold(
@@ -46,14 +48,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onTap: _changeLocale,
           ),
 
-          _buildAboutSection(context),
+          _buildAboutSection(context, Provider.of<SnowEffectProvider>(context)),
           // Add more settings options here if needed
         ],
       ),
     );
   }
 
-  Widget _buildAboutSection(BuildContext context) {
+  Widget _buildAboutSection(
+      BuildContext context, SnowEffectProvider snowEffectProvider) {
     return Column(
       children: [
         // Author, Contributors, License, and other sections from AboutScreen
@@ -168,6 +171,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ],
         ),
+        ExpansionTile(
+          title: Text(AppLocalizations.of(context)!.seasonspecials),
+          children: [
+            ListTile(
+                leading: const Icon(Icons.ac_unit),
+                title: Text(AppLocalizations.of(context)!.snow),
+                onTap: () {
+                  snowEffectProvider
+                      .toggleSnowEffect(); // This calls the function
+                }),
+          ],
+        ),
+
         Wrap(
           alignment: WrapAlignment.center,
           spacing: 12.0, // space between buttons

@@ -1,1 +1,3 @@
-Es ist immer gut, das neue Jahr mit einer Aufräumaktion zu beginnen! In diesem Update habe ich einige Rezepte leichter verständlich gemacht und alles ein wenig optimiert. Ein großes Lob an @phernst für die Verbesserung der deutschen Übersetzung!
+Wir haben etwas ungenutzten Code entfernt, um die App zu optimieren.
+
+P.S. Wenn Ihnen der Schneeflocken-Button fehlt – Sie finden ihn in den Einstellungen.

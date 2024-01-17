@@ -1,0 +1,3 @@
+Removemos alguns códigos não utilizados para otimizar o aplicativo.
+
+P.S. Se você está sentindo falta do botão de neve, pode encontrá-lo nas Configurações.

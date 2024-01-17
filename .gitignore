@@ -51,3 +51,4 @@ ios/fastlane/report.xml
 android/fastlane/report.xml
 android/last_successful_run.txt
 ios/last_successful_run.txt
+translate_startpopup.py

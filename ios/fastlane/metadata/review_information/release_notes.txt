@@ -1,1 +1,3 @@
-Es ist immer gut, das neue Jahr mit einer Aufräumaktion zu beginnen! In diesem Update habe ich einige Rezepte einfacher gestaltet und alles ein wenig optimiert. Ein großes Lob an @phernst für die Verbesserung der deutschen Übersetzung!
+Revisión de la información: Se eliminó código no utilizado para optimizar la aplicación.
+
+P.D. Si extrañas el botón de nieve, puedes encontrarlo en los Ajustes.
