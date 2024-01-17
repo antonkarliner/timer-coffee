@@ -118,7 +118,7 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
           spans.add(
             TextSpan(
               text: linkText,
-              style: defaultTextStyle.copyWith(color: Colors.brown),
+              style: defaultTextStyle.copyWith(color: Colors.lightBlue),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   launchUrl(Uri.parse(linkUrl));
