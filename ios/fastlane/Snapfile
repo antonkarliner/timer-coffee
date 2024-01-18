@@ -4,9 +4,9 @@
 devices([
    #"iPhone 14 Pro",
    #"iPhone 14 Pro Max"
-   "iPhone 15 Pro Max"
+   #"iPhone 15 Pro Max"
    #"iPhone SE (3rd generation)"
-   #"iPad Pro (12.9-inch) (2nd generation)"
+   "iPad Pro (12.9-inch) (5th generation)"
 #   "iPhone 8",
 #   "iPhone 8 Plus",
 #   "iPhone SE",

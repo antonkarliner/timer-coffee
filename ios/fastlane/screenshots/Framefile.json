@@ -8,11 +8,11 @@
             "supported": ["de-DE", "en-US", "es-ES", "fr-FR", "es-MX", "pl", "pt-PT", "pt-BR"]
           },
           {
-            "font": "./fonts/23605.otf",
+            "font": "./fonts/MaShanZheng-Regular.ttf",
             "supported": ["zh-Hans"]
           },
           {
-            "font": "./fonts/NotoSansJP-Bold.ttf",
+            "font": "./fonts/fonts-japanese-gothic.ttf",
             "supported": ["ja-JP"]
           },
           {

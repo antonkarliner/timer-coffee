@@ -70,8 +70,8 @@ final class Timer_CoffeeUITests: XCTestCase {
     // Use XCTAssert and related functions to verify your tests produce the correct results.
 }
 @MainActor func testDE() throws {
-        let app = XCUIApplication()
-        app.launch()
+    let app = XCUIApplication()
+    app.launch()
 
     let harioV60StaticText = app.staticTexts["Hario V60"]
     harioV60StaticText.tap()

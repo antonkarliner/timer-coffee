@@ -8,9 +8,9 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i9;
-import 'package:coffee_timer/screens/coffee_tips_screen.dart' as _i1;
-import 'package:coffee_timer/screens/donation_screen.dart' as _i2;
+import 'package:auto_route/auto_route.dart' as _i8;
+import 'package:coffee_timer/screens/about_screen.dart' as _i1;
+import 'package:coffee_timer/screens/coffee_tips_screen.dart' as _i2;
 import 'package:coffee_timer/screens/home_screen.dart' as _i3;
 import 'package:coffee_timer/screens/onboarding_screen.dart' as _i4;
 import 'package:coffee_timer/screens/recipe_detail_screen.dart' as _i5;
@@ -23,35 +23,29 @@ abstract class $AppRouter extends _i9.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i9.PageFactory> pagesMap = {
-    CoffeeTipsRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+  final Map<String, _i8.PageFactory> pagesMap = {
+    AboutRoute.name: (routeData) {
+      return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i1.CoffeeTipsScreen(),
       );
     },
-    DonationRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+    CoffeeTipsRoute.name: (routeData) {
+      return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i2.DonationScreen(),
-      );
-    },
-    FavoriteRecipesRoute.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i3.FavoriteRecipesScreen(),
       );
     },
     HomeRoute.name: (routeData) {
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.HomeScreen(),
+        child: const _i3.HomeScreen(),
       );
     },
     OnboardingRoute.name: (routeData) {
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i5.OnboardingScreen(),
+        child: _i4.OnboardingScreen(),
       );
     },
     RecipeDetailRoute.name: (routeData) {
@@ -79,7 +73,7 @@ abstract class $AppRouter extends _i9.RootStackRouter {
               ));
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i6.RecipeDetailTKScreen(
+        child: _i6.RecipeDetailScreen(
           key: args.key,
           brewingMethodId: args.brewingMethodId,
           recipeId: args.recipeId,
@@ -109,9 +103,23 @@ abstract class $AppRouter extends _i9.RootStackRouter {
 }
 
 /// generated route for
-/// [_i1.CoffeeTipsScreen]
-class CoffeeTipsRoute extends _i9.PageRouteInfo<void> {
-  const CoffeeTipsRoute({List<_i9.PageRouteInfo>? children})
+/// [_i1.AboutScreen]
+class AboutRoute extends _i8.PageRouteInfo<void> {
+  const AboutRoute({List<_i8.PageRouteInfo>? children})
+      : super(
+          AboutRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AboutRoute';
+
+  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i2.CoffeeTipsScreen]
+class CoffeeTipsRoute extends _i8.PageRouteInfo<void> {
+  const CoffeeTipsRoute({List<_i8.PageRouteInfo>? children})
       : super(
           CoffeeTipsRoute.name,
           initialChildren: children,
@@ -123,7 +131,7 @@ class CoffeeTipsRoute extends _i9.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.DonationScreen]
+/// [_i3.DonationScreen]
 class DonationRoute extends _i9.PageRouteInfo<void> {
   const DonationRoute({List<_i9.PageRouteInfo>? children})
       : super(
@@ -133,11 +141,11 @@ class DonationRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'DonationRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i3.HomeScreen]
+/// [_i4.HomeScreen]
 class HomeRoute extends _i9.PageRouteInfo<void> {
   const HomeRoute({List<_i9.PageRouteInfo>? children})
       : super(
@@ -151,7 +159,7 @@ class HomeRoute extends _i9.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.OnboardingScreen]
+/// [_i5.OnboardingScreen]
 class OnboardingRoute extends _i9.PageRouteInfo<void> {
   const OnboardingRoute({List<_i9.PageRouteInfo>? children})
       : super(
@@ -165,7 +173,7 @@ class OnboardingRoute extends _i9.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.RecipeDetailScreen]
+/// [_i6.RecipeDetailScreen]
 class RecipeDetailRoute extends _i9.PageRouteInfo<RecipeDetailRouteArgs> {
   RecipeDetailRoute({
     _i10.Key? key,
@@ -212,13 +220,13 @@ class RecipeDetailRouteArgs {
 }
 
 /// generated route for
-/// [_i7.RecipeDetailTKScreen]
-class RecipeDetailTKRoute extends _i10.PageRouteInfo<RecipeDetailTKRouteArgs> {
+/// [_i6.RecipeDetailTKScreen]
+class RecipeDetailTKRoute extends _i9.PageRouteInfo<RecipeDetailTKRouteArgs> {
   RecipeDetailTKRoute({
-    _i11.Key? key,
+    _i10.Key? key,
     required String brewingMethodId,
     required String recipeId,
-    List<_i10.PageRouteInfo>? children,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
           RecipeDetailTKRoute.name,
           args: RecipeDetailTKRouteArgs(
@@ -235,8 +243,8 @@ class RecipeDetailTKRoute extends _i10.PageRouteInfo<RecipeDetailTKRouteArgs> {
 
   static const String name = 'RecipeDetailTKRoute';
 
-  static const _i10.PageInfo<RecipeDetailTKRouteArgs> page =
-      _i10.PageInfo<RecipeDetailTKRouteArgs>(name);
+  static const _i9.PageInfo<RecipeDetailTKRouteArgs> page =
+      _i9.PageInfo<RecipeDetailTKRouteArgs>(name);
 }
 
 class RecipeDetailTKRouteArgs {
@@ -246,7 +254,7 @@ class RecipeDetailTKRouteArgs {
     required this.recipeId,
   });
 
-  final _i11.Key? key;
+  final _i10.Key? key;
 
   final String brewingMethodId;
 
@@ -262,10 +270,9 @@ class RecipeDetailTKRouteArgs {
 /// [_i7.RecipeListScreen]
 class RecipeListRoute extends _i9.PageRouteInfo<RecipeListRouteArgs> {
   RecipeListRoute({
-    _i9.Key? key,
-    _i11.Key? key,
+    _i10.Key? key,
     String? brewingMethodId,
-    List<_i9.PageRouteInfo>? children,
+    List<_i8.PageRouteInfo>? children,
   }) : super(
           RecipeListRoute.name,
           args: RecipeListRouteArgs(
