@@ -1,3 +1,3 @@
-Se eliminó código no utilizado para optimizar la aplicación.
+Se eliminó código sin uso para optimizar la app.
 
-P.D. Si extrañas el botón de nieve, lo encontrarás en los Ajustes.
+P.D. Si extrañas el botón de nieve, lo encontrarás en Ajustes.

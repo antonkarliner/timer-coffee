@@ -1,3 +1,3 @@
-Nous avons retiré du code inutilisé pour optimiser l'application.
+Nous avons supprimé du code non utilisé pour optimiser l'application.
 
-P.-S. Si le bouton « neige » vous manque, vous pouvez le retrouver dans les Paramètres.
+P.-S. Si le bouton "neige" vous manque, vous le trouverez dans les Paramètres.
