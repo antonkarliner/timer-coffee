@@ -7,8 +7,6 @@ import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import 'package:flutter/foundation.dart';
 import "package:universal_html/html.dart" as html;
-import '../utils/icon_utils.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class RecipeListScreen extends StatefulWidget {
@@ -23,145 +21,91 @@ class RecipeListScreen extends StatefulWidget {
   State<RecipeListScreen> createState() => _RecipeListScreenState();
 }
 
-class _RecipeListScreenState extends State<RecipeListScreen>
-    with SingleTickerProviderStateMixin {
-  TabController? _tabController;
+class _RecipeListScreenState extends State<RecipeListScreen> {
   Future<String> brewingMethodName = Future.value("");
-  Future<List<Recipe>>? allRecipes;
+  List<Recipe> _currentBrewingMethodRecipes = [];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
     getBrewingMethodName();
-    allRecipes = fetchAllRecipes();
+    fetchRecipesForBrewingMethod();
   }
 
-  getBrewingMethodName() {
+  void getBrewingMethodName() {
     brewingMethodName = Provider.of<RecipeProvider>(context, listen: false)
         .getBrewingMethodName(widget.brewingMethodId);
-
-    // Set state to refresh UI
-    setState(() {});
   }
 
-  Future<List<Recipe>> fetchAllRecipes() {
-    return Provider.of<RecipeProvider>(context, listen: false)
-        .fetchRecipes(widget.brewingMethodId);
-  }
-
-  @override
-  void dispose() {
-    _tabController?.dispose();
-    super.dispose();
+  void fetchRecipesForBrewingMethod() async {
+    if (widget.brewingMethodId != null) {
+      await Provider.of<RecipeProvider>(context, listen: false)
+          .fetchRecipes(widget.brewingMethodId);
+      setState(() {
+        _currentBrewingMethodRecipes = Provider.of<RecipeProvider>(context,
+                listen: false)
+            .getRecipes()
+            .where((recipe) => recipe.brewingMethodId == widget.brewingMethodId)
+            .toList();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
-
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(), // This is your back button
-        title: Row(
-          children: [
-            getIconByBrewingMethod(
-                widget.brewingMethodId), // This is your brewing method icon
-            const SizedBox(
-                width:
-                    8), // Optional: Add a little space between the icon and text
-            FutureBuilder<String>(
-              future: brewingMethodName,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                }
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                if (kIsWeb) {
-                  // Update HTML title
-                  html.document.title =
-                      '${snapshot.data!} recipes on Timer.Coffee';
-                }
-                return Text(snapshot.data!);
-              },
-            ),
-          ],
-        ),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: [
-            Tab(text: AppLocalizations.of(context)!.allrecipes),
-            Tab(text: AppLocalizations.of(context)!.favoriterecipes),
-          ],
+        leading: const BackButton(),
+        title: FutureBuilder<String>(
+          future: brewingMethodName,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            }
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+            if (kIsWeb) {
+              html.document.title = '${snapshot.data!} recipes on Timer.Coffee';
+            }
+            return Text(snapshot.data ?? 'Recipes');
+          },
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          FutureBuilder<List<Recipe>>(
-            future: allRecipes,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              }
-
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-
-              final allRecipes = snapshot.data!;
-              return _buildRecipeListView(allRecipes);
-            },
-          ),
-          ValueListenableBuilder<Set<String>>(
-            valueListenable: recipeProvider.favoriteRecipeIds,
-            builder: (context, favoriteRecipeIds, child) {
-              return _buildRecipeListView(recipeProvider
-                  .getRecipes()
-                  .where((recipe) => favoriteRecipeIds.contains(recipe.id))
-                  .toList());
-            },
-          ),
-        ],
-      ),
+      body: _buildRecipeListView(),
     );
   }
 
-  Widget _buildRecipeListView(List<Recipe> recipes) {
+  Widget _buildRecipeListView() {
     return ListView.builder(
-      itemCount: recipes.length,
+      itemCount: _currentBrewingMethodRecipes.length,
       itemBuilder: (BuildContext context, int index) {
+        Recipe recipe = _currentBrewingMethodRecipes[index];
         return ListTile(
-          title: Text(recipes[index].name),
-          onTap: () {
-            final recipeProvider =
-                Provider.of<RecipeProvider>(context, listen: false);
-
-            recipeProvider.updateLastUsed(recipes[index].id);
-
-            if (recipes[index].id == "106") {
-              // If the recipe id is 106, navigate to RecipeDetailTKRoute
-              context.router.push(RecipeDetailTKRoute(
-                  brewingMethodId: recipes[index].brewingMethodId,
-                  recipeId: recipes[index].id));
-            } else {
-              // For all other recipes, navigate to RecipeDetailRoute
-              context.router.push(RecipeDetailRoute(
-                  brewingMethodId: recipes[index].brewingMethodId,
-                  recipeId: recipes[index].id));
-            }
-          },
+          title: Text(recipe.name),
+          onTap: () => navigateToRecipeDetail(recipe),
           trailing: FavoriteButton(
-            recipeId: recipes[index].id,
+            recipeId: recipe.id,
             onToggleFavorite: (bool isFavorite) {
               Provider.of<RecipeProvider>(context, listen: false)
-                  .toggleFavorite(recipes[index].id);
+                  .toggleFavorite(recipe.id);
             },
           ),
         );
       },
     );
+  }
+
+  void navigateToRecipeDetail(Recipe recipe) {
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
+    recipeProvider.updateLastUsed(recipe.id);
+
+    if (recipe.id == "106") {
+      context.router.push(RecipeDetailTKRoute(
+          brewingMethodId: recipe.brewingMethodId, recipeId: recipe.id));
+    } else {
+      context.router.push(RecipeDetailRoute(
+          brewingMethodId: recipe.brewingMethodId, recipeId: recipe.id));
+    }
   }
 }

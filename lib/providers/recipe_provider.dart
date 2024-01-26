@@ -13,18 +13,17 @@ class RecipeProvider extends ChangeNotifier {
 
   RecipeProvider(this._locale) {
     _loadFavoriteRecipeIds();
-    fetchRecipes(null); // Initial fetch with the provided locale
+    fetchAllRecipes(); // Load all recipes on initialization
   }
 
   Locale get currentLocale => _locale;
 
   Future<void> _loadFavoriteRecipeIds() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favoriteRecipesJson =
+    List<String> favoriteRecipeIds =
         prefs.getStringList('favoriteRecipes') ?? [];
-    _favoriteRecipeIds.value = favoriteRecipesJson
-        .map((item) => jsonDecode(item)['id'] as String)
-        .toSet();
+    _favoriteRecipeIds.value =
+        favoriteRecipeIds.map((id) => id.toString()).toSet();
   }
 
   List<Recipe> getRecipes() {
@@ -32,19 +31,28 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Recipe getRecipeById(String recipeId) {
-    int index = _recipes.indexWhere((recipe) => recipe.id == recipeId);
-    if (index != -1) {
-      return _recipes[index];
-    } else {
-      throw Exception('Recipe not found');
+    return _recipes.firstWhere((r) => r.id == recipeId,
+        orElse: () => throw Exception('Recipe not found'));
+  }
+
+  Future<void> fetchAllRecipes() async {
+    List<String> brewingMethods = [
+      'hario_v60',
+      'aeropress',
+      'chemex',
+      'french_press',
+      'clever_dripper',
+      'kalita_wave',
+      'wilfa_svart',
+      'origami'
+    ];
+    for (var method in brewingMethods) {
+      await fetchRecipes(method);
     }
   }
 
-  Future<List<Recipe>> fetchRecipes(String? brewingMethodId) async {
-    if (brewingMethodId == null || _locale == null) {
-      _recipes.clear();
-      return [..._recipes];
-    }
+  Future<void> fetchRecipes(String? brewingMethodId) async {
+    if (brewingMethodId == null) return;
 
     String jsonFileName;
 
@@ -77,26 +85,20 @@ class RecipeProvider extends ChangeNotifier {
         throw Exception('Unknown brewing method ID: $brewingMethodId');
     }
 
-    String localizedPath = 'assets/data/${_locale?.languageCode}/$jsonFileName';
+    String localizedPath = 'assets/data/${_locale.languageCode}/$jsonFileName';
     String jsonString = await rootBundle.loadString(localizedPath);
-    final List<dynamic> jsonData = json.decode(jsonString);
-    _recipes.clear();
-    List<Recipe> recipes =
+    List<dynamic> jsonData = json.decode(jsonString);
+    List<Recipe> newRecipes =
         jsonData.map((json) => Recipe.fromJson(json)).toList();
 
-    for (Recipe recipe in recipes) {
-      int index = _recipes.indexWhere((r) => r.id == recipe.id);
-      if (index != -1) {
-        _recipes[index] = recipe.copyWith(
-            isFavorite: _favoriteRecipeIds.value.contains(recipe.id));
-      } else {
+    for (var recipe in newRecipes) {
+      if (!_recipes.any((r) => r.id == recipe.id)) {
         _recipes.add(recipe.copyWith(
             isFavorite: _favoriteRecipeIds.value.contains(recipe.id)));
       }
     }
 
     notifyListeners();
-    return [..._recipes];
   }
 
   Future<String> getBrewingMethodName(String? brewingMethodId) async {
@@ -132,19 +134,15 @@ class RecipeProvider extends ChangeNotifier {
     String? jsonString = prefs.getString('lastUsedRecipe');
 
     if (jsonString != null) {
-      Map<String, dynamic> jsonData = jsonDecode(jsonString);
-      return Recipe.fromJson(jsonData);
-    } else {
-      return null;
+      return Recipe.fromJson(jsonDecode(jsonString));
     }
+    return null;
   }
 
   Future<Recipe> updateLastUsed(String recipeId) async {
     int index = _recipes.indexWhere((recipe) => recipe.id == recipeId);
     if (index != -1) {
-      Recipe updatedRecipe = _recipes[index].copyWith(
-        lastUsed: DateTime.now(),
-      );
+      Recipe updatedRecipe = _recipes[index].copyWith(lastUsed: DateTime.now());
       _recipes[index] = updatedRecipe;
       await saveLastUsedRecipe(updatedRecipe);
       notifyListeners();
@@ -155,37 +153,32 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<void> toggleFavorite(String recipeId) async {
+    // Check if the recipe is currently loaded in _recipes
     int index = _recipes.indexWhere((recipe) => recipe.id == recipeId);
+
+    // If found, update its favorite status
     if (index != -1) {
-      Recipe updatedRecipe = _recipes[index].copyWith(
-        isFavorite: !_recipes[index].isFavorite,
-      );
-      _recipes[index] = updatedRecipe;
-
-      if (updatedRecipe.isFavorite) {
-        _favoriteRecipeIds.value.add(updatedRecipe.id);
-      } else {
-        _favoriteRecipeIds.value.remove(updatedRecipe.id);
-      }
-
-      // Update the favorite recipes in SharedPreferences to match _favoriteRecipeIds
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      List<String> favoriteRecipesJson = _favoriteRecipeIds.value
-          .map((recipeId) => jsonEncode(
-              _recipes.firstWhere((recipe) => recipe.id == recipeId).toJson()))
-          .toList();
-      prefs.setStringList('favoriteRecipes', favoriteRecipesJson);
-
-      notifyListeners();
-    } else {
-      throw Exception('Recipe not found');
+      _recipes[index] =
+          _recipes[index].copyWith(isFavorite: !_recipes[index].isFavorite);
     }
+
+    // Update the set of favorite recipe IDs
+    if (_favoriteRecipeIds.value.contains(recipeId)) {
+      _favoriteRecipeIds.value.remove(recipeId);
+    } else {
+      _favoriteRecipeIds.value.add(recipeId);
+    }
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('favoriteRecipes', _favoriteRecipeIds.value.toList());
+
+    notifyListeners();
   }
 
   void setLocale(Locale newLocale) async {
     if (_locale.languageCode != newLocale.languageCode) {
       _locale = newLocale;
-      await fetchRecipes(null); // Reload recipes with the new locale
+      await fetchRecipes(null);
       notifyListeners();
     }
   }

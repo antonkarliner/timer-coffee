@@ -122,6 +122,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
         return Column(
           children: [
+            ListTile(
+              leading: const Icon(Icons.favorite),
+              title: Text(AppLocalizations.of(context)!.favoriterecipes),
+              onTap: () {
+                context.router
+                    .push(const FavoriteRecipesRoute()); // Your routing logic
+              },
+            ),
             if (mostRecentRecipe != null)
               ListTile(
                 leading:

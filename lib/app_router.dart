@@ -58,5 +58,9 @@ class AppRouter extends $AppRouter {
           page: SettingsRoute.page,
           path: '/settings',
         ),
+        AutoRoute(
+          page: FavoriteRecipesRoute.page,
+          path: '/favorites',
+        ),
       ];
 }

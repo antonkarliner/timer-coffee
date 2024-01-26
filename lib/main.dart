@@ -18,7 +18,6 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import './models/recipe.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import './visual/color_shemes.dart';
 import './providers/snow_provider.dart';
 import 'widgets/global_snow_overlay.dart';
 
