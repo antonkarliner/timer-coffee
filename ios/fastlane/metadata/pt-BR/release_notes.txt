@@ -1,3 +1,3 @@
-Removemos alguns códigos não utilizados para otimizar o aplicativo.
+Agora você pode acessar suas Receitas favoritas diretamente da tela principal.
 
-P.S. Se você sentir falta do botão de neve – você pode encontrá-lo nas Configurações.
++ correção de pequenos erros, estabilidade aprimorada.

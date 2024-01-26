@@ -1,0 +1,3 @@
+Vous pouvez maintenant accéder directement à vos recettes favorites depuis l'écran principal.
+
++ correction de bugs mineurs, amélioration de la stabilité.

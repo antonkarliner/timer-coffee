@@ -1,0 +1,3 @@
+Agora pode aceder às suas Receitas Favoritas diretamente do ecrã principal.
+
++ correção de pequenos erros, estabilidade melhorada.

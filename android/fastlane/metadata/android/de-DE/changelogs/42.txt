@@ -1,0 +1,3 @@
+Sie können jetzt direkt vom Hauptbildschirm auf Ihre Lieblingsrezepte zugreifen.
+
++ kleinere Fehler behoben, Stabilität verbessert.

@@ -1,3 +1,3 @@
 Ahora puedes acceder a tus recetas favoritas directamente desde la pantalla principal.
 
-+ se han corregido errores menores, mejorada la estabilidad.
++ corrección de errores menores, mejora de estabilidad.

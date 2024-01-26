@@ -1,0 +1,3 @@
+Teraz możesz szybko dostęp do ulubionych przepisów bezpośrednio z ekranu głównego.
+
++ naprawiono drobne błędy, poprawiono stabilność.

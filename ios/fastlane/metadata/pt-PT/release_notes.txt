@@ -1,3 +1,3 @@
-Removemos algum código não utilizado para otimizar a aplicação.
+Agora pode aceder diretamente às suas Receitas Favoritas a partir do ecrã principal.
 
-P.S. Se sentires falta do botão da neve – podes encontrá-lo nas Definições.
++ correção de pequenos erros, melhorada a estabilidade.

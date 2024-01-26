@@ -1,3 +1,3 @@
-Revisión de la aplicación: Se eliminó código no utilizado para optimizar la aplicación.
+Ahora puedes acceder a tus recetas favoritas directamente desde la pantalla principal.
 
-P.D. Si extrañas el botón de nieve, puedes encontrarlo en la Configuración.
++ se corrigieron errores menores, se mejoró la estabilidad.
