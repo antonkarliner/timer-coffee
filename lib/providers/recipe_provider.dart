@@ -9,11 +9,11 @@ class RecipeProvider extends ChangeNotifier {
   final List<Recipe> _recipes = [];
   final ValueNotifier<Set<String>> _favoriteRecipeIds =
       ValueNotifier<Set<String>>({});
-  Locale _locale; // Non-nullable
+  Locale _locale;
 
   RecipeProvider(this._locale) {
     _loadFavoriteRecipeIds();
-    fetchAllRecipes(); // Load all recipes on initialization
+    fetchAllRecipes();
   }
 
   Locale get currentLocale => _locale;
@@ -36,6 +36,7 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<void> fetchAllRecipes() async {
+    _recipes.clear();
     List<String> brewingMethods = [
       'hario_v60',
       'aeropress',
@@ -178,7 +179,7 @@ class RecipeProvider extends ChangeNotifier {
   void setLocale(Locale newLocale) async {
     if (_locale.languageCode != newLocale.languageCode) {
       _locale = newLocale;
-      await fetchRecipes(null);
+      await fetchAllRecipes(); // Fetch all recipes with the new locale
       notifyListeners();
     }
   }
