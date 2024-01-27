@@ -1,3 +1,5 @@
-Ahora puedes acceder a tus recetas favoritas directamente desde la pantalla principal.
+Sie können jetzt direkt vom Hauptbildschirm aus auf Ihre Lieblingsrezepte zugreifen.
 
-+ se corrigieron errores menores, se mejoró la estabilidad.
++ Ein Problem wurde behoben, das Fehler verursachte, wenn das System des Benutzergeräts eine von Timer.Coffee noch nicht unterstützte Sprache hatte. Danke, Anders3312!
+
++ Kleinere Fehler wurden behoben, die Stabilität verbessert.

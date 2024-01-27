@@ -391,7 +391,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       case 'ja':
         return '日本語';
       default:
-        return 'Unknown';
+        return 'English';
     }
   }
 

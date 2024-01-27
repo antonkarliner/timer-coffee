@@ -1,3 +1,5 @@
 Sie können jetzt direkt vom Hauptbildschirm aus auf Ihre Lieblingsrezepte zugreifen.
 
-+ kleinere Fehler behoben, Stabilität verbessert.
++ Behoben: Ein Problem, das Fehler verursachte, wenn das Gerät des Benutzers eine Systemsprache hatte, die von Timer.Coffee noch nicht unterstützt wurde. Danke, Anders3312!
+
++ Kleinere Fehler behoben, Stabilität verbessert.

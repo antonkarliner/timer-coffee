@@ -10,8 +10,9 @@ class RecipeProvider extends ChangeNotifier {
   final ValueNotifier<Set<String>> _favoriteRecipeIds =
       ValueNotifier<Set<String>>({});
   Locale _locale;
+  List<Locale> _supportedLocales;
 
-  RecipeProvider(this._locale) {
+  RecipeProvider(this._locale, this._supportedLocales) {
     _loadFavoriteRecipeIds();
     fetchAllRecipes();
   }
@@ -55,6 +56,10 @@ class RecipeProvider extends ChangeNotifier {
   Future<void> fetchRecipes(String? brewingMethodId) async {
     if (brewingMethodId == null) return;
 
+    // Check if the current locale is supported, else fallback to English
+    Locale localeToUse =
+        _supportedLocales.contains(_locale) ? _locale : Locale('en');
+
     String jsonFileName;
 
     switch (brewingMethodId) {
@@ -86,7 +91,8 @@ class RecipeProvider extends ChangeNotifier {
         throw Exception('Unknown brewing method ID: $brewingMethodId');
     }
 
-    String localizedPath = 'assets/data/${_locale.languageCode}/$jsonFileName';
+    String localizedPath =
+        'assets/data/${localeToUse.languageCode}/$jsonFileName';
     String jsonString = await rootBundle.loadString(localizedPath);
     List<dynamic> jsonData = json.decode(jsonString);
     List<Recipe> newRecipes =

@@ -61,11 +61,24 @@ void main() async {
 }
 
 class CoffeeTimerApp extends StatelessWidget {
+  static const supportedLocales = [
+    Locale('en'),
+    Locale('ru'),
+    Locale('de'),
+    Locale('fr'),
+    Locale('es'),
+    Locale('ja'),
+    Locale('zh'),
+    Locale('ar'),
+    Locale('pt'),
+    Locale('pl'),
+  ];
+
   final AppRouter appRouter;
   final List<BrewingMethod> brewingMethods;
   final String? initialRoute;
   final Locale locale;
-  final ThemeMode themeMode; // Add this line
+  final ThemeMode themeMode;
 
   const CoffeeTimerApp({
     Key? key,
@@ -73,7 +86,7 @@ class CoffeeTimerApp extends StatelessWidget {
     required this.brewingMethods,
     this.initialRoute,
     required this.locale,
-    required this.themeMode, // Update constructor
+    required this.themeMode,
   }) : super(key: key);
 
   @override
@@ -81,7 +94,8 @@ class CoffeeTimerApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<RecipeProvider>(
-          create: (_) => RecipeProvider(locale),
+          create: (_) =>
+              RecipeProvider(locale, CoffeeTimerApp.supportedLocales),
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(themeMode), // Initialize with ThemeMode
@@ -95,26 +109,14 @@ class CoffeeTimerApp extends StatelessWidget {
       child: Consumer2<ThemeProvider, SnowEffectProvider>(
         builder: (context, themeProvider, snowProvider, child) {
           return MaterialApp.router(
-            locale: Provider.of<RecipeProvider>(context)
-                .currentLocale, // Use the locale from RecipeProvider
+            locale: Provider.of<RecipeProvider>(context).currentLocale,
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en'),
-              Locale('ru'),
-              Locale('de'),
-              Locale('fr'),
-              Locale('es'),
-              Locale('ja'),
-              Locale('zh'),
-              Locale('ar'),
-              Locale('pt'),
-              Locale('pl'),
-            ],
+            supportedLocales: supportedLocales,
             routerDelegate: appRouter.delegate(
               initialDeepLink: initialRoute,
             ),

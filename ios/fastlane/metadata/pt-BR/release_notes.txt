@@ -1,3 +1,5 @@
-Agora você pode acessar suas Receitas favoritas diretamente da tela principal.
+Agora você pode acessar as receitas favoritas diretamente da tela principal.
 
-+ correção de pequenos erros, estabilidade aprimorada.
++ Corrigido o problema que causava erros quando o dispositivo do usuário estava configurado com um idioma ainda não suportado pelo Timer.Coffee. Obrigado, Anders3312!
+
++ Corrigidos pequenos bugs, estabilidade aprimorada.
