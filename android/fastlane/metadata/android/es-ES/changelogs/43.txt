@@ -1,0 +1,5 @@
+La aplicación ahora recuerda las cantidades de café y agua que ingresaste por última vez para cada receta. Útil si sigues la misma receta todos los días.
+
++ El popup "Novedades" ahora muestra la versión de la app.
+
++ Correcciones de errores menores y mejoras.

@@ -1,5 +1,7 @@
-Sie können jetzt direkt vom Hauptbildschirm aus auf Ihre Lieblingsrezepte zugreifen.
+Revisión de la información:
 
-+ Ein Problem wurde behoben, das Fehler verursachte, wenn das System des Benutzergeräts eine von Timer.Coffee noch nicht unterstützte Sprache hatte. Danke, Anders3312!
+La aplicación ahora recuerda las cantidades de café y agua que ingresaste la última vez para cada receta. Esto puede ser útil si sigues la misma receta todos los días.
 
-+ Kleinere Fehler wurden behoben, die Stabilität verbessert.
++ La ventana emergente "Novedades" ahora muestra la versión de la aplicación.
+
++ Correcciones de errores menores y mejoras.

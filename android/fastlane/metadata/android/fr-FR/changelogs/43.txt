@@ -1,0 +1,7 @@
+L'application mémorise désormais les dernières quantités de café et d'eau saisies pour chaque recette. Pratique si vous utilisez la même recette quotidiennement.
+
++ Une fenêtre "Nouveautés" affiche maintenant la version de l'application.
+
++ Corrections de bugs mineurs et améliorations.
+
+(Note : Le texte traduit doit comporter au maximum 500 caractères. Reformulez si nécessaire.)

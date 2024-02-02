@@ -1,5 +1,5 @@
-Teraz możesz uzyskać dostęp do ulubionych przepisów bezpośrednio z ekranu głównego.
+Aplikacja teraz zapamiętuje ostatnio wprowadzone ilości kawy i wody dla każdego przepisu. Może się to przydać, jeśli codziennie stosujesz ten sam przepis.
 
-+ Naprawiono problem, który powodował błędy, gdy urządzenie użytkownika miało ustawiony język systemowy, który nie był jeszcze obsługiwany przez Timer.Coffee. Dzięki, Anders3312!
++ Wyskakujące okienko "Co nowego" teraz wyświetla wersję aplikacji.
 
-+ Naprawiono drobne błędy, poprawiono stabilność.
++ drobne poprawki błędów i ulepszenia.

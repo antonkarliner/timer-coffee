@@ -1,5 +1,5 @@
-Agora você pode acessar as receitas favoritas diretamente da tela principal.
+O aplicativo agora lembra as últimas quantidades de café e água inseridas para cada receita. Pode ser útil se você segue a mesma receita todos os dias.
 
-+ Corrigido o problema que causava erros quando o dispositivo do usuário estava configurado com um idioma ainda não suportado pelo Timer.Coffee. Obrigado, Anders3312!
++ O popup "Novidades" agora exibe a versão do aplicativo.
 
-+ Corrigidos pequenos bugs, estabilidade aprimorada.
++ correções de bugs menores e melhorias.

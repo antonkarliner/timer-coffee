@@ -1,5 +1,5 @@
-Sie können jetzt direkt vom Hauptbildschirm aus auf Ihre Lieblingsrezepte zugreifen.
+Die App speichert jetzt die zuletzt eingegebenen Mengen an Kaffee und Wasser für jedes Rezept. Das kann praktisch sein, wenn Sie täglich dem gleichen Rezept folgen.
 
-+ Behoben: Ein Problem, das Fehler verursachte, wenn das Gerät des Benutzers eine Systemsprache hatte, die von Timer.Coffee noch nicht unterstützt wurde. Danke, Anders3312!
++ Ein "Was ist neu"-Popup zeigt jetzt die App-Version an.
 
-+ Kleinere Fehler behoben, Stabilität verbessert.
++ kleinere Fehlerbehebungen und Verbesserungen.

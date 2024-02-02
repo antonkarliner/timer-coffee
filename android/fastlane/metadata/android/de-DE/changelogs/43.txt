@@ -1,0 +1,5 @@
+Die App speichert nun die zuletzt eingegebenen Mengen an Kaffee und Wasser für jedes Rezept. Praktisch, wenn Sie täglich demselben Rezept folgen.
+
++ Ein "Neuerungen" Popup zeigt jetzt die App-Version an.
+
++ kleinere Fehlerbehebungen und Verbesserungen.

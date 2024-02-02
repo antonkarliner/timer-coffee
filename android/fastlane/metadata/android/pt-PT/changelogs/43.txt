@@ -1,0 +1,7 @@
+A app agora memoriza as últimas quantidades de café e água introduzidas para cada receita. Útil se segue a mesma receita todos os dias.
+
++ Pop-up "Novidades" agora mostra a versão da app.
+
++ correções de pequenos erros e melhorias.
+
+Nota: O texto traduzido deve ter no máximo 500 caracteres. Reformule se necessário.

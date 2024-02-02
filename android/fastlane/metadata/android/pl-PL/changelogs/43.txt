@@ -1,0 +1,7 @@
+Aplikacja teraz zapamiętuje ostatnio wprowadzone ilości kawy i wody dla każdego przepisu. Może się to przydać, jeśli codziennie korzystasz z tego samego przepisu.
+
++ Wyskakujące okno "Co nowego" wyświetla teraz wersję aplikacji.
+
++ Drobne poprawki i ulepszenia.
+
+Uwaga: Długość przetłumaczonego tekstu powinna wynosić maksymalnie 500 znaków. W razie potrzeby przepisz nieco.
