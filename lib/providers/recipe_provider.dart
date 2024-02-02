@@ -56,10 +56,8 @@ class RecipeProvider extends ChangeNotifier {
   Future<void> fetchRecipes(String? brewingMethodId) async {
     if (brewingMethodId == null) return;
 
-    // Check if the current locale is supported, else fallback to English
     Locale localeToUse =
-        _supportedLocales.contains(_locale) ? _locale : Locale('en');
-
+        _supportedLocales.contains(_locale) ? _locale : const Locale('en');
     String jsonFileName;
 
     switch (brewingMethodId) {
@@ -98,11 +96,16 @@ class RecipeProvider extends ChangeNotifier {
     List<Recipe> newRecipes =
         jsonData.map((json) => Recipe.fromJson(json)).toList();
 
+    final customAmounts = await getCustomAmounts();
+
+    _recipes.removeWhere((r) => r.brewingMethodId == brewingMethodId);
+
     for (var recipe in newRecipes) {
-      if (!_recipes.any((r) => r.id == recipe.id)) {
-        _recipes.add(recipe.copyWith(
-            isFavorite: _favoriteRecipeIds.value.contains(recipe.id)));
-      }
+      final customAmount = customAmounts[recipe.id];
+      _recipes.add(recipe.copyWith(
+          isFavorite: _favoriteRecipeIds.value.contains(recipe.id),
+          customCoffeeAmount: customAmount?.coffeeAmount,
+          customWaterAmount: customAmount?.waterAmount));
     }
 
     notifyListeners();
@@ -191,4 +194,40 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   ValueNotifier<Set<String>> get favoriteRecipeIds => _favoriteRecipeIds;
+
+  Future<void> saveCustomAmounts(
+      String recipeId, double coffeeAmount, double waterAmount) async {
+    final prefs = await SharedPreferences.getInstance();
+    String key = 'customAmounts_$recipeId';
+    String value =
+        jsonEncode({'coffeeAmount': coffeeAmount, 'waterAmount': waterAmount});
+    await prefs.setString(key, value);
+  }
+
+  Future<Map<String, CustomAmounts>> getCustomAmounts() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Map<String, CustomAmounts> customAmounts = {};
+    prefs
+        .getKeys()
+        .where((key) => key.startsWith('customAmounts_'))
+        .forEach((key) {
+      String? value = prefs.getString(key);
+      if (value != null) {
+        Map<String, dynamic> json = jsonDecode(value);
+        String recipeId = key.split('_')[1];
+        customAmounts[recipeId] = CustomAmounts(
+          coffeeAmount: json['coffeeAmount'],
+          waterAmount: json['waterAmount'],
+        );
+      }
+    });
+    return customAmounts;
+  }
+}
+
+class CustomAmounts {
+  final double coffeeAmount;
+  final double waterAmount;
+
+  CustomAmounts({required this.coffeeAmount, required this.waterAmount});
 }

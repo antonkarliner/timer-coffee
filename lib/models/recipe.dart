@@ -16,6 +16,8 @@ class Recipe {
   final bool isFavorite;
   final int sweetnessSliderPosition;
   final int strengthSliderPosition;
+  final double? customCoffeeAmount;
+  final double? customWaterAmount;
 
   Recipe({
     required this.id,
@@ -24,15 +26,17 @@ class Recipe {
     required this.brewingMethodName,
     required this.coffeeAmount,
     required this.waterAmount,
-    required this.waterTemp,
+    this.waterTemp,
     required this.grindSize,
     required this.brewTime,
     required this.shortDescription,
     required this.steps,
     this.lastUsed,
     this.isFavorite = false,
-    this.sweetnessSliderPosition = 1, // default value
-    this.strengthSliderPosition = 2, // default value
+    this.sweetnessSliderPosition = 1,
+    this.strengthSliderPosition = 2,
+    this.customCoffeeAmount,
+    this.customWaterAmount,
   });
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
@@ -66,6 +70,8 @@ class Recipe {
       steps: steps,
       lastUsed: lastUsed,
       isFavorite: isFavorite,
+      customCoffeeAmount: json['custom_coffee_amount']?.toDouble(),
+      customWaterAmount: json['custom_water_amount']?.toDouble(),
     );
   }
 
@@ -84,6 +90,8 @@ class Recipe {
         'steps': steps.map((step) => step.toJson()).toList(),
         'last_used': lastUsed?.toIso8601String(),
         'is_favorite': isFavorite,
+        'custom_coffee_amount': customCoffeeAmount,
+        'custom_water_amount': customWaterAmount,
       };
 
   Recipe copyWith({
@@ -93,6 +101,8 @@ class Recipe {
     bool? isFavorite,
     int? sweetnessSliderPosition,
     int? strengthSliderPosition,
+    double? customCoffeeAmount,
+    double? customWaterAmount,
   }) {
     return Recipe(
       id: this.id,
@@ -112,6 +122,8 @@ class Recipe {
           sweetnessSliderPosition ?? this.sweetnessSliderPosition,
       strengthSliderPosition:
           strengthSliderPosition ?? this.strengthSliderPosition,
+      customCoffeeAmount: customCoffeeAmount ?? this.customCoffeeAmount,
+      customWaterAmount: customWaterAmount ?? this.customWaterAmount,
     );
   }
 }

@@ -54,11 +54,19 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
     final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
     await recipeProvider.fetchRecipes(widget.brewingMethodId);
     _updatedRecipe = recipeProvider.getRecipeById(widget.recipeId);
-    originalCoffee = _updatedRecipe!.coffeeAmount;
-    originalWater = _updatedRecipe!.waterAmount;
+
+    // Fetch custom amounts if available
+    double customCoffee =
+        _updatedRecipe!.customCoffeeAmount ?? _updatedRecipe!.coffeeAmount;
+    double customWater =
+        _updatedRecipe!.customWaterAmount ?? _updatedRecipe!.waterAmount;
+
+    originalCoffee = customCoffee;
+    originalWater = customWater;
     initialRatio = originalWater! / originalCoffee!;
-    _coffeeController.text = _updatedRecipe!.coffeeAmount.toString();
-    _waterController.text = _updatedRecipe!.waterAmount.toString();
+    _coffeeController.text = customCoffee.toString();
+    _waterController.text = customWater.toString();
+
     setState(() {});
   }
 
@@ -311,19 +319,31 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
           onPressed: () async {
             final recipeProvider =
                 Provider.of<RecipeProvider>(context, listen: false);
+
+            // Get the updated coffee and water amounts
+            double customCoffeeAmount =
+                double.tryParse(_coffeeController.text.replaceAll(',', '.')) ??
+                    _updatedRecipe!.coffeeAmount;
+            double customWaterAmount =
+                double.tryParse(_waterController.text.replaceAll(',', '.')) ??
+                    _updatedRecipe!.waterAmount;
+
+            // Save the custom amounts
+            await recipeProvider.saveCustomAmounts(
+                _updatedRecipe!.id, customCoffeeAmount, customWaterAmount);
+
+            // Update the recipe's last used time and get the updated recipe
             Recipe updatedRecipe =
                 await recipeProvider.updateLastUsed(_updatedRecipe!.id);
 
+            // Navigate to the PreparationScreen with the updated recipe
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => PreparationScreen(
                   recipe: updatedRecipe.copyWith(
-                    coffeeAmount: double.tryParse(
-                        _coffeeController.text.replaceAll(',', '.')),
-                    waterAmount: double.tryParse(
-                        _waterController.text.replaceAll(',', '.')),
-                    // Add slider values here
+                    coffeeAmount: customCoffeeAmount,
+                    waterAmount: customWaterAmount,
                     sweetnessSliderPosition: _sweetnessSliderPosition,
                     strengthSliderPosition: _strengthSliderPosition,
                   ),
