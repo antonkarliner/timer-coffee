@@ -63,5 +63,6 @@
   "whatsnewtitle": "What's new",
   "whatsnewclose": "Close",
   "seasonspecials": "Season Specials",
-  "snow": "Snow"
+  "snow": "Snow",
+  "noFavoriteRecipesMessage": "Your list of favorite recipes is currently empty. Start exploring and brewing to discover your favorites!"
 }

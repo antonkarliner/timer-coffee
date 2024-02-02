@@ -23,6 +23,20 @@ class FavoriteRecipesScreen extends StatelessWidget {
                   recipeProvider.favoriteRecipeIds.value.contains(recipe.id))
               .toList();
 
+          if (favoriteRecipes.isEmpty) {
+            // Display a message when there are no favorite recipes
+            return Center(
+              child: Text(
+                AppLocalizations.of(context)!.noFavoriteRecipesMessage,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.grey,
+                ),
+              ),
+            );
+          }
+
           return ListView.builder(
             itemCount: favoriteRecipes.length,
             itemBuilder: (BuildContext context, int index) {
