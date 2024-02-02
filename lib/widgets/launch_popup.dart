@@ -7,6 +7,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class LaunchPopupWidget extends StatefulWidget {
   @override
@@ -44,10 +45,31 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: Text(AppLocalizations.of(context)!.whatsnewtitle),
-                  content: ConstrainedBox(
-                    constraints: const BoxConstraints(maxHeight: 500),
-                    child: SingleChildScrollView(
-                      child: _buildRichText(context, fileContent),
+                  content: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(maxHeight: 500),
+                          child: _buildRichText(context, fileContent),
+                        ),
+                        const SizedBox(height: 20),
+                        FutureBuilder<String>(
+                          future: getVersionNumber(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<String> snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(
+                                '${AppLocalizations.of(context)!.appversion}: ${snapshot.data}',
+                                style: const TextStyle(
+                                    fontSize: 16.0, color: Colors.grey),
+                              );
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          },
+                        ),
+                      ],
                     ),
                   ),
                   actions: <Widget>[
@@ -145,5 +167,10 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(); // This widget does not need to display anything itself
+  }
+
+  Future<String> getVersionNumber() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version;
   }
 }
