@@ -41,7 +41,7 @@ void main() async {
   String? savedLocale = prefs.getString('locale');
   Locale initialLocale = savedLocale != null
       ? Locale(savedLocale.split('_')[0])
-      : WidgetsBinding.instance.window.locale;
+      : Locale(WidgetsBinding.instance.window.locale.languageCode);
 
   List<BrewingMethod> brewingMethods = await loadBrewingMethodsFromAssets();
 
