@@ -1,7 +1,1 @@
-Revisión de la información:
-
-La aplicación ahora recuerda las cantidades de café y agua que ingresaste la última vez para cada receta. Esto puede ser útil si sigues la misma receta todos los días.
-
-+ La ventana emergente "Novedades" ahora muestra la versión de la aplicación.
-
-+ Correcciones de errores menores y mejoras.
+Corrección de error: para algunos usuarios, las recetas se mostraban en inglés incluso si la interfaz estaba en otro idioma.

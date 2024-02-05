@@ -1,0 +1,1 @@
+Corrección de error: para algunos usuarios, las recetas aparecían en inglés aunque la interfaz estuviera en otro idioma.

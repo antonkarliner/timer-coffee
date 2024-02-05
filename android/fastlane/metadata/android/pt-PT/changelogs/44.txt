@@ -1,0 +1,1 @@
+Correção de erro: para alguns utilizadores, as receitas eram exibidas em inglês mesmo com a interface em outra língua.

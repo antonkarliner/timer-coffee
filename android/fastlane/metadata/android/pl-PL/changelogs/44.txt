@@ -1,0 +1,1 @@
+Naprawiono błąd: dla niektórych użytkowników przepisy były wyświetlane po angielsku, nawet jeśli interfejs był w innym języku.

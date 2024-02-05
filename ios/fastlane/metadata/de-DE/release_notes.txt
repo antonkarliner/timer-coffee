@@ -1,5 +1,1 @@
-Die App speichert jetzt die zuletzt eingegebenen Mengen an Kaffee und Wasser für jedes Rezept. Das kann praktisch sein, wenn Sie täglich dem gleichen Rezept folgen.
-
-+ Ein "Was ist neu"-Popup zeigt jetzt die App-Version an.
-
-+ kleinere Fehlerbehebungen und Verbesserungen.
+Fehlerbehebung: Bei einigen Nutzern wurden die Rezepte auf Englisch angezeigt, auch wenn die Benutzeroberfläche in einer anderen Sprache eingestellt war.

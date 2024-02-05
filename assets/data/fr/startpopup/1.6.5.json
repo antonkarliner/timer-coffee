@@ -1,0 +1,3 @@
+{
+    "content": "Cette mise à jour corrige un bug : pour certains utilisateurs, les recettes s'affichaient en anglais même si l'interface était dans une autre langue. Merci à tous ceux qui ont signalé ceci. Si vous remarquez d'autres bugs, n'hésitez pas à ouvrir un ticket sur [Github](https://github.com/antonkarliner/timer-coffee/issues), j'essaie de corriger les choses aussi rapidement que possible. De plus, veuillez envisager de [faire un don](app:///donate), c'est une grande motivation pour continuer à améliorer l'application."
+}

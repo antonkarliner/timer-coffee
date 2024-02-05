@@ -1,5 +1,1 @@
-Aplikacja teraz zapamiętuje ostatnio wprowadzone ilości kawy i wody dla każdego przepisu. Może się to przydać, jeśli codziennie stosujesz ten sam przepis.
-
-+ Wyskakujące okienko "Co nowego" teraz wyświetla wersję aplikacji.
-
-+ drobne poprawki błędów i ulepszenia.
+Naprawa błędu: dla niektórych użytkowników przepisy były wyświetlane w języku angielskim, nawet jeśli interfejs był w innym języku.

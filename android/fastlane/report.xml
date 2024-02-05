@@ -5,22 +5,22 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000272">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000223">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: translate_gpt_release_notes" time="92.385179">
+      <testcase classname="fastlane.lanes" name="1: translate_gpt_release_notes" time="33.351393">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: bundleRelease" time="55.51135">
+      <testcase classname="fastlane.lanes" name="2: bundleRelease" time="54.610253">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: upload_to_play_store" time="70.056821">
+      <testcase classname="fastlane.lanes" name="3: upload_to_play_store" time="67.199923">
         
       </testcase>
     
