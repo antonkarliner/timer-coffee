@@ -5,8 +5,8 @@ devices([
    #"iPhone 14 Pro",
    #"iPhone 14 Pro Max"
    #"iPhone 15 Pro Max"
-   #"iPhone SE (3rd generation)"
-   "iPad Pro (12.9-inch) (5th generation)"
+   "iPhone SE (3rd generation)"
+   #"iPad Pro (12.9-inch) (5th generation)"
 #   "iPhone 8",
 #   "iPhone 8 Plus",
 #   "iPhone SE",
@@ -18,18 +18,18 @@ devices([
  ])
 
 languages([
-   "en-US",
-   "de-DE",
-   "ar-SA",
-   "es-ES",
-   "es-MX",
-   "fr-FR",
-   "ja",
-   "pl",
-   "pt-BR",
-   "pt-PT",
-   "ru",
-   "zh-Hans"
+   #"en-US",
+   #"de-DE",
+   #"ar-SA",
+   #"es-ES",
+   #"es-MX",
+   #"fr-FR",
+   "ja"
+   #"pl",
+   #"pt-BR",
+   #"pt-PT",
+   #"ru",
+   #"zh-Hans"
 #   "it-IT",
 #   ["pt", "pt_BR"] # Portuguese with Brazilian locale
 ])
@@ -53,4 +53,4 @@ languages([
 
 localize_simulator(true)
 #clear_previous_screenshots(true)
-number_of_retries(0)
+number_of_retries(1)
