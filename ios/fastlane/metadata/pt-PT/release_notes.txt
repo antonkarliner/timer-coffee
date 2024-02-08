@@ -1,1 +1,1 @@
-Correção de erro: para alguns utilizadores, as receitas eram exibidas em inglês mesmo que a interface estivesse configurada para outro idioma.
+Novos factos sobre café!

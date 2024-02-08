@@ -1,1 +1,1 @@
-Bugfix: for some users the recipes were shown in English even if the interface was in another language.
+New coffee facts!

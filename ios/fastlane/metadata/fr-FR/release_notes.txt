@@ -1,1 +1,1 @@
-Correction de bug : pour certains utilisateurs, les recettes s'affichaient en anglais même si l'interface était dans une autre langue.
+Nouveaux faits sur le café !

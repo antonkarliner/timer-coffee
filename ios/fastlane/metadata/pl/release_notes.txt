@@ -1,1 +1,1 @@
-Naprawa błędu: dla niektórych użytkowników przepisy były wyświetlane w języku angielskim, nawet jeśli interfejs był w innym języku.
+Nowe fakty o kawie!
