@@ -7,20 +7,20 @@
     "coffee_amount": 30,
     "water_amount": 500,
     "water_temp": 95,
-    "grind_size": "Medium ke halus",
-    "brew_time": "3min 30s",
+    "grind_size": "Sedang ke halus",
+    "brew_time": "3 menit 30 detik",
     "short_description": "Resep yang mudah diikuti oleh James Hoffmann. [Tonton video tutorialnya](https://www.youtube.com/watch?v=AI4ynXzkSQo).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Bilas filter & panaskan V60. Tuangkan bubuk kopi, buat lubang di tengahnya.",
+        "description": "Bilas kertas saringan (paper filter) & panaskan V60. Tuangkan bubuk kopi, buat lubang di tengahnya.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Basahkan dengan (2 x <final_coffee_amount>)g. air.",
+        "description": "Basahkan dengan air sebanyak (2 x <final_coffee_amount>)g.",
         "time": 10
       },
       {
@@ -30,7 +30,7 @@
       },
       {
         "order": 4,
-        "description": "Biarkan kopinya mekar.",
+        "description": "Biarkan kopinya mekar (blooming).",
         "time": 25
       },
       {
@@ -40,7 +40,7 @@
       },
       {
         "order": 6,
-        "description": "Selesaikan tuang utama kedua secara perlahan sampai <final_water_amount>g. dalam 30 detik berikutnya.",
+        "description": "Selesaikan tuangan utama kedua secara perlahan sampai <final_water_amount>g. dalam 30 detik berikutnya.",
         "time": 30
       },      
       {
@@ -50,7 +50,7 @@
       },
       {
         "order": 8,
-        "description": "Putar perlahan alat penyeduh untuk meratakan ampas kopi agar ekstraksi merata",
+        "description": "Goyangkan perlahan alat penyeduh untuk meratakan bubuk kopi agar ekstraksi merata",
         "time": 10
       },
       {
@@ -68,20 +68,20 @@
     "coffee_amount": 22,
     "water_amount": 360,
     "water_temp": 95,
-    "grind_size": "Medium halus",
-    "brew_time": "3min 0s",
+    "grind_size": "Sedang halus",
+    "brew_time": "3 menit",
     "short_description": "Resep Scott Rao V60 berfokus pada ekstraksi merata dan seduhan yang konsisten. Scott Rao [rekomendasi](https://www.youtube.com/watch?v=c0Qe_ASxfNM) menggunakan plastik V60 untuk menahan panas seduhan dan memungkinkan untuk memanipulasi corong selama penyeduhan tanpa merasa kepanasan.",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Bilas filter & panaskan V60, tuang bubuk kopi, ratakan",
+        "description": "Bilas kertas saringan (paper filter) & panaskan V60, tuang bubuk kopi, ratakan",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Basahkan dengan (3 x <final_coffee_amount>)g air.",
+        "description": "Basahkan dengan air sebanyak (3 x <final_coffee_amount>)g.",
         "time": 15
       },
       {
@@ -91,7 +91,7 @@
       },
       {
         "order": 4,
-        "description": "Biarkan kopinya mekar/mengembang.",
+        "description": "Biarkan kopinya mekar (blooming).",
         "time": 20
       },
       {
@@ -101,7 +101,7 @@
       },
       {
       "order": 6,
-      "description": "Aduk perlahan agar ampas tidak menempel ke samping",
+      "description": "Aduk perlahan agar bubuk kopi tidak menempel ke samping",
       "time": 25
     },
     {
@@ -111,7 +111,7 @@
     },
     {
       "order": 8,
-      "description": "Pengangkatan akan selesai dalam waktu 3 menit.",
+      "description": "Proses penurunan akan selesai dalam waktu 3 menit.",
       "time": 50
     }
   ]
@@ -124,25 +124,25 @@
     "coffee_amount": 20,
     "water_amount": 240,
     "water_temp": 93,
-    "grind_size": "Medium galus",
-    "brew_time": "3min 25s",
-    "short_description": "Ekstraksi tinggi, kepahitan rendah, dan semua kelezatan biji kopi dalam es kopi. [Tonton video tutorialnya](https://www.youtube.com/watch?v=qwvnQcojq9Q) ",
+    "grind_size": "Sedang halus",
+    "brew_time": "3 menit 25 detik",
+    "short_description": "Ekstraksi tinggi, kepahitan rendah, dan semua kenikmatan biji kopi dalam es kopi. [Tonton video tutorialnya](https://www.youtube.com/watch?v=qwvnQcojq9Q) ",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Bilas filter & panaskan V60, tuang bubuk kopi, ratakan",
+        "description": "Bilas kertas saringan (paper filter) & panaskan V60, tuang bubuk kopi, ratakan",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Mekarkan dengan (0.25 x <final_water_amount>)g air.",
+        "description": "Mekarkan (blooming) dengan air sebanyak (0.25 x <final_water_amount>)g.",
         "time": 60
       },
       {
         "order": 3,
-        "description": "Tuang (0.375 x <final_water_amount>)g air.",
+        "description": "Tuang air sebanyak (0.375 x <final_water_amount>)g.",
         "time": 45
       },
       {
@@ -152,7 +152,7 @@
       },
       {
         "order": 5,
-        "description": "Tambahkan (0.25 x <final_water_amount>)g es and aduk sampai dingin hingga suhu 5-10°C",
+        "description": "Tambahkan es sebanyak (0.25 x <final_water_amount>)g and aduk sampai dingin hingga suhu 5-10°C",
         "time": 30
       },
       {
@@ -170,30 +170,30 @@
     "coffee_amount": 32.5,
     "water_amount": 500,
     "water_temp": 95,
-    "grind_size": "Medium halus",
-    "brew_time": "2min 55s",
+    "grind_size": "Sedang halus",
+    "brew_time": "2 menit 55 detik",
     "short_description": "Cara James Hoffmann membuat es kopi yang disaring. [Tonton video tutorialnya](https://www.youtube.com/watch?v=PApBycDrPo0).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Bilas filter di atas bak cuci untuk menghindari pemanasan server. Tuang bubuk kopi. Tempatkan (0.4 x <final_water_amount>)g es di server. Tempatkan pada skala dan nolkan angkanya.",
+        "description": "Bilas kertas saringan (paper filter) di atas wastafel untuk menghindari pemanasan pot saji kopi (coffee server). Tuang bubuk kopi. Tempatkan es sebanyak (0.4 x <final_water_amount>)g di server. Tempatkan pada timbangan dan nolkan beratnya (tare).",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Basahkan dengan (3 x <final_coffee_amount>)g air.",
+        "description": "Basahkan dengan air sebanyak (3 x <final_coffee_amount>)g.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Aduk mekarnya sedikit.",
+        "description": "Aduk sedikit mekarnya (blooming).",
         "time": 10
       },
       {
         "order": 4,
-        "description": "Biarkan kopinya mekar/mengembang",
+        "description": "Biarkan kopinya mekar (blooming)",
         "time": 25
       },
       {
@@ -221,30 +221,30 @@
     "coffee_amount": 15,
     "water_amount": 250,
     "water_temp": 95,
-    "grind_size": "Medium halus",
-    "brew_time": "3min 0s",
+    "grind_size": "Sedang halus",
+    "brew_time": "3 menit",
     "short_description": "Resep James Hoffmann untuk satu cangkir V60. [Tonton video tutorialnya](https://www.youtube.com/watch?v=1oB1oDrDkHM).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Bilas filter & panaskan V60. Tuangkan bubuk kopi.",
+        "description": "Bilas kertas saringan (paper filter) & panaskan V60. Tuangkan bubuk kopi.",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Basahkan dengan (0.2 x <final_water_amount>)g air.",
+        "description": "Basahkan dengan air sebanyak (0.2 x <final_water_amount>)g.",
         "time": 10
       },
       {
         "order": 3,
-        "description": "Putar V60 dengan perlahan.",
+        "description": "Goyangkan V60 dengan perlahan.",
         "time": 5
       },
       {
         "order": 4,
-        "description": "Biarkan kopinya mekar.",
+        "description": "Biarkan kopinya mekar (blooming).",
         "time": 30
       },
       {
@@ -284,12 +284,12 @@
       },
       {
         "order": 12,
-        "description": "Putar perlahan.",
+        "description": "Goyangkan perlahan.",
         "time": 5
       },
       {
         "order": 13,
-        "description": "Tunggu sampai selesai diangkat.",
+        "description": "tunggu hingga proses penurunan selesai.",
         "time": 55
       }
     ]
@@ -302,20 +302,20 @@
     "coffee_amount": 20,
     "water_amount": 300,
     "water_temp": 95,
-    "grind_size": "Medium-kasar",
-    "brew_time": "3min 45s",
-    "short_description": "Metode 4:6 mendapatkan namanya dari cara air panas dibagi selama tahap penuangan—40% dan 60%—yang memungkinkan Anda menyesuaikan rasa dan konsentrasi kopi. Tetsu Kasuya, yang menciptakan teknik ini memenangkan World Brewers Cup Champion 2016 dengan teknik ini. [Baca tutorialnya](https://en.philocoffea.com/blogs/blog/coffee-brewing-method) untuk lebih memahami cara kerja metode ini. Saran saya adalah mencoba menyeduh biji kopi yang sama dan hanya menyesuaikan satu parameter pada satu waktu untuk melihat perbedaan nyata.",
+    "grind_size": "Sedang-kasar",
+    "brew_time": "3 menit 45 detik",
+    "short_description": "Metode 4:6 mendapatkan namanya dari cara air panas dibagi selama tahap penuangan—40% dan 60%—yang memungkinkan Anda menyesuaikan rasa dan konsentrat kopi. Tetsu Kasuya, yang menciptakan teknik ini pada World Brewers Cup Championship 2016. [Baca tutorialnya](https://en.philocoffea.com/blogs/blog/coffee-brewing-method) untuk lebih memahami cara kerja metode ini. Saran saya adalah mencoba menyeduh biji kopi yang sama dan hanya menyesuaikan satu parameter pada satu waktu untuk melihat perbedaannya.",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
     "steps": [
       {
         "order": 1,
-        "description": "Bilas filter & panaskan V60. Tuang bubuk kopi. Atur skala dan nolkan.",
+        "description": "Bilas kertas saringan (paper filter) & panaskan V60. Tuang bubuk kopi. Atur timbangan dan nolkan beratnya (tare).",
         "time": 0
       },
       {
         "order": 2,
-        "description": "Tuang (<m1> x <final_water_amount>)g air.",
+        "description": "Tuang air sebanyak (<m1> x <final_water_amount>)g.",
         "time": 10
       },
       {
@@ -325,7 +325,7 @@
       },
       {
         "order": 4,
-        "description": "Tuang hingga (<m2> x <final_water_amount>)g air.",
+        "description": "Tuang air hingga (<m2> x <final_water_amount>)g.",
         "time": 10
       },
       {
@@ -335,7 +335,7 @@
       },
       {
         "order": 6,
-        "description": "Tuang hingga (<m3> x <final_water_amount>)g air.",
+        "description": "Tuang air hingga (<m3> x <final_water_amount>)g.",
         "time": "<t1>"
       },      
       {
@@ -345,7 +345,7 @@
       },
       {
         "order": 8,
-        "description": "Tuang hingga (<m4> x <final_water_amount>)g air.",
+        "description": "Tuang air hingga (<m4> x <final_water_amount>)g.",
         "time": "<t3>"
       },
       {
@@ -355,7 +355,7 @@
       },
       {
         "order": 10,
-        "description": "Tuang hingga (<m5> x <final_water_amount>)g air.",
+        "description": "Tuang air hingga (<m5> x <final_water_amount>)g.",
         "time": "<t5>"
       },
       {

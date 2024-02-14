@@ -1,0 +1,186 @@
+[
+    {
+      "id": "601",
+      "name": "Resep Kalita Wave oleh Scott Rao",
+      "brewing_method_id": "kalita_wave",
+      "brewing_method": "Kalita Wave",
+      "coffee_amount": 20,
+      "water_amount": 340,
+      "water_temp": 95,
+      "grind_size": "Sedang halus",
+      "brew_time": "4 menit 20 detik",
+      "short_description": "Sebuah resep Kalita Wave oleh Scott Rao. [Tonton video tutorialnya](https://www.youtube.com/watch?v=BjsGf3R9mc0).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Giling kopi, bilas kertas saringan (paper filter) dengan air panas dan letakkan ke dalam Kalita Wave. Masukkan bubuk kopi.",
+          "time": 0
+        },
+        {
+          "order": 3,
+          "description": "Basahi dengan air sebanyak (3 x <final_coffee_amount>)g.",
+          "time": 10
+        },
+        {
+          "order": 4,
+          "description": "Goyangkan sedikit Kalita Wave, gunakan sendok untuk mencampur jika diperlukan.",
+          "time": 10
+        },
+        {
+          "order": 5,
+          "description": "Biarkan kopi mekar (blooming).",
+          "time": 25
+        },
+        {
+          "order": 6,
+          "description": "Tuangkan hingga mencapai (0.6 x <final_water_amount>)g.",
+          "time": 30
+        },      
+        {
+          "order": 7,
+          "description": "Tunggu hingga bubuk kopi terkuras sekitar setengahnya.",
+          "time": 40
+        },
+        {
+          "order": 8,
+          "description": "Tambahkan air hingga mencapai <final_water_amount>g.",
+          "time": 10
+        },
+        {
+          "order": 9,
+          "description": "Goyangkan Kalita Wave secara perlahan dan tunggu hingga penurunan selesai.",
+          "time": 135
+        }
+      ]
+    },
+    {
+      "id": "602",
+      "name": "Resep Kalita Wave oleh James McCarthy",
+      "brewing_method_id": "kalita_wave",
+      "brewing_method": "Kalita Wave",
+      "coffee_amount": 24,
+      "water_amount": 380,
+      "water_temp": 96,
+      "grind_size": "Kasar",
+      "brew_time": "3 menit 30 detik",
+      "short_description": "Resep oleh James McCarthy, yang memenangkan World Brewers Cup Championship pada tahun 2013 dengan Kalita Wave. Lebih banyak detail [di sini](https://sprudge.com/meet-the-worlds-best-brewer-james-mccarthy-brewers-cup-champ-38672.html).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Giling dan saring (opsional) kopi. Bilas kertas saringan (paper filter), tuangkan kopi ke dalam Kalita, dan kocok alatnya untuk meratakan bubuk kopi.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Basahi dengan air sebanyak (2 x <final_coffee_amount>)g.",
+          "time": 15
+        },
+        {
+          "order": 3,
+          "description": "Biarkan kopi mekar (blooming).",
+          "time": 30
+        },
+        {
+          "order": 4,
+          "description": "Tuangkan secara bertahap hingga mencapai (0.5 x <final_water_amount>)g, menjaga area air tetap merata di atas bubuk kopi.",
+          "time": 30
+        },
+        {
+        "order": 5,
+        "description": "Tuangkan secara bertahap hingga mencapai <final_water_amount>g, gunakan pemanas air dengan pengontrol aliran jika memungkinkan.",
+        "time": 30
+      },
+      {
+        "order": 6,
+        "description": "Tunggu hingga proses penurunan selesai.",
+        "time": 75
+      }
+    ]
+    },
+    {
+      "id": "603",
+      "name": "Resep Kalita Wave oleh George Howell Coffee",
+      "brewing_method_id": "kalita_wave",
+      "brewing_method": "Kalita Wave",
+      "coffee_amount": 25,
+      "water_amount": 390,
+      "water_temp": 96,
+      "grind_size": "Sedang",
+      "brew_time": "3 menit 30 detik",
+      "short_description": "Sebuah resep yang tidak biasa oleh [George Howell Coffee](https://georgehowellcoffee.com/pages/brew-guide-kalita-185/).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Bilas kertas penyaring (paper filter) beserta Kalita Wave hingga terasa hangat. Timbang kopi dan giling. Tuangkan ke dalam Kalita Wave dan goncangkan untuk meratakan bubuk kopi.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Tuangkan air hingga (0.16 x <final_water_amount>)g.",
+          "time": 15
+        },
+        {
+          "order": 3,
+          "description": "Tunggu.",
+          "time": 15
+        },
+        {
+          "order": 4,
+          "description": "Tuangkan air hingga (0.33 x <final_water_amount>)g.",
+          "time": 15
+        },
+        {
+          "order": 5,
+          "description": "Tunggu.",
+          "time": 15
+        },
+        {
+          "order": 6,
+          "description": "Tuangkan air hingga (0.5 x <final_water_amount>)g.",
+          "time": 15
+        },
+        {
+          "order": 7,
+          "description": "Tunggu.",
+          "time": 15
+        },
+        {
+          "order": 8,
+          "description": "Tuangkan air hingga (0.66 x <final_water_amount>)g.",
+          "time": 15
+        },
+        {
+          "order": 9,
+          "description": "Tunggu.",
+          "time": 15
+        },
+        {
+          "order": 10,
+          "description": "Tuangkan air hingga (0.83 x <final_water_amount>)g.",
+          "time": 15
+        },
+        {
+          "order": 11,
+          "description": "Tunggu.",
+          "time": 15
+        },
+        {
+          "order": 12,
+          "description": "Tuangkan air hingga <final_water_amount>g.",
+          "time": 15
+        },
+        {
+          "order": 13,
+          "description": "Tunggu hingga proses penurunan selesai.",
+          "time": 45
+        }
+    ]
+    }
+  ]
+  

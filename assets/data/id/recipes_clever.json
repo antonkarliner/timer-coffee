@@ -1,0 +1,186 @@
+[
+    {
+      "id": "501",
+      "name": "Resep Clever Dripper Ultimate oleh James Hoffmann",
+      "brewing_method_id": "clever_dripper",
+      "brewing_method": "Clever Dripper",
+      "coffee_amount": 15,
+      "water_amount": 250,
+      "water_temp": 95,
+      "grind_size": "Sedang-halus",
+      "brew_time": "3 menit 30 detik",
+      "short_description": "Resep Clever Dripper oleh James Hoffmann, pemenang World barista Championship, YouTuber, konsultan kopi, dan penulis. [Tonton tutorialnya](https://www.youtube.com/watch?v=RpOdennxP24).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Masukkan kertas saringan (paper filter) ke Clever Dripper dan bilas dengan air. Giling kopi, tapi jangan masukkan ke Clever Dripper. Tempatkan di atas timbangan dan nolkan beratnya (tare). Ambil sendok.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Tambahkan air sebanyak <final_water_amount>g. ke Clever Dripper",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Masukkan kopi ke dalam air dan aduk sedikit dengan sendok.",
+          "time": 10
+        },
+        {
+          "order": 4,
+          "description": "Biarkan kopi meresap selama 2 menit.",
+          "time": 120
+        },
+        {
+          "order": 5,
+          "description": "Aduk dengan sendok atau goyangkan sedikit alatnya untuk memecahkan kerak.",
+          "time": 10
+        },
+        {
+          "order": 6,
+          "description": "Letakkan Clever Dripper di atas pot saji kopi (coffee server) dan tunggu hingga proses penurunan selesai.",
+          "time": 60
+        }
+      ]
+    },
+    {
+      "id": "502",
+      "name": "Resep Clever Dripper oleh European Coffee Trip",
+      "brewing_method_id": "clever_dripper",
+      "brewing_method": "Clever Dripper",
+      "coffee_amount": 20,
+      "water_amount": 300,
+      "water_temp": 95,
+      "grind_size": "Kasar",
+      "brew_time": "5 menit 20 detik",
+      "short_description": "Resep Clever Dripper oleh channel YouTube European Coffee Trip. Inilah [tutorialnya](https://www.youtube.com/watch?v=H4-XTUpX9Mo).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Letakkan kertas saringan (paper filter) ke dalam Clever Dripper, bilas dengan air panas. Giling kopi dan masukkan bubuk ke dalam Clever Dripper.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Tambahkan air sebanyak <final_water_amount>g ke Clever Dripper.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Tunggu 2 menit.",
+          "time": 120
+        },
+        {
+          "order": 4,
+          "description": "Hancurkan kerak di bagian atas dengan cara mengaduknya dengan sendok secara perlahan.",
+          "time": 10
+        },
+        {
+        "order": 5,
+        "description": "Tunggu 2 menit lagi.",
+        "time": 120
+      },
+      {
+        "order": 6,
+        "description": "Letakkan Clever Dripper di atas pot saji kopi (coffee server) dan biarkan kopi mengalir.",
+        "time": 60
+      }
+    ]
+    },
+    {
+      "id": "503",
+      "name": "Resep Clever Dripper oleh Coffee and Water",
+      "brewing_method_id": "clever_dripper",
+      "brewing_method": "Clever Dripper",
+      "coffee_amount": 28,
+      "water_amount": 420,
+      "water_temp": 95,
+      "grind_size": "Sedang-kasar",
+      "brew_time": "5 menit 20 detik",
+      "short_description": "Resep Clever Dripper oleh saluran YouTube Coffee and Water. Inilah [tutorialnya](https://www.youtube.com/watch?v=gyZ7Zvvl3uk).",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Letakkan kertas saringan (paper filter) ke dalam Clever Dripper, bilas dengan air panas. Giling kopi dan masukkan bubuk ke dalam Clever Dripper.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Tambahkan air sebanyak <final_water_amount>g ke Clever Dripper.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Biarkan kopi meresap.",
+          "time": 50
+        },
+        {
+          "order": 4,
+          "description": "Hancurkan kerak di bagian atas dengan sendok, aduk 3 kali.",
+          "time": 10
+        },
+        {
+        "order": 5,
+        "description": "Biarkan kopi meresap.",
+        "time": 80
+      },
+      {
+        "order": 6,
+        "description": "Letakkan Clever Dripper di atas pot saji kopi (coffee server) dan biarkan kopi mengalir.",
+        "time": 60
+      }
+    ]
+    },
+    {
+      "id": "504",
+      "name": "Resep es Clever Dripper oleh James Hoffmann",
+      "brewing_method_id": "clever_dripper",
+      "brewing_method": "Clever Dripper",
+      "coffee_amount": 37.5,
+      "water_amount": 500,
+      "water_temp": 95,
+      "grind_size": "Halus",
+      "brew_time": "6 menit 35 detik",
+      "short_description": "Resep ini menggunakan teknik penyeduhan es kopi yang diperbarui oleh James Hoffman. Cek [tutorialnya disini](https://www.youtube.com/watch?v=8uGGeV8A-BM). Opsional: Anda bisa menambahkan beberapa tetes saline (larutan 20% garam dan 80% air) di akhir untuk mengurangi rasa pahit. Catatan: Anda perlu menggiling lebih halus dari biasanya untuk tuangan, tetapi tidak sehalus espresso.",
+      "last_used": "2023-05-01T12:00:00Z",
+      "is_favorite": false,
+      "steps": [
+        {
+          "order": 1,
+          "description": "Masukkan kertas saringan (paper filter) ke Clever Dripper dan bilas dengan air. Giling kopi, tapi jangan masukkan ke Clever Dripper. Tempatkan di atas timbangan dan nolkan beratnya (tare). Ambil sendok. Anda akan membutuhkan es sebanyak (0.34 x <final_water_amount>)g, tapi simpan di dalam freezer untuk saat ini.",
+          "time": 0
+        },
+        {
+          "order": 2,
+          "description": "Tambahkan air sebanyak (0.66 x <final_water_amount>)g. ke Clever Dripper.",
+          "time": 10
+        },
+        {
+          "order": 3,
+          "description": "Masukkan kopi ke dalam air dan aduk dengan sendok, pastikan semua kopi basah.",
+          "time": 10
+        },
+        {
+          "order": 4,
+          "description": "Biarkan kopi meresap. Ketika waktu meresap hampir selesai, masukkan es sebanyak (0.34 x <final_water_amount>)g ke dalam pot saji kopi (coffee server).",
+          "time": 300
+        },
+        {
+          "order": 5,
+          "description": "Letakkan Clever Dripper di atas server dan tunggu hingga proses penurunan selesai.",
+          "time": 60
+        },
+        {
+          "order": 6,
+          "description": "Goyangkan server atau aduk dengan sendok untuk melarutkan sisa es. Opsional: tambahkan beberapa tetes larutan garam (saline) untuk mengurangi rasa pahit.",
+          "time": 15
+        }
+      ]
+    }
+  ]
