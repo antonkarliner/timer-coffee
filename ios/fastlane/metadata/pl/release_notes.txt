@@ -1,1 +1,5 @@
-Nowe fakty o kawie!
++ Timer.Coffee teraz mówi po indonezyjsku! Wielkie podziękowania dla Ganjara Setii za tłumaczenie!
+
++ Pasek stanu jest teraz widoczny podczas korzystania z aplikacji.
+
++ drobne poprawki.

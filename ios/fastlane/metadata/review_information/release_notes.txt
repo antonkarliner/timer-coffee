@@ -1,1 +1,5 @@
-Nuevos datos sobre el café.
++ Timer.Coffee kini berbicara dalam Bahasa Indonesia! Terima kasih banyak kepada Ganjar Setia atas terjemahannya!
+
++ Bilah status kini terlihat ketika menggunakan aplikasi.
+
++ perbaikan kecil.

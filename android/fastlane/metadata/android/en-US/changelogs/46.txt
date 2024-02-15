@@ -1,0 +1,1 @@
+Timer.Coffee now speaks Indonesian! Bug thanks to Ganjar Setia for the translation!

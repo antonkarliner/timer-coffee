@@ -57,7 +57,8 @@ platform :android do
     )
     upload_to_play_store(
       version_code: get_version_code,
-      aab: "../build/app/outputs/bundle/release/app-release.aab"
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      skip_upload_screenshots: true
     )
   end
 
