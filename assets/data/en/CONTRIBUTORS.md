@@ -1,15 +1,15 @@
-[@kinolaev](https://github.com/kinolaev) – membantu mengoptimalkan kode untuk aplikasi web agar dapat berjalan di perangkat lama, membantu font untuk web, memperkenalkan Material 3 kepada saya. Membantu dengan bagian penting dari Metode 4:6 Tetsu Kasuya.
+[@kinolaev](https://github.com/kinolaev) – helped to optimize the code for web app to work on older devices, helped with fonts for web, introduced Material 3 to me. Helped with crucial parts of Tetsu Kasuya 4:6 Method.
 
-[@Fplas](https://github.com/Fplas) - memperbaiki beberapa kesalahan ketik, meningkatkan keterbacaan.
+[@Fplas](https://github.com/Fplas) - fixed multiple typos, improved readability.
 
-[@jymmyboi](https://github.com/jymmyboi) - improvisasi ringkasan resep.
+[@jymmyboi](https://github.com/jymmyboi) - improved recipe summary.
 
-Resep baru ditambahkan oleh [@Fplas](https://github.com/Fplas), [@trommelaere](https://github.com/trommelaere)
+New recipes added by [@Fplas](https://github.com/Fplas), [@trommelaere](https://github.com/trommelaere)
 
-[@Mearman](https://github.com/Mearman) - memperbaiki Github README
+[@Mearman](https://github.com/Mearman) - fixed Github README
 
-[@typomanka](https://github.com/typomanka) – teman saya yang baik Julia membuat ikon-ikon keren untuk metode penyeduhan kopi. Periksa juga [Instagram](https://www.instagram.com/typomanka/)nya!
+[@typomanka](https://github.com/typomanka) – my dear friend Julia created awesome icons for coffee brewing methods. Check her [Instagram](https://www.instagram.com/typomanka/) too!
 
-[Diana](https://diana.karliner.pro/) menyunting terjemahan Rusia untuk resep-resep
+[Diana](https://diana.karliner.pro/) edited the Russian translation for the recipes
 
-[phernst](https://github.com/phernst) – membantu meningkatkan terjemahan Jerman
+[phernst](https://github.com/phernst) – helped to improve German translation
