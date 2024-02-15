@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:coffee_timer/purchase_manager.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart'
+    show SystemChrome, SystemUiMode, SystemUiOverlay, rootBundle;
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
@@ -24,6 +25,10 @@ import 'widgets/global_snow_overlay.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.remove();
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
+  );
 
   // Initialize PurchaseManager
   PurchaseManager();
