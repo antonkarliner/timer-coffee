@@ -6,10 +6,12 @@
 
 Nowe przepisy dodane przez [@Fplas](https://github.com/Fplas), [@trommelaere](https://github.com/trommelaere)
 
-[@Mearman](https://github.com/Mearman) - naprawił README na Githubie
+[@Mearman](https://github.com/Mearman) - naprawił README na Githubie.
 
 [@typomanka](https://github.com/typomanka) – moja droga przyjaciółka Julia stworzyła niesamowite ikony do metod parzenia kawy. Sprawdź jej [Instagram](https://www.instagram.com/typomanka/) również!
 
-[Diana](https://diana.karliner.pro/) edytowała rosyjskie tłumaczenie przepisów
+[Diana](https://diana.karliner.pro/) edytowała rosyjskie tłumaczenie przepisów.
 
-[phernst](https://github.com/phernst) - pomógł poprawić tłumaczenie na język niemiecki
+[phernst](https://github.com/phernst) - pomógł poprawić tłumaczenie na język niemiecki.
+
+[Ganjar Setia](https://github.com/ganjarsetia) – przetłumaczył aplikację na indonezyjski!

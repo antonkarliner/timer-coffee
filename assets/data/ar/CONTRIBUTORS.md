@@ -14,3 +14,5 @@
 [ديانا](https://diana.karliner.pro/) قامت بتحرير الترجمة الروسية للوصفات
 
 [phernst](https://github.com/phernst) - ساعد في تحسين الترجمة الألمانية
+
+[Ganjar Setia](https://github.com/ganjarsetia) – ترجم التطبيق إلى الإندونيسية!

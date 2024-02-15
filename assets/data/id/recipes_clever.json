@@ -8,7 +8,7 @@
       "water_amount": 250,
       "water_temp": 95,
       "grind_size": "Sedang-halus",
-      "brew_time": "3 menit 30 detik",
+      "brew_time": "3min 30s",
       "short_description": "Resep Clever Dripper oleh James Hoffmann, pemenang World barista Championship, YouTuber, konsultan kopi, dan penulis. [Tonton tutorialnya](https://www.youtube.com/watch?v=RpOdennxP24).",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,
@@ -30,7 +30,7 @@
         },
         {
           "order": 4,
-          "description": "Biarkan kopi meresap selama 2 menit.",
+          "description": "Biarkan kopi meresap selama 2min.",
           "time": 120
         },
         {
@@ -54,7 +54,7 @@
       "water_amount": 300,
       "water_temp": 95,
       "grind_size": "Kasar",
-      "brew_time": "5 menit 20 detik",
+      "brew_time": "5min 20s",
       "short_description": "Resep Clever Dripper oleh channel YouTube European Coffee Trip. Inilah [tutorialnya](https://www.youtube.com/watch?v=H4-XTUpX9Mo).",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,
@@ -71,7 +71,7 @@
         },
         {
           "order": 3,
-          "description": "Tunggu 2 menit.",
+          "description": "Tunggu 2min.",
           "time": 120
         },
         {
@@ -81,7 +81,7 @@
         },
         {
         "order": 5,
-        "description": "Tunggu 2 menit lagi.",
+        "description": "Tunggu 2min lagi.",
         "time": 120
       },
       {
@@ -100,7 +100,7 @@
       "water_amount": 420,
       "water_temp": 95,
       "grind_size": "Sedang-kasar",
-      "brew_time": "5 menit 20 detik",
+      "brew_time": "5min 20s",
       "short_description": "Resep Clever Dripper oleh saluran YouTube Coffee and Water. Inilah [tutorialnya](https://www.youtube.com/watch?v=gyZ7Zvvl3uk).",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,
@@ -146,7 +146,7 @@
       "water_amount": 500,
       "water_temp": 95,
       "grind_size": "Halus",
-      "brew_time": "6 menit 35 detik",
+      "brew_time": "6min 35s",
       "short_description": "Resep ini menggunakan teknik penyeduhan es kopi yang diperbarui oleh James Hoffman. Cek [tutorialnya disini](https://www.youtube.com/watch?v=8uGGeV8A-BM). Opsional: Anda bisa menambahkan beberapa tetes saline (larutan 20% garam dan 80% air) di akhir untuk mengurangi rasa pahit. Catatan: Anda perlu menggiling lebih halus dari biasanya untuk tuangan, tetapi tidak sehalus espresso.",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,

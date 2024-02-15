@@ -82,6 +82,8 @@
 		8BBB2BC62B30D9A5007860F6 /* Timer_CoffeeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer_CoffeeUITests.swift; sourceTree = "<group>"; };
 		8BBB2BC82B30D9A5007860F6 /* Timer_CoffeeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer_CoffeeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		8BBB2BD02B30DAAD007860F6 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
+		8BE334EF2B7E1F6D00299A48 /* id */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = id; path = id.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8BE334F02B7E1F6E00299A48 /* id */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = id; path = id.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -269,6 +271,7 @@
 				"pt-PT",
 				ru,
 				es,
+				id,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
@@ -421,6 +424,7 @@
 				8B0FAAB22B1F83D300BA115B /* pt-PT */,
 				8B0FAAB42B1F83E200BA115B /* ru */,
 				8B0FAAB62B1F83EC00BA115B /* es */,
+				8BE334EF2B7E1F6D00299A48 /* id */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -438,6 +442,7 @@
 				8B0FAAB32B1F83D300BA115B /* pt-PT */,
 				8B0FAAB52B1F83E200BA115B /* ru */,
 				8B0FAAB72B1F83EC00BA115B /* es */,
+				8BE334F02B7E1F6E00299A48 /* id */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

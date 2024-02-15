@@ -8,7 +8,7 @@
       "water_amount": 500,
       "water_temp": 95,
       "grind_size": "Sedang-kasar",
-      "brew_time": "10 menit",
+      "brew_time": "10min 0s",
       "short_description": "Resep French Press oleh James Hoffmann, pemenang World Barista Championship, YouTuber, konsultan kopi, dan penulis. [Tonton tutorialnya](https://www.youtube.com/watch?v=st571DYYTR8).",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,
@@ -35,7 +35,7 @@
         },
         {
           "order": 5,
-          "description": "Biarkan kopi selama 5 menit.",
+          "description": "Biarkan kopi selama 5min.",
           "time": 300
         },
         {
@@ -54,7 +54,7 @@
       "water_amount": 250,
       "water_temp": 95,
       "grind_size": "Sedang",
-      "brew_time": "12 menit 45 detik",
+      "brew_time": "12min 45s",
       "short_description": "Resep French Press oleh Gwilym Davies, juara World Barista dan pelatih yang diotorisasi oleh SCA. Berikut adalah [tutorialnya](https://www.youtube.com/watch?v=AkrqY8LkWM4).",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,
@@ -71,7 +71,7 @@
         },
         {
           "order": 3,
-          "description": "Tunggu selama 5 menit.",
+          "description": "Tunggu selama 5min.",
           "time": 300
         },
         {
@@ -86,7 +86,7 @@
       },
       {
         "order": 6,
-        "description": "Tunggu 3 menit.",
+        "description": "Tunggu 3min.",
         "time": 180
       },
       {
@@ -96,12 +96,12 @@
       },
       {
         "order": 8,
-        "description": "Tunggu 2 menit.",
+        "description": "Tunggu 2min.",
         "time": 120
       },
       {
         "order": 9,
-        "description": "Tuangkan kopi ke dalam pot saji kopi (coffee server) dan tunggu 2 menit lagi sebelum disajikan.",
+        "description": "Tuangkan kopi ke dalam pot saji kopi (coffee server) dan tunggu 2min lagi sebelum disajikan.",
         "time": 120
       }
     ]
@@ -115,7 +115,7 @@
       "water_amount": 540,
       "water_temp": 95,
       "grind_size": "Sedang",
-      "brew_time": "5 menit 20 detik",
+      "brew_time": "5min 20s",
       "short_description": "Resep French Press oleh Scott Rao, seorang ahli kopi dan penulis yang mengkhususkan diri dalam operasional kafe, pelatihan barista, serta penyangrai (roaster) dan penyeduh kopi.",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,
@@ -137,7 +137,7 @@
         },
         {
           "order": 4,
-          "description": "Tunggu selama 4 menit.",
+          "description": "Tunggu selama 4min.",
           "time": 240
         },
         {
@@ -161,7 +161,7 @@
       "water_amount": 330,
       "water_temp": 97,
       "grind_size": "Halus",
-      "brew_time": "4 menit",
+      "brew_time": "4min 0s",
       "short_description": "Resep French Press oleh Asser Christensen alias The Coffee Chronicler. Resep ini bertujuan untuk menyajikan seduhan yang bersih dan enak. Catatan: resep ini membutuhkan Anda untuk menggunakan kertas penyaring (paper filter). Asser merekomendasikan untuk menggunakan paper filter berbentuk keranjang, paper filter harus sepenuhnya menutupi penekan dan memanjang 2-3 cm di sisi atau sedikit lebih banyak. [Lihat rincian tutorialnya](https://coffeechronicler.com/how-to-make-french-press-recipe/).",
       "last_used": "2023-05-01T12:00:00Z",
       "is_favorite": false,

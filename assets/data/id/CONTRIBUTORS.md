@@ -6,10 +6,12 @@
 
 Resep baru ditambahkan oleh [@Fplas](https://github.com/Fplas), [@trommelaere](https://github.com/trommelaere)
 
-[@Mearman](https://github.com/Mearman) - memperbaiki Github README
+[@Mearman](https://github.com/Mearman) - memperbaiki Github README.
 
-[@typomanka](https://github.com/typomanka) – teman saya yang baik Julia membuat ikon-ikon keren untuk metode penyeduhan kopi. Periksa juga [Instagram](https://www.instagram.com/typomanka/)nya!
+[@typomanka](https://github.com/typomanka) – teman saya yang baik Julia membuat ikon-ikon keren untuk metode penyeduhan kopi. Periksa juga [Instagram](https://www.instagram.com/typomanka/) nya!
 
-[Diana](https://diana.karliner.pro/) menyunting terjemahan Rusia untuk resep-resep
+[Diana](https://diana.karliner.pro/) menyunting terjemahan Rusia untuk resep-resep.
 
-[phernst](https://github.com/phernst) – membantu meningkatkan terjemahan Jerman
+[phernst](https://github.com/phernst) – membantu meningkatkan terjemahan Jerman.
+
+[Ganjar Setia](https://github.com/ganjarsetia) – menerjemahkan aplikasi ke dalam bahasa Indonesia!

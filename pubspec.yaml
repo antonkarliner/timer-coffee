@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 1.6.6+45
+version: 1.7.0+46
 
 environment:
   sdk: '>=2.19.6 <4.0.0'
@@ -85,6 +85,7 @@ flutter:
     - assets/data/en/
     - assets/data/es/
     - assets/data/fr/
+    - assets/data/id/
     - assets/data/ja/
     - assets/data/pl/
     - assets/data/pt/
@@ -95,6 +96,7 @@ flutter:
     - assets/data/en/startpopup/
     - assets/data/es/startpopup/
     - assets/data/fr/startpopup/
+    - assets/data/id/startpopup/
     - assets/data/ja/startpopup/
     - assets/data/pl/startpopup/
     - assets/data/pt/startpopup/

@@ -77,6 +77,7 @@ class CoffeeTimerApp extends StatelessWidget {
     Locale('ar'),
     Locale('pt'),
     Locale('pl'),
+    Locale('id'),
   ];
 
   final AppRouter appRouter;

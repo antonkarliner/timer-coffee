@@ -311,8 +311,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               ListTile(
                 leading: const Icon(Icons.language),
-                title: const Text('Polski'), // Polish
-                onTap: () => Navigator.pop(context, const Locale('pl')),
+                title: const Text('Bahasa Indonesia'), // Indonesian
+                onTap: () => Navigator.pop(context, const Locale('id')),
               ),
               ListTile(
                 leading: const Icon(Icons.language),
@@ -384,6 +384,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         return 'Русский';
       case 'pl':
         return 'Polski';
+      case 'id':
+        return 'Bahasa Indonesia';
       case 'ar':
         return 'العربية';
       case 'zh':

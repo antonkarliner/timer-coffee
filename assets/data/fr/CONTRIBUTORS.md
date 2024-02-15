@@ -6,10 +6,12 @@
 
 Nouvelles recettes ajoutées par [@Fplas](https://github.com/Fplas), [@trommelaere](https://github.com/trommelaere)
 
-[@Mearman](https://github.com/Mearman) - a corrigé le README de Github
+[@Mearman](https://github.com/Mearman) - a corrigé le README de Github.
 
 [@typomanka](https://github.com/typomanka) – ma chère amie Julia a créé d'incroyables icônes pour les méthodes de préparation du café. Consultez aussi son [Instagram](https://www.instagram.com/typomanka/) !
 
-[Diana](https://diana.karliner.pro/) a édité la traduction russe des recettes
+[Diana](https://diana.karliner.pro/) a édité la traduction russe des recettes.
 
-[phernst](https://github.com/phernst) - a aidé à améliorer la traduction allemande
+[phernst](https://github.com/phernst) - a aidé à améliorer la traduction allemande.
+
+[Ganjar Setia](https://github.com/ganjarsetia) – a traduit l'application en indonésien !

@@ -8,7 +8,7 @@
     "water_amount": 500,
     "water_temp": 95,
     "grind_size": "Sedang ke halus",
-    "brew_time": "3 menit 30 detik",
+    "brew_time": "3min 30s",
     "short_description": "Resep yang mudah diikuti oleh James Hoffmann. [Tonton video tutorialnya](https://www.youtube.com/watch?v=AI4ynXzkSQo).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
@@ -35,12 +35,12 @@
       },
       {
         "order": 5,
-        "description": "Selesaikan penuangan utama pertama sampai (0.6 x <final_water_amount>)g. dalam 30 detik berikutnya.",
+        "description": "Selesaikan penuangan utama pertama sampai (0.6 x <final_water_amount>)g. dalam 30s berikutnya.",
         "time": 30
       },
       {
         "order": 6,
-        "description": "Selesaikan tuangan utama kedua secara perlahan sampai <final_water_amount>g. dalam 30 detik berikutnya.",
+        "description": "Selesaikan tuangan utama kedua secara perlahan sampai <final_water_amount>g. dalam 30s berikutnya.",
         "time": 30
       },      
       {
@@ -55,7 +55,7 @@
       },
       {
         "order": 9,
-        "description": "Targetkan untuk menyelesaikan pengangkatan dalam waktu 3 menit 30 detik.",
+        "description": "Targetkan untuk menyelesaikan pengangkatan dalam waktu 3min 30s.",
         "time": 85
       }
     ]
@@ -69,7 +69,7 @@
     "water_amount": 360,
     "water_temp": 95,
     "grind_size": "Sedang halus",
-    "brew_time": "3 menit",
+    "brew_time": "3min 0s",
     "short_description": "Resep Scott Rao V60 berfokus pada ekstraksi merata dan seduhan yang konsisten. Scott Rao [rekomendasi](https://www.youtube.com/watch?v=c0Qe_ASxfNM) menggunakan plastik V60 untuk menahan panas seduhan dan memungkinkan untuk memanipulasi corong selama penyeduhan tanpa merasa kepanasan.",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
@@ -96,7 +96,7 @@
       },
       {
         "order": 5,
-        "description": "Pada detik 45, mulai tuangan utama hingga <final_water_amount>g.",
+        "description": "Padas 45, mulai tuangan utama hingga <final_water_amount>g.",
         "time": 50
       },
       {
@@ -111,7 +111,7 @@
     },
     {
       "order": 8,
-      "description": "Proses penurunan akan selesai dalam waktu 3 menit.",
+      "description": "Proses penurunan akan selesai dalam waktu 3min.",
       "time": 50
     }
   ]
@@ -125,7 +125,7 @@
     "water_amount": 240,
     "water_temp": 93,
     "grind_size": "Sedang halus",
-    "brew_time": "3 menit 25 detik",
+    "brew_time": "3min 25s",
     "short_description": "Ekstraksi tinggi, kepahitan rendah, dan semua kenikmatan biji kopi dalam es kopi. [Tonton video tutorialnya](https://www.youtube.com/watch?v=qwvnQcojq9Q) ",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
@@ -171,7 +171,7 @@
     "water_amount": 500,
     "water_temp": 95,
     "grind_size": "Sedang halus",
-    "brew_time": "2 menit 55 detik",
+    "brew_time": "2min 55s",
     "short_description": "Cara James Hoffmann membuat es kopi yang disaring. [Tonton video tutorialnya](https://www.youtube.com/watch?v=PApBycDrPo0).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
@@ -222,7 +222,7 @@
     "water_amount": 250,
     "water_temp": 95,
     "grind_size": "Sedang halus",
-    "brew_time": "3 menit",
+    "brew_time": "3min 0s",
     "short_description": "Resep James Hoffmann untuk satu cangkir V60. [Tonton video tutorialnya](https://www.youtube.com/watch?v=1oB1oDrDkHM).",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,
@@ -303,7 +303,7 @@
     "water_amount": 300,
     "water_temp": 95,
     "grind_size": "Sedang-kasar",
-    "brew_time": "3 menit 45 detik",
+    "brew_time": "3min 45s",
     "short_description": "Metode 4:6 mendapatkan namanya dari cara air panas dibagi selama tahap penuangan—40% dan 60%—yang memungkinkan Anda menyesuaikan rasa dan konsentrat kopi. Tetsu Kasuya, yang menciptakan teknik ini pada World Brewers Cup Championship 2016. [Baca tutorialnya](https://en.philocoffea.com/blogs/blog/coffee-brewing-method) untuk lebih memahami cara kerja metode ini. Saran saya adalah mencoba menyeduh biji kopi yang sama dan hanya menyesuaikan satu parameter pada satu waktu untuk melihat perbedaannya.",
     "last_used": "2023-05-01T12:00:00Z",
     "is_favorite": false,

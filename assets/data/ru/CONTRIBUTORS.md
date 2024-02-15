@@ -13,3 +13,5 @@
 [Диана](https://diana.karliner.pro/) – редактор русскоязычной версии
 
 [phernst](https://github.com/phernst) - помог улучшить качество перевода на немецкий
+
+[Ganjar Setia](https://github.com/ganjarsetia) – перевёл приложение на индонезийский язык!

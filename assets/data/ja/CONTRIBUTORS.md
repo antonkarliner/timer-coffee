@@ -13,3 +13,5 @@
 [Diana](https://diana.karliner.pro/)はレシピのロシア語訳を編集しました
 
 [phernst](https://github.com/phernst) - ドイツ語翻訳の改善に協力しました
+
+[Ganjar Setia](https://github.com/ganjarsetia) – はアプリをインドネシア語に翻訳しました！

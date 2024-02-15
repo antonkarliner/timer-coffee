@@ -6,10 +6,12 @@
 
 New recipes added by [@Fplas](https://github.com/Fplas), [@trommelaere](https://github.com/trommelaere)
 
-[@Mearman](https://github.com/Mearman) - fixed Github README
+[@Mearman](https://github.com/Mearman) - fixed Github README.
 
 [@typomanka](https://github.com/typomanka) – my dear friend Julia created awesome icons for coffee brewing methods. Check her [Instagram](https://www.instagram.com/typomanka/) too!
 
-[Diana](https://diana.karliner.pro/) edited the Russian translation for the recipes
+[Diana](https://diana.karliner.pro/) edited the Russian translation for the recipes.
 
-[phernst](https://github.com/phernst) – helped to improve German translation
+[phernst](https://github.com/phernst) – helped to improve German translation.
+
+[Ganjar Setia](https://github.com/ganjarsetia) – translated the app to Indonesian!
