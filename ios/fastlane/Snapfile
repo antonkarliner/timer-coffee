@@ -24,12 +24,13 @@ languages([
    #"es-ES",
    #"es-MX",
    #"fr-FR",
-   "ja"
+   #"ja"
    #"pl",
    #"pt-BR",
    #"pt-PT",
    #"ru",
-   #"zh-Hans"
+   #"zh-Hans",
+   "id"
 #   "it-IT",
 #   ["pt", "pt_BR"] # Portuguese with Brazilian locale
 ])

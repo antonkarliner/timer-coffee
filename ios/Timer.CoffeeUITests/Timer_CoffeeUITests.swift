@@ -420,6 +420,50 @@ final class Timer_CoffeeUITests: XCTestCase {
         snapshot("08Languages")
                 // Use XCTAssert and related functions to verify your tests produce the correct results.
             }
+    @MainActor func testID() throws {
+                    let app = XCUIApplication()
+                    app.launch()
+        
+        let harioV60StaticText = app.staticTexts["Hario V60"]
+        harioV60StaticText.tap()
+        
+        let resepJamesHoffmannV60Element = app.otherElements["Resep James Hoffmann V60"]
+        resepJamesHoffmannV60Element.tap()
+        
+        let kembaliButton = app.buttons["Kembali"]
+        kembaliButton.tap()
+        kembaliButton.tap()
+        snapshot("01Home")
+        harioV60StaticText.tap()
+        snapshot("02Recipelist")
+        app.otherElements["Metode Tetsu Kasuya 4:6"].tap()
+        snapshot("03Tetsu")
+        kembaliButton.tap()
+        resepJamesHoffmannV60Element.tap()
+        app.textFields["Jumlah kopi (g)"].tap()
+        snapshot("04Recipedetail")
+        let element = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .other).element(boundBy: 1)
+        element.children(matching: .other).element(boundBy: 1).children(matching: .button).element.tap()
+        snapshot("05Preparation")
+        element.children(matching: .button).element(boundBy: 1).tap()
+        snapshot("06Brewing")
+        kembaliButton.tap()
+        kembaliButton.tap()
+        kembaliButton.tap()
+        kembaliButton.tap()
+        app.buttons["Settings"].tap()
+        app.staticTexts["Tema\nSistem"].tap()
+        app.staticTexts["Gelap"].tap()
+        snapshot("07Darktheme")
+        app.staticTexts["Tema\nGelap"].tap()
+        app.staticTexts["Sistem"].tap()
+        app.staticTexts["Bahasa\nBahasa Indonesia"].tap()
+        snapshot("08Languages")
+               
+             
+                
+                // Use XCTAssert and related functions to verify your tests produce the correct results.
+            }
     @MainActor func testJA() throws {
                     let app = XCUIApplication()
                     app.launch()
