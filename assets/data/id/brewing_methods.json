@@ -36,7 +36,8 @@
     },
     {
       "id": "origami",
-      "name": "Origami Dripper",
+      "name": "Dripper Origami",
       "recipe_file": "recipes_origami.json"
     }
   ]
+  
