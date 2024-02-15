@@ -112,7 +112,7 @@
       "steps": [
         {
           "order": 1,
-          "description": " Add ground coffee to the brew chamber. Give chamber a shake to level the bed of coffee.",
+          "description": "Add ground coffee to the brew chamber. Give chamber a shake to level the bed of coffee.",
           "time": 0
         },
         {
