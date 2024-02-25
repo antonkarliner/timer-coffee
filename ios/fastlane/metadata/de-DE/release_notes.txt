@@ -1,5 +1,3 @@
-+ Timer.Coffee spricht jetzt Indonesisch! Ein großes Dankeschön an Ganjar Setia für die Übersetzung!
++ Kleine Designverbesserungen, um das Erlebnis noch angenehmer zu gestalten.
 
-+ Die Statusleiste ist jetzt sichtbar, wenn die App verwendet wird.
-
-+ kleinere Korrekturen.
++ Einige Tippfehler wurden korrigiert.

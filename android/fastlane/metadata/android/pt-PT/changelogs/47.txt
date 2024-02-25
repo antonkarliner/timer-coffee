@@ -1,0 +1,3 @@
+Pequenas melhorias de design para tornar a experiência ainda mais agradável.
+
+Corrigidos alguns erros de digitação.

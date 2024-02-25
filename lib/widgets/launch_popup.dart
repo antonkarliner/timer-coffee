@@ -7,7 +7,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 class LaunchPopupWidget extends StatefulWidget {
   @override
@@ -122,28 +121,36 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
         String linkUrl = match.group(2)!;
 
         if (linkUrl.startsWith("app://")) {
-          // Check if it's a deep link
-          String routePath = linkUrl.substring(6); // Remove the scheme part
+          // Handle internal app navigation
+          String routePath = linkUrl.substring(6); // Remove the 'app://' part
           spans.add(
             TextSpan(
               text: linkText,
               style: defaultTextStyle.copyWith(color: Colors.lightBlue),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  // Navigate to the corresponding route inside the app
                   context.router.pushNamed(routePath);
                 },
             ),
           );
         } else {
-          // Handle external links
+          // Handle both external links and mailto links
           spans.add(
             TextSpan(
               text: linkText,
               style: defaultTextStyle.copyWith(color: Colors.lightBlue),
               recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  launchUrl(Uri.parse(linkUrl));
+                ..onTap = () async {
+                  Uri url = Uri.parse(linkUrl);
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url);
+                  } else {
+                    // Handle failure to launch URL
+                    // This could be due to a misformatted URL or lack of suitable app to handle the URL
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Could not launch $linkUrl')),
+                    );
+                  }
                 },
             ),
           );
@@ -152,7 +159,7 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
         lastMatchEnd = match.end;
       }
 
-      // Append any remaining text
+      // Append any remaining text after the last match
       String remainingText = text.substring(lastMatchEnd);
       if (remainingText.isNotEmpty) {
         spans.add(TextSpan(text: remainingText, style: defaultTextStyle));
@@ -160,6 +167,7 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
 
       return RichText(text: TextSpan(children: spans));
     } else {
+      // If there are no matches, just return the text
       return Text(text, style: defaultTextStyle);
     }
   }

@@ -1,5 +1,3 @@
-+ Timer.Coffee kini berbicara dalam Bahasa Indonesia! Terima kasih banyak kepada Ganjar Setia atas terjemahannya!
++ Kleine Designverbesserungen, um das Erlebnis noch angenehmer zu gestalten.
 
-+ Bilah status kini terlihat ketika menggunakan aplikasi.
-
-+ perbaikan kecil.
++ Einige Tippfehler wurden behoben.

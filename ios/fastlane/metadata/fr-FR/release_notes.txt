@@ -1,5 +1,3 @@
-Timer.Coffee parle désormais indonésien ! Un grand merci à Ganjar Setia pour la traduction !
++ Améliorations mineures de la conception pour rendre l'expérience encore plus agréable.
 
-La barre de statut est maintenant visible lors de l'utilisation de l'application.
-
-Corrections mineures.
++ Correction de quelques fautes de frappe.

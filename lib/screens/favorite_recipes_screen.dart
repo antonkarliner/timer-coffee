@@ -6,6 +6,7 @@ import '../widgets/favorite_button.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../utils/icon_utils.dart';
 
 @RoutePage()
 class FavoriteRecipesScreen extends StatelessWidget {
@@ -13,7 +14,17 @@ class FavoriteRecipesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.favoriterecipes),
+        title: Row(
+          mainAxisSize:
+              MainAxisSize.min, // Keeps the row content tight together
+          children: [
+            const Icon(Icons.favorite), // The favorite icon
+            const SizedBox(
+                width: 8), // Space between the icon and the title text
+            Text(AppLocalizations.of(context)!
+                .favoriterecipes), // The title text
+          ],
+        ),
       ),
       body: Consumer<RecipeProvider>(
         builder: (context, recipeProvider, child) {
@@ -42,6 +53,7 @@ class FavoriteRecipesScreen extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               Recipe recipe = favoriteRecipes[index];
               return ListTile(
+                leading: getIconByBrewingMethod(recipe.brewingMethodId),
                 title: Text(recipe.name),
                 onTap: () => navigateToRecipeDetail(context, recipe),
                 trailing: FavoriteButton(

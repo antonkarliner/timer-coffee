@@ -7,6 +7,7 @@ import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import 'package:flutter/foundation.dart';
 import "package:universal_html/html.dart" as html;
+import '../utils/icon_utils.dart';
 
 @RoutePage()
 class RecipeListScreen extends StatefulWidget {
@@ -59,16 +60,35 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
         title: FutureBuilder<String>(
           future: brewingMethodName,
           builder: (context, snapshot) {
+            // Define an empty placeholder widget that will be replaced with the actual icon or CircularProgressIndicator
+            Widget leadingWidget = Container();
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              // Show a small progress indicator if the name is still loading
+              leadingWidget = const SizedBox(
+                width: 20, // Adjust the size to fit within your AppBar
+                height: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              );
+            } else if (snapshot.hasData) {
+              // Once the data is available, show the icon
+              leadingWidget = getIconByBrewingMethod(widget.brewingMethodId);
             }
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            }
-            if (kIsWeb) {
-              html.document.title = '${snapshot.data!} recipes on Timer.Coffee';
-            }
-            return Text(snapshot.data ?? 'Recipes');
+
+            return Row(
+              mainAxisSize: MainAxisSize.min, // Keep the row's content together
+              children: [
+                leadingWidget, // This is the dynamic leading widget (icon or progress indicator)
+                const SizedBox(
+                    width: 8), // Add some space between the icon and the title
+                Expanded(
+                  // Use Expanded to prevent overflow of the title text
+                  child: Text(
+                    snapshot.hasData ? '${snapshot.data}' : 'Loading...',
+                    overflow: TextOverflow.ellipsis, // Prevent overflow
+                  ),
+                ),
+              ],
+            );
           },
         ),
       ),

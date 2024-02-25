@@ -1,0 +1,3 @@
+Wprowadzono drobne ulepszenia projektu, aby jeszcze bardziej uprzyjemnić korzystanie z aplikacji.
+
+Naprawiono kilka literówek.

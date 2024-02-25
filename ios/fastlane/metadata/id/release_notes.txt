@@ -1,5 +1,3 @@
-+ Timer.Coffee kini tersedia dalam bahasa Indonesia! Terima kasih banyak kepada Ganjar Setia atas terjemahannya!
++ Perbaikan desain kecil untuk membuat pengalaman semakin menyenangkan.
 
-+ Bilah status kini dapat dilihat saat menggunakan aplikasi.
-
-+ perbaikan kecil.
++ Memperbaiki beberapa kesalahan ketik.
