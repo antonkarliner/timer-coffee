@@ -71,7 +71,7 @@
         },
         {
           "order": 3,
-          "description": "Tunggu 2min.",
+          "description": "Tunggu 2 menit.",
           "time": 120
         },
         {
@@ -81,7 +81,7 @@
         },
         {
         "order": 5,
-        "description": "Tunggu 2min lagi.",
+        "description": "Tunggu 2 menit lagi.",
         "time": 120
       },
       {
