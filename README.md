@@ -4,7 +4,7 @@
 
 [Download free sticker designs](https://www.buymeacoffee.com/timercoffee/e/209534)
 
-**Timer.Coffee now speaks 10 languages! Supported languages are: English, Spanish, Portuguese, German, French, Russian, Polish, Arabic, Chinese and Japanese. If you want to improve localizations, head to [Localization](#localization) for instructions.**
+**Timer.Coffee now speaks 11 languages! Supported languages are: English, Spanish, Portuguese, German, French, Russian, Polish, Arabic, Chinese, Japanese and Indonesia. If you want to improve localizations, head to [Localization](#localization) for instructions.**
 
 Timer.Coffee is a free and open source app which can help you to brew great coffee. Currently supported brewing techniques are: Hario V60, Aeropress, Chemex, French Press, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper. The app features more than 30 recipes with more on the way.
 
