@@ -122,7 +122,7 @@
         },
         {
           "order": 3,
-          "description": " Stir using the paddle.",
+          "description": "Stir using the paddle.",
           "time": 10
         },
         {
@@ -148,7 +148,7 @@
       "steps": [
         {
           "order": 1,
-          "description": " Place two paper filters in the cap and rinse with hot water. Push any air bubbles out using the paddle. Discard the rinse water. Add ground coffee to the brew chamber. Give it a shake to even out the grounds.",
+          "description": "Place two paper filters in the cap and rinse with hot water. Push any air bubbles out using the paddle. Discard the rinse water. Add ground coffee to the brew chamber. Give it a shake to even out the grounds.",
           "time": 0
         },
         {
@@ -194,7 +194,7 @@
         },
         {
           "order": 2,
-          "description": " With the Aeropress inverted, pour (0.3 x <final_water_amount>)g of boiled water.",
+          "description": "With the Aeropress inverted, pour (0.3 x <final_water_amount>)g of boiled water.",
           "time": 5
         },
         {
@@ -250,7 +250,7 @@
         },
         {
           "order": 2,
-          "description": " Pour (0.45 x <final_water_amount>)g of boiled water into the inverted plunger.",
+          "description": "Pour (0.45 x <final_water_amount>)g of boiled water into the inverted plunger.",
           "time": 10
         },
         {
