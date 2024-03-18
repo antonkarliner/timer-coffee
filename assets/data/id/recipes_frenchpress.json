@@ -71,7 +71,7 @@
         },
         {
           "order": 3,
-          "description": "Tunggu selama 5min.",
+          "description": "Tunggu selama 5 menit.",
           "time": 300
         },
         {
@@ -86,7 +86,7 @@
       },
       {
         "order": 6,
-        "description": "Tunggu 3min.",
+        "description": "Tunggu 3 menit.",
         "time": 180
       },
       {
@@ -96,12 +96,12 @@
       },
       {
         "order": 8,
-        "description": "Tunggu 2min.",
+        "description": "Tunggu 2 menit.",
         "time": 120
       },
       {
         "order": 9,
-        "description": "Tuangkan kopi ke dalam pot saji kopi (coffee server) dan tunggu 2min lagi sebelum disajikan.",
+        "description": "Tuangkan kopi ke dalam pot saji kopi (coffee server) dan tunggu 2 menit lagi sebelum disajikan.",
         "time": 120
       }
     ]
@@ -137,7 +137,7 @@
         },
         {
           "order": 4,
-          "description": "Tunggu selama 4min.",
+          "description": "Tunggu selama 4 menit.",
           "time": 240
         },
         {

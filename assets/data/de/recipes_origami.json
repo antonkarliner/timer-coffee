@@ -152,7 +152,7 @@
       },
       {
         "order": 10,
-        "description": " Bis (1.0 x <final_water_amount>)g Wasser aufgießen.",
+        "description": "Bis (1.0 x <final_water_amount>)g Wasser aufgießen.",
         "time": 10
       },
       {

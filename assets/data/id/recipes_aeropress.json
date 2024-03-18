@@ -15,7 +15,7 @@
       "steps": [
         {
           "order": 1,
-          "description": "Bilas penyaring kertas (paper filter) dengan air keran selama beberapas dan tuangkan bubuk kopi",
+          "description": "Bilas penyaring kertas (paper filter) dengan air keran selama beberapa detik dan tuangkan bubuk kopi",
           "time": 0
         },
         {
@@ -76,7 +76,7 @@
         },
         {
           "order": 4,
-          "description": "Tunggu 2min.",
+          "description": "Tunggu 2 menit.",
           "time": 120
         },
         {
@@ -86,7 +86,7 @@
         },
         {
           "order": 6,
-          "description": "Tunggu 30s.",
+          "description": "Tunggu 30 detik.",
           "time": 30
         },
         {
@@ -331,7 +331,7 @@
         },
         {
           "order": 4,
-          "description": "Tunggu 4min.",
+          "description": "Tunggu 4 menit.",
           "time": 240
         },
         {
@@ -341,7 +341,7 @@
         },
         {
           "order": 6,
-          "description": "Tunggu 30s.",
+          "description": "Tunggu 30 detik.",
           "time": 30
         },
         {
