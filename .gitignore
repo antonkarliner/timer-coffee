@@ -52,3 +52,7 @@ android/fastlane/report.xml
 android/last_successful_run.txt
 ios/last_successful_run.txt
 translate_startpopup.py
+jsontodb.py
+jsontodbf.py
+jsontodbsp.py
+lib/env/env.g.dart
