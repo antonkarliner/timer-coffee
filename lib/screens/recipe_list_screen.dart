@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/recipe.dart';
+import '../models/recipe_model.dart';
 import '../providers/recipe_provider.dart';
 import '../widgets/favorite_button.dart';
 import 'package:auto_route/auto_route.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/recipe.dart';
-import '../models/brew_step.dart';
+import '../models/recipe_model.dart';
+import '../models/brew_step_model.dart';
 import 'brewing_process_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:just_audio/just_audio.dart';

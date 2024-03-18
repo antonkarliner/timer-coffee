@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
-import '../models/brewing_method.dart';
+import '../models/brewing_method_model.dart';
 import '../providers/recipe_provider.dart';
-import '../models/recipe.dart';
+import '../models/recipe_model.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import "package:universal_html/html.dart" as html;
@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
-    final brewingMethods = Provider.of<List<BrewingMethod>>(context);
+    final brewingMethods = Provider.of<List<BrewingMethodModel>>(context);
     //final snowEffectProvider = Provider.of<SnowEffectProvider>(context);
 
     return Scaffold(
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Widget buildRecipeList(
-      RecipeProvider recipeProvider, List<BrewingMethod> brewingMethods) {
+      RecipeProvider recipeProvider, List<BrewingMethodModel> brewingMethods) {
     return FutureBuilder<Recipe?>(
       future: recipeProvider.getLastUsedRecipe(),
       builder: (context, snapshot) {
@@ -156,11 +156,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 itemCount: brewingMethods.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    leading: getIconByBrewingMethod(brewingMethods[index].id),
-                    title: Text(brewingMethods[index].name),
+                    leading: getIconByBrewingMethod(
+                        brewingMethods[index].brewingMethodId),
+                    title: Text(brewingMethods[index].brewingMethod),
                     onTap: () {
                       context.router.push(RecipeListRoute(
-                          brewingMethodId: brewingMethods[index].id));
+                          brewingMethodId:
+                              brewingMethods[index].brewingMethodId));
                     },
                   );
                 },

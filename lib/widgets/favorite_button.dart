@@ -4,12 +4,10 @@ import '../providers/recipe_provider.dart';
 
 class FavoriteButton extends StatelessWidget {
   final String recipeId;
-  final ValueChanged<bool> onToggleFavorite;
 
   const FavoriteButton({
     super.key,
     required this.recipeId,
-    required this.onToggleFavorite,
   });
 
   @override
@@ -22,8 +20,9 @@ class FavoriteButton extends StatelessWidget {
             isFavorite ? Icons.favorite : Icons.favorite_border,
             color: isFavorite ? Colors.brown : null,
           ),
-          onPressed: () {
-            onToggleFavorite(!isFavorite);
+          onPressed: () async {
+            await recipeProvider.toggleFavorite(recipeId);
+            // The onToggleFavorite callback is no longer needed since the favorite status is now directly handled within the RecipeProvider.
           },
         );
       },

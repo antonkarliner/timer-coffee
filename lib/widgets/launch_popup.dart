@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
+import 'package:coffee_timer/database/database.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +8,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_timer/models/start_popup_model.dart';
 
 class LaunchPopupWidget extends StatefulWidget {
   @override
@@ -31,64 +33,50 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
 
     if (!isPopupShown) {
       String locale = Localizations.localeOf(context).languageCode;
-      String filePath = 'assets/data/$locale/startpopup/$currentVersion.json';
+      final db = AppDatabase();
+      final dao = StartPopupsDao(db);
+      // Update this to use StartPopupModel
+      final StartPopupModel? startPopup =
+          await dao.getStartPopup(currentVersion, locale);
 
-      try {
-        String jsonString = await loadAsset(filePath);
-        String fileContent = jsonDecode(jsonString)['content'];
-
-        if (fileContent.isNotEmpty) {
-          if (mounted) {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text(AppLocalizations.of(context)!.whatsnewtitle),
-                  content: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(maxHeight: 500),
-                          child: _buildRichText(context, fileContent),
-                        ),
-                        const SizedBox(height: 20),
-                        FutureBuilder<String>(
-                          future: getVersionNumber(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<String> snapshot) {
-                            if (snapshot.hasData) {
-                              return Text(
-                                '${AppLocalizations.of(context)!.appversion}: ${snapshot.data}',
-                                style: const TextStyle(
-                                    fontSize: 16.0, color: Colors.grey),
-                              );
-                            } else {
-                              return const CircularProgressIndicator();
-                            }
-                          },
-                        ),
-                      ],
-                    ),
+      if (startPopup != null && startPopup.content.isNotEmpty) {
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(AppLocalizations.of(context)!.whatsnewtitle),
+                content: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxHeight: 500),
+                        child: _buildRichText(context, startPopup.content),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        '${AppLocalizations.of(context)!.appversion}: $currentVersion',
+                        style:
+                            const TextStyle(fontSize: 16.0, color: Colors.grey),
+                      ),
+                    ],
                   ),
-                  actions: <Widget>[
-                    TextButton(
-                      child: Text(AppLocalizations.of(context)!.whatsnewclose),
-                      onPressed: () {
-                        prefs.setBool(
-                            'popupShownForVersion_$currentVersion', true);
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                );
-              },
-            );
-          }
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text(AppLocalizations.of(context)!.whatsnewclose),
+                    onPressed: () {
+                      prefs.setBool(
+                          'popupShownForVersion_$currentVersion', true);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
         }
-      } catch (e) {
-        // Log error or handle file not found scenario
-        print("Error loading the asset: $e");
       }
     }
   }

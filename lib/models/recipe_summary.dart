@@ -1,4 +1,4 @@
-import 'package:coffee_timer/models/recipe.dart';
+import 'package:coffee_timer/models/recipe_model.dart';
 
 class RecipeSummary {
   final String id;
@@ -11,7 +11,7 @@ class RecipeSummary {
     required this.summary,
   });
 
-  factory RecipeSummary.fromRecipe(Recipe recipe) {
+  factory RecipeSummary.fromRecipe(RecipeModel recipe) {
     String summary = "";
     int cumulativeTime = 0; // total seconds
 
