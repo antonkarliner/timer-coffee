@@ -15,68 +15,51 @@ class FavoriteRecipesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Row(
-          mainAxisSize:
-              MainAxisSize.min, // Keeps the row content tight together
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.favorite), // The favorite icon
-            const SizedBox(
-                width: 8), // Space between the icon and the title text
-            Text(AppLocalizations.of(context)!
-                .favoriterecipes), // The title text
+            const Icon(Icons.favorite),
+            const SizedBox(width: 8),
+            Text(AppLocalizations.of(context)!.favoriterecipes),
           ],
         ),
       ),
-      body: Consumer<RecipeProvider>(
-        builder: (context, recipeProvider, child) {
-          List<Recipe> favoriteRecipes = recipeProvider
-              .getRecipes()
-              .where((recipe) =>
-                  recipeProvider.favoriteRecipeIds.value.contains(recipe.id))
-              .toList();
-
-          if (favoriteRecipes.isEmpty) {
-            // Display a message when there are no favorite recipes
+      body: FutureBuilder<List<RecipeModel>>(
+        future: Provider.of<RecipeProvider>(context, listen: false)
+            .fetchFavoriteRecipes(Localizations.localeOf(context).toString()),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text("Error loading favorites"));
+          } else if (snapshot.hasData && snapshot.data!.isEmpty) {
             return Center(
               child: Text(
                 AppLocalizations.of(context)!.noFavoriteRecipesMessage,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.grey,
-                ),
+                style: const TextStyle(fontSize: 16.0, color: Colors.grey),
               ),
             );
-          }
-
-          return ListView.builder(
-            itemCount: favoriteRecipes.length,
-            itemBuilder: (BuildContext context, int index) {
-              Recipe recipe = favoriteRecipes[index];
-              return ListTile(
-                leading: getIconByBrewingMethod(recipe.brewingMethodId),
-                title: Text(recipe.name),
-                onTap: () => navigateToRecipeDetail(context, recipe),
-                trailing: FavoriteButton(
-                  recipeId: recipe.id,
-                  onToggleFavorite: (bool isFavorite) {
-                    recipeProvider.toggleFavorite(recipe.id);
+          } else {
+            List<RecipeModel> favoriteRecipes = snapshot.data!;
+            return ListView.builder(
+              itemCount: favoriteRecipes.length,
+              itemBuilder: (BuildContext context, int index) {
+                RecipeModel recipe = favoriteRecipes[index];
+                return ListTile(
+                  leading: getIconByBrewingMethod(recipe.brewingMethodId),
+                  title: Text(recipe.name),
+                  onTap: () {
+                    context.router.push(RecipeDetailRoute(
+                        brewingMethodId: recipe.brewingMethodId,
+                        recipeId: recipe.id));
                   },
-                ),
-              );
-            },
-          );
+                  trailing: FavoriteButton(recipeId: recipe.id),
+                );
+              },
+            );
+          }
         },
       ),
     );
-  }
-
-  void navigateToRecipeDetail(BuildContext context, Recipe recipe) {
-    if (recipe.id == "106") {
-      context.router.push(RecipeDetailTKRoute(
-          brewingMethodId: recipe.brewingMethodId, recipeId: recipe.id));
-    } else {
-      context.router.push(RecipeDetailRoute(
-          brewingMethodId: recipe.brewingMethodId, recipeId: recipe.id));
-    }
   }
 }

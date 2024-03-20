@@ -38,29 +38,31 @@ class LocalizedNumberText extends StatelessWidget {
 }
 
 class BrewingProcessScreen extends StatefulWidget {
-  final Recipe recipe;
+  final RecipeModel recipe;
   final double coffeeAmount;
   final double waterAmount;
   final bool soundEnabled;
   final int sweetnessSliderPosition;
   final int strengthSliderPosition;
+  final String brewingMethodName;
 
   const BrewingProcessScreen({
-    super.key,
+    Key? key,
     required this.recipe,
     required this.coffeeAmount,
     required this.waterAmount,
     required this.soundEnabled,
     required this.sweetnessSliderPosition,
     required this.strengthSliderPosition,
-  });
+    required this.brewingMethodName,
+  }) : super(key: key);
 
   @override
   State<BrewingProcessScreen> createState() => _BrewingProcessScreenState();
 }
 
 class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
-  late List<BrewStep> brewingSteps;
+  late List<BrewStepModel> brewingSteps;
   int currentStepIndex = 0;
   int currentStepTime = 0;
   late Timer timer;
@@ -208,12 +210,11 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
 
     brewingSteps = widget.recipe.steps
         .map((step) {
-          // Replace placeholders with actual time duration
           Duration stepDuration = replaceTimePlaceholder(
             step.time,
-            step.timePlaceholder, // pass the current duration
-            widget.sweetnessSliderPosition, // current sweetness slider position
-            widget.strengthSliderPosition, // current strength slider position
+            step.description, // Assuming step.description could contain a time placeholder
+            widget.sweetnessSliderPosition,
+            widget.strengthSliderPosition,
           );
 
           String description = replacePlaceholders(
@@ -224,7 +225,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
             widget.strengthSliderPosition,
           );
 
-          return BrewStep(
+          return BrewStepModel(
             order: step.order,
             description: description,
             time: stepDuration,
@@ -275,7 +276,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => FinishScreen(
-                  brewingMethodName: widget.recipe.brewingMethodName),
+                brewingMethodName:
+                    widget.brewingMethodName, // Adjusted this line
+              ),
             ),
           );
         }

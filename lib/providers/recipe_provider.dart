@@ -11,9 +11,31 @@ class RecipeProvider extends ChangeNotifier {
   List<Locale> _supportedLocales;
   final AppDatabase db;
 
+  bool _isDataLoaded = false; // Add this line
+
   RecipeProvider(this._locale, this._supportedLocales, this.db) {
-    _loadFavoriteRecipeIds();
-    fetchAllRecipes();
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    await _loadFavoriteRecipeIds();
+    await fetchAllRecipes();
+    _isDataLoaded = true; // Mark data as loaded
+    notifyListeners();
+  }
+
+  // Modify getters to ensure they await data readiness
+  Future<List<RecipeModel>> get recipes async {
+    await ensureDataReady();
+    return _recipes;
+  }
+
+  // Add ensureDataReady method
+  Future<void> ensureDataReady() async {
+    if (!_isDataLoaded) {
+      // Wait for the initial data load to complete
+      await _initialize();
+    }
   }
 
   Locale get currentLocale => _locale;
@@ -33,6 +55,12 @@ class RecipeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<List<RecipeModel>> fetchRecipesForBrewingMethod(
+      String brewingMethodId) async {
+    return db.recipesDao
+        .fetchRecipesForBrewingMethod(brewingMethodId, _locale.toString());
+  }
+
   Future<String> getBrewingMethodName(String? brewingMethodId) async {
     if (brewingMethodId == null) {
       return "Default name";
@@ -49,13 +77,15 @@ class RecipeProvider extends ChangeNotifier {
     }
   }
 
-  RecipeModel getRecipeById(String recipeId) {
-    return _recipes.firstWhere((r) => r.id == recipeId,
-        orElse: () => throw Exception('Recipe not found'));
+  Future<RecipeModel> getRecipeById(String recipeId) async {
+    await ensureDataReady();
+    return _recipes.firstWhere((r) => r.id == recipeId, orElse: () {
+      throw Exception('Recipe not found');
+    });
   }
 
   Future<void> toggleFavorite(String recipeId) async {
-    var recipe = getRecipeById(recipeId);
+    var recipe = await getRecipeById(recipeId); // Use await here
     await db.userRecipePreferencesDao.updatePreferences(
       recipeId,
       isFavorite: !recipe.isFavorite,
@@ -91,6 +121,35 @@ class RecipeProvider extends ChangeNotifier {
       return getRecipeById(lastUsedPreference.recipeId);
     }
     return null;
+  }
+
+  Future<String> fetchBrewingMethodName(String brewingMethodId) async {
+    String? brewingMethodName =
+        await db.brewingMethodsDao.getBrewingMethodNameById(brewingMethodId);
+    return brewingMethodName ?? "Unknown Brewing Method";
+  }
+
+  List<RecipeModel> getFavoriteRecipes() {
+    return _recipes
+        .where((recipe) => _favoriteRecipeIds.value.contains(recipe.id))
+        .toList();
+  }
+
+  Future<List<RecipeModel>> fetchFavoriteRecipes(String locale) async {
+    await ensureDataReady();
+    final List<UserRecipePreference> favoritePrefs =
+        await db.userRecipePreferencesDao.getFavoritePreferences();
+    List<RecipeModel> favoriteRecipes = [];
+
+    for (var pref in favoritePrefs) {
+      final recipe =
+          await db.recipesDao.getRecipeModelById(pref.recipeId, locale);
+      if (recipe != null) {
+        favoriteRecipes.add(recipe);
+      }
+    }
+
+    return favoriteRecipes;
   }
 
   void setLocale(Locale newLocale) async {

@@ -13,4 +13,9 @@ class RecipeLocalizationsDao extends DatabaseAccessor<AppDatabase>
               tbl.recipeId.equals(recipeId) & tbl.locale.equals(locale)))
         .getSingleOrNull();
   }
+
+  Future<void> insertOrUpdateLocalization(
+      RecipeLocalizationsCompanion localization) async {
+    await into(recipeLocalizations).insertOnConflictUpdate(localization);
+  }
 }

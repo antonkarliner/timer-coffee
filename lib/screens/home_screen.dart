@@ -111,14 +111,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Widget buildRecipeList(
       RecipeProvider recipeProvider, List<BrewingMethodModel> brewingMethods) {
-    return FutureBuilder<Recipe?>(
+    return FutureBuilder<RecipeModel?>(
       future: recipeProvider.getLastUsedRecipe(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        Recipe? mostRecentRecipe = snapshot.data;
+        RecipeModel? mostRecentRecipe = snapshot.data;
 
         return Column(
           children: [

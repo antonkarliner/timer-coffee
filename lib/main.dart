@@ -69,14 +69,13 @@ void main() async {
   String? savedLocaleCode = prefs.getString('locale');
   Locale systemLocale =
       Locale(WidgetsBinding.instance.window.locale.languageCode);
-  Locale initialLocale = const Locale('en'); // Default to English
+  Locale initialLocale = Locale('en', ''); // Default to English as a fallback
 
-  if (localeList
+  if (savedLocaleCode != null) {
+    initialLocale = Locale(savedLocaleCode);
+  } else if (localeList
       .any((locale) => locale.languageCode == systemLocale.languageCode)) {
     initialLocale = systemLocale;
-  } else if (savedLocaleCode != null &&
-      localeList.any((locale) => locale.languageCode == savedLocaleCode)) {
-    initialLocale = Locale(savedLocaleCode);
   }
 
   final appRouter = AppRouter();

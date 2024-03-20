@@ -7,17 +7,156 @@ import 'package:just_audio/just_audio.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PreparationScreen extends StatefulWidget {
-  final Recipe recipe;
+  final RecipeModel recipe;
+  final String brewingMethodName; // Add this line
 
-  const PreparationScreen({super.key, required this.recipe});
+  const PreparationScreen({
+    Key? key,
+    required this.recipe,
+    required this.brewingMethodName, // Add this line
+  }) : super(key: key);
 
   @override
   State<PreparationScreen> createState() => _PreparationScreenState();
 }
 
 class _PreparationScreenState extends State<PreparationScreen> {
-  bool _soundEnabled = false;
   late AudioPlayer player;
+  bool _soundEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    player = AudioPlayer();
+    _loadSoundSetting();
+    _preloadAudio();
+  }
+
+  Future<void> _loadSoundSetting() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _soundEnabled = prefs.getBool('soundEnabled') ?? false;
+    });
+  }
+
+  Future<void> _preloadAudio() async {
+    try {
+      await player.setAsset('assets/audio/next.mp3');
+    } catch (e) {
+      // Handle loading error if necessary
+    }
+  }
+
+  void _toggleSound() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool currentSetting = prefs.getBool('soundEnabled') ?? false;
+    setState(() {
+      _soundEnabled = !currentSetting;
+    });
+    await prefs.setBool('soundEnabled', _soundEnabled);
+
+    if (_soundEnabled) {
+      player.play();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context)!;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(appLocalizations.preparation),
+      ),
+      body: _buildBody(context),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: _buildFloatingActionButton(context),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    // Filter steps based on the condition: order = 1 and time = 0 seconds
+    final preparationSteps = widget.recipe.steps
+        .where((step) => step.order == 1 && step.time.inSeconds == 0)
+        .map((step) {
+      return BrewStepModel(
+        order: step.order,
+        description: replacePlaceholders(
+          step.description,
+          widget.recipe.coffeeAmount,
+          widget.recipe.waterAmount,
+          widget.recipe.sweetnessSliderPosition,
+          widget.recipe.strengthSliderPosition,
+        ),
+        time: replaceTimePlaceholder(
+          step.time,
+          widget.recipe.sweetnessSliderPosition,
+          widget.recipe.strengthSliderPosition,
+        ),
+      );
+    }).toList();
+
+    return ListView.builder(
+      itemCount: preparationSteps.length,
+      itemBuilder: (context, index) {
+        final step = preparationSteps[index];
+        return ListTile(
+          title: Text('${step.order}. ${step.description}'),
+        );
+      },
+    );
+  }
+
+  Widget _buildFloatingActionButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          FloatingActionButton(
+            heroTag: 'soundButton',
+            onPressed: _toggleSound,
+            child: Icon(_soundEnabled ? Icons.volume_up : Icons.volume_off),
+          ),
+          FloatingActionButton(
+            heroTag: 'playButton',
+            onPressed: () {
+              if (_soundEnabled) {
+                player.seek(Duration.zero);
+                player.play();
+              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BrewingProcessScreen(
+                    recipe: widget.recipe,
+                    coffeeAmount: widget.recipe.coffeeAmount,
+                    waterAmount: widget.recipe.waterAmount,
+                    sweetnessSliderPosition:
+                        widget.recipe.sweetnessSliderPosition,
+                    strengthSliderPosition:
+                        widget.recipe.strengthSliderPosition,
+                    soundEnabled: _soundEnabled,
+                    brewingMethodName: widget.brewingMethodName,
+                  ),
+                ),
+              );
+            },
+            child: Icon(
+              Directionality.of(context) == TextDirection.rtl
+                  ? Icons.arrow_back_ios_new
+                  : Icons.play_arrow,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
 
   String replacePlaceholders(
     String description,
@@ -152,135 +291,5 @@ class _PreparationScreenState extends State<PreparationScreen> {
     }
 
     return time; // Return the modified Duration
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    player = AudioPlayer();
-    _loadSoundSetting();
-    _preloadAudio();
-  }
-
-  Future<void> _loadSoundSetting() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _soundEnabled = prefs.getBool('soundEnabled') ?? false;
-    });
-  }
-
-  Future<void> _preloadAudio() async {
-    try {
-      await player.setAsset('assets/audio/next.mp3');
-    } catch (e) {
-      // catch load errors
-    }
-  }
-
-  void _toggleSound() {
-    SharedPreferences.getInstance().then((prefs) {
-      bool currentSoundSetting = prefs.getBool('soundEnabled') ?? false;
-      prefs.setBool('soundEnabled', !currentSoundSetting);
-      setState(() {
-        _soundEnabled = !currentSoundSetting;
-      });
-      if (_soundEnabled) {
-        player.seek(Duration.zero);
-        player.play();
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    List<BrewStep> preparationSteps = widget.recipe.steps
-        .map((step) => BrewStep(
-              order: step.order,
-              description: replacePlaceholders(
-                step.description,
-                widget.recipe.coffeeAmount,
-                widget.recipe.waterAmount,
-                widget.recipe.sweetnessSliderPosition,
-                widget.recipe.strengthSliderPosition,
-              ),
-              time: step.time,
-            ))
-        .where((step) =>
-            step.time is Duration &&
-            step.time.inSeconds == 0 &&
-            step.order == 1)
-        .toList();
-
-    return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.preparation)),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: preparationSteps
-                .map((step) => Container(
-                      width: double.infinity,
-                      child: Text(
-                        step.description,
-                        style: const TextStyle(fontSize: 24),
-                        textAlign: TextAlign.center,
-                      ),
-                    ))
-                .toList(),
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            FloatingActionButton(
-              heroTag: 'soundButton',
-              onPressed: _toggleSound,
-              child: Icon(_soundEnabled ? Icons.volume_up : Icons.volume_off),
-            ),
-            FloatingActionButton(
-              heroTag: 'playButton',
-              onPressed: () {
-                if (_soundEnabled) {
-                  player.seek(Duration.zero);
-                  player.play();
-                }
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BrewingProcessScreen(
-                      recipe: widget.recipe,
-                      coffeeAmount: widget.recipe.coffeeAmount,
-                      waterAmount: widget.recipe.waterAmount,
-                      sweetnessSliderPosition:
-                          widget.recipe.sweetnessSliderPosition,
-                      strengthSliderPosition:
-                          widget.recipe.strengthSliderPosition,
-                      soundEnabled: _soundEnabled,
-                    ),
-                  ),
-                );
-              },
-              // Check the directionality and choose the icon accordingly
-              child: Icon(
-                Directionality.of(context) == TextDirection.rtl
-                    ? Icons.arrow_back_ios_new
-                    : Icons.play_arrow,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    player.dispose();
-    super.dispose();
   }
 }

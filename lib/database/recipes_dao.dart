@@ -42,12 +42,23 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
     );
   }
 
-  // New method to fetch all recipes for a given locale
   Future<List<RecipeModel>> getAllRecipes(String locale) async {
     final recipeDatas = await select(recipes).get();
-    List<RecipeModel> recipeModels = [];
+    return await _getRecipeModelsFromQuery(recipeDatas, locale);
+  }
 
-    for (final recipeData in recipeDatas) {
+  Future<List<RecipeModel>> fetchRecipesForBrewingMethod(
+      String brewingMethodId, String locale) async {
+    final recipeDatas = await (select(recipes)
+          ..where((tbl) => tbl.brewingMethodId.equals(brewingMethodId)))
+        .get();
+    return await _getRecipeModelsFromQuery(recipeDatas, locale);
+  }
+
+  Future<List<RecipeModel>> _getRecipeModelsFromQuery(
+      List<Recipe> queryResult, String locale) async {
+    List<RecipeModel> recipeModels = [];
+    for (final recipeData in queryResult) {
       final localizationData = await db.recipeLocalizationsDao
           .getLocalizationForRecipe(recipeData.id, locale);
       final List<BrewStepModel> steps = await db.stepsDao
@@ -57,8 +68,7 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
 
       recipeModels.add(RecipeModel(
         id: recipeData.id,
-        name: localizationData?.name ??
-            recipeData.id, // Fallback to ID if name is not available
+        name: localizationData?.name ?? recipeData.id,
         brewingMethodId: recipeData.brewingMethodId,
         coffeeAmount: recipeData.coffeeAmount,
         waterAmount: recipeData.waterAmount,
@@ -76,7 +86,17 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
         vendorId: recipeData.vendorId,
       ));
     }
-
     return recipeModels;
+  }
+
+  Future<Map<String, DateTime>> fetchIdsAndLastModifiedDates() async {
+    final queryResult = await select(recipes).map((row) {
+      return MapEntry(row.id, row.lastModified ?? DateTime(0));
+    }).get();
+    return Map.fromEntries(queryResult);
+  }
+
+  Future<void> insertOrUpdateRecipe(RecipesCompanion recipe) async {
+    await into(recipes).insertOnConflictUpdate(recipe);
   }
 }

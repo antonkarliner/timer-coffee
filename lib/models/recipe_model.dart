@@ -38,4 +38,46 @@ class RecipeModel {
     this.customWaterAmount,
     this.vendorId,
   });
+
+  RecipeModel copyWith({
+    String? id,
+    String? name,
+    String? brewingMethodId,
+    double? coffeeAmount,
+    double? waterAmount,
+    double? waterTemp,
+    String? grindSize,
+    Duration? brewTime,
+    String? shortDescription,
+    List<BrewStepModel>? steps,
+    DateTime? lastUsed,
+    bool? isFavorite,
+    int? sweetnessSliderPosition,
+    int? strengthSliderPosition,
+    double? customCoffeeAmount,
+    double? customWaterAmount,
+    String? vendorId,
+  }) {
+    return RecipeModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      brewingMethodId: brewingMethodId ?? this.brewingMethodId,
+      coffeeAmount: coffeeAmount ?? this.coffeeAmount,
+      waterAmount: waterAmount ?? this.waterAmount,
+      waterTemp: waterTemp ?? this.waterTemp,
+      grindSize: grindSize ?? this.grindSize,
+      brewTime: brewTime ?? this.brewTime,
+      shortDescription: shortDescription ?? this.shortDescription,
+      steps: steps ?? this.steps,
+      lastUsed: lastUsed ?? this.lastUsed,
+      isFavorite: isFavorite ?? this.isFavorite,
+      sweetnessSliderPosition:
+          sweetnessSliderPosition ?? this.sweetnessSliderPosition,
+      strengthSliderPosition:
+          strengthSliderPosition ?? this.strengthSliderPosition,
+      customCoffeeAmount: customCoffeeAmount ?? this.customCoffeeAmount,
+      customWaterAmount: customWaterAmount ?? this.customWaterAmount,
+      vendorId: vendorId ?? this.vendorId,
+    );
+  }
 }

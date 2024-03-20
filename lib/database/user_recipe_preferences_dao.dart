@@ -15,7 +15,6 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> updatePreferences(String recipeId,
       {bool? isFavorite,
-      DateTime? lastUsed,
       int? sweetnessSliderPosition,
       int? strengthSliderPosition,
       double? customCoffeeAmount,
@@ -27,8 +26,9 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
 
     final preferencesCompanion = UserRecipePreferencesCompanion(
       recipeId: Value(recipeId),
-      isFavorite: isFavorite == null ? Value.absent() : Value(isFavorite),
-      lastUsed: lastUsed == null ? Value.absent() : Value(lastUsed),
+      isFavorite:
+          Value(isFavorite ?? false), // Default to false if not provided
+      lastUsed: Value(DateTime.now()), // Always set to current date and time
       sweetnessSliderPosition: sweetnessSliderPosition == null
           ? Value.absent()
           : Value(sweetnessSliderPosition),
@@ -69,5 +69,11 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
       "customCoffeeAmount": prefs?.customCoffeeAmount,
       "customWaterAmount": prefs?.customWaterAmount,
     };
+  }
+
+  Future<List<UserRecipePreference>> getFavoritePreferences() async {
+    return (select(userRecipePreferences)
+          ..where((tbl) => tbl.isFavorite.equals(true)))
+        .get();
   }
 }

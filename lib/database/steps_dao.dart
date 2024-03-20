@@ -33,5 +33,9 @@ class StepsDao extends DatabaseAccessor<AppDatabase> with _$StepsDaoMixin {
     );
   }
 
+  Future<void> insertOrUpdateStep(StepsCompanion step) async {
+    await into(steps).insertOnConflictUpdate(step);
+  }
+
   // Optional: Add a method to convert BrewStepModel back to a Step entity if needed for database operations
 }
