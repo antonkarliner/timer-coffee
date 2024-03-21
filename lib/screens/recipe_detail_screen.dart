@@ -202,15 +202,17 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   }
 
   Widget _buildRecipeContent(BuildContext context, RecipeModel recipe) {
+    // Calculate minutes and seconds from brewTime
+    String formattedBrewTime = recipe.brewTime != null
+        ? '${recipe.brewTime.inMinutes.remainder(60).toString().padLeft(2, '0')}:${recipe.brewTime.inSeconds.remainder(60).toString().padLeft(2, '0')}'
+        : "Not provided";
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(recipe.name, style: Theme.of(context).textTheme.headlineSmall),
         const SizedBox(height: 16),
-        _buildRichText(
-            context,
-            recipe
-                .shortDescription), // Assume this exists and handles async loading properly
+        _buildRichText(context, recipe.shortDescription),
         const SizedBox(height: 16),
         _buildAmountFields(context, recipe),
         const SizedBox(height: 16),
@@ -219,7 +221,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
         const SizedBox(height: 16),
         Text('${AppLocalizations.of(context)!.grindsize}: ${recipe.grindSize}'),
         const SizedBox(height: 16),
-        Text('${AppLocalizations.of(context)!.brewtime}: ${recipe.brewTime}'),
+        Text('${AppLocalizations.of(context)!.brewtime}: $formattedBrewTime'),
         const SizedBox(height: 16),
         _buildRecipeSummary(context, recipe),
         const SizedBox(height: 16),

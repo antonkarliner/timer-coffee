@@ -95,14 +95,25 @@ class _PreparationScreenState extends State<PreparationScreen> {
       );
     }).toList();
 
-    return ListView.builder(
-      itemCount: preparationSteps.length,
-      itemBuilder: (context, index) {
-        final step = preparationSteps[index];
-        return ListTile(
-          title: Text('${step.order}. ${step.description}'),
-        );
-      },
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: preparationSteps
+              .map((step) => Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(
+                        bottom: 16), // Add space between text widgets
+                    child: Text(
+                      step.description,
+                      style: const TextStyle(fontSize: 24),
+                      textAlign: TextAlign.center,
+                    ),
+                  ))
+              .toList(),
+        ),
+      ),
     );
   }
 

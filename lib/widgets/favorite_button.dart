@@ -19,10 +19,7 @@ class FavoriteButton extends StatelessWidget {
         return FutureBuilder<RecipeModel>(
           future: recipeProvider.getRecipeById(recipeId),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              // Optionally, return a placeholder widget while waiting
-              return const CircularProgressIndicator();
-            } else if (snapshot.hasError) {
+            if (snapshot.hasError) {
               // Handle error state
               return const Icon(Icons.error);
             } else if (snapshot.hasData) {

@@ -211,6 +211,10 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
   }
 
   Widget _buildRecipeContent(BuildContext context, RecipeModel recipe) {
+    String formattedBrewTime = recipe.brewTime != null
+        ? '${recipe.brewTime.inMinutes.remainder(60).toString().padLeft(2, '0')}:${recipe.brewTime.inSeconds.remainder(60).toString().padLeft(2, '0')}'
+        : "Not provided";
+
     final localizations = AppLocalizations.of(context)!;
 
     // Define the localized labels for the sliders
@@ -225,53 +229,88 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
       localizations.strong, // "Strong"
     ];
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(recipe.name, style: Theme.of(context).textTheme.headlineSmall),
-        const SizedBox(height: 16),
-        _buildRichText(context, recipe.shortDescription),
-        const SizedBox(height: 16),
-        _buildAmountFields(context, recipe),
-        const SizedBox(height: 16),
-        Text(
-            '${localizations.watertemp}: ${recipe.waterTemp ?? "Not Provided"}ºC / ${recipe.waterTemp != null ? ((recipe.waterTemp! * 9 / 5) + 32).toStringAsFixed(1) : "Not Provided"}ºF'),
-        const SizedBox(height: 16),
-        Text('${localizations.grindsize}: ${recipe.grindSize}'),
-        const SizedBox(height: 16),
-        Text('${localizations.brewtime}: ${recipe.brewTime}'),
-        const SizedBox(height: 16),
-        // Sweetness Slider
-        Text(localizations.slidertitle),
-        Slider(
-          value: _sweetnessSliderPosition.toDouble(),
-          min: 0,
-          max: 2,
-          divisions: 2,
-          label: sweetnessLabels[_sweetnessSliderPosition],
-          onChanged: (double value) {
-            setState(() {
-              _sweetnessSliderPosition = value.toInt();
-            });
-          },
-        ),
-        const SizedBox(height: 16),
-        // Strength Slider
-        Slider(
-          value: _strengthSliderPosition.toDouble(),
-          min: 0,
-          max: 2,
-          divisions: 2,
-          label: strengthLabels[_strengthSliderPosition],
-          onChanged: (double value) {
-            setState(() {
-              _strengthSliderPosition = value.toInt();
-            });
-          },
-        ),
-        const SizedBox(height: 16),
-      ],
-    );
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(recipe.name, style: Theme.of(context).textTheme.headlineSmall),
+      const SizedBox(height: 16),
+      _buildRichText(context, recipe.shortDescription),
+      const SizedBox(height: 16),
+      _buildAmountFields(context, recipe),
+      const SizedBox(height: 16),
+      Text(
+          '${localizations.watertemp}: ${recipe.waterTemp ?? "Not Provided"}ºC / ${recipe.waterTemp != null ? ((recipe.waterTemp! * 9 / 5) + 32).toStringAsFixed(1) : "Not Provided"}ºF'),
+      const SizedBox(height: 16),
+      Text('${localizations.grindsize}: ${recipe.grindSize}'),
+      const SizedBox(height: 16),
+      Text('${AppLocalizations.of(context)!.brewtime}: $formattedBrewTime'),
+      const SizedBox(height: 16),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(localizations.slidertitle),
+          // Sweetness Slider with Labels
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(AppLocalizations.of(context)!.sweet),
+                    Expanded(
+                      child: Slider(
+                        value: _sweetnessSliderPosition.toDouble(),
+                        min: 0,
+                        max: 2,
+                        divisions: 2,
+                        label: sweetnessLabels[_sweetnessSliderPosition],
+                        onChanged: (double value) {
+                          setState(() {
+                            _sweetnessSliderPosition = value.toInt();
+                          });
+                        },
+                      ),
+                    ),
+                    Text(AppLocalizations.of(context)!.acidic),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          // Strength Slider with Labels
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(AppLocalizations.of(context)!.light),
+                    Expanded(
+                      child: Slider(
+                        value: _strengthSliderPosition.toDouble(),
+                        min: 0,
+                        max: 2,
+                        divisions: 2,
+                        label: strengthLabels[_strengthSliderPosition],
+                        onChanged: (double value) {
+                          setState(() {
+                            _strengthSliderPosition = value.toInt();
+                          });
+                        },
+                      ),
+                    ),
+                    Text(AppLocalizations.of(context)!.strong),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+      )
+    ]);
   }
 
   Widget _buildAmountFields(BuildContext context, RecipeModel recipe) {
