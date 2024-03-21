@@ -12,11 +12,11 @@ class DatabaseProvider {
 
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  Future<bool> _isFirstLaunch() async {
+  Future<bool> _isFirstLaunched() async {
     final prefs = await _prefs;
-    bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
+    bool isFirstLaunch = prefs.getBool('FirstLaunched') ?? true;
     if (isFirstLaunch) {
-      prefs.setBool('firstLaunch', false);
+      prefs.setBool('FirstLaunched', false);
     }
     return isFirstLaunch;
   }
@@ -43,7 +43,7 @@ class DatabaseProvider {
   }
 
   Future<void> initializeDatabase() async {
-    if (await _isFirstLaunch()) {
+    if (await _isFirstLaunched()) {
       await _fetchAllData();
     } else {
       await _conditionallyFetchData();
@@ -63,7 +63,7 @@ class DatabaseProvider {
     final now = DateTime.now();
 
     // Fetch vendors, brewing methods, and supported locales if more than 2 hours have passed
-    final twoHoursAgo = now.subtract(Duration(hours: 2));
+    final twoHoursAgo = now.subtract(const Duration(hours: 2));
     if ((await _getLastFetchTime('vendors'))?.isBefore(twoHoursAgo) ?? true) {
       await _fetchAndStoreVendors();
     }
