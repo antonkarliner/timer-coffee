@@ -11,7 +11,7 @@ class RecipeProvider extends ChangeNotifier {
   List<Locale> _supportedLocales;
   final AppDatabase db;
 
-  bool _isDataLoaded = false; // Add this line
+  bool _isDataLoaded = false;
 
   RecipeProvider(this._locale, this._supportedLocales, this.db) {
     _initialize();
@@ -20,20 +20,17 @@ class RecipeProvider extends ChangeNotifier {
   Future<void> _initialize() async {
     await _loadFavoriteRecipeIds();
     await fetchAllRecipes();
-    _isDataLoaded = true; // Mark data as loaded
+    _isDataLoaded = true;
     notifyListeners();
   }
 
-  // Modify getters to ensure they await data readiness
   Future<List<RecipeModel>> get recipes async {
     await ensureDataReady();
     return _recipes;
   }
 
-  // Add ensureDataReady method
   Future<void> ensureDataReady() async {
     if (!_isDataLoaded) {
-      // Wait for the initial data load to complete
       await _initialize();
     }
   }
@@ -44,7 +41,7 @@ class RecipeProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     List<String> favoriteRecipeIds =
         prefs.getStringList('favoriteRecipes') ?? [];
-    _favoriteRecipeIds.value = favoriteRecipeIds.map((id) => id).toSet();
+    _favoriteRecipeIds.value = Set.from(favoriteRecipeIds);
   }
 
   Future<void> fetchAllRecipes() async {
@@ -85,13 +82,30 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<void> toggleFavorite(String recipeId) async {
-    var recipe = await getRecipeById(recipeId); // Use await here
-    await db.userRecipePreferencesDao.updatePreferences(
-      recipeId,
-      isFavorite: !recipe.isFavorite,
-    );
-    // Reflect changes in the local list
-    await fetchAllRecipes();
+    var index = _recipes.indexWhere((recipe) => recipe.id == recipeId);
+    if (index != -1) {
+      var recipe = _recipes[index];
+      var isFavorite = !recipe.isFavorite;
+
+      await db.userRecipePreferencesDao
+          .updatePreferences(recipeId, isFavorite: isFavorite);
+      _recipes[index] = recipe.copyWith(isFavorite: isFavorite);
+
+      // Check if the favorite status has indeed toggled.
+      if (_favoriteRecipeIds.value.contains(recipeId) != isFavorite) {
+        if (isFavorite) {
+          _favoriteRecipeIds.value.add(recipeId);
+        } else {
+          _favoriteRecipeIds.value.remove(recipeId);
+        }
+        _favoriteRecipeIds.notifyListeners(); // Notify favorite IDs changes.
+
+        // This ensures we only notify listeners when there's a change.
+        notifyListeners();
+      }
+    } else {
+      throw Exception('Recipe not found: $recipeId');
+    }
   }
 
   Future<void> saveCustomAmounts(

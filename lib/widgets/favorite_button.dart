@@ -1,7 +1,7 @@
-import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/recipe_provider.dart';
+import '../models/recipe_model.dart';
 
 class FavoriteButton extends StatefulWidget {
   final String recipeId;
@@ -13,30 +13,20 @@ class FavoriteButton extends StatefulWidget {
 }
 
 class _FavoriteButtonState extends State<FavoriteButton> {
-  bool _isFavorite = false;
+  bool _isFavorite = false; // Initialize with a default value
 
   @override
   void initState() {
     super.initState();
-    _loadInitialFavoriteStatus();
+    _initializeFavoriteStatus();
   }
 
-  Future<void> _loadInitialFavoriteStatus() async {
+  void _initializeFavoriteStatus() async {
     final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
-    RecipeModel recipe = await recipeProvider.getRecipeById(widget.recipeId);
+    final recipe = await recipeProvider.getRecipeById(widget.recipeId);
     if (mounted) {
       setState(() {
         _isFavorite = recipe.isFavorite;
-      });
-    }
-  }
-
-  void _toggleFavorite(RecipeProvider provider) async {
-    await provider.toggleFavorite(widget.recipeId);
-    RecipeModel updatedRecipe = await provider.getRecipeById(widget.recipeId);
-    if (mounted) {
-      setState(() {
-        _isFavorite = updatedRecipe.isFavorite;
       });
     }
   }
@@ -48,8 +38,19 @@ class _FavoriteButtonState extends State<FavoriteButton> {
         _isFavorite ? Icons.favorite : Icons.favorite_border,
         color: _isFavorite ? Colors.brown : null,
       ),
-      onPressed: () =>
-          _toggleFavorite(Provider.of<RecipeProvider>(context, listen: false)),
+      onPressed: () async {
+        await Provider.of<RecipeProvider>(context, listen: false)
+            .toggleFavorite(widget.recipeId);
+        // Re-fetch the favorite status to ensure consistency with the database
+        final recipe = await Provider.of<RecipeProvider>(context, listen: false)
+            .getRecipeById(widget.recipeId);
+        if (mounted) {
+          setState(() {
+            _isFavorite =
+                recipe.isFavorite; // Update based on the latest status
+          });
+        }
+      },
     );
   }
 }

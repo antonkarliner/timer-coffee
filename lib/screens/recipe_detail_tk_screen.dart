@@ -55,32 +55,37 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
   }
 
   Future<void> _loadRecipeDetails() async {
-    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
-    RecipeModel recipeModel =
-        await recipeProvider.getRecipeById(widget.recipeId);
-    String brewingMethodName =
-        await recipeProvider.fetchBrewingMethodName(widget.brewingMethodId);
+    try {
+      final recipeProvider =
+          Provider.of<RecipeProvider>(context, listen: false);
+      RecipeModel recipeModel =
+          await recipeProvider.getRecipeById(widget.recipeId);
+      String brewingMethodName =
+          await recipeProvider.fetchBrewingMethodName(widget.brewingMethodId);
 
-    setState(() {
-      _updatedRecipe = recipeModel;
-      _brewingMethodName = brewingMethodName;
+      setState(() {
+        _updatedRecipe = recipeModel;
+        _brewingMethodName = brewingMethodName;
 
-      double customCoffee =
-          recipeModel.customCoffeeAmount ?? recipeModel.coffeeAmount;
-      double customWater =
-          recipeModel.customWaterAmount ?? recipeModel.waterAmount;
-      // Check if fetched values exist, else fallback to defaults
-      _sweetnessSliderPosition =
-          recipeModel.sweetnessSliderPosition ?? _sweetnessSliderPosition;
-      _strengthSliderPosition =
-          recipeModel.strengthSliderPosition ?? _strengthSliderPosition;
+        double customCoffee =
+            recipeModel.customCoffeeAmount ?? recipeModel.coffeeAmount;
+        double customWater =
+            recipeModel.customWaterAmount ?? recipeModel.waterAmount;
+        _sweetnessSliderPosition =
+            recipeModel.sweetnessSliderPosition ?? _sweetnessSliderPosition;
+        _strengthSliderPosition =
+            recipeModel.strengthSliderPosition ?? _strengthSliderPosition;
 
-      originalCoffee = customCoffee;
-      originalWater = customWater;
-      initialRatio = originalWater! / originalCoffee!;
-      _coffeeController.text = customCoffee.toString();
-      _waterController.text = customWater.toString();
-    });
+        originalCoffee = customCoffee;
+        originalWater = customWater;
+        initialRatio = originalWater! / originalCoffee!;
+        _coffeeController.text = customCoffee.toString();
+        _waterController.text = customWater.toString();
+      });
+    } catch (e) {
+      // Optionally, update the UI or state to reflect the error.
+      print("Error loading recipe details: $e");
+    }
   }
 
   @override
@@ -140,45 +145,32 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<RecipeProvider>(
-      builder: (context, provider, child) {
-        return FutureBuilder<RecipeModel>(
-          future: provider.getRecipeById(widget.recipeId),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Scaffold(
-                  body: Center(child: CircularProgressIndicator()));
-            } else if (snapshot.hasError) {
-              return Scaffold(
-                  body: Center(
-                      child: Text('Error: ${snapshot.error.toString()}')));
-            } else if (snapshot.hasData) {
-              RecipeModel recipe = snapshot.data!;
-              // Update HTML title for web platforms
-              if (kIsWeb) {
-                html.document.title = '${recipe.name} on Timer.Coffee';
-              }
-              return GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
-                child: Scaffold(
-                  appBar: _buildAppBar(context, recipe),
-                  body: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: SingleChildScrollView(
-                      child: _buildRecipeContent(context, recipe),
-                    ),
-                  ),
-                  floatingActionButton:
-                      _buildFloatingActionButton(context, recipe),
-                ),
-              );
-            } else {
-              return const Scaffold(
-                  body: Center(child: Text('No data available')));
-            }
-          },
-        );
-      },
+    // Only build the UI if the recipe details have been loaded.
+    if (_updatedRecipe == null) {
+      // Placeholder view while loading or if the recipe could not be loaded.
+      return Scaffold(body: Center(child: Text('Preparing recipe details...')));
+    }
+
+    RecipeModel recipe = _updatedRecipe!;
+
+    // Update HTML title for web platforms.
+    if (kIsWeb) {
+      html.document.title = '${recipe.name} on Timer.Coffee';
+    }
+
+    // Main content now uses the recipe details.
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: _buildAppBar(context, recipe),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: _buildRecipeContent(context, recipe),
+          ),
+        ),
+        floatingActionButton: _buildFloatingActionButton(context, recipe),
+      ),
     );
   }
 
