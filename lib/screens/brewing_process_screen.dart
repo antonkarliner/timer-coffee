@@ -126,46 +126,23 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
     Duration time,
     String? timeString,
     int strengthSliderPosition,
-    int sweetnessSliderPosition,
   ) {
     if (timeString == null) return time;
 
     // Define the mapping of placeholders to actual time values based on strengthSliderPosition
     List<Map<String, int>> strengthTimeValues = [
       // For strengthSliderPosition = 0
-      {
-        "t1": 10,
-        "t2": 35,
-        "t3": 0,
-        "t4": 0,
-        "t5": 0,
-        "t6": 0,
-      },
+      {"t1": 10, "t2": 35, "t3": 0, "t4": 0, "t5": 0, "t6": 0},
       // For strengthSliderPosition = 1
-      {
-        "t1": 10,
-        "t2": 35,
-        "t3": 10,
-        "t4": 35,
-        "t5": 0,
-        "t6": 0,
-      },
+      {"t1": 10, "t2": 35, "t3": 10, "t4": 35, "t5": 0, "t6": 0},
       // For strengthSliderPosition = 2
-      {
-        "t1": 10,
-        "t2": 35,
-        "t3": 10,
-        "t4": 35,
-        "t5": 10,
-        "t6": 35,
-      },
+      {"t1": 10, "t2": 35, "t3": 10, "t4": 35, "t5": 10, "t6": 35},
     ];
 
-    // Extract placeholders like <t1>, <t2>, etc., from the timeString
+    // Assume that the placeholder is in a predictable format, such as <t1> or <t2>, etc.
     RegExp exp = RegExp(r'<(t\d+)>');
     var matches = exp.allMatches(timeString);
 
-    // Iterate over each match to find and replace placeholders
     for (var match in matches) {
       String placeholder = match.group(1)!; // e.g., "t1", "t2"
       int? replacementTime =
@@ -191,8 +168,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
           Duration stepDuration = replaceTimePlaceholder(
             step.time,
             step.timePlaceholder, // Use step.timePlaceholder for time placeholders
-            widget.sweetnessSliderPosition,
-            widget.strengthSliderPosition,
+            widget.strengthSliderPosition, // Only pass strengthSliderPosition
           );
 
           String description = replacePlaceholders(

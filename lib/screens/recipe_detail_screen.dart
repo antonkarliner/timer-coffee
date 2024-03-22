@@ -283,19 +283,22 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   Future<void> _saveCustomAmountsAndNavigate(
       BuildContext context, RecipeModel recipe) async {
     final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
-
-    double customCoffee =
+    double customCoffeeAmount =
         double.tryParse(_coffeeController.text.replaceAll(',', '.')) ??
             recipe.coffeeAmount;
-    double customWater =
+    double customWaterAmount =
         double.tryParse(_waterController.text.replaceAll(',', '.')) ??
             recipe.waterAmount;
 
+    // Save the custom coffee and water amounts
     await recipeProvider.saveCustomAmounts(
-        widget.recipeId, customCoffee, customWater);
+        widget.recipeId, customCoffeeAmount, customWaterAmount);
 
-    RecipeModel updatedRecipe =
-        await recipeProvider.getRecipeById(widget.recipeId);
+    // Use copyWith to create a new RecipeModel instance with updated values
+    RecipeModel updatedRecipe = recipe.copyWith(
+      coffeeAmount: customCoffeeAmount,
+      waterAmount: customWaterAmount,
+    );
 
     Navigator.push(
         context,
