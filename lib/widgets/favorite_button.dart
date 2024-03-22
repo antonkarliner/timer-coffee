@@ -3,45 +3,53 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/recipe_provider.dart';
 
-class FavoriteButton extends StatelessWidget {
+class FavoriteButton extends StatefulWidget {
   final String recipeId;
 
-  const FavoriteButton({
-    super.key,
-    required this.recipeId,
-  });
+  const FavoriteButton({Key? key, required this.recipeId}) : super(key: key);
+
+  @override
+  _FavoriteButtonState createState() => _FavoriteButtonState();
+}
+
+class _FavoriteButtonState extends State<FavoriteButton> {
+  bool _isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadInitialFavoriteStatus();
+  }
+
+  Future<void> _loadInitialFavoriteStatus() async {
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
+    RecipeModel recipe = await recipeProvider.getRecipeById(widget.recipeId);
+    if (mounted) {
+      setState(() {
+        _isFavorite = recipe.isFavorite;
+      });
+    }
+  }
+
+  void _toggleFavorite(RecipeProvider provider) async {
+    await provider.toggleFavorite(widget.recipeId);
+    RecipeModel updatedRecipe = await provider.getRecipeById(widget.recipeId);
+    if (mounted) {
+      setState(() {
+        _isFavorite = updatedRecipe.isFavorite;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<RecipeProvider>(
-      builder: (context, recipeProvider, child) {
-        // Use FutureBuilder to wait for getRecipeById to complete
-        return FutureBuilder<RecipeModel>(
-          future: recipeProvider.getRecipeById(recipeId),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              // Handle error state
-              return const Icon(Icons.error);
-            } else if (snapshot.hasData) {
-              // Access isFavorite on the RecipeModel from the snapshot
-              bool isFavorite = snapshot.data!.isFavorite;
-              return IconButton(
-                icon: Icon(
-                  isFavorite ? Icons.favorite : Icons.favorite_border,
-                  color: isFavorite ? Colors.brown : null,
-                ),
-                onPressed: () async {
-                  await recipeProvider.toggleFavorite(recipeId);
-                  // No need for a callback as you're directly modifying the state in the provider
-                },
-              );
-            } else {
-              // Handle the case where there's no data
-              return const Icon(Icons.favorite_border);
-            }
-          },
-        );
-      },
+    return IconButton(
+      icon: Icon(
+        _isFavorite ? Icons.favorite : Icons.favorite_border,
+        color: _isFavorite ? Colors.brown : null,
+      ),
+      onPressed: () =>
+          _toggleFavorite(Provider.of<RecipeProvider>(context, listen: false)),
     );
   }
 }
