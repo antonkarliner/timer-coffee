@@ -57,3 +57,4 @@ lib/env/env.g.dart
 jsontodb.py
 jsontodbf.py
 jsontodbsp.py
+*.py
