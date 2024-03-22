@@ -220,88 +220,79 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
       localizations.strong, // "Strong"
     ];
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(recipe.name, style: Theme.of(context).textTheme.headlineSmall),
-      const SizedBox(height: 16),
-      _buildRichText(context, recipe.shortDescription),
-      const SizedBox(height: 16),
-      _buildAmountFields(context, recipe),
-      const SizedBox(height: 16),
-      Text(
-          '${localizations.watertemp}: ${recipe.waterTemp ?? "Not Provided"}ºC / ${recipe.waterTemp != null ? ((recipe.waterTemp! * 9 / 5) + 32).toStringAsFixed(1) : "Not Provided"}ºF'),
-      const SizedBox(height: 16),
-      Text('${localizations.grindsize}: ${recipe.grindSize}'),
-      const SizedBox(height: 16),
-      Text('${AppLocalizations.of(context)!.brewtime}: $formattedBrewTime'),
-      const SizedBox(height: 16),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(localizations.slidertitle),
-          // Sweetness Slider with Labels
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(AppLocalizations.of(context)!.sweet),
-                    Expanded(
-                      child: Slider(
-                        value: _sweetnessSliderPosition.toDouble(),
-                        min: 0,
-                        max: 2,
-                        divisions: 2,
-                        label: sweetnessLabels[_sweetnessSliderPosition],
-                        onChanged: (double value) {
-                          setState(() {
-                            _sweetnessSliderPosition = value.toInt();
-                          });
-                        },
-                      ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding:
+            const EdgeInsets.only(bottom: 100), // Adjust based on your FAB size
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(recipe.name, style: Theme.of(context).textTheme.headlineSmall),
+            const SizedBox(height: 16),
+            _buildRichText(context, recipe.shortDescription),
+            const SizedBox(height: 16),
+            _buildAmountFields(context, recipe),
+            const SizedBox(height: 16),
+            Text(
+                '${localizations.watertemp}: ${recipe.waterTemp ?? "Not Provided"}ºC / ${recipe.waterTemp != null ? ((recipe.waterTemp! * 9 / 5) + 32).toStringAsFixed(1) : "Not Provided"}ºF'),
+            const SizedBox(height: 16),
+            Text('${localizations.grindsize}: ${recipe.grindSize}'),
+            const SizedBox(height: 16),
+            Text('${localizations.brewtime}: $formattedBrewTime'),
+            const SizedBox(height: 16),
+            Text(localizations.slidertitle),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(localizations.sweet),
+                  Expanded(
+                    child: Slider(
+                      value: _sweetnessSliderPosition.toDouble(),
+                      min: 0,
+                      max: 2,
+                      divisions: 2,
+                      label: sweetnessLabels[_sweetnessSliderPosition],
+                      onChanged: (double value) {
+                        setState(() {
+                          _sweetnessSliderPosition = value.toInt();
+                        });
+                      },
                     ),
-                    Text(AppLocalizations.of(context)!.acidic),
-                  ],
-                ),
-              ],
+                  ),
+                  Text(localizations.acidic),
+                ],
+              ),
             ),
-          ),
-          // Strength Slider with Labels
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(AppLocalizations.of(context)!.light),
-                    Expanded(
-                      child: Slider(
-                        value: _strengthSliderPosition.toDouble(),
-                        min: 0,
-                        max: 2,
-                        divisions: 2,
-                        label: strengthLabels[_strengthSliderPosition],
-                        onChanged: (double value) {
-                          setState(() {
-                            _strengthSliderPosition = value.toInt();
-                          });
-                        },
-                      ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(localizations.light),
+                  Expanded(
+                    child: Slider(
+                      value: _strengthSliderPosition.toDouble(),
+                      min: 0,
+                      max: 2,
+                      divisions: 2,
+                      label: strengthLabels[_strengthSliderPosition],
+                      onChanged: (double value) {
+                        setState(() {
+                          _strengthSliderPosition = value.toInt();
+                        });
+                      },
                     ),
-                    Text(AppLocalizations.of(context)!.strong),
-                  ],
-                ),
-              ],
+                  ),
+                  Text(localizations.strong),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-        ],
-      )
-    ]);
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildAmountFields(BuildContext context, RecipeModel recipe) {
