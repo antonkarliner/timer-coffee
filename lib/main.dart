@@ -32,73 +32,58 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: WidgetsBinding.instance);
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
-
   // Initialize PurchaseManager
   PurchaseManager();
-
   // Restore previous purchases
   InAppPurchase.instance.restorePurchases();
-
   await Supabase.initialize(url: Env.supaUrl, anonKey: Env.supaKey);
-
   final AppDatabase database = AppDatabase();
   final supportedLocalesDao = SupportedLocalesDao(database);
   final brewingMethodsDao = BrewingMethodsDao(database);
   final DatabaseProvider databaseProvider = DatabaseProvider(database);
   await databaseProvider.initializeDatabase();
-
   // Fetch supported locales and brewing methods concurrently
   final supportedLocalesFuture = supportedLocalesDao.getAllSupportedLocales();
   final brewingMethodsFuture = brewingMethodsDao.getAllBrewingMethods();
-
   final List<SupportedLocaleModel> supportedLocales =
       await supportedLocalesFuture;
   final List<BrewingMethodModel> brewingMethods = await brewingMethodsFuture;
-
   // Convert SupportedLocale objects to Locale objects
   List<Locale> localeList =
       supportedLocales.map((locale) => Locale(locale.locale)).toList();
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
   String themeModeString = prefs.getString('themeMode') ?? 'system';
   ThemeMode themeMode = ThemeMode.values.firstWhere(
       (e) => e.toString().split('.').last == themeModeString,
       orElse: () => ThemeMode.system);
-
   String? savedLocaleCode = prefs.getString('locale');
   Locale systemLocale =
       Locale(WidgetsBinding.instance.window.locale.languageCode);
   Locale initialLocale = Locale('en', ''); // Default to English as a fallback
-
   if (savedLocaleCode != null) {
     initialLocale = Locale(savedLocaleCode);
   } else if (localeList
       .any((locale) => locale.languageCode == systemLocale.languageCode)) {
     initialLocale = systemLocale;
   }
-
   final appRouter = AppRouter();
   usePathUrlStrategy();
 
   runApp(CoffeeTimerApp(
-    database: database, // Pass the single instance of AppDatabase
     supportedLocales: localeList,
     brewingMethods: brewingMethods,
     initialLocale: initialLocale,
     themeMode: themeMode,
     appRouter: appRouter,
   ));
-
   if (isFirstLaunch) {
     await prefs.setBool('firstLaunch', false);
   }
-
   FlutterNativeSplash.remove();
 }
 
 class CoffeeTimerApp extends StatelessWidget {
-  final AppDatabase database; // Add database to the constructor
   final List<Locale> supportedLocales;
   final List<BrewingMethodModel> brewingMethods;
   final Locale initialLocale;
@@ -107,22 +92,20 @@ class CoffeeTimerApp extends StatelessWidget {
 
   const CoffeeTimerApp({
     Key? key,
-    required this.database, // Add database to the constructor
     required this.supportedLocales,
     required this.brewingMethods,
     required this.initialLocale,
     required this.themeMode,
     required this.appRouter,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<AppDatabase>.value(value: database),
         ChangeNotifierProvider<RecipeProvider>(
+          // Corrected provider creation to pass `initialLocale` and `supportedLocales`
           create: (_) =>
-              RecipeProvider(initialLocale, supportedLocales, database),
+              RecipeProvider(initialLocale, supportedLocales, AppDatabase()),
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(themeMode),
