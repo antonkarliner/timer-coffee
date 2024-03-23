@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../database/database.dart';
 import '../models/recipe_model.dart';
+import '../models/supported_locale_model.dart';
 
 class RecipeProvider extends ChangeNotifier {
   List<RecipeModel> _recipes = [];
@@ -196,6 +197,21 @@ class RecipeProvider extends ChangeNotifier {
       String version, String locale) async {
     await ensureDataReady(); // Make sure the database is initialized
     return await db.startPopupsDao.getStartPopup(version, locale);
+  }
+
+  Future<List<SupportedLocaleModel>> fetchAllSupportedLocales() async {
+    return db.supportedLocalesDao.getAllSupportedLocales();
+  }
+
+  Future<String> getLocaleName(String localeCode) async {
+    final supportedLocales = await fetchAllSupportedLocales();
+    return supportedLocales
+        .firstWhere(
+          (locale) => locale.locale == localeCode,
+          orElse: () =>
+              SupportedLocaleModel(locale: localeCode, localeName: "Unknown"),
+        )
+        .localeName;
   }
 
   void setLocale(Locale newLocale) async {

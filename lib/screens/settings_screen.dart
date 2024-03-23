@@ -29,7 +29,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final recipeProvider = Provider.of<RecipeProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
     final snowEffectProvider = Provider.of<SnowEffectProvider>(context);
-    String currentLanguage = _getLanguageName(recipeProvider.currentLocale);
 
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +43,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.settingslang),
-            trailing: Text(currentLanguage),
+            trailing: FutureBuilder<String>(
+              future: _getLanguageName(recipeProvider.currentLocale),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.hasData) {
+                  return Text(snapshot
+                      .data!); // Display the dynamically fetched locale name
+                } else {
+                  return CircularProgressIndicator(); // Show loading indicator while fetching
+                }
+              },
+            ),
             onTap: _changeLocale,
           ),
 
@@ -272,76 +281,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _changeLocale() async {
+    final supportedLocales =
+        await Provider.of<RecipeProvider>(context, listen: false)
+            .fetchAllSupportedLocales();
+
     final result = await showModalBottomSheet<Locale>(
       context: context,
       builder: (BuildContext context) {
         return SafeArea(
-          child: ListView(
+          child: ListView.builder(
             shrinkWrap: true,
-            children: <Widget>[
-              ListTile(
+            itemCount: supportedLocales.length,
+            itemBuilder: (BuildContext context, int index) {
+              final localeModel = supportedLocales[index];
+              return ListTile(
                 leading: const Icon(Icons.language),
-                title: const Text('English'),
-                onTap: () => Navigator.pop(context, const Locale('en')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('Español'), // Spanish
-                onTap: () => Navigator.pop(context, const Locale('es')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('Português'), // Portuguese
-                onTap: () => Navigator.pop(context, const Locale('pt')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('Deutsch'), // German
-                onTap: () => Navigator.pop(context, const Locale('de')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('Français'), // French
-                onTap: () => Navigator.pop(context, const Locale('fr')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('Русский'), // Russian
-                onTap: () => Navigator.pop(context, const Locale('ru')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('Bahasa Indonesia'), // Indonesian
-                onTap: () => Navigator.pop(context, const Locale('id')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('العربية'), // Arabic
-                trailing: const Badge(
-                  label: Text('Beta', style: TextStyle(color: Colors.white)),
-                  backgroundColor: Colors.brown,
-                ),
-                onTap: () => Navigator.pop(context, const Locale('ar')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('中文'), // Chinese
-                trailing: const Badge(
-                  label: Text('Beta', style: TextStyle(color: Colors.white)),
-                  backgroundColor: Colors.brown,
-                ),
-                onTap: () => Navigator.pop(context, const Locale('zh')),
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text('日本語'), // Japanese
-                trailing: const Badge(
-                  label: Text('Beta', style: TextStyle(color: Colors.white)),
-                  backgroundColor: Colors.brown,
-                ),
-                onTap: () => Navigator.pop(context, const Locale('ja')),
-              ),
-            ],
+                title: Text(localeModel.localeName),
+                onTap: () => Navigator.pop(context, Locale(localeModel.locale)),
+              );
+            },
           ),
         );
       },
@@ -368,33 +326,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  String _getLanguageName(Locale locale) {
-    switch (locale.languageCode) {
-      case 'en':
-        return 'English';
-      case 'es':
-        return 'Español';
-      case 'pt':
-        return 'Português';
-      case 'de':
-        return 'Deutsch';
-      case 'fr':
-        return 'Français';
-      case 'ru':
-        return 'Русский';
-      case 'pl':
-        return 'Polski';
-      case 'id':
-        return 'Bahasa Indonesia';
-      case 'ar':
-        return 'العربية';
-      case 'zh':
-        return '中文';
-      case 'ja':
-        return '日本語';
-      default:
-        return 'English';
-    }
+  Future<String> _getLanguageName(Locale locale) async {
+    return Provider.of<RecipeProvider>(context, listen: false)
+        .getLocaleName(locale.languageCode);
   }
 
   void _setLocale(Locale newLocale) async {
