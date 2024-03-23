@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import '../models/recipe_model.dart';
-import '../screens/preparation_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +16,7 @@ import "package:universal_html/html.dart" as html;
 import '../utils/icon_utils.dart';
 import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../screens/preparation_screen.dart';
 
 @RoutePage()
 class RecipeDetailScreen extends StatefulWidget {
