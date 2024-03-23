@@ -115,6 +115,7 @@ abstract class $AppRouter extends _i13.RootStackRouter {
           orElse: () => VendorRecipeDetailRouteArgs(
                 brewingMethodId: pathParams.getString('brewingMethodId'),
                 recipeId: pathParams.getString('recipeId'),
+                vendorId: pathParams.getString('recipeId'),
               ));
       return _i13.AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -122,6 +123,7 @@ abstract class $AppRouter extends _i13.RootStackRouter {
           key: args.key,
           brewingMethodId: args.brewingMethodId,
           recipeId: args.recipeId,
+          vendorId: args.vendorId,
         ),
       );
     },
@@ -372,6 +374,7 @@ class VendorRecipeDetailRoute
     _i14.Key? key,
     required String brewingMethodId,
     required String recipeId,
+    required String vendorId,
     List<_i13.PageRouteInfo>? children,
   }) : super(
           VendorRecipeDetailRoute.name,
@@ -379,10 +382,11 @@ class VendorRecipeDetailRoute
             key: key,
             brewingMethodId: brewingMethodId,
             recipeId: recipeId,
+            vendorId: vendorId,
           ),
           rawPathParams: {
             'brewingMethodId': brewingMethodId,
-            'recipeId': recipeId,
+            'recipeId': vendorId,
           },
           initialChildren: children,
         );
@@ -398,6 +402,7 @@ class VendorRecipeDetailRouteArgs {
     this.key,
     required this.brewingMethodId,
     required this.recipeId,
+    required this.vendorId,
   });
 
   final _i14.Key? key;
@@ -406,9 +411,11 @@ class VendorRecipeDetailRouteArgs {
 
   final String recipeId;
 
+  final String vendorId;
+
   @override
   String toString() {
-    return 'VendorRecipeDetailRouteArgs{key: $key, brewingMethodId: $brewingMethodId, recipeId: $recipeId}';
+    return 'VendorRecipeDetailRouteArgs{key: $key, brewingMethodId: $brewingMethodId, recipeId: $recipeId, vendorId: $vendorId}';
   }
 }
 
