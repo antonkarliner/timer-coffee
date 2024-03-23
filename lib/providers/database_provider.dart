@@ -45,9 +45,8 @@ class DatabaseProvider {
   Future<void> initializeDatabase() async {
     if (await _isFirstLaunched()) {
       await _fetchAllData();
-    } else {
-      await _conditionallyFetchData();
     }
+    await _conditionallyFetchData();
   }
 
   Future<void> _fetchAllData() async {
@@ -60,21 +59,12 @@ class DatabaseProvider {
   }
 
   Future<void> _conditionallyFetchData() async {
-    final now = DateTime.now();
+    // Fetch vendors, brewing methods, and supported locales every launch
+    await _fetchAndStoreVendors();
+    await _fetchAndStoreBrewingMethods();
+    await _fetchAndStoreSupportedLocales();
 
-    // Fetch vendors, brewing methods, and supported locales if more than 2 hours have passed
-    final twoHoursAgo = now.subtract(const Duration(hours: 2));
-    if ((await _getLastFetchTime('vendors'))?.isBefore(twoHoursAgo) ?? true) {
-      await _fetchAndStoreVendors();
-    }
-    if ((await _getLastFetchTime('brewingMethods'))?.isBefore(twoHoursAgo) ??
-        true) {
-      await _fetchAndStoreBrewingMethods();
-    }
-    if ((await _getLastFetchTime('supportedLocales'))?.isBefore(twoHoursAgo) ??
-        true) {
-      await _fetchAndStoreSupportedLocales();
-    }
+    final now = DateTime.now();
 
     // Fetch coffee facts if more than 7 days have passed
     final sevenDaysAgo = now.subtract(const Duration(days: 7));
@@ -91,7 +81,8 @@ class DatabaseProvider {
       await _updateAppVersion(currentVersion);
     }
 
-    // Conditions for recipes, localizations, and steps will be designed later
+    // Fetch recipes every launch to ensure updates are received
+    await _fetchAndStoreRecipes();
   }
 
   Future<void> _fetchAndStoreVendors() async {

@@ -1,3 +1,5 @@
+import 'package:coffee_timer/models/start_popup_model.dart';
+import 'package:coffee_timer/models/vendor_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../database/database.dart';
@@ -54,8 +56,12 @@ class RecipeProvider extends ChangeNotifier {
 
   Future<List<RecipeModel>> fetchRecipesForBrewingMethod(
       String brewingMethodId) async {
-    return db.recipesDao
-        .fetchRecipesForBrewingMethod(brewingMethodId, _locale.toString());
+    await ensureDataReady();
+    return _recipes
+        .where((recipe) =>
+            recipe.brewingMethodId == brewingMethodId &&
+            recipe.vendorId == "timercoffee")
+        .toList();
   }
 
   Future<String> getBrewingMethodName(String? brewingMethodId) async {
@@ -164,6 +170,32 @@ class RecipeProvider extends ChangeNotifier {
     }
 
     return favoriteRecipes;
+  }
+
+  Future<List<VendorModel>> fetchAllActiveVendors() async {
+    await ensureDataReady(); // Ensure all initial data is loaded.
+    return db.vendorsDao.getAllActiveVendors();
+  }
+
+  Future<List<RecipeModel>> fetchRecipesForVendor(String vendorId) async {
+    await ensureDataReady(); // Ensure all initial data is loaded.
+    return _recipes.where((recipe) => recipe.vendorId == vendorId).toList();
+  }
+
+  Future<String> fetchVendorName(String vendorId) async {
+    await ensureDataReady();
+    var vendor = await db.vendorsDao.getVendorById(vendorId);
+    return vendor?.vendorName ?? "Unknown Vendor";
+  }
+
+  Future<VendorModel?> fetchVendorById(String vendorId) async {
+    return db.vendorsDao.getVendorById(vendorId);
+  }
+
+  Future<StartPopupModel?> fetchStartPopup(
+      String version, String locale) async {
+    await ensureDataReady(); // Make sure the database is initialized
+    return await db.startPopupsDao.getStartPopup(version, locale);
   }
 
   void setLocale(Locale newLocale) async {

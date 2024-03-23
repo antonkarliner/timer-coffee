@@ -62,5 +62,17 @@ class AppRouter extends $AppRouter {
           page: FavoriteRecipesRoute.page,
           path: '/favorites',
         ),
+        AutoRoute(
+          page: VendorsRoute.page,
+          path: '/vendors',
+        ),
+        AutoRoute(
+          page: VendorsRecipeListRoute.page,
+          path: '/vendors/:vendorId',
+        ),
+        AutoRoute(
+          page: VendorRecipeDetailRoute.page,
+          path: '/vendors/:vendorId/:recipeId',
+        ),
       ];
 }

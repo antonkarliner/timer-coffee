@@ -126,8 +126,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               leading: const Icon(Icons.favorite),
               title: Text(AppLocalizations.of(context)!.favoriterecipes),
               onTap: () {
-                context.router
-                    .push(const FavoriteRecipesRoute()); // Your routing logic
+                context.router.push(const FavoriteRecipesRoute());
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.star),
+              title: Text("Explore"),
+              onTap: () {
+                context.router.push(const VendorsRoute());
               },
             ),
             if (mostRecentRecipe != null)

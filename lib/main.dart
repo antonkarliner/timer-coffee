@@ -82,6 +82,7 @@ void main() async {
   usePathUrlStrategy();
 
   runApp(CoffeeTimerApp(
+    database: database, // Pass the single instance of AppDatabase
     supportedLocales: localeList,
     brewingMethods: brewingMethods,
     initialLocale: initialLocale,
@@ -97,6 +98,7 @@ void main() async {
 }
 
 class CoffeeTimerApp extends StatelessWidget {
+  final AppDatabase database; // Add database to the constructor
   final List<Locale> supportedLocales;
   final List<BrewingMethodModel> brewingMethods;
   final Locale initialLocale;
@@ -105,6 +107,7 @@ class CoffeeTimerApp extends StatelessWidget {
 
   const CoffeeTimerApp({
     Key? key,
+    required this.database, // Add database to the constructor
     required this.supportedLocales,
     required this.brewingMethods,
     required this.initialLocale,
@@ -116,10 +119,10 @@ class CoffeeTimerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<AppDatabase>.value(value: database),
         ChangeNotifierProvider<RecipeProvider>(
-          // Corrected provider creation to pass `initialLocale` and `supportedLocales`
           create: (_) =>
-              RecipeProvider(initialLocale, supportedLocales, AppDatabase()),
+              RecipeProvider(initialLocale, supportedLocales, database),
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(themeMode),

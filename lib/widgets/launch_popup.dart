@@ -1,14 +1,13 @@
-import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
-import 'package:coffee_timer/database/database.dart';
+import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:coffee_timer/models/start_popup_model.dart';
 
 class LaunchPopupWidget extends StatefulWidget {
   @override
@@ -33,11 +32,10 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
 
     if (!isPopupShown) {
       String locale = Localizations.localeOf(context).languageCode;
-      final db = AppDatabase();
-      final dao = StartPopupsDao(db);
-      // Update this to use StartPopupModel
-      final StartPopupModel? startPopup =
-          await dao.getStartPopup(currentVersion, locale);
+      // Use RecipeProvider to get the start popup
+      final startPopup =
+          await Provider.of<RecipeProvider>(context, listen: false)
+              .fetchStartPopup(currentVersion, locale);
 
       if (startPopup != null && startPopup.content.isNotEmpty) {
         if (mounted) {
