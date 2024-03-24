@@ -46,10 +46,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         var recipeProvider =
             Provider.of<RecipeProvider>(context, listen: false);
         var tempLocale =
-            const Locale('es'); // An example temporary locale for simulation
+            Locale('es'); // An example temporary locale for simulation
         recipeProvider.setLocale(tempLocale).then((_) {
-          recipeProvider.setLocale(
-              initialLocale); // Use the initialLocale directly obtained from the provider
+          Future.delayed(Duration(milliseconds: 100), () {
+            recipeProvider
+                .setLocale(initialLocale); // Revert to the initial app locale
+          });
         });
       }
     });
