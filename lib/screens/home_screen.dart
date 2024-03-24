@@ -35,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // Set up PurchaseManager callbacks
     PurchaseManager().setDeliverProductCallback(_showThankYouPopup);
     PurchaseManager().setPurchaseErrorCallback(_showErrorDialog);
+    context.router.replace(const HomeRoute());
   }
 
   void _showThankYouPopup(PurchaseDetails details) {
