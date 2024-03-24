@@ -55,10 +55,10 @@ class DatabaseProvider {
       _fetchAndStoreVendors(),
       _fetchAndStoreBrewingMethods(),
       _fetchAndStoreSupportedLocales(),
-      _fetchAndStoreCoffeeFacts(),
-      _fetchAndStoreStartPopup(),
     ]);
     await _fetchAndStoreRecipes();
+    await _fetchAndStoreCoffeeFacts();
+    await _fetchAndStoreStartPopup();
   }
 
   Future<void> _conditionallyFetchData() async {
