@@ -19,15 +19,15 @@ import '../screens/preparation_screen.dart';
 
 @RoutePage()
 class VendorRecipeDetailScreen extends StatefulWidget {
+  final String vendorId;
   final String brewingMethodId;
   final String recipeId;
-  final String vendorId;
 
   const VendorRecipeDetailScreen({
     super.key,
     @PathParam('brewingMethodId') required this.brewingMethodId,
+    @PathParam('vendorId') required this.vendorId,
     @PathParam('recipeId') required this.recipeId,
-    @PathParam('recipeId') required this.vendorId,
   });
 
   @override
@@ -124,7 +124,7 @@ class _VendorRecipeDetailScreenState extends State<VendorRecipeDetailScreen> {
     final RenderBox box = context.findRenderObject() as RenderBox;
     final Rect rect = box.localToGlobal(Offset.zero) & box.size;
     final String textToShare =
-        'https://app.timer.coffee/recipes/${_updatedRecipe!.vendorId}/${_updatedRecipe!.id}';
+        'https://app.timer.coffee/roasters/${_updatedRecipe!.vendorId}/${_updatedRecipe!.id}';
 
     await Share.share(
       textToShare,

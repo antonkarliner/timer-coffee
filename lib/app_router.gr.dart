@@ -114,16 +114,16 @@ abstract class $AppRouter extends _i13.RootStackRouter {
       final args = routeData.argsAs<VendorRecipeDetailRouteArgs>(
           orElse: () => VendorRecipeDetailRouteArgs(
                 brewingMethodId: pathParams.getString('brewingMethodId'),
+                vendorId: pathParams.getString('vendorId'),
                 recipeId: pathParams.getString('recipeId'),
-                vendorId: pathParams.getString('recipeId'),
               ));
       return _i13.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i10.VendorRecipeDetailScreen(
           key: args.key,
           brewingMethodId: args.brewingMethodId,
-          recipeId: args.recipeId,
           vendorId: args.vendorId,
+          recipeId: args.recipeId,
         ),
       );
     },
@@ -373,20 +373,21 @@ class VendorRecipeDetailRoute
   VendorRecipeDetailRoute({
     _i14.Key? key,
     required String brewingMethodId,
-    required String recipeId,
     required String vendorId,
+    required String recipeId,
     List<_i13.PageRouteInfo>? children,
   }) : super(
           VendorRecipeDetailRoute.name,
           args: VendorRecipeDetailRouteArgs(
             key: key,
             brewingMethodId: brewingMethodId,
-            recipeId: recipeId,
             vendorId: vendorId,
+            recipeId: recipeId,
           ),
           rawPathParams: {
             'brewingMethodId': brewingMethodId,
-            'recipeId': vendorId,
+            'vendorId': vendorId,
+            'recipeId': recipeId,
           },
           initialChildren: children,
         );
@@ -401,21 +402,21 @@ class VendorRecipeDetailRouteArgs {
   const VendorRecipeDetailRouteArgs({
     this.key,
     required this.brewingMethodId,
-    required this.recipeId,
     required this.vendorId,
+    required this.recipeId,
   });
 
   final _i14.Key? key;
 
   final String brewingMethodId;
 
-  final String recipeId;
-
   final String vendorId;
+
+  final String recipeId;
 
   @override
   String toString() {
-    return 'VendorRecipeDetailRouteArgs{key: $key, brewingMethodId: $brewingMethodId, recipeId: $recipeId, vendorId: $vendorId}';
+    return 'VendorRecipeDetailRouteArgs{key: $key, brewingMethodId: $brewingMethodId, vendorId: $vendorId, recipeId: $recipeId}';
   }
 }
 
