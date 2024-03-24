@@ -83,9 +83,14 @@ class RecipeProvider extends ChangeNotifier {
 
   Future<RecipeModel> getRecipeById(String recipeId) async {
     await ensureDataReady();
-    return _recipes.firstWhere((r) => r.id == recipeId, orElse: () {
+    // Assume _locale is a variable holding the current locale set in RecipeProvider
+    RecipeModel? recipe =
+        await db.recipesDao.getRecipeModelById(recipeId, _locale.languageCode);
+    if (recipe != null) {
+      return recipe;
+    } else {
       throw Exception('Recipe not found');
-    });
+    }
   }
 
   Future<void> toggleFavorite(String recipeId) async {
