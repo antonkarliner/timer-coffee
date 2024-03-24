@@ -17,7 +17,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
-  // Removed the constructor parameter for initialLocale
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
