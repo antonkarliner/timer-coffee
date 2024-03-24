@@ -17,6 +17,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
+  // Removed the constructor parameter for initialLocale
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -24,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+  late Locale initialLocale;
   @override
   void initState() {
     super.initState();
@@ -35,7 +37,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // Set up PurchaseManager callbacks
     PurchaseManager().setDeliverProductCallback(_showThankYouPopup);
     PurchaseManager().setPurchaseErrorCallback(_showErrorDialog);
-    context.router.replace(const HomeRoute());
+
+    // Correctly obtain initialLocale from the Provider
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      initialLocale = Provider.of<Locale>(context, listen: false);
+
+      if (kIsWeb) {
+        var recipeProvider =
+            Provider.of<RecipeProvider>(context, listen: false);
+        var tempLocale =
+            Locale('es'); // An example temporary locale for simulation
+        recipeProvider.setLocale(tempLocale).then((_) {
+          recipeProvider.setLocale(
+              initialLocale); // Use the initialLocale directly obtained from the provider
+        });
+      }
+    });
   }
 
   void _showThankYouPopup(PurchaseDetails details) {

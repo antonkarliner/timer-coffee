@@ -69,7 +69,6 @@ void main() async {
   }
   final appRouter = AppRouter();
   usePathUrlStrategy();
-
   runApp(CoffeeTimerApp(
     database: database, // Pass the single instance of AppDatabase
     supportedLocales: localeList,
@@ -119,6 +118,7 @@ class CoffeeTimerApp extends StatelessWidget {
         Provider<List<BrewingMethodModel>>(
           create: (_) => brewingMethods,
         ),
+        Provider<Locale>.value(value: initialLocale),
       ],
       child: Consumer2<ThemeProvider, SnowEffectProvider>(
         builder: (context, themeProvider, snowProvider, child) {

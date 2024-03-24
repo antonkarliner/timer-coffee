@@ -214,7 +214,7 @@ class RecipeProvider extends ChangeNotifier {
         .localeName;
   }
 
-  void setLocale(Locale newLocale) async {
+  Future<void> setLocale(Locale newLocale) async {
     if (_locale != newLocale) {
       _locale = newLocale;
       await fetchAllRecipes(); // Fetch all recipes with the new locale
