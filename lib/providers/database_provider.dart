@@ -69,6 +69,7 @@ class DatabaseProvider {
       _fetchAndStoreSupportedLocales(),
     ]);
 
+    await _fetchAndStoreRecipes();
     await _checkAndFetchCoffeeFacts();
     await _checkAndUpdateForNewAppVersion();
   }
