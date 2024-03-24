@@ -10,36 +10,37 @@ class DatabaseProvider {
 
   DatabaseProvider(this._db);
 
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late final Future<SharedPreferences> _prefsFuture =
+      SharedPreferences.getInstance();
 
   Future<bool> _isFirstLaunched() async {
-    final prefs = await _prefs;
+    final prefs = await _prefsFuture;
     bool isFirstLaunch = prefs.getBool('FirstLaunched') ?? true;
     if (isFirstLaunch) {
-      prefs.setBool('FirstLaunched', false);
+      await prefs.setBool('FirstLaunched', false);
     }
     return isFirstLaunch;
   }
 
   Future<DateTime?> _getLastFetchTime(String key) async {
-    final prefs = await _prefs;
+    final prefs = await _prefsFuture;
     final lastFetch = prefs.getString(key);
     return lastFetch != null ? DateTime.parse(lastFetch) : null;
   }
 
   Future<void> _updateLastFetchTime(String key) async {
-    final prefs = await _prefs;
-    prefs.setString(key, DateTime.now().toIso8601String());
+    final prefs = await _prefsFuture;
+    await prefs.setString(key, DateTime.now().toIso8601String());
   }
 
   Future<String?> _getLastAppVersion() async {
-    final prefs = await _prefs;
+    final prefs = await _prefsFuture;
     return prefs.getString('appVersion');
   }
 
   Future<void> _updateAppVersion(String currentVersion) async {
-    final prefs = await _prefs;
-    prefs.setString('appVersion', currentVersion);
+    final prefs = await _prefsFuture;
+    await prefs.setString('appVersion', currentVersion);
   }
 
   Future<void> initializeDatabase() async {
@@ -50,30 +51,38 @@ class DatabaseProvider {
   }
 
   Future<void> _fetchAllData() async {
-    await _fetchAndStoreVendors();
-    await _fetchAndStoreBrewingMethods();
-    await _fetchAndStoreSupportedLocales();
+    await Future.wait([
+      _fetchAndStoreVendors(),
+      _fetchAndStoreBrewingMethods(),
+      _fetchAndStoreSupportedLocales(),
+      _fetchAndStoreCoffeeFacts(),
+      _fetchAndStoreStartPopup(),
+    ]);
     await _fetchAndStoreRecipes();
-    await _fetchAndStoreCoffeeFacts();
-    await _fetchAndStoreStartPopup();
   }
 
   Future<void> _conditionallyFetchData() async {
-    // Fetch vendors, brewing methods, and supported locales every launch
-    await _fetchAndStoreVendors();
-    await _fetchAndStoreBrewingMethods();
-    await _fetchAndStoreSupportedLocales();
+    // Parallelize tasks that are independent
+    await Future.wait([
+      _fetchAndStoreVendors(),
+      _fetchAndStoreBrewingMethods(),
+      _fetchAndStoreSupportedLocales(),
+    ]);
 
+    await _checkAndFetchCoffeeFacts();
+    await _checkAndUpdateForNewAppVersion();
+  }
+
+  Future<void> _checkAndFetchCoffeeFacts() async {
     final now = DateTime.now();
-
-    // Fetch coffee facts if more than 7 days have passed
     final sevenDaysAgo = now.subtract(const Duration(days: 7));
     if ((await _getLastFetchTime('coffeeFacts'))?.isBefore(sevenDaysAgo) ??
         true) {
       await _fetchAndStoreCoffeeFacts();
     }
+  }
 
-    // Fetch start popup if the app version has changed
+  Future<void> _checkAndUpdateForNewAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String currentVersion = packageInfo.version;
     if ((await _getLastAppVersion()) != currentVersion) {
@@ -81,47 +90,43 @@ class DatabaseProvider {
       await _updateAppVersion(currentVersion);
     }
 
-    // Fetch recipes every launch to ensure updates are received
+    // Always fetch recipes to ensure updates are received
     await _fetchAndStoreRecipes();
   }
 
   Future<void> _fetchAndStoreVendors() async {
     final response = await Supabase.instance.client.from('vendors').select();
 
-    for (var json in response) {
-      final vendor = VendorsCompanionExtension.fromJson(json);
-      await _db
-          .into(_db.vendors)
-          .insert(vendor, mode: InsertMode.insertOrReplace);
-    }
-
-    await _updateLastFetchTime('vendors');
+    final vendors = response
+        .map((json) => VendorsCompanionExtension.fromJson(json))
+        .toList();
+    await _db.batch((batch) {
+      batch.insertAll(_db.vendors, vendors, mode: InsertMode.insertOrReplace);
+    });
   }
 
   Future<void> _fetchAndStoreBrewingMethods() async {
     final response =
         await Supabase.instance.client.from('brewing_methods').select();
-    for (var json in response) {
-      final brewingMethod = BrewingMethodsCompanionExtension.fromJson(json);
-      await _db
-          .into(_db.brewingMethods)
-          .insert(brewingMethod, mode: InsertMode.insertOrReplace);
-    }
-
-    await _updateLastFetchTime('brewingMethods');
+    final brewingMethods = response
+        .map((json) => BrewingMethodsCompanionExtension.fromJson(json))
+        .toList();
+    await _db.batch((batch) {
+      batch.insertAll(_db.brewingMethods, brewingMethods,
+          mode: InsertMode.insertOrReplace);
+    });
   }
 
   Future<void> _fetchAndStoreSupportedLocales() async {
     final response =
         await Supabase.instance.client.from('supported_locales').select();
-    for (var json in response) {
-      final supportedLocale = SupportedLocalesCompanionExtension.fromJson(json);
-      await _db
-          .into(_db.supportedLocales)
-          .insert(supportedLocale, mode: InsertMode.insertOrReplace);
-    }
-
-    await _updateLastFetchTime('supportedLocales');
+    final supportedLocales = response
+        .map((json) => SupportedLocalesCompanionExtension.fromJson(json))
+        .toList();
+    await _db.batch((batch) {
+      batch.insertAll(_db.supportedLocales, supportedLocales,
+          mode: InsertMode.insertOrReplace);
+    });
   }
 
   Future<void> _fetchAndStoreRecipes() async {
@@ -129,8 +134,10 @@ class DatabaseProvider {
         .from('recipes')
         .select('id, last_modified');
 
-    final remoteRecipes = response as List<Map<String, dynamic>>;
+    final remoteRecipes = response;
     final localRecipes = await _db.recipesDao.fetchIdsAndLastModifiedDates();
+
+    List<RecipesCompanion> recipesToInsertOrUpdate = [];
 
     for (var remoteRecipe in remoteRecipes) {
       final remoteId = remoteRecipe['id'] as String;
@@ -147,13 +154,20 @@ class DatabaseProvider {
             .eq('id', remoteId)
             .single();
 
-        final recipe = RecipesCompanionExtension.fromJson(
-            fullRecipeResponse as Map<String, dynamic>);
-        await _db.recipesDao.insertOrUpdateRecipe(recipe);
+        final recipe = RecipesCompanionExtension.fromJson(fullRecipeResponse);
+        recipesToInsertOrUpdate.add(recipe);
+      }
+    }
 
-        // Fetch and update related recipe localizations and steps
-        await _fetchAndStoreRecipeLocalizationsForRecipe(remoteId);
-        await _fetchAndStoreStepsForRecipe(remoteId);
+    if (recipesToInsertOrUpdate.isNotEmpty) {
+      await _db.batch((batch) {
+        batch.insertAll(_db.recipes, recipesToInsertOrUpdate,
+            mode: InsertMode.insertOrReplace);
+      });
+
+      for (var recipe in recipesToInsertOrUpdate) {
+        await _fetchAndStoreRecipeLocalizationsForRecipe(recipe.id.value);
+        await _fetchAndStoreStepsForRecipe(recipe.id.value);
       }
     }
   }
@@ -165,11 +179,13 @@ class DatabaseProvider {
         .select('*')
         .eq('recipe_id', recipeId);
 
-    final localizations = response as List<Map<String, dynamic>>;
-    for (var localization in localizations) {
-      final loc = RecipeLocalizationsCompanionExtension.fromJson(localization);
-      await _db.recipeLocalizationsDao.insertOrUpdateLocalization(loc);
-    }
+    final localizations = response
+        .map((json) => RecipeLocalizationsCompanionExtension.fromJson(json))
+        .toList();
+    await _db.batch((batch) {
+      batch.insertAll(_db.recipeLocalizations, localizations,
+          mode: InsertMode.insertOrReplace);
+    });
   }
 
   Future<void> _fetchAndStoreStepsForRecipe(String recipeId) async {
@@ -178,23 +194,24 @@ class DatabaseProvider {
         .select('*')
         .eq('recipe_id', recipeId);
 
-    final steps = response as List<Map<String, dynamic>>;
-    for (var step in steps) {
-      final s = StepsCompanionExtension.fromJson(step);
-      await _db.stepsDao.insertOrUpdateStep(s);
-    }
+    final steps =
+        response.map((json) => StepsCompanionExtension.fromJson(json)).toList();
+    await _db.batch((batch) {
+      batch.insertAll(_db.steps, steps, mode: InsertMode.insertOrReplace);
+    });
   }
 
   Future<void> _fetchAndStoreCoffeeFacts() async {
     final response =
         await Supabase.instance.client.from('coffee_facts').select();
 
-    for (var json in response) {
-      final coffeeFact = CoffeeFactsCompanionExtension.fromJson(json);
-      await _db
-          .into(_db.coffeeFacts)
-          .insert(coffeeFact, mode: InsertMode.insertOrReplace);
-    }
+    final coffeeFacts = response
+        .map((json) => CoffeeFactsCompanionExtension.fromJson(json))
+        .toList();
+    await _db.batch((batch) {
+      batch.insertAll(_db.coffeeFacts, coffeeFacts,
+          mode: InsertMode.insertOrReplace);
+    });
 
     await _updateLastFetchTime('coffeeFacts');
   }
@@ -203,11 +220,12 @@ class DatabaseProvider {
     final response =
         await Supabase.instance.client.from('start_popup').select();
 
-    for (var json in response) {
-      final startPopup = StartPopupsCompanionExtension.fromJson(json);
-      await _db
-          .into(_db.startPopups)
-          .insert(startPopup, mode: InsertMode.insertOrReplace);
-    }
+    final startPopups = response
+        .map((json) => StartPopupsCompanionExtension.fromJson(json))
+        .toList();
+    await _db.batch((batch) {
+      batch.insertAll(_db.startPopups, startPopups,
+          mode: InsertMode.insertOrReplace);
+    });
   }
 }
