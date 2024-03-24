@@ -90,9 +90,6 @@ class DatabaseProvider {
       await _fetchAndStoreStartPopup();
       await _updateAppVersion(currentVersion);
     }
-
-    // Always fetch recipes to ensure updates are received
-    await _fetchAndStoreRecipes();
   }
 
   Future<void> _fetchAndStoreVendors() async {
