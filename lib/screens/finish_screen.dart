@@ -1,9 +1,8 @@
 // lib/screens/finish_screen.dart
+import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:advanced_in_app_review/advanced_in_app_review.dart'; // Replaced in_app_review
-import 'dart:convert';
-import 'dart:math';
+import 'package:provider/provider.dart';
+import 'package:advanced_in_app_review/advanced_in_app_review.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
@@ -25,41 +24,23 @@ class FinishScreen extends StatefulWidget {
 class _FinishScreenState extends State<FinishScreen> {
   late Future<String> coffeeFact;
 
-  final AdvancedInAppReview advancedInAppReview =
-      AdvancedInAppReview(); // Replaced InAppReview
+  final AdvancedInAppReview advancedInAppReview = AdvancedInAppReview();
 
-  Future<String> getRandomCoffeeFact() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final Locale locale = Localizations.localeOf(context);
-    final String localizedFilePath =
-        'assets/data/${locale.languageCode}/coffee_facts.json';
+  @override
+  void initState() {
+    super.initState();
 
-    final String coffeeFactsString =
-        await rootBundle.loadString(localizedFilePath);
-    final List<String> coffeeFactsList =
-        List<String>.from(jsonDecode(coffeeFactsString));
+    // Assuming WakelockPlus and requestReview() remain unchanged
+    WakelockPlus.enabled.then((bool wakelockEnabled) {
+      if (wakelockEnabled) {
+        WakelockPlus.disable();
+      }
+    });
 
-    List<int> shownFactsIndices =
-        (prefs.getStringList('shownFactsIndices') ?? [])
-            .map(int.parse)
-            .toList();
-
-    if (shownFactsIndices.length == coffeeFactsList.length) {
-      shownFactsIndices = [];
-    }
-
-    List<int> unseenFactsIndices =
-        List<int>.generate(coffeeFactsList.length, (i) => i)
-          ..removeWhere((index) => shownFactsIndices.contains(index));
-
-    final int nextFactIndex =
-        unseenFactsIndices[Random().nextInt(unseenFactsIndices.length)];
-    shownFactsIndices.add(nextFactIndex);
-
-    prefs.setStringList('shownFactsIndices',
-        shownFactsIndices.map((i) => i.toString()).toList());
-
-    return coffeeFactsList[nextFactIndex];
+    // Updated to fetch coffee fact from database via RecipeProvider
+    coffeeFact = Provider.of<RecipeProvider>(context, listen: false)
+        .getRandomCoffeeFactFromDB();
+    requestReview();
   }
 
   Future<void> requestReview() async {
@@ -71,20 +52,6 @@ class _FinishScreenState extends State<FinishScreen> {
           .setMinSecondsBeforeShowDialog(4);
       advancedInAppReview.monitor();
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    WakelockPlus.enabled.then((bool wakelockEnabled) {
-      if (wakelockEnabled) {
-        WakelockPlus.disable();
-      }
-    });
-
-    coffeeFact = getRandomCoffeeFact();
-    requestReview();
   }
 
   Future<void> _launchURL(String url) async {

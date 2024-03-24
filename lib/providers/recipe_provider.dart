@@ -1,3 +1,4 @@
+import 'package:coffee_timer/models/coffee_fact_model.dart';
 import 'package:coffee_timer/models/start_popup_model.dart';
 import 'package:coffee_timer/models/vendor_model.dart';
 import 'package:flutter/material.dart';
@@ -224,6 +225,16 @@ class RecipeProvider extends ChangeNotifier {
       _locale = newLocale;
       await fetchAllRecipes(); // Fetch all recipes with the new locale
       notifyListeners();
+    }
+  }
+
+  Future<String> getRandomCoffeeFactFromDB() async {
+    final CoffeeFactModel? coffeeFact =
+        await db.coffeeFactsDao.getRandomCoffeeFact(_locale.languageCode);
+    if (coffeeFact != null) {
+      return coffeeFact.fact;
+    } else {
+      throw Exception('No coffee facts found for the current locale');
     }
   }
 
