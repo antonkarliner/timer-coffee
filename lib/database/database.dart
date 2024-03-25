@@ -174,24 +174,14 @@ class StartPopups extends Table {
     VendorsDao,
     SupportedLocalesDao,
     CoffeeFactsDao,
-    StartPopupsDao
+    StartPopupsDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
-  // Use _openConnection() to initialize the database asynchronously.
-  AppDatabase() : super(_openConnection());
-  late final RecipesDao recipesDao = RecipesDao(this);
-  late final StepsDao stepsDao = StepsDao(this);
-  late final RecipeLocalizationsDao recipeLocalizationsDao =
-      RecipeLocalizationsDao(this);
-  late final UserRecipePreferencesDao userRecipePreferencesDao =
-      UserRecipePreferencesDao(this);
-  late final BrewingMethodsDao brewingMethodsDao = BrewingMethodsDao(this);
-  late final VendorsDao vendorsDao = VendorsDao(this);
-  late final SupportedLocalesDao supportedLocalesDao =
-      SupportedLocalesDao(this);
-  late final CoffeeFactsDao coffeeFactsDao = CoffeeFactsDao(this);
-  late final StartPopupsDao startPopupsDao = StartPopupsDao(this);
+  final bool enableForeignKeyConstraints;
+
+  AppDatabase({this.enableForeignKeyConstraints = true})
+      : super(_openConnection());
 
   @override
   int get schemaVersion => 1;
@@ -199,13 +189,13 @@ class AppDatabase extends _$AppDatabase {
   @override
   MigrationStrategy get migration => MigrationStrategy(
         beforeOpen: (details) async {
-          //await customStatement('PRAGMA foreign_keys = ON');
+          if (enableForeignKeyConstraints) {
+            await customStatement('PRAGMA foreign_keys = ON');
+          }
         },
       );
 }
 
-// Define a function to handle the async connection setup
 DatabaseConnection _openConnection() {
-  // This utilizes DatabaseConnection.delayed to wait for the Future<DatabaseConnection> from connect
   return DatabaseConnection.delayed(connect());
 }
