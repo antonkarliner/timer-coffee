@@ -1,4 +1,5 @@
 import 'package:coffee_timer/utils/icon_utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,14 +25,42 @@ class VendorsRecipeListScreen extends StatefulWidget {
       _VendorsRecipeListScreenState();
 }
 
-class _VendorsRecipeListScreenState extends State<VendorsRecipeListScreen> {
-  late Future<List<RecipeModel>> recipesForVendor;
+class _VendorsRecipeListScreenState extends State<VendorsRecipeListScreen>
+    with WidgetsBindingObserver {
+  // Initialize with a Future that immediately completes with an empty list
+  Future<List<RecipeModel>> recipesForVendor = Future.value([]);
 
   @override
   void initState() {
     super.initState();
-    recipesForVendor = Provider.of<RecipeProvider>(context, listen: false)
-        .fetchRecipesForVendor(widget.vendorId);
+
+    WidgetsBinding.instance.addObserver(this);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      var initialLocale = Provider.of<Locale>(context, listen: false);
+
+      if (kIsWeb) {
+        var recipeProvider =
+            Provider.of<RecipeProvider>(context, listen: false);
+        var tempLocale = const Locale('av'); // Temporary locale for simulation
+        await recipeProvider.setLocale(tempLocale);
+        await Future.delayed(const Duration(milliseconds: 10));
+        await recipeProvider.setLocale(initialLocale);
+      }
+
+      // After setting the locale, fetch the recipes
+      recipesForVendor = Provider.of<RecipeProvider>(context, listen: false)
+          .fetchRecipesForVendor(widget.vendorId);
+
+      // Trigger a rebuild now that the actual recipesForVendor Future is set
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
