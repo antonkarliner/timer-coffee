@@ -21,6 +21,7 @@ import 'package:coffee_timer/screens/settings_screen.dart' as _i9;
 import 'package:coffee_timer/screens/vendor_recipe_detail_screen.dart' as _i10;
 import 'package:coffee_timer/screens/vendors_recipe_list_screen.dart' as _i11;
 import 'package:coffee_timer/screens/vendors_screen.dart' as _i12;
+import 'package:flutter/foundation.dart' as _i15;
 import 'package:flutter/material.dart' as _i14;
 
 abstract class $AppRouter extends _i13.RootStackRouter {
@@ -417,7 +418,7 @@ class VendorRecipeDetailRouteArgs {
 class VendorsRecipeListRoute
     extends _i13.PageRouteInfo<VendorsRecipeListRouteArgs> {
   VendorsRecipeListRoute({
-    _i14.Key? key,
+    _i15.Key? key,
     required String vendorId,
     List<_i13.PageRouteInfo>? children,
   }) : super(
@@ -442,7 +443,7 @@ class VendorsRecipeListRouteArgs {
     required this.vendorId,
   });
 
-  final _i14.Key? key;
+  final _i15.Key? key;
 
   final String vendorId;
 
