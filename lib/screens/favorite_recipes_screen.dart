@@ -28,7 +28,7 @@ class FavoriteRecipesScreen extends StatelessWidget {
             .fetchFavoriteRecipes(Localizations.localeOf(context).toString()),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text("Error loading favorites"));
           } else if (snapshot.hasData && snapshot.data!.isEmpty) {
@@ -49,9 +49,24 @@ class FavoriteRecipesScreen extends StatelessWidget {
                   leading: getIconByBrewingMethod(recipe.brewingMethodId),
                   title: Text(recipe.name),
                   onTap: () {
-                    context.router.push(RecipeDetailRoute(
-                        brewingMethodId: recipe.brewingMethodId,
-                        recipeId: recipe.id));
+                    // Check if the recipe ID contains only numbers
+                    bool isNumericId = RegExp(r'^\d+$').hasMatch(recipe.id);
+
+                    if (recipe.id == "106") {
+                      // Navigate to RecipeDetailTKRoute for specific recipe ID
+                      context.router.push(RecipeDetailTKRoute(
+                          brewingMethodId: recipe.brewingMethodId,
+                          recipeId: recipe.id));
+                    } else if (!isNumericId) {
+                      // Navigate to VendorRecipeDetailRoute if ID contains letters
+                      context.router.push(VendorRecipeDetailRoute(
+                          recipeId: recipe.id, vendorId: recipe.vendorId!));
+                    } else {
+                      // Default navigation to RecipeDetailRoute
+                      context.router.push(RecipeDetailRoute(
+                          brewingMethodId: recipe.brewingMethodId,
+                          recipeId: recipe.id));
+                    }
                   },
                   trailing: FavoriteButton(recipeId: recipe.id),
                 );

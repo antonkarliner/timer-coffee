@@ -162,14 +162,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 title: Text(
                     '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
                 onTap: () {
+                  // Check if the recipe ID contains only numbers
+                  bool isNumericId =
+                      RegExp(r'^\d+$').hasMatch(mostRecentRecipe.id);
+
                   // Add the routing logic based on recipe ID
                   if (mostRecentRecipe.id == "106") {
                     // If the recipe id is 106, navigate to RecipeDetailTKRoute
                     context.router.push(RecipeDetailTKRoute(
                         brewingMethodId: mostRecentRecipe.brewingMethodId,
                         recipeId: mostRecentRecipe.id));
+                  } else if (!isNumericId) {
+                    // If the recipe ID contains letters, navigate to VendorRecipeDetailRoute
+                    context.router.push(VendorRecipeDetailRoute(
+                        recipeId: mostRecentRecipe.id,
+                        vendorId: mostRecentRecipe.vendorId!));
                   } else {
-                    // For all other recipes, navigate to RecipeDetailRoute
+                    // For all other numeric recipe IDs, navigate to RecipeDetailRoute
                     context.router.push(RecipeDetailRoute(
                         brewingMethodId: mostRecentRecipe.brewingMethodId,
                         recipeId: mostRecentRecipe.id));
