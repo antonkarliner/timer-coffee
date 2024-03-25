@@ -37,7 +37,13 @@ void main() async {
   // Restore previous purchases
   InAppPurchase.instance.restorePurchases();
   await Supabase.initialize(url: Env.supaUrl, anonKey: Env.supaKey);
-  final AppDatabase database = AppDatabase();
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
+  // Pass the !isFirstLaunch to enable foreign key constraints unless it's the first launch
+  final AppDatabase database =
+      AppDatabase(enableForeignKeyConstraints: !isFirstLaunch);
+
   final supportedLocalesDao = SupportedLocalesDao(database);
   final brewingMethodsDao = BrewingMethodsDao(database);
   final DatabaseProvider databaseProvider = DatabaseProvider(database);
@@ -48,11 +54,9 @@ void main() async {
   final List<SupportedLocaleModel> supportedLocales =
       await supportedLocalesFuture;
   final List<BrewingMethodModel> brewingMethods = await brewingMethodsFuture;
-  // Convert SupportedLocale objects to Locale objects
   List<Locale> localeList =
       supportedLocales.map((locale) => Locale(locale.locale)).toList();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
+
   String themeModeString = prefs.getString('themeMode') ?? 'system';
   ThemeMode themeMode = ThemeMode.values.firstWhere(
       (e) => e.toString().split('.').last == themeModeString,
@@ -67,8 +71,10 @@ void main() async {
       .any((locale) => locale.languageCode == systemLocale.languageCode)) {
     initialLocale = systemLocale;
   }
+
   final appRouter = AppRouter();
   usePathUrlStrategy();
+
   runApp(CoffeeTimerApp(
     database: database,
     supportedLocales: localeList,
@@ -77,9 +83,11 @@ void main() async {
     themeMode: themeMode,
     appRouter: appRouter,
   ));
+
   if (isFirstLaunch) {
     await prefs.setBool('firstLaunch', false);
   }
+
   FlutterNativeSplash.remove();
 }
 
