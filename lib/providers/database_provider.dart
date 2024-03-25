@@ -138,6 +138,26 @@ class DatabaseProvider {
     await _db.batch((batch) {
       batch.insertAll(_db.recipes, recipes, mode: InsertMode.insertOrReplace);
     });
+
+    // Extract and store localizations
+    final localizationsJson =
+        response.expand((json) => json['recipe_localization']).toList();
+    final localizations = localizationsJson
+        .map((json) => RecipeLocalizationsCompanionExtension.fromJson(json))
+        .toList();
+    await _db.batch((batch) {
+      batch.insertAll(_db.recipeLocalizations, localizations,
+          mode: InsertMode.insertOrReplace);
+    });
+
+    // Extract and store steps
+    final stepsJson = response.expand((json) => json['steps']).toList();
+    final steps = stepsJson
+        .map((json) => StepsCompanionExtension.fromJson(json))
+        .toList();
+    await _db.batch((batch) {
+      batch.insertAll(_db.steps, steps, mode: InsertMode.insertOrReplace);
+    });
   }
 
   Future<void> _fetchAndStoreRecipes() async {
