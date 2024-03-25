@@ -110,12 +110,16 @@ abstract class $AppRouter extends _i13.RootStackRouter {
       );
     },
     VendorRecipeDetailRoute.name: (routeData) {
-      final args = routeData.argsAs<VendorRecipeDetailRouteArgs>();
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<VendorRecipeDetailRouteArgs>(
+          orElse: () => VendorRecipeDetailRouteArgs(
+                vendorId: pathParams.getString('vendorId'),
+                recipeId: pathParams.getString('recipeId'),
+              ));
       return _i13.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i10.VendorRecipeDetailScreen(
           key: args.key,
-          brewingMethodId: args.brewingMethodId,
           vendorId: args.vendorId,
           recipeId: args.recipeId,
         ),
@@ -366,7 +370,6 @@ class VendorRecipeDetailRoute
     extends _i13.PageRouteInfo<VendorRecipeDetailRouteArgs> {
   VendorRecipeDetailRoute({
     _i14.Key? key,
-    required String brewingMethodId,
     required String vendorId,
     required String recipeId,
     List<_i13.PageRouteInfo>? children,
@@ -374,7 +377,6 @@ class VendorRecipeDetailRoute
           VendorRecipeDetailRoute.name,
           args: VendorRecipeDetailRouteArgs(
             key: key,
-            brewingMethodId: brewingMethodId,
             vendorId: vendorId,
             recipeId: recipeId,
           ),
@@ -394,14 +396,11 @@ class VendorRecipeDetailRoute
 class VendorRecipeDetailRouteArgs {
   const VendorRecipeDetailRouteArgs({
     this.key,
-    required this.brewingMethodId,
     required this.vendorId,
     required this.recipeId,
   });
 
   final _i14.Key? key;
-
-  final String brewingMethodId;
 
   final String vendorId;
 
@@ -409,7 +408,7 @@ class VendorRecipeDetailRouteArgs {
 
   @override
   String toString() {
-    return 'VendorRecipeDetailRouteArgs{key: $key, brewingMethodId: $brewingMethodId, vendorId: $vendorId, recipeId: $recipeId}';
+    return 'VendorRecipeDetailRouteArgs{key: $key, vendorId: $vendorId, recipeId: $recipeId}';
   }
 }
 
