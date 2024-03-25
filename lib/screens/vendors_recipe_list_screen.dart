@@ -103,9 +103,7 @@ class _VendorsRecipeListScreenState extends State<VendorsRecipeListScreen> {
                       title: Text(recipe.name),
                       onTap: () {
                         context.router.push(VendorRecipeDetailRoute(
-                            recipeId: recipe.id,
-                            brewingMethodId: recipe.brewingMethodId,
-                            vendorId: recipe.vendorId!));
+                            recipeId: recipe.id, vendorId: recipe.vendorId!));
                       },
                       trailing: FavoriteButton(recipeId: recipe.id),
                     );
