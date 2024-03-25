@@ -58,3 +58,4 @@ jsontodb.py
 jsontodbf.py
 jsontodbsp.py
 *.py
+all_translations_queries.txt

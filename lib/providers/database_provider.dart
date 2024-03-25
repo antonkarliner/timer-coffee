@@ -4,6 +4,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/database/extensions.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class DatabaseProvider {
   final AppDatabase _db;
@@ -62,7 +63,13 @@ class DatabaseProvider {
   }
 
   Future<void> _conditionallyFetchData() async {
-    // Parallelize tasks that are independent
+    // Check for internet connectivity
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      // No internet connection; skip fetching and proceed
+      print('No internet connection. Skipping data fetch.');
+      return;
+    }
     await Future.wait([
       _fetchAndStoreVendors(),
       _fetchAndStoreBrewingMethods(),
@@ -169,6 +176,8 @@ class DatabaseProvider {
     final localRecipes = await _db.recipesDao.fetchIdsAndLastModifiedDates();
 
     List<RecipesCompanion> recipesToInsertOrUpdate = [];
+    Map<String, List<dynamic>> recipeLocalizationsJson = {};
+    Map<String, List<dynamic>> stepsJson = {};
 
     for (var remoteRecipe in remoteRecipes) {
       final remoteId = remoteRecipe['id'] as String;
@@ -178,15 +187,20 @@ class DatabaseProvider {
       if (!localRecipes.containsKey(remoteId) ||
           remoteLastModified.isAfter(localRecipes[remoteId] ??
               DateTime.fromMillisecondsSinceEpoch(0))) {
-        // Fetch and update the full recipe record
+        // Fetch and update the full recipe record with related data
         final fullRecipeResponse = await Supabase.instance.client
             .from('recipes')
-            .select('*')
+            .select('*, recipe_localization(*), steps(*)')
             .eq('id', remoteId)
             .single();
 
         final recipe = RecipesCompanionExtension.fromJson(fullRecipeResponse);
         recipesToInsertOrUpdate.add(recipe);
+
+        // Store related localizations and steps JSON
+        recipeLocalizationsJson[remoteId] =
+            fullRecipeResponse['recipe_localization'];
+        stepsJson[remoteId] = fullRecipeResponse['steps'];
       }
     }
 
@@ -196,40 +210,26 @@ class DatabaseProvider {
             mode: InsertMode.insertOrReplace);
       });
 
-      for (var recipe in recipesToInsertOrUpdate) {
-        await _fetchAndStoreRecipeLocalizationsForRecipe(recipe.id.value);
-        await _fetchAndStoreStepsForRecipe(recipe.id.value);
-      }
+      // Extract and store localizations
+      final localizationsJson =
+          recipeLocalizationsJson.values.expand((json) => json).toList();
+      final localizations = localizationsJson
+          .map((json) => RecipeLocalizationsCompanionExtension.fromJson(json))
+          .toList();
+      await _db.batch((batch) {
+        batch.insertAll(_db.recipeLocalizations, localizations,
+            mode: InsertMode.insertOrReplace);
+      });
+
+      // Extract and store steps
+      final stepsList = stepsJson.values.expand((json) => json).toList();
+      final steps = stepsList
+          .map((json) => StepsCompanionExtension.fromJson(json))
+          .toList();
+      await _db.batch((batch) {
+        batch.insertAll(_db.steps, steps, mode: InsertMode.insertOrReplace);
+      });
     }
-  }
-
-  Future<void> _fetchAndStoreRecipeLocalizationsForRecipe(
-      String recipeId) async {
-    final response = await Supabase.instance.client
-        .from('recipe_localization')
-        .select('*')
-        .eq('recipe_id', recipeId);
-
-    final localizations = response
-        .map((json) => RecipeLocalizationsCompanionExtension.fromJson(json))
-        .toList();
-    await _db.batch((batch) {
-      batch.insertAll(_db.recipeLocalizations, localizations,
-          mode: InsertMode.insertOrReplace);
-    });
-  }
-
-  Future<void> _fetchAndStoreStepsForRecipe(String recipeId) async {
-    final response = await Supabase.instance.client
-        .from('steps')
-        .select('*')
-        .eq('recipe_id', recipeId);
-
-    final steps =
-        response.map((json) => StepsCompanionExtension.fromJson(json)).toList();
-    await _db.batch((batch) {
-      batch.insertAll(_db.steps, steps, mode: InsertMode.insertOrReplace);
-    });
   }
 
   Future<void> _fetchAndStoreCoffeeFacts() async {
