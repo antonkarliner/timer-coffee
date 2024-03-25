@@ -39,7 +39,7 @@ void main() async {
   await Supabase.initialize(url: Env.supaUrl, anonKey: Env.supaKey);
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
+  bool isFirstLaunch = prefs.getBool('firstLaunched') ?? true;
   // Pass the !isFirstLaunch to enable foreign key constraints unless it's the first launch
   final AppDatabase database =
       AppDatabase(enableForeignKeyConstraints: !isFirstLaunch);
@@ -85,7 +85,7 @@ void main() async {
   ));
 
   if (isFirstLaunch) {
-    await prefs.setBool('firstLaunch', false);
+    await prefs.setBool('firstLaunched', false);
   }
 
   FlutterNativeSplash.remove();
