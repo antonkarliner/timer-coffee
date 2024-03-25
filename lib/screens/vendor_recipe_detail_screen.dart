@@ -20,12 +20,10 @@ import '../screens/preparation_screen.dart';
 @RoutePage()
 class VendorRecipeDetailScreen extends StatefulWidget {
   final String vendorId;
-  final String brewingMethodId;
   final String recipeId;
 
   const VendorRecipeDetailScreen({
     super.key,
-    required this.brewingMethodId,
     @PathParam('vendorId') required this.vendorId,
     @PathParam('recipeId') required this.recipeId,
   });
@@ -58,8 +56,11 @@ class _VendorRecipeDetailScreenState extends State<VendorRecipeDetailScreen> {
           Provider.of<RecipeProvider>(context, listen: false);
       RecipeModel recipeModel =
           await recipeProvider.getRecipeById(widget.recipeId);
+
+      String brewingMethodId = recipeModel.brewingMethodId;
+
       String brewingMethodName =
-          await recipeProvider.fetchBrewingMethodName(widget.brewingMethodId);
+          await recipeProvider.fetchBrewingMethodName(brewingMethodId);
 
       setState(() {
         _updatedRecipe = recipeModel;
