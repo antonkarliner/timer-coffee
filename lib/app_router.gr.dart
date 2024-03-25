@@ -110,13 +110,7 @@ abstract class $AppRouter extends _i13.RootStackRouter {
       );
     },
     VendorRecipeDetailRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<VendorRecipeDetailRouteArgs>(
-          orElse: () => VendorRecipeDetailRouteArgs(
-                brewingMethodId: pathParams.getString('brewingMethodId'),
-                vendorId: pathParams.getString('vendorId'),
-                recipeId: pathParams.getString('recipeId'),
-              ));
+      final args = routeData.argsAs<VendorRecipeDetailRouteArgs>();
       return _i13.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i10.VendorRecipeDetailScreen(
@@ -385,7 +379,6 @@ class VendorRecipeDetailRoute
             recipeId: recipeId,
           ),
           rawPathParams: {
-            'brewingMethodId': brewingMethodId,
             'vendorId': vendorId,
             'recipeId': recipeId,
           },
