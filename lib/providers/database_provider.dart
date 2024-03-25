@@ -55,7 +55,7 @@ class DatabaseProvider {
       _fetchAndStoreVendors(),
       _fetchAndStoreBrewingMethods(),
       _fetchAndStoreSupportedLocales(),
-      _fetchAndStoreRecipes(),
+      _fetchAndStoreAllRecipes(),
       _fetchAndStoreCoffeeFacts(),
       _fetchAndStoreStartPopup(),
     ]);
@@ -124,6 +124,19 @@ class DatabaseProvider {
     await _db.batch((batch) {
       batch.insertAll(_db.supportedLocales, supportedLocales,
           mode: InsertMode.insertOrReplace);
+    });
+  }
+
+  Future<void> _fetchAndStoreAllRecipes() async {
+    final response = await Supabase.instance.client
+        .from('recipes')
+        .select('*, recipe_localization(*), steps(*)');
+
+    final recipes = response
+        .map((json) => RecipesCompanionExtension.fromJson(json))
+        .toList();
+    await _db.batch((batch) {
+      batch.insertAll(_db.recipes, recipes, mode: InsertMode.insertOrReplace);
     });
   }
 
