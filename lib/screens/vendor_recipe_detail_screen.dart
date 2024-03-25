@@ -25,7 +25,7 @@ class VendorRecipeDetailScreen extends StatefulWidget {
 
   const VendorRecipeDetailScreen({
     super.key,
-    @PathParam('brewingMethodId') required this.brewingMethodId,
+    required this.brewingMethodId,
     @PathParam('vendorId') required this.vendorId,
     @PathParam('recipeId') required this.recipeId,
   });
@@ -310,9 +310,8 @@ class _VendorRecipeDetailScreenState extends State<VendorRecipeDetailScreen> {
         context,
         MaterialPageRoute(
             builder: (context) => PreparationScreen(
-                  recipe: updatedRecipe, // Pass the updated recipe model
-                  brewingMethodName:
-                      _brewingMethodName, // Assuming this is defined elsewhere in your class
+                  recipe: updatedRecipe,
+                  brewingMethodName: _brewingMethodName,
                 )));
   }
 
@@ -358,7 +357,6 @@ class _VendorRecipeDetailScreenState extends State<VendorRecipeDetailScreen> {
       lastMatchEnd = match.end;
     }
 
-    // Add remaining text after the last match
     if (lastMatchEnd < text.length) {
       spanList.add(TextSpan(
           text: text.substring(lastMatchEnd), style: defaultTextStyle));
