@@ -64,15 +64,15 @@ class AppRouter extends $AppRouter {
         ),
         AutoRoute(
           page: VendorsRoute.page,
-          path: '/roasters',
+          path: '/explore',
         ),
         AutoRoute(
           page: VendorsRecipeListRoute.page,
-          path: '/roasters/:vendorId',
+          path: '/explore/:vendorId',
         ),
         AutoRoute(
           page: VendorRecipeDetailRoute.page,
-          path: '/roasters/:vendorId/:recipeId',
+          path: '/explore/:vendorId/:recipeId',
         ),
       ];
 }
