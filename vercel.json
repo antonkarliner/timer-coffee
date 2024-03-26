@@ -13,6 +13,10 @@
           {
             "key": "Cross-Origin-Embedder-Policy",
             "value": "credentialless"
+          },
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "https://timercoffeeapp.fra1.cdn.digitaloceanspaces.com/"
           }
         ]
       }
