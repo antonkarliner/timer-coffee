@@ -52,11 +52,11 @@ extension StepsCompanionExtension on StepsCompanion {
 extension VendorsCompanionExtension on VendorsCompanion {
   static VendorsCompanion fromJson(Map<String, dynamic> json) {
     return VendorsCompanion(
-      vendorId:
-          Value(json['vendor_id']), // Directly use the string value from JSON
+      vendorId: Value(json['vendor_id']),
       vendorName: Value(json['vendor_name']),
       vendorDescription: Value(json['vendor_description']),
-      active: Value(json['active'] as bool), // Cast to bool as needed
+      bannerUrl: Value(json['banner_url'] as String?),
+      active: Value(json['active'] as bool),
     );
   }
 }

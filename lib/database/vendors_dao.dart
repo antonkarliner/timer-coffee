@@ -16,6 +16,7 @@ class VendorsDao extends DatabaseAccessor<AppDatabase> with _$VendorsDaoMixin {
               vendorId: row.vendorId,
               vendorName: row.vendorName,
               vendorDescription: row.vendorDescription,
+              bannerUrl: row.bannerUrl,
               active: row.active,
             ))
         .toList();
@@ -31,6 +32,7 @@ class VendorsDao extends DatabaseAccessor<AppDatabase> with _$VendorsDaoMixin {
         vendorId: row.vendorId,
         vendorName: row.vendorName,
         vendorDescription: row.vendorDescription,
+        bannerUrl: row.bannerUrl,
         active: row.active,
       );
     }

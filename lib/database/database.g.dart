@@ -29,6 +29,12 @@ class $VendorsTable extends Vendors with TableInfo<$VendorsTable, Vendor> {
   late final GeneratedColumn<String> vendorDescription =
       GeneratedColumn<String>('vendor_description', aliasedName, false,
           type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _bannerUrlMeta =
+      const VerificationMeta('bannerUrl');
+  @override
+  late final GeneratedColumn<String> bannerUrl = GeneratedColumn<String>(
+      'banner_url', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _activeMeta = const VerificationMeta('active');
   @override
   late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
@@ -39,7 +45,7 @@ class $VendorsTable extends Vendors with TableInfo<$VendorsTable, Vendor> {
           GeneratedColumn.constraintIsAlways('CHECK ("active" IN (0, 1))'));
   @override
   List<GeneratedColumn> get $columns =>
-      [vendorId, vendorName, vendorDescription, active];
+      [vendorId, vendorName, vendorDescription, bannerUrl, active];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -72,6 +78,10 @@ class $VendorsTable extends Vendors with TableInfo<$VendorsTable, Vendor> {
     } else if (isInserting) {
       context.missing(_vendorDescriptionMeta);
     }
+    if (data.containsKey('banner_url')) {
+      context.handle(_bannerUrlMeta,
+          bannerUrl.isAcceptableOrUnknown(data['banner_url']!, _bannerUrlMeta));
+    }
     if (data.containsKey('active')) {
       context.handle(_activeMeta,
           active.isAcceptableOrUnknown(data['active']!, _activeMeta));
@@ -93,6 +103,8 @@ class $VendorsTable extends Vendors with TableInfo<$VendorsTable, Vendor> {
           .read(DriftSqlType.string, data['${effectivePrefix}vendor_name'])!,
       vendorDescription: attachedDatabase.typeMapping.read(
           DriftSqlType.string, data['${effectivePrefix}vendor_description'])!,
+      bannerUrl: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}banner_url']),
       active: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}active'])!,
     );
@@ -108,11 +120,13 @@ class Vendor extends DataClass implements Insertable<Vendor> {
   final String vendorId;
   final String vendorName;
   final String vendorDescription;
+  final String? bannerUrl;
   final bool active;
   const Vendor(
       {required this.vendorId,
       required this.vendorName,
       required this.vendorDescription,
+      this.bannerUrl,
       required this.active});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -120,6 +134,9 @@ class Vendor extends DataClass implements Insertable<Vendor> {
     map['vendor_id'] = Variable<String>(vendorId);
     map['vendor_name'] = Variable<String>(vendorName);
     map['vendor_description'] = Variable<String>(vendorDescription);
+    if (!nullToAbsent || bannerUrl != null) {
+      map['banner_url'] = Variable<String>(bannerUrl);
+    }
     map['active'] = Variable<bool>(active);
     return map;
   }
@@ -129,6 +146,9 @@ class Vendor extends DataClass implements Insertable<Vendor> {
       vendorId: Value(vendorId),
       vendorName: Value(vendorName),
       vendorDescription: Value(vendorDescription),
+      bannerUrl: bannerUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bannerUrl),
       active: Value(active),
     );
   }
@@ -140,6 +160,7 @@ class Vendor extends DataClass implements Insertable<Vendor> {
       vendorId: serializer.fromJson<String>(json['vendorId']),
       vendorName: serializer.fromJson<String>(json['vendorName']),
       vendorDescription: serializer.fromJson<String>(json['vendorDescription']),
+      bannerUrl: serializer.fromJson<String?>(json['bannerUrl']),
       active: serializer.fromJson<bool>(json['active']),
     );
   }
@@ -150,6 +171,7 @@ class Vendor extends DataClass implements Insertable<Vendor> {
       'vendorId': serializer.toJson<String>(vendorId),
       'vendorName': serializer.toJson<String>(vendorName),
       'vendorDescription': serializer.toJson<String>(vendorDescription),
+      'bannerUrl': serializer.toJson<String?>(bannerUrl),
       'active': serializer.toJson<bool>(active),
     };
   }
@@ -158,11 +180,13 @@ class Vendor extends DataClass implements Insertable<Vendor> {
           {String? vendorId,
           String? vendorName,
           String? vendorDescription,
+          Value<String?> bannerUrl = const Value.absent(),
           bool? active}) =>
       Vendor(
         vendorId: vendorId ?? this.vendorId,
         vendorName: vendorName ?? this.vendorName,
         vendorDescription: vendorDescription ?? this.vendorDescription,
+        bannerUrl: bannerUrl.present ? bannerUrl.value : this.bannerUrl,
         active: active ?? this.active,
       );
   @override
@@ -171,6 +195,7 @@ class Vendor extends DataClass implements Insertable<Vendor> {
           ..write('vendorId: $vendorId, ')
           ..write('vendorName: $vendorName, ')
           ..write('vendorDescription: $vendorDescription, ')
+          ..write('bannerUrl: $bannerUrl, ')
           ..write('active: $active')
           ..write(')'))
         .toString();
@@ -178,7 +203,7 @@ class Vendor extends DataClass implements Insertable<Vendor> {
 
   @override
   int get hashCode =>
-      Object.hash(vendorId, vendorName, vendorDescription, active);
+      Object.hash(vendorId, vendorName, vendorDescription, bannerUrl, active);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -186,6 +211,7 @@ class Vendor extends DataClass implements Insertable<Vendor> {
           other.vendorId == this.vendorId &&
           other.vendorName == this.vendorName &&
           other.vendorDescription == this.vendorDescription &&
+          other.bannerUrl == this.bannerUrl &&
           other.active == this.active);
 }
 
@@ -193,12 +219,14 @@ class VendorsCompanion extends UpdateCompanion<Vendor> {
   final Value<String> vendorId;
   final Value<String> vendorName;
   final Value<String> vendorDescription;
+  final Value<String?> bannerUrl;
   final Value<bool> active;
   final Value<int> rowid;
   const VendorsCompanion({
     this.vendorId = const Value.absent(),
     this.vendorName = const Value.absent(),
     this.vendorDescription = const Value.absent(),
+    this.bannerUrl = const Value.absent(),
     this.active = const Value.absent(),
     this.rowid = const Value.absent(),
   });
@@ -206,6 +234,7 @@ class VendorsCompanion extends UpdateCompanion<Vendor> {
     required String vendorId,
     required String vendorName,
     required String vendorDescription,
+    this.bannerUrl = const Value.absent(),
     required bool active,
     this.rowid = const Value.absent(),
   })  : vendorId = Value(vendorId),
@@ -216,6 +245,7 @@ class VendorsCompanion extends UpdateCompanion<Vendor> {
     Expression<String>? vendorId,
     Expression<String>? vendorName,
     Expression<String>? vendorDescription,
+    Expression<String>? bannerUrl,
     Expression<bool>? active,
     Expression<int>? rowid,
   }) {
@@ -223,6 +253,7 @@ class VendorsCompanion extends UpdateCompanion<Vendor> {
       if (vendorId != null) 'vendor_id': vendorId,
       if (vendorName != null) 'vendor_name': vendorName,
       if (vendorDescription != null) 'vendor_description': vendorDescription,
+      if (bannerUrl != null) 'banner_url': bannerUrl,
       if (active != null) 'active': active,
       if (rowid != null) 'rowid': rowid,
     });
@@ -232,12 +263,14 @@ class VendorsCompanion extends UpdateCompanion<Vendor> {
       {Value<String>? vendorId,
       Value<String>? vendorName,
       Value<String>? vendorDescription,
+      Value<String?>? bannerUrl,
       Value<bool>? active,
       Value<int>? rowid}) {
     return VendorsCompanion(
       vendorId: vendorId ?? this.vendorId,
       vendorName: vendorName ?? this.vendorName,
       vendorDescription: vendorDescription ?? this.vendorDescription,
+      bannerUrl: bannerUrl ?? this.bannerUrl,
       active: active ?? this.active,
       rowid: rowid ?? this.rowid,
     );
@@ -255,6 +288,9 @@ class VendorsCompanion extends UpdateCompanion<Vendor> {
     if (vendorDescription.present) {
       map['vendor_description'] = Variable<String>(vendorDescription.value);
     }
+    if (bannerUrl.present) {
+      map['banner_url'] = Variable<String>(bannerUrl.value);
+    }
     if (active.present) {
       map['active'] = Variable<bool>(active.value);
     }
@@ -270,6 +306,7 @@ class VendorsCompanion extends UpdateCompanion<Vendor> {
           ..write('vendorId: $vendorId, ')
           ..write('vendorName: $vendorName, ')
           ..write('vendorDescription: $vendorDescription, ')
+          ..write('bannerUrl: $bannerUrl, ')
           ..write('active: $active, ')
           ..write('rowid: $rowid')
           ..write(')'))

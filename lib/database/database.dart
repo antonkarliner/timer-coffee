@@ -24,6 +24,7 @@ class Vendors extends Table {
       text().named('vendor_id').withLength(min: 1, max: 255)();
   TextColumn get vendorName => text().named('vendor_name')();
   TextColumn get vendorDescription => text().named('vendor_description')();
+  TextColumn get bannerUrl => text().named('banner_url').nullable()();
   BoolColumn get active => boolean().named('active')();
 
   @override
@@ -184,13 +185,19 @@ class AppDatabase extends _$AppDatabase {
       : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
+        // Apply foreign key constraints based on the boolean flag
         beforeOpen: (details) async {
           if (enableForeignKeyConstraints) {
             await customStatement('PRAGMA foreign_keys = ON');
+          }
+        },
+        onUpgrade: (migrator, from, to) async {
+          if (from < 2) {
+            await migrator.addColumn(vendors, vendors.bannerUrl);
           }
         },
       );

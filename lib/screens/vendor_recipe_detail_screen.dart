@@ -230,7 +230,7 @@ class _VendorRecipeDetailScreenState extends State<VendorRecipeDetailScreen> {
         const SizedBox(height: 16),
         Text('${AppLocalizations.of(context)!.brewtime}: $formattedBrewTime'),
         const SizedBox(height: 16),
-        _buildRecipeSummary(context, recipe),
+        _buildVendorBanner(context, recipe),
         const SizedBox(height: 16),
       ],
     );
@@ -262,6 +262,52 @@ class _VendorRecipeDetailScreenState extends State<VendorRecipeDetailScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildVendorBanner(BuildContext context, RecipeModel recipe) {
+    final String vendorId =
+        recipe.vendorId ?? ''; // Fallback to an empty string if null
+
+    return FutureBuilder<String?>(
+      future: Provider.of<RecipeProvider>(context, listen: false)
+          .fetchVendorBannerUrl(vendorId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return CircularProgressIndicator(); // Show loading indicator while fetching URL
+        }
+
+        final String? bannerUrl = snapshot.data;
+        if (bannerUrl == null || !snapshot.hasData) {
+          // If no URL provided or error in fetching, show the recipe summary widget
+          return _buildRecipeSummary(context, recipe);
+        } else {
+          final String imageUrl =
+              "https://timercoffeeapp.fra1.cdn.digitaloceanspaces.com/$vendorId/banner.png";
+          return GestureDetector(
+            onTap: () async {
+              if (await canLaunchUrl(Uri.parse(bannerUrl))) {
+                await launchUrl(Uri.parse(bannerUrl));
+              }
+            },
+            child: Container(
+              width: double.infinity, // Ensures the container fills the width.
+              height: MediaQuery.of(context).size.width > 1024
+                  ? (1024 / MediaQuery.of(context).size.aspectRatio)
+                  : MediaQuery.of(context).size.width *
+                      (9 / 16), // Maintain aspect ratio
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  // If can't load image, show the recipe summary widget
+                  return _buildRecipeSummary(context, recipe);
+                },
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 

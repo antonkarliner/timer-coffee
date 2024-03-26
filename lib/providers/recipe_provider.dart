@@ -238,5 +238,11 @@ class RecipeProvider extends ChangeNotifier {
     }
   }
 
+  Future<String?> fetchVendorBannerUrl(String vendorId) async {
+    await ensureDataReady();
+    VendorModel? vendor = await db.vendorsDao.getVendorById(vendorId);
+    return vendor?.bannerUrl;
+  }
+
   ValueNotifier<Set<String>> get favoriteRecipeIds => _favoriteRecipeIds;
 }
