@@ -133,10 +133,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return FutureBuilder<RecipeModel?>(
       future: recipeProvider.getLastUsedRecipe(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
         RecipeModel? mostRecentRecipe = snapshot.data;
 
         return Column(

@@ -115,13 +115,6 @@ class _VendorsRecipeListScreenState extends State<VendorsRecipeListScreen>
             child: FutureBuilder<List<RecipeModel>>(
               future: recipesForVendor,
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(
-                      child: Text("No recipes found for this vendor."));
-                }
                 final recipes = snapshot.data!;
                 return ListView.builder(
                   itemCount: recipes.length,
@@ -148,9 +141,6 @@ class _VendorsRecipeListScreenState extends State<VendorsRecipeListScreen>
               future: Provider.of<RecipeProvider>(context, listen: false)
                   .fetchVendorById(widget.vendorId),
               builder: (context, vendorSnapshot) {
-                if (vendorSnapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                }
                 if (vendorSnapshot.hasData) {
                   final vendor = vendorSnapshot.data!;
                   return Column(
