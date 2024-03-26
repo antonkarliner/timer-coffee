@@ -1,7 +1,6 @@
 import 'package:coffee_timer/database/database.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/database/extensions.dart';
@@ -24,27 +23,6 @@ class DatabaseProvider {
     return isFirstLaunch;
   }
 
-  Future<DateTime?> _getLastFetchTime(String key) async {
-    final prefs = await _prefsFuture;
-    final lastFetch = prefs.getString(key);
-    return lastFetch != null ? DateTime.parse(lastFetch) : null;
-  }
-
-  Future<void> _updateLastFetchTime(String key) async {
-    final prefs = await _prefsFuture;
-    await prefs.setString(key, DateTime.now().toIso8601String());
-  }
-
-  Future<String?> _getLastAppVersion() async {
-    final prefs = await _prefsFuture;
-    return prefs.getString('appVersion');
-  }
-
-  Future<void> _updateAppVersion(String currentVersion) async {
-    final prefs = await _prefsFuture;
-    await prefs.setString('appVersion', currentVersion);
-  }
-
   Future<void> initializeDatabase() async {
     if (await _isFirstLaunched()) {
       await _fetchAllData();
@@ -54,12 +32,9 @@ class DatabaseProvider {
 
   Future<void> _fetchAllData() async {
     await Future.wait([
-      _fetchAndStoreVendors(),
-      _fetchAndStoreBrewingMethods(),
-      _fetchAndStoreSupportedLocales(),
+      _fetchAndStoreReferenceData(),
       _fetchAndStoreAllRecipes(),
-      _fetchAndStoreCoffeeFacts(),
-      _fetchAndStoreStartPopup(),
+      _fetchAndStoreExtraData(),
     ]);
   }
 
@@ -69,82 +44,51 @@ class DatabaseProvider {
       bool isConnected = await InternetConnectionChecker().hasConnection;
       if (!isConnected) {
         // No internet connection; skip fetching and proceed
-        print('No internet connection. Skipping data fetch.');
         return;
       } else {
         await Future.wait([
-          _fetchAndStoreVendors(),
-          _fetchAndStoreBrewingMethods(),
-          _fetchAndStoreSupportedLocales(),
+          _fetchAndStoreReferenceData(),
         ]);
 
         await _fetchAndStoreRecipes();
-        await _checkAndFetchCoffeeFacts();
-        await _checkAndUpdateForNewAppVersion();
+        await _fetchAndStoreExtraData();
       }
     } else {
       await Future.wait([
-        _fetchAndStoreVendors(),
-        _fetchAndStoreBrewingMethods(),
-        _fetchAndStoreSupportedLocales(),
+        _fetchAndStoreReferenceData(),
       ]);
 
       await _fetchAndStoreRecipes();
-      await _checkAndFetchCoffeeFacts();
-      await _checkAndUpdateForNewAppVersion();
+      await _fetchAndStoreExtraData();
     }
   }
 
-  Future<void> _checkAndFetchCoffeeFacts() async {
-    final now = DateTime.now();
-    final sevenDaysAgo = now.subtract(const Duration(days: 7));
-    if ((await _getLastFetchTime('coffeeFacts'))?.isBefore(sevenDaysAgo) ??
-        true) {
-      await _fetchAndStoreCoffeeFacts();
-    }
-  }
+  Future<void> _fetchAndStoreReferenceData() async {
+    final vendorsResponse =
+        await Supabase.instance.client.from('vendors').select();
+    final brewingMethodsResponse =
+        await Supabase.instance.client.from('brewing_methods').select();
+    final supportedLocalesResponse =
+        await Supabase.instance.client.from('supported_locales').select();
 
-  Future<void> _checkAndUpdateForNewAppVersion() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String currentVersion = packageInfo.version;
-    if ((await _getLastAppVersion()) != currentVersion) {
-      await _fetchAndStoreStartPopup();
-      await _updateAppVersion(currentVersion);
-    }
-  }
-
-  Future<void> _fetchAndStoreVendors() async {
-    final response = await Supabase.instance.client.from('vendors').select();
-
-    final vendors = response
+    final vendors = vendorsResponse
         .map((json) => VendorsCompanionExtension.fromJson(json))
         .toList();
-    await _db.batch((batch) {
-      batch.insertAll(_db.vendors, vendors, mode: InsertMode.insertOrReplace);
-    });
-  }
-
-  Future<void> _fetchAndStoreBrewingMethods() async {
-    final response =
-        await Supabase.instance.client.from('brewing_methods').select();
-    final brewingMethods = response
+    final brewingMethods = brewingMethodsResponse
         .map((json) => BrewingMethodsCompanionExtension.fromJson(json))
         .toList();
-    await _db.batch((batch) {
-      batch.insertAll(_db.brewingMethods, brewingMethods,
-          mode: InsertMode.insertOrReplace);
-    });
-  }
-
-  Future<void> _fetchAndStoreSupportedLocales() async {
-    final response =
-        await Supabase.instance.client.from('supported_locales').select();
-    final supportedLocales = response
+    final supportedLocales = supportedLocalesResponse
         .map((json) => SupportedLocalesCompanionExtension.fromJson(json))
         .toList();
-    await _db.batch((batch) {
-      batch.insertAll(_db.supportedLocales, supportedLocales,
-          mode: InsertMode.insertOrReplace);
+
+    await _db.transaction(() async {
+      await _db.batch((batch) {
+        batch.insertAll(_db.vendors, vendors, mode: InsertMode.insertOrReplace);
+        batch.insertAll(_db.brewingMethods, brewingMethods,
+            mode: InsertMode.insertOrReplace);
+        batch.insertAll(_db.supportedLocales, supportedLocales,
+            mode: InsertMode.insertOrReplace);
+      });
     });
   }
 
@@ -156,9 +100,6 @@ class DatabaseProvider {
     final recipes = response
         .map((json) => RecipesCompanionExtension.fromJson(json))
         .toList();
-    await _db.batch((batch) {
-      batch.insertAll(_db.recipes, recipes, mode: InsertMode.insertOrReplace);
-    });
 
     // Extract and store localizations
     final localizationsJson =
@@ -166,18 +107,20 @@ class DatabaseProvider {
     final localizations = localizationsJson
         .map((json) => RecipeLocalizationsCompanionExtension.fromJson(json))
         .toList();
-    await _db.batch((batch) {
-      batch.insertAll(_db.recipeLocalizations, localizations,
-          mode: InsertMode.insertOrReplace);
-    });
 
     // Extract and store steps
     final stepsJson = response.expand((json) => json['steps']).toList();
     final steps = stepsJson
         .map((json) => StepsCompanionExtension.fromJson(json))
         .toList();
-    await _db.batch((batch) {
-      batch.insertAll(_db.steps, steps, mode: InsertMode.insertOrReplace);
+
+    await _db.transaction(() async {
+      await _db.batch((batch) {
+        batch.insertAll(_db.recipes, recipes, mode: InsertMode.insertOrReplace);
+        batch.insertAll(_db.recipeLocalizations, localizations,
+            mode: InsertMode.insertOrReplace);
+        batch.insertAll(_db.steps, steps, mode: InsertMode.insertOrReplace);
+      });
     });
   }
 
@@ -246,31 +189,26 @@ class DatabaseProvider {
     }
   }
 
-  Future<void> _fetchAndStoreCoffeeFacts() async {
-    final response =
+  Future<void> _fetchAndStoreExtraData() async {
+    final coffeeFactsResponse =
         await Supabase.instance.client.from('coffee_facts').select();
-
-    final coffeeFacts = response
-        .map((json) => CoffeeFactsCompanionExtension.fromJson(json))
-        .toList();
-    await _db.batch((batch) {
-      batch.insertAll(_db.coffeeFacts, coffeeFacts,
-          mode: InsertMode.insertOrReplace);
-    });
-
-    await _updateLastFetchTime('coffeeFacts');
-  }
-
-  Future<void> _fetchAndStoreStartPopup() async {
-    final response =
+    final startPopupResponse =
         await Supabase.instance.client.from('start_popup').select();
 
-    final startPopups = response
+    final coffeeFacts = coffeeFactsResponse
+        .map((json) => CoffeeFactsCompanionExtension.fromJson(json))
+        .toList();
+    final startPopups = startPopupResponse
         .map((json) => StartPopupsCompanionExtension.fromJson(json))
         .toList();
-    await _db.batch((batch) {
-      batch.insertAll(_db.startPopups, startPopups,
-          mode: InsertMode.insertOrReplace);
+
+    await _db.transaction(() async {
+      await _db.batch((batch) {
+        batch.insertAll(_db.coffeeFacts, coffeeFacts,
+            mode: InsertMode.insertOrReplace);
+        batch.insertAll(_db.startPopups, startPopups,
+            mode: InsertMode.insertOrReplace);
+      });
     });
   }
 }
