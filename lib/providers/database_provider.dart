@@ -1,5 +1,6 @@
 import 'package:coffee_timer/database/database.dart';
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -63,12 +64,24 @@ class DatabaseProvider {
   }
 
   Future<void> _conditionallyFetchData() async {
-    // Check for internet connectivity
-    bool isConnected = await InternetConnectionChecker().hasConnection;
-    if (!isConnected) {
-      // No internet connection; skip fetching and proceed
-      print('No internet connection. Skipping data fetch.');
-      return;
+    if (!kIsWeb) {
+      // Check for internet connectivity
+      bool isConnected = await InternetConnectionChecker().hasConnection;
+      if (!isConnected) {
+        // No internet connection; skip fetching and proceed
+        print('No internet connection. Skipping data fetch.');
+        return;
+      } else {
+        await Future.wait([
+          _fetchAndStoreVendors(),
+          _fetchAndStoreBrewingMethods(),
+          _fetchAndStoreSupportedLocales(),
+        ]);
+
+        await _fetchAndStoreRecipes();
+        await _checkAndFetchCoffeeFacts();
+        await _checkAndUpdateForNewAppVersion();
+      }
     } else {
       await Future.wait([
         _fetchAndStoreVendors(),
