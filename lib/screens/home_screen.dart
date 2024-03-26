@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ),
             ListTile(
               leading: const Icon(Icons.star),
-              title: Text("Explore"),
+              title: Text(AppLocalizations.of(context)!.explore),
               onTap: () {
                 context.router.push(const VendorsRoute());
               },
