@@ -115,17 +115,27 @@ class _VendorsRecipeListScreenState extends State<VendorsRecipeListScreen>
             child: FutureBuilder<List<RecipeModel>>(
               future: recipesForVendor,
               builder: (context, snapshot) {
-                final recipes = snapshot.data!;
+                // Check if snapshot has data, if not, return an alternative widget
+                if (!snapshot.hasData) {
+                  return const SizedBox
+                      .shrink(); // This will render nothing when there's no data
+                }
+                // Since we've checked for null, we can safely use the data
+                final recipes =
+                    snapshot.data ?? []; // Provide an empty list as a fallback
                 return ListView.builder(
                   itemCount: recipes.length,
                   itemBuilder: (context, index) {
                     final recipe = recipes[index];
+                    // Use conditional access for nullable fields
+                    final vendorId = recipe.vendorId ??
+                        'defaultVendorId'; // Provide a default or handle accordingly
                     return ListTile(
                       leading: getIconByBrewingMethod(recipe.brewingMethodId),
                       title: Text(recipe.name),
                       onTap: () {
                         context.router.push(VendorRecipeDetailRoute(
-                            recipeId: recipe.id, vendorId: recipe.vendorId!));
+                            recipeId: recipe.id, vendorId: vendorId));
                       },
                       trailing: FavoriteButton(recipeId: recipe.id),
                     );
