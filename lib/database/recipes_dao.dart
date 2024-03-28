@@ -99,4 +99,12 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
   Future<void> insertOrUpdateRecipe(RecipesCompanion recipe) async {
     await into(recipes).insertOnConflictUpdate(recipe);
   }
+
+  Future<DateTime?> fetchLastModified() async {
+    final query = select(recipes)
+      ..orderBy([(t) => OrderingTerm(expression: t.lastModified, mode: OrderingMode.desc)])
+      ..limit(1);
+    final result = await query.getSingleOrNull();
+    return result?.lastModified;
+  }
 }
