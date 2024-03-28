@@ -8,6 +8,7 @@ import '../models/vendor_model.dart';
 import '../models/supported_locale_model.dart';
 import '../models/coffee_fact_model.dart';
 import '../models/start_popup_model.dart';
+import '../database/schema_versions.dart';
 part 'database.g.dart';
 part 'recipes_dao.dart';
 part 'steps_dao.dart';
@@ -51,6 +52,7 @@ class BrewingMethods extends Table {
   Set<Column> get primaryKey => {brewingMethodId};
 }
 
+@TableIndex(name: 'idx_recipes_last_modified', columns: {#lastModified})
 class Recipes extends Table {
   TextColumn get id => text().named('id').withLength(min: 1, max: 255)();
   TextColumn get brewingMethodId => text()
@@ -185,22 +187,24 @@ class AppDatabase extends _$AppDatabase {
       : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        // Apply foreign key constraints based on the boolean flag
-        beforeOpen: (details) async {
-          if (enableForeignKeyConstraints) {
-            await customStatement('PRAGMA foreign_keys = ON');
-          }
+      // Apply foreign key constraints based on the boolean flag
+      beforeOpen: (details) async {
+        if (enableForeignKeyConstraints) {
+          await customStatement('PRAGMA foreign_keys = ON');
+        }
+      },
+      onUpgrade: stepByStep(
+        from1To2: (m, schema) async {
+          await m.addColumn(schema.vendors, schema.vendors.bannerUrl);
         },
-        onUpgrade: (migrator, from, to) async {
-          if (from < 2) {
-            await migrator.addColumn(vendors, vendors.bannerUrl);
-          }
+        from2To3: (m, schema) async {
+          await m.createIndex(schema.idxRecipesLastModified);
         },
-      );
+      ));
 }
 
 DatabaseConnection _openConnection() {

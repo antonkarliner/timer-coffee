@@ -2766,6 +2766,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $UserRecipePreferencesTable(this);
   late final $CoffeeFactsTable coffeeFacts = $CoffeeFactsTable(this);
   late final $StartPopupsTable startPopups = $StartPopupsTable(this);
+  late final Index idxRecipesLastModified = Index('idx_recipes_last_modified',
+      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
   late final RecipesDao recipesDao = RecipesDao(this as AppDatabase);
   late final StepsDao stepsDao = StepsDao(this as AppDatabase);
   late final RecipeLocalizationsDao recipeLocalizationsDao =
@@ -2794,7 +2796,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         steps,
         userRecipePreferences,
         coffeeFacts,
-        startPopups
+        startPopups,
+        idxRecipesLastModified
       ];
 }
 
