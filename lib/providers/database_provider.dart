@@ -1,5 +1,8 @@
 import 'package:coffee_timer/database/database.dart';
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/database/extensions.dart';
 
@@ -8,12 +11,49 @@ class DatabaseProvider {
 
   DatabaseProvider(this._db);
 
+  late final Future<SharedPreferences> _prefsFuture =
+      SharedPreferences.getInstance();
+
+  Future<bool> _isFirstLaunch() async {
+    final prefs = await _prefsFuture;
+    bool isFirstLaunch = prefs.getBool('firstLaunched') ?? true;
+    return isFirstLaunch;
+  }
+
   Future<void> initializeDatabase() async {
+    if (await _isFirstLaunch()) {
+      await loadDatabase();
+    }
+    await updateDatabase();
+  }
+
+  Future<void> loadDatabase() async {
     await Future.wait([
       _fetchAndStoreReferenceData(),
       _fetchAndStoreRecipes(),
       _fetchAndStoreExtraData(),
     ]);
+  }
+
+  Future<void> updateDatabase() async {
+    if (!kIsWeb) {
+      bool isConnected = await InternetConnectionChecker().hasConnection;
+      if (!isConnected) {
+        return;
+      } else {
+        await Future.wait([
+          _fetchAndStoreReferenceData(),
+          _fetchAndStoreRecipes(),
+          _fetchAndStoreExtraData(),
+        ]);
+      }
+    } else {
+      await Future.wait([
+        _fetchAndStoreReferenceData(),
+        _fetchAndStoreRecipes(),
+        _fetchAndStoreExtraData(),
+      ]);
+    }
   }
 
   Future<void> _fetchAndStoreReferenceData() async {
@@ -46,7 +86,7 @@ class DatabaseProvider {
   }
 
   Future<void> _fetchAndStoreRecipes() async {
-    final lastModified = await  _db.recipesDao.fetchLastModified();
+    final lastModified = await _db.recipesDao.fetchLastModified();
     var request = Supabase.instance.client
         .from('recipes')
         .select('*, recipe_localization(*), steps(*)');
