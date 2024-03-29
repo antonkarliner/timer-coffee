@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 1.7.5+49-19
+version: 1.7.5+49-23
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -47,7 +47,6 @@ dependency_overrides:
       url: https://github.com/MisterJimson/flutter_keyboard_visibility.git
       ref: b5e7b0de4fa9eb6a6c076f1120e5f92a77b7679d # https://github.com/MisterJimson/flutter_keyboard_visibility/commit/b5e7b0de4fa9eb6a6c076f1120e5f92a77b7679d
       path: flutter_keyboard_visibility
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -62,8 +61,6 @@ flutter_native_splash:
   image: assets/splash.png
   color_dark: "303030"
   fullscreen: true
-  image_web: assets/splash-gif.gif
-  image_dark_web: assets/splash-gif-dark.gif
 
 flutter:
   uses-material-design: true
