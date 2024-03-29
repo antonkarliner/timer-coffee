@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/vendor_model.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class VendorsScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _VendorsScreenState extends State<VendorsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vendors'),
+        title: Text(AppLocalizations.of(context)!.explore),
       ),
       body: FutureBuilder<List<VendorModel>>(
         future: recipeProvider.fetchAllActiveVendors(),
