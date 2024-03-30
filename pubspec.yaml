@@ -92,6 +92,7 @@ flutter:
     - assets/data/ru/
     - assets/data/zh/
     - assets/data/it/
+    - assets/data/tr/
     - assets/data/ar/startpopup/
     - assets/data/de/startpopup/
     - assets/data/en/startpopup/
