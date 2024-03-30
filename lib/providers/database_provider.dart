@@ -40,11 +40,9 @@ class DatabaseProvider {
 
     await _db.transaction(() async {
       await _db.batch((batch) {
-        batch.insertAll(_db.vendors, vendors, mode: InsertMode.insertOrReplace);
-        batch.insertAll(_db.brewingMethods, brewingMethods,
-            mode: InsertMode.insertOrReplace);
-        batch.insertAll(_db.supportedLocales, supportedLocales,
-            mode: InsertMode.insertOrReplace);
+        batch.insertAllOnConflictUpdate(_db.vendors, vendors);
+        batch.insertAllOnConflictUpdate(_db.brewingMethods, brewingMethods);
+        batch.insertAllOnConflictUpdate(_db.supportedLocales, supportedLocales);
       });
     });
   }
@@ -78,10 +76,9 @@ class DatabaseProvider {
 
     await _db.transaction(() async {
       await _db.batch((batch) {
-        batch.insertAll(_db.recipes, recipes, mode: InsertMode.insertOrReplace);
-        batch.insertAll(_db.recipeLocalizations, localizations,
-            mode: InsertMode.insertOrReplace);
-        batch.insertAll(_db.steps, steps, mode: InsertMode.insertOrReplace);
+        batch.insertAllOnConflictUpdate(_db.recipes, recipes);
+        batch.insertAllOnConflictUpdate(_db.recipeLocalizations, localizations);
+        batch.insertAllOnConflictUpdate(_db.steps, steps);
       });
     });
   }
@@ -101,10 +98,8 @@ class DatabaseProvider {
 
     await _db.transaction(() async {
       await _db.batch((batch) {
-        batch.insertAll(_db.coffeeFacts, coffeeFacts,
-            mode: InsertMode.insertOrReplace);
-        batch.insertAll(_db.startPopups, startPopups,
-            mode: InsertMode.insertOrReplace);
+        batch.insertAllOnConflictUpdate(_db.coffeeFacts, coffeeFacts);
+        batch.insertAllOnConflictUpdate(_db.startPopups, startPopups);
       });
     });
   }
