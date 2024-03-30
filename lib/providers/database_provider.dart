@@ -1,5 +1,4 @@
 import 'package:coffee_timer/database/database.dart';
-import 'package:drift/drift.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/database/extensions.dart';
 
@@ -48,13 +47,17 @@ class DatabaseProvider {
   }
 
   Future<void> _fetchAndStoreRecipes() async {
-    final lastModified = await _db.recipesDao.fetchLastModified();
+    DateTime? lastModified = await _db.recipesDao.fetchLastModified();
+
     var request = Supabase.instance.client
         .from('recipes')
         .select('*, recipe_localization(*), steps(*)');
+
     if (lastModified != null) {
-      request = request.gt('last_modified', lastModified);
+      final lastModifiedUtc = lastModified.toUtc();
+      request = request.gt('last_modified', lastModifiedUtc.toIso8601String());
     }
+
     final response = await request;
 
     final recipes = response
