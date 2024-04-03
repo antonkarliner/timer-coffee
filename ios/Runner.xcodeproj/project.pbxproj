@@ -78,6 +78,16 @@
 		8B589E342A6971880079991C /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		8B74FB2C2AF002AA00701B6B /* Timer.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Timer.storekit; sourceTree = "<group>"; };
 		8B9C76F02AE7320600E54A4B /* donationtest.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = donationtest.storekit; sourceTree = "<group>"; };
+		8BB5AA6A2BBD5626007CC1FF /* it */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = it; path = it.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8BB5AA6B2BBD5626007CC1FF /* it */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = it; path = it.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8BB5AA6C2BBD5631007CC1FF /* tr */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = tr; path = tr.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8BB5AA6D2BBD5632007CC1FF /* tr */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = tr; path = tr.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8BB5AA6E2BBD5645007CC1FF /* ro */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ro; path = ro.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8BB5AA6F2BBD5645007CC1FF /* ro */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ro; path = ro.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8BB5AA702BBD5652007CC1FF /* nl */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = nl; path = nl.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8BB5AA712BBD5653007CC1FF /* nl */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = nl; path = nl.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8BB5AA722BBD565C007CC1FF /* uk */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = uk; path = uk.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8BB5AA732BBD565C007CC1FF /* uk */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = uk; path = uk.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8BBB2BC42B30D9A5007860F6 /* Timer.CoffeeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Timer.CoffeeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BBB2BC62B30D9A5007860F6 /* Timer_CoffeeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer_CoffeeUITests.swift; sourceTree = "<group>"; };
 		8BBB2BC82B30D9A5007860F6 /* Timer_CoffeeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer_CoffeeUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -272,6 +282,11 @@
 				ru,
 				es,
 				id,
+				it,
+				tr,
+				ro,
+				nl,
+				uk,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
@@ -425,6 +440,11 @@
 				8B0FAAB42B1F83E200BA115B /* ru */,
 				8B0FAAB62B1F83EC00BA115B /* es */,
 				8BE334EF2B7E1F6D00299A48 /* id */,
+				8BB5AA6A2BBD5626007CC1FF /* it */,
+				8BB5AA6C2BBD5631007CC1FF /* tr */,
+				8BB5AA6E2BBD5645007CC1FF /* ro */,
+				8BB5AA702BBD5652007CC1FF /* nl */,
+				8BB5AA722BBD565C007CC1FF /* uk */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -443,6 +463,11 @@
 				8B0FAAB52B1F83E200BA115B /* ru */,
 				8B0FAAB72B1F83EC00BA115B /* es */,
 				8BE334F02B7E1F6E00299A48 /* id */,
+				8BB5AA6B2BBD5626007CC1FF /* it */,
+				8BB5AA6D2BBD5632007CC1FF /* tr */,
+				8BB5AA6F2BBD5645007CC1FF /* ro */,
+				8BB5AA712BBD5653007CC1FF /* nl */,
+				8BB5AA732BBD565C007CC1FF /* uk */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
