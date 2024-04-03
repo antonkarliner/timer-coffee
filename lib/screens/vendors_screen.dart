@@ -1,4 +1,5 @@
 import 'package:coffee_timer/providers/recipe_provider.dart';
+import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/vendor_model.dart';
@@ -21,7 +22,12 @@ class _VendorsScreenState extends State<VendorsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.explore),
+        leading: const BackButton(),
+        title: Row(children: [
+          const Icon(Coffeico.bean),
+          const SizedBox(width: 8),
+          Text(AppLocalizations.of(context)!.explore),
+        ]),
       ),
       body: FutureBuilder<List<VendorModel>>(
         future: recipeProvider.fetchAllActiveVendors(),
