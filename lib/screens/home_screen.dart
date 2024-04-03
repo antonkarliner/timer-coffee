@@ -1,4 +1,5 @@
 import 'package:coffee_timer/widgets/launch_popup.dart';
+import 'package:coffeico/coffeico.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -130,6 +131,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Widget buildRecipeList(
       RecipeProvider recipeProvider, List<BrewingMethodModel> brewingMethods) {
+    final filteredBrewingMethods =
+        brewingMethods.where((method) => method.showOnMain).toList();
     return FutureBuilder<RecipeModel?>(
       future: recipeProvider.getLastUsedRecipe(),
       builder: (context, snapshot) {
@@ -145,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.star),
+              leading: const Icon(Coffeico.bean),
               title: Text(AppLocalizations.of(context)!.explore),
               onTap: () {
                 context.router.push(const VendorsRoute());
@@ -183,16 +186,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ),
             Expanded(
               child: ListView.builder(
-                itemCount: brewingMethods.length,
+                itemCount: filteredBrewingMethods.length,
                 itemBuilder: (BuildContext context, int index) {
+                  final brewingMethod = filteredBrewingMethods[index];
                   return ListTile(
-                    leading: getIconByBrewingMethod(
-                        brewingMethods[index].brewingMethodId),
-                    title: Text(brewingMethods[index].brewingMethod),
+                    leading:
+                        getIconByBrewingMethod(brewingMethod.brewingMethodId),
+                    title: Text(brewingMethod.brewingMethod),
                     onTap: () {
                       context.router.push(RecipeListRoute(
-                          brewingMethodId:
-                              brewingMethods[index].brewingMethodId));
+                          brewingMethodId: brewingMethod.brewingMethodId));
                     },
                   );
                 },

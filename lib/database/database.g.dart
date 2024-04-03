@@ -531,8 +531,19 @@ class $BrewingMethodsTable extends BrewingMethods
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
+  static const VerificationMeta _showOnMainMeta =
+      const VerificationMeta('showOnMain');
   @override
-  List<GeneratedColumn> get $columns => [brewingMethodId, brewingMethod];
+  late final GeneratedColumn<bool> showOnMain = GeneratedColumn<bool>(
+      'show_on_main', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("show_on_main" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  @override
+  List<GeneratedColumn> get $columns =>
+      [brewingMethodId, brewingMethod, showOnMain];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -559,6 +570,12 @@ class $BrewingMethodsTable extends BrewingMethods
     } else if (isInserting) {
       context.missing(_brewingMethodMeta);
     }
+    if (data.containsKey('show_on_main')) {
+      context.handle(
+          _showOnMainMeta,
+          showOnMain.isAcceptableOrUnknown(
+              data['show_on_main']!, _showOnMainMeta));
+    }
     return context;
   }
 
@@ -572,6 +589,8 @@ class $BrewingMethodsTable extends BrewingMethods
           DriftSqlType.string, data['${effectivePrefix}brewing_method_id'])!,
       brewingMethod: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}brewing_method'])!,
+      showOnMain: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}show_on_main'])!,
     );
   }
 
@@ -584,13 +603,17 @@ class $BrewingMethodsTable extends BrewingMethods
 class BrewingMethod extends DataClass implements Insertable<BrewingMethod> {
   final String brewingMethodId;
   final String brewingMethod;
+  final bool showOnMain;
   const BrewingMethod(
-      {required this.brewingMethodId, required this.brewingMethod});
+      {required this.brewingMethodId,
+      required this.brewingMethod,
+      required this.showOnMain});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['brewing_method_id'] = Variable<String>(brewingMethodId);
     map['brewing_method'] = Variable<String>(brewingMethod);
+    map['show_on_main'] = Variable<bool>(showOnMain);
     return map;
   }
 
@@ -598,6 +621,7 @@ class BrewingMethod extends DataClass implements Insertable<BrewingMethod> {
     return BrewingMethodsCompanion(
       brewingMethodId: Value(brewingMethodId),
       brewingMethod: Value(brewingMethod),
+      showOnMain: Value(showOnMain),
     );
   }
 
@@ -607,6 +631,7 @@ class BrewingMethod extends DataClass implements Insertable<BrewingMethod> {
     return BrewingMethod(
       brewingMethodId: serializer.fromJson<String>(json['brewingMethodId']),
       brewingMethod: serializer.fromJson<String>(json['brewingMethod']),
+      showOnMain: serializer.fromJson<bool>(json['showOnMain']),
     );
   }
   @override
@@ -615,56 +640,66 @@ class BrewingMethod extends DataClass implements Insertable<BrewingMethod> {
     return <String, dynamic>{
       'brewingMethodId': serializer.toJson<String>(brewingMethodId),
       'brewingMethod': serializer.toJson<String>(brewingMethod),
+      'showOnMain': serializer.toJson<bool>(showOnMain),
     };
   }
 
-  BrewingMethod copyWith({String? brewingMethodId, String? brewingMethod}) =>
+  BrewingMethod copyWith(
+          {String? brewingMethodId, String? brewingMethod, bool? showOnMain}) =>
       BrewingMethod(
         brewingMethodId: brewingMethodId ?? this.brewingMethodId,
         brewingMethod: brewingMethod ?? this.brewingMethod,
+        showOnMain: showOnMain ?? this.showOnMain,
       );
   @override
   String toString() {
     return (StringBuffer('BrewingMethod(')
           ..write('brewingMethodId: $brewingMethodId, ')
-          ..write('brewingMethod: $brewingMethod')
+          ..write('brewingMethod: $brewingMethod, ')
+          ..write('showOnMain: $showOnMain')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(brewingMethodId, brewingMethod);
+  int get hashCode => Object.hash(brewingMethodId, brewingMethod, showOnMain);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is BrewingMethod &&
           other.brewingMethodId == this.brewingMethodId &&
-          other.brewingMethod == this.brewingMethod);
+          other.brewingMethod == this.brewingMethod &&
+          other.showOnMain == this.showOnMain);
 }
 
 class BrewingMethodsCompanion extends UpdateCompanion<BrewingMethod> {
   final Value<String> brewingMethodId;
   final Value<String> brewingMethod;
+  final Value<bool> showOnMain;
   final Value<int> rowid;
   const BrewingMethodsCompanion({
     this.brewingMethodId = const Value.absent(),
     this.brewingMethod = const Value.absent(),
+    this.showOnMain = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   BrewingMethodsCompanion.insert({
     required String brewingMethodId,
     required String brewingMethod,
+    this.showOnMain = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : brewingMethodId = Value(brewingMethodId),
         brewingMethod = Value(brewingMethod);
   static Insertable<BrewingMethod> custom({
     Expression<String>? brewingMethodId,
     Expression<String>? brewingMethod,
+    Expression<bool>? showOnMain,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (brewingMethodId != null) 'brewing_method_id': brewingMethodId,
       if (brewingMethod != null) 'brewing_method': brewingMethod,
+      if (showOnMain != null) 'show_on_main': showOnMain,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -672,10 +707,12 @@ class BrewingMethodsCompanion extends UpdateCompanion<BrewingMethod> {
   BrewingMethodsCompanion copyWith(
       {Value<String>? brewingMethodId,
       Value<String>? brewingMethod,
+      Value<bool>? showOnMain,
       Value<int>? rowid}) {
     return BrewingMethodsCompanion(
       brewingMethodId: brewingMethodId ?? this.brewingMethodId,
       brewingMethod: brewingMethod ?? this.brewingMethod,
+      showOnMain: showOnMain ?? this.showOnMain,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -689,6 +726,9 @@ class BrewingMethodsCompanion extends UpdateCompanion<BrewingMethod> {
     if (brewingMethod.present) {
       map['brewing_method'] = Variable<String>(brewingMethod.value);
     }
+    if (showOnMain.present) {
+      map['show_on_main'] = Variable<bool>(showOnMain.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -700,6 +740,7 @@ class BrewingMethodsCompanion extends UpdateCompanion<BrewingMethod> {
     return (StringBuffer('BrewingMethodsCompanion(')
           ..write('brewingMethodId: $brewingMethodId, ')
           ..write('brewingMethod: $brewingMethod, ')
+          ..write('showOnMain: $showOnMain, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();

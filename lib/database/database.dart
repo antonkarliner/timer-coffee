@@ -49,6 +49,8 @@ class BrewingMethods extends Table {
       text().named('brewing_method_id').withLength(min: 1, max: 255)();
   TextColumn get brewingMethod =>
       text().named('brewing_method').withLength(min: 1, max: 255)();
+  BoolColumn get showOnMain =>
+      boolean().named('show_on_main').withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {brewingMethodId};
@@ -203,7 +205,7 @@ class AppDatabase extends _$AppDatabase {
       : super(_openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -219,6 +221,10 @@ class AppDatabase extends _$AppDatabase {
         },
         from2To3: (m, schema) async {
           await m.createIndex(schema.idxRecipesLastModified);
+        },
+        from3To4: (m, schema) async {
+          await m.createTable(contributors);
+          await m.addColumn(brewingMethods, brewingMethods.showOnMain);
         },
       ));
 }

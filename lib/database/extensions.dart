@@ -75,6 +75,8 @@ extension BrewingMethodsCompanionExtension on BrewingMethodsCompanion {
     return BrewingMethodsCompanion(
       brewingMethodId: Value(json['brewing_method_id']),
       brewingMethod: Value(json['brewing_method']),
+      showOnMain: Value(
+          json['show_on_main'] ?? false), // Add default value as false if null
     );
   }
 }

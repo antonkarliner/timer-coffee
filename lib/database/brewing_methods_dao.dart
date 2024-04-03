@@ -1,4 +1,3 @@
-// Inside lib/database/brewing_methods_dao.dart
 part of 'database.dart';
 
 @DriftAccessor(tables: [BrewingMethods])
@@ -16,6 +15,7 @@ class BrewingMethodsDao extends DatabaseAccessor<AppDatabase>
         .map((dbBrewingMethod) => BrewingMethodModel(
               brewingMethodId: dbBrewingMethod.brewingMethodId,
               brewingMethod: dbBrewingMethod.brewingMethod,
+              showOnMain: dbBrewingMethod.showOnMain, // Include the new field
             ))
         .toList();
   }
