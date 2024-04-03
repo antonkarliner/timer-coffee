@@ -99,3 +99,13 @@ extension StartPopupsCompanionExtension on StartPopupsCompanion {
     );
   }
 }
+
+extension ContributorsCompanionExtension on ContributorsCompanion {
+  static ContributorsCompanion fromJson(Map<String, dynamic> json) {
+    return ContributorsCompanion(
+      id: Value(json['id']),
+      content: Value(json['content']),
+      locale: Value(json['locale']),
+    );
+  }
+}

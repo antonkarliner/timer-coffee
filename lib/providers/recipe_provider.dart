@@ -1,4 +1,5 @@
 import 'package:coffee_timer/models/coffee_fact_model.dart';
+import 'package:coffee_timer/models/contributor_model.dart';
 import 'package:coffee_timer/models/start_popup_model.dart';
 import 'package:coffee_timer/models/vendor_model.dart';
 import 'package:flutter/material.dart';
@@ -206,7 +207,13 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<List<SupportedLocaleModel>> fetchAllSupportedLocales() async {
-    return db.supportedLocalesDao.getAllSupportedLocales();
+    List<SupportedLocaleModel> supportedLocales =
+        await db.supportedLocalesDao.getAllSupportedLocales();
+
+    // Sorting the list alphabetically by localeName
+    supportedLocales.sort((a, b) => a.locale.compareTo(b.locale));
+
+    return supportedLocales;
   }
 
   Future<String> getLocaleName(String localeCode) async {
@@ -242,6 +249,20 @@ class RecipeProvider extends ChangeNotifier {
     await ensureDataReady();
     VendorModel? vendor = await db.vendorsDao.getVendorById(vendorId);
     return vendor?.bannerUrl;
+  }
+
+  Future<List<ContributorModel>> fetchAllContributorsForCurrentLocale() async {
+    await ensureDataReady(); // Ensure all initial data is loaded.
+    String localeCode = _locale.languageCode;
+    final contributors =
+        await db.contributorsDao.getAllContributorsForLocale(localeCode);
+    return contributors
+        .map((contributor) => ContributorModel(
+              id: contributor.id,
+              content: contributor.content,
+              locale: contributor.locale,
+            ))
+        .toList();
   }
 
   ValueNotifier<Set<String>> get favoriteRecipeIds => _favoriteRecipeIds;

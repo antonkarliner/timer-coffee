@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:coffee_timer/models/contributor_model.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -50,7 +52,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   return Text(snapshot
                       .data!); // Display the dynamically fetched locale name
                 } else {
-                  return CircularProgressIndicator(); // Show loading indicator while fetching
+                  return const CircularProgressIndicator(); // Show loading indicator while fetching
                 }
               },
             ),
@@ -84,29 +86,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ExpansionTile(
           title: Text(AppLocalizations.of(context)!.contributors),
           children: <Widget>[
-            FutureBuilder<String>(
-              future: loadContributors(Localizations.localeOf(context)),
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            FutureBuilder<List<ContributorModel>>(
+              future: Provider.of<RecipeProvider>(context, listen: false)
+                  .fetchAllContributorsForCurrentLocale(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<ContributorModel>> snapshot) {
                 if (snapshot.hasData) {
                   return Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      height: 300, // Adjust as necessary
-                      child: Markdown(
-                        data: snapshot.data!,
-                        styleSheet: MarkdownStyleSheet(
-                          p: Theme.of(context).textTheme.bodyLarge!,
-                        ),
-                        onTapLink: (text, url, title) => _launchURL(url!),
-                      ),
-                    ),
+                    child: _buildRichText(context, snapshot.data!),
                   );
                 } else if (snapshot.hasError) {
                   return Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
-                      AppLocalizations.of(context)!.errorLoadingContributors,
-                    ),
+                        AppLocalizations.of(context)!.errorLoadingContributors),
                   );
                 } else {
                   return const Padding(
@@ -118,6 +112,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ],
         ),
+
         ExpansionTile(
           title: Text(AppLocalizations.of(context)!.license),
           children: <Widget>[
@@ -340,12 +335,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     context.router.replace(const SettingsRoute());
   }
 
-  Future<String> loadContributors(Locale locale) async {
-    String localePath = locale.languageCode; // 'en', 'ru', etc.
-    String filePath = 'assets/data/$localePath/CONTRIBUTORS.md';
-    return await rootBundle.loadString(filePath);
-  }
-
   Future<String> loadPrivacyPolicy() async {
     String filePath = kIsWeb
         ? 'assets/data/privacy_policy_web.md'
@@ -356,6 +345,66 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<String> getVersionNumber() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.version;
+  }
+
+  Widget _buildRichText(
+      BuildContext context, List<ContributorModel> contributors) {
+    List<TextSpan> spanList = [];
+    final TextStyle defaultStyle = Theme.of(context).textTheme.bodyLarge!;
+    final TextStyle linkStyle = const TextStyle(color: Colors.blue);
+
+    // Define the RegExp here
+    final RegExp linkRegExp = RegExp(r'\[(@?.*?)\]\((.*?)\)');
+
+    for (final contributor in contributors) {
+      final Iterable<RegExpMatch> matches =
+          linkRegExp.allMatches(contributor.content);
+      int lastMatchEnd = 0;
+
+      for (final match in matches) {
+        // Text before the link
+        final String precedingText =
+            contributor.content.substring(lastMatchEnd, match.start);
+        if (precedingText.isNotEmpty) {
+          spanList.add(TextSpan(text: precedingText, style: defaultStyle));
+        }
+
+        // Extract link text and URL
+        final String linkText = match.group(1)!;
+        final String url = match.group(2)!;
+
+        // Add link TextSpan
+        spanList.add(TextSpan(
+          text: linkText,
+          style: linkStyle,
+          recognizer: TapGestureRecognizer()
+            ..onTap = () async {
+              if (await canLaunchUrl(Uri.parse(url))) {
+                await launchUrl(Uri.parse(url));
+              }
+            },
+        ));
+
+        lastMatchEnd = match.end;
+      }
+
+      // Handle text after the last link or if no links are present
+      final String remainingText = contributor.content.substring(lastMatchEnd);
+      if (remainingText.isNotEmpty) {
+        // Insert a space if the remaining text does not start with a space or newline
+        final String formattedRemainingText =
+            (remainingText.startsWith(' ') || remainingText.startsWith('\n'))
+                ? remainingText
+                : ' $remainingText';
+        spanList
+            .add(TextSpan(text: formattedRemainingText, style: defaultStyle));
+      }
+
+      // Add a newline for separation between entries
+      spanList.add(const TextSpan(text: '\n\n'));
+    }
+
+    return RichText(text: TextSpan(children: spanList, style: defaultStyle));
   }
 
   void _launchURL(String url) async {

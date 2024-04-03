@@ -2752,6 +2752,233 @@ class StartPopupsCompanion extends UpdateCompanion<StartPopup> {
   }
 }
 
+class $ContributorsTable extends Contributors
+    with TableInfo<$ContributorsTable, Contributor> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ContributorsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _contentMeta =
+      const VerificationMeta('content');
+  @override
+  late final GeneratedColumn<String> content = GeneratedColumn<String>(
+      'content', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _localeMeta = const VerificationMeta('locale');
+  @override
+  late final GeneratedColumn<String> locale = GeneratedColumn<String>(
+      'locale', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 10),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'REFERENCES supported_locales(locale) NOT NULL');
+  @override
+  List<GeneratedColumn> get $columns => [id, content, locale];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'contributors';
+  @override
+  VerificationContext validateIntegrity(Insertable<Contributor> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('content')) {
+      context.handle(_contentMeta,
+          content.isAcceptableOrUnknown(data['content']!, _contentMeta));
+    } else if (isInserting) {
+      context.missing(_contentMeta);
+    }
+    if (data.containsKey('locale')) {
+      context.handle(_localeMeta,
+          locale.isAcceptableOrUnknown(data['locale']!, _localeMeta));
+    } else if (isInserting) {
+      context.missing(_localeMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Contributor map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Contributor(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      content: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}content'])!,
+      locale: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}locale'])!,
+    );
+  }
+
+  @override
+  $ContributorsTable createAlias(String alias) {
+    return $ContributorsTable(attachedDatabase, alias);
+  }
+}
+
+class Contributor extends DataClass implements Insertable<Contributor> {
+  final String id;
+  final String content;
+  final String locale;
+  const Contributor(
+      {required this.id, required this.content, required this.locale});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['content'] = Variable<String>(content);
+    map['locale'] = Variable<String>(locale);
+    return map;
+  }
+
+  ContributorsCompanion toCompanion(bool nullToAbsent) {
+    return ContributorsCompanion(
+      id: Value(id),
+      content: Value(content),
+      locale: Value(locale),
+    );
+  }
+
+  factory Contributor.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Contributor(
+      id: serializer.fromJson<String>(json['id']),
+      content: serializer.fromJson<String>(json['content']),
+      locale: serializer.fromJson<String>(json['locale']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'content': serializer.toJson<String>(content),
+      'locale': serializer.toJson<String>(locale),
+    };
+  }
+
+  Contributor copyWith({String? id, String? content, String? locale}) =>
+      Contributor(
+        id: id ?? this.id,
+        content: content ?? this.content,
+        locale: locale ?? this.locale,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Contributor(')
+          ..write('id: $id, ')
+          ..write('content: $content, ')
+          ..write('locale: $locale')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, content, locale);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Contributor &&
+          other.id == this.id &&
+          other.content == this.content &&
+          other.locale == this.locale);
+}
+
+class ContributorsCompanion extends UpdateCompanion<Contributor> {
+  final Value<String> id;
+  final Value<String> content;
+  final Value<String> locale;
+  final Value<int> rowid;
+  const ContributorsCompanion({
+    this.id = const Value.absent(),
+    this.content = const Value.absent(),
+    this.locale = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ContributorsCompanion.insert({
+    required String id,
+    required String content,
+    required String locale,
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        content = Value(content),
+        locale = Value(locale);
+  static Insertable<Contributor> custom({
+    Expression<String>? id,
+    Expression<String>? content,
+    Expression<String>? locale,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (content != null) 'content': content,
+      if (locale != null) 'locale': locale,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ContributorsCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? content,
+      Value<String>? locale,
+      Value<int>? rowid}) {
+    return ContributorsCompanion(
+      id: id ?? this.id,
+      content: content ?? this.content,
+      locale: locale ?? this.locale,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (content.present) {
+      map['content'] = Variable<String>(content.value);
+    }
+    if (locale.present) {
+      map['locale'] = Variable<String>(locale.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ContributorsCompanion(')
+          ..write('id: $id, ')
+          ..write('content: $content, ')
+          ..write('locale: $locale, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   late final $VendorsTable vendors = $VendorsTable(this);
@@ -2766,6 +2993,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $UserRecipePreferencesTable(this);
   late final $CoffeeFactsTable coffeeFacts = $CoffeeFactsTable(this);
   late final $StartPopupsTable startPopups = $StartPopupsTable(this);
+  late final $ContributorsTable contributors = $ContributorsTable(this);
   late final Index idxRecipesLastModified = Index('idx_recipes_last_modified',
       'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
   late final RecipesDao recipesDao = RecipesDao(this as AppDatabase);
@@ -2783,6 +3011,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       CoffeeFactsDao(this as AppDatabase);
   late final StartPopupsDao startPopupsDao =
       StartPopupsDao(this as AppDatabase);
+  late final ContributorsDao contributorsDao =
+      ContributorsDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2797,6 +3027,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         userRecipePreferences,
         coffeeFacts,
         startPopups,
+        contributors,
         idxRecipesLastModified
       ];
 }
@@ -2856,4 +3087,9 @@ mixin _$StartPopupsDaoMixin on DatabaseAccessor<AppDatabase> {
   $SupportedLocalesTable get supportedLocales =>
       attachedDatabase.supportedLocales;
   $StartPopupsTable get startPopups => attachedDatabase.startPopups;
+}
+mixin _$ContributorsDaoMixin on DatabaseAccessor<AppDatabase> {
+  $SupportedLocalesTable get supportedLocales =>
+      attachedDatabase.supportedLocales;
+  $ContributorsTable get contributors => attachedDatabase.contributors;
 }

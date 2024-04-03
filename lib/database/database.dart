@@ -8,6 +8,7 @@ import '../models/vendor_model.dart';
 import '../models/supported_locale_model.dart';
 import '../models/coffee_fact_model.dart';
 import '../models/start_popup_model.dart';
+import '../models/contributor_model.dart';
 import '../database/schema_versions.dart';
 part 'database.g.dart';
 part 'recipes_dao.dart';
@@ -19,6 +20,7 @@ part 'vendors_dao.dart';
 part 'supported_locales_dao.dart';
 part 'coffee_facts_dao.dart';
 part 'start_popups_dao.dart';
+part 'contributors_dao.dart';
 
 class Vendors extends Table {
   TextColumn get vendorId =>
@@ -156,6 +158,18 @@ class StartPopups extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+class Contributors extends Table {
+  TextColumn get id => text().named('id').withLength(min: 1, max: 255)();
+  TextColumn get content => text().named('content')();
+  TextColumn get locale => text()
+      .named('locale')
+      .customConstraint('REFERENCES supported_locales(locale) NOT NULL')
+      .withLength(min: 2, max: 10)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 @DriftDatabase(
   tables: [
     Vendors,
@@ -167,6 +181,7 @@ class StartPopups extends Table {
     UserRecipePreferences,
     CoffeeFacts,
     StartPopups,
+    Contributors,
   ],
   daos: [
     RecipesDao,
@@ -178,6 +193,7 @@ class StartPopups extends Table {
     SupportedLocalesDao,
     CoffeeFactsDao,
     StartPopupsDao,
+    ContributorsDao
   ],
 )
 class AppDatabase extends _$AppDatabase {
