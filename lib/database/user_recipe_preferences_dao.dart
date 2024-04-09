@@ -19,32 +19,56 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
       int? strengthSliderPosition,
       double? customCoffeeAmount,
       double? customWaterAmount}) async {
-    final entryExists = await (select(userRecipePreferences)
-              ..where((tbl) => tbl.recipeId.equals(recipeId)))
-            .getSingleOrNull() !=
-        null;
+    // Check if the entry exists.
+    final existingPreference = await (select(userRecipePreferences)
+          ..where((tbl) => tbl.recipeId.equals(recipeId)))
+        .getSingleOrNull();
 
-    final preferencesCompanion = UserRecipePreferencesCompanion(
-      recipeId: Value(recipeId),
-      isFavorite:
-          Value(isFavorite ?? false), // Default to false if not provided
-      lastUsed: Value(DateTime.now()), // Always set to current date and time
-      sweetnessSliderPosition: sweetnessSliderPosition == null
-          ? Value.absent()
-          : Value(sweetnessSliderPosition),
-      strengthSliderPosition: strengthSliderPosition == null
-          ? Value.absent()
-          : Value(strengthSliderPosition),
-      customCoffeeAmount: customCoffeeAmount == null
-          ? Value.absent()
-          : Value(customCoffeeAmount),
-      customWaterAmount:
-          customWaterAmount == null ? Value.absent() : Value(customWaterAmount),
-    );
+    UserRecipePreferencesCompanion preferencesCompanion;
 
-    if (!entryExists) {
+    if (existingPreference == null) {
+      // If creating a new entry, default isFavorite to false if not provided.
+      preferencesCompanion = UserRecipePreferencesCompanion(
+        recipeId: Value(recipeId),
+        isFavorite: Value(isFavorite ?? false),
+        lastUsed: Value(DateTime.now()),
+        sweetnessSliderPosition: sweetnessSliderPosition == null
+            ? Value.absent()
+            : Value(sweetnessSliderPosition),
+        strengthSliderPosition: strengthSliderPosition == null
+            ? Value.absent()
+            : Value(strengthSliderPosition),
+        customCoffeeAmount: customCoffeeAmount == null
+            ? Value.absent()
+            : Value(customCoffeeAmount),
+        customWaterAmount: customWaterAmount == null
+            ? Value.absent()
+            : Value(customWaterAmount),
+      );
       await into(userRecipePreferences).insert(preferencesCompanion);
     } else {
+      // If updating an existing entry, only include isFavorite if explicitly provided.
+      preferencesCompanion = UserRecipePreferencesCompanion(
+        lastUsed: Value(DateTime.now()),
+        sweetnessSliderPosition: sweetnessSliderPosition == null
+            ? Value.absent()
+            : Value(sweetnessSliderPosition),
+        strengthSliderPosition: strengthSliderPosition == null
+            ? Value.absent()
+            : Value(strengthSliderPosition),
+        customCoffeeAmount: customCoffeeAmount == null
+            ? Value.absent()
+            : Value(customCoffeeAmount),
+        customWaterAmount: customWaterAmount == null
+            ? Value.absent()
+            : Value(customWaterAmount),
+      );
+
+      if (isFavorite != null) {
+        preferencesCompanion =
+            preferencesCompanion.copyWith(isFavorite: Value(isFavorite));
+      }
+
       await (update(userRecipePreferences)
             ..where((tbl) => tbl.recipeId.equals(recipeId)))
           .write(preferencesCompanion);
