@@ -37,6 +37,20 @@ void main() async {
   // Restore previous purchases
   InAppPurchase.instance.restorePurchases();
   await Supabase.initialize(url: Env.supaUrl, anonKey: Env.supaKey);
+  // Check if there is an existing session or logged-in user
+  final session = Supabase.instance.client.auth.currentSession;
+
+  if (session == null) {
+    // No session found, proceed with anonymous sign-in
+    final authResult = await Supabase.instance.client.auth.signInAnonymously();
+    if (authResult.user == null) {
+      //print('Error signing in anonymously. Check network and Supabase configuration.');
+    } else {
+      //print('Signed in anonymously. User ID: ${authResult.user!.id}');
+    }
+  } else {
+    //print('Already signed in. Session: ${session.user!.id}');
+  }
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isFirstLaunch = prefs.getBool('firstLaunched') ?? true;

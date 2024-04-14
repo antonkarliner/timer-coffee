@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:advanced_in_app_review/advanced_in_app_review.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:auto_route/auto_route.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../app_router.gr.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
@@ -12,10 +13,25 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../models/recipe_model.dart';
+
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
+  final RecipeModel recipe;
+  final double waterAmount;
+  final double coffeeAmount;
+  final int sweetnessSliderPosition;
+  final int strengthSliderPosition;
 
-  const FinishScreen({super.key, required this.brewingMethodName});
+  const FinishScreen({
+    super.key,
+    required this.brewingMethodName,
+    required this.recipe,
+    required this.waterAmount,
+    required this.coffeeAmount,
+    required this.sweetnessSliderPosition,
+    required this.strengthSliderPosition,
+  });
 
   @override
   State<FinishScreen> createState() => _FinishScreenState();
@@ -41,10 +57,57 @@ class _FinishScreenState extends State<FinishScreen> {
     coffeeFact = Provider.of<RecipeProvider>(context, listen: false)
         .getRandomCoffeeFactFromDB();
     requestReview();
+    insertBrewingDataToSupabase();
+    insertBrewingDataToAppDatabase();
+  }
+
+  void insertBrewingDataToSupabase() async {
+    // Retrieve the current user
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null) {
+      // Prepare the data
+      final data = {
+        'user_id': user.id,
+        'brewing_method': widget.brewingMethodName,
+        'recipe_id': widget.recipe.id,
+        'water_amount': widget.waterAmount,
+      };
+
+      // Perform the insert operation
+      await Supabase.instance.client.from('global_stats').insert(data);
+    } else {
+      //print('No user signed in');
+    }
+  }
+
+  void insertBrewingDataToAppDatabase() async {
+    // Retrieve the current user from Supabase to get the user ID
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null) {
+      try {
+        // Use the RecipeProvider to insert user stat
+        await Provider.of<RecipeProvider>(context, listen: false)
+            .insertUserStat(
+          userId: user.id,
+          recipeId: widget.recipe.id,
+          coffeeAmount: widget.coffeeAmount,
+          waterAmount: widget.waterAmount,
+          sweetnessSliderPosition: widget.sweetnessSliderPosition,
+          strengthSliderPosition: widget.strengthSliderPosition,
+          brewingMethodId: widget.recipe.brewingMethodId,
+          // Additional fields like notes, beans, roaster, and rating can be added as needed
+        );
+      } catch (e) {
+        // Handle any errors here
+        print("Error inserting brewing data to app database: $e");
+      }
+    } else {
+      print('No user signed in');
+    }
   }
 
   Future<void> requestReview() async {
-    if (Platform.isIOS && !kIsWeb) {
+    if (!kIsWeb) {
       advancedInAppReview
           .setMinDaysBeforeRemind(7)
           .setMinDaysAfterInstall(2)
