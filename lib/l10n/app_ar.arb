@@ -65,6 +65,14 @@
     "seasonspecials": "عروض المواسم الخاصة",
     "snow": "ثلج",
     "noFavoriteRecipesMessage": "قائمة وصفاتك المفضلة فارغة حاليًا. ابدأ الاستكشاف والتحضير لاكتشاف المفضلة لديك!",
-    "explore": "استكشاف"
+    "explore": "استكشاف",
+    "dateFormat": "d MMM، yyyy",
+    "timeFormat": "HH:mm",
+    "brewdiary": "يوميات القهوة",
+    "brewdiarynotfound": "لم يتم العثور على مداخلات",
+    "beans": "حبوب",
+    "roaster": "المحمصة",
+    "rating": "التقييم",
+    "notes": "ملاحظات"  
   }
   

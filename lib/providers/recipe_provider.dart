@@ -1,6 +1,7 @@
 import 'package:coffee_timer/models/coffee_fact_model.dart';
 import 'package:coffee_timer/models/contributor_model.dart';
 import 'package:coffee_timer/models/start_popup_model.dart';
+import 'package:coffee_timer/models/user_stat_model.dart';
 import 'package:coffee_timer/models/vendor_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -263,6 +264,110 @@ class RecipeProvider extends ChangeNotifier {
               locale: contributor.locale,
             ))
         .toList();
+  }
+
+  Future<void> insertUserStat({
+    required String userId,
+    required String recipeId,
+    required double coffeeAmount,
+    required double waterAmount,
+    required int sweetnessSliderPosition,
+    required int strengthSliderPosition,
+    required String brewingMethodId,
+    String? notes,
+    String? beans,
+    String? roaster,
+    double? rating,
+  }) async {
+    await db.userStatsDao.insertUserStat(
+      userId: userId,
+      recipeId: recipeId,
+      coffeeAmount: coffeeAmount,
+      waterAmount: waterAmount,
+      sweetnessSliderPosition: sweetnessSliderPosition,
+      strengthSliderPosition: strengthSliderPosition,
+      brewingMethodId: brewingMethodId,
+      notes: notes,
+      beans: beans,
+      roaster: roaster,
+      rating: rating,
+    );
+  }
+
+  Future<void> updateUserStat({
+    required int id,
+    String? userId,
+    String? recipeId,
+    double? coffeeAmount,
+    double? waterAmount,
+    int? sweetnessSliderPosition,
+    int? strengthSliderPosition,
+    String? brewingMethodId,
+    String? notes,
+    String? beans,
+    String? roaster,
+    double? rating,
+  }) async {
+    await db.userStatsDao.updateUserStat(
+      id: id,
+      userId: userId,
+      recipeId: recipeId,
+      coffeeAmount: coffeeAmount,
+      waterAmount: waterAmount,
+      sweetnessSliderPosition: sweetnessSliderPosition,
+      strengthSliderPosition: strengthSliderPosition,
+      brewingMethodId: brewingMethodId,
+      notes: notes,
+      beans: beans,
+      roaster: roaster,
+      rating: rating,
+    );
+  }
+
+  Future<List<UserStatsModel>> fetchAllUserStats() async {
+    return await db.userStatsDao.fetchAllStats();
+  }
+
+  Future<UserStatsModel?> fetchUserStatById(int id) async {
+    return await db.userStatsDao.fetchStatById(id);
+  }
+
+  Future<String> getLocalizedRecipeName(String recipeId) async {
+    RecipeLocalization? localization = await db.recipeLocalizationsDao
+        .getLocalizationForRecipe(recipeId, _locale.languageCode);
+    return localization?.name ?? "Unknown Recipe";
+  }
+
+  // Fetch all distinct roasters from the database
+  Future<List<String>> fetchAllDistinctRoasters() async {
+    try {
+      return await db.userStatsDao.fetchAllDistinctRoasters();
+    } catch (e) {
+      print('Error fetching roasters: $e');
+      return [];
+    }
+  }
+
+// Fetch all distinct beans from the database
+  Future<List<String>> fetchAllDistinctBeans() async {
+    try {
+      return await db.userStatsDao.fetchAllDistinctBeans();
+    } catch (e) {
+      print('Error fetching beans: $e');
+      return [];
+    }
+  }
+
+  // Search for roasters that match a given filter
+  Future<List<String>> searchRoasters(String filter) async {
+    List<String> roasters = await fetchAllDistinctRoasters();
+    return roasters.where((roaster) => roaster.contains(filter)).toList();
+  }
+
+  // Search for beans that match a given filter
+  Future<List<String>> searchBeans(String filter) async {
+    List<String> beans = await fetchAllDistinctBeans();
+    return beans.where((bean) => bean.contains(filter)).toList();
   }
 
   ValueNotifier<Set<String>> get favoriteRecipeIds => _favoriteRecipeIds;

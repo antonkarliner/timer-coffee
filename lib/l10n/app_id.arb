@@ -65,5 +65,13 @@
   "seasonspecials": "Spesial Musim",
   "snow": "Salju",
   "noFavoriteRecipesMessage": "Daftar resep favorit Kamu saat ini kosong. Mulailah menjelajah dan menyeduh untuk menemukan favorit Kamu!",
-  "explore": "Jelajahi"
+  "explore": "Jelajahi",
+  "dateFormat": "d MMM, yyyy",
+  "timeFormat": "HH:mm",
+  "brewdiary": "Diari Seduhan",
+  "brewdiarynotfound": "Tidak ada entri yang ditemukan",
+  "beans": "Biji",
+  "roaster": "Penyangrai",
+  "rating": "Peringkat",
+  "notes": "Catatan"
 }

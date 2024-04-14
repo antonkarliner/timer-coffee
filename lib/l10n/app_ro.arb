@@ -65,6 +65,14 @@
     "seasonspecials": "Specialități de Sezon",
     "snow": "Zăpadă",
     "noFavoriteRecipesMessage": "Lista ta de rețete favorite este momentan goală. Începe să explorezi și să prepari pentru a descoperi favoritele tale!",
-    "explore": "Explorează"
+    "explore": "Explorează",
+    "dateFormat": "d MMM yyyy",
+    "timeFormat": "HH:mm",
+    "brewdiary": "Jurnal de Brăzdat",
+    "brewdiarynotfound": "Nu s-au găsit înregistrări",
+    "beans": "Boabe",
+    "roaster": "Praji",
+    "rating": "Evaluare",
+    "notes": "Note"
   }
   

@@ -65,6 +65,14 @@
     "seasonspecials": "Spéciaux de Saison",
     "snow": "Neige",
     "noFavoriteRecipesMessage": "Votre liste de recettes favorites est actuellement vide. Commencez à explorer et à brasser pour découvrir vos favoris !",
-    "explore": "Explorer"
+    "explore": "Explorer",
+    "dateFormat": "d MMM yyyy",
+    "timeFormat": "HH:mm",
+    "brewdiary": "Journal de Brassage",
+    "brewdiarynotfound": "Aucune entrée trouvée",
+    "beans": "Grains",
+    "roaster": "Torréfacteur",
+    "rating": "Évaluation",
+    "notes": "Notes"
   }
   

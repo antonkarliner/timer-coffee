@@ -65,6 +65,14 @@
     "seasonspecials": "季节特惠",
     "snow": "雪",
     "noFavoriteRecipesMessage": "您的最爱食谱列表当前为空。开始探索和酿造，以发现您的最爱！",
-    "explore": "探索"
+    "explore": "探索",
+    "dateFormat": "yyyy年MMMd日",
+    "timeFormat": "HH:mm",
+    "brewdiary": "酿造日记",
+    "brewdiarynotfound": "未找到条目",
+    "beans": "豆子",
+    "roaster": "烘焙机",
+    "rating": "评分",
+    "notes": "笔记"
   }
   

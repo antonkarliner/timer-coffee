@@ -74,5 +74,9 @@ class AppRouter extends $AppRouter {
           page: VendorRecipeDetailRoute.page,
           path: '/explore/:vendorId/:recipeId',
         ),
+        AutoRoute(
+          page: BrewDiaryRoute.page,
+          path: '/brewdiary',
+        ),
       ];
 }

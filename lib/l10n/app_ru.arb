@@ -65,5 +65,13 @@
     "seasonspecials": "Сезонные эффекты",
     "snow": "Снег",
     "noFavoriteRecipesMessage": "Ваш список любимых рецептов пока что пуст. Начните заваривать, чтобы узнать, что вам нравится больше всего!",
-    "explore": "Открытия"
+    "explore": "Открытия",
+    "dateFormat": "d MMM yyyy",
+    "timeFormat": "HH:mm",
+    "brewdiary": "Дневник заваривания",
+    "brewdiarynotfound": "Записи не найдены",
+    "beans": "Зерна",
+    "roaster": "Обжарщик",
+    "rating": "Рейтинг",
+    "notes": "Заметки"
 }

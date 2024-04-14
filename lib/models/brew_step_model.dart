@@ -10,6 +10,4 @@ class BrewStepModel {
     required this.time,
     this.timePlaceholder,
   });
-
-  // Remove database entity dependencies from domain model
 }

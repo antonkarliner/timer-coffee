@@ -65,6 +65,14 @@
     "seasonspecials": "シーズンスペシャル",
     "snow": "雪",
     "noFavoriteRecipesMessage": "お気に入りのレシピリストは現在空です。探索して醸造を始めて、お気に入りを発見しましょう！",
-    "explore": "探索する"
+    "explore": "探索する",
+    "dateFormat": "yyyy年MMMd日",
+    "timeFormat": "HH:mm",
+    "brewdiary": "醸造日記",
+    "brewdiarynotfound": "エントリーが見つかりません",
+    "beans": "豆",
+    "roaster": "焙煎機",
+    "rating": "評価",
+    "notes": "ノート"
   }
   

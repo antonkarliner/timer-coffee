@@ -9,6 +9,7 @@ import '../models/supported_locale_model.dart';
 import '../models/coffee_fact_model.dart';
 import '../models/start_popup_model.dart';
 import '../models/contributor_model.dart';
+import '../models/user_stat_model.dart';
 import '../database/schema_versions.dart';
 part 'database.g.dart';
 part 'recipes_dao.dart';
@@ -21,6 +22,7 @@ part 'supported_locales_dao.dart';
 part 'coffee_facts_dao.dart';
 part 'start_popups_dao.dart';
 part 'contributors_dao.dart';
+part 'user_stats_dao.dart';
 
 class Vendors extends Table {
   TextColumn get vendorId =>
@@ -61,8 +63,7 @@ class Recipes extends Table {
   TextColumn get id => text().named('id').withLength(min: 1, max: 255)();
   TextColumn get brewingMethodId => text()
       .named('brewing_method_id')
-      .customConstraint(
-          'REFERENCES brewing_methods(brewing_method_id) NOT NULL')
+      .references(BrewingMethods, #brewingMethodId, onDelete: KeyAction.cascade)
       .withLength(min: 1, max: 255)();
   RealColumn get coffeeAmount => real().named('coffee_amount')();
   RealColumn get waterAmount => real().named('water_amount')();
@@ -71,7 +72,7 @@ class Recipes extends Table {
       integer().named('brew_time')(); // Brew time in seconds
   TextColumn get vendorId => text()
       .named('vendor_id')
-      .customConstraint('REFERENCES vendors(vendor_id)')
+      .references(Vendors, #vendorId, onDelete: KeyAction.setNull)
       .nullable()();
   DateTimeColumn get lastModified =>
       dateTime().named('last_modified').nullable()();
@@ -84,10 +85,10 @@ class RecipeLocalizations extends Table {
   TextColumn get id => text().named('id').withLength(min: 1, max: 255)();
   TextColumn get recipeId => text()
       .named('recipe_id')
-      .customConstraint('REFERENCES recipes(id) NOT NULL')();
+      .references(Recipes, #id, onDelete: KeyAction.cascade)();
   TextColumn get locale => text()
       .named('locale')
-      .customConstraint('REFERENCES supported_locales(locale) NOT NULL')
+      .references(SupportedLocales, #locale, onDelete: KeyAction.cascade)
       .withLength(min: 2, max: 10)();
   TextColumn get name => text().named('name')();
   TextColumn get grindSize =>
@@ -102,13 +103,13 @@ class Steps extends Table {
   TextColumn get id => text().named('id').withLength(min: 1, max: 255)();
   TextColumn get recipeId => text()
       .named('recipe_id')
-      .customConstraint('REFERENCES recipes(id) NOT NULL')();
+      .references(Recipes, #id, onDelete: KeyAction.cascade)();
   IntColumn get stepOrder => integer().named('step_order')();
   TextColumn get description => text().named('description')();
   TextColumn get time => text().named('time')();
   TextColumn get locale => text()
       .named('locale')
-      .customConstraint('REFERENCES supported_locales(locale) NOT NULL')
+      .references(SupportedLocales, #locale, onDelete: KeyAction.cascade)
       .withLength(min: 2, max: 10)();
 
   @override
@@ -118,7 +119,7 @@ class Steps extends Table {
 class UserRecipePreferences extends Table {
   TextColumn get recipeId => text()
       .named('recipe_id')
-      .customConstraint('REFERENCES recipes(id) NOT NULL')();
+      .references(Recipes, #id, onDelete: KeyAction.cascade)();
   DateTimeColumn get lastUsed => dateTime().named('last_used').nullable()();
   BoolColumn get isFavorite => boolean().named('is_favorite')();
   IntColumn get sweetnessSliderPosition => integer()
@@ -141,7 +142,7 @@ class CoffeeFacts extends Table {
   TextColumn get fact => text().named('fact')();
   TextColumn get locale => text()
       .named('locale')
-      .customConstraint('REFERENCES supported_locales(locale) NOT NULL')
+      .references(SupportedLocales, #locale, onDelete: KeyAction.cascade)
       .withLength(min: 2, max: 10)();
 
   @override
@@ -154,7 +155,7 @@ class StartPopups extends Table {
   TextColumn get appVersion => text().named('app_version')();
   TextColumn get locale => text()
       .named('locale')
-      .customConstraint('REFERENCES supported_locales(locale) NOT NULL')();
+      .references(SupportedLocales, #locale, onDelete: KeyAction.cascade)();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -165,11 +166,33 @@ class Contributors extends Table {
   TextColumn get content => text().named('content')();
   TextColumn get locale => text()
       .named('locale')
-      .customConstraint('REFERENCES supported_locales(locale) NOT NULL')
+      .references(SupportedLocales, #locale, onDelete: KeyAction.cascade)
       .withLength(min: 2, max: 10)();
 
   @override
   Set<Column> get primaryKey => {id};
+}
+
+class UserStats extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get userId => text().named('user_id')();
+  TextColumn get recipeId =>
+      text().named('recipe_id').references(Recipes, #id)();
+  RealColumn get coffeeAmount => real().named('coffee_amount')();
+  RealColumn get waterAmount => real().named('water_amount')();
+  IntColumn get sweetnessSliderPosition =>
+      integer().named('sweetness_slider_position')();
+  IntColumn get strengthSliderPosition =>
+      integer().named('strength_slider_position')();
+  TextColumn get brewingMethodId => text()
+      .named('brewing_method_id')
+      .references(BrewingMethods, #brewingMethodId)();
+  DateTimeColumn get createdAt =>
+      dateTime().named('created_at').withDefault(currentDateAndTime)();
+  TextColumn get notes => text().named('notes').nullable()();
+  TextColumn get beans => text().named('beans').nullable()();
+  TextColumn get roaster => text().named('roaster').nullable()();
+  RealColumn get rating => real().named('rating').nullable()();
 }
 
 @DriftDatabase(
@@ -184,6 +207,7 @@ class Contributors extends Table {
     CoffeeFacts,
     StartPopups,
     Contributors,
+    UserStats
   ],
   daos: [
     RecipesDao,
@@ -195,7 +219,8 @@ class Contributors extends Table {
     SupportedLocalesDao,
     CoffeeFactsDao,
     StartPopupsDao,
-    ContributorsDao
+    ContributorsDao,
+    UserStatsDao
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -205,7 +230,7 @@ class AppDatabase extends _$AppDatabase {
       : super(_openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -225,6 +250,9 @@ class AppDatabase extends _$AppDatabase {
         from3To4: (m, schema) async {
           await m.createTable(contributors);
           await m.addColumn(brewingMethods, brewingMethods.showOnMain);
+        },
+        from4To5: (m, schema) async {
+          await m.createTable(userStats);
         },
       ));
 }

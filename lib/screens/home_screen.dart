@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       body: Stack(
         children: [
           buildRecipeList(recipeProvider, brewingMethods),
-          //buildSnowToggleButton(snowEffectProvider),
+          buildBrewDiaryButton(),
           buildSettingsButton(),
           LaunchPopupWidget(),
         ],
@@ -207,20 +207,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  //Widget buildSnowToggleButton(SnowEffectProvider snowEffectProvider) {
-  //return Positioned(
-  //left: 20,
-  //bottom: 20,
-  //child: FloatingActionButton.small(
-  //heroTag: 'snowToggle',
-  //onPressed: snowEffectProvider.toggleSnowEffect,
-  //tooltip: 'Toggle Snow',
-  //backgroundColor: Colors.lightBlue[100]!,
-  //foregroundColor: const Color(0xFFFFFFFF),
-  //child: Icon(snowEffectProvider.isSnowing ? Icons.cloud : Icons.ac_unit),
-  //),
-  //);
-  //}
+  Widget buildBrewDiaryButton() {
+    return Positioned(
+      left: 20,
+      bottom: 20,
+      child: FloatingActionButton.small(
+          heroTag: 'brewDiaryButton',
+          onPressed: () {
+            context.router.push(const BrewDiaryRoute());
+          },
+          tooltip: 'Brew Diary',
+          child: const Icon(Icons.history)),
+    );
+  }
 
   Widget buildSettingsButton() {
     return Positioned(
@@ -239,6 +238,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   PreferredSizeWidget buildPlatformSpecificAppBar() {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
+      // For iOS using CupertinoNavigationBar
       return CupertinoNavigationBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         middle: Text('Timer.Coffee',

@@ -65,6 +65,14 @@
     "seasonspecials": "Mevsim Özel",
     "snow": "Kar",
     "noFavoriteRecipesMessage": "Favori tarifler listeniz şu anda boş. Keşfetmeye ve demlemeye başlayarak favorilerinizi keşfedin!",
-    "explore": "Keşfet"
+    "explore": "Keşfet",
+    "dateFormat": "d MMM yyyy",
+    "timeFormat": "HH:mm",
+    "brewdiary": "Demleme Günlüğü",
+    "brewdiarynotfound": "Giriş bulunamadı",
+    "beans": "Çekirdekler",
+    "roaster": "Kavurucu",
+    "rating": "Puanlama",
+    "notes": "Notlar"
   }
   

@@ -65,6 +65,14 @@
     "seasonspecials": "Seizoen Specials",
     "snow": "Sneeuw",
     "noFavoriteRecipesMessage": "Je lijst met favoriete recepten is momenteel leeg. Begin met verkennen en brouwen om je favorieten te ontdekken!",
-    "explore": "Verken"
+    "explore": "Verken",
+    "dateFormat": "d MMM yyyy",
+    "timeFormat": "HH:mm",
+    "brewdiary": "Brouwdagboek",
+    "brewdiarynotfound": "Geen vermeldingen gevonden",
+    "beans": "Bonen",
+    "roaster": "Brander",
+    "rating": "Beoordeling",
+    "notes": "Notities"
   }
   

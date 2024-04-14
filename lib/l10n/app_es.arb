@@ -65,6 +65,14 @@
     "seasonspecials": "Especiales de Temporada",
     "snow": "Nieve",
     "noFavoriteRecipesMessage": "Tu lista de recetas favoritas está actualmente vacía. ¡Comienza a explorar y preparar para descubrir tus favoritos!",
-    "explore": "Explorar"
+    "explore": "Explorar",
+    "dateFormat": "d MMM, yyyy",
+    "timeFormat": "HH:mm",
+    "brewdiary": "Diario de Cerveza",
+    "brewdiarynotfound": "No se encontraron entradas",
+    "beans": "Granos",
+    "roaster": "Tostador",
+    "rating": "Calificación",
+    "notes": "Notas"
   }
   

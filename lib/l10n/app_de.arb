@@ -65,6 +65,14 @@
     "seasonspecials": "Saison-Spezialitäten",
     "snow": "Schnee",
     "noFavoriteRecipesMessage": "Deine Liste der Lieblingsrezepte ist derzeit leer. Beginne zu erkunden und zu brauen, um deine Favoriten zu entdecken!",
-    "explore": "Neues Entdecken"
+    "explore": "Neues Entdecken",
+    "dateFormat": "d. MMM yyyy",
+    "timeFormat": "HH:mm",
+    "brewdiary": "Brautagebuch",
+    "brewdiarynotfound": "Keine Einträge gefunden",
+    "beans": "Bohnen",
+    "roaster": "Röster",
+    "rating": "Bewertung",
+    "notes": "Notizen"
   }
   

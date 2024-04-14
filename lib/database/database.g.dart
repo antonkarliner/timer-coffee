@@ -769,8 +769,8 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints:
-          'REFERENCES brewing_methods(brewing_method_id) NOT NULL');
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES brewing_methods (brewing_method_id) ON DELETE CASCADE'));
   static const VerificationMeta _coffeeAmountMeta =
       const VerificationMeta('coffeeAmount');
   @override
@@ -802,7 +802,8 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
       'vendor_id', aliasedName, true,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      $customConstraints: 'REFERENCES vendors(vendor_id)');
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES vendors (vendor_id) ON DELETE SET NULL'));
   static const VerificationMeta _lastModifiedMeta =
       const VerificationMeta('lastModified');
   @override
@@ -1204,7 +1205,8 @@ class $RecipeLocalizationsTable extends RecipeLocalizations
       'recipe_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints: 'REFERENCES recipes(id) NOT NULL');
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES recipes (id) ON DELETE CASCADE'));
   static const VerificationMeta _localeMeta = const VerificationMeta('locale');
   @override
   late final GeneratedColumn<String> locale = GeneratedColumn<String>(
@@ -1213,7 +1215,8 @@ class $RecipeLocalizationsTable extends RecipeLocalizations
           GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 10),
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints: 'REFERENCES supported_locales(locale) NOT NULL');
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES supported_locales (locale) ON DELETE CASCADE'));
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -1552,7 +1555,8 @@ class $StepsTable extends Steps with TableInfo<$StepsTable, Step> {
       'recipe_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints: 'REFERENCES recipes(id) NOT NULL');
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES recipes (id) ON DELETE CASCADE'));
   static const VerificationMeta _stepOrderMeta =
       const VerificationMeta('stepOrder');
   @override
@@ -1578,7 +1582,8 @@ class $StepsTable extends Steps with TableInfo<$StepsTable, Step> {
           GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 10),
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints: 'REFERENCES supported_locales(locale) NOT NULL');
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES supported_locales (locale) ON DELETE CASCADE'));
   @override
   List<GeneratedColumn> get $columns =>
       [id, recipeId, stepOrder, description, time, locale];
@@ -1889,7 +1894,8 @@ class $UserRecipePreferencesTable extends UserRecipePreferences
       'recipe_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints: 'REFERENCES recipes(id) NOT NULL');
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES recipes (id) ON DELETE CASCADE'));
   static const VerificationMeta _lastUsedMeta =
       const VerificationMeta('lastUsed');
   @override
@@ -2330,7 +2336,8 @@ class $CoffeeFactsTable extends CoffeeFacts
           GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 10),
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints: 'REFERENCES supported_locales(locale) NOT NULL');
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES supported_locales (locale) ON DELETE CASCADE'));
   @override
   List<GeneratedColumn> get $columns => [id, fact, locale];
   @override
@@ -2560,7 +2567,8 @@ class $StartPopupsTable extends StartPopups
       'locale', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints: 'REFERENCES supported_locales(locale) NOT NULL');
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES supported_locales (locale) ON DELETE CASCADE'));
   @override
   List<GeneratedColumn> get $columns => [id, content, appVersion, locale];
   @override
@@ -2821,7 +2829,8 @@ class $ContributorsTable extends Contributors
           GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 10),
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      $customConstraints: 'REFERENCES supported_locales(locale) NOT NULL');
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES supported_locales (locale) ON DELETE CASCADE'));
   @override
   List<GeneratedColumn> get $columns => [id, content, locale];
   @override
@@ -3020,6 +3029,635 @@ class ContributorsCompanion extends UpdateCompanion<Contributor> {
   }
 }
 
+class $UserStatsTable extends UserStats
+    with TableInfo<$UserStatsTable, UserStat> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserStatsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<String> userId = GeneratedColumn<String>(
+      'user_id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _recipeIdMeta =
+      const VerificationMeta('recipeId');
+  @override
+  late final GeneratedColumn<String> recipeId = GeneratedColumn<String>(
+      'recipe_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES recipes (id)'));
+  static const VerificationMeta _coffeeAmountMeta =
+      const VerificationMeta('coffeeAmount');
+  @override
+  late final GeneratedColumn<double> coffeeAmount = GeneratedColumn<double>(
+      'coffee_amount', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  static const VerificationMeta _waterAmountMeta =
+      const VerificationMeta('waterAmount');
+  @override
+  late final GeneratedColumn<double> waterAmount = GeneratedColumn<double>(
+      'water_amount', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  static const VerificationMeta _sweetnessSliderPositionMeta =
+      const VerificationMeta('sweetnessSliderPosition');
+  @override
+  late final GeneratedColumn<int> sweetnessSliderPosition =
+      GeneratedColumn<int>('sweetness_slider_position', aliasedName, false,
+          type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _strengthSliderPositionMeta =
+      const VerificationMeta('strengthSliderPosition');
+  @override
+  late final GeneratedColumn<int> strengthSliderPosition = GeneratedColumn<int>(
+      'strength_slider_position', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _brewingMethodIdMeta =
+      const VerificationMeta('brewingMethodId');
+  @override
+  late final GeneratedColumn<String> brewingMethodId = GeneratedColumn<String>(
+      'brewing_method_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES brewing_methods (brewing_method_id)'));
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+      'notes', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _beansMeta = const VerificationMeta('beans');
+  @override
+  late final GeneratedColumn<String> beans = GeneratedColumn<String>(
+      'beans', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _roasterMeta =
+      const VerificationMeta('roaster');
+  @override
+  late final GeneratedColumn<String> roaster = GeneratedColumn<String>(
+      'roaster', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _ratingMeta = const VerificationMeta('rating');
+  @override
+  late final GeneratedColumn<double> rating = GeneratedColumn<double>(
+      'rating', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        userId,
+        recipeId,
+        coffeeAmount,
+        waterAmount,
+        sweetnessSliderPosition,
+        strengthSliderPosition,
+        brewingMethodId,
+        createdAt,
+        notes,
+        beans,
+        roaster,
+        rating
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_stats';
+  @override
+  VerificationContext validateIntegrity(Insertable<UserStat> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(_userIdMeta,
+          userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta));
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('recipe_id')) {
+      context.handle(_recipeIdMeta,
+          recipeId.isAcceptableOrUnknown(data['recipe_id']!, _recipeIdMeta));
+    } else if (isInserting) {
+      context.missing(_recipeIdMeta);
+    }
+    if (data.containsKey('coffee_amount')) {
+      context.handle(
+          _coffeeAmountMeta,
+          coffeeAmount.isAcceptableOrUnknown(
+              data['coffee_amount']!, _coffeeAmountMeta));
+    } else if (isInserting) {
+      context.missing(_coffeeAmountMeta);
+    }
+    if (data.containsKey('water_amount')) {
+      context.handle(
+          _waterAmountMeta,
+          waterAmount.isAcceptableOrUnknown(
+              data['water_amount']!, _waterAmountMeta));
+    } else if (isInserting) {
+      context.missing(_waterAmountMeta);
+    }
+    if (data.containsKey('sweetness_slider_position')) {
+      context.handle(
+          _sweetnessSliderPositionMeta,
+          sweetnessSliderPosition.isAcceptableOrUnknown(
+              data['sweetness_slider_position']!,
+              _sweetnessSliderPositionMeta));
+    } else if (isInserting) {
+      context.missing(_sweetnessSliderPositionMeta);
+    }
+    if (data.containsKey('strength_slider_position')) {
+      context.handle(
+          _strengthSliderPositionMeta,
+          strengthSliderPosition.isAcceptableOrUnknown(
+              data['strength_slider_position']!, _strengthSliderPositionMeta));
+    } else if (isInserting) {
+      context.missing(_strengthSliderPositionMeta);
+    }
+    if (data.containsKey('brewing_method_id')) {
+      context.handle(
+          _brewingMethodIdMeta,
+          brewingMethodId.isAcceptableOrUnknown(
+              data['brewing_method_id']!, _brewingMethodIdMeta));
+    } else if (isInserting) {
+      context.missing(_brewingMethodIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+          _notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
+    }
+    if (data.containsKey('beans')) {
+      context.handle(
+          _beansMeta, beans.isAcceptableOrUnknown(data['beans']!, _beansMeta));
+    }
+    if (data.containsKey('roaster')) {
+      context.handle(_roasterMeta,
+          roaster.isAcceptableOrUnknown(data['roaster']!, _roasterMeta));
+    }
+    if (data.containsKey('rating')) {
+      context.handle(_ratingMeta,
+          rating.isAcceptableOrUnknown(data['rating']!, _ratingMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UserStat map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserStat(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      userId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}user_id'])!,
+      recipeId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}recipe_id'])!,
+      coffeeAmount: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}coffee_amount'])!,
+      waterAmount: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}water_amount'])!,
+      sweetnessSliderPosition: attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}sweetness_slider_position'])!,
+      strengthSliderPosition: attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}strength_slider_position'])!,
+      brewingMethodId: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}brewing_method_id'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      notes: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}notes']),
+      beans: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}beans']),
+      roaster: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}roaster']),
+      rating: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}rating']),
+    );
+  }
+
+  @override
+  $UserStatsTable createAlias(String alias) {
+    return $UserStatsTable(attachedDatabase, alias);
+  }
+}
+
+class UserStat extends DataClass implements Insertable<UserStat> {
+  final int id;
+  final String userId;
+  final String recipeId;
+  final double coffeeAmount;
+  final double waterAmount;
+  final int sweetnessSliderPosition;
+  final int strengthSliderPosition;
+  final String brewingMethodId;
+  final DateTime createdAt;
+  final String? notes;
+  final String? beans;
+  final String? roaster;
+  final double? rating;
+  const UserStat(
+      {required this.id,
+      required this.userId,
+      required this.recipeId,
+      required this.coffeeAmount,
+      required this.waterAmount,
+      required this.sweetnessSliderPosition,
+      required this.strengthSliderPosition,
+      required this.brewingMethodId,
+      required this.createdAt,
+      this.notes,
+      this.beans,
+      this.roaster,
+      this.rating});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['user_id'] = Variable<String>(userId);
+    map['recipe_id'] = Variable<String>(recipeId);
+    map['coffee_amount'] = Variable<double>(coffeeAmount);
+    map['water_amount'] = Variable<double>(waterAmount);
+    map['sweetness_slider_position'] = Variable<int>(sweetnessSliderPosition);
+    map['strength_slider_position'] = Variable<int>(strengthSliderPosition);
+    map['brewing_method_id'] = Variable<String>(brewingMethodId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    if (!nullToAbsent || beans != null) {
+      map['beans'] = Variable<String>(beans);
+    }
+    if (!nullToAbsent || roaster != null) {
+      map['roaster'] = Variable<String>(roaster);
+    }
+    if (!nullToAbsent || rating != null) {
+      map['rating'] = Variable<double>(rating);
+    }
+    return map;
+  }
+
+  UserStatsCompanion toCompanion(bool nullToAbsent) {
+    return UserStatsCompanion(
+      id: Value(id),
+      userId: Value(userId),
+      recipeId: Value(recipeId),
+      coffeeAmount: Value(coffeeAmount),
+      waterAmount: Value(waterAmount),
+      sweetnessSliderPosition: Value(sweetnessSliderPosition),
+      strengthSliderPosition: Value(strengthSliderPosition),
+      brewingMethodId: Value(brewingMethodId),
+      createdAt: Value(createdAt),
+      notes:
+          notes == null && nullToAbsent ? const Value.absent() : Value(notes),
+      beans:
+          beans == null && nullToAbsent ? const Value.absent() : Value(beans),
+      roaster: roaster == null && nullToAbsent
+          ? const Value.absent()
+          : Value(roaster),
+      rating:
+          rating == null && nullToAbsent ? const Value.absent() : Value(rating),
+    );
+  }
+
+  factory UserStat.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserStat(
+      id: serializer.fromJson<int>(json['id']),
+      userId: serializer.fromJson<String>(json['userId']),
+      recipeId: serializer.fromJson<String>(json['recipeId']),
+      coffeeAmount: serializer.fromJson<double>(json['coffeeAmount']),
+      waterAmount: serializer.fromJson<double>(json['waterAmount']),
+      sweetnessSliderPosition:
+          serializer.fromJson<int>(json['sweetnessSliderPosition']),
+      strengthSliderPosition:
+          serializer.fromJson<int>(json['strengthSliderPosition']),
+      brewingMethodId: serializer.fromJson<String>(json['brewingMethodId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      beans: serializer.fromJson<String?>(json['beans']),
+      roaster: serializer.fromJson<String?>(json['roaster']),
+      rating: serializer.fromJson<double?>(json['rating']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'userId': serializer.toJson<String>(userId),
+      'recipeId': serializer.toJson<String>(recipeId),
+      'coffeeAmount': serializer.toJson<double>(coffeeAmount),
+      'waterAmount': serializer.toJson<double>(waterAmount),
+      'sweetnessSliderPosition':
+          serializer.toJson<int>(sweetnessSliderPosition),
+      'strengthSliderPosition': serializer.toJson<int>(strengthSliderPosition),
+      'brewingMethodId': serializer.toJson<String>(brewingMethodId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'notes': serializer.toJson<String?>(notes),
+      'beans': serializer.toJson<String?>(beans),
+      'roaster': serializer.toJson<String?>(roaster),
+      'rating': serializer.toJson<double?>(rating),
+    };
+  }
+
+  UserStat copyWith(
+          {int? id,
+          String? userId,
+          String? recipeId,
+          double? coffeeAmount,
+          double? waterAmount,
+          int? sweetnessSliderPosition,
+          int? strengthSliderPosition,
+          String? brewingMethodId,
+          DateTime? createdAt,
+          Value<String?> notes = const Value.absent(),
+          Value<String?> beans = const Value.absent(),
+          Value<String?> roaster = const Value.absent(),
+          Value<double?> rating = const Value.absent()}) =>
+      UserStat(
+        id: id ?? this.id,
+        userId: userId ?? this.userId,
+        recipeId: recipeId ?? this.recipeId,
+        coffeeAmount: coffeeAmount ?? this.coffeeAmount,
+        waterAmount: waterAmount ?? this.waterAmount,
+        sweetnessSliderPosition:
+            sweetnessSliderPosition ?? this.sweetnessSliderPosition,
+        strengthSliderPosition:
+            strengthSliderPosition ?? this.strengthSliderPosition,
+        brewingMethodId: brewingMethodId ?? this.brewingMethodId,
+        createdAt: createdAt ?? this.createdAt,
+        notes: notes.present ? notes.value : this.notes,
+        beans: beans.present ? beans.value : this.beans,
+        roaster: roaster.present ? roaster.value : this.roaster,
+        rating: rating.present ? rating.value : this.rating,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('UserStat(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('recipeId: $recipeId, ')
+          ..write('coffeeAmount: $coffeeAmount, ')
+          ..write('waterAmount: $waterAmount, ')
+          ..write('sweetnessSliderPosition: $sweetnessSliderPosition, ')
+          ..write('strengthSliderPosition: $strengthSliderPosition, ')
+          ..write('brewingMethodId: $brewingMethodId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('notes: $notes, ')
+          ..write('beans: $beans, ')
+          ..write('roaster: $roaster, ')
+          ..write('rating: $rating')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      userId,
+      recipeId,
+      coffeeAmount,
+      waterAmount,
+      sweetnessSliderPosition,
+      strengthSliderPosition,
+      brewingMethodId,
+      createdAt,
+      notes,
+      beans,
+      roaster,
+      rating);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserStat &&
+          other.id == this.id &&
+          other.userId == this.userId &&
+          other.recipeId == this.recipeId &&
+          other.coffeeAmount == this.coffeeAmount &&
+          other.waterAmount == this.waterAmount &&
+          other.sweetnessSliderPosition == this.sweetnessSliderPosition &&
+          other.strengthSliderPosition == this.strengthSliderPosition &&
+          other.brewingMethodId == this.brewingMethodId &&
+          other.createdAt == this.createdAt &&
+          other.notes == this.notes &&
+          other.beans == this.beans &&
+          other.roaster == this.roaster &&
+          other.rating == this.rating);
+}
+
+class UserStatsCompanion extends UpdateCompanion<UserStat> {
+  final Value<int> id;
+  final Value<String> userId;
+  final Value<String> recipeId;
+  final Value<double> coffeeAmount;
+  final Value<double> waterAmount;
+  final Value<int> sweetnessSliderPosition;
+  final Value<int> strengthSliderPosition;
+  final Value<String> brewingMethodId;
+  final Value<DateTime> createdAt;
+  final Value<String?> notes;
+  final Value<String?> beans;
+  final Value<String?> roaster;
+  final Value<double?> rating;
+  const UserStatsCompanion({
+    this.id = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.recipeId = const Value.absent(),
+    this.coffeeAmount = const Value.absent(),
+    this.waterAmount = const Value.absent(),
+    this.sweetnessSliderPosition = const Value.absent(),
+    this.strengthSliderPosition = const Value.absent(),
+    this.brewingMethodId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.beans = const Value.absent(),
+    this.roaster = const Value.absent(),
+    this.rating = const Value.absent(),
+  });
+  UserStatsCompanion.insert({
+    this.id = const Value.absent(),
+    required String userId,
+    required String recipeId,
+    required double coffeeAmount,
+    required double waterAmount,
+    required int sweetnessSliderPosition,
+    required int strengthSliderPosition,
+    required String brewingMethodId,
+    this.createdAt = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.beans = const Value.absent(),
+    this.roaster = const Value.absent(),
+    this.rating = const Value.absent(),
+  })  : userId = Value(userId),
+        recipeId = Value(recipeId),
+        coffeeAmount = Value(coffeeAmount),
+        waterAmount = Value(waterAmount),
+        sweetnessSliderPosition = Value(sweetnessSliderPosition),
+        strengthSliderPosition = Value(strengthSliderPosition),
+        brewingMethodId = Value(brewingMethodId);
+  static Insertable<UserStat> custom({
+    Expression<int>? id,
+    Expression<String>? userId,
+    Expression<String>? recipeId,
+    Expression<double>? coffeeAmount,
+    Expression<double>? waterAmount,
+    Expression<int>? sweetnessSliderPosition,
+    Expression<int>? strengthSliderPosition,
+    Expression<String>? brewingMethodId,
+    Expression<DateTime>? createdAt,
+    Expression<String>? notes,
+    Expression<String>? beans,
+    Expression<String>? roaster,
+    Expression<double>? rating,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userId != null) 'user_id': userId,
+      if (recipeId != null) 'recipe_id': recipeId,
+      if (coffeeAmount != null) 'coffee_amount': coffeeAmount,
+      if (waterAmount != null) 'water_amount': waterAmount,
+      if (sweetnessSliderPosition != null)
+        'sweetness_slider_position': sweetnessSliderPosition,
+      if (strengthSliderPosition != null)
+        'strength_slider_position': strengthSliderPosition,
+      if (brewingMethodId != null) 'brewing_method_id': brewingMethodId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (notes != null) 'notes': notes,
+      if (beans != null) 'beans': beans,
+      if (roaster != null) 'roaster': roaster,
+      if (rating != null) 'rating': rating,
+    });
+  }
+
+  UserStatsCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? userId,
+      Value<String>? recipeId,
+      Value<double>? coffeeAmount,
+      Value<double>? waterAmount,
+      Value<int>? sweetnessSliderPosition,
+      Value<int>? strengthSliderPosition,
+      Value<String>? brewingMethodId,
+      Value<DateTime>? createdAt,
+      Value<String?>? notes,
+      Value<String?>? beans,
+      Value<String?>? roaster,
+      Value<double?>? rating}) {
+    return UserStatsCompanion(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      recipeId: recipeId ?? this.recipeId,
+      coffeeAmount: coffeeAmount ?? this.coffeeAmount,
+      waterAmount: waterAmount ?? this.waterAmount,
+      sweetnessSliderPosition:
+          sweetnessSliderPosition ?? this.sweetnessSliderPosition,
+      strengthSliderPosition:
+          strengthSliderPosition ?? this.strengthSliderPosition,
+      brewingMethodId: brewingMethodId ?? this.brewingMethodId,
+      createdAt: createdAt ?? this.createdAt,
+      notes: notes ?? this.notes,
+      beans: beans ?? this.beans,
+      roaster: roaster ?? this.roaster,
+      rating: rating ?? this.rating,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<String>(userId.value);
+    }
+    if (recipeId.present) {
+      map['recipe_id'] = Variable<String>(recipeId.value);
+    }
+    if (coffeeAmount.present) {
+      map['coffee_amount'] = Variable<double>(coffeeAmount.value);
+    }
+    if (waterAmount.present) {
+      map['water_amount'] = Variable<double>(waterAmount.value);
+    }
+    if (sweetnessSliderPosition.present) {
+      map['sweetness_slider_position'] =
+          Variable<int>(sweetnessSliderPosition.value);
+    }
+    if (strengthSliderPosition.present) {
+      map['strength_slider_position'] =
+          Variable<int>(strengthSliderPosition.value);
+    }
+    if (brewingMethodId.present) {
+      map['brewing_method_id'] = Variable<String>(brewingMethodId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (beans.present) {
+      map['beans'] = Variable<String>(beans.value);
+    }
+    if (roaster.present) {
+      map['roaster'] = Variable<String>(roaster.value);
+    }
+    if (rating.present) {
+      map['rating'] = Variable<double>(rating.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserStatsCompanion(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('recipeId: $recipeId, ')
+          ..write('coffeeAmount: $coffeeAmount, ')
+          ..write('waterAmount: $waterAmount, ')
+          ..write('sweetnessSliderPosition: $sweetnessSliderPosition, ')
+          ..write('strengthSliderPosition: $strengthSliderPosition, ')
+          ..write('brewingMethodId: $brewingMethodId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('notes: $notes, ')
+          ..write('beans: $beans, ')
+          ..write('roaster: $roaster, ')
+          ..write('rating: $rating')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   late final $VendorsTable vendors = $VendorsTable(this);
@@ -3035,6 +3673,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $CoffeeFactsTable coffeeFacts = $CoffeeFactsTable(this);
   late final $StartPopupsTable startPopups = $StartPopupsTable(this);
   late final $ContributorsTable contributors = $ContributorsTable(this);
+  late final $UserStatsTable userStats = $UserStatsTable(this);
   late final Index idxRecipesLastModified = Index('idx_recipes_last_modified',
       'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
   late final RecipesDao recipesDao = RecipesDao(this as AppDatabase);
@@ -3054,6 +3693,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       StartPopupsDao(this as AppDatabase);
   late final ContributorsDao contributorsDao =
       ContributorsDao(this as AppDatabase);
+  late final UserStatsDao userStatsDao = UserStatsDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3069,8 +3709,84 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         coffeeFacts,
         startPopups,
         contributors,
+        userStats,
         idxRecipesLastModified
       ];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
+        [
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('brewing_methods',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('recipes', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('vendors',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('recipes', kind: UpdateKind.update),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('recipes',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('recipe_localizations', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('supported_locales',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('recipe_localizations', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('recipes',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('steps', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('supported_locales',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('steps', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('recipes',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('user_recipe_preferences', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('supported_locales',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('coffee_facts', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('supported_locales',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('start_popups', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('supported_locales',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('contributors', kind: UpdateKind.delete),
+            ],
+          ),
+        ],
+      );
 }
 
 mixin _$RecipesDaoMixin on DatabaseAccessor<AppDatabase> {
@@ -3133,4 +3849,10 @@ mixin _$ContributorsDaoMixin on DatabaseAccessor<AppDatabase> {
   $SupportedLocalesTable get supportedLocales =>
       attachedDatabase.supportedLocales;
   $ContributorsTable get contributors => attachedDatabase.contributors;
+}
+mixin _$UserStatsDaoMixin on DatabaseAccessor<AppDatabase> {
+  $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
+  $VendorsTable get vendors => attachedDatabase.vendors;
+  $RecipesTable get recipes => attachedDatabase.recipes;
+  $UserStatsTable get userStats => attachedDatabase.userStats;
 }

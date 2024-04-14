@@ -65,5 +65,13 @@
   "seasonspecials": "Specialità Stagionali",
   "snow": "Neve",
   "noFavoriteRecipesMessage": "La tua lista di ricette preferite è attualmente vuota. Inizia ad esplorare e preparare per scoprire i tuoi preferiti!",
-  "explore": "Esplorare"
+  "explore": "Esplorare",
+  "dateFormat": "d MMM yyyy",
+  "timeFormat": "HH:mm",
+  "brewdiary": "Diario di Infusione",
+  "brewdiarynotfound": "Nessuna voce trovata",
+  "beans": "Chicchi",
+  "roaster": "Tostatore",
+  "rating": "Valutazione",
+  "notes": "Note"
 }

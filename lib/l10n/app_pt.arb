@@ -65,6 +65,14 @@
     "seasonspecials": "Especiais de Temporada",
     "snow": "Neve",
     "noFavoriteRecipesMessage": "Sua lista de receitas favoritas está atualmente vazia. Comece a explorar e a preparar para descobrir seus favoritos!",
-    "explore": "Descobrir"
+    "explore": "Descobrir",
+    "dateFormat": "d 'de' MMM 'de' yyyy",
+    "timeFormat": "HH:mm",
+    "brewdiary": "Diário de Preparo",
+    "brewdiarynotfound": "Nenhuma entrada encontrada",
+    "beans": "Grãos",
+    "roaster": "Torrador",
+    "rating": "Classificação",
+    "notes": "Notas"
   }
   

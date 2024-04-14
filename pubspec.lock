@@ -452,6 +452,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.0"
+  flutter_rating_bar:
+    dependency: "direct main"
+    description:
+      name: flutter_rating_bar
+      sha256: d2af03469eac832c591a1eba47c91ecc871fe5708e69967073c043b2d775ed93
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -490,10 +498,10 @@ packages:
     dependency: transitive
     description:
       name: gotrue
-      sha256: "1bf6354278a98b8a1867263e94921da8a239de07e9babceab2b4e80af651a098"
+      sha256: a0eee21a7e8ec09e6bbd5c9a36e31e423827b575ba6fc2dd049805dcfaac5b02
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.1"
+    version: "2.6.0"
   graphs:
     dependency: transitive
     description:
@@ -970,10 +978,10 @@ packages:
     dependency: transitive
     description:
       name: realtime_client
-      sha256: "41d6c5e0327d6c270b98b79bfed672928244af60e2856770f3eff697f9efe459"
+      sha256: bb6747fe2feff7f8349d563ac9d4a8f10ac2dd809bdff1e7e319321d5ea16b49
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.3"
   recase:
     dependency: transitive
     description:
@@ -1183,18 +1191,18 @@ packages:
     dependency: transitive
     description:
       name: supabase
-      sha256: f431753d2a4cb9dacd72c7378154f806c2b2cef23859bd9cee1add23821e874d
+      sha256: "2ddedf13f6dc013084569673dff7a7d540f5eacdd5b36fede8d58322e5d79c55"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.8"
+    version: "2.1.0"
   supabase_flutter:
     dependency: "direct main"
     description:
       name: supabase_flutter
-      sha256: "30e966b89ee61dc9de845e2d7e1c60967b3189c410d105c6d42f09b6259f4cb6"
+      sha256: "2d9683a15098258de137cb9182e695fa2a1a0f366c7409c2a6e6d47bc5a42be3"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.4"
+    version: "2.5.0"
   term_glyph:
     dependency: transitive
     description:
