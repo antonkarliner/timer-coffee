@@ -76,6 +76,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text("Error: ${snapshot.error}"));
+          } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+            // Check if data is empty
+            return Center(child: Text(loc.brewdiarynotfound));
           } else if (snapshot.hasData) {
             return ListView.builder(
               itemCount: snapshot.data!.length,
@@ -85,7 +88,8 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
               },
             );
           } else {
-            return Center(child: Text(loc.brewdiarynotfound));
+            return Center(
+                child: Text(loc.brewdiarynotfound)); // In case no data is found
           }
         },
       ),
