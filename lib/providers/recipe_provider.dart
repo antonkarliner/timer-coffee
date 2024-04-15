@@ -370,5 +370,9 @@ class RecipeProvider extends ChangeNotifier {
     return beans.where((bean) => bean.contains(filter)).toList();
   }
 
+  Future<void> deleteUserStat(int id) async {
+    await db.userStatsDao.deleteUserStat(id);
+  }
+
   ValueNotifier<Set<String>> get favoriteRecipeIds => _favoriteRecipeIds;
 }

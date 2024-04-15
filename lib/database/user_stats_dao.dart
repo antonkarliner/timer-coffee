@@ -59,9 +59,12 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
-  // 2. Fetch all stats
+  // Fetch all stats ordered by createdAt date descending
   Future<List<UserStatsModel>> fetchAllStats() async {
-    final query = select(userStats);
+    final query = select(userStats)
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.createdAt, mode: OrderingMode.desc)
+      ]);
     final List<UserStat> userStatsList = await query.get();
 
     return userStatsList
@@ -146,5 +149,9 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       ]);
     final beans = await query.map((row) => row.read(userStats.beans)).get();
     return beans.whereType<String>().toList();
+  }
+
+  Future<void> deleteUserStat(int id) async {
+    await (delete(userStats)..where((t) => t.id.equals(id))).go();
   }
 }

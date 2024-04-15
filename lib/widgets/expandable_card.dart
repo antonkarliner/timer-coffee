@@ -5,6 +5,7 @@ class ExpandableCard extends StatefulWidget {
   final String header;
   final String subtitle;
   final Widget detail;
+  final Widget? trailing; // Optional widget for trailing area
 
   const ExpandableCard({
     Key? key,
@@ -12,6 +13,7 @@ class ExpandableCard extends StatefulWidget {
     required this.header,
     required this.subtitle,
     required this.detail,
+    this.trailing, // Initialize the trailing widget
   }) : super(key: key);
 
   @override
@@ -33,21 +35,21 @@ class _ExpandableCardState extends State<ExpandableCard> {
       child: Column(
         children: [
           InkWell(
-            onTap:
-                _toggleExpanded, // Toggle expansion when the ListTile area is tapped
+            onTap: _toggleExpanded,
             child: ListTile(
-              leading: widget.leading, // Place the icon here
+              leading: widget.leading,
               title: Text(widget.header),
               subtitle: Text(widget.subtitle),
-              trailing: IconButton(
-                icon: Icon(_isExpanded ? Icons.expand_less : Icons.expand_more),
-                onPressed:
-                    _toggleExpanded, // Same toggle function for the icon button
-              ),
+              trailing: widget.trailing ??
+                  IconButton(
+                    icon: Icon(
+                        _isExpanded ? Icons.expand_less : Icons.expand_more),
+                    onPressed: _toggleExpanded,
+                  ),
             ),
           ),
           AnimatedCrossFade(
-            firstChild: Container(), // Empty container for collapsed state
+            firstChild: Container(),
             secondChild: Container(
               padding: const EdgeInsets.all(16),
               child: widget.detail,

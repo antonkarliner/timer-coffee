@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../providers/recipe_provider.dart';
 import '../models/user_stat_model.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +18,42 @@ class BrewDiaryScreen extends StatefulWidget {
 }
 
 class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
+  bool isEditMode = false;
+
+  String getSweeetnessLabel(int position) {
+    final loc = AppLocalizations.of(context)!;
+    switch (position) {
+      case 0:
+        return loc.sweet;
+      case 1:
+        return loc.balance;
+      case 2:
+        return loc.acidic;
+      default:
+        return loc.donationerr; // Example of handling unexpected values
+    }
+  }
+
+  String getStrengthLabel(int position) {
+    final loc = AppLocalizations.of(context)!;
+    switch (position) {
+      case 0:
+        return loc.light;
+      case 1:
+        return loc.balance;
+      case 2:
+        return loc.strong;
+      default:
+        return loc.donationerr; // Example of handling unexpected values
+    }
+  }
+
+  void toggleEditMode() {
+    setState(() {
+      isEditMode = !isEditMode;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
@@ -27,6 +62,12 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(loc.brewdiary),
+        actions: [
+          IconButton(
+            icon: Icon(isEditMode ? Icons.done : Icons.edit_note),
+            onPressed: toggleEditMode,
+          ),
+        ],
       ),
       body: FutureBuilder<List<UserStatsModel>>(
         future: recipeProvider.fetchAllUserStats(),
@@ -40,34 +81,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 UserStatsModel stat = snapshot.data![index];
-                return FutureBuilder<List<String>>(
-                  future: Future.wait([
-                    recipeProvider.getBrewingMethodName(stat.brewingMethodId),
-                    recipeProvider.getLocalizedRecipeName(stat.recipeId),
-                  ]),
-                  builder: (context, namesSnapshot) {
-                    if (namesSnapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return const Card(
-                          child: ListTile(title: Text("Loading...")));
-                    } else if (namesSnapshot.hasData) {
-                      DateFormat dateFormat = DateFormat(
-                          '${loc.dateFormat} ${loc.timeFormat}',
-                          Localizations.localeOf(context).toString());
-                      return ExpandableCard(
-                        leading: getIconByBrewingMethod(stat.brewingMethodId),
-                        header: namesSnapshot.data![1],
-                        subtitle:
-                            "${namesSnapshot.data![0]} - ${dateFormat.format(stat.createdAt.toLocal())}",
-                        detail: buildDetail(context, stat),
-                      );
-                    } else {
-                      return const Card(
-                          child:
-                              ListTile(title: Text("Error fetching records")));
-                    }
-                  },
-                );
+                return buildUserStatCard(context, stat);
               },
             );
           } else {
@@ -75,6 +89,47 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
           }
         },
       ),
+    );
+  }
+
+  Widget buildUserStatCard(BuildContext context, UserStatsModel stat) {
+    final loc = AppLocalizations.of(context)!;
+    final recipeProvider = Provider.of<RecipeProvider>(context);
+    DateFormat dateFormat = DateFormat('${loc.dateFormat} ${loc.timeFormat}',
+        Localizations.localeOf(context).toString());
+
+    return FutureBuilder<List<String>>(
+      future: Future.wait([
+        recipeProvider.getBrewingMethodName(stat.brewingMethodId),
+        recipeProvider.getLocalizedRecipeName(stat.recipeId),
+      ]),
+      builder: (context, namesSnapshot) {
+        if (namesSnapshot.connectionState == ConnectionState.waiting) {
+          return const Card(child: ListTile(title: Text("Loading...")));
+        } else if (namesSnapshot.hasData) {
+          return ExpandableCard(
+            leading: getIconByBrewingMethod(stat.brewingMethodId),
+            header: namesSnapshot.data![1], // Display localized recipe name
+            subtitle:
+                "${namesSnapshot.data![0]} - ${dateFormat.format(stat.createdAt.toLocal())}",
+            detail: buildDetail(context, stat),
+            trailing: isEditMode
+                ? IconButton(
+                    icon: const Icon(Icons.remove_circle_outline,
+                        color: Colors.red),
+                    onPressed: () async {
+                      await recipeProvider.deleteUserStat(stat.id);
+                      setState(
+                          () {}); // Trigger a rebuild to reflect the deletion
+                    },
+                  )
+                : null,
+          );
+        } else {
+          return const Card(
+              child: ListTile(title: Text("Error fetching records")));
+        }
+      },
     );
   }
 
@@ -103,6 +158,16 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
               style: detailTextStyle),
           Text("${loc.wateramount}: ${stat.waterAmount}",
               style: detailTextStyle),
+          if (stat.recipeId == '106')
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                      "${getSweeetnessLabel(stat.sweetnessSliderPosition)}, ${getStrengthLabel(stat.strengthSliderPosition)}",
+                      style: detailTextStyle),
+                ),
+              ],
+            ),
           TextFormField(
             controller: notesController,
             focusNode: notesFocusNode,
@@ -128,23 +193,23 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             },
             initialValue: stat.beans, // Add the initial value here
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: RatingBar.builder(
-              initialRating: stat.rating ?? 0.0,
-              minRating: 1,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemSize: 30.0,
-              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-              itemBuilder: (context, _) =>
-                  const Icon(Icons.star, color: Colors.brown),
-              onRatingUpdate: (rating) {
-                recipeProvider.updateUserStat(id: stat.id, rating: rating);
-              },
-            ),
-          ),
+          // Padding(
+          //padding: const EdgeInsets.only(top: 16.0),
+          //child: RatingBar.builder(
+          //initialRating: stat.rating ?? 0.0,
+          //minRating: 1,
+          //direction: Axis.horizontal,
+          //allowHalfRating: true,
+          //itemCount: 5,
+          //itemSize: 30.0,
+          //itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+          //itemBuilder: (context, _) =>
+          //const Icon(Icons.star, color: Colors.brown),
+          //onRatingUpdate: (rating) {
+          //recipeProvider.updateUserStat(id: stat.id, rating: rating);
+          //},
+          //),
+          //),
         ],
       ),
     );
