@@ -147,13 +147,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 context.router.push(const FavoriteRecipesRoute());
               },
             ),
-            ListTile(
-              leading: const Icon(Coffeico.bean),
-              title: Text(AppLocalizations.of(context)!.explore),
-              onTap: () {
-                context.router.push(const VendorsRoute());
-              },
-            ),
+            //ListTile(
+            //leading: const Icon(Coffeico.bean),
+            //title: Text(AppLocalizations.of(context)!.explore),
+            //onTap: () {
+            //context.router.push(const VendorsRoute());
+            //},
+            //),
             if (mostRecentRecipe != null)
               ListTile(
                 leading:
