@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/recipe_model.dart';
 import '../providers/recipe_provider.dart';
-import '../widgets/favorite_button.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
+import '../widgets/favorite_button.dart';
 
 @RoutePage()
 class RecipeListScreen extends StatefulWidget {

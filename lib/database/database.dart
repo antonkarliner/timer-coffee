@@ -7,9 +7,9 @@ import '../models/brewing_method_model.dart';
 import '../models/vendor_model.dart';
 import '../models/supported_locale_model.dart';
 import '../models/coffee_fact_model.dart';
-import '../models/start_popup_model.dart';
 import '../models/contributor_model.dart';
 import '../models/user_stat_model.dart';
+import '../models/launch_popup_model.dart';
 import '../database/schema_versions.dart';
 part 'database.g.dart';
 part 'recipes_dao.dart';
@@ -20,9 +20,9 @@ part 'brewing_methods_dao.dart';
 part 'vendors_dao.dart';
 part 'supported_locales_dao.dart';
 part 'coffee_facts_dao.dart';
-part 'start_popups_dao.dart';
 part 'contributors_dao.dart';
 part 'user_stats_dao.dart';
+part 'launch_popups_dao.dart';
 
 class Vendors extends Table {
   TextColumn get vendorId =>
@@ -149,13 +149,14 @@ class CoffeeFacts extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-class StartPopups extends Table {
-  TextColumn get id => text().named('id').withLength(min: 1, max: 255)();
+@TableIndex(name: 'idx_launch_popups_created_at', columns: {#createdAt})
+class LaunchPopups extends Table {
+  IntColumn get id => integer().named('id')();
   TextColumn get content => text().named('content')();
-  TextColumn get appVersion => text().named('app_version')();
   TextColumn get locale => text()
       .named('locale')
       .references(SupportedLocales, #locale, onDelete: KeyAction.cascade)();
+  DateTimeColumn get createdAt => dateTime().named('created_at')();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -205,7 +206,7 @@ class UserStats extends Table {
     Steps,
     UserRecipePreferences,
     CoffeeFacts,
-    StartPopups,
+    LaunchPopups,
     Contributors,
     UserStats
   ],
@@ -218,9 +219,9 @@ class UserStats extends Table {
     VendorsDao,
     SupportedLocalesDao,
     CoffeeFactsDao,
-    StartPopupsDao,
     ContributorsDao,
-    UserStatsDao
+    UserStatsDao,
+    LaunchPopupsDao
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -230,7 +231,7 @@ class AppDatabase extends _$AppDatabase {
       : super(_openConnection());
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -253,6 +254,11 @@ class AppDatabase extends _$AppDatabase {
         },
         from4To5: (m, schema) async {
           await m.createTable(userStats);
+        },
+        from5To6: (m, schema) async {
+          await m.createTable(launchPopups);
+          await m.createIndex(schema.idxLaunchPopupsCreatedAt);
+          await m.deleteTable('StartPopups');
         },
       ));
 }

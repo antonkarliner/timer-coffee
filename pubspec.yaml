@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 1.7.5+49-35
+version: 2.0.0+50
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -23,7 +23,7 @@ dependencies:
   flutter_markdown: ^0.6.15
   cupertino_icons: ^1.0.0
   just_audio: ^0.9.36
-  auto_route: ^7.7.1
+  auto_route: ^8.0.3
   share_plus: ^7.1.0
   universal_html: ^2.2.3
   flutter_native_splash: ^2.4.0
@@ -39,7 +39,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   envied: ^0.5.3
-  internet_connection_checker: ^1.0.0+1
   flutter_rating_bar: ^4.0.1
 
 dependency_overrides:
@@ -52,7 +51,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  auto_route_generator: ^7.2.0
+  auto_route_generator: ^8.0.0
   drift_dev: ^2.16.0
   build_runner: ^2.4.8
   envied_generator: ^0.5.3

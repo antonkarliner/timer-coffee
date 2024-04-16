@@ -1,13 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_timer/providers/recipe_provider.dart';
+import 'package:url_launcher/url_launcher.dart'; // Ensure correct import path
 
 class LaunchPopupWidget extends StatefulWidget {
   @override
@@ -19,25 +17,21 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      checkVersionAndShowPopup();
+      checkForNewPopup();
     });
   }
 
-  void checkVersionAndShowPopup() async {
+  void checkForNewPopup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String currentVersion = packageInfo.version;
-    bool isPopupShown =
-        prefs.getBool('popupShownForVersion_$currentVersion') ?? false;
+    String locale = Localizations.localeOf(context).languageCode;
+    final popup = await Provider.of<RecipeProvider>(context, listen: false)
+        .fetchLatestLaunchPopup(locale); // Utilizing the new method
 
-    if (!isPopupShown) {
-      String locale = Localizations.localeOf(context).languageCode;
-      // Use RecipeProvider to get the start popup
-      final startPopup =
-          await Provider.of<RecipeProvider>(context, listen: false)
-              .fetchStartPopup(currentVersion, locale);
+    if (popup != null) {
+      String lastPopupDate = prefs.getString('lastPopupDate_$locale') ?? '';
+      String currentPopupDate = popup.createdAt.toIso8601String();
 
-      if (startPopup != null && startPopup.content.isNotEmpty) {
+      if (lastPopupDate != currentPopupDate) {
         if (mounted) {
           showDialog(
             context: context,
@@ -45,28 +39,14 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
               return AlertDialog(
                 title: Text(AppLocalizations.of(context)!.whatsnewtitle),
                 content: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(maxHeight: 500),
-                        child: _buildRichText(context, startPopup.content),
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        '${AppLocalizations.of(context)!.appversion}: $currentVersion',
-                        style:
-                            const TextStyle(fontSize: 16.0, color: Colors.grey),
-                      ),
-                    ],
-                  ),
+                  child: _buildRichText(context, popup.content),
                 ),
                 actions: <Widget>[
                   TextButton(
                     child: Text(AppLocalizations.of(context)!.whatsnewclose),
                     onPressed: () {
-                      prefs.setBool(
-                          'popupShownForVersion_$currentVersion', true);
+                      prefs.setString(
+                          'lastPopupDate_$locale', currentPopupDate);
                       Navigator.of(context).pop();
                     },
                   ),
@@ -76,14 +56,6 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
           );
         }
       }
-    }
-  }
-
-  Future<String> loadAsset(String path) async {
-    try {
-      return await rootBundle.loadString(path);
-    } catch (e) {
-      return ''; // If there's an error loading the file, return an empty string
     }
   }
 
@@ -161,10 +133,5 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(); // This widget does not need to display anything itself
-  }
-
-  Future<String> getVersionNumber() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    return packageInfo.version;
   }
 }

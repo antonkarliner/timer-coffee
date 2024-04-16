@@ -59,3 +59,4 @@ jsontodbf.py
 jsontodbsp.py
 *.py
 all_translations_queries.txt
+launch_popup_query.txt

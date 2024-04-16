@@ -1,6 +1,6 @@
 import 'package:coffee_timer/models/coffee_fact_model.dart';
 import 'package:coffee_timer/models/contributor_model.dart';
-import 'package:coffee_timer/models/start_popup_model.dart';
+import 'package:coffee_timer/models/launch_popup_model.dart';
 import 'package:coffee_timer/models/user_stat_model.dart';
 import 'package:coffee_timer/models/vendor_model.dart';
 import 'package:flutter/material.dart';
@@ -201,10 +201,9 @@ class RecipeProvider extends ChangeNotifier {
     return db.vendorsDao.getVendorById(vendorId);
   }
 
-  Future<StartPopupModel?> fetchStartPopup(
-      String version, String locale) async {
+  Future<LaunchPopupModel?> fetchLatestLaunchPopup(String locale) async {
     await ensureDataReady(); // Make sure the database is initialized
-    return await db.startPopupsDao.getStartPopup(version, locale);
+    return await db.launchPopupsDao.getLatestLaunchPopup(locale);
   }
 
   Future<List<SupportedLocaleModel>> fetchAllSupportedLocales() async {

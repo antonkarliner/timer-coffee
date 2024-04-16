@@ -55,7 +55,7 @@ class _AutocompleteInputFieldState extends State<AutocompleteInputField> {
         Padding(
           padding: const EdgeInsets.only(top: 20),
           child: Text(widget.label.capitalize(),
-              style: Theme.of(context).textTheme.headline6),
+              style: Theme.of(context).textTheme.titleLarge),
         ),
         FutureBuilder<List<String>>(
           future: widget.initialOptions,

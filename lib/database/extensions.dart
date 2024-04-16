@@ -91,13 +91,15 @@ extension CoffeeFactsCompanionExtension on CoffeeFactsCompanion {
   }
 }
 
-extension StartPopupsCompanionExtension on StartPopupsCompanion {
-  static StartPopupsCompanion fromJson(Map<String, dynamic> json) {
-    return StartPopupsCompanion(
+extension LaunchPopupsCompanionExtension on LaunchPopupsCompanion {
+  static LaunchPopupsCompanion fromJson(Map<String, dynamic> json) {
+    return LaunchPopupsCompanion(
       id: Value(json['id']),
       content: Value(json['content']),
-      appVersion: Value(json['app_version']),
       locale: Value(json['locale']),
+      createdAt: json['created_at'] != null
+          ? Value(DateTime.parse(json['created_at']))
+          : const Value.absent(),
     );
   }
 }

@@ -2535,31 +2535,22 @@ class CoffeeFactsCompanion extends UpdateCompanion<CoffeeFact> {
   }
 }
 
-class $StartPopupsTable extends StartPopups
-    with TableInfo<$StartPopupsTable, StartPopup> {
+class $LaunchPopupsTable extends LaunchPopups
+    with TableInfo<$LaunchPopupsTable, LaunchPopup> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $StartPopupsTable(this.attachedDatabase, [this._alias]);
+  $LaunchPopupsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _contentMeta =
       const VerificationMeta('content');
   @override
   late final GeneratedColumn<String> content = GeneratedColumn<String>(
       'content', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _appVersionMeta =
-      const VerificationMeta('appVersion');
-  @override
-  late final GeneratedColumn<String> appVersion = GeneratedColumn<String>(
-      'app_version', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _localeMeta = const VerificationMeta('locale');
   @override
@@ -2569,22 +2560,26 @@ class $StartPopupsTable extends StartPopups
       requiredDuringInsert: true,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'REFERENCES supported_locales (locale) ON DELETE CASCADE'));
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
   @override
-  List<GeneratedColumn> get $columns => [id, content, appVersion, locale];
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, content, locale, createdAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'start_popups';
+  static const String $name = 'launch_popups';
   @override
-  VerificationContext validateIntegrity(Insertable<StartPopup> instance,
+  VerificationContext validateIntegrity(Insertable<LaunchPopup> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('content')) {
       context.handle(_contentMeta,
@@ -2592,19 +2587,17 @@ class $StartPopupsTable extends StartPopups
     } else if (isInserting) {
       context.missing(_contentMeta);
     }
-    if (data.containsKey('app_version')) {
-      context.handle(
-          _appVersionMeta,
-          appVersion.isAcceptableOrUnknown(
-              data['app_version']!, _appVersionMeta));
-    } else if (isInserting) {
-      context.missing(_appVersionMeta);
-    }
     if (data.containsKey('locale')) {
       context.handle(_localeMeta,
           locale.isAcceptableOrUnknown(data['locale']!, _localeMeta));
     } else if (isInserting) {
       context.missing(_localeMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
     }
     return context;
   }
@@ -2612,158 +2605,150 @@ class $StartPopupsTable extends StartPopups
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  StartPopup map(Map<String, dynamic> data, {String? tablePrefix}) {
+  LaunchPopup map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return StartPopup(
+    return LaunchPopup(
       id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       content: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}content'])!,
-      appVersion: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}app_version'])!,
       locale: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}locale'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
     );
   }
 
   @override
-  $StartPopupsTable createAlias(String alias) {
-    return $StartPopupsTable(attachedDatabase, alias);
+  $LaunchPopupsTable createAlias(String alias) {
+    return $LaunchPopupsTable(attachedDatabase, alias);
   }
 }
 
-class StartPopup extends DataClass implements Insertable<StartPopup> {
-  final String id;
+class LaunchPopup extends DataClass implements Insertable<LaunchPopup> {
+  final int id;
   final String content;
-  final String appVersion;
   final String locale;
-  const StartPopup(
+  final DateTime createdAt;
+  const LaunchPopup(
       {required this.id,
       required this.content,
-      required this.appVersion,
-      required this.locale});
+      required this.locale,
+      required this.createdAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<String>(id);
+    map['id'] = Variable<int>(id);
     map['content'] = Variable<String>(content);
-    map['app_version'] = Variable<String>(appVersion);
     map['locale'] = Variable<String>(locale);
+    map['created_at'] = Variable<DateTime>(createdAt);
     return map;
   }
 
-  StartPopupsCompanion toCompanion(bool nullToAbsent) {
-    return StartPopupsCompanion(
+  LaunchPopupsCompanion toCompanion(bool nullToAbsent) {
+    return LaunchPopupsCompanion(
       id: Value(id),
       content: Value(content),
-      appVersion: Value(appVersion),
       locale: Value(locale),
+      createdAt: Value(createdAt),
     );
   }
 
-  factory StartPopup.fromJson(Map<String, dynamic> json,
+  factory LaunchPopup.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return StartPopup(
-      id: serializer.fromJson<String>(json['id']),
+    return LaunchPopup(
+      id: serializer.fromJson<int>(json['id']),
       content: serializer.fromJson<String>(json['content']),
-      appVersion: serializer.fromJson<String>(json['appVersion']),
       locale: serializer.fromJson<String>(json['locale']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
+      'id': serializer.toJson<int>(id),
       'content': serializer.toJson<String>(content),
-      'appVersion': serializer.toJson<String>(appVersion),
       'locale': serializer.toJson<String>(locale),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
 
-  StartPopup copyWith(
-          {String? id, String? content, String? appVersion, String? locale}) =>
-      StartPopup(
+  LaunchPopup copyWith(
+          {int? id, String? content, String? locale, DateTime? createdAt}) =>
+      LaunchPopup(
         id: id ?? this.id,
         content: content ?? this.content,
-        appVersion: appVersion ?? this.appVersion,
         locale: locale ?? this.locale,
+        createdAt: createdAt ?? this.createdAt,
       );
   @override
   String toString() {
-    return (StringBuffer('StartPopup(')
+    return (StringBuffer('LaunchPopup(')
           ..write('id: $id, ')
           ..write('content: $content, ')
-          ..write('appVersion: $appVersion, ')
-          ..write('locale: $locale')
+          ..write('locale: $locale, ')
+          ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, content, appVersion, locale);
+  int get hashCode => Object.hash(id, content, locale, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is StartPopup &&
+      (other is LaunchPopup &&
           other.id == this.id &&
           other.content == this.content &&
-          other.appVersion == this.appVersion &&
-          other.locale == this.locale);
+          other.locale == this.locale &&
+          other.createdAt == this.createdAt);
 }
 
-class StartPopupsCompanion extends UpdateCompanion<StartPopup> {
-  final Value<String> id;
+class LaunchPopupsCompanion extends UpdateCompanion<LaunchPopup> {
+  final Value<int> id;
   final Value<String> content;
-  final Value<String> appVersion;
   final Value<String> locale;
-  final Value<int> rowid;
-  const StartPopupsCompanion({
+  final Value<DateTime> createdAt;
+  const LaunchPopupsCompanion({
     this.id = const Value.absent(),
     this.content = const Value.absent(),
-    this.appVersion = const Value.absent(),
     this.locale = const Value.absent(),
-    this.rowid = const Value.absent(),
+    this.createdAt = const Value.absent(),
   });
-  StartPopupsCompanion.insert({
-    required String id,
+  LaunchPopupsCompanion.insert({
+    this.id = const Value.absent(),
     required String content,
-    required String appVersion,
     required String locale,
-    this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        content = Value(content),
-        appVersion = Value(appVersion),
-        locale = Value(locale);
-  static Insertable<StartPopup> custom({
-    Expression<String>? id,
+    required DateTime createdAt,
+  })  : content = Value(content),
+        locale = Value(locale),
+        createdAt = Value(createdAt);
+  static Insertable<LaunchPopup> custom({
+    Expression<int>? id,
     Expression<String>? content,
-    Expression<String>? appVersion,
     Expression<String>? locale,
-    Expression<int>? rowid,
+    Expression<DateTime>? createdAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (content != null) 'content': content,
-      if (appVersion != null) 'app_version': appVersion,
       if (locale != null) 'locale': locale,
-      if (rowid != null) 'rowid': rowid,
+      if (createdAt != null) 'created_at': createdAt,
     });
   }
 
-  StartPopupsCompanion copyWith(
-      {Value<String>? id,
+  LaunchPopupsCompanion copyWith(
+      {Value<int>? id,
       Value<String>? content,
-      Value<String>? appVersion,
       Value<String>? locale,
-      Value<int>? rowid}) {
-    return StartPopupsCompanion(
+      Value<DateTime>? createdAt}) {
+    return LaunchPopupsCompanion(
       id: id ?? this.id,
       content: content ?? this.content,
-      appVersion: appVersion ?? this.appVersion,
       locale: locale ?? this.locale,
-      rowid: rowid ?? this.rowid,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 
@@ -2771,31 +2756,27 @@ class StartPopupsCompanion extends UpdateCompanion<StartPopup> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<String>(id.value);
+      map['id'] = Variable<int>(id.value);
     }
     if (content.present) {
       map['content'] = Variable<String>(content.value);
     }
-    if (appVersion.present) {
-      map['app_version'] = Variable<String>(appVersion.value);
-    }
     if (locale.present) {
       map['locale'] = Variable<String>(locale.value);
     }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
     }
     return map;
   }
 
   @override
   String toString() {
-    return (StringBuffer('StartPopupsCompanion(')
+    return (StringBuffer('LaunchPopupsCompanion(')
           ..write('id: $id, ')
           ..write('content: $content, ')
-          ..write('appVersion: $appVersion, ')
           ..write('locale: $locale, ')
-          ..write('rowid: $rowid')
+          ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
   }
@@ -3671,11 +3652,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $UserRecipePreferencesTable userRecipePreferences =
       $UserRecipePreferencesTable(this);
   late final $CoffeeFactsTable coffeeFacts = $CoffeeFactsTable(this);
-  late final $StartPopupsTable startPopups = $StartPopupsTable(this);
+  late final $LaunchPopupsTable launchPopups = $LaunchPopupsTable(this);
   late final $ContributorsTable contributors = $ContributorsTable(this);
   late final $UserStatsTable userStats = $UserStatsTable(this);
   late final Index idxRecipesLastModified = Index('idx_recipes_last_modified',
       'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+  late final Index idxLaunchPopupsCreatedAt = Index(
+      'idx_launch_popups_created_at',
+      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
   late final RecipesDao recipesDao = RecipesDao(this as AppDatabase);
   late final StepsDao stepsDao = StepsDao(this as AppDatabase);
   late final RecipeLocalizationsDao recipeLocalizationsDao =
@@ -3689,11 +3673,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       SupportedLocalesDao(this as AppDatabase);
   late final CoffeeFactsDao coffeeFactsDao =
       CoffeeFactsDao(this as AppDatabase);
-  late final StartPopupsDao startPopupsDao =
-      StartPopupsDao(this as AppDatabase);
   late final ContributorsDao contributorsDao =
       ContributorsDao(this as AppDatabase);
   late final UserStatsDao userStatsDao = UserStatsDao(this as AppDatabase);
+  late final LaunchPopupsDao launchPopupsDao =
+      LaunchPopupsDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3707,10 +3691,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         steps,
         userRecipePreferences,
         coffeeFacts,
-        startPopups,
+        launchPopups,
         contributors,
         userStats,
-        idxRecipesLastModified
+        idxRecipesLastModified,
+        idxLaunchPopupsCreatedAt
       ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
@@ -3775,7 +3760,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
             on: TableUpdateQuery.onTableName('supported_locales',
                 limitUpdateKind: UpdateKind.delete),
             result: [
-              TableUpdate('start_popups', kind: UpdateKind.delete),
+              TableUpdate('launch_popups', kind: UpdateKind.delete),
             ],
           ),
           WritePropagation(
@@ -3840,11 +3825,6 @@ mixin _$CoffeeFactsDaoMixin on DatabaseAccessor<AppDatabase> {
       attachedDatabase.supportedLocales;
   $CoffeeFactsTable get coffeeFacts => attachedDatabase.coffeeFacts;
 }
-mixin _$StartPopupsDaoMixin on DatabaseAccessor<AppDatabase> {
-  $SupportedLocalesTable get supportedLocales =>
-      attachedDatabase.supportedLocales;
-  $StartPopupsTable get startPopups => attachedDatabase.startPopups;
-}
 mixin _$ContributorsDaoMixin on DatabaseAccessor<AppDatabase> {
   $SupportedLocalesTable get supportedLocales =>
       attachedDatabase.supportedLocales;
@@ -3855,4 +3835,9 @@ mixin _$UserStatsDaoMixin on DatabaseAccessor<AppDatabase> {
   $VendorsTable get vendors => attachedDatabase.vendors;
   $RecipesTable get recipes => attachedDatabase.recipes;
   $UserStatsTable get userStats => attachedDatabase.userStats;
+}
+mixin _$LaunchPopupsDaoMixin on DatabaseAccessor<AppDatabase> {
+  $SupportedLocalesTable get supportedLocales =>
+      attachedDatabase.supportedLocales;
+  $LaunchPopupsTable get launchPopups => attachedDatabase.launchPopups;
 }

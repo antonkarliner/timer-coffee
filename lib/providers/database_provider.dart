@@ -89,17 +89,16 @@ class DatabaseProvider {
   Future<void> _fetchAndStoreExtraData() async {
     final coffeeFactsResponse =
         await Supabase.instance.client.from('coffee_facts').select();
-    final startPopupResponse =
-        await Supabase.instance.client.from('start_popup').select();
+    final LaunchPopupResponse =
+        await Supabase.instance.client.from('launch_popup').select();
     final contributorsResponse =
         await Supabase.instance.client.from('contributors').select();
 
     final coffeeFacts = coffeeFactsResponse
         .map((json) => CoffeeFactsCompanionExtension.fromJson(json))
         .toList();
-    final startPopups = startPopupResponse
-        .map((json) => StartPopupsCompanionExtension.fromJson(json))
-        .toList();
+    final launchPopups = LaunchPopupResponse.map(
+        (json) => LaunchPopupsCompanionExtension.fromJson(json)).toList();
     final contributors = contributorsResponse
         .map((json) => ContributorsCompanionExtension.fromJson(json))
         .toList();
@@ -107,7 +106,7 @@ class DatabaseProvider {
     await _db.transaction(() async {
       await _db.batch((batch) {
         batch.insertAllOnConflictUpdate(_db.coffeeFacts, coffeeFacts);
-        batch.insertAllOnConflictUpdate(_db.startPopups, startPopups);
+        batch.insertAllOnConflictUpdate(_db.launchPopups, launchPopups);
         batch.insertAllOnConflictUpdate(_db.contributors, contributors);
       });
     });

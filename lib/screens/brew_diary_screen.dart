@@ -5,9 +5,9 @@ import '../providers/recipe_provider.dart';
 import '../models/user_stat_model.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../widgets/expandable_card.dart';
 import '../widgets/autocomplete_input_field.dart';
 import '../utils/icon_utils.dart';
+import '../widgets/expandable_card.dart';
 
 @RoutePage()
 class BrewDiaryScreen extends StatefulWidget {
@@ -172,10 +172,17 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 ),
               ],
             ),
+          Center(
+            // Centering the label text by using Center widget
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 8.0, top: 16.0),
+              child: Text(loc.notes,
+                  style: Theme.of(context).textTheme.titleLarge),
+            ),
+          ),
           TextFormField(
             controller: notesController,
             focusNode: notesFocusNode,
-            decoration: InputDecoration(labelText: loc.notes),
             maxLines: null,
             keyboardType: TextInputType.multiline,
           ),
