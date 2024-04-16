@@ -3,8 +3,8 @@ import 'dart:core';
 import 'dart:core' as core;
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import '../models/recipe.dart';
-import '../models/brew_step.dart';
+import '../models/recipe_model.dart';
+import '../models/brew_step_model.dart';
 import 'finish_screen.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -38,29 +38,31 @@ class LocalizedNumberText extends StatelessWidget {
 }
 
 class BrewingProcessScreen extends StatefulWidget {
-  final Recipe recipe;
+  final RecipeModel recipe;
   final double coffeeAmount;
   final double waterAmount;
   final bool soundEnabled;
   final int sweetnessSliderPosition;
   final int strengthSliderPosition;
+  final String brewingMethodName;
 
   const BrewingProcessScreen({
-    super.key,
+    Key? key,
     required this.recipe,
     required this.coffeeAmount,
     required this.waterAmount,
     required this.soundEnabled,
     required this.sweetnessSliderPosition,
     required this.strengthSliderPosition,
-  });
+    required this.brewingMethodName,
+  }) : super(key: key);
 
   @override
   State<BrewingProcessScreen> createState() => _BrewingProcessScreenState();
 }
 
 class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
-  late List<BrewStep> brewingSteps;
+  late List<BrewStepModel> brewingSteps;
   int currentStepIndex = 0;
   int currentStepTime = 0;
   late Timer timer;
@@ -123,82 +125,36 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
   Duration replaceTimePlaceholder(
     Duration time,
     String? timeString,
-    int sweetnessSliderPosition,
     int strengthSliderPosition,
   ) {
     if (timeString == null) return time;
 
-    // Define the values based on slider positions for sweetness and strength
-    List<Map<String, double>> sweetnessValues = [
-      {"m1": 0.16, "m2": 0.4}, // Sweetness
-      {"m1": 0.20, "m2": 0.4}, // Balance
-      {"m1": 0.24, "m2": 0.4}, // Acidity
+    // Define the mapping of placeholders to actual time values based on strengthSliderPosition
+    List<Map<String, int>> strengthTimeValues = [
+      // For strengthSliderPosition = 0
+      {"t1": 10, "t2": 35, "t3": 0, "t4": 0, "t5": 0, "t6": 0},
+      // For strengthSliderPosition = 1
+      {"t1": 10, "t2": 35, "t3": 10, "t4": 35, "t5": 0, "t6": 0},
+      // For strengthSliderPosition = 2
+      {"t1": 10, "t2": 35, "t3": 10, "t4": 35, "t5": 10, "t6": 35},
     ];
-
-    List<Map<String, double>> strengthValues = [
-      {
-        "m3": 1.0,
-        "t1": 10,
-        "t2": 35,
-        "m4": 0,
-        "t3": 0,
-        "t4": 0,
-        "m5": 0,
-        "t5": 0,
-        "t6": 0
-      }, // Light
-      {
-        "m3": 0.7,
-        "t1": 10,
-        "t2": 35,
-        "m4": 1.0,
-        "t3": 10,
-        "t4": 35,
-        "m5": 0,
-        "t5": 0,
-        "t6": 0
-      }, // Balanced
-      {
-        "m3": 0.6,
-        "t1": 10,
-        "t2": 35,
-        "m4": 0.8,
-        "t3": 10,
-        "t4": 35,
-        "m5": 1.0,
-        "t5": 10,
-        "t6": 35
-      }, // Strong
-    ];
-
-    // Check if time is a direct numerical value (if time is a placeholder, it would be set to zero initially)
-    if (time != Duration.zero) {
-      return time; // It's a direct value, return as is.
-    }
 
     // Assume that the placeholder is in a predictable format, such as <t1> or <t2>, etc.
     RegExp exp = RegExp(r'<(t\d+)>');
     var matches = exp.allMatches(timeString);
 
     for (var match in matches) {
-      String placeholder = match.group(1)!;
-      // Identify which value set to use and replace placeholders
-      double? replacementValue;
-      if (sweetnessValues[sweetnessSliderPosition].containsKey(placeholder)) {
-        replacementValue =
-            sweetnessValues[sweetnessSliderPosition][placeholder];
-      } else if (strengthValues[strengthSliderPosition]
-          .containsKey(placeholder)) {
-        replacementValue = strengthValues[strengthSliderPosition][placeholder];
-      }
+      String placeholder = match.group(1)!; // e.g., "t1", "t2"
+      int? replacementTime =
+          strengthTimeValues[strengthSliderPosition][placeholder];
 
-      // Convert the replacement value to a Duration, assuming the values are seconds
-      if (replacementValue != null) {
-        time = Duration(seconds: replacementValue.toInt());
+      // If a replacement value was found, create a Duration object with it
+      if (replacementTime != null && replacementTime > 0) {
+        return Duration(seconds: replacementTime);
       }
     }
 
-    return time; // Return the modified Duration
+    return time; // Return the original time if no placeholders matched
   }
 
   @override
@@ -206,14 +162,13 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
     super.initState();
     WakelockPlus.enable();
 
+    // Use updated logic with step.timePlaceholder
     brewingSteps = widget.recipe.steps
         .map((step) {
-          // Replace placeholders with actual time duration
           Duration stepDuration = replaceTimePlaceholder(
             step.time,
-            step.timePlaceholder, // pass the current duration
-            widget.sweetnessSliderPosition, // current sweetness slider position
-            widget.strengthSliderPosition, // current strength slider position
+            step.timePlaceholder, // Use step.timePlaceholder for time placeholders
+            widget.strengthSliderPosition, // Only pass strengthSliderPosition
           );
 
           String description = replacePlaceholders(
@@ -224,14 +179,14 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
             widget.strengthSliderPosition,
           );
 
-          return BrewStep(
+          return BrewStepModel(
             order: step.order,
             description: description,
             time: stepDuration,
           );
         })
         .where((step) => step.time.inSeconds > 0)
-        .toList();
+        .toList(); // Ensure steps with meaningful duration are kept
 
     _preloadAudio();
     startTimer();
@@ -275,7 +230,12 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => FinishScreen(
-                  brewingMethodName: widget.recipe.brewingMethodName),
+                  brewingMethodName: widget.brewingMethodName,
+                  recipe: widget.recipe, // Pass the recipe object
+                  waterAmount: widget.waterAmount, // Pass the water amount
+                  coffeeAmount: widget.coffeeAmount,
+                  sweetnessSliderPosition: widget.sweetnessSliderPosition,
+                  strengthSliderPosition: widget.strengthSliderPosition),
             ),
           );
         }

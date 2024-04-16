@@ -64,5 +64,14 @@
   "whatsnewclose": "Close",
   "seasonspecials": "Season Specials",
   "snow": "Snow",
-  "noFavoriteRecipesMessage": "Your list of favorite recipes is currently empty. Start exploring and brewing to discover your favorites!"
+  "noFavoriteRecipesMessage": "Your list of favorite recipes is currently empty. Start exploring and brewing to discover your favorites!",
+  "explore": "Explore",
+  "dateFormat": "MMM d, yyyy",
+  "timeFormat": "hh:mm a",
+  "brewdiary": "Brew Diary",
+  "brewdiarynotfound": "No entries found",
+  "beans": "Beans",
+  "roaster": "Roaster",
+  "rating": "Rating",
+  "notes": "Notes"
 }

@@ -1,5 +1,9 @@
 import 'dart:async'; // Import for StreamSubscription
 import 'dart:convert';
+import 'package:coffee_timer/database/database.dart';
+import 'package:coffee_timer/env/env.dart';
+import 'package:coffee_timer/models/supported_locale_model.dart';
+import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/purchase_manager.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -10,112 +14,139 @@ import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:in_app_purchase/in_app_purchase.dart'; // Import for In-App Purchase
-import './models/brewing_method.dart';
+import 'models/brewing_method_model.dart';
 import './providers/recipe_provider.dart';
 import './providers/theme_provider.dart'; // Import ThemeProvider
 import './app_router.dart';
 import './app_router.gr.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
-import './models/recipe.dart';
+import 'models/recipe_model.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import './providers/snow_provider.dart';
 import 'widgets/global_snow_overlay.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.remove();
-  SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.manual,
-    overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
-  );
-
+  FlutterNativeSplash.preserve(widgetsBinding: WidgetsBinding.instance);
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
   // Initialize PurchaseManager
   PurchaseManager();
-
   // Restore previous purchases
   InAppPurchase.instance.restorePurchases();
+  await Supabase.initialize(url: Env.supaUrl, anonKey: Env.supaKey);
+  // Check if there is an existing session or logged-in user
+  final session = Supabase.instance.client.auth.currentSession;
+
+  if (session == null) {
+    // No session found, proceed with anonymous sign-in
+    final authResult = await Supabase.instance.client.auth.signInAnonymously();
+    if (authResult.user == null) {
+      //print('Error signing in anonymously. Check network and Supabase configuration.');
+    } else {
+      //print('Signed in anonymously. User ID: ${authResult.user!.id}');
+    }
+  } else {
+    //print('Already signed in. Session: ${session.user!.id}');
+  }
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
+  bool isFirstLaunch = prefs.getBool('firstLaunched') ?? true;
+  // Pass the !isFirstLaunch to enable foreign key constraints unless it's the first launch
+  final AppDatabase database =
+      AppDatabase(enableForeignKeyConstraints: !isFirstLaunch);
+
+  final supportedLocalesDao = SupportedLocalesDao(database);
+  final brewingMethodsDao = BrewingMethodsDao(database);
+  final DatabaseProvider databaseProvider = DatabaseProvider(database);
+  await databaseProvider.initializeDatabase();
+  // Fetch supported locales and brewing methods concurrently
+  final supportedLocalesFuture = supportedLocalesDao.getAllSupportedLocales();
+  final brewingMethodsFuture = brewingMethodsDao.getAllBrewingMethods();
+  final List<SupportedLocaleModel> supportedLocales =
+      await supportedLocalesFuture;
+  final List<BrewingMethodModel> brewingMethods = await brewingMethodsFuture;
+  List<Locale> localeList =
+      supportedLocales.map((locale) => Locale(locale.locale)).toList();
+
   String themeModeString = prefs.getString('themeMode') ?? 'system';
   ThemeMode themeMode = ThemeMode.values.firstWhere(
-    (e) => e.toString().split('.').last == themeModeString,
-    orElse: () => ThemeMode.system,
-  );
-  String? savedLocale = prefs.getString('locale');
-  Locale initialLocale = savedLocale != null
-      ? Locale(savedLocale.split('_')[0])
-      : Locale(WidgetsBinding.instance.window.locale.languageCode);
-
-  List<BrewingMethod> brewingMethods = await loadBrewingMethodsFromAssets();
+      (e) => e.toString().split('.').last == themeModeString,
+      orElse: () => ThemeMode.system);
+  String? savedLocaleCode = prefs.getString('locale');
+  Locale systemLocale =
+      Locale(WidgetsBinding.instance.window.locale.languageCode);
+  Locale initialLocale = Locale('en', ''); // Default to English as a fallback
+  if (savedLocaleCode != null) {
+    initialLocale = Locale(savedLocaleCode);
+  } else if (localeList
+      .any((locale) => locale.languageCode == systemLocale.languageCode)) {
+    initialLocale = systemLocale;
+  }
 
   final appRouter = AppRouter();
   usePathUrlStrategy();
 
   runApp(CoffeeTimerApp(
+    database: database,
+    supportedLocales: localeList,
     brewingMethods: brewingMethods,
+    initialLocale: initialLocale,
+    themeMode: themeMode,
     appRouter: appRouter,
-    locale: initialLocale,
-    themeMode: themeMode, // Pass the theme mode
   ));
 
   if (isFirstLaunch) {
-    await prefs.setBool('firstLaunch', false);
+    await prefs.setBool('firstLaunched', false);
   }
+
+  FlutterNativeSplash.remove();
 }
 
 class CoffeeTimerApp extends StatelessWidget {
-  static const supportedLocales = [
-    Locale('en'),
-    Locale('ru'),
-    Locale('de'),
-    Locale('fr'),
-    Locale('es'),
-    Locale('ja'),
-    Locale('zh'),
-    Locale('ar'),
-    Locale('pt'),
-    Locale('pl'),
-    Locale('id'),
-  ];
-
-  final AppRouter appRouter;
-  final List<BrewingMethod> brewingMethods;
-  final String? initialRoute;
-  final Locale locale;
+  final AppDatabase database; // Add database to the constructor
+  final List<Locale> supportedLocales;
+  final List<BrewingMethodModel> brewingMethods;
+  final Locale initialLocale;
   final ThemeMode themeMode;
+  final AppRouter appRouter;
 
   const CoffeeTimerApp({
     Key? key,
-    required this.appRouter,
+    required this.database, // Add database to the constructor
+    required this.supportedLocales,
     required this.brewingMethods,
-    this.initialRoute,
-    required this.locale,
+    required this.initialLocale,
     required this.themeMode,
+    required this.appRouter,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<AppDatabase>.value(value: database),
         ChangeNotifierProvider<RecipeProvider>(
           create: (_) =>
-              RecipeProvider(locale, CoffeeTimerApp.supportedLocales),
+              RecipeProvider(initialLocale, supportedLocales, database),
         ),
         ChangeNotifierProvider<ThemeProvider>(
-          create: (_) => ThemeProvider(themeMode), // Initialize with ThemeMode
+          create: (_) => ThemeProvider(themeMode),
         ),
         ChangeNotifierProvider<SnowEffectProvider>(
-          // Add SnowEffectProvider
           create: (_) => SnowEffectProvider(),
         ),
-        Provider<List<BrewingMethod>>(create: (_) => brewingMethods),
+        Provider<List<BrewingMethodModel>>(
+          create: (_) => brewingMethods,
+        ),
+        Provider<Locale>.value(value: initialLocale),
       ],
       child: Consumer2<ThemeProvider, SnowEffectProvider>(
         builder: (context, themeProvider, snowProvider, child) {
           return MaterialApp.router(
-            locale: Provider.of<RecipeProvider>(context).currentLocale,
+            locale: Provider.of<RecipeProvider>(context, listen: true)
+                .currentLocale,
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -123,16 +154,11 @@ class CoffeeTimerApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: supportedLocales,
-            routerDelegate: appRouter.delegate(
-              initialDeepLink: initialRoute,
-            ),
+            routerDelegate: appRouter.delegate(),
             routeInformationParser: appRouter.defaultRouteParser(),
             builder: (context, router) => Stack(
               children: [
-                QuickActionsManager(
-                  child: router!,
-                  appRouter: appRouter,
-                ),
+                router!,
                 GlobalSnowOverlay(isSnowing: snowProvider.isSnowing),
               ],
             ),
@@ -140,22 +166,12 @@ class CoffeeTimerApp extends StatelessWidget {
             title: 'Coffee Timer App',
             theme: themeProvider.lightTheme,
             darkTheme: themeProvider.darkTheme,
-            themeMode: themeProvider.themeMode, // Use ThemeMode from provider
+            themeMode: themeProvider.themeMode,
           );
         },
       ),
     );
   }
-}
-
-Future<List<BrewingMethod>> loadBrewingMethodsFromAssets() async {
-  String jsonString =
-      await rootBundle.loadString('assets/data/brewing_methods.json');
-  List<dynamic> jsonList = json.decode(jsonString);
-  return jsonList
-      .map((json) => BrewingMethod.fromJson(json))
-      .toList()
-      .cast<BrewingMethod>();
 }
 
 class QuickActionsManager extends StatefulWidget {
@@ -195,7 +211,8 @@ class _QuickActionsManagerState extends State<QuickActionsManager> {
       if (shortcutType == 'action_last_recipe') {
         RecipeProvider recipeProvider =
             Provider.of<RecipeProvider>(context, listen: false);
-        Recipe? mostRecentRecipe = await recipeProvider.getLastUsedRecipe();
+        RecipeModel? mostRecentRecipe =
+            await recipeProvider.getLastUsedRecipe();
         if (mostRecentRecipe != null) {
           widget.appRouter.push(RecipeDetailRoute(
               brewingMethodId: mostRecentRecipe.brewingMethodId,

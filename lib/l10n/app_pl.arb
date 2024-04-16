@@ -64,6 +64,15 @@
     "whatsnewclose": "Zamknij",
     "seasonspecials": "Specjalne Oferty Sezonowe",
     "snow": "Śnieg",
-    "noFavoriteRecipesMessage": "Twoja lista ulubionych przepisów jest obecnie pusta. Zacznij eksplorować i warzyć, aby odkryć swoje ulubione!"
+    "noFavoriteRecipesMessage": "Twoja lista ulubionych przepisów jest obecnie pusta. Zacznij eksplorować i warzyć, aby odkryć swoje ulubione!",
+    "explore": "Odkrywaj",
+    "dateFormat": "d MMM, yyyy",
+    "timeFormat": "HH:mm",
+    "brewdiary": "Dziennik Warzenia",
+    "brewdiarynotfound": "Nie znaleziono wpisów",
+    "beans": "Ziarna",
+    "roaster": "Palarnia",
+    "rating": "Ocena",
+    "notes": "Notatki"
   }
   

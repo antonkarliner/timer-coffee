@@ -2,21 +2,21 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import '../models/recipe.dart';
-import 'preparation_screen.dart';
+import '../models/recipe_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import '../providers/recipe_provider.dart';
 import '../widgets/favorite_button.dart';
 import '../models/recipe_summary.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:auto_route/auto_route.dart';
 import 'dart:ui';
 import "package:universal_html/html.dart" as html;
 import '../utils/icon_utils.dart';
 import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../screens/preparation_screen.dart';
 
 @RoutePage()
 class RecipeDetailScreen extends StatefulWidget {
@@ -41,32 +41,40 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   double? originalCoffee;
   double? originalWater;
 
-  Recipe? _updatedRecipe;
+  RecipeModel? _updatedRecipe;
+  String _brewingMethodName = "Unknown Brewing Method"; // Default value
 
   @override
   void initState() {
     super.initState();
-    _loadRecipe();
+    _loadRecipeDetails();
   }
 
-  Future<void> _loadRecipe() async {
-    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
-    await recipeProvider.fetchRecipes(widget.brewingMethodId);
-    _updatedRecipe = recipeProvider.getRecipeById(widget.recipeId);
+  Future<void> _loadRecipeDetails() async {
+    try {
+      final recipeProvider =
+          Provider.of<RecipeProvider>(context, listen: false);
+      RecipeModel recipeModel =
+          await recipeProvider.getRecipeById(widget.recipeId);
+      String brewingMethodName =
+          await recipeProvider.fetchBrewingMethodName(widget.brewingMethodId);
 
-    // Fetch custom amounts if available
-    double customCoffee =
-        _updatedRecipe!.customCoffeeAmount ?? _updatedRecipe!.coffeeAmount;
-    double customWater =
-        _updatedRecipe!.customWaterAmount ?? _updatedRecipe!.waterAmount;
-
-    originalCoffee = customCoffee;
-    originalWater = customWater;
-    initialRatio = originalWater! / originalCoffee!;
-    _coffeeController.text = customCoffee.toString();
-    _waterController.text = customWater.toString();
-
-    setState(() {});
+      setState(() {
+        _updatedRecipe = recipeModel;
+        _brewingMethodName = brewingMethodName;
+        double customCoffee =
+            recipeModel.customCoffeeAmount ?? recipeModel.coffeeAmount;
+        double customWater =
+            recipeModel.customWaterAmount ?? recipeModel.waterAmount;
+        originalCoffee = customCoffee;
+        originalWater = customWater;
+        initialRatio = originalWater! / originalCoffee!;
+        _coffeeController.text = customCoffee.toString();
+        _waterController.text = customWater.toString();
+      });
+    } catch (e) {
+      print("Error loading recipe details: $e");
+    }
   }
 
   @override
@@ -76,7 +84,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     super.dispose();
   }
 
-  void _updateAmounts(BuildContext context, Recipe updatedRecipe) {
+  void _updateAmounts(BuildContext context, RecipeModel updatedRecipe) {
     if (_coffeeController.text.isEmpty ||
         _waterController.text.isEmpty ||
         double.tryParse(_coffeeController.text.replaceAll(',', '.')) == null ||
@@ -109,10 +117,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   }
 
   void _onShare(BuildContext context) async {
+    if (_updatedRecipe == null) return; // Guard clause
+
     final RenderBox box = context.findRenderObject() as RenderBox;
     final Rect rect = box.localToGlobal(Offset.zero) & box.size;
     final String textToShare =
-        'https://app.timer.coffee/recipes/${widget.brewingMethodId}/${widget.recipeId}';
+        'https://app.timer.coffee/recipes/${_updatedRecipe!.brewingMethodId}/${_updatedRecipe!.id}';
 
     await Share.share(
       textToShare,
@@ -124,188 +134,172 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (kIsWeb && _updatedRecipe != null) {
-      // update HTML title
-      html.document.title = '${_updatedRecipe!.name} on Timer.Coffee';
+    // Return an empty Scaffold if _updatedRecipe is null.
+    if (_updatedRecipe == null) {
+      return Scaffold(
+        body: Container(), // Returns an empty container.
+      );
     }
+
+    RecipeModel recipe =
+        _updatedRecipe!; // It's now safe to use ! because we checked for null.
+
+    // Update HTML title for web platforms.
+    if (kIsWeb) {
+      html.document.title = '${recipe.name} on Timer.Coffee';
+    }
+
+    // Use recipe directly in your widget tree.
     return GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            leading: const BackButton(), // This is your back button
-            title: Row(
-              children: [
-                getIconByBrewingMethod(
-                    widget.brewingMethodId), // This is your brewing method icon
-                const SizedBox(
-                    width:
-                        8), // Optional: Add a little space between the icon and text
-                Flexible(
-                  child: Text(
-                    _updatedRecipe == null
-                        ? 'Loading...'
-                        : _updatedRecipe!.brewingMethodName,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                )
-              ],
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: _buildAppBar(context, recipe),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: _buildRecipeContent(context, recipe),
+          ),
+        ),
+        floatingActionButton: _buildFloatingActionButton(context, recipe),
+      ),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context, RecipeModel recipe) {
+    // Adjusted to use RecipeModel directly
+    return AppBar(
+      leading: const BackButton(),
+      title: Row(
+        children: [
+          getIconByBrewingMethod(widget.brewingMethodId),
+          const SizedBox(width: 8),
+          Flexible(
+            child: Text(
+              _brewingMethodName, // Use the brewing method name stored in the state
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-            actions: [
-              if (_updatedRecipe != null) ...[
-                Builder(
-                  builder: (BuildContext context) => IconButton(
-                    icon: Icon(defaultTargetPlatform == TargetPlatform.iOS
-                        ? CupertinoIcons.share
-                        : Icons.share),
-                    onPressed: () => _onShare(context),
-                  ),
-                ),
-                FavoriteButton(
-                  recipeId: _updatedRecipe!.id,
-                  onToggleFavorite: (isFavorite) {
-                    Provider.of<RecipeProvider>(context, listen: false)
-                        .toggleFavorite(_updatedRecipe!.id);
-                  },
-                )
-              ]
-            ],
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: _updatedRecipe == null
-                ? const Center(child: CircularProgressIndicator())
-                : NotificationListener<OverscrollIndicatorNotification>(
-                    onNotification:
-                        (OverscrollIndicatorNotification overscroll) {
-                      FocusScope.of(context).unfocus();
-                      return true;
-                    },
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _updatedRecipe!.name,
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                          const SizedBox(height: 16),
-                          _buildRichText(
-                              context, _updatedRecipe!.shortDescription),
-                          const SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  controller: _coffeeController,
-                                  decoration: InputDecoration(
-                                      labelText: AppLocalizations.of(context)!
-                                          .coffeeamount),
-                                  keyboardType:
-                                      const TextInputType.numberWithOptions(
-                                          decimal: true),
-                                  onChanged: (text) {
-                                    _updateAmounts(context, _updatedRecipe!);
-                                  },
-                                  onTap: () {
-                                    _editingCoffee = true;
-                                  },
-                                  onSubmitted: (text) {
-                                    _coffeeController.text =
-                                        text.replaceAll(',', '.');
-                                  },
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: TextField(
-                                  controller: _waterController,
-                                  decoration: InputDecoration(
-                                      labelText: AppLocalizations.of(context)!
-                                          .wateramount),
-                                  keyboardType:
-                                      const TextInputType.numberWithOptions(
-                                          decimal: true),
-                                  onChanged: (text) {
-                                    _updateAmounts(context, _updatedRecipe!);
-                                  },
-                                  onTap: () {
-                                    _editingCoffee = false;
-                                  },
-                                  onSubmitted: (text) {
-                                    _waterController.text =
-                                        text.replaceAll(',', '.');
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            '${AppLocalizations.of(context)!.watertemp}: ${_updatedRecipe!.waterTemp ?? "Not provided"}ºC / ${(_updatedRecipe!.waterTemp != null ? (_updatedRecipe!.waterTemp! * 9 / 5 + 32).toStringAsFixed(1) : "Not provided")}ºF',
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                              '${AppLocalizations.of(context)!.grindsize}: ${_updatedRecipe!.grindSize}'),
-                          const SizedBox(height: 16),
-                          Text(
-                              '${AppLocalizations.of(context)!.brewtime}: ${_updatedRecipe!.brewTime.toString().split('.').first.padLeft(8, "0")}'),
-                          const SizedBox(height: 16),
-                          ExpansionTile(
-                            title: Text(
-                                AppLocalizations.of(context)!.recipesummary),
-                            subtitle: Text(AppLocalizations.of(context)!
-                                .recipesummarynote),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                    RecipeSummary.fromRecipe(_updatedRecipe!)
-                                        .summary),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                        ],
-                      ),
-                    ),
-                  ),
+        ],
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(defaultTargetPlatform == TargetPlatform.iOS
+              ? CupertinoIcons.share
+              : Icons.share),
+          onPressed: () => _onShare(context), // Pass recipe directly
+        ),
+        FavoriteButton(recipeId: recipe.id),
+      ],
+    );
+  }
+
+  Widget _buildRecipeContent(BuildContext context, RecipeModel recipe) {
+    // Calculate minutes and seconds from brewTime
+    String formattedBrewTime = recipe.brewTime != null
+        ? '${recipe.brewTime.inMinutes.remainder(60).toString().padLeft(2, '0')}:${recipe.brewTime.inSeconds.remainder(60).toString().padLeft(2, '0')}'
+        : "Not provided";
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(recipe.name, style: Theme.of(context).textTheme.headlineSmall),
+        const SizedBox(height: 16),
+        _buildRichText(context, recipe.shortDescription),
+        const SizedBox(height: 16),
+        _buildAmountFields(context, recipe),
+        const SizedBox(height: 16),
+        Text(
+            '${AppLocalizations.of(context)!.watertemp}: ${recipe.waterTemp?.toStringAsFixed(1) ?? "Not provided"}ºC / ${(recipe.waterTemp != null) ? ((recipe.waterTemp! * 9 / 5) + 32).toStringAsFixed(1) : "Not provided"}ºF'),
+        const SizedBox(height: 16),
+        Text('${AppLocalizations.of(context)!.grindsize}: ${recipe.grindSize}'),
+        const SizedBox(height: 16),
+        Text('${AppLocalizations.of(context)!.brewtime}: $formattedBrewTime'),
+        const SizedBox(height: 16),
+        _buildRecipeSummary(context, recipe),
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+
+  Widget _buildAmountFields(BuildContext context, RecipeModel recipe) {
+    initialRatio = recipe.waterAmount / recipe.coffeeAmount;
+    return Row(
+      children: [
+        Expanded(
+          child: TextField(
+            controller: _coffeeController,
+            decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.coffeeamount),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            onChanged: (text) => _updateAmounts(context, recipe),
+            onTap: () => _editingCoffee = true,
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              final recipeProvider =
-                  Provider.of<RecipeProvider>(context, listen: false);
-
-              // Save custom amounts
-              double customCoffee = double.tryParse(
-                      _coffeeController.text.replaceAll(',', '.')) ??
-                  _updatedRecipe!.coffeeAmount;
-              double customWater =
-                  double.tryParse(_waterController.text.replaceAll(',', '.')) ??
-                      _updatedRecipe!.waterAmount;
-              await recipeProvider.saveCustomAmounts(
-                  widget.recipeId, customCoffee, customWater);
-
-              Recipe updatedRecipe =
-                  await recipeProvider.updateLastUsed(_updatedRecipe!.id);
-
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PreparationScreen(
-                    recipe: updatedRecipe.copyWith(
-                      coffeeAmount: customCoffee,
-                      waterAmount: customWater,
-                    ),
-                  ),
-                ),
-              );
-            },
-            child: const Icon(Icons.arrow_forward),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: TextField(
+            controller: _waterController,
+            decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.wateramount),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            onChanged: (text) => _updateAmounts(context, recipe),
+            onTap: () => _editingCoffee = false,
           ),
-        ));
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRecipeSummary(BuildContext context, RecipeModel recipe) {
+    return ExpansionTile(
+      title: Text(AppLocalizations.of(context)!.recipesummary),
+      subtitle: Text(AppLocalizations.of(context)!.recipesummarynote),
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(RecipeSummary.fromRecipe(recipe)
+              .summary), // Assume RecipeSummary exists
+        ),
+      ],
+    );
+  }
+
+  FloatingActionButton _buildFloatingActionButton(
+      BuildContext context, RecipeModel recipe) {
+    return FloatingActionButton(
+      onPressed: () => _saveCustomAmountsAndNavigate(context, recipe),
+      child: const Icon(Icons.arrow_forward),
+    );
+  }
+
+  Future<void> _saveCustomAmountsAndNavigate(
+      BuildContext context, RecipeModel recipe) async {
+    final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
+    double customCoffeeAmount =
+        double.tryParse(_coffeeController.text.replaceAll(',', '.')) ??
+            recipe.coffeeAmount;
+    double customWaterAmount =
+        double.tryParse(_waterController.text.replaceAll(',', '.')) ??
+            recipe.waterAmount;
+
+    // Save the custom coffee and water amounts
+    await recipeProvider.saveCustomAmounts(
+        widget.recipeId, customCoffeeAmount, customWaterAmount);
+
+    // Use copyWith to create a new RecipeModel instance with updated values
+    RecipeModel updatedRecipe = recipe.copyWith(
+      coffeeAmount: customCoffeeAmount,
+      waterAmount: customWaterAmount,
+    );
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PreparationScreen(
+                  recipe: updatedRecipe, // Pass the updated recipe model
+                  brewingMethodName:
+                      _brewingMethodName, // Assuming this is defined elsewhere in your class
+                )));
   }
 
   Future<bool> canLaunchUrl(Uri url) async {
@@ -317,41 +311,47 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   }
 
   Widget _buildRichText(BuildContext context, String text) {
-    RegExp linkRegExp = RegExp(r'\[(.*?)\]\((.*?)\)');
-    Match? match = linkRegExp.firstMatch(text);
+    final RegExp linkRegExp = RegExp(r'\[(.*?)\]\((.*?)\)');
+    final Iterable<RegExpMatch> matches = linkRegExp.allMatches(text);
 
     TextStyle defaultTextStyle = Theme.of(context).textTheme.bodyLarge!;
+    List<TextSpan> spanList = [];
 
-    if (match != null) {
-      String linkText = match.group(1)!;
-      String linkUrl = match.group(2)!;
+    int lastMatchEnd = 0;
 
-      return RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: text.substring(0, match.start),
-              style: defaultTextStyle,
-            ),
-            TextSpan(
-              text: linkText,
-              style: defaultTextStyle.copyWith(color: Colors.lightBlue),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () async {
-                  if (await canLaunchUrl(Uri.parse(linkUrl))) {
-                    launchUrl(Uri.parse(linkUrl));
-                  }
-                },
-            ),
-            TextSpan(
-              text: text.substring(match.end),
-              style: defaultTextStyle,
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Text(text, style: defaultTextStyle);
+    for (final match in matches) {
+      final String precedingText = text.substring(lastMatchEnd, match.start);
+      final String linkText = match.group(1)!;
+      final String linkUrl = match.group(2)!;
+
+      // Add preceding text span
+      if (precedingText.isNotEmpty) {
+        spanList.add(TextSpan(text: precedingText, style: defaultTextStyle));
+      }
+
+      // Add link text span
+      spanList.add(TextSpan(
+        text: linkText,
+        style: defaultTextStyle.copyWith(color: Colors.blue),
+        recognizer: TapGestureRecognizer()
+          ..onTap = () async {
+            if (await canLaunchUrl(Uri.parse(linkUrl))) {
+              await launchUrl(Uri.parse(linkUrl));
+            }
+          },
+      ));
+
+      lastMatchEnd = match.end;
     }
+
+    // Add remaining text after the last match
+    if (lastMatchEnd < text.length) {
+      spanList.add(TextSpan(
+          text: text.substring(lastMatchEnd), style: defaultTextStyle));
+    }
+
+    return RichText(
+      text: TextSpan(children: spanList),
+    );
   }
 }
