@@ -56,3 +56,8 @@ jsontodb.py
 jsontodbf.py
 jsontodbsp.py
 lib/env/env.g.dart
+all_translations_queries.txt
+initdb.py
+launch_popup_query.txt
+translatedb.py
+translatelaunchpopup.py
