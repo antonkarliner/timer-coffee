@@ -1,0 +1,7 @@
+Apresentando o Timer.Coffee 2.0! As principais atualizações incluem:
+
+- Atualizações de receitas sem necessidade de atualizar o aplicativo completamente.
+- Diário de Preparo para acompanhar suas extrações e adicionar anotações.
+- Agora disponível em italiano, holandês, turco, romeno e ucraniano.
+
+A versão 2.0.1 corrige um pequeno erro relacionado à ordem de carregamento dos passos das receitas. Obrigado, @robertkb!

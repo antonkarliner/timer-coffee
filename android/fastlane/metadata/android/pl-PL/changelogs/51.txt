@@ -1,0 +1,7 @@
+Przedstawiamy Timer.Coffee 2.0! Główne aktualizacje to:
+
+- Aktualizacje przepisów bez konieczności odświeżania całej aplikacji.
+- Dziennik Parzenia, aby śledzić swoje zaparzenia i dodawać notatki.
+- Teraz dostępne także po włosku, holendersku, turecku, rumuńsku i ukraińsku.
+
+Wersja 2.0.1 naprawia mały błąd związany z ładowaniem kroków przepisu w odpowiedniej kolejności. Dzięki @robertkb!

@@ -1,8 +1,10 @@
 Scopri Timer.Coffee 2.0!
 
-Ho apportato moltissime modifiche interne che mi hanno permesso di introdurre alcune fantastiche novità, come:
+Ho apportato un sacco di modifiche interne che mi hanno permesso di introdurre alcune nuove funzionalità interessanti, come:
 - Aggiornamento delle ricette senza la necessità di aggiornare l'intera app.
-- Diario di Infusione, che ti permette di tenere traccia delle tue infusioni, aggiungere appunti e molto altro.
+- Diario di Estrazione, che ti permette di tenere traccia delle tue estrazioni, aggiungere appunti e altro ancora.
 - Aggiunte 5 nuove lingue: italiano, olandese, turco, rumeno e ucraino.
 
-Questo è solo l'inizio — altre incredibili aggiornamenti sono in arrivo! Grazie per essere parte di questo viaggio.
+Questo è solo l'inizio — altre fantastiche aggiornamenti sono in arrivo! Grazie per far parte di questo viaggio.
+
+La versione 2.0.1 corregge un piccolo bug relativo al caricamento dei passaggi per la ricetta in un ordine corretto. Grazie a @robertkb per averlo segnalato!

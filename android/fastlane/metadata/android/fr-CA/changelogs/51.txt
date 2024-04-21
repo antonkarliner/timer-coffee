@@ -1,0 +1,7 @@
+Découvrez Timer.Coffee 2.0! Les principales mises à jour comprennent :
+
+- Mise à jour des recettes sans devoir rafraîchir toute l'application.
+- Journal de brassage pour suivre vos préparations et ajouter des notes.
+- Maintenant disponible en italien, néerlandais, turc, roumain et ukrainien.
+
+La version 2.0.1 corrige un petit bug affectant le chargement des étapes des recettes dans le bon ordre. Merci @robertkb!

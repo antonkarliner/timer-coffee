@@ -1,0 +1,7 @@
+Maak kennis met Timer.Coffee 2.0! Belangrijke updates zijn:
+
+- Receptupdates zonder de app volledig te vernieuwen.
+- Zetdagboek om je brouwsels te volgen en notities toe te voegen.
+- Nu beschikbaar in het Italiaans, Nederlands, Turks, Roemeens en Oekraïens.
+
+Versie 2.0.1 lost een kleine bug op die te maken had met het correct laden van de stappen voor een recept. Bedankt @robertkb!

@@ -1,0 +1,7 @@
+¡Presentamos Timer.Coffee 2.0! Las principales actualizaciones incluyen:
+
+- Actualización de recetas sin necesidad de refrescar toda la aplicación.
+- Diario de Elaboración para registrar tus cafés y añadir notas.
+- Ahora disponible en italiano, holandés, turco, rumano y ucraniano.
+
+La versión 2.0.1 corrige un pequeño error en la carga de los pasos de las recetas en el orden correcto. ¡Gracias @robertkb!

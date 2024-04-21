@@ -1,0 +1,7 @@
+Timer.Coffee 2.0'ı tanıtıyoruz! Büyük güncellemeler şunları içerir:
+
+- Uygulamayı tamamen yenilemeden tarif güncellemeleri.
+- Demleme Günlüğü ile demlemelerinizi takip edin ve notlar ekleyin.
+- Artık İtalyanca, Flemenkçe, Türkçe, Romence ve Ukraynaca olarak kullanılabilir.
+
+Sürüm 2.0.1, tariflerdeki adımları doğru sırayla yüklerken yaşanan küçük bir hatayı düzeltiyor. Teşekkürler @robertkb!

@@ -6,3 +6,5 @@ I’ve made a ton of internal changes that have allowed me to introduce some coo
 - 5 new languages added: Italian, Dutch, Turkish, Romanian and Ukrainian.
 
 This is just the beginning — more awesome updates are on the way! Thank you for being a part of this journey. 
+
+Version 2.0.1 fixes a little bug related to loading the steps for recipe in a correct order. Tnahks @robertkb for pointing it out!

@@ -1,8 +1,10 @@
 Conoce Timer.Coffee 2.0!
 
-He realizado un montón de cambios internos que me han permitido introducir algunas características nuevas y emocionantes, tales como:
+He realizado una gran cantidad de cambios internos que me han permitido introducir algunas características nuevas geniales, tales como:
 - Actualizar las recetas sin necesidad de actualizar toda la aplicación.
-- Diario de Extracción, que te permite seguir tus extracciones, añadir notas y más.
-- Se han añadido 5 nuevos idiomas: italiano, holandés, turco, rumano y ucraniano.
+- Diario de Elaboración, que te permite hacer un seguimiento de tus preparaciones, agregar notas y más.
+- Se han añadido 5 nuevos idiomas: italiano, neerlandés, turco, rumano y ucraniano.
 
-¡Esto es solo el principio — vienen más actualizaciones increíbles! Gracias por ser parte de este viaje.
+¡Esto es solo el comienzo — hay más actualizaciones increíbles en camino! Gracias por ser parte de este viaje.
+
+La versión 2.0.1 corrige un pequeño error relacionado con la carga de los pasos para la receta en el orden correcto. ¡Gracias @robertkb por señalarlo!

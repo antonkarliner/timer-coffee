@@ -1,0 +1,7 @@
+Presentiamo Timer.Coffee 2.0! Le principali novità includono:
+
+- Aggiornamenti delle ricette senza dover aggiornare completamente l'app.
+- Diario di Infusione per tracciare le tue preparazioni e aggiungere note.
+- Ora disponibile in italiano, olandese, turco, rumeno e ucraino.
+
+La versione 2.0.1 corregge un piccolo bug che influenzava l'ordine di caricamento dei passaggi delle ricette. Grazie @robertkb!

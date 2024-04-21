@@ -1,0 +1,7 @@
+Wir präsentieren Timer.Coffee 2.0! Wichtige Updates umfassen:
+
+- Rezeptaktualisierungen ohne komplettes App-Update.
+- Brew Diary zum Verfolgen Ihrer Brühvorgänge und zum Notizen hinzufügen.
+- Jetzt auch auf Italienisch, Niederländisch, Türkisch, Rumänisch und Ukrainisch verfügbar.
+
+Version 2.0.1 behebt einen kleinen Fehler beim Laden der Rezeptschritte in der richtigen Reihenfolge. Danke @robertkb!
