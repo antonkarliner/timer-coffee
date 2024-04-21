@@ -1,3 +1,8 @@
-+ Pequenas melhorias de design para tornar a experiência ainda mais agradável.
+Conheça o Timer.Coffee 2.0!
 
-+ Corrigidos alguns erros de digitação.
+Fiz imensas alterações internas que me permitiram introduzir algumas funcionalidades novas e interessantes, tais como:
+- Atualização das receitas sem necessidade de atualizar toda a aplicação.
+- Diário de Preparação, que permite acompanhar as suas preparações, adicionar notas e muito mais.
+- Adição de 5 novos idiomas: italiano, holandês, turco, romeno e ucraniano.
+
+Isto é apenas o começo — mais atualizações fantásticas estão a caminho! Obrigado por fazer parte desta jornada.

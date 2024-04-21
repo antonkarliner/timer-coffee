@@ -1,19 +1,17 @@
 Timer.coffee ist KOSTENLOS. In-App-Spenden sind rein optional und beeinflussen die Funktionalität in keiner Weise.
 
-Timer.Coffee ist eine kostenlose und Open-Source-App für Brühzeiten und Kaffeerechner, entwickelt, um Sie bei Ihren Kaffeebrühabenteuern zu unterstützen. Die App bietet derzeit Unterstützung für verschiedene Brühtechniken, einschließlich: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over und Origami Dripper. Die App verfügt über mehr als 30 Rezepte mit weiteren in Planung.
+Timer.Coffee ist eine kostenlose und Open-Source-App für den Brüh-Timer und den Kaffee-Rechner, entwickelt, um Sie bei Ihren Kaffee-Brüh-Abenteuern zu unterstützen. Die App bietet derzeit Unterstützung für verschiedene Brühmethoden, einschließlich: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over und Origami Dripper. Die App verfügt über mehr als 30 Rezepte mit weiteren in Vorbereitung.
 
 Mit Timer.Coffee können Sie:
 
-- Den Kaffeerechner verwenden, um die Kaffee- oder Wassermengen in den Rezepten anzupassen, sodass Sie so viel Kaffee zubereiten können, wie Sie möchten.
-- Ihre liebsten Kaffeerezepte als Favoriten für einen einfachen Zugriff markieren.
-- Ihr zuletzt verwendetes Rezept sofort erneut besuchen.
-- Ihre Lieblingsrezepte mit Freunden teilen.
-- Den Soundchime aktivieren, um Sie über den nächsten Brühschritt zu informieren.
+- Den Kaffee-Rechner verwenden, um die Kaffee- oder Wassermengen in den Rezepten anzupassen, sodass Sie so viel Kaffee brühen können, wie Sie möchten.
+- Ihre beliebtesten Kaffee-Rezepte als Favoriten für einen einfachen Zugang markieren.
+- Notizen zu Ihren Brühvorgängen im Brew Diary hinzufügen
+- Den Klangtimer einschalten, um Sie über den nächsten Brühschritt zu informieren.
 
-Die App unterstützt 10 Sprachen und einen Dunkelmodus.
+Die App unterstützt 15 Sprachen und den Dunkelmodus.
 
-Hier ist, was wir für zukünftige Updates planen:
+Hier sind unsere Pläne für zukünftige Updates:
 
-- Einbeziehung der Tetsu Kasuya 4:6 Brühmethode für Hario V60.
-- Erweiterung unserer Sammlung von Kaffeerezepten.
-- Design-Upgrades.
+- Eine Erweiterung unserer Kaffee-Rezeptsammlung.
+- Design-Verbesserungen.

@@ -1,3 +1,8 @@
-+ Kleine Designverbesserungen, um das Erlebnis noch angenehmer zu gestalten.
+Entdecken Sie Timer.Coffee 2.0!
 
-+ Einige Tippfehler wurden korrigiert.
+Ich habe viele interne Änderungen vorgenommen, die es mir ermöglicht haben, einige coole neue Funktionen einzuführen, wie zum Beispiel:
+- Aktualisierung der Rezepte, ohne die gesamte App aktualisieren zu müssen.
+- Brüh-Tagebuch, mit dem Sie Ihre Brühvorgänge verfolgen, Notizen hinzufügen und mehr können.
+- 5 neue Sprachen hinzugefügt: Italienisch, Niederländisch, Türkisch, Rumänisch und Ukrainisch.
+
+Das ist erst der Anfang — weitere großartige Updates sind unterwegs! Vielen Dank, dass Sie Teil dieser Reise sind.

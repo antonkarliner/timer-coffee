@@ -1,0 +1,17 @@
+Timer.coffee ÜCRETSİZDİR. Uygulama içi bağışlar tamamen isteğe bağlıdır ve işlevselliği hiçbir şekilde etkilemez.
+
+Timer.Coffee, kahve demleme maceralarınızda yardımcı olmak için tasarlanmış ücretsiz ve açık kaynaklı bir demleme zamanlayıcı ve kahve hesaplayıcı uygulamasıdır. Uygulama şu anda Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over ve Origami Dripper dahil olmak üzere çeşitli demleme tekniklerini desteklemektedir. Uygulama, yolda olan daha fazla tarifle birlikte 30'dan fazla tarif sunmaktadır.
+
+Timer.Coffee ile şunları yapabilirsiniz:
+
+- Kahve hesaplayıcıyı kullanarak tariflerdeki kahve veya su miktarlarını ayarlayarak istediğiniz kadar kahve demleyebilirsiniz.
+- Kolay erişim için en sevdiğiniz kahve tariflerini favorilere ekleyin.
+- Demleme Günlüğü'ne notlar ekleyin
+- Bir sonraki demleme adımı hakkında sizi bilgilendirmek için sesli çanı açın.
+
+Uygulama 15 dil ve karanlık modu desteklemektedir.
+
+Gelecek güncellemeler için planlarımız:
+
+- Kahve tarifleri koleksiyonumuzun genişletilmesi.
+- Tasarım yükseltmeleri.

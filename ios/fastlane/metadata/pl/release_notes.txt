@@ -1,3 +1,8 @@
-+ Drobne poprawki w designie, aby uczynić korzystanie z aplikacji jeszcze przyjemniejszym.
+Poznaj Timer.Coffee 2.0!
 
-+ Naprawiono kilka literówek.
+Wprowadziłem mnóstwo wewnętrznych zmian, które pozwoliły mi na dodanie kilku świetnych nowości, takich jak:
+- Aktualizacja przepisów bez konieczności aktualizacji całej aplikacji.
+- Dziennik Zaparzeń, który pozwala śledzić Twoje parzenia, dodawać notatki i wiele więcej.
+- Dodano 5 nowych języków: włoski, holenderski, turecki, rumuński i ukraiński.
+
+To dopiero początek — w drodze są kolejne fantastyczne aktualizacje! Dziękuję, że jesteś częścią tej podróży.

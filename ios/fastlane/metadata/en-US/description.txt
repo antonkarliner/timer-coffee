@@ -5,11 +5,10 @@ Timer.Coffee is a free and open-source brew timer and coffee calculator app, des
 With Timer.Coffee you can:
 - Use the coffee calculator to tweak the coffee or water quantities in the recipes, allowing you to brew as much coffee as you desire.
 - Mark your most-loved coffee recipes as favorites for easy access.
-- Instantly revisit your last used recipe.
-- Share your favorite recipes with friends.
+- Add notes to your brews in Brew Diary
 - Turn on the sound chime to inform you about the next brewing step.
 
-The app supports 10 languages and dark mode.
+The app supports 15 languages and dark mode.
 
 Here's what we're brewing for future updates:
 - An expansion of our coffee recipes collection.

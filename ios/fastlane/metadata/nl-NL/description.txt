@@ -1,0 +1,17 @@
+Timer.coffee is GRATIS. De in-app donaties zijn puur optioneel en hebben geen invloed op de functionaliteit op enigerlei wijze.
+
+Timer.Coffee is een gratis en open-source zet-timer en koffiecalculator-app, ontworpen om je te helpen bij je koffiezetavonturen. De app biedt momenteel ondersteuning voor verschillende zettechnieken, waaronder: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over en Origami Dripper. De app heeft meer dan 30 recepten met meer op komst.
+
+Met Timer.Coffee kun je:
+
+- De koffiecalculator gebruiken om de koffie- of waterhoeveelheden in de recepten aan te passen, zodat je zoveel koffie kunt zetten als je wilt.
+- Je meest geliefde koffierecepten markeren als favorieten voor gemakkelijke toegang.
+- Notities toevoegen aan je brouwsels in het Brouw Dagboek
+- Het geluidschime aanzetten om je te informeren over de volgende zetstap.
+
+De app ondersteunt 15 talen en een donkere modus.
+
+Hier is wat we brouwen voor toekomstige updates:
+
+- Een uitbreiding van onze koffiereceptencollectie.
+- Ontwerpupgrades.

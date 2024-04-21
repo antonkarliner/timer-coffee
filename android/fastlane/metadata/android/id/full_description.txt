@@ -1,16 +1,17 @@
-Timer.Coffee adalah aplikasi penghitung waktu seduh dan kalkulator kopi yang gratis dan open-source, dirancang untuk membantu dalam petualangan menyeduh kopi Anda. Saat ini, aplikasi ini menawarkan dukungan untuk berbagai teknik menyeduh termasuk: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, dan Origami Dripper. Aplikasi ini menampilkan lebih dari 30 resep dengan lebih banyak lagi yang akan datang.
+Timer.coffee GRATIS. Donasi dalam aplikasi sepenuhnya opsional dan tidak memengaruhi fungsionalitas dengan cara apa pun.
+
+Timer.Coffee adalah aplikasi timer pembuatan dan kalkulator kopi gratis dan open-source, dirancang untuk membantu dalam petualangan pembuatan kopi Anda. Aplikasi ini saat ini menawarkan dukungan untuk berbagai teknik pembuatan termasuk: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, dan Origami Dripper. Aplikasi ini memiliki lebih dari 30 resep dengan lebih banyak yang akan datang.
 
 Dengan Timer.Coffee Anda dapat:
 
 - Menggunakan kalkulator kopi untuk menyesuaikan jumlah kopi atau air dalam resep, memungkinkan Anda menyeduh sebanyak kopi yang Anda inginkan.
 - Menandai resep kopi favorit Anda untuk akses mudah.
-- Segera mengunjungi kembali resep yang terakhir digunakan.
-- Berbagi resep favorit Anda dengan teman.
-- Menghidupkan suara lonceng untuk memberi tahu Anda tentang langkah penyeduhan berikutnya.
+- Menambahkan catatan ke seduhan Anda di Brew Diary
+- Menghidupkan lonceng suara untuk memberi tahu Anda tentang langkah pembuatan selanjutnya.
 
-Aplikasi ini mendukung 11 bahasa dan mode gelap.
+Aplikasi ini mendukung 15 bahasa dan mode gelap.
 
-Berikut yang kami sediakan untuk pembaruan di masa depan:
+Berikut yang kami sediakan untuk pembaruan mendatang:
 
 - Perluasan koleksi resep kopi kami.
 - Peningkatan desain.

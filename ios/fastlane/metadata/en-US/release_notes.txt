@@ -1,3 +1,8 @@
-+ Small design improvements to make the experience even more pleasant.
+Meet Timer.Coffee 2.0!
 
-+ Fixed some typos.
+I’ve made a ton of internal changes that have allowed me to introduce some cool new features, such as:
+- Updating the recipes without needing to update the entire app. 
+- Brew Diary, which allows you to track your brews, add notes, and more.
+- 5 new languages added: Italian, Dutch, Turkish, Romanian and Ukrainian.
+
+This is just the beginning — more awesome updates are on the way! Thank you for being a part of this journey. 

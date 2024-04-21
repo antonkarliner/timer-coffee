@@ -1,0 +1,8 @@
+Ontmoet Timer.Coffee 2.0!
+
+Ik heb een heleboel interne veranderingen doorgevoerd die me in staat hebben gesteld enkele coole nieuwe functies te introduceren, zoals:
+- Het bijwerken van de recepten zonder de hele app te hoeven updaten.
+- Brew Diary, waarmee je je brouwsels kunt bijhouden, notities kunt toevoegen en meer.
+- 5 nieuwe talen toegevoegd: Italiaans, Nederlands, Turks, Roemeens en Oekraïens.
+
+Dit is nog maar het begin — er komen nog meer geweldige updates aan! Bedankt dat je deel uitmaakt van deze reis.

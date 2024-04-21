@@ -1,0 +1,6 @@
+Memperkenalkan Timer.Coffee 2.0! Pembaruan besar meliputi:
+
+- Pembaruan resep tanpa perlu memperbarui aplikasi sepenuhnya.
+- Brew Diary untuk melacak pembuatan kopi Anda dan menambahkan catatan.
+- Kini tersedia dalam bahasa Italia, Belanda, Turki, Rumania, dan Ukraina.
+- Masih banyak pembaruan menarik lainnya yang akan datang. Terima kasih telah bergabung dalam perjalanan ini!

@@ -1,0 +1,17 @@
+Timer.coffee è GRATUITO. Le donazioni all'interno dell'app sono puramente opzionali e non influenzano la funzionalità in alcun modo.
+
+Timer.Coffee è un'app gratuita e open-source per il timer di infusione e il calcolatore del caffè, progettata per aiutarti nelle tue avventure di preparazione del caffè. L'app attualmente offre supporto per varie tecniche di preparazione tra cui: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over e Origami Dripper. L'app presenta più di 30 ricette con altre in arrivo.
+
+Con Timer.Coffee puoi:
+
+- Utilizzare il calcolatore di caffè per modificare le quantità di caffè o acqua nelle ricette, permettendoti di preparare tutto il caffè che desideri.
+- Segnare le tue ricette di caffè preferite come preferite per un facile accesso.
+- Aggiungere note ai tuoi infusi nel Diario di Infusione
+- Attivare il campanello sonoro per informarti sul prossimo passaggio di infusione.
+
+L'app supporta 15 lingue e la modalità scura.
+
+Ecco cosa stiamo preparando per i futuri aggiornamenti:
+
+- Un'espansione della nostra collezione di ricette di caffè.
+- Miglioramenti del design.

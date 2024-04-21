@@ -1,0 +1,6 @@
+Vă prezentăm Timer.Coffee 2.0! Principalele actualizări includ:
+
+- Actualizări ale rețetelor fără a fi necesară reîmprospătarea completă a aplicației.
+- Jurnal de Cafea pentru a urmări preparările și pentru a adăuga notițe.
+- Acum disponibil în italiană, olandeză, turcă, română și ucraineană.
+- Mai multe actualizări interesante în curând. Mulțumim că ne sunteți alături în această călătorie!

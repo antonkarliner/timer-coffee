@@ -1,3 +1,8 @@
-+ Kleine Designverbesserungen, um das Erlebnis noch angenehmer zu gestalten.
+Conoce Timer.Coffee 2.0!
 
-+ Einige Tippfehler wurden behoben.
+He realizado un montón de cambios internos que me han permitido introducir algunas características nuevas y emocionantes, tales como:
+- Actualizar las recetas sin necesidad de actualizar toda la aplicación.
+- Diario de Extracción, que te permite seguir tus extracciones, añadir notas y más.
+- Se han añadido 5 nuevos idiomas: italiano, holandés, turco, rumano y ucraniano.
+
+¡Esto es solo el principio — vienen más actualizaciones increíbles! Gracias por ser parte de este viaje.
