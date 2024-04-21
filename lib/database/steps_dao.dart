@@ -10,7 +10,10 @@ class StepsDao extends DatabaseAccessor<AppDatabase> with _$StepsDaoMixin {
       String recipeId, String locale) async {
     final steps = await (select(db.steps)
           ..where((tbl) =>
-              tbl.recipeId.equals(recipeId) & tbl.locale.equals(locale)))
+              tbl.recipeId.equals(recipeId) & tbl.locale.equals(locale))
+          ..orderBy([
+            (t) => OrderingTerm(expression: t.stepOrder, mode: OrderingMode.asc)
+          ])) // Added orderBy clause here
         .get();
     return steps.map((step) => _fromEntity(step)).toList();
   }
