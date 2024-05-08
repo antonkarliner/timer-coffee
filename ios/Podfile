@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '12.0'
+platform :ios, '12.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -44,8 +44,13 @@ post_install do |installer|
         'AUDIO_SESSION_MICROPHONE=0'
       ]
 
-      # Added setting: Set the deployment target to iOS 12.0 for each configuration
+      # Ensure the deployment target is consistently set to iOS 12.0 for each configuration
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
     end
   end
+end
+
+target 'OneSignalNotificationServiceExtension' do
+  use_frameworks!
+  pod 'OneSignalXCFramework', '>= 5.0.0', '< 6.0'
 end
