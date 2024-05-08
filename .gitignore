@@ -61,3 +61,5 @@ initdb.py
 launch_popup_query.txt
 translatedb.py
 translatelaunchpopup.py
+l10n.yaml
+lib/database/db_schemas/
