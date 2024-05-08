@@ -373,5 +373,39 @@ class RecipeProvider extends ChangeNotifier {
     await db.userStatsDao.deleteUserStat(id);
   }
 
+  Future<double> fetchBrewedCoffeeAmountForPeriod(
+      DateTime start, DateTime end) async {
+    return await db.userStatsDao.fetchBrewedCoffeeAmount(start, end);
+  }
+
+  Future<List<String>> fetchTopRecipeIdsForPeriod(
+      DateTime start, DateTime end) async {
+    return await db.userStatsDao.fetchTopRecipes(start, end);
+  }
+
+  DateTime getStartOfToday() {
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day);
+  }
+
+  DateTime getEndOfToday() {
+    return getStartOfToday()
+        .add(Duration(days: 1))
+        .subtract(Duration(milliseconds: 1));
+  }
+
+  DateTime getStartOfWeek() {
+    final now = DateTime.now();
+    // Adjust to first day of week as Monday
+    int weekday = now.weekday;
+    DateTime startOfWeek = now.subtract(Duration(days: weekday - 1));
+    return DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
+  }
+
+  DateTime getStartOfMonth() {
+    final now = DateTime.now();
+    return DateTime(now.year, now.month);
+  }
+
   ValueNotifier<Set<String>> get favoriteRecipeIds => _favoriteRecipeIds;
 }

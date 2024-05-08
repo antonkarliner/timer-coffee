@@ -36,7 +36,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
     return IconButton(
       icon: Icon(
         _isFavorite ? Icons.favorite : Icons.favorite_border,
-        color: _isFavorite ? Colors.brown : null,
+        color: _isFavorite ? Theme.of(context).colorScheme.primary : null,
       ),
       onPressed: () async {
         await Provider.of<RecipeProvider>(context, listen: false)

@@ -14,7 +14,7 @@ import "package:universal_html/html.dart" as html;
 import '../utils/icon_utils.dart';
 import '../purchase_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-//import '../providers/snow_provider.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -24,11 +24,16 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+class _HomeScreenState extends State<HomeScreen>
+    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   late Locale initialLocale;
+  late TabController _tabController;
+  static const double kBottomNavigationBarHeight = 60; // Corrected
+
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
     WidgetsBinding.instance.addObserver(this);
     if (kIsWeb) {
       html.document.title = 'Timer.Coffee App';
@@ -41,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // Correctly obtain initialLocale from the Provider
     WidgetsBinding.instance.addPostFrameCallback((_) {
       initialLocale = Provider.of<Locale>(context, listen: false);
-
       if (kIsWeb) {
         var recipeProvider =
             Provider.of<RecipeProvider>(context, listen: false);
@@ -55,6 +59,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         });
       }
     });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _tabController.dispose();
+    PurchaseManager().setDeliverProductCallback(null);
+    PurchaseManager().setPurchaseErrorCallback(null);
+    super.dispose();
   }
 
   void _showThankYouPopup(PurchaseDetails details) {
@@ -102,42 +115,77 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    // It's important to dispose the callbacks when the widget is disposed
-    PurchaseManager().setDeliverProductCallback(null);
-    PurchaseManager().setPurchaseErrorCallback(null);
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final recipeProvider = Provider.of<RecipeProvider>(context);
-    final brewingMethods = Provider.of<List<BrewingMethodModel>>(context);
-    //final snowEffectProvider = Provider.of<SnowEffectProvider>(context);
-
     return Scaffold(
       appBar: buildPlatformSpecificAppBar(),
-      body: Stack(
+      body: TabBarView(
+        controller: _tabController,
         children: [
-          buildRecipeList(recipeProvider, brewingMethods),
-          buildBrewDiaryButton(),
-          buildSettingsButton(),
+          buildBrewTab(context),
+          buildHubTab(context),
+        ],
+      ),
+      bottomNavigationBar: ConvexAppBar.builder(
+        count: 2,
+        backgroundColor: Theme.of(context).colorScheme.onBackground,
+        itemBuilder: CustomTabBuilder([
+          TabItem(
+              icon: Coffeico.bean,
+              title: (AppLocalizations.of(context)!.homescreenbrewcoffee)),
+          TabItem(
+              icon: Icons.dashboard,
+              title: (AppLocalizations.of(context)!.homescreenmore)),
+        ], context),
+        onTap: (int i) {
+          _tabController.index = i;
+          setState(() {});
+        },
+      ),
+    );
+  }
+
+  Widget buildBrewTab(BuildContext context) {
+    final recipeProvider = Provider.of<RecipeProvider>(context);
+    final brewingMethods = Provider.of<List<BrewingMethodModel>>(context);
+    final double bottomPadding =
+        MediaQuery.of(context).padding.bottom + kBottomNavigationBarHeight;
+    final filteredBrewingMethods =
+        brewingMethods.where((method) => method.showOnMain).toList();
+
+    return SafeArea(
+      child: Column(
+        children: [
+          buildFixedContent(recipeProvider), // Fixed content
+          Expanded(
+            // Scrollable list below
+            child: ListView.builder(
+              itemCount: filteredBrewingMethods.length,
+              itemBuilder: (BuildContext context, int index) {
+                final brewingMethod = filteredBrewingMethods[index];
+                return ListTile(
+                  leading:
+                      getIconByBrewingMethod(brewingMethod.brewingMethodId),
+                  title: Text(brewingMethod.brewingMethod),
+                  onTap: () {
+                    context.router.push(RecipeListRoute(
+                        brewingMethodId: brewingMethod.brewingMethodId));
+                  },
+                );
+              },
+              padding: EdgeInsets.only(bottom: bottomPadding),
+            ),
+          ),
           LaunchPopupWidget(),
         ],
       ),
     );
   }
 
-  Widget buildRecipeList(
-      RecipeProvider recipeProvider, List<BrewingMethodModel> brewingMethods) {
-    final filteredBrewingMethods =
-        brewingMethods.where((method) => method.showOnMain).toList();
+  Widget buildFixedContent(RecipeProvider recipeProvider) {
     return FutureBuilder<RecipeModel?>(
       future: recipeProvider.getLastUsedRecipe(),
       builder: (context, snapshot) {
         RecipeModel? mostRecentRecipe = snapshot.data;
-
         return Column(
           children: [
             ListTile(
@@ -147,13 +195,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 context.router.push(const FavoriteRecipesRoute());
               },
             ),
-            //ListTile(
-            //leading: const Icon(Coffeico.bean),
-            //title: Text(AppLocalizations.of(context)!.explore),
-            //onTap: () {
-            //context.router.push(const VendorsRoute());
-            //},
-            //),
             if (mostRecentRecipe != null)
               ListTile(
                 leading:
@@ -161,84 +202,51 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 title: Text(
                     '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
                 onTap: () {
-                  // Check if the recipe ID contains only numbers
-                  bool isNumericId =
-                      RegExp(r'^\d+$').hasMatch(mostRecentRecipe.id);
-
-                  // Add the routing logic based on recipe ID
-                  if (mostRecentRecipe.id == "106") {
-                    // If the recipe id is 106, navigate to RecipeDetailTKRoute
-                    context.router.push(RecipeDetailTKRoute(
-                        brewingMethodId: mostRecentRecipe.brewingMethodId,
-                        recipeId: mostRecentRecipe.id));
-                  } else if (!isNumericId) {
-                    // If the recipe ID contains letters, navigate to VendorRecipeDetailRoute
-                    context.router.push(VendorRecipeDetailRoute(
-                        recipeId: mostRecentRecipe.id,
-                        vendorId: mostRecentRecipe.vendorId!));
-                  } else {
-                    // For all other numeric recipe IDs, navigate to RecipeDetailRoute
-                    context.router.push(RecipeDetailRoute(
-                        brewingMethodId: mostRecentRecipe.brewingMethodId,
-                        recipeId: mostRecentRecipe.id));
-                  }
+                  context.router.push(RecipeDetailRoute(
+                      brewingMethodId: mostRecentRecipe.brewingMethodId,
+                      recipeId: mostRecentRecipe.id));
                 },
               ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: filteredBrewingMethods.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final brewingMethod = filteredBrewingMethods[index];
-                  return ListTile(
-                    leading:
-                        getIconByBrewingMethod(brewingMethod.brewingMethodId),
-                    title: Text(brewingMethod.brewingMethod),
-                    onTap: () {
-                      context.router.push(RecipeListRoute(
-                          brewingMethodId: brewingMethod.brewingMethodId));
-                    },
-                  );
-                },
-              ),
-            ),
           ],
         );
       },
     );
   }
 
-  Widget buildBrewDiaryButton() {
-    return Positioned(
-      left: 20,
-      bottom: 20,
-      child: FloatingActionButton.small(
-          heroTag: 'brewDiaryButton',
-          onPressed: () {
-            context.router.push(const BrewDiaryRoute());
-          },
-          tooltip: 'Brew Diary',
-          child: const Icon(Icons.history)),
-    );
-  }
-
-  Widget buildSettingsButton() {
-    return Positioned(
-      right: 20,
-      bottom: 20,
-      child: FloatingActionButton.small(
-        heroTag: 'settingsButton',
-        onPressed: () {
-          context.router.push(const SettingsRoute());
-        },
-        tooltip: 'Settings',
-        child: const Icon(Icons.settings),
+  Widget buildHubTab(BuildContext context) {
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.only(
+            bottom: kBottomNavigationBarHeight), // Correct usage
+        children: [
+          ListTile(
+            leading: const Icon(Icons.library_books),
+            title: Text(AppLocalizations.of(context)!.brewdiary),
+            onTap: () {
+              context.router.push(const BrewDiaryRoute());
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.bar_chart),
+            title: Text(AppLocalizations.of(context)!.statsscreen),
+            onTap: () {
+              context.router.push(StatsRoute());
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: Text(AppLocalizations.of(context)!.settings),
+            onTap: () {
+              context.router.push(const SettingsRoute());
+            },
+          ),
+        ],
       ),
     );
   }
 
   PreferredSizeWidget buildPlatformSpecificAppBar() {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
-      // For iOS using CupertinoNavigationBar
       return CupertinoNavigationBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         middle: Text('Timer.Coffee',
@@ -253,5 +261,39 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
       );
     }
+  }
+}
+
+class CustomTabBuilder extends DelegateBuilder {
+  final List<TabItem> items;
+  final BuildContext context;
+
+  CustomTabBuilder(this.items, this.context);
+
+  @override
+  Widget build(BuildContext context, int index, bool active) {
+    // Determine color based on the theme
+    Color activeColor = Theme.of(context).brightness == Brightness.light
+        ? Colors.white
+        : Colors.black;
+    Color inactiveColor = Theme.of(context).brightness == Brightness.light
+        ? Colors.white.withOpacity(0.5)
+        : Colors.black.withOpacity(0.5);
+
+    var item = items[index];
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Icon(
+          item.icon,
+          color: active ? activeColor : inactiveColor,
+        ),
+        Text(item.title ?? "",
+            style: TextStyle(
+              color: active ? activeColor : inactiveColor,
+            )),
+      ],
+    );
   }
 }

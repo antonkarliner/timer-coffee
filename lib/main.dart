@@ -26,43 +26,53 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import './providers/snow_provider.dart';
 import 'widgets/global_snow_overlay.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: WidgetsBinding.instance);
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
+
+  // OneSignal initialization
+//Remove this method to stop OneSignal Debugging
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+
+  OneSignal.initialize(Env.oneSignalAppId);
+
   // Initialize PurchaseManager
   PurchaseManager();
+
   // Restore previous purchases
   InAppPurchase.instance.restorePurchases();
+
+  // Initialize Supabase
   await Supabase.initialize(url: Env.supaUrl, anonKey: Env.supaKey);
+
   // Check if there is an existing session or logged-in user
   final session = Supabase.instance.client.auth.currentSession;
-
   if (session == null) {
     // No session found, proceed with anonymous sign-in
     final authResult = await Supabase.instance.client.auth.signInAnonymously();
     if (authResult.user == null) {
-      //print('Error signing in anonymously. Check network and Supabase configuration.');
+      // Handle error
     } else {
-      //print('Signed in anonymously. User ID: ${authResult.user!.id}');
+      // Successfully signed in
     }
-  } else {
-    //print('Already signed in. Session: ${session.user!.id}');
   }
+
+  final user = Supabase.instance.client.auth.currentUser;
+  OneSignal.login(user!.id);
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isFirstLaunch = prefs.getBool('firstLaunched') ?? true;
-  // Pass the !isFirstLaunch to enable foreign key constraints unless it's the first launch
   final AppDatabase database =
       AppDatabase(enableForeignKeyConstraints: !isFirstLaunch);
-
   final supportedLocalesDao = SupportedLocalesDao(database);
   final brewingMethodsDao = BrewingMethodsDao(database);
   final DatabaseProvider databaseProvider = DatabaseProvider(database);
   await databaseProvider.initializeDatabase();
-  // Fetch supported locales and brewing methods concurrently
+
   final supportedLocalesFuture = supportedLocalesDao.getAllSupportedLocales();
   final brewingMethodsFuture = brewingMethodsDao.getAllBrewingMethods();
   final List<SupportedLocaleModel> supportedLocales =
@@ -141,6 +151,9 @@ class CoffeeTimerApp extends StatelessWidget {
           create: (_) => brewingMethods,
         ),
         Provider<Locale>.value(value: initialLocale),
+        Provider<DatabaseProvider>(
+          create: (_) => DatabaseProvider(database),
+        )
       ],
       child: Consumer2<ThemeProvider, SnowEffectProvider>(
         builder: (context, themeProvider, snowProvider, child) {

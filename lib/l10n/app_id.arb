@@ -25,12 +25,6 @@
   "brewingprocess": "Proses Penyeduhan",
   "step": "Langkah",
   "seconds": "{count, plural, =0{detik} =1{detik} other{detik}}",
-  "@seconds": {
-    "description": "Kata jamak dalam detik",
-    "placeholders": {
-      "count": {}
-        }
-    },
   "finishmsg": "Terima kasih telah menggunakan Timer.Coffee! Nikmati",
   "coffeefact": "Fakta Kopi",
   "home": "Beranda",
@@ -73,5 +67,23 @@
   "beans": "Biji",
   "roaster": "Penyangrai",
   "rating": "Peringkat",
-  "notes": "Catatan"
+  "notes": "Catatan",
+  "statsscreen": "Statistik Kopi",
+  "yourStats": "Statistik Anda",
+  "coffeeBrewed": "Kopi yang diseduh:",
+  "litersUnit": "L",
+  "mostUsedRecipes": "Resep yang paling sering digunakan:",
+  "globalStats": "Statistik Global",
+  "unknownRecipe": "Resep Tidak Dikenal",
+  "noData": "Tidak ada data",
+  "error": "Kesalahan: {error}",
+  "someoneJustBrewed": "Seseorang baru saja menyeduh {recipeName}",
+  "timePeriodToday": "Hari Ini",
+  "timePeriodThisWeek": "Minggu Ini",
+  "timePeriodThisMonth": "Bulan Ini",
+  "timePeriodCustom": "Kustom",
+  "statsFor": "Statistik untuk ",
+  "homescreenbrewcoffee": "Membuat Kopi",
+  "homescreenhub": "Hub",
+  "homescreenmore": "Lainnya"
 }

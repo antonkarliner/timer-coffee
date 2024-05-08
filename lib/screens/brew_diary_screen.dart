@@ -61,7 +61,14 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(loc.brewdiary),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.library_books),
+            const SizedBox(width: 8),
+            Text(loc.brewdiary),
+          ],
+        ),
         actions: [
           IconButton(
             icon: Icon(isEditMode ? Icons.done : Icons.edit_note),

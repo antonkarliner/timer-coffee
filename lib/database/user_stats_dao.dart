@@ -154,4 +154,25 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
   Future<void> deleteUserStat(int id) async {
     await (delete(userStats)..where((t) => t.id.equals(id))).go();
   }
+
+  Future<double> fetchBrewedCoffeeAmount(DateTime start, DateTime end) async {
+    final query = select(userStats)
+      ..where((u) => u.createdAt.isBetweenValues(start, end));
+    final List<double> totalWaterAmount =
+        await query.map((row) => row.waterAmount).get();
+    return totalWaterAmount.fold<double>(
+        0.0, (double sum, double element) => sum + element);
+  }
+
+  Future<List<String>> fetchTopRecipes(DateTime start, DateTime end) async {
+    final query = customSelect(
+      'SELECT recipe_id, COUNT(recipe_id) AS usage_count '
+      'FROM user_stats WHERE created_at BETWEEN ? AND ? '
+      'GROUP BY recipe_id ORDER BY usage_count DESC LIMIT 3',
+      variables: [Variable.withDateTime(start), Variable.withDateTime(end)],
+      readsFrom: {userStats},
+    );
+    final resultRows = await query.get();
+    return resultRows.map((row) => row.read<String>('recipe_id')).toList();
+  }
 }

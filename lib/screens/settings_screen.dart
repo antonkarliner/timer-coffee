@@ -34,7 +34,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.settings),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.settings),
+            const SizedBox(width: 8),
+            Text(AppLocalizations.of(context)!.settings),
+          ],
+        ),
       ),
       body: ListView(
         children: [

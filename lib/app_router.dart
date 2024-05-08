@@ -78,5 +78,9 @@ class AppRouter extends $AppRouter {
           page: BrewDiaryRoute.page,
           path: '/brewdiary',
         ),
+        AutoRoute(
+          page: StatsRoute.page,
+          path: '/stats',
+        ),
       ];
 }

@@ -1,6 +1,7 @@
 // lib/screens/finish_screen.dart
 import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:advanced_in_app_review/advanced_in_app_review.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -59,6 +60,7 @@ class _FinishScreenState extends State<FinishScreen> {
     requestReview();
     insertBrewingDataToSupabase();
     insertBrewingDataToAppDatabase();
+    OneSignal.Notifications.requestPermission(true);
   }
 
   void insertBrewingDataToSupabase() async {

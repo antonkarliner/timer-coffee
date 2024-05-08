@@ -2,7 +2,11 @@
 
 # A list of devices you want to take the screenshots from
 devices([
-   "iPhone 15 Pro Max"
+   #"iPhone 14 Pro",
+   #"iPhone 14 Pro Max"
+   #"iPhone 15 Pro Max"
+   "iPhone SE (3rd generation)"
+   #"iPad Pro (12.9-inch) (5th generation)"
 #   "iPhone 8",
 #   "iPhone 8 Plus",
 #   "iPhone SE",
@@ -14,7 +18,19 @@ devices([
  ])
 
 languages([
-   "en-US"
+   "en-US",
+   #"de-DE",
+   #"ar-SA",
+   #"es-ES",
+   #"es-MX",
+   #"fr-FR",
+   #"ja"
+   #"pl",
+   #"pt-BR",
+   #"pt-PT",
+   #"ru",
+   #"zh-Hans",
+   #"id"
 #   "it-IT",
 #   ["pt", "pt_BR"] # Portuguese with Brazilian locale
 ])
@@ -26,7 +42,6 @@ languages([
 # output_directory("./screenshots")
 
 # remove the '#' to clear all previously generated screenshots before creating new ones
-# clear_previous_screenshots(true)
 
 # Remove the '#' to set the status bar to 9:41 AM, and show full battery and reception. See also override_status_bar_arguments for custom options.
 #override_status_bar(true)
@@ -36,3 +51,8 @@ languages([
 
 # For more information about all available options run
 # fastlane action snapshot
+
+localize_simulator(true)
+headless(false)
+#clear_previous_screenshots(true)
+number_of_retries(1)

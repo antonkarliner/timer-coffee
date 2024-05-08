@@ -111,4 +111,42 @@ class DatabaseProvider {
       });
     });
   }
+
+  // Inside DatabaseProvider
+  Future<double> fetchGlobalBrewedCoffeeAmount(
+      DateTime start, DateTime end) async {
+    final startUtc = start.toUtc();
+    final endUtc = end.toUtc();
+    final response = await Supabase.instance.client
+        .from('global_stats')
+        .select('water_amount')
+        .gte('created_at', startUtc.toIso8601String())
+        .lte('created_at', endUtc.toIso8601String());
+    final data = response as List<dynamic>;
+    return data.fold<double>(
+        0.0, (sum, element) => sum + element['water_amount'] / 1000);
+  }
+
+  Future<List<String>> fetchGlobalTopRecipes(
+      DateTime start, DateTime end) async {
+    final startUtc = start.toUtc();
+    final endUtc = end.toUtc();
+    final response = await Supabase.instance.client
+        .from('global_stats')
+        .select('recipe_id')
+        .gte('created_at', startUtc.toIso8601String())
+        .lte('created_at', endUtc.toIso8601String());
+
+    // Aggregate counts of recipe_id
+    final Map<String, int> recipeCounts = {};
+    for (var entry in response) {
+      final recipeId = entry['recipe_id'] as String;
+      recipeCounts[recipeId] = (recipeCounts[recipeId] ?? 0) + 1;
+    }
+
+    // Sort and get top 3 recipe_ids based on usage count
+    final sortedRecipes = recipeCounts.keys.toList()
+      ..sort((a, b) => recipeCounts[b]!.compareTo(recipeCounts[a]!));
+    return sortedRecipes.take(3).toList();
+  }
 }

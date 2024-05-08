@@ -73,5 +73,26 @@
   "beans": "Beans",
   "roaster": "Roaster",
   "rating": "Rating",
-  "notes": "Notes"
+  "notes": "Notes",
+  "statsscreen":"Coffee Statistics",
+  "yourStats": "Your stats",
+  "coffeeBrewed": "Coffee brewed:",
+  "litersUnit": "L",
+  "mostUsedRecipes": "Most used recipes:",
+  "globalStats": "Global stats",
+  "unknownRecipe": "Unknown Recipe",
+  "noData": "No data",
+  "error": "Error: {error}",
+  "someoneJustBrewed": "Someone just brewed {recipeName}",
+  "timePeriodToday": "Today",
+  "timePeriodThisWeek": "This Week",
+  "timePeriodThisMonth": "This Month",
+  "timePeriodCustom": "Custom",
+  "statsFor": "Stats for ",
+  "@statsFor": {
+  "description": "Prefix text for statistics headings"
+  },
+  "homescreenbrewcoffee": "Brew Coffee",
+  "homescreenhub": "Hub",
+  "homescreenmore": "More"
 }

@@ -25,12 +25,6 @@
   "brewingprocess": "Processo di Infusione",
   "step": "Passaggio",
   "seconds": "{count, plural, =0{secondi} =1{secondo} other{secondi}}",
-  "@seconds": {
-    "description": "Pluralizzazione per secondi",
-    "placeholders": {
-      "count": {}
-        }
-    },
   "finishmsg": "Grazie per aver utilizzato Timer.Coffee! Goditi il tuo",
   "coffeefact": "Curiosità sul Caffè",
   "home": "Home",
@@ -73,5 +67,23 @@
   "beans": "Chicchi",
   "roaster": "Tostatore",
   "rating": "Valutazione",
-  "notes": "Note"
+  "notes": "Note",
+  "statsscreen": "Statistica caffè",
+  "yourStats": "Le tue statistiche",
+  "coffeeBrewed": "Caffè preparato:",
+  "litersUnit": "L",
+  "mostUsedRecipes": "Ricette più utilizzate:",
+  "globalStats": "Statistiche globali",
+  "unknownRecipe": "Ricetta sconosciuta",
+  "noData": "Nessun dato",
+  "error": "Errore: {error}",
+  "someoneJustBrewed": "Qualcuno ha appena preparato {recipeName}",
+  "timePeriodToday": "Oggi",
+  "timePeriodThisWeek": "Questa settimana",
+  "timePeriodThisMonth": "Questo mese",
+  "timePeriodCustom": "Personalizza",
+  "statsFor": "Statistiche per ",
+  "homescreenbrewcoffee": "Prepara caffè",
+  "homescreenhub": "Hub",
+  "homescreenmore": "Altro"
 }
