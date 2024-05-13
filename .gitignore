@@ -62,3 +62,6 @@ launch_popup_query.txt
 translatedb.py
 translatelaunchpopup.py
 lib/database/db_schemas/
+ios/fastlane/resizese.py
+ios/fastlane/screenshots/
+ios/fastlane/screenshots/screenshots.html
