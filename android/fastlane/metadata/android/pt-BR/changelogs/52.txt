@@ -1,0 +1,3 @@
++ Design atualizado, ainda mais minimalista e claro.
++ Nova tela de Estatísticas
++ Notificações! Se permitir, enviaremos algo interessante. Um dia.

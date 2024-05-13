@@ -18,21 +18,24 @@ devices([
  ])
 
 languages([
-   "en-US",
+   #"en-US",
    #"de-DE",
    #"ar-SA",
    #"es-ES",
    #"es-MX",
    #"fr-FR",
-   #"ja"
+   #"ja",
    #"pl",
-   #"pt-BR",
-   #"pt-PT",
-   #"ru",
+   "pt-BR",
+   "pt-PT",
+   "ru",
    #"zh-Hans",
-   #"id"
-#   "it-IT",
-#   ["pt", "pt_BR"] # Portuguese with Brazilian locale
+   #"id",
+   #"it",
+   #"ro",
+   #"tr",
+   #"uk",
+   #"nl-NL"
 ])
 
 # The name of the scheme which contains the UI Tests
@@ -53,6 +56,6 @@ languages([
 # fastlane action snapshot
 
 localize_simulator(true)
-headless(false)
+headless(true)
 #clear_previous_screenshots(true)
-number_of_retries(1)
+number_of_retries(3)

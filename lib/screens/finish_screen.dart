@@ -13,7 +13,7 @@ import 'dart:io';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/recipe_model.dart';
 
 class FinishScreen extends StatefulWidget {
@@ -40,34 +40,29 @@ class FinishScreen extends StatefulWidget {
 
 class _FinishScreenState extends State<FinishScreen> {
   late Future<String> coffeeFact;
-
   final AdvancedInAppReview advancedInAppReview = AdvancedInAppReview();
 
   @override
   void initState() {
     super.initState();
 
-    // Assuming WakelockPlus and requestReview() remain unchanged
     WakelockPlus.enabled.then((bool wakelockEnabled) {
       if (wakelockEnabled) {
         WakelockPlus.disable();
       }
     });
 
-    // Updated to fetch coffee fact from database via RecipeProvider
     coffeeFact = Provider.of<RecipeProvider>(context, listen: false)
         .getRandomCoffeeFactFromDB();
     requestReview();
     insertBrewingDataToSupabase();
     insertBrewingDataToAppDatabase();
-    OneSignal.Notifications.requestPermission(true);
+    requestOneSignalPermissionFirstTime();
   }
 
   void insertBrewingDataToSupabase() async {
-    // Retrieve the current user
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null) {
-      // Prepare the data
       final data = {
         'user_id': user.id,
         'brewing_method': widget.brewingMethodName,
@@ -75,19 +70,14 @@ class _FinishScreenState extends State<FinishScreen> {
         'water_amount': widget.waterAmount,
       };
 
-      // Perform the insert operation
       await Supabase.instance.client.from('global_stats').insert(data);
-    } else {
-      //print('No user signed in');
     }
   }
 
   void insertBrewingDataToAppDatabase() async {
-    // Retrieve the current user from Supabase to get the user ID
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null) {
       try {
-        // Use the RecipeProvider to insert user stat
         await Provider.of<RecipeProvider>(context, listen: false)
             .insertUserStat(
           userId: user.id,
@@ -97,14 +87,23 @@ class _FinishScreenState extends State<FinishScreen> {
           sweetnessSliderPosition: widget.sweetnessSliderPosition,
           strengthSliderPosition: widget.strengthSliderPosition,
           brewingMethodId: widget.recipe.brewingMethodId,
-          // Additional fields like notes, beans, roaster, and rating can be added as needed
         );
       } catch (e) {
-        // Handle any errors here
         print("Error inserting brewing data to app database: $e");
       }
     } else {
       print('No user signed in');
+    }
+  }
+
+  Future<void> requestOneSignalPermissionFirstTime() async {
+    const firstFinishScreenKey = 'firstfinishscreen';
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool firstFinishScreen = prefs.getBool(firstFinishScreenKey) ?? true;
+
+    if (firstFinishScreen) {
+      OneSignal.Notifications.requestPermission(true);
+      await prefs.setBool(firstFinishScreenKey, false);
     }
   }
 
@@ -130,74 +129,94 @@ class _FinishScreenState extends State<FinishScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.finishbrew)),
+      appBar: AppBar(
+        title: Semantics(
+          identifier: 'finishBrewTitle',
+          child: Text(AppLocalizations.of(context)!.finishbrew),
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              '${AppLocalizations.of(context)!.finishmsg} ${widget.brewingMethodName}!',
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 24),
+            Semantics(
+              identifier: 'finishMessage',
+              child: Text(
+                '${AppLocalizations.of(context)!.finishmsg} ${widget.brewingMethodName}!',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 24),
+              ),
             ),
             const SizedBox(height: 20),
-            FutureBuilder<String>(
-              future: coffeeFact,
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                if (snapshot.hasData) {
-                  return Card(
-                    margin: const EdgeInsets.all(10),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text:
-                                  '${AppLocalizations.of(context)!.coffeefact}: ',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
-                            ),
-                            TextSpan(
-                                text: '${snapshot.data}',
-                                style: const TextStyle(fontSize: 20)),
-                          ],
+            Semantics(
+              identifier: 'coffeeFactCard',
+              child: FutureBuilder<String>(
+                future: coffeeFact,
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  if (snapshot.hasData) {
+                    return Card(
+                      margin: const EdgeInsets.all(10),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text:
+                                    '${AppLocalizations.of(context)!.coffeefact}: ',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              TextSpan(
+                                  text: '${snapshot.data}',
+                                  style: const TextStyle(fontSize: 20)),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                context.router.push(const HomeRoute());
-              },
-              child: Text(AppLocalizations.of(context)!.home),
-            ),
-            const SizedBox(height: 20),
-            if (kIsWeb || !Platform.isIOS) // Conditional statement
-              ElevatedButton.icon(
-                onPressed: () =>
-                    _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                icon: const Icon(Icons.local_cafe),
-                label: Text(AppLocalizations.of(context)!.support),
-              ),
-            if (!kIsWeb && Platform.isIOS) // New condition specifically for iOS
-              ElevatedButton.icon(
-                onPressed: () {
-                  context.router
-                      .push(const DonationRoute()); // Your routing logic
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
                 },
-                icon: const Icon(Icons.local_cafe),
-                label: Text(AppLocalizations.of(context)!.support),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Semantics(
+              identifier: 'homeButton',
+              child: ElevatedButton(
+                onPressed: () {
+                  context.router.push(const HomeRoute());
+                },
+                child: Text(AppLocalizations.of(context)!.home),
+              ),
+            ),
+            const SizedBox(height: 20),
+            if (kIsWeb || !Platform.isIOS)
+              Semantics(
+                identifier: 'buyMeACoffeeButton',
+                child: ElevatedButton.icon(
+                  onPressed: () =>
+                      _launchURL('https://www.buymeacoffee.com/timercoffee'),
+                  icon: const Icon(Icons.local_cafe),
+                  label: Text(AppLocalizations.of(context)!.support),
+                ),
+              )
+            else if (!kIsWeb && Platform.isIOS)
+              Semantics(
+                identifier: 'supportButton',
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    context.router.push(const DonationRoute());
+                  },
+                  icon: const Icon(Icons.local_cafe),
+                  label: Text(AppLocalizations.of(context)!.support),
+                ),
               ),
           ],
         ),

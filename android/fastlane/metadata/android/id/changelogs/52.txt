@@ -1,0 +1,3 @@
++ Desain diperbarui, semakin minimalis dan jelas.
++ Layar Statistik baru
++ Notifikasi! Jika Anda mengizinkannya, kami akan mengirimkan sesuatu yang menarik. Suatu hari nanti.

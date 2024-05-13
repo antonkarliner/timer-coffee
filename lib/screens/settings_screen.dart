@@ -34,40 +34,51 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.settings),
-            const SizedBox(width: 8),
-            Text(AppLocalizations.of(context)!.settings),
-          ],
+        leading: Semantics(
+          identifier: 'settingsBackButton',
+          child: const BackButton(),
+        ),
+        title: Semantics(
+          identifier: 'settingsTitle',
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.settings),
+              const SizedBox(width: 8),
+              Text(AppLocalizations.of(context)!.settings),
+            ],
+          ),
         ),
       ),
       body: ListView(
         children: [
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.settingstheme),
-            trailing: Text(_getLocalizedThemeModeText()),
-            onTap: _changeTheme,
-          ),
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.settingslang),
-            trailing: FutureBuilder<String>(
-              future: _getLanguageName(recipeProvider.currentLocale),
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                if (snapshot.hasData) {
-                  return Text(snapshot
-                      .data!); // Display the dynamically fetched locale name
-                } else {
-                  return const CircularProgressIndicator(); // Show loading indicator while fetching
-                }
-              },
+          Semantics(
+            identifier: 'settingsThemeTile',
+            child: ListTile(
+              title: Text(AppLocalizations.of(context)!.settingstheme),
+              trailing: Text(_getLocalizedThemeModeText()),
+              onTap: _changeTheme,
             ),
-            onTap: _changeLocale,
           ),
-
-          _buildAboutSection(context, Provider.of<SnowEffectProvider>(context)),
-          // Add more settings options here if needed
+          Semantics(
+            identifier: 'settingsLangTile',
+            child: ListTile(
+              title: Text(AppLocalizations.of(context)!.settingslang),
+              trailing: FutureBuilder<String>(
+                future: _getLanguageName(recipeProvider.currentLocale),
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(snapshot.data!);
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                },
+              ),
+              onTap: _changeLocale,
+            ),
+          ),
+          _buildAboutSection(context, snowEffectProvider),
         ],
       ),
     );
@@ -75,176 +86,203 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildAboutSection(
       BuildContext context, SnowEffectProvider snowEffectProvider) {
-    return Column(
-      children: [
-        // Author, Contributors, License, and other sections from AboutScreen
-        ExpansionTile(
-          title: Text(AppLocalizations.of(context)!.author),
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                AppLocalizations.of(context)!.authortext,
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            ),
-          ],
-        ),
-        ExpansionTile(
-          title: Text(AppLocalizations.of(context)!.contributors),
-          children: <Widget>[
-            FutureBuilder<List<ContributorModel>>(
-              future: Provider.of<RecipeProvider>(context, listen: false)
-                  .fetchAllContributorsForCurrentLocale(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<ContributorModel>> snapshot) {
-                if (snapshot.hasData) {
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: _buildRichText(context, snapshot.data!),
-                  );
-                } else if (snapshot.hasError) {
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                        AppLocalizations.of(context)!.errorLoadingContributors),
-                  );
-                } else {
-                  return const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
-          ],
-        ),
-
-        ExpansionTile(
-          title: Text(AppLocalizations.of(context)!.license),
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(AppLocalizations.of(context)!.licensetext),
-                  TextButton(
-                    onPressed: () =>
-                        _launchURL('https://www.gnu.org/licenses/gpl-3.0.html'),
-                    child: Text(
-                      AppLocalizations.of(context)!.licensebutton,
-                      style:
-                          const TextStyle(decoration: TextDecoration.underline),
-                    ),
+    return Semantics(
+      identifier: 'aboutSection',
+      child: Column(
+        children: [
+          Semantics(
+            identifier: 'authorExpansionTile',
+            child: ExpansionTile(
+              title: Text(AppLocalizations.of(context)!.author),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    AppLocalizations.of(context)!.authortext,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-        ExpansionTile(
-          title: const Text('Privacy Policy'),
-          children: <Widget>[
-            FutureBuilder<String>(
-              future: loadPrivacyPolicy(),
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                if (snapshot.hasData) {
-                  return SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        // Set a maximum height for the Markdown content
-                        maxHeight: MediaQuery.of(context).size.height * 0.5,
-                      ),
-                      child: Padding(
+          ),
+          Semantics(
+            identifier: 'contributorsExpansionTile',
+            child: ExpansionTile(
+              title: Text(AppLocalizations.of(context)!.contributors),
+              children: <Widget>[
+                FutureBuilder<List<ContributorModel>>(
+                  future: Provider.of<RecipeProvider>(context, listen: false)
+                      .fetchAllContributorsForCurrentLocale(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<ContributorModel>> snapshot) {
+                    if (snapshot.hasData) {
+                      return Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Markdown(
-                          data: snapshot.data!,
-                          styleSheet: MarkdownStyleSheet(
-                            p: Theme.of(context).textTheme.bodyLarge!,
-                          ),
+                        child: _buildRichText(context, snapshot.data!),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(AppLocalizations.of(context)!
+                            .errorLoadingContributors),
+                      );
+                    } else {
+                      return const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+          Semantics(
+            identifier: 'licenseExpansionTile',
+            child: ExpansionTile(
+              title: Text(AppLocalizations.of(context)!.license),
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(AppLocalizations.of(context)!.licensetext),
+                      TextButton(
+                        onPressed: () => _launchURL(
+                            'https://www.gnu.org/licenses/gpl-3.0.html'),
+                        child: Text(
+                          AppLocalizations.of(context)!.licensebutton,
+                          style: const TextStyle(
+                              decoration: TextDecoration.underline),
                         ),
                       ),
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text('Error loading Privacy Policy'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Semantics(
+            identifier: 'privacyPolicyExpansionTile',
+            child: ExpansionTile(
+              title: const Text('Privacy Policy'),
+              children: <Widget>[
+                FutureBuilder<String>(
+                  future: loadPrivacyPolicy(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasData) {
+                      return SingleChildScrollView(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height * 0.5,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Markdown(
+                              data: snapshot.data!,
+                              styleSheet: MarkdownStyleSheet(
+                                p: Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text('Error loading Privacy Policy'),
+                      );
+                    } else {
+                      return const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+          Semantics(
+            identifier: 'seasonSpecialsExpansionTile',
+            child: ExpansionTile(
+              title: Text(AppLocalizations.of(context)!.seasonspecials),
+              children: [
+                Semantics(
+                  identifier: 'snowListTile',
+                  child: ListTile(
+                    leading: const Icon(Icons.ac_unit),
+                    title: Text(AppLocalizations.of(context)!.snow),
+                    onTap: () => snowEffectProvider.toggleSnowEffect(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 12.0,
+            runSpacing: 2.0,
+            children: [
+              Semantics(
+                identifier: 'websiteButton',
+                child: ElevatedButton.icon(
+                  onPressed: () => _launchURL('https://www.timer.coffee'),
+                  icon: const Icon(Icons.explore),
+                  label: Text(AppLocalizations.of(context)!.website),
+                ),
+              ),
+              Semantics(
+                identifier: 'sourceCodeButton',
+                child: ElevatedButton.icon(
+                  onPressed: () => _launchURL(
+                      'https://github.com/antonkarliner/coffee-timer'),
+                  icon: const Icon(Icons.code),
+                  label: Text(AppLocalizations.of(context)!.sourcecode),
+                ),
+              ),
+              if (kIsWeb || !Platform.isIOS)
+                Semantics(
+                  identifier: 'supportNonIOSButton',
+                  child: ElevatedButton.icon(
+                    onPressed: () =>
+                        _launchURL('https://www.buymeacoffee.com/timercoffee'),
+                    icon: const Icon(Icons.local_cafe),
+                    label: Text(AppLocalizations.of(context)!.support),
+                  ),
+                ),
+              if (!kIsWeb && Platform.isIOS)
+                Semantics(
+                  identifier: 'supportIOSButton',
+                  child: ElevatedButton.icon(
+                    onPressed: () => context.router.push(const DonationRoute()),
+                    icon: const Icon(Icons.local_cafe),
+                    label: Text(AppLocalizations.of(context)!.support),
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Semantics(
+            identifier: 'appVersionText',
+            child: FutureBuilder<String>(
+              future: getVersionNumber(),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    '${AppLocalizations.of(context)!.appversion}: ${snapshot.data}',
+                    style: const TextStyle(fontSize: 16.0, color: Colors.grey),
                   );
                 } else {
-                  return const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: CircularProgressIndicator(),
-                  );
+                  return const CircularProgressIndicator();
                 }
               },
             ),
-          ],
-        ),
-        ExpansionTile(
-          title: Text(AppLocalizations.of(context)!.seasonspecials),
-          children: [
-            ListTile(
-                leading: const Icon(Icons.ac_unit),
-                title: Text(AppLocalizations.of(context)!.snow),
-                onTap: () {
-                  snowEffectProvider
-                      .toggleSnowEffect(); // This calls the function
-                }),
-          ],
-        ),
-
-        Wrap(
-          alignment: WrapAlignment.center,
-          spacing: 12.0, // space between buttons
-          runSpacing: 2.0, // space between lines
-          children: [
-            ElevatedButton.icon(
-              onPressed: () => _launchURL('https://www.timer.coffee'),
-              icon: const Icon(Icons.explore),
-              label: Text(AppLocalizations.of(context)!.website),
-            ),
-            ElevatedButton.icon(
-              onPressed: () =>
-                  _launchURL('https://github.com/antonkarliner/coffee-timer'),
-              icon: const Icon(Icons.code),
-              label: Text(AppLocalizations.of(context)!.sourcecode),
-            ),
-            if (kIsWeb ||
-                !Platform.isIOS) // Existing condition for non-iOS platforms
-              ElevatedButton.icon(
-                onPressed: () =>
-                    _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                icon: const Icon(Icons.local_cafe),
-                label: Text(AppLocalizations.of(context)!.support),
-              ),
-            if (!kIsWeb && Platform.isIOS) // New condition specifically for iOS
-              ElevatedButton.icon(
-                onPressed: () {
-                  context.router
-                      .push(const DonationRoute()); // Your routing logic
-                },
-                icon: const Icon(Icons.local_cafe),
-                label: Text(AppLocalizations.of(context)!.support),
-              ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        FutureBuilder<String>(
-          future: getVersionNumber(),
-          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-            if (snapshot.hasData) {
-              return Text(
-                '${AppLocalizations.of(context)!.appversion}: ${snapshot.data}',
-                style: const TextStyle(fontSize: 16.0, color: Colors.grey),
-              );
-            } else {
-              return const CircularProgressIndicator();
-            }
-          },
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -256,20 +294,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: ListView(
             shrinkWrap: true,
             children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.light_mode),
-                title: Text(AppLocalizations.of(context)!.settingsthemelight),
-                onTap: () => Navigator.pop(context, ThemeMode.light),
+              Semantics(
+                identifier: 'themeLightListTile',
+                child: ListTile(
+                  leading: const Icon(Icons.light_mode),
+                  title: Text(AppLocalizations.of(context)!.settingsthemelight),
+                  onTap: () => Navigator.pop(context, ThemeMode.light),
+                ),
               ),
-              ListTile(
-                leading: const Icon(Icons.dark_mode),
-                title: Text(AppLocalizations.of(context)!.settingsthemedark),
-                onTap: () => Navigator.pop(context, ThemeMode.dark),
+              Semantics(
+                identifier: 'themeDarkListTile',
+                child: ListTile(
+                  leading: const Icon(Icons.dark_mode),
+                  title: Text(AppLocalizations.of(context)!.settingsthemedark),
+                  onTap: () => Navigator.pop(context, ThemeMode.dark),
+                ),
               ),
-              ListTile(
-                leading: const Icon(Icons.brightness_medium),
-                title: Text(AppLocalizations.of(context)!.settingsthemesystem),
-                onTap: () => Navigator.pop(context, ThemeMode.system),
+              Semantics(
+                identifier: 'themeSystemListTile',
+                child: ListTile(
+                  leading: const Icon(Icons.brightness_medium),
+                  title:
+                      Text(AppLocalizations.of(context)!.settingsthemesystem),
+                  onTap: () => Navigator.pop(context, ThemeMode.system),
+                ),
               ),
             ],
           ),
@@ -296,10 +344,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             itemCount: supportedLocales.length,
             itemBuilder: (BuildContext context, int index) {
               final localeModel = supportedLocales[index];
-              return ListTile(
-                leading: const Icon(Icons.language),
-                title: Text(localeModel.localeName),
-                onTap: () => Navigator.pop(context, Locale(localeModel.locale)),
+              return Semantics(
+                identifier: 'locale${localeModel.locale}ListTile',
+                child: ListTile(
+                  leading: const Icon(Icons.language),
+                  title: Text(localeModel.localeName),
+                  onTap: () =>
+                      Navigator.pop(context, Locale(localeModel.locale)),
+                ),
               );
             },
           ),
@@ -323,8 +375,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       case ThemeMode.system:
         return AppLocalizations.of(context)!.settingsthemesystem;
       default:
-        return AppLocalizations.of(context)!
-            .settingsthemesystem; // Default case
+        return AppLocalizations.of(context)!.settingsthemesystem;
     }
   }
 
@@ -360,7 +411,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final TextStyle defaultStyle = Theme.of(context).textTheme.bodyLarge!;
     final TextStyle linkStyle = const TextStyle(color: Colors.blue);
 
-    // Define the RegExp here
     final RegExp linkRegExp = RegExp(r'\[(@?.*?)\]\((.*?)\)');
 
     for (final contributor in contributors) {
@@ -369,18 +419,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
       int lastMatchEnd = 0;
 
       for (final match in matches) {
-        // Text before the link
         final String precedingText =
             contributor.content.substring(lastMatchEnd, match.start);
         if (precedingText.isNotEmpty) {
           spanList.add(TextSpan(text: precedingText, style: defaultStyle));
         }
 
-        // Extract link text and URL
         final String linkText = match.group(1)!;
         final String url = match.group(2)!;
 
-        // Add link TextSpan
         spanList.add(TextSpan(
           text: linkText,
           style: linkStyle,
@@ -395,10 +442,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         lastMatchEnd = match.end;
       }
 
-      // Handle text after the last link or if no links are present
       final String remainingText = contributor.content.substring(lastMatchEnd);
       if (remainingText.isNotEmpty) {
-        // Insert a space if the remaining text does not start with a space or newline
         final String formattedRemainingText =
             (remainingText.startsWith(' ') || remainingText.startsWith('\n'))
                 ? remainingText
@@ -407,7 +452,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             .add(TextSpan(text: formattedRemainingText, style: defaultStyle));
       }
 
-      // Add a newline for separation between entries
       spanList.add(const TextSpan(text: '\n\n'));
     }
 

@@ -30,7 +30,10 @@ platform :ios do
     issuer_id: ENV['APPLE_API_ISSUER_ID'],
     key_content: ENV['APPLE_API_KEY_CONTENT'],
     )
-    match(type: "appstore")
+    match(
+      app_identifier: ["timer.coffee","timer.coffee.OneSignalNotificationServiceExtension"],
+      type: "appstore",
+  )
     build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     upload_to_app_store
   end

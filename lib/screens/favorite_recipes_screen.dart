@@ -14,13 +14,20 @@ class FavoriteRecipesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.favorite),
-            const SizedBox(width: 8),
-            Text(AppLocalizations.of(context)!.favoriterecipes),
-          ],
+        leading: Semantics(
+          identifier: 'favoriteRecipesBackButton',
+          child: const BackButton(),
+        ),
+        title: Semantics(
+          identifier: 'favoriteRecipesTitle',
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.favorite),
+              const SizedBox(width: 8),
+              Text(AppLocalizations.of(context)!.favoriterecipes),
+            ],
+          ),
         ),
       ),
       body: FutureBuilder<List<RecipeModel>>(
@@ -28,49 +35,70 @@ class FavoriteRecipesScreen extends StatelessWidget {
             .fetchFavoriteRecipes(Localizations.localeOf(context).toString()),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Semantics(
+              identifier: 'favoriteRecipesLoadingIndicator',
+              child: const Center(child: CircularProgressIndicator()),
+            );
           } else if (snapshot.hasError) {
-            return Center(child: Text("Error loading favorites"));
+            return Semantics(
+              identifier: 'favoriteRecipesError',
+              child: Center(child: Text("Error loading favorites")),
+            );
           } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-            return Center(
-              child: Text(
-                AppLocalizations.of(context)!.noFavoriteRecipesMessage,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16.0, color: Colors.grey),
+            return Semantics(
+              identifier: 'noFavoriteRecipesMessage',
+              child: Center(
+                child: Text(
+                  AppLocalizations.of(context)!.noFavoriteRecipesMessage,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16.0, color: Colors.grey),
+                ),
               ),
             );
           } else {
             List<RecipeModel> favoriteRecipes = snapshot.data!;
-            return ListView.builder(
-              itemCount: favoriteRecipes.length,
-              itemBuilder: (BuildContext context, int index) {
-                RecipeModel recipe = favoriteRecipes[index];
-                return ListTile(
-                  leading: getIconByBrewingMethod(recipe.brewingMethodId),
-                  title: Text(recipe.name),
-                  onTap: () {
-                    // Check if the recipe ID contains only numbers
-                    bool isNumericId = RegExp(r'^\d+$').hasMatch(recipe.id);
+            return Semantics(
+              identifier: 'favoriteRecipesList',
+              child: ListView.builder(
+                itemCount: favoriteRecipes.length,
+                itemBuilder: (BuildContext context, int index) {
+                  RecipeModel recipe = favoriteRecipes[index];
+                  return Semantics(
+                    identifier: 'favoriteRecipeTile_$index',
+                    child: ListTile(
+                      leading: Semantics(
+                        identifier:
+                            'favoriteRecipeIcon_${recipe.brewingMethodId}',
+                        child: getIconByBrewingMethod(recipe.brewingMethodId),
+                      ),
+                      title: Semantics(
+                        identifier: 'favoriteRecipeName_${recipe.id}',
+                        child: Text(recipe.name),
+                      ),
+                      onTap: () {
+                        bool isNumericId = RegExp(r'^\d+$').hasMatch(recipe.id);
 
-                    if (recipe.id == "106") {
-                      // Navigate to RecipeDetailTKRoute for specific recipe ID
-                      context.router.push(RecipeDetailTKRoute(
-                          brewingMethodId: recipe.brewingMethodId,
-                          recipeId: recipe.id));
-                    } else if (!isNumericId) {
-                      // Navigate to VendorRecipeDetailRoute if ID contains letters
-                      context.router.push(VendorRecipeDetailRoute(
-                          recipeId: recipe.id, vendorId: recipe.vendorId!));
-                    } else {
-                      // Default navigation to RecipeDetailRoute
-                      context.router.push(RecipeDetailRoute(
-                          brewingMethodId: recipe.brewingMethodId,
-                          recipeId: recipe.id));
-                    }
-                  },
-                  trailing: FavoriteButton(recipeId: recipe.id),
-                );
-              },
+                        if (recipe.id == "106") {
+                          context.router.push(RecipeDetailTKRoute(
+                              brewingMethodId: recipe.brewingMethodId,
+                              recipeId: recipe.id));
+                        } else if (!isNumericId) {
+                          context.router.push(VendorRecipeDetailRoute(
+                              recipeId: recipe.id, vendorId: recipe.vendorId!));
+                        } else {
+                          context.router.push(RecipeDetailRoute(
+                              brewingMethodId: recipe.brewingMethodId,
+                              recipeId: recipe.id));
+                        }
+                      },
+                      trailing: Semantics(
+                        identifier: 'favoriteRecipeButton_${recipe.id}',
+                        child: FavoriteButton(recipeId: recipe.id),
+                      ),
+                    ),
+                  );
+                },
+              ),
             );
           }
         },

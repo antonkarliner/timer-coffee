@@ -8,12 +8,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PreparationScreen extends StatefulWidget {
   final RecipeModel recipe;
-  final String brewingMethodName; // Add this line
+  final String brewingMethodName;
 
   const PreparationScreen({
     Key? key,
     required this.recipe,
-    required this.brewingMethodName, // Add this line
+    required this.brewingMethodName,
   }) : super(key: key);
 
   @override
@@ -65,16 +65,28 @@ class _PreparationScreenState extends State<PreparationScreen> {
     final appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLocalizations.preparation),
+        leading: Semantics(
+          identifier: 'preparationBackButton',
+          child: const BackButton(),
+        ),
+        title: Semantics(
+          identifier: 'preparationScreenTitle',
+          child: Text(appLocalizations.preparation),
+        ),
       ),
-      body: _buildBody(context),
+      body: Semantics(
+        identifier: 'preparationBody',
+        child: _buildBody(context),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: _buildFloatingActionButton(context),
+      floatingActionButton: Semantics(
+        identifier: 'floatingActionButtons',
+        child: _buildFloatingActionButton(context),
+      ),
     );
   }
 
   Widget _buildBody(BuildContext context) {
-    // Filter steps based on the condition: order = 1 and time = 0 seconds
     final preparationSteps = widget.recipe.steps
         .where((step) => step.order == 1 && step.time.inSeconds == 0)
         .map((step) {
@@ -96,22 +108,28 @@ class _PreparationScreenState extends State<PreparationScreen> {
     }).toList();
 
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: preparationSteps
-              .map((step) => Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(
-                        bottom: 16), // Add space between text widgets
-                    child: Text(
-                      step.description,
-                      style: const TextStyle(fontSize: 24),
-                      textAlign: TextAlign.center,
-                    ),
-                  ))
-              .toList(),
+      child: Semantics(
+        identifier: 'preparationSteps',
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: preparationSteps
+                .map((step) => Semantics(
+                      identifier: 'preparationStep_${step.order}',
+                      child: Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(
+                            bottom: 16), // Add space between text widgets
+                        child: Text(
+                          step.description,
+                          style: const TextStyle(fontSize: 24),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ))
+                .toList(),
+          ),
         ),
       ),
     );
@@ -123,39 +141,45 @@ class _PreparationScreenState extends State<PreparationScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          FloatingActionButton(
-            heroTag: 'soundButton',
-            onPressed: _toggleSound,
-            child: Icon(_soundEnabled ? Icons.volume_up : Icons.volume_off),
+          Semantics(
+            identifier: 'soundToggleButton',
+            child: FloatingActionButton(
+              heroTag: 'soundButton',
+              onPressed: _toggleSound,
+              child: Icon(_soundEnabled ? Icons.volume_up : Icons.volume_off),
+            ),
           ),
-          FloatingActionButton(
-            heroTag: 'playButton',
-            onPressed: () {
-              if (_soundEnabled) {
-                player.seek(Duration.zero);
-                player.play();
-              }
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BrewingProcessScreen(
-                    recipe: widget.recipe,
-                    coffeeAmount: widget.recipe.coffeeAmount,
-                    waterAmount: widget.recipe.waterAmount,
-                    sweetnessSliderPosition:
-                        widget.recipe.sweetnessSliderPosition,
-                    strengthSliderPosition:
-                        widget.recipe.strengthSliderPosition,
-                    soundEnabled: _soundEnabled,
-                    brewingMethodName: widget.brewingMethodName,
+          Semantics(
+            identifier: 'playButton',
+            child: FloatingActionButton(
+              heroTag: 'playButton',
+              onPressed: () {
+                if (_soundEnabled) {
+                  player.seek(Duration.zero);
+                  player.play();
+                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BrewingProcessScreen(
+                      recipe: widget.recipe,
+                      coffeeAmount: widget.recipe.coffeeAmount,
+                      waterAmount: widget.recipe.waterAmount,
+                      sweetnessSliderPosition:
+                          widget.recipe.sweetnessSliderPosition,
+                      strengthSliderPosition:
+                          widget.recipe.strengthSliderPosition,
+                      soundEnabled: _soundEnabled,
+                      brewingMethodName: widget.brewingMethodName,
+                    ),
                   ),
-                ),
-              );
-            },
-            child: Icon(
-              Directionality.of(context) == TextDirection.rtl
-                  ? Icons.arrow_back_ios_new
-                  : Icons.play_arrow,
+                );
+              },
+              child: Icon(
+                Directionality.of(context) == TextDirection.rtl
+                    ? Icons.arrow_back_ios_new
+                    : Icons.play_arrow,
+              ),
             ),
           ),
         ],
@@ -176,7 +200,6 @@ class _PreparationScreenState extends State<PreparationScreen> {
     int sweetnessSliderPosition,
     int strengthSliderPosition,
   ) {
-    // Define the values based on slider positions for sweetness and strength
     List<Map<String, double>> sweetnessValues = [
       {"m1": 0.16, "m2": 0.24}, // Sweetness
       {"m1": 0.20, "m2": 0.20}, // Balance
@@ -189,7 +212,6 @@ class _PreparationScreenState extends State<PreparationScreen> {
       {"m3": 0.2, "m4": 0.2, "m5": 0.2}, // Strong
     ];
 
-    // Replace sweetness and strength placeholders
     Map<String, double> selectedSweetnessValues =
         sweetnessValues[sweetnessSliderPosition];
     Map<String, double> selectedStrengthValues =
@@ -211,7 +233,6 @@ class _PreparationScreenState extends State<PreparationScreen> {
           : match.group(0)!;
     });
 
-    // Handle mathematical expressions (e.g., "(0.8 x <final_water_amount>)")
     RegExp mathExp = RegExp(r'\(([\d.]+) x ([\d.]+)\)');
     replacedText = replacedText.replaceAllMapped(mathExp, (match) {
       double multiplier = double.parse(match.group(1)!);
@@ -227,11 +248,8 @@ class _PreparationScreenState extends State<PreparationScreen> {
     int sweetnessSliderPosition,
     int strengthSliderPosition,
   ) {
-    // First, check if time is a placeholder that needs replacement
-    String timeString = time.inSeconds
-        .toString(); // Convert Duration to string representation of seconds for matching
+    String timeString = time.inSeconds.toString();
 
-    // Define the values based on slider positions for sweetness and strength
     List<Map<String, double>> sweetnessValues = [
       {"m1": 0.16, "m2": 0.4}, // Sweetness
       {"m1": 0.20, "m2": 0.4}, // Balance
@@ -274,18 +292,15 @@ class _PreparationScreenState extends State<PreparationScreen> {
       }, // Strong
     ];
 
-    // Check if time is a direct numerical value (if time is a placeholder, it would be set to zero initially)
     if (time != Duration.zero) {
-      return time; // It's a direct value, return as is.
+      return time;
     }
 
-    // Assume that the placeholder is in a predictable format, such as <t1> or <t2>, etc.
     RegExp exp = RegExp(r'<(t\d+)>');
     var matches = exp.allMatches(timeString);
 
     for (var match in matches) {
       String placeholder = match.group(1)!;
-      // Identify which value set to use and replace placeholders
       double? replacementValue;
       if (sweetnessValues[sweetnessSliderPosition].containsKey(placeholder)) {
         replacementValue =
@@ -295,12 +310,11 @@ class _PreparationScreenState extends State<PreparationScreen> {
         replacementValue = strengthValues[strengthSliderPosition][placeholder];
       }
 
-      // Convert the replacement value to a Duration, assuming the values are seconds
       if (replacementValue != null) {
         time = Duration(seconds: replacementValue.toInt());
       }
     }
 
-    return time; // Return the modified Duration
+    return time;
   }
 }

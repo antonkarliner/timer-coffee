@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   late Locale initialLocale;
   late TabController _tabController;
-  static const double kBottomNavigationBarHeight = 60; // Corrected
+  static const double kBottomNavigationBarHeight = 60;
 
   @override
   void initState() {
@@ -155,27 +155,33 @@ class _HomeScreenState extends State<HomeScreen>
     return SafeArea(
       child: Column(
         children: [
-          buildFixedContent(recipeProvider), // Fixed content
+          buildFixedContent(recipeProvider),
           Expanded(
-            // Scrollable list below
             child: ListView.builder(
               itemCount: filteredBrewingMethods.length,
               itemBuilder: (BuildContext context, int index) {
                 final brewingMethod = filteredBrewingMethods[index];
-                return ListTile(
-                  leading:
-                      getIconByBrewingMethod(brewingMethod.brewingMethodId),
-                  title: Text(brewingMethod.brewingMethod),
-                  onTap: () {
-                    context.router.push(RecipeListRoute(
-                        brewingMethodId: brewingMethod.brewingMethodId));
-                  },
+                return Semantics(
+                  identifier: 'brewingMethod_${brewingMethod.brewingMethodId}',
+                  label: brewingMethod.brewingMethod,
+                  child: ListTile(
+                    leading:
+                        getIconByBrewingMethod(brewingMethod.brewingMethodId),
+                    title: Text(brewingMethod.brewingMethod),
+                    onTap: () {
+                      context.router.push(RecipeListRoute(
+                          brewingMethodId: brewingMethod.brewingMethodId));
+                    },
+                  ),
                 );
               },
               padding: EdgeInsets.only(bottom: bottomPadding),
             ),
           ),
-          LaunchPopupWidget(),
+          Semantics(
+            identifier: 'launchPopupWidget',
+            child: LaunchPopupWidget(),
+          ),
         ],
       ),
     );
@@ -188,24 +194,33 @@ class _HomeScreenState extends State<HomeScreen>
         RecipeModel? mostRecentRecipe = snapshot.data;
         return Column(
           children: [
-            ListTile(
-              leading: const Icon(Icons.favorite),
-              title: Text(AppLocalizations.of(context)!.favoriterecipes),
-              onTap: () {
-                context.router.push(const FavoriteRecipesRoute());
-              },
+            Semantics(
+              identifier: 'favoriteRecipes',
+              label: AppLocalizations.of(context)!.favoriterecipes,
+              child: ListTile(
+                leading: const Icon(Icons.favorite),
+                title: Text(AppLocalizations.of(context)!.favoriterecipes),
+                onTap: () {
+                  context.router.push(const FavoriteRecipesRoute());
+                },
+              ),
             ),
             if (mostRecentRecipe != null)
-              ListTile(
-                leading:
-                    getIconByBrewingMethod(mostRecentRecipe.brewingMethodId),
-                title: Text(
-                    '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
-                onTap: () {
-                  context.router.push(RecipeDetailRoute(
-                      brewingMethodId: mostRecentRecipe.brewingMethodId,
-                      recipeId: mostRecentRecipe.id));
-                },
+              Semantics(
+                identifier: 'lastRecipe_${mostRecentRecipe.id}',
+                label:
+                    '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}',
+                child: ListTile(
+                  leading:
+                      getIconByBrewingMethod(mostRecentRecipe.brewingMethodId),
+                  title: Text(
+                      '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
+                  onTap: () {
+                    context.router.push(RecipeDetailRoute(
+                        brewingMethodId: mostRecentRecipe.brewingMethodId,
+                        recipeId: mostRecentRecipe.id));
+                  },
+                ),
               ),
           ],
         );
@@ -216,29 +231,40 @@ class _HomeScreenState extends State<HomeScreen>
   Widget buildHubTab(BuildContext context) {
     return SafeArea(
       child: ListView(
-        padding: const EdgeInsets.only(
-            bottom: kBottomNavigationBarHeight), // Correct usage
+        padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
         children: [
-          ListTile(
-            leading: const Icon(Icons.library_books),
-            title: Text(AppLocalizations.of(context)!.brewdiary),
-            onTap: () {
-              context.router.push(const BrewDiaryRoute());
-            },
+          Semantics(
+            identifier: 'brewDiary',
+            label: AppLocalizations.of(context)!.brewdiary,
+            child: ListTile(
+              leading: const Icon(Icons.library_books),
+              title: Text(AppLocalizations.of(context)!.brewdiary),
+              onTap: () {
+                context.router.push(const BrewDiaryRoute());
+              },
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.bar_chart),
-            title: Text(AppLocalizations.of(context)!.statsscreen),
-            onTap: () {
-              context.router.push(StatsRoute());
-            },
+          Semantics(
+            identifier: 'statsScreen',
+            label: AppLocalizations.of(context)!.statsscreen,
+            child: ListTile(
+              leading: const Icon(Icons.bar_chart),
+              title: Text(AppLocalizations.of(context)!.statsscreen),
+              onTap: () {
+                context.router.push(StatsRoute());
+              },
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: Text(AppLocalizations.of(context)!.settings),
-            onTap: () {
-              context.router.push(const SettingsRoute());
-            },
+          Semantics(
+            identifier: 'settings',
+            label: AppLocalizations.of(context)!.settings,
+            child: ListTile(
+              leading: const Icon(Icons.settings),
+              title: Text(AppLocalizations.of(context)!.settings),
+              onTap: () {
+                context.router.push(const SettingsRoute());
+              },
+            ),
           ),
         ],
       ),
@@ -281,19 +307,23 @@ class CustomTabBuilder extends DelegateBuilder {
         : Colors.black.withOpacity(0.5);
 
     var item = items[index];
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Icon(
-          item.icon,
-          color: active ? activeColor : inactiveColor,
-        ),
-        Text(item.title ?? "",
-            style: TextStyle(
-              color: active ? activeColor : inactiveColor,
-            )),
-      ],
+    return Semantics(
+      identifier: 'tabItem_$index',
+      label: item.title ?? "",
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            item.icon,
+            color: active ? activeColor : inactiveColor,
+          ),
+          Text(item.title ?? "",
+              style: TextStyle(
+                color: active ? activeColor : inactiveColor,
+              )),
+        ],
+      ),
     );
   }
 }

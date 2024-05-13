@@ -1,10 +1,5 @@
-Timer.Coffee 2.0 ile Tanışın!
+Sürüm 2.1.0 bazı harika değişiklikler getiriyor:
 
-Birçok iç değişiklik yaptım ki bu da bana bazı harika yeni özellikler sunma imkanı verdi, örneğin:
-- Tüm uygulamayı güncellemeye gerek kalmadan tarifleri güncelleme.
-- Demleme Günlüğü, demlemelerinizi takip etmenize, notlar eklemenize ve daha fazlasına olanak tanır.
-- 5 yeni dil eklendi: İtalyanca, Hollandaca, Türkçe, Romence ve Ukraynaca.
-
-Bu sadece başlangıç — daha fazla harika güncelleme yolda! Bu yolculuğun bir parçası olduğunuz için teşekkür ederim.
-
-2.0.1 sürümü, tariflerdeki adımları doğru sırayla yüklemeye ilişkin küçük bir hatayı düzeltiyor. Hata için @robertkb'ye teşekkürler!
++ Güncellenmiş tasarım, daha da minimal ve açık.
++ Yeni İstatistikler ekranı, burada kendi kahve tüketiminizi ve Timer.Coffee kullanıcıları arasında global kahve tüketimini görebilirsiniz.
++ Bildirimler! Eğer izin verirseniz, size ilginç şeyler göndereceğiz. Bir gün.

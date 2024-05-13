@@ -132,7 +132,7 @@ class _StatsScreenState extends State<StatsScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0), // Rounded corners
         ),
-        duration: const Duration(seconds: 10), // Show it for 5 seconds
+        duration: const Duration(seconds: 10), // Show it for 10 seconds
         showCloseIcon: true, // Automatically include a close icon
       ),
     );
@@ -178,78 +178,98 @@ class _StatsScreenState extends State<StatsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.bar_chart),
-            const SizedBox(width: 8),
-            Text(AppLocalizations.of(context)!.statsscreen),
-          ],
+        leading: Semantics(
+          identifier: 'statsBackButton',
+          child: const BackButton(),
+        ),
+        title: Semantics(
+          identifier: 'statsTitle',
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.bar_chart),
+              const SizedBox(width: 8),
+              Text(AppLocalizations.of(context)!.statsscreen),
+            ],
+          ),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(AppLocalizations.of(context)!.statsFor,
-                        style: const TextStyle(fontSize: 20)),
-                  ),
-                  Flexible(
-                    child: DropdownButton<TimePeriod>(
-                      isExpanded: true,
-                      underline: Container(),
-                      value: _selectedPeriod,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Theme.of(context).colorScheme.onBackground,
-                          fontWeight: FontWeight.bold),
-                      onChanged: (TimePeriod? newValue) {
-                        if (newValue != null) {
-                          setState(() {
-                            _selectedPeriod = newValue;
-                          });
-                          if (newValue == TimePeriod.custom) {
-                            _showDatePickerDialog(
-                                context); // Ensure this is called when custom is selected
-                          } else {
-                            // Update for other selections without showing the date picker
-                            DateTime startDate = _getStartDate(
-                                Provider.of<RecipeProvider>(context,
-                                    listen: false),
-                                newValue);
-                            DateTime endDate = newValue == TimePeriod.custom
-                                ? (_customEndDate ?? DateTime.now())
-                                : DateTime.now();
-                            includesToday =
-                                startDate.isBefore(DateTime.now()) &&
-                                    endDate.isAfter(DateTime.now());
-                            fetchInitialTotal(startDate, endDate);
-                          }
-                        }
-                      },
-                      items: <TimePeriod>[
-                        TimePeriod.today,
-                        TimePeriod.thisWeek,
-                        TimePeriod.thisMonth,
-                        TimePeriod.custom
-                      ].map<DropdownMenuItem<TimePeriod>>((TimePeriod value) {
-                        return DropdownMenuItem<TimePeriod>(
-                          value: value,
-                          child: Text(_formatTimePeriod(value)),
-                        );
-                      }).toList(),
+            Semantics(
+              identifier: 'statsTimePeriodSection',
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(AppLocalizations.of(context)!.statsFor,
+                          style: const TextStyle(fontSize: 20)),
                     ),
-                  ),
-                ],
+                    Flexible(
+                      child: Semantics(
+                        identifier: 'statsTimePeriodDropdown',
+                        child: DropdownButton<TimePeriod>(
+                          isExpanded: true,
+                          underline: Container(),
+                          value: _selectedPeriod,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Theme.of(context).colorScheme.onBackground,
+                              fontWeight: FontWeight.bold),
+                          onChanged: (TimePeriod? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                _selectedPeriod = newValue;
+                              });
+                              if (newValue == TimePeriod.custom) {
+                                _showDatePickerDialog(
+                                    context); // Ensure this is called when custom is selected
+                              } else {
+                                // Update for other selections without showing the date picker
+                                DateTime startDate = _getStartDate(
+                                    Provider.of<RecipeProvider>(context,
+                                        listen: false),
+                                    newValue);
+                                DateTime endDate = newValue == TimePeriod.custom
+                                    ? (_customEndDate ?? DateTime.now())
+                                    : DateTime.now();
+                                includesToday =
+                                    startDate.isBefore(DateTime.now()) &&
+                                        endDate.isAfter(DateTime.now());
+                                fetchInitialTotal(startDate, endDate);
+                              }
+                            }
+                          },
+                          items: <TimePeriod>[
+                            TimePeriod.today,
+                            TimePeriod.thisWeek,
+                            TimePeriod.thisMonth,
+                            TimePeriod.custom
+                          ].map<DropdownMenuItem<TimePeriod>>(
+                              (TimePeriod value) {
+                            return DropdownMenuItem<TimePeriod>(
+                              value: value,
+                              child: Text(_formatTimePeriod(value)),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            _buildStatSection(context, provider, startDate, endDate),
-            _buildGlobalStatSection(context, startDate, endDate),
+            Semantics(
+              identifier: 'yourStatsSection',
+              child: _buildStatSection(context, provider, startDate, endDate),
+            ),
+            Semantics(
+              identifier: 'globalStatsSection',
+              child: _buildGlobalStatSection(context, startDate, endDate),
+            ),
           ],
         ),
       ),
@@ -278,98 +298,113 @@ class _StatsScreenState extends State<StatsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(children: [
-            const Icon(Icons.person),
-            const SizedBox(width: 8),
-            Text(AppLocalizations.of(context)!.yourStats,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          ]),
+          Semantics(
+            identifier: 'yourStatsHeading',
+            child: Row(children: [
+              const Icon(Icons.person),
+              const SizedBox(width: 8),
+              Text(AppLocalizations.of(context)!.yourStats,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold)),
+            ]),
+          ),
           const SizedBox(height: 8.0),
-          Text(AppLocalizations.of(context)!.coffeeBrewed,
-              style: const TextStyle(fontWeight: FontWeight.bold)),
-          FutureBuilder<double>(
-            future: provider.fetchBrewedCoffeeAmountForPeriod(start, end),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  return Text("Error: ${snapshot.error}");
-                } else if (snapshot.hasData) {
-                  final coffeeBrewed =
-                      snapshot.data! / 1000; // Convert to liters
-                  return Text(
-                      '${coffeeBrewed.toStringAsFixed(2)} ${AppLocalizations.of(context)!.litersUnit}');
+          Semantics(
+            identifier: 'yourStatsCoffeeBrewedTitle',
+            child: Text(AppLocalizations.of(context)!.coffeeBrewed,
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+          ),
+          Semantics(
+            identifier: 'yourStatsCoffeeBrewedValue',
+            child: FutureBuilder<double>(
+              future: provider.fetchBrewedCoffeeAmountForPeriod(start, end),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Text("Error: ${snapshot.error}");
+                  } else if (snapshot.hasData) {
+                    final coffeeBrewed =
+                        snapshot.data! / 1000; // Convert to liters
+                    return Text(
+                        '${coffeeBrewed.toStringAsFixed(2)} ${AppLocalizations.of(context)!.litersUnit}');
+                  }
                 }
-              }
-              return const CircularProgressIndicator();
-            },
+                return const CircularProgressIndicator();
+              },
+            ),
           ),
           const SizedBox(height: 16.0),
-          Text(AppLocalizations.of(context)!.mostUsedRecipes,
-              style: const TextStyle(fontWeight: FontWeight.bold)),
-          FutureBuilder<List<String>>(
-            future: provider.fetchTopRecipeIdsForPeriod(start, end),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  return Text("Error: ${snapshot.error}");
-                } else if (snapshot.data!.isNotEmpty) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: snapshot.data!
-                        .map((id) => FutureBuilder<RecipeModel>(
-                              future: provider.getRecipeById(id),
-                              builder: (context, recipeSnapshot) {
-                                if (recipeSnapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  if (recipeSnapshot.hasData) {
-                                    Icon brewingMethodIcon =
-                                        getIconByBrewingMethod(recipeSnapshot
-                                            .data!.brewingMethodId);
-                                    return InkWell(
-                                      onTap: () => context.router.push(
-                                          RecipeDetailRoute(
-                                              brewingMethodId: recipeSnapshot
-                                                  .data!.brewingMethodId,
-                                              recipeId:
-                                                  recipeSnapshot.data!.id)),
-                                      child: Row(
-                                        children: [
-                                          brewingMethodIcon,
-                                          const SizedBox(width: 8),
-                                          Flexible(
-                                            child: Text(
-                                                recipeSnapshot.data!.name,
-                                                style: const TextStyle(
-                                                    color: Colors.lightBlue),
-                                                overflow: TextOverflow
-                                                    .ellipsis, // Ensure text does not overflow
-                                                maxLines:
-                                                    2), // Allow up to two lines
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  } else {
-                                    return Text(
-                                      AppLocalizations.of(context)!
-                                          .unknownRecipe,
-                                    );
+          Semantics(
+            identifier: 'yourStatsMostUsedRecipesTitle',
+            child: Text(AppLocalizations.of(context)!.mostUsedRecipes,
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+          ),
+          Semantics(
+            identifier: 'yourStatsMostUsedRecipes',
+            child: FutureBuilder<List<String>>(
+              future: provider.fetchTopRecipeIdsForPeriod(start, end),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Text("Error: ${snapshot.error}");
+                  } else if (snapshot.data!.isNotEmpty) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: snapshot.data!
+                          .map((id) => FutureBuilder<RecipeModel>(
+                                future: provider.getRecipeById(id),
+                                builder: (context, recipeSnapshot) {
+                                  if (recipeSnapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    if (recipeSnapshot.hasData) {
+                                      Icon brewingMethodIcon =
+                                          getIconByBrewingMethod(recipeSnapshot
+                                              .data!.brewingMethodId);
+                                      return InkWell(
+                                        onTap: () => context.router.push(
+                                            RecipeDetailRoute(
+                                                brewingMethodId: recipeSnapshot
+                                                    .data!.brewingMethodId,
+                                                recipeId:
+                                                    recipeSnapshot.data!.id)),
+                                        child: Row(
+                                          children: [
+                                            brewingMethodIcon,
+                                            const SizedBox(width: 8),
+                                            Flexible(
+                                              child: Text(
+                                                  recipeSnapshot.data!.name,
+                                                  style: const TextStyle(
+                                                      color: Colors.lightBlue),
+                                                  overflow: TextOverflow
+                                                      .ellipsis, // Ensure text does not overflow
+                                                  maxLines:
+                                                      2), // Allow up to two lines
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    } else {
+                                      return Text(
+                                        AppLocalizations.of(context)!
+                                            .unknownRecipe,
+                                      );
+                                    }
                                   }
-                                }
-                                return const CircularProgressIndicator();
-                              },
-                            ))
-                        .toList(),
-                  );
-                } else {
-                  return Text(
-                    AppLocalizations.of(context)!.noData,
-                  );
+                                  return const CircularProgressIndicator();
+                                },
+                              ))
+                          .toList(),
+                    );
+                  } else {
+                    return Text(
+                      AppLocalizations.of(context)!.noData,
+                    );
+                  }
                 }
-              }
-              return const CircularProgressIndicator();
-            },
+                return const CircularProgressIndicator();
+              },
+            ),
           ),
         ],
       ),
@@ -397,85 +432,101 @@ class _StatsScreenState extends State<StatsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(children: [
-            const Icon(Icons.public),
-            const SizedBox(width: 8),
-            Text(AppLocalizations.of(context)!.globalStats,
-                style: headingStyle),
-          ]),
+          Semantics(
+            identifier: 'globalStatsHeading',
+            child: Row(children: [
+              const Icon(Icons.public),
+              const SizedBox(width: 8),
+              Text(AppLocalizations.of(context)!.globalStats,
+                  style: headingStyle),
+            ]),
+          ),
           const SizedBox(height: 8.0),
-          Text(AppLocalizations.of(context)!.coffeeBrewed, style: titleStyle),
-          Text(
-              '${totalGlobalCoffeeBrewed.toStringAsFixed(2)} ${AppLocalizations.of(context)!.litersUnit}',
-              style: valueStyle),
+          Semantics(
+            identifier: 'globalStatsCoffeeBrewedTitle',
+            child: Text(AppLocalizations.of(context)!.coffeeBrewed,
+                style: titleStyle),
+          ),
+          Semantics(
+            identifier: 'globalStatsCoffeeBrewedValue',
+            child: Text(
+                '${totalGlobalCoffeeBrewed.toStringAsFixed(2)} ${AppLocalizations.of(context)!.litersUnit}',
+                style: valueStyle),
+          ),
           const SizedBox(height: 16.0),
-          Text(AppLocalizations.of(context)!.mostUsedRecipes,
-              style: titleStyle),
-          FutureBuilder<List<String>>(
-            future: db.fetchGlobalTopRecipes(start, end),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  return Text("Error: ${snapshot.error}", style: valueStyle);
-                } else if (snapshot.data!.isNotEmpty) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: snapshot.data!
-                        .map((id) => FutureBuilder<RecipeModel>(
-                              future: Provider.of<RecipeProvider>(context,
-                                      listen: false)
-                                  .getRecipeById(id),
-                              builder: (context, recipeSnapshot) {
-                                if (recipeSnapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  if (recipeSnapshot.hasData) {
-                                    Icon brewingMethodIcon =
-                                        getIconByBrewingMethod(recipeSnapshot
-                                            .data!.brewingMethodId);
-                                    return InkWell(
-                                      onTap: () => context.router.push(
-                                          RecipeDetailRoute(
-                                              brewingMethodId: recipeSnapshot
-                                                  .data!.brewingMethodId,
-                                              recipeId:
-                                                  recipeSnapshot.data!.id)),
-                                      child: Row(
-                                        children: [
-                                          brewingMethodIcon,
-                                          const SizedBox(width: 8),
-                                          Flexible(
-                                            child: Text(
-                                                recipeSnapshot.data!.name,
-                                                style: const TextStyle(
-                                                    color: Colors.lightBlue,
-                                                    fontSize: 14),
-                                                overflow: TextOverflow
-                                                    .ellipsis, // Ensure text does not overflow
-                                                maxLines:
-                                                    2), // Allow up to two lines
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  } else {
-                                    return Text(
-                                        AppLocalizations.of(context)!
-                                            .unknownRecipe,
-                                        style: valueStyle);
+          Semantics(
+            identifier: 'globalStatsMostUsedRecipesTitle',
+            child: Text(AppLocalizations.of(context)!.mostUsedRecipes,
+                style: titleStyle),
+          ),
+          Semantics(
+            identifier: 'globalStatsMostUsedRecipes',
+            child: FutureBuilder<List<String>>(
+              future: db.fetchGlobalTopRecipes(start, end),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Text("Error: ${snapshot.error}", style: valueStyle);
+                  } else if (snapshot.data!.isNotEmpty) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: snapshot.data!
+                          .map((id) => FutureBuilder<RecipeModel>(
+                                future: Provider.of<RecipeProvider>(context,
+                                        listen: false)
+                                    .getRecipeById(id),
+                                builder: (context, recipeSnapshot) {
+                                  if (recipeSnapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    if (recipeSnapshot.hasData) {
+                                      Icon brewingMethodIcon =
+                                          getIconByBrewingMethod(recipeSnapshot
+                                              .data!.brewingMethodId);
+                                      return InkWell(
+                                        onTap: () => context.router.push(
+                                            RecipeDetailRoute(
+                                                brewingMethodId: recipeSnapshot
+                                                    .data!.brewingMethodId,
+                                                recipeId:
+                                                    recipeSnapshot.data!.id)),
+                                        child: Row(
+                                          children: [
+                                            brewingMethodIcon,
+                                            const SizedBox(width: 8),
+                                            Flexible(
+                                              child: Text(
+                                                  recipeSnapshot.data!.name,
+                                                  style: const TextStyle(
+                                                      color: Colors.lightBlue,
+                                                      fontSize: 14),
+                                                  overflow: TextOverflow
+                                                      .ellipsis, // Ensure text does not overflow
+                                                  maxLines:
+                                                      2), // Allow up to two lines
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    } else {
+                                      return Text(
+                                          AppLocalizations.of(context)!
+                                              .unknownRecipe,
+                                          style: valueStyle);
+                                    }
                                   }
-                                }
-                                return const CircularProgressIndicator();
-                              },
-                            ))
-                        .toList(),
-                  );
-                } else {
-                  return Text(AppLocalizations.of(context)!.noData,
-                      style: valueStyle);
+                                  return const CircularProgressIndicator();
+                                },
+                              ))
+                          .toList(),
+                    );
+                  } else {
+                    return Text(AppLocalizations.of(context)!.noData,
+                        style: valueStyle);
+                  }
                 }
-              }
-              return const CircularProgressIndicator();
-            },
+                return const CircularProgressIndicator();
+              },
+            ),
           ),
         ],
       ),

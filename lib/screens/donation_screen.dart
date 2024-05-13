@@ -100,11 +100,8 @@ class _DonationScreenState extends State<DonationScreen> {
 
   @override
   void dispose() {
-    // It's important to dispose the callbacks when the widget is disposed
     PurchaseManager().setDeliverProductCallback(null);
     PurchaseManager().setPurchaseErrorCallback(null);
-
-    // Call dispose on super class
     super.dispose();
   }
 
@@ -122,43 +119,61 @@ class _DonationScreenState extends State<DonationScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.supportdevelopment),
+        title: Semantics(
+          identifier: 'supportDevelopmentTitle',
+          child: Text(AppLocalizations.of(context)!.supportdevelopment),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              AppLocalizations.of(context)!.supportdevtnx,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Semantics(
+              identifier: 'supportDevelopmentThanks',
+              child: Text(
+                AppLocalizations.of(context)!.supportdevtnx,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(height: 16),
-            Text(AppLocalizations.of(context)!.supportdevmsg),
+            Semantics(
+              identifier: 'supportDevelopmentMessage',
+              child: Text(AppLocalizations.of(context)!.supportdevmsg),
+            ),
             const SizedBox(height: 32),
-            // Conditionally render widgets based on platform
-            if (!kIsWeb &&
-                Platform.isIOS) // For iOS, show the products for purchase
-              ..._products.map((product) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: _buildProductButton(product, productTitles),
-                );
-              })
-            else if (kIsWeb ||
-                !Platform.isIOS) // For web and Android, show a different button
-              ElevatedButton.icon(
-                onPressed: () =>
-                    _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                icon: const Icon(Icons.local_cafe),
-                label: Text(AppLocalizations.of(context)!.support),
+            if (!kIsWeb && Platform.isIOS)
+              Semantics(
+                identifier: 'productButtonsList',
+                child: Column(
+                  children: _products.map((product) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: _buildProductButton(product, productTitles),
+                    );
+                  }).toList(),
+                ),
+              )
+            else if (kIsWeb || !Platform.isIOS)
+              Semantics(
+                identifier: 'buyMeACoffeeButton',
+                child: ElevatedButton.icon(
+                  onPressed: () =>
+                      _launchURL('https://www.buymeacoffee.com/timercoffee'),
+                  icon: const Icon(Icons.local_cafe),
+                  label: Text(AppLocalizations.of(context)!.support),
+                ),
               ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                context.router.push(const HomeRoute());
-              },
-              child: Text(AppLocalizations.of(context)!.home),
+            Semantics(
+              identifier: 'homeButton',
+              child: ElevatedButton(
+                onPressed: () {
+                  context.router.push(const HomeRoute());
+                },
+                child: Text(AppLocalizations.of(context)!.home),
+              ),
             ),
           ],
         ),
@@ -168,29 +183,35 @@ class _DonationScreenState extends State<DonationScreen> {
 
   Widget _buildProductButton(
       ProductDetails product, Map<String, String> productTitles) {
-    Widget button = ElevatedButton(
-      onPressed: () => _makePurchase(product),
-      child: Text(productTitles[product.id] ?? 'Unknown Product'),
+    Widget button = Semantics(
+      identifier: 'productButton_${product.id}',
+      child: ElevatedButton(
+        onPressed: () => _makePurchase(product),
+        child: Text(productTitles[product.id] ?? 'Unknown Product'),
+      ),
     );
 
     if (product.id == 'tip_medium_coffee') {
-      button = Stack(
-        alignment: Alignment.center,
-        children: [
-          button,
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Container(
-              padding: const EdgeInsets.all(4),
-              decoration: const BoxDecoration(
-                color: Colors.brown,
-                shape: BoxShape.circle,
+      button = Semantics(
+        identifier: 'featuredProductButton_${product.id}',
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            button,
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: const BoxDecoration(
+                  color: Colors.brown,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.star, size: 10, color: Colors.white),
               ),
-              child: const Icon(Icons.star, size: 10, color: Colors.white),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     }
 

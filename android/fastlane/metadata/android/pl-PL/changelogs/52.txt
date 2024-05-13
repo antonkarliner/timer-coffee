@@ -1,0 +1,3 @@
++ Zaktualizowany design, jeszcze bardziej minimalistyczny i przejrzysty.
++ Nowy ekran statystyk.
++ Powiadomienia! Jeśli je zezwolisz, kiedyś wyślemy Ci coś interesującego.

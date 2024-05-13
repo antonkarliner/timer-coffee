@@ -1,10 +1,5 @@
-Découvrez Timer.Coffee 2.0 !
+La version 2.1.0 apporte quelques changements intéressants :
 
-J'ai apporté une multitude de changements internes qui m'ont permis d'introduire de nouvelles fonctionnalités intéressantes, telles que :
-- La mise à jour des recettes sans nécessiter une mise à jour complète de l'application.
-- Journal de Brassage, qui vous permet de suivre vos préparations, d'ajouter des notes, et plus encore.
-- Ajout de 5 nouvelles langues : italien, néerlandais, turc, roumain et ukrainien.
-
-Ce n'est que le début — d'autres mises à jour impressionnantes sont en préparation ! Merci de faire partie de cette aventure.
-
-La version 2.0.1 corrige un petit bug lié au chargement des étapes des recettes dans le bon ordre. Merci à @robertkb de l'avoir signalé !
++ Design mis à jour, encore plus minimaliste et clair.
++ Nouvel écran de statistiques, où vous pouvez consulter votre consommation de café et celle globale (parmi les utilisateurs de Timer.Coffee).
++ Notifications ! Si vous les autorisez, nous vous enverrons quelque chose d'intéressant. Un jour.

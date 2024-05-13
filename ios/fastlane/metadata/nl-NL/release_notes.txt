@@ -1,10 +1,5 @@
-Ontmoet Timer.Coffee 2.0!
+Versie 2.1.0 brengt enkele coole wijzigingen:
 
-Ik heb een heleboel interne wijzigingen doorgevoerd die me in staat hebben gesteld enkele coole nieuwe functies te introduceren, zoals:
-- Het bijwerken van de recepten zonder de hele app te hoeven updaten.
-- Brouw Dagboek, waarmee je je brouwsels kunt volgen, notities kunt toevoegen en meer.
-- 5 nieuwe talen toegevoegd: Italiaans, Nederlands, Turks, Roemeens en Oekraïens.
-
-Dit is nog maar het begin — er komen nog meer geweldige updates aan! Bedankt dat je deel uitmaakt van deze reis.
-
-Versie 2.0.1 lost een klein probleem op met het in de juiste volgorde laden van de stappen voor een recept. Bedankt @robertkb voor het aanwijzen ervan!
++ Bijgewerkt ontwerp, nog minimalistischer en duidelijker.
++ Nieuw statistieken scherm, waar je een kijkje kunt nemen naar jouw eigen koffieconsumptie en die van andere (onder Timer.Coffee gebruikers) wereldwijd.
++ Notificaties! Als je ze toestaat, sturen we je iets interessants. Ooit.

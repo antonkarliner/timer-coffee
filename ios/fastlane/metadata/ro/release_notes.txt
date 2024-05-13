@@ -1,10 +1,5 @@
-Descoperă Timer.Coffee 2.0!
+Versiunea 2.1.0 aduce câteva schimbări interesante:
 
-Am făcut o mulțime de schimbări interne care mi-au permis să introduc câteva funcții noi interesante, cum ar fi:
-- Actualizarea rețetelor fără a fi necesară actualizarea întregii aplicații.
-- Jurnal de Cafea, care îți permite să îți urmărești preparările, să adaugi note și altele.
-- Am adăugat 5 limbi noi: italiană, olandeză, turcă, română și ucraineană.
-
-Acesta este doar începutul — urmează și alte actualizări impresionante! Îți mulțumesc că faci parte din această călătorie.
-
-Versiunea 2.0.1 rezolvă un mic bug legat de încărcarea pașilor pentru rețetă în ordinea corectă. Mulțumiri lui @robertkb pentru că a semnalat acest lucru!
++ Design actualizat, acum și mai minimalist și clar.
++ Noua pagină de Statistici, unde poți vedea consumul tău de cafea și cel global (printre utilizatorii Timer.Coffee).
++ Notificări! Dacă le permiți, îți vom trimite ceva interesant. Într-o zi.

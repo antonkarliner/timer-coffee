@@ -42,7 +42,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   double? originalWater;
 
   RecipeModel? _updatedRecipe;
-  String _brewingMethodName = "Unknown Brewing Method"; // Default value
+  String _brewingMethodName = "Unknown Brewing Method";
 
   @override
   void initState() {
@@ -117,7 +117,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   }
 
   void _onShare(BuildContext context) async {
-    if (_updatedRecipe == null) return; // Guard clause
+    if (_updatedRecipe == null) return;
 
     final RenderBox box = context.findRenderObject() as RenderBox;
     final Rect rect = box.localToGlobal(Offset.zero) & box.size;
@@ -134,22 +134,18 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Return an empty Scaffold if _updatedRecipe is null.
     if (_updatedRecipe == null) {
       return Scaffold(
-        body: Container(), // Returns an empty container.
+        body: Container(),
       );
     }
 
-    RecipeModel recipe =
-        _updatedRecipe!; // It's now safe to use ! because we checked for null.
+    RecipeModel recipe = _updatedRecipe!;
 
-    // Update HTML title for web platforms.
     if (kIsWeb) {
       html.document.title = '${recipe.name} on Timer.Coffee';
     }
 
-    // Use recipe directly in your widget tree.
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -160,41 +156,57 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
             child: _buildRecipeContent(context, recipe),
           ),
         ),
-        floatingActionButton: _buildFloatingActionButton(context, recipe),
+        floatingActionButton: Semantics(
+          identifier: 'recipeDetailFloatingActionButton',
+          child: _buildFloatingActionButton(context, recipe),
+        ),
       ),
     );
   }
 
   AppBar _buildAppBar(BuildContext context, RecipeModel recipe) {
-    // Adjusted to use RecipeModel directly
     return AppBar(
-      leading: const BackButton(),
-      title: Row(
-        children: [
-          getIconByBrewingMethod(widget.brewingMethodId),
-          const SizedBox(width: 8),
-          Flexible(
-            child: Text(
-              _brewingMethodName, // Use the brewing method name stored in the state
-              style: Theme.of(context).textTheme.titleLarge,
+      leading: Semantics(
+        identifier: 'recipeDetailBackButton',
+        child: const BackButton(),
+      ),
+      title: Semantics(
+        identifier: 'recipeDetailAppBarTitle',
+        child: Row(
+          children: [
+            Semantics(
+              identifier: 'brewingMethodIcon_${widget.brewingMethodId}',
+              child: getIconByBrewingMethod(widget.brewingMethodId),
             ),
-          ),
-        ],
+            const SizedBox(width: 8),
+            Flexible(
+              child: Text(
+                _brewingMethodName,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+          ],
+        ),
       ),
       actions: [
-        IconButton(
-          icon: Icon(defaultTargetPlatform == TargetPlatform.iOS
-              ? CupertinoIcons.share
-              : Icons.share),
-          onPressed: () => _onShare(context), // Pass recipe directly
+        Semantics(
+          identifier: 'shareButton',
+          child: IconButton(
+            icon: Icon(defaultTargetPlatform == TargetPlatform.iOS
+                ? CupertinoIcons.share
+                : Icons.share),
+            onPressed: () => _onShare(context),
+          ),
         ),
-        FavoriteButton(recipeId: recipe.id),
+        Semantics(
+          identifier: 'favoriteButton_${recipe.id}',
+          child: FavoriteButton(recipeId: recipe.id),
+        ),
       ],
     );
   }
 
   Widget _buildRecipeContent(BuildContext context, RecipeModel recipe) {
-    // Calculate minutes and seconds from brewTime
     String formattedBrewTime = recipe.brewTime != null
         ? '${recipe.brewTime.inMinutes.remainder(60).toString().padLeft(2, '0')}:${recipe.brewTime.inSeconds.remainder(60).toString().padLeft(2, '0')}'
         : "Not provided";
@@ -202,20 +214,44 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(recipe.name, style: Theme.of(context).textTheme.headlineSmall),
+        Semantics(
+          identifier: 'recipeName',
+          child: Text(recipe.name,
+              style: Theme.of(context).textTheme.headlineSmall),
+        ),
         const SizedBox(height: 16),
-        _buildRichText(context, recipe.shortDescription),
+        Semantics(
+          identifier: 'recipeShortDescription',
+          child: _buildRichText(context, recipe.shortDescription),
+        ),
         const SizedBox(height: 16),
-        _buildAmountFields(context, recipe),
+        Semantics(
+          identifier: 'recipeAmountFields',
+          child: _buildAmountFields(context, recipe),
+        ),
         const SizedBox(height: 16),
-        Text(
-            '${AppLocalizations.of(context)!.watertemp}: ${recipe.waterTemp?.toStringAsFixed(1) ?? "Not provided"}ºC / ${(recipe.waterTemp != null) ? ((recipe.waterTemp! * 9 / 5) + 32).toStringAsFixed(1) : "Not provided"}ºF'),
+        Semantics(
+          identifier: 'waterTemperature',
+          child: Text(
+              '${AppLocalizations.of(context)!.watertemp}: ${recipe.waterTemp?.toStringAsFixed(1) ?? "Not provided"}ºC / ${(recipe.waterTemp != null) ? ((recipe.waterTemp! * 9 / 5) + 32).toStringAsFixed(1) : "Not provided"}ºF'),
+        ),
         const SizedBox(height: 16),
-        Text('${AppLocalizations.of(context)!.grindsize}: ${recipe.grindSize}'),
+        Semantics(
+          identifier: 'grindSize',
+          child: Text(
+              '${AppLocalizations.of(context)!.grindsize}: ${recipe.grindSize}'),
+        ),
         const SizedBox(height: 16),
-        Text('${AppLocalizations.of(context)!.brewtime}: $formattedBrewTime'),
+        Semantics(
+          identifier: 'brewTime',
+          child: Text(
+              '${AppLocalizations.of(context)!.brewtime}: $formattedBrewTime'),
+        ),
         const SizedBox(height: 16),
-        _buildRecipeSummary(context, recipe),
+        Semantics(
+          identifier: 'recipeSummary',
+          child: _buildRecipeSummary(context, recipe),
+        ),
         const SizedBox(height: 16),
       ],
     );
@@ -223,44 +259,59 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
 
   Widget _buildAmountFields(BuildContext context, RecipeModel recipe) {
     initialRatio = recipe.waterAmount / recipe.coffeeAmount;
-    return Row(
-      children: [
-        Expanded(
-          child: TextField(
-            controller: _coffeeController,
-            decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.coffeeamount),
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            onChanged: (text) => _updateAmounts(context, recipe),
-            onTap: () => _editingCoffee = true,
+    return Semantics(
+      identifier: 'recipeAmountFields',
+      child: Row(
+        children: [
+          Expanded(
+            child: Semantics(
+              identifier: 'coffeeAmountField',
+              child: TextField(
+                controller: _coffeeController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.coffeeamount,
+                ),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                onChanged: (text) => _updateAmounts(context, recipe),
+                onTap: () => _editingCoffee = true,
+              ),
+            ),
           ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: TextField(
-            controller: _waterController,
-            decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.wateramount),
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            onChanged: (text) => _updateAmounts(context, recipe),
-            onTap: () => _editingCoffee = false,
+          const SizedBox(width: 16),
+          Expanded(
+            child: Semantics(
+              identifier: 'waterAmountField',
+              child: TextField(
+                controller: _waterController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.wateramount,
+                ),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                onChanged: (text) => _updateAmounts(context, recipe),
+                onTap: () => _editingCoffee = false,
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _buildRecipeSummary(BuildContext context, RecipeModel recipe) {
-    return ExpansionTile(
-      title: Text(AppLocalizations.of(context)!.recipesummary),
-      subtitle: Text(AppLocalizations.of(context)!.recipesummarynote),
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(RecipeSummary.fromRecipe(recipe)
-              .summary), // Assume RecipeSummary exists
-        ),
-      ],
+    return Semantics(
+      identifier: 'recipeSummaryTile',
+      child: ExpansionTile(
+        title: Text(AppLocalizations.of(context)!.recipesummary),
+        subtitle: Text(AppLocalizations.of(context)!.recipesummarynote),
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(RecipeSummary.fromRecipe(recipe).summary),
+          ),
+        ],
+      ),
     );
   }
 
@@ -268,7 +319,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       BuildContext context, RecipeModel recipe) {
     return FloatingActionButton(
       onPressed: () => _saveCustomAmountsAndNavigate(context, recipe),
-      child: const Icon(Icons.arrow_forward),
+      child: Semantics(
+        identifier: 'nextButton',
+        child: const Icon(Icons.arrow_forward),
+      ),
     );
   }
 
@@ -282,24 +336,23 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
         double.tryParse(_waterController.text.replaceAll(',', '.')) ??
             recipe.waterAmount;
 
-    // Save the custom coffee and water amounts
     await recipeProvider.saveCustomAmounts(
         widget.recipeId, customCoffeeAmount, customWaterAmount);
 
-    // Use copyWith to create a new RecipeModel instance with updated values
     RecipeModel updatedRecipe = recipe.copyWith(
       coffeeAmount: customCoffeeAmount,
       waterAmount: customWaterAmount,
     );
 
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => PreparationScreen(
-                  recipe: updatedRecipe, // Pass the updated recipe model
-                  brewingMethodName:
-                      _brewingMethodName, // Assuming this is defined elsewhere in your class
-                )));
+      context,
+      MaterialPageRoute(
+        builder: (context) => PreparationScreen(
+          recipe: updatedRecipe,
+          brewingMethodName: _brewingMethodName,
+        ),
+      ),
+    );
   }
 
   Future<bool> canLaunchUrl(Uri url) async {
@@ -324,12 +377,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       final String linkText = match.group(1)!;
       final String linkUrl = match.group(2)!;
 
-      // Add preceding text span
       if (precedingText.isNotEmpty) {
         spanList.add(TextSpan(text: precedingText, style: defaultTextStyle));
       }
 
-      // Add link text span
       spanList.add(TextSpan(
         text: linkText,
         style: defaultTextStyle.copyWith(color: Colors.blue),
@@ -344,7 +395,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       lastMatchEnd = match.end;
     }
 
-    // Add remaining text after the last match
     if (lastMatchEnd < text.length) {
       spanList.add(TextSpan(
           text: text.substring(lastMatchEnd), style: defaultTextStyle));

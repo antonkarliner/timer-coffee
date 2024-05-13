@@ -43,7 +43,6 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
   RecipeModel? _updatedRecipe;
   String _brewingMethodName = "Unknown Brewing Method"; // Default value
 
-  // Slider positions with default values
   int _sweetnessSliderPosition = 1;
   int _strengthSliderPosition = 2;
 
@@ -82,7 +81,6 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
         _waterController.text = customWater.toString();
       });
     } catch (e) {
-      // Optionally, update the UI or state to reflect the error.
       print("Error loading recipe details: $e");
     }
   }
@@ -127,7 +125,7 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
   }
 
   void _onShare(BuildContext context) async {
-    if (_updatedRecipe == null) return; // Guard clause
+    if (_updatedRecipe == null) return;
 
     final RenderBox box = context.findRenderObject() as RenderBox;
     final Rect rect = box.localToGlobal(Offset.zero) & box.size;
@@ -144,20 +142,16 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Only build the UI if the recipe details have been loaded.
     if (_updatedRecipe == null) {
-      // Placeholder view while loading or if the recipe could not be loaded.
       return Scaffold(body: Center(child: Text('Preparing recipe details...')));
     }
 
     RecipeModel recipe = _updatedRecipe!;
 
-    // Update HTML title for web platforms.
     if (kIsWeb) {
       html.document.title = '${recipe.name} on Timer.Coffee';
     }
 
-    // Main content now uses the recipe details.
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -165,38 +159,58 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
-            child: _buildRecipeContent(context, recipe),
+            child: Semantics(
+              identifier: 'recipeDetailTKContent',
+              child: _buildRecipeContent(context, recipe),
+            ),
           ),
         ),
-        floatingActionButton: _buildFloatingActionButton(context, recipe),
+        floatingActionButton: Semantics(
+          identifier: 'recipeDetailTKFloatingActionButton',
+          child: _buildFloatingActionButton(context, recipe),
+        ),
       ),
     );
   }
 
   AppBar _buildAppBar(BuildContext context, RecipeModel recipe) {
-    // Adjusted to use RecipeModel directly
     return AppBar(
-      leading: const BackButton(),
-      title: Row(
-        children: [
-          getIconByBrewingMethod(widget.brewingMethodId),
-          const SizedBox(width: 8),
-          Flexible(
-            child: Text(
-              _brewingMethodName, // Use the brewing method name stored in the state
-              style: Theme.of(context).textTheme.titleLarge,
+      leading: Semantics(
+        identifier: 'recipeDetailTKBackButton',
+        child: const BackButton(),
+      ),
+      title: Semantics(
+        identifier: 'recipeDetailTKAppBarTitle',
+        child: Row(
+          children: [
+            Semantics(
+              identifier: 'brewingMethodIcon_${widget.brewingMethodId}',
+              child: getIconByBrewingMethod(widget.brewingMethodId),
             ),
-          ),
-        ],
+            const SizedBox(width: 8),
+            Flexible(
+              child: Text(
+                _brewingMethodName,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+          ],
+        ),
       ),
       actions: [
-        IconButton(
-          icon: Icon(defaultTargetPlatform == TargetPlatform.iOS
-              ? CupertinoIcons.share
-              : Icons.share),
-          onPressed: () => _onShare(context), // Pass recipe directly
+        Semantics(
+          identifier: 'shareButton',
+          child: IconButton(
+            icon: Icon(defaultTargetPlatform == TargetPlatform.iOS
+                ? CupertinoIcons.share
+                : Icons.share),
+            onPressed: () => _onShare(context),
+          ),
         ),
-        FavoriteButton(recipeId: recipe.id),
+        Semantics(
+          identifier: 'favoriteButton_${recipe.id}',
+          child: FavoriteButton(recipeId: recipe.id),
+        ),
       ],
     );
   }
@@ -208,84 +222,117 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
 
     final localizations = AppLocalizations.of(context)!;
 
-    // Define the localized labels for the sliders
     List<String> sweetnessLabels = [
-      localizations.sweet, // "Sweet"
-      localizations.balance, // "Balance"
-      localizations.acidic, // "Acidic"
+      localizations.sweet,
+      localizations.balance,
+      localizations.acidic,
     ];
     List<String> strengthLabels = [
-      localizations.light, // "Light"
-      localizations.balance, // "Balance"
-      localizations.strong, // "Strong"
+      localizations.light,
+      localizations.balance,
+      localizations.strong,
     ];
 
     return SingleChildScrollView(
       child: Padding(
-        padding:
-            const EdgeInsets.only(bottom: 100), // Adjust based on your FAB size
+        padding: const EdgeInsets.only(bottom: 100),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(recipe.name, style: Theme.of(context).textTheme.headlineSmall),
+            Semantics(
+              identifier: 'recipeName',
+              child: Text(recipe.name,
+                  style: Theme.of(context).textTheme.headlineSmall),
+            ),
             const SizedBox(height: 16),
-            _buildRichText(context, recipe.shortDescription),
+            Semantics(
+              identifier: 'recipeShortDescription',
+              child: _buildRichText(context, recipe.shortDescription),
+            ),
             const SizedBox(height: 16),
-            _buildAmountFields(context, recipe),
+            Semantics(
+              identifier: 'recipeAmountFields',
+              child: _buildAmountFields(context, recipe),
+            ),
             const SizedBox(height: 16),
-            Text(
-                '${localizations.watertemp}: ${recipe.waterTemp ?? "Not Provided"}ºC / ${recipe.waterTemp != null ? ((recipe.waterTemp! * 9 / 5) + 32).toStringAsFixed(1) : "Not Provided"}ºF'),
+            Semantics(
+              identifier: 'waterTemperature',
+              child: Text(
+                  '${localizations.watertemp}: ${recipe.waterTemp ?? "Not Provided"}ºC / ${recipe.waterTemp != null ? ((recipe.waterTemp! * 9 / 5) + 32).toStringAsFixed(1) : "Not Provided"}ºF'),
+            ),
             const SizedBox(height: 16),
-            Text('${localizations.grindsize}: ${recipe.grindSize}'),
+            Semantics(
+              identifier: 'grindSize',
+              child: Text('${localizations.grindsize}: ${recipe.grindSize}'),
+            ),
             const SizedBox(height: 16),
-            Text('${localizations.brewtime}: $formattedBrewTime'),
+            Semantics(
+              identifier: 'brewTime',
+              child: Text('${localizations.brewtime}: $formattedBrewTime'),
+            ),
             const SizedBox(height: 16),
-            Text(localizations.slidertitle),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Semantics(
+              identifier: 'sweetnessSlider',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(localizations.sweet),
-                  Expanded(
-                    child: Slider(
-                      value: _sweetnessSliderPosition.toDouble(),
-                      min: 0,
-                      max: 2,
-                      divisions: 2,
-                      label: sweetnessLabels[_sweetnessSliderPosition],
-                      onChanged: (double value) {
-                        setState(() {
-                          _sweetnessSliderPosition = value.toInt();
-                        });
-                      },
+                  Text(localizations.slidertitle),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(localizations.sweet),
+                        Expanded(
+                          child: Slider(
+                            value: _sweetnessSliderPosition.toDouble(),
+                            min: 0,
+                            max: 2,
+                            divisions: 2,
+                            label: sweetnessLabels[_sweetnessSliderPosition],
+                            onChanged: (double value) {
+                              setState(() {
+                                _sweetnessSliderPosition = value.toInt();
+                              });
+                            },
+                          ),
+                        ),
+                        Text(localizations.acidic),
+                      ],
                     ),
                   ),
-                  Text(localizations.acidic),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Semantics(
+              identifier: 'strengthSlider',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(localizations.light),
-                  Expanded(
-                    child: Slider(
-                      value: _strengthSliderPosition.toDouble(),
-                      min: 0,
-                      max: 2,
-                      divisions: 2,
-                      label: strengthLabels[_strengthSliderPosition],
-                      onChanged: (double value) {
-                        setState(() {
-                          _strengthSliderPosition = value.toInt();
-                        });
-                      },
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(localizations.light),
+                        Expanded(
+                          child: Slider(
+                            value: _strengthSliderPosition.toDouble(),
+                            min: 0,
+                            max: 2,
+                            divisions: 2,
+                            label: strengthLabels[_strengthSliderPosition],
+                            onChanged: (double value) {
+                              setState(() {
+                                _strengthSliderPosition = value.toInt();
+                              });
+                            },
+                          ),
+                        ),
+                        Text(localizations.strong),
+                      ],
                     ),
                   ),
-                  Text(localizations.strong),
                 ],
               ),
             ),
@@ -296,38 +343,38 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
   }
 
   Widget _buildAmountFields(BuildContext context, RecipeModel recipe) {
-    return Row(
-      children: [
-        Expanded(
-          child: TextField(
-            controller: _coffeeController,
-            decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.coffeeamount),
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            onChanged: (text) {
-              _updateAmounts(context, recipe);
-            },
-            onTap: () {
-              _editingCoffee = true;
-            },
+    initialRatio = recipe.waterAmount / recipe.coffeeAmount;
+    return Semantics(
+      identifier: 'recipeAmountFields',
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _coffeeController,
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.coffeeamount,
+              ),
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              onChanged: (text) => _updateAmounts(context, recipe),
+              onTap: () => _editingCoffee = true,
+            ),
           ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: TextField(
-            controller: _waterController,
-            decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.wateramount),
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            onChanged: (text) {
-              _updateAmounts(context, recipe);
-            },
-            onTap: () {
-              _editingCoffee = false;
-            },
+          const SizedBox(width: 16),
+          Expanded(
+            child: TextField(
+              controller: _waterController,
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.wateramount,
+              ),
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              onChanged: (text) => _updateAmounts(context, recipe),
+              onTap: () => _editingCoffee = false,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -349,16 +396,12 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
         double.tryParse(_waterController.text.replaceAll(',', '.')) ??
             recipe.waterAmount;
 
-    // Save the custom coffee and water amounts
     await recipeProvider.saveCustomAmounts(
         widget.recipeId, customCoffeeAmount, customWaterAmount);
 
-    // Assuming that the RecipeModel has been updated to include sweetnessSliderPosition and strengthSliderPosition
-    // And assuming that the saveSliderPositions method updates the RecipeModel accordingly
     await recipeProvider.saveSliderPositions(
         widget.recipeId, _sweetnessSliderPosition, _strengthSliderPosition);
 
-    // Use copyWith to create a new RecipeModel instance with updated values
     RecipeModel updatedRecipe = recipe.copyWith(
       coffeeAmount: customCoffeeAmount,
       waterAmount: customWaterAmount,
@@ -366,7 +409,6 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
       strengthSliderPosition: _strengthSliderPosition,
     );
 
-    // Navigate to the PreparationScreen with the updated recipe
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -400,12 +442,10 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
       final String linkText = match.group(1)!;
       final String linkUrl = match.group(2)!;
 
-      // Add preceding text span
       if (precedingText.isNotEmpty) {
         spanList.add(TextSpan(text: precedingText, style: defaultTextStyle));
       }
 
-      // Add link text span
       spanList.add(TextSpan(
         text: linkText,
         style: defaultTextStyle.copyWith(color: Colors.blue),
@@ -420,7 +460,6 @@ class _RecipeDetailTKScreenState extends State<RecipeDetailTKScreen> {
       lastMatchEnd = match.end;
     }
 
-    // Add remaining text after the last match
     if (lastMatchEnd < text.length) {
       spanList.add(TextSpan(
           text: text.substring(lastMatchEnd), style: defaultTextStyle));

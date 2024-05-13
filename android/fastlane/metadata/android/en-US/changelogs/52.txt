@@ -1,0 +1,3 @@
++ Updated design, even more minimalistic and clear.
++ New Stats screen
++ Notifications! If you'll allow them, we'll send you something interesting. Someday.

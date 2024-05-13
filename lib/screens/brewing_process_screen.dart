@@ -29,10 +29,13 @@ class LocalizedNumberText extends StatelessWidget {
         ? '${intl.NumberFormat().format(currentNumber)}\\${intl.NumberFormat().format(totalNumber)}'
         : '${intl.NumberFormat().format(currentNumber)}/${intl.NumberFormat().format(totalNumber)}';
 
-    return Text(
-      formattedText,
-      style: style,
-      textAlign: TextAlign.center,
+    return Semantics(
+      identifier: 'localizedNumberText_${currentNumber}_of_$totalNumber',
+      child: Text(
+        formattedText,
+        style: style,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }
@@ -76,7 +79,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
     int sweetnessSliderPosition,
     int strengthSliderPosition,
   ) {
-    // Define the values based on slider positions for sweetness and strength
     List<Map<String, double>> sweetnessValues = [
       {"m1": 0.16, "m2": 0.4}, // Sweetness
       {"m1": 0.20, "m2": 0.4}, // Balance
@@ -89,7 +91,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
       {"m3": 0.6, "m4": 0.8, "m5": 1.0}, // Strong
     ];
 
-    // Replace sweetness and strength placeholders
     Map<String, double> selectedSweetnessValues =
         sweetnessValues[sweetnessSliderPosition];
     Map<String, double> selectedStrengthValues =
@@ -111,7 +112,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
           : match.group(0)!;
     });
 
-    // Handle mathematical expressions (e.g., "(0.8 x <final_water_amount>)")
     RegExp mathExp = RegExp(r'\(([\d.]+) x ([\d.]+)\)');
     replacedText = replacedText.replaceAllMapped(mathExp, (match) {
       double multiplier = double.parse(match.group(1)!);
@@ -129,32 +129,26 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
   ) {
     if (timeString == null) return time;
 
-    // Define the mapping of placeholders to actual time values based on strengthSliderPosition
     List<Map<String, int>> strengthTimeValues = [
-      // For strengthSliderPosition = 0
       {"t1": 10, "t2": 35, "t3": 0, "t4": 0, "t5": 0, "t6": 0},
-      // For strengthSliderPosition = 1
       {"t1": 10, "t2": 35, "t3": 10, "t4": 35, "t5": 0, "t6": 0},
-      // For strengthSliderPosition = 2
       {"t1": 10, "t2": 35, "t3": 10, "t4": 35, "t5": 10, "t6": 35},
     ];
 
-    // Assume that the placeholder is in a predictable format, such as <t1> or <t2>, etc.
     RegExp exp = RegExp(r'<(t\d+)>');
     var matches = exp.allMatches(timeString);
 
     for (var match in matches) {
-      String placeholder = match.group(1)!; // e.g., "t1", "t2"
+      String placeholder = match.group(1)!;
       int? replacementTime =
           strengthTimeValues[strengthSliderPosition][placeholder];
 
-      // If a replacement value was found, create a Duration object with it
       if (replacementTime != null && replacementTime > 0) {
         return Duration(seconds: replacementTime);
       }
     }
 
-    return time; // Return the original time if no placeholders matched
+    return time;
   }
 
   @override
@@ -162,13 +156,12 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
     super.initState();
     WakelockPlus.enable();
 
-    // Use updated logic with step.timePlaceholder
     brewingSteps = widget.recipe.steps
         .map((step) {
           Duration stepDuration = replaceTimePlaceholder(
             step.time,
-            step.timePlaceholder, // Use step.timePlaceholder for time placeholders
-            widget.strengthSliderPosition, // Only pass strengthSliderPosition
+            step.timePlaceholder,
+            widget.strengthSliderPosition,
           );
 
           String description = replacePlaceholders(
@@ -186,7 +179,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
           );
         })
         .where((step) => step.time.inSeconds > 0)
-        .toList(); // Ensure steps with meaningful duration are kept
+        .toList();
 
     _preloadAudio();
     startTimer();
@@ -231,8 +224,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
             MaterialPageRoute(
               builder: (context) => FinishScreen(
                   brewingMethodName: widget.brewingMethodName,
-                  recipe: widget.recipe, // Pass the recipe object
-                  waterAmount: widget.waterAmount, // Pass the water amount
+                  recipe: widget.recipe,
+                  waterAmount: widget.waterAmount,
                   coffeeAmount: widget.coffeeAmount,
                   sweetnessSliderPosition: widget.sweetnessSliderPosition,
                   strengthSliderPosition: widget.strengthSliderPosition),
@@ -262,80 +255,102 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.brewingprocess)),
+      appBar: AppBar(
+        title: Semantics(
+          identifier: 'brewingProcessTitle',
+          child: Text(AppLocalizations.of(context)!.brewingprocess),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.step + ' ',
-                            style: const TextStyle(fontSize: 20),
+            child: Semantics(
+              identifier: 'brewingStepsContent',
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Semantics(
+                              identifier: 'currentStepLabel',
+                              child: Text(
+                                AppLocalizations.of(context)!.step + ' ',
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                            ),
+                            LocalizedNumberText(
+                              currentNumber: currentStepIndex + 1,
+                              totalNumber: brewingSteps.length,
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Semantics(
+                          identifier: 'brewingStepDescription',
+                          child: Text(
+                            brewingSteps[currentStepIndex].description,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 24),
                           ),
-                          LocalizedNumberText(
-                            currentNumber: currentStepIndex + 1,
-                            totalNumber: brewingSteps.length,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        brewingSteps[currentStepIndex].description,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 24),
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    LocalizedNumberText(
-                      currentNumber: currentStepTime,
-                      totalNumber:
-                          brewingSteps[currentStepIndex].time.inSeconds,
-                      style: const TextStyle(fontSize: 22),
+                  const SizedBox(height: 20),
+                  Semantics(
+                    identifier: 'stepTimeCounter',
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        LocalizedNumberText(
+                          currentNumber: currentStepTime,
+                          totalNumber:
+                              brewingSteps[currentStepIndex].time.inSeconds,
+                          style: const TextStyle(fontSize: 22),
+                        ),
+                        Text(
+                          ' ${AppLocalizations.of(context)!.seconds(brewingSteps[currentStepIndex].time.inSeconds)}',
+                          style: const TextStyle(fontSize: 22),
+                        ),
+                      ],
                     ),
-                    Text(
-                      ' ${AppLocalizations.of(context)!.seconds(brewingSteps[currentStepIndex].time.inSeconds)}',
-                      style: const TextStyle(fontSize: 22),
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: LinearProgressIndicator(
-              value: brewingSteps[currentStepIndex].time.inSeconds > 0
-                  ? currentStepTime /
-                      brewingSteps[currentStepIndex].time.inSeconds
-                  : 0,
+            child: Semantics(
+              identifier: 'linearProgressIndicator',
+              child: LinearProgressIndicator(
+                value: brewingSteps[currentStepIndex].time.inSeconds > 0
+                    ? currentStepTime /
+                        brewingSteps[currentStepIndex].time.inSeconds
+                    : 0,
+              ),
             ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _togglePause,
-        child: Icon(
-          _isPaused
-              ? (Directionality.of(context) == TextDirection.rtl
-                  ? Icons
-                      .arrow_back_ios_new // or another suitable RTL icon for play
-                  : Icons.play_arrow) // default LTR play icon
-              : Icons.pause, // pause icon remains the same
+      floatingActionButton: Semantics(
+        identifier: 'togglePauseButton',
+        child: FloatingActionButton(
+          onPressed: _togglePause,
+          child: Icon(
+            _isPaused
+                ? (Directionality.of(context) == TextDirection.rtl
+                    ? Icons.arrow_back_ios_new
+                    : Icons.play_arrow)
+                : Icons.pause,
+          ),
         ),
       ),
     );

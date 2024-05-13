@@ -1,0 +1,3 @@
++ Design actualizat, și mai minimalist și clar.
++ Ecran nou pentru statistici.
++ Notificări! Dacă le permiți, îți vom trimite ceva interesant. Într-o zi.
