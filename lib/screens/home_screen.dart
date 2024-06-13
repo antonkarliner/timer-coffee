@@ -245,6 +245,16 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           Semantics(
+            identifier: 'beansScreen',
+            child: ListTile(
+              leading: const Icon(Coffeico.bag_with_bean),
+              title: Text(AppLocalizations.of(context)!.myBeans),
+              onTap: () {
+                context.router.push(const CoffeeBeansRoute());
+              },
+            ),
+          ),
+          Semantics(
             identifier: 'statsScreen',
             label: AppLocalizations.of(context)!.statsscreen,
             child: ListTile(
@@ -252,16 +262,6 @@ class _HomeScreenState extends State<HomeScreen>
               title: Text(AppLocalizations.of(context)!.statsscreen),
               onTap: () {
                 context.router.push(StatsRoute());
-              },
-            ),
-          ),
-          Semantics(
-            identifier: 'beansScreen',
-            child: ListTile(
-              leading: const Icon(Icons.bar_chart),
-              title: Text(AppLocalizations.of(context)!.myBeans),
-              onTap: () {
-                context.router.push(const CoffeeBeansRoute());
               },
             ),
           ),

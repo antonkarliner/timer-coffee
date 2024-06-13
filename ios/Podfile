@@ -32,6 +32,9 @@ target 'Runner' do
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+
+  # Ensure sqlite3 is compatible
+  pod 'sqlite3', '~> 3.46.0'
 end
 
 post_install do |installer|
@@ -52,5 +55,5 @@ end
 
 target 'OneSignalNotificationServiceExtension' do
   use_frameworks!
-  pod 'OneSignalXCFramework', '>= 5.0.0', '< 6.0'
+  pod 'OneSignalXCFramework', '>= 5.2.0', '< 6.0'
 end

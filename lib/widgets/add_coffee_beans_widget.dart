@@ -68,9 +68,10 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      insetPadding: EdgeInsets.all(20),
+      insetPadding: const EdgeInsets.all(20),
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: 450), // Adjust the max height
+        constraints:
+            const BoxConstraints(maxHeight: 450), // Adjust the max height
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -81,7 +82,7 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
                 child: Text(loc.selectCoffeeBeans),
               ),
               automaticallyImplyLeading: false,
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
             ),
@@ -91,7 +92,7 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
                       child: Semantics(
                         identifier: 'loadingIndicator',
                         label: loc.loading,
-                        child: CircularProgressIndicator(),
+                        child: const CircularProgressIndicator(),
                       ),
                     )
                   : error != null
@@ -136,7 +137,7 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
                               label:
                                   '${bean.name}, ${bean.roaster}, ${bean.isFavorite ? loc.favorite : loc.notFavorite}',
                               child: ListTile(
-                                leading: Icon(Coffeico.bean),
+                                leading: const Icon(Coffeico.bag_with_bean),
                                 title: Text(bean.name),
                                 subtitle: Text(bean.roaster),
                                 trailing: bean.isFavorite

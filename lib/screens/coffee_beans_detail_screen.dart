@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../app_router.gr.dart';
@@ -23,7 +24,14 @@ class CoffeeBeansDetailScreen extends StatelessWidget {
         title: Semantics(
           identifier: 'coffeeBeansDetailsAppBar',
           label: loc.coffeeBeansDetails,
-          child: Text(loc.coffeeBeansDetails),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Coffeico.bag_with_bean), // Add your desired icon here
+              const SizedBox(width: 8), // Adjust spacing as needed
+              Text(loc.coffeeBeansDetails),
+            ],
+          ),
         ),
         actions: [
           Semantics(

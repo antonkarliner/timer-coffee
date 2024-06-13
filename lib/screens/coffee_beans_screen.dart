@@ -34,7 +34,14 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
         title: Semantics(
           identifier: 'coffeeBeansAppBar',
           label: loc.coffeebeans,
-          child: Text(loc.coffeebeans),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Coffeico.bag_with_bean), // Add your desired icon here
+              const SizedBox(width: 8), // Adjust spacing as needed
+              Text(loc.coffeebeans),
+            ],
+          ),
         ),
         actions: [
           Semantics(
@@ -55,7 +62,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
               child: Semantics(
                 identifier: 'coffeeBeansLoading',
                 label: loc.loading,
-                child: CircularProgressIndicator(),
+                child: const CircularProgressIndicator(),
               ),
             );
           } else if (snapshot.hasError) {
@@ -132,14 +139,14 @@ class CoffeeBeanCard extends StatelessWidget {
           context.router.push(CoffeeBeansDetailRoute(id: bean.id));
         },
         child: Card(
-          margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width * 0.2,
-                  child: Icon(Coffeico.bean, size: 40),
+                  child: const Icon(Coffeico.bag_with_bean, size: 40),
                 ),
                 Expanded(
                   child: Column(
@@ -149,22 +156,23 @@ class CoffeeBeanCard extends StatelessWidget {
                         identifier: 'beanName_${bean.id}',
                         label: loc.name,
                         child: Text(bean.name,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Semantics(
                         identifier: 'beanRoaster_${bean.id}',
                         label: loc.roaster,
-                        child:
-                            Text(bean.roaster, style: TextStyle(fontSize: 14)),
+                        child: Text(bean.roaster,
+                            style: const TextStyle(fontSize: 14)),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Semantics(
                         identifier: 'beanOrigin_${bean.id}',
                         label: loc.origin,
                         child: Text(bean.origin,
-                            style: TextStyle(fontSize: 14, color: Colors.grey)),
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.grey)),
                       ),
                     ],
                   ),

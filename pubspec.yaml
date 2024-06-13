@@ -29,18 +29,18 @@ dependencies:
   flutter_native_splash: ^2.4.0
   quick_actions: ^1.0.5
   introduction_screen: ^3.1.11
-  coffeico: ^0.1.0
+  coffeico: ^0.2.0
   in_app_purchase: ^3.1.11
   supabase_flutter: ^2.5.0
-  drift: ^2.16.0
-  sqlite3_flutter_libs: ^0.5.0
+  drift: ^2.18.0
+  sqlite3_flutter_libs: ^0.5.23
   path_provider: ^2.0.0
   path: ^1.8.3
   flutter_localizations:
     sdk: flutter
   envied: ^0.5.3
   flutter_rating_bar: ^4.0.1
-  onesignal_flutter: ^5.1.5
+  onesignal_flutter: ^5.2.0
   calendar_date_picker2: ^0.5.6
   convex_bottom_bar: ^3.2.0
   textfield_tags: ^3.0.1

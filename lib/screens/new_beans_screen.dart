@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:auto_route/auto_route.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -396,15 +397,42 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       if (data.isNotEmpty) {
         if (data.containsKey('error')) {
           print('Error from Edge Function: ${data['error']}');
-          String errorMessage = data['message'] ?? loc.unexpectedErrorOccurred;
-          _showErrorPopup(errorMessage);
+          String errorMessage;
+          if (data['error'] == 'Invocation limit reached') {
+            errorMessage = loc.tokenLimitReached;
+          } else if (data['error'] == 'No coffee labels detected') {
+            errorMessage = loc.noCoffeeLabelsDetected;
+          } else {
+            errorMessage = data['message'] ?? loc.unexpectedErrorOccurred;
+          }
+          if (mounted) {
+            setState(() {
+              isLoading = false;
+            });
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _showErrorPopup(errorMessage);
+            });
+          }
         } else {
           print('Data entry: $data');
           _fillFields(data);
           collectedData = data;
+          if (mounted) {
+            setState(() {
+              isLoading = false;
+            });
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _showCollectedDataPopup();
+            });
+          }
         }
       } else {
         print('No data received from Edge Function');
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
       }
     } catch (error) {
       if (mounted) {
@@ -416,15 +444,17 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         } else {
           errorMessage = '${loc.unexpectedErrorOccurred}: ${error.toString()}';
         }
-        _showErrorPopup(errorMessage);
+        setState(() {
+          isLoading = false;
+        });
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _showErrorPopup(errorMessage);
+        });
       }
     } finally {
       if (mounted) {
         setState(() {
           isLoading = false;
-          if (collectedData != null) {
-            _showCollectedDataPopup();
-          }
         });
       }
     }
@@ -453,39 +483,45 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   }
 
   void _fillFields(Map<String, dynamic> data) {
-    setState(() {
-      _roasterController.text =
-          data['roaster'] != 'Unknown' ? data['roaster'] ?? '' : '';
-      _nameController.text =
-          data['name'] != 'Unknown' ? data['name'] ?? '' : '';
-      _originController.text =
-          data['origin'] != 'Unknown' ? data['origin'] ?? '' : '';
-      _elevationController.text = data['elevation'] != 'Unknown'
-          ? data['elevation']?.toString() ?? ''
-          : '';
-      _cuppingScoreController.text = data['cuppingScore'] != 'Unknown'
-          ? data['cuppingScore']?.toString() ?? ''
-          : '';
-      _notesController.text =
-          data['notes'] != 'Unknown' ? data['notes'] ?? '' : '';
-      _tastingNotes = (data['tastingNotes'] as String?)
-              ?.split(', ')
-              .where((note) => note != 'Unknown')
-              .toList() ??
-          [];
-      variety = data['variety'] != 'Unknown' ? data['variety'] : null;
-      processingMethod = data['processingMethod'] != 'Unknown'
-          ? data['processingMethod']
-          : null;
-      roastLevel = data['roastLevel'] != 'Unknown' ? data['roastLevel'] : null;
-      region = data['region'] != 'Unknown' ? data['region'] : null;
-      harvestDate =
-          data['harvestDate'] != 'Unknown' && data['harvestDate'] != null
-              ? DateTime.tryParse(data['harvestDate'])
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {
+          _roasterController.text =
+              data['roaster'] != 'Unknown' ? data['roaster'] ?? '' : '';
+          _nameController.text =
+              data['name'] != 'Unknown' ? data['name'] ?? '' : '';
+          _originController.text =
+              data['origin'] != 'Unknown' ? data['origin'] ?? '' : '';
+          _elevationController.text = data['elevation'] != 'Unknown'
+              ? data['elevation']?.toString() ?? ''
+              : '';
+          _cuppingScoreController.text = data['cuppingScore'] != 'Unknown'
+              ? data['cuppingScore']?.toString() ?? ''
+              : '';
+          _notesController.text =
+              data['notes'] != 'Unknown' ? data['notes'] ?? '' : '';
+          _tastingNotes = (data['tastingNotes'] as String?)
+                  ?.split(', ')
+                  .where((note) => note != 'Unknown')
+                  .toList() ??
+              [];
+          variety = data['variety'] != 'Unknown' ? data['variety'] : null;
+          processingMethod = data['processingMethod'] != 'Unknown'
+              ? data['processingMethod']
               : null;
-      roastDate = data['roastDate'] != 'Unknown' && data['roastDate'] != null
-          ? DateTime.tryParse(data['roastDate'])
-          : null;
+          roastLevel =
+              data['roastLevel'] != 'Unknown' ? data['roastLevel'] : null;
+          region = data['region'] != 'Unknown' ? data['region'] : null;
+          harvestDate =
+              data['harvestDate'] != 'Unknown' && data['harvestDate'] != null
+                  ? DateTime.tryParse(data['harvestDate'])
+                  : null;
+          roastDate =
+              data['roastDate'] != 'Unknown' && data['roastDate'] != null
+                  ? DateTime.tryParse(data['roastDate'])
+                  : null;
+        });
+      }
     });
   }
 
@@ -493,31 +529,33 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     if (collectedData != null) {
       final loc = AppLocalizations.of(context)!;
 
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(loc.collectedInformation),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: collectedData!.entries.map((entry) {
-                return Text(
-                  '${_humanReadableFieldName(entry.key)}: ${entry.value ?? 'N/A'}',
-                );
-              }).toList(),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(loc.ok),
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(loc.collectedInformation),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: collectedData!.entries.map((entry) {
+                  return Text(
+                    '${_humanReadableFieldName(entry.key)}: ${entry.value ?? 'N/A'}',
+                  );
+                }).toList(),
               ),
-            ],
-          );
-        },
-      );
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(loc.ok),
+                ),
+              ],
+            );
+          },
+        );
+      });
     }
   }
 
@@ -585,7 +623,14 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         title: Semantics(
           identifier: 'newBeansAppBar',
           label: isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans,
-          child: Text(isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Coffeico.bean), // Add your desired icon here
+              const SizedBox(width: 8), // Adjust spacing as needed
+              Text(isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans),
+            ],
+          ),
         ),
         actions: [
           if (!kIsWeb) // Hide camera button on web
