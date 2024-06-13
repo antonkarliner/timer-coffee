@@ -7,18 +7,21 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
 
   UserStatsDao(this.db) : super(db);
 
-  Future<void> insertUserStat(
-      {required String userId,
-      required String recipeId,
-      required double coffeeAmount,
-      required double waterAmount,
-      required int sweetnessSliderPosition,
-      required int strengthSliderPosition,
-      required String brewingMethodId,
-      String? notes,
-      String? beans,
-      String? roaster,
-      double? rating}) async {
+  Future<void> insertUserStat({
+    required String userId,
+    required String recipeId,
+    required double coffeeAmount,
+    required double waterAmount,
+    required int sweetnessSliderPosition,
+    required int strengthSliderPosition,
+    required String brewingMethodId,
+    String? notes,
+    String? beans,
+    String? roaster,
+    double? rating,
+    int? coffeeBeansId,
+    bool isMarked = false,
+  }) async {
     await into(userStats).insertOnConflictUpdate(UserStatsCompanion(
       userId: Value(userId),
       recipeId: Value(recipeId),
@@ -32,10 +35,11 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       beans: Value(beans),
       roaster: Value(roaster),
       rating: Value(rating),
+      coffeeBeansId: Value(coffeeBeansId),
+      isMarked: Value(isMarked),
     ));
   }
 
-  // 1. Fetch stat by id
   Future<UserStatsModel?> fetchStatById(int id) async {
     final query = select(userStats)..where((tbl) => tbl.id.equals(id));
     final userStat = await query.getSingleOrNull();
@@ -56,10 +60,11 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       beans: userStat.beans,
       roaster: userStat.roaster,
       rating: userStat.rating,
+      coffeeBeansId: userStat.coffeeBeansId,
+      isMarked: userStat.isMarked,
     );
   }
 
-  // Fetch all stats ordered by createdAt date descending
   Future<List<UserStatsModel>> fetchAllStats() async {
     final query = select(userStats)
       ..orderBy([
@@ -82,6 +87,8 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
               beans: dbUserStat.beans,
               roaster: dbUserStat.roaster,
               rating: dbUserStat.rating,
+              coffeeBeansId: dbUserStat.coffeeBeansId,
+              isMarked: dbUserStat.isMarked,
             ))
         .toList();
   }
@@ -99,8 +106,12 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     String? beans,
     String? roaster,
     double? rating,
+    int? coffeeBeansId,
+    bool? isMarked,
   }) async {
-    // Create a companion with only the fields that are not null.
+    print(
+        'UserStatsDao updateUserStat called with id: $id, coffeeBeansId: $coffeeBeansId'); // Print the parameters
+
     final updateCompanion = UserStatsCompanion(
       id: Value(id),
       userId: userId != null ? Value(userId) : Value.absent(),
@@ -119,14 +130,21 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       beans: beans != null ? Value(beans) : Value.absent(),
       roaster: roaster != null ? Value(roaster) : Value.absent(),
       rating: rating != null ? Value(rating) : Value.absent(),
+      coffeeBeansId: coffeeBeansId == null ? Value(null) : Value(coffeeBeansId),
+      isMarked: isMarked != null ? Value(isMarked) : Value.absent(),
     );
 
-    // Perform the update.
     await (update(userStats)..where((tbl) => tbl.id.equals(id)))
         .write(updateCompanion);
+
+    print(
+        'UserStatsDao updateUserStat completed for id: $id'); // Print after the update
+
+    // Fetch and print the updated user stat
+    final updatedStat = await fetchStatById(id);
+    print('Updated stat coffeeBeansId: ${updatedStat?.coffeeBeansId}');
   }
 
-// Fetch all distinct roasters from the database, ordered by most recent
   Future<List<String>> fetchAllDistinctRoasters() async {
     final query = selectOnly(userStats, distinct: true)
       ..addColumns([userStats.roaster])
@@ -139,7 +157,6 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     return roasters.whereType<String>().toList();
   }
 
-// Fetch all distinct beans from the database, ordered by most recent
   Future<List<String>> fetchAllDistinctBeans() async {
     final query = selectOnly(userStats, distinct: true)
       ..addColumns([userStats.beans])

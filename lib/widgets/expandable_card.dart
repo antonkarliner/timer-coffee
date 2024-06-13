@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ExpandableCard extends StatefulWidget {
-  final Widget leading; // Widget to display the icon
+  final Widget leading;
   final String header;
   final String subtitle;
   final Widget detail;
-  final Widget? trailing; // Optional widget for trailing area
+  final Widget? trailing;
+  final bool isExpanded;
+  final Function(bool) onExpansionChanged;
 
   const ExpandableCard({
     Key? key,
@@ -13,7 +15,9 @@ class ExpandableCard extends StatefulWidget {
     required this.header,
     required this.subtitle,
     required this.detail,
-    this.trailing, // Initialize the trailing widget
+    this.trailing,
+    this.isExpanded = false,
+    required this.onExpansionChanged,
   }) : super(key: key);
 
   @override
@@ -21,12 +25,31 @@ class ExpandableCard extends StatefulWidget {
 }
 
 class _ExpandableCardState extends State<ExpandableCard> {
-  bool _isExpanded = false;
+  bool _isExpanded;
+
+  _ExpandableCardState() : _isExpanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isExpanded = widget.isExpanded;
+  }
 
   void _toggleExpanded() {
     setState(() {
       _isExpanded = !_isExpanded;
     });
+    widget.onExpansionChanged(_isExpanded);
+  }
+
+  @override
+  void didUpdateWidget(covariant ExpandableCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isExpanded != oldWidget.isExpanded) {
+      setState(() {
+        _isExpanded = widget.isExpanded;
+      });
+    }
   }
 
   @override

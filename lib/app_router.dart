@@ -82,5 +82,17 @@ class AppRouter extends $AppRouter {
           page: StatsRoute.page,
           path: '/stats',
         ),
+        AutoRoute(
+          page: CoffeeBeansRoute.page,
+          path: '/beans',
+        ),
+        AutoRoute(
+          page: CoffeeBeansDetailRoute.page,
+          path: '/beans/:beanId',
+        ),
+        AutoRoute(
+          page: NewBeansRoute.page,
+          path: '/new_beans',
+        ),
       ];
 }

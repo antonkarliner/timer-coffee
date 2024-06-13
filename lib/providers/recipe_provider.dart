@@ -276,7 +276,8 @@ class RecipeProvider extends ChangeNotifier {
     String? notes,
     String? beans,
     String? roaster,
-    double? rating,
+    int? coffeeBeansId,
+    bool isMarked = false,
   }) async {
     await db.userStatsDao.insertUserStat(
       userId: userId,
@@ -289,8 +290,10 @@ class RecipeProvider extends ChangeNotifier {
       notes: notes,
       beans: beans,
       roaster: roaster,
-      rating: rating,
+      coffeeBeansId: coffeeBeansId,
+      isMarked: isMarked,
     );
+    notifyListeners();
   }
 
   Future<void> updateUserStat({
@@ -305,8 +308,12 @@ class RecipeProvider extends ChangeNotifier {
     String? notes,
     String? beans,
     String? roaster,
-    double? rating,
+    int? coffeeBeansId,
+    bool? isMarked,
   }) async {
+    print(
+        'RecipeProvider updateUserStat called with id: $id, coffeeBeansId: $coffeeBeansId'); // Print the parameters
+
     await db.userStatsDao.updateUserStat(
       id: id,
       userId: userId,
@@ -319,8 +326,12 @@ class RecipeProvider extends ChangeNotifier {
       notes: notes,
       beans: beans,
       roaster: roaster,
-      rating: rating,
+      coffeeBeansId: coffeeBeansId,
+      isMarked: isMarked,
     );
+    print(
+        'RecipeProvider updateUserStat completed for id: $id'); // Print after the update
+    notifyListeners();
   }
 
   Future<List<UserStatsModel>> fetchAllUserStats() async {

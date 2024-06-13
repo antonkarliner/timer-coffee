@@ -16,7 +16,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:in_app_purchase/in_app_purchase.dart'; // Import for In-App Purchase
 import 'models/brewing_method_model.dart';
 import './providers/recipe_provider.dart';
-import './providers/theme_provider.dart'; // Import ThemeProvider
+import './providers/theme_provider.dart';
+import './providers/coffee_beans_provider.dart';
 import './app_router.dart';
 import './app_router.gr.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -35,7 +36,7 @@ void main() async {
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
 
   // OneSignal initialization
-//Remove this method to stop OneSignal Debugging
+  // Remove this method to stop OneSignal Debugging
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
 
   OneSignal.initialize(Env.oneSignalAppId);
@@ -70,6 +71,8 @@ void main() async {
       AppDatabase(enableForeignKeyConstraints: !isFirstLaunch);
   final supportedLocalesDao = SupportedLocalesDao(database);
   final brewingMethodsDao = BrewingMethodsDao(database);
+
+  // Initialize databaseProvider before passing it to CoffeeTimerApp
   final DatabaseProvider databaseProvider = DatabaseProvider(database);
   await databaseProvider.initializeDatabase();
 
@@ -101,6 +104,7 @@ void main() async {
 
   runApp(CoffeeTimerApp(
     database: database,
+    databaseProvider: databaseProvider, // Pass the databaseProvider here
     supportedLocales: localeList,
     brewingMethods: brewingMethods,
     initialLocale: initialLocale,
@@ -117,6 +121,8 @@ void main() async {
 
 class CoffeeTimerApp extends StatelessWidget {
   final AppDatabase database; // Add database to the constructor
+  final DatabaseProvider
+      databaseProvider; // Add databaseProvider to the constructor
   final List<Locale> supportedLocales;
   final List<BrewingMethodModel> brewingMethods;
   final Locale initialLocale;
@@ -126,6 +132,7 @@ class CoffeeTimerApp extends StatelessWidget {
   const CoffeeTimerApp({
     Key? key,
     required this.database, // Add database to the constructor
+    required this.databaseProvider, // Add databaseProvider to the constructor
     required this.supportedLocales,
     required this.brewingMethods,
     required this.initialLocale,
@@ -151,9 +158,12 @@ class CoffeeTimerApp extends StatelessWidget {
           create: (_) => brewingMethods,
         ),
         Provider<Locale>.value(value: initialLocale),
-        Provider<DatabaseProvider>(
-          create: (_) => DatabaseProvider(database),
-        )
+        Provider<DatabaseProvider>.value(
+          value: databaseProvider,
+        ),
+        ChangeNotifierProvider<CoffeeBeansProvider>(
+          create: (_) => CoffeeBeansProvider(database, databaseProvider),
+        ),
       ],
       child: Consumer2<ThemeProvider, SnowEffectProvider>(
         builder: (context, themeProvider, snowProvider, child) {

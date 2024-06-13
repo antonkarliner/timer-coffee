@@ -149,4 +149,48 @@ class DatabaseProvider {
       ..sort((a, b) => recipeCounts[b]!.compareTo(recipeCounts[a]!));
     return sortedRecipes.take(3).toList();
   }
+
+  Future<List<String>> fetchCountriesForLocale(String locale) async {
+    try {
+      final response = await Supabase.instance.client
+          .from('coffee_countries')
+          .select('country_name')
+          .eq('locale', locale);
+      final data = response as List<dynamic>;
+      return data.map((e) => e['country_name'] as String).toList();
+    } catch (error) {
+      // If an error occurs, log it and return an empty list
+      print('Error fetching countries: $error');
+      return [];
+    }
+  }
+
+  Future<List<String>> fetchTastingNotesForLocale(String locale) async {
+    try {
+      final response = await Supabase.instance.client
+          .from('coffee_descriptors')
+          .select('descriptor_name')
+          .eq('locale', locale);
+      final data = response as List<dynamic>;
+      return data.map((e) => e['descriptor_name'] as String).toList();
+    } catch (error) {
+      // If an error occurs, log it and return an empty list
+      print('Error fetching tasting notes: $error');
+      return [];
+    }
+  }
+
+  Future<List<String>> fetchProcessingMethodsForLocale(String locale) async {
+    try {
+      final response = await Supabase.instance.client
+          .from('coffee_processing_methods')
+          .select('method_name')
+          .eq('locale', locale);
+      final data = response as List<dynamic>;
+      return data.map((e) => e['method_name'] as String).toList();
+    } catch (error) {
+      print('Error fetching processing methods: $error');
+      return [];
+    }
+  }
 }

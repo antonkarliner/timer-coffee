@@ -256,6 +256,16 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           Semantics(
+            identifier: 'beansScreen',
+            child: ListTile(
+              leading: const Icon(Icons.bar_chart),
+              title: Text(AppLocalizations.of(context)!.myBeans),
+              onTap: () {
+                context.router.push(const CoffeeBeansRoute());
+              },
+            ),
+          ),
+          Semantics(
             identifier: 'settings',
             label: AppLocalizations.of(context)!.settings,
             child: ListTile(

@@ -10,6 +10,7 @@ import '../models/coffee_fact_model.dart';
 import '../models/contributor_model.dart';
 import '../models/user_stat_model.dart';
 import '../models/launch_popup_model.dart';
+import '../models/coffee_beans_model.dart';
 import '../database/schema_versions.dart';
 part 'database.g.dart';
 part 'recipes_dao.dart';
@@ -23,6 +24,7 @@ part 'coffee_facts_dao.dart';
 part 'contributors_dao.dart';
 part 'user_stats_dao.dart';
 part 'launch_popups_dao.dart';
+part 'coffee_beans_dao.dart';
 
 class Vendors extends Table {
   TextColumn get vendorId =>
@@ -194,6 +196,31 @@ class UserStats extends Table {
   TextColumn get beans => text().named('beans').nullable()();
   TextColumn get roaster => text().named('roaster').nullable()();
   RealColumn get rating => real().named('rating').nullable()();
+  IntColumn get coffeeBeansId =>
+      integer().named('coffee_beans_id').nullable()();
+  BoolColumn get isMarked =>
+      boolean().named('is_marked').withDefault(const Constant(false))();
+}
+
+class CoffeeBeans extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get roaster => text().named('roaster')();
+  TextColumn get name => text().named('name')();
+  TextColumn get origin => text().named('origin')();
+  TextColumn get variety => text().named('variety').nullable()();
+  TextColumn get tastingNotes => text().named('tasting_notes').nullable()();
+  TextColumn get processingMethod =>
+      text().named('processing_method').nullable()();
+  IntColumn get elevation => integer().named('elevation').nullable()();
+  DateTimeColumn get harvestDate =>
+      dateTime().named('harvest_date').nullable()();
+  DateTimeColumn get roastDate => dateTime().named('roast_date').nullable()();
+  TextColumn get region => text().named('region').nullable()();
+  TextColumn get roastLevel => text().named('roast_level').nullable()();
+  RealColumn get cuppingScore => real().named('cupping_score').nullable()();
+  TextColumn get notes => text().named('notes').nullable()();
+  BoolColumn get isFavorite =>
+      boolean().named('is_favorite').withDefault(const Constant(false))();
 }
 
 @DriftDatabase(
@@ -208,7 +235,8 @@ class UserStats extends Table {
     CoffeeFacts,
     LaunchPopups,
     Contributors,
-    UserStats
+    UserStats,
+    CoffeeBeans
   ],
   daos: [
     RecipesDao,
@@ -221,7 +249,8 @@ class UserStats extends Table {
     CoffeeFactsDao,
     ContributorsDao,
     UserStatsDao,
-    LaunchPopupsDao
+    LaunchPopupsDao,
+    CoffeeBeansDao
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -231,7 +260,7 @@ class AppDatabase extends _$AppDatabase {
       : super(_openConnection());
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -259,6 +288,11 @@ class AppDatabase extends _$AppDatabase {
           await m.createTable(launchPopups);
           await m.createIndex(schema.idxLaunchPopupsCreatedAt);
           await m.deleteTable('StartPopups');
+        },
+        from6To7: (m, schema) async {
+          await m.addColumn(userStats, userStats.coffeeBeansId);
+          await m.addColumn(userStats, userStats.isMarked);
+          await m.createTable(coffeeBeans);
         },
       ));
 }

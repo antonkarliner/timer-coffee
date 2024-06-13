@@ -1,12 +1,14 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:coffee_timer/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/recipe_provider.dart';
+import '../providers/coffee_beans_provider.dart';
 import '../models/user_stat_model.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../widgets/autocomplete_input_field.dart';
 import '../utils/icon_utils.dart';
+import '../widgets/add_coffee_beans_widget.dart';
 import '../widgets/expandable_card.dart';
 
 @RoutePage()
@@ -19,6 +21,7 @@ class BrewDiaryScreen extends StatefulWidget {
 
 class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
   bool isEditMode = false;
+  Map<int, bool> expandedState = {}; // Track the expanded state of each card
 
   String getSweeetnessLabel(int position) {
     final loc = AppLocalizations.of(context)!;
@@ -154,6 +157,8 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             child: const Card(child: ListTile(title: Text("Loading..."))),
           );
         } else if (namesSnapshot.hasData) {
+          bool isExpanded = expandedState[stat.id] ??
+              false; // Get the expanded state for this card
           return Semantics(
             identifier: 'userStatCard_$index',
             label: '${namesSnapshot.data![1]}, ${namesSnapshot.data![0]}',
@@ -176,6 +181,13 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                       ),
                     )
                   : null,
+              isExpanded: isExpanded,
+              onExpansionChanged: (bool expanded) {
+                setState(() {
+                  expandedState[stat.id] =
+                      expanded; // Update the expanded state
+                });
+              },
             ),
           );
         } else {
@@ -194,6 +206,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     final loc = AppLocalizations.of(context)!;
     TextStyle detailTextStyle = Theme.of(context).textTheme.titleMedium!;
     final recipeProvider = Provider.of<RecipeProvider>(context);
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(context);
 
     TextEditingController notesController =
         TextEditingController(text: stat.notes);
@@ -241,6 +254,95 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                   ),
                 ],
               ),
+            const Padding(
+              padding: EdgeInsets.only(top: 8.0),
+              child: Divider(
+                thickness: 0.5,
+                indent: 20,
+                endIndent: 20,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Center(
+                child: Text(
+                  loc.beans,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+            ),
+            if (stat.coffeeBeansId == null)
+              Center(
+                child: Semantics(
+                  identifier: 'addBeansButton_${stat.id}',
+                  label: 'Add Beans Button',
+                  child: OutlinedButton(
+                    onPressed: () => _openAddBeansPopup(context, stat.id),
+                    child: Text(loc.addBeans),
+                  ),
+                ),
+              )
+            else
+              FutureBuilder(
+                future: coffeeBeansProvider
+                    .fetchCoffeeBeansById(stat.coffeeBeansId!),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (snapshot.hasData) {
+                    final bean = snapshot.data!;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${loc.name}: ${bean.name}',
+                            style: detailTextStyle),
+                        Text('${loc.roaster}: ${bean.roaster}',
+                            style: detailTextStyle),
+                        Text('${loc.origin}: ${bean.origin}',
+                            style: detailTextStyle),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              OutlinedButton(
+                                onPressed: () {
+                                  context.router.push(
+                                      CoffeeBeansDetailRoute(id: bean.id));
+                                },
+                                child: Text(loc.details),
+                              ),
+                              const SizedBox(width: 8),
+                              OutlinedButton(
+                                onPressed: () async {
+                                  await recipeProvider.updateUserStat(
+                                    id: stat.id,
+                                    coffeeBeansId: null,
+                                  );
+                                  setState(() {
+                                    expandedState[stat.id] =
+                                        true; // Keep the card expanded
+                                  });
+                                },
+                                child: Text(loc.removeBeans),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Center(child: Text('No beans found'));
+                  }
+                },
+              ),
+            const Divider(
+              thickness: 0.5,
+              indent: 20,
+              endIndent: 20,
+            ),
             Center(
               child: Semantics(
                 identifier: 'notesLabel_${stat.id}',
@@ -262,35 +364,27 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 keyboardType: TextInputType.multiline,
               ),
             ),
-            Semantics(
-              identifier: 'roasterAutocomplete_${stat.id}',
-              label: loc.roaster,
-              child: AutocompleteInputField(
-                label: loc.roaster,
-                hintText: loc.roaster,
-                initialOptions: recipeProvider.fetchAllDistinctRoasters(),
-                onSelected: (value) {
-                  recipeProvider.updateUserStat(id: stat.id, roaster: value);
-                },
-                initialValue: stat.roaster,
-              ),
-            ),
-            Semantics(
-              identifier: 'beansAutocomplete_${stat.id}',
-              label: loc.beans,
-              child: AutocompleteInputField(
-                label: loc.beans,
-                hintText: loc.beans,
-                initialOptions: recipeProvider.fetchAllDistinctBeans(),
-                onSelected: (value) {
-                  recipeProvider.updateUserStat(id: stat.id, beans: value);
-                },
-                initialValue: stat.beans,
-              ),
-            ),
           ],
         ),
       ),
+    );
+  }
+
+  void _openAddBeansPopup(BuildContext context, int statId) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AddCoffeeBeansWidget(
+          onSelect: (int selectedBeanId) {
+            Provider.of<RecipeProvider>(context, listen: false)
+                .updateUserStat(id: statId, coffeeBeansId: selectedBeanId);
+            Navigator.of(context).pop(); // Close the dialog
+            setState(() {
+              expandedState[statId] = true; // Keep the card expanded
+            });
+          },
+        );
+      },
     );
   }
 }

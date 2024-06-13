@@ -12,6 +12,8 @@ class UserStatsModel {
   final String? beans;
   final String? roaster;
   final double? rating;
+  final int? coffeeBeansId;
+  final bool isMarked;
 
   UserStatsModel({
     required this.id,
@@ -27,5 +29,7 @@ class UserStatsModel {
     this.beans,
     this.roaster,
     this.rating,
+    this.coffeeBeansId,
+    required this.isMarked,
   });
 }

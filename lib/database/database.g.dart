@@ -3101,6 +3101,22 @@ class $UserStatsTable extends UserStats
   late final GeneratedColumn<double> rating = GeneratedColumn<double>(
       'rating', aliasedName, true,
       type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _coffeeBeansIdMeta =
+      const VerificationMeta('coffeeBeansId');
+  @override
+  late final GeneratedColumn<int> coffeeBeansId = GeneratedColumn<int>(
+      'coffee_beans_id', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _isMarkedMeta =
+      const VerificationMeta('isMarked');
+  @override
+  late final GeneratedColumn<bool> isMarked = GeneratedColumn<bool>(
+      'is_marked', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_marked" IN (0, 1))'),
+      defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -3115,7 +3131,9 @@ class $UserStatsTable extends UserStats
         notes,
         beans,
         roaster,
-        rating
+        rating,
+        coffeeBeansId,
+        isMarked
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3203,6 +3221,16 @@ class $UserStatsTable extends UserStats
       context.handle(_ratingMeta,
           rating.isAcceptableOrUnknown(data['rating']!, _ratingMeta));
     }
+    if (data.containsKey('coffee_beans_id')) {
+      context.handle(
+          _coffeeBeansIdMeta,
+          coffeeBeansId.isAcceptableOrUnknown(
+              data['coffee_beans_id']!, _coffeeBeansIdMeta));
+    }
+    if (data.containsKey('is_marked')) {
+      context.handle(_isMarkedMeta,
+          isMarked.isAcceptableOrUnknown(data['is_marked']!, _isMarkedMeta));
+    }
     return context;
   }
 
@@ -3240,6 +3268,10 @@ class $UserStatsTable extends UserStats
           .read(DriftSqlType.string, data['${effectivePrefix}roaster']),
       rating: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}rating']),
+      coffeeBeansId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}coffee_beans_id']),
+      isMarked: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_marked'])!,
     );
   }
 
@@ -3263,6 +3295,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
   final String? beans;
   final String? roaster;
   final double? rating;
+  final int? coffeeBeansId;
+  final bool isMarked;
   const UserStat(
       {required this.id,
       required this.userId,
@@ -3276,7 +3310,9 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       this.notes,
       this.beans,
       this.roaster,
-      this.rating});
+      this.rating,
+      this.coffeeBeansId,
+      required this.isMarked});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -3301,6 +3337,10 @@ class UserStat extends DataClass implements Insertable<UserStat> {
     if (!nullToAbsent || rating != null) {
       map['rating'] = Variable<double>(rating);
     }
+    if (!nullToAbsent || coffeeBeansId != null) {
+      map['coffee_beans_id'] = Variable<int>(coffeeBeansId);
+    }
+    map['is_marked'] = Variable<bool>(isMarked);
     return map;
   }
 
@@ -3324,6 +3364,10 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           : Value(roaster),
       rating:
           rating == null && nullToAbsent ? const Value.absent() : Value(rating),
+      coffeeBeansId: coffeeBeansId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(coffeeBeansId),
+      isMarked: Value(isMarked),
     );
   }
 
@@ -3346,6 +3390,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       beans: serializer.fromJson<String?>(json['beans']),
       roaster: serializer.fromJson<String?>(json['roaster']),
       rating: serializer.fromJson<double?>(json['rating']),
+      coffeeBeansId: serializer.fromJson<int?>(json['coffeeBeansId']),
+      isMarked: serializer.fromJson<bool>(json['isMarked']),
     );
   }
   @override
@@ -3366,6 +3412,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       'beans': serializer.toJson<String?>(beans),
       'roaster': serializer.toJson<String?>(roaster),
       'rating': serializer.toJson<double?>(rating),
+      'coffeeBeansId': serializer.toJson<int?>(coffeeBeansId),
+      'isMarked': serializer.toJson<bool>(isMarked),
     };
   }
 
@@ -3382,7 +3430,9 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           Value<String?> notes = const Value.absent(),
           Value<String?> beans = const Value.absent(),
           Value<String?> roaster = const Value.absent(),
-          Value<double?> rating = const Value.absent()}) =>
+          Value<double?> rating = const Value.absent(),
+          Value<int?> coffeeBeansId = const Value.absent(),
+          bool? isMarked}) =>
       UserStat(
         id: id ?? this.id,
         userId: userId ?? this.userId,
@@ -3399,6 +3449,9 @@ class UserStat extends DataClass implements Insertable<UserStat> {
         beans: beans.present ? beans.value : this.beans,
         roaster: roaster.present ? roaster.value : this.roaster,
         rating: rating.present ? rating.value : this.rating,
+        coffeeBeansId:
+            coffeeBeansId.present ? coffeeBeansId.value : this.coffeeBeansId,
+        isMarked: isMarked ?? this.isMarked,
       );
   @override
   String toString() {
@@ -3415,7 +3468,9 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           ..write('notes: $notes, ')
           ..write('beans: $beans, ')
           ..write('roaster: $roaster, ')
-          ..write('rating: $rating')
+          ..write('rating: $rating, ')
+          ..write('coffeeBeansId: $coffeeBeansId, ')
+          ..write('isMarked: $isMarked')
           ..write(')'))
         .toString();
   }
@@ -3434,7 +3489,9 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       notes,
       beans,
       roaster,
-      rating);
+      rating,
+      coffeeBeansId,
+      isMarked);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3451,7 +3508,9 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           other.notes == this.notes &&
           other.beans == this.beans &&
           other.roaster == this.roaster &&
-          other.rating == this.rating);
+          other.rating == this.rating &&
+          other.coffeeBeansId == this.coffeeBeansId &&
+          other.isMarked == this.isMarked);
 }
 
 class UserStatsCompanion extends UpdateCompanion<UserStat> {
@@ -3468,6 +3527,8 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
   final Value<String?> beans;
   final Value<String?> roaster;
   final Value<double?> rating;
+  final Value<int?> coffeeBeansId;
+  final Value<bool> isMarked;
   const UserStatsCompanion({
     this.id = const Value.absent(),
     this.userId = const Value.absent(),
@@ -3482,6 +3543,8 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     this.beans = const Value.absent(),
     this.roaster = const Value.absent(),
     this.rating = const Value.absent(),
+    this.coffeeBeansId = const Value.absent(),
+    this.isMarked = const Value.absent(),
   });
   UserStatsCompanion.insert({
     this.id = const Value.absent(),
@@ -3497,6 +3560,8 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     this.beans = const Value.absent(),
     this.roaster = const Value.absent(),
     this.rating = const Value.absent(),
+    this.coffeeBeansId = const Value.absent(),
+    this.isMarked = const Value.absent(),
   })  : userId = Value(userId),
         recipeId = Value(recipeId),
         coffeeAmount = Value(coffeeAmount),
@@ -3518,6 +3583,8 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     Expression<String>? beans,
     Expression<String>? roaster,
     Expression<double>? rating,
+    Expression<int>? coffeeBeansId,
+    Expression<bool>? isMarked,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -3535,6 +3602,8 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       if (beans != null) 'beans': beans,
       if (roaster != null) 'roaster': roaster,
       if (rating != null) 'rating': rating,
+      if (coffeeBeansId != null) 'coffee_beans_id': coffeeBeansId,
+      if (isMarked != null) 'is_marked': isMarked,
     });
   }
 
@@ -3551,7 +3620,9 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       Value<String?>? notes,
       Value<String?>? beans,
       Value<String?>? roaster,
-      Value<double?>? rating}) {
+      Value<double?>? rating,
+      Value<int?>? coffeeBeansId,
+      Value<bool>? isMarked}) {
     return UserStatsCompanion(
       id: id ?? this.id,
       userId: userId ?? this.userId,
@@ -3568,6 +3639,8 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       beans: beans ?? this.beans,
       roaster: roaster ?? this.roaster,
       rating: rating ?? this.rating,
+      coffeeBeansId: coffeeBeansId ?? this.coffeeBeansId,
+      isMarked: isMarked ?? this.isMarked,
     );
   }
 
@@ -3615,6 +3688,12 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     if (rating.present) {
       map['rating'] = Variable<double>(rating.value);
     }
+    if (coffeeBeansId.present) {
+      map['coffee_beans_id'] = Variable<int>(coffeeBeansId.value);
+    }
+    if (isMarked.present) {
+      map['is_marked'] = Variable<bool>(isMarked.value);
+    }
     return map;
   }
 
@@ -3633,7 +3712,709 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
           ..write('notes: $notes, ')
           ..write('beans: $beans, ')
           ..write('roaster: $roaster, ')
-          ..write('rating: $rating')
+          ..write('rating: $rating, ')
+          ..write('coffeeBeansId: $coffeeBeansId, ')
+          ..write('isMarked: $isMarked')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CoffeeBeansTable extends CoffeeBeans
+    with TableInfo<$CoffeeBeansTable, CoffeeBean> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CoffeeBeansTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _roasterMeta =
+      const VerificationMeta('roaster');
+  @override
+  late final GeneratedColumn<String> roaster = GeneratedColumn<String>(
+      'roaster', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _originMeta = const VerificationMeta('origin');
+  @override
+  late final GeneratedColumn<String> origin = GeneratedColumn<String>(
+      'origin', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _varietyMeta =
+      const VerificationMeta('variety');
+  @override
+  late final GeneratedColumn<String> variety = GeneratedColumn<String>(
+      'variety', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _tastingNotesMeta =
+      const VerificationMeta('tastingNotes');
+  @override
+  late final GeneratedColumn<String> tastingNotes = GeneratedColumn<String>(
+      'tasting_notes', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _processingMethodMeta =
+      const VerificationMeta('processingMethod');
+  @override
+  late final GeneratedColumn<String> processingMethod = GeneratedColumn<String>(
+      'processing_method', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _elevationMeta =
+      const VerificationMeta('elevation');
+  @override
+  late final GeneratedColumn<int> elevation = GeneratedColumn<int>(
+      'elevation', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _harvestDateMeta =
+      const VerificationMeta('harvestDate');
+  @override
+  late final GeneratedColumn<DateTime> harvestDate = GeneratedColumn<DateTime>(
+      'harvest_date', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _roastDateMeta =
+      const VerificationMeta('roastDate');
+  @override
+  late final GeneratedColumn<DateTime> roastDate = GeneratedColumn<DateTime>(
+      'roast_date', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _regionMeta = const VerificationMeta('region');
+  @override
+  late final GeneratedColumn<String> region = GeneratedColumn<String>(
+      'region', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _roastLevelMeta =
+      const VerificationMeta('roastLevel');
+  @override
+  late final GeneratedColumn<String> roastLevel = GeneratedColumn<String>(
+      'roast_level', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _cuppingScoreMeta =
+      const VerificationMeta('cuppingScore');
+  @override
+  late final GeneratedColumn<double> cuppingScore = GeneratedColumn<double>(
+      'cupping_score', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+      'notes', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _isFavoriteMeta =
+      const VerificationMeta('isFavorite');
+  @override
+  late final GeneratedColumn<bool> isFavorite = GeneratedColumn<bool>(
+      'is_favorite', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_favorite" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        roaster,
+        name,
+        origin,
+        variety,
+        tastingNotes,
+        processingMethod,
+        elevation,
+        harvestDate,
+        roastDate,
+        region,
+        roastLevel,
+        cuppingScore,
+        notes,
+        isFavorite
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'coffee_beans';
+  @override
+  VerificationContext validateIntegrity(Insertable<CoffeeBean> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('roaster')) {
+      context.handle(_roasterMeta,
+          roaster.isAcceptableOrUnknown(data['roaster']!, _roasterMeta));
+    } else if (isInserting) {
+      context.missing(_roasterMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('origin')) {
+      context.handle(_originMeta,
+          origin.isAcceptableOrUnknown(data['origin']!, _originMeta));
+    } else if (isInserting) {
+      context.missing(_originMeta);
+    }
+    if (data.containsKey('variety')) {
+      context.handle(_varietyMeta,
+          variety.isAcceptableOrUnknown(data['variety']!, _varietyMeta));
+    }
+    if (data.containsKey('tasting_notes')) {
+      context.handle(
+          _tastingNotesMeta,
+          tastingNotes.isAcceptableOrUnknown(
+              data['tasting_notes']!, _tastingNotesMeta));
+    }
+    if (data.containsKey('processing_method')) {
+      context.handle(
+          _processingMethodMeta,
+          processingMethod.isAcceptableOrUnknown(
+              data['processing_method']!, _processingMethodMeta));
+    }
+    if (data.containsKey('elevation')) {
+      context.handle(_elevationMeta,
+          elevation.isAcceptableOrUnknown(data['elevation']!, _elevationMeta));
+    }
+    if (data.containsKey('harvest_date')) {
+      context.handle(
+          _harvestDateMeta,
+          harvestDate.isAcceptableOrUnknown(
+              data['harvest_date']!, _harvestDateMeta));
+    }
+    if (data.containsKey('roast_date')) {
+      context.handle(_roastDateMeta,
+          roastDate.isAcceptableOrUnknown(data['roast_date']!, _roastDateMeta));
+    }
+    if (data.containsKey('region')) {
+      context.handle(_regionMeta,
+          region.isAcceptableOrUnknown(data['region']!, _regionMeta));
+    }
+    if (data.containsKey('roast_level')) {
+      context.handle(
+          _roastLevelMeta,
+          roastLevel.isAcceptableOrUnknown(
+              data['roast_level']!, _roastLevelMeta));
+    }
+    if (data.containsKey('cupping_score')) {
+      context.handle(
+          _cuppingScoreMeta,
+          cuppingScore.isAcceptableOrUnknown(
+              data['cupping_score']!, _cuppingScoreMeta));
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+          _notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
+    }
+    if (data.containsKey('is_favorite')) {
+      context.handle(
+          _isFavoriteMeta,
+          isFavorite.isAcceptableOrUnknown(
+              data['is_favorite']!, _isFavoriteMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CoffeeBean map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CoffeeBean(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      roaster: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}roaster'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      origin: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}origin'])!,
+      variety: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}variety']),
+      tastingNotes: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}tasting_notes']),
+      processingMethod: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}processing_method']),
+      elevation: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}elevation']),
+      harvestDate: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}harvest_date']),
+      roastDate: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}roast_date']),
+      region: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}region']),
+      roastLevel: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}roast_level']),
+      cuppingScore: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}cupping_score']),
+      notes: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}notes']),
+      isFavorite: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_favorite'])!,
+    );
+  }
+
+  @override
+  $CoffeeBeansTable createAlias(String alias) {
+    return $CoffeeBeansTable(attachedDatabase, alias);
+  }
+}
+
+class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
+  final int id;
+  final String roaster;
+  final String name;
+  final String origin;
+  final String? variety;
+  final String? tastingNotes;
+  final String? processingMethod;
+  final int? elevation;
+  final DateTime? harvestDate;
+  final DateTime? roastDate;
+  final String? region;
+  final String? roastLevel;
+  final double? cuppingScore;
+  final String? notes;
+  final bool isFavorite;
+  const CoffeeBean(
+      {required this.id,
+      required this.roaster,
+      required this.name,
+      required this.origin,
+      this.variety,
+      this.tastingNotes,
+      this.processingMethod,
+      this.elevation,
+      this.harvestDate,
+      this.roastDate,
+      this.region,
+      this.roastLevel,
+      this.cuppingScore,
+      this.notes,
+      required this.isFavorite});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['roaster'] = Variable<String>(roaster);
+    map['name'] = Variable<String>(name);
+    map['origin'] = Variable<String>(origin);
+    if (!nullToAbsent || variety != null) {
+      map['variety'] = Variable<String>(variety);
+    }
+    if (!nullToAbsent || tastingNotes != null) {
+      map['tasting_notes'] = Variable<String>(tastingNotes);
+    }
+    if (!nullToAbsent || processingMethod != null) {
+      map['processing_method'] = Variable<String>(processingMethod);
+    }
+    if (!nullToAbsent || elevation != null) {
+      map['elevation'] = Variable<int>(elevation);
+    }
+    if (!nullToAbsent || harvestDate != null) {
+      map['harvest_date'] = Variable<DateTime>(harvestDate);
+    }
+    if (!nullToAbsent || roastDate != null) {
+      map['roast_date'] = Variable<DateTime>(roastDate);
+    }
+    if (!nullToAbsent || region != null) {
+      map['region'] = Variable<String>(region);
+    }
+    if (!nullToAbsent || roastLevel != null) {
+      map['roast_level'] = Variable<String>(roastLevel);
+    }
+    if (!nullToAbsent || cuppingScore != null) {
+      map['cupping_score'] = Variable<double>(cuppingScore);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    map['is_favorite'] = Variable<bool>(isFavorite);
+    return map;
+  }
+
+  CoffeeBeansCompanion toCompanion(bool nullToAbsent) {
+    return CoffeeBeansCompanion(
+      id: Value(id),
+      roaster: Value(roaster),
+      name: Value(name),
+      origin: Value(origin),
+      variety: variety == null && nullToAbsent
+          ? const Value.absent()
+          : Value(variety),
+      tastingNotes: tastingNotes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tastingNotes),
+      processingMethod: processingMethod == null && nullToAbsent
+          ? const Value.absent()
+          : Value(processingMethod),
+      elevation: elevation == null && nullToAbsent
+          ? const Value.absent()
+          : Value(elevation),
+      harvestDate: harvestDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(harvestDate),
+      roastDate: roastDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(roastDate),
+      region:
+          region == null && nullToAbsent ? const Value.absent() : Value(region),
+      roastLevel: roastLevel == null && nullToAbsent
+          ? const Value.absent()
+          : Value(roastLevel),
+      cuppingScore: cuppingScore == null && nullToAbsent
+          ? const Value.absent()
+          : Value(cuppingScore),
+      notes:
+          notes == null && nullToAbsent ? const Value.absent() : Value(notes),
+      isFavorite: Value(isFavorite),
+    );
+  }
+
+  factory CoffeeBean.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CoffeeBean(
+      id: serializer.fromJson<int>(json['id']),
+      roaster: serializer.fromJson<String>(json['roaster']),
+      name: serializer.fromJson<String>(json['name']),
+      origin: serializer.fromJson<String>(json['origin']),
+      variety: serializer.fromJson<String?>(json['variety']),
+      tastingNotes: serializer.fromJson<String?>(json['tastingNotes']),
+      processingMethod: serializer.fromJson<String?>(json['processingMethod']),
+      elevation: serializer.fromJson<int?>(json['elevation']),
+      harvestDate: serializer.fromJson<DateTime?>(json['harvestDate']),
+      roastDate: serializer.fromJson<DateTime?>(json['roastDate']),
+      region: serializer.fromJson<String?>(json['region']),
+      roastLevel: serializer.fromJson<String?>(json['roastLevel']),
+      cuppingScore: serializer.fromJson<double?>(json['cuppingScore']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      isFavorite: serializer.fromJson<bool>(json['isFavorite']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'roaster': serializer.toJson<String>(roaster),
+      'name': serializer.toJson<String>(name),
+      'origin': serializer.toJson<String>(origin),
+      'variety': serializer.toJson<String?>(variety),
+      'tastingNotes': serializer.toJson<String?>(tastingNotes),
+      'processingMethod': serializer.toJson<String?>(processingMethod),
+      'elevation': serializer.toJson<int?>(elevation),
+      'harvestDate': serializer.toJson<DateTime?>(harvestDate),
+      'roastDate': serializer.toJson<DateTime?>(roastDate),
+      'region': serializer.toJson<String?>(region),
+      'roastLevel': serializer.toJson<String?>(roastLevel),
+      'cuppingScore': serializer.toJson<double?>(cuppingScore),
+      'notes': serializer.toJson<String?>(notes),
+      'isFavorite': serializer.toJson<bool>(isFavorite),
+    };
+  }
+
+  CoffeeBean copyWith(
+          {int? id,
+          String? roaster,
+          String? name,
+          String? origin,
+          Value<String?> variety = const Value.absent(),
+          Value<String?> tastingNotes = const Value.absent(),
+          Value<String?> processingMethod = const Value.absent(),
+          Value<int?> elevation = const Value.absent(),
+          Value<DateTime?> harvestDate = const Value.absent(),
+          Value<DateTime?> roastDate = const Value.absent(),
+          Value<String?> region = const Value.absent(),
+          Value<String?> roastLevel = const Value.absent(),
+          Value<double?> cuppingScore = const Value.absent(),
+          Value<String?> notes = const Value.absent(),
+          bool? isFavorite}) =>
+      CoffeeBean(
+        id: id ?? this.id,
+        roaster: roaster ?? this.roaster,
+        name: name ?? this.name,
+        origin: origin ?? this.origin,
+        variety: variety.present ? variety.value : this.variety,
+        tastingNotes:
+            tastingNotes.present ? tastingNotes.value : this.tastingNotes,
+        processingMethod: processingMethod.present
+            ? processingMethod.value
+            : this.processingMethod,
+        elevation: elevation.present ? elevation.value : this.elevation,
+        harvestDate: harvestDate.present ? harvestDate.value : this.harvestDate,
+        roastDate: roastDate.present ? roastDate.value : this.roastDate,
+        region: region.present ? region.value : this.region,
+        roastLevel: roastLevel.present ? roastLevel.value : this.roastLevel,
+        cuppingScore:
+            cuppingScore.present ? cuppingScore.value : this.cuppingScore,
+        notes: notes.present ? notes.value : this.notes,
+        isFavorite: isFavorite ?? this.isFavorite,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('CoffeeBean(')
+          ..write('id: $id, ')
+          ..write('roaster: $roaster, ')
+          ..write('name: $name, ')
+          ..write('origin: $origin, ')
+          ..write('variety: $variety, ')
+          ..write('tastingNotes: $tastingNotes, ')
+          ..write('processingMethod: $processingMethod, ')
+          ..write('elevation: $elevation, ')
+          ..write('harvestDate: $harvestDate, ')
+          ..write('roastDate: $roastDate, ')
+          ..write('region: $region, ')
+          ..write('roastLevel: $roastLevel, ')
+          ..write('cuppingScore: $cuppingScore, ')
+          ..write('notes: $notes, ')
+          ..write('isFavorite: $isFavorite')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      roaster,
+      name,
+      origin,
+      variety,
+      tastingNotes,
+      processingMethod,
+      elevation,
+      harvestDate,
+      roastDate,
+      region,
+      roastLevel,
+      cuppingScore,
+      notes,
+      isFavorite);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CoffeeBean &&
+          other.id == this.id &&
+          other.roaster == this.roaster &&
+          other.name == this.name &&
+          other.origin == this.origin &&
+          other.variety == this.variety &&
+          other.tastingNotes == this.tastingNotes &&
+          other.processingMethod == this.processingMethod &&
+          other.elevation == this.elevation &&
+          other.harvestDate == this.harvestDate &&
+          other.roastDate == this.roastDate &&
+          other.region == this.region &&
+          other.roastLevel == this.roastLevel &&
+          other.cuppingScore == this.cuppingScore &&
+          other.notes == this.notes &&
+          other.isFavorite == this.isFavorite);
+}
+
+class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
+  final Value<int> id;
+  final Value<String> roaster;
+  final Value<String> name;
+  final Value<String> origin;
+  final Value<String?> variety;
+  final Value<String?> tastingNotes;
+  final Value<String?> processingMethod;
+  final Value<int?> elevation;
+  final Value<DateTime?> harvestDate;
+  final Value<DateTime?> roastDate;
+  final Value<String?> region;
+  final Value<String?> roastLevel;
+  final Value<double?> cuppingScore;
+  final Value<String?> notes;
+  final Value<bool> isFavorite;
+  const CoffeeBeansCompanion({
+    this.id = const Value.absent(),
+    this.roaster = const Value.absent(),
+    this.name = const Value.absent(),
+    this.origin = const Value.absent(),
+    this.variety = const Value.absent(),
+    this.tastingNotes = const Value.absent(),
+    this.processingMethod = const Value.absent(),
+    this.elevation = const Value.absent(),
+    this.harvestDate = const Value.absent(),
+    this.roastDate = const Value.absent(),
+    this.region = const Value.absent(),
+    this.roastLevel = const Value.absent(),
+    this.cuppingScore = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.isFavorite = const Value.absent(),
+  });
+  CoffeeBeansCompanion.insert({
+    this.id = const Value.absent(),
+    required String roaster,
+    required String name,
+    required String origin,
+    this.variety = const Value.absent(),
+    this.tastingNotes = const Value.absent(),
+    this.processingMethod = const Value.absent(),
+    this.elevation = const Value.absent(),
+    this.harvestDate = const Value.absent(),
+    this.roastDate = const Value.absent(),
+    this.region = const Value.absent(),
+    this.roastLevel = const Value.absent(),
+    this.cuppingScore = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.isFavorite = const Value.absent(),
+  })  : roaster = Value(roaster),
+        name = Value(name),
+        origin = Value(origin);
+  static Insertable<CoffeeBean> custom({
+    Expression<int>? id,
+    Expression<String>? roaster,
+    Expression<String>? name,
+    Expression<String>? origin,
+    Expression<String>? variety,
+    Expression<String>? tastingNotes,
+    Expression<String>? processingMethod,
+    Expression<int>? elevation,
+    Expression<DateTime>? harvestDate,
+    Expression<DateTime>? roastDate,
+    Expression<String>? region,
+    Expression<String>? roastLevel,
+    Expression<double>? cuppingScore,
+    Expression<String>? notes,
+    Expression<bool>? isFavorite,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (roaster != null) 'roaster': roaster,
+      if (name != null) 'name': name,
+      if (origin != null) 'origin': origin,
+      if (variety != null) 'variety': variety,
+      if (tastingNotes != null) 'tasting_notes': tastingNotes,
+      if (processingMethod != null) 'processing_method': processingMethod,
+      if (elevation != null) 'elevation': elevation,
+      if (harvestDate != null) 'harvest_date': harvestDate,
+      if (roastDate != null) 'roast_date': roastDate,
+      if (region != null) 'region': region,
+      if (roastLevel != null) 'roast_level': roastLevel,
+      if (cuppingScore != null) 'cupping_score': cuppingScore,
+      if (notes != null) 'notes': notes,
+      if (isFavorite != null) 'is_favorite': isFavorite,
+    });
+  }
+
+  CoffeeBeansCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? roaster,
+      Value<String>? name,
+      Value<String>? origin,
+      Value<String?>? variety,
+      Value<String?>? tastingNotes,
+      Value<String?>? processingMethod,
+      Value<int?>? elevation,
+      Value<DateTime?>? harvestDate,
+      Value<DateTime?>? roastDate,
+      Value<String?>? region,
+      Value<String?>? roastLevel,
+      Value<double?>? cuppingScore,
+      Value<String?>? notes,
+      Value<bool>? isFavorite}) {
+    return CoffeeBeansCompanion(
+      id: id ?? this.id,
+      roaster: roaster ?? this.roaster,
+      name: name ?? this.name,
+      origin: origin ?? this.origin,
+      variety: variety ?? this.variety,
+      tastingNotes: tastingNotes ?? this.tastingNotes,
+      processingMethod: processingMethod ?? this.processingMethod,
+      elevation: elevation ?? this.elevation,
+      harvestDate: harvestDate ?? this.harvestDate,
+      roastDate: roastDate ?? this.roastDate,
+      region: region ?? this.region,
+      roastLevel: roastLevel ?? this.roastLevel,
+      cuppingScore: cuppingScore ?? this.cuppingScore,
+      notes: notes ?? this.notes,
+      isFavorite: isFavorite ?? this.isFavorite,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (roaster.present) {
+      map['roaster'] = Variable<String>(roaster.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (origin.present) {
+      map['origin'] = Variable<String>(origin.value);
+    }
+    if (variety.present) {
+      map['variety'] = Variable<String>(variety.value);
+    }
+    if (tastingNotes.present) {
+      map['tasting_notes'] = Variable<String>(tastingNotes.value);
+    }
+    if (processingMethod.present) {
+      map['processing_method'] = Variable<String>(processingMethod.value);
+    }
+    if (elevation.present) {
+      map['elevation'] = Variable<int>(elevation.value);
+    }
+    if (harvestDate.present) {
+      map['harvest_date'] = Variable<DateTime>(harvestDate.value);
+    }
+    if (roastDate.present) {
+      map['roast_date'] = Variable<DateTime>(roastDate.value);
+    }
+    if (region.present) {
+      map['region'] = Variable<String>(region.value);
+    }
+    if (roastLevel.present) {
+      map['roast_level'] = Variable<String>(roastLevel.value);
+    }
+    if (cuppingScore.present) {
+      map['cupping_score'] = Variable<double>(cuppingScore.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (isFavorite.present) {
+      map['is_favorite'] = Variable<bool>(isFavorite.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CoffeeBeansCompanion(')
+          ..write('id: $id, ')
+          ..write('roaster: $roaster, ')
+          ..write('name: $name, ')
+          ..write('origin: $origin, ')
+          ..write('variety: $variety, ')
+          ..write('tastingNotes: $tastingNotes, ')
+          ..write('processingMethod: $processingMethod, ')
+          ..write('elevation: $elevation, ')
+          ..write('harvestDate: $harvestDate, ')
+          ..write('roastDate: $roastDate, ')
+          ..write('region: $region, ')
+          ..write('roastLevel: $roastLevel, ')
+          ..write('cuppingScore: $cuppingScore, ')
+          ..write('notes: $notes, ')
+          ..write('isFavorite: $isFavorite')
           ..write(')'))
         .toString();
   }
@@ -3655,6 +4436,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $LaunchPopupsTable launchPopups = $LaunchPopupsTable(this);
   late final $ContributorsTable contributors = $ContributorsTable(this);
   late final $UserStatsTable userStats = $UserStatsTable(this);
+  late final $CoffeeBeansTable coffeeBeans = $CoffeeBeansTable(this);
   late final Index idxRecipesLastModified = Index('idx_recipes_last_modified',
       'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
   late final Index idxLaunchPopupsCreatedAt = Index(
@@ -3678,6 +4460,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final UserStatsDao userStatsDao = UserStatsDao(this as AppDatabase);
   late final LaunchPopupsDao launchPopupsDao =
       LaunchPopupsDao(this as AppDatabase);
+  late final CoffeeBeansDao coffeeBeansDao =
+      CoffeeBeansDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3694,6 +4478,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         launchPopups,
         contributors,
         userStats,
+        coffeeBeans,
         idxRecipesLastModified,
         idxLaunchPopupsCreatedAt
       ];
@@ -3840,4 +4625,7 @@ mixin _$LaunchPopupsDaoMixin on DatabaseAccessor<AppDatabase> {
   $SupportedLocalesTable get supportedLocales =>
       attachedDatabase.supportedLocales;
   $LaunchPopupsTable get launchPopups => attachedDatabase.launchPopups;
+}
+mixin _$CoffeeBeansDaoMixin on DatabaseAccessor<AppDatabase> {
+  $CoffeeBeansTable get coffeeBeans => attachedDatabase.coffeeBeans;
 }
