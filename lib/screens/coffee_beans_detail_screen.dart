@@ -209,7 +209,7 @@ class CoffeeBeansDetailScreen extends StatelessWidget {
               flex: 2,
               child: Text(
                 label,
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -219,7 +219,7 @@ class CoffeeBeansDetailScreen extends StatelessWidget {
               flex: 3,
               child: Text(
                 value ?? '-',
-                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 18,
                     ),
               ),
