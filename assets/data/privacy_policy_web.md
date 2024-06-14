@@ -2,23 +2,59 @@ Privacy Policy for Timer.Coffee (Web Version)
 
 1. INTRODUCTION
 
-Timer.Coffee respects the privacy of its users and is committed to protecting it in all respects. This policy will explain how Coffee Timer uses the personal data we collect from you when you use our web application.
+Timer.Coffee respects the privacy of its users and is committed to protecting it in all respects. This policy will explain how Timer.Coffee uses the data we collect from you when you use our web application.
 
 2. DATA COLLECTION AND USAGE
 
-The tracking script aggregates the following statistical information:
+Timer.Coffee collects minimal data to provide and improve our services. The data we collect includes:
 
-    The day of the week (As in: Monday, Tuesday, ...)
-    Your users device (As in Phone, Tablet or Computer)
-    The date of the visit
-    From which other website a visit originated.
-    The users browser (As in: Firefox, Chrome, Microsoft Edge, ...)
-    The hour component of the current time in a day
-    A country mapped to the users IP address.
-    The users operating system (As in: Windows or Mac)
-    Information on the users screen size
-    The users preferred language
-    Pages visited
+a. Supabase Users Data:
+
+    We use Supabase to handle anonymous user logins. The data collected includes:
+        ID
+        Instance ID
+        Last sign-in timestamp
+        Created at timestamp
+        Updated at timestamp
+    We do not collect personal identification information such as emails or phone numbers.
+
+b. OneSignal SDK Data:
+
+    We use OneSignal SDK for push notifications. The data collected includes:
+        First session time
+        Last session time
+        Session count
+        Total usage duration
+        Device OS
+        Device language
+        Timezone
+        Country
+        Push status
+        App version
+        Device model
+        Cellular carrier
+        IP address (excluding users in the EU and UK)
+
+c. App Usage Statistics:
+
+    We collect statistics to improve app functionality, including:
+        Brew statistics (recipe ID, amount of water used, brewing method, created at)
+        Coffee beans data (roaster, name, origin, variety, tasting notes, processing method, region, cupping score)
+
+d. Tracking Script Data:
+
+    The tracking script aggregates the following statistical information:
+        The day of the week (e.g., Monday, Tuesday, etc.)
+        Your device type (e.g., Phone, Tablet, or Computer)
+        The date of the visit
+        The referring website
+        Your browser (e.g., Firefox, Chrome, Microsoft Edge, etc.)
+        The hour component of the current time in a day
+        Your country, mapped to your IP address
+        Your operating system (e.g., Windows or Mac)
+        Information on your screen size
+        Your preferred language
+        Pages visited
 
 3. COOKIES
 
@@ -26,11 +62,11 @@ Timer.Coffee uses cookies to collect anonymous data for improving user experienc
 
 4. SECURITY
 
-We value your trust in providing us your personal information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.
+We value your trust in providing us with your data and strive to use commercially acceptable means of protecting it. However, please remember that no method of transmission over the internet or electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.
 
 5. PRIVACY POLICIES OF OTHER WEBSITES
 
-The Timer.Coffee app contains links to other websites. Our privacy policy applies only to our app, so if you click on a link to another website or service, you should read their privacy policy.
+The Timer.Coffee web application contains links to other websites. Our privacy policy applies only to our web application, so if you click on a link to another website or service, you should read their privacy policy.
 
 6. CHANGES TO OUR PRIVACY POLICY
 
@@ -38,7 +74,7 @@ We may update our Privacy Policy from time to time. Thus, you are advised to rev
 
 7. CONTACT US
 
-For any questions or clarifications regarding the Privacy Policy, please contact us at support@timer.coffee
+For any questions or clarifications regarding the Privacy Policy, please contact us at support@timer.coffee.
 
 8. HOW TO CONTACT THE APPROPRIATE AUTHORITY
 
@@ -46,4 +82,8 @@ Should you wish to report a complaint or if you feel that Timer.Coffee has not a
 
 9. TRADEMARKS
 
-All trademarks, service marks, trade names, trade dress, product names and logos appearing in the app are the property of their respective owners.
+All trademarks, service marks, trade names, trade dress, product names, and logos appearing in the app are the property of their respective owners.
+
+10. THIRD-PARTY SERVICES
+
+We use third-party services such as Google Gemini for image recognition to read information from coffee labels. We do not store any images sent by users. Users are responsible for ensuring no personal data is included in the images.
