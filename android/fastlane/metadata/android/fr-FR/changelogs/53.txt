@@ -1,0 +1,8 @@
+Découvrez la version 2.2.0 !
+
+Nouvelles fonctionnalités :
+
+- Écran "Mes Grains" : Suivez vos grains de café, ajoutez des notes et marquez vos favoris.
+- Reconnaissance de Grains par IA : Prenez une photo de votre sachet de grains, et notre IA remplira automatiquement tous les détails.
+
+Remarque : La longueur du texte traduit doit être de 500 symboles maximum. Reformulez un peu si nécessaire.

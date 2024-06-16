@@ -74,10 +74,14 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
               ),
             );
           } else if (snapshot.hasData) {
+            // Sort the list in descending order based on the ID
+            final sortedData = snapshot.data!
+              ..sort((a, b) => b.id.compareTo(a.id));
+
             return ListView.builder(
-              itemCount: snapshot.data!.length,
+              itemCount: sortedData.length,
               itemBuilder: (context, index) {
-                final bean = snapshot.data![index];
+                final bean = sortedData[index];
                 return CoffeeBeanCard(
                   bean: bean,
                   isEditMode: isEditMode,

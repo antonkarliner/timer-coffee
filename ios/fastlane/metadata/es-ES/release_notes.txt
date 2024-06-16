@@ -1,5 +1,9 @@
-La versión 2.1.0 trae algunos cambios interesantes:
+Conoce la versión 2.2.0 con nuevas funciones para mejorar tu experiencia cafetera!
 
-+ Diseño actualizado, aún más minimalista y claro.
-+ Nueva pantalla de estadísticas, donde podrás ver tu consumo de café y el consumo global (entre los usuarios de Timer.Coffee).
-+ ¡Notificaciones! Si las permites, te enviaremos algo interesante. Algún día.
+Nuevas Funciones:
+
+Pantalla "Mis Granos":
+- Lleva un registro de tus granos de café, añade notas y marca tus favoritos.
+
+Reconocimiento de Granos con IA:
+- Toma una foto de tu bolsa de granos de café y la IA completará todos los detalles automáticamente.

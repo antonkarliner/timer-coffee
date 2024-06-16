@@ -1,0 +1,8 @@
+Conheça a versão 2.2.0!
+
+Novos Recursos:
+
+- Tela "Meus Grãos": Acompanhe seus grãos de café, adicione notas e marque favoritos.
+- Reconhecimento de Grãos com IA: Tire uma foto do seu saco de grãos e nossa IA preencherá todos os detalhes automaticamente.
+
+Nota: O comprimento do texto traduzido deve ser de no máximo 500 símbolos. Refraseie um pouco se necessário.

@@ -33,7 +33,7 @@ final class Timer_CoffeeUITests: XCTestCase {
             let app = XCUIApplication()
             app.launch()
             
-            
+            Thread.sleep(forTimeInterval: 3)
             snapshot("01Home")
             app/*@START_MENU_TOKEN@*/.staticTexts["brewingMethod_v60"]/*[[".staticTexts[\"Hario V60\\nHario V60\"]",".staticTexts[\"brewingMethod_v60\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
             snapshot("02Recipelist")
@@ -48,17 +48,45 @@ final class Timer_CoffeeUITests: XCTestCase {
             // Use XCTAssert and related functions to verify your tests produce the correct results.
         }
 
+    
+    @MainActor func testBeans() throws {
+            let app = XCUIApplication()
+        app.launch()
+        Thread.sleep(forTimeInterval: 2)
+        app/*@START_MENU_TOKEN@*/.staticTexts["tabItem_1"]/*[[".staticTexts[\"More\\nMore\"]",".staticTexts[\"tabItem_1\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        Thread.sleep(forTimeInterval: 1)
+        app/*@START_MENU_TOKEN@*/.staticTexts["beansScreen"]/*[[".staticTexts[\"My Beans\"]",".staticTexts[\"beansScreen\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
 
-
-     @MainActor func testDark() throws {
+            snapshot("05Beans")
+            
+            
+            // Use XCTAssert and related functions to verify your tests produce the correct results.
+        }
+    
+    @MainActor func testDiary() throws {
+            let app = XCUIApplication()
+            app.launch()
+            Thread.sleep(forTimeInterval: 2)
+            app/*@START_MENU_TOKEN@*/.staticTexts["tabItem_1"]/*[[".staticTexts[\"More\\nMore\"]",".staticTexts[\"tabItem_1\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+            Thread.sleep(forTimeInterval: 1)
+            app/*@START_MENU_TOKEN@*/.staticTexts["brewDiary"]/*[[".staticTexts[\"Brew Diary\\nBrew Diary\"]",".staticTexts[\"brewDiary\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+            snapshot("06Diary")
+            
+            
+            // Use XCTAssert and related functions to verify your tests produce the correct results.
+        }
+    
+    @MainActor func testDark() throws {
             let app = XCUIApplication()
             app.launch()
       
+            Thread.sleep(forTimeInterval: 2)
             app/*@START_MENU_TOKEN@*/.staticTexts["tabItem_1"]/*[[".staticTexts[\"More\\nMore\"]",".staticTexts[\"tabItem_1\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+            Thread.sleep(forTimeInterval: 1)
             app/*@START_MENU_TOKEN@*/.staticTexts["settings"]/*[[".staticTexts[\"Settings\\nSettings\"]",".staticTexts[\"settings\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
             app/*@START_MENU_TOKEN@*/.staticTexts["settingsThemeTile"]/*[[".staticTexts[\"Theme\\nSystem\"]",".staticTexts[\"settingsThemeTile\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
             app/*@START_MENU_TOKEN@*/.staticTexts["themeDarkListTile"]/*[[".staticTexts[\"Dark\"]",".staticTexts[\"themeDarkListTile\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-            snapshot("06DarkTheme")
+            snapshot("07DarkTheme")
             app/*@START_MENU_TOKEN@*/.staticTexts["settingsThemeTile"]/*[[".staticTexts[\"Theme\\nDark\"]",".staticTexts[\"settingsThemeTile\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
             app/*@START_MENU_TOKEN@*/.staticTexts["themeSystemListTile"]/*[[".staticTexts[\"System\"]",".staticTexts[\"themeSystemListTile\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
           

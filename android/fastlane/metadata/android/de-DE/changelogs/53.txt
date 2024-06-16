@@ -1,0 +1,8 @@
+Lernen Sie Version 2.2.0 kennen!
+
+Neue Funktionen:
+
+- "Meine Bohnen" Bildschirm: Verfolgen Sie Ihre Kaffeebohnen, fügen Sie Notizen hinzu und markieren Sie Favoriten.
+- KI-gestützte Bohnen-Erkennung: Machen Sie ein Foto Ihres Bohnenbeutels und unsere KI füllt automatisch alle Details aus.
+
+Hinweis: Die Länge des übersetzten Textes sollte maximal 500 Zeichen betragen. Formulieren Sie bei Bedarf ein wenig um.

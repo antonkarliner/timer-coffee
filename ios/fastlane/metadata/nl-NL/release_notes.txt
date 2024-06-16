@@ -1,5 +1,9 @@
-Versie 2.1.0 brengt enkele coole wijzigingen:
+Maak kennis met versie 2.2.0 met nieuwe functies om je koffie-ervaring te verbeteren!
 
-+ Bijgewerkt ontwerp, nog minimalistischer en duidelijker.
-+ Nieuw statistieken scherm, waar je een kijkje kunt nemen naar jouw eigen koffieconsumptie en die van andere (onder Timer.Coffee gebruikers) wereldwijd.
-+ Notificaties! Als je ze toestaat, sturen we je iets interessants. Ooit.
+Nieuwe functies:
+
+"Mijn Bonen" Scherm:
+- Houd je koffiebonen bij, voeg notities toe, en markeer favorieten.
+
+AI-gestuurde Bonenherkenning:
+- Maak een foto van je koffiebonenzak, en AI vult automatisch alle details in.

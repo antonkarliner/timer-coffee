@@ -20,18 +20,18 @@ devices([
 languages([
    #"en-US",
    #"de-DE",
-   #"ar-SA",
+   "ar-SA",
    #"es-ES",
    #"es-MX",
    #"fr-FR",
    #"ja",
    #"pl",
-   "pt-BR",
-   "pt-PT",
-   "ru",
+   #"pt-BR",
+   #"pt-PT",
+   #"ru",
    #"zh-Hans",
    #"id",
-   #"it",
+   "it",
    #"ro",
    #"tr",
    #"uk",
@@ -58,4 +58,4 @@ languages([
 localize_simulator(true)
 headless(true)
 #clear_previous_screenshots(true)
-number_of_retries(3)
+number_of_retries(2)

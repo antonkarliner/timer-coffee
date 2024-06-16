@@ -1,0 +1,8 @@
+Ontmoet versie 2.2.0!
+
+Nieuwe functies:
+
+- "Mijn Bonen" Scherm: Volg je koffiebonen, voeg notities toe en markeer favorieten.
+- AI-gestuurde Bonenherkenning: Maak een foto van je bonenzak en onze AI vult automatisch alle details in.
+
+Opmerking: De lengte van de vertaalde tekst mag maximaal 500 symbolen zijn. Herformuleer indien nodig een beetje.

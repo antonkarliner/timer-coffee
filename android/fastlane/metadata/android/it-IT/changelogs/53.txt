@@ -1,0 +1,8 @@
+Incontra la versione 2.2.0!
+
+Nuove Funzionalità:
+
+- Schermata "I Miei Chicchi": Tieni traccia dei tuoi chicchi di caffè, aggiungi note e segna i preferiti.
+- Riconoscimento Chicchi con AI: Scatta una foto del tuo sacchetto di chicchi, e la nostra AI riempirà automaticamente tutti i dettagli.
+
+Nota: La lunghezza del testo tradotto deve essere di massimo 500 simboli. Riformula leggermente se necessario.

@@ -1,0 +1,6 @@
+Temui versi 2.2.0!
+
+Fitur Baru:
+
+- Layar "Biji Kopi Saya": Lacak biji kopi Anda, tambahkan catatan, dan tandai favorit.
+- Pengenalan Biji dengan AI: Ambil foto kantong biji kopi Anda, dan AI kami akan mengisi semua detail secara otomatis.

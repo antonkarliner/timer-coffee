@@ -1,0 +1,8 @@
+Întâmpinați versiunea 2.2.0!
+
+Funcționalități noi:
+
+- Ecranul "Boabele Mele": Urmăriți boabele de cafea, adăugați note și marcați favoritele.
+- Recunoaștere a boabelor cu AI: Faceți o fotografie pachetului de boabe, iar AI-ul nostru va completa automat toate detaliile.
+
+Notă: Lungimea textului tradus trebuie să fie de maximum 500 de simboluri. Reformulați puțin dacă este necesar.

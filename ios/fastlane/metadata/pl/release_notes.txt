@@ -1,5 +1,9 @@
-Wersja 2.1.0 przynosi kilka interesujących zmian:
+Poznaj wersję 2.2.0 z nowymi funkcjami, które wzbogacą Twoje doświadczenie z kawą!
 
-+ Zaktualizowany design, jeszcze bardziej minimalistyczny i przejrzysty.
-+ Nowy ekran Statystyk, gdzie możesz zobaczyć swoje oraz globalne (wśród użytkowników Timer.Coffee) statystyki konsumpcji kawy.
-+ Powiadomienia! Jeśli nam na to pozwolisz, kiedyś wyślemy Ci coś interesującego.
+Nowe funkcje:
+
+Ekran "Moje Ziarna":
+- Śledź swoje ziarna kawy, dodawaj notatki i oznaczaj ulubione.
+
+Rozpoznawanie Ziaren Wspomagane przez AI:
+- Zrób zdjęcie swojej torby z ziarnami kawy, a AI automatycznie uzupełni wszystkie szczegóły.

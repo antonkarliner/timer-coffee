@@ -1,0 +1,6 @@
+Meet version 2.2.0!
+
+New Features:
+
+- "My Beans" Screen: Track your coffee beans, add notes, and mark favorites.
+- AI-Powered Bean Recognition: Snap a picture of your bean bag, and our AI will fill in all the details automatically.

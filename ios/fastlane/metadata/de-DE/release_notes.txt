@@ -1,5 +1,9 @@
-Version 2.1.0 bringt einige coole Änderungen:
+Lernen Sie Version 2.2.0 kennen, mit neuen Funktionen zur Verbesserung Ihres Kaffeeerlebnisses!
 
-+ Aktualisiertes Design, noch minimalistischer und übersichtlicher.
-+ Neuer Statistik-Bildschirm, auf dem du deinen eigenen und den globalen (unter Timer.Coffee-Nutzern) Kaffeekonsum einsehen kannst.
-+ Benachrichtigungen! Wenn du sie zulässt, senden wir dir irgendwann etwas Interessantes.
+Neue Funktionen:
+
+"Meine Bohnen" Bildschirm:
+- Verfolgen Sie Ihre Kaffeebohnen, fügen Sie Notizen hinzu und markieren Sie Favoriten.
+
+KI-gestützte Bohnen-Erkennung:
+- Machen Sie ein Foto von Ihrer Kaffeebohnen-Tüte, und die KI füllt automatisch alle Details aus.

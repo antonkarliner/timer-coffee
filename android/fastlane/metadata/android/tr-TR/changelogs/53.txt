@@ -1,0 +1,8 @@
+Sürüm 2.2.0 ile tanışın!
+
+Yeni Özellikler:
+
+- "Kahvem" Ekranı: Kahve çekirdeklerinizi takip edin, notlar ekleyin ve favorileri işaretleyin.
+- Yapay Zeka Destekli Çekirdek Tanıma: Çekirdek torbanızın bir fotoğrafını çekin, yapay zekamız tüm detayları otomatik olarak doldursun.
+
+Not: Çevirinin uzunluğu maksimum 500 sembol olmalıdır. Gerekirse biraz yeniden ifade edin.

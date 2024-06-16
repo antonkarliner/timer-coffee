@@ -1,5 +1,9 @@
-Sürüm 2.1.0 bazı harika değişiklikler getiriyor:
+Sürüm 2.2.0 ile kahve deneyiminizi geliştirecek yeni özelliklerle tanışın!
 
-+ Güncellenmiş tasarım, daha da minimal ve açık.
-+ Yeni İstatistikler ekranı, burada kendi kahve tüketiminizi ve Timer.Coffee kullanıcıları arasında global kahve tüketimini görebilirsiniz.
-+ Bildirimler! Eğer izin verirseniz, size ilginç şeyler göndereceğiz. Bir gün.
+Yeni Özellikler:
+
+"Benim Çekirdeklerim" Ekranı:
+- Kahve çekirdeklerinizi takip edin, notlar ekleyin ve favorileri işaretleyin.
+
+Yapay Zeka Destekli Çekirdek Tanıma:
+- Kahve çekirdekleri torbanızın bir fotoğrafını çekin ve yapay zeka tüm detayları otomatik olarak doldursun.

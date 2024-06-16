@@ -1,0 +1,8 @@
+Poznaj wersję 2.2.0!
+
+Nowe funkcje:
+
+- Ekran "Moje Ziarna": Śledź swoje ziarna kawy, dodawaj notatki i oznaczaj ulubione.
+- Rozpoznawanie Ziaren z AI: Zrób zdjęcie swojej torby z ziarnami, a nasza sztuczna inteligencja automatycznie uzupełni wszystkie szczegóły.
+
+Uwaga: Długość przetłumaczonego tekstu nie powinna przekraczać 500 symboli. Przeformułuj trochę, jeśli to konieczne.

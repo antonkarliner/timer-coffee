@@ -1,5 +1,9 @@
-Versi 2.1.0 membawa beberapa perubahan menarik:
+Temui versi 2.2.0 dengan fitur-fitur baru untuk meningkatkan pengalaman kopi Anda!
 
-+ Desain diperbarui, semakin minimalis dan jelas.
-+ Layar Statistik baru, di mana Anda dapat melihat konsumsi kopi Anda dan konsumsi global (di antara pengguna Timer.Coffee).
-+ Notifikasi! Jika Anda mengizinkannya, kami akan mengirimkan sesuatu yang menarik. Suatu hari nanti.
+Fitur Baru:
+
+Layar "Biji Kopi Saya":
+- Lacak biji kopi Anda, tambahkan catatan, dan tandai favorit.
+
+Pengenalan Biji Kopi dengan Kecerdasan Buatan:
+- Ambil gambar kantong biji kopi Anda, dan AI akan mengisi semua detail secara otomatis.

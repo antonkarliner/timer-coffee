@@ -1,5 +1,9 @@
-A versão 2.1.0 traz algumas mudanças interessantes:
+Conheça a versão 2.2.0 com novos recursos para aprimorar sua experiência com café!
 
-+ Design atualizado, ainda mais minimalista e claro.
-+ Nova tela de Estatísticas, onde você pode conferir seu consumo de café e o consumo global (entre os usuários do Timer.Coffee).
-+ Notificações! Se você permitir, enviaremos algo interessante. Algum dia.
+Novos Recursos:
+
+Tela "Meus Grãos":
+- Acompanhe seus grãos de café, adicione notas e marque favoritos.
+
+Reconhecimento de Grãos com IA:
+- Tire uma foto do seu saco de grãos de café, e a IA preenche todos os detalhes automaticamente.

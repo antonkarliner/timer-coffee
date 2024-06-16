@@ -1,3 +1,9 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -21,10 +27,6 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
@@ -35,13 +37,13 @@ android {
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
-   compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_9 // or VERSION_17
-        targetCompatibility JavaVersion.VERSION_1_9 // or VERSION_17
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = '17' // or '17'
+        jvmTarget = '1.8'
     }
     
     sourceSets {
@@ -49,10 +51,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.coffee.timer"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 21
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
@@ -61,18 +60,20 @@ android {
     }
 
     signingConfigs {
-       release {
-           keyAlias keystoreProperties['keyAlias']
-           keyPassword keystoreProperties['keyPassword']
-           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-           storePassword keystoreProperties['storePassword']
-       }
-   }
-   buildTypes {
-       release {
-           signingConfig signingConfigs.release
-       }
-   }
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+    
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+    
     namespace 'com.coffee.timer'
 }
 
@@ -81,7 +82,6 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.android.play:review:2.0.1'
     implementation 'com.google.android.play:review-ktx:2.0.1'
