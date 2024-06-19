@@ -150,8 +150,13 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
                                     : null,
                                 selected: selectedBeanId == bean.id,
                                 selectedTileColor: Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.1),
+                                            .brightness ==
+                                        Brightness.dark
+                                    ? Colors.white.withOpacity(
+                                        0.2) // More visible color for dark mode
+                                    : Theme.of(context)
+                                        .primaryColor
+                                        .withOpacity(0.1),
                                 onTap: () {
                                   setState(() {
                                     selectedBeanId = bean.id;
