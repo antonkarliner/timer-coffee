@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ExpandableCard extends StatefulWidget {
+  final Key key;
   final Widget leading;
   final String header;
   final String subtitle;
@@ -10,13 +11,13 @@ class ExpandableCard extends StatefulWidget {
   final Function(bool) onExpansionChanged;
 
   const ExpandableCard({
-    Key? key,
+    required this.key,
     required this.leading,
     required this.header,
     required this.subtitle,
     required this.detail,
     this.trailing,
-    this.isExpanded = false,
+    required this.isExpanded,
     required this.onExpansionChanged,
   }) : super(key: key);
 
@@ -24,7 +25,8 @@ class ExpandableCard extends StatefulWidget {
   _ExpandableCardState createState() => _ExpandableCardState();
 }
 
-class _ExpandableCardState extends State<ExpandableCard> {
+class _ExpandableCardState extends State<ExpandableCard>
+    with AutomaticKeepAliveClientMixin {
   bool _isExpanded;
 
   _ExpandableCardState() : _isExpanded = false;
@@ -54,6 +56,7 @@ class _ExpandableCardState extends State<ExpandableCard> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Card(
       child: Column(
         children: [
@@ -86,4 +89,7 @@ class _ExpandableCardState extends State<ExpandableCard> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
