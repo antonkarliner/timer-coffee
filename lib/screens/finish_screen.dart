@@ -15,6 +15,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/recipe_model.dart';
+import '../providers/user_stat_provider.dart';
 
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
@@ -78,7 +79,7 @@ class _FinishScreenState extends State<FinishScreen> {
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null) {
       try {
-        await Provider.of<RecipeProvider>(context, listen: false)
+        await Provider.of<UserStatProvider>(context, listen: false)
             .insertUserStat(
           userId: user.id,
           recipeId: widget.recipe.id,

@@ -164,14 +164,16 @@ class _HomeScreenState extends State<HomeScreen>
                 return Semantics(
                   identifier: 'brewingMethod_${brewingMethod.brewingMethodId}',
                   label: brewingMethod.brewingMethod,
-                  child: ListTile(
-                    leading:
-                        getIconByBrewingMethod(brewingMethod.brewingMethodId),
-                    title: Text(brewingMethod.brewingMethod),
-                    onTap: () {
+                  child: GestureDetector(
+                    onTapDown: (TapDownDetails details) {
                       context.router.push(RecipeListRoute(
                           brewingMethodId: brewingMethod.brewingMethodId));
                     },
+                    child: ListTile(
+                      leading:
+                          getIconByBrewingMethod(brewingMethod.brewingMethodId),
+                      title: Text(brewingMethod.brewingMethod),
+                    ),
                   ),
                 );
               },
@@ -197,12 +199,14 @@ class _HomeScreenState extends State<HomeScreen>
             Semantics(
               identifier: 'favoriteRecipes',
               label: AppLocalizations.of(context)!.favoriterecipes,
-              child: ListTile(
-                leading: const Icon(Icons.favorite),
-                title: Text(AppLocalizations.of(context)!.favoriterecipes),
-                onTap: () {
+              child: GestureDetector(
+                onTapDown: (TapDownDetails details) {
                   context.router.push(const FavoriteRecipesRoute());
                 },
+                child: ListTile(
+                  leading: const Icon(Icons.favorite),
+                  title: Text(AppLocalizations.of(context)!.favoriterecipes),
+                ),
               ),
             ),
             if (mostRecentRecipe != null)
@@ -210,16 +214,18 @@ class _HomeScreenState extends State<HomeScreen>
                 identifier: 'lastRecipe_${mostRecentRecipe.id}',
                 label:
                     '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}',
-                child: ListTile(
-                  leading:
-                      getIconByBrewingMethod(mostRecentRecipe.brewingMethodId),
-                  title: Text(
-                      '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
-                  onTap: () {
+                child: GestureDetector(
+                  onTapDown: (TapDownDetails details) {
                     context.router.push(RecipeDetailRoute(
                         brewingMethodId: mostRecentRecipe.brewingMethodId,
                         recipeId: mostRecentRecipe.id));
                   },
+                  child: ListTile(
+                    leading: getIconByBrewingMethod(
+                        mostRecentRecipe.brewingMethodId),
+                    title: Text(
+                        '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
+                  ),
                 ),
               ),
           ],
@@ -236,44 +242,52 @@ class _HomeScreenState extends State<HomeScreen>
           Semantics(
             identifier: 'brewDiary',
             label: AppLocalizations.of(context)!.brewdiary,
-            child: ListTile(
-              leading: const Icon(Icons.library_books),
-              title: Text(AppLocalizations.of(context)!.brewdiary),
-              onTap: () {
+            child: GestureDetector(
+              onTapDown: (TapDownDetails details) {
                 context.router.push(const BrewDiaryRoute());
               },
+              child: ListTile(
+                leading: const Icon(Icons.library_books),
+                title: Text(AppLocalizations.of(context)!.brewdiary),
+              ),
             ),
           ),
           Semantics(
             identifier: 'beansScreen',
-            child: ListTile(
-              leading: const Icon(Coffeico.bag_with_bean),
-              title: Text(AppLocalizations.of(context)!.myBeans),
-              onTap: () {
+            child: GestureDetector(
+              onTapDown: (TapDownDetails details) {
                 context.router.push(const CoffeeBeansRoute());
               },
+              child: ListTile(
+                leading: const Icon(Coffeico.bag_with_bean),
+                title: Text(AppLocalizations.of(context)!.myBeans),
+              ),
             ),
           ),
           Semantics(
             identifier: 'statsScreen',
             label: AppLocalizations.of(context)!.statsscreen,
-            child: ListTile(
-              leading: const Icon(Icons.bar_chart),
-              title: Text(AppLocalizations.of(context)!.statsscreen),
-              onTap: () {
+            child: GestureDetector(
+              onTapDown: (TapDownDetails details) {
                 context.router.push(StatsRoute());
               },
+              child: ListTile(
+                leading: const Icon(Icons.bar_chart),
+                title: Text(AppLocalizations.of(context)!.statsscreen),
+              ),
             ),
           ),
           Semantics(
             identifier: 'settings',
             label: AppLocalizations.of(context)!.settings,
-            child: ListTile(
-              leading: const Icon(Icons.settings),
-              title: Text(AppLocalizations.of(context)!.settings),
-              onTap: () {
+            child: GestureDetector(
+              onTapDown: (TapDownDetails details) {
                 context.router.push(const SettingsRoute());
               },
+              child: ListTile(
+                leading: const Icon(Icons.settings),
+                title: Text(AppLocalizations.of(context)!.settings),
+              ),
             ),
           ),
         ],

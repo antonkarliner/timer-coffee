@@ -29,6 +29,7 @@ import 'widgets/global_snow_overlay.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'notifiers/card_expansion_notifier.dart'; // Import the notifier
+import './providers/user_stat_provider.dart'; // Import the new UserStatProvider
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -166,8 +167,11 @@ class CoffeeTimerApp extends StatelessWidget {
           create: (_) => CoffeeBeansProvider(database, databaseProvider),
         ),
         ChangeNotifierProvider<CardExpansionNotifier>(
-          // Add this line
           create: (_) => CardExpansionNotifier(),
+        ),
+        ChangeNotifierProvider<UserStatProvider>(
+          // Add this line
+          create: (_) => UserStatProvider(database),
         ),
       ],
       child: Consumer2<ThemeProvider, SnowEffectProvider>(

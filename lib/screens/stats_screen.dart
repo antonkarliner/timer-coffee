@@ -9,6 +9,7 @@ import '../models/recipe_model.dart';
 import '../providers/recipe_provider.dart';
 import '../providers/database_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../providers/user_stat_provider.dart';
 
 enum TimePeriod { today, thisWeek, thisMonth, custom }
 
@@ -30,7 +31,7 @@ class _StatsScreenState extends State<StatsScreen> {
   double temporaryUpdates = 0.0;
   bool includesToday = true;
 
-  DateTime _getStartDate(RecipeProvider provider, TimePeriod period) {
+  DateTime _getStartDate(UserStatProvider provider, TimePeriod period) {
     switch (period) {
       case TimePeriod.today:
         return provider.getStartOfToday();
@@ -80,7 +81,7 @@ class _StatsScreenState extends State<StatsScreen> {
 
   bool _isDateWithinRange(DateTime date) {
     DateTime startDate = _getStartDate(
-        Provider.of<RecipeProvider>(context, listen: false), _selectedPeriod);
+        Provider.of<UserStatProvider>(context, listen: false), _selectedPeriod);
     DateTime endDate = _selectedPeriod == TimePeriod.custom
         ? (_customEndDate ?? DateTime.now())
         : DateTime.now();
@@ -143,7 +144,7 @@ class _StatsScreenState extends State<StatsScreen> {
       _selectedPeriod = period;
     });
     DateTime startDate = _getStartDate(
-        Provider.of<RecipeProvider>(context, listen: false), period);
+        Provider.of<UserStatProvider>(context, listen: false), period);
     DateTime endDate = _selectedPeriod == TimePeriod.custom
         ? (_customEndDate ?? DateTime.now())
         : DateTime.now();
@@ -170,7 +171,7 @@ class _StatsScreenState extends State<StatsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<RecipeProvider>(context, listen: false);
+    final provider = Provider.of<UserStatProvider>(context, listen: false);
     DateTime startDate = _getStartDate(provider, _selectedPeriod);
     DateTime endDate = _selectedPeriod == TimePeriod.custom
         ? (_customEndDate ?? DateTime.now())
@@ -230,7 +231,7 @@ class _StatsScreenState extends State<StatsScreen> {
                               } else {
                                 // Update for other selections without showing the date picker
                                 DateTime startDate = _getStartDate(
-                                    Provider.of<RecipeProvider>(context,
+                                    Provider.of<UserStatProvider>(context,
                                         listen: false),
                                     newValue);
                                 DateTime endDate = newValue == TimePeriod.custom
@@ -291,7 +292,7 @@ class _StatsScreenState extends State<StatsScreen> {
     }
   }
 
-  Widget _buildStatSection(BuildContext context, RecipeProvider provider,
+  Widget _buildStatSection(BuildContext context, UserStatProvider provider,
       DateTime start, DateTime end) {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
@@ -352,7 +353,9 @@ class _StatsScreenState extends State<StatsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: snapshot.data!
                           .map((id) => FutureBuilder<RecipeModel>(
-                                future: provider.getRecipeById(id),
+                                future: Provider.of<RecipeProvider>(context,
+                                        listen: false)
+                                    .getRecipeById(id),
                                 builder: (context, recipeSnapshot) {
                                   if (recipeSnapshot.connectionState ==
                                       ConnectionState.done) {

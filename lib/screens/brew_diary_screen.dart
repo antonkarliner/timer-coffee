@@ -3,6 +3,7 @@ import 'package:coffee_timer/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/recipe_provider.dart';
+import '../providers/user_stat_provider.dart';
 import '../providers/coffee_beans_provider.dart';
 import '../models/user_stat_model.dart';
 import 'package:intl/intl.dart';
@@ -61,7 +62,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final recipeProvider = Provider.of<RecipeProvider>(context);
+    final userStatProvider = Provider.of<UserStatProvider>(context);
     final loc = AppLocalizations.of(context)!;
 
     return ChangeNotifierProvider(
@@ -95,7 +96,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
           ],
         ),
         body: FutureBuilder<List<UserStatsModel>>(
-          future: recipeProvider.fetchAllUserStats(),
+          future: userStatProvider.fetchAllUserStats(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -152,6 +153,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
   Widget buildUserStatCard(BuildContext context, UserStatsModel stat) {
     final loc = AppLocalizations.of(context)!;
     final recipeProvider = Provider.of<RecipeProvider>(context);
+    final userStatProvider = Provider.of<UserStatProvider>(context);
     DateFormat dateFormat = DateFormat('${loc.dateFormat} ${loc.timeFormat}',
         Localizations.localeOf(context).toString());
 
@@ -191,7 +193,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                             onPressed: () async {
                               final scrollPosition =
                                   _scrollController.position.pixels;
-                              await recipeProvider.deleteUserStat(stat.id);
+                              await userStatProvider.deleteUserStat(stat.id);
                               notifier.setExpansion(stat.id, false);
                               WidgetsBinding.instance.addPostFrameCallback((_) {
                                 if (_scrollController.hasClients) {
@@ -231,7 +233,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
   Widget buildDetail(BuildContext context, UserStatsModel stat) {
     final loc = AppLocalizations.of(context)!;
     TextStyle detailTextStyle = Theme.of(context).textTheme.titleMedium!;
-    final recipeProvider = Provider.of<RecipeProvider>(context);
+    final userStatProvider = Provider.of<UserStatProvider>(context);
     final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(context);
 
     TextEditingController notesController =
@@ -240,7 +242,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
 
     notesFocusNode.addListener(() {
       if (!notesFocusNode.hasFocus) {
-        Provider.of<RecipeProvider>(context, listen: false)
+        Provider.of<UserStatProvider>(context, listen: false)
             .updateUserStat(id: stat.id, notes: notesController.text);
       }
     });
@@ -345,7 +347,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                 onPressed: () async {
                                   final scrollPosition =
                                       _scrollController.position.pixels;
-                                  await recipeProvider.updateUserStat(
+                                  await userStatProvider.updateUserStat(
                                       id: stat.id, coffeeBeansId: null);
                                   Provider.of<CardExpansionNotifier>(context,
                                           listen: false)
@@ -409,7 +411,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
       builder: (context) {
         return AddCoffeeBeansWidget(
           onSelect: (int selectedBeanId) async {
-            await Provider.of<RecipeProvider>(context, listen: false)
+            await Provider.of<UserStatProvider>(context, listen: false)
                 .updateUserStat(id: statId, coffeeBeansId: selectedBeanId);
             Navigator.of(context).pop(); // Close the dialog
             Provider.of<CardExpansionNotifier>(context, listen: false)
