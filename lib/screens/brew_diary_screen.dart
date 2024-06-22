@@ -23,8 +23,6 @@ class BrewDiaryScreen extends StatefulWidget {
 
 class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
   bool isEditMode = false;
-  final ScrollController _scrollController = ScrollController();
-  final PageStorageBucket _bucket = PageStorageBucket();
 
   String getSweeetnessLabel(int position) {
     final loc = AppLocalizations.of(context)!;
@@ -98,15 +96,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
         body: FutureBuilder<List<UserStatsModel>>(
           future: userStatProvider.fetchAllUserStats(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Semantics(
-                  identifier: 'brewDiaryLoading',
-                  label: 'Loading',
-                  child: const CircularProgressIndicator(),
-                ),
-              );
-            } else if (snapshot.hasError) {
+            if (snapshot.hasError) {
               return Center(
                 child: Semantics(
                   identifier: 'brewDiaryError',
@@ -123,16 +113,19 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 ),
               );
             } else if (snapshot.hasData) {
-              return PageStorage(
-                bucket: _bucket,
-                child: ListView.builder(
-                  key: const PageStorageKey<String>('brew_diary_list'),
-                  controller: _scrollController,
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    UserStatsModel stat = snapshot.data![index];
-                    return buildUserStatCard(context, stat);
-                  },
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  UserStatsModel stat = snapshot.data![index];
+                  return buildUserStatCard(context, stat);
+                },
+              );
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: Semantics(
+                  identifier: 'brewDiaryLoading',
+                  label: 'Loading',
+                  child: const CircularProgressIndicator(),
                 ),
               );
             } else {
@@ -163,13 +156,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
         recipeProvider.getLocalizedRecipeName(stat.recipeId),
       ]),
       builder: (context, namesSnapshot) {
-        if (namesSnapshot.connectionState == ConnectionState.waiting) {
-          return Semantics(
-            identifier: 'brewDiaryCardLoading_${stat.id}',
-            label: 'Loading User Stat Card',
-            child: const Card(child: ListTile(title: Text("Loading..."))),
-          );
-        } else if (namesSnapshot.hasData) {
+        if (namesSnapshot.hasData) {
           return Semantics(
             key: ValueKey(stat.id), // Use stat.id as the key
             identifier: 'userStatCard_${stat.id}',
@@ -191,32 +178,25 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                             icon: const Icon(Icons.remove_circle_outline,
                                 color: Colors.red),
                             onPressed: () async {
-                              final scrollPosition =
-                                  _scrollController.position.pixels;
                               await userStatProvider.deleteUserStat(stat.id);
                               notifier.setExpansion(stat.id, false);
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                if (_scrollController.hasClients) {
-                                  _scrollController.jumpTo(scrollPosition);
-                                }
-                              });
                             },
                           ),
                         )
                       : null,
                   isExpanded: isExpanded,
                   onExpansionChanged: (bool expanded) {
-                    final scrollPosition = _scrollController.position.pixels;
                     notifier.setExpansion(stat.id, expanded);
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      if (_scrollController.hasClients) {
-                        _scrollController.jumpTo(scrollPosition);
-                      }
-                    });
                   },
                 );
               },
             ),
+          );
+        } else if (namesSnapshot.connectionState == ConnectionState.waiting) {
+          return Semantics(
+            identifier: 'brewDiaryCardLoading_${stat.id}',
+            label: 'Loading User Stat Card',
+            child: const Card(child: ListTile(title: Text("Loading..."))),
           );
         } else {
           return Semantics(
@@ -345,20 +325,12 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                               const SizedBox(width: 8),
                               OutlinedButton(
                                 onPressed: () async {
-                                  final scrollPosition =
-                                      _scrollController.position.pixels;
                                   await userStatProvider.updateUserStat(
                                       id: stat.id, coffeeBeansId: null);
                                   Provider.of<CardExpansionNotifier>(context,
                                           listen: false)
                                       .removeBean(
                                           stat.id); // Update the notifier
-                                  WidgetsBinding.instance
-                                      .addPostFrameCallback((_) {
-                                    if (_scrollController.hasClients) {
-                                      _scrollController.jumpTo(scrollPosition);
-                                    }
-                                  });
                                 },
                                 child: Text(loc.removeBeans),
                               ),
@@ -405,7 +377,6 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
   }
 
   void _openAddBeansPopup(BuildContext context, int statId) {
-    final scrollPosition = _scrollController.position.pixels;
     showDialog(
       context: context,
       builder: (context) {
@@ -416,11 +387,6 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             Navigator.of(context).pop(); // Close the dialog
             Provider.of<CardExpansionNotifier>(context, listen: false)
                 .addBean(statId); // Update the notifier
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (_scrollController.hasClients) {
-                _scrollController.jumpTo(scrollPosition);
-              }
-            });
           },
         );
       },
