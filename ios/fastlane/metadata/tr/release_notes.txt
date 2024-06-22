@@ -1,9 +1,1 @@
-Sürüm 2.2.0 ile kahve deneyiminizi geliştirecek yeni özelliklerle tanışın!
-
-Yeni Özellikler:
-
-"Benim Çekirdeklerim" Ekranı:
-- Kahve çekirdeklerinizi takip edin, notlar ekleyin ve favorileri işaretleyin.
-
-Yapay Zeka Destekli Çekirdek Tanıma:
-- Kahve çekirdekleri torbanızın bir fotoğrafını çekin ve yapay zeka tüm detayları otomatik olarak doldursun.
+Çeşitli UX ve UI iyileştirmeleri.

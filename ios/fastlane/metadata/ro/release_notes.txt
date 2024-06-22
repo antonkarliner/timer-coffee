@@ -1,9 +1,1 @@
-Faceți cunoștință cu versiunea 2.2.0, cu noi funcții pentru a vă îmbunătăți experiența cafelei!
-
-Funcții noi:
-
-Ecranul „Boabele Mele”:
-- Urmăriți-vă boabele de cafea, adăugați note și marcați favoritele.
-
-Recunoașterea Boabelor bazată pe AI:
-- Faceți o poză pachetului de boabe de cafea, iar AI completează automat toate detaliile.
+Diverse îmbunătățiri ale UX și UI.

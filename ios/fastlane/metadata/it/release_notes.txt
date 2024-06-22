@@ -1,9 +1,1 @@
-Scopri la versione 2.2.0 con nuove funzionalità per migliorare la tua esperienza con il caffè!
-
-Nuove Funzionalità:
-
-Schermata "I Miei Chicchi":
-- Tieni traccia dei tuoi chicchi di caffè, aggiungi note e segna i preferiti.
-
-Riconoscimento dei Chicchi Alimentato da AI:
-- Scatta una foto del tuo sacchetto di chicchi di caffè e l'AI compila automaticamente tutti i dettagli.
+Varie migliorie alla UX e UI.

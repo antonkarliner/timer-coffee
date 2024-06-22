@@ -1,9 +1,1 @@
-Conoce la versión 2.2.0 con nuevas funciones para mejorar tu experiencia cafetera!
-
-Nuevas Funciones:
-
-Pantalla "Mis Granos":
-- Lleva un registro de tus granos de café, añade notas y marca tus favoritos.
-
-Reconocimiento de Granos con IA:
-- Toma una foto de tu bolsa de granos de café y la IA completará todos los detalles automáticamente.
+Varias mejoras en la UX y la UI.

@@ -1,9 +1,1 @@
-Découvrez la version 2.2.0 avec de nouvelles fonctionnalités pour améliorer votre expérience café !
-
-Nouvelles fonctionnalités :
-
-Écran "Mes Grains" :
-- Suivez vos grains de café, ajoutez des notes et marquez vos favoris.
-
-Reconnaissance des Grains par IA :
-- Prenez une photo de votre sac de grains de café, et l'IA remplit automatiquement tous les détails.
+Diverses améliorations UX et UI.

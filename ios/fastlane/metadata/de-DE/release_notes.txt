@@ -1,9 +1,1 @@
-Lernen Sie Version 2.2.0 kennen, mit neuen Funktionen zur Verbesserung Ihres Kaffeeerlebnisses!
-
-Neue Funktionen:
-
-"Meine Bohnen" Bildschirm:
-- Verfolgen Sie Ihre Kaffeebohnen, fügen Sie Notizen hinzu und markieren Sie Favoriten.
-
-KI-gestützte Bohnen-Erkennung:
-- Machen Sie ein Foto von Ihrer Kaffeebohnen-Tüte, und die KI füllt automatisch alle Details aus.
+Verschiedene UX- und UI-Verbesserungen.
