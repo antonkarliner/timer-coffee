@@ -1,4 +1,4 @@
-import 'dart:async'; // Import for StreamSubscription
+import 'dart:async';
 import 'dart:convert';
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/env/env.dart';
@@ -11,9 +11,8 @@ import 'package:flutter/services.dart'
     show SystemChrome, SystemUiMode, SystemUiOverlay, rootBundle;
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
-import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:in_app_purchase/in_app_purchase.dart'; // Import for In-App Purchase
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'models/brewing_method_model.dart';
 import './providers/recipe_provider.dart';
 import './providers/theme_provider.dart';
@@ -28,8 +27,8 @@ import './providers/snow_provider.dart';
 import 'widgets/global_snow_overlay.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'notifiers/card_expansion_notifier.dart'; // Import the notifier
-import './providers/user_stat_provider.dart'; // Import the new UserStatProvider
+import 'notifiers/card_expansion_notifier.dart';
+import './providers/user_stat_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -104,15 +103,17 @@ void main() async {
   final appRouter = AppRouter();
   usePathUrlStrategy();
 
-  runApp(CoffeeTimerApp(
-    database: database,
-    databaseProvider: databaseProvider, // Pass the databaseProvider here
-    supportedLocales: localeList,
-    brewingMethods: brewingMethods,
-    initialLocale: initialLocale,
-    themeMode: themeMode,
-    appRouter: appRouter,
-  ));
+  runApp(
+    CoffeeTimerApp(
+      database: database,
+      databaseProvider: databaseProvider, // Pass the databaseProvider here
+      supportedLocales: localeList,
+      brewingMethods: brewingMethods,
+      initialLocale: initialLocale,
+      themeMode: themeMode,
+      appRouter: appRouter,
+    ),
+  );
 
   if (isFirstLaunch) {
     await prefs.setBool('firstLaunched', false);
@@ -170,7 +171,6 @@ class CoffeeTimerApp extends StatelessWidget {
           create: (_) => CardExpansionNotifier(),
         ),
         ChangeNotifierProvider<UserStatProvider>(
-          // Add this line
           create: (_) => UserStatProvider(database),
         ),
       ],
@@ -206,56 +206,9 @@ class CoffeeTimerApp extends StatelessWidget {
   }
 }
 
-class QuickActionsManager extends StatefulWidget {
-  final Widget child;
-  final AppRouter appRouter;
-
-  QuickActionsManager({Key? key, required this.child, required this.appRouter})
-      : super(key: key);
-
-  @override
-  _QuickActionsManagerState createState() => _QuickActionsManagerState();
-}
-
-class _QuickActionsManagerState extends State<QuickActionsManager> {
-  QuickActions quickActions = const QuickActions();
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Setup Quick Actions after build
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setupQuickActions();
-    });
-  }
-
-  void setupQuickActions() {
-    quickActions.setShortcutItems([
-      ShortcutItem(
-        type: 'action_last_recipe',
-        localizedTitle: AppLocalizations.of(context)!.quickactionmsg,
-        icon: 'icon_coffee_cup',
-      ),
-    ]);
-
-    quickActions.initialize((shortcutType) async {
-      if (shortcutType == 'action_last_recipe') {
-        RecipeProvider recipeProvider =
-            Provider.of<RecipeProvider>(context, listen: false);
-        RecipeModel? mostRecentRecipe =
-            await recipeProvider.getLastUsedRecipe();
-        if (mostRecentRecipe != null) {
-          widget.appRouter.push(RecipeDetailRoute(
-              brewingMethodId: mostRecentRecipe.brewingMethodId,
-              recipeId: mostRecentRecipe.id));
-        }
-      }
-    });
-  }
-
-  // Deliver Product
-  void _deliverProduct(PurchaseDetails purchaseDetails) {
+class PurchaseHandler {
+  static void deliverProduct(
+      BuildContext context, PurchaseDetails purchaseDetails) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -275,7 +228,7 @@ class _QuickActionsManagerState extends State<QuickActionsManager> {
     );
   }
 
-  void _handleError(IAPError error) {
+  static void handleError(BuildContext context, IAPError error) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -293,15 +246,5 @@ class _QuickActionsManagerState extends State<QuickActionsManager> {
         );
       },
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.child;
   }
 }
