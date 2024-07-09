@@ -1,1 +1,1 @@
-Diverses améliorations UX et UI.
+Améliorations mineures de l'UX.

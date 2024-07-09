@@ -145,6 +145,20 @@ class CoffeeBeansProvider with ChangeNotifier {
     return combinedSet.toList();
   }
 
+  Future<List<String>> fetchCombinedRoasters() async {
+    final localRoasters = await fetchAllDistinctRoasters();
+    List<String> supabaseRoasters = [];
+
+    try {
+      supabaseRoasters = await databaseProvider.fetchRoasters();
+    } catch (error) {
+      //print('Error fetching roasters from Supabase: $error');
+    }
+
+    final combinedSet = {...localRoasters, ...supabaseRoasters};
+    return combinedSet.toList();
+  }
+
   Future<void> toggleFavoriteStatus(int id, bool isFavorite) async {
     final updatedFavoriteStatus = !isFavorite;
     await db.coffeeBeansDao.updateFavoriteStatus(id, updatedFavoriteStatus);

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../app_router.gr.dart';
@@ -6,6 +7,7 @@ import '../providers/coffee_beans_provider.dart';
 import '../models/coffee_beans_model.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 @RoutePage()
 class CoffeeBeansScreen extends StatefulWidget {
@@ -57,23 +59,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
       body: FutureBuilder<List<CoffeeBeansModel>>(
         future: coffeeBeansProvider.fetchAllCoffeeBeans(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: Semantics(
-                identifier: 'coffeeBeansLoading',
-                label: loc.loading,
-                child: const CircularProgressIndicator(),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Semantics(
-                identifier: 'coffeeBeansError',
-                label: loc.error(snapshot.error.toString()),
-                child: Text(loc.error(snapshot.error.toString())),
-              ),
-            );
-          } else if (snapshot.hasData) {
+          if (snapshot.hasData) {
             // Sort the list in descending order based on the ID
             final sortedData = snapshot.data!
               ..sort((a, b) => b.id.compareTo(a.id));
@@ -133,6 +119,8 @@ class CoffeeBeanCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final coffeeBeansProvider =
         Provider.of<CoffeeBeansProvider>(context, listen: false);
+    final databaseProvider =
+        Provider.of<DatabaseProvider>(context, listen: false);
     final loc = AppLocalizations.of(context)!;
 
     return Semantics(
@@ -150,8 +138,26 @@ class CoffeeBeanCard extends StatelessWidget {
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width * 0.2,
-                  child: const Icon(Coffeico.bag_with_bean, size: 40),
+                  child: FutureBuilder<String?>(
+                    future: databaseProvider.fetchRoasterLogoUrl(bean.roaster),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data != null) {
+                        return CachedNetworkImage(
+                          imageUrl: snapshot.data!,
+                          placeholder: (context, url) =>
+                              const Icon(Coffeico.bag_with_bean, size: 40),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Coffeico.bag_with_bean, size: 40),
+                          width: 40,
+                          fit: BoxFit.cover,
+                        );
+                      } else {
+                        return const Icon(Coffeico.bag_with_bean, size: 40);
+                      }
+                    },
+                  ),
                 ),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

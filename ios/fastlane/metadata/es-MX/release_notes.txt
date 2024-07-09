@@ -1,1 +1,1 @@
-Varias mejoras en la experiencia y la interfaz de usuario.
+Mejoras menores en la experiencia de usuario.

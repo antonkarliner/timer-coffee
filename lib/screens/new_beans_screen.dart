@@ -669,8 +669,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                   child: AutocompleteInputField(
                     label: loc.roaster,
                     hintText: loc.enterRoaster,
-                    initialOptions:
-                        coffeeBeansProvider.fetchAllDistinctRoasters(),
+                    initialOptions: coffeeBeansProvider.fetchCombinedRoasters(),
                     onSelected: (value) {
                       _roasterController.text = value;
                     },

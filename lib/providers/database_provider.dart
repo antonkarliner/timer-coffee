@@ -1,6 +1,7 @@
 import 'package:coffee_timer/database/database.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/database/extensions.dart';
+import 'package:diacritic/diacritic.dart';
 
 class DatabaseProvider {
   final AppDatabase _db;
@@ -191,6 +192,59 @@ class DatabaseProvider {
     } catch (error) {
       print('Error fetching processing methods: $error');
       return [];
+    }
+  }
+
+  Future<List<String>> fetchRoasters() async {
+    try {
+      final response = await Supabase.instance.client
+          .from('coffee_roasters')
+          .select('roaster_name');
+      final data = response as List<dynamic>;
+      return data.map((e) => e['roaster_name'] as String).toList();
+    } catch (error) {
+      print('Error fetching roasters: $error');
+      return [];
+    }
+  }
+
+  Future<String?> fetchRoasterLogoUrl(String roasterName) async {
+    try {
+      // Normalize the input roaster name
+      final normalizedRoasterName = removeDiacritics(roasterName).toLowerCase();
+
+      // Fetch all roasters, their logos, and aliases
+      final response = await Supabase.instance.client
+          .from('coffee_roasters')
+          .select('roaster_name, roaster_logo_url, aliases');
+
+      for (var roaster in response) {
+        final dbRoasterName =
+            removeDiacritics(roaster['roaster_name']).toLowerCase();
+
+        // Check if the roaster name matches
+        if (dbRoasterName == normalizedRoasterName) {
+          return roaster['roaster_logo_url'] as String?;
+        }
+
+        // Check aliases if present
+        final aliases = roaster['aliases'] as String?;
+        if (aliases != null) {
+          final aliasList = aliases
+              .split(',')
+              .map((alias) => removeDiacritics(alias.trim()).toLowerCase())
+              .toList();
+          if (aliasList.contains(normalizedRoasterName)) {
+            return roaster['roaster_logo_url'] as String?;
+          }
+        }
+      }
+
+      print('No matching data found for roaster: $roasterName');
+      return null;
+    } catch (error) {
+      print('Exception fetching roaster logo URL: $error');
+      return null;
     }
   }
 }
