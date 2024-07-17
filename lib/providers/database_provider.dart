@@ -208,15 +208,16 @@ class DatabaseProvider {
     }
   }
 
-  Future<String?> fetchRoasterLogoUrl(String roasterName) async {
+  Future<Map<String, String?>> fetchRoasterLogoUrls(String roasterName) async {
     try {
       // Normalize the input roaster name
       final normalizedRoasterName = removeDiacritics(roasterName).toLowerCase();
 
-      // Fetch all roasters, their logos, and aliases
+      // Fetch all roasters, their logos, mirrored logos, and aliases
       final response = await Supabase.instance.client
           .from('coffee_roasters')
-          .select('roaster_name, roaster_logo_url, aliases');
+          .select(
+              'roaster_name, roaster_logo_url, roaster_logo_mirror_url, aliases');
 
       for (var roaster in response) {
         final dbRoasterName =
@@ -224,7 +225,10 @@ class DatabaseProvider {
 
         // Check if the roaster name matches
         if (dbRoasterName == normalizedRoasterName) {
-          return roaster['roaster_logo_url'] as String?;
+          return {
+            'original': roaster['roaster_logo_url'] as String?,
+            'mirror': roaster['roaster_logo_mirror_url'] as String?,
+          };
         }
 
         // Check aliases if present
@@ -235,16 +239,19 @@ class DatabaseProvider {
               .map((alias) => removeDiacritics(alias.trim()).toLowerCase())
               .toList();
           if (aliasList.contains(normalizedRoasterName)) {
-            return roaster['roaster_logo_url'] as String?;
+            return {
+              'original': roaster['roaster_logo_url'] as String?,
+              'mirror': roaster['roaster_logo_mirror_url'] as String?,
+            };
           }
         }
       }
 
       print('No matching data found for roaster: $roasterName');
-      return null;
+      return {'original': null, 'mirror': null};
     } catch (error) {
-      print('Exception fetching roaster logo URL: $error');
-      return null;
+      print('Exception fetching roaster logo URLs: $error');
+      return {'original': null, 'mirror': null};
     }
   }
 }

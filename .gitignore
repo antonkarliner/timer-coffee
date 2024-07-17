@@ -66,3 +66,5 @@ ios/fastlane/resizese.py
 ios/fastlane/screenshots/
 ios/fastlane/screenshots/screenshots.html
 migratedb.sh
+roaster-logo-processor.py
+update_roaster_logos.sql

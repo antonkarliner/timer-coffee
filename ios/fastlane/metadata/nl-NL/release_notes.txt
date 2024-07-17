@@ -1,1 +1,1 @@
-Kleine verbeteringen in de gebruikerservaring.
+Verbeterde stabiliteit.

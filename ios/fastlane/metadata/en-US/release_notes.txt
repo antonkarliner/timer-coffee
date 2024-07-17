@@ -1,1 +1,1 @@
-Minor UX improvements.
+Improved stability.

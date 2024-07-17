@@ -1,1 +1,1 @@
-Kleine Verbesserungen der Benutzererfahrung.
+Verbesserte Stabilität.

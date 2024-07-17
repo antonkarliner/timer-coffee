@@ -1,1 +1,1 @@
-Drobne ulepszenia interfejsu użytkownika.
+Zwiększona stabilność.

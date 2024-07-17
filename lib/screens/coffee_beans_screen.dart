@@ -138,22 +138,42 @@ class CoffeeBeanCard extends StatelessWidget {
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width * 0.2,
-                  child: FutureBuilder<String?>(
-                    future: databaseProvider.fetchRoasterLogoUrl(bean.roaster),
+                  child: FutureBuilder<Map<String, String?>>(
+                    future: databaseProvider.fetchRoasterLogoUrls(bean.roaster),
                     builder: (context, snapshot) {
-                      if (snapshot.hasData && snapshot.data != null) {
-                        return CachedNetworkImage(
-                          imageUrl: snapshot.data!,
-                          placeholder: (context, url) =>
-                              const Icon(Coffeico.bag_with_bean, size: 40),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Coffeico.bag_with_bean, size: 40),
-                          width: 40,
-                          fit: BoxFit.cover,
-                        );
-                      } else {
-                        return const Icon(Coffeico.bag_with_bean, size: 40);
+                      if (snapshot.hasData) {
+                        final originalUrl = snapshot.data!['original'];
+                        final mirrorUrl = snapshot.data!['mirror'];
+
+                        if (originalUrl != null || mirrorUrl != null) {
+                          return CachedNetworkImage(
+                            imageUrl: originalUrl ?? mirrorUrl!,
+                            placeholder: (context, url) =>
+                                const Icon(Coffeico.bag_with_bean, size: 40),
+                            errorWidget: (context, url, error) {
+                              // If original URL fails, try mirror URL
+                              if (url == originalUrl && mirrorUrl != null) {
+                                return CachedNetworkImage(
+                                  imageUrl: mirrorUrl,
+                                  placeholder: (context, url) => const Icon(
+                                      Coffeico.bag_with_bean,
+                                      size: 40),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Coffeico.bag_with_bean,
+                                          size: 40),
+                                  width: 40,
+                                  fit: BoxFit.cover,
+                                );
+                              }
+                              return const Icon(Coffeico.bag_with_bean,
+                                  size: 40);
+                            },
+                            width: 40,
+                            fit: BoxFit.cover,
+                          );
+                        }
                       }
+                      return const Icon(Coffeico.bag_with_bean, size: 40);
                     },
                   ),
                 ),
