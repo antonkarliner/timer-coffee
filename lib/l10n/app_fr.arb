@@ -157,5 +157,10 @@
   "addNewBeans": "Ajouter de nouveaux grains",
   "favorite": "Favori",
   "notFavorite": "Non favori",
-  "myBeans": "Mes cafés"
+  "myBeans": "Mes cafés",
+  "signIn": "S’identifier",
+  "signOut": "Se déconnecter",
+  "signInWithApple": "Se connecter avec Apple",
+  "signInSuccessful": "Connexion réussie avec Apple",
+  "signInError": "Erreur lors de la connexion avec Apple"
 }

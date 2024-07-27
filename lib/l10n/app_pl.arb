@@ -157,5 +157,10 @@
   "addNewBeans": "Dodaj nową kawę",
   "favorite": "Ulubione",
   "notFavorite": "Nieulubione",
-  "myBeans": "Moje ziarna"
+  "myBeans": "Moje ziarna",
+  "signIn": "Zaloguj",
+  "signOut": "Wyloguj się",
+  "signInWithApple": "Zaloguj się przez Apple",
+  "signInSuccessful": "Pomyślnie zalogowano przez Apple",
+  "signInError": "Błąd logowania przez Apple"
 }

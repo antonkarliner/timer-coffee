@@ -290,7 +290,7 @@ packages:
     source: hosted
     version: "0.3.4+1"
   crypto:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: crypto
       sha256: ff625774173754681d66daaf4a448684fb04b78f902da9cb3d308c19cc5e8bab
@@ -574,6 +574,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  font_awesome_flutter:
+    dependency: transitive
+    description:
+      name: font_awesome_flutter
+      sha256: "275ff26905134bcb59417cf60ad979136f1f8257f2f449914b2c3e05bbb4cd6f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.7.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -602,10 +610,10 @@ packages:
     dependency: transitive
     description:
       name: gotrue
-      sha256: b7324a9113bb21c354fd52531d9a9dba6570a9c37b2fc6b424865feb19974476
+      sha256: a8784341bcc08f88ba7a4b04a40a37059c7e71c315f058d45c31d09e8a951194
       url: "https://pub.dev"
     source: hosted
-    version: "2.8.0"
+    version: "2.8.3"
   graphs:
     dependency: transitive
     description:
@@ -1146,10 +1154,10 @@ packages:
     dependency: transitive
     description:
       name: realtime_client
-      sha256: cd44fa21407a2e217d674f1c1a33b36c49ad0d8aea0349bf5b66594db06c80fb
+      sha256: a99b7817e203c57ada746e9fe113820410cf84d9029f4310c57737aae890b0f7
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   recase:
     dependency: transitive
     description:
@@ -1262,6 +1270,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  sign_in_button:
+    dependency: "direct main"
+    description:
+      name: sign_in_button
+      sha256: "977b9b0415d2f3909e642275dfabba7919ba8e111324641b76cae6d1acbd183e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.0"
+  sign_in_with_apple:
+    dependency: "direct main"
+    description:
+      name: sign_in_with_apple
+      sha256: "5c34c601d6910d7db0077063001ccd9d9329ee58b9038ee07153ffcdd76e91bd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.1"
+  sign_in_with_apple_platform_interface:
+    dependency: transitive
+    description:
+      name: sign_in_with_apple_platform_interface
+      sha256: c2ef2ce6273fce0c61acd7e9ff5be7181e33d7aa2b66508b39418b786cca2119
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
+  sign_in_with_apple_web:
+    dependency: transitive
+    description:
+      name: sign_in_with_apple_web
+      sha256: c009e9beeb6c376e86aaa154fcc8b4e075d4bad90c56286b9668a51cdb6129ea
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -1375,18 +1415,18 @@ packages:
     dependency: transitive
     description:
       name: supabase
-      sha256: "1133466d2ec9441e7cff6bf73943f0a6e17cbb5044f6327ca93e3dddc567c882"
+      sha256: "7d2ca0499a6933b9aed2f4ff9eff4cbc4107f54006be35c42c8e1db70e99438e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.4"
   supabase_flutter:
     dependency: "direct main"
     description:
       name: supabase_flutter
-      sha256: "521de6a72fefc0447bd052b0a33be30ed429ac8c39d9028dfbf0f9af2c4c93b2"
+      sha256: "048d9377a76e43b95039d67e26b4bb2326fc8818df8d2f4bd63b4fdfc79f8f50"
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.5"
+    version: "2.5.8"
   synchronized:
     dependency: transitive
     description:
@@ -1516,13 +1556,13 @@ packages:
     source: hosted
     version: "3.1.1"
   uuid:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: uuid
-      sha256: "814e9e88f21a176ae1359149021870e87f7cddaf633ab678a5d2b0bff7fd1ba8"
+      sha256: "83d37c7ad7aaf9aa8e275490669535c8080377cfa7a7004c24dfac53afffaa90"
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.0"
+    version: "4.4.2"
   vector_math:
     dependency: transitive
     description:

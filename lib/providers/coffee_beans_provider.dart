@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import '../database/database.dart';
 import '../models/coffee_beans_model.dart';
 import 'database_provider.dart';
@@ -7,6 +8,7 @@ import 'database_provider.dart';
 class CoffeeBeansProvider with ChangeNotifier {
   final AppDatabase db;
   final DatabaseProvider databaseProvider;
+  final Uuid _uuid = Uuid();
 
   CoffeeBeansProvider(this.db, this.databaseProvider);
 
@@ -15,6 +17,7 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   Future<void> addCoffeeBeans(CoffeeBeansModel beans) async {
+    final beansUuid = _uuid.v7(); // Generate a new UUID
     await db.coffeeBeansDao.insertCoffeeBeans(CoffeeBeansCompanion(
       roaster: Value(beans.roaster),
       name: Value(beans.name),
@@ -30,6 +33,7 @@ class CoffeeBeansProvider with ChangeNotifier {
       cuppingScore: Value(beans.cuppingScore),
       notes: Value(beans.notes),
       isFavorite: Value(beans.isFavorite),
+      beansUuid: Value(beansUuid), // Add the generated UUID
     ));
     notifyListeners();
   }
@@ -62,7 +66,13 @@ class CoffeeBeansProvider with ChangeNotifier {
 
   Future<CoffeeBeansModel?> fetchCoffeeBeansById(int id) async {
     final beans = await db.coffeeBeansDao.fetchCoffeeBeansById(id);
-    print('Fetched bean: $beans');
+    print('Fetched bean by ID: $beans');
+    return beans;
+  }
+
+  Future<CoffeeBeansModel?> fetchCoffeeBeansByUuid(String uuid) async {
+    final beans = await db.coffeeBeansDao.fetchCoffeeBeansByUuid(uuid);
+    print('Fetched bean by UUID: $beans');
     return beans;
   }
 
@@ -162,6 +172,35 @@ class CoffeeBeansProvider with ChangeNotifier {
   Future<void> toggleFavoriteStatus(int id, bool isFavorite) async {
     final updatedFavoriteStatus = !isFavorite;
     await db.coffeeBeansDao.updateFavoriteStatus(id, updatedFavoriteStatus);
+    notifyListeners();
+  }
+
+  Future<void> backfillMissingUuids() async {
+    final beansToUpdate = await db.coffeeBeansDao.fetchBeansNeedingUpdate();
+
+    if (beansToUpdate.isEmpty) {
+      print('No coffee beans need updating.');
+      return;
+    }
+    Set<String> generatedUuids = {};
+    List<CoffeeBeansCompanion> updates = [];
+
+    for (final bean in beansToUpdate) {
+      String newUuid;
+      do {
+        newUuid = _uuid.v7();
+      } while (generatedUuids.contains(newUuid));
+      generatedUuids.add(newUuid);
+
+      updates.add(CoffeeBeansCompanion(
+        id: Value(bean.id),
+        beansUuid: Value(bean.beansUuid ?? newUuid),
+      ));
+    }
+
+    await db.coffeeBeansDao.batchUpdateMissingUuidsAndTimestamps(updates);
+
+    print('Updated ${beansToUpdate.length} coffee bean entries.');
     notifyListeners();
   }
 }

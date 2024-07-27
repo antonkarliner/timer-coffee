@@ -157,5 +157,10 @@
   "addNewBeans": "Añadir nuevos granos",
   "favorite": "Favorito",
   "notFavorite": "No favorito",
-  "myBeans": "Mis granos"
+  "myBeans": "Mis granos",
+  "signIn": "Iniciar sesión",
+  "signOut": "Cerrar sesión",
+  "signInWithApple": "Inicia sesión con Apple",
+  "signInSuccessful": "Se inició sesión con Apple correctamente",
+  "signInError": "Error al iniciar sesión con Apple"
 }

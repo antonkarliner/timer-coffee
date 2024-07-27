@@ -1,10 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:coffee_timer/widgets/launch_popup.dart';
 import 'package:coffeico/coffeico.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../models/brewing_method_model.dart';
 import '../providers/recipe_provider.dart';
 import '../models/recipe_model.dart';
@@ -15,6 +19,8 @@ import '../utils/icon_utils.dart';
 import '../purchase_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -24,16 +30,12 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late Locale initialLocale;
-  late TabController _tabController;
-  static const double kBottomNavigationBarHeight = 60;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
     WidgetsBinding.instance.addObserver(this);
     if (kIsWeb) {
       html.document.title = 'Timer.Coffee App';
@@ -64,7 +66,6 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _tabController.dispose();
     PurchaseManager().setDeliverProductCallback(null);
     PurchaseManager().setPurchaseErrorCallback(null);
     super.dispose();
@@ -116,46 +117,83 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildPlatformSpecificAppBar(),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          buildBrewTab(context),
-          buildHubTab(context),
-        ],
-      ),
-      bottomNavigationBar: ConvexAppBar.builder(
-        count: 2,
-        backgroundColor: Theme.of(context).colorScheme.onBackground,
-        itemBuilder: CustomTabBuilder([
-          TabItem(
+    return AutoTabsScaffold(
+      routes: const [
+        BrewTabRoute(),
+        HubTabRoute(),
+      ],
+      appBarBuilder: (_, tabsRouter) => buildPlatformSpecificAppBar(),
+      bottomNavigationBuilder: (_, tabsRouter) {
+        return ConvexAppBar.builder(
+          count: 2,
+          backgroundColor: Theme.of(context).colorScheme.onBackground,
+          itemBuilder: CustomTabBuilder([
+            TabItem(
               icon: Coffeico.bean,
-              title: (AppLocalizations.of(context)!.homescreenbrewcoffee)),
-          TabItem(
+              title: AppLocalizations.of(context)!.homescreenbrewcoffee,
+            ),
+            TabItem(
               icon: Icons.dashboard,
-              title: (AppLocalizations.of(context)!.homescreenmore)),
-        ], context),
-        onTap: (int i) {
-          _tabController.index = i;
-          setState(() {});
-        },
-      ),
+              title: AppLocalizations.of(context)!.homescreenmore,
+            ),
+          ], context),
+          onTap: (int i) => tabsRouter.setActiveIndex(i),
+        );
+      },
     );
   }
 
-  Widget buildBrewTab(BuildContext context) {
+  PreferredSizeWidget buildPlatformSpecificAppBar() {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
+      return CupertinoNavigationBar(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        middle: Text('Timer.Coffee',
+            style: TextStyle(
+                fontFamily: kIsWeb ? 'Lato' : null,
+                color: Theme.of(context).appBarTheme.foregroundColor)),
+      );
+    } else {
+      return AppBar(
+        title: const Text('Timer.Coffee'),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
+      );
+    }
+  }
+}
+
+@RoutePage()
+class BrewTabScreen extends StatelessWidget {
+  const BrewTabScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Expanded(
+          child: AutoRouter(),
+        ),
+        LaunchPopupWidget(),
+      ],
+    );
+  }
+}
+
+@RoutePage()
+class BrewingMethodsScreen extends StatelessWidget {
+  const BrewingMethodsScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
     final brewingMethods = Provider.of<List<BrewingMethodModel>>(context);
-    final double bottomPadding =
-        MediaQuery.of(context).padding.bottom + kBottomNavigationBarHeight;
     final filteredBrewingMethods =
         brewingMethods.where((method) => method.showOnMain).toList();
 
     return SafeArea(
       child: Column(
         children: [
-          buildFixedContent(recipeProvider),
+          buildFixedContent(context, recipeProvider),
           Expanded(
             child: ListView.builder(
               itemCount: filteredBrewingMethods.length,
@@ -175,19 +213,15 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                 );
               },
-              padding: EdgeInsets.only(bottom: bottomPadding),
             ),
-          ),
-          Semantics(
-            identifier: 'launchPopupWidget',
-            child: LaunchPopupWidget(),
           ),
         ],
       ),
     );
   }
 
-  Widget buildFixedContent(RecipeProvider recipeProvider) {
+  Widget buildFixedContent(
+      BuildContext context, RecipeProvider recipeProvider) {
     return FutureBuilder<RecipeModel?>(
       future: recipeProvider.getLastUsedRecipe(),
       builder: (context, snapshot) {
@@ -227,12 +261,62 @@ class _HomeScreenState extends State<HomeScreen>
       },
     );
   }
+}
 
-  Widget buildHubTab(BuildContext context) {
+@RoutePage()
+class HubTabScreen extends AutoRouter {
+  const HubTabScreen({Key? key}) : super(key: key);
+}
+
+@RoutePage()
+class HubHomeScreen extends StatefulWidget {
+  const HubHomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HubHomeScreenState createState() => _HubHomeScreenState();
+}
+
+class _HubHomeScreenState extends State<HubHomeScreen> {
+  bool _isAnonymous = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    setState(() {
+      _isAnonymous = user?.isAnonymous ?? true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: ListView(
-        padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
         children: [
+          if (_isAnonymous)
+            Semantics(
+              identifier: 'signIn',
+              label: AppLocalizations.of(context)!.signIn,
+              child: ListTile(
+                leading: const Icon(Icons.login),
+                title: Text(AppLocalizations.of(context)!.signIn),
+                onTap: () => _showSignInOptions(context),
+              ),
+            )
+          else
+            Semantics(
+              identifier: 'signOut',
+              label: AppLocalizations.of(context)!.signOut,
+              child: ListTile(
+                leading: const Icon(Icons.logout),
+                title: Text(AppLocalizations.of(context)!.signOut),
+                onTap: () => _signOut(context),
+              ),
+            ),
           Semantics(
             identifier: 'brewDiary',
             label: AppLocalizations.of(context)!.brewdiary,
@@ -281,20 +365,99 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  PreferredSizeWidget buildPlatformSpecificAppBar() {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
-      return CupertinoNavigationBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        middle: Text('Timer.Coffee',
-            style: TextStyle(
-                fontFamily: kIsWeb ? 'Lato' : null,
-                color: Theme.of(context).appBarTheme.foregroundColor)),
+  void _showSignInOptions(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0,
+                16.0 + MediaQuery.of(context).viewInsets.bottom),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SignInButton(
+                  isDarkMode ? Buttons.apple : Buttons.appleDark,
+                  text: AppLocalizations.of(context)!.signInWithApple,
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _signInWithApple(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _signInWithApple(BuildContext context) async {
+    try {
+      if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) {
+        await _nativeSignInWithApple();
+      } else {
+        await _supabaseSignInWithApple();
+      }
+
+      await _loadUserData(); // Reload user data after successful sign-in
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.signInSuccessful)),
       );
-    } else {
-      return AppBar(
-        title: const Text('Timer.Coffee'),
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
+      // TODO: Implement logic to sync local data with the newly created account
+    } catch (e) {
+      print('Error signing in with Apple: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.signInError)),
+      );
+    }
+  }
+
+  Future<void> _nativeSignInWithApple() async {
+    final rawNonce = Supabase.instance.client.auth.generateRawNonce();
+    final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
+
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      nonce: hashedNonce,
+    );
+
+    final idToken = credential.identityToken;
+    if (idToken == null) {
+      throw const AuthException(
+          'Could not find ID Token from generated credential.');
+    }
+
+    await Supabase.instance.client.auth.signInWithIdToken(
+      provider: OAuthProvider.apple,
+      idToken: idToken,
+      nonce: rawNonce,
+    );
+  }
+
+  Future<void> _supabaseSignInWithApple() async {
+    await Supabase.instance.client.auth.signInWithOAuth(
+      OAuthProvider.apple,
+      redirectTo: kIsWeb ? 'https://app.timer.coffee/' : 'timercoffee://',
+    );
+  }
+
+  Future<void> _signOut(BuildContext context) async {
+    try {
+      await Supabase.instance.client.auth.signOut();
+      await _loadUserData(); // Reload user data after sign-out
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Successfully signed out')),
+      );
+    } catch (e) {
+      print('Error signing out: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error signing out: $e')),
       );
     }
   }
@@ -308,7 +471,6 @@ class CustomTabBuilder extends DelegateBuilder {
 
   @override
   Widget build(BuildContext context, int index, bool active) {
-    // Determine color based on the theme
     Color activeColor = Theme.of(context).brightness == Brightness.light
         ? Colors.white
         : Colors.black;

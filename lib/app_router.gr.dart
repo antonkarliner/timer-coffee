@@ -10,12 +10,12 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i18;
 import 'package:coffee_timer/screens/brew_diary_screen.dart' as _i1;
-import 'package:coffee_timer/screens/coffee_beans_detail_screen.dart' as _i2;
-import 'package:coffee_timer/screens/coffee_beans_screen.dart' as _i3;
-import 'package:coffee_timer/screens/coffee_tips_screen.dart' as _i4;
-import 'package:coffee_timer/screens/donation_screen.dart' as _i5;
-import 'package:coffee_timer/screens/favorite_recipes_screen.dart' as _i6;
-import 'package:coffee_timer/screens/home_screen.dart' as _i7;
+import 'package:coffee_timer/screens/coffee_beans_detail_screen.dart' as _i3;
+import 'package:coffee_timer/screens/coffee_beans_screen.dart' as _i4;
+import 'package:coffee_timer/screens/coffee_tips_screen.dart' as _i5;
+import 'package:coffee_timer/screens/donation_screen.dart' as _i6;
+import 'package:coffee_timer/screens/favorite_recipes_screen.dart' as _i7;
+import 'package:coffee_timer/screens/home_screen.dart' as _i2;
 import 'package:coffee_timer/screens/new_beans_screen.dart' as _i8;
 import 'package:coffee_timer/screens/onboarding_screen.dart' as _i9;
 import 'package:coffee_timer/screens/recipe_detail_screen.dart' as _i10;
@@ -40,11 +40,23 @@ abstract class $AppRouter extends _i18.RootStackRouter {
         child: const _i1.BrewDiaryScreen(),
       );
     },
+    BrewTabRoute.name: (routeData) {
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i2.BrewTabScreen(),
+      );
+    },
+    BrewingMethodsRoute.name: (routeData) {
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i2.BrewingMethodsScreen(),
+      );
+    },
     CoffeeBeansDetailRoute.name: (routeData) {
       final args = routeData.argsAs<CoffeeBeansDetailRouteArgs>();
       return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i2.CoffeeBeansDetailScreen(
+        child: _i3.CoffeeBeansDetailScreen(
           key: args.key,
           id: args.id,
         ),
@@ -53,31 +65,43 @@ abstract class $AppRouter extends _i18.RootStackRouter {
     CoffeeBeansRoute.name: (routeData) {
       return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.CoffeeBeansScreen(),
+        child: const _i4.CoffeeBeansScreen(),
       );
     },
     CoffeeTipsRoute.name: (routeData) {
       return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.CoffeeTipsScreen(),
+        child: const _i5.CoffeeTipsScreen(),
       );
     },
     DonationRoute.name: (routeData) {
       return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i5.DonationScreen(),
+        child: _i6.DonationScreen(),
       );
     },
     FavoriteRecipesRoute.name: (routeData) {
       return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i6.FavoriteRecipesScreen(),
+        child: _i7.FavoriteRecipesScreen(),
       );
     },
     HomeRoute.name: (routeData) {
       return _i18.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i7.HomeScreen(),
+        child: const _i2.HomeScreen(),
+      );
+    },
+    HubHomeRoute.name: (routeData) {
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i2.HubHomeScreen(),
+      );
+    },
+    HubTabRoute.name: (routeData) {
+      return _i18.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i2.HubTabScreen(),
       );
     },
     NewBeansRoute.name: (routeData) {
@@ -209,7 +233,35 @@ class BrewDiaryRoute extends _i18.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.CoffeeBeansDetailScreen]
+/// [_i2.BrewTabScreen]
+class BrewTabRoute extends _i18.PageRouteInfo<void> {
+  const BrewTabRoute({List<_i18.PageRouteInfo>? children})
+      : super(
+          BrewTabRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BrewTabRoute';
+
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i2.BrewingMethodsScreen]
+class BrewingMethodsRoute extends _i18.PageRouteInfo<void> {
+  const BrewingMethodsRoute({List<_i18.PageRouteInfo>? children})
+      : super(
+          BrewingMethodsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BrewingMethodsRoute';
+
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i3.CoffeeBeansDetailScreen]
 class CoffeeBeansDetailRoute
     extends _i18.PageRouteInfo<CoffeeBeansDetailRouteArgs> {
   CoffeeBeansDetailRoute({
@@ -248,7 +300,7 @@ class CoffeeBeansDetailRouteArgs {
 }
 
 /// generated route for
-/// [_i3.CoffeeBeansScreen]
+/// [_i4.CoffeeBeansScreen]
 class CoffeeBeansRoute extends _i18.PageRouteInfo<void> {
   const CoffeeBeansRoute({List<_i18.PageRouteInfo>? children})
       : super(
@@ -262,7 +314,7 @@ class CoffeeBeansRoute extends _i18.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.CoffeeTipsScreen]
+/// [_i5.CoffeeTipsScreen]
 class CoffeeTipsRoute extends _i18.PageRouteInfo<void> {
   const CoffeeTipsRoute({List<_i18.PageRouteInfo>? children})
       : super(
@@ -276,7 +328,7 @@ class CoffeeTipsRoute extends _i18.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.DonationScreen]
+/// [_i6.DonationScreen]
 class DonationRoute extends _i18.PageRouteInfo<void> {
   const DonationRoute({List<_i18.PageRouteInfo>? children})
       : super(
@@ -290,7 +342,7 @@ class DonationRoute extends _i18.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.FavoriteRecipesScreen]
+/// [_i7.FavoriteRecipesScreen]
 class FavoriteRecipesRoute extends _i18.PageRouteInfo<void> {
   const FavoriteRecipesRoute({List<_i18.PageRouteInfo>? children})
       : super(
@@ -304,7 +356,7 @@ class FavoriteRecipesRoute extends _i18.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.HomeScreen]
+/// [_i2.HomeScreen]
 class HomeRoute extends _i18.PageRouteInfo<void> {
   const HomeRoute({List<_i18.PageRouteInfo>? children})
       : super(
@@ -313,6 +365,34 @@ class HomeRoute extends _i18.PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRoute';
+
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i2.HubHomeScreen]
+class HubHomeRoute extends _i18.PageRouteInfo<void> {
+  const HubHomeRoute({List<_i18.PageRouteInfo>? children})
+      : super(
+          HubHomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HubHomeRoute';
+
+  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i2.HubTabScreen]
+class HubTabRoute extends _i18.PageRouteInfo<void> {
+  const HubTabRoute({List<_i18.PageRouteInfo>? children})
+      : super(
+          HubTabRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HubTabRoute';
 
   static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
 }

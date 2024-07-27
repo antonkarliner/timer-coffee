@@ -157,5 +157,10 @@
   "addNewBeans": "إضافة حبوب جديدة",
   "favorite": "مُفضّل",
   "notFavorite": "غير مُفضّل",
-  "myBeans": "حبوب البن الخاصة بي"
+  "myBeans": "حبوب البن الخاصة بي",
+  "signIn": "تسجيل الدخول",
+  "signOut": "تسجيل الخروج",
+  "signInWithApple": "تسجيل الدخول باستخدام Apple",
+  "signInSuccessful": "تم تسجيل الدخول بنجاح باستخدام Apple",
+  "signInError": "خطأ في تسجيل الدخول باستخدام Apple"
 }

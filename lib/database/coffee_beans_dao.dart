@@ -28,8 +28,9 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
               region: beans.region,
               roastLevel: beans.roastLevel,
               cuppingScore: beans.cuppingScore,
-              notes: beans.notes, // Add this line
+              notes: beans.notes,
               isFavorite: beans.isFavorite,
+              beansUuid: beans.beansUuid,
             ))
         .toList();
   }
@@ -129,6 +130,33 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       cuppingScore: beans.cuppingScore,
       notes: beans.notes,
       isFavorite: beans.isFavorite,
+      beansUuid: beans.beansUuid,
+    );
+  }
+
+  Future<CoffeeBeansModel?> fetchCoffeeBeansByUuid(String uuid) async {
+    final query = select(coffeeBeans)
+      ..where((tbl) => tbl.beansUuid.equals(uuid));
+    final beans = await query.getSingleOrNull();
+    print('Query result for UUID $uuid: $beans');
+    if (beans == null) return null;
+    return CoffeeBeansModel(
+      id: beans.id,
+      roaster: beans.roaster,
+      name: beans.name,
+      origin: beans.origin,
+      variety: beans.variety,
+      tastingNotes: beans.tastingNotes,
+      processingMethod: beans.processingMethod,
+      elevation: beans.elevation,
+      harvestDate: beans.harvestDate,
+      roastDate: beans.roastDate,
+      region: beans.region,
+      roastLevel: beans.roastLevel,
+      cuppingScore: beans.cuppingScore,
+      notes: beans.notes,
+      isFavorite: beans.isFavorite,
+      beansUuid: beans.beansUuid,
     );
   }
 
@@ -144,5 +172,22 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   Future<void> updateFavoriteStatus(int id, bool isFavorite) async {
     await (update(coffeeBeans)..where((tbl) => tbl.id.equals(id)))
         .write(CoffeeBeansCompanion(isFavorite: Value(isFavorite)));
+  }
+
+  Future<void> batchUpdateMissingUuidsAndTimestamps(
+      List<CoffeeBeansCompanion> updates) async {
+    await batch((batch) {
+      for (final update in updates) {
+        batch.update(
+          coffeeBeans,
+          update,
+          where: (tbl) => tbl.id.equals(update.id.value),
+        );
+      }
+    });
+  }
+
+  Future<List<CoffeeBean>> fetchBeansNeedingUpdate() {
+    return (select(coffeeBeans)..where((tbl) => tbl.beansUuid.isNull())).get();
   }
 }

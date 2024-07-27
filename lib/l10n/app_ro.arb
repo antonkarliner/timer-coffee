@@ -157,5 +157,10 @@
   "addNewBeans": "Adăugați boabe noi",
   "favorite": "Favorit",
   "notFavorite": "Nu este favorit",
-  "myBeans": "Boabele mele"
+  "myBeans": "Boabele mele",
+  "signIn": "Autentificare",
+  "signOut": "Deconectare",
+  "signInWithApple": "Conectați-vă cu Apple",
+  "signInSuccessful": "Conectat cu succes cu Apple",
+  "signInError": "Eroare la conectarea cu Apple"
 }

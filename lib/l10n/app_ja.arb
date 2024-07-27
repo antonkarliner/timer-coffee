@@ -157,5 +157,10 @@
   "addNewBeans": "新しい豆を追加",
   "favorite": "お気に入り",
   "notFavorite": "お気に入り解除",
-  "myBeans": "マイビーンズ"
+  "myBeans": "マイビーンズ",
+  "signIn": "サインイン",
+  "signOut": "サインアウト",
+  "signInWithApple": "Appleでサインインする",
+  "signInSuccessful": "Appleでサインインに成功しました",
+  "signInError": "Appleでサインイン中にエラーが発生しました"
 }

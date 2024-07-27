@@ -157,5 +157,10 @@
   "addNewBeans": "Yeni Çekirdek Ekle",
   "favorite": "Favori",
   "notFavorite": "Favori Değil",
-  "myBeans": "Çekirdeklerim"
+  "myBeans": "Çekirdeklerim",
+  "signIn": "Giriş",
+  "signOut": "Çıkış",
+  "signInWithApple": "Apple ile oturum açın",
+  "signInSuccessful": "Apple ile oturum açma başarılı",
+  "signInError": "Apple ile oturum açma hatası"
 }

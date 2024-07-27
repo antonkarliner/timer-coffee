@@ -157,5 +157,10 @@
   "addNewBeans": "Додати нові зерна",
   "favorite": "Улюблений",
   "notFavorite": "Не улюблений",
-  "myBeans": "Мої кавові зерна"
+  "myBeans": "Мої кавові зерна",
+  "signIn": "Увійти",
+  "signOut": "Вийти",
+  "signInWithApple": "Увійти за допомогою Apple",
+  "signInSuccessful": "Вхід за допомогою Apple успішний",
+  "signInError": "Помилка входу за допомогою Apple"
 }

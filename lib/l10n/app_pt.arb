@@ -157,5 +157,10 @@
   "addNewBeans": "Adicionar Novos Grãos",
   "favorite": "Favorito",
   "notFavorite": "Não Favorito",
-  "myBeans": "Meus grãos"
+  "myBeans": "Meus grãos",
+  "signIn": "Entrar",
+  "signOut": "Sair",
+  "signInWithApple": "Entrar com a Apple",
+  "signInSuccessful": "Entrada com a Apple realizada com sucesso",
+  "signInError": "Erro ao entrar com a Apple"
 }

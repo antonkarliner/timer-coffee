@@ -166,5 +166,10 @@
   "addNewBeans": "Add New Beans",
   "favorite": "Favorite",
   "notFavorite": "Not Favorite",
-  "myBeans": "My Beans"
+  "myBeans": "My Beans",
+  "signIn": "Sign In",
+  "signOut": "Sign Out",
+  "signInWithApple": "Sign in with Apple",
+  "signInSuccessful": "Successfully signed in with Apple",
+  "signInError": "Error signing in with Apple"
 }

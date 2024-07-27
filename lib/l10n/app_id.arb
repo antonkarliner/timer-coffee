@@ -157,5 +157,10 @@
   "addNewBeans": "Tambahkan Kopi Baru",
   "favorite": "Favorit",
   "notFavorite": "Bukan Favorit",
-  "myBeans": "Biji Kopiku"
+  "myBeans": "Biji Kopiku",
+  "signIn": "Masuk",
+  "signOut": "Keluar",
+  "signInWithApple": "Masuk dengan Apple",
+  "signInSuccessful": "Berhasil masuk dengan Apple",
+  "signInError": "Kesalahan saat masuk dengan Apple"
 }

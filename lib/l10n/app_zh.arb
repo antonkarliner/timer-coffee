@@ -157,5 +157,10 @@
   "addNewBeans": "添加新豆子",
   "favorite": "收藏",
   "notFavorite": "未收藏",
-  "myBeans": "我的咖啡豆"
+  "myBeans": "我的咖啡豆",
+  "signIn": "登入",
+  "signOut": "登出",
+  "signInWithApple": "使用 Apple 登录",
+  "signInSuccessful": "使用 Apple 登录成功",
+  "signInError": "使用 Apple 登录时出错"
 }

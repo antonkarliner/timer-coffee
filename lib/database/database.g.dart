@@ -3117,6 +3117,12 @@ class $UserStatsTable extends UserStats
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('CHECK ("is_marked" IN (0, 1))'),
       defaultValue: const Constant(false));
+  static const VerificationMeta _coffeeBeansUuidMeta =
+      const VerificationMeta('coffeeBeansUuid');
+  @override
+  late final GeneratedColumn<String> coffeeBeansUuid = GeneratedColumn<String>(
+      'coffee_beans_uuid', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -3133,7 +3139,8 @@ class $UserStatsTable extends UserStats
         roaster,
         rating,
         coffeeBeansId,
-        isMarked
+        isMarked,
+        coffeeBeansUuid
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3231,6 +3238,12 @@ class $UserStatsTable extends UserStats
       context.handle(_isMarkedMeta,
           isMarked.isAcceptableOrUnknown(data['is_marked']!, _isMarkedMeta));
     }
+    if (data.containsKey('coffee_beans_uuid')) {
+      context.handle(
+          _coffeeBeansUuidMeta,
+          coffeeBeansUuid.isAcceptableOrUnknown(
+              data['coffee_beans_uuid']!, _coffeeBeansUuidMeta));
+    }
     return context;
   }
 
@@ -3272,6 +3285,8 @@ class $UserStatsTable extends UserStats
           .read(DriftSqlType.int, data['${effectivePrefix}coffee_beans_id']),
       isMarked: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_marked'])!,
+      coffeeBeansUuid: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}coffee_beans_uuid']),
     );
   }
 
@@ -3297,6 +3312,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
   final double? rating;
   final int? coffeeBeansId;
   final bool isMarked;
+  final String? coffeeBeansUuid;
   const UserStat(
       {required this.id,
       required this.userId,
@@ -3312,7 +3328,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       this.roaster,
       this.rating,
       this.coffeeBeansId,
-      required this.isMarked});
+      required this.isMarked,
+      this.coffeeBeansUuid});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -3341,6 +3358,9 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       map['coffee_beans_id'] = Variable<int>(coffeeBeansId);
     }
     map['is_marked'] = Variable<bool>(isMarked);
+    if (!nullToAbsent || coffeeBeansUuid != null) {
+      map['coffee_beans_uuid'] = Variable<String>(coffeeBeansUuid);
+    }
     return map;
   }
 
@@ -3368,6 +3388,9 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           ? const Value.absent()
           : Value(coffeeBeansId),
       isMarked: Value(isMarked),
+      coffeeBeansUuid: coffeeBeansUuid == null && nullToAbsent
+          ? const Value.absent()
+          : Value(coffeeBeansUuid),
     );
   }
 
@@ -3392,6 +3415,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       rating: serializer.fromJson<double?>(json['rating']),
       coffeeBeansId: serializer.fromJson<int?>(json['coffeeBeansId']),
       isMarked: serializer.fromJson<bool>(json['isMarked']),
+      coffeeBeansUuid: serializer.fromJson<String?>(json['coffeeBeansUuid']),
     );
   }
   @override
@@ -3414,6 +3438,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       'rating': serializer.toJson<double?>(rating),
       'coffeeBeansId': serializer.toJson<int?>(coffeeBeansId),
       'isMarked': serializer.toJson<bool>(isMarked),
+      'coffeeBeansUuid': serializer.toJson<String?>(coffeeBeansUuid),
     };
   }
 
@@ -3432,7 +3457,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           Value<String?> roaster = const Value.absent(),
           Value<double?> rating = const Value.absent(),
           Value<int?> coffeeBeansId = const Value.absent(),
-          bool? isMarked}) =>
+          bool? isMarked,
+          Value<String?> coffeeBeansUuid = const Value.absent()}) =>
       UserStat(
         id: id ?? this.id,
         userId: userId ?? this.userId,
@@ -3452,6 +3478,9 @@ class UserStat extends DataClass implements Insertable<UserStat> {
         coffeeBeansId:
             coffeeBeansId.present ? coffeeBeansId.value : this.coffeeBeansId,
         isMarked: isMarked ?? this.isMarked,
+        coffeeBeansUuid: coffeeBeansUuid.present
+            ? coffeeBeansUuid.value
+            : this.coffeeBeansUuid,
       );
   @override
   String toString() {
@@ -3470,7 +3499,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           ..write('roaster: $roaster, ')
           ..write('rating: $rating, ')
           ..write('coffeeBeansId: $coffeeBeansId, ')
-          ..write('isMarked: $isMarked')
+          ..write('isMarked: $isMarked, ')
+          ..write('coffeeBeansUuid: $coffeeBeansUuid')
           ..write(')'))
         .toString();
   }
@@ -3491,7 +3521,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       roaster,
       rating,
       coffeeBeansId,
-      isMarked);
+      isMarked,
+      coffeeBeansUuid);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3510,7 +3541,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           other.roaster == this.roaster &&
           other.rating == this.rating &&
           other.coffeeBeansId == this.coffeeBeansId &&
-          other.isMarked == this.isMarked);
+          other.isMarked == this.isMarked &&
+          other.coffeeBeansUuid == this.coffeeBeansUuid);
 }
 
 class UserStatsCompanion extends UpdateCompanion<UserStat> {
@@ -3529,6 +3561,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
   final Value<double?> rating;
   final Value<int?> coffeeBeansId;
   final Value<bool> isMarked;
+  final Value<String?> coffeeBeansUuid;
   const UserStatsCompanion({
     this.id = const Value.absent(),
     this.userId = const Value.absent(),
@@ -3545,6 +3578,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     this.rating = const Value.absent(),
     this.coffeeBeansId = const Value.absent(),
     this.isMarked = const Value.absent(),
+    this.coffeeBeansUuid = const Value.absent(),
   });
   UserStatsCompanion.insert({
     this.id = const Value.absent(),
@@ -3562,6 +3596,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     this.rating = const Value.absent(),
     this.coffeeBeansId = const Value.absent(),
     this.isMarked = const Value.absent(),
+    this.coffeeBeansUuid = const Value.absent(),
   })  : userId = Value(userId),
         recipeId = Value(recipeId),
         coffeeAmount = Value(coffeeAmount),
@@ -3585,6 +3620,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     Expression<double>? rating,
     Expression<int>? coffeeBeansId,
     Expression<bool>? isMarked,
+    Expression<String>? coffeeBeansUuid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -3604,6 +3640,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       if (rating != null) 'rating': rating,
       if (coffeeBeansId != null) 'coffee_beans_id': coffeeBeansId,
       if (isMarked != null) 'is_marked': isMarked,
+      if (coffeeBeansUuid != null) 'coffee_beans_uuid': coffeeBeansUuid,
     });
   }
 
@@ -3622,7 +3659,8 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       Value<String?>? roaster,
       Value<double?>? rating,
       Value<int?>? coffeeBeansId,
-      Value<bool>? isMarked}) {
+      Value<bool>? isMarked,
+      Value<String?>? coffeeBeansUuid}) {
     return UserStatsCompanion(
       id: id ?? this.id,
       userId: userId ?? this.userId,
@@ -3641,6 +3679,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       rating: rating ?? this.rating,
       coffeeBeansId: coffeeBeansId ?? this.coffeeBeansId,
       isMarked: isMarked ?? this.isMarked,
+      coffeeBeansUuid: coffeeBeansUuid ?? this.coffeeBeansUuid,
     );
   }
 
@@ -3694,6 +3733,9 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     if (isMarked.present) {
       map['is_marked'] = Variable<bool>(isMarked.value);
     }
+    if (coffeeBeansUuid.present) {
+      map['coffee_beans_uuid'] = Variable<String>(coffeeBeansUuid.value);
+    }
     return map;
   }
 
@@ -3714,7 +3756,8 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
           ..write('roaster: $roaster, ')
           ..write('rating: $rating, ')
           ..write('coffeeBeansId: $coffeeBeansId, ')
-          ..write('isMarked: $isMarked')
+          ..write('isMarked: $isMarked, ')
+          ..write('coffeeBeansUuid: $coffeeBeansUuid')
           ..write(')'))
         .toString();
   }
@@ -3819,6 +3862,12 @@ class $CoffeeBeansTable extends CoffeeBeans
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('CHECK ("is_favorite" IN (0, 1))'),
       defaultValue: const Constant(false));
+  static const VerificationMeta _beansUuidMeta =
+      const VerificationMeta('beansUuid');
+  @override
+  late final GeneratedColumn<String> beansUuid = GeneratedColumn<String>(
+      'beans_uuid', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -3835,7 +3884,8 @@ class $CoffeeBeansTable extends CoffeeBeans
         roastLevel,
         cuppingScore,
         notes,
-        isFavorite
+        isFavorite,
+        beansUuid
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3924,6 +3974,10 @@ class $CoffeeBeansTable extends CoffeeBeans
           isFavorite.isAcceptableOrUnknown(
               data['is_favorite']!, _isFavoriteMeta));
     }
+    if (data.containsKey('beans_uuid')) {
+      context.handle(_beansUuidMeta,
+          beansUuid.isAcceptableOrUnknown(data['beans_uuid']!, _beansUuidMeta));
+    }
     return context;
   }
 
@@ -3963,6 +4017,8 @@ class $CoffeeBeansTable extends CoffeeBeans
           .read(DriftSqlType.string, data['${effectivePrefix}notes']),
       isFavorite: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_favorite'])!,
+      beansUuid: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}beans_uuid']),
     );
   }
 
@@ -3988,6 +4044,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
   final double? cuppingScore;
   final String? notes;
   final bool isFavorite;
+  final String? beansUuid;
   const CoffeeBean(
       {required this.id,
       required this.roaster,
@@ -4003,7 +4060,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       this.roastLevel,
       this.cuppingScore,
       this.notes,
-      required this.isFavorite});
+      required this.isFavorite,
+      this.beansUuid});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -4042,6 +4100,9 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       map['notes'] = Variable<String>(notes);
     }
     map['is_favorite'] = Variable<bool>(isFavorite);
+    if (!nullToAbsent || beansUuid != null) {
+      map['beans_uuid'] = Variable<String>(beansUuid);
+    }
     return map;
   }
 
@@ -4080,6 +4141,9 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       notes:
           notes == null && nullToAbsent ? const Value.absent() : Value(notes),
       isFavorite: Value(isFavorite),
+      beansUuid: beansUuid == null && nullToAbsent
+          ? const Value.absent()
+          : Value(beansUuid),
     );
   }
 
@@ -4102,6 +4166,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       cuppingScore: serializer.fromJson<double?>(json['cuppingScore']),
       notes: serializer.fromJson<String?>(json['notes']),
       isFavorite: serializer.fromJson<bool>(json['isFavorite']),
+      beansUuid: serializer.fromJson<String?>(json['beansUuid']),
     );
   }
   @override
@@ -4123,6 +4188,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       'cuppingScore': serializer.toJson<double?>(cuppingScore),
       'notes': serializer.toJson<String?>(notes),
       'isFavorite': serializer.toJson<bool>(isFavorite),
+      'beansUuid': serializer.toJson<String?>(beansUuid),
     };
   }
 
@@ -4141,7 +4207,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           Value<String?> roastLevel = const Value.absent(),
           Value<double?> cuppingScore = const Value.absent(),
           Value<String?> notes = const Value.absent(),
-          bool? isFavorite}) =>
+          bool? isFavorite,
+          Value<String?> beansUuid = const Value.absent()}) =>
       CoffeeBean(
         id: id ?? this.id,
         roaster: roaster ?? this.roaster,
@@ -4162,6 +4229,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
             cuppingScore.present ? cuppingScore.value : this.cuppingScore,
         notes: notes.present ? notes.value : this.notes,
         isFavorite: isFavorite ?? this.isFavorite,
+        beansUuid: beansUuid.present ? beansUuid.value : this.beansUuid,
       );
   @override
   String toString() {
@@ -4180,7 +4248,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           ..write('roastLevel: $roastLevel, ')
           ..write('cuppingScore: $cuppingScore, ')
           ..write('notes: $notes, ')
-          ..write('isFavorite: $isFavorite')
+          ..write('isFavorite: $isFavorite, ')
+          ..write('beansUuid: $beansUuid')
           ..write(')'))
         .toString();
   }
@@ -4201,7 +4270,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       roastLevel,
       cuppingScore,
       notes,
-      isFavorite);
+      isFavorite,
+      beansUuid);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4220,7 +4290,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           other.roastLevel == this.roastLevel &&
           other.cuppingScore == this.cuppingScore &&
           other.notes == this.notes &&
-          other.isFavorite == this.isFavorite);
+          other.isFavorite == this.isFavorite &&
+          other.beansUuid == this.beansUuid);
 }
 
 class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
@@ -4239,6 +4310,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
   final Value<double?> cuppingScore;
   final Value<String?> notes;
   final Value<bool> isFavorite;
+  final Value<String?> beansUuid;
   const CoffeeBeansCompanion({
     this.id = const Value.absent(),
     this.roaster = const Value.absent(),
@@ -4255,6 +4327,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     this.cuppingScore = const Value.absent(),
     this.notes = const Value.absent(),
     this.isFavorite = const Value.absent(),
+    this.beansUuid = const Value.absent(),
   });
   CoffeeBeansCompanion.insert({
     this.id = const Value.absent(),
@@ -4272,6 +4345,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     this.cuppingScore = const Value.absent(),
     this.notes = const Value.absent(),
     this.isFavorite = const Value.absent(),
+    this.beansUuid = const Value.absent(),
   })  : roaster = Value(roaster),
         name = Value(name),
         origin = Value(origin);
@@ -4291,6 +4365,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     Expression<double>? cuppingScore,
     Expression<String>? notes,
     Expression<bool>? isFavorite,
+    Expression<String>? beansUuid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4308,6 +4383,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       if (cuppingScore != null) 'cupping_score': cuppingScore,
       if (notes != null) 'notes': notes,
       if (isFavorite != null) 'is_favorite': isFavorite,
+      if (beansUuid != null) 'beans_uuid': beansUuid,
     });
   }
 
@@ -4326,7 +4402,8 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       Value<String?>? roastLevel,
       Value<double?>? cuppingScore,
       Value<String?>? notes,
-      Value<bool>? isFavorite}) {
+      Value<bool>? isFavorite,
+      Value<String?>? beansUuid}) {
     return CoffeeBeansCompanion(
       id: id ?? this.id,
       roaster: roaster ?? this.roaster,
@@ -4343,6 +4420,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       cuppingScore: cuppingScore ?? this.cuppingScore,
       notes: notes ?? this.notes,
       isFavorite: isFavorite ?? this.isFavorite,
+      beansUuid: beansUuid ?? this.beansUuid,
     );
   }
 
@@ -4394,6 +4472,9 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     if (isFavorite.present) {
       map['is_favorite'] = Variable<bool>(isFavorite.value);
     }
+    if (beansUuid.present) {
+      map['beans_uuid'] = Variable<String>(beansUuid.value);
+    }
     return map;
   }
 
@@ -4414,7 +4495,8 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
           ..write('roastLevel: $roastLevel, ')
           ..write('cuppingScore: $cuppingScore, ')
           ..write('notes: $notes, ')
-          ..write('isFavorite: $isFavorite')
+          ..write('isFavorite: $isFavorite, ')
+          ..write('beansUuid: $beansUuid')
           ..write(')'))
         .toString();
   }
@@ -6270,6 +6352,7 @@ typedef $$UserStatsTableInsertCompanionBuilder = UserStatsCompanion Function({
   Value<double?> rating,
   Value<int?> coffeeBeansId,
   Value<bool> isMarked,
+  Value<String?> coffeeBeansUuid,
 });
 typedef $$UserStatsTableUpdateCompanionBuilder = UserStatsCompanion Function({
   Value<int> id,
@@ -6287,6 +6370,7 @@ typedef $$UserStatsTableUpdateCompanionBuilder = UserStatsCompanion Function({
   Value<double?> rating,
   Value<int?> coffeeBeansId,
   Value<bool> isMarked,
+  Value<String?> coffeeBeansUuid,
 });
 
 class $$UserStatsTableTableManager extends RootTableManager<
@@ -6324,6 +6408,7 @@ class $$UserStatsTableTableManager extends RootTableManager<
             Value<double?> rating = const Value.absent(),
             Value<int?> coffeeBeansId = const Value.absent(),
             Value<bool> isMarked = const Value.absent(),
+            Value<String?> coffeeBeansUuid = const Value.absent(),
           }) =>
               UserStatsCompanion(
             id: id,
@@ -6341,6 +6426,7 @@ class $$UserStatsTableTableManager extends RootTableManager<
             rating: rating,
             coffeeBeansId: coffeeBeansId,
             isMarked: isMarked,
+            coffeeBeansUuid: coffeeBeansUuid,
           ),
           getInsertCompanionBuilder: ({
             Value<int> id = const Value.absent(),
@@ -6358,6 +6444,7 @@ class $$UserStatsTableTableManager extends RootTableManager<
             Value<double?> rating = const Value.absent(),
             Value<int?> coffeeBeansId = const Value.absent(),
             Value<bool> isMarked = const Value.absent(),
+            Value<String?> coffeeBeansUuid = const Value.absent(),
           }) =>
               UserStatsCompanion.insert(
             id: id,
@@ -6375,6 +6462,7 @@ class $$UserStatsTableTableManager extends RootTableManager<
             rating: rating,
             coffeeBeansId: coffeeBeansId,
             isMarked: isMarked,
+            coffeeBeansUuid: coffeeBeansUuid,
           ),
         ));
 }
@@ -6456,6 +6544,11 @@ class $$UserStatsTableFilterComposer
 
   ColumnFilters<bool> get isMarked => $state.composableBuilder(
       column: $state.table.isMarked,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get coffeeBeansUuid => $state.composableBuilder(
+      column: $state.table.coffeeBeansUuid,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
@@ -6552,6 +6645,11 @@ class $$UserStatsTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
+  ColumnOrderings<String> get coffeeBeansUuid => $state.composableBuilder(
+      column: $state.table.coffeeBeansUuid,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
   $$RecipesTableOrderingComposer get recipeId {
     final $$RecipesTableOrderingComposer composer = $state.composerBuilder(
         composer: this,
@@ -6595,6 +6693,7 @@ typedef $$CoffeeBeansTableInsertCompanionBuilder = CoffeeBeansCompanion
   Value<double?> cuppingScore,
   Value<String?> notes,
   Value<bool> isFavorite,
+  Value<String?> beansUuid,
 });
 typedef $$CoffeeBeansTableUpdateCompanionBuilder = CoffeeBeansCompanion
     Function({
@@ -6613,6 +6712,7 @@ typedef $$CoffeeBeansTableUpdateCompanionBuilder = CoffeeBeansCompanion
   Value<double?> cuppingScore,
   Value<String?> notes,
   Value<bool> isFavorite,
+  Value<String?> beansUuid,
 });
 
 class $$CoffeeBeansTableTableManager extends RootTableManager<
@@ -6650,6 +6750,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             Value<double?> cuppingScore = const Value.absent(),
             Value<String?> notes = const Value.absent(),
             Value<bool> isFavorite = const Value.absent(),
+            Value<String?> beansUuid = const Value.absent(),
           }) =>
               CoffeeBeansCompanion(
             id: id,
@@ -6667,6 +6768,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             cuppingScore: cuppingScore,
             notes: notes,
             isFavorite: isFavorite,
+            beansUuid: beansUuid,
           ),
           getInsertCompanionBuilder: ({
             Value<int> id = const Value.absent(),
@@ -6684,6 +6786,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             Value<double?> cuppingScore = const Value.absent(),
             Value<String?> notes = const Value.absent(),
             Value<bool> isFavorite = const Value.absent(),
+            Value<String?> beansUuid = const Value.absent(),
           }) =>
               CoffeeBeansCompanion.insert(
             id: id,
@@ -6701,6 +6804,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             cuppingScore: cuppingScore,
             notes: notes,
             isFavorite: isFavorite,
+            beansUuid: beansUuid,
           ),
         ));
 }
@@ -6794,6 +6898,11 @@ class $$CoffeeBeansTableFilterComposer
       column: $state.table.isFavorite,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get beansUuid => $state.composableBuilder(
+      column: $state.table.beansUuid,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
 }
 
 class $$CoffeeBeansTableOrderingComposer
@@ -6871,6 +6980,11 @@ class $$CoffeeBeansTableOrderingComposer
 
   ColumnOrderings<bool> get isFavorite => $state.composableBuilder(
       column: $state.table.isFavorite,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get beansUuid => $state.composableBuilder(
+      column: $state.table.beansUuid,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }

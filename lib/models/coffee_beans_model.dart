@@ -14,6 +14,7 @@ class CoffeeBeansModel {
   final double? cuppingScore;
   final String? notes;
   final bool isFavorite;
+  final String? beansUuid;
 
   CoffeeBeansModel({
     required this.id,
@@ -31,5 +32,6 @@ class CoffeeBeansModel {
     this.cuppingScore,
     this.notes,
     this.isFavorite = false,
+    this.beansUuid,
   });
 }

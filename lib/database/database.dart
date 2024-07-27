@@ -200,6 +200,8 @@ class UserStats extends Table {
       integer().named('coffee_beans_id').nullable()();
   BoolColumn get isMarked =>
       boolean().named('is_marked').withDefault(const Constant(false))();
+  TextColumn get coffeeBeansUuid =>
+      text().named('coffee_beans_uuid').nullable()();
 }
 
 class CoffeeBeans extends Table {
@@ -221,6 +223,7 @@ class CoffeeBeans extends Table {
   TextColumn get notes => text().named('notes').nullable()();
   BoolColumn get isFavorite =>
       boolean().named('is_favorite').withDefault(const Constant(false))();
+  TextColumn get beansUuid => text().named('beans_uuid').nullable()();
 }
 
 @DriftDatabase(
@@ -260,41 +263,52 @@ class AppDatabase extends _$AppDatabase {
       : super(_openConnection());
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-      // Apply foreign key constraints based on the boolean flag
-      beforeOpen: (details) async {
-        if (enableForeignKeyConstraints) {
-          await customStatement('PRAGMA foreign_keys = ON');
-        }
-      },
-      onUpgrade: stepByStep(
-        from1To2: (m, schema) async {
-          await m.addColumn(schema.vendors, schema.vendors.bannerUrl);
+        // Apply foreign key constraints based on the boolean flag
+        beforeOpen: (details) async {
+          if (enableForeignKeyConstraints) {
+            await customStatement('PRAGMA foreign_keys = ON');
+          }
         },
-        from2To3: (m, schema) async {
-          await m.createIndex(schema.idxRecipesLastModified);
+        onUpgrade: stepByStep(
+          from1To2: (m, schema) async {
+            await m.addColumn(schema.vendors, schema.vendors.bannerUrl);
+          },
+          from2To3: (m, schema) async {
+            await m.createIndex(schema.idxRecipesLastModified);
+          },
+          from3To4: (m, schema) async {
+            await m.createTable(contributors);
+            await m.addColumn(brewingMethods, brewingMethods.showOnMain);
+          },
+          from4To5: (m, schema) async {
+            await m.createTable(userStats);
+          },
+          from5To6: (m, schema) async {
+            await m.createTable(launchPopups);
+            await m.createIndex(schema.idxLaunchPopupsCreatedAt);
+            await m.deleteTable('StartPopups');
+          },
+          from6To7: (m, schema) async {
+            await m.addColumn(userStats, userStats.coffeeBeansId);
+            await m.addColumn(userStats, userStats.isMarked);
+            await m.createTable(coffeeBeans);
+          },
+          from7To8: (m, schema) async {
+            // Add beansUuid column to CoffeeBeans table
+            await m.addColumn(coffeeBeans, coffeeBeans.beansUuid);
+
+            // Add coffeeBeansUuid column to UserStats table
+            await m.addColumn(userStats, userStats.coffeeBeansUuid);
+          },
+        ),
+        onCreate: (m) async {
+          await m.createAll();
         },
-        from3To4: (m, schema) async {
-          await m.createTable(contributors);
-          await m.addColumn(brewingMethods, brewingMethods.showOnMain);
-        },
-        from4To5: (m, schema) async {
-          await m.createTable(userStats);
-        },
-        from5To6: (m, schema) async {
-          await m.createTable(launchPopups);
-          await m.createIndex(schema.idxLaunchPopupsCreatedAt);
-          await m.deleteTable('StartPopups');
-        },
-        from6To7: (m, schema) async {
-          await m.addColumn(userStats, userStats.coffeeBeansId);
-          await m.addColumn(userStats, userStats.isMarked);
-          await m.createTable(coffeeBeans);
-        },
-      ));
+      );
 }
 
 DatabaseConnection _openConnection() {

@@ -157,5 +157,10 @@
   "addNewBeans": "Voeg nieuwe bonen toe",
   "favorite": "Favoriet",
   "notFavorite": "Niet Favoriet",
-  "myBeans": "Mijn bonen"
+  "myBeans": "Mijn bonen",
+  "signIn": "Aanmelden",
+  "signOut": "Afmelden",
+  "signInWithApple": "Aanmelden met Apple",
+  "signInSuccessful": "Succesvol aangemeld met Apple",
+  "signInError": "Fout bij aanmelden met Apple"
 }

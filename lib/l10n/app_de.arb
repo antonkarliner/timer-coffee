@@ -157,5 +157,10 @@
   "addNewBeans": "Neue Bohnen hinzufügen",
   "favorite": "Favorit",
   "notFavorite": "Kein Favorit",
-  "myBeans": "Meine Bohnensorten"
+  "myBeans": "Meine Bohnensorten",
+  "signIn": "Anmelden",
+  "signOut": "Abmelden",
+  "signInWithApple": "Mit Apple anmelden",
+  "signInSuccessful": "Anmeldung mit Apple erfolgreich",
+  "signInError": "Fehler beim Anmelden mit Apple"
 }

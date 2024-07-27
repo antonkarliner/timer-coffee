@@ -1,11 +1,14 @@
 import 'package:coffee_timer/models/user_stat_model.dart';
+import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import '../database/database.dart';
+import 'coffee_beans_provider.dart';
 
 class UserStatProvider extends ChangeNotifier {
   final AppDatabase db;
+  final CoffeeBeansProvider coffeeBeansProvider;
 
-  UserStatProvider(this.db);
+  UserStatProvider(this.db, this.coffeeBeansProvider);
 
   Future<void> insertUserStat({
     required String userId,
@@ -120,5 +123,40 @@ class UserStatProvider extends ChangeNotifier {
   DateTime getStartOfMonth() {
     final now = DateTime.now();
     return DateTime(now.year, now.month);
+  }
+
+  Future<void> backfillMissingCoffeeBeansUuids() async {
+    final statsToUpdate = await db.userStatsDao.fetchStatsNeedingUuidUpdate();
+
+    if (statsToUpdate.isEmpty) {
+      print('No UserStats records need updating.');
+      return;
+    }
+
+    List<UserStatsCompanion> updates = [];
+
+    for (final stat in statsToUpdate) {
+      if (stat.coffeeBeansId != null) {
+        final coffeeBeans =
+            await coffeeBeansProvider.fetchCoffeeBeansById(stat.coffeeBeansId!);
+        if (coffeeBeans != null && coffeeBeans.beansUuid != null) {
+          updates.add(UserStatsCompanion(
+            id: Value(stat.id),
+            coffeeBeansUuid: Value(coffeeBeans.beansUuid),
+          ));
+        } else {
+          print(
+              'Warning: Coffee beans not found or missing UUID for ID: ${stat.coffeeBeansId}');
+        }
+      }
+    }
+
+    if (updates.isNotEmpty) {
+      await db.userStatsDao.batchUpdateCoffeeBeansUuids(updates);
+      print(
+          'Updated ${updates.length} UserStats records with coffee beans UUIDs.');
+    }
+
+    notifyListeners();
   }
 }

@@ -157,5 +157,10 @@
   "addNewBeans": "Aggiungi nuovi chicchi",
   "favorite": "Preferito",
   "notFavorite": "Non preferito",
-  "myBeans": "I miei chicchi"
+  "myBeans": "I miei chicchi",
+  "signIn": "Accedi",
+  "signOut": "Esci",
+  "signInWithApple": "Accedi con Apple",
+  "signInSuccessful": "Accesso con Apple completato correttamente",
+  "signInError": "Errore durante l'accesso con Apple"
 }
