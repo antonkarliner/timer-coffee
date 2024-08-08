@@ -100,4 +100,16 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
           ..where((tbl) => tbl.isFavorite.equals(true)))
         .get();
   }
+
+  Future<void> insertOrUpdateMultiplePreferences(
+      List<UserRecipePreferencesCompanion> preferences) async {
+    await batch((batch) {
+      batch.insertAllOnConflictUpdate(userRecipePreferences, preferences);
+    });
+  }
+
+// Also add this method to fetch all preferences
+  Future<List<UserRecipePreference>> getAllPreferences() {
+    return select(userRecipePreferences).get();
+  }
 }

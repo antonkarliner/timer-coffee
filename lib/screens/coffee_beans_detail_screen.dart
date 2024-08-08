@@ -10,9 +10,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class CoffeeBeansDetailScreen extends StatelessWidget {
-  final int id;
+  final String uuid;
 
-  const CoffeeBeansDetailScreen({Key? key, required this.id}) : super(key: key);
+  const CoffeeBeansDetailScreen({Key? key, required this.uuid})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +28,8 @@ class CoffeeBeansDetailScreen extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Coffeico.bag_with_bean), // Add your desired icon here
-              const SizedBox(width: 8), // Adjust spacing as needed
+              const Icon(Coffeico.bag_with_bean),
+              const SizedBox(width: 8),
               Text(loc.coffeeBeansDetails),
             ],
           ),
@@ -40,14 +41,14 @@ class CoffeeBeansDetailScreen extends StatelessWidget {
             child: IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
-                context.router.push(NewBeansRoute(id: id));
+                context.router.push(NewBeansRoute(uuid: uuid));
               },
             ),
           ),
         ],
       ),
       body: FutureBuilder<CoffeeBeansModel?>(
-        future: coffeeBeansProvider.fetchCoffeeBeansById(id),
+        future: coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -86,7 +87,7 @@ class CoffeeBeansDetailScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Semantics(
-                          identifier: 'beanName_${bean.id}',
+                          identifier: 'beanName_${bean.beansUuid}',
                           label: '${loc.name}: ${bean.name}',
                           child: Text(
                             bean.name,
@@ -98,7 +99,7 @@ class CoffeeBeansDetailScreen extends StatelessWidget {
                         ),
                       ),
                       Semantics(
-                        identifier: 'favoriteButton_${bean.id}',
+                        identifier: 'favoriteButton_${bean.beansUuid}',
                         label: bean.isFavorite
                             ? loc.removeFavorite
                             : loc.addFavorite,
@@ -110,24 +111,8 @@ class CoffeeBeansDetailScreen extends StatelessWidget {
                                 : Icons.favorite_border,
                           ),
                           onPressed: () {
-                            coffeeBeansProvider
-                                .updateCoffeeBeans(CoffeeBeansModel(
-                              id: bean.id,
-                              roaster: bean.roaster,
-                              name: bean.name,
-                              origin: bean.origin,
-                              variety: bean.variety,
-                              tastingNotes: bean.tastingNotes,
-                              processingMethod: bean.processingMethod,
-                              elevation: bean.elevation,
-                              harvestDate: bean.harvestDate,
-                              roastDate: bean.roastDate,
-                              region: bean.region,
-                              roastLevel: bean.roastLevel,
-                              cuppingScore: bean.cuppingScore,
-                              notes: bean.notes,
-                              isFavorite: !bean.isFavorite,
-                            ));
+                            coffeeBeansProvider.toggleFavoriteStatus(
+                                bean.beansUuid!, !bean.isFavorite);
                           },
                         ),
                       ),

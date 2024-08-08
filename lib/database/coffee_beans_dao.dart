@@ -160,8 +160,9 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
-  Future<void> deleteCoffeeBeans(int id) async {
-    await (delete(coffeeBeans)..where((tbl) => tbl.id.equals(id))).go();
+  Future<void> deleteCoffeeBeans(String uuid) async {
+    await (delete(coffeeBeans)..where((tbl) => tbl.beansUuid.equals(uuid)))
+        .go();
   }
 
   Future<void> updateCoffeeBeans(CoffeeBeansCompanion entity) async {
@@ -169,8 +170,8 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
         .write(entity);
   }
 
-  Future<void> updateFavoriteStatus(int id, bool isFavorite) async {
-    await (update(coffeeBeans)..where((tbl) => tbl.id.equals(id)))
+  Future<void> updateFavoriteStatus(String uuid, bool isFavorite) async {
+    await (update(coffeeBeans)..where((tbl) => tbl.beansUuid.equals(uuid)))
         .write(CoffeeBeansCompanion(isFavorite: Value(isFavorite)));
   }
 

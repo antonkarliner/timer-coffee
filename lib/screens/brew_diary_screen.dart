@@ -158,14 +158,14 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
       builder: (context, namesSnapshot) {
         if (namesSnapshot.hasData) {
           return Semantics(
-            key: ValueKey(stat.id), // Use stat.id as the key
-            identifier: 'userStatCard_${stat.id}',
+            key: ValueKey(stat.statUuid),
+            identifier: 'userStatCard_${stat.statUuid}',
             label: '${namesSnapshot.data![1]}, ${namesSnapshot.data![0]}',
             child: Consumer<CardExpansionNotifier>(
               builder: (context, notifier, _) {
-                bool isExpanded = notifier.isExpanded(stat.id);
+                bool isExpanded = notifier.isExpanded(stat.statUuid);
                 return ExpandableCard(
-                  key: ValueKey(stat.id), // Pass the key to ExpandableCard
+                  key: ValueKey(stat.statUuid),
                   leading: getIconByBrewingMethod(stat.brewingMethodId),
                   header: namesSnapshot.data![1],
                   subtitle:
@@ -173,20 +173,21 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                   detail: buildDetail(context, stat),
                   trailing: isEditMode
                       ? Semantics(
-                          identifier: 'deleteUserStatButton_${stat.id}',
+                          identifier: 'deleteUserStatButton_${stat.statUuid}',
                           child: IconButton(
                             icon: const Icon(Icons.remove_circle_outline,
                                 color: Colors.red),
                             onPressed: () async {
-                              await userStatProvider.deleteUserStat(stat.id);
-                              notifier.setExpansion(stat.id, false);
+                              await userStatProvider
+                                  .deleteUserStat(stat.statUuid);
+                              notifier.setExpansion(stat.statUuid, false);
                             },
                           ),
                         )
                       : null,
                   isExpanded: isExpanded,
                   onExpansionChanged: (bool expanded) {
-                    notifier.setExpansion(stat.id, expanded);
+                    notifier.setExpansion(stat.statUuid, expanded);
                   },
                 );
               },
@@ -194,13 +195,13 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
           );
         } else if (namesSnapshot.connectionState == ConnectionState.waiting) {
           return Semantics(
-            identifier: 'brewDiaryCardLoading_${stat.id}',
+            identifier: 'brewDiaryCardLoading_${stat.statUuid}',
             label: 'Loading User Stat Card',
             child: const Card(child: ListTile(title: Text("Loading..."))),
           );
         } else {
           return Semantics(
-            identifier: 'brewDiaryCardError_${stat.id}',
+            identifier: 'brewDiaryCardError_${stat.statUuid}',
             label: 'Error Loading User Stat Card',
             child: const Card(
                 child: ListTile(title: Text("Error fetching records"))),
@@ -222,13 +223,13 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
 
     notesFocusNode.addListener(() {
       if (!notesFocusNode.hasFocus) {
-        Provider.of<UserStatProvider>(context, listen: false)
-            .updateUserStat(id: stat.id, notes: notesController.text);
+        Provider.of<UserStatProvider>(context, listen: false).updateUserStat(
+            statUuid: stat.statUuid, notes: notesController.text);
       }
     });
 
     return Semantics(
-      identifier: 'userStatDetail_${stat.id}',
+      identifier: 'userStatDetail_${stat.statUuid}',
       label: 'User Stat Details',
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -236,7 +237,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Semantics(
-              identifier: 'coffeeAmount_${stat.id}',
+              identifier: 'coffeeAmount_${stat.statUuid}',
               label: '${loc.coffeeamount}: ${stat.coffeeAmount}',
               child: Text("${loc.coffeeamount}: ${stat.coffeeAmount}",
                   style: detailTextStyle),
@@ -279,13 +280,13 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 ),
               ),
             ),
-            if (stat.coffeeBeansId == null)
+            if (stat.coffeeBeansUuid == null)
               Center(
                 child: Semantics(
-                  identifier: 'addBeansButton_${stat.id}',
+                  identifier: 'addBeansButton_${stat.statUuid}',
                   label: 'Add Beans Button',
                   child: OutlinedButton(
-                    onPressed: () => _openAddBeansPopup(context, stat.id),
+                    onPressed: () => _openAddBeansPopup(context, stat.statUuid),
                     child: Text(loc.addBeans),
                   ),
                 ),
@@ -293,13 +294,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             else
               FutureBuilder(
                 future: coffeeBeansProvider
-                    .fetchCoffeeBeansById(stat.coffeeBeansId!),
+                    .fetchCoffeeBeansByUuid(stat.coffeeBeansUuid!),
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (snapshot.hasData) {
+                  if (snapshot.hasData) {
                     final bean = snapshot.data!;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -317,8 +314,8 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                             children: [
                               OutlinedButton(
                                 onPressed: () {
-                                  context.router.push(
-                                      CoffeeBeansDetailRoute(id: bean.id));
+                                  context.router.push(CoffeeBeansDetailRoute(
+                                      uuid: bean.beansUuid!));
                                 },
                                 child: Text(loc.details),
                               ),
@@ -326,11 +323,12 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                               OutlinedButton(
                                 onPressed: () async {
                                   await userStatProvider.updateUserStat(
-                                      id: stat.id, coffeeBeansId: null);
-                                  Provider.of<CardExpansionNotifier>(context,
-                                          listen: false)
-                                      .removeBean(
-                                          stat.id); // Update the notifier
+                                    statUuid: stat.statUuid,
+                                    coffeeBeansId: null,
+                                    coffeeBeansUuid: null,
+                                  );
+                                  setState(
+                                      () {}); // Trigger a rebuild of the widget
                                 },
                                 child: Text(loc.removeBeans),
                               ),
@@ -376,17 +374,18 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     );
   }
 
-  void _openAddBeansPopup(BuildContext context, int statId) {
+  void _openAddBeansPopup(BuildContext context, String statUuid) {
     showDialog(
       context: context,
       builder: (context) {
         return AddCoffeeBeansWidget(
-          onSelect: (int selectedBeanId) async {
+          onSelect: (String selectedBeanUuid) async {
             await Provider.of<UserStatProvider>(context, listen: false)
-                .updateUserStat(id: statId, coffeeBeansId: selectedBeanId);
+                .updateUserStat(
+                    statUuid: statUuid, coffeeBeansUuid: selectedBeanUuid);
             Navigator.of(context).pop(); // Close the dialog
             Provider.of<CardExpansionNotifier>(context, listen: false)
-                .addBean(statId); // Update the notifier
+                .addBean(statUuid); // Update the notifier
           },
         );
       },

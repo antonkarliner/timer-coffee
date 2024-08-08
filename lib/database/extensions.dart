@@ -113,3 +113,39 @@ extension ContributorsCompanionExtension on ContributorsCompanion {
     );
   }
 }
+
+extension UserRecipePreferencesCompanionExtension
+    on UserRecipePreferencesCompanion {
+  static UserRecipePreferencesCompanion fromJson(Map<String, dynamic> json) {
+    return UserRecipePreferencesCompanion(
+      recipeId: Value(json['recipe_id']),
+      lastUsed: json['last_used'] != null
+          ? Value(DateTime.parse(json['last_used']))
+          : const Value.absent(),
+      isFavorite: Value(json['is_favorite'] ?? false),
+      sweetnessSliderPosition: json['sweetness_slider_position'] != null
+          ? Value(json['sweetness_slider_position'] as int)
+          : const Value.absent(),
+      strengthSliderPosition: json['strength_slider_position'] != null
+          ? Value(json['strength_slider_position'] as int)
+          : const Value.absent(),
+      customCoffeeAmount: json['custom_coffee_amount'] != null
+          ? Value(_parseDouble(json['custom_coffee_amount']))
+          : const Value.absent(),
+      customWaterAmount: json['custom_water_amount'] != null
+          ? Value(_parseDouble(json['custom_water_amount']))
+          : const Value.absent(),
+    );
+  }
+
+  static double _parseDouble(dynamic value) {
+    if (value is int) {
+      return value.toDouble();
+    } else if (value is double) {
+      return value;
+    } else if (value is String) {
+      return double.parse(value);
+    }
+    throw FormatException('Unable to parse $value to double');
+  }
+}

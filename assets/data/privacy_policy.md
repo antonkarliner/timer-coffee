@@ -1,45 +1,65 @@
-Privacy Policy for Timer.Coffee
+# Privacy Policy for Timer.Coffee
+
+Last Updated: 30.07.2024
 
 1. INTRODUCTION
 
-Timer.Coffee respects the privacy of its users and is committed to protecting it in all respects. This policy will explain how Timer.Coffee uses the data we collect from you when you use our app.
+Timer.Coffee respects the privacy of its users and is committed to protecting it in all respects. This policy explains how Timer.Coffee uses the data we collect from you when you use our app.
 
 2. DATA COLLECTION AND USAGE
 
 Timer.Coffee collects minimal data to provide and improve our services. The data we collect includes:
 
-a. Supabase Users Data:
+a. User Account Data:
 
-    We use Supabase to handle anonymous user logins. The data collected includes:
-        ID
-        Instance ID
-        Last sign-in timestamp
-        Created at timestamp
-        Updated at timestamp
-    We do not collect personal identification information such as emails or phone numbers.
+We now offer multiple options for account creation and authentication:
+- Email registration
+- Apple ID sign-in
+- Google Account sign-in
 
-b. OneSignal SDK Data:
+When you create an account or sign in, we may collect the following information:
+- Email address (for email registration)
+- Name (as provided by Apple ID or Google Account)
+- Unique identifier provided by Apple or Google
+- Profile picture (if available and chosen to be shared from Apple ID or Google Account)
 
-    We use OneSignal SDK for push notifications. The data collected includes:
-        First session time
-        Last session time
-        Session count
-        Total usage duration
-        Device OS
-        Device language
-        Timezone
-        Country
-        Push status
-        App version
-        Device model
-        Cellular carrier
-        IP address (excluding users in the EU and UK)
+For Google Account sign-ins:
+- We access only the information you explicitly approve during the sign-in process.
+- We use this data solely for authentication and to provide you with a personalized experience within our app.
+- We do not share your Google user data with third parties except as necessary to provide and improve our services, or as required by law.
+- You can revoke our access to your Google Account data at any time through your Google Account settings.
 
-c. App Usage Statistics:
+b. Supabase Users Data:
 
-    We collect statistics to improve app functionality, including:
-        Brew statistics (recipe ID, amount of water used, brewing method, created at)
-        Coffee beans data (roaster, name, origin, variety, tasting notes, processing method, region, cupping score)
+We use Supabase to handle user authentication. The data collected includes:
+- ID
+- Instance ID
+- Last sign-in timestamp
+- Created at timestamp
+- Updated at timestamp
+
+c. OneSignal SDK Data:
+
+We use OneSignal SDK for push notifications. The data collected includes:
+- First session time
+- Last session time
+- Session count
+- Total usage duration
+- Device OS
+- Device language
+- Timezone
+- Country
+- Push status
+- App version
+- Device model
+- Cellular carrier
+- IP address (excluding users in the EU and UK)
+
+d. App Usage Statistics:
+
+We collect statistics to improve app functionality, including:
+- Brew statistics (recipe ID, amount of water used, brewing method, created at)
+- Coffee beans data (roaster, name, origin, variety, tasting notes, processing method, region, cupping score)
 
 3. COOKIES
 
@@ -72,3 +92,11 @@ All trademarks, service marks, trade names, trade dress, product names, and logo
 10. THIRD-PARTY SERVICES
 
 We use third-party services such as Google Gemini for image recognition to read information from coffee labels. We do not store any images sent by users. Users are responsible for ensuring no personal data is included in the images.
+
+11. DATA RETENTION AND DELETION
+
+We retain user data only for as long as necessary to provide our services and as required by law. You can request deletion of your account and associated data by contacting us at support@timer.coffee. Upon receiving such a request, we will delete your data within a reasonable timeframe, except where we are required to retain it for legal purposes.
+
+12. USER RIGHTS
+
+Depending on your location, you may have certain rights regarding your personal data, including the right to access, correct, or delete your data. To exercise these rights, please contact us at support@timer.coffee.

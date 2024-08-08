@@ -189,6 +189,19 @@ class Vendor extends DataClass implements Insertable<Vendor> {
         bannerUrl: bannerUrl.present ? bannerUrl.value : this.bannerUrl,
         active: active ?? this.active,
       );
+  Vendor copyWithCompanion(VendorsCompanion data) {
+    return Vendor(
+      vendorId: data.vendorId.present ? data.vendorId.value : this.vendorId,
+      vendorName:
+          data.vendorName.present ? data.vendorName.value : this.vendorName,
+      vendorDescription: data.vendorDescription.present
+          ? data.vendorDescription.value
+          : this.vendorDescription,
+      bannerUrl: data.bannerUrl.present ? data.bannerUrl.value : this.bannerUrl,
+      active: data.active.present ? data.active.value : this.active,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Vendor(')
@@ -426,6 +439,14 @@ class SupportedLocale extends DataClass implements Insertable<SupportedLocale> {
         locale: locale ?? this.locale,
         localeName: localeName ?? this.localeName,
       );
+  SupportedLocale copyWithCompanion(SupportedLocalesCompanion data) {
+    return SupportedLocale(
+      locale: data.locale.present ? data.locale.value : this.locale,
+      localeName:
+          data.localeName.present ? data.localeName.value : this.localeName,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('SupportedLocale(')
@@ -651,6 +672,19 @@ class BrewingMethod extends DataClass implements Insertable<BrewingMethod> {
         brewingMethod: brewingMethod ?? this.brewingMethod,
         showOnMain: showOnMain ?? this.showOnMain,
       );
+  BrewingMethod copyWithCompanion(BrewingMethodsCompanion data) {
+    return BrewingMethod(
+      brewingMethodId: data.brewingMethodId.present
+          ? data.brewingMethodId.value
+          : this.brewingMethodId,
+      brewingMethod: data.brewingMethod.present
+          ? data.brewingMethod.value
+          : this.brewingMethod,
+      showOnMain:
+          data.showOnMain.present ? data.showOnMain.value : this.showOnMain,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('BrewingMethod(')
@@ -1018,6 +1052,26 @@ class Recipe extends DataClass implements Insertable<Recipe> {
         lastModified:
             lastModified.present ? lastModified.value : this.lastModified,
       );
+  Recipe copyWithCompanion(RecipesCompanion data) {
+    return Recipe(
+      id: data.id.present ? data.id.value : this.id,
+      brewingMethodId: data.brewingMethodId.present
+          ? data.brewingMethodId.value
+          : this.brewingMethodId,
+      coffeeAmount: data.coffeeAmount.present
+          ? data.coffeeAmount.value
+          : this.coffeeAmount,
+      waterAmount:
+          data.waterAmount.present ? data.waterAmount.value : this.waterAmount,
+      waterTemp: data.waterTemp.present ? data.waterTemp.value : this.waterTemp,
+      brewTime: data.brewTime.present ? data.brewTime.value : this.brewTime,
+      vendorId: data.vendorId.present ? data.vendorId.value : this.vendorId,
+      lastModified: data.lastModified.present
+          ? data.lastModified.value
+          : this.lastModified,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Recipe(')
@@ -1395,6 +1449,19 @@ class RecipeLocalization extends DataClass
         grindSize: grindSize ?? this.grindSize,
         shortDescription: shortDescription ?? this.shortDescription,
       );
+  RecipeLocalization copyWithCompanion(RecipeLocalizationsCompanion data) {
+    return RecipeLocalization(
+      id: data.id.present ? data.id.value : this.id,
+      recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
+      locale: data.locale.present ? data.locale.value : this.locale,
+      name: data.name.present ? data.name.value : this.name,
+      grindSize: data.grindSize.present ? data.grindSize.value : this.grindSize,
+      shortDescription: data.shortDescription.present
+          ? data.shortDescription.value
+          : this.shortDescription,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('RecipeLocalization(')
@@ -1741,6 +1808,18 @@ class Step extends DataClass implements Insertable<Step> {
         time: time ?? this.time,
         locale: locale ?? this.locale,
       );
+  Step copyWithCompanion(StepsCompanion data) {
+    return Step(
+      id: data.id.present ? data.id.value : this.id,
+      recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
+      stepOrder: data.stepOrder.present ? data.stepOrder.value : this.stepOrder,
+      description:
+          data.description.present ? data.description.value : this.description,
+      time: data.time.present ? data.time.value : this.time,
+      locale: data.locale.present ? data.locale.value : this.locale,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Step(')
@@ -2146,6 +2225,27 @@ class UserRecipePreference extends DataClass
             ? customWaterAmount.value
             : this.customWaterAmount,
       );
+  UserRecipePreference copyWithCompanion(UserRecipePreferencesCompanion data) {
+    return UserRecipePreference(
+      recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
+      lastUsed: data.lastUsed.present ? data.lastUsed.value : this.lastUsed,
+      isFavorite:
+          data.isFavorite.present ? data.isFavorite.value : this.isFavorite,
+      sweetnessSliderPosition: data.sweetnessSliderPosition.present
+          ? data.sweetnessSliderPosition.value
+          : this.sweetnessSliderPosition,
+      strengthSliderPosition: data.strengthSliderPosition.present
+          ? data.strengthSliderPosition.value
+          : this.strengthSliderPosition,
+      customCoffeeAmount: data.customCoffeeAmount.present
+          ? data.customCoffeeAmount.value
+          : this.customCoffeeAmount,
+      customWaterAmount: data.customWaterAmount.present
+          ? data.customWaterAmount.value
+          : this.customWaterAmount,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('UserRecipePreference(')
@@ -2438,6 +2538,14 @@ class CoffeeFact extends DataClass implements Insertable<CoffeeFact> {
         fact: fact ?? this.fact,
         locale: locale ?? this.locale,
       );
+  CoffeeFact copyWithCompanion(CoffeeFactsCompanion data) {
+    return CoffeeFact(
+      id: data.id.present ? data.id.value : this.id,
+      fact: data.fact.present ? data.fact.value : this.fact,
+      locale: data.locale.present ? data.locale.value : this.locale,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('CoffeeFact(')
@@ -2683,6 +2791,15 @@ class LaunchPopup extends DataClass implements Insertable<LaunchPopup> {
         locale: locale ?? this.locale,
         createdAt: createdAt ?? this.createdAt,
       );
+  LaunchPopup copyWithCompanion(LaunchPopupsCompanion data) {
+    return LaunchPopup(
+      id: data.id.present ? data.id.value : this.id,
+      content: data.content.present ? data.content.value : this.content,
+      locale: data.locale.present ? data.locale.value : this.locale,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('LaunchPopup(')
@@ -2913,6 +3030,14 @@ class Contributor extends DataClass implements Insertable<Contributor> {
         content: content ?? this.content,
         locale: locale ?? this.locale,
       );
+  Contributor copyWithCompanion(ContributorsCompanion data) {
+    return Contributor(
+      id: data.id.present ? data.id.value : this.id,
+      content: data.content.present ? data.content.value : this.content,
+      locale: data.locale.present ? data.locale.value : this.locale,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Contributor(')
@@ -3016,20 +3141,17 @@ class $UserStatsTable extends UserStats
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $UserStatsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _statUuidMeta =
+      const VerificationMeta('statUuid');
+  @override
+  late final GeneratedColumn<String> statUuid = GeneratedColumn<String>(
+      'stat_uuid', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
-  @override
-  late final GeneratedColumn<String> userId = GeneratedColumn<String>(
-      'user_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'id', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _recipeIdMeta =
       const VerificationMeta('recipeId');
   @override
@@ -3125,8 +3247,8 @@ class $UserStatsTable extends UserStats
       type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
+        statUuid,
         id,
-        userId,
         recipeId,
         coffeeAmount,
         waterAmount,
@@ -3152,14 +3274,14 @@ class $UserStatsTable extends UserStats
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('stat_uuid')) {
+      context.handle(_statUuidMeta,
+          statUuid.isAcceptableOrUnknown(data['stat_uuid']!, _statUuidMeta));
+    } else if (isInserting) {
+      context.missing(_statUuidMeta);
+    }
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('user_id')) {
-      context.handle(_userIdMeta,
-          userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta));
-    } else if (isInserting) {
-      context.missing(_userIdMeta);
     }
     if (data.containsKey('recipe_id')) {
       context.handle(_recipeIdMeta,
@@ -3248,15 +3370,15 @@ class $UserStatsTable extends UserStats
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {statUuid};
   @override
   UserStat map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return UserStat(
+      statUuid: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}stat_uuid'])!,
       id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      userId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}user_id'])!,
+          .read(DriftSqlType.int, data['${effectivePrefix}id']),
       recipeId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}recipe_id'])!,
       coffeeAmount: attachedDatabase.typeMapping
@@ -3297,8 +3419,8 @@ class $UserStatsTable extends UserStats
 }
 
 class UserStat extends DataClass implements Insertable<UserStat> {
-  final int id;
-  final String userId;
+  final String statUuid;
+  final int? id;
   final String recipeId;
   final double coffeeAmount;
   final double waterAmount;
@@ -3314,8 +3436,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
   final bool isMarked;
   final String? coffeeBeansUuid;
   const UserStat(
-      {required this.id,
-      required this.userId,
+      {required this.statUuid,
+      this.id,
       required this.recipeId,
       required this.coffeeAmount,
       required this.waterAmount,
@@ -3333,8 +3455,10 @@ class UserStat extends DataClass implements Insertable<UserStat> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['user_id'] = Variable<String>(userId);
+    map['stat_uuid'] = Variable<String>(statUuid);
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
     map['recipe_id'] = Variable<String>(recipeId);
     map['coffee_amount'] = Variable<double>(coffeeAmount);
     map['water_amount'] = Variable<double>(waterAmount);
@@ -3366,8 +3490,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
 
   UserStatsCompanion toCompanion(bool nullToAbsent) {
     return UserStatsCompanion(
-      id: Value(id),
-      userId: Value(userId),
+      statUuid: Value(statUuid),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       recipeId: Value(recipeId),
       coffeeAmount: Value(coffeeAmount),
       waterAmount: Value(waterAmount),
@@ -3398,8 +3522,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return UserStat(
-      id: serializer.fromJson<int>(json['id']),
-      userId: serializer.fromJson<String>(json['userId']),
+      statUuid: serializer.fromJson<String>(json['statUuid']),
+      id: serializer.fromJson<int?>(json['id']),
       recipeId: serializer.fromJson<String>(json['recipeId']),
       coffeeAmount: serializer.fromJson<double>(json['coffeeAmount']),
       waterAmount: serializer.fromJson<double>(json['waterAmount']),
@@ -3422,8 +3546,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'userId': serializer.toJson<String>(userId),
+      'statUuid': serializer.toJson<String>(statUuid),
+      'id': serializer.toJson<int?>(id),
       'recipeId': serializer.toJson<String>(recipeId),
       'coffeeAmount': serializer.toJson<double>(coffeeAmount),
       'waterAmount': serializer.toJson<double>(waterAmount),
@@ -3443,8 +3567,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
   }
 
   UserStat copyWith(
-          {int? id,
-          String? userId,
+          {String? statUuid,
+          Value<int?> id = const Value.absent(),
           String? recipeId,
           double? coffeeAmount,
           double? waterAmount,
@@ -3460,8 +3584,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           bool? isMarked,
           Value<String?> coffeeBeansUuid = const Value.absent()}) =>
       UserStat(
-        id: id ?? this.id,
-        userId: userId ?? this.userId,
+        statUuid: statUuid ?? this.statUuid,
+        id: id.present ? id.value : this.id,
         recipeId: recipeId ?? this.recipeId,
         coffeeAmount: coffeeAmount ?? this.coffeeAmount,
         waterAmount: waterAmount ?? this.waterAmount,
@@ -3482,11 +3606,45 @@ class UserStat extends DataClass implements Insertable<UserStat> {
             ? coffeeBeansUuid.value
             : this.coffeeBeansUuid,
       );
+  UserStat copyWithCompanion(UserStatsCompanion data) {
+    return UserStat(
+      statUuid: data.statUuid.present ? data.statUuid.value : this.statUuid,
+      id: data.id.present ? data.id.value : this.id,
+      recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
+      coffeeAmount: data.coffeeAmount.present
+          ? data.coffeeAmount.value
+          : this.coffeeAmount,
+      waterAmount:
+          data.waterAmount.present ? data.waterAmount.value : this.waterAmount,
+      sweetnessSliderPosition: data.sweetnessSliderPosition.present
+          ? data.sweetnessSliderPosition.value
+          : this.sweetnessSliderPosition,
+      strengthSliderPosition: data.strengthSliderPosition.present
+          ? data.strengthSliderPosition.value
+          : this.strengthSliderPosition,
+      brewingMethodId: data.brewingMethodId.present
+          ? data.brewingMethodId.value
+          : this.brewingMethodId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      beans: data.beans.present ? data.beans.value : this.beans,
+      roaster: data.roaster.present ? data.roaster.value : this.roaster,
+      rating: data.rating.present ? data.rating.value : this.rating,
+      coffeeBeansId: data.coffeeBeansId.present
+          ? data.coffeeBeansId.value
+          : this.coffeeBeansId,
+      isMarked: data.isMarked.present ? data.isMarked.value : this.isMarked,
+      coffeeBeansUuid: data.coffeeBeansUuid.present
+          ? data.coffeeBeansUuid.value
+          : this.coffeeBeansUuid,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('UserStat(')
+          ..write('statUuid: $statUuid, ')
           ..write('id: $id, ')
-          ..write('userId: $userId, ')
           ..write('recipeId: $recipeId, ')
           ..write('coffeeAmount: $coffeeAmount, ')
           ..write('waterAmount: $waterAmount, ')
@@ -3507,8 +3665,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
 
   @override
   int get hashCode => Object.hash(
+      statUuid,
       id,
-      userId,
       recipeId,
       coffeeAmount,
       waterAmount,
@@ -3527,8 +3685,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is UserStat &&
+          other.statUuid == this.statUuid &&
           other.id == this.id &&
-          other.userId == this.userId &&
           other.recipeId == this.recipeId &&
           other.coffeeAmount == this.coffeeAmount &&
           other.waterAmount == this.waterAmount &&
@@ -3546,8 +3704,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
 }
 
 class UserStatsCompanion extends UpdateCompanion<UserStat> {
-  final Value<int> id;
-  final Value<String> userId;
+  final Value<String> statUuid;
+  final Value<int?> id;
   final Value<String> recipeId;
   final Value<double> coffeeAmount;
   final Value<double> waterAmount;
@@ -3562,9 +3720,10 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
   final Value<int?> coffeeBeansId;
   final Value<bool> isMarked;
   final Value<String?> coffeeBeansUuid;
+  final Value<int> rowid;
   const UserStatsCompanion({
+    this.statUuid = const Value.absent(),
     this.id = const Value.absent(),
-    this.userId = const Value.absent(),
     this.recipeId = const Value.absent(),
     this.coffeeAmount = const Value.absent(),
     this.waterAmount = const Value.absent(),
@@ -3579,10 +3738,11 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     this.coffeeBeansId = const Value.absent(),
     this.isMarked = const Value.absent(),
     this.coffeeBeansUuid = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   UserStatsCompanion.insert({
+    required String statUuid,
     this.id = const Value.absent(),
-    required String userId,
     required String recipeId,
     required double coffeeAmount,
     required double waterAmount,
@@ -3597,7 +3757,8 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     this.coffeeBeansId = const Value.absent(),
     this.isMarked = const Value.absent(),
     this.coffeeBeansUuid = const Value.absent(),
-  })  : userId = Value(userId),
+    this.rowid = const Value.absent(),
+  })  : statUuid = Value(statUuid),
         recipeId = Value(recipeId),
         coffeeAmount = Value(coffeeAmount),
         waterAmount = Value(waterAmount),
@@ -3605,8 +3766,8 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
         strengthSliderPosition = Value(strengthSliderPosition),
         brewingMethodId = Value(brewingMethodId);
   static Insertable<UserStat> custom({
+    Expression<String>? statUuid,
     Expression<int>? id,
-    Expression<String>? userId,
     Expression<String>? recipeId,
     Expression<double>? coffeeAmount,
     Expression<double>? waterAmount,
@@ -3621,10 +3782,11 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     Expression<int>? coffeeBeansId,
     Expression<bool>? isMarked,
     Expression<String>? coffeeBeansUuid,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
+      if (statUuid != null) 'stat_uuid': statUuid,
       if (id != null) 'id': id,
-      if (userId != null) 'user_id': userId,
       if (recipeId != null) 'recipe_id': recipeId,
       if (coffeeAmount != null) 'coffee_amount': coffeeAmount,
       if (waterAmount != null) 'water_amount': waterAmount,
@@ -3641,12 +3803,13 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       if (coffeeBeansId != null) 'coffee_beans_id': coffeeBeansId,
       if (isMarked != null) 'is_marked': isMarked,
       if (coffeeBeansUuid != null) 'coffee_beans_uuid': coffeeBeansUuid,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   UserStatsCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? userId,
+      {Value<String>? statUuid,
+      Value<int?>? id,
       Value<String>? recipeId,
       Value<double>? coffeeAmount,
       Value<double>? waterAmount,
@@ -3660,10 +3823,11 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       Value<double?>? rating,
       Value<int?>? coffeeBeansId,
       Value<bool>? isMarked,
-      Value<String?>? coffeeBeansUuid}) {
+      Value<String?>? coffeeBeansUuid,
+      Value<int>? rowid}) {
     return UserStatsCompanion(
+      statUuid: statUuid ?? this.statUuid,
       id: id ?? this.id,
-      userId: userId ?? this.userId,
       recipeId: recipeId ?? this.recipeId,
       coffeeAmount: coffeeAmount ?? this.coffeeAmount,
       waterAmount: waterAmount ?? this.waterAmount,
@@ -3680,17 +3844,18 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       coffeeBeansId: coffeeBeansId ?? this.coffeeBeansId,
       isMarked: isMarked ?? this.isMarked,
       coffeeBeansUuid: coffeeBeansUuid ?? this.coffeeBeansUuid,
+      rowid: rowid ?? this.rowid,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (statUuid.present) {
+      map['stat_uuid'] = Variable<String>(statUuid.value);
+    }
     if (id.present) {
       map['id'] = Variable<int>(id.value);
-    }
-    if (userId.present) {
-      map['user_id'] = Variable<String>(userId.value);
     }
     if (recipeId.present) {
       map['recipe_id'] = Variable<String>(recipeId.value);
@@ -3736,14 +3901,17 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     if (coffeeBeansUuid.present) {
       map['coffee_beans_uuid'] = Variable<String>(coffeeBeansUuid.value);
     }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
     return map;
   }
 
   @override
   String toString() {
     return (StringBuffer('UserStatsCompanion(')
+          ..write('statUuid: $statUuid, ')
           ..write('id: $id, ')
-          ..write('userId: $userId, ')
           ..write('recipeId: $recipeId, ')
           ..write('coffeeAmount: $coffeeAmount, ')
           ..write('waterAmount: $waterAmount, ')
@@ -3757,7 +3925,8 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
           ..write('rating: $rating, ')
           ..write('coffeeBeansId: $coffeeBeansId, ')
           ..write('isMarked: $isMarked, ')
-          ..write('coffeeBeansUuid: $coffeeBeansUuid')
+          ..write('coffeeBeansUuid: $coffeeBeansUuid, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -4231,6 +4400,36 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
         isFavorite: isFavorite ?? this.isFavorite,
         beansUuid: beansUuid.present ? beansUuid.value : this.beansUuid,
       );
+  CoffeeBean copyWithCompanion(CoffeeBeansCompanion data) {
+    return CoffeeBean(
+      id: data.id.present ? data.id.value : this.id,
+      roaster: data.roaster.present ? data.roaster.value : this.roaster,
+      name: data.name.present ? data.name.value : this.name,
+      origin: data.origin.present ? data.origin.value : this.origin,
+      variety: data.variety.present ? data.variety.value : this.variety,
+      tastingNotes: data.tastingNotes.present
+          ? data.tastingNotes.value
+          : this.tastingNotes,
+      processingMethod: data.processingMethod.present
+          ? data.processingMethod.value
+          : this.processingMethod,
+      elevation: data.elevation.present ? data.elevation.value : this.elevation,
+      harvestDate:
+          data.harvestDate.present ? data.harvestDate.value : this.harvestDate,
+      roastDate: data.roastDate.present ? data.roastDate.value : this.roastDate,
+      region: data.region.present ? data.region.value : this.region,
+      roastLevel:
+          data.roastLevel.present ? data.roastLevel.value : this.roastLevel,
+      cuppingScore: data.cuppingScore.present
+          ? data.cuppingScore.value
+          : this.cuppingScore,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      isFavorite:
+          data.isFavorite.present ? data.isFavorite.value : this.isFavorite,
+      beansUuid: data.beansUuid.present ? data.beansUuid.value : this.beansUuid,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('CoffeeBean(')
@@ -4504,7 +4703,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
 
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
-  _$AppDatabaseManager get managers => _$AppDatabaseManager(this);
+  $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $VendorsTable vendors = $VendorsTable(this);
   late final $SupportedLocalesTable supportedLocales =
       $SupportedLocalesTable(this);
@@ -4642,7 +4841,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       );
 }
 
-typedef $$VendorsTableInsertCompanionBuilder = VendorsCompanion Function({
+typedef $$VendorsTableCreateCompanionBuilder = VendorsCompanion Function({
   required String vendorId,
   required String vendorName,
   required String vendorDescription,
@@ -4665,8 +4864,7 @@ class $$VendorsTableTableManager extends RootTableManager<
     Vendor,
     $$VendorsTableFilterComposer,
     $$VendorsTableOrderingComposer,
-    $$VendorsTableProcessedTableManager,
-    $$VendorsTableInsertCompanionBuilder,
+    $$VendorsTableCreateCompanionBuilder,
     $$VendorsTableUpdateCompanionBuilder> {
   $$VendorsTableTableManager(_$AppDatabase db, $VendorsTable table)
       : super(TableManagerState(
@@ -4676,8 +4874,7 @@ class $$VendorsTableTableManager extends RootTableManager<
               $$VendorsTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$VendorsTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $$VendorsTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> vendorId = const Value.absent(),
             Value<String> vendorName = const Value.absent(),
             Value<String> vendorDescription = const Value.absent(),
@@ -4693,7 +4890,7 @@ class $$VendorsTableTableManager extends RootTableManager<
             active: active,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String vendorId,
             required String vendorName,
             required String vendorDescription,
@@ -4710,18 +4907,6 @@ class $$VendorsTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$VendorsTableProcessedTableManager extends ProcessedTableManager<
-    _$AppDatabase,
-    $VendorsTable,
-    Vendor,
-    $$VendorsTableFilterComposer,
-    $$VendorsTableOrderingComposer,
-    $$VendorsTableProcessedTableManager,
-    $$VendorsTableInsertCompanionBuilder,
-    $$VendorsTableUpdateCompanionBuilder> {
-  $$VendorsTableProcessedTableManager(super.$state);
 }
 
 class $$VendorsTableFilterComposer
@@ -4795,7 +4980,7 @@ class $$VendorsTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$SupportedLocalesTableInsertCompanionBuilder
+typedef $$SupportedLocalesTableCreateCompanionBuilder
     = SupportedLocalesCompanion Function({
   required String locale,
   required String localeName,
@@ -4814,8 +4999,7 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
     SupportedLocale,
     $$SupportedLocalesTableFilterComposer,
     $$SupportedLocalesTableOrderingComposer,
-    $$SupportedLocalesTableProcessedTableManager,
-    $$SupportedLocalesTableInsertCompanionBuilder,
+    $$SupportedLocalesTableCreateCompanionBuilder,
     $$SupportedLocalesTableUpdateCompanionBuilder> {
   $$SupportedLocalesTableTableManager(
       _$AppDatabase db, $SupportedLocalesTable table)
@@ -4826,9 +5010,7 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
               $$SupportedLocalesTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$SupportedLocalesTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$SupportedLocalesTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> locale = const Value.absent(),
             Value<String> localeName = const Value.absent(),
             Value<int> rowid = const Value.absent(),
@@ -4838,7 +5020,7 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
             localeName: localeName,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String locale,
             required String localeName,
             Value<int> rowid = const Value.absent(),
@@ -4849,19 +5031,6 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$SupportedLocalesTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AppDatabase,
-        $SupportedLocalesTable,
-        SupportedLocale,
-        $$SupportedLocalesTableFilterComposer,
-        $$SupportedLocalesTableOrderingComposer,
-        $$SupportedLocalesTableProcessedTableManager,
-        $$SupportedLocalesTableInsertCompanionBuilder,
-        $$SupportedLocalesTableUpdateCompanionBuilder> {
-  $$SupportedLocalesTableProcessedTableManager(super.$state);
 }
 
 class $$SupportedLocalesTableFilterComposer
@@ -4961,7 +5130,7 @@ class $$SupportedLocalesTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$BrewingMethodsTableInsertCompanionBuilder = BrewingMethodsCompanion
+typedef $$BrewingMethodsTableCreateCompanionBuilder = BrewingMethodsCompanion
     Function({
   required String brewingMethodId,
   required String brewingMethod,
@@ -4982,8 +5151,7 @@ class $$BrewingMethodsTableTableManager extends RootTableManager<
     BrewingMethod,
     $$BrewingMethodsTableFilterComposer,
     $$BrewingMethodsTableOrderingComposer,
-    $$BrewingMethodsTableProcessedTableManager,
-    $$BrewingMethodsTableInsertCompanionBuilder,
+    $$BrewingMethodsTableCreateCompanionBuilder,
     $$BrewingMethodsTableUpdateCompanionBuilder> {
   $$BrewingMethodsTableTableManager(
       _$AppDatabase db, $BrewingMethodsTable table)
@@ -4994,9 +5162,7 @@ class $$BrewingMethodsTableTableManager extends RootTableManager<
               $$BrewingMethodsTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$BrewingMethodsTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$BrewingMethodsTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> brewingMethodId = const Value.absent(),
             Value<String> brewingMethod = const Value.absent(),
             Value<bool> showOnMain = const Value.absent(),
@@ -5008,7 +5174,7 @@ class $$BrewingMethodsTableTableManager extends RootTableManager<
             showOnMain: showOnMain,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String brewingMethodId,
             required String brewingMethod,
             Value<bool> showOnMain = const Value.absent(),
@@ -5021,18 +5187,6 @@ class $$BrewingMethodsTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$BrewingMethodsTableProcessedTableManager extends ProcessedTableManager<
-    _$AppDatabase,
-    $BrewingMethodsTable,
-    BrewingMethod,
-    $$BrewingMethodsTableFilterComposer,
-    $$BrewingMethodsTableOrderingComposer,
-    $$BrewingMethodsTableProcessedTableManager,
-    $$BrewingMethodsTableInsertCompanionBuilder,
-    $$BrewingMethodsTableUpdateCompanionBuilder> {
-  $$BrewingMethodsTableProcessedTableManager(super.$state);
 }
 
 class $$BrewingMethodsTableFilterComposer
@@ -5099,7 +5253,7 @@ class $$BrewingMethodsTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$RecipesTableInsertCompanionBuilder = RecipesCompanion Function({
+typedef $$RecipesTableCreateCompanionBuilder = RecipesCompanion Function({
   required String id,
   required String brewingMethodId,
   required double coffeeAmount,
@@ -5128,8 +5282,7 @@ class $$RecipesTableTableManager extends RootTableManager<
     Recipe,
     $$RecipesTableFilterComposer,
     $$RecipesTableOrderingComposer,
-    $$RecipesTableProcessedTableManager,
-    $$RecipesTableInsertCompanionBuilder,
+    $$RecipesTableCreateCompanionBuilder,
     $$RecipesTableUpdateCompanionBuilder> {
   $$RecipesTableTableManager(_$AppDatabase db, $RecipesTable table)
       : super(TableManagerState(
@@ -5139,8 +5292,7 @@ class $$RecipesTableTableManager extends RootTableManager<
               $$RecipesTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$RecipesTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $$RecipesTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> brewingMethodId = const Value.absent(),
             Value<double> coffeeAmount = const Value.absent(),
@@ -5162,7 +5314,7 @@ class $$RecipesTableTableManager extends RootTableManager<
             lastModified: lastModified,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             required String brewingMethodId,
             required double coffeeAmount,
@@ -5185,18 +5337,6 @@ class $$RecipesTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$RecipesTableProcessedTableManager extends ProcessedTableManager<
-    _$AppDatabase,
-    $RecipesTable,
-    Recipe,
-    $$RecipesTableFilterComposer,
-    $$RecipesTableOrderingComposer,
-    $$RecipesTableProcessedTableManager,
-    $$RecipesTableInsertCompanionBuilder,
-    $$RecipesTableUpdateCompanionBuilder> {
-  $$RecipesTableProcessedTableManager(super.$state);
 }
 
 class $$RecipesTableFilterComposer
@@ -5377,7 +5517,7 @@ class $$RecipesTableOrderingComposer
   }
 }
 
-typedef $$RecipeLocalizationsTableInsertCompanionBuilder
+typedef $$RecipeLocalizationsTableCreateCompanionBuilder
     = RecipeLocalizationsCompanion Function({
   required String id,
   required String recipeId,
@@ -5404,8 +5544,7 @@ class $$RecipeLocalizationsTableTableManager extends RootTableManager<
     RecipeLocalization,
     $$RecipeLocalizationsTableFilterComposer,
     $$RecipeLocalizationsTableOrderingComposer,
-    $$RecipeLocalizationsTableProcessedTableManager,
-    $$RecipeLocalizationsTableInsertCompanionBuilder,
+    $$RecipeLocalizationsTableCreateCompanionBuilder,
     $$RecipeLocalizationsTableUpdateCompanionBuilder> {
   $$RecipeLocalizationsTableTableManager(
       _$AppDatabase db, $RecipeLocalizationsTable table)
@@ -5416,9 +5555,7 @@ class $$RecipeLocalizationsTableTableManager extends RootTableManager<
               ComposerState(db, table)),
           orderingComposer: $$RecipeLocalizationsTableOrderingComposer(
               ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$RecipeLocalizationsTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> recipeId = const Value.absent(),
             Value<String> locale = const Value.absent(),
@@ -5436,7 +5573,7 @@ class $$RecipeLocalizationsTableTableManager extends RootTableManager<
             shortDescription: shortDescription,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             required String recipeId,
             required String locale,
@@ -5455,19 +5592,6 @@ class $$RecipeLocalizationsTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$RecipeLocalizationsTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AppDatabase,
-        $RecipeLocalizationsTable,
-        RecipeLocalization,
-        $$RecipeLocalizationsTableFilterComposer,
-        $$RecipeLocalizationsTableOrderingComposer,
-        $$RecipeLocalizationsTableProcessedTableManager,
-        $$RecipeLocalizationsTableInsertCompanionBuilder,
-        $$RecipeLocalizationsTableUpdateCompanionBuilder> {
-  $$RecipeLocalizationsTableProcessedTableManager(super.$state);
 }
 
 class $$RecipeLocalizationsTableFilterComposer
@@ -5568,7 +5692,7 @@ class $$RecipeLocalizationsTableOrderingComposer
   }
 }
 
-typedef $$StepsTableInsertCompanionBuilder = StepsCompanion Function({
+typedef $$StepsTableCreateCompanionBuilder = StepsCompanion Function({
   required String id,
   required String recipeId,
   required int stepOrder,
@@ -5593,8 +5717,7 @@ class $$StepsTableTableManager extends RootTableManager<
     Step,
     $$StepsTableFilterComposer,
     $$StepsTableOrderingComposer,
-    $$StepsTableProcessedTableManager,
-    $$StepsTableInsertCompanionBuilder,
+    $$StepsTableCreateCompanionBuilder,
     $$StepsTableUpdateCompanionBuilder> {
   $$StepsTableTableManager(_$AppDatabase db, $StepsTable table)
       : super(TableManagerState(
@@ -5604,8 +5727,7 @@ class $$StepsTableTableManager extends RootTableManager<
               $$StepsTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$StepsTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) => $$StepsTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> recipeId = const Value.absent(),
             Value<int> stepOrder = const Value.absent(),
@@ -5623,7 +5745,7 @@ class $$StepsTableTableManager extends RootTableManager<
             locale: locale,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             required String recipeId,
             required int stepOrder,
@@ -5642,18 +5764,6 @@ class $$StepsTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$StepsTableProcessedTableManager extends ProcessedTableManager<
-    _$AppDatabase,
-    $StepsTable,
-    Step,
-    $$StepsTableFilterComposer,
-    $$StepsTableOrderingComposer,
-    $$StepsTableProcessedTableManager,
-    $$StepsTableInsertCompanionBuilder,
-    $$StepsTableUpdateCompanionBuilder> {
-  $$StepsTableProcessedTableManager(super.$state);
 }
 
 class $$StepsTableFilterComposer
@@ -5754,7 +5864,7 @@ class $$StepsTableOrderingComposer
   }
 }
 
-typedef $$UserRecipePreferencesTableInsertCompanionBuilder
+typedef $$UserRecipePreferencesTableCreateCompanionBuilder
     = UserRecipePreferencesCompanion Function({
   required String recipeId,
   Value<DateTime?> lastUsed,
@@ -5783,8 +5893,7 @@ class $$UserRecipePreferencesTableTableManager extends RootTableManager<
     UserRecipePreference,
     $$UserRecipePreferencesTableFilterComposer,
     $$UserRecipePreferencesTableOrderingComposer,
-    $$UserRecipePreferencesTableProcessedTableManager,
-    $$UserRecipePreferencesTableInsertCompanionBuilder,
+    $$UserRecipePreferencesTableCreateCompanionBuilder,
     $$UserRecipePreferencesTableUpdateCompanionBuilder> {
   $$UserRecipePreferencesTableTableManager(
       _$AppDatabase db, $UserRecipePreferencesTable table)
@@ -5795,9 +5904,7 @@ class $$UserRecipePreferencesTableTableManager extends RootTableManager<
               ComposerState(db, table)),
           orderingComposer: $$UserRecipePreferencesTableOrderingComposer(
               ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$UserRecipePreferencesTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> recipeId = const Value.absent(),
             Value<DateTime?> lastUsed = const Value.absent(),
             Value<bool> isFavorite = const Value.absent(),
@@ -5817,7 +5924,7 @@ class $$UserRecipePreferencesTableTableManager extends RootTableManager<
             customWaterAmount: customWaterAmount,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String recipeId,
             Value<DateTime?> lastUsed = const Value.absent(),
             required bool isFavorite,
@@ -5838,19 +5945,6 @@ class $$UserRecipePreferencesTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$UserRecipePreferencesTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AppDatabase,
-        $UserRecipePreferencesTable,
-        UserRecipePreference,
-        $$UserRecipePreferencesTableFilterComposer,
-        $$UserRecipePreferencesTableOrderingComposer,
-        $$UserRecipePreferencesTableProcessedTableManager,
-        $$UserRecipePreferencesTableInsertCompanionBuilder,
-        $$UserRecipePreferencesTableUpdateCompanionBuilder> {
-  $$UserRecipePreferencesTableProcessedTableManager(super.$state);
 }
 
 class $$UserRecipePreferencesTableFilterComposer
@@ -5945,7 +6039,7 @@ class $$UserRecipePreferencesTableOrderingComposer
   }
 }
 
-typedef $$CoffeeFactsTableInsertCompanionBuilder = CoffeeFactsCompanion
+typedef $$CoffeeFactsTableCreateCompanionBuilder = CoffeeFactsCompanion
     Function({
   required String id,
   required String fact,
@@ -5966,8 +6060,7 @@ class $$CoffeeFactsTableTableManager extends RootTableManager<
     CoffeeFact,
     $$CoffeeFactsTableFilterComposer,
     $$CoffeeFactsTableOrderingComposer,
-    $$CoffeeFactsTableProcessedTableManager,
-    $$CoffeeFactsTableInsertCompanionBuilder,
+    $$CoffeeFactsTableCreateCompanionBuilder,
     $$CoffeeFactsTableUpdateCompanionBuilder> {
   $$CoffeeFactsTableTableManager(_$AppDatabase db, $CoffeeFactsTable table)
       : super(TableManagerState(
@@ -5977,9 +6070,7 @@ class $$CoffeeFactsTableTableManager extends RootTableManager<
               $$CoffeeFactsTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$CoffeeFactsTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$CoffeeFactsTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> fact = const Value.absent(),
             Value<String> locale = const Value.absent(),
@@ -5991,7 +6082,7 @@ class $$CoffeeFactsTableTableManager extends RootTableManager<
             locale: locale,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             required String fact,
             required String locale,
@@ -6004,18 +6095,6 @@ class $$CoffeeFactsTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$CoffeeFactsTableProcessedTableManager extends ProcessedTableManager<
-    _$AppDatabase,
-    $CoffeeFactsTable,
-    CoffeeFact,
-    $$CoffeeFactsTableFilterComposer,
-    $$CoffeeFactsTableOrderingComposer,
-    $$CoffeeFactsTableProcessedTableManager,
-    $$CoffeeFactsTableInsertCompanionBuilder,
-    $$CoffeeFactsTableUpdateCompanionBuilder> {
-  $$CoffeeFactsTableProcessedTableManager(super.$state);
 }
 
 class $$CoffeeFactsTableFilterComposer
@@ -6072,7 +6151,7 @@ class $$CoffeeFactsTableOrderingComposer
   }
 }
 
-typedef $$LaunchPopupsTableInsertCompanionBuilder = LaunchPopupsCompanion
+typedef $$LaunchPopupsTableCreateCompanionBuilder = LaunchPopupsCompanion
     Function({
   Value<int> id,
   required String content,
@@ -6093,8 +6172,7 @@ class $$LaunchPopupsTableTableManager extends RootTableManager<
     LaunchPopup,
     $$LaunchPopupsTableFilterComposer,
     $$LaunchPopupsTableOrderingComposer,
-    $$LaunchPopupsTableProcessedTableManager,
-    $$LaunchPopupsTableInsertCompanionBuilder,
+    $$LaunchPopupsTableCreateCompanionBuilder,
     $$LaunchPopupsTableUpdateCompanionBuilder> {
   $$LaunchPopupsTableTableManager(_$AppDatabase db, $LaunchPopupsTable table)
       : super(TableManagerState(
@@ -6104,9 +6182,7 @@ class $$LaunchPopupsTableTableManager extends RootTableManager<
               $$LaunchPopupsTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$LaunchPopupsTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$LaunchPopupsTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> content = const Value.absent(),
             Value<String> locale = const Value.absent(),
@@ -6118,7 +6194,7 @@ class $$LaunchPopupsTableTableManager extends RootTableManager<
             locale: locale,
             createdAt: createdAt,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required String content,
             required String locale,
@@ -6131,18 +6207,6 @@ class $$LaunchPopupsTableTableManager extends RootTableManager<
             createdAt: createdAt,
           ),
         ));
-}
-
-class $$LaunchPopupsTableProcessedTableManager extends ProcessedTableManager<
-    _$AppDatabase,
-    $LaunchPopupsTable,
-    LaunchPopup,
-    $$LaunchPopupsTableFilterComposer,
-    $$LaunchPopupsTableOrderingComposer,
-    $$LaunchPopupsTableProcessedTableManager,
-    $$LaunchPopupsTableInsertCompanionBuilder,
-    $$LaunchPopupsTableUpdateCompanionBuilder> {
-  $$LaunchPopupsTableProcessedTableManager(super.$state);
 }
 
 class $$LaunchPopupsTableFilterComposer
@@ -6209,7 +6273,7 @@ class $$LaunchPopupsTableOrderingComposer
   }
 }
 
-typedef $$ContributorsTableInsertCompanionBuilder = ContributorsCompanion
+typedef $$ContributorsTableCreateCompanionBuilder = ContributorsCompanion
     Function({
   required String id,
   required String content,
@@ -6230,8 +6294,7 @@ class $$ContributorsTableTableManager extends RootTableManager<
     Contributor,
     $$ContributorsTableFilterComposer,
     $$ContributorsTableOrderingComposer,
-    $$ContributorsTableProcessedTableManager,
-    $$ContributorsTableInsertCompanionBuilder,
+    $$ContributorsTableCreateCompanionBuilder,
     $$ContributorsTableUpdateCompanionBuilder> {
   $$ContributorsTableTableManager(_$AppDatabase db, $ContributorsTable table)
       : super(TableManagerState(
@@ -6241,9 +6304,7 @@ class $$ContributorsTableTableManager extends RootTableManager<
               $$ContributorsTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$ContributorsTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$ContributorsTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> content = const Value.absent(),
             Value<String> locale = const Value.absent(),
@@ -6255,7 +6316,7 @@ class $$ContributorsTableTableManager extends RootTableManager<
             locale: locale,
             rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             required String id,
             required String content,
             required String locale,
@@ -6268,18 +6329,6 @@ class $$ContributorsTableTableManager extends RootTableManager<
             rowid: rowid,
           ),
         ));
-}
-
-class $$ContributorsTableProcessedTableManager extends ProcessedTableManager<
-    _$AppDatabase,
-    $ContributorsTable,
-    Contributor,
-    $$ContributorsTableFilterComposer,
-    $$ContributorsTableOrderingComposer,
-    $$ContributorsTableProcessedTableManager,
-    $$ContributorsTableInsertCompanionBuilder,
-    $$ContributorsTableUpdateCompanionBuilder> {
-  $$ContributorsTableProcessedTableManager(super.$state);
 }
 
 class $$ContributorsTableFilterComposer
@@ -6336,9 +6385,9 @@ class $$ContributorsTableOrderingComposer
   }
 }
 
-typedef $$UserStatsTableInsertCompanionBuilder = UserStatsCompanion Function({
-  Value<int> id,
-  required String userId,
+typedef $$UserStatsTableCreateCompanionBuilder = UserStatsCompanion Function({
+  required String statUuid,
+  Value<int?> id,
   required String recipeId,
   required double coffeeAmount,
   required double waterAmount,
@@ -6353,10 +6402,11 @@ typedef $$UserStatsTableInsertCompanionBuilder = UserStatsCompanion Function({
   Value<int?> coffeeBeansId,
   Value<bool> isMarked,
   Value<String?> coffeeBeansUuid,
+  Value<int> rowid,
 });
 typedef $$UserStatsTableUpdateCompanionBuilder = UserStatsCompanion Function({
-  Value<int> id,
-  Value<String> userId,
+  Value<String> statUuid,
+  Value<int?> id,
   Value<String> recipeId,
   Value<double> coffeeAmount,
   Value<double> waterAmount,
@@ -6371,6 +6421,7 @@ typedef $$UserStatsTableUpdateCompanionBuilder = UserStatsCompanion Function({
   Value<int?> coffeeBeansId,
   Value<bool> isMarked,
   Value<String?> coffeeBeansUuid,
+  Value<int> rowid,
 });
 
 class $$UserStatsTableTableManager extends RootTableManager<
@@ -6379,8 +6430,7 @@ class $$UserStatsTableTableManager extends RootTableManager<
     UserStat,
     $$UserStatsTableFilterComposer,
     $$UserStatsTableOrderingComposer,
-    $$UserStatsTableProcessedTableManager,
-    $$UserStatsTableInsertCompanionBuilder,
+    $$UserStatsTableCreateCompanionBuilder,
     $$UserStatsTableUpdateCompanionBuilder> {
   $$UserStatsTableTableManager(_$AppDatabase db, $UserStatsTable table)
       : super(TableManagerState(
@@ -6390,11 +6440,9 @@ class $$UserStatsTableTableManager extends RootTableManager<
               $$UserStatsTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$UserStatsTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$UserStatsTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
-            Value<int> id = const Value.absent(),
-            Value<String> userId = const Value.absent(),
+          updateCompanionCallback: ({
+            Value<String> statUuid = const Value.absent(),
+            Value<int?> id = const Value.absent(),
             Value<String> recipeId = const Value.absent(),
             Value<double> coffeeAmount = const Value.absent(),
             Value<double> waterAmount = const Value.absent(),
@@ -6409,10 +6457,11 @@ class $$UserStatsTableTableManager extends RootTableManager<
             Value<int?> coffeeBeansId = const Value.absent(),
             Value<bool> isMarked = const Value.absent(),
             Value<String?> coffeeBeansUuid = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
           }) =>
               UserStatsCompanion(
+            statUuid: statUuid,
             id: id,
-            userId: userId,
             recipeId: recipeId,
             coffeeAmount: coffeeAmount,
             waterAmount: waterAmount,
@@ -6427,10 +6476,11 @@ class $$UserStatsTableTableManager extends RootTableManager<
             coffeeBeansId: coffeeBeansId,
             isMarked: isMarked,
             coffeeBeansUuid: coffeeBeansUuid,
+            rowid: rowid,
           ),
-          getInsertCompanionBuilder: ({
-            Value<int> id = const Value.absent(),
-            required String userId,
+          createCompanionCallback: ({
+            required String statUuid,
+            Value<int?> id = const Value.absent(),
             required String recipeId,
             required double coffeeAmount,
             required double waterAmount,
@@ -6445,10 +6495,11 @@ class $$UserStatsTableTableManager extends RootTableManager<
             Value<int?> coffeeBeansId = const Value.absent(),
             Value<bool> isMarked = const Value.absent(),
             Value<String?> coffeeBeansUuid = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
           }) =>
               UserStatsCompanion.insert(
+            statUuid: statUuid,
             id: id,
-            userId: userId,
             recipeId: recipeId,
             coffeeAmount: coffeeAmount,
             waterAmount: waterAmount,
@@ -6463,32 +6514,21 @@ class $$UserStatsTableTableManager extends RootTableManager<
             coffeeBeansId: coffeeBeansId,
             isMarked: isMarked,
             coffeeBeansUuid: coffeeBeansUuid,
+            rowid: rowid,
           ),
         ));
-}
-
-class $$UserStatsTableProcessedTableManager extends ProcessedTableManager<
-    _$AppDatabase,
-    $UserStatsTable,
-    UserStat,
-    $$UserStatsTableFilterComposer,
-    $$UserStatsTableOrderingComposer,
-    $$UserStatsTableProcessedTableManager,
-    $$UserStatsTableInsertCompanionBuilder,
-    $$UserStatsTableUpdateCompanionBuilder> {
-  $$UserStatsTableProcessedTableManager(super.$state);
 }
 
 class $$UserStatsTableFilterComposer
     extends FilterComposer<_$AppDatabase, $UserStatsTable> {
   $$UserStatsTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
+  ColumnFilters<String> get statUuid => $state.composableBuilder(
+      column: $state.table.statUuid,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
-  ColumnFilters<String> get userId => $state.composableBuilder(
-      column: $state.table.userId,
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
@@ -6580,13 +6620,13 @@ class $$UserStatsTableFilterComposer
 class $$UserStatsTableOrderingComposer
     extends OrderingComposer<_$AppDatabase, $UserStatsTable> {
   $$UserStatsTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
+  ColumnOrderings<String> get statUuid => $state.composableBuilder(
+      column: $state.table.statUuid,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
-  ColumnOrderings<String> get userId => $state.composableBuilder(
-      column: $state.table.userId,
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
@@ -6676,7 +6716,7 @@ class $$UserStatsTableOrderingComposer
   }
 }
 
-typedef $$CoffeeBeansTableInsertCompanionBuilder = CoffeeBeansCompanion
+typedef $$CoffeeBeansTableCreateCompanionBuilder = CoffeeBeansCompanion
     Function({
   Value<int> id,
   required String roaster,
@@ -6721,8 +6761,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
     CoffeeBean,
     $$CoffeeBeansTableFilterComposer,
     $$CoffeeBeansTableOrderingComposer,
-    $$CoffeeBeansTableProcessedTableManager,
-    $$CoffeeBeansTableInsertCompanionBuilder,
+    $$CoffeeBeansTableCreateCompanionBuilder,
     $$CoffeeBeansTableUpdateCompanionBuilder> {
   $$CoffeeBeansTableTableManager(_$AppDatabase db, $CoffeeBeansTable table)
       : super(TableManagerState(
@@ -6732,9 +6771,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
               $$CoffeeBeansTableFilterComposer(ComposerState(db, table)),
           orderingComposer:
               $$CoffeeBeansTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$CoffeeBeansTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
+          updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> roaster = const Value.absent(),
             Value<String> name = const Value.absent(),
@@ -6770,7 +6807,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             isFavorite: isFavorite,
             beansUuid: beansUuid,
           ),
-          getInsertCompanionBuilder: ({
+          createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required String roaster,
             required String name,
@@ -6807,18 +6844,6 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             beansUuid: beansUuid,
           ),
         ));
-}
-
-class $$CoffeeBeansTableProcessedTableManager extends ProcessedTableManager<
-    _$AppDatabase,
-    $CoffeeBeansTable,
-    CoffeeBean,
-    $$CoffeeBeansTableFilterComposer,
-    $$CoffeeBeansTableOrderingComposer,
-    $$CoffeeBeansTableProcessedTableManager,
-    $$CoffeeBeansTableInsertCompanionBuilder,
-    $$CoffeeBeansTableUpdateCompanionBuilder> {
-  $$CoffeeBeansTableProcessedTableManager(super.$state);
 }
 
 class $$CoffeeBeansTableFilterComposer
@@ -6989,9 +7014,9 @@ class $$CoffeeBeansTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-class _$AppDatabaseManager {
+class $AppDatabaseManager {
   final _$AppDatabase _db;
-  _$AppDatabaseManager(this._db);
+  $AppDatabaseManager(this._db);
   $$VendorsTableTableManager get vendors =>
       $$VendorsTableTableManager(_db, _db.vendors);
   $$SupportedLocalesTableTableManager get supportedLocales =>

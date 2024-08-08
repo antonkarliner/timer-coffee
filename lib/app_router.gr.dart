@@ -58,7 +58,7 @@ abstract class $AppRouter extends _i18.RootStackRouter {
         routeData: routeData,
         child: _i3.CoffeeBeansDetailScreen(
           key: args.key,
-          id: args.id,
+          uuid: args.uuid,
         ),
       );
     },
@@ -111,7 +111,7 @@ abstract class $AppRouter extends _i18.RootStackRouter {
         routeData: routeData,
         child: _i8.NewBeansScreen(
           key: args.key,
-          id: args.id,
+          uuid: args.uuid,
         ),
       );
     },
@@ -266,13 +266,13 @@ class CoffeeBeansDetailRoute
     extends _i18.PageRouteInfo<CoffeeBeansDetailRouteArgs> {
   CoffeeBeansDetailRoute({
     _i19.Key? key,
-    required int id,
+    required String uuid,
     List<_i18.PageRouteInfo>? children,
   }) : super(
           CoffeeBeansDetailRoute.name,
           args: CoffeeBeansDetailRouteArgs(
             key: key,
-            id: id,
+            uuid: uuid,
           ),
           initialChildren: children,
         );
@@ -286,16 +286,16 @@ class CoffeeBeansDetailRoute
 class CoffeeBeansDetailRouteArgs {
   const CoffeeBeansDetailRouteArgs({
     this.key,
-    required this.id,
+    required this.uuid,
   });
 
   final _i19.Key? key;
 
-  final int id;
+  final String uuid;
 
   @override
   String toString() {
-    return 'CoffeeBeansDetailRouteArgs{key: $key, id: $id}';
+    return 'CoffeeBeansDetailRouteArgs{key: $key, uuid: $uuid}';
   }
 }
 
@@ -402,13 +402,13 @@ class HubTabRoute extends _i18.PageRouteInfo<void> {
 class NewBeansRoute extends _i18.PageRouteInfo<NewBeansRouteArgs> {
   NewBeansRoute({
     _i19.Key? key,
-    int? id,
+    String? uuid,
     List<_i18.PageRouteInfo>? children,
   }) : super(
           NewBeansRoute.name,
           args: NewBeansRouteArgs(
             key: key,
-            id: id,
+            uuid: uuid,
           ),
           initialChildren: children,
         );
@@ -422,16 +422,16 @@ class NewBeansRoute extends _i18.PageRouteInfo<NewBeansRouteArgs> {
 class NewBeansRouteArgs {
   const NewBeansRouteArgs({
     this.key,
-    this.id,
+    this.uuid,
   });
 
   final _i19.Key? key;
 
-  final int? id;
+  final String? uuid;
 
   @override
   String toString() {
-    return 'NewBeansRouteArgs{key: $key, id: $id}';
+    return 'NewBeansRouteArgs{key: $key, uuid: $uuid}';
   }
 }
 

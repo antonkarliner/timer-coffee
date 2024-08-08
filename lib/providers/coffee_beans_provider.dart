@@ -16,7 +16,7 @@ class CoffeeBeansProvider with ChangeNotifier {
     return await db.coffeeBeansDao.fetchAllCoffeeBeans();
   }
 
-  Future<void> addCoffeeBeans(CoffeeBeansModel beans) async {
+  Future<String> addCoffeeBeans(CoffeeBeansModel beans) async {
     final beansUuid = _uuid.v7(); // Generate a new UUID
     await db.coffeeBeansDao.insertCoffeeBeans(CoffeeBeansCompanion(
       roaster: Value(beans.roaster),
@@ -36,10 +36,11 @@ class CoffeeBeansProvider with ChangeNotifier {
       beansUuid: Value(beansUuid), // Add the generated UUID
     ));
     notifyListeners();
+    return beansUuid; // Return the generated UUID
   }
 
-  Future<void> deleteCoffeeBeans(int id) async {
-    await db.coffeeBeansDao.deleteCoffeeBeans(id);
+  Future<void> deleteCoffeeBeans(String uuid) async {
+    await db.coffeeBeansDao.deleteCoffeeBeans(uuid);
     notifyListeners();
   }
 
@@ -169,9 +170,8 @@ class CoffeeBeansProvider with ChangeNotifier {
     return combinedSet.toList();
   }
 
-  Future<void> toggleFavoriteStatus(int id, bool isFavorite) async {
-    final updatedFavoriteStatus = !isFavorite;
-    await db.coffeeBeansDao.updateFavoriteStatus(id, updatedFavoriteStatus);
+  Future<void> toggleFavoriteStatus(String uuid, bool isFavorite) async {
+    await db.coffeeBeansDao.updateFavoriteStatus(uuid, isFavorite);
     notifyListeners();
   }
 

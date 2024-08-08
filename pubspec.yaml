@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 2.2.8+5907
+version: 2.2.8+5912
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -32,7 +32,7 @@ dependencies:
   coffeico: ^0.2.0
   in_app_purchase: ^3.1.11
   supabase_flutter: ^2.5.8
-  drift: ^2.18.0
+  drift: ^2.19.1+1
   sqlite3_flutter_libs: ^0.5.23
   path_provider: ^2.0.0
   path: ^1.8.3
@@ -54,6 +54,7 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   sqflite: ^2.0.0+4
   sign_in_with_apple: ^6.1.1
+  google_sign_in: ^6.2.1
   crypto: ^3.0.3
   sign_in_button: ^3.2.0
   uuid: ^4.4.2

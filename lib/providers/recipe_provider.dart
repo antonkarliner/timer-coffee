@@ -2,8 +2,10 @@ import 'package:coffee_timer/models/coffee_fact_model.dart';
 import 'package:coffee_timer/models/contributor_model.dart';
 import 'package:coffee_timer/models/launch_popup_model.dart';
 import 'package:coffee_timer/models/vendor_model.dart';
+import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../database/database.dart';
 import '../models/recipe_model.dart';
 import '../models/supported_locale_model.dart';
@@ -15,10 +17,12 @@ class RecipeProvider extends ChangeNotifier {
   Locale _locale;
   List<Locale> _supportedLocales;
   final AppDatabase db;
+  final DatabaseProvider databaseProvider;
 
   bool _isDataLoaded = false;
 
-  RecipeProvider(this._locale, this._supportedLocales, this.db) {
+  RecipeProvider(
+      this._locale, this._supportedLocales, this.db, this.databaseProvider) {
     _initialize();
   }
 
@@ -101,8 +105,14 @@ class RecipeProvider extends ChangeNotifier {
       var recipe = _recipes[index];
       var isFavorite = !recipe.isFavorite;
 
+      // Update local database
       await db.userRecipePreferencesDao
           .updatePreferences(recipeId, isFavorite: isFavorite);
+
+      // Update Supabase
+      await databaseProvider.updateUserPreferenceInSupabase(recipeId,
+          isFavorite: isFavorite);
+
       _recipes[index] = recipe.copyWith(isFavorite: isFavorite);
 
       // Check if the favorite status has indeed toggled.
@@ -113,8 +123,6 @@ class RecipeProvider extends ChangeNotifier {
           _favoriteRecipeIds.value.remove(recipeId);
         }
         _favoriteRecipeIds.notifyListeners(); // Notify favorite IDs changes.
-
-        // This ensures we only notify listeners when there's a change.
         notifyListeners();
       }
     } else {
@@ -124,21 +132,39 @@ class RecipeProvider extends ChangeNotifier {
 
   Future<void> saveCustomAmounts(
       String recipeId, double coffeeAmount, double waterAmount) async {
+    // Update local database
     await db.userRecipePreferencesDao.updatePreferences(
       recipeId,
       customCoffeeAmount: coffeeAmount,
       customWaterAmount: waterAmount,
     );
+
+    // Update Supabase
+    await databaseProvider.updateUserPreferenceInSupabase(
+      recipeId,
+      customCoffeeAmount: coffeeAmount,
+      customWaterAmount: waterAmount,
+    );
+
     await fetchAllRecipes();
   }
 
   Future<void> saveSliderPositions(String recipeId, int sweetnessSliderPosition,
       int strengthSliderPosition) async {
+    // Update local database
     await db.userRecipePreferencesDao.updatePreferences(
       recipeId,
       sweetnessSliderPosition: sweetnessSliderPosition,
       strengthSliderPosition: strengthSliderPosition,
     );
+
+    // Update Supabase
+    await databaseProvider.updateUserPreferenceInSupabase(
+      recipeId,
+      sweetnessSliderPosition: sweetnessSliderPosition,
+      strengthSliderPosition: strengthSliderPosition,
+    );
+
     await fetchAllRecipes();
   }
 

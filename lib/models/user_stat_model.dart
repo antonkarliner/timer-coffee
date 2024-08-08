@@ -1,6 +1,6 @@
 class UserStatsModel {
-  final int id;
-  final String userId;
+  final String statUuid;
+  final int? id; // Change to nullable
   final String recipeId;
   final double coffeeAmount;
   final double waterAmount;
@@ -17,8 +17,8 @@ class UserStatsModel {
   final String? coffeeBeansUuid;
 
   UserStatsModel({
-    required this.id,
-    required this.userId,
+    required this.statUuid,
+    this.id, // Change to optional
     required this.recipeId,
     required this.coffeeAmount,
     required this.waterAmount,

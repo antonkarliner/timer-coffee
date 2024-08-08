@@ -1,27 +1,27 @@
 import 'package:flutter/foundation.dart';
 
 class CardExpansionNotifier extends ChangeNotifier {
-  Map<int, bool> expandedState = {};
+  Map<String, bool> expandedState = {};
 
-  bool isExpanded(int id) => expandedState[id] ?? false;
+  bool isExpanded(String statUuid) => expandedState[statUuid] ?? false;
 
-  void toggleExpansion(int id) {
-    expandedState[id] = !isExpanded(id);
+  void toggleExpansion(String statUuid) {
+    expandedState[statUuid] = !isExpanded(statUuid);
     notifyListeners();
   }
 
-  void setExpansion(int id, bool isExpanded) {
-    expandedState[id] = isExpanded;
+  void setExpansion(String statUuid, bool isExpanded) {
+    expandedState[statUuid] = isExpanded;
     notifyListeners();
   }
 
-  void addBean(int id) {
-    expandedState[id] = true;
+  void addBean(String statUuid) {
+    expandedState[statUuid] = true;
     notifyListeners();
   }
 
-  void removeBean(int id) {
-    expandedState[id] = true;
+  void removeBean(String statUuid) {
+    expandedState[statUuid] = true;
     notifyListeners();
   }
 }

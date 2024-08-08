@@ -254,4 +254,115 @@ class DatabaseProvider {
       return {'original': null, 'mirror': null};
     }
   }
+
+  Future<void> uploadUserPreferencesToSupabase() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null || user.isAnonymous) {
+      print('No user logged in or user is anonymous');
+      return;
+    }
+
+    final localPreferences =
+        await _db.userRecipePreferencesDao.getAllPreferences();
+
+    final preferencesData = localPreferences
+        .map((pref) => {
+              'user_id': user.id,
+              'recipe_id': pref.recipeId,
+              'last_used': pref.lastUsed?.toUtc().toIso8601String(),
+              'is_favorite': pref.isFavorite,
+              'sweetness_slider_position': pref.sweetnessSliderPosition,
+              'strength_slider_position': pref.strengthSliderPosition,
+              'custom_coffee_amount': pref.customCoffeeAmount,
+              'custom_water_amount': pref.customWaterAmount,
+            })
+        .toList();
+
+    try {
+      await Supabase.instance.client
+          .from('user_recipe_preferences')
+          .upsert(preferencesData);
+
+      print('Successfully uploaded ${preferencesData.length} preferences');
+    } catch (e) {
+      print('Error uploading preferences: $e');
+      // You might want to handle this error more gracefully,
+      // perhaps by showing a message to the user or implementing a retry mechanism
+    }
+  }
+
+  Future<void> updateUserPreferenceInSupabase(
+    String recipeId, {
+    bool? isFavorite,
+    int? sweetnessSliderPosition,
+    int? strengthSliderPosition,
+    double? customCoffeeAmount,
+    double? customWaterAmount,
+  }) async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null || user.isAnonymous) {
+      print('No user logged in or user is anonymous');
+      return;
+    }
+
+    final data = {
+      'user_id': user.id,
+      'recipe_id': recipeId,
+      'last_used': DateTime.now().toUtc().toIso8601String(),
+      if (isFavorite != null) 'is_favorite': isFavorite,
+      if (sweetnessSliderPosition != null)
+        'sweetness_slider_position': sweetnessSliderPosition,
+      if (strengthSliderPosition != null)
+        'strength_slider_position': strengthSliderPosition,
+      if (customCoffeeAmount != null)
+        'custom_coffee_amount': customCoffeeAmount,
+      if (customWaterAmount != null) 'custom_water_amount': customWaterAmount,
+    };
+
+    try {
+      await Supabase.instance.client
+          .from('user_recipe_preferences')
+          .upsert(data);
+      print('Preference updated successfully');
+    } catch (e) {
+      print('Error updating preference: $e');
+      // You might want to rethrow the error or handle it in a way that's appropriate for your app
+      // throw Exception('Failed to update preference: $e');
+    }
+  }
+
+  Future<void> fetchAndInsertUserPreferencesFromSupabase() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null || user.isAnonymous) {
+      print('No user logged in or user is anonymous');
+      return;
+    }
+
+    try {
+      final response = await Supabase.instance.client
+          .from('user_recipe_preferences')
+          .select()
+          .eq('user_id', user.id);
+
+      final preferences = (response as List<dynamic>)
+          .map((json) {
+            try {
+              return UserRecipePreferencesCompanionExtension.fromJson(json);
+            } catch (e) {
+              print('Error parsing preference: $e');
+              return null;
+            }
+          })
+          .whereType<UserRecipePreferencesCompanion>()
+          .toList();
+
+      await _db.userRecipePreferencesDao
+          .insertOrUpdateMultiplePreferences(preferences);
+
+      print(
+          'Successfully fetched and inserted ${preferences.length} preferences');
+    } catch (e) {
+      print('Error fetching and inserting preferences: $e');
+    }
+  }
 }

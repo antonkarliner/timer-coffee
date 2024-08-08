@@ -39,8 +39,8 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Coffeico.bag_with_bean), // Add your desired icon here
-              const SizedBox(width: 8), // Adjust spacing as needed
+              const Icon(Coffeico.bag_with_bean),
+              const SizedBox(width: 8),
               Text(loc.coffeebeans),
             ],
           ),
@@ -60,9 +60,9 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
         future: coffeeBeansProvider.fetchAllCoffeeBeans(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            // Sort the list in descending order based on the ID
+            // Sort the list in descending order based on the UUID
             final sortedData = snapshot.data!
-              ..sort((a, b) => b.id.compareTo(a.id));
+              ..sort((a, b) => b.beansUuid!.compareTo(a.beansUuid!));
 
             return ListView.builder(
               itemCount: sortedData.length,
@@ -72,7 +72,8 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
                   bean: bean,
                   isEditMode: isEditMode,
                   onDelete: () async {
-                    await coffeeBeansProvider.deleteCoffeeBeans(bean.id);
+                    await coffeeBeansProvider
+                        .deleteCoffeeBeans(bean.beansUuid!);
                     setState(() {});
                   },
                 );
@@ -93,8 +94,11 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
         identifier: 'addCoffeeBeansButton',
         label: loc.addBeans,
         child: FloatingActionButton(
-          onPressed: () {
-            context.router.push(NewBeansRoute());
+          onPressed: () async {
+            final result = await context.router.push(NewBeansRoute());
+            if (result != null && result is String) {
+              setState(() {}); // Refresh the list after adding new beans
+            }
           },
           child: const Icon(Icons.add),
         ),
@@ -124,11 +128,11 @@ class CoffeeBeanCard extends StatelessWidget {
     final loc = AppLocalizations.of(context)!;
 
     return Semantics(
-      identifier: 'coffeeBeanCard_${bean.id}',
+      identifier: 'coffeeBeanCard_${bean.beansUuid}',
       label: '${bean.name}, ${bean.roaster}, ${bean.origin}',
       child: GestureDetector(
         onTap: () {
-          context.router.push(CoffeeBeansDetailRoute(id: bean.id));
+          context.router.push(CoffeeBeansDetailRoute(uuid: bean.beansUuid!));
         },
         child: Card(
           margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -151,7 +155,6 @@ class CoffeeBeanCard extends StatelessWidget {
                             placeholder: (context, url) =>
                                 const Icon(Coffeico.bag_with_bean, size: 40),
                             errorWidget: (context, url, error) {
-                              // If original URL fails, try mirror URL
                               if (url == originalUrl && mirrorUrl != null) {
                                 return CachedNetworkImage(
                                   imageUrl: mirrorUrl,
@@ -183,7 +186,7 @@ class CoffeeBeanCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Semantics(
-                        identifier: 'beanName_${bean.id}',
+                        identifier: 'beanName_${bean.beansUuid}',
                         label: loc.name,
                         child: Text(bean.name,
                             style: const TextStyle(
@@ -191,14 +194,14 @@ class CoffeeBeanCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Semantics(
-                        identifier: 'beanRoaster_${bean.id}',
+                        identifier: 'beanRoaster_${bean.beansUuid}',
                         label: loc.roaster,
                         child: Text(bean.roaster,
                             style: const TextStyle(fontSize: 14)),
                       ),
                       const SizedBox(height: 4),
                       Semantics(
-                        identifier: 'beanOrigin_${bean.id}',
+                        identifier: 'beanOrigin_${bean.beansUuid}',
                         label: loc.origin,
                         child: Text(bean.origin,
                             style: const TextStyle(
@@ -209,7 +212,7 @@ class CoffeeBeanCard extends StatelessWidget {
                 ),
                 if (isEditMode)
                   Semantics(
-                    identifier: 'deleteBeanButton_${bean.id}',
+                    identifier: 'deleteBeanButton_${bean.beansUuid}',
                     label: loc.delete,
                     child: IconButton(
                       icon: const Icon(Icons.remove_circle_outline,
@@ -218,7 +221,7 @@ class CoffeeBeanCard extends StatelessWidget {
                     ),
                   ),
                 Semantics(
-                  identifier: 'favoriteBeanButton_${bean.id}',
+                  identifier: 'favoriteBeanButton_${bean.beansUuid}',
                   label: bean.isFavorite ? loc.removeFavorite : loc.addFavorite,
                   child: IconButton(
                     icon: Icon(
@@ -226,7 +229,7 @@ class CoffeeBeanCard extends StatelessWidget {
                     ),
                     onPressed: () async {
                       await coffeeBeansProvider.toggleFavoriteStatus(
-                          bean.id, bean.isFavorite);
+                          bean.beansUuid!, !bean.isFavorite);
                     },
                   ),
                 ),

@@ -68,7 +68,8 @@ void main() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isFirstLaunch = prefs.getBool('firstLaunched') ?? true;
-  bool hasPerformedBackfill = prefs.getBool('hasPerformedBackfill') ?? false;
+  bool hasPerformedUuidBackfill =
+      prefs.getBool('hasPerformedUuidBackfill') ?? false;
 
   final AppDatabase database =
       AppDatabase(enableForeignKeyConstraints: !isFirstLaunch);
@@ -109,14 +110,16 @@ void main() async {
   final coffeeBeansProvider = CoffeeBeansProvider(database, databaseProvider);
   final userStatProvider = UserStatProvider(database, coffeeBeansProvider);
 
-  if (!hasPerformedBackfill) {
+  if (!hasPerformedUuidBackfill) {
     // Perform backfill operations
     await coffeeBeansProvider.backfillMissingUuids();
+    await userStatProvider.backfillMissingStatUuids();
     await userStatProvider.backfillMissingCoffeeBeansUuids();
 
     // Mark backfill as completed
-    await prefs.setBool('hasPerformedBackfill', true);
+    await prefs.setBool('hasPerformedUuidBackfill', true);
   }
+  await databaseProvider.fetchAndInsertUserPreferencesFromSupabase();
 
   runApp(
     CoffeeTimerApp(
@@ -169,8 +172,8 @@ class CoffeeTimerApp extends StatelessWidget {
       providers: [
         Provider<AppDatabase>.value(value: database),
         ChangeNotifierProvider<RecipeProvider>(
-          create: (_) =>
-              RecipeProvider(initialLocale, supportedLocales, database),
+          create: (_) => RecipeProvider(
+              initialLocale, supportedLocales, database, databaseProvider),
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(themeMode),

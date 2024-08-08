@@ -93,5 +93,20 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>GIDClientID</key>
+	<string>158450410168-8o2bk6r3e4ik8i413ua66bc50iug45na.apps.googleusercontent.com</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+	<dict>
+		<key>CFBundleTypeRole</key>
+		<string>Editor</string>
+		<key>CFBundleURLSchemes</key>
+		<array>
+			<!-- TODO Replace this value: -->
+			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+			<string>com.googleusercontent.apps.158450410168-8o2bk6r3e4ik8i413ua66bc50iug45na</string>
+		</array>
+	</dict>
+	</array>
 </dict>
 </plist>
