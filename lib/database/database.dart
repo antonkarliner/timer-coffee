@@ -275,15 +275,8 @@ class AppDatabase extends _$AppDatabase {
     return _uuid.v7();
   }
 
-  @override
-  MigrationStrategy get migration => MigrationStrategy(
-        beforeOpen: (details) async {
-          if (enableForeignKeyConstraints) {
-            await customStatement('PRAGMA foreign_keys = ON');
-          }
-
-          // Register the UUIDv7 function with SQLite
-          await customStatement('''
+  Future<void> _createUuidFunction(Migrator m) async {
+    await customStatement('''
       CREATE FUNCTION IF NOT EXISTS generate_uuid_v7()
       RETURNS TEXT
       LANGUAGE DART
@@ -292,115 +285,131 @@ class AppDatabase extends _$AppDatabase {
         return _generateUuidV7();
       ';
     ''');
+  }
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        beforeOpen: (details) async {
+          if (enableForeignKeyConstraints) {
+            await customStatement('PRAGMA foreign_keys = ON');
+          }
         },
-        onUpgrade: stepByStep(
-          from1To2: (m, schema) async {
-            await m.addColumn(schema.vendors, schema.vendors.bannerUrl);
-          },
-          from2To3: (m, schema) async {
-            await m.createIndex(schema.idxRecipesLastModified);
-          },
-          from3To4: (m, schema) async {
-            await m.createTable(contributors);
-            await m.addColumn(brewingMethods, brewingMethods.showOnMain);
-          },
-          from4To5: (m, schema) async {
-            await m.createTable(userStats);
-          },
-          from5To6: (m, schema) async {
-            await m.createTable(launchPopups);
-            await m.createIndex(schema.idxLaunchPopupsCreatedAt);
-            await m.deleteTable('StartPopups');
-          },
-          from6To7: (m, schema) async {
-            await m.addColumn(userStats, userStats.coffeeBeansId);
-            await m.addColumn(userStats, userStats.isMarked);
-            await m.createTable(coffeeBeans);
-          },
-          from7To8: (m, schema) async {
-            // Add beansUuid column to CoffeeBeans table
-            await m.addColumn(coffeeBeans, coffeeBeans.beansUuid);
+        onUpgrade: (m, oldVersion, newVersion) async {
+          // Create the UUID function before running the migrations
+          await _createUuidFunction(m);
 
-            // Add coffeeBeansUuid column to UserStats table
-            await m.addColumn(userStats, userStats.coffeeBeansUuid);
-          },
-          from8To9: (m, schema) async {
-            // Add stat_uuid column to UserStats table as nullable
-            await customStatement(
-                'ALTER TABLE user_stats ADD COLUMN stat_uuid TEXT');
-          },
-          from9To10: (m, schema) async {
-            await m.dropColumn(userStats, 'user_id');
-          },
-          from10To11: (m, schema) async {
-            // Temporarily disable foreign key constraints
-            await customStatement('PRAGMA foreign_keys = OFF');
+          // Run the step-by-step migrations
+          await stepByStep(
+            from1To2: (m, schema) async {
+              await m.addColumn(schema.vendors, schema.vendors.bannerUrl);
+            },
+            from2To3: (m, schema) async {
+              await m.createIndex(schema.idxRecipesLastModified);
+            },
+            from3To4: (m, schema) async {
+              await m.createTable(contributors);
+              await m.addColumn(brewingMethods, brewingMethods.showOnMain);
+            },
+            from4To5: (m, schema) async {
+              await m.createTable(userStats);
+            },
+            from5To6: (m, schema) async {
+              await m.createTable(launchPopups);
+              await m.createIndex(schema.idxLaunchPopupsCreatedAt);
+              await m.deleteTable('StartPopups');
+            },
+            from6To7: (m, schema) async {
+              await m.addColumn(userStats, userStats.coffeeBeansId);
+              await m.addColumn(userStats, userStats.isMarked);
+              await m.createTable(coffeeBeans);
+            },
+            from7To8: (m, schema) async {
+              // Add beansUuid column to CoffeeBeans table
+              await m.addColumn(coffeeBeans, coffeeBeans.beansUuid);
 
-            // Check if stat_uuid column exists and if it's already the primary key
-            final columns =
-                await customSelect("PRAGMA table_info('user_stats')").get();
-            final statUuidColumn = columns.firstWhereOrNull(
-              (column) => column.data['name'] == 'stat_uuid',
-            );
-
-            if (statUuidColumn == null) {
-              // If stat_uuid doesn't exist, add it as a nullable column first
+              // Add coffeeBeansUuid column to UserStats table
+              await m.addColumn(userStats, userStats.coffeeBeansUuid);
+            },
+            from8To9: (m, schema) async {
+              // Add stat_uuid column to UserStats table as nullable
               await customStatement(
                   'ALTER TABLE user_stats ADD COLUMN stat_uuid TEXT');
-            }
+            },
+            from9To10: (m, schema) async {
+              await m.dropColumn(userStats, 'user_id');
+            },
+            from10To11: (m, schema) async {
+              // Temporarily disable foreign key constraints
+              await customStatement('PRAGMA foreign_keys = OFF');
 
-            final isPrimaryKey =
-                statUuidColumn != null && statUuidColumn.data['pk'] == 1;
+              // Check if stat_uuid column exists and if it's already the primary key
+              final columns =
+                  await customSelect("PRAGMA table_info('user_stats')").get();
+              final statUuidColumn = columns.firstWhereOrNull(
+                (column) => column.data['name'] == 'stat_uuid',
+              );
 
-            if (!isPrimaryKey) {
-              // Generate UUIDs for any NULL stat_uuid values
-              await customStatement('''
-      UPDATE user_stats 
-      SET stat_uuid = generate_uuid_v7() 
-      WHERE stat_uuid IS NULL
-    ''');
+              if (statUuidColumn == null) {
+                // If stat_uuid doesn't exist, add it as a nullable column first
+                await customStatement(
+                    'ALTER TABLE user_stats ADD COLUMN stat_uuid TEXT');
+              }
 
-              // Create a new table with the desired structure
-              await customStatement('''
-      CREATE TABLE new_user_stats (
-        stat_uuid TEXT NOT NULL PRIMARY KEY,
-        id INTEGER,
-        recipe_id TEXT NOT NULL REFERENCES recipes(id),
-        coffee_amount REAL NOT NULL,
-        water_amount REAL NOT NULL,
-        sweetness_slider_position INTEGER NOT NULL,
-        strength_slider_position INTEGER NOT NULL,
-        brewing_method_id TEXT NOT NULL REFERENCES brewing_methods(brewing_method_id),
-        created_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
-        notes TEXT,
-        beans TEXT,
-        roaster TEXT,
-        rating REAL,
-        coffee_beans_id INTEGER,
-        is_marked INTEGER NOT NULL DEFAULT 0 CHECK (is_marked IN (0, 1)),
-        coffee_beans_uuid TEXT
-      )
-    ''');
+              final isPrimaryKey =
+                  statUuidColumn != null && statUuidColumn.data['pk'] == 1;
 
-              // Copy data from the old table to the new one
-              await customStatement('''
-      INSERT INTO new_user_stats 
-      SELECT * FROM user_stats
-    ''');
+              if (!isPrimaryKey) {
+                // Generate UUIDs for any NULL stat_uuid values
+                await customStatement('''
+                  UPDATE user_stats 
+                  SET stat_uuid = generate_uuid_v7() 
+                  WHERE stat_uuid IS NULL
+                ''');
 
-              // Drop the old table
-              await customStatement('DROP TABLE user_stats');
+                // Create a new table with the desired structure
+                await customStatement('''
+                  CREATE TABLE new_user_stats (
+                    stat_uuid TEXT NOT NULL PRIMARY KEY,
+                    id INTEGER,
+                    recipe_id TEXT NOT NULL REFERENCES recipes(id),
+                    coffee_amount REAL NOT NULL,
+                    water_amount REAL NOT NULL,
+                    sweetness_slider_position INTEGER NOT NULL,
+                    strength_slider_position INTEGER NOT NULL,
+                    brewing_method_id TEXT NOT NULL REFERENCES brewing_methods(brewing_method_id),
+                    created_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
+                    notes TEXT,
+                    beans TEXT,
+                    roaster TEXT,
+                    rating REAL,
+                    coffee_beans_id INTEGER,
+                    is_marked INTEGER NOT NULL DEFAULT 0 CHECK (is_marked IN (0, 1)),
+                    coffee_beans_uuid TEXT
+                  )
+                ''');
 
-              // Rename the new table to the original name
-              await customStatement(
-                  'ALTER TABLE new_user_stats RENAME TO user_stats');
-            }
+                // Copy data from the old table to the new one
+                await customStatement('''
+                  INSERT INTO new_user_stats 
+                  SELECT * FROM user_stats
+                ''');
 
-            // Re-enable foreign key constraints
-            await customStatement('PRAGMA foreign_keys = ON');
-          },
-        ),
+                // Drop the old table
+                await customStatement('DROP TABLE user_stats');
+
+                // Rename the new table to the original name
+                await customStatement(
+                    'ALTER TABLE new_user_stats RENAME TO user_stats');
+              }
+
+              // Re-enable foreign key constraints
+              await customStatement('PRAGMA foreign_keys = ON');
+            },
+          )(m, oldVersion, newVersion);
+        },
         onCreate: (m) async {
+          // Create the UUID function before creating tables
+          await _createUuidFunction(m);
           await m.createAll();
         },
       );
