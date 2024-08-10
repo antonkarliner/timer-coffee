@@ -12,6 +12,7 @@ import '../models/user_stat_model.dart';
 import '../models/launch_popup_model.dart';
 import '../models/coffee_beans_model.dart';
 import '../database/schema_versions.dart';
+import 'package:uuid/uuid.dart';
 part 'database.g.dart';
 part 'recipes_dao.dart';
 part 'steps_dao.dart';
@@ -261,12 +262,17 @@ class CoffeeBeans extends Table {
 )
 class AppDatabase extends _$AppDatabase {
   final bool enableForeignKeyConstraints;
+  final Uuid _uuid = Uuid();
 
   AppDatabase({this.enableForeignKeyConstraints = true})
       : super(_openConnection());
 
   @override
   int get schemaVersion => 11;
+
+  String _generateUuidV7() {
+    return _uuid.v7();
+  }
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -275,6 +281,17 @@ class AppDatabase extends _$AppDatabase {
           if (enableForeignKeyConstraints) {
             await customStatement('PRAGMA foreign_keys = ON');
           }
+
+          // Register the UUIDv7 function with SQLite
+          await customStatement('''
+            CREATE FUNCTION generate_uuid_v7()
+            RETURNS TEXT
+            LANGUAGE DART
+            DETERMINISTIC
+            AS '
+              return _generateUuidV7();
+            ';
+          ''');
         },
         onUpgrade: stepByStep(
           from1To2: (m, schema) async {
@@ -317,7 +334,19 @@ class AppDatabase extends _$AppDatabase {
             // Temporarily disable foreign key constraints
             await customStatement('PRAGMA foreign_keys = OFF');
 
-            // Create the new table with stat_uuid as primary key
+            // Check if stat_uuid column exists
+            final columns =
+                await customSelect("PRAGMA table_info('user_stats')").get();
+            final statUuidExists =
+                columns.any((column) => column.data['name'] == 'stat_uuid');
+
+            if (!statUuidExists) {
+              // If stat_uuid doesn't exist, add it as a nullable column first
+              await customStatement(
+                  'ALTER TABLE user_stats ADD COLUMN stat_uuid TEXT');
+            }
+
+            // Create a new table with the desired structure
             await customStatement('''
     CREATE TABLE new_user_stats (
       stat_uuid TEXT NOT NULL PRIMARY KEY,
@@ -339,11 +368,11 @@ class AppDatabase extends _$AppDatabase {
     )
   ''');
 
-            // Copy data from the old table to the new one
+            // Copy data from the old table to the new one, generating UUIDv7 for stat_uuid if it's NULL
             await customStatement('''
     INSERT INTO new_user_stats 
     SELECT 
-      COALESCE(stat_uuid, hex(randomblob(16))), 
+      COALESCE(stat_uuid, generate_uuid_v7()), 
       id, 
       recipe_id, 
       coffee_amount, 
