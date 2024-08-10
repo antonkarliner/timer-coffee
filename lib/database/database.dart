@@ -13,6 +13,7 @@ import '../models/launch_popup_model.dart';
 import '../models/coffee_beans_model.dart';
 import '../database/schema_versions.dart';
 import 'package:uuid/uuid.dart';
+import 'package:collection/collection.dart';
 part 'database.g.dart';
 part 'recipes_dao.dart';
 part 'steps_dao.dart';
@@ -276,7 +277,6 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        // Apply foreign key constraints based on the boolean flag
         beforeOpen: (details) async {
           if (enableForeignKeyConstraints) {
             await customStatement('PRAGMA foreign_keys = ON');
@@ -284,14 +284,14 @@ class AppDatabase extends _$AppDatabase {
 
           // Register the UUIDv7 function with SQLite
           await customStatement('''
-            CREATE FUNCTION generate_uuid_v7()
-            RETURNS TEXT
-            LANGUAGE DART
-            DETERMINISTIC
-            AS '
-              return _generateUuidV7();
-            ';
-          ''');
+      CREATE FUNCTION IF NOT EXISTS generate_uuid_v7()
+      RETURNS TEXT
+      LANGUAGE DART
+      DETERMINISTIC
+      AS '
+        return _generateUuidV7();
+      ';
+    ''');
         },
         onUpgrade: stepByStep(
           from1To2: (m, schema) async {
@@ -325,7 +325,9 @@ class AppDatabase extends _$AppDatabase {
             await m.addColumn(userStats, userStats.coffeeBeansUuid);
           },
           from8To9: (m, schema) async {
-            await m.addColumn(userStats, userStats.statUuid);
+            // Add stat_uuid column to UserStats table as nullable
+            await customStatement(
+                'ALTER TABLE user_stats ADD COLUMN stat_uuid TEXT');
           },
           from9To10: (m, schema) async {
             await m.dropColumn(userStats, 'user_id');
@@ -334,69 +336,65 @@ class AppDatabase extends _$AppDatabase {
             // Temporarily disable foreign key constraints
             await customStatement('PRAGMA foreign_keys = OFF');
 
-            // Check if stat_uuid column exists
+            // Check if stat_uuid column exists and if it's already the primary key
             final columns =
                 await customSelect("PRAGMA table_info('user_stats')").get();
-            final statUuidExists =
-                columns.any((column) => column.data['name'] == 'stat_uuid');
+            final statUuidColumn = columns.firstWhereOrNull(
+              (column) => column.data['name'] == 'stat_uuid',
+            );
 
-            if (!statUuidExists) {
+            if (statUuidColumn == null) {
               // If stat_uuid doesn't exist, add it as a nullable column first
               await customStatement(
                   'ALTER TABLE user_stats ADD COLUMN stat_uuid TEXT');
             }
 
-            // Create a new table with the desired structure
-            await customStatement('''
-    CREATE TABLE new_user_stats (
-      stat_uuid TEXT NOT NULL PRIMARY KEY,
-      id INTEGER,
-      recipe_id TEXT NOT NULL REFERENCES recipes(id),
-      coffee_amount REAL NOT NULL,
-      water_amount REAL NOT NULL,
-      sweetness_slider_position INTEGER NOT NULL,
-      strength_slider_position INTEGER NOT NULL,
-      brewing_method_id TEXT NOT NULL REFERENCES brewing_methods(brewing_method_id),
-      created_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
-      notes TEXT,
-      beans TEXT,
-      roaster TEXT,
-      rating REAL,
-      coffee_beans_id INTEGER,
-      is_marked INTEGER NOT NULL DEFAULT 0 CHECK (is_marked IN (0, 1)),
-      coffee_beans_uuid TEXT
-    )
-  ''');
+            final isPrimaryKey =
+                statUuidColumn != null && statUuidColumn.data['pk'] == 1;
 
-            // Copy data from the old table to the new one, generating UUIDv7 for stat_uuid if it's NULL
-            await customStatement('''
-    INSERT INTO new_user_stats 
-    SELECT 
-      COALESCE(stat_uuid, generate_uuid_v7()), 
-      id, 
-      recipe_id, 
-      coffee_amount, 
-      water_amount, 
-      sweetness_slider_position, 
-      strength_slider_position, 
-      brewing_method_id, 
-      created_at, 
-      notes, 
-      beans, 
-      roaster, 
-      rating, 
-      coffee_beans_id, 
-      is_marked, 
-      coffee_beans_uuid
-    FROM user_stats
-  ''');
+            if (!isPrimaryKey) {
+              // Generate UUIDs for any NULL stat_uuid values
+              await customStatement('''
+      UPDATE user_stats 
+      SET stat_uuid = generate_uuid_v7() 
+      WHERE stat_uuid IS NULL
+    ''');
 
-            // Drop the old table
-            await customStatement('DROP TABLE user_stats');
+              // Create a new table with the desired structure
+              await customStatement('''
+      CREATE TABLE new_user_stats (
+        stat_uuid TEXT NOT NULL PRIMARY KEY,
+        id INTEGER,
+        recipe_id TEXT NOT NULL REFERENCES recipes(id),
+        coffee_amount REAL NOT NULL,
+        water_amount REAL NOT NULL,
+        sweetness_slider_position INTEGER NOT NULL,
+        strength_slider_position INTEGER NOT NULL,
+        brewing_method_id TEXT NOT NULL REFERENCES brewing_methods(brewing_method_id),
+        created_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
+        notes TEXT,
+        beans TEXT,
+        roaster TEXT,
+        rating REAL,
+        coffee_beans_id INTEGER,
+        is_marked INTEGER NOT NULL DEFAULT 0 CHECK (is_marked IN (0, 1)),
+        coffee_beans_uuid TEXT
+      )
+    ''');
 
-            // Rename the new table to the original name
-            await customStatement(
-                'ALTER TABLE new_user_stats RENAME TO user_stats');
+              // Copy data from the old table to the new one
+              await customStatement('''
+      INSERT INTO new_user_stats 
+      SELECT * FROM user_stats
+    ''');
+
+              // Drop the old table
+              await customStatement('DROP TABLE user_stats');
+
+              // Rename the new table to the original name
+              await customStatement(
+                  'ALTER TABLE new_user_stats RENAME TO user_stats');
+            }
 
             // Re-enable foreign key constraints
             await customStatement('PRAGMA foreign_keys = ON');
