@@ -210,7 +210,8 @@ class UserStats extends Table {
 }
 
 class CoffeeBeans extends Table {
-  IntColumn get id => integer().autoIncrement()();
+  TextColumn get beansUuid => text().named('beans_uuid')();
+  IntColumn get id => integer().named('id').nullable()();
   TextColumn get roaster => text().named('roaster')();
   TextColumn get name => text().named('name')();
   TextColumn get origin => text().named('origin')();
@@ -228,7 +229,9 @@ class CoffeeBeans extends Table {
   TextColumn get notes => text().named('notes').nullable()();
   BoolColumn get isFavorite =>
       boolean().named('is_favorite').withDefault(const Constant(false))();
-  TextColumn get beansUuid => text().named('beans_uuid').nullable()();
+
+  @override
+  Set<Column> get primaryKey => {beansUuid};
 }
 
 @DriftDatabase(
@@ -269,7 +272,7 @@ class AppDatabase extends _$AppDatabase {
       : super(_openConnection());
 
   @override
-  int get schemaVersion => 11;
+  int get schemaVersion => 12;
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -410,6 +413,99 @@ class AppDatabase extends _$AppDatabase {
                 // Rename the new table to the original name
                 await customStatement(
                     'ALTER TABLE new_user_stats RENAME TO user_stats');
+              }
+
+              // Re-enable foreign key constraints
+              await customStatement('PRAGMA foreign_keys = ON');
+            },
+            from11To12: (m, schema) async {
+              // Temporarily disable foreign key constraints
+              await customStatement('PRAGMA foreign_keys = OFF');
+
+              // Check if beansUuid column exists and if it's already the primary key
+              final columns =
+                  await customSelect("PRAGMA table_info('coffee_beans')").get();
+              final beansUuidColumn = columns.firstWhereOrNull(
+                (column) => column.data['name'] == 'beans_uuid',
+              );
+
+              if (beansUuidColumn == null) {
+                // If beansUuid doesn't exist, add it as a nullable column first
+                await customStatement(
+                    'ALTER TABLE coffee_beans ADD COLUMN beans_uuid TEXT');
+              }
+
+              final isPrimaryKey =
+                  beansUuidColumn != null && beansUuidColumn.data['pk'] == 1;
+
+              if (!isPrimaryKey) {
+                // Generate UUIDs for any NULL beansUuid values
+                final rows = await customSelect(
+                        'SELECT id FROM coffee_beans WHERE beans_uuid IS NULL')
+                    .get();
+                for (final row in rows) {
+                  final id = row.data['id'] as int;
+                  final newUuid = _generateUuidV7();
+                  await customUpdate(
+                    'UPDATE coffee_beans SET beans_uuid = ? WHERE id = ?',
+                    variables: [
+                      Variable.withString(newUuid),
+                      Variable.withInt(id)
+                    ],
+                  );
+                }
+
+                // Create a new table with the desired structure
+                await customStatement('''
+            CREATE TABLE new_coffee_beans (
+              beans_uuid TEXT NOT NULL PRIMARY KEY,
+              id INTEGER,
+              roaster TEXT NOT NULL,
+              name TEXT NOT NULL,
+              origin TEXT NOT NULL,
+              variety TEXT,
+              tasting_notes TEXT,
+              processing_method TEXT,
+              elevation INTEGER,
+              harvest_date INTEGER,
+              roast_date INTEGER,
+              region TEXT,
+              roast_level TEXT,
+              cupping_score REAL,
+              notes TEXT,
+              is_favorite INTEGER NOT NULL DEFAULT 0 CHECK (is_favorite IN (0, 1))
+            )
+          ''');
+
+                // Copy data from the old table to the new one
+                await customStatement('''
+            INSERT INTO new_coffee_beans 
+            SELECT 
+              beans_uuid,
+              id,
+              roaster,
+              name,
+              origin,
+              variety,
+              tasting_notes,
+              processing_method,
+              elevation,
+              harvest_date,
+              roast_date,
+              region,
+              roast_level,
+              cupping_score,
+              notes,
+              is_favorite
+            FROM coffee_beans
+          ''');
+
+                // Drop the old table
+                await customStatement('DROP TABLE coffee_beans');
+
+                // Rename the new table to the original name
+                await customStatement(
+                    'ALTER TABLE new_coffee_beans RENAME TO coffee_beans');
               }
 
               // Re-enable foreign key constraints

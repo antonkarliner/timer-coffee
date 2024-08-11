@@ -214,11 +214,24 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       List<UserStatsCompanion> updates) async {
     await batch((batch) {
       for (final update in updates) {
-        batch.update(
-          userStats,
-          update,
-          where: (tbl) => tbl.statUuid.equals(update.statUuid.value),
-        );
+        if (update.statUuid.present && update.statUuid.value != null) {
+          batch.update(
+            userStats,
+            update,
+            where: (tbl) => tbl.statUuid.equals(update.statUuid.value!),
+          );
+        } else if (update.id.present && update.id.value != null) {
+          // Fallback to using id if statUuid is not available
+          batch.update(
+            userStats,
+            update,
+            where: (tbl) => tbl.id.equals(update.id.value!),
+          );
+        } else {
+          print(
+              'Warning: Unable to update record. Both statUuid and id are null or not present.');
+          // You might want to log this or handle it in some way
+        }
       }
     });
   }

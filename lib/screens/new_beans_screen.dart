@@ -17,6 +17,7 @@ import 'package:image/image.dart' as img;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:uuid/uuid.dart';
 
 @RoutePage()
 class NewBeansScreen extends StatefulWidget {
@@ -35,6 +36,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   final TextEditingController _elevationController = TextEditingController();
   final TextEditingController _cuppingScoreController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
+  final Uuid _uuid = Uuid();
 
   List<String> _tastingNotes = [];
   String? variety;
@@ -953,8 +955,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                           _originController.text.isNotEmpty) {
                         final bean = CoffeeBeansModel(
                           id: 0, // This will be ignored for new beans
-                          beansUuid:
-                              widget.uuid, // This will be null for new beans
+                          beansUuid: widget.uuid ??
+                              _uuid.v7(), // Generate new UUID if not provided
                           roaster: _roasterController.text,
                           name: _nameController.text,
                           origin: _originController.text,
@@ -979,21 +981,19 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                           isFavorite: false,
                         );
 
-                        String? resultUuid;
+                        String resultUuid;
                         if (isEditMode) {
                           await coffeeBeansProvider.updateCoffeeBeans(bean);
                           resultUuid = widget
-                              .uuid; // Use the existing UUID for edit mode
+                              .uuid!; // Use the existing UUID for edit mode
                         } else {
                           resultUuid =
                               await coffeeBeansProvider.addCoffeeBeans(bean);
                           await _insertBeansDataToSupabase(bean);
                         }
 
-                        if (resultUuid != null) {
-                          context.router.pop(
-                              resultUuid); // Return the UUID of the beans record
-                        }
+                        context.router.pop(
+                            resultUuid); // Return the UUID of the beans record
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(loc.fillRequiredFields)),

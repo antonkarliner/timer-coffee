@@ -15,6 +15,7 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
     final List<CoffeeBean> beansList = await select(coffeeBeans).get();
     return beansList
         .map((beans) => CoffeeBeansModel(
+              beansUuid: beans.beansUuid,
               id: beans.id,
               roaster: beans.roaster,
               name: beans.name,
@@ -30,7 +31,6 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
               cuppingScore: beans.cuppingScore,
               notes: beans.notes,
               isFavorite: beans.isFavorite,
-              beansUuid: beans.beansUuid,
             ))
         .toList();
   }
@@ -112,9 +112,10 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   Future<CoffeeBeansModel?> fetchCoffeeBeansById(int id) async {
     final query = select(coffeeBeans)..where((tbl) => tbl.id.equals(id));
     final beans = await query.getSingleOrNull();
-    print('Query result: $beans');
+    print('Query result for ID $id: $beans');
     if (beans == null) return null;
     return CoffeeBeansModel(
+      beansUuid: beans.beansUuid,
       id: beans.id,
       roaster: beans.roaster,
       name: beans.name,
@@ -130,7 +131,6 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       cuppingScore: beans.cuppingScore,
       notes: beans.notes,
       isFavorite: beans.isFavorite,
-      beansUuid: beans.beansUuid,
     );
   }
 
@@ -141,6 +141,7 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
     print('Query result for UUID $uuid: $beans');
     if (beans == null) return null;
     return CoffeeBeansModel(
+      beansUuid: beans.beansUuid,
       id: beans.id,
       roaster: beans.roaster,
       name: beans.name,
@@ -156,7 +157,6 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       cuppingScore: beans.cuppingScore,
       notes: beans.notes,
       isFavorite: beans.isFavorite,
-      beansUuid: beans.beansUuid,
     );
   }
 
@@ -166,7 +166,8 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<void> updateCoffeeBeans(CoffeeBeansCompanion entity) async {
-    await (update(coffeeBeans)..where((tbl) => tbl.id.equals(entity.id.value)))
+    await (update(coffeeBeans)
+          ..where((tbl) => tbl.beansUuid.equals(entity.beansUuid.value)))
         .write(entity);
   }
 
@@ -179,11 +180,19 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       List<CoffeeBeansCompanion> updates) async {
     await batch((batch) {
       for (final update in updates) {
-        batch.update(
-          coffeeBeans,
-          update,
-          where: (tbl) => tbl.id.equals(update.id.value),
-        );
+        if (update.id.present && update.id.value != null) {
+          batch.update(
+            coffeeBeans,
+            update,
+            where: (tbl) => tbl.id.equals(update.id.value!),
+          );
+        } else if (update.beansUuid.present) {
+          batch.update(
+            coffeeBeans,
+            update,
+            where: (tbl) => tbl.beansUuid.equals(update.beansUuid.value),
+          );
+        }
       }
     });
   }

@@ -17,8 +17,10 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   Future<String> addCoffeeBeans(CoffeeBeansModel beans) async {
-    final beansUuid = _uuid.v7(); // Generate a new UUID
+    final beansUuid = beans.beansUuid ??
+        _uuid.v7(); // Use existing UUID or generate a new one
     await db.coffeeBeansDao.insertCoffeeBeans(CoffeeBeansCompanion(
+      beansUuid: Value(beansUuid),
       roaster: Value(beans.roaster),
       name: Value(beans.name),
       origin: Value(beans.origin),
@@ -33,10 +35,9 @@ class CoffeeBeansProvider with ChangeNotifier {
       cuppingScore: Value(beans.cuppingScore),
       notes: Value(beans.notes),
       isFavorite: Value(beans.isFavorite),
-      beansUuid: Value(beansUuid), // Add the generated UUID
     ));
     notifyListeners();
-    return beansUuid; // Return the generated UUID
+    return beansUuid;
   }
 
   Future<void> deleteCoffeeBeans(String uuid) async {
@@ -46,6 +47,7 @@ class CoffeeBeansProvider with ChangeNotifier {
 
   Future<void> updateCoffeeBeans(CoffeeBeansModel beans) async {
     await db.coffeeBeansDao.updateCoffeeBeans(CoffeeBeansCompanion(
+      beansUuid: Value(beans.beansUuid),
       id: Value(beans.id),
       roaster: Value(beans.roaster),
       name: Value(beans.name),
