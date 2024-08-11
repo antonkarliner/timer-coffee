@@ -361,31 +361,48 @@ class AppDatabase extends _$AppDatabase {
 
                 // Create a new table with the desired structure
                 await customStatement('''
-                  CREATE TABLE new_user_stats (
-                    stat_uuid TEXT NOT NULL PRIMARY KEY,
-                    id INTEGER,
-                    recipe_id TEXT NOT NULL REFERENCES recipes(id),
-                    coffee_amount REAL NOT NULL,
-                    water_amount REAL NOT NULL,
-                    sweetness_slider_position INTEGER NOT NULL,
-                    strength_slider_position INTEGER NOT NULL,
-                    brewing_method_id TEXT NOT NULL REFERENCES brewing_methods(brewing_method_id),
-                    created_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
-                    notes TEXT,
-                    beans TEXT,
-                    roaster TEXT,
-                    rating REAL,
-                    coffee_beans_id INTEGER,
-                    is_marked INTEGER NOT NULL DEFAULT 0 CHECK (is_marked IN (0, 1)),
-                    coffee_beans_uuid TEXT
-                  )
-                ''');
+      CREATE TABLE new_user_stats (
+        stat_uuid TEXT NOT NULL PRIMARY KEY,
+        id INTEGER,
+        recipe_id TEXT NOT NULL REFERENCES recipes(id),
+        coffee_amount REAL NOT NULL,
+        water_amount REAL NOT NULL,
+        sweetness_slider_position INTEGER NOT NULL,
+        strength_slider_position INTEGER NOT NULL,
+        brewing_method_id TEXT NOT NULL REFERENCES brewing_methods(brewing_method_id),
+        created_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
+        notes TEXT,
+        beans TEXT,
+        roaster TEXT,
+        rating REAL,
+        coffee_beans_id INTEGER,
+        is_marked INTEGER NOT NULL DEFAULT 0 CHECK (is_marked IN (0, 1)),
+        coffee_beans_uuid TEXT
+      )
+    ''');
 
-                // Copy data from the old table to the new one
+                // Copy data from the old table to the new one, providing a default value for created_at
                 await customStatement('''
-                  INSERT INTO new_user_stats 
-                  SELECT * FROM user_stats
-                ''');
+      INSERT INTO new_user_stats 
+      SELECT 
+        stat_uuid, 
+        id, 
+        recipe_id, 
+        coffee_amount, 
+        water_amount, 
+        sweetness_slider_position, 
+        strength_slider_position, 
+        brewing_method_id, 
+        COALESCE(created_at, CAST(strftime('%s', 'now') AS INTEGER)) as created_at, 
+        notes, 
+        beans, 
+        roaster, 
+        rating, 
+        coffee_beans_id, 
+        is_marked, 
+        coffee_beans_uuid
+      FROM user_stats
+    ''');
 
                 // Drop the old table
                 await customStatement('DROP TABLE user_stats');
