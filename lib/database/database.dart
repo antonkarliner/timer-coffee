@@ -275,18 +275,6 @@ class AppDatabase extends _$AppDatabase {
     return _uuid.v7();
   }
 
-  Future<void> _createUuidFunction(Migrator m) async {
-    await customStatement('''
-      CREATE FUNCTION IF NOT EXISTS generate_uuid_v7()
-      RETURNS TEXT
-      LANGUAGE DART
-      DETERMINISTIC
-      AS '
-        return _generateUuidV7();
-      ';
-    ''');
-  }
-
   @override
   MigrationStrategy get migration => MigrationStrategy(
         beforeOpen: (details) async {
@@ -295,10 +283,6 @@ class AppDatabase extends _$AppDatabase {
           }
         },
         onUpgrade: (m, oldVersion, newVersion) async {
-          // Create the UUID function before running the migrations
-          await _createUuidFunction(m);
-
-          // Run the step-by-step migrations
           await stepByStep(
             from1To2: (m, schema) async {
               await m.addColumn(schema.vendors, schema.vendors.bannerUrl);
@@ -360,11 +344,20 @@ class AppDatabase extends _$AppDatabase {
 
               if (!isPrimaryKey) {
                 // Generate UUIDs for any NULL stat_uuid values
-                await customStatement('''
-                  UPDATE user_stats 
-                  SET stat_uuid = generate_uuid_v7() 
-                  WHERE stat_uuid IS NULL
-                ''');
+                final rows = await customSelect(
+                        'SELECT id FROM user_stats WHERE stat_uuid IS NULL')
+                    .get();
+                for (final row in rows) {
+                  final id = row.data['id'] as int;
+                  final newUuid = _generateUuidV7();
+                  await customUpdate(
+                    'UPDATE user_stats SET stat_uuid = ? WHERE id = ?',
+                    variables: [
+                      Variable.withString(newUuid),
+                      Variable.withInt(id)
+                    ],
+                  );
+                }
 
                 // Create a new table with the desired structure
                 await customStatement('''
@@ -408,8 +401,6 @@ class AppDatabase extends _$AppDatabase {
           )(m, oldVersion, newVersion);
         },
         onCreate: (m) async {
-          // Create the UUID function before creating tables
-          await _createUuidFunction(m);
           await m.createAll();
         },
       );
