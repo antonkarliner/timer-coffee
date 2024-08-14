@@ -120,6 +120,8 @@ void main() async {
     await prefs.setBool('hasPerformedUuidBackfill', true);
   }
   await databaseProvider.fetchAndInsertUserPreferencesFromSupabase();
+  await userStatProvider.syncNewUserStats();
+  await coffeeBeansProvider.syncNewCoffeeBeans();
 
   runApp(
     CoffeeTimerApp(

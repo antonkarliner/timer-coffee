@@ -178,6 +178,9 @@ class Contributors extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+@TableIndex(
+    name: 'idx_user_stats_stat_uuid_version_vector',
+    columns: {#statUuid, #versionVector})
 class UserStats extends Table {
   TextColumn get statUuid => text().named('stat_uuid')();
   IntColumn get id => integer().named('id').nullable()();
@@ -204,11 +207,15 @@ class UserStats extends Table {
       boolean().named('is_marked').withDefault(const Constant(false))();
   TextColumn get coffeeBeansUuid =>
       text().named('coffee_beans_uuid').nullable()();
+  TextColumn get versionVector => text().named('version_vector')();
 
   @override
   Set<Column> get primaryKey => {statUuid};
 }
 
+@TableIndex(
+    name: 'idx_coffee_beans_beans_uuid_version_vector',
+    columns: {#beansUuid, #versionVector})
 class CoffeeBeans extends Table {
   TextColumn get beansUuid => text().named('beans_uuid')();
   IntColumn get id => integer().named('id').nullable()();
@@ -229,6 +236,7 @@ class CoffeeBeans extends Table {
   TextColumn get notes => text().named('notes').nullable()();
   BoolColumn get isFavorite =>
       boolean().named('is_favorite').withDefault(const Constant(false))();
+  TextColumn get versionVector => text().named('version_vector')();
 
   @override
   Set<Column> get primaryKey => {beansUuid};
@@ -272,7 +280,7 @@ class AppDatabase extends _$AppDatabase {
       : super(_openConnection());
 
   @override
-  int get schemaVersion => 12;
+  int get schemaVersion => 14;
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -510,6 +518,157 @@ class AppDatabase extends _$AppDatabase {
 
               // Re-enable foreign key constraints
               await customStatement('PRAGMA foreign_keys = ON');
+            },
+            from12To13: (m, schema) async {
+              // Step 1: Add version_vector column as nullable
+              await customStatement(
+                  'ALTER TABLE user_stats ADD COLUMN version_vector TEXT');
+
+              // Step 2: Update existing rows with a default value
+              await customStatement('''
+    UPDATE user_stats
+    SET version_vector = '{"deviceId":"legacy","version":0}'
+    WHERE version_vector IS NULL
+  ''');
+
+              // Step 3: Alter the column to be NOT NULL
+              // SQLite doesn't support directly changing a column to NOT NULL,
+              // so we need to recreate the table
+
+              // First, create a new table with the desired structure
+              await customStatement('''
+    CREATE TABLE new_user_stats (
+      stat_uuid TEXT NOT NULL PRIMARY KEY,
+      id INTEGER,
+      recipe_id TEXT NOT NULL REFERENCES recipes(id),
+      coffee_amount REAL NOT NULL,
+      water_amount REAL NOT NULL,
+      sweetness_slider_position INTEGER NOT NULL,
+      strength_slider_position INTEGER NOT NULL,
+      brewing_method_id TEXT NOT NULL REFERENCES brewing_methods(brewing_method_id),
+      created_at INTEGER NOT NULL,
+      notes TEXT,
+      beans TEXT,
+      roaster TEXT,
+      rating REAL,
+      coffee_beans_id INTEGER,
+      is_marked INTEGER NOT NULL DEFAULT 0 CHECK (is_marked IN (0, 1)),
+      coffee_beans_uuid TEXT,
+      version_vector TEXT NOT NULL
+    )
+  ''');
+
+              // Copy data from the old table to the new one
+              await customStatement('''
+    INSERT INTO new_user_stats 
+    SELECT * FROM user_stats
+  ''');
+
+              // Drop the old table
+              await customStatement('DROP TABLE user_stats');
+
+              // Rename the new table to the original name
+              await customStatement(
+                  'ALTER TABLE new_user_stats RENAME TO user_stats');
+
+              // Step 4: Create index on stat_uuid and version_vector
+              await customStatement('''
+    CREATE INDEX idx_user_stats_stat_uuid_version_vector 
+    ON user_stats (stat_uuid, version_vector)
+  ''');
+            },
+            from13To14: (m, schema) async {
+              // Wrap the entire migration in a transaction
+              await customStatement('BEGIN TRANSACTION');
+
+              try {
+                // Step 1: Check if version_vector column exists
+                final columns =
+                    await customSelect("PRAGMA table_info('coffee_beans')")
+                        .get();
+                final versionVectorExists = columns
+                    .any((column) => column.data['name'] == 'version_vector');
+
+                if (!versionVectorExists) {
+                  // Add version_vector column as nullable if it doesn't exist
+                  await customStatement(
+                      'ALTER TABLE coffee_beans ADD COLUMN version_vector TEXT');
+                }
+
+                // Step 2: Update existing rows with a default value
+                await customStatement('''
+      UPDATE coffee_beans
+      SET version_vector = '{"deviceId":"legacy","version":0}'
+      WHERE version_vector IS NULL
+    ''');
+
+                // Step 3: Check if new_coffee_beans table exists and drop it if it does
+                final tableExists = await customSelect(
+                        "SELECT name FROM sqlite_master WHERE type='table' AND name='new_coffee_beans'")
+                    .get();
+                if (tableExists.isNotEmpty) {
+                  await customStatement(
+                      'DROP TABLE IF EXISTS new_coffee_beans');
+                }
+
+                // Step 4: Recreate the table with NOT NULL constraint
+                await customStatement('''
+      CREATE TABLE new_coffee_beans (
+        beans_uuid TEXT NOT NULL PRIMARY KEY,
+        id INTEGER,
+        roaster TEXT NOT NULL,
+        name TEXT NOT NULL,
+        origin TEXT NOT NULL,
+        variety TEXT,
+        tasting_notes TEXT,
+        processing_method TEXT,
+        elevation INTEGER,
+        harvest_date INTEGER,
+        roast_date INTEGER,
+        region TEXT,
+        roast_level TEXT,
+        cupping_score REAL,
+        notes TEXT,
+        is_favorite INTEGER NOT NULL DEFAULT 0 CHECK (is_favorite IN (0, 1)),
+        version_vector TEXT NOT NULL
+      )
+    ''');
+
+                // Step 5: Copy data from the old table to the new one, explicitly listing all columns
+                await customStatement('''
+      INSERT INTO new_coffee_beans (
+        beans_uuid, id, roaster, name, origin, variety, tasting_notes, 
+        processing_method, elevation, harvest_date, roast_date, region, 
+        roast_level, cupping_score, notes, is_favorite, version_vector
+      )
+      SELECT 
+        beans_uuid, id, roaster, name, origin, variety, tasting_notes, 
+        processing_method, elevation, harvest_date, roast_date, region, 
+        roast_level, cupping_score, notes, is_favorite, 
+        COALESCE(version_vector, '{"deviceId":"legacy","version":0}')
+      FROM coffee_beans
+    ''');
+
+                // Step 6: Drop the old table
+                await customStatement('DROP TABLE coffee_beans');
+
+                // Step 7: Rename the new table to the original name
+                await customStatement(
+                    'ALTER TABLE new_coffee_beans RENAME TO coffee_beans');
+
+                // Step 8: Create index on beans_uuid and version_vector
+                await customStatement('''
+      CREATE INDEX idx_coffee_beans_beans_uuid_version_vector 
+      ON coffee_beans (beans_uuid, version_vector)
+    ''');
+
+                // If everything succeeded, commit the transaction
+                await customStatement('COMMIT');
+              } catch (e) {
+                // If anything went wrong, roll back the changes
+                await customStatement('ROLLBACK');
+                rethrow; // Re-throw the exception after rolling back
+              }
             },
           )(m, oldVersion, newVersion);
         },

@@ -1,16 +1,20 @@
 import 'package:coffee_timer/models/user_stat_model.dart';
+import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import '../database/database.dart';
 import 'coffee_beans_provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collection/collection.dart';
 
 class UserStatProvider extends ChangeNotifier {
   final Uuid _uuid = Uuid();
   final AppDatabase db;
   final CoffeeBeansProvider coffeeBeansProvider;
+  final String deviceId;
 
-  UserStatProvider(this.db, this.coffeeBeansProvider);
+  UserStatProvider(this.db, this.coffeeBeansProvider) : deviceId = Uuid().v4();
 
   Future<void> insertUserStat({
     required String recipeId,
@@ -29,7 +33,9 @@ class UserStatProvider extends ChangeNotifier {
     String? statUuid,
   }) async {
     final newStatUuid = statUuid ?? _uuid.v7();
-    await db.userStatsDao.insertUserStat(
+    final versionVector = VersionVector.initial(deviceId).toString();
+
+    final newStat = UserStatsModel(
       statUuid: newStatUuid,
       recipeId: recipeId,
       coffeeAmount: coffeeAmount,
@@ -37,6 +43,7 @@ class UserStatProvider extends ChangeNotifier {
       sweetnessSliderPosition: sweetnessSliderPosition,
       strengthSliderPosition: strengthSliderPosition,
       brewingMethodId: brewingMethodId,
+      createdAt: DateTime.now().toUtc(),
       notes: notes,
       beans: beans,
       roaster: roaster,
@@ -44,7 +51,23 @@ class UserStatProvider extends ChangeNotifier {
       coffeeBeansId: coffeeBeansId,
       isMarked: isMarked,
       coffeeBeansUuid: coffeeBeansUuid,
+      versionVector: versionVector,
     );
+
+    await db.userStatsDao.insertUserStat(newStat);
+
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null && !user.isAnonymous) {
+      try {
+        final supabaseData = _userStatModelToJson(newStat);
+        supabaseData['user_id'] = user.id;
+        await Supabase.instance.client.from('user_stats').upsert(supabaseData);
+      } catch (e) {
+        print('Error syncing new user stat to Supabase: $e');
+        // TODO: Implement error handling or retry logic
+      }
+    }
+
     notifyListeners();
   }
 
@@ -64,29 +87,49 @@ class UserStatProvider extends ChangeNotifier {
     bool? isMarked,
     String? coffeeBeansUuid,
   }) async {
-    print(
-        'UserStatProvider updateUserStat called with statUuid: $statUuid, coffeeBeansId: $coffeeBeansId, coffeeBeansUuid: $coffeeBeansUuid');
+    final currentStat = await db.userStatsDao.fetchStatByUuid(statUuid);
+    if (currentStat == null) {
+      throw Exception('Stat not found');
+    }
 
-    final updateData = {
-      if (recipeId != null) 'recipeId': recipeId,
-      if (coffeeAmount != null) 'coffeeAmount': coffeeAmount,
-      if (waterAmount != null) 'waterAmount': waterAmount,
-      if (sweetnessSliderPosition != null)
-        'sweetnessSliderPosition': sweetnessSliderPosition,
-      if (strengthSliderPosition != null)
-        'strengthSliderPosition': strengthSliderPosition,
-      if (brewingMethodId != null) 'brewingMethodId': brewingMethodId,
-      if (notes != null) 'notes': notes,
-      if (beans != null) 'beans': beans,
-      if (roaster != null) 'roaster': roaster,
-      if (rating != null) 'rating': rating,
-      'coffeeBeansId': coffeeBeansId,
-      if (isMarked != null) 'isMarked': isMarked,
-      'coffeeBeansUuid': coffeeBeansUuid,
-    };
+    final currentVector = VersionVector.fromString(currentStat.versionVector);
+    final newVector = currentVector.increment();
 
-    await db.userStatsDao.updateUserStat(statUuid: statUuid, data: updateData);
-    print('UserStatProvider updateUserStat completed for statUuid: $statUuid');
+    final updatedStat = currentStat.copyWith(
+      recipeId: recipeId ?? currentStat.recipeId,
+      coffeeAmount: coffeeAmount ?? currentStat.coffeeAmount,
+      waterAmount: waterAmount ?? currentStat.waterAmount,
+      sweetnessSliderPosition:
+          sweetnessSliderPosition ?? currentStat.sweetnessSliderPosition,
+      strengthSliderPosition:
+          strengthSliderPosition ?? currentStat.strengthSliderPosition,
+      brewingMethodId: brewingMethodId ?? currentStat.brewingMethodId,
+      notes: notes ?? currentStat.notes,
+      beans: beans ?? currentStat.beans,
+      roaster: roaster ?? currentStat.roaster,
+      rating: rating ?? currentStat.rating,
+      coffeeBeansId: coffeeBeansId ?? currentStat.coffeeBeansId,
+      isMarked: isMarked ?? currentStat.isMarked,
+      coffeeBeansUuid: coffeeBeansUuid ?? currentStat.coffeeBeansUuid,
+      versionVector: newVector.toString(),
+    );
+
+    await db.userStatsDao.updateUserStat(updatedStat);
+
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null && !user.isAnonymous) {
+      try {
+        final supabaseData = _userStatModelToJson(updatedStat);
+        supabaseData['user_id'] = user.id;
+        await Supabase.instance.client
+            .from('user_stats')
+            .upsert(supabaseData, onConflict: 'user_id,stat_uuid');
+      } catch (e) {
+        print('Error syncing updated user stat to Supabase: $e');
+        // TODO: Implement error handling or retry logic
+      }
+    }
+
     notifyListeners();
   }
 
@@ -111,6 +154,80 @@ class UserStatProvider extends ChangeNotifier {
 
   Future<void> deleteUserStat(String statUuid) async {
     await db.userStatsDao.deleteUserStat(statUuid);
+
+    // Sync with Supabase if user is not anonymous
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null && !user.isAnonymous) {
+      try {
+        await Supabase.instance.client
+            .from('user_stats')
+            .delete()
+            .eq('user_id', user.id)
+            .eq('stat_uuid', statUuid);
+      } catch (e) {
+        print('Error deleting user stat from Supabase: $e');
+      }
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> batchUploadUserStats() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null || user.isAnonymous) {
+      print('No user logged in or user is anonymous');
+      return;
+    }
+
+    final localStats = await fetchAllUserStats();
+
+    final statsData = localStats
+        .map((stat) => _userStatModelToJson(stat)..['user_id'] = user.id)
+        .toList();
+
+    final batchSize = 50;
+
+    for (var i = 0; i < statsData.length; i += batchSize) {
+      final batch = statsData.skip(i).take(batchSize).toList();
+
+      try {
+        await Supabase.instance.client.from('user_stats').upsert(batch);
+        print('Uploaded batch ${i ~/ batchSize + 1}');
+      } catch (e) {
+        print('Error uploading batch ${i ~/ batchSize + 1}: $e');
+      }
+    }
+
+    print('Successfully uploaded ${statsData.length} stats');
+  }
+
+  Future<void> batchDownloadUserStats() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null || user.isAnonymous) {
+      print('No user logged in or user is anonymous');
+      return;
+    }
+
+    try {
+      final response = await Supabase.instance.client
+          .from('user_stats')
+          .select()
+          .eq('user_id', user.id);
+
+      final remoteStats = (response as List<dynamic>)
+          .map((json) => _jsonToUserStatsModel(json))
+          .toList();
+
+      await db.userStatsDao.insertOrUpdateMultipleStats(remoteStats);
+      print('Downloaded and updated ${remoteStats.length} stats');
+    } catch (e) {
+      print('Error downloading user stats: $e');
+    }
+  }
+
+  Future<void> syncUserStats() async {
+    await batchUploadUserStats();
+    await batchDownloadUserStats();
     notifyListeners();
   }
 
@@ -222,5 +339,116 @@ class UserStatProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  Future<void> syncNewUserStats() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null || user.isAnonymous) {
+      print('No user logged in or user is anonymous');
+      return;
+    }
+
+    try {
+      // Fetch all local stats
+      final localStats = await db.userStatsDao.fetchAllStats();
+
+      // Fetch all remote stats
+      final response = await Supabase.instance.client
+          .from('user_stats')
+          .select()
+          .eq('user_id', user.id);
+      final remoteStats = (response as List<dynamic>)
+          .map((json) => _jsonToUserStatsModel(json))
+          .toList();
+
+      // Prepare lists for updates
+      final List<UserStatsModel> localUpdates = [];
+      final List<Map<String, dynamic>> remoteUpdates = [];
+
+      // Compare and prepare updates
+      for (final localStat in localStats) {
+        final remoteStat = remoteStats.firstWhereOrNull(
+          (rs) => rs.statUuid == localStat.statUuid,
+        );
+
+        if (remoteStat == null) {
+          // Local stat doesn't exist remotely, add to remote updates
+          remoteUpdates
+              .add(_userStatModelToJson(localStat)..['user_id'] = user.id);
+        } else {
+          final localVector = VersionVector.fromString(localStat.versionVector);
+          final remoteVector =
+              VersionVector.fromString(remoteStat.versionVector);
+
+          if (localVector.version > remoteVector.version) {
+            // Local is newer, update remote
+            remoteUpdates
+                .add(_userStatModelToJson(localStat)..['user_id'] = user.id);
+          } else if (localVector.version < remoteVector.version) {
+            // Remote is newer, update local
+            localUpdates.add(remoteStat);
+          }
+        }
+      }
+
+      // Check for new remote stats
+      for (final remoteStat in remoteStats) {
+        if (!localStats.any((ls) => ls.statUuid == remoteStat.statUuid)) {
+          localUpdates.add(remoteStat);
+        }
+      }
+
+      // Perform batch updates
+      if (localUpdates.isNotEmpty) {
+        await db.userStatsDao.insertOrUpdateMultipleStats(localUpdates);
+      }
+
+      if (remoteUpdates.isNotEmpty) {
+        await Supabase.instance.client.from('user_stats').upsert(remoteUpdates);
+      }
+
+      print(
+          'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}');
+    } catch (e) {
+      print('Error syncing user stats: $e');
+    }
+
+    notifyListeners();
+  }
+
+  // Helper method to convert UserStatsModel to JSON
+  Map<String, dynamic> _userStatModelToJson(UserStatsModel model) {
+    return {
+      'stat_uuid': model.statUuid,
+      'recipe_id': model.recipeId,
+      'coffee_amount': model.coffeeAmount,
+      'water_amount': model.waterAmount,
+      'sweetness_slider_position': model.sweetnessSliderPosition,
+      'strength_slider_position': model.strengthSliderPosition,
+      'brewing_method_id': model.brewingMethodId,
+      'created_at': model.createdAt.toUtc().toIso8601String(),
+      'notes': model.notes,
+      'is_marked': model.isMarked,
+      'coffee_beans_uuid': model.coffeeBeansUuid,
+      'version_vector': model.versionVector,
+    };
+  }
+
+  // Helper method to convert JSON to UserStatsModel
+  UserStatsModel _jsonToUserStatsModel(Map<String, dynamic> json) {
+    return UserStatsModel(
+      statUuid: json['stat_uuid'],
+      recipeId: json['recipe_id'],
+      coffeeAmount: (json['coffee_amount'] as num).toDouble(),
+      waterAmount: (json['water_amount'] as num).toDouble(),
+      sweetnessSliderPosition: json['sweetness_slider_position'],
+      strengthSliderPosition: json['strength_slider_position'],
+      brewingMethodId: json['brewing_method_id'],
+      createdAt: DateTime.parse(json['created_at']),
+      notes: json['notes'],
+      isMarked: json['is_marked'],
+      coffeeBeansUuid: json['coffee_beans_uuid'],
+      versionVector: json['version_vector'],
+    );
   }
 }

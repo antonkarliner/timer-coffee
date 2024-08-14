@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/widgets/launch_popup.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:crypto/crypto.dart';
@@ -24,6 +25,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import '../providers/user_stat_provider.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -282,41 +284,94 @@ class HubHomeScreen extends StatefulWidget {
 class _HubHomeScreenState extends State<HubHomeScreen> {
   bool _isAnonymous = true;
   late DatabaseProvider _databaseProvider;
+  late UserStatProvider _userStatProvider;
+  late CoffeeBeansProvider _coffeeBeansProvider;
+  String? _initialUserId;
+  String? _currentUserId;
 
   @override
   void initState() {
     super.initState();
     _databaseProvider = Provider.of<DatabaseProvider>(context, listen: false);
-    _loadUserData();
+    _userStatProvider = Provider.of<UserStatProvider>(context, listen: false);
+    _coffeeBeansProvider =
+        Provider.of<CoffeeBeansProvider>(context, listen: false);
+    _determineInitialUserId();
+  }
+
+  Future<void> _determineInitialUserId() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    setState(() {
+      _initialUserId = user?.id;
+      _currentUserId = user?.id;
+      _isAnonymous = user == null || user.isAnonymous;
+    });
+    print('Initial User ID: $_initialUserId');
+    print('Is Anonymous: $_isAnonymous');
+    if (!_isAnonymous) {
+      await _updateOneSignalExternalId();
+    }
   }
 
   Future<void> _loadUserData() async {
     final user = Supabase.instance.client.auth.currentUser;
-    final wasAnonymous = _isAnonymous;
     setState(() {
-      _isAnonymous = user?.isAnonymous ?? true;
+      _isAnonymous = user == null || user.isAnonymous;
+      _currentUserId = user?.id;
     });
+    print('Current User ID: $_currentUserId');
+    print('Is Anonymous: $_isAnonymous');
     if (!_isAnonymous) {
       await _updateOneSignalExternalId();
+    }
+  }
 
-      // If the user was previously anonymous and is now logged in,
-      // upload the user preferences to Supabase
-      if (wasAnonymous) {
-        try {
-          await _databaseProvider.uploadUserPreferencesToSupabase();
-          await _databaseProvider.fetchAndInsertUserPreferencesFromSupabase();
-          // You might want to show a success message to the user
-        } catch (e) {
-          print('Error syncing user preferences: $e');
-          // You might want to show an error message to the user
+  Future<void> _syncDataAfterLogin() async {
+    try {
+      final newUser = Supabase.instance.client.auth.currentUser;
+      final newUserId = newUser?.id;
+
+      print('Initial User ID: $_initialUserId');
+      print('New User ID: $newUserId');
+
+      if (_initialUserId != null &&
+          newUserId != null &&
+          _initialUserId != newUserId) {
+        print('Attempting to update user ID...');
+        // Invoke the Supabase Edge Function to update user ID
+        final res = await Supabase.instance.client.functions.invoke(
+          'update-id-after-signin',
+          body: {'oldUserId': _initialUserId, 'newUserId': newUserId},
+        );
+
+        print('Edge Function Response: ${res.data}');
+
+        if (res.status != 200) {
+          throw Exception('Failed to update user ID: ${res.data}');
         }
+
+        print('User ID updated successfully');
+      } else {
+        print('User ID update not required');
       }
+
+      await _databaseProvider.uploadUserPreferencesToSupabase();
+      await _databaseProvider.fetchAndInsertUserPreferencesFromSupabase();
+      await _userStatProvider.syncUserStats();
+      await _coffeeBeansProvider.syncCoffeeBeans();
+      print('Data synchronization completed successfully');
+    } catch (e) {
+      print('Error syncing user data: $e');
+      // Show an error message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error syncing data: $e')),
+      );
     }
   }
 
   Future<void> _updateOneSignalExternalId() async {
     final user = Supabase.instance.client.auth.currentUser;
-    if (user != null) {
+    if (user != null && !kIsWeb) {
       await OneSignal.login(user.id);
     }
   }
@@ -455,6 +510,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       }
 
       await _loadUserData(); // Reload user data after successful sign-in
+      await _syncDataAfterLogin();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(AppLocalizations.of(context)!.signInSuccessful)),
       );
@@ -508,12 +564,12 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       }
 
       await _loadUserData(); // Reload user data after successful sign-in
+      await _syncDataAfterLogin();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content:
                 Text(AppLocalizations.of(context)!.signInSuccessfulGoogle)),
       );
-      // TODO: Implement logic to sync local data with the newly created account
     } catch (e) {
       print('Error signing in with Google: $e');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -663,6 +719,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
 
       if (res.session != null) {
         await _loadUserData();
+        await _syncDataAfterLogin();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content:
@@ -686,6 +743,8 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     try {
       await OneSignal.logout(); // Logout from OneSignal
       await Supabase.instance.client.auth.signOut();
+      await Supabase.instance.client.auth.signInAnonymously();
+      _determineInitialUserId();
       await _loadUserData(); // Reload user data after sign-out
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

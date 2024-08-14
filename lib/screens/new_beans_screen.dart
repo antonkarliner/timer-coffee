@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:auto_route/auto_route.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -979,6 +980,16 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                               ? _notesController.text
                               : null,
                           isFavorite: false,
+                          versionVector: isEditMode
+                              ? (await coffeeBeansProvider
+                                          .fetchCoffeeBeansByUuid(widget.uuid!))
+                                      ?.versionVector ??
+                                  VersionVector.initial(
+                                          coffeeBeansProvider.deviceId)
+                                      .toString()
+                              : VersionVector.initial(
+                                      coffeeBeansProvider.deviceId)
+                                  .toString(),
                         );
 
                         String resultUuid;
@@ -1002,7 +1013,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                     },
                     child: Text(isEditMode ? loc.save : loc.addCoffeeBeans),
                   ),
-                ),
+                )
               ],
             ),
           ),

@@ -120,14 +120,6 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                   return buildUserStatCard(context, stat);
                 },
               );
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Semantics(
-                  identifier: 'brewDiaryLoading',
-                  label: 'Loading',
-                  child: const CircularProgressIndicator(),
-                ),
-              );
             } else {
               return Center(
                 child: Semantics(
@@ -322,9 +314,10 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                               const SizedBox(width: 8),
                               OutlinedButton(
                                 onPressed: () async {
-                                  await userStatProvider.updateUserStat(
+                                  await Provider.of<UserStatProvider>(context,
+                                          listen: false)
+                                      .updateUserStat(
                                     statUuid: stat.statUuid,
-                                    coffeeBeansId: null,
                                     coffeeBeansUuid: null,
                                   );
                                   setState(
@@ -359,13 +352,22 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
               ),
             ),
             Semantics(
-              identifier: 'notesInputField_${stat.id}',
+              identifier: 'notesInputField_${stat.statUuid}',
               label: 'Notes Input Field',
               child: TextFormField(
-                controller: notesController,
-                focusNode: notesFocusNode,
+                initialValue: stat.notes,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
+                onChanged: (value) {
+                  // Debounce the updates to avoid too many calls
+                  Future.delayed(const Duration(milliseconds: 2000), () {
+                    Provider.of<UserStatProvider>(context, listen: false)
+                        .updateUserStat(
+                      statUuid: stat.statUuid,
+                      notes: value,
+                    );
+                  });
+                },
               ),
             ),
           ],
@@ -382,7 +384,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
           onSelect: (String selectedBeanUuid) async {
             await Provider.of<UserStatProvider>(context, listen: false)
                 .updateUserStat(
-                    statUuid: statUuid, coffeeBeansUuid: selectedBeanUuid);
+              statUuid: statUuid,
+              coffeeBeansUuid: selectedBeanUuid,
+            );
             Navigator.of(context).pop(); // Close the dialog
             Provider.of<CardExpansionNotifier>(context, listen: false)
                 .addBean(statUuid); // Update the notifier

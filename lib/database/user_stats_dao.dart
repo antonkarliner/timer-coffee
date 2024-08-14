@@ -7,66 +7,59 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
 
   UserStatsDao(this.db) : super(db);
 
-  Future<void> insertUserStat({
-    required String statUuid,
-    required String recipeId,
-    required double coffeeAmount,
-    required double waterAmount,
-    required int sweetnessSliderPosition,
-    required int strengthSliderPosition,
-    required String brewingMethodId,
-    String? notes,
-    String? beans,
-    String? roaster,
-    double? rating,
-    int? coffeeBeansId,
-    bool isMarked = false,
-    String? coffeeBeansUuid,
-  }) async {
-    await into(userStats).insertOnConflictUpdate(UserStatsCompanion(
-      statUuid: Value(statUuid),
-      recipeId: Value(recipeId),
-      coffeeAmount: Value(coffeeAmount),
-      waterAmount: Value(waterAmount),
-      sweetnessSliderPosition: Value(sweetnessSliderPosition),
-      strengthSliderPosition: Value(strengthSliderPosition),
-      brewingMethodId: Value(brewingMethodId),
-      createdAt: Value(DateTime.now().toUtc()),
-      notes: Value(notes),
-      beans: Value(beans),
-      roaster: Value(roaster),
-      rating: Value(rating),
-      coffeeBeansId: Value(coffeeBeansId),
-      isMarked: Value(isMarked),
-      coffeeBeansUuid: Value(coffeeBeansUuid),
-    ));
+  UserStatsModel _userStatFromRow(UserStat row) {
+    return UserStatsModel(
+      statUuid: row.statUuid,
+      id: row.id,
+      recipeId: row.recipeId,
+      coffeeAmount: row.coffeeAmount,
+      waterAmount: row.waterAmount,
+      sweetnessSliderPosition: row.sweetnessSliderPosition,
+      strengthSliderPosition: row.strengthSliderPosition,
+      brewingMethodId: row.brewingMethodId,
+      createdAt: row.createdAt,
+      notes: row.notes,
+      beans: row.beans,
+      roaster: row.roaster,
+      rating: row.rating,
+      coffeeBeansId: row.coffeeBeansId,
+      isMarked: row.isMarked,
+      coffeeBeansUuid: row.coffeeBeansUuid,
+      versionVector: row.versionVector,
+    );
+  }
+
+  UserStatsCompanion _userStatToCompanion(UserStatsModel model) {
+    return UserStatsCompanion(
+      statUuid: Value(model.statUuid),
+      recipeId: Value(model.recipeId),
+      coffeeAmount: Value(model.coffeeAmount),
+      waterAmount: Value(model.waterAmount),
+      sweetnessSliderPosition: Value(model.sweetnessSliderPosition),
+      strengthSliderPosition: Value(model.strengthSliderPosition),
+      brewingMethodId: Value(model.brewingMethodId),
+      createdAt: Value(model.createdAt),
+      notes: Value(model.notes),
+      beans: Value(model.beans),
+      roaster: Value(model.roaster),
+      rating: Value(model.rating),
+      coffeeBeansId: Value(model.coffeeBeansId),
+      isMarked: Value(model.isMarked),
+      coffeeBeansUuid: Value(model.coffeeBeansUuid),
+      versionVector: Value(model.versionVector),
+    );
+  }
+
+  Future<void> insertUserStat(UserStatsModel stat) async {
+    await into(userStats)
+        .insertOnConflictUpdate(_userStatModelToCompanion(stat));
   }
 
   Future<UserStatsModel?> fetchStatByUuid(String statUuid) async {
     final query = select(userStats)
       ..where((tbl) => tbl.statUuid.equals(statUuid));
-    final userStat = await query.getSingleOrNull();
-
-    if (userStat == null) return null;
-
-    return UserStatsModel(
-      statUuid: userStat.statUuid,
-      id: userStat.id,
-      recipeId: userStat.recipeId,
-      coffeeAmount: userStat.coffeeAmount,
-      waterAmount: userStat.waterAmount,
-      sweetnessSliderPosition: userStat.sweetnessSliderPosition,
-      strengthSliderPosition: userStat.strengthSliderPosition,
-      brewingMethodId: userStat.brewingMethodId,
-      createdAt: userStat.createdAt,
-      notes: userStat.notes,
-      beans: userStat.beans,
-      roaster: userStat.roaster,
-      rating: userStat.rating,
-      coffeeBeansId: userStat.coffeeBeansId,
-      isMarked: userStat.isMarked,
-      coffeeBeansUuid: userStat.coffeeBeansUuid,
-    );
+    final result = await query.getSingleOrNull();
+    return result != null ? _userStatFromRow(result) : null;
   }
 
   Future<List<UserStatsModel>> fetchAllStats() async {
@@ -94,65 +87,15 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
               coffeeBeansId: dbUserStat.coffeeBeansId,
               isMarked: dbUserStat.isMarked,
               coffeeBeansUuid: dbUserStat.coffeeBeansUuid,
+              versionVector: dbUserStat.versionVector,
             ))
         .toList();
   }
 
-  Future<void> updateUserStat({
-    required String statUuid,
-    required Map<String, dynamic> data,
-  }) async {
-    print(
-        'UserStatsDao updateUserStat called with statUuid: $statUuid, data: $data');
-
-    final updateCompanion = UserStatsCompanion(
-      statUuid: Value(statUuid),
-      recipeId: data['recipeId'] != null
-          ? Value(data['recipeId'])
-          : const Value.absent(),
-      coffeeAmount: data['coffeeAmount'] != null
-          ? Value(data['coffeeAmount'])
-          : const Value.absent(),
-      waterAmount: data['waterAmount'] != null
-          ? Value(data['waterAmount'])
-          : const Value.absent(),
-      sweetnessSliderPosition: data['sweetnessSliderPosition'] != null
-          ? Value(data['sweetnessSliderPosition'])
-          : const Value.absent(),
-      strengthSliderPosition: data['strengthSliderPosition'] != null
-          ? Value(data['strengthSliderPosition'])
-          : const Value.absent(),
-      brewingMethodId: data['brewingMethodId'] != null
-          ? Value(data['brewingMethodId'])
-          : const Value.absent(),
-      notes:
-          data['notes'] != null ? Value(data['notes']) : const Value.absent(),
-      beans:
-          data['beans'] != null ? Value(data['beans']) : const Value.absent(),
-      roaster: data['roaster'] != null
-          ? Value(data['roaster'])
-          : const Value.absent(),
-      rating:
-          data['rating'] != null ? Value(data['rating']) : const Value.absent(),
-      coffeeBeansId: data.containsKey('coffeeBeansId')
-          ? Value(data['coffeeBeansId'])
-          : const Value.absent(),
-      isMarked: data['isMarked'] != null
-          ? Value(data['isMarked'])
-          : const Value.absent(),
-      coffeeBeansUuid: data.containsKey('coffeeBeansUuid')
-          ? Value(data['coffeeBeansUuid'])
-          : const Value.absent(),
-    );
-
-    await (update(userStats)..where((tbl) => tbl.statUuid.equals(statUuid)))
-        .write(updateCompanion);
-
-    print('UserStatsDao updateUserStat completed for statUuid: $statUuid');
-
-    final updatedStat = await fetchStatByUuid(statUuid);
-    print(
-        'Updated stat coffeeBeansId: ${updatedStat?.coffeeBeansId}, coffeeBeansUuid: ${updatedStat?.coffeeBeansUuid}, statUuid: ${updatedStat?.statUuid}');
+  Future<void> updateUserStat(UserStatsModel stat) async {
+    await (update(userStats)
+          ..where((tbl) => tbl.statUuid.equals(stat.statUuid)))
+        .write(_userStatModelToCompanion(stat));
   }
 
   Future<List<String>> fetchAllDistinctRoasters() async {
@@ -261,5 +204,38 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
         // If neither id nor statUuid is present, we can't update the record
       }
     });
+  }
+
+  Future<void> insertOrUpdateMultipleStats(List<UserStatsModel> stats) async {
+    await batch((batch) {
+      for (final stat in stats) {
+        batch.insert(
+          userStats,
+          _userStatModelToCompanion(stat),
+          mode: InsertMode.insertOrReplace,
+        );
+      }
+    });
+  }
+
+  UserStatsCompanion _userStatModelToCompanion(UserStatsModel model) {
+    return UserStatsCompanion(
+      statUuid: Value(model.statUuid),
+      recipeId: Value(model.recipeId),
+      coffeeAmount: Value(model.coffeeAmount),
+      waterAmount: Value(model.waterAmount),
+      sweetnessSliderPosition: Value(model.sweetnessSliderPosition),
+      strengthSliderPosition: Value(model.strengthSliderPosition),
+      brewingMethodId: Value(model.brewingMethodId),
+      createdAt: Value(model.createdAt),
+      notes: Value(model.notes),
+      beans: Value(model.beans),
+      roaster: Value(model.roaster),
+      rating: Value(model.rating),
+      coffeeBeansId: Value(model.coffeeBeansId),
+      isMarked: Value(model.isMarked),
+      coffeeBeansUuid: Value(model.coffeeBeansUuid),
+      versionVector: Value(model.versionVector),
+    );
   }
 }

@@ -7,32 +7,61 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
 
   CoffeeBeansDao(this.db) : super(db);
 
-  Future<void> insertCoffeeBeans(CoffeeBeansCompanion entity) async {
-    await into(coffeeBeans).insert(entity);
+  CoffeeBeansModel _coffeeBeansFromRow(CoffeeBean row) {
+    return CoffeeBeansModel(
+      beansUuid: row.beansUuid,
+      id: row.id,
+      roaster: row.roaster,
+      name: row.name,
+      origin: row.origin,
+      variety: row.variety,
+      tastingNotes: row.tastingNotes,
+      processingMethod: row.processingMethod,
+      elevation: row.elevation,
+      harvestDate: row.harvestDate,
+      roastDate: row.roastDate,
+      region: row.region,
+      roastLevel: row.roastLevel,
+      cuppingScore: row.cuppingScore,
+      notes: row.notes,
+      isFavorite: row.isFavorite,
+      versionVector: row.versionVector,
+    );
+  }
+
+  CoffeeBeansCompanion _coffeeBeansToCompanion(CoffeeBeansModel model) {
+    return CoffeeBeansCompanion(
+      beansUuid: Value(model.beansUuid),
+      roaster: Value(model.roaster),
+      name: Value(model.name),
+      origin: Value(model.origin),
+      variety: Value(model.variety),
+      tastingNotes: Value(model.tastingNotes),
+      processingMethod: Value(model.processingMethod),
+      elevation: Value(model.elevation),
+      harvestDate: Value(model.harvestDate),
+      roastDate: Value(model.roastDate),
+      region: Value(model.region),
+      roastLevel: Value(model.roastLevel),
+      cuppingScore: Value(model.cuppingScore),
+      notes: Value(model.notes),
+      isFavorite: Value(model.isFavorite),
+      versionVector: Value(model.versionVector),
+    );
+  }
+
+  Future<void> insertCoffeeBeans(CoffeeBeansModel beans) async {
+    await into(coffeeBeans)
+        .insertOnConflictUpdate(_coffeeBeansToCompanion(beans));
   }
 
   Future<List<CoffeeBeansModel>> fetchAllCoffeeBeans() async {
-    final List<CoffeeBean> beansList = await select(coffeeBeans).get();
-    return beansList
-        .map((beans) => CoffeeBeansModel(
-              beansUuid: beans.beansUuid,
-              id: beans.id,
-              roaster: beans.roaster,
-              name: beans.name,
-              origin: beans.origin,
-              variety: beans.variety,
-              tastingNotes: beans.tastingNotes,
-              processingMethod: beans.processingMethod,
-              elevation: beans.elevation,
-              harvestDate: beans.harvestDate,
-              roastDate: beans.roastDate,
-              region: beans.region,
-              roastLevel: beans.roastLevel,
-              cuppingScore: beans.cuppingScore,
-              notes: beans.notes,
-              isFavorite: beans.isFavorite,
-            ))
-        .toList();
+    final query = select(coffeeBeans)
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.roastDate, mode: OrderingMode.desc)
+      ]);
+    final List<CoffeeBean> beansList = await query.get();
+    return beansList.map(_coffeeBeansFromRow).toList();
   }
 
   Future<List<String>> fetchAllDistinctRoasters() async {
@@ -114,50 +143,20 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
     final beans = await query.getSingleOrNull();
     print('Query result for ID $id: $beans');
     if (beans == null) return null;
-    return CoffeeBeansModel(
-      beansUuid: beans.beansUuid,
-      id: beans.id,
-      roaster: beans.roaster,
-      name: beans.name,
-      origin: beans.origin,
-      variety: beans.variety,
-      tastingNotes: beans.tastingNotes,
-      processingMethod: beans.processingMethod,
-      elevation: beans.elevation,
-      harvestDate: beans.harvestDate,
-      roastDate: beans.roastDate,
-      region: beans.region,
-      roastLevel: beans.roastLevel,
-      cuppingScore: beans.cuppingScore,
-      notes: beans.notes,
-      isFavorite: beans.isFavorite,
-    );
+    return _coffeeBeansFromRow(beans);
   }
 
   Future<CoffeeBeansModel?> fetchCoffeeBeansByUuid(String uuid) async {
     final query = select(coffeeBeans)
       ..where((tbl) => tbl.beansUuid.equals(uuid));
     final beans = await query.getSingleOrNull();
-    print('Query result for UUID $uuid: $beans');
-    if (beans == null) return null;
-    return CoffeeBeansModel(
-      beansUuid: beans.beansUuid,
-      id: beans.id,
-      roaster: beans.roaster,
-      name: beans.name,
-      origin: beans.origin,
-      variety: beans.variety,
-      tastingNotes: beans.tastingNotes,
-      processingMethod: beans.processingMethod,
-      elevation: beans.elevation,
-      harvestDate: beans.harvestDate,
-      roastDate: beans.roastDate,
-      region: beans.region,
-      roastLevel: beans.roastLevel,
-      cuppingScore: beans.cuppingScore,
-      notes: beans.notes,
-      isFavorite: beans.isFavorite,
-    );
+    return beans != null ? _coffeeBeansFromRow(beans) : null;
+  }
+
+  Future<void> updateCoffeeBeans(CoffeeBeansModel beans) async {
+    await (update(coffeeBeans)
+          ..where((tbl) => tbl.beansUuid.equals(beans.beansUuid)))
+        .write(_coffeeBeansToCompanion(beans));
   }
 
   Future<void> deleteCoffeeBeans(String uuid) async {
@@ -165,10 +164,17 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
         .go();
   }
 
-  Future<void> updateCoffeeBeans(CoffeeBeansCompanion entity) async {
-    await (update(coffeeBeans)
-          ..where((tbl) => tbl.beansUuid.equals(entity.beansUuid.value)))
-        .write(entity);
+  Future<void> insertOrUpdateMultipleCoffeeBeans(
+      List<CoffeeBeansModel> beansList) async {
+    await batch((batch) {
+      for (final beans in beansList) {
+        batch.insert(
+          coffeeBeans,
+          _coffeeBeansToCompanion(beans),
+          mode: InsertMode.insertOrReplace,
+        );
+      }
+    });
   }
 
   Future<void> updateFavoriteStatus(String uuid, bool isFavorite) async {
@@ -198,6 +204,7 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<List<CoffeeBean>> fetchBeansNeedingUpdate() {
-    return (select(coffeeBeans)..where((tbl) => tbl.beansUuid.isNull())).get();
+    return (select(coffeeBeans)..where((tbl) => tbl.versionVector.isNull()))
+        .get();
   }
 }
