@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:auto_route/auto_route.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,12 +18,13 @@ import 'package:image/image.dart' as img;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:uuid/uuid.dart';
 
 @RoutePage()
 class NewBeansScreen extends StatefulWidget {
-  final int? id;
+  final String? uuid;
 
-  const NewBeansScreen({Key? key, this.id}) : super(key: key);
+  const NewBeansScreen({Key? key, this.uuid}) : super(key: key);
 
   @override
   _NewBeansScreenState createState() => _NewBeansScreenState();
@@ -35,6 +37,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   final TextEditingController _elevationController = TextEditingController();
   final TextEditingController _cuppingScoreController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
+  final Uuid _uuid = Uuid();
 
   List<String> _tastingNotes = [];
   String? variety;
@@ -53,17 +56,17 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.id != null) {
+    if (widget.uuid != null) {
       isEditMode = true;
-      _loadBeanDetails(widget.id!);
+      _loadBeanDetails(widget.uuid!);
     }
     _checkFirstTimePopup();
   }
 
-  Future<void> _loadBeanDetails(int id) async {
+  Future<void> _loadBeanDetails(String uuid) async {
     final coffeeBeansProvider =
         Provider.of<CoffeeBeansProvider>(context, listen: false);
-    final bean = await coffeeBeansProvider.fetchCoffeeBeansById(id);
+    final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid);
 
     if (bean != null) {
       setState(() {
@@ -952,7 +955,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                           _nameController.text.isNotEmpty &&
                           _originController.text.isNotEmpty) {
                         final bean = CoffeeBeansModel(
-                          id: widget.id ?? 0,
+                          id: 0, // This will be ignored for new beans
+                          beansUuid: widget.uuid ??
+                              _uuid.v7(), // Generate new UUID if not provided
                           roaster: _roasterController.text,
                           name: _nameController.text,
                           origin: _originController.text,
@@ -975,17 +980,31 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                               ? _notesController.text
                               : null,
                           isFavorite: false,
+                          versionVector: isEditMode
+                              ? (await coffeeBeansProvider
+                                          .fetchCoffeeBeansByUuid(widget.uuid!))
+                                      ?.versionVector ??
+                                  VersionVector.initial(
+                                          coffeeBeansProvider.deviceId)
+                                      .toString()
+                              : VersionVector.initial(
+                                      coffeeBeansProvider.deviceId)
+                                  .toString(),
                         );
 
+                        String resultUuid;
                         if (isEditMode) {
                           await coffeeBeansProvider.updateCoffeeBeans(bean);
+                          resultUuid = widget
+                              .uuid!; // Use the existing UUID for edit mode
                         } else {
-                          await coffeeBeansProvider.addCoffeeBeans(bean);
+                          resultUuid =
+                              await coffeeBeansProvider.addCoffeeBeans(bean);
                           await _insertBeansDataToSupabase(bean);
                         }
 
                         context.router.pop(
-                            bean.id); // Return the ID of the new beans record
+                            resultUuid); // Return the UUID of the beans record
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(loc.fillRequiredFields)),
@@ -994,7 +1013,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                     },
                     child: Text(isEditMode ? loc.save : loc.addCoffeeBeans),
                   ),
-                ),
+                )
               ],
             ),
           ),

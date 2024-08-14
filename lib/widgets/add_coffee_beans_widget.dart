@@ -3,12 +3,14 @@ import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/coffee_beans_provider.dart';
+import '../providers/database_provider.dart';
 import '../models/coffee_beans_model.dart';
-import '../app_router.gr.dart'; // Import the generated router file
+import '../app_router.gr.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AddCoffeeBeansWidget extends StatefulWidget {
-  final Function(int) onSelect;
+  final Function(String) onSelect; // Always return UUID
 
   const AddCoffeeBeansWidget({Key? key, required this.onSelect})
       : super(key: key);
@@ -18,7 +20,7 @@ class AddCoffeeBeansWidget extends StatefulWidget {
 }
 
 class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
-  int? selectedBeanId;
+  String? selectedBeanUuid;
   final ScrollController _scrollController = ScrollController();
   List<CoffeeBeansModel> beansList = [];
   bool isLoading = true;
@@ -49,7 +51,7 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
       final beans = await coffeeBeansProvider.fetchAllCoffeeBeans();
       setState(() {
         beansList = beans
-          ..sort((a, b) => b.id.compareTo(a.id)); // Sort in reverse order
+          ..sort((a, b) => b.beansUuid?.compareTo(a.beansUuid ?? '') ?? 0);
         isLoading = false;
       });
     } catch (e) {
@@ -60,18 +62,83 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
     }
   }
 
+  Widget _buildBeanTile(CoffeeBeansModel bean, BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    final databaseProvider =
+        Provider.of<DatabaseProvider>(context, listen: false);
+
+    return Semantics(
+      identifier: 'coffeeBeanTile_${bean.beansUuid}',
+      label:
+          '${bean.name}, ${bean.roaster}, ${bean.isFavorite ? loc.favorite : loc.notFavorite}',
+      child: ListTile(
+        leading: Container(
+          width: 40,
+          child: FutureBuilder<Map<String, String?>>(
+            future: databaseProvider.fetchRoasterLogoUrls(bean.roaster),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final originalUrl = snapshot.data!['original'];
+                final mirrorUrl = snapshot.data!['mirror'];
+
+                if (originalUrl != null || mirrorUrl != null) {
+                  return CachedNetworkImage(
+                    imageUrl: originalUrl ?? mirrorUrl!,
+                    placeholder: (context, url) =>
+                        const Icon(Coffeico.bag_with_bean, size: 40),
+                    errorWidget: (context, url, error) {
+                      if (url == originalUrl && mirrorUrl != null) {
+                        return CachedNetworkImage(
+                          imageUrl: mirrorUrl,
+                          placeholder: (context, url) =>
+                              const Icon(Coffeico.bag_with_bean, size: 40),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Coffeico.bag_with_bean, size: 40),
+                          width: 40,
+                          fit: BoxFit.cover,
+                        );
+                      }
+                      return const Icon(Coffeico.bag_with_bean, size: 40);
+                    },
+                    width: 40,
+                    fit: BoxFit.cover,
+                  );
+                }
+              }
+              return const Icon(Coffeico.bag_with_bean, size: 40);
+            },
+          ),
+        ),
+        title: Text(bean.name),
+        subtitle: Text(bean.roaster),
+        trailing: bean.isFavorite
+            ? Icon(
+                Icons.favorite,
+                color: Theme.of(context).colorScheme.onBackground,
+              )
+            : null,
+        selected: selectedBeanUuid == bean.beansUuid,
+        selectedTileColor: Theme.of(context).brightness == Brightness.dark
+            ? Colors.white.withOpacity(0.2)
+            : Theme.of(context).primaryColor.withOpacity(0.1),
+        onTap: () {
+          setState(() {
+            selectedBeanUuid = bean.beansUuid;
+          });
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
 
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       insetPadding: const EdgeInsets.all(20),
       child: ConstrainedBox(
-        constraints:
-            const BoxConstraints(maxHeight: 450), // Adjust the max height
+        constraints: const BoxConstraints(maxHeight: 450),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -122,48 +189,18 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
                                   onTap: () async {
                                     final result = await context.router
                                         .push(NewBeansRoute());
-                                    if (result != null && result is int) {
+                                    if (result != null && result is String) {
                                       setState(() {
-                                        selectedBeanId = result;
+                                        selectedBeanUuid = result;
                                       });
+                                      await _fetchCoffeeBeans(); // Refresh the list
                                     }
                                   },
                                 ),
                               );
                             }
-                            final bean = beansList[index - 1];
-                            return Semantics(
-                              identifier: 'coffeeBeanTile_${bean.id}',
-                              label:
-                                  '${bean.name}, ${bean.roaster}, ${bean.isFavorite ? loc.favorite : loc.notFavorite}',
-                              child: ListTile(
-                                leading: const Icon(Coffeico.bag_with_bean),
-                                title: Text(bean.name),
-                                subtitle: Text(bean.roaster),
-                                trailing: bean.isFavorite
-                                    ? Icon(
-                                        Icons.favorite,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground,
-                                      )
-                                    : null,
-                                selected: selectedBeanId == bean.id,
-                                selectedTileColor: Theme.of(context)
-                                            .brightness ==
-                                        Brightness.dark
-                                    ? Colors.white.withOpacity(
-                                        0.2) // More visible color for dark mode
-                                    : Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(0.1),
-                                onTap: () {
-                                  setState(() {
-                                    selectedBeanId = bean.id;
-                                  });
-                                },
-                              ),
-                            );
+                            return _buildBeanTile(
+                                beansList[index - 1], context);
                           },
                         ),
             ),
@@ -173,9 +210,9 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
                 identifier: 'nextButton',
                 label: loc.next,
                 child: OutlinedButton(
-                  onPressed: selectedBeanId != null
+                  onPressed: selectedBeanUuid != null
                       ? () {
-                          widget.onSelect(selectedBeanId!);
+                          widget.onSelect(selectedBeanUuid!);
                         }
                       : null,
                   child: Text(loc.next),

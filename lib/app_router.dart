@@ -29,6 +29,22 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: HomeRoute.page,
           path: '/',
+          children: [
+            AutoRoute(
+              path: '',
+              page: BrewTabRoute.page,
+              children: [
+                AutoRoute(path: '', page: BrewingMethodsRoute.page),
+              ],
+            ),
+            AutoRoute(
+              path: 'hub',
+              page: HubTabRoute.page,
+              children: [
+                AutoRoute(path: '', page: HubHomeRoute.page),
+              ],
+            ),
+          ],
         ),
         AutoRoute(
           page: RecipeListRoute.page,

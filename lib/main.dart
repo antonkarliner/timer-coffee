@@ -68,8 +68,12 @@ void main() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isFirstLaunch = prefs.getBool('firstLaunched') ?? true;
+  bool hasPerformedUuidBackfill =
+      prefs.getBool('hasPerformedUuidBackfill') ?? false;
+
   final AppDatabase database =
       AppDatabase(enableForeignKeyConstraints: !isFirstLaunch);
+
   final supportedLocalesDao = SupportedLocalesDao(database);
   final brewingMethodsDao = BrewingMethodsDao(database);
 
@@ -103,15 +107,33 @@ void main() async {
   final appRouter = AppRouter();
   usePathUrlStrategy();
 
+  final coffeeBeansProvider = CoffeeBeansProvider(database, databaseProvider);
+  final userStatProvider = UserStatProvider(database, coffeeBeansProvider);
+
+  if (!hasPerformedUuidBackfill) {
+    // Perform backfill operations
+    await coffeeBeansProvider.backfillMissingUuids();
+    await userStatProvider.backfillMissingStatUuids();
+    await userStatProvider.backfillMissingCoffeeBeansUuids();
+
+    // Mark backfill as completed
+    await prefs.setBool('hasPerformedUuidBackfill', true);
+  }
+  await databaseProvider.fetchAndInsertUserPreferencesFromSupabase();
+  await userStatProvider.syncNewUserStats();
+  await coffeeBeansProvider.syncNewCoffeeBeans();
+
   runApp(
     CoffeeTimerApp(
       database: database,
-      databaseProvider: databaseProvider, // Pass the databaseProvider here
+      databaseProvider: databaseProvider,
       supportedLocales: localeList,
       brewingMethods: brewingMethods,
       initialLocale: initialLocale,
       themeMode: themeMode,
       appRouter: appRouter,
+      coffeeBeansProvider: coffeeBeansProvider,
+      userStatProvider: userStatProvider,
     ),
   );
 
@@ -123,33 +145,37 @@ void main() async {
 }
 
 class CoffeeTimerApp extends StatelessWidget {
-  final AppDatabase database; // Add database to the constructor
-  final DatabaseProvider
-      databaseProvider; // Add databaseProvider to the constructor
+  final AppDatabase database;
+  final DatabaseProvider databaseProvider;
   final List<Locale> supportedLocales;
   final List<BrewingMethodModel> brewingMethods;
   final Locale initialLocale;
   final ThemeMode themeMode;
   final AppRouter appRouter;
+  final CoffeeBeansProvider coffeeBeansProvider;
+  final UserStatProvider userStatProvider;
 
   const CoffeeTimerApp({
     Key? key,
-    required this.database, // Add database to the constructor
-    required this.databaseProvider, // Add databaseProvider to the constructor
+    required this.database,
+    required this.databaseProvider,
     required this.supportedLocales,
     required this.brewingMethods,
     required this.initialLocale,
     required this.themeMode,
     required this.appRouter,
+    required this.coffeeBeansProvider,
+    required this.userStatProvider,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         Provider<AppDatabase>.value(value: database),
         ChangeNotifierProvider<RecipeProvider>(
-          create: (_) =>
-              RecipeProvider(initialLocale, supportedLocales, database),
+          create: (_) => RecipeProvider(
+              initialLocale, supportedLocales, database, databaseProvider),
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(themeMode),
@@ -161,18 +187,13 @@ class CoffeeTimerApp extends StatelessWidget {
           create: (_) => brewingMethods,
         ),
         Provider<Locale>.value(value: initialLocale),
-        Provider<DatabaseProvider>.value(
-          value: databaseProvider,
-        ),
-        ChangeNotifierProvider<CoffeeBeansProvider>(
-          create: (_) => CoffeeBeansProvider(database, databaseProvider),
-        ),
+        Provider<DatabaseProvider>.value(value: databaseProvider),
+        ChangeNotifierProvider<CoffeeBeansProvider>.value(
+            value: coffeeBeansProvider),
         ChangeNotifierProvider<CardExpansionNotifier>(
           create: (_) => CardExpansionNotifier(),
         ),
-        ChangeNotifierProvider<UserStatProvider>(
-          create: (_) => UserStatProvider(database),
-        ),
+        ChangeNotifierProvider<UserStatProvider>.value(value: userStatProvider),
       ],
       child: Consumer2<ThemeProvider, SnowEffectProvider>(
         builder: (context, themeProvider, snowProvider, child) {

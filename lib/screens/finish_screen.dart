@@ -16,6 +16,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/recipe_model.dart';
 import '../providers/user_stat_provider.dart';
+import 'package:uuid/uuid.dart';
 
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
@@ -42,6 +43,7 @@ class FinishScreen extends StatefulWidget {
 class _FinishScreenState extends State<FinishScreen> {
   late Future<String> coffeeFact;
   final AdvancedInAppReview advancedInAppReview = AdvancedInAppReview();
+  final Uuid _uuid = Uuid();
 
   @override
   void initState() {
@@ -79,16 +81,18 @@ class _FinishScreenState extends State<FinishScreen> {
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null) {
       try {
+        final statUuid = _uuid.v7();
         await Provider.of<UserStatProvider>(context, listen: false)
             .insertUserStat(
-          userId: user.id,
           recipeId: widget.recipe.id,
           coffeeAmount: widget.coffeeAmount,
           waterAmount: widget.waterAmount,
           sweetnessSliderPosition: widget.sweetnessSliderPosition,
           strengthSliderPosition: widget.strengthSliderPosition,
           brewingMethodId: widget.recipe.brewingMethodId,
+          statUuid: statUuid, // Add this line
         );
+        print('Inserted new stat with UUID: $statUuid');
       } catch (e) {
         print("Error inserting brewing data to app database: $e");
       }

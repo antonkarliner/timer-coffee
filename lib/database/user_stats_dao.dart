@@ -7,62 +7,59 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
 
   UserStatsDao(this.db) : super(db);
 
-  Future<void> insertUserStat({
-    required String userId,
-    required String recipeId,
-    required double coffeeAmount,
-    required double waterAmount,
-    required int sweetnessSliderPosition,
-    required int strengthSliderPosition,
-    required String brewingMethodId,
-    String? notes,
-    String? beans,
-    String? roaster,
-    double? rating,
-    int? coffeeBeansId,
-    bool isMarked = false,
-  }) async {
-    await into(userStats).insertOnConflictUpdate(UserStatsCompanion(
-      userId: Value(userId),
-      recipeId: Value(recipeId),
-      coffeeAmount: Value(coffeeAmount),
-      waterAmount: Value(waterAmount),
-      sweetnessSliderPosition: Value(sweetnessSliderPosition),
-      strengthSliderPosition: Value(strengthSliderPosition),
-      brewingMethodId: Value(brewingMethodId),
-      createdAt: Value(DateTime.now().toUtc()),
-      notes: Value(notes),
-      beans: Value(beans),
-      roaster: Value(roaster),
-      rating: Value(rating),
-      coffeeBeansId: Value(coffeeBeansId),
-      isMarked: Value(isMarked),
-    ));
+  UserStatsModel _userStatFromRow(UserStat row) {
+    return UserStatsModel(
+      statUuid: row.statUuid,
+      id: row.id,
+      recipeId: row.recipeId,
+      coffeeAmount: row.coffeeAmount,
+      waterAmount: row.waterAmount,
+      sweetnessSliderPosition: row.sweetnessSliderPosition,
+      strengthSliderPosition: row.strengthSliderPosition,
+      brewingMethodId: row.brewingMethodId,
+      createdAt: row.createdAt,
+      notes: row.notes,
+      beans: row.beans,
+      roaster: row.roaster,
+      rating: row.rating,
+      coffeeBeansId: row.coffeeBeansId,
+      isMarked: row.isMarked,
+      coffeeBeansUuid: row.coffeeBeansUuid,
+      versionVector: row.versionVector,
+    );
   }
 
-  Future<UserStatsModel?> fetchStatById(int id) async {
-    final query = select(userStats)..where((tbl) => tbl.id.equals(id));
-    final userStat = await query.getSingleOrNull();
-
-    if (userStat == null) return null;
-
-    return UserStatsModel(
-      id: userStat.id,
-      userId: userStat.userId,
-      recipeId: userStat.recipeId,
-      coffeeAmount: userStat.coffeeAmount,
-      waterAmount: userStat.waterAmount,
-      sweetnessSliderPosition: userStat.sweetnessSliderPosition,
-      strengthSliderPosition: userStat.strengthSliderPosition,
-      brewingMethodId: userStat.brewingMethodId,
-      createdAt: userStat.createdAt,
-      notes: userStat.notes,
-      beans: userStat.beans,
-      roaster: userStat.roaster,
-      rating: userStat.rating,
-      coffeeBeansId: userStat.coffeeBeansId,
-      isMarked: userStat.isMarked,
+  UserStatsCompanion _userStatToCompanion(UserStatsModel model) {
+    return UserStatsCompanion(
+      statUuid: Value(model.statUuid),
+      recipeId: Value(model.recipeId),
+      coffeeAmount: Value(model.coffeeAmount),
+      waterAmount: Value(model.waterAmount),
+      sweetnessSliderPosition: Value(model.sweetnessSliderPosition),
+      strengthSliderPosition: Value(model.strengthSliderPosition),
+      brewingMethodId: Value(model.brewingMethodId),
+      createdAt: Value(model.createdAt),
+      notes: Value(model.notes),
+      beans: Value(model.beans),
+      roaster: Value(model.roaster),
+      rating: Value(model.rating),
+      coffeeBeansId: Value(model.coffeeBeansId),
+      isMarked: Value(model.isMarked),
+      coffeeBeansUuid: Value(model.coffeeBeansUuid),
+      versionVector: Value(model.versionVector),
     );
+  }
+
+  Future<void> insertUserStat(UserStatsModel stat) async {
+    await into(userStats)
+        .insertOnConflictUpdate(_userStatModelToCompanion(stat));
+  }
+
+  Future<UserStatsModel?> fetchStatByUuid(String statUuid) async {
+    final query = select(userStats)
+      ..where((tbl) => tbl.statUuid.equals(statUuid));
+    final result = await query.getSingleOrNull();
+    return result != null ? _userStatFromRow(result) : null;
   }
 
   Future<List<UserStatsModel>> fetchAllStats() async {
@@ -74,8 +71,8 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
 
     return userStatsList
         .map((dbUserStat) => UserStatsModel(
+              statUuid: dbUserStat.statUuid,
               id: dbUserStat.id,
-              userId: dbUserStat.userId,
               recipeId: dbUserStat.recipeId,
               coffeeAmount: dbUserStat.coffeeAmount,
               waterAmount: dbUserStat.waterAmount,
@@ -89,60 +86,16 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
               rating: dbUserStat.rating,
               coffeeBeansId: dbUserStat.coffeeBeansId,
               isMarked: dbUserStat.isMarked,
+              coffeeBeansUuid: dbUserStat.coffeeBeansUuid,
+              versionVector: dbUserStat.versionVector,
             ))
         .toList();
   }
 
-  Future<void> updateUserStat({
-    required int id,
-    String? userId,
-    String? recipeId,
-    double? coffeeAmount,
-    double? waterAmount,
-    int? sweetnessSliderPosition,
-    int? strengthSliderPosition,
-    String? brewingMethodId,
-    String? notes,
-    String? beans,
-    String? roaster,
-    double? rating,
-    int? coffeeBeansId,
-    bool? isMarked,
-  }) async {
-    print(
-        'UserStatsDao updateUserStat called with id: $id, coffeeBeansId: $coffeeBeansId'); // Print the parameters
-
-    final updateCompanion = UserStatsCompanion(
-      id: Value(id),
-      userId: userId != null ? Value(userId) : Value.absent(),
-      recipeId: recipeId != null ? Value(recipeId) : Value.absent(),
-      coffeeAmount: coffeeAmount != null ? Value(coffeeAmount) : Value.absent(),
-      waterAmount: waterAmount != null ? Value(waterAmount) : Value.absent(),
-      sweetnessSliderPosition: sweetnessSliderPosition != null
-          ? Value(sweetnessSliderPosition)
-          : Value.absent(),
-      strengthSliderPosition: strengthSliderPosition != null
-          ? Value(strengthSliderPosition)
-          : Value.absent(),
-      brewingMethodId:
-          brewingMethodId != null ? Value(brewingMethodId) : Value.absent(),
-      notes: notes != null ? Value(notes) : Value.absent(),
-      beans: beans != null ? Value(beans) : Value.absent(),
-      roaster: roaster != null ? Value(roaster) : Value.absent(),
-      rating: rating != null ? Value(rating) : Value.absent(),
-      coffeeBeansId: coffeeBeansId == null ? Value(null) : Value(coffeeBeansId),
-      isMarked: isMarked != null ? Value(isMarked) : Value.absent(),
-    );
-
-    await (update(userStats)..where((tbl) => tbl.id.equals(id)))
-        .write(updateCompanion);
-
-    print(
-        'UserStatsDao updateUserStat completed for id: $id'); // Print after the update
-
-    // Fetch and print the updated user stat
-    final updatedStat = await fetchStatById(id);
-    print('Updated stat coffeeBeansId: ${updatedStat?.coffeeBeansId}');
+  Future<void> updateUserStat(UserStatsModel stat) async {
+    await (update(userStats)
+          ..where((tbl) => tbl.statUuid.equals(stat.statUuid)))
+        .write(_userStatModelToCompanion(stat));
   }
 
   Future<List<String>> fetchAllDistinctRoasters() async {
@@ -168,8 +121,8 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     return beans.whereType<String>().toList();
   }
 
-  Future<void> deleteUserStat(int id) async {
-    await (delete(userStats)..where((t) => t.id.equals(id))).go();
+  Future<void> deleteUserStat(String statUuid) async {
+    await (delete(userStats)..where((t) => t.statUuid.equals(statUuid))).go();
   }
 
   Future<double> fetchBrewedCoffeeAmount(DateTime start, DateTime end) async {
@@ -191,5 +144,98 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     );
     final resultRows = await query.get();
     return resultRows.map((row) => row.read<String>('recipe_id')).toList();
+  }
+
+  Future<List<UserStat>> fetchStatsNeedingUuidUpdate() {
+    return (select(userStats)
+          ..where((tbl) =>
+              tbl.coffeeBeansId.isNotNull() & tbl.coffeeBeansUuid.isNull()))
+        .get();
+  }
+
+  Future<void> batchUpdateCoffeeBeansUuids(
+      List<UserStatsCompanion> updates) async {
+    await batch((batch) {
+      for (final update in updates) {
+        if (update.statUuid.present && update.statUuid.value != null) {
+          batch.update(
+            userStats,
+            update,
+            where: (tbl) => tbl.statUuid.equals(update.statUuid.value!),
+          );
+        } else if (update.id.present && update.id.value != null) {
+          // Fallback to using id if statUuid is not available
+          batch.update(
+            userStats,
+            update,
+            where: (tbl) => tbl.id.equals(update.id.value!),
+          );
+        } else {
+          print(
+              'Warning: Unable to update record. Both statUuid and id are null or not present.');
+          // You might want to log this or handle it in some way
+        }
+      }
+    });
+  }
+
+  Future<List<UserStat>> fetchStatsNeedingStatUuidUpdate() {
+    return (select(userStats)..where((tbl) => tbl.statUuid.isNull())).get();
+  }
+
+  Future<void> batchUpdateStatUuids(List<UserStatsCompanion> updates) async {
+    await batch((batch) {
+      for (final update in updates) {
+        if (update.id.present && update.id.value != null) {
+          // If we have an id, use it to find the record to update
+          batch.update(
+            userStats,
+            update,
+            where: (tbl) => tbl.id.equals(update.id.value!),
+          );
+        } else if (update.statUuid.present) {
+          // If we don't have an id but have a statUuid, use it
+          batch.update(
+            userStats,
+            update,
+            where: (tbl) => tbl.statUuid.equals(update.statUuid.value),
+          );
+        }
+        // If neither id nor statUuid is present, we can't update the record
+      }
+    });
+  }
+
+  Future<void> insertOrUpdateMultipleStats(List<UserStatsModel> stats) async {
+    await batch((batch) {
+      for (final stat in stats) {
+        batch.insert(
+          userStats,
+          _userStatModelToCompanion(stat),
+          mode: InsertMode.insertOrReplace,
+        );
+      }
+    });
+  }
+
+  UserStatsCompanion _userStatModelToCompanion(UserStatsModel model) {
+    return UserStatsCompanion(
+      statUuid: Value(model.statUuid),
+      recipeId: Value(model.recipeId),
+      coffeeAmount: Value(model.coffeeAmount),
+      waterAmount: Value(model.waterAmount),
+      sweetnessSliderPosition: Value(model.sweetnessSliderPosition),
+      strengthSliderPosition: Value(model.strengthSliderPosition),
+      brewingMethodId: Value(model.brewingMethodId),
+      createdAt: Value(model.createdAt),
+      notes: Value(model.notes),
+      beans: Value(model.beans),
+      roaster: Value(model.roaster),
+      rating: Value(model.rating),
+      coffeeBeansId: Value(model.coffeeBeansId),
+      isMarked: Value(model.isMarked),
+      coffeeBeansUuid: Value(model.coffeeBeansUuid),
+      versionVector: Value(model.versionVector),
+    );
   }
 }

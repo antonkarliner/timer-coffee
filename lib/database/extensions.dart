@@ -113,3 +113,159 @@ extension ContributorsCompanionExtension on ContributorsCompanion {
     );
   }
 }
+
+extension UserRecipePreferencesCompanionExtension
+    on UserRecipePreferencesCompanion {
+  static UserRecipePreferencesCompanion fromJson(Map<String, dynamic> json) {
+    return UserRecipePreferencesCompanion(
+      recipeId: Value(json['recipe_id']),
+      lastUsed: json['last_used'] != null
+          ? Value(DateTime.parse(json['last_used']))
+          : const Value.absent(),
+      isFavorite: Value(json['is_favorite'] ?? false),
+      sweetnessSliderPosition: json['sweetness_slider_position'] != null
+          ? Value(json['sweetness_slider_position'] as int)
+          : const Value.absent(),
+      strengthSliderPosition: json['strength_slider_position'] != null
+          ? Value(json['strength_slider_position'] as int)
+          : const Value.absent(),
+      customCoffeeAmount: json['custom_coffee_amount'] != null
+          ? Value(_parseDouble(json['custom_coffee_amount']))
+          : const Value.absent(),
+      customWaterAmount: json['custom_water_amount'] != null
+          ? Value(_parseDouble(json['custom_water_amount']))
+          : const Value.absent(),
+    );
+  }
+
+  static double _parseDouble(dynamic value) {
+    if (value is int) {
+      return value.toDouble();
+    } else if (value is double) {
+      return value;
+    } else if (value is String) {
+      return double.parse(value);
+    }
+    throw FormatException('Unable to parse $value to double');
+  }
+}
+
+extension UserStatsCompanionExtension on UserStatsCompanion {
+  static UserStatsCompanion fromJson(Map<String, dynamic> json) {
+    return UserStatsCompanion(
+      statUuid: Value(json['stat_uuid']),
+      id: json['id'] != null ? Value(json['id'] as int) : const Value.absent(),
+      recipeId: Value(json['recipe_id']),
+      coffeeAmount: json['coffee_amount'] != null
+          ? Value((json['coffee_amount'] as num).toDouble())
+          : const Value.absent(),
+      waterAmount: json['water_amount'] != null
+          ? Value((json['water_amount'] as num).toDouble())
+          : const Value.absent(),
+      sweetnessSliderPosition: json['sweetness_slider_position'] != null
+          ? Value(json['sweetness_slider_position'] as int)
+          : const Value.absent(),
+      strengthSliderPosition: json['strength_slider_position'] != null
+          ? Value(json['strength_slider_position'] as int)
+          : const Value.absent(),
+      brewingMethodId: Value(json['brewing_method_id']),
+      createdAt: json['created_at'] != null
+          ? Value(DateTime.parse(json['created_at']))
+          : const Value.absent(),
+      notes: Value(json['notes']),
+      beans: Value(json['beans']),
+      roaster: Value(json['roaster']),
+      rating: json['rating'] != null
+          ? Value((json['rating'] as num).toDouble())
+          : const Value.absent(),
+      coffeeBeansId: json['coffee_beans_id'] != null
+          ? Value(json['coffee_beans_id'] as int)
+          : const Value.absent(),
+      isMarked: json['is_marked'] != null
+          ? Value(json['is_marked'] as bool)
+          : const Value.absent(),
+      coffeeBeansUuid: Value(json['coffee_beans_uuid']),
+      versionVector: Value(json['version_vector']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'stat_uuid': statUuid.value,
+      'id': id.present ? id.value : null,
+      'recipe_id': recipeId.value,
+      'coffee_amount': coffeeAmount.value,
+      'water_amount': waterAmount.value,
+      'sweetness_slider_position': sweetnessSliderPosition.value,
+      'strength_slider_position': strengthSliderPosition.value,
+      'brewing_method_id': brewingMethodId.value,
+      'created_at': createdAt.value.toIso8601String(),
+      'notes': notes.value,
+      'beans': beans.value,
+      'roaster': roaster.value,
+      'rating': rating.value,
+      'coffee_beans_id': coffeeBeansId.value,
+      'is_marked': isMarked.value,
+      'coffee_beans_uuid': coffeeBeansUuid.value,
+      'version_vector': versionVector.value,
+    };
+  }
+}
+
+extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
+  static CoffeeBeansCompanion fromJson(Map<String, dynamic> json) {
+    return CoffeeBeansCompanion(
+      beansUuid: Value(json['beans_uuid']),
+      id: json['id'] != null ? Value(json['id'] as int) : const Value.absent(),
+      roaster: Value(json['roaster']),
+      name: Value(json['name']),
+      origin: Value(json['origin']),
+      variety: Value(json['variety']),
+      tastingNotes: Value(json['tasting_notes']),
+      processingMethod: Value(json['processing_method']),
+      elevation: json['elevation'] != null
+          ? Value(json['elevation'] as int)
+          : const Value.absent(),
+      harvestDate: json['harvest_date'] != null
+          ? Value(DateTime.parse(json['harvest_date']))
+          : const Value.absent(),
+      roastDate: json['roast_date'] != null
+          ? Value(DateTime.parse(json['roast_date']))
+          : const Value.absent(),
+      region: Value(json['region']),
+      roastLevel: Value(json['roast_level']),
+      cuppingScore: json['cupping_score'] != null
+          ? Value((json['cupping_score'] as num).toDouble())
+          : const Value.absent(),
+      notes: Value(json['notes']),
+      isFavorite: json['is_favorite'] != null
+          ? Value(json['is_favorite'] as bool)
+          : const Value.absent(),
+      versionVector: Value(json['version_vector']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'beans_uuid': beansUuid.value,
+      'id': id.present ? id.value : null,
+      'roaster': roaster.value,
+      'name': name.value,
+      'origin': origin.value,
+      'variety': variety.value,
+      'tasting_notes': tastingNotes.value,
+      'processing_method': processingMethod.value,
+      'elevation': elevation.present ? elevation.value : null,
+      'harvest_date':
+          harvestDate.present ? harvestDate.value?.toIso8601String() : null,
+      'roast_date':
+          roastDate.present ? roastDate.value?.toIso8601String() : null,
+      'region': region.value,
+      'roast_level': roastLevel.value,
+      'cupping_score': cuppingScore.present ? cuppingScore.value : null,
+      'notes': notes.value,
+      'is_favorite': isFavorite.present ? isFavorite.value : null,
+      'version_vector': versionVector.value,
+    };
+  }
+}
