@@ -183,5 +183,6 @@
   "otpVerificationError": "Kesalahan saat memverifikasi OTP",
   "success": "Berhasil!",
   "otpSentMessage": "Kode OTP sedang dikirim ke email Anda. Silakan masukkan kode tersebut setelah Anda menerimanya.",
-  "otpHint2": "Masukan kode disini"
+  "otpHint2": "Masukan kode disini",
+  "signInCreate": "Masuk / Buat akun"
 }

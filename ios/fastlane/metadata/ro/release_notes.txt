@@ -1,1 +1,1 @@
-Stabilitate îmbunătățită.
+Acum puteți crea un cont pentru a sincroniza datele între dispozitive.

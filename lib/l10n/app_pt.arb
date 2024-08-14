@@ -183,5 +183,6 @@
   "otpVerificationError": "Erro ao verificar OTP",
   "success": "Sucesso!",
   "otpSentMessage": "Um código OTP está sendo enviado para seu e-mail. Insira-o abaixo quando recebê-lo.",
-  "otpHint2": "Insira o código aqui"
+  "otpHint2": "Insira o código aqui",
+  "signInCreate": "Entrar / Criar conta"
 }

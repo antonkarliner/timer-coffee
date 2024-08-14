@@ -1,1 +1,1 @@
-Review Information: Improved stability.
+You can now create an account to sync data between devices.

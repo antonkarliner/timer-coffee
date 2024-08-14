@@ -183,5 +183,6 @@
   "otpVerificationError": "OTP doğrulanırken hata oluştu",
   "success": "Başarılı!",
   "otpSentMessage": "E-postanıza bir OTP gönderiliyor. Lütfen aldığınızda aşağıya girin.",
-  "otpHint2": "Kodu buraya girin"
+  "otpHint2": "Kodu buraya girin",
+  "signInCreate": "Oturum Aç / Hesap Oluştur"
 }

@@ -1,1 +1,1 @@
-Geliştirilmiş kararlılık.
+Artık cihazlar arasında verileri senkronize etmek için bir hesap oluşturabilirsiniz.

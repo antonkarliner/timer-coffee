@@ -2,6 +2,6 @@ arb-dir: lib/l10n
 template-arb-file: app_en.arb
 output-localization-file: app_localizations.dart
 arb-translate-vertex-ai-project-url: https://europe-west3-aiplatform.googleapis.com/v1/projects/arb-translate-422213/locations/europe-west3/publishers/google/models
-arb-translate-api-key: ya29.a0AXooCgvt132Yslql5KG63OEOrxKWM7z-dWwGXzqsbZf5MimqVaq9cEe_G4IC6btayQqKECH9nmN7ea90NzE4DKZT6mV5hA6qMr2DxKFqE2f_ZxIAuvwasEHqrIFq8ua7cQylZOzLJWPD3Y8C326fczbSmb5LEJkVx7K05z0oUEwqwP3E22L4k28g2AuFw2Qge619eMDe-fRVGT-P-1n3-5TYdv7Vk3A_JykP5NSBeevqWKJUEuXGEIUm8IiWVb9L4O7X-xTvs_e4iKbhUtKKPWhKsCpZystIhyW3_CE6r5TBIpLaOXdweol_inwqBHRs-C2kQUF4W1nFs7xv7NfbIT86qI8CrJ8DPBTM2PKD92oncymonyyyzHojGSimIj1T06k2v-Qv9luX5JiTrEi1EMGg_Xdw6_c8aCgYKAUQSARISFQHGX2MifHMif6agg4Ri-LqubO22tw0423
+arb-translate-api-key:
 arb-translate-model-provider: vertex-ai
 arb-translate-context: "Coffee brew timer app"

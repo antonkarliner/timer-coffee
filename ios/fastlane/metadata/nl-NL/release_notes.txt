@@ -1,1 +1,1 @@
-Verbeterde stabiliteit.
+Je kunt nu een account aanmaken om gegevens tussen apparaten te synchroniseren.

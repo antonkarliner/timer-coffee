@@ -1,1 +1,1 @@
-Estabilidad mejorada.
+Ahora puedes crear una cuenta para sincronizar datos entre dispositivos.

@@ -183,5 +183,6 @@
   "otpVerificationError": "Eroare la verificarea OTP",
   "success": "Succes!",
   "otpSentMessage": "Un cod OTP este trimis la adresa dumneavoastră de email. Vă rugăm să îl introduceți mai jos când îl primiți.",
-  "otpHint2": "Introduceți codul aici"
+  "otpHint2": "Introduceți codul aici",
+  "signInCreate": "Autentificare / Creare cont"
 }

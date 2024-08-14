@@ -1,0 +1,1 @@
+Artık cihazlar arasında veri senkronizasyonu yapmak için bir hesap oluşturabilirsiniz.

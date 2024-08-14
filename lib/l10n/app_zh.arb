@@ -183,5 +183,6 @@
   "otpVerificationError": "OTP验证错误",
   "success": "成功！",
   "otpSentMessage": "一个一次性密码已发送至您的邮箱。收到后，请在下方输入。",
-  "otpHint2": "輸入代碼"
+  "otpHint2": "輸入代碼",
+  "signInCreate": "登录 / 创建帐户"
 }

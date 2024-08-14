@@ -183,5 +183,6 @@
   "otpVerificationError": "OTPの検証中にエラーが発生しました",
   "success": "成功!",
   "otpSentMessage": "メールにOTPを送信しました。\n 届いたら、以下に入力してください。",
-  "otpHint2": "ここにコードを入力してください"
+  "otpHint2": "ここにコードを入力してください",
+  "signInCreate": "サインイン / アカウントを作成"
 }

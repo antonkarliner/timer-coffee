@@ -183,5 +183,6 @@
   "otpVerificationError": "Errore durante la verifica dell'OTP",
   "success": "Operazione riuscita!",
   "otpSentMessage": "Un codice monouso (OTP) è stato inviato alla tua email. Inseriscilo di seguito quando lo ricevi.",
-  "otpHint2": "Inserisci il codice qui"
+  "otpHint2": "Inserisci il codice qui",
+  "signInCreate": "Accedi / Crea account"
 }

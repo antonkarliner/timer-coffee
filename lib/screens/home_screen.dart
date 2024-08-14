@@ -384,10 +384,10 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
           if (_isAnonymous)
             Semantics(
               identifier: 'signIn',
-              label: AppLocalizations.of(context)!.signIn,
+              label: AppLocalizations.of(context)!.signInCreate,
               child: ListTile(
                 leading: const Icon(Icons.login),
-                title: Text(AppLocalizations.of(context)!.signIn),
+                title: Text(AppLocalizations.of(context)!.signInCreate),
                 onTap: () => _showSignInOptions(context),
               ),
             )

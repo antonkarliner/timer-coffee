@@ -192,5 +192,6 @@
   "otpVerificationError": "Error verifying OTP",
   "success": "Success!",
   "otpSentMessage": "An OTP is being sent to your email. Please enter it below when you receive it.",
-  "otpHint2": "Enter code here"
+  "otpHint2": "Enter code here",
+  "signInCreate": "Sign In / Create account"
 }

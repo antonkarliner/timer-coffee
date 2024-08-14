@@ -183,5 +183,6 @@
   "otpVerificationError": "Fout bij het verifiëren van OTP",
   "success": "Succes!",
   "otpSentMessage": "Een eenmalige toegangscode is naar uw e-mailadres verzonden. Voer de code hieronder in wanneer u deze ontvangt.",
-  "otpHint2": "Voer hier de code in"
+  "otpHint2": "Voer hier de code in",
+  "signInCreate": "Inloggen / Account aanmaken"
 }
