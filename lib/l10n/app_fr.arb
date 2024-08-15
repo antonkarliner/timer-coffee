@@ -184,5 +184,12 @@
   "success": "Succès!",
   "otpSentMessage": "Un code OTP vous a été envoyé par e-mail. Veuillez le saisir ci-dessous lorsque vous l'aurez reçu.",
   "otpHint2": "Entrez le code ici",
-  "signInCreate": "Se connecter / Créer un compte"
+  "signInCreate": "Se connecter / Créer un compte",
+  "accountManagement": "Gestion du compte",
+  "deleteAccount": "Supprimer le compte",
+  "deleteAccountWarning": "Attention : si vous choisissez de continuer, nous supprimerons votre compte et les données associées de nos serveurs. La copie locale des données restera sur l’appareil. Si vous souhaitez également la supprimer, vous pouvez simplement supprimer l’application. Pour réactiver la synchronisation, vous devrez créer un nouveau compte.",
+  "deleteAccountConfirmation": "Compte supprimé avec succès",
+  "accountDeleted": "Compte supprimé",
+  "accountDeletionError": "Erreur lors de la suppression de votre compte. Veuillez réessayer.",
+  "deleteAccountTitle": "important"
 }

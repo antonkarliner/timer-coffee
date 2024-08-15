@@ -16,6 +16,7 @@ import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../providers/snow_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
@@ -26,6 +27,23 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  bool _isAnonymous = true;
+  String? _userId;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    setState(() {
+      _isAnonymous = user?.isAnonymous ?? true;
+      _userId = user?.id;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
@@ -201,6 +219,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     }
                   },
+                ),
+              ],
+            ),
+          ),
+          Semantics(
+            identifier: 'accountManagementExpansionTile',
+            child: ExpansionTile(
+              title: Text(AppLocalizations.of(context)!.accountManagement),
+              children: [
+                Semantics(
+                  identifier: 'deleteAccountListTile',
+                  child: ListTile(
+                    title: Text(AppLocalizations.of(context)!.deleteAccount),
+                    enabled: !_isAnonymous,
+                    onTap: _showDeleteAccountConfirmation,
+                  ),
                 ),
               ],
             ),
@@ -463,6 +497,70 @@ class _SettingsScreenState extends State<SettingsScreen> {
       await launch(url, forceSafariVC: false, forceWebView: false);
     } else {
       throw 'Could not launch $url';
+    }
+  }
+
+  void _showDeleteAccountConfirmation() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context)!.deleteAccountTitle),
+          content: Text(AppLocalizations.of(context)!.deleteAccountWarning),
+          actions: <Widget>[
+            TextButton(
+              child: Text(AppLocalizations.of(context)!.cancel),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(AppLocalizations.of(context)!.deleteAccount),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteAccount();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _deleteAccount() async {
+    try {
+      // Sign out the current user
+      await Supabase.instance.client.auth.signOut();
+
+      // Call the clean-before-deletion function
+      final response = await Supabase.instance.client.functions.invoke(
+        'clean-before-deletion',
+        body: {'user_id': _userId},
+      );
+
+      if (response.status != 200) {
+        throw Exception('Failed to clean user data: ${response.data}');
+      }
+
+      // Sign in anonymously
+      await Supabase.instance.client.auth.signInAnonymously();
+
+      // Update state
+      setState(() {
+        _isAnonymous = true;
+        _userId = Supabase.instance.client.auth.currentUser?.id;
+      });
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.accountDeleted)),
+      );
+    } catch (e) {
+      print('Error deleting account: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(AppLocalizations.of(context)!.accountDeletionError)),
+      );
     }
   }
 }

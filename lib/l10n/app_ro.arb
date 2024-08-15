@@ -184,5 +184,12 @@
   "success": "Succes!",
   "otpSentMessage": "Un cod OTP este trimis la adresa dumneavoastră de email. Vă rugăm să îl introduceți mai jos când îl primiți.",
   "otpHint2": "Introduceți codul aici",
-  "signInCreate": "Autentificare / Creare cont"
+  "signInCreate": "Autentificare / Creare cont",
+  "accountManagement": "Administrarea contului",
+  "deleteAccount": "Ștergeți contul",
+  "deleteAccountWarning": "Rețineți că, dacă alegeți să continuați, vă vom șterge contul și datele asociate de pe serverele noastre. Copia locală a datelor va rămâne pe dispozitiv, dar dacă doriți să o ștergeți, puteți pur și simplu să ștergeți aplicația. Pentru a reactiva sincronizarea, va trebui să creați din nou un cont.",
+  "deleteAccountConfirmation": "Contul șters cu succes",
+  "accountDeleted": "Contul a fost șters",
+  "accountDeletionError": "Eroare la ștergerea contului, vă rugăm să încercați din nou.",
+  "deleteAccountTitle": "Important"
 }

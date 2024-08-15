@@ -184,5 +184,12 @@
   "success": "成功！",
   "otpSentMessage": "一个一次性密码已发送至您的邮箱。收到后，请在下方输入。",
   "otpHint2": "輸入代碼",
-  "signInCreate": "登录 / 创建帐户"
+  "signInCreate": "登录 / 创建帐户",
+  "accountManagement": "账户管理",
+  "deleteAccount": "删除账户",
+  "deleteAccountWarning": "请注意：如果您选择继续，我们将从我们的服务器上删除您的账户和相关数据。数据的本地副本将保留在设备上，如果您也想删除它，可以简单地删除应用程序。为了重新启用同步，您需要重新创建一个账户。",
+  "deleteAccountConfirmation": "成功删除账户",
+  "accountDeleted": "账户已删除",
+  "accountDeletionError": "删除账户时出错，请重试",
+  "deleteAccountTitle": "重要"
 }

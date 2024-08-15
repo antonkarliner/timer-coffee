@@ -184,5 +184,12 @@
   "success": "Succes!",
   "otpSentMessage": "Een eenmalige toegangscode is naar uw e-mailadres verzonden. Voer de code hieronder in wanneer u deze ontvangt.",
   "otpHint2": "Voer hier de code in",
-  "signInCreate": "Inloggen / Account aanmaken"
+  "signInCreate": "Inloggen / Account aanmaken",
+  "accountManagement": "Accountbeheer",
+  "deleteAccount": "Account verwijderen",
+  "deleteAccountWarning": "Let op: als u doorgaat, verwijderen we uw account en bijbehorende gegevens van onze servers. De lokale kopie van de gegevens blijft op het apparaat staan. Als u die ook wilt verwijderen, kunt u de app eenvoudig verwijderen. Om synchronisatie opnieuw in te schakelen, moet u een nieuw account aanmaken",
+  "deleteAccountConfirmation": "Account succesvol verwijderd",
+  "accountDeleted": "Account verwijderd",
+  "accountDeletionError": "Fout bij het verwijderen van uw account, probeer het opnieuw",
+  "deleteAccountTitle": "Belangrijk"
 }

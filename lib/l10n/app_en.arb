@@ -193,5 +193,12 @@
   "success": "Success!",
   "otpSentMessage": "An OTP is being sent to your email. Please enter it below when you receive it.",
   "otpHint2": "Enter code here",
-  "signInCreate": "Sign In / Create account"
+  "signInCreate": "Sign In / Create account",
+  "accountManagement": "Account Management",
+  "deleteAccount": "Delete Account",
+  "deleteAccountWarning": "Please note: if you choose to continue, we will delete your account and related data from our servers. The local copy of the data will remain on the device, if you want to delete it too, you can simply delete the app. In order to re-enable syncronization, you'll need to create an account again",
+  "deleteAccountConfirmation": "Succesfully deleted account",
+  "accountDeleted": "Account deleted",
+  "accountDeletionError": "Error deleting your account, please try again",
+  "deleteAccountTitle": "Important"
 }

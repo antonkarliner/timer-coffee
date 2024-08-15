@@ -184,5 +184,12 @@
   "success": "¡Éxito!",
   "otpSentMessage": "Se está enviando un OTP a tu correo electrónico. Por favor, introdúcelo a continuación cuando lo recibas.",
   "otpHint2": "Escriba aquí el código",
-  "signInCreate": "Iniciar sesión / Crear cuenta"
+  "signInCreate": "Iniciar sesión / Crear cuenta",
+  "accountManagement": "Administración de la cuenta",
+  "deleteAccount": "Borrar cuenta",
+  "deleteAccountWarning": "Tenga en cuenta: si elige continuar, eliminaremos su cuenta y los datos relacionados de nuestros servidores. La copia local de los datos permanecerá en el dispositivo, si también desea eliminarla, simplemente puede eliminar la aplicación. Para volver a habilitar la sincronización, deberá crear una nueva cuenta",
+  "deleteAccountConfirmation": "Cuenta eliminada correctamente",
+  "accountDeleted": "Cuenta eliminada",
+  "accountDeletionError": "Error al eliminar su cuenta, inténtelo de nuevo",
+  "deleteAccountTitle": "Importante"
 }

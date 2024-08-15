@@ -184,5 +184,12 @@
   "success": "成功!",
   "otpSentMessage": "メールにOTPを送信しました。\n 届いたら、以下に入力してください。",
   "otpHint2": "ここにコードを入力してください",
-  "signInCreate": "サインイン / アカウントを作成"
+  "signInCreate": "サインイン / アカウントを作成",
+  "accountManagement": "アカウント管理",
+  "deleteAccount": "アカウントを削除",
+  "deleteAccountWarning": "注意: 続行すると、アカウントとその関連データがサーバーから削除されます。データのローカルコピーはデバイスに残ります。削除するには、アプリを削除するだけです。同期を再度有効にするには、アカウントを再作成する必要があります。",
+  "deleteAccountConfirmation": "アカウントの削除に成功しました",
+  "accountDeleted": "アカウントが削除されました",
+  "accountDeletionError": "アカウントの削除中にエラーが発生しました。もう一度お試しください",
+  "deleteAccountTitle": "重要なお知らせ"
 }

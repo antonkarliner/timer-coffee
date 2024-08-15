@@ -184,5 +184,12 @@
   "success": "Başarılı!",
   "otpSentMessage": "E-postanıza bir OTP gönderiliyor. Lütfen aldığınızda aşağıya girin.",
   "otpHint2": "Kodu buraya girin",
-  "signInCreate": "Oturum Aç / Hesap Oluştur"
+  "signInCreate": "Oturum Aç / Hesap Oluştur",
+  "accountManagement": "Hesap Yönetimi",
+  "deleteAccount": "Hesabı Sil",
+  "deleteAccountWarning": "Lütfen dikkat: Devam etmeyi seçerseniz, hesabınızı ve ilgili verileri sunucularımızdan sileceğiz. Verilerin yerel kopyası cihazda kalacaktır, eğer onu da silmek istiyorsanız, uygulamayı silebilirsiniz. Senkronizasyonu yeniden etkinleştirmek için, tekrar hesap oluşturmanız gerekecek",
+  "deleteAccountConfirmation": "Hesap başarıyla silindi",
+  "accountDeleted": "Hesap silindi",
+  "accountDeletionError": "Hesabınızı silerken hata oluştu, lütfen tekrar deneyin",
+  "deleteAccountTitle": "Önemli"
 }

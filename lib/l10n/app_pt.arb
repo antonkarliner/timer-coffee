@@ -184,5 +184,12 @@
   "success": "Sucesso!",
   "otpSentMessage": "Um código OTP está sendo enviado para seu e-mail. Insira-o abaixo quando recebê-lo.",
   "otpHint2": "Insira o código aqui",
-  "signInCreate": "Entrar / Criar conta"
+  "signInCreate": "Entrar / Criar conta",
+  "accountManagement": "Gerenciar conta",
+  "deleteAccount": "Excluir conta",
+  "deleteAccountWarning": "Cuidado: se você escolher continuar, nós excluiremos sua conta e dados relacionados dos nossos servidores. A cópia local dos dados permanecerá no dispositivo, mas se você quiser excluí-la também, basta desinstalar o aplicativo. Para reativar a sincronização, você precisará criar uma conta novamente",
+  "deleteAccountConfirmation": "Conta excluída com sucesso",
+  "accountDeleted": "Conta excluída",
+  "accountDeletionError": "Erro ao excluir sua conta. Tente novamente",
+  "deleteAccountTitle": "Importante"
 }

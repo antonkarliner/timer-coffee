@@ -184,5 +184,12 @@
   "success": "!Erfolg",
   "otpSentMessage": "Ein OTP wird an Ihre E-Mail gesendet. Bitte geben Sie es unten ein, wenn Sie es erhalten.",
   "otpHint2": "Code hier eingeben",
-  "signInCreate": "Anmelden / Konto erstellen"
+  "signInCreate": "Anmelden / Konto erstellen",
+  "accountManagement": "Kontoverwaltung",
+  "deleteAccount": "Konto löschen",
+  "deleteAccountWarning": "Bitte beachten Sie: Wenn Sie fortfahren, werden wir Ihr Konto und die zugehörigen Daten von unseren Servern löschen. Die lokale Kopie der Daten verbleibt auf dem Gerät. Wenn Sie diese ebenfalls löschen möchten, können Sie einfach die App deinstallieren. Um die Synchronisation wieder zu aktivieren, müssen Sie ein neues Konto erstellen.",
+  "deleteAccountConfirmation": "Konto erfolgreich gelöscht",
+  "accountDeleted": "Konto gelöscht",
+  "accountDeletionError": "Fehler beim Löschen Ihres Kontos, bitte versuchen Sie es erneut",
+  "deleteAccountTitle": "Wichtig"
 }

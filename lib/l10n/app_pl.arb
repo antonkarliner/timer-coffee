@@ -184,5 +184,12 @@
   "success": "Sukces!",
   "otpSentMessage": "Kod OTP zostanie wysłany na Twój adres e-mail. Po otrzymaniu wprowadź go poniżej.",
   "otpHint2": "Wprowadź kod tutaj",
-  "signInCreate": "Zaloguj się / Utwórz konto"
+  "signInCreate": "Zaloguj się / Utwórz konto",
+  "accountManagement": "Zarządzanie kontem",
+  "deleteAccount": "Usuń konto",
+  "deleteAccountWarning": "Uwaga: jeśli kontynuujesz, usuniemy twoje konto i powiązane dane z naszych serwerów. Lokalne kopie danych pozostaną na urządzeniu. Jeśli chcesz je również usunąć, po prostu odinstaluj aplikację. Aby ponownie włączyć synchronizację, musisz ponownie utworzyć konto",
+  "deleteAccountConfirmation": "Konto usunięte pomyślnie",
+  "accountDeleted": "Konto zostało usunięte",
+  "accountDeletionError": "Błąd podczas usuwania konta, spróbuj ponownie",
+  "deleteAccountTitle": "Ważne"
 }

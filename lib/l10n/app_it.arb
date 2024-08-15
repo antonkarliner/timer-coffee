@@ -184,5 +184,12 @@
   "success": "Operazione riuscita!",
   "otpSentMessage": "Un codice monouso (OTP) è stato inviato alla tua email. Inseriscilo di seguito quando lo ricevi.",
   "otpHint2": "Inserisci il codice qui",
-  "signInCreate": "Accedi / Crea account"
+  "signInCreate": "Accedi / Crea account",
+  "accountManagement": "Gestione account",
+  "deleteAccount": "Elimina account",
+  "deleteAccountWarning": "Attenzione: se decidi di continuare, elimineremo il tuo account e i dati ad esso associati dai nostri server. La copia locale dei dati rimarrà sul dispositivo. Se desideri eliminarla, puoi semplicemente disinstallare l'app. Per riattivare la sincronizzazione, dovrai creare nuovamente un account.",
+  "deleteAccountConfirmation": "Account eliminato correttamente",
+  "accountDeleted": "Account eliminato",
+  "accountDeletionError": "Errore durante l'eliminazione dell'account. Riprova.",
+  "deleteAccountTitle": "Importante"
 }

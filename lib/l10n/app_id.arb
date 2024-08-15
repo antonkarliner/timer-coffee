@@ -184,5 +184,12 @@
   "success": "Berhasil!",
   "otpSentMessage": "Kode OTP sedang dikirim ke email Anda. Silakan masukkan kode tersebut setelah Anda menerimanya.",
   "otpHint2": "Masukan kode disini",
-  "signInCreate": "Masuk / Buat akun"
+  "signInCreate": "Masuk / Buat akun",
+  "accountManagement": "Manajemen Akun",
+  "deleteAccount": "Hapus Akun",
+  "deleteAccountWarning": "Harap dicatat: jika Anda memilih untuk melanjutkan, kami akan menghapus akun dan data terkait dari server kami. Salinan data lokal akan tetap ada di perangkat, jika Anda juga ingin menghapusnya, Anda cukup menghapus aplikasi. Untuk mengaktifkan kembali sinkronisasi, Anda harus membuat akun lagi",
+  "deleteAccountConfirmation": "Akun berhasil dihapus",
+  "accountDeleted": "Akun dihapus",
+  "accountDeletionError": "Kesalahan saat menghapus akun Anda, silakan coba lagi",
+  "deleteAccountTitle": "Penting"
 }
