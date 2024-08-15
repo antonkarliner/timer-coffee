@@ -1,0 +1,1 @@
+Hotfix: Ein Problem wurde behoben, bei dem die App beim Start für einige Benutzer hängen bleiben konnte, die zuvor Kaffeebohnen hinzugefügt hatten.

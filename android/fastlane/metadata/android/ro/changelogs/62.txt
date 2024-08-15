@@ -1,0 +1,1 @@
+Hotfix: Remediat o problemă în care aplicația se putea bloca la pornire pentru anumiți utilizatori care adăugaseră anterior boabe de cafea.

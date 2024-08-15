@@ -1,1 +1,3 @@
+Hotfix: Fixed an issue where the app could hang on startup for some users who had previously added coffee beans. All user data is preserved. The app should now start normally for everyone.
+
 You can now create an account to sync data between devices.

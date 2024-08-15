@@ -1,1 +1,3 @@
-Vous pouvez maintenant créer un compte pour synchroniser les données entre les appareils.
+Correctif : Correction d'un problème où l'application pouvait se bloquer au démarrage pour certains utilisateurs ayant précédemment ajouté des grains de café. Toutes les données des utilisateurs sont préservées. L'application devrait maintenant démarrer normalement pour tout le monde.
+
+Vous pouvez désormais créer un compte pour synchroniser les données entre les appareils.

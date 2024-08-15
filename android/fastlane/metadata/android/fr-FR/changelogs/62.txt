@@ -1,0 +1,1 @@
+Correctif : Résolution d'un problème où l'application pouvait se bloquer au démarrage pour certains utilisateurs ayant précédemment ajouté des grains de café.

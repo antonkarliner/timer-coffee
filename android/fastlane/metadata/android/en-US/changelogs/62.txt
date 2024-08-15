@@ -1,0 +1,1 @@
+Hotfix: Fixed an issue where the app could hang on startup for some users who had previously added coffee beans.

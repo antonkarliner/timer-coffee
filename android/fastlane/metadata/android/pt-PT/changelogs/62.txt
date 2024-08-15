@@ -1,0 +1,1 @@
+Hotfix: Corrigido um problema em que a aplicação podia bloquear ao iniciar para alguns utilizadores que tinham adicionado grãos de café anteriormente.

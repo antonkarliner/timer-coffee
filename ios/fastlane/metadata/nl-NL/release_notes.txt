@@ -1,1 +1,3 @@
+Hotfix: Een probleem opgelost waarbij de app bij sommige gebruikers kon vastlopen bij het opstarten als ze eerder koffiebonen hadden toegevoegd. Alle gebruikersgegevens zijn behouden. De app zou nu voor iedereen normaal moeten opstarten.
+
 Je kunt nu een account aanmaken om gegevens tussen apparaten te synchroniseren.

@@ -1,1 +1,3 @@
-Ora puoi creare un account per sincronizzare i dati tra i dispositivi.
+Hotfix: Risolto un problema per cui l'app poteva bloccarsi all'avvio per alcuni utenti che avevano precedentemente aggiunto chicchi di caffè. Tutti i dati degli utenti sono preservati. L'app dovrebbe ora avviarsi normalmente per tutti.
+
+Ora puoi creare un account per sincronizzare i dati tra dispositivi.

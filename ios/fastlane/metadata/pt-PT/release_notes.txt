@@ -1,1 +1,3 @@
-Agora pode criar uma conta para sincronizar dados entre dispositivos.
+Correção urgente: Resolvido um problema em que a aplicação podia bloquear no arranque para alguns utilizadores que tinham adicionado grãos de café anteriormente. Todos os dados dos utilizadores foram preservados. A aplicação deve agora iniciar normalmente para todos.
+
+Agora pode criar uma conta para sincronizar os dados entre dispositivos.

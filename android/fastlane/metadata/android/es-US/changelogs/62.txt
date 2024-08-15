@@ -1,0 +1,1 @@
+Hotfix: Se solucionó un problema donde la aplicación podía quedarse congelada al iniciar para algunos usuarios que habían agregado granos de café previamente.

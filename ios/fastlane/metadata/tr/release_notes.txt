@@ -1,1 +1,3 @@
-Artık cihazlar arasında verileri senkronize etmek için bir hesap oluşturabilirsiniz.
+Hotfix: Daha önce kahve çekirdekleri eklemiş bazı kullanıcılar için uygulamanın başlangıçta takılmasına neden olan bir sorun düzeltildi. Tüm kullanıcı verileri korunmaktadır. Artık uygulama herkes için normal şekilde başlamalıdır.
+
+Artık cihazlar arasında veri senkronizasyonu yapmak için bir hesap oluşturabilirsiniz.

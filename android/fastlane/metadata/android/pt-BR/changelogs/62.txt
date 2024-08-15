@@ -1,0 +1,1 @@
+Correção urgente: Corrigido um problema onde o aplicativo podia travar ao iniciar para alguns usuários que tinham adicionado grãos de café anteriormente.

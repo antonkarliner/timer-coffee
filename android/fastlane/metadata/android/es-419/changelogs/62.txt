@@ -1,0 +1,1 @@
+Corrección urgente: Se solucionó un problema donde la aplicación podía colgarse al iniciar para algunos usuarios que habían agregado granos de café previamente.

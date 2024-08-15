@@ -1,1 +1,3 @@
+Hotfix: Se ha solucionado un problema que podía hacer que la aplicación se colgara al iniciar para algunos usuarios que habían añadido granos de café previamente. Todos los datos de los usuarios se han conservado. La aplicación debería arrancar normalmente para todos.
+
 Ahora puedes crear una cuenta para sincronizar datos entre dispositivos.

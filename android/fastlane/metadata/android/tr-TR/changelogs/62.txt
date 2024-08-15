@@ -1,0 +1,1 @@
+Acil Düzeltme: Daha önce kahve çekirdekleri eklemiş bazı kullanıcılar için uygulamanın başlangıçta takılmasına sebep olan bir sorun düzeltildi.

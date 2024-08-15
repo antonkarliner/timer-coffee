@@ -1,1 +1,3 @@
+Corrección urgente: Se solucionó un problema donde la aplicación podía quedarse colgada al iniciar para algunos usuarios que habían agregado granos de café previamente. Todos los datos de usuario se conservan. La aplicación ahora debería iniciar normalmente para todos.
+
 Ahora puedes crear una cuenta para sincronizar datos entre dispositivos.

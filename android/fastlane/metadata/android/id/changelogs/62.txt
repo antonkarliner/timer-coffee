@@ -1,0 +1,1 @@
+Hotfix: Memperbaiki masalah di mana aplikasi bisa macet saat startup untuk beberapa pengguna yang sebelumnya telah menambahkan biji kopi.

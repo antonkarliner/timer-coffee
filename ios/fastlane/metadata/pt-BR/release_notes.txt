@@ -1,1 +1,3 @@
+Correção: Corrigido um problema onde o aplicativo poderia travar na inicialização para alguns usuários que haviam adicionado grãos de café anteriormente. Todos os dados dos usuários foram preservados. O aplicativo agora deve iniciar normalmente para todos.
+
 Agora você pode criar uma conta para sincronizar dados entre dispositivos.

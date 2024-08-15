@@ -1,1 +1,3 @@
+Hotfix: Naprawiono problem, w którym aplikacja mogła zawieszać się przy uruchamianiu dla niektórych użytkowników, którzy wcześniej dodali ziarna kawy. Wszystkie dane użytkowników są zachowane. Aplikacja powinna teraz uruchamiać się normalnie dla wszystkich.
+
 Możesz teraz utworzyć konto, aby synchronizować dane między urządzeniami.

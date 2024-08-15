@@ -1,0 +1,1 @@
+Hotfix: Naprawiono problem, w którym aplikacja mogła zawieszać się przy uruchamianiu dla niektórych użytkowników, którzy wcześniej dodali ziarna kawy.

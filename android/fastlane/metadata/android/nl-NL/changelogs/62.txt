@@ -1,0 +1,1 @@
+Hotfix: Een probleem opgelost waarbij de app kon vastlopen bij het opstarten voor sommige gebruikers die eerder koffiebonen hadden toegevoegd.

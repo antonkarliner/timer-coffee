@@ -1,1 +1,3 @@
+Hotfix: Memperbaiki masalah di mana aplikasi bisa hang saat startup untuk beberapa pengguna yang sebelumnya telah menambahkan biji kopi. Semua data pengguna tetap terjaga. Aplikasi sekarang seharusnya dapat memulai dengan normal untuk semua orang.
+
 Anda sekarang dapat membuat akun untuk menyinkronkan data antar perangkat.
