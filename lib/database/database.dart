@@ -280,7 +280,7 @@ class AppDatabase extends _$AppDatabase {
       : super(_openConnection());
 
   @override
-  int get schemaVersion => 14;
+  int get schemaVersion => 15;
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -319,48 +319,90 @@ class AppDatabase extends _$AppDatabase {
               await m.createTable(coffeeBeans);
             },
             from7To8: (m, schema) async {
-              // Add beansUuid column to CoffeeBeans table
-              await m.addColumn(coffeeBeans, coffeeBeans.beansUuid);
+              // Add beansUuid column to CoffeeBeans table as nullable
+              await customStatement(
+                  'ALTER TABLE coffee_beans ADD COLUMN beans_uuid TEXT');
+
+              // Generate UUIDs for existing rows in CoffeeBeans
+              final coffeeBeansRows = await customSelect(
+                      'SELECT id FROM coffee_beans WHERE beans_uuid IS NULL')
+                  .get();
+              for (final row in coffeeBeansRows) {
+                final id = row.data['id'] as int;
+                final newUuid = _generateUuidV7();
+                await customUpdate(
+                  'UPDATE coffee_beans SET beans_uuid = ? WHERE id = ?',
+                  variables: [
+                    Variable.withString(newUuid),
+                    Variable.withInt(id)
+                  ],
+                );
+              }
 
               // Add coffeeBeansUuid column to UserStats table
-              await m.addColumn(userStats, userStats.coffeeBeansUuid);
+              await customStatement(
+                  'ALTER TABLE user_stats ADD COLUMN coffee_beans_uuid TEXT');
+
+              // Update UserStats with corresponding CoffeeBeans UUIDs
+              await customStatement('''
+          UPDATE user_stats
+          SET coffee_beans_uuid = (
+            SELECT beans_uuid
+            FROM coffee_beans
+            WHERE coffee_beans.id = user_stats.coffee_beans_id
+          )
+          WHERE coffee_beans_id IS NOT NULL
+        ''');
             },
             from8To9: (m, schema) async {
               // Add stat_uuid column to UserStats table as nullable
               await customStatement(
                   'ALTER TABLE user_stats ADD COLUMN stat_uuid TEXT');
+
+              // Generate UUIDs for existing rows in UserStats
+              final userStatsRows = await customSelect(
+                      'SELECT id FROM user_stats WHERE stat_uuid IS NULL')
+                  .get();
+              for (final row in userStatsRows) {
+                final id = row.data['id'] as int;
+                final newUuid = _generateUuidV7();
+                await customUpdate(
+                  'UPDATE user_stats SET stat_uuid = ? WHERE id = ?',
+                  variables: [
+                    Variable.withString(newUuid),
+                    Variable.withInt(id)
+                  ],
+                );
+              }
             },
             from9To10: (m, schema) async {
               await m.dropColumn(userStats, 'user_id');
             },
             from10To11: (m, schema) async {
-              // Temporarily disable foreign key constraints
               await customStatement('PRAGMA foreign_keys = OFF');
 
-              // Check if stat_uuid column exists and if it's already the primary key
-              final columns =
-                  await customSelect("PRAGMA table_info('user_stats')").get();
-              final statUuidColumn = columns.firstWhereOrNull(
-                (column) => column.data['name'] == 'stat_uuid',
-              );
+              try {
+                // Step 1: Check if stat_uuid column exists
+                final columns =
+                    await customSelect("PRAGMA table_info('user_stats')").get();
+                final statUuidExists =
+                    columns.any((column) => column.data['name'] == 'stat_uuid');
 
-              if (statUuidColumn == null) {
-                // If stat_uuid doesn't exist, add it as a nullable column first
-                await customStatement(
-                    'ALTER TABLE user_stats ADD COLUMN stat_uuid TEXT');
-              }
+                // Step 2: Add stat_uuid column if it doesn't exist
+                if (!statUuidExists) {
+                  await customStatement(
+                      'ALTER TABLE user_stats ADD COLUMN stat_uuid TEXT');
+                }
 
-              final isPrimaryKey =
-                  statUuidColumn != null && statUuidColumn.data['pk'] == 1;
-
-              if (!isPrimaryKey) {
-                // Generate UUIDs for any NULL stat_uuid values
+                // Step 3: Generate and update UUIDs for rows that need them
                 final rows = await customSelect(
                         'SELECT id FROM user_stats WHERE stat_uuid IS NULL')
                     .get();
+
                 for (final row in rows) {
                   final id = row.data['id'] as int;
-                  final newUuid = _generateUuidV7();
+                  final newUuid =
+                      _generateUuidV7(); // Your Dart method to generate UUID
                   await customUpdate(
                     'UPDATE user_stats SET stat_uuid = ? WHERE id = ?',
                     variables: [
@@ -370,9 +412,9 @@ class AppDatabase extends _$AppDatabase {
                   );
                 }
 
-                // Create a new table with the desired structure
+                // Step 4: Create new table with desired structure
                 await customStatement('''
-      CREATE TABLE new_user_stats (
+      CREATE TABLE IF NOT EXISTS new_user_stats (
         stat_uuid TEXT NOT NULL PRIMARY KEY,
         id INTEGER,
         recipe_id TEXT NOT NULL REFERENCES recipes(id),
@@ -392,68 +434,52 @@ class AppDatabase extends _$AppDatabase {
       )
     ''');
 
-                // Copy data from the old table to the new one, providing a default value for created_at
+                // Step 5: Copy data to new table
                 await customStatement('''
-      INSERT INTO new_user_stats 
+      INSERT OR REPLACE INTO new_user_stats 
       SELECT 
-        stat_uuid, 
-        id, 
-        recipe_id, 
-        coffee_amount, 
-        water_amount, 
-        sweetness_slider_position, 
-        strength_slider_position, 
-        brewing_method_id, 
+        stat_uuid,
+        id, recipe_id, coffee_amount, water_amount, 
+        sweetness_slider_position, strength_slider_position, brewing_method_id, 
         COALESCE(created_at, CAST(strftime('%s', 'now') AS INTEGER)) as created_at, 
-        notes, 
-        beans, 
-        roaster, 
-        rating, 
-        coffee_beans_id, 
-        is_marked, 
-        coffee_beans_uuid
+        notes, beans, roaster, rating, coffee_beans_id, is_marked, coffee_beans_uuid
       FROM user_stats
     ''');
 
-                // Drop the old table
-                await customStatement('DROP TABLE user_stats');
-
-                // Rename the new table to the original name
+                // Step 6: Replace old table with new one
+                await customStatement('DROP TABLE IF EXISTS user_stats');
                 await customStatement(
                     'ALTER TABLE new_user_stats RENAME TO user_stats');
+              } finally {
+                await customStatement('PRAGMA foreign_keys = ON');
               }
-
-              // Re-enable foreign key constraints
-              await customStatement('PRAGMA foreign_keys = ON');
             },
             from11To12: (m, schema) async {
-              // Temporarily disable foreign key constraints
               await customStatement('PRAGMA foreign_keys = OFF');
 
-              // Check if beansUuid column exists and if it's already the primary key
-              final columns =
-                  await customSelect("PRAGMA table_info('coffee_beans')").get();
-              final beansUuidColumn = columns.firstWhereOrNull(
-                (column) => column.data['name'] == 'beans_uuid',
-              );
+              try {
+                // Step 1: Check if beans_uuid column exists
+                final columns =
+                    await customSelect("PRAGMA table_info('coffee_beans')")
+                        .get();
+                final beansUuidExists = columns
+                    .any((column) => column.data['name'] == 'beans_uuid');
 
-              if (beansUuidColumn == null) {
-                // If beansUuid doesn't exist, add it as a nullable column first
-                await customStatement(
-                    'ALTER TABLE coffee_beans ADD COLUMN beans_uuid TEXT');
-              }
+                // Step 2: Add beans_uuid column if it doesn't exist
+                if (!beansUuidExists) {
+                  await customStatement(
+                      'ALTER TABLE coffee_beans ADD COLUMN beans_uuid TEXT');
+                }
 
-              final isPrimaryKey =
-                  beansUuidColumn != null && beansUuidColumn.data['pk'] == 1;
-
-              if (!isPrimaryKey) {
-                // Generate UUIDs for any NULL beansUuid values
+                // Step 3: Generate and update UUIDs for rows that need them
                 final rows = await customSelect(
                         'SELECT id FROM coffee_beans WHERE beans_uuid IS NULL')
                     .get();
+
                 for (final row in rows) {
                   final id = row.data['id'] as int;
-                  final newUuid = _generateUuidV7();
+                  final newUuid =
+                      _generateUuidV7(); // Your Dart method to generate UUID
                   await customUpdate(
                     'UPDATE coffee_beans SET beans_uuid = ? WHERE id = ?',
                     variables: [
@@ -463,157 +489,9 @@ class AppDatabase extends _$AppDatabase {
                   );
                 }
 
-                // Create a new table with the desired structure
+                // Step 4: Create new table with desired structure
                 await customStatement('''
-            CREATE TABLE new_coffee_beans (
-              beans_uuid TEXT NOT NULL PRIMARY KEY,
-              id INTEGER,
-              roaster TEXT NOT NULL,
-              name TEXT NOT NULL,
-              origin TEXT NOT NULL,
-              variety TEXT,
-              tasting_notes TEXT,
-              processing_method TEXT,
-              elevation INTEGER,
-              harvest_date INTEGER,
-              roast_date INTEGER,
-              region TEXT,
-              roast_level TEXT,
-              cupping_score REAL,
-              notes TEXT,
-              is_favorite INTEGER NOT NULL DEFAULT 0 CHECK (is_favorite IN (0, 1))
-            )
-          ''');
-
-                // Copy data from the old table to the new one
-                await customStatement('''
-            INSERT INTO new_coffee_beans 
-            SELECT 
-              beans_uuid,
-              id,
-              roaster,
-              name,
-              origin,
-              variety,
-              tasting_notes,
-              processing_method,
-              elevation,
-              harvest_date,
-              roast_date,
-              region,
-              roast_level,
-              cupping_score,
-              notes,
-              is_favorite
-            FROM coffee_beans
-          ''');
-
-                // Drop the old table
-                await customStatement('DROP TABLE coffee_beans');
-
-                // Rename the new table to the original name
-                await customStatement(
-                    'ALTER TABLE new_coffee_beans RENAME TO coffee_beans');
-              }
-
-              // Re-enable foreign key constraints
-              await customStatement('PRAGMA foreign_keys = ON');
-            },
-            from12To13: (m, schema) async {
-              // Step 1: Add version_vector column as nullable
-              await customStatement(
-                  'ALTER TABLE user_stats ADD COLUMN version_vector TEXT');
-
-              // Step 2: Update existing rows with a default value
-              await customStatement('''
-    UPDATE user_stats
-    SET version_vector = '{"deviceId":"legacy","version":0}'
-    WHERE version_vector IS NULL
-  ''');
-
-              // Step 3: Alter the column to be NOT NULL
-              // SQLite doesn't support directly changing a column to NOT NULL,
-              // so we need to recreate the table
-
-              // First, create a new table with the desired structure
-              await customStatement('''
-    CREATE TABLE new_user_stats (
-      stat_uuid TEXT NOT NULL PRIMARY KEY,
-      id INTEGER,
-      recipe_id TEXT NOT NULL REFERENCES recipes(id),
-      coffee_amount REAL NOT NULL,
-      water_amount REAL NOT NULL,
-      sweetness_slider_position INTEGER NOT NULL,
-      strength_slider_position INTEGER NOT NULL,
-      brewing_method_id TEXT NOT NULL REFERENCES brewing_methods(brewing_method_id),
-      created_at INTEGER NOT NULL,
-      notes TEXT,
-      beans TEXT,
-      roaster TEXT,
-      rating REAL,
-      coffee_beans_id INTEGER,
-      is_marked INTEGER NOT NULL DEFAULT 0 CHECK (is_marked IN (0, 1)),
-      coffee_beans_uuid TEXT,
-      version_vector TEXT NOT NULL
-    )
-  ''');
-
-              // Copy data from the old table to the new one
-              await customStatement('''
-    INSERT INTO new_user_stats 
-    SELECT * FROM user_stats
-  ''');
-
-              // Drop the old table
-              await customStatement('DROP TABLE user_stats');
-
-              // Rename the new table to the original name
-              await customStatement(
-                  'ALTER TABLE new_user_stats RENAME TO user_stats');
-
-              // Step 4: Create index on stat_uuid and version_vector
-              await customStatement('''
-    CREATE INDEX idx_user_stats_stat_uuid_version_vector 
-    ON user_stats (stat_uuid, version_vector)
-  ''');
-            },
-            from13To14: (m, schema) async {
-              // Wrap the entire migration in a transaction
-              await customStatement('BEGIN TRANSACTION');
-
-              try {
-                // Step 1: Check if version_vector column exists
-                final columns =
-                    await customSelect("PRAGMA table_info('coffee_beans')")
-                        .get();
-                final versionVectorExists = columns
-                    .any((column) => column.data['name'] == 'version_vector');
-
-                if (!versionVectorExists) {
-                  // Add version_vector column as nullable if it doesn't exist
-                  await customStatement(
-                      'ALTER TABLE coffee_beans ADD COLUMN version_vector TEXT');
-                }
-
-                // Step 2: Update existing rows with a default value
-                await customStatement('''
-      UPDATE coffee_beans
-      SET version_vector = '{"deviceId":"legacy","version":0}'
-      WHERE version_vector IS NULL
-    ''');
-
-                // Step 3: Check if new_coffee_beans table exists and drop it if it does
-                final tableExists = await customSelect(
-                        "SELECT name FROM sqlite_master WHERE type='table' AND name='new_coffee_beans'")
-                    .get();
-                if (tableExists.isNotEmpty) {
-                  await customStatement(
-                      'DROP TABLE IF EXISTS new_coffee_beans');
-                }
-
-                // Step 4: Recreate the table with NOT NULL constraint
-                await customStatement('''
-      CREATE TABLE new_coffee_beans (
+      CREATE TABLE IF NOT EXISTS new_coffee_beans (
         beans_uuid TEXT NOT NULL PRIMARY KEY,
         id INTEGER,
         roaster TEXT NOT NULL,
@@ -629,45 +507,150 @@ class AppDatabase extends _$AppDatabase {
         roast_level TEXT,
         cupping_score REAL,
         notes TEXT,
-        is_favorite INTEGER NOT NULL DEFAULT 0 CHECK (is_favorite IN (0, 1)),
-        version_vector TEXT NOT NULL
+        is_favorite INTEGER NOT NULL DEFAULT 0 CHECK (is_favorite IN (0, 1))
       )
     ''');
 
-                // Step 5: Copy data from the old table to the new one, explicitly listing all columns
+                // Step 5: Copy data to new table
                 await customStatement('''
-      INSERT INTO new_coffee_beans (
-        beans_uuid, id, roaster, name, origin, variety, tasting_notes, 
-        processing_method, elevation, harvest_date, roast_date, region, 
-        roast_level, cupping_score, notes, is_favorite, version_vector
-      )
+      INSERT OR REPLACE INTO new_coffee_beans 
       SELECT 
-        beans_uuid, id, roaster, name, origin, variety, tasting_notes, 
+        beans_uuid,
+        id, roaster, name, origin, variety, tasting_notes, 
         processing_method, elevation, harvest_date, roast_date, region, 
-        roast_level, cupping_score, notes, is_favorite, 
-        COALESCE(version_vector, '{"deviceId":"legacy","version":0}')
+        roast_level, cupping_score, notes, is_favorite
       FROM coffee_beans
     ''');
 
-                // Step 6: Drop the old table
-                await customStatement('DROP TABLE coffee_beans');
-
-                // Step 7: Rename the new table to the original name
+                // Step 6: Replace old table with new one
+                await customStatement('DROP TABLE IF EXISTS coffee_beans');
                 await customStatement(
                     'ALTER TABLE new_coffee_beans RENAME TO coffee_beans');
+              } finally {
+                await customStatement('PRAGMA foreign_keys = ON');
+              }
+            },
+            from12To13: (m, schema) async {
+              // Check if version_vector column exists
+              final columns =
+                  await customSelect("PRAGMA table_info('user_stats')").get();
+              final versionVectorExists = columns
+                  .any((column) => column.data['name'] == 'version_vector');
 
-                // Step 8: Create index on beans_uuid and version_vector
+              if (!versionVectorExists) {
                 await customStatement('''
-      CREATE INDEX idx_coffee_beans_beans_uuid_version_vector 
+      ALTER TABLE user_stats
+      ADD COLUMN version_vector TEXT
+      DEFAULT '{"deviceId":"legacy","version":0}'
+    ''');
+              }
+
+              await customStatement('''
+    UPDATE user_stats
+    SET version_vector = '{"deviceId":"legacy","version":0}'
+    WHERE version_vector IS NULL
+  ''');
+
+              await customStatement('''
+    CREATE INDEX IF NOT EXISTS idx_user_stats_stat_uuid_version_vector
+    ON user_stats (stat_uuid, version_vector)
+  ''');
+            },
+            from13To14: (m, schema) async {
+              await customStatement('BEGIN TRANSACTION');
+              try {
+                // Check if version_vector column exists
+                final columns =
+                    await customSelect("PRAGMA table_info('coffee_beans')")
+                        .get();
+                final versionVectorExists = columns
+                    .any((column) => column.data['name'] == 'version_vector');
+
+                if (!versionVectorExists) {
+                  await customStatement('''
+        ALTER TABLE coffee_beans
+        ADD COLUMN version_vector TEXT
+        DEFAULT '{"deviceId":"legacy","version":0}'
+      ''');
+                }
+
+                await customStatement('''
+      UPDATE coffee_beans
+      SET version_vector = '{"deviceId":"legacy","version":0}'
+      WHERE version_vector IS NULL
+    ''');
+
+                await customStatement('''
+      CREATE INDEX IF NOT EXISTS idx_coffee_beans_beans_uuid_version_vector
       ON coffee_beans (beans_uuid, version_vector)
     ''');
 
-                // If everything succeeded, commit the transaction
                 await customStatement('COMMIT');
               } catch (e) {
-                // If anything went wrong, roll back the changes
                 await customStatement('ROLLBACK');
-                rethrow; // Re-throw the exception after rolling back
+                rethrow;
+              }
+            },
+            from14To15: (m, schema) async {
+              await customStatement('PRAGMA busy_timeout = 30000');
+              await customStatement('BEGIN TRANSACTION');
+              try {
+                // Check if beans_uuid column exists in coffee_beans
+                final coffeeBeansColumns =
+                    await customSelect("PRAGMA table_info('coffee_beans')")
+                        .get();
+                final beansUuidExists = coffeeBeansColumns
+                    .any((column) => column.data['name'] == 'beans_uuid');
+
+                if (!beansUuidExists) {
+                  await customStatement(
+                      'ALTER TABLE coffee_beans ADD COLUMN beans_uuid TEXT');
+                }
+
+                // Generate UUIDs for any rows without beans_uuid
+                final coffeeBeansRows = await customSelect(
+                        'SELECT id FROM coffee_beans WHERE beans_uuid IS NULL')
+                    .get();
+                for (final row in coffeeBeansRows) {
+                  final id = row.data['id'] as int;
+                  final newUuid =
+                      _generateUuidV7(); // Your Dart method to generate UUID
+                  await customUpdate(
+                    'UPDATE coffee_beans SET beans_uuid = ? WHERE id = ?',
+                    variables: [
+                      Variable.withString(newUuid),
+                      Variable.withInt(id)
+                    ],
+                  );
+                }
+
+                // Check if coffee_beans_uuid column exists in user_stats
+                final userStatsColumns =
+                    await customSelect("PRAGMA table_info('user_stats')").get();
+                final coffeeBeansUuidExists = userStatsColumns.any(
+                    (column) => column.data['name'] == 'coffee_beans_uuid');
+
+                if (!coffeeBeansUuidExists) {
+                  await customStatement(
+                      'ALTER TABLE user_stats ADD COLUMN coffee_beans_uuid TEXT');
+                }
+
+                // Update user_stats with corresponding coffee_beans UUIDs
+                await customStatement('''
+      UPDATE user_stats
+      SET coffee_beans_uuid = (
+        SELECT beans_uuid
+        FROM coffee_beans
+        WHERE coffee_beans.id = user_stats.coffee_beans_id
+      )
+      WHERE coffee_beans_id IS NOT NULL AND coffee_beans_uuid IS NULL
+    ''');
+
+                await customStatement('COMMIT');
+              } catch (e) {
+                await customStatement('ROLLBACK');
+                print('Migration failed: $e');
+                rethrow;
               }
             },
           )(m, oldVersion, newVersion);
