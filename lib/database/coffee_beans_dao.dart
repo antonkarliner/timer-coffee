@@ -207,4 +207,37 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
     return (select(coffeeBeans)..where((tbl) => tbl.versionVector.isNull()))
         .get();
   }
+
+  Future<List<CoffeeBeansModel>> fetchAllBeansWithVersionVectors() async {
+    final query = select(coffeeBeans);
+    final results = await query.get();
+    return results
+        .map((row) => CoffeeBeansModel(
+              beansUuid: row.beansUuid,
+              id: row.id,
+              roaster: row.roaster,
+              name: row.name,
+              origin: row.origin,
+              variety: row.variety,
+              tastingNotes: row.tastingNotes,
+              processingMethod: row.processingMethod,
+              elevation: row.elevation,
+              harvestDate: row.harvestDate,
+              roastDate: row.roastDate,
+              region: row.region,
+              roastLevel: row.roastLevel,
+              cuppingScore: row.cuppingScore,
+              notes: row.notes,
+              isFavorite: row.isFavorite,
+              versionVector: row.versionVector,
+            ))
+        .toList();
+  }
+
+  Future<List<CoffeeBeansModel>> fetchBeansByUuids(List<String> uuids) async {
+    final query = select(coffeeBeans)
+      ..where((tbl) => tbl.beansUuid.isIn(uuids));
+    final results = await query.get();
+    return results.map(_coffeeBeansFromRow).toList();
+  }
 }

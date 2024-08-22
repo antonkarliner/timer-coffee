@@ -200,5 +200,6 @@
   "deleteAccountConfirmation": "Succesfully deleted account",
   "accountDeleted": "Account deleted",
   "accountDeletionError": "Error deleting your account, please try again",
-  "deleteAccountTitle": "Important"
+  "deleteAccountTitle": "Important",
+  "selectBeans": "Select Beans"
 }

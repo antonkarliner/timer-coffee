@@ -82,6 +82,11 @@ class _FinishScreenState extends State<FinishScreen> {
     if (user != null) {
       try {
         final statUuid = _uuid.v7();
+
+        // Fetch the coffee beans UUID from SharedPreferences
+        final prefs = await SharedPreferences.getInstance();
+        final coffeeBeansUuid = prefs.getString('selectedBeanUuid');
+
         await Provider.of<UserStatProvider>(context, listen: false)
             .insertUserStat(
           recipeId: widget.recipe.id,
@@ -90,9 +95,11 @@ class _FinishScreenState extends State<FinishScreen> {
           sweetnessSliderPosition: widget.sweetnessSliderPosition,
           strengthSliderPosition: widget.strengthSliderPosition,
           brewingMethodId: widget.recipe.brewingMethodId,
-          statUuid: statUuid, // Add this line
+          statUuid: statUuid,
+          coffeeBeansUuid: coffeeBeansUuid, // Add this line
         );
-        print('Inserted new stat with UUID: $statUuid');
+        print(
+            'Inserted new stat with UUID: $statUuid and Coffee Beans UUID: $coffeeBeansUuid');
       } catch (e) {
         print("Error inserting brewing data to app database: $e");
       }

@@ -1,3 +1,1 @@
-Hotfix: Am remediat o problemă în care aplicația se putea bloca la pornire pentru unii utilizatori care adăugaseră anterior boabe de cafea. Toate datele utilizatorilor sunt păstrate. Aplicația ar trebui să pornească acum normal pentru toată lumea.
-
-Acum poți crea un cont pentru a sincroniza datele între dispozitive.
+Acum puteți selecta boabele de cafea pe pagina rețetei.

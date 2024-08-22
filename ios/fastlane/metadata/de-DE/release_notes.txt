@@ -1,3 +1,1 @@
-Hotfix: Ein Problem wurde behoben, bei dem die App für einige Nutzer, die zuvor Kaffeebohnen hinzugefügt hatten, beim Start hängen bleiben konnte. Alle Benutzerdaten sind erhalten geblieben. Die App sollte nun für alle normal starten.
-
-Sie können jetzt ein Konto erstellen, um Daten zwischen Geräten zu synchronisieren.
+Sie können jetzt Kaffeebohnen auf der Rezeptseite auswählen.

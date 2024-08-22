@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "Konto usunięte pomyślnie",
   "accountDeleted": "Konto zostało usunięte",
   "accountDeletionError": "Błąd podczas usuwania konta, spróbuj ponownie",
-  "deleteAccountTitle": "Ważne"
+  "deleteAccountTitle": "Ważne",
+  "selectBeans": "Wybierz ziarna"
 }

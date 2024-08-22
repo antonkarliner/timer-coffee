@@ -17,6 +17,9 @@ import '../utils/icon_utils.dart';
 import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../screens/preparation_screen.dart';
+import '../widgets/add_coffee_beans_widget.dart';
+import '../providers/coffee_beans_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
 class RecipeDetailScreen extends StatefulWidget {
@@ -43,11 +46,14 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
 
   RecipeModel? _updatedRecipe;
   String _brewingMethodName = "Unknown Brewing Method";
+  String? selectedBeanUuid;
+  String? selectedBeanName;
 
   @override
   void initState() {
     super.initState();
     _loadRecipeDetails();
+    _loadSelectedBean();
   }
 
   Future<void> _loadRecipeDetails() async {
@@ -74,6 +80,59 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       });
     } catch (e) {
       print("Error loading recipe details: $e");
+    }
+  }
+
+  Future<void> _loadSelectedBean() async {
+    final prefs = await SharedPreferences.getInstance();
+    final uuid = prefs.getString('selectedBeanUuid');
+    if (uuid != null) {
+      final coffeeBeansProvider =
+          Provider.of<CoffeeBeansProvider>(context, listen: false);
+      final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid);
+      setState(() {
+        selectedBeanUuid = uuid;
+        selectedBeanName = bean?.name;
+      });
+    } else {
+      setState(() {
+        selectedBeanUuid = null;
+        selectedBeanName = null;
+      });
+    }
+  }
+
+  void _openAddBeansPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AddCoffeeBeansWidget(
+          onSelect: (String selectedBeanUuid) async {
+            await _updateSelectedBean(selectedBeanUuid);
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _updateSelectedBean(String? uuid) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (uuid != null) {
+      await prefs.setString('selectedBeanUuid', uuid);
+      final coffeeBeansProvider =
+          Provider.of<CoffeeBeansProvider>(context, listen: false);
+      final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid);
+      setState(() {
+        selectedBeanUuid = uuid;
+        selectedBeanName = bean?.name;
+      });
+    } else {
+      await prefs.remove('selectedBeanUuid');
+      setState(() {
+        selectedBeanUuid = null;
+        selectedBeanName = null;
+      });
     }
   }
 
@@ -211,6 +270,8 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
         ? '${recipe.brewTime.inMinutes.remainder(60).toString().padLeft(2, '0')}:${recipe.brewTime.inSeconds.remainder(60).toString().padLeft(2, '0')}'
         : "Not provided";
 
+    final loc = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -226,6 +287,62 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
         ),
         const SizedBox(height: 16),
         Semantics(
+          identifier: 'beanSelectionRow',
+          child: Row(
+            children: [
+              Text('${loc.beans}: ',
+                  style: Theme.of(context).textTheme.titleSmall),
+              const SizedBox(width: 8),
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => _openAddBeansPopup(context),
+                  style: OutlinedButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize:
+                        const Size.fromHeight(48), // Adjust height as needed
+                  ),
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Text(
+                            selectedBeanName ?? loc.selectBeans,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      if (selectedBeanUuid != null)
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          child: GestureDetector(
+                            onTap: () {
+                              _updateSelectedBean(null);
+                            },
+                            child: Container(
+                              width: 48,
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.cancel,
+                                color: Theme.of(context).colorScheme.onSurface,
+                                size: 24,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        Semantics(
           identifier: 'recipeAmountFields',
           child: _buildAmountFields(context, recipe),
         ),
@@ -233,13 +350,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
         Semantics(
           identifier: 'waterTemperature',
           child: Text(
-              '${AppLocalizations.of(context)!.watertemp}: ${recipe.waterTemp?.toStringAsFixed(1) ?? "Not provided"}ºC / ${(recipe.waterTemp != null) ? ((recipe.waterTemp! * 9 / 5) + 32).toStringAsFixed(1) : "Not provided"}ºF'),
+              '${loc.watertemp}: ${recipe.waterTemp?.toStringAsFixed(1) ?? "Not provided"}ºC / ${(recipe.waterTemp != null) ? ((recipe.waterTemp! * 9 / 5) + 32).toStringAsFixed(1) : "Not provided"}ºF'),
         ),
         const SizedBox(height: 16),
         Semantics(
           identifier: 'grindSize',
-          child: Text(
-              '${AppLocalizations.of(context)!.grindsize}: ${recipe.grindSize}'),
+          child: Text('${loc.grindsize}: ${recipe.grindSize}'),
         ),
         const SizedBox(height: 16),
         Semantics(

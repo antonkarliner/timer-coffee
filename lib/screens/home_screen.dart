@@ -122,27 +122,32 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsScaffold(
+    return AutoTabsRouter.pageView(
       routes: const [
         BrewTabRoute(),
         HubTabRoute(),
       ],
-      appBarBuilder: (_, tabsRouter) => buildPlatformSpecificAppBar(),
-      bottomNavigationBuilder: (_, tabsRouter) {
-        return ConvexAppBar.builder(
-          count: 2,
-          backgroundColor: Theme.of(context).colorScheme.onBackground,
-          itemBuilder: CustomTabBuilder([
-            TabItem(
-              icon: Coffeico.bean,
-              title: AppLocalizations.of(context)!.homescreenbrewcoffee,
-            ),
-            TabItem(
-              icon: Icons.dashboard,
-              title: AppLocalizations.of(context)!.homescreenmore,
-            ),
-          ], context),
-          onTap: (int i) => tabsRouter.setActiveIndex(i),
+      builder: (context, child, _) {
+        final tabsRouter = AutoTabsRouter.of(context);
+        return Scaffold(
+          appBar: buildPlatformSpecificAppBar(),
+          body: child,
+          bottomNavigationBar: ConvexAppBar.builder(
+            count: 2,
+            backgroundColor: Theme.of(context).colorScheme.onBackground,
+            itemBuilder: CustomTabBuilder([
+              TabItem(
+                icon: Coffeico.bean,
+                title: AppLocalizations.of(context)!.homescreenbrewcoffee,
+              ),
+              TabItem(
+                icon: Icons.dashboard,
+                title: AppLocalizations.of(context)!.homescreenmore,
+              ),
+            ], context),
+            initialActiveIndex: tabsRouter.activeIndex,
+            onTap: tabsRouter.setActiveIndex,
+          ),
         );
       },
     );
@@ -195,6 +200,10 @@ class BrewingMethodsScreen extends StatelessWidget {
     final filteredBrewingMethods =
         brewingMethods.where((method) => method.showOnMain).toList();
 
+    // Calculate the bottom padding
+    final bottomPadding =
+        MediaQuery.of(context).padding.bottom + kBottomNavigationBarHeight;
+
     return SafeArea(
       child: Column(
         children: [
@@ -218,6 +227,8 @@ class BrewingMethodsScreen extends StatelessWidget {
                   ),
                 );
               },
+              // Add padding to the bottom of the ListView
+              padding: EdgeInsets.only(bottom: bottomPadding),
             ),
           ),
         ],

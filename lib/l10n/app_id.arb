@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "Akun berhasil dihapus",
   "accountDeleted": "Akun dihapus",
   "accountDeletionError": "Kesalahan saat menghapus akun Anda, silakan coba lagi",
-  "deleteAccountTitle": "Penting"
+  "deleteAccountTitle": "Penting",
+  "selectBeans": "Pilih Biji Kopi"
 }

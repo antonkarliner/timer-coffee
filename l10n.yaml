@@ -5,3 +5,4 @@ arb-translate-vertex-ai-project-url: https://europe-west3-aiplatform.googleapis.
 arb-translate-api-key:
 arb-translate-model-provider: vertex-ai
 arb-translate-context: "Coffee brew timer app"
+arb-translate-model: gemini-1.5-pro

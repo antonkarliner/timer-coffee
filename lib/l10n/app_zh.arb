@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "成功删除账户",
   "accountDeleted": "账户已删除",
   "accountDeletionError": "删除账户时出错，请重试",
-  "deleteAccountTitle": "重要"
+  "deleteAccountTitle": "重要",
+  "selectBeans": "选择咖啡豆"
 }

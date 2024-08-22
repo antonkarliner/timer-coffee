@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "Compte supprimé avec succès",
   "accountDeleted": "Compte supprimé",
   "accountDeletionError": "Erreur lors de la suppression de votre compte. Veuillez réessayer.",
-  "deleteAccountTitle": "important"
+  "deleteAccountTitle": "important",
+  "selectBeans": "Sélectionner les grains"
 }

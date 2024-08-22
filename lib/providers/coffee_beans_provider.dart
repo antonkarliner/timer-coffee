@@ -307,49 +307,59 @@ class CoffeeBeansProvider with ChangeNotifier {
     }
 
     try {
-      final localBeans = await fetchAllCoffeeBeans();
+      // Fetch all local beans with their complete data
+      final localBeans =
+          await db.coffeeBeansDao.fetchAllBeansWithVersionVectors();
 
+      // Create a map for quick lookup
+      final localBeansMap = {for (var bean in localBeans) bean.beansUuid: bean};
+
+      // Fetch only necessary data from remote database
       final response = await Supabase.instance.client
           .from('user_coffee_beans')
-          .select()
+          .select('beans_uuid, version_vector')
           .eq('user_id', user.id);
-      final remoteBeans = (response as List<dynamic>)
-          .map((json) => _jsonToCoffeeBeansModel(json))
+
+      final remoteBeansInfo = (response as List<dynamic>)
+          .map((json) => (
+                beansUuid: json['beans_uuid'] as String,
+                versionVector: json['version_vector'] as String
+              ))
           .toList();
 
-      final List<CoffeeBeansModel> localUpdates = [];
+      // Prepare lists for updates
+      final List<String> localUpdates = [];
       final List<Map<String, dynamic>> remoteUpdates = [];
 
-      for (final localBean in localBeans) {
-        final remoteBean = remoteBeans.firstWhereOrNull(
-          (rb) => rb.beansUuid == localBean.beansUuid,
-        );
-
-        if (remoteBean == null) {
+      // Compare version vectors
+      for (final remoteBean in remoteBeansInfo) {
+        final localBean = localBeansMap[remoteBean.beansUuid];
+        if (localBean == null) {
+          // Bean doesn't exist locally, need to fetch from remote
+          localUpdates.add(remoteBean.beansUuid);
+        } else if (_isRemoteNewer(localBean.versionVectorObject,
+            VersionVector.fromString(remoteBean.versionVector))) {
+          // Remote is newer, update local
+          localUpdates.add(remoteBean.beansUuid);
+        } else if (_isLocalNewer(localBean.versionVectorObject,
+            VersionVector.fromString(remoteBean.versionVector))) {
+          // Local is newer, update remote
           remoteUpdates
               .add(_coffeeBeansModelToJson(localBean)..['user_id'] = user.id);
-        } else {
-          final localVector = VersionVector.fromString(localBean.versionVector);
-          final remoteVector =
-              VersionVector.fromString(remoteBean.versionVector);
-
-          if (localVector.version > remoteVector.version) {
-            remoteUpdates
-                .add(_coffeeBeansModelToJson(localBean)..['user_id'] = user.id);
-          } else if (localVector.version < remoteVector.version) {
-            localUpdates.add(remoteBean);
-          }
         }
       }
 
-      for (final remoteBean in remoteBeans) {
-        if (!localBeans.any((lb) => lb.beansUuid == remoteBean.beansUuid)) {
-          localUpdates.add(remoteBean);
-        }
-      }
+      // Check for new local beans
+      final newLocalBeans = localBeans.where((bean) =>
+          !remoteBeansInfo.any((remote) => remote.beansUuid == bean.beansUuid));
+      remoteUpdates.addAll(newLocalBeans
+          .map((bean) => _coffeeBeansModelToJson(bean)..['user_id'] = user.id));
 
+      // Perform updates
       if (localUpdates.isNotEmpty) {
-        await db.coffeeBeansDao.insertOrUpdateMultipleCoffeeBeans(localUpdates);
+        final updatedRemoteBeans = await _fetchFullRemoteBeans(localUpdates);
+        await db.coffeeBeansDao
+            .insertOrUpdateMultipleCoffeeBeans(updatedRemoteBeans);
       }
 
       if (remoteUpdates.isNotEmpty) {
@@ -365,6 +375,25 @@ class CoffeeBeansProvider with ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  bool _isRemoteNewer(VersionVector local, VersionVector remote) {
+    return remote.isNewerThan(local);
+  }
+
+  bool _isLocalNewer(VersionVector local, VersionVector remote) {
+    return local.isNewerThan(remote);
+  }
+
+  Future<List<CoffeeBeansModel>> _fetchFullRemoteBeans(
+      List<String> beansUuids) async {
+    final response = await Supabase.instance.client
+        .from('user_coffee_beans')
+        .select()
+        .inFilter('beans_uuid', beansUuids);
+    return (response as List<dynamic>)
+        .map((json) => _jsonToCoffeeBeansModel(json))
+        .toList();
   }
 
   // Helper method to convert CoffeeBeansModel to JSON

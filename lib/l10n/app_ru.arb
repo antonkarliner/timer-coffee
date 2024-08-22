@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "Учетная запись успешно удалена",
   "accountDeleted": "Учетная запись удалена",
   "accountDeletionError": "Ошибка при удалении учетной записи, повторите попытку",
-  "deleteAccountTitle": "Важно"
+  "deleteAccountTitle": "Важно",
+  "selectBeans": "Выберите зерна"
 }

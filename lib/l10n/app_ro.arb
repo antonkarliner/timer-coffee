@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "Contul șters cu succes",
   "accountDeleted": "Contul a fost șters",
   "accountDeletionError": "Eroare la ștergerea contului, vă rugăm să încercați din nou.",
-  "deleteAccountTitle": "Important"
+  "deleteAccountTitle": "Important",
+  "selectBeans": "Selectați boabele"
 }

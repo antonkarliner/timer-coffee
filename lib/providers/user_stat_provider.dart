@@ -349,62 +349,64 @@ class UserStatProvider extends ChangeNotifier {
     }
 
     try {
-      // Fetch all local stats
-      final localStats = await db.userStatsDao.fetchAllStats();
+      // Fetch all local stats with their version vectors
+      final localStats =
+          await db.userStatsDao.fetchAllStatsWithVersionVectors();
 
-      // Fetch all remote stats
+      // Prepare a map of statUuid to version vector for quick lookup
+      final localStatsMap = {
+        for (var stat in localStats) stat.statUuid: stat.versionVector
+      };
+
+      // Fetch only the necessary information from remote stats
       final response = await Supabase.instance.client
           .from('user_stats')
-          .select()
+          .select('stat_uuid, version_vector')
           .eq('user_id', user.id);
-      final remoteStats = (response as List<dynamic>)
-          .map((json) => _jsonToUserStatsModel(json))
+
+      final remoteStatsInfo = (response as List<dynamic>)
+          .map((json) => (
+                statUuid: json['stat_uuid'] as String,
+                versionVector: json['version_vector'] as String
+              ))
           .toList();
 
       // Prepare lists for updates
-      final List<UserStatsModel> localUpdates = [];
-      final List<Map<String, dynamic>> remoteUpdates = [];
+      final List<String> localUpdates = [];
+      final List<String> remoteUpdates = [];
 
-      // Compare and prepare updates
-      for (final localStat in localStats) {
-        final remoteStat = remoteStats.firstWhereOrNull(
-          (rs) => rs.statUuid == localStat.statUuid,
-        );
-
-        if (remoteStat == null) {
-          // Local stat doesn't exist remotely, add to remote updates
-          remoteUpdates
-              .add(_userStatModelToJson(localStat)..['user_id'] = user.id);
-        } else {
-          final localVector = VersionVector.fromString(localStat.versionVector);
-          final remoteVector =
-              VersionVector.fromString(remoteStat.versionVector);
-
-          if (localVector.version > remoteVector.version) {
-            // Local is newer, update remote
-            remoteUpdates
-                .add(_userStatModelToJson(localStat)..['user_id'] = user.id);
-          } else if (localVector.version < remoteVector.version) {
-            // Remote is newer, update local
-            localUpdates.add(remoteStat);
-          }
+      // Compare version vectors
+      for (final remoteStat in remoteStatsInfo) {
+        final localVector = localStatsMap[remoteStat.statUuid];
+        if (localVector == null) {
+          // Stat doesn't exist locally, need to fetch from remote
+          localUpdates.add(remoteStat.statUuid);
+        } else if (_isRemoteNewer(VersionVector.fromString(localVector),
+            VersionVector.fromString(remoteStat.versionVector))) {
+          // Remote is newer, update local
+          localUpdates.add(remoteStat.statUuid);
+        } else if (_isLocalNewer(VersionVector.fromString(localVector),
+            VersionVector.fromString(remoteStat.versionVector))) {
+          // Local is newer, update remote
+          remoteUpdates.add(remoteStat.statUuid);
         }
       }
 
-      // Check for new remote stats
-      for (final remoteStat in remoteStats) {
-        if (!localStats.any((ls) => ls.statUuid == remoteStat.statUuid)) {
-          localUpdates.add(remoteStat);
-        }
-      }
+      // Check for new local stats
+      final newLocalStats = localStats.where((stat) =>
+          !remoteStatsInfo.any((remote) => remote.statUuid == stat.statUuid));
+      remoteUpdates.addAll(newLocalStats.map((stat) => stat.statUuid));
 
-      // Perform batch updates
+      // Perform updates
       if (localUpdates.isNotEmpty) {
-        await db.userStatsDao.insertOrUpdateMultipleStats(localUpdates);
+        final updatedRemoteStats = await _fetchFullRemoteStats(localUpdates);
+        await db.userStatsDao.insertOrUpdateMultipleStats(updatedRemoteStats);
       }
 
       if (remoteUpdates.isNotEmpty) {
-        await Supabase.instance.client.from('user_stats').upsert(remoteUpdates);
+        final updatedLocalStats =
+            await db.userStatsDao.fetchStatsByUuids(remoteUpdates);
+        await _updateRemoteStats(updatedLocalStats);
       }
 
       print(
@@ -414,6 +416,33 @@ class UserStatProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  bool _isRemoteNewer(VersionVector local, VersionVector remote) {
+    return remote.isNewerThan(local);
+  }
+
+  bool _isLocalNewer(VersionVector local, VersionVector remote) {
+    return local.isNewerThan(remote);
+  }
+
+  Future<List<UserStatsModel>> _fetchFullRemoteStats(
+      List<String> statUuids) async {
+    final response = await Supabase.instance.client
+        .from('user_stats')
+        .select()
+        .inFilter('stat_uuid', statUuids);
+    return (response as List<dynamic>)
+        .map((json) => _jsonToUserStatsModel(json))
+        .toList();
+  }
+
+  Future<void> _updateRemoteStats(List<UserStatsModel> stats) async {
+    final updates = stats
+        .map((stat) => _userStatModelToJson(stat)
+          ..['user_id'] = Supabase.instance.client.auth.currentUser!.id)
+        .toList();
+    await Supabase.instance.client.from('user_stats').upsert(updates);
   }
 
   // Helper method to convert UserStatsModel to JSON

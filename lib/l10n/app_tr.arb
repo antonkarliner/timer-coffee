@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "Hesap başarıyla silindi",
   "accountDeleted": "Hesap silindi",
   "accountDeletionError": "Hesabınızı silerken hata oluştu, lütfen tekrar deneyin",
-  "deleteAccountTitle": "Önemli"
+  "deleteAccountTitle": "Önemli",
+  "selectBeans": "Çekirdekleri Seçin"
 }

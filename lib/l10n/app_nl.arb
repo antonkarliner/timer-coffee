@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "Account succesvol verwijderd",
   "accountDeleted": "Account verwijderd",
   "accountDeletionError": "Fout bij het verwijderen van uw account, probeer het opnieuw",
-  "deleteAccountTitle": "Belangrijk"
+  "deleteAccountTitle": "Belangrijk",
+  "selectBeans": "Kies bonen"
 }

@@ -1,3 +1,1 @@
-Hotfix: Se solucionó un problema donde la aplicación podía colgarse al iniciar para algunos usuarios que habían agregado granos de café previamente. Todos los datos de los usuarios se han preservado. La aplicación debería iniciar normalmente para todos ahora.
-
-Ahora puedes crear una cuenta para sincronizar datos entre dispositivos.
+You can now select coffee beans on the recipe page.

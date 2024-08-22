@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "Account eliminato correttamente",
   "accountDeleted": "Account eliminato",
   "accountDeletionError": "Errore durante l'eliminazione dell'account. Riprova.",
-  "deleteAccountTitle": "Importante"
+  "deleteAccountTitle": "Importante",
+  "selectBeans": "Seleziona chicchi"
 }

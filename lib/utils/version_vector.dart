@@ -66,4 +66,12 @@ class VersionVector {
 
   @override
   int get hashCode => deviceId.hashCode ^ version.hashCode;
+
+  bool isNewerThan(VersionVector other) {
+    if (version != other.version) {
+      return version > other.version;
+    }
+    // If versions are equal, compare the deviceIds lexicographically
+    return deviceId.compareTo(other.deviceId) > 0;
+  }
 }

@@ -114,7 +114,7 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
         trailing: bean.isFavorite
             ? Icon(
                 Icons.favorite,
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               )
             : null,
         selected: selectedBeanUuid == bean.beansUuid,
@@ -176,28 +176,40 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
                           itemBuilder: (context, index) {
                             if (index == 0) {
                               return Semantics(
-                                identifier: 'addNewBeansTile',
-                                label: loc.addNewBeans,
-                                child: ListTile(
-                                  title: Text(
-                                    loc.addNewBeans,
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor),
-                                  ),
-                                  leading: Icon(Icons.add,
-                                      color: Theme.of(context).primaryColor),
-                                  onTap: () async {
-                                    final result = await context.router
-                                        .push(NewBeansRoute());
-                                    if (result != null && result is String) {
-                                      setState(() {
-                                        selectedBeanUuid = result;
-                                      });
-                                      await _fetchCoffeeBeans(); // Refresh the list
-                                    }
-                                  },
-                                ),
-                              );
+                                  identifier: 'addNewBeansTile',
+                                  label: loc.addNewBeans,
+                                  child: ListTile(
+                                    title: Text(
+                                      loc.addNewBeans,
+                                      style: TextStyle(
+                                        color: Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .primary
+                                            : Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                    leading: Icon(
+                                      Icons.add,
+                                      color: Theme.of(context).brightness ==
+                                              Brightness.dark
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                          : Theme.of(context).primaryColor,
+                                    ),
+                                    onTap: () async {
+                                      final result = await context.router
+                                          .push(NewBeansRoute());
+                                      if (result != null && result is String) {
+                                        setState(() {
+                                          selectedBeanUuid = result;
+                                        });
+                                        await _fetchCoffeeBeans(); // Refresh the list
+                                      }
+                                    },
+                                  ));
                             }
                             return _buildBeanTile(
                                 beansList[index - 1], context);

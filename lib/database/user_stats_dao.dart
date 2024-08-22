@@ -238,4 +238,37 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       versionVector: Value(model.versionVector),
     );
   }
+
+  Future<List<UserStatsModel>> fetchAllStatsWithVersionVectors() async {
+    final query = select(userStats);
+
+    final results = await query
+        .map((row) => UserStatsModel(
+              statUuid: row.statUuid,
+              versionVector: row.versionVector,
+              recipeId: row.recipeId,
+              coffeeAmount: row.coffeeAmount,
+              waterAmount: row.waterAmount,
+              sweetnessSliderPosition: row.sweetnessSliderPosition,
+              strengthSliderPosition: row.strengthSliderPosition,
+              brewingMethodId: row.brewingMethodId,
+              createdAt: row.createdAt,
+              isMarked: row.isMarked,
+              notes: row.notes,
+              beans: row.beans,
+              roaster: row.roaster,
+              rating: row.rating,
+              coffeeBeansId: row.coffeeBeansId,
+              coffeeBeansUuid: row.coffeeBeansUuid,
+            ))
+        .get();
+
+    return results;
+  }
+
+  Future<List<UserStatsModel>> fetchStatsByUuids(List<String> uuids) async {
+    final query = select(userStats)..where((tbl) => tbl.statUuid.isIn(uuids));
+    final results = await query.get();
+    return results.map(_userStatFromRow).toList();
+  }
 }

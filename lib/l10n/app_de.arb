@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "Konto erfolgreich gelöscht",
   "accountDeleted": "Konto gelöscht",
   "accountDeletionError": "Fehler beim Löschen Ihres Kontos, bitte versuchen Sie es erneut",
-  "deleteAccountTitle": "Wichtig"
+  "deleteAccountTitle": "Wichtig",
+  "selectBeans": "Wähle Bohnen"
 }

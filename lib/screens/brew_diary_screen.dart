@@ -275,11 +275,11 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             if (stat.coffeeBeansUuid == null)
               Center(
                 child: Semantics(
-                  identifier: 'addBeansButton_${stat.statUuid}',
-                  label: 'Add Beans Button',
+                  identifier: 'selectBeansButton_${stat.statUuid}',
+                  label: 'Select Beans Button',
                   child: OutlinedButton(
                     onPressed: () => _openAddBeansPopup(context, stat.statUuid),
-                    child: Text(loc.addBeans),
+                    child: Text(loc.selectBeans),
                   ),
                 ),
               )

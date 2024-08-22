@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "تم حذف الحساب بنجاح",
   "accountDeleted": "تم حذف الحساب",
   "accountDeletionError": "حدث خطأ أثناء حذف حسابك ، يرجى المحاولة مرة أخرى",
-  "deleteAccountTitle": "مهم"
+  "deleteAccountTitle": "مهم",
+  "selectBeans": "اختيار حبوب البن"
 }

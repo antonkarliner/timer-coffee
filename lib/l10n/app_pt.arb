@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "Conta excluída com sucesso",
   "accountDeleted": "Conta excluída",
   "accountDeletionError": "Erro ao excluir sua conta. Tente novamente",
-  "deleteAccountTitle": "Importante"
+  "deleteAccountTitle": "Importante",
+  "selectBeans": "Selecione os grãos"
 }

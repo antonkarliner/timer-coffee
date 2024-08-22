@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "Обліковий запис успішно видалено",
   "accountDeleted": "Обліковий запис видалено",
   "accountDeletionError": "Помилка видалення облікового запису, спробуйте ще раз",
-  "deleteAccountTitle": "Увага"
+  "deleteAccountTitle": "Увага",
+  "selectBeans": "Виберіть зерна"
 }

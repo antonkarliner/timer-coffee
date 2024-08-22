@@ -191,5 +191,6 @@
   "deleteAccountConfirmation": "アカウントの削除に成功しました",
   "accountDeleted": "アカウントが削除されました",
   "accountDeletionError": "アカウントの削除中にエラーが発生しました。もう一度お試しください",
-  "deleteAccountTitle": "重要なお知らせ"
+  "deleteAccountTitle": "重要なお知らせ",
+  "selectBeans": "豆を選択"
 }
