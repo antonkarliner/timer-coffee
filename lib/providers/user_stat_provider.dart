@@ -87,34 +87,45 @@ class UserStatProvider extends ChangeNotifier {
     bool? isMarked,
     String? coffeeBeansUuid,
   }) async {
+    print(
+        'updateUserStat called with statUuid: $statUuid, coffeeBeansUuid: $coffeeBeansUuid');
+
     final currentStat = await db.userStatsDao.fetchStatByUuid(statUuid);
     if (currentStat == null) {
+      print('Error: Stat not found for UUID: $statUuid');
       throw Exception('Stat not found');
     }
+
+    print('Current stat: $currentStat');
 
     final currentVector = VersionVector.fromString(currentStat.versionVector);
     final newVector = currentVector.increment();
 
     final updatedStat = currentStat.copyWith(
-      recipeId: recipeId ?? currentStat.recipeId,
-      coffeeAmount: coffeeAmount ?? currentStat.coffeeAmount,
-      waterAmount: waterAmount ?? currentStat.waterAmount,
-      sweetnessSliderPosition:
-          sweetnessSliderPosition ?? currentStat.sweetnessSliderPosition,
-      strengthSliderPosition:
-          strengthSliderPosition ?? currentStat.strengthSliderPosition,
-      brewingMethodId: brewingMethodId ?? currentStat.brewingMethodId,
-      notes: notes ?? currentStat.notes,
-      beans: beans ?? currentStat.beans,
-      roaster: roaster ?? currentStat.roaster,
-      rating: rating ?? currentStat.rating,
-      coffeeBeansId: coffeeBeansId ?? currentStat.coffeeBeansId,
-      isMarked: isMarked ?? currentStat.isMarked,
-      coffeeBeansUuid: coffeeBeansUuid ?? currentStat.coffeeBeansUuid,
+      recipeId: recipeId,
+      coffeeAmount: coffeeAmount,
+      waterAmount: waterAmount,
+      sweetnessSliderPosition: sweetnessSliderPosition,
+      strengthSliderPosition: strengthSliderPosition,
+      brewingMethodId: brewingMethodId,
+      notes: notes,
+      beans: beans,
+      roaster: roaster,
+      rating: rating,
+      coffeeBeansId: coffeeBeansId,
+      isMarked: isMarked,
+      coffeeBeansUuid: coffeeBeansUuid,
       versionVector: newVector.toString(),
     );
 
+    print('Updated stat: $updatedStat');
+
     await db.userStatsDao.updateUserStat(updatedStat);
+    print('Database updated');
+
+    // Force a refresh of the stat
+    final refreshedStat = await db.userStatsDao.fetchStatByUuid(statUuid);
+    print('Refreshed stat after update: $refreshedStat');
 
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null && !user.isAnonymous) {
@@ -124,13 +135,14 @@ class UserStatProvider extends ChangeNotifier {
         await Supabase.instance.client
             .from('user_stats')
             .upsert(supabaseData, onConflict: 'user_id,stat_uuid');
+        print('Supabase updated');
       } catch (e) {
         print('Error syncing updated user stat to Supabase: $e');
-        // TODO: Implement error handling or retry logic
       }
     }
 
     notifyListeners();
+    print('notifyListeners called');
   }
 
   Future<List<UserStatsModel>> fetchAllUserStats() async {

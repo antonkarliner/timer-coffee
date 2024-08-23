@@ -1,0 +1,3 @@
+Ora puoi selezionare i chicchi di caffè nella pagina delle ricette.
+
++ aggiornamenti di stabilità

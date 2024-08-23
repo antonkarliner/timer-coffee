@@ -314,14 +314,20 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                               const SizedBox(width: 8),
                               OutlinedButton(
                                 onPressed: () async {
+                                  print(
+                                      'Remove beans button pressed for stat: ${stat.statUuid}');
+                                  print(
+                                      'Current coffeeBeansUuid: ${stat.coffeeBeansUuid}');
                                   await Provider.of<UserStatProvider>(context,
                                           listen: false)
                                       .updateUserStat(
                                     statUuid: stat.statUuid,
                                     coffeeBeansUuid: null,
                                   );
-                                  setState(
-                                      () {}); // Trigger a rebuild of the widget
+                                  print('updateUserStat called');
+                                  setState(() {
+                                    print('setState called to rebuild widget');
+                                  });
                                 },
                                 child: Text(loc.removeBeans),
                               ),

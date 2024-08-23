@@ -1,1 +1,3 @@
-Teraz możesz wybrać ziarna kawy na stronie przepisu.
+Możesz teraz wybrać ziarna kawy na stronie przepisu.
+
++ aktualizacje stabilności

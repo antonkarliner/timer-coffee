@@ -1,0 +1,3 @@
+Agora você pode selecionar grãos de café na página de receitas.
+
++ atualizações de estabilidade

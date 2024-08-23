@@ -1,1 +1,3 @@
-Acum puteți selecta boabele de cafea pe pagina rețetei.
+Acum puteți selecta boabe de cafea pe pagina rețetei.
+
++ actualizări de stabilitate

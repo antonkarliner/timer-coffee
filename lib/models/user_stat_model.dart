@@ -79,7 +79,7 @@ class UserStatsModel {
       rating: rating ?? this.rating,
       coffeeBeansId: coffeeBeansId ?? this.coffeeBeansId,
       isMarked: isMarked ?? this.isMarked,
-      coffeeBeansUuid: coffeeBeansUuid ?? this.coffeeBeansUuid,
+      coffeeBeansUuid: coffeeBeansUuid, // Remove null-coalescing operator here
       versionVector: versionVector ?? this.versionVector,
     );
   }

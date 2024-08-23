@@ -93,9 +93,30 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<void> updateUserStat(UserStatsModel stat) async {
-    await (update(userStats)
-          ..where((tbl) => tbl.statUuid.equals(stat.statUuid)))
-        .write(_userStatModelToCompanion(stat));
+    print('UserStatsDao.updateUserStat called with stat: ${stat.toString()}');
+
+    final companion = _userStatModelToCompanion(stat);
+    print('Update values: $companion');
+
+    final query = update(userStats)
+      ..where((tbl) => tbl.statUuid.equals(stat.statUuid));
+
+    try {
+      final updatedRows = await query.write(companion);
+      print('Rows updated: $updatedRows');
+
+      // Verify the update
+      final updatedStat = await fetchStatByUuid(stat.statUuid);
+      print('Stat after update: ${updatedStat.toString()}');
+
+      if (updatedRows == 0) {
+        print(
+            'Warning: No rows were updated. The stat might not exist in the database.');
+      }
+    } catch (e) {
+      print('Error updating user stat: $e');
+      rethrow;
+    }
   }
 
   Future<List<String>> fetchAllDistinctRoasters() async {

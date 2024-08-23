@@ -1,0 +1,3 @@
+Acum poți selecta boabe de cafea pe pagina rețetei.
+
++ actualizări de stabilitate
