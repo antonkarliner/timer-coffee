@@ -52,6 +52,7 @@ class UserStatProvider extends ChangeNotifier {
       isMarked: isMarked,
       coffeeBeansUuid: coffeeBeansUuid,
       versionVector: versionVector,
+      isDeleted: false, // Initialize isDeleted as false
     );
 
     await db.userStatsDao.insertUserStat(newStat);
@@ -145,6 +146,45 @@ class UserStatProvider extends ChangeNotifier {
     print('notifyListeners called');
   }
 
+  Future<void> deleteUserStat(String statUuid) async {
+    final currentStat = await db.userStatsDao.fetchStatByUuid(statUuid);
+    if (currentStat == null) {
+      print('Error: Stat not found for UUID: $statUuid');
+      throw Exception('Stat not found');
+    }
+
+    final currentVector = VersionVector.fromString(currentStat.versionVector);
+    final newVector = currentVector.increment();
+
+    // Create an updated stat with isDeleted set to true and the new version vector
+    final updatedStat = currentStat.copyWith(
+      isDeleted: true,
+      versionVector: newVector.toString(),
+    );
+
+    // Update the stat locally (to mark it as deleted)
+    await db.userStatsDao.updateUserStat(updatedStat);
+
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null && !user.isAnonymous) {
+      try {
+        final supabaseData = _userStatModelToJson(updatedStat);
+        supabaseData['user_id'] = user.id;
+        await Supabase.instance.client
+            .from('user_stats')
+            .upsert(supabaseData, onConflict: 'user_id,stat_uuid');
+      } catch (e) {
+        print('Error marking user stat as deleted in Supabase: $e');
+        // Decide if you want to proceed with local deletion if this fails
+      }
+    }
+
+    // Optionally, you can delete the local record after marking it as deleted in Supabase
+    await db.userStatsDao.deleteUserStat(statUuid);
+
+    notifyListeners();
+  }
+
   Future<List<UserStatsModel>> fetchAllUserStats() async {
     return await db.userStatsDao.fetchAllStats();
   }
@@ -162,26 +202,6 @@ class UserStatProvider extends ChangeNotifier {
       // If no stat is found with the given id, return null
       return null;
     }
-  }
-
-  Future<void> deleteUserStat(String statUuid) async {
-    await db.userStatsDao.deleteUserStat(statUuid);
-
-    // Sync with Supabase if user is not anonymous
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user != null && !user.isAnonymous) {
-      try {
-        await Supabase.instance.client
-            .from('user_stats')
-            .delete()
-            .eq('user_id', user.id)
-            .eq('stat_uuid', statUuid);
-      } catch (e) {
-        print('Error deleting user stat from Supabase: $e');
-      }
-    }
-
-    notifyListeners();
   }
 
   Future<void> batchUploadUserStats() async {
@@ -370,24 +390,26 @@ class UserStatProvider extends ChangeNotifier {
         for (var stat in localStats) stat.statUuid: stat.versionVector
       };
 
-      // Fetch only the necessary information from remote stats
+      // Fetch all remote stats, including deleted ones
       final response = await Supabase.instance.client
           .from('user_stats')
-          .select('stat_uuid, version_vector')
+          .select('stat_uuid, version_vector, is_deleted')
           .eq('user_id', user.id);
 
       final remoteStatsInfo = (response as List<dynamic>)
           .map((json) => (
                 statUuid: json['stat_uuid'] as String,
-                versionVector: json['version_vector'] as String
+                versionVector: json['version_vector'] as String,
+                isDeleted: json['is_deleted'] as bool,
               ))
           .toList();
 
       // Prepare lists for updates
       final List<String> localUpdates = [];
       final List<String> remoteUpdates = [];
+      final List<String> localDeletions = [];
 
-      // Compare version vectors
+      // Compare version vectors and handle deletions
       for (final remoteStat in remoteStatsInfo) {
         final localVector = localStatsMap[remoteStat.statUuid];
         if (localVector == null) {
@@ -397,6 +419,11 @@ class UserStatProvider extends ChangeNotifier {
             VersionVector.fromString(remoteStat.versionVector))) {
           // Remote is newer, update local
           localUpdates.add(remoteStat.statUuid);
+
+          // If remote stat is marked as deleted, delete it locally as well
+          if (remoteStat.isDeleted) {
+            localDeletions.add(remoteStat.statUuid);
+          }
         } else if (_isLocalNewer(VersionVector.fromString(localVector),
             VersionVector.fromString(remoteStat.versionVector))) {
           // Local is newer, update remote
@@ -421,8 +448,15 @@ class UserStatProvider extends ChangeNotifier {
         await _updateRemoteStats(updatedLocalStats);
       }
 
+      // Handle local deletions
+      if (localDeletions.isNotEmpty) {
+        for (final statUuid in localDeletions) {
+          await db.userStatsDao.deleteUserStat(statUuid);
+        }
+      }
+
       print(
-          'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}');
+          'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}, Local deletions: ${localDeletions.length}');
     } catch (e) {
       print('Error syncing user stats: $e');
     }
@@ -443,7 +477,8 @@ class UserStatProvider extends ChangeNotifier {
     final response = await Supabase.instance.client
         .from('user_stats')
         .select()
-        .inFilter('stat_uuid', statUuids);
+        .inFilter('stat_uuid', statUuids)
+        .eq('is_deleted', false); // Fetch only non-deleted stats
     return (response as List<dynamic>)
         .map((json) => _jsonToUserStatsModel(json))
         .toList();
@@ -472,6 +507,7 @@ class UserStatProvider extends ChangeNotifier {
       'is_marked': model.isMarked,
       'coffee_beans_uuid': model.coffeeBeansUuid,
       'version_vector': model.versionVector,
+      'is_deleted': model.isDeleted, // Include isDeleted field in JSON
     };
   }
 
@@ -490,6 +526,7 @@ class UserStatProvider extends ChangeNotifier {
       isMarked: json['is_marked'],
       coffeeBeansUuid: json['coffee_beans_uuid'],
       versionVector: json['version_vector'],
+      isDeleted: json['is_deleted'] ?? false, // Handle isDeleted field
     );
   }
 }

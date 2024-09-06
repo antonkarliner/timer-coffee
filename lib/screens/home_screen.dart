@@ -525,7 +525,6 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(AppLocalizations.of(context)!.signInSuccessful)),
       );
-      // TODO: Implement logic to sync local data with the newly created account
     } catch (e) {
       print('Error signing in with Apple: $e');
       ScaffoldMessenger.of(context).showSnackBar(

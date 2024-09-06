@@ -26,6 +26,7 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       notes: row.notes,
       isFavorite: row.isFavorite,
       versionVector: row.versionVector,
+      isDeleted: row.isDeleted, // Added isDeleted field
     );
   }
 
@@ -47,6 +48,7 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       notes: Value(model.notes),
       isFavorite: Value(model.isFavorite),
       versionVector: Value(model.versionVector),
+      isDeleted: Value(model.isDeleted), // Added isDeleted field
     );
   }
 
@@ -59,7 +61,8 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
     final query = select(coffeeBeans)
       ..orderBy([
         (t) => OrderingTerm(expression: t.roastDate, mode: OrderingMode.desc)
-      ]);
+      ])
+      ..where((t) => t.isDeleted.equals(false)); // Fetch only non-deleted beans
     final List<CoffeeBean> beansList = await query.get();
     return beansList.map(_coffeeBeansFromRow).toList();
   }
@@ -159,7 +162,14 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
         .write(_coffeeBeansToCompanion(beans));
   }
 
+  Future<void> softDeleteCoffeeBeans(String uuid) async {
+    final query = update(coffeeBeans)
+      ..where((tbl) => tbl.beansUuid.equals(uuid));
+    await query.write(CoffeeBeansCompanion(isDeleted: Value(true)));
+  }
+
   Future<void> deleteCoffeeBeans(String uuid) async {
+    // Physical delete only if necessary
     await (delete(coffeeBeans)..where((tbl) => tbl.beansUuid.equals(uuid)))
         .go();
   }
@@ -209,34 +219,19 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<List<CoffeeBeansModel>> fetchAllBeansWithVersionVectors() async {
-    final query = select(coffeeBeans);
+    final query = select(coffeeBeans)
+      ..where(
+          (tbl) => tbl.isDeleted.equals(false)); // Fetch only non-deleted beans
+
     final results = await query.get();
-    return results
-        .map((row) => CoffeeBeansModel(
-              beansUuid: row.beansUuid,
-              id: row.id,
-              roaster: row.roaster,
-              name: row.name,
-              origin: row.origin,
-              variety: row.variety,
-              tastingNotes: row.tastingNotes,
-              processingMethod: row.processingMethod,
-              elevation: row.elevation,
-              harvestDate: row.harvestDate,
-              roastDate: row.roastDate,
-              region: row.region,
-              roastLevel: row.roastLevel,
-              cuppingScore: row.cuppingScore,
-              notes: row.notes,
-              isFavorite: row.isFavorite,
-              versionVector: row.versionVector,
-            ))
-        .toList();
+    return results.map(_coffeeBeansFromRow).toList();
   }
 
   Future<List<CoffeeBeansModel>> fetchBeansByUuids(List<String> uuids) async {
     final query = select(coffeeBeans)
-      ..where((tbl) => tbl.beansUuid.isIn(uuids));
+      ..where((tbl) =>
+          tbl.beansUuid.isIn(uuids) &
+          tbl.isDeleted.equals(false)); // Fetch only non-deleted beans
     final results = await query.get();
     return results.map(_coffeeBeansFromRow).toList();
   }

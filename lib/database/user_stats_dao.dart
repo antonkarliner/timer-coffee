@@ -26,6 +26,7 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       isMarked: row.isMarked,
       coffeeBeansUuid: row.coffeeBeansUuid,
       versionVector: row.versionVector,
+      isDeleted: row.isDeleted, // Added isDeleted field
     );
   }
 
@@ -47,12 +48,12 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       isMarked: Value(model.isMarked),
       coffeeBeansUuid: Value(model.coffeeBeansUuid),
       versionVector: Value(model.versionVector),
+      isDeleted: Value(model.isDeleted), // Added isDeleted field
     );
   }
 
   Future<void> insertUserStat(UserStatsModel stat) async {
-    await into(userStats)
-        .insertOnConflictUpdate(_userStatModelToCompanion(stat));
+    await into(userStats).insertOnConflictUpdate(_userStatToCompanion(stat));
   }
 
   Future<UserStatsModel?> fetchStatByUuid(String statUuid) async {
@@ -66,36 +67,17 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     final query = select(userStats)
       ..orderBy([
         (t) => OrderingTerm(expression: t.createdAt, mode: OrderingMode.desc)
-      ]);
+      ])
+      ..where((t) => t.isDeleted.equals(false)); // Fetch only non-deleted stats
     final List<UserStat> userStatsList = await query.get();
 
-    return userStatsList
-        .map((dbUserStat) => UserStatsModel(
-              statUuid: dbUserStat.statUuid,
-              id: dbUserStat.id,
-              recipeId: dbUserStat.recipeId,
-              coffeeAmount: dbUserStat.coffeeAmount,
-              waterAmount: dbUserStat.waterAmount,
-              sweetnessSliderPosition: dbUserStat.sweetnessSliderPosition,
-              strengthSliderPosition: dbUserStat.strengthSliderPosition,
-              brewingMethodId: dbUserStat.brewingMethodId,
-              createdAt: dbUserStat.createdAt,
-              notes: dbUserStat.notes,
-              beans: dbUserStat.beans,
-              roaster: dbUserStat.roaster,
-              rating: dbUserStat.rating,
-              coffeeBeansId: dbUserStat.coffeeBeansId,
-              isMarked: dbUserStat.isMarked,
-              coffeeBeansUuid: dbUserStat.coffeeBeansUuid,
-              versionVector: dbUserStat.versionVector,
-            ))
-        .toList();
+    return userStatsList.map(_userStatFromRow).toList();
   }
 
   Future<void> updateUserStat(UserStatsModel stat) async {
     print('UserStatsDao.updateUserStat called with stat: ${stat.toString()}');
 
-    final companion = _userStatModelToCompanion(stat);
+    final companion = _userStatToCompanion(stat);
     print('Update values: $companion');
 
     final query = update(userStats)
@@ -122,7 +104,7 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
   Future<List<String>> fetchAllDistinctRoasters() async {
     final query = selectOnly(userStats, distinct: true)
       ..addColumns([userStats.roaster])
-      ..where(userStats.roaster.isNotNull())
+      ..where(userStats.roaster.isNotNull() & userStats.isDeleted.equals(false))
       ..orderBy([
         OrderingTerm(expression: userStats.createdAt, mode: OrderingMode.desc)
       ]);
@@ -134,7 +116,7 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
   Future<List<String>> fetchAllDistinctBeans() async {
     final query = selectOnly(userStats, distinct: true)
       ..addColumns([userStats.beans])
-      ..where(userStats.beans.isNotNull())
+      ..where(userStats.beans.isNotNull() & userStats.isDeleted.equals(false))
       ..orderBy([
         OrderingTerm(expression: userStats.createdAt, mode: OrderingMode.desc)
       ]);
@@ -148,7 +130,8 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
 
   Future<double> fetchBrewedCoffeeAmount(DateTime start, DateTime end) async {
     final query = select(userStats)
-      ..where((u) => u.createdAt.isBetweenValues(start, end));
+      ..where((u) =>
+          u.createdAt.isBetweenValues(start, end) & u.isDeleted.equals(false));
     final List<double> totalWaterAmount =
         await query.map((row) => row.waterAmount).get();
     return totalWaterAmount.fold<double>(
@@ -158,7 +141,7 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
   Future<List<String>> fetchTopRecipes(DateTime start, DateTime end) async {
     final query = customSelect(
       'SELECT recipe_id, COUNT(recipe_id) AS usage_count '
-      'FROM user_stats WHERE created_at BETWEEN ? AND ? '
+      'FROM user_stats WHERE created_at BETWEEN ? AND ? AND is_deleted = false '
       'GROUP BY recipe_id ORDER BY usage_count DESC LIMIT 3',
       variables: [Variable.withDateTime(start), Variable.withDateTime(end)],
       readsFrom: {userStats},
@@ -170,7 +153,9 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
   Future<List<UserStat>> fetchStatsNeedingUuidUpdate() {
     return (select(userStats)
           ..where((tbl) =>
-              tbl.coffeeBeansId.isNotNull() & tbl.coffeeBeansUuid.isNull()))
+              tbl.coffeeBeansId.isNotNull() &
+              tbl.coffeeBeansUuid.isNull() &
+              tbl.isDeleted.equals(false)))
         .get();
   }
 
@@ -194,14 +179,15 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
         } else {
           print(
               'Warning: Unable to update record. Both statUuid and id are null or not present.');
-          // You might want to log this or handle it in some way
         }
       }
     });
   }
 
   Future<List<UserStat>> fetchStatsNeedingStatUuidUpdate() {
-    return (select(userStats)..where((tbl) => tbl.statUuid.isNull())).get();
+    return (select(userStats)
+          ..where((tbl) => tbl.statUuid.isNull() & tbl.isDeleted.equals(false)))
+        .get();
   }
 
   Future<void> batchUpdateStatUuids(List<UserStatsCompanion> updates) async {
@@ -232,63 +218,27 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       for (final stat in stats) {
         batch.insert(
           userStats,
-          _userStatModelToCompanion(stat),
+          _userStatToCompanion(stat),
           mode: InsertMode.insertOrReplace,
         );
       }
     });
   }
 
-  UserStatsCompanion _userStatModelToCompanion(UserStatsModel model) {
-    return UserStatsCompanion(
-      statUuid: Value(model.statUuid),
-      recipeId: Value(model.recipeId),
-      coffeeAmount: Value(model.coffeeAmount),
-      waterAmount: Value(model.waterAmount),
-      sweetnessSliderPosition: Value(model.sweetnessSliderPosition),
-      strengthSliderPosition: Value(model.strengthSliderPosition),
-      brewingMethodId: Value(model.brewingMethodId),
-      createdAt: Value(model.createdAt),
-      notes: Value(model.notes),
-      beans: Value(model.beans),
-      roaster: Value(model.roaster),
-      rating: Value(model.rating),
-      coffeeBeansId: Value(model.coffeeBeansId),
-      isMarked: Value(model.isMarked),
-      coffeeBeansUuid: Value(model.coffeeBeansUuid),
-      versionVector: Value(model.versionVector),
-    );
-  }
-
   Future<List<UserStatsModel>> fetchAllStatsWithVersionVectors() async {
-    final query = select(userStats);
+    final query = select(userStats)
+      ..where((t) => t.isDeleted.equals(false)); // Fetch only non-deleted stats
 
-    final results = await query
-        .map((row) => UserStatsModel(
-              statUuid: row.statUuid,
-              versionVector: row.versionVector,
-              recipeId: row.recipeId,
-              coffeeAmount: row.coffeeAmount,
-              waterAmount: row.waterAmount,
-              sweetnessSliderPosition: row.sweetnessSliderPosition,
-              strengthSliderPosition: row.strengthSliderPosition,
-              brewingMethodId: row.brewingMethodId,
-              createdAt: row.createdAt,
-              isMarked: row.isMarked,
-              notes: row.notes,
-              beans: row.beans,
-              roaster: row.roaster,
-              rating: row.rating,
-              coffeeBeansId: row.coffeeBeansId,
-              coffeeBeansUuid: row.coffeeBeansUuid,
-            ))
-        .get();
+    final results = await query.map(_userStatFromRow).get();
 
     return results;
   }
 
   Future<List<UserStatsModel>> fetchStatsByUuids(List<String> uuids) async {
-    final query = select(userStats)..where((tbl) => tbl.statUuid.isIn(uuids));
+    final query = select(userStats)
+      ..where((tbl) =>
+          tbl.statUuid.isIn(uuids) &
+          tbl.isDeleted.equals(false)); // Fetch only non-deleted stats
     final results = await query.get();
     return results.map(_userStatFromRow).toList();
   }

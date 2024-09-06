@@ -208,6 +208,8 @@ class UserStats extends Table {
   TextColumn get coffeeBeansUuid =>
       text().named('coffee_beans_uuid').nullable()();
   TextColumn get versionVector => text().named('version_vector')();
+  BoolColumn get isDeleted =>
+      boolean().named('is_deleted').withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {statUuid};
@@ -237,6 +239,8 @@ class CoffeeBeans extends Table {
   BoolColumn get isFavorite =>
       boolean().named('is_favorite').withDefault(const Constant(false))();
   TextColumn get versionVector => text().named('version_vector')();
+  BoolColumn get isDeleted =>
+      boolean().named('is_deleted').withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {beansUuid};
@@ -280,7 +284,7 @@ class AppDatabase extends _$AppDatabase {
       : super(_openConnection());
 
   @override
-  int get schemaVersion => 15;
+  int get schemaVersion => 17;
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -652,6 +656,12 @@ class AppDatabase extends _$AppDatabase {
                 print('Migration failed: $e');
                 rethrow;
               }
+            },
+            from15To16: (m, schema) async {
+              await m.addColumn(userStats, userStats.isDeleted);
+            },
+            from16To17: (m, schema) async {
+              await m.addColumn(coffeeBeans, coffeeBeans.isDeleted);
             },
           )(m, oldVersion, newVersion);
         },

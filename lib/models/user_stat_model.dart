@@ -18,6 +18,7 @@ class UserStatsModel {
   final bool isMarked;
   final String? coffeeBeansUuid;
   final String versionVector;
+  final bool isDeleted; // New field to track deletion status
 
   UserStatsModel({
     required this.statUuid,
@@ -37,6 +38,7 @@ class UserStatsModel {
     required this.isMarked,
     this.coffeeBeansUuid,
     required this.versionVector,
+    required this.isDeleted, // Initialize the new field
   });
 
   VersionVector get versionVectorObject =>
@@ -60,6 +62,7 @@ class UserStatsModel {
     bool? isMarked,
     String? coffeeBeansUuid,
     String? versionVector,
+    bool? isDeleted, // Allow updating the isDeleted field
   }) {
     return UserStatsModel(
       statUuid: statUuid ?? this.statUuid,
@@ -81,6 +84,8 @@ class UserStatsModel {
       isMarked: isMarked ?? this.isMarked,
       coffeeBeansUuid: coffeeBeansUuid, // Remove null-coalescing operator here
       versionVector: versionVector ?? this.versionVector,
+      isDeleted:
+          isDeleted ?? this.isDeleted, // Update or keep current isDeleted value
     );
   }
 
@@ -106,7 +111,8 @@ class UserStatsModel {
           coffeeBeansId == other.coffeeBeansId &&
           isMarked == other.isMarked &&
           coffeeBeansUuid == other.coffeeBeansUuid &&
-          versionVector == other.versionVector;
+          versionVector == other.versionVector &&
+          isDeleted == other.isDeleted;
 
   // Hash code
   @override
@@ -127,5 +133,6 @@ class UserStatsModel {
       coffeeBeansId.hashCode ^
       isMarked.hashCode ^
       coffeeBeansUuid.hashCode ^
-      versionVector.hashCode;
+      versionVector.hashCode ^
+      isDeleted.hashCode;
 }

@@ -17,6 +17,7 @@ class CoffeeBeansModel {
   final double? cuppingScore;
   final String? notes;
   final bool isFavorite;
+  final bool isDeleted; // New field to track soft deletion
   final String versionVector;
 
   CoffeeBeansModel({
@@ -36,6 +37,7 @@ class CoffeeBeansModel {
     this.cuppingScore,
     this.notes,
     this.isFavorite = false,
+    this.isDeleted = false, // Default value set to false
     required this.versionVector,
   });
 
@@ -59,6 +61,7 @@ class CoffeeBeansModel {
     double? cuppingScore,
     String? notes,
     bool? isFavorite,
+    bool? isDeleted, // Optional field in the copyWith method
     String? versionVector,
   }) {
     return CoffeeBeansModel(
@@ -78,6 +81,7 @@ class CoffeeBeansModel {
       cuppingScore: cuppingScore ?? this.cuppingScore,
       notes: notes ?? this.notes,
       isFavorite: isFavorite ?? this.isFavorite,
+      isDeleted: isDeleted ?? this.isDeleted, // Handle isDeleted in copyWith
       versionVector: versionVector ?? this.versionVector,
     );
   }
@@ -103,6 +107,7 @@ class CoffeeBeansModel {
           cuppingScore == other.cuppingScore &&
           notes == other.notes &&
           isFavorite == other.isFavorite &&
+          isDeleted == other.isDeleted && // Include isDeleted in equality
           versionVector == other.versionVector;
 
   @override
@@ -123,5 +128,6 @@ class CoffeeBeansModel {
       cuppingScore.hashCode ^
       notes.hashCode ^
       isFavorite.hashCode ^
+      isDeleted.hashCode ^ // Include isDeleted in hashCode
       versionVector.hashCode;
 }

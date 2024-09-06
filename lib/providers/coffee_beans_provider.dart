@@ -41,7 +41,6 @@ class CoffeeBeansProvider with ChangeNotifier {
             .upsert(supabaseData);
       } catch (e) {
         print('Error syncing new coffee beans to Supabase: $e');
-        // TODO: Implement error handling or retry logic
       }
     }
 
@@ -75,28 +74,48 @@ class CoffeeBeansProvider with ChangeNotifier {
             .upsert(supabaseData, onConflict: 'user_id,beans_uuid');
       } catch (e) {
         print('Error syncing updated coffee beans to Supabase: $e');
-        // TODO: Implement error handling or retry logic
       }
     }
 
     notifyListeners();
   }
 
-  Future<void> deleteCoffeeBeans(String uuid) async {
-    await db.coffeeBeansDao.deleteCoffeeBeans(uuid);
+  Future<void> deleteCoffeeBeans(String beansUuid) async {
+    final currentBeans =
+        await db.coffeeBeansDao.fetchCoffeeBeansByUuid(beansUuid);
+    if (currentBeans == null) {
+      print('Error: Coffee beans not found for UUID: $beansUuid');
+      throw Exception('Coffee beans not found');
+    }
+
+    final currentVector = VersionVector.fromString(currentBeans.versionVector);
+    final newVector = currentVector.increment();
+
+    // Create an updated beans record with isDeleted set to true and the new version vector
+    final updatedBeans = currentBeans.copyWith(
+      isDeleted: true, // Assuming you add an `isDeleted` flag in your model
+      versionVector: newVector.toString(),
+    );
+
+    // Update the beans locally (to mark it as deleted)
+    await db.coffeeBeansDao.updateCoffeeBeans(updatedBeans);
 
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null && !user.isAnonymous) {
       try {
+        final supabaseData = _coffeeBeansModelToJson(updatedBeans);
+        supabaseData['user_id'] = user.id;
         await Supabase.instance.client
             .from('user_coffee_beans')
-            .delete()
-            .eq('user_id', user.id)
-            .eq('beans_uuid', uuid);
+            .upsert(supabaseData, onConflict: 'user_id,beans_uuid');
       } catch (e) {
-        print('Error deleting coffee beans from Supabase: $e');
+        print('Error marking coffee beans as deleted in Supabase: $e');
+        // You can decide if you want to proceed with local deletion if this fails
       }
     }
+
+    // Optionally, you can delete the local record after marking it as deleted in Supabase
+    await db.coffeeBeansDao.deleteCoffeeBeans(beansUuid);
 
     notifyListeners();
   }
@@ -317,19 +336,21 @@ class CoffeeBeansProvider with ChangeNotifier {
       // Fetch only necessary data from remote database
       final response = await Supabase.instance.client
           .from('user_coffee_beans')
-          .select('beans_uuid, version_vector')
+          .select('beans_uuid, version_vector, is_deleted')
           .eq('user_id', user.id);
 
       final remoteBeansInfo = (response as List<dynamic>)
           .map((json) => (
                 beansUuid: json['beans_uuid'] as String,
-                versionVector: json['version_vector'] as String
+                versionVector: json['version_vector'] as String,
+                isDeleted: json['is_deleted'] as bool,
               ))
           .toList();
 
-      // Prepare lists for updates
+      // Prepare lists for updates and deletions
       final List<String> localUpdates = [];
       final List<Map<String, dynamic>> remoteUpdates = [];
+      final List<String> localDeletions = [];
 
       // Compare version vectors
       for (final remoteBean in remoteBeansInfo) {
@@ -341,6 +362,11 @@ class CoffeeBeansProvider with ChangeNotifier {
             VersionVector.fromString(remoteBean.versionVector))) {
           // Remote is newer, update local
           localUpdates.add(remoteBean.beansUuid);
+
+          // If remote bean is marked as deleted, delete it locally as well
+          if (remoteBean.isDeleted) {
+            localDeletions.add(remoteBean.beansUuid);
+          }
         } else if (_isLocalNewer(localBean.versionVectorObject,
             VersionVector.fromString(remoteBean.versionVector))) {
           // Local is newer, update remote
@@ -355,21 +381,29 @@ class CoffeeBeansProvider with ChangeNotifier {
       remoteUpdates.addAll(newLocalBeans
           .map((bean) => _coffeeBeansModelToJson(bean)..['user_id'] = user.id));
 
-      // Perform updates
+      // Perform local updates
       if (localUpdates.isNotEmpty) {
         final updatedRemoteBeans = await _fetchFullRemoteBeans(localUpdates);
         await db.coffeeBeansDao
             .insertOrUpdateMultipleCoffeeBeans(updatedRemoteBeans);
       }
 
+      // Perform remote updates
       if (remoteUpdates.isNotEmpty) {
         await Supabase.instance.client
             .from('user_coffee_beans')
             .upsert(remoteUpdates);
       }
 
+      // Handle local deletions
+      if (localDeletions.isNotEmpty) {
+        for (final beansUuid in localDeletions) {
+          await db.coffeeBeansDao.deleteCoffeeBeans(beansUuid);
+        }
+      }
+
       print(
-          'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}');
+          'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}, Local deletions: ${localDeletions.length}');
     } catch (e) {
       print('Error syncing coffee beans: $e');
     }
@@ -415,6 +449,7 @@ class CoffeeBeansProvider with ChangeNotifier {
       'notes': model.notes,
       'is_favorite': model.isFavorite,
       'version_vector': model.versionVector,
+      'is_deleted': model.isDeleted,
     };
   }
 
@@ -437,10 +472,13 @@ class CoffeeBeansProvider with ChangeNotifier {
           : null,
       region: json['region'],
       roastLevel: json['roast_level'],
-      cuppingScore: json['cupping_score'],
+      cuppingScore: json['cupping_score'] != null
+          ? (json['cupping_score'] as num).toDouble()
+          : null,
       notes: json['notes'],
       isFavorite: json['is_favorite'],
       versionVector: json['version_vector'],
+      isDeleted: json['is_deleted'] ?? false,
     );
   }
 }

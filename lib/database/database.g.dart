@@ -3251,6 +3251,16 @@ class $UserStatsTable extends UserStats
   late final GeneratedColumn<String> versionVector = GeneratedColumn<String>(
       'version_vector', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _isDeletedMeta =
+      const VerificationMeta('isDeleted');
+  @override
+  late final GeneratedColumn<bool> isDeleted = GeneratedColumn<bool>(
+      'is_deleted', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_deleted" IN (0, 1))'),
+      defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns => [
         statUuid,
@@ -3269,7 +3279,8 @@ class $UserStatsTable extends UserStats
         coffeeBeansId,
         isMarked,
         coffeeBeansUuid,
-        versionVector
+        versionVector,
+        isDeleted
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3381,6 +3392,10 @@ class $UserStatsTable extends UserStats
     } else if (isInserting) {
       context.missing(_versionVectorMeta);
     }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta));
+    }
     return context;
   }
 
@@ -3426,6 +3441,8 @@ class $UserStatsTable extends UserStats
           DriftSqlType.string, data['${effectivePrefix}coffee_beans_uuid']),
       versionVector: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}version_vector'])!,
+      isDeleted: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_deleted'])!,
     );
   }
 
@@ -3453,6 +3470,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
   final bool isMarked;
   final String? coffeeBeansUuid;
   final String versionVector;
+  final bool isDeleted;
   const UserStat(
       {required this.statUuid,
       this.id,
@@ -3470,7 +3488,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       this.coffeeBeansId,
       required this.isMarked,
       this.coffeeBeansUuid,
-      required this.versionVector});
+      required this.versionVector,
+      required this.isDeleted});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -3505,6 +3524,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       map['coffee_beans_uuid'] = Variable<String>(coffeeBeansUuid);
     }
     map['version_vector'] = Variable<String>(versionVector);
+    map['is_deleted'] = Variable<bool>(isDeleted);
     return map;
   }
 
@@ -3536,6 +3556,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           ? const Value.absent()
           : Value(coffeeBeansUuid),
       versionVector: Value(versionVector),
+      isDeleted: Value(isDeleted),
     );
   }
 
@@ -3562,6 +3583,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       isMarked: serializer.fromJson<bool>(json['isMarked']),
       coffeeBeansUuid: serializer.fromJson<String?>(json['coffeeBeansUuid']),
       versionVector: serializer.fromJson<String>(json['versionVector']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
     );
   }
   @override
@@ -3586,6 +3608,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       'isMarked': serializer.toJson<bool>(isMarked),
       'coffeeBeansUuid': serializer.toJson<String?>(coffeeBeansUuid),
       'versionVector': serializer.toJson<String>(versionVector),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
     };
   }
 
@@ -3606,7 +3629,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           Value<int?> coffeeBeansId = const Value.absent(),
           bool? isMarked,
           Value<String?> coffeeBeansUuid = const Value.absent(),
-          String? versionVector}) =>
+          String? versionVector,
+          bool? isDeleted}) =>
       UserStat(
         statUuid: statUuid ?? this.statUuid,
         id: id.present ? id.value : this.id,
@@ -3630,6 +3654,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
             ? coffeeBeansUuid.value
             : this.coffeeBeansUuid,
         versionVector: versionVector ?? this.versionVector,
+        isDeleted: isDeleted ?? this.isDeleted,
       );
   UserStat copyWithCompanion(UserStatsCompanion data) {
     return UserStat(
@@ -3665,6 +3690,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       versionVector: data.versionVector.present
           ? data.versionVector.value
           : this.versionVector,
+      isDeleted: data.isDeleted.present ? data.isDeleted.value : this.isDeleted,
     );
   }
 
@@ -3687,7 +3713,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           ..write('coffeeBeansId: $coffeeBeansId, ')
           ..write('isMarked: $isMarked, ')
           ..write('coffeeBeansUuid: $coffeeBeansUuid, ')
-          ..write('versionVector: $versionVector')
+          ..write('versionVector: $versionVector, ')
+          ..write('isDeleted: $isDeleted')
           ..write(')'))
         .toString();
   }
@@ -3710,7 +3737,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       coffeeBeansId,
       isMarked,
       coffeeBeansUuid,
-      versionVector);
+      versionVector,
+      isDeleted);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3731,7 +3759,8 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           other.coffeeBeansId == this.coffeeBeansId &&
           other.isMarked == this.isMarked &&
           other.coffeeBeansUuid == this.coffeeBeansUuid &&
-          other.versionVector == this.versionVector);
+          other.versionVector == this.versionVector &&
+          other.isDeleted == this.isDeleted);
 }
 
 class UserStatsCompanion extends UpdateCompanion<UserStat> {
@@ -3752,6 +3781,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
   final Value<bool> isMarked;
   final Value<String?> coffeeBeansUuid;
   final Value<String> versionVector;
+  final Value<bool> isDeleted;
   final Value<int> rowid;
   const UserStatsCompanion({
     this.statUuid = const Value.absent(),
@@ -3771,6 +3801,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     this.isMarked = const Value.absent(),
     this.coffeeBeansUuid = const Value.absent(),
     this.versionVector = const Value.absent(),
+    this.isDeleted = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   UserStatsCompanion.insert({
@@ -3791,6 +3822,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     this.isMarked = const Value.absent(),
     this.coffeeBeansUuid = const Value.absent(),
     required String versionVector,
+    this.isDeleted = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : statUuid = Value(statUuid),
         recipeId = Value(recipeId),
@@ -3818,6 +3850,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     Expression<bool>? isMarked,
     Expression<String>? coffeeBeansUuid,
     Expression<String>? versionVector,
+    Expression<bool>? isDeleted,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -3840,6 +3873,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       if (isMarked != null) 'is_marked': isMarked,
       if (coffeeBeansUuid != null) 'coffee_beans_uuid': coffeeBeansUuid,
       if (versionVector != null) 'version_vector': versionVector,
+      if (isDeleted != null) 'is_deleted': isDeleted,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -3862,6 +3896,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       Value<bool>? isMarked,
       Value<String?>? coffeeBeansUuid,
       Value<String>? versionVector,
+      Value<bool>? isDeleted,
       Value<int>? rowid}) {
     return UserStatsCompanion(
       statUuid: statUuid ?? this.statUuid,
@@ -3883,6 +3918,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       isMarked: isMarked ?? this.isMarked,
       coffeeBeansUuid: coffeeBeansUuid ?? this.coffeeBeansUuid,
       versionVector: versionVector ?? this.versionVector,
+      isDeleted: isDeleted ?? this.isDeleted,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -3943,6 +3979,9 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     if (versionVector.present) {
       map['version_vector'] = Variable<String>(versionVector.value);
     }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -3969,6 +4008,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
           ..write('isMarked: $isMarked, ')
           ..write('coffeeBeansUuid: $coffeeBeansUuid, ')
           ..write('versionVector: $versionVector, ')
+          ..write('isDeleted: $isDeleted, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -4082,6 +4122,16 @@ class $CoffeeBeansTable extends CoffeeBeans
   late final GeneratedColumn<String> versionVector = GeneratedColumn<String>(
       'version_vector', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _isDeletedMeta =
+      const VerificationMeta('isDeleted');
+  @override
+  late final GeneratedColumn<bool> isDeleted = GeneratedColumn<bool>(
+      'is_deleted', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_deleted" IN (0, 1))'),
+      defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns => [
         beansUuid,
@@ -4100,7 +4150,8 @@ class $CoffeeBeansTable extends CoffeeBeans
         cuppingScore,
         notes,
         isFavorite,
-        versionVector
+        versionVector,
+        isDeleted
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4203,6 +4254,10 @@ class $CoffeeBeansTable extends CoffeeBeans
     } else if (isInserting) {
       context.missing(_versionVectorMeta);
     }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta));
+    }
     return context;
   }
 
@@ -4246,6 +4301,8 @@ class $CoffeeBeansTable extends CoffeeBeans
           .read(DriftSqlType.bool, data['${effectivePrefix}is_favorite'])!,
       versionVector: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}version_vector'])!,
+      isDeleted: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_deleted'])!,
     );
   }
 
@@ -4273,6 +4330,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
   final String? notes;
   final bool isFavorite;
   final String versionVector;
+  final bool isDeleted;
   const CoffeeBean(
       {required this.beansUuid,
       this.id,
@@ -4290,7 +4348,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       this.cuppingScore,
       this.notes,
       required this.isFavorite,
-      required this.versionVector});
+      required this.versionVector,
+      required this.isDeleted});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -4333,6 +4392,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
     }
     map['is_favorite'] = Variable<bool>(isFavorite);
     map['version_vector'] = Variable<String>(versionVector);
+    map['is_deleted'] = Variable<bool>(isDeleted);
     return map;
   }
 
@@ -4373,6 +4433,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           notes == null && nullToAbsent ? const Value.absent() : Value(notes),
       isFavorite: Value(isFavorite),
       versionVector: Value(versionVector),
+      isDeleted: Value(isDeleted),
     );
   }
 
@@ -4397,6 +4458,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       notes: serializer.fromJson<String?>(json['notes']),
       isFavorite: serializer.fromJson<bool>(json['isFavorite']),
       versionVector: serializer.fromJson<String>(json['versionVector']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
     );
   }
   @override
@@ -4420,6 +4482,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       'notes': serializer.toJson<String?>(notes),
       'isFavorite': serializer.toJson<bool>(isFavorite),
       'versionVector': serializer.toJson<String>(versionVector),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
     };
   }
 
@@ -4440,7 +4503,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           Value<double?> cuppingScore = const Value.absent(),
           Value<String?> notes = const Value.absent(),
           bool? isFavorite,
-          String? versionVector}) =>
+          String? versionVector,
+          bool? isDeleted}) =>
       CoffeeBean(
         beansUuid: beansUuid ?? this.beansUuid,
         id: id.present ? id.value : this.id,
@@ -4463,6 +4527,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
         notes: notes.present ? notes.value : this.notes,
         isFavorite: isFavorite ?? this.isFavorite,
         versionVector: versionVector ?? this.versionVector,
+        isDeleted: isDeleted ?? this.isDeleted,
       );
   CoffeeBean copyWithCompanion(CoffeeBeansCompanion data) {
     return CoffeeBean(
@@ -4494,6 +4559,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       versionVector: data.versionVector.present
           ? data.versionVector.value
           : this.versionVector,
+      isDeleted: data.isDeleted.present ? data.isDeleted.value : this.isDeleted,
     );
   }
 
@@ -4516,7 +4582,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           ..write('cuppingScore: $cuppingScore, ')
           ..write('notes: $notes, ')
           ..write('isFavorite: $isFavorite, ')
-          ..write('versionVector: $versionVector')
+          ..write('versionVector: $versionVector, ')
+          ..write('isDeleted: $isDeleted')
           ..write(')'))
         .toString();
   }
@@ -4539,7 +4606,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       cuppingScore,
       notes,
       isFavorite,
-      versionVector);
+      versionVector,
+      isDeleted);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4560,7 +4628,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           other.cuppingScore == this.cuppingScore &&
           other.notes == this.notes &&
           other.isFavorite == this.isFavorite &&
-          other.versionVector == this.versionVector);
+          other.versionVector == this.versionVector &&
+          other.isDeleted == this.isDeleted);
 }
 
 class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
@@ -4581,6 +4650,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
   final Value<String?> notes;
   final Value<bool> isFavorite;
   final Value<String> versionVector;
+  final Value<bool> isDeleted;
   final Value<int> rowid;
   const CoffeeBeansCompanion({
     this.beansUuid = const Value.absent(),
@@ -4600,6 +4670,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     this.notes = const Value.absent(),
     this.isFavorite = const Value.absent(),
     this.versionVector = const Value.absent(),
+    this.isDeleted = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   CoffeeBeansCompanion.insert({
@@ -4620,6 +4691,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     this.notes = const Value.absent(),
     this.isFavorite = const Value.absent(),
     required String versionVector,
+    this.isDeleted = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : beansUuid = Value(beansUuid),
         roaster = Value(roaster),
@@ -4644,6 +4716,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     Expression<String>? notes,
     Expression<bool>? isFavorite,
     Expression<String>? versionVector,
+    Expression<bool>? isDeleted,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -4664,6 +4737,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       if (notes != null) 'notes': notes,
       if (isFavorite != null) 'is_favorite': isFavorite,
       if (versionVector != null) 'version_vector': versionVector,
+      if (isDeleted != null) 'is_deleted': isDeleted,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -4686,6 +4760,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       Value<String?>? notes,
       Value<bool>? isFavorite,
       Value<String>? versionVector,
+      Value<bool>? isDeleted,
       Value<int>? rowid}) {
     return CoffeeBeansCompanion(
       beansUuid: beansUuid ?? this.beansUuid,
@@ -4705,6 +4780,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       notes: notes ?? this.notes,
       isFavorite: isFavorite ?? this.isFavorite,
       versionVector: versionVector ?? this.versionVector,
+      isDeleted: isDeleted ?? this.isDeleted,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -4763,6 +4839,9 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     if (versionVector.present) {
       map['version_vector'] = Variable<String>(versionVector.value);
     }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -4789,6 +4868,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
           ..write('notes: $notes, ')
           ..write('isFavorite: $isFavorite, ')
           ..write('versionVector: $versionVector, ')
+          ..write('isDeleted: $isDeleted, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -6505,6 +6585,7 @@ typedef $$UserStatsTableCreateCompanionBuilder = UserStatsCompanion Function({
   Value<bool> isMarked,
   Value<String?> coffeeBeansUuid,
   required String versionVector,
+  Value<bool> isDeleted,
   Value<int> rowid,
 });
 typedef $$UserStatsTableUpdateCompanionBuilder = UserStatsCompanion Function({
@@ -6525,6 +6606,7 @@ typedef $$UserStatsTableUpdateCompanionBuilder = UserStatsCompanion Function({
   Value<bool> isMarked,
   Value<String?> coffeeBeansUuid,
   Value<String> versionVector,
+  Value<bool> isDeleted,
   Value<int> rowid,
 });
 
@@ -6562,6 +6644,7 @@ class $$UserStatsTableTableManager extends RootTableManager<
             Value<bool> isMarked = const Value.absent(),
             Value<String?> coffeeBeansUuid = const Value.absent(),
             Value<String> versionVector = const Value.absent(),
+            Value<bool> isDeleted = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               UserStatsCompanion(
@@ -6582,6 +6665,7 @@ class $$UserStatsTableTableManager extends RootTableManager<
             isMarked: isMarked,
             coffeeBeansUuid: coffeeBeansUuid,
             versionVector: versionVector,
+            isDeleted: isDeleted,
             rowid: rowid,
           ),
           createCompanionCallback: ({
@@ -6602,6 +6686,7 @@ class $$UserStatsTableTableManager extends RootTableManager<
             Value<bool> isMarked = const Value.absent(),
             Value<String?> coffeeBeansUuid = const Value.absent(),
             required String versionVector,
+            Value<bool> isDeleted = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               UserStatsCompanion.insert(
@@ -6622,6 +6707,7 @@ class $$UserStatsTableTableManager extends RootTableManager<
             isMarked: isMarked,
             coffeeBeansUuid: coffeeBeansUuid,
             versionVector: versionVector,
+            isDeleted: isDeleted,
             rowid: rowid,
           ),
         ));
@@ -6702,6 +6788,11 @@ class $$UserStatsTableFilterComposer
 
   ColumnFilters<String> get versionVector => $state.composableBuilder(
       column: $state.table.versionVector,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<bool> get isDeleted => $state.composableBuilder(
+      column: $state.table.isDeleted,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
 
@@ -6808,6 +6899,11 @@ class $$UserStatsTableOrderingComposer
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 
+  ColumnOrderings<bool> get isDeleted => $state.composableBuilder(
+      column: $state.table.isDeleted,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
   $$RecipesTableOrderingComposer get recipeId {
     final $$RecipesTableOrderingComposer composer = $state.composerBuilder(
         composer: this,
@@ -6853,6 +6949,7 @@ typedef $$CoffeeBeansTableCreateCompanionBuilder = CoffeeBeansCompanion
   Value<String?> notes,
   Value<bool> isFavorite,
   required String versionVector,
+  Value<bool> isDeleted,
   Value<int> rowid,
 });
 typedef $$CoffeeBeansTableUpdateCompanionBuilder = CoffeeBeansCompanion
@@ -6874,6 +6971,7 @@ typedef $$CoffeeBeansTableUpdateCompanionBuilder = CoffeeBeansCompanion
   Value<String?> notes,
   Value<bool> isFavorite,
   Value<String> versionVector,
+  Value<bool> isDeleted,
   Value<int> rowid,
 });
 
@@ -6911,6 +7009,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             Value<String?> notes = const Value.absent(),
             Value<bool> isFavorite = const Value.absent(),
             Value<String> versionVector = const Value.absent(),
+            Value<bool> isDeleted = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               CoffeeBeansCompanion(
@@ -6931,6 +7030,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             notes: notes,
             isFavorite: isFavorite,
             versionVector: versionVector,
+            isDeleted: isDeleted,
             rowid: rowid,
           ),
           createCompanionCallback: ({
@@ -6951,6 +7051,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             Value<String?> notes = const Value.absent(),
             Value<bool> isFavorite = const Value.absent(),
             required String versionVector,
+            Value<bool> isDeleted = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               CoffeeBeansCompanion.insert(
@@ -6971,6 +7072,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             notes: notes,
             isFavorite: isFavorite,
             versionVector: versionVector,
+            isDeleted: isDeleted,
             rowid: rowid,
           ),
         ));
@@ -7063,6 +7165,11 @@ class $$CoffeeBeansTableFilterComposer
       column: $state.table.versionVector,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<bool> get isDeleted => $state.composableBuilder(
+      column: $state.table.isDeleted,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
 }
 
 class $$CoffeeBeansTableOrderingComposer
@@ -7150,6 +7257,11 @@ class $$CoffeeBeansTableOrderingComposer
 
   ColumnOrderings<String> get versionVector => $state.composableBuilder(
       column: $state.table.versionVector,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<bool> get isDeleted => $state.composableBuilder(
+      column: $state.table.isDeleted,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }

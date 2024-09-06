@@ -186,6 +186,9 @@ extension UserStatsCompanionExtension on UserStatsCompanion {
           : const Value.absent(),
       coffeeBeansUuid: Value(json['coffee_beans_uuid']),
       versionVector: Value(json['version_vector']),
+      isDeleted: json['is_deleted'] != null
+          ? Value(json['is_deleted'] as bool)
+          : const Value.absent(), // Added isDeleted field
     );
   }
 
@@ -208,6 +211,7 @@ extension UserStatsCompanionExtension on UserStatsCompanion {
       'is_marked': isMarked.value,
       'coffee_beans_uuid': coffeeBeansUuid.value,
       'version_vector': versionVector.value,
+      'is_deleted': isDeleted.value, // Added isDeleted field
     };
   }
 }
@@ -241,6 +245,8 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
       isFavorite: json['is_favorite'] != null
           ? Value(json['is_favorite'] as bool)
           : const Value.absent(),
+      isDeleted: Value(json['is_deleted'] != null &&
+          json['is_deleted'] == true), // Include isDeleted
       versionVector: Value(json['version_vector']),
     );
   }
@@ -265,6 +271,8 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
       'cupping_score': cuppingScore.present ? cuppingScore.value : null,
       'notes': notes.value,
       'is_favorite': isFavorite.present ? isFavorite.value : null,
+      'is_deleted':
+          isDeleted.present ? isDeleted.value : null, // Include isDeleted
       'version_vector': versionVector.value,
     };
   }
