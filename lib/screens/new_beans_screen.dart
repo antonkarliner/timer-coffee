@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -576,7 +577,18 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         'cupping_score': bean.cuppingScore,
       };
 
-      await Supabase.instance.client.from('global_coffee_beans').insert(data);
+      try {
+        await Supabase.instance.client
+            .from('global_coffee_beans')
+            .insert(data)
+            .timeout(const Duration(seconds: 3));
+      } on TimeoutException catch (e) {
+        print('Supabase request timed out: $e');
+        // Optionally, handle the timeout, e.g., by retrying or queuing the request
+      } catch (e) {
+        print('Error inserting beans data to Supabase: $e');
+        // Handle other exceptions as needed
+      }
     }
   }
 

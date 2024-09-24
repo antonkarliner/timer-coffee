@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:coffee_timer/database/database.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/database/extensions.dart';
@@ -8,109 +10,205 @@ class DatabaseProvider {
 
   DatabaseProvider(this._db);
 
-  Future<void> initializeDatabase() async {
+  Future<void> initializeDatabase({required bool isFirstLaunch}) async {
+    if (isFirstLaunch) {
+      // No timeout on the first launch to ensure all essential data is loaded
+      try {
+        await _initializeDatabaseInternal(isFirstLaunch: isFirstLaunch);
+      } catch (error) {
+        print('Error initializing database on first launch: $error');
+        // Optionally, handle the error appropriately
+      }
+    } else {
+      // Apply a 10-second timeout to the entire initialization process
+      try {
+        await _initializeDatabaseInternal(isFirstLaunch: isFirstLaunch).timeout(
+          const Duration(seconds: 10),
+          onTimeout: () {
+            print('initializeDatabase timed out');
+            // Proceed with partial data or notify the user
+            return;
+          },
+        );
+      } catch (error) {
+        print('Error initializing database: $error');
+        // Optionally, handle other errors
+      }
+    }
+  }
+
+  Future<void> _initializeDatabaseInternal(
+      {required bool isFirstLaunch}) async {
+    await _fetchAndStoreReferenceData(isFirstLaunch: isFirstLaunch);
+    await Future.wait([
+      _fetchAndStoreRecipes(isFirstLaunch: isFirstLaunch),
+      _fetchAndStoreExtraData(isFirstLaunch: isFirstLaunch),
+    ]);
+  }
+
+  Future<void> _fetchAndStoreReferenceData(
+      {required bool isFirstLaunch}) async {
     try {
-      await _fetchAndStoreReferenceData();
-      await Future.wait([
-        _fetchAndStoreRecipes(),
-        _fetchAndStoreExtraData(),
+      // Define individual futures
+      final vendorsFuture = Supabase.instance.client.from('vendors').select();
+      final brewingMethodsFuture =
+          Supabase.instance.client.from('brewing_methods').select();
+      final supportedLocalesFuture =
+          Supabase.instance.client.from('supported_locales').select();
+
+      // Apply timeouts if it's not the first launch
+      final vendorsRequest = isFirstLaunch
+          ? vendorsFuture
+          : vendorsFuture.timeout(const Duration(seconds: 5));
+      final brewingMethodsRequest = isFirstLaunch
+          ? brewingMethodsFuture
+          : brewingMethodsFuture.timeout(const Duration(seconds: 5));
+      final supportedLocalesRequest = isFirstLaunch
+          ? supportedLocalesFuture
+          : supportedLocalesFuture.timeout(const Duration(seconds: 5));
+
+      // Run all requests in parallel
+      final responses = await Future.wait([
+        vendorsRequest,
+        brewingMethodsRequest,
+        supportedLocalesRequest,
       ]);
+
+      // Process the responses
+      final vendorsResponse = responses[0] as List<dynamic>;
+      final brewingMethodsResponse = responses[1] as List<dynamic>;
+      final supportedLocalesResponse = responses[2] as List<dynamic>;
+
+      final vendors = vendorsResponse
+          .map((json) => VendorsCompanionExtension.fromJson(json))
+          .toList();
+      final brewingMethods = brewingMethodsResponse
+          .map((json) => BrewingMethodsCompanionExtension.fromJson(json))
+          .toList();
+      final supportedLocales = supportedLocalesResponse
+          .map((json) => SupportedLocalesCompanionExtension.fromJson(json))
+          .toList();
+
+      await _db.transaction(() async {
+        await _db.batch((batch) {
+          batch.insertAllOnConflictUpdate(_db.vendors, vendors);
+          batch.insertAllOnConflictUpdate(_db.brewingMethods, brewingMethods);
+          batch.insertAllOnConflictUpdate(
+              _db.supportedLocales, supportedLocales);
+        });
+      });
     } catch (error) {
-      // Handle the error here
+      print('Error fetching and storing reference data: $error');
+      // Optionally, handle the error (e.g., provide default data)
     }
   }
 
-  Future<void> _fetchAndStoreReferenceData() async {
-    final vendorsResponse =
-        await Supabase.instance.client.from('vendors').select();
-    final brewingMethodsResponse =
-        await Supabase.instance.client.from('brewing_methods').select();
-    final supportedLocalesResponse =
-        await Supabase.instance.client.from('supported_locales').select();
+  Future<void> _fetchAndStoreRecipes({required bool isFirstLaunch}) async {
+    try {
+      DateTime? lastModified = await _db.recipesDao.fetchLastModified();
 
-    final vendors = vendorsResponse
-        .map((json) => VendorsCompanionExtension.fromJson(json))
-        .toList();
-    final brewingMethods = brewingMethodsResponse
-        .map((json) => BrewingMethodsCompanionExtension.fromJson(json))
-        .toList();
-    final supportedLocales = supportedLocalesResponse
-        .map((json) => SupportedLocalesCompanionExtension.fromJson(json))
-        .toList();
+      var request = Supabase.instance.client
+          .from('recipes')
+          .select('*, recipe_localization(*), steps(*)');
 
-    await _db.transaction(() async {
-      await _db.batch((batch) {
-        batch.insertAllOnConflictUpdate(_db.vendors, vendors);
-        batch.insertAllOnConflictUpdate(_db.brewingMethods, brewingMethods);
-        batch.insertAllOnConflictUpdate(_db.supportedLocales, supportedLocales);
+      if (lastModified != null) {
+        final lastModifiedUtc = lastModified.toUtc();
+        request =
+            request.gt('last_modified', lastModifiedUtc.toIso8601String());
+      }
+
+      // Apply timeout if it's not the first launch
+      final response = isFirstLaunch
+          ? await request
+          : await request.timeout(const Duration(seconds: 5));
+
+      final recipes = (response as List<dynamic>)
+          .map((json) => RecipesCompanionExtension.fromJson(json))
+          .toList();
+
+      // Extract and store localizations
+      final localizationsJson = response
+          .expand((json) => (json['recipe_localization'] as List<dynamic>))
+          .toList();
+      final localizations = localizationsJson
+          .map((json) => RecipeLocalizationsCompanionExtension.fromJson(json))
+          .toList();
+
+      // Extract and store steps
+      final stepsJson =
+          response.expand((json) => (json['steps'] as List<dynamic>)).toList();
+      final steps = stepsJson
+          .map((json) => StepsCompanionExtension.fromJson(json))
+          .toList();
+
+      await _db.transaction(() async {
+        await _db.batch((batch) {
+          batch.insertAllOnConflictUpdate(_db.recipes, recipes);
+          batch.insertAllOnConflictUpdate(
+              _db.recipeLocalizations, localizations);
+          batch.insertAllOnConflictUpdate(_db.steps, steps);
+        });
       });
-    });
-  }
-
-  Future<void> _fetchAndStoreRecipes() async {
-    DateTime? lastModified = await _db.recipesDao.fetchLastModified();
-
-    var request = Supabase.instance.client
-        .from('recipes')
-        .select('*, recipe_localization(*), steps(*)');
-
-    if (lastModified != null) {
-      final lastModifiedUtc = lastModified.toUtc();
-      request = request.gt('last_modified', lastModifiedUtc.toIso8601String());
+    } catch (error) {
+      print('Error fetching and storing recipes: $error');
+      // Optionally, handle the error
     }
-
-    final response = await request;
-
-    final recipes = response
-        .map((json) => RecipesCompanionExtension.fromJson(json))
-        .toList();
-
-    // Extract and store localizations
-    final localizationsJson =
-        response.expand((json) => json['recipe_localization']).toList();
-    final localizations = localizationsJson
-        .map((json) => RecipeLocalizationsCompanionExtension.fromJson(json))
-        .toList();
-
-    // Extract and store steps
-    final stepsJson = response.expand((json) => json['steps']).toList();
-    final steps = stepsJson
-        .map((json) => StepsCompanionExtension.fromJson(json))
-        .toList();
-
-    await _db.transaction(() async {
-      await _db.batch((batch) {
-        batch.insertAllOnConflictUpdate(_db.recipes, recipes);
-        batch.insertAllOnConflictUpdate(_db.recipeLocalizations, localizations);
-        batch.insertAllOnConflictUpdate(_db.steps, steps);
-      });
-    });
   }
 
-  Future<void> _fetchAndStoreExtraData() async {
-    final coffeeFactsResponse =
-        await Supabase.instance.client.from('coffee_facts').select();
-    final LaunchPopupResponse =
-        await Supabase.instance.client.from('launch_popup').select();
-    final contributorsResponse =
-        await Supabase.instance.client.from('contributors').select();
+  Future<void> _fetchAndStoreExtraData({required bool isFirstLaunch}) async {
+    try {
+      // Define individual futures
+      final coffeeFactsFuture =
+          Supabase.instance.client.from('coffee_facts').select();
+      final launchPopupFuture =
+          Supabase.instance.client.from('launch_popup').select();
+      final contributorsFuture =
+          Supabase.instance.client.from('contributors').select();
 
-    final coffeeFacts = coffeeFactsResponse
-        .map((json) => CoffeeFactsCompanionExtension.fromJson(json))
-        .toList();
-    final launchPopups = LaunchPopupResponse.map(
-        (json) => LaunchPopupsCompanionExtension.fromJson(json)).toList();
-    final contributors = contributorsResponse
-        .map((json) => ContributorsCompanionExtension.fromJson(json))
-        .toList();
+      // Apply timeouts if it's not the first launch
+      final coffeeFactsRequest = isFirstLaunch
+          ? coffeeFactsFuture
+          : coffeeFactsFuture.timeout(const Duration(seconds: 5));
+      final launchPopupRequest = isFirstLaunch
+          ? launchPopupFuture
+          : launchPopupFuture.timeout(const Duration(seconds: 5));
+      final contributorsRequest = isFirstLaunch
+          ? contributorsFuture
+          : contributorsFuture.timeout(const Duration(seconds: 5));
 
-    await _db.transaction(() async {
-      await _db.batch((batch) {
-        batch.insertAllOnConflictUpdate(_db.coffeeFacts, coffeeFacts);
-        batch.insertAllOnConflictUpdate(_db.launchPopups, launchPopups);
-        batch.insertAllOnConflictUpdate(_db.contributors, contributors);
+      // Run all requests in parallel
+      final responses = await Future.wait([
+        coffeeFactsRequest,
+        launchPopupRequest,
+        contributorsRequest,
+      ]);
+
+      // Process the responses
+      final coffeeFactsResponse = responses[0] as List<dynamic>;
+      final launchPopupResponse = responses[1] as List<dynamic>;
+      final contributorsResponse = responses[2] as List<dynamic>;
+
+      final coffeeFacts = coffeeFactsResponse
+          .map((json) => CoffeeFactsCompanionExtension.fromJson(json))
+          .toList();
+      final launchPopups = launchPopupResponse
+          .map((json) => LaunchPopupsCompanionExtension.fromJson(json))
+          .toList();
+      final contributors = contributorsResponse
+          .map((json) => ContributorsCompanionExtension.fromJson(json))
+          .toList();
+
+      await _db.transaction(() async {
+        await _db.batch((batch) {
+          batch.insertAllOnConflictUpdate(_db.coffeeFacts, coffeeFacts);
+          batch.insertAllOnConflictUpdate(_db.launchPopups, launchPopups);
+          batch.insertAllOnConflictUpdate(_db.contributors, contributors);
+        });
       });
-    });
+    } catch (error) {
+      print('Error fetching and storing extra data: $error');
+      // Optionally, handle the error
+    }
   }
 
   // Inside DatabaseProvider
@@ -156,11 +254,16 @@ class DatabaseProvider {
       final response = await Supabase.instance.client
           .from('coffee_countries')
           .select('country_name')
-          .eq('locale', locale);
+          .eq('locale', locale)
+          .timeout(const Duration(seconds: 2));
+
       final data = response as List<dynamic>;
       return data.map((e) => e['country_name'] as String).toList();
+    } on TimeoutException catch (e) {
+      print('Supabase request timed out: $e');
+      // Return an empty list or handle the timeout as needed
+      return [];
     } catch (error) {
-      // If an error occurs, log it and return an empty list
       print('Error fetching countries: $error');
       return [];
     }
@@ -171,11 +274,16 @@ class DatabaseProvider {
       final response = await Supabase.instance.client
           .from('coffee_descriptors')
           .select('descriptor_name')
-          .eq('locale', locale);
+          .eq('locale', locale)
+          .timeout(const Duration(seconds: 2));
+
       final data = response as List<dynamic>;
       return data.map((e) => e['descriptor_name'] as String).toList();
+    } on TimeoutException catch (e) {
+      print('Supabase request timed out: $e');
+      // Return an empty list or handle the timeout as needed
+      return [];
     } catch (error) {
-      // If an error occurs, log it and return an empty list
       print('Error fetching tasting notes: $error');
       return [];
     }
@@ -186,9 +294,15 @@ class DatabaseProvider {
       final response = await Supabase.instance.client
           .from('coffee_processing_methods')
           .select('method_name')
-          .eq('locale', locale);
+          .eq('locale', locale)
+          .timeout(const Duration(seconds: 2));
+
       final data = response as List<dynamic>;
       return data.map((e) => e['method_name'] as String).toList();
+    } on TimeoutException catch (e) {
+      print('Supabase request timed out: $e');
+      // Return an empty list or handle the timeout as needed
+      return [];
     } catch (error) {
       print('Error fetching processing methods: $error');
       return [];
@@ -199,9 +313,15 @@ class DatabaseProvider {
     try {
       final response = await Supabase.instance.client
           .from('coffee_roasters')
-          .select('roaster_name');
+          .select('roaster_name')
+          .timeout(const Duration(seconds: 2));
+
       final data = response as List<dynamic>;
       return data.map((e) => e['roaster_name'] as String).toList();
+    } on TimeoutException catch (e) {
+      print('Supabase request timed out: $e');
+      // Return an empty list or handle the timeout as needed
+      return [];
     } catch (error) {
       print('Error fetching roasters: $error');
       return [];
@@ -322,12 +442,15 @@ class DatabaseProvider {
     try {
       await Supabase.instance.client
           .from('user_recipe_preferences')
-          .upsert(data);
+          .upsert(data)
+          .timeout(const Duration(seconds: 2));
       print('Preference updated successfully');
+    } on TimeoutException catch (e) {
+      print('Supabase request timed out: $e');
+      // Optionally, handle the timeout, e.g., by retrying or queuing the request
     } catch (e) {
       print('Error updating preference: $e');
-      // You might want to rethrow the error or handle it in a way that's appropriate for your app
-      // throw Exception('Failed to update preference: $e');
+      // Handle other exceptions as needed
     }
   }
 
@@ -342,7 +465,8 @@ class DatabaseProvider {
       final response = await Supabase.instance.client
           .from('user_recipe_preferences')
           .select()
-          .eq('user_id', user.id);
+          .eq('user_id', user.id)
+          .timeout(const Duration(seconds: 3));
 
       final preferences = (response as List<dynamic>)
           .map((json) {
@@ -361,6 +485,9 @@ class DatabaseProvider {
 
       print(
           'Successfully fetched and inserted ${preferences.length} preferences');
+    } on TimeoutException catch (e) {
+      print('Supabase request timed out: $e');
+      // Optionally, handle the timeout here
     } catch (e) {
       print('Error fetching and inserting preferences: $e');
     }

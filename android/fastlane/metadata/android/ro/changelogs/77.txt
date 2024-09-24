@@ -1,0 +1,3 @@
++ Performanță îmbunătățită a aplicației pentru o utilizare mai fluidă în condiții de rețea slabe.
+
++ Design vizual îmbunătățit pentru o experiență de utilizare mai bună.

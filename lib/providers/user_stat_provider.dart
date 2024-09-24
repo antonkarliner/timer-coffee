@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:coffee_timer/models/user_stat_model.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:drift/drift.dart';
@@ -62,10 +64,16 @@ class UserStatProvider extends ChangeNotifier {
       try {
         final supabaseData = _userStatModelToJson(newStat);
         supabaseData['user_id'] = user.id;
-        await Supabase.instance.client.from('user_stats').upsert(supabaseData);
+        await Supabase.instance.client
+            .from('user_stats')
+            .upsert(supabaseData)
+            .timeout(const Duration(seconds: 2));
+      } on TimeoutException catch (e) {
+        print('Supabase request timed out: $e');
+        // Optionally, handle the timeout, e.g., by retrying or queuing the request
       } catch (e) {
         print('Error syncing new user stat to Supabase: $e');
-        // TODO: Implement error handling or retry logic
+        // Handle other exceptions as needed
       }
     }
 
@@ -135,8 +143,12 @@ class UserStatProvider extends ChangeNotifier {
         supabaseData['user_id'] = user.id;
         await Supabase.instance.client
             .from('user_stats')
-            .upsert(supabaseData, onConflict: 'user_id,stat_uuid');
+            .upsert(supabaseData, onConflict: 'user_id,stat_uuid')
+            .timeout(const Duration(seconds: 3));
         print('Supabase updated');
+      } on TimeoutException catch (e) {
+        print('Supabase request timed out: $e');
+        // Optionally, handle the timeout here
       } catch (e) {
         print('Error syncing updated user stat to Supabase: $e');
       }
@@ -172,15 +184,19 @@ class UserStatProvider extends ChangeNotifier {
         supabaseData['user_id'] = user.id;
         await Supabase.instance.client
             .from('user_stats')
-            .upsert(supabaseData, onConflict: 'user_id,stat_uuid');
+            .upsert(supabaseData, onConflict: 'user_id,stat_uuid')
+            .timeout(const Duration(seconds: 2)); // Added 2-second timeout
       } catch (e) {
-        print('Error marking user stat as deleted in Supabase: $e');
-        // Decide if you want to proceed with local deletion if this fails
+        if (e is TimeoutException) {
+          print('Supabase operation timed out: $e');
+          // You might want to handle the timeout specifically here
+        } else {
+          print('Error marking user stat as deleted in Supabase: $e');
+          // Handle other exceptions
+        }
+        // Decide if you want to handle this error differently
       }
     }
-
-    // Optionally, you can delete the local record after marking it as deleted in Supabase
-    await db.userStatsDao.deleteUserStat(statUuid);
 
     notifyListeners();
   }
@@ -381,14 +397,12 @@ class UserStatProvider extends ChangeNotifier {
     }
 
     try {
-      // Fetch all local stats with their version vectors
+      // Fetch all local stats, including deleted ones
       final localStats =
           await db.userStatsDao.fetchAllStatsWithVersionVectors();
 
-      // Prepare a map of statUuid to version vector for quick lookup
-      final localStatsMap = {
-        for (var stat in localStats) stat.statUuid: stat.versionVector
-      };
+      // Prepare a map of statUuid to localStat for quick lookup
+      final localStatsMap = {for (var stat in localStats) stat.statUuid: stat};
 
       // Fetch all remote stats, including deleted ones
       final response = await Supabase.instance.client
@@ -406,57 +420,63 @@ class UserStatProvider extends ChangeNotifier {
 
       // Prepare lists for updates
       final List<String> localUpdates = [];
-      final List<String> remoteUpdates = [];
-      final List<String> localDeletions = [];
+      final List<UserStatsModel> remoteUpdates = [];
 
       // Compare version vectors and handle deletions
       for (final remoteStat in remoteStatsInfo) {
-        final localVector = localStatsMap[remoteStat.statUuid];
-        if (localVector == null) {
-          // Stat doesn't exist locally, need to fetch from remote
-          localUpdates.add(remoteStat.statUuid);
-        } else if (_isRemoteNewer(VersionVector.fromString(localVector),
-            VersionVector.fromString(remoteStat.versionVector))) {
-          // Remote is newer, update local
-          localUpdates.add(remoteStat.statUuid);
+        final localStat = localStatsMap[remoteStat.statUuid];
+        final remoteVersionVector =
+            VersionVector.fromString(remoteStat.versionVector);
 
-          // If remote stat is marked as deleted, delete it locally as well
-          if (remoteStat.isDeleted) {
-            localDeletions.add(remoteStat.statUuid);
+        if (localStat == null) {
+          if (!remoteStat.isDeleted) {
+            // Stat doesn't exist locally and is not deleted remotely, need to fetch from remote
+            localUpdates.add(remoteStat.statUuid);
           }
-        } else if (_isLocalNewer(VersionVector.fromString(localVector),
-            VersionVector.fromString(remoteStat.versionVector))) {
-          // Local is newer, update remote
-          remoteUpdates.add(remoteStat.statUuid);
+          // If the remote stat is deleted and doesn't exist locally, no action needed
+        } else {
+          final localVersionVector =
+              VersionVector.fromString(localStat.versionVector);
+
+          if (_isRemoteNewer(localVersionVector, remoteVersionVector)) {
+            // Remote is newer, update local
+            localUpdates.add(remoteStat.statUuid);
+          } else if (_isLocalNewer(localVersionVector, remoteVersionVector)) {
+            // Local is newer, update remote
+            remoteUpdates.add(localStat);
+          } else if (localStat.isDeleted != remoteStat.isDeleted) {
+            // Version vectors are equal but deletion status differs
+            // Prefer deletions over restorations
+            if (localStat.isDeleted) {
+              // Local stat is deleted; update remote
+              remoteUpdates.add(localStat);
+            } else {
+              // Remote stat is deleted; update local
+              localUpdates.add(remoteStat.statUuid);
+            }
+          }
+          // If versions are equal and deletion status is the same, do nothing
         }
       }
 
-      // Check for new local stats
+      // Check for new local stats not present in remote
       final newLocalStats = localStats.where((stat) =>
           !remoteStatsInfo.any((remote) => remote.statUuid == stat.statUuid));
-      remoteUpdates.addAll(newLocalStats.map((stat) => stat.statUuid));
+      remoteUpdates.addAll(newLocalStats);
 
-      // Perform updates
+      // Perform local updates
       if (localUpdates.isNotEmpty) {
         final updatedRemoteStats = await _fetchFullRemoteStats(localUpdates);
         await db.userStatsDao.insertOrUpdateMultipleStats(updatedRemoteStats);
       }
 
+      // Perform remote updates with a timeout
       if (remoteUpdates.isNotEmpty) {
-        final updatedLocalStats =
-            await db.userStatsDao.fetchStatsByUuids(remoteUpdates);
-        await _updateRemoteStats(updatedLocalStats);
-      }
-
-      // Handle local deletions
-      if (localDeletions.isNotEmpty) {
-        for (final statUuid in localDeletions) {
-          await db.userStatsDao.deleteUserStat(statUuid);
-        }
+        await _updateRemoteStats(remoteUpdates);
       }
 
       print(
-          'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}, Local deletions: ${localDeletions.length}');
+          'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}');
     } catch (e) {
       print('Error syncing user stats: $e');
     }
@@ -477,19 +497,33 @@ class UserStatProvider extends ChangeNotifier {
     final response = await Supabase.instance.client
         .from('user_stats')
         .select()
-        .inFilter('stat_uuid', statUuids)
-        .eq('is_deleted', false); // Fetch only non-deleted stats
+        .inFilter('stat_uuid', statUuids);
     return (response as List<dynamic>)
         .map((json) => _jsonToUserStatsModel(json))
         .toList();
   }
 
   Future<void> _updateRemoteStats(List<UserStatsModel> stats) async {
-    final updates = stats
-        .map((stat) => _userStatModelToJson(stat)
-          ..['user_id'] = Supabase.instance.client.auth.currentUser!.id)
-        .toList();
-    await Supabase.instance.client.from('user_stats').upsert(updates);
+    try {
+      final updates = stats.map((stat) {
+        final data = _userStatModelToJson(stat);
+        data['user_id'] = Supabase.instance.client.auth.currentUser!.id;
+        return data;
+      }).toList();
+
+      await Supabase.instance.client
+          .from('user_stats')
+          .upsert(updates)
+          .timeout(const Duration(seconds: 3)); // Added 3-second timeout
+    } catch (e) {
+      if (e is TimeoutException) {
+        print('Supabase operation timed out: $e');
+        // Handle the timeout if needed
+      } else {
+        print('Error updating user stats in Supabase: $e');
+        // Handle other exceptions
+      }
+    }
   }
 
   // Helper method to convert UserStatsModel to JSON

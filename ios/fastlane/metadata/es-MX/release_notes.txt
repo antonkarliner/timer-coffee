@@ -1,1 +1,3 @@
-Actualizaciones de estabilidad y sincronización
++ Rendimiento de la aplicación mejorado para un uso más fluido en condiciones de red deficientes.
+
++ Diseño visual mejorado para una mejor experiencia del usuario.

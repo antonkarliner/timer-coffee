@@ -1,0 +1,3 @@
++ Ulepszona wydajność aplikacji dla płynniejszego działania w słabych warunkach sieciowych.
+
++ Poprawiony design wizualny dla lepszego doświadczenia użytkownika.

@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:coffee_timer/providers/database_provider.dart';
+import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -49,6 +52,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   String? selectedBeanUuid;
   String? selectedBeanName;
 
+  // New state variables to store both original and mirror logo URLs
+  String? originalRoasterLogoUrl;
+  String? mirrorRoasterLogoUrl;
+
   @override
   void initState() {
     super.initState();
@@ -90,14 +97,30 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       final coffeeBeansProvider =
           Provider.of<CoffeeBeansProvider>(context, listen: false);
       final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid);
+
+      String? originalUrl;
+      String? mirrorUrl;
+      if (bean != null && bean.roaster != null) {
+        final databaseProvider =
+            Provider.of<DatabaseProvider>(context, listen: false);
+        final logoUrls =
+            await databaseProvider.fetchRoasterLogoUrls(bean.roaster);
+        originalUrl = logoUrls['original'];
+        mirrorUrl = logoUrls['mirror'];
+      }
+
       setState(() {
         selectedBeanUuid = uuid;
         selectedBeanName = bean?.name;
+        originalRoasterLogoUrl = originalUrl;
+        mirrorRoasterLogoUrl = mirrorUrl;
       });
     } else {
       setState(() {
         selectedBeanUuid = null;
         selectedBeanName = null;
+        originalRoasterLogoUrl = null;
+        mirrorRoasterLogoUrl = null;
       });
     }
   }
@@ -123,15 +146,31 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       final coffeeBeansProvider =
           Provider.of<CoffeeBeansProvider>(context, listen: false);
       final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid);
+
+      String? originalUrl;
+      String? mirrorUrl;
+      if (bean != null && bean.roaster != null) {
+        final databaseProvider =
+            Provider.of<DatabaseProvider>(context, listen: false);
+        final logoUrls =
+            await databaseProvider.fetchRoasterLogoUrls(bean.roaster);
+        originalUrl = logoUrls['original'];
+        mirrorUrl = logoUrls['mirror'];
+      }
+
       setState(() {
         selectedBeanUuid = uuid;
         selectedBeanName = bean?.name;
+        originalRoasterLogoUrl = originalUrl;
+        mirrorRoasterLogoUrl = mirrorUrl;
       });
     } else {
       await prefs.remove('selectedBeanUuid');
       setState(() {
         selectedBeanUuid = null;
         selectedBeanName = null;
+        originalRoasterLogoUrl = null;
+        mirrorRoasterLogoUrl = null;
       });
     }
   }
@@ -290,8 +329,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
           identifier: 'beanSelectionRow',
           child: Row(
             children: [
-              Text('${loc.beans}: ',
-                  style: Theme.of(context).textTheme.titleSmall),
+              Text(
+                '${loc.beans}: ',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: OutlinedButton(
@@ -304,15 +345,78 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                   child: Stack(
                     children: [
                       Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            selectedBeanName ?? loc.selectBeans,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+                        child: selectedBeanUuid == null
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: Text(
+                                  loc.selectBeans,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                ),
+                              )
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (originalRoasterLogoUrl != null ||
+                                      mirrorRoasterLogoUrl != null)
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                          4), // Rounded corners
+                                      child: CachedNetworkImage(
+                                        imageUrl: originalRoasterLogoUrl ??
+                                            mirrorRoasterLogoUrl!,
+                                        placeholder: (context, url) =>
+                                            const Icon(Coffeico.bag_with_bean,
+                                                size: 24),
+                                        errorWidget: (context, url, error) {
+                                          if (url == originalRoasterLogoUrl &&
+                                              mirrorRoasterLogoUrl != null) {
+                                            // Attempt to load mirror URL
+                                            return CachedNetworkImage(
+                                              imageUrl: mirrorRoasterLogoUrl!,
+                                              placeholder: (context, url) =>
+                                                  const Icon(
+                                                      Coffeico.bag_with_bean,
+                                                      size: 24),
+                                              errorWidget: (context, url,
+                                                      error) =>
+                                                  const Icon(
+                                                      Coffeico.bag_with_bean,
+                                                      size: 24),
+                                              height:
+                                                  24, // Maintain consistent height
+                                              fit: BoxFit
+                                                  .contain, // Preserve aspect ratio
+                                            );
+                                          }
+                                          // If mirror also fails or not available
+                                          return const Icon(
+                                              Coffeico.bag_with_bean,
+                                              size: 24);
+                                        },
+                                        height: 24, // Set fixed height
+                                        fit: BoxFit
+                                            .contain, // Preserve aspect ratio
+                                      ),
+                                    ),
+                                  if (originalRoasterLogoUrl != null ||
+                                      mirrorRoasterLogoUrl != null)
+                                    const SizedBox(width: 8),
+                                  Flexible(
+                                    child: Text(
+                                      selectedBeanName!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
                       ),
                       if (selectedBeanUuid != null)
                         Positioned(

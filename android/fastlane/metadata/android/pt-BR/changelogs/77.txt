@@ -1,0 +1,3 @@
++ Desempenho do aplicativo aprimorado para uso mais suave em condições de rede fraca.
+
++ Design visual melhorado para uma experiência de usuário superior.

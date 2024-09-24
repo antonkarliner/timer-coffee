@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/app_router.gr.dart';
+import 'package:coffee_timer/providers/database_provider.dart';
+import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/recipe_provider.dart';
@@ -12,6 +14,8 @@ import '../utils/icon_utils.dart';
 import '../widgets/add_coffee_beans_widget.dart';
 import '../widgets/expandable_card.dart';
 import '../notifiers/card_expansion_notifier.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import '../models/coffee_beans_model.dart';
 
 @RoutePage()
 class BrewDiaryScreen extends StatefulWidget {
@@ -139,8 +143,12 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     final loc = AppLocalizations.of(context)!;
     final recipeProvider = Provider.of<RecipeProvider>(context);
     final userStatProvider = Provider.of<UserStatProvider>(context);
-    DateFormat dateFormat = DateFormat('${loc.dateFormat} ${loc.timeFormat}',
-        Localizations.localeOf(context).toString());
+    final databaseProvider = Provider.of<DatabaseProvider>(
+        context); // Ensure this provider is available
+    DateFormat dateFormat = DateFormat(
+      '${loc.dateFormat} ${loc.timeFormat}',
+      Localizations.localeOf(context).toString(),
+    );
 
     return FutureBuilder<List<String>>(
       future: Future.wait([
@@ -208,6 +216,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     TextStyle detailTextStyle = Theme.of(context).textTheme.titleMedium!;
     final userStatProvider = Provider.of<UserStatProvider>(context);
     final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(context);
+    final databaseProvider = Provider.of<DatabaseProvider>(context);
 
     TextEditingController notesController =
         TextEditingController(text: stat.notes);
@@ -224,54 +233,56 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
       identifier: 'userStatDetail_${stat.statUuid}',
       label: 'User Stat Details',
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding:
+            const EdgeInsets.all(16.0), // Increased padding for better spacing
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment:
+              CrossAxisAlignment.start, // Align children to start
           children: [
+            // Coffee Amount
             Semantics(
               identifier: 'coffeeAmount_${stat.statUuid}',
               label: '${loc.coffeeamount}: ${stat.coffeeAmount}',
               child: Text("${loc.coffeeamount}: ${stat.coffeeAmount}",
                   style: detailTextStyle),
             ),
+            const SizedBox(height: 8), // Added spacing between elements
+            // Water Amount
             Semantics(
               identifier: 'waterAmount_${stat.id}',
               label: '${loc.wateramount}: ${stat.waterAmount}',
               child: Text("${loc.wateramount}: ${stat.waterAmount}",
                   style: detailTextStyle),
             ),
+            const SizedBox(height: 8),
+            // Sweetness and Strength (if applicable)
             if (stat.recipeId == '106')
-              Row(
-                children: [
-                  Expanded(
-                    child: Semantics(
-                      identifier: 'sweetnessStrength_${stat.id}',
-                      label:
-                          "${getSweeetnessLabel(stat.sweetnessSliderPosition)}, ${getStrengthLabel(stat.strengthSliderPosition)}",
-                      child: Text(
-                          "${getSweeetnessLabel(stat.sweetnessSliderPosition)}, ${getStrengthLabel(stat.strengthSliderPosition)}",
-                          style: detailTextStyle),
-                    ),
-                  ),
-                ],
+              Semantics(
+                identifier: 'sweetnessStrength_${stat.id}',
+                label:
+                    "${getSweeetnessLabel(stat.sweetnessSliderPosition)}, ${getStrengthLabel(stat.strengthSliderPosition)}",
+                child: Text(
+                    "${getSweeetnessLabel(stat.sweetnessSliderPosition)}, ${getStrengthLabel(stat.strengthSliderPosition)}",
+                    style: detailTextStyle,
+                    textAlign: TextAlign.start),
               ),
-            const Padding(
-              padding: EdgeInsets.only(top: 8.0),
-              child: Divider(
-                thickness: 0.5,
-                indent: 20,
-                endIndent: 20,
-              ),
+            const SizedBox(height: 8),
+            // Divider
+            const Divider(
+              thickness: 0.5,
+              indent: 10,
+              endIndent: 10,
             ),
+            const SizedBox(height: 8),
+            // Beans Section Title
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Center(
-                child: Text(
-                  loc.beans,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
+              child: Text(
+                loc.beans,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
+            // Beans Details or Selection Button
             if (stat.coffeeBeansUuid == null)
               Center(
                 child: Semantics(
@@ -284,57 +295,144 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 ),
               )
             else
-              FutureBuilder(
+              FutureBuilder<CoffeeBeansModel?>(
                 future: coffeeBeansProvider
                     .fetchCoffeeBeansByUuid(stat.coffeeBeansUuid!),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (snapshot.hasData && snapshot.data != null) {
                     final bean = snapshot.data!;
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${loc.name}: ${bean.name}',
-                            style: detailTextStyle),
-                        Text('${loc.roaster}: ${bean.roaster}',
-                            style: detailTextStyle),
-                        Text('${loc.origin}: ${bean.origin}',
-                            style: detailTextStyle),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              OutlinedButton(
-                                onPressed: () {
-                                  context.router.push(CoffeeBeansDetailRoute(
-                                      uuid: bean.beansUuid!));
+                    return FutureBuilder<Map<String, String?>>(
+                      future:
+                          databaseProvider.fetchRoasterLogoUrls(bean.roaster),
+                      builder: (context, logoSnapshot) {
+                        Widget logoWidget;
+                        if (logoSnapshot.hasData) {
+                          final originalUrl = logoSnapshot.data!['original'];
+                          final mirrorUrl = logoSnapshot.data!['mirror'];
+
+                          if (originalUrl != null || mirrorUrl != null) {
+                            logoWidget = ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: CachedNetworkImage(
+                                imageUrl: originalUrl ?? mirrorUrl!,
+                                placeholder: (context, url) => const Icon(
+                                    Coffeico.bag_with_bean,
+                                    size: 60), // Increased size
+                                errorWidget: (context, url, error) {
+                                  if (url == originalUrl && mirrorUrl != null) {
+                                    return CachedNetworkImage(
+                                      imageUrl: mirrorUrl,
+                                      placeholder: (context, url) => const Icon(
+                                          Coffeico.bag_with_bean,
+                                          size: 60),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Coffeico.bean, size: 60),
+                                      fit: BoxFit.cover,
+                                    );
+                                  }
+                                  return const Icon(Coffeico.bean, size: 60);
                                 },
-                                child: Text(loc.details),
+                                width: 80, // Increased width
+                                fit: BoxFit.cover,
                               ),
-                              const SizedBox(width: 8),
-                              OutlinedButton(
-                                onPressed: () async {
-                                  print(
-                                      'Remove beans button pressed for stat: ${stat.statUuid}');
-                                  print(
-                                      'Current coffeeBeansUuid: ${stat.coffeeBeansUuid}');
-                                  await Provider.of<UserStatProvider>(context,
-                                          listen: false)
-                                      .updateUserStat(
-                                    statUuid: stat.statUuid,
-                                    coffeeBeansUuid: null,
-                                  );
-                                  print('updateUserStat called');
-                                  setState(() {
-                                    print('setState called to rebuild widget');
-                                  });
-                                },
-                                child: Text(loc.removeBeans),
+                            );
+                          } else {
+                            logoWidget = const Icon(Coffeico.bean, size: 60);
+                          }
+                        } else if (logoSnapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          logoWidget = const Icon(Coffeico.bean, size: 60);
+                        } else {
+                          logoWidget = const Icon(Coffeico.bean, size: 60);
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Row with logo and details
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    logoWidget,
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text('${loc.name}: ${bean.name}',
+                                                style: detailTextStyle),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                                '${loc.roaster}: ${bean.roaster}',
+                                                style: detailTextStyle),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                                '${loc.origin}: ${bean.origin}',
+                                                style: detailTextStyle),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              // Buttons Row
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    OutlinedButton(
+                                      onPressed: () {
+                                        context.router.push(
+                                          CoffeeBeansDetailRoute(
+                                              uuid: bean.beansUuid!),
+                                        );
+                                      },
+                                      child: Text(loc.details),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    OutlinedButton(
+                                      onPressed: () async {
+                                        print(
+                                            'Remove beans button pressed for stat: ${stat.statUuid}');
+                                        print(
+                                            'Current coffeeBeansUuid: ${stat.coffeeBeansUuid}');
+                                        await Provider.of<UserStatProvider>(
+                                                context,
+                                                listen: false)
+                                            .updateUserStat(
+                                          statUuid: stat.statUuid,
+                                          coffeeBeansUuid: null,
+                                        );
+                                        print('updateUserStat called');
+                                        setState(() {
+                                          print(
+                                              'setState called to rebuild widget');
+                                        });
+                                      },
+                                      child: Text(loc.removeBeans),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                        );
+                      },
                     );
                   } else {
                     return const Center(child: Text('No beans found'));
@@ -343,18 +441,16 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
               ),
             const Divider(
               thickness: 0.5,
-              indent: 20,
-              endIndent: 20,
+              indent: 10,
+              endIndent: 10,
             ),
-            Center(
-              child: Semantics(
-                identifier: 'notesLabel_${stat.id}',
-                label: loc.notes,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0, top: 16.0),
-                  child: Text(loc.notes,
-                      style: Theme.of(context).textTheme.titleLarge),
-                ),
+            const SizedBox(height: 8),
+            // Notes Section
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0, top: 16.0),
+              child: Text(
+                loc.notes,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
             Semantics(

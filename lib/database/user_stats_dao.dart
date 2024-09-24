@@ -58,7 +58,8 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
 
   Future<UserStatsModel?> fetchStatByUuid(String statUuid) async {
     final query = select(userStats)
-      ..where((tbl) => tbl.statUuid.equals(statUuid));
+      ..where(
+          (tbl) => tbl.statUuid.equals(statUuid) & tbl.isDeleted.equals(false));
     final result = await query.getSingleOrNull();
     return result != null ? _userStatFromRow(result) : null;
   }
@@ -226,11 +227,8 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<List<UserStatsModel>> fetchAllStatsWithVersionVectors() async {
-    final query = select(userStats)
-      ..where((t) => t.isDeleted.equals(false)); // Fetch only non-deleted stats
-
+    final query = select(userStats);
     final results = await query.map(_userStatFromRow).get();
-
     return results;
   }
 

@@ -1,0 +1,3 @@
++ Performance de l'application améliorée pour une utilisation plus fluide en cas de conditions réseau médiocres.
+
++ Design visuel amélioré pour une meilleure expérience utilisateur.

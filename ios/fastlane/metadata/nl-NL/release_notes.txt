@@ -1,1 +1,3 @@
-Stabiliteits- en synchronisatie-updates
++ Verbeterde app-prestaties voor soepeler gebruik bij slechte netwerkcondities.
+
++ Verbeterd visueel ontwerp voor een betere gebruikerservaring.

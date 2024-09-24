@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
@@ -38,7 +40,11 @@ class CoffeeBeansProvider with ChangeNotifier {
         supabaseData['user_id'] = user.id;
         await Supabase.instance.client
             .from('user_coffee_beans')
-            .upsert(supabaseData);
+            .upsert(supabaseData)
+            .timeout(const Duration(seconds: 3));
+      } on TimeoutException catch (e) {
+        print('Supabase request timed out: $e');
+        // Optionally, handle the timeout, e.g., by retrying or queuing the request
       } catch (e) {
         print('Error syncing new coffee beans to Supabase: $e');
       }
@@ -71,7 +77,11 @@ class CoffeeBeansProvider with ChangeNotifier {
         supabaseData['user_id'] = user.id;
         await Supabase.instance.client
             .from('user_coffee_beans')
-            .upsert(supabaseData, onConflict: 'user_id,beans_uuid');
+            .upsert(supabaseData, onConflict: 'user_id,beans_uuid')
+            .timeout(const Duration(seconds: 3));
+      } on TimeoutException catch (e) {
+        print('Supabase request timed out: $e');
+        // Optionally, handle the timeout here
       } catch (e) {
         print('Error syncing updated coffee beans to Supabase: $e');
       }
@@ -93,7 +103,7 @@ class CoffeeBeansProvider with ChangeNotifier {
 
     // Create an updated beans record with isDeleted set to true and the new version vector
     final updatedBeans = currentBeans.copyWith(
-      isDeleted: true, // Assuming you add an `isDeleted` flag in your model
+      isDeleted: true, // Mark as deleted
       versionVector: newVector.toString(),
     );
 
@@ -105,17 +115,26 @@ class CoffeeBeansProvider with ChangeNotifier {
       try {
         final supabaseData = _coffeeBeansModelToJson(updatedBeans);
         supabaseData['user_id'] = user.id;
+
+        // Add a 2-second timeout to the Supabase upsert operation
         await Supabase.instance.client
             .from('user_coffee_beans')
-            .upsert(supabaseData, onConflict: 'user_id,beans_uuid');
+            .upsert(supabaseData, onConflict: 'user_id,beans_uuid')
+            .timeout(const Duration(seconds: 2));
       } catch (e) {
-        print('Error marking coffee beans as deleted in Supabase: $e');
-        // You can decide if you want to proceed with local deletion if this fails
+        if (e is TimeoutException) {
+          print('Supabase operation timed out: $e');
+          // You might want to handle the timeout specifically here
+        } else {
+          print('Error marking coffee beans as deleted in Supabase: $e');
+          // Handle other exceptions
+        }
+        // Decide if you want to handle this error differently
       }
     }
 
-    // Optionally, you can delete the local record after marking it as deleted in Supabase
-    await db.coffeeBeansDao.deleteCoffeeBeans(beansUuid);
+    // Removed local deletion
+    // await db.coffeeBeansDao.deleteCoffeeBeans(beansUuid);
 
     notifyListeners();
   }
@@ -326,14 +345,14 @@ class CoffeeBeansProvider with ChangeNotifier {
     }
 
     try {
-      // Fetch all local beans with their complete data
+      // Fetch all local beans, including deleted ones
       final localBeans =
           await db.coffeeBeansDao.fetchAllBeansWithVersionVectors();
 
       // Create a map for quick lookup
       final localBeansMap = {for (var bean in localBeans) bean.beansUuid: bean};
 
-      // Fetch only necessary data from remote database
+      // Fetch all remote beans, including deleted ones
       final response = await Supabase.instance.client
           .from('user_coffee_beans')
           .select('beans_uuid, version_vector, is_deleted')
@@ -347,39 +366,55 @@ class CoffeeBeansProvider with ChangeNotifier {
               ))
           .toList();
 
-      // Prepare lists for updates and deletions
+      // Prepare lists for updates
       final List<String> localUpdates = [];
       final List<Map<String, dynamic>> remoteUpdates = [];
-      final List<String> localDeletions = [];
 
-      // Compare version vectors
+      // Compare version vectors and handle deletions
       for (final remoteBean in remoteBeansInfo) {
         final localBean = localBeansMap[remoteBean.beansUuid];
-        if (localBean == null) {
-          // Bean doesn't exist locally, need to fetch from remote
-          localUpdates.add(remoteBean.beansUuid);
-        } else if (_isRemoteNewer(localBean.versionVectorObject,
-            VersionVector.fromString(remoteBean.versionVector))) {
-          // Remote is newer, update local
-          localUpdates.add(remoteBean.beansUuid);
+        final remoteVersionVector =
+            VersionVector.fromString(remoteBean.versionVector);
 
-          // If remote bean is marked as deleted, delete it locally as well
-          if (remoteBean.isDeleted) {
-            localDeletions.add(remoteBean.beansUuid);
+        if (localBean == null) {
+          if (!remoteBean.isDeleted) {
+            // Bean doesn't exist locally and is not deleted remotely, need to fetch from remote
+            localUpdates.add(remoteBean.beansUuid);
           }
-        } else if (_isLocalNewer(localBean.versionVectorObject,
-            VersionVector.fromString(remoteBean.versionVector))) {
-          // Local is newer, update remote
-          remoteUpdates
-              .add(_coffeeBeansModelToJson(localBean)..['user_id'] = user.id);
+          // If the remote bean is deleted and doesn't exist locally, no action needed
+        } else {
+          final localVersionVector = localBean.versionVectorObject;
+
+          if (_isRemoteNewer(localVersionVector, remoteVersionVector)) {
+            // Remote is newer, update local
+            localUpdates.add(remoteBean.beansUuid);
+          } else if (_isLocalNewer(localVersionVector, remoteVersionVector)) {
+            // Local is newer, update remote
+            remoteUpdates
+                .add(_coffeeBeansModelToJson(localBean)..['user_id'] = user.id);
+          } else if (localBean.isDeleted != remoteBean.isDeleted) {
+            // Version vectors are equal but deletion status differs
+            // Prefer deletions over restorations
+            if (localBean.isDeleted) {
+              // Local bean is deleted; update remote
+              remoteUpdates.add(
+                  _coffeeBeansModelToJson(localBean)..['user_id'] = user.id);
+            } else {
+              // Remote bean is deleted; update local
+              localUpdates.add(remoteBean.beansUuid);
+            }
+          }
+          // If versions are equal and deletion status is the same, do nothing
         }
       }
 
-      // Check for new local beans
+      // Check for new local beans not present in remote
       final newLocalBeans = localBeans.where((bean) =>
           !remoteBeansInfo.any((remote) => remote.beansUuid == bean.beansUuid));
-      remoteUpdates.addAll(newLocalBeans
-          .map((bean) => _coffeeBeansModelToJson(bean)..['user_id'] = user.id));
+      remoteUpdates.addAll(
+        newLocalBeans.map(
+            (bean) => _coffeeBeansModelToJson(bean)..['user_id'] = user.id),
+      );
 
       // Perform local updates
       if (localUpdates.isNotEmpty) {
@@ -388,22 +423,24 @@ class CoffeeBeansProvider with ChangeNotifier {
             .insertOrUpdateMultipleCoffeeBeans(updatedRemoteBeans);
       }
 
-      // Perform remote updates
+      // Perform remote updates with a timeout
       if (remoteUpdates.isNotEmpty) {
-        await Supabase.instance.client
-            .from('user_coffee_beans')
-            .upsert(remoteUpdates);
-      }
-
-      // Handle local deletions
-      if (localDeletions.isNotEmpty) {
-        for (final beansUuid in localDeletions) {
-          await db.coffeeBeansDao.deleteCoffeeBeans(beansUuid);
+        try {
+          await Supabase.instance.client
+              .from('user_coffee_beans')
+              .upsert(remoteUpdates)
+              .timeout(const Duration(seconds: 3));
+        } catch (e) {
+          if (e is TimeoutException) {
+            print('Supabase operation timed out: $e');
+          } else {
+            print('Error updating coffee beans in Supabase: $e');
+          }
         }
       }
 
       print(
-          'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}, Local deletions: ${localDeletions.length}');
+          'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}');
     } catch (e) {
       print('Error syncing coffee beans: $e');
     }

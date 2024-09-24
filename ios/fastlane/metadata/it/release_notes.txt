@@ -1,1 +1,3 @@
-Aggiornamenti di stabilità e sincronizzazione
++ Prestazioni dell'app migliorate per un utilizzo più fluido in condizioni di rete scadenti.
+
++ Design visivo migliorato per una migliore esperienza utente.

@@ -1,1 +1,3 @@
-Actualizări de stabilitate și sincronizare
++ Performanță îmbunătățită a aplicației pentru o utilizare mai lină în condiții de rețea slabe.
+
++ Design vizual îmbunătățit pentru o experiență mai bună a utilizatorului.

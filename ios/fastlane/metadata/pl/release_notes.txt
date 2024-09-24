@@ -1,1 +1,3 @@
-Aktualizacje stabilności i synchronizacji
++ Zwiększona wydajność aplikacji dla płynniejszego użytkowania w warunkach słabej sieci.
+
++ Ulepszony design wizualny dla lepszego doświadczenia użytkownika.

@@ -1,0 +1,3 @@
++ Verbeterde app-prestaties voor soepel gebruik bij slechte netwerkcondities.
+
++ Verbeterd visueel ontwerp voor een betere gebruikerservaring.

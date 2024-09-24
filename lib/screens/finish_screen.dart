@@ -1,4 +1,6 @@
 // lib/screens/finish_screen.dart
+import 'dart:async';
+
 import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -73,7 +75,18 @@ class _FinishScreenState extends State<FinishScreen> {
         'water_amount': widget.waterAmount,
       };
 
-      await Supabase.instance.client.from('global_stats').insert(data);
+      try {
+        await Supabase.instance.client
+            .from('global_stats')
+            .insert(data)
+            .timeout(const Duration(seconds: 3));
+      } on TimeoutException catch (e) {
+        print('Supabase request timed out: $e');
+        // Optionally, handle the timeout here
+      } catch (e) {
+        print('Error inserting brewing data to Supabase: $e');
+        // Handle other exceptions as needed
+      }
     }
   }
 

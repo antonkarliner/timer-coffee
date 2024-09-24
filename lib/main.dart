@@ -79,7 +79,7 @@ void main() async {
 
   // Initialize databaseProvider before passing it to CoffeeTimerApp
   final DatabaseProvider databaseProvider = DatabaseProvider(database);
-  await databaseProvider.initializeDatabase();
+  await databaseProvider.initializeDatabase(isFirstLaunch: isFirstLaunch);
 
   final supportedLocalesFuture = supportedLocalesDao.getAllSupportedLocales();
   final brewingMethodsFuture = brewingMethodsDao.getAllBrewingMethods();

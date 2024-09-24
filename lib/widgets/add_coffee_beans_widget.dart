@@ -82,27 +82,29 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
                 final mirrorUrl = snapshot.data!['mirror'];
 
                 if (originalUrl != null || mirrorUrl != null) {
-                  return CachedNetworkImage(
-                    imageUrl: originalUrl ?? mirrorUrl!,
-                    placeholder: (context, url) =>
-                        const Icon(Coffeico.bag_with_bean, size: 40),
-                    errorWidget: (context, url, error) {
-                      if (url == originalUrl && mirrorUrl != null) {
-                        return CachedNetworkImage(
-                          imageUrl: mirrorUrl,
-                          placeholder: (context, url) =>
-                              const Icon(Coffeico.bag_with_bean, size: 40),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Coffeico.bag_with_bean, size: 40),
-                          width: 40,
-                          fit: BoxFit.cover,
-                        );
-                      }
-                      return const Icon(Coffeico.bag_with_bean, size: 40);
-                    },
-                    width: 40,
-                    fit: BoxFit.cover,
-                  );
+                  return ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: CachedNetworkImage(
+                        imageUrl: originalUrl ?? mirrorUrl!,
+                        placeholder: (context, url) =>
+                            const Icon(Coffeico.bag_with_bean, size: 40),
+                        errorWidget: (context, url, error) {
+                          if (url == originalUrl && mirrorUrl != null) {
+                            return CachedNetworkImage(
+                              imageUrl: mirrorUrl,
+                              placeholder: (context, url) =>
+                                  const Icon(Coffeico.bag_with_bean, size: 40),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Coffeico.bag_with_bean, size: 40),
+                              width: 40,
+                              fit: BoxFit.cover,
+                            );
+                          }
+                          return const Icon(Coffeico.bag_with_bean, size: 40);
+                        },
+                        width: 40,
+                        fit: BoxFit.cover,
+                      ));
                 }
               }
               return const Icon(Coffeico.bag_with_bean, size: 40);

@@ -1,0 +1,3 @@
++ Zayıf ağ koşullarında daha akıcı kullanım için geliştirilmiş uygulama performansı.
+
++ Daha iyi bir kullanıcı deneyimi için iyileştirilmiş görsel tasarım.

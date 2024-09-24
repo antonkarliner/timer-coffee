@@ -1,0 +1,3 @@
++ Rendimiento mejorado de la aplicación para un uso más fluido en condiciones de red deficientes.
+
++ Diseño visual mejorado para una mejor experiencia de usuario.

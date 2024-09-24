@@ -1,0 +1,3 @@
++ Performa aplikasi yang ditingkatkan untuk penggunaan yang lebih lancar dalam kondisi jaringan yang buruk.
+
++ Desain visual yang ditingkatkan untuk pengalaman pengguna yang lebih baik.

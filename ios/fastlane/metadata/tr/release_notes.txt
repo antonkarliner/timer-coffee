@@ -1,1 +1,3 @@
-Stabilite ve senkronizasyon güncellemeleri
++ Zayıf ağ koşullarında daha akıcı kullanım için uygulama performansı artırıldı.
+
++ Daha iyi bir kullanıcı deneyimi için görsel tasarım iyileştirildi.

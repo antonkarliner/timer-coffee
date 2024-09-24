@@ -1,0 +1,3 @@
++ Verbesserte App-Leistung für eine reibungslosere Nutzung bei schlechten Netzwerkbedingungen.
+
++ Verbesserte visuelle Gestaltung für ein besseres Benutzererlebnis.
