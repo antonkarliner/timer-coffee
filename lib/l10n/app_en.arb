@@ -200,5 +200,11 @@
   "accountDeleted": "Account deleted",
   "accountDeletionError": "Error deleting your account, please try again",
   "deleteAccountTitle": "Important",
-  "selectBeans": "Select Beans"
+  "selectBeans": "Select Beans",
+  "all": "All",
+  "selectRoaster": "Select Roaster",
+  "selectOrigin": "Select Origin",
+  "resetFilters": "Reset Filters",
+  "showFavoritesOnly": "Show favorites only",
+  "apply": "Apply"
 }

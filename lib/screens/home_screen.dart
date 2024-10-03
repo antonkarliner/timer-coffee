@@ -266,9 +266,18 @@ class BrewingMethodsScreen extends StatelessWidget {
                   title: Text(
                       '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
                   onTap: () {
-                    context.router.push(RecipeDetailRoute(
+                    if (mostRecentRecipe.vendorId != null &&
+                        mostRecentRecipe.vendorId != 'timercoffee') {
+                      context.router.push(VendorRecipeDetailRoute(
+                        vendorId: mostRecentRecipe.vendorId!,
+                        recipeId: mostRecentRecipe.id,
+                      ));
+                    } else {
+                      context.router.push(RecipeDetailRoute(
                         brewingMethodId: mostRecentRecipe.brewingMethodId,
-                        recipeId: mostRecentRecipe.id));
+                        recipeId: mostRecentRecipe.id,
+                      ));
+                    }
                   },
                 ),
               ),

@@ -9,6 +9,18 @@ import 'package:coffeico/coffeico.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+class FilterOptions {
+  List<String> selectedRoasters;
+  List<String> selectedOrigins;
+  bool isFavoriteOnly;
+
+  FilterOptions({
+    required this.selectedRoasters,
+    required this.selectedOrigins,
+    this.isFavoriteOnly = false,
+  });
+}
+
 @RoutePage()
 class CoffeeBeansScreen extends StatefulWidget {
   const CoffeeBeansScreen({Key? key}) : super(key: key);
@@ -19,11 +31,316 @@ class CoffeeBeansScreen extends StatefulWidget {
 
 class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
   bool isEditMode = false;
+  List<String> selectedRoasters = [];
+  List<String> selectedOrigins = [];
+  bool isFavoriteOnly = false;
+
+  List<String> roasters = [];
+  List<String> origins = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFilterOptions();
+  }
+
+  void _loadFilterOptions() async {
+    final coffeeBeansProvider =
+        Provider.of<CoffeeBeansProvider>(context, listen: false);
+    roasters = await coffeeBeansProvider.fetchAllDistinctRoasters();
+    origins = await coffeeBeansProvider.fetchAllDistinctOrigins();
+    setState(() {});
+  }
 
   void toggleEditMode() {
     setState(() {
       isEditMode = !isEditMode;
     });
+  }
+
+  void _showFilterDialog() async {
+    final loc = AppLocalizations.of(context)!;
+
+    final result = await showModalBottomSheet<FilterOptions>(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        List<String> tempSelectedRoasters = List.from(selectedRoasters);
+        List<String> tempSelectedOrigins = List.from(selectedOrigins);
+        bool tempIsFavoriteOnly = isFavoriteOnly;
+
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            // Function to update origins based on selected roasters
+            void updateOrigins() async {
+              final coffeeBeansProvider =
+                  Provider.of<CoffeeBeansProvider>(context, listen: false);
+              origins = await coffeeBeansProvider
+                  .fetchOriginsForRoasters(tempSelectedRoasters);
+              setState(() {
+                tempSelectedOrigins = tempSelectedOrigins
+                    .where((origin) => origins.contains(origin))
+                    .toList();
+              });
+            }
+
+            return SafeArea(
+              child: Wrap(
+                children: [
+                  ListTile(
+                    title: Row(
+                      children: [
+                        Text('${loc.roaster}: '),
+                        Expanded(
+                          child: Text(
+                            tempSelectedRoasters.isEmpty
+                                ? loc.all
+                                : tempSelectedRoasters.join(', '),
+                            textAlign: TextAlign.end,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors
+                                      .grey[300] // Light color for dark mode
+                                  : Colors
+                                      .grey[700], // Dark color for light mode
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          List<String> dialogSelectedRoasters =
+                              List.from(tempSelectedRoasters);
+                          return StatefulBuilder(
+                            builder: (BuildContext context,
+                                StateSetter dialogSetState) {
+                              return AlertDialog(
+                                title: Text(loc.selectRoaster),
+                                content: Container(
+                                  width: double.maxFinite,
+                                  child: ListView(
+                                    shrinkWrap: true,
+                                    children: roasters.map((roaster) {
+                                      return CheckboxListTile(
+                                        title: Text(roaster),
+                                        value: dialogSelectedRoasters
+                                            .contains(roaster),
+                                        onChanged: (bool? value) {
+                                          dialogSetState(() {
+                                            if (value == true) {
+                                              if (!dialogSelectedRoasters
+                                                  .contains(roaster)) {
+                                                dialogSelectedRoasters
+                                                    .add(roaster);
+                                              }
+                                            } else {
+                                              dialogSelectedRoasters
+                                                  .remove(roaster);
+                                            }
+                                          });
+                                        },
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: Text(loc.cancel),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text(loc.ok),
+                                    onPressed: () {
+                                      tempSelectedRoasters =
+                                          List.from(dialogSelectedRoasters);
+                                      updateOrigins(); // Update origins when roasters change
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      );
+                      setState(() {}); // Update the trailing text
+                    },
+                  ),
+                  ListTile(
+                    title: Row(
+                      children: [
+                        Text('${loc.origin}: '),
+                        Expanded(
+                          child: Text(
+                            tempSelectedOrigins.isEmpty
+                                ? loc.all
+                                : tempSelectedOrigins.join(', '),
+                            textAlign: TextAlign.end,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors
+                                      .grey[300] // Light color for dark mode
+                                  : Colors
+                                      .grey[700], // Dark color for light mode
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          List<String> dialogSelectedOrigins =
+                              List.from(tempSelectedOrigins);
+                          return StatefulBuilder(
+                            builder: (BuildContext context,
+                                StateSetter dialogSetState) {
+                              return AlertDialog(
+                                title: Text(loc.selectOrigin),
+                                content: Container(
+                                  width: double.maxFinite,
+                                  child: ListView(
+                                    shrinkWrap: true,
+                                    children: origins.map((origin) {
+                                      return CheckboxListTile(
+                                        title: Text(origin),
+                                        value: dialogSelectedOrigins
+                                            .contains(origin),
+                                        onChanged: (bool? value) {
+                                          dialogSetState(() {
+                                            if (value == true) {
+                                              if (!dialogSelectedOrigins
+                                                  .contains(origin)) {
+                                                dialogSelectedOrigins
+                                                    .add(origin);
+                                              }
+                                            } else {
+                                              dialogSelectedOrigins
+                                                  .remove(origin);
+                                            }
+                                          });
+                                        },
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: Text(loc.cancel),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text(loc.ok),
+                                    onPressed: () {
+                                      tempSelectedOrigins =
+                                          List.from(dialogSelectedOrigins);
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      );
+                      setState(() {}); // Update the trailing text
+                    },
+                  ),
+                  ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    title: Text(loc.showFavoritesOnly),
+                    trailing: Checkbox(
+                      value: tempIsFavoriteOnly,
+                      onChanged: (value) {
+                        setState(() {
+                          tempIsFavoriteOnly = value!;
+                        });
+                      },
+                    ),
+                    onTap: () {
+                      setState(() {
+                        tempIsFavoriteOnly = !tempIsFavoriteOnly;
+                      });
+                    },
+                  ),
+                  ButtonBar(
+                    children: [
+                      TextButton(
+                        child: Text(loc.resetFilters),
+                        onPressed: () {
+                          Navigator.pop(
+                            context,
+                            FilterOptions(
+                              selectedRoasters: [],
+                              selectedOrigins: [],
+                              isFavoriteOnly: false,
+                            ),
+                          );
+                        },
+                      ),
+                      OutlinedButton(
+                        child: Text(loc.apply),
+                        onPressed: () {
+                          Navigator.pop(
+                            context,
+                            FilterOptions(
+                              selectedRoasters: tempSelectedRoasters,
+                              selectedOrigins: tempSelectedOrigins,
+                              isFavoriteOnly: tempIsFavoriteOnly,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+
+    if (result != null) {
+      setState(() {
+        selectedRoasters = result.selectedRoasters;
+        selectedOrigins = result.selectedOrigins;
+        isFavoriteOnly = result.isFavoriteOnly;
+        // Update the origins list based on the new selected roasters
+        _updateOrigins();
+      });
+    }
+  }
+
+  void _updateOrigins() async {
+    final coffeeBeansProvider =
+        Provider.of<CoffeeBeansProvider>(context, listen: false);
+
+    if (selectedRoasters.isEmpty) {
+      // If no roasters are selected, fetch all origins
+      origins = await coffeeBeansProvider.fetchAllDistinctOrigins();
+    } else {
+      // Fetch origins for the selected roasters
+      origins =
+          await coffeeBeansProvider.fetchOriginsForRoasters(selectedRoasters);
+    }
+
+    // Update the state to reflect changes in the origins list
+    setState(() {});
   }
 
   @override
@@ -46,6 +363,10 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
           ),
         ),
         actions: [
+          IconButton(
+            icon: Icon(Icons.filter_list),
+            onPressed: _showFilterDialog,
+          ),
           Semantics(
             identifier: 'toggleEditModeButton',
             label: loc.toggleEditMode,
@@ -57,10 +378,13 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
         ],
       ),
       body: FutureBuilder<List<CoffeeBeansModel>>(
-        future: coffeeBeansProvider.fetchAllCoffeeBeans(),
+        future: coffeeBeansProvider.fetchFilteredCoffeeBeans(
+          roasters: selectedRoasters.isNotEmpty ? selectedRoasters : null,
+          origins: selectedOrigins.isNotEmpty ? selectedOrigins : null,
+          isFavorite: isFavoriteOnly ? true : null,
+        ),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            // Sort the list in descending order based on the UUID
+          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             final sortedData = snapshot.data!
               ..sort((a, b) => b.beansUuid!.compareTo(a.beansUuid!));
 

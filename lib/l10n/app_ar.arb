@@ -191,5 +191,11 @@
   "accountDeleted": "تم حذف الحساب",
   "accountDeletionError": "حدث خطأ أثناء حذف حسابك ، يرجى المحاولة مرة أخرى",
   "deleteAccountTitle": "مهم",
-  "selectBeans": "اختيار حبوب البن"
+  "selectBeans": "اختيار حبوب البن",
+  "all": "الكل",
+  "selectRoaster": "اختر المحمص",
+  "selectOrigin": "اختر المنشأ",
+  "resetFilters": "إعادة ضبط الفلاتر",
+  "showFavoritesOnly": "إظهار المفضلة فقط",
+  "apply": "تطبيق"
 }

@@ -191,5 +191,11 @@
   "accountDeleted": "アカウントが削除されました",
   "accountDeletionError": "アカウントの削除中にエラーが発生しました。もう一度お試しください",
   "deleteAccountTitle": "重要なお知らせ",
-  "selectBeans": "豆を選択"
+  "selectBeans": "豆を選択",
+  "all": "すべて",
+  "selectRoaster": "焙煎所を選択",
+  "selectOrigin": "原産地を選択",
+  "resetFilters": "フィルターをリセット",
+  "showFavoritesOnly": "お気に入りを表示",
+  "apply": "適用"
 }

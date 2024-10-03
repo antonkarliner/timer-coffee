@@ -1,4 +1,5 @@
-import 'package:coffee_timer/utils/icon_utils.dart';
+// lib/screens/recipe_list_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/recipe_model.dart';
@@ -6,6 +7,7 @@ import '../providers/recipe_provider.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import '../widgets/favorite_button.dart';
+import '../utils/icon_utils.dart';
 
 @RoutePage()
 class RecipeListScreen extends StatefulWidget {
@@ -96,7 +98,7 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return Dialog(
+        return const Dialog(
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -112,6 +114,8 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
     Navigator.pop(context);
 
     context.router.push(RecipeDetailRoute(
-        brewingMethodId: recipe.brewingMethodId, recipeId: recipe.id));
+      brewingMethodId: recipe.brewingMethodId,
+      recipeId: recipe.id,
+    ));
   }
 }

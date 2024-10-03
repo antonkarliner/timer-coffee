@@ -191,5 +191,11 @@
   "accountDeleted": "Учетная запись удалена",
   "accountDeletionError": "Ошибка при удалении учетной записи, повторите попытку",
   "deleteAccountTitle": "Важно",
-  "selectBeans": "Выберите зерна"
+  "selectBeans": "Выберите зерна",
+  "all": "Все",
+  "selectRoaster": "Выбрать обжарщика",
+  "selectOrigin": "Выбрать происхождение",
+  "resetFilters": "Сбросить фильтры",
+  "showFavoritesOnly": "Показывать только избранное",
+  "apply": "Применить"
 }

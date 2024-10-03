@@ -191,5 +191,11 @@
   "accountDeleted": "Akun dihapus",
   "accountDeletionError": "Kesalahan saat menghapus akun Anda, silakan coba lagi",
   "deleteAccountTitle": "Penting",
-  "selectBeans": "Pilih Biji Kopi"
+  "selectBeans": "Pilih Biji Kopi",
+  "all": "Semua",
+  "selectRoaster": "Pilih Penyangrai",
+  "selectOrigin": "Pilih Asal",
+  "resetFilters": "Atur Ulang Filter",
+  "showFavoritesOnly": "Tampilkan favorit saja",
+  "apply": "Terapkan"
 }

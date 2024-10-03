@@ -2,7 +2,7 @@ arb-dir: lib/l10n
 template-arb-file: app_en.arb
 output-localization-file: app_localizations.dart
 arb-translate-vertex-ai-project-url: https://europe-west3-aiplatform.googleapis.com/v1/projects/arb-translate-422213/locations/europe-west3/publishers/google/models
-arb-translate-api-key:
+arb-translate-api-key: ya29.a0AcM612ywoTfBSuBu4O-0g9anKDgKMHxh7NNmrQsysW-cvw3QSQ9i94gSFDL2nr3udwURnm4ZHpE2lg0GCSOZzZ_yPFlSh7XhC2Y-StQbkEXwxy7FMgen95CSqzRfTQIwpjRXXHZ1Zt5_jzI6OC3Axm95jieQ0G_AlytT9dVDusIGMm-vmreXmbeYPoiBqKSK9Jv9KpIgh_6cRgKaocMAl0JP3u4I-pqRtpJL1VskDAVh1xNvtYNbwa838GhVpXTcJGxdKKlUVJatDtgpcpMnRVQqTeLOw-ED7toN7KcEvvFyEXAxzP381BtajZ7jYViukhU-Gayn0jtMmNx4m5dMAxLGd_KZXlbHCMl5ItaayYZ2loZGgaaAVaoR47lcfsIOAd-R56StzLmTw3peQmFKQD4jR_r3hCp0mIcaCgYKAUgSARISFQHGX2Mi17niMeb6AmefXeLOJZ90Mg0426
 arb-translate-model-provider: vertex-ai
 arb-translate-context: "Coffee brew timer app"
 arb-translate-model: gemini-1.5-pro

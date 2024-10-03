@@ -191,5 +191,11 @@
   "accountDeleted": "账户已删除",
   "accountDeletionError": "删除账户时出错，请重试",
   "deleteAccountTitle": "重要",
-  "selectBeans": "选择咖啡豆"
+  "selectBeans": "选择咖啡豆",
+  "all": "全部",
+  "selectRoaster": "选择烘焙商",
+  "selectOrigin": "选择产地",
+  "resetFilters": "重置筛选",
+  "showFavoritesOnly": "仅显示收藏",
+  "apply": "应用"
 }

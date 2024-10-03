@@ -191,5 +191,11 @@
   "accountDeleted": "Compte supprimé",
   "accountDeletionError": "Erreur lors de la suppression de votre compte. Veuillez réessayer.",
   "deleteAccountTitle": "important",
-  "selectBeans": "Sélectionner les grains"
+  "selectBeans": "Sélectionner les grains",
+  "all": "Tous",
+  "selectRoaster": "Sélectionner un torréfacteur",
+  "selectOrigin": "Sélectionner une origine",
+  "resetFilters": "Réinitialiser les filtres",
+  "showFavoritesOnly": "Afficher uniquement les favoris",
+  "apply": "Appliquer"
 }

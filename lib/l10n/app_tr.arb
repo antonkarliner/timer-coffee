@@ -191,5 +191,11 @@
   "accountDeleted": "Hesap silindi",
   "accountDeletionError": "Hesabınızı silerken hata oluştu, lütfen tekrar deneyin",
   "deleteAccountTitle": "Önemli",
-  "selectBeans": "Çekirdekleri Seçin"
+  "selectBeans": "Çekirdekleri Seçin",
+  "all": "Tümü",
+  "selectRoaster": "Kavurucu Seçin",
+  "selectOrigin": "Menşei Seçin",
+  "resetFilters": "Filtreleri Sıfırla",
+  "showFavoritesOnly": "Yalnızca sık kullanılanları göster",
+  "apply": "Uygula"
 }

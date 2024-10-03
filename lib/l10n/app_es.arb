@@ -191,5 +191,11 @@
   "accountDeleted": "Cuenta eliminada",
   "accountDeletionError": "Error al eliminar su cuenta, inténtelo de nuevo",
   "deleteAccountTitle": "Importante",
-  "selectBeans": "Seleccionar granos"
+  "selectBeans": "Seleccionar granos",
+  "all": "Todos",
+  "selectRoaster": "Seleccionar tostador",
+  "selectOrigin": "Seleccionar origen",
+  "resetFilters": "Restablecer filtros",
+  "showFavoritesOnly": "Mostrar solo favoritos",
+  "apply": "Aplicar"
 }

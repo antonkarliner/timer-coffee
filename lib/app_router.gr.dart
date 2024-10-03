@@ -8,7 +8,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i18;
+import 'package:auto_route/auto_route.dart' as _i16;
 import 'package:coffee_timer/screens/brew_diary_screen.dart' as _i1;
 import 'package:coffee_timer/screens/coffee_beans_detail_screen.dart' as _i3;
 import 'package:coffee_timer/screens/coffee_beans_screen.dart' as _i4;
@@ -19,42 +19,40 @@ import 'package:coffee_timer/screens/home_screen.dart' as _i2;
 import 'package:coffee_timer/screens/new_beans_screen.dart' as _i8;
 import 'package:coffee_timer/screens/onboarding_screen.dart' as _i9;
 import 'package:coffee_timer/screens/recipe_detail_screen.dart' as _i10;
-import 'package:coffee_timer/screens/recipe_detail_tk_screen.dart' as _i11;
-import 'package:coffee_timer/screens/recipe_list_screen.dart' as _i12;
-import 'package:coffee_timer/screens/settings_screen.dart' as _i13;
-import 'package:coffee_timer/screens/stats_screen.dart' as _i14;
-import 'package:coffee_timer/screens/vendor_recipe_detail_screen.dart' as _i15;
-import 'package:coffee_timer/screens/vendors_recipe_list_screen.dart' as _i16;
-import 'package:coffee_timer/screens/vendors_screen.dart' as _i17;
-import 'package:flutter/foundation.dart' as _i20;
-import 'package:flutter/material.dart' as _i19;
+import 'package:coffee_timer/screens/recipe_list_screen.dart' as _i11;
+import 'package:coffee_timer/screens/settings_screen.dart' as _i12;
+import 'package:coffee_timer/screens/stats_screen.dart' as _i13;
+import 'package:coffee_timer/screens/vendors_recipe_list_screen.dart' as _i14;
+import 'package:coffee_timer/screens/vendors_screen.dart' as _i15;
+import 'package:flutter/foundation.dart' as _i18;
+import 'package:flutter/material.dart' as _i17;
 
-abstract class $AppRouter extends _i18.RootStackRouter {
+abstract class $AppRouter extends _i16.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i18.PageFactory> pagesMap = {
+  final Map<String, _i16.PageFactory> pagesMap = {
     BrewDiaryRoute.name: (routeData) {
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i1.BrewDiaryScreen(),
       );
     },
     BrewTabRoute.name: (routeData) {
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i2.BrewTabScreen(),
       );
     },
     BrewingMethodsRoute.name: (routeData) {
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i2.BrewingMethodsScreen(),
       );
     },
     CoffeeBeansDetailRoute.name: (routeData) {
       final args = routeData.argsAs<CoffeeBeansDetailRouteArgs>();
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i3.CoffeeBeansDetailScreen(
           key: args.key,
@@ -63,43 +61,43 @@ abstract class $AppRouter extends _i18.RootStackRouter {
       );
     },
     CoffeeBeansRoute.name: (routeData) {
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i4.CoffeeBeansScreen(),
       );
     },
     CoffeeTipsRoute.name: (routeData) {
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i5.CoffeeTipsScreen(),
       );
     },
     DonationRoute.name: (routeData) {
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i6.DonationScreen(),
       );
     },
     FavoriteRecipesRoute.name: (routeData) {
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i7.FavoriteRecipesScreen(),
       );
     },
     HomeRoute.name: (routeData) {
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i2.HomeScreen(),
       );
     },
     HubHomeRoute.name: (routeData) {
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i2.HubHomeScreen(),
       );
     },
     HubTabRoute.name: (routeData) {
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i2.HubTabScreen(),
       );
@@ -107,7 +105,7 @@ abstract class $AppRouter extends _i18.RootStackRouter {
     NewBeansRoute.name: (routeData) {
       final args = routeData.argsAs<NewBeansRouteArgs>(
           orElse: () => const NewBeansRouteArgs());
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i8.NewBeansScreen(
           key: args.key,
@@ -116,7 +114,7 @@ abstract class $AppRouter extends _i18.RootStackRouter {
       );
     },
     OnboardingRoute.name: (routeData) {
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i9.OnboardingScreen(),
       );
@@ -128,25 +126,9 @@ abstract class $AppRouter extends _i18.RootStackRouter {
                 brewingMethodId: pathParams.getString('brewingMethodId'),
                 recipeId: pathParams.getString('recipeId'),
               ));
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i10.RecipeDetailScreen(
-          key: args.key,
-          brewingMethodId: args.brewingMethodId,
-          recipeId: args.recipeId,
-        ),
-      );
-    },
-    RecipeDetailTKRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<RecipeDetailTKRouteArgs>(
-          orElse: () => RecipeDetailTKRouteArgs(
-                brewingMethodId: pathParams.getString('brewingMethodId'),
-                recipeId: pathParams.getString('recipeId'),
-              ));
-      return _i18.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i11.RecipeDetailTKScreen(
           key: args.key,
           brewingMethodId: args.brewingMethodId,
           recipeId: args.recipeId,
@@ -158,26 +140,26 @@ abstract class $AppRouter extends _i18.RootStackRouter {
       final args = routeData.argsAs<RecipeListRouteArgs>(
           orElse: () => RecipeListRouteArgs(
               brewingMethodId: pathParams.optString('brewingMethodId')));
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i12.RecipeListScreen(
+        child: _i11.RecipeListScreen(
           key: args.key,
           brewingMethodId: args.brewingMethodId,
         ),
       );
     },
     SettingsRoute.name: (routeData) {
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i13.SettingsScreen(),
+        child: const _i12.SettingsScreen(),
       );
     },
     StatsRoute.name: (routeData) {
       final args = routeData.argsAs<StatsRouteArgs>(
           orElse: () => const StatsRouteArgs());
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i14.StatsScreen(key: args.key),
+        child: _i13.StatsScreen(key: args.key),
       );
     },
     VendorRecipeDetailRoute.name: (routeData) {
@@ -187,9 +169,9 @@ abstract class $AppRouter extends _i18.RootStackRouter {
                 vendorId: pathParams.getString('vendorId'),
                 recipeId: pathParams.getString('recipeId'),
               ));
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i15.VendorRecipeDetailScreen(
+        child: _i10.VendorRecipeDetailScreen(
           key: args.key,
           vendorId: args.vendorId,
           recipeId: args.recipeId,
@@ -201,18 +183,18 @@ abstract class $AppRouter extends _i18.RootStackRouter {
       final args = routeData.argsAs<VendorsRecipeListRouteArgs>(
           orElse: () => VendorsRecipeListRouteArgs(
               vendorId: pathParams.getString('vendorId')));
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.VendorsRecipeListScreen(
+        child: _i14.VendorsRecipeListScreen(
           key: args.key,
           vendorId: args.vendorId,
         ),
       );
     },
     VendorsRoute.name: (routeData) {
-      return _i18.AutoRoutePage<dynamic>(
+      return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i17.VendorsScreen(),
+        child: const _i15.VendorsScreen(),
       );
     },
   };
@@ -220,8 +202,8 @@ abstract class $AppRouter extends _i18.RootStackRouter {
 
 /// generated route for
 /// [_i1.BrewDiaryScreen]
-class BrewDiaryRoute extends _i18.PageRouteInfo<void> {
-  const BrewDiaryRoute({List<_i18.PageRouteInfo>? children})
+class BrewDiaryRoute extends _i16.PageRouteInfo<void> {
+  const BrewDiaryRoute({List<_i16.PageRouteInfo>? children})
       : super(
           BrewDiaryRoute.name,
           initialChildren: children,
@@ -229,13 +211,13 @@ class BrewDiaryRoute extends _i18.PageRouteInfo<void> {
 
   static const String name = 'BrewDiaryRoute';
 
-  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i2.BrewTabScreen]
-class BrewTabRoute extends _i18.PageRouteInfo<void> {
-  const BrewTabRoute({List<_i18.PageRouteInfo>? children})
+class BrewTabRoute extends _i16.PageRouteInfo<void> {
+  const BrewTabRoute({List<_i16.PageRouteInfo>? children})
       : super(
           BrewTabRoute.name,
           initialChildren: children,
@@ -243,13 +225,13 @@ class BrewTabRoute extends _i18.PageRouteInfo<void> {
 
   static const String name = 'BrewTabRoute';
 
-  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i2.BrewingMethodsScreen]
-class BrewingMethodsRoute extends _i18.PageRouteInfo<void> {
-  const BrewingMethodsRoute({List<_i18.PageRouteInfo>? children})
+class BrewingMethodsRoute extends _i16.PageRouteInfo<void> {
+  const BrewingMethodsRoute({List<_i16.PageRouteInfo>? children})
       : super(
           BrewingMethodsRoute.name,
           initialChildren: children,
@@ -257,17 +239,17 @@ class BrewingMethodsRoute extends _i18.PageRouteInfo<void> {
 
   static const String name = 'BrewingMethodsRoute';
 
-  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i3.CoffeeBeansDetailScreen]
 class CoffeeBeansDetailRoute
-    extends _i18.PageRouteInfo<CoffeeBeansDetailRouteArgs> {
+    extends _i16.PageRouteInfo<CoffeeBeansDetailRouteArgs> {
   CoffeeBeansDetailRoute({
-    _i19.Key? key,
+    _i17.Key? key,
     required String uuid,
-    List<_i18.PageRouteInfo>? children,
+    List<_i16.PageRouteInfo>? children,
   }) : super(
           CoffeeBeansDetailRoute.name,
           args: CoffeeBeansDetailRouteArgs(
@@ -279,8 +261,8 @@ class CoffeeBeansDetailRoute
 
   static const String name = 'CoffeeBeansDetailRoute';
 
-  static const _i18.PageInfo<CoffeeBeansDetailRouteArgs> page =
-      _i18.PageInfo<CoffeeBeansDetailRouteArgs>(name);
+  static const _i16.PageInfo<CoffeeBeansDetailRouteArgs> page =
+      _i16.PageInfo<CoffeeBeansDetailRouteArgs>(name);
 }
 
 class CoffeeBeansDetailRouteArgs {
@@ -289,7 +271,7 @@ class CoffeeBeansDetailRouteArgs {
     required this.uuid,
   });
 
-  final _i19.Key? key;
+  final _i17.Key? key;
 
   final String uuid;
 
@@ -301,8 +283,8 @@ class CoffeeBeansDetailRouteArgs {
 
 /// generated route for
 /// [_i4.CoffeeBeansScreen]
-class CoffeeBeansRoute extends _i18.PageRouteInfo<void> {
-  const CoffeeBeansRoute({List<_i18.PageRouteInfo>? children})
+class CoffeeBeansRoute extends _i16.PageRouteInfo<void> {
+  const CoffeeBeansRoute({List<_i16.PageRouteInfo>? children})
       : super(
           CoffeeBeansRoute.name,
           initialChildren: children,
@@ -310,13 +292,13 @@ class CoffeeBeansRoute extends _i18.PageRouteInfo<void> {
 
   static const String name = 'CoffeeBeansRoute';
 
-  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i5.CoffeeTipsScreen]
-class CoffeeTipsRoute extends _i18.PageRouteInfo<void> {
-  const CoffeeTipsRoute({List<_i18.PageRouteInfo>? children})
+class CoffeeTipsRoute extends _i16.PageRouteInfo<void> {
+  const CoffeeTipsRoute({List<_i16.PageRouteInfo>? children})
       : super(
           CoffeeTipsRoute.name,
           initialChildren: children,
@@ -324,13 +306,13 @@ class CoffeeTipsRoute extends _i18.PageRouteInfo<void> {
 
   static const String name = 'CoffeeTipsRoute';
 
-  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i6.DonationScreen]
-class DonationRoute extends _i18.PageRouteInfo<void> {
-  const DonationRoute({List<_i18.PageRouteInfo>? children})
+class DonationRoute extends _i16.PageRouteInfo<void> {
+  const DonationRoute({List<_i16.PageRouteInfo>? children})
       : super(
           DonationRoute.name,
           initialChildren: children,
@@ -338,13 +320,13 @@ class DonationRoute extends _i18.PageRouteInfo<void> {
 
   static const String name = 'DonationRoute';
 
-  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i7.FavoriteRecipesScreen]
-class FavoriteRecipesRoute extends _i18.PageRouteInfo<void> {
-  const FavoriteRecipesRoute({List<_i18.PageRouteInfo>? children})
+class FavoriteRecipesRoute extends _i16.PageRouteInfo<void> {
+  const FavoriteRecipesRoute({List<_i16.PageRouteInfo>? children})
       : super(
           FavoriteRecipesRoute.name,
           initialChildren: children,
@@ -352,13 +334,13 @@ class FavoriteRecipesRoute extends _i18.PageRouteInfo<void> {
 
   static const String name = 'FavoriteRecipesRoute';
 
-  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i2.HomeScreen]
-class HomeRoute extends _i18.PageRouteInfo<void> {
-  const HomeRoute({List<_i18.PageRouteInfo>? children})
+class HomeRoute extends _i16.PageRouteInfo<void> {
+  const HomeRoute({List<_i16.PageRouteInfo>? children})
       : super(
           HomeRoute.name,
           initialChildren: children,
@@ -366,13 +348,13 @@ class HomeRoute extends _i18.PageRouteInfo<void> {
 
   static const String name = 'HomeRoute';
 
-  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i2.HubHomeScreen]
-class HubHomeRoute extends _i18.PageRouteInfo<void> {
-  const HubHomeRoute({List<_i18.PageRouteInfo>? children})
+class HubHomeRoute extends _i16.PageRouteInfo<void> {
+  const HubHomeRoute({List<_i16.PageRouteInfo>? children})
       : super(
           HubHomeRoute.name,
           initialChildren: children,
@@ -380,13 +362,13 @@ class HubHomeRoute extends _i18.PageRouteInfo<void> {
 
   static const String name = 'HubHomeRoute';
 
-  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i2.HubTabScreen]
-class HubTabRoute extends _i18.PageRouteInfo<void> {
-  const HubTabRoute({List<_i18.PageRouteInfo>? children})
+class HubTabRoute extends _i16.PageRouteInfo<void> {
+  const HubTabRoute({List<_i16.PageRouteInfo>? children})
       : super(
           HubTabRoute.name,
           initialChildren: children,
@@ -394,16 +376,16 @@ class HubTabRoute extends _i18.PageRouteInfo<void> {
 
   static const String name = 'HubTabRoute';
 
-  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i8.NewBeansScreen]
-class NewBeansRoute extends _i18.PageRouteInfo<NewBeansRouteArgs> {
+class NewBeansRoute extends _i16.PageRouteInfo<NewBeansRouteArgs> {
   NewBeansRoute({
-    _i19.Key? key,
+    _i17.Key? key,
     String? uuid,
-    List<_i18.PageRouteInfo>? children,
+    List<_i16.PageRouteInfo>? children,
   }) : super(
           NewBeansRoute.name,
           args: NewBeansRouteArgs(
@@ -415,8 +397,8 @@ class NewBeansRoute extends _i18.PageRouteInfo<NewBeansRouteArgs> {
 
   static const String name = 'NewBeansRoute';
 
-  static const _i18.PageInfo<NewBeansRouteArgs> page =
-      _i18.PageInfo<NewBeansRouteArgs>(name);
+  static const _i16.PageInfo<NewBeansRouteArgs> page =
+      _i16.PageInfo<NewBeansRouteArgs>(name);
 }
 
 class NewBeansRouteArgs {
@@ -425,7 +407,7 @@ class NewBeansRouteArgs {
     this.uuid,
   });
 
-  final _i19.Key? key;
+  final _i17.Key? key;
 
   final String? uuid;
 
@@ -437,8 +419,8 @@ class NewBeansRouteArgs {
 
 /// generated route for
 /// [_i9.OnboardingScreen]
-class OnboardingRoute extends _i18.PageRouteInfo<void> {
-  const OnboardingRoute({List<_i18.PageRouteInfo>? children})
+class OnboardingRoute extends _i16.PageRouteInfo<void> {
+  const OnboardingRoute({List<_i16.PageRouteInfo>? children})
       : super(
           OnboardingRoute.name,
           initialChildren: children,
@@ -446,17 +428,17 @@ class OnboardingRoute extends _i18.PageRouteInfo<void> {
 
   static const String name = 'OnboardingRoute';
 
-  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i10.RecipeDetailScreen]
-class RecipeDetailRoute extends _i18.PageRouteInfo<RecipeDetailRouteArgs> {
+class RecipeDetailRoute extends _i16.PageRouteInfo<RecipeDetailRouteArgs> {
   RecipeDetailRoute({
-    _i19.Key? key,
+    _i17.Key? key,
     required String brewingMethodId,
     required String recipeId,
-    List<_i18.PageRouteInfo>? children,
+    List<_i16.PageRouteInfo>? children,
   }) : super(
           RecipeDetailRoute.name,
           args: RecipeDetailRouteArgs(
@@ -473,8 +455,8 @@ class RecipeDetailRoute extends _i18.PageRouteInfo<RecipeDetailRouteArgs> {
 
   static const String name = 'RecipeDetailRoute';
 
-  static const _i18.PageInfo<RecipeDetailRouteArgs> page =
-      _i18.PageInfo<RecipeDetailRouteArgs>(name);
+  static const _i16.PageInfo<RecipeDetailRouteArgs> page =
+      _i16.PageInfo<RecipeDetailRouteArgs>(name);
 }
 
 class RecipeDetailRouteArgs {
@@ -484,7 +466,7 @@ class RecipeDetailRouteArgs {
     required this.recipeId,
   });
 
-  final _i19.Key? key;
+  final _i17.Key? key;
 
   final String brewingMethodId;
 
@@ -497,59 +479,12 @@ class RecipeDetailRouteArgs {
 }
 
 /// generated route for
-/// [_i11.RecipeDetailTKScreen]
-class RecipeDetailTKRoute extends _i18.PageRouteInfo<RecipeDetailTKRouteArgs> {
-  RecipeDetailTKRoute({
-    _i19.Key? key,
-    required String brewingMethodId,
-    required String recipeId,
-    List<_i18.PageRouteInfo>? children,
-  }) : super(
-          RecipeDetailTKRoute.name,
-          args: RecipeDetailTKRouteArgs(
-            key: key,
-            brewingMethodId: brewingMethodId,
-            recipeId: recipeId,
-          ),
-          rawPathParams: {
-            'brewingMethodId': brewingMethodId,
-            'recipeId': recipeId,
-          },
-          initialChildren: children,
-        );
-
-  static const String name = 'RecipeDetailTKRoute';
-
-  static const _i18.PageInfo<RecipeDetailTKRouteArgs> page =
-      _i18.PageInfo<RecipeDetailTKRouteArgs>(name);
-}
-
-class RecipeDetailTKRouteArgs {
-  const RecipeDetailTKRouteArgs({
-    this.key,
-    required this.brewingMethodId,
-    required this.recipeId,
-  });
-
-  final _i19.Key? key;
-
-  final String brewingMethodId;
-
-  final String recipeId;
-
-  @override
-  String toString() {
-    return 'RecipeDetailTKRouteArgs{key: $key, brewingMethodId: $brewingMethodId, recipeId: $recipeId}';
-  }
-}
-
-/// generated route for
-/// [_i12.RecipeListScreen]
-class RecipeListRoute extends _i18.PageRouteInfo<RecipeListRouteArgs> {
+/// [_i11.RecipeListScreen]
+class RecipeListRoute extends _i16.PageRouteInfo<RecipeListRouteArgs> {
   RecipeListRoute({
-    _i19.Key? key,
+    _i17.Key? key,
     String? brewingMethodId,
-    List<_i18.PageRouteInfo>? children,
+    List<_i16.PageRouteInfo>? children,
   }) : super(
           RecipeListRoute.name,
           args: RecipeListRouteArgs(
@@ -562,8 +497,8 @@ class RecipeListRoute extends _i18.PageRouteInfo<RecipeListRouteArgs> {
 
   static const String name = 'RecipeListRoute';
 
-  static const _i18.PageInfo<RecipeListRouteArgs> page =
-      _i18.PageInfo<RecipeListRouteArgs>(name);
+  static const _i16.PageInfo<RecipeListRouteArgs> page =
+      _i16.PageInfo<RecipeListRouteArgs>(name);
 }
 
 class RecipeListRouteArgs {
@@ -572,7 +507,7 @@ class RecipeListRouteArgs {
     this.brewingMethodId,
   });
 
-  final _i19.Key? key;
+  final _i17.Key? key;
 
   final String? brewingMethodId;
 
@@ -583,9 +518,9 @@ class RecipeListRouteArgs {
 }
 
 /// generated route for
-/// [_i13.SettingsScreen]
-class SettingsRoute extends _i18.PageRouteInfo<void> {
-  const SettingsRoute({List<_i18.PageRouteInfo>? children})
+/// [_i12.SettingsScreen]
+class SettingsRoute extends _i16.PageRouteInfo<void> {
+  const SettingsRoute({List<_i16.PageRouteInfo>? children})
       : super(
           SettingsRoute.name,
           initialChildren: children,
@@ -593,15 +528,15 @@ class SettingsRoute extends _i18.PageRouteInfo<void> {
 
   static const String name = 'SettingsRoute';
 
-  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i14.StatsScreen]
-class StatsRoute extends _i18.PageRouteInfo<StatsRouteArgs> {
+/// [_i13.StatsScreen]
+class StatsRoute extends _i16.PageRouteInfo<StatsRouteArgs> {
   StatsRoute({
-    _i19.Key? key,
-    List<_i18.PageRouteInfo>? children,
+    _i17.Key? key,
+    List<_i16.PageRouteInfo>? children,
   }) : super(
           StatsRoute.name,
           args: StatsRouteArgs(key: key),
@@ -610,14 +545,14 @@ class StatsRoute extends _i18.PageRouteInfo<StatsRouteArgs> {
 
   static const String name = 'StatsRoute';
 
-  static const _i18.PageInfo<StatsRouteArgs> page =
-      _i18.PageInfo<StatsRouteArgs>(name);
+  static const _i16.PageInfo<StatsRouteArgs> page =
+      _i16.PageInfo<StatsRouteArgs>(name);
 }
 
 class StatsRouteArgs {
   const StatsRouteArgs({this.key});
 
-  final _i19.Key? key;
+  final _i17.Key? key;
 
   @override
   String toString() {
@@ -626,14 +561,14 @@ class StatsRouteArgs {
 }
 
 /// generated route for
-/// [_i15.VendorRecipeDetailScreen]
+/// [_i10.VendorRecipeDetailScreen]
 class VendorRecipeDetailRoute
-    extends _i18.PageRouteInfo<VendorRecipeDetailRouteArgs> {
+    extends _i16.PageRouteInfo<VendorRecipeDetailRouteArgs> {
   VendorRecipeDetailRoute({
-    _i19.Key? key,
+    _i17.Key? key,
     required String vendorId,
     required String recipeId,
-    List<_i18.PageRouteInfo>? children,
+    List<_i16.PageRouteInfo>? children,
   }) : super(
           VendorRecipeDetailRoute.name,
           args: VendorRecipeDetailRouteArgs(
@@ -650,8 +585,8 @@ class VendorRecipeDetailRoute
 
   static const String name = 'VendorRecipeDetailRoute';
 
-  static const _i18.PageInfo<VendorRecipeDetailRouteArgs> page =
-      _i18.PageInfo<VendorRecipeDetailRouteArgs>(name);
+  static const _i16.PageInfo<VendorRecipeDetailRouteArgs> page =
+      _i16.PageInfo<VendorRecipeDetailRouteArgs>(name);
 }
 
 class VendorRecipeDetailRouteArgs {
@@ -661,7 +596,7 @@ class VendorRecipeDetailRouteArgs {
     required this.recipeId,
   });
 
-  final _i19.Key? key;
+  final _i17.Key? key;
 
   final String vendorId;
 
@@ -674,13 +609,13 @@ class VendorRecipeDetailRouteArgs {
 }
 
 /// generated route for
-/// [_i16.VendorsRecipeListScreen]
+/// [_i14.VendorsRecipeListScreen]
 class VendorsRecipeListRoute
-    extends _i18.PageRouteInfo<VendorsRecipeListRouteArgs> {
+    extends _i16.PageRouteInfo<VendorsRecipeListRouteArgs> {
   VendorsRecipeListRoute({
-    _i20.Key? key,
+    _i18.Key? key,
     required String vendorId,
-    List<_i18.PageRouteInfo>? children,
+    List<_i16.PageRouteInfo>? children,
   }) : super(
           VendorsRecipeListRoute.name,
           args: VendorsRecipeListRouteArgs(
@@ -693,8 +628,8 @@ class VendorsRecipeListRoute
 
   static const String name = 'VendorsRecipeListRoute';
 
-  static const _i18.PageInfo<VendorsRecipeListRouteArgs> page =
-      _i18.PageInfo<VendorsRecipeListRouteArgs>(name);
+  static const _i16.PageInfo<VendorsRecipeListRouteArgs> page =
+      _i16.PageInfo<VendorsRecipeListRouteArgs>(name);
 }
 
 class VendorsRecipeListRouteArgs {
@@ -703,7 +638,7 @@ class VendorsRecipeListRouteArgs {
     required this.vendorId,
   });
 
-  final _i20.Key? key;
+  final _i18.Key? key;
 
   final String vendorId;
 
@@ -714,9 +649,9 @@ class VendorsRecipeListRouteArgs {
 }
 
 /// generated route for
-/// [_i17.VendorsScreen]
-class VendorsRoute extends _i18.PageRouteInfo<void> {
-  const VendorsRoute({List<_i18.PageRouteInfo>? children})
+/// [_i15.VendorsScreen]
+class VendorsRoute extends _i16.PageRouteInfo<void> {
+  const VendorsRoute({List<_i16.PageRouteInfo>? children})
       : super(
           VendorsRoute.name,
           initialChildren: children,
@@ -724,5 +659,5 @@ class VendorsRoute extends _i18.PageRouteInfo<void> {
 
   static const String name = 'VendorsRoute';
 
-  static const _i18.PageInfo<void> page = _i18.PageInfo<void>(name);
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }

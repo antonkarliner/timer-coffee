@@ -191,5 +191,11 @@
   "accountDeleted": "Konto gelöscht",
   "accountDeletionError": "Fehler beim Löschen Ihres Kontos, bitte versuchen Sie es erneut",
   "deleteAccountTitle": "Wichtig",
-  "selectBeans": "Wähle Bohnen"
+  "selectBeans": "Wähle Bohnen",
+  "all": "Alle",
+  "selectRoaster": "Wähle Rösterei",
+  "selectOrigin": "Wähle Ursprung",
+  "resetFilters": "Filter zurücksetzen",
+  "showFavoritesOnly": "Nur Favoriten anzeigen",
+  "apply": "Anwenden"
 }

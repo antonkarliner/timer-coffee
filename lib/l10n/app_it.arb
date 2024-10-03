@@ -191,5 +191,11 @@
   "accountDeleted": "Account eliminato",
   "accountDeletionError": "Errore durante l'eliminazione dell'account. Riprova.",
   "deleteAccountTitle": "Importante",
-  "selectBeans": "Seleziona chicchi"
+  "selectBeans": "Seleziona chicchi",
+  "all": "Tutti",
+  "selectRoaster": "Seleziona torrefazione",
+  "selectOrigin": "Seleziona origine",
+  "resetFilters": "Reimposta filtri",
+  "showFavoritesOnly": "Mostra solo i preferiti",
+  "apply": "Applica"
 }

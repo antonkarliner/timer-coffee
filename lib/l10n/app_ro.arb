@@ -191,5 +191,11 @@
   "accountDeleted": "Contul a fost șters",
   "accountDeletionError": "Eroare la ștergerea contului, vă rugăm să încercați din nou.",
   "deleteAccountTitle": "Important",
-  "selectBeans": "Selectați boabele"
+  "selectBeans": "Selectați boabele",
+  "all": "Toate",
+  "selectRoaster": "Selectează prăjitorul",
+  "selectOrigin": "Selectează originea",
+  "resetFilters": "Resetează filtrele",
+  "showFavoritesOnly": "Afișare doar favorite",
+  "apply": "Se aplică"
 }

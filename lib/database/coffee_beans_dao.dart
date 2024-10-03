@@ -71,10 +71,20 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
     final query = selectOnly(coffeeBeans, distinct: true)
       ..addColumns([coffeeBeans.roaster])
       ..where(coffeeBeans.roaster.isNotNull() &
-          coffeeBeans.isDeleted.equals(false)); // Exclude deleted beans
+          coffeeBeans.isDeleted.equals(false));
+
     final roasters =
-        await query.map((row) => row.read(coffeeBeans.roaster)).get();
-    return roasters.whereType<String>().toList();
+        await query.map((row) => row.read(coffeeBeans.roaster)!).get();
+
+    // Group roasters case-insensitively
+    final roasterSet = <String, String>{};
+    for (final roaster in roasters) {
+      final lowerRoaster = roaster.toLowerCase();
+      if (!roasterSet.containsKey(lowerRoaster)) {
+        roasterSet[lowerRoaster] = roaster;
+      }
+    }
+    return roasterSet.values.toList();
   }
 
   Future<List<String>> fetchAllDistinctNames() async {
@@ -119,11 +129,21 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   Future<List<String>> fetchAllDistinctOrigins() async {
     final query = selectOnly(coffeeBeans, distinct: true)
       ..addColumns([coffeeBeans.origin])
-      ..where(coffeeBeans.origin.isNotNull() &
-          coffeeBeans.isDeleted.equals(false)); // Exclude deleted beans
+      ..where(
+          coffeeBeans.origin.isNotNull() & coffeeBeans.isDeleted.equals(false));
+
     final origins =
-        await query.map((row) => row.read(coffeeBeans.origin)).get();
-    return origins.whereType<String>().toList();
+        await query.map((row) => row.read(coffeeBeans.origin)!).get();
+
+    // Group origins case-insensitively
+    final originSet = <String, String>{};
+    for (final origin in origins) {
+      final lowerOrigin = origin.toLowerCase();
+      if (!originSet.containsKey(lowerOrigin)) {
+        originSet[lowerOrigin] = origin;
+      }
+    }
+    return originSet.values.toList();
   }
 
   Future<List<String>> fetchAllDistinctTastingNotes() async {
@@ -244,5 +264,62 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
           tbl.isDeleted.equals(false)); // Fetch only non-deleted beans
     final results = await query.get();
     return results.map(_coffeeBeansFromRow).toList();
+  }
+
+  Future<List<CoffeeBeansModel>> fetchCoffeeBeansFiltered({
+    List<String>? roasters,
+    List<String>? origins,
+    bool? isFavorite,
+  }) async {
+    final query = select(coffeeBeans)..where((t) => t.isDeleted.equals(false));
+
+    if (roasters != null && roasters.isNotEmpty) {
+      final lowerRoasters = roasters.map((r) => r.toLowerCase()).toList();
+      query.where((t) => t.roaster.lower().isIn(lowerRoasters));
+    }
+
+    if (origins != null && origins.isNotEmpty) {
+      final lowerOrigins = origins.map((o) => o.toLowerCase()).toList();
+      query.where((t) => t.origin.lower().isIn(lowerOrigins));
+    }
+
+    if (isFavorite != null) {
+      query.where((t) => t.isFavorite.equals(isFavorite));
+    }
+
+    query.orderBy([
+      (t) => OrderingTerm(expression: t.roastDate, mode: OrderingMode.desc),
+    ]);
+
+    final beansList = await query.get();
+    return beansList.map(_coffeeBeansFromRow).toList();
+  }
+
+  Future<List<String>> fetchOriginsForRoasters(
+      List<String> selectedRoasters) async {
+    if (selectedRoasters.isEmpty) {
+      return await fetchAllDistinctOrigins();
+    }
+
+    final lowerRoasters = selectedRoasters.map((r) => r.toLowerCase()).toList();
+
+    final query = selectOnly(coffeeBeans, distinct: true)
+      ..addColumns([coffeeBeans.origin])
+      ..where(coffeeBeans.origin.isNotNull() &
+          coffeeBeans.isDeleted.equals(false) &
+          coffeeBeans.roaster.lower().isIn(lowerRoasters));
+
+    final origins =
+        await query.map((row) => row.read(coffeeBeans.origin)!).get();
+
+    // Group origins case-insensitively
+    final originSet = <String, String>{};
+    for (final origin in origins) {
+      final lowerOrigin = origin.toLowerCase();
+      if (!originSet.containsKey(lowerOrigin)) {
+        originSet[lowerOrigin] = origin;
+      }
+    }
+    return originSet.values.toList();
   }
 }

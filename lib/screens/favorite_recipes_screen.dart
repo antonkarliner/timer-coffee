@@ -1,3 +1,5 @@
+// lib/screens/favorite_recipes_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/recipe_model.dart';
@@ -76,19 +78,17 @@ class FavoriteRecipesScreen extends StatelessWidget {
                         child: Text(recipe.name),
                       ),
                       onTap: () {
-                        bool isNumericId = RegExp(r'^\d+$').hasMatch(recipe.id);
-
-                        if (recipe.id == "106") {
-                          context.router.push(RecipeDetailTKRoute(
-                              brewingMethodId: recipe.brewingMethodId,
-                              recipeId: recipe.id));
-                        } else if (!isNumericId) {
+                        if (recipe.vendorId != null &&
+                            recipe.vendorId != 'timercoffee') {
                           context.router.push(VendorRecipeDetailRoute(
-                              recipeId: recipe.id, vendorId: recipe.vendorId!));
+                            recipeId: recipe.id,
+                            vendorId: recipe.vendorId!,
+                          ));
                         } else {
                           context.router.push(RecipeDetailRoute(
-                              brewingMethodId: recipe.brewingMethodId,
-                              recipeId: recipe.id));
+                            brewingMethodId: recipe.brewingMethodId,
+                            recipeId: recipe.id,
+                          ));
                         }
                       },
                       trailing: Semantics(

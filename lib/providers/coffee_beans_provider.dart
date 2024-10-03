@@ -518,4 +518,21 @@ class CoffeeBeansProvider with ChangeNotifier {
       isDeleted: json['is_deleted'] ?? false,
     );
   }
+
+  Future<List<CoffeeBeansModel>> fetchFilteredCoffeeBeans({
+    List<String>? roasters,
+    List<String>? origins,
+    bool? isFavorite,
+  }) async {
+    return await db.coffeeBeansDao.fetchCoffeeBeansFiltered(
+      roasters: roasters,
+      origins: origins,
+      isFavorite: isFavorite,
+    );
+  }
+
+  Future<List<String>> fetchOriginsForRoasters(
+      List<String> selectedRoasters) async {
+    return await db.coffeeBeansDao.fetchOriginsForRoasters(selectedRoasters);
+  }
 }

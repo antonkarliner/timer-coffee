@@ -191,5 +191,11 @@
   "accountDeleted": "Обліковий запис видалено",
   "accountDeletionError": "Помилка видалення облікового запису, спробуйте ще раз",
   "deleteAccountTitle": "Увага",
-  "selectBeans": "Виберіть зерна"
+  "selectBeans": "Виберіть зерна",
+  "all": "Усі",
+  "selectRoaster": "Виберіть обсмажувача",
+  "selectOrigin": "Виберіть походження",
+  "resetFilters": "Скинути фільтри",
+  "showFavoritesOnly": "Показати тільки обране",
+  "apply": "Застосувати"
 }

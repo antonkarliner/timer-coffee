@@ -191,5 +191,11 @@
   "accountDeleted": "Account verwijderd",
   "accountDeletionError": "Fout bij het verwijderen van uw account, probeer het opnieuw",
   "deleteAccountTitle": "Belangrijk",
-  "selectBeans": "Kies bonen"
+  "selectBeans": "Kies bonen",
+  "all": "Alles",
+  "selectRoaster": "Selecteer Brander",
+  "selectOrigin": "Selecteer Oorsprong",
+  "resetFilters": "Filters Resetten",
+  "showFavoritesOnly": "Alleen favorieten weergeven",
+  "apply": "Toepassen"
 }

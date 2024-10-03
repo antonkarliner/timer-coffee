@@ -191,5 +191,11 @@
   "accountDeleted": "Conta excluída",
   "accountDeletionError": "Erro ao excluir sua conta. Tente novamente",
   "deleteAccountTitle": "Importante",
-  "selectBeans": "Selecione os grãos"
+  "selectBeans": "Selecione os grãos",
+  "all": "Todos",
+  "selectRoaster": "Selecionar Torrefação",
+  "selectOrigin": "Selecionar Origem",
+  "resetFilters": "Redefinir Filtros",
+  "showFavoritesOnly": "Mostrar apenas favoritos",
+  "apply": "Aplicar"
 }
