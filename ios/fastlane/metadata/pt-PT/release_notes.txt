@@ -1,3 +1,5 @@
-+ Desempenho da aplicação melhorado para uma utilização mais fluida em condições de rede fracas.
++ Agora pode ordenar os grãos de café por torrefator e/ou origem.
 
-+ Design visual aprimorado para uma melhor experiência do utilizador.
++ Melhorias para novos métodos de preparação (a serem anunciados em breve).
+
++ Otimização geral.

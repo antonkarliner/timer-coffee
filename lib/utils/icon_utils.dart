@@ -13,6 +13,7 @@ Icon getIconByBrewingMethod(String? brewingMethodId) {
     "wilfa": Icon(Coffeico.wilfa_svart),
     "espresso": Icon(Coffeico.portafilter),
     "batchbrew": Icon(Coffeico.coffee_maker),
+    "switch": Icon(Coffeico.hario_switch)
   };
 
   return icons[brewingMethodId] ?? const Icon(Coffeico.bean);

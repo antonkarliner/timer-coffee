@@ -1,3 +1,5 @@
-+ Verbeterde app-prestaties voor soepeler gebruik bij slechte netwerkcondities.
++ Je kunt nu koffiebonen sorteren op brander en/of herkomst.
 
-+ Verbeterd visueel ontwerp voor een betere gebruikerservaring.
++ Verbeteringen voor nieuwe zetmethoden (binnenkort aan te kondigen).
+
++ Algemene optimalisatie.

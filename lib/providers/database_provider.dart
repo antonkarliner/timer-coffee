@@ -416,6 +416,7 @@ class DatabaseProvider {
     bool? isFavorite,
     int? sweetnessSliderPosition,
     int? strengthSliderPosition,
+    int? coffeeChroniclerSliderPosition, // Add this parameter
     double? customCoffeeAmount,
     double? customWaterAmount,
   }) async {
@@ -434,6 +435,9 @@ class DatabaseProvider {
         'sweetness_slider_position': sweetnessSliderPosition,
       if (strengthSliderPosition != null)
         'strength_slider_position': strengthSliderPosition,
+      if (coffeeChroniclerSliderPosition != null)
+        'coffee_chronicler_slider_position':
+            coffeeChroniclerSliderPosition, // Add this line
       if (customCoffeeAmount != null)
         'custom_coffee_amount': customCoffeeAmount,
       if (customWaterAmount != null) 'custom_water_amount': customWaterAmount,

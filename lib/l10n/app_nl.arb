@@ -197,5 +197,9 @@
   "selectOrigin": "Selecteer Oorsprong",
   "resetFilters": "Filters Resetten",
   "showFavoritesOnly": "Alleen favorieten weergeven",
-  "apply": "Toepassen"
+  "apply": "Toepassen",
+  "selectSize": "Grootte selecteren",
+  "sizeStandard": "Standaard",
+  "sizeMedium": "Medium",
+  "sizeXL": "XL"
 }

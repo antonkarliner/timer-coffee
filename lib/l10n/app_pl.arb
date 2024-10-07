@@ -197,5 +197,9 @@
   "selectOrigin": "Wybierz pochodzenie",
   "resetFilters": "Resetuj filtry",
   "showFavoritesOnly": "Pokaż tylko ulubione",
-  "apply": "Zastosuj"
+  "apply": "Zastosuj",
+  "selectSize": "Wybierz rozmiar",
+  "sizeStandard": "Standardowy",
+  "sizeMedium": "Średni",
+  "sizeXL": "XL"
 }

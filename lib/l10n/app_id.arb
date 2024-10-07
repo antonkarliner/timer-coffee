@@ -197,5 +197,9 @@
   "selectOrigin": "Pilih Asal",
   "resetFilters": "Atur Ulang Filter",
   "showFavoritesOnly": "Tampilkan favorit saja",
-  "apply": "Terapkan"
+  "apply": "Terapkan",
+  "selectSize": "Pilih Ukuran",
+  "sizeStandard": "Standar",
+  "sizeMedium": "Sedang",
+  "sizeXL": "XL"
 }

@@ -197,5 +197,9 @@
   "selectOrigin": "Selectează originea",
   "resetFilters": "Resetează filtrele",
   "showFavoritesOnly": "Afișare doar favorite",
-  "apply": "Se aplică"
+  "apply": "Se aplică",
+  "selectSize": "Selectați dimensiunea",
+  "sizeStandard": "Standard",
+  "sizeMedium": "Mediu",
+  "sizeXL": "XL"
 }

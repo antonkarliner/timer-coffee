@@ -197,5 +197,9 @@
   "selectOrigin": "Menşei Seçin",
   "resetFilters": "Filtreleri Sıfırla",
   "showFavoritesOnly": "Yalnızca sık kullanılanları göster",
-  "apply": "Uygula"
+  "apply": "Uygula",
+  "selectSize": "Boyutu Seçin",
+  "sizeStandard": "Standart",
+  "sizeMedium": "Orta",
+  "sizeXL": "XL"
 }

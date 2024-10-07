@@ -1,4 +1,4 @@
-+ Artık kahve çekirdeklerini kavurucuya ve/veya kökenine göre sıralayabilirsiniz.
++ Artık kahve çekirdeklerini kavurucuya ve/veya menşeine göre sıralayabilirsiniz.
 
 + Yeni demleme yöntemleri için iyileştirmeler (yakında duyurulacak).
 

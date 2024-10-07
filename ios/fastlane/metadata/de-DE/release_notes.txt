@@ -1,3 +1,5 @@
-+ Verbesserte App-Leistung für eine reibungslosere Nutzung bei schlechten Netzwerkbedingungen.
++ Sie können Kaffeebohnen jetzt nach Rösterei und/oder Herkunft sortieren.
 
-+ Verbessertes visuelles Design für eine bessere Benutzererfahrung.
++ Verbesserungen für neue Brühmöglichkeiten (werden bald angekündigt).
+
++ Allgemeine Optimierung.

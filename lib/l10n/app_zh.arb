@@ -197,5 +197,9 @@
   "selectOrigin": "选择产地",
   "resetFilters": "重置筛选",
   "showFavoritesOnly": "仅显示收藏",
-  "apply": "应用"
+  "apply": "应用",
+  "selectSize": "选择大小",
+  "sizeStandard": "标准",
+  "sizeMedium": "中等",
+  "sizeXL": "加大"
 }

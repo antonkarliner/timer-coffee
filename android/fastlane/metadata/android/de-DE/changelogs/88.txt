@@ -1,0 +1,5 @@
++ Sie können jetzt Kaffeebohnen nach Rösterei und/oder Herkunft sortieren.
+
++ Verbesserungen für neue Brühmethode (werden bald angekündigt).
+
++ Allgemeine Optimierung.

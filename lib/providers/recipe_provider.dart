@@ -149,13 +149,17 @@ class RecipeProvider extends ChangeNotifier {
     await fetchAllRecipes();
   }
 
-  Future<void> saveSliderPositions(String recipeId, int sweetnessSliderPosition,
-      int strengthSliderPosition) async {
+  Future<void> saveSliderPositions(String recipeId,
+      {int? sweetnessSliderPosition,
+      int? strengthSliderPosition,
+      int? coffeeChroniclerSliderPosition}) async {
     // Update local database
     await db.userRecipePreferencesDao.updatePreferences(
       recipeId,
       sweetnessSliderPosition: sweetnessSliderPosition,
       strengthSliderPosition: strengthSliderPosition,
+      coffeeChroniclerSliderPosition:
+          coffeeChroniclerSliderPosition, // Add this line
     );
 
     // Update Supabase
@@ -163,6 +167,8 @@ class RecipeProvider extends ChangeNotifier {
       recipeId,
       sweetnessSliderPosition: sweetnessSliderPosition,
       strengthSliderPosition: strengthSliderPosition,
+      coffeeChroniclerSliderPosition:
+          coffeeChroniclerSliderPosition, // Add this line
     );
 
     await fetchAllRecipes();

@@ -1,5 +1,5 @@
 + Sekarang Anda dapat menyortir biji kopi berdasarkan pemanggang dan/atau asal.
 
-+ Peningkatan untuk metode penyeduhan baru (akan diumumkan segera).
++ Peningkatan untuk metode seduh baru (akan diumumkan segera).
 
 + Optimalisasi secara keseluruhan.

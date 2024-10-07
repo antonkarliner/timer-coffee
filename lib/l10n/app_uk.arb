@@ -197,5 +197,9 @@
   "selectOrigin": "Виберіть походження",
   "resetFilters": "Скинути фільтри",
   "showFavoritesOnly": "Показати тільки обране",
-  "apply": "Застосувати"
+  "apply": "Застосувати",
+  "selectSize": "Виберіть розмір",
+  "sizeStandard": "Стандартний",
+  "sizeMedium": "Середній",
+  "sizeXL": "XL"
 }

@@ -2018,6 +2018,15 @@ class $UserRecipePreferencesTable extends UserRecipePreferences
   late final GeneratedColumn<double> customWaterAmount =
       GeneratedColumn<double>('custom_water_amount', aliasedName, true,
           type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _coffeeChroniclerSliderPositionMeta =
+      const VerificationMeta('coffeeChroniclerSliderPosition');
+  @override
+  late final GeneratedColumn<int> coffeeChroniclerSliderPosition =
+      GeneratedColumn<int>(
+          'coffee_chronicler_slider_position', aliasedName, false,
+          type: DriftSqlType.int,
+          requiredDuringInsert: false,
+          defaultValue: const Constant(0));
   @override
   List<GeneratedColumn> get $columns => [
         recipeId,
@@ -2026,7 +2035,8 @@ class $UserRecipePreferencesTable extends UserRecipePreferences
         sweetnessSliderPosition,
         strengthSliderPosition,
         customCoffeeAmount,
-        customWaterAmount
+        customWaterAmount,
+        coffeeChroniclerSliderPosition
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2082,6 +2092,13 @@ class $UserRecipePreferencesTable extends UserRecipePreferences
           customWaterAmount.isAcceptableOrUnknown(
               data['custom_water_amount']!, _customWaterAmountMeta));
     }
+    if (data.containsKey('coffee_chronicler_slider_position')) {
+      context.handle(
+          _coffeeChroniclerSliderPositionMeta,
+          coffeeChroniclerSliderPosition.isAcceptableOrUnknown(
+              data['coffee_chronicler_slider_position']!,
+              _coffeeChroniclerSliderPositionMeta));
+    }
     return context;
   }
 
@@ -2107,6 +2124,9 @@ class $UserRecipePreferencesTable extends UserRecipePreferences
           DriftSqlType.double, data['${effectivePrefix}custom_coffee_amount']),
       customWaterAmount: attachedDatabase.typeMapping.read(
           DriftSqlType.double, data['${effectivePrefix}custom_water_amount']),
+      coffeeChroniclerSliderPosition: attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}coffee_chronicler_slider_position'])!,
     );
   }
 
@@ -2125,6 +2145,7 @@ class UserRecipePreference extends DataClass
   final int strengthSliderPosition;
   final double? customCoffeeAmount;
   final double? customWaterAmount;
+  final int coffeeChroniclerSliderPosition;
   const UserRecipePreference(
       {required this.recipeId,
       this.lastUsed,
@@ -2132,7 +2153,8 @@ class UserRecipePreference extends DataClass
       required this.sweetnessSliderPosition,
       required this.strengthSliderPosition,
       this.customCoffeeAmount,
-      this.customWaterAmount});
+      this.customWaterAmount,
+      required this.coffeeChroniclerSliderPosition});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2149,6 +2171,8 @@ class UserRecipePreference extends DataClass
     if (!nullToAbsent || customWaterAmount != null) {
       map['custom_water_amount'] = Variable<double>(customWaterAmount);
     }
+    map['coffee_chronicler_slider_position'] =
+        Variable<int>(coffeeChroniclerSliderPosition);
     return map;
   }
 
@@ -2167,6 +2191,7 @@ class UserRecipePreference extends DataClass
       customWaterAmount: customWaterAmount == null && nullToAbsent
           ? const Value.absent()
           : Value(customWaterAmount),
+      coffeeChroniclerSliderPosition: Value(coffeeChroniclerSliderPosition),
     );
   }
 
@@ -2185,6 +2210,8 @@ class UserRecipePreference extends DataClass
           serializer.fromJson<double?>(json['customCoffeeAmount']),
       customWaterAmount:
           serializer.fromJson<double?>(json['customWaterAmount']),
+      coffeeChroniclerSliderPosition:
+          serializer.fromJson<int>(json['coffeeChroniclerSliderPosition']),
     );
   }
   @override
@@ -2199,6 +2226,8 @@ class UserRecipePreference extends DataClass
       'strengthSliderPosition': serializer.toJson<int>(strengthSliderPosition),
       'customCoffeeAmount': serializer.toJson<double?>(customCoffeeAmount),
       'customWaterAmount': serializer.toJson<double?>(customWaterAmount),
+      'coffeeChroniclerSliderPosition':
+          serializer.toJson<int>(coffeeChroniclerSliderPosition),
     };
   }
 
@@ -2209,7 +2238,8 @@ class UserRecipePreference extends DataClass
           int? sweetnessSliderPosition,
           int? strengthSliderPosition,
           Value<double?> customCoffeeAmount = const Value.absent(),
-          Value<double?> customWaterAmount = const Value.absent()}) =>
+          Value<double?> customWaterAmount = const Value.absent(),
+          int? coffeeChroniclerSliderPosition}) =>
       UserRecipePreference(
         recipeId: recipeId ?? this.recipeId,
         lastUsed: lastUsed.present ? lastUsed.value : this.lastUsed,
@@ -2224,6 +2254,8 @@ class UserRecipePreference extends DataClass
         customWaterAmount: customWaterAmount.present
             ? customWaterAmount.value
             : this.customWaterAmount,
+        coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition ??
+            this.coffeeChroniclerSliderPosition,
       );
   UserRecipePreference copyWithCompanion(UserRecipePreferencesCompanion data) {
     return UserRecipePreference(
@@ -2243,6 +2275,10 @@ class UserRecipePreference extends DataClass
       customWaterAmount: data.customWaterAmount.present
           ? data.customWaterAmount.value
           : this.customWaterAmount,
+      coffeeChroniclerSliderPosition:
+          data.coffeeChroniclerSliderPosition.present
+              ? data.coffeeChroniclerSliderPosition.value
+              : this.coffeeChroniclerSliderPosition,
     );
   }
 
@@ -2255,7 +2291,9 @@ class UserRecipePreference extends DataClass
           ..write('sweetnessSliderPosition: $sweetnessSliderPosition, ')
           ..write('strengthSliderPosition: $strengthSliderPosition, ')
           ..write('customCoffeeAmount: $customCoffeeAmount, ')
-          ..write('customWaterAmount: $customWaterAmount')
+          ..write('customWaterAmount: $customWaterAmount, ')
+          ..write(
+              'coffeeChroniclerSliderPosition: $coffeeChroniclerSliderPosition')
           ..write(')'))
         .toString();
   }
@@ -2268,7 +2306,8 @@ class UserRecipePreference extends DataClass
       sweetnessSliderPosition,
       strengthSliderPosition,
       customCoffeeAmount,
-      customWaterAmount);
+      customWaterAmount,
+      coffeeChroniclerSliderPosition);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2279,7 +2318,9 @@ class UserRecipePreference extends DataClass
           other.sweetnessSliderPosition == this.sweetnessSliderPosition &&
           other.strengthSliderPosition == this.strengthSliderPosition &&
           other.customCoffeeAmount == this.customCoffeeAmount &&
-          other.customWaterAmount == this.customWaterAmount);
+          other.customWaterAmount == this.customWaterAmount &&
+          other.coffeeChroniclerSliderPosition ==
+              this.coffeeChroniclerSliderPosition);
 }
 
 class UserRecipePreferencesCompanion
@@ -2291,6 +2332,7 @@ class UserRecipePreferencesCompanion
   final Value<int> strengthSliderPosition;
   final Value<double?> customCoffeeAmount;
   final Value<double?> customWaterAmount;
+  final Value<int> coffeeChroniclerSliderPosition;
   final Value<int> rowid;
   const UserRecipePreferencesCompanion({
     this.recipeId = const Value.absent(),
@@ -2300,6 +2342,7 @@ class UserRecipePreferencesCompanion
     this.strengthSliderPosition = const Value.absent(),
     this.customCoffeeAmount = const Value.absent(),
     this.customWaterAmount = const Value.absent(),
+    this.coffeeChroniclerSliderPosition = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   UserRecipePreferencesCompanion.insert({
@@ -2310,6 +2353,7 @@ class UserRecipePreferencesCompanion
     this.strengthSliderPosition = const Value.absent(),
     this.customCoffeeAmount = const Value.absent(),
     this.customWaterAmount = const Value.absent(),
+    this.coffeeChroniclerSliderPosition = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : recipeId = Value(recipeId),
         isFavorite = Value(isFavorite);
@@ -2321,6 +2365,7 @@ class UserRecipePreferencesCompanion
     Expression<int>? strengthSliderPosition,
     Expression<double>? customCoffeeAmount,
     Expression<double>? customWaterAmount,
+    Expression<int>? coffeeChroniclerSliderPosition,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2334,6 +2379,8 @@ class UserRecipePreferencesCompanion
       if (customCoffeeAmount != null)
         'custom_coffee_amount': customCoffeeAmount,
       if (customWaterAmount != null) 'custom_water_amount': customWaterAmount,
+      if (coffeeChroniclerSliderPosition != null)
+        'coffee_chronicler_slider_position': coffeeChroniclerSliderPosition,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -2346,6 +2393,7 @@ class UserRecipePreferencesCompanion
       Value<int>? strengthSliderPosition,
       Value<double?>? customCoffeeAmount,
       Value<double?>? customWaterAmount,
+      Value<int>? coffeeChroniclerSliderPosition,
       Value<int>? rowid}) {
     return UserRecipePreferencesCompanion(
       recipeId: recipeId ?? this.recipeId,
@@ -2357,6 +2405,8 @@ class UserRecipePreferencesCompanion
           strengthSliderPosition ?? this.strengthSliderPosition,
       customCoffeeAmount: customCoffeeAmount ?? this.customCoffeeAmount,
       customWaterAmount: customWaterAmount ?? this.customWaterAmount,
+      coffeeChroniclerSliderPosition:
+          coffeeChroniclerSliderPosition ?? this.coffeeChroniclerSliderPosition,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2387,6 +2437,10 @@ class UserRecipePreferencesCompanion
     if (customWaterAmount.present) {
       map['custom_water_amount'] = Variable<double>(customWaterAmount.value);
     }
+    if (coffeeChroniclerSliderPosition.present) {
+      map['coffee_chronicler_slider_position'] =
+          Variable<int>(coffeeChroniclerSliderPosition.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -2403,6 +2457,8 @@ class UserRecipePreferencesCompanion
           ..write('strengthSliderPosition: $strengthSliderPosition, ')
           ..write('customCoffeeAmount: $customCoffeeAmount, ')
           ..write('customWaterAmount: $customWaterAmount, ')
+          ..write(
+              'coffeeChroniclerSliderPosition: $coffeeChroniclerSliderPosition, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -6055,6 +6111,7 @@ typedef $$UserRecipePreferencesTableCreateCompanionBuilder
   Value<int> strengthSliderPosition,
   Value<double?> customCoffeeAmount,
   Value<double?> customWaterAmount,
+  Value<int> coffeeChroniclerSliderPosition,
   Value<int> rowid,
 });
 typedef $$UserRecipePreferencesTableUpdateCompanionBuilder
@@ -6066,6 +6123,7 @@ typedef $$UserRecipePreferencesTableUpdateCompanionBuilder
   Value<int> strengthSliderPosition,
   Value<double?> customCoffeeAmount,
   Value<double?> customWaterAmount,
+  Value<int> coffeeChroniclerSliderPosition,
   Value<int> rowid,
 });
 
@@ -6094,6 +6152,7 @@ class $$UserRecipePreferencesTableTableManager extends RootTableManager<
             Value<int> strengthSliderPosition = const Value.absent(),
             Value<double?> customCoffeeAmount = const Value.absent(),
             Value<double?> customWaterAmount = const Value.absent(),
+            Value<int> coffeeChroniclerSliderPosition = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               UserRecipePreferencesCompanion(
@@ -6104,6 +6163,7 @@ class $$UserRecipePreferencesTableTableManager extends RootTableManager<
             strengthSliderPosition: strengthSliderPosition,
             customCoffeeAmount: customCoffeeAmount,
             customWaterAmount: customWaterAmount,
+            coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition,
             rowid: rowid,
           ),
           createCompanionCallback: ({
@@ -6114,6 +6174,7 @@ class $$UserRecipePreferencesTableTableManager extends RootTableManager<
             Value<int> strengthSliderPosition = const Value.absent(),
             Value<double?> customCoffeeAmount = const Value.absent(),
             Value<double?> customWaterAmount = const Value.absent(),
+            Value<int> coffeeChroniclerSliderPosition = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               UserRecipePreferencesCompanion.insert(
@@ -6124,6 +6185,7 @@ class $$UserRecipePreferencesTableTableManager extends RootTableManager<
             strengthSliderPosition: strengthSliderPosition,
             customCoffeeAmount: customCoffeeAmount,
             customWaterAmount: customWaterAmount,
+            coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition,
             rowid: rowid,
           ),
         ));
@@ -6161,6 +6223,12 @@ class $$UserRecipePreferencesTableFilterComposer
       column: $state.table.customWaterAmount,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<int> get coffeeChroniclerSliderPosition => $state
+      .composableBuilder(
+          column: $state.table.coffeeChroniclerSliderPosition,
+          builder: (column, joinBuilders) =>
+              ColumnFilters(column, joinBuilders: joinBuilders));
 
   $$RecipesTableFilterComposer get recipeId {
     final $$RecipesTableFilterComposer composer = $state.composerBuilder(
@@ -6207,6 +6275,12 @@ class $$UserRecipePreferencesTableOrderingComposer
       column: $state.table.customWaterAmount,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<int> get coffeeChroniclerSliderPosition =>
+      $state.composableBuilder(
+          column: $state.table.coffeeChroniclerSliderPosition,
+          builder: (column, joinBuilders) =>
+              ColumnOrderings(column, joinBuilders: joinBuilders));
 
   $$RecipesTableOrderingComposer get recipeId {
     final $$RecipesTableOrderingComposer composer = $state.composerBuilder(

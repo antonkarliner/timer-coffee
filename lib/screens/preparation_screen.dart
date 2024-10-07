@@ -9,11 +9,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class PreparationScreen extends StatefulWidget {
   final RecipeModel recipe;
   final String brewingMethodName;
+  final int? coffeeChroniclerSliderPosition;
 
   const PreparationScreen({
     Key? key,
     required this.recipe,
     required this.brewingMethodName,
+    this.coffeeChroniclerSliderPosition,
   }) : super(key: key);
 
   @override
@@ -93,17 +95,17 @@ class _PreparationScreenState extends State<PreparationScreen> {
       return BrewStepModel(
         order: step.order,
         description: replacePlaceholders(
-          step.description,
-          widget.recipe.coffeeAmount,
-          widget.recipe.waterAmount,
-          widget.recipe.sweetnessSliderPosition,
-          widget.recipe.strengthSliderPosition,
-        ),
+            step.description,
+            widget.recipe.coffeeAmount,
+            widget.recipe.waterAmount,
+            widget.recipe.sweetnessSliderPosition,
+            widget.recipe.strengthSliderPosition,
+            widget.recipe.coffeeChroniclerSliderPosition),
         time: replaceTimePlaceholder(
-          step.time,
-          widget.recipe.sweetnessSliderPosition,
-          widget.recipe.strengthSliderPosition,
-        ),
+            step.time,
+            widget.recipe.sweetnessSliderPosition,
+            widget.recipe.strengthSliderPosition,
+            widget.recipe.coffeeChroniclerSliderPosition),
       );
     }).toList();
 
@@ -171,6 +173,8 @@ class _PreparationScreenState extends State<PreparationScreen> {
                           widget.recipe.strengthSliderPosition,
                       soundEnabled: _soundEnabled,
                       brewingMethodName: widget.brewingMethodName,
+                      coffeeChroniclerSliderPosition:
+                          widget.coffeeChroniclerSliderPosition,
                     ),
                   ),
                 );
@@ -197,34 +201,48 @@ class _PreparationScreenState extends State<PreparationScreen> {
     String description,
     double coffeeAmount,
     double waterAmount,
-    int sweetnessSliderPosition,
-    int strengthSliderPosition,
+    int? sweetnessSliderPosition,
+    int? strengthSliderPosition,
+    int? coffeeChroniclerSliderPosition,
   ) {
-    List<Map<String, double>> sweetnessValues = [
-      {"m1": 0.16, "m2": 0.24}, // Sweetness
-      {"m1": 0.20, "m2": 0.20}, // Balance
-      {"m1": 0.24, "m2": 0.16}, // Acidity
-    ];
-
-    List<Map<String, double>> strengthValues = [
-      {"m3": 0.6, "m4": 0, "m5": 0}, // Light
-      {"m3": 0.3, "m4": 0.3, "m5": 0}, // Balanced
-      {"m3": 0.2, "m4": 0.2, "m5": 0.2}, // Strong
-    ];
-
-    Map<String, double> selectedSweetnessValues =
-        sweetnessValues[sweetnessSliderPosition];
-    Map<String, double> selectedStrengthValues =
-        strengthValues[strengthSliderPosition];
     Map<String, double> allValues = {
-      ...selectedSweetnessValues,
-      ...selectedStrengthValues,
       'coffee_amount': coffeeAmount,
       'water_amount': waterAmount,
       'final_coffee_amount': coffeeAmount,
       'final_water_amount': waterAmount,
     };
 
+    // Handle sweetness values if applicable
+    if (sweetnessSliderPosition != null) {
+      List<Map<String, double>> sweetnessValues = [
+        {"m1": 0.16, "m2": 0.24}, // Sweetness
+        {"m1": 0.20, "m2": 0.20}, // Balance
+        {"m1": 0.24, "m2": 0.16}, // Acidity
+      ];
+      allValues.addAll(sweetnessValues[sweetnessSliderPosition]);
+    }
+
+    // Handle strength values if applicable
+    if (strengthSliderPosition != null) {
+      List<Map<String, double>> strengthValues = [
+        {"m3": 0.6, "m4": 0, "m5": 0}, // Light
+        {"m3": 0.3, "m4": 0.3, "m5": 0}, // Balanced
+        {"m3": 0.2, "m4": 0.2, "m5": 0.2}, // Strong
+      ];
+      allValues.addAll(strengthValues[strengthSliderPosition]);
+    }
+
+    // Handle coffeeChroniclerSwitchSlider values if applicable
+    if (coffeeChroniclerSliderPosition != null) {
+      List<Map<String, double>> coffeeChroniclerValues = [
+        {'t7': 30.0, 't8': 55.0}, // Standard
+        {'t7': 45.0, 't8': 70.0}, // Medium
+        {'t7': 75.0, 't8': 55.0}, // XL
+      ];
+      allValues.addAll(coffeeChroniclerValues[coffeeChroniclerSliderPosition]);
+    }
+
+    // Replace placeholders in the description
     RegExp exp = RegExp(r'<([\w_]+)>');
     String replacedText = description.replaceAllMapped(exp, (match) {
       String variable = match.group(1)!;
@@ -233,6 +251,7 @@ class _PreparationScreenState extends State<PreparationScreen> {
           : match.group(0)!;
     });
 
+    // Handle mathematical expressions like (multiplier x value)
     RegExp mathExp = RegExp(r'\(([\d.]+) x ([\d.]+)\)');
     replacedText = replacedText.replaceAllMapped(mathExp, (match) {
       double multiplier = double.parse(match.group(1)!);
@@ -245,73 +264,75 @@ class _PreparationScreenState extends State<PreparationScreen> {
 
   Duration replaceTimePlaceholder(
     Duration time,
-    int sweetnessSliderPosition,
-    int strengthSliderPosition,
+    int? sweetnessSliderPosition,
+    int? strengthSliderPosition,
+    int? coffeeChroniclerSliderPosition,
   ) {
-    String timeString = time.inSeconds.toString();
-
-    List<Map<String, double>> sweetnessValues = [
-      {"m1": 0.16, "m2": 0.4}, // Sweetness
-      {"m1": 0.20, "m2": 0.4}, // Balance
-      {"m1": 0.24, "m2": 0.4}, // Acidity
-    ];
-
-    List<Map<String, double>> strengthValues = [
-      {
-        "m3": 1.0,
-        "t1": 10,
-        "t2": 35,
-        "m4": 0,
-        "t3": 0,
-        "t4": 0,
-        "m5": 0,
-        "t5": 0,
-        "t6": 0
-      }, // Light
-      {
-        "m3": 0.7,
-        "t1": 10,
-        "t2": 35,
-        "m4": 1.0,
-        "t3": 10,
-        "t4": 35,
-        "m5": 0,
-        "t5": 0,
-        "t6": 0
-      }, // Balanced
-      {
-        "m3": 0.6,
-        "t1": 10,
-        "t2": 35,
-        "m4": 0.8,
-        "t3": 10,
-        "t4": 35,
-        "m5": 1.0,
-        "t5": 10,
-        "t6": 35
-      }, // Strong
-    ];
-
+    // If the time is already set, return it
     if (time != Duration.zero) {
       return time;
     }
 
+    // Prepare all possible time values
+    Map<String, int> allTimeValues = {};
+
+    // Handle sweetness time values if applicable
+    if (sweetnessSliderPosition != null) {
+      List<Map<String, int>> sweetnessTimeValues = [
+        {"t1": 10, "t2": 20}, // Sweetness
+        {"t1": 15, "t2": 25}, // Balance
+        {"t1": 20, "t2": 30}, // Acidity
+      ];
+      allTimeValues.addAll(sweetnessTimeValues[sweetnessSliderPosition]);
+    }
+
+    // Handle strength time values if applicable
+    if (strengthSliderPosition != null) {
+      List<Map<String, int>> strengthTimeValues = [
+        {
+          "t3": 5,
+          "t4": 10,
+          "t5": 0,
+          "t6": 0,
+        }, // Light
+        {
+          "t3": 7,
+          "t4": 12,
+          "t5": 0,
+          "t6": 0,
+        }, // Balanced
+        {
+          "t3": 10,
+          "t4": 15,
+          "t5": 5,
+          "t6": 10,
+        }, // Strong
+      ];
+      allTimeValues.addAll(strengthTimeValues[strengthSliderPosition]);
+    }
+
+    // Handle coffeeChroniclerSwitchSlider time values if applicable
+    if (coffeeChroniclerSliderPosition != null) {
+      List<Map<String, int>> coffeeChroniclerTimeValues = [
+        {'t7': 30, 't8': 55}, // Standard
+        {'t7': 45, 't8': 70}, // Medium
+        {'t7': 75, 't8': 55}, // XL
+      ];
+      allTimeValues
+          .addAll(coffeeChroniclerTimeValues[coffeeChroniclerSliderPosition]);
+    }
+
+    // Replace time placeholders
     RegExp exp = RegExp(r'<(t\d+)>');
+    String timeString = time.inSeconds.toString();
     var matches = exp.allMatches(timeString);
 
     for (var match in matches) {
       String placeholder = match.group(1)!;
-      double? replacementValue;
-      if (sweetnessValues[sweetnessSliderPosition].containsKey(placeholder)) {
-        replacementValue =
-            sweetnessValues[sweetnessSliderPosition][placeholder];
-      } else if (strengthValues[strengthSliderPosition]
-          .containsKey(placeholder)) {
-        replacementValue = strengthValues[strengthSliderPosition][placeholder];
-      }
+      int? replacementTime = allTimeValues[placeholder];
 
-      if (replacementValue != null) {
-        time = Duration(seconds: replacementValue.toInt());
+      if (replacementTime != null && replacementTime > 0) {
+        time = Duration(seconds: replacementTime);
       }
     }
 

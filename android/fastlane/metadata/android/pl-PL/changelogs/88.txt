@@ -1,5 +1,5 @@
 + Możesz teraz sortować ziarna kawy według palarni i/lub pochodzenia.
 
-+ Ulepszenia dla nowych metod parzenia (wkrótce zostaną ogłoszone).
++ Ulepszenia dla nowych metod parzenia (wkrótce do ogłoszenia).
 
 + Ogólna optymalizacja.

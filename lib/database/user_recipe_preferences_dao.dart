@@ -17,6 +17,7 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
       {bool? isFavorite,
       int? sweetnessSliderPosition,
       int? strengthSliderPosition,
+      int? coffeeChroniclerSliderPosition, // Add this parameter
       double? customCoffeeAmount,
       double? customWaterAmount}) async {
     // Check if the entry exists.
@@ -38,6 +39,9 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
         strengthSliderPosition: strengthSliderPosition == null
             ? Value.absent()
             : Value(strengthSliderPosition),
+        coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition == null
+            ? Value.absent()
+            : Value(coffeeChroniclerSliderPosition), // Add this line
         customCoffeeAmount: customCoffeeAmount == null
             ? Value.absent()
             : Value(customCoffeeAmount),
@@ -56,6 +60,9 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
         strengthSliderPosition: strengthSliderPosition == null
             ? Value.absent()
             : Value(strengthSliderPosition),
+        coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition == null
+            ? Value.absent()
+            : Value(coffeeChroniclerSliderPosition), // Add this line
         customCoffeeAmount: customCoffeeAmount == null
             ? Value.absent()
             : Value(customCoffeeAmount),
@@ -90,6 +97,7 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
       "lastUsed": prefs?.lastUsed,
       "sweetnessSliderPosition": prefs?.sweetnessSliderPosition,
       "strengthSliderPosition": prefs?.strengthSliderPosition,
+      "coffeeChroniclerSliderPosition": prefs?.coffeeChroniclerSliderPosition,
       "customCoffeeAmount": prefs?.customCoffeeAmount,
       "customWaterAmount": prefs?.customWaterAmount,
     };

@@ -1,3 +1,5 @@
-+ Performances de l'application améliorées pour une utilisation plus fluide dans des conditions de réseau médiocres.
++ Vous pouvez désormais trier les grains de café par torréfacteur et/ou origine.
 
-+ Design visuel amélioré pour une meilleure expérience utilisateur.
++ Améliorations pour les nouvelles méthodes d'infusion (à annoncer bientôt).
+
++ Optimisation générale.

@@ -36,6 +36,8 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
       isFavorite: preferences?.isFavorite ?? false,
       sweetnessSliderPosition: preferences?.sweetnessSliderPosition ?? 1,
       strengthSliderPosition: preferences?.strengthSliderPosition ?? 2,
+      coffeeChroniclerSliderPosition:
+          preferences?.coffeeChroniclerSliderPosition ?? 0,
       customCoffeeAmount: preferences?.customCoffeeAmount,
       customWaterAmount: preferences?.customWaterAmount,
       vendorId: recipeData.vendorId,
@@ -81,6 +83,8 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
         isFavorite: preferences?.isFavorite ?? false,
         sweetnessSliderPosition: preferences?.sweetnessSliderPosition ?? 1,
         strengthSliderPosition: preferences?.strengthSliderPosition ?? 2,
+        coffeeChroniclerSliderPosition:
+            preferences?.coffeeChroniclerSliderPosition ?? 0,
         customCoffeeAmount: preferences?.customCoffeeAmount,
         customWaterAmount: preferences?.customWaterAmount,
         vendorId: recipeData.vendorId,
@@ -102,7 +106,9 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
 
   Future<DateTime?> fetchLastModified() async {
     final query = select(recipes)
-      ..orderBy([(t) => OrderingTerm(expression: t.lastModified, mode: OrderingMode.desc)])
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.lastModified, mode: OrderingMode.desc)
+      ])
       ..limit(1);
     final result = await query.getSingleOrNull();
     return result?.lastModified;

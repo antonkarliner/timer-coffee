@@ -136,6 +136,9 @@ class UserRecipePreferences extends Table {
       real().named('custom_coffee_amount').nullable()();
   RealColumn get customWaterAmount =>
       real().named('custom_water_amount').nullable()();
+  IntColumn get coffeeChroniclerSliderPosition => integer()
+      .named('coffee_chronicler_slider_position')
+      .withDefault(const Constant(0))();
 
   @override
   Set<Column> get primaryKey => {recipeId};
@@ -284,7 +287,7 @@ class AppDatabase extends _$AppDatabase {
       : super(_openConnection());
 
   @override
-  int get schemaVersion => 17;
+  int get schemaVersion => 18;
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -662,6 +665,10 @@ class AppDatabase extends _$AppDatabase {
             },
             from16To17: (m, schema) async {
               await m.addColumn(coffeeBeans, coffeeBeans.isDeleted);
+            },
+            from17To18: (m, schema) async {
+              await m.addColumn(userRecipePreferences,
+                  userRecipePreferences.coffeeChroniclerSliderPosition);
             },
           )(m, oldVersion, newVersion);
         },

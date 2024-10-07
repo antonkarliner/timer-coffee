@@ -197,5 +197,9 @@
   "selectOrigin": "Выбрать происхождение",
   "resetFilters": "Сбросить фильтры",
   "showFavoritesOnly": "Показывать только избранное",
-  "apply": "Применить"
+  "apply": "Применить",
+  "selectSize": "Выберите размер",
+  "sizeStandard": "Стандартный",
+  "sizeMedium": "Средний",
+  "sizeXL": "XL"
 }

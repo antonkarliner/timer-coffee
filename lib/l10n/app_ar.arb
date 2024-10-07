@@ -197,5 +197,9 @@
   "selectOrigin": "اختر المنشأ",
   "resetFilters": "إعادة ضبط الفلاتر",
   "showFavoritesOnly": "إظهار المفضلة فقط",
-  "apply": "تطبيق"
+  "apply": "تطبيق",
+  "selectSize": "حدد الحجم",
+  "sizeStandard": "قياسي",
+  "sizeMedium": "متوسط",
+  "sizeXL": "كبير جدًا"
 }

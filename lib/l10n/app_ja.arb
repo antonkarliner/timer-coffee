@@ -197,5 +197,9 @@
   "selectOrigin": "原産地を選択",
   "resetFilters": "フィルターをリセット",
   "showFavoritesOnly": "お気に入りを表示",
-  "apply": "適用"
+  "apply": "適用",
+  "selectSize": "サイズを選択",
+  "sizeStandard": "標準",
+  "sizeMedium": "中",
+  "sizeXL": "XL"
 }

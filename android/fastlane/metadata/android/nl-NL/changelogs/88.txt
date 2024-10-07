@@ -1,0 +1,5 @@
++ U kunt nu koffiebonen sorteren op brander en/of herkomst.
+
++ Verbeteringen voor nieuwe zetmethoden (binnenkort aangekondigd).
+
++ Algemene optimalisatie.

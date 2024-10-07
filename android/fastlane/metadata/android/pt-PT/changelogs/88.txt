@@ -1,0 +1,5 @@
++ Agora pode classificar os grãos de café por torrefator e/ou origem.
+
++ Melhorias para novos métodos de preparação (a anunciar em breve).
+
++ Otimização geral.

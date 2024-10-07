@@ -1,5 +1,5 @@
 + Ahora puedes clasificar los granos de café por tostador y/o origen.
 
-+ Mejoras para nuevos métodos de preparación (se anunciarán pronto).
++ Mejoras para nuevos métodos de preparación (próximamente se anunciarán).
 
 + Optimización general.

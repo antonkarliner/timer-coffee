@@ -1,3 +1,5 @@
-+ Rendimiento de la aplicación mejorado para un uso más fluido en condiciones de red deficientes.
++ Ahora puedes ordenar los granos de café por tostador y/o origen.
 
-+ Diseño visual mejorado para una mejor experiencia del usuario.
++ Mejoras para nuevos métodos de preparación (se anunciarán pronto).
+
++ Optimización general.

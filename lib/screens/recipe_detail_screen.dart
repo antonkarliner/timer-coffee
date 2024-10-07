@@ -97,6 +97,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
   // Sliders for recipe id 106
   int _sweetnessSliderPosition = 1;
   int _strengthSliderPosition = 2;
+  int _coffeeChroniclerSliderPosition = 0;
 
   // Vendor-specific variables
   String? vendorId;
@@ -154,6 +155,11 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
               recipeModel.sweetnessSliderPosition ?? _sweetnessSliderPosition;
           _strengthSliderPosition =
               recipeModel.strengthSliderPosition ?? _strengthSliderPosition;
+        }
+        if (recipeModel.id == '1002') {
+          _coffeeChroniclerSliderPosition =
+              recipeModel.coffeeChroniclerSliderPosition ??
+                  _coffeeChroniclerSliderPosition;
         }
       });
     } catch (e) {
@@ -274,9 +280,33 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     if (_editingCoffee) {
       double newWaterAmount = newCoffee * initialRatio;
       _waterController.text = newWaterAmount.toStringAsFixed(1);
+      newWater =
+          newWaterAmount; // Update newWater to reflect the adjusted value
     } else {
       double newCoffeeAmount = newWater / initialRatio;
       _coffeeController.text = newCoffeeAmount.toStringAsFixed(1);
+      newCoffee =
+          newCoffeeAmount; // Update newCoffee to reflect the adjusted value
+    }
+
+    // For recipe id 1002, update slider position based on amounts
+    if (updatedRecipe.id == '1002') {
+      int newSliderPosition = _coffeeChroniclerSliderPosition;
+
+      if (newCoffee <= 26 || newWater <= 416) {
+        newSliderPosition = 0; // Standard
+      } else if ((newCoffee > 26 && newCoffee < 37) ||
+          (newWater > 416 && newWater < 592)) {
+        newSliderPosition = 1; // Medium
+      } else if (newCoffee >= 37 || newWater >= 592) {
+        newSliderPosition = 2; // XL
+      }
+
+      if (newSliderPosition != _coffeeChroniclerSliderPosition) {
+        setState(() {
+          _coffeeChroniclerSliderPosition = newSliderPosition;
+        });
+      }
     }
   }
 
@@ -434,8 +464,10 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         const SizedBox(height: 16),
         Text('${loc.brewtime}: $formattedBrewTime'),
         const SizedBox(height: 16),
+        if (recipe.id == '1002') _buildCoffeeChroniclerSlider(context),
         if (recipe.id == '106') _buildSliders(context),
         if (recipe.id != '106' &&
+            recipe.id != '1002' &&
             (recipe.vendorId == null || recipe.vendorId == 'timercoffee'))
           _buildRecipeSummary(context, recipe),
         if (recipe.vendorId != null && recipe.vendorId != 'timercoffee')
@@ -652,6 +684,73 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     );
   }
 
+  Widget _buildCoffeeChroniclerSlider(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    List<String> sizeLabels = [
+      localizations.sizeStandard,
+      localizations.sizeMedium,
+      localizations.sizeXL,
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(localizations.selectSize),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(localizations.sizeStandard),
+            Expanded(
+              child: Slider(
+                value: _coffeeChroniclerSliderPosition.toDouble(),
+                min: 0,
+                max: 2,
+                divisions: 2,
+                label: sizeLabels[_coffeeChroniclerSliderPosition],
+                onChanged: (double value) {
+                  setState(() {
+                    _coffeeChroniclerSliderPosition = value.toInt();
+
+                    // Update coffee and water amounts
+                    if (_updatedRecipe!.id == '1002') {
+                      double newCoffeeAmount;
+                      double newWaterAmount;
+
+                      switch (_coffeeChroniclerSliderPosition) {
+                        case 0:
+                          newCoffeeAmount = 20;
+                          newWaterAmount = 320;
+                          break;
+                        case 1:
+                          newCoffeeAmount = 30;
+                          newWaterAmount = 480;
+                          break;
+                        case 2:
+                          newCoffeeAmount = 45;
+                          newWaterAmount = 720;
+                          break;
+                        default:
+                          newCoffeeAmount = _updatedRecipe!.coffeeAmount;
+                          newWaterAmount = _updatedRecipe!.waterAmount;
+                      }
+
+                      // Update the text controllers
+                      _coffeeController.text = newCoffeeAmount.toString();
+                      _waterController.text = newWaterAmount.toString();
+
+                      // Update initialRatio
+                      initialRatio = newWaterAmount / newCoffeeAmount;
+                    }
+                  });
+                },
+              ),
+            ),
+            Text(localizations.sizeXL),
+          ],
+        ),
+      ],
+    );
+  }
+
   Widget _buildVendorBanner(BuildContext context) {
     if (vendorBannerUrl == null) {
       return _buildRecipeSummary(context, _updatedRecipe!);
@@ -716,12 +815,16 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     await recipeProvider.saveCustomAmounts(
         widget.recipeId, customCoffeeAmount, customWaterAmount);
 
-    // Save slider positions if recipeId is '106'
-    if (recipe.id == '106') {
+    // Save slider positions
+    if (recipe.id == '106' || recipe.id == '1002') {
       await recipeProvider.saveSliderPositions(
         widget.recipeId,
-        _sweetnessSliderPosition,
-        _strengthSliderPosition,
+        sweetnessSliderPosition:
+            recipe.id == '106' ? _sweetnessSliderPosition : null,
+        strengthSliderPosition:
+            recipe.id == '106' ? _strengthSliderPosition : null,
+        coffeeChroniclerSliderPosition:
+            recipe.id == '1002' ? _coffeeChroniclerSliderPosition : null,
       );
     }
 
@@ -733,15 +836,18 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
           recipe.id == '106' ? _sweetnessSliderPosition : null,
       strengthSliderPosition:
           recipe.id == '106' ? _strengthSliderPosition : null,
+      coffeeChroniclerSliderPosition:
+          recipe.id == '1002' ? _coffeeChroniclerSliderPosition : null,
     );
 
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => PreparationScreen(
-          recipe: updatedRecipe,
-          brewingMethodName: _brewingMethodName,
-        ),
+            recipe: updatedRecipe,
+            brewingMethodName: _brewingMethodName,
+            coffeeChroniclerSliderPosition:
+                updatedRecipe.coffeeChroniclerSliderPosition),
       ),
     );
   }

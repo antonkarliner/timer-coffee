@@ -1,0 +1,5 @@
++ Vous pouvez maintenant trier les grains de café par torréfacteur et/ou origine.
+
++ Améliorations pour de nouvelles méthodes d'infusion (à annoncer bientôt).
+
++ Optimisation générale.
