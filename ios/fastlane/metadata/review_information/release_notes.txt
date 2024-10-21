@@ -1,7 +1,1 @@
-Certainly! Here's the translation into a review information style:
-
-- Users now have the ability to sort coffee beans based on roaster and/or origin, enhancing the selection process.
-
-- Updates include enhancements for upcoming brewing methods, details to be revealed shortly.
-
-- General optimizations have been implemented for improved performance.
+Bugfix.

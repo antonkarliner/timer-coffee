@@ -1,5 +1,1 @@
-+ Ahora puedes ordenar los granos de café por tostador y/o origen.
-
-+ Mejoras para nuevos métodos de preparación (se anunciarán pronto).
-
-+ Optimización general.
+Corrección de errores.
