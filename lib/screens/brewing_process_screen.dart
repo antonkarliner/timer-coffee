@@ -155,8 +155,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
     if (sweetnessSliderPosition != null) {
       List<Map<String, int>> sweetnessTimeValues = [
         {"t1": 10, "t2": 35}, // Sweetness
-        {"t1": 15, "t2": 40}, // Balance
-        {"t1": 20, "t2": 45}, // Acidity
+        {"t1": 10, "t2": 35}, // Balance
+        {"t1": 10, "t2": 35}, // Acidity
       ];
       allTimeValues.addAll(sweetnessTimeValues[sweetnessSliderPosition]);
     }

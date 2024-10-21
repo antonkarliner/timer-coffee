@@ -41,5 +41,10 @@ https://app.timer.coffee/recipes/origami
 https://app.timer.coffee/recipes/origami/801
 https://app.timer.coffee/recipes/origami/802
 https://app.timer.coffee/recipes/origami/803
+https://app.timer.coffee/recipes/batchbrew
+https://app.timer.coffee/recipes/batchbrew/901
+https://app.timer.coffee/recipes/switch/
+https://app.timer.coffee/recipes/switch/1001
+https://app.timer.coffee/recipes/switch/1002
+https://app.timer.coffee/recipes/switch/1003
 https://app.timer.coffee/about
-https://app.timer.coffee/tips

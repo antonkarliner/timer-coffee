@@ -129,6 +129,10 @@ extension UserRecipePreferencesCompanionExtension
       strengthSliderPosition: json['strength_slider_position'] != null
           ? Value(json['strength_slider_position'] as int)
           : const Value.absent(),
+      coffeeChroniclerSliderPosition:
+          json['coffee_chronicler_slider_position'] != null
+              ? Value(json['coffee_chronicler_slider_position'] as int)
+              : const Value.absent(),
       customCoffeeAmount: json['custom_coffee_amount'] != null
           ? Value(_parseDouble(json['custom_coffee_amount']))
           : const Value.absent(),

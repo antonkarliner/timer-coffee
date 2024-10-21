@@ -279,9 +279,9 @@ class _PreparationScreenState extends State<PreparationScreen> {
     // Handle sweetness time values if applicable
     if (sweetnessSliderPosition != null) {
       List<Map<String, int>> sweetnessTimeValues = [
-        {"t1": 10, "t2": 20}, // Sweetness
-        {"t1": 15, "t2": 25}, // Balance
-        {"t1": 20, "t2": 30}, // Acidity
+        {"t1": 10, "t2": 35}, // Sweetness
+        {"t1": 10, "t2": 35}, // Balance
+        {"t1": 10, "t2": 35}, // Acidity
       ];
       allTimeValues.addAll(sweetnessTimeValues[sweetnessSliderPosition]);
     }
@@ -290,22 +290,22 @@ class _PreparationScreenState extends State<PreparationScreen> {
     if (strengthSliderPosition != null) {
       List<Map<String, int>> strengthTimeValues = [
         {
-          "t3": 5,
-          "t4": 10,
+          "t3": 0,
+          "t4": 0,
           "t5": 0,
           "t6": 0,
         }, // Light
         {
-          "t3": 7,
-          "t4": 12,
+          "t3": 10,
+          "t4": 35,
           "t5": 0,
           "t6": 0,
         }, // Balanced
         {
           "t3": 10,
-          "t4": 15,
-          "t5": 5,
-          "t6": 10,
+          "t4": 35,
+          "t5": 10,
+          "t6": 35,
         }, // Strong
       ];
       allTimeValues.addAll(strengthTimeValues[strengthSliderPosition]);
