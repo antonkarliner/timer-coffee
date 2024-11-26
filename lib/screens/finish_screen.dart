@@ -121,13 +121,15 @@ class _FinishScreenState extends State<FinishScreen> {
     }
   }
 
-  Future<void> requestOneSignalPermissionFirstTime() async {
+  void requestOneSignalPermissionFirstTime() async {
     const firstFinishScreenKey = 'firstfinishscreen';
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool firstFinishScreen = prefs.getBool(firstFinishScreenKey) ?? true;
 
     if (firstFinishScreen) {
-      OneSignal.Notifications.requestPermission(true);
+      if (!kIsWeb) {
+        OneSignal.Notifications.requestPermission(true);
+      }
       await prefs.setBool(firstFinishScreenKey, false);
     }
   }
