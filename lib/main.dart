@@ -36,11 +36,13 @@ void main() async {
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
 
-  // OneSignal initialization
-  // Remove this method to stop OneSignal Debugging
-  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  if (!kIsWeb) {
+    // OneSignal initialization
+    // Remove this method to stop OneSignal Debugging
+    OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
 
-  OneSignal.initialize(Env.oneSignalAppId);
+    OneSignal.initialize(Env.oneSignalAppId);
+  }
 
   // Initialize PurchaseManager
   PurchaseManager();
@@ -64,8 +66,9 @@ void main() async {
   }
 
   final user = Supabase.instance.client.auth.currentUser;
-  OneSignal.login(user!.id);
-
+  if (!kIsWeb) {
+    OneSignal.login(user!.id);
+  }
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isFirstLaunch = prefs.getBool('firstLaunched') ?? true;
   bool hasPerformedUuidBackfill =
