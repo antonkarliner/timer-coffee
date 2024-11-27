@@ -10,7 +10,7 @@
         </intent>
     </queries>
    <application
-        android:label="Timer.Cofee"
+        android:label="Timer.Coffee"
         android:name="${applicationName}"
         android:icon="@mipmap/coffee_timer">
         <activity
