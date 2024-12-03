@@ -1,1 +1,1 @@
-Perbaikan bug.
+Pratinjau langkah berikutnya! Sekarang, saat menyeduh kopi, pratinjau langkah berikutnya ditampilkan sehingga Anda selalu siap. Terima kasih kepada Szymon Klepacz @szymonk92 atas idenya!

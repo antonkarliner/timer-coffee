@@ -1,0 +1,1 @@
+Podgląd kolejnego kroku! Teraz podczas parzenia kawy wyświetlany jest podgląd następnego kroku, abyś zawsze był przygotowany. Dziękujemy Szymonowi Klepaczowi @szymonk92 za pomysł!

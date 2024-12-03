@@ -1,1 +1,1 @@
-Correzione di bug.
+Anteprima del passaggio successivo! Ora, durante la preparazione del caffè, viene visualizzata l'anteprima del passaggio successivo in modo che tu sia sempre preparato. Grazie a Szymon Klepacz @szymonk92 per l'idea!

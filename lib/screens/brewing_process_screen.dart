@@ -378,6 +378,42 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
               ),
             ),
           ),
+          if (currentStepIndex < brewingSteps.length - 1)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                  16.0, 0, 88.0, 16.0), // Adjusted right padding
+              child: Align(
+                alignment: Alignment.centerLeft, // Align to the left
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${AppLocalizations.of(context)!.next}:', // Added colon after "Next"
+                      style: TextStyle(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.6),
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      brewingSteps[currentStepIndex + 1].description,
+                      style: TextStyle(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.6),
+                        fontSize: 22,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Semantics(

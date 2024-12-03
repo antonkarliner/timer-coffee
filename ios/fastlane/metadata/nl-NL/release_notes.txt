@@ -1,1 +1,1 @@
-Bugfix.
+Volgende stap preview! Nu, tijdens het zetten van koffie, wordt de volgende stap preview weergegeven zodat je altijd voorbereid bent. Dank aan Szymon Klepacz @szymonk92 voor het idee!

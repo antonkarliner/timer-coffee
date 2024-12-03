@@ -1,1 +1,1 @@
-Correctif.
+Aperçu de l'étape suivante ! Désormais, lors de la préparation du café, l'aperçu de l'étape suivante est affiché afin que vous soyez toujours prêt. Merci à Szymon Klepacz @szymonk92 pour l'idée !

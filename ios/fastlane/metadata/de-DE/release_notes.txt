@@ -1,1 +1,1 @@
-Fehlerbehebung.
+Nächster Schritt Vorschau! Jetzt, beim Kaffeebrühen, wird die Vorschau des nächsten Schritts angezeigt, damit Sie immer vorbereitet sind. Danke an Szymon Klepacz @szymonk92 für die Idee!
