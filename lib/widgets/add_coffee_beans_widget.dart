@@ -75,7 +75,7 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
         leading: Container(
           width: 40,
           child: FutureBuilder<Map<String, String?>>(
-            future: databaseProvider.fetchRoasterLogoUrls(bean.roaster),
+            future: databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final originalUrl = snapshot.data!['original'];

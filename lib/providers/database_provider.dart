@@ -328,43 +328,46 @@ class DatabaseProvider {
     }
   }
 
+  // 1) Add a private field to store cached logo URLs in memory:
+  final Map<String, Map<String, String?>> _roasterLogoCache = {};
+
+  // 2) Optionally, expose a method that uses the cache:
+  Future<Map<String, String?>> fetchCachedRoasterLogoUrls(
+      String roasterName) async {
+    // Normalize the roaster name the same way you do in fetchRoasterLogoUrls
+    final normalizedRoasterName = removeDiacritics(roasterName).toLowerCase();
+
+    // If we’ve already fetched logos for this roaster, return immediately:
+    if (_roasterLogoCache.containsKey(normalizedRoasterName)) {
+      return _roasterLogoCache[normalizedRoasterName]!;
+    }
+
+    // Otherwise, call your existing fetchRoasterLogoUrls or the RPC
+    final logoUrls = await fetchRoasterLogoUrls(roasterName);
+
+    // Store the result in the cache, so next time we skip the network call
+    _roasterLogoCache[normalizedRoasterName] = logoUrls;
+
+    // Return it
+    return logoUrls;
+  }
+
   Future<Map<String, String?>> fetchRoasterLogoUrls(String roasterName) async {
     try {
-      // Normalize the input roaster name
-      final normalizedRoasterName = removeDiacritics(roasterName).toLowerCase();
+      // We no longer remove diacritics here because unaccent handles it on the DB side.
+      // But we do convert to lower if desired. Example:
+      final searchTerm = roasterName.trim();
 
-      // Fetch all roasters, their logos, mirrored logos, and aliases
-      final response = await Supabase.instance.client
-          .from('coffee_roasters')
-          .select(
-              'roaster_name, roaster_logo_url, roaster_logo_mirror_url, aliases');
+      final response = await Supabase.instance.client.rpc(
+          'search_roaster_unaccent',
+          params: {'search_name': searchTerm}).maybeSingle();
+      // maybeSingle() means: if multiple rows are returned, pick the first, else null.
 
-      for (var roaster in response) {
-        final dbRoasterName =
-            removeDiacritics(roaster['roaster_name']).toLowerCase();
-
-        // Check if the roaster name matches
-        if (dbRoasterName == normalizedRoasterName) {
-          return {
-            'original': roaster['roaster_logo_url'] as String?,
-            'mirror': roaster['roaster_logo_mirror_url'] as String?,
-          };
-        }
-
-        // Check aliases if present
-        final aliases = roaster['aliases'] as String?;
-        if (aliases != null) {
-          final aliasList = aliases
-              .split(',')
-              .map((alias) => removeDiacritics(alias.trim()).toLowerCase())
-              .toList();
-          if (aliasList.contains(normalizedRoasterName)) {
-            return {
-              'original': roaster['roaster_logo_url'] as String?,
-              'mirror': roaster['roaster_logo_mirror_url'] as String?,
-            };
-          }
-        }
+      if (response != null) {
+        return {
+          'original': response['roaster_logo_url'] as String?,
+          'mirror': response['roaster_logo_mirror_url'] as String?,
+        };
       }
 
       print('No matching data found for roaster: $roasterName');

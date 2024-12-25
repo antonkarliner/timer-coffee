@@ -304,8 +304,8 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                   } else if (snapshot.hasData && snapshot.data != null) {
                     final bean = snapshot.data!;
                     return FutureBuilder<Map<String, String?>>(
-                      future:
-                          databaseProvider.fetchRoasterLogoUrls(bean.roaster),
+                      future: databaseProvider
+                          .fetchCachedRoasterLogoUrls(bean.roaster),
                       builder: (context, logoSnapshot) {
                         Widget logoWidget;
                         if (logoSnapshot.hasData) {

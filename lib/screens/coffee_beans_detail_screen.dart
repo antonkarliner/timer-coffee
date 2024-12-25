@@ -98,7 +98,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
 
             // Fetch roaster logo URLs
             return FutureBuilder<Map<String, String?>>(
-              future: databaseProvider.fetchRoasterLogoUrls(bean.roaster),
+              future: databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster),
               builder: (context, logoSnapshot) {
                 if (logoSnapshot.connectionState == ConnectionState.waiting) {
                   // Removed CircularProgressIndicator

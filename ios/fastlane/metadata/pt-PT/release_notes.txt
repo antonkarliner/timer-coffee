@@ -1,1 +1,1 @@
-Pré-visualização do próximo passo! Agora, ao preparar café, a pré-visualização do próximo passo é exibida para que esteja sempre preparado. Agradecimentos a Szymon Klepacz @szymonk92 pela ideia!
+Esta atualização otimiza a utilização da rede.

@@ -187,7 +187,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         final databaseProvider =
             Provider.of<DatabaseProvider>(context, listen: false);
         final logoUrls =
-            await databaseProvider.fetchRoasterLogoUrls(bean.roaster);
+            await databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster);
         originalUrl = logoUrls['original'];
         mirrorUrl = logoUrls['mirror'];
       }
@@ -236,7 +236,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         final databaseProvider =
             Provider.of<DatabaseProvider>(context, listen: false);
         final logoUrls =
-            await databaseProvider.fetchRoasterLogoUrls(bean.roaster);
+            await databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster);
         originalUrl = logoUrls['original'];
         mirrorUrl = logoUrls['mirror'];
       }

@@ -467,7 +467,8 @@ class CoffeeBeanCard extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.2,
                   child: FutureBuilder<Map<String, String?>>(
-                    future: databaseProvider.fetchRoasterLogoUrls(bean.roaster),
+                    future: databaseProvider
+                        .fetchCachedRoasterLogoUrls(bean.roaster),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         final originalUrl = snapshot.data!['original'];
