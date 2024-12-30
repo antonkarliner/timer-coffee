@@ -8,8 +8,6 @@ const lightColorScheme = ColorScheme(
   onSecondary: Color.fromRGBO(121, 85, 72, 1),
   error: Colors.red,
   onError: Colors.white,
-  background: Colors.white,
-  onBackground: Colors.black,
   surface: Colors.white,
   onSurface: Colors.black,
 );
@@ -24,8 +22,6 @@ const darkColorScheme = ColorScheme(
   onSecondary: Colors.black, // Text color on secondary color
   error: Color(0xFFB71C1C), // Darker shade for error
   onError: Colors.white, // Text color on error
-  background: Color.fromRGBO(48, 48, 48, 1), // Dark background color
-  onBackground: Colors.white, // Text color on background
   surface: Color.fromRGBO(58, 58, 58, 1), // Dark surface color
   onSurface: Colors.white, // Text color on surface
 );

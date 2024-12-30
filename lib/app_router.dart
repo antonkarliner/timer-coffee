@@ -27,7 +27,6 @@ class AppRouter extends $AppRouter {
             ),
           ],
         ),
-
         AutoRoute(
           page: RecipeListRoute.page,
           path: '/recipes/:brewingMethodId',
@@ -36,7 +35,6 @@ class AppRouter extends $AppRouter {
           page: RecipeDetailRoute.page,
           path: '/recipes/:brewingMethodId/:recipeId',
         ),
-        // Removed RecipeDetailTKRoute and VendorRecipeDetailRoute
         AutoRoute(
           page: CoffeeTipsRoute.page,
           path: '/tips',
@@ -88,6 +86,10 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: NewBeansRoute.page,
           path: '/new_beans',
+        ),
+        AutoRoute(
+          page: YearlyStatsStoryRoute.page,
+          path: '/yearly_stats_story',
         ),
       ];
 }

@@ -29,8 +29,8 @@
     "description": "Pluralization for seconds",
     "placeholders": {
       "count": {}
-        }
-    },
+    }
+  },
   "finishmsg": "Thanks for using Timer.Coffee! Enjoy your",
   "coffeefact": "Coffee Fact",
   "home": "Home",
@@ -73,7 +73,7 @@
   "roaster": "Roaster",
   "rating": "Rating",
   "notes": "Notes",
-  "statsscreen":"Coffee Statistics",
+  "statsscreen": "Coffee Statistics",
   "yourStats": "Your stats",
   "coffeeBrewed": "Coffee brewed:",
   "litersUnit": "L",
@@ -89,7 +89,7 @@
   "timePeriodCustom": "Custom",
   "statsFor": "Stats for ",
   "@statsFor": {
-  "description": "Prefix text for statistics headings"
+    "description": "Prefix text for statistics headings"
   },
   "homescreenbrewcoffee": "Brew Coffee",
   "homescreenhub": "Hub",
@@ -210,5 +210,230 @@
   "selectSize": "Select Size",
   "sizeStandard": "Standard",
   "sizeMedium": "Medium",
-  "sizeXL": "XL"
-}
+  "sizeXL": "XL",
+  "yearlyStatsAppBarTitle": "My Year with Timer.Coffee",
+  "@yearlyStatsAppBarTitle": {
+    "description": "Title for the AppBar in YearlyStatsStoryScreen"
+  },
+  
+  "yearlyStatsStory1Text": "Hey, thanks for being a part of Timer.Coffee universe this year!",
+  "@yearlyStatsStory1Text": {
+    "description": "Greeting message for the first story in YearlyStatsStoryScreen"
+  },
+  
+  "yearlyStatsStory2Text": "First things first.\nYou brewed some coffee this year{ellipsis}",
+  "@yearlyStatsStory2Text": {
+    "description": "Introduction to total coffee brewed with ellipsis indicating continuation",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  
+  "yearlyStatsStory3Text": "To be more precise,\nyou brewed {liters} liters of coffee in 2024!",
+  "@yearlyStatsStory3Text": {
+    "description": "Detailed coffee brewed amount in liters",
+    "placeholders": {
+      "liters": {
+        "example": "10.5"
+      }
+    }
+  },
+  
+  "yearlyStatsStory4Text": "You used beans from {roasterCount} roasters",
+  "@yearlyStatsStory4Text": {
+    "description": "Statement about the number of distinct roasters used",
+    "placeholders": {
+      "roasterCount": {
+        "example": "5"
+      }
+    }
+  },
+  
+  "yearlyStatsStory4Top3Roasters": "Your top 3 roasters were:\n{top3}",
+  "@yearlyStatsStory4Top3Roasters": {
+    "description": "List of top 3 roasters used",
+    "placeholders": {
+      "top3": {
+        "example": "Roaster A, Roaster B, Roaster C"
+      }
+    }
+  },
+  
+  "yearlyStatsStory5Text": "Coffee took you on a trip\naround the world{ellipsis}",
+  "@yearlyStatsStory5Text": {
+    "description": "Statement about traveling with coffee, ending with ellipsis",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  
+  "yearlyStatsStory6Text": "You tasted coffee beans\nfrom {originCount} countries!",
+  "@yearlyStatsStory6Text": {
+    "description": "Statement about the number of distinct origins",
+    "placeholders": {
+      "originCount": {
+        "example": "10"
+      }
+    }
+  },
+  
+  "yearlyStatsStory7Part1": "You weren’t brewing alone…",
+  "@yearlyStatsStory7Part1": {
+    "description": "First part of story 7"
+  },
+  
+  "yearlyStatsStory7Part2": "...but with users from 110 other\ncountries across 6 continents!",
+  "@yearlyStatsStory7Part2": {
+    "description": "Second part of story 7"
+  },
+  
+  "yearlyStatsStory8TitleLow": "You stayed true to yourself and used only these {count} brewing methods this year:",
+  "@yearlyStatsStory8TitleLow": {
+    "description": "Title for low number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "3"
+      }
+    }
+  },
+  
+  "yearlyStatsStory8TitleMedium": "You were discovering new tastes and used {count} brewing methods this year:",
+  "@yearlyStatsStory8TitleMedium": {
+    "description": "Title for medium number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "5"
+      }
+    }
+  },
+  
+  "yearlyStatsStory8TitleHigh": "You were a true coffee discoverer and used {count} brewing methods this year:",
+  "@yearlyStatsStory8TitleHigh": {
+    "description": "Title for high number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "8"
+      }
+    }
+  },
+  
+  "yearlyStatsStory9Text": "So much else to discover!",
+  "@yearlyStatsStory9Text": {
+    "description": "Encouraging message for further discovery"
+  },
+  
+  "yearlyStatsStory10Text": "Your top-3 recipes in 2024 were{ellipsis}",
+  "@yearlyStatsStory10Text": {
+    "description": "Statement about top-3 recipes with ellipsis",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  
+  "yearlyStatsFinalText": "See you in 2025!",
+  "@yearlyStatsFinalText": {
+    "description": "Final farewell message"
+  },
+  
+  "yearlyStatsActionLove": "Show some love ({likesCount})",
+  "@yearlyStatsActionLove": {
+    "description": "Button text for showing love with likes count",
+    "placeholders": {
+      "likesCount": {
+        "example": "120"
+      }
+    }
+  },
+  
+  "yearlyStatsActionDonate": "Donate",
+  "@yearlyStatsActionDonate": {
+    "description": "Button text for donation"
+  },
+  
+  "yearlyStatsActionShare": "Share your progress",
+  "@yearlyStatsActionShare": {
+    "description": "Button text for sharing progress"
+  },
+  
+  "yearlyStatsUnknown": "Unknown",
+  "@yearlyStatsUnknown": {
+    "description": "Text displayed when a value is unknown"
+  },
+  
+  "yearlyStatsErrorSharing": "Failed to share: {error}",
+  "@yearlyStatsErrorSharing": {
+    "description": "Error message when sharing fails",
+    "placeholders": {
+      "error": {
+        "example": "Network error"
+      }
+    }
+  },
+  
+  "yearlyStatsShareProgressMyYear": "My year with Timer.Coffee",
+  "@yearlyStatsShareProgressMyYear": {
+    "description": "Title in the Share Progress Widget"
+  },
+  
+  "yearlyStatsShareProgressTop3Recipes": "My top-3 recipes:",
+  "@yearlyStatsShareProgressTop3Recipes": {
+    "description": "Header for top-3 recipes in the Share Progress Widget"
+  },
+  
+  "yearlyStatsShareProgressTop3Roasters": "My top-3 roasters:",
+  "@yearlyStatsShareProgressTop3Roasters": {
+    "description": "Header for top-3 roasters in the Share Progress Widget"
+  },
+  
+  "yearlyStatsFailedToLike": "Failed to like. Please try again.",
+  "@yearlyStatsFailedToLike": {
+    "description": "Error message when liking fails"
+  },
+  "labelCoffeeBrewed": "Coffee brewed",
+  "@labelCoffeeBrewed": {
+    "description": "Label for coffee brewed"
+  },
+
+  "labelTastedBeansBy": "Tasted beans by",
+  "@labelTastedBeansBy": {
+    "description": "Label for roaster stats"
+  },
+
+  "labelDiscoveredCoffeeFrom": "Discovered coffee from",
+  "@labelDiscoveredCoffeeFrom": {
+    "description": "Label for origin stats"
+  },
+
+  "labelUsedBrewingMethods": "Used",
+  "@labelUsedBrewingMethods": {
+    "description": "Label for brewing methods stats"
+  },
+
+  "formattedRoasterCount": "{count} {count, plural, =1{roaster} other{roasters}}",
+  "@formattedRoasterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "formattedCountryCount": "{count} {count, plural, =1{country} other{countries}}",
+  "@formattedCountryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "formattedBrewingMethodCount": "{count} {count, plural, =1{brewing method} other{brewing methods}}",
+  "@formattedBrewingMethodCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+    }
+

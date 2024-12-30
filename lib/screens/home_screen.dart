@@ -26,6 +26,7 @@ import 'package:sign_in_button/sign_in_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import '../providers/user_stat_provider.dart';
+import 'package:flutter_animate/flutter_animate.dart'; // Added import
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -244,6 +245,80 @@ class BrewingMethodsScreen extends StatelessWidget {
         RecipeModel? mostRecentRecipe = snapshot.data;
         return Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Semantics(
+                identifier: 'yearlyStatsStory',
+                label: AppLocalizations.of(context)!.yearlyStatsAppBarTitle,
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  // Ensure the shadow has rounded corners by clipping the card
+                  clipBehavior: Clip.antiAlias, // Added line
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {
+                      context.router.push(const YearlyStatsStoryRoute());
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Theme.of(context).primaryColor.withOpacity(0.1),
+                            Theme.of(context).primaryColor.withOpacity(0.05),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              // Replace Icon with Image.asset
+                              child: Image.asset(
+                                'assets/splash.png',
+                                width: 36, // Adjusted width
+                                height: 36, // Adjusted height
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context)!
+                                        .yearlyStatsAppBarTitle,
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: Theme.of(context).primaryColor,
+                              size: 16,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ).animate().shimmer(duration: 10000.ms),
+              ),
+            ),
             Semantics(
               identifier: 'favoriteRecipes',
               label: AppLocalizations.of(context)!.favoriterecipes,
@@ -268,15 +343,19 @@ class BrewingMethodsScreen extends StatelessWidget {
                   onTap: () {
                     if (mostRecentRecipe.vendorId != null &&
                         mostRecentRecipe.vendorId != 'timercoffee') {
-                      context.router.push(VendorRecipeDetailRoute(
-                        vendorId: mostRecentRecipe.vendorId!,
-                        recipeId: mostRecentRecipe.id,
-                      ));
+                      context.router.push(
+                        VendorRecipeDetailRoute(
+                          vendorId: mostRecentRecipe.vendorId!,
+                          recipeId: mostRecentRecipe.id,
+                        ),
+                      );
                     } else {
-                      context.router.push(RecipeDetailRoute(
-                        brewingMethodId: mostRecentRecipe.brewingMethodId,
-                        recipeId: mostRecentRecipe.id,
-                      ));
+                      context.router.push(
+                        RecipeDetailRoute(
+                          brewingMethodId: mostRecentRecipe.brewingMethodId,
+                          recipeId: mostRecentRecipe.id,
+                        ),
+                      );
                     }
                   },
                 ),
@@ -751,10 +830,14 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       }
     } catch (e) {
       print('Error verifying OTP: $e');
-      //ScaffoldMessenger.of(context).showSnackBar(
-      //SnackBar(
-      //content: Text(AppLocalizations.of(context)!.otpVerificationError)),
-      //);
+      // Optional: Uncomment to show a SnackBar on error
+      /*
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.otpVerificationError),
+        ),
+      );
+      */
     }
   }
 
