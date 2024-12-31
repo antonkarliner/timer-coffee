@@ -1,1 +1,1 @@
-Your year with Timer.Coffee! This update brings an overview of your coffee journey in 2024.
+Fixed bugs in New Year story.

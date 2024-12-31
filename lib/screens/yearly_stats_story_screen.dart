@@ -1619,10 +1619,20 @@ class _ShareProgressWidgetState extends State<ShareProgressWidget> {
   void initState() {
     super.initState();
     _roasterLogosFuture = _fetchRoasterLogos();
+    // If there are no roasters, trigger the capture callback immediately
+    if (widget.data.top3Roasters.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        widget.onReadyToCapture();
+      });
+    }
   }
 
   /// Fetches both original and mirror logo URLs for each roaster.
   Future<Map<String, Map<String, String?>>> _fetchRoasterLogos() async {
+    if (widget.data.top3Roasters.isEmpty) {
+      return {}; // Return empty map for no roasters
+    }
+
     final databaseProvider =
         Provider.of<DatabaseProvider>(context, listen: false);
     final Map<String, Map<String, String?>> roasterLogos = {};
@@ -1763,7 +1773,19 @@ class _ShareProgressWidgetState extends State<ShareProgressWidget> {
                         spacing: 12,
                         runSpacing: 12,
                         children: widget.data.distinctMethods.map((methodId) {
-                          return getIconByBrewingMethod(methodId);
+                          return Builder(
+                            builder: (context) => Container(
+                              height: 24,
+                              width: 24,
+                              child: IconTheme(
+                                data: const IconThemeData(
+                                  size: 24,
+                                  color: Colors.black,
+                                ),
+                                child: getIconByBrewingMethod(methodId),
+                              ),
+                            ),
+                          );
                         }).toList(),
                       ),
 
@@ -1838,163 +1860,7 @@ class _ShareProgressWidgetState extends State<ShareProgressWidget> {
                       SizedBox(height: screenHeight * 0.02),
 
                       // Top-3 Roasters with Logos
-                      Text(
-                        localizations.yearlyStatsShareProgressTop3Roasters,
-                        style: TextStyle(
-                          fontFamily: 'RobotoMono',
-                          fontSize: screenWidth * 0.05,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.015), // Reduced height
-                      FutureBuilder<Map<String, Map<String, String?>>>(
-                        future: _roasterLogosFuture,
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          }
-
-                          final roasterLogos = snapshot.data!;
-                          return Column(
-                            children: widget.data.top3Roasters
-                                .asMap()
-                                .entries
-                                .map((entry) {
-                              final roaster = entry.value;
-                              final logoUrls = roasterLogos[roaster]!;
-                              final originalLogoUrl = logoUrls['original'];
-                              final mirrorLogoUrl = logoUrls['mirror'];
-
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  left: screenWidth * 0.02, // Reduced padding
-                                  bottom:
-                                      screenHeight * 0.01, // Reduced padding
-                                ),
-                                child: Row(
-                                  children: [
-                                    // Display the roaster logo using CachedNetworkImage with fallback
-                                    originalLogoUrl != null
-                                        ? CachedNetworkImage(
-                                            imageUrl: originalLogoUrl,
-                                            placeholder: (context, url) =>
-                                                const Icon(
-                                                    Coffeico.bag_with_bean,
-                                                    size: 30),
-                                            errorWidget: (context, url, error) {
-                                              // Attempt to load mirror URL if original fails
-                                              if (mirrorLogoUrl != null &&
-                                                  mirrorLogoUrl.isNotEmpty) {
-                                                return CachedNetworkImage(
-                                                  imageUrl: mirrorLogoUrl,
-                                                  placeholder: (context, url) =>
-                                                      const Icon(
-                                                          Coffeico
-                                                              .bag_with_bean,
-                                                          size: 30),
-                                                  errorWidget:
-                                                      (context, url, error) {
-                                                    // Increment the counter as both URLs failed
-                                                    WidgetsBinding.instance
-                                                        .addPostFrameCallback(
-                                                            (_) {
-                                                      setState(() {
-                                                        _loadedLogos++;
-                                                      });
-                                                      _checkAllLogosHandled();
-                                                    });
-                                                    return const Icon(
-                                                      Coffeico.bag_with_bean,
-                                                      size: 30,
-                                                      color: Colors.grey,
-                                                    );
-                                                  },
-                                                  imageBuilder:
-                                                      (context, imageProvider) {
-                                                    // Increment the counter when mirror logo loads
-                                                    WidgetsBinding.instance
-                                                        .addPostFrameCallback(
-                                                            (_) {
-                                                      setState(() {
-                                                        _loadedLogos++;
-                                                      });
-                                                      _checkAllLogosHandled();
-                                                    });
-                                                    return Image(
-                                                      image: imageProvider,
-                                                      width: 30,
-                                                      height: 30,
-                                                      fit: BoxFit.contain,
-                                                    );
-                                                  },
-                                                  width: 30,
-                                                  height: 30,
-                                                  fit: BoxFit.contain,
-                                                );
-                                              }
-                                              // Increment the counter if original URL fails and no mirror
-                                              WidgetsBinding.instance
-                                                  .addPostFrameCallback((_) {
-                                                setState(() {
-                                                  _loadedLogos++;
-                                                });
-                                                _checkAllLogosHandled();
-                                              });
-                                              return const Icon(
-                                                Coffeico.bag_with_bean,
-                                                size: 30,
-                                                color: Colors.grey,
-                                              );
-                                            },
-                                            imageBuilder:
-                                                (context, imageProvider) {
-                                              // Increment the counter when original logo loads
-                                              WidgetsBinding.instance
-                                                  .addPostFrameCallback((_) {
-                                                setState(() {
-                                                  _loadedLogos++;
-                                                });
-                                                _checkAllLogosHandled();
-                                              });
-                                              return Image(
-                                                image: imageProvider,
-                                                width: 30,
-                                                height: 30,
-                                                fit: BoxFit.contain,
-                                              );
-                                            },
-                                            width: 30, // Reduced size
-                                            height: 30, // Reduced size
-                                            fit: BoxFit.contain,
-                                          )
-                                        : const Icon(
-                                            Coffeico.bag_with_bean,
-                                            size: 30, // Reduced size
-                                            color: Colors.grey,
-                                          ),
-                                    SizedBox(
-                                        width: screenWidth *
-                                            0.015), // Reduced spacing
-                                    Expanded(
-                                      child: Text(
-                                        roaster,
-                                        style: TextStyle(
-                                          fontFamily: 'RobotoMono',
-                                          fontSize: screenWidth *
-                                              0.04, // Reduced font size
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                          );
-                        },
-                      ),
+                      _buildRoasterSection(screenWidth, screenHeight),
                     ],
                   ),
                 ),
@@ -2070,6 +1936,157 @@ class _ShareProgressWidgetState extends State<ShareProgressWidget> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildRoasterSection(double screenWidth, double screenHeight) {
+    if (widget.data.top3Roasters.isEmpty) {
+      return const SizedBox.shrink(); // Hide section completely if no roasters
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppLocalizations.of(context)!.yearlyStatsShareProgressTop3Roasters,
+          style: TextStyle(
+            fontFamily: 'RobotoMono',
+            fontSize: screenWidth * 0.05,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        SizedBox(height: screenHeight * 0.015),
+        FutureBuilder<Map<String, Map<String, String?>>>(
+          future: _roasterLogosFuture,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            final roasterLogos = snapshot.data!;
+            return Column(
+              children: widget.data.top3Roasters.map((roaster) {
+                final logoUrls = roasterLogos[roaster]!;
+                final originalLogoUrl = logoUrls['original'];
+                final mirrorLogoUrl = logoUrls['mirror'];
+
+                return Padding(
+                  padding: EdgeInsets.only(
+                    left: screenWidth * 0.02, // Reduced padding
+                    bottom: screenHeight * 0.01, // Reduced padding
+                  ),
+                  child: Row(
+                    children: [
+                      // Display the roaster logo using CachedNetworkImage with fallback
+                      originalLogoUrl != null
+                          ? CachedNetworkImage(
+                              imageUrl: originalLogoUrl,
+                              placeholder: (context, url) =>
+                                  const Icon(Coffeico.bag_with_bean, size: 30),
+                              errorWidget: (context, url, error) {
+                                // Attempt to load mirror URL if original fails
+                                if (mirrorLogoUrl != null &&
+                                    mirrorLogoUrl.isNotEmpty) {
+                                  return CachedNetworkImage(
+                                    imageUrl: mirrorLogoUrl,
+                                    placeholder: (context, url) => const Icon(
+                                        Coffeico.bag_with_bean,
+                                        size: 30),
+                                    errorWidget: (context, url, error) {
+                                      // Increment the counter as both URLs failed
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((_) {
+                                        setState(() {
+                                          _loadedLogos++;
+                                        });
+                                        _checkAllLogosHandled();
+                                      });
+                                      return const Icon(
+                                        Coffeico.bag_with_bean,
+                                        size: 30,
+                                        color: Colors.grey,
+                                      );
+                                    },
+                                    imageBuilder: (context, imageProvider) {
+                                      // Increment the counter when mirror logo loads
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((_) {
+                                        setState(() {
+                                          _loadedLogos++;
+                                        });
+                                        _checkAllLogosHandled();
+                                      });
+                                      return Image(
+                                        image: imageProvider,
+                                        width: 30,
+                                        height: 30,
+                                        fit: BoxFit.contain,
+                                      );
+                                    },
+                                    width: 30,
+                                    height: 30,
+                                    fit: BoxFit.contain,
+                                  );
+                                }
+                                // Increment the counter if original URL fails and no mirror
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  setState(() {
+                                    _loadedLogos++;
+                                  });
+                                  _checkAllLogosHandled();
+                                });
+                                return const Icon(
+                                  Coffeico.bag_with_bean,
+                                  size: 30,
+                                  color: Colors.grey,
+                                );
+                              },
+                              imageBuilder: (context, imageProvider) {
+                                // Increment the counter when original logo loads
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  setState(() {
+                                    _loadedLogos++;
+                                  });
+                                  _checkAllLogosHandled();
+                                });
+                                return Image(
+                                  image: imageProvider,
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.contain,
+                                );
+                              },
+                              width: 30, // Reduced size
+                              height: 30, // Reduced size
+                              fit: BoxFit.contain,
+                            )
+                          : const Icon(
+                              Coffeico.bag_with_bean,
+                              size: 30, // Reduced size
+                              color: Colors.grey,
+                            ),
+                      SizedBox(width: screenWidth * 0.015), // Reduced spacing
+                      Expanded(
+                        child: Text(
+                          roaster,
+                          style: TextStyle(
+                            fontFamily: 'RobotoMono',
+                            fontSize: screenWidth * 0.04, // Reduced font size
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            );
+          },
+        ),
+      ],
     );
   }
 }

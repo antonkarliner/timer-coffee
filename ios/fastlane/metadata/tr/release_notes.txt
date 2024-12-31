@@ -1,1 +1,1 @@
-Timer.Coffee ile geçen yılınız! Bu güncelleme, 2024'teki kahve yolculuğunuzun bir özetini sunuyor.
+Yeni Yıl hikayesinde hatalar giderildi.
