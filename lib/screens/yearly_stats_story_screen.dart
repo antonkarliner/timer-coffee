@@ -14,7 +14,7 @@ import 'package:supabase_flutter/supabase_flutter.dart'; // Import Supabase
 import 'package:share_plus/share_plus.dart';
 import 'package:cached_network_image/cached_network_image.dart'; // Import CachedNetworkImage
 import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Import localization
-
+import 'package:flutter/foundation.dart' show kIsWeb;
 import '../app_router.gr.dart';
 import '../providers/user_stat_provider.dart';
 import '../providers/coffee_beans_provider.dart';
@@ -882,8 +882,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                                     onPressed: () {
                                       _incrementLikes();
                                     },
-                                    isLoveButton:
-                                        true, // Indicate it's a love button
+                                    isLoveButton: true,
                                   ),
 
                                   const SizedBox(height: 16),
@@ -901,13 +900,14 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
 
                                   const SizedBox(height: 16),
 
-                                  // Share your progress button
-                                  _buildActionButton(
-                                    AppLocalizations.of(context)!
-                                        .yearlyStatsActionShare,
-                                    Icons.share,
-                                    onPressed: () => _handleShare(data),
-                                  ),
+                                  // Share your progress button (hide on web)
+                                  if (!kIsWeb)
+                                    _buildActionButton(
+                                      AppLocalizations.of(context)!
+                                          .yearlyStatsActionShare,
+                                      Icons.share,
+                                      onPressed: () => _handleShare(data),
+                                    ),
                                 ],
                               ),
                             ),
@@ -1435,25 +1435,39 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
   // --------------------------------------
   // Updated Action Button Builder
   // --------------------------------------
-  Widget _buildActionButton(String text, IconData icon,
-      {required VoidCallback onPressed,
-      double? fontSize,
-      bool isLoveButton = false}) {
-    // Get platform-specific share icon
-    IconData shareIcon = icon;
-    if (text == AppLocalizations.of(context)!.yearlyStatsActionShare) {
-      if (Platform.isIOS) {
-        shareIcon = CupertinoIcons.share;
-      } else if (Platform.isAndroid) {
-        shareIcon = Icons.share_rounded;
+  Widget _buildActionButton(
+    String text,
+    IconData icon, {
+    required VoidCallback onPressed,
+    double? fontSize,
+    bool isLoveButton = false,
+  }) {
+    // Let's check if the button is meant to "Share"
+    final shareLabel = AppLocalizations.of(context)!.yearlyStatsActionShare;
+    IconData finalIcon = icon;
+
+    if (text == shareLabel) {
+      if (kIsWeb) {
+        // On the web, just use the generic share icon
+        finalIcon = Icons.share;
+      } else {
+        // On other platforms, check for iOS or Android
+        if (Platform.isAndroid) {
+          finalIcon = Icons.share_rounded;
+        } else if (Platform.isIOS) {
+          finalIcon = CupertinoIcons.share;
+        } else {
+          // Fallback for e.g. Windows, macOS, Linux
+          finalIcon = Icons.share;
+        }
       }
     }
 
-    // Add shake animation controller if it's the love button
+    // If it's a "love" button, we show hearts, etc.
     if (isLoveButton) {
       return _ShakingLoveButton(
         text: text,
-        icon: shareIcon,
+        icon: finalIcon,
         onPressed: onPressed,
         fontSize: fontSize,
       );
@@ -1491,7 +1505,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(shareIcon, size: 24),
+                Icon(finalIcon, size: 24),
                 const SizedBox(width: 12),
                 Flexible(
                   child: Text(
