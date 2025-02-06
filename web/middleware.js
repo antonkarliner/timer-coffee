@@ -1,4 +1,4 @@
-// middleware.js
+// web/middleware.js
 
 // Toggle banner injection here (set to false to disable)
 const ENABLE_BANNER = true;
@@ -9,11 +9,17 @@ export async function middleware(req) {
   }
 
   // Read the geo-IP header injected by Vercel
-  const country = req.headers.get('x-vercel-ip-country');
-  const targetCountry = 'FR'; // Change to your desired country code
+  let country = req.headers.get('x-vercel-ip-country');
+  console.log('x-vercel-ip-country header:', country);
 
-  // If the visitor is not from the target country, return the response unmodified
+  const targetCountry = 'FR'; // Target country code
+
+  // If the header is missing, you could uncomment the next line for testing:
+  // if (!country) country = targetCountry;
+
+  // If the visitor is not from the target country, return the original response
   if (country !== targetCountry) {
+    console.log(`Country (${country}) does not match target (${targetCountry}).`);
     return fetch(req);
   }
 
@@ -40,7 +46,7 @@ export async function middleware(req) {
   });
 }
 
-// Run this middleware on the homepage; adjust matcher as needed.
+// Run this middleware on the homepage (adjust the matcher as needed)
 export const config = {
   matcher: ['/'],
 };
