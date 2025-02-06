@@ -16,7 +16,7 @@ import '../providers/recipe_provider.dart';
 import '../models/recipe_model.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
-import 'package:web/web.dart' as web;
+import '../webhelper/web_helper.dart' as web;
 import '../utils/icon_utils.dart';
 import '../purchase_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -27,6 +27,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import '../providers/user_stat_provider.dart';
 import 'package:flutter_animate/flutter_animate.dart'; // Added import
+import 'package:http/http.dart' as http; // Import http package
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -38,6 +39,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late Locale initialLocale;
+  bool _showBanner = false; // Banner flag
+  String? _detectedCountry;
 
   @override
   void initState() {
@@ -45,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     if (kIsWeb) {
       web.document.title = 'Timer.Coffee App';
+      _fetchCountryAndBanner();
     }
 
     // Set up PurchaseManager callbacks
@@ -75,6 +79,36 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     PurchaseManager().setDeliverProductCallback(null);
     PurchaseManager().setPurchaseErrorCallback(null);
     super.dispose();
+  }
+
+  Future<void> _fetchCountryAndBanner() async {
+    try {
+      // Use HTTPS endpoint from country.is
+      final response = await http.get(Uri.parse('https://api.country.is/'));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final detected = data['country']?.toString() ?? '';
+        print('Detected country: $detected');
+        setState(() {
+          _detectedCountry = detected;
+        });
+
+        // Read the target banner country from environment variable
+        // You can pass this at build time via --dart-define=BANNERCOUNTRY=FR.
+        const String bannerCountry = String.fromEnvironment('BANNERCOUNTRY');
+        print('Banner Country (env): $bannerCountry');
+
+        if (bannerCountry.isNotEmpty && detected == bannerCountry) {
+          setState(() {
+            _showBanner = true;
+          });
+        }
+      } else {
+        print('Failed to fetch country: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching country: $e');
+    }
   }
 
   void _showThankYouPopup(PurchaseDetails details) {
@@ -132,7 +166,24 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         final tabsRouter = AutoTabsRouter.of(context);
         return Scaffold(
           appBar: buildPlatformSpecificAppBar(),
-          body: child,
+          body: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              // Show banner only on web if _showBanner is true.
+              if (kIsWeb && _showBanner)
+                Container(
+                  width: double.infinity,
+                  color: Colors.yellow,
+                  padding: const EdgeInsets.all(10),
+                  child: const Text(
+                    'Timer.Coffee stands with Palestine ☕️❤️🇵🇸',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              Expanded(child: child),
+            ],
+          ),
           bottomNavigationBar: ConvexAppBar.builder(
             count: 2,
             backgroundColor: Theme.of(context).colorScheme.onBackground,
