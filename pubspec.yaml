@@ -36,7 +36,7 @@ dependencies:
   path: ^1.8.3
   flutter_localizations:
     sdk: flutter
-  envied: ^0.5.3
+  envied: ^1.1.0
   flutter_rating_bar: ^4.0.1
   onesignal_flutter: ^5.2.9
   calendar_date_picker2: ^0.5.6
@@ -79,7 +79,7 @@ dev_dependencies:
   auto_route_generator: ^8.0.0
   drift_dev: ^2.16.0
   build_runner: ^2.4.8
-  envied_generator: ^0.5.3
+  envied_generator: ^1.1.0
 
 flutter_native_splash:
   color: "#ffffff"

@@ -5107,8 +5107,8 @@ final class $$VendorsTableReferences
               $_aliasNameGenerator(db.vendors.vendorId, db.recipes.vendorId));
 
   $$RecipesTableProcessedTableManager get recipesRefs {
-    final manager = $$RecipesTableTableManager($_db, $_db.recipes)
-        .filter((f) => f.vendorId.vendorId($_item.vendorId));
+    final manager = $$RecipesTableTableManager($_db, $_db.recipes).filter((f) =>
+        f.vendorId.vendorId.sqlEquals($_itemColumn<String>('vendor_id')!));
 
     final cache = $_typedResult.readTableOrNull(_recipesRefsTable($_db));
     return ProcessedTableManager(
@@ -5356,9 +5356,10 @@ final class $$SupportedLocalesTableReferences extends BaseReferences<
               db.supportedLocales.locale, db.recipeLocalizations.locale));
 
   $$RecipeLocalizationsTableProcessedTableManager get recipeLocalizationsRefs {
-    final manager =
-        $$RecipeLocalizationsTableTableManager($_db, $_db.recipeLocalizations)
-            .filter((f) => f.locale.locale($_item.locale));
+    final manager = $$RecipeLocalizationsTableTableManager(
+            $_db, $_db.recipeLocalizations)
+        .filter(
+            (f) => f.locale.locale.sqlEquals($_itemColumn<String>('locale')!));
 
     final cache =
         $_typedResult.readTableOrNull(_recipeLocalizationsRefsTable($_db));
@@ -5373,8 +5374,8 @@ final class $$SupportedLocalesTableReferences extends BaseReferences<
               db.supportedLocales.locale, db.steps.locale));
 
   $$StepsTableProcessedTableManager get stepsRefs {
-    final manager = $$StepsTableTableManager($_db, $_db.steps)
-        .filter((f) => f.locale.locale($_item.locale));
+    final manager = $$StepsTableTableManager($_db, $_db.steps).filter(
+        (f) => f.locale.locale.sqlEquals($_itemColumn<String>('locale')!));
 
     final cache = $_typedResult.readTableOrNull(_stepsRefsTable($_db));
     return ProcessedTableManager(
@@ -5389,7 +5390,8 @@ final class $$SupportedLocalesTableReferences extends BaseReferences<
 
   $$CoffeeFactsTableProcessedTableManager get coffeeFactsRefs {
     final manager = $$CoffeeFactsTableTableManager($_db, $_db.coffeeFacts)
-        .filter((f) => f.locale.locale($_item.locale));
+        .filter(
+            (f) => f.locale.locale.sqlEquals($_itemColumn<String>('locale')!));
 
     final cache = $_typedResult.readTableOrNull(_coffeeFactsRefsTable($_db));
     return ProcessedTableManager(
@@ -5404,7 +5406,8 @@ final class $$SupportedLocalesTableReferences extends BaseReferences<
 
   $$LaunchPopupsTableProcessedTableManager get launchPopupsRefs {
     final manager = $$LaunchPopupsTableTableManager($_db, $_db.launchPopups)
-        .filter((f) => f.locale.locale($_item.locale));
+        .filter(
+            (f) => f.locale.locale.sqlEquals($_itemColumn<String>('locale')!));
 
     final cache = $_typedResult.readTableOrNull(_launchPopupsRefsTable($_db));
     return ProcessedTableManager(
@@ -5419,7 +5422,8 @@ final class $$SupportedLocalesTableReferences extends BaseReferences<
 
   $$ContributorsTableProcessedTableManager get contributorsRefs {
     final manager = $$ContributorsTableTableManager($_db, $_db.contributors)
-        .filter((f) => f.locale.locale($_item.locale));
+        .filter(
+            (f) => f.locale.locale.sqlEquals($_itemColumn<String>('locale')!));
 
     final cache = $_typedResult.readTableOrNull(_contributorsRefsTable($_db));
     return ProcessedTableManager(
@@ -5870,8 +5874,9 @@ final class $$BrewingMethodsTableReferences
               db.brewingMethods.brewingMethodId, db.recipes.brewingMethodId));
 
   $$RecipesTableProcessedTableManager get recipesRefs {
-    final manager = $$RecipesTableTableManager($_db, $_db.recipes).filter(
-        (f) => f.brewingMethodId.brewingMethodId($_item.brewingMethodId));
+    final manager = $$RecipesTableTableManager($_db, $_db.recipes).filter((f) =>
+        f.brewingMethodId.brewingMethodId
+            .sqlEquals($_itemColumn<String>('brewing_method_id')!));
 
     final cache = $_typedResult.readTableOrNull(_recipesRefsTable($_db));
     return ProcessedTableManager(
@@ -5886,7 +5891,8 @@ final class $$BrewingMethodsTableReferences
 
   $$UserStatsTableProcessedTableManager get userStatsRefs {
     final manager = $$UserStatsTableTableManager($_db, $_db.userStats).filter(
-        (f) => f.brewingMethodId.brewingMethodId($_item.brewingMethodId));
+        (f) => f.brewingMethodId.brewingMethodId
+            .sqlEquals($_itemColumn<String>('brewing_method_id')!));
 
     final cache = $_typedResult.readTableOrNull(_userStatsRefsTable($_db));
     return ProcessedTableManager(
@@ -6179,8 +6185,10 @@ final class $$RecipesTableReferences
           db.recipes.brewingMethodId, db.brewingMethods.brewingMethodId));
 
   $$BrewingMethodsTableProcessedTableManager get brewingMethodId {
+    final $_column = $_itemColumn<String>('brewing_method_id')!;
+
     final manager = $$BrewingMethodsTableTableManager($_db, $_db.brewingMethods)
-        .filter((f) => f.brewingMethodId($_item.brewingMethodId));
+        .filter((f) => f.brewingMethodId.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_brewingMethodIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
@@ -6192,9 +6200,10 @@ final class $$RecipesTableReferences
           $_aliasNameGenerator(db.recipes.vendorId, db.vendors.vendorId));
 
   $$VendorsTableProcessedTableManager? get vendorId {
-    if ($_item.vendorId == null) return null;
+    final $_column = $_itemColumn<String>('vendor_id');
+    if ($_column == null) return null;
     final manager = $$VendorsTableTableManager($_db, $_db.vendors)
-        .filter((f) => f.vendorId($_item.vendorId!));
+        .filter((f) => f.vendorId.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_vendorIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
@@ -6209,9 +6218,9 @@ final class $$RecipesTableReferences
               db.recipes.id, db.recipeLocalizations.recipeId));
 
   $$RecipeLocalizationsTableProcessedTableManager get recipeLocalizationsRefs {
-    final manager =
-        $$RecipeLocalizationsTableTableManager($_db, $_db.recipeLocalizations)
-            .filter((f) => f.recipeId.id($_item.id));
+    final manager = $$RecipeLocalizationsTableTableManager(
+            $_db, $_db.recipeLocalizations)
+        .filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache =
         $_typedResult.readTableOrNull(_recipeLocalizationsRefsTable($_db));
@@ -6226,7 +6235,7 @@ final class $$RecipesTableReferences
 
   $$StepsTableProcessedTableManager get stepsRefs {
     final manager = $$StepsTableTableManager($_db, $_db.steps)
-        .filter((f) => f.recipeId.id($_item.id));
+        .filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_stepsRefsTable($_db));
     return ProcessedTableManager(
@@ -6244,7 +6253,7 @@ final class $$RecipesTableReferences
       get userRecipePreferencesRefs {
     final manager = $$UserRecipePreferencesTableTableManager(
             $_db, $_db.userRecipePreferences)
-        .filter((f) => f.recipeId.id($_item.id));
+        .filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache =
         $_typedResult.readTableOrNull(_userRecipePreferencesRefsTable($_db));
@@ -6260,7 +6269,7 @@ final class $$RecipesTableReferences
 
   $$UserStatsTableProcessedTableManager get userStatsRefs {
     final manager = $$UserStatsTableTableManager($_db, $_db.userStats)
-        .filter((f) => f.recipeId.id($_item.id));
+        .filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_userStatsRefsTable($_db));
     return ProcessedTableManager(
@@ -6881,8 +6890,10 @@ final class $$RecipeLocalizationsTableReferences extends BaseReferences<
           $_aliasNameGenerator(db.recipeLocalizations.recipeId, db.recipes.id));
 
   $$RecipesTableProcessedTableManager get recipeId {
+    final $_column = $_itemColumn<String>('recipe_id')!;
+
     final manager = $$RecipesTableTableManager($_db, $_db.recipes)
-        .filter((f) => f.id($_item.recipeId));
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
@@ -6894,9 +6905,11 @@ final class $$RecipeLocalizationsTableReferences extends BaseReferences<
           db.recipeLocalizations.locale, db.supportedLocales.locale));
 
   $$SupportedLocalesTableProcessedTableManager get locale {
+    final $_column = $_itemColumn<String>('locale')!;
+
     final manager =
         $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
-            .filter((f) => f.locale($_item.locale));
+            .filter((f) => f.locale.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_localeTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
@@ -7248,8 +7261,10 @@ final class $$StepsTableReferences
       .createAlias($_aliasNameGenerator(db.steps.recipeId, db.recipes.id));
 
   $$RecipesTableProcessedTableManager get recipeId {
+    final $_column = $_itemColumn<String>('recipe_id')!;
+
     final manager = $$RecipesTableTableManager($_db, $_db.recipes)
-        .filter((f) => f.id($_item.recipeId));
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
@@ -7261,9 +7276,11 @@ final class $$StepsTableReferences
           $_aliasNameGenerator(db.steps.locale, db.supportedLocales.locale));
 
   $$SupportedLocalesTableProcessedTableManager get locale {
+    final $_column = $_itemColumn<String>('locale')!;
+
     final manager =
         $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
-            .filter((f) => f.locale($_item.locale));
+            .filter((f) => f.locale.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_localeTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
@@ -7611,8 +7628,10 @@ final class $$UserRecipePreferencesTableReferences extends BaseReferences<
           db.userRecipePreferences.recipeId, db.recipes.id));
 
   $$RecipesTableProcessedTableManager get recipeId {
+    final $_column = $_itemColumn<String>('recipe_id')!;
+
     final manager = $$RecipesTableTableManager($_db, $_db.recipes)
-        .filter((f) => f.id($_item.recipeId));
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
@@ -7936,9 +7955,11 @@ final class $$CoffeeFactsTableReferences
           db.coffeeFacts.locale, db.supportedLocales.locale));
 
   $$SupportedLocalesTableProcessedTableManager get locale {
+    final $_column = $_itemColumn<String>('locale')!;
+
     final manager =
         $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
-            .filter((f) => f.locale($_item.locale));
+            .filter((f) => f.locale.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_localeTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
@@ -8180,9 +8201,11 @@ final class $$LaunchPopupsTableReferences
           db.launchPopups.locale, db.supportedLocales.locale));
 
   $$SupportedLocalesTableProcessedTableManager get locale {
+    final $_column = $_itemColumn<String>('locale')!;
+
     final manager =
         $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
-            .filter((f) => f.locale($_item.locale));
+            .filter((f) => f.locale.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_localeTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
@@ -8433,9 +8456,11 @@ final class $$ContributorsTableReferences
           db.contributors.locale, db.supportedLocales.locale));
 
   $$SupportedLocalesTableProcessedTableManager get locale {
+    final $_column = $_itemColumn<String>('locale')!;
+
     final manager =
         $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
-            .filter((f) => f.locale($_item.locale));
+            .filter((f) => f.locale.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_localeTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
@@ -8704,8 +8729,10 @@ final class $$UserStatsTableReferences
       .createAlias($_aliasNameGenerator(db.userStats.recipeId, db.recipes.id));
 
   $$RecipesTableProcessedTableManager get recipeId {
+    final $_column = $_itemColumn<String>('recipe_id')!;
+
     final manager = $$RecipesTableTableManager($_db, $_db.recipes)
-        .filter((f) => f.id($_item.recipeId));
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
@@ -8717,8 +8744,10 @@ final class $$UserStatsTableReferences
           db.userStats.brewingMethodId, db.brewingMethods.brewingMethodId));
 
   $$BrewingMethodsTableProcessedTableManager get brewingMethodId {
+    final $_column = $_itemColumn<String>('brewing_method_id')!;
+
     final manager = $$BrewingMethodsTableTableManager($_db, $_db.brewingMethods)
-        .filter((f) => f.brewingMethodId($_item.brewingMethodId));
+        .filter((f) => f.brewingMethodId.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_brewingMethodIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(

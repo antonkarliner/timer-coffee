@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:coffee_timer/env/env.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/widgets/launch_popup.dart';
 import 'package:coffeico/coffeico.dart';
@@ -93,9 +94,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           _detectedCountry = detected;
         });
 
-        // Read the target banner country from environment variable
-        // You can pass this at build time via --dart-define=BANNERCOUNTRY=FR.
-        const String bannerCountry = String.fromEnvironment('BANNERCOUNTRY');
+        // Read the target banner country from your Env file.
+        final bannerCountry = Env
+            .bannerCountry; // make sure Env.bannerCountry is defined in lib/env/env.dart
         print('Banner Country (env): $bannerCountry');
 
         if (bannerCountry.isNotEmpty && detected == bannerCountry) {
@@ -173,12 +174,27 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               if (kIsWeb && _showBanner)
                 Container(
                   width: double.infinity,
-                  color: Colors.yellow,
+                  color: Theme.of(context).colorScheme.onSurface,
                   padding: const EdgeInsets.all(10),
-                  child: const Text(
-                    'Timer.Coffee stands with Palestine ☕️❤️🇵🇸',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Timer.Coffee stands with Palestine',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.surface,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                          width: 10), // Spacing between image and text.
+                      // Display the image from the URL.
+                      Image.network(
+                        'https://i.ibb.co/4g4J6ZML/palectine-coffee.png',
+                        height: 30, // Adjust height as needed.
+                      ),
+                    ],
                   ),
                 ),
               Expanded(child: child),

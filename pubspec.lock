@@ -386,18 +386,18 @@ packages:
     dependency: "direct main"
     description:
       name: envied
-      sha256: bbff9c76120e4dc5e2e36a46690cf0a26feb65e7765633f4e8d916bcd173a450
+      sha256: "3cef07269504982ae892c57d26326f32d86ab995cddf5cbf48e6a749c166d1bf"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.4+1"
+    version: "1.1.0"
   envied_generator:
     dependency: "direct dev"
     description:
       name: envied_generator
-      sha256: "517b70de08d13dcd40e97b4e5347e216a0b1c75c99e704f3c85c0474a392d14a"
+      sha256: "8b17541dc536461d2632ef82ce3dfa2f9f6dda9bfc3389cde2f0e2014bd1b78a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.4+1"
+    version: "1.1.0"
   equatable:
     dependency: transitive
     description:
