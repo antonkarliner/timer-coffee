@@ -1,6 +1,7 @@
 // web/middleware.js
 
-// Toggle banner injection here (set to false to disable)
+import { geolocation } from '@vercel/functions';
+
 const ENABLE_BANNER = true;
 
 export async function middleware(req) {
@@ -8,31 +9,30 @@ export async function middleware(req) {
     return fetch(req);
   }
 
-  // Read the geo-IP header injected by Vercel
-  let country = req.headers.get('x-vercel-ip-country');
-  console.log('x-vercel-ip-country header:', country);
+  // Use the geolocation helper to get visitor info.
+  const geo = geolocation(req);
+  console.log('Geolocation info:', geo);
 
-  const targetCountry = 'FR'; // Target country code
+  // For testing (or if the header is missing) default to "FR"
+  let country = geo?.country;
+  if (!country) {
+    country = 'FR';
+  }
 
-  // If the header is missing, you could uncomment the next line for testing:
-  // if (!country) country = targetCountry;
+  const targetCountry = 'FR';
 
-  // If the visitor is not from the target country, return the original response
   if (country !== targetCountry) {
-    console.log(`Country (${country}) does not match target (${targetCountry}).`);
+    console.log(`Visitor country (${country}) does not match target (${targetCountry}).`);
     return fetch(req);
   }
 
-  // Fetch the original response
+  // Fetch and modify the HTML response.
   const response = await fetch(req);
   const contentType = response.headers.get('content-type') || '';
-
-  // Only modify HTML responses
   if (!contentType.includes('text/html')) {
     return response;
   }
 
-  // Read the response body as text and inject the banner HTML
   let body = await response.text();
   const bannerHTML = `<div style="background: yellow; text-align: center; padding: 10px;">
                           Timer.Coffee stands with Palestine ☕️❤️🇵🇸
@@ -46,7 +46,7 @@ export async function middleware(req) {
   });
 }
 
-// Run this middleware on the homepage (adjust the matcher as needed)
+// Apply this middleware on the homepage (adjust the matcher as needed)
 export const config = {
   matcher: ['/'],
 };
