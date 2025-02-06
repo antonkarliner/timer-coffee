@@ -25,13 +25,12 @@ dependencies:
   just_audio: ^0.9.36
   auto_route: ^8.0.3
   share_plus: ^10.1.3
-  universal_html: ^2.2.3
   flutter_native_splash: ^2.4.0
   introduction_screen: ^3.1.11
   coffeico: ^0.3.0
   in_app_purchase: ^3.1.11
   supabase_flutter: ^2.8.2
-  drift: ^2.19.1+1
+  drift: ^2.24.0
   sqlite3_flutter_libs: ^0.5.23
   path_provider: ^ 2.1.5
   path: ^1.8.3
@@ -60,6 +59,7 @@ dependencies:
   collection: ^1.18.0
   lottie: ^3.2.0
   flutter_animate: ^4.5.2
+  
 
 dependency_overrides:
   flutter_keyboard_visibility:
@@ -67,6 +67,11 @@ dependency_overrides:
       url: https://github.com/MisterJimson/flutter_keyboard_visibility.git
       ref: b5e7b0de4fa9eb6a6c076f1120e5f92a77b7679d # https://github.com/MisterJimson/flutter_keyboard_visibility/commit/b5e7b0de4fa9eb6a6c076f1120e5f92a77b7679d
       path: flutter_keyboard_visibility
+  flutter_keyboard_visibility_web:
+    git:
+      url: https://github.com/EchoEllet/flutter_keyboard_visibility_temp_fork.git
+      ref: master
+      path: flutter_keyboard_visibility_web
 dev_dependencies:
   flutter_test:
     sdk: flutter

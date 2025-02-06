@@ -16,7 +16,7 @@ import '../providers/recipe_provider.dart';
 import '../models/recipe_model.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
-import "package:universal_html/html.dart" as html;
+import 'package:web/web.dart' as web;
 import '../utils/icon_utils.dart';
 import '../purchase_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     if (kIsWeb) {
-      html.document.title = 'Timer.Coffee App';
+      web.document.title = 'Timer.Coffee App';
     }
 
     // Set up PurchaseManager callbacks

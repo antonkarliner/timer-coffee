@@ -5096,22 +5096,167 @@ typedef $$VendorsTableUpdateCompanionBuilder = VendorsCompanion Function({
   Value<int> rowid,
 });
 
+final class $$VendorsTableReferences
+    extends BaseReferences<_$AppDatabase, $VendorsTable, Vendor> {
+  $$VendorsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$RecipesTable, List<Recipe>> _recipesRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.recipes,
+          aliasName:
+              $_aliasNameGenerator(db.vendors.vendorId, db.recipes.vendorId));
+
+  $$RecipesTableProcessedTableManager get recipesRefs {
+    final manager = $$RecipesTableTableManager($_db, $_db.recipes)
+        .filter((f) => f.vendorId.vendorId($_item.vendorId));
+
+    final cache = $_typedResult.readTableOrNull(_recipesRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$VendorsTableFilterComposer
+    extends Composer<_$AppDatabase, $VendorsTable> {
+  $$VendorsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get vendorId => $composableBuilder(
+      column: $table.vendorId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get vendorName => $composableBuilder(
+      column: $table.vendorName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get vendorDescription => $composableBuilder(
+      column: $table.vendorDescription,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get bannerUrl => $composableBuilder(
+      column: $table.bannerUrl, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get active => $composableBuilder(
+      column: $table.active, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> recipesRefs(
+      Expression<bool> Function($$RecipesTableFilterComposer f) f) {
+    final $$RecipesTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.vendorId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.vendorId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableFilterComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $$VendorsTableOrderingComposer
+    extends Composer<_$AppDatabase, $VendorsTable> {
+  $$VendorsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get vendorId => $composableBuilder(
+      column: $table.vendorId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get vendorName => $composableBuilder(
+      column: $table.vendorName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get vendorDescription => $composableBuilder(
+      column: $table.vendorDescription,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get bannerUrl => $composableBuilder(
+      column: $table.bannerUrl, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get active => $composableBuilder(
+      column: $table.active, builder: (column) => ColumnOrderings(column));
+}
+
+class $$VendorsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $VendorsTable> {
+  $$VendorsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get vendorId =>
+      $composableBuilder(column: $table.vendorId, builder: (column) => column);
+
+  GeneratedColumn<String> get vendorName => $composableBuilder(
+      column: $table.vendorName, builder: (column) => column);
+
+  GeneratedColumn<String> get vendorDescription => $composableBuilder(
+      column: $table.vendorDescription, builder: (column) => column);
+
+  GeneratedColumn<String> get bannerUrl =>
+      $composableBuilder(column: $table.bannerUrl, builder: (column) => column);
+
+  GeneratedColumn<bool> get active =>
+      $composableBuilder(column: $table.active, builder: (column) => column);
+
+  Expression<T> recipesRefs<T extends Object>(
+      Expression<T> Function($$RecipesTableAnnotationComposer a) f) {
+    final $$RecipesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.vendorId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.vendorId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
 class $$VendorsTableTableManager extends RootTableManager<
     _$AppDatabase,
     $VendorsTable,
     Vendor,
     $$VendorsTableFilterComposer,
     $$VendorsTableOrderingComposer,
+    $$VendorsTableAnnotationComposer,
     $$VendorsTableCreateCompanionBuilder,
-    $$VendorsTableUpdateCompanionBuilder> {
+    $$VendorsTableUpdateCompanionBuilder,
+    (Vendor, $$VendorsTableReferences),
+    Vendor,
+    PrefetchHooks Function({bool recipesRefs})> {
   $$VendorsTableTableManager(_$AppDatabase db, $VendorsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$VendorsTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$VendorsTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$VendorsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$VendorsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$VendorsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> vendorId = const Value.absent(),
             Value<String> vendorName = const Value.absent(),
@@ -5144,80 +5289,47 @@ class $$VendorsTableTableManager extends RootTableManager<
             active: active,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) =>
+                  (e.readTable(table), $$VendorsTableReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: ({recipesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (recipesRefs) db.recipes],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (recipesRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable:
+                            $$VendorsTableReferences._recipesRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$VendorsTableReferences(db, table, p0).recipesRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.vendorId == item.vendorId),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
         ));
 }
 
-class $$VendorsTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $VendorsTable> {
-  $$VendorsTableFilterComposer(super.$state);
-  ColumnFilters<String> get vendorId => $state.composableBuilder(
-      column: $state.table.vendorId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get vendorName => $state.composableBuilder(
-      column: $state.table.vendorName,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get vendorDescription => $state.composableBuilder(
-      column: $state.table.vendorDescription,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get bannerUrl => $state.composableBuilder(
-      column: $state.table.bannerUrl,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get active => $state.composableBuilder(
-      column: $state.table.active,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ComposableFilter recipesRefs(
-      ComposableFilter Function($$RecipesTableFilterComposer f) f) {
-    final $$RecipesTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.vendorId,
-        referencedTable: $state.db.recipes,
-        getReferencedColumn: (t) => t.vendorId,
-        builder: (joinBuilder, parentComposers) => $$RecipesTableFilterComposer(
-            ComposerState(
-                $state.db, $state.db.recipes, joinBuilder, parentComposers)));
-    return f(composer);
-  }
-}
-
-class $$VendorsTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $VendorsTable> {
-  $$VendorsTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get vendorId => $state.composableBuilder(
-      column: $state.table.vendorId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get vendorName => $state.composableBuilder(
-      column: $state.table.vendorName,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get vendorDescription => $state.composableBuilder(
-      column: $state.table.vendorDescription,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get bannerUrl => $state.composableBuilder(
-      column: $state.table.bannerUrl,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get active => $state.composableBuilder(
-      column: $state.table.active,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$VendorsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $VendorsTable,
+    Vendor,
+    $$VendorsTableFilterComposer,
+    $$VendorsTableOrderingComposer,
+    $$VendorsTableAnnotationComposer,
+    $$VendorsTableCreateCompanionBuilder,
+    $$VendorsTableUpdateCompanionBuilder,
+    (Vendor, $$VendorsTableReferences),
+    Vendor,
+    PrefetchHooks Function({bool recipesRefs})>;
 typedef $$SupportedLocalesTableCreateCompanionBuilder
     = SupportedLocalesCompanion Function({
   required String locale,
@@ -5231,23 +5343,378 @@ typedef $$SupportedLocalesTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+final class $$SupportedLocalesTableReferences extends BaseReferences<
+    _$AppDatabase, $SupportedLocalesTable, SupportedLocale> {
+  $$SupportedLocalesTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$RecipeLocalizationsTable,
+      List<RecipeLocalization>> _recipeLocalizationsRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.recipeLocalizations,
+          aliasName: $_aliasNameGenerator(
+              db.supportedLocales.locale, db.recipeLocalizations.locale));
+
+  $$RecipeLocalizationsTableProcessedTableManager get recipeLocalizationsRefs {
+    final manager =
+        $$RecipeLocalizationsTableTableManager($_db, $_db.recipeLocalizations)
+            .filter((f) => f.locale.locale($_item.locale));
+
+    final cache =
+        $_typedResult.readTableOrNull(_recipeLocalizationsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$StepsTable, List<Step>> _stepsRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.steps,
+          aliasName: $_aliasNameGenerator(
+              db.supportedLocales.locale, db.steps.locale));
+
+  $$StepsTableProcessedTableManager get stepsRefs {
+    final manager = $$StepsTableTableManager($_db, $_db.steps)
+        .filter((f) => f.locale.locale($_item.locale));
+
+    final cache = $_typedResult.readTableOrNull(_stepsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$CoffeeFactsTable, List<CoffeeFact>>
+      _coffeeFactsRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.coffeeFacts,
+              aliasName: $_aliasNameGenerator(
+                  db.supportedLocales.locale, db.coffeeFacts.locale));
+
+  $$CoffeeFactsTableProcessedTableManager get coffeeFactsRefs {
+    final manager = $$CoffeeFactsTableTableManager($_db, $_db.coffeeFacts)
+        .filter((f) => f.locale.locale($_item.locale));
+
+    final cache = $_typedResult.readTableOrNull(_coffeeFactsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$LaunchPopupsTable, List<LaunchPopup>>
+      _launchPopupsRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.launchPopups,
+              aliasName: $_aliasNameGenerator(
+                  db.supportedLocales.locale, db.launchPopups.locale));
+
+  $$LaunchPopupsTableProcessedTableManager get launchPopupsRefs {
+    final manager = $$LaunchPopupsTableTableManager($_db, $_db.launchPopups)
+        .filter((f) => f.locale.locale($_item.locale));
+
+    final cache = $_typedResult.readTableOrNull(_launchPopupsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$ContributorsTable, List<Contributor>>
+      _contributorsRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.contributors,
+              aliasName: $_aliasNameGenerator(
+                  db.supportedLocales.locale, db.contributors.locale));
+
+  $$ContributorsTableProcessedTableManager get contributorsRefs {
+    final manager = $$ContributorsTableTableManager($_db, $_db.contributors)
+        .filter((f) => f.locale.locale($_item.locale));
+
+    final cache = $_typedResult.readTableOrNull(_contributorsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$SupportedLocalesTableFilterComposer
+    extends Composer<_$AppDatabase, $SupportedLocalesTable> {
+  $$SupportedLocalesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get locale => $composableBuilder(
+      column: $table.locale, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get localeName => $composableBuilder(
+      column: $table.localeName, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> recipeLocalizationsRefs(
+      Expression<bool> Function($$RecipeLocalizationsTableFilterComposer f) f) {
+    final $$RecipeLocalizationsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.recipeLocalizations,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipeLocalizationsTableFilterComposer(
+              $db: $db,
+              $table: $db.recipeLocalizations,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> stepsRefs(
+      Expression<bool> Function($$StepsTableFilterComposer f) f) {
+    final $$StepsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.steps,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$StepsTableFilterComposer(
+              $db: $db,
+              $table: $db.steps,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> coffeeFactsRefs(
+      Expression<bool> Function($$CoffeeFactsTableFilterComposer f) f) {
+    final $$CoffeeFactsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.coffeeFacts,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$CoffeeFactsTableFilterComposer(
+              $db: $db,
+              $table: $db.coffeeFacts,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> launchPopupsRefs(
+      Expression<bool> Function($$LaunchPopupsTableFilterComposer f) f) {
+    final $$LaunchPopupsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.launchPopups,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$LaunchPopupsTableFilterComposer(
+              $db: $db,
+              $table: $db.launchPopups,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> contributorsRefs(
+      Expression<bool> Function($$ContributorsTableFilterComposer f) f) {
+    final $$ContributorsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.contributors,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ContributorsTableFilterComposer(
+              $db: $db,
+              $table: $db.contributors,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $$SupportedLocalesTableOrderingComposer
+    extends Composer<_$AppDatabase, $SupportedLocalesTable> {
+  $$SupportedLocalesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get locale => $composableBuilder(
+      column: $table.locale, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get localeName => $composableBuilder(
+      column: $table.localeName, builder: (column) => ColumnOrderings(column));
+}
+
+class $$SupportedLocalesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SupportedLocalesTable> {
+  $$SupportedLocalesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get locale =>
+      $composableBuilder(column: $table.locale, builder: (column) => column);
+
+  GeneratedColumn<String> get localeName => $composableBuilder(
+      column: $table.localeName, builder: (column) => column);
+
+  Expression<T> recipeLocalizationsRefs<T extends Object>(
+      Expression<T> Function($$RecipeLocalizationsTableAnnotationComposer a)
+          f) {
+    final $$RecipeLocalizationsTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.locale,
+            referencedTable: $db.recipeLocalizations,
+            getReferencedColumn: (t) => t.locale,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$RecipeLocalizationsTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.recipeLocalizations,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<T> stepsRefs<T extends Object>(
+      Expression<T> Function($$StepsTableAnnotationComposer a) f) {
+    final $$StepsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.steps,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$StepsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.steps,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<T> coffeeFactsRefs<T extends Object>(
+      Expression<T> Function($$CoffeeFactsTableAnnotationComposer a) f) {
+    final $$CoffeeFactsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.coffeeFacts,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$CoffeeFactsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.coffeeFacts,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<T> launchPopupsRefs<T extends Object>(
+      Expression<T> Function($$LaunchPopupsTableAnnotationComposer a) f) {
+    final $$LaunchPopupsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.launchPopups,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$LaunchPopupsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.launchPopups,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<T> contributorsRefs<T extends Object>(
+      Expression<T> Function($$ContributorsTableAnnotationComposer a) f) {
+    final $$ContributorsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.contributors,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ContributorsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.contributors,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
 class $$SupportedLocalesTableTableManager extends RootTableManager<
     _$AppDatabase,
     $SupportedLocalesTable,
     SupportedLocale,
     $$SupportedLocalesTableFilterComposer,
     $$SupportedLocalesTableOrderingComposer,
+    $$SupportedLocalesTableAnnotationComposer,
     $$SupportedLocalesTableCreateCompanionBuilder,
-    $$SupportedLocalesTableUpdateCompanionBuilder> {
+    $$SupportedLocalesTableUpdateCompanionBuilder,
+    (SupportedLocale, $$SupportedLocalesTableReferences),
+    SupportedLocale,
+    PrefetchHooks Function(
+        {bool recipeLocalizationsRefs,
+        bool stepsRefs,
+        bool coffeeFactsRefs,
+        bool launchPopupsRefs,
+        bool contributorsRefs})> {
   $$SupportedLocalesTableTableManager(
       _$AppDatabase db, $SupportedLocalesTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$SupportedLocalesTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$SupportedLocalesTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$SupportedLocalesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SupportedLocalesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SupportedLocalesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> locale = const Value.absent(),
             Value<String> localeName = const Value.absent(),
@@ -5268,106 +5735,114 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
             localeName: localeName,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$SupportedLocalesTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {recipeLocalizationsRefs = false,
+              stepsRefs = false,
+              coffeeFactsRefs = false,
+              launchPopupsRefs = false,
+              contributorsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (recipeLocalizationsRefs) db.recipeLocalizations,
+                if (stepsRefs) db.steps,
+                if (coffeeFactsRefs) db.coffeeFacts,
+                if (launchPopupsRefs) db.launchPopups,
+                if (contributorsRefs) db.contributors
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (recipeLocalizationsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$SupportedLocalesTableReferences
+                            ._recipeLocalizationsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$SupportedLocalesTableReferences(db, table, p0)
+                                .recipeLocalizationsRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.locale == item.locale),
+                        typedResults: items),
+                  if (stepsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$SupportedLocalesTableReferences
+                            ._stepsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$SupportedLocalesTableReferences(db, table, p0)
+                                .stepsRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.locale == item.locale),
+                        typedResults: items),
+                  if (coffeeFactsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$SupportedLocalesTableReferences
+                            ._coffeeFactsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$SupportedLocalesTableReferences(db, table, p0)
+                                .coffeeFactsRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.locale == item.locale),
+                        typedResults: items),
+                  if (launchPopupsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$SupportedLocalesTableReferences
+                            ._launchPopupsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$SupportedLocalesTableReferences(db, table, p0)
+                                .launchPopupsRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.locale == item.locale),
+                        typedResults: items),
+                  if (contributorsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$SupportedLocalesTableReferences
+                            ._contributorsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$SupportedLocalesTableReferences(db, table, p0)
+                                .contributorsRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.locale == item.locale),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
         ));
 }
 
-class $$SupportedLocalesTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $SupportedLocalesTable> {
-  $$SupportedLocalesTableFilterComposer(super.$state);
-  ColumnFilters<String> get locale => $state.composableBuilder(
-      column: $state.table.locale,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get localeName => $state.composableBuilder(
-      column: $state.table.localeName,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ComposableFilter recipeLocalizationsRefs(
-      ComposableFilter Function($$RecipeLocalizationsTableFilterComposer f) f) {
-    final $$RecipeLocalizationsTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.locale,
-            referencedTable: $state.db.recipeLocalizations,
-            getReferencedColumn: (t) => t.locale,
-            builder: (joinBuilder, parentComposers) =>
-                $$RecipeLocalizationsTableFilterComposer(ComposerState(
-                    $state.db,
-                    $state.db.recipeLocalizations,
-                    joinBuilder,
-                    parentComposers)));
-    return f(composer);
-  }
-
-  ComposableFilter stepsRefs(
-      ComposableFilter Function($$StepsTableFilterComposer f) f) {
-    final $$StepsTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $state.db.steps,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder, parentComposers) => $$StepsTableFilterComposer(
-            ComposerState(
-                $state.db, $state.db.steps, joinBuilder, parentComposers)));
-    return f(composer);
-  }
-
-  ComposableFilter coffeeFactsRefs(
-      ComposableFilter Function($$CoffeeFactsTableFilterComposer f) f) {
-    final $$CoffeeFactsTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $state.db.coffeeFacts,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder, parentComposers) =>
-            $$CoffeeFactsTableFilterComposer(ComposerState($state.db,
-                $state.db.coffeeFacts, joinBuilder, parentComposers)));
-    return f(composer);
-  }
-
-  ComposableFilter launchPopupsRefs(
-      ComposableFilter Function($$LaunchPopupsTableFilterComposer f) f) {
-    final $$LaunchPopupsTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $state.db.launchPopups,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder, parentComposers) =>
-            $$LaunchPopupsTableFilterComposer(ComposerState($state.db,
-                $state.db.launchPopups, joinBuilder, parentComposers)));
-    return f(composer);
-  }
-
-  ComposableFilter contributorsRefs(
-      ComposableFilter Function($$ContributorsTableFilterComposer f) f) {
-    final $$ContributorsTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $state.db.contributors,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder, parentComposers) =>
-            $$ContributorsTableFilterComposer(ComposerState($state.db,
-                $state.db.contributors, joinBuilder, parentComposers)));
-    return f(composer);
-  }
-}
-
-class $$SupportedLocalesTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $SupportedLocalesTable> {
-  $$SupportedLocalesTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get locale => $state.composableBuilder(
-      column: $state.table.locale,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get localeName => $state.composableBuilder(
-      column: $state.table.localeName,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$SupportedLocalesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $SupportedLocalesTable,
+    SupportedLocale,
+    $$SupportedLocalesTableFilterComposer,
+    $$SupportedLocalesTableOrderingComposer,
+    $$SupportedLocalesTableAnnotationComposer,
+    $$SupportedLocalesTableCreateCompanionBuilder,
+    $$SupportedLocalesTableUpdateCompanionBuilder,
+    (SupportedLocale, $$SupportedLocalesTableReferences),
+    SupportedLocale,
+    PrefetchHooks Function(
+        {bool recipeLocalizationsRefs,
+        bool stepsRefs,
+        bool coffeeFactsRefs,
+        bool launchPopupsRefs,
+        bool contributorsRefs})>;
 typedef $$BrewingMethodsTableCreateCompanionBuilder = BrewingMethodsCompanion
     Function({
   required String brewingMethodId,
@@ -5383,23 +5858,209 @@ typedef $$BrewingMethodsTableUpdateCompanionBuilder = BrewingMethodsCompanion
   Value<int> rowid,
 });
 
+final class $$BrewingMethodsTableReferences
+    extends BaseReferences<_$AppDatabase, $BrewingMethodsTable, BrewingMethod> {
+  $$BrewingMethodsTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$RecipesTable, List<Recipe>> _recipesRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.recipes,
+          aliasName: $_aliasNameGenerator(
+              db.brewingMethods.brewingMethodId, db.recipes.brewingMethodId));
+
+  $$RecipesTableProcessedTableManager get recipesRefs {
+    final manager = $$RecipesTableTableManager($_db, $_db.recipes).filter(
+        (f) => f.brewingMethodId.brewingMethodId($_item.brewingMethodId));
+
+    final cache = $_typedResult.readTableOrNull(_recipesRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$UserStatsTable, List<UserStat>>
+      _userStatsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+          db.userStats,
+          aliasName: $_aliasNameGenerator(
+              db.brewingMethods.brewingMethodId, db.userStats.brewingMethodId));
+
+  $$UserStatsTableProcessedTableManager get userStatsRefs {
+    final manager = $$UserStatsTableTableManager($_db, $_db.userStats).filter(
+        (f) => f.brewingMethodId.brewingMethodId($_item.brewingMethodId));
+
+    final cache = $_typedResult.readTableOrNull(_userStatsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$BrewingMethodsTableFilterComposer
+    extends Composer<_$AppDatabase, $BrewingMethodsTable> {
+  $$BrewingMethodsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get brewingMethodId => $composableBuilder(
+      column: $table.brewingMethodId,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get brewingMethod => $composableBuilder(
+      column: $table.brewingMethod, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get showOnMain => $composableBuilder(
+      column: $table.showOnMain, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> recipesRefs(
+      Expression<bool> Function($$RecipesTableFilterComposer f) f) {
+    final $$RecipesTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.brewingMethodId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.brewingMethodId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableFilterComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> userStatsRefs(
+      Expression<bool> Function($$UserStatsTableFilterComposer f) f) {
+    final $$UserStatsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.brewingMethodId,
+        referencedTable: $db.userStats,
+        getReferencedColumn: (t) => t.brewingMethodId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$UserStatsTableFilterComposer(
+              $db: $db,
+              $table: $db.userStats,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $$BrewingMethodsTableOrderingComposer
+    extends Composer<_$AppDatabase, $BrewingMethodsTable> {
+  $$BrewingMethodsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get brewingMethodId => $composableBuilder(
+      column: $table.brewingMethodId,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get brewingMethod => $composableBuilder(
+      column: $table.brewingMethod,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get showOnMain => $composableBuilder(
+      column: $table.showOnMain, builder: (column) => ColumnOrderings(column));
+}
+
+class $$BrewingMethodsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $BrewingMethodsTable> {
+  $$BrewingMethodsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get brewingMethodId => $composableBuilder(
+      column: $table.brewingMethodId, builder: (column) => column);
+
+  GeneratedColumn<String> get brewingMethod => $composableBuilder(
+      column: $table.brewingMethod, builder: (column) => column);
+
+  GeneratedColumn<bool> get showOnMain => $composableBuilder(
+      column: $table.showOnMain, builder: (column) => column);
+
+  Expression<T> recipesRefs<T extends Object>(
+      Expression<T> Function($$RecipesTableAnnotationComposer a) f) {
+    final $$RecipesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.brewingMethodId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.brewingMethodId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<T> userStatsRefs<T extends Object>(
+      Expression<T> Function($$UserStatsTableAnnotationComposer a) f) {
+    final $$UserStatsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.brewingMethodId,
+        referencedTable: $db.userStats,
+        getReferencedColumn: (t) => t.brewingMethodId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$UserStatsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.userStats,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
 class $$BrewingMethodsTableTableManager extends RootTableManager<
     _$AppDatabase,
     $BrewingMethodsTable,
     BrewingMethod,
     $$BrewingMethodsTableFilterComposer,
     $$BrewingMethodsTableOrderingComposer,
+    $$BrewingMethodsTableAnnotationComposer,
     $$BrewingMethodsTableCreateCompanionBuilder,
-    $$BrewingMethodsTableUpdateCompanionBuilder> {
+    $$BrewingMethodsTableUpdateCompanionBuilder,
+    (BrewingMethod, $$BrewingMethodsTableReferences),
+    BrewingMethod,
+    PrefetchHooks Function({bool recipesRefs, bool userStatsRefs})> {
   $$BrewingMethodsTableTableManager(
       _$AppDatabase db, $BrewingMethodsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$BrewingMethodsTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$BrewingMethodsTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$BrewingMethodsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BrewingMethodsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BrewingMethodsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> brewingMethodId = const Value.absent(),
             Value<String> brewingMethod = const Value.absent(),
@@ -5424,73 +6085,68 @@ class $$BrewingMethodsTableTableManager extends RootTableManager<
             showOnMain: showOnMain,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$BrewingMethodsTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {recipesRefs = false, userStatsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (recipesRefs) db.recipes,
+                if (userStatsRefs) db.userStats
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (recipesRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$BrewingMethodsTableReferences
+                            ._recipesRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$BrewingMethodsTableReferences(db, table, p0)
+                                .recipesRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems.where(
+                                (e) =>
+                                    e.brewingMethodId == item.brewingMethodId),
+                        typedResults: items),
+                  if (userStatsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$BrewingMethodsTableReferences
+                            ._userStatsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$BrewingMethodsTableReferences(db, table, p0)
+                                .userStatsRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems.where(
+                                (e) =>
+                                    e.brewingMethodId == item.brewingMethodId),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
         ));
 }
 
-class $$BrewingMethodsTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $BrewingMethodsTable> {
-  $$BrewingMethodsTableFilterComposer(super.$state);
-  ColumnFilters<String> get brewingMethodId => $state.composableBuilder(
-      column: $state.table.brewingMethodId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get brewingMethod => $state.composableBuilder(
-      column: $state.table.brewingMethod,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get showOnMain => $state.composableBuilder(
-      column: $state.table.showOnMain,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ComposableFilter recipesRefs(
-      ComposableFilter Function($$RecipesTableFilterComposer f) f) {
-    final $$RecipesTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $state.db.recipes,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder, parentComposers) => $$RecipesTableFilterComposer(
-            ComposerState(
-                $state.db, $state.db.recipes, joinBuilder, parentComposers)));
-    return f(composer);
-  }
-
-  ComposableFilter userStatsRefs(
-      ComposableFilter Function($$UserStatsTableFilterComposer f) f) {
-    final $$UserStatsTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $state.db.userStats,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder, parentComposers) =>
-            $$UserStatsTableFilterComposer(ComposerState(
-                $state.db, $state.db.userStats, joinBuilder, parentComposers)));
-    return f(composer);
-  }
-}
-
-class $$BrewingMethodsTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $BrewingMethodsTable> {
-  $$BrewingMethodsTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get brewingMethodId => $state.composableBuilder(
-      column: $state.table.brewingMethodId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get brewingMethod => $state.composableBuilder(
-      column: $state.table.brewingMethod,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get showOnMain => $state.composableBuilder(
-      column: $state.table.showOnMain,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$BrewingMethodsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $BrewingMethodsTable,
+    BrewingMethod,
+    $$BrewingMethodsTableFilterComposer,
+    $$BrewingMethodsTableOrderingComposer,
+    $$BrewingMethodsTableAnnotationComposer,
+    $$BrewingMethodsTableCreateCompanionBuilder,
+    $$BrewingMethodsTableUpdateCompanionBuilder,
+    (BrewingMethod, $$BrewingMethodsTableReferences),
+    BrewingMethod,
+    PrefetchHooks Function({bool recipesRefs, bool userStatsRefs})>;
 typedef $$RecipesTableCreateCompanionBuilder = RecipesCompanion Function({
   required String id,
   required String brewingMethodId,
@@ -5514,22 +6170,512 @@ typedef $$RecipesTableUpdateCompanionBuilder = RecipesCompanion Function({
   Value<int> rowid,
 });
 
+final class $$RecipesTableReferences
+    extends BaseReferences<_$AppDatabase, $RecipesTable, Recipe> {
+  $$RecipesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $BrewingMethodsTable _brewingMethodIdTable(_$AppDatabase db) =>
+      db.brewingMethods.createAlias($_aliasNameGenerator(
+          db.recipes.brewingMethodId, db.brewingMethods.brewingMethodId));
+
+  $$BrewingMethodsTableProcessedTableManager get brewingMethodId {
+    final manager = $$BrewingMethodsTableTableManager($_db, $_db.brewingMethods)
+        .filter((f) => f.brewingMethodId($_item.brewingMethodId));
+    final item = $_typedResult.readTableOrNull(_brewingMethodIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $VendorsTable _vendorIdTable(_$AppDatabase db) =>
+      db.vendors.createAlias(
+          $_aliasNameGenerator(db.recipes.vendorId, db.vendors.vendorId));
+
+  $$VendorsTableProcessedTableManager? get vendorId {
+    if ($_item.vendorId == null) return null;
+    final manager = $$VendorsTableTableManager($_db, $_db.vendors)
+        .filter((f) => f.vendorId($_item.vendorId!));
+    final item = $_typedResult.readTableOrNull(_vendorIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static MultiTypedResultKey<$RecipeLocalizationsTable,
+      List<RecipeLocalization>> _recipeLocalizationsRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.recipeLocalizations,
+          aliasName: $_aliasNameGenerator(
+              db.recipes.id, db.recipeLocalizations.recipeId));
+
+  $$RecipeLocalizationsTableProcessedTableManager get recipeLocalizationsRefs {
+    final manager =
+        $$RecipeLocalizationsTableTableManager($_db, $_db.recipeLocalizations)
+            .filter((f) => f.recipeId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_recipeLocalizationsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$StepsTable, List<Step>> _stepsRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.steps,
+          aliasName: $_aliasNameGenerator(db.recipes.id, db.steps.recipeId));
+
+  $$StepsTableProcessedTableManager get stepsRefs {
+    final manager = $$StepsTableTableManager($_db, $_db.steps)
+        .filter((f) => f.recipeId.id($_item.id));
+
+    final cache = $_typedResult.readTableOrNull(_stepsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$UserRecipePreferencesTable,
+      List<UserRecipePreference>> _userRecipePreferencesRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.userRecipePreferences,
+          aliasName: $_aliasNameGenerator(
+              db.recipes.id, db.userRecipePreferences.recipeId));
+
+  $$UserRecipePreferencesTableProcessedTableManager
+      get userRecipePreferencesRefs {
+    final manager = $$UserRecipePreferencesTableTableManager(
+            $_db, $_db.userRecipePreferences)
+        .filter((f) => f.recipeId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_userRecipePreferencesRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$UserStatsTable, List<UserStat>>
+      _userStatsRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.userStats,
+              aliasName:
+                  $_aliasNameGenerator(db.recipes.id, db.userStats.recipeId));
+
+  $$UserStatsTableProcessedTableManager get userStatsRefs {
+    final manager = $$UserStatsTableTableManager($_db, $_db.userStats)
+        .filter((f) => f.recipeId.id($_item.id));
+
+    final cache = $_typedResult.readTableOrNull(_userStatsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$RecipesTableFilterComposer
+    extends Composer<_$AppDatabase, $RecipesTable> {
+  $$RecipesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get coffeeAmount => $composableBuilder(
+      column: $table.coffeeAmount, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get waterAmount => $composableBuilder(
+      column: $table.waterAmount, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get waterTemp => $composableBuilder(
+      column: $table.waterTemp, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get brewTime => $composableBuilder(
+      column: $table.brewTime, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get lastModified => $composableBuilder(
+      column: $table.lastModified, builder: (column) => ColumnFilters(column));
+
+  $$BrewingMethodsTableFilterComposer get brewingMethodId {
+    final $$BrewingMethodsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.brewingMethodId,
+        referencedTable: $db.brewingMethods,
+        getReferencedColumn: (t) => t.brewingMethodId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BrewingMethodsTableFilterComposer(
+              $db: $db,
+              $table: $db.brewingMethods,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$VendorsTableFilterComposer get vendorId {
+    final $$VendorsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.vendorId,
+        referencedTable: $db.vendors,
+        getReferencedColumn: (t) => t.vendorId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$VendorsTableFilterComposer(
+              $db: $db,
+              $table: $db.vendors,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  Expression<bool> recipeLocalizationsRefs(
+      Expression<bool> Function($$RecipeLocalizationsTableFilterComposer f) f) {
+    final $$RecipeLocalizationsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.recipeLocalizations,
+        getReferencedColumn: (t) => t.recipeId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipeLocalizationsTableFilterComposer(
+              $db: $db,
+              $table: $db.recipeLocalizations,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> stepsRefs(
+      Expression<bool> Function($$StepsTableFilterComposer f) f) {
+    final $$StepsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.steps,
+        getReferencedColumn: (t) => t.recipeId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$StepsTableFilterComposer(
+              $db: $db,
+              $table: $db.steps,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> userRecipePreferencesRefs(
+      Expression<bool> Function($$UserRecipePreferencesTableFilterComposer f)
+          f) {
+    final $$UserRecipePreferencesTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.userRecipePreferences,
+            getReferencedColumn: (t) => t.recipeId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$UserRecipePreferencesTableFilterComposer(
+                  $db: $db,
+                  $table: $db.userRecipePreferences,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<bool> userStatsRefs(
+      Expression<bool> Function($$UserStatsTableFilterComposer f) f) {
+    final $$UserStatsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.userStats,
+        getReferencedColumn: (t) => t.recipeId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$UserStatsTableFilterComposer(
+              $db: $db,
+              $table: $db.userStats,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $$RecipesTableOrderingComposer
+    extends Composer<_$AppDatabase, $RecipesTable> {
+  $$RecipesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get coffeeAmount => $composableBuilder(
+      column: $table.coffeeAmount,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get waterAmount => $composableBuilder(
+      column: $table.waterAmount, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get waterTemp => $composableBuilder(
+      column: $table.waterTemp, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get brewTime => $composableBuilder(
+      column: $table.brewTime, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get lastModified => $composableBuilder(
+      column: $table.lastModified,
+      builder: (column) => ColumnOrderings(column));
+
+  $$BrewingMethodsTableOrderingComposer get brewingMethodId {
+    final $$BrewingMethodsTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.brewingMethodId,
+        referencedTable: $db.brewingMethods,
+        getReferencedColumn: (t) => t.brewingMethodId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BrewingMethodsTableOrderingComposer(
+              $db: $db,
+              $table: $db.brewingMethods,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$VendorsTableOrderingComposer get vendorId {
+    final $$VendorsTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.vendorId,
+        referencedTable: $db.vendors,
+        getReferencedColumn: (t) => t.vendorId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$VendorsTableOrderingComposer(
+              $db: $db,
+              $table: $db.vendors,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$RecipesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $RecipesTable> {
+  $$RecipesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<double> get coffeeAmount => $composableBuilder(
+      column: $table.coffeeAmount, builder: (column) => column);
+
+  GeneratedColumn<double> get waterAmount => $composableBuilder(
+      column: $table.waterAmount, builder: (column) => column);
+
+  GeneratedColumn<double> get waterTemp =>
+      $composableBuilder(column: $table.waterTemp, builder: (column) => column);
+
+  GeneratedColumn<int> get brewTime =>
+      $composableBuilder(column: $table.brewTime, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastModified => $composableBuilder(
+      column: $table.lastModified, builder: (column) => column);
+
+  $$BrewingMethodsTableAnnotationComposer get brewingMethodId {
+    final $$BrewingMethodsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.brewingMethodId,
+        referencedTable: $db.brewingMethods,
+        getReferencedColumn: (t) => t.brewingMethodId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BrewingMethodsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.brewingMethods,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$VendorsTableAnnotationComposer get vendorId {
+    final $$VendorsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.vendorId,
+        referencedTable: $db.vendors,
+        getReferencedColumn: (t) => t.vendorId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$VendorsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.vendors,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  Expression<T> recipeLocalizationsRefs<T extends Object>(
+      Expression<T> Function($$RecipeLocalizationsTableAnnotationComposer a)
+          f) {
+    final $$RecipeLocalizationsTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.recipeLocalizations,
+            getReferencedColumn: (t) => t.recipeId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$RecipeLocalizationsTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.recipeLocalizations,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<T> stepsRefs<T extends Object>(
+      Expression<T> Function($$StepsTableAnnotationComposer a) f) {
+    final $$StepsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.steps,
+        getReferencedColumn: (t) => t.recipeId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$StepsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.steps,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<T> userRecipePreferencesRefs<T extends Object>(
+      Expression<T> Function($$UserRecipePreferencesTableAnnotationComposer a)
+          f) {
+    final $$UserRecipePreferencesTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.userRecipePreferences,
+            getReferencedColumn: (t) => t.recipeId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$UserRecipePreferencesTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.userRecipePreferences,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<T> userStatsRefs<T extends Object>(
+      Expression<T> Function($$UserStatsTableAnnotationComposer a) f) {
+    final $$UserStatsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.userStats,
+        getReferencedColumn: (t) => t.recipeId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$UserStatsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.userStats,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
 class $$RecipesTableTableManager extends RootTableManager<
     _$AppDatabase,
     $RecipesTable,
     Recipe,
     $$RecipesTableFilterComposer,
     $$RecipesTableOrderingComposer,
+    $$RecipesTableAnnotationComposer,
     $$RecipesTableCreateCompanionBuilder,
-    $$RecipesTableUpdateCompanionBuilder> {
+    $$RecipesTableUpdateCompanionBuilder,
+    (Recipe, $$RecipesTableReferences),
+    Recipe,
+    PrefetchHooks Function(
+        {bool brewingMethodId,
+        bool vendorId,
+        bool recipeLocalizationsRefs,
+        bool stepsRefs,
+        bool userRecipePreferencesRefs,
+        bool userStatsRefs})> {
   $$RecipesTableTableManager(_$AppDatabase db, $RecipesTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$RecipesTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$RecipesTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$RecipesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$RecipesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$RecipesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> brewingMethodId = const Value.absent(),
@@ -5574,187 +6720,136 @@ class $$RecipesTableTableManager extends RootTableManager<
             lastModified: lastModified,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) =>
+                  (e.readTable(table), $$RecipesTableReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: (
+              {brewingMethodId = false,
+              vendorId = false,
+              recipeLocalizationsRefs = false,
+              stepsRefs = false,
+              userRecipePreferencesRefs = false,
+              userStatsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (recipeLocalizationsRefs) db.recipeLocalizations,
+                if (stepsRefs) db.steps,
+                if (userRecipePreferencesRefs) db.userRecipePreferences,
+                if (userStatsRefs) db.userStats
+              ],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (brewingMethodId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.brewingMethodId,
+                    referencedTable:
+                        $$RecipesTableReferences._brewingMethodIdTable(db),
+                    referencedColumn: $$RecipesTableReferences
+                        ._brewingMethodIdTable(db)
+                        .brewingMethodId,
+                  ) as T;
+                }
+                if (vendorId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.vendorId,
+                    referencedTable:
+                        $$RecipesTableReferences._vendorIdTable(db),
+                    referencedColumn:
+                        $$RecipesTableReferences._vendorIdTable(db).vendorId,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (recipeLocalizationsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$RecipesTableReferences
+                            ._recipeLocalizationsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$RecipesTableReferences(db, table, p0)
+                                .recipeLocalizationsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.recipeId == item.id),
+                        typedResults: items),
+                  if (stepsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable:
+                            $$RecipesTableReferences._stepsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$RecipesTableReferences(db, table, p0).stepsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.recipeId == item.id),
+                        typedResults: items),
+                  if (userRecipePreferencesRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$RecipesTableReferences
+                            ._userRecipePreferencesRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$RecipesTableReferences(db, table, p0)
+                                .userRecipePreferencesRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.recipeId == item.id),
+                        typedResults: items),
+                  if (userStatsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable:
+                            $$RecipesTableReferences._userStatsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$RecipesTableReferences(db, table, p0)
+                                .userStatsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.recipeId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
         ));
 }
 
-class $$RecipesTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $RecipesTable> {
-  $$RecipesTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<double> get coffeeAmount => $state.composableBuilder(
-      column: $state.table.coffeeAmount,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<double> get waterAmount => $state.composableBuilder(
-      column: $state.table.waterAmount,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<double> get waterTemp => $state.composableBuilder(
-      column: $state.table.waterTemp,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get brewTime => $state.composableBuilder(
-      column: $state.table.brewTime,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<DateTime> get lastModified => $state.composableBuilder(
-      column: $state.table.lastModified,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  $$BrewingMethodsTableFilterComposer get brewingMethodId {
-    final $$BrewingMethodsTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $state.db.brewingMethods,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder, parentComposers) =>
-            $$BrewingMethodsTableFilterComposer(ComposerState($state.db,
-                $state.db.brewingMethods, joinBuilder, parentComposers)));
-    return composer;
-  }
-
-  $$VendorsTableFilterComposer get vendorId {
-    final $$VendorsTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.vendorId,
-        referencedTable: $state.db.vendors,
-        getReferencedColumn: (t) => t.vendorId,
-        builder: (joinBuilder, parentComposers) => $$VendorsTableFilterComposer(
-            ComposerState(
-                $state.db, $state.db.vendors, joinBuilder, parentComposers)));
-    return composer;
-  }
-
-  ComposableFilter recipeLocalizationsRefs(
-      ComposableFilter Function($$RecipeLocalizationsTableFilterComposer f) f) {
-    final $$RecipeLocalizationsTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $state.db.recipeLocalizations,
-            getReferencedColumn: (t) => t.recipeId,
-            builder: (joinBuilder, parentComposers) =>
-                $$RecipeLocalizationsTableFilterComposer(ComposerState(
-                    $state.db,
-                    $state.db.recipeLocalizations,
-                    joinBuilder,
-                    parentComposers)));
-    return f(composer);
-  }
-
-  ComposableFilter stepsRefs(
-      ComposableFilter Function($$StepsTableFilterComposer f) f) {
-    final $$StepsTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $state.db.steps,
-        getReferencedColumn: (t) => t.recipeId,
-        builder: (joinBuilder, parentComposers) => $$StepsTableFilterComposer(
-            ComposerState(
-                $state.db, $state.db.steps, joinBuilder, parentComposers)));
-    return f(composer);
-  }
-
-  ComposableFilter userRecipePreferencesRefs(
-      ComposableFilter Function($$UserRecipePreferencesTableFilterComposer f)
-          f) {
-    final $$UserRecipePreferencesTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $state.db.userRecipePreferences,
-            getReferencedColumn: (t) => t.recipeId,
-            builder: (joinBuilder, parentComposers) =>
-                $$UserRecipePreferencesTableFilterComposer(ComposerState(
-                    $state.db,
-                    $state.db.userRecipePreferences,
-                    joinBuilder,
-                    parentComposers)));
-    return f(composer);
-  }
-
-  ComposableFilter userStatsRefs(
-      ComposableFilter Function($$UserStatsTableFilterComposer f) f) {
-    final $$UserStatsTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $state.db.userStats,
-        getReferencedColumn: (t) => t.recipeId,
-        builder: (joinBuilder, parentComposers) =>
-            $$UserStatsTableFilterComposer(ComposerState(
-                $state.db, $state.db.userStats, joinBuilder, parentComposers)));
-    return f(composer);
-  }
-}
-
-class $$RecipesTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $RecipesTable> {
-  $$RecipesTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<double> get coffeeAmount => $state.composableBuilder(
-      column: $state.table.coffeeAmount,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<double> get waterAmount => $state.composableBuilder(
-      column: $state.table.waterAmount,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<double> get waterTemp => $state.composableBuilder(
-      column: $state.table.waterTemp,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get brewTime => $state.composableBuilder(
-      column: $state.table.brewTime,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<DateTime> get lastModified => $state.composableBuilder(
-      column: $state.table.lastModified,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  $$BrewingMethodsTableOrderingComposer get brewingMethodId {
-    final $$BrewingMethodsTableOrderingComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.brewingMethodId,
-            referencedTable: $state.db.brewingMethods,
-            getReferencedColumn: (t) => t.brewingMethodId,
-            builder: (joinBuilder, parentComposers) =>
-                $$BrewingMethodsTableOrderingComposer(ComposerState($state.db,
-                    $state.db.brewingMethods, joinBuilder, parentComposers)));
-    return composer;
-  }
-
-  $$VendorsTableOrderingComposer get vendorId {
-    final $$VendorsTableOrderingComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.vendorId,
-        referencedTable: $state.db.vendors,
-        getReferencedColumn: (t) => t.vendorId,
-        builder: (joinBuilder, parentComposers) =>
-            $$VendorsTableOrderingComposer(ComposerState(
-                $state.db, $state.db.vendors, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
+typedef $$RecipesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $RecipesTable,
+    Recipe,
+    $$RecipesTableFilterComposer,
+    $$RecipesTableOrderingComposer,
+    $$RecipesTableAnnotationComposer,
+    $$RecipesTableCreateCompanionBuilder,
+    $$RecipesTableUpdateCompanionBuilder,
+    (Recipe, $$RecipesTableReferences),
+    Recipe,
+    PrefetchHooks Function(
+        {bool brewingMethodId,
+        bool vendorId,
+        bool recipeLocalizationsRefs,
+        bool stepsRefs,
+        bool userRecipePreferencesRefs,
+        bool userStatsRefs})>;
 typedef $$RecipeLocalizationsTableCreateCompanionBuilder
     = RecipeLocalizationsCompanion Function({
   required String id,
@@ -5776,23 +6871,252 @@ typedef $$RecipeLocalizationsTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+final class $$RecipeLocalizationsTableReferences extends BaseReferences<
+    _$AppDatabase, $RecipeLocalizationsTable, RecipeLocalization> {
+  $$RecipeLocalizationsTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $RecipesTable _recipeIdTable(_$AppDatabase db) =>
+      db.recipes.createAlias(
+          $_aliasNameGenerator(db.recipeLocalizations.recipeId, db.recipes.id));
+
+  $$RecipesTableProcessedTableManager get recipeId {
+    final manager = $$RecipesTableTableManager($_db, $_db.recipes)
+        .filter((f) => f.id($_item.recipeId));
+    final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $SupportedLocalesTable _localeTable(_$AppDatabase db) =>
+      db.supportedLocales.createAlias($_aliasNameGenerator(
+          db.recipeLocalizations.locale, db.supportedLocales.locale));
+
+  $$SupportedLocalesTableProcessedTableManager get locale {
+    final manager =
+        $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
+            .filter((f) => f.locale($_item.locale));
+    final item = $_typedResult.readTableOrNull(_localeTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$RecipeLocalizationsTableFilterComposer
+    extends Composer<_$AppDatabase, $RecipeLocalizationsTable> {
+  $$RecipeLocalizationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get grindSize => $composableBuilder(
+      column: $table.grindSize, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get shortDescription => $composableBuilder(
+      column: $table.shortDescription,
+      builder: (column) => ColumnFilters(column));
+
+  $$RecipesTableFilterComposer get recipeId {
+    final $$RecipesTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.recipeId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableFilterComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$SupportedLocalesTableFilterComposer get locale {
+    final $$SupportedLocalesTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableFilterComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$RecipeLocalizationsTableOrderingComposer
+    extends Composer<_$AppDatabase, $RecipeLocalizationsTable> {
+  $$RecipeLocalizationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get grindSize => $composableBuilder(
+      column: $table.grindSize, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get shortDescription => $composableBuilder(
+      column: $table.shortDescription,
+      builder: (column) => ColumnOrderings(column));
+
+  $$RecipesTableOrderingComposer get recipeId {
+    final $$RecipesTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.recipeId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableOrderingComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$SupportedLocalesTableOrderingComposer get locale {
+    final $$SupportedLocalesTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableOrderingComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$RecipeLocalizationsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $RecipeLocalizationsTable> {
+  $$RecipeLocalizationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get grindSize =>
+      $composableBuilder(column: $table.grindSize, builder: (column) => column);
+
+  GeneratedColumn<String> get shortDescription => $composableBuilder(
+      column: $table.shortDescription, builder: (column) => column);
+
+  $$RecipesTableAnnotationComposer get recipeId {
+    final $$RecipesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.recipeId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$SupportedLocalesTableAnnotationComposer get locale {
+    final $$SupportedLocalesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
 class $$RecipeLocalizationsTableTableManager extends RootTableManager<
     _$AppDatabase,
     $RecipeLocalizationsTable,
     RecipeLocalization,
     $$RecipeLocalizationsTableFilterComposer,
     $$RecipeLocalizationsTableOrderingComposer,
+    $$RecipeLocalizationsTableAnnotationComposer,
     $$RecipeLocalizationsTableCreateCompanionBuilder,
-    $$RecipeLocalizationsTableUpdateCompanionBuilder> {
+    $$RecipeLocalizationsTableUpdateCompanionBuilder,
+    (RecipeLocalization, $$RecipeLocalizationsTableReferences),
+    RecipeLocalization,
+    PrefetchHooks Function({bool recipeId, bool locale})> {
   $$RecipeLocalizationsTableTableManager(
       _$AppDatabase db, $RecipeLocalizationsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$RecipeLocalizationsTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer: $$RecipeLocalizationsTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$RecipeLocalizationsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$RecipeLocalizationsTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$RecipeLocalizationsTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> recipeId = const Value.absent(),
@@ -5829,107 +7153,74 @@ class $$RecipeLocalizationsTableTableManager extends RootTableManager<
             shortDescription: shortDescription,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$RecipeLocalizationsTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({recipeId = false, locale = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (recipeId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.recipeId,
+                    referencedTable:
+                        $$RecipeLocalizationsTableReferences._recipeIdTable(db),
+                    referencedColumn: $$RecipeLocalizationsTableReferences
+                        ._recipeIdTable(db)
+                        .id,
+                  ) as T;
+                }
+                if (locale) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.locale,
+                    referencedTable:
+                        $$RecipeLocalizationsTableReferences._localeTable(db),
+                    referencedColumn: $$RecipeLocalizationsTableReferences
+                        ._localeTable(db)
+                        .locale,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ));
 }
 
-class $$RecipeLocalizationsTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $RecipeLocalizationsTable> {
-  $$RecipeLocalizationsTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get name => $state.composableBuilder(
-      column: $state.table.name,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get grindSize => $state.composableBuilder(
-      column: $state.table.grindSize,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get shortDescription => $state.composableBuilder(
-      column: $state.table.shortDescription,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  $$RecipesTableFilterComposer get recipeId {
-    final $$RecipesTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $state.db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) => $$RecipesTableFilterComposer(
-            ComposerState(
-                $state.db, $state.db.recipes, joinBuilder, parentComposers)));
-    return composer;
-  }
-
-  $$SupportedLocalesTableFilterComposer get locale {
-    final $$SupportedLocalesTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.locale,
-            referencedTable: $state.db.supportedLocales,
-            getReferencedColumn: (t) => t.locale,
-            builder: (joinBuilder, parentComposers) =>
-                $$SupportedLocalesTableFilterComposer(ComposerState($state.db,
-                    $state.db.supportedLocales, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
-class $$RecipeLocalizationsTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $RecipeLocalizationsTable> {
-  $$RecipeLocalizationsTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get name => $state.composableBuilder(
-      column: $state.table.name,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get grindSize => $state.composableBuilder(
-      column: $state.table.grindSize,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get shortDescription => $state.composableBuilder(
-      column: $state.table.shortDescription,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  $$RecipesTableOrderingComposer get recipeId {
-    final $$RecipesTableOrderingComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $state.db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) =>
-            $$RecipesTableOrderingComposer(ComposerState(
-                $state.db, $state.db.recipes, joinBuilder, parentComposers)));
-    return composer;
-  }
-
-  $$SupportedLocalesTableOrderingComposer get locale {
-    final $$SupportedLocalesTableOrderingComposer composer = $state
-        .composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.locale,
-            referencedTable: $state.db.supportedLocales,
-            getReferencedColumn: (t) => t.locale,
-            builder: (joinBuilder, parentComposers) =>
-                $$SupportedLocalesTableOrderingComposer(ComposerState($state.db,
-                    $state.db.supportedLocales, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
+typedef $$RecipeLocalizationsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $RecipeLocalizationsTable,
+    RecipeLocalization,
+    $$RecipeLocalizationsTableFilterComposer,
+    $$RecipeLocalizationsTableOrderingComposer,
+    $$RecipeLocalizationsTableAnnotationComposer,
+    $$RecipeLocalizationsTableCreateCompanionBuilder,
+    $$RecipeLocalizationsTableUpdateCompanionBuilder,
+    (RecipeLocalization, $$RecipeLocalizationsTableReferences),
+    RecipeLocalization,
+    PrefetchHooks Function({bool recipeId, bool locale})>;
 typedef $$StepsTableCreateCompanionBuilder = StepsCompanion Function({
   required String id,
   required String recipeId,
@@ -5949,22 +7240,244 @@ typedef $$StepsTableUpdateCompanionBuilder = StepsCompanion Function({
   Value<int> rowid,
 });
 
+final class $$StepsTableReferences
+    extends BaseReferences<_$AppDatabase, $StepsTable, Step> {
+  $$StepsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $RecipesTable _recipeIdTable(_$AppDatabase db) => db.recipes
+      .createAlias($_aliasNameGenerator(db.steps.recipeId, db.recipes.id));
+
+  $$RecipesTableProcessedTableManager get recipeId {
+    final manager = $$RecipesTableTableManager($_db, $_db.recipes)
+        .filter((f) => f.id($_item.recipeId));
+    final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $SupportedLocalesTable _localeTable(_$AppDatabase db) =>
+      db.supportedLocales.createAlias(
+          $_aliasNameGenerator(db.steps.locale, db.supportedLocales.locale));
+
+  $$SupportedLocalesTableProcessedTableManager get locale {
+    final manager =
+        $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
+            .filter((f) => f.locale($_item.locale));
+    final item = $_typedResult.readTableOrNull(_localeTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$StepsTableFilterComposer extends Composer<_$AppDatabase, $StepsTable> {
+  $$StepsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get stepOrder => $composableBuilder(
+      column: $table.stepOrder, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get time => $composableBuilder(
+      column: $table.time, builder: (column) => ColumnFilters(column));
+
+  $$RecipesTableFilterComposer get recipeId {
+    final $$RecipesTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.recipeId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableFilterComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$SupportedLocalesTableFilterComposer get locale {
+    final $$SupportedLocalesTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableFilterComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$StepsTableOrderingComposer
+    extends Composer<_$AppDatabase, $StepsTable> {
+  $$StepsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get stepOrder => $composableBuilder(
+      column: $table.stepOrder, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get time => $composableBuilder(
+      column: $table.time, builder: (column) => ColumnOrderings(column));
+
+  $$RecipesTableOrderingComposer get recipeId {
+    final $$RecipesTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.recipeId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableOrderingComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$SupportedLocalesTableOrderingComposer get locale {
+    final $$SupportedLocalesTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableOrderingComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$StepsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $StepsTable> {
+  $$StepsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get stepOrder =>
+      $composableBuilder(column: $table.stepOrder, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<String> get time =>
+      $composableBuilder(column: $table.time, builder: (column) => column);
+
+  $$RecipesTableAnnotationComposer get recipeId {
+    final $$RecipesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.recipeId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$SupportedLocalesTableAnnotationComposer get locale {
+    final $$SupportedLocalesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
 class $$StepsTableTableManager extends RootTableManager<
     _$AppDatabase,
     $StepsTable,
     Step,
     $$StepsTableFilterComposer,
     $$StepsTableOrderingComposer,
+    $$StepsTableAnnotationComposer,
     $$StepsTableCreateCompanionBuilder,
-    $$StepsTableUpdateCompanionBuilder> {
+    $$StepsTableUpdateCompanionBuilder,
+    (Step, $$StepsTableReferences),
+    Step,
+    PrefetchHooks Function({bool recipeId, bool locale})> {
   $$StepsTableTableManager(_$AppDatabase db, $StepsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$StepsTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$StepsTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$StepsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$StepsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$StepsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> recipeId = const Value.absent(),
@@ -6001,107 +7514,68 @@ class $$StepsTableTableManager extends RootTableManager<
             locale: locale,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) =>
+                  (e.readTable(table), $$StepsTableReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: ({recipeId = false, locale = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (recipeId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.recipeId,
+                    referencedTable: $$StepsTableReferences._recipeIdTable(db),
+                    referencedColumn:
+                        $$StepsTableReferences._recipeIdTable(db).id,
+                  ) as T;
+                }
+                if (locale) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.locale,
+                    referencedTable: $$StepsTableReferences._localeTable(db),
+                    referencedColumn:
+                        $$StepsTableReferences._localeTable(db).locale,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ));
 }
 
-class $$StepsTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $StepsTable> {
-  $$StepsTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get stepOrder => $state.composableBuilder(
-      column: $state.table.stepOrder,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get time => $state.composableBuilder(
-      column: $state.table.time,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  $$RecipesTableFilterComposer get recipeId {
-    final $$RecipesTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $state.db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) => $$RecipesTableFilterComposer(
-            ComposerState(
-                $state.db, $state.db.recipes, joinBuilder, parentComposers)));
-    return composer;
-  }
-
-  $$SupportedLocalesTableFilterComposer get locale {
-    final $$SupportedLocalesTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.locale,
-            referencedTable: $state.db.supportedLocales,
-            getReferencedColumn: (t) => t.locale,
-            builder: (joinBuilder, parentComposers) =>
-                $$SupportedLocalesTableFilterComposer(ComposerState($state.db,
-                    $state.db.supportedLocales, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
-class $$StepsTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $StepsTable> {
-  $$StepsTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get stepOrder => $state.composableBuilder(
-      column: $state.table.stepOrder,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get time => $state.composableBuilder(
-      column: $state.table.time,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  $$RecipesTableOrderingComposer get recipeId {
-    final $$RecipesTableOrderingComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $state.db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) =>
-            $$RecipesTableOrderingComposer(ComposerState(
-                $state.db, $state.db.recipes, joinBuilder, parentComposers)));
-    return composer;
-  }
-
-  $$SupportedLocalesTableOrderingComposer get locale {
-    final $$SupportedLocalesTableOrderingComposer composer = $state
-        .composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.locale,
-            referencedTable: $state.db.supportedLocales,
-            getReferencedColumn: (t) => t.locale,
-            builder: (joinBuilder, parentComposers) =>
-                $$SupportedLocalesTableOrderingComposer(ComposerState($state.db,
-                    $state.db.supportedLocales, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
+typedef $$StepsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $StepsTable,
+    Step,
+    $$StepsTableFilterComposer,
+    $$StepsTableOrderingComposer,
+    $$StepsTableAnnotationComposer,
+    $$StepsTableCreateCompanionBuilder,
+    $$StepsTableUpdateCompanionBuilder,
+    (Step, $$StepsTableReferences),
+    Step,
+    PrefetchHooks Function({bool recipeId, bool locale})>;
 typedef $$UserRecipePreferencesTableCreateCompanionBuilder
     = UserRecipePreferencesCompanion Function({
   required String recipeId,
@@ -6127,23 +7601,215 @@ typedef $$UserRecipePreferencesTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+final class $$UserRecipePreferencesTableReferences extends BaseReferences<
+    _$AppDatabase, $UserRecipePreferencesTable, UserRecipePreference> {
+  $$UserRecipePreferencesTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $RecipesTable _recipeIdTable(_$AppDatabase db) =>
+      db.recipes.createAlias($_aliasNameGenerator(
+          db.userRecipePreferences.recipeId, db.recipes.id));
+
+  $$RecipesTableProcessedTableManager get recipeId {
+    final manager = $$RecipesTableTableManager($_db, $_db.recipes)
+        .filter((f) => f.id($_item.recipeId));
+    final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$UserRecipePreferencesTableFilterComposer
+    extends Composer<_$AppDatabase, $UserRecipePreferencesTable> {
+  $$UserRecipePreferencesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<DateTime> get lastUsed => $composableBuilder(
+      column: $table.lastUsed, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isFavorite => $composableBuilder(
+      column: $table.isFavorite, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get sweetnessSliderPosition => $composableBuilder(
+      column: $table.sweetnessSliderPosition,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get strengthSliderPosition => $composableBuilder(
+      column: $table.strengthSliderPosition,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get customCoffeeAmount => $composableBuilder(
+      column: $table.customCoffeeAmount,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get customWaterAmount => $composableBuilder(
+      column: $table.customWaterAmount,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get coffeeChroniclerSliderPosition => $composableBuilder(
+      column: $table.coffeeChroniclerSliderPosition,
+      builder: (column) => ColumnFilters(column));
+
+  $$RecipesTableFilterComposer get recipeId {
+    final $$RecipesTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.recipeId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableFilterComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$UserRecipePreferencesTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserRecipePreferencesTable> {
+  $$UserRecipePreferencesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<DateTime> get lastUsed => $composableBuilder(
+      column: $table.lastUsed, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isFavorite => $composableBuilder(
+      column: $table.isFavorite, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get sweetnessSliderPosition => $composableBuilder(
+      column: $table.sweetnessSliderPosition,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get strengthSliderPosition => $composableBuilder(
+      column: $table.strengthSliderPosition,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get customCoffeeAmount => $composableBuilder(
+      column: $table.customCoffeeAmount,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get customWaterAmount => $composableBuilder(
+      column: $table.customWaterAmount,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get coffeeChroniclerSliderPosition => $composableBuilder(
+      column: $table.coffeeChroniclerSliderPosition,
+      builder: (column) => ColumnOrderings(column));
+
+  $$RecipesTableOrderingComposer get recipeId {
+    final $$RecipesTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.recipeId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableOrderingComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$UserRecipePreferencesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserRecipePreferencesTable> {
+  $$UserRecipePreferencesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<DateTime> get lastUsed =>
+      $composableBuilder(column: $table.lastUsed, builder: (column) => column);
+
+  GeneratedColumn<bool> get isFavorite => $composableBuilder(
+      column: $table.isFavorite, builder: (column) => column);
+
+  GeneratedColumn<int> get sweetnessSliderPosition => $composableBuilder(
+      column: $table.sweetnessSliderPosition, builder: (column) => column);
+
+  GeneratedColumn<int> get strengthSliderPosition => $composableBuilder(
+      column: $table.strengthSliderPosition, builder: (column) => column);
+
+  GeneratedColumn<double> get customCoffeeAmount => $composableBuilder(
+      column: $table.customCoffeeAmount, builder: (column) => column);
+
+  GeneratedColumn<double> get customWaterAmount => $composableBuilder(
+      column: $table.customWaterAmount, builder: (column) => column);
+
+  GeneratedColumn<int> get coffeeChroniclerSliderPosition => $composableBuilder(
+      column: $table.coffeeChroniclerSliderPosition,
+      builder: (column) => column);
+
+  $$RecipesTableAnnotationComposer get recipeId {
+    final $$RecipesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.recipeId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
 class $$UserRecipePreferencesTableTableManager extends RootTableManager<
     _$AppDatabase,
     $UserRecipePreferencesTable,
     UserRecipePreference,
     $$UserRecipePreferencesTableFilterComposer,
     $$UserRecipePreferencesTableOrderingComposer,
+    $$UserRecipePreferencesTableAnnotationComposer,
     $$UserRecipePreferencesTableCreateCompanionBuilder,
-    $$UserRecipePreferencesTableUpdateCompanionBuilder> {
+    $$UserRecipePreferencesTableUpdateCompanionBuilder,
+    (UserRecipePreference, $$UserRecipePreferencesTableReferences),
+    UserRecipePreference,
+    PrefetchHooks Function({bool recipeId})> {
   $$UserRecipePreferencesTableTableManager(
       _$AppDatabase db, $UserRecipePreferencesTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$UserRecipePreferencesTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer: $$UserRecipePreferencesTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$UserRecipePreferencesTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserRecipePreferencesTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserRecipePreferencesTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> recipeId = const Value.absent(),
             Value<DateTime?> lastUsed = const Value.absent(),
@@ -6188,113 +7854,64 @@ class $$UserRecipePreferencesTableTableManager extends RootTableManager<
             coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$UserRecipePreferencesTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({recipeId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (recipeId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.recipeId,
+                    referencedTable: $$UserRecipePreferencesTableReferences
+                        ._recipeIdTable(db),
+                    referencedColumn: $$UserRecipePreferencesTableReferences
+                        ._recipeIdTable(db)
+                        .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ));
 }
 
-class $$UserRecipePreferencesTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $UserRecipePreferencesTable> {
-  $$UserRecipePreferencesTableFilterComposer(super.$state);
-  ColumnFilters<DateTime> get lastUsed => $state.composableBuilder(
-      column: $state.table.lastUsed,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get isFavorite => $state.composableBuilder(
-      column: $state.table.isFavorite,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get sweetnessSliderPosition => $state.composableBuilder(
-      column: $state.table.sweetnessSliderPosition,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get strengthSliderPosition => $state.composableBuilder(
-      column: $state.table.strengthSliderPosition,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<double> get customCoffeeAmount => $state.composableBuilder(
-      column: $state.table.customCoffeeAmount,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<double> get customWaterAmount => $state.composableBuilder(
-      column: $state.table.customWaterAmount,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get coffeeChroniclerSliderPosition => $state
-      .composableBuilder(
-          column: $state.table.coffeeChroniclerSliderPosition,
-          builder: (column, joinBuilders) =>
-              ColumnFilters(column, joinBuilders: joinBuilders));
-
-  $$RecipesTableFilterComposer get recipeId {
-    final $$RecipesTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $state.db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) => $$RecipesTableFilterComposer(
-            ComposerState(
-                $state.db, $state.db.recipes, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
-class $$UserRecipePreferencesTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $UserRecipePreferencesTable> {
-  $$UserRecipePreferencesTableOrderingComposer(super.$state);
-  ColumnOrderings<DateTime> get lastUsed => $state.composableBuilder(
-      column: $state.table.lastUsed,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get isFavorite => $state.composableBuilder(
-      column: $state.table.isFavorite,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get sweetnessSliderPosition => $state.composableBuilder(
-      column: $state.table.sweetnessSliderPosition,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get strengthSliderPosition => $state.composableBuilder(
-      column: $state.table.strengthSliderPosition,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<double> get customCoffeeAmount => $state.composableBuilder(
-      column: $state.table.customCoffeeAmount,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<double> get customWaterAmount => $state.composableBuilder(
-      column: $state.table.customWaterAmount,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get coffeeChroniclerSliderPosition =>
-      $state.composableBuilder(
-          column: $state.table.coffeeChroniclerSliderPosition,
-          builder: (column, joinBuilders) =>
-              ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  $$RecipesTableOrderingComposer get recipeId {
-    final $$RecipesTableOrderingComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $state.db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) =>
-            $$RecipesTableOrderingComposer(ComposerState(
-                $state.db, $state.db.recipes, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
+typedef $$UserRecipePreferencesTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $UserRecipePreferencesTable,
+        UserRecipePreference,
+        $$UserRecipePreferencesTableFilterComposer,
+        $$UserRecipePreferencesTableOrderingComposer,
+        $$UserRecipePreferencesTableAnnotationComposer,
+        $$UserRecipePreferencesTableCreateCompanionBuilder,
+        $$UserRecipePreferencesTableUpdateCompanionBuilder,
+        (UserRecipePreference, $$UserRecipePreferencesTableReferences),
+        UserRecipePreference,
+        PrefetchHooks Function({bool recipeId})>;
 typedef $$CoffeeFactsTableCreateCompanionBuilder = CoffeeFactsCompanion
     Function({
   required String id,
@@ -6310,22 +7927,155 @@ typedef $$CoffeeFactsTableUpdateCompanionBuilder = CoffeeFactsCompanion
   Value<int> rowid,
 });
 
+final class $$CoffeeFactsTableReferences
+    extends BaseReferences<_$AppDatabase, $CoffeeFactsTable, CoffeeFact> {
+  $$CoffeeFactsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SupportedLocalesTable _localeTable(_$AppDatabase db) =>
+      db.supportedLocales.createAlias($_aliasNameGenerator(
+          db.coffeeFacts.locale, db.supportedLocales.locale));
+
+  $$SupportedLocalesTableProcessedTableManager get locale {
+    final manager =
+        $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
+            .filter((f) => f.locale($_item.locale));
+    final item = $_typedResult.readTableOrNull(_localeTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$CoffeeFactsTableFilterComposer
+    extends Composer<_$AppDatabase, $CoffeeFactsTable> {
+  $$CoffeeFactsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get fact => $composableBuilder(
+      column: $table.fact, builder: (column) => ColumnFilters(column));
+
+  $$SupportedLocalesTableFilterComposer get locale {
+    final $$SupportedLocalesTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableFilterComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$CoffeeFactsTableOrderingComposer
+    extends Composer<_$AppDatabase, $CoffeeFactsTable> {
+  $$CoffeeFactsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get fact => $composableBuilder(
+      column: $table.fact, builder: (column) => ColumnOrderings(column));
+
+  $$SupportedLocalesTableOrderingComposer get locale {
+    final $$SupportedLocalesTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableOrderingComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$CoffeeFactsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CoffeeFactsTable> {
+  $$CoffeeFactsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get fact =>
+      $composableBuilder(column: $table.fact, builder: (column) => column);
+
+  $$SupportedLocalesTableAnnotationComposer get locale {
+    final $$SupportedLocalesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
 class $$CoffeeFactsTableTableManager extends RootTableManager<
     _$AppDatabase,
     $CoffeeFactsTable,
     CoffeeFact,
     $$CoffeeFactsTableFilterComposer,
     $$CoffeeFactsTableOrderingComposer,
+    $$CoffeeFactsTableAnnotationComposer,
     $$CoffeeFactsTableCreateCompanionBuilder,
-    $$CoffeeFactsTableUpdateCompanionBuilder> {
+    $$CoffeeFactsTableUpdateCompanionBuilder,
+    (CoffeeFact, $$CoffeeFactsTableReferences),
+    CoffeeFact,
+    PrefetchHooks Function({bool locale})> {
   $$CoffeeFactsTableTableManager(_$AppDatabase db, $CoffeeFactsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$CoffeeFactsTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$CoffeeFactsTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$CoffeeFactsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CoffeeFactsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CoffeeFactsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> fact = const Value.absent(),
@@ -6350,63 +8100,62 @@ class $$CoffeeFactsTableTableManager extends RootTableManager<
             locale: locale,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$CoffeeFactsTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({locale = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (locale) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.locale,
+                    referencedTable:
+                        $$CoffeeFactsTableReferences._localeTable(db),
+                    referencedColumn:
+                        $$CoffeeFactsTableReferences._localeTable(db).locale,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ));
 }
 
-class $$CoffeeFactsTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $CoffeeFactsTable> {
-  $$CoffeeFactsTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get fact => $state.composableBuilder(
-      column: $state.table.fact,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  $$SupportedLocalesTableFilterComposer get locale {
-    final $$SupportedLocalesTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.locale,
-            referencedTable: $state.db.supportedLocales,
-            getReferencedColumn: (t) => t.locale,
-            builder: (joinBuilder, parentComposers) =>
-                $$SupportedLocalesTableFilterComposer(ComposerState($state.db,
-                    $state.db.supportedLocales, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
-class $$CoffeeFactsTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $CoffeeFactsTable> {
-  $$CoffeeFactsTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get fact => $state.composableBuilder(
-      column: $state.table.fact,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  $$SupportedLocalesTableOrderingComposer get locale {
-    final $$SupportedLocalesTableOrderingComposer composer = $state
-        .composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.locale,
-            referencedTable: $state.db.supportedLocales,
-            getReferencedColumn: (t) => t.locale,
-            builder: (joinBuilder, parentComposers) =>
-                $$SupportedLocalesTableOrderingComposer(ComposerState($state.db,
-                    $state.db.supportedLocales, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
+typedef $$CoffeeFactsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $CoffeeFactsTable,
+    CoffeeFact,
+    $$CoffeeFactsTableFilterComposer,
+    $$CoffeeFactsTableOrderingComposer,
+    $$CoffeeFactsTableAnnotationComposer,
+    $$CoffeeFactsTableCreateCompanionBuilder,
+    $$CoffeeFactsTableUpdateCompanionBuilder,
+    (CoffeeFact, $$CoffeeFactsTableReferences),
+    CoffeeFact,
+    PrefetchHooks Function({bool locale})>;
 typedef $$LaunchPopupsTableCreateCompanionBuilder = LaunchPopupsCompanion
     Function({
   Value<int> id,
@@ -6422,22 +8171,164 @@ typedef $$LaunchPopupsTableUpdateCompanionBuilder = LaunchPopupsCompanion
   Value<DateTime> createdAt,
 });
 
+final class $$LaunchPopupsTableReferences
+    extends BaseReferences<_$AppDatabase, $LaunchPopupsTable, LaunchPopup> {
+  $$LaunchPopupsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SupportedLocalesTable _localeTable(_$AppDatabase db) =>
+      db.supportedLocales.createAlias($_aliasNameGenerator(
+          db.launchPopups.locale, db.supportedLocales.locale));
+
+  $$SupportedLocalesTableProcessedTableManager get locale {
+    final manager =
+        $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
+            .filter((f) => f.locale($_item.locale));
+    final item = $_typedResult.readTableOrNull(_localeTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$LaunchPopupsTableFilterComposer
+    extends Composer<_$AppDatabase, $LaunchPopupsTable> {
+  $$LaunchPopupsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get content => $composableBuilder(
+      column: $table.content, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  $$SupportedLocalesTableFilterComposer get locale {
+    final $$SupportedLocalesTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableFilterComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$LaunchPopupsTableOrderingComposer
+    extends Composer<_$AppDatabase, $LaunchPopupsTable> {
+  $$LaunchPopupsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get content => $composableBuilder(
+      column: $table.content, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  $$SupportedLocalesTableOrderingComposer get locale {
+    final $$SupportedLocalesTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableOrderingComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$LaunchPopupsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LaunchPopupsTable> {
+  $$LaunchPopupsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get content =>
+      $composableBuilder(column: $table.content, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$SupportedLocalesTableAnnotationComposer get locale {
+    final $$SupportedLocalesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
 class $$LaunchPopupsTableTableManager extends RootTableManager<
     _$AppDatabase,
     $LaunchPopupsTable,
     LaunchPopup,
     $$LaunchPopupsTableFilterComposer,
     $$LaunchPopupsTableOrderingComposer,
+    $$LaunchPopupsTableAnnotationComposer,
     $$LaunchPopupsTableCreateCompanionBuilder,
-    $$LaunchPopupsTableUpdateCompanionBuilder> {
+    $$LaunchPopupsTableUpdateCompanionBuilder,
+    (LaunchPopup, $$LaunchPopupsTableReferences),
+    LaunchPopup,
+    PrefetchHooks Function({bool locale})> {
   $$LaunchPopupsTableTableManager(_$AppDatabase db, $LaunchPopupsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$LaunchPopupsTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$LaunchPopupsTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$LaunchPopupsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LaunchPopupsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LaunchPopupsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> content = const Value.absent(),
@@ -6462,73 +8353,62 @@ class $$LaunchPopupsTableTableManager extends RootTableManager<
             locale: locale,
             createdAt: createdAt,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$LaunchPopupsTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({locale = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (locale) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.locale,
+                    referencedTable:
+                        $$LaunchPopupsTableReferences._localeTable(db),
+                    referencedColumn:
+                        $$LaunchPopupsTableReferences._localeTable(db).locale,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ));
 }
 
-class $$LaunchPopupsTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $LaunchPopupsTable> {
-  $$LaunchPopupsTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get content => $state.composableBuilder(
-      column: $state.table.content,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<DateTime> get createdAt => $state.composableBuilder(
-      column: $state.table.createdAt,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  $$SupportedLocalesTableFilterComposer get locale {
-    final $$SupportedLocalesTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.locale,
-            referencedTable: $state.db.supportedLocales,
-            getReferencedColumn: (t) => t.locale,
-            builder: (joinBuilder, parentComposers) =>
-                $$SupportedLocalesTableFilterComposer(ComposerState($state.db,
-                    $state.db.supportedLocales, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
-class $$LaunchPopupsTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $LaunchPopupsTable> {
-  $$LaunchPopupsTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get content => $state.composableBuilder(
-      column: $state.table.content,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<DateTime> get createdAt => $state.composableBuilder(
-      column: $state.table.createdAt,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  $$SupportedLocalesTableOrderingComposer get locale {
-    final $$SupportedLocalesTableOrderingComposer composer = $state
-        .composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.locale,
-            referencedTable: $state.db.supportedLocales,
-            getReferencedColumn: (t) => t.locale,
-            builder: (joinBuilder, parentComposers) =>
-                $$SupportedLocalesTableOrderingComposer(ComposerState($state.db,
-                    $state.db.supportedLocales, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
+typedef $$LaunchPopupsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $LaunchPopupsTable,
+    LaunchPopup,
+    $$LaunchPopupsTableFilterComposer,
+    $$LaunchPopupsTableOrderingComposer,
+    $$LaunchPopupsTableAnnotationComposer,
+    $$LaunchPopupsTableCreateCompanionBuilder,
+    $$LaunchPopupsTableUpdateCompanionBuilder,
+    (LaunchPopup, $$LaunchPopupsTableReferences),
+    LaunchPopup,
+    PrefetchHooks Function({bool locale})>;
 typedef $$ContributorsTableCreateCompanionBuilder = ContributorsCompanion
     Function({
   required String id,
@@ -6544,22 +8424,155 @@ typedef $$ContributorsTableUpdateCompanionBuilder = ContributorsCompanion
   Value<int> rowid,
 });
 
+final class $$ContributorsTableReferences
+    extends BaseReferences<_$AppDatabase, $ContributorsTable, Contributor> {
+  $$ContributorsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SupportedLocalesTable _localeTable(_$AppDatabase db) =>
+      db.supportedLocales.createAlias($_aliasNameGenerator(
+          db.contributors.locale, db.supportedLocales.locale));
+
+  $$SupportedLocalesTableProcessedTableManager get locale {
+    final manager =
+        $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
+            .filter((f) => f.locale($_item.locale));
+    final item = $_typedResult.readTableOrNull(_localeTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$ContributorsTableFilterComposer
+    extends Composer<_$AppDatabase, $ContributorsTable> {
+  $$ContributorsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get content => $composableBuilder(
+      column: $table.content, builder: (column) => ColumnFilters(column));
+
+  $$SupportedLocalesTableFilterComposer get locale {
+    final $$SupportedLocalesTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableFilterComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$ContributorsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ContributorsTable> {
+  $$ContributorsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get content => $composableBuilder(
+      column: $table.content, builder: (column) => ColumnOrderings(column));
+
+  $$SupportedLocalesTableOrderingComposer get locale {
+    final $$SupportedLocalesTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableOrderingComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$ContributorsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ContributorsTable> {
+  $$ContributorsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get content =>
+      $composableBuilder(column: $table.content, builder: (column) => column);
+
+  $$SupportedLocalesTableAnnotationComposer get locale {
+    final $$SupportedLocalesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.locale,
+        referencedTable: $db.supportedLocales,
+        getReferencedColumn: (t) => t.locale,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SupportedLocalesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.supportedLocales,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
 class $$ContributorsTableTableManager extends RootTableManager<
     _$AppDatabase,
     $ContributorsTable,
     Contributor,
     $$ContributorsTableFilterComposer,
     $$ContributorsTableOrderingComposer,
+    $$ContributorsTableAnnotationComposer,
     $$ContributorsTableCreateCompanionBuilder,
-    $$ContributorsTableUpdateCompanionBuilder> {
+    $$ContributorsTableUpdateCompanionBuilder,
+    (Contributor, $$ContributorsTableReferences),
+    Contributor,
+    PrefetchHooks Function({bool locale})> {
   $$ContributorsTableTableManager(_$AppDatabase db, $ContributorsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$ContributorsTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$ContributorsTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$ContributorsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ContributorsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ContributorsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> content = const Value.absent(),
@@ -6584,63 +8597,62 @@ class $$ContributorsTableTableManager extends RootTableManager<
             locale: locale,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$ContributorsTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({locale = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (locale) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.locale,
+                    referencedTable:
+                        $$ContributorsTableReferences._localeTable(db),
+                    referencedColumn:
+                        $$ContributorsTableReferences._localeTable(db).locale,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ));
 }
 
-class $$ContributorsTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $ContributorsTable> {
-  $$ContributorsTableFilterComposer(super.$state);
-  ColumnFilters<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get content => $state.composableBuilder(
-      column: $state.table.content,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  $$SupportedLocalesTableFilterComposer get locale {
-    final $$SupportedLocalesTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.locale,
-            referencedTable: $state.db.supportedLocales,
-            getReferencedColumn: (t) => t.locale,
-            builder: (joinBuilder, parentComposers) =>
-                $$SupportedLocalesTableFilterComposer(ComposerState($state.db,
-                    $state.db.supportedLocales, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
-class $$ContributorsTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $ContributorsTable> {
-  $$ContributorsTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get content => $state.composableBuilder(
-      column: $state.table.content,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  $$SupportedLocalesTableOrderingComposer get locale {
-    final $$SupportedLocalesTableOrderingComposer composer = $state
-        .composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.locale,
-            referencedTable: $state.db.supportedLocales,
-            getReferencedColumn: (t) => t.locale,
-            builder: (joinBuilder, parentComposers) =>
-                $$SupportedLocalesTableOrderingComposer(ComposerState($state.db,
-                    $state.db.supportedLocales, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
+typedef $$ContributorsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $ContributorsTable,
+    Contributor,
+    $$ContributorsTableFilterComposer,
+    $$ContributorsTableOrderingComposer,
+    $$ContributorsTableAnnotationComposer,
+    $$ContributorsTableCreateCompanionBuilder,
+    $$ContributorsTableUpdateCompanionBuilder,
+    (Contributor, $$ContributorsTableReferences),
+    Contributor,
+    PrefetchHooks Function({bool locale})>;
 typedef $$UserStatsTableCreateCompanionBuilder = UserStatsCompanion Function({
   required String statUuid,
   Value<int?> id,
@@ -6684,22 +8696,361 @@ typedef $$UserStatsTableUpdateCompanionBuilder = UserStatsCompanion Function({
   Value<int> rowid,
 });
 
+final class $$UserStatsTableReferences
+    extends BaseReferences<_$AppDatabase, $UserStatsTable, UserStat> {
+  $$UserStatsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $RecipesTable _recipeIdTable(_$AppDatabase db) => db.recipes
+      .createAlias($_aliasNameGenerator(db.userStats.recipeId, db.recipes.id));
+
+  $$RecipesTableProcessedTableManager get recipeId {
+    final manager = $$RecipesTableTableManager($_db, $_db.recipes)
+        .filter((f) => f.id($_item.recipeId));
+    final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $BrewingMethodsTable _brewingMethodIdTable(_$AppDatabase db) =>
+      db.brewingMethods.createAlias($_aliasNameGenerator(
+          db.userStats.brewingMethodId, db.brewingMethods.brewingMethodId));
+
+  $$BrewingMethodsTableProcessedTableManager get brewingMethodId {
+    final manager = $$BrewingMethodsTableTableManager($_db, $_db.brewingMethods)
+        .filter((f) => f.brewingMethodId($_item.brewingMethodId));
+    final item = $_typedResult.readTableOrNull(_brewingMethodIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$UserStatsTableFilterComposer
+    extends Composer<_$AppDatabase, $UserStatsTable> {
+  $$UserStatsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get statUuid => $composableBuilder(
+      column: $table.statUuid, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get coffeeAmount => $composableBuilder(
+      column: $table.coffeeAmount, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get waterAmount => $composableBuilder(
+      column: $table.waterAmount, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get sweetnessSliderPosition => $composableBuilder(
+      column: $table.sweetnessSliderPosition,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get strengthSliderPosition => $composableBuilder(
+      column: $table.strengthSliderPosition,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get beans => $composableBuilder(
+      column: $table.beans, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get roaster => $composableBuilder(
+      column: $table.roaster, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get rating => $composableBuilder(
+      column: $table.rating, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get coffeeBeansId => $composableBuilder(
+      column: $table.coffeeBeansId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isMarked => $composableBuilder(
+      column: $table.isMarked, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get coffeeBeansUuid => $composableBuilder(
+      column: $table.coffeeBeansUuid,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get versionVector => $composableBuilder(
+      column: $table.versionVector, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isDeleted => $composableBuilder(
+      column: $table.isDeleted, builder: (column) => ColumnFilters(column));
+
+  $$RecipesTableFilterComposer get recipeId {
+    final $$RecipesTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.recipeId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableFilterComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$BrewingMethodsTableFilterComposer get brewingMethodId {
+    final $$BrewingMethodsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.brewingMethodId,
+        referencedTable: $db.brewingMethods,
+        getReferencedColumn: (t) => t.brewingMethodId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BrewingMethodsTableFilterComposer(
+              $db: $db,
+              $table: $db.brewingMethods,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$UserStatsTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserStatsTable> {
+  $$UserStatsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get statUuid => $composableBuilder(
+      column: $table.statUuid, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get coffeeAmount => $composableBuilder(
+      column: $table.coffeeAmount,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get waterAmount => $composableBuilder(
+      column: $table.waterAmount, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get sweetnessSliderPosition => $composableBuilder(
+      column: $table.sweetnessSliderPosition,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get strengthSliderPosition => $composableBuilder(
+      column: $table.strengthSliderPosition,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get beans => $composableBuilder(
+      column: $table.beans, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get roaster => $composableBuilder(
+      column: $table.roaster, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get rating => $composableBuilder(
+      column: $table.rating, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get coffeeBeansId => $composableBuilder(
+      column: $table.coffeeBeansId,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isMarked => $composableBuilder(
+      column: $table.isMarked, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get coffeeBeansUuid => $composableBuilder(
+      column: $table.coffeeBeansUuid,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get versionVector => $composableBuilder(
+      column: $table.versionVector,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isDeleted => $composableBuilder(
+      column: $table.isDeleted, builder: (column) => ColumnOrderings(column));
+
+  $$RecipesTableOrderingComposer get recipeId {
+    final $$RecipesTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.recipeId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableOrderingComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$BrewingMethodsTableOrderingComposer get brewingMethodId {
+    final $$BrewingMethodsTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.brewingMethodId,
+        referencedTable: $db.brewingMethods,
+        getReferencedColumn: (t) => t.brewingMethodId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BrewingMethodsTableOrderingComposer(
+              $db: $db,
+              $table: $db.brewingMethods,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$UserStatsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserStatsTable> {
+  $$UserStatsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get statUuid =>
+      $composableBuilder(column: $table.statUuid, builder: (column) => column);
+
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<double> get coffeeAmount => $composableBuilder(
+      column: $table.coffeeAmount, builder: (column) => column);
+
+  GeneratedColumn<double> get waterAmount => $composableBuilder(
+      column: $table.waterAmount, builder: (column) => column);
+
+  GeneratedColumn<int> get sweetnessSliderPosition => $composableBuilder(
+      column: $table.sweetnessSliderPosition, builder: (column) => column);
+
+  GeneratedColumn<int> get strengthSliderPosition => $composableBuilder(
+      column: $table.strengthSliderPosition, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<String> get beans =>
+      $composableBuilder(column: $table.beans, builder: (column) => column);
+
+  GeneratedColumn<String> get roaster =>
+      $composableBuilder(column: $table.roaster, builder: (column) => column);
+
+  GeneratedColumn<double> get rating =>
+      $composableBuilder(column: $table.rating, builder: (column) => column);
+
+  GeneratedColumn<int> get coffeeBeansId => $composableBuilder(
+      column: $table.coffeeBeansId, builder: (column) => column);
+
+  GeneratedColumn<bool> get isMarked =>
+      $composableBuilder(column: $table.isMarked, builder: (column) => column);
+
+  GeneratedColumn<String> get coffeeBeansUuid => $composableBuilder(
+      column: $table.coffeeBeansUuid, builder: (column) => column);
+
+  GeneratedColumn<String> get versionVector => $composableBuilder(
+      column: $table.versionVector, builder: (column) => column);
+
+  GeneratedColumn<bool> get isDeleted =>
+      $composableBuilder(column: $table.isDeleted, builder: (column) => column);
+
+  $$RecipesTableAnnotationComposer get recipeId {
+    final $$RecipesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.recipeId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$BrewingMethodsTableAnnotationComposer get brewingMethodId {
+    final $$BrewingMethodsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.brewingMethodId,
+        referencedTable: $db.brewingMethods,
+        getReferencedColumn: (t) => t.brewingMethodId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$BrewingMethodsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.brewingMethods,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
 class $$UserStatsTableTableManager extends RootTableManager<
     _$AppDatabase,
     $UserStatsTable,
     UserStat,
     $$UserStatsTableFilterComposer,
     $$UserStatsTableOrderingComposer,
+    $$UserStatsTableAnnotationComposer,
     $$UserStatsTableCreateCompanionBuilder,
-    $$UserStatsTableUpdateCompanionBuilder> {
+    $$UserStatsTableUpdateCompanionBuilder,
+    (UserStat, $$UserStatsTableReferences),
+    UserStat,
+    PrefetchHooks Function({bool recipeId, bool brewingMethodId})> {
   $$UserStatsTableTableManager(_$AppDatabase db, $UserStatsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$UserStatsTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$UserStatsTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$UserStatsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserStatsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserStatsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> statUuid = const Value.absent(),
             Value<int?> id = const Value.absent(),
@@ -6784,226 +9135,73 @@ class $$UserStatsTableTableManager extends RootTableManager<
             isDeleted: isDeleted,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$UserStatsTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({recipeId = false, brewingMethodId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (recipeId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.recipeId,
+                    referencedTable:
+                        $$UserStatsTableReferences._recipeIdTable(db),
+                    referencedColumn:
+                        $$UserStatsTableReferences._recipeIdTable(db).id,
+                  ) as T;
+                }
+                if (brewingMethodId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.brewingMethodId,
+                    referencedTable:
+                        $$UserStatsTableReferences._brewingMethodIdTable(db),
+                    referencedColumn: $$UserStatsTableReferences
+                        ._brewingMethodIdTable(db)
+                        .brewingMethodId,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ));
 }
 
-class $$UserStatsTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $UserStatsTable> {
-  $$UserStatsTableFilterComposer(super.$state);
-  ColumnFilters<String> get statUuid => $state.composableBuilder(
-      column: $state.table.statUuid,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<double> get coffeeAmount => $state.composableBuilder(
-      column: $state.table.coffeeAmount,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<double> get waterAmount => $state.composableBuilder(
-      column: $state.table.waterAmount,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get sweetnessSliderPosition => $state.composableBuilder(
-      column: $state.table.sweetnessSliderPosition,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get strengthSliderPosition => $state.composableBuilder(
-      column: $state.table.strengthSliderPosition,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<DateTime> get createdAt => $state.composableBuilder(
-      column: $state.table.createdAt,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get notes => $state.composableBuilder(
-      column: $state.table.notes,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get beans => $state.composableBuilder(
-      column: $state.table.beans,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get roaster => $state.composableBuilder(
-      column: $state.table.roaster,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<double> get rating => $state.composableBuilder(
-      column: $state.table.rating,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get coffeeBeansId => $state.composableBuilder(
-      column: $state.table.coffeeBeansId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get isMarked => $state.composableBuilder(
-      column: $state.table.isMarked,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get coffeeBeansUuid => $state.composableBuilder(
-      column: $state.table.coffeeBeansUuid,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get versionVector => $state.composableBuilder(
-      column: $state.table.versionVector,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get isDeleted => $state.composableBuilder(
-      column: $state.table.isDeleted,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  $$RecipesTableFilterComposer get recipeId {
-    final $$RecipesTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $state.db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) => $$RecipesTableFilterComposer(
-            ComposerState(
-                $state.db, $state.db.recipes, joinBuilder, parentComposers)));
-    return composer;
-  }
-
-  $$BrewingMethodsTableFilterComposer get brewingMethodId {
-    final $$BrewingMethodsTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $state.db.brewingMethods,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder, parentComposers) =>
-            $$BrewingMethodsTableFilterComposer(ComposerState($state.db,
-                $state.db.brewingMethods, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
-class $$UserStatsTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $UserStatsTable> {
-  $$UserStatsTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get statUuid => $state.composableBuilder(
-      column: $state.table.statUuid,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<double> get coffeeAmount => $state.composableBuilder(
-      column: $state.table.coffeeAmount,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<double> get waterAmount => $state.composableBuilder(
-      column: $state.table.waterAmount,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get sweetnessSliderPosition => $state.composableBuilder(
-      column: $state.table.sweetnessSliderPosition,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get strengthSliderPosition => $state.composableBuilder(
-      column: $state.table.strengthSliderPosition,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<DateTime> get createdAt => $state.composableBuilder(
-      column: $state.table.createdAt,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get notes => $state.composableBuilder(
-      column: $state.table.notes,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get beans => $state.composableBuilder(
-      column: $state.table.beans,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get roaster => $state.composableBuilder(
-      column: $state.table.roaster,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<double> get rating => $state.composableBuilder(
-      column: $state.table.rating,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get coffeeBeansId => $state.composableBuilder(
-      column: $state.table.coffeeBeansId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get isMarked => $state.composableBuilder(
-      column: $state.table.isMarked,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get coffeeBeansUuid => $state.composableBuilder(
-      column: $state.table.coffeeBeansUuid,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get versionVector => $state.composableBuilder(
-      column: $state.table.versionVector,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get isDeleted => $state.composableBuilder(
-      column: $state.table.isDeleted,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  $$RecipesTableOrderingComposer get recipeId {
-    final $$RecipesTableOrderingComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $state.db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) =>
-            $$RecipesTableOrderingComposer(ComposerState(
-                $state.db, $state.db.recipes, joinBuilder, parentComposers)));
-    return composer;
-  }
-
-  $$BrewingMethodsTableOrderingComposer get brewingMethodId {
-    final $$BrewingMethodsTableOrderingComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.brewingMethodId,
-            referencedTable: $state.db.brewingMethods,
-            getReferencedColumn: (t) => t.brewingMethodId,
-            builder: (joinBuilder, parentComposers) =>
-                $$BrewingMethodsTableOrderingComposer(ComposerState($state.db,
-                    $state.db.brewingMethods, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
+typedef $$UserStatsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $UserStatsTable,
+    UserStat,
+    $$UserStatsTableFilterComposer,
+    $$UserStatsTableOrderingComposer,
+    $$UserStatsTableAnnotationComposer,
+    $$UserStatsTableCreateCompanionBuilder,
+    $$UserStatsTableUpdateCompanionBuilder,
+    (UserStat, $$UserStatsTableReferences),
+    UserStat,
+    PrefetchHooks Function({bool recipeId, bool brewingMethodId})>;
 typedef $$CoffeeBeansTableCreateCompanionBuilder = CoffeeBeansCompanion
     Function({
   required String beansUuid,
@@ -7049,22 +9247,225 @@ typedef $$CoffeeBeansTableUpdateCompanionBuilder = CoffeeBeansCompanion
   Value<int> rowid,
 });
 
+class $$CoffeeBeansTableFilterComposer
+    extends Composer<_$AppDatabase, $CoffeeBeansTable> {
+  $$CoffeeBeansTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get beansUuid => $composableBuilder(
+      column: $table.beansUuid, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get roaster => $composableBuilder(
+      column: $table.roaster, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get origin => $composableBuilder(
+      column: $table.origin, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get variety => $composableBuilder(
+      column: $table.variety, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get tastingNotes => $composableBuilder(
+      column: $table.tastingNotes, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get processingMethod => $composableBuilder(
+      column: $table.processingMethod,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get elevation => $composableBuilder(
+      column: $table.elevation, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get harvestDate => $composableBuilder(
+      column: $table.harvestDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get roastDate => $composableBuilder(
+      column: $table.roastDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get region => $composableBuilder(
+      column: $table.region, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get roastLevel => $composableBuilder(
+      column: $table.roastLevel, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get cuppingScore => $composableBuilder(
+      column: $table.cuppingScore, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isFavorite => $composableBuilder(
+      column: $table.isFavorite, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get versionVector => $composableBuilder(
+      column: $table.versionVector, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isDeleted => $composableBuilder(
+      column: $table.isDeleted, builder: (column) => ColumnFilters(column));
+}
+
+class $$CoffeeBeansTableOrderingComposer
+    extends Composer<_$AppDatabase, $CoffeeBeansTable> {
+  $$CoffeeBeansTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get beansUuid => $composableBuilder(
+      column: $table.beansUuid, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get roaster => $composableBuilder(
+      column: $table.roaster, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get origin => $composableBuilder(
+      column: $table.origin, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get variety => $composableBuilder(
+      column: $table.variety, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get tastingNotes => $composableBuilder(
+      column: $table.tastingNotes,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get processingMethod => $composableBuilder(
+      column: $table.processingMethod,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get elevation => $composableBuilder(
+      column: $table.elevation, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get harvestDate => $composableBuilder(
+      column: $table.harvestDate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get roastDate => $composableBuilder(
+      column: $table.roastDate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get region => $composableBuilder(
+      column: $table.region, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get roastLevel => $composableBuilder(
+      column: $table.roastLevel, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get cuppingScore => $composableBuilder(
+      column: $table.cuppingScore,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isFavorite => $composableBuilder(
+      column: $table.isFavorite, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get versionVector => $composableBuilder(
+      column: $table.versionVector,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isDeleted => $composableBuilder(
+      column: $table.isDeleted, builder: (column) => ColumnOrderings(column));
+}
+
+class $$CoffeeBeansTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CoffeeBeansTable> {
+  $$CoffeeBeansTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get beansUuid =>
+      $composableBuilder(column: $table.beansUuid, builder: (column) => column);
+
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get roaster =>
+      $composableBuilder(column: $table.roaster, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get origin =>
+      $composableBuilder(column: $table.origin, builder: (column) => column);
+
+  GeneratedColumn<String> get variety =>
+      $composableBuilder(column: $table.variety, builder: (column) => column);
+
+  GeneratedColumn<String> get tastingNotes => $composableBuilder(
+      column: $table.tastingNotes, builder: (column) => column);
+
+  GeneratedColumn<String> get processingMethod => $composableBuilder(
+      column: $table.processingMethod, builder: (column) => column);
+
+  GeneratedColumn<int> get elevation =>
+      $composableBuilder(column: $table.elevation, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get harvestDate => $composableBuilder(
+      column: $table.harvestDate, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get roastDate =>
+      $composableBuilder(column: $table.roastDate, builder: (column) => column);
+
+  GeneratedColumn<String> get region =>
+      $composableBuilder(column: $table.region, builder: (column) => column);
+
+  GeneratedColumn<String> get roastLevel => $composableBuilder(
+      column: $table.roastLevel, builder: (column) => column);
+
+  GeneratedColumn<double> get cuppingScore => $composableBuilder(
+      column: $table.cuppingScore, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<bool> get isFavorite => $composableBuilder(
+      column: $table.isFavorite, builder: (column) => column);
+
+  GeneratedColumn<String> get versionVector => $composableBuilder(
+      column: $table.versionVector, builder: (column) => column);
+
+  GeneratedColumn<bool> get isDeleted =>
+      $composableBuilder(column: $table.isDeleted, builder: (column) => column);
+}
+
 class $$CoffeeBeansTableTableManager extends RootTableManager<
     _$AppDatabase,
     $CoffeeBeansTable,
     CoffeeBean,
     $$CoffeeBeansTableFilterComposer,
     $$CoffeeBeansTableOrderingComposer,
+    $$CoffeeBeansTableAnnotationComposer,
     $$CoffeeBeansTableCreateCompanionBuilder,
-    $$CoffeeBeansTableUpdateCompanionBuilder> {
+    $$CoffeeBeansTableUpdateCompanionBuilder,
+    (CoffeeBean, BaseReferences<_$AppDatabase, $CoffeeBeansTable, CoffeeBean>),
+    CoffeeBean,
+    PrefetchHooks Function()> {
   $$CoffeeBeansTableTableManager(_$AppDatabase db, $CoffeeBeansTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$CoffeeBeansTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$CoffeeBeansTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$CoffeeBeansTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CoffeeBeansTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CoffeeBeansTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> beansUuid = const Value.absent(),
             Value<int?> id = const Value.absent(),
@@ -7149,196 +9550,25 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             isDeleted: isDeleted,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$CoffeeBeansTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $CoffeeBeansTable> {
-  $$CoffeeBeansTableFilterComposer(super.$state);
-  ColumnFilters<String> get beansUuid => $state.composableBuilder(
-      column: $state.table.beansUuid,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get roaster => $state.composableBuilder(
-      column: $state.table.roaster,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get name => $state.composableBuilder(
-      column: $state.table.name,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get origin => $state.composableBuilder(
-      column: $state.table.origin,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get variety => $state.composableBuilder(
-      column: $state.table.variety,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get tastingNotes => $state.composableBuilder(
-      column: $state.table.tastingNotes,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get processingMethod => $state.composableBuilder(
-      column: $state.table.processingMethod,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get elevation => $state.composableBuilder(
-      column: $state.table.elevation,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<DateTime> get harvestDate => $state.composableBuilder(
-      column: $state.table.harvestDate,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<DateTime> get roastDate => $state.composableBuilder(
-      column: $state.table.roastDate,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get region => $state.composableBuilder(
-      column: $state.table.region,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get roastLevel => $state.composableBuilder(
-      column: $state.table.roastLevel,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<double> get cuppingScore => $state.composableBuilder(
-      column: $state.table.cuppingScore,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get notes => $state.composableBuilder(
-      column: $state.table.notes,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get isFavorite => $state.composableBuilder(
-      column: $state.table.isFavorite,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get versionVector => $state.composableBuilder(
-      column: $state.table.versionVector,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get isDeleted => $state.composableBuilder(
-      column: $state.table.isDeleted,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$CoffeeBeansTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $CoffeeBeansTable> {
-  $$CoffeeBeansTableOrderingComposer(super.$state);
-  ColumnOrderings<String> get beansUuid => $state.composableBuilder(
-      column: $state.table.beansUuid,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get roaster => $state.composableBuilder(
-      column: $state.table.roaster,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get name => $state.composableBuilder(
-      column: $state.table.name,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get origin => $state.composableBuilder(
-      column: $state.table.origin,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get variety => $state.composableBuilder(
-      column: $state.table.variety,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get tastingNotes => $state.composableBuilder(
-      column: $state.table.tastingNotes,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get processingMethod => $state.composableBuilder(
-      column: $state.table.processingMethod,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get elevation => $state.composableBuilder(
-      column: $state.table.elevation,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<DateTime> get harvestDate => $state.composableBuilder(
-      column: $state.table.harvestDate,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<DateTime> get roastDate => $state.composableBuilder(
-      column: $state.table.roastDate,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get region => $state.composableBuilder(
-      column: $state.table.region,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get roastLevel => $state.composableBuilder(
-      column: $state.table.roastLevel,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<double> get cuppingScore => $state.composableBuilder(
-      column: $state.table.cuppingScore,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get notes => $state.composableBuilder(
-      column: $state.table.notes,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get isFavorite => $state.composableBuilder(
-      column: $state.table.isFavorite,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get versionVector => $state.composableBuilder(
-      column: $state.table.versionVector,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get isDeleted => $state.composableBuilder(
-      column: $state.table.isDeleted,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
+typedef $$CoffeeBeansTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $CoffeeBeansTable,
+    CoffeeBean,
+    $$CoffeeBeansTableFilterComposer,
+    $$CoffeeBeansTableOrderingComposer,
+    $$CoffeeBeansTableAnnotationComposer,
+    $$CoffeeBeansTableCreateCompanionBuilder,
+    $$CoffeeBeansTableUpdateCompanionBuilder,
+    (CoffeeBean, BaseReferences<_$AppDatabase, $CoffeeBeansTable, CoffeeBean>),
+    CoffeeBean,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;

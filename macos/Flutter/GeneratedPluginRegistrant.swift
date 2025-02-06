@@ -17,7 +17,7 @@ import path_provider_foundation
 import share_plus
 import shared_preferences_foundation
 import sign_in_with_apple
-import sqflite
+import sqflite_darwin
 import sqlite3_flutter_libs
 import url_launcher_macos
 import wakelock_plus

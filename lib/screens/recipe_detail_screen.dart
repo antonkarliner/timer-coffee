@@ -17,7 +17,7 @@ import '../models/recipe_summary.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:ui';
-import "package:universal_html/html.dart" as html;
+import 'package:web/web.dart' as web;
 import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../widgets/add_coffee_beans_widget.dart';
@@ -344,7 +344,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     RecipeModel recipe = _updatedRecipe!;
 
     if (kIsWeb) {
-      html.document.title = '${recipe.name} on Timer.Coffee';
+      web.document.title = '${recipe.name} on Timer.Coffee';
     }
 
     // Replace kFloatingActionButtonSize with 56.0
