@@ -1,1 +1,3 @@
-Se corrigieron errores en la historia de Año Nuevo.
+Se ha movido "Tu año con Timer.Coffee" del inicio. Todavía puedes encontrarlo en Configuración.
+
++ varias correcciones y mejoras.

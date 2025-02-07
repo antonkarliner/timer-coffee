@@ -1,1 +1,5 @@
-Fixed bugs in New Year story.
+Certainly! Here is the translation of the text into review_information format:
+
+"Your Year with Timer.Coffee" has been relocated from the home screen. You can still access it in the Settings menu.
+
+Additionally, various fixes and improvements have been made.

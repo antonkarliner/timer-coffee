@@ -1,0 +1,3 @@
+Se ha movido "Tu Año con Timer.Coffee" fuera de la pantalla de inicio. Aún puedes encontrarlo en Configuración.
+
++ varias correcciones y mejoras.

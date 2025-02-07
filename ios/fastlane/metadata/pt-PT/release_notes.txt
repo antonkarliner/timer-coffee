@@ -1,1 +1,3 @@
-Corrigidos erros na história de Ano Novo.
+Removemos "O Seu Ano com o Timer.Coffee" do ecrã inicial. Ainda pode encontrá-lo em Definições.
+
++ várias correções e melhorias.

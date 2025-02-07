@@ -1,1 +1,5 @@
-Corrigidos bugs na história de Ano Novo.
+Texto traduzido para pt-BR:
+
+Removido "Seu Ano com Timer.Coffee" da tela inicial. Você ainda pode encontrá-lo em Configurações.
+
++ várias correções e melhorias.

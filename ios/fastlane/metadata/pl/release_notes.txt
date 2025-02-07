@@ -1,1 +1,3 @@
-Naprawiono błędy w historii noworocznej.
+Przeniesiono „Twój rok z Timer.Coffee” z ekranu głównego. Nadal możesz go znaleźć w Ustawieniach.
+
++ różne poprawki i usprawnienia.

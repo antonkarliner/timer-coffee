@@ -1,1 +1,3 @@
-Yeni Yıl hikayesinde hatalar giderildi.
+"Timer.Coffee ile Yılınız" ana ekrandan kaldırıldı. Hâlâ Ayarlar'da bulabilirsiniz.
+
++ çeşitli düzeltmeler ve iyileştirmeler.

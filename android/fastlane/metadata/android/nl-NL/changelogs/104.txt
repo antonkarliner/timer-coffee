@@ -1,0 +1,3 @@
+"Je jaar met Timer.Coffee" verplaatst van het startscherm. Je kunt het nog steeds vinden in Instellingen.
+
++ diverse oplossingen en verbeteringen.

@@ -1,0 +1,3 @@
+Removemos "O Seu Ano com a Timer.Coffee" do ecrã inicial. Ainda pode encontrá-lo em Definições.
+
++ várias correções e melhorias.

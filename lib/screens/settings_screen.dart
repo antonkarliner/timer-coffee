@@ -252,6 +252,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onTap: () => snowEffectProvider.toggleSnowEffect(),
                   ),
                 ),
+                Semantics(
+                  identifier: 'snowListTile',
+                  child: ListTile(
+                    leading: const Icon(Icons.calendar_month),
+                    title: Text(
+                      '${AppLocalizations.of(context)!.yearlyStatsAppBarTitle} – 2024',
+                    ),
+                    onTap: () {
+                      context.router.push(const YearlyStatsStoryRoute());
+                    },
+                  ),
+                ),
               ],
             ),
           ),

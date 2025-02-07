@@ -1,0 +1,3 @@
+Removemos "Seu Ano com Timer.Coffee" da tela inicial. Você ainda pode encontrá-lo em Configurações.
+
++ várias correções e melhorias.

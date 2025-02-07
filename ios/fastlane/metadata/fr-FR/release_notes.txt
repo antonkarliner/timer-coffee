@@ -1,1 +1,3 @@
-Bugs corrigés dans l'histoire du Nouvel An.
+Déplacé "Votre année avec Timer.Coffee" de l'écran d'accueil. Vous pouvez toujours le trouver dans les Paramètres.
+
++ divers correctifs et améliorations.
