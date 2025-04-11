@@ -27,4 +27,4 @@ If you find the app useful and you want to support the development, you can use 
 
 Enjoy your coffee!
 
-![image](https://i.imgur.com/xN1b9gk.png)
+![big-size-light](https://github.com/user-attachments/assets/52930e0d-9614-4b24-81ed-7220bd09a1b6)
