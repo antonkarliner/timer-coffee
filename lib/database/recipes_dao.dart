@@ -41,6 +41,8 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
       customCoffeeAmount: preferences?.customCoffeeAmount,
       customWaterAmount: preferences?.customWaterAmount,
       vendorId: recipeData.vendorId,
+      importId: recipeData.importId, // Fetch importId
+      isImported: recipeData.isImported, // Fetch isImported
     );
   }
 
@@ -88,6 +90,8 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
         customCoffeeAmount: preferences?.customCoffeeAmount,
         customWaterAmount: preferences?.customWaterAmount,
         vendorId: recipeData.vendorId,
+        importId: recipeData.importId, // Fetch importId
+        isImported: recipeData.isImported, // Fetch isImported
       ));
     }
     return recipeModels;
@@ -104,6 +108,10 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
     await into(recipes).insertOnConflictUpdate(recipe);
   }
 
+  Future<void> deleteRecipe(String recipeId) async {
+    await (delete(recipes)..where((t) => t.id.equals(recipeId))).go();
+  }
+
   Future<DateTime?> fetchLastModified() async {
     final query = select(recipes)
       ..orderBy([
@@ -112,5 +120,73 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
       ..limit(1);
     final result = await query.getSingleOrNull();
     return result?.lastModified;
+  }
+
+  Future<List<Recipe>> getUserRecipes() async {
+    return (select(recipes)..where((tbl) => tbl.id.like('usr-%'))).get();
+  }
+
+  Future<List<Recipe>> getImportedRecipes() async {
+    return (select(recipes)
+          ..where(
+              (tbl) => tbl.isImported.equals(true) & tbl.importId.isNotNull()))
+        .get();
+  }
+
+  // New method to find a recipe by its import ID
+  Future<Recipe?> getRecipeByImportId(String importId) async {
+    return (select(recipes)..where((tbl) => tbl.importId.equals(importId)))
+        .getSingleOrNull();
+  }
+
+  // Get imported recipes for a specific user (used to check for initial upload)
+  Future<List<Recipe>> getImportedRecipesForUserNotYetUploaded(
+      String userId) async {
+    return (select(recipes)
+          ..where((tbl) =>
+              tbl.vendorId.equals('usr-$userId') & // Belongs to the user
+              tbl.isImported.equals(true))) // Is marked as imported
+        .get();
+  }
+
+  // Generic update method for a recipe
+  Future<int> updateRecipe(String recipeId, RecipesCompanion data) async {
+    return (update(recipes)..where((tbl) => tbl.id.equals(recipeId)))
+        .write(data);
+  }
+
+  // Get user recipes modified after a certain time, excluding those needing moderation
+  Future<List<Recipe>> getUserRecipesModifiedAfter(
+      DateTime? afterTime, String userId) async {
+    final query = select(recipes)
+      ..where((tbl) =>
+          tbl.vendorId.equals('usr-$userId') & // Match the user's vendor ID
+          tbl.needsModerationReview.equals(false)); // Exclude flagged recipes
+
+    if (afterTime != null) {
+      // Ensure comparison is done in UTC
+      query.where(
+          (tbl) => tbl.lastModified.isBiggerThanValue(afterTime.toUtc()));
+    }
+
+    return query.get();
+  }
+
+  // --- Methods for Moderation Flag ---
+
+  // Set the needs_moderation_review flag to true for a specific recipe
+  Future<void> setNeedsModerationReview(
+      String recipeId, bool needsReview) async {
+    await (update(recipes)..where((tbl) => tbl.id.equals(recipeId)))
+        .write(RecipesCompanion(
+      needsModerationReview: Value(needsReview),
+    ));
+  }
+
+  // Get all recipes that need moderation review
+  Future<List<Recipe>> getRecipesNeedingModeration() async {
+    return (select(recipes)
+          ..where((tbl) => tbl.needsModerationReview.equals(true)))
+        .get();
   }
 }

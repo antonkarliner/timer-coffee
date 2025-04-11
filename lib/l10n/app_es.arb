@@ -233,5 +233,254 @@
   "labelUsedBrewingMethods": "Métodos utilizados",
   "formattedRoasterCount": "{count} {count, plural, one {tostador} other {tostadores}}",
   "formattedCountryCount": "{count} {count, plural, one {país} other {países}}",
-  "formattedBrewingMethodCount": "{count} {count, plural, one {método de preparación} other {métodos de preparación}}"
+  "formattedBrewingMethodCount": "{count} {count, plural, one {método de preparación} other {métodos de preparación}}",
+  "recipeCreationScreenEditRecipeTitle": "Editar Receta",
+  "recipeCreationScreenCreateRecipeTitle": "Crear Receta",
+  "recipeCreationScreenRecipeStepsTitle": "Pasos de la Receta",
+  "recipeCreationScreenRecipeNameLabel": "Nombre de la Receta",
+  "recipeCreationScreenShortDescriptionLabel": "Descripción Corta",
+  "recipeCreationScreenBrewingMethodLabel": "Método de Preparación",
+  "recipeCreationScreenCoffeeAmountLabel": "Cantidad de Café (g)",
+  "recipeCreationScreenWaterAmountLabel": "Cantidad de Agua (ml)",
+  "recipeCreationScreenWaterTempLabel": "Temperatura del Agua (°C)",
+  "recipeCreationScreenGrindSizeLabel": "Tamaño de Molienda",
+  "recipeCreationScreenTotalBrewTimeLabel": "Tiempo Total de Preparación:",
+  "recipeCreationScreenMinutesLabel": "Minutos",
+  "recipeCreationScreenSecondsLabel": "Segundos",
+  "recipeCreationScreenPreparationStepTitle": "Paso de Preparación",
+  "recipeCreationScreenBrewStepTitle": "Paso de Preparación {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "Título para un paso de preparación en la pantalla de creación de recetas",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "Descripción del Paso",
+  "recipeCreationScreenStepTimeLabel": "Tiempo del Paso: ",
+  "recipeCreationScreenRecipeNameValidator": "Por favor, introduce un nombre para la receta",
+  "recipeCreationScreenShortDescriptionValidator": "Por favor, introduce una descripción corta",
+  "recipeCreationScreenBrewingMethodValidator": "Por favor, selecciona un método de preparación",
+  "recipeCreationScreenRequiredValidator": "Requerido",
+  "recipeCreationScreenInvalidNumberValidator": "Número inválido",
+  "recipeCreationScreenStepDescriptionValidator": "Por favor, introduce una descripción para el paso",
+  "recipeCreationScreenContinueButton": "Continuar a los Pasos de la Receta",
+  "recipeCreationScreenAddStepButton": "Añadir Paso",
+  "recipeCreationScreenSaveRecipeButton": "Guardar Receta",
+  "recipeCreationScreenUpdateSuccess": "Receta actualizada con éxito",
+  "recipeCreationScreenSaveSuccess": "Receta guardada con éxito",
+  "recipeCreationScreenSaveError": "Error al guardar la receta: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "Mensaje de error cuando falla el guardado de una receta",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Error de base de datos"
+      }
+    }
+  },
+  "unitGramsShort": "g",
+  "unitMillilitersShort": "ml",
+  "unitGramsLong": "gramos",
+  "unitMillilitersLong": "mililitros",
+  "recipeCopySuccess": "¡Receta copiada con éxito!",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "Error al copiar la receta: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "Crear receta",
+  "errorSyncingData": "Error al sincronizar datos: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "errorSigningOut": "Error al cerrar sesión: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "defaultPreparationStepDescription": "Preparación",
+  "loadingEllipsis": "Cargando...",
+  "recipeDeletedSuccess": "Receta eliminada con éxito",
+  "recipeDeleteError": "Error al eliminar la receta: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "noRecipesFound": "No se encontraron recetas",
+  "recipeLoadError": "Error al cargar la receta: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "unknownBrewingMethod": "Método de preparación desconocido",
+  "recipeCopyErrorLoadingEdit": "Error al cargar la receta copiada para editar.",
+  "recipeCopyErrorOperationFailed": "Operación fallida.",
+  "notProvided": "No proporcionado",
+  "recipeUpdateAvailableTitle": "Actualización disponible",
+  "recipeUpdateAvailableBody": "Hay una versión más reciente de '{recipeName}' disponible en línea. ¿Actualizar?",
+  "@recipeUpdateAvailableBody": {
+    "description": "Texto del cuerpo para el diálogo de confirmación de actualización",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Mi receta asombrosa"
+      }
+    }
+  },
+  "dialogCancel": "Cancelar",
+  "dialogUpdate": "Actualizar",
+  "recipeImportTitle": "Importar receta",
+  "recipeImportBody": "¿Quieres importar la receta '{recipeName}' de la nube?",
+  "@recipeImportBody": {
+    "description": "Texto del cuerpo para el diálogo de confirmación de importación",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Receta compartida"
+      }
+    }
+  },
+  "dialogImport": "Importar",
+  "moderationReviewNeededTitle": "Revisión de moderación necesaria",
+  "moderationReviewNeededMessage": "La(s) siguiente(s) receta(s) requiere(n) revisión debido a problemas de moderación de contenido: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "Mensaje mostrado cuando las recetas necesitan revisión de moderación",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'Mi Receta', 'Otra Receta'"
+      }
+    }
+  },
+  "dismiss": "Descartar",
+  "reviewRecipeButton": "Revisar Receta",
+  "signInRequiredTitle": "Inicio de sesión requerido",
+  "signInRequiredBodyShare": "Necesitas iniciar sesión para compartir tus propias recetas.",
+  "syncSuccess": "¡Sincronización exitosa!",
+  "tooltipEditRecipe": "Editar Receta",
+  "tooltipCopyRecipe": "Copiar Receta",
+  "tooltipShareRecipe": "Compartir Receta",
+  "signInRequiredSnackbar": "Inicio de sesión requerido",
+  "moderationErrorFunction": "Falló la verificación de moderación de contenido.",
+  "moderationReasonDefault": "Contenido marcado para revisión.",
+  "moderationFailedTitle": "Moderación Fallida",
+  "moderationFailedBody": "Esta receta no se puede compartir porque: {reason}",
+  "@moderationFailedBody": {
+    "description": "Texto del cuerpo del diálogo mostrado cuando falla la moderación de contenido",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Lenguaje inapropiado"
+      }
+    }
+  },
+  "shareErrorGeneric": "Error al compartir la receta: {error}",
+  "@shareErrorGeneric": {
+    "description": "Mensaje de error genérico mostrado si falla el proceso de compartir",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Error de red"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} en Timer.Coffee",
+  "@recipeDetailWebTitle": {
+    "description": "Formato del título de la página web para una página de detalles de receta",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Mi Impresionante V60"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "No se pudo verificar el estado del contenido. Guardado localmente, se verificará en la próxima sincronización.",
+  "saveLocallyModerationFailedTitle": "Cambios Guardados Localmente",
+  "saveLocallyModerationFailedBody": "Tus cambios locales se han guardado, pero la versión pública no pudo actualizarse debido a la moderación de contenido: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "Texto del cuerpo del diálogo mostrado cuando falla la moderación pero el guardado local tiene éxito",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Lenguaje inapropiado"
+      }
+    }
+  },
+  "recipeUpdateFailedFetch": "Error al obtener los datos actualizados de la receta.",
+  "recipeImportSuccess": "¡Receta importada con éxito!",
+  "recipeImportFailedSave": "Error al guardar la receta importada.",
+  "recipeImportFailedFetch": "Error al obtener los datos de la receta para importar.",
+  "recipeNotImported": "Receta no importada.",
+  "recipeNotFoundCloud": "Receta no encontrada en la nube o no es pública.",
+  "recipeLoadErrorGeneric": "Error al cargar la receta.",
+  "editImportedRecipeTitle": "Editar receta importada",
+  "editImportedRecipeBody": "Esta es una receta importada. Editarla creará una copia nueva e independiente. ¿Desea continuar?",
+  "editImportedRecipeButtonCopy": "Crear copia y editar",
+  "editImportedRecipeButtonCancel": "Cancelar",
+  "editDisplayNameTitle": "Editar nombre de usuario",
+  "displayNameHint": "Introduce tu nombre de usuario",
+  "displayNameEmptyError": "El nombre de usuario no puede estar vacío",
+  "displayNameTooLongError": "El nombre de usuario no puede exceder los 50 caracteres",
+  "errorUserNotLoggedIn": "Usuario no conectado. Por favor, inicia sesión de nuevo.",
+  "displayNameUpdateSuccess": "¡Nombre de usuario actualizado correctamente!",
+  "displayNameUpdateError": "Error al actualizar el nombre de usuario: {error}",
+  "@displayNameUpdateError": {
+    "description": "Mensaje de error cuando falla la actualización del nombre de usuario",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Error de red"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "¿Eliminar imagen?",
+  "deletePictureConfirmationBody": "¿Estás seguro de que quieres eliminar tu foto de perfil?",
+  "deletePictureSuccess": "Foto de perfil eliminada.",
+  "deletePictureError": "Error al eliminar la foto de perfil: {error}",
+  "@deletePictureError": {
+    "description": "Mensaje de error cuando falla la eliminación de la foto de perfil",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Error de almacenamiento"
+      }
+    }
+  },
+  "updatePictureError": "Error al actualizar la foto de perfil: {error}",
+  "@updatePictureError": {
+    "description": "Mensaje de error cuando falla la actualización de la foto de perfil",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Error de subida"
+      }
+    }
+  },
+  "updatePictureSuccess": "¡Foto de perfil actualizada correctamente!",
+  "deletePictureTooltip": "Eliminar imagen",
+  "account": "Cuenta"
 }

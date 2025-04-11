@@ -33,10 +33,7 @@ class RecipeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<RecipeModel>> get recipes async {
-    await ensureDataReady();
-    return _recipes;
-  }
+  List<RecipeModel> get recipes => _recipes;
 
   Future<void> ensureDataReady() async {
     if (!_isDataLoaded) {
@@ -65,9 +62,7 @@ class RecipeProvider extends ChangeNotifier {
       String brewingMethodId) async {
     await ensureDataReady();
     return _recipes
-        .where((recipe) =>
-            recipe.brewingMethodId == brewingMethodId &&
-            recipe.vendorId == "timercoffee")
+        .where((recipe) => recipe.brewingMethodId == brewingMethodId)
         .toList();
   }
 
@@ -87,16 +82,12 @@ class RecipeProvider extends ChangeNotifier {
     }
   }
 
-  Future<RecipeModel> getRecipeById(String recipeId) async {
+  Future<RecipeModel?> getRecipeById(String recipeId) async {
     await ensureDataReady();
     // Assume _locale is a variable holding the current locale set in RecipeProvider
     RecipeModel? recipe =
         await db.recipesDao.getRecipeModelById(recipeId, _locale.languageCode);
-    if (recipe != null) {
-      return recipe;
-    } else {
-      throw Exception('Recipe not found');
-    }
+    return recipe; // Simply return null if recipe is not found
   }
 
   Future<void> toggleFavorite(String recipeId) async {
@@ -212,24 +203,9 @@ class RecipeProvider extends ChangeNotifier {
     return favoriteRecipes;
   }
 
-  Future<List<VendorModel>> fetchAllActiveVendors() async {
-    await ensureDataReady(); // Ensure all initial data is loaded.
-    return db.vendorsDao.getAllActiveVendors();
-  }
-
   Future<List<RecipeModel>> fetchRecipesForVendor(String vendorId) async {
     await ensureDataReady(); // Ensure all initial data is loaded.
     return _recipes.where((recipe) => recipe.vendorId == vendorId).toList();
-  }
-
-  Future<String> fetchVendorName(String vendorId) async {
-    await ensureDataReady();
-    var vendor = await db.vendorsDao.getVendorById(vendorId);
-    return vendor?.vendorName ?? "Unknown Vendor";
-  }
-
-  Future<VendorModel?> fetchVendorById(String vendorId) async {
-    return db.vendorsDao.getVendorById(vendorId);
   }
 
   Future<LaunchPopupModel?> fetchLatestLaunchPopup(String locale) async {
@@ -274,12 +250,6 @@ class RecipeProvider extends ChangeNotifier {
     } else {
       throw Exception('No coffee facts found for the current locale');
     }
-  }
-
-  Future<String?> fetchVendorBannerUrl(String vendorId) async {
-    await ensureDataReady();
-    VendorModel? vendor = await db.vendorsDao.getVendorById(vendorId);
-    return vendor?.bannerUrl;
   }
 
   Future<List<ContributorModel>> fetchAllContributorsForCurrentLocale() async {

@@ -4,7 +4,6 @@ import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:drift/drift.dart';
 import 'connection/connection.dart' show connect;
 import '../models/brewing_method_model.dart';
-import '../models/vendor_model.dart';
 import '../models/supported_locale_model.dart';
 import '../models/coffee_fact_model.dart';
 import '../models/contributor_model.dart';
@@ -20,25 +19,12 @@ part 'steps_dao.dart';
 part 'recipe_localization_dao.dart';
 part 'user_recipe_preferences_dao.dart';
 part 'brewing_methods_dao.dart';
-part 'vendors_dao.dart';
 part 'supported_locales_dao.dart';
 part 'coffee_facts_dao.dart';
 part 'contributors_dao.dart';
 part 'user_stats_dao.dart';
 part 'launch_popups_dao.dart';
 part 'coffee_beans_dao.dart';
-
-class Vendors extends Table {
-  TextColumn get vendorId =>
-      text().named('vendor_id').withLength(min: 1, max: 255)();
-  TextColumn get vendorName => text().named('vendor_name')();
-  TextColumn get vendorDescription => text().named('vendor_description')();
-  TextColumn get bannerUrl => text().named('banner_url').nullable()();
-  BoolColumn get active => boolean().named('active')();
-
-  @override
-  Set<Column> get primaryKey => {vendorId};
-}
 
 class SupportedLocales extends Table {
   TextColumn get locale =>
@@ -74,12 +60,16 @@ class Recipes extends Table {
   RealColumn get waterTemp => real().named('water_temp')();
   IntColumn get brewTime =>
       integer().named('brew_time')(); // Brew time in seconds
-  TextColumn get vendorId => text()
-      .named('vendor_id')
-      .references(Vendors, #vendorId, onDelete: KeyAction.setNull)
-      .nullable()();
+  TextColumn get vendorId => text().named('vendor_id').nullable()();
   DateTimeColumn get lastModified =>
       dateTime().named('last_modified').nullable()();
+  TextColumn get importId => text().named('import_id').nullable()();
+  BoolColumn get isImported =>
+      boolean().named('is_imported').withDefault(const Constant(false))();
+  // New column for tracking moderation status
+  BoolColumn get needsModerationReview => boolean()
+      .named('needs_moderation_review')
+      .withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -187,8 +177,9 @@ class Contributors extends Table {
 class UserStats extends Table {
   TextColumn get statUuid => text().named('stat_uuid')();
   IntColumn get id => integer().named('id').nullable()();
-  TextColumn get recipeId =>
-      text().named('recipe_id').references(Recipes, #id)();
+  TextColumn get recipeId => text()
+      .named('recipe_id')
+      .references(Recipes, #id, onDelete: KeyAction.cascade)();
   RealColumn get coffeeAmount => real().named('coffee_amount')();
   RealColumn get waterAmount => real().named('water_amount')();
   IntColumn get sweetnessSliderPosition =>
@@ -251,7 +242,6 @@ class CoffeeBeans extends Table {
 
 @DriftDatabase(
   tables: [
-    Vendors,
     SupportedLocales,
     BrewingMethods,
     Recipes,
@@ -270,7 +260,6 @@ class CoffeeBeans extends Table {
     RecipeLocalizationsDao,
     UserRecipePreferencesDao,
     BrewingMethodsDao,
-    VendorsDao,
     SupportedLocalesDao,
     CoffeeFactsDao,
     ContributorsDao,
@@ -283,11 +272,18 @@ class AppDatabase extends _$AppDatabase {
   final bool enableForeignKeyConstraints;
   final Uuid _uuid = Uuid();
 
-  AppDatabase({this.enableForeignKeyConstraints = true})
-      : super(_openConnection());
+  AppDatabase(QueryExecutor executor, {bool? enableForeignKeyConstraints})
+      : enableForeignKeyConstraints = enableForeignKeyConstraints ?? true,
+        super(executor);
+
+  AppDatabase.withDefault({bool enableForeignKeyConstraints = true})
+      : this(_openConnection(),
+            enableForeignKeyConstraints: enableForeignKeyConstraints);
+
+  factory AppDatabase.fromExecutor(QueryExecutor e) => AppDatabase(e);
 
   @override
-  int get schemaVersion => 18;
+  int get schemaVersion => 23; // Incremented schema version
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -303,7 +299,8 @@ class AppDatabase extends _$AppDatabase {
         onUpgrade: (m, oldVersion, newVersion) async {
           await stepByStep(
             from1To2: (m, schema) async {
-              await m.addColumn(schema.vendors, schema.vendors.bannerUrl);
+              // Note: Vendors table was dropped in v20, this migration might be obsolete
+              // await m.addColumn(schema.vendors, schema.vendors.bannerUrl);
             },
             from2To3: (m, schema) async {
               await m.createIndex(schema.idxRecipesLastModified);
@@ -318,7 +315,8 @@ class AppDatabase extends _$AppDatabase {
             from5To6: (m, schema) async {
               await m.createTable(launchPopups);
               await m.createIndex(schema.idxLaunchPopupsCreatedAt);
-              await m.deleteTable('StartPopups');
+              // await m.deleteTable('StartPopups'); // Use customStatement for safety
+              await customStatement('DROP TABLE IF EXISTS StartPopups');
             },
             from6To7: (m, schema) async {
               await m.addColumn(userStats, userStats.coffeeBeansId);
@@ -383,7 +381,9 @@ class AppDatabase extends _$AppDatabase {
               }
             },
             from9To10: (m, schema) async {
-              await m.dropColumn(userStats, 'user_id');
+              // await m.dropColumn(userStats, 'user_id'); // Use customStatement for safety
+              await customStatement(
+                  'ALTER TABLE user_stats DROP COLUMN user_id');
             },
             from10To11: (m, schema) async {
               await customStatement('PRAGMA foreign_keys = OFF');
@@ -443,12 +443,12 @@ class AppDatabase extends _$AppDatabase {
 
                 // Step 5: Copy data to new table
                 await customStatement('''
-      INSERT OR REPLACE INTO new_user_stats 
-      SELECT 
+      INSERT OR REPLACE INTO new_user_stats
+      SELECT
         stat_uuid,
-        id, recipe_id, coffee_amount, water_amount, 
-        sweetness_slider_position, strength_slider_position, brewing_method_id, 
-        COALESCE(created_at, CAST(strftime('%s', 'now') AS INTEGER)) as created_at, 
+        id, recipe_id, coffee_amount, water_amount,
+        sweetness_slider_position, strength_slider_position, brewing_method_id,
+        COALESCE(created_at, CAST(strftime('%s', 'now') AS INTEGER)) as created_at,
         notes, beans, roaster, rating, coffee_beans_id, is_marked, coffee_beans_uuid
       FROM user_stats
     ''');
@@ -520,11 +520,11 @@ class AppDatabase extends _$AppDatabase {
 
                 // Step 5: Copy data to new table
                 await customStatement('''
-      INSERT OR REPLACE INTO new_coffee_beans 
-      SELECT 
+      INSERT OR REPLACE INTO new_coffee_beans
+      SELECT
         beans_uuid,
-        id, roaster, name, origin, variety, tasting_notes, 
-        processing_method, elevation, harvest_date, roast_date, region, 
+        id, roaster, name, origin, variety, tasting_notes,
+        processing_method, elevation, harvest_date, roast_date, region,
         roast_level, cupping_score, notes, is_favorite
       FROM coffee_beans
     ''');
@@ -669,6 +669,26 @@ class AppDatabase extends _$AppDatabase {
             from17To18: (m, schema) async {
               await m.addColumn(userRecipePreferences,
                   userRecipePreferences.coffeeChroniclerSliderPosition);
+            },
+            from18To19: (m, schema) async {
+              await m.alterTable(TableMigration(schema.recipes));
+            },
+            from19To20: (m, schema) async {
+              // Drop the vendors table
+              await customStatement('DROP TABLE IF EXISTS vendors');
+            },
+            from20To21: (m, schema) async {
+              await m.addColumn(recipes, recipes.importId);
+              await m.addColumn(recipes, recipes.isImported);
+            },
+            // Add migration from 21 to 22
+            from21To22: (m, schema) async {
+              // Correctly reference the column from the schema object
+              await m.addColumn(
+                  schema.recipes, schema.recipes.needsModerationReview);
+            },
+            from22To23: (m, schema) async {
+              await m.alterTable(TableMigration(schema.userStats));
             },
           )(m, oldVersion, newVersion);
         },

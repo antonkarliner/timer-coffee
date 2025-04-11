@@ -1,17 +1,23 @@
-Timer.coffee GRATIS. Donasi dalam aplikasi sepenuhnya opsional dan tidak memengaruhi fungsionalitas dengan cara apa pun.
+Timer.Coffee adalah pengatur waktu dan kalkulator penyeduhan kopi gratis dan sumber terbuka yang dirancang untuk meningkatkan pengalaman menyeduh Anda. Sepenuhnya gratis dengan donasi dalam aplikasi opsional untuk mendukung pengembangan berkelanjutan, donasi ini tidak memengaruhi akses Anda ke fitur.
 
-Timer.Coffee adalah aplikasi timer pembuatan dan kalkulator kopi gratis dan open-source, dirancang untuk membantu dalam petualangan pembuatan kopi Anda. Aplikasi ini saat ini menawarkan dukungan untuk berbagai teknik pembuatan termasuk: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, dan Origami Dripper. Aplikasi ini memiliki lebih dari 30 resep dengan lebih banyak yang akan datang.
+Apa yang Baru
 
-Dengan Timer.Coffee Anda dapat:
+- Buat Resep Anda Sendiri: Sesuaikan dan simpan resep penyeduhan kopi pribadi Anda.
+- Bagikan Resep: Bagikan resep favorit Anda dengan mudah kepada teman dan sesama penggemar kopi.
 
-- Menggunakan kalkulator kopi untuk menyesuaikan jumlah kopi atau air dalam resep, memungkinkan Anda menyeduh sebanyak kopi yang Anda inginkan.
-- Menandai resep kopi favorit Anda untuk akses mudah.
-- Menambahkan catatan ke seduhan Anda di Brew Diary
-- Menghidupkan lonceng suara untuk memberi tahu Anda tentang langkah pembuatan selanjutnya.
+Fitur Utama
 
-Aplikasi ini mendukung 15 bahasa dan mode gelap.
+- 40+ Metode Penyeduhan: Termasuk instruksi langkah demi langkah terperinci untuk metode seperti Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, dan Hario Switch.
+- Kalkulator Kopi: Sesuaikan jumlah kopi dan air dengan cepat untuk menyeduh jumlah sempurna Anda.
+- Favorit: Tandai dan akses resep favorit Anda dengan mudah.
+- Buku Harian Seduh: Catat catatan dan lacak pengalaman menyeduh Anda.
+- Lonceng Audio: Terima peringatan audio untuk setiap langkah penyeduhan.
+- Pencatatan Biji: Lacak biji kopi Anda dengan mudah menggunakan pengenalan label bertenaga AI.
+- Pencatatan Otomatis: Catat setiap sesi penyeduhan dengan mudah.
+- Sinkronisasi Perangkat: Sinkronkan resep, biji, dan seduhan dengan mulus di semua perangkat Anda.
+- Multibahasa: Mendukung 15 bahasa.
+- Mode Gelap: Pengalaman menyeduh yang nyaman kapan saja sepanjang hari.
 
-Berikut yang kami sediakan untuk pembaruan mendatang:
+Segera Hadir
 
-- Perluasan koleksi resep kopi kami.
-- Peningkatan desain.
+- Fitur interaksi dan berbagi komunitas yang ditingkatkan.

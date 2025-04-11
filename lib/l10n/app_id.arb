@@ -233,5 +233,254 @@
   "labelUsedBrewingMethods": "Digunakan",
   "formattedRoasterCount": "{count} {count, plural, other{pemanggang}}",
   "formattedCountryCount": "{count} {count, plural, other{negara}}",
-  "formattedBrewingMethodCount": "{count} {count, plural, other{metode seduh}}"
+  "formattedBrewingMethodCount": "{count} {count, plural, other{metode seduh}}",
+  "recipeCreationScreenEditRecipeTitle": "Edit Resep",
+  "recipeCreationScreenCreateRecipeTitle": "Buat Resep",
+  "recipeCreationScreenRecipeStepsTitle": "Langkah Resep",
+  "recipeCreationScreenRecipeNameLabel": "Nama Resep",
+  "recipeCreationScreenShortDescriptionLabel": "Deskripsi Singkat",
+  "recipeCreationScreenBrewingMethodLabel": "Metode Penyeduhan",
+  "recipeCreationScreenCoffeeAmountLabel": "Jumlah Kopi (g)",
+  "recipeCreationScreenWaterAmountLabel": "Jumlah Air (ml)",
+  "recipeCreationScreenWaterTempLabel": "Suhu Air (°C)",
+  "recipeCreationScreenGrindSizeLabel": "Ukuran Gilingan",
+  "recipeCreationScreenTotalBrewTimeLabel": "Total Waktu Seduh:",
+  "recipeCreationScreenMinutesLabel": "Menit",
+  "recipeCreationScreenSecondsLabel": "Detik",
+  "recipeCreationScreenPreparationStepTitle": "Langkah Persiapan",
+  "recipeCreationScreenBrewStepTitle": "Langkah Seduh {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "Judul untuk langkah seduh di layar pembuatan resep",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "Deskripsi Langkah",
+  "recipeCreationScreenStepTimeLabel": "Waktu Langkah: ",
+  "recipeCreationScreenRecipeNameValidator": "Harap masukkan nama resep",
+  "recipeCreationScreenShortDescriptionValidator": "Harap masukkan deskripsi singkat",
+  "recipeCreationScreenBrewingMethodValidator": "Harap pilih metode penyeduhan",
+  "recipeCreationScreenRequiredValidator": "Wajib diisi",
+  "recipeCreationScreenInvalidNumberValidator": "Nomor tidak valid",
+  "recipeCreationScreenStepDescriptionValidator": "Harap masukkan deskripsi langkah",
+  "recipeCreationScreenContinueButton": "Lanjut ke Langkah Resep",
+  "recipeCreationScreenAddStepButton": "Tambah Langkah",
+  "recipeCreationScreenSaveRecipeButton": "Simpan Resep",
+  "recipeCreationScreenUpdateSuccess": "Resep berhasil diperbarui",
+  "recipeCreationScreenSaveSuccess": "Resep berhasil disimpan",
+  "recipeCreationScreenSaveError": "Kesalahan saat menyimpan resep: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "Pesan kesalahan ketika penyimpanan resep gagal",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Kesalahan database"
+      }
+    }
+  },
+  "unitGramsShort": "g",
+  "unitMillilitersShort": "ml",
+  "unitGramsLong": "gram",
+  "unitMillilitersLong": "mililiter",
+  "recipeCopySuccess": "Resep berhasil disalin!",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "Gagal menyalin resep: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "Buat resep",
+  "errorSyncingData": "Kesalahan sinkronisasi data: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "errorSigningOut": "Kesalahan keluar: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "defaultPreparationStepDescription": "Persiapan",
+  "loadingEllipsis": "Memuat...",
+  "recipeDeletedSuccess": "Resep berhasil dihapus",
+  "recipeDeleteError": "Gagal menghapus resep: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "noRecipesFound": "Tidak ada resep yang ditemukan",
+  "recipeLoadError": "Gagal memuat resep: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "unknownBrewingMethod": "Metode penyeduhan tidak diketahui",
+  "recipeCopyErrorLoadingEdit": "Gagal memuat resep yang disalin untuk diedit.",
+  "recipeCopyErrorOperationFailed": "Operasi gagal.",
+  "notProvided": "Tidak disediakan",
+  "recipeUpdateAvailableTitle": "Pembaruan Tersedia",
+  "recipeUpdateAvailableBody": "Versi terbaru dari '{recipeName}' tersedia secara online. Perbarui?",
+  "@recipeUpdateAvailableBody": {
+    "description": "Teks isi untuk dialog konfirmasi pembaruan",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Resep Hebat Saya"
+      }
+    }
+  },
+  "dialogCancel": "Batal",
+  "dialogUpdate": "Perbarui",
+  "recipeImportTitle": "Impor Resep",
+  "recipeImportBody": "Apakah Anda ingin mengimpor resep '{recipeName}' dari cloud?",
+  "@recipeImportBody": {
+    "description": "Teks isi untuk dialog konfirmasi impor",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Resep yang Dibagikan"
+      }
+    }
+  },
+  "dialogImport": "Impor",
+  "moderationReviewNeededTitle": "Diperlukan Tinjauan Moderasi",
+  "moderationReviewNeededMessage": "Resep berikut memerlukan tinjauan karena masalah moderasi konten: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "Pesan yang ditampilkan ketika resep memerlukan tinjauan moderasi",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'Resep Saya', 'Resep Lain'"
+      }
+    }
+  },
+  "dismiss": "Tutup",
+  "reviewRecipeButton": "Tinjau Resep",
+  "signInRequiredTitle": "Diperlukan Masuk",
+  "signInRequiredBodyShare": "Anda perlu masuk untuk membagikan resep Anda sendiri.",
+  "syncSuccess": "Sinkronisasi berhasil!",
+  "tooltipEditRecipe": "Edit Resep",
+  "tooltipCopyRecipe": "Salin Resep",
+  "tooltipShareRecipe": "Bagikan Resep",
+  "signInRequiredSnackbar": "Diperlukan Masuk",
+  "moderationErrorFunction": "Pemeriksaan moderasi konten gagal.",
+  "moderationReasonDefault": "Konten ditandai untuk ditinjau.",
+  "moderationFailedTitle": "Moderasi Gagal",
+  "moderationFailedBody": "Resep ini tidak dapat dibagikan karena: {reason}",
+  "@moderationFailedBody": {
+    "description": "Teks isi untuk dialog yang ditampilkan ketika moderasi konten gagal",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Bahasa tidak pantas"
+      }
+    }
+  },
+  "shareErrorGeneric": "Kesalahan saat membagikan resep: {error}",
+  "@shareErrorGeneric": {
+    "description": "Pesan kesalahan umum yang ditampilkan jika proses berbagi gagal",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Kesalahan jaringan"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} di Timer.Coffee",
+  "@recipeDetailWebTitle": {
+    "description": "Format judul halaman web untuk halaman detail resep",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "V60 Keren Saya"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "Tidak dapat memeriksa status konten. Disimpan secara lokal, akan diperiksa pada sinkronisasi berikutnya.",
+  "saveLocallyModerationFailedTitle": "Perubahan Disimpan Secara Lokal",
+  "saveLocallyModerationFailedBody": "Perubahan lokal Anda telah disimpan, tetapi versi publik tidak dapat diperbarui karena moderasi konten: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "Teks isi untuk dialog yang ditampilkan ketika moderasi gagal tetapi penyimpanan lokal berhasil",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Bahasa tidak pantas"
+      }
+    }
+  },
+  "recipeUpdateFailedFetch": "Gagal mengambil data resep yang diperbarui.",
+  "recipeImportSuccess": "Resep berhasil diimpor!",
+  "recipeImportFailedSave": "Gagal menyimpan resep yang diimpor.",
+  "recipeImportFailedFetch": "Gagal mengambil data resep untuk impor.",
+  "recipeNotImported": "Resep tidak diimpor.",
+  "recipeNotFoundCloud": "Resep tidak ditemukan di cloud atau tidak publik.",
+  "recipeLoadErrorGeneric": "Kesalahan memuat resep.",
+  "editImportedRecipeTitle": "Edit Resep Impor",
+  "editImportedRecipeBody": "Ini adalah resep impor. Mengeditnya akan membuat salinan baru yang independen. Apakah Anda ingin melanjutkan?",
+  "editImportedRecipeButtonCopy": "Buat Salinan & Edit",
+  "editImportedRecipeButtonCancel": "Batal",
+  "editDisplayNameTitle": "Edit Nama Tampilan",
+  "displayNameHint": "Masukkan nama tampilan Anda",
+  "displayNameEmptyError": "Nama tampilan tidak boleh kosong",
+  "displayNameTooLongError": "Nama tampilan tidak boleh lebih dari 50 karakter",
+  "errorUserNotLoggedIn": "Pengguna belum masuk. Silakan masuk lagi.",
+  "displayNameUpdateSuccess": "Nama tampilan berhasil diperbarui!",
+  "displayNameUpdateError": "Gagal memperbarui nama tampilan: {error}",
+  "@displayNameUpdateError": {
+    "description": "Pesan kesalahan saat pembaruan nama tampilan gagal",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Kesalahan jaringan"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "Hapus Gambar?",
+  "deletePictureConfirmationBody": "Apakah Anda yakin ingin menghapus gambar profil Anda?",
+  "deletePictureSuccess": "Gambar profil dihapus.",
+  "deletePictureError": "Gagal menghapus gambar profil: {error}",
+  "@deletePictureError": {
+    "description": "Pesan kesalahan saat penghapusan gambar profil gagal",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Kesalahan penyimpanan"
+      }
+    }
+  },
+  "updatePictureError": "Gagal memperbarui gambar profil: {error}",
+  "@updatePictureError": {
+    "description": "Pesan kesalahan saat pembaruan gambar profil gagal",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Kesalahan unggah"
+      }
+    }
+  },
+  "updatePictureSuccess": "Gambar profil berhasil diperbarui!",
+  "deletePictureTooltip": "Hapus Gambar",
+  "account": "Akun"
 }

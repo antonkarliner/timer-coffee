@@ -352,7 +352,8 @@ class _StatsScreenState extends State<StatsScreen> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: snapshot.data!
-                          .map((id) => FutureBuilder<RecipeModel>(
+                          .map((id) => FutureBuilder<RecipeModel?>(
+                                // Changed type argument
                                 future: Provider.of<RecipeProvider>(context,
                                         listen: false)
                                     .getRecipeById(id),
@@ -474,7 +475,8 @@ class _StatsScreenState extends State<StatsScreen> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: snapshot.data!
-                          .map((id) => FutureBuilder<RecipeModel>(
+                          .map((id) => FutureBuilder<RecipeModel?>(
+                                // Changed type argument
                                 future: Provider.of<RecipeProvider>(context,
                                         listen: false)
                                     .getRecipeById(id),

@@ -233,5 +233,254 @@
   "labelUsedBrewingMethods": "Utilizate",
   "formattedRoasterCount": "{count} {count, plural, one{prăjitor} few{prăjitori} other{de prăjitori}}",
   "formattedCountryCount": "{count} {count, plural, one{țară} few{țări} other{de țări}}",
-  "formattedBrewingMethodCount": "{count} {count, plural, one{metodă de preparare} few{metode de preparare} other{de metode de preparare}}"
+  "formattedBrewingMethodCount": "{count} {count, plural, one{metodă de preparare} few{metode de preparare} other{de metode de preparare}}",
+  "recipeCreationScreenEditRecipeTitle": "Editează Rețeta",
+  "recipeCreationScreenCreateRecipeTitle": "Creează Rețetă",
+  "recipeCreationScreenRecipeStepsTitle": "Pașii Rețetei",
+  "recipeCreationScreenRecipeNameLabel": "Nume Rețetă",
+  "recipeCreationScreenShortDescriptionLabel": "Descriere Scurtă",
+  "recipeCreationScreenBrewingMethodLabel": "Metodă de Preparare",
+  "recipeCreationScreenCoffeeAmountLabel": "Cantitate Cafea (g)",
+  "recipeCreationScreenWaterAmountLabel": "Cantitate Apă (ml)",
+  "recipeCreationScreenWaterTempLabel": "Temperatură Apă (°C)",
+  "recipeCreationScreenGrindSizeLabel": "Mărime Măcinătură",
+  "recipeCreationScreenTotalBrewTimeLabel": "Timp Total Preparare:",
+  "recipeCreationScreenMinutesLabel": "Minute",
+  "recipeCreationScreenSecondsLabel": "Secunde",
+  "recipeCreationScreenPreparationStepTitle": "Pas de Pregătire",
+  "recipeCreationScreenBrewStepTitle": "Pas de Preparare {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "Titlu pentru un pas de preparare în ecranul de creare a rețetei",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "Descriere Pas",
+  "recipeCreationScreenStepTimeLabel": "Timp Pas: ",
+  "recipeCreationScreenRecipeNameValidator": "Introduceți un nume pentru rețetă",
+  "recipeCreationScreenShortDescriptionValidator": "Introduceți o descriere scurtă",
+  "recipeCreationScreenBrewingMethodValidator": "Selectați o metodă de preparare",
+  "recipeCreationScreenRequiredValidator": "Obligatoriu",
+  "recipeCreationScreenInvalidNumberValidator": "Număr invalid",
+  "recipeCreationScreenStepDescriptionValidator": "Introduceți o descriere pentru pas",
+  "recipeCreationScreenContinueButton": "Continuă la Pașii Rețetei",
+  "recipeCreationScreenAddStepButton": "Adaugă Pas",
+  "recipeCreationScreenSaveRecipeButton": "Salvează Rețeta",
+  "recipeCreationScreenUpdateSuccess": "Rețetă actualizată cu succes",
+  "recipeCreationScreenSaveSuccess": "Rețetă salvată cu succes",
+  "recipeCreationScreenSaveError": "Eroare la salvarea rețetei: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "Mesaj de eroare când salvarea unei rețete eșuează",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Eroare bază de date"
+      }
+    }
+  },
+  "unitGramsShort": "g",
+  "unitMillilitersShort": "ml",
+  "unitGramsLong": "grame",
+  "unitMillilitersLong": "mililitri",
+  "recipeCopySuccess": "Rețetă copiată cu succes!",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "Eroare la copierea rețetei: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "Creează rețetă",
+  "errorSyncingData": "Eroare la sincronizarea datelor: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "errorSigningOut": "Eroare la deconectare: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "defaultPreparationStepDescription": "Pregătire",
+  "loadingEllipsis": "Se încarcă...",
+  "recipeDeletedSuccess": "Rețetă ștearsă cu succes",
+  "recipeDeleteError": "Eroare la ștergerea rețetei: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "noRecipesFound": "Nu s-au găsit rețete",
+  "recipeLoadError": "Eroare la încărcarea rețetei: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "unknownBrewingMethod": "Metodă de preparare necunoscută",
+  "recipeCopyErrorLoadingEdit": "Eroare la încărcarea rețetei copiate pentru editare.",
+  "recipeCopyErrorOperationFailed": "Operațiunea a eșuat.",
+  "notProvided": "Nu este furnizat",
+  "recipeUpdateAvailableTitle": "Actualizare Disponibilă",
+  "recipeUpdateAvailableBody": "O versiune mai nouă a '{recipeName}' este disponibilă online. Actualizați?",
+  "@recipeUpdateAvailableBody": {
+    "description": "Textul corpului pentru caseta de dialog de confirmare a actualizării",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Rețeta mea minunată"
+      }
+    }
+  },
+  "dialogCancel": "Anulați",
+  "dialogUpdate": "Actualizați",
+  "recipeImportTitle": "Importă rețeta",
+  "recipeImportBody": "Doriți să importați rețeta '{recipeName}' din cloud?",
+  "@recipeImportBody": {
+    "description": "Textul corpului pentru caseta de dialog de confirmare a importului",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Rețetă partajată"
+      }
+    }
+  },
+  "dialogImport": "Importă",
+  "moderationReviewNeededTitle": "Revizuire de moderare necesară",
+  "moderationReviewNeededMessage": "Următoarea(ele) rețetă(e) necesită revizuire din cauza problemelor de moderare a conținutului: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "Mesaj afișat când rețetele necesită revizuire de moderare",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'Rețeta mea', 'Altă rețetă'"
+      }
+    }
+  },
+  "dismiss": "Respinge",
+  "reviewRecipeButton": "Revizuiește Rețeta",
+  "signInRequiredTitle": "Autentificare necesară",
+  "signInRequiredBodyShare": "Trebuie să te autentifici pentru a partaja propriile rețete.",
+  "syncSuccess": "Sincronizare reușită!",
+  "tooltipEditRecipe": "Editează Rețeta",
+  "tooltipCopyRecipe": "Copiază Rețeta",
+  "tooltipShareRecipe": "Partajează Rețeta",
+  "signInRequiredSnackbar": "Autentificare necesară",
+  "moderationErrorFunction": "Verificarea moderării conținutului a eșuat.",
+  "moderationReasonDefault": "Conținut marcat pentru revizuire.",
+  "moderationFailedTitle": "Moderare Eșuată",
+  "moderationFailedBody": "Această rețetă nu poate fi partajată deoarece: {reason}",
+  "@moderationFailedBody": {
+    "description": "Textul corpului dialogului afișat când moderarea conținutului eșuează",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Limbaj inadecvat"
+      }
+    }
+  },
+  "shareErrorGeneric": "Eroare la partajarea rețetei: {error}",
+  "@shareErrorGeneric": {
+    "description": "Mesaj de eroare generic afișat dacă procesul de partajare eșuează",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Eroare de rețea"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} pe Timer.Coffee",
+  "@recipeDetailWebTitle": {
+    "description": "Formatul titlului paginii web pentru o pagină de detalii a rețetei",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "V60-ul meu Minunat"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "Nu s-a putut verifica starea conținutului. Salvat local, se va verifica la următoarea sincronizare.",
+  "saveLocallyModerationFailedTitle": "Modificări Salvate Local",
+  "saveLocallyModerationFailedBody": "Modificările tale locale au fost salvate, dar versiunea publică nu a putut fi actualizată din cauza moderării conținutului: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "Textul corpului dialogului afișat când moderarea eșuează, dar salvarea locală reușește",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Limbaj inadecvat"
+      }
+    }
+  },
+  "recipeUpdateFailedFetch": "Eroare la preluarea datelor actualizate ale rețetei.",
+  "recipeImportSuccess": "Rețetă importată cu succes!",
+  "recipeImportFailedSave": "Eroare la salvarea rețetei importate.",
+  "recipeImportFailedFetch": "Eroare la preluarea datelor rețetei pentru import.",
+  "recipeNotImported": "Rețeta nu a fost importată.",
+  "recipeNotFoundCloud": "Rețeta nu a fost găsită în cloud sau nu este publică.",
+  "recipeLoadErrorGeneric": "Eroare la încărcarea rețetei.",
+  "editImportedRecipeTitle": "Editează rețeta importată",
+  "editImportedRecipeBody": "Aceasta este o rețetă importată. Editarea acesteia va crea o copie nouă, independentă. Doriți să continuați?",
+  "editImportedRecipeButtonCopy": "Creează copie și editează",
+  "editImportedRecipeButtonCancel": "Anulează",
+  "editDisplayNameTitle": "Editează Numele Afișat",
+  "displayNameHint": "Introduceți numele dvs. afișat",
+  "displayNameEmptyError": "Numele afișat nu poate fi gol",
+  "displayNameTooLongError": "Numele afișat nu poate depăși 50 de caractere",
+  "errorUserNotLoggedIn": "Utilizatorul nu este autentificat. Vă rugăm să vă autentificați din nou.",
+  "displayNameUpdateSuccess": "Numele afișat a fost actualizat cu succes!",
+  "displayNameUpdateError": "Eroare la actualizarea numelui afișat: {error}",
+  "@displayNameUpdateError": {
+    "description": "Mesaj de eroare la eșuarea actualizării numelui afișat",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Eroare de rețea"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "Ștergeți Imaginea?",
+  "deletePictureConfirmationBody": "Sunteți sigur că doriți să ștergeți poza de profil?",
+  "deletePictureSuccess": "Poza de profil a fost ștearsă.",
+  "deletePictureError": "Eroare la ștergerea pozei de profil: {error}",
+  "@deletePictureError": {
+    "description": "Mesaj de eroare la eșuarea ștergerii pozei de profil",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Eroare de stocare"
+      }
+    }
+  },
+  "updatePictureError": "Eroare la actualizarea pozei de profil: {error}",
+  "@updatePictureError": {
+    "description": "Mesaj de eroare la eșuarea actualizării pozei de profil",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Eroare de încărcare"
+      }
+    }
+  },
+  "updatePictureSuccess": "Poza de profil a fost actualizată cu succes!",
+  "deletePictureTooltip": "Șterge Imaginea",
+  "account": "Cont"
 }

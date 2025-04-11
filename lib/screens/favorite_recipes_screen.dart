@@ -78,18 +78,10 @@ class FavoriteRecipesScreen extends StatelessWidget {
                         child: Text(recipe.name),
                       ),
                       onTap: () {
-                        if (recipe.vendorId != null &&
-                            recipe.vendorId != 'timercoffee') {
-                          context.router.push(VendorRecipeDetailRoute(
-                            recipeId: recipe.id,
-                            vendorId: recipe.vendorId!,
-                          ));
-                        } else {
-                          context.router.push(RecipeDetailRoute(
-                            brewingMethodId: recipe.brewingMethodId,
-                            recipeId: recipe.id,
-                          ));
-                        }
+                        context.router.push(RecipeDetailRoute(
+                          brewingMethodId: recipe.brewingMethodId,
+                          recipeId: recipe.id,
+                        ));
                       },
                       trailing: Semantics(
                         identifier: 'favoriteRecipeButton_${recipe.id}',

@@ -24,6 +24,48 @@ import '../utils/icon_utils.dart'; // Import the icon utility
 import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:coffeico/coffeico.dart';
 
+// Moved helper classes to top-level
+
+// --------------------------------------
+class _StoryData {
+  final double totalLiters;
+  final int distinctRoasterCount;
+  final List<String> top3Roasters;
+  final int distinctOriginCount;
+  final List<String> distinctMethods;
+  final Map<String, String> methodIdToName;
+  final List<RecipeModel> top3Recipes;
+
+  _StoryData({
+    required this.totalLiters,
+    required this.distinctRoasterCount,
+    required this.top3Roasters,
+    required this.distinctOriginCount,
+    required this.distinctMethods,
+    required this.methodIdToName,
+    required this.top3Recipes,
+  });
+}
+
+// --------------------------------------
+class _StoryConfig {
+  final Duration duration;
+  final VoidCallback onStart;
+  final Widget Function(
+    BuildContext context,
+    ColorScheme colorScheme,
+    _StoryData data,
+  ) builder;
+
+  _StoryConfig({
+    required this.duration,
+    required this.builder,
+    this.onStart = _defaultStart,
+  });
+
+  static void _defaultStart() {}
+}
+
 @RoutePage()
 class YearlyStatsStoryScreen extends StatefulWidget {
   const YearlyStatsStoryScreen({Key? key}) : super(key: key);
@@ -992,12 +1034,15 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
       if (recipeId.isEmpty) continue;
       try {
         final recipe = await recipeProvider.getRecipeById(recipeId);
-        final methodId = recipe.brewingMethodId;
-        methodIds.add(methodId);
-        if (!methodIdToName.containsKey(methodId)) {
-          final methodName =
-              await recipeProvider.getBrewingMethodName(methodId);
-          methodIdToName[methodId] = methodName;
+        if (recipe != null) {
+          // Add null check
+          final methodId = recipe.brewingMethodId;
+          methodIds.add(methodId);
+          if (!methodIdToName.containsKey(methodId)) {
+            final methodName =
+                await recipeProvider.getBrewingMethodName(methodId);
+            methodIdToName[methodId] = methodName;
+          }
         }
       } catch (_) {
         // ignore if recipe not found or error
@@ -1009,9 +1054,12 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
       startOf2024,
       startOf2025,
     );
-    final top3Recipes = await Future.wait(
+    // Fetch recipes, which might be null
+    final top3RecipesNullable = await Future.wait(
       top3RecipeIds.map((id) => recipeProvider.getRecipeById(id)),
     );
+    // Filter out nulls before passing to _StoryData
+    final top3Recipes = top3RecipesNullable.whereType<RecipeModel>().toList();
 
     return _StoryData(
       totalLiters: totalLiters,
@@ -1607,6 +1655,8 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
   }
 }
 
+// Moved helper classes outside _YearlyStatsStoryScreenState
+
 class ShareProgressWidget extends StatefulWidget {
   final _StoryData data;
   final GlobalKey repaintBoundaryKey;
@@ -2124,7 +2174,7 @@ class BackgroundPatternPainter extends CustomPainter {
       while (x < size.width + spacing) {
         final iconIndex = ((x + y) / spacing).floor() % icons.length;
         final icon = icons[iconIndex];
-        if (icon == null) continue;
+        // Removed null check as icons list should not contain nulls
 
         iconPainter.text = TextSpan(
           text: String.fromCharCode(icon.codePoint),
@@ -2152,46 +2202,6 @@ class BackgroundPatternPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-// --------------------------------------
-class _StoryData {
-  final double totalLiters;
-  final int distinctRoasterCount;
-  final List<String> top3Roasters;
-  final int distinctOriginCount;
-  final List<String> distinctMethods;
-  final Map<String, String> methodIdToName;
-  final List<RecipeModel> top3Recipes;
-
-  _StoryData({
-    required this.totalLiters,
-    required this.distinctRoasterCount,
-    required this.top3Roasters,
-    required this.distinctOriginCount,
-    required this.distinctMethods,
-    required this.methodIdToName,
-    required this.top3Recipes,
-  });
-}
-
-// --------------------------------------
-class _StoryConfig {
-  final Duration duration;
-  final VoidCallback onStart;
-  final Widget Function(
-    BuildContext context,
-    ColorScheme colorScheme,
-    _StoryData data,
-  ) builder;
-
-  _StoryConfig({
-    required this.duration,
-    required this.builder,
-    this.onStart = _defaultStart,
-  });
-
-  static void _defaultStart() {}
 }
 
 // First, create a Hearts Animation Widget
@@ -2353,7 +2363,7 @@ class _ShakingLoveButtonState extends State<_ShakingLoveButton>
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    // Removed unused localizations variable
 
     return AbsorbPointer(
       absorbing: false,

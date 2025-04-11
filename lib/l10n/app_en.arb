@@ -434,6 +434,248 @@
         "type": "int"
       }
     }
-  }
+  },
+  "recipeCreationScreenEditRecipeTitle": "Edit Recipe",
+  "recipeCreationScreenCreateRecipeTitle": "Create Recipe",
+  "recipeCreationScreenRecipeStepsTitle": "Recipe Steps",
+  "recipeCreationScreenRecipeNameLabel": "Recipe Name",
+  "recipeCreationScreenShortDescriptionLabel": "Short Description",
+  "recipeCreationScreenBrewingMethodLabel": "Brewing Method",
+  "recipeCreationScreenCoffeeAmountLabel": "Coffee Amount (g)",
+  "recipeCreationScreenWaterAmountLabel": "Water Amount (ml)",
+  "recipeCreationScreenWaterTempLabel": "Water Temperature (°C)",
+  "recipeCreationScreenGrindSizeLabel": "Grind Size",
+  "recipeCreationScreenTotalBrewTimeLabel": "Total Brew Time:",
+  "recipeCreationScreenMinutesLabel": "Minutes",
+  "recipeCreationScreenSecondsLabel": "Seconds",
+  "recipeCreationScreenPreparationStepTitle": "Preparation Step",
+  "recipeCreationScreenBrewStepTitle": "Brew Step {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "Title for a brew step in the recipe creation screen",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
     }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "Step Description",
+  "recipeCreationScreenStepTimeLabel": "Step Time: ",
+  "recipeCreationScreenRecipeNameValidator": "Please enter a recipe name",
+  "recipeCreationScreenShortDescriptionValidator": "Please enter a short description",
+  "recipeCreationScreenBrewingMethodValidator": "Please select a brewing method",
+  "recipeCreationScreenRequiredValidator": "Required",
+  "recipeCreationScreenInvalidNumberValidator": "Invalid number",
+  "recipeCreationScreenStepDescriptionValidator": "Please enter a step description",
+  "recipeCreationScreenContinueButton": "Continue to Recipe Steps",
+  "recipeCreationScreenAddStepButton": "Add Step",
+  "recipeCreationScreenSaveRecipeButton": "Save Recipe",
+  "recipeCreationScreenUpdateSuccess": "Recipe updated successfully",
+  "recipeCreationScreenSaveSuccess": "Recipe saved successfully",
+  "recipeCreationScreenSaveError": "Error saving recipe: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "Error message when saving a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "unitGramsShort": "g",
+  "unitMillilitersShort": "ml",
+  "unitGramsLong": "grams",
+  "unitMillilitersLong": "milliliters",
+  "recipeCopySuccess": "Recipe copied successfully!",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "Error copying recipe: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "Create Recipe",
+  "errorSyncingData": "Error syncing data: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "errorSigningOut": "Error signing out: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "defaultPreparationStepDescription": "Preparation",
+  "loadingEllipsis": "Loading...",
+  "recipeDeletedSuccess": "Recipe deleted successfully",
+  "recipeDeleteError": "Failed to delete recipe: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "noRecipesFound": "No recipes found",
+  "recipeLoadError": "Failed to load recipe: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "unknownBrewingMethod": "Unknown Brewing Method",
+  "recipeCopyErrorLoadingEdit": "Failed to load copied recipe for editing.",
+  "recipeCopyErrorOperationFailed": "Operation failed.",
+  "notProvided": "Not provided",
+  "recipeUpdateFailedFetch": "Failed to fetch updated recipe data.",
+  "recipeImportSuccess": "Recipe imported successfully!",
+  "recipeImportFailedSave": "Failed to save imported recipe.",
+  "recipeImportFailedFetch": "Failed to fetch recipe data for import.",
+  "recipeNotImported": "Recipe not imported.",
+  "recipeNotFoundCloud": "Recipe not found in the cloud or is not public.",
+  "recipeLoadErrorGeneric": "Error loading recipe.",
+  "recipeUpdateAvailableTitle": "Update Available",
+  "recipeUpdateAvailableBody": "A newer version of '{recipeName}' is available online. Update?",
+  "@recipeUpdateAvailableBody": {
+    "description": "Body text for the update confirmation dialog",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "My Awesome Recipe"
+      }
+    }
+  },
+  "dialogCancel": "Cancel",
+  "dialogUpdate": "Update",
+  "recipeImportTitle": "Import Recipe",
+  "recipeImportBody": "Do you want to import the recipe '{recipeName}' from the cloud?",
+  "@recipeImportBody": {
+    "description": "Body text for the import confirmation dialog",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Shared Recipe"
+      }
+    }
+  },
+  "dialogImport": "Import",
+  "moderationReviewNeededTitle": "Moderation Review Needed",
+  "moderationReviewNeededMessage": "The following recipe(s) require review due to content moderation issues: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "Message shown when recipes need moderation review",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'My Recipe', 'Another Recipe'"
+      }
+    }
+  },
+  "dismiss": "Dismiss",
+  "reviewRecipeButton": "Review Recipe",
 
+  "signInRequiredTitle": "Sign In Required",
+  "signInRequiredBodyShare": "You need to sign in to share your own recipes.",
+  "syncSuccess": "Sync successful!",
+  "tooltipEditRecipe": "Edit Recipe",
+  "tooltipCopyRecipe": "Copy Recipe",
+  "tooltipShareRecipe": "Share Recipe",
+  "signInRequiredSnackbar": "Sign In Required",
+  "moderationErrorFunction": "Content moderation check failed.",
+  "moderationReasonDefault": "Content flagged for review.",
+  "moderationFailedTitle": "Moderation Failed",
+  "moderationFailedBody": "This recipe cannot be shared because: {reason}",
+  "@moderationFailedBody": {
+    "description": "Body text for the dialog shown when content moderation fails",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Inappropriate language"
+      }
+    }
+  },
+  "shareErrorGeneric": "Error sharing recipe: {error}",
+  "@shareErrorGeneric": {
+    "description": "Generic error message shown if the sharing process fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} on Timer.Coffee",
+  "@recipeDetailWebTitle": {
+    "description": "Web page title format for a recipe detail page",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "My Awesome V60"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "Couldn't check content status. Saved locally, will check on next sync.",
+  "saveLocallyModerationFailedTitle": "Changes Saved Locally",
+  "saveLocallyModerationFailedBody": "Your local changes have been saved, but the public version couldn't be updated due to content moderation: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "Body text for the dialog shown when moderation fails but local save succeeds",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Inappropriate language"
+      }
+    }
+  },
+  "editImportedRecipeTitle": "Edit Imported Recipe",
+  "editImportedRecipeBody": "This is an imported recipe. Editing it will create a new, independent copy. Do you want to continue?",
+  "editImportedRecipeButtonCopy": "Create Copy & Edit",
+  "editImportedRecipeButtonCancel": "Cancel",
+
+  "editDisplayNameTitle": "Edit Display Name",
+  "displayNameHint": "Enter your display name",
+  "displayNameEmptyError": "Display name cannot be empty",
+  "displayNameTooLongError": "Display name cannot exceed 50 characters",
+  "errorUserNotLoggedIn": "User not logged in. Please sign in again.",
+  "displayNameUpdateSuccess": "Display name updated successfully!",
+  "displayNameUpdateError": "Failed to update display name: {error}",
+  "@displayNameUpdateError": {
+    "description": "Error message when updating display name fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "Delete Picture?",
+  "deletePictureConfirmationBody": "Are you sure you want to delete your profile picture?",
+  "deletePictureSuccess": "Profile picture deleted.",
+  "deletePictureError": "Failed to delete profile picture: {error}",
+  "@deletePictureError": {
+    "description": "Error message when deleting profile picture fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Storage error"
+      }
+    }
+  },
+  "updatePictureError": "Failed to update profile picture: {error}",
+  "@updatePictureError": {
+    "description": "Error message when updating profile picture fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Upload error"
+      }
+    }
+  },
+  "updatePictureSuccess": "Profile picture updated successfully!",
+  "deletePictureTooltip": "Delete Picture",
+  "account": "Account"
+}

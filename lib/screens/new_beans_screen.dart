@@ -962,6 +962,13 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                   identifier: 'saveButton',
                   label: isEditMode ? loc.save : loc.addCoffeeBeans,
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 50),
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 15),
+                    ),
                     onPressed: () async {
                       if (_roasterController.text.isNotEmpty &&
                           _nameController.text.isNotEmpty &&

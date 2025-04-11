@@ -70,3 +70,8 @@ ios/fastlane/screenshots/screenshots.html
 migratedb.sh
 roaster-logo-processor.py
 update_roaster_logos.sql
+project_docs.txt
+.goosehints
+*.json
+android/app/.cxx
+untranslated.txt

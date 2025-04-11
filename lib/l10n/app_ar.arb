@@ -233,5 +233,254 @@
   "labelUsedBrewingMethods": "تم استخدام",
   "formattedRoasterCount": "{count} {count, plural, zero {محمصة} one {محمصة} two {محمصتان} few {محامص} many {محمصة} other{محمصة}}",
   "formattedCountryCount": "{count} {count, plural, zero {دولة} one {دولة} two {دولتان} few {دول} many {دولة} other{دولة}}",
-  "formattedBrewingMethodCount": "{count} {count, plural, zero {طريقة تحضير} one {طريقة تحضير} two {طريقتا تحضير} few {طرق تحضير} many {طريقة تحضير} other{طريقة تحضير}}"
+  "formattedBrewingMethodCount": "{count} {count, plural, zero {طريقة تحضير} one {طريقة تحضير} two {طريقتا تحضير} few {طرق تحضير} many {طريقة تحضير} other{طريقة تحضير}}",
+  "recipeCreationScreenEditRecipeTitle": "تعديل الوصفة",
+  "recipeCreationScreenCreateRecipeTitle": "إنشاء وصفة",
+  "recipeCreationScreenRecipeStepsTitle": "خطوات الوصفة",
+  "recipeCreationScreenRecipeNameLabel": "اسم الوصفة",
+  "recipeCreationScreenShortDescriptionLabel": "وصف قصير",
+  "recipeCreationScreenBrewingMethodLabel": "طريقة التحضير",
+  "recipeCreationScreenCoffeeAmountLabel": "كمية القهوة (غ)",
+  "recipeCreationScreenWaterAmountLabel": "كمية الماء (مل)",
+  "recipeCreationScreenWaterTempLabel": "درجة حرارة الماء (°م)",
+  "recipeCreationScreenGrindSizeLabel": "حجم الطحن",
+  "recipeCreationScreenTotalBrewTimeLabel": "إجمالي وقت التحضير:",
+  "recipeCreationScreenMinutesLabel": "دقائق",
+  "recipeCreationScreenSecondsLabel": "ثواني",
+  "recipeCreationScreenPreparationStepTitle": "خطوة التحضير",
+  "recipeCreationScreenBrewStepTitle": "خطوة التحضير {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "عنوان خطوة التحضير في شاشة إنشاء الوصفة",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "وصف الخطوة",
+  "recipeCreationScreenStepTimeLabel": "وقت الخطوة: ",
+  "recipeCreationScreenRecipeNameValidator": "الرجاء إدخال اسم للوصفة",
+  "recipeCreationScreenShortDescriptionValidator": "الرجاء إدخال وصف قصير",
+  "recipeCreationScreenBrewingMethodValidator": "الرجاء اختيار طريقة التحضير",
+  "recipeCreationScreenRequiredValidator": "مطلوب",
+  "recipeCreationScreenInvalidNumberValidator": "رقم غير صالح",
+  "recipeCreationScreenStepDescriptionValidator": "الرجاء إدخال وصف للخطوة",
+  "recipeCreationScreenContinueButton": "متابعة إلى خطوات الوصفة",
+  "recipeCreationScreenAddStepButton": "إضافة خطوة",
+  "recipeCreationScreenSaveRecipeButton": "حفظ الوصفة",
+  "recipeCreationScreenUpdateSuccess": "تم تحديث الوصفة بنجاح",
+  "recipeCreationScreenSaveSuccess": "تم حفظ الوصفة بنجاح",
+  "recipeCreationScreenSaveError": "خطأ في حفظ الوصفة: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "رسالة خطأ عند فشل حفظ الوصفة",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "خطأ في قاعدة البيانات"
+      }
+    }
+  },
+  "unitGramsShort": "غ",
+  "unitMillilitersShort": "مل",
+  "unitGramsLong": "جرامات",
+  "unitMillilitersLong": "ملليلتر",
+  "recipeCopySuccess": "تم نسخ الوصفة بنجاح!",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "خطأ في نسخ الوصفة: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "إنشاء وصفة",
+  "errorSyncingData": "خطأ في مزامنة البيانات: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "errorSigningOut": "خطأ في تسجيل الخروج: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "defaultPreparationStepDescription": "تحضير",
+  "loadingEllipsis": "جار التحميل...",
+  "recipeDeletedSuccess": "تم حذف الوصفة بنجاح",
+  "recipeDeleteError": "فشل حذف الوصفة: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "noRecipesFound": "لم يتم العثور على وصفات",
+  "recipeLoadError": "فشل تحميل الوصفة: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "unknownBrewingMethod": "طريقة تحضير غير معروفة",
+  "recipeCopyErrorLoadingEdit": "فشل تحميل الوصفة المنسوخة للتعديل.",
+  "recipeCopyErrorOperationFailed": "فشلت العملية.",
+  "notProvided": "غير متوفر",
+  "recipeUpdateAvailableTitle": "تحديث متاح",
+  "recipeUpdateAvailableBody": "يتوفر إصدار أحدث من '{recipeName}' عبر الإنترنت. هل تريد التحديث؟",
+  "@recipeUpdateAvailableBody": {
+    "description": "نص أساسي لمربع حوار تأكيد التحديث",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "وصفتي الرائعة"
+      }
+    }
+  },
+  "dialogCancel": "إلغاء",
+  "dialogUpdate": "تحديث",
+  "recipeImportTitle": "استيراد وصفة",
+  "recipeImportBody": "هل تريد استيراد الوصفة '{recipeName}' من السحابة؟",
+  "@recipeImportBody": {
+    "description": "نص أساسي لمربع حوار تأكيد الاستيراد",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "وصفة مشتركة"
+      }
+    }
+  },
+  "dialogImport": "استيراد",
+  "moderationReviewNeededTitle": "مراجعة الإشراف مطلوبة",
+  "moderationReviewNeededMessage": "الوصفة (الوصفات) التالية تتطلب مراجعة بسبب مشكلات الإشراف على المحتوى: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "الرسالة المعروضة عندما تحتاج الوصفات إلى مراجعة الإشراف",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'وصفتي', 'وصفة أخرى'"
+      }
+    }
+  },
+  "dismiss": "تجاهل",
+  "reviewRecipeButton": "مراجعة الوصفة",
+  "signInRequiredTitle": "تسجيل الدخول مطلوب",
+  "signInRequiredBodyShare": "تحتاج إلى تسجيل الدخول لمشاركة وصفاتك الخاصة.",
+  "syncSuccess": "تمت المزامنة بنجاح!",
+  "tooltipEditRecipe": "تعديل الوصفة",
+  "tooltipCopyRecipe": "نسخ الوصفة",
+  "tooltipShareRecipe": "مشاركة الوصفة",
+  "signInRequiredSnackbar": "تسجيل الدخول مطلوب",
+  "moderationErrorFunction": "فشل التحقق من الإشراف على المحتوى.",
+  "moderationReasonDefault": "تم الإبلاغ عن المحتوى للمراجعة.",
+  "moderationFailedTitle": "فشل الإشراف",
+  "moderationFailedBody": "لا يمكن مشاركة هذه الوصفة بسبب: {reason}",
+  "@moderationFailedBody": {
+    "description": "نص الحوار المعروض عند فشل الإشراف على المحتوى",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "لغة غير لائقة"
+      }
+    }
+  },
+  "shareErrorGeneric": "خطأ في مشاركة الوصفة: {error}",
+  "@shareErrorGeneric": {
+    "description": "رسالة خطأ عامة تظهر إذا فشلت عملية المشاركة",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "خطأ في الشبكة"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} على Timer.Coffee",
+  "@recipeDetailWebTitle": {
+    "description": "تنسيق عنوان صفحة الويب لصفحة تفاصيل الوصفة",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "My Awesome V60"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "تعذر التحقق من حالة المحتوى. تم الحفظ محليًا، سيتم التحقق عند المزامنة التالية.",
+  "saveLocallyModerationFailedTitle": "تم حفظ التغييرات محليًا",
+  "saveLocallyModerationFailedBody": "تم حفظ تغييراتك المحلية، ولكن تعذر تحديث النسخة العامة بسبب الإشراف على المحتوى: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "نص الحوار المعروض عند فشل الإشراف ولكن نجاح الحفظ المحلي",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "لغة غير لائقة"
+      }
+    }
+  },
+  "recipeUpdateFailedFetch": "فشل في جلب بيانات الوصفة المحدثة.",
+  "recipeImportSuccess": "تم استيراد الوصفة بنجاح!",
+  "recipeImportFailedSave": "فشل في حفظ الوصفة المستوردة.",
+  "recipeImportFailedFetch": "فشل في جلب بيانات الوصفة للاستيراد.",
+  "recipeNotImported": "لم يتم استيراد الوصفة.",
+  "recipeNotFoundCloud": "الوصفة غير موجودة في السحابة أو ليست عامة.",
+  "recipeLoadErrorGeneric": "خطأ في تحميل الوصفة.",
+  "editImportedRecipeTitle": "تعديل وصفة مستوردة",
+  "editImportedRecipeBody": "هذه وصفة مستوردة. سيؤدي تعديلها إلى إنشاء نسخة جديدة ومستقلة. هل تريد المتابعة؟",
+  "editImportedRecipeButtonCopy": "إنشاء نسخة وتعديل",
+  "editImportedRecipeButtonCancel": "إلغاء",
+  "editDisplayNameTitle": "تعديل اسم العرض",
+  "displayNameHint": "أدخل اسم العرض الخاص بك",
+  "displayNameEmptyError": "لا يمكن أن يكون اسم العرض فارغًا",
+  "displayNameTooLongError": "لا يمكن أن يتجاوز اسم العرض 50 حرفًا",
+  "errorUserNotLoggedIn": "المستخدم غير مسجل الدخول. يرجى تسجيل الدخول مرة أخرى.",
+  "displayNameUpdateSuccess": "تم تحديث اسم العرض بنجاح!",
+  "displayNameUpdateError": "فشل تحديث اسم العرض: {error}",
+  "@displayNameUpdateError": {
+    "description": "رسالة خطأ عند فشل تحديث اسم العرض",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "خطأ في الشبكة"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "حذف الصورة؟",
+  "deletePictureConfirmationBody": "هل أنت متأكد أنك تريد حذف صورة ملفك الشخصي؟",
+  "deletePictureSuccess": "تم حذف صورة الملف الشخصي.",
+  "deletePictureError": "فشل حذف صورة الملف الشخصي: {error}",
+  "@deletePictureError": {
+    "description": "رسالة خطأ عند فشل حذف صورة الملف الشخصي",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "خطأ في التخزين"
+      }
+    }
+  },
+  "updatePictureError": "فشل تحديث صورة الملف الشخصي: {error}",
+  "@updatePictureError": {
+    "description": "رسالة خطأ عند فشل تحديث صورة الملف الشخصي",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "خطأ في الرفع"
+      }
+    }
+  },
+  "updatePictureSuccess": "تم تحديث صورة الملف الشخصي بنجاح!",
+  "deletePictureTooltip": "حذف الصورة",
+  "account": "الحساب"
 }

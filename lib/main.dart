@@ -17,6 +17,7 @@ import 'models/brewing_method_model.dart';
 import './providers/recipe_provider.dart';
 import './providers/theme_provider.dart';
 import './providers/coffee_beans_provider.dart';
+import './providers/user_recipe_provider.dart';
 import './app_router.dart';
 import './app_router.gr.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -75,7 +76,7 @@ void main() async {
       prefs.getBool('hasPerformedUuidBackfill') ?? false;
 
   final AppDatabase database =
-      AppDatabase(enableForeignKeyConstraints: !isFirstLaunch);
+      AppDatabase.withDefault(enableForeignKeyConstraints: !isFirstLaunch);
 
   final supportedLocalesDao = SupportedLocalesDao(database);
   final brewingMethodsDao = BrewingMethodsDao(database);
@@ -197,6 +198,9 @@ class CoffeeTimerApp extends StatelessWidget {
           create: (_) => CardExpansionNotifier(),
         ),
         ChangeNotifierProvider<UserStatProvider>.value(value: userStatProvider),
+        ChangeNotifierProvider<UserRecipeProvider>(
+          create: (_) => UserRecipeProvider(database),
+        ),
       ],
       child: Consumer2<ThemeProvider, SnowEffectProvider>(
         builder: (context, themeProvider, snowProvider, child) {

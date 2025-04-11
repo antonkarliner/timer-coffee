@@ -1,17 +1,23 @@
-Timer.coffee ist KOSTENLOS. In-App-Spenden sind rein optional und beeinflussen die Funktionalität in keiner Weise.
+Timer.Coffee ist ein kostenloser Open-Source-Timer und Rechner für die Kaffeezubereitung, der Ihr Brüherlebnis verbessern soll. Völlig kostenlos mit optionalen In-App-Spenden zur Unterstützung der laufenden Entwicklung. Diese Spenden haben keinen Einfluss auf Ihren Zugriff auf Funktionen.
 
-Timer.Coffee ist eine kostenlose und Open-Source-App für den Brüh-Timer und den Kaffee-Rechner, entwickelt, um Sie bei Ihren Kaffee-Brüh-Abenteuern zu unterstützen. Die App bietet derzeit Unterstützung für verschiedene Brühmethoden, einschließlich: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over und Origami Dripper. Die App verfügt über mehr als 30 Rezepte mit weiteren in Vorbereitung.
+Was ist neu
 
-Mit Timer.Coffee können Sie:
+- Erstellen Sie Ihre eigenen Rezepte: Passen Sie Ihre persönlichen Kaffeezubereitungsrezepte an und speichern Sie sie.
+- Rezepte teilen: Teilen Sie Ihre Lieblingsrezepte ganz einfach mit Freunden und anderen Kaffee-Enthusiasten.
 
-- Den Kaffee-Rechner verwenden, um die Kaffee- oder Wassermengen in den Rezepten anzupassen, sodass Sie so viel Kaffee brühen können, wie Sie möchten.
-- Ihre beliebtesten Kaffee-Rezepte als Favoriten für einen einfachen Zugang markieren.
-- Notizen zu Ihren Brühvorgängen im Brew Diary hinzufügen
-- Den Klangtimer einschalten, um Sie über den nächsten Brühschritt zu informieren.
+Hauptmerkmale
 
-Die App unterstützt 15 Sprachen und den Dunkelmodus.
+- Über 40 Brühmethoden: Enthält detaillierte Schritt-für-Schritt-Anleitungen für Methoden wie Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper und Hario Switch.
+- Kaffeerechner: Passen Sie Kaffee- und Wassermengen schnell an, um Ihre perfekte Menge zu brühen.
+- Favoriten: Markieren und greifen Sie einfach auf Ihre Lieblingsrezepte zu.
+- Brühtagebuch: Protokollieren Sie Notizen und verfolgen Sie Ihre Brüherfahrungen.
+- Audio-Signalton: Erhalten Sie Audio-Benachrichtigungen für jeden Brühschritt.
+- Bohnenprotokollierung: Verfolgen Sie Ihre Kaffeebohnen bequem mit KI-gestützter Etikettenerkennung.
+- Automatische Protokollierung: Zeichnen Sie mühelos jede Brühsitzung auf.
+- Gerätesynchronisierung: Synchronisieren Sie Rezepte, Bohnen und Brühvorgänge nahtlos auf allen Ihren Geräten.
+- Mehrsprachig: Unterstützt 15 Sprachen.
+- Dunkelmodus: Komfortables Brüherlebnis zu jeder Tageszeit.
 
-Hier sind unsere Pläne für zukünftige Updates:
+Demnächst verfügbar
 
-- Eine Erweiterung unserer Kaffee-Rezeptsammlung.
-- Design-Verbesserungen.
+- Verbesserte Community-Interaktion und Sharing-Funktionen.

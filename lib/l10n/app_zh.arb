@@ -233,5 +233,254 @@
   "labelUsedBrewingMethods": "使用过的",
   "formattedRoasterCount": "{count} {count, plural, other{家烘焙商}}",
   "formattedCountryCount": "{count} {count, plural, other{个国家/地区}}",
-  "formattedBrewingMethodCount": "{count} {count, plural, other{种冲煮方法}}"
+  "formattedBrewingMethodCount": "{count} {count, plural, other{种冲煮方法}}",
+  "recipeCreationScreenEditRecipeTitle": "编辑食谱",
+  "recipeCreationScreenCreateRecipeTitle": "创建食谱",
+  "recipeCreationScreenRecipeStepsTitle": "食谱步骤",
+  "recipeCreationScreenRecipeNameLabel": "食谱名称",
+  "recipeCreationScreenShortDescriptionLabel": "简短描述",
+  "recipeCreationScreenBrewingMethodLabel": "冲煮方法",
+  "recipeCreationScreenCoffeeAmountLabel": "咖啡量 (克)",
+  "recipeCreationScreenWaterAmountLabel": "水量 (毫升)",
+  "recipeCreationScreenWaterTempLabel": "水温 (°C)",
+  "recipeCreationScreenGrindSizeLabel": "研磨粒度",
+  "recipeCreationScreenTotalBrewTimeLabel": "总冲煮时间:",
+  "recipeCreationScreenMinutesLabel": "分钟",
+  "recipeCreationScreenSecondsLabel": "秒",
+  "recipeCreationScreenPreparationStepTitle": "准备步骤",
+  "recipeCreationScreenBrewStepTitle": "冲煮步骤 {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "食谱创建屏幕中冲煮步骤的标题",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "步骤描述",
+  "recipeCreationScreenStepTimeLabel": "步骤时间: ",
+  "recipeCreationScreenRecipeNameValidator": "请输入食谱名称",
+  "recipeCreationScreenShortDescriptionValidator": "请输入简短描述",
+  "recipeCreationScreenBrewingMethodValidator": "请选择冲煮方法",
+  "recipeCreationScreenRequiredValidator": "必填",
+  "recipeCreationScreenInvalidNumberValidator": "无效数字",
+  "recipeCreationScreenStepDescriptionValidator": "请输入步骤描述",
+  "recipeCreationScreenContinueButton": "继续至食谱步骤",
+  "recipeCreationScreenAddStepButton": "添加步骤",
+  "recipeCreationScreenSaveRecipeButton": "保存食谱",
+  "recipeCreationScreenUpdateSuccess": "食谱更新成功",
+  "recipeCreationScreenSaveSuccess": "食谱保存成功",
+  "recipeCreationScreenSaveError": "保存食谱时出错: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "保存食谱失败时的错误消息",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "数据库错误"
+      }
+    }
+  },
+  "unitGramsShort": "克",
+  "unitMillilitersShort": "毫升",
+  "unitGramsLong": "克",
+  "unitMillilitersLong": "毫升",
+  "recipeCopySuccess": "配方复制成功！",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "复制配方时出错：{error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "创建配方",
+  "errorSyncingData": "数据同步错误：{error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "errorSigningOut": "退出登录错误：{error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "defaultPreparationStepDescription": "准备",
+  "loadingEllipsis": "加载中...",
+  "recipeDeletedSuccess": "配方已成功删除",
+  "recipeDeleteError": "删除配方失败：{error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "noRecipesFound": "未找到配方",
+  "recipeLoadError": "加载配方失败：{error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "unknownBrewingMethod": "未知的冲煮方法",
+  "recipeCopyErrorLoadingEdit": "加载复制的配方进行编辑失败。",
+  "recipeCopyErrorOperationFailed": "操作失败。",
+  "notProvided": "未提供",
+  "recipeUpdateAvailableTitle": "有可用的更新",
+  "recipeUpdateAvailableBody": "在线提供了“{recipeName}”的新版本。是否更新？",
+  "@recipeUpdateAvailableBody": {
+    "description": "更新确认对话框的正文",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "我的超赞食谱"
+      }
+    }
+  },
+  "dialogCancel": "取消",
+  "dialogUpdate": "更新",
+  "recipeImportTitle": "导入食谱",
+  "recipeImportBody": "您想从云端导入食谱“{recipeName}”吗？",
+  "@recipeImportBody": {
+    "description": "导入确认对话框的正文",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "共享食谱"
+      }
+    }
+  },
+  "dialogImport": "导入",
+  "moderationReviewNeededTitle": "需要审核",
+  "moderationReviewNeededMessage": "由于内容审核问题，以下食谱需要审核：{recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "当食谱需要审核时显示的消息",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'我的食谱', '另一个食谱'"
+      }
+    }
+  },
+  "dismiss": "忽略",
+  "reviewRecipeButton": "审核食谱",
+  "signInRequiredTitle": "需要登录",
+  "signInRequiredBodyShare": "您需要登录才能分享您自己的食谱。",
+  "syncSuccess": "同步成功！",
+  "tooltipEditRecipe": "编辑食谱",
+  "tooltipCopyRecipe": "复制食谱",
+  "tooltipShareRecipe": "分享食谱",
+  "signInRequiredSnackbar": "需要登录",
+  "moderationErrorFunction": "内容审核检查失败。",
+  "moderationReasonDefault": "内容已标记待审核。",
+  "moderationFailedTitle": "审核失败",
+  "moderationFailedBody": "此食谱无法分享，原因：{reason}",
+  "@moderationFailedBody": {
+    "description": "内容审核失败时显示的对话框正文",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "不当语言"
+      }
+    }
+  },
+  "shareErrorGeneric": "分享食谱时出错：{error}",
+  "@shareErrorGeneric": {
+    "description": "分享过程失败时显示的通用错误消息",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "网络错误"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} 在 Timer.Coffee 上",
+  "@recipeDetailWebTitle": {
+    "description": "食谱详情页面的网页标题格式",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "我的超赞 V60"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "无法检查内容状态。已在本地保存，将在下次同步时检查。",
+  "saveLocallyModerationFailedTitle": "更改已在本地保存",
+  "saveLocallyModerationFailedBody": "您的本地更改已保存，但由于内容审核，公共版本无法更新：{reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "审核失败但本地保存成功时显示的对话框正文",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "不当语言"
+      }
+    }
+  },
+  "recipeUpdateFailedFetch": "获取更新的食谱数据失败。",
+  "recipeImportSuccess": "食谱导入成功！",
+  "recipeImportFailedSave": "保存导入的食谱失败。",
+  "recipeImportFailedFetch": "获取导入的食谱数据失败。",
+  "recipeNotImported": "食谱未导入。",
+  "recipeNotFoundCloud": "在云端找不到食谱或食谱未公开。",
+  "recipeLoadErrorGeneric": "加载食谱时出错。",
+  "editImportedRecipeTitle": "编辑导入的配方",
+  "editImportedRecipeBody": "这是一个导入的配方。编辑它将创建一个新的独立副本。您想继续吗？",
+  "editImportedRecipeButtonCopy": "创建副本并编辑",
+  "editImportedRecipeButtonCancel": "取消",
+  "editDisplayNameTitle": "编辑显示名称",
+  "displayNameHint": "输入您的显示名称",
+  "displayNameEmptyError": "显示名称不能为空",
+  "displayNameTooLongError": "显示名称不能超过 50 个字符",
+  "errorUserNotLoggedIn": "用户未登录。请重新登录。",
+  "displayNameUpdateSuccess": "显示名称更新成功！",
+  "displayNameUpdateError": "更新显示名称失败：{error}",
+  "@displayNameUpdateError": {
+    "description": "更新显示名称失败时的错误消息",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "网络错误"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "删除图片？",
+  "deletePictureConfirmationBody": "您确定要删除您的个人资料图片吗？",
+  "deletePictureSuccess": "个人资料图片已删除。",
+  "deletePictureError": "删除个人资料图片失败：{error}",
+  "@deletePictureError": {
+    "description": "删除个人资料图片失败时的错误消息",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "存储错误"
+      }
+    }
+  },
+  "updatePictureError": "更新个人资料图片失败：{error}",
+  "@updatePictureError": {
+    "description": "更新个人资料图片失败时的错误消息",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "上传错误"
+      }
+    }
+  },
+  "updatePictureSuccess": "个人资料图片更新成功！",
+  "deletePictureTooltip": "删除图片",
+  "account": "账户"
 }

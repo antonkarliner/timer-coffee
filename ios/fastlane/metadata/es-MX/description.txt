@@ -1,17 +1,23 @@
-Timer.coffee es GRATIS. Las donaciones dentro de la aplicación son completamente opcionales y no afectan la funcionalidad de ninguna manera.
+Timer.Coffee es un temporizador y calculadora de preparación de café gratuito y de código abierto diseñado para mejorar tu experiencia de preparación. Completamente gratuito con donaciones opcionales dentro de la aplicación para apoyar el desarrollo continuo, estas donaciones no afectan tu acceso a las funciones.
 
-Timer.Coffee es una aplicación gratuita y de código abierto para el temporizador de preparación y calculadora de café, diseñada para ayudarte en tus aventuras de preparación de café. La aplicación actualmente ofrece soporte para varias técnicas de preparación, incluyendo: Hario V60, Aeropress, Chemex, Prensa Francesa, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over y Origami Dripper. La aplicación cuenta con más de 30 recetas con más en camino.
+Novedades
 
-Con Timer.Coffee puedes:
+- Crea tus propias recetas: Personaliza y guarda tus recetas personales de preparación de café.
+- Comparte recetas: Comparte fácilmente tus recetas favoritas con amigos y otros entusiastas del café.
 
-- Usar la calculadora de café para ajustar las cantidades de café o agua en las recetas, permitiéndote preparar tanto café como desees.
-- Marcar tus recetas de café más queridas como favoritas para un fácil acceso.
-- Agregar notas a tus preparaciones en el Diario de Elaboración
-- Activar el timbre de sonido para informarte sobre el siguiente paso en la preparación.
+Características clave
 
-La aplicación soporta 15 idiomas y el modo oscuro.
+- Más de 40 métodos de preparación: Incluye instrucciones detalladas paso a paso para métodos como Hario V60, AeroPress, Chemex, Prensa Francesa, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper y Hario Switch.
+- Calculadora de café: Ajusta rápidamente las cantidades de café y agua para preparar tu cantidad perfecta.
+- Favoritos: Marca y accede fácilmente a tus recetas favoritas.
+- Diario de preparación: Registra notas y haz un seguimiento de tus experiencias de preparación.
+- Timbre de audio: Recibe alertas de audio para cada paso de la preparación.
+- Registro de granos: Realiza un seguimiento conveniente de tus granos de café con reconocimiento de etiquetas impulsado por IA.
+- Registro automático: Registra sin esfuerzo cada sesión de preparación.
+- Sincronización de dispositivos: Sincroniza recetas, granos y preparaciones sin problemas en todos tus dispositivos.
+- Multilingüe: Admite 15 idiomas.
+- Modo oscuro: Experiencia de preparación cómoda a cualquier hora del día.
 
-Esto es lo que estamos preparando para futuras actualizaciones:
+Próximamente
 
-- Una expansión de nuestra colección de recetas de café.
-- Mejoras en el diseño.
+- Funciones mejoradas de interacción y uso compartido de la comunidad.

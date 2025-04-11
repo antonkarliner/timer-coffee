@@ -18,7 +18,46 @@ extension RecipesCompanionExtension on RecipesCompanion {
       lastModified: json['last_modified'] != null
           ? Value(DateTime.parse(json['last_modified']))
           : const Value.absent(),
+      importId: json['import_id'] != null
+          ? Value(json['import_id'])
+          : const Value.absent(),
+      isImported: Value(json['is_imported'] ?? false),
     );
+  }
+
+  static RecipesCompanion fromUserRecipeJson(Map<String, dynamic> json) {
+    return RecipesCompanion(
+      id: Value(json['id']),
+      brewingMethodId: Value(json['brewing_method_id']),
+      coffeeAmount: Value((json['coffee_amount'] as num).toDouble()),
+      waterAmount: Value((json['water_amount'] as num).toDouble()),
+      waterTemp: Value((json['water_temp'] as num).toDouble()),
+      brewTime: Value(json['brew_time']),
+      vendorId: Value(json['vendor_id']),
+      lastModified: json['last_modified'] != null
+          ? Value(DateTime.parse(json['last_modified']))
+          : const Value.absent(),
+      importId: json['import_id'] != null
+          ? Value(json['import_id'])
+          : const Value.absent(),
+      isImported: Value(json['is_imported'] ?? false),
+    );
+  }
+
+  Map<String, dynamic> toUserRecipeJson(String userId) {
+    return {
+      'id': id.value,
+      'brewing_method_id': brewingMethodId.value,
+      'coffee_amount': coffeeAmount.value,
+      'water_amount': waterAmount.value,
+      'water_temp': waterTemp.value,
+      'brew_time': brewTime.value,
+      'vendor_id': userId,
+      'last_modified': lastModified.value?.toUtc().toIso8601String(),
+      'import_id': importId.present ? importId.value : null,
+      'is_imported': isImported.present ? isImported.value : false,
+      'ispublic': false, // Default to private
+    };
   }
 }
 
@@ -34,6 +73,29 @@ extension RecipeLocalizationsCompanionExtension
       shortDescription: Value(json['short_description']),
     );
   }
+
+  static RecipeLocalizationsCompanion fromUserRecipeLocalizationJson(
+      Map<String, dynamic> json) {
+    return RecipeLocalizationsCompanion(
+      id: Value(json['id']),
+      recipeId: Value(json['recipe_id']),
+      locale: Value(json['locale']),
+      name: Value(json['name']),
+      grindSize: Value(json['grind_size']),
+      shortDescription: Value(json['short_description']),
+    );
+  }
+
+  Map<String, dynamic> toUserRecipeLocalizationJson() {
+    return {
+      'id': id.value,
+      'recipe_id': recipeId.value,
+      'locale': locale.value,
+      'name': name.value,
+      'grind_size': grindSize.value,
+      'short_description': shortDescription.value,
+    };
+  }
 }
 
 extension StepsCompanionExtension on StepsCompanion {
@@ -47,17 +109,27 @@ extension StepsCompanionExtension on StepsCompanion {
       locale: Value(json['locale']), // Ensure handling of 'locale' column
     );
   }
-}
 
-extension VendorsCompanionExtension on VendorsCompanion {
-  static VendorsCompanion fromJson(Map<String, dynamic> json) {
-    return VendorsCompanion(
-      vendorId: Value(json['vendor_id']),
-      vendorName: Value(json['vendor_name']),
-      vendorDescription: Value(json['vendor_description']),
-      bannerUrl: Value(json['banner_url'] as String?),
-      active: Value(json['active'] as bool),
+  static StepsCompanion fromUserStepJson(Map<String, dynamic> json) {
+    return StepsCompanion(
+      id: Value(json['id']),
+      recipeId: Value(json['recipe_id']),
+      stepOrder: Value(json['step_order']),
+      description: Value(json['description']),
+      time: Value(json['time']),
+      locale: Value(json['locale']),
     );
+  }
+
+  Map<String, dynamic> toUserStepJson() {
+    return {
+      'id': id.value,
+      'recipe_id': recipeId.value,
+      'step_order': stepOrder.value,
+      'description': description.value,
+      'time': time.value,
+      'locale': locale.value,
+    };
   }
 }
 

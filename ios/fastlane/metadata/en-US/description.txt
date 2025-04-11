@@ -1,15 +1,23 @@
-Timer.coffee is FREE. The in-app donations are purely optional and don't affect the functionality in any way. 
+Timer.Coffee is a free and open-source coffee brewing timer and calculator designed to enhance your brewing experience. Completely free with optional in-app donations to support ongoing development, these donations don't impact your access to features.
 
-Timer.Coffee is a free and open-source brew timer and coffee calculator app, designed to aid in your coffee brewing adventures. The app presently offers support for various brewing techniques including: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over and Origami Dripper. The app features more than 30 recipes with more on the way.
+What's New
 
-With Timer.Coffee you can:
-- Use the coffee calculator to tweak the coffee or water quantities in the recipes, allowing you to brew as much coffee as you desire.
-- Mark your most-loved coffee recipes as favorites for easy access.
-- Add notes to your brews in Brew Diary
-- Turn on the sound chime to inform you about the next brewing step.
+- Create Your Own Recipes: Customize and save your personal coffee brewing recipes.
+- Share Recipes: Easily share your favorite recipes with friends and fellow coffee enthusiasts.
 
-The app supports 15 languages and dark mode.
+Key Features
 
-Here's what we're brewing for future updates:
-- An expansion of our coffee recipes collection.
-- Design upgrades.
+- 40+ Brewing Methods: Includes detailed, step-by-step instructions for methods like Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, and Hario Switch.
+- Coffee Calculator: Quickly adjust coffee and water quantities to brew your perfect amount.
+- Favorites: Mark and easily access your favorite recipes.
+- Brew Diary: Log notes and track your brewing experiences.
+- Audio Chime: Receive audio alerts for each brewing step.
+- Bean Logging: Conveniently track your coffee beans with AI-powered label recognition.
+- Automatic Logging: Effortlessly record every brewing session.
+- Device Sync: Seamlessly sync recipes, beans, and brews across all your devices.
+- Multilingual: Supports 15 languages.
+- Dark Mode: Comfortable brewing experience at any time of day.
+
+Coming Soon
+
+- Enhanced community interaction and sharing features.

@@ -36,16 +36,8 @@ class AppRouter extends $AppRouter {
           path: '/recipes/:brewingMethodId/:recipeId',
         ),
         AutoRoute(
-          page: CoffeeTipsRoute.page,
-          path: '/tips',
-        ),
-        AutoRoute(
           page: DonationRoute.page,
           path: '/donate',
-        ),
-        AutoRoute(
-          page: OnboardingRoute.page,
-          path: '/firstlaunch',
         ),
         AutoRoute(
           page: SettingsRoute.page,
@@ -54,18 +46,6 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: FavoriteRecipesRoute.page,
           path: '/favorites',
-        ),
-        AutoRoute(
-          page: VendorsRoute.page,
-          path: '/explore',
-        ),
-        AutoRoute(
-          page: VendorsRecipeListRoute.page,
-          path: '/explore/:vendorId',
-        ),
-        AutoRoute(
-          page: VendorRecipeDetailRoute.page,
-          path: '/explore/:vendorId/:recipeId',
         ),
         AutoRoute(
           page: BrewDiaryRoute.page,
@@ -90,6 +70,14 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: YearlyStatsStoryRoute.page,
           path: '/yearly_stats_story',
+        ),
+        AutoRoute(
+          page: RecipeCreationRoute.page,
+          path: '/create_recipe',
+        ),
+        AutoRoute(
+          page: AccountRoute.page, // Add route for AccountScreen
+          path: '/account',
         ),
       ];
 }

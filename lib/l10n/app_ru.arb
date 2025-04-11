@@ -233,5 +233,254 @@
   "labelUsedBrewingMethods": "Использовано",
   "formattedRoasterCount": "{count} {count, plural, one {обжарщик} few {обжарщика} many {обжарщиков} other {обжарщиков}}",
   "formattedCountryCount": "{count} {count, plural, one {страна} few {страны} many {стран} other {стран}}",
-  "formattedBrewingMethodCount": "{count} {count, plural, one {способ заваривания} few {способа заваривания} many {способов заваривания} other {способов заваривания}}"
+  "formattedBrewingMethodCount": "{count} {count, plural, one {способ заваривания} few {способа заваривания} many {способов заваривания} other {способов заваривания}}",
+  "recipeCreationScreenEditRecipeTitle": "Редактировать рецепт",
+  "recipeCreationScreenCreateRecipeTitle": "Создать рецепт",
+  "recipeCreationScreenRecipeStepsTitle": "Шаги рецепта",
+  "recipeCreationScreenRecipeNameLabel": "Название рецепта",
+  "recipeCreationScreenShortDescriptionLabel": "Краткое описание",
+  "recipeCreationScreenBrewingMethodLabel": "Метод заваривания",
+  "recipeCreationScreenCoffeeAmountLabel": "Количество кофе (г)",
+  "recipeCreationScreenWaterAmountLabel": "Количество воды (мл)",
+  "recipeCreationScreenWaterTempLabel": "Температура воды (°C)",
+  "recipeCreationScreenGrindSizeLabel": "Размер помола",
+  "recipeCreationScreenTotalBrewTimeLabel": "Общее время заваривания:",
+  "recipeCreationScreenMinutesLabel": "Минуты",
+  "recipeCreationScreenSecondsLabel": "Секунды",
+  "recipeCreationScreenPreparationStepTitle": "Шаг подготовки",
+  "recipeCreationScreenBrewStepTitle": "Шаг заваривания {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "Заголовок для шага заваривания на экране создания рецепта",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "Описание шага",
+  "recipeCreationScreenStepTimeLabel": "Время шага: ",
+  "recipeCreationScreenRecipeNameValidator": "Введите название рецепта",
+  "recipeCreationScreenShortDescriptionValidator": "Введите краткое описание",
+  "recipeCreationScreenBrewingMethodValidator": "Выберите метод заваривания",
+  "recipeCreationScreenRequiredValidator": "Обязательно",
+  "recipeCreationScreenInvalidNumberValidator": "Неверный номер",
+  "recipeCreationScreenStepDescriptionValidator": "Введите описание шага",
+  "recipeCreationScreenContinueButton": "Перейти к шагам рецепта",
+  "recipeCreationScreenAddStepButton": "Добавить шаг",
+  "recipeCreationScreenSaveRecipeButton": "Сохранить рецепт",
+  "recipeCreationScreenUpdateSuccess": "Рецепт успешно обновлен",
+  "recipeCreationScreenSaveSuccess": "Рецепт успешно сохранен",
+  "recipeCreationScreenSaveError": "Ошибка сохранения рецепта: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "Сообщение об ошибке при неудачном сохранении рецепта",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Ошибка базы данных"
+      }
+    }
+  },
+  "unitGramsShort": "г",
+  "unitMillilitersShort": "мл",
+  "unitGramsLong": "граммы",
+  "unitMillilitersLong": "миллилитры",
+  "recipeCopySuccess": "Рецепт успешно скопирован!",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "Ошибка при копировании рецепта: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "Создать рецепт",
+  "errorSyncingData": "Ошибка синхронизации данных: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "errorSigningOut": "Ошибка выхода: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "defaultPreparationStepDescription": "Подготовка",
+  "loadingEllipsis": "Загрузка...",
+  "recipeDeletedSuccess": "Рецепт успешно удален",
+  "recipeDeleteError": "Не удалось удалить рецепт: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "noRecipesFound": "Рецепты не найдены",
+  "recipeLoadError": "Не удалось загрузить рецепт: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "unknownBrewingMethod": "Неизвестный метод заваривания",
+  "recipeCopyErrorLoadingEdit": "Не удалось загрузить скопированный рецепт для редактирования.",
+  "recipeCopyErrorOperationFailed": "Операция не удалась.",
+  "notProvided": "Не указано",
+  "recipeUpdateAvailableTitle": "Доступно обновление",
+  "recipeUpdateAvailableBody": "Новая версия '{recipeName}' доступна онлайн. Обновить?",
+  "@recipeUpdateAvailableBody": {
+    "description": "Текст для окна подтверждения обновления",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Мой отличный рецепт"
+      }
+    }
+  },
+  "dialogCancel": "Отмена",
+  "dialogUpdate": "Обновить",
+  "recipeImportTitle": "Импортировать рецепт",
+  "recipeImportBody": "Вы хотите импортировать рецепт '{recipeName}' из облака?",
+  "@recipeImportBody": {
+    "description": "Текст для окна подтверждения импорта",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Общий рецепт"
+      }
+    }
+  },
+  "dialogImport": "Импортировать",
+  "moderationReviewNeededTitle": "Требуется проверка модератором",
+  "moderationReviewNeededMessage": "Следующий(ие) рецепт(ы) требует(ют) проверки из-за проблем с модерацией контента: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "Сообщение, отображаемое, когда рецепты требуют проверки модератором",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'Мой рецепт', 'Другой рецепт'"
+      }
+    }
+  },
+  "dismiss": "Отклонить",
+  "reviewRecipeButton": "Проверить рецепт",
+  "signInRequiredTitle": "Требуется вход",
+  "signInRequiredBodyShare": "Вам необходимо войти в систему, чтобы поделиться своими рецептами.",
+  "syncSuccess": "Синхронизация прошла успешно!",
+  "tooltipEditRecipe": "Редактировать рецепт",
+  "tooltipCopyRecipe": "Копировать рецепт",
+  "tooltipShareRecipe": "Поделиться рецептом",
+  "signInRequiredSnackbar": "Требуется вход",
+  "moderationErrorFunction": "Проверка модерации контента не удалась.",
+  "moderationReasonDefault": "Контент помечен для проверки.",
+  "moderationFailedTitle": "Модерация не удалась",
+  "moderationFailedBody": "Этот рецепт не может быть опубликован, потому что: {reason}",
+  "@moderationFailedBody": {
+    "description": "Текст диалогового окна, отображаемый при сбое модерации контента",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Недопустимый язык"
+      }
+    }
+  },
+  "shareErrorGeneric": "Ошибка при публикации рецепта: {error}",
+  "@shareErrorGeneric": {
+    "description": "Общее сообщение об ошибке, отображаемое при сбое процесса публикации",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Ошибка сети"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} на Timer.Coffee",
+  "@recipeDetailWebTitle": {
+    "description": "Формат заголовка веб-страницы для страницы сведений о рецепте",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Мой потрясающий V60"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "Не удалось проверить статус контента. Сохранено локально, будет проверено при следующей синхронизации.",
+  "saveLocallyModerationFailedTitle": "Изменения сохранены локально",
+  "saveLocallyModerationFailedBody": "Ваши локальные изменения были сохранены, но публичная версия не может быть обновлена из-за модерации контента: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "Текст диалогового окна, отображаемый при сбое модерации, но успешном локальном сохранении",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Недопустимый язык"
+      }
+    }
+  },
+  "recipeUpdateFailedFetch": "Не удалось получить обновленные данные рецепта.",
+  "recipeImportSuccess": "Рецепт успешно импортирован!",
+  "recipeImportFailedSave": "Не удалось сохранить импортированный рецепт.",
+  "recipeImportFailedFetch": "Не удалось получить данные рецепта для импорта.",
+  "recipeNotImported": "Рецепт не импортирован.",
+  "recipeNotFoundCloud": "Рецепт не найден в облаке или не является общедоступным.",
+  "recipeLoadErrorGeneric": "Ошибка загрузки рецепта.",
+  "editImportedRecipeTitle": "Редактировать импортированный рецепт",
+  "editImportedRecipeBody": "Это импортированный рецепт. Редактирование создаст новую, независимую копию. Продолжить?",
+  "editImportedRecipeButtonCopy": "Создать копию и редактировать",
+  "editImportedRecipeButtonCancel": "Отмена",
+  "editDisplayNameTitle": "Изменить отображаемое имя",
+  "displayNameHint": "Введите ваше отображаемое имя",
+  "displayNameEmptyError": "Отображаемое имя не может быть пустым",
+  "displayNameTooLongError": "Отображаемое имя не может превышать 50 символов",
+  "errorUserNotLoggedIn": "Пользователь не вошел в систему. Пожалуйста, войдите снова.",
+  "displayNameUpdateSuccess": "Отображаемое имя успешно обновлено!",
+  "displayNameUpdateError": "Не удалось обновить отображаемое имя: {error}",
+  "@displayNameUpdateError": {
+    "description": "Сообщение об ошибке при неудачном обновлении отображаемого имени",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Ошибка сети"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "Удалить изображение?",
+  "deletePictureConfirmationBody": "Вы уверены, что хотите удалить изображение профиля?",
+  "deletePictureSuccess": "Изображение профиля удалено.",
+  "deletePictureError": "Не удалось удалить изображение профиля: {error}",
+  "@deletePictureError": {
+    "description": "Сообщение об ошибке при неудачном удалении изображения профиля",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Ошибка хранилища"
+      }
+    }
+  },
+  "updatePictureError": "Не удалось обновить изображение профиля: {error}",
+  "@updatePictureError": {
+    "description": "Сообщение об ошибке при неудачном обновлении изображения профиля",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Ошибка загрузки"
+      }
+    }
+  },
+  "updatePictureSuccess": "Изображение профиля успешно обновлено!",
+  "deletePictureTooltip": "Удалить изображение",
+  "account": "Аккаунт"
 }

@@ -8,13 +8,26 @@ class StepsDao extends DatabaseAccessor<AppDatabase> with _$StepsDaoMixin {
 
   Future<List<BrewStepModel>> getLocalizedBrewStepsForRecipe(
       String recipeId, String locale) async {
-    final steps = await (select(db.steps)
-          ..where((tbl) =>
-              tbl.recipeId.equals(recipeId) & tbl.locale.equals(locale))
-          ..orderBy([
-            (t) => OrderingTerm(expression: t.stepOrder, mode: OrderingMode.asc)
-          ])) // Added orderBy clause here
-        .get();
+    late final Selectable<Step> query;
+
+    if (recipeId.startsWith('usr-')) {
+      // For user recipes, ignore the locale and fetch steps based only on recipeId
+      query = select(db.steps)
+        ..where((tbl) => tbl.recipeId.equals(recipeId))
+        ..orderBy([
+          (t) => OrderingTerm(expression: t.stepOrder, mode: OrderingMode.asc)
+        ]);
+    } else {
+      // For standard recipes, fetch based on recipeId and locale
+      query = select(db.steps)
+        ..where(
+            (tbl) => tbl.recipeId.equals(recipeId) & tbl.locale.equals(locale))
+        ..orderBy([
+          (t) => OrderingTerm(expression: t.stepOrder, mode: OrderingMode.asc)
+        ]);
+    }
+
+    final steps = await query.get();
     return steps.map((step) => _fromEntity(step)).toList();
   }
 
@@ -40,5 +53,25 @@ class StepsDao extends DatabaseAccessor<AppDatabase> with _$StepsDaoMixin {
     await into(steps).insertOnConflictUpdate(step);
   }
 
-  // Optional: Add a method to convert BrewStepModel back to a Step entity if needed for database operations
+  Future<void> deleteStep(int stepOrder, String recipeId, String locale) async {
+    await (delete(steps)
+          ..where((t) =>
+              t.stepOrder.equals(stepOrder) &
+              t.recipeId.equals(recipeId) &
+              t.locale.equals(locale)))
+        .go();
+  }
+
+  Future<void> deleteStepsForRecipe(String recipeId) async {
+    await (delete(steps)..where((t) => t.recipeId.equals(recipeId))).go();
+  }
+
+  Future<List<Step>> getStepsForRecipe(String recipeId) async {
+    final query = select(db.steps)
+      ..where((tbl) => tbl.recipeId.equals(recipeId))
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.stepOrder, mode: OrderingMode.asc)
+      ]);
+    return query.get();
+  }
 }

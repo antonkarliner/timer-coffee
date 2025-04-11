@@ -1,17 +1,23 @@
-Timer.coffee is GRATIS. De in-app donaties zijn puur optioneel en hebben geen invloed op de functionaliteit op enigerlei wijze.
+Timer.Coffee is een gratis en open-source koffiezet-timer en -calculator die is ontworpen om uw zetervaring te verbeteren. Volledig gratis met optionele in-app donaties om de voortdurende ontwikkeling te ondersteunen, deze donaties hebben geen invloed op uw toegang tot functies.
 
-Timer.Coffee is een gratis en open-source zet-timer en koffiecalculator-app, ontworpen om je te helpen bij je koffiezetavonturen. De app biedt momenteel ondersteuning voor verschillende zettechnieken, waaronder: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over en Origami Dripper. De app heeft meer dan 30 recepten met meer op komst.
+Wat is er nieuw
 
-Met Timer.Coffee kun je:
+- Maak uw eigen recepten: Pas uw persoonlijke koffiezetrecepten aan en sla ze op.
+- Deel recepten: Deel eenvoudig uw favoriete recepten met vrienden en andere koffieliefhebbers.
 
-- De koffiecalculator gebruiken om de koffie- of waterhoeveelheden in de recepten aan te passen, zodat je zoveel koffie kunt zetten als je wilt.
-- Je meest geliefde koffierecepten markeren als favorieten voor gemakkelijke toegang.
-- Notities toevoegen aan je brouwsels in het Brouw Dagboek
-- Het geluidschime aanzetten om je te informeren over de volgende zetstap.
+Belangrijkste kenmerken
 
-De app ondersteunt 15 talen en een donkere modus.
+- 40+ zetmethoden: Bevat gedetailleerde, stapsgewijze instructies voor methoden zoals Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper en Hario Switch.
+- Koffiecalculator: Pas snel de hoeveelheden koffie en water aan om uw perfecte hoeveelheid te zetten.
+- Favorieten: Markeer en open eenvoudig uw favoriete recepten.
+- Zetdagboek: Log notities en volg uw zetervaringen.
+- Audiogong: Ontvang audiomeldingen voor elke zetstap.
+- Bonenregistratie: Volg uw koffiebonen gemakkelijk met AI-aangedreven labelherkenning.
+- Automatische registratie: Registreer moeiteloos elke zetsessie.
+- Apparaatsynchronisatie: Synchroniseer recepten, bonen en brouwsels naadloos op al uw apparaten.
+- Meertalig: Ondersteunt 15 talen.
+- Donkere modus: Comfortabele zetervaring op elk moment van de dag.
 
-Hier is wat we brouwen voor toekomstige updates:
+Binnenkort beschikbaar
 
-- Een uitbreiding van onze koffiereceptencollectie.
-- Ontwerpupgrades.
+- Verbeterde community-interactie en deelfuncties.

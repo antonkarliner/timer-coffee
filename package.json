@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
     "cheerio": "^1.0.0-rc.12"
   }
 }

@@ -233,5 +233,254 @@
   "labelUsedBrewingMethods": "Gebruikte",
   "formattedRoasterCount": "{count} {count, plural, one {brander} other {branders}}",
   "formattedCountryCount": "{count} {count, plural, one {land} other {landen}}",
-  "formattedBrewingMethodCount": "{count} {count, plural, one {zetmethode} other {zetmethoden}}"
+  "formattedBrewingMethodCount": "{count} {count, plural, one {zetmethode} other {zetmethoden}}",
+  "recipeCreationScreenEditRecipeTitle": "Recept bewerken",
+  "recipeCreationScreenCreateRecipeTitle": "Recept maken",
+  "recipeCreationScreenRecipeStepsTitle": "Receptstappen",
+  "recipeCreationScreenRecipeNameLabel": "Receptnaam",
+  "recipeCreationScreenShortDescriptionLabel": "Korte beschrijving",
+  "recipeCreationScreenBrewingMethodLabel": "Zetmethode",
+  "recipeCreationScreenCoffeeAmountLabel": "Koffiehoeveelheid (g)",
+  "recipeCreationScreenWaterAmountLabel": "Waterhoeveelheid (ml)",
+  "recipeCreationScreenWaterTempLabel": "Watertemperatuur (°C)",
+  "recipeCreationScreenGrindSizeLabel": "Maalgraad",
+  "recipeCreationScreenTotalBrewTimeLabel": "Totale zettijd:",
+  "recipeCreationScreenMinutesLabel": "Minuten",
+  "recipeCreationScreenSecondsLabel": "Seconden",
+  "recipeCreationScreenPreparationStepTitle": "Voorbereidingsstap",
+  "recipeCreationScreenBrewStepTitle": "Zetstap {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "Titel voor een zetstap in het receptcreatiescherm",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "Stapbeschrijving",
+  "recipeCreationScreenStepTimeLabel": "Staptijd: ",
+  "recipeCreationScreenRecipeNameValidator": "Voer een receptnaam in",
+  "recipeCreationScreenShortDescriptionValidator": "Voer een korte beschrijving in",
+  "recipeCreationScreenBrewingMethodValidator": "Selecteer een zetmethode",
+  "recipeCreationScreenRequiredValidator": "Verplicht",
+  "recipeCreationScreenInvalidNumberValidator": "Ongeldig nummer",
+  "recipeCreationScreenStepDescriptionValidator": "Voer een stapbeschrijving in",
+  "recipeCreationScreenContinueButton": "Doorgaan naar receptstappen",
+  "recipeCreationScreenAddStepButton": "Stap toevoegen",
+  "recipeCreationScreenSaveRecipeButton": "Recept opslaan",
+  "recipeCreationScreenUpdateSuccess": "Recept succesvol bijgewerkt",
+  "recipeCreationScreenSaveSuccess": "Recept succesvol opgeslagen",
+  "recipeCreationScreenSaveError": "Fout bij opslaan recept: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "Foutmelding wanneer het opslaan van een recept mislukt",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Databasefout"
+      }
+    }
+  },
+  "unitGramsShort": "g",
+  "unitMillilitersShort": "ml",
+  "unitGramsLong": "gram",
+  "unitMillilitersLong": "milliliter",
+  "recipeCopySuccess": "Recept succesvol gekopieerd!",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "Fout bij het kopiëren van het recept: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "Recept maken",
+  "errorSyncingData": "Fout bij synchroniseren van gegevens: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "errorSigningOut": "Fout bij uitloggen: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "defaultPreparationStepDescription": "Voorbereiding",
+  "loadingEllipsis": "Laden...",
+  "recipeDeletedSuccess": "Recept succesvol verwijderd",
+  "recipeDeleteError": "Kon recept niet verwijderen: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "noRecipesFound": "Geen recepten gevonden",
+  "recipeLoadError": "Kon recept niet laden: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "unknownBrewingMethod": "Onbekende zetmethode",
+  "recipeCopyErrorLoadingEdit": "Kon gekopieerd recept niet laden voor bewerking.",
+  "recipeCopyErrorOperationFailed": "Operatie mislukt.",
+  "notProvided": "Niet opgegeven",
+  "recipeUpdateAvailableTitle": "Update beschikbaar",
+  "recipeUpdateAvailableBody": "Er is een nieuwere versie van '{recipeName}' online beschikbaar. Updaten?",
+  "@recipeUpdateAvailableBody": {
+    "description": "Bodytekst voor het updatebevestigingsdialoogvenster",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Mijn geweldige recept"
+      }
+    }
+  },
+  "dialogCancel": "Annuleren",
+  "dialogUpdate": "Update",
+  "recipeImportTitle": "Recept importeren",
+  "recipeImportBody": "Wil je het recept '{recipeName}' uit de cloud importeren?",
+  "@recipeImportBody": {
+    "description": "Bodytekst voor het importbevestigingsdialoogvenster",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Gedeeld recept"
+      }
+    }
+  },
+  "dialogImport": "Importeren",
+  "moderationReviewNeededTitle": "Moderatiebeoordeling vereist",
+  "moderationReviewNeededMessage": "De volgende recept(en) vereisen beoordeling vanwege problemen met inhoudsmoderatie: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "Bericht getoond wanneer recepten moderatiebeoordeling nodig hebben",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'Mijn Recept', 'Nog een Recept'"
+      }
+    }
+  },
+  "dismiss": "Negeren",
+  "reviewRecipeButton": "Recept beoordelen",
+  "signInRequiredTitle": "Aanmelden vereist",
+  "signInRequiredBodyShare": "Je moet je aanmelden om je eigen recepten te delen.",
+  "syncSuccess": "Synchronisatie geslaagd!",
+  "tooltipEditRecipe": "Recept bewerken",
+  "tooltipCopyRecipe": "Recept kopiëren",
+  "tooltipShareRecipe": "Recept delen",
+  "signInRequiredSnackbar": "Aanmelden vereist",
+  "moderationErrorFunction": "Controle van inhoudsmoderatie mislukt.",
+  "moderationReasonDefault": "Inhoud gemarkeerd voor beoordeling.",
+  "moderationFailedTitle": "Moderatie mislukt",
+  "moderationFailedBody": "Dit recept kan niet worden gedeeld omdat: {reason}",
+  "@moderationFailedBody": {
+    "description": "Bodytekst voor het dialoogvenster dat wordt weergegeven wanneer inhoudsmoderatie mislukt",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Ongepast taalgebruik"
+      }
+    }
+  },
+  "shareErrorGeneric": "Fout bij het delen van recept: {error}",
+  "@shareErrorGeneric": {
+    "description": "Algemeen foutbericht dat wordt weergegeven als het deelproces mislukt",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Netwerkfout"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} op Timer.Coffee",
+  "@recipeDetailWebTitle": {
+    "description": "Webpaginatitelformaat voor een receptdetailpagina",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Mijn Geweldige V60"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "Kon inhoudsstatus niet controleren. Lokaal opgeslagen, wordt bij volgende synchronisatie gecontroleerd.",
+  "saveLocallyModerationFailedTitle": "Wijzigingen lokaal opgeslagen",
+  "saveLocallyModerationFailedBody": "Je lokale wijzigingen zijn opgeslagen, maar de openbare versie kon niet worden bijgewerkt vanwege inhoudsmoderatie: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "Bodytekst voor het dialoogvenster dat wordt weergegeven wanneer moderatie mislukt maar lokaal opslaan slaagt",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Ongepast taalgebruik"
+      }
+    }
+  },
+  "recipeUpdateFailedFetch": "Kon bijgewerkte receptgegevens niet ophalen.",
+  "recipeImportSuccess": "Recept succesvol geïmporteerd!",
+  "recipeImportFailedSave": "Kon geïmporteerd recept niet opslaan.",
+  "recipeImportFailedFetch": "Kon receptgegevens voor import niet ophalen.",
+  "recipeNotImported": "Recept niet geïmporteerd.",
+  "recipeNotFoundCloud": "Recept niet gevonden in de cloud of is niet openbaar.",
+  "recipeLoadErrorGeneric": "Fout bij het laden van het recept.",
+  "editImportedRecipeTitle": "Geïmporteerd recept bewerken",
+  "editImportedRecipeBody": "Dit is een geïmporteerd recept. Bewerken maakt een nieuwe, onafhankelijke kopie. Wilt u doorgaan?",
+  "editImportedRecipeButtonCopy": "Kopie maken & bewerken",
+  "editImportedRecipeButtonCancel": "Annuleren",
+  "editDisplayNameTitle": "Weergavenaam bewerken",
+  "displayNameHint": "Voer uw weergavenaam in",
+  "displayNameEmptyError": "Weergavenaam mag niet leeg zijn",
+  "displayNameTooLongError": "Weergavenaam mag niet langer zijn dan 50 tekens",
+  "errorUserNotLoggedIn": "Gebruiker niet ingelogd. Log opnieuw in.",
+  "displayNameUpdateSuccess": "Weergavenaam succesvol bijgewerkt!",
+  "displayNameUpdateError": "Kon weergavenaam niet bijwerken: {error}",
+  "@displayNameUpdateError": {
+    "description": "Foutmelding wanneer het bijwerken van de weergavenaam mislukt",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Netwerkfout"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "Afbeelding verwijderen?",
+  "deletePictureConfirmationBody": "Weet u zeker dat u uw profielfoto wilt verwijderen?",
+  "deletePictureSuccess": "Profielfoto verwijderd.",
+  "deletePictureError": "Kon profielfoto niet verwijderen: {error}",
+  "@deletePictureError": {
+    "description": "Foutmelding wanneer het verwijderen van de profielfoto mislukt",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Opslagfout"
+      }
+    }
+  },
+  "updatePictureError": "Kon profielfoto niet bijwerken: {error}",
+  "@updatePictureError": {
+    "description": "Foutmelding wanneer het bijwerken van de profielfoto mislukt",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Uploadfout"
+      }
+    }
+  },
+  "updatePictureSuccess": "Profielfoto succesvol bijgewerkt!",
+  "deletePictureTooltip": "Afbeelding verwijderen",
+  "account": "Account"
 }

@@ -4,8 +4,8 @@
 devices([
    #"iPhone 14 Pro",
    #"iPhone 14 Pro Max"
-   #"iPhone 15 Pro Max"
-   "iPhone SE (3rd generation)"
+   "iPhone 16 Pro Max"
+   #"iPhone SE (3rd generation)"
    #"iPad Pro (12.9-inch) (5th generation)"
 #   "iPhone 8",
 #   "iPhone 8 Plus",
@@ -18,24 +18,24 @@ devices([
  ])
 
 languages([
-   #"en-US",
-   #"de-DE",
+   "en-US",
+   "de-DE",
    "ar-SA",
-   #"es-ES",
-   #"es-MX",
-   #"fr-FR",
-   #"ja",
-   #"pl",
-   #"pt-BR",
-   #"pt-PT",
-   #"ru",
-   #"zh-Hans",
-   #"id",
+   "es-ES",
+   "es-MX",
+   "fr-FR",
+   "ja",
+   "pl",
+   "pt-BR",
+   "pt-PT",
+   "ru",
+   "zh-Hans",
+   "id",
    "it",
-   #"ro",
-   #"tr",
-   #"uk",
-   #"nl-NL"
+   "ro",
+   "tr",
+   "uk",
+   "nl-NL"
 ])
 
 # The name of the scheme which contains the UI Tests
@@ -57,5 +57,5 @@ languages([
 
 localize_simulator(true)
 headless(true)
-#clear_previous_screenshots(true)
+clear_previous_screenshots(false)
 number_of_retries(2)

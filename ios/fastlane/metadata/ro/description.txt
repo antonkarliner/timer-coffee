@@ -1,17 +1,23 @@
-Timer.coffee este GRATUIT. Donațiile din aplicație sunt pur și simplu opționale și nu afectează funcționalitatea în niciun fel.
+Timer.Coffee este un cronometru și calculator gratuit și open-source pentru prepararea cafelei, conceput pentru a vă îmbunătăți experiența de preparare. Complet gratuit, cu donații opționale în aplicație pentru a sprijini dezvoltarea continuă, aceste donații nu vă afectează accesul la funcții.
 
-Timer.Coffee este o aplicație gratuită și open-source pentru cronometrul de preparare și calculatorul de cafea, concepută pentru a te ajuta în aventurile tale de preparare a cafelei. Aplicația oferă în prezent suport pentru diverse tehnici de preparare, inclusiv: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over și Origami Dripper. Aplicația are peste 30 de rețete cu mai multe în curs de adăugare.
+Ce este nou
 
-Cu Timer.Coffee poți:
+- Creați-vă propriile rețete: Personalizați și salvați rețetele personale de preparare a cafelei.
+- Partajați rețete: Partajați cu ușurință rețetele preferate cu prietenii și alți pasionați de cafea.
 
-- Folosi calculatorul de cafea pentru a ajusta cantitățile de cafea sau apă din rețete, permițându-ți să prepari atât de multă cafea cât dorești.
-- Marchează rețetele tale de cafea preferate ca favorite pentru acces ușor.
-- Adaugă note la preparatele tale în Jurnalul de Preparare
-- Activează sunetul de clopot pentru a te informa despre următorul pas în preparare.
+Caracteristici cheie
 
-Aplicația suportă 15 limbi și modul întunecat.
+- Peste 40 de metode de preparare: Include instrucțiuni detaliate pas cu pas pentru metode precum Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper și Hario Switch.
+- Calculator de cafea: Ajustați rapid cantitățile de cafea și apă pentru a prepara cantitatea perfectă.
+- Favorite: Marcați și accesați cu ușurință rețetele preferate.
+- Jurnal de preparare: Înregistrați note și urmăriți experiențele dvs. de preparare.
+- Semnal sonor: Primiți alerte audio pentru fiecare pas de preparare.
+- Înregistrarea boabelor: Urmăriți convenabil boabele de cafea cu recunoașterea etichetelor bazată pe inteligență artificială.
+- Înregistrare automată: Înregistrați fără efort fiecare sesiune de preparare.
+- Sincronizare dispozitive: Sincronizați fără probleme rețete, boabe și preparate pe toate dispozitivele dvs.
+- Multilingv: Suportă 15 limbi.
+- Mod întunecat: Experiență de preparare confortabilă în orice moment al zilei.
 
-Iată ce pregătim pentru actualizările viitoare:
+În curând
 
-- Extinderea colecției noastre de rețete de cafea.
-- Upgrade-uri de design.
+- Funcții îmbunătățite de interacțiune și partajare în comunitate.

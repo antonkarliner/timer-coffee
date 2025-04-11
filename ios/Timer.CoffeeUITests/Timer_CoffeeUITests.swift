@@ -26,27 +26,40 @@ final class Timer_CoffeeUITests: XCTestCase {
     }
     
     
-    
-
-
     @MainActor func testRecipe() throws {
             let app = XCUIApplication()
             app.launch()
             
             Thread.sleep(forTimeInterval: 3)
             snapshot("01Home")
-            app/*@START_MENU_TOKEN@*/.staticTexts["brewingMethod_v60"]/*[[".staticTexts[\"Hario V60\\nHario V60\"]",".staticTexts[\"brewingMethod_v60\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+            app/*@START_MENU_TOKEN@*/.buttons["brewingMethod_v60"]/*[[".buttons[\"Hario V60\\nHario V60\"]",".buttons[\"brewingMethod_v60\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
             snapshot("02Recipelist")
-            app.otherElements["recipeListItem_101"].tap()
-            app.textFields["coffeeAmountField"].tap()
+            app/*@START_MENU_TOKEN@*/.buttons["recipeListItem_106"]/*[[".buttons[\"Tetsu Kasuya 4:6 Method\"]",".buttons[\"recipeListItem_106\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
             snapshot("03Recipedetail")
-            app/*@START_MENU_TOKEN@*/.staticTexts["recipeSummary"]/*[[".staticTexts[\"Recipe summary\\nNote: this is a basic recipe with default water and coffee amounts.\"]",".staticTexts[\"recipeSummary\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-            
-            app.buttons["nextButton"].tap()
+        let element = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .other).element(boundBy: 1)
+        element.children(matching: .other).element(boundBy: 1).children(matching: .button).element.tap()
+        element.children(matching: .other).element(boundBy: 2).children(matching: .button).element(boundBy: 1).tap()
+
             snapshot("04Preparation")
+                
+                    
+            // Use XCTAssert and related functions to verify your tests produce the correct results.
+        }
+
+    @MainActor func testCreate() throws {
+        
+        let app = XCUIApplication()
+        app.launch()
+        app/*@START_MENU_TOKEN@*/.buttons["createRecipe"]/*[[".buttons[\"Create Recipe\\nCreate Recipe\"]",".buttons[\"createRecipe\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+           
+            snapshot("05CreateRecipe")
+            
             
             // Use XCTAssert and related functions to verify your tests produce the correct results.
         }
+
+
+   
 
     
     @MainActor func testBeans() throws {
@@ -55,11 +68,11 @@ final class Timer_CoffeeUITests: XCTestCase {
         Thread.sleep(forTimeInterval: 2)
         app/*@START_MENU_TOKEN@*/.staticTexts["tabItem_1"]/*[[".staticTexts[\"More\\nMore\"]",".staticTexts[\"tabItem_1\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         Thread.sleep(forTimeInterval: 1)
-        app/*@START_MENU_TOKEN@*/.staticTexts["beansScreen"]/*[[".staticTexts[\"My Beans\"]",".staticTexts[\"beansScreen\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["beansScreen"].tap()
 
-            snapshot("05Beans")
+            snapshot("06Beans")
             
-            
+        
             // Use XCTAssert and related functions to verify your tests produce the correct results.
         }
     
@@ -69,8 +82,8 @@ final class Timer_CoffeeUITests: XCTestCase {
             Thread.sleep(forTimeInterval: 2)
             app/*@START_MENU_TOKEN@*/.staticTexts["tabItem_1"]/*[[".staticTexts[\"More\\nMore\"]",".staticTexts[\"tabItem_1\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
             Thread.sleep(forTimeInterval: 1)
-            app/*@START_MENU_TOKEN@*/.staticTexts["brewDiary"]/*[[".staticTexts[\"Brew Diary\\nBrew Diary\"]",".staticTexts[\"brewDiary\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-            snapshot("06Diary")
+            app.buttons["brewDiary"].tap()
+            snapshot("07Diary")
             
             
             // Use XCTAssert and related functions to verify your tests produce the correct results.
@@ -83,17 +96,18 @@ final class Timer_CoffeeUITests: XCTestCase {
             Thread.sleep(forTimeInterval: 2)
             app/*@START_MENU_TOKEN@*/.staticTexts["tabItem_1"]/*[[".staticTexts[\"More\\nMore\"]",".staticTexts[\"tabItem_1\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
             Thread.sleep(forTimeInterval: 1)
-            app/*@START_MENU_TOKEN@*/.staticTexts["settings"]/*[[".staticTexts[\"Settings\\nSettings\"]",".staticTexts[\"settings\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-            app/*@START_MENU_TOKEN@*/.staticTexts["settingsThemeTile"]/*[[".staticTexts[\"Theme\\nSystem\"]",".staticTexts[\"settingsThemeTile\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-            app/*@START_MENU_TOKEN@*/.staticTexts["themeDarkListTile"]/*[[".staticTexts[\"Dark\"]",".staticTexts[\"themeDarkListTile\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-            snapshot("07DarkTheme")
-            app/*@START_MENU_TOKEN@*/.staticTexts["settingsThemeTile"]/*[[".staticTexts[\"Theme\\nDark\"]",".staticTexts[\"settingsThemeTile\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-            app/*@START_MENU_TOKEN@*/.staticTexts["themeSystemListTile"]/*[[".staticTexts[\"System\"]",".staticTexts[\"themeSystemListTile\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-          
-            
-            
+            app/*@START_MENU_TOKEN@*/.buttons["settings"]/*[[".buttons[\"Settings\\nSettings\"]",".buttons[\"settings\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+            app/*@START_MENU_TOKEN@*/.buttons["settingsThemeTile"]/*[[".buttons[\"Theme\\nSystem\"]",".buttons[\"settingsThemeTile\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+            app/*@START_MENU_TOKEN@*/.buttons["themeDarkListTile"]/*[[".buttons[\"Dark\"]",".buttons[\"themeDarkListTile\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+            snapshot("08DarkTheme")
+            app/*@START_MENU_TOKEN@*/.buttons["settingsThemeTile"]/*[[".buttons[\"Theme\\nDark\"]",".buttons[\"settingsThemeTile\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+            app/*@START_MENU_TOKEN@*/.buttons["themeSystemListTile"]/*[[".buttons[\"System\"]",".buttons[\"themeSystemListTile\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+         
             // Use XCTAssert and related functions to verify your tests produce the correct results.
         }
+    
+    
+   
 
 
 }

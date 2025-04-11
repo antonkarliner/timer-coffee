@@ -233,5 +233,254 @@
   "labelUsedBrewingMethods": "Kullanılan",
   "formattedRoasterCount": "{count} {count, plural, =1{kavurucu} other{kavurucu}}",
   "formattedCountryCount": "{count} {count, plural, =1{ülke} other{ülke}}",
-  "formattedBrewingMethodCount": "{count} {count, plural, =1{demleme yöntemi} other{demleme yöntemi}}"
+  "formattedBrewingMethodCount": "{count} {count, plural, =1{demleme yöntemi} other{demleme yöntemi}}",
+  "recipeCreationScreenEditRecipeTitle": "Tarifi Düzenle",
+  "recipeCreationScreenCreateRecipeTitle": "Tarif Oluştur",
+  "recipeCreationScreenRecipeStepsTitle": "Tarif Adımları",
+  "recipeCreationScreenRecipeNameLabel": "Tarif Adı",
+  "recipeCreationScreenShortDescriptionLabel": "Kısa Açıklama",
+  "recipeCreationScreenBrewingMethodLabel": "Demleme Yöntemi",
+  "recipeCreationScreenCoffeeAmountLabel": "Kahve Miktarı (g)",
+  "recipeCreationScreenWaterAmountLabel": "Su Miktarı (ml)",
+  "recipeCreationScreenWaterTempLabel": "Su Sıcaklığı (°C)",
+  "recipeCreationScreenGrindSizeLabel": "Öğütme Boyutu",
+  "recipeCreationScreenTotalBrewTimeLabel": "Toplam Demleme Süresi:",
+  "recipeCreationScreenMinutesLabel": "Dakika",
+  "recipeCreationScreenSecondsLabel": "Saniye",
+  "recipeCreationScreenPreparationStepTitle": "Hazırlık Adımı",
+  "recipeCreationScreenBrewStepTitle": "Demleme Adımı {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "Tarif oluşturma ekranındaki bir demleme adımı için başlık",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "Adım Açıklaması",
+  "recipeCreationScreenStepTimeLabel": "Adım Süresi: ",
+  "recipeCreationScreenRecipeNameValidator": "Lütfen bir tarif adı girin",
+  "recipeCreationScreenShortDescriptionValidator": "Lütfen kısa bir açıklama girin",
+  "recipeCreationScreenBrewingMethodValidator": "Lütfen bir demleme yöntemi seçin",
+  "recipeCreationScreenRequiredValidator": "Gerekli",
+  "recipeCreationScreenInvalidNumberValidator": "Geçersiz numara",
+  "recipeCreationScreenStepDescriptionValidator": "Lütfen bir adım açıklaması girin",
+  "recipeCreationScreenContinueButton": "Tarif Adımlarına Devam Et",
+  "recipeCreationScreenAddStepButton": "Adım Ekle",
+  "recipeCreationScreenSaveRecipeButton": "Tarifi Kaydet",
+  "recipeCreationScreenUpdateSuccess": "Tarif başarıyla güncellendi",
+  "recipeCreationScreenSaveSuccess": "Tarif başarıyla kaydedildi",
+  "recipeCreationScreenSaveError": "Tarif kaydedilirken hata oluştu: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "Bir tarif kaydedilemediğinde hata mesajı",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Veritabanı hatası"
+      }
+    }
+  },
+  "unitGramsShort": "g",
+  "unitMillilitersShort": "ml",
+  "unitGramsLong": "gram",
+  "unitMillilitersLong": "mililitre",
+  "recipeCopySuccess": "Tarif başarıyla kopyalandı!",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "Tarif kopyalanırken hata oluştu: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "Tarif oluştur",
+  "errorSyncingData": "Veri senkronizasyon hatası: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "errorSigningOut": "Oturum kapatma hatası: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "defaultPreparationStepDescription": "Hazırlık",
+  "loadingEllipsis": "Yükleniyor...",
+  "recipeDeletedSuccess": "Tarif başarıyla silindi",
+  "recipeDeleteError": "Tarif silinemedi: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "noRecipesFound": "Tarif bulunamadı",
+  "recipeLoadError": "Tarif yüklenemedi: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "unknownBrewingMethod": "Bilinmeyen demleme yöntemi",
+  "recipeCopyErrorLoadingEdit": "Kopyalanan tarif düzenleme için yüklenemedi.",
+  "recipeCopyErrorOperationFailed": "İşlem başarısız oldu.",
+  "notProvided": "Sağlanmadı",
+  "recipeUpdateAvailableTitle": "Güncelleme Mevcut",
+  "recipeUpdateAvailableBody": "'{recipeName}' uygulamasının daha yeni bir sürümü çevrimiçi olarak kullanılabilir. Güncellensin mi?",
+  "@recipeUpdateAvailableBody": {
+    "description": "Güncelleme onay iletişim kutusu için gövde metni",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Harika Tarifim"
+      }
+    }
+  },
+  "dialogCancel": "İptal",
+  "dialogUpdate": "Güncelle",
+  "recipeImportTitle": "Tarifi İçe Aktar",
+  "recipeImportBody": "'{recipeName}' tarifini buluttan içe aktarmak istiyor musunuz?",
+  "@recipeImportBody": {
+    "description": "İçe aktarma onay iletişim kutusu için gövde metni",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Paylaşılan Tarif"
+      }
+    }
+  },
+  "dialogImport": "İçe Aktar",
+  "moderationReviewNeededTitle": "Moderasyon İncelemesi Gerekiyor",
+  "moderationReviewNeededMessage": "Aşağıdaki tarif(ler) içerik moderasyonu sorunları nedeniyle inceleme gerektiriyor: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "Tariflerin moderasyon incelemesi gerektiğinde gösterilen mesaj",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'Tarifim', 'Başka Bir Tarif'"
+      }
+    }
+  },
+  "dismiss": "Kapat",
+  "reviewRecipeButton": "Tarifi İncele",
+  "signInRequiredTitle": "Oturum Açma Gerekli",
+  "signInRequiredBodyShare": "Kendi tariflerinizi paylaşmak için oturum açmanız gerekiyor.",
+  "syncSuccess": "Senkronizasyon başarılı!",
+  "tooltipEditRecipe": "Tarifi Düzenle",
+  "tooltipCopyRecipe": "Tarifi Kopyala",
+  "tooltipShareRecipe": "Tarifi Paylaş",
+  "signInRequiredSnackbar": "Oturum Açma Gerekli",
+  "moderationErrorFunction": "İçerik moderasyonu kontrolü başarısız oldu.",
+  "moderationReasonDefault": "İçerik inceleme için işaretlendi.",
+  "moderationFailedTitle": "Moderasyon Başarısız",
+  "moderationFailedBody": "Bu tarif paylaşılamıyor çünkü: {reason}",
+  "@moderationFailedBody": {
+    "description": "İçerik moderasyonu başarısız olduğunda gösterilen iletişim kutusu gövde metni",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Uygunsuz dil"
+      }
+    }
+  },
+  "shareErrorGeneric": "Tarif paylaşılırken hata oluştu: {error}",
+  "@shareErrorGeneric": {
+    "description": "Paylaşım işlemi başarısız olursa gösterilen genel hata mesajı",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Ağ hatası"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} Timer.Coffee'de",
+  "@recipeDetailWebTitle": {
+    "description": "Bir tarif detay sayfası için web sayfası başlık formatı",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Harika V60'ım"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "İçerik durumu kontrol edilemedi. Yerel olarak kaydedildi, bir sonraki senkronizasyonda kontrol edilecek.",
+  "saveLocallyModerationFailedTitle": "Değişiklikler Yerel Olarak Kaydedildi",
+  "saveLocallyModerationFailedBody": "Yerel değişiklikleriniz kaydedildi, ancak içerik moderasyonu nedeniyle genel sürüm güncellenemedi: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "Moderasyon başarısız olduğunda ancak yerel kaydetme başarılı olduğunda gösterilen iletişim kutusu gövde metni",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Uygunsuz dil"
+      }
+    }
+  },
+  "recipeUpdateFailedFetch": "Güncellenmiş tarif verileri alınamadı.",
+  "recipeImportSuccess": "Tarif başarıyla içe aktarıldı!",
+  "recipeImportFailedSave": "İçe aktarılan tarif kaydedilemedi.",
+  "recipeImportFailedFetch": "İçe aktarma için tarif verileri alınamadı.",
+  "recipeNotImported": "Tarif içe aktarılmadı.",
+  "recipeNotFoundCloud": "Tarif bulutta bulunamadı veya herkese açık değil.",
+  "recipeLoadErrorGeneric": "Tarif yüklenirken hata oluştu.",
+  "editImportedRecipeTitle": "İçe Aktarılan Tarifi Düzenle",
+  "editImportedRecipeBody": "Bu içe aktarılmış bir tariftir. Düzenlemek yeni, bağımsız bir kopya oluşturacaktır. Devam etmek istiyor musunuz?",
+  "editImportedRecipeButtonCopy": "Kopya Oluştur ve Düzenle",
+  "editImportedRecipeButtonCancel": "İptal",
+  "editDisplayNameTitle": "Görünen Adı Düzenle",
+  "displayNameHint": "Görünen adınızı girin",
+  "displayNameEmptyError": "Görünen ad boş olamaz",
+  "displayNameTooLongError": "Görünen ad 50 karakteri geçemez",
+  "errorUserNotLoggedIn": "Kullanıcı giriş yapmadı. Lütfen tekrar giriş yapın.",
+  "displayNameUpdateSuccess": "Görünen ad başarıyla güncellendi!",
+  "displayNameUpdateError": "Görünen ad güncellenemedi: {error}",
+  "@displayNameUpdateError": {
+    "description": "Görünen ad güncellenirken hata mesajı",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Ağ hatası"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "Resmi Sil?",
+  "deletePictureConfirmationBody": "Profil resminizi silmek istediğinizden emin misiniz?",
+  "deletePictureSuccess": "Profil resmi silindi.",
+  "deletePictureError": "Profil resmi silinemedi: {error}",
+  "@deletePictureError": {
+    "description": "Profil resmi silinirken hata mesajı",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Depolama hatası"
+      }
+    }
+  },
+  "updatePictureError": "Profil resmi güncellenemedi: {error}",
+  "@updatePictureError": {
+    "description": "Profil resmi güncellenirken hata mesajı",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Yükleme hatası"
+      }
+    }
+  },
+  "updatePictureSuccess": "Profil resmi başarıyla güncellendi!",
+  "deletePictureTooltip": "Resmi Sil",
+  "account": "Hesap"
 }

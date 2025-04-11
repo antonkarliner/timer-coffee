@@ -19,6 +19,8 @@ class RecipeModel {
   final double? customWaterAmount;
   final String? vendorId;
   final int? coffeeChroniclerSliderPosition;
+  final String? importId;
+  final bool isImported;
 
   RecipeModel({
     required this.id,
@@ -39,6 +41,8 @@ class RecipeModel {
     this.customWaterAmount,
     this.vendorId,
     this.coffeeChroniclerSliderPosition,
+    this.importId,
+    this.isImported = false,
   });
 
   RecipeModel copyWith({
@@ -60,6 +64,8 @@ class RecipeModel {
     double? customWaterAmount,
     String? vendorId,
     int? coffeeChroniclerSliderPosition,
+    String? importId,
+    bool? isImported,
   }) {
     return RecipeModel(
       id: id ?? this.id,
@@ -83,6 +89,8 @@ class RecipeModel {
       vendorId: vendorId ?? this.vendorId,
       coffeeChroniclerSliderPosition:
           coffeeChroniclerSliderPosition ?? this.coffeeChroniclerSliderPosition,
+      importId: importId ?? this.importId,
+      isImported: isImported ?? this.isImported,
     );
   }
 }

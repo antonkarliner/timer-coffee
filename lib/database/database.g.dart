@@ -3,330 +3,6 @@
 part of 'database.dart';
 
 // ignore_for_file: type=lint
-class $VendorsTable extends Vendors with TableInfo<$VendorsTable, Vendor> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $VendorsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _vendorIdMeta =
-      const VerificationMeta('vendorId');
-  @override
-  late final GeneratedColumn<String> vendorId = GeneratedColumn<String>(
-      'vendor_id', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _vendorNameMeta =
-      const VerificationMeta('vendorName');
-  @override
-  late final GeneratedColumn<String> vendorName = GeneratedColumn<String>(
-      'vendor_name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _vendorDescriptionMeta =
-      const VerificationMeta('vendorDescription');
-  @override
-  late final GeneratedColumn<String> vendorDescription =
-      GeneratedColumn<String>('vendor_description', aliasedName, false,
-          type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _bannerUrlMeta =
-      const VerificationMeta('bannerUrl');
-  @override
-  late final GeneratedColumn<String> bannerUrl = GeneratedColumn<String>(
-      'banner_url', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _activeMeta = const VerificationMeta('active');
-  @override
-  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
-      'active', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("active" IN (0, 1))'));
-  @override
-  List<GeneratedColumn> get $columns =>
-      [vendorId, vendorName, vendorDescription, bannerUrl, active];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'vendors';
-  @override
-  VerificationContext validateIntegrity(Insertable<Vendor> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('vendor_id')) {
-      context.handle(_vendorIdMeta,
-          vendorId.isAcceptableOrUnknown(data['vendor_id']!, _vendorIdMeta));
-    } else if (isInserting) {
-      context.missing(_vendorIdMeta);
-    }
-    if (data.containsKey('vendor_name')) {
-      context.handle(
-          _vendorNameMeta,
-          vendorName.isAcceptableOrUnknown(
-              data['vendor_name']!, _vendorNameMeta));
-    } else if (isInserting) {
-      context.missing(_vendorNameMeta);
-    }
-    if (data.containsKey('vendor_description')) {
-      context.handle(
-          _vendorDescriptionMeta,
-          vendorDescription.isAcceptableOrUnknown(
-              data['vendor_description']!, _vendorDescriptionMeta));
-    } else if (isInserting) {
-      context.missing(_vendorDescriptionMeta);
-    }
-    if (data.containsKey('banner_url')) {
-      context.handle(_bannerUrlMeta,
-          bannerUrl.isAcceptableOrUnknown(data['banner_url']!, _bannerUrlMeta));
-    }
-    if (data.containsKey('active')) {
-      context.handle(_activeMeta,
-          active.isAcceptableOrUnknown(data['active']!, _activeMeta));
-    } else if (isInserting) {
-      context.missing(_activeMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {vendorId};
-  @override
-  Vendor map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Vendor(
-      vendorId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}vendor_id'])!,
-      vendorName: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}vendor_name'])!,
-      vendorDescription: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}vendor_description'])!,
-      bannerUrl: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}banner_url']),
-      active: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}active'])!,
-    );
-  }
-
-  @override
-  $VendorsTable createAlias(String alias) {
-    return $VendorsTable(attachedDatabase, alias);
-  }
-}
-
-class Vendor extends DataClass implements Insertable<Vendor> {
-  final String vendorId;
-  final String vendorName;
-  final String vendorDescription;
-  final String? bannerUrl;
-  final bool active;
-  const Vendor(
-      {required this.vendorId,
-      required this.vendorName,
-      required this.vendorDescription,
-      this.bannerUrl,
-      required this.active});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['vendor_id'] = Variable<String>(vendorId);
-    map['vendor_name'] = Variable<String>(vendorName);
-    map['vendor_description'] = Variable<String>(vendorDescription);
-    if (!nullToAbsent || bannerUrl != null) {
-      map['banner_url'] = Variable<String>(bannerUrl);
-    }
-    map['active'] = Variable<bool>(active);
-    return map;
-  }
-
-  VendorsCompanion toCompanion(bool nullToAbsent) {
-    return VendorsCompanion(
-      vendorId: Value(vendorId),
-      vendorName: Value(vendorName),
-      vendorDescription: Value(vendorDescription),
-      bannerUrl: bannerUrl == null && nullToAbsent
-          ? const Value.absent()
-          : Value(bannerUrl),
-      active: Value(active),
-    );
-  }
-
-  factory Vendor.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Vendor(
-      vendorId: serializer.fromJson<String>(json['vendorId']),
-      vendorName: serializer.fromJson<String>(json['vendorName']),
-      vendorDescription: serializer.fromJson<String>(json['vendorDescription']),
-      bannerUrl: serializer.fromJson<String?>(json['bannerUrl']),
-      active: serializer.fromJson<bool>(json['active']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'vendorId': serializer.toJson<String>(vendorId),
-      'vendorName': serializer.toJson<String>(vendorName),
-      'vendorDescription': serializer.toJson<String>(vendorDescription),
-      'bannerUrl': serializer.toJson<String?>(bannerUrl),
-      'active': serializer.toJson<bool>(active),
-    };
-  }
-
-  Vendor copyWith(
-          {String? vendorId,
-          String? vendorName,
-          String? vendorDescription,
-          Value<String?> bannerUrl = const Value.absent(),
-          bool? active}) =>
-      Vendor(
-        vendorId: vendorId ?? this.vendorId,
-        vendorName: vendorName ?? this.vendorName,
-        vendorDescription: vendorDescription ?? this.vendorDescription,
-        bannerUrl: bannerUrl.present ? bannerUrl.value : this.bannerUrl,
-        active: active ?? this.active,
-      );
-  Vendor copyWithCompanion(VendorsCompanion data) {
-    return Vendor(
-      vendorId: data.vendorId.present ? data.vendorId.value : this.vendorId,
-      vendorName:
-          data.vendorName.present ? data.vendorName.value : this.vendorName,
-      vendorDescription: data.vendorDescription.present
-          ? data.vendorDescription.value
-          : this.vendorDescription,
-      bannerUrl: data.bannerUrl.present ? data.bannerUrl.value : this.bannerUrl,
-      active: data.active.present ? data.active.value : this.active,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('Vendor(')
-          ..write('vendorId: $vendorId, ')
-          ..write('vendorName: $vendorName, ')
-          ..write('vendorDescription: $vendorDescription, ')
-          ..write('bannerUrl: $bannerUrl, ')
-          ..write('active: $active')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(vendorId, vendorName, vendorDescription, bannerUrl, active);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is Vendor &&
-          other.vendorId == this.vendorId &&
-          other.vendorName == this.vendorName &&
-          other.vendorDescription == this.vendorDescription &&
-          other.bannerUrl == this.bannerUrl &&
-          other.active == this.active);
-}
-
-class VendorsCompanion extends UpdateCompanion<Vendor> {
-  final Value<String> vendorId;
-  final Value<String> vendorName;
-  final Value<String> vendorDescription;
-  final Value<String?> bannerUrl;
-  final Value<bool> active;
-  final Value<int> rowid;
-  const VendorsCompanion({
-    this.vendorId = const Value.absent(),
-    this.vendorName = const Value.absent(),
-    this.vendorDescription = const Value.absent(),
-    this.bannerUrl = const Value.absent(),
-    this.active = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  VendorsCompanion.insert({
-    required String vendorId,
-    required String vendorName,
-    required String vendorDescription,
-    this.bannerUrl = const Value.absent(),
-    required bool active,
-    this.rowid = const Value.absent(),
-  })  : vendorId = Value(vendorId),
-        vendorName = Value(vendorName),
-        vendorDescription = Value(vendorDescription),
-        active = Value(active);
-  static Insertable<Vendor> custom({
-    Expression<String>? vendorId,
-    Expression<String>? vendorName,
-    Expression<String>? vendorDescription,
-    Expression<String>? bannerUrl,
-    Expression<bool>? active,
-    Expression<int>? rowid,
-  }) {
-    return RawValuesInsertable({
-      if (vendorId != null) 'vendor_id': vendorId,
-      if (vendorName != null) 'vendor_name': vendorName,
-      if (vendorDescription != null) 'vendor_description': vendorDescription,
-      if (bannerUrl != null) 'banner_url': bannerUrl,
-      if (active != null) 'active': active,
-      if (rowid != null) 'rowid': rowid,
-    });
-  }
-
-  VendorsCompanion copyWith(
-      {Value<String>? vendorId,
-      Value<String>? vendorName,
-      Value<String>? vendorDescription,
-      Value<String?>? bannerUrl,
-      Value<bool>? active,
-      Value<int>? rowid}) {
-    return VendorsCompanion(
-      vendorId: vendorId ?? this.vendorId,
-      vendorName: vendorName ?? this.vendorName,
-      vendorDescription: vendorDescription ?? this.vendorDescription,
-      bannerUrl: bannerUrl ?? this.bannerUrl,
-      active: active ?? this.active,
-      rowid: rowid ?? this.rowid,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (vendorId.present) {
-      map['vendor_id'] = Variable<String>(vendorId.value);
-    }
-    if (vendorName.present) {
-      map['vendor_name'] = Variable<String>(vendorName.value);
-    }
-    if (vendorDescription.present) {
-      map['vendor_description'] = Variable<String>(vendorDescription.value);
-    }
-    if (bannerUrl.present) {
-      map['banner_url'] = Variable<String>(bannerUrl.value);
-    }
-    if (active.present) {
-      map['active'] = Variable<bool>(active.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('VendorsCompanion(')
-          ..write('vendorId: $vendorId, ')
-          ..write('vendorName: $vendorName, ')
-          ..write('vendorDescription: $vendorDescription, ')
-          ..write('bannerUrl: $bannerUrl, ')
-          ..write('active: $active, ')
-          ..write('rowid: $rowid')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $SupportedLocalesTable extends SupportedLocales
     with TableInfo<$SupportedLocalesTable, SupportedLocale> {
   @override
@@ -834,16 +510,39 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
   @override
   late final GeneratedColumn<String> vendorId = GeneratedColumn<String>(
       'vendor_id', aliasedName, true,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES vendors (vendor_id) ON DELETE SET NULL'));
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _lastModifiedMeta =
       const VerificationMeta('lastModified');
   @override
   late final GeneratedColumn<DateTime> lastModified = GeneratedColumn<DateTime>(
       'last_modified', aliasedName, true,
       type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _importIdMeta =
+      const VerificationMeta('importId');
+  @override
+  late final GeneratedColumn<String> importId = GeneratedColumn<String>(
+      'import_id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _isImportedMeta =
+      const VerificationMeta('isImported');
+  @override
+  late final GeneratedColumn<bool> isImported = GeneratedColumn<bool>(
+      'is_imported', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_imported" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _needsModerationReviewMeta =
+      const VerificationMeta('needsModerationReview');
+  @override
+  late final GeneratedColumn<bool> needsModerationReview =
+      GeneratedColumn<bool>('needs_moderation_review', aliasedName, false,
+          type: DriftSqlType.bool,
+          requiredDuringInsert: false,
+          defaultConstraints: GeneratedColumn.constraintIsAlways(
+              'CHECK ("needs_moderation_review" IN (0, 1))'),
+          defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -853,7 +552,10 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
         waterTemp,
         brewTime,
         vendorId,
-        lastModified
+        lastModified,
+        importId,
+        isImported,
+        needsModerationReview
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -916,6 +618,22 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
           lastModified.isAcceptableOrUnknown(
               data['last_modified']!, _lastModifiedMeta));
     }
+    if (data.containsKey('import_id')) {
+      context.handle(_importIdMeta,
+          importId.isAcceptableOrUnknown(data['import_id']!, _importIdMeta));
+    }
+    if (data.containsKey('is_imported')) {
+      context.handle(
+          _isImportedMeta,
+          isImported.isAcceptableOrUnknown(
+              data['is_imported']!, _isImportedMeta));
+    }
+    if (data.containsKey('needs_moderation_review')) {
+      context.handle(
+          _needsModerationReviewMeta,
+          needsModerationReview.isAcceptableOrUnknown(
+              data['needs_moderation_review']!, _needsModerationReviewMeta));
+    }
     return context;
   }
 
@@ -941,6 +659,13 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
           .read(DriftSqlType.string, data['${effectivePrefix}vendor_id']),
       lastModified: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}last_modified']),
+      importId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}import_id']),
+      isImported: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_imported'])!,
+      needsModerationReview: attachedDatabase.typeMapping.read(
+          DriftSqlType.bool,
+          data['${effectivePrefix}needs_moderation_review'])!,
     );
   }
 
@@ -959,6 +684,9 @@ class Recipe extends DataClass implements Insertable<Recipe> {
   final int brewTime;
   final String? vendorId;
   final DateTime? lastModified;
+  final String? importId;
+  final bool isImported;
+  final bool needsModerationReview;
   const Recipe(
       {required this.id,
       required this.brewingMethodId,
@@ -967,7 +695,10 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       required this.waterTemp,
       required this.brewTime,
       this.vendorId,
-      this.lastModified});
+      this.lastModified,
+      this.importId,
+      required this.isImported,
+      required this.needsModerationReview});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -983,6 +714,11 @@ class Recipe extends DataClass implements Insertable<Recipe> {
     if (!nullToAbsent || lastModified != null) {
       map['last_modified'] = Variable<DateTime>(lastModified);
     }
+    if (!nullToAbsent || importId != null) {
+      map['import_id'] = Variable<String>(importId);
+    }
+    map['is_imported'] = Variable<bool>(isImported);
+    map['needs_moderation_review'] = Variable<bool>(needsModerationReview);
     return map;
   }
 
@@ -1000,6 +736,11 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       lastModified: lastModified == null && nullToAbsent
           ? const Value.absent()
           : Value(lastModified),
+      importId: importId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(importId),
+      isImported: Value(isImported),
+      needsModerationReview: Value(needsModerationReview),
     );
   }
 
@@ -1015,6 +756,10 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       brewTime: serializer.fromJson<int>(json['brewTime']),
       vendorId: serializer.fromJson<String?>(json['vendorId']),
       lastModified: serializer.fromJson<DateTime?>(json['lastModified']),
+      importId: serializer.fromJson<String?>(json['importId']),
+      isImported: serializer.fromJson<bool>(json['isImported']),
+      needsModerationReview:
+          serializer.fromJson<bool>(json['needsModerationReview']),
     );
   }
   @override
@@ -1029,6 +774,9 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       'brewTime': serializer.toJson<int>(brewTime),
       'vendorId': serializer.toJson<String?>(vendorId),
       'lastModified': serializer.toJson<DateTime?>(lastModified),
+      'importId': serializer.toJson<String?>(importId),
+      'isImported': serializer.toJson<bool>(isImported),
+      'needsModerationReview': serializer.toJson<bool>(needsModerationReview),
     };
   }
 
@@ -1040,7 +788,10 @@ class Recipe extends DataClass implements Insertable<Recipe> {
           double? waterTemp,
           int? brewTime,
           Value<String?> vendorId = const Value.absent(),
-          Value<DateTime?> lastModified = const Value.absent()}) =>
+          Value<DateTime?> lastModified = const Value.absent(),
+          Value<String?> importId = const Value.absent(),
+          bool? isImported,
+          bool? needsModerationReview}) =>
       Recipe(
         id: id ?? this.id,
         brewingMethodId: brewingMethodId ?? this.brewingMethodId,
@@ -1051,6 +802,10 @@ class Recipe extends DataClass implements Insertable<Recipe> {
         vendorId: vendorId.present ? vendorId.value : this.vendorId,
         lastModified:
             lastModified.present ? lastModified.value : this.lastModified,
+        importId: importId.present ? importId.value : this.importId,
+        isImported: isImported ?? this.isImported,
+        needsModerationReview:
+            needsModerationReview ?? this.needsModerationReview,
       );
   Recipe copyWithCompanion(RecipesCompanion data) {
     return Recipe(
@@ -1069,6 +824,12 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       lastModified: data.lastModified.present
           ? data.lastModified.value
           : this.lastModified,
+      importId: data.importId.present ? data.importId.value : this.importId,
+      isImported:
+          data.isImported.present ? data.isImported.value : this.isImported,
+      needsModerationReview: data.needsModerationReview.present
+          ? data.needsModerationReview.value
+          : this.needsModerationReview,
     );
   }
 
@@ -1082,14 +843,27 @@ class Recipe extends DataClass implements Insertable<Recipe> {
           ..write('waterTemp: $waterTemp, ')
           ..write('brewTime: $brewTime, ')
           ..write('vendorId: $vendorId, ')
-          ..write('lastModified: $lastModified')
+          ..write('lastModified: $lastModified, ')
+          ..write('importId: $importId, ')
+          ..write('isImported: $isImported, ')
+          ..write('needsModerationReview: $needsModerationReview')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, brewingMethodId, coffeeAmount,
-      waterAmount, waterTemp, brewTime, vendorId, lastModified);
+  int get hashCode => Object.hash(
+      id,
+      brewingMethodId,
+      coffeeAmount,
+      waterAmount,
+      waterTemp,
+      brewTime,
+      vendorId,
+      lastModified,
+      importId,
+      isImported,
+      needsModerationReview);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1101,7 +875,10 @@ class Recipe extends DataClass implements Insertable<Recipe> {
           other.waterTemp == this.waterTemp &&
           other.brewTime == this.brewTime &&
           other.vendorId == this.vendorId &&
-          other.lastModified == this.lastModified);
+          other.lastModified == this.lastModified &&
+          other.importId == this.importId &&
+          other.isImported == this.isImported &&
+          other.needsModerationReview == this.needsModerationReview);
 }
 
 class RecipesCompanion extends UpdateCompanion<Recipe> {
@@ -1113,6 +890,9 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
   final Value<int> brewTime;
   final Value<String?> vendorId;
   final Value<DateTime?> lastModified;
+  final Value<String?> importId;
+  final Value<bool> isImported;
+  final Value<bool> needsModerationReview;
   final Value<int> rowid;
   const RecipesCompanion({
     this.id = const Value.absent(),
@@ -1123,6 +903,9 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     this.brewTime = const Value.absent(),
     this.vendorId = const Value.absent(),
     this.lastModified = const Value.absent(),
+    this.importId = const Value.absent(),
+    this.isImported = const Value.absent(),
+    this.needsModerationReview = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   RecipesCompanion.insert({
@@ -1134,6 +917,9 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     required int brewTime,
     this.vendorId = const Value.absent(),
     this.lastModified = const Value.absent(),
+    this.importId = const Value.absent(),
+    this.isImported = const Value.absent(),
+    this.needsModerationReview = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : id = Value(id),
         brewingMethodId = Value(brewingMethodId),
@@ -1150,6 +936,9 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     Expression<int>? brewTime,
     Expression<String>? vendorId,
     Expression<DateTime>? lastModified,
+    Expression<String>? importId,
+    Expression<bool>? isImported,
+    Expression<bool>? needsModerationReview,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1161,6 +950,10 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
       if (brewTime != null) 'brew_time': brewTime,
       if (vendorId != null) 'vendor_id': vendorId,
       if (lastModified != null) 'last_modified': lastModified,
+      if (importId != null) 'import_id': importId,
+      if (isImported != null) 'is_imported': isImported,
+      if (needsModerationReview != null)
+        'needs_moderation_review': needsModerationReview,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1174,6 +967,9 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
       Value<int>? brewTime,
       Value<String?>? vendorId,
       Value<DateTime?>? lastModified,
+      Value<String?>? importId,
+      Value<bool>? isImported,
+      Value<bool>? needsModerationReview,
       Value<int>? rowid}) {
     return RecipesCompanion(
       id: id ?? this.id,
@@ -1184,6 +980,10 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
       brewTime: brewTime ?? this.brewTime,
       vendorId: vendorId ?? this.vendorId,
       lastModified: lastModified ?? this.lastModified,
+      importId: importId ?? this.importId,
+      isImported: isImported ?? this.isImported,
+      needsModerationReview:
+          needsModerationReview ?? this.needsModerationReview,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1215,6 +1015,16 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     if (lastModified.present) {
       map['last_modified'] = Variable<DateTime>(lastModified.value);
     }
+    if (importId.present) {
+      map['import_id'] = Variable<String>(importId.value);
+    }
+    if (isImported.present) {
+      map['is_imported'] = Variable<bool>(isImported.value);
+    }
+    if (needsModerationReview.present) {
+      map['needs_moderation_review'] =
+          Variable<bool>(needsModerationReview.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1232,6 +1042,9 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
           ..write('brewTime: $brewTime, ')
           ..write('vendorId: $vendorId, ')
           ..write('lastModified: $lastModified, ')
+          ..write('importId: $importId, ')
+          ..write('isImported: $isImported, ')
+          ..write('needsModerationReview: $needsModerationReview, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -3215,8 +3028,8 @@ class $UserStatsTable extends UserStats
       'recipe_id', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES recipes (id)'));
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES recipes (id) ON DELETE CASCADE'));
   static const VerificationMeta _coffeeAmountMeta =
       const VerificationMeta('coffeeAmount');
   @override
@@ -4934,7 +4747,6 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
-  late final $VendorsTable vendors = $VendorsTable(this);
   late final $SupportedLocalesTable supportedLocales =
       $SupportedLocalesTable(this);
   late final $BrewingMethodsTable brewingMethods = $BrewingMethodsTable(this);
@@ -4968,7 +4780,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       UserRecipePreferencesDao(this as AppDatabase);
   late final BrewingMethodsDao brewingMethodsDao =
       BrewingMethodsDao(this as AppDatabase);
-  late final VendorsDao vendorsDao = VendorsDao(this as AppDatabase);
   late final SupportedLocalesDao supportedLocalesDao =
       SupportedLocalesDao(this as AppDatabase);
   late final CoffeeFactsDao coffeeFactsDao =
@@ -4985,7 +4796,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
-        vendors,
         supportedLocales,
         brewingMethods,
         recipes,
@@ -5010,13 +4820,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
                 limitUpdateKind: UpdateKind.delete),
             result: [
               TableUpdate('recipes', kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('vendors',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('recipes', kind: UpdateKind.update),
             ],
           ),
           WritePropagation(
@@ -5075,261 +4878,17 @@ abstract class _$AppDatabase extends GeneratedDatabase {
               TableUpdate('contributors', kind: UpdateKind.delete),
             ],
           ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('recipes',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('user_stats', kind: UpdateKind.delete),
+            ],
+          ),
         ],
       );
 }
 
-typedef $$VendorsTableCreateCompanionBuilder = VendorsCompanion Function({
-  required String vendorId,
-  required String vendorName,
-  required String vendorDescription,
-  Value<String?> bannerUrl,
-  required bool active,
-  Value<int> rowid,
-});
-typedef $$VendorsTableUpdateCompanionBuilder = VendorsCompanion Function({
-  Value<String> vendorId,
-  Value<String> vendorName,
-  Value<String> vendorDescription,
-  Value<String?> bannerUrl,
-  Value<bool> active,
-  Value<int> rowid,
-});
-
-final class $$VendorsTableReferences
-    extends BaseReferences<_$AppDatabase, $VendorsTable, Vendor> {
-  $$VendorsTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static MultiTypedResultKey<$RecipesTable, List<Recipe>> _recipesRefsTable(
-          _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.recipes,
-          aliasName:
-              $_aliasNameGenerator(db.vendors.vendorId, db.recipes.vendorId));
-
-  $$RecipesTableProcessedTableManager get recipesRefs {
-    final manager = $$RecipesTableTableManager($_db, $_db.recipes).filter((f) =>
-        f.vendorId.vendorId.sqlEquals($_itemColumn<String>('vendor_id')!));
-
-    final cache = $_typedResult.readTableOrNull(_recipesRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
-  }
-}
-
-class $$VendorsTableFilterComposer
-    extends Composer<_$AppDatabase, $VendorsTable> {
-  $$VendorsTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<String> get vendorId => $composableBuilder(
-      column: $table.vendorId, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get vendorName => $composableBuilder(
-      column: $table.vendorName, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get vendorDescription => $composableBuilder(
-      column: $table.vendorDescription,
-      builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get bannerUrl => $composableBuilder(
-      column: $table.bannerUrl, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<bool> get active => $composableBuilder(
-      column: $table.active, builder: (column) => ColumnFilters(column));
-
-  Expression<bool> recipesRefs(
-      Expression<bool> Function($$RecipesTableFilterComposer f) f) {
-    final $$RecipesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.vendorId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.vendorId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableFilterComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
-}
-
-class $$VendorsTableOrderingComposer
-    extends Composer<_$AppDatabase, $VendorsTable> {
-  $$VendorsTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<String> get vendorId => $composableBuilder(
-      column: $table.vendorId, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get vendorName => $composableBuilder(
-      column: $table.vendorName, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get vendorDescription => $composableBuilder(
-      column: $table.vendorDescription,
-      builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get bannerUrl => $composableBuilder(
-      column: $table.bannerUrl, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<bool> get active => $composableBuilder(
-      column: $table.active, builder: (column) => ColumnOrderings(column));
-}
-
-class $$VendorsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $VendorsTable> {
-  $$VendorsTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<String> get vendorId =>
-      $composableBuilder(column: $table.vendorId, builder: (column) => column);
-
-  GeneratedColumn<String> get vendorName => $composableBuilder(
-      column: $table.vendorName, builder: (column) => column);
-
-  GeneratedColumn<String> get vendorDescription => $composableBuilder(
-      column: $table.vendorDescription, builder: (column) => column);
-
-  GeneratedColumn<String> get bannerUrl =>
-      $composableBuilder(column: $table.bannerUrl, builder: (column) => column);
-
-  GeneratedColumn<bool> get active =>
-      $composableBuilder(column: $table.active, builder: (column) => column);
-
-  Expression<T> recipesRefs<T extends Object>(
-      Expression<T> Function($$RecipesTableAnnotationComposer a) f) {
-    final $$RecipesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.vendorId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.vendorId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
-}
-
-class $$VendorsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $VendorsTable,
-    Vendor,
-    $$VendorsTableFilterComposer,
-    $$VendorsTableOrderingComposer,
-    $$VendorsTableAnnotationComposer,
-    $$VendorsTableCreateCompanionBuilder,
-    $$VendorsTableUpdateCompanionBuilder,
-    (Vendor, $$VendorsTableReferences),
-    Vendor,
-    PrefetchHooks Function({bool recipesRefs})> {
-  $$VendorsTableTableManager(_$AppDatabase db, $VendorsTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$VendorsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$VendorsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$VendorsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> vendorId = const Value.absent(),
-            Value<String> vendorName = const Value.absent(),
-            Value<String> vendorDescription = const Value.absent(),
-            Value<String?> bannerUrl = const Value.absent(),
-            Value<bool> active = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              VendorsCompanion(
-            vendorId: vendorId,
-            vendorName: vendorName,
-            vendorDescription: vendorDescription,
-            bannerUrl: bannerUrl,
-            active: active,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String vendorId,
-            required String vendorName,
-            required String vendorDescription,
-            Value<String?> bannerUrl = const Value.absent(),
-            required bool active,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              VendorsCompanion.insert(
-            vendorId: vendorId,
-            vendorName: vendorName,
-            vendorDescription: vendorDescription,
-            bannerUrl: bannerUrl,
-            active: active,
-            rowid: rowid,
-          ),
-          withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$VendorsTableReferences(db, table, e)))
-              .toList(),
-          prefetchHooksCallback: ({recipesRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (recipesRefs) db.recipes],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (recipesRefs)
-                    await $_getPrefetchedData(
-                        currentTable: table,
-                        referencedTable:
-                            $$VendorsTableReferences._recipesRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$VendorsTableReferences(db, table, p0).recipesRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems
-                                .where((e) => e.vendorId == item.vendorId),
-                        typedResults: items)
-                ];
-              },
-            );
-          },
-        ));
-}
-
-typedef $$VendorsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $VendorsTable,
-    Vendor,
-    $$VendorsTableFilterComposer,
-    $$VendorsTableOrderingComposer,
-    $$VendorsTableAnnotationComposer,
-    $$VendorsTableCreateCompanionBuilder,
-    $$VendorsTableUpdateCompanionBuilder,
-    (Vendor, $$VendorsTableReferences),
-    Vendor,
-    PrefetchHooks Function({bool recipesRefs})>;
 typedef $$SupportedLocalesTableCreateCompanionBuilder
     = SupportedLocalesCompanion Function({
   required String locale,
@@ -5764,7 +5323,8 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (recipeLocalizationsRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<SupportedLocale,
+                            $SupportedLocalesTable, RecipeLocalization>(
                         currentTable: table,
                         referencedTable: $$SupportedLocalesTableReferences
                             ._recipeLocalizationsRefsTable(db),
@@ -5776,7 +5336,8 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
                                 .where((e) => e.locale == item.locale),
                         typedResults: items),
                   if (stepsRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<SupportedLocale,
+                            $SupportedLocalesTable, Step>(
                         currentTable: table,
                         referencedTable: $$SupportedLocalesTableReferences
                             ._stepsRefsTable(db),
@@ -5788,7 +5349,8 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
                                 .where((e) => e.locale == item.locale),
                         typedResults: items),
                   if (coffeeFactsRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<SupportedLocale,
+                            $SupportedLocalesTable, CoffeeFact>(
                         currentTable: table,
                         referencedTable: $$SupportedLocalesTableReferences
                             ._coffeeFactsRefsTable(db),
@@ -5800,7 +5362,8 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
                                 .where((e) => e.locale == item.locale),
                         typedResults: items),
                   if (launchPopupsRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<SupportedLocale,
+                            $SupportedLocalesTable, LaunchPopup>(
                         currentTable: table,
                         referencedTable: $$SupportedLocalesTableReferences
                             ._launchPopupsRefsTable(db),
@@ -5812,7 +5375,8 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
                                 .where((e) => e.locale == item.locale),
                         typedResults: items),
                   if (contributorsRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<SupportedLocale,
+                            $SupportedLocalesTable, Contributor>(
                         currentTable: table,
                         referencedTable: $$SupportedLocalesTableReferences
                             ._contributorsRefsTable(db),
@@ -6109,7 +5673,8 @@ class $$BrewingMethodsTableTableManager extends RootTableManager<
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (recipesRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<BrewingMethod,
+                            $BrewingMethodsTable, Recipe>(
                         currentTable: table,
                         referencedTable: $$BrewingMethodsTableReferences
                             ._recipesRefsTable(db),
@@ -6122,7 +5687,8 @@ class $$BrewingMethodsTableTableManager extends RootTableManager<
                                     e.brewingMethodId == item.brewingMethodId),
                         typedResults: items),
                   if (userStatsRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<BrewingMethod,
+                            $BrewingMethodsTable, UserStat>(
                         currentTable: table,
                         referencedTable: $$BrewingMethodsTableReferences
                             ._userStatsRefsTable(db),
@@ -6162,6 +5728,9 @@ typedef $$RecipesTableCreateCompanionBuilder = RecipesCompanion Function({
   required int brewTime,
   Value<String?> vendorId,
   Value<DateTime?> lastModified,
+  Value<String?> importId,
+  Value<bool> isImported,
+  Value<bool> needsModerationReview,
   Value<int> rowid,
 });
 typedef $$RecipesTableUpdateCompanionBuilder = RecipesCompanion Function({
@@ -6173,6 +5742,9 @@ typedef $$RecipesTableUpdateCompanionBuilder = RecipesCompanion Function({
   Value<int> brewTime,
   Value<String?> vendorId,
   Value<DateTime?> lastModified,
+  Value<String?> importId,
+  Value<bool> isImported,
+  Value<bool> needsModerationReview,
   Value<int> rowid,
 });
 
@@ -6190,21 +5762,6 @@ final class $$RecipesTableReferences
     final manager = $$BrewingMethodsTableTableManager($_db, $_db.brewingMethods)
         .filter((f) => f.brewingMethodId.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_brewingMethodIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
-  }
-
-  static $VendorsTable _vendorIdTable(_$AppDatabase db) =>
-      db.vendors.createAlias(
-          $_aliasNameGenerator(db.recipes.vendorId, db.vendors.vendorId));
-
-  $$VendorsTableProcessedTableManager? get vendorId {
-    final $_column = $_itemColumn<String>('vendor_id');
-    if ($_column == null) return null;
-    final manager = $$VendorsTableTableManager($_db, $_db.vendors)
-        .filter((f) => f.vendorId.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_vendorIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: [item]));
@@ -6301,8 +5858,21 @@ class $$RecipesTableFilterComposer
   ColumnFilters<int> get brewTime => $composableBuilder(
       column: $table.brewTime, builder: (column) => ColumnFilters(column));
 
+  ColumnFilters<String> get vendorId => $composableBuilder(
+      column: $table.vendorId, builder: (column) => ColumnFilters(column));
+
   ColumnFilters<DateTime> get lastModified => $composableBuilder(
       column: $table.lastModified, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get importId => $composableBuilder(
+      column: $table.importId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isImported => $composableBuilder(
+      column: $table.isImported, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get needsModerationReview => $composableBuilder(
+      column: $table.needsModerationReview,
+      builder: (column) => ColumnFilters(column));
 
   $$BrewingMethodsTableFilterComposer get brewingMethodId {
     final $$BrewingMethodsTableFilterComposer composer = $composerBuilder(
@@ -6316,26 +5886,6 @@ class $$RecipesTableFilterComposer
             $$BrewingMethodsTableFilterComposer(
               $db: $db,
               $table: $db.brewingMethods,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-
-  $$VendorsTableFilterComposer get vendorId {
-    final $$VendorsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.vendorId,
-        referencedTable: $db.vendors,
-        getReferencedColumn: (t) => t.vendorId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$VendorsTableFilterComposer(
-              $db: $db,
-              $table: $db.vendors,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -6456,8 +6006,21 @@ class $$RecipesTableOrderingComposer
   ColumnOrderings<int> get brewTime => $composableBuilder(
       column: $table.brewTime, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get vendorId => $composableBuilder(
+      column: $table.vendorId, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<DateTime> get lastModified => $composableBuilder(
       column: $table.lastModified,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get importId => $composableBuilder(
+      column: $table.importId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isImported => $composableBuilder(
+      column: $table.isImported, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get needsModerationReview => $composableBuilder(
+      column: $table.needsModerationReview,
       builder: (column) => ColumnOrderings(column));
 
   $$BrewingMethodsTableOrderingComposer get brewingMethodId {
@@ -6472,26 +6035,6 @@ class $$RecipesTableOrderingComposer
             $$BrewingMethodsTableOrderingComposer(
               $db: $db,
               $table: $db.brewingMethods,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-
-  $$VendorsTableOrderingComposer get vendorId {
-    final $$VendorsTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.vendorId,
-        referencedTable: $db.vendors,
-        getReferencedColumn: (t) => t.vendorId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$VendorsTableOrderingComposer(
-              $db: $db,
-              $table: $db.vendors,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -6525,8 +6068,20 @@ class $$RecipesTableAnnotationComposer
   GeneratedColumn<int> get brewTime =>
       $composableBuilder(column: $table.brewTime, builder: (column) => column);
 
+  GeneratedColumn<String> get vendorId =>
+      $composableBuilder(column: $table.vendorId, builder: (column) => column);
+
   GeneratedColumn<DateTime> get lastModified => $composableBuilder(
       column: $table.lastModified, builder: (column) => column);
+
+  GeneratedColumn<String> get importId =>
+      $composableBuilder(column: $table.importId, builder: (column) => column);
+
+  GeneratedColumn<bool> get isImported => $composableBuilder(
+      column: $table.isImported, builder: (column) => column);
+
+  GeneratedColumn<bool> get needsModerationReview => $composableBuilder(
+      column: $table.needsModerationReview, builder: (column) => column);
 
   $$BrewingMethodsTableAnnotationComposer get brewingMethodId {
     final $$BrewingMethodsTableAnnotationComposer composer = $composerBuilder(
@@ -6540,26 +6095,6 @@ class $$RecipesTableAnnotationComposer
             $$BrewingMethodsTableAnnotationComposer(
               $db: $db,
               $table: $db.brewingMethods,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-
-  $$VendorsTableAnnotationComposer get vendorId {
-    final $$VendorsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.vendorId,
-        referencedTable: $db.vendors,
-        getReferencedColumn: (t) => t.vendorId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$VendorsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.vendors,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -6670,7 +6205,6 @@ class $$RecipesTableTableManager extends RootTableManager<
     Recipe,
     PrefetchHooks Function(
         {bool brewingMethodId,
-        bool vendorId,
         bool recipeLocalizationsRefs,
         bool stepsRefs,
         bool userRecipePreferencesRefs,
@@ -6694,6 +6228,9 @@ class $$RecipesTableTableManager extends RootTableManager<
             Value<int> brewTime = const Value.absent(),
             Value<String?> vendorId = const Value.absent(),
             Value<DateTime?> lastModified = const Value.absent(),
+            Value<String?> importId = const Value.absent(),
+            Value<bool> isImported = const Value.absent(),
+            Value<bool> needsModerationReview = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               RecipesCompanion(
@@ -6705,6 +6242,9 @@ class $$RecipesTableTableManager extends RootTableManager<
             brewTime: brewTime,
             vendorId: vendorId,
             lastModified: lastModified,
+            importId: importId,
+            isImported: isImported,
+            needsModerationReview: needsModerationReview,
             rowid: rowid,
           ),
           createCompanionCallback: ({
@@ -6716,6 +6256,9 @@ class $$RecipesTableTableManager extends RootTableManager<
             required int brewTime,
             Value<String?> vendorId = const Value.absent(),
             Value<DateTime?> lastModified = const Value.absent(),
+            Value<String?> importId = const Value.absent(),
+            Value<bool> isImported = const Value.absent(),
+            Value<bool> needsModerationReview = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               RecipesCompanion.insert(
@@ -6727,6 +6270,9 @@ class $$RecipesTableTableManager extends RootTableManager<
             brewTime: brewTime,
             vendorId: vendorId,
             lastModified: lastModified,
+            importId: importId,
+            isImported: isImported,
+            needsModerationReview: needsModerationReview,
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
@@ -6735,7 +6281,6 @@ class $$RecipesTableTableManager extends RootTableManager<
               .toList(),
           prefetchHooksCallback: (
               {brewingMethodId = false,
-              vendorId = false,
               recipeLocalizationsRefs = false,
               stepsRefs = false,
               userRecipePreferencesRefs = false,
@@ -6772,23 +6317,14 @@ class $$RecipesTableTableManager extends RootTableManager<
                         .brewingMethodId,
                   ) as T;
                 }
-                if (vendorId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.vendorId,
-                    referencedTable:
-                        $$RecipesTableReferences._vendorIdTable(db),
-                    referencedColumn:
-                        $$RecipesTableReferences._vendorIdTable(db).vendorId,
-                  ) as T;
-                }
 
                 return state;
               },
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (recipeLocalizationsRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<Recipe, $RecipesTable,
+                            RecipeLocalization>(
                         currentTable: table,
                         referencedTable: $$RecipesTableReferences
                             ._recipeLocalizationsRefsTable(db),
@@ -6800,7 +6336,7 @@ class $$RecipesTableTableManager extends RootTableManager<
                             referencedItems.where((e) => e.recipeId == item.id),
                         typedResults: items),
                   if (stepsRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<Recipe, $RecipesTable, Step>(
                         currentTable: table,
                         referencedTable:
                             $$RecipesTableReferences._stepsRefsTable(db),
@@ -6811,7 +6347,8 @@ class $$RecipesTableTableManager extends RootTableManager<
                             referencedItems.where((e) => e.recipeId == item.id),
                         typedResults: items),
                   if (userRecipePreferencesRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<Recipe, $RecipesTable,
+                            UserRecipePreference>(
                         currentTable: table,
                         referencedTable: $$RecipesTableReferences
                             ._userRecipePreferencesRefsTable(db),
@@ -6823,7 +6360,7 @@ class $$RecipesTableTableManager extends RootTableManager<
                             referencedItems.where((e) => e.recipeId == item.id),
                         typedResults: items),
                   if (userStatsRefs)
-                    await $_getPrefetchedData(
+                    await $_getPrefetchedData<Recipe, $RecipesTable, UserStat>(
                         currentTable: table,
                         referencedTable:
                             $$RecipesTableReferences._userStatsRefsTable(db),
@@ -6854,7 +6391,6 @@ typedef $$RecipesTableProcessedTableManager = ProcessedTableManager<
     Recipe,
     PrefetchHooks Function(
         {bool brewingMethodId,
-        bool vendorId,
         bool recipeLocalizationsRefs,
         bool stepsRefs,
         bool userRecipePreferencesRefs,
@@ -9602,8 +9138,6 @@ typedef $$CoffeeBeansTableProcessedTableManager = ProcessedTableManager<
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$VendorsTableTableManager get vendors =>
-      $$VendorsTableTableManager(_db, _db.vendors);
   $$SupportedLocalesTableTableManager get supportedLocales =>
       $$SupportedLocalesTableTableManager(_db, _db.supportedLocales);
   $$BrewingMethodsTableTableManager get brewingMethods =>
@@ -9630,7 +9164,6 @@ class $AppDatabaseManager {
 
 mixin _$RecipesDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
-  $VendorsTable get vendors => attachedDatabase.vendors;
   $RecipesTable get recipes => attachedDatabase.recipes;
   $SupportedLocalesTable get supportedLocales =>
       attachedDatabase.supportedLocales;
@@ -9642,7 +9175,6 @@ mixin _$RecipesDaoMixin on DatabaseAccessor<AppDatabase> {
 }
 mixin _$StepsDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
-  $VendorsTable get vendors => attachedDatabase.vendors;
   $RecipesTable get recipes => attachedDatabase.recipes;
   $SupportedLocalesTable get supportedLocales =>
       attachedDatabase.supportedLocales;
@@ -9650,7 +9182,6 @@ mixin _$StepsDaoMixin on DatabaseAccessor<AppDatabase> {
 }
 mixin _$RecipeLocalizationsDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
-  $VendorsTable get vendors => attachedDatabase.vendors;
   $RecipesTable get recipes => attachedDatabase.recipes;
   $SupportedLocalesTable get supportedLocales =>
       attachedDatabase.supportedLocales;
@@ -9659,16 +9190,12 @@ mixin _$RecipeLocalizationsDaoMixin on DatabaseAccessor<AppDatabase> {
 }
 mixin _$UserRecipePreferencesDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
-  $VendorsTable get vendors => attachedDatabase.vendors;
   $RecipesTable get recipes => attachedDatabase.recipes;
   $UserRecipePreferencesTable get userRecipePreferences =>
       attachedDatabase.userRecipePreferences;
 }
 mixin _$BrewingMethodsDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
-}
-mixin _$VendorsDaoMixin on DatabaseAccessor<AppDatabase> {
-  $VendorsTable get vendors => attachedDatabase.vendors;
 }
 mixin _$SupportedLocalesDaoMixin on DatabaseAccessor<AppDatabase> {
   $SupportedLocalesTable get supportedLocales =>
@@ -9686,7 +9213,6 @@ mixin _$ContributorsDaoMixin on DatabaseAccessor<AppDatabase> {
 }
 mixin _$UserStatsDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
-  $VendorsTable get vendors => attachedDatabase.vendors;
   $RecipesTable get recipes => attachedDatabase.recipes;
   $UserStatsTable get userStats => attachedDatabase.userStats;
 }

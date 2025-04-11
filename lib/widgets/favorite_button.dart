@@ -26,7 +26,8 @@ class _FavoriteButtonState extends State<FavoriteButton> {
     final recipe = await recipeProvider.getRecipeById(widget.recipeId);
     if (mounted) {
       setState(() {
-        _isFavorite = recipe.isFavorite;
+        // Default to false if recipe is null
+        _isFavorite = recipe?.isFavorite ?? false;
       });
     }
   }
@@ -46,8 +47,9 @@ class _FavoriteButtonState extends State<FavoriteButton> {
             .getRecipeById(widget.recipeId);
         if (mounted) {
           setState(() {
-            _isFavorite =
-                recipe.isFavorite; // Update based on the latest status
+            // Default to false if recipe is null
+            _isFavorite = recipe?.isFavorite ??
+                false; // Update based on the latest status
           });
         }
       },

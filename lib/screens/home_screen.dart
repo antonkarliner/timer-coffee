@@ -16,7 +16,7 @@ import '../providers/database_provider.dart';
 import '../providers/recipe_provider.dart';
 import '../models/recipe_model.dart';
 import 'package:auto_route/auto_route.dart';
-import '../app_router.gr.dart';
+import '../app_router.gr.dart'; // Ensure this import is correct
 import '../webhelper/web_helper.dart' as web;
 import '../utils/icon_utils.dart';
 import '../purchase_manager.dart';
@@ -27,8 +27,12 @@ import 'package:sign_in_button/sign_in_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import '../providers/user_stat_provider.dart';
+import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
 import 'package:flutter_animate/flutter_animate.dart'; // Added import
 import 'package:http/http.dart' as http; // Import http package
+import '../screens/recipe_creation_screen.dart'; // Import for RecipeCreationScreen
+import '../database/database.dart'
+    show AppDatabase, Recipe; // Import AppDatabase and Recipe
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -58,20 +62,109 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     // Correctly obtain initialLocale from the Provider
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      initialLocale = Provider.of<Locale>(context, listen: false);
-      if (kIsWeb) {
-        var recipeProvider =
-            Provider.of<RecipeProvider>(context, listen: false);
-        var tempLocale =
-            const Locale('av'); // An example temporary locale for simulation
-        recipeProvider.setLocale(tempLocale).then((_) {
-          Future.delayed(const Duration(milliseconds: 100), () {
-            recipeProvider
-                .setLocale(initialLocale); // Revert to the initial app locale
+      // Ensure context is valid before accessing Provider
+      if (mounted) {
+        initialLocale = Provider.of<Locale>(context, listen: false);
+        if (kIsWeb) {
+          var recipeProvider =
+              Provider.of<RecipeProvider>(context, listen: false);
+          var tempLocale =
+              const Locale('av'); // An example temporary locale for simulation
+          recipeProvider.setLocale(tempLocale).then((_) {
+            Future.delayed(const Duration(milliseconds: 100), () {
+              if (mounted) {
+                // Check mounted again before accessing provider
+                recipeProvider.setLocale(
+                    initialLocale); // Revert to the initial app locale
+              }
+            });
           });
-        });
+        }
       }
     });
+
+    // Add post frame callback to check for recipes needing moderation
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkRecipesNeedingModeration();
+    });
+  }
+
+  Future<void> _checkRecipesNeedingModeration() async {
+    if (!mounted) return; // Ensure the widget is still mounted
+
+    final dbProvider = Provider.of<DatabaseProvider>(context, listen: false);
+    // Get UserRecipeProvider instance
+    final userRecipeProvider =
+        Provider.of<UserRecipeProvider>(context, listen: false);
+    // No longer need RecipeProvider or appLocale here
+
+    try {
+      // Use the public method from DatabaseProvider
+      final flaggedRecipes = await dbProvider.getRecipesNeedingModeration();
+
+      if (flaggedRecipes.isNotEmpty && mounted) {
+        // Fetch names and store brewingMethodId
+        List<Map<String, String>> flaggedRecipeDetails = [];
+        for (final recipe in flaggedRecipes) {
+          // Fetch name using UserRecipeProvider
+          final name = await userRecipeProvider.getUserRecipeName(recipe.id);
+          if (name != null) {
+            flaggedRecipeDetails.add({
+              'id': recipe.id,
+              'name': name,
+              'brewingMethodId': recipe.brewingMethodId,
+            });
+          } else {
+            // Handle case where name couldn't be fetched (optional)
+            print("Could not fetch name for flagged recipe: ${recipe.id}");
+            flaggedRecipeDetails.add({
+              'id': recipe.id,
+              'name': recipe.id, // Fallback to ID
+              'brewingMethodId': recipe.brewingMethodId,
+            });
+          }
+        }
+
+        if (flaggedRecipeDetails.isNotEmpty && mounted) {
+          final firstFlaggedRecipe = flaggedRecipeDetails.first;
+          final recipeNames =
+              flaggedRecipeDetails.map((r) => "'${r['name']}'").join(', ');
+          final l10n = AppLocalizations.of(context)!; // Get localizations
+
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(l10n.moderationReviewNeededTitle),
+                content: Text(l10n.moderationReviewNeededMessage(recipeNames)),
+                actions: [
+                  TextButton(
+                    child: Text(l10n.dismiss),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: Text(l10n.reviewRecipeButton),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      // Use details fetched earlier
+                      context.router.push(RecipeDetailRoute(
+                        recipeId: firstFlaggedRecipe['id']!,
+                        brewingMethodId: firstFlaggedRecipe['brewingMethodId']!,
+                      ));
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      }
+    } catch (e) {
+      print("Error checking for recipes needing moderation: $e");
+      // Optionally show an error message
+    }
   }
 
   @override
@@ -90,19 +183,24 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         final data = json.decode(response.body);
         final detected = data['country']?.toString() ?? '';
         print('Detected country: $detected');
-        setState(() {
-          _detectedCountry = detected;
-        });
+        if (mounted) {
+          // Check mounted before setState
+          setState(() {
+            _detectedCountry = detected;
+          });
+        }
 
         // Read the target banner country from your Env file.
-        final bannerCountry = Env
-            .bannerCountry; // make sure Env.bannerCountry is defined in lib/env/env.dart
+        final bannerCountry = Env.bannerCountry;
         print('Banner Country (env): $bannerCountry');
 
         if (bannerCountry.isNotEmpty && detected == bannerCountry) {
-          setState(() {
-            _showBanner = true;
-          });
+          if (mounted) {
+            // Check mounted before setState
+            setState(() {
+              _showBanner = true;
+            });
+          }
         }
       } else {
         print('Failed to fetch country: ${response.statusCode}');
@@ -114,15 +212,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void _showThankYouPopup(PurchaseDetails details) {
     if (mounted) {
+      final l10n = AppLocalizations.of(context)!; // Get localizations
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(AppLocalizations.of(context)!.donationok),
-            content: Text(AppLocalizations.of(context)!.donationtnx),
+            title: Text(l10n.donationok),
+            content: Text(l10n.donationtnx),
             actions: [
               TextButton(
-                child: const Text("OK"),
+                child: Text(l10n.ok),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -136,15 +235,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void _showErrorDialog(IAPError error) {
     if (mounted) {
+      final l10n = AppLocalizations.of(context)!; // Get localizations
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(AppLocalizations.of(context)!.donationerr),
-            content: Text(AppLocalizations.of(context)!.donationerrmsg),
+            title: Text(l10n.donationerr),
+            content: Text(l10n.donationerrmsg),
             actions: [
               TextButton(
-                child: const Text("OK"),
+                child: Text(l10n.ok),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -158,6 +258,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!; // Get localizations
     return AutoTabsRouter.pageView(
       routes: const [
         BrewTabRoute(),
@@ -180,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Timer.Coffee stands with Palestine',
+                        'Timer.Coffee stands with Palestine', // Skipped localization as requested
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.surface,
@@ -206,11 +307,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             itemBuilder: CustomTabBuilder([
               TabItem(
                 icon: Coffeico.bean,
-                title: AppLocalizations.of(context)!.homescreenbrewcoffee,
+                title: l10n.homescreenbrewcoffee,
               ),
               TabItem(
                 icon: Icons.dashboard,
-                title: AppLocalizations.of(context)!.homescreenmore,
+                title: l10n.homescreenmore,
               ),
             ], context),
             initialActiveIndex: tabsRouter.activeIndex,
@@ -225,14 +326,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       return CupertinoNavigationBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        middle: Text('Timer.Coffee',
+        middle: Text('Timer.Coffee', // Skipped localization as requested
             style: TextStyle(
                 fontFamily: kIsWeb ? 'Lato' : null,
                 color: Theme.of(context).appBarTheme.foregroundColor)),
       );
     } else {
       return AppBar(
-        title: const Text('Timer.Coffee'),
+        title: const Text('Timer.Coffee'), // Skipped localization as requested
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
       );
@@ -267,6 +368,7 @@ class BrewingMethodsScreen extends StatelessWidget {
     final brewingMethods = Provider.of<List<BrewingMethodModel>>(context);
     final filteredBrewingMethods =
         brewingMethods.where((method) => method.showOnMain).toList();
+    final l10n = AppLocalizations.of(context)!; // Get localizations
 
     // Calculate the bottom padding
     final bottomPadding =
@@ -306,6 +408,7 @@ class BrewingMethodsScreen extends StatelessWidget {
 
   Widget buildFixedContent(
       BuildContext context, RecipeProvider recipeProvider) {
+    final l10n = AppLocalizations.of(context)!; // Get localizations
     return FutureBuilder<RecipeModel?>(
       future: recipeProvider.getLastUsedRecipe(),
       builder: (context, snapshot) {
@@ -314,42 +417,41 @@ class BrewingMethodsScreen extends StatelessWidget {
           children: [
             Semantics(
               identifier: 'favoriteRecipes',
-              label: AppLocalizations.of(context)!.favoriterecipes,
+              label: l10n.favoriterecipes,
               child: ListTile(
                 leading: const Icon(Icons.favorite),
-                title: Text(AppLocalizations.of(context)!.favoriterecipes),
+                title: Text(l10n.favoriterecipes),
                 onTap: () {
                   context.router.push(const FavoriteRecipesRoute());
+                },
+              ),
+            ),
+            Semantics(
+              identifier: 'createRecipe',
+              label: l10n.createRecipe,
+              child: ListTile(
+                leading: const Icon(Icons.add),
+                title: Text(l10n.createRecipe),
+                onTap: () {
+                  context.router.push(RecipeCreationRoute());
                 },
               ),
             ),
             if (mostRecentRecipe != null)
               Semantics(
                 identifier: 'lastRecipe_${mostRecentRecipe.id}',
-                label:
-                    '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}',
+                label: '${l10n.lastrecipe}${mostRecentRecipe.name}',
                 child: ListTile(
                   leading:
                       getIconByBrewingMethod(mostRecentRecipe.brewingMethodId),
-                  title: Text(
-                      '${AppLocalizations.of(context)!.lastrecipe}${mostRecentRecipe.name}'),
+                  title: Text('${l10n.lastrecipe}${mostRecentRecipe.name}'),
                   onTap: () {
-                    if (mostRecentRecipe.vendorId != null &&
-                        mostRecentRecipe.vendorId != 'timercoffee') {
-                      context.router.push(
-                        VendorRecipeDetailRoute(
-                          vendorId: mostRecentRecipe.vendorId!,
-                          recipeId: mostRecentRecipe.id,
-                        ),
-                      );
-                    } else {
-                      context.router.push(
-                        RecipeDetailRoute(
-                          brewingMethodId: mostRecentRecipe.brewingMethodId,
-                          recipeId: mostRecentRecipe.id,
-                        ),
-                      );
-                    }
+                    context.router.push(
+                      RecipeDetailRoute(
+                        brewingMethodId: mostRecentRecipe.brewingMethodId,
+                        recipeId: mostRecentRecipe.id,
+                      ),
+                    );
                   },
                 ),
               ),
@@ -374,12 +476,14 @@ class HubHomeScreen extends StatefulWidget {
 }
 
 class _HubHomeScreenState extends State<HubHomeScreen> {
-  bool _isAnonymous = true;
+  // Removed _isAnonymous state as StreamBuilder handles it
   late DatabaseProvider _databaseProvider;
   late UserStatProvider _userStatProvider;
   late CoffeeBeansProvider _coffeeBeansProvider;
+  late UserRecipeProvider _userRecipeProvider;
+  late RecipeProvider _recipeProvider;
   String? _initialUserId;
-  String? _currentUserId;
+  // Removed _currentUserId as StreamBuilder provides session info
 
   @override
   void initState() {
@@ -388,37 +492,29 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     _userStatProvider = Provider.of<UserStatProvider>(context, listen: false);
     _coffeeBeansProvider =
         Provider.of<CoffeeBeansProvider>(context, listen: false);
-    _determineInitialUserId();
+    _userRecipeProvider =
+        Provider.of<UserRecipeProvider>(context, listen: false);
+    _recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
+    _determineInitialUserId(); // Still needed for sync logic
   }
 
   Future<void> _determineInitialUserId() async {
     final user = Supabase.instance.client.auth.currentUser;
-    setState(() {
-      _initialUserId = user?.id;
-      _currentUserId = user?.id;
-      _isAnonymous = user == null || user.isAnonymous;
-    });
+    // No need to call setState here as StreamBuilder handles UI updates
+    _initialUserId = user?.id;
     print('Initial User ID: $_initialUserId');
-    print('Is Anonymous: $_isAnonymous');
-    if (!_isAnonymous) {
+    if (user != null && !user.isAnonymous) {
       await _updateOneSignalExternalId();
     }
   }
 
-  Future<void> _loadUserData() async {
-    final user = Supabase.instance.client.auth.currentUser;
-    setState(() {
-      _isAnonymous = user == null || user.isAnonymous;
-      _currentUserId = user?.id;
-    });
-    print('Current User ID: $_currentUserId');
-    print('Is Anonymous: $_isAnonymous');
-    if (!_isAnonymous) {
-      await _updateOneSignalExternalId();
-    }
-  }
+  // _loadUserData is no longer needed as StreamBuilder handles UI updates
 
   Future<void> _syncDataAfterLogin() async {
+    // Ensure context is valid before proceeding
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+
     try {
       final newUser = Supabase.instance.client.auth.currentUser;
       final newUserId = newUser?.id;
@@ -429,7 +525,13 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       if (_initialUserId != null &&
           newUserId != null &&
           _initialUserId != newUserId) {
-        print('Attempting to update user ID...');
+        print(
+            'User ID changed from $_initialUserId to $newUserId. Updating local recipe IDs...');
+        // Update local recipe IDs BEFORE calling the edge function or syncing
+        await _userRecipeProvider.updateUserRecipeIdsAfterLogin(
+            _initialUserId!, newUserId);
+
+        print('Attempting to update user ID via Edge Function...');
         // Invoke the Supabase Edge Function to update user ID
         final res = await Supabase.instance.client.functions.invoke(
           'update-id-after-signin',
@@ -443,21 +545,41 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         }
 
         print('User ID updated successfully');
+        // Update _initialUserId after successful sync/ID change
+        _initialUserId = newUserId;
       } else {
         print('User ID update not required');
+        // Ensure _initialUserId reflects the current user if it was null initially
+        if (_initialUserId == null && newUserId != null) {
+          _initialUserId = newUserId;
+        }
       }
 
       await _databaseProvider.uploadUserPreferencesToSupabase();
       await _databaseProvider.fetchAndInsertUserPreferencesFromSupabase();
       await _userStatProvider.syncUserStats();
       await _coffeeBeansProvider.syncCoffeeBeans();
+
+      // Sync user-created and imported recipes
+      if (newUserId != null) {
+        await _databaseProvider.syncUserRecipes(newUserId);
+        await _databaseProvider.syncImportedRecipes(newUserId);
+      }
+
+      // Reload recipes into the provider state after sync
+      await _recipeProvider.fetchAllRecipes();
+      print('RecipeProvider state refreshed.');
+
       print('Data synchronization completed successfully');
     } catch (e) {
       print('Error syncing user data: $e');
       // Show an error message to the user
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error syncing data: $e')),
-      );
+      if (mounted) {
+        // Check mounted before showing SnackBar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.errorSyncingData(e.toString()))),
+        );
+      }
     }
   }
 
@@ -470,35 +592,53 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!; // Get localizations
     return SafeArea(
       child: ListView(
         children: [
-          if (_isAnonymous)
-            Semantics(
-              identifier: 'signIn',
-              label: AppLocalizations.of(context)!.signInCreate,
-              child: ListTile(
-                leading: const Icon(Icons.login),
-                title: Text(AppLocalizations.of(context)!.signInCreate),
-                onTap: () => _showSignInOptions(context),
-              ),
-            )
-          else
-            Semantics(
-              identifier: 'signOut',
-              label: AppLocalizations.of(context)!.signOut,
-              child: ListTile(
-                leading: const Icon(Icons.logout),
-                title: Text(AppLocalizations.of(context)!.signOut),
-                onTap: () => _signOut(context),
-              ),
-            ),
+          // Use StreamBuilder to listen to auth changes
+          StreamBuilder<AuthState>(
+            stream: Supabase.instance.client.auth.onAuthStateChange,
+            builder: (context, snapshot) {
+              final session = snapshot.data?.session;
+              // Consider logged in if session exists AND user is not anonymous
+              final bool isLoggedIn =
+                  session != null && !session.user.isAnonymous;
+
+              if (isLoggedIn) {
+                // Show Account button if logged in
+                return Semantics(
+                  identifier: 'account',
+                  label: l10n.account, // Use new localization key
+                  child: ListTile(
+                    leading:
+                        const Icon(Icons.account_circle), // Or appropriate icon
+                    title: Text(l10n.account), // Use new localization key
+                    onTap: () => context.router.push(
+                        const AccountRoute()), // Navigate to AccountScreen
+                  ),
+                );
+              } else {
+                // Show Sign In button if not logged in (or anonymous)
+                return Semantics(
+                  identifier: 'signIn',
+                  label: l10n.signInCreate,
+                  child: ListTile(
+                    leading: const Icon(Icons.login),
+                    title: Text(l10n.signInCreate),
+                    onTap: () => _showSignInOptions(
+                        context), // This modal contains Apple Sign In
+                  ),
+                );
+              }
+            },
+          ),
           Semantics(
             identifier: 'brewDiary',
-            label: AppLocalizations.of(context)!.brewdiary,
+            label: l10n.brewdiary,
             child: ListTile(
               leading: const Icon(Icons.library_books),
-              title: Text(AppLocalizations.of(context)!.brewdiary),
+              title: Text(l10n.brewdiary),
               onTap: () {
                 context.router.push(const BrewDiaryRoute());
               },
@@ -508,7 +648,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
             identifier: 'beansScreen',
             child: ListTile(
               leading: const Icon(Coffeico.bag_with_bean),
-              title: Text(AppLocalizations.of(context)!.myBeans),
+              title: Text(l10n.myBeans),
               onTap: () {
                 context.router.push(const CoffeeBeansRoute());
               },
@@ -516,10 +656,10 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
           ),
           Semantics(
             identifier: 'statsScreen',
-            label: AppLocalizations.of(context)!.statsscreen,
+            label: l10n.statsscreen,
             child: ListTile(
               leading: const Icon(Icons.bar_chart),
-              title: Text(AppLocalizations.of(context)!.statsscreen),
+              title: Text(l10n.statsscreen),
               onTap: () {
                 context.router.push(StatsRoute());
               },
@@ -527,10 +667,10 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
           ),
           Semantics(
             identifier: 'settings',
-            label: AppLocalizations.of(context)!.settings,
+            label: l10n.settings,
             child: ListTile(
               leading: const Icon(Icons.settings),
-              title: Text(AppLocalizations.of(context)!.settings),
+              title: Text(l10n.settings),
               onTap: () {
                 context.router.push(const SettingsRoute());
               },
@@ -543,6 +683,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
 
   void _showSignInOptions(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!; // Get localizations
 
     showModalBottomSheet(
       context: context,
@@ -554,18 +695,21 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SignInButton(
-                  isDarkMode ? Buttons.apple : Buttons.appleDark,
-                  text: AppLocalizations.of(context)!.signInWithApple,
-                  onPressed: () {
-                    Navigator.pop(context);
-                    _signInWithApple(context);
-                  },
-                ),
-                const SizedBox(height: 16),
+                // Conditionally show Apple Sign In
+                if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) ...[
+                  SignInButton(
+                    isDarkMode ? Buttons.apple : Buttons.appleDark,
+                    text: l10n.signInWithApple,
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _signInWithApple(context);
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                ],
                 SignInButton(
                   isDarkMode ? Buttons.google : Buttons.googleDark,
-                  text: AppLocalizations.of(context)!.signInWithGoogle,
+                  text: l10n.signInWithGoogle,
                   onPressed: () {
                     Navigator.pop(context);
                     _signInWithGoogle(context);
@@ -573,7 +717,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                 ),
                 const SizedBox(height: 16),
                 SignInButtonBuilder(
-                  text: AppLocalizations.of(context)!.signInWithEmail,
+                  text: l10n.signInWithEmail,
                   icon: Icons.email,
                   onPressed: () {
                     Navigator.pop(context);
@@ -594,6 +738,12 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
   }
 
   Future<void> _signInWithApple(BuildContext context) async {
+    // Ensure context is valid before proceeding
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+    final scaffoldMessenger =
+        ScaffoldMessenger.of(context); // Capture scaffold messenger
+
     try {
       if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) {
         await _nativeSignInWithApple();
@@ -601,16 +751,22 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         await _supabaseSignInWithApple();
       }
 
-      await _loadUserData(); // Reload user data after successful sign-in
-      await _syncDataAfterLogin();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context)!.signInSuccessful)),
-      );
+      // No need to call _loadUserData here, StreamBuilder handles UI update
+      await _syncDataAfterLogin(); // Sync data after login attempt
+      // Check mounted again before showing SnackBar
+      if (mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.signInSuccessful)),
+        );
+      }
     } catch (e) {
       print('Error signing in with Apple: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context)!.signInError)),
-      );
+      // Check mounted again before showing SnackBar
+      if (mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.signInError)),
+        );
+      }
     }
   }
 
@@ -647,6 +803,12 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
   }
 
   Future<void> _signInWithGoogle(BuildContext context) async {
+    // Ensure context is valid before proceeding
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+    final scaffoldMessenger =
+        ScaffoldMessenger.of(context); // Capture scaffold messenger
+
     try {
       if (kIsWeb) {
         await _webSignInWithGoogle();
@@ -654,18 +816,22 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         await _nativeGoogleSignIn();
       }
 
-      await _loadUserData(); // Reload user data after successful sign-in
-      await _syncDataAfterLogin();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content:
-                Text(AppLocalizations.of(context)!.signInSuccessfulGoogle)),
-      );
+      // No need to call _loadUserData here, StreamBuilder handles UI update
+      await _syncDataAfterLogin(); // Sync data after login attempt
+      // Check mounted again before showing SnackBar
+      if (mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.signInSuccessfulGoogle)),
+        );
+      }
     } catch (e) {
       print('Error signing in with Google: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context)!.signInError)),
-      );
+      // Check mounted again before showing SnackBar
+      if (mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.signInError)),
+        );
+      }
     }
   }
 
@@ -708,28 +874,29 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
 
   void _showEmailSignInDialog(BuildContext context) {
     final TextEditingController emailController = TextEditingController();
+    final l10n = AppLocalizations.of(context)!; // Get localizations
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.enterEmail),
+          title: Text(l10n.enterEmail),
           content: TextField(
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              hintText: AppLocalizations.of(context)!.emailHint,
+              hintText: l10n.emailHint,
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(AppLocalizations.of(context)!.cancel),
+              child: Text(l10n.cancel),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text(AppLocalizations.of(context)!.sendOTP),
+              child: Text(l10n.sendOTP),
               onPressed: () {
                 Navigator.of(context).pop();
                 _signInWithEmail(context, emailController.text);
@@ -742,6 +909,12 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
   }
 
   Future<void> _signInWithEmail(BuildContext context, String email) async {
+    // Ensure context is valid before proceeding
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+    final scaffoldMessenger =
+        ScaffoldMessenger.of(context); // Capture scaffold messenger
+
     _showOTPVerificationDialog(context, email);
 
     try {
@@ -751,45 +924,49 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       );
     } catch (e) {
       print('Error sending OTP: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context)!.otpSendError)),
-      );
+      // Check mounted again before showing SnackBar
+      if (mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.otpSendError)),
+        );
+      }
     }
   }
 
   void _showOTPVerificationDialog(BuildContext context, String email) {
     final TextEditingController otpController = TextEditingController();
+    final l10n = AppLocalizations.of(context)!; // Get localizations
 
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.enterOTP),
+          title: Text(l10n.enterOTP),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(AppLocalizations.of(context)!.otpSentMessage),
+              Text(l10n.otpSentMessage),
               TextField(
                 controller: otpController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context)!.otpHint2,
+                  hintText: l10n.otpHint2,
                 ),
               ),
             ],
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(AppLocalizations.of(context)!.cancel),
+              child: Text(l10n.cancel),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text(AppLocalizations.of(context)!.verify),
+              child: Text(l10n.verify),
               onPressed: () {
-                Navigator.of(context).pop();
+                // Don't pop here, _verifyOTP will handle it if successful
                 _verifyOTP(context, email, otpController.text);
               },
             ),
@@ -801,6 +978,12 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
 
   Future<void> _verifyOTP(
       BuildContext context, String email, String token) async {
+    // Ensure context is valid before proceeding
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+    final scaffoldMessenger =
+        ScaffoldMessenger.of(context); // Capture scaffold messenger
+
     try {
       final AuthResponse res = await Supabase.instance.client.auth.verifyOTP(
         email: email,
@@ -808,50 +991,42 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         type: OtpType.email,
       );
 
+      // Pop the OTP dialog regardless of success/failure of verification
+      Navigator.of(context).pop();
+
       if (res.session != null) {
-        await _loadUserData();
-        await _syncDataAfterLogin();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content:
-                  Text(AppLocalizations.of(context)!.signInSuccessfulEmail)),
-        );
+        // No need to call _loadUserData here, StreamBuilder handles UI update
+        await _syncDataAfterLogin(); // Sync data after successful verification
+        // Check mounted again before showing SnackBar
+        if (mounted) {
+          scaffoldMessenger.showSnackBar(
+            SnackBar(content: Text(l10n.signInSuccessfulEmail)),
+          );
+        }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.invalidOTP)),
-        );
+        // Check mounted again before showing SnackBar
+        if (mounted) {
+          scaffoldMessenger.showSnackBar(
+            SnackBar(content: Text(l10n.invalidOTP)),
+          );
+        }
       }
     } catch (e) {
       print('Error verifying OTP: $e');
-      // Optional: Uncomment to show a SnackBar on error
-      /*
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.otpVerificationError),
-        ),
-      );
-      */
+      // Pop the OTP dialog if it wasn't popped due to an exception before this point
+      if (Navigator.canPop(context)) {
+        Navigator.of(context).pop();
+      }
+      // Check mounted again before showing SnackBar
+      if (mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.otpVerificationError)),
+        );
+      }
     }
   }
 
-  Future<void> _signOut(BuildContext context) async {
-    try {
-      await OneSignal.logout(); // Logout from OneSignal
-      await Supabase.instance.client.auth.signOut();
-      await Supabase.instance.client.auth.signInAnonymously();
-      _determineInitialUserId();
-      await _loadUserData(); // Reload user data after sign-out
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(AppLocalizations.of(context)!.signOutSuccessful)),
-      );
-    } catch (e) {
-      print('Error signing out: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error signing out: $e')),
-      );
-    }
-  }
+  // Removed _signOut method as it's now handled in AccountScreen
 }
 
 class CustomTabBuilder extends DelegateBuilder {

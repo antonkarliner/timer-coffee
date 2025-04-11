@@ -233,5 +233,254 @@
   "labelUsedBrewingMethods": "使用:",
   "formattedRoasterCount": "{count} {count, plural, other{ロースター}}",
   "formattedCountryCount": "{count} {count, plural, other{か国}}",
-  "formattedBrewingMethodCount": "{count} {count, plural, other{つの抽出方法}}"
+  "formattedBrewingMethodCount": "{count} {count, plural, other{つの抽出方法}}",
+  "recipeCreationScreenEditRecipeTitle": "レシピを編集",
+  "recipeCreationScreenCreateRecipeTitle": "レシピを作成",
+  "recipeCreationScreenRecipeStepsTitle": "レシピの手順",
+  "recipeCreationScreenRecipeNameLabel": "レシピ名",
+  "recipeCreationScreenShortDescriptionLabel": "簡単な説明",
+  "recipeCreationScreenBrewingMethodLabel": "抽出方法",
+  "recipeCreationScreenCoffeeAmountLabel": "コーヒーの量 (g)",
+  "recipeCreationScreenWaterAmountLabel": "水の量 (ml)",
+  "recipeCreationScreenWaterTempLabel": "水の温度 (°C)",
+  "recipeCreationScreenGrindSizeLabel": "挽き目のサイズ",
+  "recipeCreationScreenTotalBrewTimeLabel": "合計抽出時間:",
+  "recipeCreationScreenMinutesLabel": "分",
+  "recipeCreationScreenSecondsLabel": "秒",
+  "recipeCreationScreenPreparationStepTitle": "準備ステップ",
+  "recipeCreationScreenBrewStepTitle": "抽出ステップ {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "レシピ作成画面の抽出ステップのタイトル",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "ステップの説明",
+  "recipeCreationScreenStepTimeLabel": "ステップ時間: ",
+  "recipeCreationScreenRecipeNameValidator": "レシピ名を入力してください",
+  "recipeCreationScreenShortDescriptionValidator": "簡単な説明を入力してください",
+  "recipeCreationScreenBrewingMethodValidator": "抽出方法を選択してください",
+  "recipeCreationScreenRequiredValidator": "必須",
+  "recipeCreationScreenInvalidNumberValidator": "無効な数値",
+  "recipeCreationScreenStepDescriptionValidator": "ステップの説明を入力してください",
+  "recipeCreationScreenContinueButton": "レシピの手順に進む",
+  "recipeCreationScreenAddStepButton": "ステップを追加",
+  "recipeCreationScreenSaveRecipeButton": "レシピを保存",
+  "recipeCreationScreenUpdateSuccess": "レシピが正常に更新されました",
+  "recipeCreationScreenSaveSuccess": "レシピが正常に保存されました",
+  "recipeCreationScreenSaveError": "レシピの保存中にエラーが発生しました: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "レシピの保存に失敗した場合のエラーメッセージ",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "データベースエラー"
+      }
+    }
+  },
+  "unitGramsShort": "g",
+  "unitMillilitersShort": "ml",
+  "unitGramsLong": "グラム",
+  "unitMillilitersLong": "ミリリットル",
+  "recipeCopySuccess": "レシピが正常にコピーされました！",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "レシピのコピー中にエラーが発生しました: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "レシピを作成",
+  "errorSyncingData": "データ同期エラー: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "errorSigningOut": "サインアウトエラー: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "defaultPreparationStepDescription": "準備",
+  "loadingEllipsis": "読み込み中...",
+  "recipeDeletedSuccess": "レシピが正常に削除されました",
+  "recipeDeleteError": "レシピの削除に失敗しました: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "noRecipesFound": "レシピが見つかりません",
+  "recipeLoadError": "レシピの読み込みに失敗しました: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "unknownBrewingMethod": "不明な抽出方法",
+  "recipeCopyErrorLoadingEdit": "コピーしたレシピの編集読み込みに失敗しました。",
+  "recipeCopyErrorOperationFailed": "操作に失敗しました。",
+  "notProvided": "未提供",
+  "recipeUpdateAvailableTitle": "アップデートがあります",
+  "recipeUpdateAvailableBody": "'{recipeName}'の新しいバージョンがオンラインで利用可能です。アップデートしますか？",
+  "@recipeUpdateAvailableBody": {
+    "description": "アップデート確認ダイアログの本文",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "私の素晴らしいレシピ"
+      }
+    }
+  },
+  "dialogCancel": "キャンセル",
+  "dialogUpdate": "アップデート",
+  "recipeImportTitle": "レシピをインポート",
+  "recipeImportBody": "クラウドからレシピ'{recipeName}'をインポートしますか？",
+  "@recipeImportBody": {
+    "description": "インポート確認ダイアログの本文",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "共有レシピ"
+      }
+    }
+  },
+  "dialogImport": "インポート",
+  "moderationReviewNeededTitle": "モデレーションレビューが必要です",
+  "moderationReviewNeededMessage": "コンテンツモデレーションの問題により、次のレシピのレビューが必要です: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "レシピがモデレーションレビューを必要とする場合に表示されるメッセージ",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'マイレシピ', '別のレシピ'"
+      }
+    }
+  },
+  "dismiss": "閉じる",
+  "reviewRecipeButton": "レシピをレビュー",
+  "signInRequiredTitle": "サインインが必要です",
+  "signInRequiredBodyShare": "自分のレシピを共有するにはサインインする必要があります。",
+  "syncSuccess": "同期成功！",
+  "tooltipEditRecipe": "レシピを編集",
+  "tooltipCopyRecipe": "レシピをコピー",
+  "tooltipShareRecipe": "レシピを共有",
+  "signInRequiredSnackbar": "サインインが必要です",
+  "moderationErrorFunction": "コンテンツモデレーションチェックに失敗しました。",
+  "moderationReasonDefault": "コンテンツがレビューのためにフラグ付けされました。",
+  "moderationFailedTitle": "モデレーション失敗",
+  "moderationFailedBody": "このレシピは共有できません。理由: {reason}",
+  "@moderationFailedBody": {
+    "description": "コンテンツモデレーションが失敗した場合に表示されるダイアログの本文",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "不適切な言語"
+      }
+    }
+  },
+  "shareErrorGeneric": "レシピの共有中にエラーが発生しました: {error}",
+  "@shareErrorGeneric": {
+    "description": "共有プロセスが失敗した場合に表示される一般的なエラーメッセージ",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "ネットワークエラー"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} on Timer.Coffee",
+  "@recipeDetailWebTitle": {
+    "description": "レシピ詳細ページのウェブページタイトル形式",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "私の素晴らしいV60"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "コンテンツの状態を確認できませんでした。ローカルに保存しました。次回の同期時に確認します。",
+  "saveLocallyModerationFailedTitle": "変更はローカルに保存されました",
+  "saveLocallyModerationFailedBody": "ローカルの変更は保存されましたが、コンテンツモデレーションのため公開バージョンを更新できませんでした: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "モデレーションが失敗したがローカル保存が成功した場合に表示されるダイアログの本文",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "不適切な言語"
+      }
+    }
+  },
+  "recipeUpdateFailedFetch": "更新されたレシピデータの取得に失敗しました。",
+  "recipeImportSuccess": "レシピが正常にインポートされました！",
+  "recipeImportFailedSave": "インポートされたレシピの保存に失敗しました。",
+  "recipeImportFailedFetch": "インポート用のレシピデータの取得に失敗しました。",
+  "recipeNotImported": "レシピはインポートされませんでした。",
+  "recipeNotFoundCloud": "レシピがクラウドで見つからないか、公開されていません。",
+  "recipeLoadErrorGeneric": "レシピの読み込み中にエラーが発生しました。",
+  "editImportedRecipeTitle": "インポートされたレシピを編集",
+  "editImportedRecipeBody": "これはインポートされたレシピです。編集すると、新しい独立したコピーが作成されます。続行しますか？",
+  "editImportedRecipeButtonCopy": "コピーを作成して編集",
+  "editImportedRecipeButtonCancel": "キャンセル",
+  "editDisplayNameTitle": "表示名を編集",
+  "displayNameHint": "表示名を入力してください",
+  "displayNameEmptyError": "表示名は空にできません",
+  "displayNameTooLongError": "表示名は50文字を超えることはできません",
+  "errorUserNotLoggedIn": "ユーザーがログインしていません。再度サインインしてください。",
+  "displayNameUpdateSuccess": "表示名が正常に更新されました！",
+  "displayNameUpdateError": "表示名の更新に失敗しました: {error}",
+  "@displayNameUpdateError": {
+    "description": "表示名の更新に失敗した場合のエラーメッセージ",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "ネットワークエラー"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "画像を削除しますか？",
+  "deletePictureConfirmationBody": "プロフィール画像を削除してもよろしいですか？",
+  "deletePictureSuccess": "プロフィール画像が削除されました。",
+  "deletePictureError": "プロフィール画像の削除に失敗しました: {error}",
+  "@deletePictureError": {
+    "description": "プロフィール画像の削除に失敗した場合のエラーメッセージ",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "ストレージエラー"
+      }
+    }
+  },
+  "updatePictureError": "プロフィール画像の更新に失敗しました: {error}",
+  "@updatePictureError": {
+    "description": "プロフィール画像の更新に失敗した場合のエラーメッセージ",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "アップロードエラー"
+      }
+    }
+  },
+  "updatePictureSuccess": "プロフィール画像が正常に更新されました！",
+  "deletePictureTooltip": "画像を削除",
+  "account": "アカウント"
 }

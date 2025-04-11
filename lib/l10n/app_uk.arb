@@ -233,5 +233,254 @@
   "labelUsedBrewingMethods": "Використано",
   "formattedRoasterCount": "{count} {count, plural, one {# обсмажувальник} few {# обсмажувальники} many {# обсмажувальників} other{# обсмажувальникa}}",
   "formattedCountryCount": "{count} {count, plural, one {# країна} few {# країни} many {# країн} other{# країни}}",
-  "formattedBrewingMethodCount": "{count} {count, plural, one {# спосіб заварювання} few {# способи заварювання} many {# способів заварювання} other{# способу заварювання}}"
+  "formattedBrewingMethodCount": "{count} {count, plural, one {# спосіб заварювання} few {# способи заварювання} many {# способів заварювання} other{# способу заварювання}}",
+  "recipeCreationScreenEditRecipeTitle": "Редагувати рецепт",
+  "recipeCreationScreenCreateRecipeTitle": "Створити рецепт",
+  "recipeCreationScreenRecipeStepsTitle": "Кроки рецепту",
+  "recipeCreationScreenRecipeNameLabel": "Назва рецепту",
+  "recipeCreationScreenShortDescriptionLabel": "Короткий опис",
+  "recipeCreationScreenBrewingMethodLabel": "Метод заварювання",
+  "recipeCreationScreenCoffeeAmountLabel": "Кількість кави (г)",
+  "recipeCreationScreenWaterAmountLabel": "Кількість води (мл)",
+  "recipeCreationScreenWaterTempLabel": "Температура води (°C)",
+  "recipeCreationScreenGrindSizeLabel": "Розмір помелу",
+  "recipeCreationScreenTotalBrewTimeLabel": "Загальний час заварювання:",
+  "recipeCreationScreenMinutesLabel": "Хвилини",
+  "recipeCreationScreenSecondsLabel": "Секунди",
+  "recipeCreationScreenPreparationStepTitle": "Крок підготовки",
+  "recipeCreationScreenBrewStepTitle": "Крок заварювання {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "Заголовок для кроку заварювання на екрані створення рецепту",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "Опис кроку",
+  "recipeCreationScreenStepTimeLabel": "Час кроку: ",
+  "recipeCreationScreenRecipeNameValidator": "Введіть назву рецепту",
+  "recipeCreationScreenShortDescriptionValidator": "Введіть короткий опис",
+  "recipeCreationScreenBrewingMethodValidator": "Виберіть метод заварювання",
+  "recipeCreationScreenRequiredValidator": "Обов'язково",
+  "recipeCreationScreenInvalidNumberValidator": "Недійсний номер",
+  "recipeCreationScreenStepDescriptionValidator": "Введіть опис кроку",
+  "recipeCreationScreenContinueButton": "Перейти до кроків рецепту",
+  "recipeCreationScreenAddStepButton": "Додати крок",
+  "recipeCreationScreenSaveRecipeButton": "Зберегти рецепт",
+  "recipeCreationScreenUpdateSuccess": "Рецепт успішно оновлено",
+  "recipeCreationScreenSaveSuccess": "Рецепт успішно збережено",
+  "recipeCreationScreenSaveError": "Помилка збереження рецепту: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "Повідомлення про помилку при невдалому збереженні рецепту",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Помилка бази даних"
+      }
+    }
+  },
+  "unitGramsShort": "г",
+  "unitMillilitersShort": "мл",
+  "unitGramsLong": "грами",
+  "unitMillilitersLong": "мілілітри",
+  "recipeCopySuccess": "Рецепт успішно скопійовано!",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "Помилка копіювання рецепту: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "Створити рецепт",
+  "errorSyncingData": "Помилка синхронізації даних: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "errorSigningOut": "Помилка виходу: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "defaultPreparationStepDescription": "Підготовка",
+  "loadingEllipsis": "Завантаження...",
+  "recipeDeletedSuccess": "Рецепт успішно видалено",
+  "recipeDeleteError": "Не вдалося видалити рецепт: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "noRecipesFound": "Рецепти не знайдено",
+  "recipeLoadError": "Не вдалося завантажити рецепт: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "unknownBrewingMethod": "Невідомий метод заварювання",
+  "recipeCopyErrorLoadingEdit": "Не вдалося завантажити скопійований рецепт для редагування.",
+  "recipeCopyErrorOperationFailed": "Операція не вдалася.",
+  "notProvided": "Не надано",
+  "recipeUpdateAvailableTitle": "Доступне оновлення",
+  "recipeUpdateAvailableBody": "Нова версія '{recipeName}' доступна онлайн. Оновити?",
+  "@recipeUpdateAvailableBody": {
+    "description": "Текст для вікна підтвердження оновлення",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Мій чудовий рецепт"
+      }
+    }
+  },
+  "dialogCancel": "Скасувати",
+  "dialogUpdate": "Оновити",
+  "recipeImportTitle": "Імпортувати рецепт",
+  "recipeImportBody": "Ви хочете імпортувати рецепт '{recipeName}' з хмари?",
+  "@recipeImportBody": {
+    "description": "Текст для вікна підтвердження імпорту",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Спільний рецепт"
+      }
+    }
+  },
+  "dialogImport": "Імпортувати",
+  "moderationReviewNeededTitle": "Потрібна перевірка модератором",
+  "moderationReviewNeededMessage": "Наступний(і) рецепт(и) потребує(ють) перевірки через проблеми з модерацією контенту: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "Повідомлення, що відображається, коли рецепти потребують перевірки модератором",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'Мій рецепт', 'Інший рецепт'"
+      }
+    }
+  },
+  "dismiss": "Відхилити",
+  "reviewRecipeButton": "Переглянути рецепт",
+  "signInRequiredTitle": "Потрібен вхід",
+  "signInRequiredBodyShare": "Вам потрібно увійти, щоб ділитися власними рецептами.",
+  "syncSuccess": "Синхронізація успішна!",
+  "tooltipEditRecipe": "Редагувати рецепт",
+  "tooltipCopyRecipe": "Копіювати рецепт",
+  "tooltipShareRecipe": "Поділитися рецептом",
+  "signInRequiredSnackbar": "Потрібен вхід",
+  "moderationErrorFunction": "Перевірка модерації контенту не вдалася.",
+  "moderationReasonDefault": "Контент позначено для перевірки.",
+  "moderationFailedTitle": "Модерація не вдалася",
+  "moderationFailedBody": "Цей рецепт не може бути опублікований, оскільки: {reason}",
+  "@moderationFailedBody": {
+    "description": "Текст діалогового вікна, що відображається при невдалій модерації контенту",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Неприйнятна мова"
+      }
+    }
+  },
+  "shareErrorGeneric": "Помилка при публікації рецепту: {error}",
+  "@shareErrorGeneric": {
+    "description": "Загальне повідомлення про помилку, що відображається при невдалому процесі публікації",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Помилка мережі"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} на Timer.Coffee",
+  "@recipeDetailWebTitle": {
+    "description": "Формат заголовка веб-сторінки для сторінки деталей рецепту",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Мій чудовий V60"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "Не вдалося перевірити статус контенту. Збережено локально, буде перевірено при наступній синхронізації.",
+  "saveLocallyModerationFailedTitle": "Зміни збережено локально",
+  "saveLocallyModerationFailedBody": "Ваші локальні зміни збережено, але публічна версія не може бути оновлена через модерацію контенту: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "Текст діалогового вікна, що відображається при невдалій модерації, але успішному локальному збереженні",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Неприйнятна мова"
+      }
+    }
+  },
+  "recipeUpdateFailedFetch": "Не вдалося отримати оновлені дані рецепту.",
+  "recipeImportSuccess": "Рецепт успішно імпортовано!",
+  "recipeImportFailedSave": "Не вдалося зберегти імпортований рецепт.",
+  "recipeImportFailedFetch": "Не вдалося отримати дані рецепту для імпорту.",
+  "recipeNotImported": "Рецепт не імпортовано.",
+  "recipeNotFoundCloud": "Рецепт не знайдено в хмарі або він не є публічним.",
+  "recipeLoadErrorGeneric": "Помилка завантаження рецепту.",
+  "editImportedRecipeTitle": "Редагувати імпортований рецепт",
+  "editImportedRecipeBody": "Це імпортований рецепт. Редагування створить нову, незалежну копію. Продовжити?",
+  "editImportedRecipeButtonCopy": "Створити копію та редагувати",
+  "editImportedRecipeButtonCancel": "Скасувати",
+  "editDisplayNameTitle": "Редагувати ім'я для відображення",
+  "displayNameHint": "Введіть ваше ім'я для відображення",
+  "displayNameEmptyError": "Ім'я для відображення не може бути порожнім",
+  "displayNameTooLongError": "Ім'я для відображення не може перевищувати 50 символів",
+  "errorUserNotLoggedIn": "Користувач не увійшов до системи. Будь ласка, увійдіть знову.",
+  "displayNameUpdateSuccess": "Ім'я для відображення успішно оновлено!",
+  "displayNameUpdateError": "Не вдалося оновити ім'я для відображення: {error}",
+  "@displayNameUpdateError": {
+    "description": "Повідомлення про помилку при невдалому оновленні імені для відображення",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Помилка мережі"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "Видалити зображення?",
+  "deletePictureConfirmationBody": "Ви впевнені, що хочете видалити зображення профілю?",
+  "deletePictureSuccess": "Зображення профілю видалено.",
+  "deletePictureError": "Не вдалося видалити зображення профілю: {error}",
+  "@deletePictureError": {
+    "description": "Повідомлення про помилку при невдалому видаленні зображення профілю",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Помилка сховища"
+      }
+    }
+  },
+  "updatePictureError": "Не вдалося оновити зображення профілю: {error}",
+  "@updatePictureError": {
+    "description": "Повідомлення про помилку при невдалому оновленні зображення профілю",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Помилка завантаження"
+      }
+    }
+  },
+  "updatePictureSuccess": "Зображення профілю успішно оновлено!",
+  "deletePictureTooltip": "Видалити зображення",
+  "account": "Обліковий запис"
 }
