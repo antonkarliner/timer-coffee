@@ -7,6 +7,9 @@ assignees: ''
 
 ---
 
+**Before submitting a bug request**
+Try to reinstall the app, from the experience it solves 90% of problems.
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
