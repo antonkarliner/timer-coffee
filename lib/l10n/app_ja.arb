@@ -482,5 +482,6 @@
   },
   "updatePictureSuccess": "プロフィール画像が正常に更新されました！",
   "deletePictureTooltip": "画像を削除",
+  "settingsBrewingMethodsTitle": "ホーム画面の抽出方法",
   "account": "アカウント"
 }

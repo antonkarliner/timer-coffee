@@ -75,3 +75,9 @@ project_docs.txt
 *.json
 android/app/.cxx
 untranslated.txt
+memory-bank/activeContext.md
+memory-bank/productContext.md
+memory-bank/progress.md
+memory-bank/projectbrief.md
+memory-bank/systemPatterns.md
+memory-bank/techContext.md

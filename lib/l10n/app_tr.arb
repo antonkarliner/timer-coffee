@@ -482,5 +482,6 @@
   },
   "updatePictureSuccess": "Profil resmi başarıyla güncellendi!",
   "deletePictureTooltip": "Resmi Sil",
+  "settingsBrewingMethodsTitle": "Ana Ekran Demleme Yöntemleri",
   "account": "Hesap"
 }

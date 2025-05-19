@@ -365,10 +365,28 @@ class BrewingMethodsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
-    final brewingMethods = Provider.of<List<BrewingMethodModel>>(context);
-    final filteredBrewingMethods =
-        brewingMethods.where((method) => method.showOnMain).toList();
+    final allBrewingMethods = Provider.of<List<BrewingMethodModel>>(context);
     final l10n = AppLocalizations.of(context)!; // Get localizations
+
+    // Determine which brewing methods have recipes
+    final methodsWithRecipes = <String>{};
+    for (var recipe in recipeProvider.recipes) {
+      methodsWithRecipes.add(recipe.brewingMethodId);
+    }
+
+    // Get user preferences
+    final shownIds = recipeProvider.shownBrewingMethodIds.value;
+    final hiddenIds = recipeProvider.hiddenBrewingMethodIds.value;
+
+    final filteredBrewingMethods = allBrewingMethods.where((method) {
+      bool hasRecipes = methodsWithRecipes.contains(method.brewingMethodId);
+      bool isShownByUser = shownIds.contains(method.brewingMethodId);
+      bool isHiddenByUser = hiddenIds.contains(method.brewingMethodId);
+
+      if (isShownByUser) return true;
+      if (isHiddenByUser) return false;
+      return hasRecipes;
+    }).toList();
 
     // Calculate the bottom padding
     final bottomPadding =

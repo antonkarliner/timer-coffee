@@ -14,6 +14,10 @@ class RecipeProvider extends ChangeNotifier {
   List<RecipeModel> _recipes = [];
   final ValueNotifier<Set<String>> _favoriteRecipeIds =
       ValueNotifier<Set<String>>({});
+  final ValueNotifier<Set<String>> _shownBrewingMethodIds =
+      ValueNotifier<Set<String>>({});
+  final ValueNotifier<Set<String>> _hiddenBrewingMethodIds =
+      ValueNotifier<Set<String>>({});
   Locale _locale;
   List<Locale> _supportedLocales;
   final AppDatabase db;
@@ -28,12 +32,17 @@ class RecipeProvider extends ChangeNotifier {
 
   Future<void> _initialize() async {
     await _loadFavoriteRecipeIds();
+    await _loadBrewingMethodPreferences(); // Load brewing method preferences
     await fetchAllRecipes();
     _isDataLoaded = true;
     notifyListeners();
   }
 
   List<RecipeModel> get recipes => _recipes;
+  ValueNotifier<Set<String>> get shownBrewingMethodIds =>
+      _shownBrewingMethodIds;
+  ValueNotifier<Set<String>> get hiddenBrewingMethodIds =>
+      _hiddenBrewingMethodIds;
 
   Future<void> ensureDataReady() async {
     if (!_isDataLoaded) {
@@ -48,6 +57,37 @@ class RecipeProvider extends ChangeNotifier {
     List<String> favoriteRecipeIds =
         prefs.getStringList('favoriteRecipes') ?? [];
     _favoriteRecipeIds.value = Set.from(favoriteRecipeIds);
+  }
+
+  Future<void> _loadBrewingMethodPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> shownIds = prefs.getStringList('shownBrewingMethodIds') ?? [];
+    List<String> hiddenIds =
+        prefs.getStringList('hiddenBrewingMethodIds') ?? [];
+    _shownBrewingMethodIds.value = Set.from(shownIds);
+    _hiddenBrewingMethodIds.value = Set.from(hiddenIds);
+  }
+
+  Future<void> setUserBrewingMethodPreference(
+      String methodId, bool show) async {
+    final prefs = await SharedPreferences.getInstance();
+    Set<String> shownIds = Set.from(_shownBrewingMethodIds.value);
+    Set<String> hiddenIds = Set.from(_hiddenBrewingMethodIds.value);
+
+    if (show) {
+      shownIds.add(methodId);
+      hiddenIds.remove(methodId);
+    } else {
+      hiddenIds.add(methodId);
+      shownIds.remove(methodId);
+    }
+
+    await prefs.setStringList('shownBrewingMethodIds', shownIds.toList());
+    await prefs.setStringList('hiddenBrewingMethodIds', hiddenIds.toList());
+
+    _shownBrewingMethodIds.value = shownIds;
+    _hiddenBrewingMethodIds.value = hiddenIds;
+    notifyListeners();
   }
 
   Future<void> fetchAllRecipes() async {

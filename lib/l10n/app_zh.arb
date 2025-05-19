@@ -482,5 +482,6 @@
   },
   "updatePictureSuccess": "个人资料图片更新成功！",
   "deletePictureTooltip": "删除图片",
+  "settingsBrewingMethodsTitle": "主屏幕冲泡方法",
   "account": "账户"
 }

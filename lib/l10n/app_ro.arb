@@ -482,5 +482,6 @@
   },
   "updatePictureSuccess": "Poza de profil a fost actualizată cu succes!",
   "deletePictureTooltip": "Șterge Imaginea",
+  "settingsBrewingMethodsTitle": "Metode de preparare pe ecranul principal",
   "account": "Cont"
 }

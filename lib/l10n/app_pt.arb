@@ -482,5 +482,6 @@
   },
   "updatePictureSuccess": "Foto de perfil atualizada com sucesso!",
   "deletePictureTooltip": "Excluir Imagem",
+  "settingsBrewingMethodsTitle": "Métodos de preparo na tela inicial",
   "account": "Conta"
 }

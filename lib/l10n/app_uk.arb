@@ -482,5 +482,6 @@
   },
   "updatePictureSuccess": "Зображення профілю успішно оновлено!",
   "deletePictureTooltip": "Видалити зображення",
+  "settingsBrewingMethodsTitle": "Методи заварювання на головному екрані",
   "account": "Обліковий запис"
 }

@@ -482,5 +482,6 @@
   },
   "updatePictureSuccess": "Gambar profil berhasil diperbarui!",
   "deletePictureTooltip": "Hapus Gambar",
+  "settingsBrewingMethodsTitle": "Metode Penyeduhan Layar Beranda",
   "account": "Akun"
 }

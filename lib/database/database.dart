@@ -41,8 +41,6 @@ class BrewingMethods extends Table {
       text().named('brewing_method_id').withLength(min: 1, max: 255)();
   TextColumn get brewingMethod =>
       text().named('brewing_method').withLength(min: 1, max: 255)();
-  BoolColumn get showOnMain =>
-      boolean().named('show_on_main').withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {brewingMethodId};
@@ -283,7 +281,7 @@ class AppDatabase extends _$AppDatabase {
   factory AppDatabase.fromExecutor(QueryExecutor e) => AppDatabase(e);
 
   @override
-  int get schemaVersion => 23; // Incremented schema version
+  int get schemaVersion => 24; // Incremented schema version
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -307,7 +305,10 @@ class AppDatabase extends _$AppDatabase {
             },
             from3To4: (m, schema) async {
               await m.createTable(contributors);
-              await m.addColumn(brewingMethods, brewingMethods.showOnMain);
+              // The showOnMain column is being removed in schema v24,
+              // so this addColumn call from an older migration is no longer needed
+              // and would cause an error if the column definition doesn't exist in the schema object.
+              // await m.addColumn(brewingMethods, brewingMethods.showOnMain);
             },
             from4To5: (m, schema) async {
               await m.createTable(userStats);
@@ -689,6 +690,10 @@ class AppDatabase extends _$AppDatabase {
             },
             from22To23: (m, schema) async {
               await m.alterTable(TableMigration(schema.userStats));
+            },
+            from23To24: (m, schema) async {
+              // Migration for removing showOnMain from BrewingMethods.
+              await m.dropColumn(schema.brewingMethods, 'show_on_main');
             },
           )(m, oldVersion, newVersion);
         },

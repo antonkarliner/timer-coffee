@@ -482,5 +482,6 @@
       },
       "updatePictureSuccess": "Zdjęcie profilowe zaktualizowane pomyślnie!",
       "deletePictureTooltip": "Usuń zdjęcie",
-      "account": "Konto"
-    }
+  "settingsBrewingMethodsTitle": "Metody parzenia na ekranie głównym",
+  "account": "Konto"
+}

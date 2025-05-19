@@ -677,5 +677,6 @@
   },
   "updatePictureSuccess": "Profile picture updated successfully!",
   "deletePictureTooltip": "Delete Picture",
-  "account": "Account"
+  "account": "Account",
+  "settingsBrewingMethodsTitle": "Home Screen Brewing Methods"
 }

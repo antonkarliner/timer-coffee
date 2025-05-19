@@ -482,5 +482,6 @@
   },
   "updatePictureSuccess": "تم تحديث صورة الملف الشخصي بنجاح!",
   "deletePictureTooltip": "حذف الصورة",
+  "settingsBrewingMethodsTitle": "طرق التخمير على الشاشة الرئيسية",
   "account": "الحساب"
 }

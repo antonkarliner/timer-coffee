@@ -482,5 +482,6 @@
   },
   "updatePictureSuccess": "Profilbild erfolgreich aktualisiert!",
   "deletePictureTooltip": "Bild löschen",
+  "settingsBrewingMethodsTitle": "Startbildschirm Brühmethoden",
   "account": "Konto"
 }

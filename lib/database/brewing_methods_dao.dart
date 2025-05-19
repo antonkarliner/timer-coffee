@@ -15,7 +15,6 @@ class BrewingMethodsDao extends DatabaseAccessor<AppDatabase>
         .map((dbBrewingMethod) => BrewingMethodModel(
               brewingMethodId: dbBrewingMethod.brewingMethodId,
               brewingMethod: dbBrewingMethod.brewingMethod,
-              showOnMain: dbBrewingMethod.showOnMain, // Include the new field
             ))
         .toList();
   }

@@ -482,5 +482,6 @@
   },
   "updatePictureSuccess": "Photo de profil mise à jour avec succès !",
   "deletePictureTooltip": "Supprimer l'image",
+  "settingsBrewingMethodsTitle": "Méthodes d'infusion sur l'écran d'accueil",
   "account": "Compte"
 }

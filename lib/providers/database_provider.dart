@@ -89,8 +89,10 @@ class DatabaseProvider {
       {required bool isFirstLaunch}) async {
     try {
       // Define individual futures
-      final brewingMethodsFuture =
-          Supabase.instance.client.from('brewing_methods').select();
+      final brewingMethodsFuture = Supabase.instance.client
+          .from('brewing_methods')
+          .select(
+              'brewing_method_id,brewing_method'); // Removed show_on_main from select
       final supportedLocalesFuture =
           Supabase.instance.client.from('supported_locales').select();
 

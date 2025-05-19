@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../providers/recipe_provider.dart';
 import '../providers/theme_provider.dart';
+import '../models/brewing_method_model.dart'; // Added import
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -96,8 +97,58 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: _changeLocale,
             ),
           ),
+          _buildBrewingMethodsSettings(
+              context, recipeProvider), // Added section
           _buildAboutSection(context, snowEffectProvider),
         ],
+      ),
+    );
+  }
+
+  Widget _buildBrewingMethodsSettings(
+      BuildContext context, RecipeProvider recipeProvider) {
+    final allBrewingMethods =
+        Provider.of<List<BrewingMethodModel>>(context, listen: false);
+    final l10n = AppLocalizations.of(context)!;
+
+    final methodsWithRecipes = <String>{};
+    for (var recipe in recipeProvider.recipes) {
+      methodsWithRecipes.add(recipe.brewingMethodId);
+    }
+
+    final shownIds = recipeProvider.shownBrewingMethodIds.value;
+    final hiddenIds = recipeProvider.hiddenBrewingMethodIds.value;
+
+    return Semantics(
+      identifier: 'brewingMethodsSettingsExpansionTile',
+      child: ExpansionTile(
+        title: Text(l10n.settingsBrewingMethodsTitle), // Needs localization
+        children: allBrewingMethods.map((method) {
+          bool hasRecipes = methodsWithRecipes.contains(method.brewingMethodId);
+          bool isShownByUser = shownIds.contains(method.brewingMethodId);
+          bool isHiddenByUser = hiddenIds.contains(method.brewingMethodId);
+
+          bool switchValue;
+          if (isShownByUser) {
+            switchValue = true;
+          } else if (isHiddenByUser) {
+            switchValue = false;
+          } else {
+            switchValue = hasRecipes;
+          }
+
+          return SwitchListTile(
+            title: Text(method.brewingMethod),
+            value: switchValue,
+            onChanged: (bool value) {
+              recipeProvider.setUserBrewingMethodPreference(
+                  method.brewingMethodId, value);
+              // The RecipeProvider will notifyListeners, which should rebuild this part of the UI
+              // if SettingsScreen is listening or if a ValueListenableBuilder is used for shown/hidden IDs.
+              // For simplicity, we rely on the provider's notifyListeners.
+            },
+          );
+        }).toList(),
       ),
     );
   }

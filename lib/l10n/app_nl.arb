@@ -482,5 +482,6 @@
   },
   "updatePictureSuccess": "Profielfoto succesvol bijgewerkt!",
   "deletePictureTooltip": "Afbeelding verwijderen",
+  "settingsBrewingMethodsTitle": "Zetmethoden op het startscherm",
   "account": "Account"
 }
