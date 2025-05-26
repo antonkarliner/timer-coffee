@@ -70,6 +70,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     _steps = [
       // Preparation step (always present)
       BrewStepModel(
+        id: _uuid.v4(),
         order: 1,
         description:
             '', // Will be updated with localized string in _initializeLocalizedData
@@ -77,6 +78,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       ),
       // First brew step
       BrewStepModel(
+        id: _uuid.v4(),
         order: 2,
         description: '',
         time: const Duration(seconds: 30),
@@ -102,6 +104,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         // Convert expressions back to numeric values for better editing experience
         List<BrewStepModel> convertedSteps = widget.recipe!.steps.map((step) {
           return BrewStepModel(
+            id: step.id,
             order: step.order,
             description: _convertExpressionsToNumericValues(step.description),
             time: step.time,
@@ -139,6 +142,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     if (_steps.isNotEmpty) {
       setState(() {
         _steps[0] = BrewStepModel(
+          id: _steps[0].id,
           order: _steps[0].order,
           description: l10n.defaultPreparationStepDescription,
           time: _steps[0].time,
@@ -165,12 +169,9 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       if (!preselectedIdIsValid && methods.isNotEmpty) {
         _selectedBrewingMethodId = methods.first.brewingMethodId;
       } else if (methods.isEmpty) {
-        // Handle case where no brewing methods are loaded at all
         _selectedBrewingMethodId = null;
       }
-      // Otherwise, keep the valid pre-selected ID.
     });
-    // Re-validate the first page as the brewing method might have changed/been set.
     _validateFirstPage();
   }
 
@@ -197,14 +198,13 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     setState(() {
       _steps.add(
         BrewStepModel(
+          id: _uuid.v4(),
           order: _steps.length + 1,
           description: '',
           time: const Duration(seconds: 30),
         ),
       );
       _validateSecondPage();
-
-      // Scroll to the new card
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
@@ -217,17 +217,10 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
 
   void _removeStep(int index) {
     if (index > 0) {
-      // Don't remove preparation step
       setState(() {
         _steps.removeAt(index);
-
-        // Update order of remaining steps
         for (int i = 0; i < _steps.length; i++) {
-          _steps[i] = BrewStepModel(
-            order: i + 1,
-            description: _steps[i].description,
-            time: _steps[i].time,
-          );
+          _steps[i] = _steps[i].copyWith(order: i + 1);
         }
       });
       _validateSecondPage();
@@ -236,33 +229,22 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
 
   void _updateStepDescription(int index, String description) {
     setState(() {
-      _steps[index] = BrewStepModel(
-        order: _steps[index].order,
-        description: description,
-        time: _steps[index].time,
-      );
+      _steps[index] = _steps[index].copyWith(description: description);
     });
     _validateSecondPage();
   }
 
   void _updateStepTime(int index, Duration time) {
     setState(() {
-      _steps[index] = BrewStepModel(
-        order: _steps[index].order,
-        description: _steps[index].description,
-        time: time,
-      );
+      _steps[index] = _steps[index].copyWith(time: time);
     });
   }
 
-  // Determines the cleanest multiplier for a numeric value
   Map<String, dynamic> _getCleanestMultiplier(double value) {
     double coffeeMult = value / _coffeeAmount;
     double waterMult = value / _waterAmount;
-
     double coffeeCleanScore = _calculateCleanScore(coffeeMult);
     double waterCleanScore = _calculateCleanScore(waterMult);
-
     if (coffeeCleanScore > waterCleanScore) {
       return {
         'multiplier': coffeeMult,
@@ -278,14 +260,10 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     }
   }
 
-  // Calculates how "clean" a multiplier is (higher score = cleaner)
   double _calculateCleanScore(double number) {
-    // Check if it's a whole number or very close to one
     if ((number - number.round()).abs() < 0.01) {
       return 100 - (number - number.round()).abs() * 100;
     }
-
-    // Check if it's a simple fraction
     List<double> simpleRatios = [
       0.25,
       0.33,
@@ -305,49 +283,33 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         return 90 - (ratio - number).abs() * 100;
       }
     }
-
-    // Otherwise, score based on decimal places
     int decimalPlaces = number.toString().split('.').length > 1
         ? number.toString().split('.')[1].length
         : 0;
     return 80 - (decimalPlaces * 10);
   }
 
-  // Formats the multiplier to be readable
   String _formatMultiplier(double multiplier) {
-    // Format the multiplier to be readable, with minimal decimal places
     if ((multiplier - multiplier.round()).abs() < 0.01) {
       return multiplier.round().toString();
     }
-
-    // Otherwise return with minimal decimal places
     return multiplier.toStringAsFixed(2).replaceAll(RegExp(r'\.?0+$'), '');
   }
 
-  // Converts expressions back to numeric values for editing
   String _convertExpressionsToNumericValues(String description) {
-    // Match expressions like (2 x <final_coffee_amount>) or (0.5 x <final_water_amount>)
     final RegExp expressionRegex = RegExp(
         r'\((\d+(?:\.\d+)?)\s*x\s*<final_(?:coffee|water)_amount>\)(\w*)');
-
     return description.replaceAllMapped(expressionRegex, (match) {
-      // Extract the multiplier and unit (if any)
       String multiplierStr = match.group(1)!;
       String unit = match.group(2) ?? '';
-
       double multiplier = double.tryParse(multiplierStr) ?? 0;
-
-      // Calculate the actual value based on the type
       String placeholder = match.group(0)!;
       double value;
-
       if (placeholder.contains('<final_coffee_amount>')) {
         value = multiplier * _coffeeAmount;
       } else {
         value = multiplier * _waterAmount;
       }
-
-      // Format the value with appropriate precision
       String formattedValue;
       if (value == value.roundToDouble()) {
         formattedValue = value.round().toString();
@@ -355,138 +317,90 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         formattedValue =
             value.toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '');
       }
-
-      // Return the numeric value with the unit
       return '$formattedValue$unit';
     });
   }
 
-  // Converts numeric values in step descriptions to expressions
   String _convertNumericValuesToExpressions(String description) {
-    // Patterns to explicitly exclude from conversion
     final RegExp excludeRegex = RegExp(
         r'\b\d+\s*(?:-|to)\s*\d+\s*times\b|\b\d+\s*times\b|\b\d+\s*(?:seconds?|minutes?|mins?)\b');
-
-    // First check if the description contains any exclude patterns
     if (excludeRegex.hasMatch(description)) {
-      // Process the description in parts to avoid converting excluded patterns
       List<String> parts = [];
       int lastEnd = 0;
-
       for (var match in excludeRegex.allMatches(description)) {
-        // Add the part before the excluded pattern (processed)
         if (match.start > lastEnd) {
           parts.add(
               _processTextPart(description.substring(lastEnd, match.start)));
         }
-
-        // Add the excluded pattern unchanged
         parts.add(description.substring(match.start, match.end));
         lastEnd = match.end;
       }
-
-      // Add any remaining text (processed)
       if (lastEnd < description.length) {
         parts.add(_processTextPart(description.substring(lastEnd)));
       }
-
       return parts.join('');
     } else {
-      // No excluded patterns, process normally
       return _processTextPart(description);
     }
   }
 
-  // Process a part of text to convert measurements to expressions
   String _processTextPart(String text) {
-    final l10n = AppLocalizations.of(context)!; // Get localizations
-
-    // Build the regex dynamically using localized units
+    final l10n = AppLocalizations.of(context)!;
     final String unitsPattern = [
       l10n.unitGramsShort,
       l10n.unitMillilitersShort,
       l10n.unitGramsLong,
       l10n.unitMillilitersLong,
     ].map((unit) => RegExp.escape(unit)).join('|');
-
-    // Match numbers that are likely measurements:
-    // 1. Numbers followed by localized units
-    // 2. Numbers above threshold (10) that are likely measurements
     final RegExp measurementWithUnitsRegex =
         RegExp(r'\b(\d+(?:\.\d+)?)\s*(' + unitsPattern + r')\b');
-
     final RegExp largeNumberRegex = RegExp(r'\b(\d{2,}(?:\.\d+)?)\b');
-
-    // First handle numbers with units to preserve the units
     String processedText =
         text.replaceAllMapped(measurementWithUnitsRegex, (match) {
       String numStr = match.group(1)!;
       String unit = match.group(2)!;
-
       double value = double.tryParse(numStr) ?? 0;
-
-      // Skip very small values or zero
       if (value < 0.1) return match.group(0)!;
-
-      // Get the cleanest multiplier
       final multiplierInfo = _getCleanestMultiplier(value);
-
-      // Create the expression with preserved unit
       final String placeholder = multiplierInfo['type'] == 'coffee'
           ? '<final_coffee_amount>'
           : '<final_water_amount>';
-
       return '(${multiplierInfo['formatted']} x $placeholder)$unit';
     });
-
-    // Then handle large numbers without units
     return processedText.replaceAllMapped(largeNumberRegex, (match) {
       String numStr = match.group(1)!;
       double value = double.tryParse(numStr) ?? 0;
-
-      // Skip very small values or zero
       if (value < 0.1) return match.group(0)!;
-
-      // Skip numbers below threshold (10)
       if (value < 10) {
         return match.group(0)!;
       }
-
-      // Get the cleanest multiplier
       final multiplierInfo = _getCleanestMultiplier(value);
-
-      // Create the expression
       final String placeholder = multiplierInfo['type'] == 'coffee'
           ? '<final_coffee_amount>'
           : '<final_water_amount>';
-
       return '(${multiplierInfo['formatted']} x $placeholder)';
     });
   }
 
-  // Process steps to convert numeric values to expressions
   List<BrewStepModel> _processStepsForSaving(List<BrewStepModel> steps) {
     return steps.map((step) {
-      // Convert numeric values in the description to expressions
       String processedDescription =
           _convertNumericValuesToExpressions(step.description);
-
-      // Return a new step with the processed description
-      return BrewStepModel(
-        order: step.order,
-        description: processedDescription,
-        time: step.time,
-        timePlaceholder: step.timePlaceholder,
-      );
+      return step.copyWith(description: processedDescription);
     }).toList();
   }
 
   Future<void> _saveRecipe() async {
     if (!_isFirstPageValid || !_isSecondPageValid || _isSaving) {
-      return; // Prevent double saves or saving invalid data
+      return;
+    }
+    // Instead of sorting _steps, trust the existing UI order.
+    // Update the order based on list index to reflect UI order
+    for (int i = 0; i < _steps.length; i++) {
+      _steps[i] = _steps[i].copyWith(order: i + 1);
     }
 
-    setState(() => _isSaving = true); // Set saving flag
+    setState(() => _isSaving = true);
 
     final l10n = AppLocalizations.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
@@ -505,14 +419,12 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     final processedSteps = _processStepsForSaving(_steps);
 
     try {
-      // --- Determine if updating or creating ---
       final bool isUpdating =
           widget.recipe != null && widget.recipe!.id != null;
       final String recipeId = isUpdating
           ? widget.recipe!.id!
-          : 'usr-${currentUser?.id ?? 'anonymous'}-${DateTime.now().millisecondsSinceEpoch}'; // Generate new ID if creating
+          : 'usr-${currentUser?.id ?? 'anonymous'}-${DateTime.now().millisecondsSinceEpoch}';
 
-      // --- Prepare RecipeModel data ---
       final recipeData = RecipeModel(
         id: recipeId,
         name: _recipeNameController.text,
@@ -526,18 +438,15 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         steps: processedSteps,
         vendorId: isUpdating
             ? widget.recipe!.vendorId
-            : 'usr-${currentUser?.id ?? 'anonymous'}', // Set vendor ID for new recipes
+            : 'usr-${currentUser?.id ?? 'anonymous'}',
         importId: isUpdating ? widget.recipe!.importId : null,
         isImported: isUpdating ? widget.recipe!.isImported : false,
-        // isFavorite and other preference fields are handled separately
       );
 
-      // --- Moderation Check (Only for UPDATING public user recipes) ---
       bool requiresModeration = false;
-      bool moderationPassed = true; // Assume pass unless check runs and fails
-      bool supabaseCheckFailed = false; // Flag for timeout/offline
-      String moderationFailureReason =
-          "Content flagged for review."; // Default reason
+      bool moderationPassed = true;
+      bool supabaseCheckFailed = false;
+      String moderationFailureReason = "Content flagged for review.";
 
       if (isUpdating &&
           recipeId.startsWith('usr-') &&
@@ -550,13 +459,12 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
               .select('ispublic')
               .eq('id', recipeId)
               .maybeSingle()
-              .timeout(const Duration(seconds: 2)); // Short timeout
+              .timeout(const Duration(seconds: 2));
 
           if (response != null && response['ispublic'] == true) {
             print("Recipe $recipeId is public. Moderation check required.");
             requiresModeration = true;
 
-            // Prepare text for moderation
             String combinedText = "";
             combinedText += "${recipeData.name}\n";
             combinedText += "${recipeData.shortDescription}\n";
@@ -568,7 +476,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
 
             if (combinedText.isEmpty) {
               print("Warning: No text content found for moderation.");
-              moderationPassed = true; // No text, passes automatically
+              moderationPassed = true;
             } else {
               print(
                   "Calling content moderation for recipe $recipeId update...");
@@ -577,25 +485,22 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
                     await Supabase.instance.client.functions.invoke(
                   'content-moderation-gemini',
                   body: {'text': combinedText},
-                ).timeout(const Duration(
-                        seconds: 5)); // Longer timeout for function
+                ).timeout(const Duration(seconds: 5));
 
                 if (moderationResponse.status != 200 ||
                     moderationResponse.data == null) {
                   print(
                       "Moderation Error (Function Call): Recipe $recipeId. Status: ${moderationResponse.status}");
                   moderationPassed = false;
-                  // Don't show error yet, just save locally
                 } else {
                   final moderationResult =
                       moderationResponse.data as Map<String, dynamic>;
                   if (moderationResult['safe'] != true) {
                     moderationFailureReason = moderationResult['reason'] ??
-                        "Content flagged for review."; // Capture the reason
+                        "Content flagged for review.";
                     print(
                         "Moderation Failed (Content Flagged): Recipe $recipeId. Reason: $moderationFailureReason");
                     moderationPassed = false;
-                    // Show informational dialog AFTER local save
                   } else {
                     print("Moderation Passed: Recipe $recipeId");
                     moderationPassed = true;
@@ -604,13 +509,11 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
               } on TimeoutException {
                 print("Moderation check timed out for recipe $recipeId.");
                 supabaseCheckFailed = true;
-                moderationPassed =
-                    false; // Treat timeout as needing deferred check
+                moderationPassed = false;
               } catch (e) {
                 print("Moderation check failed with error: $e");
                 supabaseCheckFailed = true;
-                moderationPassed =
-                    false; // Treat error as needing deferred check
+                moderationPassed = false;
               }
             }
           } else {
@@ -621,17 +524,16 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         } on TimeoutException {
           print("Checking public status timed out for recipe $recipeId.");
           supabaseCheckFailed = true;
-          moderationPassed = false; // Assume moderation needed later
-          requiresModeration = true; // Assume it might have been public
+          moderationPassed = false;
+          requiresModeration = true;
         } catch (e) {
           print("Error checking public status for recipe $recipeId: $e");
           supabaseCheckFailed = true;
-          moderationPassed = false; // Assume moderation needed later
-          requiresModeration = true; // Assume it might have been public
+          moderationPassed = false;
+          requiresModeration = true;
         }
       }
 
-      // --- Save Locally (Always happens first) ---
       print("Saving recipe locally: $recipeId");
       if (isUpdating) {
         await userRecipeProvider.updateUserRecipe(recipeData);
@@ -640,24 +542,19 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       }
       print("Local save complete for recipe: $recipeId");
 
-      // --- Clear Moderation Flag if Applicable ---
-      // If moderation was required and passed, clear the local flag.
       if (requiresModeration && moderationPassed && !supabaseCheckFailed) {
         print("Clearing needs_moderation_review flag for $recipeId");
-        // Use the dedicated method from DatabaseProvider
         await dbProvider.clearNeedsModerationReview(recipeId);
       }
 
-      // --- Show Informational Dialog ONLY if Moderation Failed Immediately ---
       if (requiresModeration && !moderationPassed && !supabaseCheckFailed) {
-        // Use the captured reason
         if (mounted) {
           await showDialog(
             context: context,
             builder: (context) => AlertDialog(
               title: Text(l10n.saveLocallyModerationFailedTitle),
-              content: Text(l10n.saveLocallyModerationFailedBody(
-                  moderationFailureReason)), // Use the captured reason here
+              content: Text(l10n
+                  .saveLocallyModerationFailedBody(moderationFailureReason)),
               actions: [
                 TextButton(
                     onPressed: () => Navigator.pop(context),
@@ -666,55 +563,44 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
             ),
           );
         }
-      }
-      // --- Show Timeout/Offline Snackbar ---
-      else if (supabaseCheckFailed) {
+      } else if (supabaseCheckFailed) {
         if (mounted) {
           scaffoldMessenger.showSnackBar(
               SnackBar(content: Text(l10n.saveLocallyCheckLater)));
         }
       }
 
-      // --- Sync to Supabase immediately if user is not anonymous ---
       if (currentUser != null && !currentUser.isAnonymous) {
         print("Syncing recipe to Supabase immediately: $recipeId");
         try {
-          // Use the public wrapper method with a timeout to improve UX
           await dbProvider
               .syncUserRecipes(currentUser.id)
               .timeout(const Duration(seconds: 2), onTimeout: () {
             print("Immediate sync timed out, will sync on next app start");
             return;
           });
-
           print("Immediate sync completed for recipe: $recipeId");
         } catch (e) {
           print("Error during immediate sync: $e");
-          // Don't show error to user, it will sync on next app start
         }
       }
 
-      // --- Post-Save Navigation and Feedback ---
       if (mounted) {
         print("Navigating after save for recipe: $recipeId");
         if (isUpdating) {
-          // If updating, just pop back to the previous screen (detail or list)
           if (context.router.canPop()) {
             context.router.pop();
           } else {
-            // Fallback if somehow we can't pop while updating (shouldn't happen often)
             context.router.replace(RecipeDetailRoute(
                 brewingMethodId: recipeData.brewingMethodId,
                 recipeId: recipeData.id!));
           }
         } else {
-          // If creating, always replace the current screen with the new recipe's detail screen
           context.router.replace(RecipeDetailRoute(
               brewingMethodId: recipeData.brewingMethodId,
               recipeId: recipeData.id!));
         }
 
-        // Show generic success message (covers both create and update)
         scaffoldMessenger.showSnackBar(
           SnackBar(
               content: Text(isUpdating
@@ -722,7 +608,6 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
                   : l10n.recipeCreationScreenSaveSuccess)),
         );
 
-        // Refresh provider state to reflect local changes
         await recipeProvider.fetchAllRecipes();
       }
     } catch (e) {
@@ -735,7 +620,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       }
     } finally {
       if (mounted) {
-        setState(() => _isSaving = false); // Reset saving flag
+        setState(() => _isSaving = false);
       }
     }
   }
@@ -755,14 +640,11 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     return Scaffold(
       appBar: AppBar(
         title: Row(
-          // Wrap title in a Row
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(_currentPage == 0
-                ? Icons.edit
-                : Icons.format_list_numbered), // Add icon based on page
-            const SizedBox(width: 8), // Add spacing
-            Text(_currentPage == 0 // Keep original text logic
+            Icon(_currentPage == 0 ? Icons.edit : Icons.format_list_numbered),
+            const SizedBox(width: 8),
+            Text(_currentPage == 0
                 ? (widget.recipe != null
                     ? l10n.recipeCreationScreenEditRecipeTitle
                     : l10n.recipeCreationScreenCreateRecipeTitle)
@@ -780,6 +662,14 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
                 },
               )
             : null,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.keyboard_hide),
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+            },
+          ),
+        ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -803,7 +693,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
   }
 
   Widget _buildFirstPage() {
-    final l10n = AppLocalizations.of(context)!; // Define l10n here
+    final l10n = AppLocalizations.of(context)!;
     return SingleChildScrollView(
       key: const PageStorageKey('recipeCreationFirstPage'),
       padding: const EdgeInsets.all(16.0),
@@ -1088,29 +978,26 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
                 if (oldIndex < newIndex) {
                   newIndex -= 1;
                 }
+                if (newIndex == 0) {
+                  newIndex = 1;
+                }
                 setState(() {
                   final BrewStepModel item = _steps.removeAt(oldIndex);
                   _steps.insert(newIndex, item);
-
-                  // Update order of all steps
                   for (int i = 0; i < _steps.length; i++) {
-                    _steps[i] = BrewStepModel(
-                      order: i + 1,
-                      description: _steps[i].description,
-                      time: _steps[i].time,
-                    );
+                    _steps[i] = _steps[i].copyWith(order: i + 1);
                   }
                 });
               },
               itemBuilder: (BuildContext context, int index) {
                 final step = _steps[index];
                 final isPreparationStep = index == 0;
-
                 return StepCard(
-                  key: ValueKey<int>(step.order),
+                  key: ValueKey(step.id),
                   step: step,
                   isPreparationStep: isPreparationStep,
-                  l10n: l10n, // Pass l10n
+                  l10n: l10n,
+                  displayIndex: index.toString(),
                   onDescriptionChanged: (value) =>
                       _updateStepDescription(index, value),
                   onTimeChanged: isPreparationStep
@@ -1138,7 +1025,6 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
                     label: Text(l10n.recipeCreationScreenAddStepButton),
                     onPressed: () {
                       _addStep();
-                      // Scroll to the new card
                       WidgetsBinding.instance.addPostFrameCallback((_) {
                         if (_steps.isNotEmpty) {
                           _scrollController.animateTo(
@@ -1167,12 +1053,10 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 15),
                     ),
-                    // Disable button while saving
                     onPressed:
                         (_isSecondPageValid && !_isSaving) ? _saveRecipe : null,
                     child: _isSaving
                         ? SizedBox(
-                            // Show progress indicator when saving
                             width: 24,
                             height: 24,
                             child: CircularProgressIndicator(
@@ -1197,7 +1081,8 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
 class StepCard extends StatelessWidget {
   final BrewStepModel step;
   final bool isPreparationStep;
-  final AppLocalizations l10n; // Add l10n
+  final AppLocalizations l10n;
+  final String displayIndex;
   final Function(String) onDescriptionChanged;
   final Function(Duration)? onTimeChanged;
   final VoidCallback? onDelete;
@@ -1206,7 +1091,8 @@ class StepCard extends StatelessWidget {
     Key? key,
     required this.step,
     required this.isPreparationStep,
-    required this.l10n, // Require l10n
+    required this.l10n,
+    required this.displayIndex,
     required this.onDescriptionChanged,
     this.onTimeChanged,
     this.onDelete,
@@ -1236,8 +1122,7 @@ class StepCard extends StatelessWidget {
                         ),
                       )
                     : Text(
-                        l10n.recipeCreationScreenBrewStepTitle(
-                            (step.order - 1).toString()),
+                        l10n.recipeCreationScreenBrewStepTitle(displayIndex),
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                 const Spacer(),

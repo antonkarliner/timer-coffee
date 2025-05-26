@@ -174,16 +174,6 @@ extension LaunchPopupsCompanionExtension on LaunchPopupsCompanion {
   }
 }
 
-extension ContributorsCompanionExtension on ContributorsCompanion {
-  static ContributorsCompanion fromJson(Map<String, dynamic> json) {
-    return ContributorsCompanion(
-      id: Value(json['id']),
-      content: Value(json['content']),
-      locale: Value(json['locale']),
-    );
-  }
-}
-
 extension UserRecipePreferencesCompanionExtension
     on UserRecipePreferencesCompanion {
   static UserRecipePreferencesCompanion fromJson(Map<String, dynamic> json) {

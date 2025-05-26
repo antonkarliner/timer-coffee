@@ -714,31 +714,22 @@ class DatabaseProvider {
           Supabase.instance.client.from('coffee_facts').select();
       final launchPopupFuture =
           Supabase.instance.client.from('launch_popup').select();
-      final contributorsFuture =
-          Supabase.instance.client.from('contributors').select();
-
-      // Apply timeouts if it's not the first launch
       final coffeeFactsRequest = isFirstLaunch
           ? coffeeFactsFuture
           : coffeeFactsFuture.timeout(const Duration(seconds: 5));
       final launchPopupRequest = isFirstLaunch
           ? launchPopupFuture
           : launchPopupFuture.timeout(const Duration(seconds: 5));
-      final contributorsRequest = isFirstLaunch
-          ? contributorsFuture
-          : contributorsFuture.timeout(const Duration(seconds: 5));
 
       // Run all requests in parallel
       final responses = await Future.wait([
         coffeeFactsRequest,
         launchPopupRequest,
-        contributorsRequest,
       ]);
 
       // Process the responses
       final coffeeFactsResponse = responses[0] as List<dynamic>;
       final launchPopupResponse = responses[1] as List<dynamic>;
-      final contributorsResponse = responses[2] as List<dynamic>;
 
       final coffeeFacts = coffeeFactsResponse
           .map((json) => CoffeeFactsCompanionExtension.fromJson(json))
@@ -746,15 +737,11 @@ class DatabaseProvider {
       final launchPopups = launchPopupResponse
           .map((json) => LaunchPopupsCompanionExtension.fromJson(json))
           .toList();
-      final contributors = contributorsResponse
-          .map((json) => ContributorsCompanionExtension.fromJson(json))
-          .toList();
 
       await _db.transaction(() async {
         await _db.batch((batch) {
           batch.insertAllOnConflictUpdate(_db.coffeeFacts, coffeeFacts);
           batch.insertAllOnConflictUpdate(_db.launchPopups, launchPopups);
-          batch.insertAllOnConflictUpdate(_db.contributors, contributors);
         });
       });
     } catch (error) {

@@ -121,10 +121,15 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
     // Replace placeholders in the description
     RegExp exp = RegExp(r'<([\w_]+)>');
     String replacedText = description.replaceAllMapped(exp, (match) {
-      String variable = match.group(1)!;
-      return allValues.containsKey(variable)
-          ? allValues[variable]!.toStringAsFixed(2)
-          : match.group(0)!;
+      String variable = match.group(1)!.toLowerCase(); // Convert to lowercase
+      if (allValues.containsKey(variable)) {
+        return allValues[variable]!.toStringAsFixed(2);
+      } else {
+        // Using print for simple logging as seen elsewhere in the project
+        print(
+            "Warning: Unrecognized placeholder '${match.group(0)}' in step description. Raw description: '$description'");
+        return match.group(0)!; // Keep original placeholder
+      }
     });
 
     // Handle mathematical expressions like (multiplier x value)
@@ -225,6 +230,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
           );
 
           return BrewStepModel(
+            id: step.id,
             order: step.order,
             description: description,
             time: stepDuration,

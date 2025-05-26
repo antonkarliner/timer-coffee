@@ -93,6 +93,7 @@ class _PreparationScreenState extends State<PreparationScreen> {
         .where((step) => step.order == 1 && step.time.inSeconds == 0)
         .map((step) {
       return BrewStepModel(
+        id: step.id,
         order: step.order,
         description: replacePlaceholders(
             step.description,

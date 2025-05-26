@@ -1301,15 +1301,33 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       } // --- End of User Recipe Sharing Logic ---
 
       // --- Actual Sharing ---
-      final RenderBox box = context.findRenderObject() as RenderBox;
-      final Rect rect = box.localToGlobal(Offset.zero) & box.size;
-      final String textToShare =
-          'https://app.timer.coffee/recipes/${_updatedRecipe!.brewingMethodId}/$shareRecipeId'; // Use the initial ID always for the URL
+      // Improved sharePositionOrigin calculation for iPad support
+      final RenderBox? box = context.findRenderObject() as RenderBox?;
+      Rect shareOrigin;
+      if (box == null) {
+        // Fallback to full screen rect
+        final Size screenSize = MediaQuery.of(context).size;
+        shareOrigin = Rect.fromLTWH(0, 0, screenSize.width, screenSize.height);
+      } else if (defaultTargetPlatform == TargetPlatform.iOS &&
+          MediaQuery.of(context).size.shortestSide >= 768) {
+        // Likely an iPad, center the share dialog on screen
+        final Size screenSize = MediaQuery.of(context).size;
+        final Offset center =
+            Offset(screenSize.width / 2, screenSize.height / 2);
+        shareOrigin = Rect.fromCenter(center: center, width: 1, height: 1);
+      } else {
+        // Default behavior using widget's bounding box
+        shareOrigin = box.localToGlobal(Offset.zero) & box.size;
+      }
 
-      await Share.share(
-        textToShare,
-        subject: '${l10n.sharemsg} ${_updatedRecipe!.name}',
-        sharePositionOrigin: rect,
+      final String textToShare =
+          'https://app.timer.coffee/recipes/${_updatedRecipe!.brewingMethodId}/$shareRecipeId';
+
+      await SharePlus.instance.share(
+        ShareParams(
+          text: textToShare,
+          sharePositionOrigin: shareOrigin,
+        ),
       );
     } catch (e, stacktrace) {
       print("Error during sharing process: $e");

@@ -292,20 +292,6 @@ class RecipeProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<ContributorModel>> fetchAllContributorsForCurrentLocale() async {
-    await ensureDataReady(); // Ensure all initial data is loaded.
-    String localeCode = _locale.languageCode;
-    final contributors =
-        await db.contributorsDao.getAllContributorsForLocale(localeCode);
-    return contributors
-        .map((contributor) => ContributorModel(
-              id: contributor.id,
-              content: contributor.content,
-              locale: contributor.locale,
-            ))
-        .toList();
-  }
-
   Future<String> getLocalizedRecipeName(String recipeId) async {
     RecipeLocalization? localization = await db.recipeLocalizationsDao
         .getLocalizationForRecipe(recipeId, _locale.languageCode);

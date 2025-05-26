@@ -42,6 +42,7 @@ class StepsDao extends DatabaseAccessor<AppDatabase> with _$StepsDaoMixin {
     }
 
     return BrewStepModel(
+      id: step.id,
       order: step.stepOrder,
       description: step.description,
       time: timeDuration,
