@@ -6,7 +6,6 @@ import 'connection/connection.dart' show connect;
 import '../models/brewing_method_model.dart';
 import '../models/supported_locale_model.dart';
 import '../models/coffee_fact_model.dart';
-import '../models/contributor_model.dart';
 import '../models/user_stat_model.dart';
 import '../models/launch_popup_model.dart';
 import '../models/coffee_beans_model.dart';
@@ -21,7 +20,6 @@ part 'user_recipe_preferences_dao.dart';
 part 'brewing_methods_dao.dart';
 part 'supported_locales_dao.dart';
 part 'coffee_facts_dao.dart';
-part 'contributors_dao.dart';
 part 'user_stats_dao.dart';
 part 'launch_popups_dao.dart';
 part 'coffee_beans_dao.dart';
@@ -157,18 +155,6 @@ class LaunchPopups extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-class Contributors extends Table {
-  TextColumn get id => text().named('id').withLength(min: 1, max: 255)();
-  TextColumn get content => text().named('content')();
-  TextColumn get locale => text()
-      .named('locale')
-      .references(SupportedLocales, #locale, onDelete: KeyAction.cascade)
-      .withLength(min: 2, max: 10)();
-
-  @override
-  Set<Column> get primaryKey => {id};
-}
-
 @TableIndex(
     name: 'idx_user_stats_stat_uuid_version_vector',
     columns: {#statUuid, #versionVector})
@@ -248,7 +234,6 @@ class CoffeeBeans extends Table {
     UserRecipePreferences,
     CoffeeFacts,
     LaunchPopups,
-    Contributors,
     UserStats,
     CoffeeBeans
   ],
@@ -260,7 +245,6 @@ class CoffeeBeans extends Table {
     BrewingMethodsDao,
     SupportedLocalesDao,
     CoffeeFactsDao,
-    ContributorsDao,
     UserStatsDao,
     LaunchPopupsDao,
     CoffeeBeansDao
@@ -281,7 +265,7 @@ class AppDatabase extends _$AppDatabase {
   factory AppDatabase.fromExecutor(QueryExecutor e) => AppDatabase(e);
 
   @override
-  int get schemaVersion => 24; // Incremented schema version
+  int get schemaVersion => 25; // Incremented schema version
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -304,11 +288,11 @@ class AppDatabase extends _$AppDatabase {
               await m.createIndex(schema.idxRecipesLastModified);
             },
             from3To4: (m, schema) async {
-              await m.createTable(contributors);
-              // The showOnMain column is being removed in schema v24,
-              // so this addColumn call from an older migration is no longer needed
-              // and would cause an error if the column definition doesn't exist in the schema object.
-              // await m.addColumn(brewingMethods, brewingMethods.showOnMain);
+              //   await m.createTable(contributors);
+              //   // The showOnMain column is being removed in schema v24,
+              //   // so this addColumn call from an older migration is no longer needed
+              //   // and would cause an error if the column definition doesn't exist in the schema object.
+              //   // await m.addColumn(brewingMethods, brewingMethods.showOnMain);
             },
             from4To5: (m, schema) async {
               await m.createTable(userStats);
@@ -694,6 +678,10 @@ class AppDatabase extends _$AppDatabase {
             from23To24: (m, schema) async {
               // Migration for removing showOnMain from BrewingMethods.
               await m.dropColumn(schema.brewingMethods, 'show_on_main');
+            },
+            from24To25: (m, schema) async {
+              // Remove Contributors table
+              await customStatement('DROP TABLE IF EXISTS contributors');
             },
           )(m, oldVersion, newVersion);
         },

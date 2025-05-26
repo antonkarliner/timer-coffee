@@ -175,35 +175,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           Semantics(
-            identifier: 'contributorsExpansionTile',
-            child: ExpansionTile(
+            identifier: 'contributorsTile',
+            child: ListTile(
               title: Text(AppLocalizations.of(context)!.contributors),
-              children: <Widget>[
-                FutureBuilder<List<ContributorModel>>(
-                  future: Provider.of<RecipeProvider>(context, listen: false)
-                      .fetchAllContributorsForCurrentLocale(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<ContributorModel>> snapshot) {
-                    if (snapshot.hasData) {
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: _buildRichText(context, snapshot.data!),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(AppLocalizations.of(context)!
-                            .errorLoadingContributors),
-                      );
-                    } else {
-                      return const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                ),
-              ],
+              onTap: () => _launchURL(
+                  'https://github.com/antonkarliner/timer-coffee/blob/main/CONTRIBUTORS.md'),
             ),
           ),
           Semantics(

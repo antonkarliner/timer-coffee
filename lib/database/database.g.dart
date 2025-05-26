@@ -2725,242 +2725,6 @@ class LaunchPopupsCompanion extends UpdateCompanion<LaunchPopup> {
   }
 }
 
-class $ContributorsTable extends Contributors
-    with TableInfo<$ContributorsTable, Contributor> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $ContributorsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _contentMeta =
-      const VerificationMeta('content');
-  @override
-  late final GeneratedColumn<String> content = GeneratedColumn<String>(
-      'content', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _localeMeta = const VerificationMeta('locale');
-  @override
-  late final GeneratedColumn<String> locale = GeneratedColumn<String>(
-      'locale', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 10),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES supported_locales (locale) ON DELETE CASCADE'));
-  @override
-  List<GeneratedColumn> get $columns => [id, content, locale];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'contributors';
-  @override
-  VerificationContext validateIntegrity(Insertable<Contributor> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
-    }
-    if (data.containsKey('content')) {
-      context.handle(_contentMeta,
-          content.isAcceptableOrUnknown(data['content']!, _contentMeta));
-    } else if (isInserting) {
-      context.missing(_contentMeta);
-    }
-    if (data.containsKey('locale')) {
-      context.handle(_localeMeta,
-          locale.isAcceptableOrUnknown(data['locale']!, _localeMeta));
-    } else if (isInserting) {
-      context.missing(_localeMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  Contributor map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Contributor(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      content: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}content'])!,
-      locale: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}locale'])!,
-    );
-  }
-
-  @override
-  $ContributorsTable createAlias(String alias) {
-    return $ContributorsTable(attachedDatabase, alias);
-  }
-}
-
-class Contributor extends DataClass implements Insertable<Contributor> {
-  final String id;
-  final String content;
-  final String locale;
-  const Contributor(
-      {required this.id, required this.content, required this.locale});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<String>(id);
-    map['content'] = Variable<String>(content);
-    map['locale'] = Variable<String>(locale);
-    return map;
-  }
-
-  ContributorsCompanion toCompanion(bool nullToAbsent) {
-    return ContributorsCompanion(
-      id: Value(id),
-      content: Value(content),
-      locale: Value(locale),
-    );
-  }
-
-  factory Contributor.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Contributor(
-      id: serializer.fromJson<String>(json['id']),
-      content: serializer.fromJson<String>(json['content']),
-      locale: serializer.fromJson<String>(json['locale']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-      'content': serializer.toJson<String>(content),
-      'locale': serializer.toJson<String>(locale),
-    };
-  }
-
-  Contributor copyWith({String? id, String? content, String? locale}) =>
-      Contributor(
-        id: id ?? this.id,
-        content: content ?? this.content,
-        locale: locale ?? this.locale,
-      );
-  Contributor copyWithCompanion(ContributorsCompanion data) {
-    return Contributor(
-      id: data.id.present ? data.id.value : this.id,
-      content: data.content.present ? data.content.value : this.content,
-      locale: data.locale.present ? data.locale.value : this.locale,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('Contributor(')
-          ..write('id: $id, ')
-          ..write('content: $content, ')
-          ..write('locale: $locale')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, content, locale);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is Contributor &&
-          other.id == this.id &&
-          other.content == this.content &&
-          other.locale == this.locale);
-}
-
-class ContributorsCompanion extends UpdateCompanion<Contributor> {
-  final Value<String> id;
-  final Value<String> content;
-  final Value<String> locale;
-  final Value<int> rowid;
-  const ContributorsCompanion({
-    this.id = const Value.absent(),
-    this.content = const Value.absent(),
-    this.locale = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  ContributorsCompanion.insert({
-    required String id,
-    required String content,
-    required String locale,
-    this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        content = Value(content),
-        locale = Value(locale);
-  static Insertable<Contributor> custom({
-    Expression<String>? id,
-    Expression<String>? content,
-    Expression<String>? locale,
-    Expression<int>? rowid,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (content != null) 'content': content,
-      if (locale != null) 'locale': locale,
-      if (rowid != null) 'rowid': rowid,
-    });
-  }
-
-  ContributorsCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? content,
-      Value<String>? locale,
-      Value<int>? rowid}) {
-    return ContributorsCompanion(
-      id: id ?? this.id,
-      content: content ?? this.content,
-      locale: locale ?? this.locale,
-      rowid: rowid ?? this.rowid,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<String>(id.value);
-    }
-    if (content.present) {
-      map['content'] = Variable<String>(content.value);
-    }
-    if (locale.present) {
-      map['locale'] = Variable<String>(locale.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('ContributorsCompanion(')
-          ..write('id: $id, ')
-          ..write('content: $content, ')
-          ..write('locale: $locale, ')
-          ..write('rowid: $rowid')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $UserStatsTable extends UserStats
     with TableInfo<$UserStatsTable, UserStat> {
   @override
@@ -4715,7 +4479,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $UserRecipePreferencesTable(this);
   late final $CoffeeFactsTable coffeeFacts = $CoffeeFactsTable(this);
   late final $LaunchPopupsTable launchPopups = $LaunchPopupsTable(this);
-  late final $ContributorsTable contributors = $ContributorsTable(this);
   late final $UserStatsTable userStats = $UserStatsTable(this);
   late final $CoffeeBeansTable coffeeBeans = $CoffeeBeansTable(this);
   late final Index idxRecipesLastModified = Index('idx_recipes_last_modified',
@@ -4741,8 +4504,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       SupportedLocalesDao(this as AppDatabase);
   late final CoffeeFactsDao coffeeFactsDao =
       CoffeeFactsDao(this as AppDatabase);
-  late final ContributorsDao contributorsDao =
-      ContributorsDao(this as AppDatabase);
   late final UserStatsDao userStatsDao = UserStatsDao(this as AppDatabase);
   late final LaunchPopupsDao launchPopupsDao =
       LaunchPopupsDao(this as AppDatabase);
@@ -4761,7 +4522,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         userRecipePreferences,
         coffeeFacts,
         launchPopups,
-        contributors,
         userStats,
         coffeeBeans,
         idxRecipesLastModified,
@@ -4826,13 +4586,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
                 limitUpdateKind: UpdateKind.delete),
             result: [
               TableUpdate('launch_popups', kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('supported_locales',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('contributors', kind: UpdateKind.delete),
             ],
           ),
           WritePropagation(
@@ -4929,22 +4682,6 @@ final class $$SupportedLocalesTableReferences extends BaseReferences<
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
-
-  static MultiTypedResultKey<$ContributorsTable, List<Contributor>>
-      _contributorsRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.contributors,
-              aliasName: $_aliasNameGenerator(
-                  db.supportedLocales.locale, db.contributors.locale));
-
-  $$ContributorsTableProcessedTableManager get contributorsRefs {
-    final manager = $$ContributorsTableTableManager($_db, $_db.contributors)
-        .filter(
-            (f) => f.locale.locale.sqlEquals($_itemColumn<String>('locale')!));
-
-    final cache = $_typedResult.readTableOrNull(_contributorsRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
-  }
 }
 
 class $$SupportedLocalesTableFilterComposer
@@ -5038,27 +4775,6 @@ class $$SupportedLocalesTableFilterComposer
             $$LaunchPopupsTableFilterComposer(
               $db: $db,
               $table: $db.launchPopups,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
-
-  Expression<bool> contributorsRefs(
-      Expression<bool> Function($$ContributorsTableFilterComposer f) f) {
-    final $$ContributorsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.contributors,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$ContributorsTableFilterComposer(
-              $db: $db,
-              $table: $db.contributors,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -5184,27 +4900,6 @@ class $$SupportedLocalesTableAnnotationComposer
             ));
     return f(composer);
   }
-
-  Expression<T> contributorsRefs<T extends Object>(
-      Expression<T> Function($$ContributorsTableAnnotationComposer a) f) {
-    final $$ContributorsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.contributors,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$ContributorsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.contributors,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
 }
 
 class $$SupportedLocalesTableTableManager extends RootTableManager<
@@ -5222,8 +4917,7 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
         {bool recipeLocalizationsRefs,
         bool stepsRefs,
         bool coffeeFactsRefs,
-        bool launchPopupsRefs,
-        bool contributorsRefs})> {
+        bool launchPopupsRefs})> {
   $$SupportedLocalesTableTableManager(
       _$AppDatabase db, $SupportedLocalesTable table)
       : super(TableManagerState(
@@ -5265,16 +4959,14 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
               {recipeLocalizationsRefs = false,
               stepsRefs = false,
               coffeeFactsRefs = false,
-              launchPopupsRefs = false,
-              contributorsRefs = false}) {
+              launchPopupsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
                 if (recipeLocalizationsRefs) db.recipeLocalizations,
                 if (stepsRefs) db.steps,
                 if (coffeeFactsRefs) db.coffeeFacts,
-                if (launchPopupsRefs) db.launchPopups,
-                if (contributorsRefs) db.contributors
+                if (launchPopupsRefs) db.launchPopups
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
@@ -5330,19 +5022,6 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.locale == item.locale),
-                        typedResults: items),
-                  if (contributorsRefs)
-                    await $_getPrefetchedData<SupportedLocale,
-                            $SupportedLocalesTable, Contributor>(
-                        currentTable: table,
-                        referencedTable: $$SupportedLocalesTableReferences
-                            ._contributorsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$SupportedLocalesTableReferences(db, table, p0)
-                                .contributorsRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems
-                                .where((e) => e.locale == item.locale),
                         typedResults: items)
                 ];
               },
@@ -5366,8 +5045,7 @@ typedef $$SupportedLocalesTableProcessedTableManager = ProcessedTableManager<
         {bool recipeLocalizationsRefs,
         bool stepsRefs,
         bool coffeeFactsRefs,
-        bool launchPopupsRefs,
-        bool contributorsRefs})>;
+        bool launchPopupsRefs})>;
 typedef $$BrewingMethodsTableCreateCompanionBuilder = BrewingMethodsCompanion
     Function({
   required String brewingMethodId,
@@ -7910,252 +7588,6 @@ typedef $$LaunchPopupsTableProcessedTableManager = ProcessedTableManager<
     (LaunchPopup, $$LaunchPopupsTableReferences),
     LaunchPopup,
     PrefetchHooks Function({bool locale})>;
-typedef $$ContributorsTableCreateCompanionBuilder = ContributorsCompanion
-    Function({
-  required String id,
-  required String content,
-  required String locale,
-  Value<int> rowid,
-});
-typedef $$ContributorsTableUpdateCompanionBuilder = ContributorsCompanion
-    Function({
-  Value<String> id,
-  Value<String> content,
-  Value<String> locale,
-  Value<int> rowid,
-});
-
-final class $$ContributorsTableReferences
-    extends BaseReferences<_$AppDatabase, $ContributorsTable, Contributor> {
-  $$ContributorsTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static $SupportedLocalesTable _localeTable(_$AppDatabase db) =>
-      db.supportedLocales.createAlias($_aliasNameGenerator(
-          db.contributors.locale, db.supportedLocales.locale));
-
-  $$SupportedLocalesTableProcessedTableManager get locale {
-    final $_column = $_itemColumn<String>('locale')!;
-
-    final manager =
-        $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
-            .filter((f) => f.locale.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_localeTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
-  }
-}
-
-class $$ContributorsTableFilterComposer
-    extends Composer<_$AppDatabase, $ContributorsTable> {
-  $$ContributorsTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get content => $composableBuilder(
-      column: $table.content, builder: (column) => ColumnFilters(column));
-
-  $$SupportedLocalesTableFilterComposer get locale {
-    final $$SupportedLocalesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableFilterComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-}
-
-class $$ContributorsTableOrderingComposer
-    extends Composer<_$AppDatabase, $ContributorsTable> {
-  $$ContributorsTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get content => $composableBuilder(
-      column: $table.content, builder: (column) => ColumnOrderings(column));
-
-  $$SupportedLocalesTableOrderingComposer get locale {
-    final $$SupportedLocalesTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableOrderingComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-}
-
-class $$ContributorsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $ContributorsTable> {
-  $$ContributorsTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<String> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get content =>
-      $composableBuilder(column: $table.content, builder: (column) => column);
-
-  $$SupportedLocalesTableAnnotationComposer get locale {
-    final $$SupportedLocalesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-}
-
-class $$ContributorsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $ContributorsTable,
-    Contributor,
-    $$ContributorsTableFilterComposer,
-    $$ContributorsTableOrderingComposer,
-    $$ContributorsTableAnnotationComposer,
-    $$ContributorsTableCreateCompanionBuilder,
-    $$ContributorsTableUpdateCompanionBuilder,
-    (Contributor, $$ContributorsTableReferences),
-    Contributor,
-    PrefetchHooks Function({bool locale})> {
-  $$ContributorsTableTableManager(_$AppDatabase db, $ContributorsTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$ContributorsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$ContributorsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$ContributorsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> content = const Value.absent(),
-            Value<String> locale = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              ContributorsCompanion(
-            id: id,
-            content: content,
-            locale: locale,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String content,
-            required String locale,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              ContributorsCompanion.insert(
-            id: id,
-            content: content,
-            locale: locale,
-            rowid: rowid,
-          ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$ContributorsTableReferences(db, table, e)
-                  ))
-              .toList(),
-          prefetchHooksCallback: ({locale = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
-                if (locale) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.locale,
-                    referencedTable:
-                        $$ContributorsTableReferences._localeTable(db),
-                    referencedColumn:
-                        $$ContributorsTableReferences._localeTable(db).locale,
-                  ) as T;
-                }
-
-                return state;
-              },
-              getPrefetchedDataCallback: (items) async {
-                return [];
-              },
-            );
-          },
-        ));
-}
-
-typedef $$ContributorsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $ContributorsTable,
-    Contributor,
-    $$ContributorsTableFilterComposer,
-    $$ContributorsTableOrderingComposer,
-    $$ContributorsTableAnnotationComposer,
-    $$ContributorsTableCreateCompanionBuilder,
-    $$ContributorsTableUpdateCompanionBuilder,
-    (Contributor, $$ContributorsTableReferences),
-    Contributor,
-    PrefetchHooks Function({bool locale})>;
 typedef $$UserStatsTableCreateCompanionBuilder = UserStatsCompanion Function({
   required String statUuid,
   Value<int?> id,
@@ -9096,8 +8528,6 @@ class $AppDatabaseManager {
       $$CoffeeFactsTableTableManager(_db, _db.coffeeFacts);
   $$LaunchPopupsTableTableManager get launchPopups =>
       $$LaunchPopupsTableTableManager(_db, _db.launchPopups);
-  $$ContributorsTableTableManager get contributors =>
-      $$ContributorsTableTableManager(_db, _db.contributors);
   $$UserStatsTableTableManager get userStats =>
       $$UserStatsTableTableManager(_db, _db.userStats);
   $$CoffeeBeansTableTableManager get coffeeBeans =>
@@ -9147,11 +8577,6 @@ mixin _$CoffeeFactsDaoMixin on DatabaseAccessor<AppDatabase> {
   $SupportedLocalesTable get supportedLocales =>
       attachedDatabase.supportedLocales;
   $CoffeeFactsTable get coffeeFacts => attachedDatabase.coffeeFacts;
-}
-mixin _$ContributorsDaoMixin on DatabaseAccessor<AppDatabase> {
-  $SupportedLocalesTable get supportedLocales =>
-      attachedDatabase.supportedLocales;
-  $ContributorsTable get contributors => attachedDatabase.contributors;
 }
 mixin _$UserStatsDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
