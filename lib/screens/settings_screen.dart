@@ -15,7 +15,7 @@ import '../providers/theme_provider.dart';
 import '../models/brewing_method_model.dart'; // Added import
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../providers/snow_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

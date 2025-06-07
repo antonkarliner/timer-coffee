@@ -1,0 +1,1170 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Russian (`ru`).
+class AppLocalizationsRu extends AppLocalizations {
+  AppLocalizationsRu([String locale = 'ru']) : super(locale);
+
+  @override
+  String get lastrecipe => 'Последний рецепт:';
+
+  @override
+  String get about => 'О приложении';
+
+  @override
+  String get author => 'Автор';
+
+  @override
+  String get authortext =>
+      'Приложение Timer.Coffee создал Антон Карлинер, кофе-энтузиаст, медиапрофессионал и фотожурналист. Я надеюсь, что моё приложение поможет вам сварить много отличного кофе. Не стесняйтесь делиться идеями на GitHub.';
+
+  @override
+  String get contributors => 'Контрибьюторы';
+
+  @override
+  String get errorLoadingContributors =>
+      'Ошибка загрузки списка контрибьюторов';
+
+  @override
+  String get license => 'Лицензия';
+
+  @override
+  String get licensetext =>
+      'Это свободная программа: вы можете перераспространять ее и/или изменять ее на условиях Стандартной общественной лицензии GNU в том виде, в каком она была опубликована Фондом свободного программного обеспечения; либо версии 3 лицензии, либо (по вашему выбору) любой более поздней версии.';
+
+  @override
+  String get licensebutton => 'Текст Стандартной общественной лицензии GNU';
+
+  @override
+  String get website => 'Сайт';
+
+  @override
+  String get sourcecode => 'Исходный код';
+
+  @override
+  String get support => 'Купить кофе разработчику';
+
+  @override
+  String get allrecipes => 'Все рецепты';
+
+  @override
+  String get favoriterecipes => 'Любимые рецепты';
+
+  @override
+  String get coffeeamount => 'Кол-во кофе (г)';
+
+  @override
+  String get wateramount => 'Кол-во воды (мл)';
+
+  @override
+  String get watertemp => 'Температура воды';
+
+  @override
+  String get grindsize => 'Размер помола';
+
+  @override
+  String get brewtime => 'Время заваривания';
+
+  @override
+  String get recipesummary => 'Рецепт';
+
+  @override
+  String get recipesummarynote =>
+      'Внимание! Это рецепт с базовым количеством кофе и воды.';
+
+  @override
+  String get preparation => 'Подготовка';
+
+  @override
+  String get brewingprocess => 'Заваривание';
+
+  @override
+  String get step => 'Шаг';
+
+  @override
+  String seconds(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'секунд',
+      many: 'секунд',
+      few: 'секунды',
+      one: 'секунда',
+      zero: 'секунд',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get finishmsg =>
+      'Спасибо, что пользуетесь Timer.Coffee, наслаждайтесь вашим';
+
+  @override
+  String get coffeefact => 'Факт о кофе';
+
+  @override
+  String get home => 'Домой';
+
+  @override
+  String get appversion => 'Версия приложения';
+
+  @override
+  String get tipsmall => 'Купить маленький кофе';
+
+  @override
+  String get tipmedium => 'Купить средний кофе';
+
+  @override
+  String get tiplarge => 'Купить большой кофе';
+
+  @override
+  String get supportdevelopment => 'Поддержать разработку';
+
+  @override
+  String get supportdevmsg =>
+      'Ваши пожертвования помогают оплачивать текущие расходы (например, продлевать лицензии разработчика), а также, благодаря пожертвованиям, я могу пробовать больше способов заваривания и добавлять в приложение больше рецептов.';
+
+  @override
+  String get supportdevtnx => 'Спасибо за вашу поддержку!';
+
+  @override
+  String get donationok => 'Спасибо!';
+
+  @override
+  String get donationtnx =>
+      'Ваша поддержка очень ценна! Желаю вам много хорошего кофе ☕️';
+
+  @override
+  String get donationerr => 'Ошибка';
+
+  @override
+  String get donationerrmsg =>
+      'Ошибка обработки платежа, пожалуйста попробуйте ещё раз';
+
+  @override
+  String get sharemsg => 'Попробуй рецепт:';
+
+  @override
+  String get finishbrew => 'Конец заварки';
+
+  @override
+  String get settings => 'Настройки';
+
+  @override
+  String get settingstheme => 'Тема';
+
+  @override
+  String get settingsthemelight => 'Светлая';
+
+  @override
+  String get settingsthemedark => 'Тёмная';
+
+  @override
+  String get settingsthemesystem => 'Системная';
+
+  @override
+  String get settingslang => 'Язык';
+
+  @override
+  String get sweet => 'Сладкий';
+
+  @override
+  String get balance => 'Сбалансированный';
+
+  @override
+  String get acidic => 'Кислый';
+
+  @override
+  String get light => 'Лёгкий';
+
+  @override
+  String get strong => 'Крепкий';
+
+  @override
+  String get slidertitle => 'Используйте слайдеры, чтобы настроить вкус';
+
+  @override
+  String get whatsnewtitle => 'Что нового';
+
+  @override
+  String get whatsnewclose => 'Закрыть';
+
+  @override
+  String get seasonspecials => 'Сезонные эффекты';
+
+  @override
+  String get snow => 'Снег';
+
+  @override
+  String get noFavoriteRecipesMessage =>
+      'Ваш список любимых рецептов пока что пуст. Начните заваривать, чтобы узнать, что вам нравится больше всего!';
+
+  @override
+  String get explore => 'Открытия';
+
+  @override
+  String get dateFormat => 'd MMM yyyy';
+
+  @override
+  String get timeFormat => 'HH:mm';
+
+  @override
+  String get brewdiary => 'Дневник заварок';
+
+  @override
+  String get brewdiarynotfound => 'Записи не найдены';
+
+  @override
+  String get beans => 'Зерна';
+
+  @override
+  String get roaster => 'Обжарщик';
+
+  @override
+  String get rating => 'Рейтинг';
+
+  @override
+  String get notes => 'Заметки';
+
+  @override
+  String get statsscreen => 'Статистика';
+
+  @override
+  String get yourStats => 'Ваша статистика';
+
+  @override
+  String get coffeeBrewed => 'Приготовлено кофе:';
+
+  @override
+  String get litersUnit => 'л';
+
+  @override
+  String get mostUsedRecipes => 'Самые используемые рецепты:';
+
+  @override
+  String get globalStats => 'Глобальная статистика';
+
+  @override
+  String get unknownRecipe => 'Неизвестный рецепт';
+
+  @override
+  String get noData => 'Нет данных';
+
+  @override
+  String error(Object error) {
+    return 'Ошибка: $error';
+  }
+
+  @override
+  String someoneJustBrewed(Object recipeName) {
+    return 'Кто-то только что сварил $recipeName';
+  }
+
+  @override
+  String get timePeriodToday => 'Сегодня';
+
+  @override
+  String get timePeriodThisWeek => 'Эту неделю';
+
+  @override
+  String get timePeriodThisMonth => 'Этот месяц';
+
+  @override
+  String get timePeriodCustom => 'Пользовательский';
+
+  @override
+  String get statsFor => 'Статистика за ';
+
+  @override
+  String get homescreenbrewcoffee => 'Заварить кофе';
+
+  @override
+  String get homescreenhub => 'Хаб';
+
+  @override
+  String get homescreenmore => 'Ещё';
+
+  @override
+  String get addBeans => 'Добавить зерна';
+
+  @override
+  String get removeBeans => 'Удалить зерна';
+
+  @override
+  String get name => 'Название';
+
+  @override
+  String get origin => 'Страна происхождения';
+
+  @override
+  String get details => 'Подробнее';
+
+  @override
+  String get coffeebeans => 'Зерна кофе';
+
+  @override
+  String get loading => 'Загрузка';
+
+  @override
+  String get nocoffeebeans => 'Зерна кофе не найдены';
+
+  @override
+  String get delete => 'Удалить';
+
+  @override
+  String get confirmDeleteTitle => 'Удалить запись?';
+
+  @override
+  String get confirmDeleteMessage =>
+      'Вы уверены, что хотите удалить эту запись? Это действие нельзя отменить.';
+
+  @override
+  String get removeFavorite => 'Удалить из избранного';
+
+  @override
+  String get addFavorite => 'Добавить в избранное';
+
+  @override
+  String get toggleEditMode => 'Редактировать';
+
+  @override
+  String get coffeeBeansDetails => 'Информация о зернах';
+
+  @override
+  String get edit => 'Редактировать';
+
+  @override
+  String get coffeeBeansNotFound => 'Зерна кофе не найдены';
+
+  @override
+  String get geographyTerroir => 'География/Терруар';
+
+  @override
+  String get variety => 'Разновидность';
+
+  @override
+  String get region => 'Регион';
+
+  @override
+  String get elevation => 'Высота произрастания';
+
+  @override
+  String get harvestDate => 'Дата сбора урожая';
+
+  @override
+  String get processing => 'Обработка';
+
+  @override
+  String get processingMethod => 'Способ обработки';
+
+  @override
+  String get roastDate => 'Дата обжарки';
+
+  @override
+  String get roastLevel => 'Степень обжарки';
+
+  @override
+  String get cuppingScore => 'Оценка дегустации';
+
+  @override
+  String get flavorProfile => 'Вкусовой профиль';
+
+  @override
+  String get tastingNotes => 'Вкусовые ноты';
+
+  @override
+  String get additionalNotes => 'Дополнительные примечания';
+
+  @override
+  String get noCoffeeBeans => 'Зерна кофе не найдены';
+
+  @override
+  String get editCoffeeBeans => 'Редактировать информацию о зернах';
+
+  @override
+  String get addCoffeeBeans => 'Добавить зерна кофе';
+
+  @override
+  String get showImagePicker => 'Выбрать изображение';
+
+  @override
+  String get pleaseNote => 'Обратите внимание';
+
+  @override
+  String get firstTimePopupMessage =>
+      '1. Мы используем внешние сервисы для обработки изображений. Продолжая, вы соглашаетесь с этим.\n2. Несмотря на то, что мы не храним ваши изображения, пожалуйста, не загружайте изображения с личной информацией.\n3. Распознавание изображений в настоящее время ограничено 10 токенами в месяц (1 токен = 1 изображение). Это ограничение может быть изменено в будущем.';
+
+  @override
+  String get ok => 'ОК';
+
+  @override
+  String get takePhoto => 'Сделать фото';
+
+  @override
+  String get selectFromPhotos => 'Выбрать из фото';
+
+  @override
+  String get takeAdditionalPhoto => 'Сделать еще одно фото?';
+
+  @override
+  String get no => 'Нет';
+
+  @override
+  String get yes => 'Да';
+
+  @override
+  String get selectedImages => 'Выбранные изображения';
+
+  @override
+  String get selectedImage => 'Выбранное изображение';
+
+  @override
+  String get backToSelection => 'Назад к выбору';
+
+  @override
+  String get next => 'Далее';
+
+  @override
+  String get unexpectedErrorOccurred => 'Произошла непредвиденная ошибка';
+
+  @override
+  String get tokenLimitReached =>
+      'Извините, вы достигли лимита токенов для распознавания изображений в этом месяце';
+
+  @override
+  String get noCoffeeLabelsDetected =>
+      'Этикетки кофе не обнаружены. Попробуйте другое изображение.';
+
+  @override
+  String get collectedInformation => 'Собранная информация';
+
+  @override
+  String get enterRoaster => 'Укажите обжарщика';
+
+  @override
+  String get enterName => 'Введите название';
+
+  @override
+  String get enterOrigin => 'Укажите страну происхождения';
+
+  @override
+  String get optional => 'Необязательно';
+
+  @override
+  String get enterVariety => 'Укажите разновидность';
+
+  @override
+  String get enterProcessingMethod => 'Укажите способ обработки';
+
+  @override
+  String get enterRoastLevel => 'Укажите степень обжарки';
+
+  @override
+  String get enterRegion => 'Укажите регион';
+
+  @override
+  String get enterTastingNotes => 'Укажите вкусовые ноты';
+
+  @override
+  String get enterElevation => 'Укажите высоту произрастания';
+
+  @override
+  String get enterCuppingScore => 'Укажите оценку дегустации';
+
+  @override
+  String get enterNotes => 'Введите примечания';
+
+  @override
+  String get selectHarvestDate => 'Выберите дату сбора урожая';
+
+  @override
+  String get selectRoastDate => 'Выберите дату обжарки';
+
+  @override
+  String get selectDate => 'Выберите дату';
+
+  @override
+  String get save => 'Сохранить';
+
+  @override
+  String get fillRequiredFields =>
+      'Пожалуйста, заполните все обязательные поля.';
+
+  @override
+  String get analyzing => 'Анализируем';
+
+  @override
+  String get errorMessage => 'Ошибка';
+
+  @override
+  String get selectCoffeeBeans => 'Выберите зерна кофе';
+
+  @override
+  String get addNewBeans => 'Добавить новые зерна';
+
+  @override
+  String get favorite => 'Избранное';
+
+  @override
+  String get notFavorite => 'Не в избранном';
+
+  @override
+  String get myBeans => 'Мои зерна';
+
+  @override
+  String get signIn => 'Войти';
+
+  @override
+  String get signOut => 'Выйти';
+
+  @override
+  String get signInWithApple => 'Войти с помощью Apple';
+
+  @override
+  String get signInSuccessful => 'Вход с помощью Apple выполнен успешно';
+
+  @override
+  String get signInError => 'Ошибка входа с помощью Apple';
+
+  @override
+  String get signInWithGoogle => 'Войти через Google';
+
+  @override
+  String get signOutSuccessful => 'Выход из системы выполнен успешно';
+
+  @override
+  String get signInSuccessfulGoogle => 'Успешно выполнен вход с помощью Google';
+
+  @override
+  String get signInWithEmail => 'Войти с email';
+
+  @override
+  String get enterEmail => 'Введите email';
+
+  @override
+  String get emailHint => 'example@email.com';
+
+  @override
+  String get cancel => 'Отмена';
+
+  @override
+  String get sendMagicLink => 'Отправить magic link';
+
+  @override
+  String get magicLinkSent => 'Magic link отправлен! Проверьте вашу почту.';
+
+  @override
+  String get sendOTP => 'Отправить код';
+
+  @override
+  String get otpSent => 'Код отправлен на ваш email';
+
+  @override
+  String get otpSendError => 'Ошибка отправки кода';
+
+  @override
+  String get enterOTP => 'Введите код';
+
+  @override
+  String get otpHint => 'Введите 6-значный код';
+
+  @override
+  String get verify => 'Проверить';
+
+  @override
+  String get signInSuccessfulEmail => 'Вход выполнен';
+
+  @override
+  String get invalidOTP => 'Неверный код';
+
+  @override
+  String get otpVerificationError => 'Ошибка проверки кода';
+
+  @override
+  String get success => 'Успешно!';
+
+  @override
+  String get otpSentMessage =>
+      'OTP отправлено на вашу почту. Пожалуйста, введите его ниже, когда получите.';
+
+  @override
+  String get otpHint2 => 'Введите код здесь';
+
+  @override
+  String get signInCreate => 'Вход / Регистрация';
+
+  @override
+  String get accountManagement => 'Управление учетной записью';
+
+  @override
+  String get deleteAccount => 'Удалить учетную запись';
+
+  @override
+  String get deleteAccountWarning =>
+      'Обратите внимание: если вы решите продолжить, мы удалим вашу учетную запись и связанные с ней данные с наших серверов. Локальная копия данных останется на устройстве, если вы также хотите ее удалить, вы можете просто удалить приложение. Чтобы снова включить синхронизацию, вам необходимо будет создать учетную запись заново';
+
+  @override
+  String get deleteAccountConfirmation => 'Учетная запись успешно удалена';
+
+  @override
+  String get accountDeleted => 'Учетная запись удалена';
+
+  @override
+  String get accountDeletionError =>
+      'Ошибка при удалении учетной записи, повторите попытку';
+
+  @override
+  String get deleteAccountTitle => 'Важно';
+
+  @override
+  String get selectBeans => 'Выберите зерна';
+
+  @override
+  String get all => 'Все';
+
+  @override
+  String get selectRoaster => 'Выбрать обжарщика';
+
+  @override
+  String get selectOrigin => 'Выбрать происхождение';
+
+  @override
+  String get resetFilters => 'Сбросить фильтры';
+
+  @override
+  String get showFavoritesOnly => 'Показывать только избранное';
+
+  @override
+  String get apply => 'Применить';
+
+  @override
+  String get selectSize => 'Выберите размер';
+
+  @override
+  String get sizeStandard => 'Стандартный';
+
+  @override
+  String get sizeMedium => 'Средний';
+
+  @override
+  String get sizeXL => 'XL';
+
+  @override
+  String get yearlyStatsAppBarTitle => 'Мой год с Timer.Coffee';
+
+  @override
+  String get yearlyStatsStory1Text =>
+      'Спасибо, что были частью вселенной Timer.Coffee в этом году!';
+
+  @override
+  String yearlyStatsStory2Text(Object ellipsis) {
+    return 'Начнем с главного.\nВ этом году вы варили кофе$ellipsis';
+  }
+
+  @override
+  String yearlyStatsStory3Text(Object liters) {
+    return 'Если быть точнее,\nв 2024 году вы сварили $liters литра кофе!';
+  }
+
+  @override
+  String yearlyStatsStory4Text(Object roasterCount) {
+    return 'Вы использовали зерна от $roasterCount обжарщиков';
+  }
+
+  @override
+  String yearlyStatsStory4Top3Roasters(Object top3) {
+    return 'Ваши топ-3 обжарщика:\n$top3';
+  }
+
+  @override
+  String yearlyStatsStory5Text(Object ellipsis) {
+    return 'Вы отправились в путешествие\nпо миру$ellipsis';
+  }
+
+  @override
+  String yearlyStatsStory6Text(Object originCount) {
+    return 'Вы попробовали кофейные зерна\nиз $originCount стран!';
+  }
+
+  @override
+  String get yearlyStatsStory7Part1 => 'Вы варили кофе не в одиночку…';
+
+  @override
+  String get yearlyStatsStory7Part2 =>
+      '…а с пользователями из 110 других\nстран на 6 континентах!';
+
+  @override
+  String yearlyStatsStory8TitleLow(Object count) {
+    return 'Вы остались верны себе и использовали только эти $count способа заваривания в этом году:';
+  }
+
+  @override
+  String yearlyStatsStory8TitleMedium(Object count) {
+    return 'Вы открывали для себя новые вкусы и использовали $count способов заваривания в этом году:';
+  }
+
+  @override
+  String yearlyStatsStory8TitleHigh(Object count) {
+    return 'Вы были настоящим кофейным первооткрывателем и использовали $count способов заваривания в этом году:';
+  }
+
+  @override
+  String get yearlyStatsStory9Text => 'Еще так много всего предстоит открыть!';
+
+  @override
+  String yearlyStatsStory10Text(Object ellipsis) {
+    return 'Ваши топ-3 рецепта в 2024 году$ellipsis';
+  }
+
+  @override
+  String get yearlyStatsFinalText => 'Увидимся в 2025 году!';
+
+  @override
+  String yearlyStatsActionLove(Object likesCount) {
+    return 'Показать любовь ($likesCount)';
+  }
+
+  @override
+  String get yearlyStatsActionDonate => 'Пожертвовать';
+
+  @override
+  String get yearlyStatsActionShare => 'Поделитесь своим прогрессом';
+
+  @override
+  String get yearlyStatsUnknown => 'Неизвестно';
+
+  @override
+  String yearlyStatsErrorSharing(Object error) {
+    return 'Не удалось поделиться: $error';
+  }
+
+  @override
+  String get yearlyStatsShareProgressMyYear => 'Мой год с Timer.Coffee';
+
+  @override
+  String get yearlyStatsShareProgressTop3Recipes => 'Мои топ-3 рецепта:';
+
+  @override
+  String get yearlyStatsShareProgressTop3Roasters => 'Мои топ-3 обжарщика:';
+
+  @override
+  String get yearlyStatsFailedToLike =>
+      'Не удалось поставить лайк. Пожалуйста, попробуйте еще раз.';
+
+  @override
+  String get labelCoffeeBrewed => 'Кофе сварено';
+
+  @override
+  String get labelTastedBeansBy => 'Зерна попробованы от';
+
+  @override
+  String get labelDiscoveredCoffeeFrom => 'Открыт кофе из';
+
+  @override
+  String get labelUsedBrewingMethods => 'Использовано';
+
+  @override
+  String formattedRoasterCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'обжарщиков',
+      many: 'обжарщиков',
+      few: 'обжарщика',
+      one: 'обжарщик',
+    );
+    return '$count $_temp0';
+  }
+
+  @override
+  String formattedCountryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'стран',
+      many: 'стран',
+      few: 'страны',
+      one: 'страна',
+    );
+    return '$count $_temp0';
+  }
+
+  @override
+  String formattedBrewingMethodCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'способов заваривания',
+      many: 'способов заваривания',
+      few: 'способа заваривания',
+      one: 'способ заваривания',
+    );
+    return '$count $_temp0';
+  }
+
+  @override
+  String get recipeCreationScreenEditRecipeTitle => 'Редактировать рецепт';
+
+  @override
+  String get recipeCreationScreenCreateRecipeTitle => 'Создать рецепт';
+
+  @override
+  String get recipeCreationScreenRecipeStepsTitle => 'Шаги рецепта';
+
+  @override
+  String get recipeCreationScreenRecipeNameLabel => 'Название рецепта';
+
+  @override
+  String get recipeCreationScreenShortDescriptionLabel => 'Краткое описание';
+
+  @override
+  String get recipeCreationScreenBrewingMethodLabel => 'Метод заваривания';
+
+  @override
+  String get recipeCreationScreenCoffeeAmountLabel => 'Количество кофе (г)';
+
+  @override
+  String get recipeCreationScreenWaterAmountLabel => 'Количество воды (мл)';
+
+  @override
+  String get recipeCreationScreenWaterTempLabel => 'Температура воды (°C)';
+
+  @override
+  String get recipeCreationScreenGrindSizeLabel => 'Размер помола';
+
+  @override
+  String get recipeCreationScreenTotalBrewTimeLabel =>
+      'Общее время заваривания:';
+
+  @override
+  String get recipeCreationScreenMinutesLabel => 'Минуты';
+
+  @override
+  String get recipeCreationScreenSecondsLabel => 'Секунды';
+
+  @override
+  String get recipeCreationScreenPreparationStepTitle => 'Шаг подготовки';
+
+  @override
+  String recipeCreationScreenBrewStepTitle(String stepOrder) {
+    return 'Шаг заваривания $stepOrder';
+  }
+
+  @override
+  String get recipeCreationScreenStepDescriptionLabel => 'Описание шага';
+
+  @override
+  String get recipeCreationScreenStepTimeLabel => 'Время шага: ';
+
+  @override
+  String get recipeCreationScreenRecipeNameValidator =>
+      'Введите название рецепта';
+
+  @override
+  String get recipeCreationScreenShortDescriptionValidator =>
+      'Введите краткое описание';
+
+  @override
+  String get recipeCreationScreenBrewingMethodValidator =>
+      'Выберите метод заваривания';
+
+  @override
+  String get recipeCreationScreenRequiredValidator => 'Обязательно';
+
+  @override
+  String get recipeCreationScreenInvalidNumberValidator => 'Неверный номер';
+
+  @override
+  String get recipeCreationScreenStepDescriptionValidator =>
+      'Введите описание шага';
+
+  @override
+  String get recipeCreationScreenContinueButton => 'Перейти к шагам рецепта';
+
+  @override
+  String get recipeCreationScreenAddStepButton => 'Добавить шаг';
+
+  @override
+  String get recipeCreationScreenSaveRecipeButton => 'Сохранить рецепт';
+
+  @override
+  String get recipeCreationScreenUpdateSuccess => 'Рецепт успешно обновлен';
+
+  @override
+  String get recipeCreationScreenSaveSuccess => 'Рецепт успешно сохранен';
+
+  @override
+  String recipeCreationScreenSaveError(String error) {
+    return 'Ошибка сохранения рецепта: $error';
+  }
+
+  @override
+  String get unitGramsShort => 'г';
+
+  @override
+  String get unitMillilitersShort => 'мл';
+
+  @override
+  String get unitGramsLong => 'граммы';
+
+  @override
+  String get unitMillilitersLong => 'миллилитры';
+
+  @override
+  String get recipeCopySuccess => 'Рецепт успешно скопирован!';
+
+  @override
+  String recipeCopyError(String error) {
+    return 'Ошибка при копировании рецепта: $error';
+  }
+
+  @override
+  String get createRecipe => 'Создать рецепт';
+
+  @override
+  String errorSyncingData(Object error) {
+    return 'Ошибка синхронизации данных: $error';
+  }
+
+  @override
+  String errorSigningOut(Object error) {
+    return 'Ошибка выхода: $error';
+  }
+
+  @override
+  String get defaultPreparationStepDescription => 'Подготовка';
+
+  @override
+  String get loadingEllipsis => 'Загрузка...';
+
+  @override
+  String get recipeDeletedSuccess => 'Рецепт успешно удален';
+
+  @override
+  String recipeDeleteError(Object error) {
+    return 'Не удалось удалить рецепт: $error';
+  }
+
+  @override
+  String get noRecipesFound => 'Рецепты не найдены';
+
+  @override
+  String recipeLoadError(Object error) {
+    return 'Не удалось загрузить рецепт: $error';
+  }
+
+  @override
+  String get unknownBrewingMethod => 'Неизвестный метод заваривания';
+
+  @override
+  String get recipeCopyErrorLoadingEdit =>
+      'Не удалось загрузить скопированный рецепт для редактирования.';
+
+  @override
+  String get recipeCopyErrorOperationFailed => 'Операция не удалась.';
+
+  @override
+  String get notProvided => 'Не указано';
+
+  @override
+  String get recipeUpdateFailedFetch =>
+      'Не удалось получить обновленные данные рецепта.';
+
+  @override
+  String get recipeImportSuccess => 'Рецепт успешно импортирован!';
+
+  @override
+  String get recipeImportFailedSave =>
+      'Не удалось сохранить импортированный рецепт.';
+
+  @override
+  String get recipeImportFailedFetch =>
+      'Не удалось получить данные рецепта для импорта.';
+
+  @override
+  String get recipeNotImported => 'Рецепт не импортирован.';
+
+  @override
+  String get recipeNotFoundCloud =>
+      'Рецепт не найден в облаке или не является общедоступным.';
+
+  @override
+  String get recipeLoadErrorGeneric => 'Ошибка загрузки рецепта.';
+
+  @override
+  String get recipeUpdateAvailableTitle => 'Доступно обновление';
+
+  @override
+  String recipeUpdateAvailableBody(String recipeName) {
+    return 'Новая версия \'$recipeName\' доступна онлайн. Обновить?';
+  }
+
+  @override
+  String get dialogCancel => 'Отмена';
+
+  @override
+  String get dialogUpdate => 'Обновить';
+
+  @override
+  String get recipeImportTitle => 'Импортировать рецепт';
+
+  @override
+  String recipeImportBody(String recipeName) {
+    return 'Вы хотите импортировать рецепт \'$recipeName\' из облака?';
+  }
+
+  @override
+  String get dialogImport => 'Импортировать';
+
+  @override
+  String get moderationReviewNeededTitle => 'Требуется проверка модератором';
+
+  @override
+  String moderationReviewNeededMessage(String recipeNames) {
+    return 'Следующий(ие) рецепт(ы) требует(ют) проверки из-за проблем с модерацией контента: $recipeNames';
+  }
+
+  @override
+  String get dismiss => 'Отклонить';
+
+  @override
+  String get reviewRecipeButton => 'Проверить рецепт';
+
+  @override
+  String get signInRequiredTitle => 'Требуется вход';
+
+  @override
+  String get signInRequiredBodyShare =>
+      'Вам необходимо войти в систему, чтобы поделиться своими рецептами.';
+
+  @override
+  String get syncSuccess => 'Синхронизация прошла успешно!';
+
+  @override
+  String get tooltipEditRecipe => 'Редактировать рецепт';
+
+  @override
+  String get tooltipCopyRecipe => 'Копировать рецепт';
+
+  @override
+  String get tooltipShareRecipe => 'Поделиться рецептом';
+
+  @override
+  String get signInRequiredSnackbar => 'Требуется вход';
+
+  @override
+  String get moderationErrorFunction =>
+      'Проверка модерации контента не удалась.';
+
+  @override
+  String get moderationReasonDefault => 'Контент помечен для проверки.';
+
+  @override
+  String get moderationFailedTitle => 'Модерация не удалась';
+
+  @override
+  String moderationFailedBody(String reason) {
+    return 'Этот рецепт не может быть опубликован, потому что: $reason';
+  }
+
+  @override
+  String shareErrorGeneric(String error) {
+    return 'Ошибка при публикации рецепта: $error';
+  }
+
+  @override
+  String recipeDetailWebTitle(String recipeName) {
+    return '$recipeName на Timer.Coffee';
+  }
+
+  @override
+  String get saveLocallyCheckLater =>
+      'Не удалось проверить статус контента. Сохранено локально, будет проверено при следующей синхронизации.';
+
+  @override
+  String get saveLocallyModerationFailedTitle => 'Изменения сохранены локально';
+
+  @override
+  String saveLocallyModerationFailedBody(String reason) {
+    return 'Ваши локальные изменения были сохранены, но публичная версия не может быть обновлена из-за модерации контента: $reason';
+  }
+
+  @override
+  String get editImportedRecipeTitle => 'Редактировать импортированный рецепт';
+
+  @override
+  String get editImportedRecipeBody =>
+      'Это импортированный рецепт. Редактирование создаст новую, независимую копию. Продолжить?';
+
+  @override
+  String get editImportedRecipeButtonCopy => 'Создать копию и редактировать';
+
+  @override
+  String get editImportedRecipeButtonCancel => 'Отмена';
+
+  @override
+  String get editDisplayNameTitle => 'Изменить отображаемое имя';
+
+  @override
+  String get displayNameHint => 'Введите ваше отображаемое имя';
+
+  @override
+  String get displayNameEmptyError => 'Отображаемое имя не может быть пустым';
+
+  @override
+  String get displayNameTooLongError =>
+      'Отображаемое имя не может превышать 50 символов';
+
+  @override
+  String get errorUserNotLoggedIn =>
+      'Пользователь не вошел в систему. Пожалуйста, войдите снова.';
+
+  @override
+  String get displayNameUpdateSuccess => 'Отображаемое имя успешно обновлено!';
+
+  @override
+  String displayNameUpdateError(String error) {
+    return 'Не удалось обновить отображаемое имя: $error';
+  }
+
+  @override
+  String get deletePictureConfirmationTitle => 'Удалить изображение?';
+
+  @override
+  String get deletePictureConfirmationBody =>
+      'Вы уверены, что хотите удалить изображение профиля?';
+
+  @override
+  String get deletePictureSuccess => 'Изображение профиля удалено.';
+
+  @override
+  String deletePictureError(String error) {
+    return 'Не удалось удалить изображение профиля: $error';
+  }
+
+  @override
+  String updatePictureError(String error) {
+    return 'Не удалось обновить изображение профиля: $error';
+  }
+
+  @override
+  String get updatePictureSuccess => 'Изображение профиля успешно обновлено!';
+
+  @override
+  String get deletePictureTooltip => 'Удалить изображение';
+
+  @override
+  String get account => 'Аккаунт';
+
+  @override
+  String get settingsBrewingMethodsTitle => 'Home Screen Brewing Methods';
+
+  @override
+  String get filter => 'Фильтр';
+
+  @override
+  String get secondsAbbreviation => 'с';
+}

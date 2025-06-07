@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // For localization
+import 'package:coffee_timer/l10n/app_localizations.dart'; // For localization
 import 'dart:convert'; // For base64 encoding
 import 'dart:typed_data'; // For Uint8List
 import 'package:image_picker/image_picker.dart';

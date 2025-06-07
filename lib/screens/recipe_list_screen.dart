@@ -8,7 +8,7 @@ import '../app_router.gr.dart';
 import '../widgets/favorite_button.dart';
 import '../utils/icon_utils.dart';
 import '../providers/user_recipe_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Added import
+import 'package:coffee_timer/l10n/app_localizations.dart'; // Added import
 import '../widgets/confirm_delete_dialog.dart';
 
 @RoutePage()

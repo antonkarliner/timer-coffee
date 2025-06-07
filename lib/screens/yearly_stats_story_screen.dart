@@ -13,7 +13,7 @@ import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart'; // Import Supabase
 import 'package:share_plus/share_plus.dart';
 import 'package:cached_network_image/cached_network_image.dart'; // Import CachedNetworkImage
-import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Import localization
+import 'package:coffee_timer/l10n/app_localizations.dart'; // Import localization
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../app_router.gr.dart';
 import '../providers/user_stat_provider.dart';

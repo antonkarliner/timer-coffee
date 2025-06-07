@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../app_router.gr.dart';
 import 'dart:async';
 import '../purchase_manager.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 

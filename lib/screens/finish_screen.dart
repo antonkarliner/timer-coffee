@@ -14,7 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/recipe_model.dart';
 import '../providers/user_stat_provider.dart';

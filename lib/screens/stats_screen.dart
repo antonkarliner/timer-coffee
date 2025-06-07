@@ -8,7 +8,7 @@ import '../app_router.gr.dart';
 import '../models/recipe_model.dart';
 import '../providers/recipe_provider.dart';
 import '../providers/database_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../providers/user_stat_provider.dart';
 
 enum TimePeriod { today, thisWeek, thisMonth, custom }

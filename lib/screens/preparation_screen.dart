@@ -4,7 +4,7 @@ import '../models/brew_step_model.dart';
 import 'brewing_process_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 
 class PreparationScreen extends StatefulWidget {
   final RecipeModel recipe;

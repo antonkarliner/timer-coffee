@@ -7,7 +7,7 @@ import '../providers/coffee_beans_provider.dart';
 import '../providers/database_provider.dart';
 import '../models/coffee_beans_model.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../widgets/roaster_logo.dart'; // Ensure this path is correct
 
 @RoutePage()

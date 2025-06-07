@@ -21,7 +21,7 @@ import 'package:share_plus/share_plus.dart';
 import 'dart:ui';
 import '../webhelper/web_helper.dart' as web;
 import 'dart:io';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../widgets/add_coffee_beans_widget.dart';
 import '../providers/coffee_beans_provider.dart';
 import '../providers/user_recipe_provider.dart'; // Keep this

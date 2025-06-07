@@ -7,7 +7,7 @@ import '../providers/recipe_provider.dart';
 import '../widgets/favorite_button.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../utils/icon_utils.dart';
 
 @RoutePage()

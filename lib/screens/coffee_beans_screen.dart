@@ -7,7 +7,7 @@ import '../app_router.gr.dart';
 import '../providers/coffee_beans_provider.dart';
 import '../models/coffee_beans_model.dart';
 import 'package:coffeico/coffeico.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../widgets/confirm_delete_dialog.dart';
 

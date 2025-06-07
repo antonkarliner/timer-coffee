@@ -20,7 +20,7 @@ import '../app_router.gr.dart'; // Ensure this import is correct
 import '../webhelper/web_helper.dart' as web;
 import '../utils/icon_utils.dart';
 import '../purchase_manager.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sign_in_button/sign_in_button.dart';

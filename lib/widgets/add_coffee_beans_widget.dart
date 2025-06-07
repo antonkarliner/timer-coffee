@@ -6,7 +6,7 @@ import '../providers/coffee_beans_provider.dart';
 import '../providers/database_provider.dart';
 import '../models/coffee_beans_model.dart';
 import '../app_router.gr.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class AddCoffeeBeansWidget extends StatefulWidget {
