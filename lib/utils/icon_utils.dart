@@ -13,7 +13,18 @@ Icon getIconByBrewingMethod(String? brewingMethodId) {
     "wilfa": Icon(Coffeico.wilfa_svart),
     "espresso": Icon(Coffeico.portafilter),
     "batchbrew": Icon(Coffeico.coffee_maker),
-    "switch": Icon(Coffeico.hario_switch)
+    "switch": Icon(Coffeico.hario_switch),
+    "melitacone": Icon(Coffeico.melita_cone),
+    "beehousedripper": Icon(Coffeico.bee_house_dripper),
+    "phinfilter": Icon(Coffeico.phin_filter),
+    "neapolitanflippot": Icon(Coffeico.neapolitan_flip_pot),
+    "mokapot": Icon(Coffeico.moka_pot),
+    "siphonbrewer": Icon(Coffeico.siphon_brewer),
+    "cezve": Icon(Coffeico.cezve),
+    "tricolate": Icon(Coffeico.tricolate),
+    "pulsar": Icon(Coffeico.pulsar),
+    "ufodripper": Icon(Coffeico.ufo_dripper),
+    "oreabrewer": Icon(Coffeico.orea_brewer)
   };
 
   return icons[brewingMethodId] ?? const Icon(Coffeico.bean);
