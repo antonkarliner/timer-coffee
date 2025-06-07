@@ -1,0 +1,7 @@
+Această actualizare aduce multe funcții noi, cum ar fi:  
+- design îmbunătățit  
+- multe metode noi de preparare  
+- posibilitatea de a afișa doar metodele de preparare necesare pe ecranul principal  
+și altele!  
+
+Și, bineînțeles, corecturi de erori.

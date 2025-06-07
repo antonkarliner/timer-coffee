@@ -1,0 +1,7 @@
+Dieses Update bringt viele neue Funktionen wie:  
+- verbessertes Design  
+- viele neue Brühmethoden  
+- Möglichkeit, nur benötigte Brühmethoden auf dem Startbildschirm anzuzeigen  
+und mehr!
+
+Und natürlich Fehlerbehebungen.

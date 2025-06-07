@@ -4,7 +4,7 @@
 devices([
    #"iPhone 14 Pro",
    #"iPhone 14 Pro Max"
-   "iPhone 16 Pro Max"
+   "iPhone 16 Pro Max",
    #"iPhone SE (3rd generation)"
    #"iPad Pro (12.9-inch) (5th generation)"
 #   "iPhone 8",
@@ -18,24 +18,24 @@ devices([
  ])
 
 languages([
-   "en-US",
-   "de-DE",
-   "ar-SA",
+   #"en-US",
+   #"de-DE",
+   #"ar-SA",
    "es-ES",
-   "es-MX",
-   "fr-FR",
-   "ja",
-   "pl",
-   "pt-BR",
-   "pt-PT",
-   "ru",
-   "zh-Hans",
-   "id",
-   "it",
-   "ro",
-   "tr",
-   "uk",
-   "nl-NL"
+   #"es-MX",
+   #"fr-FR",
+   #"ja",
+   #"pl",
+   #"pt-BR",
+   #"pt-PT",
+   #"ru",
+   #"zh-Hans",
+   #"id",
+   #"it",
+   #"ro",
+   #"tr",
+   #"uk",
+   #"nl-NL"
 ])
 
 # The name of the scheme which contains the UI Tests

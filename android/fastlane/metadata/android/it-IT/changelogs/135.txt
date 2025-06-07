@@ -1,0 +1,7 @@
+Questo aggiornamento introduce molte nuove funzionalità, come:  
+- design migliorato  
+- tanti nuovi metodi di estrazione  
+- possibilità di visualizzare solo i metodi di estrazione necessari nella schermata principale  
+e altro ancora!  
+
+E naturalmente, correzioni di bug.

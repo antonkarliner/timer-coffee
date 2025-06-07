@@ -1,3 +1,7 @@
-Timer.Coffee 3.0 burada!
+Bu güncelleme birçok yeni özelliği beraberinde getiriyor, örneğin:
+- geliştirilmiş tasarım
+- birçok yeni demleme yöntemi
+- ana ekranda yalnızca ihtiyaç duyulan demleme yöntemlerini gösterme özelliği
+ve daha fazlası!
 
-Artık kendi tariflerinizi oluşturabilir ve başkalarıyla paylaşabilirsiniz. Yakında daha heyecan verici güncellemeler gelecek!
+Ve tabii ki hata düzeltmeleri de.

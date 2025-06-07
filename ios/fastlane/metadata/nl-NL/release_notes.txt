@@ -1,3 +1,7 @@
-Timer.Coffee 3.0 is hier!
+Deze update brengt veel nieuwe functies, zoals:
+- verbeterd ontwerp
+- veel nieuwe zetmethodes
+- mogelijkheid om alleen de benodigde zetmethodes op het startscherm weer te geven
+en meer!
 
-Je kunt nu je eigen recepten maken en deze met anderen delen. Meer spannende updates volgen binnenkort!
+En natuurlijk bugfixes.

@@ -80,8 +80,14 @@ class DatabaseProvider {
     await Future.wait([
       _fetchAndStoreRecipes(isFirstLaunch: isFirstLaunch),
       _fetchAndStoreExtraData(isFirstLaunch: isFirstLaunch),
-      // Perform deferred moderation checks after main sync
-      _performDeferredModerationChecks(),
+      // Perform deferred moderation checks after main sync, but don't block forever if offline
+      _performDeferredModerationChecks().timeout(
+        const Duration(seconds: 5),
+        onTimeout: () {
+          print('Deferred moderation checks timed out');
+          return;
+        },
+      ),
     ]);
   }
 

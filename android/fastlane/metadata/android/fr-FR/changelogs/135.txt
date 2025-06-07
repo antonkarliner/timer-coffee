@@ -1,0 +1,7 @@
+Cette mise à jour apporte de nombreuses nouvelles fonctionnalités telles que :  
+- design amélioré  
+- de nombreuses nouvelles méthodes d'infusion  
+- possibilité d'afficher uniquement les méthodes d'infusion nécessaires sur l'écran d'accueil  
+et plus encore !
+
+Et bien sûr, des corrections de bugs.

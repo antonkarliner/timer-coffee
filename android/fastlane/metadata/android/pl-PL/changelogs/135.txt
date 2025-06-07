@@ -1,0 +1,7 @@
+Ta aktualizacja wprowadza wiele nowych funkcji, takich jak:  
+- ulepszony design  
+- wiele nowych metod parzenia  
+- możliwość wyświetlania na ekranie głównym tylko potrzebnych metod parzenia  
+i więcej!  
+
+Oczywiście zawiera również poprawki błędów.

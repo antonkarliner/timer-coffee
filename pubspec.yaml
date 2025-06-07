@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 3.0.1+123
+version: 3.1.1+137
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -27,7 +27,7 @@ dependencies:
   share_plus: ^11.0.0
   flutter_native_splash: ^2.4.0
   introduction_screen: ^3.1.11
-  coffeico: ^0.3.0
+  #coffeico: ^0.3.0
   in_app_purchase: ^3.1.11
   supabase_flutter: ^2.8.2
   drift: ^2.26.0
@@ -73,6 +73,11 @@ dependency_overrides:
       url: https://github.com/EchoEllet/flutter_keyboard_visibility_temp_fork.git
       ref: master
       path: flutter_keyboard_visibility_web
+  coffeico:
+    git:
+      url: https://github.com/antonkarliner/coffeico.git
+      ref: 354b1aeeae20a332b4c412f3700058d571350ad2
+      path: flutter
 dev_dependencies:
   flutter_test:
     sdk: flutter

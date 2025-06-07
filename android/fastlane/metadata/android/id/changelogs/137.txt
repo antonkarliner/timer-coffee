@@ -1,7 +1,7 @@
 Pembaruan ini menghadirkan banyak fitur baru seperti:
 - desain yang ditingkatkan
 - banyak metode seduh baru
-- kemampuan untuk menampilkan hanya metode seduh yang dibutuhkan di layar utama
+- kemampuan menampilkan hanya metode seduh yang dibutuhkan di layar utama
 dan lainnya!
 
-Dan perbaikan bug, tentunya.
+Dan tentu saja, perbaikan bug.

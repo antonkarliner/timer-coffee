@@ -1,0 +1,7 @@
+Bu güncelleme, pek çok yeni özelliği beraberinde getiriyor, örneğin:
+- geliştirilmiş tasarım
+- birçok yeni demleme yöntemi
+- ana ekranda yalnızca gerekli demleme yöntemlerini gösterme yeteneği
+ve daha fazlası!
+
+Ve tabii ki hata düzeltmeleri.

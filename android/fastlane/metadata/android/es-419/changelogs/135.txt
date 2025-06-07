@@ -1,0 +1,7 @@
+Esta actualización trae muchas novedades como:  
+- diseño mejorado  
+- muchos nuevos métodos de preparación  
+- capacidad para mostrar solo los métodos de preparación necesarios en la pantalla de inicio  
+¡y más!
+
+Y correcciones de errores, por supuesto.

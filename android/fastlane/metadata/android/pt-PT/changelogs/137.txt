@@ -1,0 +1,7 @@
+Esta atualização traz muitas novidades, tais como:
+- design melhorado
+- muitos novos métodos de preparação
+- capacidade de exibir apenas os métodos de preparação necessários no ecrã inicial
+e mais!
+
+E correções de bugs, claro.

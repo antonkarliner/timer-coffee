@@ -271,12 +271,13 @@ packages:
     source: hosted
     version: "4.10.1"
   coffeico:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
-      name: coffeico
-      sha256: f35a69df89fed9aaac30f9edad67b4d8516268ab6e35a84e50778cfed1118c3b
-      url: "https://pub.dev"
-    source: hosted
+      path: flutter
+      ref: "354b1aeeae20a332b4c412f3700058d571350ad2"
+      resolved-ref: "354b1aeeae20a332b4c412f3700058d571350ad2"
+      url: "https://github.com/antonkarliner/coffeico.git"
+    source: git
     version: "0.3.0"
   collection:
     dependency: "direct main"

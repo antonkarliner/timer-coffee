@@ -1,3 +1,7 @@
-Timer.Coffee 3.0 ist da!
+Dieses Update bringt viele neue Funktionen, wie zum Beispiel:
+- verbessertes Design
+- viele neue Brühmethoden
+- die Möglichkeit, nur die benötigten Brühmethoden auf dem Startbildschirm anzuzeigen
+und mehr!
 
-Sie können jetzt Ihre eigenen Rezepte erstellen und mit anderen teilen. Weitere spannende Updates folgen in Kürze!
+Und natürlich Fehlerbehebungen.

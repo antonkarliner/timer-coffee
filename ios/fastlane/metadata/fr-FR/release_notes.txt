@@ -1,3 +1,7 @@
-Timer.Coffee 3.0 est arrivé !
+Cette mise à jour apporte de nombreuses nouvelles fonctionnalités telles que :
+- design amélioré
+- de nombreuses nouvelles méthodes de préparation
+- possibilité d'afficher uniquement les méthodes de préparation nécessaires sur l'écran d'accueil
+et plus encore !
 
-Vous pouvez désormais créer vos propres recettes et les partager avec d'autres. D'autres mises à jour passionnantes à venir bientôt !
+Et des corrections de bugs, bien sûr.

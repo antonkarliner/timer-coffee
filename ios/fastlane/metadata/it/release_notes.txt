@@ -1,3 +1,9 @@
-Timer.Coffee 3.0 è arrivato!
+Ecco la traduzione in italiano:
 
-Ora puoi creare le tue ricette e condividerle con gli altri. Altri aggiornamenti entusiasmanti in arrivo!
+Questo aggiornamento introduce molte nuove funzionalità come:
+- design migliorato
+- molte nuove tecniche di estrazione
+- possibilità di visualizzare solo le tecniche di estrazione necessarie nella schermata principale
+e altro ancora!
+
+E, naturalmente, correzioni di bug.
