@@ -2007,7 +2007,8 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
       spanList.add(TextSpan(
         text: linkText,
-        style: defaultTextStyle.copyWith(color: Colors.blue),
+        style: defaultTextStyle.copyWith(
+            color: Theme.of(context).colorScheme.secondary),
         recognizer: TapGestureRecognizer()
           ..onTap = () async {
             if (await canLaunchUrl(Uri.parse(linkUrl))) {

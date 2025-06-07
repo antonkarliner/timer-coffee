@@ -21,8 +21,10 @@ import 'package:intl/intl.dart'; // Added for locale
 @RoutePage()
 class RecipeCreationScreen extends StatefulWidget {
   final RecipeModel? recipe;
+  final String? brewingMethodId;
 
-  const RecipeCreationScreen({Key? key, this.recipe}) : super(key: key);
+  const RecipeCreationScreen({Key? key, this.recipe, this.brewingMethodId})
+      : super(key: key);
 
   @override
   State<RecipeCreationScreen> createState() => _RecipeCreationScreenState();
@@ -160,16 +162,35 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       _brewingMethods = methods;
       _isLoading = false;
 
-      // Check if the pre-selected ID (from widget.recipe) is valid among loaded methods
-      bool preselectedIdIsValid = _selectedBrewingMethodId != null &&
-          methods.any((m) => m.brewingMethodId == _selectedBrewingMethodId);
+      // If editing, use the recipe's brewing method as before.
+      if (widget.recipe != null) {
+        // Check if the pre-selected ID (from widget.recipe) is valid among loaded methods
+        bool preselectedIdIsValid = _selectedBrewingMethodId != null &&
+            methods.any((m) => m.brewingMethodId == _selectedBrewingMethodId);
 
-      // If the pre-selected ID is not valid OR if no ID was pre-selected,
-      // default to the first available method.
-      if (!preselectedIdIsValid && methods.isNotEmpty) {
-        _selectedBrewingMethodId = methods.first.brewingMethodId;
-      } else if (methods.isEmpty) {
-        _selectedBrewingMethodId = null;
+        if (!preselectedIdIsValid && methods.isNotEmpty) {
+          _selectedBrewingMethodId = methods.first.brewingMethodId;
+        } else if (methods.isEmpty) {
+          _selectedBrewingMethodId = null;
+        }
+      } else if (widget.brewingMethodId != null) {
+        // If creating and brewingMethodId is provided, use it if valid
+        final found =
+            methods.any((m) => m.brewingMethodId == widget.brewingMethodId);
+        if (found) {
+          _selectedBrewingMethodId = widget.brewingMethodId;
+        } else if (methods.isNotEmpty) {
+          _selectedBrewingMethodId = methods.first.brewingMethodId;
+        } else {
+          _selectedBrewingMethodId = null;
+        }
+      } else {
+        // If creating and no brewingMethodId, fallback to first available
+        if (methods.isNotEmpty) {
+          _selectedBrewingMethodId = methods.first.brewingMethodId;
+        } else {
+          _selectedBrewingMethodId = null;
+        }
       }
     });
     _validateFirstPage();
@@ -298,18 +319,25 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
 
   String _convertExpressionsToNumericValues(String description) {
     final RegExp expressionRegex = RegExp(
-        r'\((\d+(?:\.\d+)?)\s*x\s*<final_(?:coffee|water)_amount>\)(\w*)');
+        r'\((\d+(?:\.\d+)?)\s*(?:x|×)\s*<final_\s*(?:coffee|water)\s*_amount\s*>\)(\w*)');
     return description.replaceAllMapped(expressionRegex, (match) {
       String multiplierStr = match.group(1)!;
       String unit = match.group(2) ?? '';
       double multiplier = double.tryParse(multiplierStr) ?? 0;
-      String placeholder = match.group(0)!;
+      String placeholder = match.group(0)!; // Full matched string
+
       double value;
       if (placeholder.contains('<final_coffee_amount>')) {
         value = multiplier * _coffeeAmount;
-      } else {
+      } else if (placeholder.contains('<final_water_amount>')) {
         value = multiplier * _waterAmount;
+      } else {
+        // This case should ideally not be reached if the regex and placeholder names are correct.
+        // Consider logging an error or handling it more gracefully if it occurs.
+        value = multiplier *
+            _waterAmount; // Fallback to water or handle as an error
       }
+
       String formattedValue;
       if (value == value.roundToDouble()) {
         formattedValue = value.round().toString();
@@ -352,34 +380,77 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       l10n.unitGramsLong,
       l10n.unitMillilitersLong,
     ].map((unit) => RegExp.escape(unit)).join('|');
-    final RegExp measurementWithUnitsRegex =
-        RegExp(r'\b(\d+(?:\.\d+)?)\s*(' + unitsPattern + r')\b');
-    final RegExp largeNumberRegex = RegExp(r'\b(\d{2,}(?:\.\d+)?)\b');
-    String processedText =
-        text.replaceAllMapped(measurementWithUnitsRegex, (match) {
-      String numStr = match.group(1)!;
-      String unit = match.group(2)!;
-      double value = double.tryParse(numStr) ?? 0;
-      if (value < 0.1) return match.group(0)!;
-      final multiplierInfo = _getCleanestMultiplier(value);
-      final String placeholder = multiplierInfo['type'] == 'coffee'
-          ? '<final_coffee_amount>'
-          : '<final_water_amount>';
-      return '(${multiplierInfo['formatted']} x $placeholder)$unit';
-    });
-    return processedText.replaceAllMapped(largeNumberRegex, (match) {
-      String numStr = match.group(1)!;
-      double value = double.tryParse(numStr) ?? 0;
-      if (value < 0.1) return match.group(0)!;
-      if (value < 10) {
-        return match.group(0)!;
+
+    // Regex to find numbers with optional units.
+    // Group 1: The number (e.g., "100", "20.5")
+    // Group 2: Optional - The unit if present (e.g., "g", "ml")
+    final RegExp numberCatchRegex =
+        RegExp(r'\b(\d+(?:\.\d+)?)\s*(' + unitsPattern + r')?\b');
+
+    // Regex for contexts where numbers should NOT be converted to expressions.
+    final RegExp excludeContextRegex = RegExp(
+        r'\b\d+\s*(?:-|to)\s*\d+\s*times\b|\b\d+\s*times\b|\b\d+\s*(?:seconds?|minutes?|mins?)\b',
+        caseSensitive: false);
+
+    StringBuffer resultBuffer = StringBuffer();
+    int currentIndex = 0;
+
+    // Find all potential number matches in the text.
+    List<Match> allNumberMatches = numberCatchRegex.allMatches(text).toList();
+    // Find all exclusion zone matches.
+    List<Match> allExclusionMatches =
+        excludeContextRegex.allMatches(text).toList();
+
+    for (Match numberMatch in allNumberMatches) {
+      // Append text before this potential number match.
+      resultBuffer.write(text.substring(currentIndex, numberMatch.start));
+
+      String fullMatchText = numberMatch.group(0)!; // e.g., "100g" or "250"
+      String numStr = numberMatch.group(1)!; // e.g., "100" or "250"
+      String unit = numberMatch.group(2) ?? ''; // e.g., "g" or ""
+
+      // Check if this numberMatch falls within any exclusion zone.
+      bool isExcluded = false;
+      for (Match excludeMatch in allExclusionMatches) {
+        if (numberMatch.start >= excludeMatch.start &&
+            numberMatch.end <= excludeMatch.end) {
+          isExcluded = true;
+          break;
+        }
       }
-      final multiplierInfo = _getCleanestMultiplier(value);
-      final String placeholder = multiplierInfo['type'] == 'coffee'
-          ? '<final_coffee_amount>'
-          : '<final_water_amount>';
-      return '(${multiplierInfo['formatted']} x $placeholder)';
-    });
+
+      if (isExcluded) {
+        resultBuffer.write(fullMatchText); // Append as is if excluded.
+      } else {
+        double value = double.tryParse(numStr) ?? 0;
+        // Apply conversion conditions from original logic.
+        bool shouldConvert = true;
+        if (value < 0.1) {
+          shouldConvert = false;
+        } else if (unit.isEmpty && value < 10) {
+          // This condition was from the old largeNumberRegex logic,
+          // applied to numbers without explicit units.
+          shouldConvert = false;
+        }
+
+        if (shouldConvert) {
+          final multiplierInfo = _getCleanestMultiplier(value);
+          final String placeholder = multiplierInfo['type'] == 'coffee'
+              ? '<final_coffee_amount>'
+              : '<final_water_amount>';
+          resultBuffer
+              .write('(${multiplierInfo['formatted']} x $placeholder)$unit');
+        } else {
+          resultBuffer.write(fullMatchText); // Append as is if not converted.
+        }
+      }
+      currentIndex = numberMatch.end;
+    }
+
+    // Append any remaining text after the last number match.
+    resultBuffer.write(text.substring(currentIndex));
+
+    return resultBuffer.toString();
   }
 
   List<BrewStepModel> _processStepsForSaving(List<BrewStepModel> steps) {
@@ -748,12 +819,18 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
                   const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
+                borderSide:
+                    BorderSide(color: Theme.of(context).colorScheme.primary),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
+                borderSide:
+                    BorderSide(color: Theme.of(context).colorScheme.primary),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary, width: 2),
               ),
             ),
             value: _selectedBrewingMethodId,

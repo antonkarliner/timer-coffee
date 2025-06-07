@@ -2,12 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/rendering.dart';
 import '../app_router.gr.dart';
 import '../providers/coffee_beans_provider.dart';
 import '../models/coffee_beans_model.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../widgets/confirm_delete_dialog.dart';
 
 class FilterOptions {
   List<String> selectedRoasters;
@@ -38,10 +40,41 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
   List<String> roasters = [];
   List<String> origins = [];
 
+  // BottomAppBar hide-on-scroll logic
+  bool _isBottomBarVisible = true;
+  late final ScrollController _scrollController;
+
   @override
   void initState() {
     super.initState();
     _loadFilterOptions();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_handleScroll);
+  }
+
+  void _handleScroll() {
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      if (_isBottomBarVisible) {
+        setState(() {
+          _isBottomBarVisible = false;
+        });
+      }
+    } else if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
+      if (!_isBottomBarVisible) {
+        setState(() {
+          _isBottomBarVisible = true;
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_handleScroll);
+    _scrollController.dispose();
+    super.dispose();
   }
 
   void _loadFilterOptions() async {
@@ -362,20 +395,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
             ],
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.filter_list),
-            onPressed: _showFilterDialog,
-          ),
-          Semantics(
-            identifier: 'toggleEditModeButton',
-            label: loc.toggleEditMode,
-            child: IconButton(
-              icon: Icon(isEditMode ? Icons.done : Icons.edit_note),
-              onPressed: toggleEditMode,
-            ),
-          ),
-        ],
+        // No actions here; moved to BottomAppBar
       ),
       body: FutureBuilder<List<CoffeeBeansModel>>(
         future: coffeeBeansProvider.fetchFilteredCoffeeBeans(
@@ -389,6 +409,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
               ..sort((a, b) => b.beansUuid!.compareTo(a.beansUuid!));
 
             return ListView.builder(
+              controller: _scrollController,
               itemCount: sortedData.length,
               itemBuilder: (context, index) {
                 final bean = sortedData[index];
@@ -414,17 +435,82 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
           }
         },
       ),
-      floatingActionButton: Semantics(
-        identifier: 'addCoffeeBeansButton',
-        label: loc.addBeans,
-        child: FloatingActionButton(
-          onPressed: () async {
-            final result = await context.router.push(NewBeansRoute());
-            if (result != null && result is String) {
-              setState(() {}); // Refresh the list after adding new beans
-            }
-          },
-          child: const Icon(Icons.add),
+      floatingActionButton: AnimatedScale(
+        scale: _isBottomBarVisible ? 1.0 : 0.0,
+        duration: const Duration(milliseconds: 200),
+        child: AnimatedOpacity(
+          opacity: _isBottomBarVisible ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 200),
+          child: IgnorePointer(
+            ignoring: !_isBottomBarVisible,
+            child: Semantics(
+              identifier: 'addCoffeeBeansButton',
+              label: loc.addBeans,
+              child: FloatingActionButton(
+                // backgroundColor removed to use default
+                onPressed: () async {
+                  final result = await context.router.push(NewBeansRoute());
+                  if (result != null && result is String) {
+                    setState(() {}); // Refresh the list after adding new beans
+                  }
+                },
+                child: const Icon(Icons.add),
+              ),
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: SafeArea(
+        top: false,
+        left: false,
+        right: false,
+        bottom: true, // Apply bottom safe area
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          height: _isBottomBarVisible ? kBottomNavigationBarHeight : 0,
+          // Correctly formatted decoration and child:
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(
+                      Theme.of(context).brightness == Brightness.dark ? 31 : 20,
+                    ),
+                width: 1,
+              ),
+            ),
+            color: Theme.of(context).bottomAppBarTheme.color ??
+                Theme.of(context).colorScheme.surface,
+          ),
+          child: IgnorePointer(
+            ignoring: !_isBottomBarVisible,
+            child: AnimatedOpacity(
+              opacity: _isBottomBarVisible ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 200),
+              child: BottomAppBar(
+                shape: const CircularNotchedRectangle(),
+                notchMargin: 8,
+                color: Colors.transparent,
+                elevation: 0,
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.filter_list, size: 28),
+                      tooltip: loc.filter,
+                      onPressed: _showFilterDialog,
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: Icon(isEditMode ? Icons.done : Icons.edit_note,
+                          size: 28),
+                      tooltip: loc.toggleEditMode,
+                      onPressed: toggleEditMode,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -545,7 +631,22 @@ class CoffeeBeanCard extends StatelessWidget {
                     child: IconButton(
                       icon: const Icon(Icons.remove_circle_outline,
                           color: Colors.red),
-                      onPressed: onDelete,
+                      onPressed: () async {
+                        final confirmed = await showDialog<bool>(
+                          context: context,
+                          builder: (context) => ConfirmDeleteDialog(
+                            title: AppLocalizations.of(context)!
+                                .confirmDeleteTitle,
+                            content: AppLocalizations.of(context)!
+                                .confirmDeleteMessage,
+                            confirmLabel: AppLocalizations.of(context)!.delete,
+                            cancelLabel: AppLocalizations.of(context)!.cancel,
+                          ),
+                        );
+                        if (confirmed == true) {
+                          onDelete();
+                        }
+                      },
                     ),
                   ),
                 Semantics(

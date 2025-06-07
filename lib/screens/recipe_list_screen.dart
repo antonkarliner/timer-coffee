@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/rendering.dart';
 import '../models/recipe_model.dart';
 import '../providers/recipe_provider.dart';
 import 'package:auto_route/auto_route.dart';
@@ -8,6 +9,7 @@ import '../widgets/favorite_button.dart';
 import '../utils/icon_utils.dart';
 import '../providers/user_recipe_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Added import
+import '../widgets/confirm_delete_dialog.dart';
 
 @RoutePage()
 class RecipeListScreen extends StatefulWidget {
@@ -24,6 +26,42 @@ class RecipeListScreen extends StatefulWidget {
 
 class _RecipeListScreenState extends State<RecipeListScreen> {
   bool _isEditMode = false;
+
+  // BottomAppBar hide-on-scroll logic
+  bool _isBottomBarVisible = true;
+  late final ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_handleScroll);
+  }
+
+  void _handleScroll() {
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      if (_isBottomBarVisible) {
+        setState(() {
+          _isBottomBarVisible = false;
+        });
+      }
+    } else if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
+      if (!_isBottomBarVisible) {
+        setState(() {
+          _isBottomBarVisible = true;
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_handleScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   Future<void> _deleteRecipe(RecipeModel recipe) async {
     try {
@@ -43,6 +81,13 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                 .recipeDeleteError(e.toString()))), // Changed
       );
     }
+  }
+
+  void _toggleEditMode() {
+    setState(() {
+      _isEditMode = !_isEditMode;
+    });
+    Provider.of<RecipeProvider>(context, listen: false).fetchAllRecipes();
   }
 
   @override
@@ -68,18 +113,7 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            icon: Icon(_isEditMode ? Icons.check : Icons.edit_note),
-            onPressed: () {
-              setState(() {
-                _isEditMode = !_isEditMode;
-              });
-              Provider.of<RecipeProvider>(context, listen: false)
-                  .fetchAllRecipes();
-            },
-          ),
-        ],
+        // No actions here; moved to BottomAppBar
       ),
       body: Semantics(
         identifier: 'recipeListBody',
@@ -148,6 +182,7 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                       AppLocalizations.of(context)!.noRecipesFound)); // Changed
             }
             return ListView.builder(
+              controller: _scrollController,
               itemCount: recipes.length,
               itemBuilder: (BuildContext context, int index) {
                 RecipeModel recipe = recipes[index];
@@ -164,7 +199,24 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                               IconButton(
                                 icon: const Icon(Icons.remove_circle_outline,
                                     color: Colors.red),
-                                onPressed: () => _deleteRecipe(recipe),
+                                onPressed: () async {
+                                  final confirmed = await showDialog<bool>(
+                                    context: context,
+                                    builder: (context) => ConfirmDeleteDialog(
+                                      title: AppLocalizations.of(context)!
+                                          .confirmDeleteTitle,
+                                      content: AppLocalizations.of(context)!
+                                          .confirmDeleteMessage,
+                                      confirmLabel:
+                                          AppLocalizations.of(context)!.delete,
+                                      cancelLabel:
+                                          AppLocalizations.of(context)!.cancel,
+                                    ),
+                                  );
+                                  if (confirmed == true) {
+                                    _deleteRecipe(recipe);
+                                  }
+                                },
                               ),
                             ],
                           )
@@ -177,6 +229,77 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
               },
             );
           },
+        ),
+      ),
+      floatingActionButton: AnimatedScale(
+        scale: _isBottomBarVisible ? 1.0 : 0.0,
+        duration: const Duration(milliseconds: 200),
+        child: AnimatedOpacity(
+          opacity: _isBottomBarVisible ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 200),
+          child: IgnorePointer(
+            ignoring: !_isBottomBarVisible,
+            child: FloatingActionButton(
+              onPressed: () {
+                context.router.push(RecipeCreationRoute(
+                    brewingMethodId: widget.brewingMethodId));
+              },
+              child: const Icon(Icons.add),
+              // backgroundColor removed to use default
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: SafeArea(
+        top: false,
+        left: false,
+        right: false,
+        bottom: true, // Apply bottom safe area
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          height: _isBottomBarVisible ? kBottomNavigationBarHeight : 0,
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(
+                      Theme.of(context).brightness == Brightness.dark ? 31 : 20,
+                    ),
+                width: 1,
+              ),
+            ),
+            // Ensure background color matches theme to avoid issues during animation
+            color: Theme.of(context).bottomAppBarTheme.color ??
+                Theme.of(context).colorScheme.surface,
+          ),
+          child: IgnorePointer(
+            ignoring: !_isBottomBarVisible,
+            child: AnimatedOpacity(
+              opacity: _isBottomBarVisible ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 200),
+              child: BottomAppBar(
+                shape: const CircularNotchedRectangle(),
+                notchMargin: 8,
+                // Important: Ensure BottomAppBar color is transparent if its parent AnimatedContainer has color
+                // Or ensure AnimatedContainer's color is what you want for the BottomAppBar background
+                color: Colors
+                    .transparent, // Or match theme, but ensure no double backgrounds
+                elevation:
+                    0, // Elevation might be handled by AnimatedContainer's border or decoration
+                child: Row(
+                  children: [
+                    const Spacer(),
+                    IconButton(
+                      icon: Icon(_isEditMode ? Icons.check : Icons.edit_note,
+                          size: 28),
+                      tooltip: 'Toggle edit mode',
+                      onPressed: _toggleEditMode,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );

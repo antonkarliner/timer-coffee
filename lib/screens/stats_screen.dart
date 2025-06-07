@@ -378,8 +378,10 @@ class _StatsScreenState extends State<StatsScreen> {
                                             Flexible(
                                               child: Text(
                                                   recipeSnapshot.data!.name,
-                                                  style: const TextStyle(
-                                                      color: Colors.lightBlue),
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary),
                                                   overflow: TextOverflow
                                                       .ellipsis, // Ensure text does not overflow
                                                   maxLines:
@@ -501,8 +503,10 @@ class _StatsScreenState extends State<StatsScreen> {
                                             Flexible(
                                               child: Text(
                                                   recipeSnapshot.data!.name,
-                                                  style: const TextStyle(
-                                                      color: Colors.lightBlue,
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
                                                       fontSize: 14),
                                                   overflow: TextOverflow
                                                       .ellipsis, // Ensure text does not overflow

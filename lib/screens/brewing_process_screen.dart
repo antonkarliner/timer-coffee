@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:core';
 import 'dart:core' as core;
+import 'dart:math' as math; // Added for math functions
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:flutter_animate/flutter_animate.dart'; // Added for animations
 import '../models/recipe_model.dart';
 import '../models/brew_step_model.dart';
 import 'finish_screen.dart';
@@ -66,13 +68,25 @@ class BrewingProcessScreen extends StatefulWidget {
   State<BrewingProcessScreen> createState() => _BrewingProcessScreenState();
 }
 
-class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
+class _BrewingProcessScreenState extends State<BrewingProcessScreen>
+    with TickerProviderStateMixin {
   late List<BrewStepModel> brewingSteps;
   int currentStepIndex = 0;
   int currentStepTime = 0;
   late Timer timer;
   bool _isPaused = false;
   final _player = AudioPlayer();
+
+  late AnimationController _pulseController;
+  late Animation<double> _pulseAnimation;
+
+  late AnimationController _colorController;
+  late Animation<Color?> _colorAnimation;
+
+  late AnimationController
+      _endBrewAnimationController; // For end of brew animation
+  bool _isEndBrewAnimating = false; // Flag for end of brew animation state
+
   String replacePlaceholders(
     String description,
     double coffeeAmount,
@@ -133,7 +147,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
     });
 
     // Handle mathematical expressions like (multiplier x value)
-    RegExp mathExp = RegExp(r'\(([\d.]+) x ([\d.]+)\)');
+    RegExp mathExp = RegExp(r'\(([\d.]+)\s*(?:x|×)\s*([\d.]+)\)');
     replacedText = replacedText.replaceAllMapped(mathExp, (match) {
       double multiplier = double.parse(match.group(1)!);
       double value = double.parse(match.group(2)!);
@@ -210,6 +224,30 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
     super.initState();
     WakelockPlus.enable();
 
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 180),
+    );
+    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.04).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeOut),
+    );
+
+    _colorController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    // ColorTween will be set dynamically in build
+
+    _endBrewAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1800), // Adjusted duration
+    );
+    _endBrewAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _navigateToFinishScreen();
+      }
+    });
+
     brewingSteps = widget.recipe.steps
         .map((step) {
           Duration stepDuration = replaceTimePlaceholder(
@@ -256,12 +294,35 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
     timer.cancel();
     WakelockPlus.disable();
     _player.dispose();
+    _pulseController.dispose();
+    _colorController.dispose();
+    _endBrewAnimationController.dispose(); // Dispose new controller
     super.dispose();
+  }
+
+  void _navigateToFinishScreen() {
+    // Ensure it only navigates once and if mounted
+    if (!mounted || !_isEndBrewAnimating) return;
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FinishScreen(
+            brewingMethodName: widget.brewingMethodName,
+            recipe: widget.recipe,
+            waterAmount: widget.waterAmount,
+            coffeeAmount: widget.coffeeAmount,
+            sweetnessSliderPosition: widget.sweetnessSliderPosition,
+            strengthSliderPosition: widget.strengthSliderPosition),
+      ),
+    );
   }
 
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      if (currentStepTime >= brewingSteps[currentStepIndex].time.inSeconds) {
+      final stepDuration = brewingSteps[currentStepIndex].time.inSeconds;
+      final last5Start = stepDuration - 5;
+      if (currentStepTime >= stepDuration) {
         if (currentStepIndex < brewingSteps.length - 1) {
           if (widget.soundEnabled) {
             await _player.setAsset('assets/audio/next.mp3');
@@ -277,28 +338,46 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
             _player.play();
           }
           timer.cancel();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => FinishScreen(
-                  brewingMethodName: widget.brewingMethodName,
-                  recipe: widget.recipe,
-                  waterAmount: widget.waterAmount,
-                  coffeeAmount: widget.coffeeAmount,
-                  sweetnessSliderPosition: widget.sweetnessSliderPosition,
-                  strengthSliderPosition: widget.strengthSliderPosition),
-            ),
-          );
+          // Instead of navigating directly, trigger the end brew animation
+          setState(() {
+            _isEndBrewAnimating = true;
+          });
+          _endBrewAnimationController.forward(from: 0.0);
+          // _navigateToFinishScreen() will be called by the controller's status listener
         }
       } else {
         setState(() {
           currentStepTime++;
         });
+        // Pulse logic: last 5 seconds of the step
+        if (!_isEndBrewAnimating &&
+            currentStepTime > last5Start &&
+            currentStepTime <= stepDuration) {
+          _pulseController
+              .forward(from: 0.0)
+              .then((_) => _pulseController.reverse());
+        }
+        // Color tween logic: last 3 seconds of final step
+        if (!_isEndBrewAnimating &&
+            currentStepIndex == brewingSteps.length - 1 &&
+            (stepDuration - currentStepTime) < 3 &&
+            (stepDuration - currentStepTime) >= 0) {
+          if (!_colorController.isAnimating && _colorController.value == 0.0) {
+            _colorController.forward();
+          }
+        } else {
+          if (_colorController.value != 0.0 && !_isEndBrewAnimating) {
+            // Check _isEndBrewAnimating here too
+            _colorController.reverse();
+          }
+        }
       }
     });
   }
 
   void _togglePause() {
+    // Prevent pausing during the final animation
+    if (_isEndBrewAnimating) return;
     setState(() {
       _isPaused = !_isPaused;
     });
@@ -316,138 +395,355 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen> {
       appBar: AppBar(
         title: Semantics(
           identifier: 'brewingProcessTitle',
-          child: Text(AppLocalizations.of(context)!.brewingprocess),
+          child: Text(
+            '${AppLocalizations.of(context)!.step} ${intl.NumberFormat().format(currentStepIndex + 1)}/${intl.NumberFormat().format(brewingSteps.length)}',
+          ),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Stack(
         children: [
-          Expanded(
-            child: Semantics(
-              identifier: 'brewingStepsContent',
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Semantics(
+                  identifier: 'brewingStepsContent',
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
                           children: [
-                            Semantics(
-                              identifier: 'currentStepLabel',
-                              child: Text(
-                                AppLocalizations.of(context)!.step + ' ',
-                                style: const TextStyle(fontSize: 20),
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Semantics(
+                                  identifier: 'circularProgressIndicator',
+                                  child: AnimatedBuilder(
+                                    animation: Listenable.merge(
+                                        [_pulseController, _colorController]),
+                                    builder: (context, child) {
+                                      final theme = Theme.of(context);
+                                      final isFinalStep = currentStepIndex ==
+                                          brewingSteps.length - 1;
+                                      final remaining =
+                                          brewingSteps[currentStepIndex]
+                                                  .time
+                                                  .inSeconds -
+                                              currentStepTime;
+                                      final isLast3 = isFinalStep &&
+                                          remaining < 3 &&
+                                          remaining >= 0 &&
+                                          !_isEndBrewAnimating;
+
+                                      final Color beginColor =
+                                          theme.colorScheme.secondary;
+                                      final Color endColor =
+                                          theme.brightness == Brightness.dark
+                                              ? const Color(
+                                                  0xffc66564) // Cherry (dark)
+                                              : const Color(
+                                                  0xff8e2e2d); // Cherry (light)
+
+                                      final colorTween = ColorTween(
+                                          begin: beginColor, end: endColor);
+
+                                      final Color currentRingColor = (isLast3
+                                          ? (colorTween
+                                                  .evaluate(_colorController) ??
+                                              beginColor)
+                                          : beginColor);
+
+                                      Widget progressIndicatorDisplay =
+                                          SizedBox(
+                                        width: 120,
+                                        height: 120,
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 120,
+                                              height: 120,
+                                              child: CircularProgressIndicator(
+                                                value: (_isEndBrewAnimating ||
+                                                        currentStepTime >=
+                                                            brewingSteps[
+                                                                    currentStepIndex]
+                                                                .time
+                                                                .inSeconds)
+                                                    ? 1.0
+                                                    : (brewingSteps[currentStepIndex]
+                                                                .time
+                                                                .inSeconds >
+                                                            0
+                                                        ? currentStepTime /
+                                                            brewingSteps[
+                                                                    currentStepIndex]
+                                                                .time
+                                                                .inSeconds
+                                                        : 0),
+                                                backgroundColor: theme
+                                                            .brightness ==
+                                                        Brightness.dark
+                                                    ? const Color(0xFF5A5A5A)
+                                                    : const Color(0xFFE4E4E4),
+                                                valueColor:
+                                                    AlwaysStoppedAnimation(
+                                                        _isEndBrewAnimating
+                                                            ? endColor
+                                                            : currentRingColor),
+                                                strokeWidth: 8,
+                                              ),
+                                            ),
+                                            if (!_isEndBrewAnimating)
+                                              Semantics(
+                                                identifier: 'stepTimeCounter',
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    LocalizedNumberText(
+                                                      currentNumber:
+                                                          currentStepTime,
+                                                      totalNumber: brewingSteps[
+                                                              currentStepIndex]
+                                                          .time
+                                                          .inSeconds,
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: theme.colorScheme
+                                                            .onSurface,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ' ${AppLocalizations.of(context)!.secondsAbbreviation}',
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: theme.colorScheme
+                                                            .onSurface
+                                                            .withOpacity(0.7),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                      );
+
+                                      if (_isEndBrewAnimating) {
+                                        const int numDroplets = 10;
+                                        final double dropletStartSize = 12.0;
+                                        final Color dropletColor = endColor;
+                                        final double initialRingRadius = 60.0;
+
+                                        List<Widget> dropletWidgets =
+                                            List.generate(numDroplets, (i) {
+                                          final double angle =
+                                              (i / numDroplets) * 2 * math.pi;
+                                          return Animate(
+                                            onPlay: (controller) =>
+                                                controller.forward(),
+                                            delay: const Duration(
+                                                milliseconds:
+                                                    200), // All droplets start after 200ms
+                                            effects: [
+                                              FadeEffect(
+                                                  duration: 50.milliseconds,
+                                                  begin: 0.0,
+                                                  end: 1.0), // Initial fade in
+                                              MoveEffect(
+                                                begin: Offset(
+                                                    math.cos(angle) *
+                                                        initialRingRadius,
+                                                    math.sin(angle) *
+                                                        initialRingRadius),
+                                                end: Offset.zero,
+                                                duration: 800.milliseconds,
+                                                curve: Curves.easeOutQuart,
+                                              ),
+                                              ScaleEffect(
+                                                  begin: const Offset(1, 1),
+                                                  end: const Offset(0.2, 0.2),
+                                                  duration: 800.milliseconds,
+                                                  curve: Curves.easeOut),
+                                              FadeEffect(
+                                                  begin: 1.0,
+                                                  end: 0.0,
+                                                  duration: 700.milliseconds,
+                                                  curve: Curves.easeIn,
+                                                  delay: 100.milliseconds),
+                                            ],
+                                            child: Container(
+                                              width: dropletStartSize,
+                                              height: dropletStartSize,
+                                              decoration: BoxDecoration(
+                                                  color: dropletColor,
+                                                  shape: BoxShape.circle),
+                                            ),
+                                          );
+                                        });
+
+                                        progressIndicatorDisplay = Animate(
+                                          onPlay: (controller) =>
+                                              controller.forward(),
+                                          effects: [
+                                            ShakeEffect(
+                                                hz: 12,
+                                                duration: 300.milliseconds,
+                                                curve: Curves.easeInOut),
+                                            FadeEffect(
+                                                begin: 1.0,
+                                                end: 0.0,
+                                                delay: 1400.milliseconds,
+                                                duration: 400.milliseconds),
+                                            ScaleEffect(
+                                                delay: 1400.milliseconds,
+                                                begin: const Offset(1, 1),
+                                                end: const Offset(0.5, 0.5),
+                                                duration: 400.milliseconds),
+                                          ],
+                                          child: progressIndicatorDisplay,
+                                        );
+
+                                        progressIndicatorDisplay = Stack(
+                                          alignment: Alignment.center,
+                                          clipBehavior: Clip.none,
+                                          children: [
+                                            progressIndicatorDisplay,
+                                            ...dropletWidgets,
+                                          ],
+                                        );
+                                      }
+
+                                      final bool
+                                          enablePulse = // Pulsation continues during color change, stops for end animation
+                                          !_isEndBrewAnimating &&
+                                              (brewingSteps[currentStepIndex]
+                                                              .time
+                                                              .inSeconds -
+                                                          currentStepTime <=
+                                                      5 &&
+                                                  brewingSteps[currentStepIndex]
+                                                              .time
+                                                              .inSeconds -
+                                                          currentStepTime >=
+                                                      0);
+
+                                      return Transform.scale(
+                                        scale: enablePulse
+                                            ? _pulseAnimation.value
+                                            : 1.0,
+                                        child: progressIndicatorDisplay,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                            LocalizedNumberText(
-                              currentNumber: currentStepIndex + 1,
-                              totalNumber: brewingSteps.length,
-                              style: const TextStyle(fontSize: 20),
+                            SizedBox(
+                              height:
+                                  (MediaQuery.of(context).size.height * 0.05)
+                                      .clamp(24.0, 48.0),
+                            ),
+                            Container(
+                              constraints: BoxConstraints(
+                                minHeight:
+                                    MediaQuery.of(context).size.height * 0.15,
+                              ),
+                              child: Semantics(
+                                identifier: 'brewingStepDescription',
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        (MediaQuery.of(context).size.width *
+                                                0.08)
+                                            .clamp(16.0, 32.0),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.topCenter,
+                                    child: _isEndBrewAnimating
+                                        ? const SizedBox.shrink()
+                                        : Text(
+                                            brewingSteps[currentStepIndex]
+                                                .description,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                                fontSize: 28, height: 1.3),
+                                          ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 20),
-                        Semantics(
-                          identifier: 'brewingStepDescription',
-                          child: Text(
-                            brewingSteps[currentStepIndex].description,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 24),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Semantics(
-                    identifier: 'stepTimeCounter',
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        LocalizedNumberText(
-                          currentNumber: currentStepTime,
-                          totalNumber:
-                              brewingSteps[currentStepIndex].time.inSeconds,
-                          style: const TextStyle(fontSize: 22),
-                        ),
-                        Text(
-                          ' ${AppLocalizations.of(context)!.seconds(brewingSteps[currentStepIndex].time.inSeconds)}',
-                          style: const TextStyle(fontSize: 22),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          if (currentStepIndex < brewingSteps.length - 1)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                  16.0, 0, 88.0, 16.0), // Adjusted right padding
-              child: Align(
-                alignment: Alignment.centerLeft, // Align to the left
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${AppLocalizations.of(context)!.next}:', // Added colon after "Next"
-                      style: TextStyle(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.6),
-                        fontSize: 18,
                       ),
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      brewingSteps[currentStepIndex + 1].description,
-                      style: TextStyle(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.6),
-                        fontSize: 22,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Semantics(
-              identifier: 'linearProgressIndicator',
-              child: LinearProgressIndicator(
-                value: brewingSteps[currentStepIndex].time.inSeconds > 0
-                    ? currentStepTime /
-                        brewingSteps[currentStepIndex].time.inSeconds
-                    : 0,
-                backgroundColor: Theme.of(context).colorScheme.surface,
-              ),
-            ),
+              if (currentStepIndex < brewingSteps.length - 1 &&
+                  !_isEndBrewAnimating)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 0, 88.0, 16.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${AppLocalizations.of(context)!.next}:',
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.6),
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(height: 4.0),
+                        Text(
+                          brewingSteps[currentStepIndex + 1].description,
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.6),
+                            fontSize: 22,
+                            height: 1.3,
+                          ),
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
           ),
         ],
       ),
-      floatingActionButton: Semantics(
-        identifier: 'togglePauseButton',
-        child: FloatingActionButton(
-          onPressed: _togglePause,
-          child: Icon(
-            _isPaused
-                ? (Directionality.of(context) == TextDirection.rtl
-                    ? Icons.arrow_back_ios_new
-                    : Icons.play_arrow)
-                : Icons.pause,
-          ),
-        ),
-      ),
+      floatingActionButton: _isEndBrewAnimating
+          ? null
+          : Semantics(
+              identifier: 'togglePauseButton',
+              child: FloatingActionButton(
+                onPressed: _togglePause,
+                child: Icon(
+                  _isPaused
+                      ? (Directionality.of(context) == TextDirection.rtl
+                          ? Icons.arrow_back_ios_new
+                          : Icons.play_arrow)
+                      : Icons.pause,
+                ),
+              ),
+            ),
     );
   }
 }

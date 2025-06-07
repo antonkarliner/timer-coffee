@@ -482,7 +482,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       BuildContext context, List<ContributorModel> contributors) {
     List<TextSpan> spanList = [];
     final TextStyle defaultStyle = Theme.of(context).textTheme.bodyLarge!;
-    final TextStyle linkStyle = const TextStyle(color: Colors.blue);
+    final TextStyle linkStyle =
+        defaultStyle.copyWith(color: Theme.of(context).colorScheme.secondary);
 
     final RegExp linkRegExp = RegExp(r'\[(@?.*?)\]\((.*?)\)');
 

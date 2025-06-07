@@ -396,6 +396,16 @@ class BrewingMethodsScreen extends StatelessWidget {
       child: Column(
         children: [
           buildFixedContent(context, recipeProvider),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Divider(
+              color: Theme.of(context).dividerColor.withOpacity(0.3),
+              thickness: 0.7,
+              height: 0,
+              indent: 16.0,
+              endIndent: 16.0,
+            ),
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: filteredBrewingMethods.length,
@@ -407,7 +417,8 @@ class BrewingMethodsScreen extends StatelessWidget {
                   child: ListTile(
                     leading:
                         getIconByBrewingMethod(brewingMethod.brewingMethodId),
-                    title: Text(brewingMethod.brewingMethod),
+                    title: Text(brewingMethod.brewingMethod,
+                        style: const TextStyle(fontWeight: FontWeight.w600)),
                     onTap: () {
                       context.router.push(RecipeListRoute(
                           brewingMethodId: brewingMethod.brewingMethodId));

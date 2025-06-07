@@ -126,8 +126,8 @@ class _PreparationScreenState extends State<PreparationScreen> {
                             bottom: 16), // Add space between text widgets
                         child: Text(
                           step.description,
-                          style: const TextStyle(fontSize: 24),
-                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 24, height: 1.3),
+                          textAlign: TextAlign.left,
                         ),
                       ),
                     ))
@@ -253,7 +253,7 @@ class _PreparationScreenState extends State<PreparationScreen> {
     });
 
     // Handle mathematical expressions like (multiplier x value)
-    RegExp mathExp = RegExp(r'\(([\d.]+) x ([\d.]+)\)');
+    RegExp mathExp = RegExp(r'\(([\d.]+)\s*(?:x|×)\s*([\d.]+)\)');
     replacedText = replacedText.replaceAllMapped(mathExp, (match) {
       double multiplier = double.parse(match.group(1)!);
       double value = double.parse(match.group(2)!);

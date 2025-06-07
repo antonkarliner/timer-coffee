@@ -18,21 +18,25 @@ class RecipeSummary {
     String replacePlaceholders(
         String description, double coffeeAmount, double waterAmount) {
       RegExp exp = RegExp(
-          r'\(([\d.]+) x <(coffee_amount|water_amount|final_coffee_amount|final_water_amount)>\)');
+          r'\((\d+(?:\.\d+)?)\s*(?:x|×)\s*<(final_coffee_amount|final_water_amount|coffee_amount|water_amount)>\s*\)(\w*)');
       String replacedText = description.replaceAllMapped(exp, (match) {
         double multiplier = double.parse(match.group(1)!);
-        String variable = match.group(2)!;
-        double result;
+        String variableName = match.group(2)!;
+        String unit = match.group(3) ?? '';
+        double baseAmount;
 
-        if (variable == 'coffee_amount' || variable == 'final_coffee_amount') {
-          result = multiplier * coffeeAmount;
+        if (variableName == 'final_coffee_amount' ||
+            variableName == 'coffee_amount') {
+          baseAmount = coffeeAmount;
         } else {
-          result = multiplier * waterAmount;
+          // final_water_amount or water_amount
+          baseAmount = waterAmount;
         }
-
-        return result.toStringAsFixed(1);
+        double result = multiplier * baseAmount;
+        return '${result.toStringAsFixed(1)}$unit'; // Append the unit
       });
 
+      // These standalone replacements handle placeholders not within complex expressions.
       replacedText = replacedText
           .replaceAll('<coffee_amount>', coffeeAmount.toStringAsFixed(1))
           .replaceAll('<water_amount>', waterAmount.toStringAsFixed(1))

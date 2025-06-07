@@ -14,6 +14,7 @@ import '../utils/icon_utils.dart';
 import '../widgets/add_coffee_beans_widget.dart';
 import '../widgets/expandable_card.dart';
 import '../notifiers/card_expansion_notifier.dart';
+import '../widgets/confirm_delete_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/coffee_beans_model.dart';
 
@@ -178,9 +179,24 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                             icon: const Icon(Icons.remove_circle_outline,
                                 color: Colors.red),
                             onPressed: () async {
-                              await userStatProvider
-                                  .deleteUserStat(stat.statUuid);
-                              notifier.setExpansion(stat.statUuid, false);
+                              final confirmed = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => ConfirmDeleteDialog(
+                                  title: AppLocalizations.of(context)!
+                                      .confirmDeleteTitle,
+                                  content: AppLocalizations.of(context)!
+                                      .confirmDeleteMessage,
+                                  confirmLabel:
+                                      AppLocalizations.of(context)!.delete,
+                                  cancelLabel:
+                                      AppLocalizations.of(context)!.cancel,
+                                ),
+                              );
+                              if (confirmed == true) {
+                                await userStatProvider
+                                    .deleteUserStat(stat.statUuid);
+                                notifier.setExpansion(stat.statUuid, false);
+                              }
                             },
                           ),
                         )

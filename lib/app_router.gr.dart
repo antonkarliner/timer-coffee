@@ -120,6 +120,7 @@ abstract class $AppRouter extends _i15.RootStackRouter {
         child: _i9.RecipeCreationScreen(
           key: args.key,
           recipe: args.recipe,
+          brewingMethodId: args.brewingMethodId,
         ),
       );
     },
@@ -398,12 +399,14 @@ class RecipeCreationRoute extends _i15.PageRouteInfo<RecipeCreationRouteArgs> {
   RecipeCreationRoute({
     _i16.Key? key,
     _i17.RecipeModel? recipe,
+    String? brewingMethodId,
     List<_i15.PageRouteInfo>? children,
   }) : super(
           RecipeCreationRoute.name,
           args: RecipeCreationRouteArgs(
             key: key,
             recipe: recipe,
+            brewingMethodId: brewingMethodId,
           ),
           initialChildren: children,
         );
@@ -418,15 +421,18 @@ class RecipeCreationRouteArgs {
   const RecipeCreationRouteArgs({
     this.key,
     this.recipe,
+    this.brewingMethodId,
   });
 
   final _i16.Key? key;
 
   final _i17.RecipeModel? recipe;
 
+  final String? brewingMethodId;
+
   @override
   String toString() {
-    return 'RecipeCreationRouteArgs{key: $key, recipe: $recipe}';
+    return 'RecipeCreationRouteArgs{key: $key, recipe: $recipe, brewingMethodId: $brewingMethodId}';
   }
 }
 
