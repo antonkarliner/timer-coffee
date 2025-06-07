@@ -483,5 +483,9 @@
   "updatePictureSuccess": "Gambar profil berhasil diperbarui!",
   "deletePictureTooltip": "Hapus Gambar",
   "settingsBrewingMethodsTitle": "Metode Penyeduhan Layar Beranda",
-  "account": "Akun"
+  "account": "Akun",
+  "confirmDeleteTitle": "Hapus entri?",
+  "confirmDeleteMessage": "Apakah Anda yakin ingin menghapus entri ini? Tindakan ini tidak dapat dibatalkan.",
+  "filter": "Saring",
+  "secondsAbbreviation": "s"
 }

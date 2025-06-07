@@ -483,5 +483,9 @@
   "updatePictureSuccess": "Poza de profil a fost actualizată cu succes!",
   "deletePictureTooltip": "Șterge Imaginea",
   "settingsBrewingMethodsTitle": "Metode de preparare pe ecranul principal",
-  "account": "Cont"
+  "account": "Cont",
+  "confirmDeleteTitle": "Ștergeți înregistrarea?",
+  "confirmDeleteMessage": "Sigur doriți să ștergeți această înregistrare? Această acțiune nu poate fi anulată.",
+  "filter": "Filtru",
+  "secondsAbbreviation": "s"
 }

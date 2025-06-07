@@ -483,5 +483,9 @@
   "updatePictureSuccess": "تم تحديث صورة الملف الشخصي بنجاح!",
   "deletePictureTooltip": "حذف الصورة",
   "settingsBrewingMethodsTitle": "طرق التخمير على الشاشة الرئيسية",
-  "account": "الحساب"
+  "account": "الحساب",
+  "confirmDeleteTitle": "حذف الإدخال؟",
+  "confirmDeleteMessage": "هل أنت متأكد أنك تريد حذف هذا الإدخال؟ لا يمكن التراجع عن هذا الإجراء.",
+  "filter": "تصفية",
+  "secondsAbbreviation": "ث"
 }

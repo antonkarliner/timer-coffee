@@ -483,5 +483,9 @@
   "updatePictureSuccess": "¡Foto de perfil actualizada correctamente!",
   "deletePictureTooltip": "Eliminar imagen",
   "settingsBrewingMethodsTitle": "Métodos de preparación en la pantalla de inicio",
-  "account": "Cuenta"
+  "account": "Cuenta",
+  "confirmDeleteTitle": "¿Eliminar entrada?",
+  "confirmDeleteMessage": "¿Está seguro de que desea eliminar esta entrada? Esta acción no se puede deshacer.",
+  "filter": "Filtro",
+  "secondsAbbreviation": "s"
 }

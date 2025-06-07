@@ -103,6 +103,8 @@
   "loading": "Loading",
   "nocoffeebeans": "No coffee beans found",
   "delete": "Delete",
+  "confirmDeleteTitle": "Delete Entry?",
+  "confirmDeleteMessage": "Are you sure you want to delete this entry? This action cannot be undone.",
   "removeFavorite": "Remove from favorites",
   "addFavorite": "Add to favorites",
   "toggleEditMode": "Toggle edit mode",
@@ -678,5 +680,10 @@
   "updatePictureSuccess": "Profile picture updated successfully!",
   "deletePictureTooltip": "Delete Picture",
   "account": "Account",
-  "settingsBrewingMethodsTitle": "Home Screen Brewing Methods"
+  "settingsBrewingMethodsTitle": "Home Screen Brewing Methods",
+  "filter": "Filter",
+  "@filter": {
+    "description": "Label for the filter button in the coffee beans screen"
+  },
+  "secondsAbbreviation": "s."
 }

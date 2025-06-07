@@ -483,5 +483,9 @@
   "updatePictureSuccess": "Immagine del profilo aggiornata con successo!",
   "deletePictureTooltip": "Elimina immagine",
   "settingsBrewingMethodsTitle": "Metodi di preparazione nella schermata principale",
-  "account": "Account"
+  "account": "Account",
+  "confirmDeleteTitle": "Eliminare la voce?",
+  "confirmDeleteMessage": "Sei sicuro di voler eliminare questa voce? Questa azione non può essere annullata.",
+  "filter": "Filtro",
+  "secondsAbbreviation": "s"
 }

@@ -427,61 +427,65 @@
       "reason": {
         "type": "String",
         "example": "Nieodpowiedni język"
-          }
-        }
-      },
-      "recipeUpdateFailedFetch": "Nie udało się pobrać zaktualizowanych danych przepisu.",
-      "recipeImportSuccess": "Przepis zaimportowany pomyślnie!",
-      "recipeImportFailedSave": "Nie udało się zapisać zaimportowanego przepisu.",
-      "recipeImportFailedFetch": "Nie udało się pobrać danych przepisu do importu.",
-      "recipeNotImported": "Przepis nie został zaimportowany.",
-      "recipeNotFoundCloud": "Przepis nie znaleziony w chmurze lub nie jest publiczny.",
-      "recipeLoadErrorGeneric": "Błąd ładowania przepisu.",
-      "editImportedRecipeTitle": "Edytuj zaimportowany przepis",
-      "editImportedRecipeBody": "To jest zaimportowany przepis. Edycja utworzy nową, niezależną kopię. Czy chcesz kontynuować?",
-      "editImportedRecipeButtonCopy": "Utwórz kopię i edytuj",
-      "editImportedRecipeButtonCancel": "Anuluj",
-      "editDisplayNameTitle": "Edytuj nazwę wyświetlaną",
-      "displayNameHint": "Wprowadź swoją nazwę wyświetlaną",
-      "displayNameEmptyError": "Nazwa wyświetlana nie może być pusta",
-      "displayNameTooLongError": "Nazwa wyświetlana nie może przekraczać 50 znaków",
-      "errorUserNotLoggedIn": "Użytkownik nie jest zalogowany. Zaloguj się ponownie.",
-      "displayNameUpdateSuccess": "Nazwa wyświetlana zaktualizowana pomyślnie!",
-      "displayNameUpdateError": "Nie udało się zaktualizować nazwy wyświetlanej: {error}",
-      "@displayNameUpdateError": {
-        "description": "Komunikat błędu, gdy aktualizacja nazwy wyświetlanej nie powiodła się",
-        "placeholders": {
-          "error": {
-            "type": "String",
-            "example": "Błąd sieci"
-          }
-        }
-      },
-      "deletePictureConfirmationTitle": "Usunąć zdjęcie?",
-      "deletePictureConfirmationBody": "Czy na pewno chcesz usunąć swoje zdjęcie profilowe?",
-      "deletePictureSuccess": "Zdjęcie profilowe usunięte.",
-      "deletePictureError": "Nie udało się usunąć zdjęcia profilowego: {error}",
-      "@deletePictureError": {
-        "description": "Komunikat błędu, gdy usunięcie zdjęcia profilowego nie powiodło się",
-        "placeholders": {
-          "error": {
-            "type": "String",
-            "example": "Błąd przechowywania"
-          }
-        }
-      },
-      "updatePictureError": "Nie udało się zaktualizować zdjęcia profilowego: {error}",
-      "@updatePictureError": {
-        "description": "Komunikat błędu, gdy aktualizacja zdjęcia profilowego nie powiodła się",
-        "placeholders": {
-          "error": {
-            "type": "String",
-            "example": "Błąd przesyłania"
-          }
-        }
-      },
-      "updatePictureSuccess": "Zdjęcie profilowe zaktualizowane pomyślnie!",
-      "deletePictureTooltip": "Usuń zdjęcie",
+      }
+    }
+  },
+  "recipeUpdateFailedFetch": "Nie udało się pobrać zaktualizowanych danych przepisu.",
+  "recipeImportSuccess": "Przepis zaimportowany pomyślnie!",
+  "recipeImportFailedSave": "Nie udało się zapisać zaimportowanego przepisu.",
+  "recipeImportFailedFetch": "Nie udało się pobrać danych przepisu do importu.",
+  "recipeNotImported": "Przepis nie został zaimportowany.",
+  "recipeNotFoundCloud": "Przepis nie znaleziony w chmurze lub nie jest publiczny.",
+  "recipeLoadErrorGeneric": "Błąd ładowania przepisu.",
+  "editImportedRecipeTitle": "Edytuj zaimportowany przepis",
+  "editImportedRecipeBody": "To jest zaimportowany przepis. Edycja utworzy nową, niezależną kopię. Czy chcesz kontynuować?",
+  "editImportedRecipeButtonCopy": "Utwórz kopię i edytuj",
+  "editImportedRecipeButtonCancel": "Anuluj",
+  "editDisplayNameTitle": "Edytuj nazwę wyświetlaną",
+  "displayNameHint": "Wprowadź swoją nazwę wyświetlaną",
+  "displayNameEmptyError": "Nazwa wyświetlana nie może być pusta",
+  "displayNameTooLongError": "Nazwa wyświetlana nie może przekraczać 50 znaków",
+  "errorUserNotLoggedIn": "Użytkownik nie jest zalogowany. Zaloguj się ponownie.",
+  "displayNameUpdateSuccess": "Nazwa wyświetlana zaktualizowana pomyślnie!",
+  "displayNameUpdateError": "Nie udało się zaktualizować nazwy wyświetlanej: {error}",
+  "@displayNameUpdateError": {
+    "description": "Komunikat błędu, gdy aktualizacja nazwy wyświetlanej nie powiodła się",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Błąd sieci"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "Usunąć zdjęcie?",
+  "deletePictureConfirmationBody": "Czy na pewno chcesz usunąć swoje zdjęcie profilowe?",
+  "deletePictureSuccess": "Zdjęcie profilowe usunięte.",
+  "deletePictureError": "Nie udało się usunąć zdjęcia profilowego: {error}",
+  "@deletePictureError": {
+    "description": "Komunikat błędu, gdy usunięcie zdjęcia profilowego nie powiodło się",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Błąd przechowywania"
+      }
+    }
+  },
+  "updatePictureError": "Nie udało się zaktualizować zdjęcia profilowego: {error}",
+  "@updatePictureError": {
+    "description": "Komunikat błędu, gdy aktualizacja zdjęcia profilowego nie powiodła się",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Błąd przesyłania"
+      }
+    }
+  },
+  "updatePictureSuccess": "Zdjęcie profilowe zaktualizowane pomyślnie!",
+  "deletePictureTooltip": "Usuń zdjęcie",
   "settingsBrewingMethodsTitle": "Metody parzenia na ekranie głównym",
-  "account": "Konto"
+  "account": "Konto",
+  "confirmDeleteTitle": "Usunąć wpis?",
+  "confirmDeleteMessage": "Czy na pewno chcesz usunąć ten wpis? Tej akcji nie można cofnąć.",
+  "filter": "Filtr",
+  "secondsAbbreviation": "s"
 }

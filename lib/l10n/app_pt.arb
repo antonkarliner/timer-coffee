@@ -483,5 +483,9 @@
   "updatePictureSuccess": "Foto de perfil atualizada com sucesso!",
   "deletePictureTooltip": "Excluir Imagem",
   "settingsBrewingMethodsTitle": "Métodos de preparo na tela inicial",
-  "account": "Conta"
+  "account": "Conta",
+  "confirmDeleteTitle": "Excluir entrada?",
+  "confirmDeleteMessage": "Tem certeza de que deseja excluir esta entrada? Esta ação não pode ser desfeita.",
+  "filter": "Filtrar",
+  "secondsAbbreviation": "s"
 }

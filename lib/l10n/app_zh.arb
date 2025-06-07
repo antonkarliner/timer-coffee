@@ -483,5 +483,8 @@
   "updatePictureSuccess": "个人资料图片更新成功！",
   "deletePictureTooltip": "删除图片",
   "settingsBrewingMethodsTitle": "主屏幕冲泡方法",
-  "account": "账户"
+  "account": "账户",
+  "confirmDeleteTitle": "删除条目？",
+  "confirmDeleteMessage": "您确定要删除此条目吗？此操作无法撤销。",
+  "filter": "筛选"
 }

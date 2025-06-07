@@ -482,5 +482,9 @@
   },
   "updatePictureSuccess": "Изображение профиля успешно обновлено!",
   "deletePictureTooltip": "Удалить изображение",
-  "account": "Аккаунт"
+  "account": "Аккаунт",
+  "confirmDeleteTitle": "Удалить запись?",
+  "confirmDeleteMessage": "Вы уверены, что хотите удалить эту запись? Это действие нельзя отменить.",
+  "filter": "Фильтр",
+  "secondsAbbreviation": "с"
 }

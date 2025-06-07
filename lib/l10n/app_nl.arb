@@ -483,5 +483,9 @@
   "updatePictureSuccess": "Profielfoto succesvol bijgewerkt!",
   "deletePictureTooltip": "Afbeelding verwijderen",
   "settingsBrewingMethodsTitle": "Zetmethoden op het startscherm",
-  "account": "Account"
+  "account": "Account",
+  "confirmDeleteTitle": "Invoer verwijderen?",
+  "confirmDeleteMessage": "Weet je zeker dat je deze invoer wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+  "filter": "Filteren",
+  "secondsAbbreviation": "s"
 }

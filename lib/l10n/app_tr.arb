@@ -483,5 +483,9 @@
   "updatePictureSuccess": "Profil resmi başarıyla güncellendi!",
   "deletePictureTooltip": "Resmi Sil",
   "settingsBrewingMethodsTitle": "Ana Ekran Demleme Yöntemleri",
-  "account": "Hesap"
+  "account": "Hesap",
+  "confirmDeleteTitle": "Girdiyi sil?",
+  "confirmDeleteMessage": "Bu girdiyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "filter": "Filtre",
+  "secondsAbbreviation": "sn"
 }

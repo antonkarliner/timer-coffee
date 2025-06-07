@@ -483,5 +483,8 @@
   "updatePictureSuccess": "Зображення профілю успішно оновлено!",
   "deletePictureTooltip": "Видалити зображення",
   "settingsBrewingMethodsTitle": "Методи заварювання на головному екрані",
-  "account": "Обліковий запис"
+  "account": "Обліковий запис",
+  "confirmDeleteTitle": "Видалити запис?",
+  "confirmDeleteMessage": "Ви впевнені, що хочете видалити цей запис? Цю дію не можна скасувати.",
+  "filter": "Фільтр"
 }
