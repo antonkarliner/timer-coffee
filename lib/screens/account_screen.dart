@@ -31,7 +31,8 @@ Future<Uint8List> _processImageIsolate(Uint8List imageBytes) async {
 
 @RoutePage()
 class AccountScreen extends StatefulWidget {
-  const AccountScreen({super.key});
+  final String userId;
+  const AccountScreen({super.key, @PathParam('userId') required this.userId});
 
   @override
   _AccountScreenState createState() => _AccountScreenState();
@@ -62,14 +63,14 @@ class _AccountScreenState extends State<AccountScreen> {
     });
 
     final supabase = Supabase.instance.client;
-    final userId = supabase.auth.currentUser?.id;
+    final userId = widget.userId;
 
-    if (userId == null) {
+    if (userId == null || userId.isEmpty) {
       // Should not happen if screen is protected, but handle defensively
       if (mounted) {
         setState(() {
           _isLoading = false;
-          _errorMessage = "User not logged in."; // TODO: Localize
+          _errorMessage = "User not found."; // TODO: Localize
         });
       }
       return;
@@ -79,7 +80,8 @@ class _AccountScreenState extends State<AccountScreen> {
     final prefs = await SharedPreferences.getInstance();
 
     try {
-      // Ensure profile exists or create default
+      // Ensure profile exists or create default (only for current user)
+      // If you want to allow editing only for current user, check here
       await dbProvider.ensureUserProfileExists(userId);
 
       // Attempt to fetch from Supabase
@@ -93,7 +95,7 @@ class _AccountScreenState extends State<AccountScreen> {
         _displayName = response['display_name'] as String?;
         _profilePictureUrl = response['profile_picture_url'] as String?;
 
-        // Save to SharedPreferences as fallback
+        // Save to SharedPreferences as fallback (only for current user)
         if (_displayName != null) {
           await prefs.setString('user_display_name', _displayName!);
         } else {
@@ -106,13 +108,13 @@ class _AccountScreenState extends State<AccountScreen> {
           await prefs.remove('user_profile_picture_url');
         }
       } else {
-        // Fetch failed, try loading from SharedPreferences
+        // Fetch failed, try loading from SharedPreferences (only for current user)
         _displayName = prefs.getString('user_display_name');
         _profilePictureUrl = prefs.getString('user_profile_picture_url');
       }
     } catch (e) {
       print("Error loading profile: $e");
-      // Load from SharedPreferences on error
+      // Load from SharedPreferences on error (only for current user)
       _displayName = prefs.getString('user_display_name');
       _profilePictureUrl = prefs.getString('user_profile_picture_url');
       _errorMessage =
@@ -191,9 +193,9 @@ class _AccountScreenState extends State<AccountScreen> {
     final l10n = AppLocalizations.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final supabase = Supabase.instance.client;
-    final userId = supabase.auth.currentUser?.id;
+    final userId = widget.userId;
 
-    if (userId == null) {
+    if (userId.isEmpty) {
       scaffoldMessenger.showSnackBar(SnackBar(
           content: Text(l10n.errorUserNotLoggedIn))); // Use localization
       return;
@@ -313,9 +315,9 @@ class _AccountScreenState extends State<AccountScreen> {
     final l10n = AppLocalizations.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final supabase = Supabase.instance.client;
-    final userId = supabase.auth.currentUser?.id;
+    final userId = widget.userId;
 
-    if (userId == null) {
+    if (userId.isEmpty) {
       scaffoldMessenger.showSnackBar(SnackBar(
           content: Text(l10n.errorUserNotLoggedIn))); // Use localization
       return;
@@ -441,9 +443,9 @@ class _AccountScreenState extends State<AccountScreen> {
     final l10n = AppLocalizations.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final supabase = Supabase.instance.client;
-    final userId = supabase.auth.currentUser?.id;
+    final userId = widget.userId;
 
-    if (userId == null) {
+    if (userId.isEmpty) {
       scaffoldMessenger.showSnackBar(SnackBar(
           content: Text(l10n.errorUserNotLoggedIn))); // Use localization
       return;

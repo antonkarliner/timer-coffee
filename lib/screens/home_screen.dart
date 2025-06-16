@@ -643,8 +643,14 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                     leading:
                         const Icon(Icons.account_circle), // Or appropriate icon
                     title: Text(l10n.account), // Use new localization key
-                    onTap: () => context.router.push(
-                        const AccountRoute()), // Navigate to AccountScreen
+                    onTap: () {
+                      final userId =
+                          Supabase.instance.client.auth.currentUser?.id;
+                      print('Navigating to AccountRoute with userId: $userId');
+                      if (userId != null) {
+                        context.router.push(AccountRoute(userId: userId));
+                      }
+                    }, // Navigate to AccountScreen
                   ),
                 );
               } else {

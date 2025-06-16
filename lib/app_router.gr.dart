@@ -9,7 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i15;
-import 'package:coffee_timer/models/recipe_model.dart' as _i17;
+import 'package:coffee_timer/models/recipe_model.dart' as _i18;
 import 'package:coffee_timer/screens/account_screen.dart' as _i1;
 import 'package:coffee_timer/screens/brew_diary_screen.dart' as _i2;
 import 'package:coffee_timer/screens/coffee_beans_detail_screen.dart' as _i4;
@@ -24,7 +24,8 @@ import 'package:coffee_timer/screens/recipe_list_screen.dart' as _i11;
 import 'package:coffee_timer/screens/settings_screen.dart' as _i12;
 import 'package:coffee_timer/screens/stats_screen.dart' as _i13;
 import 'package:coffee_timer/screens/yearly_stats_story_screen.dart' as _i14;
-import 'package:flutter/material.dart' as _i16;
+import 'package:flutter/foundation.dart' as _i16;
+import 'package:flutter/material.dart' as _i17;
 
 abstract class $AppRouter extends _i15.RootStackRouter {
   $AppRouter({super.navigatorKey});
@@ -32,9 +33,16 @@ abstract class $AppRouter extends _i15.RootStackRouter {
   @override
   final Map<String, _i15.PageFactory> pagesMap = {
     AccountRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<AccountRouteArgs>(
+          orElse: () =>
+              AccountRouteArgs(userId: pathParams.getString('userId')));
       return _i15.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i1.AccountScreen(),
+        child: _i1.AccountScreen(
+          key: args.key,
+          userId: args.userId,
+        ),
       );
     },
     BrewDiaryRoute.name: (routeData) {
@@ -178,16 +186,41 @@ abstract class $AppRouter extends _i15.RootStackRouter {
 
 /// generated route for
 /// [_i1.AccountScreen]
-class AccountRoute extends _i15.PageRouteInfo<void> {
-  const AccountRoute({List<_i15.PageRouteInfo>? children})
-      : super(
+class AccountRoute extends _i15.PageRouteInfo<AccountRouteArgs> {
+  AccountRoute({
+    _i16.Key? key,
+    required String userId,
+    List<_i15.PageRouteInfo>? children,
+  }) : super(
           AccountRoute.name,
+          args: AccountRouteArgs(
+            key: key,
+            userId: userId,
+          ),
+          rawPathParams: {'userId': userId},
           initialChildren: children,
         );
 
   static const String name = 'AccountRoute';
 
-  static const _i15.PageInfo<void> page = _i15.PageInfo<void>(name);
+  static const _i15.PageInfo<AccountRouteArgs> page =
+      _i15.PageInfo<AccountRouteArgs>(name);
+}
+
+class AccountRouteArgs {
+  const AccountRouteArgs({
+    this.key,
+    required this.userId,
+  });
+
+  final _i16.Key? key;
+
+  final String userId;
+
+  @override
+  String toString() {
+    return 'AccountRouteArgs{key: $key, userId: $userId}';
+  }
 }
 
 /// generated route for
@@ -237,7 +270,7 @@ class BrewingMethodsRoute extends _i15.PageRouteInfo<void> {
 class CoffeeBeansDetailRoute
     extends _i15.PageRouteInfo<CoffeeBeansDetailRouteArgs> {
   CoffeeBeansDetailRoute({
-    _i16.Key? key,
+    _i17.Key? key,
     required String uuid,
     List<_i15.PageRouteInfo>? children,
   }) : super(
@@ -261,7 +294,7 @@ class CoffeeBeansDetailRouteArgs {
     required this.uuid,
   });
 
-  final _i16.Key? key;
+  final _i17.Key? key;
 
   final String uuid;
 
@@ -359,7 +392,7 @@ class HubTabRoute extends _i15.PageRouteInfo<void> {
 /// [_i8.NewBeansScreen]
 class NewBeansRoute extends _i15.PageRouteInfo<NewBeansRouteArgs> {
   NewBeansRoute({
-    _i16.Key? key,
+    _i17.Key? key,
     String? uuid,
     List<_i15.PageRouteInfo>? children,
   }) : super(
@@ -383,7 +416,7 @@ class NewBeansRouteArgs {
     this.uuid,
   });
 
-  final _i16.Key? key;
+  final _i17.Key? key;
 
   final String? uuid;
 
@@ -397,8 +430,8 @@ class NewBeansRouteArgs {
 /// [_i9.RecipeCreationScreen]
 class RecipeCreationRoute extends _i15.PageRouteInfo<RecipeCreationRouteArgs> {
   RecipeCreationRoute({
-    _i16.Key? key,
-    _i17.RecipeModel? recipe,
+    _i17.Key? key,
+    _i18.RecipeModel? recipe,
     String? brewingMethodId,
     List<_i15.PageRouteInfo>? children,
   }) : super(
@@ -424,9 +457,9 @@ class RecipeCreationRouteArgs {
     this.brewingMethodId,
   });
 
-  final _i16.Key? key;
+  final _i17.Key? key;
 
-  final _i17.RecipeModel? recipe;
+  final _i18.RecipeModel? recipe;
 
   final String? brewingMethodId;
 
@@ -440,7 +473,7 @@ class RecipeCreationRouteArgs {
 /// [_i10.RecipeDetailScreen]
 class RecipeDetailRoute extends _i15.PageRouteInfo<RecipeDetailRouteArgs> {
   RecipeDetailRoute({
-    _i16.Key? key,
+    _i17.Key? key,
     required String brewingMethodId,
     required String recipeId,
     List<_i15.PageRouteInfo>? children,
@@ -471,7 +504,7 @@ class RecipeDetailRouteArgs {
     required this.recipeId,
   });
 
-  final _i16.Key? key;
+  final _i17.Key? key;
 
   final String brewingMethodId;
 
@@ -487,7 +520,7 @@ class RecipeDetailRouteArgs {
 /// [_i11.RecipeListScreen]
 class RecipeListRoute extends _i15.PageRouteInfo<RecipeListRouteArgs> {
   RecipeListRoute({
-    _i16.Key? key,
+    _i17.Key? key,
     String? brewingMethodId,
     List<_i15.PageRouteInfo>? children,
   }) : super(
@@ -512,7 +545,7 @@ class RecipeListRouteArgs {
     this.brewingMethodId,
   });
 
-  final _i16.Key? key;
+  final _i17.Key? key;
 
   final String? brewingMethodId;
 
@@ -540,7 +573,7 @@ class SettingsRoute extends _i15.PageRouteInfo<void> {
 /// [_i13.StatsScreen]
 class StatsRoute extends _i15.PageRouteInfo<StatsRouteArgs> {
   StatsRoute({
-    _i16.Key? key,
+    _i17.Key? key,
     List<_i15.PageRouteInfo>? children,
   }) : super(
           StatsRoute.name,
@@ -557,7 +590,7 @@ class StatsRoute extends _i15.PageRouteInfo<StatsRouteArgs> {
 class StatsRouteArgs {
   const StatsRouteArgs({this.key});
 
-  final _i16.Key? key;
+  final _i17.Key? key;
 
   @override
   String toString() {

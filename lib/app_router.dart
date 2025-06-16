@@ -77,7 +77,7 @@ class AppRouter extends $AppRouter {
         ),
         AutoRoute(
           page: AccountRoute.page, // Add route for AccountScreen
-          path: '/account',
+          path: '/user/:userId',
         ),
       ];
 }
