@@ -1,0 +1,726 @@
+{
+  "@@locale": "fa",
+  "lastrecipe": "آخرین دستور استفاده‌شده:",
+  "about": "درباره برنامه",
+  "author": "نویسنده",
+  "authortext": "اپلیکیشن Timer.Coffee توسط آنتون کارلینر، علاقه‌مند به قهوه، متخصص رسانه و عکاس خبری ساخته شده است. امیدوارم این برنامه به شما کمک کند از قهوه لذت ببرید. خوشحال می‌شوم اگر در گیت‌هاب مشارکت کنید.",
+  "contributors": "مشارکت‌کنندگان",
+  "errorLoadingContributors": "خطا در بارگذاری مشارکت‌کنندگان",
+  "license": "مجوز",
+  "licensetext": "این برنامه یک نرم‌افزار آزاد است؛ شما می‌توانید آن را تحت شرایط مجوز عمومی همگانی گنو نسخه ۳ یا نسخه‌های بعدی (به انتخاب خودتان)، بازتوزیع یا تغییر دهید.",
+  "licensebutton": "خواندن مجوز عمومی همگانی گنو نسخه ۳",
+  "website": "وب‌سایت",
+  "sourcecode": "کد منبع",
+  "support": "برایم قهوه بخر",
+  "allrecipes": "همه دستورها",
+  "favoriterecipes": "دستورهای موردعلاقه",
+  "coffeeamount": "مقدار قهوه (گرم)",
+  "wateramount": "مقدار آب (میلی‌لیتر)",
+  "watertemp": "دمای آب",
+  "grindsize": "درجه آسیاب",
+  "brewtime": "زمان دم",
+  "recipesummary": "خلاصه دستور",
+  "recipesummarynote": "نکته: این یک دستور پایه با مقادیر پیش‌فرض آب و قهوه است.",
+  "preparation": "آماده‌سازی",
+  "brewingprocess": "فرآیند دم",
+  "step": "مرحله",
+  "seconds": "{count, plural, =0{ثانیه} =1{ثانیه} other{ثانیه}}",
+  "@seconds": {
+    "description": "Pluralization for seconds",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "finishmsg": "از استفاده از Timer.Coffee متشکریم! قهوه‌تان نوش جان",
+  "coffeefact": "دانستنی قهوه",
+  "home": "خانه",
+  "appversion": "نسخه برنامه",
+  "tipsmall": "یک قهوه کوچک بخر",
+  "tipmedium": "یک قهوه متوسط بخر",
+  "tiplarge": "یک قهوه بزرگ بخر",
+  "supportdevelopment": "حمایت از توسعه",
+  "supportdevmsg": "کمک‌های شما هزینه نگهداری سرورها را پوشش می‌دهد، امکان افزودن دستگاه‌های دم‌آوری بیشتر و اضافه کردن دستورهای جدید به برنامه را فراهم می‌کند.",
+  "supportdevtnx": "ممنون که به کمک فکر می‌کنید!",
+  "donationok": "متشکرم!",
+  "donationtnx": "از حمایت‌تان بسیار متشکرم! آرزوی دم‌آوری‌های عالی برای شما دارم! ☕️",
+  "donationerr": "خطا",
+  "donationerrmsg": "خطا در پردازش خرید، لطفاً دوباره تلاش کنید.",
+  "sharemsg": "این دستور را ببین:",
+  "finishbrew": "پایان",
+  "settings": "تنظیمات",
+  "settingstheme": "تم",
+  "settingsthemelight": "روشن",
+  "settingsthemedark": "تیره",
+  "settingsthemesystem": "سیستم",
+  "settingslang": "زبان",
+  "sweet": "شیرین",
+  "balance": "تعادل",
+  "acidic": "اسیدی",
+  "light": "روشن",
+  "strong": "قوی",
+  "slidertitle": "عنوان اسلایدر",
+  "whatsnewtitle": "چه چیز جدید است",
+  "whatsnewclose": "بستن",
+  "seasonspecials": "ویژه‌های فصل",
+  "snow": "برف",
+  "noFavoriteRecipesMessage": "هنوز دستوری را محبوب نکرده‌اید.",
+  "explore": "کاوش",
+  "dateFormat": "yyyy/MM/dd",
+  "timeFormat": "HH:mm",
+  "brewdiary": "دفترچه دم",
+  "brewdiarynotfound": "دفترچه‌ای یافت نشد",
+  "beans": "دانه‌ها",
+  "roaster": "رستر",
+  "rating": "امتیاز",
+  "notes": "نکته‌ها",
+  "statsscreen": "صفحه آمار",
+  "yourStats": "آمار شما",
+  "coffeeBrewed": "قهوه دم‌شده",
+  "litersUnit": "لیتر",
+  "mostUsedRecipes": "پرکاربردترین دستورها",
+  "globalStats": "آمار جهانی",
+  "unknownRecipe": "دستور ناشناخته",
+  "noData": "داده‌ای وجود ندارد",
+  "error": "خطا: {error}",
+  "someoneJustBrewed": "کسی همین الان {recipeName} را دم کرد",
+  "timePeriodToday": "امروز",
+  "timePeriodThisWeek": "این هفته",
+  "timePeriodThisMonth": "این ماه",
+  "timePeriodCustom": "بازه سفارشی",
+  "statsFor": "آمار برای",
+  "@statsFor": {
+    "description": "Prefix text for statistics headings"
+  },
+  "homescreenbrewcoffee": "قهوه دم کن",
+  "homescreenhub": "مرکز",
+  "homescreenmore": "بیشتر",
+  "addBeans": "افزودن دانه‌ها",
+  "removeBeans": "حذف دانه‌ها",
+  "name": "نام",
+  "origin": "مبدا",
+  "details": "جزئیات",
+  "coffeebeans": "دانه‌های قهوه",
+  "loading": "در حال بارگذاری",
+  "nocoffeebeans": "هیچ دانه قهوه‌ای یافت نشد",
+  "delete": "حذف",
+  "confirmDeleteTitle": "حذف ورودی؟",
+  "confirmDeleteMessage": "آیا مطمئنید که می‌خواهید این ورودی را حذف کنید؟ این عمل قابل بازگشت نیست.",
+  "removeFavorite": "حذف از محبوب‌ها",
+  "addFavorite": "افزودن به محبوب‌ها",
+  "toggleEditMode": "تغییر حالت ویرایش",
+  "coffeeBeansDetails": "جزئیات دانه‌های قهوه",
+  "edit": "ویرایش",
+  "coffeeBeansNotFound": "دانه قهوه‌ای پیدا نشد",
+  "geographyTerroir": "جغرافیا/ترُوار",
+  "variety": "گونه",
+  "region": "منطقه",
+  "elevation": "ارتفاع",
+  "harvestDate": "تاریخ برداشت",
+  "processing": "فرآوری",
+  "processingMethod": "روش فرآوری",
+  "roastDate": "تاریخ رُست",
+  "roastLevel": "درجه رُست",
+  "cuppingScore": "امتیاز کاپینگ",
+  "flavorProfile": "پروفایل طعمی",
+  "tastingNotes": "یادداشت‌های چشایی",
+  "additionalNotes": "یادداشت‌های اضافی",
+  "noCoffeeBeans": "دانه قهوه‌ای پیدا نشد",
+  "editCoffeeBeans": "ویرایش دانه‌های قهوه",
+  "addCoffeeBeans": "افزودن دانه‌های قهوه",
+  "showImagePicker": "نمایش انتخابگر تصویر",
+  "pleaseNote": "لطفاً توجه کنید",
+  "firstTimePopupMessage": "۱. ما برای پردازش تصاویر از سرویس‌های خارجی استفاده می‌کنیم. با ادامه کار، موافقت می‌کنید که تصاویر شما به این سرویس‌ها ارسال شود.\n۲. در حال حاضر محدودیت ۵ تصویر در ماه وجود دارد (۱ توکن = ۱ تصویر). این محدودیت ممکن است در آینده تغییر کند.",
+  "ok": "باشه",
+  "takePhoto": "عکاسی",
+  "selectFromPhotos": "انتخاب از گالری",
+  "takeAdditionalPhoto": "عکس اضافی بگیرید؟",
+  "no": "خیر",
+  "yes": "بله",
+  "selectedImages": "تصاویر انتخاب‌شده",
+  "selectedImage": "تصویر انتخاب‌شده",
+  "backToSelection": "بازگشت به انتخاب",
+  "next": "بعدی",
+  "unexpectedErrorOccurred": "خطای غیرمنتظره رخ داد",
+  "tokenLimitReached": "محدودیت توکن به پایان رسید",
+  "noCoffeeLabelsDetected": "برچسبی شناسایی نشد",
+  "collectedInformation": "اطلاعات جمع‌آوری‌شده",
+  "enterRoaster": "رستر را وارد کنید",
+  "enterName": "نام را وارد کنید",
+  "enterOrigin": "مبدا را وارد کنید",
+  "optional": "اختیاری",
+  "enterVariety": "گونه را وارد کنید",
+  "enterProcessingMethod": "روش فرآوری را وارد کنید",
+  "enterRoastLevel": "درجه رُست را وارد کنید",
+  "enterRegion": "منطقه را وارد کنید",
+  "enterTastingNotes": "یادداشت‌های چشایی را وارد کنید",
+  "enterElevation": "ارتفاع را وارد کنید",
+  "enterCuppingScore": "امتیاز کاپینگ را وارد کنید",
+  "enterNotes": "یادداشت‌ها را وارد کنید",
+  "selectHarvestDate": "انتخاب تاریخ برداشت",
+  "selectRoastDate": "انتخاب تاریخ رُست",
+  "selectDate": "انتخاب تاریخ",
+  "save": "ذخیره",
+  "fillRequiredFields": "فیلدهای الزامی را پر کنید",
+  "analyzing": "در حال تحلیل...",
+  "errorMessage": "پیام خطا",
+  "selectCoffeeBeans": "انتخاب دانه قهوه",
+  "addNewBeans": "افزودن دانه جدید",
+  "favorite": "محبوب",
+  "notFavorite": "غیرمحبوب",
+  "myBeans": "دانه‌های من",
+  "signIn": "ورود",
+  "signOut": "خروج",
+  "signInWithApple": "ورود با اپل",
+  "signInSuccessful": "ورود موفق",
+  "signInError": "ورود با اپل با خطا مواجه شد",
+  "signInWithGoogle": "ورود با گوگل",
+  "signOutSuccessful": "خروج موفق",
+  "signInSuccessfulGoogle": "ورود موفق با گوگل",
+  "signInWithEmail": "ورود با ایمیل",
+  "enterEmail": "ایمیل را وارد کنید",
+  "emailHint": "example@domain.com",
+  "cancel": "انصراف",
+  "sendMagicLink": "ارسال لینک جادویی",
+  "magicLinkSent": "لینک ورود ارسال شد",
+  "sendOTP": "ارسال کد",
+  "otpSent": "کد ارسال شد",
+  "otpSendError": "خطا در ارسال کد",
+  "enterOTP": "کد را وارد کنید",
+  "otpHint": "کد یک‌بارمصرف",
+  "verify": "تایید",
+  "signInSuccessfulEmail": "ورود ایمیلی موفق",
+  "invalidOTP": "کد نامعتبر است",
+  "otpVerificationError": "خطا در تایید کد",
+  "success": "موفقیت",
+  "otpSentMessage": "کد تایید به ایمیل/شماره شما ارسال شد",
+  "otpHint2": "کد ۶ رقمی",
+  "signInCreate": "ورود / ایجاد حساب",
+  "accountManagement": "مدیریت حساب",
+  "deleteAccount": "حذف حساب",
+  "deleteAccountWarning": "لطفاً توجه کنید: اگر ادامه دهید، حساب شما حذف می‌شود. برای فعال‌سازی همگام‌سازی دوباره باید حساب جدید بسازید.",
+  "deleteAccountConfirmation": "حساب با موفقیت حذف شد",
+  "accountDeleted": "حساب حذف شد",
+  "accountDeletionError": "خطا در حذف حساب، لطفاً دوباره تلاش کنید",
+  "deleteAccountTitle": "مهم",
+  "selectBeans": "انتخاب دانه",
+  "all": "همه",
+  "selectRoaster": "انتخاب رستر",
+  "selectOrigin": "انتخاب مبدا",
+  "resetFilters": "ریست فیلترها",
+  "showFavoritesOnly": "فقط موارد محبوب",
+  "apply": "اعمال",
+  "selectSize": "انتخاب اندازه",
+  "sizeStandard": "استاندارد",
+  "sizeMedium": "متوسط",
+  "sizeXL": "بزرگ",
+  "yearlyStatsAppBarTitle": "آمار سال ۲۰۲۴",
+  "@yearlyStatsAppBarTitle": {
+    "description": "Title for the AppBar in YearlyStatsStoryScreen"
+  },
+  "yearlyStatsStory1Text": "سلام!\nبیایید نگاهی بیندازیم به سال قهوه‌ای شما ☕️",
+  "@yearlyStatsStory1Text": {
+    "description": "Greeting message for the first story in YearlyStatsStoryScreen"
+  },
+  "yearlyStatsStory2Text": "قبل از هر چیز.\nامسال مقداری قهوه دم کردی{ellipsis}",
+  "@yearlyStatsStory2Text": {
+    "description": "Introduction to total coffee brewed with ellipsis indicating continuation",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsStory3Text": "دقیق‌تر بگوییم،\nشما {liters} لیتر قهوه در ۲۰۲۴ دم کردید!",
+  "@yearlyStatsStory3Text": {
+    "description": "Detailed coffee brewed amount in liters",
+    "placeholders": {
+      "liters": {
+        "example": "10.5"
+      }
+    }
+  },
+  "yearlyStatsStory4Text": "شما از {roasterCount} رستر استفاده کردید",
+  "@yearlyStatsStory4Text": {
+    "description": "Statement about the number of distinct roasters used",
+    "placeholders": {
+      "roasterCount": {
+        "example": "5"
+      }
+    }
+  },
+  "yearlyStatsStory4Top3Roasters": "سه رستر برتر شما:\n{top3}",
+  "@yearlyStatsStory4Top3Roasters": {
+    "description": "List of top 3 roasters used",
+    "placeholders": {
+      "top3": {
+        "example": "Roaster A, Roaster B, Roaster C"
+      }
+    }
+  },
+  "yearlyStatsStory5Text": "قهوه شما را به سفری\nدور دنیا برد{ellipsis}",
+  "@yearlyStatsStory5Text": {
+    "description": "Statement about traveling with coffee, ending with ellipsis",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsStory6Text": "شما دانه‌های قهوه از {originCount} کشور چشیدید!",
+  "@yearlyStatsStory6Text": {
+    "description": "Statement about the number of distinct origins",
+    "placeholders": {
+      "originCount": {
+        "example": "10"
+      }
+    }
+  },
+  "yearlyStatsStory7Part1": "شما طعم‌های جدیدی را امتحان کردید و",
+  "@yearlyStatsStory7Part1": {
+    "description": "First part of story 7"
+  },
+  "yearlyStatsStory7Part2": "...اما با کاربران از 110 کشور دیگر\nدر 6 قاره!",
+  "yearlyStatsStory8TitleLow": "شما وفادار ماندید و فقط از این {count} روش دم‌آوری در سال استفاده کردید:",
+  "@yearlyStatsStory8TitleLow": {
+    "description": "Title for low number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "3"
+      }
+    }
+  },
+  "yearlyStatsStory8TitleMedium": "شما در حال کشف طعم‌های جدید بودید و {count} روش دم‌آوری در سال استفاده کردید:",
+  "@yearlyStatsStory8TitleMedium": {
+    "description": "Title for medium number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "5"
+      }
+    }
+  },
+  "yearlyStatsStory8TitleHigh": "شما یک کاشف واقعی قهوه بودید و {count} روش دم‌آوری در سال استفاده کردید:",
+  "@yearlyStatsStory8TitleHigh": {
+    "description": "Title for high number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "8"
+      }
+    }
+  },
+  "yearlyStatsStory9Text": "این‌ها لحظات خوشمزه‌ای بودند!",
+  "@yearlyStatsStory9Text": {
+    "description": "Encouraging message for further discovery"
+  },
+  "yearlyStatsStory10Text": "سه دستور برتر شما در ۲۰۲۴ این‌ها بودند{ellipsis}",
+  "@yearlyStatsStory10Text": {
+    "description": "Statement about top-3 recipes with ellipsis",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsFinalText": "به خاطر یک سال عالی قهوه سپاسگزاریم!",
+  "@yearlyStatsFinalText": {
+    "description": "Final farewell message"
+  },
+  "yearlyStatsActionLove": "یک قلب بده ({likesCount})",
+  "@yearlyStatsActionLove": {
+    "description": "Button text for showing love with likes count",
+    "placeholders": {
+      "likesCount": {
+        "example": "120"
+      }
+    }
+  },
+  "yearlyStatsActionDonate": "کمک مالی",
+  "@yearlyStatsActionDonate": {
+    "description": "Button text for donation"
+  },
+  "yearlyStatsActionShare": "اشتراک‌گذاری",
+  "@yearlyStatsActionShare": {
+    "description": "Button text for sharing progress"
+  },
+  "yearlyStatsUnknown": "نامشخص",
+  "@yearlyStatsUnknown": {
+    "description": "Text displayed when a value is unknown"
+  },
+  "yearlyStatsErrorSharing": "اشتراک‌گذاری ناموفق بود: {error}",
+  "@yearlyStatsErrorSharing": {
+    "description": "Error message when sharing fails",
+    "placeholders": {
+      "error": {
+        "example": "Network error"
+      }
+    }
+  },
+  "yearlyStatsShareProgressMyYear": "در حال آماده‌سازی «سال من»...",
+  "@yearlyStatsShareProgressMyYear": {
+    "description": "Title in the Share Progress Widget"
+  },
+  "yearlyStatsShareProgressTop3Recipes": "در حال آماده‌سازی سه دستور برتر...",
+  "@yearlyStatsShareProgressTop3Recipes": {
+    "description": "Header for top-3 recipes in the Share Progress Widget"
+  },
+  "yearlyStatsShareProgressTop3Roasters": "در حال آماده‌سازی سه رستر برتر...",
+  "@yearlyStatsShareProgressTop3Roasters": {
+    "description": "Header for top-3 roasters in the Share Progress Widget"
+  },
+  "yearlyStatsFailedToLike": "خطا در ثبت پسندیدن",
+  "@yearlyStatsFailedToLike": {
+    "description": "Error message when liking fails"
+  },
+  "labelCoffeeBrewed": "قهوه دم‌شده:",
+  "@labelCoffeeBrewed": {
+    "description": "Label for coffee brewed"
+  },
+  "labelTastedBeansBy": "دانه‌ها چشیده شده از:",
+  "@labelTastedBeansBy": {
+    "description": "Label for roaster stats"
+  },
+  "labelDiscoveredCoffeeFrom": "قهوه کشف‌شده از:",
+  "@labelDiscoveredCoffeeFrom": {
+    "description": "Label for origin stats"
+  },
+  "labelUsedBrewingMethods": "روش‌های دم استفاده‌شده:",
+  "@labelUsedBrewingMethods": {
+    "description": "Label for brewing methods stats"
+  },
+  "formattedRoasterCount": "{count} {count, plural, =1{رستر} other{رسترها}}",
+  "@formattedRoasterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "formattedCountryCount": "{count} {count, plural, =1{کشور} other{کشورها}}",
+  "@formattedCountryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "formattedBrewingMethodCount": "{count} {count, plural, =1{روش دم‌آوری} other{روش‌های دم‌آوری}}",
+  "@formattedBrewingMethodCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recipeCreationScreenEditRecipeTitle": "ویرایش دستور",
+  "recipeCreationScreenCreateRecipeTitle": "ایجاد دستور",
+  "recipeCreationScreenRecipeStepsTitle": "مراحل دستور",
+  "recipeCreationScreenRecipeNameLabel": "نام دستور",
+  "recipeCreationScreenShortDescriptionLabel": "توضیح کوتاه",
+  "recipeCreationScreenBrewingMethodLabel": "روش دم",
+  "recipeCreationScreenCoffeeAmountLabel": "مقدار قهوه",
+  "recipeCreationScreenWaterAmountLabel": "مقدار آب",
+  "recipeCreationScreenWaterTempLabel": "دمای آب",
+  "recipeCreationScreenGrindSizeLabel": "اندازه آسیاب",
+  "recipeCreationScreenTotalBrewTimeLabel": "کل زمان دم",
+  "recipeCreationScreenMinutesLabel": "دقیقه",
+  "recipeCreationScreenSecondsLabel": "ثانیه",
+  "recipeCreationScreenPreparationStepTitle": "مرحله آماده‌سازی",
+  "recipeCreationScreenBrewStepTitle": "مرحله دم {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "Title for a brew step in the recipe creation screen",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "توضیح مرحله",
+  "recipeCreationScreenStepTimeLabel": "زمان مرحله",
+  "recipeCreationScreenRecipeNameValidator": "نام دستور لازم است",
+  "recipeCreationScreenShortDescriptionValidator": "توضیح کوتاه لازم است",
+  "recipeCreationScreenBrewingMethodValidator": "روش دم انتخاب نشده است",
+  "recipeCreationScreenRequiredValidator": "این فیلد الزامی است",
+  "recipeCreationScreenInvalidNumberValidator": "عدد نامعتبر",
+  "recipeCreationScreenStepDescriptionValidator": "توضیح مرحله لازم است",
+  "recipeCreationScreenContinueButton": "ادامه",
+  "recipeCreationScreenAddStepButton": "افزودن مرحله",
+  "recipeCreationScreenSaveRecipeButton": "ذخیره دستور",
+  "recipeCreationScreenUpdateSuccess": "دستور با موفقیت به‌روز شد",
+  "recipeCreationScreenSaveSuccess": "دستور با موفقیت ذخیره شد",
+  "recipeCreationScreenSaveError": "خطا در ذخیره دستور: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "Error message when saving a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "unitGramsShort": "گرم",
+  "unitMillilitersShort": "میلی‌لیتر",
+  "unitGramsLong": "گرم",
+  "unitMillilitersLong": "میلی‌لیتر",
+  "recipeCopySuccess": "دستور با موفقیت کپی شد",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "کپی دستور ناموفق بود: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "ایجاد دستور",
+  "errorSyncingData": "خطا در همگام‌سازی داده: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "errorSigningOut": "خطا در خروج: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "defaultPreparationStepDescription": "آماده‌سازی تجهیزات",
+  "loadingEllipsis": "در حال بارگذاری...",
+  "recipeDeletedSuccess": "دستور حذف شد",
+  "recipeDeleteError": "حذف دستور ناموفق بود: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "noRecipesFound": "هیچ دستوری یافت نشد",
+  "recipeLoadError": "خطا در بارگذاری دستور: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "unknownBrewingMethod": "روش دم ناشناخته",
+  "recipeCopyErrorLoadingEdit": "بارگذاری دستور کپی‌شده برای ویرایش ناموفق بود.",
+  "recipeCopyErrorOperationFailed": "عملیات ناموفق بود.",
+  "notProvided": "ارائه نشده",
+  "recipeUpdateFailedFetch": "بروزرسانی دستور ناموفق بود.",
+  "recipeImportSuccess": "دستور با موفقیت وارد شد!",
+  "recipeImportFailedSave": "ذخیره دستور واردشده ناموفق بود.",
+  "recipeImportFailedFetch": "دریافت اطلاعات دستور برای وارد کردن ناموفق بود.",
+  "recipeNotImported": "دستور وارد نشد.",
+  "recipeNotFoundCloud": "دستور در ابر پیدا نشد یا عمومی نیست.",
+  "recipeLoadErrorGeneric": "خطا در بارگذاری دستور.",
+  "recipeUpdateAvailableTitle": "بروزرسانی موجود است",
+  "recipeUpdateAvailableBody": "نسخه جدیدتری از '{recipeName}' آنلاین موجود است. بروزرسانی شود؟",
+  "@recipeUpdateAvailableBody": {
+    "description": "Body text for the update confirmation dialog",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "My Awesome Recipe"
+      }
+    }
+  },
+  "dialogCancel": "لغو",
+  "dialogUpdate": "بروزرسانی",
+  "recipeImportTitle": "وارد کردن دستور",
+  "recipeImportBody": "آیا می‌خواهید دستور «{recipeName}» را از فضای ابری وارد کنید؟",
+  "@recipeImportBody": {
+    "description": "Body text for the import confirmation dialog",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Shared Recipe"
+      }
+    }
+  },
+  "dialogImport": "وارد کردن",
+  "moderationReviewNeededTitle": "نیاز به بازبینی",
+  "moderationReviewNeededMessage": "این محتوا نیاز به بازبینی دستی دارد قبل از انتشار.",
+  "@moderationReviewNeededMessage": {
+    "description": "Message shown when recipes need moderation review",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'My Recipe', 'Another Recipe'"
+      }
+    }
+  },
+  "dismiss": "بستن",
+  "reviewRecipeButton": "بازبینی دستور",
+  "signInRequiredTitle": "ورود لازم است",
+  "signInRequiredBodyShare": "برای اشتراک‌گذاری باید ابتدا وارد شوید.",
+  "syncSuccess": "همگام‌سازی موفق",
+  "tooltipEditRecipe": "ویرایش دستور",
+  "tooltipCopyRecipe": "کپی دستور",
+  "tooltipShareRecipe": "اشتراک‌گذاری دستور",
+  "signInRequiredSnackbar": "برای ادامه باید وارد شوید",
+  "moderationErrorFunction": "در فراخوانی ماژول پالایش محتوا خطا رخ داد",
+  "moderationReasonDefault": "محتوا با خط‌مشی مطابقت نداشت",
+  "moderationFailedTitle": "رد شد",
+  "moderationFailedBody": "محتوا با خط‌مشی مطابقت ندارد و ذخیره نشد.",
+  "@moderationFailedBody": {
+    "description": "Body text for the dialog shown when content moderation fails",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Inappropriate language"
+      }
+    }
+  },
+  "shareErrorGeneric": "خطا در اشتراک‌گذاری",
+  "@shareErrorGeneric": {
+    "description": "Generic error message shown if the sharing process fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "جزئیات دستور",
+  "@recipeDetailWebTitle": {
+    "description": "Web page title format for a recipe detail page",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "My Awesome V60"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "به صورت محلی ذخیره شد. بعداً دوباره بررسی کنید.",
+  "saveLocallyModerationFailedTitle": "ذخیره محلی ناموفق",
+  "saveLocallyModerationFailedBody": "به دلیل خطای پالایش محتوا، دستور به صورت محلی ذخیره نشد.",
+  "@saveLocallyModerationFailedBody": {
+    "description": "Body text for the dialog shown when moderation fails but local save succeeds",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Inappropriate language"
+      }
+    }
+  },
+  "editImportedRecipeTitle": "ویرایش دستور واردشده",
+  "editImportedRecipeBody": "این دستور وارد شده است. آیا می‌خواهید نسخه‌ای کپی کنید و ویرایش کنید؟",
+  "editImportedRecipeButtonCopy": "کپی و ویرایش",
+  "editImportedRecipeButtonCancel": "لغو",
+  "editDisplayNameTitle": "ویرایش نام نمایشی",
+  "displayNameHint": "نامی که دیگران می‌بینند",
+  "displayNameEmptyError": "نام نمایشی خالی است",
+  "displayNameTooLongError": "نام نمایشی نمی‌تواند بیش از ۵۰ نویسه باشد",
+  "errorUserNotLoggedIn": "کاربر وارد نشده است. لطفاً دوباره وارد شوید.",
+  "displayNameUpdateSuccess": "نام نمایشی با موفقیت به‌روز شد!",
+  "displayNameUpdateError": "به‌روزرسانی نام نمایشی ناموفق بود: {error}",
+  "@displayNameUpdateError": {
+    "description": "Error message when updating display name fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "حذف تصویر؟",
+  "deletePictureConfirmationBody": "آیا مطمئنید که می‌خواهید تصویر پروفایل خود را حذف کنید؟",
+  "deletePictureSuccess": "تصویر پروفایل حذف شد.",
+  "deletePictureError": "حذف تصویر پروفایل ناموفق بود: {error}",
+  "@deletePictureError": {
+    "description": "Error message when deleting profile picture fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Storage error"
+      }
+    }
+  },
+  "updatePictureError": "به‌روزرسانی تصویر پروفایل ناموفق بود: {error}",
+  "@updatePictureError": {
+    "description": "Error message when updating profile picture fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Upload error"
+      }
+    }
+  },
+  "updatePictureSuccess": "تصویر پروفایل با موفقیت به‌روز شد!",
+  "deletePictureTooltip": "حذف تصویر",
+  "account": "حساب",
+  "settingsBrewingMethodsTitle": "روش‌های دم در صفحه اصلی",
+  "filter": "فیلتر",
+  "@filter": {
+    "description": "Label for the filter button in the coffee beans screen"
+  },
+  "secondsAbbreviation": "ث.",
+  "clearall": "همه را پاک کن",
+  "savechanges": "ذخیره‌ی تغییرات",
+  "deleteselected": "حذف انتخاب‌ها",
+  "retry": "دوباره تلاش کن",
+  "warning": "اخطار",
+  "exportSuccess": "{count} دستور با موفقیت برون‌ریزی شد",
+  "importSuccess": "{count} دستور با موفقیت درون‌ریزی شد",
+  "importFailed": "درون‌ریزی دستورها ناموفق بود",
+  "exportFailed": "برون‌ریزی دستورها ناموفق بود",
+  "yearStatsStory2": "{users} کاربر از {countries} کشور، {beans} نوع قهوه از {roasters} رستر دم کرده‌اند",
+  "yearStatsStory6": "در سراسر {continents} قاره مختلف",
+  "yearStatsStory7": "اما کاربران از ۱۱۰ کشور دیگر و در ۶ قاره!",
+  "addfavorite": "افزودن به مواردعلاقه‌مندی",
+  "removefavorite": "حذف از مواردعلاقه‌مندی",
+  "notePlaceholder": "افزودن نکته (اختیاری)",
+  "editNote": "ویرایش نکته",
+  "deleteNote": "حذف نکته",
+  "addStep": "اضافه کردن مرحله",
+  "deleteStep": "حذف این مرحله",
+  "addIngredient": "افزودن مواد اولیه",
+  "deleteIngredient": "حذف مواد اولیه",
+  "editIngredient": "ویرایش مواد اولیه",
+  "ingredientTitle": "مواد اولیه {number}",
+  "grindSetting": "درجه آسیاب",
+  "grindSize": "درجه آسیاب",
+  "grind": "آسیاب",
+  "pauseTimer": "مکث زمان‌سنج",
+  "confirmDeleteRecipe": "حذف این دستور را تایید می‌کنید؟",
+  "confirmDeleteAllRecipes": "حذف همه دستورها را تایید می‌کنید؟",
+  "confirmRestoreRecipe": "بازیابی این دستور را تایید می‌کنید؟",
+  "confirmSignOut": "خروج را تایید می‌کنید؟",
+  "confirmCancelEdit": "تغییرات را لغو می‌کنید؟",
+  "confirmExit": "خروج از برنامه را تایید می‌کنید؟",
+  "confirmRemoveFavorite": "حذف از مواردعلاقه‌مندی؟",
+  "confirmRemove": "حذف شود؟",
+  "confirmResetSettings": "تنظیمات به حالت پیش‌فرض بازنشانی شود؟",
+  "errorTimeout": "اتصال با خطای زمان مواجه شد",
+  "errorPermission": "اجازه داده نشد",
+  "errorExport": "خطا در برون‌ریزی",
+  "errorImport": "خطا در درون‌ریزی",
+  "confirmDeleteIngredient": "حذف این مواد اولیه؟",
+  "confirmDeleteNote": "حذف این نکته؟",
+  "confirmClearNote": "پاک کردن نکته؟",
+  "actionUndo": "برگشت",
+  "actionRedo": "دوباره انجام بده",
+  "copyLink": "کپی لینک",
+  "stepInstructions": "راهنما",
+  "addFirstIngredient": "اولین مواد اولیه را اضافه کنید!",
+  "noIngredients": "هنوز هیچ مواد اولیه‌ای اضافه نشده است",
+  "addFirstNote": "اولین نکته را اضافه کنید!",
+  "noNotes": "هنوز هیچ نکته‌ای اضافه نشده است",
+  "cloneRecipe": "تکثیر دستور",
+  "removeFavoriteRecipe": "حذف از دستورهای موردعلاقه‌مندی",
+  "feedbackHint": "نظرات خود را برای بهبود برنامه بنویسید",
+  "feedbackSent": "نظر شما ارسال شد",
+  "feedbackError": "ارسال نظر ناموفق بود",
+  "feedbackPlaceholder": "نظر شما (اختیاری)",
+  "systemTheme": "همانند سیستم",
+  "privacyPolicy": "سیاست حفظ حریم خصوصی یا سیاست محرمانگی",
+  "termsOfService": "شرایط استفاده",
+  "donate": "اهدا یا کمک مالی",
+  "donationThankYou": "ممنون بابت حمایت شما!",
+  "analytics": "آمار یا تحلیل‌ها",
+  "analyticsDescription": "آمار جزئیات دم‌آوری‌های خود را مشاهده کنید",
+  "roasterStats": "آمار رست‌کننده‌ها",
+  "allTimeStats": "آمار کلی یا آمار همیشگی",
+  "showMoreStats": "آمار بیشتر را نمایش بدهید",
+  "noStats": "هیچ آماری در دسترس نیست",
+  "upToDate": "برنامه به‌روز است",
+  "acknowledgements": "قدردانی‌ها یا سپاسگزاری‌ها",
+  "faq": "سوالات متداول یا پرسش‌های رایج",
+  "tips": "نکات یا راهنمایی‌ها"
+}
