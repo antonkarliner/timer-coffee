@@ -690,7 +690,12 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
               if (currentStepIndex < brewingSteps.length - 1 &&
                   !_isEndBrewAnimating)
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 0, 88.0, 16.0),
+                  padding: EdgeInsets.fromLTRB(
+                    16.0,
+                    0,
+                    88.0,
+                    MediaQuery.of(context).padding.bottom + 16.0,
+                  ),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Column(
