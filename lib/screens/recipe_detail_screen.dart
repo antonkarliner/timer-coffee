@@ -92,6 +92,26 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
   String? selectedBeanUuid;
   String? selectedBeanName;
 
+  @override
+  void didUpdateWidget(covariant RecipeDetailBase oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialRecipeId != widget.initialRecipeId) {
+      setState(() {
+        _effectiveRecipeId = widget.initialRecipeId;
+        _isLoading = true;
+        _importCheckComplete = false;
+        _errorMessage = null;
+        _updatedRecipe = null;
+      });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _performInitialRecipeCheck();
+          _loadSelectedBean();
+        }
+      });
+    }
+  }
+
   // Sliders for recipe id 106
   int _sweetnessSliderPosition = 1;
   int _strengthSliderPosition = 2;
