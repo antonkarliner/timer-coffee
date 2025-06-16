@@ -1,0 +1,3 @@
++ 2 nouvelles langues! Farsi et finnois.  
++ Interface de l’écran d’infusion améliorée.  
++ Corrections de bogues

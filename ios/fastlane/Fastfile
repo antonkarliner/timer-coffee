@@ -22,7 +22,7 @@ platform :ios do
       master_locale: 'en-US',
       platform: 'ios',
       context: 'Timer.Coffee is a coffee brew timer app, please pay special attention to correct usage of coffee-related terms.',
-      model_name: 'gpt-4o'
+      model_name: 'gpt-4.1'
       # other necessary parameters...
     )
     app_store_connect_api_key(

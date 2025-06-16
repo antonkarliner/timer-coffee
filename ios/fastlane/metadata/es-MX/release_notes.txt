@@ -1,7 +1,3 @@
-Esta actualización trae muchas funciones nuevas, tales como:
-- diseño mejorado
-- muchos nuevos métodos de preparación
-- capacidad para mostrar solo los métodos de preparación necesarios en la pantalla de inicio
-¡y más!
-
-Y corrección de errores, por supuesto.
++ ¡2 nuevos idiomas! Farsi y finés.  
++ Interfaz de la pantalla de preparación mejorada.  
++ Corrección de errores

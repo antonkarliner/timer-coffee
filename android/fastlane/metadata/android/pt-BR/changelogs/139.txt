@@ -1,3 +1,3 @@
 + 2 novos idiomas! Farsi e Finlandês.  
-+ Interface da tela de preparo aprimorada.  
++ Tela de preparo aprimorada.  
 + Correções de bugs

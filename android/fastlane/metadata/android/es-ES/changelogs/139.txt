@@ -1,0 +1,3 @@
++ ¡2 nuevos idiomas! Persa y finés.  
++ Interfaz de preparación mejorada.  
++ Corrección de errores

@@ -1,7 +1,3 @@
-Cette mise à jour apporte de nombreuses nouvelles fonctionnalités telles que :
-- design amélioré
-- de nombreuses nouvelles méthodes de préparation
-- possibilité d'afficher uniquement les méthodes de préparation nécessaires sur l'écran d'accueil
-et plus encore !
-
-Et des corrections de bugs, bien sûr.
++ 2 nouvelles langues ! Le farsi et le finnois.  
++ Amélioration de l’interface de l’écran d’infusion.  
++ Corrections de bugs

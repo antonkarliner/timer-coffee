@@ -1,0 +1,3 @@
++ 2 nieuwe talen! Farsi en Fins.  
++ Verbeterde gebruikersinterface voor het zetproces.  
++ Bugfixes

@@ -1,3 +1,3 @@
 + 2 nuove lingue! Farsi e finlandese.  
-+ Interfaccia della schermata di estrazione migliorata.  
++ Interfaccia della schermata di infusione migliorata.  
 + Correzione di bug

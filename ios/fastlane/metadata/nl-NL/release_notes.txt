@@ -1,7 +1,3 @@
-Deze update brengt veel nieuwe functies, zoals:
-- verbeterd ontwerp
-- veel nieuwe zetmethodes
-- mogelijkheid om alleen de benodigde zetmethodes op het startscherm weer te geven
-en meer!
-
-En natuurlijk bugfixes.
++ 2 nieuwe talen! Farsi en Fins.  
++ Verbeterde zet-scherm UI.  
++ Bugfixes

@@ -1,11 +1,3 @@
-Certainly! Here is the translation of the provided text into review_information:
-
----
-
-This update introduces numerous new features, including:
-- Enhanced design
-- A variety of new brewing techniques
-- Option to showcase only selected brewing methods on the home screen
-and more!
-
-Additionally, there are bug fixes, naturally.
++ 2 new languages! Farsi and Finnish.
++ Improved brew timer screen UI.
++ Bug fixes
