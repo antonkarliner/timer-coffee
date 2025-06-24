@@ -1,3 +1,1 @@
-+ 2 new languages! Farsi and Finnish.
-+ Improved brew timer screen UI.
-+ Bug fixes
+Optimized network usage. (No translation needed; "review_information" is not a language code. If you intended to request a translation to a specific language, please clarify the target language.)

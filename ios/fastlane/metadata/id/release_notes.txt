@@ -1,3 +1,1 @@
-+ 2 bahasa baru! Farsi dan Finlandia.  
-+ UI layar penyeduhan yang lebih baik.  
-+ Perbaikan bug
+Penggunaan jaringan dioptimalkan.

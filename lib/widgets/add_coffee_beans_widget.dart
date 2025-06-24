@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -63,6 +64,9 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
   }
 
   Widget _buildBeanTile(CoffeeBeansModel bean, BuildContext context) {
+    const double logoHeight = 40.0;
+    const double maxWidthFactor = 2.0; // 40 × 2 = 80 px max width
+
     final loc = AppLocalizations.of(context)!;
     final databaseProvider =
         Provider.of<DatabaseProvider>(context, listen: false);
@@ -72,8 +76,9 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
       label:
           '${bean.name}, ${bean.roaster}, ${bean.isFavorite ? loc.favorite : loc.notFavorite}',
       child: ListTile(
-        leading: Container(
-          width: 40,
+        leading: SizedBox(
+          height: logoHeight,
+          width: logoHeight * maxWidthFactor,
           child: FutureBuilder<Map<String, String?>>(
             future: databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster),
             builder: (context, snapshot) {
@@ -82,51 +87,32 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
                 final mirrorUrl = snapshot.data!['mirror'];
 
                 if (originalUrl != null || mirrorUrl != null) {
-                  return ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: CachedNetworkImage(
-                        imageUrl: originalUrl ?? mirrorUrl!,
-                        placeholder: (context, url) =>
-                            const Icon(Coffeico.bag_with_bean, size: 40),
-                        errorWidget: (context, url, error) {
-                          if (url == originalUrl && mirrorUrl != null) {
-                            return CachedNetworkImage(
-                              imageUrl: mirrorUrl,
-                              placeholder: (context, url) =>
-                                  const Icon(Coffeico.bag_with_bean, size: 40),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Coffeico.bag_with_bean, size: 40),
-                              width: 40,
-                              fit: BoxFit.cover,
-                            );
-                          }
-                          return const Icon(Coffeico.bag_with_bean, size: 40);
-                        },
-                        width: 40,
-                        fit: BoxFit.cover,
-                      ));
+                  return RoasterLogo(
+                    originalUrl: originalUrl,
+                    mirrorUrl: mirrorUrl,
+                    height: logoHeight,
+                    width: logoHeight * maxWidthFactor,
+                    borderRadius: 0, // ← no rounded corners
+                    forceFit: BoxFit.contain, // ← never crop
+                  );
                 }
               }
-              return const Icon(Coffeico.bag_with_bean, size: 40);
+              return const Icon(Coffeico.bag_with_bean, size: logoHeight);
             },
           ),
         ),
         title: Text(bean.name),
         subtitle: Text(bean.roaster),
         trailing: bean.isFavorite
-            ? Icon(
-                Icons.favorite,
-                color: Theme.of(context).colorScheme.onSurface,
-              )
+            ? Icon(Icons.favorite,
+                color: Theme.of(context).colorScheme.onSurface)
             : null,
         selected: selectedBeanUuid == bean.beansUuid,
         selectedTileColor: Theme.of(context).brightness == Brightness.dark
             ? Colors.white.withOpacity(0.2)
             : Theme.of(context).primaryColor.withOpacity(0.1),
         onTap: () {
-          setState(() {
-            selectedBeanUuid = bean.beansUuid;
-          });
+          setState(() => selectedBeanUuid = bean.beansUuid);
         },
       ),
     );

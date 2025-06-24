@@ -23,6 +23,7 @@ import '../webhelper/web_helper.dart' as web;
 import 'dart:io';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../widgets/add_coffee_beans_widget.dart';
+import '../widgets/roaster_logo.dart';
 import '../providers/coffee_beans_provider.dart';
 import '../providers/user_recipe_provider.dart'; // Keep this
 import 'package:shared_preferences/shared_preferences.dart';
@@ -1634,19 +1635,27 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
   Widget _buildBeanSelectionRow(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+
+    // Give RoasterLogo a unique key that changes on every bean selection
+    final roasterLogoKey = selectedBeanUuid != null
+        ? ValueKey(selectedBeanUuid! +
+            (originalRoasterLogoUrl ?? '') +
+            (mirrorRoasterLogoUrl ?? ''))
+        : null;
+
+    const double logoHeight = 24.0;
+    const double maxWidthFactor = 2.0; // 24 × 2 = 48 px max width
+
     return Row(
       children: [
-        Text(
-          '${loc.beans}: ',
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
+        Text('${loc.beans}: ', style: Theme.of(context).textTheme.titleSmall),
         const SizedBox(width: 8),
         Expanded(
           child: OutlinedButton(
             onPressed: () => _openAddBeansPopup(context),
             style: OutlinedButton.styleFrom(
               padding: EdgeInsets.zero,
-              minimumSize: const Size.fromHeight(48), // Adjust height as needed
+              minimumSize: const Size.fromHeight(48),
             ),
             child: Stack(
               children: [
@@ -1668,38 +1677,19 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
                             if (originalRoasterLogoUrl != null ||
                                 mirrorRoasterLogoUrl != null)
                               ClipRRect(
-                                borderRadius:
-                                    BorderRadius.circular(4), // Rounded corners
-                                child: CachedNetworkImage(
-                                  imageUrl: originalRoasterLogoUrl ??
-                                      mirrorRoasterLogoUrl!,
-                                  placeholder: (context, url) => const Icon(
-                                      Coffeico.bag_with_bean,
-                                      size: 24),
-                                  errorWidget: (context, url, error) {
-                                    if (url == originalRoasterLogoUrl &&
-                                        mirrorRoasterLogoUrl != null) {
-                                      // Attempt to load mirror URL
-                                      return CachedNetworkImage(
-                                        imageUrl: mirrorRoasterLogoUrl!,
-                                        placeholder: (context, url) =>
-                                            const Icon(Coffeico.bag_with_bean,
-                                                size: 24),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Coffeico.bag_with_bean,
-                                                size: 24),
-                                        height:
-                                            24, // Maintain consistent height
-                                        fit: BoxFit
-                                            .contain, // Preserve aspect ratio
-                                      );
-                                    }
-                                    // If mirror also fails or not available
-                                    return const Icon(Coffeico.bag_with_bean,
-                                        size: 24);
-                                  },
-                                  height: 24, // Set fixed height
-                                  fit: BoxFit.contain, // Preserve aspect ratio
+                                borderRadius: BorderRadius.circular(4),
+                                child: SizedBox(
+                                  height: logoHeight,
+                                  width: logoHeight * maxWidthFactor,
+                                  child: RoasterLogo(
+                                    key: roasterLogoKey, // <<<<<< THIS
+                                    originalUrl: originalRoasterLogoUrl,
+                                    mirrorUrl: mirrorRoasterLogoUrl,
+                                    height: logoHeight,
+                                    width: logoHeight * maxWidthFactor,
+                                    borderRadius: 4,
+                                    forceFit: BoxFit.contain,
+                                  ),
                                 ),
                               ),
                             if (originalRoasterLogoUrl != null ||

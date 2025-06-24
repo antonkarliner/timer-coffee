@@ -15,8 +15,8 @@ import '../widgets/add_coffee_beans_widget.dart';
 import '../widgets/expandable_card.dart';
 import '../notifiers/card_expansion_notifier.dart';
 import '../widgets/confirm_delete_dialog.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../models/coffee_beans_model.dart';
+import '../widgets/roaster_logo.dart';
 
 @RoutePage()
 class BrewDiaryScreen extends StatefulWidget {
@@ -323,46 +323,8 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                       future: databaseProvider
                           .fetchCachedRoasterLogoUrls(bean.roaster),
                       builder: (context, logoSnapshot) {
-                        Widget logoWidget;
-                        if (logoSnapshot.hasData) {
-                          final originalUrl = logoSnapshot.data!['original'];
-                          final mirrorUrl = logoSnapshot.data!['mirror'];
-
-                          if (originalUrl != null || mirrorUrl != null) {
-                            logoWidget = ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: CachedNetworkImage(
-                                imageUrl: originalUrl ?? mirrorUrl!,
-                                placeholder: (context, url) => const Icon(
-                                    Coffeico.bag_with_bean,
-                                    size: 60), // Increased size
-                                errorWidget: (context, url, error) {
-                                  if (url == originalUrl && mirrorUrl != null) {
-                                    return CachedNetworkImage(
-                                      imageUrl: mirrorUrl,
-                                      placeholder: (context, url) => const Icon(
-                                          Coffeico.bag_with_bean,
-                                          size: 60),
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Coffeico.bean, size: 60),
-                                      fit: BoxFit.cover,
-                                    );
-                                  }
-                                  return const Icon(Coffeico.bean, size: 60);
-                                },
-                                width: 80, // Increased width
-                                fit: BoxFit.cover,
-                              ),
-                            );
-                          } else {
-                            logoWidget = const Icon(Coffeico.bean, size: 60);
-                          }
-                        } else if (logoSnapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          logoWidget = const Icon(Coffeico.bean, size: 60);
-                        } else {
-                          logoWidget = const Icon(Coffeico.bean, size: 60);
-                        }
+                        const double logoHeight = 80.0;
+                        const double maxWidthFactor = 2.0;
 
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -374,9 +336,51 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    logoWidget,
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: ConstrainedBox(
+                                        constraints: const BoxConstraints(
+                                          minHeight: logoHeight,
+                                          maxHeight: logoHeight,
+                                          minWidth: logoHeight,
+                                          maxWidth: logoHeight * maxWidthFactor,
+                                        ),
+                                        child: FittedBox(
+                                          fit: BoxFit.contain,
+                                          alignment: Alignment.centerLeft,
+                                          child: FutureBuilder<
+                                              Map<String, String?>>(
+                                            future: databaseProvider
+                                                .fetchCachedRoasterLogoUrls(
+                                                    bean.roaster),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                final originalUrl =
+                                                    snapshot.data!['original'];
+                                                final mirrorUrl =
+                                                    snapshot.data!['mirror'];
+                                                if (originalUrl != null ||
+                                                    mirrorUrl != null) {
+                                                  return RoasterLogo(
+                                                    originalUrl: originalUrl,
+                                                    mirrorUrl: mirrorUrl,
+                                                    height: logoHeight,
+                                                    borderRadius: 8.0,
+                                                    forceFit: BoxFit.contain,
+                                                  );
+                                                }
+                                              }
+                                              return const Icon(
+                                                Coffeico.bag_with_bean,
+                                                size: logoHeight,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                     const SizedBox(width: 12),
                                     Expanded(
                                       child: Padding(

@@ -10,6 +10,7 @@ import 'package:coffeico/coffeico.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../widgets/confirm_delete_dialog.dart';
+import '../widgets/roaster_logo.dart';
 
 class FilterOptions {
   List<String> selectedRoasters;
@@ -531,6 +532,11 @@ class CoffeeBeanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ---- tweak these two numbers if you like ------------------------------
+    const double logoHeight = 80.0; // vertical real-estate for every mark
+    const double maxWidthFactor = 2.0; // 56 × 2 = 112 px maximum width allowed
+    // -----------------------------------------------------------------------
+
     final coffeeBeansProvider =
         Provider.of<CoffeeBeansProvider>(context, listen: false);
     final databaseProvider =
@@ -541,59 +547,55 @@ class CoffeeBeanCard extends StatelessWidget {
       identifier: 'coffeeBeanCard_${bean.beansUuid}',
       label: '${bean.name}, ${bean.roaster}, ${bean.origin}',
       child: GestureDetector(
-        onTap: () {
-          context.router.push(CoffeeBeansDetailRoute(uuid: bean.beansUuid!));
-        },
+        onTap: () =>
+            context.router.push(CoffeeBeansDetailRoute(uuid: bean.beansUuid!)),
         child: Card(
           margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  child: FutureBuilder<Map<String, String?>>(
-                    future: databaseProvider
-                        .fetchCachedRoasterLogoUrls(bean.roaster),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        final originalUrl = snapshot.data!['original'];
-                        final mirrorUrl = snapshot.data!['mirror'];
-
-                        if (originalUrl != null || mirrorUrl != null) {
-                          return ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: CachedNetworkImage(
-                                imageUrl: originalUrl ?? mirrorUrl!,
-                                placeholder: (context, url) => const Icon(
-                                    Coffeico.bag_with_bean,
-                                    size: 40),
-                                errorWidget: (context, url, error) {
-                                  if (url == originalUrl && mirrorUrl != null) {
-                                    return CachedNetworkImage(
-                                      imageUrl: mirrorUrl,
-                                      placeholder: (context, url) => const Icon(
-                                          Coffeico.bag_with_bean,
-                                          size: 40),
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Coffeico.bag_with_bean,
-                                              size: 40),
-                                      width: 40,
-                                      fit: BoxFit.cover,
-                                    );
-                                  }
-                                  return const Icon(Coffeico.bag_with_bean,
-                                      size: 40);
-                                },
-                                width: 40,
-                                fit: BoxFit.cover,
-                              ));
-                        }
-                      }
-                      return const Icon(Coffeico.bag_with_bean, size: 40);
-                    },
+                // ───────── LOGO SLOT ─────────
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      minHeight: logoHeight,
+                      maxHeight: logoHeight,
+                      minWidth: logoHeight,
+                      maxWidth: logoHeight * maxWidthFactor,
+                    ),
+                    // FittedBox scales the logo DOWN to fit, never up.
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      alignment: Alignment.centerLeft,
+                      child: FutureBuilder<Map<String, String?>>(
+                        future: databaseProvider
+                            .fetchCachedRoasterLogoUrls(bean.roaster),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            final originalUrl = snapshot.data!['original'];
+                            final mirrorUrl = snapshot.data!['mirror'];
+                            if (originalUrl != null || mirrorUrl != null) {
+                              return RoasterLogo(
+                                originalUrl: originalUrl,
+                                mirrorUrl: mirrorUrl,
+                                height: logoHeight,
+                                borderRadius: 8.0,
+                                forceFit: BoxFit.contain,
+                              );
+                            }
+                          }
+                          return const Icon(
+                            Coffeico.bag_with_bean,
+                            size: logoHeight,
+                          );
+                        },
+                      ),
+                    ),
                   ),
                 ),
+                // ───────── TEXT SECTION ─────────
                 const SizedBox(width: 8),
                 Expanded(
                   child: Column(
@@ -602,28 +604,39 @@ class CoffeeBeanCard extends StatelessWidget {
                       Semantics(
                         identifier: 'beanName_${bean.beansUuid}',
                         label: loc.name,
-                        child: Text(bean.name,
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold)),
+                        child: Text(
+                          bean.name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Semantics(
                         identifier: 'beanRoaster_${bean.beansUuid}',
                         label: loc.roaster,
-                        child: Text(bean.roaster,
-                            style: const TextStyle(fontSize: 14)),
+                        child: Text(
+                          bean.roaster,
+                          style: const TextStyle(fontSize: 14),
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Semantics(
                         identifier: 'beanOrigin_${bean.beansUuid}',
                         label: loc.origin,
-                        child: Text(bean.origin,
-                            style: const TextStyle(
-                                fontSize: 14, color: Colors.grey)),
+                        child: Text(
+                          bean.origin,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
+                // ───────── ACTION BUTTONS ─────────
                 if (isEditMode)
                   Semantics(
                     identifier: 'deleteBeanButton_${bean.beansUuid}',
@@ -635,17 +648,13 @@ class CoffeeBeanCard extends StatelessWidget {
                         final confirmed = await showDialog<bool>(
                           context: context,
                           builder: (context) => ConfirmDeleteDialog(
-                            title: AppLocalizations.of(context)!
-                                .confirmDeleteTitle,
-                            content: AppLocalizations.of(context)!
-                                .confirmDeleteMessage,
-                            confirmLabel: AppLocalizations.of(context)!.delete,
-                            cancelLabel: AppLocalizations.of(context)!.cancel,
+                            title: loc.confirmDeleteTitle,
+                            content: loc.confirmDeleteMessage,
+                            confirmLabel: loc.delete,
+                            cancelLabel: loc.cancel,
                           ),
                         );
-                        if (confirmed == true) {
-                          onDelete();
-                        }
+                        if (confirmed == true) onDelete();
                       },
                     ),
                   ),
@@ -653,12 +662,14 @@ class CoffeeBeanCard extends StatelessWidget {
                   identifier: 'favoriteBeanButton_${bean.beansUuid}',
                   label: bean.isFavorite ? loc.removeFavorite : loc.addFavorite,
                   child: IconButton(
-                    icon: Icon(
-                      bean.isFavorite ? Icons.favorite : Icons.favorite_border,
-                    ),
+                    icon: Icon(bean.isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border),
                     onPressed: () async {
                       await coffeeBeansProvider.toggleFavoriteStatus(
-                          bean.beansUuid!, !bean.isFavorite);
+                        bean.beansUuid!,
+                        !bean.isFavorite,
+                      );
                     },
                   ),
                 ),

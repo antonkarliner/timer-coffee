@@ -1,3 +1,1 @@
-+ 2 nowe języki! Perski i fiński.  
-+ Ulepszony interfejs ekranu parzenia.  
-+ Poprawki błędów
+Zoptymalizowano wykorzystanie sieci.

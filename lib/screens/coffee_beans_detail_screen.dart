@@ -131,8 +131,15 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
   }
 
   /// Builds the main content of the detail screen.
-  Widget _buildDetailsContent(BuildContext context, CoffeeBeansModel bean,
-      String? originalUrl, String? mirrorUrl) {
+  Widget _buildDetailsContent(
+    BuildContext context,
+    CoffeeBeansModel bean,
+    String? originalUrl,
+    String? mirrorUrl,
+  ) {
+    const double logoHeight = 60.0; // tweak as you wish
+    const double maxWidthFactor = 2.0; // 60 × 2 = 120 px max width
+
     final loc = AppLocalizations.of(context)!;
     final coffeeBeansProvider =
         Provider.of<CoffeeBeansProvider>(context, listen: false);
@@ -142,16 +149,34 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
       child: ListView(
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Display Roaster Logo
-              RoasterLogo(
-                originalUrl: originalUrl,
-                mirrorUrl: mirrorUrl,
-                height: 60.0,
-                borderRadius: 8.0,
+              // ────────── LOGO (clipped & scaled) ──────────
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: SizedBox(
+                  height: logoHeight,
+                  width: logoHeight * maxWidthFactor,
+                  child: (originalUrl != null || mirrorUrl != null)
+                      ? RoasterLogo(
+                          originalUrl: originalUrl,
+                          mirrorUrl: mirrorUrl,
+                          height: logoHeight,
+                          width: logoHeight * maxWidthFactor,
+                          borderRadius: 8.0,
+                          forceFit: BoxFit.contain,
+                        )
+                      : const FittedBox(
+                          fit: BoxFit.contain,
+                          child: Icon(
+                            Coffeico.bag_with_bean,
+                            size: logoHeight,
+                          ),
+                        ),
+                ),
               ),
               const SizedBox(width: 16),
-              // Bean Name and Roaster
+              // ────────── NAME & ROASTER ──────────
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,29 +201,26 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.grey[300] // Light color for dark mode
-                              : Colors.grey[700], // Dark color for light mode
+                              ? Colors.grey[300]
+                              : Colors.grey[700],
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              // Favorite Button
+              // ────────── FAVOURITE ──────────
               Semantics(
                 identifier: 'favoriteButton_${bean.beansUuid}',
                 label: bean.isFavorite ? loc.removeFavorite : loc.addFavorite,
                 child: IconButton(
                   iconSize: 30,
                   icon: Icon(
-                    bean.isFavorite ? Icons.favorite : Icons.favorite_border,
-                  ),
-                  onPressed: () {
-                    // Toggle favorite status
-                    coffeeBeansProvider.toggleFavoriteStatus(
+                      bean.isFavorite ? Icons.favorite : Icons.favorite_border),
+                  onPressed: () async {
+                    await coffeeBeansProvider.toggleFavoriteStatus(
                         bean.beansUuid!, !bean.isFavorite);
-                    // Refetch the bean data to update the UI
-                    _loadBean();
+                    _loadBean(); // refresh
                   },
                 ),
               ),
