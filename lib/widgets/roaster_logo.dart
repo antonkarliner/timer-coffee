@@ -122,11 +122,13 @@ class _RoasterLogoState extends State<RoasterLogo> {
       // Mark the originalUrl as broken in prefs
       await _prefs?.setBool(
           'broken_${_normalizeUrl(widget.originalUrl!)}', true);
-      setState(() {
-        _triedMirror = true;
-        _currentUrl = widget.mirrorUrl;
+      if (mounted) {
+        setState(() {
+          _triedMirror = true;
+          _currentUrl = widget.mirrorUrl;
+        });
         _loadLogo();
-      });
+      }
     } else {
       if (mounted) setState(() {});
     }

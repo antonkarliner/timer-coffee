@@ -16,6 +16,9 @@ PODS:
   - audio_session (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - flutter_dynamic_icon_plus (1.0.0):
+    - Flutter
+    - SwiftTryCatch
   - flutter_keyboard_visibility (0.0.1):
     - Flutter
   - flutter_native_splash (2.4.3):
@@ -148,6 +151,7 @@ PODS:
     - sqlite3/math
     - sqlite3/perf-threadsafe
     - sqlite3/rtree
+  - SwiftTryCatch (0.0.1)
   - TOCropViewController (2.7.4)
   - url_launcher_ios (0.0.1):
     - Flutter
@@ -159,6 +163,7 @@ DEPENDENCIES:
   - app_links (from `.symlinks/plugins/app_links/ios`)
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - Flutter (from `Flutter`)
+  - flutter_dynamic_icon_plus (from `.symlinks/plugins/flutter_dynamic_icon_plus/ios`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
@@ -190,6 +195,7 @@ SPEC REPOS:
     - OneSignalXCFramework
     - PromisesObjC
     - sqlite3
+    - SwiftTryCatch
     - TOCropViewController
 
 EXTERNAL SOURCES:
@@ -201,6 +207,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/audio_session/ios"
   Flutter:
     :path: Flutter
+  flutter_dynamic_icon_plus:
+    :path: ".symlinks/plugins/flutter_dynamic_icon_plus/ios"
   flutter_keyboard_visibility:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   flutter_native_splash:
@@ -245,6 +253,7 @@ SPEC CHECKSUMS:
   AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
   audio_session: 9bb7f6c970f21241b19f5a3658097ae459681ba0
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_dynamic_icon_plus: 3ddd12bc2316b98ffdd4048e9cdd3cf51e02095d
   flutter_keyboard_visibility: 4625131e43015dbbe759d9b20daaf77e0e3f6619
   flutter_native_splash: c32d145d68aeda5502d5f543ee38c192065986cf
   google_sign_in_ios: b48bb9af78576358a168361173155596c845f0b9
@@ -268,6 +277,7 @@ SPEC CHECKSUMS:
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
   sqlite3: 1d85290c3321153511f6e900ede7a1608718bbd5
   sqlite3_flutter_libs: e7fc8c9ea2200ff3271f08f127842131746b70e2
+  SwiftTryCatch: fb6d2b34abe48efd69578dac919293a44f95b481
   TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
   wakelock_plus: e29112ab3ef0b318e58cfa5c32326458be66b556

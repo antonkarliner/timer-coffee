@@ -1,0 +1,3 @@
++ Nieuwe app-icon! Geen zorgen als je de oude leuker vond – je kunt altijd terugwisselen in de instellingen.  
++ UI-verbeteringen voor verschillende schermen.  
++ Statistieken zijn nu te vinden op het Account-scherm.

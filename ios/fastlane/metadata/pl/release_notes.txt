@@ -1,1 +1,3 @@
-Zoptymalizowano wykorzystanie sieci.
++ Nowa ikona aplikacji! Jeśli podobała Ci się stara, nie martw się – zawsze możesz wrócić do poprzedniej w ustawieniach.
++ Aktualizacje interfejsu użytkownika na wielu ekranach.
++ Statystyki są teraz dostępne na ekranie Konta.

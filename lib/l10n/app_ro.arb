@@ -487,5 +487,41 @@
   "confirmDeleteTitle": "Ștergeți înregistrarea?",
   "confirmDeleteMessage": "Sigur doriți să ștergeți această înregistrare? Această acțiune nu poate fi anulată.",
   "filter": "Filtru",
-  "secondsAbbreviation": "s"
+  "secondsAbbreviation": "s",
+  "settingsAppIcon": "Pictograma aplicației",
+  "settingsAppIconDefault": "Implicit",
+  "settingsAppIconLegacy": "Vechi",
+  "sortBy": "Sortează după",
+  "@sortBy": {
+    "description": "Titlu pentru dialogul de sortare în ecranul boabelor de cafea"
+  },
+  "dateAdded": "Data adăugării",
+  "@dateAdded": {
+    "description": "Opțiune de sortare pentru sortarea după data adăugării"
+  },
+
+  "searchBeans": "Caută boabe...",
+  "@searchBeans": {
+    "description": "Text de substituent pentru câmpul de căutare din ecranul boabelor de cafea"
+  },
+  "favorites": "Favorite",
+  "@favorites": {
+    "description": "Etichetă pentru filtru favorite"
+  },
+  "searchPrefix": "Caută: ",
+  "@searchPrefix": {
+    "description": "Prefix pentru filtru de căutare"
+  },
+  "clearAll": "Șterge tot",
+  "@clearAll": {
+    "description": "Etichetă pentru butonul de ștergere a tuturor filtrelor"
+  },
+  "noBeansMatchSearch": "Niciun bob nu corespunde căutării tale",
+  "@noBeansMatchSearch": {
+    "description": "Mesaj afișat când niciun bob nu corespunde criteriilor de căutare"
+  },
+  "clearFilters": "Șterge filtrele",
+  "@clearFilters": {
+    "description": "Textul butonului pentru ștergerea tuturor filtrelor active"
+  }
 }

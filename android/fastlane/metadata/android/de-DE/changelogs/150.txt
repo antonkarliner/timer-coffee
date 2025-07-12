@@ -1,0 +1,3 @@
++ Neues App-Symbol! Keine Sorge, wenn dir das alte besser gefallen hat – du kannst es jederzeit in den Einstellungen wieder auswählen.  
++ UI-Updates für viele Ansichten.  
++ Statistiken findest du jetzt im Account-Bereich.

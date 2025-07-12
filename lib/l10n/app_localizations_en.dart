@@ -1150,5 +1150,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get filter => 'Filter';
 
   @override
+  String get sortBy => 'Sort by';
+
+  @override
+  String get dateAdded => 'Date Added';
+
+  @override
   String get secondsAbbreviation => 's.';
+
+  @override
+  String get settingsAppIcon => 'App Icon';
+
+  @override
+  String get settingsAppIconDefault => 'Default';
+
+  @override
+  String get settingsAppIconLegacy => 'Legacy';
+
+  @override
+  String get searchBeans => 'Search beans...';
+
+  @override
+  String get favorites => 'Favorites';
+
+  @override
+  String get searchPrefix => 'Search: ';
+
+  @override
+  String get clearAll => 'Clear All';
+
+  @override
+  String get noBeansMatchSearch => 'No beans match your search';
+
+  @override
+  String get clearFilters => 'Clear filters';
 }

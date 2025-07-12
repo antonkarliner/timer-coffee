@@ -1,0 +1,3 @@
++ Novo ícone da app! Se preferias o antigo, podes sempre voltar a escolhê-lo nas definições.
++ Atualizações de interface em vários ecrãs.
++ As estatísticas estão agora disponíveis no ecrã da Conta.

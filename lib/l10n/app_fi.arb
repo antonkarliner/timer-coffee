@@ -545,5 +545,41 @@
   "settingsBrewingMethodsTitle": "Etusivun valmistusmenetelmät",
   "filter": "Suodatin",
 
-  "secondsAbbreviation": "s."
+  "secondsAbbreviation": "s.",
+  "settingsAppIcon": "Sovelluksen kuvake",
+  "settingsAppIconDefault": "Oletus",
+  "settingsAppIconLegacy": "Vanha",
+  "sortBy": "Lajittele",
+  "@sortBy": {
+    "description": "Otsikko lajitteludialogille kahvipapujen näytössä"
+  },
+  "dateAdded": "Lisäyspäivämäärä",
+  "@dateAdded": {
+    "description": "Lajitteluvaihtoehto lajitteluun lisäyspäivämäärän mukaan"
+  },
+
+  "searchBeans": "Etsi papuja...",
+  "@searchBeans": {
+    "description": "Paikkamerkkiteksti kahvipapujen hakukentässä"
+  },
+  "favorites": "Suosikit",
+  "@favorites": {
+    "description": "Suosikkisuodattimen merkintä"
+  },
+  "searchPrefix": "Haku: ",
+  "@searchPrefix": {
+    "description": "Hakusuodattimen etuliite"
+  },
+  "clearAll": "Tyhjennä kaikki",
+  "@clearAll": {
+    "description": "Nappi kaikkien suodattimien tyhjentämiseen"
+  },
+  "noBeansMatchSearch": "Yhtään papua ei löydy haullasi",
+  "@noBeansMatchSearch": {
+    "description": "Viesti, kun haku ei löydä papuja"
+  },
+  "clearFilters": "Tyhjennä suodattimet",
+  "@clearFilters": {
+    "description": "Nappi aktiivisten suodattimien tyhjentämiseen"
+  }
 }

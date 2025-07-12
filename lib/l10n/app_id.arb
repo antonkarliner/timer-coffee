@@ -487,5 +487,41 @@
   "confirmDeleteTitle": "Hapus entri?",
   "confirmDeleteMessage": "Apakah Anda yakin ingin menghapus entri ini? Tindakan ini tidak dapat dibatalkan.",
   "filter": "Saring",
-  "secondsAbbreviation": "s"
+  "secondsAbbreviation": "s",
+  "settingsAppIcon": "Ikon Aplikasi",
+  "settingsAppIconDefault": "Bawaan",
+  "settingsAppIconLegacy": "Lama",
+  "sortBy": "Urutkan berdasarkan",
+  "@sortBy": {
+    "description": "Judul dialog pengurutan di layar biji kopi"
+  },
+  "dateAdded": "Tanggal ditambahkan",
+  "@dateAdded": {
+    "description": "Opsi pengurutan untuk mengurutkan berdasarkan tanggal ditambahkan"
+  },
+
+  "searchBeans": "Cari biji...",
+  "@searchBeans": {
+    "description": "Teks placeholder untuk bidang pencarian di layar biji kopi"
+  },
+  "favorites": "Favorit",
+  "@favorites": {
+    "description": "Label untuk chip filter favorit"
+  },
+  "searchPrefix": "Cari: ",
+  "@searchPrefix": {
+    "description": "Prefiks untuk chip filter pencarian"
+  },
+  "clearAll": "Bersihkan Semua",
+  "@clearAll": {
+    "description": "Label untuk tombol bersihkan semua filter"
+  },
+  "noBeansMatchSearch": "Tidak ada biji yang cocok dengan pencarian Anda",
+  "@noBeansMatchSearch": {
+    "description": "Pesan yang ditampilkan ketika tidak ada biji yang cocok dengan kriteria pencarian"
+  },
+  "clearFilters": "Bersihkan filter",
+  "@clearFilters": {
+    "description": "Teks tombol untuk membersihkan semua filter aktif"
+  }
 }

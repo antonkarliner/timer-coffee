@@ -487,5 +487,41 @@
   "confirmDeleteTitle": "حذف الإدخال؟",
   "confirmDeleteMessage": "هل أنت متأكد أنك تريد حذف هذا الإدخال؟ لا يمكن التراجع عن هذا الإجراء.",
   "filter": "تصفية",
-  "secondsAbbreviation": "ث"
+  "secondsAbbreviation": "ث",
+  "settingsAppIcon": "أيقونة التطبيق",
+  "settingsAppIconDefault": "افتراضي",
+  "settingsAppIconLegacy": "قديم",
+  "sortBy": "الترتيب حسب",
+  "@sortBy": {
+    "description": "عنوان مربع الحوار للترتيب في شاشة حبوب القهوة"
+  },
+  "dateAdded": "تاريخ الإضافة",
+  "@dateAdded": {
+    "description": "خيار الترتيب للترتيب حسب تاريخ الإضافة"
+  },
+
+  "searchBeans": "ابحث عن الحبوب...",
+  "@searchBeans": {
+    "description": "Placeholder text for the search field in coffee beans screen"
+  },
+  "favorites": "المفضلة",
+  "@favorites": {
+    "description": "Label for favorites filter chip"
+  },
+  "searchPrefix": "بحث: ",
+  "@searchPrefix": {
+    "description": "Prefix for search filter chip"
+  },
+  "clearAll": "مسح الكل",
+  "@clearAll": {
+    "description": "Label for clear all filters button"
+  },
+  "noBeansMatchSearch": "لا توجد حبوب تطابق بحثك",
+  "@noBeansMatchSearch": {
+    "description": "Message shown when no beans match the search criteria"
+  },
+  "clearFilters": "مسح الفلاتر",
+  "@clearFilters": {
+    "description": "Button text to clear all active filters"
+  }
 }

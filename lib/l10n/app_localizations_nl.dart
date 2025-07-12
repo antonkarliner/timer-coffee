@@ -1155,5 +1155,39 @@ class AppLocalizationsNl extends AppLocalizations {
   String get filter => 'Filteren';
 
   @override
+  String get sortBy => 'Sorteren op';
+
+  @override
+  String get dateAdded => 'Datum toegevoegd';
+
+  @override
   String get secondsAbbreviation => 's';
+
+  @override
+  String get settingsAppIcon => 'App-Icon';
+
+  @override
+  String get settingsAppIconDefault => 'Standaard';
+
+  @override
+  String get settingsAppIconLegacy => 'Oud';
+
+  @override
+  String get searchBeans => 'Zoek bonen...';
+
+  @override
+  String get favorites => 'Favorieten';
+
+  @override
+  String get searchPrefix => 'Zoeken: ';
+
+  @override
+  String get clearAll => 'Alles wissen';
+
+  @override
+  String get noBeansMatchSearch =>
+      'Geen bonen komen overeen met je zoekopdracht';
+
+  @override
+  String get clearFilters => 'Filters wissen';
 }

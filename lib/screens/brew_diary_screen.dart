@@ -63,6 +63,115 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     });
   }
 
+  Widget _buildGroupedList(List<UserStatsModel> stats) {
+    final loc = AppLocalizations.of(context)!;
+
+    // Group stats by date
+    Map<String, List<UserStatsModel>> groupedStats = {};
+    DateFormat dateFormat = DateFormat(
+      loc.dateFormat,
+      Localizations.localeOf(context).toString(),
+    );
+
+    for (var stat in stats) {
+      String dateKey = dateFormat.format(stat.createdAt.toLocal());
+      if (!groupedStats.containsKey(dateKey)) {
+        groupedStats[dateKey] = [];
+      }
+      groupedStats[dateKey]!.add(stat);
+    }
+
+    // Sort dates in descending order (newest first)
+    List<String> sortedDates = groupedStats.keys.toList();
+    sortedDates.sort((a, b) {
+      DateTime dateA =
+          DateFormat(loc.dateFormat, Localizations.localeOf(context).toString())
+              .parse(a);
+      DateTime dateB =
+          DateFormat(loc.dateFormat, Localizations.localeOf(context).toString())
+              .parse(b);
+      return dateB.compareTo(dateA); // Descending order
+    });
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16.0),
+      itemCount: _calculateTotalItems(groupedStats, sortedDates),
+      itemBuilder: (context, index) {
+        return _buildListItem(groupedStats, sortedDates, index);
+      },
+    );
+  }
+
+  int _calculateTotalItems(Map<String, List<UserStatsModel>> groupedStats,
+      List<String> sortedDates) {
+    int totalItems = 0;
+    for (String date in sortedDates) {
+      totalItems += 1; // Date separator
+      totalItems += groupedStats[date]!.length; // Cards for that date
+    }
+    return totalItems;
+  }
+
+  Widget _buildListItem(Map<String, List<UserStatsModel>> groupedStats,
+      List<String> sortedDates, int index) {
+    int currentIndex = 0;
+
+    for (String date in sortedDates) {
+      // Check if this index is the date separator
+      if (currentIndex == index) {
+        return _buildDateSeparator(date);
+      }
+      currentIndex++;
+
+      // Check if this index is one of the cards for this date
+      List<UserStatsModel> statsForDate = groupedStats[date]!;
+      for (int i = 0; i < statsForDate.length; i++) {
+        if (currentIndex == index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: buildUserStatCard(context, statsForDate[i]),
+          );
+        }
+        currentIndex++;
+      }
+    }
+
+    // Fallback (should not happen)
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildDateSeparator(String date) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Row(
+        children: [
+          const Expanded(
+            child: Divider(
+              thickness: 1,
+              color: Colors.grey,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              date,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+            ),
+          ),
+          const Expanded(
+            child: Divider(
+              thickness: 1,
+              color: Colors.grey,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final userStatProvider = Provider.of<UserStatProvider>(context);
@@ -118,13 +227,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 ),
               );
             } else if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  UserStatsModel stat = snapshot.data![index];
-                  return buildUserStatCard(context, stat);
-                },
-              );
+              return _buildGroupedList(snapshot.data!);
             } else {
               return Center(
                 child: Semantics(

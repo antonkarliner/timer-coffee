@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../app_router.gr.dart';
 import '../providers/coffee_beans_provider.dart';
+import 'package:auto_size_text_plus/auto_size_text_plus.dart';
 import '../providers/database_provider.dart';
 import '../models/coffee_beans_model.dart';
 import 'package:intl/intl.dart';
@@ -137,132 +138,455 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
     String? originalUrl,
     String? mirrorUrl,
   ) {
-    const double logoHeight = 60.0; // tweak as you wish
-    const double maxWidthFactor = 2.0; // 60 × 2 = 120 px max width
-
     final loc = AppLocalizations.of(context)!;
     final coffeeBeansProvider =
         Provider.of<CoffeeBeansProvider>(context, listen: false);
 
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
-      child: ListView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ────────── LOGO (clipped & scaled) ──────────
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: SizedBox(
-                  height: logoHeight,
-                  width: logoHeight * maxWidthFactor,
-                  child: (originalUrl != null || mirrorUrl != null)
-                      ? RoasterLogo(
-                          originalUrl: originalUrl,
-                          mirrorUrl: mirrorUrl,
-                          height: logoHeight,
-                          width: logoHeight * maxWidthFactor,
-                          borderRadius: 8.0,
-                          forceFit: BoxFit.contain,
-                        )
-                      : const FittedBox(
-                          fit: BoxFit.contain,
-                          child: Icon(
-                            Coffeico.bag_with_bean,
-                            size: logoHeight,
-                          ),
-                        ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              // ────────── NAME & ROASTER ──────────
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Semantics(
-                      identifier: 'beanName_${bean.beansUuid}',
-                      label: '${loc.name}: ${bean.name}',
-                      child: Text(
-                        bean.name,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Semantics(
-                      identifier: 'beanRoaster_${bean.beansUuid}',
-                      label: '${loc.roaster}: ${bean.roaster}',
-                      child: Text(
-                        '${loc.roaster}: ${bean.roaster}',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.grey[300]
-                              : Colors.grey[700],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // ────────── FAVOURITE ──────────
-              Semantics(
-                identifier: 'favoriteButton_${bean.beansUuid}',
-                label: bean.isFavorite ? loc.removeFavorite : loc.addFavorite,
-                child: IconButton(
-                  iconSize: 30,
-                  icon: Icon(
-                      bean.isFavorite ? Icons.favorite : Icons.favorite_border),
-                  onPressed: () async {
-                    await coffeeBeansProvider.toggleFavoriteStatus(
-                        bean.beansUuid!, !bean.isFavorite);
-                    _loadBean(); // refresh
-                  },
-                ),
-              ),
-            ],
-          ),
+          // Hero Header Card
+          _buildHeroHeader(
+              context, bean, originalUrl, mirrorUrl, coffeeBeansProvider, loc),
           const SizedBox(height: 16),
-          _buildDetailItem(context, loc.origin, bean.origin),
+
+          // Basic Info Card
+          _buildBasicInfoCard(context, bean, loc),
           const SizedBox(height: 16),
-          _buildSectionTitle(context, loc.geographyTerroir),
-          _buildDetailItem(context, loc.variety, bean.variety),
-          _buildDetailItem(context, loc.region, bean.region),
-          _buildDetailItem(context, loc.elevation, bean.elevation?.toString()),
-          _buildDetailItem(
-            context,
-            loc.harvestDate,
-            bean.harvestDate != null
-                ? DateFormat.yMMMd().format(bean.harvestDate!)
-                : null,
-          ),
+
+          // Geography & Terroir Card
+          _buildGeographyCard(context, bean, loc),
           const SizedBox(height: 16),
-          _buildSectionTitle(context, loc.processing),
-          _buildDetailItem(
-              context, loc.processingMethod, bean.processingMethod),
-          _buildDetailItem(
-            context,
-            loc.roastDate,
-            bean.roastDate != null
-                ? DateFormat.yMMMd().format(bean.roastDate!)
-                : null,
-          ),
-          _buildDetailItem(context, loc.roastLevel, bean.roastLevel),
-          _buildDetailItem(
-              context, loc.cuppingScore, bean.cuppingScore?.toString()),
+
+          // Processing & Roasting Card
+          _buildProcessingCard(context, bean, loc),
           const SizedBox(height: 16),
-          _buildSectionTitle(context, loc.flavorProfile),
-          _buildDetailItem(context, loc.tastingNotes, bean.tastingNotes),
+
+          // Flavor Profile Card
+          _buildFlavorCard(context, bean, loc),
           const SizedBox(height: 16),
-          _buildSectionTitle(context, loc.additionalNotes),
-          _buildDetailItem(context, loc.notes, bean.notes),
+
+          // Additional Notes Card
+          if (bean.notes != null && bean.notes!.isNotEmpty)
+            _buildNotesCard(context, bean, loc),
         ],
       ),
     );
+  }
+
+  Widget _buildHeroHeader(
+    BuildContext context,
+    CoffeeBeansModel bean,
+    String? originalUrl,
+    String? mirrorUrl,
+    CoffeeBeansProvider coffeeBeansProvider,
+    AppLocalizations loc,
+  ) {
+    return Card(
+      elevation: 4,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Theme.of(context).colorScheme.primaryContainer,
+              Theme.of(context).colorScheme.primaryContainer.withOpacity(0.7),
+            ],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Logo Section
+                  SizedBox(
+                    height: 80,
+                    width: 120,
+                    child: (originalUrl != null || mirrorUrl != null)
+                        ? RoasterLogo(
+                            originalUrl: originalUrl,
+                            mirrorUrl: mirrorUrl,
+                            height: 80,
+                            width: 120,
+                            borderRadius: 12.0,
+                            forceFit: BoxFit.contain,
+                          )
+                        : const Icon(
+                            Coffeico.bag_with_bean,
+                            size: 60,
+                          ),
+                  ),
+                  const SizedBox(width: 20),
+
+                  // Name and Roaster
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AutoSizeText(
+                          bean.name,
+                          maxLines: 2,
+                          minFontSize: 12,
+                          overflow: TextOverflow.visible,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
+                              ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          bean.roaster,
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer
+                                        .withOpacity(0.8),
+                                  ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          bean.origin,
+                          style:
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer
+                                        .withOpacity(0.7),
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  // Favorite Button
+                  IconButton(
+                    iconSize: 28,
+                    icon: Icon(
+                      bean.isFavorite ? Icons.favorite : Icons.favorite_border,
+                      color: bean.isFavorite
+                          ? (Theme.of(context).brightness == Brightness.light
+                              ? const Color(0xff8e2e2d)
+                              : const Color(0xffc66564))
+                          : (Theme.of(context).brightness == Brightness.light
+                              ? Colors.white
+                              : Colors
+                                  .black), // White in light mode, black in dark mode
+                    ),
+                    onPressed: () async {
+                      await coffeeBeansProvider.toggleFavoriteStatus(
+                          bean.beansUuid!, !bean.isFavorite);
+                      _loadBean();
+                    },
+                  ),
+                ],
+              ),
+
+              // Quick Stats Row
+              if (bean.roastDate != null || bean.cuppingScore != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      if (bean.roastDate != null)
+                        _buildQuickStat(
+                          context,
+                          Icons.calendar_today,
+                          loc.roastDate,
+                          DateFormat.yMMMd().format(bean.roastDate!),
+                        ),
+                      if (bean.cuppingScore != null)
+                        _buildQuickStat(
+                          context,
+                          Icons.star,
+                          loc.cuppingScore,
+                          '${bean.cuppingScore}',
+                        ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuickStat(
+      BuildContext context, IconData icon, String label, String value) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: Theme.of(context).colorScheme.surface.withOpacity(0.8),
+      ),
+      child: Column(
+        children: [
+          Icon(icon, size: 20, color: Theme.of(context).colorScheme.primary),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          Text(
+            value,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBasicInfoCard(
+      BuildContext context, CoffeeBeansModel bean, AppLocalizations loc) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.info_outline,
+                    color: Theme.of(context).colorScheme.primary),
+                const SizedBox(width: 8),
+                Text(
+                  'Basic Information',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            _buildDetailItem(context, loc.origin, bean.origin),
+            if (bean.variety != null && bean.variety!.isNotEmpty)
+              _buildDetailItem(context, loc.variety, bean.variety),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGeographyCard(
+      BuildContext context, CoffeeBeansModel bean, AppLocalizations loc) {
+    if ((bean.region == null || bean.region!.isEmpty) &&
+        (bean.elevation == null) &&
+        (bean.harvestDate == null)) {
+      return const SizedBox.shrink();
+    }
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.terrain,
+                    color: Theme.of(context).colorScheme.primary),
+                const SizedBox(width: 8),
+                Text(
+                  loc.geographyTerroir,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            if (bean.region != null && bean.region!.isNotEmpty)
+              _buildDetailItem(context, loc.region, bean.region),
+            if (bean.elevation != null)
+              _buildDetailItem(context, loc.elevation, '${bean.elevation}m'),
+            if (bean.harvestDate != null)
+              _buildDetailItem(
+                context,
+                loc.harvestDate,
+                DateFormat.yMMMd().format(bean.harvestDate!),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProcessingCard(
+      BuildContext context, CoffeeBeansModel bean, AppLocalizations loc) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.settings,
+                    color: Theme.of(context).colorScheme.primary),
+                const SizedBox(width: 8),
+                Text(
+                  loc.processing,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            if (bean.processingMethod != null &&
+                bean.processingMethod!.isNotEmpty)
+              _buildDetailItem(
+                  context, loc.processingMethod, bean.processingMethod),
+            if (bean.roastDate != null)
+              _buildDetailItem(
+                context,
+                loc.roastDate,
+                DateFormat.yMMMd().format(bean.roastDate!),
+              ),
+            if (bean.roastLevel != null && bean.roastLevel!.isNotEmpty)
+              _buildDetailItem(context, loc.roastLevel, bean.roastLevel),
+            if (bean.cuppingScore != null)
+              _buildDetailItem(
+                context,
+                loc.cuppingScore,
+                bean.cuppingScore!.toStringAsFixed(1),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFlavorCard(
+      BuildContext context, CoffeeBeansModel bean, AppLocalizations loc) {
+    if (bean.tastingNotes == null || bean.tastingNotes!.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.local_cafe,
+                    color: Theme.of(context).colorScheme.primary),
+                const SizedBox(width: 8),
+                Text(
+                  loc.flavorProfile,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            _buildDetailItem(context, loc.tastingNotes, bean.tastingNotes),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNotesCard(
+      BuildContext context, CoffeeBeansModel bean, AppLocalizations loc) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.note, color: Theme.of(context).colorScheme.primary),
+                const SizedBox(width: 8),
+                Text(
+                  loc.additionalNotes,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              bean.notes!,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailItemWithProgress(
+    BuildContext context,
+    String label,
+    double value,
+    double maxValue,
+  ) {
+    final percentage = value / maxValue;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                label,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              Text(
+                '${value.toStringAsFixed(1)}/$maxValue',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          LinearProgressIndicator(
+            value: percentage,
+            backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              _getScoreColor(percentage),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Color _getScoreColor(double percentage) {
+    if (percentage >= 0.9) return Colors.green;
+    if (percentage >= 0.8) return Colors.lightGreen;
+    if (percentage >= 0.7) return Colors.orange;
+    return Colors.red;
   }
 
   /// Builds section titles with consistent styling.

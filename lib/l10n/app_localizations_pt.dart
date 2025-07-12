@@ -1163,5 +1163,38 @@ class AppLocalizationsPt extends AppLocalizations {
   String get filter => 'Filtrar';
 
   @override
+  String get sortBy => 'Ordenar por';
+
+  @override
+  String get dateAdded => 'Data adicionada';
+
+  @override
   String get secondsAbbreviation => 's';
+
+  @override
+  String get settingsAppIcon => 'Ícone da aplicação';
+
+  @override
+  String get settingsAppIconDefault => 'Padrão';
+
+  @override
+  String get settingsAppIconLegacy => 'Antigo';
+
+  @override
+  String get searchBeans => 'Pesquisar grãos...';
+
+  @override
+  String get favorites => 'Favoritos';
+
+  @override
+  String get searchPrefix => 'Pesquisar: ';
+
+  @override
+  String get clearAll => 'Limpar tudo';
+
+  @override
+  String get noBeansMatchSearch => 'Nenhum grão corresponde à sua pesquisa';
+
+  @override
+  String get clearFilters => 'Limpar filtros';
 }

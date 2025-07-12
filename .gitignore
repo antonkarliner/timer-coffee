@@ -81,3 +81,6 @@ memory-bank/progress.md
 memory-bank/projectbrief.md
 memory-bank/systemPatterns.md
 memory-bank/techContext.md
+generate_legacy_icons.sh
+ic_launcher_legacy.png
+icons_launcher.yaml

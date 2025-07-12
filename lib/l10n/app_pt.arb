@@ -487,5 +487,41 @@
   "confirmDeleteTitle": "Excluir entrada?",
   "confirmDeleteMessage": "Tem certeza de que deseja excluir esta entrada? Esta ação não pode ser desfeita.",
   "filter": "Filtrar",
-  "secondsAbbreviation": "s"
+  "secondsAbbreviation": "s",
+  "settingsAppIcon": "Ícone da aplicação",
+  "settingsAppIconDefault": "Padrão",
+  "settingsAppIconLegacy": "Antigo",
+  "sortBy": "Ordenar por",
+  "@sortBy": {
+    "description": "Título para a caixa de diálogo de ordenação na tela de grãos de café"
+  },
+  "dateAdded": "Data adicionada",
+  "@dateAdded": {
+    "description": "Opção de ordenação para ordenar por data adicionada"
+  },
+
+  "searchBeans": "Pesquisar grãos...",
+  "@searchBeans": {
+    "description": "Texto do placeholder para o campo de pesquisa na tela de grãos de café"
+  },
+  "favorites": "Favoritos",
+  "@favorites": {
+    "description": "Etiqueta para o chip de filtro de favoritos"
+  },
+  "searchPrefix": "Pesquisar: ",
+  "@searchPrefix": {
+    "description": "Prefixo para o chip de filtro de pesquisa"
+  },
+  "clearAll": "Limpar tudo",
+  "@clearAll": {
+    "description": "Etiqueta para o botão limpar todos os filtros"
+  },
+  "noBeansMatchSearch": "Nenhum grão corresponde à sua pesquisa",
+  "@noBeansMatchSearch": {
+    "description": "Mensagem exibida quando nenhum grão corresponde aos critérios de pesquisa"
+  },
+  "clearFilters": "Limpar filtros",
+  "@clearFilters": {
+    "description": "Texto do botão para limpar todos os filtros ativos"
+  }
 }

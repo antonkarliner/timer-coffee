@@ -486,5 +486,41 @@
   "account": "账户",
   "confirmDeleteTitle": "删除条目？",
   "confirmDeleteMessage": "您确定要删除此条目吗？此操作无法撤销。",
-  "filter": "筛选"
+  "filter": "筛选",
+  "settingsAppIcon": "应用图标",
+  "settingsAppIconDefault": "默认",
+  "settingsAppIconLegacy": "旧版",
+  "sortBy": "排序方式",
+  "@sortBy": {
+    "description": "咖啡豆屏幕中排序对话框的标题"
+  },
+  "dateAdded": "添加日期",
+  "@dateAdded": {
+    "description": "按添加日期排序的选项"
+  },
+
+  "searchBeans": "搜索咖啡豆...",
+  "@searchBeans": {
+    "description": "咖啡豆屏幕搜索字段的占位符文本"
+  },
+  "favorites": "收藏",
+  "@favorites": {
+    "description": "收藏过滤标签"
+  },
+  "searchPrefix": "搜索：",
+  "@searchPrefix": {
+    "description": "搜索过滤标签的前缀"
+  },
+  "clearAll": "全部清除",
+  "@clearAll": {
+    "description": "清除所有过滤器按钮的标签"
+  },
+  "noBeansMatchSearch": "没有匹配您搜索的咖啡豆",
+  "@noBeansMatchSearch": {
+    "description": "当没有咖啡豆匹配搜索条件时显示的消息"
+  },
+  "clearFilters": "清除过滤器",
+  "@clearFilters": {
+    "description": "清除所有活动过滤器的按钮文本"
+  }
 }

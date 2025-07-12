@@ -1123,5 +1123,38 @@ class AppLocalizationsZh extends AppLocalizations {
   String get filter => '筛选';
 
   @override
+  String get sortBy => '排序方式';
+
+  @override
+  String get dateAdded => '添加日期';
+
+  @override
   String get secondsAbbreviation => 's.';
+
+  @override
+  String get settingsAppIcon => '应用图标';
+
+  @override
+  String get settingsAppIconDefault => '默认';
+
+  @override
+  String get settingsAppIconLegacy => '旧版';
+
+  @override
+  String get searchBeans => '搜索咖啡豆...';
+
+  @override
+  String get favorites => '收藏';
+
+  @override
+  String get searchPrefix => '搜索：';
+
+  @override
+  String get clearAll => '全部清除';
+
+  @override
+  String get noBeansMatchSearch => '没有匹配您搜索的咖啡豆';
+
+  @override
+  String get clearFilters => '清除过滤器';
 }

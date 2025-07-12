@@ -1,1 +1,3 @@
-Uso de red optimizado.
++ ¡Nuevo ícono de la app! No te preocupes si te gustaba el anterior: siempre puedes volver a cambiarlo en la configuración.
++ Actualizaciones de la interfaz en varias pantallas.
++ Las estadísticas ahora se encuentran en la pantalla de Cuenta.

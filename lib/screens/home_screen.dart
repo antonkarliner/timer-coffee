@@ -690,17 +690,6 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
             ),
           ),
           Semantics(
-            identifier: 'statsScreen',
-            label: l10n.statsscreen,
-            child: ListTile(
-              leading: const Icon(Icons.bar_chart),
-              title: Text(l10n.statsscreen),
-              onTap: () {
-                context.router.push(StatsRoute());
-              },
-            ),
-          ),
-          Semantics(
             identifier: 'settings',
             label: l10n.settings,
             child: ListTile(

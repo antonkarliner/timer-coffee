@@ -1158,5 +1158,38 @@ class AppLocalizationsTr extends AppLocalizations {
   String get filter => 'Filtre';
 
   @override
+  String get sortBy => 'Sırala';
+
+  @override
+  String get dateAdded => 'Eklenme Tarihi';
+
+  @override
   String get secondsAbbreviation => 'sn';
+
+  @override
+  String get settingsAppIcon => 'Uygulama Simgesi';
+
+  @override
+  String get settingsAppIconDefault => 'Varsayılan';
+
+  @override
+  String get settingsAppIconLegacy => 'Eski';
+
+  @override
+  String get searchBeans => 'Çekirdekleri ara...';
+
+  @override
+  String get favorites => 'Favoriler';
+
+  @override
+  String get searchPrefix => 'Ara: ';
+
+  @override
+  String get clearAll => 'Tümünü Temizle';
+
+  @override
+  String get noBeansMatchSearch => 'Aramanızla eşleşen çekirdek yok';
+
+  @override
+  String get clearFilters => 'Filtreleri Temizle';
 }

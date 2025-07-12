@@ -487,5 +487,41 @@
   "confirmDeleteTitle": "Eliminare la voce?",
   "confirmDeleteMessage": "Sei sicuro di voler eliminare questa voce? Questa azione non può essere annullata.",
   "filter": "Filtro",
-  "secondsAbbreviation": "s"
+  "secondsAbbreviation": "s",
+  "settingsAppIcon": "Icona dell'app",
+  "settingsAppIconDefault": "Predefinito",
+  "settingsAppIconLegacy": "Vecchio",
+  "sortBy": "Ordina per",
+  "@sortBy": {
+    "description": "Titolo per la finestra di dialogo di ordinamento nella schermata dei chicchi di caffè"
+  },
+  "dateAdded": "Data di aggiunta",
+  "@dateAdded": {
+    "description": "Opzione di ordinamento per ordinare per data di aggiunta"
+  },
+
+  "searchBeans": "Cerca chicchi...",
+  "@searchBeans": {
+    "description": "Testo segnaposto per il campo di ricerca nella schermata dei chicchi di caffè"
+  },
+  "favorites": "Preferiti",
+  "@favorites": {
+    "description": "Etichetta per il filtro preferiti"
+  },
+  "searchPrefix": "Cerca: ",
+  "@searchPrefix": {
+    "description": "Prefisso per il filtro di ricerca"
+  },
+  "clearAll": "Cancella tutto",
+  "@clearAll": {
+    "description": "Etichetta per il pulsante cancella tutti i filtri"
+  },
+  "noBeansMatchSearch": "Nessun chicco corrisponde alla tua ricerca",
+  "@noBeansMatchSearch": {
+    "description": "Messaggio mostrato quando nessun chicco corrisponde ai criteri di ricerca"
+  },
+  "clearFilters": "Cancella filtri",
+  "@clearFilters": {
+    "description": "Testo del pulsante per cancellare tutti i filtri attivi"
+  }
 }

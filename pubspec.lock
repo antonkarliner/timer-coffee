@@ -118,6 +118,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.0.0"
+  auto_size_text_plus:
+    dependency: "direct main"
+    description:
+      name: auto_size_text_plus
+      sha256: "21c522949ad4eadf16f5a525f348200783ebbefc02242d90624fc30279c53216"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -492,6 +500,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.1"
+  flutter_dynamic_icon_plus:
+    dependency: "direct main"
+    description:
+      name: flutter_dynamic_icon_plus
+      sha256: c86b4687a81f06f54f556dc23d813af55cd140b586be2405fbeaf123bed33798
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
   flutter_keyboard_visibility:
     dependency: "direct overridden"
     description:
@@ -757,6 +773,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.2"
+  icons_launcher:
+    dependency: "direct main"
+    description:
+      name: icons_launcher
+      sha256: "2949eef3d336028d89133f69ef221d877e09deed04ebd8e738ab4a427850a7a2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   image:
     dependency: "direct main"
     description:

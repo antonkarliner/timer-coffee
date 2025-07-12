@@ -487,5 +487,41 @@
   "confirmDeleteTitle": "Girdiyi sil?",
   "confirmDeleteMessage": "Bu girdiyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
   "filter": "Filtre",
-  "secondsAbbreviation": "sn"
+  "secondsAbbreviation": "sn",
+  "settingsAppIcon": "Uygulama Simgesi",
+  "settingsAppIconDefault": "Varsayılan",
+  "settingsAppIconLegacy": "Eski",
+  "sortBy": "Sırala",
+  "@sortBy": {
+    "description": "Kahve çekirdekleri ekranındaki sıralama iletişim kutusunun başlığı"
+  },
+  "dateAdded": "Eklenme Tarihi",
+  "@dateAdded": {
+    "description": "Sıralama için eklenme tarihine göre sıralama seçeneği"
+  },
+
+  "searchBeans": "Çekirdekleri ara...",
+  "@searchBeans": {
+    "description": "Kahve çekirdekleri ekranındaki arama alanı için yer tutucu metin"
+  },
+  "favorites": "Favoriler",
+  "@favorites": {
+    "description": "Favori filtre etiketi"
+  },
+  "searchPrefix": "Ara: ",
+  "@searchPrefix": {
+    "description": "Arama filtre etiketi için önek"
+  },
+  "clearAll": "Tümünü Temizle",
+  "@clearAll": {
+    "description": "Tüm filtreleri temizle düğmesi için etiket"
+  },
+  "noBeansMatchSearch": "Aramanızla eşleşen çekirdek yok",
+  "@noBeansMatchSearch": {
+    "description": "Arama kriterleriyle eşleşen çekirdek olmadığında gösterilen mesaj"
+  },
+  "clearFilters": "Filtreleri Temizle",
+  "@clearFilters": {
+    "description": "Tüm aktif filtreleri temizlemek için düğme metni"
+  }
 }

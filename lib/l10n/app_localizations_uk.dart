@@ -1168,5 +1168,38 @@ class AppLocalizationsUk extends AppLocalizations {
   String get filter => 'Фільтр';
 
   @override
+  String get sortBy => 'Сортувати за';
+
+  @override
+  String get dateAdded => 'Дата додавання';
+
+  @override
   String get secondsAbbreviation => 's.';
+
+  @override
+  String get settingsAppIcon => 'Іконка додатку';
+
+  @override
+  String get settingsAppIconDefault => 'За замовчуванням';
+
+  @override
+  String get settingsAppIconLegacy => 'Стара';
+
+  @override
+  String get searchBeans => 'Пошук зерен...';
+
+  @override
+  String get favorites => 'Обране';
+
+  @override
+  String get searchPrefix => 'Пошук: ';
+
+  @override
+  String get clearAll => 'Очистити все';
+
+  @override
+  String get noBeansMatchSearch => 'Жодне зерно не відповідає вашому пошуку';
+
+  @override
+  String get clearFilters => 'Очистити фільтри';
 }

@@ -1,1 +1,3 @@
-Ağ kullanımı optimize edildi.
++ Yeni uygulama simgesi! Eski simgeyi sevdiyseniz endişelenmeyin – ayarlardan her zaman geri dönebilirsiniz.
++ Birçok ekranda arayüz güncellemeleri.
++ İstatistikler artık Hesap ekranında.

@@ -487,5 +487,41 @@
   "confirmDeleteTitle": "Invoer verwijderen?",
   "confirmDeleteMessage": "Weet je zeker dat je deze invoer wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
   "filter": "Filteren",
-  "secondsAbbreviation": "s"
+  "secondsAbbreviation": "s",
+  "settingsAppIcon": "App-Icon",
+  "settingsAppIconDefault": "Standaard",
+  "settingsAppIconLegacy": "Oud",
+  "sortBy": "Sorteren op",
+  "@sortBy": {
+    "description": "Titel voor het sorteer dialoogvenster in het koffiebonenscherm"
+  },
+  "dateAdded": "Datum toegevoegd",
+  "@dateAdded": {
+    "description": "Sorteeroptie om te sorteren op datum toegevoegd"
+  },
+
+  "searchBeans": "Zoek bonen...",
+  "@searchBeans": {
+    "description": "Plaatshoudertekst voor het zoekveld in het koffiebonenscherm"
+  },
+  "favorites": "Favorieten",
+  "@favorites": {
+    "description": "Label voor favorieten filterchip"
+  },
+  "searchPrefix": "Zoeken: ",
+  "@searchPrefix": {
+    "description": "Voorvoegsel voor zoekfilterchip"
+  },
+  "clearAll": "Alles wissen",
+  "@clearAll": {
+    "description": "Label voor de knop om alle filters te wissen"
+  },
+  "noBeansMatchSearch": "Geen bonen komen overeen met je zoekopdracht",
+  "@noBeansMatchSearch": {
+    "description": "Bericht weergegeven wanneer geen bonen overeenkomen met de zoekcriteria"
+  },
+  "clearFilters": "Filters wissen",
+  "@clearFilters": {
+    "description": "Knoptekst om alle actieve filters te wissen"
+  }
 }

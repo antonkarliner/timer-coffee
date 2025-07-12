@@ -1,0 +1,3 @@
++ Nouă pictogramă pentru aplicație! Dacă preferai cea veche, o poți schimba oricând din setări.
++ Actualizări de interfață pentru mai multe ecrane.
++ Statisticile sunt acum disponibile în ecranul Cont.

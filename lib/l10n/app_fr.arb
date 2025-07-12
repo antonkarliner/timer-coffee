@@ -487,5 +487,41 @@
   "confirmDeleteTitle": "Supprimer l'entrée ?",
   "confirmDeleteMessage": "Êtes-vous sûr de vouloir supprimer cet élément ? Cette action est irréversible.",
   "filter": "Filtrer",
-  "secondsAbbreviation": "s"
+  "secondsAbbreviation": "s",
+  "settingsAppIcon": "Icône de l'application",
+  "settingsAppIconDefault": "Défaut",
+  "settingsAppIconLegacy": "Ancien",
+  "sortBy": "Trier par",
+  "@sortBy": {
+    "description": "Titre pour la boîte de dialogue de tri dans l'écran des grains de café"
+  },
+  "dateAdded": "Date d'ajout",
+  "@dateAdded": {
+    "description": "Option de tri pour trier par date d'ajout"
+  },
+
+  "searchBeans": "Rechercher des grains...",
+  "@searchBeans": {
+    "description": "Texte du champ de recherche dans l'écran des grains de café"
+  },
+  "favorites": "Favoris",
+  "@favorites": {
+    "description": "Étiquette pour la puce de filtre des favoris"
+  },
+  "searchPrefix": "Recherche : ",
+  "@searchPrefix": {
+    "description": "Préfixe pour la puce de filtre de recherche"
+  },
+  "clearAll": "Tout effacer",
+  "@clearAll": {
+    "description": "Étiquette pour le bouton d'effacement de tous les filtres"
+  },
+  "noBeansMatchSearch": "Aucun grain ne correspond à votre recherche",
+  "@noBeansMatchSearch": {
+    "description": "Message affiché lorsqu'aucun grain ne correspond aux critères de recherche"
+  },
+  "clearFilters": "Effacer les filtres",
+  "@clearFilters": {
+    "description": "Texte du bouton pour effacer tous les filtres actifs"
+  }
 }

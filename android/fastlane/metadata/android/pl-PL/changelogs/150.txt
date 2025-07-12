@@ -1,0 +1,3 @@
++ Nowa ikona aplikacji! Jeśli wolisz starą, możesz ją przywrócić w ustawieniach.  
++ Aktualizacje interfejsu na wielu ekranach.  
++ Statystyki są teraz dostępne w zakładce Konto.

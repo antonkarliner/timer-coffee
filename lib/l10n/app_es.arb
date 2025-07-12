@@ -487,5 +487,41 @@
   "confirmDeleteTitle": "¿Eliminar entrada?",
   "confirmDeleteMessage": "¿Está seguro de que desea eliminar esta entrada? Esta acción no se puede deshacer.",
   "filter": "Filtro",
-  "secondsAbbreviation": "s"
+  "secondsAbbreviation": "s",
+  "settingsAppIcon": "Icono de la aplicación",
+  "settingsAppIconDefault": "Predeterminado",
+  "settingsAppIconLegacy": "Antiguo",
+  "sortBy": "Ordenar por",
+  "@sortBy": {
+    "description": "Título para el diálogo de ordenación en la pantalla de granos de café"
+  },
+  "dateAdded": "Fecha de adición",
+  "@dateAdded": {
+    "description": "Opción de ordenación para ordenar por fecha de adición"
+  },
+
+  "searchBeans": "Buscar granos...",
+  "@searchBeans": {
+    "description": "Texto del marcador de posición para el campo de búsqueda en la pantalla de granos de café"
+  },
+  "favorites": "Favoritos",
+  "@favorites": {
+    "description": "Etiqueta para el chip de filtro de favoritos"
+  },
+  "searchPrefix": "Buscar: ",
+  "@searchPrefix": {
+    "description": "Prefijo para el chip de filtro de búsqueda"
+  },
+  "clearAll": "Borrar todo",
+  "@clearAll": {
+    "description": "Etiqueta para el botón de borrar todos los filtros"
+  },
+  "noBeansMatchSearch": "Ningún grano coincide con su búsqueda",
+  "@noBeansMatchSearch": {
+    "description": "Mensaje que se muestra cuando ningún grano coincide con los criterios de búsqueda"
+  },
+  "clearFilters": "Borrar filtros",
+  "@clearFilters": {
+    "description": "Texto del botón para borrar todos los filtros activos"
+  }
 }

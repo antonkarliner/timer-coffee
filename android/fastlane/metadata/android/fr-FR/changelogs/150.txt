@@ -1,0 +1,3 @@
++ Nouvelle icône pour l’application ! Pas d’inquiétude si vous préfériez l’ancienne – vous pouvez toujours la remettre dans les paramètres.  
++ Mise à jour de l’interface sur plusieurs écrans.  
++ Les statistiques sont désormais disponibles dans l’onglet Compte.

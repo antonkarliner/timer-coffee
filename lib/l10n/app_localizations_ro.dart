@@ -1162,5 +1162,38 @@ class AppLocalizationsRo extends AppLocalizations {
   String get filter => 'Filtru';
 
   @override
+  String get sortBy => 'Sortează după';
+
+  @override
+  String get dateAdded => 'Data adăugării';
+
+  @override
   String get secondsAbbreviation => 's';
+
+  @override
+  String get settingsAppIcon => 'Pictograma aplicației';
+
+  @override
+  String get settingsAppIconDefault => 'Implicit';
+
+  @override
+  String get settingsAppIconLegacy => 'Vechi';
+
+  @override
+  String get searchBeans => 'Caută boabe...';
+
+  @override
+  String get favorites => 'Favorite';
+
+  @override
+  String get searchPrefix => 'Caută: ';
+
+  @override
+  String get clearAll => 'Șterge tot';
+
+  @override
+  String get noBeansMatchSearch => 'Niciun bob nu corespunde căutării tale';
+
+  @override
+  String get clearFilters => 'Șterge filtrele';
 }

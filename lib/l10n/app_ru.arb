@@ -486,5 +486,41 @@
   "confirmDeleteTitle": "Удалить запись?",
   "confirmDeleteMessage": "Вы уверены, что хотите удалить эту запись? Это действие нельзя отменить.",
   "filter": "Фильтр",
-  "secondsAbbreviation": "с"
+  "secondsAbbreviation": "с",
+  "settingsAppIcon": "Иконка приложения",
+  "settingsAppIconDefault": "По умолчанию",
+  "settingsAppIconLegacy": "Старая",
+  "sortBy": "Сортировать по",
+  "@sortBy": {
+    "description": "Заголовок диалогового окна сортировки на экране кофейных зерен"
+  },
+  "dateAdded": "Дата добавления",
+  "@dateAdded": {
+    "description": "Опция сортировки для сортировки по дате добавления"
+  },
+
+  "searchBeans": "Поиск зерен...",
+  "@searchBeans": {
+    "description": "Текст-заполнитель для поля поиска на экране зерен кофе"
+  },
+  "favorites": "Избранное",
+  "@favorites": {
+    "description": "Метка для фильтра избранного"
+  },
+  "searchPrefix": "Поиск: ",
+  "@searchPrefix": {
+    "description": "Префикс для фильтра поиска"
+  },
+  "clearAll": "Очистить все",
+  "@clearAll": {
+    "description": "Метка для кнопки очистки всех фильтров"
+  },
+  "noBeansMatchSearch": "Нет зерен, соответствующих вашему поиску",
+  "@noBeansMatchSearch": {
+    "description": "Сообщение, отображаемое, когда нет зерен, соответствующих критериям поиска"
+  },
+  "clearFilters": "Очистить фильтры",
+  "@clearFilters": {
+    "description": "Текст кнопки для очистки всех активных фильтров"
+  }
 }

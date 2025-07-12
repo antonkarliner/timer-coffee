@@ -487,5 +487,41 @@
   "confirmDeleteTitle": "Eintrag löschen?",
   "confirmDeleteMessage": "Möchten Sie diesen Eintrag wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
   "filter": "Filter",
-  "secondsAbbreviation": "s"
+  "secondsAbbreviation": "s",
+  "settingsAppIcon": "App-Icon",
+  "settingsAppIconDefault": "Standard",
+  "settingsAppIconLegacy": "Alt",
+  "sortBy": "Sortieren nach",
+  "@sortBy": {
+    "description": "Titel für den Sortierdialog im Kaffeebohnen-Bildschirm"
+  },
+  "dateAdded": "Datum hinzugefügt",
+  "@dateAdded": {
+    "description": "Sortieroption zum Sortieren nach Datum hinzugefügt"
+  },
+
+  "searchBeans": "Bohnen suchen...",
+  "@searchBeans": {
+    "description": "Platzhaltertext für das Suchfeld im Kaffeebohnen-Bildschirm"
+  },
+  "favorites": "Favoriten",
+  "@favorites": {
+    "description": "Bezeichnung für den Favoriten-Filter-Chip"
+  },
+  "searchPrefix": "Suche: ",
+  "@searchPrefix": {
+    "description": "Präfix für den Suchfilter-Chip"
+  },
+  "clearAll": "Alle löschen",
+  "@clearAll": {
+    "description": "Bezeichnung für die Schaltfläche 'Alle Filter löschen'"
+  },
+  "noBeansMatchSearch": "Keine Bohnen entsprechen Ihrer Suche",
+  "@noBeansMatchSearch": {
+    "description": "Nachricht, die angezeigt wird, wenn keine Bohnen den Suchkriterien entsprechen"
+  },
+  "clearFilters": "Filter löschen",
+  "@clearFilters": {
+    "description": "Schaltflächentext zum Löschen aller aktiven Filter"
+  }
 }

@@ -1152,5 +1152,38 @@ class AppLocalizationsFi extends AppLocalizations {
   String get filter => 'Suodatin';
 
   @override
+  String get sortBy => 'Lajittele';
+
+  @override
+  String get dateAdded => 'Lisäyspäivämäärä';
+
+  @override
   String get secondsAbbreviation => 's.';
+
+  @override
+  String get settingsAppIcon => 'Sovelluksen kuvake';
+
+  @override
+  String get settingsAppIconDefault => 'Oletus';
+
+  @override
+  String get settingsAppIconLegacy => 'Vanha';
+
+  @override
+  String get searchBeans => 'Etsi papuja...';
+
+  @override
+  String get favorites => 'Suosikit';
+
+  @override
+  String get searchPrefix => 'Haku: ';
+
+  @override
+  String get clearAll => 'Tyhjennä kaikki';
+
+  @override
+  String get noBeansMatchSearch => 'Yhtään papua ei löydy haullasi';
+
+  @override
+  String get clearFilters => 'Tyhjennä suodattimet';
 }

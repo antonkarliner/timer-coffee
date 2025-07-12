@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "1024 1.png",
+      "filename" : "timer-coffee-icon-new-light.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "timer_coffee_icon_dark_1024.png",
+      "filename" : "timer-coffee-icon-new-dark.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -25,7 +25,7 @@
           "value" : "tinted"
         }
       ],
-      "filename" : "timer_coffee_icon_tinted_1024.png",
+      "filename" : "timer-coffee-icon-new-tinted.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -43,7 +43,7 @@
       "size" : "16x16"
     },
     {
-      "filename" : "32.png",
+      "filename" : "32 1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
@@ -67,7 +67,7 @@
       "size" : "128x128"
     },
     {
-      "filename" : "256.png",
+      "filename" : "256 1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
@@ -79,7 +79,7 @@
       "size" : "256x256"
     },
     {
-      "filename" : "512.png",
+      "filename" : "512 1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
@@ -169,6 +169,7 @@
       "subtype" : "45mm"
     },
     {
+      "filename" : "108.png",
       "idiom" : "watch",
       "role" : "appLauncher",
       "scale" : "2x",
@@ -200,6 +201,7 @@
       "subtype" : "44mm"
     },
     {
+      "filename" : "234.png",
       "idiom" : "watch",
       "role" : "quickLook",
       "scale" : "2x",
@@ -207,6 +209,7 @@
       "subtype" : "45mm"
     },
     {
+      "filename" : "258.png",
       "idiom" : "watch",
       "role" : "quickLook",
       "scale" : "2x",
@@ -214,7 +217,7 @@
       "subtype" : "49mm"
     },
     {
-      "filename" : "1024.png",
+      "filename" : "1024 1.png",
       "idiom" : "watch-marketing",
       "scale" : "1x",
       "size" : "1024x1024"

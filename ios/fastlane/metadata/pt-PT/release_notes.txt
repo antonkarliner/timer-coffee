@@ -1,1 +1,3 @@
-Utilização de rede otimizada.
++ Novo ícone da aplicação! Não te preocupes se preferias o anterior – podes sempre voltar a usá-lo nas definições.
++ Atualizações de interface em vários ecrãs.
++ As estatísticas estão agora disponíveis no ecrã da Conta.

@@ -1,0 +1,3 @@
++ Nuova icona dell’app! Se preferivi quella vecchia, puoi sempre cambiarla dalle impostazioni.  
++ Aggiornamenti all’interfaccia su diverse schermate.  
++ Le statistiche ora si trovano nella schermata Account.

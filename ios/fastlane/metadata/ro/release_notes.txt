@@ -1,1 +1,3 @@
-Utilizare optimizată a rețelei.
++ O nouă pictogramă pentru aplicație! Nu-ți face griji dacă ți-a plăcut cea veche – poți oricând să revii la ea din setări.
++ Actualizări de interfață pentru mai multe ecrane.
++ Statistici disponibile acum în ecranul Cont.

@@ -722,5 +722,41 @@
   "upToDate": "برنامه به‌روز است",
   "acknowledgements": "قدردانی‌ها یا سپاسگزاری‌ها",
   "faq": "سوالات متداول یا پرسش‌های رایج",
-  "tips": "نکات یا راهنمایی‌ها"
+  "tips": "نکات یا راهنمایی‌ها",
+  "settingsAppIcon": "نماد برنامه",
+  "settingsAppIconDefault": "پیش فرض",
+  "settingsAppIconLegacy": "قدیمی",
+  "sortBy": "مرتب‌سازی بر اساس",
+  "@sortBy": {
+    "description": "عنوان دیالوگ مرتب‌سازی در صفحه دانه‌های قهوه"
+  },
+  "dateAdded": "تاریخ اضافه‌شدن",
+  "@dateAdded": {
+    "description": "گزینه مرتب‌سازی برای مرتب‌سازی بر اساس تاریخ اضافه‌شدن"
+  },
+
+  "searchBeans": "جستجوی دانه‌ها...",
+  "@searchBeans": {
+    "description": "متن نگهدارنده برای فیلد جستجو در صفحه دانه‌های قهوه"
+  },
+  "favorites": "مورد علاقه‌ها",
+  "@favorites": {
+    "description": "برچسب برای فیلتر مورد علاقه"
+  },
+  "searchPrefix": "جستجو: ",
+  "@searchPrefix": {
+    "description": "پیشوند برای فیلتر جستجو"
+  },
+  "clearAll": "پاک کردن همه",
+  "@clearAll": {
+    "description": "برچسب برای دکمه پاک کردن همه فیلترها"
+  },
+  "noBeansMatchSearch": "هیچ دانه‌ای با جستجوی شما مطابقت ندارد",
+  "@noBeansMatchSearch": {
+    "description": "پیامی که وقتی هیچ دانه‌ای با معیارهای جستجو مطابقت ندارد نمایش داده می‌شود"
+  },
+  "clearFilters": "پاک کردن فیلترها",
+  "@clearFilters": {
+    "description": "متن دکمه برای پاک کردن همه فیلترهای فعال"
+  }
 }

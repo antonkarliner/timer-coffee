@@ -1,0 +1,3 @@
++ Novo ícone do app! Se preferir o antigo, pode trocar nas configurações.
++ Atualizações de interface em várias telas.
++ As estatísticas agora estão na tela de Conta.

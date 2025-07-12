@@ -1,1 +1,3 @@
-Optimierte Netzwerknutzung.
++ Neues App-Symbol! Keine Sorge, wenn dir das alte besser gefallen hat – du kannst jederzeit in den Einstellungen zurückwechseln.
++ UI-Updates für zahlreiche Ansichten.
++ Statistiken befinden sich jetzt im Account-Bildschirm.

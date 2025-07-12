@@ -1127,5 +1127,38 @@ class AppLocalizationsJa extends AppLocalizations {
   String get filter => 'フィルター';
 
   @override
+  String get sortBy => '並び替え';
+
+  @override
+  String get dateAdded => '追加日';
+
+  @override
   String get secondsAbbreviation => '秒';
+
+  @override
+  String get settingsAppIcon => 'アプリアイコン';
+
+  @override
+  String get settingsAppIconDefault => 'デフォルト';
+
+  @override
+  String get settingsAppIconLegacy => '古い';
+
+  @override
+  String get searchBeans => '豆を検索...';
+
+  @override
+  String get favorites => 'お気に入り';
+
+  @override
+  String get searchPrefix => '検索: ';
+
+  @override
+  String get clearAll => 'すべてクリア';
+
+  @override
+  String get noBeansMatchSearch => '検索に一致する豆がありません';
+
+  @override
+  String get clearFilters => 'フィルターをクリア';
 }

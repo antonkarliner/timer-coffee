@@ -1154,5 +1154,39 @@ class AppLocalizationsId extends AppLocalizations {
   String get filter => 'Saring';
 
   @override
+  String get sortBy => 'Urutkan berdasarkan';
+
+  @override
+  String get dateAdded => 'Tanggal ditambahkan';
+
+  @override
   String get secondsAbbreviation => 's';
+
+  @override
+  String get settingsAppIcon => 'Ikon Aplikasi';
+
+  @override
+  String get settingsAppIconDefault => 'Bawaan';
+
+  @override
+  String get settingsAppIconLegacy => 'Lama';
+
+  @override
+  String get searchBeans => 'Cari biji...';
+
+  @override
+  String get favorites => 'Favorit';
+
+  @override
+  String get searchPrefix => 'Cari: ';
+
+  @override
+  String get clearAll => 'Bersihkan Semua';
+
+  @override
+  String get noBeansMatchSearch =>
+      'Tidak ada biji yang cocok dengan pencarian Anda';
+
+  @override
+  String get clearFilters => 'Bersihkan filter';
 }

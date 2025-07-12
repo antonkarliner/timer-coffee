@@ -1146,5 +1146,38 @@ class AppLocalizationsFa extends AppLocalizations {
   String get filter => 'فیلتر';
 
   @override
+  String get sortBy => 'مرتب‌سازی بر اساس';
+
+  @override
+  String get dateAdded => 'تاریخ اضافه‌شدن';
+
+  @override
   String get secondsAbbreviation => 'ث.';
+
+  @override
+  String get settingsAppIcon => 'نماد برنامه';
+
+  @override
+  String get settingsAppIconDefault => 'پیش فرض';
+
+  @override
+  String get settingsAppIconLegacy => 'قدیمی';
+
+  @override
+  String get searchBeans => 'جستجوی دانه‌ها...';
+
+  @override
+  String get favorites => 'مورد علاقه‌ها';
+
+  @override
+  String get searchPrefix => 'جستجو: ';
+
+  @override
+  String get clearAll => 'پاک کردن همه';
+
+  @override
+  String get noBeansMatchSearch => 'هیچ دانه‌ای با جستجوی شما مطابقت ندارد';
+
+  @override
+  String get clearFilters => 'پاک کردن فیلترها';
 }

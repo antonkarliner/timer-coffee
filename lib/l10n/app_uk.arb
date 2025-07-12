@@ -486,5 +486,41 @@
   "account": "Обліковий запис",
   "confirmDeleteTitle": "Видалити запис?",
   "confirmDeleteMessage": "Ви впевнені, що хочете видалити цей запис? Цю дію не можна скасувати.",
-  "filter": "Фільтр"
+  "filter": "Фільтр",
+  "settingsAppIcon": "Іконка додатку",
+  "settingsAppIconDefault": "За замовчуванням",
+  "settingsAppIconLegacy": "Стара",
+  "sortBy": "Сортувати за",
+  "@sortBy": {
+    "description": "Заголовок діалогового вікна сортування на екрані кавових зерен"
+  },
+  "dateAdded": "Дата додавання",
+  "@dateAdded": {
+    "description": "Опція сортування для сортування за датою додавання"
+  },
+
+  "searchBeans": "Пошук зерен...",
+  "@searchBeans": {
+    "description": "Текст-заповнювач для поля пошуку на екрані зерен кави"
+  },
+  "favorites": "Обране",
+  "@favorites": {
+    "description": "Мітка для фільтра обраного"
+  },
+  "searchPrefix": "Пошук: ",
+  "@searchPrefix": {
+    "description": "Префікс для фільтра пошуку"
+  },
+  "clearAll": "Очистити все",
+  "@clearAll": {
+    "description": "Мітка для кнопки очищення всіх фільтрів"
+  },
+  "noBeansMatchSearch": "Жодне зерно не відповідає вашому пошуку",
+  "@noBeansMatchSearch": {
+    "description": "Повідомлення, що відображається, коли жодне зерно не відповідає критеріям пошуку"
+  },
+  "clearFilters": "Очистити фільтри",
+  "@clearFilters": {
+    "description": "Текст кнопки для очищення всіх активних фільтрів"
+  }
 }

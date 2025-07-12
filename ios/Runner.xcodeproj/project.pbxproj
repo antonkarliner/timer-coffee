@@ -19,6 +19,7 @@
 		8BBB2BC72B30D9A5007860F6 /* Timer_CoffeeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBB2BC62B30D9A5007860F6 /* Timer_CoffeeUITests.swift */; };
 		8BBB2BC92B30D9A5007860F6 /* Timer_CoffeeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBB2BC82B30D9A5007860F6 /* Timer_CoffeeUITestsLaunchTests.swift */; };
 		8BBB2BD12B30DAAD007860F6 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBB2BD02B30DAAD007860F6 /* SnapshotHelper.swift */; };
+		8BD78C4A2E18657800718E28 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 8BD78C492E18657800718E28 /* AppIcon.icon */; };
 		8BDA14062BD8780500ECDE21 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA14052BD8780500ECDE21 /* NotificationService.swift */; };
 		8BDA140A2BD8780500ECDE21 /* OneSignalNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8BDA14032BD8780500ECDE21 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -132,6 +133,7 @@
 		8BBB2BC62B30D9A5007860F6 /* Timer_CoffeeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer_CoffeeUITests.swift; sourceTree = "<group>"; };
 		8BBB2BC82B30D9A5007860F6 /* Timer_CoffeeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer_CoffeeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		8BBB2BD02B30DAAD007860F6 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
+		8BD78C492E18657800718E28 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppIcon.icon; sourceTree = "<group>"; };
 		8BDA14032BD8780500ECDE21 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BDA14052BD8780500ECDE21 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		8BDA14072BD8780500ECDE21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				8BD78C492E18657800718E28 /* AppIcon.icon */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				8BBB2BC52B30D9A5007860F6 /* Timer.CoffeeUITests */,
@@ -419,6 +422,7 @@
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+				8BD78C4A2E18657800718E28 /* AppIcon.icon in Resources */,
 				8B74FB2D2AF002AA00701B6B /* Timer.storekit in Resources */,
 				8B9C76F12AE7320600E54A4B /* donationtest.storekit in Resources */,
 			);
@@ -712,6 +716,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
@@ -1057,6 +1062,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
@@ -1088,6 +1094,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";

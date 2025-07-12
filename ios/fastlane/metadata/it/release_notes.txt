@@ -1,1 +1,3 @@
-Utilizzo della rete ottimizzato.
++ Nuova icona dell’app! Non preoccuparti se preferivi quella vecchia: puoi sempre tornare indietro dalle impostazioni.
++ Aggiornamenti dell’interfaccia utente su diverse schermate.
++ Le statistiche ora si trovano nella schermata Account.

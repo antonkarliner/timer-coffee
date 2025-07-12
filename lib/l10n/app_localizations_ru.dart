@@ -1166,5 +1166,38 @@ class AppLocalizationsRu extends AppLocalizations {
   String get filter => 'Фильтр';
 
   @override
+  String get sortBy => 'Сортировать по';
+
+  @override
+  String get dateAdded => 'Дата добавления';
+
+  @override
   String get secondsAbbreviation => 'с';
+
+  @override
+  String get settingsAppIcon => 'Иконка приложения';
+
+  @override
+  String get settingsAppIconDefault => 'По умолчанию';
+
+  @override
+  String get settingsAppIconLegacy => 'Старая';
+
+  @override
+  String get searchBeans => 'Поиск зерен...';
+
+  @override
+  String get favorites => 'Избранное';
+
+  @override
+  String get searchPrefix => 'Поиск: ';
+
+  @override
+  String get clearAll => 'Очистить все';
+
+  @override
+  String get noBeansMatchSearch => 'Нет зерен, соответствующих вашему поиску';
+
+  @override
+  String get clearFilters => 'Очистить фильтры';
 }

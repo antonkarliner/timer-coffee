@@ -1,1 +1,3 @@
-Geoptimaliseerd netwerkgebruik.
++ Nieuw app-pictogram! Geen zorgen als je het oude mooier vond – je kunt altijd terugschakelen in de instellingen.
++ UI-updates voor diverse schermen.
++ Statistieken zijn nu te vinden op het Account-scherm.

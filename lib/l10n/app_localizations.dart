@@ -2164,11 +2164,77 @@ abstract class AppLocalizations {
   /// **'Filter'**
   String get filter;
 
+  /// Title for the sort dialog in coffee beans screen
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get sortBy;
+
+  /// Sort option for sorting by date added
+  ///
+  /// In en, this message translates to:
+  /// **'Date Added'**
+  String get dateAdded;
+
   /// No description provided for @secondsAbbreviation.
   ///
   /// In en, this message translates to:
   /// **'s.'**
   String get secondsAbbreviation;
+
+  /// No description provided for @settingsAppIcon.
+  ///
+  /// In en, this message translates to:
+  /// **'App Icon'**
+  String get settingsAppIcon;
+
+  /// No description provided for @settingsAppIconDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get settingsAppIconDefault;
+
+  /// No description provided for @settingsAppIconLegacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Legacy'**
+  String get settingsAppIconLegacy;
+
+  /// Placeholder text for the search field in coffee beans screen
+  ///
+  /// In en, this message translates to:
+  /// **'Search beans...'**
+  String get searchBeans;
+
+  /// Label for favorites filter chip
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get favorites;
+
+  /// Prefix for search filter chip
+  ///
+  /// In en, this message translates to:
+  /// **'Search: '**
+  String get searchPrefix;
+
+  /// Label for clear all filters button
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All'**
+  String get clearAll;
+
+  /// Message shown when no beans match the search criteria
+  ///
+  /// In en, this message translates to:
+  /// **'No beans match your search'**
+  String get noBeansMatchSearch;
+
+  /// Button text to clear all active filters
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get clearFilters;
 }
 
 class _AppLocalizationsDelegate

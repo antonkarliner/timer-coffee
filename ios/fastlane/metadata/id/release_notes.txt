@@ -1,1 +1,3 @@
-Penggunaan jaringan dioptimalkan.
++ Ikon aplikasi baru! Jangan khawatir jika kamu lebih suka yang lama – kamu selalu bisa menggantinya kembali di pengaturan.
++ Pembaruan tampilan untuk berbagai layar.
++ Statistik sekarang ada di layar Akun.

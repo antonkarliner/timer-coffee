@@ -18,6 +18,8 @@ import '../app_router.gr.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../providers/snow_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dynamic_icon_plus/flutter_dynamic_icon_plus.dart';
+import 'package:flutter/services.dart';
 
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
@@ -31,10 +33,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _isAnonymous = true;
   String? _userId;
 
+  String? _currentIconName; //  ← NEW
+  bool _iconApiAvailable = false; //  ← NEW
+  String? _localIconState; // ← NEW: Local state tracking
+
+  bool get _isDefault =>
+      _localIconState == null || _localIconState == 'Default';
+
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _initIconApi(); //  ← NEW
   }
 
   Future<void> _loadUserData() async {
@@ -97,6 +107,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: _changeLocale,
             ),
           ),
+          if (!kIsWeb &&
+              (Platform.isAndroid || Platform.isIOS) &&
+              _iconApiAvailable)
+            _buildIconSelector(context),
           _buildBrewingMethodsSettings(
               context, recipeProvider), // Added section
           _buildAboutSection(context, snowEffectProvider),
@@ -150,6 +164,142 @@ class _SettingsScreenState extends State<SettingsScreen> {
           );
         }).toList(),
       ),
+    );
+  }
+
+  // Native method channel for icon handling
+  static const MethodChannel _iconChannel =
+      MethodChannel('com.coffee.timer/icon');
+
+  // NEW: Icon API initialization
+  Future<void> _initIconApi() async {
+    try {
+      // Check if we're on Android and use native method, otherwise use plugin
+      if (Platform.isAndroid) {
+        final current = await _iconChannel.invokeMethod('getCurrentIcon');
+        print('DEBUG: Native getCurrentIcon returned: $current');
+
+        if (mounted) {
+          setState(() {
+            _iconApiAvailable = true;
+            _currentIconName = current;
+            _localIconState = current;
+          });
+        }
+      } else {
+        // iOS - use the plugin
+        final supported = await FlutterDynamicIconPlus.supportsAlternateIcons;
+        final current =
+            supported ? await FlutterDynamicIconPlus.alternateIconName : null;
+
+        print(
+            'DEBUG: iOS - Icon API supported: $supported, current icon: $current');
+
+        if (mounted) {
+          setState(() {
+            _iconApiAvailable = supported;
+            _currentIconName = current;
+            _localIconState = current == null ? 'Default' : current;
+          });
+        }
+      }
+    } catch (e) {
+      print('DEBUG: Icon API init error: $e');
+      if (mounted) {
+        setState(() {
+          _iconApiAvailable = false;
+        });
+      }
+    }
+  }
+
+  // NEW: Set icon
+  Future<void> _setIcon(String? iconName) async {
+    if (!_iconApiAvailable) return;
+
+    try {
+      print(
+          'DEBUG: ==================== ICON CHANGE START ====================');
+      print('DEBUG: Current state before change: $_localIconState');
+      print('DEBUG: Requested icon change to: $iconName');
+
+      bool success = false;
+
+      if (Platform.isAndroid) {
+        // Use native method for Android
+        print('DEBUG: Using native method for Android');
+        success =
+            await _iconChannel.invokeMethod('setIcon', {'iconName': iconName});
+        print('DEBUG: Native setIcon returned: $success');
+      } else {
+        // Use plugin for iOS
+        print('DEBUG: Using plugin for iOS');
+        final actualIconName = iconName == 'Default' ? null : iconName;
+        await FlutterDynamicIconPlus.setAlternateIconName(
+            iconName: actualIconName);
+        success = true;
+        print('DEBUG: Plugin setIcon completed');
+      }
+
+      if (success) {
+        // Update local state
+        if (mounted) {
+          setState(() {
+            _localIconState = iconName;
+          });
+        }
+
+        print('DEBUG: Local state updated to: $iconName');
+        print(
+            'DEBUG: ==================== ICON CHANGE END ====================');
+      } else {
+        throw Exception('Icon change failed');
+      }
+    } catch (e) {
+      print('DEBUG: Icon change error: $e');
+      print('DEBUG: Error type: ${e.runtimeType}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Icon change failed: $e')),
+      );
+    }
+  }
+
+  // NEW: Icon selector widget
+  Widget _buildIconSelector(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    Image _preview(String asset) =>
+        Image.asset(asset, width: 40, height: 40, fit: BoxFit.contain);
+
+    // ── default icon preview ──
+    final defaultAsset = Platform.isIOS && isDark
+        ? 'assets/icons/timer-coffee-icon-new-dark.png'
+        : 'assets/icons/timer-coffee-icon-new-light.png';
+
+    // ── legacy icon preview  (NEW: choose dark variant on iOS Dark Mode) ──
+    final legacyAsset = Platform.isIOS && isDark
+        ? 'assets/icons/ic_launcher_legacy_dark.png'
+        : 'assets/icons/ic_launcher_legacy.png';
+
+    return ExpansionTile(
+      title: Text(l10n.settingsAppIcon), // your new localisation
+      children: [
+        ListTile(
+          leading: _preview(defaultAsset),
+          title: Text(l10n.settingsAppIconDefault),
+          trailing: _isDefault ? const Icon(Icons.check) : null,
+          // Use 'Default' to match our .Default alias
+          onTap: () => _setIcon('Default'),
+        ),
+        ListTile(
+          leading: _preview(legacyAsset),
+          title: Text(l10n.settingsAppIconLegacy),
+          trailing:
+              _localIconState == 'Legacy' ? const Icon(Icons.check) : null,
+          onTap: () => _setIcon('Legacy'), // enable .Legacy alias
+        ),
+      ],
     );
   }
 

@@ -1159,5 +1159,38 @@ class AppLocalizationsAr extends AppLocalizations {
   String get filter => 'تصفية';
 
   @override
+  String get sortBy => 'الترتيب حسب';
+
+  @override
+  String get dateAdded => 'تاريخ الإضافة';
+
+  @override
   String get secondsAbbreviation => 'ث';
+
+  @override
+  String get settingsAppIcon => 'أيقونة التطبيق';
+
+  @override
+  String get settingsAppIconDefault => 'افتراضي';
+
+  @override
+  String get settingsAppIconLegacy => 'قديم';
+
+  @override
+  String get searchBeans => 'ابحث عن الحبوب...';
+
+  @override
+  String get favorites => 'المفضلة';
+
+  @override
+  String get searchPrefix => 'بحث: ';
+
+  @override
+  String get clearAll => 'مسح الكل';
+
+  @override
+  String get noBeansMatchSearch => 'لا توجد حبوب تطابق بحثك';
+
+  @override
+  String get clearFilters => 'مسح الفلاتر';
 }

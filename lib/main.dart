@@ -223,7 +223,7 @@ class CoffeeTimerApp extends StatelessWidget {
               ],
             ),
             debugShowCheckedModeBanner: false,
-            title: 'Coffee Timer App',
+            title: 'Timer.Coffee',
             theme: themeProvider.lightTheme,
             darkTheme: themeProvider.darkTheme,
             themeMode: themeProvider.themeMode,

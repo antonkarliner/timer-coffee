@@ -1,1 +1,3 @@
-Optimized network usage. (No translation needed; "review_information" is not a language code. If you intended to request a translation to a specific language, please clarify the target language.)
++ New app icon! Don't worry if you preferred the classic one—you can always switch back in settings.
++ Updated interface across several screens.
++ Brew stats have moved to the Account screen.

@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 3.1.3+145
+version: 3.2.0+150
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -25,7 +25,7 @@ dependencies:
   just_audio: ^0.9.36
   auto_route: ^8.0.3
   share_plus: ^11.0.0
-  flutter_native_splash: ^2.4.0
+  flutter_native_splash: ^2.4.6
   introduction_screen: ^3.1.11
   #coffeico: ^0.3.0
   in_app_purchase: ^3.1.11
@@ -61,6 +61,9 @@ dependencies:
   collection: ^1.18.0
   lottie: ^3.2.0
   flutter_animate: ^4.5.2
+  icons_launcher: ^3.0.1
+  flutter_dynamic_icon_plus: ^1.3.1
+  auto_size_text_plus: ^3.0.2
   
 
 dependency_overrides:
@@ -90,7 +93,8 @@ dev_dependencies:
 
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/splash.png
+  image: assets/icons/ic_launcher_fg.png
+  image_dark: assets/icons/ic_launcher_fg_dark.png
   color_dark: "303030"
   fullscreen: true
 
@@ -120,3 +124,7 @@ flutter:
     - assets/earth.json
     - assets/coffee_beans.json
     - assets/splash.png
+    - assets/icons/timer-coffee-icon-new-light.png
+    - assets/icons/timer-coffee-icon-new-dark.png
+    - assets/icons/ic_launcher_legacy.png
+    - assets/icons/ic_launcher_legacy_dark.png

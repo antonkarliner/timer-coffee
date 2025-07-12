@@ -487,5 +487,16 @@
   "confirmDeleteTitle": "Usunąć wpis?",
   "confirmDeleteMessage": "Czy na pewno chcesz usunąć ten wpis? Tej akcji nie można cofnąć.",
   "filter": "Filtr",
-  "secondsAbbreviation": "s"
+  "secondsAbbreviation": "s",
+  "settingsAppIcon": "Ikona aplikacji",
+  "settingsAppIconDefault": "Domyślna",
+  "settingsAppIconLegacy": "Stara",
+  "sortBy": "Sortuj według",
+  "@sortBy": {
+    "description": "Tytuł okna dialogowego sortowania na ekranie ziaren kawy"
+  },
+  "dateAdded": "Data dodania",
+  "@dateAdded": {
+    "description": "Opcja sortowania według daty dodania"
+  }
 }

@@ -487,5 +487,41 @@
   "confirmDeleteTitle": "エントリを削除しますか？",
   "confirmDeleteMessage": "このエントリを削除してもよろしいですか？この操作は元に戻せません。",
   "filter": "フィルター",
-  "secondsAbbreviation": "秒"
+  "secondsAbbreviation": "秒",
+  "settingsAppIcon": "アプリアイコン",
+  "settingsAppIconDefault": "デフォルト",
+  "settingsAppIconLegacy": "古い",
+  "sortBy": "並び替え",
+  "@sortBy": {
+    "description": "コーヒー豆画面の並び替えダイアログのタイトル"
+  },
+  "dateAdded": "追加日",
+  "@dateAdded": {
+    "description": "追加日で並び替えるためのオプション"
+  },
+
+  "searchBeans": "豆を検索...",
+  "@searchBeans": {
+    "description": "コーヒー豆画面の検索フィールドのプレースホルダーテキスト"
+  },
+  "favorites": "お気に入り",
+  "@favorites": {
+    "description": "お気に入りフィルターチップのラベル"
+  },
+  "searchPrefix": "検索: ",
+  "@searchPrefix": {
+    "description": "検索フィルターチップのプレフィックス"
+  },
+  "clearAll": "すべてクリア",
+  "@clearAll": {
+    "description": "すべてのフィルターをクリアするボタンのラベル"
+  },
+  "noBeansMatchSearch": "検索に一致する豆がありません",
+  "@noBeansMatchSearch": {
+    "description": "検索条件に一致する豆がない場合に表示されるメッセージ"
+  },
+  "clearFilters": "フィルターをクリア",
+  "@clearFilters": {
+    "description": "すべてのアクティブなフィルターをクリアするボタンのテキスト"
+  }
 }
