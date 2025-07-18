@@ -1,2 +1,3 @@
-+ Je kunt nu informatie over de boerderij waar de koffie werd verbouwd (of de boer die het verbouwde) vastleggen in de bonenrecords.
-+ Een bug opgelost die fouten veroorzaakte bij het verwijderen van een bonenrecord.
++ Je kunt nu informatie over de boerderij waar de koffie is verbouwd (of de boer die het heeft verbouwd) vastleggen in bonenrecords.
++ Er is een bug opgelost die fouten veroorzaakte bij het verwijderen van een bonenrecord.
++ Er is een bug opgelost met betrekking tot de synchronisatie van bonenrecords.

@@ -1,2 +1,3 @@
-+ Artık çekirdek kayıtlarında kahvenin yetiştirildiği çiftlik veya yetiştiren çiftçi hakkında bilgi kaydedebilirsiniz.  
-+ Çekirdek kaydı silinirken hatalara neden olan bir hata düzeltildi.
++ Artık kahve çekirdeklerinin kaydında kahvenin yetiştirildiği Çiftlik (veya kahveyi yetiştiren Çiftçi) hakkında bilgi kaydedebilirsiniz.  
++ Çekirdek kaydı silinirken hatalara neden olan bir hata düzeltildi.  
++ Çekirdek kayıtlarının senkronizasyonuyla ilgili bir hata düzeltildi.

@@ -1,2 +1,3 @@
-+ Ora puoi registrare informazioni sulla fattoria dove è stato coltivato il caffè (o sull'agricoltore che lo ha coltivato) nei registri dei chicchi.  
-+ Risolto un bug che causava errori durante l'eliminazione del registro dei chicchi.
++ Ora puoi registrare informazioni sulla fattoria dove è stato coltivato il caffè (o sul coltivatore che lo ha coltivato) nei registri dei chicchi.  
++ Risolto un bug che causava errori durante l'eliminazione di un registro dei chicchi.  
++ Risolto un bug relativo alla sincronizzazione dei registri dei chicchi.

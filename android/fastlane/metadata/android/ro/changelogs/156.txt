@@ -1,0 +1,3 @@
++ Acum poți înregistra informații despre ferma unde a fost cultivată cafeaua (sau despre fermierul care a cultivat-o) în înregistrările de boabe.  
++ Am remediat o eroare care cauza probleme la ștergerea unei înregistrări de boabe.  
++ Am remediat o eroare legată de sincronizarea înregistrărilor de boabe.

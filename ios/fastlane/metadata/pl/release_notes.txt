@@ -1,2 +1,3 @@
-+ Możesz teraz zapisywać informacje o farmie, na której uprawiano kawę (lub o rolniku, który ją uprawiał) w zapisach dotyczących ziaren.  
-+ Naprawiono błąd, który powodował błędy przy usuwaniu zapisu dotyczącego ziaren.
++ Możesz teraz zapisywać informacje o farmie, na której kawa była uprawiana (lub o rolniku, który ją uprawiał) w rejestrach ziaren.  
++ Naprawiono błąd, który powodował błędy podczas usuwania rejestru ziaren.  
++ Naprawiono błąd związany z synchronizacją rejestrów ziaren.

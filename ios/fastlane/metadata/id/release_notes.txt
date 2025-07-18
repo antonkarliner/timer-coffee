@@ -1,2 +1,3 @@
-+ Sekarang Anda dapat mencatat informasi tentang Kebun tempat kopi ditanam (atau Petani yang menanamnya) dalam catatan biji kopi.
++ Anda sekarang dapat mencatat informasi tentang Pertanian tempat kopi ditanam (atau Petani yang menanamnya) dalam catatan biji kopi.
 + Memperbaiki bug yang menyebabkan kesalahan saat menghapus catatan biji kopi.
++ Memperbaiki bug terkait sinkronisasi catatan biji kopi.

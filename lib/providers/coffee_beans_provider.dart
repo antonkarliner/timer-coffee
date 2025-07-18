@@ -502,6 +502,8 @@ class CoffeeBeansProvider with ChangeNotifier {
       'roast_level': model.roastLevel,
       'cupping_score': model.cuppingScore,
       'notes': model.notes,
+      'farmer': model.farmer,
+      'farm': model.farm,
       'is_favorite': model.isFavorite,
       'version_vector': model.versionVector,
       'is_deleted': model.isDeleted,
@@ -531,6 +533,8 @@ class CoffeeBeansProvider with ChangeNotifier {
           ? (json['cupping_score'] as num).toDouble()
           : null,
       notes: json['notes'],
+      farmer: json['farmer'],
+      farm: json['farm'],
       isFavorite: json['is_favorite'],
       versionVector: json['version_vector'],
       isDeleted: json['is_deleted'] ?? false,

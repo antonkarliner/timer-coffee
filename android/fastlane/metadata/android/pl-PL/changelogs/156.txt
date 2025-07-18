@@ -1,0 +1,3 @@
++ Teraz możesz zapisywać informacje o farmie, na której uprawiano kawę (lub o rolniku, który ją uprawiał) w zapisach ziaren.  
++ Naprawiono błąd powodujący błędy przy usuwaniu zapisu ziaren.  
++ Naprawiono błąd związany z synchronizacją zapisów ziaren.

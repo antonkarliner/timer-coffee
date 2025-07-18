@@ -1,0 +1,3 @@
++ Vous pouvez désormais enregistrer des informations sur la ferme où le café a été cultivé (ou le cultivateur qui l’a produit) dans les fiches de grains.  
++ Correction d’un bug qui causait des erreurs lors de la suppression d’une fiche de grains.  
++ Correction d’un bug lié à la synchronisation des fiches de grains.
