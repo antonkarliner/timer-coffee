@@ -521,6 +521,11 @@
   },
   "clearFilters": "清除过滤器",
   "@clearFilters": {
-    "description": "清除所有活动过滤器的按钮文本"
-  }
+    "description": "Button text to clear all active filters"
+  },
+  "farmer": "农民",
+  "farm": "农场",
+  "enterFarmer": "输入农民（可选）",
+  "enterFarm": "输入农场（可选）",
+  "secondsAbbreviation": "秒"
 }

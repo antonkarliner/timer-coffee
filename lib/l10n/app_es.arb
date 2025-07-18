@@ -522,6 +522,10 @@
   },
   "clearFilters": "Borrar filtros",
   "@clearFilters": {
-    "description": "Texto del botón para borrar todos los filtros activos"
-  }
+    "description": "Button text to clear all active filters"
+  },
+  "farmer": "Agricultor",
+  "farm": "Finca",
+  "enterFarmer": "Ingresar agricultor (opcional)",
+  "enterFarm": "Ingresar finca (opcional)"
 }

@@ -523,5 +523,9 @@
   "clearFilters": "مسح الفلاتر",
   "@clearFilters": {
     "description": "Button text to clear all active filters"
-  }
+  },
+  "farmer": "المزارع",
+  "farm": "المزرعة",
+  "enterFarmer": "أدخل اسم المزارع (اختياري)",
+  "enterFarm": "أدخل اسم المزرعة (اختياري)"
 }

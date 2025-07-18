@@ -1192,4 +1192,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get clearFilters => 'Filtreleri Temizle';
+
+  @override
+  String get farmer => 'Çiftçi';
+
+  @override
+  String get farm => 'Kahve çiftliği';
+
+  @override
+  String get enterFarmer => 'Çiftçiyi girin';
+
+  @override
+  String get enterFarm => 'Kahve çiftliğini girin';
 }

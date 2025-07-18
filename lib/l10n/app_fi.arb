@@ -581,5 +581,9 @@
   "clearFilters": "Tyhjennä suodattimet",
   "@clearFilters": {
     "description": "Nappi aktiivisten suodattimien tyhjentämiseen"
-  }
+  },
+  "farmer": "Viljelijä",
+  "farm": "Kahvitila",
+  "enterFarmer": "Syötä viljelijä",
+  "enterFarm": "Syötä kahvitila"
 }

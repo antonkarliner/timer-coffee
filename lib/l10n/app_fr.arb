@@ -523,5 +523,9 @@
   "clearFilters": "Effacer les filtres",
   "@clearFilters": {
     "description": "Texte du bouton pour effacer tous les filtres actifs"
-  }
+  },
+  "farmer": "Agriculteur",
+  "farm": "Plantation de café",
+  "enterFarmer": "Entrez l'agriculteur",
+  "enterFarm": "Entrez la plantation de café"
 }

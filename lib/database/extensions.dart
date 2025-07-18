@@ -306,6 +306,8 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
           ? Value((json['cupping_score'] as num).toDouble())
           : const Value.absent(),
       notes: Value(json['notes']),
+      farmer: Value(json['farmer']),
+      farm: Value(json['farm']),
       isFavorite: json['is_favorite'] != null
           ? Value(json['is_favorite'] as bool)
           : const Value.absent(),
@@ -334,6 +336,8 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
       'roast_level': roastLevel.value,
       'cupping_score': cuppingScore.present ? cuppingScore.value : null,
       'notes': notes.value,
+      'farmer': farmer.value,
+      'farm': farm.value,
       'is_favorite': isFavorite.present ? isFavorite.value : null,
       'is_deleted':
           isDeleted.present ? isDeleted.value : null, // Include isDeleted

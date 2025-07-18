@@ -523,5 +523,9 @@
   "clearFilters": "Șterge filtrele",
   "@clearFilters": {
     "description": "Textul butonului pentru ștergerea tuturor filtrelor active"
-  }
+  },
+  "farmer": "Fermier",
+  "farm": "Fermă de cafea",
+  "enterFarmer": "Introduceți fermierul",
+  "enterFarm": "Introduceți ferma de cafea"
 }

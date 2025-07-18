@@ -523,5 +523,9 @@
   "clearFilters": "Limpar filtros",
   "@clearFilters": {
     "description": "Texto do botão para limpar todos os filtros ativos"
-  }
+  },
+  "farmer": "Agricultor",
+  "farm": "Fazenda de café",
+  "enterFarmer": "Digite o agricultor",
+  "enterFarm": "Digite a fazenda de café"
 }

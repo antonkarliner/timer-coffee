@@ -1187,20 +1187,32 @@ class AppLocalizationsPl extends AppLocalizations {
   String get settingsAppIconLegacy => 'Stara';
 
   @override
-  String get searchBeans => 'Search beans...';
+  String get searchBeans => 'Szukaj ziaren...';
 
   @override
-  String get favorites => 'Favorites';
+  String get favorites => 'Ulubione';
 
   @override
-  String get searchPrefix => 'Search: ';
+  String get searchPrefix => 'Szukaj: ';
 
   @override
-  String get clearAll => 'Clear All';
+  String get clearAll => 'Wyczyść wszystko';
 
   @override
-  String get noBeansMatchSearch => 'No beans match your search';
+  String get noBeansMatchSearch => 'Brak ziaren pasujących do wyszukiwania';
 
   @override
-  String get clearFilters => 'Clear filters';
+  String get clearFilters => 'Wyczyść filtry';
+
+  @override
+  String get farmer => 'Rolnik';
+
+  @override
+  String get farm => 'Farma kawy';
+
+  @override
+  String get enterFarmer => 'Wprowadź rolnika';
+
+  @override
+  String get enterFarm => 'Wprowadź farmę kawy';
 }

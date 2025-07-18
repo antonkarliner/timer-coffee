@@ -214,6 +214,9 @@ class CoffeeBeans extends Table {
   TextColumn get roastLevel => text().named('roast_level').nullable()();
   RealColumn get cuppingScore => real().named('cupping_score').nullable()();
   TextColumn get notes => text().named('notes').nullable()();
+  // New optional fields
+  TextColumn get farmer => text().named('farmer').nullable()();
+  TextColumn get farm => text().named('farm').nullable()();
   BoolColumn get isFavorite =>
       boolean().named('is_favorite').withDefault(const Constant(false))();
   TextColumn get versionVector => text().named('version_vector')();
@@ -265,7 +268,7 @@ class AppDatabase extends _$AppDatabase {
   factory AppDatabase.fromExecutor(QueryExecutor e) => AppDatabase(e);
 
   @override
-  int get schemaVersion => 25; // Incremented schema version
+  int get schemaVersion => 26; // Incremented schema version
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -682,6 +685,10 @@ class AppDatabase extends _$AppDatabase {
             from24To25: (m, schema) async {
               // Remove Contributors table
               await customStatement('DROP TABLE IF EXISTS contributors');
+            },
+            from25To26: (m, schema) async {
+              await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.farmer);
+              await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.farm);
             },
           )(m, oldVersion, newVersion);
         },

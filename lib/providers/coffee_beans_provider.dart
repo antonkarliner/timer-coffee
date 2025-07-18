@@ -183,6 +183,14 @@ class CoffeeBeansProvider with ChangeNotifier {
     return await db.coffeeBeansDao.fetchAllDistinctRegions();
   }
 
+  Future<List<String>> fetchAllDistinctFarmers() async {
+    return await db.coffeeBeansDao.fetchAllDistinctFarmers();
+  }
+
+  Future<List<String>> fetchAllDistinctFarms() async {
+    return await db.coffeeBeansDao.fetchAllDistinctFarms();
+  }
+
   Future<List<String>> fetchCombinedTastingNotes(String locale) async {
     final localTastingNotes = await fetchAllDistinctTastingNotes();
     List<String> supabaseTastingNotes = [];

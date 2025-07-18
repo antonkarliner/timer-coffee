@@ -1161,4 +1161,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get clearFilters => 'フィルターをクリア';
+
+  @override
+  String get farmer => '農家';
+
+  @override
+  String get farm => '農場';
+
+  @override
+  String get enterFarmer => '農家名を入力 (オプション)';
+
+  @override
+  String get enterFarm => '農場名を入力 (オプション)';
 }

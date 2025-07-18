@@ -523,5 +523,9 @@
   "clearFilters": "Filtreleri Temizle",
   "@clearFilters": {
     "description": "Tüm aktif filtreleri temizlemek için düğme metni"
-  }
+  },
+  "farmer": "Çiftçi",
+  "farm": "Kahve çiftliği",
+  "enterFarmer": "Çiftçiyi girin",
+  "enterFarm": "Kahve çiftliğini girin"
 }

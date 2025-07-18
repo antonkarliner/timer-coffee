@@ -1129,7 +1129,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dateAdded => '添加日期';
 
   @override
-  String get secondsAbbreviation => 's.';
+  String get secondsAbbreviation => '秒';
 
   @override
   String get settingsAppIcon => '应用图标';
@@ -1157,4 +1157,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get clearFilters => '清除过滤器';
+
+  @override
+  String get farmer => '农民';
+
+  @override
+  String get farm => '农场';
+
+  @override
+  String get enterFarmer => '输入农民（可选）';
+
+  @override
+  String get enterFarm => '输入农场（可选）';
 }

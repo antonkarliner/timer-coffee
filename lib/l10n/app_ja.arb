@@ -522,6 +522,10 @@
   },
   "clearFilters": "フィルターをクリア",
   "@clearFilters": {
-    "description": "すべてのアクティブなフィルターをクリアするボタンのテキスト"
-  }
+    "description": "Button text to clear all active filters"
+  },
+  "farmer": "農家",
+  "farm": "農場",
+  "enterFarmer": "農家名を入力 (オプション)",
+  "enterFarm": "農場名を入力 (オプション)"
 }

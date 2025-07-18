@@ -1180,4 +1180,16 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get clearFilters => 'پاک کردن فیلترها';
+
+  @override
+  String get farmer => 'کشاورز';
+
+  @override
+  String get farm => 'مزرعه قهوه';
+
+  @override
+  String get enterFarmer => 'کشاورز را وارد کنید';
+
+  @override
+  String get enterFarm => 'مزرعه قهوه را وارد کنید';
 }

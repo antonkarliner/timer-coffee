@@ -1189,4 +1189,16 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get clearFilters => 'Bersihkan filter';
+
+  @override
+  String get farmer => 'Petani';
+
+  @override
+  String get farm => 'Perkebunan kopi';
+
+  @override
+  String get enterFarmer => 'Masukkan petani';
+
+  @override
+  String get enterFarm => 'Masukkan perkebunan kopi';
 }

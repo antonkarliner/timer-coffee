@@ -1174,7 +1174,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get dateAdded => 'Дата додавання';
 
   @override
-  String get secondsAbbreviation => 's.';
+  String get secondsAbbreviation => 'с.';
 
   @override
   String get settingsAppIcon => 'Іконка додатку';
@@ -1202,4 +1202,16 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get clearFilters => 'Очистити фільтри';
+
+  @override
+  String get farmer => 'Фермер';
+
+  @override
+  String get farm => 'Ферма';
+
+  @override
+  String get enterFarmer => 'Введіть фермера (необов\'язково)';
+
+  @override
+  String get enterFarm => 'Введіть ферму (необов\'язково)';
 }

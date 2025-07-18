@@ -521,6 +521,11 @@
   },
   "clearFilters": "Очистити фільтри",
   "@clearFilters": {
-    "description": "Текст кнопки для очищення всіх активних фільтрів"
-  }
+    "description": "Button text to clear all active filters"
+  },
+  "farmer": "Фермер",
+  "farm": "Ферма",
+  "enterFarmer": "Введіть фермера (необов'язково)",
+  "enterFarm": "Введіть ферму (необов'язково)",
+  "secondsAbbreviation": "с."
 }

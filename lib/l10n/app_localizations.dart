@@ -2235,6 +2235,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Clear filters'**
   String get clearFilters;
+
+  /// No description provided for @farmer.
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer'**
+  String get farmer;
+
+  /// No description provided for @farm.
+  ///
+  /// In en, this message translates to:
+  /// **'Farm'**
+  String get farm;
+
+  /// No description provided for @enterFarmer.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter farmer (optional)'**
+  String get enterFarmer;
+
+  /// No description provided for @enterFarm.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter farm (optional)'**
+  String get enterFarm;
 }
 
 class _AppLocalizationsDelegate

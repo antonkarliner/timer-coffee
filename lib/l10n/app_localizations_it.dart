@@ -1204,4 +1204,16 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get clearFilters => 'Cancella filtri';
+
+  @override
+  String get farmer => 'Agricoltore';
+
+  @override
+  String get farm => 'Azienda agricola';
+
+  @override
+  String get enterFarmer => 'Inserisci agricoltore (facoltativo)';
+
+  @override
+  String get enterFarm => 'Inserisci azienda agricola (facoltativo)';
 }

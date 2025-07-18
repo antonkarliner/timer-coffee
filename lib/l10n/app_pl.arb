@@ -498,5 +498,34 @@
   "dateAdded": "Data dodania",
   "@dateAdded": {
     "description": "Opcja sortowania według daty dodania"
-  }
+  },
+
+  "searchBeans": "Szukaj ziaren...",
+  "@searchBeans": {
+    "description": "Tekst-zapełniacz dla pola wyszukiwania na ekranie ziaren kawy"
+  },
+  "favorites": "Ulubione",
+  "@favorites": {
+    "description": "Etykieta dla filtra ulubionych"
+  },
+  "searchPrefix": "Szukaj: ",
+  "@searchPrefix": {
+    "description": "Prefiks dla filtra wyszukiwania"
+  },
+  "clearAll": "Wyczyść wszystko",
+  "@clearAll": {
+    "description": "Etykieta dla przycisku wyczyść wszystkie filtry"
+  },
+  "noBeansMatchSearch": "Brak ziaren pasujących do wyszukiwania",
+  "@noBeansMatchSearch": {
+    "description": "Komunikat wyświetlany, gdy brak ziaren pasujących do kryteriów wyszukiwania"
+  },
+  "clearFilters": "Wyczyść filtry",
+  "@clearFilters": {
+    "description": "Tekst przycisku do czyszczenia wszystkich aktywnych filtrów"
+  },
+  "farmer": "Rolnik",
+  "farm": "Farma kawy",
+  "enterFarmer": "Wprowadź rolnika",
+  "enterFarm": "Wprowadź farmę kawy"
 }

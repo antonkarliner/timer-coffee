@@ -16,6 +16,8 @@ class CoffeeBeansModel {
   final String? roastLevel;
   final double? cuppingScore;
   final String? notes;
+  final String? farmer; // New optional field
+  final String? farm; // New optional field
   final bool isFavorite;
   final bool isDeleted; // New field to track soft deletion
   final String versionVector;
@@ -36,6 +38,8 @@ class CoffeeBeansModel {
     this.roastLevel,
     this.cuppingScore,
     this.notes,
+    this.farmer,
+    this.farm,
     this.isFavorite = false,
     this.isDeleted = false, // Default value set to false
     required this.versionVector,
@@ -60,6 +64,8 @@ class CoffeeBeansModel {
     String? roastLevel,
     double? cuppingScore,
     String? notes,
+    String? farmer,
+    String? farm,
     bool? isFavorite,
     bool? isDeleted, // Optional field in the copyWith method
     String? versionVector,
@@ -80,6 +86,8 @@ class CoffeeBeansModel {
       roastLevel: roastLevel ?? this.roastLevel,
       cuppingScore: cuppingScore ?? this.cuppingScore,
       notes: notes ?? this.notes,
+      farmer: farmer ?? this.farmer,
+      farm: farm ?? this.farm,
       isFavorite: isFavorite ?? this.isFavorite,
       isDeleted: isDeleted ?? this.isDeleted, // Handle isDeleted in copyWith
       versionVector: versionVector ?? this.versionVector,
@@ -106,6 +114,8 @@ class CoffeeBeansModel {
           roastLevel == other.roastLevel &&
           cuppingScore == other.cuppingScore &&
           notes == other.notes &&
+          farmer == other.farmer &&
+          farm == other.farm &&
           isFavorite == other.isFavorite &&
           isDeleted == other.isDeleted && // Include isDeleted in equality
           versionVector == other.versionVector;
@@ -127,6 +137,8 @@ class CoffeeBeansModel {
       roastLevel.hashCode ^
       cuppingScore.hashCode ^
       notes.hashCode ^
+      farmer.hashCode ^
+      farm.hashCode ^
       isFavorite.hashCode ^
       isDeleted.hashCode ^ // Include isDeleted in hashCode
       versionVector.hashCode;

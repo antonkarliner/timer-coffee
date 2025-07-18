@@ -1190,4 +1190,16 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get clearFilters => 'Filters wissen';
+
+  @override
+  String get farmer => 'Boer';
+
+  @override
+  String get farm => 'Koffieboerderij';
+
+  @override
+  String get enterFarmer => 'Boer invoeren (optioneel)';
+
+  @override
+  String get enterFarm => 'Koffieboerderij invoeren (optioneel)';
 }

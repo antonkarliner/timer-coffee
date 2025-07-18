@@ -1193,4 +1193,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get clearFilters => 'مسح الفلاتر';
+
+  @override
+  String get farmer => 'المزارع';
+
+  @override
+  String get farm => 'المزرعة';
+
+  @override
+  String get enterFarmer => 'أدخل اسم المزارع (اختياري)';
+
+  @override
+  String get enterFarm => 'أدخل اسم المزرعة (اختياري)';
 }

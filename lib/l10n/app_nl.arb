@@ -522,6 +522,10 @@
   },
   "clearFilters": "Filters wissen",
   "@clearFilters": {
-    "description": "Knoptekst om alle actieve filters te wissen"
-  }
+    "description": "Button text to clear all active filters"
+  },
+  "farmer": "Boer",
+  "farm": "Koffieboerderij",
+  "enterFarmer": "Boer invoeren (optioneel)",
+  "enterFarm": "Koffieboerderij invoeren (optioneel)"
 }

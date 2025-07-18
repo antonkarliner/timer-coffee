@@ -38,6 +38,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   final TextEditingController _elevationController = TextEditingController();
   final TextEditingController _cuppingScoreController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
+  final TextEditingController _farmerController = TextEditingController();
+  final TextEditingController _farmController = TextEditingController();
   final Uuid _uuid = Uuid();
 
   List<String> _tastingNotes = [];
@@ -77,6 +79,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         _elevationController.text = bean.elevation?.toString() ?? '';
         _cuppingScoreController.text = bean.cuppingScore?.toString() ?? '';
         _notesController.text = bean.notes ?? '';
+        _farmerController.text = bean.farmer ?? '';
+        _farmController.text = bean.farm ?? '';
         _tastingNotes = bean.tastingNotes?.split(', ') ?? [];
         variety = bean.variety;
         processingMethod = bean.processingMethod;
@@ -504,6 +508,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
               : '';
           _notesController.text =
               data['notes'] != 'Unknown' ? data['notes'] ?? '' : '';
+          _farmerController.text =
+              data['farmer'] != 'Unknown' ? data['farmer'] ?? '' : '';
+          _farmController.text =
+              data['farm'] != 'Unknown' ? data['farm'] ?? '' : '';
           _tastingNotes = (data['tastingNotes'] as String?)
                   ?.split(', ')
                   .where((note) => note != 'Unknown')
@@ -801,6 +809,36 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                         initialValues: _tastingNotes,
                       ),
                     ),
+                    // Farmer field
+                    Semantics(
+                      identifier: 'farmerInputField',
+                      label: loc.farmer,
+                      child: AutocompleteInputField(
+                        label: loc.farmer,
+                        hintText: loc.enterFarmer,
+                        initialOptions:
+                            coffeeBeansProvider.fetchAllDistinctFarmers(),
+                        onSelected: (value) {
+                          _farmerController.text = value;
+                        },
+                        initialValue: _farmerController.text,
+                      ),
+                    ),
+                    // Farm field
+                    Semantics(
+                      identifier: 'farmInputField',
+                      label: loc.farm,
+                      child: AutocompleteInputField(
+                        label: loc.farm,
+                        hintText: loc.enterFarm,
+                        initialOptions:
+                            coffeeBeansProvider.fetchAllDistinctFarms(),
+                        onSelected: (value) {
+                          _farmController.text = value;
+                        },
+                        initialValue: _farmController.text,
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Center(
@@ -997,6 +1035,12 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                               : null,
                           notes: _notesController.text.isNotEmpty
                               ? _notesController.text
+                              : null,
+                          farmer: _farmerController.text.isNotEmpty
+                              ? _farmerController.text
+                              : null,
+                          farm: _farmController.text.isNotEmpty
+                              ? _farmController.text
                               : null,
                           isFavorite: false,
                           versionVector: isEditMode

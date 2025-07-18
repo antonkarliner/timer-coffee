@@ -24,6 +24,8 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       roastLevel: row.roastLevel,
       cuppingScore: row.cuppingScore,
       notes: row.notes,
+      farmer: row.farmer,
+      farm: row.farm,
       isFavorite: row.isFavorite,
       versionVector: row.versionVector,
       isDeleted: row.isDeleted, // Added isDeleted field
@@ -46,6 +48,8 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       roastLevel: Value(model.roastLevel),
       cuppingScore: Value(model.cuppingScore),
       notes: Value(model.notes),
+      farmer: Value(model.farmer),
+      farm: Value(model.farm),
       isFavorite: Value(model.isFavorite),
       versionVector: Value(model.versionVector),
       isDeleted: Value(model.isDeleted), // Added isDeleted field
@@ -55,6 +59,25 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   Future<void> insertCoffeeBeans(CoffeeBeansModel beans) async {
     await into(coffeeBeans)
         .insertOnConflictUpdate(_coffeeBeansToCompanion(beans));
+  }
+
+  Future<List<String>> fetchAllDistinctFarmers() async {
+    final query = selectOnly(coffeeBeans, distinct: true)
+      ..addColumns([coffeeBeans.farmer])
+      ..where(
+          coffeeBeans.farmer.isNotNull() & coffeeBeans.isDeleted.equals(false));
+    final farmers =
+        await query.map((row) => row.read(coffeeBeans.farmer)).get();
+    return farmers.whereType<String>().toList();
+  }
+
+  Future<List<String>> fetchAllDistinctFarms() async {
+    final query = selectOnly(coffeeBeans, distinct: true)
+      ..addColumns([coffeeBeans.farm])
+      ..where(
+          coffeeBeans.farm.isNotNull() & coffeeBeans.isDeleted.equals(false));
+    final farms = await query.map((row) => row.read(coffeeBeans.farm)).get();
+    return farms.whereType<String>().toList();
   }
 
   Future<List<CoffeeBeansModel>> fetchAllCoffeeBeans() async {

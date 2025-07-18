@@ -3696,6 +3696,16 @@ class $CoffeeBeansTable extends CoffeeBeans
   late final GeneratedColumn<String> notes = GeneratedColumn<String>(
       'notes', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _farmerMeta = const VerificationMeta('farmer');
+  @override
+  late final GeneratedColumn<String> farmer = GeneratedColumn<String>(
+      'farmer', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _farmMeta = const VerificationMeta('farm');
+  @override
+  late final GeneratedColumn<String> farm = GeneratedColumn<String>(
+      'farm', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _isFavoriteMeta =
       const VerificationMeta('isFavorite');
   @override
@@ -3739,6 +3749,8 @@ class $CoffeeBeansTable extends CoffeeBeans
         roastLevel,
         cuppingScore,
         notes,
+        farmer,
+        farm,
         isFavorite,
         versionVector,
         isDeleted
@@ -3830,6 +3842,14 @@ class $CoffeeBeansTable extends CoffeeBeans
       context.handle(
           _notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
     }
+    if (data.containsKey('farmer')) {
+      context.handle(_farmerMeta,
+          farmer.isAcceptableOrUnknown(data['farmer']!, _farmerMeta));
+    }
+    if (data.containsKey('farm')) {
+      context.handle(
+          _farmMeta, farm.isAcceptableOrUnknown(data['farm']!, _farmMeta));
+    }
     if (data.containsKey('is_favorite')) {
       context.handle(
           _isFavoriteMeta,
@@ -3887,6 +3907,10 @@ class $CoffeeBeansTable extends CoffeeBeans
           .read(DriftSqlType.double, data['${effectivePrefix}cupping_score']),
       notes: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}notes']),
+      farmer: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}farmer']),
+      farm: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}farm']),
       isFavorite: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_favorite'])!,
       versionVector: attachedDatabase.typeMapping
@@ -3918,6 +3942,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
   final String? roastLevel;
   final double? cuppingScore;
   final String? notes;
+  final String? farmer;
+  final String? farm;
   final bool isFavorite;
   final String versionVector;
   final bool isDeleted;
@@ -3937,6 +3963,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       this.roastLevel,
       this.cuppingScore,
       this.notes,
+      this.farmer,
+      this.farm,
       required this.isFavorite,
       required this.versionVector,
       required this.isDeleted});
@@ -3980,6 +4008,12 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
     if (!nullToAbsent || notes != null) {
       map['notes'] = Variable<String>(notes);
     }
+    if (!nullToAbsent || farmer != null) {
+      map['farmer'] = Variable<String>(farmer);
+    }
+    if (!nullToAbsent || farm != null) {
+      map['farm'] = Variable<String>(farm);
+    }
     map['is_favorite'] = Variable<bool>(isFavorite);
     map['version_vector'] = Variable<String>(versionVector);
     map['is_deleted'] = Variable<bool>(isDeleted);
@@ -4021,6 +4055,9 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           : Value(cuppingScore),
       notes:
           notes == null && nullToAbsent ? const Value.absent() : Value(notes),
+      farmer:
+          farmer == null && nullToAbsent ? const Value.absent() : Value(farmer),
+      farm: farm == null && nullToAbsent ? const Value.absent() : Value(farm),
       isFavorite: Value(isFavorite),
       versionVector: Value(versionVector),
       isDeleted: Value(isDeleted),
@@ -4046,6 +4083,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       roastLevel: serializer.fromJson<String?>(json['roastLevel']),
       cuppingScore: serializer.fromJson<double?>(json['cuppingScore']),
       notes: serializer.fromJson<String?>(json['notes']),
+      farmer: serializer.fromJson<String?>(json['farmer']),
+      farm: serializer.fromJson<String?>(json['farm']),
       isFavorite: serializer.fromJson<bool>(json['isFavorite']),
       versionVector: serializer.fromJson<String>(json['versionVector']),
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
@@ -4070,6 +4109,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       'roastLevel': serializer.toJson<String?>(roastLevel),
       'cuppingScore': serializer.toJson<double?>(cuppingScore),
       'notes': serializer.toJson<String?>(notes),
+      'farmer': serializer.toJson<String?>(farmer),
+      'farm': serializer.toJson<String?>(farm),
       'isFavorite': serializer.toJson<bool>(isFavorite),
       'versionVector': serializer.toJson<String>(versionVector),
       'isDeleted': serializer.toJson<bool>(isDeleted),
@@ -4092,6 +4133,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           Value<String?> roastLevel = const Value.absent(),
           Value<double?> cuppingScore = const Value.absent(),
           Value<String?> notes = const Value.absent(),
+          Value<String?> farmer = const Value.absent(),
+          Value<String?> farm = const Value.absent(),
           bool? isFavorite,
           String? versionVector,
           bool? isDeleted}) =>
@@ -4115,6 +4158,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
         cuppingScore:
             cuppingScore.present ? cuppingScore.value : this.cuppingScore,
         notes: notes.present ? notes.value : this.notes,
+        farmer: farmer.present ? farmer.value : this.farmer,
+        farm: farm.present ? farm.value : this.farm,
         isFavorite: isFavorite ?? this.isFavorite,
         versionVector: versionVector ?? this.versionVector,
         isDeleted: isDeleted ?? this.isDeleted,
@@ -4144,6 +4189,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           ? data.cuppingScore.value
           : this.cuppingScore,
       notes: data.notes.present ? data.notes.value : this.notes,
+      farmer: data.farmer.present ? data.farmer.value : this.farmer,
+      farm: data.farm.present ? data.farm.value : this.farm,
       isFavorite:
           data.isFavorite.present ? data.isFavorite.value : this.isFavorite,
       versionVector: data.versionVector.present
@@ -4171,6 +4218,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           ..write('roastLevel: $roastLevel, ')
           ..write('cuppingScore: $cuppingScore, ')
           ..write('notes: $notes, ')
+          ..write('farmer: $farmer, ')
+          ..write('farm: $farm, ')
           ..write('isFavorite: $isFavorite, ')
           ..write('versionVector: $versionVector, ')
           ..write('isDeleted: $isDeleted')
@@ -4195,6 +4244,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       roastLevel,
       cuppingScore,
       notes,
+      farmer,
+      farm,
       isFavorite,
       versionVector,
       isDeleted);
@@ -4217,6 +4268,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           other.roastLevel == this.roastLevel &&
           other.cuppingScore == this.cuppingScore &&
           other.notes == this.notes &&
+          other.farmer == this.farmer &&
+          other.farm == this.farm &&
           other.isFavorite == this.isFavorite &&
           other.versionVector == this.versionVector &&
           other.isDeleted == this.isDeleted);
@@ -4238,6 +4291,8 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
   final Value<String?> roastLevel;
   final Value<double?> cuppingScore;
   final Value<String?> notes;
+  final Value<String?> farmer;
+  final Value<String?> farm;
   final Value<bool> isFavorite;
   final Value<String> versionVector;
   final Value<bool> isDeleted;
@@ -4258,6 +4313,8 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     this.roastLevel = const Value.absent(),
     this.cuppingScore = const Value.absent(),
     this.notes = const Value.absent(),
+    this.farmer = const Value.absent(),
+    this.farm = const Value.absent(),
     this.isFavorite = const Value.absent(),
     this.versionVector = const Value.absent(),
     this.isDeleted = const Value.absent(),
@@ -4279,6 +4336,8 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     this.roastLevel = const Value.absent(),
     this.cuppingScore = const Value.absent(),
     this.notes = const Value.absent(),
+    this.farmer = const Value.absent(),
+    this.farm = const Value.absent(),
     this.isFavorite = const Value.absent(),
     required String versionVector,
     this.isDeleted = const Value.absent(),
@@ -4304,6 +4363,8 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     Expression<String>? roastLevel,
     Expression<double>? cuppingScore,
     Expression<String>? notes,
+    Expression<String>? farmer,
+    Expression<String>? farm,
     Expression<bool>? isFavorite,
     Expression<String>? versionVector,
     Expression<bool>? isDeleted,
@@ -4325,6 +4386,8 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       if (roastLevel != null) 'roast_level': roastLevel,
       if (cuppingScore != null) 'cupping_score': cuppingScore,
       if (notes != null) 'notes': notes,
+      if (farmer != null) 'farmer': farmer,
+      if (farm != null) 'farm': farm,
       if (isFavorite != null) 'is_favorite': isFavorite,
       if (versionVector != null) 'version_vector': versionVector,
       if (isDeleted != null) 'is_deleted': isDeleted,
@@ -4348,6 +4411,8 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       Value<String?>? roastLevel,
       Value<double?>? cuppingScore,
       Value<String?>? notes,
+      Value<String?>? farmer,
+      Value<String?>? farm,
       Value<bool>? isFavorite,
       Value<String>? versionVector,
       Value<bool>? isDeleted,
@@ -4368,6 +4433,8 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       roastLevel: roastLevel ?? this.roastLevel,
       cuppingScore: cuppingScore ?? this.cuppingScore,
       notes: notes ?? this.notes,
+      farmer: farmer ?? this.farmer,
+      farm: farm ?? this.farm,
       isFavorite: isFavorite ?? this.isFavorite,
       versionVector: versionVector ?? this.versionVector,
       isDeleted: isDeleted ?? this.isDeleted,
@@ -4423,6 +4490,12 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     if (notes.present) {
       map['notes'] = Variable<String>(notes.value);
     }
+    if (farmer.present) {
+      map['farmer'] = Variable<String>(farmer.value);
+    }
+    if (farm.present) {
+      map['farm'] = Variable<String>(farm.value);
+    }
     if (isFavorite.present) {
       map['is_favorite'] = Variable<bool>(isFavorite.value);
     }
@@ -4456,6 +4529,8 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
           ..write('roastLevel: $roastLevel, ')
           ..write('cuppingScore: $cuppingScore, ')
           ..write('notes: $notes, ')
+          ..write('farmer: $farmer, ')
+          ..write('farm: $farm, ')
           ..write('isFavorite: $isFavorite, ')
           ..write('versionVector: $versionVector, ')
           ..write('isDeleted: $isDeleted, ')
@@ -8158,6 +8233,8 @@ typedef $$CoffeeBeansTableCreateCompanionBuilder = CoffeeBeansCompanion
   Value<String?> roastLevel,
   Value<double?> cuppingScore,
   Value<String?> notes,
+  Value<String?> farmer,
+  Value<String?> farm,
   Value<bool> isFavorite,
   required String versionVector,
   Value<bool> isDeleted,
@@ -8180,6 +8257,8 @@ typedef $$CoffeeBeansTableUpdateCompanionBuilder = CoffeeBeansCompanion
   Value<String?> roastLevel,
   Value<double?> cuppingScore,
   Value<String?> notes,
+  Value<String?> farmer,
+  Value<String?> farm,
   Value<bool> isFavorite,
   Value<String> versionVector,
   Value<bool> isDeleted,
@@ -8240,6 +8319,12 @@ class $$CoffeeBeansTableFilterComposer
 
   ColumnFilters<String> get notes => $composableBuilder(
       column: $table.notes, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get farmer => $composableBuilder(
+      column: $table.farmer, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get farm => $composableBuilder(
+      column: $table.farm, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<bool> get isFavorite => $composableBuilder(
       column: $table.isFavorite, builder: (column) => ColumnFilters(column));
@@ -8308,6 +8393,12 @@ class $$CoffeeBeansTableOrderingComposer
   ColumnOrderings<String> get notes => $composableBuilder(
       column: $table.notes, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get farmer => $composableBuilder(
+      column: $table.farmer, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get farm => $composableBuilder(
+      column: $table.farm, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<bool> get isFavorite => $composableBuilder(
       column: $table.isFavorite, builder: (column) => ColumnOrderings(column));
 
@@ -8373,6 +8464,12 @@ class $$CoffeeBeansTableAnnotationComposer
   GeneratedColumn<String> get notes =>
       $composableBuilder(column: $table.notes, builder: (column) => column);
 
+  GeneratedColumn<String> get farmer =>
+      $composableBuilder(column: $table.farmer, builder: (column) => column);
+
+  GeneratedColumn<String> get farm =>
+      $composableBuilder(column: $table.farm, builder: (column) => column);
+
   GeneratedColumn<bool> get isFavorite => $composableBuilder(
       column: $table.isFavorite, builder: (column) => column);
 
@@ -8421,6 +8518,8 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             Value<String?> roastLevel = const Value.absent(),
             Value<double?> cuppingScore = const Value.absent(),
             Value<String?> notes = const Value.absent(),
+            Value<String?> farmer = const Value.absent(),
+            Value<String?> farm = const Value.absent(),
             Value<bool> isFavorite = const Value.absent(),
             Value<String> versionVector = const Value.absent(),
             Value<bool> isDeleted = const Value.absent(),
@@ -8442,6 +8541,8 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             roastLevel: roastLevel,
             cuppingScore: cuppingScore,
             notes: notes,
+            farmer: farmer,
+            farm: farm,
             isFavorite: isFavorite,
             versionVector: versionVector,
             isDeleted: isDeleted,
@@ -8463,6 +8564,8 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             Value<String?> roastLevel = const Value.absent(),
             Value<double?> cuppingScore = const Value.absent(),
             Value<String?> notes = const Value.absent(),
+            Value<String?> farmer = const Value.absent(),
+            Value<String?> farm = const Value.absent(),
             Value<bool> isFavorite = const Value.absent(),
             required String versionVector,
             Value<bool> isDeleted = const Value.absent(),
@@ -8484,6 +8587,8 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             roastLevel: roastLevel,
             cuppingScore: cuppingScore,
             notes: notes,
+            farmer: farmer,
+            farm: farm,
             isFavorite: isFavorite,
             versionVector: versionVector,
             isDeleted: isDeleted,

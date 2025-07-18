@@ -522,6 +522,10 @@
   },
   "clearFilters": "Cancella filtri",
   "@clearFilters": {
-    "description": "Testo del pulsante per cancellare tutti i filtri attivi"
-  }
+    "description": "Button text to clear all active filters"
+  },
+  "farmer": "Agricoltore",
+  "farm": "Azienda agricola",
+  "enterFarmer": "Inserisci agricoltore (facoltativo)",
+  "enterFarm": "Inserisci azienda agricola (facoltativo)"
 }

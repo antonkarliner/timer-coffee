@@ -378,6 +378,10 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
             _buildDetailItem(context, loc.origin, bean.origin),
             if (bean.variety != null && bean.variety!.isNotEmpty)
               _buildDetailItem(context, loc.variety, bean.variety),
+            if (bean.farmer != null && bean.farmer!.isNotEmpty)
+              _buildDetailItem(context, loc.farmer, bean.farmer),
+            if (bean.farm != null && bean.farm!.isNotEmpty)
+              _buildDetailItem(context, loc.farm, bean.farm),
           ],
         ),
       ),

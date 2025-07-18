@@ -1199,4 +1199,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get clearFilters => 'Borrar filtros';
+
+  @override
+  String get farmer => 'Agricultor';
+
+  @override
+  String get farm => 'Finca';
+
+  @override
+  String get enterFarmer => 'Ingresar agricultor (opcional)';
+
+  @override
+  String get enterFarm => 'Ingresar finca (opcional)';
 }

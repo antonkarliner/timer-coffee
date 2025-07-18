@@ -522,6 +522,10 @@
   },
   "clearFilters": "Filter löschen",
   "@clearFilters": {
-    "description": "Schaltflächentext zum Löschen aller aktiven Filter"
-  }
+    "description": "Button text to clear all active filters"
+  },
+  "farmer": "Landwirt",
+  "farm": "Kaffeeplantage",
+  "enterFarmer": "Landwirt eingeben (optional)",
+  "enterFarm": "Kaffeeplantage eingeben (optional)"
 }

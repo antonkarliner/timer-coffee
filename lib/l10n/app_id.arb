@@ -523,5 +523,9 @@
   "clearFilters": "Bersihkan filter",
   "@clearFilters": {
     "description": "Teks tombol untuk membersihkan semua filter aktif"
-  }
+  },
+  "farmer": "Petani",
+  "farm": "Perkebunan kopi",
+  "enterFarmer": "Masukkan petani",
+  "enterFarm": "Masukkan perkebunan kopi"
 }

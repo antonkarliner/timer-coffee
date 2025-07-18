@@ -1186,4 +1186,16 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get clearFilters => 'Tyhjennä suodattimet';
+
+  @override
+  String get farmer => 'Viljelijä';
+
+  @override
+  String get farm => 'Kahvitila';
+
+  @override
+  String get enterFarmer => 'Syötä viljelijä';
+
+  @override
+  String get enterFarm => 'Syötä kahvitila';
 }

@@ -1160,7 +1160,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get account => 'Аккаунт';
 
   @override
-  String get settingsBrewingMethodsTitle => 'Home Screen Brewing Methods';
+  String get settingsBrewingMethodsTitle =>
+      'Методы заваривания на главном экране';
 
   @override
   String get filter => 'Фильтр';
@@ -1200,4 +1201,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clearFilters => 'Очистить фильтры';
+
+  @override
+  String get farmer => 'Фермер';
+
+  @override
+  String get farm => 'Кофейная ферма';
+
+  @override
+  String get enterFarmer => 'Введите фермера';
+
+  @override
+  String get enterFarm => 'Введите кофейную ферму';
 }

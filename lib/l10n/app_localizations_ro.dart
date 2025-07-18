@@ -1196,4 +1196,16 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get clearFilters => 'Șterge filtrele';
+
+  @override
+  String get farmer => 'Fermier';
+
+  @override
+  String get farm => 'Fermă de cafea';
+
+  @override
+  String get enterFarmer => 'Introduceți fermierul';
+
+  @override
+  String get enterFarm => 'Introduceți ferma de cafea';
 }
