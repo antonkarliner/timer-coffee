@@ -993,9 +993,23 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
           Provider.of<CoffeeBeansProvider>(context, listen: false);
       final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid);
 
+      if (bean == null) {
+        // Bean was deleted, clear the selection
+        await prefs.remove('selectedBeanUuid');
+        if (mounted) {
+          setState(() {
+            selectedBeanUuid = null;
+            selectedBeanName = null;
+            originalRoasterLogoUrl = null;
+            mirrorRoasterLogoUrl = null;
+          });
+        }
+        return;
+      }
+
       String? originalUrl;
       String? mirrorUrl;
-      if (bean != null && bean.roaster != null) {
+      if (bean.roaster != null) {
         if (!mounted) return; // Check mount status
         final databaseProvider =
             Provider.of<DatabaseProvider>(context, listen: false);
@@ -1008,7 +1022,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       if (mounted) {
         setState(() {
           selectedBeanUuid = uuid;
-          selectedBeanName = bean?.name;
+          selectedBeanName = bean.name;
           originalRoasterLogoUrl = originalUrl;
           mirrorRoasterLogoUrl = mirrorUrl;
         });
@@ -1697,7 +1711,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
                               const SizedBox(width: 8),
                             Flexible(
                               child: Text(
-                                selectedBeanName!,
+                                selectedBeanName ?? '',
                                 style: Theme.of(context).textTheme.bodyMedium,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center,

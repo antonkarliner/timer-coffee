@@ -98,17 +98,27 @@ class CoffeeBeansProvider with ChangeNotifier {
       throw Exception('Coffee beans not found');
     }
 
-    final currentVector = VersionVector.fromString(currentBeans.versionVector);
-    final newVector = currentVector.increment();
+    // Perform the deletion and detachment in a transaction
+    final updatedBeans = await db.transaction(() async {
+      // First, detach the coffee bean from all user stats
+      await db.userStatsDao.detachCoffeeBeanFromStats(beansUuid);
 
-    // Create an updated beans record with isDeleted set to true and the new version vector
-    final updatedBeans = currentBeans.copyWith(
-      isDeleted: true, // Mark as deleted
-      versionVector: newVector.toString(),
-    );
+      // Then, mark the bean as deleted
+      final currentVector =
+          VersionVector.fromString(currentBeans.versionVector);
+      final newVector = currentVector.increment();
 
-    // Update the beans locally (to mark it as deleted)
-    await db.coffeeBeansDao.updateCoffeeBeans(updatedBeans);
+      // Create an updated beans record with isDeleted set to true and the new version vector
+      final updatedBeans = currentBeans.copyWith(
+        isDeleted: true, // Mark as deleted
+        versionVector: newVector.toString(),
+      );
+
+      // Update the beans locally (to mark it as deleted)
+      await db.coffeeBeansDao.updateCoffeeBeans(updatedBeans);
+
+      return updatedBeans;
+    });
 
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null && !user.isAnonymous) {

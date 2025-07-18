@@ -240,4 +240,12 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     final results = await query.get();
     return results.map(_userStatFromRow).toList();
   }
+
+  Future<void> detachCoffeeBeanFromStats(String beansUuid) async {
+    await (update(userStats)
+          ..where((tbl) => tbl.coffeeBeansUuid.equals(beansUuid)))
+        .write(UserStatsCompanion(
+      coffeeBeansUuid: const Value(null),
+    ));
+  }
 }
