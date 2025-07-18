@@ -1,0 +1,2 @@
++ Sie können jetzt Informationen über die Farm, auf der der Kaffee angebaut wurde, oder den Bauern, der ihn angebaut hat, in den Bohnenaufzeichnungen festhalten.  
++ Ein Fehler wurde behoben, der beim Löschen von Bohnenaufzeichnungen zu Fehlern führte.

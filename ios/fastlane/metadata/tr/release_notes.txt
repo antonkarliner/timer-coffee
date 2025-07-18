@@ -1,3 +1,2 @@
-+ Yeni uygulama simgesi! Eski simgeyi sevdiyseniz endişelenmeyin – ayarlardan her zaman geri dönebilirsiniz.
-+ Birçok ekranda arayüz güncellemeleri.
-+ İstatistikler artık Hesap ekranında.
++ Artık çekirdek kayıtlarında kahvenin yetiştirildiği çiftlik veya yetiştiren çiftçi hakkında bilgi kaydedebilirsiniz.  
++ Çekirdek kaydı silinirken hatalara neden olan bir hata düzeltildi.

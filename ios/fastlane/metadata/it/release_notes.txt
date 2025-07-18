@@ -1,3 +1,2 @@
-+ Nuova icona dell’app! Non preoccuparti se preferivi quella vecchia: puoi sempre tornare indietro dalle impostazioni.
-+ Aggiornamenti dell’interfaccia utente su diverse schermate.
-+ Le statistiche ora si trovano nella schermata Account.
++ Ora puoi registrare informazioni sulla fattoria dove è stato coltivato il caffè (o sull'agricoltore che lo ha coltivato) nei registri dei chicchi.  
++ Risolto un bug che causava errori durante l'eliminazione del registro dei chicchi.

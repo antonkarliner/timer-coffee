@@ -1,3 +1,2 @@
-+ Ikon aplikasi baru! Jangan khawatir jika kamu lebih suka yang lama – kamu selalu bisa menggantinya kembali di pengaturan.
-+ Pembaruan tampilan untuk berbagai layar.
-+ Statistik sekarang ada di layar Akun.
++ Sekarang Anda dapat mencatat informasi tentang Kebun tempat kopi ditanam (atau Petani yang menanamnya) dalam catatan biji kopi.
++ Memperbaiki bug yang menyebabkan kesalahan saat menghapus catatan biji kopi.

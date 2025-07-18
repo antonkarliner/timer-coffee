@@ -1,0 +1,3 @@
++ Agora pode registar informações sobre a quinta onde o café foi cultivado (ou o agricultor que o cultivou) nos registos de grãos.
+
++ Corrigido um erro que causava problemas ao eliminar um registo de grãos.

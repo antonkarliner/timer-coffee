@@ -1,3 +1,2 @@
-+ Nieuw app-pictogram! Geen zorgen als je het oude mooier vond – je kunt altijd terugschakelen in de instellingen.
-+ UI-updates voor diverse schermen.
-+ Statistieken zijn nu te vinden op het Account-scherm.
++ Je kunt nu informatie over de boerderij waar de koffie werd verbouwd (of de boer die het verbouwde) vastleggen in de bonenrecords.
++ Een bug opgelost die fouten veroorzaakte bij het verwijderen van een bonenrecord.

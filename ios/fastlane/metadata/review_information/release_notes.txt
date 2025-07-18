@@ -1,3 +1,2 @@
-+ New app icon! Don't worry if you preferred the classic one—you can always switch back in settings.
-+ Updated interface across several screens.
-+ Brew stats have moved to the Account screen.
++ Ahora puedes registrar información sobre la Finca donde se cultivó el café (o el Agricultor que lo cultivó) en los registros de granos.
++ Se corrigió un error que causaba problemas al eliminar un registro de granos.

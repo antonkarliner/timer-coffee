@@ -1,3 +1,2 @@
-+ ¡Nuevo ícono de la app! No te preocupes si te gustaba el anterior: siempre puedes volver a cambiarlo en la configuración.
-+ Actualizaciones de la interfaz en varias pantallas.
-+ Las estadísticas ahora se encuentran en la pantalla de Cuenta.
++ Ahora puedes registrar información sobre la finca donde se cultivó el café (o el agricultor que lo cultivó) en los registros de granos.
++ Se corrigió un error que causaba problemas al eliminar un registro de granos.

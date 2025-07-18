@@ -1,0 +1,3 @@
++ Sekarang Anda dapat mencatat informasi tentang Kebun tempat kopi ditanam (atau Petani yang menanamnya) dalam catatan biji.
+
++ Memperbaiki bug yang menyebabkan kesalahan saat menghapus catatan biji.

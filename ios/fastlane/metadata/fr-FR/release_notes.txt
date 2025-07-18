@@ -1,3 +1,2 @@
-+ Nouvelle icône pour l’application ! Pas d’inquiétude si vous préfériez l’ancienne – vous pouvez toujours la réactiver dans les paramètres.
-+ Mise à jour de l’interface sur de nombreux écrans.
-+ Les statistiques sont désormais disponibles dans l’écran Compte.
++ Vous pouvez désormais enregistrer des informations sur la ferme où le café a été cultivé (ou sur l'agriculteur qui l'a cultivé) dans les enregistrements de grains.  
++ Correction d'un bug qui provoquait des erreurs lors de la suppression d'un enregistrement de grains.

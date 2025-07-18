@@ -1,0 +1,3 @@
++ You can now record information about Farm where coffee was grown (or Farmer who grew it) in bean records.
+
++ Fixed a bug which caused errors when deleting bean record.

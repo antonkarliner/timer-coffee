@@ -1,0 +1,2 @@
++ Je kunt nu informatie over de boerderij waar de koffie is verbouwd (of de boer die het heeft verbouwd) vastleggen in de bonenrecords.  
++ Een bug verholpen die fouten veroorzaakte bij het verwijderen van een bonenrecord.

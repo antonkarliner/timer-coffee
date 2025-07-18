@@ -1,3 +1,2 @@
-+ Neues App-Symbol! Keine Sorge, wenn dir das alte besser gefallen hat – du kannst jederzeit in den Einstellungen zurückwechseln.
-+ UI-Updates für zahlreiche Ansichten.
-+ Statistiken befinden sich jetzt im Account-Bildschirm.
++ Sie können jetzt Informationen über die Farm, auf der der Kaffee angebaut wurde (oder den Bauern, der ihn angebaut hat), in den Bohnenaufzeichnungen erfassen.  
++ Ein Fehler wurde behoben, der beim Löschen von Bohnenaufzeichnungen zu Fehlern führte.
