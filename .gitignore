@@ -1,4 +1,9 @@
 # Miscellaneous
+*.py
+# Python virtual environments
+.venv/
+venv/
+env/
 *.class
 *.log
 *.pyc
@@ -81,5 +86,6 @@ memory-bank/progress.md
 memory-bank/projectbrief.md
 memory-bank/systemPatterns.md
 memory-bank/techContext.md
+requirements.txt
 generate_legacy_icons.sh
 icons_launcher.yaml
