@@ -2,7 +2,7 @@
 
 [<img src="https://www.timer.coffee/assets/images/app-store-badge.webp" width="27%">](https://apple.co/42WfmtI) [<img src="https://www.timer.coffee/assets/images/google-play-badge.webp" width="30%">](https://play.google.com/store/apps/details?id=com.coffee.timer) [<img src="https://i.imgur.com/mb4ryMc.png" width="30%">](https://app.timer.coffee)
 
-**Timer.Coffee now speaks 16 languages! Supported languages are: English, Spanish, Portuguese, German, French, Russian, Polish, Arabic, Chinese, Japanese, Indonesian, Turkish, Italian, Dutch, Romanian and Ukranian.**
+**Timer.Coffee now speaks 18 languages! Supported languages are: English, Spanish, Portuguese, German, French, Russian, Polish, Arabic, Chinese, Japanese, Indonesian, Turkish, Italian, Dutch, Romanian, Ukranian, Finish and Farsi.**
 
 Timer.Coffee is a free and open source app which can help you to brew great coffee. Currently supported brewing techniques are: Hario V60, Aeropress, Chemex, French Press, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper. The app features more than 30 recipes with more on the way.
 
