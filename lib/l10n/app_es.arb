@@ -527,5 +527,9 @@
   "farmer": "Agricultor",
   "farm": "Finca",
   "enterFarmer": "Ingresar agricultor (opcional)",
-  "enterFarm": "Ingresar finca (opcional)"
+  "enterFarm": "Ingresar finca (opcional)",
+  "requiredInformation": "Información necesaria",
+  "basicDetails": "Datos básicos",
+  "qualityMeasurements": "Medidas de calidad",
+  "importantDates": "Fechas importantes"
 }

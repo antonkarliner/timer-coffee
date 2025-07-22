@@ -527,5 +527,9 @@
   "farmer": "Çiftçi",
   "farm": "Kahve çiftliği",
   "enterFarmer": "Çiftçiyi girin",
-  "enterFarm": "Kahve çiftliğini girin"
+  "enterFarm": "Kahve çiftliğini girin",
+  "requiredInformation": "Gerekli bilgiler",
+  "basicDetails": "Temel bilgiler",
+  "qualityMeasurements": "Kalite ölçümleri",
+  "importantDates": "Önemli tarihler"
 }

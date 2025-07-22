@@ -4,7 +4,8 @@
   "description": "[<img src=\"https://www.timer.coffee/images/app-store-badge.png\" width=\"27%\">](https://apple.co/42WfmtI) [<img src=\"https://www.timer.coffee/images/google-play-badge.png\" width=\"30%\">](https://play.google.com/store/apps/details?id=com.coffee.timer) [<img src=\"https://www.timer.coffee/images/web-app-badge.png\" width=\"30%\">](https://app.timer.coffee)",
   "main": "index.js",
   "directories": {
-    "lib": "lib"
+    "lib": "lib",
+    "test": "test"
   },
   "scripts": {
     "preinstall": "npm install cheerio",
@@ -16,6 +17,15 @@
   "license": "ISC",
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
-    "cheerio": "^1.0.0-rc.12"
-  }
+    "cheerio": "^1.0.0-rc.12",
+    "deepl-mcp-server": "^0.1.3-beta.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonkarliner/timer-coffee.git"
+  },
+  "bugs": {
+    "url": "https://github.com/antonkarliner/timer-coffee/issues"
+  },
+  "homepage": "https://github.com/antonkarliner/timer-coffee#readme"
 }

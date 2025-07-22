@@ -18,8 +18,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get author => 'نویسنده';
 
   @override
-  String get authortext =>
-      'اپلیکیشن Timer.Coffee توسط آنتون کارلینر، علاقه‌مند به قهوه، متخصص رسانه و عکاس خبری ساخته شده است. امیدوارم این برنامه به شما کمک کند از قهوه لذت ببرید. خوشحال می‌شوم اگر در گیت‌هاب مشارکت کنید.';
+  String get authortext => 'اپلیکیشن Timer.Coffee توسط آنتون کارلینر، علاقه‌مند به قهوه، متخصص رسانه و عکاس خبری ساخته شده است. امیدوارم این برنامه به شما کمک کند از قهوه لذت ببرید. خوشحال می‌شوم اگر در گیت‌هاب مشارکت کنید.';
 
   @override
   String get contributors => 'مشارکت‌کنندگان';
@@ -31,8 +30,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get license => 'مجوز';
 
   @override
-  String get licensetext =>
-      'این برنامه یک نرم‌افزار آزاد است؛ شما می‌توانید آن را تحت شرایط مجوز عمومی همگانی گنو نسخه ۳ یا نسخه‌های بعدی (به انتخاب خودتان)، بازتوزیع یا تغییر دهید.';
+  String get licensetext => 'این برنامه یک نرم‌افزار آزاد است؛ شما می‌توانید آن را تحت شرایط مجوز عمومی همگانی گنو نسخه ۳ یا نسخه‌های بعدی (به انتخاب خودتان)، بازتوزیع یا تغییر دهید.';
 
   @override
   String get licensebutton => 'خواندن مجوز عمومی همگانی گنو نسخه ۳';
@@ -71,8 +69,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get recipesummary => 'خلاصه دستور';
 
   @override
-  String get recipesummarynote =>
-      'نکته: این یک دستور پایه با مقادیر پیش‌فرض آب و قهوه است.';
+  String get recipesummarynote => 'نکته: این یک دستور پایه با مقادیر پیش‌فرض آب و قهوه است.';
 
   @override
   String get preparation => 'آماده‌سازی';
@@ -96,8 +93,7 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
-  String get finishmsg =>
-      'از استفاده از Timer.Coffee متشکریم! قهوه‌تان نوش جان';
+  String get finishmsg => 'از استفاده از Timer.Coffee متشکریم! قهوه‌تان نوش جان';
 
   @override
   String get coffeefact => 'دانستنی قهوه';
@@ -121,8 +117,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get supportdevelopment => 'حمایت از توسعه';
 
   @override
-  String get supportdevmsg =>
-      'کمک‌های شما هزینه نگهداری سرورها را پوشش می‌دهد، امکان افزودن دستگاه‌های دم‌آوری بیشتر و اضافه کردن دستورهای جدید به برنامه را فراهم می‌کند.';
+  String get supportdevmsg => 'کمک‌های شما هزینه نگهداری سرورها را پوشش می‌دهد، امکان افزودن دستگاه‌های دم‌آوری بیشتر و اضافه کردن دستورهای جدید به برنامه را فراهم می‌کند.';
 
   @override
   String get supportdevtnx => 'ممنون که به کمک فکر می‌کنید!';
@@ -131,8 +126,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get donationok => 'متشکرم!';
 
   @override
-  String get donationtnx =>
-      'از حمایت‌تان بسیار متشکرم! آرزوی دم‌آوری‌های عالی برای شما دارم! ☕️';
+  String get donationtnx => 'از حمایت‌تان بسیار متشکرم! آرزوی دم‌آوری‌های عالی برای شما دارم! ☕️';
 
   @override
   String get donationerr => 'خطا';
@@ -250,7 +244,7 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String error(Object error) {
-    return 'خطا: $error';
+    return 'خطا';
   }
 
   @override
@@ -313,8 +307,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get confirmDeleteTitle => 'حذف ورودی؟';
 
   @override
-  String get confirmDeleteMessage =>
-      'آیا مطمئنید که می‌خواهید این ورودی را حذف کنید؟ این عمل قابل بازگشت نیست.';
+  String get confirmDeleteMessage => 'آیا مطمئنید که می‌خواهید این ورودی را حذف کنید؟ این عمل قابل بازگشت نیست.';
 
   @override
   String get removeFavorite => 'حذف از محبوب‌ها';
@@ -389,8 +382,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get pleaseNote => 'لطفاً توجه کنید';
 
   @override
-  String get firstTimePopupMessage =>
-      '۱. ما برای پردازش تصاویر از سرویس‌های خارجی استفاده می‌کنیم. با ادامه کار، موافقت می‌کنید که تصاویر شما به این سرویس‌ها ارسال شود.\n۲. در حال حاضر محدودیت ۵ تصویر در ماه وجود دارد (۱ توکن = ۱ تصویر). این محدودیت ممکن است در آینده تغییر کند.';
+  String get firstTimePopupMessage => '۱. ما برای پردازش تصاویر از سرویس‌های خارجی استفاده می‌کنیم. با ادامه کار، موافقت می‌کنید که تصاویر شما به این سرویس‌ها ارسال شود.\n۲. در حال حاضر محدودیت ۵ تصویر در ماه وجود دارد (۱ توکن = ۱ تصویر). این محدودیت ممکن است در آینده تغییر کند.';
 
   @override
   String get ok => 'باشه';
@@ -594,8 +586,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get deleteAccount => 'حذف حساب';
 
   @override
-  String get deleteAccountWarning =>
-      'لطفاً توجه کنید: اگر ادامه دهید، حساب شما حذف می‌شود. برای فعال‌سازی همگام‌سازی دوباره باید حساب جدید بسازید.';
+  String get deleteAccountWarning => 'لطفاً توجه کنید: اگر ادامه دهید، حساب شما حذف می‌شود. برای فعال‌سازی همگام‌سازی دوباره باید حساب جدید بسازید.';
 
   @override
   String get deleteAccountConfirmation => 'حساب با موفقیت حذف شد';
@@ -646,8 +637,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get yearlyStatsAppBarTitle => 'آمار سال ۲۰۲۴';
 
   @override
-  String get yearlyStatsStory1Text =>
-      'سلام!\nبیایید نگاهی بیندازیم به سال قهوه‌ای شما ☕️';
+  String get yearlyStatsStory1Text => 'سلام!\nبیایید نگاهی بیندازیم به سال قهوه‌ای شما ☕️';
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
@@ -683,8 +673,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get yearlyStatsStory7Part1 => 'شما طعم‌های جدیدی را امتحان کردید و';
 
   @override
-  String get yearlyStatsStory7Part2 =>
-      '...اما با کاربران از 110 کشور دیگر\nدر 6 قاره!';
+  String get yearlyStatsStory7Part2 => '...اما با کاربران از 110 کشور دیگر\nدر 6 قاره!';
 
   @override
   String yearlyStatsStory8TitleLow(Object count) {
@@ -735,12 +724,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get yearlyStatsShareProgressMyYear => 'در حال آماده‌سازی «سال من»...';
 
   @override
-  String get yearlyStatsShareProgressTop3Recipes =>
-      'در حال آماده‌سازی سه دستور برتر...';
+  String get yearlyStatsShareProgressTop3Recipes => 'در حال آماده‌سازی سه دستور برتر...';
 
   @override
-  String get yearlyStatsShareProgressTop3Roasters =>
-      'در حال آماده‌سازی سه رستر برتر...';
+  String get yearlyStatsShareProgressTop3Roasters => 'در حال آماده‌سازی سه رستر برتر...';
 
   @override
   String get yearlyStatsFailedToLike => 'خطا در ثبت پسندیدن';
@@ -847,12 +834,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get recipeCreationScreenRecipeNameValidator => 'نام دستور لازم است';
 
   @override
-  String get recipeCreationScreenShortDescriptionValidator =>
-      'توضیح کوتاه لازم است';
+  String get recipeCreationScreenShortDescriptionValidator => 'توضیح کوتاه لازم است';
 
   @override
-  String get recipeCreationScreenBrewingMethodValidator =>
-      'روش دم انتخاب نشده است';
+  String get recipeCreationScreenBrewingMethodValidator => 'روش دم انتخاب نشده است';
 
   @override
   String get recipeCreationScreenRequiredValidator => 'این فیلد الزامی است';
@@ -861,8 +846,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get recipeCreationScreenInvalidNumberValidator => 'عدد نامعتبر';
 
   @override
-  String get recipeCreationScreenStepDescriptionValidator =>
-      'توضیح مرحله لازم است';
+  String get recipeCreationScreenStepDescriptionValidator => 'توضیح مرحله لازم است';
 
   @override
   String get recipeCreationScreenContinueButton => 'ادامه';
@@ -943,8 +927,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get unknownBrewingMethod => 'روش دم ناشناخته';
 
   @override
-  String get recipeCopyErrorLoadingEdit =>
-      'بارگذاری دستور کپی‌شده برای ویرایش ناموفق بود.';
+  String get recipeCopyErrorLoadingEdit => 'بارگذاری دستور کپی‌شده برای ویرایش ناموفق بود.';
 
   @override
   String get recipeCopyErrorOperationFailed => 'عملیات ناموفق بود.';
@@ -962,8 +945,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get recipeImportFailedSave => 'ذخیره دستور واردشده ناموفق بود.';
 
   @override
-  String get recipeImportFailedFetch =>
-      'دریافت اطلاعات دستور برای وارد کردن ناموفق بود.';
+  String get recipeImportFailedFetch => 'دریافت اطلاعات دستور برای وارد کردن ناموفق بود.';
 
   @override
   String get recipeNotImported => 'دستور وارد نشد.';
@@ -1017,8 +999,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get signInRequiredTitle => 'ورود لازم است';
 
   @override
-  String get signInRequiredBodyShare =>
-      'برای اشتراک‌گذاری باید ابتدا وارد شوید.';
+  String get signInRequiredBodyShare => 'برای اشتراک‌گذاری باید ابتدا وارد شوید.';
 
   @override
   String get syncSuccess => 'همگام‌سازی موفق';
@@ -1036,8 +1017,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get signInRequiredSnackbar => 'برای ادامه باید وارد شوید';
 
   @override
-  String get moderationErrorFunction =>
-      'در فراخوانی ماژول پالایش محتوا خطا رخ داد';
+  String get moderationErrorFunction => 'در فراخوانی ماژول پالایش محتوا خطا رخ داد';
 
   @override
   String get moderationReasonDefault => 'محتوا با خط‌مشی مطابقت نداشت';
@@ -1061,8 +1041,7 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
-  String get saveLocallyCheckLater =>
-      'به صورت محلی ذخیره شد. بعداً دوباره بررسی کنید.';
+  String get saveLocallyCheckLater => 'به صورت محلی ذخیره شد. بعداً دوباره بررسی کنید.';
 
   @override
   String get saveLocallyModerationFailedTitle => 'ذخیره محلی ناموفق';
@@ -1076,8 +1055,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get editImportedRecipeTitle => 'ویرایش دستور واردشده';
 
   @override
-  String get editImportedRecipeBody =>
-      'این دستور وارد شده است. آیا می‌خواهید نسخه‌ای کپی کنید و ویرایش کنید؟';
+  String get editImportedRecipeBody => 'این دستور وارد شده است. آیا می‌خواهید نسخه‌ای کپی کنید و ویرایش کنید؟';
 
   @override
   String get editImportedRecipeButtonCopy => 'کپی و ویرایش';
@@ -1095,12 +1073,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get displayNameEmptyError => 'نام نمایشی خالی است';
 
   @override
-  String get displayNameTooLongError =>
-      'نام نمایشی نمی‌تواند بیش از ۵۰ نویسه باشد';
+  String get displayNameTooLongError => 'نام نمایشی نمی‌تواند بیش از ۵۰ نویسه باشد';
 
   @override
-  String get errorUserNotLoggedIn =>
-      'کاربر وارد نشده است. لطفاً دوباره وارد شوید.';
+  String get errorUserNotLoggedIn => 'کاربر وارد نشده است. لطفاً دوباره وارد شوید.';
 
   @override
   String get displayNameUpdateSuccess => 'نام نمایشی با موفقیت به‌روز شد!';
@@ -1114,8 +1090,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get deletePictureConfirmationTitle => 'حذف تصویر؟';
 
   @override
-  String get deletePictureConfirmationBody =>
-      'آیا مطمئنید که می‌خواهید تصویر پروفایل خود را حذف کنید؟';
+  String get deletePictureConfirmationBody => 'آیا مطمئنید که می‌خواهید تصویر پروفایل خود را حذف کنید؟';
 
   @override
   String get deletePictureSuccess => 'تصویر پروفایل حذف شد.';
@@ -1149,34 +1124,34 @@ class AppLocalizationsFa extends AppLocalizations {
   String get sortBy => 'مرتب‌سازی بر اساس';
 
   @override
-  String get dateAdded => 'تاریخ اضافه‌شدن';
+  String get dateAdded => 'تاریخ افزوده‌شدن';
 
   @override
-  String get secondsAbbreviation => 'ث.';
+  String get secondsAbbreviation => 'ث';
 
   @override
-  String get settingsAppIcon => 'نماد برنامه';
+  String get settingsAppIcon => 'آیکون برنامه';
 
   @override
-  String get settingsAppIconDefault => 'پیش فرض';
+  String get settingsAppIconDefault => 'پیش‌فرض';
 
   @override
   String get settingsAppIconLegacy => 'قدیمی';
 
   @override
-  String get searchBeans => 'جستجوی دانه‌ها...';
+  String get searchBeans => 'جستجوی دانه‌ها';
 
   @override
-  String get favorites => 'مورد علاقه‌ها';
+  String get favorites => 'موردعلاقه‌ها';
 
   @override
-  String get searchPrefix => 'جستجو: ';
+  String get searchPrefix => 'جستجو';
 
   @override
   String get clearAll => 'پاک کردن همه';
 
   @override
-  String get noBeansMatchSearch => 'هیچ دانه‌ای با جستجوی شما مطابقت ندارد';
+  String get noBeansMatchSearch => 'هیچ دانه‌ای با جستجو مطابقت ندارد';
 
   @override
   String get clearFilters => 'پاک کردن فیلترها';
@@ -1185,11 +1160,23 @@ class AppLocalizationsFa extends AppLocalizations {
   String get farmer => 'کشاورز';
 
   @override
-  String get farm => 'مزرعه قهوه';
+  String get farm => 'مزرعه';
 
   @override
-  String get enterFarmer => 'کشاورز را وارد کنید';
+  String get enterFarmer => 'نام کشاورز را وارد کنید';
 
   @override
-  String get enterFarm => 'مزرعه قهوه را وارد کنید';
+  String get enterFarm => 'نام مزرعه را وارد کنید';
+
+  @override
+  String get requiredInformation => 'اطلاعات الزامی';
+
+  @override
+  String get basicDetails => 'جزئیات پایه';
+
+  @override
+  String get qualityMeasurements => 'اندازه‌گیری‌های کیفیت';
+
+  @override
+  String get importantDates => 'تاریخ‌های مهم';
 }

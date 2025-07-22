@@ -527,5 +527,9 @@
   "farmer": "Фермер",
   "farm": "Кофейная ферма",
   "enterFarmer": "Введите фермера",
-  "enterFarm": "Введите кофейную ферму"
+  "enterFarm": "Введите кофейную ферму",
+  "requiredInformation": "Необходимая информация",
+  "basicDetails": "Основные детали",
+  "qualityMeasurements": "Качество и измерения",
+  "importantDates": "Важные даты"
 }

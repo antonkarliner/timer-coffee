@@ -28,7 +28,9 @@
   "@seconds": {
     "description": "Pluralization for seconds",
     "placeholders": {
-      "count": {}
+      "count": {
+        "type": "num"
+      }
     }
   },
   "finishmsg": "از استفاده از Timer.Coffee متشکریم! قهوه‌تان نوش جان",
@@ -81,7 +83,10 @@
   "globalStats": "آمار جهانی",
   "unknownRecipe": "دستور ناشناخته",
   "noData": "داده‌ای وجود ندارد",
-  "error": "خطا: {error}",
+  "error": "خطا",
+  "@error": {
+    "type": "Object"
+  },
   "someoneJustBrewed": "کسی همین الان {recipeName} را دم کرد",
   "timePeriodToday": "امروز",
   "timePeriodThisWeek": "این هفته",
@@ -206,6 +211,10 @@
   "all": "همه",
   "selectRoaster": "انتخاب رستر",
   "selectOrigin": "انتخاب مبدا",
+  "requiredInformation": "اطلاعات الزامی",
+  "basicDetails": "جزئیات پایه",
+  "qualityMeasurements": "اندازه‌گیری‌های کیفیت",
+  "importantDates": "تاریخ‌های مهم",
   "resetFilters": "ریست فیلترها",
   "showFavoritesOnly": "فقط موارد محبوب",
   "apply": "اعمال",
@@ -225,7 +234,9 @@
   "@yearlyStatsStory2Text": {
     "description": "Introduction to total coffee brewed with ellipsis indicating continuation",
     "placeholders": {
-      "ellipsis": {}
+      "ellipsis": {
+        "type": "Object"
+      }
     }
   },
   "yearlyStatsStory3Text": "دقیق‌تر بگوییم،\nشما {liters} لیتر قهوه در ۲۰۲۴ دم کردید!",
@@ -233,6 +244,7 @@
     "description": "Detailed coffee brewed amount in liters",
     "placeholders": {
       "liters": {
+        "type": "Object",
         "example": "10.5"
       }
     }
@@ -242,6 +254,7 @@
     "description": "Statement about the number of distinct roasters used",
     "placeholders": {
       "roasterCount": {
+        "type": "Object",
         "example": "5"
       }
     }
@@ -251,6 +264,7 @@
     "description": "List of top 3 roasters used",
     "placeholders": {
       "top3": {
+        "type": "Object",
         "example": "Roaster A, Roaster B, Roaster C"
       }
     }
@@ -259,7 +273,9 @@
   "@yearlyStatsStory5Text": {
     "description": "Statement about traveling with coffee, ending with ellipsis",
     "placeholders": {
-      "ellipsis": {}
+      "ellipsis": {
+        "type": "Object"
+      }
     }
   },
   "yearlyStatsStory6Text": "شما دانه‌های قهوه از {originCount} کشور چشیدید!",
@@ -267,6 +283,7 @@
     "description": "Statement about the number of distinct origins",
     "placeholders": {
       "originCount": {
+        "type": "Object",
         "example": "10"
       }
     }
@@ -281,6 +298,7 @@
     "description": "Title for low number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "Object",
         "example": "3"
       }
     }
@@ -290,6 +308,7 @@
     "description": "Title for medium number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "Object",
         "example": "5"
       }
     }
@@ -299,6 +318,7 @@
     "description": "Title for high number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "Object",
         "example": "8"
       }
     }
@@ -311,7 +331,9 @@
   "@yearlyStatsStory10Text": {
     "description": "Statement about top-3 recipes with ellipsis",
     "placeholders": {
-      "ellipsis": {}
+      "ellipsis": {
+        "type": "Object"
+      }
     }
   },
   "yearlyStatsFinalText": "به خاطر یک سال عالی قهوه سپاسگزاریم!",
@@ -323,6 +345,7 @@
     "description": "Button text for showing love with likes count",
     "placeholders": {
       "likesCount": {
+        "type": "Object",
         "example": "120"
       }
     }
@@ -344,6 +367,7 @@
     "description": "Error message when sharing fails",
     "placeholders": {
       "error": {
+        "type": "Object",
         "example": "Network error"
       }
     }
@@ -473,13 +497,17 @@
   "errorSyncingData": "خطا در همگام‌سازی داده: {error}",
   "@errorSyncingData": {
     "placeholders": {
-      "error": {}
+      "error": {
+        "type": "Object"
+      }
     }
   },
   "errorSigningOut": "خطا در خروج: {error}",
   "@errorSigningOut": {
     "placeholders": {
-      "error": {}
+      "error": {
+        "type": "Object"
+      }
     }
   },
   "defaultPreparationStepDescription": "آماده‌سازی تجهیزات",
@@ -488,14 +516,18 @@
   "recipeDeleteError": "حذف دستور ناموفق بود: {error}",
   "@recipeDeleteError": {
     "placeholders": {
-      "error": {}
+      "error": {
+        "type": "Object"
+      }
     }
   },
   "noRecipesFound": "هیچ دستوری یافت نشد",
   "recipeLoadError": "خطا در بارگذاری دستور: {error}",
   "@recipeLoadError": {
     "placeholders": {
-      "error": {}
+      "error": {
+        "type": "Object"
+      }
     }
   },
   "unknownBrewingMethod": "روش دم ناشناخته",
@@ -650,117 +682,20 @@
   "@filter": {
     "description": "Label for the filter button in the coffee beans screen"
   },
-  "secondsAbbreviation": "ث.",
-  "clearall": "همه را پاک کن",
-  "savechanges": "ذخیره‌ی تغییرات",
-  "deleteselected": "حذف انتخاب‌ها",
-  "retry": "دوباره تلاش کن",
-  "warning": "اخطار",
-  "exportSuccess": "{count} دستور با موفقیت برون‌ریزی شد",
-  "importSuccess": "{count} دستور با موفقیت درون‌ریزی شد",
-  "importFailed": "درون‌ریزی دستورها ناموفق بود",
-  "exportFailed": "برون‌ریزی دستورها ناموفق بود",
-  "yearStatsStory2": "{users} کاربر از {countries} کشور، {beans} نوع قهوه از {roasters} رستر دم کرده‌اند",
-  "yearStatsStory6": "در سراسر {continents} قاره مختلف",
-  "yearStatsStory7": "اما کاربران از ۱۱۰ کشور دیگر و در ۶ قاره!",
-  "addfavorite": "افزودن به مواردعلاقه‌مندی",
-  "removefavorite": "حذف از مواردعلاقه‌مندی",
-  "notePlaceholder": "افزودن نکته (اختیاری)",
-  "editNote": "ویرایش نکته",
-  "deleteNote": "حذف نکته",
-  "addStep": "اضافه کردن مرحله",
-  "deleteStep": "حذف این مرحله",
-  "addIngredient": "افزودن مواد اولیه",
-  "deleteIngredient": "حذف مواد اولیه",
-  "editIngredient": "ویرایش مواد اولیه",
-  "ingredientTitle": "مواد اولیه {number}",
-  "grindSetting": "درجه آسیاب",
-  "grindSize": "درجه آسیاب",
-  "grind": "آسیاب",
-  "pauseTimer": "مکث زمان‌سنج",
-  "confirmDeleteRecipe": "حذف این دستور را تایید می‌کنید؟",
-  "confirmDeleteAllRecipes": "حذف همه دستورها را تایید می‌کنید؟",
-  "confirmRestoreRecipe": "بازیابی این دستور را تایید می‌کنید؟",
-  "confirmSignOut": "خروج را تایید می‌کنید؟",
-  "confirmCancelEdit": "تغییرات را لغو می‌کنید؟",
-  "confirmExit": "خروج از برنامه را تایید می‌کنید؟",
-  "confirmRemoveFavorite": "حذف از مواردعلاقه‌مندی؟",
-  "confirmRemove": "حذف شود؟",
-  "confirmResetSettings": "تنظیمات به حالت پیش‌فرض بازنشانی شود؟",
-  "errorTimeout": "اتصال با خطای زمان مواجه شد",
-  "errorPermission": "اجازه داده نشد",
-  "errorExport": "خطا در برون‌ریزی",
-  "errorImport": "خطا در درون‌ریزی",
-  "confirmDeleteIngredient": "حذف این مواد اولیه؟",
-  "confirmDeleteNote": "حذف این نکته؟",
-  "confirmClearNote": "پاک کردن نکته؟",
-  "actionUndo": "برگشت",
-  "actionRedo": "دوباره انجام بده",
-  "copyLink": "کپی لینک",
-  "stepInstructions": "راهنما",
-  "addFirstIngredient": "اولین مواد اولیه را اضافه کنید!",
-  "noIngredients": "هنوز هیچ مواد اولیه‌ای اضافه نشده است",
-  "addFirstNote": "اولین نکته را اضافه کنید!",
-  "noNotes": "هنوز هیچ نکته‌ای اضافه نشده است",
-  "cloneRecipe": "تکثیر دستور",
-  "removeFavoriteRecipe": "حذف از دستورهای موردعلاقه‌مندی",
-  "feedbackHint": "نظرات خود را برای بهبود برنامه بنویسید",
-  "feedbackSent": "نظر شما ارسال شد",
-  "feedbackError": "ارسال نظر ناموفق بود",
-  "feedbackPlaceholder": "نظر شما (اختیاری)",
-  "systemTheme": "همانند سیستم",
-  "privacyPolicy": "سیاست حفظ حریم خصوصی یا سیاست محرمانگی",
-  "termsOfService": "شرایط استفاده",
-  "donate": "اهدا یا کمک مالی",
-  "donationThankYou": "ممنون بابت حمایت شما!",
-  "analytics": "آمار یا تحلیل‌ها",
-  "analyticsDescription": "آمار جزئیات دم‌آوری‌های خود را مشاهده کنید",
-  "roasterStats": "آمار رست‌کننده‌ها",
-  "allTimeStats": "آمار کلی یا آمار همیشگی",
-  "showMoreStats": "آمار بیشتر را نمایش بدهید",
-  "noStats": "هیچ آماری در دسترس نیست",
-  "upToDate": "برنامه به‌روز است",
-  "acknowledgements": "قدردانی‌ها یا سپاسگزاری‌ها",
-  "faq": "سوالات متداول یا پرسش‌های رایج",
-  "tips": "نکات یا راهنمایی‌ها",
-  "settingsAppIcon": "نماد برنامه",
-  "settingsAppIconDefault": "پیش فرض",
+    "sortBy": "مرتب‌سازی بر اساس",
+  "dateAdded": "تاریخ افزوده‌شدن",
+  "secondsAbbreviation": "ث",
+  "settingsAppIcon": "آیکون برنامه",
+  "settingsAppIconDefault": "پیش‌فرض",
   "settingsAppIconLegacy": "قدیمی",
-  "sortBy": "مرتب‌سازی بر اساس",
-  "@sortBy": {
-    "description": "عنوان دیالوگ مرتب‌سازی در صفحه دانه‌های قهوه"
-  },
-  "dateAdded": "تاریخ اضافه‌شدن",
-  "@dateAdded": {
-    "description": "گزینه مرتب‌سازی برای مرتب‌سازی بر اساس تاریخ اضافه‌شدن"
-  },
-
-  "searchBeans": "جستجوی دانه‌ها...",
-  "@searchBeans": {
-    "description": "متن نگهدارنده برای فیلد جستجو در صفحه دانه‌های قهوه"
-  },
-  "favorites": "مورد علاقه‌ها",
-  "@favorites": {
-    "description": "برچسب برای فیلتر مورد علاقه"
-  },
-  "searchPrefix": "جستجو: ",
-  "@searchPrefix": {
-    "description": "پیشوند برای فیلتر جستجو"
-  },
+  "searchBeans": "جستجوی دانه‌ها",
+  "favorites": "موردعلاقه‌ها",
+  "searchPrefix": "جستجو",
   "clearAll": "پاک کردن همه",
-  "@clearAll": {
-    "description": "برچسب برای دکمه پاک کردن همه فیلترها"
-  },
-  "noBeansMatchSearch": "هیچ دانه‌ای با جستجوی شما مطابقت ندارد",
-  "@noBeansMatchSearch": {
-    "description": "پیامی که وقتی هیچ دانه‌ای با معیارهای جستجو مطابقت ندارد نمایش داده می‌شود"
-  },
+  "noBeansMatchSearch": "هیچ دانه‌ای با جستجو مطابقت ندارد",
   "clearFilters": "پاک کردن فیلترها",
-  "@clearFilters": {
-    "description": "متن دکمه برای پاک کردن همه فیلترهای فعال"
-  },
   "farmer": "کشاورز",
-  "farm": "مزرعه قهوه",
-  "enterFarmer": "کشاورز را وارد کنید",
-  "enterFarm": "مزرعه قهوه را وارد کنید"
+  "farm": "مزرعه",
+  "enterFarmer": "نام کشاورز را وارد کنید",
+  "enterFarm": "نام مزرعه را وارد کنید"
 }

@@ -527,5 +527,9 @@
   "farmer": "Petani",
   "farm": "Perkebunan kopi",
   "enterFarmer": "Masukkan petani",
-  "enterFarm": "Masukkan perkebunan kopi"
+  "enterFarm": "Masukkan perkebunan kopi",
+  "requiredInformation": "Informasi yang Diperlukan",
+  "basicDetails": "Detail Dasar",
+  "qualityMeasurements": "Kualitas & Pengukuran",
+  "importantDates": "Tanggal-tanggal penting"
 }

@@ -527,5 +527,9 @@
   "farmer": "Agriculteur",
   "farm": "Plantation de café",
   "enterFarmer": "Entrez l'agriculteur",
-  "enterFarm": "Entrez la plantation de café"
+  "enterFarm": "Entrez la plantation de café",
+  "requiredInformation": "Informations requises",
+  "basicDetails": "Détails de base",
+  "qualityMeasurements": "Qualité et mesures",
+  "importantDates": "Dates importantes"
 }

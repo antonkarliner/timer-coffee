@@ -18,8 +18,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get author => 'Author';
 
   @override
-  String get authortext =>
-      'Timer.Coffee App is created by Anton Karliner, a coffee enthusiast, media specialist, and photojournalist. I hope that this app will help you enjoy your coffee. Feel free to contribute on GitHub.';
+  String get authortext => 'Timer.Coffee App is created by Anton Karliner, a coffee enthusiast, media specialist, and photojournalist. I hope that this app will help you enjoy your coffee. Feel free to contribute on GitHub.';
 
   @override
   String get contributors => 'Contributors';
@@ -31,8 +30,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get license => 'License';
 
   @override
-  String get licensetext =>
-      'This application is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.';
+  String get licensetext => 'This application is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.';
 
   @override
   String get licensebutton => 'Read the GNU General Public License v3';
@@ -71,8 +69,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recipesummary => 'Recipe summary';
 
   @override
-  String get recipesummarynote =>
-      'Note: this is a basic recipe with default water and coffee amounts.';
+  String get recipesummarynote => 'Note: this is a basic recipe with default water and coffee amounts.';
 
   @override
   String get preparation => 'Preparation';
@@ -120,8 +117,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get supportdevelopment => 'Support the development';
 
   @override
-  String get supportdevmsg =>
-      'Your donations help to cover the maintenance costs (such as developer licenses, for example). They also allow me to try more coffee brewing devices and add more recipes to the app.';
+  String get supportdevmsg => 'Your donations help to cover the maintenance costs (such as developer licenses, for example). They also allow me to try more coffee brewing devices and add more recipes to the app.';
 
   @override
   String get supportdevtnx => 'Thanks for considering to donate!';
@@ -130,15 +126,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get donationok => 'Thank You!';
 
   @override
-  String get donationtnx =>
-      'I really appreciate your support! Wish you a lot of great brews! ☕️';
+  String get donationtnx => 'I really appreciate your support! Wish you a lot of great brews! ☕️';
 
   @override
   String get donationerr => 'Error';
 
   @override
-  String get donationerrmsg =>
-      'Error processing the purchase, please try again.';
+  String get donationerrmsg => 'Error processing the purchase, please try again.';
 
   @override
   String get sharemsg => 'Check out this recipe:';
@@ -195,8 +189,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get snow => 'Snow';
 
   @override
-  String get noFavoriteRecipesMessage =>
-      'Your list of favorite recipes is currently empty. Start exploring and brewing to discover your favorites!';
+  String get noFavoriteRecipesMessage => 'Your list of favorite recipes is currently empty. Start exploring and brewing to discover your favorites!';
 
   @override
   String get explore => 'Explore';
@@ -251,7 +244,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String error(Object error) {
-    return 'Error: $error';
+    return 'Error';
   }
 
   @override
@@ -314,8 +307,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmDeleteTitle => 'Delete Entry?';
 
   @override
-  String get confirmDeleteMessage =>
-      'Are you sure you want to delete this entry? This action cannot be undone.';
+  String get confirmDeleteMessage => 'Are you sure you want to delete this entry? This action cannot be undone.';
 
   @override
   String get removeFavorite => 'Remove from favorites';
@@ -390,8 +382,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pleaseNote => 'Please note';
 
   @override
-  String get firstTimePopupMessage =>
-      '1. We use external services to process images. By continuing, you agree to this.\n2. While we do not store your images, please avoid including any personal details.\n3. Image recognition is currently limited to 10 tokens per month (1 token = 1 image). This limit may change in the future.';
+  String get firstTimePopupMessage => '1. We use external services to process images. By continuing, you agree to this.\n2. While we do not store your images, please avoid including any personal details.\n3. Image recognition is currently limited to 10 tokens per month (1 token = 1 image). This limit may change in the future.';
 
   @override
   String get ok => 'OK';
@@ -427,12 +418,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unexpectedErrorOccurred => 'Unexpected error occurred';
 
   @override
-  String get tokenLimitReached =>
-      'Sorry, you reached your token limit for image recognition this month';
+  String get tokenLimitReached => 'Sorry, you reached your token limit for image recognition this month';
 
   @override
-  String get noCoffeeLabelsDetected =>
-      'No coffee labels detected. Try with another image.';
+  String get noCoffeeLabelsDetected => 'No coffee labels detected. Try with another image.';
 
   @override
   String get collectedInformation => 'Collected Information';
@@ -582,8 +571,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get success => 'Success!';
 
   @override
-  String get otpSentMessage =>
-      'An OTP is being sent to your email. Please enter it below when you receive it.';
+  String get otpSentMessage => 'An OTP is being sent to your email. Please enter it below when you receive it.';
 
   @override
   String get otpHint2 => 'Enter code here';
@@ -598,8 +586,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteAccount => 'Delete Account';
 
   @override
-  String get deleteAccountWarning =>
-      'Please note: if you choose to continue, we will delete your account and related data from our servers. The local copy of the data will remain on the device, if you want to delete it too, you can simply delete the app. In order to re-enable syncronization, you\'ll need to create an account again';
+  String get deleteAccountWarning => 'Please note: if you choose to continue, we will delete your account and related data from our servers. The local copy of the data will remain on the device, if you want to delete it too, you can simply delete the app. In order to re-enable syncronization, you\'ll need to create an account again';
 
   @override
   String get deleteAccountConfirmation => 'Succesfully deleted account';
@@ -608,8 +595,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountDeleted => 'Account deleted';
 
   @override
-  String get accountDeletionError =>
-      'Error deleting your account, please try again';
+  String get accountDeletionError => 'Error deleting your account, please try again';
 
   @override
   String get deleteAccountTitle => 'Important';
@@ -651,8 +637,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yearlyStatsAppBarTitle => 'My Year with Timer.Coffee';
 
   @override
-  String get yearlyStatsStory1Text =>
-      'Hey, thanks for being a part of Timer.Coffee universe this year!';
+  String get yearlyStatsStory1Text => 'Hey, thanks for being a part of Timer.Coffee universe this year!';
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
@@ -688,8 +673,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yearlyStatsStory7Part1 => 'You weren’t brewing alone…';
 
   @override
-  String get yearlyStatsStory7Part2 =>
-      '...but with users from 110 other\ncountries across 6 continents!';
+  String get yearlyStatsStory7Part2 => '...but with users from 110 other\ncountries across 6 continents!';
 
   @override
   String yearlyStatsStory8TitleLow(Object count) {
@@ -847,16 +831,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recipeCreationScreenStepTimeLabel => 'Step Time: ';
 
   @override
-  String get recipeCreationScreenRecipeNameValidator =>
-      'Please enter a recipe name';
+  String get recipeCreationScreenRecipeNameValidator => 'Please enter a recipe name';
 
   @override
-  String get recipeCreationScreenShortDescriptionValidator =>
-      'Please enter a short description';
+  String get recipeCreationScreenShortDescriptionValidator => 'Please enter a short description';
 
   @override
-  String get recipeCreationScreenBrewingMethodValidator =>
-      'Please select a brewing method';
+  String get recipeCreationScreenBrewingMethodValidator => 'Please select a brewing method';
 
   @override
   String get recipeCreationScreenRequiredValidator => 'Required';
@@ -865,8 +846,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recipeCreationScreenInvalidNumberValidator => 'Invalid number';
 
   @override
-  String get recipeCreationScreenStepDescriptionValidator =>
-      'Please enter a step description';
+  String get recipeCreationScreenStepDescriptionValidator => 'Please enter a step description';
 
   @override
   String get recipeCreationScreenContinueButton => 'Continue to Recipe Steps';
@@ -947,8 +927,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unknownBrewingMethod => 'Unknown Brewing Method';
 
   @override
-  String get recipeCopyErrorLoadingEdit =>
-      'Failed to load copied recipe for editing.';
+  String get recipeCopyErrorLoadingEdit => 'Failed to load copied recipe for editing.';
 
   @override
   String get recipeCopyErrorOperationFailed => 'Operation failed.';
@@ -966,15 +945,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recipeImportFailedSave => 'Failed to save imported recipe.';
 
   @override
-  String get recipeImportFailedFetch =>
-      'Failed to fetch recipe data for import.';
+  String get recipeImportFailedFetch => 'Failed to fetch recipe data for import.';
 
   @override
   String get recipeNotImported => 'Recipe not imported.';
 
   @override
-  String get recipeNotFoundCloud =>
-      'Recipe not found in the cloud or is not public.';
+  String get recipeNotFoundCloud => 'Recipe not found in the cloud or is not public.';
 
   @override
   String get recipeLoadErrorGeneric => 'Error loading recipe.';
@@ -1022,8 +999,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInRequiredTitle => 'Sign In Required';
 
   @override
-  String get signInRequiredBodyShare =>
-      'You need to sign in to share your own recipes.';
+  String get signInRequiredBodyShare => 'You need to sign in to share your own recipes.';
 
   @override
   String get syncSuccess => 'Sync successful!';
@@ -1065,8 +1041,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get saveLocallyCheckLater =>
-      'Couldn\'t check content status. Saved locally, will check on next sync.';
+  String get saveLocallyCheckLater => 'Couldn\'t check content status. Saved locally, will check on next sync.';
 
   @override
   String get saveLocallyModerationFailedTitle => 'Changes Saved Locally';
@@ -1080,8 +1055,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editImportedRecipeTitle => 'Edit Imported Recipe';
 
   @override
-  String get editImportedRecipeBody =>
-      'This is an imported recipe. Editing it will create a new, independent copy. Do you want to continue?';
+  String get editImportedRecipeBody => 'This is an imported recipe. Editing it will create a new, independent copy. Do you want to continue?';
 
   @override
   String get editImportedRecipeButtonCopy => 'Create Copy & Edit';
@@ -1099,12 +1073,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get displayNameEmptyError => 'Display name cannot be empty';
 
   @override
-  String get displayNameTooLongError =>
-      'Display name cannot exceed 50 characters';
+  String get displayNameTooLongError => 'Display name cannot exceed 50 characters';
 
   @override
-  String get errorUserNotLoggedIn =>
-      'User not logged in. Please sign in again.';
+  String get errorUserNotLoggedIn => 'User not logged in. Please sign in again.';
 
   @override
   String get displayNameUpdateSuccess => 'Display name updated successfully!';
@@ -1118,8 +1090,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deletePictureConfirmationTitle => 'Delete Picture?';
 
   @override
-  String get deletePictureConfirmationBody =>
-      'Are you sure you want to delete your profile picture?';
+  String get deletePictureConfirmationBody => 'Are you sure you want to delete your profile picture?';
 
   @override
   String get deletePictureSuccess => 'Profile picture deleted.';
@@ -1196,4 +1167,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterFarm => 'Enter farm (optional)';
+
+  @override
+  String get requiredInformation => 'Required Information';
+
+  @override
+  String get basicDetails => 'Basic Details';
+
+  @override
+  String get qualityMeasurements => 'Quality & Measurements';
+
+  @override
+  String get importantDates => 'Important Dates';
 }

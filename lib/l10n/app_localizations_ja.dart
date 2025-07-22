@@ -18,8 +18,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get author => '著者';
 
   @override
-  String get authortext =>
-      'Timer.Coffee アプリは、コーヒー愛好家でありメディア専門家でフォトジャーナリストのアントン・カーリナーによって作成されました。このアプリがあなたのコーヒータイムをより楽しいものにすることを願っています。GitHubでの貢献もお気軽に。';
+  String get authortext => 'Timer.Coffee アプリは、コーヒー愛好家でありメディア専門家でフォトジャーナリストのアントン・カーリナーによって作成されました。このアプリがあなたのコーヒータイムをより楽しいものにすることを願っています。GitHubでの貢献もお気軽に。';
 
   @override
   String get contributors => '貢献者';
@@ -31,8 +30,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get license => 'ライセンス';
 
   @override
-  String get licensetext =>
-      'このアプリケーションはフリーソフトウェアです:フリーソフトウェア財団によって公開されたGNU一般公衆利用許諾契約書（GPL）の条項の下で、あなたはそれを再配布および/または変更することができます。それはライセンスのバージョン3、または（あなたの選択によって）いかなる後のバージョンにも適用されます。';
+  String get licensetext => 'このアプリケーションはフリーソフトウェアです:フリーソフトウェア財団によって公開されたGNU一般公衆利用許諾契約書（GPL）の条項の下で、あなたはそれを再配布および/または変更することができます。それはライセンスのバージョン3、または（あなたの選択によって）いかなる後のバージョンにも適用されます。';
 
   @override
   String get licensebutton => 'GNU一般公衆利用許諾契約書v3を読む';
@@ -119,8 +117,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get supportdevelopment => '開発をサポートする';
 
   @override
-  String get supportdevmsg =>
-      'あなたの寄付は、メンテナンス費用（例えば、開発者ライセンスなど）をカバーするのに役立ちます。また、より多くのコーヒー抽出器具を試し、アプリにより多くのレシピを追加することを可能にします。';
+  String get supportdevmsg => 'あなたの寄付は、メンテナンス費用（例えば、開発者ライセンスなど）をカバーするのに役立ちます。また、より多くのコーヒー抽出器具を試し、アプリにより多くのレシピを追加することを可能にします。';
 
   @override
   String get supportdevtnx => '寄付を検討してくださりありがとうございます！';
@@ -192,8 +189,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get snow => '雪';
 
   @override
-  String get noFavoriteRecipesMessage =>
-      'お気に入りのレシピリストは現在空です。探索して醸造を始めて、お気に入りを発見しましょう！';
+  String get noFavoriteRecipesMessage => 'お気に入りのレシピリストは現在空です。探索して醸造を始めて、お気に入りを発見しましょう！';
 
   @override
   String get explore => '探索する';
@@ -386,8 +382,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get pleaseNote => 'ご注意ください';
 
   @override
-  String get firstTimePopupMessage =>
-      '1. 画像の処理には外部サービスを使用しています。続行すると、これに同意したことになります。\n2. 画像は保存しませんが、個人情報を含めないでください。\n3. 画像認識は現在、月間10トークンに制限されています（1トークン=1画像）。この制限は今後変更される可能性があります。';
+  String get firstTimePopupMessage => '1. 画像の処理には外部サービスを使用しています。続行すると、これに同意したことになります。\n2. 画像は保存しませんが、個人情報を含めないでください。\n3. 画像認識は現在、月間10トークンに制限されています（1トークン=1画像）。この制限は今後変更される可能性があります。';
 
   @override
   String get ok => 'OK';
@@ -591,8 +586,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get deleteAccount => 'アカウントを削除';
 
   @override
-  String get deleteAccountWarning =>
-      '注意: 続行すると、アカウントとその関連データがサーバーから削除されます。データのローカルコピーはデバイスに残ります。削除するには、アプリを削除するだけです。同期を再度有効にするには、アカウントを再作成する必要があります。';
+  String get deleteAccountWarning => '注意: 続行すると、アカウントとその関連データがサーバーから削除されます。データのローカルコピーはデバイスに残ります。削除するには、アプリを削除するだけです。同期を再度有効にするには、アカウントを再作成する必要があります。';
 
   @override
   String get deleteAccountConfirmation => 'アカウントの削除に成功しました';
@@ -643,8 +637,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get yearlyStatsAppBarTitle => 'Timer.Coffee との一年';
 
   @override
-  String get yearlyStatsStory1Text =>
-      'こんにちは、今年は Timer.Coffee の世界に参加していただきありがとうございます。';
+  String get yearlyStatsStory1Text => 'こんにちは、今年は Timer.Coffee の世界に参加していただきありがとうございます。';
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
@@ -1045,8 +1038,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get saveLocallyCheckLater =>
-      'コンテンツの状態を確認できませんでした。ローカルに保存しました。次回の同期時に確認します。';
+  String get saveLocallyCheckLater => 'コンテンツの状態を確認できませんでした。ローカルに保存しました。次回の同期時に確認します。';
 
   @override
   String get saveLocallyModerationFailedTitle => '変更はローカルに保存されました';
@@ -1060,8 +1052,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get editImportedRecipeTitle => 'インポートされたレシピを編集';
 
   @override
-  String get editImportedRecipeBody =>
-      'これはインポートされたレシピです。編集すると、新しい独立したコピーが作成されます。続行しますか？';
+  String get editImportedRecipeBody => 'これはインポートされたレシピです。編集すると、新しい独立したコピーが作成されます。続行しますか？';
 
   @override
   String get editImportedRecipeButtonCopy => 'コピーを作成して編集';
@@ -1173,4 +1164,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get enterFarm => '農場名を入力 (オプション)';
+
+  @override
+  String get requiredInformation => '必要な情報';
+
+  @override
+  String get basicDetails => '基本詳細';
+
+  @override
+  String get qualityMeasurements => '品質と測定';
+
+  @override
+  String get importantDates => '重要な日程';
 }

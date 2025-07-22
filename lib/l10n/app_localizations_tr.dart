@@ -18,8 +18,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get author => 'Yazar';
 
   @override
-  String get authortext =>
-      'Timer.Coffee Uygulaması, kahve meraklısı, medya uzmanı ve foto muhabiri Anton Karliner tarafından oluşturulmuştur. Bu uygulamanın kahvenizden keyif almanıza yardımcı olmasını umuyorum. GitHub üzerinden katkıda bulunmaktan çekinmeyin.';
+  String get authortext => 'Timer.Coffee Uygulaması, kahve meraklısı, medya uzmanı ve foto muhabiri Anton Karliner tarafından oluşturulmuştur. Bu uygulamanın kahvenizden keyif almanıza yardımcı olmasını umuyorum. GitHub üzerinden katkıda bulunmaktan çekinmeyin.';
 
   @override
   String get contributors => 'Katkıda Bulunanlar';
@@ -31,8 +30,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get license => 'Lisans';
 
   @override
-  String get licensetext =>
-      'Bu uygulama, Free Software Foundation tarafından yayınlanan GNU Genel Kamu Lisansı\'nın koşulları altında yeniden dağıtabileceğiniz ve/veya değiştirebileceğiniz ücretsiz bir yazılımdır; ister sürüm 3 Lisansı, isterse (seçeneğinize bağlı olarak) daha sonraki bir sürümü.';
+  String get licensetext => 'Bu uygulama, Free Software Foundation tarafından yayınlanan GNU Genel Kamu Lisansı\'nın koşulları altında yeniden dağıtabileceğiniz ve/veya değiştirebileceğiniz ücretsiz bir yazılımdır; ister sürüm 3 Lisansı, isterse (seçeneğinize bağlı olarak) daha sonraki bir sürümü.';
 
   @override
   String get licensebutton => 'GNU Genel Kamu Lisansı v3\'ü Okuyun';
@@ -71,8 +69,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get recipesummary => 'Tarif Özeti';
 
   @override
-  String get recipesummarynote =>
-      'Not: Bu, varsayılan su ve kahve miktarlarıyla temel bir tariftir.';
+  String get recipesummarynote => 'Not: Bu, varsayılan su ve kahve miktarlarıyla temel bir tariftir.';
 
   @override
   String get preparation => 'Hazırlık';
@@ -96,8 +93,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get finishmsg =>
-      'Timer.Coffee\'yi kullandığınız için teşekkürler! Kahvenizin tadını çıkarın';
+  String get finishmsg => 'Timer.Coffee\'yi kullandığınız için teşekkürler! Kahvenizin tadını çıkarın';
 
   @override
   String get coffeefact => 'Kahve Gerçeği';
@@ -121,26 +117,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String get supportdevelopment => 'Gelişimi Destekle';
 
   @override
-  String get supportdevmsg =>
-      'Bağışlarınız, bakım maliyetlerini (örneğin, geliştirici lisansları gibi) karşılamaya yardımcı olur. Ayrıca, daha fazla kahve demleme cihazı denememe ve uygulamaya daha fazla tarif eklememe olanak tanır.';
+  String get supportdevmsg => 'Bağışlarınız, bakım maliyetlerini (örneğin, geliştirici lisansları gibi) karşılamaya yardımcı olur. Ayrıca, daha fazla kahve demleme cihazı denememe ve uygulamaya daha fazla tarif eklememe olanak tanır.';
 
   @override
-  String get supportdevtnx =>
-      'Bağışta bulunmayı düşündüğünüz için teşekkürler!';
+  String get supportdevtnx => 'Bağışta bulunmayı düşündüğünüz için teşekkürler!';
 
   @override
   String get donationok => 'Teşekkürler!';
 
   @override
-  String get donationtnx =>
-      'Destek olduğunuz için gerçekten minnettarım! Harika demlemeler dilerim! ☕️';
+  String get donationtnx => 'Destek olduğunuz için gerçekten minnettarım! Harika demlemeler dilerim! ☕️';
 
   @override
   String get donationerr => 'Hata';
 
   @override
-  String get donationerrmsg =>
-      'Satın alma işlemi sırasında bir hata oluştu, lütfen tekrar deneyin.';
+  String get donationerrmsg => 'Satın alma işlemi sırasında bir hata oluştu, lütfen tekrar deneyin.';
 
   @override
   String get sharemsg => 'Bu tarife bir göz atın:';
@@ -197,8 +189,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get snow => 'Kar';
 
   @override
-  String get noFavoriteRecipesMessage =>
-      'Favori tarifler listeniz şu anda boş. Keşfetmeye ve demlemeye başlayarak favorilerinizi keşfedin!';
+  String get noFavoriteRecipesMessage => 'Favori tarifler listeniz şu anda boş. Keşfetmeye ve demlemeye başlayarak favorilerinizi keşfedin!';
 
   @override
   String get explore => 'Keşfet';
@@ -316,8 +307,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get confirmDeleteTitle => 'Girdiyi sil?';
 
   @override
-  String get confirmDeleteMessage =>
-      'Bu girdiyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.';
+  String get confirmDeleteMessage => 'Bu girdiyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.';
 
   @override
   String get removeFavorite => 'Favorilerden kaldır';
@@ -392,8 +382,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get pleaseNote => 'Lütfen dikkat';
 
   @override
-  String get firstTimePopupMessage =>
-      '1. Görüntüleri işlemek için harici hizmetler kullanıyoruz. Devam ederek, bunu kabul etmiş olursunuz.\n2. Görüntülerinizi saklamasak da, lütfen herhangi bir kişisel ayrıntı eklemekten kaçının.\n3. Görüntü tanıma şu anda ayda 10 belirteçle sınırlıdır (1 belirteç = 1 görüntü). Bu sınır gelecekte değişebilir.';
+  String get firstTimePopupMessage => '1. Görüntüleri işlemek için harici hizmetler kullanıyoruz. Devam ederek, bunu kabul etmiş olursunuz.\n2. Görüntülerinizi saklamasak da, lütfen herhangi bir kişisel ayrıntı eklemekten kaçının.\n3. Görüntü tanıma şu anda ayda 10 belirteçle sınırlıdır (1 belirteç = 1 görüntü). Bu sınır gelecekte değişebilir.';
 
   @override
   String get ok => 'Tamam';
@@ -429,12 +418,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get unexpectedErrorOccurred => 'Beklenmeyen bir hata oluştu';
 
   @override
-  String get tokenLimitReached =>
-      'Üzgünüz, bu ay için görüntü tanıma belirteç sınırınıza ulaştınız';
+  String get tokenLimitReached => 'Üzgünüz, bu ay için görüntü tanıma belirteç sınırınıza ulaştınız';
 
   @override
-  String get noCoffeeLabelsDetected =>
-      'Kahve etiketi algılanmadı. Başka bir görüntüyle deneyin.';
+  String get noCoffeeLabelsDetected => 'Kahve etiketi algılanmadı. Başka bir görüntüyle deneyin.';
 
   @override
   String get collectedInformation => 'Toplanan Bilgiler';
@@ -533,8 +520,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signOutSuccessful => 'Oturum başarıyla kapatıldı';
 
   @override
-  String get signInSuccessfulGoogle =>
-      'Google ile başarılı bir şekilde oturum açıldı';
+  String get signInSuccessfulGoogle => 'Google ile başarılı bir şekilde oturum açıldı';
 
   @override
   String get signInWithEmail => 'E-posta ile Oturum Aç';
@@ -552,8 +538,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sendMagicLink => 'Sihirli Bağlantıyı Gönder';
 
   @override
-  String get magicLinkSent =>
-      'Sihirli bağlantı gönderildi! E-postanızı kontrol edin.';
+  String get magicLinkSent => 'Sihirli bağlantı gönderildi! E-postanızı kontrol edin.';
 
   @override
   String get sendOTP => 'OTP Gönder';
@@ -586,8 +571,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get success => 'Başarılı!';
 
   @override
-  String get otpSentMessage =>
-      'E-postanıza bir OTP gönderiliyor. Lütfen aldığınızda aşağıya girin.';
+  String get otpSentMessage => 'E-postanıza bir OTP gönderiliyor. Lütfen aldığınızda aşağıya girin.';
 
   @override
   String get otpHint2 => 'Kodu buraya girin';
@@ -602,8 +586,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deleteAccount => 'Hesabı Sil';
 
   @override
-  String get deleteAccountWarning =>
-      'Lütfen dikkat: Devam etmeyi seçerseniz, hesabınızı ve ilgili verileri sunucularımızdan sileceğiz. Verilerin yerel kopyası cihazda kalacaktır, eğer onu da silmek istiyorsanız, uygulamayı silebilirsiniz. Senkronizasyonu yeniden etkinleştirmek için, tekrar hesap oluşturmanız gerekecek';
+  String get deleteAccountWarning => 'Lütfen dikkat: Devam etmeyi seçerseniz, hesabınızı ve ilgili verileri sunucularımızdan sileceğiz. Verilerin yerel kopyası cihazda kalacaktır, eğer onu da silmek istiyorsanız, uygulamayı silebilirsiniz. Senkronizasyonu yeniden etkinleştirmek için, tekrar hesap oluşturmanız gerekecek';
 
   @override
   String get deleteAccountConfirmation => 'Hesap başarıyla silindi';
@@ -612,8 +595,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get accountDeleted => 'Hesap silindi';
 
   @override
-  String get accountDeletionError =>
-      'Hesabınızı silerken hata oluştu, lütfen tekrar deneyin';
+  String get accountDeletionError => 'Hesabınızı silerken hata oluştu, lütfen tekrar deneyin';
 
   @override
   String get deleteAccountTitle => 'Önemli';
@@ -655,8 +637,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get yearlyStatsAppBarTitle => 'Timer.Coffee ile Yılım';
 
   @override
-  String get yearlyStatsStory1Text =>
-      'Merhaba, bu yıl Timer.Coffee evreninin bir parçası olduğunuz için teşekkürler!';
+  String get yearlyStatsStory1Text => 'Merhaba, bu yıl Timer.Coffee evreninin bir parçası olduğunuz için teşekkürler!';
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
@@ -692,8 +673,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get yearlyStatsStory7Part1 => 'Yalnız kahve demlemiyordunuz…';
 
   @override
-  String get yearlyStatsStory7Part2 =>
-      '…6 kıtada 110 farklı\nülkeden kullanıcılarımızla birlikteydiniz!';
+  String get yearlyStatsStory7Part2 => '…6 kıtada 110 farklı\nülkeden kullanıcılarımızla birlikteydiniz!';
 
   @override
   String yearlyStatsStory8TitleLow(Object count) {
@@ -744,12 +724,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get yearlyStatsShareProgressMyYear => 'Timer.Coffee ile Yılım';
 
   @override
-  String get yearlyStatsShareProgressTop3Recipes =>
-      'En çok tercih ettiğim 3 tarif:';
+  String get yearlyStatsShareProgressTop3Recipes => 'En çok tercih ettiğim 3 tarif:';
 
   @override
-  String get yearlyStatsShareProgressTop3Roasters =>
-      'En çok tercih ettiğim 3 kavurucu:';
+  String get yearlyStatsShareProgressTop3Roasters => 'En çok tercih ettiğim 3 kavurucu:';
 
   @override
   String get yearlyStatsFailedToLike => 'Beğenilemedi. Lütfen tekrar deneyin.';
@@ -853,16 +831,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get recipeCreationScreenStepTimeLabel => 'Adım Süresi: ';
 
   @override
-  String get recipeCreationScreenRecipeNameValidator =>
-      'Lütfen bir tarif adı girin';
+  String get recipeCreationScreenRecipeNameValidator => 'Lütfen bir tarif adı girin';
 
   @override
-  String get recipeCreationScreenShortDescriptionValidator =>
-      'Lütfen kısa bir açıklama girin';
+  String get recipeCreationScreenShortDescriptionValidator => 'Lütfen kısa bir açıklama girin';
 
   @override
-  String get recipeCreationScreenBrewingMethodValidator =>
-      'Lütfen bir demleme yöntemi seçin';
+  String get recipeCreationScreenBrewingMethodValidator => 'Lütfen bir demleme yöntemi seçin';
 
   @override
   String get recipeCreationScreenRequiredValidator => 'Gerekli';
@@ -871,8 +846,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get recipeCreationScreenInvalidNumberValidator => 'Geçersiz numara';
 
   @override
-  String get recipeCreationScreenStepDescriptionValidator =>
-      'Lütfen bir adım açıklaması girin';
+  String get recipeCreationScreenStepDescriptionValidator => 'Lütfen bir adım açıklaması girin';
 
   @override
   String get recipeCreationScreenContinueButton => 'Tarif Adımlarına Devam Et';
@@ -953,8 +927,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get unknownBrewingMethod => 'Bilinmeyen demleme yöntemi';
 
   @override
-  String get recipeCopyErrorLoadingEdit =>
-      'Kopyalanan tarif düzenleme için yüklenemedi.';
+  String get recipeCopyErrorLoadingEdit => 'Kopyalanan tarif düzenleme için yüklenemedi.';
 
   @override
   String get recipeCopyErrorOperationFailed => 'İşlem başarısız oldu.';
@@ -963,8 +936,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get notProvided => 'Sağlanmadı';
 
   @override
-  String get recipeUpdateFailedFetch =>
-      'Güncellenmiş tarif verileri alınamadı.';
+  String get recipeUpdateFailedFetch => 'Güncellenmiş tarif verileri alınamadı.';
 
   @override
   String get recipeImportSuccess => 'Tarif başarıyla içe aktarıldı!';
@@ -973,15 +945,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get recipeImportFailedSave => 'İçe aktarılan tarif kaydedilemedi.';
 
   @override
-  String get recipeImportFailedFetch =>
-      'İçe aktarma için tarif verileri alınamadı.';
+  String get recipeImportFailedFetch => 'İçe aktarma için tarif verileri alınamadı.';
 
   @override
   String get recipeNotImported => 'Tarif içe aktarılmadı.';
 
   @override
-  String get recipeNotFoundCloud =>
-      'Tarif bulutta bulunamadı veya herkese açık değil.';
+  String get recipeNotFoundCloud => 'Tarif bulutta bulunamadı veya herkese açık değil.';
 
   @override
   String get recipeLoadErrorGeneric => 'Tarif yüklenirken hata oluştu.';
@@ -1029,8 +999,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signInRequiredTitle => 'Oturum Açma Gerekli';
 
   @override
-  String get signInRequiredBodyShare =>
-      'Kendi tariflerinizi paylaşmak için oturum açmanız gerekiyor.';
+  String get signInRequiredBodyShare => 'Kendi tariflerinizi paylaşmak için oturum açmanız gerekiyor.';
 
   @override
   String get syncSuccess => 'Senkronizasyon başarılı!';
@@ -1048,8 +1017,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signInRequiredSnackbar => 'Oturum Açma Gerekli';
 
   @override
-  String get moderationErrorFunction =>
-      'İçerik moderasyonu kontrolü başarısız oldu.';
+  String get moderationErrorFunction => 'İçerik moderasyonu kontrolü başarısız oldu.';
 
   @override
   String get moderationReasonDefault => 'İçerik inceleme için işaretlendi.';
@@ -1073,12 +1041,10 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get saveLocallyCheckLater =>
-      'İçerik durumu kontrol edilemedi. Yerel olarak kaydedildi, bir sonraki senkronizasyonda kontrol edilecek.';
+  String get saveLocallyCheckLater => 'İçerik durumu kontrol edilemedi. Yerel olarak kaydedildi, bir sonraki senkronizasyonda kontrol edilecek.';
 
   @override
-  String get saveLocallyModerationFailedTitle =>
-      'Değişiklikler Yerel Olarak Kaydedildi';
+  String get saveLocallyModerationFailedTitle => 'Değişiklikler Yerel Olarak Kaydedildi';
 
   @override
   String saveLocallyModerationFailedBody(String reason) {
@@ -1089,8 +1055,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get editImportedRecipeTitle => 'İçe Aktarılan Tarifi Düzenle';
 
   @override
-  String get editImportedRecipeBody =>
-      'Bu içe aktarılmış bir tariftir. Düzenlemek yeni, bağımsız bir kopya oluşturacaktır. Devam etmek istiyor musunuz?';
+  String get editImportedRecipeBody => 'Bu içe aktarılmış bir tariftir. Düzenlemek yeni, bağımsız bir kopya oluşturacaktır. Devam etmek istiyor musunuz?';
 
   @override
   String get editImportedRecipeButtonCopy => 'Kopya Oluştur ve Düzenle';
@@ -1111,8 +1076,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get displayNameTooLongError => 'Görünen ad 50 karakteri geçemez';
 
   @override
-  String get errorUserNotLoggedIn =>
-      'Kullanıcı giriş yapmadı. Lütfen tekrar giriş yapın.';
+  String get errorUserNotLoggedIn => 'Kullanıcı giriş yapmadı. Lütfen tekrar giriş yapın.';
 
   @override
   String get displayNameUpdateSuccess => 'Görünen ad başarıyla güncellendi!';
@@ -1126,8 +1090,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deletePictureConfirmationTitle => 'Resmi Sil?';
 
   @override
-  String get deletePictureConfirmationBody =>
-      'Profil resminizi silmek istediğinizden emin misiniz?';
+  String get deletePictureConfirmationBody => 'Profil resminizi silmek istediğinizden emin misiniz?';
 
   @override
   String get deletePictureSuccess => 'Profil resmi silindi.';
@@ -1204,4 +1167,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get enterFarm => 'Kahve çiftliğini girin';
+
+  @override
+  String get requiredInformation => 'Gerekli bilgiler';
+
+  @override
+  String get basicDetails => 'Temel bilgiler';
+
+  @override
+  String get qualityMeasurements => 'Kalite ölçümleri';
+
+  @override
+  String get importantDates => 'Önemli tarihler';
 }

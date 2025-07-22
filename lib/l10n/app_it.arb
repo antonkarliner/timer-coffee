@@ -527,5 +527,9 @@
   "farmer": "Agricoltore",
   "farm": "Azienda agricola",
   "enterFarmer": "Inserisci agricoltore (facoltativo)",
-  "enterFarm": "Inserisci azienda agricola (facoltativo)"
+  "enterFarm": "Inserisci azienda agricola (facoltativo)",
+  "requiredInformation": "Informazioni necessarie",
+  "basicDetails": "Dettagli di base",
+  "qualityMeasurements": "Qualità e misure",
+  "importantDates": "Date importanti"
 }

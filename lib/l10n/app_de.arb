@@ -527,5 +527,9 @@
   "farmer": "Landwirt",
   "farm": "Kaffeeplantage",
   "enterFarmer": "Landwirt eingeben (optional)",
-  "enterFarm": "Kaffeeplantage eingeben (optional)"
+  "enterFarm": "Kaffeeplantage eingeben (optional)",
+"requiredInformation": "Erforderliche Informationen",
+"basicDetails": "Grundlegende Details",
+"qualityMeasurements": "Qualität der Messungen",
+"importantDates": "Wichtige Daten"
 }

@@ -527,5 +527,9 @@
   "farm": "Ферма",
   "enterFarmer": "Введіть фермера (необов'язково)",
   "enterFarm": "Введіть ферму (необов'язково)",
-  "secondsAbbreviation": "с."
+  "secondsAbbreviation": "с.",
+  "requiredInformation": "Необхідна інформація",
+  "basicDetails": "Основні деталі",
+  "qualityMeasurements": "Якість та вимірювання",
+  "importantDates": "Важливі дати"
 }

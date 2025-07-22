@@ -18,8 +18,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get author => 'Autor';
 
   @override
-  String get authortext =>
-      'Aplikacja Timer.Coffee została stworzona przez Anton Karliner, entuzjastę kawy, specjalistę od mediów i fotoreportera. Mam nadzieję, że ta aplikacja pomoże Ci cieszyć się kawą. Zapraszamy do współpracy na GitHubie.';
+  String get authortext => 'Aplikacja Timer.Coffee została stworzona przez Anton Karliner, entuzjastę kawy, specjalistę od mediów i fotoreportera. Mam nadzieję, że ta aplikacja pomoże Ci cieszyć się kawą. Zapraszamy do współpracy na GitHubie.';
 
   @override
   String get contributors => 'Współtwórcy';
@@ -31,8 +30,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get license => 'Licencja';
 
   @override
-  String get licensetext =>
-      'Ta aplikacja to wolne oprogramowanie: możesz je rozpowszechniać i/lub modyfikować na warunkach Ogólnej Licencji Publicznej GNU, jak to zostało opublikowane przez Free Software Foundation, albo wersji 3 tej Licencji, albo (według własnego wyboru) każdej późniejszej wersji.';
+  String get licensetext => 'Ta aplikacja to wolne oprogramowanie: możesz je rozpowszechniać i/lub modyfikować na warunkach Ogólnej Licencji Publicznej GNU, jak to zostało opublikowane przez Free Software Foundation, albo wersji 3 tej Licencji, albo (według własnego wyboru) każdej późniejszej wersji.';
 
   @override
   String get licensebutton => 'Przeczytaj Ogólną Licencję Publiczną GNU v3';
@@ -71,8 +69,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get recipesummary => 'Podsumowanie przepisu';
 
   @override
-  String get recipesummarynote =>
-      'Uwaga: to jest podstawowy przepis z domyślną ilością wody i kawy.';
+  String get recipesummarynote => 'Uwaga: to jest podstawowy przepis z domyślną ilością wody i kawy.';
 
   @override
   String get preparation => 'Przygotowanie';
@@ -96,8 +93,7 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
-  String get finishmsg =>
-      'Dziękujemy za korzystanie z Timer.Coffee! Rozkoszuj się swoją';
+  String get finishmsg => 'Dziękujemy za korzystanie z Timer.Coffee! Rozkoszuj się swoją';
 
   @override
   String get coffeefact => 'Ciekawostka o kawie';
@@ -121,8 +117,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get supportdevelopment => 'Wesprzyj rozwój';
 
   @override
-  String get supportdevmsg =>
-      'Twoje datki pomagają pokryć koszty utrzymania (takie jak licencje deweloperskie, na przykład). Pozwalają mi również wypróbować więcej urządzeń do parzenia kawy i dodać więcej przepisów do aplikacji.';
+  String get supportdevmsg => 'Twoje datki pomagają pokryć koszty utrzymania (takie jak licencje deweloperskie, na przykład). Pozwalają mi również wypróbować więcej urządzeń do parzenia kawy i dodać więcej przepisów do aplikacji.';
 
   @override
   String get supportdevtnx => 'Dziękujemy za rozważenie wsparcia!';
@@ -131,8 +126,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get donationok => 'Dziękujemy!';
 
   @override
-  String get donationtnx =>
-      'Bardzo doceniam Twoje wsparcie! Życzę wielu wspaniałych parzeń! ☕️';
+  String get donationtnx => 'Bardzo doceniam Twoje wsparcie! Życzę wielu wspaniałych parzeń! ☕️';
 
   @override
   String get donationerr => 'Błąd';
@@ -195,8 +189,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get snow => 'Śnieg';
 
   @override
-  String get noFavoriteRecipesMessage =>
-      'Twoja lista ulubionych przepisów jest obecnie pusta. Zacznij eksplorować i warzyć, aby odkryć swoje ulubione!';
+  String get noFavoriteRecipesMessage => 'Twoja lista ulubionych przepisów jest obecnie pusta. Zacznij eksplorować i warzyć, aby odkryć swoje ulubione!';
 
   @override
   String get explore => 'Odkrywaj';
@@ -314,8 +307,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get confirmDeleteTitle => 'Usunąć wpis?';
 
   @override
-  String get confirmDeleteMessage =>
-      'Czy na pewno chcesz usunąć ten wpis? Tej akcji nie można cofnąć.';
+  String get confirmDeleteMessage => 'Czy na pewno chcesz usunąć ten wpis? Tej akcji nie można cofnąć.';
 
   @override
   String get removeFavorite => 'Usuń z ulubionych';
@@ -390,8 +382,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get pleaseNote => 'Uwaga';
 
   @override
-  String get firstTimePopupMessage =>
-      '1. Do przetwarzania obrazów używamy usług zewnętrznych. Kontynuując, wyrażasz na to zgodę.\n2. Chociaż nie przechowujemy twoich obrazów, unikaj umieszczania na nich danych osobowych.\n3. Rozpoznawanie obrazu jest obecnie ograniczone do 10 tokenów miesięcznie (1 token = 1 obraz). Ten limit może ulec zmianie w przyszłości.';
+  String get firstTimePopupMessage => '1. Do przetwarzania obrazów używamy usług zewnętrznych. Kontynuując, wyrażasz na to zgodę.\n2. Chociaż nie przechowujemy twoich obrazów, unikaj umieszczania na nich danych osobowych.\n3. Rozpoznawanie obrazu jest obecnie ograniczone do 10 tokenów miesięcznie (1 token = 1 obraz). Ten limit może ulec zmianie w przyszłości.';
 
   @override
   String get ok => 'OK';
@@ -427,12 +418,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get unexpectedErrorOccurred => 'Wystąpił nieoczekiwany błąd';
 
   @override
-  String get tokenLimitReached =>
-      'Przepraszamy, osiągnąłeś limit tokenów na rozpoznawanie obrazu w tym miesiącu';
+  String get tokenLimitReached => 'Przepraszamy, osiągnąłeś limit tokenów na rozpoznawanie obrazu w tym miesiącu';
 
   @override
-  String get noCoffeeLabelsDetected =>
-      'Nie wykryto etykiet kawy. Spróbuj z innym zdjęciem.';
+  String get noCoffeeLabelsDetected => 'Nie wykryto etykiet kawy. Spróbuj z innym zdjęciem.';
 
   @override
   String get collectedInformation => 'Zebrane informacje';
@@ -549,8 +538,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get sendMagicLink => 'Wyślij magiczny link';
 
   @override
-  String get magicLinkSent =>
-      'Magiczny link został wysłany! Sprawdź swoją skrzynkę e-mail.';
+  String get magicLinkSent => 'Magiczny link został wysłany! Sprawdź swoją skrzynkę e-mail.';
 
   @override
   String get sendOTP => 'Wyślij OTP';
@@ -583,8 +571,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get success => 'Sukces!';
 
   @override
-  String get otpSentMessage =>
-      'Kod OTP zostanie wysłany na Twój adres e-mail. Po otrzymaniu wprowadź go poniżej.';
+  String get otpSentMessage => 'Kod OTP zostanie wysłany na Twój adres e-mail. Po otrzymaniu wprowadź go poniżej.';
 
   @override
   String get otpHint2 => 'Wprowadź kod tutaj';
@@ -599,8 +586,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get deleteAccount => 'Usuń konto';
 
   @override
-  String get deleteAccountWarning =>
-      'Uwaga: jeśli kontynuujesz, usuniemy twoje konto i powiązane dane z naszych serwerów. Lokalne kopie danych pozostaną na urządzeniu. Jeśli chcesz je również usunąć, po prostu odinstaluj aplikację. Aby ponownie włączyć synchronizację, musisz ponownie utworzyć konto';
+  String get deleteAccountWarning => 'Uwaga: jeśli kontynuujesz, usuniemy twoje konto i powiązane dane z naszych serwerów. Lokalne kopie danych pozostaną na urządzeniu. Jeśli chcesz je również usunąć, po prostu odinstaluj aplikację. Aby ponownie włączyć synchronizację, musisz ponownie utworzyć konto';
 
   @override
   String get deleteAccountConfirmation => 'Konto usunięte pomyślnie';
@@ -609,8 +595,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get accountDeleted => 'Konto zostało usunięte';
 
   @override
-  String get accountDeletionError =>
-      'Błąd podczas usuwania konta, spróbuj ponownie';
+  String get accountDeletionError => 'Błąd podczas usuwania konta, spróbuj ponownie';
 
   @override
   String get deleteAccountTitle => 'Ważne';
@@ -652,8 +637,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get yearlyStatsAppBarTitle => 'Mój rok z Timer.Coffee';
 
   @override
-  String get yearlyStatsStory1Text =>
-      'Hej, dziękujemy, że byłeś częścią wszechświata Timer.Coffee w tym roku!';
+  String get yearlyStatsStory1Text => 'Hej, dziękujemy, że byłeś częścią wszechświata Timer.Coffee w tym roku!';
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
@@ -689,8 +673,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get yearlyStatsStory7Part1 => 'Nie parzyłeś sam…';
 
   @override
-  String get yearlyStatsStory7Part2 =>
-      '...ale z użytkownikami ze 110 innych\nkrajów na 6 kontynentach!';
+  String get yearlyStatsStory7Part2 => '...ale z użytkownikami ze 110 innych\nkrajów na 6 kontynentach!';
 
   @override
   String yearlyStatsStory8TitleLow(Object count) {
@@ -741,16 +724,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get yearlyStatsShareProgressMyYear => 'Mój rok z Timer.Coffee';
 
   @override
-  String get yearlyStatsShareProgressTop3Recipes =>
-      'Moje 3 najlepsze przepisy:';
+  String get yearlyStatsShareProgressTop3Recipes => 'Moje 3 najlepsze przepisy:';
 
   @override
-  String get yearlyStatsShareProgressTop3Roasters =>
-      'Moi 3 najlepsi producenci:';
+  String get yearlyStatsShareProgressTop3Roasters => 'Moi 3 najlepsi producenci:';
 
   @override
-  String get yearlyStatsFailedToLike =>
-      'Nie udało się polubić. Spróbuj ponownie.';
+  String get yearlyStatsFailedToLike => 'Nie udało się polubić. Spróbuj ponownie.';
 
   @override
   String get labelCoffeeBrewed => 'Zaparzona kawa';
@@ -834,8 +814,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get recipeCreationScreenGrindSizeLabel => 'Rozmiar mielenia';
 
   @override
-  String get recipeCreationScreenTotalBrewTimeLabel =>
-      'Całkowity czas parzenia:';
+  String get recipeCreationScreenTotalBrewTimeLabel => 'Całkowity czas parzenia:';
 
   @override
   String get recipeCreationScreenMinutesLabel => 'Minuty';
@@ -858,27 +837,22 @@ class AppLocalizationsPl extends AppLocalizations {
   String get recipeCreationScreenStepTimeLabel => 'Czas kroku: ';
 
   @override
-  String get recipeCreationScreenRecipeNameValidator =>
-      'Wprowadź nazwę przepisu';
+  String get recipeCreationScreenRecipeNameValidator => 'Wprowadź nazwę przepisu';
 
   @override
-  String get recipeCreationScreenShortDescriptionValidator =>
-      'Wprowadź krótki opis';
+  String get recipeCreationScreenShortDescriptionValidator => 'Wprowadź krótki opis';
 
   @override
-  String get recipeCreationScreenBrewingMethodValidator =>
-      'Wybierz metodę parzenia';
+  String get recipeCreationScreenBrewingMethodValidator => 'Wybierz metodę parzenia';
 
   @override
   String get recipeCreationScreenRequiredValidator => 'Wymagane';
 
   @override
-  String get recipeCreationScreenInvalidNumberValidator =>
-      'Nieprawidłowy numer';
+  String get recipeCreationScreenInvalidNumberValidator => 'Nieprawidłowy numer';
 
   @override
-  String get recipeCreationScreenStepDescriptionValidator =>
-      'Wprowadź opis kroku';
+  String get recipeCreationScreenStepDescriptionValidator => 'Wprowadź opis kroku';
 
   @override
   String get recipeCreationScreenContinueButton => 'Przejdź do kroków przepisu';
@@ -890,8 +864,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get recipeCreationScreenSaveRecipeButton => 'Zapisz przepis';
 
   @override
-  String get recipeCreationScreenUpdateSuccess =>
-      'Przepis zaktualizowany pomyślnie';
+  String get recipeCreationScreenUpdateSuccess => 'Przepis zaktualizowany pomyślnie';
 
   @override
   String get recipeCreationScreenSaveSuccess => 'Przepis zapisany pomyślnie';
@@ -960,8 +933,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get unknownBrewingMethod => 'Nieznana metoda parzenia';
 
   @override
-  String get recipeCopyErrorLoadingEdit =>
-      'Nie udało się załadować skopiowanego przepisu do edycji.';
+  String get recipeCopyErrorLoadingEdit => 'Nie udało się załadować skopiowanego przepisu do edycji.';
 
   @override
   String get recipeCopyErrorOperationFailed => 'Operacja nie powiodła się.';
@@ -970,26 +942,22 @@ class AppLocalizationsPl extends AppLocalizations {
   String get notProvided => 'Nie podano';
 
   @override
-  String get recipeUpdateFailedFetch =>
-      'Nie udało się pobrać zaktualizowanych danych przepisu.';
+  String get recipeUpdateFailedFetch => 'Nie udało się pobrać zaktualizowanych danych przepisu.';
 
   @override
   String get recipeImportSuccess => 'Przepis zaimportowany pomyślnie!';
 
   @override
-  String get recipeImportFailedSave =>
-      'Nie udało się zapisać zaimportowanego przepisu.';
+  String get recipeImportFailedSave => 'Nie udało się zapisać zaimportowanego przepisu.';
 
   @override
-  String get recipeImportFailedFetch =>
-      'Nie udało się pobrać danych przepisu do importu.';
+  String get recipeImportFailedFetch => 'Nie udało się pobrać danych przepisu do importu.';
 
   @override
   String get recipeNotImported => 'Przepis nie został zaimportowany.';
 
   @override
-  String get recipeNotFoundCloud =>
-      'Przepis nie znaleziony w chmurze lub nie jest publiczny.';
+  String get recipeNotFoundCloud => 'Przepis nie znaleziony w chmurze lub nie jest publiczny.';
 
   @override
   String get recipeLoadErrorGeneric => 'Błąd ładowania przepisu.';
@@ -1037,8 +1005,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get signInRequiredTitle => 'Wymagane zalogowanie';
 
   @override
-  String get signInRequiredBodyShare =>
-      'Musisz się zalogować, aby udostępniać własne przepisy.';
+  String get signInRequiredBodyShare => 'Musisz się zalogować, aby udostępniać własne przepisy.';
 
   @override
   String get syncSuccess => 'Synchronizacja zakończona pomyślnie!';
@@ -1056,8 +1023,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get signInRequiredSnackbar => 'Wymagane zalogowanie';
 
   @override
-  String get moderationErrorFunction =>
-      'Sprawdzenie moderacji treści nie powiodło się.';
+  String get moderationErrorFunction => 'Sprawdzenie moderacji treści nie powiodło się.';
 
   @override
   String get moderationReasonDefault => 'Treść oznaczona do weryfikacji.';
@@ -1081,8 +1047,7 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
-  String get saveLocallyCheckLater =>
-      'Nie można sprawdzić statusu treści. Zapisano lokalnie, zostanie sprawdzone przy następnej synchronizacji.';
+  String get saveLocallyCheckLater => 'Nie można sprawdzić statusu treści. Zapisano lokalnie, zostanie sprawdzone przy następnej synchronizacji.';
 
   @override
   String get saveLocallyModerationFailedTitle => 'Zmiany zapisane lokalnie';
@@ -1096,8 +1061,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get editImportedRecipeTitle => 'Edytuj zaimportowany przepis';
 
   @override
-  String get editImportedRecipeBody =>
-      'To jest zaimportowany przepis. Edycja utworzy nową, niezależną kopię. Czy chcesz kontynuować?';
+  String get editImportedRecipeBody => 'To jest zaimportowany przepis. Edycja utworzy nową, niezależną kopię. Czy chcesz kontynuować?';
 
   @override
   String get editImportedRecipeButtonCopy => 'Utwórz kopię i edytuj';
@@ -1115,16 +1079,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get displayNameEmptyError => 'Nazwa wyświetlana nie może być pusta';
 
   @override
-  String get displayNameTooLongError =>
-      'Nazwa wyświetlana nie może przekraczać 50 znaków';
+  String get displayNameTooLongError => 'Nazwa wyświetlana nie może przekraczać 50 znaków';
 
   @override
-  String get errorUserNotLoggedIn =>
-      'Użytkownik nie jest zalogowany. Zaloguj się ponownie.';
+  String get errorUserNotLoggedIn => 'Użytkownik nie jest zalogowany. Zaloguj się ponownie.';
 
   @override
-  String get displayNameUpdateSuccess =>
-      'Nazwa wyświetlana zaktualizowana pomyślnie!';
+  String get displayNameUpdateSuccess => 'Nazwa wyświetlana zaktualizowana pomyślnie!';
 
   @override
   String displayNameUpdateError(String error) {
@@ -1135,8 +1096,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get deletePictureConfirmationTitle => 'Usunąć zdjęcie?';
 
   @override
-  String get deletePictureConfirmationBody =>
-      'Czy na pewno chcesz usunąć swoje zdjęcie profilowe?';
+  String get deletePictureConfirmationBody => 'Czy na pewno chcesz usunąć swoje zdjęcie profilowe?';
 
   @override
   String get deletePictureSuccess => 'Zdjęcie profilowe usunięte.';
@@ -1152,8 +1112,7 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
-  String get updatePictureSuccess =>
-      'Zdjęcie profilowe zaktualizowane pomyślnie!';
+  String get updatePictureSuccess => 'Zdjęcie profilowe zaktualizowane pomyślnie!';
 
   @override
   String get deletePictureTooltip => 'Usuń zdjęcie';
@@ -1162,8 +1121,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get account => 'Konto';
 
   @override
-  String get settingsBrewingMethodsTitle =>
-      'Metody parzenia na ekranie głównym';
+  String get settingsBrewingMethodsTitle => 'Metody parzenia na ekranie głównym';
 
   @override
   String get filter => 'Filtr';
@@ -1215,4 +1173,16 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get enterFarm => 'Wprowadź farmę kawy';
+
+  @override
+  String get requiredInformation => 'Wymagane informacje';
+
+  @override
+  String get basicDetails => 'Podstawowe szczegóły';
+
+  @override
+  String get qualityMeasurements => 'Jakość i pomiary';
+
+  @override
+  String get importantDates => 'Ważne daty';
 }

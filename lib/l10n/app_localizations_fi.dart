@@ -18,8 +18,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get author => 'Tekijä';
 
   @override
-  String get authortext =>
-      'Timer.Coffee -sovelluksen on luonut kahviharrastaja Anton Karliner, ja sen tarkoitus on auttaa sinua nauttimaan kahvistasi entistä enemmän. Voit osallistua kehitykseen GitHubissa.';
+  String get authortext => 'Timer.Coffee -sovelluksen on luonut kahviharrastaja Anton Karliner, ja sen tarkoitus on auttaa sinua nauttimaan kahvistasi entistä enemmän. Voit osallistua kehitykseen GitHubissa.';
 
   @override
   String get contributors => 'Avustajat';
@@ -31,8 +30,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get license => 'Lisenssi';
 
   @override
-  String get licensetext =>
-      'Tämä sovellus on vapaa ohjelmisto: voit levittää sitä edelleen ja/tai muokata sitä GNU General Public License -lisenssin version 3 tai (valintasi mukaan) minkä tahansa myöhemmän version ehtojen mukaisesti.';
+  String get licensetext => 'Tämä sovellus on vapaa ohjelmisto: voit levittää sitä edelleen ja/tai muokata sitä GNU General Public License -lisenssin version 3 tai (valintasi mukaan) minkä tahansa myöhemmän version ehtojen mukaisesti.';
 
   @override
   String get licensebutton => 'Lue GNU General Public License v3';
@@ -71,8 +69,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get recipesummary => 'Reseptin yhteenveto';
 
   @override
-  String get recipesummarynote =>
-      'Huom: Tämä on perusresepti oletusvesi- ja kahvimäärillä.';
+  String get recipesummarynote => 'Huom: Tämä on perusresepti oletusvesi- ja kahvimäärillä.';
 
   @override
   String get preparation => 'Valmistelu';
@@ -120,8 +117,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get supportdevelopment => 'Tue kehitystä';
 
   @override
-  String get supportdevmsg =>
-      'Lahjoituksesi auttavat kattamaan ylläpitokustannukset ja mahdollistavat uusien kahvinkeitinlaitteiden hankinnan sekä reseptien lisäämisen sovellukseen.';
+  String get supportdevmsg => 'Lahjoituksesi auttavat kattamaan ylläpitokustannukset ja mahdollistavat uusien kahvinkeitinlaitteiden hankinnan sekä reseptien lisäämisen sovellukseen.';
 
   @override
   String get supportdevtnx => 'Kiitos, että harkitset lahjoitusta!';
@@ -130,8 +126,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get donationok => 'Kiitos!';
 
   @override
-  String get donationtnx =>
-      'Arvostan tukeasi! Toivotan paljon hyviä uuttoja! ☕️';
+  String get donationtnx => 'Arvostan tukeasi! Toivotan paljon hyviä uuttoja! ☕️';
 
   @override
   String get donationerr => 'Virhe';
@@ -194,8 +189,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get snow => 'Lumi';
 
   @override
-  String get noFavoriteRecipesMessage =>
-      'Suosikkireseptiesi lista on tyhjä. Aloita tutkiminen ja uuttaminen löytääksesi suosikkisi!';
+  String get noFavoriteRecipesMessage => 'Suosikkireseptiesi lista on tyhjä. Aloita tutkiminen ja uuttaminen löytääksesi suosikkisi!';
 
   @override
   String get explore => 'Tutki';
@@ -313,8 +307,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get confirmDeleteTitle => 'Poista merkintä?';
 
   @override
-  String get confirmDeleteMessage =>
-      'Haluatko varmasti poistaa tämän merkinnän? Tätä toimintoa ei voi perua.';
+  String get confirmDeleteMessage => 'Haluatko varmasti poistaa tämän merkinnän? Tätä toimintoa ei voi perua.';
 
   @override
   String get removeFavorite => 'Poista suosikeista';
@@ -389,8 +382,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get pleaseNote => 'Huomaa';
 
   @override
-  String get firstTimePopupMessage =>
-      '1. Käytämme ulkoisia palveluita kuvien käsittelyyn. Jatkamalla hyväksyt tämän.\n2. Emme tallenna kuviasi, vältä henkilökohtaisten tietojen sisällyttämistä.\n3. Kuvantunnistus on tällä hetkellä rajoitetussa testissä.';
+  String get firstTimePopupMessage => '1. Käytämme ulkoisia palveluita kuvien käsittelyyn. Jatkamalla hyväksyt tämän.\n2. Emme tallenna kuviasi, vältä henkilökohtaisten tietojen sisällyttämistä.\n3. Kuvantunnistus on tällä hetkellä rajoitetussa testissä.';
 
   @override
   String get ok => 'OK';
@@ -426,12 +418,10 @@ class AppLocalizationsFi extends AppLocalizations {
   String get unexpectedErrorOccurred => 'Odottamaton virhe';
 
   @override
-  String get tokenLimitReached =>
-      'Pahoittelut, olet saavuttanut tämän kuun kuvantunnistuksen tunnisterajan';
+  String get tokenLimitReached => 'Pahoittelut, olet saavuttanut tämän kuun kuvantunnistuksen tunnisterajan';
 
   @override
-  String get noCoffeeLabelsDetected =>
-      'Kahvipakkauksia ei havaittu. Kokeile toista kuvaa.';
+  String get noCoffeeLabelsDetected => 'Kahvipakkauksia ei havaittu. Kokeile toista kuvaa.';
 
   @override
   String get collectedInformation => 'Kerätyt tiedot';
@@ -581,8 +571,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get success => 'Onnistui!';
 
   @override
-  String get otpSentMessage =>
-      'Kertakäyttöinen koodi lähetetään sähköpostiisi. Syötä se alla, kun se saapuu.';
+  String get otpSentMessage => 'Kertakäyttöinen koodi lähetetään sähköpostiisi. Syötä se alla, kun se saapuu.';
 
   @override
   String get otpHint2 => 'Syötä koodi tähän';
@@ -597,8 +586,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get deleteAccount => 'Poista tili';
 
   @override
-  String get deleteAccountWarning =>
-      'Huomio: Jos jatkat, poistamme tilisi ja siihen liittyvät tiedot pysyvästi palvelimiltamme. Laitteellesi jää paikallinen kopio; jos haluat poistaa senkin, poista sovellus. Jos haluat synkronoinnin uudelleen, sinun on luotava uusi tili.';
+  String get deleteAccountWarning => 'Huomio: Jos jatkat, poistamme tilisi ja siihen liittyvät tiedot pysyvästi palvelimiltamme. Laitteellesi jää paikallinen kopio; jos haluat poistaa senkin, poista sovellus. Jos haluat synkronoinnin uudelleen, sinun on luotava uusi tili.';
 
   @override
   String get deleteAccountConfirmation => 'Tili poistettu onnistuneesti';
@@ -607,8 +595,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get accountDeleted => 'Tili poistettu';
 
   @override
-  String get accountDeletionError =>
-      'Tilin poistaminen epäonnistui, yritä uudelleen';
+  String get accountDeletionError => 'Tilin poistaminen epäonnistui, yritä uudelleen';
 
   @override
   String get deleteAccountTitle => 'Tärkeää';
@@ -650,8 +637,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get yearlyStatsAppBarTitle => 'Vuoteni Timer.Coffee:ssa';
 
   @override
-  String get yearlyStatsStory1Text =>
-      'Kiitos, että olit osa Timer.Coffee-universumia tänä vuonna!';
+  String get yearlyStatsStory1Text => 'Kiitos, että olit osa Timer.Coffee-universumia tänä vuonna!';
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
@@ -687,8 +673,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get yearlyStatsStory7Part1 => 'Et ollut ainoa, joka uutti…';
 
   @override
-  String get yearlyStatsStory7Part2 =>
-      '...vaan kanssasi oli käyttäjiä 110 muusta\nmaasta kuudelta mantereelta!';
+  String get yearlyStatsStory7Part2 => '...vaan kanssasi oli käyttäjiä 110 muusta\nmaasta kuudelta mantereelta!';
 
   @override
   String yearlyStatsStory8TitleLow(Object count) {
@@ -849,23 +834,19 @@ class AppLocalizationsFi extends AppLocalizations {
   String get recipeCreationScreenRecipeNameValidator => 'Anna reseptin nimi';
 
   @override
-  String get recipeCreationScreenShortDescriptionValidator =>
-      'Anna lyhyt kuvaus';
+  String get recipeCreationScreenShortDescriptionValidator => 'Anna lyhyt kuvaus';
 
   @override
-  String get recipeCreationScreenBrewingMethodValidator =>
-      'Valitse valmistusmenetelmä';
+  String get recipeCreationScreenBrewingMethodValidator => 'Valitse valmistusmenetelmä';
 
   @override
   String get recipeCreationScreenRequiredValidator => 'Pakollinen';
 
   @override
-  String get recipeCreationScreenInvalidNumberValidator =>
-      'Virheellinen numero';
+  String get recipeCreationScreenInvalidNumberValidator => 'Virheellinen numero';
 
   @override
-  String get recipeCreationScreenStepDescriptionValidator =>
-      'Anna vaiheen kuvaus';
+  String get recipeCreationScreenStepDescriptionValidator => 'Anna vaiheen kuvaus';
 
   @override
   String get recipeCreationScreenContinueButton => 'Jatka reseptin vaiheisiin';
@@ -877,12 +858,10 @@ class AppLocalizationsFi extends AppLocalizations {
   String get recipeCreationScreenSaveRecipeButton => 'Tallenna resepti';
 
   @override
-  String get recipeCreationScreenUpdateSuccess =>
-      'Resepti päivitetty onnistuneesti';
+  String get recipeCreationScreenUpdateSuccess => 'Resepti päivitetty onnistuneesti';
 
   @override
-  String get recipeCreationScreenSaveSuccess =>
-      'Resepti tallennettu onnistuneesti';
+  String get recipeCreationScreenSaveSuccess => 'Resepti tallennettu onnistuneesti';
 
   @override
   String recipeCreationScreenSaveError(String error) {
@@ -948,8 +927,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get unknownBrewingMethod => 'Tuntematon valmistusmenetelmä';
 
   @override
-  String get recipeCopyErrorLoadingEdit =>
-      'Kopioidun reseptin lataus muokkausta varten epäonnistui.';
+  String get recipeCopyErrorLoadingEdit => 'Kopioidun reseptin lataus muokkausta varten epäonnistui.';
 
   @override
   String get recipeCopyErrorOperationFailed => 'Toiminto epäonnistui.';
@@ -958,8 +936,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get notProvided => 'Ei annettu';
 
   @override
-  String get recipeUpdateFailedFetch =>
-      'Päivitettyjä reseptitietoja ei saatu noudettua.';
+  String get recipeUpdateFailedFetch => 'Päivitettyjä reseptitietoja ei saatu noudettua.';
 
   @override
   String get recipeImportSuccess => 'Resepti tuotu onnistuneesti!';
@@ -974,8 +951,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get recipeNotImported => 'Reseptiä ei tuotu.';
 
   @override
-  String get recipeNotFoundCloud =>
-      'Reseptiä ei löytynyt pilvestä tai se ei ole julkinen.';
+  String get recipeNotFoundCloud => 'Reseptiä ei löytynyt pilvestä tai se ei ole julkinen.';
 
   @override
   String get recipeLoadErrorGeneric => 'Reseptin lataus epäonnistui.';
@@ -1023,8 +999,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get signInRequiredTitle => 'Kirjautuminen tarvitaan';
 
   @override
-  String get signInRequiredBodyShare =>
-      'Sinun täytyy kirjautua jakaaksesi omia reseptejäsi.';
+  String get signInRequiredBodyShare => 'Sinun täytyy kirjautua jakaaksesi omia reseptejäsi.';
 
   @override
   String get syncSuccess => 'Synkronointi onnistui!';
@@ -1042,8 +1017,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get signInRequiredSnackbar => 'Kirjautuminen tarvitaan';
 
   @override
-  String get moderationErrorFunction =>
-      'Sisällön moderointitarkistus epäonnistui.';
+  String get moderationErrorFunction => 'Sisällön moderointitarkistus epäonnistui.';
 
   @override
   String get moderationReasonDefault => 'Sisältö merkitty tarkistettavaksi.';
@@ -1067,12 +1041,10 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
-  String get saveLocallyCheckLater =>
-      'Paikalliset muutokset tallennettu, mutta julkista versiota ei voitu päivittää: tarkista myöhemmin';
+  String get saveLocallyCheckLater => 'Paikalliset muutokset tallennettu, mutta julkista versiota ei voitu päivittää: tarkista myöhemmin';
 
   @override
-  String get saveLocallyModerationFailedTitle =>
-      'Muutokset tallennettu paikallisesti';
+  String get saveLocallyModerationFailedTitle => 'Muutokset tallennettu paikallisesti';
 
   @override
   String saveLocallyModerationFailedBody(String reason) {
@@ -1083,8 +1055,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get editImportedRecipeTitle => 'Muokkaa tuotua reseptiä';
 
   @override
-  String get editImportedRecipeBody =>
-      'Tämä on tuotu resepti. Sen muokkaaminen luo uuden, itsenäisen kopion. Haluatko jatkaa?';
+  String get editImportedRecipeBody => 'Tämä on tuotu resepti. Sen muokkaaminen luo uuden, itsenäisen kopion. Haluatko jatkaa?';
 
   @override
   String get editImportedRecipeButtonCopy => 'Luo kopio ja muokkaa';
@@ -1105,8 +1076,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get displayNameTooLongError => 'Näyttönimi ei saa ylittää 50 merkkiä';
 
   @override
-  String get errorUserNotLoggedIn =>
-      'Käyttäjä ei ole kirjautunut sisään. Kirjaudu uudelleen.';
+  String get errorUserNotLoggedIn => 'Käyttäjä ei ole kirjautunut sisään. Kirjaudu uudelleen.';
 
   @override
   String get displayNameUpdateSuccess => 'Näyttönimi päivitetty onnistuneesti!';
@@ -1120,8 +1090,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get deletePictureConfirmationTitle => 'Poistetaanko kuva?';
 
   @override
-  String get deletePictureConfirmationBody =>
-      'Haluatko varmasti poistaa profiilikuvasi?';
+  String get deletePictureConfirmationBody => 'Haluatko varmasti poistaa profiilikuvasi?';
 
   @override
   String get deletePictureSuccess => 'Profiilikuva poistettu.';
@@ -1198,4 +1167,16 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get enterFarm => 'Syötä kahvitila';
+
+  @override
+  String get requiredInformation => 'Tarvittavat tiedot';
+
+  @override
+  String get basicDetails => 'Perustiedot';
+
+  @override
+  String get qualityMeasurements => 'Laadun mittaukset';
+
+  @override
+  String get importantDates => 'Tärkeitä päivämääriä';
 }

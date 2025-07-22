@@ -585,5 +585,9 @@
   "farmer": "Viljelijä",
   "farm": "Kahvitila",
   "enterFarmer": "Syötä viljelijä",
-  "enterFarm": "Syötä kahvitila"
+  "enterFarm": "Syötä kahvitila",
+  "requiredInformation": "Tarvittavat tiedot",
+  "basicDetails": "Perustiedot",
+  "qualityMeasurements": "Laadun mittaukset",
+  "importantDates": "Tärkeitä päivämääriä"
 }

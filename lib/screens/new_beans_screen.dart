@@ -682,330 +682,461 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       ),
       body: Stack(
         children: [
-          Padding(
+          SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
-            child: ListView(
+            child: Column(
               children: [
-                Semantics(
-                  identifier: 'roasterInputField',
-                  label: loc.roaster,
-                  child: AutocompleteInputField(
-                    label: loc.roaster,
-                    hintText: loc.enterRoaster,
-                    initialOptions: coffeeBeansProvider.fetchCombinedRoasters(),
-                    onSelected: (value) {
-                      _roasterController.text = value;
-                    },
-                    initialValue: _roasterController.text,
-                  ),
-                ),
-                Semantics(
-                  identifier: 'nameInputField',
-                  label: loc.name,
-                  child: AutocompleteInputField(
-                    label: loc.name,
-                    hintText: loc.enterName,
-                    initialOptions: coffeeBeansProvider.fetchAllDistinctNames(),
-                    onSelected: (value) {
-                      _nameController.text = value;
-                    },
-                    initialValue: _nameController.text,
-                  ),
-                ),
-                Semantics(
-                  identifier: 'originInputField',
-                  label: loc.origin,
-                  child: AutocompleteInputField(
-                    label: loc.origin,
-                    hintText: loc.enterOrigin,
-                    initialOptions:
-                        coffeeBeansProvider.fetchCombinedOrigins(locale),
-                    onSelected: (value) {
-                      _originController.text = value;
-                    },
-                    initialValue: _originController.text,
-                  ),
-                ),
-                ExpansionTile(
-                  title: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Semantics(
-                      identifier: 'optionalSectionTitle',
-                      label: loc.optional,
-                      child: Text(
-                        loc.optional,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ),
-                  ),
-                  children: [
-                    Semantics(
-                      identifier: 'varietyInputField',
-                      label: loc.variety,
-                      child: AutocompleteInputField(
-                        label: loc.variety,
-                        hintText: loc.enterVariety,
-                        initialOptions:
-                            coffeeBeansProvider.fetchAllDistinctVarieties(),
-                        onSelected: (value) {
-                          variety = value;
-                        },
-                        initialValue: variety,
-                      ),
-                    ),
-                    Semantics(
-                      identifier: 'processingMethodInputField',
-                      label: loc.processingMethod,
-                      child: AutocompleteInputField(
-                        label: loc.processingMethod,
-                        hintText: loc.enterProcessingMethod,
-                        initialOptions: coffeeBeansProvider
-                            .fetchCombinedProcessingMethods(locale),
-                        onSelected: (value) {
-                          processingMethod = value;
-                        },
-                        initialValue: processingMethod,
-                      ),
-                    ),
-                    Semantics(
-                      identifier: 'roastLevelInputField',
-                      label: loc.roastLevel,
-                      child: AutocompleteInputField(
-                        label: loc.roastLevel,
-                        hintText: loc.enterRoastLevel,
-                        initialOptions:
-                            coffeeBeansProvider.fetchAllDistinctRoastLevels(),
-                        onSelected: (value) {
-                          roastLevel = value;
-                        },
-                        initialValue: roastLevel,
-                      ),
-                    ),
-                    Semantics(
-                      identifier: 'regionInputField',
-                      label: loc.region,
-                      child: AutocompleteInputField(
-                        label: loc.region,
-                        hintText: loc.enterRegion,
-                        initialOptions:
-                            coffeeBeansProvider.fetchAllDistinctRegions(),
-                        onSelected: (value) {
-                          region = value;
-                        },
-                        initialValue: region,
-                      ),
-                    ),
-                    Semantics(
-                      identifier: 'tastingNotesInputField',
-                      label: loc.tastingNotes,
-                      child: AutocompleteTagInputField(
-                        label: loc.tastingNotes,
-                        hintText: loc.enterTastingNotes,
-                        initialOptions: coffeeBeansProvider
-                            .fetchCombinedTastingNotes(locale),
-                        onSelected: (tags) {
-                          _tastingNotes = tags;
-                        },
-                        initialValues: _tastingNotes,
-                      ),
-                    ),
-                    // Farmer field
-                    Semantics(
-                      identifier: 'farmerInputField',
-                      label: loc.farmer,
-                      child: AutocompleteInputField(
-                        label: loc.farmer,
-                        hintText: loc.enterFarmer,
-                        initialOptions:
-                            coffeeBeansProvider.fetchAllDistinctFarmers(),
-                        onSelected: (value) {
-                          _farmerController.text = value;
-                        },
-                        initialValue: _farmerController.text,
-                      ),
-                    ),
-                    // Farm field
-                    Semantics(
-                      identifier: 'farmInputField',
-                      label: loc.farm,
-                      child: AutocompleteInputField(
-                        label: loc.farm,
-                        hintText: loc.enterFarm,
-                        initialOptions:
-                            coffeeBeansProvider.fetchAllDistinctFarms(),
-                        onSelected: (value) {
-                          _farmController.text = value;
-                        },
-                        initialValue: _farmController.text,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Center(
-                        child: Semantics(
-                          identifier: 'elevationTitle',
-                          label: loc.elevation,
-                          child: Text(loc.elevation,
-                              style: Theme.of(context).textTheme.titleLarge),
-                        ),
-                      ),
-                    ),
-                    Semantics(
-                      identifier: 'elevationInputField',
-                      label: loc.enterElevation,
-                      child: TextFormField(
-                        controller: _elevationController,
-                        decoration:
-                            InputDecoration(hintText: loc.enterElevation),
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Center(
-                        child: Semantics(
-                          identifier: 'cuppingScoreTitle',
-                          label: loc.cuppingScore,
-                          child: Text(loc.cuppingScore,
-                              style: Theme.of(context).textTheme.titleLarge),
-                        ),
-                      ),
-                    ),
-                    Semantics(
-                      identifier: 'cuppingScoreInputField',
-                      label: loc.enterCuppingScore,
-                      child: TextFormField(
-                        controller: _cuppingScoreController,
-                        decoration:
-                            InputDecoration(hintText: loc.enterCuppingScore),
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Center(
-                        child: Semantics(
-                          identifier: 'notesTitle',
-                          label: loc.notes,
-                          child: Text(loc.notes,
-                              style: Theme.of(context).textTheme.titleLarge),
-                        ),
-                      ),
-                    ),
-                    Semantics(
-                      identifier: 'notesInputField',
-                      label: loc.enterNotes,
-                      child: TextFormField(
-                        controller: _notesController,
-                        decoration: InputDecoration(hintText: loc.enterNotes),
-                        maxLines: null,
-                        keyboardType: TextInputType.multiline,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Semantics(
-                                  identifier: 'harvestDateTitle',
-                                  label: loc.harvestDate,
-                                  child: Text(loc.harvestDate,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge),
-                                ),
-                                Semantics(
-                                  identifier: 'harvestDatePickerButton',
-                                  label: loc.selectHarvestDate,
-                                  child: TextButton(
-                                    onPressed: () async {
-                                      var results =
-                                          await showCalendarDatePicker2Dialog(
-                                        context: context,
-                                        config:
-                                            CalendarDatePicker2WithActionButtonsConfig(),
-                                        dialogSize: const Size(325, 400),
-                                        value: [harvestDate],
-                                        borderRadius: BorderRadius.circular(15),
-                                      );
-
-                                      if (results != null &&
-                                          results.isNotEmpty) {
-                                        setState(() {
-                                          harvestDate = results[0];
-                                        });
-                                      }
-                                    },
-                                    child: Text(harvestDate != null
-                                        ? DateFormat.yMd().format(harvestDate!)
-                                        : loc.selectDate),
+                // Required Fields Card
+                Card(
+                  elevation: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.info_outline,
+                                color: Theme.of(context).colorScheme.primary),
+                            const SizedBox(width: 8),
+                            Text(
+                              "Required Information",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ),
-                              ],
                             ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Semantics(
+                          identifier: 'roasterInputField',
+                          label: loc.roaster,
+                          child: AutocompleteInputField(
+                            label: loc.roaster,
+                            hintText: loc.enterRoaster,
+                            initialOptions:
+                                coffeeBeansProvider.fetchCombinedRoasters(),
+                            onSelected: (value) {
+                              _roasterController.text = value;
+                            },
+                            initialValue: _roasterController.text,
                           ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Semantics(
-                                  identifier: 'roastDateTitle',
-                                  label: loc.roastDate,
-                                  child: Text(loc.roastDate,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge),
-                                ),
-                                Semantics(
-                                  identifier: 'roastDatePickerButton',
-                                  label: loc.selectRoastDate,
-                                  child: TextButton(
-                                    onPressed: () async {
-                                      var results =
-                                          await showCalendarDatePicker2Dialog(
-                                        context: context,
-                                        config:
-                                            CalendarDatePicker2WithActionButtonsConfig(),
-                                        dialogSize: const Size(325, 400),
-                                        value: [roastDate],
-                                        borderRadius: BorderRadius.circular(15),
-                                      );
-
-                                      if (results != null &&
-                                          results.isNotEmpty) {
-                                        setState(() {
-                                          roastDate = results[0];
-                                        });
-                                      }
-                                    },
-                                    child: Text(roastDate != null
-                                        ? DateFormat.yMd().format(roastDate!)
-                                        : loc.selectDate),
-                                  ),
-                                ),
-                              ],
-                            ),
+                        ),
+                        const SizedBox(height: 8),
+                        Semantics(
+                          identifier: 'nameInputField',
+                          label: loc.name,
+                          child: AutocompleteInputField(
+                            label: loc.name,
+                            hintText: loc.enterName,
+                            initialOptions:
+                                coffeeBeansProvider.fetchAllDistinctNames(),
+                            onSelected: (value) {
+                              _nameController.text = value;
+                            },
+                            initialValue: _nameController.text,
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 8),
+                        Semantics(
+                          identifier: 'originInputField',
+                          label: loc.origin,
+                          child: AutocompleteInputField(
+                            label: loc.origin,
+                            hintText: loc.enterOrigin,
+                            initialOptions: coffeeBeansProvider
+                                .fetchCombinedOrigins(locale),
+                            onSelected: (value) {
+                              _originController.text = value;
+                            },
+                            initialValue: _originController.text,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
+
+                // Optional Details Card
+                Card(
+                  elevation: 2,
+                  child: ExpansionTile(
+                    title: Row(
+                      children: [
+                        Icon(Icons.tune,
+                            color: Theme.of(context).colorScheme.primary),
+                        const SizedBox(width: 8),
+                        Semantics(
+                          identifier: 'optionalSectionTitle',
+                          label: loc.optional,
+                          child: Text(
+                            loc.optional,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            // Basic Details Section
+                            _buildSectionHeader(
+                                context, Icons.coffee, "Basic Details"),
+                            const SizedBox(height: 8),
+                            Semantics(
+                              identifier: 'varietyInputField',
+                              label: loc.variety,
+                              child: AutocompleteInputField(
+                                label: loc.variety,
+                                hintText: loc.enterVariety,
+                                initialOptions: coffeeBeansProvider
+                                    .fetchAllDistinctVarieties(),
+                                onSelected: (value) {
+                                  variety = value;
+                                },
+                                initialValue: variety,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Semantics(
+                              identifier: 'regionInputField',
+                              label: loc.region,
+                              child: AutocompleteInputField(
+                                label: loc.region,
+                                hintText: loc.enterRegion,
+                                initialOptions: coffeeBeansProvider
+                                    .fetchAllDistinctRegions(),
+                                onSelected: (value) {
+                                  region = value;
+                                },
+                                initialValue: region,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Semantics(
+                              identifier: 'farmerInputField',
+                              label: loc.farmer,
+                              child: AutocompleteInputField(
+                                label: loc.farmer,
+                                hintText: loc.enterFarmer,
+                                initialOptions: coffeeBeansProvider
+                                    .fetchAllDistinctFarmers(),
+                                onSelected: (value) {
+                                  _farmerController.text = value;
+                                },
+                                initialValue: _farmerController.text,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Semantics(
+                              identifier: 'farmInputField',
+                              label: loc.farm,
+                              child: AutocompleteInputField(
+                                label: loc.farm,
+                                hintText: loc.enterFarm,
+                                initialOptions:
+                                    coffeeBeansProvider.fetchAllDistinctFarms(),
+                                onSelected: (value) {
+                                  _farmController.text = value;
+                                },
+                                initialValue: _farmController.text,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+
+                            // Processing Section
+                            _buildSectionHeader(
+                                context, Icons.settings, loc.processing),
+                            const SizedBox(height: 8),
+                            Semantics(
+                              identifier: 'processingMethodInputField',
+                              label: loc.processingMethod,
+                              child: AutocompleteInputField(
+                                label: loc.processingMethod,
+                                hintText: loc.enterProcessingMethod,
+                                initialOptions: coffeeBeansProvider
+                                    .fetchCombinedProcessingMethods(locale),
+                                onSelected: (value) {
+                                  processingMethod = value;
+                                },
+                                initialValue: processingMethod,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Semantics(
+                              identifier: 'roastLevelInputField',
+                              label: loc.roastLevel,
+                              child: AutocompleteInputField(
+                                label: loc.roastLevel,
+                                hintText: loc.enterRoastLevel,
+                                initialOptions: coffeeBeansProvider
+                                    .fetchAllDistinctRoastLevels(),
+                                onSelected: (value) {
+                                  roastLevel = value;
+                                },
+                                initialValue: roastLevel,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+
+                            // Flavor Profile Section
+                            _buildSectionHeader(
+                                context, Icons.local_cafe, loc.flavorProfile),
+                            const SizedBox(height: 8),
+                            Semantics(
+                              identifier: 'tastingNotesInputField',
+                              label: loc.tastingNotes,
+                              child: AutocompleteTagInputField(
+                                label: loc.tastingNotes,
+                                hintText: loc.enterTastingNotes,
+                                initialOptions: coffeeBeansProvider
+                                    .fetchCombinedTastingNotes(locale),
+                                onSelected: (tags) {
+                                  _tastingNotes = tags;
+                                },
+                                initialValues: _tastingNotes,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+
+                            // Quality & Measurements Section
+                            _buildSectionHeader(
+                                context, Icons.star, "Quality & Measurements"),
+                            const SizedBox(height: 8),
+                            Semantics(
+                              identifier: 'elevationInputField',
+                              label: loc.enterElevation,
+                              child: TextFormField(
+                                controller: _elevationController,
+                                decoration: InputDecoration(
+                                  labelText: loc.elevation,
+                                  hintText: loc.enterElevation,
+                                  border: const OutlineInputBorder(),
+                                ),
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Semantics(
+                              identifier: 'cuppingScoreInputField',
+                              label: loc.enterCuppingScore,
+                              child: TextFormField(
+                                controller: _cuppingScoreController,
+                                decoration: InputDecoration(
+                                  labelText: loc.cuppingScore,
+                                  hintText: loc.enterCuppingScore,
+                                  border: const OutlineInputBorder(),
+                                ),
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Dates Card
+                Card(
+                  elevation: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.calendar_today,
+                                color: Theme.of(context).colorScheme.primary),
+                            const SizedBox(width: 8),
+                            Text(
+                              "Important Dates",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    loc.harvestDate,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Semantics(
+                                    identifier: 'harvestDatePickerButton',
+                                    label: loc.selectHarvestDate,
+                                    child: OutlinedButton.icon(
+                                      onPressed: () async {
+                                        var results =
+                                            await showCalendarDatePicker2Dialog(
+                                          context: context,
+                                          config:
+                                              CalendarDatePicker2WithActionButtonsConfig(),
+                                          dialogSize: const Size(325, 400),
+                                          value: [harvestDate],
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        );
+
+                                        if (results != null &&
+                                            results.isNotEmpty) {
+                                          setState(() {
+                                            harvestDate = results[0];
+                                          });
+                                        }
+                                      },
+                                      icon: const Icon(Icons.calendar_today),
+                                      label: Text(harvestDate != null
+                                          ? DateFormat.yMd()
+                                              .format(harvestDate!)
+                                          : loc.selectDate),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    loc.roastDate,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Semantics(
+                                    identifier: 'roastDatePickerButton',
+                                    label: loc.selectRoastDate,
+                                    child: OutlinedButton.icon(
+                                      onPressed: () async {
+                                        var results =
+                                            await showCalendarDatePicker2Dialog(
+                                          context: context,
+                                          config:
+                                              CalendarDatePicker2WithActionButtonsConfig(),
+                                          dialogSize: const Size(325, 400),
+                                          value: [roastDate],
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        );
+
+                                        if (results != null &&
+                                            results.isNotEmpty) {
+                                          setState(() {
+                                            roastDate = results[0];
+                                          });
+                                        }
+                                      },
+                                      icon: const Icon(Icons.calendar_today),
+                                      label: Text(roastDate != null
+                                          ? DateFormat.yMd().format(roastDate!)
+                                          : loc.selectDate),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Additional Notes Card
+                Card(
+                  elevation: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.note,
+                                color: Theme.of(context).colorScheme.primary),
+                            const SizedBox(width: 8),
+                            Text(
+                              loc.additionalNotes,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Semantics(
+                          identifier: 'notesInputField',
+                          label: loc.enterNotes,
+                          child: TextFormField(
+                            controller: _notesController,
+                            decoration: InputDecoration(
+                              labelText: loc.notes,
+                              hintText: loc.enterNotes,
+                              border: const OutlineInputBorder(),
+                            ),
+                            maxLines: 4,
+                            keyboardType: TextInputType.multiline,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // Save Button
                 Semantics(
                   identifier: 'saveButton',
                   label: isEditMode ? loc.save : loc.addCoffeeBeans,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 50),
+                      minimumSize: const Size(double.infinity, 56),
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 15),
+                          horizontal: 24, vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     onPressed: () async {
                       if (_roasterController.text.isNotEmpty &&
@@ -1076,7 +1207,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                     },
                     child: Text(isEditMode ? loc.save : loc.addCoffeeBeans),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -1113,6 +1244,23 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
             ),
         ],
       ),
+    );
+  }
+
+  Widget _buildSectionHeader(
+      BuildContext context, IconData icon, String title) {
+    return Row(
+      children: [
+        Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
+        const SizedBox(width: 8),
+        Text(
+          title,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+        ),
+      ],
     );
   }
 }

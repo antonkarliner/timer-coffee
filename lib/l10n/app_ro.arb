@@ -527,5 +527,9 @@
   "farmer": "Fermier",
   "farm": "Fermă de cafea",
   "enterFarmer": "Introduceți fermierul",
-  "enterFarm": "Introduceți ferma de cafea"
+  "enterFarm": "Introduceți ferma de cafea",
+  "requiredInformation": "Informații necesare",
+  "basicDetails": "Detalii de bază",
+  "qualityMeasurements": "Calitate și măsurători",
+  "importantDates": "Date importante"
 }

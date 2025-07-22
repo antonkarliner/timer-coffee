@@ -527,5 +527,9 @@
   "farmer": "Agricultor",
   "farm": "Fazenda de café",
   "enterFarmer": "Digite o agricultor",
-  "enterFarm": "Digite a fazenda de café"
+  "enterFarm": "Digite a fazenda de café",
+  "requiredInformation": "Informações necessárias",
+  "basicDetails": "Detalhes básicos",
+  "qualityMeasurements": "Qualidade e medições",
+  "importantDates": "Datas importantes"
 }

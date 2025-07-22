@@ -527,5 +527,9 @@
   "farmer": "農家",
   "farm": "農場",
   "enterFarmer": "農家名を入力 (オプション)",
-  "enterFarm": "農場名を入力 (オプション)"
+  "enterFarm": "農場名を入力 (オプション)",
+  "requiredInformation": "必要な情報",
+  "basicDetails": "基本詳細",
+  "qualityMeasurements": "品質と測定",
+  "importantDates": "重要な日程"
 }

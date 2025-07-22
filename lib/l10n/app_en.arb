@@ -81,7 +81,7 @@
   "globalStats": "Global stats",
   "unknownRecipe": "Unknown Recipe",
   "noData": "No data",
-  "error": "Error: {error}",
+  "error": "Error",
   "someoneJustBrewed": "Someone just brewed {recipeName}",
   "timePeriodToday": "Today",
   "timePeriodThisWeek": "This Week",
@@ -724,5 +724,9 @@
   "farmer": "Farmer",
   "farm": "Farm",
   "enterFarmer": "Enter farmer (optional)",
-  "enterFarm": "Enter farm (optional)"
+  "enterFarm": "Enter farm (optional)",
+  "requiredInformation": "Required Information",
+  "basicDetails": "Basic Details",
+  "qualityMeasurements": "Quality & Measurements",
+  "importantDates": "Important Dates"
 }

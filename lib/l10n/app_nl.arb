@@ -527,5 +527,9 @@
   "farmer": "Boer",
   "farm": "Koffieboerderij",
   "enterFarmer": "Boer invoeren (optioneel)",
-  "enterFarm": "Koffieboerderij invoeren (optioneel)"
+  "enterFarm": "Koffieboerderij invoeren (optioneel)",
+  "requiredInformation": "Vereiste informatie",
+  "basicDetails": "Basisgegevens",
+  "qualityMeasurements": "Kwaliteit en metingen",
+  "importantDates": "Belangrijke data"
 }

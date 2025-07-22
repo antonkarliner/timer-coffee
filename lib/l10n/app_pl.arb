@@ -527,5 +527,9 @@
   "farmer": "Rolnik",
   "farm": "Farma kawy",
   "enterFarmer": "Wprowadź rolnika",
-  "enterFarm": "Wprowadź farmę kawy"
+  "enterFarm": "Wprowadź farmę kawy",
+  "requiredInformation": "Wymagane informacje",
+  "basicDetails": "Podstawowe szczegóły",
+  "qualityMeasurements": "Jakość i pomiary",
+  "importantDates": "Ważne daty"
 }

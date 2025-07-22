@@ -527,5 +527,9 @@
   "farm": "农场",
   "enterFarmer": "输入农民（可选）",
   "enterFarm": "输入农场（可选）",
-  "secondsAbbreviation": "秒"
+  "secondsAbbreviation": "秒",
+  "requiredInformation": "必填信息",
+  "basicDetails": "基本信息",
+  "qualityMeasurements": "质量与测量",
+  "importantDates": "重要日期"
 }
