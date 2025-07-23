@@ -184,6 +184,19 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
     CoffeeBeansProvider coffeeBeansProvider,
     AppLocalizations loc,
   ) {
+    // Neutral gray gradient that adapts to light/dark mode
+    final isLight = Theme.of(context).brightness == Brightness.light;
+    final bgStart = isLight ? Colors.grey.shade200 : Colors.grey.shade800;
+    final bgEnd = isLight ? Colors.grey.shade100 : Colors.grey.shade700;
+    // Tint the fallback icon so it always contrasts
+    final iconColor = Theme.of(context).colorScheme.onSurface.withOpacity(0.6);
+    // Text colors based on surface so they remain legible
+    final primaryTextColor = Theme.of(context).colorScheme.onSurface;
+    final secondaryTextColor =
+        Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.85);
+    final tertiaryTextColor =
+        Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.6);
+
     return Card(
       elevation: 4,
       child: Container(
@@ -193,10 +206,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Theme.of(context).colorScheme.primaryContainer,
-              Theme.of(context).colorScheme.primaryContainer.withOpacity(0.7),
-            ],
+            colors: [bgStart, bgEnd],
           ),
         ),
         child: Padding(
@@ -206,7 +216,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Logo Section
+                  // Logo or placeholder
                   SizedBox(
                     height: 80,
                     width: 120,
@@ -219,14 +229,14 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
                             borderRadius: 12.0,
                             forceFit: BoxFit.contain,
                           )
-                        : const Icon(
+                        : Icon(
                             Coffeico.bag_with_bean,
                             size: 60,
+                            color: iconColor,
                           ),
                   ),
                   const SizedBox(width: 20),
-
-                  // Name and Roaster
+                  // Name / roaster / origin
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,9 +251,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
                               .headlineSmall
                               ?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer,
+                                color: primaryTextColor,
                               ),
                         ),
                         const SizedBox(height: 8),
@@ -251,10 +259,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
                           bean.roaster,
                           style:
                               Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer
-                                        .withOpacity(0.8),
+                                    color: secondaryTextColor,
                                   ),
                         ),
                         const SizedBox(height: 4),
@@ -262,29 +267,21 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
                           bean.origin,
                           style:
                               Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer
-                                        .withOpacity(0.7),
+                                    color: tertiaryTextColor,
                                   ),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(width: 12),
-                  // Favorite Button
+                  // Favorite button
                   IconButton(
                     iconSize: 28,
                     icon: Icon(
                       bean.isFavorite ? Icons.favorite : Icons.favorite_border,
                       color: bean.isFavorite
-                          ? (Theme.of(context).brightness == Brightness.light
-                              ? const Color(0xff8e2e2d)
-                              : const Color(0xffc66564))
-                          : (Theme.of(context).brightness == Brightness.light
-                              ? Colors.white
-                              : Colors
-                                  .black), // White in light mode, black in dark mode
+                          ? Theme.of(context).colorScheme.primary
+                          : secondaryTextColor,
                     ),
                     onPressed: () async {
                       await coffeeBeansProvider.toggleFavoriteStatus(
@@ -294,8 +291,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
                   ),
                 ],
               ),
-
-              // Quick Stats Row
+              // Quick stats (roast date & cupping score)
               if (bean.roastDate != null || bean.cuppingScore != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
