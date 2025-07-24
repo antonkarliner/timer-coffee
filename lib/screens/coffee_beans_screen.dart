@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 import '../app_router.gr.dart';
@@ -11,6 +12,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../widgets/confirm_delete_dialog.dart';
 import '../widgets/roaster_logo.dart';
+import 'package:auto_size_text_plus/auto_size_text_plus.dart';
 
 enum SortOption { dateAdded, name, roaster, origin }
 
@@ -58,9 +60,18 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
   @override
   void initState() {
     super.initState();
-    _loadFilterOptions();
+    _loadViewMode();
     _scrollController = ScrollController();
     _scrollController.addListener(_handleScroll);
+  }
+
+  Future<void> _loadViewMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isGrid = prefs.getBool('coffeeBeansGridView') ?? false;
+    setState(() {
+      _viewMode = isGrid ? ViewMode.grid : ViewMode.list;
+    });
+    _loadFilterOptions();
   }
 
   void _handleScroll() {
@@ -100,6 +111,11 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
     setState(() {
       isEditMode = !isEditMode;
     });
+  }
+
+  Future<void> _saveViewMode(ViewMode mode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('coffeeBeansGridView', mode == ViewMode.grid);
   }
 
   void _showFilterDialog() async {
@@ -321,7 +337,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
                       });
                     },
                   ),
-                  ButtonBar(
+                  OverflowBar(
                     children: [
                       TextButton(
                         child: Text(loc.resetFilters),
@@ -507,6 +523,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
                 _viewMode =
                     _viewMode == ViewMode.list ? ViewMode.grid : ViewMode.list;
               });
+              _saveViewMode(_viewMode);
             },
           ),
           IconButton(
@@ -725,7 +742,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 0.75,
+                            childAspectRatio: 0.65,
                             crossAxisSpacing: 16.0,
                             mainAxisSpacing: 16.0,
                           ),
@@ -881,7 +898,8 @@ class CoffeeBeanGridCard extends StatelessWidget {
     final bgStart = isLight ? Colors.grey.shade200 : Colors.grey.shade800;
     final bgEnd = isLight ? Colors.grey.shade100 : Colors.grey.shade700;
     // icon tint
-    final iconColor = Theme.of(context).colorScheme.onSurface.withOpacity(0.6);
+    final iconColor =
+        Theme.of(context).colorScheme.onSurface.withAlpha((255 * 0.6).round());
 
     final coffeeBeansProvider =
         Provider.of<CoffeeBeansProvider>(context, listen: false);
@@ -911,28 +929,48 @@ class CoffeeBeanGridCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header with favorite
-                if (bean.isFavorite)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        const Spacer(),
-                        Icon(
-                          Icons.favorite,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 20,
+                // Header with favorite - reduced padding
+                Container(
+                  height: 40, // Fixed height
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: Row(
+                    children: [
+                      const Spacer(),
+                      IconButton(
+                        iconSize: 18, // Reduced size
+                        padding: const EdgeInsets.all(4), // Reduced padding
+                        constraints: const BoxConstraints(
+                          minWidth: 32,
+                          minHeight: 32,
                         ),
-                      ],
-                    ),
+                        icon: Icon(
+                          bean.isFavorite
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: bean.isFavorite
+                              ? (Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? const Color(0xff8e2e2d)
+                                  : const Color(0xffc66564))
+                              : null,
+                        ),
+                        onPressed: () async {
+                          await coffeeBeansProvider.toggleFavoriteStatus(
+                            bean.beansUuid!,
+                            !bean.isFavorite,
+                          );
+                        },
+                      ),
+                    ],
                   ),
+                ),
 
-                // Logo section
+                // Logo section - flexible but with constraints
                 Expanded(
                   flex: 3,
                   child: Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: FutureBuilder<Map<String, String?>>(
                       future: databaseProvider
                           .fetchCachedRoasterLogoUrls(bean.roaster),
@@ -944,7 +982,7 @@ class CoffeeBeanGridCard extends StatelessWidget {
                             return RoasterLogo(
                               originalUrl: originalUrl,
                               mirrorUrl: mirrorUrl,
-                              height: 60,
+                              height: 50, // Reduced height
                               borderRadius: 8.0,
                               forceFit: BoxFit.contain,
                             );
@@ -952,7 +990,7 @@ class CoffeeBeanGridCard extends StatelessWidget {
                         }
                         return Icon(
                           Coffeico.bag_with_bean,
-                          size: 60,
+                          size: 50, // Reduced size
                           color: iconColor,
                         );
                       },
@@ -960,40 +998,45 @@ class CoffeeBeanGridCard extends StatelessWidget {
                   ),
                 ),
 
-                // Text information
+                // Text information - flexible with minimum height
                 Expanded(
                   flex: 2,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize:
+                          MainAxisSize.min, // Important: minimize space
                       children: [
-                        Text(
-                          bean.name,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface, // ensure contrast
+                        const SizedBox(height: 6),
+                        Flexible(
+                          // Use Flexible instead of fixed height
+                          child: AutoSizeText(
+                            bean.name,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                            maxLines: 2, // Reduced from 3
+                            minFontSize: 10, // Reduced from 12
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2), // Reduced spacing
                         Text(
                           bean.roaster,
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 14,
                             color: Theme.of(context)
                                 .colorScheme
                                 .onSurfaceVariant
-                                .withOpacity(0.85),
+                                .withAlpha((255 * 0.85).round()),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: 2), // Reduced spacing
                         Text(
                           bean.origin,
                           style: TextStyle(
@@ -1001,7 +1044,7 @@ class CoffeeBeanGridCard extends StatelessWidget {
                             color: Theme.of(context)
                                 .colorScheme
                                 .onSurfaceVariant
-                                .withOpacity(0.6),
+                                .withAlpha((255 * 0.6).round()),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -1011,38 +1054,24 @@ class CoffeeBeanGridCard extends StatelessWidget {
                   ),
                 ),
 
-                // Action buttons
+                // Action buttons - only show in edit mode with fixed height
                 if (isEditMode)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  Container(
+                    height: 40, // Fixed height
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
-                          icon: Icon(
-                            bean.isFavorite
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: bean.isFavorite
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant
-                                    .withOpacity(0.6),
-                            size: 20,
+                          iconSize: 18, // Reduced size
+                          padding: const EdgeInsets.all(4),
+                          constraints: const BoxConstraints(
+                            minWidth: 32,
+                            minHeight: 32,
                           ),
-                          onPressed: () async {
-                            await coffeeBeansProvider.toggleFavoriteStatus(
-                              bean.beansUuid!,
-                              !bean.isFavorite,
-                            );
-                          },
-                        ),
-                        IconButton(
                           icon: const Icon(
-                            Icons.delete_outline,
+                            Icons.remove_circle_outline,
                             color: Colors.red,
-                            size: 20,
                           ),
                           onPressed: () async {
                             final confirmed = await showDialog<bool>(
@@ -1087,7 +1116,8 @@ class CoffeeBeanCard extends StatelessWidget {
     final isLight = Theme.of(context).brightness == Brightness.light;
     final bgStart = isLight ? Colors.grey.shade200 : Colors.grey.shade800;
     final bgEnd = isLight ? Colors.grey.shade100 : Colors.grey.shade700;
-    final iconColor = Theme.of(context).colorScheme.onSurface.withOpacity(0.6);
+    final iconColor =
+        Theme.of(context).colorScheme.onSurface.withAlpha((255 * 0.6).round());
 
     const double logoHeight = 80.0;
     const double maxWidthFactor = 2.0;
@@ -1184,7 +1214,7 @@ class CoffeeBeanCard extends StatelessWidget {
                             color: Theme.of(context)
                                 .colorScheme
                                 .onSurfaceVariant
-                                .withOpacity(0.85),
+                                .withAlpha((255 * 0.85).round()),
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -1195,7 +1225,7 @@ class CoffeeBeanCard extends StatelessWidget {
                             color: Theme.of(context)
                                 .colorScheme
                                 .onSurfaceVariant
-                                .withOpacity(0.6),
+                                .withAlpha((255 * 0.6).round()),
                           ),
                         ),
                       ],
@@ -1223,11 +1253,10 @@ class CoffeeBeanCard extends StatelessWidget {
                     icon: Icon(
                       bean.isFavorite ? Icons.favorite : Icons.favorite_border,
                       color: bean.isFavorite
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context)
-                              .colorScheme
-                              .onSurfaceVariant
-                              .withOpacity(0.6),
+                          ? (Theme.of(context).brightness == Brightness.light
+                              ? const Color(0xff8e2e2d)
+                              : const Color(0xffc66564))
+                          : null,
                     ),
                     onPressed: () async {
                       await coffeeBeansProvider.toggleFavoriteStatus(

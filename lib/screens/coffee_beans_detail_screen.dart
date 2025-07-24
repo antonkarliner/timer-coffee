@@ -280,8 +280,10 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
                     icon: Icon(
                       bean.isFavorite ? Icons.favorite : Icons.favorite_border,
                       color: bean.isFavorite
-                          ? Theme.of(context).colorScheme.primary
-                          : secondaryTextColor,
+                          ? (Theme.of(context).brightness == Brightness.light
+                              ? const Color(0xff8e2e2d)
+                              : const Color(0xffc66564))
+                          : null,
                     ),
                     onPressed: () async {
                       await coffeeBeansProvider.toggleFavoriteStatus(
