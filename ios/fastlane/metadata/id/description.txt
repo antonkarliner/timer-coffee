@@ -15,7 +15,7 @@ Fitur Utama
 - Pencatatan Biji: Lacak biji kopi Anda dengan mudah menggunakan pengenalan label bertenaga AI.
 - Pencatatan Otomatis: Catat setiap sesi penyeduhan dengan mudah.
 - Sinkronisasi Perangkat: Sinkronkan resep, biji, dan seduhan dengan mulus di semua perangkat Anda.
-- Multibahasa: Mendukung 15 bahasa.
+- Multibahasa: Mendukung 18 bahasa.
 - Mode Gelap: Pengalaman menyeduh yang nyaman kapan saja sepanjang hari.
 
 Segera Hadir

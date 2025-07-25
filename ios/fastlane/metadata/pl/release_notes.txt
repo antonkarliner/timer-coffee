@@ -1,3 +1,3 @@
-+ Możesz teraz zapisywać informacje o farmie, na której kawa była uprawiana (lub o rolniku, który ją uprawiał) w rejestrach ziaren.  
-+ Naprawiono błąd, który powodował błędy podczas usuwania rejestru ziaren.  
-+ Naprawiono błąd związany z synchronizacją rejestrów ziaren.
+Ulepszony projekt, aby był bardziej przejrzysty i spójny.
+
+Nie zapomnij – jeśli masz jakieś pomysły na ulepszenia, nie wahaj się ich udostępnić.

@@ -1,17 +1,23 @@
-Timer.coffee jest DARMOWY. Darowizny w aplikacji są całkowicie opcjonalne i nie wpływają na funkcjonalność w żaden sposób.
+Timer.Coffee to darmowy timer i kalkulator do parzenia kawy typu open-source, zaprojektowany w celu ulepszenia Twojego doświadczenia parzenia. Całkowicie darmowy z opcjonalnymi darowiznami w aplikacji na rzecz wspierania ciągłego rozwoju, te darowizny nie wpływają na dostęp do funkcji.
 
-Timer.Coffee to darmowa i otwarta aplikacja do odmierzania czasu parzenia kawy oraz kalkulator kawy, zaprojektowana, aby pomóc Ci w przygodach z parzeniem kawy. Aplikacja obecnie oferuje wsparcie dla różnych technik parzenia, w tym: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over i Origami Dripper. Aplikacja zawiera ponad 30 przepisów, a kolejne są w drodze.
+Co nowego
 
-Z Timer.Coffee możesz:
+- Twórz własne przepisy: Dostosuj i zapisz swoje osobiste przepisy na parzenie kawy.
+- Udostępniaj przepisy: Łatwo udostępniaj swoje ulubione przepisy znajomym i miłośnikom kawy.
 
-- Używać kalkulatora kawy, aby dostosować ilości kawy lub wody w przepisach, co pozwoli Ci parzyć tyle kawy, ile chcesz.
-- Oznaczać swoje ulubione przepisy na kawę jako ulubione dla łatwego dostępu.
-- Dodawać notatki do swoich zaparzeń w Dzienniku Parzenia
-- Włączać dźwięk dzwonka, aby informować Cię o kolejnym kroku parzenia.
+Kluczowe funkcje
 
-Aplikacja obsługuje 15 języków i tryb ciemny.
+- 40+ metod parzenia: Zawiera szczegółowe instrukcje krok po kroku dla metod takich jak Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper i Hario Switch.
+- Kalkulator kawy: Szybko dostosuj ilości kawy i wody, aby przygotować idealną ilość.
+- Ulubione: Oznaczaj i łatwo uzyskuj dostęp do ulubionych przepisów.
+- Dziennik parzenia: Zapisuj notatki i śledź swoje doświadczenia parzenia.
+- Dźwięk powiadomienia: Otrzymuj alerty dźwiękowe dla każdego kroku parzenia.
+- Rejestracja ziaren: Wygodnie śledź swoje ziarna kawy dzięki rozpoznawaniu etykiet wspomaganemu AI.
+- Automatyczne rejestrowanie: Bez wysiłku rejestruj każdą sesję parzenia.
+- Synchronizacja urządzeń: Bezproblemowo synchronizuj przepisy, ziarna i parzenia na wszystkich urządzeniach.
+- Wielojęzyczność: Obsługuje 18 języków.
+- Tryb ciemny: Komfortowe doświadczenie parzenia o każdej porze dnia.
 
-Oto co przygotowujemy na przyszłe aktualizacje:
+Wkrótce dostępne
 
-- Rozszerzenie naszej kolekcji przepisów na kawę.
-- Ulepszenia projektu.
+- Ulepszone funkcje interakcji i udostępniania społeczności.

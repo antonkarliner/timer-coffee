@@ -1,17 +1,23 @@
-Timer.coffee est GRATUIT. Les dons dans l'application sont purement optionnels et n'affectent en aucun cas la fonctionnalité.
+Timer.Coffee est un minuteur et une calculatrice de café gratuits et open-source conçus pour améliorer votre expérience de la préparation du café. Entièrement gratuit, il est possible de faire des dons dans l'application pour soutenir le développement continu. Ces dons n'ont aucune incidence sur l'accès aux fonctionnalités.
 
-Timer.Coffee est une application gratuite et open-source de minuterie de brassage et de calculatrice de café, conçue pour vous aider dans vos aventures de préparation de café. L'application offre actuellement un soutien pour diverses techniques de brassage, y compris : Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over et Origami Dripper. L'application propose plus de 30 recettes avec d'autres à venir.
+Nouveautés
 
-Avec Timer.Coffee, vous pouvez :
+- Créez vos propres recettes : Personnalisez et enregistrez vos recettes personnelles de préparation du café.
+- Partagez vos recettes : Partagez facilement vos recettes préférées avec vos amis et les autres amateurs de café.
 
-- Utiliser la calculatrice de café pour ajuster les quantités de café ou d'eau dans les recettes, vous permettant de brasser autant de café que vous le souhaitez.
-- Marquer vos recettes de café préférées comme favorites pour un accès facile.
-- Ajouter des notes à vos brassages dans le Journal de Brassage
-- Activer le carillon sonore pour vous informer de la prochaine étape du brassage.
+Caractéristiques principales
 
-L'application prend en charge 15 langues et le mode sombre.
+- Plus de 40 méthodes d'infusion : Inclut des instructions détaillées, étape par étape, pour des méthodes telles que Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, et Hario Switch.
+- Calculatrice de café : Ajustez rapidement les quantités de café et d'eau pour obtenir la quantité parfaite.
+- Favoris : Marquez vos recettes préférées et accédez-y facilement.
+- Journal de brassage : Enregistrez vos notes et suivez vos expériences d'infusion.
+- Carillon audio : Recevez des alertes audio à chaque étape du brassage.
+- Enregistrement des grains : Suivez facilement vos grains de café grâce à la reconnaissance d'étiquettes assistée par l'IA.
+- Enregistrement automatique : Enregistrez sans effort chaque séance d'infusion.
+- Synchronisation des appareils : Synchronisez en toute transparence les recettes, les grains et les cafés sur tous vos appareils.
+- Multilingue : Prise en charge de 18 langues.
+- Mode sombre : Une expérience d'infusion confortable à tout moment de la journée.
 
-Voici ce que nous préparons pour les futures mises à jour :
+Bientôt disponible
 
-- Une expansion de notre collection de recettes de café.
-- Des améliorations de design.
+- Fonctionnalités améliorées d'interaction et de partage avec la communauté.

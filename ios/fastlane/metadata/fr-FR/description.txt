@@ -15,7 +15,7 @@ Caractéristiques principales
 - Enregistrement des grains : Suivez facilement vos grains de café grâce à la reconnaissance d'étiquettes basée sur l'IA.
 - Enregistrement automatique : Enregistrez sans effort chaque session d'infusion.
 - Synchronisation des appareils : Synchronisez de manière transparente les recettes, les grains et les infusions sur tous vos appareils.
-- Multilingue : Prend en charge 15 langues.
+- Multilingue : Prend en charge 18 langues.
 - Mode sombre : Expérience d'infusion confortable à tout moment de la journée.
 
 Bientôt disponible

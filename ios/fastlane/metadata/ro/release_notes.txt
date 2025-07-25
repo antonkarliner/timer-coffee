@@ -1,3 +1,3 @@
-+ Acum poți înregistra informații despre Ferma unde a fost cultivată cafeaua (sau Fermierul care a cultivat-o) în fișele de boabe.  
-+ Am remediat o eroare care cauza probleme la ștergerea fișei de boabe.  
-+ Am remediat o eroare legată de sincronizarea fișelor de boabe.
+Design îmbunătățit pentru a fi mai clar și mai coerent.
+
+Nu uita – dacă ai idei pentru îmbunătățiri, nu ezita să le împărtășești.

@@ -1,17 +1,23 @@
-Timer.coffee ÜCRETSİZDİR. Uygulama içi bağışlar tamamen isteğe bağlıdır ve işlevselliği hiçbir şekilde etkilemez.
+Timer.Coffee, demleme deneyiminizi geliştirmek için tasarlanmış ücretsiz ve açık kaynaklı bir kahve demleme zamanlayıcısı ve hesaplayıcısıdır. Sürekli geliştirmeyi desteklemek için uygulama içi isteğe bağlı bağışlarla tamamen ücretsizdir, bu bağışlar özelliklere erişiminizi etkilemez.
 
-Timer.Coffee, kahve demleme maceralarınızda yardımcı olmak için tasarlanmış ücretsiz ve açık kaynaklı bir demleme zamanlayıcı ve kahve hesaplayıcı uygulamasıdır. Uygulama şu anda Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over ve Origami Dripper dahil olmak üzere çeşitli demleme tekniklerini desteklemektedir. Uygulama, yolda olan daha fazla tarifle birlikte 30'dan fazla tarif sunmaktadır.
+Yenilikler
 
-Timer.Coffee ile şunları yapabilirsiniz:
+- Kendi Tariflerinizi Oluşturun: Kişisel kahve demleme tariflerinizi özelleştirin ve kaydedin.
+- Tarifleri Paylaşın: En sevdiğiniz tarifleri arkadaşlarınızla ve kahve tutkunlarıyla kolayca paylaşın.
 
-- Kahve hesaplayıcıyı kullanarak tariflerdeki kahve veya su miktarlarını ayarlayarak istediğiniz kadar kahve demleyebilirsiniz.
-- Kolay erişim için en sevdiğiniz kahve tariflerini favorilere ekleyin.
-- Demleme Günlüğü'ne notlar ekleyin
-- Bir sonraki demleme adımı hakkında sizi bilgilendirmek için sesli çanı açın.
+Ana Özellikler
 
-Uygulama 15 dil ve karanlık modu desteklemektedir.
+- 40+ Demleme Yöntemi: Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper ve Hario Switch gibi yöntemler için detaylı adım adım talimatlar içerir.
+- Kahve Hesaplayıcı: Mükemmel miktarı demlemek için kahve ve su miktarlarını hızlıca ayarlayın.
+- Favoriler: En sevdiğiniz tarifleri işaretleyin ve kolayca erişin.
+- Demleme Günlüğü: Notlarınızı kaydedin ve demleme deneyimlerinizi takip edin.
+- Sesli Uyarı: Her demleme adımı için sesli uyarılar alın.
+- Çekirdek Kaydı: AI destekli etiket tanıma ile kahve çekirdeklerinizi kolayca takip edin.
+- Otomatik Kayıt: Her demleme oturumunu zahmetsizce kaydedin.
+- Cihaz Senkronizasyonu: Tarifleri, çekirdekleri ve demlemeleri tüm cihazlarınızda sorunsuzca senkronize edin.
+- Çok Dilli: 18 dili destekler.
+- Koyu Mod: Günün her saatinde konforlu demleme deneyimi.
 
-Gelecek güncellemeler için planlarımız:
+Yakında
 
-- Kahve tarifleri koleksiyonumuzun genişletilmesi.
-- Tasarım yükseltmeleri.
+- Gelişmiş topluluk etkileşimi ve paylaşım özellikleri.

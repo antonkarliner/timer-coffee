@@ -1,17 +1,23 @@
-Timer.coffee è GRATUITO. Le donazioni all'interno dell'app sono puramente opzionali e non influenzano la funzionalità in alcun modo.
+Timer.Coffee è un timer e un calcolatore per la preparazione del caffè gratuito e open-source, progettato per migliorare la vostra esperienza di preparazione. Completamente gratuito, con donazioni in-app opzionali per sostenere lo sviluppo continuo, che non influiscono sull'accesso alle funzioni.
 
-Timer.Coffee è un'app gratuita e open-source per il timer di infusione e il calcolatore del caffè, progettata per aiutarti nelle tue avventure di preparazione del caffè. L'app attualmente offre supporto per varie tecniche di preparazione tra cui: Hario V60, Aeropress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over e Origami Dripper. L'app presenta più di 30 ricette con altre in arrivo.
+Cosa c'è di nuovo
 
-Con Timer.Coffee puoi:
+- Creazione di ricette personalizzate: Personalizzate e salvate le vostre ricette personali per la preparazione del caffè.
+- Condividi le ricette: Condividete facilmente le vostre ricette preferite con gli amici e gli altri appassionati di caffè.
 
-- Utilizzare il calcolatore di caffè per modificare le quantità di caffè o acqua nelle ricette, permettendoti di preparare tutto il caffè che desideri.
-- Segnare le tue ricette di caffè preferite come preferite per un facile accesso.
-- Aggiungere note ai tuoi infusi nel Diario di Infusione
-- Attivare il campanello sonoro per informarti sul prossimo passaggio di infusione.
+Caratteristiche principali
 
-L'app supporta 15 lingue e la modalità scura.
+- 40+ metodi di preparazione: Include istruzioni dettagliate, passo dopo passo, per metodi come Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper e Hario Switch.
+- Calcolatore del caffè: Regola rapidamente le quantità di caffè e acqua per preparare la quantità perfetta.
+- Preferiti: Contrassegnare e accedere facilmente alle ricette preferite.
+- Diario dell'infusione: Annota le note e traccia le tue esperienze di infusione.
+- Suoneria audio: Ricevere avvisi audio per ogni fase della preparazione.
+- Registrazione dei chicchi: Traccia comodamente i chicchi di caffè con il riconoscimento delle etichette basato sull'intelligenza artificiale.
+- Registrazione automatica: Registra senza problemi ogni sessione di infusione.
+- Sincronizzazione dei dispositivi: Sincronizza senza problemi ricette, chicchi e infusi su tutti i dispositivi.
+- Multilingua: supporta 18 lingue.
+- Modalità scura: Esperienza di preparazione della birra confortevole a qualsiasi ora del giorno.
 
-Ecco cosa stiamo preparando per i futuri aggiornamenti:
+Prossimamente
 
-- Un'espansione della nostra collezione di ricette di caffè.
-- Miglioramenti del design.
+- Funzionalità di interazione e condivisione della comunità migliorate.

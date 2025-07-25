@@ -1,3 +1,3 @@
-+ Ahora puedes registrar información sobre la finca donde se cultivó el café (o el agricultor que lo cultivó) en los registros de granos.
-+ Se corrigió un error que causaba problemas al eliminar un registro de granos.
-+ Se corrigió un error relacionado con la sincronización de registros de granos.
+Diseño mejorado para hacerlo más claro y coherente.
+
+No olvides: si tienes alguna idea para mejorar, no dudes en compartirla.

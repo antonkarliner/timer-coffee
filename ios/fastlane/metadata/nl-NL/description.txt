@@ -15,7 +15,7 @@ Belangrijkste kenmerken
 - Bonenregistratie: Volg uw koffiebonen gemakkelijk met AI-aangedreven labelherkenning.
 - Automatische registratie: Registreer moeiteloos elke zetsessie.
 - Apparaatsynchronisatie: Synchroniseer recepten, bonen en brouwsels naadloos op al uw apparaten.
-- Meertalig: Ondersteunt 15 talen.
+- Meertalig: Ondersteunt 18 talen.
 - Donkere modus: Comfortabele zetervaring op elk moment van de dag.
 
 Binnenkort beschikbaar
