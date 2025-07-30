@@ -18,7 +18,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get author => 'Автор';
 
   @override
-  String get authortext => 'Додаток Timer.Coffee створено Антоном Карлінером, ентузіастом кави, медіаспеціалістом та фотожурналістом. Я сподіваюся, що цей додаток допоможе вам насолоджуватися кавою. Будь ласка, приєднуйтесь до спільноти на GitHub.';
+  String get authortext =>
+      'Додаток Timer.Coffee створено Антоном Карлінером, ентузіастом кави, медіаспеціалістом та фотожурналістом. Я сподіваюся, що цей додаток допоможе вам насолоджуватися кавою. Будь ласка, приєднуйтесь до спільноти на GitHub.';
 
   @override
   String get contributors => 'Учасники';
@@ -30,7 +31,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get license => 'Ліцензія';
 
   @override
-  String get licensetext => 'Цей додаток є безкоштовним програмним забезпеченням: ви можете розповсюджувати його та/або модифікувати на умовах GNU General Public License, як опубліковано Free Software Foundation, або версії 3 Ліцензії, або (за вашим вибором) будь-якої пізнішої версії.';
+  String get licensetext =>
+      'Цей додаток є безкоштовним програмним забезпеченням: ви можете розповсюджувати його та/або модифікувати на умовах GNU General Public License, як опубліковано Free Software Foundation, або версії 3 Ліцензії, або (за вашим вибором) будь-якої пізнішої версії.';
 
   @override
   String get licensebutton => 'Прочитайте GNU General Public License v3';
@@ -69,7 +71,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get recipesummary => 'Підсумок рецепту';
 
   @override
-  String get recipesummarynote => 'Примітка: це базовий рецепт із стандартними кількостями води та кави.';
+  String get recipesummarynote =>
+      'Примітка: це базовий рецепт із стандартними кількостями води та кави.';
 
   @override
   String get preparation => 'Підготовка';
@@ -93,7 +96,8 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get finishmsg => 'Дякуємо, що користуєтесь Timer.Coffee! Насолоджуйтесь вашою';
+  String get finishmsg =>
+      'Дякуємо, що користуєтесь Timer.Coffee! Насолоджуйтесь вашою';
 
   @override
   String get coffeefact => 'Факт про каву';
@@ -117,7 +121,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get supportdevelopment => 'Підтримайте розробку';
 
   @override
-  String get supportdevmsg => 'Ваші пожертвування допомагають покривати витрати на утримання (наприклад, ліцензії для розробників). Вони також дозволяють мені пробувати більше пристроїв для заварювання кави та додавати більше рецептів до додатку.';
+  String get supportdevmsg =>
+      'Ваші пожертвування допомагають покривати витрати на утримання (наприклад, ліцензії для розробників). Вони також дозволяють мені пробувати більше пристроїв для заварювання кави та додавати більше рецептів до додатку.';
 
   @override
   String get supportdevtnx => 'Дякую, що розглядаєте можливість пожертвування!';
@@ -126,13 +131,15 @@ class AppLocalizationsUk extends AppLocalizations {
   String get donationok => 'Дякуємо!';
 
   @override
-  String get donationtnx => 'Я дуже ціную вашу підтримку! Бажаю вам багато чудових заварювань! ☕️';
+  String get donationtnx =>
+      'Я дуже ціную вашу підтримку! Бажаю вам багато чудових заварювань! ☕️';
 
   @override
   String get donationerr => 'Помилка';
 
   @override
-  String get donationerrmsg => 'Помилка обробки покупки, будь ласка, спробуйте ще раз.';
+  String get donationerrmsg =>
+      'Помилка обробки покупки, будь ласка, спробуйте ще раз.';
 
   @override
   String get sharemsg => 'Перегляньте цей рецепт:';
@@ -189,7 +196,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get snow => 'Сніг';
 
   @override
-  String get noFavoriteRecipesMessage => 'Ваш список улюблених рецептів наразі порожній. Почніть досліджувати та заварювати, щоб відкрити для себе улюблені!';
+  String get noFavoriteRecipesMessage =>
+      'Ваш список улюблених рецептів наразі порожній. Почніть досліджувати та заварювати, щоб відкрити для себе улюблені!';
 
   @override
   String get explore => 'Досліджувати';
@@ -307,7 +315,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get confirmDeleteTitle => 'Видалити запис?';
 
   @override
-  String get confirmDeleteMessage => 'Ви впевнені, що хочете видалити цей запис? Цю дію не можна скасувати.';
+  String get confirmDeleteMessage =>
+      'Ви впевнені, що хочете видалити цей запис? Цю дію не можна скасувати.';
 
   @override
   String get removeFavorite => 'Видалити з обраного';
@@ -382,7 +391,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get pleaseNote => 'Зверніть увагу';
 
   @override
-  String get firstTimePopupMessage => '1. Ми використовуємо зовнішні сервіси для обробки зображень. Продовжуючи, ви погоджуєтесь з цим.\n2. Хоча ми не зберігаємо ваші зображення, уникайте додавання будь-якої особистої інформації.\n3. Розпізнавання зображень наразі обмежене 10 токенами на місяць (1 токен = 1 зображення). Цей ліміт може бути змінено в майбутньому.';
+  String get firstTimePopupMessage =>
+      '1. Ми використовуємо зовнішні сервіси для обробки зображень. Продовжуючи, ви погоджуєтесь з цим.\n2. Хоча ми не зберігаємо ваші зображення, уникайте додавання будь-якої особистої інформації.\n3. Розпізнавання зображень наразі обмежене 10 токенами на місяць (1 токен = 1 зображення). Цей ліміт може бути змінено в майбутньому.';
 
   @override
   String get ok => 'OK';
@@ -418,10 +428,12 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unexpectedErrorOccurred => 'Сталася неочікувана помилка';
 
   @override
-  String get tokenLimitReached => 'Вибачте, ви досягли ліміту токенів для розпізнавання зображень у цьому місяці';
+  String get tokenLimitReached =>
+      'Вибачте, ви досягли ліміту токенів для розпізнавання зображень у цьому місяці';
 
   @override
-  String get noCoffeeLabelsDetected => 'Мітки кави не виявлені. Спробуйте інше зображення.';
+  String get noCoffeeLabelsDetected =>
+      'Мітки кави не виявлені. Спробуйте інше зображення.';
 
   @override
   String get collectedInformation => 'Зібрана інформація';
@@ -475,7 +487,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get save => 'Зберегти';
 
   @override
-  String get fillRequiredFields => 'Будь ласка, заповніть всі обов’язкові поля.';
+  String get fillRequiredFields =>
+      'Будь ласка, заповніть всі обов’язкові поля.';
 
   @override
   String get analyzing => 'Аналіз';
@@ -520,7 +533,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get signOutSuccessful => 'Вихід успішно виконано';
 
   @override
-  String get signInSuccessfulGoogle => 'Вхід за допомогою Google виконано успішно';
+  String get signInSuccessfulGoogle =>
+      'Вхід за допомогою Google виконано успішно';
 
   @override
   String get signInWithEmail => 'Увійти за допомогою електронної пошти';
@@ -538,7 +552,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get sendMagicLink => 'Надіслати чарівне посилання';
 
   @override
-  String get magicLinkSent => 'Чарівне посилання надіслано! Перевірте свою електронну пошту.';
+  String get magicLinkSent =>
+      'Чарівне посилання надіслано! Перевірте свою електронну пошту.';
 
   @override
   String get sendOTP => 'Надіслати OTP';
@@ -571,7 +586,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get success => '¡Éxito!';
 
   @override
-  String get otpSentMessage => 'OTP-код буде надіслано на вашу електронну пошту. Будь ласка, введіть його, коли отримаєте.';
+  String get otpSentMessage =>
+      'OTP-код буде надіслано на вашу електронну пошту. Будь ласка, введіть його, коли отримаєте.';
 
   @override
   String get otpHint2 => 'Введіть код тут';
@@ -586,7 +602,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get deleteAccount => 'Видалити обліковий запис';
 
   @override
-  String get deleteAccountWarning => 'Зверніть увагу: якщо ви вирішите продовжити, ми видалимо ваш обліковий запис і пов\'язані з ним дані з наших серверів. Локальна копія даних залишиться на пристрої, якщо ви хочете видалити її також, ви можете просто видалити програму. Щоб знову ввімкнути синхронізацію, вам потрібно буде створити обліковий запис знову';
+  String get deleteAccountWarning =>
+      'Зверніть увагу: якщо ви вирішите продовжити, ми видалимо ваш обліковий запис і пов\'язані з ним дані з наших серверів. Локальна копія даних залишиться на пристрої, якщо ви хочете видалити її також, ви можете просто видалити програму. Щоб знову ввімкнути синхронізацію, вам потрібно буде створити обліковий запис знову';
 
   @override
   String get deleteAccountConfirmation => 'Обліковий запис успішно видалено';
@@ -595,7 +612,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get accountDeleted => 'Обліковий запис видалено';
 
   @override
-  String get accountDeletionError => 'Помилка видалення облікового запису, спробуйте ще раз';
+  String get accountDeletionError =>
+      'Помилка видалення облікового запису, спробуйте ще раз';
 
   @override
   String get deleteAccountTitle => 'Увага';
@@ -637,7 +655,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get yearlyStatsAppBarTitle => 'Мій рік з Timer.Coffee';
 
   @override
-  String get yearlyStatsStory1Text => 'Привіт! Дякуємо, що були частиною спільноти Timer.Coffee цього року!';
+  String get yearlyStatsStory1Text =>
+      'Привіт! Дякуємо, що були частиною спільноти Timer.Coffee цього року!';
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
@@ -673,7 +692,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get yearlyStatsStory7Part1 => 'Ви варили каву не самі…';
 
   @override
-  String get yearlyStatsStory7Part2 => '…а разом з користувачами з 110 інших\nкраїн на 6 континентах!';
+  String get yearlyStatsStory7Part2 =>
+      '…а разом з користувачами з 110 інших\nкраїн на 6 континентах!';
 
   @override
   String yearlyStatsStory8TitleLow(Object count) {
@@ -727,10 +747,12 @@ class AppLocalizationsUk extends AppLocalizations {
   String get yearlyStatsShareProgressTop3Recipes => 'Мої 3 найкращі рецепти:';
 
   @override
-  String get yearlyStatsShareProgressTop3Roasters => 'Мої 3 найкращі обсмажувальники:';
+  String get yearlyStatsShareProgressTop3Roasters =>
+      'Мої 3 найкращі обсмажувальники:';
 
   @override
-  String get yearlyStatsFailedToLike => 'Не вдалося поставити лайк. Спробуйте ще раз.';
+  String get yearlyStatsFailedToLike =>
+      'Не вдалося поставити лайк. Спробуйте ще раз.';
 
   @override
   String get labelCoffeeBrewed => 'Кава зварена';
@@ -814,7 +836,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get recipeCreationScreenGrindSizeLabel => 'Розмір помелу';
 
   @override
-  String get recipeCreationScreenTotalBrewTimeLabel => 'Загальний час заварювання:';
+  String get recipeCreationScreenTotalBrewTimeLabel =>
+      'Загальний час заварювання:';
 
   @override
   String get recipeCreationScreenMinutesLabel => 'Хвилини';
@@ -840,10 +863,12 @@ class AppLocalizationsUk extends AppLocalizations {
   String get recipeCreationScreenRecipeNameValidator => 'Введіть назву рецепту';
 
   @override
-  String get recipeCreationScreenShortDescriptionValidator => 'Введіть короткий опис';
+  String get recipeCreationScreenShortDescriptionValidator =>
+      'Введіть короткий опис';
 
   @override
-  String get recipeCreationScreenBrewingMethodValidator => 'Виберіть метод заварювання';
+  String get recipeCreationScreenBrewingMethodValidator =>
+      'Виберіть метод заварювання';
 
   @override
   String get recipeCreationScreenRequiredValidator => 'Обов\'язково';
@@ -852,7 +877,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get recipeCreationScreenInvalidNumberValidator => 'Недійсний номер';
 
   @override
-  String get recipeCreationScreenStepDescriptionValidator => 'Введіть опис кроку';
+  String get recipeCreationScreenStepDescriptionValidator =>
+      'Введіть опис кроку';
 
   @override
   String get recipeCreationScreenContinueButton => 'Перейти до кроків рецепту';
@@ -933,7 +959,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unknownBrewingMethod => 'Невідомий метод заварювання';
 
   @override
-  String get recipeCopyErrorLoadingEdit => 'Не вдалося завантажити скопійований рецепт для редагування.';
+  String get recipeCopyErrorLoadingEdit =>
+      'Не вдалося завантажити скопійований рецепт для редагування.';
 
   @override
   String get recipeCopyErrorOperationFailed => 'Операція не вдалася.';
@@ -942,22 +969,26 @@ class AppLocalizationsUk extends AppLocalizations {
   String get notProvided => 'Не надано';
 
   @override
-  String get recipeUpdateFailedFetch => 'Не вдалося отримати оновлені дані рецепту.';
+  String get recipeUpdateFailedFetch =>
+      'Не вдалося отримати оновлені дані рецепту.';
 
   @override
   String get recipeImportSuccess => 'Рецепт успішно імпортовано!';
 
   @override
-  String get recipeImportFailedSave => 'Не вдалося зберегти імпортований рецепт.';
+  String get recipeImportFailedSave =>
+      'Не вдалося зберегти імпортований рецепт.';
 
   @override
-  String get recipeImportFailedFetch => 'Не вдалося отримати дані рецепту для імпорту.';
+  String get recipeImportFailedFetch =>
+      'Не вдалося отримати дані рецепту для імпорту.';
 
   @override
   String get recipeNotImported => 'Рецепт не імпортовано.';
 
   @override
-  String get recipeNotFoundCloud => 'Рецепт не знайдено в хмарі або він не є публічним.';
+  String get recipeNotFoundCloud =>
+      'Рецепт не знайдено в хмарі або він не є публічним.';
 
   @override
   String get recipeLoadErrorGeneric => 'Помилка завантаження рецепту.';
@@ -1005,7 +1036,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get signInRequiredTitle => 'Потрібен вхід';
 
   @override
-  String get signInRequiredBodyShare => 'Вам потрібно увійти, щоб ділитися власними рецептами.';
+  String get signInRequiredBodyShare =>
+      'Вам потрібно увійти, щоб ділитися власними рецептами.';
 
   @override
   String get syncSuccess => 'Синхронізація успішна!';
@@ -1023,7 +1055,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get signInRequiredSnackbar => 'Потрібен вхід';
 
   @override
-  String get moderationErrorFunction => 'Перевірка модерації контенту не вдалася.';
+  String get moderationErrorFunction =>
+      'Перевірка модерації контенту не вдалася.';
 
   @override
   String get moderationReasonDefault => 'Контент позначено для перевірки.';
@@ -1047,7 +1080,8 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get saveLocallyCheckLater => 'Не вдалося перевірити статус контенту. Збережено локально, буде перевірено при наступній синхронізації.';
+  String get saveLocallyCheckLater =>
+      'Не вдалося перевірити статус контенту. Збережено локально, буде перевірено при наступній синхронізації.';
 
   @override
   String get saveLocallyModerationFailedTitle => 'Зміни збережено локально';
@@ -1061,7 +1095,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get editImportedRecipeTitle => 'Редагувати імпортований рецепт';
 
   @override
-  String get editImportedRecipeBody => 'Це імпортований рецепт. Редагування створить нову, незалежну копію. Продовжити?';
+  String get editImportedRecipeBody =>
+      'Це імпортований рецепт. Редагування створить нову, незалежну копію. Продовжити?';
 
   @override
   String get editImportedRecipeButtonCopy => 'Створити копію та редагувати';
@@ -1076,16 +1111,20 @@ class AppLocalizationsUk extends AppLocalizations {
   String get displayNameHint => 'Введіть ваше ім\'я для відображення';
 
   @override
-  String get displayNameEmptyError => 'Ім\'я для відображення не може бути порожнім';
+  String get displayNameEmptyError =>
+      'Ім\'я для відображення не може бути порожнім';
 
   @override
-  String get displayNameTooLongError => 'Ім\'я для відображення не може перевищувати 50 символів';
+  String get displayNameTooLongError =>
+      'Ім\'я для відображення не може перевищувати 50 символів';
 
   @override
-  String get errorUserNotLoggedIn => 'Користувач не увійшов до системи. Будь ласка, увійдіть знову.';
+  String get errorUserNotLoggedIn =>
+      'Користувач не увійшов до системи. Будь ласка, увійдіть знову.';
 
   @override
-  String get displayNameUpdateSuccess => 'Ім\'я для відображення успішно оновлено!';
+  String get displayNameUpdateSuccess =>
+      'Ім\'я для відображення успішно оновлено!';
 
   @override
   String displayNameUpdateError(String error) {
@@ -1096,7 +1135,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get deletePictureConfirmationTitle => 'Видалити зображення?';
 
   @override
-  String get deletePictureConfirmationBody => 'Ви впевнені, що хочете видалити зображення профілю?';
+  String get deletePictureConfirmationBody =>
+      'Ви впевнені, що хочете видалити зображення профілю?';
 
   @override
   String get deletePictureSuccess => 'Зображення профілю видалено.';
@@ -1121,7 +1161,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get account => 'Обліковий запис';
 
   @override
-  String get settingsBrewingMethodsTitle => 'Методи заварювання на головному екрані';
+  String get settingsBrewingMethodsTitle =>
+      'Методи заварювання на головному екрані';
 
   @override
   String get filter => 'Фільтр';

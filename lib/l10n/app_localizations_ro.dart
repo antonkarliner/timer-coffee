@@ -18,19 +18,22 @@ class AppLocalizationsRo extends AppLocalizations {
   String get author => 'Autor';
 
   @override
-  String get authortext => 'Aplicația Timer.Coffee a fost creată de Anton Karliner, un entuziast al cafelei, specialist media și fotojurnalist. Sper că această aplicație vă va ajuta să vă bucurați de cafea. Simțiți-vă liber să contribuiți pe GitHub.';
+  String get authortext =>
+      'Aplicația Timer.Coffee a fost creată de Anton Karliner, un entuziast al cafelei, specialist media și fotojurnalist. Sper că această aplicație vă va ajuta să vă bucurați de cafea. Simțiți-vă liber să contribuiți pe GitHub.';
 
   @override
   String get contributors => 'Contribuitori';
 
   @override
-  String get errorLoadingContributors => 'Eroare la încărcarea contribuitorilor';
+  String get errorLoadingContributors =>
+      'Eroare la încărcarea contribuitorilor';
 
   @override
   String get license => 'Licență';
 
   @override
-  String get licensetext => 'Această aplicație este un software liber: puteți redistribui și/sau modifica sub termenii Licenței Publice Generale GNU publicată de Free Software Foundation, fie versiunea 3 a Licenței, fie (la alegerea dvs.) orice versiune ulterioară.';
+  String get licensetext =>
+      'Această aplicație este un software liber: puteți redistribui și/sau modifica sub termenii Licenței Publice Generale GNU publicată de Free Software Foundation, fie versiunea 3 a Licenței, fie (la alegerea dvs.) orice versiune ulterioară.';
 
   @override
   String get licensebutton => 'Citește Licența Publică Generală GNU v3';
@@ -69,7 +72,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get recipesummary => 'Rezumatul Rețetei';
 
   @override
-  String get recipesummarynote => 'Notă: aceasta este o rețetă de bază cu cantități implicite de apă și cafea.';
+  String get recipesummarynote =>
+      'Notă: aceasta este o rețetă de bază cu cantități implicite de apă și cafea.';
 
   @override
   String get preparation => 'Pregătire';
@@ -117,7 +121,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get supportdevelopment => 'Sprijină dezvoltarea';
 
   @override
-  String get supportdevmsg => 'Donările tale ajută la acoperirea costurilor de întreținere (cum ar fi licențele de dezvoltator, de exemplu). Ele îmi permit de asemenea să încerc mai multe dispozitive de preparare a cafelei și să adaug mai multe rețete în aplicație.';
+  String get supportdevmsg =>
+      'Donările tale ajută la acoperirea costurilor de întreținere (cum ar fi licențele de dezvoltator, de exemplu). Ele îmi permit de asemenea să încerc mai multe dispozitive de preparare a cafelei și să adaug mai multe rețete în aplicație.';
 
   @override
   String get supportdevtnx => 'Mulțumim că iei în considerare să donezi!';
@@ -126,13 +131,15 @@ class AppLocalizationsRo extends AppLocalizations {
   String get donationok => 'Mulțumesc!';
 
   @override
-  String get donationtnx => 'Apreciem foarte mult sprijinul tău! Îți dorim multe preparate grozave! ☕️';
+  String get donationtnx =>
+      'Apreciem foarte mult sprijinul tău! Îți dorim multe preparate grozave! ☕️';
 
   @override
   String get donationerr => 'Eroare';
 
   @override
-  String get donationerrmsg => 'Eroare la procesarea achiziției, te rog încearcă din nou.';
+  String get donationerrmsg =>
+      'Eroare la procesarea achiziției, te rog încearcă din nou.';
 
   @override
   String get sharemsg => 'Uite această rețetă:';
@@ -189,7 +196,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get snow => 'Zăpadă';
 
   @override
-  String get noFavoriteRecipesMessage => 'Lista ta de rețete favorite este momentan goală. Începe să explorezi și să prepari pentru a descoperi favoritele tale!';
+  String get noFavoriteRecipesMessage =>
+      'Lista ta de rețete favorite este momentan goală. Începe să explorezi și să prepari pentru a descoperi favoritele tale!';
 
   @override
   String get explore => 'Explorează';
@@ -307,7 +315,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get confirmDeleteTitle => 'Ștergeți înregistrarea?';
 
   @override
-  String get confirmDeleteMessage => 'Sigur doriți să ștergeți această înregistrare? Această acțiune nu poate fi anulată.';
+  String get confirmDeleteMessage =>
+      'Sigur doriți să ștergeți această înregistrare? Această acțiune nu poate fi anulată.';
 
   @override
   String get removeFavorite => 'Elimină din favorite';
@@ -382,7 +391,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get pleaseNote => 'Vă rugăm să rețineți';
 
   @override
-  String get firstTimePopupMessage => '1. Folosim servicii externe pentru a procesa imaginile. Continuând, sunteți de acord cu acest lucru.\n2. Deși nu stocăm imaginile dvs., vă rugăm să evitați includerea oricăror detalii personale.\n3. Recunoașterea imaginilor este în prezent limitată la 10 jetoane pe lună (1 jeton = 1 imagine). Această limită se poate schimba în viitor.';
+  String get firstTimePopupMessage =>
+      '1. Folosim servicii externe pentru a procesa imaginile. Continuând, sunteți de acord cu acest lucru.\n2. Deși nu stocăm imaginile dvs., vă rugăm să evitați includerea oricăror detalii personale.\n3. Recunoașterea imaginilor este în prezent limitată la 10 jetoane pe lună (1 jeton = 1 imagine). Această limită se poate schimba în viitor.';
 
   @override
   String get ok => 'OK';
@@ -418,10 +428,12 @@ class AppLocalizationsRo extends AppLocalizations {
   String get unexpectedErrorOccurred => 'A apărut o eroare neașteptată';
 
   @override
-  String get tokenLimitReached => 'Ne pare rău, ați atins limita de jetoane pentru recunoașterea imaginilor luna aceasta';
+  String get tokenLimitReached =>
+      'Ne pare rău, ați atins limita de jetoane pentru recunoașterea imaginilor luna aceasta';
 
   @override
-  String get noCoffeeLabelsDetected => 'Nu au fost detectate etichete de cafea. Încercați cu o altă imagine.';
+  String get noCoffeeLabelsDetected =>
+      'Nu au fost detectate etichete de cafea. Încercați cu o altă imagine.';
 
   @override
   String get collectedInformation => 'Informații colectate';
@@ -475,7 +487,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get save => 'Salvează';
 
   @override
-  String get fillRequiredFields => 'Vă rugăm să completați toate câmpurile obligatorii.';
+  String get fillRequiredFields =>
+      'Vă rugăm să completați toate câmpurile obligatorii.';
 
   @override
   String get analyzing => 'Se analizează';
@@ -538,7 +551,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get sendMagicLink => 'Trimiteți link magic';
 
   @override
-  String get magicLinkSent => 'Link-ul magic a fost trimis! Verificați-vă e-mailul.';
+  String get magicLinkSent =>
+      'Link-ul magic a fost trimis! Verificați-vă e-mailul.';
 
   @override
   String get sendOTP => 'Trimite OTP';
@@ -571,7 +585,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get success => 'Succes!';
 
   @override
-  String get otpSentMessage => 'Un cod OTP este trimis la adresa dumneavoastră de email. Vă rugăm să îl introduceți mai jos când îl primiți.';
+  String get otpSentMessage =>
+      'Un cod OTP este trimis la adresa dumneavoastră de email. Vă rugăm să îl introduceți mai jos când îl primiți.';
 
   @override
   String get otpHint2 => 'Introduceți codul aici';
@@ -586,7 +601,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get deleteAccount => 'Ștergeți contul';
 
   @override
-  String get deleteAccountWarning => 'Rețineți că, dacă alegeți să continuați, vă vom șterge contul și datele asociate de pe serverele noastre. Copia locală a datelor va rămâne pe dispozitiv, dar dacă doriți să o ștergeți, puteți pur și simplu să ștergeți aplicația. Pentru a reactiva sincronizarea, va trebui să creați din nou un cont.';
+  String get deleteAccountWarning =>
+      'Rețineți că, dacă alegeți să continuați, vă vom șterge contul și datele asociate de pe serverele noastre. Copia locală a datelor va rămâne pe dispozitiv, dar dacă doriți să o ștergeți, puteți pur și simplu să ștergeți aplicația. Pentru a reactiva sincronizarea, va trebui să creați din nou un cont.';
 
   @override
   String get deleteAccountConfirmation => 'Contul șters cu succes';
@@ -595,7 +611,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get accountDeleted => 'Contul a fost șters';
 
   @override
-  String get accountDeletionError => 'Eroare la ștergerea contului, vă rugăm să încercați din nou.';
+  String get accountDeletionError =>
+      'Eroare la ștergerea contului, vă rugăm să încercați din nou.';
 
   @override
   String get deleteAccountTitle => 'Important';
@@ -637,7 +654,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get yearlyStatsAppBarTitle => 'Anul meu cu Timer.Coffee';
 
   @override
-  String get yearlyStatsStory1Text => 'Bună! Mulțumesc că ai făcut parte din universul Timer.Coffee anul acesta!';
+  String get yearlyStatsStory1Text =>
+      'Bună! Mulțumesc că ai făcut parte din universul Timer.Coffee anul acesta!';
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
@@ -673,7 +691,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get yearlyStatsStory7Part1 => 'Nu ai preparat cafea singur…';
 
   @override
-  String get yearlyStatsStory7Part2 => '…ci alături de utilizatori din alte 110\nțări de pe 6 continente!';
+  String get yearlyStatsStory7Part2 =>
+      '…ci alături de utilizatori din alte 110\nțări de pe 6 continente!';
 
   @override
   String yearlyStatsStory8TitleLow(Object count) {
@@ -834,13 +853,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get recipeCreationScreenStepTimeLabel => 'Timp Pas: ';
 
   @override
-  String get recipeCreationScreenRecipeNameValidator => 'Introduceți un nume pentru rețetă';
+  String get recipeCreationScreenRecipeNameValidator =>
+      'Introduceți un nume pentru rețetă';
 
   @override
-  String get recipeCreationScreenShortDescriptionValidator => 'Introduceți o descriere scurtă';
+  String get recipeCreationScreenShortDescriptionValidator =>
+      'Introduceți o descriere scurtă';
 
   @override
-  String get recipeCreationScreenBrewingMethodValidator => 'Selectați o metodă de preparare';
+  String get recipeCreationScreenBrewingMethodValidator =>
+      'Selectați o metodă de preparare';
 
   @override
   String get recipeCreationScreenRequiredValidator => 'Obligatoriu';
@@ -849,7 +871,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get recipeCreationScreenInvalidNumberValidator => 'Număr invalid';
 
   @override
-  String get recipeCreationScreenStepDescriptionValidator => 'Introduceți o descriere pentru pas';
+  String get recipeCreationScreenStepDescriptionValidator =>
+      'Introduceți o descriere pentru pas';
 
   @override
   String get recipeCreationScreenContinueButton => 'Continuă la Pașii Rețetei';
@@ -861,7 +884,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get recipeCreationScreenSaveRecipeButton => 'Salvează Rețeta';
 
   @override
-  String get recipeCreationScreenUpdateSuccess => 'Rețetă actualizată cu succes';
+  String get recipeCreationScreenUpdateSuccess =>
+      'Rețetă actualizată cu succes';
 
   @override
   String get recipeCreationScreenSaveSuccess => 'Rețetă salvată cu succes';
@@ -930,7 +954,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get unknownBrewingMethod => 'Metodă de preparare necunoscută';
 
   @override
-  String get recipeCopyErrorLoadingEdit => 'Eroare la încărcarea rețetei copiate pentru editare.';
+  String get recipeCopyErrorLoadingEdit =>
+      'Eroare la încărcarea rețetei copiate pentru editare.';
 
   @override
   String get recipeCopyErrorOperationFailed => 'Operațiunea a eșuat.';
@@ -939,7 +964,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get notProvided => 'Nu este furnizat';
 
   @override
-  String get recipeUpdateFailedFetch => 'Eroare la preluarea datelor actualizate ale rețetei.';
+  String get recipeUpdateFailedFetch =>
+      'Eroare la preluarea datelor actualizate ale rețetei.';
 
   @override
   String get recipeImportSuccess => 'Rețetă importată cu succes!';
@@ -948,13 +974,15 @@ class AppLocalizationsRo extends AppLocalizations {
   String get recipeImportFailedSave => 'Eroare la salvarea rețetei importate.';
 
   @override
-  String get recipeImportFailedFetch => 'Eroare la preluarea datelor rețetei pentru import.';
+  String get recipeImportFailedFetch =>
+      'Eroare la preluarea datelor rețetei pentru import.';
 
   @override
   String get recipeNotImported => 'Rețeta nu a fost importată.';
 
   @override
-  String get recipeNotFoundCloud => 'Rețeta nu a fost găsită în cloud sau nu este publică.';
+  String get recipeNotFoundCloud =>
+      'Rețeta nu a fost găsită în cloud sau nu este publică.';
 
   @override
   String get recipeLoadErrorGeneric => 'Eroare la încărcarea rețetei.';
@@ -1002,7 +1030,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get signInRequiredTitle => 'Autentificare necesară';
 
   @override
-  String get signInRequiredBodyShare => 'Trebuie să te autentifici pentru a partaja propriile rețete.';
+  String get signInRequiredBodyShare =>
+      'Trebuie să te autentifici pentru a partaja propriile rețete.';
 
   @override
   String get syncSuccess => 'Sincronizare reușită!';
@@ -1020,7 +1049,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get signInRequiredSnackbar => 'Autentificare necesară';
 
   @override
-  String get moderationErrorFunction => 'Verificarea moderării conținutului a eșuat.';
+  String get moderationErrorFunction =>
+      'Verificarea moderării conținutului a eșuat.';
 
   @override
   String get moderationReasonDefault => 'Conținut marcat pentru revizuire.';
@@ -1044,7 +1074,8 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get saveLocallyCheckLater => 'Nu s-a putut verifica starea conținutului. Salvat local, se va verifica la următoarea sincronizare.';
+  String get saveLocallyCheckLater =>
+      'Nu s-a putut verifica starea conținutului. Salvat local, se va verifica la următoarea sincronizare.';
 
   @override
   String get saveLocallyModerationFailedTitle => 'Modificări Salvate Local';
@@ -1058,7 +1089,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get editImportedRecipeTitle => 'Editează rețeta importată';
 
   @override
-  String get editImportedRecipeBody => 'Aceasta este o rețetă importată. Editarea acesteia va crea o copie nouă, independentă. Doriți să continuați?';
+  String get editImportedRecipeBody =>
+      'Aceasta este o rețetă importată. Editarea acesteia va crea o copie nouă, independentă. Doriți să continuați?';
 
   @override
   String get editImportedRecipeButtonCopy => 'Creează copie și editează';
@@ -1076,13 +1108,16 @@ class AppLocalizationsRo extends AppLocalizations {
   String get displayNameEmptyError => 'Numele afișat nu poate fi gol';
 
   @override
-  String get displayNameTooLongError => 'Numele afișat nu poate depăși 50 de caractere';
+  String get displayNameTooLongError =>
+      'Numele afișat nu poate depăși 50 de caractere';
 
   @override
-  String get errorUserNotLoggedIn => 'Utilizatorul nu este autentificat. Vă rugăm să vă autentificați din nou.';
+  String get errorUserNotLoggedIn =>
+      'Utilizatorul nu este autentificat. Vă rugăm să vă autentificați din nou.';
 
   @override
-  String get displayNameUpdateSuccess => 'Numele afișat a fost actualizat cu succes!';
+  String get displayNameUpdateSuccess =>
+      'Numele afișat a fost actualizat cu succes!';
 
   @override
   String displayNameUpdateError(String error) {
@@ -1093,7 +1128,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get deletePictureConfirmationTitle => 'Ștergeți Imaginea?';
 
   @override
-  String get deletePictureConfirmationBody => 'Sunteți sigur că doriți să ștergeți poza de profil?';
+  String get deletePictureConfirmationBody =>
+      'Sunteți sigur că doriți să ștergeți poza de profil?';
 
   @override
   String get deletePictureSuccess => 'Poza de profil a fost ștearsă.';
@@ -1109,7 +1145,8 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get updatePictureSuccess => 'Poza de profil a fost actualizată cu succes!';
+  String get updatePictureSuccess =>
+      'Poza de profil a fost actualizată cu succes!';
 
   @override
   String get deletePictureTooltip => 'Șterge Imaginea';
@@ -1118,7 +1155,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get account => 'Cont';
 
   @override
-  String get settingsBrewingMethodsTitle => 'Metode de preparare pe ecranul principal';
+  String get settingsBrewingMethodsTitle =>
+      'Metode de preparare pe ecranul principal';
 
   @override
   String get filter => 'Filtru';

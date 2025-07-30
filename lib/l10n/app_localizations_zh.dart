@@ -18,7 +18,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get author => '作者';
 
   @override
-  String get authortext => 'Timer.Coffee应用由咖啡爱好者、媒体专家和摄影记者安东·卡尔纳创建。希望这个应用能帮助您享受咖啡。欢迎在GitHub上贡献。';
+  String get authortext =>
+      'Timer.Coffee应用由咖啡爱好者、媒体专家和摄影记者安东·卡尔纳创建。希望这个应用能帮助您享受咖啡。欢迎在GitHub上贡献。';
 
   @override
   String get contributors => '贡献者';
@@ -30,7 +31,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get license => '许可证';
 
   @override
-  String get licensetext => '这个应用程序是免费软件:您可以在自由软件基金会发布的GNU通用公共许可证条款下重新分发和/或修改它，不论是许可证的第3版，或（根据您的选择）任何后续版本。';
+  String get licensetext =>
+      '这个应用程序是免费软件:您可以在自由软件基金会发布的GNU通用公共许可证条款下重新分发和/或修改它，不论是许可证的第3版，或（根据您的选择）任何后续版本。';
 
   @override
   String get licensebutton => '阅读GNU通用公共许可证v3';
@@ -117,7 +119,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get supportdevelopment => '支持开发';
 
   @override
-  String get supportdevmsg => '您的捐款有助于覆盖维护成本（例如开发者许可证等）。它们还使我能够尝试更多咖啡冲泡设备，并向应用中添加更多食谱。';
+  String get supportdevmsg =>
+      '您的捐款有助于覆盖维护成本（例如开发者许可证等）。它们还使我能够尝试更多咖啡冲泡设备，并向应用中添加更多食谱。';
 
   @override
   String get supportdevtnx => '感谢您考虑捐赠！';
@@ -382,7 +385,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get pleaseNote => '请注意';
 
   @override
-  String get firstTimePopupMessage => '1. 我们使用外部服务来处理图像。继续操作即表示您同意此操作。\n2. 虽然我们不会存储您的图像，但请避免包含任何个人信息。\n3. 图像识别目前每月限制为 10 个令牌（1 个令牌 = 1 张图像）。此限制将来可能会更改。';
+  String get firstTimePopupMessage =>
+      '1. 我们使用外部服务来处理图像。继续操作即表示您同意此操作。\n2. 虽然我们不会存储您的图像，但请避免包含任何个人信息。\n3. 图像识别目前每月限制为 10 个令牌（1 个令牌 = 1 张图像）。此限制将来可能会更改。';
 
   @override
   String get ok => '好的';
@@ -586,7 +590,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get deleteAccount => '删除账户';
 
   @override
-  String get deleteAccountWarning => '请注意：如果您选择继续，我们将从我们的服务器上删除您的账户和相关数据。数据的本地副本将保留在设备上，如果您也想删除它，可以简单地删除应用程序。为了重新启用同步，您需要重新创建一个账户。';
+  String get deleteAccountWarning =>
+      '请注意：如果您选择继续，我们将从我们的服务器上删除您的账户和相关数据。数据的本地副本将保留在设备上，如果您也想删除它，可以简单地删除应用程序。为了重新启用同步，您需要重新创建一个账户。';
 
   @override
   String get deleteAccountConfirmation => '成功删除账户';

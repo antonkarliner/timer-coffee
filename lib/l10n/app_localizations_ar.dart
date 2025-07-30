@@ -18,7 +18,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get author => 'المؤلف';
 
   @override
-  String get authortext => 'تم إنشاء تطبيق Timer.Coffee بواسطة أنتون كارلينر، وهو محب للقهوة ومتخصص في الإعلام وصحفي. أتمنى أن يساعدك هذا التطبيق في الاستمتاع بقهوتك. لا تتردد في المساهمة على GitHub.';
+  String get authortext =>
+      'تم إنشاء تطبيق Timer.Coffee بواسطة أنتون كارلينر، وهو محب للقهوة ومتخصص في الإعلام وصحفي. أتمنى أن يساعدك هذا التطبيق في الاستمتاع بقهوتك. لا تتردد في المساهمة على GitHub.';
 
   @override
   String get contributors => 'المساهمون';
@@ -30,7 +31,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get license => 'الترخيص';
 
   @override
-  String get licensetext => 'هذا التطبيق هو برنامج مجاني: يمكنك إعادة توزيعه و/أو تعديله تحت شروط رخصة جنو العمومية كما نشرتها مؤسسة البرمجيات الحرة، سواء الإصدار 3 من الترخيص، أو (حسب اختيارك) أي إصدار لاحق.';
+  String get licensetext =>
+      'هذا التطبيق هو برنامج مجاني: يمكنك إعادة توزيعه و/أو تعديله تحت شروط رخصة جنو العمومية كما نشرتها مؤسسة البرمجيات الحرة، سواء الإصدار 3 من الترخيص، أو (حسب اختيارك) أي إصدار لاحق.';
 
   @override
   String get licensebutton => 'اقرأ رخصة جنو العمومية الإصدار 3';
@@ -69,7 +71,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recipesummary => 'ملخص الوصفة';
 
   @override
-  String get recipesummarynote => 'ملاحظة: هذه وصفة أساسية بكميات ماء وقهوة افتراضية.';
+  String get recipesummarynote =>
+      'ملاحظة: هذه وصفة أساسية بكميات ماء وقهوة افتراضية.';
 
   @override
   String get preparation => 'التحضير';
@@ -117,7 +120,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get supportdevelopment => 'دعم التطوير';
 
   @override
-  String get supportdevmsg => 'تساعد تبرعاتك في تغطية تكاليف الصيانة (مثل تراخيص المطورين، على سبيل المثال). كما تتيح لي تجربة المزيد من أجهزة تحضير القهوة وإضافة المزيد من الوصفات إلى التطبيق.';
+  String get supportdevmsg =>
+      'تساعد تبرعاتك في تغطية تكاليف الصيانة (مثل تراخيص المطورين، على سبيل المثال). كما تتيح لي تجربة المزيد من أجهزة تحضير القهوة وإضافة المزيد من الوصفات إلى التطبيق.';
 
   @override
   String get supportdevtnx => 'شكرًا لتفكيرك في التبرع!';
@@ -126,13 +130,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get donationok => 'شكرًا لك!';
 
   @override
-  String get donationtnx => 'أقدر دعمك كثيرًا! أتمنى لك الكثير من الإعدادات الرائعة! ☕️';
+  String get donationtnx =>
+      'أقدر دعمك كثيرًا! أتمنى لك الكثير من الإعدادات الرائعة! ☕️';
 
   @override
   String get donationerr => 'خطأ';
 
   @override
-  String get donationerrmsg => 'خطأ في معالجة الشراء، الرجاء المحاولة مرة أخرى.';
+  String get donationerrmsg =>
+      'خطأ في معالجة الشراء، الرجاء المحاولة مرة أخرى.';
 
   @override
   String get sharemsg => 'تحقق من هذه الوصفة:';
@@ -189,7 +195,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get snow => 'ثلج';
 
   @override
-  String get noFavoriteRecipesMessage => 'قائمة وصفاتك المفضلة فارغة حاليًا. ابدأ الاستكشاف والتحضير لاكتشاف المفضلة لديك!';
+  String get noFavoriteRecipesMessage =>
+      'قائمة وصفاتك المفضلة فارغة حاليًا. ابدأ الاستكشاف والتحضير لاكتشاف المفضلة لديك!';
 
   @override
   String get explore => 'استكشاف';
@@ -307,7 +314,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get confirmDeleteTitle => 'حذف الإدخال؟';
 
   @override
-  String get confirmDeleteMessage => 'هل أنت متأكد أنك تريد حذف هذا الإدخال؟ لا يمكن التراجع عن هذا الإجراء.';
+  String get confirmDeleteMessage =>
+      'هل أنت متأكد أنك تريد حذف هذا الإدخال؟ لا يمكن التراجع عن هذا الإجراء.';
 
   @override
   String get removeFavorite => 'إزالة من المفضلة';
@@ -382,7 +390,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pleaseNote => 'يرجى الملاحظة';
 
   @override
-  String get firstTimePopupMessage => '1. نستخدم خدمات خارجية لمعالجة الصور. بالموافقة، أنت توافق على ذلك.\n2. على الرغم من أننا لا نقوم بتخزين صورك، يرجى تجنب تضمين أي تفاصيل شخصية.\n3. يقتصر التعرف على الصور حاليًا على 10 رموز مميزة شهريًا (رمز مميز واحد = صورة واحدة). قد يتغير هذا الحد في المستقبل.';
+  String get firstTimePopupMessage =>
+      '1. نستخدم خدمات خارجية لمعالجة الصور. بالموافقة، أنت توافق على ذلك.\n2. على الرغم من أننا لا نقوم بتخزين صورك، يرجى تجنب تضمين أي تفاصيل شخصية.\n3. يقتصر التعرف على الصور حاليًا على 10 رموز مميزة شهريًا (رمز مميز واحد = صورة واحدة). قد يتغير هذا الحد في المستقبل.';
 
   @override
   String get ok => 'موافق';
@@ -418,10 +427,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get unexpectedErrorOccurred => 'حدث خطأ غير متوقع';
 
   @override
-  String get tokenLimitReached => 'عذرًا، لقد وصلت إلى الحد الأقصى من الرموز المميزة للتعرف على الصور لهذا الشهر';
+  String get tokenLimitReached =>
+      'عذرًا، لقد وصلت إلى الحد الأقصى من الرموز المميزة للتعرف على الصور لهذا الشهر';
 
   @override
-  String get noCoffeeLabelsDetected => 'لم يتم اكتشاف ملصقات القهوة. حاول استخدام صورة أخرى.';
+  String get noCoffeeLabelsDetected =>
+      'لم يتم اكتشاف ملصقات القهوة. حاول استخدام صورة أخرى.';
 
   @override
   String get collectedInformation => 'المعلومات التي تم جمعها';
@@ -571,7 +582,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get success => 'نجاح!';
 
   @override
-  String get otpSentMessage => 'تم إرسال رمز لمرة واحدة إلى بريدك الإلكتروني. يُرجى إدخاله أدناه عند استلامه.';
+  String get otpSentMessage =>
+      'تم إرسال رمز لمرة واحدة إلى بريدك الإلكتروني. يُرجى إدخاله أدناه عند استلامه.';
 
   @override
   String get otpHint2 => 'أدخل الرمز هنا';
@@ -586,7 +598,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get deleteAccount => 'حذف الحساب';
 
   @override
-  String get deleteAccountWarning => 'يرجى ملاحظة: إذا اخترت المتابعة ، فسنقوم بحذف حسابك والبيانات ذات الصلة من خوادمنا. ستظل النسخة المحلية من البيانات على الجهاز ، إذا كنت تريد حذفها أيضًا ، يمكنك ببساطة حذف التطبيق. لإعادة تمكين المزامنة ، ستحتاج إلى إنشاء حساب مرة أخرى';
+  String get deleteAccountWarning =>
+      'يرجى ملاحظة: إذا اخترت المتابعة ، فسنقوم بحذف حسابك والبيانات ذات الصلة من خوادمنا. ستظل النسخة المحلية من البيانات على الجهاز ، إذا كنت تريد حذفها أيضًا ، يمكنك ببساطة حذف التطبيق. لإعادة تمكين المزامنة ، ستحتاج إلى إنشاء حساب مرة أخرى';
 
   @override
   String get deleteAccountConfirmation => 'تم حذف الحساب بنجاح';
@@ -595,7 +608,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get accountDeleted => 'تم حذف الحساب';
 
   @override
-  String get accountDeletionError => 'حدث خطأ أثناء حذف حسابك ، يرجى المحاولة مرة أخرى';
+  String get accountDeletionError =>
+      'حدث خطأ أثناء حذف حسابك ، يرجى المحاولة مرة أخرى';
 
   @override
   String get deleteAccountTitle => 'مهم';
@@ -637,7 +651,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get yearlyStatsAppBarTitle => 'عامي مع Timer.Coffee';
 
   @override
-  String get yearlyStatsStory1Text => 'مرحبًا، شكرًا لكونك جزءًا من عالم Timer.Coffee هذا العام!';
+  String get yearlyStatsStory1Text =>
+      'مرحبًا، شكرًا لكونك جزءًا من عالم Timer.Coffee هذا العام!';
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
@@ -673,7 +688,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get yearlyStatsStory7Part1 => 'لم تكن تقوم بتخمير القهوة بمفردك…';
 
   @override
-  String get yearlyStatsStory7Part2 => '…بل مع مستخدمين من 110 دولة أخرى\nعبر 6 قارات!';
+  String get yearlyStatsStory7Part2 =>
+      '…بل مع مستخدمين من 110 دولة أخرى\nعبر 6 قارات!';
 
   @override
   String yearlyStatsStory8TitleLow(Object count) {
@@ -843,13 +859,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recipeCreationScreenStepTimeLabel => 'وقت الخطوة: ';
 
   @override
-  String get recipeCreationScreenRecipeNameValidator => 'الرجاء إدخال اسم للوصفة';
+  String get recipeCreationScreenRecipeNameValidator =>
+      'الرجاء إدخال اسم للوصفة';
 
   @override
-  String get recipeCreationScreenShortDescriptionValidator => 'الرجاء إدخال وصف قصير';
+  String get recipeCreationScreenShortDescriptionValidator =>
+      'الرجاء إدخال وصف قصير';
 
   @override
-  String get recipeCreationScreenBrewingMethodValidator => 'الرجاء اختيار طريقة التحضير';
+  String get recipeCreationScreenBrewingMethodValidator =>
+      'الرجاء اختيار طريقة التحضير';
 
   @override
   String get recipeCreationScreenRequiredValidator => 'مطلوب';
@@ -858,7 +877,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recipeCreationScreenInvalidNumberValidator => 'رقم غير صالح';
 
   @override
-  String get recipeCreationScreenStepDescriptionValidator => 'الرجاء إدخال وصف للخطوة';
+  String get recipeCreationScreenStepDescriptionValidator =>
+      'الرجاء إدخال وصف للخطوة';
 
   @override
   String get recipeCreationScreenContinueButton => 'متابعة إلى خطوات الوصفة';
@@ -963,7 +983,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recipeNotImported => 'لم يتم استيراد الوصفة.';
 
   @override
-  String get recipeNotFoundCloud => 'الوصفة غير موجودة في السحابة أو ليست عامة.';
+  String get recipeNotFoundCloud =>
+      'الوصفة غير موجودة في السحابة أو ليست عامة.';
 
   @override
   String get recipeLoadErrorGeneric => 'خطأ في تحميل الوصفة.';
@@ -1011,7 +1032,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get signInRequiredTitle => 'تسجيل الدخول مطلوب';
 
   @override
-  String get signInRequiredBodyShare => 'تحتاج إلى تسجيل الدخول لمشاركة وصفاتك الخاصة.';
+  String get signInRequiredBodyShare =>
+      'تحتاج إلى تسجيل الدخول لمشاركة وصفاتك الخاصة.';
 
   @override
   String get syncSuccess => 'تمت المزامنة بنجاح!';
@@ -1053,7 +1075,8 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get saveLocallyCheckLater => 'تعذر التحقق من حالة المحتوى. تم الحفظ محليًا، سيتم التحقق عند المزامنة التالية.';
+  String get saveLocallyCheckLater =>
+      'تعذر التحقق من حالة المحتوى. تم الحفظ محليًا، سيتم التحقق عند المزامنة التالية.';
 
   @override
   String get saveLocallyModerationFailedTitle => 'تم حفظ التغييرات محليًا';
@@ -1067,7 +1090,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get editImportedRecipeTitle => 'تعديل وصفة مستوردة';
 
   @override
-  String get editImportedRecipeBody => 'هذه وصفة مستوردة. سيؤدي تعديلها إلى إنشاء نسخة جديدة ومستقلة. هل تريد المتابعة؟';
+  String get editImportedRecipeBody =>
+      'هذه وصفة مستوردة. سيؤدي تعديلها إلى إنشاء نسخة جديدة ومستقلة. هل تريد المتابعة؟';
 
   @override
   String get editImportedRecipeButtonCopy => 'إنشاء نسخة وتعديل';
@@ -1088,7 +1112,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get displayNameTooLongError => 'لا يمكن أن يتجاوز اسم العرض 50 حرفًا';
 
   @override
-  String get errorUserNotLoggedIn => 'المستخدم غير مسجل الدخول. يرجى تسجيل الدخول مرة أخرى.';
+  String get errorUserNotLoggedIn =>
+      'المستخدم غير مسجل الدخول. يرجى تسجيل الدخول مرة أخرى.';
 
   @override
   String get displayNameUpdateSuccess => 'تم تحديث اسم العرض بنجاح!';
@@ -1102,7 +1127,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get deletePictureConfirmationTitle => 'حذف الصورة؟';
 
   @override
-  String get deletePictureConfirmationBody => 'هل أنت متأكد أنك تريد حذف صورة ملفك الشخصي؟';
+  String get deletePictureConfirmationBody =>
+      'هل أنت متأكد أنك تريد حذف صورة ملفك الشخصي؟';
 
   @override
   String get deletePictureSuccess => 'تم حذف صورة الملف الشخصي.';

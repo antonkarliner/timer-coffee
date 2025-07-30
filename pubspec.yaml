@@ -112,7 +112,7 @@ flutter:
    - family: RobotoMono
      fonts:
      - asset: fonts/RobotoMono-Regular.ttf
-  generate: false
+  generate: true
 
   assets:
     - assets/data/privacy_policy.md
