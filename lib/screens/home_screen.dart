@@ -259,13 +259,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!; // Get localizations
-    return AutoTabsRouter.pageView(
+    return AutoTabsRouter.tabBar(
       routes: const [
         BrewTabRoute(),
         HubTabRoute(),
       ],
-      builder: (context, child, _) {
+      builder: (context, child, tabController) {
         final tabsRouter = AutoTabsRouter.of(context);
+
         return Scaffold(
           appBar: buildPlatformSpecificAppBar(),
           body: Column(
@@ -301,21 +302,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               Expanded(child: child),
             ],
           ),
+          // active tab's content
           bottomNavigationBar: ConvexAppBar.builder(
             count: 2,
-            backgroundColor: Theme.of(context).colorScheme.onBackground,
+            controller: tabController, // <-- keep bar & swipes in sync
+            backgroundColor: Theme.of(context).colorScheme.onSurface,
             itemBuilder: CustomTabBuilder([
-              TabItem(
-                icon: Coffeico.bean,
-                title: l10n.homescreenbrewcoffee,
-              ),
-              TabItem(
-                icon: Icons.dashboard,
-                title: l10n.homescreenmore,
-              ),
+              TabItem(icon: Coffeico.bean, title: l10n.homescreenbrewcoffee),
+              TabItem(icon: Icons.dashboard, title: l10n.homescreenmore),
             ], context),
-            initialActiveIndex: tabsRouter.activeIndex,
-            onTap: tabsRouter.setActiveIndex,
+            onTap: tabsRouter.setActiveIndex, // taps still change page
           ),
         );
       },
@@ -399,7 +395,8 @@ class BrewingMethodsScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: Divider(
-              color: Theme.of(context).dividerColor.withOpacity(0.3),
+              color:
+                  Theme.of(context).dividerColor.withAlpha((255 * 0.3).round()),
               thickness: 0.7,
               height: 0,
               indent: 16.0,
@@ -1065,8 +1062,8 @@ class CustomTabBuilder extends DelegateBuilder {
         ? Colors.white
         : Colors.black;
     Color inactiveColor = Theme.of(context).brightness == Brightness.light
-        ? Colors.white.withOpacity(0.5)
-        : Colors.black.withOpacity(0.5);
+        ? Colors.white.withAlpha((255 * 0.5).round())
+        : Colors.black.withAlpha((255 * 0.5).round());
 
     var item = items[index];
     return Semantics(
