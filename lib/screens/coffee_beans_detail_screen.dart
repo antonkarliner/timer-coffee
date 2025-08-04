@@ -67,8 +67,16 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
             label: loc.edit,
             child: IconButton(
               icon: const Icon(Icons.edit),
-              onPressed: () {
-                context.router.push(NewBeansRoute(uuid: widget.uuid));
+              onPressed: () async {
+                final result = await context.router.push(
+                  NewBeansRoute(uuid: widget.uuid),
+                );
+                if (!mounted) return;
+                if (result is String) {
+                  // If the UUID were to change (unlikely), we could refetch by result.
+                  // Since the screen is keyed by widget.uuid, simply reload the data.
+                  _loadBean();
+                }
               },
             ),
           ),
