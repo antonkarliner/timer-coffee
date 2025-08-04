@@ -1,44 +1,46 @@
 import 'dart:async';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
-import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import '../models/recipe_model.dart';
-import '../providers/database_provider.dart'; // Keep this
-import '../database/database.dart'; // Added for AppDatabase access via provider
 import '../screens/preparation_screen.dart';
 import '../screens/recipe_creation_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
+import '../database/database.dart';
 import '../providers/recipe_provider.dart';
 import '../widgets/favorite_button.dart';
-import '../models/recipe_summary.dart';
+import '../widgets/recipe_detail/rich_text_links.dart';
+import '../widgets/recipe_detail/amount_fields.dart';
+import '../widgets/recipe_detail/meta_info_section.dart';
+import '../widgets/recipe_detail/title_bar.dart';
+import '../widgets/recipe_detail/recipe_summary_tile.dart';
+import '../widgets/recipe_detail/sliders_106.dart';
+import '../widgets/recipe_detail/slider_chronicler_1002.dart';
+import '../widgets/recipe_detail/floating_nav_button.dart';
+import '../widgets/recipe_detail/app_bar_actions.dart';
+import '../widgets/recipe_detail/bean_selection_row.dart';
+import '../controllers/recipe_detail_controller.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:share_plus/share_plus.dart';
-import 'dart:ui';
 import '../webhelper/web_helper.dart' as web;
-import 'dart:io';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../widgets/add_coffee_beans_widget.dart';
-import '../widgets/roaster_logo.dart';
+import '../providers/user_recipe_provider.dart';
+import '../utils/beans/bean_selection_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:sign_in_button/sign_in_button.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
+import 'dart:io';
 import '../providers/coffee_beans_provider.dart';
-import '../providers/user_recipe_provider.dart'; // Keep this
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart'; // Added for Supabase
-import 'package:sign_in_button/sign_in_button.dart'; // Added for Sign In Buttons
-import 'package:google_sign_in/google_sign_in.dart'; // Added for Google Sign In
-import 'package:sign_in_with_apple/sign_in_with_apple.dart'; // Added for Apple Sign In
-import 'dart:convert'; // Added for jsonEncode
-import 'package:crypto/crypto.dart'; // Added for sha256
-import '../providers/user_stat_provider.dart'; // Added for sync
-import 'package:http/http.dart'
-    as http; // Added for sync? (Check if needed) - Might not be needed here
-import 'package:intl/intl.dart'; // Added for Intl.getCurrentLocale
+import '../providers/database_provider.dart';
+import '../providers/user_stat_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'dart:ui';
 
-// Define enum at the top level or inside the class, not inside a method
+// Enum for sign-in method (must be at top-level, not inside a function)
 enum SignInMethod { apple, google, email, cancel }
 
 @RoutePage(name: 'RecipeDetailRoute')
@@ -67,13 +69,10 @@ class RecipeDetailScreen extends StatelessWidget {
 class RecipeDetailBase extends StatefulWidget {
   final String? brewingMethodId;
   final String initialRecipeId; // The ID passed from the route
-  final String? vendorId; // Keep vendorId if needed elsewhere
-
   const RecipeDetailBase({
     Key? key,
     this.brewingMethodId,
     required this.initialRecipeId,
-    this.vendorId,
   }) : super(key: key);
 
   @override
@@ -81,17 +80,10 @@ class RecipeDetailBase extends StatefulWidget {
 }
 
 class _RecipeDetailBaseState extends State<RecipeDetailBase> {
-  final TextEditingController _coffeeController = TextEditingController();
-  final TextEditingController _waterController = TextEditingController();
-  late double initialRatio = 16.0; // Default ratio
-  bool _editingCoffee = false;
-  double? originalCoffee;
-  double? originalWater;
+  final RecipeDetailController _controller = RecipeDetailController();
 
   RecipeModel? _updatedRecipe; // The recipe model currently displayed
   String _brewingMethodName = "";
-  String? selectedBeanUuid;
-  String? selectedBeanName;
 
   @override
   void didUpdateWidget(covariant RecipeDetailBase oldWidget) {
@@ -113,17 +105,9 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     }
   }
 
-  // Sliders for recipe id 106
-  int _sweetnessSliderPosition = 1;
-  int _strengthSliderPosition = 2;
-  int _coffeeChroniclerSliderPosition = 0;
+  // Sliders moved to controller (sweetness/strength for 106, size for 1002)
 
   // Recipe-specific variables
-  String? vendorId; // Keep this if needed
-
-  // Roaster logo URLs
-  String? originalRoasterLogoUrl;
-  String? mirrorRoasterLogoUrl;
 
   // State for import/update logic
   bool _isLoading = true;
@@ -192,40 +176,31 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     );
 
     if (signedIn == true) {
-      // User chose a sign-in method, now show the actual options again
-      // This feels redundant, let's try initiating the sign-in directly
-      // based on which button was conceptually pressed.
-      // For simplicity here, let's just show the options again and let user tap.
-      // A better implementation would pass the chosen method back.
       final String? initialUserId =
           Supabase.instance.client.auth.currentUser?.id; // Store initial ID
 
       final bool signInSuccess = await _showSignInOptionsAndExecute(context);
 
       if (signInSuccess) {
-        // Wait a moment for Supabase auth state to potentially update
         await Future.delayed(const Duration(milliseconds: 500));
         final String? newUserId = Supabase.instance.client.auth.currentUser?.id;
         if (newUserId != null && newUserId != initialUserId) {
-          print("Sign-in successful, syncing data...");
           await _syncDataAfterLogin(context, initialUserId, newUserId);
-          return true; // Sign-in and sync successful
+          return true;
         } else if (newUserId != null) {
-          print("User already signed in or ID didn't change.");
-          return true; // Already signed in
+          return true;
         }
       }
-      return false; // Sign-in failed or was cancelled
+      return false;
     }
-    return false; // User cancelled the initial prompt
+    return false;
   }
 
-  // Combine showing options and executing the chosen one
+  // Enum for sign-in method (must be at top-level, not inside a function)
+  // (Moved to top-level below imports)
   Future<bool> _showSignInOptionsAndExecute(BuildContext context) async {
     final l10n = AppLocalizations.of(context)!;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-    // Enum is now defined outside the method
 
     final SignInMethod? chosenMethod = await showModalBottomSheet<SignInMethod>(
       context: context,
@@ -277,7 +252,6 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       },
     );
 
-    // Execute the chosen method
     try {
       switch (chosenMethod) {
         case SignInMethod.apple:
@@ -287,18 +261,13 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
           await _signInWithGoogle(context);
           return true;
         case SignInMethod.email:
-          _showEmailSignInDialog(context); // Fire-and-forget style
-          // Since OTP verification happens asynchronously and we don't easily await it here,
-          // return true optimistically. The sync logic in _promptSignIn will run
-          // if the user eventually completes the OTP flow successfully.
-          // A more complex implementation could use a Completer or callback.
+          _showEmailSignInDialog(context);
           return true;
         case SignInMethod.cancel:
         default:
           return false;
       }
     } catch (e) {
-      print('Error during sign-in execution: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.signInError)),
       );
@@ -306,16 +275,12 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     }
   }
 
-  // --- Sign-in methods ---
   Future<void> _signInWithApple(BuildContext context) async {
-    // Reusing the exact logic from home_screen.dart requires Supabase instance
-    // Assuming Supabase is initialized globally
     if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) {
       await _nativeSignInWithApple();
     } else {
       await _supabaseSignInWithApple();
     }
-    // No sync here, handled by _promptSignIn caller
   }
 
   Future<void> _nativeSignInWithApple() async {
@@ -346,7 +311,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
   Future<void> _supabaseSignInWithApple() async {
     await Supabase.instance.client.auth.signInWithOAuth(
       OAuthProvider.apple,
-      redirectTo: kIsWeb ? null : 'timercoffee://', // Adjust redirect as needed
+      redirectTo: kIsWeb ? null : 'timercoffee://',
     );
   }
 
@@ -356,22 +321,20 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     } else {
       await _nativeGoogleSignIn();
     }
-    // No sync here, handled by _promptSignIn caller
   }
 
   Future<void> _webSignInWithGoogle() async {
     await Supabase.instance.client.auth.signInWithOAuth(
       OAuthProvider.google,
-      redirectTo: null, // Let Supabase handle redirect for web
+      redirectTo: null,
     );
   }
 
   Future<void> _nativeGoogleSignIn() async {
-    // IMPORTANT: You need to ensure these IDs are correct and match your setup
     const webClientId =
-        '158450410168-i70d1cqrp1kkg9abet7nv835cbf8hmfn.apps.googleusercontent.com'; // Replace if necessary
+        '158450410168-i70d1cqrp1kkg9abet7nv835cbf8hmfn.apps.googleusercontent.com';
     const iosClientId =
-        '158450410168-8o2bk6r3e4ik8i413ua66bc50iug45na.apps.googleusercontent.com'; // Replace if necessary
+        '158450410168-8o2bk6r3e4ik8i413ua66bc50iug45na.apps.googleusercontent.com';
 
     final GoogleSignIn googleSignIn = GoogleSignIn(
       clientId: iosClientId,
@@ -397,7 +360,6 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     );
   }
 
-  // --- Email Sign In ---
   void _showEmailSignInDialog(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final TextEditingController emailController = TextEditingController();
@@ -434,17 +396,14 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
   Future<void> _signInWithEmail(BuildContext context, String email) async {
     final l10n = AppLocalizations.of(context)!;
-    _showOTPVerificationDialog(context, email); // Show OTP dialog immediately
+    _showOTPVerificationDialog(context, email);
 
     try {
       await Supabase.instance.client.auth.signInWithOtp(
         email: email,
-        emailRedirectTo: kIsWeb ? null : 'timercoffee://', // Adjust redirect
+        emailRedirectTo: kIsWeb ? null : 'timercoffee://',
       );
-      // Don't show success here, wait for OTP verification
     } catch (e) {
-      print('Error sending OTP: $e');
-      // Pop the OTP dialog if OTP sending failed
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.otpSendError)),
@@ -458,7 +417,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
     showDialog(
       context: context,
-      barrierDismissible: false, // User must explicitly verify or cancel
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(l10n.enterOTP),
@@ -478,12 +437,11 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
           actions: <Widget>[
             TextButton(
               child: Text(l10n.cancel),
-              onPressed: () => Navigator.of(context).pop(), // Close OTP dialog
+              onPressed: () => Navigator.of(context).pop(),
             ),
             TextButton(
               child: Text(l10n.verify),
               onPressed: () {
-                // Don't pop here, _verifyOTP will handle it
                 _verifyOTP(context, email, otpController.text);
               },
             ),
@@ -496,7 +454,6 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
   Future<void> _verifyOTP(
       BuildContext context, String email, String token) async {
     final l10n = AppLocalizations.of(context)!;
-    // Close the OTP dialog before showing snackbar
     Navigator.of(context).pop();
 
     try {
@@ -507,7 +464,6 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       );
 
       if (res.session != null) {
-        // Sign in successful, sync will be handled by _promptSignIn caller
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(l10n.signInSuccessfulEmail)),
         );
@@ -517,24 +473,19 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         );
       }
     } catch (e) {
-      print('Error verifying OTP: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.otpVerificationError)),
       );
     }
   }
 
-  // --- Data Sync Logic (adapted from home_screen.dart) ---
   Future<void> _syncDataAfterLogin(
       BuildContext context, String? oldUserId, String newUserId) async {
     final l10n = AppLocalizations.of(context)!;
-    final scaffoldMessenger =
-        ScaffoldMessenger.of(context); // Capture scaffold messenger
-    final l10n_sync =
-        AppLocalizations.of(context)!; // Get localizations for sync messages
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final l10n_sync = AppLocalizations.of(context)!;
 
-    // Show loading indicator or disable share button while syncing
-    setState(() => _isSharing = true); // Use _isSharing to indicate loading
+    setState(() => _isSharing = true);
 
     try {
       final dbProvider = Provider.of<DatabaseProvider>(context, listen: false);
@@ -547,74 +498,45 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       final coffeeBeansProvider =
           Provider.of<CoffeeBeansProvider>(context, listen: false);
 
-      print('Sync started. Old User ID: $oldUserId, New User ID: $newUserId');
-
       if (oldUserId != null && oldUserId != newUserId) {
-        print('User ID changed. Updating local recipe IDs...');
         await userRecipeProvider.updateUserRecipeIdsAfterLogin(
             oldUserId, newUserId);
 
-        print('Attempting to update user ID via Edge Function...');
         try {
           final res = await Supabase.instance.client.functions.invoke(
             'update-id-after-signin',
             body: {'oldUserId': oldUserId, 'newUserId': newUserId},
           );
-          print('Edge Function Response Status: ${res.status}');
-          print('Edge Function Response Data: ${res.data}');
           if (res.status != 200) {
-            print(
-                'Warning: Edge function for ID update failed or returned non-200 status.');
-            // Decide if this is critical. Maybe just log and continue sync?
-          } else {
-            print('Edge function for ID update successful.');
+            // Optionally handle non-200 status
           }
         } catch (e) {
-          print('Error calling update-id-after-signin Edge Function: $e');
-          // Decide if this is critical. Maybe just log and continue sync?
+          // Optionally handle error
         }
-      } else {
-        print('User ID update not required or old ID was null.');
       }
 
-      // Perform the rest of the sync operations
-      print('Syncing preferences...');
       await dbProvider.uploadUserPreferencesToSupabase();
       await dbProvider.fetchAndInsertUserPreferencesFromSupabase();
-      print('Syncing stats...');
       await userStatProvider.syncUserStats();
-      print('Syncing beans...');
       await coffeeBeansProvider.syncCoffeeBeans();
-      print('Syncing user recipes...');
       await dbProvider.syncUserRecipes(newUserId);
-      print('Syncing imported recipes...');
       await dbProvider.syncImportedRecipes(newUserId);
 
-      // Reload recipes into the provider state after sync
-      print('Refreshing recipe provider state...');
       await recipeProvider.fetchAllRecipes();
 
-      print('Data synchronization completed successfully');
       scaffoldMessenger.showSnackBar(
         SnackBar(content: Text(l10n_sync.syncSuccess)),
       );
     } catch (e) {
-      print('Error syncing user data: $e');
-      // TODO: Add localization for errorSyncingData (it exists in home_screen but might need regeneration)
       scaffoldMessenger.showSnackBar(
-        SnackBar(
-            content:
-                Text("Error syncing data: ${e.toString()}")), // Placeholder
+        SnackBar(content: Text("Error syncing data: ${e.toString()}")),
       );
     } finally {
-      // Hide loading indicator
       if (mounted) {
-        // Check if widget is still mounted
         setState(() => _isSharing = false);
       }
     }
   }
-
   // --- End of Sign-in methods ---
 
   @override
@@ -647,16 +569,15 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     final String potentialImportId = widget.initialRecipeId;
     print("DEBUG: Checking recipe with ID: $potentialImportId");
 
-    // Ensure context is valid before accessing AppLocalizations
     if (!mounted) return;
     final l10n = AppLocalizations.of(context)!;
 
-    // Ensure context is valid before accessing Providers
     if (!mounted) return;
     final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
     final dbProvider = Provider.of<DatabaseProvider>(context, listen: false);
     final userRecipeProvider =
         Provider.of<UserRecipeProvider>(context, listen: false);
+    // Access the Drift database instance with an explicit generic type
     final appDb = Provider.of<AppDatabase>(context, listen: false);
 
     print(
@@ -669,31 +590,24 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
           await recipeProvider.getRecipeById(potentialImportId);
 
       if (localRecipe != null) {
-        // Recipe found directly by ID, use it
         print("DEBUG: Recipe found locally with ID: $potentialImportId");
         _effectiveRecipeId = potentialImportId;
         await _loadRecipeDetails(_effectiveRecipeId!);
       } else if (potentialImportId.startsWith('usr-')) {
-        // 2. If not found directly and it's a user recipe ID, check if it exists as an import_id
         print(
             "DEBUG: Step 2 - Recipe not found locally. Checking if it exists as an import_id");
         final localRecipeByImportId =
             await appDb.recipesDao.getRecipeByImportId(potentialImportId);
 
         if (localRecipeByImportId != null) {
-          // Recipe found by import_id, use the local ID
           print(
               "DEBUG: Recipe found locally as import with ID: ${localRecipeByImportId.id} (Import ID: $potentialImportId)");
           _effectiveRecipeId = localRecipeByImportId.id;
           await _loadRecipeDetails(_effectiveRecipeId!);
         } else {
-          // 3. Not found locally at all, check Supabase for import
           print(
               "DEBUG: Step 3 - Recipe not found locally. Checking Supabase for import ID: $potentialImportId");
 
-          // Check if we can access other tables to verify authentication
-          print(
-              "DEBUG: Testing Supabase access by querying brewing_methods table...");
           try {
             final testResponse = await Supabase.instance.client
                 .from('brewing_methods')
@@ -714,18 +628,17 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
             print("DEBUG: Recipe metadata: $metadata");
           }
 
-          if (!mounted) return; // Check mount status
+          if (!mounted) return;
 
           if (metadata != null) {
-            // Recipe exists in Supabase - Ask user to import
             print("DEBUG: Recipe exists in Supabase, showing import dialog");
             final bool? wantsImport =
                 await _showImportDialog(metadata['name'] ?? potentialImportId);
-            if (!mounted) return; // Check mount status
+            if (!mounted) return;
 
             if (wantsImport == true) {
               print("DEBUG: User wants to import recipe");
-              setState(() => _isLoading = true); // Show loading during import
+              setState(() => _isLoading = true);
               final fullData = await dbProvider
                   .fetchFullPublicUserRecipeData(potentialImportId);
               print(
@@ -738,7 +651,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
                     "DEBUG: Recipe has steps: ${(fullData['user_steps'] as List?)?.isNotEmpty ?? false}");
               }
 
-              if (!mounted) return; // Check mount status
+              if (!mounted) return;
 
               if (fullData != null) {
                 print("DEBUG: Importing recipe into local database");
@@ -746,24 +659,38 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
                     await userRecipeProvider.importSupabaseRecipe(fullData);
                 print("DEBUG: Import result - new local ID: $newLocalId");
 
-                if (!mounted) return; // Check mount status
+                if (!mounted) return;
 
                 if (newLocalId != null) {
                   print("DEBUG: Recipe imported successfully, loading details");
-                  _effectiveRecipeId = newLocalId; // Switch to the new local ID
-                  // Refresh the main recipe list after successful import
+                  _effectiveRecipeId = newLocalId;
+
+                  // Additional diagnostics to ensure local visibility after import
+                  try {
+                    final appDb =
+                        Provider.of<AppDatabase>(context, listen: false);
+                    final byImport = await appDb.recipesDao
+                        .getRecipeByImportId(potentialImportId);
+                    print(
+                        "DEBUG: Post-import local lookup by import_id present: ${byImport != null} (id: ${byImport?.id})");
+                  } catch (e) {
+                    print("DEBUG: Post-import diagnostic lookup error: $e");
+                  }
+
+                  // Ensure provider state is refreshed before loading
                   await Provider.of<RecipeProvider>(context, listen: false)
                       .fetchAllRecipes();
-                  await _loadRecipeDetails(
-                      _effectiveRecipeId!); // Load the newly imported recipe
+
+                  // Small delay to tolerate any pending SQLite commit scheduling
+                  await Future.delayed(const Duration(milliseconds: 20));
+
+                  await _loadRecipeDetails(_effectiveRecipeId!);
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(l10n.recipeImportSuccess)));
 
-                  // --- Trigger immediate sync after import ---
                   print("DEBUG: Triggering immediate sync after import...");
                   final currentUser = Supabase.instance.client.auth.currentUser;
                   if (currentUser != null && !currentUser.isAnonymous) {
-                    // Ensure context is still valid before accessing provider
                     if (mounted) {
                       try {
                         await Provider.of<DatabaseProvider>(context,
@@ -772,7 +699,6 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
                         print("DEBUG: Immediate sync triggered successfully.");
                       } catch (syncError) {
                         print("DEBUG: Error during immediate sync: $syncError");
-                        // Optionally show a message, but maybe not critical here
                       }
                     } else {
                       print(
@@ -782,7 +708,6 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
                     print(
                         "DEBUG: User not logged in or anonymous, skipping immediate sync.");
                   }
-                  // --- End immediate sync ---
                 } else {
                   print("DEBUG: Failed to save imported recipe");
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -797,18 +722,15 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
               }
               if (mounted) setState(() => _isLoading = false);
             } else {
-              // User declined import
               print("DEBUG: User declined to import recipe");
               setState(() => _errorMessage = l10n.recipeNotImported);
             }
           } else {
-            // Recipe not found in Supabase or not public
             print("DEBUG: Recipe not found in Supabase or not public");
             setState(() => _errorMessage = l10n.recipeNotFoundCloud);
           }
         }
       } else {
-        // Not a user recipe ID and not found locally
         print("DEBUG: Not a user recipe ID and not found locally");
         setState(() => _errorMessage = l10n.recipeLoadErrorGeneric);
       }
@@ -834,33 +756,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         "DEBUG: _performInitialRecipeCheck completed with errorMessage: $_errorMessage");
   }
 
-  Future<bool?> _showUpdateDialog(String recipeName) async {
-    // Ensure context is valid
-    if (!mounted) return false;
-    final l10n = AppLocalizations.of(context)!;
-    return showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(l10n.recipeUpdateAvailableTitle),
-          content: Text(l10n.recipeUpdateAvailableBody(recipeName)),
-          actions: <Widget>[
-            TextButton(
-              child: Text(l10n.dialogCancel),
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-            TextButton(
-              child: Text(l10n.dialogUpdate),
-              onPressed: () => Navigator.of(context).pop(true),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   Future<bool?> _showImportDialog(String recipeName) async {
-    // Ensure context is valid
     if (!mounted) return false;
     final l10n = AppLocalizations.of(context)!;
     return showDialog<bool>(
@@ -884,159 +780,122 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     );
   }
 
+  Future<bool?> _showUpdateDialog(String recipeName) async {
+    if (!mounted) return false;
+    final l10n = AppLocalizations.of(context)!;
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(l10n.recipeUpdateAvailableTitle),
+          content: Text(l10n.recipeUpdateAvailableBody(recipeName)),
+          actions: <Widget>[
+            TextButton(
+              child: Text(l10n.dialogCancel),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            TextButton(
+              child: Text(l10n.dialogUpdate),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   // Modified to accept recipeId
   Future<void> _loadRecipeDetails(String recipeIdToLoad) async {
-    print("DEBUG: _loadRecipeDetails started for ID: $recipeIdToLoad");
     if (!mounted) return;
-    // No need for loading state here, _performInitialRecipeCheck handles it
     try {
-      // Ensure context is valid before accessing Providers
-      if (!mounted) return;
       final recipeProvider =
           Provider.of<RecipeProvider>(context, listen: false);
       final l10n = AppLocalizations.of(context)!;
-      print("DEBUG: Fetching recipe model from provider");
-      RecipeModel? recipeModel =
-          await recipeProvider.getRecipeById(recipeIdToLoad); // Use parameter
 
-      if (!mounted) return; // Check mount status after await
+      // Retry loop to tolerate momentary visibility lag after import/transactions
+      const int maxAttempts = 5;
+      const Duration backoff = Duration(milliseconds: 120);
+      RecipeModel? recipeModel;
+      for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+        if (!mounted) return;
+        recipeModel = await recipeProvider.getRecipeById(recipeIdToLoad);
+        if (recipeModel != null) {
+          break;
+        }
+        // Debug diagnostics to help identify timing/visibility issues
+        // ignore: avoid_print
+        print(
+            "DEBUG: _loadRecipeDetails attempt $attempt/$maxAttempts for id=$recipeIdToLoad returned null. Retrying after ${backoff.inMilliseconds}ms");
+        await Future.delayed(backoff);
+      }
+
+      if (!mounted) return;
 
       if (recipeModel == null) {
-        // If recipe is null even after import/check, show error
-        print("DEBUG: Recipe model is null, showing error");
         setState(() {
           _errorMessage = l10n.recipeLoadErrorGeneric;
           _updatedRecipe = null;
         });
-        return; // Stop execution here
+        return;
       }
 
-      print("DEBUG: Recipe model found: ${recipeModel.name}");
-      print("DEBUG: Recipe vendor ID: ${recipeModel.vendorId}");
-      print("DEBUG: Recipe brewing method ID: ${recipeModel.brewingMethodId}");
-      print("DEBUG: Recipe has ${recipeModel.steps.length} steps");
-
       String brewingMethodName = l10n.unknownBrewingMethod;
-      // Check mount status before another await
-      if (!mounted) return;
       brewingMethodName = await recipeProvider
           .fetchBrewingMethodName(recipeModel.brewingMethodId);
-      print("DEBUG: Brewing method name: $brewingMethodName");
 
-      if (!mounted) return; // Check mount status after await
+      if (!mounted) return;
 
       setState(() {
         _brewingMethodName = brewingMethodName;
         _updatedRecipe = recipeModel;
-        vendorId = recipeModel.vendorId; // Update vendorId if needed
 
-        double customCoffee =
-            recipeModel.customCoffeeAmount ?? recipeModel.coffeeAmount;
-        double customWater =
-            recipeModel.customWaterAmount ?? recipeModel.waterAmount;
-        originalCoffee = customCoffee;
-        originalWater = customWater;
-        // Ensure amounts are positive before calculating ratio
-        if (customCoffee > 0) {
-          initialRatio = customWater / customCoffee;
-        } else {
-          initialRatio = 16.0; // Default if coffee amount is zero or invalid
-        }
-        _coffeeController.text = customCoffee.toString();
-        _waterController.text = customWater.toString();
+        final double customCoffee = (recipeModel?.customCoffeeAmount) ??
+            (recipeModel?.coffeeAmount ?? 0);
+        final double customWater =
+            (recipeModel?.customWaterAmount) ?? (recipeModel?.waterAmount ?? 0);
 
-        // Reset sliders based on the loaded recipe
-        _sweetnessSliderPosition = recipeModel.sweetnessSliderPosition ?? 1;
-        _strengthSliderPosition = recipeModel.strengthSliderPosition ?? 2;
-        _coffeeChroniclerSliderPosition =
-            recipeModel.coffeeChroniclerSliderPosition ?? 0;
+        _controller.setInitialAmounts(
+          coffeeAmount: customCoffee,
+          waterAmount: customWater,
+        );
 
-        // Update sliders specifically for known IDs (using effective ID)
-        if (recipeIdToLoad == '106') {
-          // Check against the ID used to load
-          _sweetnessSliderPosition = recipeModel.sweetnessSliderPosition ?? 1;
-          _strengthSliderPosition = recipeModel.strengthSliderPosition ?? 2;
-        }
-        if (recipeIdToLoad == '1002') {
-          // Check against the ID used to load
-          _coffeeChroniclerSliderPosition =
-              recipeModel.coffeeChroniclerSliderPosition ?? 0;
-        }
-        _errorMessage = null; // Clear previous errors
+        _controller.sweetnessSliderPosition =
+            recipeModel?.sweetnessSliderPosition ?? 1;
+        _controller.strengthSliderPosition =
+            recipeModel?.strengthSliderPosition ?? 2;
+        _controller.coffeeChroniclerSliderPosition =
+            recipeModel?.coffeeChroniclerSliderPosition ?? 0;
+
+        _errorMessage = null;
       });
-      print("DEBUG: Recipe details loaded successfully");
     } catch (e) {
-      print("DEBUG: Error loading recipe details for ID $recipeIdToLoad: $e");
-      if (e is PostgrestException) {
-        print("DEBUG: Postgrest error code: ${e.code}");
-        print("DEBUG: Postgrest error message: ${e.message}");
-        print("DEBUG: Postgrest error details: ${e.details}");
-      }
       if (mounted) {
         setState(() {
           _errorMessage =
               AppLocalizations.of(context)?.recipeLoadErrorGeneric ??
                   "Error loading recipe";
-          _updatedRecipe = null; // Ensure no recipe is displayed on error
+          _updatedRecipe = null;
         });
       }
     }
   }
 
   Future<void> _loadSelectedBean() async {
-    final prefs = await SharedPreferences.getInstance();
-    final uuid = prefs.getString('selectedBeanUuid');
-    if (uuid != null) {
-      // Ensure context is valid before accessing Providers
-      if (!mounted) return;
-      final coffeeBeansProvider =
-          Provider.of<CoffeeBeansProvider>(context, listen: false);
-      final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid);
-
-      if (bean == null) {
-        // Bean was deleted, clear the selection
-        await prefs.remove('selectedBeanUuid');
-        if (mounted) {
-          setState(() {
-            selectedBeanUuid = null;
-            selectedBeanName = null;
-            originalRoasterLogoUrl = null;
-            mirrorRoasterLogoUrl = null;
-          });
-        }
-        return;
-      }
-
-      String? originalUrl;
-      String? mirrorUrl;
-      if (bean.roaster != null) {
-        if (!mounted) return; // Check mount status
-        final databaseProvider =
-            Provider.of<DatabaseProvider>(context, listen: false);
-        final logoUrls =
-            await databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster);
-        originalUrl = logoUrls['original'];
-        mirrorUrl = logoUrls['mirror'];
-      }
-
-      if (mounted) {
-        setState(() {
-          selectedBeanUuid = uuid;
-          selectedBeanName = bean.name;
-          originalRoasterLogoUrl = originalUrl;
-          mirrorRoasterLogoUrl = mirrorUrl;
-        });
-      }
+    if (!mounted) return;
+    final service = const BeanSelectionService();
+    final result = await service.loadSelectedBean(context);
+    if (!mounted) return;
+    if (result == null) {
+      _controller.clearBeanSelection();
     } else {
-      if (mounted) {
-        setState(() {
-          selectedBeanUuid = null;
-          selectedBeanName = null;
-          originalRoasterLogoUrl = null;
-          mirrorRoasterLogoUrl = null;
-        });
-      }
+      _controller.setBeanSelection(
+        uuid: result.uuid,
+        name: result.name,
+        originalUrl: result.originalLogoUrl,
+        mirrorUrl: result.mirrorLogoUrl,
+      );
     }
+    // No explicit setState needed; AnimatedBuilder listens to controller
   }
 
   void _openAddBeansPopup(BuildContext context) {
@@ -1054,121 +913,41 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
   }
 
   Future<void> _updateSelectedBean(String? uuid) async {
-    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    final service = const BeanSelectionService();
     if (uuid != null) {
-      await prefs.setString('selectedBeanUuid', uuid);
-      // Ensure context is valid before accessing Providers
+      final result = await service.updateSelectedBean(context, uuid);
       if (!mounted) return;
-      final coffeeBeansProvider =
-          Provider.of<CoffeeBeansProvider>(context, listen: false);
-      final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid);
-
-      String? originalUrl;
-      String? mirrorUrl;
-      if (bean != null && bean.roaster != null) {
-        if (!mounted) return; // Check mount status
-        final databaseProvider =
-            Provider.of<DatabaseProvider>(context, listen: false);
-        final logoUrls =
-            await databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster);
-        originalUrl = logoUrls['original'];
-        mirrorUrl = logoUrls['mirror'];
-      }
-
-      if (mounted) {
-        setState(() {
-          selectedBeanUuid = uuid;
-          selectedBeanName = bean?.name;
-          originalRoasterLogoUrl = originalUrl;
-          mirrorRoasterLogoUrl = mirrorUrl;
-        });
+      if (result != null) {
+        _controller.setBeanSelection(
+          uuid: result.uuid,
+          name: result.name,
+          originalUrl: result.originalLogoUrl,
+          mirrorUrl: result.mirrorLogoUrl,
+        );
       }
     } else {
-      await prefs.remove('selectedBeanUuid');
-      if (mounted) {
-        setState(() {
-          selectedBeanUuid = null;
-          selectedBeanName = null;
-          originalRoasterLogoUrl = null;
-          mirrorRoasterLogoUrl = null;
-        });
-      }
+      await service.clearSelectedBean(context);
+      if (!mounted) return;
+      _controller.clearBeanSelection();
     }
+    // No explicit setState needed; AnimatedBuilder listens to controller
   }
 
   @override
   void dispose() {
-    _coffeeController.dispose();
-    _waterController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
-  void _updateAmounts(BuildContext context, RecipeModel updatedRecipe) {
-    if (_coffeeController.text.isEmpty ||
-        _waterController.text.isEmpty ||
-        double.tryParse(_coffeeController.text.replaceAll(',', '.')) == null ||
-        double.tryParse(_waterController.text.replaceAll(',', '.')) == null) {
-      return;
-    }
-
-    double newCoffee =
-        double.parse(_coffeeController.text.replaceAll(',', '.'));
-    double newWater = double.parse(_waterController.text.replaceAll(',', '.'));
-
-    // Ensure initialRatio is valid before using it
-    if (initialRatio <= 0) {
-      if (originalCoffee != null &&
-          originalCoffee! > 0 &&
-          originalWater != null) {
-        initialRatio = originalWater! / originalCoffee!;
-      } else {
-        initialRatio = 16.0; // Fallback default
-      }
-    }
-
-    if (_editingCoffee) {
-      double newWaterAmount = newCoffee * initialRatio;
-      _waterController.text = newWaterAmount.toStringAsFixed(1);
-      newWater =
-          newWaterAmount; // Update newWater to reflect the adjusted value
-    } else {
-      double newCoffeeAmount = newWater / initialRatio;
-      _coffeeController.text = newCoffeeAmount.toStringAsFixed(1);
-      newCoffee =
-          newCoffeeAmount; // Update newCoffee to reflect the adjusted value
-    }
-
-    // For recipe id 1002, update slider position based on amounts (use effective ID)
-    if (_effectiveRecipeId == '1002') {
-      int newSliderPosition = _coffeeChroniclerSliderPosition;
-
-      if (newCoffee <= 26 || newWater <= 416) {
-        newSliderPosition = 0; // Standard
-      } else if ((newCoffee > 26 && newCoffee < 37) ||
-          (newWater > 416 && newWater < 592)) {
-        newSliderPosition = 1; // Medium
-      } else if (newCoffee >= 37 || newWater >= 592) {
-        newSliderPosition = 2; // XL
-      }
-
-      if (newSliderPosition != _coffeeChroniclerSliderPosition) {
-        setState(() {
-          _coffeeChroniclerSliderPosition = newSliderPosition;
-        });
-      }
-    }
-  }
-
-  // --- MODIFIED _onShare METHOD ---
+  // --- Share flow (restored, no ShareService) ---
   void _onShare(BuildContext context) async {
     if (_isSharing) return; // Prevent double taps
 
     final l10n = AppLocalizations.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    final String shareRecipeId = _effectiveRecipeId ??
-        widget.initialRecipeId; // Use effective ID if available
+    final String shareRecipeId = _effectiveRecipeId ?? widget.initialRecipeId;
 
-    // Use _updatedRecipe for other details, but ensure it's not null
     if (_updatedRecipe == null) {
       scaffoldMessenger
           .showSnackBar(SnackBar(content: Text(l10n.recipeLoadErrorGeneric)));
@@ -1176,7 +955,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     }
     if (!mounted) return;
 
-    setState(() => _isSharing = true); // Start loading indicator
+    setState(() => _isSharing = true);
 
     try {
       // --- User Recipe Sharing Logic ---
@@ -1186,19 +965,9 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         if (currentUser == null || currentUser.isAnonymous) {
           final signedIn = await _promptSignIn(context);
           if (!signedIn) {
-            setState(() => _isSharing = false); // Stop loading
-            return; // User cancelled sign-in
-          }
-          // Re-fetch current user after potential sign-in
-          final updatedUser = Supabase.instance.client.auth.currentUser;
-          if (updatedUser == null || updatedUser.isAnonymous) {
-            // Should not happen if _promptSignIn returns true, but safety check
-            scaffoldMessenger.showSnackBar(
-                SnackBar(content: Text(l10n.signInRequiredSnackbar)));
             setState(() => _isSharing = false);
             return;
           }
-          // Proceed with the updatedUser's ID
         }
 
         // Ensure we have the latest user ID after potential sign-in/sync
@@ -1212,7 +981,6 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
             .from('user_recipes')
             .select('*, user_recipe_localizations(*), user_steps(*)')
             .eq('id', shareRecipeId)
-            // .eq('vendor_id', expectedVendorId) // RLS should handle ownership check
             .maybeSingle();
 
         if (response == null) {
@@ -1239,7 +1007,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
           // 3. Prepare Moderation Text
           // Combine name, description, and step descriptions. Prioritize current locale.
-          final currentLocale = Intl.getCurrentLocale().split('_')[0];
+          final currentLocale = window.locale.languageCode;
           String combinedText = "";
 
           final currentLocalization = localizations.firstWhere(
@@ -1326,9 +1094,6 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
             'ispublic': true,
             'last_modified': DateTime.now().toUtc().toIso8601String()
           }).eq('id', shareRecipeId);
-          // RLS ensures only the owner can do this
-
-          print("Recipe $shareRecipeId successfully set to public.");
         } else {
           print(
               "Recipe $shareRecipeId is already public. Skipping moderation and update.");
@@ -1371,8 +1136,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
           SnackBar(content: Text(l10n.shareErrorGeneric(e.toString()))));
     } finally {
       if (mounted) {
-        // Check mount status before setting state
-        setState(() => _isSharing = false); // Stop loading indicator
+        setState(() => _isSharing = false);
       }
     }
   }
@@ -1425,22 +1189,25 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: _buildAppBar(context, recipe), // Pass the loaded recipe
-        body: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, fabHeight),
-              child: SingleChildScrollView(
-                child: _buildRecipeContent(
-                    context, recipe), // Pass the loaded recipe
-              ),
-            ),
-            Positioned(
-              bottom: 16.0,
-              right: 16.0,
-              child: _buildFloatingActionButton(
-                  context, recipe), // Pass the loaded recipe
-            ),
-          ],
+        body: AnimatedBuilder(
+          animation: _controller,
+          builder: (context, _) {
+            return Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, fabHeight),
+                  child: SingleChildScrollView(
+                    child: _buildRecipeContent(context, recipe),
+                  ),
+                ),
+                Positioned(
+                  bottom: 16.0,
+                  right: 16.0,
+                  child: _buildFloatingActionButton(context, recipe),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -1454,48 +1221,20 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
     return AppBar(
       leading: const BackButton(),
-      title: Row(
-        children: [
-          getIconByBrewingMethod(recipe.brewingMethodId),
-          const SizedBox(width: 8),
-          Flexible(
-            child: Text(
-              _brewingMethodName, // Already set in state
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
-        ],
+      title: RecipeDetailTitle(
+        brewingMethodIcon: getIconByBrewingMethod(recipe.brewingMethodId),
+        brewingMethodName: _brewingMethodName,
       ),
       actions: [
-        // Edit button only for user recipes (based on effective ID)
-        if (isUserRecipe)
-          IconButton(
-            icon: const Icon(Icons.edit),
-            tooltip: l10n.tooltipEditRecipe,
-            onPressed: () => _navigateToEditRecipe(
-                context, recipe), // Pass current recipe model
-          ),
-        // Copy button for non-user recipes (based on effective ID)
-        // Also check against effective ID for 106/1002 exclusion
-        if (!isUserRecipe && idForActions != '106' && idForActions != '1002')
-          IconButton(
-            icon: const Icon(Icons.copy),
-            tooltip: l10n.tooltipCopyRecipe,
-            onPressed: () => _navigateToCopyRecipe(
-                context, recipe), // Pass current recipe model
-          ),
-        // Share Button - Disable while sharing process is active
-        IconButton(
-          icon: Icon(defaultTargetPlatform == TargetPlatform.iOS
-              ? CupertinoIcons.share
-              : Icons.share),
-          tooltip: l10n.tooltipShareRecipe,
-          onPressed: _isSharing
-              ? null
-              : () => _onShare(
-                  context), // Disable onPressed when _isSharing is true
+        RecipeDetailAppBarActions(
+          isUserRecipe: isUserRecipe,
+          isSharing: _isSharing,
+          idForActions: idForActions,
+          onEdit: () => _navigateToEditRecipe(context, recipe),
+          onCopy: () => _navigateToCopyRecipe(context, recipe),
+          onShare: () => _onShare(context),
+          favoriteButton: FavoriteButton(recipeId: idForActions),
         ),
-        FavoriteButton(recipeId: idForActions), // Use effective ID
       ],
     );
   }
@@ -1624,318 +1363,90 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       children: [
         Text(recipe.name, style: Theme.of(context).textTheme.headlineSmall),
         const SizedBox(height: 16),
-        _buildRichText(context,
-            recipe.shortDescription), // Pass effective ID for link logic
+        // Rich text with markdown-like links; disable for user recipes (same behavior)
+        if (!((_effectiveRecipeId?.startsWith('usr-')) ?? false))
+          RichTextLinks(
+            text: recipe.shortDescription,
+            onTapUrl: (uri) async {
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri);
+              }
+            },
+          )
+        else
+          Text(
+            recipe.shortDescription,
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
         const SizedBox(height: 16),
-        _buildBeanSelectionRow(context),
+        BeanSelectionRow(
+          selectedBeanUuid: _controller.selectedBeanUuid,
+          selectedBeanName: _controller.selectedBeanName,
+          originalRoasterLogoUrl: _controller.originalRoasterLogoUrl,
+          mirrorRoasterLogoUrl: _controller.mirrorRoasterLogoUrl,
+          onSelectBeans: () => _openAddBeansPopup(context),
+          onClearSelection: () => _updateSelectedBean(null),
+        ),
         const SizedBox(height: 16),
-        _buildAmountFields(context, recipe),
+        AmountFields(
+          coffeeController: _controller.coffeeController,
+          waterController: _controller.waterController,
+          onCoffeeChanged: () {
+            final id = _effectiveRecipeId;
+            if (id != null) {
+              _controller.updateAmounts(id);
+            }
+          },
+          onWaterChanged: () {
+            final id = _effectiveRecipeId;
+            if (id != null) {
+              _controller.updateAmounts(id);
+            }
+          },
+          onCoffeeFocus: () => _controller.setEditingCoffee(true),
+          onWaterFocus: () => _controller.setEditingCoffee(false),
+        ),
         const SizedBox(height: 16),
-        Text(
-            '${loc.watertemp}: ${recipe.waterTemp?.toStringAsFixed(1) ?? loc.notProvided}ºC / ${(recipe.waterTemp != null) ? ((recipe.waterTemp! * 9 / 5) + 32).toStringAsFixed(1) : loc.notProvided}ºF'),
-        const SizedBox(height: 16),
-        Text('${loc.grindsize}: ${recipe.grindSize}'),
-        const SizedBox(height: 16),
-        Text('${loc.brewtime}: $formattedBrewTime'),
+        MetaInfoSection(
+          waterTempCelsius: recipe.waterTemp,
+          grindSize: recipe.grindSize,
+          brewTime: recipe.brewTime,
+        ),
         const SizedBox(height: 16),
         // Use effective ID for slider logic
-        if (_effectiveRecipeId == '1002') _buildCoffeeChroniclerSlider(context),
-        if (_effectiveRecipeId == '106') _buildSliders(context),
+        if (_effectiveRecipeId == '1002')
+          CoffeeChroniclerSizeSlider(
+            position: _controller.coffeeChroniclerSliderPosition,
+            onChanged: (int value) {
+              final mapped =
+                  _controller.setChroniclerPositionAndMapAmounts(value);
+              if (_updatedRecipe?.id == '1002' && mapped != null) {
+                _controller.applyAmounts(mapped['coffee']!, mapped['water']!);
+              } else {
+                _controller.notifyListeners();
+              }
+            },
+          ),
+        if (_effectiveRecipeId == '106')
+          SweetnessStrengthSliders(
+            sweetnessPosition: _controller.sweetnessSliderPosition,
+            strengthPosition: _controller.strengthSliderPosition,
+            onSweetnessChanged: (v) {
+              _controller.setSweetnessPosition(v);
+            },
+            onStrengthChanged: (v) {
+              _controller.setStrengthPosition(v);
+            },
+          ),
         if (_effectiveRecipeId != '106' && _effectiveRecipeId != '1002')
-          _buildRecipeSummary(context, recipe),
+          RecipeSummaryTile(recipe: recipe),
       ],
     );
   }
 
-  Widget _buildBeanSelectionRow(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
-
-    // Give RoasterLogo a unique key that changes on every bean selection
-    final roasterLogoKey = selectedBeanUuid != null
-        ? ValueKey(selectedBeanUuid! +
-            (originalRoasterLogoUrl ?? '') +
-            (mirrorRoasterLogoUrl ?? ''))
-        : null;
-
-    const double logoHeight = 24.0;
-    const double maxWidthFactor = 2.0; // 24 × 2 = 48 px max width
-
-    return Row(
-      children: [
-        Text('${loc.beans}: ', style: Theme.of(context).textTheme.titleSmall),
-        const SizedBox(width: 8),
-        Expanded(
-          child: OutlinedButton(
-            onPressed: () => _openAddBeansPopup(context),
-            style: OutlinedButton.styleFrom(
-              padding: EdgeInsets.zero,
-              minimumSize: const Size.fromHeight(48),
-            ),
-            child: Stack(
-              children: [
-                Center(
-                  child: selectedBeanUuid == null
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            loc.selectBeans,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (originalRoasterLogoUrl != null ||
-                                mirrorRoasterLogoUrl != null)
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(4),
-                                child: SizedBox(
-                                  height: logoHeight,
-                                  width: logoHeight * maxWidthFactor,
-                                  child: RoasterLogo(
-                                    key: roasterLogoKey, // <<<<<< THIS
-                                    originalUrl: originalRoasterLogoUrl,
-                                    mirrorUrl: mirrorRoasterLogoUrl,
-                                    height: logoHeight,
-                                    width: logoHeight * maxWidthFactor,
-                                    borderRadius: 4,
-                                    forceFit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
-                            if (originalRoasterLogoUrl != null ||
-                                mirrorRoasterLogoUrl != null)
-                              const SizedBox(width: 8),
-                            Flexible(
-                              child: Text(
-                                selectedBeanName ?? '',
-                                style: Theme.of(context).textTheme.bodyMedium,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
-                ),
-                if (selectedBeanUuid != null)
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                    child: GestureDetector(
-                      onTap: () {
-                        _updateSelectedBean(null);
-                      },
-                      child: Container(
-                        width: 48,
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.cancel,
-                          color: Theme.of(context).colorScheme.onSurface,
-                          size: 24,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildAmountFields(BuildContext context, RecipeModel recipe) {
-    // Ensure initialRatio is calculated based on the loaded recipe
-    if (recipe.coffeeAmount > 0) {
-      initialRatio = recipe.waterAmount / recipe.coffeeAmount;
-    } else {
-      initialRatio = 16.0; // Default
-    }
-
-    return Row(
-      children: [
-        Expanded(
-          child: TextField(
-            controller: _coffeeController,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.coffeeamount,
-            ),
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            onChanged: (text) => _updateAmounts(context, recipe),
-            onTap: () => _editingCoffee = true,
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: TextField(
-            controller: _waterController,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.wateramount,
-            ),
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            onChanged: (text) => _updateAmounts(context, recipe),
-            onTap: () => _editingCoffee = false,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSliders(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
-    List<String> sweetnessLabels = [
-      localizations.sweet,
-      localizations.balance,
-      localizations.acidic,
-    ];
-    List<String> strengthLabels = [
-      localizations.light,
-      localizations.balance,
-      localizations.strong,
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Sweetness Slider
-        Text(localizations.slidertitle),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(localizations.sweet),
-            Expanded(
-              child: Slider(
-                value: _sweetnessSliderPosition.toDouble(),
-                min: 0,
-                max: 2,
-                divisions: 2,
-                label: sweetnessLabels[_sweetnessSliderPosition],
-                onChanged: (double value) {
-                  setState(() {
-                    _sweetnessSliderPosition = value.toInt();
-                  });
-                },
-              ),
-            ),
-            Text(localizations.acidic),
-          ],
-        ),
-        // Strength Slider
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(localizations.light),
-            Expanded(
-              child: Slider(
-                value: _strengthSliderPosition.toDouble(),
-                min: 0,
-                max: 2,
-                divisions: 2,
-                label: strengthLabels[_strengthSliderPosition],
-                onChanged: (double value) {
-                  setState(() {
-                    _strengthSliderPosition = value.toInt();
-                  });
-                },
-              ),
-            ),
-            Text(localizations.strong),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCoffeeChroniclerSlider(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
-    List<String> sizeLabels = [
-      localizations.sizeStandard,
-      localizations.sizeMedium,
-      localizations.sizeXL,
-    ];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(localizations.selectSize),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(localizations.sizeStandard),
-            Expanded(
-              child: Slider(
-                value: _coffeeChroniclerSliderPosition.toDouble(),
-                min: 0,
-                max: 2,
-                divisions: 2,
-                label: sizeLabels[_coffeeChroniclerSliderPosition],
-                onChanged: (double value) {
-                  setState(() {
-                    _coffeeChroniclerSliderPosition = value.toInt();
-
-                    // Update coffee and water amounts
-                    if (_updatedRecipe!.id == '1002') {
-                      // Check original ID for logic
-                      double newCoffeeAmount;
-                      double newWaterAmount;
-
-                      switch (_coffeeChroniclerSliderPosition) {
-                        case 0:
-                          newCoffeeAmount = 20;
-                          newWaterAmount = 320;
-                          break;
-                        case 1:
-                          newCoffeeAmount = 30;
-                          newWaterAmount = 480;
-                          break;
-                        case 2:
-                          newCoffeeAmount = 45;
-                          newWaterAmount = 720;
-                          break;
-                        default:
-                          newCoffeeAmount = _updatedRecipe!.coffeeAmount;
-                          newWaterAmount = _updatedRecipe!.waterAmount;
-                      }
-
-                      // Update the text controllers
-                      _coffeeController.text = newCoffeeAmount.toString();
-                      _waterController.text = newWaterAmount.toString();
-
-                      // Update initialRatio
-                      initialRatio = newWaterAmount / newCoffeeAmount;
-                    }
-                  });
-                },
-              ),
-            ),
-            Text(localizations.sizeXL),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildRecipeSummary(BuildContext context, RecipeModel recipe) {
-    return ExpansionTile(
-      title: Text(AppLocalizations.of(context)!.recipesummary),
-      subtitle: Text(AppLocalizations.of(context)!.recipesummarynote),
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(RecipeSummary.fromRecipe(recipe).summary),
-        ),
-      ],
-    );
-  }
-
-  FloatingActionButton _buildFloatingActionButton(
-      BuildContext context, RecipeModel recipe) {
-    return FloatingActionButton(
+  Widget _buildFloatingActionButton(BuildContext context, RecipeModel recipe) {
+    return FloatingNavButton(
       onPressed: () => _saveCustomAmountsAndNavigate(context, recipe),
-      child: const Icon(Icons.arrow_forward),
     );
   }
 
@@ -1946,12 +1457,12 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     // Ensure context is valid before accessing Providers
     if (!mounted) return;
     final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
-    double customCoffeeAmount =
-        double.tryParse(_coffeeController.text.replaceAll(',', '.')) ??
-            recipe.coffeeAmount;
-    double customWaterAmount =
-        double.tryParse(_waterController.text.replaceAll(',', '.')) ??
-            recipe.waterAmount;
+    double customCoffeeAmount = double.tryParse(
+            _controller.coffeeController.text.replaceAll(',', '.')) ??
+        recipe.coffeeAmount;
+    double customWaterAmount = double.tryParse(
+            _controller.waterController.text.replaceAll(',', '.')) ??
+        recipe.waterAmount;
 
     await recipeProvider.saveCustomAmounts(
         idToSave, customCoffeeAmount, customWaterAmount);
@@ -1959,13 +1470,14 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     // Use effective ID for slider logic check
     if (idToSave == '106' || idToSave == '1002') {
       await recipeProvider.saveSliderPositions(
-        idToSave, // Use effective ID
+        idToSave,
         sweetnessSliderPosition:
-            idToSave == '106' ? _sweetnessSliderPosition : null,
+            idToSave == '106' ? _controller.sweetnessSliderPosition : null,
         strengthSliderPosition:
-            idToSave == '106' ? _strengthSliderPosition : null,
-        coffeeChroniclerSliderPosition:
-            idToSave == '1002' ? _coffeeChroniclerSliderPosition : null,
+            idToSave == '106' ? _controller.strengthSliderPosition : null,
+        coffeeChroniclerSliderPosition: idToSave == '1002'
+            ? _controller.coffeeChroniclerSliderPosition
+            : null,
       );
     }
 
@@ -1974,11 +1486,12 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       coffeeAmount: customCoffeeAmount,
       waterAmount: customWaterAmount,
       sweetnessSliderPosition:
-          idToSave == '106' ? _sweetnessSliderPosition : null,
+          idToSave == '106' ? _controller.sweetnessSliderPosition : null,
       strengthSliderPosition:
-          idToSave == '106' ? _strengthSliderPosition : null,
-      coffeeChroniclerSliderPosition:
-          idToSave == '1002' ? _coffeeChroniclerSliderPosition : null,
+          idToSave == '106' ? _controller.strengthSliderPosition : null,
+      coffeeChroniclerSliderPosition: idToSave == '1002'
+          ? _controller.coffeeChroniclerSliderPosition
+          : null,
     );
 
     // Ensure context is valid before navigating
@@ -1992,65 +1505,6 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
             coffeeChroniclerSliderPosition:
                 updatedRecipeForNav.coffeeChroniclerSliderPosition),
       ),
-    );
-  }
-
-  Future<bool> canLaunchUrl(Uri url) async {
-    return await canLaunch(url.toString());
-  }
-
-  Future<void> launchUrl(Uri url) async {
-    await launch(url.toString());
-  }
-
-  Widget _buildRichText(BuildContext context, String text) {
-    // Disable links based on the effective ID
-    final bool isUserRecipe = _effectiveRecipeId?.startsWith('usr-') ?? false;
-    if (isUserRecipe) {
-      return Text(
-        text,
-        style: Theme.of(context).textTheme.bodyLarge,
-      );
-    }
-    final RegExp linkRegExp = RegExp(r'\[(.*?)\]\((.*?)\)');
-    final Iterable<RegExpMatch> matches = linkRegExp.allMatches(text);
-
-    TextStyle defaultTextStyle = Theme.of(context).textTheme.bodyLarge!;
-    List<TextSpan> spanList = [];
-
-    int lastMatchEnd = 0;
-
-    for (final match in matches) {
-      final String precedingText = text.substring(lastMatchEnd, match.start);
-      final String linkText = match.group(1)!;
-      final String linkUrl = match.group(2)!;
-
-      if (precedingText.isNotEmpty) {
-        spanList.add(TextSpan(text: precedingText, style: defaultTextStyle));
-      }
-
-      spanList.add(TextSpan(
-        text: linkText,
-        style: defaultTextStyle.copyWith(
-            color: Theme.of(context).colorScheme.secondary),
-        recognizer: TapGestureRecognizer()
-          ..onTap = () async {
-            if (await canLaunchUrl(Uri.parse(linkUrl))) {
-              await launchUrl(Uri.parse(linkUrl));
-            }
-          },
-      ));
-
-      lastMatchEnd = match.end;
-    }
-
-    if (lastMatchEnd < text.length) {
-      spanList.add(TextSpan(
-          text: text.substring(lastMatchEnd), style: defaultTextStyle));
-    }
-
-    return RichText(
-      text: TextSpan(children: spanList),
     );
   }
 }
