@@ -10,6 +10,7 @@ import '../models/coffee_beans_model.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:diacritic/diacritic.dart';
 import '../widgets/confirm_delete_dialog.dart';
 import '../widgets/roaster_logo.dart';
 import 'package:auto_size_text_plus/auto_size_text_plus.dart';
@@ -56,6 +57,10 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
   // BottomAppBar hide-on-scroll logic
   bool _isBottomBarVisible = true;
   late final ScrollController _scrollController;
+
+  String _normalizeText(String input) {
+    return removeDiacritics(input.toLowerCase());
+  }
 
   @override
   void initState() {
@@ -124,6 +129,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
     final result = await showModalBottomSheet<FilterOptions>(
       context: context,
       isScrollControlled: true,
+      useRootNavigator: true,
       builder: (BuildContext context) {
         List<String> tempSelectedRoasters = List.from(selectedRoasters);
         List<String> tempSelectedOrigins = List.from(selectedOrigins);
@@ -145,229 +151,253 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
             }
 
             return SafeArea(
-              child: Wrap(
-                children: [
-                  ListTile(
-                    title: Row(
-                      children: [
-                        Text('${loc.roaster}: '),
-                        Expanded(
-                          child: Text(
-                            tempSelectedRoasters.isEmpty
-                                ? loc.all
-                                : tempSelectedRoasters.join(', '),
-                            textAlign: TextAlign.end,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? Colors
-                                      .grey[300] // Light color for dark mode
-                                  : Colors
-                                      .grey[700], // Dark color for light mode
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListTile(
+                      title: Row(
+                        children: [
+                          Text('${loc.roaster}: '),
+                          Expanded(
+                            child: Text(
+                              tempSelectedRoasters.isEmpty
+                                  ? loc.all
+                                  : tempSelectedRoasters.join(', '),
+                              textAlign: TextAlign.end,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors
+                                        .grey[300] // Light color for dark mode
+                                    : Colors
+                                        .grey[700], // Dark color for light mode
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    onTap: () async {
-                      await showDialog(
-                        context: context,
-                        builder: (context) {
-                          List<String> dialogSelectedRoasters =
-                              List.from(tempSelectedRoasters);
-                          return StatefulBuilder(
-                            builder: (BuildContext context,
-                                StateSetter dialogSetState) {
-                              return AlertDialog(
-                                title: Text(loc.selectRoaster),
-                                content: Container(
-                                  width: double.maxFinite,
-                                  child: ListView(
-                                    shrinkWrap: true,
-                                    children: roasters.map((roaster) {
-                                      return CheckboxListTile(
-                                        title: Text(roaster),
-                                        value: dialogSelectedRoasters
-                                            .contains(roaster),
-                                        onChanged: (bool? value) {
-                                          dialogSetState(() {
-                                            if (value == true) {
-                                              if (!dialogSelectedRoasters
-                                                  .contains(roaster)) {
+                        ],
+                      ),
+                      onTap: () async {
+                        await showDialog(
+                          context: context,
+                          builder: (context) {
+                            List<String> dialogSelectedRoasters =
+                                List.from(tempSelectedRoasters);
+                            return StatefulBuilder(
+                              builder: (BuildContext context,
+                                  StateSetter dialogSetState) {
+                                return AlertDialog(
+                                  title: Text(loc.selectRoaster),
+                                  content: Container(
+                                    width: double.maxFinite,
+                                    child: ListView(
+                                      shrinkWrap: true,
+                                      children: roasters.map((roaster) {
+                                        return CheckboxListTile(
+                                          title: Text(roaster),
+                                          value: dialogSelectedRoasters
+                                              .contains(roaster),
+                                          onChanged: (bool? value) {
+                                            dialogSetState(() {
+                                              if (value == true) {
+                                                if (!dialogSelectedRoasters
+                                                    .contains(roaster)) {
+                                                  dialogSelectedRoasters
+                                                      .add(roaster);
+                                                }
+                                              } else {
                                                 dialogSelectedRoasters
-                                                    .add(roaster);
+                                                    .remove(roaster);
                                               }
-                                            } else {
-                                              dialogSelectedRoasters
-                                                  .remove(roaster);
-                                            }
-                                          });
-                                        },
-                                      );
-                                    }).toList(),
+                                            });
+                                          },
+                                        );
+                                      }).toList(),
+                                    ),
                                   ),
-                                ),
-                                actions: [
-                                  TextButton(
-                                    child: Text(loc.cancel),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: Text(loc.ok),
-                                    onPressed: () {
-                                      tempSelectedRoasters =
-                                          List.from(dialogSelectedRoasters);
-                                      updateOrigins(); // Update origins when roasters change
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      );
-                      setState(() {}); // Update the trailing text
-                    },
-                  ),
-                  ListTile(
-                    title: Row(
-                      children: [
-                        Text('${loc.origin}: '),
-                        Expanded(
-                          child: Text(
-                            tempSelectedOrigins.isEmpty
-                                ? loc.all
-                                : tempSelectedOrigins.join(', '),
-                            textAlign: TextAlign.end,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? Colors
-                                      .grey[300] // Light color for dark mode
-                                  : Colors
-                                      .grey[700], // Dark color for light mode
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: () async {
-                      await showDialog(
-                        context: context,
-                        builder: (context) {
-                          List<String> dialogSelectedOrigins =
-                              List.from(tempSelectedOrigins);
-                          return StatefulBuilder(
-                            builder: (BuildContext context,
-                                StateSetter dialogSetState) {
-                              return AlertDialog(
-                                title: Text(loc.selectOrigin),
-                                content: Container(
-                                  width: double.maxFinite,
-                                  child: ListView(
-                                    shrinkWrap: true,
-                                    children: origins.map((origin) {
-                                      return CheckboxListTile(
-                                        title: Text(origin),
-                                        value: dialogSelectedOrigins
-                                            .contains(origin),
-                                        onChanged: (bool? value) {
-                                          dialogSetState(() {
-                                            if (value == true) {
-                                              if (!dialogSelectedOrigins
-                                                  .contains(origin)) {
-                                                dialogSelectedOrigins
-                                                    .add(origin);
-                                              }
-                                            } else {
-                                              dialogSelectedOrigins
-                                                  .remove(origin);
-                                            }
-                                          });
-                                        },
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                                actions: [
-                                  TextButton(
-                                    child: Text(loc.cancel),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: Text(loc.ok),
-                                    onPressed: () {
-                                      tempSelectedOrigins =
-                                          List.from(dialogSelectedOrigins);
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      );
-                      setState(() {}); // Update the trailing text
-                    },
-                  ),
-                  ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    title: Text(loc.showFavoritesOnly),
-                    trailing: Checkbox(
-                      value: tempIsFavoriteOnly,
-                      onChanged: (value) {
-                        setState(() {
-                          tempIsFavoriteOnly = value!;
-                        });
+                                  actions: [
+                                    TextButton(
+                                      child: Text(loc.cancel),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: Text(loc.ok),
+                                      onPressed: () {
+                                        tempSelectedRoasters =
+                                            List.from(dialogSelectedRoasters);
+                                        updateOrigins(); // Update origins when roasters change
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
+                        setState(() {}); // Update the trailing text
                       },
                     ),
-                    onTap: () {
-                      setState(() {
-                        tempIsFavoriteOnly = !tempIsFavoriteOnly;
-                      });
-                    },
-                  ),
-                  OverflowBar(
-                    children: [
-                      TextButton(
-                        child: Text(loc.resetFilters),
-                        onPressed: () {
-                          Navigator.pop(
-                            context,
-                            FilterOptions(
-                              selectedRoasters: [],
-                              selectedOrigins: [],
-                              isFavoriteOnly: false,
+                    ListTile(
+                      title: Row(
+                        children: [
+                          Text('${loc.origin}: '),
+                          Expanded(
+                            child: Text(
+                              tempSelectedOrigins.isEmpty
+                                  ? loc.all
+                                  : tempSelectedOrigins.join(', '),
+                              textAlign: TextAlign.end,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors
+                                        .grey[300] // Light color for dark mode
+                                    : Colors
+                                        .grey[700], // Dark color for light mode
+                              ),
                             ),
-                          );
-                        },
+                          ),
+                        ],
                       ),
-                      OutlinedButton(
-                        child: Text(loc.apply),
-                        onPressed: () {
-                          Navigator.pop(
-                            context,
-                            FilterOptions(
-                              selectedRoasters: tempSelectedRoasters,
-                              selectedOrigins: tempSelectedOrigins,
-                              isFavoriteOnly: tempIsFavoriteOnly,
+                      onTap: () async {
+                        await showDialog(
+                          context: context,
+                          builder: (context) {
+                            List<String> dialogSelectedOrigins =
+                                List.from(tempSelectedOrigins);
+                            return StatefulBuilder(
+                              builder: (BuildContext context,
+                                  StateSetter dialogSetState) {
+                                return AlertDialog(
+                                  title: Text(loc.selectOrigin),
+                                  content: Container(
+                                    width: double.maxFinite,
+                                    child: ListView(
+                                      shrinkWrap: true,
+                                      children: origins.map((origin) {
+                                        return CheckboxListTile(
+                                          title: Text(origin),
+                                          value: dialogSelectedOrigins
+                                              .contains(origin),
+                                          onChanged: (bool? value) {
+                                            dialogSetState(() {
+                                              if (value == true) {
+                                                if (!dialogSelectedOrigins
+                                                    .contains(origin)) {
+                                                  dialogSelectedOrigins
+                                                      .add(origin);
+                                                }
+                                              } else {
+                                                dialogSelectedOrigins
+                                                    .remove(origin);
+                                              }
+                                            });
+                                          },
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      child: Text(loc.cancel),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: Text(loc.ok),
+                                      onPressed: () {
+                                        tempSelectedOrigins =
+                                            List.from(dialogSelectedOrigins);
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
+                        setState(() {}); // Update the trailing text
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    ListTile(
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 16),
+                      title: Row(
+                        children: [
+                          Text(
+                            loc.showFavoritesOnly,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Checkbox(
+                                value: tempIsFavoriteOnly,
+                                onChanged: (value) => setState(
+                                    () => tempIsFavoriteOnly = value ?? false),
+                                activeColor: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? const Color(0xff8e2e2d)
+                                    : const Color(0xffc66564),
+                                checkColor: Colors.white,
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                visualDensity: VisualDensity.compact,
+                              ),
                             ),
-                          );
-                        },
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ],
+                      onTap: () => setState(
+                          () => tempIsFavoriteOnly = !tempIsFavoriteOnly),
+                    ),
+                    const SizedBox(height: 16),
+                    const SizedBox(height: 8),
+                    OverflowBar(
+                      alignment: MainAxisAlignment.end,
+                      spacing: 16.0,
+                      children: [
+                        TextButton(
+                          child: Text(loc.resetFilters),
+                          onPressed: () {
+                            setState(() {
+                              tempSelectedRoasters.clear();
+                              tempSelectedOrigins.clear();
+                              tempIsFavoriteOnly = false;
+                            });
+                            updateOrigins();
+                          },
+                        ),
+                        ElevatedButton(
+                          child: Text(loc.apply),
+                          onPressed: () {
+                            Navigator.pop(
+                              context,
+                              FilterOptions(
+                                selectedRoasters: tempSelectedRoasters,
+                                selectedOrigins: tempSelectedOrigins,
+                                isFavoriteOnly: tempIsFavoriteOnly,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             );
           },
@@ -426,12 +456,14 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
   List<CoffeeBeansModel> _filterBeans(List<CoffeeBeansModel> beans) {
     if (_searchQuery.isEmpty) return beans;
 
+    final query = _normalizeText(_searchQuery);
+
     return beans.where((bean) {
-      final query = _searchQuery.toLowerCase();
-      return bean.name.toLowerCase().contains(query) ||
-          bean.roaster.toLowerCase().contains(query) ||
-          bean.origin.toLowerCase().contains(query) ||
-          (bean.tastingNotes?.toLowerCase().contains(query) ?? false);
+      return _normalizeText(bean.name).contains(query) ||
+          _normalizeText(bean.roaster).contains(query) ||
+          _normalizeText(bean.origin).contains(query) ||
+          (bean.tastingNotes != null &&
+              _normalizeText(bean.tastingNotes!).contains(query));
     }).toList();
   }
 
@@ -500,19 +532,39 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
     final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(context);
     final loc = AppLocalizations.of(context)!;
 
+    // ────────────────────────────
+    //  NEW: how far to lift toolbar
+    //  Half the ConvexAppBar height
+    //  plus any on-device bottom inset
+    // ────────────────────────────
+    final double lift =
+        kBottomNavigationBarHeight / 4 + MediaQuery.of(context).padding.bottom;
+
     return Scaffold(
       appBar: AppBar(
-        title: Semantics(
-          identifier: 'coffeeBeansAppBar',
-          label: loc.coffeebeans,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Coffeico.bag_with_bean),
-              const SizedBox(width: 8),
-              Text(loc.coffeebeans),
-            ],
+        title: TextField(
+          controller: _searchController,
+          decoration: InputDecoration(
+            hintText: loc.searchBeans,
+            prefixIcon: const Icon(Icons.search),
+            suffixIcon: _searchQuery.isNotEmpty
+                ? IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      setState(() {
+                        _searchQuery = '';
+                        _searchController.clear();
+                      });
+                    },
+                  )
+                : null,
+            border: InputBorder.none,
           ),
+          onChanged: (value) {
+            setState(() {
+              _searchQuery = value;
+            });
+          },
         ),
         actions: [
           IconButton(
@@ -534,37 +586,6 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
       ),
       body: Column(
         children: [
-          // Search Bar
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: loc.searchBeans,
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: _searchQuery.isNotEmpty
-                    ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          setState(() {
-                            _searchQuery = '';
-                            _searchController.clear();
-                          });
-                        },
-                      )
-                    : null,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              onChanged: (value) {
-                setState(() {
-                  _searchQuery = value;
-                });
-              },
-            ),
-          ),
-
           // Filter Chips
           if (_hasActiveFilters)
             Container(
@@ -832,6 +853,9 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           height: _isBottomBarVisible ? kBottomNavigationBarHeight : 0,
+          margin: EdgeInsets.only(
+            bottom: _isBottomBarVisible ? lift : 0, // ← only half-height lift
+          ),
           decoration: BoxDecoration(
             border: Border(
               top: BorderSide(

@@ -1,0 +1,582 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:coffee_timer/providers/coffee_beans_provider.dart';
+import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import '../providers/database_provider.dart';
+import '../providers/recipe_provider.dart';
+import 'package:auto_route/auto_route.dart';
+import '../app_router.gr.dart'; // Ensure this import is correct
+import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:sign_in_button/sign_in_button.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+import '../providers/user_stat_provider.dart';
+import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
+// Added import
+// Import http package
+// Import for RecipeCreationScreen
+// Import AppDatabase and Recipe
+
+@RoutePage()
+class HubHomeScreen extends StatefulWidget {
+  const HubHomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HubHomeScreenState createState() => _HubHomeScreenState();
+}
+
+class _HubHomeScreenState extends State<HubHomeScreen> {
+  // Removed _isAnonymous state as StreamBuilder handles it
+  late DatabaseProvider _databaseProvider;
+  late UserStatProvider _userStatProvider;
+  late CoffeeBeansProvider _coffeeBeansProvider;
+  late UserRecipeProvider _userRecipeProvider;
+  late RecipeProvider _recipeProvider;
+  String? _initialUserId;
+  // Removed _currentUserId as StreamBuilder provides session info
+
+  @override
+  void initState() {
+    super.initState();
+    _databaseProvider = Provider.of<DatabaseProvider>(context, listen: false);
+    _userStatProvider = Provider.of<UserStatProvider>(context, listen: false);
+    _coffeeBeansProvider =
+        Provider.of<CoffeeBeansProvider>(context, listen: false);
+    _userRecipeProvider =
+        Provider.of<UserRecipeProvider>(context, listen: false);
+    _recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
+    _determineInitialUserId(); // Still needed for sync logic
+  }
+
+  Future<void> _determineInitialUserId() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    // No need to call setState here as StreamBuilder handles UI updates
+    _initialUserId = user?.id;
+    print('Initial User ID: $_initialUserId');
+    if (user != null && !user.isAnonymous) {
+      await _updateOneSignalExternalId();
+    }
+  }
+
+  // _loadUserData is no longer needed as StreamBuilder handles UI updates
+
+  Future<void> _syncDataAfterLogin() async {
+    // Ensure context is valid before proceeding
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+
+    try {
+      final newUser = Supabase.instance.client.auth.currentUser;
+      final newUserId = newUser?.id;
+
+      print('Initial User ID: $_initialUserId');
+      print('New User ID: $newUserId');
+
+      if (_initialUserId != null &&
+          newUserId != null &&
+          _initialUserId != newUserId) {
+        print(
+            'User ID changed from $_initialUserId to $newUserId. Updating local recipe IDs...');
+        // Update local recipe IDs BEFORE calling the edge function or syncing
+        await _userRecipeProvider.updateUserRecipeIdsAfterLogin(
+            _initialUserId!, newUserId);
+
+        print('Attempting to update user ID via Edge Function...');
+        // Invoke the Supabase Edge Function to update user ID
+        final res = await Supabase.instance.client.functions.invoke(
+          'update-id-after-signin',
+          body: {'oldUserId': _initialUserId, 'newUserId': newUserId},
+        );
+
+        print('Edge Function Response: ${res.data}');
+
+        if (res.status != 200) {
+          throw Exception('Failed to update user ID: ${res.data}');
+        }
+
+        print('User ID updated successfully');
+        // Update _initialUserId after successful sync/ID change
+        _initialUserId = newUserId;
+      } else {
+        print('User ID update not required');
+        // Ensure _initialUserId reflects the current user if it was null initially
+        if (_initialUserId == null && newUserId != null) {
+          _initialUserId = newUserId;
+        }
+      }
+
+      await _databaseProvider.uploadUserPreferencesToSupabase();
+      await _databaseProvider.fetchAndInsertUserPreferencesFromSupabase();
+      await _userStatProvider.syncUserStats();
+      await _coffeeBeansProvider.syncCoffeeBeans();
+
+      // Sync user-created and imported recipes
+      if (newUserId != null) {
+        await _databaseProvider.syncUserRecipes(newUserId);
+        await _databaseProvider.syncImportedRecipes(newUserId);
+      }
+
+      // Reload recipes into the provider state after sync
+      await _recipeProvider.fetchAllRecipes();
+      print('RecipeProvider state refreshed.');
+
+      print('Data synchronization completed successfully');
+    } catch (e) {
+      print('Error syncing user data: $e');
+      // Show an error message to the user
+      if (mounted) {
+        // Check mounted before showing SnackBar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.errorSyncingData(e.toString()))),
+        );
+      }
+    }
+  }
+
+  Future<void> _updateOneSignalExternalId() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null && !kIsWeb) {
+      await OneSignal.login(user.id);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+    return SafeArea(
+      child: ListView(
+        children: [
+          // Use StreamBuilder to listen to auth changes
+          StreamBuilder<AuthState>(
+            stream: Supabase.instance.client.auth.onAuthStateChange,
+            builder: (context, snapshot) {
+              final session = snapshot.data?.session;
+              // Consider logged in if session exists AND user is not anonymous
+              final bool isLoggedIn =
+                  session != null && !session.user.isAnonymous;
+
+              if (isLoggedIn) {
+                // Show Account button if logged in
+                return Semantics(
+                  identifier: 'account',
+                  label: l10n.account, // Use new localization key
+                  child: ListTile(
+                    leading:
+                        const Icon(Icons.account_circle), // Or appropriate icon
+                    title: Text(l10n.account), // Use new localization key
+                    onTap: () {
+                      final userId =
+                          Supabase.instance.client.auth.currentUser?.id;
+                      print('Navigating to AccountRoute with userId: $userId');
+                      if (userId != null) {
+                        context.router.push(AccountRoute(userId: userId));
+                      }
+                    }, // Navigate to AccountScreen
+                  ),
+                );
+              } else {
+                // Show Sign In button if not logged in (or anonymous)
+                return Semantics(
+                  identifier: 'signIn',
+                  label: l10n.signInCreate,
+                  child: ListTile(
+                    leading: const Icon(Icons.login),
+                    title: Text(l10n.signInCreate),
+                    onTap: () => _showSignInOptions(
+                        context), // This modal contains Apple Sign In
+                  ),
+                );
+              }
+            },
+          ),
+          Semantics(
+            identifier: 'brewDiary',
+            label: l10n.brewdiary,
+            child: ListTile(
+              leading: const Icon(Icons.library_books),
+              title: Text(l10n.brewdiary),
+              onTap: () {
+                context.router.push(const BrewDiaryRoute());
+              },
+            ),
+          ),
+          Semantics(
+            identifier: 'settings',
+            label: l10n.settings,
+            child: ListTile(
+              leading: const Icon(Icons.settings),
+              title: Text(l10n.settings),
+              onTap: () {
+                context.router.push(const SettingsRoute());
+              },
+            ),
+          ),
+          Semantics(
+            identifier: 'info',
+            label: l10n.about,
+            child: ListTile(
+              leading: const Icon(Icons.info_outline),
+              title: Text(l10n.about),
+              onTap: () {
+                context.router.push(const InfoRoute());
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showSignInOptions(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0,
+                16.0 + MediaQuery.of(context).viewInsets.bottom),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                // Conditionally show Apple Sign In
+                if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) ...[
+                  SignInButton(
+                    isDarkMode ? Buttons.apple : Buttons.appleDark,
+                    text: l10n.signInWithApple,
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _signInWithApple(context);
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                ],
+                SignInButton(
+                  isDarkMode ? Buttons.google : Buttons.googleDark,
+                  text: l10n.signInWithGoogle,
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _signInWithGoogle(context);
+                  },
+                ),
+                const SizedBox(height: 16),
+                SignInButtonBuilder(
+                  text: l10n.signInWithEmail,
+                  icon: Icons.email,
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _showEmailSignInDialog(context);
+                  },
+                  backgroundColor:
+                      isDarkMode ? Colors.white : Colors.blueGrey.shade700,
+                  textColor: isDarkMode ? Colors.black87 : Colors.white,
+                  iconColor: isDarkMode ? Colors.black87 : Colors.white,
+                ),
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _signInWithApple(BuildContext context) async {
+    // Ensure context is valid before proceeding
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+    final scaffoldMessenger =
+        ScaffoldMessenger.of(context); // Capture scaffold messenger
+
+    try {
+      if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) {
+        await _nativeSignInWithApple();
+      } else {
+        await _supabaseSignInWithApple();
+      }
+
+      // No need to call _loadUserData here, StreamBuilder handles UI update
+      await _syncDataAfterLogin(); // Sync data after login attempt
+      // Check mounted again before showing SnackBar
+      if (mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.signInSuccessful)),
+        );
+      }
+    } catch (e) {
+      print('Error signing in with Apple: $e');
+      // Check mounted again before showing SnackBar
+      if (mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.signInError)),
+        );
+      }
+    }
+  }
+
+  Future<void> _nativeSignInWithApple() async {
+    final rawNonce = Supabase.instance.client.auth.generateRawNonce();
+    final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
+
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      nonce: hashedNonce,
+    );
+
+    final idToken = credential.identityToken;
+    if (idToken == null) {
+      throw const AuthException(
+          'Could not find ID Token from generated credential.');
+    }
+
+    await Supabase.instance.client.auth.signInWithIdToken(
+      provider: OAuthProvider.apple,
+      idToken: idToken,
+      nonce: rawNonce,
+    );
+  }
+
+  Future<void> _supabaseSignInWithApple() async {
+    await Supabase.instance.client.auth.signInWithOAuth(
+      OAuthProvider.apple,
+      redirectTo: kIsWeb ? 'https://app.timer.coffee/' : 'timercoffee://',
+    );
+  }
+
+  Future<void> _signInWithGoogle(BuildContext context) async {
+    // Ensure context is valid before proceeding
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+    final scaffoldMessenger =
+        ScaffoldMessenger.of(context); // Capture scaffold messenger
+
+    try {
+      if (kIsWeb) {
+        await _webSignInWithGoogle();
+      } else {
+        await _nativeGoogleSignIn();
+      }
+
+      // No need to call _loadUserData here, StreamBuilder handles UI update
+      await _syncDataAfterLogin(); // Sync data after login attempt
+      // Check mounted again before showing SnackBar
+      if (mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.signInSuccessfulGoogle)),
+        );
+      }
+    } catch (e) {
+      print('Error signing in with Google: $e');
+      // Check mounted again before showing SnackBar
+      if (mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.signInError)),
+        );
+      }
+    }
+  }
+
+  Future<void> _webSignInWithGoogle() async {
+    await Supabase.instance.client.auth.signInWithOAuth(
+      OAuthProvider.google,
+      redirectTo: 'https://app.timer.coffee/',
+    );
+  }
+
+  Future<void> _nativeGoogleSignIn() async {
+    const webClientId =
+        '158450410168-i70d1cqrp1kkg9abet7nv835cbf8hmfn.apps.googleusercontent.com';
+    const iosClientId =
+        '158450410168-8o2bk6r3e4ik8i413ua66bc50iug45na.apps.googleusercontent.com';
+
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      clientId: iosClientId,
+      serverClientId: webClientId,
+    );
+
+    final googleUser = await googleSignIn.signIn();
+    final googleAuth = await googleUser?.authentication;
+    final accessToken = googleAuth?.accessToken;
+    final idToken = googleAuth?.idToken;
+
+    if (accessToken == null) {
+      throw 'No Access Token found.';
+    }
+    if (idToken == null) {
+      throw 'No ID Token found.';
+    }
+
+    await Supabase.instance.client.auth.signInWithIdToken(
+      provider: OAuthProvider.google,
+      idToken: idToken,
+      accessToken: accessToken,
+    );
+  }
+
+  void _showEmailSignInDialog(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(l10n.enterEmail),
+          content: TextField(
+            controller: emailController,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              hintText: l10n.emailHint,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(l10n.cancel),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(l10n.sendOTP),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _signInWithEmail(context, emailController.text);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _signInWithEmail(BuildContext context, String email) async {
+    // Ensure context is valid before proceeding
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+    final scaffoldMessenger =
+        ScaffoldMessenger.of(context); // Capture scaffold messenger
+
+    _showOTPVerificationDialog(context, email);
+
+    try {
+      await Supabase.instance.client.auth.signInWithOtp(
+        email: email,
+        emailRedirectTo: 'https://app.timer.coffee/',
+      );
+    } catch (e) {
+      print('Error sending OTP: $e');
+      // Check mounted again before showing SnackBar
+      if (mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.otpSendError)),
+        );
+      }
+    }
+  }
+
+  void _showOTPVerificationDialog(BuildContext context, String email) {
+    final TextEditingController otpController = TextEditingController();
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(l10n.enterOTP),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(l10n.otpSentMessage),
+              TextField(
+                controller: otpController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: l10n.otpHint2,
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(l10n.cancel),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(l10n.verify),
+              onPressed: () {
+                // Don't pop here, _verifyOTP will handle it if successful
+                _verifyOTP(context, email, otpController.text);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _verifyOTP(
+      BuildContext context, String email, String token) async {
+    // Ensure context is valid before proceeding
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!; // Get localizations
+    final scaffoldMessenger =
+        ScaffoldMessenger.of(context); // Capture scaffold messenger
+
+    try {
+      final AuthResponse res = await Supabase.instance.client.auth.verifyOTP(
+        email: email,
+        token: token,
+        type: OtpType.email,
+      );
+
+      // Pop the OTP dialog regardless of success/failure of verification
+      Navigator.of(context).pop();
+
+      if (res.session != null) {
+        // No need to call _loadUserData here, StreamBuilder handles UI update
+        await _syncDataAfterLogin(); // Sync data after successful verification
+        // Check mounted again before showing SnackBar
+        if (mounted) {
+          scaffoldMessenger.showSnackBar(
+            SnackBar(content: Text(l10n.signInSuccessfulEmail)),
+          );
+        }
+      } else {
+        // Check mounted again before showing SnackBar
+        if (mounted) {
+          scaffoldMessenger.showSnackBar(
+            SnackBar(content: Text(l10n.invalidOTP)),
+          );
+        }
+      }
+    } catch (e) {
+      print('Error verifying OTP: $e');
+      // Pop the OTP dialog if it wasn't popped due to an exception before this point
+      if (Navigator.canPop(context)) {
+        Navigator.of(context).pop();
+      }
+      // Check mounted again before showing SnackBar
+      if (mounted) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.otpVerificationError)),
+        );
+      }
+    }
+  }
+
+  // Removed _signOut method as it's now handled in AccountScreen
+}

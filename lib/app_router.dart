@@ -11,20 +11,9 @@ class AppRouter extends $AppRouter {
           page: HomeRoute.page,
           path: '/',
           children: [
-            AutoRoute(
-              path: '',
-              page: BrewTabRoute.page,
-              children: [
-                AutoRoute(path: '', page: BrewingMethodsRoute.page),
-              ],
-            ),
-            AutoRoute(
-              path: 'hub',
-              page: HubTabRoute.page,
-              children: [
-                AutoRoute(path: '', page: HubHomeRoute.page),
-              ],
-            ),
+            AutoRoute(path: '', page: BrewingMethodsRoute.page),
+            AutoRoute(path: 'beans', page: CoffeeBeansRoute.page),
+            AutoRoute(path: 'hub', page: HubHomeRoute.page),
           ],
         ),
         AutoRoute(
@@ -56,10 +45,6 @@ class AppRouter extends $AppRouter {
           path: '/stats',
         ),
         AutoRoute(
-          page: CoffeeBeansRoute.page,
-          path: '/beans',
-        ),
-        AutoRoute(
           page: CoffeeBeansDetailRoute.page,
           path: '/beans/:beanId',
         ),
@@ -78,6 +63,11 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: AccountRoute.page, // Add route for AccountScreen
           path: '/user/:userId',
+        ),
+        // New Info route
+        AutoRoute(
+          page: InfoRoute.page,
+          path: '/info',
         ),
       ];
 }
