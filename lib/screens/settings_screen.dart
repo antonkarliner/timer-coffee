@@ -309,97 +309,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       identifier: 'aboutSection',
       child: Column(
         children: [
-          Semantics(
-            identifier: 'authorExpansionTile',
-            child: ExpansionTile(
-              title: Text(AppLocalizations.of(context)!.author),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    AppLocalizations.of(context)!.authortext,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Semantics(
-            identifier: 'contributorsTile',
-            child: ListTile(
-              title: Text(AppLocalizations.of(context)!.contributors),
-              onTap: () => _launchURL(
-                  'https://github.com/antonkarliner/timer-coffee/blob/main/CONTRIBUTORS.md'),
-            ),
-          ),
-          Semantics(
-            identifier: 'licenseExpansionTile',
-            child: ExpansionTile(
-              title: Text(AppLocalizations.of(context)!.license),
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(AppLocalizations.of(context)!.licensetext),
-                      TextButton(
-                        onPressed: () => _launchURL(
-                            'https://www.gnu.org/licenses/gpl-3.0.html'),
-                        child: Text(
-                          AppLocalizations.of(context)!.licensebutton,
-                          style: const TextStyle(
-                              decoration: TextDecoration.underline),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Semantics(
-            identifier: 'privacyPolicyExpansionTile',
-            child: ExpansionTile(
-              title: const Text('Privacy Policy'),
-              children: <Widget>[
-                FutureBuilder<String>(
-                  future: loadPrivacyPolicy(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasData) {
-                      return SingleChildScrollView(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxHeight: MediaQuery.of(context).size.height * 0.5,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Markdown(
-                              data: snapshot.data!,
-                              styleSheet: MarkdownStyleSheet(
-                                p: Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text('Error loading Privacy Policy'),
-                      );
-                    } else {
-                      return const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
+          // Account management moved back from Info to Settings
           Semantics(
             identifier: 'accountManagementExpansionTile',
             child: ExpansionTile(
@@ -414,94 +324,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
               ],
-            ),
-          ),
-          Semantics(
-            identifier: 'seasonSpecialsExpansionTile',
-            child: ExpansionTile(
-              title: Text(AppLocalizations.of(context)!.seasonspecials),
-              children: [
-                Semantics(
-                  identifier: 'snowListTile',
-                  child: ListTile(
-                    leading: const Icon(Icons.ac_unit),
-                    title: Text(AppLocalizations.of(context)!.snow),
-                    onTap: () => snowEffectProvider.toggleSnowEffect(),
-                  ),
-                ),
-                Semantics(
-                  identifier: 'snowListTile',
-                  child: ListTile(
-                    leading: const Icon(Icons.calendar_month),
-                    title: Text(
-                      '${AppLocalizations.of(context)!.yearlyStatsAppBarTitle} – 2024',
-                    ),
-                    onTap: () {
-                      context.router.push(const YearlyStatsStoryRoute());
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 12.0,
-            runSpacing: 2.0,
-            children: [
-              Semantics(
-                identifier: 'websiteButton',
-                child: ElevatedButton.icon(
-                  onPressed: () => _launchURL('https://www.timer.coffee'),
-                  icon: const Icon(Icons.explore),
-                  label: Text(AppLocalizations.of(context)!.website),
-                ),
-              ),
-              Semantics(
-                identifier: 'sourceCodeButton',
-                child: ElevatedButton.icon(
-                  onPressed: () => _launchURL(
-                      'https://github.com/antonkarliner/coffee-timer'),
-                  icon: const Icon(Icons.code),
-                  label: Text(AppLocalizations.of(context)!.sourcecode),
-                ),
-              ),
-              if (kIsWeb || !Platform.isIOS)
-                Semantics(
-                  identifier: 'supportNonIOSButton',
-                  child: ElevatedButton.icon(
-                    onPressed: () =>
-                        _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                    icon: const Icon(Icons.local_cafe),
-                    label: Text(AppLocalizations.of(context)!.support),
-                  ),
-                ),
-              if (!kIsWeb && Platform.isIOS)
-                Semantics(
-                  identifier: 'supportIOSButton',
-                  child: ElevatedButton.icon(
-                    onPressed: () => context.router.push(const DonationRoute()),
-                    icon: const Icon(Icons.local_cafe),
-                    label: Text(AppLocalizations.of(context)!.support),
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Semantics(
-            identifier: 'appVersionText',
-            child: FutureBuilder<String>(
-              future: getVersionNumber(),
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                if (snapshot.hasData) {
-                  return Text(
-                    '${AppLocalizations.of(context)!.appversion}: ${snapshot.data}',
-                    style: const TextStyle(fontSize: 16.0, color: Colors.grey),
-                  );
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
             ),
           ),
         ],
@@ -616,71 +438,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     context.router.replace(const SettingsRoute());
   }
 
-  Future<String> loadPrivacyPolicy() async {
-    String filePath = kIsWeb
-        ? 'assets/data/privacy_policy_web.md'
-        : 'assets/data/privacy_policy.md';
-    return await rootBundle.loadString(filePath);
-  }
-
-  Future<String> getVersionNumber() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    return packageInfo.version;
-  }
-
-  Widget _buildRichText(
-      BuildContext context, List<ContributorModel> contributors) {
-    List<TextSpan> spanList = [];
-    final TextStyle defaultStyle = Theme.of(context).textTheme.bodyLarge!;
-    final TextStyle linkStyle =
-        defaultStyle.copyWith(color: Theme.of(context).colorScheme.secondary);
-
-    final RegExp linkRegExp = RegExp(r'\[(@?.*?)\]\((.*?)\)');
-
-    for (final contributor in contributors) {
-      final Iterable<RegExpMatch> matches =
-          linkRegExp.allMatches(contributor.content);
-      int lastMatchEnd = 0;
-
-      for (final match in matches) {
-        final String precedingText =
-            contributor.content.substring(lastMatchEnd, match.start);
-        if (precedingText.isNotEmpty) {
-          spanList.add(TextSpan(text: precedingText, style: defaultStyle));
-        }
-
-        final String linkText = match.group(1)!;
-        final String url = match.group(2)!;
-
-        spanList.add(TextSpan(
-          text: linkText,
-          style: linkStyle,
-          recognizer: TapGestureRecognizer()
-            ..onTap = () async {
-              if (await canLaunchUrl(Uri.parse(url))) {
-                await launchUrl(Uri.parse(url));
-              }
-            },
-        ));
-
-        lastMatchEnd = match.end;
-      }
-
-      final String remainingText = contributor.content.substring(lastMatchEnd);
-      if (remainingText.isNotEmpty) {
-        final String formattedRemainingText =
-            (remainingText.startsWith(' ') || remainingText.startsWith('\n'))
-                ? remainingText
-                : ' $remainingText';
-        spanList
-            .add(TextSpan(text: formattedRemainingText, style: defaultStyle));
-      }
-
-      spanList.add(const TextSpan(text: '\n\n'));
-    }
-
-    return RichText(text: TextSpan(children: spanList, style: defaultStyle));
-  }
+  // Removed Info-only helpers from Settings: (privacy policy, version, contributor rich text)
 
   void _launchURL(String url) async {
     if (await canLaunch(url)) {
@@ -736,6 +494,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       await Supabase.instance.client.auth.signInAnonymously();
 
       // Update state
+      if (!mounted) return;
       setState(() {
         _isAnonymous = true;
         _userId = Supabase.instance.client.auth.currentUser?.id;
@@ -746,10 +505,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         SnackBar(content: Text(AppLocalizations.of(context)!.accountDeleted)),
       );
     } catch (e) {
-      print('Error deleting account: $e');
+      // Show error
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(AppLocalizations.of(context)!.accountDeletionError)),
+          content: Text(AppLocalizations.of(context)!.accountDeletionError),
+        ),
       );
     }
   }
