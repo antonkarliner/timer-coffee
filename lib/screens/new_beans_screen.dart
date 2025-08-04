@@ -1,25 +1,31 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
 import 'package:auto_route/auto_route.dart';
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
+import 'package:coffee_timer/widgets/new_beans/loading_overlay.dart';
+import 'package:coffee_timer/widgets/new_beans/save_button.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/coffee_beans_model.dart';
 import '../providers/coffee_beans_provider.dart';
-import '../widgets/autocomplete_input_field.dart';
-import '../widgets/autocomplete_tag_input_field.dart';
-import 'package:image/image.dart' as img;
+import 'package:coffee_timer/widgets/new_beans/optional_details/optional_details_card.dart';
+import 'package:coffee_timer/widgets/new_beans/required_info_card.dart';
+import 'package:coffee_timer/widgets/new_beans/dates_card.dart';
+import 'package:coffee_timer/widgets/new_beans/additional_notes_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:uuid/uuid.dart';
+
+// Image flow controller and widgets
+import 'package:coffee_timer/utils/new_beans/new_beans_image_controller.dart';
+import 'package:coffee_timer/widgets/new_beans/image_flow/image_picker_sheet.dart';
+import 'package:coffee_timer/widgets/new_beans/image_flow/selected_images_sheet.dart';
+import 'package:coffee_timer/widgets/new_beans/image_flow/continue_camera_dialog.dart';
+import 'package:coffee_timer/widgets/new_beans/image_flow/error_dialog.dart';
+import 'package:coffee_timer/widgets/new_beans/image_flow/collected_data_dialog.dart';
 
 @RoutePage()
 class NewBeansScreen extends StatefulWidget {
@@ -51,10 +57,11 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   DateTime? roastDate;
   bool isEditMode = false;
   bool isLoading = false;
-  final ImagePicker _picker = ImagePicker();
-  List<XFile> _selectedImages = [];
   Map<String, dynamic>? collectedData;
   bool hasShownPopup = false;
+
+  // New: image flow controller
+  late final NewBeansImageController _imageController;
 
   @override
   void initState() {
@@ -63,6 +70,18 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       isEditMode = true;
       _loadBeanDetails(widget.uuid!);
     }
+
+    // Init image controller and multi-shot callback
+    _imageController =
+        NewBeansImageController(supabaseClient: Supabase.instance.client);
+    _imageController.setAskTakeAnotherPhotoCallback(() async {
+      final res = await showDialog<bool>(
+        context: context,
+        builder: (_) => const ContinueCameraDialog(),
+      );
+      return res ?? false;
+    });
+
     _checkFirstTimePopup();
   }
 
@@ -96,13 +115,73 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     if (!hasShownPopup) {
       await _showFirstTimePopup();
     } else {
-      _showImagePickerModal();
+      await _startImageFlow();
     }
   }
 
   Future<void> _checkFirstTimePopup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     hasShownPopup = prefs.getBool('hasShownPopup') ?? false;
+  }
+
+  // Entry point to start the controller-driven image flow
+  Future<void> _startImageFlow() async {
+    final locale = Localizations.localeOf(context).toString();
+    final user = Supabase.instance.client.auth.currentUser;
+    await _imageController.start(
+      context: context,
+      locale: locale,
+      userId: user?.id,
+      onLoading: (v) => setState(() => isLoading = v),
+      onData: (data) {
+        _fillFields(data);
+        collectedData = data;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showDialog(
+            context: context,
+            builder: (_) => CollectedDataDialog(
+              data: collectedData!,
+              humanizeKey: _humanReadableFieldName,
+            ),
+          );
+        });
+      },
+      onError: (msg) {
+        final loc = AppLocalizations.of(context)!;
+        String errorMessage;
+        if (msg.contains('Invocation limit reached')) {
+          errorMessage = loc.tokenLimitReached;
+        } else if (msg.contains('No coffee labels detected')) {
+          errorMessage = loc.noCoffeeLabelsDetected;
+        } else {
+          errorMessage = '${loc.unexpectedErrorOccurred}: $msg';
+        }
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showDialog(
+            context: context,
+            builder: (_) => ErrorDialog(message: errorMessage),
+          );
+        });
+      },
+      onChooseSource: () async {
+        return await showModalBottomSheet<ImageSource>(
+          context: context,
+          builder: (_) => ImagePickerSheet(
+            onPick: (src) => Navigator.pop(context, src),
+          ),
+        );
+      },
+      onShowPreview: (images, onConfirm, onBackToSelection) async {
+        await showModalBottomSheet(
+          context: context,
+          builder: (_) => SelectedImagesSheet(
+            initialImages: images,
+            onConfirm: onConfirm,
+            onBackToSelection: onBackToSelection,
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _showFirstTimePopup() async {
@@ -120,367 +199,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                 Navigator.pop(context);
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.setBool('hasShownPopup', true);
-                _showImagePickerModal();
-              },
-              child: Text(loc.ok),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showImagePickerModal() {
-    final loc = AppLocalizations.of(context)!;
-
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.camera_alt),
-                title: Text(loc.takePhoto),
-                onTap: () {
-                  Navigator.pop(context);
-                  _pickImages(ImageSource.camera);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: Text(loc.selectFromPhotos),
-                onTap: () {
-                  Navigator.pop(context);
-                  _pickImages(ImageSource.gallery);
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Future<void> _pickImages(ImageSource source) async {
-    if (source == ImageSource.camera) {
-      await _takePhotosWithCamera();
-    } else {
-      List<XFile>? images;
-      if (kIsWeb) {
-        final XFile? image =
-            await _picker.pickImage(source: ImageSource.gallery);
-        if (image != null) {
-          images = [image];
-        }
-      } else {
-        images = await _picker.pickMultiImage(imageQuality: 50);
-      }
-
-      if (images != null && images.isNotEmpty) {
-        setState(() {
-          _selectedImages = images!.take(2).toList(); // Limit to 2 images
-        });
-        _showSelectedImagesModal();
-      }
-    }
-  }
-
-  Future<void> _takePhotosWithCamera() async {
-    while (_selectedImages.length < 2) {
-      final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-      if (image != null) {
-        setState(() {
-          _selectedImages.add(image);
-        });
-      }
-      if (_selectedImages.length < 2) {
-        bool continueTakingPhotos = await _showContinueTakingPhotosDialog();
-        if (!continueTakingPhotos) break;
-      }
-    }
-    _showSelectedImagesModal();
-  }
-
-  Future<bool> _showContinueTakingPhotosDialog() async {
-    final loc = AppLocalizations.of(context)!;
-
-    return (await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text(loc.takeAdditionalPhoto),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text(loc.no),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text(loc.yes),
-              ),
-            ],
-          ),
-        )) ??
-        false;
-  }
-
-  void _showSelectedImagesModal() {
-    final loc = AppLocalizations.of(context)!;
-
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return SafeArea(
-          child: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setModalState) {
-              return SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(loc.selectedImages,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
-                    ),
-                    Wrap(
-                      spacing: 10,
-                      runSpacing: 10,
-                      children: _selectedImages.map((image) {
-                        return Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            kIsWeb
-                                ? Image.network(
-                                    image.path,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  )
-                                : FutureBuilder<Uint8List>(
-                                    future: File(image.path).readAsBytes(),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                              ConnectionState.done &&
-                                          snapshot.hasData) {
-                                        return Semantics(
-                                          identifier: 'selectedImage',
-                                          label: loc.selectedImage,
-                                          child: Image.memory(
-                                            snapshot.data!,
-                                            width: 100,
-                                            height: 100,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        );
-                                      } else {
-                                        return const CircularProgressIndicator();
-                                      }
-                                    },
-                                  ),
-                            Positioned(
-                              right: -10,
-                              top: -10,
-                              child: GestureDetector(
-                                onTap: () {
-                                  setModalState(() {
-                                    _selectedImages.remove(image);
-                                  });
-                                  setState(() {
-                                    _selectedImages.remove(image);
-                                  });
-                                },
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: Colors.red,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(
-                                    Icons.close,
-                                    color: Colors.white,
-                                    size: 16,
-                                  ),
-                                  padding: const EdgeInsets.all(4),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      }).toList(),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        OutlinedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            _showImagePickerOptions();
-                          },
-                          child: Text(loc.backToSelection),
-                        ),
-                        OutlinedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            _processSelectedImages();
-                          },
-                          child: Text(loc.next),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  Future<void> _processSelectedImages() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    List<String> base64Images = [];
-    for (var image in _selectedImages) {
-      final resizedImage = await _resizeImage(File(image.path));
-      final base64Image = base64Encode(resizedImage.readAsBytesSync());
-      base64Images.add(base64Image);
-    }
-
-    if (base64Images.isNotEmpty) {
-      await _invokeEdgeFunction(base64Images);
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  Future<File> _resizeImage(File imageFile) async {
-    final bytes = await imageFile.readAsBytes();
-    final image = img.decodeImage(bytes);
-    final resized = img.copyResize(
-      image!,
-      width: image.width > image.height ? 1024 : null,
-      height: image.height > image.width ? 1024 : null,
-    );
-
-    final resizedImageFile = File(imageFile.path)
-      ..writeAsBytesSync(img.encodeJpg(resized));
-
-    return resizedImageFile;
-  }
-
-  Future<void> _invokeEdgeFunction(List<String> base64Images) async {
-    final supabaseClient = Supabase.instance.client;
-    final user = supabaseClient.auth.currentUser;
-    final locale = Localizations.localeOf(context).toString();
-    final loc = AppLocalizations.of(context)!;
-
-    setState(() {
-      isLoading = true;
-    });
-
-    try {
-      final response = await supabaseClient.functions
-          .invoke('parse-coffee-label-gemini', body: {
-        'imagesBase64': base64Images,
-        'locale': locale,
-        'userId': user?.id,
-      });
-
-      print('Raw response data: ${response.data}');
-
-      if (response.status != 200) {
-        throw Exception('Error: Unexpected status code ${response.status}');
-      }
-
-      final data = response.data as Map<String, dynamic>;
-      print('Parsed data: $data');
-
-      if (data.isNotEmpty) {
-        if (data.containsKey('error')) {
-          print('Error from Edge Function: ${data['error']}');
-          String errorMessage;
-          if (data['error'] == 'Invocation limit reached') {
-            errorMessage = loc.tokenLimitReached;
-          } else if (data['error'] == 'No coffee labels detected') {
-            errorMessage = loc.noCoffeeLabelsDetected;
-          } else {
-            errorMessage = data['message'] ?? loc.unexpectedErrorOccurred;
-          }
-          if (mounted) {
-            setState(() {
-              isLoading = false;
-            });
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              _showErrorPopup(errorMessage);
-            });
-          }
-        } else {
-          print('Data entry: $data');
-          _fillFields(data);
-          collectedData = data;
-          if (mounted) {
-            setState(() {
-              isLoading = false;
-            });
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              _showCollectedDataPopup();
-            });
-          }
-        }
-      } else {
-        print('No data received from Edge Function');
-        if (mounted) {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      }
-    } catch (error) {
-      if (mounted) {
-        String errorMessage;
-        if (error.toString().contains('Invocation limit reached')) {
-          errorMessage = loc.tokenLimitReached;
-        } else if (error.toString().contains('No coffee labels detected')) {
-          errorMessage = loc.noCoffeeLabelsDetected;
-        } else {
-          errorMessage = '${loc.unexpectedErrorOccurred}: ${error.toString()}';
-        }
-        setState(() {
-          isLoading = false;
-        });
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _showErrorPopup(errorMessage);
-        });
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          isLoading = false;
-        });
-      }
-    }
-  }
-
-  void _showErrorPopup(String errorMessage) {
-    final loc = AppLocalizations.of(context)!;
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(loc.errorMessage), // Use a generic error message key
-          content: Text(errorMessage),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
+                hasShownPopup = true;
+                await _startImageFlow();
               },
               child: Text(loc.ok),
             ),
@@ -535,40 +255,6 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         });
       }
     });
-  }
-
-  void _showCollectedDataPopup() {
-    if (collectedData != null) {
-      final loc = AppLocalizations.of(context)!;
-
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text(loc.collectedInformation),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: collectedData!.entries.map((entry) {
-                  return Text(
-                    '${_humanReadableFieldName(entry.key)}: ${entry.value ?? 'N/A'}',
-                  );
-                }).toList(),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(loc.ok),
-                ),
-              ],
-            );
-          },
-        );
-      });
-    }
   }
 
   Future<void> _insertBeansDataToSupabase(CoffeeBeansModel bean) async {
@@ -682,585 +368,284 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       ),
       body: Stack(
         children: [
-          SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                // Required Fields Card
-                Card(
-                  elevation: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.info_outline,
-                                color: Theme.of(context).colorScheme.primary),
-                            const SizedBox(width: 8),
-                            Text(
-                              "Required Information",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        Semantics(
-                          identifier: 'roasterInputField',
-                          label: loc.roaster,
-                          child: AutocompleteInputField(
-                            label: loc.roaster,
-                            hintText: loc.enterRoaster,
-                            initialOptions:
-                                coffeeBeansProvider.fetchCombinedRoasters(),
-                            onSelected: (value) {
-                              _roasterController.text = value;
-                            },
-                            initialValue: _roasterController.text,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Semantics(
-                          identifier: 'nameInputField',
-                          label: loc.name,
-                          child: AutocompleteInputField(
-                            label: loc.name,
-                            hintText: loc.enterName,
-                            initialOptions:
-                                coffeeBeansProvider.fetchAllDistinctNames(),
-                            onSelected: (value) {
-                              _nameController.text = value;
-                            },
-                            initialValue: _nameController.text,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Semantics(
-                          identifier: 'originInputField',
-                          label: loc.origin,
-                          child: AutocompleteInputField(
-                            label: loc.origin,
-                            hintText: loc.enterOrigin,
-                            initialOptions: coffeeBeansProvider
-                                .fetchCombinedOrigins(locale),
-                            onSelected: (value) {
-                              _originController.text = value;
-                            },
-                            initialValue: _originController.text,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Optional Details Card
-                Card(
-                  elevation: 2,
-                  child: ExpansionTile(
-                    title: Row(
-                      children: [
-                        Icon(Icons.tune,
-                            color: Theme.of(context).colorScheme.primary),
-                        const SizedBox(width: 8),
-                        Semantics(
-                          identifier: 'optionalSectionTitle',
-                          label: loc.optional,
-                          child: Text(
-                            loc.optional,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                            // Basic Details Section
-                            _buildSectionHeader(
-                                context, Icons.coffee, "Basic Details"),
-                            const SizedBox(height: 8),
-                            Semantics(
-                              identifier: 'varietyInputField',
-                              label: loc.variety,
-                              child: AutocompleteInputField(
-                                label: loc.variety,
-                                hintText: loc.enterVariety,
-                                initialOptions: coffeeBeansProvider
-                                    .fetchAllDistinctVarieties(),
-                                onSelected: (value) {
-                                  variety = value;
-                                },
-                                initialValue: variety,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Semantics(
-                              identifier: 'regionInputField',
-                              label: loc.region,
-                              child: AutocompleteInputField(
-                                label: loc.region,
-                                hintText: loc.enterRegion,
-                                initialOptions: coffeeBeansProvider
-                                    .fetchAllDistinctRegions(),
-                                onSelected: (value) {
-                                  region = value;
-                                },
-                                initialValue: region,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Semantics(
-                              identifier: 'farmerInputField',
-                              label: loc.farmer,
-                              child: AutocompleteInputField(
-                                label: loc.farmer,
-                                hintText: loc.enterFarmer,
-                                initialOptions: coffeeBeansProvider
-                                    .fetchAllDistinctFarmers(),
-                                onSelected: (value) {
-                                  _farmerController.text = value;
-                                },
-                                initialValue: _farmerController.text,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Semantics(
-                              identifier: 'farmInputField',
-                              label: loc.farm,
-                              child: AutocompleteInputField(
-                                label: loc.farm,
-                                hintText: loc.enterFarm,
-                                initialOptions:
-                                    coffeeBeansProvider.fetchAllDistinctFarms(),
-                                onSelected: (value) {
-                                  _farmController.text = value;
-                                },
-                                initialValue: _farmController.text,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-
-                            // Processing Section
-                            _buildSectionHeader(
-                                context, Icons.settings, loc.processing),
-                            const SizedBox(height: 8),
-                            Semantics(
-                              identifier: 'processingMethodInputField',
-                              label: loc.processingMethod,
-                              child: AutocompleteInputField(
-                                label: loc.processingMethod,
-                                hintText: loc.enterProcessingMethod,
-                                initialOptions: coffeeBeansProvider
-                                    .fetchCombinedProcessingMethods(locale),
-                                onSelected: (value) {
-                                  processingMethod = value;
-                                },
-                                initialValue: processingMethod,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Semantics(
-                              identifier: 'roastLevelInputField',
-                              label: loc.roastLevel,
-                              child: AutocompleteInputField(
-                                label: loc.roastLevel,
-                                hintText: loc.enterRoastLevel,
-                                initialOptions: coffeeBeansProvider
-                                    .fetchAllDistinctRoastLevels(),
-                                onSelected: (value) {
-                                  roastLevel = value;
-                                },
-                                initialValue: roastLevel,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-
-                            // Flavor Profile Section
-                            _buildSectionHeader(
-                                context, Icons.local_cafe, loc.flavorProfile),
-                            const SizedBox(height: 8),
-                            Semantics(
-                              identifier: 'tastingNotesInputField',
-                              label: loc.tastingNotes,
-                              child: AutocompleteTagInputField(
-                                label: loc.tastingNotes,
-                                hintText: loc.enterTastingNotes,
-                                initialOptions: coffeeBeansProvider
-                                    .fetchCombinedTastingNotes(locale),
-                                onSelected: (tags) {
-                                  _tastingNotes = tags;
-                                },
-                                initialValues: _tastingNotes,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-
-                            // Quality & Measurements Section
-                            _buildSectionHeader(
-                                context, Icons.star, "Quality & Measurements"),
-                            const SizedBox(height: 8),
-                            Semantics(
-                              identifier: 'elevationInputField',
-                              label: loc.enterElevation,
-                              child: TextFormField(
-                                controller: _elevationController,
-                                decoration: InputDecoration(
-                                  labelText: loc.elevation,
-                                  hintText: loc.enterElevation,
-                                  border: const OutlineInputBorder(),
-                                ),
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Semantics(
-                              identifier: 'cuppingScoreInputField',
-                              label: loc.enterCuppingScore,
-                              child: TextFormField(
-                                controller: _cuppingScoreController,
-                                decoration: InputDecoration(
-                                  labelText: loc.cuppingScore,
-                                  hintText: loc.enterCuppingScore,
-                                  border: const OutlineInputBorder(),
-                                ),
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Dates Card
-                Card(
-                  elevation: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.calendar_today,
-                                color: Theme.of(context).colorScheme.primary),
-                            const SizedBox(width: 8),
-                            Text(
-                              "Important Dates",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    loc.harvestDate,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Semantics(
-                                    identifier: 'harvestDatePickerButton',
-                                    label: loc.selectHarvestDate,
-                                    child: OutlinedButton.icon(
-                                      onPressed: () async {
-                                        var results =
-                                            await showCalendarDatePicker2Dialog(
-                                          context: context,
-                                          config:
-                                              CalendarDatePicker2WithActionButtonsConfig(),
-                                          dialogSize: const Size(325, 400),
-                                          value: [harvestDate],
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        );
-
-                                        if (results != null &&
-                                            results.isNotEmpty) {
-                                          setState(() {
-                                            harvestDate = results[0];
-                                          });
-                                        }
-                                      },
-                                      icon: const Icon(Icons.calendar_today),
-                                      label: Text(harvestDate != null
-                                          ? DateFormat.yMd()
-                                              .format(harvestDate!)
-                                          : loc.selectDate),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    loc.roastDate,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Semantics(
-                                    identifier: 'roastDatePickerButton',
-                                    label: loc.selectRoastDate,
-                                    child: OutlinedButton.icon(
-                                      onPressed: () async {
-                                        var results =
-                                            await showCalendarDatePicker2Dialog(
-                                          context: context,
-                                          config:
-                                              CalendarDatePicker2WithActionButtonsConfig(),
-                                          dialogSize: const Size(325, 400),
-                                          value: [roastDate],
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        );
-
-                                        if (results != null &&
-                                            results.isNotEmpty) {
-                                          setState(() {
-                                            roastDate = results[0];
-                                          });
-                                        }
-                                      },
-                                      icon: const Icon(Icons.calendar_today),
-                                      label: Text(roastDate != null
-                                          ? DateFormat.yMd().format(roastDate!)
-                                          : loc.selectDate),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Additional Notes Card
-                Card(
-                  elevation: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.note,
-                                color: Theme.of(context).colorScheme.primary),
-                            const SizedBox(width: 8),
-                            Text(
-                              loc.additionalNotes,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        Semantics(
-                          identifier: 'notesInputField',
-                          label: loc.enterNotes,
-                          child: TextFormField(
-                            controller: _notesController,
-                            decoration: InputDecoration(
-                              labelText: loc.notes,
-                              hintText: loc.enterNotes,
-                              border: const OutlineInputBorder(),
-                            ),
-                            maxLines: 4,
-                            keyboardType: TextInputType.multiline,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 24),
-
-                // Save Button
-                Semantics(
-                  identifier: 'saveButton',
-                  label: isEditMode ? loc.save : loc.addCoffeeBeans,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 56),
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () async {
-                      if (_roasterController.text.isNotEmpty &&
-                          _nameController.text.isNotEmpty &&
-                          _originController.text.isNotEmpty) {
-                        final bean = CoffeeBeansModel(
-                          id: 0, // This will be ignored for new beans
-                          beansUuid: widget.uuid ??
-                              _uuid.v7(), // Generate new UUID if not provided
-                          roaster: _roasterController.text,
-                          name: _nameController.text,
-                          origin: _originController.text,
-                          variety: variety,
-                          tastingNotes: _tastingNotes.isNotEmpty
-                              ? _tastingNotes.join(', ')
-                              : null,
-                          processingMethod: processingMethod,
-                          elevation: _elevationController.text.isNotEmpty
-                              ? int.tryParse(_elevationController.text)
-                              : null,
-                          harvestDate: harvestDate,
-                          roastDate: roastDate,
-                          region: region,
-                          roastLevel: roastLevel,
-                          cuppingScore: _cuppingScoreController.text.isNotEmpty
-                              ? double.tryParse(_cuppingScoreController.text)
-                              : null,
-                          notes: _notesController.text.isNotEmpty
-                              ? _notesController.text
-                              : null,
-                          farmer: _farmerController.text.isNotEmpty
-                              ? _farmerController.text
-                              : null,
-                          farm: _farmController.text.isNotEmpty
-                              ? _farmController.text
-                              : null,
-                          isFavorite: false,
-                          versionVector: isEditMode
-                              ? (await coffeeBeansProvider
-                                          .fetchCoffeeBeansByUuid(widget.uuid!))
-                                      ?.versionVector ??
-                                  VersionVector.initial(
-                                          coffeeBeansProvider.deviceId)
-                                      .toString()
-                              : VersionVector.initial(
-                                      coffeeBeansProvider.deviceId)
-                                  .toString(),
-                        );
-
-                        String resultUuid;
-                        if (isEditMode) {
-                          await coffeeBeansProvider.updateCoffeeBeans(bean);
-                          resultUuid = widget
-                              .uuid!; // Use the existing UUID for edit mode
-                        } else {
-                          resultUuid =
-                              await coffeeBeansProvider.addCoffeeBeans(bean);
-                          await _insertBeansDataToSupabase(bean);
-                        }
-
-                        context.router.pop(
-                            resultUuid); // Return the UUID of the beans record
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(loc.fillRequiredFields)),
+          // Tap outside to dismiss keyboard and any autocomplete overlays.
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTapDown: (details) {
+              // Only unfocus if tap is outside the currently focused render box.
+              final currentFocus = FocusManager.instance.primaryFocus;
+              if (currentFocus == null) return;
+              final renderObject = currentFocus.context?.findRenderObject();
+              if (renderObject is RenderBox) {
+                final tapPos = details.globalPosition;
+                final boxRect = renderObject.paintBounds
+                    .shift(renderObject.localToGlobal(Offset.zero));
+                final tappedInsideFocused = boxRect.contains(tapPos);
+                if (!tappedInsideFocused) {
+                  currentFocus.unfocus();
+                }
+              } else {
+                // Fallback to safe unfocus check
+                final scope = FocusScope.of(context);
+                if (!scope.hasPrimaryFocus && scope.focusedChild != null) {
+                  scope.unfocus();
+                }
+              }
+            },
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  // Required Fields Card
+                  RequiredInfoCard(
+                    roaster: _roasterController.text,
+                    name: _nameController.text,
+                    origin: _originController.text,
+                    roasterOptions: coffeeBeansProvider.fetchCombinedRoasters(),
+                    nameOptions: coffeeBeansProvider.fetchAllDistinctNames(),
+                    originOptions:
+                        coffeeBeansProvider.fetchCombinedOrigins(locale),
+                    // Updating controller.text does not require setState; the field
+                    // will reflect changes via its controller without rebuilding parent.
+                    onRoasterChanged: (v) {
+                      if (_roasterController.text != v) {
+                        _roasterController.value =
+                            _roasterController.value.copyWith(
+                          text: v,
+                          selection: TextSelection.collapsed(offset: v.length),
+                          composing: TextRange.empty,
                         );
                       }
                     },
-                    child: Text(isEditMode ? loc.save : loc.addCoffeeBeans),
+                    onNameChanged: (v) {
+                      if (_nameController.text != v) {
+                        _nameController.value = _nameController.value.copyWith(
+                          text: v,
+                          selection: TextSelection.collapsed(offset: v.length),
+                          composing: TextRange.empty,
+                        );
+                      }
+                    },
+                    onOriginChanged: (v) {
+                      if (_originController.text != v) {
+                        _originController.value =
+                            _originController.value.copyWith(
+                          text: v,
+                          selection: TextSelection.collapsed(offset: v.length),
+                          composing: TextRange.empty,
+                        );
+                      }
+                    },
                   ),
-                ),
-              ],
+                  const SizedBox(height: 16),
+
+                  // Optional Details Card
+                  Semantics(
+                    identifier: 'optionalSectionTitle',
+                    label: loc.optional,
+                    child: OptionalDetailsCard(
+                      // initial values
+                      variety: variety,
+                      region: region,
+                      farmer: _farmerController.text,
+                      farm: _farmController.text,
+                      processingMethod: processingMethod,
+                      roastLevel: roastLevel,
+                      tastingNotes: _tastingNotes,
+                      elevation: _elevationController.text.isNotEmpty
+                          ? int.tryParse(_elevationController.text)
+                          : null,
+                      cuppingScore: _cuppingScoreController.text.isNotEmpty
+                          ? double.tryParse(_cuppingScoreController.text)
+                          : null,
+                      // options (as Futures)
+                      varietyOptions:
+                          coffeeBeansProvider.fetchAllDistinctVarieties(),
+                      regionOptions:
+                          coffeeBeansProvider.fetchAllDistinctRegions(),
+                      farmerOptions:
+                          coffeeBeansProvider.fetchAllDistinctFarmers(),
+                      farmOptions: coffeeBeansProvider.fetchAllDistinctFarms(),
+                      processingMethodOptions: coffeeBeansProvider
+                          .fetchCombinedProcessingMethods(locale),
+                      roastLevelOptions:
+                          coffeeBeansProvider.fetchAllDistinctRoastLevels(),
+                      tastingNotesOptions:
+                          coffeeBeansProvider.fetchCombinedTastingNotes(locale),
+                      // callbacks
+                      onVarietyChanged: (v) => variety = v,
+                      onRegionChanged: (v) => region = v,
+                      onFarmerChanged: (v) {
+                        final newText = v ?? '';
+                        if (_farmerController.text != newText) {
+                          _farmerController.value =
+                              _farmerController.value.copyWith(
+                            text: newText,
+                            selection:
+                                TextSelection.collapsed(offset: newText.length),
+                            composing: TextRange.empty,
+                          );
+                        }
+                      },
+                      onFarmChanged: (v) {
+                        final newText = v ?? '';
+                        if (_farmController.text != newText) {
+                          _farmController.value =
+                              _farmController.value.copyWith(
+                            text: newText,
+                            selection:
+                                TextSelection.collapsed(offset: newText.length),
+                            composing: TextRange.empty,
+                          );
+                        }
+                      },
+                      onProcessingMethodChanged: (v) => processingMethod = v,
+                      onRoastLevelChanged: (v) => roastLevel = v,
+                      onTastingNotesChanged: (tags) => _tastingNotes = tags,
+                      onElevationChanged: (val) {
+                        final newText = val != null ? val.toString() : '';
+                        if (_elevationController.text != newText) {
+                          _elevationController.value =
+                              _elevationController.value.copyWith(
+                            text: newText,
+                            selection:
+                                TextSelection.collapsed(offset: newText.length),
+                            composing: TextRange.empty,
+                          );
+                        }
+                      },
+                      onCuppingScoreChanged: (val) {
+                        final newText = val != null ? val.toString() : '';
+                        if (_cuppingScoreController.text != newText) {
+                          _cuppingScoreController.value =
+                              _cuppingScoreController.value.copyWith(
+                            text: newText,
+                            selection:
+                                TextSelection.collapsed(offset: newText.length),
+                            composing: TextRange.empty,
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Dates Card
+                  DatesCard(
+                    harvestDate: harvestDate,
+                    roastDate: roastDate,
+                    onHarvestDateChanged: (d) => harvestDate = d,
+                    onRoastDateChanged: (d) => roastDate = d,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Additional Notes Card
+                  AdditionalNotesCard(
+                    notes: _notesController.text,
+                    onNotesChanged: (v) {
+                      if (_notesController.text != v) {
+                        _notesController.value =
+                            _notesController.value.copyWith(
+                          text: v,
+                          selection: TextSelection.collapsed(offset: v.length),
+                          composing: TextRange.empty,
+                        );
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Save Button
+                  Semantics(
+                    identifier: 'saveButton',
+                    label: isEditMode ? loc.save : loc.addCoffeeBeans,
+                    child: SaveButton(
+                      label: isEditMode ? loc.save : loc.addCoffeeBeans,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      onPressed: () async {
+                        if (_roasterController.text.isNotEmpty &&
+                            _nameController.text.isNotEmpty &&
+                            _originController.text.isNotEmpty) {
+                          final bean = CoffeeBeansModel(
+                            id: 0, // This will be ignored for new beans
+                            beansUuid: widget.uuid ??
+                                _uuid.v7(), // Generate new UUID if not provided
+                            roaster: _roasterController.text,
+                            name: _nameController.text,
+                            origin: _originController.text,
+                            variety: variety,
+                            tastingNotes: _tastingNotes.isNotEmpty
+                                ? _tastingNotes.join(', ')
+                                : null,
+                            processingMethod: processingMethod,
+                            elevation: _elevationController.text.isNotEmpty
+                                ? int.tryParse(_elevationController.text)
+                                : null,
+                            harvestDate: harvestDate,
+                            roastDate: roastDate,
+                            region: region,
+                            roastLevel: roastLevel,
+                            cuppingScore: _cuppingScoreController
+                                    .text.isNotEmpty
+                                ? double.tryParse(_cuppingScoreController.text)
+                                : null,
+                            notes: _notesController.text.isNotEmpty
+                                ? _notesController.text
+                                : null,
+                            farmer: _farmerController.text.isNotEmpty
+                                ? _farmerController.text
+                                : null,
+                            farm: _farmController.text.isNotEmpty
+                                ? _farmController.text
+                                : null,
+                            isFavorite: false,
+                            versionVector: isEditMode
+                                ? (await coffeeBeansProvider
+                                            .fetchCoffeeBeansByUuid(
+                                                widget.uuid!))
+                                        ?.versionVector ??
+                                    VersionVector.initial(
+                                            coffeeBeansProvider.deviceId)
+                                        .toString()
+                                : VersionVector.initial(
+                                        coffeeBeansProvider.deviceId)
+                                    .toString(),
+                          );
+
+                          String resultUuid;
+                          if (isEditMode) {
+                            await coffeeBeansProvider.updateCoffeeBeans(bean);
+                            resultUuid = widget
+                                .uuid!; // Use the existing UUID for edit mode
+                          } else {
+                            resultUuid =
+                                await coffeeBeansProvider.addCoffeeBeans(bean);
+                            await _insertBeansDataToSupabase(bean);
+                          }
+
+                          context.router.pop(
+                              resultUuid); // Return the UUID of the beans record
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(loc.fillRequiredFields)),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           if (isLoading)
-            Container(
-              color: Colors.black45,
-              child: Center(
-                child: Semantics(
-                  identifier: 'analyzingOverlay',
-                  label: loc.analyzing,
-                  child: Card(
-                    color: Theme.of(context).colorScheme.background,
-                    elevation: 4.0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            loc.analyzing,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onBackground,
-                              fontSize: 18,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          const CircularProgressIndicator(),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            Semantics(
+              identifier: 'analyzingOverlay',
+              label: loc.analyzing,
+              child: LoadingOverlay(label: loc.analyzing),
             ),
         ],
       ),
-    );
-  }
-
-  Widget _buildSectionHeader(
-      BuildContext context, IconData icon, String title) {
-    return Row(
-      children: [
-        Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
-        const SizedBox(width: 8),
-        Text(
-          title,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-        ),
-      ],
     );
   }
 }

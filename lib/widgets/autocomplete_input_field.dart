@@ -5,6 +5,7 @@ class AutocompleteInputField extends StatefulWidget {
   final String hintText;
   final Future<List<String>> initialOptions;
   final Function(String) onSelected;
+  final ValueChanged<String>? onChanged;
   final String? initialValue;
 
   const AutocompleteInputField({
@@ -13,6 +14,7 @@ class AutocompleteInputField extends StatefulWidget {
     required this.hintText,
     required this.initialOptions,
     required this.onSelected,
+    this.onChanged,
     this.initialValue,
   }) : super(key: key);
 
@@ -23,34 +25,64 @@ class AutocompleteInputField extends StatefulWidget {
 class _AutocompleteInputFieldState extends State<AutocompleteInputField> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
+  late Future<List<String>> _optionsFuture;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initialValue);
     _focusNode = FocusNode();
+    _focusNode.addListener(_onFocusChange);
     _controller.addListener(_handleTextChange);
+    // Cache options Future to avoid refetch/spinner on unrelated rebuilds.
+    _optionsFuture = widget.initialOptions;
   }
 
   @override
   void didUpdateWidget(covariant AutocompleteInputField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.initialValue != widget.initialValue) {
-      _controller.text = widget.initialValue ?? '';
+      // Defer text assignment to avoid setState/markNeedsBuild during build.
+      // Also, do NOT override user typing while focused.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || _focusNode.hasFocus) return;
+        final newText = widget.initialValue ?? '';
+        if (_controller.text != newText) {
+          _controller.value = _controller.value.copyWith(
+            text: newText,
+            selection: TextSelection.collapsed(offset: newText.length),
+            composing: TextRange.empty,
+          );
+        }
+      });
+    }
+    if (oldWidget.initialOptions != widget.initialOptions) {
+      _optionsFuture = widget.initialOptions;
+      setState(() {});
     }
   }
 
   void _handleTextChange() {
-    String text = _controller.text;
-    widget.onSelected(text);
+    // Per-keystroke changes should use onChanged (optional) to reduce rebuild churn.
+    final text = _controller.text;
+    if (widget.onChanged != null) {
+      widget.onChanged!(text);
+    }
   }
 
   @override
   void dispose() {
     _controller.removeListener(_handleTextChange);
+    _focusNode.removeListener(_onFocusChange);
     _controller.dispose();
     _focusNode.dispose();
     super.dispose();
+  }
+
+  void _onFocusChange() {
+    // Rebuild when focus changes so optionsBuilder can react,
+    // which ensures overlay hides when unfocused.
+    if (mounted) setState(() {});
   }
 
   @override
@@ -63,7 +95,7 @@ class _AutocompleteInputFieldState extends State<AutocompleteInputField> {
               style: Theme.of(context).textTheme.titleLarge),
         ),
         FutureBuilder<List<String>>(
-          future: widget.initialOptions,
+          future: _optionsFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
@@ -76,8 +108,13 @@ class _AutocompleteInputFieldState extends State<AutocompleteInputField> {
               textEditingController: _controller,
               focusNode: _focusNode,
               optionsBuilder: (TextEditingValue textEditingValue) {
+                // Hide suggestions when not focused.
+                if (!_focusNode.hasFocus) {
+                  return const <String>[];
+                }
+                // Optionally hide suggestions for empty query to avoid large overlays.
                 if (textEditingValue.text.isEmpty) {
-                  return recentItems;
+                  return const <String>[];
                 }
                 return recentItems
                     .where((option) => option
@@ -97,8 +134,15 @@ class _AutocompleteInputFieldState extends State<AutocompleteInputField> {
                 );
               },
               onSelected: (String selection) {
-                _controller.text = selection;
+                // Update controller via value to keep selection stable.
+                _controller.value = _controller.value.copyWith(
+                  text: selection,
+                  selection: TextSelection.collapsed(offset: selection.length),
+                  composing: TextRange.empty,
+                );
                 widget.onSelected(selection);
+                // Dismiss overlay by removing focus after selection.
+                _focusNode.unfocus();
               },
               optionsViewBuilder: (BuildContext context,
                   AutocompleteOnSelected<String> onSelected,
@@ -126,7 +170,12 @@ class _AutocompleteInputFieldState extends State<AutocompleteInputField> {
                             return GestureDetector(
                               onTap: () {
                                 onSelected(option);
-                                _controller.text = option;
+                                _controller.value = _controller.value.copyWith(
+                                  text: option,
+                                  selection: TextSelection.collapsed(
+                                      offset: option.length),
+                                  composing: TextRange.empty,
+                                );
                               },
                               child: ListTile(title: Text(option)),
                             );

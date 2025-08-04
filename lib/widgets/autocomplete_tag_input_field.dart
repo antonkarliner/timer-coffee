@@ -24,6 +24,7 @@ class AutocompleteTagInputField extends StatefulWidget {
 class _AutocompleteTagInputFieldState extends State<AutocompleteTagInputField> {
   late TextEditingController _controller;
   late FocusNode _focusNode;
+  late Future<List<String>> _optionsFuture;
   List<String> _tags = [];
   List<String> _allOptions = [];
 
@@ -38,11 +39,13 @@ class _AutocompleteTagInputFieldState extends State<AutocompleteTagInputField> {
           .map((tag) => tag.toLowerCase())
           .toList();
     }
+    _optionsFuture = widget.initialOptions;
     _loadOptions();
   }
 
   Future<void> _loadOptions() async {
-    final options = await widget.initialOptions;
+    final options = await _optionsFuture;
+    if (!mounted) return;
     setState(() {
       _allOptions = options;
     });
@@ -104,6 +107,29 @@ class _AutocompleteTagInputFieldState extends State<AutocompleteTagInputField> {
   }
 
   @override
+  void didUpdateWidget(covariant AutocompleteTagInputField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Refresh options only if the Future instance changed.
+    if (oldWidget.initialOptions != widget.initialOptions) {
+      _optionsFuture = widget.initialOptions;
+      _loadOptions();
+    }
+    // Sync tags if external values changed (avoid overriding while focused typing).
+    if (oldWidget.initialValues != widget.initialValues &&
+        widget.initialValues != null) {
+      final newTags = widget.initialValues!
+          .where((t) => t.isNotEmpty)
+          .map((t) => t.toLowerCase())
+          .toList();
+      if (_tags.join(',') != newTags.join(',')) {
+        setState(() {
+          _tags = newTags;
+        });
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -125,6 +151,14 @@ class _AutocompleteTagInputFieldState extends State<AutocompleteTagInputField> {
           textEditingController: _controller,
           focusNode: _focusNode,
           optionsBuilder: (TextEditingValue textEditingValue) {
+            // Hide suggestions when not focused.
+            if (!_focusNode.hasFocus) {
+              return const <String>[];
+            }
+            // Hide when query is empty to reduce overlay flicker.
+            if (textEditingValue.text.isEmpty) {
+              return const <String>[];
+            }
             return _getFilteredOptions(textEditingValue.text);
           },
           fieldViewBuilder: (BuildContext context,
@@ -144,6 +178,9 @@ class _AutocompleteTagInputFieldState extends State<AutocompleteTagInputField> {
           },
           onSelected: (String selection) {
             _addTag(selection);
+            // Dismiss overlay to avoid overlapping UI; keep focus for quick entry.
+            // Keep focus but clear field so options re-evaluate on next char.
+            _controller.clear();
           },
           optionsViewBuilder: (BuildContext context,
               AutocompleteOnSelected<String> onSelected,
