@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'package:coffee_timer/utils/new_beans/image_resizer.dart';
-import 'package:coffee_timer/utils/new_beans/beans_label_parser_client.dart';
+import 'package:coffee_timer/utils/images/image_resizer.dart';
+import 'package:coffee_timer/services/clients/beans_label_parser_client.dart';
 
 /// A controller that orchestrates the "image flow" for New Beans:
 /// - first-time popup logic (delegated to caller)
