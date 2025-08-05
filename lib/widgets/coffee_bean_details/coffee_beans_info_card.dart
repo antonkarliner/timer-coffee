@@ -1,0 +1,345 @@
+import 'package:flutter/material.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
+
+import '../../models/coffee_beans_model.dart';
+import 'detail_section_header.dart';
+import 'detail_item_row.dart';
+
+/// Enumeration of available information card types
+enum CoffeeBeansInfoCardType {
+  /// Basic information card (origin, variety, farmer, farm)
+  basicInfo,
+
+  /// Geography & terroir card (region, elevation, harvest date)
+  geography,
+
+  /// Processing & roasting card (processing method, roast date, roast level, cupping score)
+  processing,
+
+  /// Flavor profile card (tasting notes)
+  flavor,
+
+  /// Additional notes card (notes)
+  notes,
+}
+
+/// A reusable information card widget for coffee bean detail screens.
+///
+/// This widget provides a unified card system for displaying different types
+/// of coffee bean information. It supports multiple card types through the
+/// [CoffeeBeansInfoCardType] enum and automatically handles conditional
+/// rendering based on available data.
+///
+/// The component uses the established reusable components ([DetailSectionHeader]
+/// and [DetailItemRow]) and follows the design patterns from the coffee beans
+/// detail screen. It includes proper accessibility support and theme adaptation.
+///
+/// Example usage:
+/// ```dart
+/// CoffeeBeansInfoCard(
+///   type: CoffeeBeansInfoCardType.basicInfo,
+///   bean: coffeeBean,
+/// )
+/// ```
+class CoffeeBeansInfoCard extends StatelessWidget {
+  /// The type of information card to display
+  final CoffeeBeansInfoCardType type;
+
+  /// The coffee bean model containing the data to display
+  final CoffeeBeansModel bean;
+
+  /// Optional custom card elevation (defaults to theme default)
+  final double? elevation;
+
+  /// Optional custom card margin (defaults to EdgeInsets.zero)
+  final EdgeInsetsGeometry? margin;
+
+  /// Optional custom card padding (defaults to EdgeInsets.all(16.0))
+  final EdgeInsetsGeometry? padding;
+
+  /// Optional custom card shape (defaults to theme default)
+  final ShapeBorder? shape;
+
+  const CoffeeBeansInfoCard({
+    super.key,
+    required this.type,
+    required this.bean,
+    this.elevation,
+    this.margin,
+    this.padding,
+    this.shape,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
+    // Check if card should be rendered based on available data
+    if (!_shouldRenderCard(loc)) {
+      return const SizedBox.shrink();
+    }
+
+    return Semantics(
+      identifier: 'coffeeBeansInfoCard_${type.name}_${bean.beansUuid}',
+      label: _getCardSemanticLabel(loc),
+      child: Card(
+        elevation: elevation,
+        margin: margin ?? EdgeInsets.zero,
+        shape: shape,
+        child: Padding(
+          padding: padding ?? const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(context, loc),
+              const SizedBox(height: 16),
+              ..._buildContent(context, loc),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Determines if the card should be rendered based on available data
+  bool _shouldRenderCard(AppLocalizations loc) {
+    switch (type) {
+      case CoffeeBeansInfoCardType.basicInfo:
+        // Basic info always renders (at minimum shows origin)
+        return true;
+      case CoffeeBeansInfoCardType.geography:
+        return (bean.region?.isNotEmpty == true) ||
+            (bean.elevation != null) ||
+            (bean.harvestDate != null);
+      case CoffeeBeansInfoCardType.processing:
+        // Processing always renders (at minimum shows roast date if available)
+        return true;
+      case CoffeeBeansInfoCardType.flavor:
+        return bean.tastingNotes?.isNotEmpty == true;
+      case CoffeeBeansInfoCardType.notes:
+        return bean.notes?.isNotEmpty == true;
+    }
+  }
+
+  /// Gets the semantic label for the card
+  String _getCardSemanticLabel(AppLocalizations loc) {
+    switch (type) {
+      case CoffeeBeansInfoCardType.basicInfo:
+        return 'Basic Information';
+      case CoffeeBeansInfoCardType.geography:
+        return loc.geographyTerroir;
+      case CoffeeBeansInfoCardType.processing:
+        return loc.processing;
+      case CoffeeBeansInfoCardType.flavor:
+        return loc.flavorProfile;
+      case CoffeeBeansInfoCardType.notes:
+        return loc.additionalNotes;
+    }
+  }
+
+  /// Builds the card header with icon and title
+  Widget _buildHeader(BuildContext context, AppLocalizations loc) {
+    IconData icon;
+    String title;
+
+    switch (type) {
+      case CoffeeBeansInfoCardType.basicInfo:
+        icon = Icons.info_outline;
+        title = 'Basic Information';
+        break;
+      case CoffeeBeansInfoCardType.geography:
+        icon = Icons.terrain;
+        title = loc.geographyTerroir;
+        break;
+      case CoffeeBeansInfoCardType.processing:
+        icon = Icons.settings;
+        title = loc.processing;
+        break;
+      case CoffeeBeansInfoCardType.flavor:
+        icon = Icons.local_cafe;
+        title = loc.flavorProfile;
+        break;
+      case CoffeeBeansInfoCardType.notes:
+        icon = Icons.note;
+        title = loc.additionalNotes;
+        break;
+    }
+
+    return DetailSectionHeader(
+      icon: icon,
+      title: title,
+    );
+  }
+
+  /// Builds the card content based on the card type
+  List<Widget> _buildContent(BuildContext context, AppLocalizations loc) {
+    switch (type) {
+      case CoffeeBeansInfoCardType.basicInfo:
+        return _buildBasicInfoContent(loc);
+      case CoffeeBeansInfoCardType.geography:
+        return _buildGeographyContent(loc);
+      case CoffeeBeansInfoCardType.processing:
+        return _buildProcessingContent(loc);
+      case CoffeeBeansInfoCardType.flavor:
+        return _buildFlavorContent(loc);
+      case CoffeeBeansInfoCardType.notes:
+        return _buildNotesContent(context);
+    }
+  }
+
+  /// Builds basic information content
+  List<Widget> _buildBasicInfoContent(AppLocalizations loc) {
+    final items = <Widget>[];
+
+    items.add(DetailItemRow(
+      label: loc.origin,
+      value: bean.origin,
+    ));
+
+    if (bean.variety?.isNotEmpty == true) {
+      items.add(DetailItemRow(
+        label: loc.variety,
+        value: bean.variety,
+      ));
+    }
+
+    if (bean.farmer?.isNotEmpty == true) {
+      items.add(DetailItemRow(
+        label: loc.farmer,
+        value: bean.farmer,
+      ));
+    }
+
+    if (bean.farm?.isNotEmpty == true) {
+      items.add(DetailItemRow(
+        label: loc.farm,
+        value: bean.farm,
+      ));
+    }
+
+    return items;
+  }
+
+  /// Builds geography & terroir content
+  List<Widget> _buildGeographyContent(AppLocalizations loc) {
+    final items = <Widget>[];
+
+    if (bean.region?.isNotEmpty == true) {
+      items.add(DetailItemRow(
+        label: loc.region,
+        value: bean.region,
+      ));
+    }
+
+    if (bean.elevation != null) {
+      items.add(DetailItemRow(
+        label: loc.elevation,
+        value: '${bean.elevation}m',
+      ));
+    }
+
+    if (bean.harvestDate != null) {
+      items.add(DetailItemRow(
+        label: loc.harvestDate,
+        value: DateFormat.yMMMd().format(bean.harvestDate!),
+      ));
+    }
+
+    return items;
+  }
+
+  /// Builds processing & roasting content
+  List<Widget> _buildProcessingContent(AppLocalizations loc) {
+    final items = <Widget>[];
+
+    if (bean.processingMethod?.isNotEmpty == true) {
+      items.add(DetailItemRow(
+        label: loc.processingMethod,
+        value: bean.processingMethod,
+      ));
+    }
+
+    if (bean.roastDate != null) {
+      items.add(DetailItemRow(
+        label: loc.roastDate,
+        value: DateFormat.yMMMd().format(bean.roastDate!),
+      ));
+    }
+
+    if (bean.roastLevel?.isNotEmpty == true) {
+      items.add(DetailItemRow(
+        label: loc.roastLevel,
+        value: bean.roastLevel,
+      ));
+    }
+
+    if (bean.cuppingScore != null) {
+      items.add(DetailItemRow(
+        label: loc.cuppingScore,
+        value: bean.cuppingScore!.toStringAsFixed(1),
+      ));
+    }
+
+    return items;
+  }
+
+  /// Builds flavor profile content
+  List<Widget> _buildFlavorContent(AppLocalizations loc) {
+    return [
+      DetailItemRow(
+        label: loc.tastingNotes,
+        value: bean.tastingNotes,
+      ),
+    ];
+  }
+
+  /// Builds additional notes content
+  List<Widget> _buildNotesContent(BuildContext context) {
+    return [
+      Semantics(
+        identifier: 'additionalNotes_${bean.beansUuid}',
+        label: 'Additional notes: ${bean.notes}',
+        child: Text(
+          bean.notes!,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ),
+    ];
+  }
+}
+
+/// Extension methods for [CoffeeBeansInfoCardType] to provide additional functionality
+extension CoffeeBeansInfoCardTypeExtension on CoffeeBeansInfoCardType {
+  /// Returns a human-readable name for the card type
+  String get displayName {
+    switch (this) {
+      case CoffeeBeansInfoCardType.basicInfo:
+        return 'Basic Information';
+      case CoffeeBeansInfoCardType.geography:
+        return 'Geography & Terroir';
+      case CoffeeBeansInfoCardType.processing:
+        return 'Processing & Roasting';
+      case CoffeeBeansInfoCardType.flavor:
+        return 'Flavor Profile';
+      case CoffeeBeansInfoCardType.notes:
+        return 'Additional Notes';
+    }
+  }
+
+  /// Returns the priority order for rendering cards (lower numbers render first)
+  int get priority {
+    switch (this) {
+      case CoffeeBeansInfoCardType.basicInfo:
+        return 1;
+      case CoffeeBeansInfoCardType.geography:
+        return 2;
+      case CoffeeBeansInfoCardType.processing:
+        return 3;
+      case CoffeeBeansInfoCardType.flavor:
+        return 4;
+      case CoffeeBeansInfoCardType.notes:
+        return 5;
+    }
+  }
+}
