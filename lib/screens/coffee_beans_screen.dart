@@ -1,35 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/rendering.dart';
-import '../app_router.gr.dart';
+
+import '../controllers/coffee_beans_controller.dart';
 import '../providers/coffee_beans_provider.dart';
 import '../models/coffee_beans_model.dart';
-import 'package:coffeico/coffeico.dart';
-import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:diacritic/diacritic.dart';
-import '../widgets/confirm_delete_dialog.dart';
-import '../widgets/roaster_logo.dart';
-import 'package:auto_size_text_plus/auto_size_text_plus.dart';
-
-enum SortOption { dateAdded, name, roaster, origin }
-
-enum ViewMode { list, grid }
-
-class FilterOptions {
-  List<String> selectedRoasters;
-  List<String> selectedOrigins;
-  bool isFavoriteOnly;
-
-  FilterOptions({
-    required this.selectedRoasters,
-    required this.selectedOrigins,
-    this.isFavoriteOnly = false,
-  });
-}
+import '../models/ui_state/coffee_beans_view_state.dart';
+import '../widgets/coffee_beans/index.dart';
+import '../l10n/app_localizations.dart';
 
 @RoutePage()
 class CoffeeBeansScreen extends StatefulWidget {
@@ -40,1261 +18,186 @@ class CoffeeBeansScreen extends StatefulWidget {
 }
 
 class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
-  bool isEditMode = false;
-  List<String> selectedRoasters = [];
-  List<String> selectedOrigins = [];
-  bool isFavoriteOnly = false;
-
-  List<String> roasters = [];
-  List<String> origins = [];
-
-  // New state variables for enhanced features
-  SortOption _currentSort = SortOption.dateAdded;
-  ViewMode _viewMode = ViewMode.list;
-  String _searchQuery = '';
-  final TextEditingController _searchController = TextEditingController();
-
-  // BottomAppBar hide-on-scroll logic
-  bool _isBottomBarVisible = true;
-  late final ScrollController _scrollController;
-
-  String _normalizeText(String input) {
-    return removeDiacritics(input.toLowerCase());
-  }
+  late CoffeeBeansController _controller;
 
   @override
   void initState() {
     super.initState();
-    _loadViewMode();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_handleScroll);
-  }
-
-  Future<void> _loadViewMode() async {
-    final prefs = await SharedPreferences.getInstance();
-    final isGrid = prefs.getBool('coffeeBeansGridView') ?? false;
-    setState(() {
-      _viewMode = isGrid ? ViewMode.grid : ViewMode.list;
+    _controller = CoffeeBeansController();
+    // Initialize controller after the first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _controller.initialize(context);
     });
-    _loadFilterOptions();
-  }
-
-  void _handleScroll() {
-    if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.reverse) {
-      if (_isBottomBarVisible) {
-        setState(() {
-          _isBottomBarVisible = false;
-        });
-      }
-    } else if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.forward) {
-      if (!_isBottomBarVisible) {
-        setState(() {
-          _isBottomBarVisible = true;
-        });
-      }
-    }
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_handleScroll);
-    _scrollController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
-  void _loadFilterOptions() async {
-    final coffeeBeansProvider =
-        Provider.of<CoffeeBeansProvider>(context, listen: false);
-    roasters = await coffeeBeansProvider.fetchAllDistinctRoasters();
-    origins = await coffeeBeansProvider.fetchAllDistinctOrigins();
-    setState(() {});
-  }
-
-  void toggleEditMode() {
-    setState(() {
-      isEditMode = !isEditMode;
-    });
-  }
-
-  Future<void> _saveViewMode(ViewMode mode) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('coffeeBeansGridView', mode == ViewMode.grid);
-  }
-
-  void _showFilterDialog() async {
-    final loc = AppLocalizations.of(context)!;
-
-    final result = await showModalBottomSheet<FilterOptions>(
-      context: context,
-      isScrollControlled: true,
-      useRootNavigator: true,
-      builder: (BuildContext context) {
-        List<String> tempSelectedRoasters = List.from(selectedRoasters);
-        List<String> tempSelectedOrigins = List.from(selectedOrigins);
-        bool tempIsFavoriteOnly = isFavoriteOnly;
-
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            // Function to update origins based on selected roasters
-            void updateOrigins() async {
-              final coffeeBeansProvider =
-                  Provider.of<CoffeeBeansProvider>(context, listen: false);
-              origins = await coffeeBeansProvider
-                  .fetchOriginsForRoasters(tempSelectedRoasters);
-              setState(() {
-                tempSelectedOrigins = tempSelectedOrigins
-                    .where((origin) => origins.contains(origin))
-                    .toList();
-              });
-            }
-
-            return SafeArea(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListTile(
-                      title: Row(
-                        children: [
-                          Text('${loc.roaster}: '),
-                          Expanded(
-                            child: Text(
-                              tempSelectedRoasters.isEmpty
-                                  ? loc.all
-                                  : tempSelectedRoasters.join(', '),
-                              textAlign: TextAlign.end,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? Colors
-                                        .grey[300] // Light color for dark mode
-                                    : Colors
-                                        .grey[700], // Dark color for light mode
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      onTap: () async {
-                        await showDialog(
-                          context: context,
-                          builder: (context) {
-                            List<String> dialogSelectedRoasters =
-                                List.from(tempSelectedRoasters);
-                            return StatefulBuilder(
-                              builder: (BuildContext context,
-                                  StateSetter dialogSetState) {
-                                return AlertDialog(
-                                  title: Text(loc.selectRoaster),
-                                  content: Container(
-                                    width: double.maxFinite,
-                                    child: ListView(
-                                      shrinkWrap: true,
-                                      children: roasters.map((roaster) {
-                                        return CheckboxListTile(
-                                          title: Text(roaster),
-                                          value: dialogSelectedRoasters
-                                              .contains(roaster),
-                                          onChanged: (bool? value) {
-                                            dialogSetState(() {
-                                              if (value == true) {
-                                                if (!dialogSelectedRoasters
-                                                    .contains(roaster)) {
-                                                  dialogSelectedRoasters
-                                                      .add(roaster);
-                                                }
-                                              } else {
-                                                dialogSelectedRoasters
-                                                    .remove(roaster);
-                                              }
-                                            });
-                                          },
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      child: Text(loc.cancel),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    TextButton(
-                                      child: Text(loc.ok),
-                                      onPressed: () {
-                                        tempSelectedRoasters =
-                                            List.from(dialogSelectedRoasters);
-                                        updateOrigins(); // Update origins when roasters change
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                        );
-                        setState(() {}); // Update the trailing text
-                      },
-                    ),
-                    ListTile(
-                      title: Row(
-                        children: [
-                          Text('${loc.origin}: '),
-                          Expanded(
-                            child: Text(
-                              tempSelectedOrigins.isEmpty
-                                  ? loc.all
-                                  : tempSelectedOrigins.join(', '),
-                              textAlign: TextAlign.end,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? Colors
-                                        .grey[300] // Light color for dark mode
-                                    : Colors
-                                        .grey[700], // Dark color for light mode
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      onTap: () async {
-                        await showDialog(
-                          context: context,
-                          builder: (context) {
-                            List<String> dialogSelectedOrigins =
-                                List.from(tempSelectedOrigins);
-                            return StatefulBuilder(
-                              builder: (BuildContext context,
-                                  StateSetter dialogSetState) {
-                                return AlertDialog(
-                                  title: Text(loc.selectOrigin),
-                                  content: Container(
-                                    width: double.maxFinite,
-                                    child: ListView(
-                                      shrinkWrap: true,
-                                      children: origins.map((origin) {
-                                        return CheckboxListTile(
-                                          title: Text(origin),
-                                          value: dialogSelectedOrigins
-                                              .contains(origin),
-                                          onChanged: (bool? value) {
-                                            dialogSetState(() {
-                                              if (value == true) {
-                                                if (!dialogSelectedOrigins
-                                                    .contains(origin)) {
-                                                  dialogSelectedOrigins
-                                                      .add(origin);
-                                                }
-                                              } else {
-                                                dialogSelectedOrigins
-                                                    .remove(origin);
-                                              }
-                                            });
-                                          },
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      child: Text(loc.cancel),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    TextButton(
-                                      child: Text(loc.ok),
-                                      onPressed: () {
-                                        tempSelectedOrigins =
-                                            List.from(dialogSelectedOrigins);
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                        );
-                        setState(() {}); // Update the trailing text
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    ListTile(
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 16),
-                      title: Row(
-                        children: [
-                          Text(
-                            loc.showFavoritesOnly,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Checkbox(
-                                value: tempIsFavoriteOnly,
-                                onChanged: (value) => setState(
-                                    () => tempIsFavoriteOnly = value ?? false),
-                                activeColor: Theme.of(context).brightness ==
-                                        Brightness.light
-                                    ? const Color(0xff8e2e2d)
-                                    : const Color(0xffc66564),
-                                checkColor: Colors.white,
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                visualDensity: VisualDensity.compact,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      onTap: () => setState(
-                          () => tempIsFavoriteOnly = !tempIsFavoriteOnly),
-                    ),
-                    const SizedBox(height: 16),
-                    const SizedBox(height: 8),
-                    OverflowBar(
-                      alignment: MainAxisAlignment.end,
-                      spacing: 16.0,
-                      children: [
-                        TextButton(
-                          child: Text(loc.resetFilters),
-                          onPressed: () {
-                            setState(() {
-                              tempSelectedRoasters.clear();
-                              tempSelectedOrigins.clear();
-                              tempIsFavoriteOnly = false;
-                            });
-                            updateOrigins();
-                          },
-                        ),
-                        ElevatedButton(
-                          child: Text(loc.apply),
-                          onPressed: () {
-                            Navigator.pop(
-                              context,
-                              FilterOptions(
-                                selectedRoasters: tempSelectedRoasters,
-                                selectedOrigins: tempSelectedOrigins,
-                                isFavoriteOnly: tempIsFavoriteOnly,
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-
-    if (result != null) {
-      setState(() {
-        selectedRoasters = result.selectedRoasters;
-        selectedOrigins = result.selectedOrigins;
-        isFavoriteOnly = result.isFavoriteOnly;
-        // Update the origins list based on the new selected roasters
-        _updateOrigins();
-      });
-    }
-  }
-
-  void _updateOrigins() async {
-    final coffeeBeansProvider =
-        Provider.of<CoffeeBeansProvider>(context, listen: false);
-
-    if (selectedRoasters.isEmpty) {
-      // If no roasters are selected, fetch all origins
-      origins = await coffeeBeansProvider.fetchAllDistinctOrigins();
-    } else {
-      // Fetch origins for the selected roasters
-      origins =
-          await coffeeBeansProvider.fetchOriginsForRoasters(selectedRoasters);
-    }
-
-    // Update the state to reflect changes in the origins list
-    setState(() {});
-  }
-
-  // Helper methods for new features
-  List<CoffeeBeansModel> _sortBeans(List<CoffeeBeansModel> beans) {
-    switch (_currentSort) {
-      case SortOption.dateAdded:
-        // Sort by UUID in descending order (newest first)
-        beans.sort((a, b) => b.beansUuid.compareTo(a.beansUuid));
-        break;
-      case SortOption.name:
-        beans.sort((a, b) => a.name.compareTo(b.name));
-        break;
-      case SortOption.roaster:
-        beans.sort((a, b) => a.roaster.compareTo(b.roaster));
-        break;
-      case SortOption.origin:
-        beans.sort((a, b) => a.origin.compareTo(b.origin));
-        break;
-    }
-    return beans;
-  }
-
-  List<CoffeeBeansModel> _filterBeans(List<CoffeeBeansModel> beans) {
-    if (_searchQuery.isEmpty) return beans;
-
-    final query = _normalizeText(_searchQuery);
-
-    return beans.where((bean) {
-      return _normalizeText(bean.name).contains(query) ||
-          _normalizeText(bean.roaster).contains(query) ||
-          _normalizeText(bean.origin).contains(query) ||
-          (bean.tastingNotes != null &&
-              _normalizeText(bean.tastingNotes!).contains(query));
-    }).toList();
-  }
-
-  void _showSortDialog() {
-    final loc = AppLocalizations.of(context)!;
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(loc.sortBy),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: SortOption.values.map((option) {
-            String title;
-            switch (option) {
-              case SortOption.dateAdded:
-                title = loc.dateAdded;
-                break;
-              case SortOption.name:
-                title = loc.name;
-                break;
-              case SortOption.roaster:
-                title = loc.roaster;
-                break;
-              case SortOption.origin:
-                title = loc.origin;
-                break;
-            }
-
-            return RadioListTile<SortOption>(
-              title: Text(title),
-              value: option,
-              groupValue: _currentSort,
-              onChanged: (value) {
-                setState(() {
-                  _currentSort = value!;
-                });
-                Navigator.pop(context);
-              },
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-
-  void _clearFilters() {
-    setState(() {
-      selectedRoasters.clear();
-      selectedOrigins.clear();
-      isFavoriteOnly = false;
-      _searchQuery = '';
-      _searchController.clear();
-    });
-  }
-
-  bool get _hasActiveFilters {
-    return selectedRoasters.isNotEmpty ||
-        selectedOrigins.isNotEmpty ||
-        isFavoriteOnly ||
-        _searchQuery.isNotEmpty;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(context);
     final loc = AppLocalizations.of(context)!;
 
-    // ────────────────────────────
-    //  NEW: how far to lift toolbar
-    //  Half the ConvexAppBar height
-    //  plus any on-device bottom inset
-    // ────────────────────────────
-    final double lift =
-        kBottomNavigationBarHeight / 4 + MediaQuery.of(context).padding.bottom;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: TextField(
-          controller: _searchController,
-          decoration: InputDecoration(
-            hintText: loc.searchBeans,
-            prefixIcon: const Icon(Icons.search),
-            suffixIcon: _searchQuery.isNotEmpty
-                ? IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      setState(() {
-                        _searchQuery = '';
-                        _searchController.clear();
-                      });
-                    },
-                  )
-                : null,
-            border: InputBorder.none,
-          ),
-          onChanged: (value) {
-            setState(() {
-              _searchQuery = value;
-            });
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(
-                _viewMode == ViewMode.list ? Icons.grid_view : Icons.view_list),
-            onPressed: () {
-              setState(() {
-                _viewMode =
-                    _viewMode == ViewMode.list ? ViewMode.grid : ViewMode.list;
-              });
-              _saveViewMode(_viewMode);
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.sort),
-            onPressed: _showSortDialog,
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          // Filter Chips
-          if (_hasActiveFilters)
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  if (selectedRoasters.isNotEmpty)
-                    ...selectedRoasters.map((roaster) => Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: FilterChip(
-                            label: Text(roaster),
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            ),
-                            deleteIconColor:
-                                Theme.of(context).colorScheme.onPrimary,
-                            onSelected: (bool value) {
-                              // Do nothing - we only want delete functionality
-                            },
-                            onDeleted: () {
-                              setState(() {
-                                selectedRoasters.remove(roaster);
-                              });
-                            },
-                          ),
-                        )),
-                  if (selectedOrigins.isNotEmpty)
-                    ...selectedOrigins.map((origin) => Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: FilterChip(
-                            label: Text(origin),
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            ),
-                            deleteIconColor:
-                                Theme.of(context).colorScheme.onPrimary,
-                            onSelected: (bool value) {
-                              // Do nothing - we only want delete functionality
-                            },
-                            onDeleted: () {
-                              setState(() {
-                                selectedOrigins.remove(origin);
-                              });
-                            },
-                          ),
-                        )),
-                  if (isFavoriteOnly)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: FilterChip(
-                        label: Text(loc.favorites),
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
-                        deleteIconColor:
-                            Theme.of(context).colorScheme.onPrimary,
-                        onSelected: (bool value) {
-                          // Do nothing - we only want delete functionality
-                        },
-                        onDeleted: () {
-                          setState(() {
-                            isFavoriteOnly = false;
-                          });
-                        },
-                      ),
-                    ),
-                  if (_searchQuery.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: FilterChip(
-                        label: Text('${loc.searchPrefix}$_searchQuery'),
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
-                        deleteIconColor:
-                            Theme.of(context).colorScheme.onPrimary,
-                        onSelected: (bool value) {
-                          // Do nothing - we only want delete functionality
-                        },
-                        onDeleted: () {
-                          setState(() {
-                            _searchQuery = '';
-                            _searchController.clear();
-                          });
-                        },
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: ActionChip(
-                      label: Text(loc.clearAll),
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                      onPressed: _clearFilters,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-          // Content
-          Expanded(
-            child: FutureBuilder<List<CoffeeBeansModel>>(
-              future: coffeeBeansProvider.fetchFilteredCoffeeBeans(
-                roasters: selectedRoasters.isNotEmpty ? selectedRoasters : null,
-                origins: selectedOrigins.isNotEmpty ? selectedOrigins : null,
-                isFavorite: isFavoriteOnly ? true : null,
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  var filteredData = _filterBeans(snapshot.data!);
-                  // Apply user sort (default is dateAdded which sorts newest first)
-                  var sortedData = _sortBeans(filteredData);
-
-                  if (sortedData.isEmpty) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.search_off,
-                            size: 64,
-                            color: Colors.grey[400],
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            loc.noBeansMatchSearch,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          const SizedBox(height: 8),
-                          TextButton(
-                            onPressed: _clearFilters,
-                            child: Text(loc.clearFilters),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-
-                  return _viewMode == ViewMode.list
-                      ? ListView.builder(
-                          controller: _scrollController,
-                          padding: const EdgeInsets.all(16.0),
-                          itemCount: sortedData.length,
-                          itemBuilder: (context, index) {
-                            final bean = sortedData[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: CoffeeBeanCard(
-                                key: ValueKey(bean.beansUuid),
-                                bean: bean,
-                                isEditMode: isEditMode,
-                                onDelete: () async {
-                                  await coffeeBeansProvider
-                                      .deleteCoffeeBeans(bean.beansUuid!);
-                                  setState(() {});
-                                },
-                              ),
-                            );
-                          },
-                        )
-                      : GridView.builder(
-                          controller: _scrollController,
-                          padding: const EdgeInsets.all(16.0),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.65,
-                            crossAxisSpacing: 16.0,
-                            mainAxisSpacing: 16.0,
-                          ),
-                          itemCount: sortedData.length,
-                          itemBuilder: (context, index) {
-                            final bean = sortedData[index];
-                            return CoffeeBeanGridCard(
-                              key: ValueKey(bean.beansUuid),
-                              bean: bean,
-                              isEditMode: isEditMode,
-                              onDelete: () async {
-                                await coffeeBeansProvider
-                                    .deleteCoffeeBeans(bean.beansUuid!);
-                                setState(() {});
-                              },
-                            );
-                          },
-                        );
-                } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Coffeico.bag_with_bean,
-                          size: 64,
-                          color: Colors.grey[400],
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          loc.nocoffeebeans,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        const SizedBox(height: 8),
-                        ElevatedButton.icon(
-                          onPressed: () async {
-                            final result =
-                                await context.router.push(NewBeansRoute());
-                            if (result != null && result is String) {
-                              setState(() {});
-                            }
-                          },
-                          icon: const Icon(Icons.add),
-                          label: Text(loc.addBeans),
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
+    return ChangeNotifierProvider.value(
+      value: _controller,
+      child: Consumer<CoffeeBeansController>(
+        builder: (context, controller, child) {
+          return Scaffold(
+            appBar: CoffeeBeansAppBar(
+              viewState: controller.viewState,
+              searchController: controller.searchController,
+              onSearchChanged: (value) {
+                // Search is handled automatically by the controller's listener
               },
+              onSearchCleared: controller.clearSearch,
+              onViewModeToggled: controller.toggleViewMode,
+              onSortPressed: () => controller.showSortDialog(context),
             ),
-          ),
-        ],
-      ),
-      floatingActionButton: AnimatedScale(
-        scale: _isBottomBarVisible ? 1.0 : 0.0,
-        duration: const Duration(milliseconds: 200),
-        child: AnimatedOpacity(
-          opacity: _isBottomBarVisible ? 1.0 : 0.0,
-          duration: const Duration(milliseconds: 200),
-          child: IgnorePointer(
-            ignoring: !_isBottomBarVisible,
-            child: Semantics(
-              identifier: 'addCoffeeBeansButton',
-              label: loc.addBeans,
-              child: FloatingActionButton(
-                onPressed: () async {
-                  final result = await context.router.push(NewBeansRoute());
-                  if (result != null && result is String) {
-                    setState(() {});
-                  }
-                },
-                child: const Icon(Icons.add),
-              ),
-            ),
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: SafeArea(
-        top: false,
-        left: false,
-        right: false,
-        bottom: true,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          height: _isBottomBarVisible ? kBottomNavigationBarHeight : 0,
-          margin: EdgeInsets.only(
-            bottom: _isBottomBarVisible ? lift : 0, // ← only half-height lift
-          ),
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: Theme.of(context).colorScheme.onSurface.withAlpha(
-                      Theme.of(context).brightness == Brightness.dark ? 31 : 20,
-                    ),
-                width: 1,
-              ),
-            ),
-            color: Theme.of(context).bottomAppBarTheme.color ??
-                Theme.of(context).colorScheme.surface,
-          ),
-          child: IgnorePointer(
-            ignoring: !_isBottomBarVisible,
-            child: AnimatedOpacity(
-              opacity: _isBottomBarVisible ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 200),
-              child: BottomAppBar(
-                shape: const CircularNotchedRectangle(),
-                notchMargin: 8,
-                color: Colors.transparent,
-                elevation: 0,
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.filter_list, size: 28),
-                      tooltip: loc.filter,
-                      onPressed: _showFilterDialog,
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      icon: Icon(isEditMode ? Icons.done : Icons.edit_note,
-                          size: 28),
-                      tooltip: loc.toggleEditMode,
-                      onPressed: toggleEditMode,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CoffeeBeanGridCard extends StatelessWidget {
-  final CoffeeBeansModel bean;
-  final bool isEditMode;
-  final VoidCallback onDelete;
-
-  const CoffeeBeanGridCard({
-    Key? key,
-    required this.bean,
-    required this.isEditMode,
-    required this.onDelete,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // same neutral gradient as hero header
-    final isLight = Theme.of(context).brightness == Brightness.light;
-    final bgStart = isLight ? Colors.grey.shade200 : Colors.grey.shade800;
-    final bgEnd = isLight ? Colors.grey.shade100 : Colors.grey.shade700;
-    // icon tint
-    final iconColor =
-        Theme.of(context).colorScheme.onSurface.withAlpha((255 * 0.6).round());
-
-    final coffeeBeansProvider =
-        Provider.of<CoffeeBeansProvider>(context, listen: false);
-    final databaseProvider =
-        Provider.of<DatabaseProvider>(context, listen: false);
-    final loc = AppLocalizations.of(context)!;
-
-    return Semantics(
-      identifier: 'coffeeBeanGridCard_${bean.beansUuid}',
-      label: '${bean.name}, ${bean.roaster}, ${bean.origin}',
-      child: GestureDetector(
-        onTap: () =>
-            context.router.push(CoffeeBeansDetailRoute(uuid: bean.beansUuid!)),
-        child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          elevation: 4,
-          clipBehavior: Clip.antiAlias,
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [bgStart, bgEnd],
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            body: Column(
               children: [
-                // Header with favorite - reduced padding
-                Container(
-                  height: 40, // Fixed height
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: Row(
-                    children: [
-                      const Spacer(),
-                      IconButton(
-                        iconSize: 18, // Reduced size
-                        padding: const EdgeInsets.all(4), // Reduced padding
-                        constraints: const BoxConstraints(
-                          minWidth: 32,
-                          minHeight: 32,
-                        ),
-                        icon: Icon(
-                          bean.isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: bean.isFavorite
-                              ? (Theme.of(context).brightness ==
-                                      Brightness.light
-                                  ? const Color(0xff8e2e2d)
-                                  : const Color(0xffc66564))
-                              : null,
-                        ),
-                        onPressed: () async {
-                          await coffeeBeansProvider.toggleFavoriteStatus(
-                            bean.beansUuid!,
-                            !bean.isFavorite,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                // Filter Chips
+                CoffeeBeansFilterChips(
+                  filterOptions: controller.filterOptions,
+                  searchQuery: controller.viewState.searchQuery,
+                  onRoasterRemoved: controller.removeRoasterFilter,
+                  onOriginRemoved: controller.removeOriginFilter,
+                  onFavoriteRemoved: controller.removeFavoriteFilter,
+                  onSearchRemoved: controller.clearSearch,
+                  onClearAll: () => controller.clearAllFilters(context),
                 ),
 
-                // Logo section - flexible but with constraints
+                // Content
                 Expanded(
-                  flex: 3,
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: FutureBuilder<Map<String, String?>>(
-                      future: databaseProvider
-                          .fetchCachedRoasterLogoUrls(bean.roaster),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          final originalUrl = snapshot.data!['original'];
-                          final mirrorUrl = snapshot.data!['mirror'];
-                          if (originalUrl != null || mirrorUrl != null) {
-                            return RoasterLogo(
-                              originalUrl: originalUrl,
-                              mirrorUrl: mirrorUrl,
-                              height: 50, // Reduced height
-                              borderRadius: 8.0,
-                              forceFit: BoxFit.contain,
-                            );
-                          }
-                        }
-                        return Icon(
-                          Coffeico.bag_with_bean,
-                          size: 50, // Reduced size
-                          color: iconColor,
-                        );
-                      },
-                    ),
-                  ),
+                  child: _buildContent(context, controller),
                 ),
-
-                // Text information - flexible with minimum height
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize:
-                          MainAxisSize.min, // Important: minimize space
-                      children: [
-                        const SizedBox(height: 6),
-                        Flexible(
-                          // Use Flexible instead of fixed height
-                          child: AutoSizeText(
-                            bean.name,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                            maxLines: 2, // Reduced from 3
-                            minFontSize: 10, // Reduced from 12
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(height: 2), // Reduced spacing
-                        Text(
-                          bean.roaster,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant
-                                .withAlpha((255 * 0.85).round()),
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 2), // Reduced spacing
-                        Text(
-                          bean.origin,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant
-                                .withAlpha((255 * 0.6).round()),
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                // Action buttons - only show in edit mode with fixed height
-                if (isEditMode)
-                  Container(
-                    height: 40, // Fixed height
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                          iconSize: 18, // Reduced size
-                          padding: const EdgeInsets.all(4),
-                          constraints: const BoxConstraints(
-                            minWidth: 32,
-                            minHeight: 32,
-                          ),
-                          icon: const Icon(
-                            Icons.remove_circle_outline,
-                            color: Colors.red,
-                          ),
-                          onPressed: () async {
-                            final confirmed = await showDialog<bool>(
-                              context: context,
-                              builder: (context) => ConfirmDeleteDialog(
-                                title: loc.confirmDeleteTitle,
-                                content: loc.confirmDeleteMessage,
-                                confirmLabel: loc.delete,
-                                cancelLabel: loc.cancel,
-                              ),
-                            );
-                            if (confirmed == true) onDelete();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
               ],
             ),
-          ),
-        ),
+            floatingActionButton: AnimatedScale(
+              scale: controller.viewState.isBottomBarVisible ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 200),
+              child: AnimatedOpacity(
+                opacity: controller.viewState.isBottomBarVisible ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 200),
+                child: IgnorePointer(
+                  ignoring: !controller.viewState.isBottomBarVisible,
+                  child: Semantics(
+                    identifier: 'addCoffeeBeansButton',
+                    label: loc.addBeans,
+                    child: FloatingActionButton(
+                      onPressed: () => controller.navigateToNewBeans(context),
+                      child: const Icon(Icons.add),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: CoffeeBeansBottomBar(
+              viewState: controller.viewState,
+              onFilterPressed: () => controller.showFilterDialog(context),
+              onEditModeToggled: controller.toggleEditMode,
+              lift: controller.calculateBottomBarLift(context),
+            ),
+          );
+        },
       ),
     );
   }
-}
 
-class CoffeeBeanCard extends StatelessWidget {
-  final CoffeeBeansModel bean;
-  final bool isEditMode;
-  final VoidCallback onDelete;
+  Widget _buildContent(BuildContext context, CoffeeBeansController controller) {
+    if (controller.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
-  const CoffeeBeanCard({
-    Key? key,
-    required this.bean,
-    required this.isEditMode,
-    required this.onDelete,
-  }) : super(key: key);
+    if (controller.error != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: Colors.grey[400],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Error: ${controller.error}',
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () => controller.refreshData(context),
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    // neutral gradient
-    final isLight = Theme.of(context).brightness == Brightness.light;
-    final bgStart = isLight ? Colors.grey.shade200 : Colors.grey.shade800;
-    final bgEnd = isLight ? Colors.grey.shade100 : Colors.grey.shade700;
-    final iconColor =
-        Theme.of(context).colorScheme.onSurface.withAlpha((255 * 0.6).round());
+    final beans = controller.filteredBeans;
 
-    const double logoHeight = 80.0;
-    const double maxWidthFactor = 2.0;
+    // Handle empty states
+    if (beans.isEmpty) {
+      // Check if this is due to filters/search or truly no beans
+      if (controller.hasActiveFilters) {
+        return CoffeeBeansEmptyState.noSearchResults(
+          onClearFilters: () => controller.clearAllFilters(context),
+        );
+      } else {
+        return CoffeeBeansEmptyState.noBeans(
+          onAddBeans: () => controller.navigateToNewBeans(context),
+        );
+      }
+    }
 
+    // Display content based on view mode
+    return controller.viewState.viewMode == ViewMode.list
+        ? CoffeeBeansListView(
+            beans: beans,
+            viewState: controller.viewState,
+            scrollController: controller.scrollController,
+            onDelete: (bean) => _handleDelete(context, controller, bean),
+            onFavoriteToggle: (bean) =>
+                _handleFavoriteToggle(context, controller, bean),
+            onTap: (bean) =>
+                controller.navigateToBeanDetail(context, bean.beansUuid!),
+          )
+        : CoffeeBeansGridView(
+            beans: beans,
+            viewState: controller.viewState,
+            scrollController: controller.scrollController,
+            onDelete: (bean) => _handleDelete(context, controller, bean),
+            onFavoriteToggle: (bean) =>
+                _handleFavoriteToggle(context, controller, bean),
+            onTap: (bean) =>
+                controller.navigateToBeanDetail(context, bean.beansUuid!),
+          );
+  }
+
+  Future<void> _handleDelete(
+    BuildContext context,
+    CoffeeBeansController controller,
+    CoffeeBeansModel bean,
+  ) async {
     final coffeeBeansProvider =
         Provider.of<CoffeeBeansProvider>(context, listen: false);
-    final databaseProvider =
-        Provider.of<DatabaseProvider>(context, listen: false);
-    final loc = AppLocalizations.of(context)!;
+    await coffeeBeansProvider.deleteCoffeeBeans(bean.beansUuid!);
+    await controller.refreshData(context);
+  }
 
-    return Semantics(
-      identifier: 'coffeeBeanCard_${bean.beansUuid}',
-      label: '${bean.name}, ${bean.roaster}, ${bean.origin}',
-      child: GestureDetector(
-        onTap: () =>
-            context.router.push(CoffeeBeansDetailRoute(uuid: bean.beansUuid!)),
-        child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          elevation: 4,
-          clipBehavior: Clip.antiAlias,
-          margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [bgStart, bgEnd],
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  // ───────── LOGO SLOT ─────────
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        minHeight: logoHeight,
-                        maxHeight: logoHeight,
-                        minWidth: logoHeight,
-                        maxWidth: logoHeight * maxWidthFactor,
-                      ),
-                      child: FittedBox(
-                        fit: BoxFit.contain,
-                        alignment: Alignment.centerLeft,
-                        child: FutureBuilder<Map<String, String?>>(
-                          future: databaseProvider
-                              .fetchCachedRoasterLogoUrls(bean.roaster),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              final originalUrl = snapshot.data!['original'];
-                              final mirrorUrl = snapshot.data!['mirror'];
-                              if (originalUrl != null || mirrorUrl != null) {
-                                return RoasterLogo(
-                                  originalUrl: originalUrl,
-                                  mirrorUrl: mirrorUrl,
-                                  height: logoHeight,
-                                  borderRadius: 8.0,
-                                  forceFit: BoxFit.contain,
-                                );
-                              }
-                            }
-                            return Icon(
-                              Coffeico.bag_with_bean,
-                              size: logoHeight,
-                              color: iconColor,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                  // ───────── TEXT SECTION ─────────
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          bean.name,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          bean.roaster,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant
-                                .withAlpha((255 * 0.85).round()),
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          bean.origin,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant
-                                .withAlpha((255 * 0.6).round()),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // ───────── ACTION BUTTONS ─────────
-                  if (isEditMode)
-                    IconButton(
-                      icon: const Icon(Icons.remove_circle_outline,
-                          color: Colors.red),
-                      onPressed: () async {
-                        final confirmed = await showDialog<bool>(
-                          context: context,
-                          builder: (context) => ConfirmDeleteDialog(
-                            title: loc.confirmDeleteTitle,
-                            content: loc.confirmDeleteMessage,
-                            confirmLabel: loc.delete,
-                            cancelLabel: loc.cancel,
-                          ),
-                        );
-                        if (confirmed == true) onDelete();
-                      },
-                    ),
-                  IconButton(
-                    icon: Icon(
-                      bean.isFavorite ? Icons.favorite : Icons.favorite_border,
-                      color: bean.isFavorite
-                          ? (Theme.of(context).brightness == Brightness.light
-                              ? const Color(0xff8e2e2d)
-                              : const Color(0xffc66564))
-                          : null,
-                    ),
-                    onPressed: () async {
-                      await coffeeBeansProvider.toggleFavoriteStatus(
-                        bean.beansUuid!,
-                        !bean.isFavorite,
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+  Future<void> _handleFavoriteToggle(
+    BuildContext context,
+    CoffeeBeansController controller,
+    CoffeeBeansModel bean,
+  ) async {
+    final coffeeBeansProvider =
+        Provider.of<CoffeeBeansProvider>(context, listen: false);
+    await coffeeBeansProvider.toggleFavoriteStatus(
+        bean.beansUuid!, !bean.isFavorite);
+    await controller.refreshData(context);
   }
 }

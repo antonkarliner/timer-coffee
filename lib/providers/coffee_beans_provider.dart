@@ -55,11 +55,19 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   Future<void> updateCoffeeBeans(CoffeeBeansModel beans) async {
+    print('DEBUG: updateCoffeeBeans called with UUID: ${beans.beansUuid}');
+
     final currentBeans =
         await db.coffeeBeansDao.fetchCoffeeBeansByUuid(beans.beansUuid);
     if (currentBeans == null) {
+      print(
+          'DEBUG: ERROR - Coffee beans not found for UUID: ${beans.beansUuid}');
       throw Exception('Coffee beans not found');
     }
+
+    print(
+        'DEBUG: Found existing bean: ${currentBeans.name} by ${currentBeans.roaster}');
+    print('DEBUG: Current version vector: ${currentBeans.versionVector}');
 
     final currentVector = VersionVector.fromString(currentBeans.versionVector);
     final newVector = currentVector.increment();
@@ -68,7 +76,17 @@ class CoffeeBeansProvider with ChangeNotifier {
       versionVector: newVector.toString(),
     );
 
-    await db.coffeeBeansDao.updateCoffeeBeans(updatedBeans);
+    print(
+        'DEBUG: Updated bean data - Name: ${updatedBeans.name}, Roaster: ${updatedBeans.roaster}');
+    print('DEBUG: New version vector: ${updatedBeans.versionVector}');
+
+    try {
+      await db.coffeeBeansDao.updateCoffeeBeans(updatedBeans);
+      print('DEBUG: Database update completed successfully');
+    } catch (e) {
+      print('DEBUG: ERROR during database update: $e');
+      throw e;
+    }
 
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null && !user.isAnonymous) {
@@ -79,15 +97,18 @@ class CoffeeBeansProvider with ChangeNotifier {
             .from('user_coffee_beans')
             .upsert(supabaseData, onConflict: 'user_id,beans_uuid')
             .timeout(const Duration(seconds: 3));
+        print('DEBUG: Supabase sync completed successfully');
       } on TimeoutException catch (e) {
-        print('Supabase request timed out: $e');
+        print('DEBUG: Supabase request timed out: $e');
         // Optionally, handle the timeout here
       } catch (e) {
-        print('Error syncing updated coffee beans to Supabase: $e');
+        print('DEBUG: Error syncing updated coffee beans to Supabase: $e');
       }
     }
 
+    print('DEBUG: Calling notifyListeners()');
     notifyListeners();
+    print('DEBUG: updateCoffeeBeans completed successfully');
   }
 
   Future<void> deleteCoffeeBeans(String beansUuid) async {

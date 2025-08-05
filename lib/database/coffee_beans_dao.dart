@@ -213,9 +213,24 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<void> updateCoffeeBeans(CoffeeBeansModel beans) async {
-    await (update(coffeeBeans)
-          ..where((tbl) => tbl.beansUuid.equals(beans.beansUuid)))
-        .write(_coffeeBeansToCompanion(beans));
+    print('DEBUG: DAO updateCoffeeBeans called for UUID: ${beans.beansUuid}');
+    print(
+        'DEBUG: Updating with data - Name: ${beans.name}, Roaster: ${beans.roaster}');
+
+    try {
+      final rowsAffected = await (update(coffeeBeans)
+            ..where((tbl) => tbl.beansUuid.equals(beans.beansUuid)))
+          .write(_coffeeBeansToCompanion(beans));
+
+      print('DEBUG: Database update completed. Rows affected: $rowsAffected');
+
+      if (rowsAffected == 0) {
+        print('DEBUG: WARNING - No rows were updated! Bean may not exist.');
+      }
+    } catch (e) {
+      print('DEBUG: ERROR in DAO updateCoffeeBeans: $e');
+      throw e;
+    }
   }
 
   Future<void> softDeleteCoffeeBeans(String uuid) async {
