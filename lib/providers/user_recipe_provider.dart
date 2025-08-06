@@ -18,8 +18,8 @@ class UserRecipeProvider with ChangeNotifier {
   Future<void> createUserRecipe(RecipeModel recipe) async {
     // Get current user from Supabase
     final user = Supabase.instance.client.auth.currentUser;
-    // Always use the current locale for steps and localization.
-    final effectiveLocale = Intl.getCurrentLocale().split('_')[0];
+    // Locale-agnostic policy for user recipes: canonicalize to 'en' on write
+    const String effectiveLocale = 'en';
 
     // Create a recipe with vendor ID
     final recipeWithVendorId = recipe.copyWith(
@@ -48,7 +48,10 @@ class UserRecipeProvider with ChangeNotifier {
       );
       await _database.recipesDao.insertOrUpdateRecipe(recipeCompanion);
 
-      // Insert steps using effective locale (empty string for user recipes)
+      // Clean any existing steps for this recipe across all locales before inserting (defensive)
+      await _database.stepsDao.deleteStepsForRecipe(recipeWithVendorId.id);
+
+      // Insert steps using canonical locale 'en'
       for (final step in recipeWithVendorId.steps) {
         final stepCompanion = StepsCompanion(
           id: drift.Value(uuid.v4()),
@@ -61,7 +64,7 @@ class UserRecipeProvider with ChangeNotifier {
         await _database.stepsDao.insertOrUpdateStep(stepCompanion);
       }
 
-      // Insert localization using effective locale
+      // Insert localization using canonical locale 'en'
       final localizationCompanion = RecipeLocalizationsCompanion(
         id: drift.Value(uuid.v4()),
         recipeId: drift.Value(recipeWithVendorId.id),
@@ -81,19 +84,10 @@ class UserRecipeProvider with ChangeNotifier {
   }
 
   Future<void> updateUserRecipe(RecipeModel recipe) async {
-    // Always use the current locale for steps and localization.
-    final effectiveLocale = Intl.getCurrentLocale().split('_')[0];
+    // Locale-agnostic policy for user recipes: canonicalize to 'en' on write
+    const String effectiveLocale = 'en';
     print(
-        "UserRecipeProvider.updateUserRecipe: effectiveLocale = '$effectiveLocale'"); // Add logging
-
-    // Add explicit check for empty or invalid locale before proceeding
-    if (effectiveLocale.isEmpty || effectiveLocale.length < 2) {
-      print(
-          "UserRecipeProvider.updateUserRecipe: ERROR - Determined locale ('$effectiveLocale') is invalid.");
-      // Throw a specific error instead of letting Drift catch the constraint violation
-      throw Exception(
-          "Invalid locale determined: '$effectiveLocale'. Cannot update recipe steps/localization.");
-    }
+        "UserRecipeProvider.updateUserRecipe: using canonical effectiveLocale = '$effectiveLocale'");
 
     final recipeCompanion = RecipesCompanion(
       id: drift.Value(recipe.id),
@@ -120,13 +114,9 @@ class UserRecipeProvider with ChangeNotifier {
     await _database.transaction(() async {
       await _database.recipesDao.insertOrUpdateRecipe(recipeCompanion);
 
-      // Update steps: delete existing steps for this recipe with the effective locale, then recreate.
-      final steps = await _database.stepsDao
-          .getLocalizedBrewStepsForRecipe(recipe.id, effectiveLocale);
-      for (final step in steps) {
-        await _database.stepsDao
-            .deleteStep(step.order, recipe.id, effectiveLocale);
-      }
+      // Update steps for user recipes: delete ALL existing steps across locales, then recreate under canonical 'en'
+      await _database.stepsDao.deleteStepsForRecipe(recipe.id);
+
       for (final step in recipe.steps) {
         final stepCompanion = StepsCompanion(
           id: drift.Value(uuid.v4()),
@@ -139,15 +129,15 @@ class UserRecipeProvider with ChangeNotifier {
         await _database.stepsDao.insertOrUpdateStep(stepCompanion);
       }
 
-      // Update localization: first delete existing localization for this recipe with the effective locale.
+      // Update localization: remove all localizations for this recipe, then insert canonical 'en'
       try {
         await _database.recipeLocalizationsDao
-            .deleteLocalization(recipe.id, effectiveLocale);
+            .deleteLocalizationsForRecipe(recipe.id);
       } catch (e) {
-        print("Error deleting localization: $e");
+        print("Error deleting localizations: $e");
       }
 
-      // Then create a new localization entry using the effective locale.
+      // Then create a new localization entry using the canonical locale 'en'.
       final localizationCompanion = RecipeLocalizationsCompanion(
         id: drift.Value(uuid.v4()),
         recipeId: drift.Value(recipe.id),
@@ -168,9 +158,7 @@ class UserRecipeProvider with ChangeNotifier {
   }
 
   Future<void> deleteUserRecipe(String recipeId) async {
-    final effectiveLocale = recipeId.startsWith('usr-')
-        ? ''
-        : Intl.getCurrentLocale().split('_')[0];
+    // On delete, remove all localizations and steps regardless of locale for usr- recipes
     // Delete from local database
     try {
       await _database.recipesDao.deleteRecipe(recipeId);
@@ -179,23 +167,14 @@ class UserRecipeProvider with ChangeNotifier {
     }
     try {
       await _database.recipeLocalizationsDao
-          .deleteLocalization(recipeId, effectiveLocale);
+          .deleteLocalizationsForRecipe(recipeId);
     } catch (e) {
-      print("Error deleting localization: $e");
+      print("Error deleting localizations: $e");
     }
     try {
-      final steps = await _database.stepsDao
-          .getLocalizedBrewStepsForRecipe(recipeId, effectiveLocale);
-      for (final step in steps) {
-        try {
-          await _database.stepsDao
-              .deleteStep(step.order, recipeId, effectiveLocale);
-        } catch (e) {
-          print("Error deleting step: $e");
-        }
-      }
+      await _database.stepsDao.deleteStepsForRecipe(recipeId);
     } catch (e) {
-      print("Error retrieving steps: $e");
+      print("Error deleting steps: $e");
     }
 
     // Mark as deleted in Supabase if it's a user recipe and the user is not anonymous
@@ -276,8 +255,8 @@ class UserRecipeProvider with ChangeNotifier {
     if (user == null) {
       throw Exception("User not logged in, cannot copy recipe.");
     }
-    // Use the current app locale for the initial steps and localization of the copied recipe.
-    final effectiveLocale = Intl.getCurrentLocale().split('_')[0];
+    // Locale-agnostic policy for user recipes: canonicalize to 'en' on write
+    const String effectiveLocale = 'en';
 
     // Generate new ID and vendor ID
     final now = DateTime.now(); // Keep local 'now' for timestamp generation
@@ -313,7 +292,7 @@ class UserRecipeProvider with ChangeNotifier {
         // Use insertOrUpdate, which handles potential (though unlikely) conflicts
         await _database.recipesDao.insertOrUpdateRecipe(recipeCompanion);
 
-        // 2. Insert new Steps entries
+        // 2. Insert new Steps entries (canonical 'en')
         for (final step in originalRecipe.steps) {
           final stepCompanion = StepsCompanion(
             id: drift.Value(uuid.v4()), // New unique ID for the step
@@ -321,20 +300,20 @@ class UserRecipeProvider with ChangeNotifier {
             stepOrder: drift.Value(step.order),
             description: drift.Value(step.description),
             time: drift.Value(step.time.inSeconds.toString()),
-            locale: drift.Value(effectiveLocale), // Use current locale
+            locale: drift.Value(effectiveLocale), // Canonical 'en'
           );
           // Use insertOrUpdate
           await _database.stepsDao.insertOrUpdateStep(stepCompanion);
         }
 
-        // 3. Insert new RecipeLocalizations entry
+        // 3. Insert new RecipeLocalizations entry (canonical 'en')
         final localizationCompanion = RecipeLocalizationsCompanion(
           id: drift.Value(uuid.v4()), // New unique ID for localization
           recipeId: drift.Value(newRecipeId), // Link to the new recipe
           name: drift.Value('${originalRecipe.name} (Copy)'), // Add suffix
           grindSize: drift.Value(originalRecipe.grindSize),
           shortDescription: drift.Value(originalRecipe.shortDescription),
-          locale: drift.Value(effectiveLocale), // Use current locale
+          locale: drift.Value(effectiveLocale), // Canonical 'en'
         );
         // Use insertOrUpdate
         await _database.recipeLocalizationsDao
@@ -411,15 +390,19 @@ class UserRecipeProvider with ChangeNotifier {
         );
         await _database.recipesDao.insertOrUpdateRecipe(recipeCompanion);
 
-        // 2. Insert Localizations
+        // 2. Insert Localizations (import as-is, then normalize to canonical 'en')
         final localizationsData =
             supabaseRecipeData['user_recipe_localizations'] as List<dynamic>? ??
                 [];
+        // Delete any pre-existing localizations for safety
+        await _database.recipeLocalizationsDao
+            .deleteLocalizationsForRecipe(newLocalRecipeId);
         for (final locData in localizationsData) {
           final localizationCompanion = RecipeLocalizationsCompanion(
             id: drift.Value(uuid.v4()), // New unique ID
             recipeId: drift.Value(newLocalRecipeId), // Link to new local recipe
-            locale: drift.Value(locData['locale']),
+            // Canonicalize to 'en'
+            locale: const drift.Value('en'),
             name: drift.Value(locData['name']),
             grindSize: drift.Value(locData['grind_size']),
             shortDescription: drift.Value(locData['short_description']),
@@ -428,9 +411,11 @@ class UserRecipeProvider with ChangeNotifier {
               .insertOrUpdateLocalization(localizationCompanion);
         }
 
-        // 3. Insert Steps
+        // 3. Insert Steps (import as-is, then normalize to canonical 'en' to avoid duplicates)
         final stepsData =
             supabaseRecipeData['user_steps'] as List<dynamic>? ?? [];
+        // Delete any pre-existing steps for safety
+        await _database.stepsDao.deleteStepsForRecipe(newLocalRecipeId);
         for (final stepData in stepsData) {
           final stepCompanion = StepsCompanion(
             id: drift.Value(uuid.v4()), // New unique ID
@@ -438,7 +423,8 @@ class UserRecipeProvider with ChangeNotifier {
             stepOrder: drift.Value(stepData['step_order']),
             description: drift.Value(stepData['description']),
             time: drift.Value(stepData['time']),
-            locale: drift.Value(stepData['locale']),
+            // Canonicalize to 'en' to keep locale-agnostic behavior
+            locale: const drift.Value('en'),
           );
           await _database.stepsDao.insertOrUpdateStep(stepCompanion);
         }
