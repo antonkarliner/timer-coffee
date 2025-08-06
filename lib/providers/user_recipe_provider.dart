@@ -112,6 +112,8 @@ class UserRecipeProvider with ChangeNotifier {
       isImported: recipe.isImported != null
           ? drift.Value(recipe.isImported!)
           : const drift.Value.absent(),
+      // Set moderation flag when recipe is modified
+      needsModerationReview: const drift.Value(true),
     );
 
     // Wrap database operations in a transaction
