@@ -89,6 +89,8 @@ class _BasicDetailsSectionState extends State<BasicDetailsSection> {
             initialOptions: _varietyFuture,
             // Commit only on selection to avoid per-keystroke rebuild flicker.
             onSelected: (v) => widget.onVarietyChanged(v.isEmpty ? null : v),
+            onChanged: (v) => widget.onVarietyChanged(
+                v.isEmpty ? null : v), // Add onChanged callback
             initialValue: widget.variety,
           ),
         ),
@@ -102,6 +104,8 @@ class _BasicDetailsSectionState extends State<BasicDetailsSection> {
             initialOptions: _regionFuture,
             // Commit only on selection to avoid per-keystroke rebuild flicker.
             onSelected: (v) => widget.onRegionChanged(v.isEmpty ? null : v),
+            onChanged: (v) => widget.onRegionChanged(
+                v.isEmpty ? null : v), // Add onChanged callback
             initialValue: widget.region,
           ),
         ),
@@ -114,6 +118,7 @@ class _BasicDetailsSectionState extends State<BasicDetailsSection> {
             hintText: loc.enterFarmer,
             initialOptions: _farmerFuture,
             onSelected: widget.onFarmerChanged,
+            onChanged: widget.onFarmerChanged, // Add onChanged callback
             initialValue: widget.farmer,
           ),
         ),
@@ -126,6 +131,7 @@ class _BasicDetailsSectionState extends State<BasicDetailsSection> {
             hintText: loc.enterFarm,
             initialOptions: _farmFuture,
             onSelected: widget.onFarmChanged,
+            onChanged: widget.onFarmChanged, // Add onChanged callback
             initialValue: widget.farm,
           ),
         ),

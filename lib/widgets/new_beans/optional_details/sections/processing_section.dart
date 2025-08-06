@@ -68,6 +68,8 @@ class _ProcessingSectionState extends State<ProcessingSection> {
             // Only commit changes when a suggestion is selected to avoid rebuilds while typing.
             onSelected: (v) =>
                 widget.onProcessingMethodChanged(v.isEmpty ? null : v),
+            onChanged: (v) => widget.onProcessingMethodChanged(
+                v.isEmpty ? null : v), // Add onChanged callback
             initialValue: widget.processingMethod,
           ),
         ),
@@ -81,6 +83,8 @@ class _ProcessingSectionState extends State<ProcessingSection> {
             initialOptions: _roastLevelFuture,
             // Only commit on selection to avoid focus loss during typing.
             onSelected: (v) => widget.onRoastLevelChanged(v.isEmpty ? null : v),
+            onChanged: (v) => widget.onRoastLevelChanged(
+                v.isEmpty ? null : v), // Add onChanged callback
             initialValue: widget.roastLevel,
           ),
         ),

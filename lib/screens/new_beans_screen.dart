@@ -20,7 +20,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:uuid/uuid.dart';
 
 // Image flow controller and widgets
-import 'package:coffee_timer/utils/new_beans/new_beans_image_controller.dart';
+import 'package:coffee_timer/controllers/new_beans_image_controller.dart';
 import 'package:coffee_timer/widgets/new_beans/image_flow/image_picker_sheet.dart';
 import 'package:coffee_timer/widgets/new_beans/image_flow/selected_images_sheet.dart';
 import 'package:coffee_timer/widgets/new_beans/image_flow/continue_camera_dialog.dart';

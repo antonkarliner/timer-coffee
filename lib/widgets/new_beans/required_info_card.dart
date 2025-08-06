@@ -63,6 +63,7 @@ class RequiredInfoCard extends StatelessWidget {
                 hintText: loc.enterRoaster,
                 initialOptions: roasterOptions,
                 onSelected: onRoasterChanged,
+                onChanged: onRoasterChanged, // Add onChanged callback
                 initialValue: roaster,
               ),
             ),
@@ -77,6 +78,7 @@ class RequiredInfoCard extends StatelessWidget {
                 hintText: loc.enterName,
                 initialOptions: nameOptions,
                 onSelected: onNameChanged,
+                onChanged: onNameChanged, // Add onChanged callback
                 initialValue: name,
               ),
             ),
@@ -91,6 +93,7 @@ class RequiredInfoCard extends StatelessWidget {
                 hintText: loc.enterOrigin,
                 initialOptions: originOptions,
                 onSelected: onOriginChanged,
+                onChanged: onOriginChanged, // Add onChanged callback
                 initialValue: origin,
               ),
             ),
