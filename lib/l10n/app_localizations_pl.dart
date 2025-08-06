@@ -12,6 +12,40 @@ class AppLocalizationsPl extends AppLocalizations {
   String get lastrecipe => 'Ostatnio używany przepis:';
 
   @override
+  String get userRecipesTitle => 'Twoje przepisy';
+
+  @override
+  String get userRecipesSectionCreated => 'Utworzone przez Ciebie';
+
+  @override
+  String get userRecipesSectionImported => 'Zaimportowane przez Ciebie';
+
+  @override
+  String get userRecipesEmpty => 'Nie znaleziono przepisów';
+
+  @override
+  String get userRecipesDeleteTitle => 'Usunąć przepis?';
+
+  @override
+  String get userRecipesDeleteMessage => 'Tej operacji nie można cofnąć.';
+
+  @override
+  String get userRecipesDeleteConfirm => 'Usuń';
+
+  @override
+  String get userRecipesDeleteCancel => 'Anuluj';
+
+  @override
+  String get userRecipesSnackbarDeleted => 'Przepis usunięty';
+
+  @override
+  String get hubUserRecipesTitle => 'Twoje przepisy';
+
+  @override
+  String get hubUserRecipesSubtitle =>
+      'Przeglądaj i zarządzaj utworzonymi i zaimportowanymi przepisami';
+
+  @override
   String get about => 'O aplikacji';
 
   @override

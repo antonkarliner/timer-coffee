@@ -12,6 +12,39 @@ class AppLocalizationsAr extends AppLocalizations {
   String get lastrecipe => 'أحدث وصفة مستخدمة:';
 
   @override
+  String get userRecipesTitle => 'وصفاتك';
+
+  @override
+  String get userRecipesSectionCreated => 'منشأة بواسطتك';
+
+  @override
+  String get userRecipesSectionImported => 'مستوردة بواسطتك';
+
+  @override
+  String get userRecipesEmpty => 'لا توجد وصفات';
+
+  @override
+  String get userRecipesDeleteTitle => 'حذف الوصفة؟';
+
+  @override
+  String get userRecipesDeleteMessage => 'لا يمكن التراجع عن هذا الإجراء.';
+
+  @override
+  String get userRecipesDeleteConfirm => 'حذف';
+
+  @override
+  String get userRecipesDeleteCancel => 'إلغاء';
+
+  @override
+  String get userRecipesSnackbarDeleted => 'تم حذف الوصفة';
+
+  @override
+  String get hubUserRecipesTitle => 'وصفاتك';
+
+  @override
+  String get hubUserRecipesSubtitle => 'عرض وإدارة الوصفات المنشأة والمستوردة';
+
+  @override
   String get about => 'حول';
 
   @override

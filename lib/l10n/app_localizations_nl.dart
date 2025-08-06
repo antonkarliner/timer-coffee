@@ -12,6 +12,41 @@ class AppLocalizationsNl extends AppLocalizations {
   String get lastrecipe => 'Meest Recent Gebruikte Recept:';
 
   @override
+  String get userRecipesTitle => 'Jouw recepten';
+
+  @override
+  String get userRecipesSectionCreated => 'Door jou gemaakt';
+
+  @override
+  String get userRecipesSectionImported => 'Door jou geïmporteerd';
+
+  @override
+  String get userRecipesEmpty => 'Geen recepten gevonden';
+
+  @override
+  String get userRecipesDeleteTitle => 'Recept verwijderen?';
+
+  @override
+  String get userRecipesDeleteMessage =>
+      'Deze actie kan niet ongedaan worden gemaakt.';
+
+  @override
+  String get userRecipesDeleteConfirm => 'Verwijderen';
+
+  @override
+  String get userRecipesDeleteCancel => 'Annuleren';
+
+  @override
+  String get userRecipesSnackbarDeleted => 'Recept verwijderd';
+
+  @override
+  String get hubUserRecipesTitle => 'Jouw recepten';
+
+  @override
+  String get hubUserRecipesSubtitle =>
+      'Gemaakte en geïmporteerde recepten bekijken en beheren';
+
+  @override
   String get about => 'Over';
 
   @override

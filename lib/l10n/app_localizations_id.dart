@@ -12,6 +12,40 @@ class AppLocalizationsId extends AppLocalizations {
   String get lastrecipe => 'Resep yang Terakhir Digunakan:';
 
   @override
+  String get userRecipesTitle => 'Resep Anda';
+
+  @override
+  String get userRecipesSectionCreated => 'Dibuat oleh Anda';
+
+  @override
+  String get userRecipesSectionImported => 'Diimpor oleh Anda';
+
+  @override
+  String get userRecipesEmpty => 'Tidak ada resep ditemukan';
+
+  @override
+  String get userRecipesDeleteTitle => 'Hapus resep?';
+
+  @override
+  String get userRecipesDeleteMessage => 'Tindakan ini tidak dapat dibatalkan.';
+
+  @override
+  String get userRecipesDeleteConfirm => 'Hapus';
+
+  @override
+  String get userRecipesDeleteCancel => 'Batal';
+
+  @override
+  String get userRecipesSnackbarDeleted => 'Resep dihapus';
+
+  @override
+  String get hubUserRecipesTitle => 'Resep Anda';
+
+  @override
+  String get hubUserRecipesSubtitle =>
+      'Lihat dan kelola resep yang dibuat dan diimpor';
+
+  @override
   String get about => 'Tentang';
 
   @override

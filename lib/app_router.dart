@@ -69,5 +69,10 @@ class AppRouter extends $AppRouter {
           page: InfoRoute.page,
           path: '/info',
         ),
+        // User Recipe Management route
+        AutoRoute(
+          page: UserRecipeManagementRoute.page,
+          path: '/user-recipes',
+        ),
       ];
 }

@@ -12,6 +12,40 @@ class AppLocalizationsFa extends AppLocalizations {
   String get lastrecipe => 'آخرین دستور استفاده‌شده:';
 
   @override
+  String get userRecipesTitle => 'دستورهای شما';
+
+  @override
+  String get userRecipesSectionCreated => 'ایجاد شده توسط شما';
+
+  @override
+  String get userRecipesSectionImported => 'وارد شده توسط شما';
+
+  @override
+  String get userRecipesEmpty => 'هیچ دستور غذایی یافت نشد';
+
+  @override
+  String get userRecipesDeleteTitle => 'حذف دستور؟';
+
+  @override
+  String get userRecipesDeleteMessage => 'این اقدام قابل بازگشت نیست.';
+
+  @override
+  String get userRecipesDeleteConfirm => 'حذف';
+
+  @override
+  String get userRecipesDeleteCancel => 'انصراف';
+
+  @override
+  String get userRecipesSnackbarDeleted => 'دستور حذف شد';
+
+  @override
+  String get hubUserRecipesTitle => 'دستورهای شما';
+
+  @override
+  String get hubUserRecipesSubtitle =>
+      'مشاهده و مدیریت دستورهای ایجادشده و واردشده';
+
+  @override
   String get about => 'درباره برنامه';
 
   @override

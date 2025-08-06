@@ -12,6 +12,40 @@ class AppLocalizationsRo extends AppLocalizations {
   String get lastrecipe => 'Rețeta folosită recent:';
 
   @override
+  String get userRecipesTitle => 'Rețetele tale';
+
+  @override
+  String get userRecipesSectionCreated => 'Create de tine';
+
+  @override
+  String get userRecipesSectionImported => 'Importate de tine';
+
+  @override
+  String get userRecipesEmpty => 'Nu s-au găsit rețete';
+
+  @override
+  String get userRecipesDeleteTitle => 'Ștergi rețeta?';
+
+  @override
+  String get userRecipesDeleteMessage => 'Această acțiune nu poate fi anulată.';
+
+  @override
+  String get userRecipesDeleteConfirm => 'Șterge';
+
+  @override
+  String get userRecipesDeleteCancel => 'Anulează';
+
+  @override
+  String get userRecipesSnackbarDeleted => 'Rețetă ștearsă';
+
+  @override
+  String get hubUserRecipesTitle => 'Rețetele tale';
+
+  @override
+  String get hubUserRecipesSubtitle =>
+      'Vizualizează și gestionează rețetele create și importate';
+
+  @override
   String get about => 'Despre';
 
   @override

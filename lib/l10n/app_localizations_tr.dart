@@ -12,6 +12,40 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lastrecipe => 'En Son Kullanılan Tarif:';
 
   @override
+  String get userRecipesTitle => 'Tariflerin';
+
+  @override
+  String get userRecipesSectionCreated => 'Senin oluşturdukların';
+
+  @override
+  String get userRecipesSectionImported => 'Senin içe aktardıkların';
+
+  @override
+  String get userRecipesEmpty => 'Hiç tarif bulunamadı';
+
+  @override
+  String get userRecipesDeleteTitle => 'Tarif silinsin mi?';
+
+  @override
+  String get userRecipesDeleteMessage => 'Bu işlem geri alınamaz.';
+
+  @override
+  String get userRecipesDeleteConfirm => 'Sil';
+
+  @override
+  String get userRecipesDeleteCancel => 'İptal';
+
+  @override
+  String get userRecipesSnackbarDeleted => 'Tarif silindi';
+
+  @override
+  String get hubUserRecipesTitle => 'Tariflerin';
+
+  @override
+  String get hubUserRecipesSubtitle =>
+      'Oluşturduğun ve içe aktardığın tarifleri görüntüle ve yönet';
+
+  @override
   String get about => 'Hakkında';
 
   @override

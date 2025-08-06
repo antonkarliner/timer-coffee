@@ -12,6 +12,39 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lastrecipe => '最近使用的食谱：';
 
   @override
+  String get userRecipesTitle => '你的食谱';
+
+  @override
+  String get userRecipesSectionCreated => '你创建的';
+
+  @override
+  String get userRecipesSectionImported => '你导入的';
+
+  @override
+  String get userRecipesEmpty => '未找到食谱';
+
+  @override
+  String get userRecipesDeleteTitle => '删除食谱？';
+
+  @override
+  String get userRecipesDeleteMessage => '此操作无法撤销。';
+
+  @override
+  String get userRecipesDeleteConfirm => '删除';
+
+  @override
+  String get userRecipesDeleteCancel => '取消';
+
+  @override
+  String get userRecipesSnackbarDeleted => '已删除食谱';
+
+  @override
+  String get hubUserRecipesTitle => '你的食谱';
+
+  @override
+  String get hubUserRecipesSubtitle => '查看并管理你创建和导入的食谱';
+
+  @override
   String get about => '关于';
 
   @override

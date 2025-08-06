@@ -12,6 +12,7 @@ import '../providers/recipe_provider.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart'; // Ensure this import is correct
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'user_recipe_management_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -203,6 +204,31 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
               title: Text(l10n.brewdiary),
               onTap: () {
                 context.router.push(const BrewDiaryRoute());
+              },
+            ),
+          ),
+          Semantics(
+            identifier: 'userRecipes',
+            label: l10n.hubUserRecipesTitle,
+            child: ListTile(
+              leading: const Icon(Icons.bookmarks_outlined),
+              title: Text(l10n.hubUserRecipesTitle),
+              subtitle: Text(l10n.hubUserRecipesSubtitle),
+              onTap: () {
+                // Prefer auto_route generated route if available, fallback to MaterialPageRoute
+                // Use generated route if present in app_router.gr.dart; otherwise fallback.
+                // ignore: unused_catch_clause
+                try {
+                  // If a generated route exists, this will compile.
+                  // ignore: undefined_class
+                  context.router.push(const UserRecipeManagementRoute());
+                } on Object {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const UserRecipeManagementScreen(),
+                    ),
+                  );
+                }
               },
             ),
           ),

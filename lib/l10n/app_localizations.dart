@@ -136,6 +136,72 @@ abstract class AppLocalizations {
   /// **'Most Recently Used Recipe:'**
   String get lastrecipe;
 
+  /// No description provided for @userRecipesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Recipes'**
+  String get userRecipesTitle;
+
+  /// No description provided for @userRecipesSectionCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created by you'**
+  String get userRecipesSectionCreated;
+
+  /// No description provided for @userRecipesSectionImported.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported by you'**
+  String get userRecipesSectionImported;
+
+  /// No description provided for @userRecipesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No recipes found'**
+  String get userRecipesEmpty;
+
+  /// No description provided for @userRecipesDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete recipe?'**
+  String get userRecipesDeleteTitle;
+
+  /// No description provided for @userRecipesDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get userRecipesDeleteMessage;
+
+  /// No description provided for @userRecipesDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get userRecipesDeleteConfirm;
+
+  /// No description provided for @userRecipesDeleteCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get userRecipesDeleteCancel;
+
+  /// No description provided for @userRecipesSnackbarDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe deleted'**
+  String get userRecipesSnackbarDeleted;
+
+  /// No description provided for @hubUserRecipesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your recipes'**
+  String get hubUserRecipesTitle;
+
+  /// No description provided for @hubUserRecipesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View and manage created and imported recipes'**
+  String get hubUserRecipesSubtitle;
+
   /// No description provided for @about.
   ///
   /// In en, this message translates to:

@@ -12,6 +12,40 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lastrecipe => 'Последний рецепт:';
 
   @override
+  String get userRecipesTitle => 'Ваши рецепты';
+
+  @override
+  String get userRecipesSectionCreated => 'Созданные вами';
+
+  @override
+  String get userRecipesSectionImported => 'Импортированные вами';
+
+  @override
+  String get userRecipesEmpty => 'Рецепты не найдены';
+
+  @override
+  String get userRecipesDeleteTitle => 'Удалить рецепт?';
+
+  @override
+  String get userRecipesDeleteMessage => 'Это действие нельзя отменить.';
+
+  @override
+  String get userRecipesDeleteConfirm => 'Удалить';
+
+  @override
+  String get userRecipesDeleteCancel => 'Отмена';
+
+  @override
+  String get userRecipesSnackbarDeleted => 'Рецепт удалён';
+
+  @override
+  String get hubUserRecipesTitle => 'Ваши рецепты';
+
+  @override
+  String get hubUserRecipesSubtitle =>
+      'Просмотр и управление созданными и импортированными рецептами';
+
+  @override
   String get about => 'О приложении';
 
   @override

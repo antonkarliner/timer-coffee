@@ -12,6 +12,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lastrecipe => 'Most Recently Used Recipe:';
 
   @override
+  String get userRecipesTitle => 'Your Recipes';
+
+  @override
+  String get userRecipesSectionCreated => 'Created by you';
+
+  @override
+  String get userRecipesSectionImported => 'Imported by you';
+
+  @override
+  String get userRecipesEmpty => 'No recipes found';
+
+  @override
+  String get userRecipesDeleteTitle => 'Delete recipe?';
+
+  @override
+  String get userRecipesDeleteMessage => 'This action cannot be undone.';
+
+  @override
+  String get userRecipesDeleteConfirm => 'Delete';
+
+  @override
+  String get userRecipesDeleteCancel => 'Cancel';
+
+  @override
+  String get userRecipesSnackbarDeleted => 'Recipe deleted';
+
+  @override
+  String get hubUserRecipesTitle => 'Your recipes';
+
+  @override
+  String get hubUserRecipesSubtitle =>
+      'View and manage created and imported recipes';
+
+  @override
   String get about => 'About';
 
   @override

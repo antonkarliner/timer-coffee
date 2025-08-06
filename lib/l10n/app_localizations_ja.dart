@@ -12,6 +12,39 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lastrecipe => '最近使ったレシピ：';
 
   @override
+  String get userRecipesTitle => 'あなたのレシピ';
+
+  @override
+  String get userRecipesSectionCreated => 'あなたが作成';
+
+  @override
+  String get userRecipesSectionImported => 'あなたがインポート';
+
+  @override
+  String get userRecipesEmpty => 'レシピが見つかりません';
+
+  @override
+  String get userRecipesDeleteTitle => 'レシピを削除しますか？';
+
+  @override
+  String get userRecipesDeleteMessage => 'この操作は元に戻せません。';
+
+  @override
+  String get userRecipesDeleteConfirm => '削除';
+
+  @override
+  String get userRecipesDeleteCancel => 'キャンセル';
+
+  @override
+  String get userRecipesSnackbarDeleted => 'レシピを削除しました';
+
+  @override
+  String get hubUserRecipesTitle => 'あなたのレシピ';
+
+  @override
+  String get hubUserRecipesSubtitle => '作成済み・インポート済みのレシピを表示して管理';
+
+  @override
   String get about => '約';
 
   @override

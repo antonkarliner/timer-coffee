@@ -12,6 +12,40 @@ class AppLocalizationsFi extends AppLocalizations {
   String get lastrecipe => 'Viimeksi käytetty resepti:';
 
   @override
+  String get userRecipesTitle => 'Omat reseptit';
+
+  @override
+  String get userRecipesSectionCreated => 'Tekemäsi';
+
+  @override
+  String get userRecipesSectionImported => 'Tuomasi';
+
+  @override
+  String get userRecipesEmpty => 'Reseptejä ei löytynyt';
+
+  @override
+  String get userRecipesDeleteTitle => 'Poistetaanko resepti?';
+
+  @override
+  String get userRecipesDeleteMessage => 'Tätä toimintoa ei voi kumota.';
+
+  @override
+  String get userRecipesDeleteConfirm => 'Poista';
+
+  @override
+  String get userRecipesDeleteCancel => 'Peruuta';
+
+  @override
+  String get userRecipesSnackbarDeleted => 'Resepti poistettu';
+
+  @override
+  String get hubUserRecipesTitle => 'Omat reseptit';
+
+  @override
+  String get hubUserRecipesSubtitle =>
+      'Näytä ja hallitse luotuja ja tuotuja reseptejä';
+
+  @override
   String get about => 'Tietoja';
 
   @override

@@ -12,6 +12,40 @@ class AppLocalizationsPt extends AppLocalizations {
   String get lastrecipe => 'Receita mais recentemente utilizada:';
 
   @override
+  String get userRecipesTitle => 'Suas receitas';
+
+  @override
+  String get userRecipesSectionCreated => 'Criadas por você';
+
+  @override
+  String get userRecipesSectionImported => 'Importadas por você';
+
+  @override
+  String get userRecipesEmpty => 'Nenhuma receita encontrada';
+
+  @override
+  String get userRecipesDeleteTitle => 'Excluir receita?';
+
+  @override
+  String get userRecipesDeleteMessage => 'Esta ação não pode ser desfeita.';
+
+  @override
+  String get userRecipesDeleteConfirm => 'Excluir';
+
+  @override
+  String get userRecipesDeleteCancel => 'Cancelar';
+
+  @override
+  String get userRecipesSnackbarDeleted => 'Receita excluída';
+
+  @override
+  String get hubUserRecipesTitle => 'Suas receitas';
+
+  @override
+  String get hubUserRecipesSubtitle =>
+      'Ver e gerenciar receitas criadas e importadas';
+
+  @override
   String get about => 'Sobre';
 
   @override
