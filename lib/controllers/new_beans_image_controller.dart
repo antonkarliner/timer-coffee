@@ -1,12 +1,24 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart'
+    show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:coffee_timer/services/ocr/ocr_service.dart';
+import 'package:coffee_timer/services/ocr/native_ocr_service.dart';
 
 import 'package:coffee_timer/utils/images/image_resizer.dart';
 import 'package:coffee_timer/services/clients/beans_label_parser_client.dart';
+
+// Simple timing helper for console instrumentation
+class _StopwatchX {
+  final Stopwatch _sw = Stopwatch()..start();
+  int stopMs() {
+    _sw.stop();
+    return _sw.elapsedMilliseconds;
+  }
+}
 
 /// A controller that orchestrates the "image flow" for New Beans:
 /// - first-time popup logic (delegated to caller)
@@ -21,6 +33,23 @@ import 'package:coffee_timer/services/clients/beans_label_parser_client.dart';
 class NewBeansImageController {
   final ImagePicker _picker = ImagePicker();
   final BeansLabelParserClient _client;
+  final OcrService _ocrService = NativeOcrService();
+
+  // OCR gating state (per start() session)
+  bool _ocrDisabledForSession = false;
+  bool _ocrWarmed = false;
+
+  // Thresholds (ms)
+  static const int _coldThresholdMs = 300;
+  static const int _warmThresholdMs = 220;
+
+  // Centralized console logging for this controller
+  // Prefix helps filter in aggregated logs
+  // Example: [NewBeansOCR] message
+  void _log(String msg) {
+    // ignore: avoid_print
+    print('[NewBeansOCR] $msg');
+  }
 
   NewBeansImageController({
     required SupabaseClient supabaseClient,
@@ -139,6 +168,21 @@ class NewBeansImageController {
     _onAskTakeAnotherPhoto = cb;
   }
 
+  // Best-effort static capability gate without extra plugins:
+  // - Skip OCR on Web
+  // - Allow on iOS/Android; runtime timing guard will disable if too slow
+  bool _passesStaticOcrGate() {
+    if (kIsWeb) return false;
+    // Best-effort: allow on iOS/Android; timing guard will disable if slow.
+    try {
+      final platform = defaultTargetPlatform;
+      return platform == TargetPlatform.iOS ||
+          platform == TargetPlatform.android;
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future<void> _processAndParse({
     required BuildContext context,
     required List<XFile> images,
@@ -148,40 +192,135 @@ class NewBeansImageController {
     required void Function(Map<String, dynamic>) onData,
     required void Function(String) onError,
   }) async {
+    final swTotal = _StopwatchX();
     onLoading(true);
     try {
+      _log(
+          'Starting OCR + prepare. Images: ${images.length}, locale: $locale, userId: ${userId ?? 'anon'}');
+
       // Resize and base64 encode
       final List<String> base64Images = [];
-      for (final x in images) {
-        // On web XFile.path can be a blob URL; image resizing here is for mobile/desktop.
+      final List<String> ocrSnippets = [];
+
+      // Initialize gating state per session
+      _ocrDisabledForSession = !_passesStaticOcrGate();
+
+      if (_ocrDisabledForSession) {
+        _log(
+            'OCR disabled by static capability gate; will skip on-device OCR.');
+      }
+
+      final prepSw = _StopwatchX();
+      for (int idx = 0; idx < images.length; idx++) {
+        final x = images[idx];
+
+        // Perform OCR on the original image file when accessible and not disabled
         if (!kIsWeb) {
-          final resized = await ImageResizer.resizeToMax1024(File(x.path));
+          final file = File(x.path);
+
+          if (!_ocrDisabledForSession) {
+            final swOcr = _StopwatchX();
+            final text = await _ocrService.recognizeText(file);
+            final ocrMs = swOcr.stopMs();
+
+            // Determine threshold depending on warm/cold state
+            final thr = _ocrWarmed ? _warmThresholdMs : _coldThresholdMs;
+            final over = ocrMs >= thr;
+
+            _log(
+                'OCR timing: ${ocrMs}ms (thr=${thr}ms, warmed=${_ocrWarmed}). chars=${text.length} for ${file.path.split('/').last}');
+
+            if (over) {
+              // Disable OCR for the rest of this session
+              _ocrDisabledForSession = true;
+              _log(
+                  'OCR runtime budget exceeded; disabling OCR for this session.');
+            } else {
+              if (text.isNotEmpty) {
+                ocrSnippets.add(text);
+              }
+              // Mark warmed after first successful pass under threshold
+              _ocrWarmed = true;
+            }
+          }
+
+          // Downscale before sending to reduce bandwidth while keeping label legibility.
+          final swResize = _StopwatchX();
+          final resized = await ImageResizer.resizeToMax1024(file);
+          final resizeMs = swResize.stopMs();
           base64Images.add(base64Encode(await resized.readAsBytes()));
+          _log(
+              'Resize+encode done in ${resizeMs}ms for ${file.path.split('/').last}');
         } else {
-          // On web we cannot access local files as File; readAsBytes() is not supported for blob URLs here.
-          // Fallback: let the edge function handle the original resolution via network path if applicable.
-          // If you want full web support, consider reading bytes from XFile directly when available.
+          // Web fallback: no OCR (native plugin is not supported on web).
+          final swRead = _StopwatchX();
           base64Images.add(base64Encode(await x.readAsBytes()));
+          _log('Web read+encode done in ${swRead.stopMs()}ms for ${x.name}');
         }
       }
+      _log(
+          'Prep complete in ${prepSw.stopMs()}ms. OCR total chars: ${ocrSnippets.fold<int>(0, (a, b) => a + b.length)} (ocr_enabled=${!_ocrDisabledForSession})');
 
       if (base64Images.isEmpty) {
         onLoading(false);
+        _log('No images to process; aborting.');
         return;
       }
 
-      // Invoke edge function
+      final String ocrTextCombined =
+          ocrSnippets.join('\n').replaceAll('\r\n', '\n').trim();
+
+      // Decide mode client-side; send OCR text so server can choose text vs image.
+      final mode = 'auto';
+      final minTextChars = 120;
+
+      // If OCR disabled for this session or OCR text empty, do not send text
+      final String? ocrPayload =
+          (_ocrDisabledForSession || ocrTextCombined.isEmpty)
+              ? null
+              : ocrTextCombined;
+
+      // Explicitly log what we are sending to the Edge Function
+      _log('Sending to Edge: mode=$mode, ocr_enabled=${ocrPayload != null}, '
+          'ocr_chars=${ocrPayload?.length ?? 0}, images=${base64Images.length}, locale=$locale');
+
+      final swEdge = _StopwatchX();
       final parsed = await _client.parseLabel(
         base64Images: base64Images,
-        locale: locale,
+        locale: locale, // keep locale as target translation language
         userId: userId,
+        ocrText: ocrPayload,
+        mode: mode,
+        minTextChars: minTextChars,
       );
+      final edgeMs = swEdge.stopMs();
+
+      // Log meta if server returned it
+      try {
+        final meta =
+            (parsed is Map<String, dynamic>) ? parsed['meta'] as Map? : null;
+        if (meta != null) {
+          _log(
+              'Server meta: decided_mode=${meta['decided_mode']}, tokens_used=${meta['tokens_used']}, '
+              'limit=${meta['token_limit']}, used_this_month=${meta['tokens_used_this_month']}, '
+              'model=${meta['model_used']}, edge_total_ms=${meta['execution_time_ms_total']}, '
+              'edge_gemini_ms=${meta['execution_time_ms_gemini']}, '
+              'ocr_text_chars_sent=${meta['ocr_text_chars']}, images_count_sent=${meta['images_count']}');
+        } else {
+          _log(
+              'No meta in response. Edge call time (client observed) = ${edgeMs}ms');
+        }
+      } catch (_) {
+        _log(
+            'Meta parse failed; Edge call time (client observed) = ${edgeMs}ms');
+      }
 
       onLoading(false);
+      _log('Total client flow time: ${swTotal.stopMs()}ms');
       onData(parsed);
-    } catch (e) {
+    } catch (e, st) {
       onLoading(false);
-      // Map well-known messages if needed; UI can translate.
+      _log('Error during OCR/parse: $e\n$st');
       onError(e.toString());
     }
   }

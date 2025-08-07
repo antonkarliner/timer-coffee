@@ -127,8 +127,43 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
                 ),
                 OutlinedButton(
                   onPressed: () async {
+                    // Show immediate feedback before heavy OCR starts
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (_) {
+                        final loc = AppLocalizations.of(context)!;
+                        return AlertDialog(
+                          content: Row(
+                            children: [
+                              const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child:
+                                    CircularProgressIndicator(strokeWidth: 2),
+                              ),
+                              const SizedBox(width: 12),
+                              Text(loc.analyzing),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+
+                    // Ensure dialog paints this frame
+                    await Future.delayed(const Duration(milliseconds: 10));
+
+                    // Close the selection sheet first so OCR can proceed
                     Navigator.pop(context);
+
+                    // Run the confirmation which triggers the OCR flow in controller
                     await widget.onConfirm(_images);
+
+                    // Dismiss the analyzing dialog once controller toggles loading off,
+                    // but as a safety, close it here after confirm returns in case it remains.
+                    if (Navigator.of(context).canPop()) {
+                      Navigator.of(context).pop();
+                    }
                   },
                   child: Text(loc.next),
                 ),

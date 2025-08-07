@@ -7,20 +7,33 @@ class BeansLabelParserClient {
 
   BeansLabelParserClient(this.supabase);
 
-  /// Invokes the Edge Function with base64 images and locale/user context.
-  /// Returns parsed Map on success. Throws an Exception with a user-friendly message on failure.
+  /// Invokes the Edge Function.
+  /// - imagesBase64: required
+  /// - locale: target translation locale (still sent)
+  /// - userId: optional
+  /// - ocrText/mode/minTextChars: optional hints to allow server auto-select text vs image path
+  /// Note: Locale is not used for OCR; server can detect source language from OCR text.
   Future<Map<String, dynamic>> parseLabel({
     required List<String> base64Images,
     required String locale,
     String? userId,
+    String? ocrText,
+    String mode = 'auto',
+    int minTextChars = 120,
   }) async {
+    final Map<String, dynamic> body = {
+      'imagesBase64': base64Images,
+      'locale': locale, // keep target locale for translation
+      'userId': userId,
+      // Extended fields: server may ignore until fully supported.
+      'ocrText': ocrText,
+      'mode': mode,
+      'minTextChars': minTextChars,
+    };
+
     final response = await supabase.functions.invoke(
       'parse-coffee-label-gemini',
-      body: {
-        'imagesBase64': base64Images,
-        'locale': locale,
-        'userId': userId,
-      },
+      body: body,
     );
 
     if (response.status != 200) {

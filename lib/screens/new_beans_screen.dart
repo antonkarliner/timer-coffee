@@ -128,14 +128,28 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   Future<void> _startImageFlow() async {
     final locale = Localizations.localeOf(context).toString();
     final user = Supabase.instance.client.auth.currentUser;
+
     await _imageController.start(
       context: context,
       locale: locale,
       userId: user?.id,
       onLoading: (v) => setState(() => isLoading = v),
       onData: (data) {
-        _fillFields(data);
-        collectedData = data;
+        // If server accidentally returns a wrapped payload like { "0": { ... } }, unwrap it.
+        Map<String, dynamic> normalized = data;
+        if (data.length == 1 && data.values.first is Map) {
+          final onlyKey = data.keys.first;
+          if (onlyKey == '0' || onlyKey == 'data' || onlyKey == 'result') {
+            normalized = Map<String, dynamic>.from(data.values.first as Map);
+          }
+        }
+
+        // Remove meta from the data used to fill fields
+        normalized.remove('meta');
+
+        _fillFields(normalized);
+        collectedData = normalized;
+
         WidgetsBinding.instance.addPostFrameCallback((_) {
           showDialog(
             context: context,
@@ -211,49 +225,78 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   }
 
   void _fillFields(Map<String, dynamic> data) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        setState(() {
-          _roasterController.text =
-              data['roaster'] != 'Unknown' ? data['roaster'] ?? '' : '';
-          _nameController.text =
-              data['name'] != 'Unknown' ? data['name'] ?? '' : '';
-          _originController.text =
-              data['origin'] != 'Unknown' ? data['origin'] ?? '' : '';
-          _elevationController.text = data['elevation'] != 'Unknown'
-              ? data['elevation']?.toString() ?? ''
-              : '';
-          _cuppingScoreController.text = data['cuppingScore'] != 'Unknown'
-              ? data['cuppingScore']?.toString() ?? ''
-              : '';
-          _notesController.text =
-              data['notes'] != 'Unknown' ? data['notes'] ?? '' : '';
-          _farmerController.text =
-              data['farmer'] != 'Unknown' ? data['farmer'] ?? '' : '';
-          _farmController.text =
-              data['farm'] != 'Unknown' ? data['farm'] ?? '' : '';
-          _tastingNotes = (data['tastingNotes'] as String?)
-                  ?.split(', ')
-                  .where((note) => note != 'Unknown')
-                  .toList() ??
-              [];
-          variety = data['variety'] != 'Unknown' ? data['variety'] : null;
-          processingMethod = data['processingMethod'] != 'Unknown'
-              ? data['processingMethod']
-              : null;
-          roastLevel =
-              data['roastLevel'] != 'Unknown' ? data['roastLevel'] : null;
-          region = data['region'] != 'Unknown' ? data['region'] : null;
-          harvestDate =
-              data['harvestDate'] != 'Unknown' && data['harvestDate'] != null
-                  ? DateTime.tryParse(data['harvestDate'])
-                  : null;
-          roastDate =
-              data['roastDate'] != 'Unknown' && data['roastDate'] != null
-                  ? DateTime.tryParse(data['roastDate'])
-                  : null;
-        });
+    // Normalize any wrapped shape again just in case
+    Map<String, dynamic> d = data;
+    if (d.length == 1 && d.values.first is Map) {
+      final onlyKey = d.keys.first;
+      if (onlyKey == '0' || onlyKey == 'data' || onlyKey == 'result') {
+        d = Map<String, dynamic>.from(d.values.first as Map);
       }
+    }
+    d.remove('meta');
+
+    // Sanitize Unknown -> null/empty handling, and coerce types
+    String _str(dynamic v) =>
+        (v == null || v == 'Unknown') ? '' : (v is String ? v : v.toString());
+    String? _nullableStr(dynamic v) =>
+        (v == null || v == 'Unknown') ? null : (v is String ? v : v.toString());
+    int? _toInt(dynamic v) {
+      if (v == null || v == 'Unknown') return null;
+      if (v is int) return v;
+      if (v is double) return v.toInt();
+      if (v is String) return int.tryParse(v.replaceAll(RegExp(r'[^0-9]'), ''));
+      return null;
+    }
+
+    double? _toDouble(dynamic v) {
+      if (v == null || v == 'Unknown') return null;
+      if (v is double) return v;
+      if (v is int) return v.toDouble();
+      if (v is String) return double.tryParse(v.replaceAll(',', '.'));
+      return null;
+    }
+
+    DateTime? _toDate(dynamic v) {
+      if (v == null || v == 'Unknown') return null;
+      if (v is DateTime) return v;
+      if (v is String) return DateTime.tryParse(v);
+      return null;
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      setState(() {
+        _roasterController.text = _str(d['roaster']);
+        _nameController.text = _str(d['name']);
+        _originController.text = _str(d['origin']);
+
+        final elev = _toInt(d['elevation']);
+        _elevationController.text = elev?.toString() ?? '';
+
+        final cup = _toDouble(d['cuppingScore']);
+        _cuppingScoreController.text = cup?.toString() ?? '';
+
+        _notesController.text = _str(d['notes']);
+        _farmerController.text = _str(d['farmer']);
+        _farmController.text = _str(d['farm']);
+
+        final tn = _nullableStr(d['tastingNotes']);
+        _tastingNotes = (tn == null || tn.trim().isEmpty)
+            ? []
+            : tn
+                .split(',')
+                .map((e) => e.trim())
+                .where((e) => e.isNotEmpty && e != 'Unknown')
+                .toList();
+
+        variety = _nullableStr(d['variety']);
+        processingMethod = _nullableStr(d['processingMethod']);
+        roastLevel = _nullableStr(d['roastLevel']);
+        region = _nullableStr(d['region']);
+
+        harvestDate = _toDate(d['harvestDate']);
+        roastDate = _toDate(d['roastDate']);
+      });
     });
   }
 
