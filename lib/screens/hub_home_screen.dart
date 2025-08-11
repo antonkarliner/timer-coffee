@@ -171,6 +171,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                     leading:
                         const Icon(Icons.account_circle), // Or appropriate icon
                     title: Text(l10n.account), // Use new localization key
+                    subtitle: Text(l10n.hubAccountSubtitle),
                     onTap: () {
                       final userId =
                           Supabase.instance.client.auth.currentUser?.id;
@@ -189,6 +190,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                   child: ListTile(
                     leading: const Icon(Icons.login),
                     title: Text(l10n.signInCreate),
+                    subtitle: Text(l10n.hubSignInCreateSubtitle),
                     onTap: () => _showSignInOptions(
                         context), // This modal contains Apple Sign In
                   ),
@@ -202,8 +204,21 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
             child: ListTile(
               leading: const Icon(Icons.library_books),
               title: Text(l10n.brewdiary),
+              subtitle: Text(l10n.hubBrewDiarySubtitle),
               onTap: () {
                 context.router.push(const BrewDiaryRoute());
+              },
+            ),
+          ),
+          Semantics(
+            identifier: 'stats',
+            label: l10n.brewStats,
+            child: ListTile(
+              leading: const Icon(Icons.bar_chart),
+              title: Text(l10n.brewStats),
+              subtitle: Text(l10n.hubBrewStatsSubtitle),
+              onTap: () {
+                context.router.push(StatsRoute());
               },
             ),
           ),
@@ -238,6 +253,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
             child: ListTile(
               leading: const Icon(Icons.settings),
               title: Text(l10n.settings),
+              subtitle: Text(l10n.hubSettingsSubtitle),
               onTap: () {
                 context.router.push(const SettingsRoute());
               },
@@ -249,6 +265,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
             child: ListTile(
               leading: const Icon(Icons.info_outline),
               title: Text(l10n.about),
+              subtitle: Text(l10n.hubAboutSubtitle),
               onTap: () {
                 context.router.push(const InfoRoute());
               },
