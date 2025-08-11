@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:provider/provider.dart';
 
 import '../models/ui_state/coffee_beans_filter_options.dart';
 import '../models/ui_state/coffee_beans_view_state.dart';
@@ -13,6 +14,7 @@ import '../widgets/coffee_beans/dialogs/coffee_beans_filter_dialog.dart';
 import '../widgets/coffee_beans/dialogs/coffee_beans_sort_dialog.dart';
 import '../app_router.gr.dart';
 import '../l10n/app_localizations.dart';
+import '../providers/coffee_beans_provider.dart';
 
 /// Controller for Coffee Beans Screen responsible for:
 /// - Managing all screen state using Phase 1 models
@@ -46,6 +48,11 @@ class CoffeeBeansController extends ChangeNotifier {
 
   // --- Available Filter Options ---
   List<String> _availableRoasters = [];
+// --- Provider listener / refresh guard ---
+  CoffeeBeansProvider? _coffeeBeansProvider;
+  VoidCallback? _providerListener;
+  bool _isRefreshing = false;
+  BuildContext? _savedContext;
   List<String> _availableOrigins = [];
 
   // --- Constructor ---
@@ -82,20 +89,62 @@ class CoffeeBeansController extends ChangeNotifier {
   // --- Lifecycle ---
   @override
   void dispose() {
+    // Remove scroll and search listeners
     scrollController.removeListener(_handleScroll);
     scrollController.dispose();
     searchController.removeListener(_handleSearchChanged);
     searchController.dispose();
+
+    // Remove provider listener if set
+    try {
+      if (_coffeeBeansProvider != null && _providerListener != null) {
+        _coffeeBeansProvider!.removeListener(_providerListener!);
+      }
+    } catch (e) {
+      // ignore any removal errors
+    } finally {
+      _coffeeBeansProvider = null;
+      _providerListener = null;
+      _savedContext = null;
+    }
+
     super.dispose();
   }
 
   // --- Initialization ---
+
   Future<void> initialize(BuildContext context) async {
+    // Save context for provider-driven refreshes
+    _savedContext = context;
     _setLoading(true);
     try {
       // Load saved preferences
       final savedViewMode = await _sortService.loadViewMode();
       final savedSortOptions = await _sortService.loadSortOptions();
+// Setup provider listener to auto-refresh when CoffeeBeansProvider notifies.
+// Use a small debounce/guard to avoid duplicate refreshes.
+      try {
+        _coffeeBeansProvider =
+            Provider.of<CoffeeBeansProvider>(context, listen: false);
+        _providerListener = () async {
+          if (_isRefreshing) return;
+          _isRefreshing = true;
+          // Short debounce to coalesce rapid notifications
+          await Future.delayed(const Duration(milliseconds: 50));
+          try {
+            if (_savedContext != null) {
+              await refreshData(_savedContext!);
+            }
+          } catch (_) {
+            // ignore errors coming from background refresh attempts
+          } finally {
+            _isRefreshing = false;
+          }
+        };
+        _coffeeBeansProvider!.addListener(_providerListener!);
+      } catch (e) {
+        // If provider isn't available or listener registration fails, continue silently
+      }
 
       _viewState = _viewState.copyWith(viewMode: savedViewMode);
       _sortOptions = savedSortOptions;
@@ -316,7 +365,28 @@ class CoffeeBeansController extends ChangeNotifier {
   }
 
   void navigateToBeanDetail(BuildContext context, String uuid) {
-    context.router.push(CoffeeBeansDetailRoute(uuid: uuid));
+    // Push detail route and refresh when returning. Use then to avoid changing
+    // callback signatures where this method is used.
+    context.router
+        .push(CoffeeBeansDetailRoute(uuid: uuid))
+        .then((result) async {
+      // If a refresh is already in progress from provider notifications, skip duplicated work.
+      if (_isRefreshing) {
+        return;
+      }
+
+      _isRefreshing = true;
+      try {
+        // Many flows return a String on successful edit/save; refresh when we get any non-null result
+        if (result != null) {
+          await refreshData(context);
+        }
+      } catch (_) {
+        // Ignore refresh failures here; provider listener will correct later if needed
+      } finally {
+        _isRefreshing = false;
+      }
+    });
   }
 
   // --- Bean Actions ---
