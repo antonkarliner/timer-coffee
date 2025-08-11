@@ -68,7 +68,6 @@ final class Timer_CoffeeUITests: XCTestCase {
         Thread.sleep(forTimeInterval: 2)
         app/*@START_MENU_TOKEN@*/.staticTexts["tabItem_1"]/*[[".staticTexts[\"More\\nMore\"]",".staticTexts[\"tabItem_1\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         Thread.sleep(forTimeInterval: 1)
-        app.buttons["beansScreen"].tap()
 
             snapshot("06Beans")
             
@@ -80,7 +79,7 @@ final class Timer_CoffeeUITests: XCTestCase {
             let app = XCUIApplication()
             app.launch()
             Thread.sleep(forTimeInterval: 2)
-            app/*@START_MENU_TOKEN@*/.staticTexts["tabItem_1"]/*[[".staticTexts[\"More\\nMore\"]",".staticTexts[\"tabItem_1\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.staticTexts["tabItem_2"].tap()
             Thread.sleep(forTimeInterval: 1)
             app.buttons["brewDiary"].tap()
             snapshot("07Diary")
@@ -94,7 +93,7 @@ final class Timer_CoffeeUITests: XCTestCase {
             app.launch()
       
             Thread.sleep(forTimeInterval: 2)
-            app/*@START_MENU_TOKEN@*/.staticTexts["tabItem_1"]/*[[".staticTexts[\"More\\nMore\"]",".staticTexts[\"tabItem_1\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.staticTexts["tabItem_2"].tap()
             Thread.sleep(forTimeInterval: 1)
             app/*@START_MENU_TOKEN@*/.buttons["settings"]/*[[".buttons[\"Settings\\nSettings\"]",".buttons[\"settings\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
             app/*@START_MENU_TOKEN@*/.buttons["settingsThemeTile"]/*[[".buttons[\"Theme\\nSystem\"]",".buttons[\"settingsThemeTile\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()

@@ -1,3 +1,6 @@
-Verbessertes Design, um es klarer und konsistenter zu machen.
+Viele Neuerungen, die dein Nutzererlebnis verbessern!
 
-Vergiss nicht – wenn du Verbesserungsideen hast, zögere nicht, sie mitzuteilen.
++ Einfacher Zugriff auf Kaffeebohnen vom Hauptbildschirm aus.
++ Aktualisierter Bildschirm "Brühstatistiken" mit vielen interessanten Informationen zu deinen Brühgewohnheiten.
++ Neuer Bildschirm, um alle deine Brührezepte an einem Ort zu verwalten.
++ Und viele kleine Verbesserungen und Fehlerbehebungen.

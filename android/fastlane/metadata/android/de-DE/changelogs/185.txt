@@ -1,0 +1,6 @@
+Viele Neuerungen für ein besseres Nutzererlebnis!
+
++ Direkter Zugriff auf Kaffeebohnen vom Hauptbildschirm.
++ Aktualisierte Brühstatistiken mit vielen interessanten Informationen zu deinem Brühverhalten.
++ Neue Übersicht zum Verwalten aller deiner benutzerdefinierten Brührezepte an einem Ort.
++ Viele kleine Verbesserungen und Fehlerbehebungen.

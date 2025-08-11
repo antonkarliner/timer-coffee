@@ -1,0 +1,6 @@
+Muitas novidades para melhorar a sua experiência de utilizador!
+
++ Aceda facilmente aos grãos de café no ecrã principal.
++ Novo ecrã de Estatísticas de Preparação, com muita informação interessante sobre os seus hábitos.
++ Novo ecrã para gerir todas as suas receitas personalizadas num só local.
++ Várias pequenas melhorias e correções de bugs.

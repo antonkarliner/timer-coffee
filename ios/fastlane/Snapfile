@@ -4,8 +4,8 @@
 devices([
    #"iPhone 14 Pro",
    #"iPhone 14 Pro Max"
-   "iPhone 16 Pro Max",
-   #"iPhone SE (3rd generation)"
+   #"iPhone 16 Pro Max",
+   "iPhone SE (3rd generation)"
    #"iPad Pro (12.9-inch) (5th generation)"
 #   "iPhone 8",
 #   "iPhone 8 Plus",
@@ -21,14 +21,14 @@ languages([
    #"en-US",
    #"de-DE",
    #"ar-SA",
-   "es-ES",
+   #"es-ES",
    #"es-MX",
    #"fr-FR",
    #"ja",
    #"pl",
    #"pt-BR",
    #"pt-PT",
-   #"ru",
+   "ru"
    #"zh-Hans",
    #"id",
    #"it",

@@ -1,0 +1,6 @@
+Beaucoup de nouveautés pour améliorer votre expérience utilisateur !
+
++ Accès facile aux grains de café depuis l'écran principal.
++ Écran Statistiques d'infusion mis à jour avec plein d'infos utiles sur vos habitudes de préparation.
++ Nouvel écran pour gérer toutes vos recettes personnalisées au même endroit.
++ Et de nombreuses petites améliorations et corrections de bogues.

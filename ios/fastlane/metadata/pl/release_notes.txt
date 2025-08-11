@@ -1,3 +1,6 @@
-Ulepszony projekt, aby był bardziej przejrzysty i spójny.
+Dużo nowości, które poprawią Twoje doświadczenie użytkownika!
 
-Nie zapomnij – jeśli masz jakieś pomysły na ulepszenia, nie wahaj się ich udostępnić.
++ Łatwy dostęp do ziaren kawy z ekranu głównego.
++ Zaktualizowany ekran Statystyk parzenia z wieloma ciekawymi informacjami o Twoich nawykach parzenia.
++ Nowy ekran do zarządzania wszystkimi Twoimi przepisami w jednym miejscu.
++ I wiele drobnych usprawnień oraz poprawek błędów.

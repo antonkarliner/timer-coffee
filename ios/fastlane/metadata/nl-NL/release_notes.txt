@@ -1,3 +1,6 @@
-Verbeterd ontwerp om het duidelijker en consistenter te maken.
+Veel nieuwe dingen om je gebruikerservaring te verbeteren!
 
-Vergeet niet – als je ideeën hebt voor verbetering, aarzel dan niet om ze te delen.
++ Snel toegang tot koffiebonen vanaf het startscherm.
++ Bijgewerkt scherm 'Brouwstatistieken' met veel interessante informatie over je brouwgewoonten.
++ Nieuw scherm om al je aangepaste recepten op één plek te beheren.
++ En veel kleine verbeteringen en bugfixes.

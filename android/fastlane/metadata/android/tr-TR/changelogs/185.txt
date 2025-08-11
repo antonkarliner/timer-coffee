@@ -1,0 +1,6 @@
+Kullanıcı deneyiminizi iyileştirmek için birçok yenilik!
+
++ Ana ekrandan kahve çekirdeklerine kolay erişim.
++ Demleme İstatistikleri ekranı, demleme alışkanlıklarınızla ilgili pek çok ilginç bilgiyle güncellendi.
++ Tüm özel tariflerinizi tek bir yerden yönetebileceğiniz yeni ekran.
++ Ayrıca birçok küçük iyileştirme ve hata düzeltmesi.

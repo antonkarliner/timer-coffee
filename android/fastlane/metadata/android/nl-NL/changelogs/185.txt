@@ -1,0 +1,6 @@
+Veel nieuwe functies om je gebruikerservaring te verbeteren!
+
++ Eenvoudige toegang tot koffiebonen vanaf het hoofdscherm.
++ Bijgewerkt scherm met brouwstatistieken en veel interessante info over je brouwgewoonten.
++ Nieuw scherm om al je aangepaste recepten op één plek te beheren.
++ En veel kleine verbeteringen en bugfixes.

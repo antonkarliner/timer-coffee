@@ -49,7 +49,8 @@ platform :android do
       master_locale: 'en-US',
       platform: 'android',
       context: 'Timer.Coffee is a coffee brew timer app, please pay special attention to correct usage of coffee-related terms. Do not include the symbols count or any warnings/observations in your response.',
-      model_name: 'gpt-4o'
+      model_name: 'gpt-5-mini',
+      temperature: 1.0
       # other necessary parameters...
     )
     gradle(

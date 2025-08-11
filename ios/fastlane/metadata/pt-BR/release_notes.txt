@@ -1,3 +1,6 @@
-Design aprimorado para torná-lo mais claro e consistente.
+Muitas novidades para melhorar sua experiência!
 
-Não se esqueça – se você tiver alguma ideia para melhorias, não hesite em compartilhá-las.
++ Acesse facilmente os grãos de café na tela principal.
++ Tela de Estatísticas de Preparo atualizada com muitas informações interessantes sobre seus hábitos de preparo.
++ Nova tela para gerenciar todas as suas receitas personalizadas em um só lugar.
++ E muitas pequenas melhorias e correções de bugs.

@@ -1,3 +1,6 @@
-Amélioration du design pour le rendre plus clair et cohérent.
+De nombreuses nouveautés pour améliorer votre expérience utilisateur !
 
-N'oubliez pas - si vous avez des idées d'amélioration, n'hésitez pas à les partager.
++ Accédez facilement aux grains de café depuis l'écran principal.
++ Écran Statistiques de préparation mis à jour, avec de nombreuses informations intéressantes sur vos habitudes de préparation du café.
++ Nouvel écran pour gérer toutes vos recettes personnalisées en un seul endroit.
++ Et de nombreuses petites améliorations et corrections de bugs.

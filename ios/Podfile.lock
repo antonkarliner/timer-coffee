@@ -21,6 +21,8 @@ PODS:
     - SwiftTryCatch
   - flutter_keyboard_visibility (0.0.1):
     - Flutter
+  - flutter_native_ocr (0.1.0):
+    - Flutter
   - flutter_native_splash (2.4.3):
     - Flutter
   - google_sign_in_ios (0.0.1):
@@ -64,12 +66,12 @@ PODS:
   - just_audio (0.0.1):
     - Flutter
     - FlutterMacOS
-  - onesignal_flutter (5.3.3):
+  - onesignal_flutter (5.3.4):
     - Flutter
-    - OneSignalXCFramework (= 5.2.13)
-  - OneSignalXCFramework (5.2.13):
-    - OneSignalXCFramework/OneSignalComplete (= 5.2.13)
-  - OneSignalXCFramework/OneSignal (5.2.13):
+    - OneSignalXCFramework (= 5.2.14)
+  - OneSignalXCFramework (5.2.14):
+    - OneSignalXCFramework/OneSignalComplete (= 5.2.14)
+  - OneSignalXCFramework/OneSignal (5.2.14):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalExtension
     - OneSignalXCFramework/OneSignalLiveActivities
@@ -77,38 +79,38 @@ PODS:
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalComplete (5.2.13):
+  - OneSignalXCFramework/OneSignalComplete (5.2.14):
     - OneSignalXCFramework/OneSignal
     - OneSignalXCFramework/OneSignalInAppMessages
     - OneSignalXCFramework/OneSignalLocation
-  - OneSignalXCFramework/OneSignalCore (5.2.13)
-  - OneSignalXCFramework/OneSignalExtension (5.2.13):
+  - OneSignalXCFramework/OneSignalCore (5.2.14)
+  - OneSignalXCFramework/OneSignalExtension (5.2.14):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalInAppMessages (5.2.13):
+  - OneSignalXCFramework/OneSignalInAppMessages (5.2.14):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalLiveActivities (5.2.13):
+  - OneSignalXCFramework/OneSignalLiveActivities (5.2.14):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalLocation (5.2.13):
+  - OneSignalXCFramework/OneSignalLocation (5.2.14):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalNotifications (5.2.13):
+  - OneSignalXCFramework/OneSignalNotifications (5.2.14):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalExtension
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalOSCore (5.2.13):
+  - OneSignalXCFramework/OneSignalOSCore (5.2.14):
     - OneSignalXCFramework/OneSignalCore
-  - OneSignalXCFramework/OneSignalOutcomes (5.2.13):
+  - OneSignalXCFramework/OneSignalOutcomes (5.2.14):
     - OneSignalXCFramework/OneSignalCore
-  - OneSignalXCFramework/OneSignalUser (5.2.13):
+  - OneSignalXCFramework/OneSignalUser (5.2.14):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
@@ -142,15 +144,18 @@ PODS:
     - sqlite3/common
   - sqlite3/rtree (3.50.3):
     - sqlite3/common
+  - sqlite3/session (3.50.3):
+    - sqlite3/common
   - sqlite3_flutter_libs (0.0.1):
     - Flutter
     - FlutterMacOS
-    - sqlite3 (~> 3.50.1)
+    - sqlite3 (~> 3.50.3)
     - sqlite3/dbstatvtab
     - sqlite3/fts5
     - sqlite3/math
     - sqlite3/perf-threadsafe
     - sqlite3/rtree
+    - sqlite3/session
   - SwiftTryCatch (0.0.1)
   - TOCropViewController (2.7.4)
   - url_launcher_ios (0.0.1):
@@ -165,6 +170,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_dynamic_icon_plus (from `.symlinks/plugins/flutter_dynamic_icon_plus/ios`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
+  - flutter_native_ocr (from `.symlinks/plugins/flutter_native_ocr/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
@@ -211,6 +217,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_dynamic_icon_plus/ios"
   flutter_keyboard_visibility:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
+  flutter_native_ocr:
+    :path: ".symlinks/plugins/flutter_native_ocr/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   google_sign_in_ios:
@@ -255,6 +263,7 @@ SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_dynamic_icon_plus: 3ddd12bc2316b98ffdd4048e9cdd3cf51e02095d
   flutter_keyboard_visibility: 4625131e43015dbbe759d9b20daaf77e0e3f6619
+  flutter_native_ocr: 1e4fcb4e2509f437e7898496245194648dd41fc0
   flutter_native_splash: c32d145d68aeda5502d5f543ee38c192065986cf
   google_sign_in_ios: b48bb9af78576358a168361173155596c845f0b9
   GoogleSignIn: ce8c89bb9b37fb624b92e7514cc67335d1e277e4
@@ -266,8 +275,8 @@ SPEC CHECKSUMS:
   in_app_purchase_storekit: d1a48cb0f8b29dbf5f85f782f5dd79b21b90a5e6
   in_app_review: 5596fe56fab799e8edb3561c03d053363ab13457
   just_audio: 4e391f57b79cad2b0674030a00453ca5ce817eed
-  onesignal_flutter: c4ec77cc6bd8f4131d912b982d7dece6c0b9e847
-  OneSignalXCFramework: 6a06ab8a3e44370cb70c6ef31c472b271cdaa7aa
+  onesignal_flutter: 3a2b51f9262c851166a882a553d71a8ccec4e29c
+  OneSignalXCFramework: 7112f3e89563e41ebc23fe807788f11985ac541c
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
@@ -276,7 +285,7 @@ SPEC CHECKSUMS:
   sign_in_with_apple: c5dcc141574c8c54d5ac99dd2163c0c72ad22418
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
   sqlite3: 83105acd294c9137c026e2da1931c30b4588ab81
-  sqlite3_flutter_libs: e7fc8c9ea2200ff3271f08f127842131746b70e2
+  sqlite3_flutter_libs: 616267f2fca40e9c6af8c5d82324e05667040b6e
   SwiftTryCatch: fb6d2b34abe48efd69578dac919293a44f95b481
   TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d

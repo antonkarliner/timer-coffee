@@ -89,3 +89,4 @@ memory-bank/techContext.md
 requirements.txt
 generate_legacy_icons.sh
 icons_launcher.yaml
+ios/fastlane/scripts

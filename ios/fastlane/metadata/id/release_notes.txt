@@ -1,3 +1,6 @@
-Desain yang ditingkatkan untuk membuatnya lebih jelas dan konsisten.
+Banyak hal baru untuk membuat pengalaman pengguna Anda lebih baik!
 
-Jangan lupa – jika Anda memiliki ide untuk perbaikan, jangan ragu untuk membagikannya.
++ Akses biji kopi dengan mudah dari layar utama.
++ Layar Statistik Penyeduhan yang diperbarui dengan banyak informasi menarik tentang kebiasaan menyeduh Anda.
++ Layar baru untuk mengelola semua resep kustom Anda di satu tempat.
++ Serta banyak perbaikan kecil dan perbaikan bug.

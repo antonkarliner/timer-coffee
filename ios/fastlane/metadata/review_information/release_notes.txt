@@ -1,3 +1,6 @@
-Improved design to make it more clear and consistent.
+A lot of new things to make your user experience better!
 
-Don't forget – if you have any ideas for improvement, don't hesitate to share them.
+• Easily access coffee beans from the main screen.
+• Updated Brew Stats screen with lots of useful information about your brewing habits.
+• New screen to manage all your custom recipes in one place.
+• Plus many small improvements and bug fixes.
