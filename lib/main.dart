@@ -30,6 +30,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'notifiers/card_expansion_notifier.dart';
 import './providers/user_stat_provider.dart';
+import './providers/beans_stats_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -113,6 +114,7 @@ void main() async {
 
   final coffeeBeansProvider = CoffeeBeansProvider(database, databaseProvider);
   final userStatProvider = UserStatProvider(database, coffeeBeansProvider);
+  final beansStatsProvider = BeansStatsProvider(database);
 
   if (!hasPerformedUuidBackfill) {
     // Perform backfill operations
@@ -138,6 +140,7 @@ void main() async {
       appRouter: appRouter,
       coffeeBeansProvider: coffeeBeansProvider,
       userStatProvider: userStatProvider,
+      beansStatsProvider: beansStatsProvider,
     ),
   );
 
@@ -158,6 +161,7 @@ class CoffeeTimerApp extends StatelessWidget {
   final AppRouter appRouter;
   final CoffeeBeansProvider coffeeBeansProvider;
   final UserStatProvider userStatProvider;
+  final BeansStatsProvider beansStatsProvider;
 
   const CoffeeTimerApp({
     Key? key,
@@ -170,6 +174,7 @@ class CoffeeTimerApp extends StatelessWidget {
     required this.appRouter,
     required this.coffeeBeansProvider,
     required this.userStatProvider,
+    required this.beansStatsProvider,
   }) : super(key: key);
 
   @override
@@ -198,6 +203,8 @@ class CoffeeTimerApp extends StatelessWidget {
           create: (_) => CardExpansionNotifier(),
         ),
         ChangeNotifierProvider<UserStatProvider>.value(value: userStatProvider),
+        ChangeNotifierProvider<BeansStatsProvider>.value(
+            value: beansStatsProvider),
         ChangeNotifierProvider<UserRecipeProvider>(
           create: (_) => UserRecipeProvider(database),
         ),
