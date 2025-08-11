@@ -9,6 +9,7 @@ import '../models/coffee_fact_model.dart';
 import '../models/user_stat_model.dart';
 import '../models/launch_popup_model.dart';
 import '../models/coffee_beans_model.dart';
+import 'package:coffee_timer/models/beans_stats_models.dart';
 import '../database/schema_versions.dart';
 import 'package:uuid/uuid.dart';
 import 'package:collection/collection.dart';
@@ -23,6 +24,7 @@ part 'coffee_facts_dao.dart';
 part 'user_stats_dao.dart';
 part 'launch_popups_dao.dart';
 part 'coffee_beans_dao.dart';
+part 'beans_stats_dao.dart';
 
 class SupportedLocales extends Table {
   TextColumn get locale =>
@@ -250,7 +252,8 @@ class CoffeeBeans extends Table {
     CoffeeFactsDao,
     UserStatsDao,
     LaunchPopupsDao,
-    CoffeeBeansDao
+    CoffeeBeansDao,
+    BeansStatsDao
   ],
 )
 class AppDatabase extends _$AppDatabase {

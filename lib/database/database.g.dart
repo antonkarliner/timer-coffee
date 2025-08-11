@@ -4584,6 +4584,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       LaunchPopupsDao(this as AppDatabase);
   late final CoffeeBeansDao coffeeBeansDao =
       CoffeeBeansDao(this as AppDatabase);
+  late final BeansStatsDao beansStatsDao = BeansStatsDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -8694,5 +8695,11 @@ mixin _$LaunchPopupsDaoMixin on DatabaseAccessor<AppDatabase> {
   $LaunchPopupsTable get launchPopups => attachedDatabase.launchPopups;
 }
 mixin _$CoffeeBeansDaoMixin on DatabaseAccessor<AppDatabase> {
+  $CoffeeBeansTable get coffeeBeans => attachedDatabase.coffeeBeans;
+}
+mixin _$BeansStatsDaoMixin on DatabaseAccessor<AppDatabase> {
+  $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
+  $RecipesTable get recipes => attachedDatabase.recipes;
+  $UserStatsTable get userStats => attachedDatabase.userStats;
   $CoffeeBeansTable get coffeeBeans => attachedDatabase.coffeeBeans;
 }
