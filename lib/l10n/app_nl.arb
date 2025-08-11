@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "Recept verwijderd",
   "hubUserRecipesTitle": "Jouw recepten",
   "hubUserRecipesSubtitle": "Gemaakte en geïmporteerde recepten bekijken en beheren",
+  "hubAccountSubtitle": "Beheer je profiel",
+  "hubSignInCreateSubtitle": "Meld je aan om recepten en voorkeuren te synchroniseren",
+  "hubBrewDiarySubtitle": "Bekijk je brouwgeschiedenis en voeg notities toe",
+  "hubBrewStatsSubtitle": "Bekijk persoonlijke en wereldwijde brouwstatistieken en trends",
+  "hubSettingsSubtitle": "Wijzig app-voorkeuren en gedrag",
+  "hubAboutSubtitle": "App-gegevens, versie en bijdragers",
   "lastrecipe": "Meest Recent Gebruikte Recept:",
   "about": "Over",
   "author": "Auteur",
@@ -74,6 +80,15 @@
   "timeFormat": "HH:mm",
   "brewdiary": "Brouwdagboek",
   "brewdiarynotfound": "Geen vermeldingen gevonden",
+  "beansStatsSectionTitle": "Bonenstatistieken",
+  "totalBeansBrewedLabel": "Totaal gebrouwen bonen",
+  "newBeansTriedLabel": "Nieuwe bonen geprobeerd",
+  "originsExploredLabel": "Ontdekte herkomsten",
+  "regionsExploredLabel": "Ontdekte regio's",
+  "newRoastersDiscoveredLabel": "Nieuwe branders ontdekt",
+  "favoriteRoastersLabel": "Favoriete branders",
+  "topOriginsLabel": "Top herkomsten",
+  "topRegionsLabel": "Top regio's",
   "beans": "Bonen",
   "roaster": "Brander",
   "rating": "Beoordeling",
@@ -510,7 +525,6 @@
   "@dateAdded": {
     "description": "Sorteeroptie om te sorteren op datum toegevoegd"
   },
-
   "searchBeans": "Zoek bonen...",
   "@searchBeans": {
     "description": "Plaatshoudertekst voor het zoekveld in het koffiebonenscherm"
@@ -542,5 +556,8 @@
   "requiredInformation": "Vereiste informatie",
   "basicDetails": "Basisgegevens",
   "qualityMeasurements": "Kwaliteit en metingen",
-  "importantDates": "Belangrijke data"
+  "importantDates": "Belangrijke data",
+  "brewStats": "Brouwstatistieken",
+  "showMore": "Meer weergeven",
+  "showLess": "Minder weergeven"
 }

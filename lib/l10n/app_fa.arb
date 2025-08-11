@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "دستور حذف شد",
   "hubUserRecipesTitle": "دستورهای شما",
   "hubUserRecipesSubtitle": "مشاهده و مدیریت دستورهای ایجادشده و واردشده",
+  "hubAccountSubtitle": "پروفایل خود را مدیریت کنید",
+  "hubSignInCreateSubtitle": "برای همگام‌سازی دستورها و تنظیمات وارد شوید",
+  "hubBrewDiarySubtitle": "تاریخچه دم‌آوری خود را مشاهده کنید و یادداشت اضافه کنید",
+  "hubBrewStatsSubtitle": "آمار و روندهای دم‌آوری شخصی و جهانی را مشاهده کنید",
+  "hubSettingsSubtitle": "تنظیمات و رفتار برنامه را تغییر دهید",
+  "hubAboutSubtitle": "جزئیات برنامه، نسخه و مشارکت‌کنندگان",
   "lastrecipe": "آخرین دستور استفاده‌شده:",
   "about": "درباره برنامه",
   "author": "نویسنده",
@@ -88,6 +94,15 @@
   "notes": "نکته‌ها",
   "statsscreen": "صفحه آمار",
   "yourStats": "آمار شما",
+  "beansStatsSectionTitle": "آمار دانه‌ها",
+  "totalBeansBrewedLabel": "مجموع دانه‌های استفاده‌شده",
+  "newBeansTriedLabel": "دانه‌های جدید امتحان‌شده",
+  "originsExploredLabel": "خاستگاه‌های کشف‌شده",
+  "regionsExploredLabel": "منطقه‌های کشف‌شده",
+  "newRoastersDiscoveredLabel": "رسترهای جدید کشف‌شده",
+  "favoriteRoastersLabel": "رسترهای موردعلاقه",
+  "topOriginsLabel": "برترین خاستگاه‌ها",
+  "topRegionsLabel": "برترین منطقه‌ها",
   "coffeeBrewed": "قهوه دم‌شده",
   "litersUnit": "لیتر",
   "mostUsedRecipes": "پرکاربردترین دستورها",
@@ -693,7 +708,7 @@
   "@filter": {
     "description": "Label for the filter button in the coffee beans screen"
   },
-    "sortBy": "مرتب‌سازی بر اساس",
+  "sortBy": "مرتب‌سازی بر اساس",
   "dateAdded": "تاریخ افزوده‌شدن",
   "secondsAbbreviation": "ث",
   "settingsAppIcon": "آیکون برنامه",
@@ -708,5 +723,8 @@
   "farmer": "کشاورز",
   "farm": "مزرعه",
   "enterFarmer": "نام کشاورز را وارد کنید",
-  "enterFarm": "نام مزرعه را وارد کنید"
+  "enterFarm": "نام مزرعه را وارد کنید",
+  "brewStats": "آمار دم‌آوری",
+  "showMore": "نمایش بیشتر",
+  "showLess": "نمایش کمتر"
 }

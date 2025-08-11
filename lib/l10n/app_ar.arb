@@ -80,6 +80,15 @@
   "notes": "ملاحظات",
   "statsscreen": "إحصائيات القهوة",
   "yourStats": "إحصائياتك",
+  "beansStatsSectionTitle": "إحصائيات الحبوب",
+  "totalBeansBrewedLabel": "إجمالي الحبوب المُحضرة",
+  "newBeansTriedLabel": "حبوب جديدة مجرّبة",
+  "originsExploredLabel": "المناشئ المستكشفة",
+  "regionsExploredLabel": "المناطق المستكشفة",
+  "newRoastersDiscoveredLabel": "محامص جديدة مُكتشفة",
+  "favoriteRoastersLabel": "المحامص المفضلة",
+  "topOriginsLabel": "أفضل المناشئ",
+  "topRegionsLabel": "أفضل المناطق",
   "coffeeBrewed": "القهوة المُحضرة:",
   "litersUnit": "لتر",
   "mostUsedRecipes": "وصفات القهوة الأكثر استخدامًا:",
@@ -514,7 +523,6 @@
   "@dateAdded": {
     "description": "خيار الترتيب للترتيب حسب تاريخ الإضافة"
   },
-
   "searchBeans": "ابحث عن الحبوب...",
   "@searchBeans": {
     "description": "Placeholder text for the search field in coffee beans screen"
@@ -542,5 +550,14 @@
   "farmer": "المزارع",
   "farm": "المزرعة",
   "enterFarmer": "أدخل اسم المزارع (اختياري)",
-  "enterFarm": "أدخل اسم المزرعة (اختياري)"
+  "enterFarm": "أدخل اسم المزرعة (اختياري)",
+  "brewStats": "إحصاءات التحضير",
+  "hubAccountSubtitle": "إدارة ملفك الشخصي",
+  "hubSignInCreateSubtitle": "قم بتسجيل الدخول لمزامنة الوصفات والتفضيلات",
+  "hubBrewDiarySubtitle": "عرض سجل التحضير وإضافة ملاحظات",
+  "hubBrewStatsSubtitle": "عرض الإحصائيات والاتجاهات الشخصية والعالمية للتحضير",
+  "hubSettingsSubtitle": "تغيير تفضيلات وسلوك التطبيق",
+  "hubAboutSubtitle": "تفاصيل التطبيق والإصدار والمساهمون",
+  "showMore": "عرض المزيد",
+  "showLess": "عرض أقل"
 }

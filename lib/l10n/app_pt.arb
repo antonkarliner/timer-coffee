@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "Receita excluída",
   "hubUserRecipesTitle": "Suas receitas",
   "hubUserRecipesSubtitle": "Ver e gerenciar receitas criadas e importadas",
+  "hubAccountSubtitle": "Gerencie seu perfil",
+  "hubSignInCreateSubtitle": "Faça login para sincronizar receitas e preferências",
+  "hubBrewDiarySubtitle": "Veja seu histórico de preparo e adicione notas",
+  "hubBrewStatsSubtitle": "Veja estatísticas e tendências de preparo pessoais e globais",
+  "hubSettingsSubtitle": "Altere preferências e comportamento do app",
+  "hubAboutSubtitle": "Detalhes do app, versão e contribuidores",
   "lastrecipe": "Receita mais recentemente utilizada:",
   "about": "Sobre",
   "author": "Autor",
@@ -80,6 +86,15 @@
   "notes": "Notas",
   "statsscreen": "Estatísticas de Café",
   "yourStats": "Suas estatísticas",
+  "beansStatsSectionTitle": "Estatísticas dos grãos",
+  "totalBeansBrewedLabel": "Total de grãos utilizados",
+  "newBeansTriedLabel": "Novos grãos experimentados",
+  "originsExploredLabel": "Origens exploradas",
+  "regionsExploredLabel": "Regiões exploradas",
+  "newRoastersDiscoveredLabel": "Novas torrefações descobertas",
+  "favoriteRoastersLabel": "Torrefações favoritas",
+  "topOriginsLabel": "Principais origens",
+  "topRegionsLabel": "Principais regiões",
   "coffeeBrewed": "Café preparado:",
   "litersUnit": "L",
   "mostUsedRecipes": "Receitas mais utilizadas:",
@@ -510,7 +525,6 @@
   "@dateAdded": {
     "description": "Opção de ordenação para ordenar por data adicionada"
   },
-
   "searchBeans": "Pesquisar grãos...",
   "@searchBeans": {
     "description": "Texto do placeholder para o campo de pesquisa na tela de grãos de café"
@@ -542,5 +556,8 @@
   "requiredInformation": "Informações necessárias",
   "basicDetails": "Detalhes básicos",
   "qualityMeasurements": "Qualidade e medições",
-  "importantDates": "Datas importantes"
+  "importantDates": "Datas importantes",
+  "brewStats": "Estatísticas de preparo",
+  "showMore": "Mostrar mais",
+  "showLess": "Mostrar menos"
 }

@@ -9,6 +9,33 @@ class AppLocalizationsTr extends AppLocalizations {
   AppLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => 'Çekirdek istatistikleri';
+
+  @override
+  String get totalBeansBrewedLabel => 'Toplam kullanılan çekirdek';
+
+  @override
+  String get newBeansTriedLabel => 'Denenen yeni çekirdekler';
+
+  @override
+  String get originsExploredLabel => 'Keşfedilen menşeler';
+
+  @override
+  String get regionsExploredLabel => 'Keşfedilen bölgeler';
+
+  @override
+  String get newRoastersDiscoveredLabel => 'Keşfedilen yeni kavurucular';
+
+  @override
+  String get favoriteRoastersLabel => 'Favori kavurucular';
+
+  @override
+  String get topOriginsLabel => 'Önde gelen menşeler';
+
+  @override
+  String get topRegionsLabel => 'Önde gelen bölgeler';
+
+  @override
   String get lastrecipe => 'En Son Kullanılan Tarif:';
 
   @override
@@ -44,6 +71,29 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get hubUserRecipesSubtitle =>
       'Oluşturduğun ve içe aktardığın tarifleri görüntüle ve yönet';
+
+  @override
+  String get hubAccountSubtitle => 'Profilinizi yönetin';
+
+  @override
+  String get hubSignInCreateSubtitle =>
+      'Tarifleri ve tercihleri senkronize etmek için oturum açın';
+
+  @override
+  String get hubBrewDiarySubtitle =>
+      'Demleme geçmişinizi görüntüleyin ve not ekleyin';
+
+  @override
+  String get hubBrewStatsSubtitle =>
+      'Kişisel ve küresel demleme istatistiklerini ve trendlerini görüntüleyin';
+
+  @override
+  String get hubSettingsSubtitle =>
+      'Uygulama tercihlerini ve davranışını değiştirin';
+
+  @override
+  String get hubAboutSubtitle =>
+      'Uygulama detayları, sürüm ve katkıda bulunanlar';
 
   @override
   String get about => 'Hakkında';
@@ -1250,4 +1300,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get importantDates => 'Önemli tarihler';
+
+  @override
+  String get brewStats => 'Demleme istatistikleri';
+
+  @override
+  String get showMore => 'Daha fazla göster';
+
+  @override
+  String get showLess => 'Daha az göster';
 }

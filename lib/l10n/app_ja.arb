@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "レシピを削除しました",
   "hubUserRecipesTitle": "あなたのレシピ",
   "hubUserRecipesSubtitle": "作成済み・インポート済みのレシピを表示して管理",
+  "hubAccountSubtitle": "プロフィールを管理",
+  "hubSignInCreateSubtitle": "レシピと設定を同期するにはサインインしてください",
+  "hubBrewDiarySubtitle": "醸造履歴を表示してメモを追加",
+  "hubBrewStatsSubtitle": "個人および世界の醸造統計と傾向を表示",
+  "hubSettingsSubtitle": "アプリの設定と動作を変更",
+  "hubAboutSubtitle": "アプリの詳細、バージョン、貢献者",
   "lastrecipe": "最近使ったレシピ：",
   "about": "約",
   "author": "著者",
@@ -80,6 +86,15 @@
   "notes": "ノート",
   "statsscreen": "コーヒー統計",
   "yourStats": "あなたの統計",
+  "beansStatsSectionTitle": "豆の統計",
+  "totalBeansBrewedLabel": "使用した豆の合計",
+  "newBeansTriedLabel": "新しく試した豆",
+  "originsExploredLabel": "探索した原産国",
+  "regionsExploredLabel": "探索した地域",
+  "newRoastersDiscoveredLabel": "見つけた新しいロースター",
+  "favoriteRoastersLabel": "お気に入りのロースター",
+  "topOriginsLabel": "トップ原産国",
+  "topRegionsLabel": "トップ地域",
   "coffeeBrewed": "淹れたコーヒー:",
   "litersUnit": "リットル",
   "mostUsedRecipes": "最も使用されるレシピ:",
@@ -510,7 +525,6 @@
   "@dateAdded": {
     "description": "追加日で並び替えるためのオプション"
   },
-
   "searchBeans": "豆を検索...",
   "@searchBeans": {
     "description": "コーヒー豆画面の検索フィールドのプレースホルダーテキスト"
@@ -542,5 +556,8 @@
   "requiredInformation": "必要な情報",
   "basicDetails": "基本詳細",
   "qualityMeasurements": "品質と測定",
-  "importantDates": "重要な日程"
+  "importantDates": "重要な日程",
+  "brewStats": "抽出統計",
+  "showMore": "もっと見る",
+  "showLess": "表示を減らす"
 }

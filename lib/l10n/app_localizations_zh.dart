@@ -9,6 +9,33 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => '咖啡豆统计';
+
+  @override
+  String get totalBeansBrewedLabel => '使用的咖啡豆总量';
+
+  @override
+  String get newBeansTriedLabel => '尝试的新咖啡豆';
+
+  @override
+  String get originsExploredLabel => '探索的产地';
+
+  @override
+  String get regionsExploredLabel => '探索的地区';
+
+  @override
+  String get newRoastersDiscoveredLabel => '发现的新烘焙商';
+
+  @override
+  String get favoriteRoastersLabel => '最喜爱的烘焙商';
+
+  @override
+  String get topOriginsLabel => '热门产地';
+
+  @override
+  String get topRegionsLabel => '热门地区';
+
+  @override
   String get lastrecipe => '最近使用的食谱：';
 
   @override
@@ -43,6 +70,24 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get hubUserRecipesSubtitle => '查看并管理你创建和导入的食谱';
+
+  @override
+  String get hubAccountSubtitle => '管理您的个人资料';
+
+  @override
+  String get hubSignInCreateSubtitle => '登录以同步配方和偏好设置';
+
+  @override
+  String get hubBrewDiarySubtitle => '查看您的冲泡历史并添加笔记';
+
+  @override
+  String get hubBrewStatsSubtitle => '查看个人和全球冲泡统计和趋势';
+
+  @override
+  String get hubSettingsSubtitle => '更改应用偏好和行为';
+
+  @override
+  String get hubAboutSubtitle => '应用详情、版本和贡献者';
 
   @override
   String get about => '关于';
@@ -1214,4 +1259,13 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get importantDates => '重要日期';
+
+  @override
+  String get brewStats => '冲泡统计';
+
+  @override
+  String get showMore => '显示更多';
+
+  @override
+  String get showLess => '显示更少';
 }

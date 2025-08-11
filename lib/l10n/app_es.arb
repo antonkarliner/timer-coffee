@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "Receta eliminada",
   "hubUserRecipesTitle": "Tus recetas",
   "hubUserRecipesSubtitle": "Ver y gestionar recetas creadas e importadas",
+  "hubAccountSubtitle": "Gestiona tu perfil",
+  "hubSignInCreateSubtitle": "Inicia sesión para sincronizar recetas y preferencias",
+  "hubBrewDiarySubtitle": "Consulta tu historial de preparación y añade notas",
+  "hubBrewStatsSubtitle": "Consulta estadísticas y tendencias de preparación personales y globales",
+  "hubSettingsSubtitle": "Cambia las preferencias y el comportamiento de la aplicación",
+  "hubAboutSubtitle": "Detalles de la app, versión y colaboradores",
   "lastrecipe": "Receta más recientemente utilizada:",
   "about": "Acerca de",
   "author": "Autor",
@@ -80,6 +86,15 @@
   "notes": "Notas",
   "statsscreen": "Estadísticas de café",
   "yourStats": "Tus estadísticas",
+  "beansStatsSectionTitle": "Estadísticas de granos",
+  "totalBeansBrewedLabel": "Total de granos preparados",
+  "newBeansTriedLabel": "Nuevos granos probados",
+  "originsExploredLabel": "Orígenes explorados",
+  "regionsExploredLabel": "Regiones exploradas",
+  "newRoastersDiscoveredLabel": "Nuevos tostadores descubiertos",
+  "favoriteRoastersLabel": "Tostadores favoritos",
+  "topOriginsLabel": "Orígenes destacados",
+  "topRegionsLabel": "Regiones destacadas",
   "coffeeBrewed": "Café preparado:",
   "litersUnit": "L",
   "mostUsedRecipes": "Recetas más usadas:",
@@ -510,7 +525,6 @@
   "@dateAdded": {
     "description": "Opción de ordenación para ordenar por fecha de adición"
   },
-
   "searchBeans": "Buscar granos...",
   "@searchBeans": {
     "description": "Texto del marcador de posición para el campo de búsqueda en la pantalla de granos de café"
@@ -542,5 +556,8 @@
   "requiredInformation": "Información necesaria",
   "basicDetails": "Datos básicos",
   "qualityMeasurements": "Medidas de calidad",
-  "importantDates": "Fechas importantes"
+  "importantDates": "Fechas importantes",
+  "brewStats": "Estadísticas de preparación",
+  "showMore": "Mostrar más",
+  "showLess": "Mostrar menos"
 }

@@ -9,6 +9,33 @@ class AppLocalizationsId extends AppLocalizations {
   AppLocalizationsId([String locale = 'id']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => 'Statistik biji';
+
+  @override
+  String get totalBeansBrewedLabel => 'Total biji yang digunakan';
+
+  @override
+  String get newBeansTriedLabel => 'Biji baru yang dicoba';
+
+  @override
+  String get originsExploredLabel => 'Asal-usul yang dijelajahi';
+
+  @override
+  String get regionsExploredLabel => 'Wilayah yang dijelajahi';
+
+  @override
+  String get newRoastersDiscoveredLabel => 'Roaster baru yang ditemukan';
+
+  @override
+  String get favoriteRoastersLabel => 'Roaster favorit';
+
+  @override
+  String get topOriginsLabel => 'Asal-usul teratas';
+
+  @override
+  String get topRegionsLabel => 'Wilayah teratas';
+
+  @override
   String get lastrecipe => 'Resep yang Terakhir Digunakan:';
 
   @override
@@ -44,6 +71,27 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get hubUserRecipesSubtitle =>
       'Lihat dan kelola resep yang dibuat dan diimpor';
+
+  @override
+  String get hubAccountSubtitle => 'Kelola profil Anda';
+
+  @override
+  String get hubSignInCreateSubtitle =>
+      'Masuk untuk menyinkronkan resep dan preferensi';
+
+  @override
+  String get hubBrewDiarySubtitle =>
+      'Lihat riwayat penyeduhan Anda dan tambahkan catatan';
+
+  @override
+  String get hubBrewStatsSubtitle =>
+      'Lihat statistik dan tren penyeduhan pribadi dan global';
+
+  @override
+  String get hubSettingsSubtitle => 'Ubah preferensi dan perilaku aplikasi';
+
+  @override
+  String get hubAboutSubtitle => 'Detail aplikasi, versi, dan kontributor';
 
   @override
   String get about => 'Tentang';
@@ -1247,4 +1295,13 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get importantDates => 'Tanggal-tanggal penting';
+
+  @override
+  String get brewStats => 'Statistik seduh';
+
+  @override
+  String get showMore => 'Tampilkan lebih banyak';
+
+  @override
+  String get showLess => 'Tampilkan lebih sedikit';
 }

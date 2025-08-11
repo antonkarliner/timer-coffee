@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "Рецепт видалено",
   "hubUserRecipesTitle": "Ваші рецепти",
   "hubUserRecipesSubtitle": "Перегляд і керування створеними та імпортованими рецептами",
+  "hubAccountSubtitle": "Керуйте своїм профілем",
+  "hubSignInCreateSubtitle": "Увійдіть, щоб синхронізувати рецепти та налаштування",
+  "hubBrewDiarySubtitle": "Переглядайте історію заварювань та додавайте нотатки",
+  "hubBrewStatsSubtitle": "Переглядайте особисту та загальну статистику і тренди заварювань",
+  "hubSettingsSubtitle": "Змінюйте налаштування додатку та поведінку",
+  "hubAboutSubtitle": "Інформація про додаток, версія та учасники",
   "lastrecipe": "Останній використаний рецепт:",
   "about": "Про програму",
   "author": "Автор",
@@ -509,7 +515,6 @@
   "@dateAdded": {
     "description": "Опція сортування для сортування за датою додавання"
   },
-
   "searchBeans": "Пошук зерен...",
   "@searchBeans": {
     "description": "Текст-заповнювач для поля пошуку на екрані зерен кави"
@@ -542,5 +547,17 @@
   "requiredInformation": "Необхідна інформація",
   "basicDetails": "Основні деталі",
   "qualityMeasurements": "Якість та вимірювання",
-  "importantDates": "Важливі дати"
+  "importantDates": "Важливі дати",
+  "beansStatsSectionTitle": "Статистика зерен",
+  "totalBeansBrewedLabel": "Всього використано зерен",
+  "newBeansTriedLabel": "Нові зерна, які спробували",
+  "originsExploredLabel": "Досліджені країни походження",
+  "regionsExploredLabel": "Досліджені регіони",
+  "newRoastersDiscoveredLabel": "Нові обсмажувачі, яких відкрито",
+  "favoriteRoastersLabel": "Улюблені обсмажувачі",
+  "topOriginsLabel": "Топ країни походження",
+  "topRegionsLabel": "Топ регіони",
+  "brewStats": "Статистика приготування",
+  "showMore": "Показати ще",
+  "showLess": "Показати менше"
 }

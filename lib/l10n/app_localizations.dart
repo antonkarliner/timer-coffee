@@ -130,6 +130,60 @@ abstract class AppLocalizations {
     Locale('zh')
   ];
 
+  /// No description provided for @beansStatsSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Beans stats'**
+  String get beansStatsSectionTitle;
+
+  /// No description provided for @totalBeansBrewedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total beans brewed'**
+  String get totalBeansBrewedLabel;
+
+  /// No description provided for @newBeansTriedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New beans tried'**
+  String get newBeansTriedLabel;
+
+  /// No description provided for @originsExploredLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Origins explored'**
+  String get originsExploredLabel;
+
+  /// No description provided for @regionsExploredLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Regions explored'**
+  String get regionsExploredLabel;
+
+  /// No description provided for @newRoastersDiscoveredLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New roasters discovered'**
+  String get newRoastersDiscoveredLabel;
+
+  /// No description provided for @favoriteRoastersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite roasters'**
+  String get favoriteRoastersLabel;
+
+  /// No description provided for @topOriginsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Top origins'**
+  String get topOriginsLabel;
+
+  /// No description provided for @topRegionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Top regions'**
+  String get topRegionsLabel;
+
   /// No description provided for @lastrecipe.
   ///
   /// In en, this message translates to:
@@ -201,6 +255,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View and manage created and imported recipes'**
   String get hubUserRecipesSubtitle;
+
+  /// No description provided for @hubAccountSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your profile'**
+  String get hubAccountSubtitle;
+
+  /// No description provided for @hubSignInCreateSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to sync recipes and preferences'**
+  String get hubSignInCreateSubtitle;
+
+  /// No description provided for @hubBrewDiarySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View your brewing history and add notes'**
+  String get hubBrewDiarySubtitle;
+
+  /// No description provided for @hubBrewStatsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View personal and global brewing statistics and trends'**
+  String get hubBrewStatsSubtitle;
+
+  /// No description provided for @hubSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change app preferences and behavior'**
+  String get hubSettingsSubtitle;
+
+  /// No description provided for @hubAboutSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'App details, version and contributors'**
+  String get hubAboutSubtitle;
 
   /// No description provided for @about.
   ///
@@ -2349,6 +2439,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Important Dates'**
   String get importantDates;
+
+  /// No description provided for @brewStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Brew Stats'**
+  String get brewStats;
+
+  /// No description provided for @showMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more'**
+  String get showMore;
+
+  /// No description provided for @showLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get showLess;
 }
 
 class _AppLocalizationsDelegate

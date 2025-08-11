@@ -9,6 +9,33 @@ class AppLocalizationsPl extends AppLocalizations {
   AppLocalizationsPl([String locale = 'pl']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => 'Statystyki ziaren';
+
+  @override
+  String get totalBeansBrewedLabel => 'Łącznie użytych ziaren';
+
+  @override
+  String get newBeansTriedLabel => 'Nowe ziarna wypróbowane';
+
+  @override
+  String get originsExploredLabel => 'Poznane kraje pochodzenia';
+
+  @override
+  String get regionsExploredLabel => 'Poznane regiony';
+
+  @override
+  String get newRoastersDiscoveredLabel => 'Nowi palarze odkryci';
+
+  @override
+  String get favoriteRoastersLabel => 'Ulubieni palarze';
+
+  @override
+  String get topOriginsLabel => 'Najlepsze pochodzenia';
+
+  @override
+  String get topRegionsLabel => 'Najlepsze regiony';
+
+  @override
   String get lastrecipe => 'Ostatnio używany przepis:';
 
   @override
@@ -44,6 +71,26 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get hubUserRecipesSubtitle =>
       'Przeglądaj i zarządzaj utworzonymi i zaimportowanymi przepisami';
+
+  @override
+  String get hubAccountSubtitle => 'Zarządzaj swoim profilem';
+
+  @override
+  String get hubSignInCreateSubtitle =>
+      'Zaloguj się, aby synchronizować przepisy i ustawienia';
+
+  @override
+  String get hubBrewDiarySubtitle => 'Zobacz historię parzeń i dodawaj notatki';
+
+  @override
+  String get hubBrewStatsSubtitle =>
+      'Zobacz osobiste i globalne statystyki oraz trendy parzeń';
+
+  @override
+  String get hubSettingsSubtitle => 'Zmień ustawienia aplikacji i zachowanie';
+
+  @override
+  String get hubAboutSubtitle => 'Szczegóły aplikacji, wersja i współtwórcy';
 
   @override
   String get about => 'O aplikacji';
@@ -1261,4 +1308,13 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get importantDates => 'Ważne daty';
+
+  @override
+  String get brewStats => 'Statystyki parzenia';
+
+  @override
+  String get showMore => 'Pokaż więcej';
+
+  @override
+  String get showLess => 'Pokaż mniej';
 }

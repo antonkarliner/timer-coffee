@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "已删除食谱",
   "hubUserRecipesTitle": "你的食谱",
   "hubUserRecipesSubtitle": "查看并管理你创建和导入的食谱",
+  "hubAccountSubtitle": "管理您的个人资料",
+  "hubSignInCreateSubtitle": "登录以同步配方和偏好设置",
+  "hubBrewDiarySubtitle": "查看您的冲泡历史并添加笔记",
+  "hubBrewStatsSubtitle": "查看个人和全球冲泡统计和趋势",
+  "hubSettingsSubtitle": "更改应用偏好和行为",
+  "hubAboutSubtitle": "应用详情、版本和贡献者",
   "lastrecipe": "最近使用的食谱：",
   "about": "关于",
   "author": "作者",
@@ -509,7 +515,6 @@
   "@dateAdded": {
     "description": "按添加日期排序的选项"
   },
-
   "searchBeans": "搜索咖啡豆...",
   "@searchBeans": {
     "description": "咖啡豆屏幕搜索字段的占位符文本"
@@ -542,5 +547,17 @@
   "requiredInformation": "必填信息",
   "basicDetails": "基本信息",
   "qualityMeasurements": "质量与测量",
-  "importantDates": "重要日期"
+  "importantDates": "重要日期",
+  "beansStatsSectionTitle": "咖啡豆统计",
+  "totalBeansBrewedLabel": "使用的咖啡豆总量",
+  "newBeansTriedLabel": "尝试的新咖啡豆",
+  "originsExploredLabel": "探索的产地",
+  "regionsExploredLabel": "探索的地区",
+  "newRoastersDiscoveredLabel": "发现的新烘焙商",
+  "favoriteRoastersLabel": "最喜爱的烘焙商",
+  "topOriginsLabel": "热门产地",
+  "topRegionsLabel": "热门地区",
+  "brewStats": "冲泡统计",
+  "showMore": "显示更多",
+  "showLess": "显示更少"
 }

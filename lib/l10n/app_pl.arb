@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "Przepis usunięty",
   "hubUserRecipesTitle": "Twoje przepisy",
   "hubUserRecipesSubtitle": "Przeglądaj i zarządzaj utworzonymi i zaimportowanymi przepisami",
+  "hubAccountSubtitle": "Zarządzaj swoim profilem",
+  "hubSignInCreateSubtitle": "Zaloguj się, aby synchronizować przepisy i ustawienia",
+  "hubBrewDiarySubtitle": "Zobacz historię parzeń i dodawaj notatki",
+  "hubBrewStatsSubtitle": "Zobacz osobiste i globalne statystyki oraz trendy parzeń",
+  "hubSettingsSubtitle": "Zmień ustawienia aplikacji i zachowanie",
+  "hubAboutSubtitle": "Szczegóły aplikacji, wersja i współtwórcy",
   "lastrecipe": "Ostatnio używany przepis:",
   "about": "O aplikacji",
   "author": "Autor",
@@ -80,6 +86,15 @@
   "notes": "Notatki",
   "statsscreen": "Statystyki kawy",
   "yourStats": "Twoje statystyki",
+  "beansStatsSectionTitle": "Statystyki ziaren",
+  "totalBeansBrewedLabel": "Łącznie użytych ziaren",
+  "newBeansTriedLabel": "Nowe ziarna wypróbowane",
+  "originsExploredLabel": "Poznane kraje pochodzenia",
+  "regionsExploredLabel": "Poznane regiony",
+  "newRoastersDiscoveredLabel": "Nowi palarze odkryci",
+  "favoriteRoastersLabel": "Ulubieni palarze",
+  "topOriginsLabel": "Najlepsze pochodzenia",
+  "topRegionsLabel": "Najlepsze regiony",
   "coffeeBrewed": "Zaparzonej kawy:",
   "litersUnit": "l",
   "mostUsedRecipes": "Najczęściej używane przepisy:",
@@ -510,7 +525,6 @@
   "@dateAdded": {
     "description": "Opcja sortowania według daty dodania"
   },
-
   "searchBeans": "Szukaj ziaren...",
   "@searchBeans": {
     "description": "Tekst-zapełniacz dla pola wyszukiwania na ekranie ziaren kawy"
@@ -542,5 +556,8 @@
   "requiredInformation": "Wymagane informacje",
   "basicDetails": "Podstawowe szczegóły",
   "qualityMeasurements": "Jakość i pomiary",
-  "importantDates": "Ważne daty"
+  "importantDates": "Ważne daty",
+  "brewStats": "Statystyki parzenia",
+  "showMore": "Pokaż więcej",
+  "showLess": "Pokaż mniej"
 }

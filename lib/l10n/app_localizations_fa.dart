@@ -9,6 +9,33 @@ class AppLocalizationsFa extends AppLocalizations {
   AppLocalizationsFa([String locale = 'fa']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => 'آمار دانه‌ها';
+
+  @override
+  String get totalBeansBrewedLabel => 'مجموع دانه‌های استفاده‌شده';
+
+  @override
+  String get newBeansTriedLabel => 'دانه‌های جدید امتحان‌شده';
+
+  @override
+  String get originsExploredLabel => 'خاستگاه‌های کشف‌شده';
+
+  @override
+  String get regionsExploredLabel => 'منطقه‌های کشف‌شده';
+
+  @override
+  String get newRoastersDiscoveredLabel => 'رسترهای جدید کشف‌شده';
+
+  @override
+  String get favoriteRoastersLabel => 'رسترهای موردعلاقه';
+
+  @override
+  String get topOriginsLabel => 'برترین خاستگاه‌ها';
+
+  @override
+  String get topRegionsLabel => 'برترین منطقه‌ها';
+
+  @override
   String get lastrecipe => 'آخرین دستور استفاده‌شده:';
 
   @override
@@ -44,6 +71,27 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get hubUserRecipesSubtitle =>
       'مشاهده و مدیریت دستورهای ایجادشده و واردشده';
+
+  @override
+  String get hubAccountSubtitle => 'پروفایل خود را مدیریت کنید';
+
+  @override
+  String get hubSignInCreateSubtitle =>
+      'برای همگام‌سازی دستورها و تنظیمات وارد شوید';
+
+  @override
+  String get hubBrewDiarySubtitle =>
+      'تاریخچه دم‌آوری خود را مشاهده کنید و یادداشت اضافه کنید';
+
+  @override
+  String get hubBrewStatsSubtitle =>
+      'آمار و روندهای دم‌آوری شخصی و جهانی را مشاهده کنید';
+
+  @override
+  String get hubSettingsSubtitle => 'تنظیمات و رفتار برنامه را تغییر دهید';
+
+  @override
+  String get hubAboutSubtitle => 'جزئیات برنامه، نسخه و مشارکت‌کنندگان';
 
   @override
   String get about => 'درباره برنامه';
@@ -1238,4 +1286,13 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get importantDates => 'تاریخ‌های مهم';
+
+  @override
+  String get brewStats => 'آمار دم‌آوری';
+
+  @override
+  String get showMore => 'نمایش بیشتر';
+
+  @override
+  String get showLess => 'نمایش کمتر';
 }

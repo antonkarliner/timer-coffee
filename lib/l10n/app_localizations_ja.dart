@@ -9,6 +9,33 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => '豆の統計';
+
+  @override
+  String get totalBeansBrewedLabel => '使用した豆の合計';
+
+  @override
+  String get newBeansTriedLabel => '新しく試した豆';
+
+  @override
+  String get originsExploredLabel => '探索した原産国';
+
+  @override
+  String get regionsExploredLabel => '探索した地域';
+
+  @override
+  String get newRoastersDiscoveredLabel => '見つけた新しいロースター';
+
+  @override
+  String get favoriteRoastersLabel => 'お気に入りのロースター';
+
+  @override
+  String get topOriginsLabel => 'トップ原産国';
+
+  @override
+  String get topRegionsLabel => 'トップ地域';
+
+  @override
   String get lastrecipe => '最近使ったレシピ：';
 
   @override
@@ -43,6 +70,24 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get hubUserRecipesSubtitle => '作成済み・インポート済みのレシピを表示して管理';
+
+  @override
+  String get hubAccountSubtitle => 'プロフィールを管理';
+
+  @override
+  String get hubSignInCreateSubtitle => 'レシピと設定を同期するにはサインインしてください';
+
+  @override
+  String get hubBrewDiarySubtitle => '醸造履歴を表示してメモを追加';
+
+  @override
+  String get hubBrewStatsSubtitle => '個人および世界の醸造統計と傾向を表示';
+
+  @override
+  String get hubSettingsSubtitle => 'アプリの設定と動作を変更';
+
+  @override
+  String get hubAboutSubtitle => 'アプリの詳細、バージョン、貢献者';
 
   @override
   String get about => '約';
@@ -1218,4 +1263,13 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get importantDates => '重要な日程';
+
+  @override
+  String get brewStats => '抽出統計';
+
+  @override
+  String get showMore => 'もっと見る';
+
+  @override
+  String get showLess => '表示を減らす';
 }

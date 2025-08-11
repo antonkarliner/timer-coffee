@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "Tarif silindi",
   "hubUserRecipesTitle": "Tariflerin",
   "hubUserRecipesSubtitle": "Oluşturduğun ve içe aktardığın tarifleri görüntüle ve yönet",
+  "hubAccountSubtitle": "Profilinizi yönetin",
+  "hubSignInCreateSubtitle": "Tarifleri ve tercihleri senkronize etmek için oturum açın",
+  "hubBrewDiarySubtitle": "Demleme geçmişinizi görüntüleyin ve not ekleyin",
+  "hubBrewStatsSubtitle": "Kişisel ve küresel demleme istatistiklerini ve trendlerini görüntüleyin",
+  "hubSettingsSubtitle": "Uygulama tercihlerini ve davranışını değiştirin",
+  "hubAboutSubtitle": "Uygulama detayları, sürüm ve katkıda bulunanlar",
   "lastrecipe": "En Son Kullanılan Tarif:",
   "about": "Hakkında",
   "author": "Yazar",
@@ -510,7 +516,6 @@
   "@dateAdded": {
     "description": "Sıralama için eklenme tarihine göre sıralama seçeneği"
   },
-
   "searchBeans": "Çekirdekleri ara...",
   "@searchBeans": {
     "description": "Kahve çekirdekleri ekranındaki arama alanı için yer tutucu metin"
@@ -542,5 +547,17 @@
   "requiredInformation": "Gerekli bilgiler",
   "basicDetails": "Temel bilgiler",
   "qualityMeasurements": "Kalite ölçümleri",
-  "importantDates": "Önemli tarihler"
+  "importantDates": "Önemli tarihler",
+  "beansStatsSectionTitle": "Çekirdek istatistikleri",
+  "totalBeansBrewedLabel": "Toplam kullanılan çekirdek",
+  "newBeansTriedLabel": "Denenen yeni çekirdekler",
+  "originsExploredLabel": "Keşfedilen menşeler",
+  "regionsExploredLabel": "Keşfedilen bölgeler",
+  "newRoastersDiscoveredLabel": "Keşfedilen yeni kavurucular",
+  "favoriteRoastersLabel": "Favori kavurucular",
+  "topOriginsLabel": "Önde gelen menşeler",
+  "topRegionsLabel": "Önde gelen bölgeler",
+  "brewStats": "Demleme istatistikleri",
+  "showMore": "Daha fazla göster",
+  "showLess": "Daha az göster"
 }

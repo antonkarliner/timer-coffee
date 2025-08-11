@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "Recette supprimée",
   "hubUserRecipesTitle": "Vos recettes",
   "hubUserRecipesSubtitle": "Voir et gérer les recettes créées et importées",
+  "hubAccountSubtitle": "Gérer votre profil",
+  "hubSignInCreateSubtitle": "Connectez-vous pour synchroniser les recettes et les préférences",
+  "hubBrewDiarySubtitle": "Consultez votre historique de brassage et ajoutez des notes",
+  "hubBrewStatsSubtitle": "Consultez les statistiques et tendances de brassage personnelles et mondiales",
+  "hubSettingsSubtitle": "Modifiez les préférences et le comportement de l'application",
+  "hubAboutSubtitle": "Détails de l'application, version et contributeurs",
   "lastrecipe": "Recette la plus récemment utilisée :",
   "about": "À propos",
   "author": "Auteur",
@@ -80,6 +86,15 @@
   "notes": "Notes",
   "statsscreen": "Statistiques du café",
   "yourStats": "Vos statistiques",
+  "beansStatsSectionTitle": "Statistiques des grains",
+  "totalBeansBrewedLabel": "Total de grains utilisés",
+  "newBeansTriedLabel": "Nouveaux grains essayés",
+  "originsExploredLabel": "Origines explorées",
+  "regionsExploredLabel": "Régions explorées",
+  "newRoastersDiscoveredLabel": "Nouveaux torréfacteurs découverts",
+  "favoriteRoastersLabel": "Torréfacteurs favoris",
+  "topOriginsLabel": "Meilleures origines",
+  "topRegionsLabel": "Meilleures régions",
   "coffeeBrewed": "Café infusé :",
   "litersUnit": "L",
   "mostUsedRecipes": "Recettes les plus utilisées :",
@@ -510,7 +525,6 @@
   "@dateAdded": {
     "description": "Option de tri pour trier par date d'ajout"
   },
-
   "searchBeans": "Rechercher des grains...",
   "@searchBeans": {
     "description": "Texte du champ de recherche dans l'écran des grains de café"
@@ -542,5 +556,8 @@
   "requiredInformation": "Informations requises",
   "basicDetails": "Détails de base",
   "qualityMeasurements": "Qualité et mesures",
-  "importantDates": "Dates importantes"
+  "importantDates": "Dates importantes",
+  "brewStats": "Statistiques de préparation",
+  "showMore": "Afficher plus",
+  "showLess": "Afficher moins"
 }

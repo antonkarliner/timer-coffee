@@ -9,6 +9,33 @@ class AppLocalizationsFi extends AppLocalizations {
   AppLocalizationsFi([String locale = 'fi']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => 'Papujen tilastot';
+
+  @override
+  String get totalBeansBrewedLabel => 'Valmistettuja papuja yhteensä';
+
+  @override
+  String get newBeansTriedLabel => 'Uusia papuja kokeiltu';
+
+  @override
+  String get originsExploredLabel => 'Tutkitut alkuperämaat';
+
+  @override
+  String get regionsExploredLabel => 'Tutkitut alueet';
+
+  @override
+  String get newRoastersDiscoveredLabel => 'Löydetyt uudet paahtimot';
+
+  @override
+  String get favoriteRoastersLabel => 'Suosikkipaahtimot';
+
+  @override
+  String get topOriginsLabel => 'Parhaat alkuperämaat';
+
+  @override
+  String get topRegionsLabel => 'Parhaat alueet';
+
+  @override
   String get lastrecipe => 'Viimeksi käytetty resepti:';
 
   @override
@@ -44,6 +71,27 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get hubUserRecipesSubtitle =>
       'Näytä ja hallitse luotuja ja tuotuja reseptejä';
+
+  @override
+  String get hubAccountSubtitle => 'Hallitse profiiliasi';
+
+  @override
+  String get hubSignInCreateSubtitle =>
+      'Kirjaudu sisään synkronoidaksesi reseptit ja asetukset';
+
+  @override
+  String get hubBrewDiarySubtitle =>
+      'Katso valmistushistoriasi ja lisää muistiinpanoja';
+
+  @override
+  String get hubBrewStatsSubtitle =>
+      'Näytä henkilökohtaiset ja globaalit valmistusstatistiikat ja trendit';
+
+  @override
+  String get hubSettingsSubtitle => 'Vaihda sovelluksen asetuksia ja toimintaa';
+
+  @override
+  String get hubAboutSubtitle => 'Sovelluksen tiedot, versio ja osallistujat';
 
   @override
   String get about => 'Tietoja';
@@ -1244,4 +1292,13 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get importantDates => 'Tärkeitä päivämääriä';
+
+  @override
+  String get brewStats => 'Valmistustilastot';
+
+  @override
+  String get showMore => 'Näytä lisää';
+
+  @override
+  String get showLess => 'Näytä vähemmän';
 }

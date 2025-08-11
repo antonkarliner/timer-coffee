@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "Rezept gelöscht",
   "hubUserRecipesTitle": "Deine Rezepte",
   "hubUserRecipesSubtitle": "Erstelle und importierte Rezepte anzeigen und verwalten",
+  "hubAccountSubtitle": "Verwalte dein Profil",
+  "hubSignInCreateSubtitle": "Melde dich an, um Rezepte und Einstellungen zu synchronisieren",
+  "hubBrewDiarySubtitle": "Sieh dir deine Brühhistorie an und füge Notizen hinzu",
+  "hubBrewStatsSubtitle": "Persönliche und globale Brühstatistiken und Trends ansehen",
+  "hubSettingsSubtitle": "Ändere App-Einstellungen und Verhalten",
+  "hubAboutSubtitle": "App-Details, Version und Mitwirkende",
   "lastrecipe": "Zuletzt verwendete Rezept:",
   "about": "Über",
   "author": "Autor",
@@ -80,6 +86,15 @@
   "notes": "Notizen",
   "statsscreen": "Kaffee-Statistik",
   "yourStats": "Ihre Statistiken",
+  "beansStatsSectionTitle": "Bohnenstatistiken",
+  "totalBeansBrewedLabel": "Insgesamt aufgebrühte Bohnen",
+  "newBeansTriedLabel": "Neue Bohnen ausprobiert",
+  "originsExploredLabel": "Erkundete Herkünfte",
+  "regionsExploredLabel": "Erkundete Regionen",
+  "newRoastersDiscoveredLabel": "Neue Röstereien entdeckt",
+  "favoriteRoastersLabel": "Lieblingsröstereien",
+  "topOriginsLabel": "Top-Herkünfte",
+  "topRegionsLabel": "Top-Regionen",
   "coffeeBrewed": "Gekochter Kaffee:",
   "litersUnit": "L",
   "mostUsedRecipes": "Meistgenutzte Rezepte:",
@@ -510,7 +525,6 @@
   "@dateAdded": {
     "description": "Sortieroption zum Sortieren nach Datum hinzugefügt"
   },
-
   "searchBeans": "Bohnen suchen...",
   "@searchBeans": {
     "description": "Platzhaltertext für das Suchfeld im Kaffeebohnen-Bildschirm"
@@ -539,8 +553,11 @@
   "farm": "Kaffeeplantage",
   "enterFarmer": "Landwirt eingeben (optional)",
   "enterFarm": "Kaffeeplantage eingeben (optional)",
-"requiredInformation": "Erforderliche Informationen",
-"basicDetails": "Grundlegende Details",
-"qualityMeasurements": "Qualität der Messungen",
-"importantDates": "Wichtige Daten"
+  "requiredInformation": "Erforderliche Informationen",
+  "basicDetails": "Grundlegende Details",
+  "qualityMeasurements": "Qualität der Messungen",
+  "importantDates": "Wichtige Daten",
+  "brewStats": "Brühstatistiken",
+  "showMore": "Mehr anzeigen",
+  "showLess": "Weniger anzeigen"
 }

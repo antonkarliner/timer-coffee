@@ -9,6 +9,33 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => 'إحصائيات الحبوب';
+
+  @override
+  String get totalBeansBrewedLabel => 'إجمالي الحبوب المُحضرة';
+
+  @override
+  String get newBeansTriedLabel => 'حبوب جديدة مجرّبة';
+
+  @override
+  String get originsExploredLabel => 'المناشئ المستكشفة';
+
+  @override
+  String get regionsExploredLabel => 'المناطق المستكشفة';
+
+  @override
+  String get newRoastersDiscoveredLabel => 'محامص جديدة مُكتشفة';
+
+  @override
+  String get favoriteRoastersLabel => 'المحامص المفضلة';
+
+  @override
+  String get topOriginsLabel => 'أفضل المناشئ';
+
+  @override
+  String get topRegionsLabel => 'أفضل المناطق';
+
+  @override
   String get lastrecipe => 'أحدث وصفة مستخدمة:';
 
   @override
@@ -43,6 +70,26 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get hubUserRecipesSubtitle => 'عرض وإدارة الوصفات المنشأة والمستوردة';
+
+  @override
+  String get hubAccountSubtitle => 'إدارة ملفك الشخصي';
+
+  @override
+  String get hubSignInCreateSubtitle =>
+      'قم بتسجيل الدخول لمزامنة الوصفات والتفضيلات';
+
+  @override
+  String get hubBrewDiarySubtitle => 'عرض سجل التحضير وإضافة ملاحظات';
+
+  @override
+  String get hubBrewStatsSubtitle =>
+      'عرض الإحصائيات والاتجاهات الشخصية والعالمية للتحضير';
+
+  @override
+  String get hubSettingsSubtitle => 'تغيير تفضيلات وسلوك التطبيق';
+
+  @override
+  String get hubAboutSubtitle => 'تفاصيل التطبيق والإصدار والمساهمون';
 
   @override
   String get about => 'حول';
@@ -1250,4 +1297,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get importantDates => 'تواريخ مهمة';
+
+  @override
+  String get brewStats => 'إحصاءات التحضير';
+
+  @override
+  String get showMore => 'عرض المزيد';
+
+  @override
+  String get showLess => 'عرض أقل';
 }

@@ -9,6 +9,33 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => 'Statistiques des grains';
+
+  @override
+  String get totalBeansBrewedLabel => 'Total de grains utilisés';
+
+  @override
+  String get newBeansTriedLabel => 'Nouveaux grains essayés';
+
+  @override
+  String get originsExploredLabel => 'Origines explorées';
+
+  @override
+  String get regionsExploredLabel => 'Régions explorées';
+
+  @override
+  String get newRoastersDiscoveredLabel => 'Nouveaux torréfacteurs découverts';
+
+  @override
+  String get favoriteRoastersLabel => 'Torréfacteurs favoris';
+
+  @override
+  String get topOriginsLabel => 'Meilleures origines';
+
+  @override
+  String get topRegionsLabel => 'Meilleures régions';
+
+  @override
   String get lastrecipe => 'Recette la plus récemment utilisée :';
 
   @override
@@ -44,6 +71,29 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get hubUserRecipesSubtitle =>
       'Voir et gérer les recettes créées et importées';
+
+  @override
+  String get hubAccountSubtitle => 'Gérer votre profil';
+
+  @override
+  String get hubSignInCreateSubtitle =>
+      'Connectez-vous pour synchroniser les recettes et les préférences';
+
+  @override
+  String get hubBrewDiarySubtitle =>
+      'Consultez votre historique de brassage et ajoutez des notes';
+
+  @override
+  String get hubBrewStatsSubtitle =>
+      'Consultez les statistiques et tendances de brassage personnelles et mondiales';
+
+  @override
+  String get hubSettingsSubtitle =>
+      'Modifiez les préférences et le comportement de l\'application';
+
+  @override
+  String get hubAboutSubtitle =>
+      'Détails de l\'application, version et contributeurs';
 
   @override
   String get about => 'À propos';
@@ -1262,4 +1312,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get importantDates => 'Dates importantes';
+
+  @override
+  String get brewStats => 'Statistiques de préparation';
+
+  @override
+  String get showMore => 'Afficher plus';
+
+  @override
+  String get showLess => 'Afficher moins';
 }

@@ -9,6 +9,33 @@ class AppLocalizationsNl extends AppLocalizations {
   AppLocalizationsNl([String locale = 'nl']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => 'Bonenstatistieken';
+
+  @override
+  String get totalBeansBrewedLabel => 'Totaal gebrouwen bonen';
+
+  @override
+  String get newBeansTriedLabel => 'Nieuwe bonen geprobeerd';
+
+  @override
+  String get originsExploredLabel => 'Ontdekte herkomsten';
+
+  @override
+  String get regionsExploredLabel => 'Ontdekte regio\'s';
+
+  @override
+  String get newRoastersDiscoveredLabel => 'Nieuwe branders ontdekt';
+
+  @override
+  String get favoriteRoastersLabel => 'Favoriete branders';
+
+  @override
+  String get topOriginsLabel => 'Top herkomsten';
+
+  @override
+  String get topRegionsLabel => 'Top regio\'s';
+
+  @override
   String get lastrecipe => 'Meest Recent Gebruikte Recept:';
 
   @override
@@ -45,6 +72,27 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get hubUserRecipesSubtitle =>
       'Gemaakte en geïmporteerde recepten bekijken en beheren';
+
+  @override
+  String get hubAccountSubtitle => 'Beheer je profiel';
+
+  @override
+  String get hubSignInCreateSubtitle =>
+      'Meld je aan om recepten en voorkeuren te synchroniseren';
+
+  @override
+  String get hubBrewDiarySubtitle =>
+      'Bekijk je brouwgeschiedenis en voeg notities toe';
+
+  @override
+  String get hubBrewStatsSubtitle =>
+      'Bekijk persoonlijke en wereldwijde brouwstatistieken en trends';
+
+  @override
+  String get hubSettingsSubtitle => 'Wijzig app-voorkeuren en gedrag';
+
+  @override
+  String get hubAboutSubtitle => 'App-gegevens, versie en bijdragers';
 
   @override
   String get about => 'Over';
@@ -1249,4 +1297,13 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get importantDates => 'Belangrijke data';
+
+  @override
+  String get brewStats => 'Brouwstatistieken';
+
+  @override
+  String get showMore => 'Meer weergeven';
+
+  @override
+  String get showLess => 'Minder weergeven';
 }

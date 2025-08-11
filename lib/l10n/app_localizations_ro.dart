@@ -9,6 +9,33 @@ class AppLocalizationsRo extends AppLocalizations {
   AppLocalizationsRo([String locale = 'ro']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => 'Statistici boabe';
+
+  @override
+  String get totalBeansBrewedLabel => 'Total boabe folosite';
+
+  @override
+  String get newBeansTriedLabel => 'Boabe noi încercate';
+
+  @override
+  String get originsExploredLabel => 'Origini explorate';
+
+  @override
+  String get regionsExploredLabel => 'Regiuni explorate';
+
+  @override
+  String get newRoastersDiscoveredLabel => 'Prăjitorii noi descoperiți';
+
+  @override
+  String get favoriteRoastersLabel => 'Prăjitorii favoriți';
+
+  @override
+  String get topOriginsLabel => 'Top origini';
+
+  @override
+  String get topRegionsLabel => 'Top regiuni';
+
+  @override
   String get lastrecipe => 'Rețeta folosită recent:';
 
   @override
@@ -44,6 +71,28 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get hubUserRecipesSubtitle =>
       'Vizualizează și gestionează rețetele create și importate';
+
+  @override
+  String get hubAccountSubtitle => 'Gestionează-ți profilul';
+
+  @override
+  String get hubSignInCreateSubtitle =>
+      'Conectează-te pentru a sincroniza rețetele și preferințele';
+
+  @override
+  String get hubBrewDiarySubtitle =>
+      'Vezi istoricul tău de preparare și adaugă note';
+
+  @override
+  String get hubBrewStatsSubtitle =>
+      'Vezi statistici și tendințe de preparare personale și globale';
+
+  @override
+  String get hubSettingsSubtitle =>
+      'Schimbă preferințele și comportamentul aplicației';
+
+  @override
+  String get hubAboutSubtitle => 'Detalii aplicație, versiune și contribuitori';
 
   @override
   String get about => 'Despre';
@@ -1254,4 +1303,13 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get importantDates => 'Date importante';
+
+  @override
+  String get brewStats => 'Statistici de preparare';
+
+  @override
+  String get showMore => 'Arată mai mult';
+
+  @override
+  String get showLess => 'Arată mai puțin';
 }

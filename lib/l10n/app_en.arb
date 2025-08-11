@@ -1,5 +1,14 @@
 {
   "@@locale": "en",
+  "beansStatsSectionTitle": "Beans stats",
+  "totalBeansBrewedLabel": "Total beans brewed",
+  "newBeansTriedLabel": "New beans tried",
+  "originsExploredLabel": "Origins explored",
+  "regionsExploredLabel": "Regions explored",
+  "newRoastersDiscoveredLabel": "New roasters discovered",
+  "favoriteRoastersLabel": "Favorite roasters",
+  "topOriginsLabel": "Top origins",
+  "topRegionsLabel": "Top regions",
   "lastrecipe": "Most Recently Used Recipe:",
   "userRecipesTitle": "Your Recipes",
   "userRecipesSectionCreated": "Created by you",
@@ -12,6 +21,12 @@
   "userRecipesSnackbarDeleted": "Recipe deleted",
   "hubUserRecipesTitle": "Your recipes",
   "hubUserRecipesSubtitle": "View and manage created and imported recipes",
+  "hubAccountSubtitle": "Manage your profile",
+  "hubSignInCreateSubtitle": "Sign in to sync recipes and preferences",
+  "hubBrewDiarySubtitle": "View your brewing history and add notes",
+  "hubBrewStatsSubtitle": "View personal and global brewing statistics and trends",
+  "hubSettingsSubtitle": "Change app preferences and behavior",
+  "hubAboutSubtitle": "App details, version and contributors",
   "about": "About",
   "author": "Author",
   "authortext": "Timer.Coffee App is created by Anton Karliner, a coffee enthusiast, media specialist, and photojournalist. I hope that this app will help you enjoy your coffee. Feel free to contribute on GitHub.",
@@ -739,5 +754,8 @@
   "requiredInformation": "Required Information",
   "basicDetails": "Basic Details",
   "qualityMeasurements": "Quality & Measurements",
-  "importantDates": "Important Dates"
+  "importantDates": "Important Dates",
+  "brewStats": "Brew Stats",
+  "showMore": "Show more",
+  "showLess": "Show less"
 }

@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "Rețetă ștearsă",
   "hubUserRecipesTitle": "Rețetele tale",
   "hubUserRecipesSubtitle": "Vizualizează și gestionează rețetele create și importate",
+  "hubAccountSubtitle": "Gestionează-ți profilul",
+  "hubSignInCreateSubtitle": "Conectează-te pentru a sincroniza rețetele și preferințele",
+  "hubBrewDiarySubtitle": "Vezi istoricul tău de preparare și adaugă note",
+  "hubBrewStatsSubtitle": "Vezi statistici și tendințe de preparare personale și globale",
+  "hubSettingsSubtitle": "Schimbă preferințele și comportamentul aplicației",
+  "hubAboutSubtitle": "Detalii aplicație, versiune și contribuitori",
   "lastrecipe": "Rețeta folosită recent:",
   "about": "Despre",
   "author": "Autor",
@@ -80,6 +86,15 @@
   "notes": "Note",
   "statsscreen": "Statistici cafea",
   "yourStats": "Statisticile tale",
+  "beansStatsSectionTitle": "Statistici boabe",
+  "totalBeansBrewedLabel": "Total boabe folosite",
+  "newBeansTriedLabel": "Boabe noi încercate",
+  "originsExploredLabel": "Origini explorate",
+  "regionsExploredLabel": "Regiuni explorate",
+  "newRoastersDiscoveredLabel": "Prăjitorii noi descoperiți",
+  "favoriteRoastersLabel": "Prăjitorii favoriți",
+  "topOriginsLabel": "Top origini",
+  "topRegionsLabel": "Top regiuni",
   "coffeeBrewed": "Cafea preparată:",
   "litersUnit": "L",
   "mostUsedRecipes": "Rețetele cele mai utilizate:",
@@ -510,7 +525,6 @@
   "@dateAdded": {
     "description": "Opțiune de sortare pentru sortarea după data adăugării"
   },
-
   "searchBeans": "Caută boabe...",
   "@searchBeans": {
     "description": "Text de substituent pentru câmpul de căutare din ecranul boabelor de cafea"
@@ -542,5 +556,8 @@
   "requiredInformation": "Informații necesare",
   "basicDetails": "Detalii de bază",
   "qualityMeasurements": "Calitate și măsurători",
-  "importantDates": "Date importante"
+  "importantDates": "Date importante",
+  "brewStats": "Statistici de preparare",
+  "showMore": "Arată mai mult",
+  "showLess": "Arată mai puțin"
 }

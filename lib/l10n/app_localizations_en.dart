@@ -9,6 +9,33 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => 'Beans stats';
+
+  @override
+  String get totalBeansBrewedLabel => 'Total beans brewed';
+
+  @override
+  String get newBeansTriedLabel => 'New beans tried';
+
+  @override
+  String get originsExploredLabel => 'Origins explored';
+
+  @override
+  String get regionsExploredLabel => 'Regions explored';
+
+  @override
+  String get newRoastersDiscoveredLabel => 'New roasters discovered';
+
+  @override
+  String get favoriteRoastersLabel => 'Favorite roasters';
+
+  @override
+  String get topOriginsLabel => 'Top origins';
+
+  @override
+  String get topRegionsLabel => 'Top regions';
+
+  @override
   String get lastrecipe => 'Most Recently Used Recipe:';
 
   @override
@@ -44,6 +71,26 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get hubUserRecipesSubtitle =>
       'View and manage created and imported recipes';
+
+  @override
+  String get hubAccountSubtitle => 'Manage your profile';
+
+  @override
+  String get hubSignInCreateSubtitle =>
+      'Sign in to sync recipes and preferences';
+
+  @override
+  String get hubBrewDiarySubtitle => 'View your brewing history and add notes';
+
+  @override
+  String get hubBrewStatsSubtitle =>
+      'View personal and global brewing statistics and trends';
+
+  @override
+  String get hubSettingsSubtitle => 'Change app preferences and behavior';
+
+  @override
+  String get hubAboutSubtitle => 'App details, version and contributors';
 
   @override
   String get about => 'About';
@@ -1242,4 +1289,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get importantDates => 'Important Dates';
+
+  @override
+  String get brewStats => 'Brew Stats';
+
+  @override
+  String get showMore => 'Show more';
+
+  @override
+  String get showLess => 'Show less';
 }

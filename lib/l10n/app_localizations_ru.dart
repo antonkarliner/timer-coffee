@@ -9,6 +9,33 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => 'Статистика по зернам';
+
+  @override
+  String get totalBeansBrewedLabel => 'Всего использовано зерен';
+
+  @override
+  String get newBeansTriedLabel => 'Новые зерна, которые вы попробовали';
+
+  @override
+  String get originsExploredLabel => 'Исследованные страны происхождения';
+
+  @override
+  String get regionsExploredLabel => 'Исследованные регионы';
+
+  @override
+  String get newRoastersDiscoveredLabel => 'Найдено новых обжарщиков';
+
+  @override
+  String get favoriteRoastersLabel => 'Любимые обжарщики';
+
+  @override
+  String get topOriginsLabel => 'Топ стран происхождения';
+
+  @override
+  String get topRegionsLabel => 'Топ регионов';
+
+  @override
   String get lastrecipe => 'Последний рецепт:';
 
   @override
@@ -44,6 +71,28 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get hubUserRecipesSubtitle =>
       'Просмотр и управление созданными и импортированными рецептами';
+
+  @override
+  String get hubAccountSubtitle => 'Управляйте своим профилем';
+
+  @override
+  String get hubSignInCreateSubtitle =>
+      'Войдите, чтобы синхронизировать рецепты и настройки';
+
+  @override
+  String get hubBrewDiarySubtitle =>
+      'Просматривайте историю завариваний и добавляйте заметки';
+
+  @override
+  String get hubBrewStatsSubtitle =>
+      'Просматривайте личную и глобальную статистику и тренды по завариванию';
+
+  @override
+  String get hubSettingsSubtitle => 'Измените параметры и поведение приложения';
+
+  @override
+  String get hubAboutSubtitle =>
+      'Информация о приложении, версия и контрибьюторы';
 
   @override
   String get about => 'О приложении';
@@ -1259,4 +1308,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get importantDates => 'Важные даты';
+
+  @override
+  String get brewStats => 'Статистика заваривания';
+
+  @override
+  String get showMore => 'Показать еще';
+
+  @override
+  String get showLess => 'Показать меньше';
 }

@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "Рецепт удалён",
   "hubUserRecipesTitle": "Ваши рецепты",
   "hubUserRecipesSubtitle": "Просмотр и управление созданными и импортированными рецептами",
+  "hubAccountSubtitle": "Управляйте своим профилем",
+  "hubSignInCreateSubtitle": "Войдите, чтобы синхронизировать рецепты и настройки",
+  "hubBrewDiarySubtitle": "Просматривайте историю завариваний и добавляйте заметки",
+  "hubBrewStatsSubtitle": "Просматривайте личную и глобальную статистику и тренды по завариванию",
+  "hubSettingsSubtitle": "Измените параметры и поведение приложения",
+  "hubAboutSubtitle": "Информация о приложении, версия и контрибьюторы",
   "lastrecipe": "Последний рецепт:",
   "about": "О приложении",
   "author": "Автор",
@@ -80,6 +86,15 @@
   "notes": "Заметки",
   "statsscreen": "Статистика",
   "yourStats": "Ваша статистика",
+  "beansStatsSectionTitle": "Статистика по зернам",
+  "totalBeansBrewedLabel": "Всего использовано зерен",
+  "newBeansTriedLabel": "Новые зерна, которые вы попробовали",
+  "originsExploredLabel": "Исследованные страны происхождения",
+  "regionsExploredLabel": "Исследованные регионы",
+  "newRoastersDiscoveredLabel": "Найдено новых обжарщиков",
+  "favoriteRoastersLabel": "Любимые обжарщики",
+  "topOriginsLabel": "Топ стран происхождения",
+  "topRegionsLabel": "Топ регионов",
   "coffeeBrewed": "Приготовлено кофе:",
   "litersUnit": "л",
   "mostUsedRecipes": "Самые используемые рецепты:",
@@ -509,7 +524,6 @@
   "@dateAdded": {
     "description": "Опция сортировки для сортировки по дате добавления"
   },
-
   "searchBeans": "Поиск зерен...",
   "@searchBeans": {
     "description": "Текст-заполнитель для поля поиска на экране зерен кофе"
@@ -542,5 +556,8 @@
   "requiredInformation": "Необходимая информация",
   "basicDetails": "Основные детали",
   "qualityMeasurements": "Качество и измерения",
-  "importantDates": "Важные даты"
+  "importantDates": "Важные даты",
+  "brewStats": "Статистика заваривания",
+  "showMore": "Показать еще",
+  "showLess": "Показать меньше"
 }

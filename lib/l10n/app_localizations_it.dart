@@ -9,6 +9,33 @@ class AppLocalizationsIt extends AppLocalizations {
   AppLocalizationsIt([String locale = 'it']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => 'Statistiche dei chicchi';
+
+  @override
+  String get totalBeansBrewedLabel => 'Chicchi utilizzati in totale';
+
+  @override
+  String get newBeansTriedLabel => 'Nuovi chicchi provati';
+
+  @override
+  String get originsExploredLabel => 'Origini esplorate';
+
+  @override
+  String get regionsExploredLabel => 'Regioni esplorate';
+
+  @override
+  String get newRoastersDiscoveredLabel => 'Nuovi tostatori scoperti';
+
+  @override
+  String get favoriteRoastersLabel => 'Tostatori preferiti';
+
+  @override
+  String get topOriginsLabel => 'Origini principali';
+
+  @override
+  String get topRegionsLabel => 'Regioni principali';
+
+  @override
   String get lastrecipe => 'Ricetta Utilizzata Più di Recente:';
 
   @override
@@ -45,6 +72,28 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get hubUserRecipesSubtitle =>
       'Visualizza e gestisci le ricette create e importate';
+
+  @override
+  String get hubAccountSubtitle => 'Gestisci il tuo profilo';
+
+  @override
+  String get hubSignInCreateSubtitle =>
+      'Accedi per sincronizzare ricette e preferenze';
+
+  @override
+  String get hubBrewDiarySubtitle =>
+      'Visualizza la cronologia delle tue preparazioni e aggiungi note';
+
+  @override
+  String get hubBrewStatsSubtitle =>
+      'Visualizza statistiche e tendenze di preparazione personali e globali';
+
+  @override
+  String get hubSettingsSubtitle =>
+      'Modifica le preferenze e il comportamento dell\'app';
+
+  @override
+  String get hubAboutSubtitle => 'Dettagli dell\'app, versione e collaboratori';
 
   @override
   String get about => 'Informazioni';
@@ -1263,4 +1312,13 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get importantDates => 'Date importanti';
+
+  @override
+  String get brewStats => 'Statistiche di preparazione';
+
+  @override
+  String get showMore => 'Mostra altro';
+
+  @override
+  String get showLess => 'Mostra meno';
 }

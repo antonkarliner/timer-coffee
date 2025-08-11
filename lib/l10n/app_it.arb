@@ -11,6 +11,12 @@
   "userRecipesSnackbarDeleted": "Ricetta eliminata",
   "hubUserRecipesTitle": "Le tue ricette",
   "hubUserRecipesSubtitle": "Visualizza e gestisci le ricette create e importate",
+  "hubAccountSubtitle": "Gestisci il tuo profilo",
+  "hubSignInCreateSubtitle": "Accedi per sincronizzare ricette e preferenze",
+  "hubBrewDiarySubtitle": "Visualizza la cronologia delle tue preparazioni e aggiungi note",
+  "hubBrewStatsSubtitle": "Visualizza statistiche e tendenze di preparazione personali e globali",
+  "hubSettingsSubtitle": "Modifica le preferenze e il comportamento dell'app",
+  "hubAboutSubtitle": "Dettagli dell'app, versione e collaboratori",
   "lastrecipe": "Ricetta Utilizzata Più di Recente:",
   "about": "Informazioni",
   "author": "Autore",
@@ -74,6 +80,15 @@
   "timeFormat": "HH:mm",
   "brewdiary": "Diario di Infusione",
   "brewdiarynotfound": "Nessuna voce trovata",
+  "beansStatsSectionTitle": "Statistiche dei chicchi",
+  "totalBeansBrewedLabel": "Chicchi utilizzati in totale",
+  "newBeansTriedLabel": "Nuovi chicchi provati",
+  "originsExploredLabel": "Origini esplorate",
+  "regionsExploredLabel": "Regioni esplorate",
+  "newRoastersDiscoveredLabel": "Nuovi tostatori scoperti",
+  "favoriteRoastersLabel": "Tostatori preferiti",
+  "topOriginsLabel": "Origini principali",
+  "topRegionsLabel": "Regioni principali",
   "beans": "Chicchi",
   "roaster": "Tostatore",
   "rating": "Valutazione",
@@ -510,7 +525,6 @@
   "@dateAdded": {
     "description": "Opzione di ordinamento per ordinare per data di aggiunta"
   },
-
   "searchBeans": "Cerca chicchi...",
   "@searchBeans": {
     "description": "Testo segnaposto per il campo di ricerca nella schermata dei chicchi di caffè"
@@ -542,5 +556,8 @@
   "requiredInformation": "Informazioni necessarie",
   "basicDetails": "Dettagli di base",
   "qualityMeasurements": "Qualità e misure",
-  "importantDates": "Date importanti"
+  "importantDates": "Date importanti",
+  "brewStats": "Statistiche di preparazione",
+  "showMore": "Mostra altro",
+  "showLess": "Mostra meno"
 }

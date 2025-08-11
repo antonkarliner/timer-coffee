@@ -9,6 +9,33 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String get beansStatsSectionTitle => 'Bohnenstatistiken';
+
+  @override
+  String get totalBeansBrewedLabel => 'Insgesamt aufgebrühte Bohnen';
+
+  @override
+  String get newBeansTriedLabel => 'Neue Bohnen ausprobiert';
+
+  @override
+  String get originsExploredLabel => 'Erkundete Herkünfte';
+
+  @override
+  String get regionsExploredLabel => 'Erkundete Regionen';
+
+  @override
+  String get newRoastersDiscoveredLabel => 'Neue Röstereien entdeckt';
+
+  @override
+  String get favoriteRoastersLabel => 'Lieblingsröstereien';
+
+  @override
+  String get topOriginsLabel => 'Top-Herkünfte';
+
+  @override
+  String get topRegionsLabel => 'Top-Regionen';
+
+  @override
   String get lastrecipe => 'Zuletzt verwendete Rezept:';
 
   @override
@@ -45,6 +72,27 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get hubUserRecipesSubtitle =>
       'Erstelle und importierte Rezepte anzeigen und verwalten';
+
+  @override
+  String get hubAccountSubtitle => 'Verwalte dein Profil';
+
+  @override
+  String get hubSignInCreateSubtitle =>
+      'Melde dich an, um Rezepte und Einstellungen zu synchronisieren';
+
+  @override
+  String get hubBrewDiarySubtitle =>
+      'Sieh dir deine Brühhistorie an und füge Notizen hinzu';
+
+  @override
+  String get hubBrewStatsSubtitle =>
+      'Persönliche und globale Brühstatistiken und Trends ansehen';
+
+  @override
+  String get hubSettingsSubtitle => 'Ändere App-Einstellungen und Verhalten';
+
+  @override
+  String get hubAboutSubtitle => 'App-Details, Version und Mitwirkende';
 
   @override
   String get about => 'Über';
@@ -1256,4 +1304,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get importantDates => 'Wichtige Daten';
+
+  @override
+  String get brewStats => 'Brühstatistiken';
+
+  @override
+  String get showMore => 'Mehr anzeigen';
+
+  @override
+  String get showLess => 'Weniger anzeigen';
 }
