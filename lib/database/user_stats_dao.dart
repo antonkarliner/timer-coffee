@@ -76,30 +76,10 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<void> updateUserStat(UserStatsModel stat) async {
-    print('UserStatsDao.updateUserStat called with stat: ${stat.toString()}');
-
     final companion = _userStatToCompanion(stat);
-    print('Update values: $companion');
-
     final query = update(userStats)
       ..where((tbl) => tbl.statUuid.equals(stat.statUuid));
-
-    try {
-      final updatedRows = await query.write(companion);
-      print('Rows updated: $updatedRows');
-
-      // Verify the update
-      final updatedStat = await fetchStatByUuid(stat.statUuid);
-      print('Stat after update: ${updatedStat.toString()}');
-
-      if (updatedRows == 0) {
-        print(
-            'Warning: No rows were updated. The stat might not exist in the database.');
-      }
-    } catch (e) {
-      print('Error updating user stat: $e');
-      rethrow;
-    }
+    await query.write(companion);
   }
 
   Future<List<String>> fetchAllDistinctRoasters() async {
@@ -171,7 +151,6 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
             where: (tbl) => tbl.statUuid.equals(update.statUuid.value!),
           );
         } else if (update.id.present && update.id.value != null) {
-          // Fallback to using id if statUuid is not available
           batch.update(
             userStats,
             update,
@@ -195,21 +174,18 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     await batch((batch) {
       for (final update in updates) {
         if (update.id.present && update.id.value != null) {
-          // If we have an id, use it to find the record to update
           batch.update(
             userStats,
             update,
             where: (tbl) => tbl.id.equals(update.id.value!),
           );
         } else if (update.statUuid.present) {
-          // If we don't have an id but have a statUuid, use it
           batch.update(
             userStats,
             update,
             where: (tbl) => tbl.statUuid.equals(update.statUuid.value),
           );
         }
-        // If neither id nor statUuid is present, we can't update the record
       }
     });
   }
@@ -234,9 +210,7 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
 
   Future<List<UserStatsModel>> fetchStatsByUuids(List<String> uuids) async {
     final query = select(userStats)
-      ..where((tbl) =>
-          tbl.statUuid.isIn(uuids) &
-          tbl.isDeleted.equals(false)); // Fetch only non-deleted stats
+      ..where((tbl) => tbl.statUuid.isIn(uuids) & tbl.isDeleted.equals(false));
     final results = await query.get();
     return results.map(_userStatFromRow).toList();
   }

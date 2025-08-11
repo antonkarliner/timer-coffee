@@ -1,543 +1,922 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:coffee_timer/controllers/stats_controller.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/models/recipe_model.dart';
+import 'package:coffee_timer/providers/beans_stats_provider.dart';
+import 'package:coffee_timer/providers/database_provider.dart';
+import 'package:coffee_timer/providers/recipe_provider.dart';
+import 'package:coffee_timer/providers/user_stat_provider.dart';
+import 'package:coffee_timer/services/stats_realtime_service.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
+import 'package:coffeico/coffeico.dart';
+import 'package:coffee_timer/widgets/stats/time_period_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../app_router.gr.dart';
-import '../models/recipe_model.dart';
-import '../providers/recipe_provider.dart';
-import '../providers/database_provider.dart';
-import 'package:coffee_timer/l10n/app_localizations.dart';
-import '../providers/user_stat_provider.dart';
-
-enum TimePeriod { today, thisWeek, thisMonth, custom }
+import 'package:coffee_timer/models/beans_stats_models.dart';
+import 'package:coffee_timer/widgets/stats/beans_stat_list_card.dart';
+import 'package:coffee_timer/widgets/roaster_logo.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 @RoutePage()
 class StatsScreen extends StatefulWidget {
-  StatsScreen({Key? key}) : super(key: key);
+  const StatsScreen({super.key});
 
   @override
-  _StatsScreenState createState() => _StatsScreenState();
+  State<StatsScreen> createState() => _StatsScreenState();
 }
 
 class _StatsScreenState extends State<StatsScreen> {
-  TimePeriod _selectedPeriod = TimePeriod.today;
-  DateTime? _customStartDate;
-  DateTime? _customEndDate;
-
-  late DatabaseProvider db;
-  double totalGlobalCoffeeBrewed = 0.0;
-  double temporaryUpdates = 0.0;
-  bool includesToday = true;
-
-  DateTime _getStartDate(UserStatProvider provider, TimePeriod period) {
-    switch (period) {
-      case TimePeriod.today:
-        return provider.getStartOfToday();
-      case TimePeriod.thisWeek:
-        return provider.getStartOfWeek();
-      case TimePeriod.thisMonth:
-        return provider.getStartOfMonth();
-      case TimePeriod.custom:
-        return _customStartDate ?? DateTime.now();
-    }
-  }
-
-  Future<void> _showDatePickerDialog(BuildContext context) async {
-    var results = await showCalendarDatePicker2Dialog(
-      context: context,
-      config: CalendarDatePicker2WithActionButtonsConfig(
-        calendarType: CalendarDatePicker2Type.range,
-      ),
-      dialogSize: const Size(325, 400),
-      value: [_customStartDate, _customEndDate],
-      borderRadius: BorderRadius.circular(15),
-    );
-
-    if (results != null && results.length == 2) {
-      setState(() {
-        _customStartDate = results[0];
-        _customEndDate = results[1];
-        _selectedPeriod = TimePeriod.custom;
-        DateTime startDate = _customStartDate ?? DateTime.now();
-        DateTime endDate = _customEndDate ?? DateTime.now();
-        includesToday = startDate.isBefore(DateTime.now()) &&
-            endDate.isAfter(DateTime.now());
-        fetchInitialTotal(startDate, endDate);
-      });
-    }
-  }
+  late final StatsController _controller;
+  late final StatsRealtimeService _realtime;
+  late final DatabaseProvider _db;
 
   @override
   void initState() {
     super.initState();
-    db = Provider.of<DatabaseProvider>(context, listen: false);
-    _updateTimePeriod(_selectedPeriod);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      initializeRealtimeSubscription();
+    _controller = StatsController();
+    _realtime = StatsRealtimeService();
+
+    // Safe to read providers with listen: false in initState
+    _db = Provider.of<DatabaseProvider>(context, listen: false);
+
+    // Initialize default period and totals after first frame so providers are ready
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final userStatProvider =
+          Provider.of<UserStatProvider>(context, listen: false);
+
+      // Ensure default window and includesToday are set
+      _controller.selectPeriod(userStatProvider, _controller.selectedPeriod);
+
+      // Initial total
+      await _refreshGlobalTotal();
+
+      // Start realtime updates
+      _realtime.start(onEvent: ({
+        required String recipeId,
+        required DateTime createdAt,
+        required double liters,
+      }) {
+        // Update total if event within current range
+        _controller.addToTotalIfInRange(
+          userStatProvider,
+          createdAt,
+          liters,
+        );
+        // Inform the user about a brew event
+        _showRecipeBrewedSnackbar(recipeId);
+      });
     });
   }
 
-  bool _isDateWithinRange(DateTime date) {
-    DateTime startDate = _getStartDate(
-        Provider.of<UserStatProvider>(context, listen: false), _selectedPeriod);
-    DateTime endDate = _selectedPeriod == TimePeriod.custom
-        ? (_customEndDate ?? DateTime.now())
-        : DateTime.now();
-    return date.isAfter(startDate) && date.isBefore(endDate);
+  Future<void> _refreshGlobalTotal() async {
+    final userStatProvider =
+        Provider.of<UserStatProvider>(context, listen: false);
+    final start = _controller.getStartDate(userStatProvider);
+    final end = _controller.getEndDate();
+    final initial = await _db.fetchGlobalBrewedCoffeeAmount(start, end);
+    if (mounted) {
+      _controller.setInitialTotal(initial);
+    }
   }
 
-  void initializeRealtimeSubscription() {
-    final channel = Supabase.instance.client.channel('public:global_stats');
-    channel
-        .onPostgresChanges(
-            event: PostgresChangeEvent.insert,
-            schema: 'public',
-            table: 'global_stats',
-            callback: (payload) {
-              print('Change received: ${payload.newRecord}');
-              if (payload.newRecord != null &&
-                  payload.newRecord['water_amount'] != null) {
-                String recipeId = payload.newRecord['recipe_id'].toString();
-                _showRecipeBrewedSnackbar(
-                    recipeId, context); // Use correct context
-
-                // Parse the created_at date from the payload to check if the update is within the current range
-                DateTime createdAt =
-                    DateTime.parse(payload.newRecord['created_at']);
-                double updateAmount =
-                    (payload.newRecord['water_amount'] as num) / 1000;
-
-                // Check if the created_at date is within the selected period
-                if (_isDateWithinRange(createdAt)) {
-                  setState(() {
-                    totalGlobalCoffeeBrewed += updateAmount;
-                  });
-                }
-              }
-            })
-        .subscribe();
-  }
-
-  Future<void> _showRecipeBrewedSnackbar(
-      String recipeId, BuildContext ctx) async {
-    String recipeName = await Provider.of<RecipeProvider>(ctx, listen: false)
+  Future<void> _showRecipeBrewedSnackbar(String recipeId) async {
+    if (!mounted) return;
+    final ctx = context;
+    final recipeName = await Provider.of<RecipeProvider>(ctx, listen: false)
         .getLocalizedRecipeName(recipeId);
-    ScaffoldMessenger.of(ctx)
-        .hideCurrentSnackBar(); // Clear any existing snack bars
+
+    if (!mounted) return;
+    ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
     ScaffoldMessenger.of(ctx).showSnackBar(
       SnackBar(
         content: Text(AppLocalizations.of(ctx)!.someoneJustBrewed(recipeName)),
-        behavior: SnackBarBehavior.floating, // Make it floating
+        behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0), // Rounded corners
+          borderRadius: BorderRadius.circular(10.0),
         ),
-        duration: const Duration(seconds: 10), // Show it for 10 seconds
-        showCloseIcon: true, // Automatically include a close icon
+        duration: const Duration(seconds: 10),
+        showCloseIcon: true,
       ),
     );
   }
 
-  void _updateTimePeriod(TimePeriod period) {
-    setState(() {
-      _selectedPeriod = period;
-    });
-    DateTime startDate = _getStartDate(
-        Provider.of<UserStatProvider>(context, listen: false), period);
-    DateTime endDate = _selectedPeriod == TimePeriod.custom
-        ? (_customEndDate ?? DateTime.now())
-        : DateTime.now();
-    includesToday =
-        DateTime.now().isAfter(startDate) && DateTime.now().isBefore(endDate);
-    fetchInitialTotal(startDate, endDate);
-  }
-
-  Future<void> fetchInitialTotal(DateTime start, DateTime end) async {
-    double initialTotal = await db.fetchGlobalBrewedCoffeeAmount(start, end);
-    setState(() {
-      totalGlobalCoffeeBrewed =
-          initialTotal + (includesToday ? temporaryUpdates : 0.0);
-      temporaryUpdates = 0.0; // Discard temporary updates after applying
-    });
-  }
-
   @override
   void dispose() {
-    Supabase.instance.client
-        .removeAllChannels(); // Make sure to properly dispose of all subscriptions
+    _realtime.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<UserStatProvider>(context, listen: false);
-    DateTime startDate = _getStartDate(provider, _selectedPeriod);
-    DateTime endDate = _selectedPeriod == TimePeriod.custom
-        ? (_customEndDate ?? DateTime.now())
-        : DateTime.now();
+    final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: Semantics(
-          identifier: 'statsBackButton',
-          child: const BackButton(),
-        ),
-        title: Semantics(
-          identifier: 'statsTitle',
-          child: Row(
+    return ChangeNotifierProvider.value(
+      value: _controller,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: const BackButton(),
+          title: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Icon(Icons.bar_chart),
               const SizedBox(width: 8),
-              Text(AppLocalizations.of(context)!.statsscreen),
+              Text(l10n.brewStats),
+            ],
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header with time period selector
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(32.0, 16.0, 16.0, 16.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        l10n.statsFor,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 260),
+                              child: StatsTimePeriodSelector(
+                                onChanged: _refreshGlobalTotal,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Your stats section (personal)
+                _YourStatsSection(onOpenRecipe: _openRecipeDetail),
+
+                // Global stats section
+                _GlobalStatsSection(onOpenRecipe: _openRecipeDetail),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _openRecipeDetail(RecipeModel recipe) {
+    if (!mounted) return;
+    context.router.push(RecipeDetailRoute(
+      brewingMethodId: recipe.brewingMethodId,
+      recipeId: recipe.id,
+    ));
+  }
+}
+
+class _AccountAvatarInline extends StatefulWidget {
+  final double size;
+  const _AccountAvatarInline({Key? key, this.size = 24}) : super(key: key);
+
+  @override
+  State<_AccountAvatarInline> createState() => _AccountAvatarInlineState();
+}
+
+class _AccountAvatarInlineState extends State<_AccountAvatarInline> {
+  String? _imageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadImageUrl();
+  }
+
+  Future<void> _loadImageUrl() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final user = Supabase.instance.client.auth.currentUser;
+
+      // If no authenticated user, clear any cached user-specific avatar to avoid
+      // showing another user's avatar after sign out.
+      if (user == null || (user.id == null || user.id!.isEmpty)) {
+        final cachedUserId = prefs.getString('user_profile_picture_user_id');
+        if (cachedUserId != null) {
+          await prefs.remove('user_profile_picture_user_id');
+          await prefs.remove('user_profile_picture_url');
+        } else {
+          // Also remove orphaned url-only cache (pre-existing installs)
+          if (prefs.getString('user_profile_picture_url') != null) {
+            await prefs.remove('user_profile_picture_url');
+          }
+        }
+        return;
+      }
+
+      // Use cache only if it was stored for the current user id
+      final cachedUserId = prefs.getString('user_profile_picture_user_id');
+      final cachedUrl = prefs.getString('user_profile_picture_url');
+
+      if (cachedUrl != null &&
+          cachedUrl.isNotEmpty &&
+          cachedUserId != null &&
+          cachedUserId == user.id) {
+        if (mounted) setState(() => _imageUrl = cachedUrl);
+        return;
+      }
+
+      // If cache belongs to another user or is incomplete, clear it
+      if (cachedUserId != null && cachedUserId != user.id) {
+        await prefs.remove('user_profile_picture_user_id');
+        await prefs.remove('user_profile_picture_url');
+      } else if (cachedUserId == null && cachedUrl != null) {
+        // Orphaned url without user id - clear to avoid cross-user leakage
+        await prefs.remove('user_profile_picture_url');
+      }
+
+      // Fetch from DB for the current user
+      final response = await Supabase.instance.client
+          .from('user_public_profiles')
+          .select('profile_picture_url')
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+      if (response != null) {
+        final url = response['profile_picture_url'] as String?;
+        if (url != null && url.isNotEmpty) {
+          await prefs.setString('user_profile_picture_url', url);
+          await prefs.setString('user_profile_picture_user_id', user.id!);
+          if (mounted) setState(() => _imageUrl = url);
+        }
+      }
+    } catch (_) {
+      // Silently ignore errors here; we fall back to the icon
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final iconColor = IconTheme.of(context).color ??
+        Theme.of(context).colorScheme.onSurface.withAlpha((255 * 0.6).round());
+    final size = widget.size;
+    if (_imageUrl == null) {
+      return Icon(Icons.person, size: size, color: iconColor);
+    }
+    return ClipOval(
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: CachedNetworkImage(
+          imageUrl: _imageUrl!,
+          fit: BoxFit.cover,
+          placeholder: (ctx, url) =>
+              Icon(Icons.person, size: size, color: iconColor),
+          errorWidget: (ctx, url, err) =>
+              Icon(Icons.person, size: size, color: iconColor),
+        ),
+      ),
+    );
+  }
+}
+
+class _YourStatsSection extends StatelessWidget {
+  const _YourStatsSection({required this.onOpenRecipe});
+
+  final void Function(RecipeModel recipe) onOpenRecipe;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final controller = context.watch<StatsController>();
+    final userStatProvider =
+        Provider.of<UserStatProvider>(context, listen: false);
+    final startDate = controller.getStartDate(userStatProvider);
+    final endDate = controller.getEndDate();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                _AccountAvatarInline(size: 24),
+                const SizedBox(width: 8),
+                Text(
+                  l10n.yourStats,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ]),
+              const SizedBox(height: 12),
+
+              // Brew Stats (personal)
+              Text(
+                l10n.brewStats,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+
+              // Coffee Brewed (personal) - card
+              Card(
+                elevation: 0.5,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.coffeeBrewed,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 6),
+                          FutureBuilder<double>(
+                            future: userStatProvider
+                                .fetchBrewedCoffeeAmountForPeriod(
+                              startDate,
+                              endDate,
+                            ),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                } else if (snapshot.hasData) {
+                                  final liters = (snapshot.data ?? 0) / 1000.0;
+                                  return Text(
+                                      '${liters.toStringAsFixed(2)} ${l10n.litersUnit}');
+                                }
+                              }
+                              return const SizedBox(
+                                height: 24,
+                                width: 24,
+                                child:
+                                    CircularProgressIndicator(strokeWidth: 2),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              // Most Used Recipes (personal) - card
+              Card(
+                elevation: 0.5,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.mostUsedRecipes,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      FutureBuilder<List<String>>(
+                        future: userStatProvider.fetchTopRecipeIdsForPeriod(
+                            startDate, endDate),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            }
+                            final ids = snapshot.data ?? const <String>[];
+                            if (ids.isEmpty) {
+                              return Text(l10n.noData);
+                            }
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: ids
+                                  .map(
+                                    (id) => FutureBuilder<RecipeModel?>(
+                                      future: Provider.of<RecipeProvider>(
+                                        context,
+                                        listen: false,
+                                      ).getRecipeById(id),
+                                      builder: (context, recipeSnapshot) {
+                                        if (recipeSnapshot.connectionState ==
+                                            ConnectionState.done) {
+                                          final recipe = recipeSnapshot.data;
+                                          if (recipe != null) {
+                                            final icon = getIconByBrewingMethod(
+                                              recipe.brewingMethodId,
+                                            );
+                                            return InkWell(
+                                              onTap: () => onOpenRecipe(recipe),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  vertical: 4.0,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    icon,
+                                                    const SizedBox(width: 8),
+                                                    Flexible(
+                                                      child: Text(
+                                                        recipe.name,
+                                                        style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .secondary,
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 2,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          return Text(l10n.unknownRecipe);
+                                        }
+                                        return const SizedBox(
+                                          height: 24,
+                                          width: 24,
+                                          child: CircularProgressIndicator(
+                                              strokeWidth: 2),
+                                        );
+                                      },
+                                    ),
+                                  )
+                                  .toList(),
+                            );
+                          }
+                          return const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Beans quick tiles (replaced with capped preview + show more modals)
+              Text(
+                l10n.beansStatsSectionTitle,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  // Total Beans Brewed
+                  BeansStatListCard<BeanUsage>(
+                    label: l10n.totalBeansBrewedLabel,
+                    leadingIcon: const Icon(Coffeico.bag_with_bean),
+                    countFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                      ctx,
+                      listen: false,
+                    ).getTotalBeansBrewedCount(startDate, endDate),
+                    previewListFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                      ctx,
+                      listen: false,
+                    ).getTopBeansFull(startDate, endDate, limit: 10),
+                    fullListFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                      ctx,
+                      listen: false,
+                    ).getTopBeansFull(startDate, endDate, limit: 999),
+                    itemBuilder: (ctx, bean, {isPreview = false}) => InkWell(
+                      onTap: () => context.router
+                          .push(CoffeeBeansDetailRoute(uuid: bean.beansUuid)),
+                      child: Row(
+                        children: [
+                          FutureBuilder<Map<String, String?>>(
+                            future: Provider.of<DatabaseProvider>(ctx,
+                                    listen: false)
+                                .fetchCachedRoasterLogoUrls(bean.roaster),
+                            builder: (ctx2, snap) {
+                              if (snap.connectionState ==
+                                  ConnectionState.waiting) {
+                                return SizedBox(
+                                  height: isPreview ? 28 : 40,
+                                  width: isPreview ? 28 : 40,
+                                  child: const Center(
+                                    child: SizedBox(
+                                      height: 16,
+                                      width: 16,
+                                      child: CircularProgressIndicator(
+                                          strokeWidth: 2),
+                                    ),
+                                  ),
+                                );
+                              }
+                              if (snap.hasData) {
+                                final originalUrl = snap.data!['original'];
+                                final mirrorUrl = snap.data!['mirror'];
+                                if (originalUrl != null || mirrorUrl != null) {
+                                  return RoasterLogo(
+                                    originalUrl: originalUrl,
+                                    mirrorUrl: mirrorUrl,
+                                    height: isPreview ? 28 : 40,
+                                    borderRadius: 8.0,
+                                    forceFit: BoxFit.contain,
+                                  );
+                                }
+                              }
+                              final iconColor = Theme.of(ctx2)
+                                  .colorScheme
+                                  .onSurface
+                                  .withAlpha((255 * 0.6).round());
+                              return Icon(Coffeico.bag_with_bean,
+                                  size: isPreview ? 28 : 40, color: iconColor);
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: Text(
+                              bean.name,
+                              style: TextStyle(
+                                color: Theme.of(ctx).colorScheme.secondary,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    emptyText: l10n.noData,
+                  ),
+
+                  // New Beans Tried
+                  BeansStatListCard<BeanUsage>(
+                    label: l10n.newBeansTriedLabel,
+                    leadingIcon: const Icon(Icons.fiber_new),
+                    countFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                      ctx,
+                      listen: false,
+                    ).getNewBeansTriedCount(startDate, endDate),
+                    previewListFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                      ctx,
+                      listen: false,
+                    ).getNewBeansList(startDate, endDate, limit: 10),
+                    fullListFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                      ctx,
+                      listen: false,
+                    ).getNewBeansList(startDate, endDate, limit: 999),
+                    itemBuilder: (ctx, bean, {isPreview = false}) => InkWell(
+                      onTap: () => context.router
+                          .push(CoffeeBeansDetailRoute(uuid: bean.beansUuid)),
+                      child: Row(
+                        children: [
+                          FutureBuilder<Map<String, String?>>(
+                            future: Provider.of<DatabaseProvider>(ctx,
+                                    listen: false)
+                                .fetchCachedRoasterLogoUrls(bean.roaster),
+                            builder: (ctx2, snap) {
+                              if (snap.connectionState ==
+                                  ConnectionState.waiting) {
+                                return SizedBox(
+                                  height: isPreview ? 28 : 40,
+                                  width: isPreview ? 28 : 40,
+                                  child: const Center(
+                                    child: SizedBox(
+                                      height: 16,
+                                      width: 16,
+                                      child: CircularProgressIndicator(
+                                          strokeWidth: 2),
+                                    ),
+                                  ),
+                                );
+                              }
+                              if (snap.hasData) {
+                                final originalUrl = snap.data!['original'];
+                                final mirrorUrl = snap.data!['mirror'];
+                                if (originalUrl != null || mirrorUrl != null) {
+                                  return RoasterLogo(
+                                    originalUrl: originalUrl,
+                                    mirrorUrl: mirrorUrl,
+                                    height: isPreview ? 28 : 40,
+                                    borderRadius: 8.0,
+                                    forceFit: BoxFit.contain,
+                                  );
+                                }
+                              }
+                              final iconColor = Theme.of(ctx2)
+                                  .colorScheme
+                                  .onSurface
+                                  .withAlpha((255 * 0.6).round());
+                              return Icon(Coffeico.bag_with_bean,
+                                  size: isPreview ? 28 : 40, color: iconColor);
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: Text(
+                              bean.name,
+                              style: TextStyle(
+                                color: Theme.of(ctx).colorScheme.secondary,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    emptyText: l10n.noData,
+                  ),
+
+                  // Origins explored
+                  BeansStatListCard<String>(
+                    label: l10n.originsExploredLabel,
+                    leadingIcon: const Icon(Icons.public),
+                    countFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                      ctx,
+                      listen: false,
+                    ).getOriginsExploredCount(startDate, endDate),
+                    previewListFuture: (ctx) =>
+                        Provider.of<BeansStatsProvider>(ctx, listen: false)
+                            .getDistinctOriginsList(startDate, endDate,
+                                limit: 10),
+                    fullListFuture: (ctx) =>
+                        Provider.of<BeansStatsProvider>(ctx, listen: false)
+                            .getDistinctOriginsList(startDate, endDate,
+                                limit: 999),
+                    itemBuilder: (ctx, origin, {isPreview = false}) => Row(
+                      children: [
+                        const Icon(Icons.public, size: 20),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            origin,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    emptyText: l10n.noData,
+                  ),
+
+                  // Regions explored
+                  BeansStatListCard<String>(
+                    label: l10n.regionsExploredLabel,
+                    leadingIcon: const Icon(Icons.place),
+                    countFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                      ctx,
+                      listen: false,
+                    ).getRegionsExploredCount(startDate, endDate),
+                    previewListFuture: (ctx) =>
+                        Provider.of<BeansStatsProvider>(ctx, listen: false)
+                            .getDistinctRegionsList(startDate, endDate,
+                                limit: 10),
+                    fullListFuture: (ctx) =>
+                        Provider.of<BeansStatsProvider>(ctx, listen: false)
+                            .getDistinctRegionsList(startDate, endDate,
+                                limit: 999),
+                    itemBuilder: (ctx, region, {isPreview = false}) => Row(
+                      children: [
+                        const Icon(Icons.place, size: 20),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            region,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    emptyText: l10n.noData,
+                  ),
+
+                  // New roasters discovered
+                  BeansStatListCard<String>(
+                    label: l10n.newRoastersDiscoveredLabel,
+                    leadingIcon: const Icon(Icons.storefront),
+                    countFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                      ctx,
+                      listen: false,
+                    ).getNewRoastersDiscovered(startDate, endDate),
+                    previewListFuture: (ctx) =>
+                        Provider.of<BeansStatsProvider>(ctx, listen: false)
+                            .getNewRoastersDiscoveredList(startDate, endDate,
+                                limit: 10),
+                    fullListFuture: (ctx) =>
+                        Provider.of<BeansStatsProvider>(ctx, listen: false)
+                            .getNewRoastersDiscoveredList(startDate, endDate,
+                                limit: 999),
+                    itemBuilder: (ctx, roaster, {isPreview = false}) => Row(
+                      children: [
+                        FutureBuilder<Map<String, String?>>(
+                          future:
+                              Provider.of<DatabaseProvider>(ctx, listen: false)
+                                  .fetchCachedRoasterLogoUrls(roaster),
+                          builder: (ctx2, snap) {
+                            if (snap.connectionState ==
+                                ConnectionState.waiting) {
+                              return SizedBox(
+                                height: isPreview ? 28 : 40,
+                                width: isPreview ? 28 : 40,
+                                child: const Center(
+                                  child: SizedBox(
+                                    height: 16,
+                                    width: 16,
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: 2),
+                                  ),
+                                ),
+                              );
+                            }
+                            if (snap.hasData) {
+                              final originalUrl = snap.data!['original'];
+                              final mirrorUrl = snap.data!['mirror'];
+                              if (originalUrl != null || mirrorUrl != null) {
+                                return RoasterLogo(
+                                  originalUrl: originalUrl,
+                                  mirrorUrl: mirrorUrl,
+                                  height: isPreview ? 28 : 40,
+                                  borderRadius: 8.0,
+                                  forceFit: BoxFit.contain,
+                                );
+                              }
+                            }
+                            final iconColor = Theme.of(ctx2)
+                                .colorScheme
+                                .onSurface
+                                .withAlpha((255 * 0.6).round());
+                            return Icon(Coffeico.bag_with_bean,
+                                size: isPreview ? 28 : 40, color: iconColor);
+                          },
+                        ),
+                        const SizedBox(width: 8),
+                        Flexible(
+                            child:
+                                Text(roaster, overflow: TextOverflow.ellipsis)),
+                      ],
+                    ),
+                    emptyText: l10n.noData,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
             ],
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Semantics(
-              identifier: 'statsTimePeriodSection',
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(AppLocalizations.of(context)!.statsFor,
-                          style: const TextStyle(fontSize: 20)),
-                    ),
-                    Flexible(
-                      child: Semantics(
-                        identifier: 'statsTimePeriodDropdown',
-                        child: DropdownButton<TimePeriod>(
-                          isExpanded: true,
-                          underline: Container(),
-                          value: _selectedPeriod,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Theme.of(context).colorScheme.onBackground,
-                              fontWeight: FontWeight.bold),
-                          onChanged: (TimePeriod? newValue) {
-                            if (newValue != null) {
-                              setState(() {
-                                _selectedPeriod = newValue;
-                              });
-                              if (newValue == TimePeriod.custom) {
-                                _showDatePickerDialog(
-                                    context); // Ensure this is called when custom is selected
-                              } else {
-                                // Update for other selections without showing the date picker
-                                DateTime startDate = _getStartDate(
-                                    Provider.of<UserStatProvider>(context,
-                                        listen: false),
-                                    newValue);
-                                DateTime endDate = newValue == TimePeriod.custom
-                                    ? (_customEndDate ?? DateTime.now())
-                                    : DateTime.now();
-                                includesToday =
-                                    startDate.isBefore(DateTime.now()) &&
-                                        endDate.isAfter(DateTime.now());
-                                fetchInitialTotal(startDate, endDate);
-                              }
-                            }
-                          },
-                          items: <TimePeriod>[
-                            TimePeriod.today,
-                            TimePeriod.thisWeek,
-                            TimePeriod.thisMonth,
-                            TimePeriod.custom
-                          ].map<DropdownMenuItem<TimePeriod>>(
-                              (TimePeriod value) {
-                            return DropdownMenuItem<TimePeriod>(
-                              value: value,
-                              child: Text(_formatTimePeriod(value)),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Semantics(
-              identifier: 'yourStatsSection',
-              child: _buildStatSection(context, provider, startDate, endDate),
-            ),
-            Semantics(
-              identifier: 'globalStatsSection',
-              child: _buildGlobalStatSection(context, startDate, endDate),
-            ),
-          ],
-        ),
-      ),
     );
   }
+}
 
-  String _formatTimePeriod(TimePeriod period) {
-    switch (period) {
-      case TimePeriod.today:
-        return AppLocalizations.of(context)!.timePeriodToday;
-      case TimePeriod.thisWeek:
-        return AppLocalizations.of(context)!.timePeriodThisWeek;
-      case TimePeriod.thisMonth:
-        return AppLocalizations.of(context)!.timePeriodThisMonth;
-      case TimePeriod.custom:
-        return AppLocalizations.of(context)!.timePeriodCustom;
-      default:
-        return "";
-    }
-  }
+class _GlobalStatsSection extends StatelessWidget {
+  const _GlobalStatsSection({required this.onOpenRecipe});
 
-  Widget _buildStatSection(BuildContext context, UserStatProvider provider,
-      DateTime start, DateTime end) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Semantics(
-            identifier: 'yourStatsHeading',
-            child: Row(children: [
-              const Icon(Icons.person),
-              const SizedBox(width: 8),
-              Text(AppLocalizations.of(context)!.yourStats,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
-            ]),
-          ),
-          const SizedBox(height: 8.0),
-          Semantics(
-            identifier: 'yourStatsCoffeeBrewedTitle',
-            child: Text(AppLocalizations.of(context)!.coffeeBrewed,
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-          ),
-          Semantics(
-            identifier: 'yourStatsCoffeeBrewedValue',
-            child: FutureBuilder<double>(
-              future: provider.fetchBrewedCoffeeAmountForPeriod(start, end),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Text("Error: ${snapshot.error}");
-                  } else if (snapshot.hasData) {
-                    final coffeeBrewed =
-                        snapshot.data! / 1000; // Convert to liters
-                    return Text(
-                        '${coffeeBrewed.toStringAsFixed(2)} ${AppLocalizations.of(context)!.litersUnit}');
-                  }
-                }
-                return const CircularProgressIndicator();
-              },
-            ),
-          ),
-          const SizedBox(height: 16.0),
-          Semantics(
-            identifier: 'yourStatsMostUsedRecipesTitle',
-            child: Text(AppLocalizations.of(context)!.mostUsedRecipes,
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-          ),
-          Semantics(
-            identifier: 'yourStatsMostUsedRecipes',
-            child: FutureBuilder<List<String>>(
-              future: provider.fetchTopRecipeIdsForPeriod(start, end),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Text("Error: ${snapshot.error}");
-                  } else if (snapshot.data!.isNotEmpty) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: snapshot.data!
-                          .map((id) => FutureBuilder<RecipeModel?>(
-                                // Changed type argument
-                                future: Provider.of<RecipeProvider>(context,
-                                        listen: false)
-                                    .getRecipeById(id),
-                                builder: (context, recipeSnapshot) {
-                                  if (recipeSnapshot.connectionState ==
-                                      ConnectionState.done) {
-                                    if (recipeSnapshot.hasData) {
-                                      Icon brewingMethodIcon =
-                                          getIconByBrewingMethod(recipeSnapshot
-                                              .data!.brewingMethodId);
-                                      return InkWell(
-                                        onTap: () => context.router.push(
-                                            RecipeDetailRoute(
-                                                brewingMethodId: recipeSnapshot
-                                                    .data!.brewingMethodId,
-                                                recipeId:
-                                                    recipeSnapshot.data!.id)),
-                                        child: Row(
-                                          children: [
-                                            brewingMethodIcon,
-                                            const SizedBox(width: 8),
-                                            Flexible(
-                                              child: Text(
-                                                  recipeSnapshot.data!.name,
-                                                  style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .secondary),
-                                                  overflow: TextOverflow
-                                                      .ellipsis, // Ensure text does not overflow
-                                                  maxLines:
-                                                      2), // Allow up to two lines
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    } else {
-                                      return Text(
-                                        AppLocalizations.of(context)!
-                                            .unknownRecipe,
-                                      );
-                                    }
-                                  }
-                                  return const CircularProgressIndicator();
-                                },
-                              ))
-                          .toList(),
-                    );
-                  } else {
-                    return Text(
-                      AppLocalizations.of(context)!.noData,
-                    );
-                  }
-                }
-                return const CircularProgressIndicator();
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  final void Function(RecipeModel recipe) onOpenRecipe;
 
-  Widget _buildGlobalStatSection(
-      BuildContext context, DateTime start, DateTime end) {
-    TextStyle titleStyle = const TextStyle(
-      fontSize: 14, // Specified font size
-      fontWeight: FontWeight.bold,
-    );
-
-    TextStyle headingStyle = const TextStyle(
-      fontSize: 16, // Specified font size
-      fontWeight: FontWeight.bold,
-    );
-
-    TextStyle valueStyle = const TextStyle(
-      fontSize: 14,
-    );
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final controller = context.watch<StatsController>();
+    final userStatProvider =
+        Provider.of<UserStatProvider>(context, listen: false);
+    final startDate = controller.getStartDate(userStatProvider);
+    final endDate = controller.getEndDate();
+    final db = Provider.of<DatabaseProvider>(context, listen: false);
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Semantics(
-            identifier: 'globalStatsHeading',
-            child: Row(children: [
-              const Icon(Icons.public),
-              const SizedBox(width: 8),
-              Text(AppLocalizations.of(context)!.globalStats,
-                  style: headingStyle),
-            ]),
-          ),
-          const SizedBox(height: 8.0),
-          Semantics(
-            identifier: 'globalStatsCoffeeBrewedTitle',
-            child: Text(AppLocalizations.of(context)!.coffeeBrewed,
-                style: titleStyle),
-          ),
-          Semantics(
-            identifier: 'globalStatsCoffeeBrewedValue',
-            child: Text(
-                '${totalGlobalCoffeeBrewed.toStringAsFixed(2)} ${AppLocalizations.of(context)!.litersUnit}',
-                style: valueStyle),
-          ),
-          const SizedBox(height: 16.0),
-          Semantics(
-            identifier: 'globalStatsMostUsedRecipesTitle',
-            child: Text(AppLocalizations.of(context)!.mostUsedRecipes,
-                style: titleStyle),
-          ),
-          Semantics(
-            identifier: 'globalStatsMostUsedRecipes',
-            child: FutureBuilder<List<String>>(
-              future: db.fetchGlobalTopRecipes(start, end),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Text("Error: ${snapshot.error}", style: valueStyle);
-                  } else if (snapshot.data!.isNotEmpty) {
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                const Icon(Icons.public),
+                const SizedBox(width: 8),
+                Text(
+                  l10n.globalStats,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ]),
+              const SizedBox(height: 8),
+
+              // Global Coffee Brewed
+              Text(
+                l10n.coffeeBrewed,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(
+                '${controller.totalGlobalCoffeeBrewed.toStringAsFixed(2)} ${l10n.litersUnit}',
+              ),
+              const SizedBox(height: 16),
+
+              // Global Most Used Recipes
+              Text(
+                l10n.mostUsedRecipes,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              FutureBuilder<List<String>>(
+                future: db.fetchGlobalTopRecipes(startDate, endDate),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    }
+                    final ids = snapshot.data ?? const <String>[];
+                    if (ids.isEmpty) {
+                      return Text(l10n.noData);
+                    }
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: snapshot.data!
-                          .map((id) => FutureBuilder<RecipeModel?>(
-                                // Changed type argument
-                                future: Provider.of<RecipeProvider>(context,
-                                        listen: false)
-                                    .getRecipeById(id),
-                                builder: (context, recipeSnapshot) {
-                                  if (recipeSnapshot.connectionState ==
-                                      ConnectionState.done) {
-                                    if (recipeSnapshot.hasData) {
-                                      Icon brewingMethodIcon =
-                                          getIconByBrewingMethod(recipeSnapshot
-                                              .data!.brewingMethodId);
-                                      return InkWell(
-                                        onTap: () => context.router.push(
-                                            RecipeDetailRoute(
-                                                brewingMethodId: recipeSnapshot
-                                                    .data!.brewingMethodId,
-                                                recipeId:
-                                                    recipeSnapshot.data!.id)),
+                      children: ids
+                          .map(
+                            (id) => FutureBuilder<RecipeModel?>(
+                              future: Provider.of<RecipeProvider>(
+                                context,
+                                listen: false,
+                              ).getRecipeById(id),
+                              builder: (context, recipeSnapshot) {
+                                if (recipeSnapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  final recipe = recipeSnapshot.data;
+                                  if (recipe != null) {
+                                    final icon = getIconByBrewingMethod(
+                                      recipe.brewingMethodId,
+                                    );
+                                    return InkWell(
+                                      onTap: () => onOpenRecipe(recipe),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0,
+                                        ),
                                         child: Row(
                                           children: [
-                                            brewingMethodIcon,
+                                            icon,
                                             const SizedBox(width: 8),
                                             Flexible(
                                               child: Text(
-                                                  recipeSnapshot.data!.name,
-                                                  style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .secondary,
-                                                      fontSize: 14),
-                                                  overflow: TextOverflow
-                                                      .ellipsis, // Ensure text does not overflow
-                                                  maxLines:
-                                                      2), // Allow up to two lines
+                                                recipe.name,
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
+                                                  fontSize: 14,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      );
-                                    } else {
-                                      return Text(
-                                          AppLocalizations.of(context)!
-                                              .unknownRecipe,
-                                          style: valueStyle);
-                                    }
+                                      ),
+                                    );
                                   }
-                                  return const CircularProgressIndicator();
-                                },
-                              ))
+                                  return Text(l10n.unknownRecipe);
+                                }
+                                return const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child:
+                                      CircularProgressIndicator(strokeWidth: 2),
+                                );
+                              },
+                            ),
+                          )
                           .toList(),
                     );
-                  } else {
-                    return Text(AppLocalizations.of(context)!.noData,
-                        style: valueStyle);
                   }
-                }
-                return const CircularProgressIndicator();
-              },
-            ),
+                  return const SizedBox(
+                    height: 24,
+                    width: 24,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  );
+                },
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
