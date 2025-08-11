@@ -14,14 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image/image.dart' as img; // Use prefix to avoid conflicts
 import 'package:onesignal_flutter/onesignal_flutter.dart'; // For sign out
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import '../models/recipe_model.dart';
-import '../providers/recipe_provider.dart';
-import '../providers/user_stat_provider.dart';
-import '../utils/icon_utils.dart';
 import '../app_router.gr.dart';
-
-enum TimePeriod { today, thisWeek, thisMonth, custom }
 
 // --- Top-level function for image processing in isolate ---
 Future<Uint8List> _processImageIsolate(Uint8List imageBytes) async {
@@ -57,22 +50,10 @@ class _AccountScreenState extends State<AccountScreen> {
   final String _defaultAvatarUrl =
       'https://mprokbemdullwezwwscn.supabase.co/storage/v1/object/public/user-profile-pictures//avatar_default.webp';
 
-  // Stats functionality variables
-  TimePeriod _selectedPeriod = TimePeriod.today;
-  DateTime? _customStartDate;
-  DateTime? _customEndDate;
-  late DatabaseProvider db;
-  double totalGlobalCoffeeBrewed = 0.0;
-  double temporaryUpdates = 0.0;
-  bool includesToday = true;
-  bool _globalStatsExpanded = false;
-
   @override
   void initState() {
     super.initState();
     _loadUserProfile();
-    db = Provider.of<DatabaseProvider>(context, listen: false);
-    _updateTimePeriod(_selectedPeriod);
   }
 
   Future<void> _loadUserProfile() async {
@@ -124,8 +105,11 @@ class _AccountScreenState extends State<AccountScreen> {
         if (_profilePictureUrl != null) {
           await prefs.setString(
               'user_profile_picture_url', _profilePictureUrl!);
+          // Persist which user this URL belongs to so we don't show it after sign-out
+          await prefs.setString('user_profile_picture_user_id', userId);
         } else {
           await prefs.remove('user_profile_picture_url');
+          await prefs.remove('user_profile_picture_user_id');
         }
       } else {
         // Fetch failed, try loading from SharedPreferences (only for current user)
@@ -406,6 +390,8 @@ class _AccountScreenState extends State<AccountScreen> {
       // Update SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('user_profile_picture_url', newImageUrl);
+      // Persist the user id alongside the URL to avoid showing another user's avatar
+      await prefs.setString('user_profile_picture_user_id', userId);
 
       // Update local state
       if (mounted) {
@@ -482,6 +468,7 @@ class _AccountScreenState extends State<AccountScreen> {
       // Update SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove('user_profile_picture_url');
+      await prefs.remove('user_profile_picture_user_id');
 
       // Update local state
       if (mounted) {
@@ -520,17 +507,25 @@ class _AccountScreenState extends State<AccountScreen> {
       if (!kIsWeb) {
         await OneSignal.logout(); // Logout from OneSignal on mobile
       }
+
+      // Sign out the user
       await Supabase.instance.client.auth.signOut();
-      await Supabase.instance.client.auth
-          .signInAnonymously(); // Sign back in anonymously
+
+      // Clear cached user-specific avatar info so it does not persist after sign-out
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.remove('user_profile_picture_url');
+        await prefs.remove('user_profile_picture_user_id');
+      } catch (e) {
+        // Ignore SharedPreferences errors, sign-out should still proceed
+        print('Error clearing profile cache on sign out: $e');
+      }
+
+      // Sign back in anonymously
+      await Supabase.instance.client.auth.signInAnonymously();
 
       // Navigate back to the root or home screen after sign out
       router.popUntilRoot(); // Or specific route like HomeRoute()
-
-      // Show success message (optional, as navigation might be enough)
-      // scaffoldMessenger.showSnackBar(
-      //   SnackBar(content: Text(l10n.signOutSuccessful)), // Use localization
-      // );
     } catch (e) {
       print('Error signing out: $e');
       if (mounted) {
@@ -549,424 +544,8 @@ class _AccountScreenState extends State<AccountScreen> {
   }
   // --- End Sign Out ---
 
-  // --- Stats Helper Methods ---
-  DateTime _getStartDate(UserStatProvider provider, TimePeriod period) {
-    switch (period) {
-      case TimePeriod.today:
-        return provider.getStartOfToday();
-      case TimePeriod.thisWeek:
-        return provider.getStartOfWeek();
-      case TimePeriod.thisMonth:
-        return provider.getStartOfMonth();
-      case TimePeriod.custom:
-        return _customStartDate ?? DateTime.now();
-    }
-  }
-
-  Future<void> _showDatePickerDialog(BuildContext context) async {
-    var results = await showCalendarDatePicker2Dialog(
-      context: context,
-      config: CalendarDatePicker2WithActionButtonsConfig(
-        calendarType: CalendarDatePicker2Type.range,
-      ),
-      dialogSize: const Size(325, 400),
-      value: [_customStartDate, _customEndDate],
-      borderRadius: BorderRadius.circular(15),
-    );
-
-    if (results != null && results.length == 2) {
-      setState(() {
-        _customStartDate = results[0];
-        _customEndDate = results[1];
-        _selectedPeriod = TimePeriod.custom;
-        DateTime startDate = _customStartDate ?? DateTime.now();
-        DateTime endDate = _customEndDate ?? DateTime.now();
-        includesToday = startDate.isBefore(DateTime.now()) &&
-            endDate.isAfter(DateTime.now());
-        fetchInitialTotal(startDate, endDate);
-      });
-    }
-  }
-
-  bool _isDateWithinRange(DateTime date) {
-    DateTime startDate = _getStartDate(
-        Provider.of<UserStatProvider>(context, listen: false), _selectedPeriod);
-    DateTime endDate = _selectedPeriod == TimePeriod.custom
-        ? (_customEndDate ?? DateTime.now())
-        : DateTime.now();
-    return date.isAfter(startDate) && date.isBefore(endDate);
-  }
-
-  void initializeRealtimeSubscription() {
-    final channel = Supabase.instance.client.channel('public:global_stats');
-    channel
-        .onPostgresChanges(
-            event: PostgresChangeEvent.insert,
-            schema: 'public',
-            table: 'global_stats',
-            callback: (payload) {
-              print('Change received: ${payload.newRecord}');
-              if (payload.newRecord != null &&
-                  payload.newRecord['water_amount'] != null) {
-                String recipeId = payload.newRecord['recipe_id'].toString();
-                _showRecipeBrewedSnackbar(
-                    recipeId, context); // Use correct context
-
-                // Parse the created_at date from the payload to check if the update is within the current range
-                DateTime createdAt =
-                    DateTime.parse(payload.newRecord['created_at']);
-                double updateAmount =
-                    (payload.newRecord['water_amount'] as num) / 1000;
-
-                // Check if the created_at date is within the selected period
-                if (_isDateWithinRange(createdAt)) {
-                  setState(() {
-                    totalGlobalCoffeeBrewed += updateAmount;
-                  });
-                }
-              }
-            })
-        .subscribe();
-  }
-
-  Future<void> _showRecipeBrewedSnackbar(
-      String recipeId, BuildContext ctx) async {
-    String recipeName = await Provider.of<RecipeProvider>(ctx, listen: false)
-        .getLocalizedRecipeName(recipeId);
-    ScaffoldMessenger.of(ctx)
-        .hideCurrentSnackBar(); // Clear any existing snack bars
-    ScaffoldMessenger.of(ctx).showSnackBar(
-      SnackBar(
-        content: Text(AppLocalizations.of(ctx)!.someoneJustBrewed(recipeName)),
-        behavior: SnackBarBehavior.floating, // Make it floating
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0), // Rounded corners
-        ),
-        duration: const Duration(seconds: 10), // Show it for 10 seconds
-        showCloseIcon: true, // Automatically include a close icon
-      ),
-    );
-  }
-
-  void _updateTimePeriod(TimePeriod period) {
-    setState(() {
-      _selectedPeriod = period;
-    });
-    DateTime startDate = _getStartDate(
-        Provider.of<UserStatProvider>(context, listen: false), period);
-    DateTime endDate = _selectedPeriod == TimePeriod.custom
-        ? (_customEndDate ?? DateTime.now())
-        : DateTime.now();
-    includesToday =
-        DateTime.now().isAfter(startDate) && DateTime.now().isBefore(endDate);
-    fetchInitialTotal(startDate, endDate);
-  }
-
-  Future<void> fetchInitialTotal(DateTime start, DateTime end) async {
-    double initialTotal = await db.fetchGlobalBrewedCoffeeAmount(start, end);
-    setState(() {
-      totalGlobalCoffeeBrewed =
-          initialTotal + (includesToday ? temporaryUpdates : 0.0);
-      temporaryUpdates = 0.0; // Discard temporary updates after applying
-    });
-  }
-
-  String _formatTimePeriod(TimePeriod period) {
-    switch (period) {
-      case TimePeriod.today:
-        return AppLocalizations.of(context)!.timePeriodToday;
-      case TimePeriod.thisWeek:
-        return AppLocalizations.of(context)!.timePeriodThisWeek;
-      case TimePeriod.thisMonth:
-        return AppLocalizations.of(context)!.timePeriodThisMonth;
-      case TimePeriod.custom:
-        return AppLocalizations.of(context)!.timePeriodCustom;
-      default:
-        return "";
-    }
-  }
-
-  Widget _buildCombinedStatsSection(BuildContext context) {
-    final provider = Provider.of<UserStatProvider>(context, listen: false);
-    final l10n = AppLocalizations.of(context)!;
-    DateTime startDate = _getStartDate(provider, _selectedPeriod);
-    DateTime endDate = _selectedPeriod == TimePeriod.custom
-        ? (_customEndDate ?? DateTime.now())
-        : DateTime.now();
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Section Header with Time Period Selector
-            Row(
-              children: [
-                const Icon(Icons.person),
-                const SizedBox(width: 8),
-                Text(l10n.yourStats,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold)),
-                const Spacer(),
-                Text(l10n.statsFor, style: const TextStyle(fontSize: 14)),
-                const SizedBox(width: 8),
-                DropdownButton<TimePeriod>(
-                  value: _selectedPeriod,
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontWeight: FontWeight.bold),
-                  onChanged: (TimePeriod? newValue) {
-                    if (newValue != null) {
-                      setState(() {
-                        _selectedPeriod = newValue;
-                      });
-                      if (newValue == TimePeriod.custom) {
-                        _showDatePickerDialog(context);
-                      } else {
-                        DateTime startDate = _getStartDate(
-                            Provider.of<UserStatProvider>(context,
-                                listen: false),
-                            newValue);
-                        DateTime endDate = newValue == TimePeriod.custom
-                            ? (_customEndDate ?? DateTime.now())
-                            : DateTime.now();
-                        includesToday = startDate.isBefore(DateTime.now()) &&
-                            endDate.isAfter(DateTime.now());
-                        fetchInitialTotal(startDate, endDate);
-                      }
-                    }
-                  },
-                  items: <TimePeriod>[
-                    TimePeriod.today,
-                    TimePeriod.thisWeek,
-                    TimePeriod.thisMonth,
-                    TimePeriod.custom
-                  ].map<DropdownMenuItem<TimePeriod>>((TimePeriod value) {
-                    return DropdownMenuItem<TimePeriod>(
-                      value: value,
-                      child: Text(_formatTimePeriod(value)),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16.0),
-            // Coffee Brewed
-            Text(l10n.coffeeBrewed,
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-            FutureBuilder<double>(
-              future:
-                  provider.fetchBrewedCoffeeAmountForPeriod(startDate, endDate),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Text("Error: ${snapshot.error}");
-                  } else if (snapshot.hasData) {
-                    final coffeeBrewed =
-                        snapshot.data! / 1000; // Convert to liters
-                    return Text(
-                        '${coffeeBrewed.toStringAsFixed(2)} ${l10n.litersUnit}');
-                  }
-                }
-                return const CircularProgressIndicator();
-              },
-            ),
-            const SizedBox(height: 16.0),
-            // Most Used Recipes
-            Text(l10n.mostUsedRecipes,
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-            FutureBuilder<List<String>>(
-              future: provider.fetchTopRecipeIdsForPeriod(startDate, endDate),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Text("Error: ${snapshot.error}");
-                  } else if (snapshot.data!.isNotEmpty) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: snapshot.data!
-                          .map((id) => FutureBuilder<RecipeModel?>(
-                                future: Provider.of<RecipeProvider>(context,
-                                        listen: false)
-                                    .getRecipeById(id),
-                                builder: (context, recipeSnapshot) {
-                                  if (recipeSnapshot.connectionState ==
-                                      ConnectionState.done) {
-                                    if (recipeSnapshot.hasData) {
-                                      Icon brewingMethodIcon =
-                                          getIconByBrewingMethod(recipeSnapshot
-                                              .data!.brewingMethodId);
-                                      return InkWell(
-                                        onTap: () => context.router.push(
-                                            RecipeDetailRoute(
-                                                brewingMethodId: recipeSnapshot
-                                                    .data!.brewingMethodId,
-                                                recipeId:
-                                                    recipeSnapshot.data!.id)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 4.0),
-                                          child: Row(
-                                            children: [
-                                              brewingMethodIcon,
-                                              const SizedBox(width: 8),
-                                              Flexible(
-                                                child: Text(
-                                                    recipeSnapshot.data!.name,
-                                                    style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .secondary),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 2),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    } else {
-                                      return Text(l10n.unknownRecipe);
-                                    }
-                                  }
-                                  return const CircularProgressIndicator();
-                                },
-                              ))
-                          .toList(),
-                    );
-                  } else {
-                    return Text(l10n.noData);
-                  }
-                }
-                return const CircularProgressIndicator();
-              },
-            ),
-            const SizedBox(height: 24.0),
-            // Global Stats Expandable Section
-            ExpansionTile(
-              leading: const Icon(Icons.public),
-              title: Text(l10n.globalStats,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
-              tilePadding: EdgeInsets.zero,
-              childrenPadding: const EdgeInsets.only(top: 8.0),
-              onExpansionChanged: (expanded) {
-                setState(() {
-                  _globalStatsExpanded = expanded;
-                });
-                if (expanded) {
-                  // Initialize real-time subscription when expanded
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    initializeRealtimeSubscription();
-                  });
-                } else {
-                  // Remove subscription when collapsed
-                  Supabase.instance.client.removeAllChannels();
-                }
-              },
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Coffee Brewed
-                    Text(l10n.coffeeBrewed,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                    Text(
-                        '${totalGlobalCoffeeBrewed.toStringAsFixed(2)} ${l10n.litersUnit}'),
-                    const SizedBox(height: 16.0),
-                    // Most Used Recipes
-                    Text(l10n.mostUsedRecipes,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                    FutureBuilder<List<String>>(
-                      future: db.fetchGlobalTopRecipes(startDate, endDate),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasError) {
-                            return Text("Error: ${snapshot.error}");
-                          } else if (snapshot.data!.isNotEmpty) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: snapshot.data!
-                                  .map((id) => FutureBuilder<RecipeModel?>(
-                                        future: Provider.of<RecipeProvider>(
-                                                context,
-                                                listen: false)
-                                            .getRecipeById(id),
-                                        builder: (context, recipeSnapshot) {
-                                          if (recipeSnapshot.connectionState ==
-                                              ConnectionState.done) {
-                                            if (recipeSnapshot.hasData) {
-                                              Icon brewingMethodIcon =
-                                                  getIconByBrewingMethod(
-                                                      recipeSnapshot.data!
-                                                          .brewingMethodId);
-                                              return InkWell(
-                                                onTap: () => context.router
-                                                    .push(RecipeDetailRoute(
-                                                        brewingMethodId:
-                                                            recipeSnapshot.data!
-                                                                .brewingMethodId,
-                                                        recipeId: recipeSnapshot
-                                                            .data!.id)),
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 4.0),
-                                                  child: Row(
-                                                    children: [
-                                                      brewingMethodIcon,
-                                                      const SizedBox(width: 8),
-                                                      Flexible(
-                                                        child: Text(
-                                                            recipeSnapshot
-                                                                .data!.name,
-                                                            style: TextStyle(
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .colorScheme
-                                                                    .secondary,
-                                                                fontSize: 14),
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            maxLines: 2),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            } else {
-                                              return Text(l10n.unknownRecipe);
-                                            }
-                                          }
-                                          return const CircularProgressIndicator();
-                                        },
-                                      ))
-                                  .toList(),
-                            );
-                          } else {
-                            return Text(l10n.noData);
-                          }
-                        }
-                        return const CircularProgressIndicator();
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-  // --- End Stats Helper Methods ---
-
   @override
   void dispose() {
-    Supabase.instance.client
-        .removeAllChannels(); // Make sure to properly dispose of all subscriptions
     super.dispose();
   }
 
@@ -1117,9 +696,6 @@ class _AccountScreenState extends State<AccountScreen> {
                 ],
               ),
               const SizedBox(height: 30),
-              // Combined Stats Section
-              _buildCombinedStatsSection(context),
-              const SizedBox(height: 40),
               // Sign Out Button - Styled like RecipeCreationScreen
               ElevatedButton.icon(
                 icon: const Icon(Icons.logout),
