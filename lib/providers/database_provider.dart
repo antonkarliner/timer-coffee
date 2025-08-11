@@ -1249,11 +1249,53 @@ class DatabaseProvider {
           .whereType<UserRecipePreferencesCompanion>()
           .toList();
 
-      await _db.userRecipePreferencesDao
-          .insertOrUpdateMultiplePreferences(preferences);
+      // Defensive: only insert preferences for recipe_ids that exist locally.
+      final fetchedRecipeIds =
+          preferences.map((p) => p.recipeId.value).whereType<String>().toSet();
 
-      print(
-          'Successfully fetched and inserted ${preferences.length} preferences');
+      if (fetchedRecipeIds.isEmpty) {
+        print(
+            'No preferences to insert (no recipe ids found in fetched prefs).');
+        return;
+      }
+
+      // Query local DB for existing recipe ids from the fetched set.
+      final existingLocalRecipes = await (_db.select(_db.recipes)
+            ..where((tbl) => tbl.id.isIn(fetchedRecipeIds.toList())))
+          .get();
+
+      final existingRecipeIds = existingLocalRecipes.map((r) => r.id).toSet();
+
+      // Filter preferences to those whose recipeId exists locally.
+      final filteredPreferences = preferences
+          .where((p) =>
+              p.recipeId.present &&
+              p.recipeId.value != null &&
+              existingRecipeIds.contains(p.recipeId.value))
+          .toList();
+
+      final skippedCount = preferences.length - filteredPreferences.length;
+      if (skippedCount > 0) {
+        final skippedIds = preferences
+            .where((p) =>
+                p.recipeId.present &&
+                p.recipeId.value != null &&
+                !existingRecipeIds.contains(p.recipeId.value))
+            .map((p) => p.recipeId.value)
+            .take(10)
+            .toList();
+        print(
+            'Skipped $skippedCount preference(s) because referenced recipe_id not present locally. Sample skipped ids: $skippedIds');
+      }
+
+      if (filteredPreferences.isNotEmpty) {
+        await _db.userRecipePreferencesDao
+            .insertOrUpdateMultiplePreferences(filteredPreferences);
+        print(
+            'Successfully fetched and inserted ${filteredPreferences.length} preferences (filtered)');
+      } else {
+        print('No preferences inserted after filtering - nothing to do.');
+      }
     } on TimeoutException catch (e) {
       print('Supabase request timed out: $e');
       // Optionally, handle the timeout here
