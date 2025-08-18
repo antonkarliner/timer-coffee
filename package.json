@@ -10,7 +10,7 @@
   "scripts": {
     "preinstall": "npm install cheerio",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "vercel-build": "node insert-script.js && flutter/bin/flutter build web --release --no-tree-shake-icons --web-renderer canvaskit"
+    "vercel-build": "node insert-script.js && flutter/bin/flutter build web --release --no-tree-shake-icons"
   },
   "keywords": [],
   "author": "",
