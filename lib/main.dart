@@ -245,8 +245,7 @@ class CoffeeTimerApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: supportedLocales,
-            routerDelegate: appRouter.delegate(),
-            routeInformationParser: appRouter.defaultRouteParser(),
+            routerConfig: appRouter.config(),
             builder: (context, router) => Stack(
               children: [
                 router!,

@@ -38,10 +38,12 @@ class NewBeansImageController {
   // OCR gating state (per start() session)
   bool _ocrDisabledForSession = false;
   bool _ocrWarmed = false;
+  int _consecutiveOcrTimeouts = 0;
 
   // Thresholds (ms)
-  static const int _coldThresholdMs = 300;
-  static const int _warmThresholdMs = 220;
+  static const int _coldThresholdMs = 500; // Increased from 300
+  static const int _warmThresholdMs = 400; // Increased from 220
+  static const int _maxOcrTimeouts = 2; // Allow 2 consecutive timeouts
 
   // Centralized console logging for this controller
   // Prefix helps filter in aggregated logs
@@ -204,6 +206,7 @@ class NewBeansImageController {
 
       // Initialize gating state per session
       _ocrDisabledForSession = !_passesStaticOcrGate();
+      _consecutiveOcrTimeouts = 0; // Reset on new session
 
       if (_ocrDisabledForSession) {
         _log(
@@ -231,11 +234,16 @@ class NewBeansImageController {
                 'OCR timing: ${ocrMs}ms (thr=${thr}ms, warmed=${_ocrWarmed}). chars=${text.length} for ${file.path.split('/').last}');
 
             if (over) {
-              // Disable OCR for the rest of this session
-              _ocrDisabledForSession = true;
+              _consecutiveOcrTimeouts++;
               _log(
-                  'OCR runtime budget exceeded; disabling OCR for this session.');
+                  'OCR runtime budget exceeded (${ocrMs}ms >= ${thr}ms). Consecutive timeouts: $_consecutiveOcrTimeouts.');
+              if (_consecutiveOcrTimeouts >= _maxOcrTimeouts) {
+                _ocrDisabledForSession = true;
+                _log(
+                    'Max consecutive OCR timeouts reached ($_maxOcrTimeouts); disabling OCR for this session.');
+              }
             } else {
+              _consecutiveOcrTimeouts = 0; // Reset on success
               if (text.isNotEmpty) {
                 ocrSnippets.add(text);
               }

@@ -127,7 +127,7 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
         if (href.startsWith('app://')) {
           final routePath = href.substring(6);
           if (mounted) {
-            context.router.pushNamed(routePath);
+            context.router.pushPath(routePath);
           }
           return;
         }
