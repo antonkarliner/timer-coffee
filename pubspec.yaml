@@ -27,7 +27,7 @@ dependencies:
   share_plus: ^11.0.0
   flutter_native_splash: ^2.4.6
   introduction_screen: ^3.1.11
-  #coffeico: ^0.3.0
+  coffeico: ^0.3.0
   in_app_purchase: ^3.1.11
   supabase_flutter: ^2.8.2
   drift: ^2.28.1
