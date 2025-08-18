@@ -105,6 +105,9 @@ flutter:
    - family:  CoffeeTimerIcons
      fonts:
      - asset: fonts/CoffeeTimerIcons.ttf
+   - family:  Coffeico
+     fonts:
+     - asset: packages/coffeico/fonts/Coffeico.ttf
    - family:  Lato
      fonts:
      - asset: fonts/Lato-Regular.ttf
