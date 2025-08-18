@@ -1,5 +1,8 @@
 #!/bin/bash
 git clone https://github.com/flutter/flutter.git
+cd flutter
+git checkout 3.19.6
+cd ..
 ls
 flutter/bin/flutter clean
 flutter/bin/flutter pub get
