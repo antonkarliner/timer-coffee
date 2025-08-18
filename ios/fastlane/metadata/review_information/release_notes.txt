@@ -1,6 +1,1 @@
-A lot of new things to make your user experience better!
-
-• Easily access coffee beans from the main screen.
-• Updated Brew Stats screen with lots of useful information about your brewing habits.
-• New screen to manage all your custom recipes in one place.
-• Plus many small improvements and bug fixes.
+review_information: "Bug fixes and performance improvements to the brew timer and overall app stability."

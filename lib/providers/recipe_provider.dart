@@ -1,11 +1,8 @@
 import 'package:coffee_timer/models/coffee_fact_model.dart';
-import 'package:coffee_timer/models/contributor_model.dart';
 import 'package:coffee_timer/models/launch_popup_model.dart';
-import 'package:coffee_timer/models/vendor_model.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../database/database.dart';
 import '../models/recipe_model.dart';
 import '../models/supported_locale_model.dart';
@@ -92,8 +89,10 @@ class RecipeProvider extends ChangeNotifier {
 
   Future<void> fetchAllRecipes() async {
     _recipes.clear();
+    // Use languageCode to match DB locale keys like 'en', 'ru', etc.
+    final String localeKey = _locale.languageCode;
     List<RecipeModel> recipesList =
-        await db.recipesDao.getAllRecipes(currentLocale.toString());
+        await db.recipesDao.getAllRecipes(localeKey);
     _recipes.addAll(recipesList);
     notifyListeners();
   }
@@ -250,7 +249,9 @@ class RecipeProvider extends ChangeNotifier {
 
   Future<LaunchPopupModel?> fetchLatestLaunchPopup(String locale) async {
     await ensureDataReady(); // Make sure the database is initialized
-    return await db.launchPopupsDao.getLatestLaunchPopup(locale);
+
+    // Use the pre-fetched data from DatabaseProvider
+    return databaseProvider.launchPopupModel;
   }
 
   Future<List<SupportedLocaleModel>> fetchAllSupportedLocales() async {

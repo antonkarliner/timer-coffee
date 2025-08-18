@@ -1,6 +1,1 @@
-Banyak hal baru untuk membuat pengalaman pengguna Anda lebih baik!
-
-+ Akses biji kopi dengan mudah dari layar utama.
-+ Layar Statistik Penyeduhan yang diperbarui dengan banyak informasi menarik tentang kebiasaan menyeduh Anda.
-+ Layar baru untuk mengelola semua resep kustom Anda di satu tempat.
-+ Serta banyak perbaikan kecil dan perbaikan bug.
+Perbaikan bug dan peningkatan kinerja.

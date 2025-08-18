@@ -1,0 +1,1 @@
+Remedieri de erori și optimizări ale performanței.

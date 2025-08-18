@@ -9,9 +9,11 @@ import 'package:drift/drift.dart' as drift;
 import 'package:shared_preferences/shared_preferences.dart'; // Added for sync timestamps
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart'; // Ensure Intl is imported if needed for locale logic
+import 'package:coffee_timer/models/launch_popup_model.dart';
 
 class DatabaseProvider {
   final AppDatabase _db;
+  LaunchPopupModel? _launchPopupModel; // Field to store fetched launch popup
   // Constants for SharedPreferences keys
   static const String _lastSyncTimestampKey = 'lastUserRecipeSyncTimestamp';
   static const String _lastDeferredModerationCheckKey =
@@ -47,11 +49,13 @@ class DatabaseProvider {
 
   // --- End SharedPreferences Helpers ---
 
-  Future<void> initializeDatabase({required bool isFirstLaunch}) async {
+  Future<void> initializeDatabase(
+      {required bool isFirstLaunch, String? locale}) async {
     if (isFirstLaunch) {
       // No timeout on the first launch to ensure all essential data is loaded
       try {
-        await _initializeDatabaseInternal(isFirstLaunch: isFirstLaunch);
+        await _initializeDatabaseInternal(
+            isFirstLaunch: isFirstLaunch, locale: locale);
       } catch (error) {
         print('Error initializing database on first launch: $error');
         // Optionally, handle the error appropriately
@@ -59,7 +63,9 @@ class DatabaseProvider {
     } else {
       // Apply a 10-second timeout to the entire initialization process
       try {
-        await _initializeDatabaseInternal(isFirstLaunch: isFirstLaunch).timeout(
+        await _initializeDatabaseInternal(
+                isFirstLaunch: isFirstLaunch, locale: locale)
+            .timeout(
           const Duration(seconds: 10),
           onTimeout: () {
             print('initializeDatabase timed out');
@@ -75,11 +81,14 @@ class DatabaseProvider {
   }
 
   Future<void> _initializeDatabaseInternal(
-      {required bool isFirstLaunch}) async {
+      {required bool isFirstLaunch, String? locale}) async {
+    // Added locale parameter
     await _fetchAndStoreReferenceData(isFirstLaunch: isFirstLaunch);
     await Future.wait([
       _fetchAndStoreRecipes(isFirstLaunch: isFirstLaunch),
       _fetchAndStoreExtraData(isFirstLaunch: isFirstLaunch),
+      if (locale != null)
+        _fetchAndStoreLaunchPopup(locale), // Pass locale to fetch popup
       // Perform deferred moderation checks after main sync, but don't block forever if offline
       _performDeferredModerationChecks().timeout(
         const Duration(seconds: 5),
@@ -713,41 +722,58 @@ class DatabaseProvider {
     }
   }
 
+  Future<void> _fetchAndStoreLaunchPopup(String locale) async {
+    try {
+      final response = await Supabase.instance.client
+          .from('launch_popup')
+          .select('id, content, locale, created_at, platform')
+          .eq('locale', locale)
+          .order('created_at', ascending: false)
+          .limit(1)
+          .maybeSingle()
+          .timeout(const Duration(seconds: 2));
+
+      if (response != null) {
+        _launchPopupModel =
+            LaunchPopupModel.fromMap(response as Map<String, dynamic>);
+      } else {
+        _launchPopupModel = null;
+      }
+    } on TimeoutException {
+      print('Launch popup fetch timed out. Proceeding without it.');
+      _launchPopupModel = null; // Ensure it's null on timeout
+    } catch (e) {
+      print('Error fetching and storing remote launch popup: $e');
+      _launchPopupModel = null; // Ensure it's null on error
+    }
+  }
+
+  // Public getter for the cached launch popup model
+  LaunchPopupModel? get launchPopupModel => _launchPopupModel;
+
   Future<void> _fetchAndStoreExtraData({required bool isFirstLaunch}) async {
     try {
       // Define individual futures
       final coffeeFactsFuture =
           Supabase.instance.client.from('coffee_facts').select();
-      final launchPopupFuture =
-          Supabase.instance.client.from('launch_popup').select();
       final coffeeFactsRequest = isFirstLaunch
           ? coffeeFactsFuture
           : coffeeFactsFuture.timeout(const Duration(seconds: 5));
-      final launchPopupRequest = isFirstLaunch
-          ? launchPopupFuture
-          : launchPopupFuture.timeout(const Duration(seconds: 5));
 
       // Run all requests in parallel
       final responses = await Future.wait([
         coffeeFactsRequest,
-        launchPopupRequest,
       ]);
 
       // Process the responses
       final coffeeFactsResponse = responses[0] as List<dynamic>;
-      final launchPopupResponse = responses[1] as List<dynamic>;
-
       final coffeeFacts = coffeeFactsResponse
           .map((json) => CoffeeFactsCompanionExtension.fromJson(json))
-          .toList();
-      final launchPopups = launchPopupResponse
-          .map((json) => LaunchPopupsCompanionExtension.fromJson(json))
           .toList();
 
       await _db.transaction(() async {
         await _db.batch((batch) {
           batch.insertAllOnConflictUpdate(_db.coffeeFacts, coffeeFacts);
-          batch.insertAllOnConflictUpdate(_db.launchPopups, launchPopups);
         });
       });
     } catch (error) {

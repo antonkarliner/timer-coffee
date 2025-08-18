@@ -2469,262 +2469,6 @@ class CoffeeFactsCompanion extends UpdateCompanion<CoffeeFact> {
   }
 }
 
-class $LaunchPopupsTable extends LaunchPopups
-    with TableInfo<$LaunchPopupsTable, LaunchPopup> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $LaunchPopupsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _contentMeta =
-      const VerificationMeta('content');
-  @override
-  late final GeneratedColumn<String> content = GeneratedColumn<String>(
-      'content', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _localeMeta = const VerificationMeta('locale');
-  @override
-  late final GeneratedColumn<String> locale = GeneratedColumn<String>(
-      'locale', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES supported_locales (locale) ON DELETE CASCADE'));
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
-  @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  @override
-  List<GeneratedColumn> get $columns => [id, content, locale, createdAt];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'launch_popups';
-  @override
-  VerificationContext validateIntegrity(Insertable<LaunchPopup> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('content')) {
-      context.handle(_contentMeta,
-          content.isAcceptableOrUnknown(data['content']!, _contentMeta));
-    } else if (isInserting) {
-      context.missing(_contentMeta);
-    }
-    if (data.containsKey('locale')) {
-      context.handle(_localeMeta,
-          locale.isAcceptableOrUnknown(data['locale']!, _localeMeta));
-    } else if (isInserting) {
-      context.missing(_localeMeta);
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  LaunchPopup map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return LaunchPopup(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      content: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}content'])!,
-      locale: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}locale'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
-    );
-  }
-
-  @override
-  $LaunchPopupsTable createAlias(String alias) {
-    return $LaunchPopupsTable(attachedDatabase, alias);
-  }
-}
-
-class LaunchPopup extends DataClass implements Insertable<LaunchPopup> {
-  final int id;
-  final String content;
-  final String locale;
-  final DateTime createdAt;
-  const LaunchPopup(
-      {required this.id,
-      required this.content,
-      required this.locale,
-      required this.createdAt});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['content'] = Variable<String>(content);
-    map['locale'] = Variable<String>(locale);
-    map['created_at'] = Variable<DateTime>(createdAt);
-    return map;
-  }
-
-  LaunchPopupsCompanion toCompanion(bool nullToAbsent) {
-    return LaunchPopupsCompanion(
-      id: Value(id),
-      content: Value(content),
-      locale: Value(locale),
-      createdAt: Value(createdAt),
-    );
-  }
-
-  factory LaunchPopup.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return LaunchPopup(
-      id: serializer.fromJson<int>(json['id']),
-      content: serializer.fromJson<String>(json['content']),
-      locale: serializer.fromJson<String>(json['locale']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'content': serializer.toJson<String>(content),
-      'locale': serializer.toJson<String>(locale),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-    };
-  }
-
-  LaunchPopup copyWith(
-          {int? id, String? content, String? locale, DateTime? createdAt}) =>
-      LaunchPopup(
-        id: id ?? this.id,
-        content: content ?? this.content,
-        locale: locale ?? this.locale,
-        createdAt: createdAt ?? this.createdAt,
-      );
-  LaunchPopup copyWithCompanion(LaunchPopupsCompanion data) {
-    return LaunchPopup(
-      id: data.id.present ? data.id.value : this.id,
-      content: data.content.present ? data.content.value : this.content,
-      locale: data.locale.present ? data.locale.value : this.locale,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('LaunchPopup(')
-          ..write('id: $id, ')
-          ..write('content: $content, ')
-          ..write('locale: $locale, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, content, locale, createdAt);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is LaunchPopup &&
-          other.id == this.id &&
-          other.content == this.content &&
-          other.locale == this.locale &&
-          other.createdAt == this.createdAt);
-}
-
-class LaunchPopupsCompanion extends UpdateCompanion<LaunchPopup> {
-  final Value<int> id;
-  final Value<String> content;
-  final Value<String> locale;
-  final Value<DateTime> createdAt;
-  const LaunchPopupsCompanion({
-    this.id = const Value.absent(),
-    this.content = const Value.absent(),
-    this.locale = const Value.absent(),
-    this.createdAt = const Value.absent(),
-  });
-  LaunchPopupsCompanion.insert({
-    this.id = const Value.absent(),
-    required String content,
-    required String locale,
-    required DateTime createdAt,
-  })  : content = Value(content),
-        locale = Value(locale),
-        createdAt = Value(createdAt);
-  static Insertable<LaunchPopup> custom({
-    Expression<int>? id,
-    Expression<String>? content,
-    Expression<String>? locale,
-    Expression<DateTime>? createdAt,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (content != null) 'content': content,
-      if (locale != null) 'locale': locale,
-      if (createdAt != null) 'created_at': createdAt,
-    });
-  }
-
-  LaunchPopupsCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? content,
-      Value<String>? locale,
-      Value<DateTime>? createdAt}) {
-    return LaunchPopupsCompanion(
-      id: id ?? this.id,
-      content: content ?? this.content,
-      locale: locale ?? this.locale,
-      createdAt: createdAt ?? this.createdAt,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (content.present) {
-      map['content'] = Variable<String>(content.value);
-    }
-    if (locale.present) {
-      map['locale'] = Variable<String>(locale.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('LaunchPopupsCompanion(')
-          ..write('id: $id, ')
-          ..write('content: $content, ')
-          ..write('locale: $locale, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $UserStatsTable extends UserStats
     with TableInfo<$UserStatsTable, UserStat> {
   @override
@@ -4553,14 +4297,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $UserRecipePreferencesTable userRecipePreferences =
       $UserRecipePreferencesTable(this);
   late final $CoffeeFactsTable coffeeFacts = $CoffeeFactsTable(this);
-  late final $LaunchPopupsTable launchPopups = $LaunchPopupsTable(this);
   late final $UserStatsTable userStats = $UserStatsTable(this);
   late final $CoffeeBeansTable coffeeBeans = $CoffeeBeansTable(this);
   late final Index idxRecipesLastModified = Index('idx_recipes_last_modified',
       'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
-  late final Index idxLaunchPopupsCreatedAt = Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
   late final Index idxUserStatsStatUuidVersionVector = Index(
       'idx_user_stats_stat_uuid_version_vector',
       'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
@@ -4580,8 +4320,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final CoffeeFactsDao coffeeFactsDao =
       CoffeeFactsDao(this as AppDatabase);
   late final UserStatsDao userStatsDao = UserStatsDao(this as AppDatabase);
-  late final LaunchPopupsDao launchPopupsDao =
-      LaunchPopupsDao(this as AppDatabase);
   late final CoffeeBeansDao coffeeBeansDao =
       CoffeeBeansDao(this as AppDatabase);
   late final BeansStatsDao beansStatsDao = BeansStatsDao(this as AppDatabase);
@@ -4597,11 +4335,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         steps,
         userRecipePreferences,
         coffeeFacts,
-        launchPopups,
         userStats,
         coffeeBeans,
         idxRecipesLastModified,
-        idxLaunchPopupsCreatedAt,
         idxUserStatsStatUuidVersionVector,
         idxCoffeeBeansBeansUuidVersionVector
       ];
@@ -4655,13 +4391,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
                 limitUpdateKind: UpdateKind.delete),
             result: [
               TableUpdate('coffee_facts', kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('supported_locales',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('launch_popups', kind: UpdateKind.delete),
             ],
           ),
           WritePropagation(
@@ -4742,22 +4471,6 @@ final class $$SupportedLocalesTableReferences extends BaseReferences<
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
-
-  static MultiTypedResultKey<$LaunchPopupsTable, List<LaunchPopup>>
-      _launchPopupsRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.launchPopups,
-              aliasName: $_aliasNameGenerator(
-                  db.supportedLocales.locale, db.launchPopups.locale));
-
-  $$LaunchPopupsTableProcessedTableManager get launchPopupsRefs {
-    final manager = $$LaunchPopupsTableTableManager($_db, $_db.launchPopups)
-        .filter(
-            (f) => f.locale.locale.sqlEquals($_itemColumn<String>('locale')!));
-
-    final cache = $_typedResult.readTableOrNull(_launchPopupsRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
-  }
 }
 
 class $$SupportedLocalesTableFilterComposer
@@ -4830,27 +4543,6 @@ class $$SupportedLocalesTableFilterComposer
             $$CoffeeFactsTableFilterComposer(
               $db: $db,
               $table: $db.coffeeFacts,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
-
-  Expression<bool> launchPopupsRefs(
-      Expression<bool> Function($$LaunchPopupsTableFilterComposer f) f) {
-    final $$LaunchPopupsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.launchPopups,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$LaunchPopupsTableFilterComposer(
-              $db: $db,
-              $table: $db.launchPopups,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -4955,27 +4647,6 @@ class $$SupportedLocalesTableAnnotationComposer
             ));
     return f(composer);
   }
-
-  Expression<T> launchPopupsRefs<T extends Object>(
-      Expression<T> Function($$LaunchPopupsTableAnnotationComposer a) f) {
-    final $$LaunchPopupsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.launchPopups,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$LaunchPopupsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.launchPopups,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
 }
 
 class $$SupportedLocalesTableTableManager extends RootTableManager<
@@ -4990,10 +4661,7 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
     (SupportedLocale, $$SupportedLocalesTableReferences),
     SupportedLocale,
     PrefetchHooks Function(
-        {bool recipeLocalizationsRefs,
-        bool stepsRefs,
-        bool coffeeFactsRefs,
-        bool launchPopupsRefs})> {
+        {bool recipeLocalizationsRefs, bool stepsRefs, bool coffeeFactsRefs})> {
   $$SupportedLocalesTableTableManager(
       _$AppDatabase db, $SupportedLocalesTable table)
       : super(TableManagerState(
@@ -5034,15 +4702,13 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
           prefetchHooksCallback: (
               {recipeLocalizationsRefs = false,
               stepsRefs = false,
-              coffeeFactsRefs = false,
-              launchPopupsRefs = false}) {
+              coffeeFactsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
                 if (recipeLocalizationsRefs) db.recipeLocalizations,
                 if (stepsRefs) db.steps,
-                if (coffeeFactsRefs) db.coffeeFacts,
-                if (launchPopupsRefs) db.launchPopups
+                if (coffeeFactsRefs) db.coffeeFacts
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
@@ -5085,19 +4751,6 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.locale == item.locale),
-                        typedResults: items),
-                  if (launchPopupsRefs)
-                    await $_getPrefetchedData<SupportedLocale,
-                            $SupportedLocalesTable, LaunchPopup>(
-                        currentTable: table,
-                        referencedTable: $$SupportedLocalesTableReferences
-                            ._launchPopupsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$SupportedLocalesTableReferences(db, table, p0)
-                                .launchPopupsRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems
-                                .where((e) => e.locale == item.locale),
                         typedResults: items)
                 ];
               },
@@ -5118,10 +4771,7 @@ typedef $$SupportedLocalesTableProcessedTableManager = ProcessedTableManager<
     (SupportedLocale, $$SupportedLocalesTableReferences),
     SupportedLocale,
     PrefetchHooks Function(
-        {bool recipeLocalizationsRefs,
-        bool stepsRefs,
-        bool coffeeFactsRefs,
-        bool launchPopupsRefs})>;
+        {bool recipeLocalizationsRefs, bool stepsRefs, bool coffeeFactsRefs})>;
 typedef $$BrewingMethodsTableCreateCompanionBuilder = BrewingMethodsCompanion
     Function({
   required String brewingMethodId,
@@ -7409,261 +7059,6 @@ typedef $$CoffeeFactsTableProcessedTableManager = ProcessedTableManager<
     (CoffeeFact, $$CoffeeFactsTableReferences),
     CoffeeFact,
     PrefetchHooks Function({bool locale})>;
-typedef $$LaunchPopupsTableCreateCompanionBuilder = LaunchPopupsCompanion
-    Function({
-  Value<int> id,
-  required String content,
-  required String locale,
-  required DateTime createdAt,
-});
-typedef $$LaunchPopupsTableUpdateCompanionBuilder = LaunchPopupsCompanion
-    Function({
-  Value<int> id,
-  Value<String> content,
-  Value<String> locale,
-  Value<DateTime> createdAt,
-});
-
-final class $$LaunchPopupsTableReferences
-    extends BaseReferences<_$AppDatabase, $LaunchPopupsTable, LaunchPopup> {
-  $$LaunchPopupsTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static $SupportedLocalesTable _localeTable(_$AppDatabase db) =>
-      db.supportedLocales.createAlias($_aliasNameGenerator(
-          db.launchPopups.locale, db.supportedLocales.locale));
-
-  $$SupportedLocalesTableProcessedTableManager get locale {
-    final $_column = $_itemColumn<String>('locale')!;
-
-    final manager =
-        $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
-            .filter((f) => f.locale.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_localeTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
-  }
-}
-
-class $$LaunchPopupsTableFilterComposer
-    extends Composer<_$AppDatabase, $LaunchPopupsTable> {
-  $$LaunchPopupsTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get content => $composableBuilder(
-      column: $table.content, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
-
-  $$SupportedLocalesTableFilterComposer get locale {
-    final $$SupportedLocalesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableFilterComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-}
-
-class $$LaunchPopupsTableOrderingComposer
-    extends Composer<_$AppDatabase, $LaunchPopupsTable> {
-  $$LaunchPopupsTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get content => $composableBuilder(
-      column: $table.content, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
-
-  $$SupportedLocalesTableOrderingComposer get locale {
-    final $$SupportedLocalesTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableOrderingComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-}
-
-class $$LaunchPopupsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $LaunchPopupsTable> {
-  $$LaunchPopupsTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get content =>
-      $composableBuilder(column: $table.content, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get createdAt =>
-      $composableBuilder(column: $table.createdAt, builder: (column) => column);
-
-  $$SupportedLocalesTableAnnotationComposer get locale {
-    final $$SupportedLocalesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-}
-
-class $$LaunchPopupsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $LaunchPopupsTable,
-    LaunchPopup,
-    $$LaunchPopupsTableFilterComposer,
-    $$LaunchPopupsTableOrderingComposer,
-    $$LaunchPopupsTableAnnotationComposer,
-    $$LaunchPopupsTableCreateCompanionBuilder,
-    $$LaunchPopupsTableUpdateCompanionBuilder,
-    (LaunchPopup, $$LaunchPopupsTableReferences),
-    LaunchPopup,
-    PrefetchHooks Function({bool locale})> {
-  $$LaunchPopupsTableTableManager(_$AppDatabase db, $LaunchPopupsTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$LaunchPopupsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$LaunchPopupsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$LaunchPopupsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String> content = const Value.absent(),
-            Value<String> locale = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-          }) =>
-              LaunchPopupsCompanion(
-            id: id,
-            content: content,
-            locale: locale,
-            createdAt: createdAt,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required String content,
-            required String locale,
-            required DateTime createdAt,
-          }) =>
-              LaunchPopupsCompanion.insert(
-            id: id,
-            content: content,
-            locale: locale,
-            createdAt: createdAt,
-          ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$LaunchPopupsTableReferences(db, table, e)
-                  ))
-              .toList(),
-          prefetchHooksCallback: ({locale = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
-                if (locale) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.locale,
-                    referencedTable:
-                        $$LaunchPopupsTableReferences._localeTable(db),
-                    referencedColumn:
-                        $$LaunchPopupsTableReferences._localeTable(db).locale,
-                  ) as T;
-                }
-
-                return state;
-              },
-              getPrefetchedDataCallback: (items) async {
-                return [];
-              },
-            );
-          },
-        ));
-}
-
-typedef $$LaunchPopupsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $LaunchPopupsTable,
-    LaunchPopup,
-    $$LaunchPopupsTableFilterComposer,
-    $$LaunchPopupsTableOrderingComposer,
-    $$LaunchPopupsTableAnnotationComposer,
-    $$LaunchPopupsTableCreateCompanionBuilder,
-    $$LaunchPopupsTableUpdateCompanionBuilder,
-    (LaunchPopup, $$LaunchPopupsTableReferences),
-    LaunchPopup,
-    PrefetchHooks Function({bool locale})>;
 typedef $$UserStatsTableCreateCompanionBuilder = UserStatsCompanion Function({
   required String statUuid,
   Value<int?> id,
@@ -8632,8 +8027,6 @@ class $AppDatabaseManager {
       $$UserRecipePreferencesTableTableManager(_db, _db.userRecipePreferences);
   $$CoffeeFactsTableTableManager get coffeeFacts =>
       $$CoffeeFactsTableTableManager(_db, _db.coffeeFacts);
-  $$LaunchPopupsTableTableManager get launchPopups =>
-      $$LaunchPopupsTableTableManager(_db, _db.launchPopups);
   $$UserStatsTableTableManager get userStats =>
       $$UserStatsTableTableManager(_db, _db.userStats);
   $$CoffeeBeansTableTableManager get coffeeBeans =>
@@ -8688,11 +8081,6 @@ mixin _$UserStatsDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
   $RecipesTable get recipes => attachedDatabase.recipes;
   $UserStatsTable get userStats => attachedDatabase.userStats;
-}
-mixin _$LaunchPopupsDaoMixin on DatabaseAccessor<AppDatabase> {
-  $SupportedLocalesTable get supportedLocales =>
-      attachedDatabase.supportedLocales;
-  $LaunchPopupsTable get launchPopups => attachedDatabase.launchPopups;
 }
 mixin _$CoffeeBeansDaoMixin on DatabaseAccessor<AppDatabase> {
   $CoffeeBeansTable get coffeeBeans => attachedDatabase.coffeeBeans;

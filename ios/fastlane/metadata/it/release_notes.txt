@@ -1,6 +1,1 @@
-Tante novità per migliorare la tua esperienza d'uso!
-
-+ Accedi facilmente ai caffè in grani dalla schermata principale.
-+ Schermata Statistiche di estrazione aggiornata con molte informazioni interessanti sulle tue abitudini di preparazione.
-+ Nuova schermata per gestire tutte le tue ricette personalizzate in un unico posto.
-+ Molti piccoli miglioramenti e correzioni di bug.
+Correzioni di errori e miglioramenti delle prestazioni.

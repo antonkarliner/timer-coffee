@@ -167,11 +167,9 @@ abstract class $AppRouter extends _i19.RootStackRouter {
       );
     },
     StatsRoute.name: (routeData) {
-      final args = routeData.argsAs<StatsRouteArgs>(
-          orElse: () => const StatsRouteArgs());
       return _i19.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.StatsScreen(key: args.key),
+        child: const _i16.StatsScreen(),
       );
     },
     UserRecipeManagementRoute.name: (routeData) {
@@ -562,31 +560,16 @@ class SettingsRoute extends _i19.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i16.StatsScreen]
-class StatsRoute extends _i19.PageRouteInfo<StatsRouteArgs> {
-  StatsRoute({
-    _i21.Key? key,
-    List<_i19.PageRouteInfo>? children,
-  }) : super(
+class StatsRoute extends _i19.PageRouteInfo<void> {
+  const StatsRoute({List<_i19.PageRouteInfo>? children})
+      : super(
           StatsRoute.name,
-          args: StatsRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'StatsRoute';
 
-  static const _i19.PageInfo<StatsRouteArgs> page =
-      _i19.PageInfo<StatsRouteArgs>(name);
-}
-
-class StatsRouteArgs {
-  const StatsRouteArgs({this.key});
-
-  final _i21.Key? key;
-
-  @override
-  String toString() {
-    return 'StatsRouteArgs{key: $key}';
-  }
+  static const _i19.PageInfo<void> page = _i19.PageInfo<void>(name);
 }
 
 /// generated route for

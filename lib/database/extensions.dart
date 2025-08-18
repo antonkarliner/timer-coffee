@@ -161,19 +161,6 @@ extension CoffeeFactsCompanionExtension on CoffeeFactsCompanion {
   }
 }
 
-extension LaunchPopupsCompanionExtension on LaunchPopupsCompanion {
-  static LaunchPopupsCompanion fromJson(Map<String, dynamic> json) {
-    return LaunchPopupsCompanion(
-      id: Value(json['id']),
-      content: Value(json['content']),
-      locale: Value(json['locale']),
-      createdAt: json['created_at'] != null
-          ? Value(DateTime.parse(json['created_at']))
-          : const Value.absent(),
-    );
-  }
-}
-
 extension UserRecipePreferencesCompanionExtension
     on UserRecipePreferencesCompanion {
   static UserRecipePreferencesCompanion fromJson(Map<String, dynamic> json) {

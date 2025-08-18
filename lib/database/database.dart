@@ -7,7 +7,6 @@ import '../models/brewing_method_model.dart';
 import '../models/supported_locale_model.dart';
 import '../models/coffee_fact_model.dart';
 import '../models/user_stat_model.dart';
-import '../models/launch_popup_model.dart';
 import '../models/coffee_beans_model.dart';
 import 'package:coffee_timer/models/beans_stats_models.dart';
 import '../database/schema_versions.dart';
@@ -22,7 +21,6 @@ part 'brewing_methods_dao.dart';
 part 'supported_locales_dao.dart';
 part 'coffee_facts_dao.dart';
 part 'user_stats_dao.dart';
-part 'launch_popups_dao.dart';
 part 'coffee_beans_dao.dart';
 part 'beans_stats_dao.dart';
 
@@ -144,19 +142,6 @@ class CoffeeFacts extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-@TableIndex(name: 'idx_launch_popups_created_at', columns: {#createdAt})
-class LaunchPopups extends Table {
-  IntColumn get id => integer().named('id')();
-  TextColumn get content => text().named('content')();
-  TextColumn get locale => text()
-      .named('locale')
-      .references(SupportedLocales, #locale, onDelete: KeyAction.cascade)();
-  DateTimeColumn get createdAt => dateTime().named('created_at')();
-
-  @override
-  Set<Column> get primaryKey => {id};
-}
-
 @TableIndex(
     name: 'idx_user_stats_stat_uuid_version_vector',
     columns: {#statUuid, #versionVector})
@@ -238,7 +223,6 @@ class CoffeeBeans extends Table {
     Steps,
     UserRecipePreferences,
     CoffeeFacts,
-    LaunchPopups,
     UserStats,
     CoffeeBeans
   ],
@@ -251,7 +235,6 @@ class CoffeeBeans extends Table {
     SupportedLocalesDao,
     CoffeeFactsDao,
     UserStatsDao,
-    LaunchPopupsDao,
     CoffeeBeansDao,
     BeansStatsDao
   ],
@@ -271,7 +254,8 @@ class AppDatabase extends _$AppDatabase {
   factory AppDatabase.fromExecutor(QueryExecutor e) => AppDatabase(e);
 
   @override
-  int get schemaVersion => 26; // Incremented schema version
+  int get schemaVersion =>
+      27; // Incremented schema version (Phase B: launch_popups removed)
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -304,8 +288,8 @@ class AppDatabase extends _$AppDatabase {
               await m.createTable(userStats);
             },
             from5To6: (m, schema) async {
-              await m.createTable(launchPopups);
-              await m.createIndex(schema.idxLaunchPopupsCreatedAt);
+              //await m.createTable(launchPopups);
+              //await m.createIndex(schema.idxLaunchPopupsCreatedAt);
               // await m.deleteTable('StartPopups'); // Use customStatement for safety
               await customStatement('DROP TABLE IF EXISTS StartPopups');
             },
@@ -692,6 +676,14 @@ class AppDatabase extends _$AppDatabase {
             from25To26: (m, schema) async {
               await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.farmer);
               await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.farm);
+            },
+
+            // Phase B migration: remove launch_popups table and index
+            from26To27: (m, schema) async {
+              // Use custom statements to safely drop index and table if present
+              await customStatement(
+                  'DROP INDEX IF EXISTS idx_launch_popups_created_at');
+              await customStatement('DROP TABLE IF EXISTS launch_popups');
             },
           )(m, oldVersion, newVersion);
         },

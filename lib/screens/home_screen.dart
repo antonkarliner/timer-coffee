@@ -19,6 +19,7 @@ import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
 import 'package:http/http.dart' as http; // Import http package
 // Import for RecipeCreationScreen
 // Import AppDatabase and Recipe
+import '../widgets/launch_popup.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -259,6 +260,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           body: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+              // Launch popup trigger (side-effect only, renders nothing)
+              LaunchPopupWidget(),
+
               // Show banner only on web if _showBanner is true.
               if (kIsWeb && _showBanner)
                 Container(

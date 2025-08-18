@@ -1,0 +1,1 @@
+Hatalar giderildi ve performans iyileştirildi.

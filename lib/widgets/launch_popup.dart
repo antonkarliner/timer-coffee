@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart'
+    show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:url_launcher/url_launcher.dart'; // Ensure correct import path
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class LaunchPopupWidget extends StatefulWidget {
   @override
@@ -13,6 +16,30 @@ class LaunchPopupWidget extends StatefulWidget {
 }
 
 class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
+  // Session-only guard to prevent multiple dialogs in the same app run
+  static bool _shownThisSession = false;
+
+  // Determine whether the given platform target (from the popup model)
+  // matches the current runtime/platform. If the platform is null treat as
+  // "all" (show everywhere). Normalizes common names.
+  bool _platformMatches(String? platform) {
+    if (platform == null) return true;
+    final normalized = platform.trim().toLowerCase();
+    if (normalized == 'all') return true;
+
+    if (kIsWeb) {
+      return normalized == 'web';
+    } else {
+      // Use TargetPlatform (web-safe) instead of dart:io's Platform.
+      if (defaultTargetPlatform == TargetPlatform.iOS)
+        return normalized == 'ios';
+      if (defaultTargetPlatform == TargetPlatform.android)
+        return normalized == 'android';
+      // Other non-web platforms are not targeted specifically; only 'all' will show
+      return false;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -22,112 +49,101 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
   }
 
   void checkForNewPopup() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String locale = Localizations.localeOf(context).languageCode;
+    // Session guard: prevent duplicates during the same app run
+    if (_shownThisSession) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final locale = Localizations.localeOf(context).languageCode;
+
+    // Fetch latest popup (remote-first via provider)
     final popup = await Provider.of<RecipeProvider>(context, listen: false)
-        .fetchLatestLaunchPopup(locale); // Utilizing the new method
+        .fetchLatestLaunchPopup(locale);
 
-    if (popup != null) {
-      String lastPopupDate = prefs.getString('lastPopupDate_$locale') ?? '';
-      String currentPopupDate = popup.createdAt.toIso8601String();
+    if (popup == null) return; // nothing to show
+    // Platform gating: skip popups that don't target this platform
+    if (!_platformMatches(popup.platform)) return;
 
-      if (lastPopupDate != currentPopupDate) {
-        if (mounted) {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text(AppLocalizations.of(context)!.whatsnewtitle),
-                content: SingleChildScrollView(
-                  child: _buildRichText(context, popup.content),
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text(AppLocalizations.of(context)!.whatsnewclose),
-                    onPressed: () {
-                      prefs.setString(
-                          'lastPopupDate_$locale', currentPopupDate);
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-        }
+    final idKey = 'lastPopupId_$locale';
+    final legacyDateKey = 'lastPopupDate_$locale';
+
+    final savedId = prefs.getInt(idKey);
+    // If we've already saved the id, nothing to do
+    if (savedId != null && savedId == popup.id) return;
+
+    // Legacy migration: if user had seen same popup by createdAt date, mark id and skip
+    final legacyDate = prefs.getString(legacyDateKey);
+    if (savedId == null && legacyDate != null) {
+      final currentPopupDate = popup.createdAt.toIso8601String();
+      if (legacyDate == currentPopupDate) {
+        await prefs.setInt(idKey, popup.id);
+        return;
       }
     }
+
+    if (!mounted) return;
+
+    // Set session guard before showing to avoid racing rebuilds
+    _shownThisSession = true;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context)!.whatsnewtitle),
+          content: SingleChildScrollView(
+            child: _buildMarkdown(context, popup.content),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(AppLocalizations.of(context)!.whatsnewclose),
+              onPressed: () async {
+                await prefs.setInt(idKey, popup.id);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  Widget _buildRichText(BuildContext context, String text) {
-    RegExp linkRegExp = RegExp(r'\[(.*?)\]\((.*?)\)');
-    Iterable<Match> matches = linkRegExp.allMatches(text);
+  Widget _buildMarkdown(BuildContext context, String data) {
+    final theme = Theme.of(context);
+    final baseStyle = theme.textTheme.bodyMedium;
+    final linkColor = Colors.lightBlue;
 
-    TextStyle defaultTextStyle = Theme.of(context).textTheme.bodyMedium!;
+    final styleSheet = MarkdownStyleSheet.fromTheme(theme).copyWith(
+      p: baseStyle,
+      a: baseStyle?.copyWith(color: linkColor),
+    );
 
-    if (matches.isNotEmpty) {
-      List<TextSpan> spans = [];
-      int lastMatchEnd = 0;
-
-      for (Match match in matches) {
-        String preText = text.substring(lastMatchEnd, match.start);
-        if (preText.isNotEmpty) {
-          spans.add(TextSpan(text: preText, style: defaultTextStyle));
+    return MarkdownBody(
+      data: data,
+      styleSheet: styleSheet,
+      selectable: false,
+      softLineBreak: true,
+      onTapLink: (text, href, title) async {
+        if (href == null) return;
+        if (href.startsWith('app://')) {
+          final routePath = href.substring(6);
+          if (mounted) {
+            context.router.pushNamed(routePath);
+          }
+          return;
         }
-
-        String linkText = match.group(1)!;
-        String linkUrl = match.group(2)!;
-
-        if (linkUrl.startsWith("app://")) {
-          // Handle internal app navigation
-          String routePath = linkUrl.substring(6); // Remove the 'app://' part
-          spans.add(
-            TextSpan(
-              text: linkText,
-              style: defaultTextStyle.copyWith(color: Colors.lightBlue),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  context.router.pushNamed(routePath);
-                },
-            ),
-          );
+        // External or mailto links
+        final uri = Uri.parse(href);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri);
         } else {
-          // Handle both external links and mailto links
-          spans.add(
-            TextSpan(
-              text: linkText,
-              style: defaultTextStyle.copyWith(color: Colors.lightBlue),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () async {
-                  Uri url = Uri.parse(linkUrl);
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url);
-                  } else {
-                    // Handle failure to launch URL
-                    // This could be due to a misformatted URL or lack of suitable app to handle the URL
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Could not launch $linkUrl')),
-                    );
-                  }
-                },
-            ),
-          );
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Could not launch $href')),
+            );
+          }
         }
-
-        lastMatchEnd = match.end;
-      }
-
-      // Append any remaining text after the last match
-      String remainingText = text.substring(lastMatchEnd);
-      if (remainingText.isNotEmpty) {
-        spans.add(TextSpan(text: remainingText, style: defaultTextStyle));
-      }
-
-      return RichText(text: TextSpan(children: spans));
-    } else {
-      // If there are no matches, just return the text
-      return Text(text, style: defaultTextStyle);
-    }
+      },
+    );
   }
 
   @override

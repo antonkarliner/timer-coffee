@@ -1,6 +1,1 @@
-Multe noutăți pentru a-ți îmbunătăți experiența de utilizare!
-
-+ Acces facil la boabe de cafea direct de pe ecranul principal.
-+ Ecranul cu statistici de preparare actualizat, cu multe informații interesante despre obiceiurile tale de preparare.
-+ Ecran nou pentru gestionarea tuturor rețetelor tale personalizate dintr-un singur loc.
-+ Și multe îmbunătățiri mici și remedieri de erori.
+Remedieri de erori și îmbunătățiri ale performanței.

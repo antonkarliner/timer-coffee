@@ -10,7 +10,7 @@
         android:label="Timer.Coffee"
         android:icon="@mipmap/ic_launcher">
 
-        <!-- ────── Main Flutter activity (now also explicit launcher for tooling) ────── -->
+        <!-- ────── Main Flutter activity (NOT a launcher - aliases handle launching) ────── -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -30,12 +30,6 @@
             <meta-data
                 android:name="flutter_deeplinking_enabled"
                 android:value="true"/>
-
-            <!-- Explicit launcher so Flutter/Android tooling can resolve the launch Activity -->
-            <intent-filter>
-                <action   android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
 
             <intent-filter android:autoVerify="true">
                 <action   android:name="android.intent.action.VIEW"/>

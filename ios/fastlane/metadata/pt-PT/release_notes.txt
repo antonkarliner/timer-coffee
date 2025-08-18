@@ -1,6 +1,1 @@
-Muitas novidades para melhorar a sua experiência de utilizador!
-
-+ Aceda facilmente aos grãos de café a partir do ecrã principal.
-+ Ecrã de Estatísticas de Extração atualizado, com muita informação interessante sobre os seus hábitos de extração.
-+ Novo ecrã para gerir todas as suas receitas personalizadas num só sítio.
-+ E muitas pequenas melhorias e correções de erros.
+Correções de erros e melhorias de desempenho.

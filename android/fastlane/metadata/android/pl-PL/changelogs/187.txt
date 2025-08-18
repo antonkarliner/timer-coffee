@@ -1,0 +1,1 @@
+Usunięto błędy i zoptymalizowano wydajność aplikacji.

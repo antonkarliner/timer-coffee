@@ -1,6 +1,1 @@
-Dużo nowości, które poprawią Twoje doświadczenie użytkownika!
-
-+ Łatwy dostęp do ziaren kawy z ekranu głównego.
-+ Zaktualizowany ekran Statystyk parzenia z wieloma ciekawymi informacjami o Twoich nawykach parzenia.
-+ Nowy ekran do zarządzania wszystkimi Twoimi przepisami w jednym miejscu.
-+ I wiele drobnych usprawnień oraz poprawek błędów.
+Poprawki błędów i usprawnienia wydajności.

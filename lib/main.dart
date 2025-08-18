@@ -83,16 +83,7 @@ void main() async {
   final brewingMethodsDao = BrewingMethodsDao(database);
 
   // Initialize databaseProvider before passing it to CoffeeTimerApp
-  final DatabaseProvider databaseProvider = DatabaseProvider(database);
-  await databaseProvider.initializeDatabase(isFirstLaunch: isFirstLaunch);
-
-  final supportedLocalesFuture = supportedLocalesDao.getAllSupportedLocales();
-  final brewingMethodsFuture = brewingMethodsDao.getAllBrewingMethods();
-  final List<SupportedLocaleModel> supportedLocales =
-      await supportedLocalesFuture;
-  final List<BrewingMethodModel> brewingMethods = await brewingMethodsFuture;
-  List<Locale> localeList =
-      supportedLocales.map((locale) => Locale(locale.locale)).toList();
+  // Defer fetching until after database initialization
 
   String themeModeString = prefs.getString('themeMode') ?? 'system';
   ThemeMode themeMode = ThemeMode.values.firstWhere(
@@ -101,12 +92,43 @@ void main() async {
   String? savedLocaleCode = prefs.getString('locale');
   Locale systemLocale =
       Locale(WidgetsBinding.instance.window.locale.languageCode);
-  Locale initialLocale = Locale('en', ''); // Default to English as a fallback
+  // Choose an initial locale BEFORE DB init so first-launch uses correct language.
+  // Constrain to generated l10n locales to avoid empty/unsynced DB lists on first run.
+  final List<Locale> genSupported = AppLocalizations.supportedLocales;
+  Locale initialLocale = const Locale('en'); // default
   if (savedLocaleCode != null) {
     initialLocale = Locale(savedLocaleCode);
-  } else if (localeList
-      .any((locale) => locale.languageCode == systemLocale.languageCode)) {
+  } else if (genSupported
+      .any((l) => l.languageCode == systemLocale.languageCode)) {
     initialLocale = systemLocale;
+  }
+
+  final DatabaseProvider databaseProvider = DatabaseProvider(database);
+  await databaseProvider.initializeDatabase(
+      isFirstLaunch: isFirstLaunch, locale: initialLocale.languageCode);
+
+  // Re-fetch supported locales after initialization to ensure they are populated
+  final List<SupportedLocaleModel> updatedSupportedLocales =
+      await supportedLocalesDao.getAllSupportedLocales();
+  List<Locale> updatedLocaleList =
+      updatedSupportedLocales.map((locale) => Locale(locale.locale)).toList();
+
+  // Now that the DB is initialized, fetch supported locales and brewing methods
+  final List<SupportedLocaleModel> supportedLocalesModels =
+      await supportedLocalesDao.getAllSupportedLocales();
+  final List<BrewingMethodModel> brewingMethods =
+      await brewingMethodsDao.getAllBrewingMethods();
+
+  // Prefer DB locales if available; otherwise fall back to generated ones
+  final List<Locale> dbLocales =
+      supportedLocalesModels.map((l) => Locale(l.locale)).toList();
+  final List<Locale> effectiveSupportedLocales =
+      dbLocales.isNotEmpty ? dbLocales : AppLocalizations.supportedLocales;
+
+  // Re-check initial locale against effectiveSupportedLocales; if not present, fallback to en
+  if (!effectiveSupportedLocales
+      .any((l) => l.languageCode == initialLocale.languageCode)) {
+    initialLocale = const Locale('en');
   }
 
   final appRouter = AppRouter();
@@ -129,11 +151,13 @@ void main() async {
   await userStatProvider.syncNewUserStats();
   await coffeeBeansProvider.syncNewCoffeeBeans();
 
+  debugPrint('Supported locales (effective): $effectiveSupportedLocales');
+  debugPrint('Initial locale chosen: $initialLocale');
   runApp(
     CoffeeTimerApp(
       database: database,
       databaseProvider: databaseProvider,
-      supportedLocales: localeList,
+      supportedLocales: effectiveSupportedLocales,
       brewingMethods: brewingMethods,
       initialLocale: initialLocale,
       themeMode: themeMode,
