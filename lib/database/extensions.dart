@@ -22,6 +22,7 @@ extension RecipesCompanionExtension on RecipesCompanion {
           ? Value(json['import_id'])
           : const Value.absent(),
       isImported: Value(json['is_imported'] ?? false),
+      isPublic: Value(json['is_public'] ?? false),
     );
   }
 
@@ -41,6 +42,8 @@ extension RecipesCompanionExtension on RecipesCompanion {
           ? Value(json['import_id'])
           : const Value.absent(),
       isImported: Value(json['is_imported'] ?? false),
+      isPublic: Value(json['ispublic'] ??
+          false), // Note: Supabase uses 'ispublic' (lowercase)
     );
   }
 
@@ -56,7 +59,9 @@ extension RecipesCompanionExtension on RecipesCompanion {
       'last_modified': lastModified.value?.toUtc().toIso8601String(),
       'import_id': importId.present ? importId.value : null,
       'is_imported': isImported.present ? isImported.value : false,
-      'ispublic': false, // Default to private
+      'ispublic': isPublic.present
+          ? isPublic.value
+          : false, // Use actual isPublic value
     };
   }
 }

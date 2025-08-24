@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:coffee_timer/env/env.dart';
 import 'package:coffeico/coffeico.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../providers/database_provider.dart';
 import '../providers/recipe_provider.dart';
 import 'package:auto_route/auto_route.dart';
@@ -72,85 +74,144 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     // Add post frame callback to check for recipes needing moderation
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkRecipesNeedingModeration();
+      // Only check for moderation if user is authenticated and not anonymous
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user != null && !user.isAnonymous) {
+        _checkRecipesNeedingModeration();
+
+        // Also trigger the post-login moderation check from UserRecipeProvider
+        final userRecipeProvider =
+            Provider.of<UserRecipeProvider>(context, listen: false);
+        userRecipeProvider.checkModerationAfterLogin().catchError((e) {
+          print("ERROR: Failed to perform post-login moderation check: $e");
+        });
+      } else {
+        print(
+            "DEBUG: Skipping moderation check - user not authenticated or anonymous");
+      }
     });
   }
 
   Future<void> _checkRecipesNeedingModeration() async {
     if (!mounted) return; // Ensure the widget is still mounted
 
+    // Skip moderation check for anonymous users
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null || user.isAnonymous) {
+      print("DEBUG: Skipping moderation check for anonymous user");
+      return;
+    }
+
     final dbProvider = Provider.of<DatabaseProvider>(context, listen: false);
-    // Get UserRecipeProvider instance
     final userRecipeProvider =
         Provider.of<UserRecipeProvider>(context, listen: false);
-    // No longer need RecipeProvider or appLocale here
 
     try {
-      // Use the public method from DatabaseProvider
-      final flaggedRecipes = await dbProvider.getRecipesNeedingModeration();
+      print("DEBUG: Starting moderation check for user: ${user.id}");
 
-      if (flaggedRecipes.isNotEmpty && mounted) {
-        // Fetch names and store brewingMethodId
-        List<Map<String, String>> flaggedRecipeDetails = [];
-        for (final recipe in flaggedRecipes) {
-          // Fetch name using UserRecipeProvider
-          final name = await userRecipeProvider.getUserRecipeName(recipe.id);
-          if (name != null) {
-            flaggedRecipeDetails.add({
-              'id': recipe.id,
-              'name': name,
-              'brewingMethodId': recipe.brewingMethodId,
-            });
-          } else {
-            // Handle case where name couldn't be fetched (optional)
-            print("Could not fetch name for flagged recipe: ${recipe.id}");
-            flaggedRecipeDetails.add({
-              'id': recipe.id,
-              'name': recipe.id, // Fallback to ID
-              'brewingMethodId': recipe.brewingMethodId,
-            });
-          }
-        }
+      // Use the public method from DatabaseProvider with timeout
+      final flaggedRecipes = await dbProvider
+          .getRecipesNeedingModeration()
+          .timeout(const Duration(seconds: 5));
 
-        if (flaggedRecipeDetails.isNotEmpty && mounted) {
-          final firstFlaggedRecipe = flaggedRecipeDetails.first;
-          final recipeNames =
-              flaggedRecipeDetails.map((r) => "'${r['name']}'").join(', ');
-          final l10n = AppLocalizations.of(context)!; // Get localizations
+      print("DEBUG: Found ${flaggedRecipes.length} recipes needing moderation");
 
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text(l10n.moderationReviewNeededTitle),
-                content: Text(l10n.moderationReviewNeededMessage(recipeNames)),
-                actions: [
-                  TextButton(
-                    child: Text(l10n.dismiss),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  TextButton(
-                    child: Text(l10n.reviewRecipeButton),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      // Use details fetched earlier
-                      context.router.push(RecipeDetailRoute(
-                        recipeId: firstFlaggedRecipe['id']!,
-                        brewingMethodId: firstFlaggedRecipe['brewingMethodId']!,
-                      ));
-                    },
-                  ),
-                ],
-              );
-            },
-          );
+      if (flaggedRecipes.isEmpty || !mounted) {
+        print("DEBUG: No recipes need moderation or widget not mounted");
+        return;
+      }
+
+      // Fetch names and store brewingMethodId with error handling
+      List<Map<String, String>> flaggedRecipeDetails = [];
+      for (final recipe in flaggedRecipes) {
+        if (!mounted) break; // Early exit if widget unmounted
+
+        try {
+          // Fetch name using UserRecipeProvider with timeout
+          final name = await userRecipeProvider
+              .getUserRecipeName(recipe.id)
+              .timeout(const Duration(seconds: 2));
+
+          flaggedRecipeDetails.add({
+            'id': recipe.id,
+            'name': name ?? recipe.id, // Use recipe ID as fallback
+            'brewingMethodId': recipe.brewingMethodId,
+          });
+
+          print(
+              "DEBUG: Added recipe to moderation list: ${recipe.id} (${name ?? 'unnamed'})");
+        } catch (e) {
+          print(
+              "WARNING: Could not fetch name for flagged recipe ${recipe.id}: $e");
+          // Still add with fallback name
+          flaggedRecipeDetails.add({
+            'id': recipe.id,
+            'name': recipe.id, // Fallback to ID
+            'brewingMethodId': recipe.brewingMethodId,
+          });
         }
       }
-    } catch (e) {
-      print("Error checking for recipes needing moderation: $e");
-      // Optionally show an error message
+
+      if (flaggedRecipeDetails.isEmpty || !mounted) {
+        print("DEBUG: No valid recipe details found or widget unmounted");
+        return;
+      }
+
+      final firstFlaggedRecipe = flaggedRecipeDetails.first;
+      final recipeNames =
+          flaggedRecipeDetails.map((r) => "'${r['name']}'").join(', ');
+
+      print("DEBUG: Showing moderation popup for recipes: $recipeNames");
+
+      final l10n = AppLocalizations.of(context)!;
+
+      showDialog(
+        context: context,
+        barrierDismissible: false, // Prevent accidental dismissal
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(l10n.moderationReviewNeededTitle),
+            content: Text(l10n.moderationReviewNeededMessage(recipeNames)),
+            actions: [
+              TextButton(
+                child: Text(l10n.dismiss),
+                onPressed: () {
+                  print("DEBUG: User dismissed moderation popup");
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text(l10n.reviewRecipeButton),
+                onPressed: () {
+                  print(
+                      "DEBUG: User chose to review recipe: ${firstFlaggedRecipe['id']}");
+                  Navigator.of(context).pop();
+                  // Navigate to recipe detail with error handling
+                  try {
+                    context.router.push(RecipeDetailRoute(
+                      recipeId: firstFlaggedRecipe['id']!,
+                      brewingMethodId: firstFlaggedRecipe['brewingMethodId']!,
+                    ));
+                  } catch (e) {
+                    print("ERROR: Failed to navigate to recipe detail: $e");
+                    // Could show a snackbar here if needed
+                  }
+                },
+              ),
+            ],
+          );
+        },
+      );
+
+      print("DEBUG: Moderation popup displayed successfully");
+    } on TimeoutException catch (e) {
+      print("ERROR: Timeout while checking for recipes needing moderation: $e");
+      // Don't show error to user, just log it
+    } catch (e, stackTrace) {
+      print(
+          "ERROR: Unexpected error checking for recipes needing moderation: $e");
+      print("Stack trace: $stackTrace");
+      // Don't show error dialog to user as this is a background check
     }
   }
 

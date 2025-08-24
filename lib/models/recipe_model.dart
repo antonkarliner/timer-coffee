@@ -21,6 +21,7 @@ class RecipeModel {
   final int? coffeeChroniclerSliderPosition;
   final String? importId;
   final bool isImported;
+  final bool isPublic;
 
   RecipeModel({
     required this.id,
@@ -43,6 +44,7 @@ class RecipeModel {
     this.coffeeChroniclerSliderPosition,
     this.importId,
     this.isImported = false,
+    this.isPublic = false,
   });
 
   RecipeModel copyWith({
@@ -66,6 +68,7 @@ class RecipeModel {
     int? coffeeChroniclerSliderPosition,
     String? importId,
     bool? isImported,
+    bool? isPublic,
   }) {
     return RecipeModel(
       id: id ?? this.id,
@@ -91,6 +94,7 @@ class RecipeModel {
           coffeeChroniclerSliderPosition ?? this.coffeeChroniclerSliderPosition,
       importId: importId ?? this.importId,
       isImported: isImported ?? this.isImported,
+      isPublic: isPublic ?? this.isPublic,
     );
   }
 }

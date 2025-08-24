@@ -43,6 +43,7 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
       vendorId: recipeData.vendorId,
       importId: recipeData.importId, // Fetch importId
       isImported: recipeData.isImported, // Fetch isImported
+      isPublic: recipeData.isPublic, // Fetch isPublic field
     );
   }
 
@@ -92,6 +93,7 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
         vendorId: recipeData.vendorId,
         importId: recipeData.importId, // Fetch importId
         isImported: recipeData.isImported, // Fetch isImported
+        isPublic: recipeData.isPublic, // Fetch isPublic field
       ));
     }
     return recipeModels;
@@ -183,10 +185,12 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
     ));
   }
 
-  // Get all recipes that need moderation review
+  // Get all recipes that need moderation review (only public recipes)
   Future<List<Recipe>> getRecipesNeedingModeration() async {
     return (select(recipes)
-          ..where((tbl) => tbl.needsModerationReview.equals(true)))
+          ..where((tbl) =>
+              tbl.needsModerationReview.equals(true) &
+              tbl.isPublic.equals(true)))
         .get();
   }
 }

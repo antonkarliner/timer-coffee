@@ -45,6 +45,8 @@ class UserRecipeProvider with ChangeNotifier {
         brewTime: drift.Value(recipeWithVendorId.brewTime.inSeconds),
         vendorId: drift.Value(recipeWithVendorId.vendorId),
         lastModified: drift.Value(DateTime.now().toUtc()), // Use UTC time
+        isPublic:
+            drift.Value(recipeWithVendorId.isPublic), // Include isPublic field
       );
       await _database.recipesDao.insertOrUpdateRecipe(recipeCompanion);
 
@@ -89,6 +91,9 @@ class UserRecipeProvider with ChangeNotifier {
     print(
         "UserRecipeProvider.updateUserRecipe: using canonical effectiveLocale = '$effectiveLocale'");
 
+    // Get current user from Supabase for authentication check
+    final user = Supabase.instance.client.auth.currentUser;
+
     final recipeCompanion = RecipesCompanion(
       id: drift.Value(recipe.id),
       brewingMethodId: drift.Value(recipe.brewingMethodId),
@@ -106,8 +111,14 @@ class UserRecipeProvider with ChangeNotifier {
       isImported: recipe.isImported != null
           ? drift.Value(recipe.isImported!)
           : const drift.Value.absent(),
-      // Set moderation flag when recipe is modified
-      needsModerationReview: const drift.Value(true),
+      isPublic: recipe.isPublic != null
+          ? drift.Value(recipe.isPublic!)
+          : const drift.Value.absent(),
+      // Only set moderation flag for authenticated users who can publish
+      needsModerationReview:
+          (user != null && !user.isAnonymous && recipe.isPublic == true)
+              ? const drift.Value(true)
+              : const drift.Value.absent(),
     );
 
     // Wrap database operations in a transaction
@@ -288,6 +299,7 @@ class UserRecipeProvider with ChangeNotifier {
           isImported: originalRecipe.isImported != null
               ? drift.Value(originalRecipe.isImported!)
               : const drift.Value.absent(),
+          isPublic: drift.Value(originalRecipe.isPublic), // Copy isPublic field
         );
         // Use insertOrUpdate, which handles potential (though unlikely) conflicts
         await _database.recipesDao.insertOrUpdateRecipe(recipeCompanion);
@@ -387,6 +399,8 @@ class UserRecipeProvider with ChangeNotifier {
           vendorId: drift.Value(newVendorId),
           lastModified: drift.Value(nowUtc), // Use UTC time
           isImported: drift.Value(true), // Mark as imported
+          isPublic: drift.Value(supabaseRecipeData['ispublic'] ??
+              false), // Include isPublic field from Supabase
         );
         await _database.recipesDao.insertOrUpdateRecipe(recipeCompanion);
 
@@ -575,6 +589,82 @@ class UserRecipeProvider with ChangeNotifier {
     } catch (e) {
       print("Error fetching name for user recipe $recipeId: $e");
       return null; // Return null on error
+    }
+  }
+
+  // Method to handle moderation checks after user authentication
+  Future<void> checkModerationAfterLogin() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null || user.isAnonymous) {
+      print(
+          'DEBUG: Skipping post-login moderation check - user not authenticated or anonymous');
+      return;
+    }
+
+    try {
+      print(
+          'DEBUG: Performing post-login moderation check for user: ${user.id}');
+
+      // Clean up any existing incorrect moderation flags for unpublished recipes
+      await clearModerationFlagsForUnpublishedRecipes();
+
+      // Check for recipes that need moderation
+      final recipesNeedingModeration =
+          await _database.recipesDao.getRecipesNeedingModeration();
+      print(
+          'DEBUG: Found ${recipesNeedingModeration.length} recipes needing moderation after login');
+
+      // The actual popup display will be handled by the UI layer (HomeScreen)
+      // This method just ensures the data is clean and up-to-date
+    } catch (e) {
+      print('ERROR: Failed to perform post-login moderation check: $e');
+      // Don't throw - this is a background operation
+    }
+  }
+
+  // Method to clear moderation flags for unpublished recipes owned by the current user
+  Future<int> clearModerationFlagsForUnpublishedRecipes() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null || user.isAnonymous) {
+      print(
+          'DEBUG: Skipping moderation cleanup - user not authenticated or anonymous');
+      return 0;
+    }
+
+    try {
+      final userVendorId = 'usr-${user.id}';
+
+      // Find unpublished recipes owned by this user that have moderation flags
+      final unpublishedRecipes = await (_database.select(_database.recipes)
+            ..where((tbl) =>
+                tbl.vendorId.equals(userVendorId) &
+                tbl.isPublic.equals(false) &
+                tbl.needsModerationReview.equals(true)))
+          .get();
+
+      if (unpublishedRecipes.isEmpty) {
+        print(
+            'DEBUG: No unpublished recipes with moderation flags found for user ${user.id}');
+        return 0;
+      }
+
+      final recipeIds = unpublishedRecipes.map((r) => r.id).toList();
+      print(
+          'DEBUG: Clearing moderation flags for ${recipeIds.length} unpublished recipes: $recipeIds');
+
+      int clearedCount = 0;
+      for (final recipeId in recipeIds) {
+        await _database.recipesDao.setNeedsModerationReview(recipeId, false);
+        clearedCount++;
+      }
+
+      print(
+          'DEBUG: Successfully cleared moderation flags for $clearedCount unpublished recipes');
+      return clearedCount;
+    } catch (e) {
+      print(
+          'ERROR: Failed to clear moderation flags for unpublished recipes: $e');
+      return 0;
     }
   }
 }

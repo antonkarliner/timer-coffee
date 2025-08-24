@@ -500,6 +500,16 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
           defaultConstraints: GeneratedColumn.constraintIsAlways(
               'CHECK ("needs_moderation_review" IN (0, 1))'),
           defaultValue: const Constant(false));
+  static const VerificationMeta _isPublicMeta =
+      const VerificationMeta('isPublic');
+  @override
+  late final GeneratedColumn<bool> isPublic = GeneratedColumn<bool>(
+      'is_public', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_public" IN (0, 1))'),
+      defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -512,7 +522,8 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
         lastModified,
         importId,
         isImported,
-        needsModerationReview
+        needsModerationReview,
+        isPublic
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -591,6 +602,10 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
           needsModerationReview.isAcceptableOrUnknown(
               data['needs_moderation_review']!, _needsModerationReviewMeta));
     }
+    if (data.containsKey('is_public')) {
+      context.handle(_isPublicMeta,
+          isPublic.isAcceptableOrUnknown(data['is_public']!, _isPublicMeta));
+    }
     return context;
   }
 
@@ -623,6 +638,8 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
       needsModerationReview: attachedDatabase.typeMapping.read(
           DriftSqlType.bool,
           data['${effectivePrefix}needs_moderation_review'])!,
+      isPublic: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_public'])!,
     );
   }
 
@@ -644,6 +661,7 @@ class Recipe extends DataClass implements Insertable<Recipe> {
   final String? importId;
   final bool isImported;
   final bool needsModerationReview;
+  final bool isPublic;
   const Recipe(
       {required this.id,
       required this.brewingMethodId,
@@ -655,7 +673,8 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       this.lastModified,
       this.importId,
       required this.isImported,
-      required this.needsModerationReview});
+      required this.needsModerationReview,
+      required this.isPublic});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -676,6 +695,7 @@ class Recipe extends DataClass implements Insertable<Recipe> {
     }
     map['is_imported'] = Variable<bool>(isImported);
     map['needs_moderation_review'] = Variable<bool>(needsModerationReview);
+    map['is_public'] = Variable<bool>(isPublic);
     return map;
   }
 
@@ -698,6 +718,7 @@ class Recipe extends DataClass implements Insertable<Recipe> {
           : Value(importId),
       isImported: Value(isImported),
       needsModerationReview: Value(needsModerationReview),
+      isPublic: Value(isPublic),
     );
   }
 
@@ -717,6 +738,7 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       isImported: serializer.fromJson<bool>(json['isImported']),
       needsModerationReview:
           serializer.fromJson<bool>(json['needsModerationReview']),
+      isPublic: serializer.fromJson<bool>(json['isPublic']),
     );
   }
   @override
@@ -734,6 +756,7 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       'importId': serializer.toJson<String?>(importId),
       'isImported': serializer.toJson<bool>(isImported),
       'needsModerationReview': serializer.toJson<bool>(needsModerationReview),
+      'isPublic': serializer.toJson<bool>(isPublic),
     };
   }
 
@@ -748,7 +771,8 @@ class Recipe extends DataClass implements Insertable<Recipe> {
           Value<DateTime?> lastModified = const Value.absent(),
           Value<String?> importId = const Value.absent(),
           bool? isImported,
-          bool? needsModerationReview}) =>
+          bool? needsModerationReview,
+          bool? isPublic}) =>
       Recipe(
         id: id ?? this.id,
         brewingMethodId: brewingMethodId ?? this.brewingMethodId,
@@ -763,6 +787,7 @@ class Recipe extends DataClass implements Insertable<Recipe> {
         isImported: isImported ?? this.isImported,
         needsModerationReview:
             needsModerationReview ?? this.needsModerationReview,
+        isPublic: isPublic ?? this.isPublic,
       );
   Recipe copyWithCompanion(RecipesCompanion data) {
     return Recipe(
@@ -787,6 +812,7 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       needsModerationReview: data.needsModerationReview.present
           ? data.needsModerationReview.value
           : this.needsModerationReview,
+      isPublic: data.isPublic.present ? data.isPublic.value : this.isPublic,
     );
   }
 
@@ -803,7 +829,8 @@ class Recipe extends DataClass implements Insertable<Recipe> {
           ..write('lastModified: $lastModified, ')
           ..write('importId: $importId, ')
           ..write('isImported: $isImported, ')
-          ..write('needsModerationReview: $needsModerationReview')
+          ..write('needsModerationReview: $needsModerationReview, ')
+          ..write('isPublic: $isPublic')
           ..write(')'))
         .toString();
   }
@@ -820,7 +847,8 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       lastModified,
       importId,
       isImported,
-      needsModerationReview);
+      needsModerationReview,
+      isPublic);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -835,7 +863,8 @@ class Recipe extends DataClass implements Insertable<Recipe> {
           other.lastModified == this.lastModified &&
           other.importId == this.importId &&
           other.isImported == this.isImported &&
-          other.needsModerationReview == this.needsModerationReview);
+          other.needsModerationReview == this.needsModerationReview &&
+          other.isPublic == this.isPublic);
 }
 
 class RecipesCompanion extends UpdateCompanion<Recipe> {
@@ -850,6 +879,7 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
   final Value<String?> importId;
   final Value<bool> isImported;
   final Value<bool> needsModerationReview;
+  final Value<bool> isPublic;
   final Value<int> rowid;
   const RecipesCompanion({
     this.id = const Value.absent(),
@@ -863,6 +893,7 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     this.importId = const Value.absent(),
     this.isImported = const Value.absent(),
     this.needsModerationReview = const Value.absent(),
+    this.isPublic = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   RecipesCompanion.insert({
@@ -877,6 +908,7 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     this.importId = const Value.absent(),
     this.isImported = const Value.absent(),
     this.needsModerationReview = const Value.absent(),
+    this.isPublic = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : id = Value(id),
         brewingMethodId = Value(brewingMethodId),
@@ -896,6 +928,7 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     Expression<String>? importId,
     Expression<bool>? isImported,
     Expression<bool>? needsModerationReview,
+    Expression<bool>? isPublic,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -911,6 +944,7 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
       if (isImported != null) 'is_imported': isImported,
       if (needsModerationReview != null)
         'needs_moderation_review': needsModerationReview,
+      if (isPublic != null) 'is_public': isPublic,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -927,6 +961,7 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
       Value<String?>? importId,
       Value<bool>? isImported,
       Value<bool>? needsModerationReview,
+      Value<bool>? isPublic,
       Value<int>? rowid}) {
     return RecipesCompanion(
       id: id ?? this.id,
@@ -941,6 +976,7 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
       isImported: isImported ?? this.isImported,
       needsModerationReview:
           needsModerationReview ?? this.needsModerationReview,
+      isPublic: isPublic ?? this.isPublic,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -982,6 +1018,9 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
       map['needs_moderation_review'] =
           Variable<bool>(needsModerationReview.value);
     }
+    if (isPublic.present) {
+      map['is_public'] = Variable<bool>(isPublic.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1002,6 +1041,7 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
           ..write('importId: $importId, ')
           ..write('isImported: $isImported, ')
           ..write('needsModerationReview: $needsModerationReview, ')
+          ..write('isPublic: $isPublic, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -5077,6 +5117,7 @@ typedef $$RecipesTableCreateCompanionBuilder = RecipesCompanion Function({
   Value<String?> importId,
   Value<bool> isImported,
   Value<bool> needsModerationReview,
+  Value<bool> isPublic,
   Value<int> rowid,
 });
 typedef $$RecipesTableUpdateCompanionBuilder = RecipesCompanion Function({
@@ -5091,6 +5132,7 @@ typedef $$RecipesTableUpdateCompanionBuilder = RecipesCompanion Function({
   Value<String?> importId,
   Value<bool> isImported,
   Value<bool> needsModerationReview,
+  Value<bool> isPublic,
   Value<int> rowid,
 });
 
@@ -5219,6 +5261,9 @@ class $$RecipesTableFilterComposer
   ColumnFilters<bool> get needsModerationReview => $composableBuilder(
       column: $table.needsModerationReview,
       builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isPublic => $composableBuilder(
+      column: $table.isPublic, builder: (column) => ColumnFilters(column));
 
   $$BrewingMethodsTableFilterComposer get brewingMethodId {
     final $$BrewingMethodsTableFilterComposer composer = $composerBuilder(
@@ -5369,6 +5414,9 @@ class $$RecipesTableOrderingComposer
       column: $table.needsModerationReview,
       builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<bool> get isPublic => $composableBuilder(
+      column: $table.isPublic, builder: (column) => ColumnOrderings(column));
+
   $$BrewingMethodsTableOrderingComposer get brewingMethodId {
     final $$BrewingMethodsTableOrderingComposer composer = $composerBuilder(
         composer: this,
@@ -5428,6 +5476,9 @@ class $$RecipesTableAnnotationComposer
 
   GeneratedColumn<bool> get needsModerationReview => $composableBuilder(
       column: $table.needsModerationReview, builder: (column) => column);
+
+  GeneratedColumn<bool> get isPublic =>
+      $composableBuilder(column: $table.isPublic, builder: (column) => column);
 
   $$BrewingMethodsTableAnnotationComposer get brewingMethodId {
     final $$BrewingMethodsTableAnnotationComposer composer = $composerBuilder(
@@ -5577,6 +5628,7 @@ class $$RecipesTableTableManager extends RootTableManager<
             Value<String?> importId = const Value.absent(),
             Value<bool> isImported = const Value.absent(),
             Value<bool> needsModerationReview = const Value.absent(),
+            Value<bool> isPublic = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               RecipesCompanion(
@@ -5591,6 +5643,7 @@ class $$RecipesTableTableManager extends RootTableManager<
             importId: importId,
             isImported: isImported,
             needsModerationReview: needsModerationReview,
+            isPublic: isPublic,
             rowid: rowid,
           ),
           createCompanionCallback: ({
@@ -5605,6 +5658,7 @@ class $$RecipesTableTableManager extends RootTableManager<
             Value<String?> importId = const Value.absent(),
             Value<bool> isImported = const Value.absent(),
             Value<bool> needsModerationReview = const Value.absent(),
+            Value<bool> isPublic = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               RecipesCompanion.insert(
@@ -5619,6 +5673,7 @@ class $$RecipesTableTableManager extends RootTableManager<
             importId: importId,
             isImported: isImported,
             needsModerationReview: needsModerationReview,
+            isPublic: isPublic,
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0

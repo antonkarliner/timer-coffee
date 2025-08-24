@@ -66,6 +66,8 @@ class Recipes extends Table {
   BoolColumn get needsModerationReview => boolean()
       .named('needs_moderation_review')
       .withDefault(const Constant(false))();
+  BoolColumn get isPublic =>
+      boolean().named('is_public').withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -255,7 +257,7 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion =>
-      27; // Incremented schema version (Phase B: launch_popups removed)
+      29; // Fixed isPublic column migration to handle existing data
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -684,6 +686,26 @@ class AppDatabase extends _$AppDatabase {
               await customStatement(
                   'DROP INDEX IF EXISTS idx_launch_popups_created_at');
               await customStatement('DROP TABLE IF EXISTS launch_popups');
+            },
+
+            // Add isPublic column to Recipes table
+            from27To28: (m, schema) async {
+              await m.addColumn(schema.recipes, schema.recipes.isPublic);
+            },
+
+            // Fix isPublic column migration to handle existing data
+            from28To29: (m, schema) async {
+              // Set is_public based on recipe ID patterns
+              await customStatement('''
+                UPDATE recipes SET is_public = CASE
+                  WHEN id NOT LIKE 'usr-%' THEN 1  -- Developer recipes are public
+                  ELSE 0  -- User recipes are private by default
+                END WHERE is_public IS NULL
+              ''');
+              // Ensure needs_moderation_review is set to false for existing records
+              await customStatement('''
+                UPDATE recipes SET needs_moderation_review = 0 WHERE needs_moderation_review IS NULL
+              ''');
             },
           )(m, oldVersion, newVersion);
         },
