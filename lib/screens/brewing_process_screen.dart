@@ -3,6 +3,7 @@ import 'dart:core';
 import 'dart:core' as core;
 import 'dart:math' as math; // Added for math functions
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Added for system UI constants
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter_animate/flutter_animate.dart'; // Added for animations
 import '../models/recipe_model.dart';
@@ -389,6 +390,52 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     }
   }
 
+  Future<void> _skipLastStep() async {
+    // Only allow skipping on the last step
+    if (currentStepIndex != brewingSteps.length - 1 || _isEndBrewAnimating)
+      return;
+
+    // Cancel the timer
+    timer.cancel();
+
+    // Play sound if enabled - same as step change
+    if (widget.soundEnabled) {
+      await _player.setAsset('assets/audio/next.mp3');
+      _player.play();
+    }
+
+    // Trigger the end animation before navigating
+    setState(() {
+      _isEndBrewAnimating = true;
+    });
+    _endBrewAnimationController.forward(from: 0.0);
+  }
+
+  bool _shouldShowSkipButton() {
+    // Show skip button only on last step and after first 5 seconds
+    return currentStepIndex == brewingSteps.length - 1 &&
+        currentStepTime >= 5 &&
+        !_isEndBrewAnimating;
+  }
+
+  void _navigateToFinishScreenSkip() {
+    // Ensure it only navigates once and if mounted
+    if (!mounted) return;
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FinishScreen(
+            brewingMethodName: widget.brewingMethodName,
+            recipe: widget.recipe,
+            waterAmount: widget.waterAmount,
+            coffeeAmount: widget.coffeeAmount,
+            sweetnessSliderPosition: widget.sweetnessSliderPosition,
+            strengthSliderPosition: widget.strengthSliderPosition),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -737,15 +784,28 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       floatingActionButton: _isEndBrewAnimating
           ? null
           : Semantics(
-              identifier: 'togglePauseButton',
-              child: FloatingActionButton(
-                onPressed: _togglePause,
-                child: Icon(
-                  _isPaused
-                      ? (Directionality.of(context) == TextDirection.rtl
-                          ? Icons.arrow_back_ios_new
-                          : Icons.play_arrow)
-                      : Icons.pause,
+              identifier: _shouldShowSkipButton()
+                  ? 'skipLastStepButton'
+                  : 'togglePauseButton',
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return ScaleTransition(scale: animation, child: child);
+                },
+                child: FloatingActionButton(
+                  key: ValueKey<bool>(_shouldShowSkipButton()),
+                  onPressed: _shouldShowSkipButton()
+                      ? () async => await _skipLastStep()
+                      : _togglePause,
+                  child: Icon(
+                    _shouldShowSkipButton()
+                        ? Icons.skip_next
+                        : (_isPaused
+                            ? (Directionality.of(context) == TextDirection.rtl
+                                ? Icons.arrow_back_ios_new
+                                : Icons.play_arrow)
+                            : Icons.pause),
+                  ),
                 ),
               ),
             ),
