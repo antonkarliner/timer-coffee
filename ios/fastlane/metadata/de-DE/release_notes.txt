@@ -1,1 +1,3 @@
-Fehlerbehebungen und Leistungsverbesserungen.
+Jetzt ist es möglich, den letzten Brühschritt zu überspringen und den Brühvorgang sofort abzuschließen.
+
++ Fehlerbehebungen und Leistungsverbesserungen.

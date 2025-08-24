@@ -1,0 +1,3 @@
+Sekarang Anda dapat melewati langkah penyeduhan terakhir dan langsung menyelesaikan seduhan.
+
++ Perbaikan bug dan peningkatan kinerja.

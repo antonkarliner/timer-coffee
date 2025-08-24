@@ -1,0 +1,3 @@
+Ahora puedes omitir el último paso de la preparación y terminarla al instante.
+
+Correcciones de errores y mejoras de rendimiento.

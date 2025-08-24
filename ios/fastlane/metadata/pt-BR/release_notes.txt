@@ -1,1 +1,3 @@
-Correções de bugs e melhorias de desempenho.
+Agora é possível pular a última etapa do preparo e finalizar a infusão imediatamente.
+
++ Correções de bugs e melhorias de desempenho.

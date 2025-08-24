@@ -1,0 +1,3 @@
+Agora pode saltar a última etapa da preparação do café e terminar a extração de imediato.
+
++ Correções de erros e melhorias de desempenho.

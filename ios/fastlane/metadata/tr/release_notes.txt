@@ -1,1 +1,3 @@
-Hata düzeltmeleri ve performans iyileştirmeleri.
+Artık son demleme adımını atlayıp demlemeyi hemen tamamlayabilirsiniz.
+
++ Hata düzeltmeleri ve performans iyileştirmeleri.

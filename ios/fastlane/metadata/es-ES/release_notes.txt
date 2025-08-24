@@ -1,1 +1,3 @@
-Corrección de errores y mejoras de rendimiento.
+Ahora es posible omitir el último paso de la preparación y finalizarla inmediatamente.
+
++ Corrección de errores y mejoras de rendimiento.

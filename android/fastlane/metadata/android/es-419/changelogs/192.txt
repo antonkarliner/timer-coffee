@@ -1,0 +1,3 @@
+Ahora puedes omitir el último paso de extracción y terminarla de inmediato.
+
++ Correcciones de errores y mejoras de rendimiento.

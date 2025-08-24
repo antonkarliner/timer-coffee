@@ -1,1 +1,3 @@
-Perbaikan bug dan peningkatan kinerja.
+Sekarang Anda dapat melewati langkah penyeduhan terakhir dan langsung menyelesaikan proses penyeduhan.
+
++ Perbaikan bug dan peningkatan kinerja.

@@ -1,1 +1,3 @@
-Correzioni di errori e miglioramenti delle prestazioni.
+Ora è possibile saltare l'ultima fase di estrazione e concludere immediatamente la preparazione.
+
++ Correzioni di bug e miglioramenti delle prestazioni.

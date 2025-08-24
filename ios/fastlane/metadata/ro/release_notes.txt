@@ -1,1 +1,3 @@
-Remedieri de erori și îmbunătățiri ale performanței.
+Acum poți să sari peste ultimul pas de preparare a cafelei și să finalizezi prepararea imediat.
+
++ Remedieri de erori și îmbunătățiri ale performanței.

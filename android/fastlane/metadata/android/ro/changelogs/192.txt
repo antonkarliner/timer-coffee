@@ -1,0 +1,3 @@
+Acum poți sări peste ultima etapă de infuzare și să închei infuzia imediat.
+
++ Remedieri de erori și optimizări de performanță.

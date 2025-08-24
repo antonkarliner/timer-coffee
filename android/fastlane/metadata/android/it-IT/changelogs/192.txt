@@ -1,0 +1,3 @@
+Ora puoi saltare l'ultimo passaggio di estrazione e terminare subito la preparazione.
+
++ Correzioni di bug e miglioramenti delle prestazioni.

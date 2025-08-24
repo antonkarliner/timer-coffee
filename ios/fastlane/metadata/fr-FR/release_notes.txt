@@ -1,1 +1,3 @@
-Corrections de bugs et améliorations des performances.
+Il est désormais possible de passer la dernière étape d'infusion et de terminer l'infusion immédiatement.
+
++ Corrections de bugs et améliorations des performances.

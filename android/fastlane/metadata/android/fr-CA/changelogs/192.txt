@@ -1,0 +1,1 @@
+Il est maintenant possible de passer la dernière étape et de terminer l’infusion immédiatement. + Corrections de bogues et améliorations des performances.
