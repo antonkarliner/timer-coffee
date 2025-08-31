@@ -294,6 +294,7 @@ class BeansStatsDao extends DatabaseAccessor<AppDatabase>
         AND us.is_deleted = 0
         AND cb.is_deleted = 0
         AND cb.origin IS NOT NULL
+        AND cb.origin != ''
       ORDER BY cb.origin ASC
       LIMIT ?
       ''',
@@ -320,6 +321,7 @@ class BeansStatsDao extends DatabaseAccessor<AppDatabase>
         AND us.is_deleted = 0
         AND cb.is_deleted = 0
         AND cb.region IS NOT NULL
+        AND cb.region != ''
       ORDER BY cb.region ASC
       LIMIT ?
       ''',
