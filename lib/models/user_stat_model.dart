@@ -82,7 +82,8 @@ class UserStatsModel {
       rating: rating ?? this.rating,
       coffeeBeansId: coffeeBeansId ?? this.coffeeBeansId,
       isMarked: isMarked ?? this.isMarked,
-      coffeeBeansUuid: coffeeBeansUuid, // Remove null-coalescing operator here
+      coffeeBeansUuid: coffeeBeansUuid ??
+          this.coffeeBeansUuid, // DEBUG: Added null-coalescing to preserve existing value
       versionVector: versionVector ?? this.versionVector,
       isDeleted:
           isDeleted ?? this.isDeleted, // Update or keep current isDeleted value

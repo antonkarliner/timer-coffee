@@ -207,37 +207,42 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             ),
           ],
         ),
-        body: FutureBuilder<List<UserStatsModel>>(
-          future: userStatProvider.fetchAllUserStats(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(
-                child: Semantics(
-                  identifier: 'brewDiaryError',
-                  label: 'Error',
-                  child: Text("Error: ${snapshot.error}"),
-                ),
-              );
-            } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-              return Center(
-                child: Semantics(
-                  identifier: 'brewDiaryEmpty',
-                  label: loc.brewdiarynotfound,
-                  child: Text(loc.brewdiarynotfound),
-                ),
-              );
-            } else if (snapshot.hasData) {
-              return _buildGroupedList(snapshot.data!);
-            } else {
-              return Center(
-                child: Semantics(
-                  identifier: 'brewDiaryEmptyFallback',
-                  label: loc.brewdiarynotfound,
-                  child: Text(loc.brewdiarynotfound),
-                ),
-              );
-            }
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
           },
+          child: FutureBuilder<List<UserStatsModel>>(
+            future: userStatProvider.fetchAllUserStats(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Semantics(
+                    identifier: 'brewDiaryError',
+                    label: 'Error',
+                    child: Text("Error: ${snapshot.error}"),
+                  ),
+                );
+              } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+                return Center(
+                  child: Semantics(
+                    identifier: 'brewDiaryEmpty',
+                    label: loc.brewdiarynotfound,
+                    child: Text(loc.brewdiarynotfound),
+                  ),
+                );
+              } else if (snapshot.hasData) {
+                return _buildGroupedList(snapshot.data!);
+              } else {
+                return Center(
+                  child: Semantics(
+                    identifier: 'brewDiaryEmptyFallback',
+                    label: loc.brewdiarynotfound,
+                    child: Text(loc.brewdiarynotfound),
+                  ),
+                );
+              }
+            },
+          ),
         ),
       ),
     );
@@ -368,7 +373,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             const SizedBox(height: 8), // Added spacing between elements
             // Water Amount
             Semantics(
-              identifier: 'waterAmount_${stat.id}',
+              identifier: 'waterAmount_${stat.statUuid}',
               label: '${loc.wateramount}: ${stat.waterAmount}',
               child: Text("${loc.wateramount}: ${stat.waterAmount}",
                   style: detailTextStyle),
