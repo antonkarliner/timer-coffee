@@ -791,7 +791,10 @@ class DatabaseProvider {
         .from('global_stats')
         .select('water_amount')
         .gte('created_at', startUtc.toIso8601String())
-        .lte('created_at', endUtc.toIso8601String());
+        .lte('created_at', endUtc.toIso8601String())
+        .gte('water_amount', 50) // Filter out impossibly low values (< 50ml)
+        .lte('water_amount',
+            5000); // Filter out impossibly high values (> 5000ml)
     final data = response as List<dynamic>;
     return data.fold<double>(
         0.0, (sum, element) => sum + element['water_amount'] / 1000);
@@ -805,7 +808,10 @@ class DatabaseProvider {
         .from('global_stats')
         .select('recipe_id')
         .gte('created_at', startUtc.toIso8601String())
-        .lte('created_at', endUtc.toIso8601String());
+        .lte('created_at', endUtc.toIso8601String())
+        .gte('water_amount', 50) // Filter out impossibly low values (< 50ml)
+        .lte('water_amount',
+            5000); // Filter out impossibly high values (> 5000ml)
 
     // Aggregate counts of recipe_id
     final Map<String, int> recipeCounts = {};
