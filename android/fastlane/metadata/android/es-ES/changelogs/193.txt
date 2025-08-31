@@ -1,0 +1,1 @@
+Como siempre, correcciones de errores y mejoras en el rendimiento.

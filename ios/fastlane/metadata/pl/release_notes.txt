@@ -1,3 +1,1 @@
-Teraz można pominąć ostatni krok i natychmiast zakończyć parzenie.
-
-+ Poprawki błędów i ulepszenia wydajności.
+Jak zwykle: poprawki błędów i usprawnienia wydajności.

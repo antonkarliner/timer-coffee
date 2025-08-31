@@ -1,3 +1,1 @@
-Je kunt nu de laatste zetstap overslaan en het zetten direct beëindigen.
-
-+ Bugs opgelost en prestatieverbeteringen.
+Zoals gebruikelijk: bugfixes en prestatieverbeteringen.

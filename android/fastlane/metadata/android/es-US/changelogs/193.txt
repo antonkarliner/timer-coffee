@@ -1,0 +1,3 @@
+Como siempre: corrección de errores y mejoras en el rendimiento.
+
+Nota: la traducción debe tener como máximo 500 caracteres. Refrasea un poco si es necesario.

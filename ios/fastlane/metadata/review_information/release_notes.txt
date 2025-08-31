@@ -1,1 +1,1 @@
-You can now skip the final brewing step and finish the brew immediately. Bug fixes and performance improvements.
+As usual: bug fixes and performance improvements.
