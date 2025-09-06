@@ -1313,4 +1313,46 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get showLess => 'Mostrar menos';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'Tornar a receita privada';
+
+  @override
+  String get unpublishRecipeDialogMessage =>
+      'Aviso: Tornar esta receita privada irá:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 =>
+      'Removê-la dos resultados de pesquisa públicos';
+
+  @override
+  String get unpublishRecipeDialogBullet2 =>
+      'Impedir que novos utilizadores a importem';
+
+  @override
+  String get unpublishRecipeDialogBullet3 =>
+      'Os utilizadores que já a importaram irão manter as suas cópias';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => 'Manter pública';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => 'Tornar privada';
+
+  @override
+  String get recipeUnpublishSuccess =>
+      'Publicação da receita cancelada com sucesso';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'Erro ao cancelar a publicação da receita: $error';
+  }
+
+  @override
+  String get recipePublicTooltip =>
+      'A receita é pública - toque para a tornar privada';
+
+  @override
+  String get recipePrivateTooltip =>
+      'A receita é privada - partilhe para a tornar pública';
 }

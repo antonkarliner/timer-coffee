@@ -728,11 +728,14 @@ class RecipeImportSharingService {
               Provider.of<DatabaseProvider>(context, listen: false);
           await dbProvider.clearNeedsModerationReview(shareRecipeId);
           print("Cleared moderation flag for recipe $shareRecipeId.");
+          print(
+              "SAFETY_LOG: Moderation passed for $shareRecipeId - flag cleared before setting isPublic=true");
 
           // 5. Make Public (only if moderation passed and it wasn't already public)
           print("Setting recipe $shareRecipeId to public...");
           await Supabase.instance.client.from('user_recipes').update({
             'ispublic': true,
+            'needs_moderation_review': false, // Explicitly clear the flag
             'last_modified': DateTime.now().toUtc().toIso8601String()
           }).eq('id', shareRecipeId);
         } else {

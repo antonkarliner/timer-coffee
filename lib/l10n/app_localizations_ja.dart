@@ -1272,4 +1272,39 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get showLess => '表示を減らす';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'レシピを非公開にする';
+
+  @override
+  String get unpublishRecipeDialogMessage => '警告: このレシピを非公開にすると、次のようになります:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 => '公開検索結果から削除されます';
+
+  @override
+  String get unpublishRecipeDialogBullet2 => '新しいユーザーがインポートできなくなります';
+
+  @override
+  String get unpublishRecipeDialogBullet3 => 'すでにインポートしたユーザーはコピーを保持します';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => '公開のままにする';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => '非公開にする';
+
+  @override
+  String get recipeUnpublishSuccess => 'レシピの公開を正常に停止しました';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'レシピの公開停止に失敗しました: $error';
+  }
+
+  @override
+  String get recipePublicTooltip => 'レシピは公開中です - タップして非公開にします';
+
+  @override
+  String get recipePrivateTooltip => 'レシピは非公開です - 共有して公開します';
 }

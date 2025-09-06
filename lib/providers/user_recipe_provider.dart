@@ -94,6 +94,22 @@ class UserRecipeProvider with ChangeNotifier {
     // Get current user from Supabase for authentication check
     final user = Supabase.instance.client.auth.currentUser;
 
+    // Check if the recipe is being made public for the first time
+    final existingRecipe = await (_database.select(_database.recipes)
+          ..where((tbl) => tbl.id.equals(recipe.id)))
+        .getSingleOrNull();
+    final bool isBecomingPublic = existingRecipe != null &&
+        existingRecipe.isPublic == false &&
+        recipe.isPublic == true;
+    print(
+        'DEBUG: Recipe ${recipe.id} is becoming public: $isBecomingPublic (existing: ${existingRecipe?.isPublic}, new: ${recipe.isPublic})');
+
+    // Safety log: moderation flag transition
+    if (isBecomingPublic && existingRecipe != null) {
+      print(
+          'SAFETY_LOG: Recipe ${recipe.id} becoming public (first time) - setting moderation flag to false');
+    }
+
     final recipeCompanion = RecipesCompanion(
       id: drift.Value(recipe.id),
       brewingMethodId: drift.Value(recipe.brewingMethodId),
@@ -114,11 +130,12 @@ class UserRecipeProvider with ChangeNotifier {
       isPublic: recipe.isPublic != null
           ? drift.Value(recipe.isPublic!)
           : const drift.Value.absent(),
-      // Only set moderation flag for authenticated users who can publish
-      needsModerationReview:
-          (user != null && !user.isAnonymous && recipe.isPublic == true)
-              ? const drift.Value(true)
-              : const drift.Value.absent(),
+      // Moderation policy:
+      // - Do NOT set needsModerationReview when first becoming public.
+      // - The share flow performs moderation immediately before toggling public
+      //   and explicitly clears the flag. Setting it here would re-flag on restart.
+      // - Future edits to already-public recipes are moderated in the save flow.
+      needsModerationReview: const drift.Value(false),
     );
 
     // Wrap database operations in a transaction
@@ -256,6 +273,53 @@ class UserRecipeProvider with ChangeNotifier {
     }
 
     _userRecipes.removeWhere((element) => element.id == recipeId);
+    notifyListeners();
+  }
+
+  Future<void> unpublishRecipe(String recipeId) async {
+    // Check if this is a user-created recipe
+    if (!recipeId.startsWith('usr-')) {
+      throw Exception("Cannot unpublish non-user created recipe: $recipeId");
+    }
+
+    // Get current user for authentication check
+    final user = Supabase.instance.client.auth.currentUser;
+
+    // Update local database in a transaction
+    await _database.transaction(() async {
+      final recipeCompanion = RecipesCompanion(
+        isPublic: drift.Value(false),
+        needsModerationReview: drift.Value(false),
+        lastModified: drift.Value(DateTime.now().toUtc()),
+      );
+
+      await (_database.update(_database.recipes)
+            ..where((tbl) => tbl.id.equals(recipeId)))
+          .write(recipeCompanion);
+    });
+
+    // Update Supabase if user is authenticated and not anonymous
+    if (user != null && !user.isAnonymous) {
+      try {
+        await Supabase.instance.client.from('user_recipes').update({
+          'ispublic': false,
+          'last_modified': DateTime.now().toUtc().toIso8601String()
+        }).eq('id', recipeId);
+        print('Successfully unpublished recipe $recipeId in Supabase.');
+      } catch (e) {
+        print("Error unpublishing recipe $recipeId in Supabase: $e");
+        // Local update still succeeded, so don't rethrow
+      }
+    } else {
+      print('Skipping Supabase update for unpublish - user not authenticated');
+    }
+
+    // Update local state
+    final index = _userRecipes.indexWhere((element) => element.id == recipeId);
+    if (index >= 0) {
+      _userRecipes[index] = _userRecipes[index].copyWith(isPublic: false);
+    }
+
     notifyListeners();
   }
 

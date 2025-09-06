@@ -559,5 +559,49 @@
   "importantDates": "Fechas importantes",
   "brewStats": "Estadísticas de preparación",
   "showMore": "Mostrar más",
-  "showLess": "Mostrar menos"
+  "showLess": "Mostrar menos",
+  "unpublishRecipeDialogTitle": "Hacer la receta privada",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Texto del título para el diálogo de confirmación de despublicación de la receta"
+  },
+  "unpublishRecipeDialogMessage": "Advertencia: Hacer esta receta privada:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Mensaje de advertencia introduciendo los cambios de privacidad"
+  },
+  "unpublishRecipeDialogBullet1": "La eliminará de los resultados de búsqueda públicos",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "Primer punto de los cambios de privacidad"
+  },
+"unpublishRecipeDialogBullet2": "Evitará que nuevos usuarios la importen",
+"@unpublishRecipeDialogBullet2": {
+  "description": "Segundo punto de los cambios de privacidad"
+},
+"unpublishRecipeDialogBullet3": "Los usuarios que ya la hayan importado conservarán sus copias",
+"@unpublishRecipeDialogBullet3": {
+  "description": "Tercer punto de los cambios de privacidad"
+},
+"unpublishRecipeDialogKeepPublic": "Mantener pública",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "Texto del botón para mantener la receta pública"
+},
+"unpublishRecipeDialogMakePrivate": "Hacer privada",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "Texto del botón para hacer la receta privada"
+},
+"recipeUnpublishSuccess": "Receta despublicada con éxito",
+"@recipeUnpublishSuccess": {
+  "description": "Mensaje de éxito cuando una receta es despublicada"
+},
+"recipeUnpublishError": "Error al despublicar la receta: {error}",
+"@recipeUnpublishError": {
+  "description": "Mensaje de error cuando falla la despublicación de una receta",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "Error de base de datos"
+    }
+  }
+},
+"recipePublicTooltip": "La receta es pública - toca para hacerla privada",
+"recipePrivateTooltip": "La receta es privada - compártela para hacerla pública"
 }

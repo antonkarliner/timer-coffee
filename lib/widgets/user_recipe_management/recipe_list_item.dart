@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
 
 import '../../../models/recipe_model.dart';
 import '../../../widgets/favorite_button.dart';
 import '../../../utils/icon_utils.dart';
-import '../../../providers/recipe_provider.dart';
 
 class RecipeListItem extends StatelessWidget {
   final RecipeModel recipe;
   final VoidCallback onTap;
   final VoidCallback? onDelete;
+  final VoidCallback? onUnpublish;
   final bool isEditable; // only for created list
   final ValueListenable<bool>? isInEditModeListenable;
 
@@ -19,6 +18,7 @@ class RecipeListItem extends StatelessWidget {
     required this.recipe,
     required this.onTap,
     this.onDelete,
+    this.onUnpublish,
     required this.isEditable,
     this.isInEditModeListenable,
   });
@@ -33,10 +33,19 @@ class RecipeListItem extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               FavoriteButton(recipeId: recipe.id),
+              // Show unpublish button only for public recipes
+              if (recipe.isPublic) ...[
+                IconButton(
+                  icon: Icon(Icons.visibility_off,
+                      color: Theme.of(context).colorScheme.tertiary),
+                  onPressed: onUnpublish,
+                  tooltip: 'Unpublish recipe',
+                ),
+              ],
               IconButton(
-                icon:
-                    const Icon(Icons.remove_circle_outline, color: Colors.red),
+                icon: Icon(Icons.remove_circle_outline, color: Colors.red),
                 onPressed: onDelete,
+                tooltip: 'Delete recipe',
               ),
             ],
           );

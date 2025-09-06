@@ -6,12 +6,14 @@ class ManagementAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final UserRecipeManagementController controller;
   final VoidCallback onToggleEdit;
+  final VoidCallback? onCreate;
 
   const ManagementAppBar({
     super.key,
     required this.title,
     required this.controller,
     required this.onToggleEdit,
+    this.onCreate,
   });
 
   @override
@@ -24,6 +26,12 @@ class ManagementAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: const BackButton(),
       title: Text(title),
       actions: [
+        if (onCreate != null)
+          IconButton(
+            tooltip: l10n.createRecipe,
+            icon: const Icon(Icons.add),
+            onPressed: onCreate,
+          ),
         ValueListenableBuilder<bool>(
           valueListenable: controller.editMode,
           builder: (context, isEdit, _) {

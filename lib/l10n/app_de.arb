@@ -559,5 +559,49 @@
   "importantDates": "Wichtige Daten",
   "brewStats": "Brühstatistiken",
   "showMore": "Mehr anzeigen",
-  "showLess": "Weniger anzeigen"
+  "showLess": "Weniger anzeigen",
+"unpublishRecipeDialogTitle": "Rezept als privat markieren",
+"@unpublishRecipeDialogTitle": {
+  "description": "Titeltext für das Bestätigungsdialogfeld zum Aufheben der Veröffentlichung des Rezepts"
+},
+"unpublishRecipeDialogMessage": "Warnung: Wenn Sie dieses Rezept als privat markieren, wird Folgendes bewirkt:",
+"@unpublishRecipeDialogMessage": {
+  "description": "Warnmeldung, die die Datenschutzänderungen vorstellt"
+},
+"unpublishRecipeDialogBullet1": "Es wird aus den öffentlichen Suchergebnissen entfernt",
+"@unpublishRecipeDialogBullet1": {
+  "description": "Erster Aufzählungspunkt zur Datenschutzänderung"
+},
+"unpublishRecipeDialogBullet2": "Neue Benutzer können es nicht mehr importieren",
+"@unpublishRecipeDialogBullet2": {
+  "description": "Zweiter Aufzählungspunkt zur Datenschutzänderung"
+},
+"unpublishRecipeDialogBullet3": "Benutzer, die es bereits importiert haben, behalten ihre Kopien",
+"@unpublishRecipeDialogBullet3": {
+  "description": "Dritter Aufzählungspunkt zur Datenschutzänderung"
+},
+"unpublishRecipeDialogKeepPublic": "Öffentlich lassen",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "Schaltflächentext, um das Rezept öffentlich zu lassen"
+},
+"unpublishRecipeDialogMakePrivate": "Als privat markieren",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "Schaltflächentext, um das Rezept als privat zu markieren"
+},
+"recipeUnpublishSuccess": "Rezeptveröffentlichung erfolgreich aufgehoben",
+"@recipeUnpublishSuccess": {
+  "description": "Erfolgsmeldung, wenn die Veröffentlichung eines Rezepts aufgehoben wird"
+},
+"recipeUnpublishError": "Fehler beim Aufheben der Veröffentlichung des Rezepts: {error}",
+"@recipeUnpublishError": {
+  "description": "Fehlermeldung, wenn das Aufheben der Veröffentlichung eines Rezepts fehlschlägt",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "Datenbankfehler"
+    }
+  }
+},
+"recipePublicTooltip": "Rezept ist öffentlich - tippen, um es privat zu machen",
+"recipePrivateTooltip": "Rezept ist privat - teilen, um es öffentlich zu machen"
 }

@@ -559,5 +559,49 @@
   "topRegionsLabel": "Топ регіони",
   "brewStats": "Статистика приготування",
   "showMore": "Показати ще",
-  "showLess": "Показати менше"
+  "showLess": "Показати менше",
+"unpublishRecipeDialogTitle": "Зробити рецепт приватним",
+"@unpublishRecipeDialogTitle": {
+  "description": "Текст заголовка для діалогового вікна підтвердження скасування публікації рецепта"
+},
+"unpublishRecipeDialogMessage": "Попередження: Якщо зробити цей рецепт приватним, це призведе до наступного:",
+"@unpublishRecipeDialogMessage": {
+  "description": "Попереджувальне повідомлення про зміни в конфіденційності"
+},
+"unpublishRecipeDialogBullet1": "Його буде видалено з результатів публічного пошуку",
+"@unpublishRecipeDialogBullet1": {
+  "description": "Перший пункт зміни конфіденційності"
+},
+"unpublishRecipeDialogBullet2": "Нові користувачі не зможуть його імпортувати",
+"@unpublishRecipeDialogBullet2": {
+  "description": "Другий пункт зміни конфіденційності"
+},
+"unpublishRecipeDialogBullet3": "Користувачі, які вже імпортували його, збережуть свої копії",
+"@unpublishRecipeDialogBullet3": {
+  "description": "Третій пункт зміни конфіденційності"
+},
+"unpublishRecipeDialogKeepPublic": "Залишити публічним",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "Текст кнопки для збереження рецепта публічним"
+},
+"unpublishRecipeDialogMakePrivate": "Зробити приватним",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "Текст кнопки для встановлення рецепта як приватного"
+},
+"recipeUnpublishSuccess": "Публікацію рецепта успішно скасовано",
+"@recipeUnpublishSuccess": {
+  "description": "Повідомлення про успіх при скасуванні публікації рецепта"
+},
+"recipeUnpublishError": "Помилка при скасуванні публікації рецепта: {error}",
+"@recipeUnpublishError": {
+  "description": "Повідомлення про помилку при невдалому скасуванні публікації рецепта",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "Помилка бази даних"
+    }
+  }
+},
+"recipePublicTooltip": "Рецепт є публічним - торкніться, щоб зробити його приватним",
+"recipePrivateTooltip": "Рецепт є приватним - поділіться, щоб зробити його публічним"
 }

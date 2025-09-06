@@ -559,5 +559,49 @@
   "topRegionsLabel": "Önde gelen bölgeler",
   "brewStats": "Demleme istatistikleri",
   "showMore": "Daha fazla göster",
-  "showLess": "Daha az göster"
+  "showLess": "Daha az göster",
+"unpublishRecipeDialogTitle": "Tarifi özel yap",
+"@unpublishRecipeDialogTitle": {
+  "description": "Tarif yayınını kaldırma onayı iletişim kutusu için başlık metni"
+},
+"unpublishRecipeDialogMessage": "Uyarı: Bu tarifi özel yapmak şunlara neden olur:",
+"@unpublishRecipeDialogMessage": {
+  "description": "Gizlilik değişikliklerini tanıtan uyarı mesajı"
+},
+"unpublishRecipeDialogBullet1": "Genel arama sonuçlarından kaldırılır",
+"@unpublishRecipeDialogBullet1": {
+  "description": "İlk gizlilik değişikliği maddesi"
+},
+"unpublishRecipeDialogBullet2": "Yeni kullanıcıların içe aktarmasını engeller",
+"@unpublishRecipeDialogBullet2": {
+  "description": "İkinci gizlilik değişikliği maddesi"
+},
+"unpublishRecipeDialogBullet3": "Daha önce içe aktarmış olan kullanıcılar kopyalarını saklar",
+"@unpublishRecipeDialogBullet3": {
+  "description": "Üçüncü gizlilik değişikliği maddesi"
+},
+"unpublishRecipeDialogKeepPublic": "Herkese açık bırak",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "Tarifi herkese açık bırakma düğmesi metni"
+},
+"unpublishRecipeDialogMakePrivate": "Özel yap",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "Tarifi özel yapma düğmesi metni"
+},
+"recipeUnpublishSuccess": "Tarif yayından başarıyla kaldırıldı",
+"@recipeUnpublishSuccess": {
+  "description": "Bir tarifin yayından kaldırıldığında gösterilen başarı mesajı"
+},
+"recipeUnpublishError": "Tarif yayından kaldırılamadı: {error}",
+"@recipeUnpublishError": {
+  "description": "Bir tarifin yayından kaldırılamadığında gösterilen hata mesajı",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "Veritabanı hatası"
+    }
+  }
+},
+"recipePublicTooltip": "Tarif herkese açık - gizli yapmak için dokunun",
+"recipePrivateTooltip": "Tarif gizli - herkese açık yapmak için paylaşın"
 }

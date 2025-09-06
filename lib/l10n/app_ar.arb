@@ -559,5 +559,49 @@
   "hubSettingsSubtitle": "تغيير تفضيلات وسلوك التطبيق",
   "hubAboutSubtitle": "تفاصيل التطبيق والإصدار والمساهمون",
   "showMore": "عرض المزيد",
-  "showLess": "عرض أقل"
+  "showLess": "عرض أقل",
+"unpublishRecipeDialogTitle": "جعل الوصفة خاصة",
+"@unpublishRecipeDialogTitle": {
+  "description": "نص العنوان لمربع حوار تأكيد إلغاء نشر الوصفة"
+},
+"unpublishRecipeDialogMessage": "تحذير: جعل هذه الوصفة خاصة سيؤدي إلى:",
+"@unpublishRecipeDialogMessage": {
+  "description": "رسالة تحذير توضح تغييرات الخصوصية"
+},
+"unpublishRecipeDialogBullet1": "إزالتها من نتائج البحث العامة",
+"@unpublishRecipeDialogBullet1": {
+  "description": "النقطة الأولى لتغيير الخصوصية"
+},
+"unpublishRecipeDialogBullet2": "منع المستخدمين الجدد من استيرادها",
+"@unpublishRecipeDialogBullet2": {
+  "description": "النقطة الثانية لتغيير الخصوصية"
+},
+"unpublishRecipeDialogBullet3": "المستخدمون الذين استوردوها بالفعل سيحتفظون بنسخهم",
+"@unpublishRecipeDialogBullet3": {
+  "description": "النقطة الثالثة لتغيير الخصوصية"
+},
+"unpublishRecipeDialogKeepPublic": "إبقاءها عامة",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "نص الزر لإبقاء الوصفة عامة"
+},
+"unpublishRecipeDialogMakePrivate": "جعلها خاصة",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "نص الزر لجعل الوصفة خاصة"
+},
+"recipeUnpublishSuccess": "تم إلغاء نشر الوصفة بنجاح",
+"@recipeUnpublishSuccess": {
+  "description": "رسالة نجاح عند إلغاء نشر الوصفة"
+},
+"recipeUnpublishError": "فشل إلغاء نشر الوصفة: {error}",
+"@recipeUnpublishError": {
+  "description": "رسالة خطأ عند فشل إلغاء نشر الوصفة",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "خطأ في قاعدة البيانات"
+    }
+  }
+},
+"recipePublicTooltip": "الوصفة عامة - انقر لجعلها خاصة",
+"recipePrivateTooltip": "الوصفة خاصة - شاركها لجعلها عامة"
 }

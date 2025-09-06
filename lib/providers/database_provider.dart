@@ -283,7 +283,8 @@ class DatabaseProvider {
         // Fetch current remote status (needed for ispublic check AND to see if it exists)
         final remoteData = await Supabase.instance.client
             .from('user_recipes')
-            .select('id, last_modified, is_deleted, ispublic')
+            .select(
+                'id, last_modified, is_deleted, ispublic, needs_moderation_review')
             .eq('id', recipe.id)
             .maybeSingle();
 
@@ -409,6 +410,8 @@ class DatabaseProvider {
           final remoteLastModified = remoteLastModifiedStr != null
               ? DateTime.parse(remoteLastModifiedStr).toUtc()
               : null;
+          final remoteNeedsModerationReview =
+              recipeJson['needs_moderation_review'] as bool? ?? false;
 
           final localLastModified = localRecipeIds[recipeId];
 
@@ -422,9 +425,10 @@ class DatabaseProvider {
             print('Processing download/update for recipe: $recipeId');
             final recipeCompanion =
                 RecipesCompanionExtension.fromUserRecipeJson(recipeJson);
-            // Ensure needs_moderation_review is false as we trust the cloud version
+            // Use remote moderation status if available, default to false
             recipesToInsertOrUpdate.add(recipeCompanion.copyWith(
-                needsModerationReview: const drift.Value(false)));
+                needsModerationReview:
+                    drift.Value(remoteNeedsModerationReview)));
 
             // Extract and add localizations
             final localizationsJson =
@@ -482,12 +486,29 @@ class DatabaseProvider {
       {bool? currentIsPublic}) async {
     try {
       // Add debug logging
-      print('Uploading recipe to Supabase: ${recipe.id}');
+      print(
+          '🔄 ${DateTime.now().toIso8601String()} - UPLOADING RECIPE TO SUPABASE: ${recipe.id}');
       print('User ID: $userId');
       print('Vendor ID from recipe: ${recipe.vendorId}');
+      print(
+          '📝 Recipe moderation status: needs_moderation_review = ${recipe.needsModerationReview}');
+      // recipeJson will be logged after it's declared below
 
       // Ensure vendor_id uses the full user ID for RLS
       final String effectiveVendorId = 'usr-$userId';
+
+      // Determine effective flags with moderation policy guard:
+      // - If the recipe is (or is known to be) public, we must not upload a moderation flag.
+      // - Moderation is handled during share and edits; uploads of already-public recipes
+      //   should carry needs_moderation_review = false.
+      final bool effectiveIsPublic = currentIsPublic ?? false;
+      final bool effectiveNeedsModeration =
+          effectiveIsPublic ? false : (recipe.needsModerationReview == true);
+
+      if (recipe.needsModerationReview == true && effectiveIsPublic) {
+        print(
+            '🛡️ Guard: Coercing needs_moderation_review=false for already-public recipe ${recipe.id}');
+      }
 
       // Convert recipe to Supabase format
       final recipeJson = {
@@ -503,10 +524,14 @@ class DatabaseProvider {
             DateTime.now().toUtc().toIso8601String(), // Ensure UTC
         'import_id': recipe.importId,
         'is_imported': recipe.isImported,
-        'ispublic': currentIsPublic ??
-            false, // Preserve current public status if known, else false
+        'ispublic': effectiveIsPublic, // Preserve/reflect known public status
+        'needs_moderation_review':
+            effectiveNeedsModeration, // Guarded by effectiveIsPublic
         'is_deleted': false,
       };
+
+      // Log the full recipe JSON after it's been created
+      print('📝 Full recipe JSON: ${recipeJson.toString()}');
 
       // --- Explicit Insert/Update Logic ---
       // Check if the recipe already exists remotely
@@ -1236,10 +1261,11 @@ class DatabaseProvider {
           try {
             await Supabase.instance.client.from('user_recipes').update({
               'is_deleted': true,
+              'ispublic': false, // Set ispublic to false on deletion
               'last_modified': DateTime.now().toUtc().toIso8601String()
             }) // Also update timestamp
                 .eq('id', recipeId);
-            print('Marked recipe $recipeId as deleted in Supabase');
+            print('Marked recipe $recipeId as deleted and private in Supabase');
           } catch (e) {
             print('Error marking recipe $recipeId as deleted in Supabase: $e');
             // Decide if we should proceed with local deletion despite Supabase error
@@ -1428,6 +1454,22 @@ class DatabaseProvider {
       // Update local flag based on result
       await _db.recipesDao
           .setNeedsModerationReview(recipe.id, !moderationPassed);
+
+      // Update Supabase if the recipe was moderated (status changed)
+      if (moderationPassed && user != null && !user.isAnonymous) {
+        try {
+          await Supabase.instance.client.from('user_recipes').update({
+            'needs_moderation_review': false,
+            'last_modified': DateTime.now().toUtc().toIso8601String()
+          }).eq('id', recipe.id);
+          print(
+              'Updated moderation status in Supabase for recipe: ${recipe.id}');
+        } catch (e) {
+          print('Warning: Failed to update moderation status in Supabase: $e');
+          // Don't fail the whole process for this
+        }
+      }
+
       if (moderationPassed) {
         passedCount++;
       } else {

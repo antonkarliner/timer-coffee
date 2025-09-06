@@ -11,6 +11,7 @@ import '../widgets/confirm_delete_dialog.dart';
 import '../widgets/favorite_button.dart';
 import '../utils/icon_utils.dart';
 import '../app_router.gr.dart';
+import '../widgets/recipe_detail/unpublish_recipe_dialog.dart';
 import '../widgets/user_recipe_management/management_app_bar.dart';
 import '../widgets/user_recipe_management/created_list_section.dart';
 import '../widgets/user_recipe_management/imported_list_section.dart';
@@ -72,6 +73,32 @@ class _UserRecipeManagementScreenState
     }
   }
 
+  Future<void> _unpublishRecipe(
+      BuildContext context, RecipeModel recipe) async {
+    final confirmed = await UnpublishRecipeDialog.show(context);
+    if (confirmed != true) return;
+
+    final l10n = AppLocalizations.of(context)!;
+
+    try {
+      await Provider.of<UserRecipeProvider>(context, listen: false)
+          .unpublishRecipe(recipe.id);
+      await Provider.of<RecipeProvider>(context, listen: false)
+          .fetchAllRecipes();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.recipeUnpublishSuccess)),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.recipeUnpublishError(e.toString()))),
+        );
+      }
+    }
+  }
+
   Future<void> _navigateToDetail(
       BuildContext context, RecipeModel recipe) async {
     showDialog(
@@ -118,6 +145,7 @@ class _UserRecipeManagementScreenState
           await Provider.of<RecipeProvider>(context, listen: false)
               .fetchAllRecipes();
         },
+        onCreate: () => context.router.push(RecipeCreationRoute()),
       ),
       body: Consumer<RecipeProvider>(
         builder: (context, recipeProvider, _) {
@@ -145,6 +173,7 @@ class _UserRecipeManagementScreenState
                   isEditable: true, // created list supports delete in edit mode
                   isInEditModeListenable: _controller.editMode,
                   onTap: () => _navigateToDetail(context, recipe),
+                  onUnpublish: () => _unpublishRecipe(context, recipe),
                   onDelete: () async {
                     final l10n = AppLocalizations.of(context)!;
                     final confirmed = await showDialog<bool>(

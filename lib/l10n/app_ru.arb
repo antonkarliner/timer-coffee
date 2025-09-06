@@ -559,5 +559,49 @@
   "importantDates": "Важные даты",
   "brewStats": "Статистика заваривания",
   "showMore": "Показать еще",
-  "showLess": "Показать меньше"
+  "showLess": "Показать меньше",
+"unpublishRecipeDialogTitle": "Сделать рецепт приватным",
+"@unpublishRecipeDialogTitle": {
+  "description": "Текст заголовка для диалогового окна подтверждения отмены публикации рецепта"
+},
+"unpublishRecipeDialogMessage": "Внимание: Если сделать этот рецепт приватным, это приведет к следующему:",
+"@unpublishRecipeDialogMessage": {
+  "description": "Предупреждающее сообщение о изменениях в конфиденциальности"
+},
+"unpublishRecipeDialogBullet1": "Он будет удален из результатов публичного поиска",
+"@unpublishRecipeDialogBullet1": {
+  "description": "Первый пункт изменения конфиденциальности"
+},
+"unpublishRecipeDialogBullet2": "Новые пользователи не смогут его импортировать",
+"@unpublishRecipeDialogBullet2": {
+  "description": "Второй пункт изменения конфиденциальности"
+},
+"unpublishRecipeDialogBullet3": "Пользователи, которые уже импортировали его, сохранят свои копии",
+"@unpublishRecipeDialogBullet3": {
+  "description": "Третий пункт изменения конфиденциальности"
+},
+"unpublishRecipeDialogKeepPublic": "Оставить публичным",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "Текст кнопки для сохранения рецепта публичным"
+},
+"unpublishRecipeDialogMakePrivate": "Сделать приватным",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "Текст кнопки для установки рецепта как приватного"
+},
+"recipeUnpublishSuccess": "Публикация рецепта успешно отменена",
+"@recipeUnpublishSuccess": {
+  "description": "Сообщение об успехе при отмене публикации рецепта"
+},
+"recipeUnpublishError": "Ошибка при отмене публикации рецепта: {error}",
+"@recipeUnpublishError": {
+  "description": "Сообщение об ошибке при неудачной отмене публикации рецепта",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "Ошибка базы данных"
+    }
+  }
+},
+"recipePublicTooltip": "Рецепт общедоступен - нажмите, чтобы сделать его частным",
+"recipePrivateTooltip": "Рецепт частный - поделитесь, чтобы сделать его общедоступным"
 }

@@ -559,5 +559,49 @@
   "importantDates": "重要な日程",
   "brewStats": "抽出統計",
   "showMore": "もっと見る",
-  "showLess": "表示を減らす"
+  "showLess": "表示を減らす",
+"unpublishRecipeDialogTitle": "レシピを非公開にする",
+"@unpublishRecipeDialogTitle": {
+  "description": "レシピの公開停止確認ダイアログのタイトルテキスト"
+},
+"unpublishRecipeDialogMessage": "警告: このレシピを非公開にすると、次のようになります:",
+"@unpublishRecipeDialogMessage": {
+  "description": "プライバシーの変更を知らせる警告メッセージ"
+},
+"unpublishRecipeDialogBullet1": "公開検索結果から削除されます",
+"@unpublishRecipeDialogBullet1": {
+  "description": "プライバシー変更の最初の箇条書き"
+},
+"unpublishRecipeDialogBullet2": "新しいユーザーがインポートできなくなります",
+"@unpublishRecipeDialogBullet2": {
+  "description": "プライバシー変更の2番目の箇条書き"
+},
+"unpublishRecipeDialogBullet3": "すでにインポートしたユーザーはコピーを保持します",
+"@unpublishRecipeDialogBullet3": {
+  "description": "プライバシー変更の3番目の箇条書き"
+},
+"unpublishRecipeDialogKeepPublic": "公開のままにする",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "レシピを公開のままにするボタンのテキスト"
+},
+"unpublishRecipeDialogMakePrivate": "非公開にする",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "レシピを非公開にするボタンのテキスト"
+},
+"recipeUnpublishSuccess": "レシピの公開を正常に停止しました",
+"@recipeUnpublishSuccess": {
+  "description": "レシピの公開が停止されたときの成功メッセージ"
+},
+"recipeUnpublishError": "レシピの公開停止に失敗しました: {error}",
+"@recipeUnpublishError": {
+  "description": "レシピの公開停止に失敗したときのエラーメッセージ",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "データベースエラー"
+    }
+  }
+},
+"recipePublicTooltip": "レシピは公開中です - タップして非公開にします",
+"recipePrivateTooltip": "レシピは非公開です - 共有して公開します"
 }

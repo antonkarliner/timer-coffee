@@ -1312,4 +1312,46 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get showLess => 'Arată mai puțin';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'Setează rețeta ca privată';
+
+  @override
+  String get unpublishRecipeDialogMessage =>
+      'Atenție: Setarea acestei rețete ca privată va duce la:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 =>
+      'Eliminarea acesteia din rezultatele căutărilor publice';
+
+  @override
+  String get unpublishRecipeDialogBullet2 =>
+      'Împiedicarea utilizatorilor noi să o importe';
+
+  @override
+  String get unpublishRecipeDialogBullet3 =>
+      'Utilizatorii care au importat-o deja își vor păstra copiile';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => 'Păstrează publică';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => 'Setează ca privată';
+
+  @override
+  String get recipeUnpublishSuccess =>
+      'Publicarea rețetei a fost anulată cu succes';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'Eroare la anularea publicării rețetei: $error';
+  }
+
+  @override
+  String get recipePublicTooltip =>
+      'Rețeta este publică - atingeți pentru a o face privată';
+
+  @override
+  String get recipePrivateTooltip =>
+      'Rețeta este privată - partajați pentru a o face publică';
 }

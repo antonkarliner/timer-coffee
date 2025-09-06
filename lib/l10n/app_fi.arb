@@ -425,5 +425,49 @@
   "importantDates": "Tärkeitä päivämääriä",
   "brewStats": "Valmistustilastot",
   "showMore": "Näytä lisää",
-  "showLess": "Näytä vähemmän"
+  "showLess": "Näytä vähemmän",
+"unpublishRecipeDialogTitle": "Tee reseptistä yksityinen",
+"@unpublishRecipeDialogTitle": {
+  "description": "Otsikkoteksti reseptin julkaisun poistamisen vahvistusikkunalle"
+},
+"unpublishRecipeDialogMessage": "Varoitus: Tämän reseptin tekeminen yksityiseksi:",
+"@unpublishRecipeDialogMessage": {
+  "description": "Varoitusviesti, joka esittelee yksityisyysmuutokset"
+},
+"unpublishRecipeDialogBullet1": "Poistaa sen julkisista hakutuloksista",
+"@unpublishRecipeDialogBullet1": {
+  "description": "Ensimmäinen yksityisyysmuutoksen kohta"
+},
+"unpublishRecipeDialogBullet2": "Estää uusia käyttäjiä tuomasta sitä",
+"@unpublishRecipeDialogBullet2": {
+  "description": "Toinen yksityisyysmuutoksen kohta"
+},
+"unpublishRecipeDialogBullet3": "Käyttäjät, jotka ovat jo tuoneet sen, säilyttävät kopionsa",
+"@unpublishRecipeDialogBullet3": {
+  "description": "Kolmas yksityisyysmuutoksen kohta"
+},
+"unpublishRecipeDialogKeepPublic": "Pidä julkisena",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "Painikkeen teksti reseptin pitämiseksi julkisena"
+},
+"unpublishRecipeDialogMakePrivate": "Tee yksityiseksi",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "Painikkeen teksti reseptin tekemiseksi yksityiseksi"
+},
+"recipeUnpublishSuccess": "Reseptin julkaisu poistettu onnistuneesti",
+"@recipeUnpublishSuccess": {
+  "description": "Onnistumisviesti, kun reseptin julkaisu poistetaan"
+},
+"recipeUnpublishError": "Reseptin julkaisun poistaminen epäonnistui: {error}",
+"@recipeUnpublishError": {
+  "description": "Virheilmoitus, kun reseptin julkaisun poistaminen epäonnistuu",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "Tietokantavirhe"
+    }
+  }
+},
+"recipePublicTooltip": "Resepti on julkinen - napauta tehdäksesi siitä yksityisen",
+"recipePrivateTooltip": "Resepti on yksityinen - jaa tehdäksesi siitä julkisen"
 }

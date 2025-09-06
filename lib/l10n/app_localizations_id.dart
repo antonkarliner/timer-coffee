@@ -1304,4 +1304,45 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get showLess => 'Tampilkan lebih sedikit';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'Jadikan Resep Pribadi';
+
+  @override
+  String get unpublishRecipeDialogMessage =>
+      'Peringatan: Menjadikan resep ini pribadi akan:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 =>
+      'Menghapusnya dari hasil pencarian publik';
+
+  @override
+  String get unpublishRecipeDialogBullet2 =>
+      'Mencegah pengguna baru mengimpornya';
+
+  @override
+  String get unpublishRecipeDialogBullet3 =>
+      'Pengguna yang sudah mengimpornya akan tetap memiliki salinannya';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => 'Tetap Publik';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => 'Jadikan Pribadi';
+
+  @override
+  String get recipeUnpublishSuccess => 'Resep berhasil dibatalkan publikasinya';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'Gagal membatalkan publikasi resep: $error';
+  }
+
+  @override
+  String get recipePublicTooltip =>
+      'Resep ini publik - ketuk untuk menjadikannya pribadi';
+
+  @override
+  String get recipePrivateTooltip =>
+      'Resep ini pribadi - bagikan untuk menjadikannya publik';
 }

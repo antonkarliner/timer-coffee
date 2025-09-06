@@ -559,5 +559,49 @@
   "importantDates": "Ważne daty",
   "brewStats": "Statystyki parzenia",
   "showMore": "Pokaż więcej",
-  "showLess": "Pokaż mniej"
+  "showLess": "Pokaż mniej",
+"unpublishRecipeDialogTitle": "Ustaw przepis jako prywatny",
+"@unpublishRecipeDialogTitle": {
+  "description": "Tekst tytułu okna dialogowego potwierdzenia cofnięcia publikacji przepisu"
+},
+"unpublishRecipeDialogMessage": "Ostrzeżenie: Ustawienie tego przepisu jako prywatnego spowoduje:",
+"@unpublishRecipeDialogMessage": {
+  "description": "Komunikat ostrzegawczy wprowadzający zmiany w prywatności"
+},
+"unpublishRecipeDialogBullet1": "Usunięcie go z publicznych wyników wyszukiwania",
+"@unpublishRecipeDialogBullet1": {
+  "description": "Pierwszy punkt zmiany prywatności"
+},
+"unpublishRecipeDialogBullet2": "Uniemożliwienie nowym użytkownikom jego importowania",
+"@unpublishRecipeDialogBullet2": {
+  "description": "Drugi punkt zmiany prywatności"
+},
+"unpublishRecipeDialogBullet3": "Użytkownicy, którzy już go zaimportowali, zachowają swoje kopie",
+"@unpublishRecipeDialogBullet3": {
+  "description": "Trzeci punkt zmiany prywatności"
+},
+"unpublishRecipeDialogKeepPublic": "Pozostaw publiczny",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "Tekst przycisku, aby pozostawić przepis publiczny"
+},
+"unpublishRecipeDialogMakePrivate": "Ustaw jako prywatny",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "Tekst przycisku, aby ustawić przepis jako prywatny"
+},
+"recipeUnpublishSuccess": "Pomyślnie cofnięto publikację przepisu",
+"@recipeUnpublishSuccess": {
+  "description": "Komunikat o sukcesie po cofnięciu publikacji przepisu"
+},
+"recipeUnpublishError": "Błąd podczas cofania publikacji przepisu: {error}",
+"@recipeUnpublishError": {
+  "description": "Komunikat o błędzie, gdy cofnięcie publikacji przepisu nie powiedzie się",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "Błąd bazy danych"
+    }
+  }
+},
+"recipePublicTooltip": "Przepis jest publiczny - dotknij, aby uczynić go prywatnym",
+"recipePrivateTooltip": "Przepis jest prywatny - udostępnij, aby uczynić go publicznym"
 }

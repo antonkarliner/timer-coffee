@@ -1268,4 +1268,39 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get showLess => '显示更少';
+
+  @override
+  String get unpublishRecipeDialogTitle => '将配方设为私有';
+
+  @override
+  String get unpublishRecipeDialogMessage => '警告：将此配方设为私有将导致：';
+
+  @override
+  String get unpublishRecipeDialogBullet1 => '它将从公共搜索结果中删除';
+
+  @override
+  String get unpublishRecipeDialogBullet2 => '新用户将无法导入';
+
+  @override
+  String get unpublishRecipeDialogBullet3 => '已经导入的用户将保留其副本';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => '保持公开';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => '设为私有';
+
+  @override
+  String get recipeUnpublishSuccess => '配方已成功取消发布';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return '取消发布配方失败：$error';
+  }
+
+  @override
+  String get recipePublicTooltip => '配方是公开的 - 点击设为私有';
+
+  @override
+  String get recipePrivateTooltip => '配方是私有的 - 分享以公开';
 }

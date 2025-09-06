@@ -1315,4 +1315,45 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get showLess => 'Mostrar menos';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'Hacer la receta privada';
+
+  @override
+  String get unpublishRecipeDialogMessage =>
+      'Advertencia: Hacer esta receta privada:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 =>
+      'La eliminará de los resultados de búsqueda públicos';
+
+  @override
+  String get unpublishRecipeDialogBullet2 =>
+      'Evitará que nuevos usuarios la importen';
+
+  @override
+  String get unpublishRecipeDialogBullet3 =>
+      'Los usuarios que ya la hayan importado conservarán sus copias';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => 'Mantener pública';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => 'Hacer privada';
+
+  @override
+  String get recipeUnpublishSuccess => 'Receta despublicada con éxito';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'Error al despublicar la receta: $error';
+  }
+
+  @override
+  String get recipePublicTooltip =>
+      'La receta es pública - toca para hacerla privada';
+
+  @override
+  String get recipePrivateTooltip =>
+      'La receta es privada - compártela para hacerla pública';
 }

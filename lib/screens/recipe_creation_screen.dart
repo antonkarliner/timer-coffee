@@ -22,9 +22,14 @@ import 'package:intl/intl.dart'; // Added for locale
 class RecipeCreationScreen extends StatefulWidget {
   final RecipeModel? recipe;
   final String? brewingMethodId;
+  final bool redirectToNewDetailOnSave;
 
-  const RecipeCreationScreen({Key? key, this.recipe, this.brewingMethodId})
-      : super(key: key);
+  const RecipeCreationScreen({
+    Key? key,
+    this.recipe,
+    this.brewingMethodId,
+    this.redirectToNewDetailOnSave = false,
+  }) : super(key: key);
 
   @override
   State<RecipeCreationScreen> createState() => _RecipeCreationScreenState();
@@ -658,7 +663,24 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
 
       if (mounted) {
         print("Navigating after save for recipe: $recipeId");
-        if (isUpdating) {
+
+        if (widget.redirectToNewDetailOnSave) {
+          // This screen may have been pushed using MaterialPageRoute.
+          // To ensure navigation works in that case, pop this route first,
+          // then push the detail via AutoRoute.
+          final navigator = Navigator.of(context);
+          if (navigator.canPop()) {
+            navigator.pop();
+          }
+          // Schedule push on next microtask/frame to avoid operating during pop.
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) return;
+            context.router.push(RecipeDetailRoute(
+              brewingMethodId: recipeData.brewingMethodId,
+              recipeId: recipeData.id!,
+            ));
+          });
+        } else if (isUpdating) {
           if (context.router.canPop()) {
             context.router.pop();
           } else {

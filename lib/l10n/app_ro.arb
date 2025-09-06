@@ -559,5 +559,49 @@
   "importantDates": "Date importante",
   "brewStats": "Statistici de preparare",
   "showMore": "Arată mai mult",
-  "showLess": "Arată mai puțin"
+  "showLess": "Arată mai puțin",
+"unpublishRecipeDialogTitle": "Setează rețeta ca privată",
+"@unpublishRecipeDialogTitle": {
+  "description": "Textul titlului pentru dialogul de confirmare a anulării publicării rețetei"
+},
+"unpublishRecipeDialogMessage": "Atenție: Setarea acestei rețete ca privată va duce la:",
+"@unpublishRecipeDialogMessage": {
+  "description": "Mesaj de avertizare care introduce modificările de confidențialitate"
+},
+"unpublishRecipeDialogBullet1": "Eliminarea acesteia din rezultatele căutărilor publice",
+"@unpublishRecipeDialogBullet1": {
+  "description": "Primul punct al modificării de confidențialitate"
+},
+"unpublishRecipeDialogBullet2": "Împiedicarea utilizatorilor noi să o importe",
+"@unpublishRecipeDialogBullet2": {
+  "description": "Al doilea punct al modificării de confidențialitate"
+},
+"unpublishRecipeDialogBullet3": "Utilizatorii care au importat-o deja își vor păstra copiile",
+"@unpublishRecipeDialogBullet3": {
+  "description": "Al treilea punct al modificării de confidențialitate"
+},
+"unpublishRecipeDialogKeepPublic": "Păstrează publică",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "Textul butonului pentru a păstra rețeta publică"
+},
+"unpublishRecipeDialogMakePrivate": "Setează ca privată",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "Textul butonului pentru a seta rețeta ca privată"
+},
+"recipeUnpublishSuccess": "Publicarea rețetei a fost anulată cu succes",
+"@recipeUnpublishSuccess": {
+  "description": "Mesaj de succes la anularea publicării unei rețete"
+},
+"recipeUnpublishError": "Eroare la anularea publicării rețetei: {error}",
+"@recipeUnpublishError": {
+  "description": "Mesaj de eroare la eșecul anulării publicării unei rețete",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "Eroare la baza de date"
+    }
+  }
+},
+"recipePublicTooltip": "Rețeta este publică - atingeți pentru a o face privată",
+"recipePrivateTooltip": "Rețeta este privată - partajați pentru a o face publică"
 }

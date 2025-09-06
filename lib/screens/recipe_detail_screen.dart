@@ -17,6 +17,7 @@ import '../services/bean_selection_service.dart';
 
 // Providers
 import '../providers/recipe_provider.dart';
+import '../providers/user_recipe_provider.dart';
 
 // Widgets
 import '../widgets/recipe_detail/loading_error_states.dart';
@@ -360,6 +361,8 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       recipe: _updatedRecipe!,
       shareRecipeId: shareRecipeId,
     );
+    print(
+        'DEBUG: Share result - success: ${result.success}, resolvedRecipeId: ${result.resolvedRecipeId}');
 
     // If service remapped to a stable usr-<user>-<timestamp> id during share, persist it
     if (result.success && result.resolvedRecipeId != null) {
@@ -371,11 +374,24 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         // Optionally refresh to ensure UI and any dependent logic align with new id
         await _loadRecipeDetails(newId);
       }
-    }
-
-    if (mounted) {
+    } else if (result.success && mounted) {
+      // For recipes that were made public, update local state to fix privacy icon
+      // This fixes the privacy icon display issue after sharing
+      setState(() {
+        _updatedRecipe = _updatedRecipe?.copyWith(isPublic: true);
+        _isSharing = false;
+      });
+      final userRecipeProvider =
+          Provider.of<UserRecipeProvider>(context, listen: false);
+      await userRecipeProvider
+          .updateUserRecipe(_updatedRecipe!.copyWith(isPublic: true));
+      print('DEBUG: Updated local recipe database and state - isPublic: true');
+    } else if (mounted) {
       setState(() => _isSharing = false);
     }
+
+    print(
+        'DEBUG: After sharing, recipe $shareRecipeId isPublic: ${_updatedRecipe?.isPublic}');
   }
 
   /// Navigates to edit recipe using RecipeNavigationService
@@ -399,6 +415,31 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       context: context,
       recipeToCopy: recipeToCopy,
     );
+  }
+
+  /// Handles unpublishing of a user recipe
+  void _onUnpublish(BuildContext context) async {
+    final recipe = _updatedRecipe;
+    if (recipe == null) return;
+
+    final l10n = AppLocalizations.of(context)!;
+
+    try {
+      final userRecipeProvider =
+          Provider.of<UserRecipeProvider>(context, listen: false);
+      await userRecipeProvider.unpublishRecipe(_effectiveRecipeId ?? recipe.id);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.recipeUnpublishSuccess)),
+      );
+
+      // Refresh the recipe data to reflect the privacy status change
+      await _loadRecipeDetails(_effectiveRecipeId ?? recipe.id);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.recipeUnpublishError(e.toString()))),
+      );
+    }
   }
 
   /// Saves custom amounts and navigates to preparation screen
@@ -500,6 +541,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
           onEdit: () => _navigateToEditRecipe(context, recipe),
           onCopy: () => _navigateToCopyRecipe(context, recipe),
           onShare: () => _onShare(context),
+          onUnpublish: () => _onUnpublish(context),
         ),
         body: AnimatedBuilder(
           animation: _controller,

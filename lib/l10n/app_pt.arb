@@ -559,5 +559,49 @@
   "importantDates": "Datas importantes",
   "brewStats": "Estatísticas de preparo",
   "showMore": "Mostrar mais",
-  "showLess": "Mostrar menos"
+  "showLess": "Mostrar menos",
+"unpublishRecipeDialogTitle": "Tornar a receita privada",
+"@unpublishRecipeDialogTitle": {
+  "description": "Texto do título do diálogo de confirmação de cancelamento de publicação da receita"
+},
+"unpublishRecipeDialogMessage": "Aviso: Tornar esta receita privada irá:",
+"@unpublishRecipeDialogMessage": {
+  "description": "Mensagem de aviso a introduzir as alterações de privacidade"
+},
+"unpublishRecipeDialogBullet1": "Removê-la dos resultados de pesquisa públicos",
+"@unpublishRecipeDialogBullet1": {
+  "description": "Primeiro ponto da alteração de privacidade"
+},
+"unpublishRecipeDialogBullet2": "Impedir que novos utilizadores a importem",
+"@unpublishRecipeDialogBullet2": {
+  "description": "Segundo ponto da alteração de privacidade"
+},
+"unpublishRecipeDialogBullet3": "Os utilizadores que já a importaram irão manter as suas cópias",
+"@unpublishRecipeDialogBullet3": {
+  "description": "Terceiro ponto da alteração de privacidade"
+},
+"unpublishRecipeDialogKeepPublic": "Manter pública",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "Texto do botão para manter a receita pública"
+},
+"unpublishRecipeDialogMakePrivate": "Tornar privada",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "Texto do botão para tornar a receita privada"
+},
+"recipeUnpublishSuccess": "Publicação da receita cancelada com sucesso",
+"@recipeUnpublishSuccess": {
+  "description": "Mensagem de sucesso quando a publicação de uma receita é cancelada"
+},
+"recipeUnpublishError": "Erro ao cancelar a publicação da receita: {error}",
+"@recipeUnpublishError": {
+  "description": "Mensagem de erro quando o cancelamento da publicação de uma receita falha",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "Erro da base de dados"
+    }
+  }
+},
+"recipePublicTooltip": "A receita é pública - toque para a tornar privada",
+"recipePrivateTooltip": "A receita é privada - partilhe para a tornar pública"
 }

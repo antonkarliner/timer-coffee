@@ -1295,4 +1295,45 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get showLess => 'نمایش کمتر';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'خصوصی کردن دستور پخت';
+
+  @override
+  String get unpublishRecipeDialogMessage =>
+      'هشدار: خصوصی کردن این دستور پخت باعث می‌شود:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 => 'از نتایج جستجوی عمومی حذف شود';
+
+  @override
+  String get unpublishRecipeDialogBullet2 =>
+      'کاربران جدید نتوانند آن را وارد کنند';
+
+  @override
+  String get unpublishRecipeDialogBullet3 =>
+      'کاربرانی که قبلاً آن را وارد کرده‌اند، نسخه‌های خود را حفظ خواهند کرد';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => 'عمومی بماند';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => 'خصوصی کردن';
+
+  @override
+  String get recipeUnpublishSuccess =>
+      'دستور پخت با موفقیت از حالت انتشار خارج شد';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'خطا در لغو انتشار دستور پخت: $error';
+  }
+
+  @override
+  String get recipePublicTooltip =>
+      'دستور پخت عمومی است - برای خصوصی کردن ضربه بزنید';
+
+  @override
+  String get recipePrivateTooltip =>
+      'دستور پخت خصوصی است - برای عمومی کردن به اشتراک بگذارید';
 }

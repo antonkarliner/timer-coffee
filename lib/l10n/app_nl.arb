@@ -559,5 +559,49 @@
   "importantDates": "Belangrijke data",
   "brewStats": "Brouwstatistieken",
   "showMore": "Meer weergeven",
-  "showLess": "Minder weergeven"
+  "showLess": "Minder weergeven",
+"unpublishRecipeDialogTitle": "Recept privé maken",
+"@unpublishRecipeDialogTitle": {
+  "description": "Titeltekst voor het bevestigingsvenster voor het intrekken van de publicatie van het recept"
+},
+"unpublishRecipeDialogMessage": "Waarschuwing: Als u dit recept privé maakt, gebeurt het volgende:",
+"@unpublishRecipeDialogMessage": {
+  "description": "Waarschuwingsbericht waarin de privacywijzigingen worden geïntroduceerd"
+},
+"unpublishRecipeDialogBullet1": "Het wordt verwijderd uit de openbare zoekresultaten",
+"@unpublishRecipeDialogBullet1": {
+  "description": "Eerste punt van de privacywijziging"
+},
+"unpublishRecipeDialogBullet2": "Nieuwe gebruikers kunnen het niet meer importeren",
+"@unpublishRecipeDialogBullet2": {
+  "description": "Tweede punt van de privacywijziging"
+},
+"unpublishRecipeDialogBullet3": "Gebruikers die het al hebben geïmporteerd, behouden hun kopieën",
+"@unpublishRecipeDialogBullet3": {
+  "description": "Derde punt van de privacywijziging"
+},
+"unpublishRecipeDialogKeepPublic": "Openbaar houden",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "Knoptekst om het recept openbaar te houden"
+},
+"unpublishRecipeDialogMakePrivate": "Privé maken",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "Knoptekst om het recept privé te maken"
+},
+"recipeUnpublishSuccess": "Publicatie van recept succesvol ingetrokken",
+"@recipeUnpublishSuccess": {
+  "description": "Succesbericht wanneer de publicatie van een recept wordt ingetrokken"
+},
+"recipeUnpublishError": "Fout bij het intrekken van de publicatie van het recept: {error}",
+"@recipeUnpublishError": {
+  "description": "Foutbericht wanneer het intrekken van de publicatie van een recept mislukt",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "Databasefout"
+    }
+  }
+},
+"recipePublicTooltip": "Recept is openbaar - tik om privé te maken",
+"recipePrivateTooltip": "Recept is privé - deel om openbaar te maken"
 }

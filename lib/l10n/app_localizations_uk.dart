@@ -1318,4 +1318,45 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get showLess => 'Показати менше';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'Зробити рецепт приватним';
+
+  @override
+  String get unpublishRecipeDialogMessage =>
+      'Попередження: Якщо зробити цей рецепт приватним, це призведе до наступного:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 =>
+      'Його буде видалено з результатів публічного пошуку';
+
+  @override
+  String get unpublishRecipeDialogBullet2 =>
+      'Нові користувачі не зможуть його імпортувати';
+
+  @override
+  String get unpublishRecipeDialogBullet3 =>
+      'Користувачі, які вже імпортували його, збережуть свої копії';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => 'Залишити публічним';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => 'Зробити приватним';
+
+  @override
+  String get recipeUnpublishSuccess => 'Публікацію рецепта успішно скасовано';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'Помилка при скасуванні публікації рецепта: $error';
+  }
+
+  @override
+  String get recipePublicTooltip =>
+      'Рецепт є публічним - торкніться, щоб зробити його приватним';
+
+  @override
+  String get recipePrivateTooltip =>
+      'Рецепт є приватним - поділіться, щоб зробити його публічним';
 }

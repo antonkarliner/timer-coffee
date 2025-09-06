@@ -1306,4 +1306,42 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get showLess => 'عرض أقل';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'جعل الوصفة خاصة';
+
+  @override
+  String get unpublishRecipeDialogMessage =>
+      'تحذير: جعل هذه الوصفة خاصة سيؤدي إلى:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 => 'إزالتها من نتائج البحث العامة';
+
+  @override
+  String get unpublishRecipeDialogBullet2 =>
+      'منع المستخدمين الجدد من استيرادها';
+
+  @override
+  String get unpublishRecipeDialogBullet3 =>
+      'المستخدمون الذين استوردوها بالفعل سيحتفظون بنسخهم';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => 'إبقاءها عامة';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => 'جعلها خاصة';
+
+  @override
+  String get recipeUnpublishSuccess => 'تم إلغاء نشر الوصفة بنجاح';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'فشل إلغاء نشر الوصفة: $error';
+  }
+
+  @override
+  String get recipePublicTooltip => 'الوصفة عامة - انقر لجعلها خاصة';
+
+  @override
+  String get recipePrivateTooltip => 'الوصفة خاصة - شاركها لجعلها عامة';
 }

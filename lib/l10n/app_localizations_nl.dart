@@ -1306,4 +1306,46 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get showLess => 'Minder weergeven';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'Recept privé maken';
+
+  @override
+  String get unpublishRecipeDialogMessage =>
+      'Waarschuwing: Als u dit recept privé maakt, gebeurt het volgende:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 =>
+      'Het wordt verwijderd uit de openbare zoekresultaten';
+
+  @override
+  String get unpublishRecipeDialogBullet2 =>
+      'Nieuwe gebruikers kunnen het niet meer importeren';
+
+  @override
+  String get unpublishRecipeDialogBullet3 =>
+      'Gebruikers die het al hebben geïmporteerd, behouden hun kopieën';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => 'Openbaar houden';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => 'Privé maken';
+
+  @override
+  String get recipeUnpublishSuccess =>
+      'Publicatie van recept succesvol ingetrokken';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'Fout bij het intrekken van de publicatie van het recept: $error';
+  }
+
+  @override
+  String get recipePublicTooltip =>
+      'Recept is openbaar - tik om privé te maken';
+
+  @override
+  String get recipePrivateTooltip =>
+      'Recept is privé - deel om openbaar te maken';
 }

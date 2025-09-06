@@ -157,13 +157,13 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
         .write(data);
   }
 
-  // Get user recipes modified after a certain time, excluding those needing moderation
+  // Get user recipes modified after a certain time
+  // Include recipes needing moderation so they can sync their status
   Future<List<Recipe>> getUserRecipesModifiedAfter(
       DateTime? afterTime, String userId) async {
     final query = select(recipes)
       ..where((tbl) =>
-          tbl.vendorId.equals('usr-$userId') & // Match the user's vendor ID
-          tbl.needsModerationReview.equals(false)); // Exclude flagged recipes
+          tbl.vendorId.equals('usr-$userId')); // Include all user recipes
 
     if (afterTime != null) {
       // Ensure comparison is done in UTC

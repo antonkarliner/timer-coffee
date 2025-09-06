@@ -15,6 +15,7 @@ class RecipeDetailAppBar extends StatelessWidget
   final VoidCallback onEdit;
   final VoidCallback onCopy;
   final VoidCallback onShare;
+  final VoidCallback? onUnpublish;
 
   const RecipeDetailAppBar({
     Key? key,
@@ -25,6 +26,7 @@ class RecipeDetailAppBar extends StatelessWidget
     required this.onEdit,
     required this.onCopy,
     required this.onShare,
+    this.onUnpublish,
   }) : super(key: key);
 
   @override
@@ -42,9 +44,11 @@ class RecipeDetailAppBar extends StatelessWidget
           isUserRecipe: isUserRecipe,
           isSharing: isSharing,
           idForActions: idForActions,
+          isPublic: recipe.isPublic,
           onEdit: onEdit,
           onCopy: onCopy,
           onShare: onShare,
+          onUnpublish: onUnpublish,
           favoriteButton: FavoriteButton(recipeId: idForActions),
         ),
       ],

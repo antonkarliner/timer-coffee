@@ -559,5 +559,49 @@
   "importantDates": "Date importanti",
   "brewStats": "Statistiche di preparazione",
   "showMore": "Mostra altro",
-  "showLess": "Mostra meno"
+  "showLess": "Mostra meno",
+  "unpublishRecipeDialogTitle": "Rendi la ricetta privata",
+"@unpublishRecipeDialogTitle": {
+  "description": "Testo del titolo per la finestra di dialogo di conferma dell'annullamento della pubblicazione della ricetta"
+},
+"unpublishRecipeDialogMessage": "Attenzione: Rendere questa ricetta privata:",
+"@unpublishRecipeDialogMessage": {
+  "description": "Messaggio di avviso che introduce le modifiche alla privacy"
+},
+"unpublishRecipeDialogBullet1": "La rimuoverà dai risultati di ricerca pubblici",
+"@unpublishRecipeDialogBullet1": {
+  "description": "Primo punto della modifica della privacy"
+},
+"unpublishRecipeDialogBullet2": "Impedirà a nuovi utenti di importarla",
+"@unpublishRecipeDialogBullet2": {
+  "description": "Secondo punto della modifica della privacy"
+},
+"unpublishRecipeDialogBullet3": "Gli utenti che l'hanno già importata manterranno le loro copie",
+"@unpublishRecipeDialogBullet3": {
+  "description": "Terzo punto della modifica della privacy"
+},
+"unpublishRecipeDialogKeepPublic": "Mantieni pubblica",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "Testo del pulsante per mantenere la ricetta pubblica"
+},
+"unpublishRecipeDialogMakePrivate": "Rendi privata",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "Testo del pulsante per rendere la ricetta privata"
+},
+"recipeUnpublishSuccess": "Pubblicazione della ricetta annullata con successo",
+"@recipeUnpublishSuccess": {
+  "description": "Messaggio di successo quando la pubblicazione di una ricetta viene annullata"
+},
+"recipeUnpublishError": "Errore durante l'annullamento della pubblicazione della ricetta: {error}",
+"@recipeUnpublishError": {
+  "description": "Messaggio di errore quando l'annullamento della pubblicazione di una ricetta fallisce",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "Errore del database"
+    }
+  }
+},
+"recipePublicTooltip": "La ricetta è pubblica: tocca per renderla privata",
+"recipePrivateTooltip": "La ricetta è privata: condividi per renderla pubblica"
 }

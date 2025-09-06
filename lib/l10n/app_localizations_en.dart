@@ -1298,4 +1298,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get showLess => 'Show less';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'Make Recipe Private';
+
+  @override
+  String get unpublishRecipeDialogMessage =>
+      'Warning: Making this recipe private will:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 =>
+      'Remove it from public search results';
+
+  @override
+  String get unpublishRecipeDialogBullet2 =>
+      'Prevent new users from importing it';
+
+  @override
+  String get unpublishRecipeDialogBullet3 =>
+      'Users who already imported it will keep their copies';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => 'Keep Public';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => 'Make Private';
+
+  @override
+  String get recipeUnpublishSuccess => 'Recipe unpublished successfully';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'Failed to unpublish recipe: $error';
+  }
+
+  @override
+  String get recipePublicTooltip => 'Recipe is public - tap to make private';
+
+  @override
+  String get recipePrivateTooltip => 'Recipe is private - share to make public';
 }

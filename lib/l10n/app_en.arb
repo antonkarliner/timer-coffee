@@ -757,5 +757,51 @@
   "importantDates": "Important Dates",
   "brewStats": "Brew Stats",
   "showMore": "Show more",
-  "showLess": "Show less"
+  "showLess": "Show less",
+
+  "unpublishRecipeDialogTitle": "Make Recipe Private",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Title text for the unpublish recipe confirmation dialog"
+  },
+  "unpublishRecipeDialogMessage": "Warning: Making this recipe private will:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Warning message introducing the privacy changes"
+  },
+  "unpublishRecipeDialogBullet1": "Remove it from public search results",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "First privacy change bullet point"
+  },
+  "unpublishRecipeDialogBullet2": "Prevent new users from importing it",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Second privacy change bullet point"
+  },
+  "unpublishRecipeDialogBullet3": "Users who already imported it will keep their copies",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Third privacy change bullet point"
+  },
+  "unpublishRecipeDialogKeepPublic": "Keep Public",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Button text to keep the recipe public"
+  },
+  "unpublishRecipeDialogMakePrivate": "Make Private",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Button text to make the recipe private"
+  },
+
+  "recipeUnpublishSuccess": "Recipe unpublished successfully",
+  "@recipeUnpublishSuccess": {
+    "description": "Success message when a recipe is unpublished"
+  },
+  "recipeUnpublishError": "Failed to unpublish recipe: {error}",
+  "@recipeUnpublishError": {
+    "description": "Error message when unpublishing a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "recipePublicTooltip": "Recipe is public - tap to make private",
+  "recipePrivateTooltip": "Recipe is private - share to make public"
 }

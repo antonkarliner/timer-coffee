@@ -2457,6 +2457,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show less'**
   String get showLess;
+
+  /// Title text for the unpublish recipe confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Make Recipe Private'**
+  String get unpublishRecipeDialogTitle;
+
+  /// Warning message introducing the privacy changes
+  ///
+  /// In en, this message translates to:
+  /// **'Warning: Making this recipe private will:'**
+  String get unpublishRecipeDialogMessage;
+
+  /// First privacy change bullet point
+  ///
+  /// In en, this message translates to:
+  /// **'Remove it from public search results'**
+  String get unpublishRecipeDialogBullet1;
+
+  /// Second privacy change bullet point
+  ///
+  /// In en, this message translates to:
+  /// **'Prevent new users from importing it'**
+  String get unpublishRecipeDialogBullet2;
+
+  /// Third privacy change bullet point
+  ///
+  /// In en, this message translates to:
+  /// **'Users who already imported it will keep their copies'**
+  String get unpublishRecipeDialogBullet3;
+
+  /// Button text to keep the recipe public
+  ///
+  /// In en, this message translates to:
+  /// **'Keep Public'**
+  String get unpublishRecipeDialogKeepPublic;
+
+  /// Button text to make the recipe private
+  ///
+  /// In en, this message translates to:
+  /// **'Make Private'**
+  String get unpublishRecipeDialogMakePrivate;
+
+  /// Success message when a recipe is unpublished
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe unpublished successfully'**
+  String get recipeUnpublishSuccess;
+
+  /// Error message when unpublishing a recipe fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to unpublish recipe: {error}'**
+  String recipeUnpublishError(String error);
+
+  /// No description provided for @recipePublicTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe is public - tap to make private'**
+  String get recipePublicTooltip;
+
+  /// No description provided for @recipePrivateTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe is private - share to make public'**
+  String get recipePrivateTooltip;
 }
 
 class _AppLocalizationsDelegate

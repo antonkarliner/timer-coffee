@@ -1301,4 +1301,46 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get showLess => 'Näytä vähemmän';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'Tee reseptistä yksityinen';
+
+  @override
+  String get unpublishRecipeDialogMessage =>
+      'Varoitus: Tämän reseptin tekeminen yksityiseksi:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 =>
+      'Poistaa sen julkisista hakutuloksista';
+
+  @override
+  String get unpublishRecipeDialogBullet2 =>
+      'Estää uusia käyttäjiä tuomasta sitä';
+
+  @override
+  String get unpublishRecipeDialogBullet3 =>
+      'Käyttäjät, jotka ovat jo tuoneet sen, säilyttävät kopionsa';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => 'Pidä julkisena';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => 'Tee yksityiseksi';
+
+  @override
+  String get recipeUnpublishSuccess =>
+      'Reseptin julkaisu poistettu onnistuneesti';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'Reseptin julkaisun poistaminen epäonnistui: $error';
+  }
+
+  @override
+  String get recipePublicTooltip =>
+      'Resepti on julkinen - napauta tehdäksesi siitä yksityisen';
+
+  @override
+  String get recipePrivateTooltip =>
+      'Resepti on yksityinen - jaa tehdäksesi siitä julkisen';
 }

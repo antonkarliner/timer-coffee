@@ -91,8 +91,10 @@ class RecipeNavigationService {
         if (context.mounted && copyResult.copiedRecipe != null) {
           await Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) =>
-                  RecipeCreationScreen(recipe: copyResult.copiedRecipe!),
+              builder: (context) => RecipeCreationScreen(
+                recipe: copyResult.copiedRecipe!,
+                redirectToNewDetailOnSave: true,
+              ),
             ),
           );
           onRecipeUpdated();
@@ -146,8 +148,10 @@ class RecipeNavigationService {
         // Navigate to edit the copied recipe
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) =>
-                RecipeCreationScreen(recipe: copyResult.copiedRecipe!),
+            builder: (context) => RecipeCreationScreen(
+              recipe: copyResult.copiedRecipe!,
+              redirectToNewDetailOnSave: true,
+            ),
           ),
         );
 

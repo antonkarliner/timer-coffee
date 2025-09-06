@@ -559,5 +559,49 @@
   "topRegionsLabel": "热门地区",
   "brewStats": "冲泡统计",
   "showMore": "显示更多",
-  "showLess": "显示更少"
+  "showLess": "显示更少",
+"unpublishRecipeDialogTitle": "将配方设为私有",
+"@unpublishRecipeDialogTitle": {
+  "description": "取消发布配方确认对话框的标题文本"
+},
+"unpublishRecipeDialogMessage": "警告：将此配方设为私有将导致：",
+"@unpublishRecipeDialogMessage": {
+  "description": "介绍隐私更改的警告消息"
+},
+"unpublishRecipeDialogBullet1": "它将从公共搜索结果中删除",
+"@unpublishRecipeDialogBullet1": {
+  "description": "第一个隐私更改要点"
+},
+"unpublishRecipeDialogBullet2": "新用户将无法导入",
+"@unpublishRecipeDialogBullet2": {
+  "description": "第二个隐私更改要点"
+},
+"unpublishRecipeDialogBullet3": "已经导入的用户将保留其副本",
+"@unpublishRecipeDialogBullet3": {
+  "description": "第三个隐私更改要点"
+},
+"unpublishRecipeDialogKeepPublic": "保持公开",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "用于保持配方公开的按钮文本"
+},
+"unpublishRecipeDialogMakePrivate": "设为私有",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "用于将配方设为私有的按钮文本"
+},
+"recipeUnpublishSuccess": "配方已成功取消发布",
+"@recipeUnpublishSuccess": {
+  "description": "配方取消发布时的成功消息"
+},
+"recipeUnpublishError": "取消发布配方失败：{error}",
+"@recipeUnpublishError": {
+  "description": "配方取消发布失败时的错误消息",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "数据库错误"
+    }
+  }
+},
+"recipePublicTooltip": "配方是公开的 - 点击设为私有",
+"recipePrivateTooltip": "配方是私有的 - 分享以公开"
 }

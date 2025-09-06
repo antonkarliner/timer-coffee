@@ -559,5 +559,49 @@
   "importantDates": "Dates importantes",
   "brewStats": "Statistiques de préparation",
   "showMore": "Afficher plus",
-  "showLess": "Afficher moins"
+  "showLess": "Afficher moins",
+  "unpublishRecipeDialogTitle": "Rendre la recette privée",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Titre de la boîte de dialogue de confirmation de dépublication de la recette"
+  },
+  "unpublishRecipeDialogMessage": "Avertissement : Rendre cette recette privée va :",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Message d'avertissement introduisant les modifications de confidentialité"
+  },
+  "unpublishRecipeDialogBullet1": "La supprimer des résultats de recherche publics",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "Premier point des modifications de confidentialité"
+  },
+  "unpublishRecipeDialogBullet2": "Empêcher les nouveaux utilisateurs de l'importer",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Deuxième point des modifications de confidentialité"
+  },
+  "unpublishRecipeDialogBullet3": "Les utilisateurs qui l'ont déjà importée conserveront leurs copies",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Troisième point des modifications de confidentialité"
+  },
+  "unpublishRecipeDialogKeepPublic": "Garder publique",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Texte du bouton pour garder la recette publique"
+  },
+  "unpublishRecipeDialogMakePrivate": "Rendre privée",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Texte du bouton pour rendre la recette privée"
+  },
+  "recipeUnpublishSuccess": "Recette dépubliée avec succès",
+  "@recipeUnpublishSuccess": {
+    "description": "Message de succès lorsque la publication d'une recette est annulée"
+  },
+  "recipeUnpublishError": "Échec de la dépublication de la recette : {error}",
+  "@recipeUnpublishError": {
+    "description": "Message d'erreur lorsque la dépublication d'une recette échoue",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Erreur de base de données"
+      }
+    }
+  },
+  "recipePublicTooltip": "La recette est publique - appuyez pour la rendre privée",
+  "recipePrivateTooltip": "La recette est privée - partagez pour la rendre publique"
 }

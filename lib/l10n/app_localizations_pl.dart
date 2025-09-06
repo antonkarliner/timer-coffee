@@ -1317,4 +1317,45 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get showLess => 'Pokaż mniej';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'Ustaw przepis jako prywatny';
+
+  @override
+  String get unpublishRecipeDialogMessage =>
+      'Ostrzeżenie: Ustawienie tego przepisu jako prywatnego spowoduje:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 =>
+      'Usunięcie go z publicznych wyników wyszukiwania';
+
+  @override
+  String get unpublishRecipeDialogBullet2 =>
+      'Uniemożliwienie nowym użytkownikom jego importowania';
+
+  @override
+  String get unpublishRecipeDialogBullet3 =>
+      'Użytkownicy, którzy już go zaimportowali, zachowają swoje kopie';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => 'Pozostaw publiczny';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => 'Ustaw jako prywatny';
+
+  @override
+  String get recipeUnpublishSuccess => 'Pomyślnie cofnięto publikację przepisu';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'Błąd podczas cofania publikacji przepisu: $error';
+  }
+
+  @override
+  String get recipePublicTooltip =>
+      'Przepis jest publiczny - dotknij, aby uczynić go prywatnym';
+
+  @override
+  String get recipePrivateTooltip =>
+      'Przepis jest prywatny - udostępnij, aby uczynić go publicznym';
 }

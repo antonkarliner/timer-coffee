@@ -1313,4 +1313,46 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get showLess => 'Weniger anzeigen';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'Rezept als privat markieren';
+
+  @override
+  String get unpublishRecipeDialogMessage =>
+      'Warnung: Wenn Sie dieses Rezept als privat markieren, wird Folgendes bewirkt:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 =>
+      'Es wird aus den öffentlichen Suchergebnissen entfernt';
+
+  @override
+  String get unpublishRecipeDialogBullet2 =>
+      'Neue Benutzer können es nicht mehr importieren';
+
+  @override
+  String get unpublishRecipeDialogBullet3 =>
+      'Benutzer, die es bereits importiert haben, behalten ihre Kopien';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => 'Öffentlich lassen';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => 'Als privat markieren';
+
+  @override
+  String get recipeUnpublishSuccess =>
+      'Rezeptveröffentlichung erfolgreich aufgehoben';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'Fehler beim Aufheben der Veröffentlichung des Rezepts: $error';
+  }
+
+  @override
+  String get recipePublicTooltip =>
+      'Rezept ist öffentlich - tippen, um es privat zu machen';
+
+  @override
+  String get recipePrivateTooltip =>
+      'Rezept ist privat - teilen, um es öffentlich zu machen';
 }

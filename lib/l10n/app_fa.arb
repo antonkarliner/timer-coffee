@@ -560,6 +560,48 @@
   "recipeCopyErrorLoadingEdit": "بارگذاری دستور کپی‌شده برای ویرایش ناموفق بود.",
   "recipeCopyErrorOperationFailed": "عملیات ناموفق بود.",
   "notProvided": "ارائه نشده",
+"unpublishRecipeDialogTitle": "خصوصی کردن دستور پخت",
+"@unpublishRecipeDialogTitle": {
+  "description": "متن عنوان برای گفتگوی تأیید لغو انتشار دستور پخت"
+},
+"unpublishRecipeDialogMessage": "هشدار: خصوصی کردن این دستور پخت باعث می‌شود:",
+"@unpublishRecipeDialogMessage": {
+  "description": "پیام هشدار برای معرفی تغییرات حریم خصوصی"
+},
+"unpublishRecipeDialogBullet1": "از نتایج جستجوی عمومی حذف شود",
+"@unpublishRecipeDialogBullet1": {
+  "description": "اولین نکته در مورد تغییر حریم خصوصی"
+},
+"unpublishRecipeDialogBullet2": "کاربران جدید نتوانند آن را وارد کنند",
+"@unpublishRecipeDialogBullet2": {
+  "description": "دومین نکته در مورد تغییر حریم خصوصی"
+},
+"unpublishRecipeDialogBullet3": "کاربرانی که قبلاً آن را وارد کرده‌اند، نسخه‌های خود را حفظ خواهند کرد",
+"@unpublishRecipeDialogBullet3": {
+  "description": "سومین نکته در مورد تغییر حریم خصوصی"
+},
+"unpublishRecipeDialogKeepPublic": "عمومی بماند",
+"@unpublishRecipeDialogKeepPublic": {
+  "description": "متن دکمه برای عمومی نگه داشتن دستور پخت"
+},
+"unpublishRecipeDialogMakePrivate": "خصوصی کردن",
+"@unpublishRecipeDialogMakePrivate": {
+  "description": "متن دکمه برای خصوصی کردن دستور پخت"
+},
+"recipeUnpublishSuccess": "دستور پخت با موفقیت از حالت انتشار خارج شد",
+"@recipeUnpublishSuccess": {
+  "description": "پیام موفقیت هنگام لغو انتشار یک دستور پخت"
+},
+"recipeUnpublishError": "خطا در لغو انتشار دستور پخت: {error}",
+"@recipeUnpublishError": {
+  "description": "پیام خطا هنگام عدم موفقیت در لغو انتشار یک دستور پخت",
+  "placeholders": {
+    "error": {
+      "type": "String",
+      "example": "خطای پایگاه داده"
+    }
+  }
+},
   "recipeUpdateFailedFetch": "بروزرسانی دستور ناموفق بود.",
   "recipeImportSuccess": "دستور با موفقیت وارد شد!",
   "recipeImportFailedSave": "ذخیره دستور واردشده ناموفق بود.",
@@ -726,5 +768,7 @@
   "enterFarm": "نام مزرعه را وارد کنید",
   "brewStats": "آمار دم‌آوری",
   "showMore": "نمایش بیشتر",
-  "showLess": "نمایش کمتر"
+  "showLess": "نمایش کمتر",
+  "recipePublicTooltip": "دستور پخت عمومی است - برای خصوصی کردن ضربه بزنید",
+  "recipePrivateTooltip": "دستور پخت خصوصی است - برای عمومی کردن به اشتراک بگذارید"
 }

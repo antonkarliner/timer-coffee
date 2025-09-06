@@ -1309,4 +1309,45 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get showLess => 'Daha az göster';
+
+  @override
+  String get unpublishRecipeDialogTitle => 'Tarifi özel yap';
+
+  @override
+  String get unpublishRecipeDialogMessage =>
+      'Uyarı: Bu tarifi özel yapmak şunlara neden olur:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 =>
+      'Genel arama sonuçlarından kaldırılır';
+
+  @override
+  String get unpublishRecipeDialogBullet2 =>
+      'Yeni kullanıcıların içe aktarmasını engeller';
+
+  @override
+  String get unpublishRecipeDialogBullet3 =>
+      'Daha önce içe aktarmış olan kullanıcılar kopyalarını saklar';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => 'Herkese açık bırak';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => 'Özel yap';
+
+  @override
+  String get recipeUnpublishSuccess => 'Tarif yayından başarıyla kaldırıldı';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return 'Tarif yayından kaldırılamadı: $error';
+  }
+
+  @override
+  String get recipePublicTooltip =>
+      'Tarif herkese açık - gizli yapmak için dokunun';
+
+  @override
+  String get recipePrivateTooltip =>
+      'Tarif gizli - herkese açık yapmak için paylaşın';
 }
