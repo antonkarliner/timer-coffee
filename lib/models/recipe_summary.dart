@@ -11,9 +11,16 @@ class RecipeSummary {
     required this.summary,
   });
 
-  factory RecipeSummary.fromRecipe(RecipeModel recipe) {
+  factory RecipeSummary.fromRecipe(
+    RecipeModel recipe, {
+    double? currentCoffeeAmount,
+    double? currentWaterAmount,
+  }) {
     String summary = "";
     int cumulativeTime = 0; // total seconds
+
+    final double coffee = currentCoffeeAmount ?? recipe.coffeeAmount;
+    final double water = currentWaterAmount ?? recipe.waterAmount;
 
     String replacePlaceholders(
         String description, double coffeeAmount, double waterAmount) {
@@ -55,8 +62,8 @@ class RecipeSummary {
       // Replace placeholders in step description
       String stepDescription = replacePlaceholders(
         step.description,
-        recipe.coffeeAmount,
-        recipe.waterAmount,
+        coffee,
+        water,
       );
 
       // Add step description and time to summary

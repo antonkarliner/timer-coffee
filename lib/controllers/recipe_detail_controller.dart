@@ -19,6 +19,24 @@ class RecipeDetailController extends ChangeNotifier {
   double? originalCoffee;
   double? originalWater;
 
+  /// Reactive getter for current coffee amount, parsing the controller text safely.
+  /// Falls back to original if text is invalid or empty.
+  double get currentCoffeeAmount {
+    final text = coffeeController.text;
+    if (text.isEmpty) return originalCoffee ?? 0.0;
+    final parsed = double.tryParse(text.replaceAll(',', '.'));
+    return parsed ?? originalCoffee ?? 0.0;
+  }
+
+  /// Reactive getter for current water amount, parsing the controller text safely.
+  /// Falls back to original if text is invalid or empty.
+  double get currentWaterAmount {
+    final text = waterController.text;
+    if (text.isEmpty) return originalWater ?? 0.0;
+    final parsed = double.tryParse(text.replaceAll(',', '.'));
+    return parsed ?? originalWater ?? 0.0;
+  }
+
   // --- Sliders (special IDs) ---
   int sweetnessSliderPosition = 1; // for id 106
   int strengthSliderPosition = 2; // for id 106

@@ -106,7 +106,10 @@ class RecipeContentBuilder extends StatelessWidget {
             },
           ),
         if (effectiveRecipeId != '106' && effectiveRecipeId != '1002')
-          RecipeSummaryTile(recipe: recipe),
+          RecipeSummaryTile(
+            recipe: recipe,
+            controller: controller,
+          ),
       ],
     );
   }
