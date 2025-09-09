@@ -1,1 +1,6 @@
-Come sempre: correzioni di bug e miglioramenti delle prestazioni.
+Novità:
++ Supporto per il coreano. 한국 유저분들, 어서 와요!
++ Riepilogo interattivo della ricetta! Il riepilogo si aggiorna ora istantaneamente, mostrando le quantità esatte di caffè e acqua da utilizzare.
++ Possibilità di de-pubblicare le ricette: ora puoi rendere nuovamente private le ricette che avevi pubblicato.
+
+E naturalmente correzioni di bug e miglioramenti delle prestazioni.

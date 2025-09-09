@@ -1,0 +1,6 @@
+Nouveautés :
++ Support du coréen. 한국 유저분들, 어서 와요 !
++ Résumé interactif : il se met à jour instantanément et indique les quantités exactes de café et d'eau à utiliser.
++ Possibilité de dépublier vos recettes publiques pour les rendre privées.
+
+Et bien sûr corrections de bugs et améliorations des performances.

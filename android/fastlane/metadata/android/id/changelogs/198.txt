@@ -1,0 +1,6 @@
+Baru:
++ Dukungan bahasa Korea. 한국 유저분들, 어서 와요!
++ Ringkasan resep interaktif: sekarang langsung terbarui dan menampilkan takaran kopi dan air yang tepat.
++ Batalkan publikasi resep: menambahkan kemampuan untuk menjadikan resep publik Anda kembali bersifat pribadi.
+
+Dan tentu saja perbaikan bug serta peningkatan kinerja.

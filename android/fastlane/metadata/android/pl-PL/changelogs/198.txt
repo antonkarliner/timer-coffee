@@ -1,0 +1,6 @@
+Nowości:
++ Obsługa języka koreańskiego. 한국 유저분들, 어서 와요!
++ Interaktywne podsumowanie przepisu — aktualizuje się natychmiast i pokazuje dokładne ilości kawy i wody.
++ Cofnięcie publikacji przepisów: dodano możliwość przywrócenia opublikowanych przepisów do stanu prywatnego.
+
+Oczywiście poprawki błędów i usprawnienia wydajności.

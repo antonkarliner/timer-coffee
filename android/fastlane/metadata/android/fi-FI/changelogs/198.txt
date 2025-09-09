@@ -1,0 +1,6 @@
+Uutta:
++ Korean kielen tuki. 한국 유저분들, 어서 와요!
++ Interaktiivinen reseptiyhteenveto — yhteenveto päivittyy välittömästi ja näyttää tarkat kahvi- ja vesimäärät.
++ Julkaistujen reseptien tekeminen uudelleen yksityisiksi.
+
+Ja tietenkin bugikorjauksia ja suorituskyvyn parannuksia.

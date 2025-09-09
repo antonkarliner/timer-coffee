@@ -1,1 +1,6 @@
-Como siempre: corrección de errores y mejoras de rendimiento.
+Novedades:
++ Soporte para el coreano. 한국 유저분들, 어서 와요!
++ Resumen interactivo de la receta: el resumen ahora se actualiza al instante, mostrándote las cantidades exactas de café y agua a utilizar.
++ Despublicar recetas: se ha añadido la opción de despublicar tus recetas públicas para que vuelvan a ser privadas.
+
+Y, por supuesto, corrección de errores y mejoras de rendimiento.

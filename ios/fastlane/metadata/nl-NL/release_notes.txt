@@ -1,1 +1,6 @@
-Zoals gebruikelijk: bugfixes en prestatieverbeteringen.
+Nieuw:
++ Koreaanse taalondersteuning. 한국 유저분들, 어서 와요!
++ Interactieve receptsamenvatting! De samenvatting wordt nu direct bijgewerkt en toont precies welke hoeveelheden koffie en water je moet gebruiken.
++ Recepten depubliceren: mogelijkheid toegevoegd om je openbare recepten te depubliceren, zodat ze weer privé worden.
+
+En natuurlijk bugfixes en prestatieverbeteringen.

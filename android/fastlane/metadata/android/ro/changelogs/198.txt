@@ -1,0 +1,6 @@
+Noutăți:
++ Suport pentru limba coreeană. 한국 유저분들, 어서 와요!
++ Rezumat interactiv al rețetelor — se actualizează instantaneu și arată exact cantitățile de cafea și apă de folosit.
++ Anularea publicării rețetelor: am adăugat posibilitatea de a face din nou private rețetele publice.
+
+Și, bineînțeles, remedieri de erori și îmbunătățiri de performanță.

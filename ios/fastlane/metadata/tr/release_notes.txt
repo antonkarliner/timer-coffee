@@ -1,1 +1,6 @@
-Her zamanki gibi: hata düzeltmeleri ve performans iyileştirmeleri.
+Yenilikler:
++ Korece dil desteği. 한국 유저분들, 어서 와요!
++ Etkileşimli tarif özeti! Özet artık anında güncellenir ve kullanmanız gereken kesin kahve ve su miktarlarını gösterir.
++ Yayınlanan tarifleri yayından kaldırma: herkese açık tariflerinizi tekrar özel hale getirebilme özelliği eklendi.
+
+Ve elbette hata düzeltmeleri ve performans iyileştirmeleri.

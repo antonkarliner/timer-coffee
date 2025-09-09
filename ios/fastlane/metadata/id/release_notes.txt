@@ -1,1 +1,6 @@
-Seperti biasa: perbaikan bug dan peningkatan kinerja.
+Baru:
++ Dukungan bahasa Korea. 한국 유저분들, 어서 와요!
++ Ringkasan resep interaktif! Ringkasan sekarang diperbarui secara instan, memperlihatkan takaran kopi dan air yang tepat untuk digunakan.
++ Membatalkan publikasi resep: ditambahkan kemampuan untuk membuat resep publik Anda menjadi pribadi kembali.
+
+Dan tentu saja perbaikan bug dan peningkatan kinerja.

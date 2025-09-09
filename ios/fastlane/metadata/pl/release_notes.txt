@@ -1,1 +1,6 @@
-Jak zwykle: poprawki błędów i usprawnienia wydajności.
+Nowości:
++ Wsparcie języka koreańskiego. Koreańscy użytkownicy, witajcie!
++ Interaktywne podsumowanie przepisu! Podsumowanie teraz aktualizuje się natychmiast, pokazując dokładne ilości kawy i wody do użycia.
++ Wycofanie publikacji przepisów: dodano możliwość wycofania opublikowanych przepisów, aby ponownie stały się prywatne.
+
+I oczywiście poprawki błędów oraz usprawnienia wydajności.

@@ -1,0 +1,6 @@
+Novidades:
++ Suporte ao idioma coreano. 한국 유저분들, 어서 와요!
++ Resumo interativo da receita: agora atualiza instantaneamente, mostrando as quantidades exatas de café e água a usar.
++ Despublicar receitas: adicionada a opção de tornar privadas novamente suas receitas públicas.
+
+E, claro, correções de bugs e melhorias de desempenho.

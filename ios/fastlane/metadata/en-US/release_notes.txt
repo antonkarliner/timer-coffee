@@ -1,1 +1,6 @@
-As usual: bug fixes and performance improvements.
+New: 
++ Korean language support. 한국 유저분들, 어서 와요!
++ Interactive recipe summary! Summary now updates instantaneously, showing you exact coffee and water amounts to use.
++ Unpublish recipes: added an ability to unpublish your public recipes making them private again.
+
+And of course bug fixes and performance improvements.

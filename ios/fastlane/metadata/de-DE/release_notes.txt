@@ -1,1 +1,6 @@
-Wie gewohnt: Fehlerbehebungen und Leistungsverbesserungen.
+Neu:
++ Koreanische Sprachunterstützung. Koreanische Nutzer, herzlich willkommen!
++ Interaktive Rezeptzusammenfassung! Die Zusammenfassung wird jetzt sofort aktualisiert und zeigt dir die genauen Kaffee‑ und Wassermengen, die du verwenden sollst.
++ Veröffentlichte Rezepte zurückziehen: Möglichkeit hinzugefügt, deine öffentlichen Rezepte wieder privat zu machen.
+
+Und natürlich Fehlerbehebungen und Leistungsverbesserungen.

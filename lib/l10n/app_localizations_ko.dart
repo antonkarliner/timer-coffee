@@ -9,25 +9,25 @@ class AppLocalizationsKo extends AppLocalizations {
   AppLocalizationsKo([String locale = 'ko']) : super(locale);
 
   @override
-  String get beansStatsSectionTitle => '콩 통계';
+  String get beansStatsSectionTitle => '원두 통계';
 
   @override
-  String get totalBeansBrewedLabel => '총 양조된 콩';
+  String get totalBeansBrewedLabel => '사용한 원두 총량';
 
   @override
-  String get newBeansTriedLabel => '새로운 콩 시도';
+  String get newBeansTriedLabel => '처음 시도한 원두';
 
   @override
-  String get originsExploredLabel => '탐험된 원산지';
+  String get originsExploredLabel => '탐색된 원산지';
 
   @override
-  String get regionsExploredLabel => '탐험된 지역';
+  String get regionsExploredLabel => '탐색된 지역';
 
   @override
-  String get newRoastersDiscoveredLabel => '새로운 로스터 발견';
+  String get newRoastersDiscoveredLabel => '새로운 로스터리 발견';
 
   @override
-  String get favoriteRoastersLabel => '좋아하는 로스터';
+  String get favoriteRoastersLabel => '좋아하는 로스터리';
 
   @override
   String get topOriginsLabel => '상위 원산지';
@@ -51,7 +51,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get userRecipesEmpty => '레시피를 찾을 수 없습니다';
 
   @override
-  String get userRecipesDeleteTitle => '레시피 삭제?';
+  String get userRecipesDeleteTitle => '레시피 삭제';
 
   @override
   String get userRecipesDeleteMessage => '이 작업은 되돌릴 수 없습니다.';
@@ -78,10 +78,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get hubSignInCreateSubtitle => '레시피와 선호 설정 동기화 위해 로그인';
 
   @override
-  String get hubBrewDiarySubtitle => '양조 기록 보기 및 노트 추가';
+  String get hubBrewDiarySubtitle => '추출 기록 보기 및 노트 추가';
 
   @override
-  String get hubBrewStatsSubtitle => '개인 및 글로벌 양조 통계 및 추세 보기';
+  String get hubBrewStatsSubtitle => '개인 및 글로벌 추출 통계 및 추세 보기';
 
   @override
   String get hubSettingsSubtitle => '앱 선호 및 동작 변경';
@@ -140,10 +140,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get watertemp => '물 온도';
 
   @override
-  String get grindsize => '분쇄 크기';
+  String get grindsize => '분쇄도';
 
   @override
-  String get brewtime => '양조 시간';
+  String get brewtime => '추출 시간';
 
   @override
   String get recipesummary => '레시피 요약';
@@ -155,7 +155,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get preparation => '준비';
 
   @override
-  String get brewingprocess => '양조 과정';
+  String get brewingprocess => '추출 과정';
 
   @override
   String get step => '단계';
@@ -173,7 +173,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get finishmsg => 'Timer.Coffee 사용 감사합니다! 즐거운';
+  String get finishmsg => 'Timer.Coffee 사용 감사해요! 즐거운';
 
   @override
   String get coffeefact => '커피 사실';
@@ -198,16 +198,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get supportdevmsg =>
-      '기부는 유지 비용 (예: 개발자 라이선스)을 충당하는 데 도움이 됩니다. 또한 더 많은 커피 양조 기기와 레시피를 앱에 추가할 수 있게 합니다.';
+      '기부는 유지 비용 (예: 개발자 라이선스)을 충당하는 데 도움이 돼요 또한 더 많은 커피 추출 기기와 레시피를 앱에 추가할 수 있게 해요';
 
   @override
-  String get supportdevtnx => '기부 고려 감사합니다!';
+  String get supportdevtnx => '기부 고려 감사해요!';
 
   @override
-  String get donationok => '감사합니다!';
+  String get donationok => '감사해요!';
 
   @override
-  String get donationtnx => '지원에 정말 감사합니다! 훌륭한 양조를 기원합니다! ☕️';
+  String get donationtnx => '지원에 정말 감사해요! 훌륭한 추출를 기원해요! ☕️';
 
   @override
   String get donationerr => '오류';
@@ -271,10 +271,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get noFavoriteRecipesMessage =>
-      '좋아하는 레시피 목록이 비어 있습니다. 탐험하고 양조하여 좋아하는 것을 발견하세요!';
+      '좋아하는 레시피 목록이 비어 있습니다. 탐색하고 추출하여 좋아하는 것을 발견하세요!';
 
   @override
-  String get explore => '탐험';
+  String get explore => '탐색';
 
   @override
   String get dateFormat => 'MMM d, yyyy';
@@ -283,16 +283,16 @@ class AppLocalizationsKo extends AppLocalizations {
   String get timeFormat => 'hh:mm a';
 
   @override
-  String get brewdiary => '양조 일지';
+  String get brewdiary => '브루잉 일지';
 
   @override
   String get brewdiarynotfound => '항목을 찾을 수 없습니다';
 
   @override
-  String get beans => '콩';
+  String get beans => '원두';
 
   @override
-  String get roaster => '로스터';
+  String get roaster => '로스터리';
 
   @override
   String get rating => '평점';
@@ -307,7 +307,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get yourStats => '내 통계';
 
   @override
-  String get coffeeBrewed => '양조된 커피:';
+  String get coffeeBrewed => '추출된 커피:';
 
   @override
   String get litersUnit => 'L';
@@ -331,7 +331,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String someoneJustBrewed(Object recipeName) {
-    return '누군가 $recipeName을(를) 방금 양조했습니다';
+    return '누군가 $recipeName을(를) 방금 추출했어요';
   }
 
   @override
@@ -347,10 +347,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get timePeriodCustom => '사용자 지정';
 
   @override
-  String get statsFor => '통계 ';
+  String get statsFor => '통계';
 
   @override
-  String get homescreenbrewcoffee => '커피 양조';
+  String get homescreenbrewcoffee => '커피 내리기';
 
   @override
   String get homescreenhub => '허브';
@@ -359,10 +359,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get homescreenmore => '더 보기';
 
   @override
-  String get addBeans => '콩 추가';
+  String get addBeans => '원두 추가';
 
   @override
-  String get removeBeans => '콩 제거';
+  String get removeBeans => '원두 제거';
 
   @override
   String get name => '이름';
@@ -374,19 +374,19 @@ class AppLocalizationsKo extends AppLocalizations {
   String get details => '세부 정보';
 
   @override
-  String get coffeebeans => '커피 콩';
+  String get coffeebeans => '커피 원두';
 
   @override
   String get loading => '로딩 중';
 
   @override
-  String get nocoffeebeans => '커피 콩을 찾을 수 없습니다';
+  String get nocoffeebeans => '원두를 찾을 수 없습니다';
 
   @override
   String get delete => '삭제';
 
   @override
-  String get confirmDeleteTitle => '항목 삭제?';
+  String get confirmDeleteTitle => '항목 삭제';
 
   @override
   String get confirmDeleteMessage => '이 항목을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.';
@@ -401,13 +401,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get toggleEditMode => '편집 모드 토글';
 
   @override
-  String get coffeeBeansDetails => '커피 콩 세부 정보';
+  String get coffeeBeansDetails => '커피 원두 세부 정보';
 
   @override
   String get edit => '편집';
 
   @override
-  String get coffeeBeansNotFound => '커피 콩을 찾을 수 없습니다';
+  String get coffeeBeansNotFound => '원두를 찾을 수 없습니다';
 
   @override
   String get geographyTerroir => '지리/테루아';
@@ -449,13 +449,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get additionalNotes => '추가 노트';
 
   @override
-  String get noCoffeeBeans => '커피 콩을 찾을 수 없습니다';
+  String get noCoffeeBeans => '원두를 찾을 수 없습니다';
 
   @override
-  String get editCoffeeBeans => '커피 콩 편집';
+  String get editCoffeeBeans => '커피 원두 편집';
 
   @override
-  String get addCoffeeBeans => '커피 콩 추가';
+  String get addCoffeeBeans => '커피 원두 추가';
 
   @override
   String get showImagePicker => '이미지 선택기 표시';
@@ -465,7 +465,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get firstTimePopupMessage =>
-      '1. 이미지를 처리하기 위해 외부 서비스를 사용합니다. 계속하면 이에 동의합니다.\n2. 이미지를 저장하지 않지만 개인 세부 정보를 포함하지 마세요.\n3. 이미지 인식은 현재 월 10 토큰으로 제한됩니다 (1 토큰 = 1 이미지). 이 제한은 변경될 수 있습니다.';
+      '1. 이미지를 처리하기 위해 외부 서비스를 사용해요 계속하면 이에 동의해요\n2. 이미지를 저장하지 않지만 개인 세부 정보를 포함하지 마세요.\n3. 이미지 인식은 현재 월 10 토큰으로 제한돼요 (1 토큰 = 1 이미지). 이 제한은 변경될 수 있습니다.';
 
   @override
   String get ok => '확인';
@@ -501,16 +501,16 @@ class AppLocalizationsKo extends AppLocalizations {
   String get unexpectedErrorOccurred => '예상치 못한 오류 발생';
 
   @override
-  String get tokenLimitReached => '죄송합니다, 이번 달 이미지 인식 토큰 한도에 도달했습니다';
+  String get tokenLimitReached => '죄송해요, 이번 달 이미지 인식 토큰 한도에 도달했어요';
 
   @override
-  String get noCoffeeLabelsDetected => '커피 라벨을 감지할 수 없습니다. 다른 이미지로 시도하세요.';
+  String get noCoffeeLabelsDetected => '커피 라벨을 감지할 수 없습니다. 다른 이미지로 시도하기';
 
   @override
   String get collectedInformation => '수집된 정보';
 
   @override
-  String get enterRoaster => '로스터 입력';
+  String get enterRoaster => '로스터리 이름 입력';
 
   @override
   String get enterName => '이름 입력';
@@ -567,10 +567,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get errorMessage => '오류';
 
   @override
-  String get selectCoffeeBeans => '커피 콩 선택';
+  String get selectCoffeeBeans => '커피 원두 선택';
 
   @override
-  String get addNewBeans => '새 콩 추가';
+  String get addNewBeans => '새 원두 추가';
 
   @override
   String get favorite => '좋아함';
@@ -579,7 +579,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get notFavorite => '좋아하지 않음';
 
   @override
-  String get myBeans => '내 콩';
+  String get myBeans => '내 원두';
 
   @override
   String get signIn => '로그인';
@@ -621,13 +621,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get sendMagicLink => '매직 링크 보내기';
 
   @override
-  String get magicLinkSent => '매직 링크가 발송되었습니다! 이메일을 확인하세요.';
+  String get magicLinkSent => '매직 링크가 발송되었어요! 이메일을 확인하세요.';
 
   @override
   String get sendOTP => 'OTP 보내기';
 
   @override
-  String get otpSent => 'OTP가 이메일로 발송되었습니다';
+  String get otpSent => 'OTP가 이메일로 발송되었어요';
 
   @override
   String get otpSendError => 'OTP 발송 오류';
@@ -670,7 +670,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get deleteAccountWarning =>
-      '주의: 계속하면 서버에서 계정 및 관련 데이터를 삭제합니다. 로컬 데이터는 기기를 삭제하면 제거됩니다. 동기화를 다시 활성화하려면 계정을 다시 생성하세요';
+      '주의: 계속하면 서버에서 계정 및 관련 데이터를 삭제해요 로컬 데이터는 기기를 삭제하면 제거돼요 동기화를 다시 활성화하려면 계정을 다시 생성하세요';
 
   @override
   String get deleteAccountConfirmation => '계정 삭제 성공';
@@ -685,13 +685,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get deleteAccountTitle => '중요';
 
   @override
-  String get selectBeans => '콩 선택';
+  String get selectBeans => '원두 선택';
 
   @override
   String get all => '모두';
 
   @override
-  String get selectRoaster => '로스터 선택';
+  String get selectRoaster => '로스터리 선택';
 
   @override
   String get selectOrigin => '원산지 선택';
@@ -721,26 +721,26 @@ class AppLocalizationsKo extends AppLocalizations {
   String get yearlyStatsAppBarTitle => 'Timer.Coffee와 함께한 내 1년';
 
   @override
-  String get yearlyStatsStory1Text => '올해 Timer.Coffee 세계의 일부가 되어 감사합니다!';
+  String get yearlyStatsStory1Text => '올해 Timer.Coffee 세계의 일부가 되어 감사해요!';
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
-    return '먼저.\n올해 커피를 양조했습니다$ellipsis';
+    return '우선,\n올해 커피를 추출했어요$ellipsis';
   }
 
   @override
   String yearlyStatsStory3Text(Object liters) {
-    return '더 정확히 말하면,\n2024년에 $liters 리터의 커피를 양조했습니다!';
+    return '더 정확히 말하면,\n2024년에 커피를 $liters리터 추출했어요!';
   }
 
   @override
   String yearlyStatsStory4Text(Object roasterCount) {
-    return '$roasterCount 로스터의 콩을 사용했습니다';
+    return '$roasterCount곳 로스터리의 원두를 사용했어요';
   }
 
   @override
   String yearlyStatsStory4Top3Roasters(Object top3) {
-    return '상위 3 로스터:\n$top3';
+    return '상위 로스터리 3곳:\n$top3';
   }
 
   @override
@@ -750,28 +750,28 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String yearlyStatsStory6Text(Object originCount) {
-    return '$originCount 국가의 커피 콩을 맛보았습니다!';
+    return '$originCount개국의 원두를 맛보았습니다!';
   }
 
   @override
-  String get yearlyStatsStory7Part1 => '혼자 양조하지 않았습니다…';
+  String get yearlyStatsStory7Part1 => '혼자 추출하지 않았습니다…';
 
   @override
   String get yearlyStatsStory7Part2 => '…6 대륙의 110개 다른 국가 사용자와 함께!';
 
   @override
   String yearlyStatsStory8TitleLow(Object count) {
-    return '올해 이 $count 양조 방법을 고수했습니다:';
+    return '올해 이 $count 추출 방법을 고수했습니다:';
   }
 
   @override
   String yearlyStatsStory8TitleMedium(Object count) {
-    return '새로운 맛을 발견하며 올해 $count 양조 방법을 사용했습니다:';
+    return '새로운 맛을 발견하며 올해 $count 추출 방법을 사용했습니다:';
   }
 
   @override
   String yearlyStatsStory8TitleHigh(Object count) {
-    return '진정한 커피 탐험가로서 올해 $count 양조 방법을 사용했습니다:';
+    return '진정한 커피 탐색가로서 올해 $count 추출 방법을 사용했습니다:';
   }
 
   @override
@@ -811,16 +811,16 @@ class AppLocalizationsKo extends AppLocalizations {
   String get yearlyStatsShareProgressTop3Recipes => '내 상위 3 레시피:';
 
   @override
-  String get yearlyStatsShareProgressTop3Roasters => '내 상위 3 로스터:';
+  String get yearlyStatsShareProgressTop3Roasters => '내 상위 로스터리 3곳:';
 
   @override
   String get yearlyStatsFailedToLike => '좋아요 실패. 다시 시도하세요.';
 
   @override
-  String get labelCoffeeBrewed => '양조된 커피';
+  String get labelCoffeeBrewed => '추출된 커피';
 
   @override
-  String get labelTastedBeansBy => '로스터별 맛본 콩';
+  String get labelTastedBeansBy => '로스터리별 맛본 원두';
 
   @override
   String get labelDiscoveredCoffeeFrom => '발견된 커피 원산지';
@@ -833,8 +833,8 @@ class AppLocalizationsKo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '로스터',
-      one: '로스터',
+      other: '로스터리',
+      one: '로스터리',
     );
     return '$count $_temp0';
   }
@@ -855,8 +855,8 @@ class AppLocalizationsKo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '양조 방법',
-      one: '양조 방법',
+      other: '추출 방법',
+      one: '추출 방법',
     );
     return '$count $_temp0';
   }
@@ -877,7 +877,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get recipeCreationScreenShortDescriptionLabel => '짧은 설명';
 
   @override
-  String get recipeCreationScreenBrewingMethodLabel => '양조 방법';
+  String get recipeCreationScreenBrewingMethodLabel => '추출 방법';
 
   @override
   String get recipeCreationScreenCoffeeAmountLabel => '커피 양 (g)';
@@ -889,10 +889,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get recipeCreationScreenWaterTempLabel => '물 온도 (°C)';
 
   @override
-  String get recipeCreationScreenGrindSizeLabel => '분쇄 크기';
+  String get recipeCreationScreenGrindSizeLabel => '분쇄도';
 
   @override
-  String get recipeCreationScreenTotalBrewTimeLabel => '총 양조 시간:';
+  String get recipeCreationScreenTotalBrewTimeLabel => '총 추출 시간:';
 
   @override
   String get recipeCreationScreenMinutesLabel => '분';
@@ -905,23 +905,23 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String recipeCreationScreenBrewStepTitle(String stepOrder) {
-    return '양조 단계 $stepOrder';
+    return '추출 단계 $stepOrder';
   }
 
   @override
   String get recipeCreationScreenStepDescriptionLabel => '단계 설명';
 
   @override
-  String get recipeCreationScreenStepTimeLabel => '단계 시간: ';
+  String get recipeCreationScreenStepTimeLabel => '단계 시간:';
 
   @override
-  String get recipeCreationScreenRecipeNameValidator => '레시피 이름을 입력하세요';
+  String get recipeCreationScreenRecipeNameValidator => '레시피 이름을 입력하기';
 
   @override
-  String get recipeCreationScreenShortDescriptionValidator => '짧은 설명을 입력하세요';
+  String get recipeCreationScreenShortDescriptionValidator => '짧은 설명을 입력하기';
 
   @override
-  String get recipeCreationScreenBrewingMethodValidator => '양조 방법을 선택하세요';
+  String get recipeCreationScreenBrewingMethodValidator => '추출 방법을 선택하기';
 
   @override
   String get recipeCreationScreenRequiredValidator => '필수';
@@ -930,7 +930,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get recipeCreationScreenInvalidNumberValidator => '잘못된 숫자';
 
   @override
-  String get recipeCreationScreenStepDescriptionValidator => '단계 설명을 입력하세요';
+  String get recipeCreationScreenStepDescriptionValidator => '단계 설명을 입력하기';
 
   @override
   String get recipeCreationScreenContinueButton => '레시피 단계로 계속';
@@ -989,7 +989,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get defaultPreparationStepDescription => '준비';
 
   @override
-  String get loadingEllipsis => '로딩 중...';
+  String get loadingEllipsis => '로딩 중…';
 
   @override
   String get recipeDeletedSuccess => '레시피 삭제 성공';
@@ -1008,7 +1008,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get unknownBrewingMethod => '알 수 없는 양조 방법';
+  String get unknownBrewingMethod => '알 수 없는 추출 방법';
 
   @override
   String get recipeCopyErrorLoadingEdit => '편집을 위한 복사된 레시피 로드 실패.';
@@ -1045,7 +1045,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String recipeUpdateAvailableBody(String recipeName) {
-    return '\'$recipeName\'의 새 버전이 온라인에서 사용 가능합니다. 업데이트하시겠습니까?';
+    return '\'$recipeName\'의 새 버전이 온라인에서 사용 가능해요 업데이트하시겠습니까?';
   }
 
   @override
@@ -1070,7 +1070,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String moderationReviewNeededMessage(String recipeNames) {
-    return '다음 레시피가 콘텐츠 검토 문제로 검토가 필요합니다: $recipeNames';
+    return '다음 레시피가 콘텐츠 검토 문제로 검토가 필요해요: $recipeNames';
   }
 
   @override
@@ -1083,7 +1083,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get signInRequiredTitle => '로그인 필요';
 
   @override
-  String get signInRequiredBodyShare => '레시피 공유를 위해 로그인해야 합니다.';
+  String get signInRequiredBodyShare => '레시피 공유를 위해 로그인해야 해요';
 
   @override
   String get syncSuccess => '동기화 성공!';
@@ -1140,7 +1140,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get editImportedRecipeBody =>
-      '이것은 가져온 레시피입니다. 편집하면 새로운 독립 복사가 생성됩니다. 계속하시겠습니까?';
+      '이것은 가져온 레시피입니다. 편집하면 새로운 독립 복사가 생성돼요 계속하시겠습니까?';
 
   @override
   String get editImportedRecipeButtonCopy => '복사 생성 및 편집';
@@ -1164,7 +1164,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get errorUserNotLoggedIn => '사용자 로그인이 안 되어 있습니다. 다시 로그인하세요.';
 
   @override
-  String get displayNameUpdateSuccess => '표시 이름 업데이트 성공!';
+  String get displayNameUpdateSuccess => '표시 이름 업데이트 성공';
 
   @override
   String displayNameUpdateError(String error) {
@@ -1172,7 +1172,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get deletePictureConfirmationTitle => '사진 삭제?';
+  String get deletePictureConfirmationTitle => '사진 삭제';
 
   @override
   String get deletePictureConfirmationBody => '프로필 사진을 삭제하시겠습니까?';
@@ -1200,7 +1200,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get account => '계정';
 
   @override
-  String get settingsBrewingMethodsTitle => '홈 화면 양조 방법';
+  String get settingsBrewingMethodsTitle => '홈 화면 추출 방법';
 
   @override
   String get filter => '필터';
@@ -1224,19 +1224,19 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settingsAppIconLegacy => '레거시';
 
   @override
-  String get searchBeans => '콩 검색...';
+  String get searchBeans => '원두 검색…';
 
   @override
   String get favorites => '좋아하는';
 
   @override
-  String get searchPrefix => '검색: ';
+  String get searchPrefix => '검색:';
 
   @override
   String get clearAll => '모두 지우기';
 
   @override
-  String get noBeansMatchSearch => '검색 결과에 맞는 콩 없음';
+  String get noBeansMatchSearch => '검색 결과에 맞는 원두 없음';
 
   @override
   String get clearFilters => '필터 지우기';
@@ -1266,7 +1266,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get importantDates => '중요 날짜';
 
   @override
-  String get brewStats => '양조 통계';
+  String get brewStats => '추출 통계';
 
   @override
   String get showMore => '더 보기';

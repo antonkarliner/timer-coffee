@@ -1,1 +1,6 @@
-Kuten aina: korjauksia ja suorituskyvyn parannuksia.
+Uutta:
++ Korean kielen tuki. Korealaiset käyttäjät, tervetuloa!
++ Interaktiivinen reseptiyhteenveto! Yhteenveto päivittyy nyt reaaliaikaisesti ja näyttää tarkat kahvin ja veden määrät.
++ Julkaistujen reseptien peruminen: Lisätty mahdollisuus poistaa reseptiesi julkisuus ja tehdä ne jälleen yksityisiksi.
+
+Ja tietysti virhekorjauksia ja suorituskykyparannuksia.

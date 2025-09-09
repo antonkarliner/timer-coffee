@@ -1,0 +1,6 @@
+Nieuw:
++ Ondersteuning voor Koreaans. Koreaanse gebruikers, welkom!
++ Interactieve receptsamenvatting! De samenvatting wordt nu onmiddellijk bijgewerkt en toont exacte hoeveelheden koffie en water.
++ Recepten depubliceren: je kunt nu gepubliceerde recepten weer privé maken.
+
+En uiteraard foutoplossingen en prestatieverbeteringen.

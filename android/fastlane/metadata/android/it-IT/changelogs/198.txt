@@ -1,0 +1,6 @@
+Novità:
++ Supporto alla lingua coreana. Utenti coreani, benvenuti!
++ Riepilogo interattivo della ricetta: si aggiorna istantaneamente mostrando le quantità esatte di caffè e acqua da usare.
++ Possibilità di annullare la pubblicazione delle tue ricette pubbliche rendendole di nuovo private.
+
+E, come sempre, correzioni di bug e miglioramenti delle prestazioni.
