@@ -116,6 +116,15 @@
 		8B78FCA22C04E11D009D9633 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8B78FCA32C04E11D009D9633 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8B78FCA42C04E11E009D9633 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8B90DF3C2E6F31BB005150B8 /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ko; path = ko.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8B90DF3D2E6F31BB005150B8 /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ko; path = ko.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B90DF3E2E6F31BB005150B8 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8B90DF3F2E6F31DA005150B8 /* fi */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = fi; path = fi.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8B90DF402E6F31DA005150B8 /* fi */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = fi; path = fi.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B90DF412E6F31DA005150B8 /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8B90DF422E6F3223005150B8 /* fa */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = fa; path = fa.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8B90DF432E6F3223005150B8 /* fa */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = fa; path = fa.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B90DF442E6F3223005150B8 /* fa */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fa; path = fa.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8B9C76F02AE7320600E54A4B /* donationtest.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = donationtest.storekit; sourceTree = "<group>"; };
 		8BB5AA6A2BBD5626007CC1FF /* it */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = it; path = it.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8BB5AA6B2BBD5626007CC1FF /* it */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = it; path = it.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -385,6 +394,9 @@
 				ro,
 				nl,
 				uk,
+				ko,
+				fi,
+				fa,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
@@ -477,9 +489,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -531,9 +547,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -605,6 +625,9 @@
 				8B78FCA22C04E11D009D9633 /* es */,
 				8B78FCA32C04E11D009D9633 /* tr */,
 				8B78FCA42C04E11E009D9633 /* uk */,
+				8B90DF3E2E6F31BB005150B8 /* ko */,
+				8B90DF412E6F31DA005150B8 /* fi */,
+				8B90DF442E6F3223005150B8 /* fa */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -628,6 +651,9 @@
 				8BB5AA6E2BBD5645007CC1FF /* ro */,
 				8BB5AA702BBD5652007CC1FF /* nl */,
 				8BB5AA722BBD565C007CC1FF /* uk */,
+				8B90DF3C2E6F31BB005150B8 /* ko */,
+				8B90DF3F2E6F31DA005150B8 /* fi */,
+				8B90DF422E6F3223005150B8 /* fa */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -651,6 +677,9 @@
 				8BB5AA6F2BBD5645007CC1FF /* ro */,
 				8BB5AA712BBD5653007CC1FF /* nl */,
 				8BB5AA732BBD565C007CC1FF /* uk */,
+				8B90DF3D2E6F31BB005150B8 /* ko */,
+				8B90DF402E6F31DA005150B8 /* fi */,
+				8B90DF432E6F3223005150B8 /* fa */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

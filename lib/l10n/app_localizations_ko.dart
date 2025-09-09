@@ -1,0 +1,1311 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Korean (`ko`).
+class AppLocalizationsKo extends AppLocalizations {
+  AppLocalizationsKo([String locale = 'ko']) : super(locale);
+
+  @override
+  String get beansStatsSectionTitle => '콩 통계';
+
+  @override
+  String get totalBeansBrewedLabel => '총 양조된 콩';
+
+  @override
+  String get newBeansTriedLabel => '새로운 콩 시도';
+
+  @override
+  String get originsExploredLabel => '탐험된 원산지';
+
+  @override
+  String get regionsExploredLabel => '탐험된 지역';
+
+  @override
+  String get newRoastersDiscoveredLabel => '새로운 로스터 발견';
+
+  @override
+  String get favoriteRoastersLabel => '좋아하는 로스터';
+
+  @override
+  String get topOriginsLabel => '상위 원산지';
+
+  @override
+  String get topRegionsLabel => '상위 지역';
+
+  @override
+  String get lastrecipe => '가장 최근 사용된 레시피:';
+
+  @override
+  String get userRecipesTitle => '내 레시피';
+
+  @override
+  String get userRecipesSectionCreated => '당신이 만든';
+
+  @override
+  String get userRecipesSectionImported => '당신이 가져온';
+
+  @override
+  String get userRecipesEmpty => '레시피를 찾을 수 없습니다';
+
+  @override
+  String get userRecipesDeleteTitle => '레시피 삭제?';
+
+  @override
+  String get userRecipesDeleteMessage => '이 작업은 되돌릴 수 없습니다.';
+
+  @override
+  String get userRecipesDeleteConfirm => '삭제';
+
+  @override
+  String get userRecipesDeleteCancel => '취소';
+
+  @override
+  String get userRecipesSnackbarDeleted => '레시피가 삭제되었습니다';
+
+  @override
+  String get hubUserRecipesTitle => '내 레시피';
+
+  @override
+  String get hubUserRecipesSubtitle => '생성 및 가져온 레시피 보기 및 관리';
+
+  @override
+  String get hubAccountSubtitle => '프로필 관리';
+
+  @override
+  String get hubSignInCreateSubtitle => '레시피와 선호 설정 동기화 위해 로그인';
+
+  @override
+  String get hubBrewDiarySubtitle => '양조 기록 보기 및 노트 추가';
+
+  @override
+  String get hubBrewStatsSubtitle => '개인 및 글로벌 양조 통계 및 추세 보기';
+
+  @override
+  String get hubSettingsSubtitle => '앱 선호 및 동작 변경';
+
+  @override
+  String get hubAboutSubtitle => '앱 세부 정보, 버전 및 기여자';
+
+  @override
+  String get about => '정보';
+
+  @override
+  String get author => '작성자';
+
+  @override
+  String get authortext =>
+      'Timer.Coffee 앱은 커피 애호가, 미디어 전문가, 사진 저널리스트인 Anton Karliner가 만들었습니다. 이 앱이 커피를 즐기는 데 도움이 되기를 바랍니다. GitHub에서 기여하세요.';
+
+  @override
+  String get contributors => '기여자';
+
+  @override
+  String get errorLoadingContributors => '기여자 로드 오류';
+
+  @override
+  String get license => '라이선스';
+
+  @override
+  String get licensetext =>
+      '이 애플리케이션은 자유 소프트웨어입니다: GNU General Public License 버전 3 또는 (선택에 따라) 이후 버전의 조건에 따라 재배포 및 수정할 수 있습니다.';
+
+  @override
+  String get licensebutton => 'GNU General Public License v3 읽기';
+
+  @override
+  String get website => '웹사이트';
+
+  @override
+  String get sourcecode => '소스 코드';
+
+  @override
+  String get support => '커피 사주기';
+
+  @override
+  String get allrecipes => '모든 레시피';
+
+  @override
+  String get favoriterecipes => '좋아하는 레시피';
+
+  @override
+  String get coffeeamount => '커피 양 (g)';
+
+  @override
+  String get wateramount => '물 양 (ml)';
+
+  @override
+  String get watertemp => '물 온도';
+
+  @override
+  String get grindsize => '분쇄 크기';
+
+  @override
+  String get brewtime => '양조 시간';
+
+  @override
+  String get recipesummary => '레시피 요약';
+
+  @override
+  String get recipesummarynote => '참고: 이는 기본 레시피로 기본 물 및 커피 양입니다.';
+
+  @override
+  String get preparation => '준비';
+
+  @override
+  String get brewingprocess => '양조 과정';
+
+  @override
+  String get step => '단계';
+
+  @override
+  String seconds(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '초',
+      one: '초',
+      zero: '초',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get finishmsg => 'Timer.Coffee 사용 감사합니다! 즐거운';
+
+  @override
+  String get coffeefact => '커피 사실';
+
+  @override
+  String get home => '홈';
+
+  @override
+  String get appversion => '앱 버전';
+
+  @override
+  String get tipsmall => '작은 커피 사기';
+
+  @override
+  String get tipmedium => '중간 커피 사기';
+
+  @override
+  String get tiplarge => '큰 커피 사기';
+
+  @override
+  String get supportdevelopment => '개발 지원';
+
+  @override
+  String get supportdevmsg =>
+      '기부는 유지 비용 (예: 개발자 라이선스)을 충당하는 데 도움이 됩니다. 또한 더 많은 커피 양조 기기와 레시피를 앱에 추가할 수 있게 합니다.';
+
+  @override
+  String get supportdevtnx => '기부 고려 감사합니다!';
+
+  @override
+  String get donationok => '감사합니다!';
+
+  @override
+  String get donationtnx => '지원에 정말 감사합니다! 훌륭한 양조를 기원합니다! ☕️';
+
+  @override
+  String get donationerr => '오류';
+
+  @override
+  String get donationerrmsg => '구매 처리 오류, 다시 시도하세요.';
+
+  @override
+  String get sharemsg => '이 레시피 확인:';
+
+  @override
+  String get finishbrew => '완료';
+
+  @override
+  String get settings => '설정';
+
+  @override
+  String get settingstheme => '테마';
+
+  @override
+  String get settingsthemelight => '라이트';
+
+  @override
+  String get settingsthemedark => '다크';
+
+  @override
+  String get settingsthemesystem => '시스템';
+
+  @override
+  String get settingslang => '언어';
+
+  @override
+  String get sweet => '달콤한';
+
+  @override
+  String get balance => '균형';
+
+  @override
+  String get acidic => '신맛';
+
+  @override
+  String get light => '라이트';
+
+  @override
+  String get strong => '스트롱';
+
+  @override
+  String get slidertitle => '맛 조정을 위한 슬라이더 사용';
+
+  @override
+  String get whatsnewtitle => '새로운 기능';
+
+  @override
+  String get whatsnewclose => '닫기';
+
+  @override
+  String get seasonspecials => '시즌 특선';
+
+  @override
+  String get snow => '눈';
+
+  @override
+  String get noFavoriteRecipesMessage =>
+      '좋아하는 레시피 목록이 비어 있습니다. 탐험하고 양조하여 좋아하는 것을 발견하세요!';
+
+  @override
+  String get explore => '탐험';
+
+  @override
+  String get dateFormat => 'MMM d, yyyy';
+
+  @override
+  String get timeFormat => 'hh:mm a';
+
+  @override
+  String get brewdiary => '양조 일지';
+
+  @override
+  String get brewdiarynotfound => '항목을 찾을 수 없습니다';
+
+  @override
+  String get beans => '콩';
+
+  @override
+  String get roaster => '로스터';
+
+  @override
+  String get rating => '평점';
+
+  @override
+  String get notes => '노트';
+
+  @override
+  String get statsscreen => '커피 통계';
+
+  @override
+  String get yourStats => '내 통계';
+
+  @override
+  String get coffeeBrewed => '양조된 커피:';
+
+  @override
+  String get litersUnit => 'L';
+
+  @override
+  String get mostUsedRecipes => '가장 많이 사용된 레시피:';
+
+  @override
+  String get globalStats => '글로벌 통계';
+
+  @override
+  String get unknownRecipe => '알 수 없는 레시피';
+
+  @override
+  String get noData => '데이터 없음';
+
+  @override
+  String error(Object error) {
+    return '오류';
+  }
+
+  @override
+  String someoneJustBrewed(Object recipeName) {
+    return '누군가 $recipeName을(를) 방금 양조했습니다';
+  }
+
+  @override
+  String get timePeriodToday => '오늘';
+
+  @override
+  String get timePeriodThisWeek => '이번 주';
+
+  @override
+  String get timePeriodThisMonth => '이번 달';
+
+  @override
+  String get timePeriodCustom => '사용자 지정';
+
+  @override
+  String get statsFor => '통계 ';
+
+  @override
+  String get homescreenbrewcoffee => '커피 양조';
+
+  @override
+  String get homescreenhub => '허브';
+
+  @override
+  String get homescreenmore => '더 보기';
+
+  @override
+  String get addBeans => '콩 추가';
+
+  @override
+  String get removeBeans => '콩 제거';
+
+  @override
+  String get name => '이름';
+
+  @override
+  String get origin => '원산지';
+
+  @override
+  String get details => '세부 정보';
+
+  @override
+  String get coffeebeans => '커피 콩';
+
+  @override
+  String get loading => '로딩 중';
+
+  @override
+  String get nocoffeebeans => '커피 콩을 찾을 수 없습니다';
+
+  @override
+  String get delete => '삭제';
+
+  @override
+  String get confirmDeleteTitle => '항목 삭제?';
+
+  @override
+  String get confirmDeleteMessage => '이 항목을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.';
+
+  @override
+  String get removeFavorite => '좋아하는 목록에서 제거';
+
+  @override
+  String get addFavorite => '좋아하는 목록에 추가';
+
+  @override
+  String get toggleEditMode => '편집 모드 토글';
+
+  @override
+  String get coffeeBeansDetails => '커피 콩 세부 정보';
+
+  @override
+  String get edit => '편집';
+
+  @override
+  String get coffeeBeansNotFound => '커피 콩을 찾을 수 없습니다';
+
+  @override
+  String get geographyTerroir => '지리/테루아';
+
+  @override
+  String get variety => '품종';
+
+  @override
+  String get region => '지역';
+
+  @override
+  String get elevation => '고도';
+
+  @override
+  String get harvestDate => '수확 날짜';
+
+  @override
+  String get processing => '가공';
+
+  @override
+  String get processingMethod => '가공 방법';
+
+  @override
+  String get roastDate => '로스팅 날짜';
+
+  @override
+  String get roastLevel => '로스팅 레벨';
+
+  @override
+  String get cuppingScore => '컵핑 점수';
+
+  @override
+  String get flavorProfile => '풍미 프로필';
+
+  @override
+  String get tastingNotes => '시음 노트';
+
+  @override
+  String get additionalNotes => '추가 노트';
+
+  @override
+  String get noCoffeeBeans => '커피 콩을 찾을 수 없습니다';
+
+  @override
+  String get editCoffeeBeans => '커피 콩 편집';
+
+  @override
+  String get addCoffeeBeans => '커피 콩 추가';
+
+  @override
+  String get showImagePicker => '이미지 선택기 표시';
+
+  @override
+  String get pleaseNote => '주의';
+
+  @override
+  String get firstTimePopupMessage =>
+      '1. 이미지를 처리하기 위해 외부 서비스를 사용합니다. 계속하면 이에 동의합니다.\n2. 이미지를 저장하지 않지만 개인 세부 정보를 포함하지 마세요.\n3. 이미지 인식은 현재 월 10 토큰으로 제한됩니다 (1 토큰 = 1 이미지). 이 제한은 변경될 수 있습니다.';
+
+  @override
+  String get ok => '확인';
+
+  @override
+  String get takePhoto => '사진 찍기';
+
+  @override
+  String get selectFromPhotos => '사진에서 선택';
+
+  @override
+  String get takeAdditionalPhoto => '추가 사진 찍기?';
+
+  @override
+  String get no => '아니오';
+
+  @override
+  String get yes => '예';
+
+  @override
+  String get selectedImages => '선택된 이미지';
+
+  @override
+  String get selectedImage => '선택된 이미지';
+
+  @override
+  String get backToSelection => '선택으로 돌아가기';
+
+  @override
+  String get next => '다음';
+
+  @override
+  String get unexpectedErrorOccurred => '예상치 못한 오류 발생';
+
+  @override
+  String get tokenLimitReached => '죄송합니다, 이번 달 이미지 인식 토큰 한도에 도달했습니다';
+
+  @override
+  String get noCoffeeLabelsDetected => '커피 라벨을 감지할 수 없습니다. 다른 이미지로 시도하세요.';
+
+  @override
+  String get collectedInformation => '수집된 정보';
+
+  @override
+  String get enterRoaster => '로스터 입력';
+
+  @override
+  String get enterName => '이름 입력';
+
+  @override
+  String get enterOrigin => '원산지 입력';
+
+  @override
+  String get optional => '선택';
+
+  @override
+  String get enterVariety => '품종 입력';
+
+  @override
+  String get enterProcessingMethod => '가공 방법 입력';
+
+  @override
+  String get enterRoastLevel => '로스팅 레벨 입력';
+
+  @override
+  String get enterRegion => '지역 입력';
+
+  @override
+  String get enterTastingNotes => '시음 노트 입력';
+
+  @override
+  String get enterElevation => '고도 입력';
+
+  @override
+  String get enterCuppingScore => '컵핑 점수 입력';
+
+  @override
+  String get enterNotes => '노트 입력';
+
+  @override
+  String get selectHarvestDate => '수확 날짜 선택';
+
+  @override
+  String get selectRoastDate => '로스팅 날짜 선택';
+
+  @override
+  String get selectDate => '날짜 선택';
+
+  @override
+  String get save => '저장';
+
+  @override
+  String get fillRequiredFields => '모든 필수 필드를 채워주세요.';
+
+  @override
+  String get analyzing => '분석 중';
+
+  @override
+  String get errorMessage => '오류';
+
+  @override
+  String get selectCoffeeBeans => '커피 콩 선택';
+
+  @override
+  String get addNewBeans => '새 콩 추가';
+
+  @override
+  String get favorite => '좋아함';
+
+  @override
+  String get notFavorite => '좋아하지 않음';
+
+  @override
+  String get myBeans => '내 콩';
+
+  @override
+  String get signIn => '로그인';
+
+  @override
+  String get signOut => '로그아웃';
+
+  @override
+  String get signInWithApple => 'Apple로 로그인';
+
+  @override
+  String get signInSuccessful => 'Apple로 성공적으로 로그인';
+
+  @override
+  String get signInError => 'Apple 로그인 오류';
+
+  @override
+  String get signInWithGoogle => 'Google로 로그인';
+
+  @override
+  String get signOutSuccessful => '성공적으로 로그아웃';
+
+  @override
+  String get signInSuccessfulGoogle => 'Google로 성공적으로 로그인';
+
+  @override
+  String get signInWithEmail => '이메일로 로그인';
+
+  @override
+  String get enterEmail => '이메일 입력';
+
+  @override
+  String get emailHint => 'example@email.com';
+
+  @override
+  String get cancel => '취소';
+
+  @override
+  String get sendMagicLink => '매직 링크 보내기';
+
+  @override
+  String get magicLinkSent => '매직 링크가 발송되었습니다! 이메일을 확인하세요.';
+
+  @override
+  String get sendOTP => 'OTP 보내기';
+
+  @override
+  String get otpSent => 'OTP가 이메일로 발송되었습니다';
+
+  @override
+  String get otpSendError => 'OTP 발송 오류';
+
+  @override
+  String get enterOTP => 'OTP 입력';
+
+  @override
+  String get otpHint => '6자리 코드 입력';
+
+  @override
+  String get verify => '확인';
+
+  @override
+  String get signInSuccessfulEmail => '로그인 성공';
+
+  @override
+  String get invalidOTP => '잘못된 OTP';
+
+  @override
+  String get otpVerificationError => 'OTP 확인 오류';
+
+  @override
+  String get success => '성공!';
+
+  @override
+  String get otpSentMessage => 'OTP가 이메일로 발송 중입니다. 받으면 아래에 입력하세요.';
+
+  @override
+  String get otpHint2 => '여기에 코드 입력';
+
+  @override
+  String get signInCreate => '로그인 / 계정 생성';
+
+  @override
+  String get accountManagement => '계정 관리';
+
+  @override
+  String get deleteAccount => '계정 삭제';
+
+  @override
+  String get deleteAccountWarning =>
+      '주의: 계속하면 서버에서 계정 및 관련 데이터를 삭제합니다. 로컬 데이터는 기기를 삭제하면 제거됩니다. 동기화를 다시 활성화하려면 계정을 다시 생성하세요';
+
+  @override
+  String get deleteAccountConfirmation => '계정 삭제 성공';
+
+  @override
+  String get accountDeleted => '계정 삭제됨';
+
+  @override
+  String get accountDeletionError => '계정 삭제 오류, 다시 시도하세요';
+
+  @override
+  String get deleteAccountTitle => '중요';
+
+  @override
+  String get selectBeans => '콩 선택';
+
+  @override
+  String get all => '모두';
+
+  @override
+  String get selectRoaster => '로스터 선택';
+
+  @override
+  String get selectOrigin => '원산지 선택';
+
+  @override
+  String get resetFilters => '필터 재설정';
+
+  @override
+  String get showFavoritesOnly => '좋아하는 것만 표시';
+
+  @override
+  String get apply => '적용';
+
+  @override
+  String get selectSize => '크기 선택';
+
+  @override
+  String get sizeStandard => '표준';
+
+  @override
+  String get sizeMedium => '중간';
+
+  @override
+  String get sizeXL => 'XL';
+
+  @override
+  String get yearlyStatsAppBarTitle => 'Timer.Coffee와 함께한 내 1년';
+
+  @override
+  String get yearlyStatsStory1Text => '올해 Timer.Coffee 세계의 일부가 되어 감사합니다!';
+
+  @override
+  String yearlyStatsStory2Text(Object ellipsis) {
+    return '먼저.\n올해 커피를 양조했습니다$ellipsis';
+  }
+
+  @override
+  String yearlyStatsStory3Text(Object liters) {
+    return '더 정확히 말하면,\n2024년에 $liters 리터의 커피를 양조했습니다!';
+  }
+
+  @override
+  String yearlyStatsStory4Text(Object roasterCount) {
+    return '$roasterCount 로스터의 콩을 사용했습니다';
+  }
+
+  @override
+  String yearlyStatsStory4Top3Roasters(Object top3) {
+    return '상위 3 로스터:\n$top3';
+  }
+
+  @override
+  String yearlyStatsStory5Text(Object ellipsis) {
+    return '커피가 세계 여행으로 데려갔습니다\n$ellipsis';
+  }
+
+  @override
+  String yearlyStatsStory6Text(Object originCount) {
+    return '$originCount 국가의 커피 콩을 맛보았습니다!';
+  }
+
+  @override
+  String get yearlyStatsStory7Part1 => '혼자 양조하지 않았습니다…';
+
+  @override
+  String get yearlyStatsStory7Part2 => '…6 대륙의 110개 다른 국가 사용자와 함께!';
+
+  @override
+  String yearlyStatsStory8TitleLow(Object count) {
+    return '올해 이 $count 양조 방법을 고수했습니다:';
+  }
+
+  @override
+  String yearlyStatsStory8TitleMedium(Object count) {
+    return '새로운 맛을 발견하며 올해 $count 양조 방법을 사용했습니다:';
+  }
+
+  @override
+  String yearlyStatsStory8TitleHigh(Object count) {
+    return '진정한 커피 탐험가로서 올해 $count 양조 방법을 사용했습니다:';
+  }
+
+  @override
+  String get yearlyStatsStory9Text => '발견할 게 더 많아요!';
+
+  @override
+  String yearlyStatsStory10Text(Object ellipsis) {
+    return '2024년 상위 3 레시피$ellipsis';
+  }
+
+  @override
+  String get yearlyStatsFinalText => '2025년에 만나요!';
+
+  @override
+  String yearlyStatsActionLove(Object likesCount) {
+    return '사랑 보여주기 ($likesCount)';
+  }
+
+  @override
+  String get yearlyStatsActionDonate => '기부';
+
+  @override
+  String get yearlyStatsActionShare => '진행 상황 공유';
+
+  @override
+  String get yearlyStatsUnknown => '알 수 없음';
+
+  @override
+  String yearlyStatsErrorSharing(Object error) {
+    return '공유 실패: $error';
+  }
+
+  @override
+  String get yearlyStatsShareProgressMyYear => 'Timer.Coffee와 함께한 내 1년';
+
+  @override
+  String get yearlyStatsShareProgressTop3Recipes => '내 상위 3 레시피:';
+
+  @override
+  String get yearlyStatsShareProgressTop3Roasters => '내 상위 3 로스터:';
+
+  @override
+  String get yearlyStatsFailedToLike => '좋아요 실패. 다시 시도하세요.';
+
+  @override
+  String get labelCoffeeBrewed => '양조된 커피';
+
+  @override
+  String get labelTastedBeansBy => '로스터별 맛본 콩';
+
+  @override
+  String get labelDiscoveredCoffeeFrom => '발견된 커피 원산지';
+
+  @override
+  String get labelUsedBrewingMethods => '사용';
+
+  @override
+  String formattedRoasterCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '로스터',
+      one: '로스터',
+    );
+    return '$count $_temp0';
+  }
+
+  @override
+  String formattedCountryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '국가',
+      one: '국가',
+    );
+    return '$count $_temp0';
+  }
+
+  @override
+  String formattedBrewingMethodCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '양조 방법',
+      one: '양조 방법',
+    );
+    return '$count $_temp0';
+  }
+
+  @override
+  String get recipeCreationScreenEditRecipeTitle => '레시피 편집';
+
+  @override
+  String get recipeCreationScreenCreateRecipeTitle => '레시피 생성';
+
+  @override
+  String get recipeCreationScreenRecipeStepsTitle => '레시피 단계';
+
+  @override
+  String get recipeCreationScreenRecipeNameLabel => '레시피 이름';
+
+  @override
+  String get recipeCreationScreenShortDescriptionLabel => '짧은 설명';
+
+  @override
+  String get recipeCreationScreenBrewingMethodLabel => '양조 방법';
+
+  @override
+  String get recipeCreationScreenCoffeeAmountLabel => '커피 양 (g)';
+
+  @override
+  String get recipeCreationScreenWaterAmountLabel => '물 양 (ml)';
+
+  @override
+  String get recipeCreationScreenWaterTempLabel => '물 온도 (°C)';
+
+  @override
+  String get recipeCreationScreenGrindSizeLabel => '분쇄 크기';
+
+  @override
+  String get recipeCreationScreenTotalBrewTimeLabel => '총 양조 시간:';
+
+  @override
+  String get recipeCreationScreenMinutesLabel => '분';
+
+  @override
+  String get recipeCreationScreenSecondsLabel => '초';
+
+  @override
+  String get recipeCreationScreenPreparationStepTitle => '준비 단계';
+
+  @override
+  String recipeCreationScreenBrewStepTitle(String stepOrder) {
+    return '양조 단계 $stepOrder';
+  }
+
+  @override
+  String get recipeCreationScreenStepDescriptionLabel => '단계 설명';
+
+  @override
+  String get recipeCreationScreenStepTimeLabel => '단계 시간: ';
+
+  @override
+  String get recipeCreationScreenRecipeNameValidator => '레시피 이름을 입력하세요';
+
+  @override
+  String get recipeCreationScreenShortDescriptionValidator => '짧은 설명을 입력하세요';
+
+  @override
+  String get recipeCreationScreenBrewingMethodValidator => '양조 방법을 선택하세요';
+
+  @override
+  String get recipeCreationScreenRequiredValidator => '필수';
+
+  @override
+  String get recipeCreationScreenInvalidNumberValidator => '잘못된 숫자';
+
+  @override
+  String get recipeCreationScreenStepDescriptionValidator => '단계 설명을 입력하세요';
+
+  @override
+  String get recipeCreationScreenContinueButton => '레시피 단계로 계속';
+
+  @override
+  String get recipeCreationScreenAddStepButton => '단계 추가';
+
+  @override
+  String get recipeCreationScreenSaveRecipeButton => '레시피 저장';
+
+  @override
+  String get recipeCreationScreenUpdateSuccess => '레시피 업데이트 성공';
+
+  @override
+  String get recipeCreationScreenSaveSuccess => '레시피 저장 성공';
+
+  @override
+  String recipeCreationScreenSaveError(String error) {
+    return '레시피 저장 오류: $error';
+  }
+
+  @override
+  String get unitGramsShort => 'g';
+
+  @override
+  String get unitMillilitersShort => 'ml';
+
+  @override
+  String get unitGramsLong => '그램';
+
+  @override
+  String get unitMillilitersLong => '밀리리터';
+
+  @override
+  String get recipeCopySuccess => '레시피 복사 성공!';
+
+  @override
+  String recipeCopyError(String error) {
+    return '레시피 복사 오류: $error';
+  }
+
+  @override
+  String get createRecipe => '레시피 생성';
+
+  @override
+  String errorSyncingData(Object error) {
+    return '데이터 동기화 오류: $error';
+  }
+
+  @override
+  String errorSigningOut(Object error) {
+    return '로그아웃 오류: $error';
+  }
+
+  @override
+  String get defaultPreparationStepDescription => '준비';
+
+  @override
+  String get loadingEllipsis => '로딩 중...';
+
+  @override
+  String get recipeDeletedSuccess => '레시피 삭제 성공';
+
+  @override
+  String recipeDeleteError(Object error) {
+    return '레시피 삭제 실패: $error';
+  }
+
+  @override
+  String get noRecipesFound => '레시피를 찾을 수 없습니다';
+
+  @override
+  String recipeLoadError(Object error) {
+    return '레시피 로드 실패: $error';
+  }
+
+  @override
+  String get unknownBrewingMethod => '알 수 없는 양조 방법';
+
+  @override
+  String get recipeCopyErrorLoadingEdit => '편집을 위한 복사된 레시피 로드 실패.';
+
+  @override
+  String get recipeCopyErrorOperationFailed => '작업 실패.';
+
+  @override
+  String get notProvided => '제공되지 않음';
+
+  @override
+  String get recipeUpdateFailedFetch => '업데이트된 레시피 데이터 가져오기 실패.';
+
+  @override
+  String get recipeImportSuccess => '레시피 가져오기 성공!';
+
+  @override
+  String get recipeImportFailedSave => '가져온 레시피 저장 실패.';
+
+  @override
+  String get recipeImportFailedFetch => '가져오기 위한 레시피 데이터 가져오기 실패.';
+
+  @override
+  String get recipeNotImported => '레시피 가져오지 않음.';
+
+  @override
+  String get recipeNotFoundCloud => '클라우드에서 레시피를 찾을 수 없거나 공개되지 않음.';
+
+  @override
+  String get recipeLoadErrorGeneric => '레시피 로드 오류.';
+
+  @override
+  String get recipeUpdateAvailableTitle => '업데이트 사용 가능';
+
+  @override
+  String recipeUpdateAvailableBody(String recipeName) {
+    return '\'$recipeName\'의 새 버전이 온라인에서 사용 가능합니다. 업데이트하시겠습니까?';
+  }
+
+  @override
+  String get dialogCancel => '취소';
+
+  @override
+  String get dialogUpdate => '업데이트';
+
+  @override
+  String get recipeImportTitle => '레시피 가져오기';
+
+  @override
+  String recipeImportBody(String recipeName) {
+    return '클라우드에서 \'$recipeName\' 레시피를 가져오시겠습니까?';
+  }
+
+  @override
+  String get dialogImport => '가져오기';
+
+  @override
+  String get moderationReviewNeededTitle => '검토 필요';
+
+  @override
+  String moderationReviewNeededMessage(String recipeNames) {
+    return '다음 레시피가 콘텐츠 검토 문제로 검토가 필요합니다: $recipeNames';
+  }
+
+  @override
+  String get dismiss => '무시';
+
+  @override
+  String get reviewRecipeButton => '레시피 검토';
+
+  @override
+  String get signInRequiredTitle => '로그인 필요';
+
+  @override
+  String get signInRequiredBodyShare => '레시피 공유를 위해 로그인해야 합니다.';
+
+  @override
+  String get syncSuccess => '동기화 성공!';
+
+  @override
+  String get tooltipEditRecipe => '레시피 편집';
+
+  @override
+  String get tooltipCopyRecipe => '레시피 복사';
+
+  @override
+  String get tooltipShareRecipe => '레시피 공유';
+
+  @override
+  String get signInRequiredSnackbar => '로그인 필요';
+
+  @override
+  String get moderationErrorFunction => '콘텐츠 검토 확인 실패.';
+
+  @override
+  String get moderationReasonDefault => '검토를 위해 플래그됨.';
+
+  @override
+  String get moderationFailedTitle => '검토 실패';
+
+  @override
+  String moderationFailedBody(String reason) {
+    return '이 레시피는 다음 이유로 공유할 수 없습니다: $reason';
+  }
+
+  @override
+  String shareErrorGeneric(String error) {
+    return '레시피 공유 오류: $error';
+  }
+
+  @override
+  String recipeDetailWebTitle(String recipeName) {
+    return 'Timer.Coffee의 $recipeName';
+  }
+
+  @override
+  String get saveLocallyCheckLater => '콘텐츠 상태 확인 불가. 로컬 저장, 다음 동기화 시 확인.';
+
+  @override
+  String get saveLocallyModerationFailedTitle => '로컬 변경 저장';
+
+  @override
+  String saveLocallyModerationFailedBody(String reason) {
+    return '로컬 변경이 저장되었지만 공개 버전은 콘텐츠 검토로 업데이트되지 않았습니다: $reason';
+  }
+
+  @override
+  String get editImportedRecipeTitle => '가져온 레시피 편집';
+
+  @override
+  String get editImportedRecipeBody =>
+      '이것은 가져온 레시피입니다. 편집하면 새로운 독립 복사가 생성됩니다. 계속하시겠습니까?';
+
+  @override
+  String get editImportedRecipeButtonCopy => '복사 생성 및 편집';
+
+  @override
+  String get editImportedRecipeButtonCancel => '취소';
+
+  @override
+  String get editDisplayNameTitle => '표시 이름 편집';
+
+  @override
+  String get displayNameHint => '표시 이름 입력';
+
+  @override
+  String get displayNameEmptyError => '표시 이름은 비울 수 없습니다';
+
+  @override
+  String get displayNameTooLongError => '표시 이름은 50자를 초과할 수 없습니다';
+
+  @override
+  String get errorUserNotLoggedIn => '사용자 로그인이 안 되어 있습니다. 다시 로그인하세요.';
+
+  @override
+  String get displayNameUpdateSuccess => '표시 이름 업데이트 성공!';
+
+  @override
+  String displayNameUpdateError(String error) {
+    return '표시 이름 업데이트 실패: $error';
+  }
+
+  @override
+  String get deletePictureConfirmationTitle => '사진 삭제?';
+
+  @override
+  String get deletePictureConfirmationBody => '프로필 사진을 삭제하시겠습니까?';
+
+  @override
+  String get deletePictureSuccess => '프로필 사진 삭제됨.';
+
+  @override
+  String deletePictureError(String error) {
+    return '프로필 사진 삭제 실패: $error';
+  }
+
+  @override
+  String updatePictureError(String error) {
+    return '프로필 사진 업데이트 실패: $error';
+  }
+
+  @override
+  String get updatePictureSuccess => '프로필 사진 업데이트 성공!';
+
+  @override
+  String get deletePictureTooltip => '사진 삭제';
+
+  @override
+  String get account => '계정';
+
+  @override
+  String get settingsBrewingMethodsTitle => '홈 화면 양조 방법';
+
+  @override
+  String get filter => '필터';
+
+  @override
+  String get sortBy => '정렬 기준';
+
+  @override
+  String get dateAdded => '추가 날짜';
+
+  @override
+  String get secondsAbbreviation => '초.';
+
+  @override
+  String get settingsAppIcon => '앱 아이콘';
+
+  @override
+  String get settingsAppIconDefault => '기본';
+
+  @override
+  String get settingsAppIconLegacy => '레거시';
+
+  @override
+  String get searchBeans => '콩 검색...';
+
+  @override
+  String get favorites => '좋아하는';
+
+  @override
+  String get searchPrefix => '검색: ';
+
+  @override
+  String get clearAll => '모두 지우기';
+
+  @override
+  String get noBeansMatchSearch => '검색 결과에 맞는 콩 없음';
+
+  @override
+  String get clearFilters => '필터 지우기';
+
+  @override
+  String get farmer => '농부';
+
+  @override
+  String get farm => '농장';
+
+  @override
+  String get enterFarmer => '농부 입력 (선택)';
+
+  @override
+  String get enterFarm => '농장 입력 (선택)';
+
+  @override
+  String get requiredInformation => '필수 정보';
+
+  @override
+  String get basicDetails => '기본 세부 정보';
+
+  @override
+  String get qualityMeasurements => '품질 및 측정';
+
+  @override
+  String get importantDates => '중요 날짜';
+
+  @override
+  String get brewStats => '양조 통계';
+
+  @override
+  String get showMore => '더 보기';
+
+  @override
+  String get showLess => '접기';
+
+  @override
+  String get unpublishRecipeDialogTitle => '레시피 비공개로 만들기';
+
+  @override
+  String get unpublishRecipeDialogMessage => '경고: 이 레시피를 비공개로 만들면:';
+
+  @override
+  String get unpublishRecipeDialogBullet1 => '공개 검색 결과에서 제거';
+
+  @override
+  String get unpublishRecipeDialogBullet2 => '새 사용자 가져오기 방지';
+
+  @override
+  String get unpublishRecipeDialogBullet3 => '이미 가져온 사용자는 복사본 유지';
+
+  @override
+  String get unpublishRecipeDialogKeepPublic => '공개 유지';
+
+  @override
+  String get unpublishRecipeDialogMakePrivate => '비공개로 만들기';
+
+  @override
+  String get recipeUnpublishSuccess => '레시피 비공개 성공';
+
+  @override
+  String recipeUnpublishError(String error) {
+    return '레시피 비공개 실패: $error';
+  }
+
+  @override
+  String get recipePublicTooltip => '레시피 공개 - 비공개로 만들기 탭';
+
+  @override
+  String get recipePrivateTooltip => '레시피 비공개 - 공유하여 공개 만들기';
+}

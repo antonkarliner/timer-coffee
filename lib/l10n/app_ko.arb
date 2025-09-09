@@ -1,0 +1,773 @@
+{
+  "@@locale": "ko",
+  "beansStatsSectionTitle": "원두 통계",
+  "totalBeansBrewedLabel": "사용한 원두 총량",
+  "newBeansTriedLabel": "처음 시도한 원두",
+  "originsExploredLabel": "탐색된 원산지",
+  "regionsExploredLabel": "탐색된 지역",
+  "newRoastersDiscoveredLabel": "새로운 로스터리 발견",
+  "favoriteRoastersLabel": "좋아하는 로스터리",
+  "topOriginsLabel": "상위 원산지",
+  "topRegionsLabel": "상위 지역",
+  "lastrecipe": "가장 최근 사용된 레시피:",
+  "userRecipesTitle": "내 레시피",
+  "userRecipesSectionCreated": "당신이 만든",
+  "userRecipesSectionImported": "당신이 가져온",
+  "userRecipesEmpty": "레시피를 찾을 수 없습니다",
+  "userRecipesDeleteTitle": "레시피 삭제",
+  "userRecipesDeleteMessage": "이 작업은 되돌릴 수 없습니다.",
+  "userRecipesDeleteConfirm": "삭제",
+  "userRecipesDeleteCancel": "취소",
+  "userRecipesSnackbarDeleted": "레시피가 삭제되었습니다",
+  "hubUserRecipesTitle": "내 레시피",
+  "hubUserRecipesSubtitle": "생성 및 가져온 레시피 보기 및 관리",
+  "hubAccountSubtitle": "프로필 관리",
+  "hubSignInCreateSubtitle": "레시피와 선호 설정 동기화 위해 로그인",
+  "hubBrewDiarySubtitle": "추출 기록 보기 및 노트 추가",
+  "hubBrewStatsSubtitle": "개인 및 글로벌 추출 통계 및 추세 보기",
+  "hubSettingsSubtitle": "앱 선호 및 동작 변경",
+  "hubAboutSubtitle": "앱 세부 정보, 버전 및 기여자",
+  "about": "정보",
+  "author": "작성자",
+  "authortext": "Timer.Coffee 앱은 커피 애호가, 미디어 전문가, 사진 저널리스트인 Anton Karliner가 만들었습니다. 이 앱이 커피를 즐기는 데 도움이 되기를 바랍니다. GitHub에서 기여하세요.",
+  "contributors": "기여자",
+  "errorLoadingContributors": "기여자 로드 오류",
+  "license": "라이선스",
+  "licensetext": "이 애플리케이션은 자유 소프트웨어입니다: GNU General Public License 버전 3 또는 (선택에 따라) 이후 버전의 조건에 따라 재배포 및 수정할 수 있습니다.",
+  "licensebutton": "GNU General Public License v3 읽기",
+  "website": "웹사이트",
+  "sourcecode": "소스 코드",
+  "support": "커피 사주기",
+  "allrecipes": "모든 레시피",
+  "favoriterecipes": "좋아하는 레시피",
+  "coffeeamount": "커피 양 (g)",
+  "wateramount": "물 양 (ml)",
+  "watertemp": "물 온도",
+  "grindsize": "분쇄도",
+  "brewtime": "추출 시간",
+  "recipesummary": "레시피 요약",
+  "recipesummarynote": "참고: 이는 기본 레시피로 기본 물 및 커피 양입니다.",
+  "preparation": "준비",
+  "brewingprocess": "추출 과정",
+  "step": "단계",
+  "seconds": "{count, plural, =0{초} =1{초} other{초}}",
+  "@seconds": {
+    "description": "Pluralization for seconds",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "finishmsg": "Timer.Coffee 사용 감사해요! 즐거운",
+  "coffeefact": "커피 사실",
+  "home": "홈",
+  "appversion": "앱 버전",
+  "tipsmall": "작은 커피 사기",
+  "tipmedium": "중간 커피 사기",
+  "tiplarge": "큰 커피 사기",
+  "supportdevelopment": "개발 지원",
+  "supportdevmsg": "기부는 유지 비용 (예: 개발자 라이선스)을 충당하는 데 도움이 돼요 또한 더 많은 커피 추출 기기와 레시피를 앱에 추가할 수 있게 해요",
+  "supportdevtnx": "기부 고려 감사해요!",
+  "donationok": "감사해요!",
+  "donationtnx": "지원에 정말 감사해요! 훌륭한 추출를 기원해요! ☕️",
+  "donationerr": "오류",
+  "donationerrmsg": "구매 처리 오류, 다시 시도하세요.",
+  "sharemsg": "이 레시피 확인:",
+  "finishbrew": "완료",
+  "settings": "설정",
+  "settingstheme": "테마",
+  "settingsthemelight": "라이트",
+  "settingsthemedark": "다크",
+  "settingsthemesystem": "시스템",
+  "settingslang": "언어",
+  "sweet": "달콤한",
+  "balance": "균형",
+  "acidic": "신맛",
+  "light": "라이트",
+  "strong": "스트롱",
+  "slidertitle": "맛 조정을 위한 슬라이더 사용",
+  "whatsnewtitle": "새로운 기능",
+  "whatsnewclose": "닫기",
+  "seasonspecials": "시즌 특선",
+  "snow": "눈",
+  "noFavoriteRecipesMessage": "좋아하는 레시피 목록이 비어 있습니다. 탐색하고 추출하여 좋아하는 것을 발견하세요!",
+  "explore": "탐색",
+  "dateFormat": "MMM d, yyyy",
+  "timeFormat": "hh:mm a",
+  "brewdiary": "브루잉 일지",
+  "brewdiarynotfound": "항목을 찾을 수 없습니다",
+  "beans": "원두",
+  "roaster": "로스터리",
+  "rating": "평점",
+  "notes": "노트",
+  "statsscreen": "커피 통계",
+  "yourStats": "내 통계",
+  "coffeeBrewed": "추출된 커피:",
+  "litersUnit": "L",
+  "mostUsedRecipes": "가장 많이 사용된 레시피:",
+  "globalStats": "글로벌 통계",
+  "unknownRecipe": "알 수 없는 레시피",
+  "noData": "데이터 없음",
+  "error": "오류",
+  "someoneJustBrewed": "누군가 {recipeName}을(를) 방금 추출했어요",
+  "timePeriodToday": "오늘",
+  "timePeriodThisWeek": "이번 주",
+  "timePeriodThisMonth": "이번 달",
+  "timePeriodCustom": "사용자 지정",
+  "statsFor": "통계",
+  "@statsFor": {
+    "description": "Prefix text for statistics headings"
+  },
+  "homescreenbrewcoffee": "커피 내리기",
+  "homescreenhub": "허브",
+  "homescreenmore": "더 보기",
+  "addBeans": "원두 추가",
+  "removeBeans": "원두 제거",
+  "name": "이름",
+  "origin": "원산지",
+  "details": "세부 정보",
+  "coffeebeans": "커피 원두",
+  "loading": "로딩 중",
+  "nocoffeebeans": "원두를 찾을 수 없습니다",
+  "delete": "삭제",
+  "confirmDeleteTitle": "항목 삭제",
+  "confirmDeleteMessage": "이 항목을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+  "removeFavorite": "좋아하는 목록에서 제거",
+  "addFavorite": "좋아하는 목록에 추가",
+  "toggleEditMode": "편집 모드 토글",
+  "coffeeBeansDetails": "커피 원두 세부 정보",
+  "edit": "편집",
+  "coffeeBeansNotFound": "원두를 찾을 수 없습니다",
+  "geographyTerroir": "지리/테루아",
+  "variety": "품종",
+  "region": "지역",
+  "elevation": "고도",
+  "harvestDate": "수확 날짜",
+  "processing": "가공",
+  "processingMethod": "가공 방법",
+  "roastDate": "로스팅 날짜",
+  "roastLevel": "로스팅 레벨",
+  "cuppingScore": "컵핑 점수",
+  "flavorProfile": "풍미 프로필",
+  "tastingNotes": "시음 노트",
+  "additionalNotes": "추가 노트",
+  "noCoffeeBeans": "원두를 찾을 수 없습니다",
+  "editCoffeeBeans": "커피 원두 편집",
+  "addCoffeeBeans": "커피 원두 추가",
+  "showImagePicker": "이미지 선택기 표시",
+  "pleaseNote": "주의",
+  "firstTimePopupMessage": "1. 이미지를 처리하기 위해 외부 서비스를 사용해요 계속하면 이에 동의해요\n2. 이미지를 저장하지 않지만 개인 세부 정보를 포함하지 마세요.\n3. 이미지 인식은 현재 월 10 토큰으로 제한돼요 (1 토큰 = 1 이미지). 이 제한은 변경될 수 있습니다.",
+  "ok": "확인",
+  "takePhoto": "사진 찍기",
+  "selectFromPhotos": "사진에서 선택",
+  "takeAdditionalPhoto": "추가 사진 찍기?",
+  "no": "아니오",
+  "yes": "예",
+  "selectedImages": "선택된 이미지",
+  "selectedImage": "선택된 이미지",
+  "backToSelection": "선택으로 돌아가기",
+  "next": "다음",
+  "unexpectedErrorOccurred": "예상치 못한 오류 발생",
+  "tokenLimitReached": "죄송해요, 이번 달 이미지 인식 토큰 한도에 도달했어요",
+  "noCoffeeLabelsDetected": "커피 라벨을 감지할 수 없습니다. 다른 이미지로 시도하기",
+  "collectedInformation": "수집된 정보",
+  "enterRoaster": "로스터리 이름 입력",
+  "enterName": "이름 입력",
+  "enterOrigin": "원산지 입력",
+  "optional": "선택",
+  "enterVariety": "품종 입력",
+  "enterProcessingMethod": "가공 방법 입력",
+  "enterRoastLevel": "로스팅 레벨 입력",
+  "enterRegion": "지역 입력",
+  "enterTastingNotes": "시음 노트 입력",
+  "enterElevation": "고도 입력",
+  "enterCuppingScore": "컵핑 점수 입력",
+  "enterNotes": "노트 입력",
+  "selectHarvestDate": "수확 날짜 선택",
+  "selectRoastDate": "로스팅 날짜 선택",
+  "selectDate": "날짜 선택",
+  "save": "저장",
+  "fillRequiredFields": "모든 필수 필드를 채워주세요.",
+  "analyzing": "분석 중",
+  "errorMessage": "오류",
+  "selectCoffeeBeans": "커피 원두 선택",
+  "addNewBeans": "새 원두 추가",
+  "favorite": "좋아함",
+  "notFavorite": "좋아하지 않음",
+  "myBeans": "내 원두",
+  "signIn": "로그인",
+  "signOut": "로그아웃",
+  "signInWithApple": "Apple로 로그인",
+  "signInSuccessful": "Apple로 성공적으로 로그인",
+  "signInError": "Apple 로그인 오류",
+  "signInWithGoogle": "Google로 로그인",
+  "signOutSuccessful": "성공적으로 로그아웃",
+  "signInSuccessfulGoogle": "Google로 성공적으로 로그인",
+  "signInWithEmail": "이메일로 로그인",
+  "enterEmail": "이메일 입력",
+  "emailHint": "example@email.com",
+  "cancel": "취소",
+  "sendMagicLink": "매직 링크 보내기",
+  "magicLinkSent": "매직 링크가 발송되었어요! 이메일을 확인하세요.",
+  "sendOTP": "OTP 보내기",
+  "otpSent": "OTP가 이메일로 발송되었어요",
+  "otpSendError": "OTP 발송 오류",
+  "enterOTP": "OTP 입력",
+  "otpHint": "6자리 코드 입력",
+  "verify": "확인",
+  "signInSuccessfulEmail": "로그인 성공",
+  "invalidOTP": "잘못된 OTP",
+  "otpVerificationError": "OTP 확인 오류",
+  "success": "성공!",
+  "otpSentMessage": "OTP가 이메일로 발송 중입니다. 받으면 아래에 입력하세요.",
+  "otpHint2": "여기에 코드 입력",
+  "signInCreate": "로그인 / 계정 생성",
+  "accountManagement": "계정 관리",
+  "deleteAccount": "계정 삭제",
+  "deleteAccountWarning": "주의: 계속하면 서버에서 계정 및 관련 데이터를 삭제해요 로컬 데이터는 기기를 삭제하면 제거돼요 동기화를 다시 활성화하려면 계정을 다시 생성하세요",
+  "deleteAccountConfirmation": "계정 삭제 성공",
+  "accountDeleted": "계정 삭제됨",
+  "accountDeletionError": "계정 삭제 오류, 다시 시도하세요",
+  "deleteAccountTitle": "중요",
+  "selectBeans": "원두 선택",
+  "all": "모두",
+  "selectRoaster": "로스터리 선택",
+  "selectOrigin": "원산지 선택",
+  "resetFilters": "필터 재설정",
+  "showFavoritesOnly": "좋아하는 것만 표시",
+  "apply": "적용",
+  "selectSize": "크기 선택",
+  "sizeStandard": "표준",
+  "sizeMedium": "중간",
+  "sizeXL": "XL",
+  "yearlyStatsAppBarTitle": "Timer.Coffee와 함께한 내 1년",
+  "@yearlyStatsAppBarTitle": {
+    "description": "Title for the AppBar in YearlyStatsStoryScreen"
+  },
+  "yearlyStatsStory1Text": "올해 Timer.Coffee 세계의 일부가 되어 감사해요!",
+  "@yearlyStatsStory1Text": {
+    "description": "Greeting message for the first story in YearlyStatsStoryScreen"
+  },
+  "yearlyStatsStory2Text": "우선,\n올해 커피를 추출했어요{ellipsis}",
+  "@yearlyStatsStory2Text": {
+    "description": "Introduction to total coffee brewed with ellipsis indicating continuation",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsStory3Text": "더 정확히 말하면,\n2024년에 커피를 {liters}리터 추출했어요!",
+  "@yearlyStatsStory3Text": {
+    "description": "Detailed coffee brewed amount in liters",
+    "placeholders": {
+      "liters": {
+        "example": "10.5"
+      }
+    }
+  },
+  "yearlyStatsStory4Text": "{roasterCount}곳 로스터리의 원두를 사용했어요",
+  "@yearlyStatsStory4Text": {
+    "description": "Statement about the number of distinct roasters used",
+    "placeholders": {
+      "roasterCount": {
+        "example": "5"
+      }
+    }
+  },
+  "yearlyStatsStory4Top3Roasters": "상위 로스터리 3곳:\n{top3}",
+  "@yearlyStatsStory4Top3Roasters": {
+    "description": "List of top 3 roasters used",
+    "placeholders": {
+      "top3": {
+        "example": "Roaster A, Roaster B, Roaster C"
+      }
+    }
+  },
+  "yearlyStatsStory5Text": "커피가 세계 여행으로 데려갔습니다\n{ellipsis}",
+  "@yearlyStatsStory5Text": {
+    "description": "Statement about traveling with coffee, ending with ellipsis",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsStory6Text": "{originCount}개국의 원두를 맛보았습니다!",
+  "@yearlyStatsStory6Text": {
+    "description": "Statement about the number of distinct origins",
+    "placeholders": {
+      "originCount": {
+        "example": "10"
+      }
+    }
+  },
+  "yearlyStatsStory7Part1": "혼자 추출하지 않았습니다…",
+  "@yearlyStatsStory7Part1": {
+    "description": "First part of story 7"
+  },
+  "yearlyStatsStory7Part2": "…6 대륙의 110개 다른 국가 사용자와 함께!",
+  "@yearlyStatsStory7Part2": {
+    "description": "Second part of story 7"
+  },
+  "yearlyStatsStory8TitleLow": "올해 이 {count} 추출 방법을 고수했습니다:",
+  "@yearlyStatsStory8TitleLow": {
+    "description": "Title for low number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "3"
+      }
+    }
+  },
+  "yearlyStatsStory8TitleMedium": "새로운 맛을 발견하며 올해 {count} 추출 방법을 사용했습니다:",
+  "@yearlyStatsStory8TitleMedium": {
+    "description": "Title for medium number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "5"
+      }
+    }
+  },
+  "yearlyStatsStory8TitleHigh": "진정한 커피 탐색가로서 올해 {count} 추출 방법을 사용했습니다:",
+  "@yearlyStatsStory8TitleHigh": {
+    "description": "Title for high number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "8"
+      }
+    }
+  },
+  "yearlyStatsStory9Text": "발견할 게 더 많아요!",
+  "@yearlyStatsStory9Text": {
+    "description": "Encouraging message for further discovery"
+  },
+  "yearlyStatsStory10Text": "2024년 상위 3 레시피{ellipsis}",
+  "@yearlyStatsStory10Text": {
+    "description": "Statement about top-3 recipes with ellipsis",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsFinalText": "2025년에 만나요!",
+  "@yearlyStatsFinalText": {
+    "description": "Final farewell message"
+  },
+  "yearlyStatsActionLove": "사랑 보여주기 ({likesCount})",
+  "@yearlyStatsActionLove": {
+    "description": "Button text for showing love with likes count",
+    "placeholders": {
+      "likesCount": {
+        "example": "120"
+      }
+    }
+  },
+  "yearlyStatsActionDonate": "기부",
+  "@yearlyStatsActionDonate": {
+    "description": "Button text for donation"
+  },
+  "yearlyStatsActionShare": "진행 상황 공유",
+  "@yearlyStatsActionShare": {
+    "description": "Button text for sharing progress"
+  },
+  "yearlyStatsUnknown": "알 수 없음",
+  "@yearlyStatsUnknown": {
+    "description": "Text displayed when a value is unknown"
+  },
+  "yearlyStatsErrorSharing": "공유 실패: {error}",
+  "@yearlyStatsErrorSharing": {
+    "description": "Error message when sharing fails",
+    "placeholders": {
+      "error": {
+        "example": "Network error"
+      }
+    }
+  },
+  "yearlyStatsShareProgressMyYear": "Timer.Coffee와 함께한 내 1년",
+  "@yearlyStatsShareProgressMyYear": {
+    "description": "Title in the Share Progress Widget"
+  },
+  "yearlyStatsShareProgressTop3Recipes": "내 상위 3 레시피:",
+  "@yearlyStatsShareProgressTop3Recipes": {
+    "description": "Header for top-3 recipes in the Share Progress Widget"
+  },
+  "yearlyStatsShareProgressTop3Roasters": "내 상위 로스터리 3곳:",
+  "@yearlyStatsShareProgressTop3Roasters": {
+    "description": "Header for top-3 roasters in the Share Progress Widget"
+  },
+  "yearlyStatsFailedToLike": "좋아요 실패. 다시 시도하세요.",
+  "@yearlyStatsFailedToLike": {
+    "description": "Error message when liking fails"
+  },
+  "labelCoffeeBrewed": "추출된 커피",
+  "@labelCoffeeBrewed": {
+    "description": "Label for coffee brewed"
+  },
+  "labelTastedBeansBy": "로스터리별 맛본 원두",
+  "@labelTastedBeansBy": {
+    "description": "Label for roaster stats"
+  },
+  "labelDiscoveredCoffeeFrom": "발견된 커피 원산지",
+  "@labelDiscoveredCoffeeFrom": {
+    "description": "Label for origin stats"
+  },
+  "labelUsedBrewingMethods": "사용",
+  "@labelUsedBrewingMethods": {
+    "description": "Label for brewing methods stats"
+  },
+  "formattedRoasterCount": "{count} {count, plural, =1{로스터리} other{로스터리}}",
+  "@formattedRoasterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "formattedCountryCount": "{count} {count, plural, =1{국가} other{국가}}",
+  "@formattedCountryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "formattedBrewingMethodCount": "{count} {count, plural, =1{추출 방법} other{추출 방법}}",
+  "@formattedBrewingMethodCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recipeCreationScreenEditRecipeTitle": "레시피 편집",
+  "recipeCreationScreenCreateRecipeTitle": "레시피 생성",
+  "recipeCreationScreenRecipeStepsTitle": "레시피 단계",
+  "recipeCreationScreenRecipeNameLabel": "레시피 이름",
+  "recipeCreationScreenShortDescriptionLabel": "짧은 설명",
+  "recipeCreationScreenBrewingMethodLabel": "추출 방법",
+  "recipeCreationScreenCoffeeAmountLabel": "커피 양 (g)",
+  "recipeCreationScreenWaterAmountLabel": "물 양 (ml)",
+  "recipeCreationScreenWaterTempLabel": "물 온도 (°C)",
+  "recipeCreationScreenGrindSizeLabel": "분쇄도",
+  "recipeCreationScreenTotalBrewTimeLabel": "총 추출 시간:",
+  "recipeCreationScreenMinutesLabel": "분",
+  "recipeCreationScreenSecondsLabel": "초",
+  "recipeCreationScreenPreparationStepTitle": "준비 단계",
+  "recipeCreationScreenBrewStepTitle": "추출 단계 {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "Title for a brew step in the recipe creation screen",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "단계 설명",
+  "recipeCreationScreenStepTimeLabel": "단계 시간:",
+  "recipeCreationScreenRecipeNameValidator": "레시피 이름을 입력하기",
+  "recipeCreationScreenShortDescriptionValidator": "짧은 설명을 입력하기",
+  "recipeCreationScreenBrewingMethodValidator": "추출 방법을 선택하기",
+  "recipeCreationScreenRequiredValidator": "필수",
+  "recipeCreationScreenInvalidNumberValidator": "잘못된 숫자",
+  "recipeCreationScreenStepDescriptionValidator": "단계 설명을 입력하기",
+  "recipeCreationScreenContinueButton": "레시피 단계로 계속",
+  "recipeCreationScreenAddStepButton": "단계 추가",
+  "recipeCreationScreenSaveRecipeButton": "레시피 저장",
+  "recipeCreationScreenUpdateSuccess": "레시피 업데이트 성공",
+  "recipeCreationScreenSaveSuccess": "레시피 저장 성공",
+  "recipeCreationScreenSaveError": "레시피 저장 오류: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "Error message when saving a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "unitGramsShort": "g",
+  "unitMillilitersShort": "ml",
+  "unitGramsLong": "그램",
+  "unitMillilitersLong": "밀리리터",
+  "recipeCopySuccess": "레시피 복사 성공!",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "레시피 복사 오류: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "레시피 생성",
+  "errorSyncingData": "데이터 동기화 오류: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "errorSigningOut": "로그아웃 오류: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "defaultPreparationStepDescription": "준비",
+  "loadingEllipsis": "로딩 중…",
+  "recipeDeletedSuccess": "레시피 삭제 성공",
+  "recipeDeleteError": "레시피 삭제 실패: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "noRecipesFound": "레시피를 찾을 수 없습니다",
+  "recipeLoadError": "레시피 로드 실패: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "unknownBrewingMethod": "알 수 없는 추출 방법",
+  "recipeCopyErrorLoadingEdit": "편집을 위한 복사된 레시피 로드 실패.",
+  "recipeCopyErrorOperationFailed": "작업 실패.",
+  "notProvided": "제공되지 않음",
+  "recipeUpdateFailedFetch": "업데이트된 레시피 데이터 가져오기 실패.",
+  "recipeImportSuccess": "레시피 가져오기 성공!",
+  "recipeImportFailedSave": "가져온 레시피 저장 실패.",
+  "recipeImportFailedFetch": "가져오기 위한 레시피 데이터 가져오기 실패.",
+  "recipeNotImported": "레시피 가져오지 않음.",
+  "recipeNotFoundCloud": "클라우드에서 레시피를 찾을 수 없거나 공개되지 않음.",
+  "recipeLoadErrorGeneric": "레시피 로드 오류.",
+  "recipeUpdateAvailableTitle": "업데이트 사용 가능",
+  "recipeUpdateAvailableBody": "'{recipeName}'의 새 버전이 온라인에서 사용 가능해요 업데이트하시겠습니까?",
+  "@recipeUpdateAvailableBody": {
+    "description": "Body text for the update confirmation dialog",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "My Awesome Recipe"
+      }
+    }
+  },
+  "dialogCancel": "취소",
+  "dialogUpdate": "업데이트",
+  "recipeImportTitle": "레시피 가져오기",
+  "recipeImportBody": "클라우드에서 '{recipeName}' 레시피를 가져오시겠습니까?",
+  "@recipeImportBody": {
+    "description": "Body text for the import confirmation dialog",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Shared Recipe"
+      }
+    }
+  },
+  "dialogImport": "가져오기",
+  "moderationReviewNeededTitle": "검토 필요",
+  "moderationReviewNeededMessage": "다음 레시피가 콘텐츠 검토 문제로 검토가 필요해요: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "Message shown when recipes need moderation review",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'My Recipe', 'Another Recipe'"
+      }
+    }
+  },
+  "dismiss": "무시",
+  "reviewRecipeButton": "레시피 검토",
+  "signInRequiredTitle": "로그인 필요",
+  "signInRequiredBodyShare": "레시피 공유를 위해 로그인해야 해요",
+  "syncSuccess": "동기화 성공!",
+  "tooltipEditRecipe": "레시피 편집",
+  "tooltipCopyRecipe": "레시피 복사",
+  "tooltipShareRecipe": "레시피 공유",
+  "signInRequiredSnackbar": "로그인 필요",
+  "moderationErrorFunction": "콘텐츠 검토 확인 실패.",
+  "moderationReasonDefault": "검토를 위해 플래그됨.",
+  "moderationFailedTitle": "검토 실패",
+  "moderationFailedBody": "이 레시피는 다음 이유로 공유할 수 없습니다: {reason}",
+  "@moderationFailedBody": {
+    "description": "Body text for the dialog shown when content moderation fails",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Inappropriate language"
+      }
+    }
+  },
+  "shareErrorGeneric": "레시피 공유 오류: {error}",
+  "@shareErrorGeneric": {
+    "description": "Generic error message shown if the sharing process fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "Timer.Coffee의 {recipeName}",
+  "@recipeDetailWebTitle": {
+    "description": "Web page title format for a recipe detail page",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "My Awesome V60"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "콘텐츠 상태 확인 불가. 로컬 저장, 다음 동기화 시 확인.",
+  "saveLocallyModerationFailedTitle": "로컬 변경 저장",
+  "saveLocallyModerationFailedBody": "로컬 변경이 저장되었지만 공개 버전은 콘텐츠 검토로 업데이트되지 않았습니다: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "Body text for the dialog shown when moderation fails but local save succeeds",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Inappropriate language"
+      }
+    }
+  },
+  "editImportedRecipeTitle": "가져온 레시피 편집",
+  "editImportedRecipeBody": "이것은 가져온 레시피입니다. 편집하면 새로운 독립 복사가 생성돼요 계속하시겠습니까?",
+  "editImportedRecipeButtonCopy": "복사 생성 및 편집",
+  "editImportedRecipeButtonCancel": "취소",
+  "editDisplayNameTitle": "표시 이름 편집",
+  "displayNameHint": "표시 이름 입력",
+  "displayNameEmptyError": "표시 이름은 비울 수 없습니다",
+  "displayNameTooLongError": "표시 이름은 50자를 초과할 수 없습니다",
+  "errorUserNotLoggedIn": "사용자 로그인이 안 되어 있습니다. 다시 로그인하세요.",
+  "displayNameUpdateSuccess": "표시 이름 업데이트 성공",
+  "displayNameUpdateError": "표시 이름 업데이트 실패: {error}",
+  "@displayNameUpdateError": {
+    "description": "Error message when updating display name fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "사진 삭제",
+  "deletePictureConfirmationBody": "프로필 사진을 삭제하시겠습니까?",
+  "deletePictureSuccess": "프로필 사진 삭제됨.",
+  "deletePictureError": "프로필 사진 삭제 실패: {error}",
+  "@deletePictureError": {
+    "description": "Error message when deleting profile picture fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Storage error"
+      }
+    }
+  },
+  "updatePictureError": "프로필 사진 업데이트 실패: {error}",
+  "@updatePictureError": {
+    "description": "Error message when updating profile picture fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Upload error"
+      }
+    }
+  },
+  "updatePictureSuccess": "프로필 사진 업데이트 성공!",
+  "deletePictureTooltip": "사진 삭제",
+  "account": "계정",
+  "settingsBrewingMethodsTitle": "홈 화면 추출 방법",
+  "filter": "필터",
+  "@filter": {
+    "description": "Label for the filter button in the coffee beans screen"
+  },
+  "sortBy": "정렬 기준",
+  "@sortBy": {
+    "description": "Title for the sort dialog in coffee beans screen"
+  },
+  "dateAdded": "추가 날짜",
+  "@dateAdded": {
+    "description": "Sort option for sorting by date added"
+  },
+  "secondsAbbreviation": "초.",
+  "settingsAppIcon": "앱 아이콘",
+  "settingsAppIconDefault": "기본",
+  "settingsAppIconLegacy": "레거시",
+  "searchBeans": "원두 검색…",
+  "@searchBeans": {
+    "description": "Placeholder text for the search field in coffee beans screen"
+  },
+  "favorites": "좋아하는",
+  "@favorites": {
+    "description": "Label for favorites filter chip"
+  },
+  "searchPrefix": "검색:",
+  "@searchPrefix": {
+    "description": "Prefix for search filter chip"
+  },
+  "clearAll": "모두 지우기",
+  "@clearAll": {
+    "description": "Label for clear all filters button"
+  },
+  "noBeansMatchSearch": "검색 결과에 맞는 원두 없음",
+  "@noBeansMatchSearch": {
+    "description": "Message shown when no beans match the search criteria"
+  },
+  "clearFilters": "필터 지우기",
+  "@clearFilters": {
+    "description": "Button text to clear all active filters"
+  },
+  "farmer": "농부",
+  "farm": "농장",
+  "enterFarmer": "농부 입력 (선택)",
+  "enterFarm": "농장 입력 (선택)",
+  "requiredInformation": "필수 정보",
+  "basicDetails": "기본 세부 정보",
+  "qualityMeasurements": "품질 및 측정",
+  "importantDates": "중요 날짜",
+  "brewStats": "추출 통계",
+  "showMore": "더 보기",
+  "showLess": "접기",
+  "unpublishRecipeDialogTitle": "레시피 비공개로 만들기",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Title text for the unpublish recipe confirmation dialog"
+  },
+  "unpublishRecipeDialogMessage": "경고: 이 레시피를 비공개로 만들면:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Warning message introducing the privacy changes"
+  },
+  "unpublishRecipeDialogBullet1": "공개 검색 결과에서 제거",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "First privacy change bullet point"
+  },
+  "unpublishRecipeDialogBullet2": "새 사용자 가져오기 방지",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Second privacy change bullet point"
+  },
+  "unpublishRecipeDialogBullet3": "이미 가져온 사용자는 복사본 유지",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Third privacy change bullet point"
+  },
+  "unpublishRecipeDialogKeepPublic": "공개 유지",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Button text to keep the recipe public"
+  },
+  "unpublishRecipeDialogMakePrivate": "비공개로 만들기",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Button text to make the recipe private"
+  },
+  "recipeUnpublishSuccess": "레시피 비공개 성공",
+  "@recipeUnpublishSuccess": {
+    "description": "Success message when a recipe is unpublished"
+  },
+  "recipeUnpublishError": "레시피 비공개 실패: {error}",
+  "@recipeUnpublishError": {
+    "description": "Error message when unpublishing a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "recipePublicTooltip": "레시피 공개 - 비공개로 만들기 탭",
+  "recipePrivateTooltip": "레시피 비공개 - 공유하여 공개 만들기"
+}

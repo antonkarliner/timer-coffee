@@ -1,0 +1,2 @@
+"NSPhotoLibraryUsageDescription" = "사진 보관함에 접근하여 커피 봉투 라벨 이미지를 선택할 수 있도록 권한이 필요합니다.";
+"NSCameraUsageDescription" = "카메라에 접근하여 커피 봉투 라벨의 사진을 찍을 수 있도록 권한이 필요합니다.";
