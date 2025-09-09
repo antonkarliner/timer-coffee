@@ -1,1 +1,0 @@
-Added onboarding screen to help new users with some useful tips about usage of the app.

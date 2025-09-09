@@ -1,5 +1,0 @@
-Sharing is caring! Introducing Timer.Coffee 1.2.1
-
-This update brings an ability to share recipes with friends. Just go to the recipe page, press Share button and send a link to anyone. The people who receive the link will be able to open and use recipe even if they don't have this app (yet).
-Huge thanks to @kinolaev who helped me with the in-app routing.
-If you encounter a bug or want to request a feature, don't hesitate to write at support@timer.coffee or open an issue on Github.
