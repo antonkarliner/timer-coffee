@@ -1,0 +1,23 @@
+Timer.Coffee on ilmainen ja avoimen lähdekoodin kahvin keittämisen ajastin ja laskuri, joka on suunniteltu parantamaan keittämiskokemustasi. Täysin ilmainen valinnaisilla sovelluksen sisäisillä lahjoituksilla, jotka tukevat jatkuvaa kehitystä, nämä lahjoitukset eivät vaikuta ominaisuidesi käyttöön.
+
+Uusia toimintoja
+
+- Luo omat reseptisi: Mukauta ja tallenna omat kahvin keittämisreseptisi.
+- Jaa reseptejä: Jaa suosikkireseptisi helposti ystävien ja muiden kahvin harrastajien kanssa.
+
+Keskeiset ominaisuudet
+
+- Yli 40 keittämismenetelmää: Sisältää yksityiskohtaiset vaiheittaiset ohjeet menetelmille kuten Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper ja Hario Switch.
+- Kahvilaskuri: Säädä nopeasti kahvin ja veden määrää täydellisen annoksen keittämiseksi.
+- Suosikit: Merkitse ja pääsy suosikkiresepteihisi helposti.
+- Keittäjäpäiväkirja: Kirjaa muistiinpanoja ja seuraa keittämiskokemuksiasi.
+- Äänimerkki: Saat äänimerkit jokaiselle keittävävaiheelle.
+- Päa logging: Seuraa kahvipapujasi kätevästi AI-pohjaisella tunnistuksella.
+- Automaattinen logging: Kirjaa jokainen keittäjäistunto vaivattomasti.
+- Laitteiden synkronointi: Synkronoi reseptit, pavut ja keitot saumattomasti kaikkien laitteidesi välillä.
+- Monikielinen: Tukee 18 kieltä.
+- Tumma tila: Mukava keittämiskokemus milloin tahansa.
+
+Tulossa pian
+
+- Parannettu yhteisön vuorovaikutus ja jakaminen.
