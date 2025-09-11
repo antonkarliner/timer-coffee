@@ -95,6 +95,7 @@ class UserStatProvider extends ChangeNotifier {
     int? coffeeBeansId,
     bool? isMarked,
     String? coffeeBeansUuid,
+    bool clearBeans = false,
   }) async {
     print(
         'updateUserStat called with statUuid: $statUuid, coffeeBeansUuid: $coffeeBeansUuid');
@@ -110,7 +111,7 @@ class UserStatProvider extends ChangeNotifier {
     final currentVector = VersionVector.fromString(currentStat.versionVector);
     final newVector = currentVector.increment();
 
-    final updatedStat = currentStat.copyWith(
+    var updatedStat = currentStat.copyWith(
       recipeId: recipeId,
       coffeeAmount: coffeeAmount,
       waterAmount: waterAmount,
@@ -127,6 +128,30 @@ class UserStatProvider extends ChangeNotifier {
       versionVector: newVector.toString(),
     );
 
+    if (clearBeans) {
+      print('Clearing beans for stat $statUuid');
+      updatedStat = UserStatsModel(
+        statUuid: currentStat.statUuid,
+        id: currentStat.id,
+        recipeId: updatedStat.recipeId,
+        coffeeAmount: updatedStat.coffeeAmount,
+        waterAmount: updatedStat.waterAmount,
+        sweetnessSliderPosition: updatedStat.sweetnessSliderPosition,
+        strengthSliderPosition: updatedStat.strengthSliderPosition,
+        brewingMethodId: updatedStat.brewingMethodId,
+        createdAt: currentStat.createdAt,
+        notes: updatedStat.notes,
+        beans: updatedStat.beans,
+        roaster: updatedStat.roaster,
+        rating: updatedStat.rating,
+        coffeeBeansId: updatedStat.coffeeBeansId,
+        isMarked: updatedStat.isMarked,
+        coffeeBeansUuid: null,
+        versionVector: updatedStat.versionVector,
+        isDeleted: currentStat.isDeleted,
+      );
+    }
+
     print('Updated stat: $updatedStat');
 
     await db.userStatsDao.updateUserStat(updatedStat);
@@ -139,7 +164,7 @@ class UserStatProvider extends ChangeNotifier {
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null && !user.isAnonymous) {
       try {
-        final supabaseData = _userStatModelToJson(updatedStat);
+        final supabaseData = _userStatModelToJson(refreshedStat!);
         supabaseData['user_id'] = user.id;
         await Supabase.instance.client
             .from('user_stats')

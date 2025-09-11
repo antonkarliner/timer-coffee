@@ -544,13 +544,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                                 listen: false)
                                             .updateUserStat(
                                           statUuid: stat.statUuid,
-                                          coffeeBeansUuid: null,
+                                          clearBeans: true,
                                         );
                                         print('updateUserStat called');
-                                        setState(() {
-                                          print(
-                                              'setState called to rebuild widget');
-                                        });
                                       },
                                       child: Text(loc.removeBeans),
                                     ),
