@@ -16,8 +16,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.4",
-    "cheerio": "^1.0.0-rc.12",
+    "@supabase/supabase-js": "^2.57.4",
+    "cheerio": "^1.1.2",
     "deepl-mcp-server": "^0.1.3-beta.0"
   },
   "repository": {
@@ -27,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/antonkarliner/timer-coffee/issues"
   },
-  "homepage": "https://github.com/antonkarliner/timer-coffee#readme"
+  "homepage": "https://github.com/antonkarliner/timer-coffee#readme",
+  "overrides": {
+    "axios": "^1.12.0"
+  }
 }
