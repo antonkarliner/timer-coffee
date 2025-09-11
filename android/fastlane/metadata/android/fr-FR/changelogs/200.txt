@@ -1,0 +1,6 @@
+Nouveau :  
++ Prise en charge du coréen. 한국 유저분들, 어서 와요 !  
++ Résumé de recette interactif : le résumé affiche instantanément les quantités exactes de café et d’eau à utiliser.  
++ Dépublier des recettes : possibilité de rendre vos recettes publiques à nouveau privées.
+
++ Correction : bouton Retirer les grains réparé dans le journal d'infusion.

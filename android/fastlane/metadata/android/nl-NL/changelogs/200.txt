@@ -1,0 +1,6 @@
+Nieuw:  
++ Koreaanse taalondersteuning. 한국 유저분들, welkom!  
++ Interactieve receptensamenvatting! De samenvatting wordt nu direct bijgewerkt en toont exacte hoeveelheden koffie en water.  
++ Recepten verbergen: maak jouw openbare recepten weer privé.
+
++ Bugfix: knop “Bonen verwijderen” werkt weer op het Brouwdagboek-scherm.

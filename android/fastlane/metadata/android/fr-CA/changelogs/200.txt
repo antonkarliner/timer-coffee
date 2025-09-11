@@ -1,0 +1,6 @@
+Nouveautés :
++ Prise en charge du coréen. 환영합니다, utilisateurs coréens!
++ Résumé interactif des recettes! Le résumé se met à jour instantanément et affiche précisément les quantités de café et d’eau à utiliser.
++ Dépublication des recettes : vous pouvez rendre vos recettes publiques privées à nouveau.
+
++ Correction : le bouton Retirer les grains fonctionne sur l’écran Journal d’extraction.

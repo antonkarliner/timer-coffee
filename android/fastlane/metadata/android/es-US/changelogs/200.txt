@@ -1,0 +1,6 @@
+Nuevo:
++ Soporte para idioma coreano. ¡Usuarios coreanos, bienvenidos!
++ Resumen de recetas interactivo: ahora se actualiza al instante y muestra las cantidades exactas de café y agua a usar.
++ Despublicar recetas: ahora puedes hacer privadas tus recetas públicas.
+
++ Corrección de error: el botón "Eliminar granos" en el Diario de Preparaciones ya funciona correctamente.

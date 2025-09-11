@@ -1,0 +1,6 @@
+Nowości:  
++ Obsługa języka koreańskiego. 한국 유저분들, witajcie!  
++ Interaktywny podgląd przepisu! Podsumowanie aktualizuje się na bieżąco, pokazując dokładne ilości kawy i wody.  
++ Ukrywanie przepisów: możesz teraz cofnąć publikację swoich przepisów i uczynić je prywatnymi.  
+
++ Naprawiono błąd z przyciskiem Usuń Ziarna w Dzienniku Parzenia.

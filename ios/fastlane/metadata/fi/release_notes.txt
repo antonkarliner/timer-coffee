@@ -1,6 +1,6 @@
 Uutta:
-+ Korean kielen tuki. Korealaiset käyttäjät, tervetuloa!
-+ Interaktiivinen reseptiyhteenveto! Yhteenveto päivittyy nyt reaaliaikaisesti ja näyttää tarkat kahvin ja veden määrät.
-+ Julkaistujen reseptien peruminen: Lisätty mahdollisuus poistaa reseptiesi julkisuus ja tehdä ne jälleen yksityisiksi.
++ Korean kielen tuki. 한국 유저분들, 어서 와요!
++ Interaktiivinen reseptiyhteenveto! Yhteenveto päivittyy nyt välittömästi ja näyttää tarkat kahvin sekä veden määrät.
++ Reseptien piilottaminen: voit nyt piilottaa julkisesti jakamasi reseptit ja tehdä niistä taas yksityisiä.
 
-Ja tietysti virhekorjauksia ja suorituskykyparannuksia.
++ Virheenkorjaus: Korjattu "Poista pavut" -painike Panopäiväkirja-näytöllä.

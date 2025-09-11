@@ -1,6 +1,6 @@
-Yenilikler:
-+ Korece dil desteği. 한국 유저분들, 어서 와요!
-+ Etkileşimli tarif özeti! Özet artık anında güncellenir ve kullanmanız gereken kesin kahve ve su miktarlarını gösterir.
-+ Yayınlanan tarifleri yayından kaldırma: herkese açık tariflerinizi tekrar özel hale getirebilme özelliği eklendi.
+Yenilikler:  
++ Korece dil desteği. 한국 유저분들, 어서 와요!  
++ Etkileşimli tarif özeti! Artık özet anında güncelleniyor ve kullanmanız gereken tam kahve ve su miktarını gösteriyor.  
++ Tarif gizleme: Yayınladığınız tarifleri tekrar gizleyerek özel hale getirme özelliği eklendi.
 
-Ve elbette hata düzeltmeleri ve performans iyileştirmeleri.
++ Hata düzeltmesi: Demleme Günlüğü ekranındaki Çekirdekleri Kaldır düğmesi düzeltildi.

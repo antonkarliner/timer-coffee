@@ -1,0 +1,6 @@
+Baru:  
++ Dukungan bahasa Korea. 한국 유저분들, selamat datang!  
++ Ringkasan resep interaktif! Ringkasan resep kini diperbarui secara instan, menampilkan takaran kopi dan air yang tepat.  
++ Sembunyikan resep: kini Anda bisa menyembunyikan resep publik agar kembali pribadi.
+
++ Perbaikan bug: tombol Hapus Biji di layar Buku Seduh sudah berfungsi.

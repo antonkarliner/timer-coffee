@@ -1,0 +1,6 @@
+Neu:  
++ Koreanische Sprachunterstützung. 한국 유저분들, 환영합니다!  
++ Interaktive Rezept-Zusammenfassung! Die Zusammenfassung zeigt jetzt sofort die exakten Mengen für Kaffee und Wasser an.  
++ Rezepte als privat festlegen: Du kannst veröffentlichte Rezepte wieder verbergen.
+
++ Fehlerbehebung: Entfernen-Button für Bohnen im Brüh-Tagebuch funktioniert jetzt korrekt.

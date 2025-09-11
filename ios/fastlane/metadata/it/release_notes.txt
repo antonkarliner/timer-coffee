@@ -1,6 +1,6 @@
 Novità:
-+ Supporto per il coreano. 한국 유저분들, 어서 와요!
-+ Riepilogo interattivo della ricetta! Il riepilogo si aggiorna ora istantaneamente, mostrando le quantità esatte di caffè e acqua da utilizzare.
-+ Possibilità di de-pubblicare le ricette: ora puoi rendere nuovamente private le ricette che avevi pubblicato.
++ Supporto per la lingua coreana. Utenti coreani, benvenuti!
++ Riepilogo ricetta interattivo! Il riepilogo ora si aggiorna istantaneamente, mostrandoti le quantità esatte di caffè e acqua da utilizzare.
++ Ricette non pubblicate: aggiunta la possibilità di rendere private di nuovo le tue ricette pubbliche.
 
-E naturalmente correzioni di bug e miglioramenti delle prestazioni.
++ Correzione bug: risolto il problema del pulsante "Rimuovi Caffè" nella schermata Diario di Estrazione.

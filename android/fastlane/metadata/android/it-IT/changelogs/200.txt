@@ -1,0 +1,6 @@
+Novità:
++ Supporto per la lingua coreana. 한국 유저분들, 환영합니다!
++ Sommario ricette interattivo! Ora si aggiorna in tempo reale, mostrando le quantità esatte di caffè e acqua da usare.
++ Possibilità di rendere private le tue ricette pubblicate.
+
++ Correzione: il pulsante “Rimuovi chicchi” su Diario di Estrazione ora funziona correttamente.

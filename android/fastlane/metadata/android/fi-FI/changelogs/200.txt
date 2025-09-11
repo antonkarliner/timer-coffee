@@ -1,0 +1,6 @@
+Uutta:  
++ Korean kielituki. 한국 유저분들, tervetuloa!  
++ Interaktiivinen reseptiyhteenveto! Yhteenveto päivittyy heti ja näyttää tarkat kahvi- ja vesimäärät.  
++ Julkaisun peruminen: voit poistaa omat julkiset reseptisi näkyvistä ja muuttaa ne taas yksityisiksi.
+
++ Korjattu: Poista pavut -painike toimii nyt oikein Kahvipäiväkirjassa.

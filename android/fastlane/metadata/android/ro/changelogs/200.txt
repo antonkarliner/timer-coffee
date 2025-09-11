@@ -1,0 +1,6 @@
+Noutăți:
++ Suport pentru limba coreeană. 한국 유저분들, bun venit!
++ Rezumat interactiv al rețetei: vezi instant cantitățile exacte de cafea și apă.
++ Retragere rețete publice: poți face rețetele tale publicate din nou private.
+
++ Corecție: butonul Elimină boabele funcționează acum pe ecranul Jurnal Brew.

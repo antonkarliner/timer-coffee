@@ -1,0 +1,6 @@
+Novedades:
++ Soporte para idioma coreano. ¡Bienvenidos usuarios de Corea!
++ Resumen interactivo de recetas: ahora se actualiza al instante y muestra las cantidades exactas de café y agua a usar.
++ Despublicar recetas: ahora puedes volver privadas tus recetas publicadas.
+
++ Corrección de error: se solucionó el botón Eliminar Café en la pantalla de Diario de Extracciones.

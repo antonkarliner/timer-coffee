@@ -1,6 +1,6 @@
 Nieuw:
-+ Koreaanse taalondersteuning. 한국 유저분들, 어서 와요!
-+ Interactieve receptsamenvatting! De samenvatting wordt nu direct bijgewerkt en toont precies welke hoeveelheden koffie en water je moet gebruiken.
-+ Recepten depubliceren: mogelijkheid toegevoegd om je openbare recepten te depubliceren, zodat ze weer privé worden.
++ Ondersteuning voor de Koreaanse taal. 한국 유저분들, 어서 와요!
++ Interactief receptenoverzicht! Het overzicht wordt nu direct bijgewerkt en laat je precies zien hoeveel koffie en water je nodig hebt.
++ Recepten intrekken: het is nu mogelijk om je openbare recepten weer privé te maken.
 
-En natuurlijk bugfixes en prestatieverbeteringen.
++ Bugfix: de knop "Bonen verwijderen" op het Brew Diary-scherm werkt nu correct.

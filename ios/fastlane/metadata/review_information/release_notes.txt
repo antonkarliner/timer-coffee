@@ -1,6 +1,6 @@
-New:
-+ Korean language support. 한국 유저분들, 어서 와요!
-+ Interactive recipe summary — now updates instantly and shows the exact coffee dose and water amount to use.
-+ Unpublish recipes — you can unpublish your public recipes to make them private again.
+New Features:  
++ Added Korean language support. 한국 유저분들, 환영합니다!  
++ Interactive brew summary is now available—your recipe summary updates instantly, displaying precise coffee dose and water volume for your brew.  
++ Unpublish recipes: you can now unpublish any of your public brew recipes, making them private once again.
 
-And of course bug fixes and performance improvements.
++ Bugfix: Resolved an issue with the Remove Beans button on the Brew Diary screen.

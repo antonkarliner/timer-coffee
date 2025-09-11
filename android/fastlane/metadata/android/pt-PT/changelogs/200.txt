@@ -1,0 +1,6 @@
+Novidades:
++ Suporte à língua coreana. Utilizadores coreanos, sejam bem-vindos!
++ Resumo de receita interativo! O resumo atualiza-se em tempo real, mostrando exatamente as quantidades de café e água a usar.
++ Despublicar receitas: agora pode tornar as suas receitas públicas privadas novamente.
+
++ Correção: botão Remover Grãos corrigido no ecrã Diário de Preparação.

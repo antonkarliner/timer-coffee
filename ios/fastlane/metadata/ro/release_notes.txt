@@ -1,6 +1,6 @@
 Noutăți:
 + Suport pentru limba coreeană. 한국 유저분들, 어서 와요!
-+ Rezumat interactiv al rețetei! Rezumatul se actualizează instantaneu, arătându-ți cantitățile exacte de cafea și apă pe care să le folosești.
-+ Retragere din publicare a rețetelor: am adăugat o funcție care îți permite să retragi rețetele publice și să le faci private din nou.
++ Rezumat interactiv al rețetei! Rezumatul se actualizează instantaneu, afișând exact cantitățile de cafea și apă de folosit.
++ Retragerea rețetelor publice: a fost adăugată opțiunea de a retrage rețetele publice, făcându-le din nou private.
 
-Și, desigur, remedieri de erori și îmbunătățiri ale performanței.
++ Remediere bug: butonul Elimină boabele de pe ecranul Jurnal de Preparare a fost reparat.

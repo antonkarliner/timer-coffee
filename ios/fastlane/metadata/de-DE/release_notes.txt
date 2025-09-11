@@ -1,6 +1,6 @@
-Neu:
-+ Koreanische Sprachunterstützung. Koreanische Nutzer, herzlich willkommen!
-+ Interaktive Rezeptzusammenfassung! Die Zusammenfassung wird jetzt sofort aktualisiert und zeigt dir die genauen Kaffee‑ und Wassermengen, die du verwenden sollst.
-+ Veröffentlichte Rezepte zurückziehen: Möglichkeit hinzugefügt, deine öffentlichen Rezepte wieder privat zu machen.
+Neu:  
++ Koreanische Sprachunterstützung. 한국 유저분들, 어서 와요!  
++ Interaktive Rezeptzusammenfassung! Die Zusammenfassung wird jetzt in Echtzeit aktualisiert und zeigt dir genau die richtige Menge an Kaffee und Wasser an.  
++ Rezepte depublizieren: Du kannst nun deine veröffentlichten Rezepte wieder privat stellen.
 
-Und natürlich Fehlerbehebungen und Leistungsverbesserungen.
++ Fehlerbehebung: Der „Bohnen entfernen“-Button im Brüh-Tagebuch wurde repariert.
