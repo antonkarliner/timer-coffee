@@ -1,5 +1,6 @@
 {
   "@@locale": "es",
+  "lastrecipe": "Última receta utilizada:",
   "userRecipesTitle": "Tus recetas",
   "userRecipesSectionCreated": "Creadas por ti",
   "userRecipesSectionImported": "Importadas por ti",
@@ -10,14 +11,13 @@
   "userRecipesDeleteCancel": "Cancelar",
   "userRecipesSnackbarDeleted": "Receta eliminada",
   "hubUserRecipesTitle": "Tus recetas",
-  "hubUserRecipesSubtitle": "Ver y gestionar recetas creadas e importadas",
+  "hubUserRecipesSubtitle": "Ver y gestionar las recetas creadas e importadas",
   "hubAccountSubtitle": "Gestiona tu perfil",
   "hubSignInCreateSubtitle": "Inicia sesión para sincronizar recetas y preferencias",
-  "hubBrewDiarySubtitle": "Consulta tu historial de preparación y añade notas",
+  "hubBrewDiarySubtitle": "Consulta tu historial de preparaciones y añade notas",
   "hubBrewStatsSubtitle": "Consulta estadísticas y tendencias de preparación personales y globales",
   "hubSettingsSubtitle": "Cambia las preferencias y el comportamiento de la aplicación",
   "hubAboutSubtitle": "Detalles de la app, versión y colaboradores",
-  "lastrecipe": "Receta más recientemente utilizada:",
   "about": "Acerca de",
   "author": "Autor",
   "authortext": "La aplicación Timer.Coffee ha sido creada por Anton Karliner, un entusiasta del café, especialista en medios y fotoperiodista. Espero que esta aplicación te ayude a disfrutar de tu café. Siéntete libre de contribuir en GitHub.",
@@ -50,35 +50,35 @@
   "tipmedium": "Comprar un café mediano",
   "tiplarge": "Comprar un café grande",
   "supportdevelopment": "Apoyar el desarrollo",
-  "supportdevmsg": "Tus donaciones ayudan a cubrir los costos de mantenimiento (como licencias de desarrollador, por ejemplo). También me permiten probar más dispositivos de preparación de café y agregar más recetas a la aplicación.",
+  "supportdevmsg": "Tus donaciones ayudan a cubrir los costos de mantenimiento (como licencias de desarrollador, por ejemplo). También me permiten probar más métodos de preparación de café y agregar más recetas a la aplicación.",
   "supportdevtnx": "¡Gracias por considerar donar!",
   "donationok": "¡Gracias!",
-  "donationtnx": "¡Realmente aprecio tu apoyo! ¡Te deseo muchas preparaciones excelentes! ☕️",
+  "donationtnx": "¡Realmente aprecio tu apoyo! ¡Te deseo muchos cafés excelentes! ☕️",
   "donationerr": "Error",
   "donationerrmsg": "Error al procesar la compra, por favor intenta de nuevo.",
-  "sharemsg": "Revisa esta receta:",
+  "sharemsg": "Mira esta receta:",
   "finishbrew": "Finalizar",
-  "settings": "Configuraciones",
+  "settings": "Configuración",
   "settingstheme": "Tema",
   "settingsthemelight": "Claro",
   "settingsthemedark": "Oscuro",
   "settingsthemesystem": "Sistema",
   "settingslang": "Idioma",
   "sweet": "Dulce",
-  "balance": "Equilibrio",
+  "balance": "Balanceado",
   "acidic": "Ácido",
-  "light": "Ligero",
+  "light": "Suave",
   "strong": "Fuerte",
   "slidertitle": "Usa los controles deslizantes para ajustar el sabor",
   "whatsnewtitle": "Qué hay de nuevo",
   "whatsnewclose": "Cerrar",
   "seasonspecials": "Especiales de Temporada",
   "snow": "Nieve",
-  "noFavoriteRecipesMessage": "Tu lista de recetas favoritas está actualmente vacía. ¡Comienza a explorar y preparar para descubrir tus favoritos!",
+  "noFavoriteRecipesMessage": "Tu lista de recetas favoritas está vacía. ¡Comienza a explorar y preparar para descubrir tus favoritas!",
   "explore": "Explorar",
   "dateFormat": "d MMM, yyyy",
   "timeFormat": "HH:mm",
-  "brewdiary": "Diario de Cerveza",
+  "brewdiary": "Diario de preparaciones",
   "brewdiarynotfound": "No se encontraron entradas",
   "beans": "Granos",
   "roaster": "Tostador",
@@ -101,7 +101,7 @@
   "globalStats": "Estadísticas globales",
   "unknownRecipe": "Receta desconocida",
   "noData": "Sin datos",
-  "error": "Error: {error}",
+  "error": "Error",
   "someoneJustBrewed": "Alguien acaba de preparar {recipeName}",
   "timePeriodToday": "Hoy",
   "timePeriodThisWeek": "Esta semana",
@@ -123,7 +123,7 @@
   "removeFavorite": "Eliminar de favoritos",
   "addFavorite": "Añadir a favoritos",
   "toggleEditMode": "Activar/desactivar modo de edición",
-  "coffeeBeansDetails": "Detalles de los granos de café",
+  "coffeeBeansDetails": "Detalles de los granos",
   "edit": "Editar",
   "coffeeBeansNotFound": "No se encontraron granos de café",
   "geographyTerroir": "Geografía/Terruño",
@@ -147,7 +147,7 @@
   "firstTimePopupMessage": "1. Utilizamos servicios externos para procesar imágenes. Al continuar, aceptas esto.\n2. Si bien no almacenamos tus imágenes, evita incluir datos personales.\n3. El reconocimiento de imágenes está actualmente limitado a 10 tokens por mes (1 token = 1 imagen). Este límite puede cambiar en el futuro.",
   "ok": "Aceptar",
   "takePhoto": "Tomar una foto",
-  "selectFromPhotos": "Seleccionar de las fotos",
+  "selectFromPhotos": "Seleccionar de la galería",
   "takeAdditionalPhoto": "¿Tomar otra foto?",
   "no": "No",
   "yes": "Sí",
@@ -186,36 +186,36 @@
   "signIn": "Iniciar sesión",
   "signOut": "Cerrar sesión",
   "signInWithApple": "Inicia sesión con Apple",
-  "signInSuccessful": "Se inició sesión con Apple correctamente",
+  "signInSuccessful": "Iniciaste sesión con Apple exitosamente",
   "signInError": "Error al iniciar sesión con Apple",
   "signInWithGoogle": "Inicia sesión con Google",
-  "signOutSuccessful": "Cierre de sesión realizado correctamente",
-  "signInSuccessfulGoogle": "Inicio de sesión correcto con Google",
+  "signOutSuccessful": "Cerraste tu sesión correctamente",
+  "signInSuccessfulGoogle": "Iniciaste tu sesión con Google exitosamente",
   "signInWithEmail": "Iniciar sesión con correo electrónico",
   "enterEmail": "Ingresa tu correo electrónico",
   "emailHint": "ejemplo@correo.com",
   "cancel": "Cancelar",
   "sendMagicLink": "Enviar enlace mágico",
   "magicLinkSent": "¡Enlace mágico enviado! Revisa tu correo electrónico.",
-  "sendOTP": "Enviar OTP",
-  "otpSent": "OTP enviado a su correo electrónico",
-  "otpSendError": "Error al enviar OTP",
-  "enterOTP": "Ingrese OTP",
+  "sendOTP": "Enviar código de un solo uso",
+  "otpSent": "Código enviado a tu correo electrónico",
+  "otpSendError": "Error al enviar el código de un solo uso",
+  "enterOTP": "Ingrese el código",
   "otpHint": "Ingrese el código de 6 dígitos",
   "verify": "Verificar",
   "signInSuccessfulEmail": "Inicio de sesión exitoso",
-  "invalidOTP": "OTP inválido",
-  "otpVerificationError": "Error al verificar OTP",
+  "invalidOTP": "Código inválido",
+  "otpVerificationError": "Error al verificar el código",
   "success": "¡Éxito!",
-  "otpSentMessage": "Se está enviando un OTP a tu correo electrónico. Por favor, introdúcelo a continuación cuando lo recibas.",
-  "otpHint2": "Escriba aquí el código",
+  "otpSentMessage": "Se está enviando un código de un solo uso a tu correo electrónico. Por favor, introdúcelo a continuación cuando lo recibas.",
+  "otpHint2": "Escriba el código aquí",
   "signInCreate": "Iniciar sesión / Crear cuenta",
   "accountManagement": "Administración de la cuenta",
   "deleteAccount": "Borrar cuenta",
-  "deleteAccountWarning": "Tenga en cuenta: si elige continuar, eliminaremos su cuenta y los datos relacionados de nuestros servidores. La copia local de los datos permanecerá en el dispositivo, si también desea eliminarla, simplemente puede eliminar la aplicación. Para volver a habilitar la sincronización, deberá crear una nueva cuenta",
+  "deleteAccountWarning": "Ten en cuenta: si eliges continuar, eliminaremos tu cuenta y los datos relacionados de nuestros servidores. La copia local de los datos permanecerá en tu dispositivo, si también deseas eliminarla, puedes simplemente eliminar la aplicación. Para volver a habilitar la sincronización, deberás crear una nueva cuenta",
   "deleteAccountConfirmation": "Cuenta eliminada correctamente",
   "accountDeleted": "Cuenta eliminada",
-  "accountDeletionError": "Error al eliminar su cuenta, inténtelo de nuevo",
+  "accountDeletionError": "Error al eliminar la cuenta, inténtalo de nuevo",
   "deleteAccountTitle": "Importante",
   "selectBeans": "Seleccionar granos",
   "all": "Todos",
@@ -270,7 +270,7 @@
   "recipeCreationScreenWaterAmountLabel": "Cantidad de Agua (ml)",
   "recipeCreationScreenWaterTempLabel": "Temperatura del Agua (°C)",
   "recipeCreationScreenGrindSizeLabel": "Tamaño de Molienda",
-  "recipeCreationScreenTotalBrewTimeLabel": "Tiempo Total de Preparación:",
+  "recipeCreationScreenTotalBrewTimeLabel": "Tiempo total de Preparación:",
   "recipeCreationScreenMinutesLabel": "Minutos",
   "recipeCreationScreenSecondsLabel": "Segundos",
   "recipeCreationScreenPreparationStepTitle": "Paso de Preparación",
@@ -285,7 +285,7 @@
     }
   },
   "recipeCreationScreenStepDescriptionLabel": "Descripción del Paso",
-  "recipeCreationScreenStepTimeLabel": "Tiempo del Paso: ",
+  "recipeCreationScreenStepTimeLabel": "Duración del Paso: ",
   "recipeCreationScreenRecipeNameValidator": "Por favor, introduce un nombre para la receta",
   "recipeCreationScreenShortDescriptionValidator": "Por favor, introduce una descripción corta",
   "recipeCreationScreenBrewingMethodValidator": "Por favor, selecciona un método de preparación",
@@ -303,7 +303,7 @@
     "placeholders": {
       "error": {
         "type": "String",
-        "example": "Error de base de datos"
+        "example": "Error de la base de datos"
       }
     }
   },
@@ -321,7 +321,7 @@
     "placeholders": {
       "error": {
         "type": "String",
-        "example": "Database error"
+        "example": "Error de la base de datos"
       }
     }
   },
@@ -506,12 +506,12 @@
       }
     }
   },
-  "updatePictureSuccess": "¡Foto de perfil actualizada correctamente!",
+  "updatePictureSuccess": "¡Foto de perfil actualizada exitosamente!",
   "deletePictureTooltip": "Eliminar imagen",
-  "settingsBrewingMethodsTitle": "Métodos de preparación en la pantalla de inicio",
+  "settingsBrewingMethodsTitle": "Métodos en la pantalla de inicio",
   "account": "Cuenta",
   "confirmDeleteTitle": "¿Eliminar entrada?",
-  "confirmDeleteMessage": "¿Está seguro de que desea eliminar esta entrada? Esta acción no se puede deshacer.",
+  "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar esta entrada? Esta acción no se puede deshacer.",
   "filter": "Filtro",
   "secondsAbbreviation": "s",
   "settingsAppIcon": "Icono de la aplicación",
@@ -541,7 +541,7 @@
   "@clearAll": {
     "description": "Etiqueta para el botón de borrar todos los filtros"
   },
-  "noBeansMatchSearch": "Ningún grano coincide con su búsqueda",
+  "noBeansMatchSearch": "Ningún grano coincide con tu búsqueda",
   "@noBeansMatchSearch": {
     "description": "Mensaje que se muestra cuando ningún grano coincide con los criterios de búsqueda"
   },
@@ -560,48 +560,48 @@
   "brewStats": "Estadísticas de preparación",
   "showMore": "Mostrar más",
   "showLess": "Mostrar menos",
-  "unpublishRecipeDialogTitle": "Hacer la receta privada",
+  "unpublishRecipeDialogTitle": "Hacer privada la receta",
   "@unpublishRecipeDialogTitle": {
     "description": "Texto del título para el diálogo de confirmación de despublicación de la receta"
   },
-  "unpublishRecipeDialogMessage": "Advertencia: Hacer esta receta privada:",
+  "unpublishRecipeDialogMessage": "Advertencia: Al hacer privada esta receta:",
   "@unpublishRecipeDialogMessage": {
     "description": "Mensaje de advertencia introduciendo los cambios de privacidad"
   },
-  "unpublishRecipeDialogBullet1": "La eliminará de los resultados de búsqueda públicos",
+  "unpublishRecipeDialogBullet1": "Se eliminará de los resultados de búsqueda públicos",
   "@unpublishRecipeDialogBullet1": {
     "description": "Primer punto de los cambios de privacidad"
   },
-"unpublishRecipeDialogBullet2": "Evitará que nuevos usuarios la importen",
-"@unpublishRecipeDialogBullet2": {
-  "description": "Segundo punto de los cambios de privacidad"
-},
-"unpublishRecipeDialogBullet3": "Los usuarios que ya la hayan importado conservarán sus copias",
-"@unpublishRecipeDialogBullet3": {
-  "description": "Tercer punto de los cambios de privacidad"
-},
-"unpublishRecipeDialogKeepPublic": "Mantener pública",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "Texto del botón para mantener la receta pública"
-},
-"unpublishRecipeDialogMakePrivate": "Hacer privada",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "Texto del botón para hacer la receta privada"
-},
-"recipeUnpublishSuccess": "Receta despublicada con éxito",
-"@recipeUnpublishSuccess": {
-  "description": "Mensaje de éxito cuando una receta es despublicada"
-},
-"recipeUnpublishError": "Error al despublicar la receta: {error}",
-"@recipeUnpublishError": {
-  "description": "Mensaje de error cuando falla la despublicación de una receta",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "Error de base de datos"
+  "unpublishRecipeDialogBullet2": "Se evitará que nuevos usuarios la importen",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Segundo punto de los cambios de privacidad"
+  },
+  "unpublishRecipeDialogBullet3": "Los usuarios que ya la hayan importado conservarán sus copias",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Tercer punto de los cambios de privacidad"
+  },
+  "unpublishRecipeDialogKeepPublic": "Mantener pública",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Texto del botón para mantener la receta pública"
+  },
+  "unpublishRecipeDialogMakePrivate": "Hacer privada",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Texto del botón para hacer la receta privada"
+  },
+  "recipeUnpublishSuccess": "Receta despublicada con éxito",
+  "@recipeUnpublishSuccess": {
+    "description": "Mensaje de éxito cuando una receta es despublicada"
+  },
+  "recipeUnpublishError": "Error al despublicar la receta: {error}",
+  "@recipeUnpublishError": {
+    "description": "Mensaje de error cuando falla la despublicación de una receta",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Error de base de datos"
+      }
     }
-  }
-},
-"recipePublicTooltip": "La receta es pública - toca para hacerla privada",
-"recipePrivateTooltip": "La receta es privada - compártela para hacerla pública"
+  },
+  "recipePublicTooltip": "La receta es pública - toca para hacerla privada",
+  "recipePrivateTooltip": "La receta es privada - compártela para hacerla pública"
 }
