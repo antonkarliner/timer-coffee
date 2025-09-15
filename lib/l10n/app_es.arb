@@ -101,7 +101,7 @@
   "globalStats": "Estadísticas globales",
   "unknownRecipe": "Receta desconocida",
   "noData": "Sin datos",
-  "error": "Error",
+  "error": "Error: {error}",
   "someoneJustBrewed": "Alguien acaba de preparar {recipeName}",
   "timePeriodToday": "Hoy",
   "timePeriodThisWeek": "Esta semana",
