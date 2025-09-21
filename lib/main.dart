@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show Platform;
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/env/env.dart';
 import 'package:coffee_timer/models/supported_locale_model.dart';

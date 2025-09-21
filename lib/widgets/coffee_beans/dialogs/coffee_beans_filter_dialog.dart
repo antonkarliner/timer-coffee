@@ -1,9 +1,11 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/ui_state/coffee_beans_filter_options.dart';
 import 'package:coffee_timer/services/coffee_beans_filter_service.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
+import '../../glass_container.dart';
 import 'roaster_selection_dialog.dart';
 import 'origin_selection_dialog.dart';
 
@@ -138,6 +140,16 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final isIos = Platform.isIOS;
+    final theme = Theme.of(context);
+    final Color baseForeground = isIos
+        ? GlassContainer.defaultForegroundColor(context)
+        : theme.colorScheme.onSurface;
+    final Color emphasisForeground = isIos
+        ? GlassContainer.defaultForegroundColor(context, emphasize: true)
+        : theme.textTheme.titleMedium?.color ?? theme.colorScheme.onSurface;
+    final Color subtleForeground =
+        baseForeground.withOpacity(isIos ? 0.72 : 0.7);
 
     if (_isLoading) {
       return SafeArea(
@@ -151,8 +163,10 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
     }
 
     return SafeArea(
-      child: Padding(
+      child: GlassContainer(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: EdgeInsets.zero,
+        foregroundColor: isIos ? baseForeground : null,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,7 +175,12 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
             ListTile(
               title: Row(
                 children: [
-                  Text('${loc.roaster}: '),
+                  Text(
+                    '${loc.roaster}: ',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: emphasisForeground,
+                    ),
+                  ),
                   Expanded(
                     child: Text(
                       _tempFilterOptions.selectedRoasters.isEmpty
@@ -170,10 +189,8 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
                       textAlign: TextAlign.end,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.grey[300]
-                            : Colors.grey[700],
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: subtleForeground,
                       ),
                     ),
                   ),
@@ -186,7 +203,12 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
             ListTile(
               title: Row(
                 children: [
-                  Text('${loc.origin}: '),
+                  Text(
+                    '${loc.origin}: ',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: emphasisForeground,
+                    ),
+                  ),
                   Expanded(
                     child: Text(
                       _tempFilterOptions.selectedOrigins.isEmpty
@@ -195,10 +217,8 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
                       textAlign: TextAlign.end,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.grey[300]
-                            : Colors.grey[700],
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: subtleForeground,
                       ),
                     ),
                   ),
@@ -216,7 +236,9 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
                 children: [
                   Text(
                     loc.showFavoritesOnly,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: emphasisForeground,
+                    ),
                   ),
                   Expanded(
                     child: Align(
@@ -228,10 +250,9 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
                             isFavoriteOnly: value ?? false,
                           );
                         }),
-                        activeColor:
-                            Theme.of(context).brightness == Brightness.light
-                                ? const Color(0xff8e2e2d)
-                                : const Color(0xffc66564),
+                        activeColor: theme.brightness == Brightness.light
+                            ? const Color(0xff8e2e2d)
+                            : const Color(0xffc66564),
                         checkColor: Colors.white,
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         visualDensity: VisualDensity.compact,
