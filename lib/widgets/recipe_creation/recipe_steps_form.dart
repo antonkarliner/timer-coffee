@@ -127,7 +127,7 @@ class _RecipeStepsFormState extends State<RecipeStepsForm> {
                   step: step,
                   isPreparationStep: isPreparationStep,
                   l10n: l10n,
-                  displayIndex: (index + 1).toString(),
+                  displayIndex: index.toString(),
                   onDescriptionChanged: (value) =>
                       _updateStepDescription(index, value),
                   onTimeChanged: isPreparationStep
