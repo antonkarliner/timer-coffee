@@ -184,7 +184,7 @@ GEM
     nanaimo (0.4.0)
     naturally (2.2.1)
     nkf (0.2.0)
-    nokogiri (1.18.9-arm64-darwin)
+    nokogiri (1.18.10-arm64-darwin)
       racc (~> 1.4)
     optparse (0.6.0)
     os (1.1.4)

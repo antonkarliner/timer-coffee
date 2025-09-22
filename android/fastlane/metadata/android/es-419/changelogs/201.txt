@@ -1,0 +1,5 @@
+¡Gran mejora en la traducción al español gracias a @sbezavvs!
+
++ Se corrigieron algunos pequeños errores.
+
+Nota: El texto ha sido revisado para mayor claridad.

@@ -1,0 +1,3 @@
+Znacząco ulepszono hiszpańskie tłumaczenie dzięki @sbezavvs!
+
++ naprawiono drobne błędy.

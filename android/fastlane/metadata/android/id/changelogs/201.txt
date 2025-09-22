@@ -1,0 +1,3 @@
+Terjemahan bahasa Spanyol kini jauh lebih baik berkat @sbezavvs!
+
++ Beberapa bug kecil telah diperbaiki.

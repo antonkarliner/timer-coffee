@@ -1,0 +1,5 @@
+Traducerea în spaniolă a fost mult îmbunătățită datorită lui @sbezavvs!
+
++ Au fost rezolvate câteva mici erori.
+
+Notă: Dacă observi probleme la cronometrarea metodelor tale de preparare a cafelei, anunță-ne!

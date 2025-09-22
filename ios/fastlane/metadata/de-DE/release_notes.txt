@@ -1,6 +1,5 @@
-Neu:  
-+ Koreanische Sprachunterstützung. 한국 유저분들, 어서 와요!  
-+ Interaktive Rezeptzusammenfassung! Die Zusammenfassung wird jetzt in Echtzeit aktualisiert und zeigt dir genau die richtige Menge an Kaffee und Wasser an.  
-+ Rezepte depublizieren: Du kannst nun deine veröffentlichten Rezepte wieder privat stellen.
+Deutsche Übersetzung:
 
-+ Fehlerbehebung: Der „Bohnen entfernen“-Button im Brüh-Tagebuch wurde repariert.
+Spanische Übersetzung dank @sbezavvs deutlich verbessert!
+
++ Einige kleine Fehler wurden behoben.

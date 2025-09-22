@@ -1,6 +1,3 @@
-Baru:  
-+ Dukungan bahasa Korea. 한국 유저분들, 어서 와요!  
-+ Ringkasan resep interaktif! Ringkasan sekarang diperbarui secara instan, menampilkan jumlah kopi dan air yang tepat untuk digunakan.  
-+ Batalkan publikasi resep: kini Anda dapat membatalkan publikasi resep publik Anda sehingga menjadi pribadi lagi.  
+Penerjemahan bahasa Spanyol sangat ditingkatkan berkat @sbezavvs!
 
-+ Perbaikan bug: tombol Hapus Biji di layar Catatan Seduhan sudah diperbaiki.
++ membersihkan beberapa bug kecil.

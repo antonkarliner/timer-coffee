@@ -1,6 +1,3 @@
-Novedades:  
-+ Soporte para el idioma coreano. 한국 유저분들, 어서 와요!  
-+ ¡Resumen interactivo de receta! El resumen ahora se actualiza al instante, mostrándote las cantidades exactas de café y agua a utilizar.  
-+ Recetas no publicadas: se agregó la opción de despublicar tus recetas públicas para hacerlas privadas nuevamente.
+¡Traducción al español mejorada enormemente gracias a @sbezavvs!
 
-+ Corrección de errores: se arregló el botón Quitar Café en la pantalla de Diario de Preparación.
++ Se corrigieron algunos pequeños errores.

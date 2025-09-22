@@ -1,0 +1,3 @@
+Amélioration majeure de la traduction espagnole grâce à @sbezavvs !
+
++ Correction de quelques petits bugs.

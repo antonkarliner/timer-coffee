@@ -1,3 +1,3 @@
 ¡Gran mejora en la traducción al español gracias a @sbezavvs!
 
-+ Se corrigieron algunos pequeños errores.
++ Corregidos algunos pequeños errores.

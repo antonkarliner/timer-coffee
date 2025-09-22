@@ -1,6 +1,3 @@
-Uutta:
-+ Korean kielen tuki. 한국 유저분들, 어서 와요!
-+ Interaktiivinen reseptiyhteenveto! Yhteenveto päivittyy nyt välittömästi ja näyttää tarkat kahvin sekä veden määrät.
-+ Reseptien piilottaminen: voit nyt piilottaa julkisesti jakamasi reseptit ja tehdä niistä taas yksityisiä.
+Espanjankielinen käännös on nyt huomattavasti parempi, kiitos @sbezavvs!
 
-+ Virheenkorjaus: Korjattu "Poista pavut" -painike Panopäiväkirja-näytöllä.
++ joitakin pieniä bugeja korjattu.

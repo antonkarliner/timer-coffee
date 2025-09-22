@@ -1,6 +1,3 @@
-Nouveau :  
-+ Prise en charge de la langue coréenne. 한국 유저분들, 어서 와요 !  
-+ Résumé de recette interactif ! Le résumé se met désormais à jour instantanément, vous indiquant précisément les quantités de café et d’eau à utiliser.  
-+ Dépublication de recettes : possibilité de dépublier vos recettes publiques pour les rendre à nouveau privées.  
+Amélioration significative de la traduction espagnole grâce à @sbezavvs !
 
-+ Correction de bug : le bouton "Retirer les grains" fonctionne désormais correctement dans le journal d’infusion.
++ correction de quelques petits bugs.
