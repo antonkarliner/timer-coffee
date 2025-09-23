@@ -38,7 +38,7 @@ class ThemeProvider with ChangeNotifier {
       useMaterial3: true,
       colorScheme: lightColorScheme,
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      fontFamily: kIsWeb ? 'Lato' : null,
+      fontFamily: 'Inter',
       appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white, foregroundColor: Colors.black),
     );
@@ -49,7 +49,7 @@ class ThemeProvider with ChangeNotifier {
       useMaterial3: true,
       colorScheme: darkColorScheme,
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      fontFamily: kIsWeb ? 'Lato' : null,
+      fontFamily: 'NotoSans',
       appBarTheme: const AppBarTheme(
           backgroundColor: Color.fromRGBO(48, 48, 48, 1),
           foregroundColor: Colors.white),

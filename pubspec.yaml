@@ -105,10 +105,11 @@ flutter:
    - family:  CoffeeTimerIcons
      fonts:
      - asset: fonts/CoffeeTimerIcons.ttf
-   - family:  Lato
+   - family: Inter
      fonts:
-     - asset: fonts/Lato-Regular.ttf
-     - asset: fonts/Lato-Bold.ttf
+     - asset: fonts/Inter-Regular.ttf
+       weight: 400
+     - asset: fonts/Inter-Bold.ttf
        weight: 700
    - family: RobotoMono
      fonts:

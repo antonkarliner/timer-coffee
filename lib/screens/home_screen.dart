@@ -379,7 +379,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         middle: Text('Timer.Coffee', // Skipped localization as requested
             style: TextStyle(
-                fontFamily: kIsWeb ? 'Lato' : null,
+                fontFamily: 'Inter',
                 color: Theme.of(context).appBarTheme.foregroundColor)),
       );
     } else {
