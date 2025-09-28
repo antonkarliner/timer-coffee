@@ -560,6 +560,12 @@ class DatabaseProvider {
           await _db.recipeLocalizationsDao.getLocalizationsForRecipe(recipe.id);
       final steps = await _db.stepsDao.getStepsForRecipe(recipe.id);
 
+      // Delete existing localizations before upload to prevent accumulation
+      await Supabase.instance.client
+          .from('user_recipe_localizations')
+          .delete()
+          .eq('recipe_id', recipe.id);
+
       // Upload localizations (Batch Upsert)
       final localizationsJsonList = localizations
           .map((loc) => {
@@ -578,6 +584,14 @@ class DatabaseProvider {
             .upsert(localizationsJsonList);
       }
 
+      // Delete existing steps before upload to prevent accumulation
+      final deletedStepsCount = await Supabase.instance.client
+          .from('user_steps')
+          .delete()
+          .eq('recipe_id', recipe.id);
+      print(
+          'DEBUG: Deleted $deletedStepsCount existing steps for recipe ${recipe.id} before upload.');
+
       // Upload steps (Batch Upsert)
       final stepsJsonList = steps
           .map((step) => {
@@ -592,7 +606,10 @@ class DatabaseProvider {
           .toList();
       if (stepsJsonList.isNotEmpty) {
         await Supabase.instance.client.from('user_steps').upsert(stepsJsonList);
+        print(
+            'DEBUG: Uploaded ${stepsJsonList.length} steps for recipe ${recipe.id}.');
       }
+
       print('Successfully uploaded recipe ${recipe.id} and related data.');
     } catch (e, stacktrace) {
       print('Error uploading recipe ${recipe.id} to Supabase: $e');

@@ -148,7 +148,8 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     final l10n = AppLocalizations.of(context)!;
 
     // Update the preparation step with localized description
-    if (_steps.isNotEmpty) {
+    // Update the preparation step with localized description only if empty (for new recipes)
+    if (_steps.isNotEmpty && _steps[0].description.isEmpty) {
       setState(() {
         _steps[0] = BrewStepModel(
           id: _steps[0].id,

@@ -316,6 +316,7 @@ class RecipeCreationRoute extends _i19.PageRouteInfo<RecipeCreationRouteArgs> {
     _i21.Key? key,
     _i22.RecipeModel? recipe,
     String? brewingMethodId,
+    bool redirectToNewDetailOnSave = false,
     List<_i19.PageRouteInfo>? children,
   }) : super(
           RecipeCreationRoute.name,
@@ -323,6 +324,7 @@ class RecipeCreationRoute extends _i19.PageRouteInfo<RecipeCreationRouteArgs> {
             key: key,
             recipe: recipe,
             brewingMethodId: brewingMethodId,
+            redirectToNewDetailOnSave: redirectToNewDetailOnSave,
           ),
           initialChildren: children,
         );
@@ -339,13 +341,19 @@ class RecipeCreationRoute extends _i19.PageRouteInfo<RecipeCreationRouteArgs> {
         key: args.key,
         recipe: args.recipe,
         brewingMethodId: args.brewingMethodId,
+        redirectToNewDetailOnSave: args.redirectToNewDetailOnSave,
       );
     },
   );
 }
 
 class RecipeCreationRouteArgs {
-  const RecipeCreationRouteArgs({this.key, this.recipe, this.brewingMethodId});
+  const RecipeCreationRouteArgs({
+    this.key,
+    this.recipe,
+    this.brewingMethodId,
+    this.redirectToNewDetailOnSave = false,
+  });
 
   final _i21.Key? key;
 
@@ -353,9 +361,11 @@ class RecipeCreationRouteArgs {
 
   final String? brewingMethodId;
 
+  final bool redirectToNewDetailOnSave;
+
   @override
   String toString() {
-    return 'RecipeCreationRouteArgs{key: $key, recipe: $recipe, brewingMethodId: $brewingMethodId}';
+    return 'RecipeCreationRouteArgs{key: $key, recipe: $recipe, brewingMethodId: $brewingMethodId, redirectToNewDetailOnSave: $redirectToNewDetailOnSave}';
   }
 
   @override
@@ -364,11 +374,16 @@ class RecipeCreationRouteArgs {
     if (other is! RecipeCreationRouteArgs) return false;
     return key == other.key &&
         recipe == other.recipe &&
-        brewingMethodId == other.brewingMethodId;
+        brewingMethodId == other.brewingMethodId &&
+        redirectToNewDetailOnSave == other.redirectToNewDetailOnSave;
   }
 
   @override
-  int get hashCode => key.hashCode ^ recipe.hashCode ^ brewingMethodId.hashCode;
+  int get hashCode =>
+      key.hashCode ^
+      recipe.hashCode ^
+      brewingMethodId.hashCode ^
+      redirectToNewDetailOnSave.hashCode;
 }
 
 /// generated route for
