@@ -126,6 +126,7 @@
   "coffeeBeansDetails": "Detalhes dos Grãos de Café",
   "edit": "Editar",
   "coffeeBeansNotFound": "Grãos de café não encontrados",
+    "basicInformation": "Dados básicos",
   "geographyTerroir": "Geografia/Terroir",
   "variety": "Variedade",
   "region": "Região",
@@ -603,5 +604,8 @@
   }
 },
 "recipePublicTooltip": "A receita é pública - toque para a tornar privada",
-"recipePrivateTooltip": "A receita é privada - partilhe para a tornar pública"
+"recipePrivateTooltip": "A receita é privada - partilhe para a tornar pública",
+"inventory": "Estoque",
+"amountLeft": "Quantidade restante",
+"enterAmountLeft": "Digite a quantidade restante"
 }

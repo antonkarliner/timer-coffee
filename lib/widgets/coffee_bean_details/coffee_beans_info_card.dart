@@ -17,6 +17,9 @@ enum CoffeeBeansInfoCardType {
   /// Processing & roasting card (processing method, roast date, roast level, cupping score)
   processing,
 
+  /// Inventory card (amount left, expiration date)
+  inventory,
+
   /// Flavor profile card (tasting notes)
   flavor,
 
@@ -115,6 +118,9 @@ class CoffeeBeansInfoCard extends StatelessWidget {
       case CoffeeBeansInfoCardType.processing:
         // Processing always renders (at minimum shows roast date if available)
         return true;
+      case CoffeeBeansInfoCardType.inventory:
+        // Inventory renders only if package weight is available and valid
+        return bean.validatedPackageWeightGrams != null;
       case CoffeeBeansInfoCardType.flavor:
         return bean.tastingNotes?.isNotEmpty == true;
       case CoffeeBeansInfoCardType.notes:
@@ -126,11 +132,13 @@ class CoffeeBeansInfoCard extends StatelessWidget {
   String _getCardSemanticLabel(AppLocalizations loc) {
     switch (type) {
       case CoffeeBeansInfoCardType.basicInfo:
-        return 'Basic Information';
+        return loc.basicInformation;
       case CoffeeBeansInfoCardType.geography:
         return loc.geographyTerroir;
       case CoffeeBeansInfoCardType.processing:
         return loc.processing;
+      case CoffeeBeansInfoCardType.inventory:
+        return loc.inventory;
       case CoffeeBeansInfoCardType.flavor:
         return loc.flavorProfile;
       case CoffeeBeansInfoCardType.notes:
@@ -146,7 +154,7 @@ class CoffeeBeansInfoCard extends StatelessWidget {
     switch (type) {
       case CoffeeBeansInfoCardType.basicInfo:
         icon = Icons.info_outline;
-        title = 'Basic Information';
+        title = loc.basicInformation;
         break;
       case CoffeeBeansInfoCardType.geography:
         icon = Icons.terrain;
@@ -155,6 +163,10 @@ class CoffeeBeansInfoCard extends StatelessWidget {
       case CoffeeBeansInfoCardType.processing:
         icon = Icons.settings;
         title = loc.processing;
+        break;
+      case CoffeeBeansInfoCardType.inventory:
+        icon = Icons.inventory;
+        title = loc.inventory;
         break;
       case CoffeeBeansInfoCardType.flavor:
         icon = Icons.local_cafe;
@@ -181,10 +193,12 @@ class CoffeeBeansInfoCard extends StatelessWidget {
         return _buildGeographyContent(loc);
       case CoffeeBeansInfoCardType.processing:
         return _buildProcessingContent(loc);
+      case CoffeeBeansInfoCardType.inventory:
+        return _buildInventoryContent(loc);
       case CoffeeBeansInfoCardType.flavor:
         return _buildFlavorContent(loc);
       case CoffeeBeansInfoCardType.notes:
-        return _buildNotesContent(context);
+        return _buildNotesContent(context, loc);
     }
   }
 
@@ -284,6 +298,20 @@ class CoffeeBeansInfoCard extends StatelessWidget {
     return items;
   }
 
+  /// Builds inventory content
+  List<Widget> _buildInventoryContent(AppLocalizations loc) {
+    final items = <Widget>[];
+
+    if (bean.validatedPackageWeightGrams != null) {
+      items.add(DetailItemRow(
+        label: loc.amountLeft,
+        value: '${bean.validatedPackageWeightGrams!.toStringAsFixed(1)}g',
+      ));
+    }
+
+    return items;
+  }
+
   /// Builds flavor profile content
   List<Widget> _buildFlavorContent(AppLocalizations loc) {
     return [
@@ -295,11 +323,11 @@ class CoffeeBeansInfoCard extends StatelessWidget {
   }
 
   /// Builds additional notes content
-  List<Widget> _buildNotesContent(BuildContext context) {
+  List<Widget> _buildNotesContent(BuildContext context, AppLocalizations loc) {
     return [
       Semantics(
         identifier: 'additionalNotes_${bean.beansUuid}',
-        label: 'Additional notes: ${bean.notes}',
+        label: '${loc.additionalNotes}: ${bean.notes}',
         child: Text(
           bean.notes!,
           style: Theme.of(context).textTheme.bodyLarge,
@@ -315,15 +343,17 @@ extension CoffeeBeansInfoCardTypeExtension on CoffeeBeansInfoCardType {
   String get displayName {
     switch (this) {
       case CoffeeBeansInfoCardType.basicInfo:
-        return 'Basic Information';
+        return 'Basic Information'; // Note: This is in an extension method, can't access loc
       case CoffeeBeansInfoCardType.geography:
         return 'Geography & Terroir';
       case CoffeeBeansInfoCardType.processing:
-        return 'Processing & Roasting';
+        return 'Processing'; // Note: This is in an extension method, using existing "processing" key
+      case CoffeeBeansInfoCardType.inventory:
+        return 'Inventory'; // Note: This is in an extension method, can't access loc
       case CoffeeBeansInfoCardType.flavor:
-        return 'Flavor Profile';
+        return 'Flavor Profile'; // Note: This is in an extension method, can't access loc
       case CoffeeBeansInfoCardType.notes:
-        return 'Additional Notes';
+        return 'Additional Notes'; // Note: This is in an extension method, can't access loc
     }
   }
 
@@ -336,10 +366,12 @@ extension CoffeeBeansInfoCardTypeExtension on CoffeeBeansInfoCardType {
         return 2;
       case CoffeeBeansInfoCardType.processing:
         return 3;
-      case CoffeeBeansInfoCardType.flavor:
+      case CoffeeBeansInfoCardType.inventory:
         return 4;
-      case CoffeeBeansInfoCardType.notes:
+      case CoffeeBeansInfoCardType.flavor:
         return 5;
+      case CoffeeBeansInfoCardType.notes:
+        return 6;
     }
   }
 }

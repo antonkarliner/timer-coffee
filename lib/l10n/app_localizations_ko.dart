@@ -410,6 +410,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get coffeeBeansNotFound => '원두를 찾을 수 없습니다';
 
   @override
+  String get basicInformation => '기본 정보';
+
+  @override
   String get geographyTerroir => '지리/테루아';
 
   @override
@@ -544,6 +547,15 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get enterNotes => '노트 입력';
+
+  @override
+  String get inventory => '재고';
+
+  @override
+  String get amountLeft => '남은 양';
+
+  @override
+  String get enterAmountLeft => '남은 양을 입력하세요';
 
   @override
   String get selectHarvestDate => '수확 날짜 선택';

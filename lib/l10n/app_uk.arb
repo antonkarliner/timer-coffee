@@ -117,6 +117,7 @@
   "coffeeBeansDetails": "Інформація про зерна кави",
   "edit": "Редагувати",
   "coffeeBeansNotFound": "Зерна кави не знайдені",
+    "basicInformation": "Основні відомості",
   "geographyTerroir": "Географія/Територія",
   "variety": "Сорт",
   "region": "Регіон",
@@ -603,5 +604,8 @@
   }
 },
 "recipePublicTooltip": "Рецепт є публічним - торкніться, щоб зробити його приватним",
-"recipePrivateTooltip": "Рецепт є приватним - поділіться, щоб зробити його публічним"
+"recipePrivateTooltip": "Рецепт є приватним - поділіться, щоб зробити його публічним",
+"inventory": "Запаси",
+"amountLeft": "Залишок",
+"enterAmountLeft": "Введіть залишок"
 }

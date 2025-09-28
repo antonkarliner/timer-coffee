@@ -126,6 +126,7 @@
   "coffeeBeansDetails": "Информация о зернах",
   "edit": "Редактировать",
   "coffeeBeansNotFound": "Зерна кофе не найдены",
+  "basicInformation": "Основное",
   "geographyTerroir": "География/Терруар",
   "variety": "Разновидность",
   "region": "Регион",
@@ -550,7 +551,7 @@
   },
   "settingsBrewingMethodsTitle": "Методы заваривания на главном экране",
   "farmer": "Фермер",
-  "farm": "Кофейная ферма",
+  "farm": "Ферма",
   "enterFarmer": "Введите фермера",
   "enterFarm": "Введите кофейную ферму",
   "requiredInformation": "Необходимая информация",
@@ -603,5 +604,8 @@
   }
 },
 "recipePublicTooltip": "Рецепт общедоступен - нажмите, чтобы сделать его частным",
-"recipePrivateTooltip": "Рецепт частный - поделитесь, чтобы сделать его общедоступным"
+"recipePrivateTooltip": "Рецепт частный - поделитесь, чтобы сделать его общедоступным",
+"inventory": "Запасы",
+"amountLeft": "Остаток",
+"enterAmountLeft": "Введите остаток"
 }

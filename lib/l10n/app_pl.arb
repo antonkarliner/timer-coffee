@@ -126,6 +126,7 @@
   "coffeeBeansDetails": "Szczegóły kawy ziarnistej",
   "edit": "Edytuj",
   "coffeeBeansNotFound": "Nie znaleziono kawy ziarnistej",
+    "basicInformation": "Dane podstawowe",
   "geographyTerroir": "Pochodzenie/Region",
   "variety": "Odmiana",
   "region": "Region",
@@ -603,5 +604,8 @@
   }
 },
 "recipePublicTooltip": "Przepis jest publiczny - dotknij, aby uczynić go prywatnym",
-"recipePrivateTooltip": "Przepis jest prywatny - udostępnij, aby uczynić go publicznym"
+"recipePrivateTooltip": "Przepis jest prywatny - udostępnij, aby uczynić go publicznym",
+"inventory": "Zapasy",
+"amountLeft": "Pozostała ilość",
+"enterAmountLeft": "Wprowadź pozostałą ilość"
 }

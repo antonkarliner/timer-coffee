@@ -18,6 +18,7 @@ class CoffeeBeansModel {
   final String? notes;
   final String? farmer; // New optional field
   final String? farm; // New optional field
+  final double? packageWeightGrams;
   final bool isFavorite;
   final bool isDeleted; // New field to track soft deletion
   final String versionVector;
@@ -40,6 +41,7 @@ class CoffeeBeansModel {
     this.notes,
     this.farmer,
     this.farm,
+    this.packageWeightGrams,
     this.isFavorite = false,
     this.isDeleted = false, // Default value set to false
     required this.versionVector,
@@ -47,6 +49,14 @@ class CoffeeBeansModel {
 
   VersionVector get versionVectorObject =>
       VersionVector.fromString(versionVector);
+
+  double? get validatedPackageWeightGrams {
+    final value = packageWeightGrams;
+    if (value == null) return null;
+    if (value < 0) return 0.0;
+    if (value < 0.1) return null;
+    return value;
+  }
 
   CoffeeBeansModel copyWith({
     String? beansUuid,
@@ -66,6 +76,7 @@ class CoffeeBeansModel {
     String? notes,
     String? farmer,
     String? farm,
+    double? packageWeightGrams,
     bool? isFavorite,
     bool? isDeleted, // Optional field in the copyWith method
     String? versionVector,
@@ -88,6 +99,7 @@ class CoffeeBeansModel {
       notes: notes ?? this.notes,
       farmer: farmer ?? this.farmer,
       farm: farm ?? this.farm,
+      packageWeightGrams: packageWeightGrams ?? this.packageWeightGrams,
       isFavorite: isFavorite ?? this.isFavorite,
       isDeleted: isDeleted ?? this.isDeleted, // Handle isDeleted in copyWith
       versionVector: versionVector ?? this.versionVector,
@@ -116,6 +128,7 @@ class CoffeeBeansModel {
           notes == other.notes &&
           farmer == other.farmer &&
           farm == other.farm &&
+          packageWeightGrams == other.packageWeightGrams &&
           isFavorite == other.isFavorite &&
           isDeleted == other.isDeleted && // Include isDeleted in equality
           versionVector == other.versionVector;
@@ -139,6 +152,7 @@ class CoffeeBeansModel {
       notes.hashCode ^
       farmer.hashCode ^
       farm.hashCode ^
+      packageWeightGrams.hashCode ^
       isFavorite.hashCode ^
       isDeleted.hashCode ^ // Include isDeleted in hashCode
       versionVector.hashCode;

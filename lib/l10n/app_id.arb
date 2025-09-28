@@ -126,6 +126,7 @@
   "coffeeBeansDetails": "Detail Kopi",
   "edit": "Edit",
   "coffeeBeansNotFound": "Kopi tidak ditemukan",
+    "basicInformation": "Informasi dasar",
   "geographyTerroir": "Geografi/Terroir",
   "variety": "Varietas",
   "region": "Wilayah",
@@ -603,5 +604,8 @@
   }
 },
 "recipePublicTooltip": "Resep ini publik - ketuk untuk menjadikannya pribadi",
-"recipePrivateTooltip": "Resep ini pribadi - bagikan untuk menjadikannya publik"
+"recipePrivateTooltip": "Resep ini pribadi - bagikan untuk menjadikannya publik",
+"inventory": "Stok",
+"amountLeft": "Jumlah tersisa",
+"enterAmountLeft": "Masukkan jumlah tersisa"
 }

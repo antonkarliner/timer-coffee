@@ -417,6 +417,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get coffeeBeansNotFound => 'دانه قهوه‌ای پیدا نشد';
 
   @override
+  String get basicInformation => 'اطلاعات پایه';
+
+  @override
   String get geographyTerroir => 'جغرافیا/ترُوار';
 
   @override
@@ -551,6 +554,15 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get enterNotes => 'یادداشت‌ها را وارد کنید';
+
+  @override
+  String get inventory => 'موجودی';
+
+  @override
+  String get amountLeft => 'مقدار باقیمانده';
+
+  @override
+  String get enterAmountLeft => 'مقدار باقیمانده را وارد کنید';
 
   @override
   String get selectHarvestDate => 'انتخاب تاریخ برداشت';

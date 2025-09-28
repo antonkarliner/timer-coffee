@@ -44,6 +44,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   final TextEditingController _elevationController = TextEditingController();
   final TextEditingController _cuppingScoreController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
+  double? packageWeightGrams;
   final TextEditingController _farmerController = TextEditingController();
   final TextEditingController _farmController = TextEditingController();
   final Uuid _uuid = Uuid();
@@ -85,6 +86,11 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     _checkFirstTimePopup();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   Future<void> _loadBeanDetails(String uuid) async {
     final coffeeBeansProvider =
         Provider.of<CoffeeBeansProvider>(context, listen: false);
@@ -107,6 +113,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         region = bean.region;
         harvestDate = bean.harvestDate;
         roastDate = bean.roastDate;
+        packageWeightGrams = bean.packageWeightGrams;
       });
     }
   }
@@ -296,6 +303,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
 
         harvestDate = _toDate(d['harvestDate']);
         roastDate = _toDate(d['roastDate']);
+        packageWeightGrams = _toDouble(d['packageWeightGrams']);
       });
     });
   }
@@ -359,6 +367,12 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         return loc.tastingNotes;
       case 'notes':
         return loc.notes;
+      case 'farmer':
+        return loc.farmer;
+      case 'farm':
+        return loc.farm;
+      case 'packageWeightGrams':
+        return loc.amountLeft;
       default:
         return fieldName;
     }
@@ -569,6 +583,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                           );
                         }
                       },
+                      packageWeightGrams: packageWeightGrams,
+                      onPackageWeightGramsChanged: (value) {
+                        packageWeightGrams = value;
+                      },
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -642,6 +660,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                             farm: _farmController.text.isNotEmpty
                                 ? _farmController.text
                                 : null,
+                            packageWeightGrams: packageWeightGrams,
                             isFavorite: false,
                             versionVector: isEditMode
                                 ? (await coffeeBeansProvider

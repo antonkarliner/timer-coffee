@@ -126,6 +126,7 @@
   "coffeeBeansDetails": "Details zu den Kaffeebohnen",
   "edit": "Bearbeiten",
   "coffeeBeansNotFound": "Kaffeebohnen nicht gefunden",
+  "basicInformation": "Grunddaten",
   "geographyTerroir": "Geographie/Terroir",
   "variety": "Varietät",
   "region": "Region",
@@ -603,5 +604,8 @@
   }
 },
 "recipePublicTooltip": "Rezept ist öffentlich - tippen, um es privat zu machen",
-"recipePrivateTooltip": "Rezept ist privat - teilen, um es öffentlich zu machen"
+"recipePrivateTooltip": "Rezept ist privat - teilen, um es öffentlich zu machen",
+"inventory": "Bestand",
+"amountLeft": "Restmenge",
+"enterAmountLeft": "Restmenge eingeben"
 }

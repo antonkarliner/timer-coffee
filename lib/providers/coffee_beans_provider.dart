@@ -522,6 +522,7 @@ class CoffeeBeansProvider with ChangeNotifier {
       'region': model.region,
       'roast_level': model.roastLevel,
       'cupping_score': model.cuppingScore,
+      'package_weight_grams': model.packageWeightGrams,
       'notes': model.notes,
       'farmer': model.farmer,
       'farm': model.farm,
@@ -553,6 +554,9 @@ class CoffeeBeansProvider with ChangeNotifier {
       cuppingScore: json['cupping_score'] != null
           ? (json['cupping_score'] as num).toDouble()
           : null,
+      packageWeightGrams: json['package_weight_grams'] != null
+          ? (json['package_weight_grams'] as num).toDouble()
+          : null,
       notes: json['notes'],
       farmer: json['farmer'],
       farm: json['farm'],
@@ -577,5 +581,43 @@ class CoffeeBeansProvider with ChangeNotifier {
   Future<List<String>> fetchOriginsForRoasters(
       List<String> selectedRoasters) async {
     return await db.coffeeBeansDao.fetchOriginsForRoasters(selectedRoasters);
+  }
+
+  /// Updates the package weight for a specific coffee bean by subtracting the used amount.
+  /// Returns the new weight after deduction, or null if no update was performed.
+  Future<double?> updateBeanWeightAfterBrew(
+      String beansUuid, double usedAmount) async {
+    try {
+      final currentBeans = await fetchCoffeeBeansByUuid(beansUuid);
+      if (currentBeans == null) {
+        print('DEBUG: Bean not found for UUID: $beansUuid');
+        return null;
+      }
+
+      final currentWeight = currentBeans.packageWeightGrams;
+      if (currentWeight == null || currentWeight <= 0) {
+        print(
+            'DEBUG: Bean $beansUuid has no valid package weight (current: $currentWeight)');
+        return null;
+      }
+
+      final newWeight = (currentWeight - usedAmount).clamp(0.0, currentWeight);
+      print(
+          'DEBUG: Updating bean $beansUuid weight from $currentWeight to $newWeight (used: $usedAmount)');
+
+      if (newWeight == currentWeight) {
+        print('DEBUG: No weight change needed for bean $beansUuid');
+        return currentWeight;
+      }
+
+      final updatedBeans = currentBeans.copyWith(packageWeightGrams: newWeight);
+      await updateCoffeeBeans(updatedBeans);
+
+      print('DEBUG: Successfully updated bean $beansUuid weight to $newWeight');
+      return newWeight;
+    } catch (e) {
+      print('DEBUG: Error updating bean weight for $beansUuid: $e');
+      return null;
+    }
   }
 }

@@ -137,6 +137,7 @@
   "coffeeBeansDetails": "커피 원두 세부 정보",
   "edit": "편집",
   "coffeeBeansNotFound": "원두를 찾을 수 없습니다",
+    "basicInformation": "기본 정보",
   "geographyTerroir": "지리/테루아",
   "variety": "품종",
   "region": "지역",
@@ -769,5 +770,8 @@
     }
   },
   "recipePublicTooltip": "레시피 공개 - 비공개로 만들기 탭",
-  "recipePrivateTooltip": "레시피 비공개 - 공유하여 공개 만들기"
+  "recipePrivateTooltip": "레시피 비공개 - 공유하여 공개 만들기",
+  "inventory": "재고",
+  "amountLeft": "남은 양",
+  "enterAmountLeft": "남은 양을 입력하세요"
 }

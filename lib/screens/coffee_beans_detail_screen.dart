@@ -153,6 +153,13 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
           ),
           const SizedBox(height: 16),
 
+          // Inventory Card
+          CoffeeBeansInfoCard(
+            type: CoffeeBeansInfoCardType.inventory,
+            bean: bean,
+          ),
+          const SizedBox(height: 16),
+
           // Flavor Profile Card
           CoffeeBeansInfoCard(
             type: CoffeeBeansInfoCardType.flavor,

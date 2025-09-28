@@ -409,6 +409,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get coffeeBeansNotFound => '未找到咖啡豆';
 
   @override
+  String get basicInformation => '基本信息';
+
+  @override
   String get geographyTerroir => '地理/风土';
 
   @override
@@ -543,6 +546,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get enterNotes => '输入注释';
+
+  @override
+  String get inventory => '库存';
+
+  @override
+  String get amountLeft => '剩余数量';
+
+  @override
+  String get enterAmountLeft => '输入剩余数量';
 
   @override
   String get selectHarvestDate => '选择收获日期';

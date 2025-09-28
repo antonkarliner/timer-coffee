@@ -3475,6 +3475,12 @@ class $CoffeeBeansTable extends CoffeeBeans
   late final GeneratedColumn<double> cuppingScore = GeneratedColumn<double>(
       'cupping_score', aliasedName, true,
       type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _packageWeightGramsMeta =
+      const VerificationMeta('packageWeightGrams');
+  @override
+  late final GeneratedColumn<double> packageWeightGrams =
+      GeneratedColumn<double>('package_weight_grams', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _notesMeta = const VerificationMeta('notes');
   @override
   late final GeneratedColumn<String> notes = GeneratedColumn<String>(
@@ -3532,6 +3538,7 @@ class $CoffeeBeansTable extends CoffeeBeans
         region,
         roastLevel,
         cuppingScore,
+        packageWeightGrams,
         notes,
         farmer,
         farm,
@@ -3622,6 +3629,12 @@ class $CoffeeBeansTable extends CoffeeBeans
           cuppingScore.isAcceptableOrUnknown(
               data['cupping_score']!, _cuppingScoreMeta));
     }
+    if (data.containsKey('package_weight_grams')) {
+      context.handle(
+          _packageWeightGramsMeta,
+          packageWeightGrams.isAcceptableOrUnknown(
+              data['package_weight_grams']!, _packageWeightGramsMeta));
+    }
     if (data.containsKey('notes')) {
       context.handle(
           _notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
@@ -3689,6 +3702,8 @@ class $CoffeeBeansTable extends CoffeeBeans
           .read(DriftSqlType.string, data['${effectivePrefix}roast_level']),
       cuppingScore: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}cupping_score']),
+      packageWeightGrams: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}package_weight_grams']),
       notes: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}notes']),
       farmer: attachedDatabase.typeMapping
@@ -3725,6 +3740,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
   final String? region;
   final String? roastLevel;
   final double? cuppingScore;
+  final double? packageWeightGrams;
   final String? notes;
   final String? farmer;
   final String? farm;
@@ -3746,6 +3762,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       this.region,
       this.roastLevel,
       this.cuppingScore,
+      this.packageWeightGrams,
       this.notes,
       this.farmer,
       this.farm,
@@ -3788,6 +3805,9 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
     }
     if (!nullToAbsent || cuppingScore != null) {
       map['cupping_score'] = Variable<double>(cuppingScore);
+    }
+    if (!nullToAbsent || packageWeightGrams != null) {
+      map['package_weight_grams'] = Variable<double>(packageWeightGrams);
     }
     if (!nullToAbsent || notes != null) {
       map['notes'] = Variable<String>(notes);
@@ -3837,6 +3857,9 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       cuppingScore: cuppingScore == null && nullToAbsent
           ? const Value.absent()
           : Value(cuppingScore),
+      packageWeightGrams: packageWeightGrams == null && nullToAbsent
+          ? const Value.absent()
+          : Value(packageWeightGrams),
       notes:
           notes == null && nullToAbsent ? const Value.absent() : Value(notes),
       farmer:
@@ -3866,6 +3889,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       region: serializer.fromJson<String?>(json['region']),
       roastLevel: serializer.fromJson<String?>(json['roastLevel']),
       cuppingScore: serializer.fromJson<double?>(json['cuppingScore']),
+      packageWeightGrams:
+          serializer.fromJson<double?>(json['packageWeightGrams']),
       notes: serializer.fromJson<String?>(json['notes']),
       farmer: serializer.fromJson<String?>(json['farmer']),
       farm: serializer.fromJson<String?>(json['farm']),
@@ -3892,6 +3917,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       'region': serializer.toJson<String?>(region),
       'roastLevel': serializer.toJson<String?>(roastLevel),
       'cuppingScore': serializer.toJson<double?>(cuppingScore),
+      'packageWeightGrams': serializer.toJson<double?>(packageWeightGrams),
       'notes': serializer.toJson<String?>(notes),
       'farmer': serializer.toJson<String?>(farmer),
       'farm': serializer.toJson<String?>(farm),
@@ -3916,6 +3942,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           Value<String?> region = const Value.absent(),
           Value<String?> roastLevel = const Value.absent(),
           Value<double?> cuppingScore = const Value.absent(),
+          Value<double?> packageWeightGrams = const Value.absent(),
           Value<String?> notes = const Value.absent(),
           Value<String?> farmer = const Value.absent(),
           Value<String?> farm = const Value.absent(),
@@ -3941,6 +3968,9 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
         roastLevel: roastLevel.present ? roastLevel.value : this.roastLevel,
         cuppingScore:
             cuppingScore.present ? cuppingScore.value : this.cuppingScore,
+        packageWeightGrams: packageWeightGrams.present
+            ? packageWeightGrams.value
+            : this.packageWeightGrams,
         notes: notes.present ? notes.value : this.notes,
         farmer: farmer.present ? farmer.value : this.farmer,
         farm: farm.present ? farm.value : this.farm,
@@ -3972,6 +4002,9 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       cuppingScore: data.cuppingScore.present
           ? data.cuppingScore.value
           : this.cuppingScore,
+      packageWeightGrams: data.packageWeightGrams.present
+          ? data.packageWeightGrams.value
+          : this.packageWeightGrams,
       notes: data.notes.present ? data.notes.value : this.notes,
       farmer: data.farmer.present ? data.farmer.value : this.farmer,
       farm: data.farm.present ? data.farm.value : this.farm,
@@ -4001,6 +4034,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           ..write('region: $region, ')
           ..write('roastLevel: $roastLevel, ')
           ..write('cuppingScore: $cuppingScore, ')
+          ..write('packageWeightGrams: $packageWeightGrams, ')
           ..write('notes: $notes, ')
           ..write('farmer: $farmer, ')
           ..write('farm: $farm, ')
@@ -4012,27 +4046,29 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
   }
 
   @override
-  int get hashCode => Object.hash(
-      beansUuid,
-      id,
-      roaster,
-      name,
-      origin,
-      variety,
-      tastingNotes,
-      processingMethod,
-      elevation,
-      harvestDate,
-      roastDate,
-      region,
-      roastLevel,
-      cuppingScore,
-      notes,
-      farmer,
-      farm,
-      isFavorite,
-      versionVector,
-      isDeleted);
+  int get hashCode => Object.hashAll([
+        beansUuid,
+        id,
+        roaster,
+        name,
+        origin,
+        variety,
+        tastingNotes,
+        processingMethod,
+        elevation,
+        harvestDate,
+        roastDate,
+        region,
+        roastLevel,
+        cuppingScore,
+        packageWeightGrams,
+        notes,
+        farmer,
+        farm,
+        isFavorite,
+        versionVector,
+        isDeleted
+      ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4051,6 +4087,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           other.region == this.region &&
           other.roastLevel == this.roastLevel &&
           other.cuppingScore == this.cuppingScore &&
+          other.packageWeightGrams == this.packageWeightGrams &&
           other.notes == this.notes &&
           other.farmer == this.farmer &&
           other.farm == this.farm &&
@@ -4074,6 +4111,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
   final Value<String?> region;
   final Value<String?> roastLevel;
   final Value<double?> cuppingScore;
+  final Value<double?> packageWeightGrams;
   final Value<String?> notes;
   final Value<String?> farmer;
   final Value<String?> farm;
@@ -4096,6 +4134,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     this.region = const Value.absent(),
     this.roastLevel = const Value.absent(),
     this.cuppingScore = const Value.absent(),
+    this.packageWeightGrams = const Value.absent(),
     this.notes = const Value.absent(),
     this.farmer = const Value.absent(),
     this.farm = const Value.absent(),
@@ -4119,6 +4158,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     this.region = const Value.absent(),
     this.roastLevel = const Value.absent(),
     this.cuppingScore = const Value.absent(),
+    this.packageWeightGrams = const Value.absent(),
     this.notes = const Value.absent(),
     this.farmer = const Value.absent(),
     this.farm = const Value.absent(),
@@ -4146,6 +4186,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     Expression<String>? region,
     Expression<String>? roastLevel,
     Expression<double>? cuppingScore,
+    Expression<double>? packageWeightGrams,
     Expression<String>? notes,
     Expression<String>? farmer,
     Expression<String>? farm,
@@ -4169,6 +4210,8 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       if (region != null) 'region': region,
       if (roastLevel != null) 'roast_level': roastLevel,
       if (cuppingScore != null) 'cupping_score': cuppingScore,
+      if (packageWeightGrams != null)
+        'package_weight_grams': packageWeightGrams,
       if (notes != null) 'notes': notes,
       if (farmer != null) 'farmer': farmer,
       if (farm != null) 'farm': farm,
@@ -4194,6 +4237,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       Value<String?>? region,
       Value<String?>? roastLevel,
       Value<double?>? cuppingScore,
+      Value<double?>? packageWeightGrams,
       Value<String?>? notes,
       Value<String?>? farmer,
       Value<String?>? farm,
@@ -4216,6 +4260,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       region: region ?? this.region,
       roastLevel: roastLevel ?? this.roastLevel,
       cuppingScore: cuppingScore ?? this.cuppingScore,
+      packageWeightGrams: packageWeightGrams ?? this.packageWeightGrams,
       notes: notes ?? this.notes,
       farmer: farmer ?? this.farmer,
       farm: farm ?? this.farm,
@@ -4271,6 +4316,9 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     if (cuppingScore.present) {
       map['cupping_score'] = Variable<double>(cuppingScore.value);
     }
+    if (packageWeightGrams.present) {
+      map['package_weight_grams'] = Variable<double>(packageWeightGrams.value);
+    }
     if (notes.present) {
       map['notes'] = Variable<String>(notes.value);
     }
@@ -4312,6 +4360,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
           ..write('region: $region, ')
           ..write('roastLevel: $roastLevel, ')
           ..write('cuppingScore: $cuppingScore, ')
+          ..write('packageWeightGrams: $packageWeightGrams, ')
           ..write('notes: $notes, ')
           ..write('farmer: $farmer, ')
           ..write('farm: $farm, ')
@@ -7683,6 +7732,7 @@ typedef $$CoffeeBeansTableCreateCompanionBuilder = CoffeeBeansCompanion
   Value<String?> region,
   Value<String?> roastLevel,
   Value<double?> cuppingScore,
+  Value<double?> packageWeightGrams,
   Value<String?> notes,
   Value<String?> farmer,
   Value<String?> farm,
@@ -7707,6 +7757,7 @@ typedef $$CoffeeBeansTableUpdateCompanionBuilder = CoffeeBeansCompanion
   Value<String?> region,
   Value<String?> roastLevel,
   Value<double?> cuppingScore,
+  Value<double?> packageWeightGrams,
   Value<String?> notes,
   Value<String?> farmer,
   Value<String?> farm,
@@ -7767,6 +7818,10 @@ class $$CoffeeBeansTableFilterComposer
 
   ColumnFilters<double> get cuppingScore => $composableBuilder(
       column: $table.cuppingScore, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get packageWeightGrams => $composableBuilder(
+      column: $table.packageWeightGrams,
+      builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get notes => $composableBuilder(
       column: $table.notes, builder: (column) => ColumnFilters(column));
@@ -7841,6 +7896,10 @@ class $$CoffeeBeansTableOrderingComposer
       column: $table.cuppingScore,
       builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<double> get packageWeightGrams => $composableBuilder(
+      column: $table.packageWeightGrams,
+      builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<String> get notes => $composableBuilder(
       column: $table.notes, builder: (column) => ColumnOrderings(column));
 
@@ -7912,6 +7971,9 @@ class $$CoffeeBeansTableAnnotationComposer
   GeneratedColumn<double> get cuppingScore => $composableBuilder(
       column: $table.cuppingScore, builder: (column) => column);
 
+  GeneratedColumn<double> get packageWeightGrams => $composableBuilder(
+      column: $table.packageWeightGrams, builder: (column) => column);
+
   GeneratedColumn<String> get notes =>
       $composableBuilder(column: $table.notes, builder: (column) => column);
 
@@ -7968,6 +8030,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             Value<String?> region = const Value.absent(),
             Value<String?> roastLevel = const Value.absent(),
             Value<double?> cuppingScore = const Value.absent(),
+            Value<double?> packageWeightGrams = const Value.absent(),
             Value<String?> notes = const Value.absent(),
             Value<String?> farmer = const Value.absent(),
             Value<String?> farm = const Value.absent(),
@@ -7991,6 +8054,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             region: region,
             roastLevel: roastLevel,
             cuppingScore: cuppingScore,
+            packageWeightGrams: packageWeightGrams,
             notes: notes,
             farmer: farmer,
             farm: farm,
@@ -8014,6 +8078,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             Value<String?> region = const Value.absent(),
             Value<String?> roastLevel = const Value.absent(),
             Value<double?> cuppingScore = const Value.absent(),
+            Value<double?> packageWeightGrams = const Value.absent(),
             Value<String?> notes = const Value.absent(),
             Value<String?> farmer = const Value.absent(),
             Value<String?> farm = const Value.absent(),
@@ -8037,6 +8102,7 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
             region: region,
             roastLevel: roastLevel,
             cuppingScore: cuppingScore,
+            packageWeightGrams: packageWeightGrams,
             notes: notes,
             farmer: farmer,
             farm: farm,

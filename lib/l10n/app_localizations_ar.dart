@@ -416,6 +416,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get coffeeBeansNotFound => 'لم يتم العثور على حبوب البن';
 
   @override
+  String get basicInformation => 'المعلومات الأساسية';
+
+  @override
   String get geographyTerroir => 'الجغرافيا / المنشأ';
 
   @override
@@ -552,6 +555,15 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enterNotes => 'أدخل الملاحظات';
+
+  @override
+  String get inventory => 'المخزون';
+
+  @override
+  String get amountLeft => 'الكمية المتبقية';
+
+  @override
+  String get enterAmountLeft => 'أدخل الكمية المتبقية';
 
   @override
   String get selectHarvestDate => 'حدد تاريخ الحصاد';

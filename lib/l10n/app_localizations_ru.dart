@@ -423,6 +423,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get coffeeBeansNotFound => 'Зерна кофе не найдены';
 
   @override
+  String get basicInformation => 'Основное';
+
+  @override
   String get geographyTerroir => 'География/Терруар';
 
   @override
@@ -559,6 +562,15 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get enterNotes => 'Введите примечания';
+
+  @override
+  String get inventory => 'Запасы';
+
+  @override
+  String get amountLeft => 'Остаток';
+
+  @override
+  String get enterAmountLeft => 'Введите остаток';
 
   @override
   String get selectHarvestDate => 'Выберите дату сбора урожая';
@@ -1289,7 +1301,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get farmer => 'Фермер';
 
   @override
-  String get farm => 'Кофейная ферма';
+  String get farm => 'Ферма';
 
   @override
   String get enterFarmer => 'Введите фермера';

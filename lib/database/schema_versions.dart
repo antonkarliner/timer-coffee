@@ -8056,6 +8056,277 @@ final class Schema29 extends i0.VersionedSchema {
       'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
 }
 
+final class Schema30 extends i0.VersionedSchema {
+  Schema30({required super.database}) : super(version: 30);
+  @override
+  late final List<i1.DatabaseSchemaEntity> entities = [
+    supportedLocales,
+    brewingMethods,
+    recipes,
+    recipeLocalizations,
+    steps,
+    userRecipePreferences,
+    coffeeFacts,
+    userStats,
+    coffeeBeans,
+    idxRecipesLastModified,
+    idxUserStatsStatUuidVersionVector,
+    idxCoffeeBeansBeansUuidVersionVector,
+  ];
+  late final Shape1 supportedLocales = Shape1(
+      source: i0.VersionedTable(
+        entityName: 'supported_locales',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(locale)',
+        ],
+        columns: [
+          _column_5,
+          _column_6,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape2 brewingMethods = Shape2(
+      source: i0.VersionedTable(
+        entityName: 'brewing_methods',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(brewing_method_id)',
+        ],
+        columns: [
+          _column_7,
+          _column_8,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape30 recipes = Shape30(
+      source: i0.VersionedTable(
+        entityName: 'recipes',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(id)',
+        ],
+        columns: [
+          _column_9,
+          _column_37,
+          _column_11,
+          _column_12,
+          _column_13,
+          _column_14,
+          _column_82,
+          _column_16,
+          _column_90,
+          _column_91,
+          _column_92,
+          _column_95,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape4 recipeLocalizations = Shape4(
+      source: i0.VersionedTable(
+        entityName: 'recipe_localizations',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(id)',
+        ],
+        columns: [
+          _column_9,
+          _column_39,
+          _column_40,
+          _column_19,
+          _column_20,
+          _column_21,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape5 steps = Shape5(
+      source: i0.VersionedTable(
+        entityName: 'steps',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(id)',
+        ],
+        columns: [
+          _column_9,
+          _column_39,
+          _column_22,
+          _column_23,
+          _column_24,
+          _column_40,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape26 userRecipePreferences = Shape26(
+      source: i0.VersionedTable(
+        entityName: 'user_recipe_preferences',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(recipe_id)',
+        ],
+        columns: [
+          _column_39,
+          _column_25,
+          _column_26,
+          _column_83,
+          _column_84,
+          _column_29,
+          _column_30,
+          _column_85,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape7 coffeeFacts = Shape7(
+      source: i0.VersionedTable(
+        entityName: 'coffee_facts',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(id)',
+        ],
+        columns: [
+          _column_9,
+          _column_31,
+          _column_40,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape24 userStats = Shape24(
+      source: i0.VersionedTable(
+        entityName: 'user_stats',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(stat_uuid)',
+        ],
+        columns: [
+          _column_75,
+          _column_76,
+          _column_39,
+          _column_11,
+          _column_12,
+          _column_45,
+          _column_46,
+          _column_47,
+          _column_86,
+          _column_49,
+          _column_50,
+          _column_51,
+          _column_55,
+          _column_70,
+          _column_87,
+          _column_71,
+          _column_78,
+          _column_88,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape31 coffeeBeans = Shape31(
+      source: i0.VersionedTable(
+        entityName: 'coffee_beans',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [
+          'PRIMARY KEY(beans_uuid)',
+        ],
+        columns: [
+          _column_77,
+          _column_76,
+          _column_58,
+          _column_19,
+          _column_59,
+          _column_60,
+          _column_61,
+          _column_62,
+          _column_63,
+          _column_64,
+          _column_65,
+          _column_66,
+          _column_67,
+          _column_68,
+          _column_96,
+          _column_49,
+          _column_93,
+          _column_94,
+          _column_89,
+          _column_78,
+          _column_88,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
+      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+  final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
+      'idx_user_stats_stat_uuid_version_vector',
+      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+  final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
+      'idx_coffee_beans_beans_uuid_version_vector',
+      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+}
+
+class Shape31 extends i0.VersionedTable {
+  Shape31({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<String> get beansUuid =>
+      columnsByName['beans_uuid']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get id =>
+      columnsByName['id']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get roaster =>
+      columnsByName['roaster']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get name =>
+      columnsByName['name']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get origin =>
+      columnsByName['origin']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get variety =>
+      columnsByName['variety']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get tastingNotes =>
+      columnsByName['tasting_notes']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get processingMethod =>
+      columnsByName['processing_method']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get elevation =>
+      columnsByName['elevation']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<DateTime> get harvestDate =>
+      columnsByName['harvest_date']! as i1.GeneratedColumn<DateTime>;
+  i1.GeneratedColumn<DateTime> get roastDate =>
+      columnsByName['roast_date']! as i1.GeneratedColumn<DateTime>;
+  i1.GeneratedColumn<String> get region =>
+      columnsByName['region']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get roastLevel =>
+      columnsByName['roast_level']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<double> get cuppingScore =>
+      columnsByName['cupping_score']! as i1.GeneratedColumn<double>;
+  i1.GeneratedColumn<double> get packageWeightGrams =>
+      columnsByName['package_weight_grams']! as i1.GeneratedColumn<double>;
+  i1.GeneratedColumn<String> get notes =>
+      columnsByName['notes']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get farmer =>
+      columnsByName['farmer']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get farm =>
+      columnsByName['farm']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<bool> get isFavorite =>
+      columnsByName['is_favorite']! as i1.GeneratedColumn<bool>;
+  i1.GeneratedColumn<String> get versionVector =>
+      columnsByName['version_vector']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<bool> get isDeleted =>
+      columnsByName['is_deleted']! as i1.GeneratedColumn<bool>;
+}
+
+i1.GeneratedColumn<double> _column_96(String aliasedName) =>
+    i1.GeneratedColumn<double>('package_weight_grams', aliasedName, true,
+        type: i1.DriftSqlType.double);
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
   required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
@@ -8085,6 +8356,7 @@ i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema27 schema) from26To27,
   required Future<void> Function(i1.Migrator m, Schema28 schema) from27To28,
   required Future<void> Function(i1.Migrator m, Schema29 schema) from28To29,
+  required Future<void> Function(i1.Migrator m, Schema30 schema) from29To30,
 }) {
   return (currentVersion, database) async {
     switch (currentVersion) {
@@ -8228,6 +8500,11 @@ i0.MigrationStepWithVersion migrationSteps({
         final migrator = i1.Migrator(database, schema);
         await from28To29(migrator, schema);
         return 29;
+      case 29:
+        final schema = Schema30(database: database);
+        final migrator = i1.Migrator(database, schema);
+        await from29To30(migrator, schema);
+        return 30;
       default:
         throw ArgumentError.value('Unknown migration from $currentVersion');
     }
@@ -8263,6 +8540,7 @@ i1.OnUpgrade stepByStep({
   required Future<void> Function(i1.Migrator m, Schema27 schema) from26To27,
   required Future<void> Function(i1.Migrator m, Schema28 schema) from27To28,
   required Future<void> Function(i1.Migrator m, Schema29 schema) from28To29,
+  required Future<void> Function(i1.Migrator m, Schema30 schema) from29To30,
 }) =>
     i0.VersionedSchema.stepByStepHelper(
         step: migrationSteps(
@@ -8294,4 +8572,5 @@ i1.OnUpgrade stepByStep({
       from26To27: from26To27,
       from27To28: from27To28,
       from28To29: from28To29,
+      from29To30: from29To30,
     ));

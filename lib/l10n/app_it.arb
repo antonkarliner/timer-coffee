@@ -126,6 +126,7 @@
   "coffeeBeansDetails": "Dettagli sui chicchi di caffè",
   "edit": "Modifica",
   "coffeeBeansNotFound": "Chicchi di caffè non trovati",
+  "basicInformation": "Dati di base",
   "geographyTerroir": "Geografia/Terroir",
   "variety": "Varietà",
   "region": "Regione",
@@ -603,5 +604,8 @@
   }
 },
 "recipePublicTooltip": "La ricetta è pubblica: tocca per renderla privata",
-"recipePrivateTooltip": "La ricetta è privata: condividi per renderla pubblica"
+"recipePrivateTooltip": "La ricetta è privata: condividi per renderla pubblica",
+"inventory": "Scorte",
+"amountLeft": "Quantità rimasta",
+"enterAmountLeft": "Inserisci la quantità rimasta"
 }

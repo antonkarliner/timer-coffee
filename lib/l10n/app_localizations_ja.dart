@@ -410,6 +410,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get coffeeBeansNotFound => 'コーヒー豆が見つかりません';
 
   @override
+  String get basicInformation => '基本情報';
+
+  @override
   String get geographyTerroir => '地理/テロワール';
 
   @override
@@ -544,6 +547,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get enterNotes => 'メモを入力';
+
+  @override
+  String get inventory => '在庫';
+
+  @override
+  String get amountLeft => '残量';
+
+  @override
+  String get enterAmountLeft => '残量を入力';
 
   @override
   String get selectHarvestDate => '収穫日を選択';

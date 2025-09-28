@@ -74,6 +74,7 @@
   "coffeeBeansDetails": "Kahvipapujen tiedot",
   "edit": "Muokkaa",
   "coffeeBeansNotFound": "Kahvipapuja ei löytynyt",
+    "basicInformation": "Perustiedot",
   "geographyTerroir": "Maantiede/Terroir",
   "variety": "Lajike",
   "region": "Alue",
@@ -469,5 +470,8 @@
   }
 },
 "recipePublicTooltip": "Resepti on julkinen - napauta tehdäksesi siitä yksityisen",
-"recipePrivateTooltip": "Resepti on yksityinen - jaa tehdäksesi siitä julkisen"
+"recipePrivateTooltip": "Resepti on yksityinen - jaa tehdäksesi siitä julkisen",
+"inventory": "Varasto",
+"amountLeft": "Jäljellä",
+"enterAmountLeft": "Syötä jäljellä oleva määrä"
 }

@@ -3,6 +3,7 @@ import 'package:coffee_timer/widgets/new_beans/optional_details/sections/basic_d
 import 'package:coffee_timer/widgets/new_beans/optional_details/sections/processing_section.dart';
 import 'package:coffee_timer/widgets/new_beans/optional_details/sections/flavor_profile_section.dart';
 import 'package:coffee_timer/widgets/new_beans/optional_details/sections/quality_measurements_section.dart';
+import 'package:coffee_timer/widgets/new_beans/optional_details/sections/inventory_section.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 
 class OptionalDetailsCard extends StatefulWidget {
@@ -16,6 +17,7 @@ class OptionalDetailsCard extends StatefulWidget {
   final List<String> tastingNotes;
   final int? elevation;
   final double? cuppingScore;
+  final double? packageWeightGrams;
 
   // Options sources
   final Future<List<String>> varietyOptions;
@@ -36,6 +38,7 @@ class OptionalDetailsCard extends StatefulWidget {
   final ValueChanged<List<String>> onTastingNotesChanged;
   final ValueChanged<int?> onElevationChanged;
   final ValueChanged<double?> onCuppingScoreChanged;
+  final ValueChanged<double?> onPackageWeightGramsChanged;
 
   const OptionalDetailsCard({
     super.key,
@@ -49,6 +52,7 @@ class OptionalDetailsCard extends StatefulWidget {
     this.tastingNotes = const [],
     this.elevation,
     this.cuppingScore,
+    this.packageWeightGrams,
     // options
     required this.varietyOptions,
     required this.regionOptions,
@@ -67,6 +71,7 @@ class OptionalDetailsCard extends StatefulWidget {
     required this.onTastingNotesChanged,
     required this.onElevationChanged,
     required this.onCuppingScoreChanged,
+    required this.onPackageWeightGramsChanged,
   });
 
   @override
@@ -83,6 +88,7 @@ class _OptionalDetailsCardState extends State<OptionalDetailsCard> {
   List<String> _tastingNotes = [];
   int? _elevation;
   double? _cuppingScore;
+  double? _packageWeightGrams;
 
   @override
   void initState() {
@@ -96,6 +102,7 @@ class _OptionalDetailsCardState extends State<OptionalDetailsCard> {
     _tastingNotes = List.from(widget.tastingNotes);
     _elevation = widget.elevation;
     _cuppingScore = widget.cuppingScore;
+    _packageWeightGrams = widget.packageWeightGrams;
   }
 
   @override
@@ -127,6 +134,9 @@ class _OptionalDetailsCardState extends State<OptionalDetailsCard> {
     }
     if (oldWidget.cuppingScore != widget.cuppingScore) {
       _cuppingScore = widget.cuppingScore;
+    }
+    if (oldWidget.packageWeightGrams != widget.packageWeightGrams) {
+      _packageWeightGrams = widget.packageWeightGrams;
     }
   }
 
@@ -231,6 +241,16 @@ class _OptionalDetailsCardState extends State<OptionalDetailsCard> {
                       _cuppingScore = val;
                     });
                     widget.onCuppingScoreChanged(val);
+                  },
+                ),
+                const SizedBox(height: 16),
+                InventorySection(
+                  packageWeightGrams: _packageWeightGrams,
+                  onPackageWeightGramsChanged: (val) {
+                    setState(() {
+                      _packageWeightGrams = val;
+                    });
+                    widget.onPackageWeightGramsChanged(val);
                   },
                 ),
               ],

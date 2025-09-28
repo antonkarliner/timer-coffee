@@ -70,180 +70,211 @@ class CoffeeBeanGridCard extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           elevation: 4,
           clipBehavior: Clip.antiAlias,
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [bgStart, bgEnd],
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header with favorite - reduced padding
-                Container(
-                  height: 40, // Fixed height
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: Row(
-                    children: [
-                      const Spacer(),
-                      IconButton(
-                        iconSize: 18, // Reduced size
-                        padding: const EdgeInsets.all(4), // Reduced padding
-                        constraints: const BoxConstraints(
-                          minWidth: 32,
-                          minHeight: 32,
-                        ),
-                        icon: Icon(
-                          bean.isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: bean.isFavorite
-                              ? (Theme.of(context).brightness ==
-                                      Brightness.light
-                                  ? const Color(0xff8e2e2d)
-                                  : const Color(0xffc66564))
-                              : null,
-                        ),
-                        onPressed: onFavoriteToggle ??
-                            () async {
-                              await coffeeBeansProvider.toggleFavoriteStatus(
-                                bean.beansUuid!,
-                                !bean.isFavorite,
-                              );
-                            },
-                      ),
-                    ],
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [bgStart, bgEnd],
                   ),
                 ),
-
-                // Logo section - flexible but with constraints
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: FutureBuilder<Map<String, String?>>(
-                      future: databaseProvider
-                          .fetchCachedRoasterLogoUrls(bean.roaster),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          final originalUrl = snapshot.data!['original'];
-                          final mirrorUrl = snapshot.data!['mirror'];
-                          if (originalUrl != null || mirrorUrl != null) {
-                            return RoasterLogo(
-                              originalUrl: originalUrl,
-                              mirrorUrl: mirrorUrl,
-                              height: 50, // Reduced height
-                              borderRadius: 8.0,
-                              forceFit: BoxFit.contain,
-                            );
-                          }
-                        }
-                        return Icon(
-                          Coffeico.bag_with_bean,
-                          size: 50, // Reduced size
-                          color: iconColor,
-                        );
-                      },
-                    ),
-                  ),
-                ),
-
-                // Text information - flexible with minimum height
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize:
-                          MainAxisSize.min, // Important: minimize space
-                      children: [
-                        const SizedBox(height: 6),
-                        Flexible(
-                          // Use Flexible instead of fixed height
-                          child: AutoSizeText(
-                            bean.name,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.onSurface,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Header with favorite - reduced padding
+                    Container(
+                      height: 40, // Fixed height
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Row(
+                        children: [
+                          const Spacer(),
+                          IconButton(
+                            iconSize: 18, // Reduced size
+                            padding: const EdgeInsets.all(4), // Reduced padding
+                            constraints: const BoxConstraints(
+                              minWidth: 32,
+                              minHeight: 32,
                             ),
-                            maxLines: 2, // Reduced from 3
-                            minFontSize: 10, // Reduced from 12
-                            overflow: TextOverflow.ellipsis,
+                            icon: Icon(
+                              bean.isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: bean.isFavorite
+                                  ? (Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? const Color(0xff8e2e2d)
+                                      : const Color(0xffc66564))
+                                  : null,
+                            ),
+                            onPressed: onFavoriteToggle ??
+                                () async {
+                                  await coffeeBeansProvider
+                                      .toggleFavoriteStatus(
+                                    bean.beansUuid!,
+                                    !bean.isFavorite,
+                                  );
+                                },
                           ),
-                        ),
-                        const SizedBox(height: 2), // Reduced spacing
-                        Text(
-                          bean.roaster,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant
-                                .withAlpha((255 * 0.85).round()),
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 2), // Reduced spacing
-                        Text(
-                          bean.origin,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant
-                                .withAlpha((255 * 0.6).round()),
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ),
 
-                // Action buttons - only show in edit mode with fixed height
-                if (isEditMode)
-                  Container(
-                    height: 40, // Fixed height
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                          iconSize: 18, // Reduced size
-                          padding: const EdgeInsets.all(4),
-                          constraints: const BoxConstraints(
-                            minWidth: 32,
-                            minHeight: 32,
-                          ),
-                          icon: const Icon(
-                            Icons.remove_circle_outline,
-                            color: Colors.red,
-                          ),
-                          onPressed: () async {
-                            final confirmed = await showDialog<bool>(
-                              context: context,
-                              builder: (context) => ConfirmDeleteDialog(
-                                title: loc.confirmDeleteTitle,
-                                content: loc.confirmDeleteMessage,
-                                confirmLabel: loc.delete,
-                                cancelLabel: loc.cancel,
-                              ),
+                    // Logo section - flexible but with constraints
+                    Expanded(
+                      flex: 3,
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: FutureBuilder<Map<String, String?>>(
+                          future: databaseProvider
+                              .fetchCachedRoasterLogoUrls(bean.roaster),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              final originalUrl = snapshot.data!['original'];
+                              final mirrorUrl = snapshot.data!['mirror'];
+                              if (originalUrl != null || mirrorUrl != null) {
+                                return RoasterLogo(
+                                  originalUrl: originalUrl,
+                                  mirrorUrl: mirrorUrl,
+                                  height: 50, // Reduced height
+                                  borderRadius: 8.0,
+                                  forceFit: BoxFit.contain,
+                                );
+                              }
+                            }
+                            return Icon(
+                              Coffeico.bag_with_bean,
+                              size: 50, // Reduced size
+                              color: iconColor,
                             );
-                            if (confirmed == true) onDelete();
                           },
                         ),
-                      ],
+                      ),
+                    ),
+
+                    // Text information - flexible with minimum height
+                    Expanded(
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize:
+                              MainAxisSize.min, // Important: minimize space
+                          children: [
+                            const SizedBox(height: 6),
+                            Flexible(
+                              // Use Flexible instead of fixed height
+                              child: AutoSizeText(
+                                bean.name,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ),
+                                maxLines: 2, // Reduced from 3
+                                minFontSize: 10, // Reduced from 12
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const SizedBox(height: 2), // Reduced spacing
+                            Text(
+                              bean.roaster,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant
+                                    .withAlpha((255 * 0.85).round()),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 2), // Reduced spacing
+                            Text(
+                              bean.origin,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant
+                                    .withAlpha((255 * 0.6).round()),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // Action buttons - only show in edit mode with fixed height
+                    if (isEditMode)
+                      Container(
+                        height: 40, // Fixed height
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            IconButton(
+                              iconSize: 18, // Reduced size
+                              padding: const EdgeInsets.all(4),
+                              constraints: const BoxConstraints(
+                                minWidth: 32,
+                                minHeight: 32,
+                              ),
+                              icon: const Icon(
+                                Icons.remove_circle_outline,
+                                color: Colors.red,
+                              ),
+                              onPressed: () async {
+                                final confirmed = await showDialog<bool>(
+                                  context: context,
+                                  builder: (context) => ConfirmDeleteDialog(
+                                    title: loc.confirmDeleteTitle,
+                                    content: loc.confirmDeleteMessage,
+                                    confirmLabel: loc.delete,
+                                    cancelLabel: loc.cancel,
+                                  ),
+                                );
+                                if (confirmed == true) onDelete();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              // Weight label in top-left corner if available
+              if (bean.validatedPackageWeightGrams != null)
+                Positioned(
+                  top: 8,
+                  left: 8,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.7),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      '${bean.validatedPackageWeightGrams!.toInt()}${loc.unitGramsShort}',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-              ],
-            ),
+                ),
+            ],
           ),
         ),
       ),

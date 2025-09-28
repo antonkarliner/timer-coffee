@@ -420,6 +420,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get coffeeBeansNotFound => 'Koffiebonen niet gevonden';
 
   @override
+  String get basicInformation => 'Basisgegevens';
+
+  @override
   String get geographyTerroir => 'Geografie/Terroir';
 
   @override
@@ -556,6 +559,15 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get enterNotes => 'Voer notities in';
+
+  @override
+  String get inventory => 'Voorraad';
+
+  @override
+  String get amountLeft => 'Resterende hoeveelheid';
+
+  @override
+  String get enterAmountLeft => 'Voer de resterende hoeveelheid in';
 
   @override
   String get selectHarvestDate => 'Selecteer oogstdatum';

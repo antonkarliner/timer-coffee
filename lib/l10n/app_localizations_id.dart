@@ -421,6 +421,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get coffeeBeansNotFound => 'Kopi tidak ditemukan';
 
   @override
+  String get basicInformation => 'Informasi dasar';
+
+  @override
   String get geographyTerroir => 'Geografi/Terroir';
 
   @override
@@ -557,6 +560,15 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get enterNotes => 'Masukkan catatan';
+
+  @override
+  String get inventory => 'Stok';
+
+  @override
+  String get amountLeft => 'Jumlah tersisa';
+
+  @override
+  String get enterAmountLeft => 'Masukkan jumlah tersisa';
 
   @override
   String get selectHarvestDate => 'Pilih Tanggal Panen';

@@ -18,6 +18,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/recipe_model.dart';
 import '../providers/user_stat_provider.dart';
+import '../providers/coffee_beans_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class FinishScreen extends StatefulWidget {
@@ -62,6 +63,7 @@ class _FinishScreenState extends State<FinishScreen> {
     requestReview();
     insertBrewingDataToSupabase();
     insertBrewingDataToAppDatabase();
+    _updateBeanWeightAfterBrew();
     requestOneSignalPermissionFirstTime();
   }
 
@@ -118,6 +120,43 @@ class _FinishScreenState extends State<FinishScreen> {
       }
     } else {
       print('No user signed in');
+    }
+  }
+
+  void _updateBeanWeightAfterBrew() async {
+    try {
+      // Only proceed if we have a valid coffee amount
+      if (widget.coffeeAmount <= 0) {
+        print('DEBUG: No coffee amount to subtract from bean weight');
+        return;
+      }
+
+      // Get the selected bean UUID from SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      final coffeeBeansUuid = prefs.getString('selectedBeanUuid');
+
+      if (coffeeBeansUuid == null || coffeeBeansUuid.isEmpty) {
+        print('DEBUG: No selected bean UUID found in SharedPreferences');
+        return;
+      }
+
+      // Get the CoffeeBeansProvider from context
+      final coffeeBeansProvider =
+          Provider.of<CoffeeBeansProvider>(context, listen: false);
+
+      // Update the bean weight
+      final newWeight = await coffeeBeansProvider.updateBeanWeightAfterBrew(
+        coffeeBeansUuid,
+        widget.coffeeAmount,
+      );
+
+      if (newWeight != null) {
+        print('DEBUG: Successfully updated bean weight to ${newWeight}g');
+      } else {
+        print('DEBUG: Bean weight update failed or was not applicable');
+      }
+    } catch (e) {
+      print('DEBUG: Error updating bean weight: $e');
     }
   }
 

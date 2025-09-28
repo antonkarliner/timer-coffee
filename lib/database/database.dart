@@ -202,6 +202,8 @@ class CoffeeBeans extends Table {
   TextColumn get region => text().named('region').nullable()();
   TextColumn get roastLevel => text().named('roast_level').nullable()();
   RealColumn get cuppingScore => real().named('cupping_score').nullable()();
+  RealColumn get packageWeightGrams =>
+      real().named('package_weight_grams').nullable()();
   TextColumn get notes => text().named('notes').nullable()();
   // New optional fields
   TextColumn get farmer => text().named('farmer').nullable()();
@@ -256,8 +258,7 @@ class AppDatabase extends _$AppDatabase {
   factory AppDatabase.fromExecutor(QueryExecutor e) => AppDatabase(e);
 
   @override
-  int get schemaVersion =>
-      29; // Fixed isPublic column migration to handle existing data
+  int get schemaVersion => 30; // Added packageWeightGrams to CoffeeBeans table
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -706,6 +707,10 @@ class AppDatabase extends _$AppDatabase {
               await customStatement('''
                 UPDATE recipes SET needs_moderation_review = 0 WHERE needs_moderation_review IS NULL
               ''');
+            },
+            from29To30: (m, schema) async {
+              await m.addColumn(
+                  schema.coffeeBeans, schema.coffeeBeans.packageWeightGrams);
             },
           )(m, oldVersion, newVersion);
         },

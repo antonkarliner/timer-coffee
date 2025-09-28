@@ -117,6 +117,7 @@
   "coffeeBeansDetails": "Kahve Çekirdeği Detayları",
   "edit": "Düzenle",
   "coffeeBeansNotFound": "Kahve çekirdekleri bulunamadı",
+    "basicInformation": "Temel bilgiler",
   "geographyTerroir": "Coğrafya/Terroir",
   "variety": "Çeşit",
   "region": "Bölge",
@@ -603,5 +604,8 @@
   }
 },
 "recipePublicTooltip": "Tarif herkese açık - gizli yapmak için dokunun",
-"recipePrivateTooltip": "Tarif gizli - herkese açık yapmak için paylaşın"
+"recipePrivateTooltip": "Tarif gizli - herkese açık yapmak için paylaşın",
+"inventory": "Stok",
+"amountLeft": "Kalan miktar",
+"enterAmountLeft": "Kalan miktarı girin"
 }

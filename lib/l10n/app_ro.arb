@@ -126,6 +126,7 @@
   "coffeeBeansDetails": "Detalii boabe de cafea",
   "edit": "Editează",
   "coffeeBeansNotFound": "Boabele de cafea nu au fost găsite",
+    "basicInformation": "Date de bază",
   "geographyTerroir": "Geografie/Terroir",
   "variety": "Soi",
   "region": "Regiune",
@@ -603,5 +604,8 @@
   }
 },
 "recipePublicTooltip": "Rețeta este publică - atingeți pentru a o face privată",
-"recipePrivateTooltip": "Rețeta este privată - partajați pentru a o face publică"
+"recipePrivateTooltip": "Rețeta este privată - partajați pentru a o face publică",
+"inventory": "Stoc",
+"amountLeft": "Cantitate rămasă",
+"enterAmountLeft": "Introdu cantitatea rămasă"
 }

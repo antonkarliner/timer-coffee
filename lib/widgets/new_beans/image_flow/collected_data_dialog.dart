@@ -87,7 +87,11 @@ class CollectedDataDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: keys.map((key) {
-            final value = _fmtValue(display[key]);
+            final baseValue = _fmtValue(display[key]);
+            String displayValue = baseValue;
+            if (key == 'packageWeightGrams' && baseValue != 'N/A') {
+              displayValue = '$baseValue ${loc.unitGramsShort}';
+            }
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 6),
               child: Row(
@@ -110,7 +114,7 @@ class CollectedDataDialog extends StatelessWidget {
                   // Value
                   Expanded(
                     child: Text(
-                      value,
+                      displayValue,
                       style: valueStyle,
                       softWrap: true,
                     ),

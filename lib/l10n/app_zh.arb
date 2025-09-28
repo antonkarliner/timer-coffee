@@ -117,6 +117,7 @@
   "coffeeBeansDetails": "咖啡豆详情",
   "edit": "编辑",
   "coffeeBeansNotFound": "未找到咖啡豆",
+    "basicInformation": "基本信息",
   "geographyTerroir": "地理/风土",
   "variety": "品种",
   "region": "地区",
@@ -603,5 +604,8 @@
   }
 },
 "recipePublicTooltip": "配方是公开的 - 点击设为私有",
-"recipePrivateTooltip": "配方是私有的 - 分享以公开"
+"recipePrivateTooltip": "配方是私有的 - 分享以公开",
+"inventory": "库存",
+"amountLeft": "剩余数量",
+"enterAmountLeft": "输入剩余数量"
 }

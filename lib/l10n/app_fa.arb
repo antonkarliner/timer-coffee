@@ -142,6 +142,7 @@
   "coffeeBeansDetails": "جزئیات دانه‌های قهوه",
   "edit": "ویرایش",
   "coffeeBeansNotFound": "دانه قهوه‌ای پیدا نشد",
+    "basicInformation": "اطلاعات پایه",
   "geographyTerroir": "جغرافیا/ترُوار",
   "variety": "گونه",
   "region": "منطقه",
@@ -770,5 +771,8 @@
   "showMore": "نمایش بیشتر",
   "showLess": "نمایش کمتر",
   "recipePublicTooltip": "دستور پخت عمومی است - برای خصوصی کردن ضربه بزنید",
-  "recipePrivateTooltip": "دستور پخت خصوصی است - برای عمومی کردن به اشتراک بگذارید"
+  "recipePrivateTooltip": "دستور پخت خصوصی است - برای عمومی کردن به اشتراک بگذارید",
+  "inventory": "موجودی",
+  "amountLeft": "مقدار باقیمانده",
+  "enterAmountLeft": "مقدار باقیمانده را وارد کنید"
 }

@@ -120,6 +120,7 @@
   "coffeeBeansDetails": "تفاصيل حبوب البن",
   "edit": "تعديل",
   "coffeeBeansNotFound": "لم يتم العثور على حبوب البن",
+    "basicInformation": "المعلومات الأساسية",
   "geographyTerroir": "الجغرافيا / المنشأ",
   "variety": "الصنف",
   "region": "المنطقة",
@@ -603,5 +604,8 @@
   }
 },
 "recipePublicTooltip": "الوصفة عامة - انقر لجعلها خاصة",
-"recipePrivateTooltip": "الوصفة خاصة - شاركها لجعلها عامة"
+"recipePrivateTooltip": "الوصفة خاصة - شاركها لجعلها عامة",
+"inventory": "المخزون",
+"amountLeft": "الكمية المتبقية",
+"enterAmountLeft": "أدخل الكمية المتبقية"
 }

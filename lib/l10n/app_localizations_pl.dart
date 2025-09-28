@@ -417,6 +417,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get coffeeBeansNotFound => 'Nie znaleziono kawy ziarnistej';
 
   @override
+  String get basicInformation => 'Dane podstawowe';
+
+  @override
   String get geographyTerroir => 'Pochodzenie/Region';
 
   @override
@@ -553,6 +556,15 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get enterNotes => 'Wprowadź notatki';
+
+  @override
+  String get inventory => 'Zapasy';
+
+  @override
+  String get amountLeft => 'Pozostała ilość';
+
+  @override
+  String get enterAmountLeft => 'Wprowadź pozostałą ilość';
 
   @override
   String get selectHarvestDate => 'Wybierz datę zbioru';

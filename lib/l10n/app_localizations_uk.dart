@@ -420,6 +420,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get coffeeBeansNotFound => 'Зерна кави не знайдені';
 
   @override
+  String get basicInformation => 'Основні відомості';
+
+  @override
   String get geographyTerroir => 'Географія/Територія';
 
   @override
@@ -556,6 +559,15 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get enterNotes => 'Введіть нотатки';
+
+  @override
+  String get inventory => 'Запаси';
+
+  @override
+  String get amountLeft => 'Залишок';
+
+  @override
+  String get enterAmountLeft => 'Введіть залишок';
 
   @override
   String get selectHarvestDate => 'Виберіть дату збору врожаю';

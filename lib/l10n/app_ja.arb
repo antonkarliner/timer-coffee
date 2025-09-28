@@ -126,6 +126,8 @@
   "coffeeBeansDetails": "コーヒー豆の詳細",
   "edit": "編集",
   "coffeeBeansNotFound": "コーヒー豆が見つかりません",
+  "basicInformation": "基本情報",
+    "basicInformation": "基本情報",
   "geographyTerroir": "地理/テロワール",
   "variety": "品種",
   "region": "地域",
@@ -603,5 +605,8 @@
   }
 },
 "recipePublicTooltip": "レシピは公開中です - タップして非公開にします",
-"recipePrivateTooltip": "レシピは非公開です - 共有して公開します"
+"recipePrivateTooltip": "レシピは非公開です - 共有して公開します",
+"inventory": "在庫",
+"amountLeft": "残量",
+"enterAmountLeft": "残量を入力"
 }

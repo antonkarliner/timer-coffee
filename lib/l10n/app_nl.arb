@@ -126,6 +126,7 @@
   "coffeeBeansDetails": "Koffiebonen Details",
   "edit": "Bewerk",
   "coffeeBeansNotFound": "Koffiebonen niet gevonden",
+    "basicInformation": "Basisgegevens",
   "geographyTerroir": "Geografie/Terroir",
   "variety": "Variëteit",
   "region": "Regio",
@@ -603,5 +604,8 @@
   }
 },
 "recipePublicTooltip": "Recept is openbaar - tik om privé te maken",
-"recipePrivateTooltip": "Recept is privé - deel om openbaar te maken"
+"recipePrivateTooltip": "Recept is privé - deel om openbaar te maken",
+"inventory": "Voorraad",
+"amountLeft": "Resterende hoeveelheid",
+"enterAmountLeft": "Voer de resterende hoeveelheid in"
 }

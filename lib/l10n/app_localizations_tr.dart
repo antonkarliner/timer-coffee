@@ -422,6 +422,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get coffeeBeansNotFound => 'Kahve çekirdekleri bulunamadı';
 
   @override
+  String get basicInformation => 'Temel bilgiler';
+
+  @override
   String get geographyTerroir => 'Coğrafya/Terroir';
 
   @override
@@ -558,6 +561,15 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get enterNotes => 'Notları girin';
+
+  @override
+  String get inventory => 'Stok';
+
+  @override
+  String get amountLeft => 'Kalan miktar';
+
+  @override
+  String get enterAmountLeft => 'Kalan miktarı girin';
 
   @override
   String get selectHarvestDate => 'Hasat Tarihini Seçin';

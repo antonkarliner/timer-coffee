@@ -417,6 +417,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get coffeeBeansNotFound => 'Kahvipapuja ei löytynyt';
 
   @override
+  String get basicInformation => 'Perustiedot';
+
+  @override
   String get geographyTerroir => 'Maantiede/Terroir';
 
   @override
@@ -553,6 +556,15 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get enterNotes => 'Syötä muistiinpanot';
+
+  @override
+  String get inventory => 'Varasto';
+
+  @override
+  String get amountLeft => 'Jäljellä';
+
+  @override
+  String get enterAmountLeft => 'Syötä jäljellä oleva määrä';
 
   @override
   String get selectHarvestDate => 'Valitse sadonkorjuupäivä';

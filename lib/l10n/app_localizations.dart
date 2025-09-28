@@ -900,6 +900,12 @@ abstract class AppLocalizations {
   /// **'Coffee beans not found'**
   String get coffeeBeansNotFound;
 
+  /// No description provided for @basicInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Information'**
+  String get basicInformation;
+
   /// No description provided for @geographyTerroir.
   ///
   /// In en, this message translates to:
@@ -1169,6 +1175,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter notes'**
   String get enterNotes;
+
+  /// No description provided for @inventory.
+  ///
+  /// In en, this message translates to:
+  /// **'Inventory'**
+  String get inventory;
+
+  /// No description provided for @amountLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount Left'**
+  String get amountLeft;
+
+  /// No description provided for @enterAmountLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter amount left'**
+  String get enterAmountLeft;
 
   /// No description provided for @selectHarvestDate.
   ///
