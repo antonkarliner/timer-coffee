@@ -138,8 +138,10 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
                     _buildFavoriteButton(context),
                   ],
                 ),
-                // Quick stats (roast date & cupping score)
-                if (bean.roastDate != null || bean.cuppingScore != null)
+                // Quick stats (roast date, cupping score & remaining amount)
+                if (bean.roastDate != null ||
+                    bean.cuppingScore != null ||
+                    bean.validatedPackageWeightGrams != null)
                   _buildQuickStats(context, loc),
               ],
             ),
@@ -274,6 +276,13 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
                 icon: Icons.star,
                 label: loc.cuppingScore,
                 value: '${bean.cuppingScore}',
+              ),
+            if (bean.validatedPackageWeightGrams != null)
+              QuickStatChip(
+                icon: Coffeico.bag_with_bean,
+                label: loc.amountLeft,
+                value:
+                    '${bean.validatedPackageWeightGrams!.toStringAsFixed(1)}g',
               ),
           ],
         ),
