@@ -1,0 +1,5 @@
+Nieuw: Houd je bonenvoorraad bij! Je kunt nu het gewicht van je resterende koffiebonen noteren. Na elk brouwsel wordt de hoeveelheid automatisch aangepast. Bedankt @vgorova voor het idee!
+
+Bugfix: Probleem verholpen waarbij stappen dubbel kwamen te staan na het bewerken van eigen recepten. Bedankt @sbezavvs voor het melden!
+
+Bugfix: Ingrediëntgewichten en volumes schalen nu correct in recepten. Bedankt @sbezavvs voor het melden!

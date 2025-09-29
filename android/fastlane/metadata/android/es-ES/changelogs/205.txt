@@ -1,0 +1,5 @@
+Novedad: ¡Ahora puedes registrar la cantidad de café en grano que tienes! El peso restante se actualizará automáticamente después de cada preparación. ¡Gracias a @vgorova por la idea!
+
+Corrección: Solucionado un problema donde los pasos se duplicaban al editar recetas personalizadas. ¡Gracias a @sbezavvs por informar!
+
+Corrección: Los pesos y volúmenes de los ingredientes ahora se ajustan correctamente en las recetas. ¡Gracias a @sbezavvs por informar!

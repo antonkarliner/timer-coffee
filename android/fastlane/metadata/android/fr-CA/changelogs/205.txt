@@ -1,0 +1,5 @@
+Nouveau : Suivez votre stock de grains! Vous pouvez maintenant enregistrer le poids de vos grains restants. La quantité diminue automatiquement après chaque infusion. Merci à @vgorova pour l’idée!
+
+Correction : Résolution d’un problème où les étapes étaient dupliquées après modification de recettes. Merci à @sbezavvs pour le signalement!
+
+Correction : Les poids et volumes des ingrédients s’ajustent maintenant correctement dans les recettes. Merci à @sbezavvs!

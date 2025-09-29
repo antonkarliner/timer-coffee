@@ -1,3 +1,5 @@
-Espanjankielinen käännös on nyt huomattavasti parempi, kiitos @sbezavvs!
+Uutta: Seuraa papuvarastoasi! Voit nyt kirjata jäljellä olevien papujesi painon. Määrä vähenee automaattisesti jokaisen keiton jälkeen. Kiitos ideasta @vgorova!
 
-+ joitakin pieniä bugeja korjattu.
+Korjaus: Korjattu ongelma, jossa vaiheet monistuivat käyttäjän reseptejä muokattaessa. Kiitokset @sbezavvs ilmoituksesta!
+
+Korjaus: Ainesosien painot ja tilavuudet skaalautuvat nyt oikein resepteissä. Kiitos @sbezavvs ilmoituksesta!

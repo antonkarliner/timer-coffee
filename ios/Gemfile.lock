@@ -242,7 +242,7 @@ PLATFORMS
 
 DEPENDENCIES
   fastlane
-  fastlane-plugin-translate_gpt_release_notes
+  fastlane-plugin-translate_gpt_release_notes (= 0.1.0)
 
 BUNDLED WITH
    2.4.22

@@ -1,5 +1,5 @@
-Deutsche Übersetzung:
+Neu: Behalte deinen Bohnenvorrat im Blick! Du kannst jetzt das Gewicht deiner verbleibenden Kaffeebohnen erfassen. Die Menge wird nach jedem Brühvorgang automatisch angepasst. Danke an @vgorova für die Idee!
 
-Spanische Übersetzung dank @sbezavvs deutlich verbessert!
+Fehlerbehebung: Ein Problem wurde behoben, bei dem Schritte nach dem Bearbeiten von eigenen Rezepten doppelt angezeigt wurden. Danke an @sbezavvs für die Meldung!
 
-+ Einige kleine Fehler wurden behoben.
+Fehlerbehebung: Die Mengenangaben für Zutaten (Gewicht und Volumen) werden jetzt in den Rezepten korrekt skaliert. Danke an @sbezavvs für die Meldung!

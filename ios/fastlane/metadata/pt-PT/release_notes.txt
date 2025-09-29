@@ -1,5 +1,5 @@
-Tradução em pt-PT:
+Novo: Acompanhe o seu stock de café! Agora pode registar o peso dos seus grãos restantes. A quantidade será automaticamente atualizada após cada preparação. Obrigado à @vgorova pela ideia!
 
-Tradução em espanhol muito melhorada graças a @sbezavvs!
+Correção: Resolvido um problema em que os passos eram duplicados após editar receitas de utilizador. Obrigado ao @sbezavvs pelo alerta!
 
-+ correção de alguns pequenos bugs.
+Correção: Os pesos e volumes dos ingredientes agora ajustam-se corretamente nas receitas. Obrigado ao @sbezavvs pelo alerta!

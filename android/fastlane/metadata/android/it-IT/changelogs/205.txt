@@ -1,0 +1,5 @@
+Novità: Tieni traccia delle tue scorte di caffè! Ora puoi registrare il peso dei chicchi rimasti. La quantità diminuirà automaticamente dopo ogni estrazione. Grazie a @vgorova per l’idea!
+
+Correzione: Risolto un problema che duplicava i passaggi dopo la modifica delle ricette utente. Grazie a @sbezavvs per la segnalazione!
+
+Correzione: Pesi e volumi degli ingredienti ora si adattano correttamente nelle ricette. Grazie a @sbezavvs!

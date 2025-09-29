@@ -1,0 +1,5 @@
+Baru: Lacak stok biji kopi Anda! Sekarang Anda bisa mencatat berat biji kopi yang tersisa. Jumlahnya akan otomatis berkurang setelah tiap seduhan. Terima kasih kepada @vgorova atas idenya!
+
+Perbaikan bug: Masalah langkah-langkah ganda setelah mengedit resep pengguna kini sudah diatasi. Terima kasih kepada @sbezavvs atas laporannya!
+
+Perbaikan bug: Berat dan volume bahan sekarang menyesuaikan dengan benar di resep. Terima kasih kepada @sbezavvs atas laporannya!

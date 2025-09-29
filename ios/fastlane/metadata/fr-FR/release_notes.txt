@@ -1,3 +1,5 @@
-Amélioration significative de la traduction espagnole grâce à @sbezavvs !
+Nouveau : Suivez votre stock de café en grains ! Vous pouvez désormais enregistrer le poids de vos grains restants. La quantité diminuera automatiquement après chaque infusion. Merci à @vgorova pour l’idée !
 
-+ correction de quelques petits bugs.
+Correction : Résolution d’un problème où les étapes étaient dupliquées après l’édition de recettes utilisateur. Merci à @sbezavvs pour le signalement !
+
+Correction : Les poids et volumes des ingrédients s’ajustent désormais correctement dans les recettes. Merci à @sbezavvs pour le signalement !

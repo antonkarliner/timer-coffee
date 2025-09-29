@@ -1,3 +1,5 @@
-Traduzione spagnola notevolmente migliorata grazie a @sbezavvs!
+Novità: Tieni traccia delle tue scorte di caffè! Ora puoi registrare il peso dei chicchi rimasti. La quantità verrà automaticamente aggiornata dopo ogni estrazione. Grazie a @vgorova per l'idea!
 
-+ corretti alcuni piccoli bug.
+Correzione bug: Risolto un problema che causava la duplicazione dei passaggi dopo la modifica delle ricette personali. Grazie a @sbezavvs per la segnalazione!
+
+Correzione bug: I pesi e i volumi degli ingredienti ora si adattano correttamente nelle ricette. Grazie a @sbezavvs per la segnalazione!

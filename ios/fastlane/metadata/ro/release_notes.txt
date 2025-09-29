@@ -1,3 +1,5 @@
-Traducerea în limba spaniolă a fost mult îmbunătățită datorită @sbezavvs!
+Noutate: Ține evidența stocului de cafea! Acum poți înregistra cantitatea de boabe de cafea rămasă. Aceasta va scădea automat după fiecare preparare. Mulțumiri @vgorova pentru idee!
 
-+ au fost rezolvate câteva erori minore.
+Corectare: S-a rezolvat o problemă care ducea la duplicarea pașilor după editarea rețetelor utilizatorilor. Mulțumiri @sbezavvs pentru raportare!
+
+Corectare: Cantitățile și volumele ingredientelor se scalează acum corect în rețete. Mulțumiri @sbezavvs pentru raportare!

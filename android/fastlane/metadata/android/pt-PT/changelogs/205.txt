@@ -1,0 +1,5 @@
+Novo: Controle o seu stock de grão! Agora pode registar o peso dos grãos restantes. A quantidade diminui automaticamente após cada preparação. Obrigado à @vgorova pela sugestão!
+
+Correção: Resolvido o problema em que os passos eram duplicados ao editar receitas. Obrigado ao @sbezavvs pelo alerta!
+
+Correção: Os pesos e volumes dos ingredientes são agora ajustados correctamente nas receitas. Obrigado ao @sbezavvs pela notificação!

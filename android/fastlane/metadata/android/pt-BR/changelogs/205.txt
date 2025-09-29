@@ -1,0 +1,5 @@
+Novo: Acompanhe seu estoque de café! Agora você pode registrar o peso dos grãos restantes. A quantidade será atualizada automaticamente após cada preparo. Obrigado à @vgorova pela ideia!
+
+Correção: Resolvemos um problema que duplicava etapas ao editar receitas do usuário. Obrigado @sbezavvs pelo aviso!
+
+Correção: Pesos e volumes dos ingredientes agora são ajustados corretamente nas receitas. Obrigado @sbezavvs pelo aviso!

@@ -1,5 +1,5 @@
-Tradução em português brasileiro:
+Novidade: Controle seu estoque de grãos! Agora você pode registrar o peso dos grãos restantes. A quantidade será reduzida automaticamente após cada preparo. Obrigado à @vgorova pela ideia!
 
-Tradução em espanhol muito aprimorada graças ao @sbezavvs!
+Correção: Corrigido um problema em que os passos eram duplicados após editar receitas do usuário. Obrigado ao @sbezavvs pelo aviso!
 
-+ Correção de alguns pequenos bugs.
+Correção: Pesos e volumes dos ingredientes agora são ajustados corretamente nas receitas. Obrigado ao @sbezavvs pelo aviso!

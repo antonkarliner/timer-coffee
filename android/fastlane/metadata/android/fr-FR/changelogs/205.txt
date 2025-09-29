@@ -1,0 +1,5 @@
+Nouveau : Suivez votre stock de café en grain ! Vous pouvez maintenant enregistrer le poids de vos grains restants. La quantité diminue automatiquement après chaque préparation. Merci à @vgorova pour l'idée !
+
+Bugfix : Résolution d’un problème où les étapes se dupliquaient après modification des recettes utilisateur. Merci à @sbezavvs pour le signalement !
+
+Bugfix : Les poids et volumes des ingrédients s’ajustent désormais correctement dans les recettes. Merci à @sbezavvs pour le signalement !

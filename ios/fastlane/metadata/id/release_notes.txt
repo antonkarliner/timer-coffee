@@ -1,3 +1,5 @@
-Penerjemahan bahasa Spanyol sangat ditingkatkan berkat @sbezavvs!
+Baru: Pantau stok biji kopi Anda! Sekarang Anda bisa mencatat berat biji kopi yang tersisa. Jumlahnya akan otomatis berkurang setelah setiap penyeduhan. Terima kasih kepada @vgorova atas idenya!
 
-+ membersihkan beberapa bug kecil.
+Perbaikan bug: Memperbaiki masalah di mana langkah-langkah dalam resep pengguna terduplikasi setelah diedit. Terima kasih kepada @sbezavvs atas laporannya!
+
+Perbaikan bug: Berat dan volume bahan kini menyesuaikan dengan benar di dalam resep. Terima kasih kepada @sbezavvs atas laporannya!

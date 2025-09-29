@@ -1,0 +1,5 @@
+Nuevo: ¡Ahora puedes llevar el control de tus granos! Registra el peso de tus granos restantes. La cantidad se actualizará automáticamente con cada preparación. ¡Gracias a @vgorova por la idea!
+
+Corrección: Solucionado un problema donde se duplicaban los pasos al editar recetas. ¡Gracias a @sbezavvs por reportarlo!
+
+Corrección: Los pesos y volúmenes de los ingredientes ahora se ajustan correctamente en las recetas. ¡Gracias a @sbezavvs por avisar!

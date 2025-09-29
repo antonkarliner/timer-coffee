@@ -1,3 +1,5 @@
-¡Traducción al español enormemente mejorada gracias a @sbezavvs!
+Novedad: ¡Haz un seguimiento de tu stock de café! Ahora puedes registrar el peso de los granos que te quedan. La cantidad se reducirá automáticamente después de cada preparación. ¡Gracias a @vgorova por la idea!
 
-+ Se han corregido algunos pequeños errores.
+Corrección de error: Se solucionó un problema por el que los pasos se duplicaban al editar recetas de usuario. ¡Gracias a @sbezavvs por reportarlo!
+
+Corrección de error: Los pesos y volúmenes de los ingredientes ahora se ajustan correctamente en las recetas. ¡Gracias a @sbezavvs por reportarlo!

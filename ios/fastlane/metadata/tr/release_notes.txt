@@ -1,3 +1,5 @@
-@Sbezavvs sayesinde İspanyolca çeviri büyük ölçüde geliştirildi!
+Yeni: Kahve çekirdeği stoğunuzu takip edin! Artık kalan çekirdeklerinizin ağırlığını kaydedebilirsiniz. Her demlemeden sonra miktar otomatik olarak azalacak. Fikir için @vgorova'ya teşekkürler!
 
-+ Bazı küçük hatalar giderildi.
+Hata düzeltmesi: Kullanıcı tariflerini düzenledikten sonra adımların çoğalmasına neden olan bir sorun giderildi. Bildirdiği için @sbezavvs'a teşekkürler!
+
+Hata düzeltmesi: Tariflerde malzeme ağırlıkları ve hacimleri artık doğru şekilde ölçekleniyor. Bildirdiği için @sbezavvs'a teşekkürler!

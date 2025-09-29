@@ -1,3 +1,5 @@
-Znacząco ulepszono tłumaczenie na hiszpański dzięki @sbezavvs!
+Nowość: Śledź zapasy ziaren! Możesz teraz zapisywać wagę pozostałych ziaren. Ilość będzie automatycznie zmniejszana po każdym parzeniu. Dziękujemy @vgorova za pomysł!
 
-+ usunięto kilka drobnych błędów.
+Poprawka: Naprawiono problem, w którym kroki były duplikowane po edycji przepisów użytkownika. Dziękujemy @sbezavvs za zgłoszenie!
+
+Poprawka: Ilości składników – waga i objętość – skalują się teraz poprawnie w przepisach. Dziękujemy @sbezavvs za zgłoszenie!

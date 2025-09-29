@@ -1,0 +1,5 @@
+Uutta: Seuraa papuvarastoasi! Voit nyt tallentaa jäljellä olevien papujen määrän. Määrä vähenee automaattisesti jokaisen keiton jälkeen. Kiitos ideasta @vgorova!
+
+Korjaus: Käyttäjän reseptejä muokatessa vaiheet eivät enää monistu. Kiitos ilmoituksesta @sbezavvs!
+
+Korjaus: Ainesosien painot ja tilavuudet skaalautuvat nyt oikein resepteissä. Kiitos @sbezavvs!

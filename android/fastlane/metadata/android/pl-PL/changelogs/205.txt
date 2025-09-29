@@ -1,0 +1,5 @@
+Nowość: Śledź swój zapas ziaren! Możesz teraz zapisywać wagę pozostałych ziaren kawy. Ilość automatycznie zmniejsza się po każdym parzeniu. Dzięki @vgorova za pomysł!
+
+Poprawka: Naprawiono problem z powielaniem kroków po edycji własnych przepisów. Dzięki @sbezavvs za zgłoszenie!
+
+Poprawka: Wagi i objętości składników teraz prawidłowo skalują się w przepisach. Dzięki @sbezavvs za zgłoszenie!

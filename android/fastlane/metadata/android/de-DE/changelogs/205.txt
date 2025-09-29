@@ -1,0 +1,5 @@
+Neu: Verwalte jetzt deinen Bohnenvorrat! Du kannst das Gewicht deiner übrigen Kaffeebohnen eintragen. Nach jedem Brühvorgang wird die Menge automatisch angepasst. Danke an @vgorova für die Idee!
+
+Fehlerbehebung: Ein Problem wurde behoben, bei dem Schritte nach dem Bearbeiten von Nutzerrezepten doppelt waren. Danke an @sbezavvs für den Hinweis!
+
+Fehlerbehebung: Mengenangaben für Zutaten werden jetzt korrekt in Rezepten skaliert. Danke an @sbezavvs für den Hinweis!

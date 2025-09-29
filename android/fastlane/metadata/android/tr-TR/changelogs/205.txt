@@ -1,0 +1,5 @@
+Yeni: Çekirdek stoğunuzu takip edin! Artık kalan çekirdek miktarınızı kaydedebilirsiniz. Her demlemeden sonra miktar otomatik olarak azalacak. Fikir için @vgorova'ya teşekkürler!
+
+Hata düzeltmesi: Kullanıcı tarifleri düzenlendikten sonra adımların iki kez görünmesine sebep olan sorun giderildi. Bildirdiği için @sbezavvs'a teşekkürler!
+
+Hata düzeltmesi: Tariflerde malzeme ağırlıkları ve hacimleri artık doğru şekilde ölçekleniyor. Yine @sbezavvs'a teşekkürler!

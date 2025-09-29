@@ -1,3 +1,5 @@
-Sterk verbeterde Spaanse vertaling dankzij @sbezavvs!
+Nieuw: Houd je voorraad bonen bij! Je kunt nu het gewicht van je overgebleven koffiebonen registreren. Het aantal wordt automatisch verminderd na elke zetbeurt. Bedankt aan @vgorova voor het idee!
 
-+ een paar kleine bugs opgelost.
+Bugfix: Een probleem opgelost waarbij stappen werden gedupliceerd na het bewerken van eigen recepten. Bedankt aan @sbezavvs voor het melden!
+
+Bugfix: Ingrediëntgewichten en -volumes schalen nu correct in recepten. Bedankt aan @sbezavvs voor het melden!

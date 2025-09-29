@@ -1,0 +1,5 @@
+Noutate: Ține evidența boabelor! Acum poți salva cantitatea de cafea rămasă, iar aceasta va scădea automat după fiecare preparare. Mulțumim @vgorova pentru idee!
+
+Corectare: Am rezolvat o problemă prin care pașii se duplicau după editarea rețetelor. Mulțumim @sbezavvs pentru raportare!
+
+Corectare: Greutățile și volumele ingredientelor se ajustează acum corect în rețete. Mulțumim @sbezavvs pentru raportare!
