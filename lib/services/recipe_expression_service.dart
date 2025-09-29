@@ -1,5 +1,6 @@
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../models/brew_step_model.dart';
+import '../constants/scalable_units.dart';
 
 class RecipeExpressionService {
   static Map<String, dynamic> getCleanestMultiplier(
@@ -94,109 +95,52 @@ class RecipeExpressionService {
 
   static String convertNumericValuesToExpressions(String description,
       double coffeeAmount, double waterAmount, AppLocalizations l10n) {
-    final RegExp excludeRegex = RegExp(
-        r'\b\d+\s*(?:-|to)\s*\d+\s*times\b|\b\d+\s*times\b|\b\d+\s*(?:seconds?|minutes?|mins?)\b');
-    if (excludeRegex.hasMatch(description)) {
-      List<String> parts = [];
-      int lastEnd = 0;
-      for (var match in excludeRegex.allMatches(description)) {
-        if (match.start > lastEnd) {
-          parts.add(_processTextPart(
-              description.substring(lastEnd, match.start),
-              coffeeAmount,
-              waterAmount,
-              l10n));
-        }
-        parts.add(description.substring(match.start, match.end));
-        lastEnd = match.end;
-      }
-      if (lastEnd < description.length) {
-        parts.add(_processTextPart(
-            description.substring(lastEnd), coffeeAmount, waterAmount, l10n));
-      }
-      return parts.join('');
-    } else {
-      return _processTextPart(description, coffeeAmount, waterAmount, l10n);
-    }
+    return _processTextPart(description, coffeeAmount, waterAmount, l10n);
   }
 
   static String _processTextPart(String text, double coffeeAmount,
       double waterAmount, AppLocalizations l10n) {
-    final String unitsPattern = [
-      l10n.unitGramsShort,
-      l10n.unitMillilitersShort,
-      l10n.unitGramsLong,
-      l10n.unitMillilitersLong,
-    ].map((unit) => RegExp.escape(unit)).join('|');
+    // Global set of all scalable unit variants across languages
+    final String unitsPattern = scalableUnits.map(RegExp.escape).join('|');
 
-    // Regex to find numbers with optional units.
+    // Regex to find numbers followed by a scalable unit (inclusion-based)
     // Group 1: The number (e.g., "100", "20.5")
-    // Group 2: Optional - The unit if present (e.g., "g", "ml")
-    final RegExp numberCatchRegex =
-        RegExp(r'\b(\d+(?:\.\d+)?)\s*(' + unitsPattern + r')?\b');
-
-    // Regex for contexts where numbers should NOT be converted to expressions.
-    final RegExp excludeContextRegex = RegExp(
-        r'\b\d+\s*(?:-|to)\s*\d+\s*times\b|\b\d+\s*times\b|\b\d+\s*(?:seconds?|minutes?|mins?)\b',
+    // Group 2: The unit (required, e.g., "g", "ml")
+    final RegExp numberCatchRegex = RegExp(
+        r'\b(\d+(?:\.\d+)?)\s*(' + unitsPattern + r')\b',
         caseSensitive: false);
 
     StringBuffer resultBuffer = StringBuffer();
     int currentIndex = 0;
 
-    // Find all potential number matches in the text.
-    List<Match> allNumberMatches = numberCatchRegex.allMatches(text).toList();
-    // Find all exclusion zone matches.
-    List<Match> allExclusionMatches =
-        excludeContextRegex.allMatches(text).toList();
-
-    for (Match numberMatch in allNumberMatches) {
-      // Append text before this potential number match.
+    for (Match numberMatch in numberCatchRegex.allMatches(text)) {
+      // Append text before this number + unit match.
       resultBuffer.write(text.substring(currentIndex, numberMatch.start));
 
-      String fullMatchText = numberMatch.group(0)!; // e.g., "100g" or "250"
       String numStr = numberMatch.group(1)!; // e.g., "100" or "250"
-      String unit = numberMatch.group(2) ?? ''; // e.g., "g" or ""
+      String unit = numberMatch.group(2)!; // e.g., "g" or "ml"
 
-      // Check if this numberMatch falls within any exclusion zone.
-      bool isExcluded = false;
-      for (Match excludeMatch in allExclusionMatches) {
-        if (numberMatch.start >= excludeMatch.start &&
-            numberMatch.end <= excludeMatch.end) {
-          isExcluded = true;
-          break;
-        }
-      }
+      double value = double.tryParse(numStr) ?? 0;
 
-      if (isExcluded) {
-        resultBuffer.write(fullMatchText); // Append as is if excluded.
+      // Only convert if value is reasonable (avoid very small numbers)
+      if (value >= 0.1) {
+        final multiplierInfo =
+            getCleanestMultiplier(value, coffeeAmount, waterAmount);
+        final String placeholder = multiplierInfo['type'] == 'coffee'
+            ? '<final_coffee_amount>'
+            : '<final_water_amount>';
+        final String formattedMultiplier =
+            multiplierInfo['formatted'] as String;
+        resultBuffer.write('($formattedMultiplier x $placeholder)$unit');
       } else {
-        double value = double.tryParse(numStr) ?? 0;
-        // Apply conversion conditions from original logic.
-        bool shouldConvert = true;
-        if (value < 0.1) {
-          shouldConvert = false;
-        } else if (unit.isEmpty && value < 10) {
-          // This condition was from the old largeNumberRegex logic,
-          // applied to numbers without explicit units.
-          shouldConvert = false;
-        }
-
-        if (shouldConvert) {
-          final multiplierInfo =
-              getCleanestMultiplier(value, coffeeAmount, waterAmount);
-          final String placeholder = multiplierInfo['type'] == 'coffee'
-              ? '<final_coffee_amount>'
-              : '<final_water_amount>';
-          resultBuffer
-              .write('(${multiplierInfo['formatted']} x $placeholder)$unit');
-        } else {
-          resultBuffer.write(fullMatchText); // Append as is if not converted.
-        }
+        // If value is too small, keep original
+        resultBuffer.write('${numberMatch.group(0)}');
       }
+
       currentIndex = numberMatch.end;
     }
 
-    // Append any remaining text after the last number match.
+    // Append any remaining text after the last match.
     resultBuffer.write(text.substring(currentIndex));
 
     return resultBuffer.toString();
