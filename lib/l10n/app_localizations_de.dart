@@ -606,7 +606,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get notFavorite => 'Kein Favorit';
 
   @override
-  String get myBeans => 'Meine Bohnensorten';
+  String get myBeans => 'Meine Bohnen';
 
   @override
   String get signIn => 'Anmelden';

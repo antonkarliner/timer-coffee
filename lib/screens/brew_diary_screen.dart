@@ -413,6 +413,10 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                   identifier: 'selectBeansButton_${stat.statUuid}',
                   label: 'Select Beans Button',
                   child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                    ),
                     onPressed: () => _openAddBeansPopup(context, stat.statUuid),
                     child: Text(loc.selectBeans),
                   ),
@@ -524,6 +528,11 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12)),
+                                      ),
                                       onPressed: () {
                                         context.router.push(
                                           CoffeeBeansDetailRoute(
@@ -534,6 +543,11 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                     ),
                                     const SizedBox(width: 8),
                                     OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12)),
+                                      ),
                                       onPressed: () async {
                                         print(
                                             'Remove beans button pressed for stat: ${stat.statUuid}');
