@@ -1,0 +1,3 @@
+New: Croatian language support! Big thanks to Dražen Navratil for translation!
+
+Improved: a lot of design improvements across different screens: Recipe Detail screen, New Beans screen, Finish screen, Info screen. Design now feels much more streamlined and consistent across the app.

@@ -1,0 +1,3 @@
+Nowość: Wsparcie dla języka chorwackiego! Wielkie podziękowania dla Dražena Navratila za tłumaczenie!
+
+Ulepszenia: wiele poprawek wyglądu na różnych ekranach, m.in. szczegóły przepisu, nowe ziarna, zakończenie parzenia oraz informacje o aplikacji. Teraz design jest bardziej spójny i przejrzysty w całej aplikacji.

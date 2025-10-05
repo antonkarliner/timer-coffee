@@ -1,0 +1,5 @@
+Yenilik: Hırvatça dil desteği eklendi! Çeviri için Dražen Navratil’e büyük teşekkürler!
+
+İyileştirme: Tarif Detayı, Yeni Çekirdekler, Bitir ve Bilgi ekranlarında birçok tasarım geliştirmesi yapıldı. Artık uygulama genelinde tasarım daha tutarlı ve akıcı.
+
+Not: Metnin uzunluğu 500 sembolü geçmemelidir. Gerekirse yeniden ifade ediniz.

@@ -15,7 +15,7 @@ Hauptmerkmale
 - Bohnen-Protokollierung: Verfolgen Sie Ihre Kaffeebohnen bequem mit KI-gestützter Etikettenerkennung.
 - Automatische Aufzeichnung: Zeichnen Sie mühelos jeden Brühvorgang auf.
 - Geräte-Synchronisation: Nahtlose Synchronisierung von Rezepten, Bohnen und Brühvorgängen auf all Ihren Geräten.
-- Mehrsprachig: Unterstützt 18 Sprachen.
+- Mehrsprachig: Unterstützt 20 Sprachen.
 - Dunkler Modus: Komfortables Brüh-Erlebnis zu jeder Tageszeit.
 
 Demnächst verfügbar

@@ -1,0 +1,3 @@
+Novo: Suporte ao idioma croata! Muito obrigado a Dražen Navratil pela tradução!
+
+Melhorias: Vários aperfeiçoamentos de design em diferentes telas: Detalhes da Receita, Novos Grãos, Finalização e Informações. O visual está mais moderno e consistente em todo o app.

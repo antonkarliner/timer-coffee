@@ -1,5 +1,3 @@
-Noutate: Ține evidența stocului de cafea! Acum poți înregistra cantitatea de boabe de cafea rămasă. Aceasta va scădea automat după fiecare preparare. Mulțumiri @vgorova pentru idee!
+Nou: Suport pentru limba croată! Mulțumiri speciale lui Dražen Navratil pentru traducere!
 
-Corectare: S-a rezolvat o problemă care ducea la duplicarea pașilor după editarea rețetelor utilizatorilor. Mulțumiri @sbezavvs pentru raportare!
-
-Corectare: Cantitățile și volumele ingredientelor se scalează acum corect în rețete. Mulțumiri @sbezavvs pentru raportare!
+Îmbunătățit: multe îmbunătățiri de design pe diverse ecrane: ecranul Detalii Rețetă, ecranul Boabe Noi, ecranul Finalizare, ecranul Informații. Designul este acum mult mai coerent și consecvent în toată aplicația.

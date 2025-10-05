@@ -1,0 +1,3 @@
+Novo: Hrvatski jezik sada dostupan! Veliko hvala Draženu Navratilu na prijevodu!
+
+Poboljšano: brojna dizajnerska unaprjeđenja na različitim ekranima: Detalji recepta, Novi zrno kave, Završetak, Info. Dizajn je sada još ujednačeniji i pregledniji kroz cijelu aplikaciju.

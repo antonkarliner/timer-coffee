@@ -15,7 +15,7 @@ Key Features
 - Bean Logging: Conveniently track your coffee beans with AI-powered label recognition.
 - Automatic Logging: Effortlessly record every brewing session.
 - Device Sync: Seamlessly sync recipes, beans, and brews across all your devices.
-- Multilingual: Supports 18 languages.
+- Multilingual: Supports 20 languages.
 - Dark Mode: Comfortable brewing experience at any time of day.
 
 Coming Soon

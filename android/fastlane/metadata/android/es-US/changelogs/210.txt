@@ -1,0 +1,3 @@
+Nuevo: ¡Soporte para el idioma croata! Muchas gracias a Dražen Navratil por la traducción.
+
+Mejorado: muchas mejoras de diseño en varias pantallas como Detalle de Receta, Nueva Variedad de Café, Finalizar e Información. El diseño ahora es mucho más uniforme y consistente en toda la app.

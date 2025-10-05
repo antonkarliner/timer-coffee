@@ -15,7 +15,7 @@ Caratteristiche principali
 - Registrazione dei chicchi: Tieni traccia comodamente dei tuoi chicchi di caffè con il riconoscimento delle etichette basato sull'intelligenza artificiale.
 - Registrazione automatica: Registra senza sforzo ogni sessione di preparazione.
 - Sincronizzazione dei dispositivi: Sincronizza senza problemi ricette, chicchi e preparazioni su tutti i tuoi dispositivi.
-- Multilingue: Supporta 18 lingue.
+- Multilingue: Supporta 20 lingue.
 - Modalità scura: Esperienza di preparazione confortevole a qualsiasi ora del giorno.
 
 Prossimamente

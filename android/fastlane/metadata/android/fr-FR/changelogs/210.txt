@@ -1,0 +1,3 @@
+Nouveau : prise en charge du croate ! Un grand merci à Dražen Navratil pour la traduction !
+
+Amélioré : de nombreuses améliorations de design sur plusieurs écrans, dont la fiche recette, l’ajout de nouveaux grains, l’écran de fin et les infos. L’interface est désormais plus fluide et cohérente dans l’application.

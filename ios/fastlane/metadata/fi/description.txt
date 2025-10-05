@@ -15,7 +15,7 @@ Keskeiset ominaisuudet
 - Päa logging: Seuraa kahvipapujasi kätevästi AI-pohjaisella tunnistuksella.
 - Automaattinen logging: Kirjaa jokainen keittäjäistunto vaivattomasti.
 - Laitteiden synkronointi: Synkronoi reseptit, pavut ja keitot saumattomasti kaikkien laitteidesi välillä.
-- Monikielinen: Tukee 18 kieltä.
+- Monikielinen: Tukee 20 kieltä.
 - Tumma tila: Mukava keittämiskokemus milloin tahansa.
 
 Tulossa pian

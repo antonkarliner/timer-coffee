@@ -1,0 +1,3 @@
+Veliko poboljšanje španjolskog prijevoda zahvaljujući @sbezavvs!
+
++ očišćene neke male greške.

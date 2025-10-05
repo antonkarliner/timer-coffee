@@ -1,0 +1,3 @@
+Novedad: ¡Soporte para idioma croata! Muchas gracias a Dražen Navratil por la traducción.
+
+Mejoras: Se renovó el diseño en varias pantallas: Detalle de Receta, Nuevos Granos, Finalizar y Info. La app ahora tiene un diseño más uniforme y fluido.

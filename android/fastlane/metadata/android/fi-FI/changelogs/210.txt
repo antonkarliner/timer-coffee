@@ -1,0 +1,3 @@
+Uutta: Kroatian kielituki! Suuri kiitos Dražen Navratilille käännöksestä!
+
+Parannettu: useita ulkoasupäivityksiä eri näkymissä, kuten Reseptin tiedot, Uudet pavut, Valmis-näkymä ja Info-näkymä. Sovelluksen ilme on nyt yhtenäisempi ja selkeämpi.

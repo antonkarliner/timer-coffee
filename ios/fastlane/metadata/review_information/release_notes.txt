@@ -1,5 +1,3 @@
-Новое: Следите за запасами кофе! Теперь вы можете записывать вес оставшихся кофейных зёрен. Количество будет автоматически уменьшаться после каждого заваривания. Спасибо @vgorova за идею!
+Novo: Podrška za hrvatski jezik! Veliko hvala Draženu Navratilu na prijevodu!
 
-Исправление ошибки: Исправлена проблема, из-за которой шаги дублировались после редактирования пользовательских рецептов. Спасибо @sbezavvs за сообщение!
-
-Исправление ошибки: Масса и объём ингредиентов теперь корректно масштабируются в рецептах. Спасибо @sbezavvs за сообщение!
+Poboljšano: Mnoga dizajnerska unaprjeđenja na različitim ekranima: ekran s detaljima recepta, ekran za unos novih zrna, završni ekran, informacijski ekran. Dizajn je sada znatno pregledniji i dosljedniji kroz cijelu aplikaciju.

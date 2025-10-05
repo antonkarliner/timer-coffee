@@ -15,7 +15,7 @@ Kluczowe funkcje
 - Rejestracja ziaren: Wygodnie śledź swoje ziarna kawy dzięki rozpoznawaniu etykiet wspomaganemu AI.
 - Automatyczne rejestrowanie: Bez wysiłku rejestruj każdą sesję parzenia.
 - Synchronizacja urządzeń: Bezproblemowo synchronizuj przepisy, ziarna i parzenia na wszystkich urządzeniach.
-- Wielojęzyczność: Obsługuje 18 języków.
+- Wielojęzyczność: Obsługuje 20 języków.
 - Tryb ciemny: Komfortowe doświadczenie parzenia o każdej porze dnia.
 
 Wkrótce dostępne

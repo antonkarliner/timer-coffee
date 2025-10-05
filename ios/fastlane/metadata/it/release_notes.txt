@@ -1,5 +1,3 @@
-Novità: Tieni traccia delle tue scorte di caffè! Ora puoi registrare il peso dei chicchi rimasti. La quantità verrà automaticamente aggiornata dopo ogni estrazione. Grazie a @vgorova per l'idea!
+Novità: supporto per la lingua croata! Un grande grazie a Dražen Navratil per la traduzione!
 
-Correzione bug: Risolto un problema che causava la duplicazione dei passaggi dopo la modifica delle ricette personali. Grazie a @sbezavvs per la segnalazione!
-
-Correzione bug: I pesi e i volumi degli ingredienti ora si adattano correttamente nelle ricette. Grazie a @sbezavvs per la segnalazione!
+Miglioramenti: molte migliorie al design su diverse schermate: Dettaglio Ricetta, Nuovi Chicchi, Fine, Info. Il design ora è molto più uniforme e coerente in tutta l’app.

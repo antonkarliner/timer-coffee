@@ -1,0 +1,3 @@
+Baru: Dukungan bahasa Kroasia! Terima kasih banyak kepada Dražen Navratil atas terjemahannya!
+
+Peningkatan: Banyak perbaikan desain di berbagai layar: layar Detail Resep, layar Tambah Biji Kopi, layar Selesai, dan layar Info. Desain sekarang terasa lebih rapi dan konsisten di seluruh aplikasi.

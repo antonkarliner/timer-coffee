@@ -1,0 +1,3 @@
+Noutate: Suport pentru limba croată! Mulțumiri lui Dražen Navratil pentru traducere!
+
+Îmbunătățiri: multe îmbunătățiri de design pe diferite ecrane: Detalii rețetă, Adăugare cafea, Finalizare, Info. Designul este acum mai unitar și consistent în toată aplicația.
