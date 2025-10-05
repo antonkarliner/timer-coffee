@@ -152,7 +152,13 @@ class _RecipeStepsFormState extends State<RecipeStepsForm> {
                           horizontal: 20, vertical: 15),
                     ),
                     icon: const Icon(Icons.add),
-                    label: Text(l10n.recipeCreationScreenAddStepButton),
+                    label: Text(
+                      l10n.recipeCreationScreenAddStepButton,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     onPressed: _addStep,
                   ),
                 ),
@@ -183,7 +189,13 @@ class _RecipeStepsFormState extends State<RecipeStepsForm> {
                                   Theme.of(context).colorScheme.onPrimary),
                             ),
                           )
-                        : Text(l10n.recipeCreationScreenSaveRecipeButton),
+                        : Text(
+                            l10n.recipeCreationScreenSaveRecipeButton,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                   ),
                 ),
               ],
@@ -236,12 +248,18 @@ class StepCard extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Text(
                           l10n.recipeCreationScreenPreparationStepTitle,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       )
                     : Text(
                         l10n.recipeCreationScreenBrewStepTitle(displayIndex),
-                        style: Theme.of(context).textTheme.titleMedium,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                 const Spacer(),
                 if (onDelete != null)
