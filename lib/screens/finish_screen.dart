@@ -20,6 +20,7 @@ import '../models/recipe_model.dart';
 import '../providers/user_stat_provider.dart';
 import '../providers/coffee_beans_provider.dart';
 import 'package:uuid/uuid.dart';
+import '../theme/design_tokens.dart';
 
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
@@ -205,12 +206,15 @@ class _FinishScreenState extends State<FinishScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Semantics(
-              identifier: 'finishMessage',
-              child: Text(
-                '${AppLocalizations.of(context)!.finishmsg} ${widget.brewingMethodName}!',
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Semantics(
+                identifier: 'finishMessage',
+                child: Text(
+                  '${AppLocalizations.of(context)!.finishmsg} ${widget.brewingMethodName}!',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 24),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -255,33 +259,84 @@ class _FinishScreenState extends State<FinishScreen> {
             const SizedBox(height: 20),
             Semantics(
               identifier: 'homeButton',
-              child: ElevatedButton(
-                onPressed: () {
-                  context.router.push(const HomeRoute());
-                },
-                child: Text(AppLocalizations.of(context)!.home),
+              child: SizedBox(
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: () {
+                    context.router.push(const HomeRoute());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    foregroundColor: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppRadius.card),
+                    ),
+                    elevation: 2,
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.home,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 20),
             if (kIsWeb || !Platform.isIOS)
               Semantics(
                 identifier: 'buyMeACoffeeButton',
-                child: ElevatedButton.icon(
-                  onPressed: () =>
-                      _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                  icon: const Icon(Icons.local_cafe),
-                  label: Text(AppLocalizations.of(context)!.support),
+                child: SizedBox(
+                  height: 56,
+                  child: ElevatedButton.icon(
+                    onPressed: () =>
+                        _launchURL('https://www.buymeacoffee.com/timercoffee'),
+                    icon: const Icon(Icons.local_cafe),
+                    label: Text(
+                      AppLocalizations.of(context)!.support,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.card),
+                      ),
+                      elevation: 2,
+                    ),
+                  ),
                 ),
               )
             else if (!kIsWeb && Platform.isIOS)
               Semantics(
                 identifier: 'supportButton',
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    context.router.push(const DonationRoute());
-                  },
-                  icon: const Icon(Icons.local_cafe),
-                  label: Text(AppLocalizations.of(context)!.support),
+                child: SizedBox(
+                  height: 56,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      context.router.push(const DonationRoute());
+                    },
+                    icon: const Icon(Icons.local_cafe),
+                    label: Text(
+                      AppLocalizations.of(context)!.support,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.card),
+                      ),
+                      elevation: 2,
+                    ),
+                  ),
                 ),
               ),
           ],
