@@ -76,7 +76,17 @@ class CoffeeBeansFilterService {
           _normalizeText(bean.roaster).contains(query) ||
           _normalizeText(bean.origin).contains(query) ||
           (bean.tastingNotes != null &&
-              _normalizeText(bean.tastingNotes!).contains(query));
+              _normalizeText(bean.tastingNotes!).contains(query)) ||
+          (bean.variety != null &&
+              _normalizeText(bean.variety!).contains(query)) ||
+          (bean.processingMethod != null &&
+              _normalizeText(bean.processingMethod!).contains(query)) ||
+          (bean.region != null &&
+              _normalizeText(bean.region!).contains(query)) ||
+          (bean.notes != null && _normalizeText(bean.notes!).contains(query)) ||
+          (bean.farmer != null &&
+              _normalizeText(bean.farmer!).contains(query)) ||
+          (bean.farm != null && _normalizeText(bean.farm!).contains(query));
     }).toList();
   }
 

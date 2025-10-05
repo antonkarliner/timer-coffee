@@ -48,6 +48,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
             appBar: CoffeeBeansAppBar(
               viewState: controller.viewState,
               searchController: controller.searchController,
+              searchFocusNode: controller.searchFocusNode,
               onSearchChanged: (value) {
                 // Search is handled automatically by the controller's listener
               },
@@ -55,24 +56,30 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
               onViewModeToggled: controller.toggleViewMode,
               onSortPressed: () => controller.showSortDialog(context),
             ),
-            body: Column(
-              children: [
-                // Filter Chips
-                CoffeeBeansFilterChips(
-                  filterOptions: controller.filterOptions,
-                  searchQuery: controller.viewState.searchQuery,
-                  onRoasterRemoved: controller.removeRoasterFilter,
-                  onOriginRemoved: controller.removeOriginFilter,
-                  onFavoriteRemoved: controller.removeFavoriteFilter,
-                  onSearchRemoved: controller.clearSearch,
-                  onClearAll: () => controller.clearAllFilters(context),
-                ),
+            body: GestureDetector(
+              onTap: () {
+                // Unfocus the search field when tapping outside
+                controller.searchFocusNode.unfocus();
+              },
+              child: Column(
+                children: [
+                  // Filter Chips
+                  CoffeeBeansFilterChips(
+                    filterOptions: controller.filterOptions,
+                    searchQuery: controller.viewState.searchQuery,
+                    onRoasterRemoved: controller.removeRoasterFilter,
+                    onOriginRemoved: controller.removeOriginFilter,
+                    onFavoriteRemoved: controller.removeFavoriteFilter,
+                    onSearchRemoved: controller.clearSearch,
+                    onClearAll: () => controller.clearAllFilters(context),
+                  ),
 
-                // Content
-                Expanded(
-                  child: _buildContent(context, controller),
-                ),
-              ],
+                  // Content
+                  Expanded(
+                    child: _buildContent(context, controller),
+                  ),
+                ],
+              ),
             ),
             floatingActionButton: AnimatedScale(
               scale: controller.viewState.isBottomBarVisible ? 1.0 : 0.0,

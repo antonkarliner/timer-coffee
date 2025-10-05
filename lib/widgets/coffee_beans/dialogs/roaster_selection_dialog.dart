@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/services/coffee_beans_filter_service.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 
 /// Dialog for selecting multiple roasters from a list.
 ///
@@ -38,14 +39,23 @@ class _RoasterSelectionDialogState extends State<RoasterSelectionDialog> {
     final loc = AppLocalizations.of(context)!;
 
     return AlertDialog(
-      title: Text(loc.selectRoaster),
+      title: Text(
+        loc.selectRoaster,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
       content: Container(
         width: double.maxFinite,
         child: ListView(
           shrinkWrap: true,
           children: widget.availableRoasters.map((roaster) {
             return CheckboxListTile(
-              title: Text(roaster),
+              title: Text(
+                roaster,
+                style: AppTextStyles.caption,
+              ),
               value: _tempSelectedRoasters.contains(roaster),
               onChanged: (bool? value) {
                 setState(() {
@@ -64,13 +74,37 @@ class _RoasterSelectionDialogState extends State<RoasterSelectionDialog> {
       ),
       actions: [
         TextButton(
-          child: Text(loc.cancel),
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadius.card),
+            ),
+          ),
+          child: Text(
+            loc.cancel,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         TextButton(
-          child: Text(loc.ok),
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadius.card),
+            ),
+          ),
+          child: Text(
+            loc.ok,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           onPressed: () {
             Navigator.pop(context, _tempSelectedRoasters);
           },

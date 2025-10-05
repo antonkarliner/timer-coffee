@@ -14,6 +14,9 @@ class CoffeeBeansAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// Controller for the search text field
   final TextEditingController searchController;
 
+  /// Focus node for the search text field
+  final FocusNode? searchFocusNode;
+
   /// Callback when search query changes
   final ValueChanged<String> onSearchChanged;
 
@@ -30,6 +33,7 @@ class CoffeeBeansAppBar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
     required this.viewState,
     required this.searchController,
+    this.searchFocusNode,
     required this.onSearchChanged,
     required this.onSearchCleared,
     required this.onViewModeToggled,
@@ -41,8 +45,14 @@ class CoffeeBeansAppBar extends StatelessWidget implements PreferredSizeWidget {
     final loc = AppLocalizations.of(context)!;
 
     return AppBar(
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor ??
+          Theme.of(context).colorScheme.surface,
+      scrolledUnderElevation: 0,
+      elevation: 0,
       title: TextField(
         controller: searchController,
+        focusNode: searchFocusNode,
+        autofocus: false,
         decoration: InputDecoration(
           hintText: loc.searchBeans,
           prefixIcon: const Icon(Icons.search),

@@ -4,6 +4,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/ui_state/coffee_beans_filter_options.dart';
 import 'package:coffee_timer/services/coffee_beans_filter_service.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 import 'roaster_selection_dialog.dart';
 import 'origin_selection_dialog.dart';
 
@@ -161,7 +162,10 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
             ListTile(
               title: Row(
                 children: [
-                  Text('${loc.roaster}: '),
+                  Text(
+                    '${loc.roaster}: ',
+                    style: AppTextStyles.caption,
+                  ),
                   Expanded(
                     child: Text(
                       _tempFilterOptions.selectedRoasters.isEmpty
@@ -170,7 +174,7 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
                       textAlign: TextAlign.end,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: AppTextStyles.caption.copyWith(
                         color: Theme.of(context).brightness == Brightness.dark
                             ? Colors.grey[300]
                             : Colors.grey[700],
@@ -186,7 +190,10 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
             ListTile(
               title: Row(
                 children: [
-                  Text('${loc.origin}: '),
+                  Text(
+                    '${loc.origin}: ',
+                    style: AppTextStyles.caption,
+                  ),
                   Expanded(
                     child: Text(
                       _tempFilterOptions.selectedOrigins.isEmpty
@@ -195,7 +202,7 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
                       textAlign: TextAlign.end,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: AppTextStyles.caption.copyWith(
                         color: Theme.of(context).brightness == Brightness.dark
                             ? Colors.grey[300]
                             : Colors.grey[700],
@@ -216,7 +223,7 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
                 children: [
                   Text(
                     loc.showFavoritesOnly,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: AppTextStyles.caption,
                   ),
                   Expanded(
                     child: Align(
@@ -256,11 +263,39 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
               spacing: 16.0,
               children: [
                 TextButton(
-                  child: Text(loc.resetFilters),
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppRadius.card),
+                    ),
+                  ),
+                  child: Text(
+                    loc.resetFilters,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   onPressed: _resetFilters,
                 ),
                 ElevatedButton(
-                  child: Text(loc.apply),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppRadius.card),
+                    ),
+                  ),
+                  child: Text(
+                    loc.apply,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   onPressed: () {
                     Navigator.pop(context, _tempFilterOptions);
                   },
