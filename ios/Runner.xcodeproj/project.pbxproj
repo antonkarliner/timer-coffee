@@ -126,6 +126,9 @@
 		8B90DF432E6F3223005150B8 /* fa */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = fa; path = fa.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B90DF442E6F3223005150B8 /* fa */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fa; path = fa.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8B9C76F02AE7320600E54A4B /* donationtest.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = donationtest.storekit; sourceTree = "<group>"; };
+		8B9DAA862E9301C6004415BB /* hr */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = hr; path = hr.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8B9DAA872E9301C6004415BB /* hr */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = hr; path = hr.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B9DAA882E9301C6004415BB /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8BB5AA6A2BBD5626007CC1FF /* it */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = it; path = it.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8BB5AA6B2BBD5626007CC1FF /* it */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = it; path = it.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8BB5AA6C2BBD5631007CC1FF /* tr */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = tr; path = tr.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -397,6 +400,7 @@
 				ko,
 				fi,
 				fa,
+				hr,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
@@ -489,9 +493,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -543,9 +551,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -620,6 +632,7 @@
 				8B90DF3E2E6F31BB005150B8 /* ko */,
 				8B90DF412E6F31DA005150B8 /* fi */,
 				8B90DF442E6F3223005150B8 /* fa */,
+				8B9DAA882E9301C6004415BB /* hr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -646,6 +659,7 @@
 				8B90DF3C2E6F31BB005150B8 /* ko */,
 				8B90DF3F2E6F31DA005150B8 /* fi */,
 				8B90DF422E6F3223005150B8 /* fa */,
+				8B9DAA862E9301C6004415BB /* hr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -672,6 +686,7 @@
 				8B90DF3D2E6F31BB005150B8 /* ko */,
 				8B90DF402E6F31DA005150B8 /* fi */,
 				8B90DF432E6F3223005150B8 /* fa */,
+				8B9DAA872E9301C6004415BB /* hr */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
