@@ -1366,4 +1366,80 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get recipePrivateTooltip =>
       'Rețeta este privată - partajați pentru a o face publică';
+
+  @override
+  String get fieldClearButtonTooltip => 'Șterge';
+
+  @override
+  String get dateFieldClearButtonTooltip => 'Șterge data';
+
+  @override
+  String get chipInputDuplicateError => 'Acest tag a fost deja adăugat';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return 'Număr maxim de taguri atins ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => 'Adaugă un tag...';
+
+  @override
+  String get unitFieldRequiredError => 'Acest câmp este obligatoriu';
+
+  @override
+  String get unitFieldInvalidNumberError =>
+      'Vă rugăm introduceți un număr valid';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return 'Valoarea trebuie să fie cel puțin $min';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return 'Valoarea trebuie să fie cel mult $max';
+  }
+
+  @override
+  String get numericFieldRequiredError => 'Acest câmp este obligatoriu';
+
+  @override
+  String get numericFieldInvalidNumberError =>
+      'Vă rugăm introduceți un număr valid';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return 'Valoarea trebuie să fie cel puțin $min';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return 'Valoarea trebuie să fie cel mult $max';
+  }
+
+  @override
+  String get dropdownSearchHintText => 'Tastați pentru a căuta...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return 'Eroare la încărcarea sugestiilor: $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => 'Nu s-au găsit rezultate';
+
+  @override
+  String get dropdownSearchLoading => 'Se caută...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return 'Folosiți \"$currentQuery\"';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* Obligatoriu';
+
+  @override
+  String get inventoryWeightExample => 'ex. 250.5';
 }

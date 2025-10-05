@@ -12,6 +12,7 @@ import 'app_localizations_es.dart';
 import 'app_localizations_fa.dart';
 import 'app_localizations_fi.dart';
 import 'app_localizations_fr.dart';
+import 'app_localizations_hr.dart';
 import 'app_localizations_id.dart';
 import 'app_localizations_it.dart';
 import 'app_localizations_ja.dart';
@@ -118,6 +119,7 @@ abstract class AppLocalizations {
     Locale('fa'),
     Locale('fi'),
     Locale('fr'),
+    Locale('hr'),
     Locale('id'),
     Locale('it'),
     Locale('ja'),
@@ -2549,6 +2551,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recipe is private - share to make public'**
   String get recipePrivateTooltip;
+
+  /// No description provided for @fieldClearButtonTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get fieldClearButtonTooltip;
+
+  /// No description provided for @dateFieldClearButtonTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear date'**
+  String get dateFieldClearButtonTooltip;
+
+  /// No description provided for @chipInputDuplicateError.
+  ///
+  /// In en, this message translates to:
+  /// **'This tag is already added'**
+  String get chipInputDuplicateError;
+
+  /// No description provided for @chipInputMaxTagsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum number of tags reached ({maxChips})'**
+  String chipInputMaxTagsError(Object maxChips);
+
+  /// No description provided for @chipInputHintText.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a tag...'**
+  String get chipInputHintText;
+
+  /// No description provided for @unitFieldRequiredError.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get unitFieldRequiredError;
+
+  /// No description provided for @unitFieldInvalidNumberError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid number'**
+  String get unitFieldInvalidNumberError;
+
+  /// No description provided for @unitFieldMinValueError.
+  ///
+  /// In en, this message translates to:
+  /// **'Value must be at least {min}'**
+  String unitFieldMinValueError(Object min);
+
+  /// No description provided for @unitFieldMaxValueError.
+  ///
+  /// In en, this message translates to:
+  /// **'Value must be at most {max}'**
+  String unitFieldMaxValueError(Object max);
+
+  /// No description provided for @numericFieldRequiredError.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get numericFieldRequiredError;
+
+  /// No description provided for @numericFieldInvalidNumberError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid number'**
+  String get numericFieldInvalidNumberError;
+
+  /// No description provided for @numericFieldMinValueError.
+  ///
+  /// In en, this message translates to:
+  /// **'Value must be at least {min}'**
+  String numericFieldMinValueError(Object min);
+
+  /// No description provided for @numericFieldMaxValueError.
+  ///
+  /// In en, this message translates to:
+  /// **'Value must be at most {max}'**
+  String numericFieldMaxValueError(Object max);
+
+  /// No description provided for @dropdownSearchHintText.
+  ///
+  /// In en, this message translates to:
+  /// **'Type to search...'**
+  String get dropdownSearchHintText;
+
+  /// No description provided for @dropdownSearchLoadingError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading suggestions: {error}'**
+  String dropdownSearchLoadingError(Object error);
+
+  /// No description provided for @dropdownSearchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get dropdownSearchNoResults;
+
+  /// No description provided for @dropdownSearchLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching...'**
+  String get dropdownSearchLoading;
+
+  /// No description provided for @dropdownSearchUseCustomEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Use \"{currentQuery}\"'**
+  String dropdownSearchUseCustomEntry(Object currentQuery);
+
+  /// No description provided for @requiredInfoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'* Required'**
+  String get requiredInfoSubtitle;
+
+  /// No description provided for @inventoryWeightExample.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 250.5'**
+  String get inventoryWeightExample;
 }
 
 class _AppLocalizationsDelegate
@@ -2569,6 +2691,7 @@ class _AppLocalizationsDelegate
         'fa',
         'fi',
         'fr',
+        'hr',
         'id',
         'it',
         'ja',
@@ -2604,6 +2727,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsFi();
     case 'fr':
       return AppLocalizationsFr();
+    case 'hr':
+      return AppLocalizationsHr();
     case 'id':
       return AppLocalizationsId();
     case 'it':

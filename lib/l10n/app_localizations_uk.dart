@@ -1371,4 +1371,79 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get recipePrivateTooltip =>
       'Рецепт є приватним - поділіться, щоб зробити його публічним';
+
+  @override
+  String get fieldClearButtonTooltip => 'Очистити';
+
+  @override
+  String get dateFieldClearButtonTooltip => 'Очистити дату';
+
+  @override
+  String get chipInputDuplicateError => 'Цей тег вже додано';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return 'Досягнуто максимальної кількості тегів ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => 'Додати тег...';
+
+  @override
+  String get unitFieldRequiredError => 'Це поле є обов\'язковим';
+
+  @override
+  String get unitFieldInvalidNumberError => 'Будь ласка, введіть дійсне число';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return 'Значення має бути не менше $min';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return 'Значення має бути не більше $max';
+  }
+
+  @override
+  String get numericFieldRequiredError => 'Це поле є обов\'язковим';
+
+  @override
+  String get numericFieldInvalidNumberError =>
+      'Будь ласка, введіть дійсне число';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return 'Значення має бути не менше $min';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return 'Значення має бути не більше $max';
+  }
+
+  @override
+  String get dropdownSearchHintText => 'Введіть для пошуку...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return 'Помилка завантаження пропозицій: $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => 'Результатів не знайдено';
+
+  @override
+  String get dropdownSearchLoading => 'Пошук...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return 'Використати \"$currentQuery\"';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* Обов\'язково';
+
+  @override
+  String get inventoryWeightExample => 'напр., 250.5';
 }

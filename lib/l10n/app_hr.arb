@@ -2,10 +2,10 @@
   "@@locale": "hr",
   "beansStatsSectionTitle": "Statistika zrna",
   "totalBeansBrewedLabel": "Ukupno pripremljenih zrna",
-  "newBeansTriedLabel": "Isprobano novih zrna",
+  "newBeansTriedLabel": "Isprobana nova zrna",
   "originsExploredLabel": "Istražena podrijetla",
   "regionsExploredLabel": "Istražene regije",
-  "newRoastersDiscoveredLabel": "Otkriveno novih pržionica",
+  "newRoastersDiscoveredLabel": "Otkrivene nove pržionice",
   "favoriteRoastersLabel": "Omiljene pržionice",
   "topOriginsLabel": "Naj podrijetla",
   "topRegionsLabel": "Naj regije",
@@ -20,11 +20,11 @@
   "userRecipesDeleteCancel": "Odustani",
   "userRecipesSnackbarDeleted": "Recept je izbrisan",
   "hubUserRecipesTitle": "Tvoji recepti",
-  "hubUserRecipesSubtitle": "Pregledaj i upravljaj kreiranim i uvezenim receptima",
+  "hubUserRecipesSubtitle": "Pogledaj i upravljaj kreiranim i uvezenim receptima",
   "hubAccountSubtitle": "Upravljaj svojim profilom",
   "hubSignInCreateSubtitle": "Prijavi se za sinkronizaciju recepata i postavki",
-  "hubBrewDiarySubtitle": "Pregledaj svoju povijest pripreme i dodaj bilješke",
-  "hubBrewStatsSubtitle": "Pregledaj osobnu i globalnu statistiku i trendove pripreme",
+  "hubBrewDiarySubtitle": "Pogledaj povijest pripreme i dodaj bilješke",
+  "hubBrewStatsSubtitle": "Pogledaj osobnu i globalnu statistiku i trendove pripreme",
   "hubSettingsSubtitle": "Promijeni postavke i ponašanje aplikacije",
   "hubAboutSubtitle": "Detalji aplikacije, verzija i suradnici",
   "about": "O aplikaciji",
@@ -35,7 +35,7 @@
   "license": "Licenca",
   "licensetext": "Ova aplikacija je slobodni softver: možete je distribuirati i/ili mijenjati pod uvjetima GNU Opće javne licence koju je objavila Zaklada za slobodni softver, bilo verzije 3 Licence ili (po vašem izboru) bilo koje kasnije verzije.",
   "licensebutton": "Pročitajte GNU Opću javnu licencu v3",
-  "website": "Web stranica",
+  "website": "Web-stranica",
   "sourcecode": "Izvorni kod",
   "support": "Kupi mi kavu",
   "allrecipes": "Svi recepti",
@@ -57,7 +57,7 @@
       "count": {}
     }
   },
-  "finishmsg": "Hvala što koristiš Timer.Coffee! Uživaj u kavi koju si pripremio na način",
+  "finishmsg": "Hvala što koristiš Timer.Coffee! Uživaj u svojoj",
   "coffeefact": "Činjenica o kavi",
   "home": "Početna",
   "appversion": "Verzija aplikacije",
@@ -71,7 +71,7 @@
   "donationtnx": "Zaista cijenim tvoju podršku! Želim ti puno odličnih priprema! ☕️",
   "donationerr": "Greška",
   "donationerrmsg": "Greška pri obradi kupnje, pokušaj ponovno.",
-  "sharemsg": "Pregledaj ovaj recept:",
+  "sharemsg": "Pogledaj ovaj recept:",
   "finishbrew": "Završi",
   "settings": "Postavke",
   "settingstheme": "Tema",
@@ -87,7 +87,7 @@
   "slidertitle": "Pomoću klizača prilagodi okus",
   "whatsnewtitle": "Novosti",
   "whatsnewclose": "Zatvori",
-  "seasonspecials": "Sezonska specijalna ponuda",
+  "seasonspecials": "Sezonska ponuda",
   "snow": "Snijeg",
   "noFavoriteRecipesMessage": "Tvoj popis omiljenih recepata je trenutno prazan. Počni istraživati i pripremati kako bi otkrio/la svoje favorite!",
   "explore": "Istraži",
@@ -105,7 +105,7 @@
   "litersUnit": "L",
   "mostUsedRecipes": "Najčešće korišteni recepti:",
   "globalStats": "Globalna statistika",
-  "unknownRecipe": "Nepoznat recept",
+  "unknownRecipe": "Nepoznati recept",
   "noData": "Nema podataka",
   "error": "Greška",
   "someoneJustBrewed": "Netko je upravo pripremio {recipeName}",
@@ -144,7 +144,7 @@
   "elevation": "Nadmorska visina",
   "harvestDate": "Datum berbe",
   "processing": "Obrada",
-  "processingMethod": "Način obrade",
+  "processingMethod": "Metoda obrade",
   "roastDate": "Datum prženja",
   "roastLevel": "Stupanj prženja",
   "cuppingScore": "Cupping ocjena",
@@ -176,10 +176,10 @@
   "enterOrigin": "Unesi podrijetlo",
   "optional": "Neobavezno",
   "enterVariety": "Unesi sortu",
-  "enterProcessingMethod": "Unesi način obrade",
+  "enterProcessingMethod": "Unesi metodu obrade",
   "enterRoastLevel": "Unesi stupanj prženja",
   "enterRegion": "Unesi regiju",
-  "enterTastingNotes": "Unesi bilješke o kušanju",
+  "enterTastingNotes": "Unesi bilješke kušanja",
   "enterElevation": "Unesi nadmorsku visinu",
   "enterCuppingScore": "Unesi cupping ocjenu",
   "enterNotes": "Unesi bilješke",
@@ -200,7 +200,7 @@
   "myBeans": "Moja zrna",
   "signIn": "Prijava",
   "signOut": "Odjava",
-  "signInWithApple": "Prijava putem Applea",
+  "signInWithApple": "Prijava s Appleom",
   "signInSuccessful": "Uspješna prijava putem Applea",
   "signInError": "Greška pri prijavi putem Applea",
   "signInWithGoogle": "Prijava putem Googlea",
@@ -227,7 +227,7 @@
   "signInCreate": "Prijava / Kreiraj račun",
   "accountManagement": "Upravljanje računom",
   "deleteAccount": "Izbriši račun",
-  "deleteAccountWarning": "Napomena: ako odlučiš nastaviti, izbrisat ćemo tvoj račun i sve povezane podatke. Lokalna kopija podataka ostat će na uređaju, ako i njih želiš izbrisati, jednostavno izbriši aplikaciju. Ako kasnije želiš ponovno omogućiti sinkronizaciju, morat ćeš ponovno kreirati račun.",
+  "deleteAccountWarning": "Imaj na umu: ako odlučiš nastaviti, izbrisat ćemo tvoj račun i sve povezane podatke. Ako kasnije želiš ponovno omogućiti sinkronizaciju, morat ćeš ponovno kreirati račun.",
   "deleteAccountConfirmation": "Račun je uspješno izbrisan",
   "accountDeleted": "Račun izbrisan",
   "accountDeletionError": "Greška pri brisanju računa, pokušaj ponovno",
@@ -309,7 +309,7 @@
   "@yearlyStatsStory7Part2": {
     "description": "Second part of story 7"
   },
-  "yearlyStatsStory8TitleLow": "Ostao/la si dosljedan/dosljedna i koristio/la samo ovih {count} načina pripreme ove godine:",
+  "yearlyStatsStory8TitleLow": "Ostao/la si dosljedan/dosljedna i koristio/la samo ovih {count} metoda pripreme ove godine:",
   "@yearlyStatsStory8TitleLow": {
     "description": "Title for low number of brewing methods",
     "placeholders": {
@@ -318,7 +318,7 @@
       }
     }
   },
-  "yearlyStatsStory8TitleMedium": "Otkrivao/la si nove okuse i koristio/la {count} načina pripreme ove godine:",
+  "yearlyStatsStory8TitleMedium": "Otkrivao/la si nove okuse i koristio/la {count} metoda pripreme ove godine:",
   "@yearlyStatsStory8TitleMedium": {
     "description": "Title for medium number of brewing methods",
     "placeholders": {
@@ -327,7 +327,7 @@
       }
     }
   },
-  "yearlyStatsStory8TitleHigh": "Bio/la si pravi istraživač kave i koristio/la {count} načina pripreme ove godine:",
+  "yearlyStatsStory8TitleHigh": "Bio/la si pravi istraživač kave i koristio/la {count} metoda pripreme ove godine:",
   "@yearlyStatsStory8TitleHigh": {
     "description": "Title for high number of brewing methods",
     "placeholders": {
@@ -340,7 +340,7 @@
   "@yearlyStatsStory9Text": {
     "description": "Encouraging message for further discovery"
   },
-  "yearlyStatsStory10Text": "Tvoja top 3 recepta u 2024. su bila{ellipsis}",
+  "yearlyStatsStory10Text": "Tvoja top-3 recepta u 2024. su bila{ellipsis}",
   "@yearlyStatsStory10Text": {
     "description": "Statement about top-3 recipes with ellipsis",
     "placeholders": {
@@ -385,11 +385,11 @@
   "@yearlyStatsShareProgressMyYear": {
     "description": "Title in the Share Progress Widget"
   },
-  "yearlyStatsShareProgressTop3Recipes": "Moja top 3 recepta:",
+  "yearlyStatsShareProgressTop3Recipes": "Moja top-3 recepta:",
   "@yearlyStatsShareProgressTop3Recipes": {
     "description": "Header for top-3 recipes in the Share Progress Widget"
   },
-  "yearlyStatsShareProgressTop3Roasters": "Moje top 3 pržionice:",
+  "yearlyStatsShareProgressTop3Roasters": "Moje top-3 pržionice:",
   "@yearlyStatsShareProgressTop3Roasters": {
     "description": "Header for top-3 roasters in the Share Progress Widget"
   },
@@ -429,7 +429,7 @@
       }
     }
   },
-  "formattedBrewingMethodCount": "{count} {count, plural, =1{način pripreme} other{načini pripreme}}",
+  "formattedBrewingMethodCount": "{count} {count, plural, =1{metoda pripreme} other{metode pripreme}}",
   "@formattedBrewingMethodCount": {
     "placeholders": {
       "count": {
@@ -442,7 +442,7 @@
   "recipeCreationScreenRecipeStepsTitle": "Koraci recepta",
   "recipeCreationScreenRecipeNameLabel": "Naziv recepta",
   "recipeCreationScreenShortDescriptionLabel": "Kratki opis",
-  "recipeCreationScreenBrewingMethodLabel": "Način pripreme",
+  "recipeCreationScreenBrewingMethodLabel": "Metoda pripreme",
   "recipeCreationScreenCoffeeAmountLabel": "Količina kave (g)",
   "recipeCreationScreenWaterAmountLabel": "Količina vode (ml)",
   "recipeCreationScreenWaterTempLabel": "Temperatura vode (°C)",
@@ -465,7 +465,7 @@
   "recipeCreationScreenStepTimeLabel": "Vrijeme koraka: ",
   "recipeCreationScreenRecipeNameValidator": "Unesi naziv recepta",
   "recipeCreationScreenShortDescriptionValidator": "Unesi kratak opis",
-  "recipeCreationScreenBrewingMethodValidator": "Odaberi način pripreme",
+  "recipeCreationScreenBrewingMethodValidator": "Odaberi metodu pripreme",
   "recipeCreationScreenRequiredValidator": "Obavezno",
   "recipeCreationScreenInvalidNumberValidator": "Nevažeći broj",
   "recipeCreationScreenStepDescriptionValidator": "Unesi opis koraka",
@@ -531,7 +531,7 @@
       "error": {}
     }
   },
-  "unknownBrewingMethod": "Nepoznat način pripreme",
+  "unknownBrewingMethod": "Nepoznata metoda pripreme",
   "recipeCopyErrorLoadingEdit": "Nije uspjelo učitavanje kopiranog recepta za uređivanje.",
   "recipeCopyErrorOperationFailed": "Operacija nije uspjela.",
   "notProvided": "Nije navedeno",
@@ -678,7 +678,7 @@
   "updatePictureSuccess": "Profilna slika je uspješno ažurirana!",
   "deletePictureTooltip": "Izbriši sliku",
   "account": "Račun",
-  "settingsBrewingMethodsTitle": "Načini pripreme na početnom zaslonu",
+  "settingsBrewingMethodsTitle": "Metode pripreme na početnom zaslonu",
   "filter": "Filter",
   "@filter": {
     "description": "Label for the filter button in the coffee beans screen"
@@ -773,5 +773,25 @@
     }
   },
   "recipePublicTooltip": "Recept je javan – dodirni za postavljanje na privatno",
-  "recipePrivateTooltip": "Recept je privatan – podijeli da bi postao javan"
+  "recipePrivateTooltip": "Recept je privatan – podijeli da bi postao javan",
+  "fieldClearButtonTooltip": "Obriši",
+  "dateFieldClearButtonTooltip": "Obriši datum",
+  "chipInputDuplicateError": "Ova oznaka je već dodana",
+  "chipInputMaxTagsError": "Dosegnut je maksimalni broj oznaka ({maxChips})",
+  "chipInputHintText": "Dodaj oznaku...",
+  "unitFieldRequiredError": "Ovo polje je obavezno",
+  "unitFieldInvalidNumberError": "Unesite važeći broj",
+  "unitFieldMinValueError": "Vrijednost mora biti najmanje {min}",
+  "unitFieldMaxValueError": "Vrijednost mora biti najviše {max}",
+  "numericFieldRequiredError": "Ovo polje je obavezno",
+  "numericFieldInvalidNumberError": "Unesite važeći broj",
+  "numericFieldMinValueError": "Vrijednost mora biti najmanje {min}",
+  "numericFieldMaxValueError": "Vrijednost mora biti najviše {max}",
+  "dropdownSearchHintText": "Upišite za pretraživanje...",
+  "dropdownSearchLoadingError": "Greška pri učitavanju prijedloga: {error}",
+  "dropdownSearchNoResults": "Nema pronađenih rezultata",
+  "dropdownSearchLoading": "Pretraživanje...",
+  "dropdownSearchUseCustomEntry": "Koristi \"{currentQuery}\"",
+  "requiredInfoSubtitle": "* Obavezno",
+  "inventoryWeightExample": "npr., 250.5"
 }

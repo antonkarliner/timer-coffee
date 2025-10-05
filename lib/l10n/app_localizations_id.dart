@@ -1357,4 +1357,79 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get recipePrivateTooltip =>
       'Resep ini pribadi - bagikan untuk menjadikannya publik';
+
+  @override
+  String get fieldClearButtonTooltip => 'Hapus';
+
+  @override
+  String get dateFieldClearButtonTooltip => 'Hapus tanggal';
+
+  @override
+  String get chipInputDuplicateError => 'Tag ini sudah ditambahkan';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return 'Jumlah tag maksimal telah tercapai ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => 'Tambahkan tag...';
+
+  @override
+  String get unitFieldRequiredError => 'Field ini wajib diisi';
+
+  @override
+  String get unitFieldInvalidNumberError => 'Harap masukkan angka yang valid';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return 'Nilai harus minimal $min';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return 'Nilai harus maksimal $max';
+  }
+
+  @override
+  String get numericFieldRequiredError => 'Field ini wajib diisi';
+
+  @override
+  String get numericFieldInvalidNumberError =>
+      'Harap masukkan angka yang valid';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return 'Nilai harus minimal $min';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return 'Nilai harus maksimal $max';
+  }
+
+  @override
+  String get dropdownSearchHintText => 'Ketik untuk mencari...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return 'Error memuat saran: $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => 'Tidak ada hasil';
+
+  @override
+  String get dropdownSearchLoading => 'Mencari...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return 'Gunakan \"$currentQuery\"';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* Wajib';
+
+  @override
+  String get inventoryWeightExample => 'contoh: 250.5';
 }

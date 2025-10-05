@@ -1374,4 +1374,79 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get recipePrivateTooltip =>
       'La recette est privée - partagez pour la rendre publique';
+
+  @override
+  String get fieldClearButtonTooltip => 'Effacer';
+
+  @override
+  String get dateFieldClearButtonTooltip => 'Effacer la date';
+
+  @override
+  String get chipInputDuplicateError => 'Cette étiquette a déjà été ajoutée';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return 'Nombre maximum d\'étiquettes atteint ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => 'Ajouter une étiquette...';
+
+  @override
+  String get unitFieldRequiredError => 'Ce champ est obligatoire';
+
+  @override
+  String get unitFieldInvalidNumberError => 'Veuillez entrer un nombre valide';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return 'La valeur doit être au moins $min';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return 'La valeur doit être au plus $max';
+  }
+
+  @override
+  String get numericFieldRequiredError => 'Ce champ est obligatoire';
+
+  @override
+  String get numericFieldInvalidNumberError =>
+      'Veuillez entrer un nombre valide';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return 'La valeur doit être au moins $min';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return 'La valeur doit être au plus $max';
+  }
+
+  @override
+  String get dropdownSearchHintText => 'Tapez pour rechercher...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return 'Erreur lors du chargement des suggestions : $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => 'Aucun résultat trouvé';
+
+  @override
+  String get dropdownSearchLoading => 'Recherche...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return 'Utiliser \"$currentQuery\"';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* Obligatoire';
+
+  @override
+  String get inventoryWeightExample => 'ex. 250,5';
 }

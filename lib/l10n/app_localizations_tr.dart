@@ -1362,4 +1362,78 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get recipePrivateTooltip =>
       'Tarif gizli - herkese açık yapmak için paylaşın';
+
+  @override
+  String get fieldClearButtonTooltip => 'Temizle';
+
+  @override
+  String get dateFieldClearButtonTooltip => 'Tarihi temizle';
+
+  @override
+  String get chipInputDuplicateError => 'Bu etiket zaten eklenmiş';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return 'Maksimum etiket sayısına ulaşıldı ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => 'Etiket ekle...';
+
+  @override
+  String get unitFieldRequiredError => 'Bu alan zorunludur';
+
+  @override
+  String get unitFieldInvalidNumberError => 'Lütfen geçerli bir sayı girin';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return 'Değer en az $min olmalıdır';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return 'Değer en fazla $max olmalıdır';
+  }
+
+  @override
+  String get numericFieldRequiredError => 'Bu alan zorunludur';
+
+  @override
+  String get numericFieldInvalidNumberError => 'Lütfen geçerli bir sayı girin';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return 'Değer en az $min olmalıdır';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return 'Değer en fazla $max olmalıdır';
+  }
+
+  @override
+  String get dropdownSearchHintText => 'Aramak için yazın...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return 'Öneriler yüklenirken hata: $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => 'Sonuç bulunamadı';
+
+  @override
+  String get dropdownSearchLoading => 'Aranıyor...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return '\"$currentQuery\" kullan';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* Zorunlu';
+
+  @override
+  String get inventoryWeightExample => 'örn. 250.5';
 }

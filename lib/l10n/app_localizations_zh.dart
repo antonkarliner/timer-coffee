@@ -1315,4 +1315,78 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get recipePrivateTooltip => '配方是私有的 - 分享以公开';
+
+  @override
+  String get fieldClearButtonTooltip => '清除';
+
+  @override
+  String get dateFieldClearButtonTooltip => '清除日期';
+
+  @override
+  String get chipInputDuplicateError => '此标签已添加';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return '已达到最大标签数量 ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => '添加标签...';
+
+  @override
+  String get unitFieldRequiredError => '此字段为必填项';
+
+  @override
+  String get unitFieldInvalidNumberError => '请输入有效数字';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return '值必须至少为 $min';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return '值必须至多为 $max';
+  }
+
+  @override
+  String get numericFieldRequiredError => '此字段为必填项';
+
+  @override
+  String get numericFieldInvalidNumberError => '请输入有效数字';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return '值必须至少为 $min';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return '值必须至多为 $max';
+  }
+
+  @override
+  String get dropdownSearchHintText => '输入以搜索...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return '加载建议时出错：$error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => '未找到结果';
+
+  @override
+  String get dropdownSearchLoading => '搜索中...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return '使用 \"$currentQuery\"';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* 必填';
+
+  @override
+  String get inventoryWeightExample => '例如：250.5';
 }

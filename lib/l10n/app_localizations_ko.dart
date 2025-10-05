@@ -1320,4 +1320,78 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get recipePrivateTooltip => '레시피 비공개 - 공유하여 공개 만들기';
+
+  @override
+  String get fieldClearButtonTooltip => '지우기';
+
+  @override
+  String get dateFieldClearButtonTooltip => '날짜 지우기';
+
+  @override
+  String get chipInputDuplicateError => '이 태그는 이미 추가되었습니다';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return '최대 태그 수에 도달했습니다 ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => '태그 추가...';
+
+  @override
+  String get unitFieldRequiredError => '이 필드는 필수입니다';
+
+  @override
+  String get unitFieldInvalidNumberError => '유효한 숫자를 입력하세요';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return '값은 최소 $min이어야 합니다';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return '값은 최대 $max이어야 합니다';
+  }
+
+  @override
+  String get numericFieldRequiredError => '이 필드는 필수입니다';
+
+  @override
+  String get numericFieldInvalidNumberError => '유효한 숫자를 입력하세요';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return '값은 최소 $min이어야 합니다';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return '값은 최대 $max이어야 합니다';
+  }
+
+  @override
+  String get dropdownSearchHintText => '검색어를 입력하세요...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return '제안 로딩 오류: $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => '결과를 찾을 수 없습니다';
+
+  @override
+  String get dropdownSearchLoading => '검색 중...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return '\"$currentQuery\" 사용';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* 필수';
+
+  @override
+  String get inventoryWeightExample => '예: 250.5';
 }

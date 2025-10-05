@@ -1319,4 +1319,78 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get recipePrivateTooltip => 'レシピは非公開です - 共有して公開します';
+
+  @override
+  String get fieldClearButtonTooltip => 'クリア';
+
+  @override
+  String get dateFieldClearButtonTooltip => '日付をクリア';
+
+  @override
+  String get chipInputDuplicateError => 'このタグは既に追加されています';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return 'タグの最大数に達しました ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => 'タグを追加...';
+
+  @override
+  String get unitFieldRequiredError => 'この項目は必須です';
+
+  @override
+  String get unitFieldInvalidNumberError => '有効な数字を入力してください';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return '値は最低$minである必要があります';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return '値は最大$maxである必要があります';
+  }
+
+  @override
+  String get numericFieldRequiredError => 'この項目は必須です';
+
+  @override
+  String get numericFieldInvalidNumberError => '有効な数字を入力してください';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return '値は最低$minである必要があります';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return '値は最大$maxである必要があります';
+  }
+
+  @override
+  String get dropdownSearchHintText => '入力して検索...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return '候補の読み込みエラー: $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => '結果が見つかりません';
+
+  @override
+  String get dropdownSearchLoading => '検索中...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return '\"$currentQuery\"を使用';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* 必須';
+
+  @override
+  String get inventoryWeightExample => '例: 250.5';
 }
