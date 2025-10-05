@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:coffee_timer/widgets/autocomplete_input_field.dart';
+import 'package:coffee_timer/widgets/containers/section_card.dart';
+import 'package:coffee_timer/widgets/fields/dropdown_search_field.dart';
+import '../../theme/design_tokens.dart';
 
 class RequiredInfoCard extends StatelessWidget {
   final String roaster;
@@ -31,74 +33,77 @@ class RequiredInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
 
-    return Card(
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.info_outline, color: theme.colorScheme.primary),
-                const SizedBox(width: 8),
-                Text(
-                  loc.requiredInformation,
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
+    return SectionCard(
+      title: loc.requiredInformation,
+      subtitle: loc.requiredInfoSubtitle,
+      icon: Icons.info_outline,
+      isCollapsible: false,
+      semanticIdentifier: 'requiredInfoCard',
+      child: Column(
+        children: [
+          // Roaster
+          DropdownSearchField(
+            label: loc.roaster,
+            hintText: loc.enterRoaster,
+            initialValue: roaster,
+            required: true,
+            semanticIdentifier: 'roasterInputField',
+            onSearch: (query) async {
+              // Get all options and filter based on query
+              final allOptions = await roasterOptions;
+              if (query.isEmpty) return allOptions;
 
-            // Roaster
-            Semantics(
-              identifier: 'roasterInputField',
-              label: loc.roaster,
-              child: AutocompleteInputField(
-                label: loc.roaster,
-                hintText: loc.enterRoaster,
-                initialOptions: roasterOptions,
-                onSelected: onRoasterChanged,
-                onChanged: onRoasterChanged, // Add onChanged callback
-                initialValue: roaster,
-              ),
-            ),
-            const SizedBox(height: 8),
+              return allOptions
+                  .where((option) =>
+                      option.toLowerCase().contains(query.toLowerCase()))
+                  .toList();
+            },
+            onChanged: onRoasterChanged,
+          ),
+          const SizedBox(height: AppSpacing.fieldGap),
 
-            // Name
-            Semantics(
-              identifier: 'nameInputField',
-              label: loc.name,
-              child: AutocompleteInputField(
-                label: loc.name,
-                hintText: loc.enterName,
-                initialOptions: nameOptions,
-                onSelected: onNameChanged,
-                onChanged: onNameChanged, // Add onChanged callback
-                initialValue: name,
-              ),
-            ),
-            const SizedBox(height: 8),
+          // Name
+          DropdownSearchField(
+            label: loc.name,
+            hintText: loc.enterName,
+            initialValue: name,
+            required: true,
+            semanticIdentifier: 'nameInputField',
+            onSearch: (query) async {
+              // Get all options and filter based on query
+              final allOptions = await nameOptions;
+              if (query.isEmpty) return allOptions;
 
-            // Origin
-            Semantics(
-              identifier: 'originInputField',
-              label: loc.origin,
-              child: AutocompleteInputField(
-                label: loc.origin,
-                hintText: loc.enterOrigin,
-                initialOptions: originOptions,
-                onSelected: onOriginChanged,
-                onChanged: onOriginChanged, // Add onChanged callback
-                initialValue: origin,
-              ),
-            ),
-          ],
-        ),
+              return allOptions
+                  .where((option) =>
+                      option.toLowerCase().contains(query.toLowerCase()))
+                  .toList();
+            },
+            onChanged: onNameChanged,
+          ),
+          const SizedBox(height: AppSpacing.fieldGap),
+
+          // Origin
+          DropdownSearchField(
+            label: loc.origin,
+            hintText: loc.enterOrigin,
+            initialValue: origin,
+            required: true,
+            semanticIdentifier: 'originInputField',
+            onSearch: (query) async {
+              // Get all options and filter based on query
+              final allOptions = await originOptions;
+              if (query.isEmpty) return allOptions;
+
+              return allOptions
+                  .where((option) =>
+                      option.toLowerCase().contains(query.toLowerCase()))
+                  .toList();
+            },
+            onChanged: onOriginChanged,
+          ),
+        ],
       ),
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:coffee_timer/widgets/autocomplete_input_field.dart';
-import 'package:coffee_timer/widgets/new_beans/section_header.dart';
+import 'package:coffee_timer/widgets/fields/dropdown_search_field.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 
 class ProcessingSection extends StatefulWidget {
@@ -56,37 +56,44 @@ class _ProcessingSectionState extends State<ProcessingSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionHeader(icon: Icons.settings, title: loc.processing),
-        const SizedBox(height: 8),
-        Semantics(
-          identifier: 'processingMethodInputField',
+        // Processing Method Field
+        DropdownSearchField(
           label: loc.processingMethod,
-          child: AutocompleteInputField(
-            label: loc.processingMethod,
-            hintText: loc.enterProcessingMethod,
-            initialOptions: _processingMethodFuture,
-            // Only commit changes when a suggestion is selected to avoid rebuilds while typing.
-            onSelected: (v) =>
-                widget.onProcessingMethodChanged(v.isEmpty ? null : v),
-            onChanged: (v) => widget.onProcessingMethodChanged(
-                v.isEmpty ? null : v), // Add onChanged callback
-            initialValue: widget.processingMethod,
-          ),
+          hintText: loc.enterProcessingMethod,
+          initialValue: widget.processingMethod,
+          semanticIdentifier: 'processingMethodInputField',
+          onSearch: (query) async {
+            final options = await _processingMethodFuture;
+            if (query.isEmpty) return options;
+            return options
+                .where((option) =>
+                    option.toLowerCase().contains(query.toLowerCase()))
+                .toList();
+          },
+          onChanged: (value) {
+            widget.onProcessingMethodChanged(value.isEmpty ? null : value);
+          },
         ),
-        const SizedBox(height: 8),
-        Semantics(
-          identifier: 'roastLevelInputField',
+
+        const SizedBox(height: AppSpacing.fieldGap),
+
+        // Roast Level Field
+        DropdownSearchField(
           label: loc.roastLevel,
-          child: AutocompleteInputField(
-            label: loc.roastLevel,
-            hintText: loc.enterRoastLevel,
-            initialOptions: _roastLevelFuture,
-            // Only commit on selection to avoid focus loss during typing.
-            onSelected: (v) => widget.onRoastLevelChanged(v.isEmpty ? null : v),
-            onChanged: (v) => widget.onRoastLevelChanged(
-                v.isEmpty ? null : v), // Add onChanged callback
-            initialValue: widget.roastLevel,
-          ),
+          hintText: loc.enterRoastLevel,
+          initialValue: widget.roastLevel,
+          semanticIdentifier: 'roastLevelInputField',
+          onSearch: (query) async {
+            final options = await _roastLevelFuture;
+            if (query.isEmpty) return options;
+            return options
+                .where((option) =>
+                    option.toLowerCase().contains(query.toLowerCase()))
+                .toList();
+          },
+          onChanged: (value) {
+            widget.onRoastLevelChanged(value.isEmpty ? null : value);
+          },
         ),
       ],
     );
