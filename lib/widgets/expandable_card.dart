@@ -4,7 +4,9 @@ class ExpandableCard extends StatefulWidget {
   final Key key;
   final Widget leading;
   final String header;
+  final TextStyle? headerStyle;
   final String subtitle;
+  final Widget? subtitleWidget;
   final Widget detail;
   final Widget? trailing;
   final bool isExpanded;
@@ -14,7 +16,9 @@ class ExpandableCard extends StatefulWidget {
     required this.key,
     required this.leading,
     required this.header,
+    this.headerStyle,
     required this.subtitle,
+    this.subtitleWidget,
     required this.detail,
     this.trailing,
     required this.isExpanded,
@@ -64,8 +68,16 @@ class _ExpandableCardState extends State<ExpandableCard>
             onTap: _toggleExpanded,
             child: ListTile(
               leading: widget.leading,
-              title: Text(widget.header),
-              subtitle: Text(widget.subtitle),
+              title: Text(
+                widget.header,
+                style: widget.headerStyle,
+              ),
+              subtitle: widget.subtitleWidget != null
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: widget.subtitleWidget,
+                    )
+                  : Text(widget.subtitle),
               trailing: widget.trailing ??
                   IconButton(
                     icon: Icon(
