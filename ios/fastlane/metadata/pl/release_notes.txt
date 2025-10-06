@@ -1,5 +1,3 @@
-Nowość: Śledź zapasy ziaren! Możesz teraz zapisywać wagę pozostałych ziaren. Ilość będzie automatycznie zmniejszana po każdym parzeniu. Dziękujemy @vgorova za pomysł!
+Nowość: Obsługa języka chorwackiego! Wielkie podziękowania dla Dražena Navratila za tłumaczenie!
 
-Poprawka: Naprawiono problem, w którym kroki były duplikowane po edycji przepisów użytkownika. Dziękujemy @sbezavvs za zgłoszenie!
-
-Poprawka: Ilości składników – waga i objętość – skalują się teraz poprawnie w przepisach. Dziękujemy @sbezavvs za zgłoszenie!
+Ulepszenie: wiele poprawek wizualnych na różnych ekranach: ekran Szczegóły Przepisu, ekran Nowe Ziarna, ekran Zakończenia oraz ekran Informacji. Projekt jest teraz znacznie bardziej spójny i przejrzysty w całej aplikacji.

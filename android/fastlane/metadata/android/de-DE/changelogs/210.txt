@@ -1,0 +1,3 @@
+Neu: Kroatische Sprachunterstützung! Ein großes Dankeschön an Dražen Navratil für die Übersetzung!
+
+Verbessert: Viele Designanpassungen auf verschiedenen Bildschirmen – Rezept-Detail, Neue Bohnen, Abschluss und Info. Das Design wirkt jetzt deutlich einheitlicher und stimmiger in der ganzen App.

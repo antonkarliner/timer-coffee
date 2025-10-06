@@ -12,6 +12,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../app_router.gr.dart';
+import '../theme/design_tokens.dart';
 
 @RoutePage()
 class InfoScreen extends StatefulWidget {
@@ -164,31 +165,100 @@ class _InfoScreenState extends State<InfoScreen> {
             child: Wrap(
               alignment: WrapAlignment.center,
               spacing: 12.0,
-              runSpacing: 2.0,
+              runSpacing: 8.0,
               children: [
-                ElevatedButton.icon(
-                  onPressed: () => _launchURL('https://www.timer.coffee'),
-                  icon: const Icon(Icons.explore),
-                  label: Text(l10n.website),
+                SizedBox(
+                  height: 56,
+                  child: ElevatedButton.icon(
+                    onPressed: () => _launchURL('https://www.timer.coffee'),
+                    icon: const Icon(Icons.explore),
+                    label: Text(
+                      l10n.website,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.card),
+                      ),
+                      elevation: 2,
+                    ),
+                  ),
                 ),
-                ElevatedButton.icon(
-                  onPressed: () => _launchURL(
-                      'https://github.com/antonkarliner/coffee-timer'),
-                  icon: const Icon(Icons.code),
-                  label: Text(l10n.sourcecode),
+                SizedBox(
+                  height: 56,
+                  child: ElevatedButton.icon(
+                    onPressed: () => _launchURL(
+                        'https://github.com/antonkarliner/coffee-timer'),
+                    icon: const Icon(Icons.code),
+                    label: Text(
+                      l10n.sourcecode,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.card),
+                      ),
+                      elevation: 2,
+                    ),
+                  ),
                 ),
                 if (kIsWeb || !Platform.isIOS)
-                  ElevatedButton.icon(
-                    onPressed: () =>
-                        _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                    icon: const Icon(Icons.local_cafe),
-                    label: Text(l10n.support),
+                  SizedBox(
+                    height: 56,
+                    child: ElevatedButton.icon(
+                      onPressed: () => _launchURL(
+                          'https://www.buymeacoffee.com/timercoffee'),
+                      icon: const Icon(Icons.local_cafe),
+                      label: Text(
+                        l10n.support,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.card),
+                        ),
+                        elevation: 2,
+                      ),
+                    ),
                   ),
                 if (!kIsWeb && Platform.isIOS)
-                  ElevatedButton.icon(
-                    onPressed: () => context.router.push(const DonationRoute()),
-                    icon: const Icon(Icons.local_cafe),
-                    label: Text(l10n.support),
+                  SizedBox(
+                    height: 56,
+                    child: ElevatedButton.icon(
+                      onPressed: () =>
+                          context.router.push(const DonationRoute()),
+                      icon: const Icon(Icons.local_cafe),
+                      label: Text(
+                        l10n.support,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.card),
+                        ),
+                        elevation: 2,
+                      ),
+                    ),
                   ),
               ],
             ),

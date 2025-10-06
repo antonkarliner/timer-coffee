@@ -1,5 +1,3 @@
-Nouveau : Suivez votre stock de café en grains ! Vous pouvez désormais enregistrer le poids de vos grains restants. La quantité diminuera automatiquement après chaque infusion. Merci à @vgorova pour l’idée !
+Nouveau : prise en charge de la langue croate ! Un grand merci à Dražen Navratil pour la traduction !
 
-Correction : Résolution d’un problème où les étapes étaient dupliquées après l’édition de recettes utilisateur. Merci à @sbezavvs pour le signalement !
-
-Correction : Les poids et volumes des ingrédients s’ajustent désormais correctement dans les recettes. Merci à @sbezavvs pour le signalement !
+Amélioré : de nombreuses améliorations de design sur différents écrans : écran Détail de la recette, écran Nouveaux grains, écran Fin, écran Infos. Le design est désormais beaucoup plus fluide et cohérent dans toute l’application.

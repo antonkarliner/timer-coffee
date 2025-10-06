@@ -1360,4 +1360,78 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get recipePrivateTooltip =>
       'Recept is privé - deel om openbaar te maken';
+
+  @override
+  String get fieldClearButtonTooltip => 'Wissen';
+
+  @override
+  String get dateFieldClearButtonTooltip => 'Datum wissen';
+
+  @override
+  String get chipInputDuplicateError => 'Deze tag is al toegevoegd';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return 'Maximum aantal tags bereikt ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => 'Voeg een tag toe...';
+
+  @override
+  String get unitFieldRequiredError => 'Dit veld is verplicht';
+
+  @override
+  String get unitFieldInvalidNumberError => 'Voer een geldig nummer in';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return 'Waarde moet minimaal $min zijn';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return 'Waarde mag maximaal $max zijn';
+  }
+
+  @override
+  String get numericFieldRequiredError => 'Dit veld is verplicht';
+
+  @override
+  String get numericFieldInvalidNumberError => 'Voer een geldig nummer in';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return 'Waarde moet minimaal $min zijn';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return 'Waarde mag maximaal $max zijn';
+  }
+
+  @override
+  String get dropdownSearchHintText => 'Typ om te zoeken...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return 'Fout bij het laden van suggesties: $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => 'Geen resultaten gevonden';
+
+  @override
+  String get dropdownSearchLoading => 'Zoeken...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return 'Gebruik \"$currentQuery\"';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* Verplicht';
+
+  @override
+  String get inventoryWeightExample => 'bijv. 250.5';
 }

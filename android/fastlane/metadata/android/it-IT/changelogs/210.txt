@@ -1,0 +1,3 @@
+Novità: Supporto per la lingua croata! Un grande grazie a Dražen Navratil per la traduzione!
+
+Migliorie: tanti miglioramenti al design in diverse schermate: Dettaglio Ricetta, Nuovi Chicchi, Schermata Finale e Info. Il design ora è molto più uniforme e coerente in tutta l’app.

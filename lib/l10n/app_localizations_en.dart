@@ -1349,4 +1349,78 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recipePrivateTooltip => 'Recipe is private - share to make public';
+
+  @override
+  String get fieldClearButtonTooltip => 'Clear';
+
+  @override
+  String get dateFieldClearButtonTooltip => 'Clear date';
+
+  @override
+  String get chipInputDuplicateError => 'This tag is already added';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return 'Maximum number of tags reached ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => 'Add a tag...';
+
+  @override
+  String get unitFieldRequiredError => 'This field is required';
+
+  @override
+  String get unitFieldInvalidNumberError => 'Please enter a valid number';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return 'Value must be at least $min';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return 'Value must be at most $max';
+  }
+
+  @override
+  String get numericFieldRequiredError => 'This field is required';
+
+  @override
+  String get numericFieldInvalidNumberError => 'Please enter a valid number';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return 'Value must be at least $min';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return 'Value must be at most $max';
+  }
+
+  @override
+  String get dropdownSearchHintText => 'Type to search...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return 'Error loading suggestions: $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => 'No results found';
+
+  @override
+  String get dropdownSearchLoading => 'Searching...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return 'Use \"$currentQuery\"';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* Required';
+
+  @override
+  String get inventoryWeightExample => 'e.g., 250.5';
 }

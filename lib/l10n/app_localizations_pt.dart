@@ -1367,4 +1367,80 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get recipePrivateTooltip =>
       'A receita é privada - partilhe para a tornar pública';
+
+  @override
+  String get fieldClearButtonTooltip => 'Limpar';
+
+  @override
+  String get dateFieldClearButtonTooltip => 'Limpar data';
+
+  @override
+  String get chipInputDuplicateError => 'Esta tag já foi adicionada';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return 'Número máximo de tags atingido ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => 'Adicionar uma tag...';
+
+  @override
+  String get unitFieldRequiredError => 'Este campo é obrigatório';
+
+  @override
+  String get unitFieldInvalidNumberError =>
+      'Por favor, insira um número válido';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return 'O valor deve ser pelo menos $min';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return 'O valor deve ser no máximo $max';
+  }
+
+  @override
+  String get numericFieldRequiredError => 'Este campo é obrigatório';
+
+  @override
+  String get numericFieldInvalidNumberError =>
+      'Por favor, insira um número válido';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return 'O valor deve ser pelo menos $min';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return 'O valor deve ser no máximo $max';
+  }
+
+  @override
+  String get dropdownSearchHintText => 'Digite para pesquisar...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return 'Erro ao carregar sugestões: $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => 'Nenhum resultado encontrado';
+
+  @override
+  String get dropdownSearchLoading => 'Pesquisando...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return 'Usar \"$currentQuery\"';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* Obrigatório';
+
+  @override
+  String get inventoryWeightExample => 'ex. 250.5';
 }

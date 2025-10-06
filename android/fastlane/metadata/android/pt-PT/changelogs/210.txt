@@ -1,0 +1,3 @@
+Novo: Suporte para a língua croata! Um grande obrigado ao Dražen Navratil pela tradução!
+
+Melhorias: Várias otimizações de design em diferentes ecrãs: Detalhe da Receita, Novos Grãos, Conclusão e Informações. O design está agora mais simples e consistente em toda a aplicação.

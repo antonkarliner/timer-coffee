@@ -1,5 +1,3 @@
-Neu: Behalte deinen Bohnenvorrat im Blick! Du kannst jetzt das Gewicht deiner verbleibenden Kaffeebohnen erfassen. Die Menge wird nach jedem Brühvorgang automatisch angepasst. Danke an @vgorova für die Idee!
+Neu: Kroatische Sprachunterstützung! Ein großes Dankeschön an Dražen Navratil für die Übersetzung!
 
-Fehlerbehebung: Ein Problem wurde behoben, bei dem Schritte nach dem Bearbeiten von eigenen Rezepten doppelt angezeigt wurden. Danke an @sbezavvs für die Meldung!
-
-Fehlerbehebung: Die Mengenangaben für Zutaten (Gewicht und Volumen) werden jetzt in den Rezepten korrekt skaliert. Danke an @sbezavvs für die Meldung!
+Verbessert: Viele Design-Verbesserungen auf verschiedenen Bildschirmen: Rezept-Detailansicht, Neue Bohnen, Fertig-Bildschirm und Info-Bildschirm. Das Design wirkt jetzt deutlich einheitlicher und durchgängiger in der gesamten App.

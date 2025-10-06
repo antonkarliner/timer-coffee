@@ -5,7 +5,7 @@ import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:coffee_timer/widgets/new_beans/loading_overlay.dart';
-import 'package:coffee_timer/widgets/new_beans/save_button.dart';
+import 'package:coffee_timer/widgets/containers/sticky_action_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/coffee_beans_model.dart';
@@ -64,6 +64,50 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   // New: image flow controller
   late final NewBeansImageController _imageController;
 
+  // Validation state
+  bool _isFormValid = false;
+  Map<String, String?> _fieldErrors = {};
+
+  /// Validates the form and updates the validation state
+  void _validateForm() {
+    final bool wasValid = _isFormValid;
+
+    // Clear previous errors
+    final Map<String, String?> newErrors = {};
+
+    // Validate required fields
+    if (_roasterController.text.trim().isEmpty) {
+      newErrors['roaster'] = 'Roaster is required';
+    }
+
+    if (_nameController.text.trim().isEmpty) {
+      newErrors['name'] = 'Name is required';
+    }
+
+    if (_originController.text.trim().isEmpty) {
+      newErrors['origin'] = 'Origin is required';
+    }
+
+    // Form is valid if there are no errors
+    _isFormValid = newErrors.isEmpty;
+    _fieldErrors = newErrors;
+
+    // Only update state if validity changed to avoid unnecessary rebuilds
+    if (wasValid != _isFormValid) {
+      setState(() {});
+    }
+  }
+
+  /// Shows error message for a specific field
+  void _showFieldError(String fieldName) {
+    if (_fieldErrors.containsKey(fieldName) &&
+        _fieldErrors[fieldName] != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(_fieldErrors[fieldName]!)),
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -84,10 +128,33 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     });
 
     _checkFirstTimePopup();
+
+    // Add listeners to text controllers for validation
+    _roasterController.addListener(_validateForm);
+    _nameController.addListener(_validateForm);
+    _originController.addListener(_validateForm);
+
+    // Initial validation
+    _validateForm();
   }
 
   @override
   void dispose() {
+    // Remove listeners to prevent memory leaks
+    _roasterController.removeListener(_validateForm);
+    _nameController.removeListener(_validateForm);
+    _originController.removeListener(_validateForm);
+
+    // Dispose controllers
+    _roasterController.dispose();
+    _nameController.dispose();
+    _originController.dispose();
+    _elevationController.dispose();
+    _cuppingScoreController.dispose();
+    _notesController.dispose();
+    _farmerController.dispose();
+    _farmController.dispose();
+
     super.dispose();
   }
 
@@ -114,7 +181,82 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         harvestDate = bean.harvestDate;
         roastDate = bean.roastDate;
         packageWeightGrams = bean.packageWeightGrams;
+
+        // Trigger validation after loading bean details
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _validateForm();
+        });
       });
+    }
+  }
+
+  /// Saves the coffee beans data
+  Future<void> _saveCoffeeBeans() async {
+    final coffeeBeansProvider =
+        Provider.of<CoffeeBeansProvider>(context, listen: false);
+
+    try {
+      final bean = CoffeeBeansModel(
+        id: 0, // This will be ignored for new beans
+        beansUuid:
+            widget.uuid ?? _uuid.v7(), // Generate new UUID if not provided
+        roaster: _roasterController.text.trim(),
+        name: _nameController.text.trim(),
+        origin: _originController.text.trim(),
+        variety: variety,
+        tastingNotes:
+            _tastingNotes.isNotEmpty ? _tastingNotes.join(', ') : null,
+        processingMethod: processingMethod,
+        elevation: _elevationController.text.isNotEmpty
+            ? int.tryParse(_elevationController.text)
+            : null,
+        harvestDate: harvestDate,
+        roastDate: roastDate,
+        region: region,
+        roastLevel: roastLevel,
+        cuppingScore: _cuppingScoreController.text.isNotEmpty
+            ? double.tryParse(_cuppingScoreController.text)
+            : null,
+        notes: _notesController.text.isNotEmpty
+            ? _notesController.text.trim()
+            : null,
+        farmer: _farmerController.text.isNotEmpty
+            ? _farmerController.text.trim()
+            : null,
+        farm: _farmController.text.isNotEmpty
+            ? _farmController.text.trim()
+            : null,
+        packageWeightGrams: packageWeightGrams,
+        isFavorite: false,
+        versionVector: isEditMode
+            ? (await coffeeBeansProvider.fetchCoffeeBeansByUuid(widget.uuid!))
+                    ?.versionVector ??
+                VersionVector.initial(coffeeBeansProvider.deviceId).toString()
+            : VersionVector.initial(coffeeBeansProvider.deviceId).toString(),
+      );
+
+      String resultUuid;
+      if (isEditMode) {
+        await coffeeBeansProvider.updateCoffeeBeans(bean);
+        resultUuid = widget.uuid!; // Use the existing UUID for edit mode
+      } else {
+        resultUuid = await coffeeBeansProvider.addCoffeeBeans(bean);
+        await _insertBeansDataToSupabase(bean);
+      }
+
+      if (mounted) {
+        context.router.pop(resultUuid); // Return the UUID of the beans record
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error saving coffee beans: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
     }
   }
 
@@ -304,6 +446,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         harvestDate = _toDate(d['harvestDate']);
         roastDate = _toDate(d['roastDate']);
         packageWeightGrams = _toDouble(d['packageWeightGrams']);
+
+        // Trigger validation after filling fields from image flow
+        // Note: The listeners will automatically trigger validation
+        // when the text controllers are updated
       });
     });
   }
@@ -449,53 +595,277 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                 }
               }
             },
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                // Use responsive layout for wider screens
+                final isWideScreen = constraints.maxWidth > 800;
+                final cardSpacing = isWideScreen ? 24.0 : 16.0;
+
+                return SingleChildScrollView(
+                  padding: EdgeInsets.all(isWideScreen ? 24.0 : 16.0),
+                  child: isWideScreen
+                      ? _buildWideLayout(
+                          coffeeBeansProvider, locale, loc, cardSpacing)
+                      : _buildNarrowLayout(
+                          coffeeBeansProvider, locale, loc, cardSpacing),
+                );
+              },
+            ),
+          ),
+          if (isLoading)
+            Semantics(
+              identifier: 'analyzingOverlay',
+              label: loc.analyzing,
+              child: LoadingOverlay(label: loc.analyzing),
+            ),
+        ],
+      ),
+      bottomNavigationBar: KeyboardAwareStickyActionBar(
+        child: StickyActionBar(
+          primaryLabel: isEditMode ? loc.save : loc.addCoffeeBeans,
+          primaryDisabled: !_isFormValid,
+          isLoading: isLoading,
+          onPrimaryPressed: _isFormValid
+              ? () {
+                  // Double-check validation before saving
+                  if (!_isFormValid) {
+                    // Show specific error for the first invalid field
+                    if (_fieldErrors.containsKey('roaster')) {
+                      _showFieldError('roaster');
+                    } else if (_fieldErrors.containsKey('name')) {
+                      _showFieldError('name');
+                    } else if (_fieldErrors.containsKey('origin')) {
+                      _showFieldError('origin');
+                    }
+                    return;
+                  }
+
+                  setState(() => isLoading = true);
+                  _saveCoffeeBeans();
+                }
+              : null,
+          semanticIdentifier: 'saveButton',
+        ),
+      ),
+    );
+  }
+
+  // Build layout for narrow screens (single column)
+  Widget _buildNarrowLayout(CoffeeBeansProvider coffeeBeansProvider,
+      String locale, AppLocalizations loc, double spacing) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Required Fields Card
+        RequiredInfoCard(
+          roaster: _roasterController.text,
+          name: _nameController.text,
+          origin: _originController.text,
+          roasterOptions: coffeeBeansProvider.fetchCombinedRoasters(),
+          nameOptions: coffeeBeansProvider.fetchAllDistinctNames(),
+          originOptions: coffeeBeansProvider.fetchCombinedOrigins(locale),
+          onRoasterChanged: (v) {
+            if (_roasterController.text != v) {
+              _roasterController.value = _roasterController.value.copyWith(
+                text: v,
+                selection: TextSelection.collapsed(offset: v.length),
+                composing: TextRange.empty,
+              );
+              // Validation is automatically triggered by the listener
+            }
+          },
+          onNameChanged: (v) {
+            if (_nameController.text != v) {
+              _nameController.value = _nameController.value.copyWith(
+                text: v,
+                selection: TextSelection.collapsed(offset: v.length),
+                composing: TextRange.empty,
+              );
+              // Validation is automatically triggered by the listener
+            }
+          },
+          onOriginChanged: (v) {
+            if (_originController.text != v) {
+              _originController.value = _originController.value.copyWith(
+                text: v,
+                selection: TextSelection.collapsed(offset: v.length),
+                composing: TextRange.empty,
+              );
+              // Validation is automatically triggered by the listener
+            }
+          },
+        ),
+        SizedBox(height: spacing),
+
+        // Optional Details Card
+        Semantics(
+          identifier: 'optionalSectionTitle',
+          label: loc.optional,
+          child: OptionalDetailsCard(
+            // initial values
+            variety: variety,
+            region: region,
+            farmer: _farmerController.text,
+            farm: _farmController.text,
+            processingMethod: processingMethod,
+            roastLevel: roastLevel,
+            tastingNotes: _tastingNotes,
+            elevation: _elevationController.text.isNotEmpty
+                ? int.tryParse(_elevationController.text)
+                : null,
+            cuppingScore: _cuppingScoreController.text.isNotEmpty
+                ? double.tryParse(_cuppingScoreController.text)
+                : null,
+            // options (as Futures)
+            varietyOptions: coffeeBeansProvider.fetchAllDistinctVarieties(),
+            regionOptions: coffeeBeansProvider.fetchAllDistinctRegions(),
+            farmerOptions: coffeeBeansProvider.fetchAllDistinctFarmers(),
+            farmOptions: coffeeBeansProvider.fetchAllDistinctFarms(),
+            processingMethodOptions:
+                coffeeBeansProvider.fetchCombinedProcessingMethods(locale),
+            roastLevelOptions:
+                coffeeBeansProvider.fetchAllDistinctRoastLevels(),
+            tastingNotesOptions:
+                coffeeBeansProvider.fetchCombinedTastingNotes(locale),
+            // callbacks
+            onVarietyChanged: (v) => variety = v,
+            onRegionChanged: (v) => region = v,
+            onFarmerChanged: (v) {
+              final newText = v ?? '';
+              if (_farmerController.text != newText) {
+                _farmerController.value = _farmerController.value.copyWith(
+                  text: newText,
+                  selection: TextSelection.collapsed(offset: newText.length),
+                  composing: TextRange.empty,
+                );
+              }
+            },
+            onFarmChanged: (v) {
+              final newText = v ?? '';
+              if (_farmController.text != newText) {
+                _farmController.value = _farmController.value.copyWith(
+                  text: newText,
+                  selection: TextSelection.collapsed(offset: newText.length),
+                  composing: TextRange.empty,
+                );
+              }
+            },
+            onProcessingMethodChanged: (v) => processingMethod = v,
+            onRoastLevelChanged: (v) => roastLevel = v,
+            onTastingNotesChanged: (tags) => _tastingNotes = tags,
+            onElevationChanged: (val) {
+              final newText = val != null ? val.toString() : '';
+              if (_elevationController.text != newText) {
+                _elevationController.value =
+                    _elevationController.value.copyWith(
+                  text: newText,
+                  selection: TextSelection.collapsed(offset: newText.length),
+                  composing: TextRange.empty,
+                );
+              }
+            },
+            onCuppingScoreChanged: (val) {
+              final newText = val != null ? val.toString() : '';
+              if (_cuppingScoreController.text != newText) {
+                _cuppingScoreController.value =
+                    _cuppingScoreController.value.copyWith(
+                  text: newText,
+                  selection: TextSelection.collapsed(offset: newText.length),
+                  composing: TextRange.empty,
+                );
+              }
+            },
+            packageWeightGrams: packageWeightGrams,
+            onPackageWeightGramsChanged: (value) {
+              packageWeightGrams = value;
+            },
+          ),
+        ),
+        SizedBox(height: spacing),
+
+        // Dates Card
+        DatesCard(
+          harvestDate: harvestDate,
+          roastDate: roastDate,
+          onHarvestDateChanged: (d) => harvestDate = d,
+          onRoastDateChanged: (d) => roastDate = d,
+        ),
+        SizedBox(height: spacing),
+
+        // Additional Notes Card
+        AdditionalNotesCard(
+          notes: _notesController.text,
+          onNotesChanged: (v) {
+            if (_notesController.text != v) {
+              _notesController.value = _notesController.value.copyWith(
+                text: v,
+                selection: TextSelection.collapsed(offset: v.length),
+                composing: TextRange.empty,
+              );
+            }
+          },
+        ),
+        // Add extra padding at bottom to account for sticky action bar
+        const SizedBox(height: 100),
+      ],
+    );
+  }
+
+  // Build layout for wide screens (two columns where appropriate)
+  Widget _buildWideLayout(CoffeeBeansProvider coffeeBeansProvider,
+      String locale, AppLocalizations loc, double spacing) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Required Fields Card - always full width
+        RequiredInfoCard(
+          roaster: _roasterController.text,
+          name: _nameController.text,
+          origin: _originController.text,
+          roasterOptions: coffeeBeansProvider.fetchCombinedRoasters(),
+          nameOptions: coffeeBeansProvider.fetchAllDistinctNames(),
+          originOptions: coffeeBeansProvider.fetchCombinedOrigins(locale),
+          onRoasterChanged: (v) {
+            if (_roasterController.text != v) {
+              _roasterController.value = _roasterController.value.copyWith(
+                text: v,
+                selection: TextSelection.collapsed(offset: v.length),
+                composing: TextRange.empty,
+              );
+              // Validation is automatically triggered by the listener
+            }
+          },
+          onNameChanged: (v) {
+            if (_nameController.text != v) {
+              _nameController.value = _nameController.value.copyWith(
+                text: v,
+                selection: TextSelection.collapsed(offset: v.length),
+                composing: TextRange.empty,
+              );
+              // Validation is automatically triggered by the listener
+            }
+          },
+          onOriginChanged: (v) {
+            if (_originController.text != v) {
+              _originController.value = _originController.value.copyWith(
+                text: v,
+                selection: TextSelection.collapsed(offset: v.length),
+                composing: TextRange.empty,
+              );
+              // Validation is automatically triggered by the listener
+            }
+          },
+        ),
+        SizedBox(height: spacing),
+
+        // Two column layout for remaining cards
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Left column
+            Expanded(
               child: Column(
                 children: [
-                  // Required Fields Card
-                  RequiredInfoCard(
-                    roaster: _roasterController.text,
-                    name: _nameController.text,
-                    origin: _originController.text,
-                    roasterOptions: coffeeBeansProvider.fetchCombinedRoasters(),
-                    nameOptions: coffeeBeansProvider.fetchAllDistinctNames(),
-                    originOptions:
-                        coffeeBeansProvider.fetchCombinedOrigins(locale),
-                    // Updating controller.text does not require setState; the field
-                    // will reflect changes via its controller without rebuilding parent.
-                    onRoasterChanged: (v) {
-                      if (_roasterController.text != v) {
-                        _roasterController.value =
-                            _roasterController.value.copyWith(
-                          text: v,
-                          selection: TextSelection.collapsed(offset: v.length),
-                          composing: TextRange.empty,
-                        );
-                      }
-                    },
-                    onNameChanged: (v) {
-                      if (_nameController.text != v) {
-                        _nameController.value = _nameController.value.copyWith(
-                          text: v,
-                          selection: TextSelection.collapsed(offset: v.length),
-                          composing: TextRange.empty,
-                        );
-                      }
-                    },
-                    onOriginChanged: (v) {
-                      if (_originController.text != v) {
-                        _originController.value =
-                            _originController.value.copyWith(
-                          text: v,
-                          selection: TextSelection.collapsed(offset: v.length),
-                          composing: TextRange.empty,
-                        );
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 16),
-
                   // Optional Details Card
                   Semantics(
                     identifier: 'optionalSectionTitle',
@@ -589,8 +959,14 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 16),
-
+                ],
+              ),
+            ),
+            SizedBox(width: spacing),
+            // Right column
+            Expanded(
+              child: Column(
+                children: [
                   // Dates Card
                   DatesCard(
                     harvestDate: harvestDate,
@@ -598,8 +974,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                     onHarvestDateChanged: (d) => harvestDate = d,
                     onRoastDateChanged: (d) => roastDate = d,
                   ),
-                  const SizedBox(height: 16),
-
+                  SizedBox(height: spacing),
                   // Additional Notes Card
                   AdditionalNotesCard(
                     notes: _notesController.text,
@@ -614,100 +989,14 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                       }
                     },
                   ),
-                  const SizedBox(height: 24),
-
-                  // Save Button
-                  Semantics(
-                    identifier: 'saveButton',
-                    label: isEditMode ? loc.save : loc.addCoffeeBeans,
-                    child: SaveButton(
-                      label: isEditMode ? loc.save : loc.addCoffeeBeans,
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                      onPressed: () async {
-                        if (_roasterController.text.isNotEmpty &&
-                            _nameController.text.isNotEmpty &&
-                            _originController.text.isNotEmpty) {
-                          final bean = CoffeeBeansModel(
-                            id: 0, // This will be ignored for new beans
-                            beansUuid: widget.uuid ??
-                                _uuid.v7(), // Generate new UUID if not provided
-                            roaster: _roasterController.text,
-                            name: _nameController.text,
-                            origin: _originController.text,
-                            variety: variety,
-                            tastingNotes: _tastingNotes.isNotEmpty
-                                ? _tastingNotes.join(', ')
-                                : null,
-                            processingMethod: processingMethod,
-                            elevation: _elevationController.text.isNotEmpty
-                                ? int.tryParse(_elevationController.text)
-                                : null,
-                            harvestDate: harvestDate,
-                            roastDate: roastDate,
-                            region: region,
-                            roastLevel: roastLevel,
-                            cuppingScore: _cuppingScoreController
-                                    .text.isNotEmpty
-                                ? double.tryParse(_cuppingScoreController.text)
-                                : null,
-                            notes: _notesController.text.isNotEmpty
-                                ? _notesController.text
-                                : null,
-                            farmer: _farmerController.text.isNotEmpty
-                                ? _farmerController.text
-                                : null,
-                            farm: _farmController.text.isNotEmpty
-                                ? _farmController.text
-                                : null,
-                            packageWeightGrams: packageWeightGrams,
-                            isFavorite: false,
-                            versionVector: isEditMode
-                                ? (await coffeeBeansProvider
-                                            .fetchCoffeeBeansByUuid(
-                                                widget.uuid!))
-                                        ?.versionVector ??
-                                    VersionVector.initial(
-                                            coffeeBeansProvider.deviceId)
-                                        .toString()
-                                : VersionVector.initial(
-                                        coffeeBeansProvider.deviceId)
-                                    .toString(),
-                          );
-
-                          String resultUuid;
-                          if (isEditMode) {
-                            await coffeeBeansProvider.updateCoffeeBeans(bean);
-                            resultUuid = widget
-                                .uuid!; // Use the existing UUID for edit mode
-                          } else {
-                            resultUuid =
-                                await coffeeBeansProvider.addCoffeeBeans(bean);
-                            await _insertBeansDataToSupabase(bean);
-                          }
-
-                          context.router.pop(
-                              resultUuid); // Return the UUID of the beans record
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(loc.fillRequiredFields)),
-                          );
-                        }
-                      },
-                    ),
-                  ),
                 ],
               ),
             ),
-          ),
-          if (isLoading)
-            Semantics(
-              identifier: 'analyzingOverlay',
-              label: loc.analyzing,
-              child: LoadingOverlay(label: loc.analyzing),
-            ),
-        ],
-      ),
+          ],
+        ),
+        // Add extra padding at bottom to account for sticky action bar
+        const SizedBox(height: 100),
+      ],
     );
   }
 }

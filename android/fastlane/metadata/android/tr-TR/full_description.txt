@@ -15,7 +15,7 @@ Ana Özellikler
 - Çekirdek Kaydı: AI destekli etiket tanıma ile kahve çekirdeklerinizi kolayca takip edin.
 - Otomatik Kayıt: Her demleme oturumunu zahmetsizce kaydedin.
 - Cihaz Senkronizasyonu: Tarifleri, çekirdekleri ve demlemeleri tüm cihazlarınızda sorunsuzca senkronize edin.
-- Çok Dilli: 18 dili destekler.
+- Çok Dilli: 20 dili destekler.
 - Koyu Mod: Günün her saatinde konforlu demleme deneyimi.
 
 Yakında

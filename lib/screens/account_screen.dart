@@ -15,6 +15,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image/image.dart' as img; // Use prefix to avoid conflicts
 import 'package:onesignal_flutter/onesignal_flutter.dart'; // For sign out
 import '../app_router.gr.dart';
+import '../theme/design_tokens.dart';
 
 // --- Top-level function for image processing in isolate ---
 Future<Uint8List> _processImageIsolate(Uint8List imageBytes) async {
@@ -696,19 +697,28 @@ class _AccountScreenState extends State<AccountScreen> {
                 ],
               ),
               const SizedBox(height: 30),
-              // Sign Out Button - Styled like RecipeCreationScreen
-              ElevatedButton.icon(
-                icon: const Icon(Icons.logout),
-                label: Text(l10n.signOut), // Use localization
-                onPressed: _signOut, // Call the sign out method
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50), // Full width
-                  backgroundColor:
-                      Theme.of(context).colorScheme.primary, // Match style
-                  foregroundColor:
-                      Theme.of(context).colorScheme.onPrimary, // Match style
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 15), // Match style
+              // Sign Out Button - Styled like new_beans_screen.dart
+              SizedBox(
+                height: 56,
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.logout),
+                  label: Text(
+                    l10n.signOut, // Use localization
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  onPressed: _signOut, // Call the sign out method
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    foregroundColor: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppRadius.card),
+                    ),
+                    elevation: 2,
+                  ),
                 ),
               ),
               const SizedBox(height: 20), // Padding at the bottom

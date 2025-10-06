@@ -1,0 +1,6 @@
+Novo:
++ Podrška za korejski jezik. 한국 유저분들, 어서 와요!
++ Interaktivni sažetak recepta — sada se ažurira trenutno i pokazuje točnu dozu kave i količinu vode za korištenje.
++ Oduzimanje objave recepta — možete ukloniti objavu svojih javnih recepata kako biste ih ponovno učinili privatnim.
+
+I naravno, ispravci grešaka i poboljšanja performansi.

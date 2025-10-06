@@ -17,6 +17,7 @@ import '../notifiers/card_expansion_notifier.dart';
 import '../widgets/confirm_delete_dialog.dart';
 import '../models/coffee_beans_model.dart';
 import '../widgets/roaster_logo.dart';
+import '../theme/design_tokens.dart';
 
 @RoutePage()
 class BrewDiaryScreen extends StatefulWidget {
@@ -277,8 +278,17 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                   key: ValueKey(stat.statUuid),
                   leading: getIconByBrewingMethod(stat.brewingMethodId),
                   header: namesSnapshot.data![1],
-                  subtitle:
-                      "${namesSnapshot.data![0]} - ${dateFormat.format(stat.createdAt.toLocal())}",
+                  headerStyle: const TextStyle(fontWeight: FontWeight.bold),
+                  subtitle: "", // We'll use a custom subtitle in the ListTile
+                  subtitleWidget: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(namesSnapshot.data![0]),
+                      const SizedBox(height: 8),
+                      Text(dateFormat.format(stat.createdAt.toLocal())),
+                    ],
+                  ),
                   detail: buildDetail(context, stat),
                   trailing: isEditMode
                       ? Semantics(
@@ -338,6 +348,13 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
   Widget buildDetail(BuildContext context, UserStatsModel stat) {
     final loc = AppLocalizations.of(context)!;
     TextStyle detailTextStyle = Theme.of(context).textTheme.titleMedium!;
+    TextStyle labelStyle = detailTextStyle.copyWith(
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+    );
+    TextStyle valueStyle = detailTextStyle.copyWith(
+      fontSize: 18,
+    );
     final userStatProvider = Provider.of<UserStatProvider>(context);
     final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(context);
     final databaseProvider = Provider.of<DatabaseProvider>(context);
@@ -367,16 +384,36 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             Semantics(
               identifier: 'coffeeAmount_${stat.statUuid}',
               label: '${loc.coffeeamount}: ${stat.coffeeAmount}',
-              child: Text("${loc.coffeeamount}: ${stat.coffeeAmount}",
-                  style: detailTextStyle),
+              child: Row(
+                children: [
+                  Text(
+                    "${loc.coffeeamount}: ",
+                    style: labelStyle,
+                  ),
+                  Text(
+                    stat.coffeeAmount.toString(),
+                    style: valueStyle,
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 8), // Added spacing between elements
             // Water Amount
             Semantics(
               identifier: 'waterAmount_${stat.statUuid}',
               label: '${loc.wateramount}: ${stat.waterAmount}',
-              child: Text("${loc.wateramount}: ${stat.waterAmount}",
-                  style: detailTextStyle),
+              child: Row(
+                children: [
+                  Text(
+                    "${loc.wateramount}: ",
+                    style: labelStyle,
+                  ),
+                  Text(
+                    stat.waterAmount.toString(),
+                    style: valueStyle,
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 8),
             // Sweetness and Strength (if applicable)
@@ -399,26 +436,60 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             ),
             const SizedBox(height: 8),
             // Beans Section Title
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                loc.beans,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ),
-            // Beans Details or Selection Button
             if (stat.coffeeBeansUuid == null)
-              Center(
-                child: Semantics(
-                  identifier: 'selectBeansButton_${stat.statUuid}',
-                  label: 'Select Beans Button',
-                  child: OutlinedButton(
-                    onPressed: () => _openAddBeansPopup(context, stat.statUuid),
-                    child: Text(loc.selectBeans),
-                  ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      loc.beans,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(width: 16),
+                    Semantics(
+                      identifier: 'selectBeansButton_${stat.statUuid}',
+                      label: 'Select Beans Button',
+                      child: SizedBox(
+                        height: 56,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.surface,
+                            foregroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            elevation: 2,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(AppRadius.card),
+                            ),
+                          ),
+                          onPressed: () =>
+                              _openAddBeansPopup(context, stat.statUuid),
+                          child: Text(
+                            loc.selectBeans,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               )
             else
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  loc.beans,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+            // Beans Details or Selection Button
+            if (stat.coffeeBeansUuid != null)
               FutureBuilder<CoffeeBeansModel?>(
                 future: coffeeBeansProvider
                     .fetchCoffeeBeansByUuid(stat.coffeeBeansUuid!),
@@ -446,48 +517,12 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: ConstrainedBox(
-                                        constraints: const BoxConstraints(
-                                          minHeight: logoHeight,
-                                          maxHeight: logoHeight,
-                                          minWidth: logoHeight,
-                                          maxWidth: logoHeight * maxWidthFactor,
-                                        ),
-                                        child: FittedBox(
-                                          fit: BoxFit.contain,
-                                          alignment: Alignment.centerLeft,
-                                          child: FutureBuilder<
-                                              Map<String, String?>>(
-                                            future: databaseProvider
-                                                .fetchCachedRoasterLogoUrls(
-                                                    bean.roaster),
-                                            builder: (context, snapshot) {
-                                              if (snapshot.hasData) {
-                                                final originalUrl =
-                                                    snapshot.data!['original'];
-                                                final mirrorUrl =
-                                                    snapshot.data!['mirror'];
-                                                if (originalUrl != null ||
-                                                    mirrorUrl != null) {
-                                                  return RoasterLogo(
-                                                    originalUrl: originalUrl,
-                                                    mirrorUrl: mirrorUrl,
-                                                    height: logoHeight,
-                                                    borderRadius: 8.0,
-                                                    forceFit: BoxFit.contain,
-                                                  );
-                                                }
-                                              }
-                                              return const Icon(
-                                                Coffeico.bag_with_bean,
-                                                size: logoHeight,
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
+                                    _buildRoasterLogoPlate(
+                                      context,
+                                      databaseProvider,
+                                      bean.roaster,
+                                      logoHeight,
+                                      maxWidthFactor,
                                     ),
                                     const SizedBox(width: 12),
                                     Expanded(
@@ -498,16 +533,50 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text('${loc.name}: ${bean.name}',
-                                                style: detailTextStyle),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '${loc.name}: ',
+                                                  style: labelStyle,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    bean.name,
+                                                    style: valueStyle,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                             const SizedBox(height: 4),
-                                            Text(
-                                                '${loc.roaster}: ${bean.roaster}',
-                                                style: detailTextStyle),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '${loc.roaster}: ',
+                                                  style: labelStyle,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    bean.roaster,
+                                                    style: valueStyle,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                             const SizedBox(height: 4),
-                                            Text(
-                                                '${loc.origin}: ${bean.origin}',
-                                                style: detailTextStyle),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '${loc.origin}: ',
+                                                  style: labelStyle,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    bean.origin,
+                                                    style: valueStyle,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -523,32 +592,76 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    OutlinedButton(
-                                      onPressed: () {
-                                        context.router.push(
-                                          CoffeeBeansDetailRoute(
-                                              uuid: bean.beansUuid!),
-                                        );
-                                      },
-                                      child: Text(loc.details),
+                                    SizedBox(
+                                      height: 56,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .surface,
+                                          foregroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          elevation: 2,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                AppRadius.card),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          context.router.push(
+                                            CoffeeBeansDetailRoute(
+                                                uuid: bean.beansUuid!),
+                                          );
+                                        },
+                                        child: Text(
+                                          loc.details,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                     const SizedBox(width: 8),
-                                    OutlinedButton(
-                                      onPressed: () async {
-                                        print(
-                                            'Remove beans button pressed for stat: ${stat.statUuid}');
-                                        print(
-                                            'Current coffeeBeansUuid: ${stat.coffeeBeansUuid}');
-                                        await Provider.of<UserStatProvider>(
-                                                context,
-                                                listen: false)
-                                            .updateUserStat(
-                                          statUuid: stat.statUuid,
-                                          clearBeans: true,
-                                        );
-                                        print('updateUserStat called');
-                                      },
-                                      child: Text(loc.removeBeans),
+                                    SizedBox(
+                                      height: 56,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .surface,
+                                          foregroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          elevation: 2,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                AppRadius.card),
+                                          ),
+                                        ),
+                                        onPressed: () async {
+                                          print(
+                                              'Remove beans button pressed for stat: ${stat.statUuid}');
+                                          print(
+                                              'Current coffeeBeansUuid: ${stat.coffeeBeansUuid}');
+                                          await Provider.of<UserStatProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .updateUserStat(
+                                            statUuid: stat.statUuid,
+                                            clearBeans: true,
+                                          );
+                                          print('updateUserStat called');
+                                        },
+                                        child: Text(
+                                          loc.removeBeans,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -562,7 +675,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                     return const Center(child: Text('No beans found'));
                   }
                 },
-              ),
+              )
+            else
+              const SizedBox.shrink(),
             const Divider(
               thickness: 0.5,
               indent: 10,
@@ -616,6 +731,92 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             Navigator.of(context).pop(); // Close the dialog
             Provider.of<CardExpansionNotifier>(context, listen: false)
                 .addBean(statUuid); // Update the notifier
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildRoasterLogoPlate(
+    BuildContext context,
+    DatabaseProvider databaseProvider,
+    String roaster,
+    double logoHeight,
+    double maxWidthFactor,
+  ) {
+    return StatefulBuilder(
+      builder: (context, setState) {
+        bool _isLogoHorizontal = false;
+
+        return FutureBuilder<Map<String, String?>>(
+          future: databaseProvider.fetchCachedRoasterLogoUrls(roaster),
+          builder: (context, snapshot) {
+            final originalUrl = snapshot.data?['original'];
+            final mirrorUrl = snapshot.data?['mirror'];
+            final hasLogo = originalUrl != null || mirrorUrl != null;
+
+            // Make plate responsive: square for square logos, wider for horizontal logos
+            final plateWidth =
+                _isLogoHorizontal ? logoHeight * maxWidthFactor : logoHeight;
+            final plateHeight = logoHeight;
+
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 160),
+              curve: Curves.easeOut,
+              width: plateWidth,
+              height: plateHeight,
+              decoration: BoxDecoration(
+                color: hasLogo
+                    ? (Theme.of(context).brightness == Brightness.light
+                        ? Colors.grey.shade400
+                        : Colors.grey.shade700)
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(11),
+              ),
+              clipBehavior: Clip.hardEdge,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 160),
+                transitionBuilder: (child, anim) => FadeTransition(
+                  opacity: anim,
+                  child: ScaleTransition(
+                    scale: Tween<double>(begin: 0.95, end: 1).animate(anim),
+                    child: child,
+                  ),
+                ),
+                child: hasLogo
+                    ? Padding(
+                        key: const ValueKey('logo'),
+                        padding: const EdgeInsets.all(4.0),
+                        child: RoasterLogo(
+                          originalUrl: originalUrl,
+                          mirrorUrl: mirrorUrl,
+                          height: logoHeight - 8, // Account for padding
+                          width: plateWidth - 8, // Account for padding
+                          borderRadius: 4,
+                          forceFit: BoxFit.contain,
+                          onAspectRatioDetermined: (isHorizontal) {
+                            if (_isLogoHorizontal != isHorizontal) {
+                              setState(() {
+                                _isLogoHorizontal = isHorizontal;
+                              });
+                            }
+                          },
+                        ),
+                      )
+                    : Padding(
+                        key: const ValueKey('placeholder'),
+                        padding: const EdgeInsets.all(4.0),
+                        child: Icon(
+                          Coffeico.bag_with_bean,
+                          size: logoHeight - 8, // Account for padding
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.55),
+                        ),
+                      ),
+              ),
+            );
           },
         );
       },

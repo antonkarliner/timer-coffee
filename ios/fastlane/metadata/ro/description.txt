@@ -15,7 +15,7 @@ Caracteristici cheie
 - Înregistrarea boabelor: Urmăriți convenabil boabele de cafea cu recunoașterea etichetelor bazată pe inteligență artificială.
 - Înregistrare automată: Înregistrați fără efort fiecare sesiune de preparare.
 - Sincronizare dispozitive: Sincronizați fără probleme rețete, boabe și preparate pe toate dispozitivele dvs.
-- Multilingv: Suportă 18 limbi.
+- Multilingv: Suportă 20 limbi.
 - Mod întunecat: Experiență de preparare confortabilă în orice moment al zilei.
 
 În curând

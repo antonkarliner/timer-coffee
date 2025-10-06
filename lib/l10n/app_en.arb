@@ -807,5 +807,25 @@
     }
   },
   "recipePublicTooltip": "Recipe is public - tap to make private",
-  "recipePrivateTooltip": "Recipe is private - share to make public"
+  "recipePrivateTooltip": "Recipe is private - share to make public",
+  "fieldClearButtonTooltip": "Clear",
+  "dateFieldClearButtonTooltip": "Clear date",
+  "chipInputDuplicateError": "This tag is already added",
+  "chipInputMaxTagsError": "Maximum number of tags reached ({maxChips})",
+  "chipInputHintText": "Add a tag...",
+  "unitFieldRequiredError": "This field is required",
+  "unitFieldInvalidNumberError": "Please enter a valid number",
+  "unitFieldMinValueError": "Value must be at least {min}",
+  "unitFieldMaxValueError": "Value must be at most {max}",
+  "numericFieldRequiredError": "This field is required",
+  "numericFieldInvalidNumberError": "Please enter a valid number",
+  "numericFieldMinValueError": "Value must be at least {min}",
+  "numericFieldMaxValueError": "Value must be at most {max}",
+  "dropdownSearchHintText": "Type to search...",
+  "dropdownSearchLoadingError": "Error loading suggestions: {error}",
+  "dropdownSearchNoResults": "No results found",
+  "dropdownSearchLoading": "Searching...",
+  "dropdownSearchUseCustomEntry": "Use \"{currentQuery}\"",
+  "requiredInfoSubtitle": "* Required",
+  "inventoryWeightExample": "e.g., 250.5"
 }

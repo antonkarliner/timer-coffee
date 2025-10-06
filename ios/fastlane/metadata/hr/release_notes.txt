@@ -1,0 +1,3 @@
+Novo: Podrška za hrvatski jezik! Veliko hvala Draženu Navratilu na prijevodu!
+
+Poboljšano: Mnoga dizajnerska poboljšanja na različitim ekranima: ekran s detaljima recepta, ekran za nove kave, završni ekran, informativni ekran. Dizajn je sada znatno pregledniji i dosljedniji kroz cijelu aplikaciju.

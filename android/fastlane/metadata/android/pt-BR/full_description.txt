@@ -15,7 +15,7 @@ Principais Recursos
 - Registro de Grãos: Acompanhe convenientemente seus grãos de café com reconhecimento de etiquetas por IA.
 - Registro Automático: Registre sem esforço cada sessão de preparação.
 - Sincronização de Dispositivos: Sincronize perfeitamente receitas, grãos e preparações em todos os seus dispositivos.
-- Multilíngue: Suporta 18 idiomas.
+- Multilíngue: Suporta 20 idiomas.
 - Modo Escuro: Experiência de preparação confortável a qualquer hora do dia.
 
 Em Breve

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:coffee_timer/widgets/autocomplete_tag_input_field.dart';
-import 'package:coffee_timer/widgets/new_beans/section_header.dart';
+import 'package:coffee_timer/widgets/fields/chip_input.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 
 class FlavorProfileSection extends StatelessWidget {
@@ -19,23 +18,20 @@ class FlavorProfileSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SectionHeader(icon: Icons.local_cafe, title: loc.flavorProfile),
-        const SizedBox(height: 8),
-        Semantics(
-          identifier: 'tastingNotesInputField',
+    return FutureBuilder<List<String>>(
+      future: tastingNotesOptions,
+      builder: (context, snapshot) {
+        final suggestions = snapshot.data ?? [];
+
+        return ChipInput(
           label: loc.tastingNotes,
-          child: AutocompleteTagInputField(
-            label: loc.tastingNotes,
-            hintText: loc.enterTastingNotes,
-            initialOptions: tastingNotesOptions,
-            onSelected: onTastingNotesChanged,
-            initialValues: tastingNotes,
-          ),
-        ),
-      ],
+          hintText: loc.enterTastingNotes,
+          initialValues: tastingNotes,
+          suggestions: suggestions,
+          semanticIdentifier: 'tastingNotesInputField',
+          onChanged: onTastingNotesChanged,
+        );
+      },
     );
   }
 }

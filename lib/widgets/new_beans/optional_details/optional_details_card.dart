@@ -1,9 +1,12 @@
+import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/widgets/new_beans/optional_details/sections/basic_details_section.dart';
 import 'package:coffee_timer/widgets/new_beans/optional_details/sections/processing_section.dart';
 import 'package:coffee_timer/widgets/new_beans/optional_details/sections/flavor_profile_section.dart';
 import 'package:coffee_timer/widgets/new_beans/optional_details/sections/quality_measurements_section.dart';
 import 'package:coffee_timer/widgets/new_beans/optional_details/sections/inventory_section.dart';
+import 'package:coffee_timer/widgets/containers/section_card.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 
 class OptionalDetailsCard extends StatefulWidget {
@@ -142,122 +145,180 @@ class _OptionalDetailsCardState extends State<OptionalDetailsCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      child: ExpansionTile(
-        title: Row(
-          children: [
-            Icon(Icons.tune, color: Theme.of(context).colorScheme.primary),
-            const SizedBox(width: 8),
-            Text(
-              AppLocalizations.of(context)!.optional,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ],
-        ),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                BasicDetailsSection(
-                  variety: _variety,
-                  region: _region,
-                  farmer: _farmer,
-                  farm: _farm,
-                  varietyOptions: widget.varietyOptions,
-                  regionOptions: widget.regionOptions,
-                  farmerOptions: widget.farmerOptions,
-                  farmOptions: widget.farmOptions,
-                  onVarietyChanged: (v) {
-                    setState(() {
-                      _variety = v;
-                    });
-                    widget.onVarietyChanged(v);
-                  },
-                  onRegionChanged: (v) {
-                    setState(() {
-                      _region = v;
-                    });
-                    widget.onRegionChanged(v);
-                  },
-                  onFarmerChanged: (v) {
-                    setState(() {
-                      _farmer = v;
-                    });
-                    widget.onFarmerChanged(v);
-                  },
-                  onFarmChanged: (v) {
-                    setState(() {
-                      _farm = v;
-                    });
-                    widget.onFarmChanged(v);
-                  },
-                ),
-                const SizedBox(height: 16),
-                ProcessingSection(
-                  processingMethod: _processingMethod,
-                  roastLevel: _roastLevel,
-                  processingMethodOptions: widget.processingMethodOptions,
-                  roastLevelOptions: widget.roastLevelOptions,
-                  onProcessingMethodChanged: (v) {
-                    setState(() {
-                      _processingMethod = v;
-                    });
-                    widget.onProcessingMethodChanged(v);
-                  },
-                  onRoastLevelChanged: (v) {
-                    setState(() {
-                      _roastLevel = v;
-                    });
-                    widget.onRoastLevelChanged(v);
-                  },
-                ),
-                const SizedBox(height: 16),
-                FlavorProfileSection(
-                  tastingNotes: _tastingNotes,
-                  tastingNotesOptions: widget.tastingNotesOptions,
-                  onTastingNotesChanged: (tags) {
-                    setState(() {
-                      _tastingNotes = tags;
-                    });
-                    widget.onTastingNotesChanged(tags);
-                  },
-                ),
-                const SizedBox(height: 16),
-                QualityMeasurementsSection(
-                  elevation: _elevation,
-                  cuppingScore: _cuppingScore,
-                  onElevationChanged: (val) {
-                    setState(() {
-                      _elevation = val;
-                    });
-                    widget.onElevationChanged(val);
-                  },
-                  onCuppingScoreChanged: (val) {
-                    setState(() {
-                      _cuppingScore = val;
-                    });
-                    widget.onCuppingScoreChanged(val);
-                  },
-                ),
-                const SizedBox(height: 16),
-                InventorySection(
-                  packageWeightGrams: _packageWeightGrams,
-                  onPackageWeightGramsChanged: (val) {
-                    setState(() {
-                      _packageWeightGrams = val;
-                    });
-                    widget.onPackageWeightGramsChanged(val);
-                  },
-                ),
-              ],
-            ),
+    final loc = AppLocalizations.of(context)!;
+
+    return Column(
+      children: [
+        // Basic Details Section
+        SectionCard(
+          title: loc.basicDetails,
+          icon: Coffeico.bean,
+          semanticIdentifier: 'basicDetailsSection',
+          child: BasicDetailsSection(
+            variety: _variety,
+            region: _region,
+            farmer: _farmer,
+            farm: _farm,
+            varietyOptions: widget.varietyOptions,
+            regionOptions: widget.regionOptions,
+            farmerOptions: widget.farmerOptions,
+            farmOptions: widget.farmOptions,
+            onVarietyChanged: (v) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) {
+                  setState(() {
+                    _variety = v;
+                  });
+                }
+              });
+              widget.onVarietyChanged(v);
+            },
+            onRegionChanged: (v) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) {
+                  setState(() {
+                    _region = v;
+                  });
+                }
+              });
+              widget.onRegionChanged(v);
+            },
+            onFarmerChanged: (v) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) {
+                  setState(() {
+                    _farmer = v;
+                  });
+                }
+              });
+              widget.onFarmerChanged(v);
+            },
+            onFarmChanged: (v) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) {
+                  setState(() {
+                    _farm = v;
+                  });
+                }
+              });
+              widget.onFarmChanged(v);
+            },
           ),
-        ],
-      ),
+        ),
+
+        const SizedBox(height: AppSpacing.fieldGap),
+
+        // Processing Section
+        SectionCard(
+          title: loc.processing,
+          icon: Icons.settings,
+          semanticIdentifier: 'processingSection',
+          child: ProcessingSection(
+            processingMethod: _processingMethod,
+            roastLevel: _roastLevel,
+            processingMethodOptions: widget.processingMethodOptions,
+            roastLevelOptions: widget.roastLevelOptions,
+            onProcessingMethodChanged: (v) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) {
+                  setState(() {
+                    _processingMethod = v;
+                  });
+                }
+              });
+              widget.onProcessingMethodChanged(v);
+            },
+            onRoastLevelChanged: (v) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) {
+                  setState(() {
+                    _roastLevel = v;
+                  });
+                }
+              });
+              widget.onRoastLevelChanged(v);
+            },
+          ),
+        ),
+
+        const SizedBox(height: AppSpacing.fieldGap),
+
+        // Flavor Profile Section
+        SectionCard(
+          title: loc.flavorProfile,
+          icon: Icons.local_cafe,
+          semanticIdentifier: 'flavorProfileSection',
+          child: FlavorProfileSection(
+            tastingNotes: _tastingNotes,
+            tastingNotesOptions: widget.tastingNotesOptions,
+            onTastingNotesChanged: (tags) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) {
+                  setState(() {
+                    _tastingNotes = tags;
+                  });
+                }
+              });
+              widget.onTastingNotesChanged(tags);
+            },
+          ),
+        ),
+
+        const SizedBox(height: AppSpacing.fieldGap),
+
+        // Quality Measurements Section
+        SectionCard(
+          title: loc.qualityMeasurements,
+          icon: Icons.star,
+          semanticIdentifier: 'qualityMeasurementsSection',
+          child: QualityMeasurementsSection(
+            elevation: _elevation,
+            cuppingScore: _cuppingScore,
+            onElevationChanged: (val) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) {
+                  setState(() {
+                    _elevation = val;
+                  });
+                }
+              });
+              widget.onElevationChanged(val);
+            },
+            onCuppingScoreChanged: (val) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) {
+                  setState(() {
+                    _cuppingScore = val;
+                  });
+                }
+              });
+              widget.onCuppingScoreChanged(val);
+            },
+          ),
+        ),
+
+        const SizedBox(height: AppSpacing.fieldGap),
+
+        // Inventory Section
+        SectionCard(
+          title: loc.inventory,
+          icon: Coffeico.bag_with_bean,
+          semanticIdentifier: 'inventorySection',
+          child: InventorySection(
+            packageWeightGrams: _packageWeightGrams,
+            onPackageWeightGramsChanged: (val) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) {
+                  setState(() {
+                    _packageWeightGrams = val;
+                  });
+                }
+              });
+              widget.onPackageWeightGramsChanged(val);
+            },
+          ),
+        ),
+      ],
     );
   }
 }

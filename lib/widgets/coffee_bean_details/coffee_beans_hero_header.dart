@@ -90,11 +90,11 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
     final theme = Theme.of(context);
     final isLight = theme.brightness == Brightness.light;
 
-    // Theme-adaptive gradient colors
+    // Theme-adaptive gradient colors - subtle gradient in light mode for better white logo visibility
     final bgStart = gradientStartColor ??
-        (isLight ? Colors.grey.shade200 : Colors.grey.shade800);
+        (isLight ? Colors.grey.shade400 : Colors.grey.shade800);
     final bgEnd = gradientEndColor ??
-        (isLight ? Colors.grey.shade100 : Colors.grey.shade700);
+        (isLight ? Colors.grey.shade300 : Colors.grey.shade700);
 
     // Theme-adaptive text colors
     final primaryColor = primaryTextColor ?? theme.colorScheme.onSurface;

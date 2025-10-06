@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:coffee_timer/widgets/autocomplete_input_field.dart';
-import 'package:coffee_timer/widgets/new_beans/section_header.dart';
+import 'package:coffee_timer/widgets/fields/dropdown_search_field.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 
 class BasicDetailsSection extends StatefulWidget {
@@ -78,62 +78,82 @@ class _BasicDetailsSectionState extends State<BasicDetailsSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionHeader(icon: Icons.coffee, title: loc.basicDetails),
-        const SizedBox(height: 8),
-        Semantics(
-          identifier: 'varietyInputField',
+        // Variety Field
+        DropdownSearchField(
           label: loc.variety,
-          child: AutocompleteInputField(
-            label: loc.variety,
-            hintText: loc.enterVariety,
-            initialOptions: _varietyFuture,
-            // Commit only on selection to avoid per-keystroke rebuild flicker.
-            onSelected: (v) => widget.onVarietyChanged(v.isEmpty ? null : v),
-            onChanged: (v) => widget.onVarietyChanged(
-                v.isEmpty ? null : v), // Add onChanged callback
-            initialValue: widget.variety,
-          ),
+          hintText: loc.enterVariety,
+          initialValue: widget.variety,
+          semanticIdentifier: 'varietyInputField',
+          onSearch: (query) async {
+            final options = await _varietyFuture;
+            if (query.isEmpty) return options;
+            return options
+                .where((option) =>
+                    option.toLowerCase().contains(query.toLowerCase()))
+                .toList();
+          },
+          onChanged: (value) {
+            widget.onVarietyChanged(value.isEmpty ? null : value);
+          },
         ),
-        const SizedBox(height: 8),
-        Semantics(
-          identifier: 'regionInputField',
+
+        const SizedBox(height: AppSpacing.fieldGap),
+
+        // Region Field
+        DropdownSearchField(
           label: loc.region,
-          child: AutocompleteInputField(
-            label: loc.region,
-            hintText: loc.enterRegion,
-            initialOptions: _regionFuture,
-            // Commit only on selection to avoid per-keystroke rebuild flicker.
-            onSelected: (v) => widget.onRegionChanged(v.isEmpty ? null : v),
-            onChanged: (v) => widget.onRegionChanged(
-                v.isEmpty ? null : v), // Add onChanged callback
-            initialValue: widget.region,
-          ),
+          hintText: loc.enterRegion,
+          initialValue: widget.region,
+          semanticIdentifier: 'regionInputField',
+          onSearch: (query) async {
+            final options = await _regionFuture;
+            if (query.isEmpty) return options;
+            return options
+                .where((option) =>
+                    option.toLowerCase().contains(query.toLowerCase()))
+                .toList();
+          },
+          onChanged: (value) {
+            widget.onRegionChanged(value.isEmpty ? null : value);
+          },
         ),
-        const SizedBox(height: 8),
-        Semantics(
-          identifier: 'farmerInputField',
+
+        const SizedBox(height: AppSpacing.fieldGap),
+
+        // Farmer Field
+        DropdownSearchField(
           label: loc.farmer,
-          child: AutocompleteInputField(
-            label: loc.farmer,
-            hintText: loc.enterFarmer,
-            initialOptions: _farmerFuture,
-            onSelected: widget.onFarmerChanged,
-            onChanged: widget.onFarmerChanged, // Add onChanged callback
-            initialValue: widget.farmer,
-          ),
+          hintText: loc.enterFarmer,
+          initialValue: widget.farmer,
+          semanticIdentifier: 'farmerInputField',
+          onSearch: (query) async {
+            final options = await _farmerFuture;
+            if (query.isEmpty) return options;
+            return options
+                .where((option) =>
+                    option.toLowerCase().contains(query.toLowerCase()))
+                .toList();
+          },
+          onChanged: widget.onFarmerChanged,
         ),
-        const SizedBox(height: 8),
-        Semantics(
-          identifier: 'farmInputField',
+
+        const SizedBox(height: AppSpacing.fieldGap),
+
+        // Farm Field
+        DropdownSearchField(
           label: loc.farm,
-          child: AutocompleteInputField(
-            label: loc.farm,
-            hintText: loc.enterFarm,
-            initialOptions: _farmFuture,
-            onSelected: widget.onFarmChanged,
-            onChanged: widget.onFarmChanged, // Add onChanged callback
-            initialValue: widget.farm,
-          ),
+          hintText: loc.enterFarm,
+          initialValue: widget.farm,
+          semanticIdentifier: 'farmInputField',
+          onSearch: (query) async {
+            final options = await _farmFuture;
+            if (query.isEmpty) return options;
+            return options
+                .where((option) =>
+                    option.toLowerCase().contains(query.toLowerCase()))
+                .toList();
+          },
+          onChanged: widget.onFarmChanged,
         ),
       ],
     );

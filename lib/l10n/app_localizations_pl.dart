@@ -1370,4 +1370,78 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get recipePrivateTooltip =>
       'Przepis jest prywatny - udostępnij, aby uczynić go publicznym';
+
+  @override
+  String get fieldClearButtonTooltip => 'Wyczyść';
+
+  @override
+  String get dateFieldClearButtonTooltip => 'Wyczyść datę';
+
+  @override
+  String get chipInputDuplicateError => 'Ten tag został już dodany';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return 'Osiągnięto maksymalną liczbę tagów ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => 'Dodaj tag...';
+
+  @override
+  String get unitFieldRequiredError => 'To pole jest wymagane';
+
+  @override
+  String get unitFieldInvalidNumberError => 'Wprowadź prawidłową liczbę';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return 'Wartość musi wynosić co najmniej $min';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return 'Wartość nie może przekraczać $max';
+  }
+
+  @override
+  String get numericFieldRequiredError => 'To pole jest wymagane';
+
+  @override
+  String get numericFieldInvalidNumberError => 'Wprowadź prawidłową liczbę';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return 'Wartość musi wynosić co najmniej $min';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return 'Wartość nie może przekraczać $max';
+  }
+
+  @override
+  String get dropdownSearchHintText => 'Wpisz, aby wyszukać...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return 'Błąd ładowania sugestii: $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => 'Brak wyników';
+
+  @override
+  String get dropdownSearchLoading => 'Wyszukiwanie...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return 'Użyj \"$currentQuery\"';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* Wymagane';
+
+  @override
+  String get inventoryWeightExample => 'np. 250.5';
 }

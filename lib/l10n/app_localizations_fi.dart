@@ -1355,4 +1355,78 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get recipePrivateTooltip =>
       'Resepti on yksityinen - jaa tehdäksesi siitä julkisen';
+
+  @override
+  String get fieldClearButtonTooltip => 'Tyhjennä';
+
+  @override
+  String get dateFieldClearButtonTooltip => 'Tyhjennä päivämäärä';
+
+  @override
+  String get chipInputDuplicateError => 'Tämä tunniste on jo lisätty';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return 'Tunnisteiden enimmäismäärä saavutettu ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => 'Lisää tunniste...';
+
+  @override
+  String get unitFieldRequiredError => 'Tämä kenttä on pakollinen';
+
+  @override
+  String get unitFieldInvalidNumberError => 'Syötä kelvollinen numero';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return 'Arvon on oltava vähintään $min';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return 'Arvon on oltava enintään $max';
+  }
+
+  @override
+  String get numericFieldRequiredError => 'Tämä kenttä on pakollinen';
+
+  @override
+  String get numericFieldInvalidNumberError => 'Syötä kelvollinen numero';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return 'Arvon on oltava vähintään $min';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return 'Arvon on oltava enintään $max';
+  }
+
+  @override
+  String get dropdownSearchHintText => 'Kirjoita hakeaksesi...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return 'Virhe ehdotuksia ladatessa: $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => 'Ei tuloksia';
+
+  @override
+  String get dropdownSearchLoading => 'Etsitään...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return 'Käytä \"$currentQuery\"';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* Pakollinen';
+
+  @override
+  String get inventoryWeightExample => 'esim. 250.5';
 }

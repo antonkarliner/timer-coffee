@@ -1,0 +1,5 @@
+Novo: Pratite zalihe svojih zrna! Sada možete bilježiti težinu preostalih zrna. Količina će se automatski smanjivati nakon svake pripreme. Hvala @vgorova na ideji!
+
+Ispravak greške: Ispravljen problem gdje su se koraci duplicirali nakon uređivanja korisničkih recepata. Hvala @sbezavvs na prijavi!
+
+Ispravak greške: Težine i volumeni sastojaka sada se pravilno skaliraju u receptima. Hvala @sbezavvs na prijavi!

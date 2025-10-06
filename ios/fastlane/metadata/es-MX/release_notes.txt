@@ -1,5 +1,3 @@
-Nuevo: ¡Ahora puedes llevar el control de tu reserva de café! Ya puedes registrar el peso de tus granos restantes. La cantidad se reducirá automáticamente después de cada preparación. ¡Gracias a @vgorova por la idea!
+Nuevo: ¡Soporte para el idioma croata! Muchas gracias a Dražen Navratil por la traducción.
 
-Corrección de error: Se solucionó un problema donde los pasos se duplicaban al editar recetas de usuario. ¡Gracias a @sbezavvs por reportarlo!
-
-Corrección de error: Los pesos y volúmenes de los ingredientes ahora se ajustan correctamente en las recetas. ¡Gracias a @sbezavvs por reportarlo!
+Mejorado: muchas mejoras de diseño en varias pantallas: Detalle de Receta, Agregar Café, Finalizar, Información. El diseño ahora se siente mucho más fluido y consistente en toda la app.

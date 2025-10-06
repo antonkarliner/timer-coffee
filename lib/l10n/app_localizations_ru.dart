@@ -1370,4 +1370,80 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get recipePrivateTooltip =>
       'Рецепт частный - поделитесь, чтобы сделать его общедоступным';
+
+  @override
+  String get fieldClearButtonTooltip => 'Очистить';
+
+  @override
+  String get dateFieldClearButtonTooltip => 'Очистить дату';
+
+  @override
+  String get chipInputDuplicateError => 'Этот тег уже добавлен';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return 'Достигнуто максимальное количество тегов ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => 'Добавить тег...';
+
+  @override
+  String get unitFieldRequiredError => 'Это поле обязательно для заполнения';
+
+  @override
+  String get unitFieldInvalidNumberError =>
+      'Пожалуйста, введите действительное число';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return 'Значение должно быть не менее $min';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return 'Значение должно быть не более $max';
+  }
+
+  @override
+  String get numericFieldRequiredError => 'Это поле обязательно для заполнения';
+
+  @override
+  String get numericFieldInvalidNumberError =>
+      'Пожалуйста, введите действительное число';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return 'Значение должно быть не менее $min';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return 'Значение должно быть не более $max';
+  }
+
+  @override
+  String get dropdownSearchHintText => 'Введите для поиска...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return 'Ошибка загрузки предложений: $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => 'Результаты не найдены';
+
+  @override
+  String get dropdownSearchLoading => 'Поиск...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return 'Использовать \"$currentQuery\"';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* Обязательно';
+
+  @override
+  String get inventoryWeightExample => 'Например, 250.5';
 }

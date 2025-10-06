@@ -17,6 +17,8 @@ class RoasterLogo extends StatefulWidget {
   final double? width;
   final double borderRadius;
   final BoxFit? forceFit;
+  final void Function(bool isHorizontal)? onAspectRatioDetermined;
+  final bool debugForceReanalysis;
 
   const RoasterLogo({
     Key? key,
@@ -26,6 +28,8 @@ class RoasterLogo extends StatefulWidget {
     this.width,
     this.borderRadius = 8.0,
     this.forceFit,
+    this.onAspectRatioDetermined,
+    this.debugForceReanalysis = false,
   }) : super(key: key);
 
   @override
@@ -35,11 +39,15 @@ class RoasterLogo extends StatefulWidget {
 class _RoasterLogoState extends State<RoasterLogo> {
   static SharedPreferences? _prefs;
   static Future<void>? _prefsInitializer;
+  static const String _cacheVersionKey = 'aspect_ratio_cache_version';
+  static const String _currentCacheVersion =
+      'v2'; // Increment to invalidate old cache
 
   String? _currentUrl;
   bool _triedMirror = false;
   Color? _bgColor;
   BoxFit? _fit;
+  bool? _isHorizontal;
 
   @override
   void initState() {
@@ -80,19 +88,47 @@ class _RoasterLogoState extends State<RoasterLogo> {
     final cacheKey = _normalizeUrl(_currentUrl!);
     final fit = _getFitFromCache(cacheKey);
     final color = _getBgColorFromCache(cacheKey);
+    final isHorizontal = _getIsHorizontalFromCache(cacheKey);
+    final cacheVersion = _getCacheVersion();
 
-    if (fit != null) {
-      log('✅ Using cached metadata for $_currentUrl');
+    // Check if we need to force re-analysis (debug mode or cache version mismatch)
+    final forceReanalysis =
+        widget.debugForceReanalysis || cacheVersion != _currentCacheVersion;
+
+    if (forceReanalysis) {
+      log('🔄 Forcing re-analysis for $_currentUrl (debug: ${widget.debugForceReanalysis}, cache version: $cacheVersion vs $_currentCacheVersion)');
+      // Clear old cache if version mismatch
+      if (cacheVersion != _currentCacheVersion) {
+        await _clearCacheForUrl(cacheKey);
+        await _saveCacheVersion(_currentCacheVersion);
+      }
+    }
+
+    if (fit != null && !forceReanalysis) {
+      log('✅ Using cached metadata for $_currentUrl, isHorizontal: ${isHorizontal ?? false}');
       if (mounted) {
         setState(() {
           _fit = fit;
           _bgColor = color;
+          _isHorizontal = isHorizontal;
         });
+
+        // Notify parent widget about the aspect ratio immediately for cached values
+        if (isHorizontal != null) {
+          log('📢 Notifying parent widget immediately: isHorizontal = $isHorizontal');
+          // Use WidgetsBinding to ensure callback happens in the same frame
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              log('🚀 Executing callback for cached value: isHorizontal = $isHorizontal');
+              widget.onAspectRatioDetermined?.call(isHorizontal);
+            }
+          });
+        }
       }
       return;
     }
 
-    log('ℹ️ No cached metadata for $_currentUrl, computing...');
+    log('ℹ️ No cached metadata for $_currentUrl or forcing re-analysis, computing...');
 
     try {
       final file = await RoasterLogoCacheManager.instance
@@ -102,15 +138,22 @@ class _RoasterLogoState extends State<RoasterLogo> {
       final computedFit = await _computeFit(bytes);
       final computedColor = await _analyzeEdgeLuminance(
           bytes, Theme.of(context).brightness == Brightness.dark);
+      final computedIsHorizontal = await _computeIsHorizontal(bytes);
 
       await _saveFitToCache(cacheKey, computedFit);
       await _saveBgColorToCache(cacheKey, computedColor);
+      await _saveIsHorizontalToCache(cacheKey, computedIsHorizontal);
 
       if (mounted) {
         setState(() {
           _fit = computedFit;
           _bgColor = computedColor;
+          _isHorizontal = computedIsHorizontal;
         });
+
+        // Notify parent widget about the aspect ratio
+        log('📢 Notifying parent widget: computed isHorizontal = $computedIsHorizontal');
+        widget.onAspectRatioDetermined?.call(computedIsHorizontal);
       }
     } catch (_) {
       _handleError();
@@ -155,9 +198,33 @@ class _RoasterLogoState extends State<RoasterLogo> {
     await _prefs?.setInt('bg_$cacheKey', color?.value ?? -1);
   }
 
+  bool? _getIsHorizontalFromCache(String cacheKey) {
+    return _prefs?.getBool('horizontal_$cacheKey');
+  }
+
+  Future<void> _saveIsHorizontalToCache(
+      String cacheKey, bool isHorizontal) async {
+    await _prefs?.setBool('horizontal_$cacheKey', isHorizontal);
+  }
+
   String _normalizeUrl(String url) {
     final uri = Uri.parse(url);
     return uri.replace(query: '', fragment: '').toString();
+  }
+
+  String? _getCacheVersion() {
+    return _prefs?.getString(_cacheVersionKey);
+  }
+
+  Future<void> _saveCacheVersion(String version) async {
+    await _prefs?.setString(_cacheVersionKey, version);
+  }
+
+  Future<void> _clearCacheForUrl(String cacheKey) async {
+    await _prefs?.remove('fit_$cacheKey');
+    await _prefs?.remove('bg_$cacheKey');
+    await _prefs?.remove('horizontal_$cacheKey');
+    log('🗑️ Cleared cache for $cacheKey');
   }
 
   @override
@@ -460,5 +527,22 @@ class _RoasterLogoState extends State<RoasterLogo> {
         return null;
       }
     }, [bytes, isDarkMode]);
+  }
+
+  static Future<bool> _computeIsHorizontal(Uint8List bytes) async {
+    return await compute((Uint8List bytes) {
+      try {
+        final img.Image? image = img.decodeImage(bytes);
+        if (image == null) return false;
+
+        // Consider horizontal if width is significantly greater than height (20% or more)
+        final aspectRatio = image.width / image.height;
+        final isHorizontal = aspectRatio > 1.2;
+        log('🔍 Image analysis: ${image.width}x${image.height}, aspectRatio: $aspectRatio, isHorizontal: $isHorizontal');
+        return isHorizontal;
+      } catch (_) {
+        return false;
+      }
+    }, bytes);
   }
 }

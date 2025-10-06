@@ -15,7 +15,7 @@ Características clave
 - Registro de granos: Realiza un seguimiento conveniente de tus granos de café con reconocimiento de etiquetas impulsado por IA.
 - Registro automático: Registra sin esfuerzo cada sesión de preparación.
 - Sincronización de dispositivos: Sincroniza recetas, granos y preparaciones sin problemas en todos tus dispositivos.
-- Multilingüe: Admite 18 idiomas.
+- Multilingüe: Admite 20 idiomas.
 - Modo oscuro: Experiencia de preparación cómoda a cualquier hora del día.
 
 Próximamente

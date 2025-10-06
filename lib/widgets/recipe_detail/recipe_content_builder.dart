@@ -66,7 +66,7 @@ class RecipeContentBuilder extends StatelessWidget {
           onSelectBeans: onSelectBeans,
           onClearSelection: onClearBeanSelection,
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 24),
         AmountFields(
           coffeeController: controller.coffeeController,
           waterController: controller.waterController,

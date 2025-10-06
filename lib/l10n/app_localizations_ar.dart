@@ -1356,4 +1356,78 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recipePrivateTooltip => 'الوصفة خاصة - شاركها لجعلها عامة';
+
+  @override
+  String get fieldClearButtonTooltip => 'مسح';
+
+  @override
+  String get dateFieldClearButtonTooltip => 'مسح التاريخ';
+
+  @override
+  String get chipInputDuplicateError => 'هذه العلامة مضافة بالفعل';
+
+  @override
+  String chipInputMaxTagsError(Object maxChips) {
+    return 'تم الوصول إلى الحد الأقصى من العلامات ($maxChips)';
+  }
+
+  @override
+  String get chipInputHintText => 'أضف علامة...';
+
+  @override
+  String get unitFieldRequiredError => 'هذا الحقل مطلوب';
+
+  @override
+  String get unitFieldInvalidNumberError => 'يرجى إدخال رقم صحيح';
+
+  @override
+  String unitFieldMinValueError(Object min) {
+    return 'يجب أن تكون القيمة على الأقل $min';
+  }
+
+  @override
+  String unitFieldMaxValueError(Object max) {
+    return 'يجب أن تكون القيمة على الأكثر $max';
+  }
+
+  @override
+  String get numericFieldRequiredError => 'هذا الحقل مطلوب';
+
+  @override
+  String get numericFieldInvalidNumberError => 'يرجى إدخال رقم صحيح';
+
+  @override
+  String numericFieldMinValueError(Object min) {
+    return 'يجب أن تكون القيمة على الأقل $min';
+  }
+
+  @override
+  String numericFieldMaxValueError(Object max) {
+    return 'يجب أن تكون القيمة على الأكثر $max';
+  }
+
+  @override
+  String get dropdownSearchHintText => 'اكتب للبحث...';
+
+  @override
+  String dropdownSearchLoadingError(Object error) {
+    return 'خطأ في تحميل الاقتراحات: $error';
+  }
+
+  @override
+  String get dropdownSearchNoResults => 'لم يتم العثور على نتائج';
+
+  @override
+  String get dropdownSearchLoading => 'جاري البحث...';
+
+  @override
+  String dropdownSearchUseCustomEntry(Object currentQuery) {
+    return 'استخدم \"$currentQuery\"';
+  }
+
+  @override
+  String get requiredInfoSubtitle => '* مطلوب';
+
+  @override
+  String get inventoryWeightExample => 'مثال: 250.5';
 }

@@ -43,10 +43,10 @@ class CoffeeBeanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // neutral gradient
+    // subtle gradient in light mode for better white logo visibility
     final isLight = Theme.of(context).brightness == Brightness.light;
-    final bgStart = isLight ? Colors.grey.shade200 : Colors.grey.shade800;
-    final bgEnd = isLight ? Colors.grey.shade100 : Colors.grey.shade700;
+    final bgStart = isLight ? Colors.grey.shade400 : Colors.grey.shade800;
+    final bgEnd = isLight ? Colors.grey.shade300 : Colors.grey.shade700;
     final iconColor =
         Theme.of(context).colorScheme.onSurface.withAlpha((255 * 0.6).round());
 

@@ -1,5 +1,3 @@
-Novidade: Controle seu estoque de grãos! Agora você pode registrar o peso dos grãos restantes. A quantidade será reduzida automaticamente após cada preparo. Obrigado à @vgorova pela ideia!
+Novo: Suporte ao idioma croata! Muito obrigado ao Dražen Navratil pela tradução!
 
-Correção: Corrigido um problema em que os passos eram duplicados após editar receitas do usuário. Obrigado ao @sbezavvs pelo aviso!
-
-Correção: Pesos e volumes dos ingredientes agora são ajustados corretamente nas receitas. Obrigado ao @sbezavvs pelo aviso!
+Melhorias: várias melhorias de design em diferentes telas: Detalhes da Receita, Novo Grão, Finalização, Informações. O design agora está muito mais moderno e consistente em todo o app.

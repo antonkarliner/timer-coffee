@@ -1,5 +1,3 @@
-Novo: Acompanhe o seu stock de café! Agora pode registar o peso dos seus grãos restantes. A quantidade será automaticamente atualizada após cada preparação. Obrigado à @vgorova pela ideia!
+Novo: Suporte para a língua croata! Um grande agradecimento ao Dražen Navratil pela tradução!
 
-Correção: Resolvido um problema em que os passos eram duplicados após editar receitas de utilizador. Obrigado ao @sbezavvs pelo alerta!
-
-Correção: Os pesos e volumes dos ingredientes agora ajustam-se corretamente nas receitas. Obrigado ao @sbezavvs pelo alerta!
+Melhorado: muitas melhorias de design em vários ecrãs: Ecrã de Detalhe da Receita, Ecrã de Novos Grãos, Ecrã de Finalização, Ecrã de Informações. O design está agora muito mais fluido e consistente em toda a aplicação.

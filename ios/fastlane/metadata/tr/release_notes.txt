@@ -1,5 +1,3 @@
-Yeni: Kahve çekirdeği stoğunuzu takip edin! Artık kalan çekirdeklerinizin ağırlığını kaydedebilirsiniz. Her demlemeden sonra miktar otomatik olarak azalacak. Fikir için @vgorova'ya teşekkürler!
+Yeni: Hırvatça dil desteği! Çeviri için Dražen Navratil’e çok teşekkürler!
 
-Hata düzeltmesi: Kullanıcı tariflerini düzenledikten sonra adımların çoğalmasına neden olan bir sorun giderildi. Bildirdiği için @sbezavvs'a teşekkürler!
-
-Hata düzeltmesi: Tariflerde malzeme ağırlıkları ve hacimleri artık doğru şekilde ölçekleniyor. Bildirdiği için @sbezavvs'a teşekkürler!
+Geliştirildi: Farklı ekranlarda birçok tasarım iyileştirmesi yapıldı: Tarif Detay ekranı, Yeni Çekirdekler ekranı, Bitiş ekranı, Bilgi ekranı. Tasarım artık uygulama genelinde çok daha akıcı ve tutarlı hissettiriyor.

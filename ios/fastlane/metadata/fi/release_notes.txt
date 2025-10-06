@@ -1,5 +1,3 @@
-Uutta: Seuraa papuvarastoasi! Voit nyt kirjata jäljellä olevien papujesi painon. Määrä vähenee automaattisesti jokaisen keiton jälkeen. Kiitos ideasta @vgorova!
+Uutta: Kroatian kielen tuki! Suuri kiitos Dražen Navratilille käännöksestä!
 
-Korjaus: Korjattu ongelma, jossa vaiheet monistuivat käyttäjän reseptejä muokattaessa. Kiitokset @sbezavvs ilmoituksesta!
-
-Korjaus: Ainesosien painot ja tilavuudet skaalautuvat nyt oikein resepteissä. Kiitos @sbezavvs ilmoituksesta!
+Parannettu: paljon ulkoasuun liittyviä parannuksia eri näytöillä: Reseptin tiedot -näyttö, Uudet pavut -näyttö, Valmis-näyttö, Tietoa-näyttö. Ulkoasu on nyt huomattavasti virtaviivaisempi ja yhtenäisempi koko sovelluksessa.

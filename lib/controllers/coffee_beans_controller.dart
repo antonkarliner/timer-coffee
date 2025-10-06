@@ -32,6 +32,9 @@ class CoffeeBeansController extends ChangeNotifier {
   // --- Text Controllers ---
   final TextEditingController searchController = TextEditingController();
 
+  // --- Focus Management ---
+  final FocusNode searchFocusNode = FocusNode();
+
   // --- Scroll Controller ---
   late final ScrollController scrollController;
 
@@ -94,6 +97,9 @@ class CoffeeBeansController extends ChangeNotifier {
     scrollController.dispose();
     searchController.removeListener(_handleSearchChanged);
     searchController.dispose();
+
+    // Dispose focus node
+    searchFocusNode.dispose();
 
     // Remove provider listener if set
     try {
@@ -225,6 +231,9 @@ class CoffeeBeansController extends ChangeNotifier {
 
   // --- Scroll Handling ---
   void _handleScroll() {
+    // Dismiss keyboard when scrolling
+    searchFocusNode.unfocus();
+
     final isScrollingDown = scrollController.position.userScrollDirection ==
         ScrollDirection.reverse;
     final isScrollingUp = scrollController.position.userScrollDirection ==
@@ -358,13 +367,21 @@ class CoffeeBeansController extends ChangeNotifier {
 
   // --- Navigation ---
   Future<void> navigateToNewBeans(BuildContext context) async {
+    // Unfocus search field before navigating
+    searchFocusNode.unfocus();
+
     final result = await context.router.push(NewBeansRoute());
     if (result != null && result is String) {
       await refreshData(context);
+      // Ensure search field is unfocused after returning from navigation
+      searchFocusNode.unfocus();
     }
   }
 
   void navigateToBeanDetail(BuildContext context, String uuid) {
+    // Unfocus search field before navigating
+    searchFocusNode.unfocus();
+
     // Push detail route and refresh when returning. Use then to avoid changing
     // callback signatures where this method is used.
     context.router
@@ -381,6 +398,8 @@ class CoffeeBeansController extends ChangeNotifier {
         if (result != null) {
           await refreshData(context);
         }
+        // Ensure search field is unfocused after returning from navigation
+        searchFocusNode.unfocus();
       } catch (_) {
         // Ignore refresh failures here; provider listener will correct later if needed
       } finally {
