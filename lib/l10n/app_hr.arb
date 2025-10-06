@@ -1,0 +1,777 @@
+{
+  "@@locale": "hr",
+  "beansStatsSectionTitle": "Statistika zrna",
+  "totalBeansBrewedLabel": "Ukupno pripremljenih zrna",
+  "newBeansTriedLabel": "Isprobano novih zrna",
+  "originsExploredLabel": "Istražena podrijetla",
+  "regionsExploredLabel": "Istražene regije",
+  "newRoastersDiscoveredLabel": "Otkriveno novih pržionica",
+  "favoriteRoastersLabel": "Omiljene pržionice",
+  "topOriginsLabel": "Naj podrijetla",
+  "topRegionsLabel": "Naj regije",
+  "lastrecipe": "Zadnji korišteni recept:",
+  "userRecipesTitle": "Tvoji recepti",
+  "userRecipesSectionCreated": "Kreirano od tebe",
+  "userRecipesSectionImported": "Uvezeno od tebe",
+  "userRecipesEmpty": "Nema pronađenih recepata",
+  "userRecipesDeleteTitle": "Izbrisati recept?",
+  "userRecipesDeleteMessage": "Ova radnja se ne može poništiti.",
+  "userRecipesDeleteConfirm": "Izbriši",
+  "userRecipesDeleteCancel": "Odustani",
+  "userRecipesSnackbarDeleted": "Recept je izbrisan",
+  "hubUserRecipesTitle": "Tvoji recepti",
+  "hubUserRecipesSubtitle": "Pregledaj i upravljaj kreiranim i uvezenim receptima",
+  "hubAccountSubtitle": "Upravljaj svojim profilom",
+  "hubSignInCreateSubtitle": "Prijavi se za sinkronizaciju recepata i postavki",
+  "hubBrewDiarySubtitle": "Pregledaj svoju povijest pripreme i dodaj bilješke",
+  "hubBrewStatsSubtitle": "Pregledaj osobnu i globalnu statistiku i trendove pripreme",
+  "hubSettingsSubtitle": "Promijeni postavke i ponašanje aplikacije",
+  "hubAboutSubtitle": "Detalji aplikacije, verzija i suradnici",
+  "about": "O aplikaciji",
+  "author": "Autor",
+  "authortext": "Aplikaciju Timer.Coffee razvio je Anton Karliner, entuzijast za kavu, medijski stručnjak i fotoreporter. Nadam se da će ti aplikacija pomoći uživati u kavi. Slobodno doprinesi na GitHubu.",
+  "contributors": "Suradnici",
+  "errorLoadingContributors": "Greška pri učitavanju suradnika",
+  "license": "Licenca",
+  "licensetext": "Ova aplikacija je slobodni softver: možete je distribuirati i/ili mijenjati pod uvjetima GNU Opće javne licence koju je objavila Zaklada za slobodni softver, bilo verzije 3 Licence ili (po vašem izboru) bilo koje kasnije verzije.",
+  "licensebutton": "Pročitajte GNU Opću javnu licencu v3",
+  "website": "Web stranica",
+  "sourcecode": "Izvorni kod",
+  "support": "Kupi mi kavu",
+  "allrecipes": "Svi recepti",
+  "favoriterecipes": "Omiljeni recepti",
+  "coffeeamount": "Količina kave (g)",
+  "wateramount": "Količina vode (ml)",
+  "watertemp": "Temperatura vode",
+  "grindsize": "Finoća mljevenja",
+  "brewtime": "Vrijeme pripreme",
+  "recipesummary": "Sažetak recepta",
+  "recipesummarynote": "Napomena: ovo je osnovni recept sa zadanim količinama vode i kave.",
+  "preparation": "Priprema",
+  "brewingprocess": "Proces pripreme",
+  "step": "Korak",
+  "seconds": "{count, plural, =0{sekundi} =1{sekunda} other{sekundi}}",
+  "@seconds": {
+    "description": "Pluralization for seconds",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "finishmsg": "Hvala što koristiš Timer.Coffee! Uživaj u kavi koju si pripremio na način",
+  "coffeefact": "Činjenica o kavi",
+  "home": "Početna",
+  "appversion": "Verzija aplikacije",
+  "tipsmall": "Kupi malu kavu",
+  "tipmedium": "Kupi srednju kavu",
+  "tiplarge": "Kupi veliku kavu",
+  "supportdevelopment": "Podrži razvoj",
+  "supportdevmsg": "Vaše donacije pomažu u pokrivanju troškova održavanja (npr. licenci za razvojne programere). Također mi omogućuju da isprobam više uređaja za kuhanje kave i dodam više recepata u aplikaciju.",
+  "supportdevtnx": "Hvala što razmišljaš o donaciji!",
+  "donationok": "Hvala!",
+  "donationtnx": "Zaista cijenim tvoju podršku! Želim ti puno odličnih priprema! ☕️",
+  "donationerr": "Greška",
+  "donationerrmsg": "Greška pri obradi kupnje, pokušaj ponovno.",
+  "sharemsg": "Pregledaj ovaj recept:",
+  "finishbrew": "Završi",
+  "settings": "Postavke",
+  "settingstheme": "Tema",
+  "settingsthemelight": "Svijetla",
+  "settingsthemedark": "Tamna",
+  "settingsthemesystem": "Sustav",
+  "settingslang": "Jezik",
+  "sweet": "Slatko",
+  "balance": "Balans",
+  "acidic": "Kiselo",
+  "light": "Svijetlo",
+  "strong": "Jako",
+  "slidertitle": "Pomoću klizača prilagodi okus",
+  "whatsnewtitle": "Novosti",
+  "whatsnewclose": "Zatvori",
+  "seasonspecials": "Sezonska specijalna ponuda",
+  "snow": "Snijeg",
+  "noFavoriteRecipesMessage": "Tvoj popis omiljenih recepata je trenutno prazan. Počni istraživati i pripremati kako bi otkrio/la svoje favorite!",
+  "explore": "Istraži",
+  "dateFormat": "MMM d, yyyy",
+  "timeFormat": "hh:mm a",
+  "brewdiary": "Dnevnik pripreme",
+  "brewdiarynotfound": "Nije pronađen nijedan unos",
+  "beans": "Zrna",
+  "roaster": "Pržionica",
+  "rating": "Ocjena",
+  "notes": "Bilješke",
+  "statsscreen": "Statistika kave",
+  "yourStats": "Tvoja statistika",
+  "coffeeBrewed": "Pripremljeno kave:",
+  "litersUnit": "L",
+  "mostUsedRecipes": "Najčešće korišteni recepti:",
+  "globalStats": "Globalna statistika",
+  "unknownRecipe": "Nepoznat recept",
+  "noData": "Nema podataka",
+  "error": "Greška",
+  "someoneJustBrewed": "Netko je upravo pripremio {recipeName}",
+  "timePeriodToday": "Danas",
+  "timePeriodThisWeek": "Ovaj tjedan",
+  "timePeriodThisMonth": "Ovaj mjesec",
+  "timePeriodCustom": "Prilagođeno",
+  "statsFor": "Statistika za ",
+  "@statsFor": {
+    "description": "Prefix text for statistics headings"
+  },
+  "homescreenbrewcoffee": "Pripremi kavu",
+  "homescreenhub": "Središte",
+  "homescreenmore": "Više",
+  "addBeans": "Dodaj zrna",
+  "removeBeans": "Ukloni zrna",
+  "name": "Naziv",
+  "origin": "Podrijetlo",
+  "details": "Detalji",
+  "coffeebeans": "Zrna kave",
+  "loading": "Učitavanje",
+  "nocoffeebeans": "Nisu pronađena zrna kave",
+  "delete": "Izbriši",
+  "confirmDeleteTitle": "Izbrisati unos?",
+  "confirmDeleteMessage": "Jesi li siguran/na da želiš izbrisati ovaj unos? Ova radnja se ne može poništiti.",
+  "removeFavorite": "Ukloni iz favorita",
+  "addFavorite": "Dodaj u favorite",
+  "toggleEditMode": "Uključi/isključi način uređivanja",
+  "coffeeBeansDetails": "Detalji o zrnima kave",
+  "edit": "Uredi",
+  "coffeeBeansNotFound": "Zrna kave nisu pronađena",
+  "basicInformation": "Osnovne informacije",
+  "geographyTerroir": "Geografija/Tlo",
+  "variety": "Sorta",
+  "region": "Regija",
+  "elevation": "Nadmorska visina",
+  "harvestDate": "Datum berbe",
+  "processing": "Obrada",
+  "processingMethod": "Način obrade",
+  "roastDate": "Datum prženja",
+  "roastLevel": "Stupanj prženja",
+  "cuppingScore": "Cupping ocjena",
+  "flavorProfile": "Profil okusa",
+  "tastingNotes": "Bilješke o kušanju",
+  "additionalNotes": "Dodatne bilješke",
+  "noCoffeeBeans": "Nisu pronađena zrna kave",
+  "editCoffeeBeans": "Uredi zrna kave",
+  "addCoffeeBeans": "Dodaj zrna kave",
+  "showImagePicker": "Prikaži birač slika",
+  "pleaseNote": "Imaj na umu",
+  "firstTimePopupMessage": "1. Za obradu slika koristimo vanjske servise. Nastavkom se slažeš s time.\n2. Iako ne pohranjujemo tvoje slike, molimo izbjegavaj uključivanje osobnih podataka.\n3. Prepoznavanje slika trenutno je ograničeno na 10 tokena mjesečno (1 token = 1 slika). Ovo se ograničenje može promijeniti u budućnosti.",
+  "ok": "OK",
+  "takePhoto": "Snimi fotografiju",
+  "selectFromPhotos": "Odaberi iz fotografija",
+  "takeAdditionalPhoto": "Snimiti dodatnu fotografiju?",
+  "no": "Ne",
+  "yes": "Da",
+  "selectedImages": "Odabrane slike",
+  "selectedImage": "Odabrana slika",
+  "backToSelection": "Natrag na izbor",
+  "next": "Dalje",
+  "unexpectedErrorOccurred": "Došlo je do neočekivane greške",
+  "tokenLimitReached": "Žao nam je, dosegli ste ograničenje tokena za prepoznavanje slika ovaj mjesec",
+  "noCoffeeLabelsDetected": "Nisu pronađene oznake kave. Pokušajte s drugom slikom.",
+  "collectedInformation": "Prikupljene informacije",
+  "enterRoaster": "Unesi pržionicu",
+  "enterName": "Unesi naziv",
+  "enterOrigin": "Unesi podrijetlo",
+  "optional": "Neobavezno",
+  "enterVariety": "Unesi sortu",
+  "enterProcessingMethod": "Unesi način obrade",
+  "enterRoastLevel": "Unesi stupanj prženja",
+  "enterRegion": "Unesi regiju",
+  "enterTastingNotes": "Unesi bilješke o kušanju",
+  "enterElevation": "Unesi nadmorsku visinu",
+  "enterCuppingScore": "Unesi cupping ocjenu",
+  "enterNotes": "Unesi bilješke",
+  "inventory": "Zaliha",
+  "amountLeft": "Preostala količina",
+  "enterAmountLeft": "Unesi preostalu količinu",
+  "selectHarvestDate": "Odaberi datum berbe",
+  "selectRoastDate": "Odaberi datum prženja",
+  "selectDate": "Odaberi datum",
+  "save": "Spremi",
+  "fillRequiredFields": "Molimo ispuni sva obavezna polja.",
+  "analyzing": "Analiziranje",
+  "errorMessage": "Greška",
+  "selectCoffeeBeans": "Odaberi zrna kave",
+  "addNewBeans": "Dodaj nova zrna",
+  "favorite": "Favorit",
+  "notFavorite": "Nije favorit",
+  "myBeans": "Moja zrna",
+  "signIn": "Prijava",
+  "signOut": "Odjava",
+  "signInWithApple": "Prijava putem Applea",
+  "signInSuccessful": "Uspješna prijava putem Applea",
+  "signInError": "Greška pri prijavi putem Applea",
+  "signInWithGoogle": "Prijava putem Googlea",
+  "signOutSuccessful": "Uspješna odjava",
+  "signInSuccessfulGoogle": "Uspješna prijava putem Googlea",
+  "signInWithEmail": "Prijava e‑mailom",
+  "enterEmail": "Unesi svoj e‑mail",
+  "emailHint": "example@email.com",
+  "cancel": "Odustani",
+  "sendMagicLink": "Pošalji Magic link",
+  "magicLinkSent": "Magic link poslan! Provjeri e‑mail.",
+  "sendOTP": "Pošalji jednokratni kod",
+  "otpSent": "Jednokratni kod poslan na tvoj e‑mail",
+  "otpSendError": "Pogreška pri slanju jednokratnog koda",
+  "enterOTP": "Unesi jednokratni kod",
+  "otpHint": "Unesi 6-znamenkasti kod",
+  "verify": "Potvrdi",
+  "signInSuccessfulEmail": "Prijava uspješna",
+  "invalidOTP": "Nevažeći kod",
+  "otpVerificationError": "Greška pri provjeri jednokratnog koda",
+  "success": "Uspjeh!",
+  "otpSentMessage": "Jednokratni kod šalje se na tvoj e‑mail. Kada ga primiš, upiši ga dolje.",
+  "otpHint2": "Ovdje unesi kod",
+  "signInCreate": "Prijava / Kreiraj račun",
+  "accountManagement": "Upravljanje računom",
+  "deleteAccount": "Izbriši račun",
+  "deleteAccountWarning": "Napomena: ako odlučiš nastaviti, izbrisat ćemo tvoj račun i sve povezane podatke. Lokalna kopija podataka ostat će na uređaju, ako i njih želiš izbrisati, jednostavno izbriši aplikaciju. Ako kasnije želiš ponovno omogućiti sinkronizaciju, morat ćeš ponovno kreirati račun.",
+  "deleteAccountConfirmation": "Račun je uspješno izbrisan",
+  "accountDeleted": "Račun izbrisan",
+  "accountDeletionError": "Greška pri brisanju računa, pokušaj ponovno",
+  "deleteAccountTitle": "Važno",
+  "selectBeans": "Odaberi zrna",
+  "all": "Sve",
+  "selectRoaster": "Odaberi pržionicu",
+  "selectOrigin": "Odaberi podrijetlo",
+  "resetFilters": "Poništi filtere",
+  "showFavoritesOnly": "Prikaži samo favorite",
+  "apply": "Primijeni",
+  "selectSize": "Odaberi veličinu",
+  "sizeStandard": "Standardna",
+  "sizeMedium": "Srednja",
+  "sizeXL": "XL",
+  "yearlyStatsAppBarTitle": "Moja godina s Timer.Coffee",
+  "@yearlyStatsAppBarTitle": {
+    "description": "Title for the AppBar in YearlyStatsStoryScreen"
+  },
+  "yearlyStatsStory1Text": "Hej, hvala što si ove godine bio/bila dio svemira Timer.Coffee!",
+  "@yearlyStatsStory1Text": {
+    "description": "Greeting message for the first story in YearlyStatsStoryScreen"
+  },
+  "yearlyStatsStory2Text": "Prvo najvažnije.\nOve godine si pripremio/la nešto kave{ellipsis}",
+  "@yearlyStatsStory2Text": {
+    "description": "Introduction to total coffee brewed with ellipsis indicating continuation",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsStory3Text": "Preciznije,\npripremio/la si {liters} litara kave u 2024.!",
+  "@yearlyStatsStory3Text": {
+    "description": "Detailed coffee brewed amount in liters",
+    "placeholders": {
+      "liters": {
+        "example": "10.5"
+      }
+    }
+  },
+  "yearlyStatsStory4Text": "Koristio/la si zrna iz {roasterCount} pržionica",
+  "@yearlyStatsStory4Text": {
+    "description": "Statement about the number of distinct roasters used",
+    "placeholders": {
+      "roasterCount": {
+        "example": "5"
+      }
+    }
+  },
+  "yearlyStatsStory4Top3Roasters": "Tvoje top 3 pržionice su bile:\n{top3}",
+  "@yearlyStatsStory4Top3Roasters": {
+    "description": "List of top 3 roasters used",
+    "placeholders": {
+      "top3": {
+        "example": "Roaster A, Roaster B, Roaster C"
+      }
+    }
+  },
+  "yearlyStatsStory5Text": "Kava te odvela na put\noko svijeta{ellipsis}",
+  "@yearlyStatsStory5Text": {
+    "description": "Statement about traveling with coffee, ending with ellipsis",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsStory6Text": "Kušao/la si zrna kave\niz {originCount} država!",
+  "@yearlyStatsStory6Text": {
+    "description": "Statement about the number of distinct origins",
+    "placeholders": {
+      "originCount": {
+        "example": "10"
+      }
+    }
+  },
+  "yearlyStatsStory7Part1": "Nisi pripremao/la sam/a",
+  "@yearlyStatsStory7Part1": {
+    "description": "First part of story 7"
+  },
+  "yearlyStatsStory7Part2": "...nego s korisnicima iz još 110\ndržava na 6 kontinenata!",
+  "@yearlyStatsStory7Part2": {
+    "description": "Second part of story 7"
+  },
+  "yearlyStatsStory8TitleLow": "Ostao/la si dosljedan/dosljedna i koristio/la samo ovih {count} načina pripreme ove godine:",
+  "@yearlyStatsStory8TitleLow": {
+    "description": "Title for low number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "3"
+      }
+    }
+  },
+  "yearlyStatsStory8TitleMedium": "Otkrivao/la si nove okuse i koristio/la {count} načina pripreme ove godine:",
+  "@yearlyStatsStory8TitleMedium": {
+    "description": "Title for medium number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "5"
+      }
+    }
+  },
+  "yearlyStatsStory8TitleHigh": "Bio/la si pravi istraživač kave i koristio/la {count} načina pripreme ove godine:",
+  "@yearlyStatsStory8TitleHigh": {
+    "description": "Title for high number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "8"
+      }
+    }
+  },
+  "yearlyStatsStory9Text": "Toliko toga još za otkriti!",
+  "@yearlyStatsStory9Text": {
+    "description": "Encouraging message for further discovery"
+  },
+  "yearlyStatsStory10Text": "Tvoja top 3 recepta u 2024. su bila{ellipsis}",
+  "@yearlyStatsStory10Text": {
+    "description": "Statement about top-3 recipes with ellipsis",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsFinalText": "Vidimo se 2025.!",
+  "@yearlyStatsFinalText": {
+    "description": "Final farewell message"
+  },
+  "yearlyStatsActionLove": "Pokaži malo ljubavi ({likesCount})",
+  "@yearlyStatsActionLove": {
+    "description": "Button text for showing love with likes count",
+    "placeholders": {
+      "likesCount": {
+        "example": "120"
+      }
+    }
+  },
+  "yearlyStatsActionDonate": "Doniraj",
+  "@yearlyStatsActionDonate": {
+    "description": "Button text for donation"
+  },
+  "yearlyStatsActionShare": "Podijeli tvoj napredak",
+  "@yearlyStatsActionShare": {
+    "description": "Button text for sharing progress"
+  },
+  "yearlyStatsUnknown": "Nepoznato",
+  "@yearlyStatsUnknown": {
+    "description": "Text displayed when a value is unknown"
+  },
+  "yearlyStatsErrorSharing": "Nije uspjelo dijeljenje: {error}",
+  "@yearlyStatsErrorSharing": {
+    "description": "Error message when sharing fails",
+    "placeholders": {
+      "error": {
+        "example": "Network error"
+      }
+    }
+  },
+  "yearlyStatsShareProgressMyYear": "Moja godina s Timer.Coffee",
+  "@yearlyStatsShareProgressMyYear": {
+    "description": "Title in the Share Progress Widget"
+  },
+  "yearlyStatsShareProgressTop3Recipes": "Moja top 3 recepta:",
+  "@yearlyStatsShareProgressTop3Recipes": {
+    "description": "Header for top-3 recipes in the Share Progress Widget"
+  },
+  "yearlyStatsShareProgressTop3Roasters": "Moje top 3 pržionice:",
+  "@yearlyStatsShareProgressTop3Roasters": {
+    "description": "Header for top-3 roasters in the Share Progress Widget"
+  },
+  "yearlyStatsFailedToLike": "Označavanje sa 'Sviđa mi se' nije uspjelo. Pokušaj ponovno.",
+  "@yearlyStatsFailedToLike": {
+    "description": "Error message when liking fails"
+  },
+  "labelCoffeeBrewed": "Kavu pripremio/la",
+  "@labelCoffeeBrewed": {
+    "description": "Label for coffee brewed"
+  },
+  "labelTastedBeansBy": "Kušana zrna od",
+  "@labelTastedBeansBy": {
+    "description": "Label for roaster stats"
+  },
+  "labelDiscoveredCoffeeFrom": "Otkrio/la kavu iz",
+  "@labelDiscoveredCoffeeFrom": {
+    "description": "Label for origin stats"
+  },
+  "labelUsedBrewingMethods": "Korišteno",
+  "@labelUsedBrewingMethods": {
+    "description": "Label for brewing methods stats"
+  },
+  "formattedRoasterCount": "{count} {count, plural, =1{pržionica} other{pržionice}}",
+  "@formattedRoasterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "formattedCountryCount": "{count} {count, plural, =1{država} other{države}}",
+  "@formattedCountryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "formattedBrewingMethodCount": "{count} {count, plural, =1{način pripreme} other{načini pripreme}}",
+  "@formattedBrewingMethodCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recipeCreationScreenEditRecipeTitle": "Uredi recept",
+  "recipeCreationScreenCreateRecipeTitle": "Kreiraj recept",
+  "recipeCreationScreenRecipeStepsTitle": "Koraci recepta",
+  "recipeCreationScreenRecipeNameLabel": "Naziv recepta",
+  "recipeCreationScreenShortDescriptionLabel": "Kratki opis",
+  "recipeCreationScreenBrewingMethodLabel": "Način pripreme",
+  "recipeCreationScreenCoffeeAmountLabel": "Količina kave (g)",
+  "recipeCreationScreenWaterAmountLabel": "Količina vode (ml)",
+  "recipeCreationScreenWaterTempLabel": "Temperatura vode (°C)",
+  "recipeCreationScreenGrindSizeLabel": "Finoća mljevenja",
+  "recipeCreationScreenTotalBrewTimeLabel": "Ukupno vrijeme pripreme:",
+  "recipeCreationScreenMinutesLabel": "Minute",
+  "recipeCreationScreenSecondsLabel": "Sekunde",
+  "recipeCreationScreenPreparationStepTitle": "Korak pripreme",
+  "recipeCreationScreenBrewStepTitle": "Korak pripreme {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "Title for a brew step in the recipe creation screen",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "Opis koraka",
+  "recipeCreationScreenStepTimeLabel": "Vrijeme koraka: ",
+  "recipeCreationScreenRecipeNameValidator": "Unesi naziv recepta",
+  "recipeCreationScreenShortDescriptionValidator": "Unesi kratak opis",
+  "recipeCreationScreenBrewingMethodValidator": "Odaberi način pripreme",
+  "recipeCreationScreenRequiredValidator": "Obavezno",
+  "recipeCreationScreenInvalidNumberValidator": "Nevažeći broj",
+  "recipeCreationScreenStepDescriptionValidator": "Unesi opis koraka",
+  "recipeCreationScreenContinueButton": "Nastavi korake recepta",
+  "recipeCreationScreenAddStepButton": "Dodaj korak",
+  "recipeCreationScreenSaveRecipeButton": "Snimi recept",
+  "recipeCreationScreenUpdateSuccess": "Recept je uspješno ažuriran",
+  "recipeCreationScreenSaveSuccess": "Recept je uspješno spremljen",
+  "recipeCreationScreenSaveError": "Greška pri spremanju recepta: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "Error message when saving a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "unitGramsShort": "g",
+  "unitMillilitersShort": "ml",
+  "unitGramsLong": "grama",
+  "unitMillilitersLong": "mililitara",
+  "recipeCopySuccess": "Recept je uspješno kopiran!",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "Greška pri kopiranju recepta: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "Kreiraj recept",
+  "errorSyncingData": "Greška pri sinkronizaciji podataka: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "errorSigningOut": "Greška pri odjavi: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "defaultPreparationStepDescription": "Priprema",
+  "loadingEllipsis": "Učitavanje...",
+  "recipeDeletedSuccess": "Recept uspješno izbrisan",
+  "recipeDeleteError": "Neuspješno brisanje recepta: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "noRecipesFound": "Nema pronađenih recepata",
+  "recipeLoadError": "Neuspjelo učitavanje recepta: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "unknownBrewingMethod": "Nepoznat način pripreme",
+  "recipeCopyErrorLoadingEdit": "Nije uspjelo učitavanje kopiranog recepta za uređivanje.",
+  "recipeCopyErrorOperationFailed": "Operacija nije uspjela.",
+  "notProvided": "Nije navedeno",
+  "recipeUpdateFailedFetch": "Nije uspjelo dohvaćanje ažuriranih podataka recepta.",
+  "recipeImportSuccess": "Recept je uspješno uvezen!",
+  "recipeImportFailedSave": "Nije uspjelo spremanje uvezenog recepta.",
+  "recipeImportFailedFetch": "Nije uspjelo dohvaćanje podataka recepta za uvoz.",
+  "recipeNotImported": "Recept nije uvezen.",
+  "recipeNotFoundCloud": "Recept nije pronađen u oblaku ili nije javan.",
+  "recipeLoadErrorGeneric": "Greška pri učitavanju recepta.",
+  "recipeUpdateAvailableTitle": "Dostupno ažuriranje",
+  "recipeUpdateAvailableBody": "Novija verzija '{recipeName}' dostupna je online. Ažurirati?",
+  "@recipeUpdateAvailableBody": {
+    "description": "Body text for the update confirmation dialog",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "My Awesome Recipe"
+      }
+    }
+  },
+  "dialogCancel": "Odustani",
+  "dialogUpdate": "Ažuriraj",
+  "recipeImportTitle": "Uvezi recept",
+  "recipeImportBody": "Želiš li uvesti recept '{recipeName}' iz oblaka?",
+  "@recipeImportBody": {
+    "description": "Body text for the import confirmation dialog",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Shared Recipe"
+      }
+    }
+  },
+  "dialogImport": "Uvezi",
+  "moderationReviewNeededTitle": "Potrebna je moderacija",
+  "moderationReviewNeededMessage": "Sljedeći recept(i) zahtijevaju pregled zbog problema s moderiranjem sadržaja: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "Message shown when recipes need moderation review",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'My Recipe', 'Another Recipe'"
+      }
+    }
+  },
+  "dismiss": "Zanemari",
+  "reviewRecipeButton": "Recenzija recepta",
+  "signInRequiredTitle": "Potrebna je prijava",
+  "signInRequiredBodyShare": "Za dijeljenje vlastitih recepata potrebno je prijaviti se.",
+  "syncSuccess": "Sinkronizacija uspješna!",
+  "tooltipEditRecipe": "Uredi recept",
+  "tooltipCopyRecipe": "Kopiraj recept",
+  "tooltipShareRecipe": "Podijeli recept",
+  "signInRequiredSnackbar": "Potrebna je prijava",
+  "moderationErrorFunction": "Provjera moderiranja sadržaja nije uspjela.",
+  "moderationReasonDefault": "Sadržaj je označen za pregled.",
+  "moderationFailedTitle": "Moderiranje nije uspjelo",
+  "moderationFailedBody": "Ovaj recept se ne može dijeliti jer: {reason}",
+  "@moderationFailedBody": {
+    "description": "Body text for the dialog shown when content moderation fails",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Inappropriate language"
+      }
+    }
+  },
+  "shareErrorGeneric": "Greška pri dijeljenju recepta: {error}",
+  "@shareErrorGeneric": {
+    "description": "Generic error message shown if the sharing process fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} na Timer.Coffee",
+  "@recipeDetailWebTitle": {
+    "description": "Web page title format for a recipe detail page",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "My Awesome V60"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "Nije moguće provjeriti status sadržaja. Spremljeno lokalno; provjerit ćemo pri sljedećoj sinkronizaciji.",
+  "saveLocallyModerationFailedTitle": "Promjene spremljene lokalno",
+  "saveLocallyModerationFailedBody": "Tvoje lokalne promjene su spremljene, ali javna verzija nije mogla biti ažurirana zbog moderiranja sadržaja: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "Body text for the dialog shown when moderation fails but local save succeeds",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Inappropriate language"
+      }
+    }
+  },
+  "editImportedRecipeTitle": "Uredi uvezeni recept",
+  "editImportedRecipeBody": "Ovo je uvezeni recept. Uređivanjem će se kreirati nova, neovisna kopija. Želiš li nastaviti?",
+  "editImportedRecipeButtonCopy": "Kreiraj Kopiraj & Uredi",
+  "editImportedRecipeButtonCancel": "Odustani",
+  "editDisplayNameTitle": "Uredi ime",
+  "displayNameHint": "Unesite svoje ime",
+  "displayNameEmptyError": "Ime ne može biti prazno",
+  "displayNameTooLongError": "Ime ne smije imati više od 50 znakova",
+  "errorUserNotLoggedIn": "Korisnik nije prijavljen. Prijavi se ponovno.",
+  "displayNameUpdateSuccess": "Ime je uspješno ažurirano!",
+  "displayNameUpdateError": "Nije uspjelo ažuriranje imena: {error}",
+  "@displayNameUpdateError": {
+    "description": "Error message when updating display name fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "Izbriši sliku?",
+  "deletePictureConfirmationBody": "Jeste li sigurni da želite izbrisati svoju profilnu sliku?",
+  "deletePictureSuccess": "Profilna slika je izbrisana.",
+  "deletePictureError": "Nije uspjelo brisanje profilne slike: {error}",
+  "@deletePictureError": {
+    "description": "Error message when deleting profile picture fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Storage error"
+      }
+    }
+  },
+  "updatePictureError": "Nije uspjelo ažuriranje profilne slike: {error}",
+  "@updatePictureError": {
+    "description": "Error message when updating profile picture fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Upload error"
+      }
+    }
+  },
+  "updatePictureSuccess": "Profilna slika je uspješno ažurirana!",
+  "deletePictureTooltip": "Izbriši sliku",
+  "account": "Račun",
+  "settingsBrewingMethodsTitle": "Načini pripreme na početnom zaslonu",
+  "filter": "Filter",
+  "@filter": {
+    "description": "Label for the filter button in the coffee beans screen"
+  },
+  "sortBy": "Sortiraj prema",
+  "@sortBy": {
+    "description": "Title for the sort dialog in coffee beans screen"
+  },
+  "dateAdded": "Datum dodavanja",
+  "@dateAdded": {
+    "description": "Sort option for sorting by date added"
+  },
+  "secondsAbbreviation": "s.",
+  "settingsAppIcon": "Ikona aplikacije",
+  "settingsAppIconDefault": "Zadano",
+  "settingsAppIconLegacy": "Klasična",
+  "searchBeans": "Pretraži zrna...",
+  "@searchBeans": {
+    "description": "Placeholder text for the search field in coffee beans screen"
+  },
+  "favorites": "Favoriti",
+  "@favorites": {
+    "description": "Label for favorites filter chip"
+  },
+  "searchPrefix": "Pretraži: ",
+  "@searchPrefix": {
+    "description": "Prefix for search filter chip"
+  },
+  "clearAll": "Očisti sve",
+  "@clearAll": {
+    "description": "Label for clear all filters button"
+  },
+  "noBeansMatchSearch": "Nijedna zrna ne odgovaraju tvojoj pretrazi",
+  "@noBeansMatchSearch": {
+    "description": "Message shown when no beans match the search criteria"
+  },
+  "clearFilters": "Očisti filtere",
+  "@clearFilters": {
+    "description": "Button text to clear all active filters"
+  },
+  "farmer": "Uzgajivač",
+  "farm": "Plantaža",
+  "enterFarmer": "Unesi uzgajivača (neobavezno)",
+  "enterFarm": "Unesi plantažu (neobavezno)",
+  "requiredInformation": "Potrebne informacije",
+  "basicDetails": "Osnovni detalji",
+  "qualityMeasurements": "Kvaliteta i mjerenja",
+  "importantDates": "Važni datumi",
+  "brewStats": "Statistika pripreme",
+  "showMore": "Prikaži više",
+  "showLess": "Prikaži manje",
+  "unpublishRecipeDialogTitle": "Učini recept privatnim",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Title text for the unpublish recipe confirmation dialog"
+  },
+  "unpublishRecipeDialogMessage": "Upozorenje: Ako ovaj recept učinite privatnim:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Warning message introducing the privacy changes"
+  },
+  "unpublishRecipeDialogBullet1": "Uklonit će se iz javnih rezultata pretraživanja",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "First privacy change bullet point"
+  },
+  "unpublishRecipeDialogBullet2": "Spriječiti ćete uvoz novim korisnicima",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Second privacy change bullet point"
+  },
+  "unpublishRecipeDialogBullet3": "Korisnici koji su ga već uvezli zadržat će svoje kopije",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Third privacy change bullet point"
+  },
+  "unpublishRecipeDialogKeepPublic": "Zadrži javnim",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Button text to keep the recipe public"
+  },
+  "unpublishRecipeDialogMakePrivate": "Napravi privatnim",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Button text to make the recipe private"
+  },
+  "recipeUnpublishSuccess": "Objavljivanje recepta uspješno poništeno",
+  "@recipeUnpublishSuccess": {
+    "description": "Success message when a recipe is unpublished"
+  },
+  "recipeUnpublishError": "Poništavanje objave recepta nije uspjelo: {error}",
+  "@recipeUnpublishError": {
+    "description": "Error message when unpublishing a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "recipePublicTooltip": "Recept je javan – dodirni za postavljanje na privatno",
+  "recipePrivateTooltip": "Recept je privatan – podijeli da bi postao javan"
+}
