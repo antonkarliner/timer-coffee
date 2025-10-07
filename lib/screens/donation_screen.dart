@@ -8,6 +8,7 @@ import '../purchase_manager.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
+import '../theme/design_tokens.dart';
 
 @RoutePage()
 class DonationScreen extends StatefulWidget {
@@ -158,21 +159,55 @@ class _DonationScreenState extends State<DonationScreen> {
             else if (kIsWeb || !Platform.isIOS)
               Semantics(
                 identifier: 'buyMeACoffeeButton',
-                child: ElevatedButton.icon(
-                  onPressed: () =>
-                      _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                  icon: const Icon(Icons.local_cafe),
-                  label: Text(AppLocalizations.of(context)!.support),
+                child: SizedBox(
+                  height: 56,
+                  child: ElevatedButton.icon(
+                    onPressed: () =>
+                        _launchURL('https://www.buymeacoffee.com/timercoffee'),
+                    icon: const Icon(Icons.local_cafe),
+                    label: Text(
+                      AppLocalizations.of(context)!.support,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.card),
+                      ),
+                      elevation: 2,
+                    ),
+                  ),
                 ),
               ),
             const SizedBox(height: 16),
             Semantics(
               identifier: 'homeButton',
-              child: ElevatedButton(
-                onPressed: () {
-                  context.router.push(const HomeRoute());
-                },
-                child: Text(AppLocalizations.of(context)!.home),
+              child: SizedBox(
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: () {
+                    context.router.push(const HomeRoute());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    foregroundColor: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppRadius.card),
+                    ),
+                    elevation: 2,
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.home,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
@@ -185,9 +220,26 @@ class _DonationScreenState extends State<DonationScreen> {
       ProductDetails product, Map<String, String> productTitles) {
     Widget button = Semantics(
       identifier: 'productButton_${product.id}',
-      child: ElevatedButton(
-        onPressed: () => _makePurchase(product),
-        child: Text(productTitles[product.id] ?? 'Unknown Product'),
+      child: SizedBox(
+        height: 56,
+        child: ElevatedButton(
+          onPressed: () => _makePurchase(product),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            foregroundColor: Theme.of(context).colorScheme.primary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadius.card),
+            ),
+            elevation: 2,
+          ),
+          child: Text(
+            productTitles[product.id] ?? 'Unknown Product',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
       ),
     );
 
@@ -203,11 +255,12 @@ class _DonationScreenState extends State<DonationScreen> {
               right: 0,
               child: Container(
                 padding: const EdgeInsets.all(4),
-                decoration: const BoxDecoration(
-                  color: Colors.brown,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondary,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.star, size: 10, color: Colors.white),
+                child: Icon(Icons.star,
+                    size: 10, color: Theme.of(context).colorScheme.onSecondary),
               ),
             ),
           ],
