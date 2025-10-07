@@ -95,7 +95,13 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(AppLocalizations.of(context)!.whatsnewclose),
+              child: Text(
+                AppLocalizations.of(context)!.whatsnewclose,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               onPressed: () async {
                 await prefs.setInt(idKey, popup.id);
                 Navigator.of(context).pop();
