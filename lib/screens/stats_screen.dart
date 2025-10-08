@@ -20,6 +20,110 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+/// Custom plate widget for RoasterLogo with background styling and horizontal logo adaptation
+class _StatsRoasterLogoPlate extends StatefulWidget {
+  final String? originalUrl;
+  final String? mirrorUrl;
+  final double height;
+  final double borderRadius;
+
+  const _StatsRoasterLogoPlate({
+    super.key,
+    required this.originalUrl,
+    required this.mirrorUrl,
+    this.height = 40.0,
+    this.borderRadius = 8.0,
+  });
+
+  @override
+  State<_StatsRoasterLogoPlate> createState() => _StatsRoasterLogoPlateState();
+}
+
+class _StatsRoasterLogoPlateState extends State<_StatsRoasterLogoPlate> {
+  bool _isLogoHorizontal = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Reset the horizontal flag when the widget is initialized
+    _isLogoHorizontal = false;
+  }
+
+  @override
+  void didUpdateWidget(_StatsRoasterLogoPlate oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Reset the horizontal flag when the logo image changes
+    if (oldWidget.originalUrl != widget.originalUrl ||
+        oldWidget.mirrorUrl != widget.mirrorUrl) {
+      setState(() {
+        _isLogoHorizontal = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final hasLogo = widget.originalUrl != null || widget.mirrorUrl != null;
+
+    // Make plate responsive: square for square logos (44x44), wider for horizontal logos (60x40)
+    final plateWidth = _isLogoHorizontal ? 60.0 : widget.height;
+    final plateHeight = _isLogoHorizontal ? 40.0 : widget.height;
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 160),
+      curve: Curves.easeOut,
+      width: plateWidth,
+      height: plateHeight,
+      decoration: BoxDecoration(
+        color: hasLogo
+            ? (Theme.of(context).brightness == Brightness.light
+                ? Colors.grey.shade400
+                : Colors.grey.shade700)
+            : Colors.transparent,
+        borderRadius: BorderRadius.circular(widget.borderRadius),
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 160),
+        transitionBuilder: (child, anim) => FadeTransition(
+            opacity: anim,
+            child: ScaleTransition(
+                scale: Tween<double>(begin: 0.95, end: 1).animate(anim),
+                child: child)),
+        child: hasLogo
+            ? Padding(
+                key: const ValueKey('logo'),
+                padding: const EdgeInsets.all(4.0),
+                child: RoasterLogo(
+                  originalUrl: widget.originalUrl,
+                  mirrorUrl: widget.mirrorUrl,
+                  height: _isLogoHorizontal ? 32.0 : widget.height - 8.0,
+                  width: _isLogoHorizontal ? 52.0 : null,
+                  borderRadius: 4.0,
+                  forceFit: BoxFit.contain,
+                  onAspectRatioDetermined: (isHorizontal) {
+                    if (mounted && _isLogoHorizontal != isHorizontal) {
+                      setState(() {
+                        _isLogoHorizontal = isHorizontal;
+                      });
+                    }
+                  },
+                ),
+              )
+            : Icon(
+                key: const ValueKey('placeholder'),
+                Coffeico.bag_with_bean,
+                size: widget.height * 0.7,
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.55),
+              ),
+      ),
+    );
+  }
+}
+
 @RoutePage()
 class StatsScreen extends StatefulWidget {
   const StatsScreen({super.key});
@@ -533,12 +637,11 @@ class _YourStatsSection extends StatelessWidget {
                                 final originalUrl = snap.data!['original'];
                                 final mirrorUrl = snap.data!['mirror'];
                                 if (originalUrl != null || mirrorUrl != null) {
-                                  return RoasterLogo(
+                                  return _StatsRoasterLogoPlate(
                                     originalUrl: originalUrl,
                                     mirrorUrl: mirrorUrl,
                                     height: isPreview ? 28 : 40,
                                     borderRadius: 8.0,
-                                    forceFit: BoxFit.contain,
                                   );
                                 }
                               }
@@ -612,12 +715,11 @@ class _YourStatsSection extends StatelessWidget {
                                 final originalUrl = snap.data!['original'];
                                 final mirrorUrl = snap.data!['mirror'];
                                 if (originalUrl != null || mirrorUrl != null) {
-                                  return RoasterLogo(
+                                  return _StatsRoasterLogoPlate(
                                     originalUrl: originalUrl,
                                     mirrorUrl: mirrorUrl,
                                     height: isPreview ? 28 : 40,
                                     borderRadius: 8.0,
-                                    forceFit: BoxFit.contain,
                                   );
                                 }
                               }
@@ -750,12 +852,11 @@ class _YourStatsSection extends StatelessWidget {
                               final originalUrl = snap.data!['original'];
                               final mirrorUrl = snap.data!['mirror'];
                               if (originalUrl != null || mirrorUrl != null) {
-                                return RoasterLogo(
+                                return _StatsRoasterLogoPlate(
                                   originalUrl: originalUrl,
                                   mirrorUrl: mirrorUrl,
                                   height: isPreview ? 28 : 40,
                                   borderRadius: 8.0,
-                                  forceFit: BoxFit.contain,
                                 );
                               }
                             }
