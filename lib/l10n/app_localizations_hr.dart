@@ -15,7 +15,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get totalBeansBrewedLabel => 'Ukupno pripremljenih zrna';
 
   @override
-  String get newBeansTriedLabel => 'Isprobana nova zrna';
+  String get newBeansTriedLabel => 'Isprobano novih zrna';
 
   @override
   String get originsExploredLabel => 'Istražena podrijetla';
@@ -24,7 +24,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get regionsExploredLabel => 'Istražene regije';
 
   @override
-  String get newRoastersDiscoveredLabel => 'Otkrivene nove pržionice';
+  String get newRoastersDiscoveredLabel => 'Otkriveno novih pržionica';
 
   @override
   String get favoriteRoastersLabel => 'Omiljene pržionice';
@@ -70,7 +70,7 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get hubUserRecipesSubtitle =>
-      'Pogledaj i upravljaj kreiranim i uvezenim receptima';
+      'Pregledaj i upravljaj kreiranim i uvezenim receptima';
 
   @override
   String get hubAccountSubtitle => 'Upravljaj svojim profilom';
@@ -81,11 +81,11 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get hubBrewDiarySubtitle =>
-      'Pogledaj povijest pripreme i dodaj bilješke';
+      'Pregledaj svoju povijest pripreme i dodaj bilješke';
 
   @override
   String get hubBrewStatsSubtitle =>
-      'Pogledaj osobnu i globalnu statistiku i trendove pripreme';
+      'Pregledaj osobnu i globalnu statistiku i trendove pripreme';
 
   @override
   String get hubSettingsSubtitle => 'Promijeni postavke i ponašanje aplikacije';
@@ -120,7 +120,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get licensebutton => 'Pročitajte GNU Opću javnu licencu v3';
 
   @override
-  String get website => 'Web-stranica';
+  String get website => 'Web stranica';
 
   @override
   String get sourcecode => 'Izvorni kod';
@@ -178,7 +178,8 @@ class AppLocalizationsHr extends AppLocalizations {
   }
 
   @override
-  String get finishmsg => 'Hvala što koristiš Timer.Coffee! Uživaj u svojoj';
+  String get finishmsg =>
+      'Hvala što koristiš Timer.Coffee! Uživaj u kavi koju si pripremio na način';
 
   @override
   String get coffeefact => 'Činjenica o kavi';
@@ -222,7 +223,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get donationerrmsg => 'Greška pri obradi kupnje, pokušaj ponovno.';
 
   @override
-  String get sharemsg => 'Pogledaj ovaj recept:';
+  String get sharemsg => 'Pregledaj ovaj recept:';
 
   @override
   String get finishbrew => 'Završi';
@@ -270,7 +271,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get whatsnewclose => 'Zatvori';
 
   @override
-  String get seasonspecials => 'Sezonska ponuda';
+  String get seasonspecials => 'Sezonska specijalna ponuda';
 
   @override
   String get snow => 'Snijeg';
@@ -325,7 +326,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get globalStats => 'Globalna statistika';
 
   @override
-  String get unknownRecipe => 'Nepoznati recept';
+  String get unknownRecipe => 'Nepoznat recept';
 
   @override
   String get noData => 'Nema podataka';
@@ -438,7 +439,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get processing => 'Obrada';
 
   @override
-  String get processingMethod => 'Metoda obrade';
+  String get processingMethod => 'Način obrade';
 
   @override
   String get roastDate => 'Datum prženja';
@@ -537,7 +538,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get enterVariety => 'Unesi sortu';
 
   @override
-  String get enterProcessingMethod => 'Unesi metodu obrade';
+  String get enterProcessingMethod => 'Unesi način obrade';
 
   @override
   String get enterRoastLevel => 'Unesi stupanj prženja';
@@ -546,7 +547,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get enterRegion => 'Unesi regiju';
 
   @override
-  String get enterTastingNotes => 'Unesi bilješke kušanja';
+  String get enterTastingNotes => 'Unesi bilješke o kušanju';
 
   @override
   String get enterElevation => 'Unesi nadmorsku visinu';
@@ -609,7 +610,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get signOut => 'Odjava';
 
   @override
-  String get signInWithApple => 'Prijava s Appleom';
+  String get signInWithApple => 'Prijava putem Applea';
 
   @override
   String get signInSuccessful => 'Uspješna prijava putem Applea';
@@ -692,7 +693,7 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get deleteAccountWarning =>
-      'Imaj na umu: ako odlučiš nastaviti, izbrisat ćemo tvoj račun i sve povezane podatke. Ako kasnije želiš ponovno omogućiti sinkronizaciju, morat ćeš ponovno kreirati račun.';
+      'Napomena: ako odlučiš nastaviti, izbrisat ćemo tvoj račun i sve povezane podatke. Lokalna kopija podataka ostat će na uređaju, ako i njih želiš izbrisati, jednostavno izbriši aplikaciju. Ako kasnije želiš ponovno omogućiti sinkronizaciju, morat ćeš ponovno kreirati račun.';
 
   @override
   String get deleteAccountConfirmation => 'Račun je uspješno izbrisan';
@@ -786,17 +787,17 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String yearlyStatsStory8TitleLow(Object count) {
-    return 'Ostao/la si dosljedan/dosljedna i koristio/la samo ovih $count metoda pripreme ove godine:';
+    return 'Ostao/la si dosljedan/dosljedna i koristio/la samo ovih $count načina pripreme ove godine:';
   }
 
   @override
   String yearlyStatsStory8TitleMedium(Object count) {
-    return 'Otkrivao/la si nove okuse i koristio/la $count metoda pripreme ove godine:';
+    return 'Otkrivao/la si nove okuse i koristio/la $count načina pripreme ove godine:';
   }
 
   @override
   String yearlyStatsStory8TitleHigh(Object count) {
-    return 'Bio/la si pravi istraživač kave i koristio/la $count metoda pripreme ove godine:';
+    return 'Bio/la si pravi istraživač kave i koristio/la $count načina pripreme ove godine:';
   }
 
   @override
@@ -804,7 +805,7 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String yearlyStatsStory10Text(Object ellipsis) {
-    return 'Tvoja top-3 recepta u 2024. su bila$ellipsis';
+    return 'Tvoja top 3 recepta u 2024. su bila$ellipsis';
   }
 
   @override
@@ -833,10 +834,10 @@ class AppLocalizationsHr extends AppLocalizations {
   String get yearlyStatsShareProgressMyYear => 'Moja godina s Timer.Coffee';
 
   @override
-  String get yearlyStatsShareProgressTop3Recipes => 'Moja top-3 recepta:';
+  String get yearlyStatsShareProgressTop3Recipes => 'Moja top 3 recepta:';
 
   @override
-  String get yearlyStatsShareProgressTop3Roasters => 'Moje top-3 pržionice:';
+  String get yearlyStatsShareProgressTop3Roasters => 'Moje top 3 pržionice:';
 
   @override
   String get yearlyStatsFailedToLike =>
@@ -881,8 +882,8 @@ class AppLocalizationsHr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'metode pripreme',
-      one: 'metoda pripreme',
+      other: 'načini pripreme',
+      one: 'način pripreme',
     );
     return '$count $_temp0';
   }
@@ -903,7 +904,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get recipeCreationScreenShortDescriptionLabel => 'Kratki opis';
 
   @override
-  String get recipeCreationScreenBrewingMethodLabel => 'Metoda pripreme';
+  String get recipeCreationScreenBrewingMethodLabel => 'Način pripreme';
 
   @override
   String get recipeCreationScreenCoffeeAmountLabel => 'Količina kave (g)';
@@ -950,7 +951,7 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get recipeCreationScreenBrewingMethodValidator =>
-      'Odaberi metodu pripreme';
+      'Odaberi način pripreme';
 
   @override
   String get recipeCreationScreenRequiredValidator => 'Obavezno';
@@ -1038,7 +1039,7 @@ class AppLocalizationsHr extends AppLocalizations {
   }
 
   @override
-  String get unknownBrewingMethod => 'Nepoznata metoda pripreme';
+  String get unknownBrewingMethod => 'Nepoznat način pripreme';
 
   @override
   String get recipeCopyErrorLoadingEdit =>
@@ -1241,7 +1242,7 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get settingsBrewingMethodsTitle =>
-      'Metode pripreme na početnom zaslonu';
+      'Načini pripreme na početnom zaslonu';
 
   @override
   String get filter => 'Filter';
@@ -1422,7 +1423,7 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String dropdownSearchUseCustomEntry(Object currentQuery) {
-    return 'Koristi \"$currentQuery\"';
+    return 'Koristi $currentQuery';
   }
 
   @override
