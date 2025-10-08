@@ -16,7 +16,7 @@ import 'package:coffee_timer/widgets/new_beans/dates_card.dart';
 import 'package:coffee_timer/widgets/new_beans/additional_notes_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 import 'package:uuid/uuid.dart';
 
 // Image flow controller and widgets
@@ -530,6 +530,13 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     final locale = Localizations.localeOf(context).toString();
     final loc = AppLocalizations.of(context)!;
 
+    print('🏗️ BUILDING NewBeansScreen with locale: $locale');
+
+    // Print cache stats for debugging (only in debug mode)
+    if (!kReleaseMode) {
+      coffeeBeansProvider.printCacheStats();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Semantics(
@@ -661,7 +668,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           roaster: _roasterController.text,
           name: _nameController.text,
           origin: _originController.text,
-          roasterOptions: coffeeBeansProvider.fetchCombinedRoasters(),
+          roasterOptions: coffeeBeansProvider.fetchCombinedRoasters(locale),
           nameOptions: coffeeBeansProvider.fetchAllDistinctNames(),
           originOptions: coffeeBeansProvider.fetchCombinedOrigins(locale),
           onRoasterChanged: (v) {
@@ -822,7 +829,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           roaster: _roasterController.text,
           name: _nameController.text,
           origin: _originController.text,
-          roasterOptions: coffeeBeansProvider.fetchCombinedRoasters(),
+          roasterOptions: coffeeBeansProvider.fetchCombinedRoasters(locale),
           nameOptions: coffeeBeansProvider.fetchAllDistinctNames(),
           originOptions: coffeeBeansProvider.fetchCombinedOrigins(locale),
           onRoasterChanged: (v) {

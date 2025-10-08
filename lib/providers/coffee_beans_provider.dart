@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:collection/collection.dart';
@@ -10,13 +11,244 @@ import '../database/database.dart';
 import '../models/coffee_beans_model.dart';
 import 'database_provider.dart';
 
+// Cache configuration
+class CacheConfig {
+  static const Duration defaultExpiration = Duration(hours: 24);
+  static const Duration maxAge =
+      Duration(days: 5); // Updated to 5 days as requested
+  static const int maxCacheEntries = 50; // Prevent memory bloat
+}
+
+// Cache entry structure
+class CacheEntry<T> {
+  final T data;
+  final DateTime timestamp;
+  final Duration expiration;
+  final String? appVersion;
+
+  CacheEntry(this.data, this.expiration, {this.appVersion})
+      : timestamp = DateTime.now();
+
+  bool get isExpired => DateTime.now().difference(timestamp) > expiration;
+  bool get isTooOld =>
+      DateTime.now().difference(timestamp) > CacheConfig.maxAge;
+}
+
 class CoffeeBeansProvider with ChangeNotifier {
   final AppDatabase db;
   final DatabaseProvider databaseProvider;
   final Uuid _uuid = Uuid();
   final String deviceId;
+  static String? _currentAppVersion;
 
-  CoffeeBeansProvider(this.db, this.databaseProvider) : deviceId = Uuid().v4();
+  // Cache storage for API data
+  final Map<String, CacheEntry<List<String>>> _cache = {};
+
+  CoffeeBeansProvider(this.db, this.databaseProvider) : deviceId = Uuid().v4() {
+    // Initialize app version asynchronously
+    _initializeAppVersion().catchError((e) {
+      print('⚠️ Failed to initialize app version: $e');
+    });
+  }
+
+  // Initialize app version and clear cache if needed
+  Future<void> _initializeAppVersion() async {
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      final newVersion = packageInfo.version;
+
+      if (_currentAppVersion != null && _currentAppVersion != newVersion) {
+        print(
+            '🔄 App version changed from $_currentAppVersion to $newVersion - clearing cache');
+        clearCache();
+      }
+
+      _currentAppVersion = newVersion;
+      print('📱 App version initialized: $_currentAppVersion');
+    } catch (e) {
+      print('⚠️ Error getting app version: $e');
+    }
+  }
+
+  // Helper method to generate cache keys
+  String _getCacheKey(String dataType, String locale,
+      {bool isLocaleAgnostic = false}) {
+    if (isLocaleAgnostic) {
+      return dataType; // No locale suffix for locale-agnostic data
+    }
+    return "${dataType}_${locale}";
+  }
+
+  // Helper method to get cached data or fetch if needed
+  Future<List<String>> _getCachedOrFetch(
+    String cacheKey,
+    String locale,
+    Future<List<String>> Function() fetchFunction,
+  ) async {
+    // Ensure app version is initialized
+    if (_currentAppVersion == null) {
+      await _initializeAppVersion();
+    }
+
+    final cacheEntry = _cache[cacheKey];
+
+    // Return cached data if it's still valid
+    if (cacheEntry != null && !cacheEntry.isExpired) {
+      print(
+          '🎯 CACHE HIT for $cacheKey (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min, items: ${cacheEntry.data.length})');
+      return cacheEntry.data;
+    }
+
+    // If data is too old, we must fetch even if API might fail
+    final mustFetch = cacheEntry?.isTooOld ?? false;
+    if (cacheEntry != null) {
+      print(
+          '⏰ CACHE EXPIRED for $cacheKey (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min, expired: ${cacheEntry.isExpired}, too old: ${cacheEntry.isTooOld})');
+    } else {
+      print('❌ CACHE MISS for $cacheKey - no cached data found');
+    }
+
+    try {
+      print('🌐 FETCHING from API for $cacheKey (must fetch: $mustFetch)');
+      final stopwatch = Stopwatch()..start();
+      final data = await fetchFunction();
+      stopwatch.stop();
+
+      print(
+          '✅ API FETCH COMPLETED for $cacheKey in ${stopwatch.elapsedMilliseconds}ms (items: ${data.length})');
+
+      // Store in cache with app version
+      _cache[cacheKey] = CacheEntry(
+        data,
+        CacheConfig.defaultExpiration,
+        appVersion: _currentAppVersion ?? 'unknown',
+      );
+      print(
+          '💾 STORED in cache for $cacheKey (expires in ${CacheConfig.defaultExpiration.inHours}h, app version: $_currentAppVersion)');
+
+      // Clean up old cache entries if we have too many
+      _cleanupCache();
+
+      return data;
+    } catch (e) {
+      print('🚨 API FETCH ERROR for $cacheKey: $e');
+
+      // If we have cached data (even if expired), return it as fallback
+      if (cacheEntry != null && !cacheEntry.isTooOld) {
+        print(
+            '🔄 USING STALE CACHE for $cacheKey due to API error (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min)');
+        return cacheEntry.data;
+      }
+
+      // If we must fetch (data too old) or have no cache, rethrow the error
+      if (mustFetch) {
+        print(
+            '💥 MUST FETCH - rethrowing error for $cacheKey (data too old: ${cacheEntry?.isTooOld ?? false})');
+        rethrow;
+      }
+
+      // Return empty list as last resort
+      print('📭 RETURNING EMPTY LIST for $cacheKey - no fallback available');
+      return [];
+    }
+  }
+
+  // Clean up old cache entries to prevent memory bloat
+  void _cleanupCache() {
+    if (_cache.length <= CacheConfig.maxCacheEntries) return;
+
+    // Sort by timestamp and remove oldest entries
+    final sortedEntries = _cache.entries.toList()
+      ..sort((a, b) => a.value.timestamp.compareTo(b.value.timestamp));
+
+    final entriesToRemove = sortedEntries.length - CacheConfig.maxCacheEntries;
+    for (int i = 0; i < entriesToRemove; i++) {
+      _cache.remove(sortedEntries[i].key);
+    }
+
+    print(
+        '🧹 CLEANED UP $entriesToRemove old cache entries (total: ${_cache.length})');
+  }
+
+  // Method to clear cache manually if needed
+  void clearCache() {
+    final count = _cache.length;
+    _cache.clear();
+    print('🗑️ CLEARED $count cache entries manually');
+  }
+
+  // Method to invalidate specific cache entry
+  void invalidateCacheEntry(String dataType, String locale,
+      {bool isLocaleAgnostic = false}) {
+    final cacheKey =
+        _getCacheKey(dataType, locale, isLocaleAgnostic: isLocaleAgnostic);
+    final removed = _cache.remove(cacheKey);
+    if (removed != null) {
+      print(
+          '🚫 INVALIDATED cache entry for $cacheKey (was cached for ${DateTime.now().difference(removed.timestamp).inMinutes}min)');
+    } else {
+      print('⚠️ NO CACHE ENTRY to invalidate for $cacheKey');
+    }
+  }
+
+  // Method to invalidate all cache entries for a specific data type
+  void invalidateDataType(String dataType, {bool isLocaleAgnostic = false}) {
+    final keysToRemove = <String>[];
+
+    if (isLocaleAgnostic) {
+      // For locale-agnostic data, look for exact match
+      if (_cache.containsKey(dataType)) {
+        keysToRemove.add(dataType);
+      }
+    } else {
+      // For locale-specific data, look for keys with dataType_ prefix
+      keysToRemove.addAll(
+          _cache.keys.where((key) => key.startsWith('${dataType}_')).toList());
+    }
+
+    for (final key in keysToRemove) {
+      _cache.remove(key);
+    }
+    print(
+        'Invalidated ${keysToRemove.length} cache entries for data type: $dataType (locale-agnostic: $isLocaleAgnostic)');
+  }
+
+  // Method to invalidate all expired cache entries
+  void invalidateExpiredEntries() {
+    final keysToRemove = <String>[];
+    for (final entry in _cache.entries) {
+      if (entry.value.isExpired) {
+        keysToRemove.add(entry.key);
+      }
+    }
+    for (final key in keysToRemove) {
+      _cache.remove(key);
+    }
+    print('🚫 INVALIDATED ${keysToRemove.length} expired cache entries');
+  }
+
+  // Method to refresh specific data type (invalidate and optionally prefetch)
+  Future<void> refreshDataType(String dataType, String locale,
+      {bool prefetch = false, bool isLocaleAgnostic = false}) async {
+    invalidateCacheEntry(dataType, locale, isLocaleAgnostic: isLocaleAgnostic);
+
+    if (prefetch) {
+      switch (dataType) {
+        case 'roasters':
+          await fetchCombinedRoasters(locale);
+          break;
+        case 'processing_methods':
+          await fetchCombinedProcessingMethods(locale);
+          break;
+        case 'origins':
+          await fetchCombinedOrigins(locale);
+          break;
+        case 'tasting_notes':
+          await fetchCombinedTastingNotes(locale);
+          break;
+      }
+    }
+  }
 
   Future<List<CoffeeBeansModel>> fetchAllCoffeeBeans() async {
     return await db.coffeeBeansDao.fetchAllCoffeeBeans();
@@ -223,64 +455,99 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   Future<List<String>> fetchCombinedTastingNotes(String locale) async {
-    final localTastingNotes = await fetchAllDistinctTastingNotes();
-    List<String> supabaseTastingNotes = [];
+    final cacheKey = _getCacheKey('tasting_notes', locale);
 
-    try {
-      supabaseTastingNotes =
-          await databaseProvider.fetchTastingNotesForLocale(locale);
-    } catch (error) {
-      //print('Error fetching tasting notes from Supabase: $error');
-    }
+    return _getCachedOrFetch(
+      cacheKey,
+      locale,
+      () async {
+        final localTastingNotes = await fetchAllDistinctTastingNotes();
+        List<String> supabaseTastingNotes = [];
 
-    final combinedSet = {...localTastingNotes, ...supabaseTastingNotes};
-    return combinedSet.toList();
+        try {
+          supabaseTastingNotes =
+              await databaseProvider.fetchTastingNotesForLocale(locale);
+        } catch (error) {
+          //print('Error fetching tasting notes from Supabase: $error');
+        }
+
+        final combinedSet = {...localTastingNotes, ...supabaseTastingNotes};
+        return combinedSet.toList();
+      },
+    );
   }
 
   Future<List<String>> fetchCombinedOrigins(String locale) async {
-    final localOrigins = await fetchAllDistinctOrigins();
-    List<String> supabaseOrigins = [];
+    final cacheKey = _getCacheKey('origins', locale);
 
-    try {
-      supabaseOrigins = await databaseProvider.fetchCountriesForLocale(locale);
-    } catch (error) {
-      //print('Error fetching origins from Supabase: $error');
-    }
+    return _getCachedOrFetch(
+      cacheKey,
+      locale,
+      () async {
+        final localOrigins = await fetchAllDistinctOrigins();
+        List<String> supabaseOrigins = [];
 
-    final combinedSet = {...localOrigins, ...supabaseOrigins};
-    return combinedSet.toList();
+        try {
+          supabaseOrigins =
+              await databaseProvider.fetchCountriesForLocale(locale);
+        } catch (error) {
+          //print('Error fetching origins from Supabase: $error');
+        }
+
+        final combinedSet = {...localOrigins, ...supabaseOrigins};
+        return combinedSet.toList();
+      },
+    );
   }
 
   Future<List<String>> fetchCombinedProcessingMethods(String locale) async {
-    final localProcessingMethods = await fetchAllDistinctProcessingMethods();
-    List<String> supabaseProcessingMethods = [];
+    final cacheKey = _getCacheKey('processing_methods', locale);
 
-    try {
-      supabaseProcessingMethods =
-          await databaseProvider.fetchProcessingMethodsForLocale(locale);
-    } catch (error) {
-      // print('Error fetching processing methods from Supabase: $error');
-    }
+    return _getCachedOrFetch(
+      cacheKey,
+      locale,
+      () async {
+        final localProcessingMethods =
+            await fetchAllDistinctProcessingMethods();
+        List<String> supabaseProcessingMethods = [];
 
-    final combinedSet = {
-      ...localProcessingMethods,
-      ...supabaseProcessingMethods
-    };
-    return combinedSet.toList();
+        try {
+          supabaseProcessingMethods =
+              await databaseProvider.fetchProcessingMethodsForLocale(locale);
+        } catch (error) {
+          // print('Error fetching processing methods from Supabase: $error');
+        }
+
+        final combinedSet = {
+          ...localProcessingMethods,
+          ...supabaseProcessingMethods
+        };
+        return combinedSet.toList();
+      },
+    );
   }
 
-  Future<List<String>> fetchCombinedRoasters() async {
-    final localRoasters = await fetchAllDistinctRoasters();
-    List<String> supabaseRoasters = [];
+  Future<List<String>> fetchCombinedRoasters(String locale) async {
+    // Roasters are locale-agnostic, so we don't include locale in the cache key
+    final cacheKey = _getCacheKey('roasters', locale, isLocaleAgnostic: true);
 
-    try {
-      supabaseRoasters = await databaseProvider.fetchRoasters();
-    } catch (error) {
-      //print('Error fetching roasters from Supabase: $error');
-    }
+    return _getCachedOrFetch(
+      cacheKey,
+      locale,
+      () async {
+        final localRoasters = await fetchAllDistinctRoasters();
+        List<String> supabaseRoasters = [];
 
-    final combinedSet = {...localRoasters, ...supabaseRoasters};
-    return combinedSet.toList();
+        try {
+          supabaseRoasters = await databaseProvider.fetchRoasters();
+        } catch (error) {
+          //print('Error fetching roasters from Supabase: $error');
+        }
+
+        final combinedSet = {...localRoasters, ...supabaseRoasters};
+        return combinedSet.toList();
+      },
+    );
   }
 
   Future<void> toggleFavoriteStatus(String uuid, bool isFavorite) async {
@@ -619,5 +886,37 @@ class CoffeeBeansProvider with ChangeNotifier {
       print('DEBUG: Error updating bean weight for $beansUuid: $e');
       return null;
     }
+  }
+
+  // Debug method to print cache statistics
+  void printCacheStats() {
+    print('📊 CACHE STATISTICS:');
+    print('   Total entries: ${_cache.length}');
+    print('   Max entries: ${CacheConfig.maxCacheEntries}');
+    print('   Default expiration: ${CacheConfig.defaultExpiration.inHours}h');
+    print('   Max age: ${CacheConfig.maxAge.inDays}d');
+    print('   App version: $_currentAppVersion');
+
+    if (_cache.isNotEmpty) {
+      print('   Cache entries:');
+      for (final entry in _cache.entries) {
+        final age = DateTime.now().difference(entry.value.timestamp);
+        final status = entry.value.isExpired
+            ? 'EXPIRED'
+            : entry.value.isTooOld
+                ? 'TOO_OLD'
+                : 'VALID';
+        final versionInfo = entry.value.appVersion != null
+            ? ', version: ${entry.value.appVersion}'
+            : ', no version';
+        final localeInfo =
+            entry.key.contains('_') ? ', locale-specific' : ', locale-agnostic';
+        print(
+            '     ${entry.key}: ${entry.value.data.length} items, age: ${age.inMinutes}min, status: $status$versionInfo$localeInfo');
+      }
+    } else {
+      print('   Cache is empty');
+    }
+    print('📊 END CACHE STATISTICS');
   }
 }
