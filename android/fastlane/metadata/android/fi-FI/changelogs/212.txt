@@ -1,0 +1,7 @@
+Uutta: jäljellä olevien papujen määrä näytetään, kun valitset pavut reseptinäytöllä.
+
+Parannus: kroatian kielen käännös on nyt parempi. Kiitos @navdra!
+
+Parannus: logojen taustat lisätty keittotilastot-näytölle.
+
+Korjaus: liialliset verkkopyynnöt uusien papujen lisäämisen yhteydessä on korjattu.

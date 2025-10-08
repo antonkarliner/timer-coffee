@@ -1,3 +1,7 @@
-Neu: Kroatische Sprachunterstützung! Ein großes Dankeschön an Dražen Navratil für die Übersetzung!
+Neu: Das verbleibende Bohnengewicht wird angezeigt, wenn auf dem Rezeptbildschirm Bohnen ausgewählt werden.
 
-Verbessert: Viele Design-Verbesserungen auf verschiedenen Bildschirmen: Rezept-Detailansicht, Neue Bohnen, Fertig-Bildschirm und Info-Bildschirm. Das Design wirkt jetzt deutlich einheitlicher und durchgängiger in der gesamten App.
+Verbessert: bessere Übersetzung ins Kroatische. Vielen Dank an @navdra!
+
+Verbessert: Hintergrund zu den Logos auf dem Brew-Statistik-Bildschirm hinzugefügt.
+
+Fehlerbehebung: Ein Fehler wurde behoben, der beim Hinzufügen neuer Bohnen zu übermäßigen Netzwerkaufrufen führte.

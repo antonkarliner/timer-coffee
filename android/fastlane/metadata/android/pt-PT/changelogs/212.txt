@@ -1,0 +1,7 @@
+Novo: o peso restante dos grãos é mostrado ao selecionar grãos no ecrã da Receita.
+
+Melhorado: tradução croata aperfeiçoada. Obrigado, @navdra!
+
+Melhorado: adicionada fundo aos logótipos no ecrã de Estatísticas de Extração.
+
+Correção: resolvido erro que causava chamadas de rede excessivas ao adicionar novos grãos.

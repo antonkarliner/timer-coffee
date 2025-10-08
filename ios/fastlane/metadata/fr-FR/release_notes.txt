@@ -1,3 +1,7 @@
-Nouveau : prise en charge de la langue croate ! Un grand merci à Dražen Navratil pour la traduction !
+Nouveau : le poids restant des grains est affiché lors de la sélection des grains sur l’écran Recette.
 
-Amélioré : de nombreuses améliorations de design sur différents écrans : écran Détail de la recette, écran Nouveaux grains, écran Fin, écran Infos. Le design est désormais beaucoup plus fluide et cohérent dans toute l’application.
+Amélioration : meilleure traduction en croate. Merci @navdra !
+
+Amélioration : ajout d’un fond derrière les logos sur l’écran Statistiques d’extraction.
+
+Correction de bug : correction d’un bug provoquant des appels réseau excessifs lors de l’ajout de nouveaux grains.

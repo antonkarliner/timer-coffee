@@ -1,0 +1,7 @@
+Nuevo: ahora se muestra el peso restante de granos al seleccionar café en la pantalla de Receta.
+
+Mejorado: traducción al croata optimizada. ¡Gracias @navdra!
+
+Mejorado: se añadió fondo a los logotipos en la pantalla de Estadísticas de Preparación.
+
+Corrección: se solucionó un error que causaba llamadas de red excesivas al agregar nuevos granos.

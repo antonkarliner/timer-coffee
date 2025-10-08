@@ -1,0 +1,7 @@
+Neu: Beim Auswählen von Bohnen im Rezeptbildschirm wird jetzt das verbleibende Bohnengewicht angezeigt.
+
+Verbessert: Bessere Übersetzung ins Kroatische. Danke @navdra!
+
+Verbessert: Logos auf dem Brühstatistik-Bildschirm haben jetzt einen Hintergrund.
+
+Fehlerbehebung: Ein Fehler mit zu vielen Netzwerkaufrufen beim Hinzufügen neuer Bohnen wurde behoben.

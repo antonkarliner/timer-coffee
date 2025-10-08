@@ -1,0 +1,7 @@
+Nuevo: ahora se muestra el peso restante de los granos al seleccionar granos en la pantalla de Receta.
+
+Mejorado: traducción al croata mejorada. ¡Gracias @navdra!
+
+Mejorado: se añadió fondo a los logotipos en la pantalla de Estadísticas de Preparación.
+
+Corrección: solucionado un error que provocaba llamadas de red excesivas al añadir nuevos granos.

@@ -1,3 +1,7 @@
-Novo: Podrška za hrvatski jezik! Veliko hvala Draženu Navratilu na prijevodu!
+Novo: prikazuje se preostala masa zrna prilikom odabira zrna na ekranu Recept.
 
-Poboljšano: Mnoga dizajnerska poboljšanja na različitim ekranima: ekran s detaljima recepta, ekran za nove kave, završni ekran, informativni ekran. Dizajn je sada znatno pregledniji i dosljedniji kroz cijelu aplikaciju.
+Poboljšano: bolji prijevod na hrvatski. Hvala @navdra!
+
+Poboljšano: dodana je pozadina logotipima na ekranu Statistika kuhanja.
+
+Ispravljeno: ispravljen je bug koji je uzrokovao prekomjerne mrežne pozive pri dodavanju novih zrna.

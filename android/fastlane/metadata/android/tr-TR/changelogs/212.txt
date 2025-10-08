@@ -1,0 +1,7 @@
+Yenilik: Tarif ekranında çekirdek seçerken kalan kahve çekirdeği miktarı gösteriliyor.
+
+İyileştirme: Hırvatçaya daha iyi çeviri. Teşekkürler @navdra!
+
+İyileştirme: Demleme İstatistikleri ekranında logolara arka plan eklendi.
+
+Hata düzeltmesi: Yeni kahve çekirdeği eklenirken gereksiz ağ isteklerine neden olan bir hata giderildi.

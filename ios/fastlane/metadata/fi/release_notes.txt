@@ -1,3 +1,7 @@
-Uutta: Kroatian kielen tuki! Suuri kiitos Dražen Navratilille käännöksestä!
+Uutta: Jäljellä olevien papujen paino näytetään, kun valitset papuja reseptinäytöllä.
 
-Parannettu: paljon ulkoasuun liittyviä parannuksia eri näytöillä: Reseptin tiedot -näyttö, Uudet pavut -näyttö, Valmis-näyttö, Tietoa-näyttö. Ulkoasu on nyt huomattavasti virtaviivaisempi ja yhtenäisempi koko sovelluksessa.
+Parannettu: parempi kroatian kielen käännös. Kiitos @navdra!
+
+Parannettu: logojen taustaan lisätty tausta Vahvuustilastot-näytöllä.
+
+Korjaus: korjattu virhe, joka aiheutti liiallisia verkkopyyntöjä uusia papuja lisättäessä.

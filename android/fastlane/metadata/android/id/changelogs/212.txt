@@ -1,0 +1,7 @@
+Baru: berat biji kopi tersisa ditampilkan saat memilih biji di layar Resep.
+
+Peningkatan: terjemahan ke bahasa Kroasia kini lebih baik. Terima kasih @navdra!
+
+Peningkatan: logo di layar Statistik Seduhan kini memiliki latar belakang.
+
+Perbaikan Bug: masalah panggilan jaringan berlebihan saat menambah biji kopi baru telah diperbaiki.

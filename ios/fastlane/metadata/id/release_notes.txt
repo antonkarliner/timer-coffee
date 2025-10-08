@@ -1,3 +1,7 @@
-Baru: Dukungan bahasa Kroasia! Terima kasih banyak kepada Dražen Navratil atas terjemahannya!
+Baru: berat biji kopi yang tersisa sekarang ditampilkan saat memilih biji pada layar Resep.
 
-Peningkatan: banyak perbaikan desain di berbagai layar: layar Detail Resep, layar Biji Kopi Baru, layar Selesai, layar Info. Desain sekarang terasa lebih ringkas dan konsisten di seluruh aplikasi.
+Peningkatan: terjemahan ke bahasa Kroasia kini lebih baik. Terima kasih @navdra!
+
+Peningkatan: latar belakang ditambahkan pada logo di layar Statistik Seduh.
+
+Perbaikan Bug: masalah panggilan jaringan berlebihan saat menambahkan biji kopi baru telah diperbaiki.

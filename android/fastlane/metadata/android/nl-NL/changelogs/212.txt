@@ -1,0 +1,7 @@
+Nieuw: resterend bonengewicht wordt weergegeven bij het selecteren van bonen op het Recept-scherm.
+
+Verbeterd: betere vertaling naar het Kroatisch. Dank aan @navdra!
+
+Verbeterd: logo’s op het Zetstatistieken-scherm hebben nu een achtergrond.
+
+Bugfix: een bug opgelost waardoor er te veel netwerkverkeer was bij het toevoegen van nieuwe bonen.

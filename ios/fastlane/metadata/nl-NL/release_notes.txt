@@ -1,3 +1,7 @@
-Nieuw: Ondersteuning voor de Kroatische taal! Grote dank aan Dražen Navratil voor de vertaling!
+Nieuw: het resterende bonen­gewicht wordt weergegeven bij het selecteren van bonen op het receptenscherm.
 
-Verbeterd: veel ontwerpverbeteringen op verschillende schermen: Receptdetail-scherm, Nieuwe Bonen-scherm, Afrondingsscherm, Info-scherm. Het ontwerp voelt nu veel gestroomlijnder en consistenter aan in de hele app.
+Verbeterd: betere vertaling naar het Kroatisch. Bedankt @navdra!
+
+Verbeterd: achtergrond toegevoegd aan logo’s op het brouwstatistieken­scherm.
+
+Bugfix: een bug verholpen waardoor er te veel netwerkverkeer ontstond bij het toevoegen van nieuwe bonen.

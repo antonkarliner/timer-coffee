@@ -1,0 +1,7 @@
+Novità: il peso dei chicchi rimanenti viene mostrato quando si selezionano i chicchi nella schermata Ricetta.
+
+Migliorato: traduzione croata più accurata. Grazie @navdra!
+
+Migliorato: aggiunto sfondo ai loghi nella schermata Statistiche di Estrazione.
+
+Correzione: risolto un bug che causava chiamate di rete eccessive durante l'aggiunta di nuovi chicchi.

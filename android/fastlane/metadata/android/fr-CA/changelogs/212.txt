@@ -1,0 +1,7 @@
+Nouveau : le poids des grains restants s’affiche lors de la sélection des grains sur l’écran de recette.
+
+Amélioré : meilleure traduction croate. Merci @navdra!
+
+Amélioré : ajout d’un fond derrière les logos sur l’écran Statistiques d’infusion.
+
+Correction : résolution d’un bug qui provoquait trop de requêtes réseau lors de l’ajout de nouveaux grains.

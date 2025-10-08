@@ -1,0 +1,7 @@
+Novo: prikaz preostale mase zrna prilikom odabira na ekranu Recept.
+
+Poboljšano: bolji prijevod na hrvatski. Hvala @navdra!
+
+Poboljšano: dodana pozadina logotipima na ekranu Statistika kuhanja.
+
+Ispravljeno: riješen problem prekomjernih mrežnih poziva pri dodavanju novih zrna.

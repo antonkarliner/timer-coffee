@@ -1,3 +1,7 @@
-Novità: supporto per la lingua croata! Un grande grazie a Dražen Navratil per la traduzione!
+Novità: il peso dei chicchi rimanenti viene mostrato quando si selezionano i chicchi nella schermata Ricetta.
 
-Miglioramenti: molte migliorie al design su diverse schermate: Dettaglio Ricetta, Nuovi Chicchi, Fine, Info. Il design ora è molto più uniforme e coerente in tutta l’app.
+Miglioramento: traduzione croata migliorata. Grazie @navdra!
+
+Miglioramento: aggiunto uno sfondo ai loghi nella schermata Statistiche delle estrazioni.
+
+Correzione bug: risolto un bug che causava chiamate di rete eccessive durante l'aggiunta di nuovi chicchi.

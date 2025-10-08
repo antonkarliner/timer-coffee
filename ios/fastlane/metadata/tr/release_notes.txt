@@ -1,3 +1,7 @@
-Yeni: Hırvatça dil desteği! Çeviri için Dražen Navratil’e çok teşekkürler!
+Yeni: Tarif ekranında çekirdek seçerken kalan çekirdek miktarı gösteriliyor.
 
-Geliştirildi: Farklı ekranlarda birçok tasarım iyileştirmesi yapıldı: Tarif Detay ekranı, Yeni Çekirdekler ekranı, Bitiş ekranı, Bilgi ekranı. Tasarım artık uygulama genelinde çok daha akıcı ve tutarlı hissettiriyor.
+Geliştirildi: Hırvatçaya daha iyi çeviri. Teşekkürler @navdra!
+
+Geliştirildi: Demleme İstatistikleri ekranındaki logolara arka plan eklendi.
+
+Hata düzeltildi: Yeni çekirdek eklerken aşırı ağ isteği oluşmasına neden olan bir hata giderildi.

@@ -1,3 +1,7 @@
-Novo: Suporte ao idioma croata! Muito obrigado ao Dražen Navratil pela tradução!
+Novo: o peso restante dos grãos é exibido ao selecionar os grãos na tela de Receita.
 
-Melhorias: várias melhorias de design em diferentes telas: Detalhes da Receita, Novo Grão, Finalização, Informações. O design agora está muito mais moderno e consistente em todo o app.
+Melhoria: tradução para croata aprimorada. Obrigado, @navdra!
+
+Melhoria: foi adicionada uma imagem de fundo aos logotipos na tela de Estatísticas de Preparo.
+
+Correção de bug: corrigido um erro que causava chamadas de rede excessivas ao adicionar novos grãos.

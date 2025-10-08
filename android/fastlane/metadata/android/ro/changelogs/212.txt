@@ -1,0 +1,7 @@
+Noutate: greutatea boabelor rămase este afișată când selectezi boabe pe ecranul Rețetă.
+
+Îmbunătățire: traducere croată mai bună. Mulțumim @navdra!
+
+Îmbunătățire: fundal adăugat la logo-uri pe ecranul Statistici preparare.
+
+Remedieri: s-a rezolvat o problemă care cauza apeluri de rețea excesive la adăugarea de boabe noi.

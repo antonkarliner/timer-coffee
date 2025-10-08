@@ -1,3 +1,7 @@
-Nuevo: ¡Soporte para el idioma croata! Muchas gracias a Dražen Navratil por la traducción.
+Nuevo: se muestra el peso restante de granos al seleccionar granos en la pantalla de Receta.
 
-Mejorado: muchas mejoras de diseño en varias pantallas: Detalle de Receta, Agregar Café, Finalizar, Información. El diseño ahora se siente mucho más fluido y consistente en toda la app.
+Mejorado: mejor traducción al croata. ¡Gracias @navdra!
+
+Mejorado: se añadió un fondo a los logotipos en la pantalla de Estadísticas de Preparación.
+
+Corrección de error: se solucionó un problema que causaba llamadas de red excesivas al agregar nuevos granos.

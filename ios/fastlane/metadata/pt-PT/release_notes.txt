@@ -1,3 +1,7 @@
-Novo: Suporte para a língua croata! Um grande agradecimento ao Dražen Navratil pela tradução!
+Novo: o peso restante dos grãos é mostrado ao selecionar grãos no ecrã de Receita.
 
-Melhorado: muitas melhorias de design em vários ecrãs: Ecrã de Detalhe da Receita, Ecrã de Novos Grãos, Ecrã de Finalização, Ecrã de Informações. O design está agora muito mais fluido e consistente em toda a aplicação.
+Melhorado: tradução para croata aprimorada. Obrigado @navdra!
+
+Melhorado: adicionámos um fundo aos logótipos no ecrã de Estatísticas da Preparação.
+
+Correção de erro: resolvido um problema que causava chamadas de rede excessivas ao adicionar novos grãos.

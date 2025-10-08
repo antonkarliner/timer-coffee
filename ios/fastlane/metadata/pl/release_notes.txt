@@ -1,3 +1,7 @@
-Nowość: Obsługa języka chorwackiego! Wielkie podziękowania dla Dražena Navratila za tłumaczenie!
+Nowość: wyświetlana jest pozostała waga ziaren podczas wybierania ziaren na ekranie przepisu.
 
-Ulepszenie: wiele poprawek wizualnych na różnych ekranach: ekran Szczegóły Przepisu, ekran Nowe Ziarna, ekran Zakończenia oraz ekran Informacji. Projekt jest teraz znacznie bardziej spójny i przejrzysty w całej aplikacji.
+Udoskonalenie: lepsze tłumaczenie na chorwacki. Dzięki @navdra!
+
+Udoskonalenie: dodano tło do logotypów na ekranie statystyk parzenia.
+
+Poprawka: naprawiono błąd powodujący nadmierne zapytania sieciowe przy dodawaniu nowych ziaren.

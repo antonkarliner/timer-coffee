@@ -1,0 +1,7 @@
+Novo: o peso restante dos grãos é exibido ao selecionar grãos na tela de Receita.
+
+Melhoria: tradução para o croata aprimorada. Obrigado, @navdra!
+
+Melhoria: adicionado fundo aos logotipos na tela de Estatísticas de Preparo.
+
+Correção: resolvido um erro que causava chamadas excessivas à rede ao adicionar novos grãos.

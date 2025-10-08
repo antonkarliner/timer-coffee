@@ -1,3 +1,7 @@
-Nou: Suport pentru limba croată! Mulțumiri speciale lui Dražen Navratil pentru traducere!
+Nou: greutatea rămasă a boabelor este afișată când selectezi boabe pe ecranul Rețetă.
 
-Îmbunătățit: multe îmbunătățiri de design pe diverse ecrane: ecranul Detalii Rețetă, ecranul Boabe Noi, ecranul Finalizare, ecranul Informații. Designul este acum mult mai coerent și consecvent în toată aplicația.
+Îmbunătățire: traducere mai bună în croată. Mulțumim @navdra!
+
+Îmbunătățire: am adăugat fundal pentru sigle pe ecranul Statistici Preparare.
+
+Corectare: am rezolvat o problemă care cauza apeluri de rețea excesive la adăugarea unor noi boabe.

@@ -1,0 +1,7 @@
+Nowość: podczas wyboru ziaren na ekranie Przepis wyświetlana jest ich pozostała waga.
+
+Ulepszenie: lepsze tłumaczenie na chorwacki. Dziękujemy @navdra!
+
+Ulepszenie: dodano tło do logotypów na ekranie Statystyki Parzenia.
+
+Poprawka: naprawiono błąd powodujący nadmierne połączenia z siecią przy dodawaniu nowych ziaren.

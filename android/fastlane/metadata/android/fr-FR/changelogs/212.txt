@@ -1,0 +1,7 @@
+Nouveauté : le poids des grains restants s’affiche lors de la sélection des grains sur l’écran Recette.
+
+Amélioration : meilleure traduction en croate. Merci @navdra !
+
+Amélioration : ajout d’un fond aux logos sur l’écran Statistiques d’Extraction.
+
+Correction : résout un bug qui provoquait trop d’appels réseau lors de l’ajout de nouveaux grains.
