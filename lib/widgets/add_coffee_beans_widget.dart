@@ -8,7 +8,6 @@ import '../providers/database_provider.dart';
 import '../models/coffee_beans_model.dart';
 import '../app_router.gr.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class AddCoffeeBeansWidget extends StatefulWidget {
   final Function(String) onSelect; // Always return UUID
@@ -67,7 +66,6 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
     const double logoHeight = 40.0;
     const double maxWidthFactor = 2.0; // 40 × 2 = 80 px max width
 
-    final loc = AppLocalizations.of(context)!;
     final databaseProvider =
         Provider.of<DatabaseProvider>(context, listen: false);
     final isSelected = selectedBeanUuid == bean.beansUuid;
@@ -75,42 +73,65 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
     final selectedColor = brightness == Brightness.light
         ? Theme.of(context).primaryColor.withOpacity(0.15)
         : Colors.grey.withOpacity(0.2);
+    final loc = AppLocalizations.of(context)!;
 
-    Widget tileContent = ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-      leading: SizedBox(
-        height: logoHeight,
-        width: logoHeight * maxWidthFactor,
-        child: FutureBuilder<Map<String, String?>>(
-          future: databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final originalUrl = snapshot.data!['original'];
-              final mirrorUrl = snapshot.data!['mirror'];
+    Widget tileContent = Stack(
+      children: [
+        ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+          leading: SizedBox(
+            height: logoHeight,
+            width: logoHeight * maxWidthFactor,
+            child: FutureBuilder<Map<String, String?>>(
+              future: databaseProvider.fetchCachedRoasterLogoUrls(bean.roaster),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final originalUrl = snapshot.data!['original'];
+                  final mirrorUrl = snapshot.data!['mirror'];
 
-              if (originalUrl != null || mirrorUrl != null) {
-                return RoasterLogo(
-                  originalUrl: originalUrl,
-                  mirrorUrl: mirrorUrl,
-                  height: logoHeight,
-                  width: logoHeight * maxWidthFactor,
-                  borderRadius: 0, // ← no rounded corners
-                  forceFit: BoxFit.contain, // ← never crop
-                );
-              }
-            }
-            return const Icon(Coffeico.bag_with_bean, size: logoHeight);
+                  if (originalUrl != null || mirrorUrl != null) {
+                    return RoasterLogo(
+                      originalUrl: originalUrl,
+                      mirrorUrl: mirrorUrl,
+                      height: logoHeight,
+                      width: logoHeight * maxWidthFactor,
+                      borderRadius: 0, // ← no rounded corners
+                      forceFit: BoxFit.contain, // ← never crop
+                    );
+                  }
+                }
+                return const Icon(Coffeico.bag_with_bean, size: logoHeight);
+              },
+            ),
+          ),
+          title: Text(bean.name),
+          subtitle: Text(bean.roaster),
+          onTap: () {
+            setState(() => selectedBeanUuid = bean.beansUuid);
           },
         ),
-      ),
-      title: Text(bean.name),
-      subtitle: Text(bean.roaster),
-      trailing: bean.isFavorite
-          ? Icon(Icons.favorite, color: Theme.of(context).colorScheme.onSurface)
-          : null,
-      onTap: () {
-        setState(() => selectedBeanUuid = bean.beansUuid);
-      },
+        // Weight chip aligned with bean name if available
+        if (bean.validatedPackageWeightGrams != null)
+          Positioned(
+            top: 12, // Position to align with bean name (approximately)
+            right: 16, // Align with text content padding
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                '${bean.validatedPackageWeightGrams!.toInt()}${loc.unitGramsShort}',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+      ],
     );
 
     if (isSelected) {
@@ -125,8 +146,7 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
 
     return Semantics(
       identifier: 'coffeeBeanTile_${bean.beansUuid}',
-      label:
-          '${bean.name}, ${bean.roaster}, ${bean.isFavorite ? loc.favorite : loc.notFavorite}',
+      label: '${bean.name}, ${bean.roaster}',
       child: tileContent,
     );
   }
