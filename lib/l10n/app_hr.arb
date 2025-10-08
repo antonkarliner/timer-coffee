@@ -260,7 +260,7 @@
   "dropdownSearchLoadingError": "Greška pri učitavanju prijedloga: {error}",
   "dropdownSearchNoResults": "Nema pronađenih rezultata",
   "dropdownSearchLoading": "Pretraživanje...",
-  "dropdownSearchUseCustomEntry": "Koristi "{currentQuery}"",
+  "dropdownSearchUseCustomEntry": "Koristi {currentQuery}",
   "requiredInfoSubtitle": "* Obavezno",
   "inventoryWeightExample": "npr., 250.5"
   "yearlyStatsAppBarTitle": "Moja godina s Timer.Coffee",
