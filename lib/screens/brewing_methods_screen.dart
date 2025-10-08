@@ -124,7 +124,7 @@ class BrewingMethodsScreen extends StatelessWidget {
                 child: ListTile(
                   leading:
                       getIconByBrewingMethod(mostRecentRecipe.brewingMethodId),
-                  title: Text('${l10n.lastrecipe}${mostRecentRecipe.name}'),
+                  title: Text('${l10n.lastrecipe} ${mostRecentRecipe.name}'),
                   onTap: () {
                     context.router.push(
                       RecipeDetailRoute(
