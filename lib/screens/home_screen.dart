@@ -306,7 +306,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!; // Get localizations
+    final l10n = AppLocalizations.of(context); // Get localizations safely
+
+    // Handle case where localizations are null during initialization
+    if (l10n == null) {
+      return Scaffold(
+        appBar: buildPlatformSpecificAppBar(),
+        body: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return AutoTabsRouter.tabBar(
       routes: [
         BrewingMethodsRoute(),
