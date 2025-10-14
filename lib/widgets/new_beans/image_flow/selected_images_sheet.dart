@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 
 class SelectedImagesSheet extends StatefulWidget {
   final List<XFile> initialImages;
@@ -55,11 +56,14 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
                   clipBehavior: Clip.none,
                   children: [
                     kIsWeb
-                        ? Image.network(
-                            image.path,
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(AppRadius.card),
+                            child: Image.network(
+                              image.path,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
                           )
                         : FutureBuilder<Uint8List>(
                             future: File(image.path).readAsBytes(),
@@ -70,11 +74,15 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
                                 return Semantics(
                                   identifier: 'selectedImage',
                                   label: loc.selectedImage,
-                                  child: Image.memory(
-                                    snapshot.data!,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
+                                  child: ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.circular(AppRadius.card),
+                                    child: Image.memory(
+                                      snapshot.data!,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 );
                               } else {
@@ -97,9 +105,10 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
                           });
                         },
                         child: Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             color: Colors.red,
-                            shape: BoxShape.circle,
+                            borderRadius:
+                                BorderRadius.circular(AppRadius.small),
                           ),
                           padding: const EdgeInsets.all(4),
                           child: const Icon(
@@ -115,17 +124,47 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
               }).toList(),
             ),
             const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            OverflowBar(
+              alignment: MainAxisAlignment.center,
+              spacing: 16.0,
               children: [
-                OutlinedButton(
+                TextButton(
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppRadius.card),
+                    ),
+                  ),
+                  child: Text(
+                    loc.backToSelection,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   onPressed: () async {
                     Navigator.pop(context);
                     await widget.onBackToSelection();
                   },
-                  child: Text(loc.backToSelection),
                 ),
-                OutlinedButton(
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppRadius.card),
+                    ),
+                  ),
+                  child: Text(
+                    loc.next,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   onPressed: () async {
                     // Show immediate feedback before heavy OCR starts
                     showDialog(
@@ -165,7 +204,6 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
                       Navigator.of(context).pop();
                     }
                   },
-                  child: Text(loc.next),
                 ),
               ],
             ),

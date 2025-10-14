@@ -65,7 +65,7 @@ class CoffeeBeansEmptyState extends StatelessWidget {
             _getMessage(loc),
             style: Theme.of(context).textTheme.titleMedium,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 24),
           _buildActionButton(context, loc),
         ],
       ),
@@ -94,9 +94,23 @@ class CoffeeBeansEmptyState extends StatelessWidget {
     switch (type) {
       case EmptyStateType.noBeans:
         return ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          ),
           onPressed: onAddBeans,
           icon: const Icon(Icons.add),
-          label: Text(loc.addBeans),
+          label: Text(
+            loc.addBeans,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         );
       case EmptyStateType.noSearchResults:
         return TextButton(

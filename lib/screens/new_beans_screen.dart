@@ -18,6 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 import 'package:uuid/uuid.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 
 // Image flow controller and widgets
 import 'package:coffee_timer/controllers/new_beans_image_controller.dart';
@@ -337,6 +338,11 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       onShowPreview: (images, onConfirm, onBackToSelection) async {
         await showModalBottomSheet(
           context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(AppRadius.card),
+            ),
+          ),
           builder: (_) => SelectedImagesSheet(
             initialImages: images,
             onConfirm: onConfirm,
