@@ -16,6 +16,7 @@ import 'package:image/image.dart' as img; // Use prefix to avoid conflicts
 import 'package:onesignal_flutter/onesignal_flutter.dart'; // For sign out
 import '../app_router.gr.dart';
 import '../theme/design_tokens.dart';
+import '../widgets/confirm_delete_dialog.dart';
 
 // --- Top-level function for image processing in isolate ---
 Future<Uint8List> _processImageIsolate(Uint8List imageBytes) async {
@@ -545,6 +546,70 @@ class _AccountScreenState extends State<AccountScreen> {
   }
   // --- End Sign Out ---
 
+  // --- Delete Account ---
+  void _showDeleteAccountConfirmation() {
+    showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmDeleteDialog(
+          title: AppLocalizations.of(context)!.deleteAccountTitle,
+          content: AppLocalizations.of(context)!.deleteAccountWarning,
+          confirmLabel: AppLocalizations.of(context)!.deleteAccount,
+          cancelLabel: AppLocalizations.of(context)!.cancel,
+        );
+      },
+    ).then((confirmed) {
+      if (confirmed == true) {
+        _deleteAccount();
+      }
+    });
+  }
+
+  Future<void> _deleteAccount() async {
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
+    final userId = widget.userId;
+
+    try {
+      // Sign out the current user
+      await Supabase.instance.client.auth.signOut();
+
+      // Call the clean-before-deletion function
+      final response = await Supabase.instance.client.functions.invoke(
+        'clean-before-deletion',
+        body: {'user_id': userId},
+      );
+
+      if (response.status != 200) {
+        throw Exception('Failed to clean user data: ${response.data}');
+      }
+
+      // Sign in anonymously
+      await Supabase.instance.client.auth.signInAnonymously();
+
+      // Update state
+      if (!mounted) return;
+      // Note: We don't update state here since this screen will be popped
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.accountDeleted)),
+      );
+
+      // Navigate back to root after successful deletion
+      context.router.popUntilRoot();
+    } catch (e) {
+      // Show error
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.accountDeletionError),
+        ),
+      );
+    }
+  }
+  // --- End Delete Account ---
+
   @override
   void dispose() {
     super.dispose();
@@ -596,135 +661,190 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              // Avatar
-              Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundColor: Colors.grey.shade300,
-                    child: ClipOval(
-                      child: CachedNetworkImage(
-                        imageUrl: _profilePictureUrl ?? _defaultAvatarUrl,
-                        placeholder: (context, url) =>
-                            const Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) => const Icon(
-                            Icons.person,
-                            size: 60,
-                            color: Colors.grey),
-                        fit: BoxFit.cover,
-                        width: 120,
-                        height: 120,
-                      ),
-                    ),
-                  ),
-                  // Edit Avatar Button - Conditionally visible
-                  if (_isEditMode)
-                    Container(
-                      margin:
-                          const EdgeInsets.all(4), // Add some margin if needed
-                      decoration: BoxDecoration(
-                        color: Theme.of(context)
-                            .cardColor
-                            .withOpacity(0.7), // Semi-transparent background
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.edit,
-                          size: 20, // Smaller icon
-                          color: Theme.of(context)
-                              .iconTheme
-                              .color, // Use theme color
+      body: Column(
+        children: [
+          // Profile Information Section
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 20),
+                    // Avatar
+                    Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        CircleAvatar(
+                          radius: 60,
+                          backgroundColor: Colors.grey.shade300,
+                          child: ClipOval(
+                            child: CachedNetworkImage(
+                              imageUrl: _profilePictureUrl ?? _defaultAvatarUrl,
+                              placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator()),
+                              errorWidget: (context, url, error) => const Icon(
+                                  Icons.person,
+                                  size: 60,
+                                  color: Colors.grey),
+                              fit: BoxFit.cover,
+                              width: 120,
+                              height: 120,
+                            ),
+                          ),
                         ),
-                        padding: EdgeInsets.zero, // Remove default padding
-                        constraints:
-                            const BoxConstraints(), // Remove default constraints
-                        tooltip: l10n.edit, // Use localization
-                        onPressed:
-                            _pickAndCropImage, // Call the image picker method
-                      ),
+                        // Edit Avatar Button - Conditionally visible
+                        if (_isEditMode)
+                          Container(
+                            margin: const EdgeInsets.all(
+                                4), // Add some margin if needed
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor.withOpacity(
+                                  0.7), // Semi-transparent background
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.edit,
+                                size: 20, // Smaller icon
+                                color: Theme.of(context)
+                                    .iconTheme
+                                    .color, // Use theme color
+                              ),
+                              padding:
+                                  EdgeInsets.zero, // Remove default padding
+                              constraints:
+                                  const BoxConstraints(), // Remove default constraints
+                              tooltip: l10n.edit, // Use localization
+                              onPressed:
+                                  _pickAndCropImage, // Call the image picker method
+                            ),
+                          ),
+                        // Delete Avatar Button - Conditionally visible
+                        if (_isEditMode &&
+                            _profilePictureUrl != null &&
+                            _profilePictureUrl != _defaultAvatarUrl)
+                          Positioned(
+                            left: 0,
+                            bottom: 0,
+                            child: IconButton(
+                              icon: CircleAvatar(
+                                radius: 20,
+                                backgroundColor: Colors.red.withOpacity(0.8),
+                                child: const Icon(Icons.delete,
+                                    size: 20, color: Colors.white),
+                              ),
+                              onPressed:
+                                  _confirmAndDeletePicture, // Call delete confirmation
+                              tooltip:
+                                  l10n.deletePictureTooltip, // Use localization
+                            ),
+                          ),
+                      ],
                     ),
-                  // Delete Avatar Button - Conditionally visible
-                  if (_isEditMode &&
-                      _profilePictureUrl != null &&
-                      _profilePictureUrl != _defaultAvatarUrl)
-                    Positioned(
-                      left: 0,
-                      bottom: 0,
-                      child: IconButton(
-                        icon: CircleAvatar(
-                          radius: 20,
-                          backgroundColor: Colors.red.withOpacity(0.8),
-                          child: const Icon(Icons.delete,
-                              size: 20, color: Colors.white),
+                    const SizedBox(height: 20),
+                    // Display Name
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          // Allow name to wrap if very long
+                          child: Text(
+                            _displayName ?? 'Loading...', // Show actual name
+                            style: const TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                        onPressed:
-                            _confirmAndDeletePicture, // Call delete confirmation
-                        tooltip: l10n.deletePictureTooltip, // Use localization
-                      ),
+                        // Edit Name Button - Conditionally visible
+                        if (_isEditMode)
+                          IconButton(
+                            icon: const Icon(Icons.edit, size: 20),
+                            onPressed:
+                                _showEditDisplayNameDialog, // Call the dialog method
+                          ),
+                      ],
                     ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              // Display Name
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    // Allow name to wrap if very long
-                    child: Text(
-                      _displayName ?? 'Loading...', // Show actual name
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  // Edit Name Button - Conditionally visible
-                  if (_isEditMode)
-                    IconButton(
-                      icon: const Icon(Icons.edit, size: 20),
-                      onPressed:
-                          _showEditDisplayNameDialog, // Call the dialog method
-                    ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              // Sign Out Button - Styled like new_beans_screen.dart
-              SizedBox(
-                height: 56,
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.logout),
-                  label: Text(
-                    l10n.signOut, // Use localization
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  onPressed: _signOut, // Call the sign out method
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.surface,
-                    foregroundColor: Theme.of(context).colorScheme.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.card),
-                    ),
-                    elevation: 2,
-                  ),
+                    const SizedBox(height: 30),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20), // Padding at the bottom
-            ],
+            ),
           ),
-        ),
+
+          // Action Buttons Section - Fixed at bottom
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, -2),
+                ),
+              ],
+            ),
+            child: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Sign Out Button
+                  SizedBox(
+                    height: 56,
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.logout),
+                      label: Text(
+                        l10n.signOut, // Use localization
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      onPressed: _signOut, // Call the sign out method
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.card),
+                        ),
+                        elevation: 2,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16), // Spacing between buttons
+
+                  // Delete Account Button - Destructive styling with safety
+                  SizedBox(
+                    height: 56,
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.delete_forever),
+                      label: Text(
+                        l10n.deleteAccount,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      onPressed: _showDeleteAccountConfirmation,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.error,
+                        foregroundColor: Theme.of(context).colorScheme.onError,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.card),
+                        ),
+                        elevation: 2,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

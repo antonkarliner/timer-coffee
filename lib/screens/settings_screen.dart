@@ -309,23 +309,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       identifier: 'aboutSection',
       child: Column(
         children: [
-          // Account management moved back from Info to Settings
-          Semantics(
-            identifier: 'accountManagementExpansionTile',
-            child: ExpansionTile(
-              title: Text(AppLocalizations.of(context)!.accountManagement),
-              children: [
-                Semantics(
-                  identifier: 'deleteAccountListTile',
-                  child: ListTile(
-                    title: Text(AppLocalizations.of(context)!.deleteAccount),
-                    enabled: !_isAnonymous,
-                    onTap: _showDeleteAccountConfirmation,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Account management moved to AccountScreen
+          // No account management options in Settings anymore
         ],
       ),
     );
@@ -439,79 +424,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   // Removed Info-only helpers from Settings: (privacy policy, version, contributor rich text)
+  // Account management functionality moved to AccountScreen
 
   void _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url, forceSafariVC: false, forceWebView: false);
     } else {
       throw 'Could not launch $url';
-    }
-  }
-
-  void _showDeleteAccountConfirmation() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.deleteAccountTitle),
-          content: Text(AppLocalizations.of(context)!.deleteAccountWarning),
-          actions: <Widget>[
-            TextButton(
-              child: Text(AppLocalizations.of(context)!.cancel),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text(AppLocalizations.of(context)!.deleteAccount),
-              onPressed: () {
-                Navigator.of(context).pop();
-                _deleteAccount();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _deleteAccount() async {
-    try {
-      // Sign out the current user
-      await Supabase.instance.client.auth.signOut();
-
-      // Call the clean-before-deletion function
-      final response = await Supabase.instance.client.functions.invoke(
-        'clean-before-deletion',
-        body: {'user_id': _userId},
-      );
-
-      if (response.status != 200) {
-        throw Exception('Failed to clean user data: ${response.data}');
-      }
-
-      // Sign in anonymously
-      await Supabase.instance.client.auth.signInAnonymously();
-
-      // Update state
-      if (!mounted) return;
-      setState(() {
-        _isAnonymous = true;
-        _userId = Supabase.instance.client.auth.currentUser?.id;
-      });
-
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context)!.accountDeleted)),
-      );
-    } catch (e) {
-      // Show error
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.accountDeletionError),
-        ),
-      );
     }
   }
 }
