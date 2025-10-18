@@ -46,7 +46,7 @@ class CoffeeBeansViewState {
 
   /// Default view state
   static const defaultState = CoffeeBeansViewState(
-    viewMode: ViewMode.list,
+    viewMode: ViewMode.grid,
     isEditMode: false,
     isBottomBarVisible: true,
     searchQuery: '',

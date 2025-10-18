@@ -60,7 +60,7 @@ class CoffeeBeansSortService {
   /// Loads the view mode preference from SharedPreferences
   Future<ViewMode> loadViewMode() async {
     final prefs = await SharedPreferences.getInstance();
-    final isGrid = prefs.getBool('coffeeBeansGridView') ?? false;
+    final isGrid = prefs.getBool('coffeeBeansGridView') ?? true;
     return isGrid ? ViewMode.grid : ViewMode.list;
   }
 
