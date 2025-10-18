@@ -61,6 +61,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   bool isLoading = false;
   Map<String, dynamic>? collectedData;
   bool hasShownPopup = false;
+  bool hasCompletedFirstImageRecognition = false;
 
   // New: image flow controller
   late final NewBeansImageController _imageController;
@@ -272,6 +273,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   Future<void> _checkFirstTimePopup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     hasShownPopup = prefs.getBool('hasShownPopup') ?? false;
+    hasCompletedFirstImageRecognition =
+        prefs.getBool('hasCompletedFirstImageRecognition') ?? false;
   }
 
   // Entry point to start the controller-driven image flow
@@ -279,12 +282,16 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     final locale = Localizations.localeOf(context).toString();
     final user = Supabase.instance.client.auth.currentUser;
 
+    // Determine if this is first-time image recognition
+    final bool isFirstTime = !hasCompletedFirstImageRecognition;
+
     await _imageController.start(
       context: context,
       locale: locale,
       userId: user?.id,
+      isFirstTime: isFirstTime,
       onLoading: (v) => setState(() => isLoading = v),
-      onData: (data) {
+      onData: (data) async {
         // If server accidentally returns a wrapped payload like { "0": { ... } }, unwrap it.
         Map<String, dynamic> normalized = data;
         if (data.length == 1 && data.values.first is Map) {
@@ -299,6 +306,15 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
 
         _fillFields(normalized);
         collectedData = normalized;
+
+        // Mark first-time image recognition as completed
+        if (isFirstTime) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setBool('hasCompletedFirstImageRecognition', true);
+          setState(() {
+            hasCompletedFirstImageRecognition = true;
+          });
+        }
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           showDialog(

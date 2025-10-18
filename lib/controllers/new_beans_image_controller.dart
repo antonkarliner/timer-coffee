@@ -78,10 +78,11 @@ class NewBeansImageController {
     required Future<ImageSource?> Function() onChooseSource,
     required Future<void> Function(
       List<XFile> images,
-      Future<void> Function(List<XFile> confirmed) onConfirm,
+      Future<void> Function(List<XFile>) onConfirm,
       Future<void> Function() onBackToSelection,
     ) onShowPreview,
     String? userId,
+    bool isFirstTime = false,
   }) async {
     // Ask user for source (camera/gallery)
     final source = await onChooseSource();
@@ -108,6 +109,7 @@ class NewBeansImageController {
             onLoading: onLoading,
             onData: onData,
             onError: onError,
+            isFirstTime: isFirstTime,
           );
         },
         () async {
@@ -121,6 +123,7 @@ class NewBeansImageController {
             onChooseSource: onChooseSource,
             onShowPreview: onShowPreview,
             userId: userId,
+            isFirstTime: isFirstTime,
           );
         },
       );
@@ -193,24 +196,31 @@ class NewBeansImageController {
     required void Function(bool) onLoading,
     required void Function(Map<String, dynamic>) onData,
     required void Function(String) onError,
+    bool isFirstTime = false,
   }) async {
     final swTotal = _StopwatchX();
     onLoading(true);
     try {
       _log(
-          'Starting OCR + prepare. Images: ${images.length}, locale: $locale, userId: ${userId ?? 'anon'}');
+          'Starting OCR + prepare. Images: ${images.length}, locale: $locale, userId: ${userId ?? 'anon'}, isFirstTime: $isFirstTime');
 
       // Resize and base64 encode
       final List<String> base64Images = [];
       final List<String> ocrSnippets = [];
 
       // Initialize gating state per session
-      _ocrDisabledForSession = !_passesStaticOcrGate();
+      // For first-time usage, always disable OCR to ensure better UX
+      _ocrDisabledForSession = isFirstTime ? true : !_passesStaticOcrGate();
       _consecutiveOcrTimeouts = 0; // Reset on new session
 
       if (_ocrDisabledForSession) {
-        _log(
-            'OCR disabled by static capability gate; will skip on-device OCR.');
+        if (isFirstTime) {
+          _log(
+              'OCR disabled for first-time usage; sending images only for better UX.');
+        } else {
+          _log(
+              'OCR disabled by static capability gate; will skip on-device OCR.');
+        }
       }
 
       final prepSw = _StopwatchX();
