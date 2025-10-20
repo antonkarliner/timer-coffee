@@ -8,8 +8,11 @@ import 'package:just_audio/just_audio.dart';
 import 'package:flutter_animate/flutter_animate.dart'; // Added for animations
 import '../models/recipe_model.dart';
 import '../models/brew_step_model.dart';
+import '../models/notification_mode.dart';
 import 'finish_screen.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:vibration/vibration.dart';
+import 'package:vibration/vibration_presets.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:intl/intl.dart' as intl; // Corrected import statement
 
@@ -47,7 +50,7 @@ class BrewingProcessScreen extends StatefulWidget {
   final RecipeModel recipe;
   final double coffeeAmount;
   final double waterAmount;
-  final bool soundEnabled;
+  final NotificationMode notificationMode;
   final int sweetnessSliderPosition;
   final int strengthSliderPosition;
   final String brewingMethodName;
@@ -58,7 +61,7 @@ class BrewingProcessScreen extends StatefulWidget {
     required this.recipe,
     required this.coffeeAmount,
     required this.waterAmount,
-    required this.soundEnabled,
+    required this.notificationMode,
     required this.sweetnessSliderPosition,
     required this.strengthSliderPosition,
     required this.brewingMethodName,
@@ -325,19 +328,33 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       final last5Start = stepDuration - 5;
       if (currentStepTime >= stepDuration) {
         if (currentStepIndex < brewingSteps.length - 1) {
-          if (widget.soundEnabled) {
+          // Play sound if enabled
+          if (widget.notificationMode == NotificationMode.soundOnly) {
             await _player.setAsset('assets/audio/next.mp3');
             _player.play();
           }
+
+          // Vibrate if enabled
+          if (widget.notificationMode == NotificationMode.vibrationOnly) {
+            Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
+          }
+
           setState(() {
             currentStepIndex++;
             currentStepTime = 0;
           });
         } else {
-          if (widget.soundEnabled) {
+          // Play sound if enabled
+          if (widget.notificationMode == NotificationMode.soundOnly) {
             await _player.setAsset('assets/audio/next.mp3');
             _player.play();
           }
+
+          // Vibrate if enabled
+          if (widget.notificationMode == NotificationMode.vibrationOnly) {
+            Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
+          }
+
           timer.cancel();
           // Instead of navigating directly, trigger the end brew animation
           setState(() {
@@ -399,9 +416,14 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     timer.cancel();
 
     // Play sound if enabled - same as step change
-    if (widget.soundEnabled) {
+    if (widget.notificationMode == NotificationMode.soundOnly) {
       await _player.setAsset('assets/audio/next.mp3');
       _player.play();
+    }
+
+    // Vibrate if enabled
+    if (widget.notificationMode == NotificationMode.vibrationOnly) {
+      Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
     }
 
     // Trigger the end animation before navigating

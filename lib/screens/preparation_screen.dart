@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import '../models/recipe_model.dart';
 import '../models/brew_step_model.dart';
+import '../models/notification_mode.dart';
 import 'brewing_process_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:vibration/vibration.dart';
+import 'package:vibration/vibration_presets.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 
 class PreparationScreen extends StatefulWidget {
@@ -24,20 +27,22 @@ class PreparationScreen extends StatefulWidget {
 
 class _PreparationScreenState extends State<PreparationScreen> {
   late AudioPlayer player;
-  bool _soundEnabled = false;
+  NotificationMode _notificationMode = NotificationMode.soundOnly;
 
   @override
   void initState() {
     super.initState();
     player = AudioPlayer();
-    _loadSoundSetting();
+    _loadNotificationSetting();
     _preloadAudio();
   }
 
-  Future<void> _loadSoundSetting() async {
+  Future<void> _loadNotificationSetting() async {
     final prefs = await SharedPreferences.getInstance();
+    final notificationModeIndex =
+        prefs.getInt('notificationMode') ?? 0; // Default to none
     setState(() {
-      _soundEnabled = prefs.getBool('soundEnabled') ?? false;
+      _notificationMode = NotificationMode.fromValue(notificationModeIndex);
     });
   }
 
@@ -49,16 +54,40 @@ class _PreparationScreenState extends State<PreparationScreen> {
     }
   }
 
-  void _toggleSound() async {
+  void _cycleNotificationMode() async {
     final prefs = await SharedPreferences.getInstance();
-    bool currentSetting = prefs.getBool('soundEnabled') ?? false;
-    setState(() {
-      _soundEnabled = !currentSetting;
-    });
-    await prefs.setBool('soundEnabled', _soundEnabled);
+    final currentModeIndex = _notificationMode.value;
+    final nextModeIndex = (currentModeIndex + 1) % 3;
 
-    if (_soundEnabled) {
-      player.play();
+    setState(() {
+      _notificationMode = NotificationMode.fromValue(nextModeIndex);
+    });
+
+    await prefs.setInt('notificationMode', nextModeIndex);
+
+    // Provide feedback based on the new mode
+    switch (_notificationMode) {
+      case NotificationMode.vibrationOnly:
+        Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
+        break;
+      case NotificationMode.soundOnly:
+        await player.seek(Duration.zero); // Reset to beginning
+        player.play();
+        break;
+      case NotificationMode.none:
+        // No feedback
+        break;
+    }
+  }
+
+  Widget _buildNotificationIcon() {
+    switch (_notificationMode) {
+      case NotificationMode.none:
+        return Icon(Icons.volume_off);
+      case NotificationMode.vibrationOnly:
+        return Icon(Icons.vibration);
+      case NotificationMode.soundOnly:
+        return Icon(Icons.volume_up);
     }
   }
 
@@ -145,11 +174,11 @@ class _PreparationScreenState extends State<PreparationScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Semantics(
-            identifier: 'soundToggleButton',
+            identifier: 'notificationToggleButton',
             child: FloatingActionButton(
-              heroTag: 'soundButton',
-              onPressed: _toggleSound,
-              child: Icon(_soundEnabled ? Icons.volume_up : Icons.volume_off),
+              heroTag: 'notificationButton',
+              onPressed: _cycleNotificationMode,
+              child: _buildNotificationIcon(),
             ),
           ),
           Semantics(
@@ -157,10 +186,17 @@ class _PreparationScreenState extends State<PreparationScreen> {
             child: FloatingActionButton(
               heroTag: 'playButton',
               onPressed: () {
-                if (_soundEnabled) {
+                // Sound feedback for modes that include sound
+                if (_notificationMode == NotificationMode.soundOnly) {
                   player.seek(Duration.zero);
                   player.play();
                 }
+
+                // Vibration feedback for modes that include vibration
+                if (_notificationMode == NotificationMode.vibrationOnly) {
+                  Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
+                }
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -172,7 +208,7 @@ class _PreparationScreenState extends State<PreparationScreen> {
                           widget.recipe.sweetnessSliderPosition,
                       strengthSliderPosition:
                           widget.recipe.strengthSliderPosition,
-                      soundEnabled: _soundEnabled,
+                      notificationMode: _notificationMode,
                       brewingMethodName: widget.brewingMethodName,
                       coffeeChroniclerSliderPosition:
                           widget.coffeeChroniclerSliderPosition,

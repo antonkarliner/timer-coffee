@@ -4,6 +4,7 @@
 
     <!-- Permission needed for web calls, DevTools, etc. -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name="${applicationName}"
