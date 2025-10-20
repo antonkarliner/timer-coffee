@@ -379,15 +379,34 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           title: Text(loc.pleaseNote),
           content: Text(loc.firstTimePopupMessage),
           actions: [
-            TextButton(
-              onPressed: () async {
-                Navigator.pop(context);
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setBool('hasShownPopup', true);
-                hasShownPopup = true;
-                await _startImageFlow();
-              },
-              child: Text(loc.ok),
+            SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: ElevatedButton(
+                onPressed: () async {
+                  Navigator.pop(context);
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setBool('hasShownPopup', true);
+                  hasShownPopup = true;
+                  await _startImageFlow();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.card),
+                  ),
+                  elevation: 0,
+                ),
+                child: Text(
+                  loc.ok,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
             ),
           ],
         );
