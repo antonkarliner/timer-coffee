@@ -631,5 +631,49 @@
   "unsavedChangesTitle": "Modifications non enregistrées",
   "unsavedChangesMessage": "Vous avez des modifications non enregistrées. Êtes-vous sûr de vouloir les abandonner ?",
   "unsavedChangesStay": "Rester",
-  "unsavedChangesDiscard": "Abandonner"
+  "unsavedChangesDiscard": "Abandonner",
+  "beansWeightAddedBack": "{amount}{unit} ajoutés à {beanName}. Nouveau poids : {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Message affiché lorsque le poids du café est ajouté aux grains après suppression du journal de brassage",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Éthiopie Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  },
+  "beansWeightSubtracted": "{amount}{unit} soustraits de {beanName}. Nouveau poids : {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Message affiché lorsque le poids du café est soustrait des grains lors de l'ajout au journal de brassage",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Colombie Supremo"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  }
 }

@@ -631,5 +631,25 @@
 "unsavedChangesTitle": "Kaydedilmemiş Değişiklikler",
 "unsavedChangesMessage": "Kaydedilmemiş değişiklikleriniz var. Onları silmek istediğinizden emin misiniz?",
 "unsavedChangesStay": "Kal",
-"unsavedChangesDiscard": "Sil"
+"unsavedChangesDiscard": "Sil",
+"beansWeightAddedBack": "{amount}{unit} {beanName}'e geri eklendi. Yeni ağırlık: {newWeight}{unit}",
+"@beansWeightAddedBack": {
+  "description": "Kahve ağırlığı demleme günlüğünden kaldırıldıktan sonra çekirdeklere geri eklendiğinde gösterilen mesaj",
+  "placeholders": {
+    "amount": { "type": "String", "example": "18.5" },
+    "beanName": { "type": "String", "example": "Etiyopya Yirgacheffe" },
+    "newWeight": { "type": "String", "example": "250.0" },
+    "unit": { "type": "String", "example": "g" }
+  }
+},
+"beansWeightSubtracted": "{amount}{unit} {beanName}'den çıkarıldı. Yeni ağırlık: {newWeight}{unit}",
+"@beansWeightSubtracted": {
+  "description": "Kahve ağırlığı çekirdeklerden çıkarıldığında gösterilen mesaj",
+  "placeholders": {
+    "amount": { "type": "String", "example": "18.5" },
+    "beanName": { "type": "String", "example": "Etiyopya Yirgacheffe" },
+    "newWeight": { "type": "String", "example": "250.0" },
+    "unit": { "type": "String", "example": "g" }
+  }
+}
 }

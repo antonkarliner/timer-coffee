@@ -529,52 +529,64 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                       child: Padding(
                                         padding:
                                             const EdgeInsets.only(left: 8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                        child: Table(
+                                          columnWidths: {
+                                            0: IntrinsicColumnWidth(),
+                                            1: FlexColumnWidth(),
+                                          },
+                                          defaultVerticalAlignment:
+                                              TableCellVerticalAlignment.top,
                                           children: [
-                                            Row(
+                                            TableRow(
                                               children: [
-                                                Text(
-                                                  '${loc.name}: ',
-                                                  style: labelStyle,
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 8.0),
+                                                  child: Text('${loc.name}: ',
+                                                      style: labelStyle),
                                                 ),
-                                                Expanded(
-                                                  child: Text(
-                                                    bean.name,
-                                                    style: valueStyle,
-                                                  ),
-                                                ),
+                                                Text(bean.name,
+                                                    style: valueStyle),
                                               ],
                                             ),
-                                            const SizedBox(height: 4),
-                                            Row(
+                                            TableRow(
                                               children: [
-                                                Text(
-                                                  '${loc.roaster}: ',
-                                                  style: labelStyle,
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    bean.roaster,
-                                                    style: valueStyle,
-                                                  ),
-                                                ),
+                                                SizedBox(height: 8),
+                                                SizedBox(height: 8),
                                               ],
                                             ),
-                                            const SizedBox(height: 4),
-                                            Row(
+                                            TableRow(
                                               children: [
-                                                Text(
-                                                  '${loc.origin}: ',
-                                                  style: labelStyle,
-                                                ),
-                                                Expanded(
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 8.0),
                                                   child: Text(
-                                                    bean.origin,
-                                                    style: valueStyle,
-                                                  ),
+                                                      '${loc.roaster}: ',
+                                                      style: labelStyle),
                                                 ),
+                                                Text(bean.roaster,
+                                                    style: valueStyle),
+                                              ],
+                                            ),
+                                            TableRow(
+                                              children: [
+                                                SizedBox(height: 8),
+                                                SizedBox(height: 8),
+                                              ],
+                                            ),
+                                            TableRow(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 8.0),
+                                                  child: Text('${loc.origin}: ',
+                                                      style: labelStyle),
+                                                ),
+                                                Text(bean.origin,
+                                                    style: valueStyle),
                                               ],
                                             ),
                                           ],
@@ -653,6 +665,14 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                                     context,
                                                     listen: false);
 
+                                            // Fetch bean data to get the bean name
+                                            final bean =
+                                                await coffeeBeansProvider
+                                                    .fetchCoffeeBeansByUuid(
+                                                        stat.coffeeBeansUuid!);
+                                            final beanName =
+                                                bean?.name ?? 'Unknown beans';
+
                                             final newWeight =
                                                 await coffeeBeansProvider
                                                     .updateBeanWeightAfterBrewModification(
@@ -665,7 +685,14 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                                   .showSnackBar(
                                                 SnackBar(
                                                   content: Text(
-                                                      'Added ${stat.coffeeAmount}g back to beans. New weight: ${newWeight.toStringAsFixed(1)}g'),
+                                                      loc.beansWeightAddedBack(
+                                                    stat.coffeeAmount
+                                                        .toString(),
+                                                    beanName,
+                                                    newWeight
+                                                        .toStringAsFixed(1),
+                                                    loc.unitGramsShort,
+                                                  )),
                                                   duration:
                                                       Duration(seconds: 2),
                                                 ),
@@ -751,6 +778,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
       builder: (context) {
         return AddCoffeeBeansWidget(
           onSelect: (String selectedBeanUuid) async {
+            final loc = AppLocalizations.of(context)!;
             // Get the current stat to know the coffee amount
             final userStatProvider =
                 Provider.of<UserStatProvider>(context, listen: false);
@@ -769,10 +797,19 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
               );
 
               if (newWeight != null) {
+                // Fetch bean data to get the bean name
+                final bean = await coffeeBeansProvider
+                    .fetchCoffeeBeansByUuid(selectedBeanUuid);
+                final beanName = bean?.name ?? 'Unknown beans';
+
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(
-                        'Subtracted ${currentStat.coffeeAmount}g from beans. New weight: ${newWeight.toStringAsFixed(1)}g'),
+                    content: Text(loc.beansWeightSubtracted(
+                      currentStat.coffeeAmount.toString(),
+                      beanName,
+                      newWeight.toStringAsFixed(1),
+                      loc.unitGramsShort,
+                    )),
                     duration: Duration(seconds: 2),
                   ),
                 );

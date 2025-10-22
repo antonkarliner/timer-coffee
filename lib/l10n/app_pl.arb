@@ -631,5 +631,49 @@
 "unsavedChangesTitle": "Niezapisane zmiany",
 "unsavedChangesMessage": "Masz niezapisane zmiany. Czy na pewno chcesz je porzucić?",
 "unsavedChangesStay": "Zostań",
-"unsavedChangesDiscard": "Porzuć"
+"unsavedChangesDiscard": "Porzuć",
+"beansWeightAddedBack": "Dodano {amount}{unit} z powrotem do {beanName}. Nowa waga: {newWeight}{unit}",
+"@beansWeightAddedBack": {
+  "description": "Komunikat wyświetlany, gdy waga kawy jest dodawana z powrotem do ziaren po usunięciu z dziennika parzenia",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "Etiopia Yirgacheffe"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "250.0"
+    },
+    "unit": {
+      "type": "String",
+      "example": "g"
+    }
+  }
+},
+"beansWeightSubtracted": "Odjęto {amount}{unit} od {beanName}. Nowa waga: {newWeight}{unit}",
+"@beansWeightSubtracted": {
+  "description": "Komunikat wyświetlany, gdy waga kawy jest odejmowana od ziaren przy dodawaniu do dziennika parzenia",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "Kolumbia Supremo"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "231.5"
+    },
+    "unit": {
+      "type": "String",
+      "example": "g"
+    }
+  }
+}
 }

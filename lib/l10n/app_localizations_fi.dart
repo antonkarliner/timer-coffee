@@ -1442,4 +1442,16 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get unsavedChangesDiscard => 'Hylkää';
+
+  @override
+  String beansWeightAddedBack(
+      String amount, String beanName, String newWeight, String unit) {
+    return 'Lisätty $amount$unit takaisin $beanName. Uusi paino: $newWeight$unit';
+  }
+
+  @override
+  String beansWeightSubtracted(
+      String amount, String beanName, String newWeight, String unit) {
+    return 'Vähennetty $amount$unit $beanName. Uusi paino: $newWeight$unit';
+  }
 }

@@ -631,5 +631,49 @@
 "unsavedChangesTitle": "Modifiche non salvate",
 "unsavedChangesMessage": "Hai delle modifiche non salvate. Sei sicuro di volerle scartare?",
 "unsavedChangesStay": "Rimani",
-"unsavedChangesDiscard": "Scarta"
+"unsavedChangesDiscard": "Scarta",
+"beansWeightAddedBack": "Aggiunto {amount}{unit} di nuovo a {beanName}. Nuovo peso: {newWeight}{unit}",
+"@beansWeightAddedBack": {
+  "description": "Messaggio mostrato quando il peso del caffè viene aggiunto di nuovo ai chicchi dopo la rimozione dal diario di preparazione",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "Etiopia Yirgacheffe"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "250.0"
+    },
+    "unit": {
+      "type": "String",
+      "example": "g"
+    }
+  }
+},
+"beansWeightSubtracted": "Sottratto {amount}{unit} da {beanName}. Nuovo peso: {newWeight}{unit}",
+"@beansWeightSubtracted": {
+  "description": "Messaggio mostrato quando il peso del caffè viene sottratto dai chicchi quando viene aggiunto al diario di preparazione",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "Colombia Supremo"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "231.5"
+    },
+    "unit": {
+      "type": "String",
+      "example": "g"
+    }
+  }
+}
 }

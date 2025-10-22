@@ -631,5 +631,25 @@
 "unsavedChangesTitle": "Несохраненные изменения",
 "unsavedChangesMessage": "У вас есть несохраненные изменения. Вы уверены, что хотите их отменить?",
 "unsavedChangesStay": "Остаться",
-"unsavedChangesDiscard": "Отменить"
+"unsavedChangesDiscard": "Отменить",
+"beansWeightAddedBack": "Добавлено {amount}{unit} обратно к {beanName}. Новый вес: {newWeight}{unit}",
+"@beansWeightAddedBack": {
+  "description": "Сообщение, отображаемое при добавлении веса кофе обратно к зернам после удаления из журнала заваривания",
+  "placeholders": {
+    "amount": { "type": "String", "example": "18.5" },
+    "beanName": { "type": "String", "example": "Эфиопия Иргачеффе" },
+    "newWeight": { "type": "String", "example": "250.0" },
+    "unit": { "type": "String", "example": "г" }
+  }
+},
+"beansWeightSubtracted": "Убавлено {amount}{unit} из {beanName}. Новый вес: {newWeight}{unit}",
+"@beansWeightSubtracted": {
+  "description": "Сообщение, отображаемое при вычитании веса кофе из зерен",
+  "placeholders": {
+    "amount": { "type": "String", "example": "18.5" },
+    "beanName": { "type": "String", "example": "Эфиопия Иргачеффе" },
+    "newWeight": { "type": "String", "example": "250.0" },
+    "unit": { "type": "String", "example": "г" }
+  }
+}
 }

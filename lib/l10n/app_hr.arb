@@ -797,5 +797,49 @@
   "unsavedChangesTitle": "Nespremljene promjene",
   "unsavedChangesMessage": "Imate nespremljene promjene. Jeste li sigurni da ih želite odbaciti?",
   "unsavedChangesStay": "Ostani",
-  "unsavedChangesDiscard": "Odbaci"
+  "unsavedChangesDiscard": "Odbaci",
+  "beansWeightAddedBack": "Dodano {amount}{unit} natrag u {beanName}. Nova težina: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Poruka prikazana kada se težina kahve dodaje natrag u zrna nakon uklanjanja iz dnevnika pripreme",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Etiopija Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  },
+  "beansWeightSubtracted": "Oduzeto {amount}{unit} od {beanName}. Nova težina: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Poruka prikazana kada se težina kahve oduzima od zrna prilikom dodavanja u dnevnik pripreme",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Kolumbija Supremo"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  }
 }

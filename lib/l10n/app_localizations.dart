@@ -2695,6 +2695,20 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Discard'**
   String get unsavedChangesDiscard;
+
+  /// Message shown when coffee weight is added back to beans after removing from brew diary
+  ///
+  /// In en, this message translates to:
+  /// **'Added {amount}{unit} back to {beanName}. New weight: {newWeight}{unit}'**
+  String beansWeightAddedBack(
+      String amount, String beanName, String newWeight, String unit);
+
+  /// Message shown when coffee weight is subtracted from beans when adding to brew diary
+  ///
+  /// In en, this message translates to:
+  /// **'Subtracted {amount}{unit} from {beanName}. New weight: {newWeight}{unit}'**
+  String beansWeightSubtracted(
+      String amount, String beanName, String newWeight, String unit);
 }
 
 class _AppLocalizationsDelegate

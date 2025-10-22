@@ -631,5 +631,25 @@
 "unsavedChangesTitle": "未保存的更改",
 "unsavedChangesMessage": "您有未保存的更改。您确定要丢弃它们吗？",
 "unsavedChangesStay": "留下",
-"unsavedChangesDiscard": "丢弃"
+"unsavedChangesDiscard": "丢弃",
+"beansWeightAddedBack": "已将 {amount}{unit} 添加回 {beanName}。新重量：{newWeight}{unit}",
+"@beansWeightAddedBack": {
+  "description": "当咖啡重量从冲泡日记中移除后重新添加到咖啡豆时显示的消息",
+  "placeholders": {
+    "amount": { "type": "String", "example": "18.5" },
+    "beanName": { "type": "String", "example": "埃塞俄比亚 耶加雪菲" },
+    "newWeight": { "type": "String", "example": "250.0" },
+    "unit": { "type": "String", "example": "克" }
+  }
+},
+"beansWeightSubtracted": "已从 {beanName} 中减去 {amount}{unit}。新重量：{newWeight}{unit}",
+"@beansWeightSubtracted": {
+  "description": "当从咖啡豆中减去咖啡重量时显示的消息",
+  "placeholders": {
+    "amount": { "type": "String", "example": "18.5" },
+    "beanName": { "type": "String", "example": "埃塞俄比亚 耶加雪菲" },
+    "newWeight": { "type": "String", "example": "250.0" },
+    "unit": { "type": "String", "example": "克" }
+  }
+}
 }

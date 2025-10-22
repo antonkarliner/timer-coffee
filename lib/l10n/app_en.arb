@@ -831,5 +831,49 @@
   "unsavedChangesTitle": "Unsaved Changes",
   "unsavedChangesMessage": "You have unsaved changes. Are you sure you want to discard them?",
   "unsavedChangesStay": "Stay",
-  "unsavedChangesDiscard": "Discard"
+  "unsavedChangesDiscard": "Discard",
+  "beansWeightAddedBack": "Added {amount}{unit} back to {beanName}. New weight: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Message shown when coffee weight is added back to beans after removing from brew diary",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Ethiopia Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  },
+  "beansWeightSubtracted": "Subtracted {amount}{unit} from {beanName}. New weight: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Message shown when coffee weight is subtracted from beans when adding to brew diary",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Colombia Supremo"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  }
 }

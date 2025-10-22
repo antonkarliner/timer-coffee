@@ -1459,4 +1459,16 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get unsavedChangesDiscard => 'Скасувати';
+
+  @override
+  String beansWeightAddedBack(
+      String amount, String beanName, String newWeight, String unit) {
+    return 'Додано $amount$unit назад до $beanName. Нова вага: $newWeight$unit';
+  }
+
+  @override
+  String beansWeightSubtracted(
+      String amount, String beanName, String newWeight, String unit) {
+    return 'Віднято $amount$unit від $beanName. Нова вага: $newWeight$unit';
+  }
 }

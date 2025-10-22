@@ -631,5 +631,49 @@
 "unsavedChangesTitle": "تغييرات غير محفوظة",
 "unsavedChangesMessage": "لديك تغييرات غير محفوظة. هل أنت متأكد من أنك تريد تجاهلها؟",
 "unsavedChangesStay": "البقاء",
-"unsavedChangesDiscard": "تجاهل"
+"unsavedChangesDiscard": "تجاهل",
+"beansWeightAddedBack": "تمت إضافة {amount}{unit} مرة أخرى إلى {beanName}. الوزن الجديد: {newWeight}{unit}",
+"@beansWeightAddedBack": {
+  "description": "الرسالة المعروضة عند إضافة وزن القهوة مرة أخرى إلى الحبوب بعد إزالتها من يوميات التخمير",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "إثيوبيا يرجاتشيف"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "250.0"
+    },
+    "unit": {
+      "type": "String",
+      "example": "غ"
+    }
+  }
+},
+"beansWeightSubtracted": "تم خصم {amount}{unit} من {beanName}. الوزن الجديد: {newWeight}{unit}",
+"@beansWeightSubtracted": {
+  "description": "الرسالة المعروضة عند خصم وزن القهوة من الحبوب عند إضافتها إلى يوميات التخمير",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "كولومبيا سوبريمو"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "231.5"
+    },
+    "unit": {
+      "type": "String",
+      "example": "غ"
+    }
+  }
+}
 }

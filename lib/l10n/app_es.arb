@@ -631,5 +631,49 @@
   "unsavedChangesTitle": "Cambios no guardados",
   "unsavedChangesMessage": "Tienes cambios no guardados. ¿Estás seguro de que quieres descartarlos?",
   "unsavedChangesStay": "Quedarse",
-  "unsavedChangesDiscard": "Descartar"
+  "unsavedChangesDiscard": "Descartar",
+  "beansWeightAddedBack": "{amount}{unit} devueltos a {beanName}. Nuevo peso: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Mensaje mostrado cuando el peso del café se devuelve a los granos después de eliminar del diario de preparaciones",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Etiopía Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  },
+  "beansWeightSubtracted": "{amount}{unit} restados de {beanName}. Nuevo peso: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Mensaje mostrado cuando el peso del café se resta de los granos al añadir al diario de preparaciones",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Colombia Supremo"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  }
 }

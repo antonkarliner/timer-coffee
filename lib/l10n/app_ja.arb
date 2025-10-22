@@ -632,5 +632,49 @@
 "unsavedChangesTitle": "保存されていない変更",
 "unsavedChangesMessage": "保存されていない変更があります。破棄してもよろしいですか？",
 "unsavedChangesStay": "留まる",
-"unsavedChangesDiscard": "破棄"
+"unsavedChangesDiscard": "破棄",
+"beansWeightAddedBack": "{beanName}に{amount}{unit}を追加しました。新しい重量：{newWeight}{unit}",
+"@beansWeightAddedBack": {
+  "description": "醸造日記から削除した後、豆にコーヒーの重量を追加し直したときに表示されるメッセージ",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "エチオピア イルガチェフェ"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "250.0"
+    },
+    "unit": {
+      "type": "String",
+      "example": "g"
+    }
+  }
+},
+"beansWeightSubtracted": "{beanName}から{amount}{unit}を減らしました。新しい重量：{newWeight}{unit}",
+"@beansWeightSubtracted": {
+  "description": "醸造日記に追加したとき、豆からコーヒーの重量を減らしたときに表示されるメッセージ",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "コロンビア スプレモ"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "231.5"
+    },
+    "unit": {
+      "type": "String",
+      "example": "g"
+    }
+  }
+}
 }

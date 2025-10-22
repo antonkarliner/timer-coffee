@@ -797,5 +797,49 @@
   "unsavedChangesTitle": "저장되지 않은 변경",
   "unsavedChangesMessage": "저장되지 않은 변경이 있습니다. 변경을 삭제하시겠습니까?",
   "unsavedChangesStay": "머무르기",
-  "unsavedChangesDiscard": "삭제"
+  "unsavedChangesDiscard": "삭제",
+  "beansWeightAddedBack": "{beanName}에 {amount}{unit}을(를) 다시 추가했습니다. 새 무게: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "브루잉 일지에서 제거한 후 원두에 커피 무게를 다시 추가할 때 표시되는 메시지",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "에티오피아 이르가체프"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  },
+  "beansWeightSubtracted": "{beanName}에서 {amount}{unit}을(를) 빼냈습니다. 새 무게: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "브루잉 일지에 추가할 때 원두에서 커피 무게를 뺼낼 때 표시되는 메시지",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "콜롬비아 수프레모"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  }
 }

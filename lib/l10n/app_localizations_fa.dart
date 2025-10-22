@@ -1435,4 +1435,16 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get unsavedChangesDiscard => 'نادیده گرفتن';
+
+  @override
+  String beansWeightAddedBack(
+      String amount, String beanName, String newWeight, String unit) {
+    return 'مقدار $amount$unit به $beanName اضافه شد. وزن جدید: $newWeight$unit';
+  }
+
+  @override
+  String beansWeightSubtracted(
+      String amount, String beanName, String newWeight, String unit) {
+    return 'مقدار $amount$unit از $beanName کم شد. وزن جدید: $newWeight$unit';
+  }
 }

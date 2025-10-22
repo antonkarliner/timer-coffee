@@ -1449,4 +1449,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get unsavedChangesDiscard => 'Sil';
+
+  @override
+  String beansWeightAddedBack(
+      String amount, String beanName, String newWeight, String unit) {
+    return '$amount$unit $beanName\'e geri eklendi. Yeni ağırlık: $newWeight$unit';
+  }
+
+  @override
+  String beansWeightSubtracted(
+      String amount, String beanName, String newWeight, String unit) {
+    return '$amount$unit $beanName\'den çıkarıldı. Yeni ağırlık: $newWeight$unit';
+  }
 }

@@ -1455,4 +1455,16 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get unsavedChangesDiscard => 'Renunță';
+
+  @override
+  String beansWeightAddedBack(
+      String amount, String beanName, String newWeight, String unit) {
+    return 'Adăugat $amount$unit înapoi la $beanName. Greutate nouă: $newWeight$unit';
+  }
+
+  @override
+  String beansWeightSubtracted(
+      String amount, String beanName, String newWeight, String unit) {
+    return 'Scăzut $amount$unit din $beanName. Greutate nouă: $newWeight$unit';
+  }
 }

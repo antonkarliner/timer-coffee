@@ -631,5 +631,25 @@
 "unsavedChangesTitle": "Modificări nesalvate",
 "unsavedChangesMessage": "Aveți modificări nesalvate. Sigur doriți să le renunțați?",
 "unsavedChangesStay": "Rămâi",
-"unsavedChangesDiscard": "Renunță"
+"unsavedChangesDiscard": "Renunță",
+"beansWeightAddedBack": "Adăugat {amount}{unit} înapoi la {beanName}. Greutate nouă: {newWeight}{unit}",
+"@beansWeightAddedBack": {
+  "description": "Mesaj afișat când greutatea cafelei este adăugată înapoi la boabe după eliminarea din jurnalul de preparare",
+  "placeholders": {
+    "amount": { "type": "String", "example": "18.5" },
+    "beanName": { "type": "String", "example": "Etiopia Yirgacheffe" },
+    "newWeight": { "type": "String", "example": "250.0" },
+    "unit": { "type": "String", "example": "g" }
+  }
+},
+"beansWeightSubtracted": "Scăzut {amount}{unit} din {beanName}. Greutate nouă: {newWeight}{unit}",
+"@beansWeightSubtracted": {
+  "description": "Mesaj afișat când greutatea cafelei este scăzută din boabe",
+  "placeholders": {
+    "amount": { "type": "String", "example": "18.5" },
+    "beanName": { "type": "String", "example": "Etiopia Yirgacheffe" },
+    "newWeight": { "type": "String", "example": "250.0" },
+    "unit": { "type": "String", "example": "g" }
+  }
+}
 }

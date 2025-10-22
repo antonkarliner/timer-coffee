@@ -798,5 +798,49 @@
   "unsavedChangesTitle": "تغییرات ذخیره نشده",
   "unsavedChangesMessage": "شما تغییرات ذخیره نشده دارید. آیا مطمئن هستید که می‌خواهید آن‌ها را نادیده بگیرید؟",
   "unsavedChangesStay": "بمان",
-  "unsavedChangesDiscard": "نادیده گرفتن"
+  "unsavedChangesDiscard": "نادیده گرفتن",
+  "beansWeightAddedBack": "مقدار {amount}{unit} به {beanName} اضافه شد. وزن جدید: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "پیام نمایش داده شده زمانی که وزن قهوه دوباره به دانه‌ها اضافه می‌شود",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "اتیوپی یرگاچف"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "گرم"
+      }
+    }
+  },
+  "beansWeightSubtracted": "مقدار {amount}{unit} از {beanName} کم شد. وزن جدید: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "پیام نمایش داده شده زمانی که وزن قهوه از دانه‌ها کم می‌شود",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "کلمبیا سوپریمو"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "گرم"
+      }
+    }
+  }
 }

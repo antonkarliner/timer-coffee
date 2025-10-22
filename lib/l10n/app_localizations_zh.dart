@@ -1401,4 +1401,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get unsavedChangesDiscard => '丢弃';
+
+  @override
+  String beansWeightAddedBack(
+      String amount, String beanName, String newWeight, String unit) {
+    return '已将 $amount$unit 添加回 $beanName。新重量：$newWeight$unit';
+  }
+
+  @override
+  String beansWeightSubtracted(
+      String amount, String beanName, String newWeight, String unit) {
+    return '已从 $beanName 中减去 $amount$unit。新重量：$newWeight$unit';
+  }
 }

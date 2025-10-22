@@ -631,5 +631,49 @@
 "unsavedChangesTitle": "Niet opgeslagen wijzigingen",
 "unsavedChangesMessage": "U hebt niet-opgeslagen wijzigingen. Weet u zeker dat u ze wilt verwijderen?",
 "unsavedChangesStay": "Blijven",
-"unsavedChangesDiscard": "Verwerpen"
+"unsavedChangesDiscard": "Verwerpen",
+"beansWeightAddedBack": "{amount}{unit} terug toegevoegd aan {beanName}. Nieuw gewicht: {newWeight}{unit}",
+"@beansWeightAddedBack": {
+  "description": "Bericht weergegeven wanneer koffiegewicht wordt toegevoegd aan bonen na verwijdering uit brouwdagboek",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "Ethiopië Yirgacheffe"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "250.0"
+    },
+    "unit": {
+      "type": "String",
+      "example": "g"
+    }
+  }
+},
+"beansWeightSubtracted": "{amount}{unit} afgetrokken van {beanName}. Nieuw gewicht: {newWeight}{unit}",
+"@beansWeightSubtracted": {
+  "description": "Bericht weergegeven wanneer koffiegewicht wordt afgetrokken van bonen bij toevoeging aan brouwdagboek",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "Colombia Supremo"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "231.5"
+    },
+    "unit": {
+      "type": "String",
+      "example": "g"
+    }
+  }
+}
 }

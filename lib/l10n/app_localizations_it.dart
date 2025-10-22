@@ -1462,4 +1462,16 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get unsavedChangesDiscard => 'Scarta';
+
+  @override
+  String beansWeightAddedBack(
+      String amount, String beanName, String newWeight, String unit) {
+    return 'Aggiunto $amount$unit di nuovo a $beanName. Nuovo peso: $newWeight$unit';
+  }
+
+  @override
+  String beansWeightSubtracted(
+      String amount, String beanName, String newWeight, String unit) {
+    return 'Sottratto $amount$unit da $beanName. Nuovo peso: $newWeight$unit';
+  }
 }

@@ -631,5 +631,49 @@
 "unsavedChangesTitle": "Nicht gespeicherte Änderungen",
 "unsavedChangesMessage": "Sie haben nicht gespeicherte Änderungen. Sind Sie sicher, dass Sie sie verwerfen möchten?",
 "unsavedChangesStay": "Bleiben",
-"unsavedChangesDiscard": "Verwerfen"
+"unsavedChangesDiscard": "Verwerfen",
+"beansWeightAddedBack": "{amount}{unit} zurück zu {beanName} hinzugefügt. Neues Gewicht: {newWeight}{unit}",
+"@beansWeightAddedBack": {
+  "description": "Nachricht angezeigt, wenn Kaffeegewicht nach dem Entfernen aus dem Brautagebuch zurück zu den Bohnen hinzugefügt wird",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "Äthiopien Yirgacheffe"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "250.0"
+    },
+    "unit": {
+      "type": "String",
+      "example": "g"
+    }
+  }
+},
+"beansWeightSubtracted": "{amount}{unit} von {beanName} abgezogen. Neues Gewicht: {newWeight}{unit}",
+"@beansWeightSubtracted": {
+  "description": "Nachricht angezeigt, wenn Kaffeegewicht von Bohnen abgezogen wird, wenn zum Brautagebuch hinzugefügt",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "Kolumbien Supremo"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "231.5"
+    },
+    "unit": {
+      "type": "String",
+      "example": "g"
+    }
+  }
+}
 }

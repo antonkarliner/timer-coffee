@@ -1406,4 +1406,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get unsavedChangesDiscard => '삭제';
+
+  @override
+  String beansWeightAddedBack(
+      String amount, String beanName, String newWeight, String unit) {
+    return '$beanName에 $amount$unit을(를) 다시 추가했습니다. 새 무게: $newWeight$unit';
+  }
+
+  @override
+  String beansWeightSubtracted(
+      String amount, String beanName, String newWeight, String unit) {
+    return '$beanName에서 $amount$unit을(를) 빼냈습니다. 새 무게: $newWeight$unit';
+  }
 }

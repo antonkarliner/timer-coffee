@@ -631,5 +631,25 @@
 "unsavedChangesTitle": "Незбережені зміни",
 "unsavedChangesMessage": "У вас є незбережені зміни. Ви впевнені, що хочете їх скасувати?",
 "unsavedChangesStay": "Залишитися",
-"unsavedChangesDiscard": "Скасувати"
+"unsavedChangesDiscard": "Скасувати",
+"beansWeightAddedBack": "Додано {amount}{unit} назад до {beanName}. Нова вага: {newWeight}{unit}",
+"@beansWeightAddedBack": {
+  "description": "Повідомлення, що відображається при додаванні ваги кави назад до зерен після видалення з журналу заварювання",
+  "placeholders": {
+    "amount": { "type": "String", "example": "18.5" },
+    "beanName": { "type": "String", "example": "Ефіопія Іргачеффе" },
+    "newWeight": { "type": "String", "example": "250.0" },
+    "unit": { "type": "String", "example": "г" }
+  }
+},
+"beansWeightSubtracted": "Віднято {amount}{unit} від {beanName}. Нова вага: {newWeight}{unit}",
+"@beansWeightSubtracted": {
+  "description": "Повідомлення, що відображається при відніманні ваги кави від зерен",
+  "placeholders": {
+    "amount": { "type": "String", "example": "18.5" },
+    "beanName": { "type": "String", "example": "Ефіопія Іргачеффе" },
+    "newWeight": { "type": "String", "example": "250.0" },
+    "unit": { "type": "String", "example": "г" }
+  }
+}
 }

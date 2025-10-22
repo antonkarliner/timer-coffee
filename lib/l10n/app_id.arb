@@ -631,5 +631,49 @@
 "unsavedChangesTitle": "Perubahan Belum Disimpan",
 "unsavedChangesMessage": "Anda memiliki perubahan yang belum disimpan. Apakah Anda yakin ingin membuangnya?",
 "unsavedChangesStay": "Tetap",
-"unsavedChangesDiscard": "Buang"
+"unsavedChangesDiscard": "Buang",
+"beansWeightAddedBack": "Ditambahkan {amount}{unit} kembali ke {beanName}. Berat baru: {newWeight}{unit}",
+"@beansWeightAddedBack": {
+  "description": "Pesan yang ditampilkan saat berat kopi ditambahkan kembali ke biji setelah dihapus dari buku harian seduhan",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "Ethiopia Yirgacheffe"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "250.0"
+    },
+    "unit": {
+      "type": "String",
+      "example": "g"
+    }
+  }
+},
+"beansWeightSubtracted": "Dikurangi {amount}{unit} dari {beanName}. Berat baru: {newWeight}{unit}",
+"@beansWeightSubtracted": {
+  "description": "Pesan yang ditampilkan saat berat kopi dikurangi dari biji saat ditambahkan ke buku harian seduhan",
+  "placeholders": {
+    "amount": {
+      "type": "String",
+      "example": "18.5"
+    },
+    "beanName": {
+      "type": "String",
+      "example": "Colombia Supremo"
+    },
+    "newWeight": {
+      "type": "String",
+      "example": "231.5"
+    },
+    "unit": {
+      "type": "String",
+      "example": "g"
+    }
+  }
+}
 }

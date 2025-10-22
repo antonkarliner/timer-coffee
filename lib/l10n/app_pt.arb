@@ -631,5 +631,25 @@
 "unsavedChangesTitle": "Alterações não salvas",
 "unsavedChangesMessage": "Você tem alterações não salvas. Tem certeza de que deseja descartá-las?",
 "unsavedChangesStay": "Ficar",
-"unsavedChangesDiscard": "Descartar"
+"unsavedChangesDiscard": "Descartar",
+"beansWeightAddedBack": "Adicionado {amount}{unit} de volta para {beanName}. Novo peso: {newWeight}{unit}",
+"@beansWeightAddedBack": {
+  "description": "Mensagem exibida quando o peso do café é adicionado de volta aos grãos após remoção do diário de preparo",
+  "placeholders": {
+    "amount": { "type": "String", "example": "18.5" },
+    "beanName": { "type": "String", "example": "Etiópia Yirgacheffe" },
+    "newWeight": { "type": "String", "example": "250.0" },
+    "unit": { "type": "String", "example": "g" }
+  }
+},
+"beansWeightSubtracted": "Subtraído {amount}{unit} de {beanName}. Novo peso: {newWeight}{unit}",
+"@beansWeightSubtracted": {
+  "description": "Mensagem exibida quando o peso do café é subtraído dos grãos",
+  "placeholders": {
+    "amount": { "type": "String", "example": "18.5" },
+    "beanName": { "type": "String", "example": "Etiópia Yirgacheffe" },
+    "newWeight": { "type": "String", "example": "250.0" },
+    "unit": { "type": "String", "example": "g" }
+  }
+}
 }
