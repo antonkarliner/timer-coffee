@@ -489,10 +489,10 @@ class UserStatProvider extends ChangeNotifier {
           !remoteStatsInfo.any((remote) => remote.statUuid == stat.statUuid));
       remoteUpdates.addAll(newLocalStats);
 
-      // Perform local updates
+      // Perform local updates with enhanced error handling
       if (localUpdates.isNotEmpty) {
         final updatedRemoteStats = await _fetchFullRemoteStats(localUpdates);
-        await db.userStatsDao.insertOrUpdateMultipleStats(updatedRemoteStats);
+        await _insertStatsWithFallback(updatedRemoteStats);
       }
 
       // Perform remote updates with a timeout
@@ -507,6 +507,88 @@ class UserStatProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  /// Enhanced stats insertion with hybrid batch/individual approach
+  Future<void> _insertStatsWithFallback(List<UserStatsModel> stats) async {
+    if (stats.isEmpty) return;
+
+    print(
+        'Attempting to insert ${stats.length} stats with enhanced error handling');
+
+    // Phase 1: Try fast batch insert
+    final batchResult =
+        await db.userStatsDao.insertOrUpdateMultipleStatsWithFeedback(stats);
+
+    if (batchResult.success) {
+      print('Successfully inserted all ${stats.length} stats in batch');
+      return;
+    }
+
+    print('Batch insert failed, falling back to individual processing');
+    print('Failed stats count: ${batchResult.failedStats.length}');
+
+    // Phase 2: Validate recipe references for failed stats
+    final failedRecipeIds =
+        batchResult.failedStats.map((s) => s.recipeId).toSet().toList();
+    final recipeValidation =
+        await db.userStatsDao.validateRecipeReferences(failedRecipeIds);
+
+    final validStats = <UserStatsModel>[];
+    final individualProcessingStats = <UserStatsModel>[];
+    int skippedCount = 0;
+
+    for (final stat in batchResult.failedStats) {
+      final recipeExists = recipeValidation[stat.recipeId] ?? false;
+
+      if (recipeExists) {
+        // Recipe exists, include in batch retry
+        validStats.add(stat);
+      } else {
+        // Recipe doesn't exist, handle individually with fallback
+        print(
+            'Stat ${stat.statUuid} references missing recipe ${stat.recipeId}');
+        individualProcessingStats.add(stat);
+      }
+    }
+
+    // Phase 3: Retry batch insert with valid stats
+    if (validStats.isNotEmpty) {
+      print('Retrying batch insert with ${validStats.length} valid stats');
+      try {
+        await db.userStatsDao.insertOrUpdateMultipleStats(validStats);
+        print(
+            'Successfully inserted ${validStats.length} valid stats in batch retry');
+      } catch (e) {
+        print(
+            'Batch retry also failed, falling back to individual processing for valid stats');
+        individualProcessingStats.addAll(validStats);
+      }
+    }
+
+    // Phase 4: Individual processing for truly problematic stats
+    if (individualProcessingStats.isNotEmpty) {
+      print(
+          'Processing ${individualProcessingStats.length} stats individually');
+
+      for (final stat in individualProcessingStats) {
+        try {
+          await db.userStatsDao.insertUserStatWithFallback(stat);
+          print('Successfully processed stat ${stat.statUuid} individually');
+        } catch (e) {
+          print('Failed to process stat ${stat.statUuid} individually: $e');
+          print('Original recipe ID: ${stat.recipeId}');
+          skippedCount++;
+        }
+      }
+    }
+
+    print('Stats insertion summary:');
+    print('- Total attempted: ${stats.length}');
+    print(
+        '- Batch successful: ${stats.length - batchResult.failedStats.length}');
+    print('- Individual processing: ${individualProcessingStats.length}');
+    print('- Skipped: $skippedCount');
   }
 
   bool _isRemoteNewer(VersionVector local, VersionVector remote) {
