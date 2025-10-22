@@ -17,6 +17,7 @@ import '../widgets/recipe_creation/recipe_details_form.dart';
 import '../widgets/recipe_creation/recipe_steps_form.dart';
 import '../services/recipe_expression_service.dart';
 import '../services/recipe_save_service.dart';
+import '../widgets/unsaved_changes_dialog.dart';
 
 @RoutePage()
 class RecipeCreationScreen extends StatefulWidget {
@@ -64,6 +65,21 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
   final ScrollController _scrollController = ScrollController();
   bool _isSaving = false; // Added saving flag
 
+  // Form change detection
+  bool _hasUnsavedChanges = false;
+
+  // Initial values for change detection (used when editing)
+  String? _initialRecipeName;
+  String? _initialShortDescription;
+  String? _initialBrewingMethodId;
+  double _initialCoffeeAmount = 15.0;
+  double _initialWaterAmount = 250.0;
+  double? _initialWaterTemp = 93.0;
+  String _initialGrindSize = 'Medium';
+  int _initialBrewMinutes = 3;
+  int _initialBrewSeconds = 0;
+  List<BrewStepModel> _initialSteps = [];
+
   @override
   bool get wantKeepAlive => true;
 
@@ -107,6 +123,17 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       _recipeNameController.text = widget.recipe!.name;
       _shortDescriptionController.text = widget.recipe!.shortDescription;
 
+      // Store initial values for change detection
+      _initialRecipeName = widget.recipe!.name;
+      _initialShortDescription = widget.recipe!.shortDescription;
+      _initialBrewingMethodId = widget.recipe!.brewingMethodId;
+      _initialCoffeeAmount = widget.recipe!.coffeeAmount;
+      _initialWaterAmount = widget.recipe!.waterAmount;
+      _initialWaterTemp = widget.recipe!.waterTemp;
+      _initialGrindSize = widget.recipe!.grindSize;
+      _initialBrewMinutes = widget.recipe!.brewTime.inMinutes;
+      _initialBrewSeconds = widget.recipe!.brewTime.inSeconds % 60;
+
       // Initialize steps - convert expressions back to numeric values for editing
       if (widget.recipe!.steps.isNotEmpty) {
         _steps.clear();
@@ -125,8 +152,27 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         }).toList();
 
         _steps.addAll(convertedSteps);
+
+        // Store initial steps for change detection
+        _initialSteps = List.from(convertedSteps);
       }
+    } else {
+      // For new recipes, store default values
+      _initialRecipeName = '';
+      _initialShortDescription = '';
+      _initialBrewingMethodId = null;
+      _initialCoffeeAmount = 15.0;
+      _initialWaterAmount = 250.0;
+      _initialWaterTemp = 93.0;
+      _initialGrindSize = 'Medium';
+      _initialBrewMinutes = 3;
+      _initialBrewSeconds = 0;
+      _initialSteps = List.from(_steps);
     }
+
+    // Add listeners to text controllers
+    _recipeNameController.addListener(_trackChanges);
+    _shortDescriptionController.addListener(_trackChanges);
 
     _loadBrewingMethods();
 
@@ -223,6 +269,57 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     });
   }
 
+  // Form change detection methods
+  bool get hasUnsavedChanges => _hasUnsavedChanges;
+
+  void _trackChanges() {
+    if (mounted) {
+      setState(() {
+        _hasUnsavedChanges = _checkForUnsavedChanges();
+      });
+    }
+  }
+
+  bool _checkForUnsavedChanges() {
+    // For new recipes, check if any field has a non-default value
+    if (widget.recipe == null) {
+      return _recipeNameController.text.isNotEmpty ||
+          _shortDescriptionController.text.isNotEmpty ||
+          _selectedBrewingMethodId != _initialBrewingMethodId ||
+          _coffeeAmount != _initialCoffeeAmount ||
+          _waterAmount != _initialWaterAmount ||
+          _waterTemp != _initialWaterTemp ||
+          _grindSize != _initialGrindSize ||
+          _brewMinutes != _initialBrewMinutes ||
+          _brewSeconds != _initialBrewSeconds ||
+          !_stepsEqual(_steps, _initialSteps);
+    }
+
+    // For existing recipes, compare with initial values
+    return _recipeNameController.text != _initialRecipeName ||
+        _shortDescriptionController.text != _initialShortDescription ||
+        _selectedBrewingMethodId != _initialBrewingMethodId ||
+        _coffeeAmount != _initialCoffeeAmount ||
+        _waterAmount != _initialWaterAmount ||
+        _waterTemp != _initialWaterTemp ||
+        _grindSize != _initialGrindSize ||
+        _brewMinutes != _initialBrewMinutes ||
+        _brewSeconds != _initialBrewSeconds ||
+        !_stepsEqual(_steps, _initialSteps);
+  }
+
+  bool _stepsEqual(List<BrewStepModel> steps1, List<BrewStepModel> steps2) {
+    if (steps1.length != steps2.length) return false;
+
+    for (int i = 0; i < steps1.length; i++) {
+      if (steps1[i].description != steps2[i].description ||
+          steps1[i].time != steps2[i].time) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   Future<void> _saveRecipe() async {
     if (!_isFirstPageValid || !_isSecondPageValid || _isSaving) {
       return;
@@ -277,6 +374,13 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         isUpdate: isUpdate,
         redirectToNewDetailOnSave: widget.redirectToNewDetailOnSave,
       );
+
+      // Reset unsaved changes flag after successful save
+      if (mounted) {
+        setState(() {
+          _hasUnsavedChanges = false;
+        });
+      }
     } catch (e) {
       print("Error in _saveRecipe: $e");
       if (mounted) {
@@ -295,6 +399,8 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
   @override
   void dispose() {
     _pageController.dispose();
+    _recipeNameController.removeListener(_trackChanges);
+    _shortDescriptionController.removeListener(_trackChanges);
     _recipeNameController.dispose();
     _shortDescriptionController.dispose();
     super.dispose();
@@ -304,139 +410,168 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
   Widget build(BuildContext context) {
     super.build(context);
     final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(_currentPage == 0 ? Icons.edit : Icons.format_list_numbered),
-            const SizedBox(width: 8),
-            Text(_currentPage == 0
-                ? (widget.recipe != null
-                    ? l10n.recipeCreationScreenEditRecipeTitle
-                    : l10n.recipeCreationScreenCreateRecipeTitle)
-                : l10n.recipeCreationScreenRecipeStepsTitle),
+    return PopScope(
+      canPop: !_hasUnsavedChanges,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+
+        if (_hasUnsavedChanges) {
+          final shouldDiscard = await showDialog<bool>(
+            context: context,
+            builder: (context) => const UnsavedChangesDialog(),
+          );
+
+          if (shouldDiscard == true) {
+            if (context.mounted) {
+              context.router.pop();
+            }
+          }
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(_currentPage == 0 ? Icons.edit : Icons.format_list_numbered),
+              const SizedBox(width: 8),
+              Text(_currentPage == 0
+                  ? (widget.recipe != null
+                      ? l10n.recipeCreationScreenEditRecipeTitle
+                      : l10n.recipeCreationScreenCreateRecipeTitle)
+                  : l10n.recipeCreationScreenRecipeStepsTitle),
+            ],
+          ),
+          leading: _currentPage == 1
+              ? IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    _pageController.previousPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                )
+              : null,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.keyboard_hide),
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+              },
+            ),
           ],
         ),
-        leading: _currentPage == 1
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  _pageController.previousPage(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                  );
-                },
-              )
-            : null,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.keyboard_hide),
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-            },
-          ),
-        ],
-      ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: _isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : Form(
-                key: _formKey,
-                child: PageView(
-                  controller: _pageController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  onPageChanged: (index) {
-                    setState(() {
-                      _currentPage = index;
-                    });
-                  },
-                  children: [
-                    RecipeDetailsForm(
-                      recipeNameController: _recipeNameController,
-                      shortDescriptionController: _shortDescriptionController,
-                      brewingMethods: _brewingMethods,
-                      selectedBrewingMethodId: _selectedBrewingMethodId,
-                      coffeeAmount: _coffeeAmount,
-                      waterAmount: _waterAmount,
-                      waterTemp: _waterTemp,
-                      grindSize: _grindSize,
-                      brewMinutes: _brewMinutes,
-                      brewSeconds: _brewSeconds,
-                      onNameChanged: (value) {
-                        _validateFirstPage();
-                      },
-                      onShortDescriptionChanged: (value) {
-                        _validateFirstPage();
-                      },
-                      onBrewingMethodChanged: (value) {
-                        setState(() {
-                          _selectedBrewingMethodId = value;
-                        });
-                        _validateFirstPage();
-                      },
-                      onCoffeeAmountChanged: (value) {
-                        setState(() {
-                          _coffeeAmount = value;
-                        });
-                        _validateFirstPage();
-                      },
-                      onWaterAmountChanged: (value) {
-                        setState(() {
-                          _waterAmount = value;
-                        });
-                        _validateFirstPage();
-                      },
-                      onWaterTempChanged: (value) {
-                        setState(() {
-                          _waterTemp = value;
-                        });
-                      },
-                      onGrindSizeChanged: (value) {
-                        setState(() {
-                          _grindSize = value;
-                        });
-                        _validateFirstPage();
-                      },
-                      onBrewMinutesChanged: (value) {
-                        setState(() {
-                          _brewMinutes = value;
-                        });
-                      },
-                      onBrewSecondsChanged: (value) {
-                        setState(() {
-                          _brewSeconds = value;
-                        });
-                      },
-                      onContinue: _isFirstPageValid
-                          ? () {
-                              _pageController.nextPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            }
-                          : null,
-                    ),
-                    RecipeStepsForm(
-                      initialSteps: _steps,
-                      scrollController: _scrollController,
-                      onStepsChanged: (steps) {
-                        setState(() {
-                          _steps = steps;
-                        });
-                        _validateSecondPage();
-                      },
-                      isSaving: _isSaving,
-                      onSave: (_isSecondPageValid && !_isSaving)
-                          ? _saveRecipe
-                          : null,
-                    ),
-                  ],
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Form(
+                  key: _formKey,
+                  child: PageView(
+                    controller: _pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    onPageChanged: (index) {
+                      setState(() {
+                        _currentPage = index;
+                      });
+                    },
+                    children: [
+                      RecipeDetailsForm(
+                        recipeNameController: _recipeNameController,
+                        shortDescriptionController: _shortDescriptionController,
+                        brewingMethods: _brewingMethods,
+                        selectedBrewingMethodId: _selectedBrewingMethodId,
+                        coffeeAmount: _coffeeAmount,
+                        waterAmount: _waterAmount,
+                        waterTemp: _waterTemp,
+                        grindSize: _grindSize,
+                        brewMinutes: _brewMinutes,
+                        brewSeconds: _brewSeconds,
+                        onNameChanged: (value) {
+                          _validateFirstPage();
+                          _trackChanges();
+                        },
+                        onShortDescriptionChanged: (value) {
+                          _validateFirstPage();
+                          _trackChanges();
+                        },
+                        onBrewingMethodChanged: (value) {
+                          setState(() {
+                            _selectedBrewingMethodId = value;
+                          });
+                          _validateFirstPage();
+                          _trackChanges();
+                        },
+                        onCoffeeAmountChanged: (value) {
+                          setState(() {
+                            _coffeeAmount = value;
+                          });
+                          _validateFirstPage();
+                          _trackChanges();
+                        },
+                        onWaterAmountChanged: (value) {
+                          setState(() {
+                            _waterAmount = value;
+                          });
+                          _validateFirstPage();
+                          _trackChanges();
+                        },
+                        onWaterTempChanged: (value) {
+                          setState(() {
+                            _waterTemp = value;
+                          });
+                          _trackChanges();
+                        },
+                        onGrindSizeChanged: (value) {
+                          setState(() {
+                            _grindSize = value;
+                          });
+                          _validateFirstPage();
+                          _trackChanges();
+                        },
+                        onBrewMinutesChanged: (value) {
+                          setState(() {
+                            _brewMinutes = value;
+                          });
+                          _trackChanges();
+                        },
+                        onBrewSecondsChanged: (value) {
+                          setState(() {
+                            _brewSeconds = value;
+                          });
+                          _trackChanges();
+                        },
+                        onContinue: _isFirstPageValid
+                            ? () {
+                                _pageController.nextPage(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                );
+                              }
+                            : null,
+                      ),
+                      RecipeStepsForm(
+                        initialSteps: _steps,
+                        scrollController: _scrollController,
+                        onStepsChanged: (steps) {
+                          setState(() {
+                            _steps = steps;
+                          });
+                          _validateSecondPage();
+                          _trackChanges();
+                        },
+                        isSaving: _isSaving,
+                        onSave: (_isSecondPageValid && !_isSaving)
+                            ? _saveRecipe
+                            : null,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }

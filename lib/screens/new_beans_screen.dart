@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:coffee_timer/widgets/new_beans/loading_overlay.dart';
 import 'package:coffee_timer/widgets/containers/sticky_action_bar.dart';
+import 'package:coffee_timer/widgets/unsaved_changes_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/coffee_beans_model.dart';
@@ -50,6 +51,16 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   final TextEditingController _farmController = TextEditingController();
   final Uuid _uuid = Uuid();
 
+  // Store listener functions to properly remove them later
+  late VoidCallback _roasterListener;
+  late VoidCallback _nameListener;
+  late VoidCallback _originListener;
+  late VoidCallback _elevationListener;
+  late VoidCallback _cuppingScoreListener;
+  late VoidCallback _notesListener;
+  late VoidCallback _farmerListener;
+  late VoidCallback _farmListener;
+
   List<String> _tastingNotes = [];
   String? variety;
   String? processingMethod;
@@ -69,6 +80,38 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   // Validation state
   bool _isFormValid = false;
   Map<String, String?> _fieldErrors = {};
+
+  // Form change detection state
+  bool _hasUnsavedChanges = false;
+
+  // Initial values for change detection (used in edit mode)
+  String? _initialRoaster;
+  String? _initialName;
+  String? _initialOrigin;
+  String? _initialElevation;
+  String? _initialCuppingScore;
+  String? _initialNotes;
+  String? _initialFarmer;
+  String? _initialFarm;
+  List<String> _initialTastingNotes = [];
+  String? _initialVariety;
+  String? _initialProcessingMethod;
+  String? _initialRoastLevel;
+  String? _initialRegion;
+  DateTime? _initialHarvestDate;
+  DateTime? _initialRoastDate;
+  double? _initialPackageWeightGrams;
+
+  /// Updates the unsaved changes state without performing validation
+  void _updateUnsavedChanges() {
+    final bool hadUnsavedChanges = _hasUnsavedChanges;
+    _hasUnsavedChanges = _checkForUnsavedChanges();
+
+    // Only update state if unsaved changes status changed
+    if (hadUnsavedChanges != _hasUnsavedChanges) {
+      setState(() {});
+    }
+  }
 
   /// Validates the form and updates the validation state
   void _validateForm() {
@@ -94,11 +137,74 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     _isFormValid = newErrors.isEmpty;
     _fieldErrors = newErrors;
 
-    // Only update state if validity changed to avoid unnecessary rebuilds
+    // Check for unsaved changes
+    _hasUnsavedChanges = _checkForUnsavedChanges();
+
+    // Only update state if validity or unsaved changes status changed
     if (wasValid != _isFormValid) {
       setState(() {});
     }
   }
+
+  /// Checks if the form has unsaved changes
+  bool _checkForUnsavedChanges() {
+    // For new beans, consider any non-empty field as a change
+    if (!isEditMode) {
+      return _roasterController.text.trim().isNotEmpty ||
+          _nameController.text.trim().isNotEmpty ||
+          _originController.text.trim().isNotEmpty ||
+          _elevationController.text.trim().isNotEmpty ||
+          _cuppingScoreController.text.trim().isNotEmpty ||
+          _notesController.text.trim().isNotEmpty ||
+          _farmerController.text.trim().isNotEmpty ||
+          _farmController.text.trim().isNotEmpty ||
+          _tastingNotes.isNotEmpty ||
+          variety != null ||
+          processingMethod != null ||
+          roastLevel != null ||
+          region != null ||
+          harvestDate != null ||
+          roastDate != null ||
+          packageWeightGrams != null;
+    }
+
+    // For editing beans, compare with initial values
+    return _roasterController.text.trim() != (_initialRoaster ?? '') ||
+        _nameController.text.trim() != (_initialName ?? '') ||
+        _originController.text.trim() != (_initialOrigin ?? '') ||
+        _elevationController.text.trim() != (_initialElevation ?? '') ||
+        _cuppingScoreController.text.trim() != (_initialCuppingScore ?? '') ||
+        _notesController.text.trim() != (_initialNotes ?? '') ||
+        _farmerController.text.trim() != (_initialFarmer ?? '') ||
+        _farmController.text.trim() != (_initialFarm ?? '') ||
+        !_listsEqual(_tastingNotes, _initialTastingNotes) ||
+        variety != _initialVariety ||
+        processingMethod != _initialProcessingMethod ||
+        roastLevel != _initialRoastLevel ||
+        region != _initialRegion ||
+        !(_datesEqual(harvestDate, _initialHarvestDate)) ||
+        !(_datesEqual(roastDate, _initialRoastDate)) ||
+        packageWeightGrams != _initialPackageWeightGrams;
+  }
+
+  /// Helper method to compare two lists for equality
+  bool _listsEqual<T>(List<T> a, List<T> b) {
+    if (a.length != b.length) return false;
+    for (int i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
+  }
+
+  /// Helper method to compare two DateTime objects for equality
+  bool _datesEqual(DateTime? a, DateTime? b) {
+    if (a == null && b == null) return true;
+    if (a == null || b == null) return false;
+    return a.isAtSameMomentAs(b);
+  }
+
+  /// Getter to expose the unsaved changes state
+  bool get hasUnsavedChanges => _hasUnsavedChanges;
 
   /// Shows error message for a specific field
   void _showFieldError(String fieldName) {
@@ -131,10 +237,49 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
 
     _checkFirstTimePopup();
 
-    // Add listeners to text controllers for validation
-    _roasterController.addListener(_validateForm);
-    _nameController.addListener(_validateForm);
-    _originController.addListener(_validateForm);
+    // Initialize listener functions
+    _roasterListener = () {
+      _updateUnsavedChanges();
+      _validateForm();
+    };
+    _nameListener = () {
+      _updateUnsavedChanges();
+      _validateForm();
+    };
+    _originListener = () {
+      _updateUnsavedChanges();
+      _validateForm();
+    };
+    _elevationListener = () {
+      _updateUnsavedChanges();
+      _validateForm();
+    };
+    _cuppingScoreListener = () {
+      _updateUnsavedChanges();
+      _validateForm();
+    };
+    _notesListener = () {
+      _updateUnsavedChanges();
+      _validateForm();
+    };
+    _farmerListener = () {
+      _updateUnsavedChanges();
+      _validateForm();
+    };
+    _farmListener = () {
+      _updateUnsavedChanges();
+      _validateForm();
+    };
+
+    // Add listeners to all text controllers for validation and change detection
+    _roasterController.addListener(_roasterListener);
+    _nameController.addListener(_nameListener);
+    _originController.addListener(_originListener);
+    _elevationController.addListener(_elevationListener);
+    _cuppingScoreController.addListener(_cuppingScoreListener);
+    _notesController.addListener(_notesListener);
+    _farmerController.addListener(_farmerListener);
+    _farmController.addListener(_farmListener);
 
     // Initial validation
     _validateForm();
@@ -143,9 +288,14 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   @override
   void dispose() {
     // Remove listeners to prevent memory leaks
-    _roasterController.removeListener(_validateForm);
-    _nameController.removeListener(_validateForm);
-    _originController.removeListener(_validateForm);
+    _roasterController.removeListener(_roasterListener);
+    _nameController.removeListener(_nameListener);
+    _originController.removeListener(_originListener);
+    _elevationController.removeListener(_elevationListener);
+    _cuppingScoreController.removeListener(_cuppingScoreListener);
+    _notesController.removeListener(_notesListener);
+    _farmerController.removeListener(_farmerListener);
+    _farmController.removeListener(_farmListener);
 
     // Dispose controllers
     _roasterController.dispose();
@@ -183,6 +333,24 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         harvestDate = bean.harvestDate;
         roastDate = bean.roastDate;
         packageWeightGrams = bean.packageWeightGrams;
+
+        // Store initial values for change detection
+        _initialRoaster = bean.roaster;
+        _initialName = bean.name;
+        _initialOrigin = bean.origin;
+        _initialElevation = bean.elevation?.toString() ?? '';
+        _initialCuppingScore = bean.cuppingScore?.toString() ?? '';
+        _initialNotes = bean.notes ?? '';
+        _initialFarmer = bean.farmer ?? '';
+        _initialFarm = bean.farm ?? '';
+        _initialTastingNotes = bean.tastingNotes?.split(', ') ?? [];
+        _initialVariety = bean.variety;
+        _initialProcessingMethod = bean.processingMethod;
+        _initialRoastLevel = bean.roastLevel;
+        _initialRegion = bean.region;
+        _initialHarvestDate = bean.harvestDate;
+        _initialRoastDate = bean.roastDate;
+        _initialPackageWeightGrams = bean.packageWeightGrams;
 
         // Trigger validation after loading bean details
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -241,6 +409,29 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       if (isEditMode) {
         await coffeeBeansProvider.updateCoffeeBeans(bean);
         resultUuid = widget.uuid!; // Use the existing UUID for edit mode
+
+        // Update initial values after successful save in edit mode
+        if (mounted) {
+          setState(() {
+            _initialRoaster = bean.roaster;
+            _initialName = bean.name;
+            _initialOrigin = bean.origin;
+            _initialElevation = bean.elevation?.toString() ?? '';
+            _initialCuppingScore = bean.cuppingScore?.toString() ?? '';
+            _initialNotes = bean.notes;
+            _initialFarmer = bean.farmer;
+            _initialFarm = bean.farm;
+            _initialTastingNotes = bean.tastingNotes?.split(', ') ?? [];
+            _initialVariety = bean.variety;
+            _initialProcessingMethod = bean.processingMethod;
+            _initialRoastLevel = bean.roastLevel;
+            _initialRegion = bean.region;
+            _initialHarvestDate = bean.harvestDate;
+            _initialRoastDate = bean.roastDate;
+            _initialPackageWeightGrams = bean.packageWeightGrams;
+            _hasUnsavedChanges = false;
+          });
+        }
       } else {
         resultUuid = await coffeeBeansProvider.addCoffeeBeans(bean);
         await _insertBeansDataToSupabase(bean);
@@ -578,121 +769,141 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       coffeeBeansProvider.printCacheStats();
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Semantics(
-          identifier: 'newBeansAppBar',
-          label: isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Coffeico.bean), // Add your desired icon here
-              const SizedBox(width: 8), // Adjust spacing as needed
-              Text(isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans),
-            ],
+    return PopScope(
+      canPop: !_hasUnsavedChanges,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+
+        if (_hasUnsavedChanges) {
+          final shouldDiscard = await showDialog<bool>(
+            context: context,
+            builder: (_) => const UnsavedChangesDialog(),
+          );
+
+          if (shouldDiscard == true) {
+            if (mounted) {
+              context.router.pop();
+            }
+          }
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Semantics(
+            identifier: 'newBeansAppBar',
+            label: isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Coffeico.bean), // Add your desired icon here
+                const SizedBox(width: 8), // Adjust spacing as needed
+                Text(isEditMode ? loc.editCoffeeBeans : loc.addCoffeeBeans),
+              ],
+            ),
           ),
-        ),
-        actions: [
-          if (!kIsWeb) // Hide camera button on web
-            Semantics(
-              identifier: 'showImagePickerButton',
-              label: loc.showImagePicker,
-              child: GestureDetector(
-                onTap: _showImagePickerOptions, // Make badge also clickable
-                child: Badge(
-                  backgroundColor: Colors.transparent,
-                  alignment: Alignment.topLeft,
-                  offset: const Offset(0.5, 5.5), // Adjust the offset as needed
-                  label: Icon(
-                    Icons.auto_awesome,
-                    size: 16, // Adjust the size as needed
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.camera_alt),
-                    onPressed: _showImagePickerOptions,
+          actions: [
+            if (!kIsWeb) // Hide camera button on web
+              Semantics(
+                identifier: 'showImagePickerButton',
+                label: loc.showImagePicker,
+                child: GestureDetector(
+                  onTap: _showImagePickerOptions, // Make badge also clickable
+                  child: Badge(
+                    backgroundColor: Colors.transparent,
+                    alignment: Alignment.topLeft,
+                    offset:
+                        const Offset(0.5, 5.5), // Adjust the offset as needed
+                    label: Icon(
+                      Icons.auto_awesome,
+                      size: 16, // Adjust the size as needed
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.camera_alt),
+                      onPressed: _showImagePickerOptions,
+                    ),
                   ),
                 ),
               ),
-            ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          // Tap outside to dismiss keyboard and any autocomplete overlays.
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTapDown: (details) {
-              // Only unfocus if tap is outside the currently focused render box.
-              final currentFocus = FocusManager.instance.primaryFocus;
-              if (currentFocus == null) return;
-              final renderObject = currentFocus.context?.findRenderObject();
-              if (renderObject is RenderBox) {
-                final tapPos = details.globalPosition;
-                final boxRect = renderObject.paintBounds
-                    .shift(renderObject.localToGlobal(Offset.zero));
-                final tappedInsideFocused = boxRect.contains(tapPos);
-                if (!tappedInsideFocused) {
-                  currentFocus.unfocus();
-                }
-              } else {
-                // Fallback to safe unfocus check
-                final scope = FocusScope.of(context);
-                if (!scope.hasPrimaryFocus && scope.focusedChild != null) {
-                  scope.unfocus();
-                }
-              }
-            },
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                // Use responsive layout for wider screens
-                final isWideScreen = constraints.maxWidth > 800;
-                final cardSpacing = isWideScreen ? 24.0 : 16.0;
-
-                return SingleChildScrollView(
-                  padding: EdgeInsets.all(isWideScreen ? 24.0 : 16.0),
-                  child: isWideScreen
-                      ? _buildWideLayout(
-                          coffeeBeansProvider, locale, loc, cardSpacing)
-                      : _buildNarrowLayout(
-                          coffeeBeansProvider, locale, loc, cardSpacing),
-                );
-              },
-            ),
-          ),
-          if (isLoading)
-            Semantics(
-              identifier: 'analyzingOverlay',
-              label: loc.analyzing,
-              child: LoadingOverlay(label: loc.analyzing),
-            ),
-        ],
-      ),
-      bottomNavigationBar: KeyboardAwareStickyActionBar(
-        child: StickyActionBar(
-          primaryLabel: isEditMode ? loc.save : loc.addCoffeeBeans,
-          primaryDisabled: !_isFormValid,
-          isLoading: isLoading,
-          onPrimaryPressed: _isFormValid
-              ? () {
-                  // Double-check validation before saving
-                  if (!_isFormValid) {
-                    // Show specific error for the first invalid field
-                    if (_fieldErrors.containsKey('roaster')) {
-                      _showFieldError('roaster');
-                    } else if (_fieldErrors.containsKey('name')) {
-                      _showFieldError('name');
-                    } else if (_fieldErrors.containsKey('origin')) {
-                      _showFieldError('origin');
-                    }
-                    return;
+          ],
+        ),
+        body: Stack(
+          children: [
+            // Tap outside to dismiss keyboard and any autocomplete overlays.
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTapDown: (details) {
+                // Only unfocus if tap is outside the currently focused render box.
+                final currentFocus = FocusManager.instance.primaryFocus;
+                if (currentFocus == null) return;
+                final renderObject = currentFocus.context?.findRenderObject();
+                if (renderObject is RenderBox) {
+                  final tapPos = details.globalPosition;
+                  final boxRect = renderObject.paintBounds
+                      .shift(renderObject.localToGlobal(Offset.zero));
+                  final tappedInsideFocused = boxRect.contains(tapPos);
+                  if (!tappedInsideFocused) {
+                    currentFocus.unfocus();
                   }
-
-                  setState(() => isLoading = true);
-                  _saveCoffeeBeans();
+                } else {
+                  // Fallback to safe unfocus check
+                  final scope = FocusScope.of(context);
+                  if (!scope.hasPrimaryFocus && scope.focusedChild != null) {
+                    scope.unfocus();
+                  }
                 }
-              : null,
-          semanticIdentifier: 'saveButton',
+              },
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  // Use responsive layout for wider screens
+                  final isWideScreen = constraints.maxWidth > 800;
+                  final cardSpacing = isWideScreen ? 24.0 : 16.0;
+
+                  return SingleChildScrollView(
+                    padding: EdgeInsets.all(isWideScreen ? 24.0 : 16.0),
+                    child: isWideScreen
+                        ? _buildWideLayout(
+                            coffeeBeansProvider, locale, loc, cardSpacing)
+                        : _buildNarrowLayout(
+                            coffeeBeansProvider, locale, loc, cardSpacing),
+                  );
+                },
+              ),
+            ),
+            if (isLoading)
+              Semantics(
+                identifier: 'analyzingOverlay',
+                label: loc.analyzing,
+                child: LoadingOverlay(label: loc.analyzing),
+              ),
+          ],
+        ),
+        bottomNavigationBar: KeyboardAwareStickyActionBar(
+          child: StickyActionBar(
+            primaryLabel: isEditMode ? loc.save : loc.addCoffeeBeans,
+            primaryDisabled: !_isFormValid,
+            isLoading: isLoading,
+            onPrimaryPressed: _isFormValid
+                ? () {
+                    // Double-check validation before saving
+                    if (!_isFormValid) {
+                      // Show specific error for the first invalid field
+                      if (_fieldErrors.containsKey('roaster')) {
+                        _showFieldError('roaster');
+                      } else if (_fieldErrors.containsKey('name')) {
+                        _showFieldError('name');
+                      } else if (_fieldErrors.containsKey('origin')) {
+                        _showFieldError('origin');
+                      }
+                      return;
+                    }
+
+                    setState(() => isLoading = true);
+                    _saveCoffeeBeans();
+                  }
+                : null,
+            semanticIdentifier: 'saveButton',
+          ),
         ),
       ),
     );
@@ -776,8 +987,16 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
             tastingNotesOptions:
                 coffeeBeansProvider.fetchCombinedTastingNotes(locale),
             // callbacks
-            onVarietyChanged: (v) => variety = v,
-            onRegionChanged: (v) => region = v,
+            onVarietyChanged: (v) {
+              variety = v;
+              _updateUnsavedChanges();
+              _validateForm();
+            },
+            onRegionChanged: (v) {
+              region = v;
+              _updateUnsavedChanges();
+              _validateForm();
+            },
             onFarmerChanged: (v) {
               final newText = v ?? '';
               if (_farmerController.text != newText) {
@@ -798,9 +1017,21 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                 );
               }
             },
-            onProcessingMethodChanged: (v) => processingMethod = v,
-            onRoastLevelChanged: (v) => roastLevel = v,
-            onTastingNotesChanged: (tags) => _tastingNotes = tags,
+            onProcessingMethodChanged: (v) {
+              processingMethod = v;
+              _updateUnsavedChanges();
+              _validateForm();
+            },
+            onRoastLevelChanged: (v) {
+              roastLevel = v;
+              _updateUnsavedChanges();
+              _validateForm();
+            },
+            onTastingNotesChanged: (tags) {
+              _tastingNotes = tags;
+              _updateUnsavedChanges();
+              _validateForm();
+            },
             onElevationChanged: (val) {
               final newText = val != null ? val.toString() : '';
               if (_elevationController.text != newText) {
@@ -826,6 +1057,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
             packageWeightGrams: packageWeightGrams,
             onPackageWeightGramsChanged: (value) {
               packageWeightGrams = value;
+              _updateUnsavedChanges();
+              _validateForm();
             },
           ),
         ),
@@ -835,8 +1068,16 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         DatesCard(
           harvestDate: harvestDate,
           roastDate: roastDate,
-          onHarvestDateChanged: (d) => harvestDate = d,
-          onRoastDateChanged: (d) => roastDate = d,
+          onHarvestDateChanged: (d) {
+            harvestDate = d;
+            _updateUnsavedChanges();
+            _validateForm();
+          },
+          onRoastDateChanged: (d) {
+            roastDate = d;
+            _updateUnsavedChanges();
+            _validateForm();
+          },
         ),
         SizedBox(height: spacing),
 
@@ -948,8 +1189,16 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                       tastingNotesOptions:
                           coffeeBeansProvider.fetchCombinedTastingNotes(locale),
                       // callbacks
-                      onVarietyChanged: (v) => variety = v,
-                      onRegionChanged: (v) => region = v,
+                      onVarietyChanged: (v) {
+                        variety = v;
+                        _updateUnsavedChanges();
+                        _validateForm();
+                      },
+                      onRegionChanged: (v) {
+                        region = v;
+                        _updateUnsavedChanges();
+                        _validateForm();
+                      },
                       onFarmerChanged: (v) {
                         final newText = v ?? '';
                         if (_farmerController.text != newText) {
@@ -974,9 +1223,21 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                           );
                         }
                       },
-                      onProcessingMethodChanged: (v) => processingMethod = v,
-                      onRoastLevelChanged: (v) => roastLevel = v,
-                      onTastingNotesChanged: (tags) => _tastingNotes = tags,
+                      onProcessingMethodChanged: (v) {
+                        processingMethod = v;
+                        _updateUnsavedChanges();
+                        _validateForm();
+                      },
+                      onRoastLevelChanged: (v) {
+                        roastLevel = v;
+                        _updateUnsavedChanges();
+                        _validateForm();
+                      },
+                      onTastingNotesChanged: (tags) {
+                        _tastingNotes = tags;
+                        _updateUnsavedChanges();
+                        _validateForm();
+                      },
                       onElevationChanged: (val) {
                         final newText = val != null ? val.toString() : '';
                         if (_elevationController.text != newText) {
@@ -1004,6 +1265,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                       packageWeightGrams: packageWeightGrams,
                       onPackageWeightGramsChanged: (value) {
                         packageWeightGrams = value;
+                        _updateUnsavedChanges();
+                        _validateForm();
                       },
                     ),
                   ),
@@ -1019,8 +1282,16 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                   DatesCard(
                     harvestDate: harvestDate,
                     roastDate: roastDate,
-                    onHarvestDateChanged: (d) => harvestDate = d,
-                    onRoastDateChanged: (d) => roastDate = d,
+                    onHarvestDateChanged: (d) {
+                      harvestDate = d;
+                      _updateUnsavedChanges();
+                      _validateForm();
+                    },
+                    onRoastDateChanged: (d) {
+                      roastDate = d;
+                      _updateUnsavedChanges();
+                      _validateForm();
+                    },
                   ),
                   SizedBox(height: spacing),
                   // Additional Notes Card
