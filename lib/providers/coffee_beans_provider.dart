@@ -888,6 +888,80 @@ class CoffeeBeansProvider with ChangeNotifier {
     }
   }
 
+  /// Adds weight back to a coffee bean when beans are removed from a brew diary record.
+  /// Returns the new weight after addition, or null if no update was performed.
+  Future<double?> updateBeanWeightAfterBrewModification(
+      String beansUuid, double coffeeAmount) async {
+    try {
+      final currentBeans = await fetchCoffeeBeansByUuid(beansUuid);
+      if (currentBeans == null) {
+        print('DEBUG: Bean not found for UUID: $beansUuid');
+        return null;
+      }
+
+      final currentWeight = currentBeans.packageWeightGrams;
+      if (currentWeight == null) {
+        print(
+            'DEBUG: Bean $beansUuid has no package weight specified, cannot adjust');
+        return null;
+      }
+
+      final newWeight = currentWeight + coffeeAmount;
+      print(
+          'DEBUG: Adding back $coffeeAmount to bean $beansUuid weight from $currentWeight to $newWeight');
+
+      final updatedBeans = currentBeans.copyWith(packageWeightGrams: newWeight);
+      await updateCoffeeBeans(updatedBeans);
+
+      print(
+          'DEBUG: Successfully added back weight to bean $beansUuid, new weight: $newWeight');
+      return newWeight;
+    } catch (e) {
+      print('DEBUG: Error adding back bean weight for $beansUuid: $e');
+      return null;
+    }
+  }
+
+  /// Subtracts weight from a coffee bean when beans are added to a brew diary record.
+  /// Returns the new weight after subtraction, or null if no update was performed.
+  Future<double?> updateBeanWeightWhenBeansAdded(
+      String beansUuid, double coffeeAmount) async {
+    try {
+      final currentBeans = await fetchCoffeeBeansByUuid(beansUuid);
+      if (currentBeans == null) {
+        print('DEBUG: Bean not found for UUID: $beansUuid');
+        return null;
+      }
+
+      final currentWeight = currentBeans.packageWeightGrams;
+      if (currentWeight == null) {
+        print(
+            'DEBUG: Bean $beansUuid has no package weight specified, cannot adjust');
+        return null;
+      }
+
+      final newWeight =
+          (currentWeight - coffeeAmount).clamp(0.0, double.infinity);
+      print(
+          'DEBUG: Subtracting $coffeeAmount from bean $beansUuid weight from $currentWeight to $newWeight');
+
+      if (newWeight == currentWeight) {
+        print('DEBUG: No weight change needed for bean $beansUuid');
+        return currentWeight;
+      }
+
+      final updatedBeans = currentBeans.copyWith(packageWeightGrams: newWeight);
+      await updateCoffeeBeans(updatedBeans);
+
+      print(
+          'DEBUG: Successfully subtracted weight from bean $beansUuid, new weight: $newWeight');
+      return newWeight;
+    } catch (e) {
+      print('DEBUG: Error subtracting bean weight for $beansUuid: $e');
+      return null;
+    }
+  }
+
   // Debug method to print cache statistics
   void printCacheStats() {
     print('📊 CACHE STATISTICS:');

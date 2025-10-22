@@ -645,6 +645,34 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                               'Remove beans button pressed for stat: ${stat.statUuid}');
                                           print(
                                               'Current coffeeBeansUuid: ${stat.coffeeBeansUuid}');
+
+                                          // Add weight back to beans before removing the reference
+                                          if (stat.coffeeBeansUuid != null) {
+                                            final coffeeBeansProvider = Provider
+                                                .of<CoffeeBeansProvider>(
+                                                    context,
+                                                    listen: false);
+
+                                            final newWeight =
+                                                await coffeeBeansProvider
+                                                    .updateBeanWeightAfterBrewModification(
+                                              stat.coffeeBeansUuid!,
+                                              stat.coffeeAmount,
+                                            );
+
+                                            if (newWeight != null) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                      'Added ${stat.coffeeAmount}g back to beans. New weight: ${newWeight.toStringAsFixed(1)}g'),
+                                                  duration:
+                                                      Duration(seconds: 2),
+                                                ),
+                                              );
+                                            }
+                                          }
+
                                           await Provider.of<UserStatProvider>(
                                                   context,
                                                   listen: false)
@@ -723,6 +751,34 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
       builder: (context) {
         return AddCoffeeBeansWidget(
           onSelect: (String selectedBeanUuid) async {
+            // Get the current stat to know the coffee amount
+            final userStatProvider =
+                Provider.of<UserStatProvider>(context, listen: false);
+            final currentStat =
+                await userStatProvider.fetchUserStatByUuid(statUuid);
+
+            if (currentStat != null) {
+              // Subtract weight from the selected beans
+              final coffeeBeansProvider =
+                  Provider.of<CoffeeBeansProvider>(context, listen: false);
+
+              final newWeight =
+                  await coffeeBeansProvider.updateBeanWeightWhenBeansAdded(
+                selectedBeanUuid,
+                currentStat.coffeeAmount,
+              );
+
+              if (newWeight != null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        'Subtracted ${currentStat.coffeeAmount}g from beans. New weight: ${newWeight.toStringAsFixed(1)}g'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              }
+            }
+
             await Provider.of<UserStatProvider>(context, listen: false)
                 .updateUserStat(
               statUuid: statUuid,
