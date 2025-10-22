@@ -19,6 +19,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import '../providers/user_stat_provider.dart';
 import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
+import '../theme/design_tokens.dart'; // Import design tokens for AppRadius
 // Added import
 // Import http package
 // Import for RecipeCreationScreen
@@ -282,49 +283,63 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
 
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppRadius.large),
+        ),
+      ),
       builder: (BuildContext context) {
-        return SafeArea(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0,
-                16.0 + MediaQuery.of(context).viewInsets.bottom),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                // Conditionally show Apple Sign In
-                if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) ...[
+        return SizedBox(
+          width: double.infinity,
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                  AppSpacing.lg,
+                  AppSpacing.xl,
+                  AppSpacing.lg,
+                  AppSpacing.xl + MediaQuery.of(context).viewInsets.bottom),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  // Conditionally show Apple Sign In
+                  if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) ...[
+                    SignInButton(
+                      isDarkMode ? Buttons.apple : Buttons.appleDark,
+                      text: l10n.signInWithApple,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _signInWithApple(context);
+                      },
+                    ),
+                    SizedBox(height: AppSpacing.base),
+                  ],
                   SignInButton(
-                    isDarkMode ? Buttons.apple : Buttons.appleDark,
-                    text: l10n.signInWithApple,
+                    isDarkMode ? Buttons.google : Buttons.googleDark,
+                    text: l10n.signInWithGoogle,
                     onPressed: () {
                       Navigator.pop(context);
-                      _signInWithApple(context);
+                      _signInWithGoogle(context);
                     },
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: AppSpacing.base),
+                  SignInButtonBuilder(
+                    text: l10n.signInWithEmail,
+                    icon: Icons.email,
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _showEmailSignInDialog(context);
+                    },
+                    backgroundColor:
+                        isDarkMode ? Colors.white : Colors.blueGrey.shade700,
+                    textColor: isDarkMode ? Colors.black87 : Colors.white,
+                    iconColor: isDarkMode ? Colors.black87 : Colors.white,
+                  ),
+                  SizedBox(height: AppSpacing.xl),
                 ],
-                SignInButton(
-                  isDarkMode ? Buttons.google : Buttons.googleDark,
-                  text: l10n.signInWithGoogle,
-                  onPressed: () {
-                    Navigator.pop(context);
-                    _signInWithGoogle(context);
-                  },
-                ),
-                const SizedBox(height: 16),
-                SignInButtonBuilder(
-                  text: l10n.signInWithEmail,
-                  icon: Icons.email,
-                  onPressed: () {
-                    Navigator.pop(context);
-                    _showEmailSignInDialog(context);
-                  },
-                  backgroundColor:
-                      isDarkMode ? Colors.white : Colors.blueGrey.shade700,
-                  textColor: isDarkMode ? Colors.black87 : Colors.white,
-                  iconColor: isDarkMode ? Colors.black87 : Colors.white,
-                ),
-                const SizedBox(height: 32),
-              ],
+              ),
             ),
           ),
         );
@@ -475,6 +490,9 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.card),
+          ),
           title: Text(l10n.enterEmail),
           content: TextField(
             controller: emailController,
@@ -485,12 +503,33 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
           ),
           actions: <Widget>[
             TextButton(
+              style: TextButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               child: Text(l10n.cancel),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.card),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               child: Text(l10n.sendOTP),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -537,6 +576,9 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.card),
+          ),
           title: Text(l10n.enterOTP),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -553,12 +595,33 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
           ),
           actions: <Widget>[
             TextButton(
+              style: TextButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               child: Text(l10n.cancel),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.card),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               child: Text(l10n.verify),
               onPressed: () {
                 // Don't pop here, _verifyOTP will handle it if successful
