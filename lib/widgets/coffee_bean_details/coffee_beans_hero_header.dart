@@ -262,8 +262,10 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
       label: 'Quick statistics',
       child: Padding(
         padding: const EdgeInsets.only(top: 16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: Wrap(
+          alignment: WrapAlignment.spaceEvenly,
+          spacing: 16.0, // Horizontal spacing between chips
+          runSpacing: 8.0, // Vertical spacing between rows
           children: [
             if (bean.roastDate != null)
               QuickStatChip(
@@ -271,18 +273,18 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
                 label: loc.roastDate,
                 value: DateFormat.yMMMd().format(bean.roastDate!),
               ),
-            if (bean.cuppingScore != null)
-              QuickStatChip(
-                icon: Icons.star,
-                label: loc.cuppingScore,
-                value: '${bean.cuppingScore}',
-              ),
             if (bean.validatedPackageWeightGrams != null)
               QuickStatChip(
                 icon: Coffeico.bag_with_bean,
                 label: loc.amountLeft,
                 value:
                     '${bean.validatedPackageWeightGrams!.toStringAsFixed(1)}g',
+              ),
+            if (bean.cuppingScore != null)
+              QuickStatChip(
+                icon: Icons.star,
+                label: loc.cuppingScore,
+                value: '${bean.cuppingScore}',
               ),
           ],
         ),
