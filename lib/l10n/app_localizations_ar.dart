@@ -1430,4 +1430,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => 'مثال: 250.5';
+
+  @override
+  String get unsavedChangesTitle => 'تغييرات غير محفوظة';
+
+  @override
+  String get unsavedChangesMessage =>
+      'لديك تغييرات غير محفوظة. هل أنت متأكد من أنك تريد تجاهلها؟';
+
+  @override
+  String get unsavedChangesStay => 'البقاء';
+
+  @override
+  String get unsavedChangesDiscard => 'تجاهل';
 }

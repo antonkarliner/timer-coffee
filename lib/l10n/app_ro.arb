@@ -627,5 +627,9 @@
 "dropdownSearchLoading": "Se caută...",
 "dropdownSearchUseCustomEntry": "Folosiți \"{currentQuery}\"",
 "requiredInfoSubtitle": "* Obligatoriu",
-"inventoryWeightExample": "ex. 250.5"
+"inventoryWeightExample": "ex. 250.5",
+"unsavedChangesTitle": "Modificări nesalvate",
+"unsavedChangesMessage": "Aveți modificări nesalvate. Sigur doriți să le renunțați?",
+"unsavedChangesStay": "Rămâi",
+"unsavedChangesDiscard": "Renunță"
 }

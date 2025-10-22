@@ -827,5 +827,9 @@
   "dropdownSearchLoading": "Searching...",
   "dropdownSearchUseCustomEntry": "Use \"{currentQuery}\"",
   "requiredInfoSubtitle": "* Required",
-  "inventoryWeightExample": "e.g., 250.5"
+  "inventoryWeightExample": "e.g., 250.5",
+  "unsavedChangesTitle": "Unsaved Changes",
+  "unsavedChangesMessage": "You have unsaved changes. Are you sure you want to discard them?",
+  "unsavedChangesStay": "Stay",
+  "unsavedChangesDiscard": "Discard"
 }

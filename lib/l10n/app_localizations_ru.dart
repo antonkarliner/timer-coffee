@@ -1446,4 +1446,17 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => 'Например, 250.5';
+
+  @override
+  String get unsavedChangesTitle => 'Несохраненные изменения';
+
+  @override
+  String get unsavedChangesMessage =>
+      'У вас есть несохраненные изменения. Вы уверены, что хотите их отменить?';
+
+  @override
+  String get unsavedChangesStay => 'Остаться';
+
+  @override
+  String get unsavedChangesDiscard => 'Отменить';
 }

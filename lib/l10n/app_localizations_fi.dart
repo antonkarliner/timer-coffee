@@ -1429,4 +1429,17 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => 'esim. 250.5';
+
+  @override
+  String get unsavedChangesTitle => 'Tallentamattomat muutokset';
+
+  @override
+  String get unsavedChangesMessage =>
+      'Sinulla on tallentamattomia muutoksia. Oletko varma, että haluat hylätä ne?';
+
+  @override
+  String get unsavedChangesStay => 'Pysy';
+
+  @override
+  String get unsavedChangesDiscard => 'Hylkää';
 }

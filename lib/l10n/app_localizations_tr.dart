@@ -1436,4 +1436,17 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => 'örn. 250.5';
+
+  @override
+  String get unsavedChangesTitle => 'Kaydedilmemiş Değişiklikler';
+
+  @override
+  String get unsavedChangesMessage =>
+      'Kaydedilmemiş değişiklikleriniz var. Onları silmek istediğinizden emin misiniz?';
+
+  @override
+  String get unsavedChangesStay => 'Kal';
+
+  @override
+  String get unsavedChangesDiscard => 'Sil';
 }

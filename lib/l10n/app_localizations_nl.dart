@@ -1434,4 +1434,17 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => 'bijv. 250.5';
+
+  @override
+  String get unsavedChangesTitle => 'Niet opgeslagen wijzigingen';
+
+  @override
+  String get unsavedChangesMessage =>
+      'U hebt niet-opgeslagen wijzigingen. Weet u zeker dat u ze wilt verwijderen?';
+
+  @override
+  String get unsavedChangesStay => 'Blijven';
+
+  @override
+  String get unsavedChangesDiscard => 'Verwerpen';
 }

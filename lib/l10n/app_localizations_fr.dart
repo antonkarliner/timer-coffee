@@ -51,7 +51,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get userRecipesEmpty => 'Aucune recette trouvée';
 
   @override
-  String get userRecipesDeleteTitle => 'Supprimer la recette ?';
+  String get userRecipesDeleteTitle => 'Supprimer la recette ?';
 
   @override
   String get userRecipesDeleteMessage => 'Cette action est irréversible.';
@@ -1449,4 +1449,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => 'ex. 250,5';
+
+  @override
+  String get unsavedChangesTitle => 'Modifications non enregistrées';
+
+  @override
+  String get unsavedChangesMessage =>
+      'Vous avez des modifications non enregistrées. Êtes-vous sûr de vouloir les abandonner ?';
+
+  @override
+  String get unsavedChangesStay => 'Rester';
+
+  @override
+  String get unsavedChangesDiscard => 'Abandonner';
 }

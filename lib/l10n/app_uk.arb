@@ -627,5 +627,9 @@
 "dropdownSearchLoading": "Пошук...",
 "dropdownSearchUseCustomEntry": "Використати \"{currentQuery}\"",
 "requiredInfoSubtitle": "* Обов'язково",
-"inventoryWeightExample": "напр., 250.5"
+"inventoryWeightExample": "напр., 250.5",
+"unsavedChangesTitle": "Незбережені зміни",
+"unsavedChangesMessage": "У вас є незбережені зміни. Ви впевнені, що хочете їх скасувати?",
+"unsavedChangesStay": "Залишитися",
+"unsavedChangesDiscard": "Скасувати"
 }

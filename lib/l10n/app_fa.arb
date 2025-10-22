@@ -794,5 +794,9 @@
   "dropdownSearchLoading": "در حال جستجو...",
   "dropdownSearchUseCustomEntry": "استفاده از \"{currentQuery}\"",
   "requiredInfoSubtitle": "* الزامی",
-  "inventoryWeightExample": "مثال: 250.5"
+  "inventoryWeightExample": "مثال: 250.5",
+  "unsavedChangesTitle": "تغییرات ذخیره نشده",
+  "unsavedChangesMessage": "شما تغییرات ذخیره نشده دارید. آیا مطمئن هستید که می‌خواهید آن‌ها را نادیده بگیرید؟",
+  "unsavedChangesStay": "بمان",
+  "unsavedChangesDiscard": "نادیده گرفتن"
 }

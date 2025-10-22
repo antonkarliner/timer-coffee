@@ -793,5 +793,9 @@
     }
   },
   "recipePublicTooltip": "Recept je javan – dodirni za postavljanje na privatno",
-  "recipePrivateTooltip": "Recept je privatan – podijeli da bi postao javan"
+  "recipePrivateTooltip": "Recept je privatan – podijeli da bi postao javan",
+  "unsavedChangesTitle": "Nespremljene promjene",
+  "unsavedChangesMessage": "Imate nespremljene promjene. Jeste li sigurni da ih želite odbaciti?",
+  "unsavedChangesStay": "Ostani",
+  "unsavedChangesDiscard": "Odbaci"
 }

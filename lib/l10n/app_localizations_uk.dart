@@ -1446,4 +1446,17 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => 'напр., 250.5';
+
+  @override
+  String get unsavedChangesTitle => 'Незбережені зміни';
+
+  @override
+  String get unsavedChangesMessage =>
+      'У вас є незбережені зміни. Ви впевнені, що хочете їх скасувати?';
+
+  @override
+  String get unsavedChangesStay => 'Залишитися';
+
+  @override
+  String get unsavedChangesDiscard => 'Скасувати';
 }

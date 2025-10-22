@@ -627,5 +627,9 @@
 "dropdownSearchLoading": "جاري البحث...",
 "dropdownSearchUseCustomEntry": "استخدم \"{currentQuery}\"",
 "requiredInfoSubtitle": "* مطلوب",
-"inventoryWeightExample": "مثال: 250.5"
+"inventoryWeightExample": "مثال: 250.5",
+"unsavedChangesTitle": "تغييرات غير محفوظة",
+"unsavedChangesMessage": "لديك تغييرات غير محفوظة. هل أنت متأكد من أنك تريد تجاهلها؟",
+"unsavedChangesStay": "البقاء",
+"unsavedChangesDiscard": "تجاهل"
 }

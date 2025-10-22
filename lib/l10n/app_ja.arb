@@ -628,5 +628,9 @@
 "dropdownSearchLoading": "検索中...",
 "dropdownSearchUseCustomEntry": "\"{currentQuery}\"を使用",
 "requiredInfoSubtitle": "* 必須",
-"inventoryWeightExample": "例: 250.5"
+"inventoryWeightExample": "例: 250.5",
+"unsavedChangesTitle": "保存されていない変更",
+"unsavedChangesMessage": "保存されていない変更があります。破棄してもよろしいですか？",
+"unsavedChangesStay": "留まる",
+"unsavedChangesDiscard": "破棄"
 }

@@ -627,5 +627,9 @@
 "dropdownSearchLoading": "Suche...",
 "dropdownSearchUseCustomEntry": "\"{currentQuery}\" verwenden",
 "requiredInfoSubtitle": "* Erforderlich",
-"inventoryWeightExample": "z.B. 250.5"
+"inventoryWeightExample": "z.B. 250.5",
+"unsavedChangesTitle": "Nicht gespeicherte Änderungen",
+"unsavedChangesMessage": "Sie haben nicht gespeicherte Änderungen. Sind Sie sicher, dass Sie sie verwerfen möchten?",
+"unsavedChangesStay": "Bleiben",
+"unsavedChangesDiscard": "Verwerfen"
 }

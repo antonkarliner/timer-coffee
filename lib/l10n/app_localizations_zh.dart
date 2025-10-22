@@ -1389,4 +1389,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => '例如：250.5';
+
+  @override
+  String get unsavedChangesTitle => '未保存的更改';
+
+  @override
+  String get unsavedChangesMessage => '您有未保存的更改。您确定要丢弃它们吗？';
+
+  @override
+  String get unsavedChangesStay => '留下';
+
+  @override
+  String get unsavedChangesDiscard => '丢弃';
 }

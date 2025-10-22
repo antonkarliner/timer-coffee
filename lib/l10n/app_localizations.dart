@@ -2671,6 +2671,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'e.g., 250.5'**
   String get inventoryWeightExample;
+
+  /// No description provided for @unsavedChangesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsaved Changes'**
+  String get unsavedChangesTitle;
+
+  /// No description provided for @unsavedChangesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You have unsaved changes. Are you sure you want to discard them?'**
+  String get unsavedChangesMessage;
+
+  /// No description provided for @unsavedChangesStay.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay'**
+  String get unsavedChangesStay;
+
+  /// No description provided for @unsavedChangesDiscard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get unsavedChangesDiscard;
 }
 
 class _AppLocalizationsDelegate

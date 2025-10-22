@@ -627,5 +627,9 @@
 "dropdownSearchLoading": "搜索中...",
 "dropdownSearchUseCustomEntry": "使用 \"{currentQuery}\"",
 "requiredInfoSubtitle": "* 必填",
-"inventoryWeightExample": "例如：250.5"
+"inventoryWeightExample": "例如：250.5",
+"unsavedChangesTitle": "未保存的更改",
+"unsavedChangesMessage": "您有未保存的更改。您确定要丢弃它们吗？",
+"unsavedChangesStay": "留下",
+"unsavedChangesDiscard": "丢弃"
 }

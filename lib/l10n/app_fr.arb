@@ -4,7 +4,7 @@
   "userRecipesSectionCreated": "Créées par vous",
   "userRecipesSectionImported": "Importées par vous",
   "userRecipesEmpty": "Aucune recette trouvée",
-  "userRecipesDeleteTitle": "Supprimer la recette ?",
+  "userRecipesDeleteTitle": "Supprimer la recette ?",
   "userRecipesDeleteMessage": "Cette action est irréversible.",
   "userRecipesDeleteConfirm": "Supprimer",
   "userRecipesDeleteCancel": "Annuler",
@@ -627,5 +627,9 @@
   "dropdownSearchLoading": "Recherche...",
   "dropdownSearchUseCustomEntry": "Utiliser \"{currentQuery}\"",
   "requiredInfoSubtitle": "* Obligatoire",
-  "inventoryWeightExample": "ex. 250,5"
+  "inventoryWeightExample": "ex. 250,5",
+  "unsavedChangesTitle": "Modifications non enregistrées",
+  "unsavedChangesMessage": "Vous avez des modifications non enregistrées. Êtes-vous sûr de vouloir les abandonner ?",
+  "unsavedChangesStay": "Rester",
+  "unsavedChangesDiscard": "Abandonner"
 }

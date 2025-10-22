@@ -627,5 +627,9 @@
   "dropdownSearchLoading": "Buscando...",
   "dropdownSearchUseCustomEntry": "Usar \"{currentQuery}\"",
   "requiredInfoSubtitle": "* Obligatorio",
-  "inventoryWeightExample": "ej. 250,5"
+  "inventoryWeightExample": "ej. 250,5",
+  "unsavedChangesTitle": "Cambios no guardados",
+  "unsavedChangesMessage": "Tienes cambios no guardados. ¿Estás seguro de que quieres descartarlos?",
+  "unsavedChangesStay": "Quedarse",
+  "unsavedChangesDiscard": "Descartar"
 }

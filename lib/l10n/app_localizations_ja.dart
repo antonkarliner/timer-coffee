@@ -1393,4 +1393,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => '例: 250.5';
+
+  @override
+  String get unsavedChangesTitle => '保存されていない変更';
+
+  @override
+  String get unsavedChangesMessage => '保存されていない変更があります。破棄してもよろしいですか？';
+
+  @override
+  String get unsavedChangesStay => '留まる';
+
+  @override
+  String get unsavedChangesDiscard => '破棄';
 }

@@ -1423,4 +1423,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => 'e.g., 250.5';
+
+  @override
+  String get unsavedChangesTitle => 'Unsaved Changes';
+
+  @override
+  String get unsavedChangesMessage =>
+      'You have unsaved changes. Are you sure you want to discard them?';
+
+  @override
+  String get unsavedChangesStay => 'Stay';
+
+  @override
+  String get unsavedChangesDiscard => 'Discard';
 }

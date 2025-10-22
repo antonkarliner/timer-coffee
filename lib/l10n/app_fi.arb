@@ -493,5 +493,9 @@
 "dropdownSearchLoading": "Etsitään...",
 "dropdownSearchUseCustomEntry": "Käytä \"{currentQuery}\"",
 "requiredInfoSubtitle": "* Pakollinen",
-"inventoryWeightExample": "esim. 250.5"
+"inventoryWeightExample": "esim. 250.5",
+"unsavedChangesTitle": "Tallentamattomat muutokset",
+"unsavedChangesMessage": "Sinulla on tallentamattomia muutoksia. Oletko varma, että haluat hylätä ne?",
+"unsavedChangesStay": "Pysy",
+"unsavedChangesDiscard": "Hylkää"
 }

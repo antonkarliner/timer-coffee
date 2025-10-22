@@ -1422,4 +1422,17 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => 'مثال: 250.5';
+
+  @override
+  String get unsavedChangesTitle => 'تغییرات ذخیره نشده';
+
+  @override
+  String get unsavedChangesMessage =>
+      'شما تغییرات ذخیره نشده دارید. آیا مطمئن هستید که می‌خواهید آن‌ها را نادیده بگیرید؟';
+
+  @override
+  String get unsavedChangesStay => 'بمان';
+
+  @override
+  String get unsavedChangesDiscard => 'نادیده گرفتن';
 }

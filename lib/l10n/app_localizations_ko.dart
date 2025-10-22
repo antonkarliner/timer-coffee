@@ -1394,4 +1394,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => '예: 250.5';
+
+  @override
+  String get unsavedChangesTitle => '저장되지 않은 변경';
+
+  @override
+  String get unsavedChangesMessage => '저장되지 않은 변경이 있습니다. 변경을 삭제하시겠습니까?';
+
+  @override
+  String get unsavedChangesStay => '머무르기';
+
+  @override
+  String get unsavedChangesDiscard => '삭제';
 }

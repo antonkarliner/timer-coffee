@@ -627,5 +627,9 @@
 "dropdownSearchLoading": "Zoeken...",
 "dropdownSearchUseCustomEntry": "Gebruik \"{currentQuery}\"",
 "requiredInfoSubtitle": "* Verplicht",
-"inventoryWeightExample": "bijv. 250.5"
+"inventoryWeightExample": "bijv. 250.5",
+"unsavedChangesTitle": "Niet opgeslagen wijzigingen",
+"unsavedChangesMessage": "U hebt niet-opgeslagen wijzigingen. Weet u zeker dat u ze wilt verwijderen?",
+"unsavedChangesStay": "Blijven",
+"unsavedChangesDiscard": "Verwerpen"
 }

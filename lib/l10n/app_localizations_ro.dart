@@ -1442,4 +1442,17 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => 'ex. 250.5';
+
+  @override
+  String get unsavedChangesTitle => 'Modificări nesalvate';
+
+  @override
+  String get unsavedChangesMessage =>
+      'Aveți modificări nesalvate. Sigur doriți să le renunțați?';
+
+  @override
+  String get unsavedChangesStay => 'Rămâi';
+
+  @override
+  String get unsavedChangesDiscard => 'Renunță';
 }

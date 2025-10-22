@@ -1432,4 +1432,17 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => 'contoh: 250.5';
+
+  @override
+  String get unsavedChangesTitle => 'Perubahan Belum Disimpan';
+
+  @override
+  String get unsavedChangesMessage =>
+      'Anda memiliki perubahan yang belum disimpan. Apakah Anda yakin ingin membuangnya?';
+
+  @override
+  String get unsavedChangesStay => 'Tetap';
+
+  @override
+  String get unsavedChangesDiscard => 'Buang';
 }

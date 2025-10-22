@@ -627,5 +627,9 @@
 "dropdownSearchLoading": "Поиск...",
 "dropdownSearchUseCustomEntry": "Использовать \"{currentQuery}\"",
 "requiredInfoSubtitle": "* Обязательно",
-"inventoryWeightExample": "Например, 250.5"
+"inventoryWeightExample": "Например, 250.5",
+"unsavedChangesTitle": "Несохраненные изменения",
+"unsavedChangesMessage": "У вас есть несохраненные изменения. Вы уверены, что хотите их отменить?",
+"unsavedChangesStay": "Остаться",
+"unsavedChangesDiscard": "Отменить"
 }

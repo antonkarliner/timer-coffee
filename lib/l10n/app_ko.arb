@@ -793,5 +793,9 @@
   "dropdownSearchLoading": "검색 중...",
   "dropdownSearchUseCustomEntry": "\"{currentQuery}\" 사용",
   "requiredInfoSubtitle": "* 필수",
-  "inventoryWeightExample": "예: 250.5"
+  "inventoryWeightExample": "예: 250.5",
+  "unsavedChangesTitle": "저장되지 않은 변경",
+  "unsavedChangesMessage": "저장되지 않은 변경이 있습니다. 변경을 삭제하시겠습니까?",
+  "unsavedChangesStay": "머무르기",
+  "unsavedChangesDiscard": "삭제"
 }

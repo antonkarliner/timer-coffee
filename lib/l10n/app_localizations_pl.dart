@@ -1444,4 +1444,17 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => 'np. 250.5';
+
+  @override
+  String get unsavedChangesTitle => 'Niezapisane zmiany';
+
+  @override
+  String get unsavedChangesMessage =>
+      'Masz niezapisane zmiany. Czy na pewno chcesz je porzucić?';
+
+  @override
+  String get unsavedChangesStay => 'Zostań';
+
+  @override
+  String get unsavedChangesDiscard => 'Porzuć';
 }

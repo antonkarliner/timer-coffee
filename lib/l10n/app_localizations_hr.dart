@@ -1431,4 +1431,17 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get inventoryWeightExample => 'npr., 250.5';
+
+  @override
+  String get unsavedChangesTitle => 'Nespremljene promjene';
+
+  @override
+  String get unsavedChangesMessage =>
+      'Imate nespremljene promjene. Jeste li sigurni da ih želite odbaciti?';
+
+  @override
+  String get unsavedChangesStay => 'Ostani';
+
+  @override
+  String get unsavedChangesDiscard => 'Odbaci';
 }

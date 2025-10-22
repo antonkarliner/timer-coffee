@@ -627,5 +627,9 @@
 "dropdownSearchLoading": "Mencari...",
 "dropdownSearchUseCustomEntry": "Gunakan \"{currentQuery}\"",
 "requiredInfoSubtitle": "* Wajib",
-"inventoryWeightExample": "contoh: 250.5"
+"inventoryWeightExample": "contoh: 250.5",
+"unsavedChangesTitle": "Perubahan Belum Disimpan",
+"unsavedChangesMessage": "Anda memiliki perubahan yang belum disimpan. Apakah Anda yakin ingin membuangnya?",
+"unsavedChangesStay": "Tetap",
+"unsavedChangesDiscard": "Buang"
 }

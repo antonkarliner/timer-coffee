@@ -627,5 +627,9 @@
 "dropdownSearchLoading": "Aranıyor...",
 "dropdownSearchUseCustomEntry": "\"{currentQuery}\" kullan",
 "requiredInfoSubtitle": "* Zorunlu",
-"inventoryWeightExample": "örn. 250.5"
+"inventoryWeightExample": "örn. 250.5",
+"unsavedChangesTitle": "Kaydedilmemiş Değişiklikler",
+"unsavedChangesMessage": "Kaydedilmemiş değişiklikleriniz var. Onları silmek istediğinizden emin misiniz?",
+"unsavedChangesStay": "Kal",
+"unsavedChangesDiscard": "Sil"
 }
