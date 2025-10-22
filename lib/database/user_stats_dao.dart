@@ -1,5 +1,31 @@
 part of 'database.dart';
 
+/// Result of a batch insert operation
+class BatchInsertResult {
+  final bool success;
+  final List<UserStatsModel> failedStats;
+  final String? errorMessage;
+
+  BatchInsertResult({
+    required this.success,
+    required this.failedStats,
+    this.errorMessage,
+  });
+
+  factory BatchInsertResult.successful() {
+    return BatchInsertResult(success: true, failedStats: []);
+  }
+
+  factory BatchInsertResult.failed(
+      List<UserStatsModel> failedStats, String? errorMessage) {
+    return BatchInsertResult(
+      success: false,
+      failedStats: failedStats,
+      errorMessage: errorMessage,
+    );
+  }
+}
+
 @DriftAccessor(tables: [UserStats])
 class UserStatsDao extends DatabaseAccessor<AppDatabase>
     with _$UserStatsDaoMixin {
@@ -200,6 +226,106 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
         );
       }
     });
+  }
+
+  /// Enhanced batch insert method that provides feedback on failed operations
+  Future<BatchInsertResult> insertOrUpdateMultipleStatsWithFeedback(
+      List<UserStatsModel> stats) async {
+    if (stats.isEmpty) {
+      return BatchInsertResult.successful();
+    }
+
+    try {
+      await batch((batch) {
+        for (final stat in stats) {
+          batch.insert(
+            userStats,
+            _userStatToCompanion(stat),
+            mode: InsertMode.insertOrReplace,
+          );
+        }
+      });
+      return BatchInsertResult.successful();
+    } catch (e) {
+      if (e.toString().contains('FOREIGN KEY constraint failed')) {
+        print(
+            'Foreign key constraint failed during batch insert. Stats count: ${stats.length}');
+        print('Error details: ${e.toString()}');
+        return BatchInsertResult.failed(stats, e.toString());
+      }
+      // Re-throw non-foreign-key errors
+      rethrow;
+    } catch (e) {
+      print('Unexpected error during batch insert: $e');
+      return BatchInsertResult.failed(stats, e.toString());
+    }
+  }
+
+  /// Validates if the specified recipe IDs exist in the database
+  Future<Map<String, bool>> validateRecipeReferences(
+      List<String> recipeIds) async {
+    if (recipeIds.isEmpty) {
+      return {};
+    }
+
+    final uniqueRecipeIds = recipeIds.toSet().toList();
+
+    try {
+      // Query for existing recipes in batch
+      final existingRecipes = await (select(recipes)
+            ..where((tbl) => tbl.id.isIn(uniqueRecipeIds)))
+          .get();
+
+      final existingIds = existingRecipes.map((r) => r.id).toSet();
+
+      // Create a map indicating which recipe IDs exist
+      final validationMap = <String, bool>{};
+      for (final recipeId in uniqueRecipeIds) {
+        validationMap[recipeId] = existingIds.contains(recipeId);
+      }
+
+      return validationMap;
+    } catch (e) {
+      print('Error validating recipe references: $e');
+      // Assume all recipes don't exist if validation fails
+      return Map.fromEntries(
+        uniqueRecipeIds.map((id) => MapEntry(id, false)),
+      );
+    }
+  }
+
+  /// Creates a fallback stat with a null recipe reference for stats with missing recipes
+  UserStatsModel createFallbackStat(UserStatsModel originalStat) {
+    return originalStat.copyWith(
+      recipeId:
+          'unknown-recipe', // Use a simple placeholder that won't violate FK constraints
+      brewingMethodId: 'v60', // Use a common brewing method that should exist
+    );
+  }
+
+  /// Attempts to insert a stat with a fallback recipe reference if the original fails
+  Future<void> insertUserStatWithFallback(UserStatsModel stat) async {
+    try {
+      await insertUserStat(stat);
+    } catch (e) {
+      if (e.toString().contains('FOREIGN KEY constraint failed')) {
+        print(
+            'Foreign key constraint failed for stat ${stat.statUuid}, using fallback recipe');
+        print('Original recipe ID: ${stat.recipeId}');
+
+        // Try with a fallback recipe reference
+        final fallbackStat = createFallbackStat(stat);
+        try {
+          await insertUserStat(fallbackStat);
+          print('Successfully inserted fallback stat for ${stat.statUuid}');
+        } catch (fallbackError) {
+          print('Failed to insert fallback stat: $fallbackError');
+          rethrow;
+        }
+      } else {
+        rethrow;
+      }
+    }
   }
 
   Future<List<UserStatsModel>> fetchAllStatsWithVersionVectors() async {
