@@ -23,6 +23,7 @@ extension RecipesCompanionExtension on RecipesCompanion {
           : const Value.absent(),
       isImported: Value(json['is_imported'] ?? false),
       isPublic: Value(json['is_public'] ?? false),
+      needsModerationReview: Value(json['needs_moderation_review'] ?? false),
     );
   }
 
@@ -44,6 +45,7 @@ extension RecipesCompanionExtension on RecipesCompanion {
       isImported: Value(json['is_imported'] ?? false),
       isPublic: Value(json['ispublic'] ??
           false), // Note: Supabase uses 'ispublic' (lowercase)
+      needsModerationReview: Value(json['needs_moderation_review'] ?? false),
     );
   }
 
