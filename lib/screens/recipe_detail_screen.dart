@@ -32,6 +32,7 @@ import '../screens/preparation_screen.dart';
 // Utils and Localization
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../webhelper/web_helper.dart' as web;
+import '../utils/app_logger.dart'; // Import AppLogger
 
 @RoutePage(name: 'RecipeDetailRoute')
 class RecipeDetailScreen extends StatelessWidget {
@@ -206,25 +207,25 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
     final user = authState.session?.user;
     if (user == null || user.isAnonymous) {
-      print('DEBUG: Auth state change - user is null or anonymous');
+      AppLogger.debug('Auth state change - user is null or anonymous');
       return;
     }
 
     final currentUserId = user.id;
-    print('DEBUG: Auth state change detected for user: $currentUserId');
+    AppLogger.debug('Auth state change detected for user: $currentUserId');
 
     // Check if we have an effective recipe ID to work with
     if (_effectiveRecipeId == null) {
-      print('DEBUG: No effective recipe ID to check');
+      AppLogger.debug('No effective recipe ID to check');
       return;
     }
 
     final currentRecipeId = _effectiveRecipeId!;
-    print('DEBUG: Current effective recipe ID: $currentRecipeId');
+    AppLogger.debug('Current effective recipe ID: $currentRecipeId');
 
     // Only process user-created recipes (those with 'usr-' prefix)
     if (!currentRecipeId.startsWith('usr-')) {
-      print('DEBUG: Recipe ID does not start with usr-, skipping auth sync');
+      AppLogger.debug('Recipe ID does not start with usr-, skipping auth sync');
       return;
     }
 
@@ -232,8 +233,8 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       // If the recipe already belongs to the current user, nothing to do.
       final ownsRecipePrefix = 'usr-$currentUserId-';
       if (currentRecipeId.startsWith(ownsRecipePrefix)) {
-        print(
-            'DEBUG: Recipe ID already belongs to current user, no remap needed');
+        AppLogger.debug(
+            'Recipe ID already belongs to current user, no remap needed');
         return;
       }
 
@@ -241,16 +242,16 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       // Robust timestamp extraction: take the last hyphen-separated token.
       final parts = currentRecipeId.split('-');
       if (parts.length < 3) {
-        print(
-            'DEBUG: Invalid usr-* recipe ID format, cannot extract timestamp for remap');
+        AppLogger.debug(
+            'Invalid usr-* recipe ID format, cannot extract timestamp for remap');
         return;
       }
       final timestamp = parts.last;
-      print(
-          'DEBUG: Remap path: extracted timestamp="$timestamp" from "$currentRecipeId"');
+      AppLogger.debug(
+          'Remap path: extracted timestamp="$timestamp" from "$currentRecipeId"');
 
       final newRecipeId = 'usr-$currentUserId-$timestamp';
-      print('DEBUG: Attempting remap to newRecipeId="$newRecipeId"');
+      AppLogger.debug('Attempting remap to newRecipeId="$newRecipeId"');
 
       // Regardless of whether the old usr-ID exists locally, we try loading the new ID.
       if (!mounted) return;
@@ -262,21 +263,22 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       );
 
       if (newResult.isSuccess && newResult.recipe != null) {
-        print(
-            'DEBUG: Remap succeeded: found recipe under newRecipeId="$newRecipeId". Updating effectiveRecipeId and reloading details.');
+        AppLogger.debug(
+            'Remap succeeded: found recipe under newRecipeId="$newRecipeId". Updating effectiveRecipeId and reloading details.');
         if (!mounted) return;
         setState(() {
           _effectiveRecipeId = newRecipeId;
         });
         await _loadRecipeDetails(newRecipeId);
-        print(
-            'DEBUG: Effective recipe ID updated from "$currentRecipeId" to "$newRecipeId"');
+        AppLogger.debug(
+            'Effective recipe ID updated from "$currentRecipeId" to "$newRecipeId"');
       } else {
-        print(
-            'DEBUG: Remap attempt: recipe not found under newRecipeId="$newRecipeId". Leaving effectiveRecipeId unchanged.');
+        AppLogger.debug(
+            'Remap attempt: recipe not found under newRecipeId="$newRecipeId". Leaving effectiveRecipeId unchanged.');
       }
     } catch (e) {
-      print('DEBUG: Error during authentication change handling: $e');
+      AppLogger.debug('Error during authentication change handling',
+          errorObject: e);
     }
   }
 
@@ -361,8 +363,8 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       recipe: _updatedRecipe!,
       shareRecipeId: shareRecipeId,
     );
-    print(
-        'DEBUG: Share result - success: ${result.success}, resolvedRecipeId: ${result.resolvedRecipeId}');
+    AppLogger.debug(
+        'Share result - success: ${result.success}, resolvedRecipeId: ${result.resolvedRecipeId}');
 
     // If service remapped to a stable usr-<user>-<timestamp> id during share, persist it
     if (result.success && result.resolvedRecipeId != null) {
@@ -385,13 +387,14 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
           Provider.of<UserRecipeProvider>(context, listen: false);
       await userRecipeProvider
           .updateUserRecipe(_updatedRecipe!.copyWith(isPublic: true));
-      print('DEBUG: Updated local recipe database and state - isPublic: true');
+      AppLogger.debug(
+          'Updated local recipe database and state - isPublic: true');
     } else if (mounted) {
       setState(() => _isSharing = false);
     }
 
-    print(
-        'DEBUG: After sharing, recipe $shareRecipeId isPublic: ${_updatedRecipe?.isPublic}');
+    AppLogger.debug(
+        'After sharing, recipe $shareRecipeId isPublic: ${_updatedRecipe?.isPublic}');
   }
 
   /// Navigates to edit recipe using RecipeNavigationService

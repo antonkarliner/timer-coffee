@@ -10,6 +10,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:crypto/crypto.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import '../utils/input_validator.dart';
+import '../utils/app_logger.dart';
 import '../widgets/recipe_detail/authentication_dialogs.dart';
 import '../providers/user_recipe_provider.dart';
 import '../providers/recipe_provider.dart';
@@ -26,14 +28,14 @@ class AuthenticationService {
   /// Prompts the user to sign in with a modal bottom sheet
   /// Returns true if sign-in was successful, false otherwise
   static Future<bool> promptSignIn(BuildContext context) async {
-    print("DEBUG: AuthenticationService.promptSignIn() called");
+    AppLogger.debug("AuthenticationService.promptSignIn() called");
     final l10n = AppLocalizations.of(context)!;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     final String? initialUserId =
         Supabase.instance.client.auth.currentUser?.id; // Store initial ID
 
-    print("DEBUG: Showing sign-in modal with direct execution");
+    AppLogger.debug("Showing sign-in modal with direct execution");
     final SignInMethod? chosenMethod = await showModalBottomSheet<SignInMethod>(
       context: context,
       builder: (BuildContext context) {
@@ -85,7 +87,7 @@ class AuthenticationService {
       },
     );
 
-    print("DEBUG: Sign-in modal closed with method: $chosenMethod");
+    AppLogger.debug("Sign-in modal closed with method: $chosenMethod");
 
     if (!context.mounted) return false;
 
@@ -93,17 +95,17 @@ class AuthenticationService {
       bool signInSuccess = false;
       switch (chosenMethod) {
         case SignInMethod.apple:
-          print("DEBUG: Executing Apple sign-in");
+          AppLogger.debug("Executing Apple sign-in");
           await signInWithApple();
           signInSuccess = true;
           break;
         case SignInMethod.google:
-          print("DEBUG: Executing Google sign-in");
+          AppLogger.debug("Executing Google sign-in");
           await signInWithGoogle();
           signInSuccess = true;
           break;
         case SignInMethod.email:
-          print("DEBUG: Executing Email sign-in");
+          AppLogger.debug("Executing Email sign-in");
           if (context.mounted) {
             AuthenticationDialogs.showEmailSignInDialog(
               context,
@@ -114,7 +116,7 @@ class AuthenticationService {
           break;
         case SignInMethod.cancel:
         default:
-          print("DEBUG: Sign-in cancelled");
+          AppLogger.debug("Sign-in cancelled");
           return false;
       }
 
@@ -132,7 +134,7 @@ class AuthenticationService {
       }
       return false;
     } catch (e) {
-      print("DEBUG: Sign-in error: $e");
+      AppLogger.error("Sign-in error", errorObject: e);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(l10n.signInError)),
@@ -145,11 +147,13 @@ class AuthenticationService {
   /// Shows sign-in options and executes the chosen method
   /// Returns true if sign-in was successful, false otherwise
   static Future<bool> showSignInOptionsAndExecute(BuildContext context) async {
-    print("DEBUG: AuthenticationService.showSignInOptionsAndExecute() called");
+    AppLogger.debug(
+        "AuthenticationService.showSignInOptionsAndExecute() called");
     final l10n = AppLocalizations.of(context)!;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    print("DEBUG: Showing second modal bottom sheet for sign-in execution");
+    AppLogger.debug(
+        "DEBUG: Showing second modal bottom sheet for sign-in execution");
     final SignInMethod? chosenMethod = await showModalBottomSheet<SignInMethod>(
       context: context,
       builder: (BuildContext context) {
@@ -326,15 +330,27 @@ class AuthenticationService {
       BuildContext context, String email) async {
     final l10n = AppLocalizations.of(context)!;
 
+    // Validate and sanitize email
+    final String? validatedEmail =
+        InputValidator.validateAndSanitizeEmail(email);
+    if (validatedEmail == null) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Invalid email format')),
+        );
+      }
+      return;
+    }
+
     AuthenticationDialogs.showOTPVerificationDialog(
       context,
-      email,
+      validatedEmail,
       (email, token) => verifyOTP(context, email, token),
     );
 
     try {
       await Supabase.instance.client.auth.signInWithOtp(
-        email: email,
+        email: validatedEmail,
         emailRedirectTo: kIsWeb ? null : 'timercoffee://',
       );
     } catch (e) {
@@ -351,11 +367,14 @@ class AuthenticationService {
   static Future<void> verifyOTP(
       BuildContext context, String email, String token) async {
     final l10n = AppLocalizations.of(context)!;
+
+    // Sanitize email input
+    final sanitizedEmail = InputValidator.sanitizeInput(email);
     Navigator.of(context).pop();
 
     try {
       final AuthResponse res = await Supabase.instance.client.auth.verifyOTP(
-        email: email,
+        email: sanitizedEmail,
         token: token,
         type: OtpType.email,
       );
@@ -390,8 +409,10 @@ class AuthenticationService {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     try {
-      print('DEBUG: syncDataAfterLogin - Initial User ID: $oldUserId');
-      print('DEBUG: syncDataAfterLogin - New User ID: $newUserId');
+      AppLogger.debug(
+          'syncDataAfterLogin - Initial User ID: ${AppLogger.sanitize(oldUserId)}');
+      AppLogger.debug(
+          'syncDataAfterLogin - New User ID: ${AppLogger.sanitize(newUserId)}');
 
       final dbProvider = Provider.of<DatabaseProvider>(context, listen: false);
       final userRecipeProvider =
@@ -404,28 +425,29 @@ class AuthenticationService {
           Provider.of<CoffeeBeansProvider>(context, listen: false);
 
       if (oldUserId != null && oldUserId != newUserId) {
-        print(
-            'DEBUG: User ID changed from $oldUserId to $newUserId. Updating local recipe IDs...');
+        AppLogger.debug(
+            'User ID changed from ${AppLogger.sanitize(oldUserId)} to ${AppLogger.sanitize(newUserId)}. Updating local recipe IDs...');
         // Update local recipe IDs BEFORE calling the edge function or syncing
         await userRecipeProvider.updateUserRecipeIdsAfterLogin(
             oldUserId, newUserId);
 
-        print('DEBUG: Attempting to update user ID via Edge Function...');
+        AppLogger.debug('Attempting to update user ID via Edge Function...');
         // Invoke the Supabase Edge Function to update user ID
         final res = await Supabase.instance.client.functions.invoke(
           'update-id-after-signin',
           body: {'oldUserId': oldUserId, 'newUserId': newUserId},
         );
 
-        print('DEBUG: Edge Function Response: ${res.data}');
+        AppLogger.debug(
+            'Edge Function Response: ${AppLogger.sanitize(res.data)}');
 
         if (res.status != 200) {
           throw Exception('Failed to update user ID: ${res.data}');
         }
 
-        print('DEBUG: User ID updated successfully');
+        AppLogger.debug('User ID updated successfully');
       } else {
-        print('DEBUG: User ID update not required');
+        AppLogger.debug('User ID update not required');
       }
 
       await dbProvider.uploadUserPreferencesToSupabase();
@@ -439,14 +461,14 @@ class AuthenticationService {
 
       // Reload recipes into the provider state after sync
       await recipeProvider.fetchAllRecipes();
-      print('DEBUG: RecipeProvider state refreshed.');
+      AppLogger.debug('RecipeProvider state refreshed.');
 
-      print('DEBUG: Data synchronization completed successfully');
+      AppLogger.debug('Data synchronization completed successfully');
       scaffoldMessenger.showSnackBar(
         SnackBar(content: Text(l10n.syncSuccess)),
       );
     } catch (e) {
-      print('DEBUG: Error syncing user data: $e');
+      AppLogger.error('Error syncing user data', errorObject: e);
       scaffoldMessenger.showSnackBar(
         SnackBar(content: Text("Error syncing data: ${e.toString()}")),
       );

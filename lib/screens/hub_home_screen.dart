@@ -20,6 +20,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import '../providers/user_stat_provider.dart';
 import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
 import '../theme/design_tokens.dart'; // Import design tokens for AppRadius
+import '../utils/app_logger.dart'; // Import AppLogger
 // Added import
 // Import http package
 // Import for RecipeCreationScreen
@@ -60,7 +61,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     final user = Supabase.instance.client.auth.currentUser;
     // No need to call setState here as StreamBuilder handles UI updates
     _initialUserId = user?.id;
-    print('Initial User ID: $_initialUserId');
+    AppLogger.debug('Initial User ID: $_initialUserId');
     if (user != null && !user.isAnonymous) {
       await _updateOneSignalExternalId();
     }
@@ -77,36 +78,36 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       final newUser = Supabase.instance.client.auth.currentUser;
       final newUserId = newUser?.id;
 
-      print('Initial User ID: $_initialUserId');
-      print('New User ID: $newUserId');
+      AppLogger.debug('Initial User ID: $_initialUserId');
+      AppLogger.debug('New User ID: $newUserId');
 
       if (_initialUserId != null &&
           newUserId != null &&
           _initialUserId != newUserId) {
-        print(
+        AppLogger.debug(
             'User ID changed from $_initialUserId to $newUserId. Updating local recipe IDs...');
         // Update local recipe IDs BEFORE calling the edge function or syncing
         await _userRecipeProvider.updateUserRecipeIdsAfterLogin(
             _initialUserId!, newUserId);
 
-        print('Attempting to update user ID via Edge Function...');
+        AppLogger.debug('Attempting to update user ID via Edge Function...');
         // Invoke the Supabase Edge Function to update user ID
         final res = await Supabase.instance.client.functions.invoke(
           'update-id-after-signin',
           body: {'oldUserId': _initialUserId, 'newUserId': newUserId},
         );
 
-        print('Edge Function Response: ${res.data}');
+        AppLogger.debug('Edge Function Response: ${res.data}');
 
         if (res.status != 200) {
           throw Exception('Failed to update user ID: ${res.data}');
         }
 
-        print('User ID updated successfully');
+        AppLogger.info('User ID updated successfully');
         // Update _initialUserId after successful sync/ID change
         _initialUserId = newUserId;
       } else {
-        print('User ID update not required');
+        AppLogger.debug('User ID update not required');
         // Ensure _initialUserId reflects the current user if it was null initially
         if (_initialUserId == null && newUserId != null) {
           _initialUserId = newUserId;
@@ -126,11 +127,11 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
 
       // Reload recipes into the provider state after sync
       await _recipeProvider.fetchAllRecipes();
-      print('RecipeProvider state refreshed.');
+      AppLogger.debug('RecipeProvider state refreshed.');
 
-      print('Data synchronization completed successfully');
+      AppLogger.info('Data synchronization completed successfully');
     } catch (e) {
-      print('Error syncing user data: $e');
+      AppLogger.error('Error syncing user data', errorObject: e);
       // Show an error message to the user
       if (mounted) {
         // Check mounted before showing SnackBar
@@ -176,7 +177,8 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                     onTap: () {
                       final userId =
                           Supabase.instance.client.auth.currentUser?.id;
-                      print('Navigating to AccountRoute with userId: $userId');
+                      AppLogger.debug(
+                          'Navigating to AccountRoute with userId: $userId');
                       if (userId != null) {
                         context.router.push(AccountRoute(userId: userId));
                       }
@@ -370,7 +372,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         );
       }
     } catch (e) {
-      print('Error signing in with Apple: $e');
+      AppLogger.error('Error signing in with Apple', errorObject: e);
       // Check mounted again before showing SnackBar
       if (mounted) {
         scaffoldMessenger.showSnackBar(
@@ -435,7 +437,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         );
       }
     } catch (e) {
-      print('Error signing in with Google: $e');
+      AppLogger.error('Error signing in with Google', errorObject: e);
       // Check mounted again before showing SnackBar
       if (mounted) {
         scaffoldMessenger.showSnackBar(
@@ -557,7 +559,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         emailRedirectTo: 'https://app.timer.coffee/',
       );
     } catch (e) {
-      print('Error sending OTP: $e');
+      AppLogger.error('Error sending OTP', errorObject: e);
       // Check mounted again before showing SnackBar
       if (mounted) {
         scaffoldMessenger.showSnackBar(
@@ -670,7 +672,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         }
       }
     } catch (e) {
-      print('Error verifying OTP: $e');
+      AppLogger.error('Error verifying OTP', errorObject: e);
       // Pop the OTP dialog if it wasn't popped due to an exception before this point
       if (Navigator.canPop(context)) {
         Navigator.of(context).pop();

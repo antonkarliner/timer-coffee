@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../database/database.dart';
 import '../models/recipe_model.dart';
 import '../models/supported_locale_model.dart';
+import '../utils/app_logger.dart'; // Import AppLogger
 
 class RecipeProvider extends ChangeNotifier {
   List<RecipeModel> _recipes = [];
@@ -304,7 +305,7 @@ class RecipeProvider extends ChangeNotifier {
     try {
       return await db.userStatsDao.fetchAllDistinctRoasters();
     } catch (e) {
-      print('Error fetching roasters: $e');
+      AppLogger.error('Error fetching roasters', errorObject: e);
       return [];
     }
   }
@@ -314,7 +315,7 @@ class RecipeProvider extends ChangeNotifier {
     try {
       return await db.userStatsDao.fetchAllDistinctBeans();
     } catch (e) {
-      print('Error fetching beans: $e');
+      AppLogger.error('Error fetching beans', errorObject: e);
       return [];
     }
   }

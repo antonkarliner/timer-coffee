@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:flutter/foundation.dart'
     show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
@@ -49,8 +50,7 @@ class NewBeansImageController {
   // Prefix helps filter in aggregated logs
   // Example: [NewBeansOCR] message
   void _log(String msg) {
-    // ignore: avoid_print
-    print('[NewBeansOCR] $msg');
+    AppLogger.debug('[NewBeansOCR] $msg');
   }
 
   NewBeansImageController({

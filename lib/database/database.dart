@@ -12,6 +12,7 @@ import 'package:coffee_timer/models/beans_stats_models.dart';
 import '../database/schema_versions.dart';
 import 'package:uuid/uuid.dart';
 import 'package:collection/collection.dart';
+import '../utils/app_logger.dart';
 part 'database.g.dart';
 part 'recipes_dao.dart';
 part 'steps_dao.dart';
@@ -634,7 +635,7 @@ class AppDatabase extends _$AppDatabase {
                 await customStatement('COMMIT');
               } catch (e) {
                 await customStatement('ROLLBACK');
-                print('Migration failed: $e');
+                AppLogger.error('[Database] Migration failed', errorObject: e);
                 rethrow;
               }
             },

@@ -21,6 +21,7 @@ import '../providers/user_stat_provider.dart';
 import '../providers/coffee_beans_provider.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/design_tokens.dart';
+import '../utils/app_logger.dart'; // Import AppLogger
 
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
@@ -84,10 +85,11 @@ class _FinishScreenState extends State<FinishScreen> {
             .insert(data)
             .timeout(const Duration(seconds: 3));
       } on TimeoutException catch (e) {
-        print('Supabase request timed out: $e');
+        AppLogger.error('Supabase request timed out', errorObject: e);
         // Optionally, handle the timeout here
       } catch (e) {
-        print('Error inserting brewing data to Supabase: $e');
+        AppLogger.error('Error inserting brewing data to Supabase',
+            errorObject: e);
         // Handle other exceptions as needed
       }
     }
@@ -114,13 +116,14 @@ class _FinishScreenState extends State<FinishScreen> {
           statUuid: statUuid,
           coffeeBeansUuid: coffeeBeansUuid, // Add this line
         );
-        print(
+        AppLogger.debug(
             'Inserted new stat with UUID: $statUuid and Coffee Beans UUID: $coffeeBeansUuid');
       } catch (e) {
-        print("Error inserting brewing data to app database: $e");
+        AppLogger.error("Error inserting brewing data to app database",
+            errorObject: e);
       }
     } else {
-      print('No user signed in');
+      AppLogger.debug('No user signed in');
     }
   }
 
@@ -128,7 +131,7 @@ class _FinishScreenState extends State<FinishScreen> {
     try {
       // Only proceed if we have a valid coffee amount
       if (widget.coffeeAmount <= 0) {
-        print('DEBUG: No coffee amount to subtract from bean weight');
+        AppLogger.debug('No coffee amount to subtract from bean weight');
         return;
       }
 
@@ -137,7 +140,7 @@ class _FinishScreenState extends State<FinishScreen> {
       final coffeeBeansUuid = prefs.getString('selectedBeanUuid');
 
       if (coffeeBeansUuid == null || coffeeBeansUuid.isEmpty) {
-        print('DEBUG: No selected bean UUID found in SharedPreferences');
+        AppLogger.debug('No selected bean UUID found in SharedPreferences');
         return;
       }
 
@@ -152,12 +155,12 @@ class _FinishScreenState extends State<FinishScreen> {
       );
 
       if (newWeight != null) {
-        print('DEBUG: Successfully updated bean weight to ${newWeight}g');
+        AppLogger.debug('Successfully updated bean weight to ${newWeight}g');
       } else {
-        print('DEBUG: Bean weight update failed or was not applicable');
+        AppLogger.debug('Bean weight update failed or was not applicable');
       }
     } catch (e) {
-      print('DEBUG: Error updating bean weight: $e');
+      AppLogger.debug('Error updating bean weight', errorObject: e);
     }
   }
 

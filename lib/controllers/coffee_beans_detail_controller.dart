@@ -7,6 +7,7 @@ import '../models/coffee_beans_model.dart';
 import '../providers/coffee_beans_provider.dart';
 import '../services/roaster_logo_service.dart';
 import '../app_router.gr.dart';
+import '../utils/app_logger.dart';
 
 /// Controller for Coffee Beans Detail Screen responsible for:
 /// - Managing bean data state and loading operations
@@ -241,7 +242,8 @@ class CoffeeBeansDetailController extends ChangeNotifier {
     } catch (error) {
       // Logo loading failures are handled silently
       // The UI will show fallback icons instead
-      debugPrint('Failed to load roaster logos for $roasterName: $error');
+      AppLogger.debug(
+          '[CoffeeBeansDetailController] Failed to load roaster logos for $roasterName: $error');
     }
   }
 
@@ -332,24 +334,30 @@ class CoffeeBeansDetailController extends ChangeNotifier {
     }
 
     try {
-      print('DEBUG: Navigating to edit screen for UUID: ${_bean!.beansUuid}');
+      final sanitizedUuid = AppLogger.sanitize(_bean!.beansUuid);
+      AppLogger.debug(
+          '[CoffeeBeansDetailController] Navigating to edit screen for UUID: $sanitizedUuid');
       final result = await context.router.push(
         NewBeansRoute(uuid: _bean!.beansUuid!),
       );
 
-      print(
-          'DEBUG: Returned from edit screen with result: $result (type: ${result.runtimeType})');
+      final sanitizedResult = AppLogger.sanitize(result);
+      AppLogger.debug(
+          '[CoffeeBeansDetailController] Returned from edit screen with result: $sanitizedResult (type: ${result.runtimeType})');
 
       // Refresh data if the edit was successful
       if (result is String) {
-        print('DEBUG: Result is String, refreshing data...');
+        AppLogger.debug(
+            '[CoffeeBeansDetailController] Result is String, refreshing data...');
         await refreshData(context);
-        print('DEBUG: Data refresh completed');
+        AppLogger.debug('[CoffeeBeansDetailController] Data refresh completed');
       } else {
-        print('DEBUG: Result is not String, skipping refresh. Result: $result');
+        AppLogger.debug(
+            '[CoffeeBeansDetailController] Result is not String, skipping refresh. Result: $sanitizedResult');
       }
     } catch (error) {
-      print('DEBUG: Error in navigateToEdit: $error');
+      AppLogger.error('[CoffeeBeansDetailController] Error in navigateToEdit',
+          errorObject: error);
       _setError('Failed to navigate to edit screen: $error');
     }
   }

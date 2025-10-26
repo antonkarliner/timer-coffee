@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/env/env.dart';
 import 'package:coffee_timer/models/supported_locale_model.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:logging/logging.dart';
 import 'models/brewing_method_model.dart';
 import './providers/recipe_provider.dart';
 import './providers/theme_provider.dart';
@@ -31,12 +33,52 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'notifiers/card_expansion_notifier.dart';
 import './providers/user_stat_provider.dart';
 import './providers/beans_stats_provider.dart';
+import 'package:coffee_timer/utils/app_logger.dart';
+import 'package:coffee_timer/utils/log_config.dart';
+
+/// Custom log handler that intercepts and sanitizes all Supabase library logs
+/// Prevents sensitive data exposure by ensuring all logs go through AppLogger
+class SupabaseLogInterceptor {
+  static bool _isInitialized = false;
+
+  static void initialize() {
+    if (_isInitialized) return; // Prevent multiple initializations
+    _isInitialized = true;
+
+    // Override debugPrint to catch any direct console output from Supabase
+    // This is a targeted approach that doesn't disrupt the logging system
+    if (!LogConfig.isReleaseMode) {
+      // In debug mode, we want to see sanitized logs
+      debugPrint = (String? message, {int? wrapWidth}) {
+        if (message != null && message.contains('supabase')) {
+          final sanitized = AppLogger.sanitize(message);
+          AppLogger.debug('[SUPABASE] ${sanitized}');
+          return; // Don't print the original message
+        }
+        // For non-Supabase messages, let them through normally
+        if (message != null) {
+          AppLogger.debug(message);
+        }
+      };
+    }
+  }
+
+  static void dispose() {
+    _isInitialized = false;
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: WidgetsBinding.instance);
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
+
+  // Initialize Supabase log interceptor FIRST
+  SupabaseLogInterceptor.initialize();
+
+  // Then initialize AppLogger
+  LogConfig.initialize();
 
   if (!kIsWeb) {
     // OneSignal initialization
@@ -147,12 +189,31 @@ void main() async {
     // Mark backfill as completed
     await prefs.setBool('hasPerformedUuidBackfill', true);
   }
-  await databaseProvider.fetchAndInsertUserPreferencesFromSupabase();
-  await userStatProvider.syncNewUserStats();
-  await coffeeBeansProvider.syncNewCoffeeBeans();
+  try {
+    await Future.wait([
+      databaseProvider
+          .fetchAndInsertUserPreferencesFromSupabase()
+          .timeout(const Duration(seconds: 10))
+          .catchError((e) => AppLogger.error('User preferences sync timed out',
+              errorObject: e)),
+      userStatProvider
+          .syncNewUserStats()
+          .timeout(const Duration(seconds: 10))
+          .catchError((e) =>
+              AppLogger.error('User stats sync timed out', errorObject: e)),
+      coffeeBeansProvider
+          .syncNewCoffeeBeans()
+          .timeout(const Duration(seconds: 10))
+          .catchError((e) =>
+              AppLogger.error('Coffee beans sync timed out', errorObject: e)),
+    ]);
+  } catch (e) {
+    AppLogger.error('Error during parallel sync operations', errorObject: e);
+    // Continue app startup even if sync fails
+  }
 
-  debugPrint('Supported locales (effective): $effectiveSupportedLocales');
-  debugPrint('Initial locale chosen: $initialLocale');
+  AppLogger.debug('Supported locales (effective): $effectiveSupportedLocales');
+  AppLogger.debug('Initial locale chosen: $initialLocale');
   runApp(
     CoffeeTimerApp(
       database: database,

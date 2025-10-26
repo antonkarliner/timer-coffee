@@ -3,6 +3,7 @@ import 'dart:math'; // for pi, sin
 import 'dart:ui' as ui;
 import 'dart:typed_data';
 import 'dart:io'; // For file handling
+import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:path_provider/path_provider.dart'; // For temporary directory
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/models/recipe_model.dart';
@@ -1091,7 +1092,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
         });
       }
     } catch (e) {
-      print('Error fetching likes count: $e');
+      AppLogger.error('Error fetching likes count', errorObject: e);
       setState(() {
         _likesCount = 0;
       });
@@ -1117,7 +1118,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
             }
           },
           onError: (error) {
-            print('Error in likes subscription: $error');
+            AppLogger.error('Error in likes subscription', errorObject: error);
           },
         );
   }
@@ -1142,7 +1143,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
         _likesCount -= 1;
       });
 
-      print('Error incrementing likes: $e');
+      AppLogger.error('Error incrementing likes', errorObject: e);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context)!.yearlyStatsFailedToLike),
@@ -1650,7 +1651,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
           backgroundColor: Colors.red,
         ),
       );
-      print('Share progress error: $e');
+      AppLogger.error('Share progress error', errorObject: e);
     }
   }
 }

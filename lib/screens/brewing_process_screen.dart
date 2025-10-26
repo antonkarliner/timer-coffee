@@ -15,6 +15,7 @@ import 'package:vibration/vibration.dart';
 import 'package:vibration/vibration_presets.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:intl/intl.dart' as intl; // Corrected import statement
+import '../utils/app_logger.dart'; // Import AppLogger
 
 class LocalizedNumberText extends StatelessWidget {
   final int currentNumber;
@@ -143,9 +144,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       if (allValues.containsKey(variable)) {
         return allValues[variable]!.toStringAsFixed(2);
       } else {
-        // Using print for simple logging as seen elsewhere in the project
-        print(
-            "Warning: Unrecognized placeholder '${match.group(0)}' in step description. Raw description: '$description'");
+        // Using AppLogger for simple logging
+        AppLogger.warning(
+            "Unrecognized placeholder '${match.group(0)}' in step description. Raw description: '$description'");
         return match.group(0)!; // Keep original placeholder
       }
     });

@@ -183,8 +183,8 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
             where: (tbl) => tbl.id.equals(update.id.value!),
           );
         } else {
-          print(
-              'Warning: Unable to update record. Both statUuid and id are null or not present.');
+          AppLogger.warning(
+              '[UserStatsDao] Unable to update record. Both statUuid and id are null or not present.');
         }
       }
     });
@@ -248,15 +248,16 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       return BatchInsertResult.successful();
     } catch (e) {
       if (e.toString().contains('FOREIGN KEY constraint failed')) {
-        print(
-            'Foreign key constraint failed during batch insert. Stats count: ${stats.length}');
-        print('Error details: ${e.toString()}');
+        AppLogger.error(
+            '[UserStatsDao] Foreign key constraint failed during batch insert. Stats count: ${stats.length}',
+            errorObject: e);
         return BatchInsertResult.failed(stats, e.toString());
       }
       // Re-throw non-foreign-key errors
       rethrow;
     } catch (e) {
-      print('Unexpected error during batch insert: $e');
+      AppLogger.error('[UserStatsDao] Unexpected error during batch insert',
+          errorObject: e);
       return BatchInsertResult.failed(stats, e.toString());
     }
   }
@@ -286,7 +287,8 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
 
       return validationMap;
     } catch (e) {
-      print('Error validating recipe references: $e');
+      AppLogger.error('[UserStatsDao] Error validating recipe references',
+          errorObject: e);
       // Assume all recipes don't exist if validation fails
       return Map.fromEntries(
         uniqueRecipeIds.map((id) => MapEntry(id, false)),
@@ -309,17 +311,22 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       await insertUserStat(stat);
     } catch (e) {
       if (e.toString().contains('FOREIGN KEY constraint failed')) {
-        print(
-            'Foreign key constraint failed for stat ${stat.statUuid}, using fallback recipe');
-        print('Original recipe ID: ${stat.recipeId}');
+        final sanitizedUuid = AppLogger.sanitize(stat.statUuid);
+        final sanitizedRecipeId = AppLogger.sanitize(stat.recipeId);
+        AppLogger.warning(
+            '[UserStatsDao] Foreign key constraint failed for stat $sanitizedUuid, using fallback recipe');
+        AppLogger.debug(
+            '[UserStatsDao] Original recipe ID: $sanitizedRecipeId');
 
         // Try with a fallback recipe reference
         final fallbackStat = createFallbackStat(stat);
         try {
           await insertUserStat(fallbackStat);
-          print('Successfully inserted fallback stat for ${stat.statUuid}');
+          AppLogger.debug(
+              '[UserStatsDao] Successfully inserted fallback stat for $sanitizedUuid');
         } catch (fallbackError) {
-          print('Failed to insert fallback stat: $fallbackError');
+          AppLogger.error('[UserStatsDao] Failed to insert fallback stat',
+              errorObject: fallbackError);
           rethrow;
         }
       } else {

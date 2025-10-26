@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart'; // Added for sync t
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart'; // Ensure Intl is imported if needed for locale logic
 import 'package:coffee_timer/models/launch_popup_model.dart';
+import 'package:coffee_timer/utils/app_logger.dart';
 
 class DatabaseProvider {
   final AppDatabase _db;
@@ -57,7 +58,8 @@ class DatabaseProvider {
         await _initializeDatabaseInternal(
             isFirstLaunch: isFirstLaunch, locale: locale);
       } catch (error) {
-        print('Error initializing database on first launch: $error');
+        AppLogger.error(
+            'Error initializing database on first launch: ${AppLogger.sanitize(error)}');
         // Optionally, handle the error appropriately
       }
     } else {
@@ -68,13 +70,14 @@ class DatabaseProvider {
             .timeout(
           const Duration(seconds: 10),
           onTimeout: () {
-            print('initializeDatabase timed out');
+            AppLogger.warning('initializeDatabase timed out');
             // Proceed with partial data or notify the user
             return;
           },
         );
       } catch (error) {
-        print('Error initializing database: $error');
+        AppLogger.error(
+            'Error initializing database: ${AppLogger.sanitize(error)}');
         // Optionally, handle other errors
       }
     }
@@ -93,7 +96,7 @@ class DatabaseProvider {
       _performDeferredModerationChecks().timeout(
         const Duration(seconds: 5),
         onTimeout: () {
-          print('Deferred moderation checks timed out');
+          AppLogger.warning('Deferred moderation checks timed out');
           return;
         },
       ),
@@ -144,7 +147,8 @@ class DatabaseProvider {
         });
       });
     } catch (error) {
-      print('Error fetching and storing reference data: $error');
+      AppLogger.error(
+          'Error fetching and storing reference data: ${AppLogger.sanitize(error)}');
       // Optionally, handle the error (e.g., provide default data)
     }
   }
@@ -237,7 +241,8 @@ class DatabaseProvider {
         await _syncImportedRecipes(user.id);
       }
     } catch (error) {
-      print('Error fetching and storing recipes: $error');
+      AppLogger.error(
+          'Error fetching and storing recipes: ${AppLogger.sanitize(error)}');
       // Optionally, handle the error
     }
   }
@@ -247,12 +252,13 @@ class DatabaseProvider {
       String userId, Map<String, DateTime> localRecipeIds) async {
     final DateTime syncStartTime = DateTime.now().toUtc();
     final DateTime? lastSyncTime = await _getLastSyncTimestamp();
-    print(
-        'Starting user recipe sync for user $userId. Last sync: ${lastSyncTime?.toIso8601String() ?? 'Never'}');
+    AppLogger.debug(
+        'Starting user recipe sync. Last sync: ${lastSyncTime?.toIso8601String() ?? 'Never'}',
+        errorObject: {'userId': AppLogger.sanitize(userId)});
 
     try {
       // --- UPLOAD ---
-      print('Checking for local recipes to upload...');
+      AppLogger.debug('Checking for local recipes to upload...');
       // Get local user recipes modified since last sync AND not flagged for moderation
       // AND recipes that were newly imported but not yet uploaded.
       final recipesToUpload = await _db.recipesDao
@@ -269,14 +275,18 @@ class DatabaseProvider {
         allRecipesToPotentiallyUpload.putIfAbsent(r.id, () => r);
       }
 
-      print(
+      AppLogger.debug(
           'Found ${allRecipesToPotentiallyUpload.length} local recipes to potentially upload (modified or newly imported).');
 
       for (final recipe in allRecipesToPotentiallyUpload.values) {
         // Double-check ownership (already filtered in DAO, but good practice)
         if (recipe.vendorId != 'usr-$userId') {
-          print(
-              'Skipping upload for recipe ${recipe.id} due to vendor ID mismatch: ${recipe.vendorId}');
+          AppLogger.warning(
+              'Skipping upload for recipe due to vendor ID mismatch',
+              errorObject: {
+                'recipeId': AppLogger.sanitize(recipe.id),
+                'vendorId': AppLogger.sanitize(recipe.vendorId)
+              });
           continue;
         }
 
@@ -290,7 +300,8 @@ class DatabaseProvider {
 
         // Skip if marked deleted remotely
         if (remoteData != null && remoteData['is_deleted'] == true) {
-          print('Skipping upload for recipe ${recipe.id}, deleted remotely.');
+          AppLogger.debug('Skipping upload for recipe, deleted remotely.',
+              errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
           continue;
         }
 
@@ -303,15 +314,17 @@ class DatabaseProvider {
         // 2. It's a newly imported recipe that doesn't exist remotely yet (isFirstUploadForImport)
         if (isFirstUploadForImport ||
             recipesToUpload.any((r) => r.id == recipe.id)) {
-          print(
-              'Uploading recipe ${recipe.id}. Reason: ${isFirstUploadForImport ? "Newly imported" : "Modified locally"}');
+          AppLogger.debug(
+              'Uploading recipe. Reason: ${isFirstUploadForImport ? "Newly imported" : "Modified locally"}',
+              errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
           await _uploadRecipeToSupabase(recipe, userId,
               currentIsPublic: remoteData?['ispublic']);
 
           // // If it was the first upload for an imported recipe, mark isImported as false locally
           // // REMOVED: Keep isImported = true to allow future updates from parent
           // if (isFirstUploadForImport) {
-          //   print('Marking recipe ${recipe.id} as no longer imported locally.');
+          //   AppLogger.debug('Marking recipe as no longer imported locally.',
+          //       errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
           //   await _db.recipesDao.updateRecipe(
           //     recipe.id,
           //     RecipesCompanion(
@@ -323,18 +336,19 @@ class DatabaseProvider {
           // }
         } else if (recipe.isImported == true && remoteData != null) {
           // Exists remotely but wasn't in the 'modified' list - likely already synced or only needs download sync
-          print(
-              'Skipping upload for imported recipe ${recipe.id} - already exists remotely and not modified locally.');
+          AppLogger.debug(
+              'Skipping upload for imported recipe - already exists remotely and not modified locally.',
+              errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
         } else {
           // Wasn't modified locally and wasn't a new import needing upload
-          print(
-              'Skipping upload for recipe ${recipe.id} - not modified locally.');
+          AppLogger.debug('Skipping upload for recipe - not modified locally.',
+              errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
         }
       }
-      print('Finished processing potential uploads.');
+      AppLogger.debug('Finished processing potential uploads.');
 
       // --- HANDLE DELETIONS ---
-      print('Checking for remotely deleted recipes...');
+      AppLogger.debug('Checking for remotely deleted recipes...');
       // Fetch IDs of all remotely deleted recipes for this user, regardless of timestamp
       final deletedResponse = await Supabase.instance.client
           .from('user_recipes')
@@ -353,22 +367,24 @@ class DatabaseProvider {
 
       // Perform local deletions if necessary
       if (idsToDeleteLocally.isNotEmpty) {
-        print(
+        AppLogger.debug(
             'Found ${idsToDeleteLocally.length} recipes to delete locally based on remote status.');
         await _db.transaction(() async {
-          print('Deleting ${idsToDeleteLocally.length} recipes locally...');
+          AppLogger.debug(
+              'Deleting ${idsToDeleteLocally.length} recipes locally...');
           for (final id in idsToDeleteLocally) {
             // Pass false for markDeletedInSupabase as the deletion originated from Supabase.
             await _deleteRecipeFromLocalDb(id, markDeletedInSupabase: false);
           }
-          print('Finished deleting recipes locally.');
+          AppLogger.debug('Finished deleting recipes locally.');
         });
       } else {
-        print('No remotely deleted recipes found that need local deletion.');
+        AppLogger.debug(
+            'No remotely deleted recipes found that need local deletion.');
       }
 
       // --- DOWNLOAD UPDATES/INSERTS ---
-      print('Checking for remote recipe updates/inserts...');
+      AppLogger.debug('Checking for remote recipe updates/inserts...');
       // Build query to get NON-DELETED remote recipes modified since last sync
       var downloadQuery = Supabase.instance.client
           .from('user_recipes')
@@ -382,13 +398,14 @@ class DatabaseProvider {
             downloadQuery.gt('last_modified', lastSyncTime.toIso8601String());
       }
 
-      final downloadResponse = await downloadQuery;
+      final downloadResponse =
+          await downloadQuery.timeout(const Duration(seconds: 3));
 
       if (downloadResponse == null || (downloadResponse as List).isEmpty) {
-        print('No new or updated remote recipes to download/insert.');
+        AppLogger.debug('No new or updated remote recipes to download/insert.');
       } else {
         final remoteRecipesData = downloadResponse as List<dynamic>;
-        print(
+        AppLogger.debug(
             'Found ${remoteRecipesData.length} remote recipes to download/insert.');
 
         final List<RecipesCompanion> recipesToInsertOrUpdate = [];
@@ -401,8 +418,9 @@ class DatabaseProvider {
           // We already filtered is_deleted=false in the query, but double-check just in case
           final isDeletedRemotely = recipeJson['is_deleted'] as bool? ?? false;
           if (isDeletedRemotely) {
-            print(
-                'Skipping unexpectedly deleted recipe in update/insert phase: $recipeId');
+            AppLogger.warning(
+                'Skipping unexpectedly deleted recipe in update/insert phase',
+                errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
             continue;
           }
 
@@ -422,7 +440,8 @@ class DatabaseProvider {
               (remoteLastModified != null &&
                   !remoteLastModified.isAtSameMomentAs(localLastModified) &&
                   remoteLastModified.isAfter(localLastModified))) {
-            print('Processing download/update for recipe: $recipeId');
+            AppLogger.debug('Processing download/update for recipe',
+                errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
             final recipeCompanion =
                 RecipesCompanionExtension.fromUserRecipeJson(recipeJson);
             // Use remote moderation status if available, default to false
@@ -444,14 +463,15 @@ class DatabaseProvider {
           } else {
             // This case should ideally not happen often due to the query filter,
             // but log it if it does.
-            print(
-                'Skipping download for recipe $recipeId (local is same or newer, or timestamp issue).');
+            AppLogger.debug(
+                'Skipping download for recipe (local is same or newer, or timestamp issue)',
+                errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
           }
         }
 
         // Perform batch insert/update in a transaction
         if (recipesToInsertOrUpdate.isNotEmpty) {
-          print(
+          AppLogger.debug(
               'Inserting/Updating ${recipesToInsertOrUpdate.length} downloaded recipes locally...');
           await _db.transaction(() async {
             await _db.batch((batch) {
@@ -463,20 +483,20 @@ class DatabaseProvider {
               batch.insertAllOnConflictUpdate(_db.steps, stepsToInsertOrUpdate);
             });
           });
-          print('Finished inserting/updating downloaded recipes.');
+          AppLogger.debug('Finished inserting/updating downloaded recipes.');
         } else {
-          print(
+          AppLogger.debug(
               'No recipes needed inserting/updating from the downloaded batch.');
         }
       }
 
       // --- Update Last Sync Timestamp ---
       await _setLastSyncTimestamp(syncStartTime);
-      print(
+      AppLogger.debug(
           'User recipe sync completed. Updated last sync time to: ${syncStartTime.toIso8601String()}');
     } catch (e, stacktrace) {
-      print('Error during user recipe sync: $e');
-      print(stacktrace);
+      AppLogger.error('Error during user recipe sync',
+          errorObject: e, stackTrace: stacktrace);
       // Consider not updating the timestamp on error to retry next time
     }
   }
@@ -486,12 +506,13 @@ class DatabaseProvider {
       {bool? currentIsPublic}) async {
     try {
       // Add debug logging
-      print(
-          '🔄 ${DateTime.now().toIso8601String()} - UPLOADING RECIPE TO SUPABASE: ${recipe.id}');
-      print('User ID: $userId');
-      print('Vendor ID from recipe: ${recipe.vendorId}');
-      print(
-          '📝 Recipe moderation status: needs_moderation_review = ${recipe.needsModerationReview}');
+      AppLogger.debug('UPLOADING RECIPE TO SUPABASE', errorObject: {
+        'timestamp': DateTime.now().toIso8601String(),
+        'recipeId': AppLogger.sanitize(recipe.id),
+        'userId': AppLogger.sanitize(userId),
+        'vendorId': AppLogger.sanitize(recipe.vendorId),
+        'needsModerationReview': recipe.needsModerationReview
+      });
       // recipeJson will be logged after it's declared below
 
       // Ensure vendor_id uses the full user ID for RLS
@@ -506,8 +527,9 @@ class DatabaseProvider {
           effectiveIsPublic ? false : (recipe.needsModerationReview == true);
 
       if (recipe.needsModerationReview == true && effectiveIsPublic) {
-        print(
-            '🛡️ Guard: Coercing needs_moderation_review=false for already-public recipe ${recipe.id}');
+        AppLogger.debug(
+            'Guard: Coercing needs_moderation_review=false for already-public recipe',
+            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
       }
 
       // Convert recipe to Supabase format
@@ -531,7 +553,8 @@ class DatabaseProvider {
       };
 
       // Log the full recipe JSON after it's been created
-      print('📝 Full recipe JSON: ${recipeJson.toString()}');
+      AppLogger.debug('Full recipe JSON',
+          errorObject: AppLogger.sanitize(recipeJson));
 
       // --- Explicit Insert/Update Logic ---
       // Check if the recipe already exists remotely
@@ -543,11 +566,13 @@ class DatabaseProvider {
 
       if (existingRecipe == null) {
         // Recipe doesn't exist, perform INSERT
-        print('  Recipe ${recipe.id} not found remotely, performing INSERT.');
+        AppLogger.debug('Recipe not found remotely, performing INSERT',
+            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
         await Supabase.instance.client.from('user_recipes').insert(recipeJson);
       } else {
         // Recipe exists, perform UPDATE
-        print('  Recipe ${recipe.id} found remotely, performing UPDATE.');
+        AppLogger.debug('Recipe found remotely, performing UPDATE',
+            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
         await Supabase.instance.client
             .from('user_recipes')
             .update(recipeJson)
@@ -589,8 +614,11 @@ class DatabaseProvider {
           .from('user_steps')
           .delete()
           .eq('recipe_id', recipe.id);
-      print(
-          'DEBUG: Deleted $deletedStepsCount existing steps for recipe ${recipe.id} before upload.');
+      AppLogger.debug('Deleted existing steps for recipe before upload',
+          errorObject: {
+            'deletedStepsCount': deletedStepsCount,
+            'recipeId': AppLogger.sanitize(recipe.id)
+          });
 
       // Upload steps (Batch Upsert)
       final stepsJsonList = steps
@@ -606,14 +634,19 @@ class DatabaseProvider {
           .toList();
       if (stepsJsonList.isNotEmpty) {
         await Supabase.instance.client.from('user_steps').upsert(stepsJsonList);
-        print(
-            'DEBUG: Uploaded ${stepsJsonList.length} steps for recipe ${recipe.id}.');
+        AppLogger.debug('Uploaded steps for recipe', errorObject: {
+          'stepsCount': stepsJsonList.length,
+          'recipeId': AppLogger.sanitize(recipe.id)
+        });
       }
 
-      print('Successfully uploaded recipe ${recipe.id} and related data.');
+      AppLogger.debug('Successfully uploaded recipe and related data',
+          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
     } catch (e, stacktrace) {
-      print('Error uploading recipe ${recipe.id} to Supabase: $e');
-      print(stacktrace);
+      AppLogger.error('Error uploading recipe to Supabase',
+          errorObject: e, stackTrace: stacktrace);
+      AppLogger.debug('Recipe ID that failed to upload',
+          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
       // Consider how to handle upload errors (e.g., retry later?)
     }
   }
@@ -638,7 +671,8 @@ class DatabaseProvider {
             .eq('id', importId)
             .eq('ispublic', true)
             .eq('is_deleted', false) // Only get non-deleted recipes
-            .maybeSingle();
+            .maybeSingle()
+            .timeout(const Duration(seconds: 3));
 
         if (response == null) {
           // Original recipe not found, not public, or deleted
@@ -654,7 +688,10 @@ class DatabaseProvider {
         // If original is newer than local copy
         if (originalLastModified != null &&
             originalLastModified.isAfter(localLastModified)) {
-          print('Updating local imported recipe ${recipe.id} from $importId');
+          AppLogger.debug('Updating local imported recipe', errorObject: {
+            'recipeId': AppLogger.sanitize(recipe.id),
+            'importId': AppLogger.sanitize(importId)
+          });
           // Update local copy with original's data
           final updatedRecipe = RecipesCompanion(
             id: drift.Value(recipe.id), // Keep local ID
@@ -726,7 +763,7 @@ class DatabaseProvider {
         }
       }
     } catch (e) {
-      print('Error syncing imported recipes: $e');
+      AppLogger.error('Error syncing imported recipes', errorObject: e);
     }
   }
 
@@ -734,7 +771,7 @@ class DatabaseProvider {
   Future<void> syncUserRecipes(String userId) async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print('Skipping user recipe sync for anonymous user.');
+      AppLogger.debug('Skipping user recipe sync for anonymous user.');
       return;
     }
     try {
@@ -742,7 +779,7 @@ class DatabaseProvider {
           await _db.recipesDao.fetchIdsAndLastModifiedDates();
       await _syncUserRecipes(userId, localRecipeIds);
     } catch (e) {
-      print('Error in public syncUserRecipes: $e');
+      AppLogger.error('Error in public syncUserRecipes', errorObject: e);
       // Rethrow or handle as needed
       rethrow;
     }
@@ -752,13 +789,13 @@ class DatabaseProvider {
   Future<void> syncImportedRecipes(String userId) async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print('Skipping imported recipe sync for anonymous user.');
+      AppLogger.debug('Skipping imported recipe sync for anonymous user.');
       return;
     }
     try {
       await _syncImportedRecipes(userId);
     } catch (e) {
-      print('Error in public syncImportedRecipes: $e');
+      AppLogger.error('Error in public syncImportedRecipes', errorObject: e);
       // Rethrow or handle as needed
       rethrow;
     }
@@ -782,10 +819,11 @@ class DatabaseProvider {
         _launchPopupModel = null;
       }
     } on TimeoutException {
-      print('Launch popup fetch timed out. Proceeding without it.');
+      AppLogger.warning('Launch popup fetch timed out. Proceeding without it.');
       _launchPopupModel = null; // Ensure it's null on timeout
     } catch (e) {
-      print('Error fetching and storing remote launch popup: $e');
+      AppLogger.error('Error fetching and storing remote launch popup',
+          errorObject: e);
       _launchPopupModel = null; // Ensure it's null on error
     }
   }
@@ -819,7 +857,8 @@ class DatabaseProvider {
         });
       });
     } catch (error) {
-      print('Error fetching and storing extra data: $error');
+      AppLogger.error('Error fetching and storing extra data',
+          errorObject: AppLogger.sanitize(error));
       // Optionally, handle the error
     }
   }
@@ -836,7 +875,8 @@ class DatabaseProvider {
         .lte('created_at', endUtc.toIso8601String())
         .gte('water_amount', 50) // Filter out impossibly low values (< 50ml)
         .lte('water_amount',
-            5000); // Filter out impossibly high values (> 5000ml)
+            5000) // Filter out impossibly high values (> 5000ml)
+        .timeout(const Duration(seconds: 5));
     final data = response as List<dynamic>;
     return data.fold<double>(
         0.0, (sum, element) => sum + element['water_amount'] / 1000);
@@ -853,7 +893,8 @@ class DatabaseProvider {
         .lte('created_at', endUtc.toIso8601String())
         .gte('water_amount', 50) // Filter out impossibly low values (< 50ml)
         .lte('water_amount',
-            5000); // Filter out impossibly high values (> 5000ml)
+            5000) // Filter out impossibly high values (> 5000ml)
+        .timeout(const Duration(seconds: 5));
 
     // Aggregate counts of recipe_id
     final Map<String, int> recipeCounts = {};
@@ -879,11 +920,12 @@ class DatabaseProvider {
       final data = response as List<dynamic>;
       return data.map((e) => e['country_name'] as String).toList();
     } on TimeoutException catch (e) {
-      print('Supabase request timed out: $e');
+      AppLogger.warning('Supabase request timed out', errorObject: e);
       // Return an empty list or handle the timeout as needed
       return [];
     } catch (error) {
-      print('Error fetching countries: $error');
+      AppLogger.error('Error fetching countries',
+          errorObject: AppLogger.sanitize(error));
       return [];
     }
   }
@@ -899,11 +941,12 @@ class DatabaseProvider {
       final data = response as List<dynamic>;
       return data.map((e) => e['descriptor_name'] as String).toList();
     } on TimeoutException catch (e) {
-      print('Supabase request timed out: $e');
+      AppLogger.warning('Supabase request timed out', errorObject: e);
       // Return an empty list or handle the timeout as needed
       return [];
     } catch (error) {
-      print('Error fetching tasting notes: $error');
+      AppLogger.error('Error fetching tasting notes',
+          errorObject: AppLogger.sanitize(error));
       return [];
     }
   }
@@ -919,11 +962,12 @@ class DatabaseProvider {
       final data = response as List<dynamic>;
       return data.map((e) => e['method_name'] as String).toList();
     } on TimeoutException catch (e) {
-      print('Supabase request timed out: $e');
+      AppLogger.warning('Supabase request timed out', errorObject: e);
       // Return an empty list or handle the timeout as needed
       return [];
     } catch (error) {
-      print('Error fetching processing methods: $error');
+      AppLogger.error('Error fetching processing methods',
+          errorObject: AppLogger.sanitize(error));
       return [];
     }
   }
@@ -938,11 +982,12 @@ class DatabaseProvider {
       final data = response as List<dynamic>;
       return data.map((e) => e['roaster_name'] as String).toList();
     } on TimeoutException catch (e) {
-      print('Supabase request timed out: $e');
+      AppLogger.warning('Supabase request timed out', errorObject: e);
       // Return an empty list or handle the timeout as needed
       return [];
     } catch (error) {
-      print('Error fetching roasters: $error');
+      AppLogger.error('Error fetching roasters',
+          errorObject: AppLogger.sanitize(error));
       return [];
     }
   }
@@ -989,10 +1034,12 @@ class DatabaseProvider {
         };
       }
 
-      print('No matching data found for roaster: $roasterName');
+      AppLogger.debug('No matching data found for roaster',
+          errorObject: {'roasterName': AppLogger.sanitize(roasterName)});
       return {'original': null, 'mirror': null};
     } catch (error) {
-      print('Exception fetching roaster logo URLs: $error');
+      AppLogger.error('Exception fetching roaster logo URLs',
+          errorObject: AppLogger.sanitize(error));
       return {'original': null, 'mirror': null};
     }
   }
@@ -1000,7 +1047,7 @@ class DatabaseProvider {
   Future<void> uploadUserPreferencesToSupabase() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print('No user logged in or user is anonymous');
+      AppLogger.debug('No user logged in or user is anonymous');
       return;
     }
 
@@ -1025,9 +1072,10 @@ class DatabaseProvider {
           .from('user_recipe_preferences')
           .upsert(preferencesData);
 
-      print('Successfully uploaded ${preferencesData.length} preferences');
+      AppLogger.debug('Successfully uploaded preferences',
+          errorObject: {'count': preferencesData.length});
     } catch (e) {
-      print('Error uploading preferences: $e');
+      AppLogger.error('Error uploading preferences', errorObject: e);
       // You might want to handle this error more gracefully,
       // perhaps by showing a message to the user or implementing a retry mechanism
     }
@@ -1044,7 +1092,7 @@ class DatabaseProvider {
   }) async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print('No user logged in or user is anonymous');
+      AppLogger.debug('No user logged in or user is anonymous');
       return;
     }
 
@@ -1070,12 +1118,12 @@ class DatabaseProvider {
           .from('user_recipe_preferences')
           .upsert(data)
           .timeout(const Duration(seconds: 2));
-      print('Preference updated successfully');
+      AppLogger.debug('Preference updated successfully');
     } on TimeoutException catch (e) {
-      print('Supabase request timed out: $e');
+      AppLogger.warning('Supabase request timed out', errorObject: e);
       // Optionally, handle the timeout, e.g., by retrying or queuing the request
     } catch (e) {
-      print('Error updating preference: $e');
+      AppLogger.error('Error updating preference', errorObject: e);
       // Handle other exceptions as needed
     }
   }
@@ -1083,17 +1131,21 @@ class DatabaseProvider {
   // Fetch minimal metadata for a public user recipe
   Future<Map<String, dynamic>?> getPublicUserRecipeMetadata(
       String recipeId) async {
-    print('DEBUG: getPublicUserRecipeMetadata called for recipeId: $recipeId');
-    print(
-        'DEBUG: Current user: ${Supabase.instance.client.auth.currentUser?.id ?? "Not logged in"}');
+    AppLogger.debug('getPublicUserRecipeMetadata called', errorObject: {
+      'recipeId': AppLogger.sanitize(recipeId),
+      'currentUser': AppLogger.sanitize(
+          Supabase.instance.client.auth.currentUser?.id ?? "Not logged in")
+    });
 
     try {
       // Step 1: Fetch basic recipe data (without name)
-      print('DEBUG: Executing Supabase query (Step 1 - Recipe):');
-      print('DEBUG: FROM: user_recipes');
-      print('DEBUG: SELECT: id, last_modified'); // Select only existing columns
-      print(
-          'DEBUG: WHERE: id = $recipeId AND ispublic = true AND is_deleted = false');
+      AppLogger.debug('Executing Supabase query (Step 1 - Recipe)',
+          errorObject: {
+            'table': 'user_recipes',
+            'select': 'id, last_modified',
+            'where':
+                'id = ${AppLogger.sanitize(recipeId)} AND ispublic = true AND is_deleted = false'
+          });
 
       final recipeResponse = await Supabase.instance.client
           .from('user_recipes')
@@ -1105,10 +1157,11 @@ class DatabaseProvider {
           .timeout(const Duration(seconds: 2));
 
       if (recipeResponse == null) {
-        print('DEBUG: No public, non-deleted recipe found for id: $recipeId');
+        AppLogger.debug('No public, non-deleted recipe found for id',
+            errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
         // Optional: Check if it exists but isn't public/deleted
-        print(
-            'DEBUG: Checking if recipe exists at all (ignoring public/deleted flags)...');
+        AppLogger.debug(
+            'Checking if recipe exists at all (ignoring public/deleted flags)...');
         final checkResponse = await Supabase.instance.client
             .from('user_recipes')
             .select('id, ispublic, is_deleted')
@@ -1116,22 +1169,27 @@ class DatabaseProvider {
             .maybeSingle()
             .timeout(const Duration(seconds: 2));
         if (checkResponse != null) {
-          print(
-              'DEBUG: Recipe exists but with flags: ispublic=${checkResponse['ispublic']}, is_deleted=${checkResponse['is_deleted']}');
+          AppLogger.debug('Recipe exists but with flags', errorObject: {
+            'ispublic': checkResponse['ispublic'],
+            'is_deleted': checkResponse['is_deleted']
+          });
         } else {
-          print('DEBUG: Recipe does not exist at all');
+          AppLogger.debug('Recipe does not exist at all');
         }
         return null; // Recipe not found or not accessible
       }
 
-      print('DEBUG: Basic recipe metadata found: ${recipeResponse.toString()}');
+      AppLogger.debug('Basic recipe metadata found',
+          errorObject: AppLogger.sanitize(recipeResponse));
 
       // Step 2: Fetch the name from localizations
-      print('DEBUG: Executing Supabase query (Step 2 - Localization Name):');
-      print('DEBUG: FROM: user_recipe_localizations');
-      print('DEBUG: SELECT: name');
-      print('DEBUG: WHERE: recipe_id = $recipeId');
-      print('DEBUG: LIMIT: 1');
+      AppLogger.debug('Executing Supabase query (Step 2 - Localization Name)',
+          errorObject: {
+            'table': 'user_recipe_localizations',
+            'select': 'name',
+            'where': 'recipe_id = ${AppLogger.sanitize(recipeId)}',
+            'limit': 1
+          });
 
       final localizationResponse = await Supabase.instance.client
           .from('user_recipe_localizations')
@@ -1145,10 +1203,11 @@ class DatabaseProvider {
       if (localizationResponse != null &&
           localizationResponse['name'] != null) {
         recipeName = localizationResponse['name'];
-        print('DEBUG: Found recipe name: $recipeName');
+        AppLogger.debug('Found recipe name',
+            errorObject: {'recipeName': AppLogger.sanitize(recipeName)});
       } else {
-        print(
-            'DEBUG: No localization found for recipe $recipeId, using default name.');
+        AppLogger.debug('No localization found for recipe, using default name',
+            errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
       }
 
       // Step 3: Combine results
@@ -1157,17 +1216,23 @@ class DatabaseProvider {
         'name': recipeName, // Add the fetched or default name
       };
 
-      print('DEBUG: Combined metadata: ${combinedMetadata.toString()}');
+      AppLogger.debug('Combined metadata',
+          errorObject: AppLogger.sanitize(combinedMetadata));
       return combinedMetadata;
     } on TimeoutException {
-      print('DEBUG: TIMEOUT fetching metadata for recipe $recipeId');
+      AppLogger.warning('TIMEOUT fetching metadata for recipe',
+          errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
       return null;
     } catch (e) {
-      print('DEBUG: ERROR fetching metadata for recipe $recipeId: $e');
+      AppLogger.error('ERROR fetching metadata for recipe', errorObject: e);
+      AppLogger.debug('Recipe ID that had error',
+          errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
       if (e is PostgrestException) {
-        print("DEBUG: Postgrest error code: ${e.code}");
-        print("DEBUG: Postgrest error message: ${e.message}");
-        print("DEBUG: Postgrest error details: ${e.details}");
+        AppLogger.error('Postgrest error details', errorObject: {
+          'code': e.code,
+          'message': e.message,
+          'details': e.details
+        });
       }
       return null;
     }
@@ -1176,17 +1241,19 @@ class DatabaseProvider {
   // Fetch full data for a public user recipe
   Future<Map<String, dynamic>?> fetchFullPublicUserRecipeData(
       String recipeId) async {
-    print(
-        'DEBUG: fetchFullPublicUserRecipeData called for recipeId: $recipeId');
-    print(
-        'DEBUG: Current user: ${Supabase.instance.client.auth.currentUser?.id ?? "Not logged in"}');
+    AppLogger.debug('fetchFullPublicUserRecipeData called', errorObject: {
+      'recipeId': AppLogger.sanitize(recipeId),
+      'currentUser': AppLogger.sanitize(
+          Supabase.instance.client.auth.currentUser?.id ?? "Not logged in")
+    });
 
     try {
-      print('DEBUG: Executing Supabase query:');
-      print('DEBUG: FROM: user_recipes');
-      print('DEBUG: SELECT: *, user_recipe_localizations(*), user_steps(*)');
-      print(
-          'DEBUG: WHERE: id = $recipeId AND ispublic = true AND is_deleted = false');
+      AppLogger.debug('Executing Supabase query', errorObject: {
+        'table': 'user_recipes',
+        'select': '*, user_recipe_localizations(*), user_steps(*)',
+        'where':
+            'id = ${AppLogger.sanitize(recipeId)} AND ispublic = true AND is_deleted = false'
+      });
 
       final response = await Supabase.instance.client
           .from('user_recipes')
@@ -1198,23 +1265,28 @@ class DatabaseProvider {
           .timeout(const Duration(seconds: 2));
 
       if (response != null) {
-        print('DEBUG: Recipe found with id: $recipeId');
-        print(
-            'DEBUG: Recipe data: ${response.toString().substring(0, math.min(200, response.toString().length))}...');
-        print(
-            'DEBUG: Localizations count: ${(response['user_recipe_localizations'] as List?)?.length ?? 0}');
-        print(
-            'DEBUG: Steps count: ${(response['user_steps'] as List?)?.length ?? 0}');
+        AppLogger.debug('Recipe found with id', errorObject: {
+          'recipeId': AppLogger.sanitize(recipeId),
+          'dataPreview': AppLogger.sanitize(response
+              .toString()
+              .substring(0, math.min(200, response.toString().length))),
+          'localizationsCount':
+              (response['user_recipe_localizations'] as List?)?.length ?? 0,
+          'stepsCount': (response['user_steps'] as List?)?.length ?? 0
+        });
 
         // Check if localizations and steps are empty
         if ((response['user_recipe_localizations'] as List?)?.isEmpty ?? true) {
-          print('DEBUG: WARNING - No localizations found for recipe $recipeId');
+          AppLogger.warning('WARNING - No localizations found for recipe',
+              errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
         }
         if ((response['user_steps'] as List?)?.isEmpty ?? true) {
-          print('DEBUG: WARNING - No steps found for recipe $recipeId');
+          AppLogger.warning('WARNING - No steps found for recipe',
+              errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
         }
       } else {
-        print('DEBUG: No recipe found for id: $recipeId');
+        AppLogger.debug('No recipe found for id',
+            errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
 
         // Check if recipe exists but isn't public
         final checkResponse = await Supabase.instance.client
@@ -1225,11 +1297,13 @@ class DatabaseProvider {
             .timeout(const Duration(seconds: 2));
 
         if (checkResponse != null) {
-          print(
-              'DEBUG: Recipe exists but with flags: ispublic=${checkResponse['ispublic']}, is_deleted=${checkResponse['is_deleted']}');
+          AppLogger.debug('Recipe exists but with flags', errorObject: {
+            'ispublic': checkResponse['ispublic'],
+            'is_deleted': checkResponse['is_deleted']
+          });
 
           // Check if related data exists
-          print('DEBUG: Checking if localizations exist...');
+          AppLogger.debug('Checking if localizations exist...');
           final localizationsResponse = await Supabase.instance.client
               .from('user_recipe_localizations')
               .select('id, recipe_id')
@@ -1238,9 +1312,10 @@ class DatabaseProvider {
               .maybeSingle()
               .timeout(const Duration(seconds: 2));
 
-          print('DEBUG: Localizations exist: ${localizationsResponse != null}');
+          AppLogger.debug('Localizations exist',
+              errorObject: {'exist': localizationsResponse != null});
 
-          print('DEBUG: Checking if steps exist...');
+          AppLogger.debug('Checking if steps exist...');
           final stepsResponse = await Supabase.instance.client
               .from('user_steps')
               .select('id, recipe_id')
@@ -1249,19 +1324,24 @@ class DatabaseProvider {
               .maybeSingle()
               .timeout(const Duration(seconds: 2));
 
-          print('DEBUG: Steps exist: ${stepsResponse != null}');
+          AppLogger.debug('Steps exist',
+              errorObject: {'exist': stepsResponse != null});
         } else {
-          print('DEBUG: Recipe does not exist at all');
+          AppLogger.debug('Recipe does not exist at all');
         }
       }
 
       return response;
     } on TimeoutException {
-      print('DEBUG: TIMEOUT fetching full data for recipe $recipeId');
+      AppLogger.warning('TIMEOUT fetching full data for recipe',
+          errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
       return null;
     } catch (e) {
-      print('DEBUG: ERROR fetching full data for recipe $recipeId: $e');
-      print('DEBUG: Error details: ${e.toString()}');
+      AppLogger.error('ERROR fetching full data for recipe', errorObject: {
+        'error': e,
+        'recipeId': AppLogger.sanitize(recipeId),
+        'errorDetails': AppLogger.sanitize(e.toString())
+      });
       return null;
     }
   }
@@ -1282,9 +1362,14 @@ class DatabaseProvider {
               'last_modified': DateTime.now().toUtc().toIso8601String()
             }) // Also update timestamp
                 .eq('id', recipeId);
-            print('Marked recipe $recipeId as deleted and private in Supabase');
+            AppLogger.debug('Marked recipe as deleted and private in Supabase',
+                errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
           } catch (e) {
-            print('Error marking recipe $recipeId as deleted in Supabase: $e');
+            AppLogger.error('Error marking recipe as deleted in Supabase',
+                errorObject: {
+                  'error': e,
+                  'recipeId': AppLogger.sanitize(recipeId)
+                });
             // Decide if we should proceed with local deletion despite Supabase error
           }
         }
@@ -1292,16 +1377,21 @@ class DatabaseProvider {
 
       // Delete from local database (this should handle related data via cascades or DAO logic)
       await _db.recipesDao.deleteRecipe(recipeId);
-      print('Deleted recipe $recipeId from local database');
+      AppLogger.debug('Deleted recipe from local database',
+          errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
     } catch (error) {
-      print('Error deleting recipe $recipeId from local database: $error');
+      AppLogger.error('Error deleting recipe from local database',
+          errorObject: {
+            'error': AppLogger.sanitize(error),
+            'recipeId': AppLogger.sanitize(recipeId)
+          });
     }
   }
 
   Future<void> fetchAndInsertUserPreferencesFromSupabase() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print('No user logged in or user is anonymous');
+      AppLogger.debug('No user logged in or user is anonymous');
       return;
     }
 
@@ -1317,7 +1407,7 @@ class DatabaseProvider {
             try {
               return UserRecipePreferencesCompanionExtension.fromJson(json);
             } catch (e) {
-              print('Error parsing preference: $e');
+              AppLogger.error('Error parsing preference', errorObject: e);
               return null;
             }
           })
@@ -1329,7 +1419,7 @@ class DatabaseProvider {
           preferences.map((p) => p.recipeId.value).whereType<String>().toSet();
 
       if (fetchedRecipeIds.isEmpty) {
-        print(
+        AppLogger.debug(
             'No preferences to insert (no recipe ids found in fetched prefs).');
         return;
       }
@@ -1359,23 +1449,30 @@ class DatabaseProvider {
             .map((p) => p.recipeId.value)
             .take(10)
             .toList();
-        print(
-            'Skipped $skippedCount preference(s) because referenced recipe_id not present locally. Sample skipped ids: $skippedIds');
+        AppLogger.debug(
+            'Skipped preferences because referenced recipe_id not present locally',
+            errorObject: {
+              'skippedCount': skippedCount,
+              'sampleSkippedIds': AppLogger.sanitize(skippedIds)
+            });
       }
 
       if (filteredPreferences.isNotEmpty) {
         await _db.userRecipePreferencesDao
             .insertOrUpdateMultiplePreferences(filteredPreferences);
-        print(
-            'Successfully fetched and inserted ${filteredPreferences.length} preferences (filtered)');
+        AppLogger.debug(
+            'Successfully fetched and inserted preferences (filtered)',
+            errorObject: {'count': filteredPreferences.length});
       } else {
-        print('No preferences inserted after filtering - nothing to do.');
+        AppLogger.debug(
+            'No preferences inserted after filtering - nothing to do.');
       }
     } on TimeoutException catch (e) {
-      print('Supabase request timed out: $e');
+      AppLogger.warning('Supabase request timed out', errorObject: e);
       // Optionally, handle the timeout here
     } catch (e) {
-      print('Error fetching and inserting preferences: $e');
+      AppLogger.error('Error fetching and inserting preferences',
+          errorObject: e);
     }
   }
 
@@ -1383,7 +1480,7 @@ class DatabaseProvider {
   Future<void> _performDeferredModerationChecks() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print('Skipping deferred moderation check for anonymous user.');
+      AppLogger.debug('Skipping deferred moderation check for anonymous user.');
       return;
     }
 
@@ -1392,21 +1489,22 @@ class DatabaseProvider {
     // Check only once per day (adjust duration as needed)
     if (lastCheckTime != null &&
         now.difference(lastCheckTime) < const Duration(hours: 24)) {
-      print(
+      AppLogger.debug(
           'Skipping deferred moderation check, last check was at ${lastCheckTime.toIso8601String()}');
       return;
     }
 
-    print('Performing deferred moderation checks...');
+    AppLogger.debug('Performing deferred moderation checks...');
     final recipesToCheck = await _db.recipesDao.getRecipesNeedingModeration();
     if (recipesToCheck.isEmpty) {
-      print('No recipes found needing deferred moderation check.');
+      AppLogger.debug('No recipes found needing deferred moderation check.');
       await _setLastDeferredModerationCheckTimestamp(
           now); // Update check time even if none found
       return;
     }
 
-    print('Found ${recipesToCheck.length} recipes needing moderation check.');
+    AppLogger.debug('Found recipes needing moderation check',
+        errorObject: {'count': recipesToCheck.length});
     int passedCount = 0;
     int failedCount = 0;
 
@@ -1414,7 +1512,8 @@ class DatabaseProvider {
       // Verify ownership again just in case
       if (recipe.vendorId != 'usr-${user.id}') continue;
 
-      print('Checking recipe: ${recipe.id}');
+      AppLogger.debug('Checking recipe',
+          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
       // Fetch full local data (steps, localizations) needed for combinedText
       final localizations =
           await _db.recipeLocalizationsDao.getLocalizationsForRecipe(recipe.id);
@@ -1442,29 +1541,36 @@ class DatabaseProvider {
 
           if (moderationResponse.status != 200 ||
               moderationResponse.data == null) {
-            print(
-                "Deferred Moderation Error (Function Call): Recipe ${recipe.id}");
+            AppLogger.error("Deferred Moderation Error (Function Call)",
+                errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
             moderationPassed = false; // Treat function error as failure
           } else {
             final moderationResult =
                 moderationResponse.data as Map<String, dynamic>;
             if (moderationResult['safe'] != true) {
-              print(
-                  "Deferred Moderation Failed (Content Flagged): Recipe ${recipe.id}. Reason: ${moderationResult['reason']}");
+              AppLogger.warning("Deferred Moderation Failed (Content Flagged)",
+                  errorObject: {
+                    'recipeId': AppLogger.sanitize(recipe.id),
+                    'reason': AppLogger.sanitize(moderationResult['reason'])
+                  });
               moderationPassed = false;
             } else {
-              print("Deferred Moderation Passed: Recipe ${recipe.id}");
+              AppLogger.debug("Deferred Moderation Passed",
+                  errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
               moderationPassed = true;
             }
           }
         } catch (e) {
-          print(
-              "Deferred Moderation Error (Exception): Recipe ${recipe.id}. Error: $e");
+          AppLogger.error("Deferred Moderation Error (Exception)",
+              errorObject: {
+                'error': e,
+                'recipeId': AppLogger.sanitize(recipe.id)
+              });
           moderationPassed = false; // Treat exceptions as failure
         }
       } else {
-        print(
-            "Deferred Moderation Skipped (No Text): Recipe ${recipe.id}, assuming pass.");
+        AppLogger.debug("Deferred Moderation Skipped (No Text), assuming pass",
+            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
         moderationPassed = true; // No text, allow it
       }
 
@@ -1479,10 +1585,11 @@ class DatabaseProvider {
             'needs_moderation_review': false,
             'last_modified': DateTime.now().toUtc().toIso8601String()
           }).eq('id', recipe.id);
-          print(
-              'Updated moderation status in Supabase for recipe: ${recipe.id}');
+          AppLogger.debug('Updated moderation status in Supabase for recipe',
+              errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
         } catch (e) {
-          print('Warning: Failed to update moderation status in Supabase: $e');
+          AppLogger.warning('Failed to update moderation status in Supabase',
+              errorObject: e);
           // Don't fail the whole process for this
         }
       }
@@ -1496,8 +1603,11 @@ class DatabaseProvider {
 
     // Update the last check timestamp after processing all recipes
     await _setLastDeferredModerationCheckTimestamp(now);
-    print(
-        'Deferred moderation checks complete. Passed: $passedCount, Failed: $failedCount. Updated last check time.');
+    AppLogger.debug('Deferred moderation checks complete', errorObject: {
+      'passed': passedCount,
+      'failed': failedCount,
+      'message': 'Updated last check time'
+    });
   }
   // --- End Deferred Moderation Check ---
 
@@ -1527,7 +1637,8 @@ class DatabaseProvider {
 
       // If no profile exists, create a default one
       if (existingProfile == null) {
-        print('No profile found for user $userId. Creating default profile.');
+        AppLogger.debug('No profile found for user. Creating default profile.',
+            errorObject: {'userId': AppLogger.sanitize(userId)});
         const defaultAvatarUrl =
             'https://mprokbemdullwezwwscn.supabase.co/storage/v1/object/public/user-profile-pictures//avatar_default.webp';
         // Format default display name as User-<first 5 chars of ID>
@@ -1537,13 +1648,17 @@ class DatabaseProvider {
           'display_name': defaultDisplayName,
           'profile_picture_url': defaultAvatarUrl,
         });
-        print(
-            'Default profile created for user $userId with name $defaultDisplayName.');
+        AppLogger.debug('Default profile created for user', errorObject: {
+          'userId': AppLogger.sanitize(userId),
+          'displayName': AppLogger.sanitize(defaultDisplayName)
+        });
       } else {
-        print('Profile already exists for user $userId.');
+        AppLogger.debug('Profile already exists for user.',
+            errorObject: {'userId': AppLogger.sanitize(userId)});
       }
     } catch (e) {
-      print('Error ensuring user profile exists for $userId: $e');
+      AppLogger.error('Error ensuring user profile exists',
+          errorObject: {'error': e, 'userId': AppLogger.sanitize(userId)});
       // Handle error appropriately, maybe rethrow or log
     }
   }

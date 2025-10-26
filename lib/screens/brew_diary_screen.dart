@@ -18,6 +18,7 @@ import '../widgets/confirm_delete_dialog.dart';
 import '../models/coffee_beans_model.dart';
 import '../widgets/roaster_logo.dart';
 import '../theme/design_tokens.dart';
+import '../utils/app_logger.dart'; // Import AppLogger
 
 @RoutePage()
 class BrewDiaryScreen extends StatefulWidget {
@@ -653,9 +654,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                           ),
                                         ),
                                         onPressed: () async {
-                                          print(
+                                          AppLogger.debug(
                                               'Remove beans button pressed for stat: ${stat.statUuid}');
-                                          print(
+                                          AppLogger.debug(
                                               'Current coffeeBeansUuid: ${stat.coffeeBeansUuid}');
 
                                           // Add weight back to beans before removing the reference
@@ -707,7 +708,8 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                             statUuid: stat.statUuid,
                                             clearBeans: true,
                                           );
-                                          print('updateUserStat called');
+                                          AppLogger.debug(
+                                              'updateUserStat called');
                                         },
                                         child: Text(
                                           loc.removeBeans,

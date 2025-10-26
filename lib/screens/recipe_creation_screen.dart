@@ -18,6 +18,7 @@ import '../widgets/recipe_creation/recipe_steps_form.dart';
 import '../services/recipe_expression_service.dart';
 import '../services/recipe_save_service.dart';
 import '../widgets/unsaved_changes_dialog.dart';
+import '../utils/app_logger.dart'; // Import AppLogger
 
 @RoutePage()
 class RecipeCreationScreen extends StatefulWidget {
@@ -382,7 +383,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         });
       }
     } catch (e) {
-      print("Error in _saveRecipe: $e");
+      AppLogger.error("Error in _saveRecipe", errorObject: e);
       if (mounted) {
         scaffoldMessenger.showSnackBar(
           SnackBar(

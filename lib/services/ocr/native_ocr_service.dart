@@ -1,14 +1,7 @@
 import 'dart:io';
 import 'package:flutter_native_ocr/flutter_native_ocr.dart';
 import 'package:coffee_timer/services/ocr/ocr_service.dart';
-
-// Centralized console logging for this service
-// Prefix helps filter in aggregated logs
-// Example: [NativeOCR] message
-void _log(String msg) {
-  // ignore: avoid_print
-  print('[NativeOCR] $msg');
-}
+import 'package:coffee_timer/utils/app_logger.dart';
 
 /// Native on-device OCR backed by:
 /// - iOS: Apple Vision
@@ -25,19 +18,23 @@ class NativeOcrService implements OcrService {
   @override
   Future<String> recognizeText(File imageFile) async {
     try {
-      _log('Attempting OCR for ${imageFile.path.split('/').last}');
+      final fileName = AppLogger.sanitize(imageFile.path.split('/').last);
+      AppLogger.debug('[NativeOCR] Attempting OCR for $fileName');
       final String text = await _ocr.recognizeText(imageFile.path);
       // Normalize line endings and trim extra whitespace.
       final cleanedText = text.replaceAll('\r\n', '\n').trim();
-      _log(
-          'OCR successful for ${imageFile.path.split('/').last}. Chars: ${cleanedText.length}');
+      AppLogger.debug(
+          '[NativeOCR] OCR successful for $fileName. Chars: ${cleanedText.length}');
       return cleanedText;
     } on UnsupportedError {
-      _log(
-          'OCR not supported on this platform for ${imageFile.path.split('/').last}.');
+      final fileName = AppLogger.sanitize(imageFile.path.split('/').last);
+      AppLogger.warning(
+          '[NativeOCR] OCR not supported on this platform for $fileName');
       return '';
     } catch (e, st) {
-      _log('OCR failed for ${imageFile.path.split('/').last}: $e\n$st');
+      final fileName = AppLogger.sanitize(imageFile.path.split('/').last);
+      AppLogger.error('[NativeOCR] OCR failed for $fileName',
+          errorObject: e, stackTrace: st);
       return '';
     }
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/widgets/recipe_detail/unpublish_recipe_dialog.dart';
+import '../../utils/app_logger.dart'; // Import AppLogger
 
 /// Stateless actions row for the Recipe Detail AppBar.
 /// All business logic is delegated to callbacks; this file contains only UI.
@@ -36,8 +37,8 @@ class RecipeDetailAppBarActions extends StatelessWidget {
 
     // Add privacy icon for user recipes (usr-)
     if (isUserRecipe && idForActions.startsWith('usr-')) {
-      print(
-          'DEBUG: RecipeDetailAppBarActions - id: $idForActions, isPublic: $isPublic');
+      AppLogger.debug(
+          'RecipeDetailAppBarActions - id: $idForActions, isPublic: $isPublic');
       actions.add(
         IconButton(
           icon: Icon(isPublic ? Icons.visibility : Icons.visibility_off),

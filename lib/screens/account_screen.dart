@@ -17,6 +17,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart'; // For sign out
 import '../app_router.gr.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/confirm_delete_dialog.dart';
+import '../utils/app_logger.dart'; // Import AppLogger
 
 // --- Top-level function for image processing in isolate ---
 Future<Uint8List> _processImageIsolate(Uint8List imageBytes) async {
@@ -119,7 +120,7 @@ class _AccountScreenState extends State<AccountScreen> {
         _profilePictureUrl = prefs.getString('user_profile_picture_url');
       }
     } catch (e) {
-      print("Error loading profile: $e");
+      AppLogger.error("Error loading profile", errorObject: e);
       // Load from SharedPreferences on error (only for current user)
       _displayName = prefs.getString('user_display_name');
       _profilePictureUrl = prefs.getString('user_profile_picture_url');
@@ -211,14 +212,15 @@ class _AccountScreenState extends State<AccountScreen> {
 
     try {
       // 1. Moderation Check
-      print("Calling content moderation for display name...");
+      AppLogger.debug("Calling content moderation for display name...");
       final moderationResponse = await supabase.functions.invoke(
         'content-moderation-gemini',
         body: {'text': newName},
       );
 
-      print("Moderation response status: ${moderationResponse.status}");
-      print("Moderation response data: ${moderationResponse.data}");
+      AppLogger.debug(
+          "Moderation response status: ${moderationResponse.status}");
+      AppLogger.debug("Moderation response data: ${moderationResponse.data}");
 
       if (moderationResponse.status != 200 || moderationResponse.data == null) {
         throw Exception(l10n.moderationErrorFunction); // Use localization
@@ -230,7 +232,7 @@ class _AccountScreenState extends State<AccountScreen> {
             l10n.moderationReasonDefault; // Use localization
         throw Exception(l10n.moderationFailedBody(reason)); // Use localization
       }
-      print("Moderation passed for display name.");
+      AppLogger.debug("Moderation passed for display name.");
 
       // 2. Update Supabase
       await supabase
@@ -251,7 +253,7 @@ class _AccountScreenState extends State<AccountScreen> {
             content: Text(l10n.displayNameUpdateSuccess))); // Use localization
       }
     } catch (e) {
-      print("Error updating display name: $e");
+      AppLogger.error("Error updating display name", errorObject: e);
       if (mounted) {
         scaffoldMessenger.showSnackBar(SnackBar(
             content: Text(l10n
@@ -307,7 +309,7 @@ class _AccountScreenState extends State<AccountScreen> {
       // Process and upload
       await _processAndUploadImage(croppedFile);
     } catch (e) {
-      print("Error picking/cropping image: $e");
+      AppLogger.error("Error picking/cropping image", errorObject: e);
       if (mounted) {
         scaffoldMessenger.showSnackBar(SnackBar(
             content: Text(
@@ -344,14 +346,15 @@ class _AccountScreenState extends State<AccountScreen> {
       final String base64Image = base64Encode(jpgBytes);
 
       // Moderation Check
-      print("Calling content moderation for profile picture...");
+      AppLogger.debug("Calling content moderation for profile picture...");
       final moderationResponse = await supabase.functions.invoke(
         'content-moderation-gemini',
         body: {'imageBase64': base64Image}, // Send base64 image
       );
 
-      print("Moderation response status: ${moderationResponse.status}");
-      print("Moderation response data: ${moderationResponse.data}");
+      AppLogger.debug(
+          "Moderation response status: ${moderationResponse.status}");
+      AppLogger.debug("Moderation response data: ${moderationResponse.data}");
 
       if (moderationResponse.status != 200 || moderationResponse.data == null) {
         throw Exception(l10n.moderationErrorFunction); // Use localization
@@ -363,7 +366,7 @@ class _AccountScreenState extends State<AccountScreen> {
             l10n.moderationReasonDefault; // Use localization
         throw Exception(l10n.moderationFailedBody(reason)); // Use localization
       }
-      print("Moderation passed for profile picture.");
+      AppLogger.debug("Moderation passed for profile picture.");
 
       // Upload JPG bytes to Supabase Storage
       final imagePath = '$userId'; // Use user ID as file name
@@ -405,7 +408,7 @@ class _AccountScreenState extends State<AccountScreen> {
             content: Text(l10n.updatePictureSuccess))); // Use localization
       }
     } catch (e) {
-      print("Error processing/uploading image: $e");
+      AppLogger.error("Error processing/uploading image", errorObject: e);
       if (mounted) {
         scaffoldMessenger.showSnackBar(SnackBar(
             content: Text(
@@ -482,7 +485,7 @@ class _AccountScreenState extends State<AccountScreen> {
             content: Text(l10n.deletePictureSuccess))); // Use localization
       }
     } catch (e) {
-      print("Error deleting picture: $e");
+      AppLogger.error("Error deleting picture", errorObject: e);
       if (mounted) {
         scaffoldMessenger.showSnackBar(SnackBar(
             content: Text(
@@ -520,7 +523,8 @@ class _AccountScreenState extends State<AccountScreen> {
         await prefs.remove('user_profile_picture_user_id');
       } catch (e) {
         // Ignore SharedPreferences errors, sign-out should still proceed
-        print('Error clearing profile cache on sign out: $e');
+        AppLogger.error('Error clearing profile cache on sign out',
+            errorObject: e);
       }
 
       // Sign back in anonymously
@@ -529,7 +533,7 @@ class _AccountScreenState extends State<AccountScreen> {
       // Navigate back to the root or home screen after sign out
       router.popUntilRoot(); // Or specific route like HomeRoute()
     } catch (e) {
-      print('Error signing out: $e');
+      AppLogger.error('Error signing out', errorObject: e);
       if (mounted) {
         scaffoldMessenger.showSnackBar(
           SnackBar(

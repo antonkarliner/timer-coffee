@@ -10,6 +10,7 @@ import '../utils/icon_utils.dart';
 import '../providers/user_recipe_provider.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart'; // Added import
 import '../widgets/confirm_delete_dialog.dart';
+import '../utils/app_logger.dart'; // Import AppLogger
 
 @RoutePage()
 class RecipeListScreen extends StatefulWidget {
@@ -165,7 +166,8 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                     }
                   } catch (e) {
                     // If any exception occurs during the process, log it and fall back
-                    print('Error sorting user recipes: $e');
+                    AppLogger.error('Error sorting user recipes',
+                        errorObject: e);
                   }
 
                   // Fall back to string comparison of the entire ID

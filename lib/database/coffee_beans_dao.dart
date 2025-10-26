@@ -200,7 +200,8 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
           tbl.id.equals(id) &
           tbl.isDeleted.equals(false)); // Exclude deleted beans
     final beans = await query.getSingleOrNull();
-    print('Query result for ID $id: $beans');
+    AppLogger.debug(
+        '[CoffeeBeansDao] Query result for ID $id: ${AppLogger.sanitize(beans)}');
     if (beans == null) return null;
     return _coffeeBeansFromRow(beans);
   }
@@ -215,22 +216,29 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<void> updateCoffeeBeans(CoffeeBeansModel beans) async {
-    print('DEBUG: DAO updateCoffeeBeans called for UUID: ${beans.beansUuid}');
-    print(
-        'DEBUG: Updating with data - Name: ${beans.name}, Roaster: ${beans.roaster}');
+    final sanitizedUuid = AppLogger.sanitize(beans.beansUuid);
+    final sanitizedName = AppLogger.sanitize(beans.name);
+    final sanitizedRoaster = AppLogger.sanitize(beans.roaster);
+    AppLogger.debug(
+        '[CoffeeBeansDao] DAO updateCoffeeBeans called for UUID: $sanitizedUuid');
+    AppLogger.debug(
+        '[CoffeeBeansDao] Updating with data - Name: $sanitizedName, Roaster: $sanitizedRoaster');
 
     try {
       final rowsAffected = await (update(coffeeBeans)
             ..where((tbl) => tbl.beansUuid.equals(beans.beansUuid)))
           .write(_coffeeBeansToCompanion(beans));
 
-      print('DEBUG: Database update completed. Rows affected: $rowsAffected');
+      AppLogger.debug(
+          '[CoffeeBeansDao] Database update completed. Rows affected: $rowsAffected');
 
       if (rowsAffected == 0) {
-        print('DEBUG: WARNING - No rows were updated! Bean may not exist.');
+        AppLogger.warning(
+            '[CoffeeBeansDao] WARNING - No rows were updated! Bean may not exist.');
       }
     } catch (e) {
-      print('DEBUG: ERROR in DAO updateCoffeeBeans: $e');
+      AppLogger.error('[CoffeeBeansDao] ERROR in DAO updateCoffeeBeans',
+          errorObject: e);
       throw e;
     }
   }

@@ -5,6 +5,7 @@ import 'package:drift/drift.dart' as drift;
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../utils/app_logger.dart';
 
 class UserRecipeProvider with ChangeNotifier {
   List<RecipeModel> _userRecipes = [];
@@ -29,8 +30,8 @@ class UserRecipeProvider with ChangeNotifier {
     );
 
     // Add debug logging
-    print(
-        'Creating user recipe with vendor_id: ${recipeWithVendorId.vendorId}');
+    AppLogger.debug(
+        'Creating user recipe with vendor_id: ${AppLogger.sanitize(recipeWithVendorId.vendorId)}');
 
     // Wrap database operations in a transaction
     await _database.transaction(() async {
@@ -88,7 +89,7 @@ class UserRecipeProvider with ChangeNotifier {
   Future<void> updateUserRecipe(RecipeModel recipe) async {
     // Locale-agnostic policy for user recipes: canonicalize to 'en' on write
     const String effectiveLocale = 'en';
-    print(
+    AppLogger.debug(
         "UserRecipeProvider.updateUserRecipe: using canonical effectiveLocale = '$effectiveLocale'");
 
     // Get current user from Supabase for authentication check
@@ -101,13 +102,13 @@ class UserRecipeProvider with ChangeNotifier {
     final bool isBecomingPublic = existingRecipe != null &&
         existingRecipe.isPublic == false &&
         recipe.isPublic == true;
-    print(
-        'DEBUG: Recipe ${recipe.id} is becoming public: $isBecomingPublic (existing: ${existingRecipe?.isPublic}, new: ${recipe.isPublic})');
+    AppLogger.debug(
+        'DEBUG: Recipe ${AppLogger.sanitize(recipe.id)} is becoming public: $isBecomingPublic (existing: ${existingRecipe?.isPublic}, new: ${recipe.isPublic})');
 
     // Safety log: moderation flag transition
     if (isBecomingPublic && existingRecipe != null) {
-      print(
-          'SAFETY_LOG: Recipe ${recipe.id} becoming public (first time) - setting moderation flag to false');
+      AppLogger.security(
+          'Recipe ${AppLogger.sanitize(recipe.id)} becoming public (first time) - setting moderation flag to false');
     }
 
     final recipeCompanion = RecipesCompanion(
@@ -162,7 +163,7 @@ class UserRecipeProvider with ChangeNotifier {
         await _database.recipeLocalizationsDao
             .deleteLocalizationsForRecipe(recipe.id);
       } catch (e) {
-        print("Error deleting localizations: $e");
+        AppLogger.error("Error deleting localizations", errorObject: e);
       }
 
       // Then create a new localization entry using the canonical locale 'en'.
@@ -191,18 +192,18 @@ class UserRecipeProvider with ChangeNotifier {
     try {
       await _database.recipesDao.deleteRecipe(recipeId);
     } catch (e) {
-      print("Error deleting recipe: $e");
+      AppLogger.error("Error deleting recipe", errorObject: e);
     }
     try {
       await _database.recipeLocalizationsDao
           .deleteLocalizationsForRecipe(recipeId);
     } catch (e) {
-      print("Error deleting localizations: $e");
+      AppLogger.error("Error deleting localizations", errorObject: e);
     }
     try {
       await _database.stepsDao.deleteStepsForRecipe(recipeId);
     } catch (e) {
-      print("Error deleting steps: $e");
+      AppLogger.error("Error deleting steps", errorObject: e);
     }
 
     // Mark as deleted in Supabase if it's a user recipe and the user is not anonymous
@@ -212,8 +213,8 @@ class UserRecipeProvider with ChangeNotifier {
         // Only perform remote cleanup if user is logged in and not anonymous
         if (user != null && !user.isAnonymous) {
           final userId = user.id;
-          print(
-              'Performing remote cleanup for recipe $recipeId for user $userId...');
+          AppLogger.debug(
+              'Performing remote cleanup for recipe ${AppLogger.sanitize(recipeId)} for user ${AppLogger.sanitize(userId)}...');
 
           // 1. Clean up user_stats (mark as deleted)
           try {
@@ -224,10 +225,12 @@ class UserRecipeProvider with ChangeNotifier {
               'user_id': userId,
               'recipe_id': recipeId,
             });
-            print('Marked related user_stats as deleted for recipe $recipeId.');
+            AppLogger.debug(
+                'Marked related user_stats as deleted for recipe ${AppLogger.sanitize(recipeId)}.');
           } catch (e) {
-            print(
-                "Error marking related user_stats as deleted for recipe $recipeId: $e");
+            AppLogger.error(
+                "Error marking related user_stats as deleted for recipe ${AppLogger.sanitize(recipeId)}",
+                errorObject: e);
             // Decide if we should continue or abort
           }
 
@@ -240,11 +243,12 @@ class UserRecipeProvider with ChangeNotifier {
               'user_id': userId,
               'recipe_id': recipeId,
             });
-            print(
-                'Deleted related user_recipe_preferences for recipe $recipeId.');
+            AppLogger.debug(
+                'Deleted related user_recipe_preferences for recipe ${AppLogger.sanitize(recipeId)}.');
           } catch (e) {
-            print(
-                "Error deleting related user_recipe_preferences for recipe $recipeId: $e");
+            AppLogger.error(
+                "Error deleting related user_recipe_preferences for recipe ${AppLogger.sanitize(recipeId)}",
+                errorObject: e);
             // Decide if we should continue or abort
           }
 
@@ -257,18 +261,21 @@ class UserRecipeProvider with ChangeNotifier {
                   .toUtc()
                   .toIso8601String() // Also update timestamp
             }).eq('id', recipeId);
-            print(
-                'Marked recipe $recipeId as deleted and private in Supabase.');
+            AppLogger.debug(
+                'Marked recipe ${AppLogger.sanitize(recipeId)} as deleted and private in Supabase.');
           } catch (e) {
             // This was the original catch block, keep it for the main recipe deletion error
-            print("Error marking recipe $recipeId as deleted in Supabase: $e");
+            AppLogger.error(
+                "Error marking recipe ${AppLogger.sanitize(recipeId)} as deleted in Supabase",
+                errorObject: e);
           }
         } else {
-          print(
+          AppLogger.debug(
               'Skipping Supabase remote cleanup/delete for anonymous user or no user.');
         }
       } catch (e) {
-        print("Error marking recipe as deleted in Supabase: $e");
+        AppLogger.error("Error marking recipe as deleted in Supabase",
+            errorObject: e);
       }
     }
 
@@ -305,13 +312,17 @@ class UserRecipeProvider with ChangeNotifier {
           'ispublic': false,
           'last_modified': DateTime.now().toUtc().toIso8601String()
         }).eq('id', recipeId);
-        print('Successfully unpublished recipe $recipeId in Supabase.');
+        AppLogger.debug(
+            'Successfully unpublished recipe ${AppLogger.sanitize(recipeId)} in Supabase.');
       } catch (e) {
-        print("Error unpublishing recipe $recipeId in Supabase: $e");
+        AppLogger.error(
+            "Error unpublishing recipe ${AppLogger.sanitize(recipeId)} in Supabase",
+            errorObject: e);
         // Local update still succeeded, so don't rethrow
       }
     } else {
-      print('Skipping Supabase update for unpublish - user not authenticated');
+      AppLogger.debug(
+          'Skipping Supabase update for unpublish - user not authenticated');
     }
 
     // Update local state
@@ -412,7 +423,7 @@ class UserRecipeProvider with ChangeNotifier {
       notifyListeners(); // Notify that user recipes might have changed
       return newRecipeId; // Return the ID of the created recipe
     } catch (e) {
-      print("Error copying recipe: $e");
+      AppLogger.error("Error copying recipe", errorObject: e);
       // rethrow; // Don't rethrow, return null to indicate failure
       return null;
     }
@@ -423,7 +434,7 @@ class UserRecipeProvider with ChangeNotifier {
       Map<String, dynamic> supabaseRecipeData) async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null) {
-      print("User not logged in, cannot import recipe.");
+      AppLogger.warning("User not logged in, cannot import recipe.");
       return null; // Or throw an exception
     }
 
@@ -514,11 +525,14 @@ class UserRecipeProvider with ChangeNotifier {
         );
       });
 
-      print("Recipe imported successfully with new ID: $newLocalRecipeId");
+      AppLogger.debug(
+          "Recipe imported successfully with new ID: ${AppLogger.sanitize(newLocalRecipeId)}");
       notifyListeners(); // Notify UI about potential changes
       return newLocalRecipeId;
     } catch (e) {
-      print("Error importing recipe $originalSupabaseId: $e");
+      AppLogger.error(
+          "Error importing recipe ${AppLogger.sanitize(originalSupabaseId)}",
+          errorObject: e);
       return null;
     }
   }
@@ -532,8 +546,8 @@ class UserRecipeProvider with ChangeNotifier {
 
   Future<void> updateUserRecipeIdsAfterLogin(
       String oldUserId, String newUserId) async {
-    print(
-        'Attempting to update recipe IDs from anonymous user $oldUserId to $newUserId');
+    AppLogger.debug(
+        'Attempting to update recipe IDs from anonymous user ${AppLogger.sanitize(oldUserId)} to ${AppLogger.sanitize(newUserId)}');
     final oldVendorId = 'usr-$oldUserId';
     // Make sure to use the full user ID to match the RLS policy
     final newVendorId = 'usr-$newUserId';
@@ -545,23 +559,28 @@ class UserRecipeProvider with ChangeNotifier {
               ..where((tbl) => tbl.vendorId.equals(oldVendorId)))
             .get();
 
-        print('Found ${userRecipesToUpdate.length} recipes to update.');
+        AppLogger.debug(
+            'Found ${userRecipesToUpdate.length} recipes to update.');
 
         for (final recipe in userRecipesToUpdate) {
           final oldRecipeId = recipe.id;
-          print('Processing recipe with old ID: $oldRecipeId');
+          AppLogger.debug(
+              'Processing recipe with old ID: ${AppLogger.sanitize(oldRecipeId)}');
 
           // Extract timestamp part from the old ID
           final idParts = oldRecipeId.split('-');
           if (idParts.length != 3 || idParts[0] != 'usr') {
-            print('Skipping invalid recipe ID format: $oldRecipeId');
+            AppLogger.warning(
+                'Skipping invalid recipe ID format: ${AppLogger.sanitize(oldRecipeId)}');
             continue; // Skip if the ID format is unexpected
           }
           final timestampPart = idParts[2];
           final newRecipeId = 'usr-$newUserId-$timestampPart';
 
-          print('  New Recipe ID: $newRecipeId');
-          print('  New Vendor ID: $newVendorId');
+          AppLogger.debug(
+              '  New Recipe ID: ${AppLogger.sanitize(newRecipeId)}');
+          AppLogger.debug(
+              '  New Vendor ID: ${AppLogger.sanitize(newVendorId)}');
 
           // 1. Update RecipeLocalizations table
           final updatedLocalizationsCount =
@@ -570,8 +589,8 @@ class UserRecipeProvider with ChangeNotifier {
                   .write(RecipeLocalizationsCompanion(
             recipeId: drift.Value(newRecipeId),
           ));
-          print(
-              '  Updated $updatedLocalizationsCount localizations for recipe $oldRecipeId');
+          AppLogger.debug(
+              '  Updated $updatedLocalizationsCount localizations for recipe ${AppLogger.sanitize(oldRecipeId)}');
 
           // 2. Update Steps table
           final updatedStepsCount = await (_database.update(_database.steps)
@@ -579,7 +598,8 @@ class UserRecipeProvider with ChangeNotifier {
               .write(StepsCompanion(
             recipeId: drift.Value(newRecipeId),
           ));
-          print('  Updated $updatedStepsCount steps for recipe $oldRecipeId');
+          AppLogger.debug(
+              '  Updated $updatedStepsCount steps for recipe ${AppLogger.sanitize(oldRecipeId)}');
 
           // 3. Update Recipes table (update ID and vendorId)
           // IMPORTANT: Update the recipe ID *last* to avoid foreign key constraint issues
@@ -592,21 +612,22 @@ class UserRecipeProvider with ChangeNotifier {
             vendorId: drift.Value(newVendorId),
             lastModified: drift.Value(DateTime.now().toUtc()), // Use UTC time
           ));
-          print(
-              '  Updated $updatedRecipesCount recipe entry from $oldRecipeId to $newRecipeId');
+          AppLogger.debug(
+              '  Updated $updatedRecipesCount recipe entry from ${AppLogger.sanitize(oldRecipeId)} to ${AppLogger.sanitize(newRecipeId)}');
 
           if (updatedRecipesCount == 0) {
-            print(
-                'Warning: Recipe with ID $oldRecipeId not found for final update step.');
+            AppLogger.warning(
+                'Warning: Recipe with ID ${AppLogger.sanitize(oldRecipeId)} not found for final update step.');
           }
         }
       });
-      print(
-          'Completed updating recipe IDs from anonymous user $oldUserId to $newUserId');
+      AppLogger.debug(
+          'Completed updating recipe IDs from anonymous user ${AppLogger.sanitize(oldUserId)} to ${AppLogger.sanitize(newUserId)}');
       // Optionally reload recipes if needed, though sync might handle this
       // await loadUserRecipes();
     } catch (e) {
-      print('Error updating user recipe IDs after login: $e');
+      AppLogger.error('Error updating user recipe IDs after login',
+          errorObject: e);
       // Consider re-throwing or handling the error more gracefully
     }
   }
@@ -624,11 +645,14 @@ class UserRecipeProvider with ChangeNotifier {
               ..where((tbl) => tbl.id.equals(recipeId)))
             .write(updateCompanion);
       });
-      print('Cleared import status for recipe $recipeId');
+      AppLogger.debug(
+          'Cleared import status for recipe ${AppLogger.sanitize(recipeId)}');
       // Optionally, update local state if needed, though a full refresh might be better
       // notifyListeners();
     } catch (e) {
-      print('Error clearing import status for recipe $recipeId: $e');
+      AppLogger.error(
+          'Error clearing import status for recipe ${AppLogger.sanitize(recipeId)}',
+          errorObject: e);
       // Rethrow or handle as needed
       rethrow;
     }
@@ -638,7 +662,8 @@ class UserRecipeProvider with ChangeNotifier {
   Future<String?> getUserRecipeName(String recipeId) async {
     if (!recipeId.startsWith('usr-')) {
       // This method is only intended for user recipes
-      print("Warning: getUserRecipeName called for non-user recipe: $recipeId");
+      AppLogger.warning(
+          "Warning: getUserRecipeName called for non-user recipe: ${AppLogger.sanitize(recipeId)}");
       return null; // Or throw an error
     }
     try {
@@ -651,7 +676,9 @@ class UserRecipeProvider with ChangeNotifier {
 
       return localization?.name;
     } catch (e) {
-      print("Error fetching name for user recipe $recipeId: $e");
+      AppLogger.error(
+          "Error fetching name for user recipe ${AppLogger.sanitize(recipeId)}",
+          errorObject: e);
       return null; // Return null on error
     }
   }
@@ -660,14 +687,14 @@ class UserRecipeProvider with ChangeNotifier {
   Future<void> checkModerationAfterLogin() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print(
+      AppLogger.debug(
           'DEBUG: Skipping post-login moderation check - user not authenticated or anonymous');
       return;
     }
 
     try {
-      print(
-          'DEBUG: Performing post-login moderation check for user: ${user.id}');
+      AppLogger.debug(
+          'DEBUG: Performing post-login moderation check for user: ${AppLogger.sanitize(user.id)}');
 
       // Clean up any existing incorrect moderation flags for unpublished recipes
       await clearModerationFlagsForUnpublishedRecipes();
@@ -675,13 +702,14 @@ class UserRecipeProvider with ChangeNotifier {
       // Check for recipes that need moderation
       final recipesNeedingModeration =
           await _database.recipesDao.getRecipesNeedingModeration();
-      print(
+      AppLogger.debug(
           'DEBUG: Found ${recipesNeedingModeration.length} recipes needing moderation after login');
 
       // The actual popup display will be handled by the UI layer (HomeScreen)
       // This method just ensures the data is clean and up-to-date
     } catch (e) {
-      print('ERROR: Failed to perform post-login moderation check: $e');
+      AppLogger.error('ERROR: Failed to perform post-login moderation check',
+          errorObject: e);
       // Don't throw - this is a background operation
     }
   }
@@ -690,7 +718,7 @@ class UserRecipeProvider with ChangeNotifier {
   Future<int> clearModerationFlagsForUnpublishedRecipes() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print(
+      AppLogger.debug(
           'DEBUG: Skipping moderation cleanup - user not authenticated or anonymous');
       return 0;
     }
@@ -707,14 +735,14 @@ class UserRecipeProvider with ChangeNotifier {
           .get();
 
       if (unpublishedRecipes.isEmpty) {
-        print(
-            'DEBUG: No unpublished recipes with moderation flags found for user ${user.id}');
+        AppLogger.debug(
+            'DEBUG: No unpublished recipes with moderation flags found for user ${AppLogger.sanitize(user.id)}');
         return 0;
       }
 
       final recipeIds = unpublishedRecipes.map((r) => r.id).toList();
-      print(
-          'DEBUG: Clearing moderation flags for ${recipeIds.length} unpublished recipes: $recipeIds');
+      AppLogger.debug(
+          'DEBUG: Clearing moderation flags for ${recipeIds.length} unpublished recipes: ${AppLogger.sanitize(recipeIds.toString())}');
 
       int clearedCount = 0;
       for (final recipeId in recipeIds) {
@@ -722,12 +750,13 @@ class UserRecipeProvider with ChangeNotifier {
         clearedCount++;
       }
 
-      print(
+      AppLogger.debug(
           'DEBUG: Successfully cleared moderation flags for $clearedCount unpublished recipes');
       return clearedCount;
     } catch (e) {
-      print(
-          'ERROR: Failed to clear moderation flags for unpublished recipes: $e');
+      AppLogger.error(
+          'ERROR: Failed to clear moderation flags for unpublished recipes',
+          errorObject: e);
       return 0;
     }
   }

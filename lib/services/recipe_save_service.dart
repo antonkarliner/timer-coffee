@@ -11,6 +11,7 @@ import '../providers/recipe_provider.dart';
 import '../providers/database_provider.dart';
 import '../database/database.dart';
 import '../app_router.gr.dart';
+import '../utils/app_logger.dart';
 
 class RecipeSaveService {
   static Future<void> save(
@@ -38,7 +39,8 @@ class RecipeSaveService {
         recipeId.startsWith('usr-') &&
         currentUser != null &&
         !currentUser.isAnonymous) {
-      print("Checking if recipe $recipeId is public...");
+      AppLogger.debug(
+          "Checking if recipe ${AppLogger.sanitize(recipeId)} is public...");
       try {
         final response = await Supabase.instance.client
             .from('user_recipes')
@@ -48,7 +50,8 @@ class RecipeSaveService {
             .timeout(const Duration(seconds: 2));
 
         if (response != null && response['ispublic'] == true) {
-          print("Recipe $recipeId is public. Moderation check required.");
+          AppLogger.debug(
+              "Recipe ${AppLogger.sanitize(recipeId)} is public. Moderation check required.");
           requiresModeration = true;
 
           String combinedText = "";
@@ -61,10 +64,11 @@ class RecipeSaveService {
           combinedText = combinedText.trim();
 
           if (combinedText.isEmpty) {
-            print("Warning: No text content found for moderation.");
+            AppLogger.warning("Warning: No text content found for moderation.");
             moderationPassed = true;
           } else {
-            print("Calling content moderation for recipe $recipeId update...");
+            AppLogger.debug(
+                "Calling content moderation for recipe ${AppLogger.sanitize(recipeId)} update...");
             try {
               final moderationResponse =
                   await Supabase.instance.client.functions.invoke(
@@ -74,8 +78,8 @@ class RecipeSaveService {
 
               if (moderationResponse.status != 200 ||
                   moderationResponse.data == null) {
-                print(
-                    "Moderation Error (Function Call): Recipe $recipeId. Status: ${moderationResponse.status}");
+                AppLogger.error(
+                    "Moderation Error (Function Call): Recipe ${AppLogger.sanitize(recipeId)}. Status: ${moderationResponse.status}");
                 moderationPassed = false;
               } else {
                 final moderationResult =
@@ -83,52 +87,59 @@ class RecipeSaveService {
                 if (moderationResult['safe'] != true) {
                   moderationFailureReason = moderationResult['reason'] ??
                       "Content flagged for review.";
-                  print(
-                      "Moderation Failed (Content Flagged): Recipe $recipeId. Reason: $moderationFailureReason");
+                  AppLogger.warning(
+                      "Moderation Failed (Content Flagged): Recipe ${AppLogger.sanitize(recipeId)}. Reason: ${AppLogger.sanitize(moderationFailureReason)}");
                   moderationPassed = false;
                 } else {
-                  print("Moderation Passed: Recipe $recipeId");
+                  AppLogger.debug(
+                      "Moderation Passed: Recipe ${AppLogger.sanitize(recipeId)}");
                   moderationPassed = true;
                 }
               }
             } on TimeoutException {
-              print("Moderation check timed out for recipe $recipeId.");
+              AppLogger.warning(
+                  "Moderation check timed out for recipe ${AppLogger.sanitize(recipeId)}.");
               supabaseCheckFailed = true;
               moderationPassed = false;
             } catch (e) {
-              print("Moderation check failed with error: $e");
+              AppLogger.error(
+                  "Moderation check failed with error: ${AppLogger.sanitize(e)}");
               supabaseCheckFailed = true;
               moderationPassed = false;
             }
           }
         } else {
-          print(
-              "Recipe $recipeId is not public or not found. No moderation needed.");
+          AppLogger.debug(
+              "Recipe ${AppLogger.sanitize(recipeId)} is not public or not found. No moderation needed.");
           moderationPassed = true;
         }
       } on TimeoutException {
-        print("Checking public status timed out for recipe $recipeId.");
+        AppLogger.warning(
+            "Checking public status timed out for recipe ${AppLogger.sanitize(recipeId)}.");
         supabaseCheckFailed = true;
         moderationPassed = false;
         requiresModeration = true;
       } catch (e) {
-        print("Error checking public status for recipe $recipeId: $e");
+        AppLogger.error(
+            "Error checking public status for recipe ${AppLogger.sanitize(recipeId)}: ${AppLogger.sanitize(e)}");
         supabaseCheckFailed = true;
         moderationPassed = false;
         requiresModeration = true;
       }
     }
 
-    print("Saving recipe locally: $recipeId");
+    AppLogger.debug("Saving recipe locally: ${AppLogger.sanitize(recipeId)}");
     if (isUpdate) {
       await userRecipeProvider.updateUserRecipe(recipeData);
     } else {
       await userRecipeProvider.createUserRecipe(recipeData);
     }
-    print("Local save complete for recipe: $recipeId");
+    AppLogger.debug(
+        "Local save complete for recipe: ${AppLogger.sanitize(recipeId)}");
 
     if (requiresModeration && moderationPassed && !supabaseCheckFailed) {
-      print("Clearing needs_moderation_review flag for $recipeId");
+      AppLogger.debug(
+          "Clearing needs_moderation_review flag for ${AppLogger.sanitize(recipeId)}");
       await dbProvider.clearNeedsModerationReview(recipeId);
     }
 
@@ -155,22 +166,27 @@ class RecipeSaveService {
     }
 
     if (currentUser != null && !currentUser.isAnonymous) {
-      print("Syncing recipe to Supabase immediately: $recipeId");
+      AppLogger.debug(
+          "Syncing recipe to Supabase immediately: ${AppLogger.sanitize(recipeId)}");
       try {
         await dbProvider
             .syncUserRecipes(currentUser.id)
             .timeout(const Duration(seconds: 2), onTimeout: () {
-          print("Immediate sync timed out, will sync on next app start");
+          AppLogger.warning(
+              "Immediate sync timed out, will sync on next app start");
           return;
         });
-        print("Immediate sync completed for recipe: $recipeId");
+        AppLogger.debug(
+            "Immediate sync completed for recipe: ${AppLogger.sanitize(recipeId)}");
       } catch (e) {
-        print("Error during immediate sync: $e");
+        AppLogger.error(
+            "Error during immediate sync: ${AppLogger.sanitize(e)}");
       }
     }
 
     if (context.mounted) {
-      print("Navigating after save for recipe: $recipeId");
+      AppLogger.debug(
+          "Navigating after save for recipe: ${AppLogger.sanitize(recipeId)}");
 
       if (redirectToNewDetailOnSave) {
         // This screen may have been pushed using MaterialPageRoute.

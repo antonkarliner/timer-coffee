@@ -20,6 +20,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 import 'package:uuid/uuid.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import '../utils/app_logger.dart'; // Import AppLogger
 
 // Image flow controller and widgets
 import 'package:coffee_timer/controllers/new_beans_image_controller.dart';
@@ -706,10 +707,11 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
             .insert(data)
             .timeout(const Duration(seconds: 3));
       } on TimeoutException catch (e) {
-        print('Supabase request timed out: $e');
+        AppLogger.error('Supabase request timed out', errorObject: e);
         // Optionally, handle the timeout, e.g., by retrying or queuing the request
       } catch (e) {
-        print('Error inserting beans data to Supabase: $e');
+        AppLogger.error('Error inserting beans data to Supabase',
+            errorObject: e);
         // Handle other exceptions as needed
       }
     }
@@ -762,7 +764,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     final locale = Localizations.localeOf(context).toString();
     final loc = AppLocalizations.of(context)!;
 
-    print('🏗️ BUILDING NewBeansScreen with locale: $locale');
+    AppLogger.debug('🏗️ BUILDING NewBeansScreen with locale: $locale');
 
     // Print cache stats for debugging (only in debug mode)
     if (!kReleaseMode) {

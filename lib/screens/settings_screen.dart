@@ -20,6 +20,7 @@ import '../providers/snow_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dynamic_icon_plus/flutter_dynamic_icon_plus.dart';
 import 'package:flutter/services.dart';
+import '../utils/app_logger.dart'; // Import AppLogger
 
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
@@ -177,7 +178,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       // Check if we're on Android and use native method, otherwise use plugin
       if (Platform.isAndroid) {
         final current = await _iconChannel.invokeMethod('getCurrentIcon');
-        print('DEBUG: Native getCurrentIcon returned: $current');
+        AppLogger.debug('Native getCurrentIcon returned: $current');
 
         if (mounted) {
           setState(() {
@@ -192,8 +193,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         final current =
             supported ? await FlutterDynamicIconPlus.alternateIconName : null;
 
-        print(
-            'DEBUG: iOS - Icon API supported: $supported, current icon: $current');
+        AppLogger.debug(
+            'iOS - Icon API supported: $supported, current icon: $current');
 
         if (mounted) {
           setState(() {
@@ -204,7 +205,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         }
       }
     } catch (e) {
-      print('DEBUG: Icon API init error: $e');
+      AppLogger.error('Icon API init error', errorObject: e);
       if (mounted) {
         setState(() {
           _iconApiAvailable = false;
@@ -218,27 +219,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (!_iconApiAvailable) return;
 
     try {
-      print(
-          'DEBUG: ==================== ICON CHANGE START ====================');
-      print('DEBUG: Current state before change: $_localIconState');
-      print('DEBUG: Requested icon change to: $iconName');
+      AppLogger.debug(
+          '==================== ICON CHANGE START ====================');
+      AppLogger.debug('Current state before change: $_localIconState');
+      AppLogger.debug('Requested icon change to: $iconName');
 
       bool success = false;
 
       if (Platform.isAndroid) {
         // Use native method for Android
-        print('DEBUG: Using native method for Android');
+        AppLogger.debug('Using native method for Android');
         success =
             await _iconChannel.invokeMethod('setIcon', {'iconName': iconName});
-        print('DEBUG: Native setIcon returned: $success');
+        AppLogger.debug('Native setIcon returned: $success');
       } else {
         // Use plugin for iOS
-        print('DEBUG: Using plugin for iOS');
+        AppLogger.debug('Using plugin for iOS');
         final actualIconName = iconName == 'Default' ? null : iconName;
         await FlutterDynamicIconPlus.setAlternateIconName(
             iconName: actualIconName);
         success = true;
-        print('DEBUG: Plugin setIcon completed');
+        AppLogger.debug('Plugin setIcon completed');
       }
 
       if (success) {
@@ -249,15 +250,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
           });
         }
 
-        print('DEBUG: Local state updated to: $iconName');
-        print(
-            'DEBUG: ==================== ICON CHANGE END ====================');
+        AppLogger.debug('Local state updated to: $iconName');
+        AppLogger.debug(
+            '==================== ICON CHANGE END ====================');
       } else {
         throw Exception('Icon change failed');
       }
     } catch (e) {
-      print('DEBUG: Icon change error: $e');
-      print('DEBUG: Error type: ${e.runtimeType}');
+      AppLogger.error('Icon change error', errorObject: e);
+      AppLogger.debug('Error type: ${e.runtimeType}');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Icon change failed: $e')),
       );

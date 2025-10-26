@@ -22,6 +22,7 @@ import 'package:http/http.dart' as http; // Import http package
 // Import for RecipeCreationScreen
 // Import AppDatabase and Recipe
 import '../widgets/launch_popup.dart';
+import '../utils/app_logger.dart'; // Import AppLogger
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -83,11 +84,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         final userRecipeProvider =
             Provider.of<UserRecipeProvider>(context, listen: false);
         userRecipeProvider.checkModerationAfterLogin().catchError((e) {
-          print("ERROR: Failed to perform post-login moderation check: $e");
+          AppLogger.error("Failed to perform post-login moderation check",
+              errorObject: e);
         });
       } else {
-        print(
-            "DEBUG: Skipping moderation check - user not authenticated or anonymous");
+        AppLogger.debug(
+            "Skipping moderation check - user not authenticated or anonymous");
       }
     });
   }
@@ -98,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // Skip moderation check for anonymous users
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print("DEBUG: Skipping moderation check for anonymous user");
+      AppLogger.debug("Skipping moderation check for anonymous user");
       return;
     }
 
@@ -107,17 +109,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         Provider.of<UserRecipeProvider>(context, listen: false);
 
     try {
-      print("DEBUG: Starting moderation check for user: ${user.id}");
+      AppLogger.debug("Starting moderation check for user: ${user.id}");
 
       // Use the public method from DatabaseProvider with timeout
       final flaggedRecipes = await dbProvider
           .getRecipesNeedingModeration()
           .timeout(const Duration(seconds: 5));
 
-      print("DEBUG: Found ${flaggedRecipes.length} recipes needing moderation");
+      AppLogger.debug(
+          "Found ${flaggedRecipes.length} recipes needing moderation");
 
       if (flaggedRecipes.isEmpty || !mounted) {
-        print("DEBUG: No recipes need moderation or widget not mounted");
+        AppLogger.debug("No recipes need moderation or widget not mounted");
         return;
       }
 
@@ -138,11 +141,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             'brewingMethodId': recipe.brewingMethodId,
           });
 
-          print(
-              "DEBUG: Added recipe to moderation list: ${recipe.id} (${name ?? 'unnamed'})");
+          AppLogger.debug(
+              "Added recipe to moderation list: ${recipe.id} (${name ?? 'unnamed'})");
         } catch (e) {
-          print(
-              "WARNING: Could not fetch name for flagged recipe ${recipe.id}: $e");
+          AppLogger.warning(
+              "Could not fetch name for flagged recipe ${recipe.id}",
+              errorObject: e);
           // Still add with fallback name
           flaggedRecipeDetails.add({
             'id': recipe.id,
@@ -153,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
 
       if (flaggedRecipeDetails.isEmpty || !mounted) {
-        print("DEBUG: No valid recipe details found or widget unmounted");
+        AppLogger.debug("No valid recipe details found or widget unmounted");
         return;
       }
 
@@ -161,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       final recipeNames =
           flaggedRecipeDetails.map((r) => "'${r['name']}'").join(', ');
 
-      print("DEBUG: Showing moderation popup for recipes: $recipeNames");
+      AppLogger.debug("Showing moderation popup for recipes: $recipeNames");
 
       final l10n = AppLocalizations.of(context)!;
 
@@ -176,15 +180,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               TextButton(
                 child: Text(l10n.dismiss),
                 onPressed: () {
-                  print("DEBUG: User dismissed moderation popup");
+                  AppLogger.debug("User dismissed moderation popup");
                   Navigator.of(context).pop();
                 },
               ),
               TextButton(
                 child: Text(l10n.reviewRecipeButton),
                 onPressed: () {
-                  print(
-                      "DEBUG: User chose to review recipe: ${firstFlaggedRecipe['id']}");
+                  AppLogger.debug(
+                      "User chose to review recipe: ${firstFlaggedRecipe['id']}");
                   Navigator.of(context).pop();
                   // Navigate to recipe detail with error handling
                   try {
@@ -193,7 +197,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       brewingMethodId: firstFlaggedRecipe['brewingMethodId']!,
                     ));
                   } catch (e) {
-                    print("ERROR: Failed to navigate to recipe detail: $e");
+                    AppLogger.error("Failed to navigate to recipe detail",
+                        errorObject: e);
                     // Could show a snackbar here if needed
                   }
                 },
@@ -203,14 +208,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         },
       );
 
-      print("DEBUG: Moderation popup displayed successfully");
+      AppLogger.debug("Moderation popup displayed successfully");
     } on TimeoutException catch (e) {
-      print("ERROR: Timeout while checking for recipes needing moderation: $e");
+      AppLogger.error("Timeout while checking for recipes needing moderation",
+          errorObject: e);
       // Don't show error to user, just log it
     } catch (e, stackTrace) {
-      print(
-          "ERROR: Unexpected error checking for recipes needing moderation: $e");
-      print("Stack trace: $stackTrace");
+      AppLogger.error(
+          "Unexpected error checking for recipes needing moderation",
+          errorObject: e,
+          stackTrace: stackTrace);
       // Don't show error dialog to user as this is a background check
     }
   }
@@ -230,7 +237,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final detected = data['country']?.toString() ?? '';
-        print('Detected country: $detected');
+        AppLogger.info('Detected country: $detected');
         if (mounted) {
           // Check mounted before setState
           setState(() {
@@ -240,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
         // Read the target banner country from your Env file.
         final bannerCountry = Env.bannerCountry;
-        print('Banner Country (env): $bannerCountry');
+        AppLogger.debug('Banner Country (env): $bannerCountry');
 
         if (bannerCountry.isNotEmpty && detected == bannerCountry) {
           if (mounted) {
@@ -251,10 +258,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           }
         }
       } else {
-        print('Failed to fetch country: ${response.statusCode}');
+        AppLogger.warning('Failed to fetch country: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching country: $e');
+      AppLogger.error('Error fetching country', errorObject: e);
     }
   }
 

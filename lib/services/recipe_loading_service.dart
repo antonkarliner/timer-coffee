@@ -4,6 +4,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../models/recipe_model.dart';
 import '../providers/recipe_provider.dart';
 import '../controllers/recipe_detail_controller.dart';
+import '../utils/input_validator.dart';
 
 /// Result class for recipe loading operations
 class RecipeLoadResult {
@@ -159,7 +160,8 @@ class RecipeLoadingService {
 
   /// Validates if a recipe ID is valid for loading
   static bool isValidRecipeId(String? recipeId) {
-    return recipeId != null && recipeId.isNotEmpty;
+    // Use proper validation from InputValidator
+    return InputValidator.isValidRecipeId(recipeId ?? '');
   }
 
   /// Creates a debug log entry for recipe loading operations

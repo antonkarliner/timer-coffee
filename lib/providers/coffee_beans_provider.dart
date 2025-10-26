@@ -9,6 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../database/database.dart';
 import '../models/coffee_beans_model.dart';
+import '../utils/app_logger.dart';
 import 'database_provider.dart';
 
 // Cache configuration
@@ -47,7 +48,7 @@ class CoffeeBeansProvider with ChangeNotifier {
   CoffeeBeansProvider(this.db, this.databaseProvider) : deviceId = Uuid().v4() {
     // Initialize app version asynchronously
     _initializeAppVersion().catchError((e) {
-      print('⚠️ Failed to initialize app version: $e');
+      AppLogger.error('Failed to initialize app version', errorObject: e);
     });
   }
 
@@ -58,15 +59,15 @@ class CoffeeBeansProvider with ChangeNotifier {
       final newVersion = packageInfo.version;
 
       if (_currentAppVersion != null && _currentAppVersion != newVersion) {
-        print(
-            '🔄 App version changed from $_currentAppVersion to $newVersion - clearing cache');
+        AppLogger.debug(
+            'App version changed from $_currentAppVersion to $newVersion - clearing cache');
         clearCache();
       }
 
       _currentAppVersion = newVersion;
-      print('📱 App version initialized: $_currentAppVersion');
+      AppLogger.debug('App version initialized: $_currentAppVersion');
     } catch (e) {
-      print('⚠️ Error getting app version: $e');
+      AppLogger.error('Error getting app version', errorObject: e);
     }
   }
 
@@ -94,28 +95,29 @@ class CoffeeBeansProvider with ChangeNotifier {
 
     // Return cached data if it's still valid
     if (cacheEntry != null && !cacheEntry.isExpired) {
-      print(
-          '🎯 CACHE HIT for $cacheKey (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min, items: ${cacheEntry.data.length})');
+      AppLogger.debug(
+          'CACHE HIT for $cacheKey (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min, items: ${cacheEntry.data.length})');
       return cacheEntry.data;
     }
 
     // If data is too old, we must fetch even if API might fail
     final mustFetch = cacheEntry?.isTooOld ?? false;
     if (cacheEntry != null) {
-      print(
-          '⏰ CACHE EXPIRED for $cacheKey (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min, expired: ${cacheEntry.isExpired}, too old: ${cacheEntry.isTooOld})');
+      AppLogger.debug(
+          'CACHE EXPIRED for $cacheKey (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min, expired: ${cacheEntry.isExpired}, too old: ${cacheEntry.isTooOld})');
     } else {
-      print('❌ CACHE MISS for $cacheKey - no cached data found');
+      AppLogger.debug('CACHE MISS for $cacheKey - no cached data found');
     }
 
     try {
-      print('🌐 FETCHING from API for $cacheKey (must fetch: $mustFetch)');
+      AppLogger.debug(
+          'FETCHING from API for $cacheKey (must fetch: $mustFetch)');
       final stopwatch = Stopwatch()..start();
       final data = await fetchFunction();
       stopwatch.stop();
 
-      print(
-          '✅ API FETCH COMPLETED for $cacheKey in ${stopwatch.elapsedMilliseconds}ms (items: ${data.length})');
+      AppLogger.debug(
+          'API FETCH COMPLETED for $cacheKey in ${stopwatch.elapsedMilliseconds}ms (items: ${data.length})');
 
       // Store in cache with app version
       _cache[cacheKey] = CacheEntry(
@@ -123,32 +125,33 @@ class CoffeeBeansProvider with ChangeNotifier {
         CacheConfig.defaultExpiration,
         appVersion: _currentAppVersion ?? 'unknown',
       );
-      print(
-          '💾 STORED in cache for $cacheKey (expires in ${CacheConfig.defaultExpiration.inHours}h, app version: $_currentAppVersion)');
+      AppLogger.debug(
+          'STORED in cache for $cacheKey (expires in ${CacheConfig.defaultExpiration.inHours}h, app version: $_currentAppVersion)');
 
       // Clean up old cache entries if we have too many
       _cleanupCache();
 
       return data;
     } catch (e) {
-      print('🚨 API FETCH ERROR for $cacheKey: $e');
+      AppLogger.error('API FETCH ERROR for $cacheKey', errorObject: e);
 
       // If we have cached data (even if expired), return it as fallback
       if (cacheEntry != null && !cacheEntry.isTooOld) {
-        print(
-            '🔄 USING STALE CACHE for $cacheKey due to API error (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min)');
+        AppLogger.warning(
+            'USING STALE CACHE for $cacheKey due to API error (age: ${DateTime.now().difference(cacheEntry.timestamp).inMinutes}min)');
         return cacheEntry.data;
       }
 
       // If we must fetch (data too old) or have no cache, rethrow the error
       if (mustFetch) {
-        print(
-            '💥 MUST FETCH - rethrowing error for $cacheKey (data too old: ${cacheEntry?.isTooOld ?? false})');
+        AppLogger.error(
+            'MUST FETCH - rethrowing error for $cacheKey (data too old: ${cacheEntry?.isTooOld ?? false})');
         rethrow;
       }
 
       // Return empty list as last resort
-      print('📭 RETURNING EMPTY LIST for $cacheKey - no fallback available');
+      AppLogger.warning(
+          'RETURNING EMPTY LIST for $cacheKey - no fallback available');
       return [];
     }
   }
@@ -166,15 +169,15 @@ class CoffeeBeansProvider with ChangeNotifier {
       _cache.remove(sortedEntries[i].key);
     }
 
-    print(
-        '🧹 CLEANED UP $entriesToRemove old cache entries (total: ${_cache.length})');
+    AppLogger.debug(
+        'CLEANED UP $entriesToRemove old cache entries (total: ${_cache.length})');
   }
 
   // Method to clear cache manually if needed
   void clearCache() {
     final count = _cache.length;
     _cache.clear();
-    print('🗑️ CLEARED $count cache entries manually');
+    AppLogger.debug('CLEARED $count cache entries manually');
   }
 
   // Method to invalidate specific cache entry
@@ -184,10 +187,10 @@ class CoffeeBeansProvider with ChangeNotifier {
         _getCacheKey(dataType, locale, isLocaleAgnostic: isLocaleAgnostic);
     final removed = _cache.remove(cacheKey);
     if (removed != null) {
-      print(
-          '🚫 INVALIDATED cache entry for $cacheKey (was cached for ${DateTime.now().difference(removed.timestamp).inMinutes}min)');
+      AppLogger.debug(
+          'INVALIDATED cache entry for $cacheKey (was cached for ${DateTime.now().difference(removed.timestamp).inMinutes}min)');
     } else {
-      print('⚠️ NO CACHE ENTRY to invalidate for $cacheKey');
+      AppLogger.warning('NO CACHE ENTRY to invalidate for $cacheKey');
     }
   }
 
@@ -209,7 +212,7 @@ class CoffeeBeansProvider with ChangeNotifier {
     for (final key in keysToRemove) {
       _cache.remove(key);
     }
-    print(
+    AppLogger.debug(
         'Invalidated ${keysToRemove.length} cache entries for data type: $dataType (locale-agnostic: $isLocaleAgnostic)');
   }
 
@@ -224,7 +227,7 @@ class CoffeeBeansProvider with ChangeNotifier {
     for (final key in keysToRemove) {
       _cache.remove(key);
     }
-    print('🚫 INVALIDATED ${keysToRemove.length} expired cache entries');
+    AppLogger.debug('INVALIDATED ${keysToRemove.length} expired cache entries');
   }
 
   // Method to refresh specific data type (invalidate and optionally prefetch)
@@ -275,10 +278,11 @@ class CoffeeBeansProvider with ChangeNotifier {
             .upsert(supabaseData)
             .timeout(const Duration(seconds: 3));
       } on TimeoutException catch (e) {
-        print('Supabase request timed out: $e');
+        AppLogger.warning('Supabase request timed out', errorObject: e);
         // Optionally, handle the timeout, e.g., by retrying or queuing the request
       } catch (e) {
-        print('Error syncing new coffee beans to Supabase: $e');
+        AppLogger.error('Error syncing new coffee beans to Supabase',
+            errorObject: e);
       }
     }
 
@@ -287,19 +291,20 @@ class CoffeeBeansProvider with ChangeNotifier {
   }
 
   Future<void> updateCoffeeBeans(CoffeeBeansModel beans) async {
-    print('DEBUG: updateCoffeeBeans called with UUID: ${beans.beansUuid}');
+    AppLogger.debug(
+        'updateCoffeeBeans called with UUID: ${AppLogger.sanitize(beans.beansUuid)}');
 
     final currentBeans =
         await db.coffeeBeansDao.fetchCoffeeBeansByUuid(beans.beansUuid);
     if (currentBeans == null) {
-      print(
-          'DEBUG: ERROR - Coffee beans not found for UUID: ${beans.beansUuid}');
+      AppLogger.error(
+          'ERROR - Coffee beans not found for UUID: ${AppLogger.sanitize(beans.beansUuid)}');
       throw Exception('Coffee beans not found');
     }
 
-    print(
-        'DEBUG: Found existing bean: ${currentBeans.name} by ${currentBeans.roaster}');
-    print('DEBUG: Current version vector: ${currentBeans.versionVector}');
+    AppLogger.debug(
+        'Found existing bean: ${currentBeans.name} by ${currentBeans.roaster}');
+    AppLogger.debug('Current version vector: ${currentBeans.versionVector}');
 
     final currentVector = VersionVector.fromString(currentBeans.versionVector);
     final newVector = currentVector.increment();
@@ -308,15 +313,15 @@ class CoffeeBeansProvider with ChangeNotifier {
       versionVector: newVector.toString(),
     );
 
-    print(
-        'DEBUG: Updated bean data - Name: ${updatedBeans.name}, Roaster: ${updatedBeans.roaster}');
-    print('DEBUG: New version vector: ${updatedBeans.versionVector}');
+    AppLogger.debug(
+        'Updated bean data - Name: ${updatedBeans.name}, Roaster: ${updatedBeans.roaster}');
+    AppLogger.debug('New version vector: ${updatedBeans.versionVector}');
 
     try {
       await db.coffeeBeansDao.updateCoffeeBeans(updatedBeans);
-      print('DEBUG: Database update completed successfully');
+      AppLogger.debug('Database update completed successfully');
     } catch (e) {
-      print('DEBUG: ERROR during database update: $e');
+      AppLogger.error('ERROR during database update', errorObject: e);
       throw e;
     }
 
@@ -329,25 +334,27 @@ class CoffeeBeansProvider with ChangeNotifier {
             .from('user_coffee_beans')
             .upsert(supabaseData, onConflict: 'user_id,beans_uuid')
             .timeout(const Duration(seconds: 3));
-        print('DEBUG: Supabase sync completed successfully');
+        AppLogger.debug('Supabase sync completed successfully');
       } on TimeoutException catch (e) {
-        print('DEBUG: Supabase request timed out: $e');
+        AppLogger.warning('Supabase request timed out', errorObject: e);
         // Optionally, handle the timeout here
       } catch (e) {
-        print('DEBUG: Error syncing updated coffee beans to Supabase: $e');
+        AppLogger.error('Error syncing updated coffee beans to Supabase',
+            errorObject: e);
       }
     }
 
-    print('DEBUG: Calling notifyListeners()');
+    AppLogger.debug('Calling notifyListeners()');
     notifyListeners();
-    print('DEBUG: updateCoffeeBeans completed successfully');
+    AppLogger.debug('updateCoffeeBeans completed successfully');
   }
 
   Future<void> deleteCoffeeBeans(String beansUuid) async {
     final currentBeans =
         await db.coffeeBeansDao.fetchCoffeeBeansByUuid(beansUuid);
     if (currentBeans == null) {
-      print('Error: Coffee beans not found for UUID: $beansUuid');
+      AppLogger.error(
+          'Coffee beans not found for UUID: ${AppLogger.sanitize(beansUuid)}');
       throw Exception('Coffee beans not found');
     }
 
@@ -386,10 +393,11 @@ class CoffeeBeansProvider with ChangeNotifier {
             .timeout(const Duration(seconds: 2));
       } catch (e) {
         if (e is TimeoutException) {
-          print('Supabase operation timed out: $e');
+          AppLogger.warning('Supabase operation timed out', errorObject: e);
           // You might want to handle the timeout specifically here
         } else {
-          print('Error marking coffee beans as deleted in Supabase: $e');
+          AppLogger.error('Error marking coffee beans as deleted in Supabase',
+              errorObject: e);
           // Handle other exceptions
         }
         // Decide if you want to handle this error differently
@@ -404,13 +412,14 @@ class CoffeeBeansProvider with ChangeNotifier {
 
   Future<CoffeeBeansModel?> fetchCoffeeBeansById(int id) async {
     final beans = await db.coffeeBeansDao.fetchCoffeeBeansById(id);
-    print('Fetched bean by ID: $beans');
+    AppLogger.debug('Fetched bean by ID: ${beans?.id}');
     return beans;
   }
 
   Future<CoffeeBeansModel?> fetchCoffeeBeansByUuid(String uuid) async {
     final beans = await db.coffeeBeansDao.fetchCoffeeBeansByUuid(uuid);
-    print('Fetched bean by UUID: $beans');
+    AppLogger.debug(
+        'Fetched bean by UUID: ${AppLogger.sanitize(beans?.beansUuid)}');
     return beans;
   }
 
@@ -468,7 +477,7 @@ class CoffeeBeansProvider with ChangeNotifier {
           supabaseTastingNotes =
               await databaseProvider.fetchTastingNotesForLocale(locale);
         } catch (error) {
-          //print('Error fetching tasting notes from Supabase: $error');
+          //AppLogger.error('Error fetching tasting notes from Supabase', errorObject: error);
         }
 
         final combinedSet = {...localTastingNotes, ...supabaseTastingNotes};
@@ -491,7 +500,7 @@ class CoffeeBeansProvider with ChangeNotifier {
           supabaseOrigins =
               await databaseProvider.fetchCountriesForLocale(locale);
         } catch (error) {
-          //print('Error fetching origins from Supabase: $error');
+          //AppLogger.error('Error fetching origins from Supabase', errorObject: error);
         }
 
         final combinedSet = {...localOrigins, ...supabaseOrigins};
@@ -515,7 +524,7 @@ class CoffeeBeansProvider with ChangeNotifier {
           supabaseProcessingMethods =
               await databaseProvider.fetchProcessingMethodsForLocale(locale);
         } catch (error) {
-          // print('Error fetching processing methods from Supabase: $error');
+          // AppLogger.error('Error fetching processing methods from Supabase', errorObject: error);
         }
 
         final combinedSet = {
@@ -541,7 +550,7 @@ class CoffeeBeansProvider with ChangeNotifier {
         try {
           supabaseRoasters = await databaseProvider.fetchRoasters();
         } catch (error) {
-          //print('Error fetching roasters from Supabase: $error');
+          //AppLogger.error('Error fetching roasters from Supabase', errorObject: error);
         }
 
         final combinedSet = {...localRoasters, ...supabaseRoasters};
@@ -559,7 +568,7 @@ class CoffeeBeansProvider with ChangeNotifier {
     final beansToUpdate = await db.coffeeBeansDao.fetchBeansNeedingUpdate();
 
     if (beansToUpdate.isEmpty) {
-      print('No coffee beans need updating.');
+      AppLogger.debug('No coffee beans need updating.');
       return;
     }
     Set<String> generatedUuids = {};
@@ -580,14 +589,14 @@ class CoffeeBeansProvider with ChangeNotifier {
 
     await db.coffeeBeansDao.batchUpdateMissingUuidsAndTimestamps(updates);
 
-    print('Updated ${beansToUpdate.length} coffee bean entries.');
+    AppLogger.debug('Updated ${beansToUpdate.length} coffee bean entries.');
     notifyListeners();
   }
 
   Future<void> batchUploadCoffeeBeans() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print('No user logged in or user is anonymous');
+      AppLogger.debug('No user logged in or user is anonymous');
       return;
     }
 
@@ -604,19 +613,20 @@ class CoffeeBeansProvider with ChangeNotifier {
 
       try {
         await Supabase.instance.client.from('user_coffee_beans').upsert(batch);
-        print('Uploaded batch ${i ~/ batchSize + 1}');
+        AppLogger.debug('Uploaded batch ${i ~/ batchSize + 1}');
       } catch (e) {
-        print('Error uploading batch ${i ~/ batchSize + 1}: $e');
+        AppLogger.error('Error uploading batch ${i ~/ batchSize + 1}',
+            errorObject: e);
       }
     }
 
-    print('Successfully uploaded ${beansData.length} coffee beans');
+    AppLogger.info('Successfully uploaded ${beansData.length} coffee beans');
   }
 
   Future<void> batchDownloadCoffeeBeans() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print('No user logged in or user is anonymous');
+      AppLogger.debug('No user logged in or user is anonymous');
       return;
     }
 
@@ -631,9 +641,10 @@ class CoffeeBeansProvider with ChangeNotifier {
           .toList();
 
       await db.coffeeBeansDao.insertOrUpdateMultipleCoffeeBeans(remoteBeans);
-      print('Downloaded and updated ${remoteBeans.length} coffee beans');
+      AppLogger.info(
+          'Downloaded and updated ${remoteBeans.length} coffee beans');
     } catch (e) {
-      print('Error downloading coffee beans: $e');
+      AppLogger.error('Error downloading coffee beans', errorObject: e);
     }
   }
 
@@ -646,7 +657,7 @@ class CoffeeBeansProvider with ChangeNotifier {
   Future<void> syncNewCoffeeBeans() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print('No user logged in or user is anonymous');
+      AppLogger.debug('No user logged in or user is anonymous');
       return;
     }
 
@@ -738,17 +749,18 @@ class CoffeeBeansProvider with ChangeNotifier {
               .timeout(const Duration(seconds: 3));
         } catch (e) {
           if (e is TimeoutException) {
-            print('Supabase operation timed out: $e');
+            AppLogger.warning('Supabase operation timed out', errorObject: e);
           } else {
-            print('Error updating coffee beans in Supabase: $e');
+            AppLogger.error('Error updating coffee beans in Supabase',
+                errorObject: e);
           }
         }
       }
 
-      print(
+      AppLogger.info(
           'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}');
     } catch (e) {
-      print('Error syncing coffee beans: $e');
+      AppLogger.error('Error syncing coffee beans', errorObject: e);
     }
 
     notifyListeners();
@@ -857,33 +869,38 @@ class CoffeeBeansProvider with ChangeNotifier {
     try {
       final currentBeans = await fetchCoffeeBeansByUuid(beansUuid);
       if (currentBeans == null) {
-        print('DEBUG: Bean not found for UUID: $beansUuid');
+        AppLogger.debug(
+            'Bean not found for UUID: ${AppLogger.sanitize(beansUuid)}');
         return null;
       }
 
       final currentWeight = currentBeans.packageWeightGrams;
       if (currentWeight == null || currentWeight <= 0) {
-        print(
-            'DEBUG: Bean $beansUuid has no valid package weight (current: $currentWeight)');
+        AppLogger.debug(
+            'Bean ${AppLogger.sanitize(beansUuid)} has no valid package weight (current: $currentWeight)');
         return null;
       }
 
       final newWeight = (currentWeight - usedAmount).clamp(0.0, currentWeight);
-      print(
-          'DEBUG: Updating bean $beansUuid weight from $currentWeight to $newWeight (used: $usedAmount)');
+      AppLogger.debug(
+          'Updating bean ${AppLogger.sanitize(beansUuid)} weight from $currentWeight to $newWeight (used: $usedAmount)');
 
       if (newWeight == currentWeight) {
-        print('DEBUG: No weight change needed for bean $beansUuid');
+        AppLogger.debug(
+            'No weight change needed for bean ${AppLogger.sanitize(beansUuid)}');
         return currentWeight;
       }
 
       final updatedBeans = currentBeans.copyWith(packageWeightGrams: newWeight);
       await updateCoffeeBeans(updatedBeans);
 
-      print('DEBUG: Successfully updated bean $beansUuid weight to $newWeight');
+      AppLogger.debug(
+          'Successfully updated bean ${AppLogger.sanitize(beansUuid)} weight to $newWeight');
       return newWeight;
     } catch (e) {
-      print('DEBUG: Error updating bean weight for $beansUuid: $e');
+      AppLogger.error(
+          'Error updating bean weight for ${AppLogger.sanitize(beansUuid)}',
+          errorObject: e);
       return null;
     }
   }
@@ -895,29 +912,32 @@ class CoffeeBeansProvider with ChangeNotifier {
     try {
       final currentBeans = await fetchCoffeeBeansByUuid(beansUuid);
       if (currentBeans == null) {
-        print('DEBUG: Bean not found for UUID: $beansUuid');
+        AppLogger.debug(
+            'Bean not found for UUID: ${AppLogger.sanitize(beansUuid)}');
         return null;
       }
 
       final currentWeight = currentBeans.packageWeightGrams;
       if (currentWeight == null) {
-        print(
-            'DEBUG: Bean $beansUuid has no package weight specified, cannot adjust');
+        AppLogger.debug(
+            'Bean ${AppLogger.sanitize(beansUuid)} has no package weight specified, cannot adjust');
         return null;
       }
 
       final newWeight = currentWeight + coffeeAmount;
-      print(
-          'DEBUG: Adding back $coffeeAmount to bean $beansUuid weight from $currentWeight to $newWeight');
+      AppLogger.debug(
+          'Adding back $coffeeAmount to bean ${AppLogger.sanitize(beansUuid)} weight from $currentWeight to $newWeight');
 
       final updatedBeans = currentBeans.copyWith(packageWeightGrams: newWeight);
       await updateCoffeeBeans(updatedBeans);
 
-      print(
-          'DEBUG: Successfully added back weight to bean $beansUuid, new weight: $newWeight');
+      AppLogger.debug(
+          'Successfully added back weight to bean ${AppLogger.sanitize(beansUuid)}, new weight: $newWeight');
       return newWeight;
     } catch (e) {
-      print('DEBUG: Error adding back bean weight for $beansUuid: $e');
+      AppLogger.error(
+          'Error adding back bean weight for ${AppLogger.sanitize(beansUuid)}',
+          errorObject: e);
       return null;
     }
   }
@@ -929,50 +949,55 @@ class CoffeeBeansProvider with ChangeNotifier {
     try {
       final currentBeans = await fetchCoffeeBeansByUuid(beansUuid);
       if (currentBeans == null) {
-        print('DEBUG: Bean not found for UUID: $beansUuid');
+        AppLogger.debug(
+            'Bean not found for UUID: ${AppLogger.sanitize(beansUuid)}');
         return null;
       }
 
       final currentWeight = currentBeans.packageWeightGrams;
       if (currentWeight == null) {
-        print(
-            'DEBUG: Bean $beansUuid has no package weight specified, cannot adjust');
+        AppLogger.debug(
+            'Bean ${AppLogger.sanitize(beansUuid)} has no package weight specified, cannot adjust');
         return null;
       }
 
       final newWeight =
           (currentWeight - coffeeAmount).clamp(0.0, double.infinity);
-      print(
-          'DEBUG: Subtracting $coffeeAmount from bean $beansUuid weight from $currentWeight to $newWeight');
+      AppLogger.debug(
+          'Subtracting $coffeeAmount from bean ${AppLogger.sanitize(beansUuid)} weight from $currentWeight to $newWeight');
 
       if (newWeight == currentWeight) {
-        print('DEBUG: No weight change needed for bean $beansUuid');
+        AppLogger.debug(
+            'No weight change needed for bean ${AppLogger.sanitize(beansUuid)}');
         return currentWeight;
       }
 
       final updatedBeans = currentBeans.copyWith(packageWeightGrams: newWeight);
       await updateCoffeeBeans(updatedBeans);
 
-      print(
-          'DEBUG: Successfully subtracted weight from bean $beansUuid, new weight: $newWeight');
+      AppLogger.debug(
+          'Successfully subtracted weight from bean ${AppLogger.sanitize(beansUuid)}, new weight: $newWeight');
       return newWeight;
     } catch (e) {
-      print('DEBUG: Error subtracting bean weight for $beansUuid: $e');
+      AppLogger.error(
+          'Error subtracting bean weight for ${AppLogger.sanitize(beansUuid)}',
+          errorObject: e);
       return null;
     }
   }
 
   // Debug method to print cache statistics
   void printCacheStats() {
-    print('📊 CACHE STATISTICS:');
-    print('   Total entries: ${_cache.length}');
-    print('   Max entries: ${CacheConfig.maxCacheEntries}');
-    print('   Default expiration: ${CacheConfig.defaultExpiration.inHours}h');
-    print('   Max age: ${CacheConfig.maxAge.inDays}d');
-    print('   App version: $_currentAppVersion');
+    AppLogger.debug('CACHE STATISTICS:');
+    AppLogger.debug('   Total entries: ${_cache.length}');
+    AppLogger.debug('   Max entries: ${CacheConfig.maxCacheEntries}');
+    AppLogger.debug(
+        '   Default expiration: ${CacheConfig.defaultExpiration.inHours}h');
+    AppLogger.debug('   Max age: ${CacheConfig.maxAge.inDays}d');
+    AppLogger.debug('   App version: $_currentAppVersion');
 
     if (_cache.isNotEmpty) {
-      print('   Cache entries:');
+      AppLogger.debug('   Cache entries:');
       for (final entry in _cache.entries) {
         final age = DateTime.now().difference(entry.value.timestamp);
         final status = entry.value.isExpired
@@ -985,12 +1010,12 @@ class CoffeeBeansProvider with ChangeNotifier {
             : ', no version';
         final localeInfo =
             entry.key.contains('_') ? ', locale-specific' : ', locale-agnostic';
-        print(
+        AppLogger.debug(
             '     ${entry.key}: ${entry.value.data.length} items, age: ${age.inMinutes}min, status: $status$versionInfo$localeInfo');
       }
     } else {
-      print('   Cache is empty');
+      AppLogger.debug('   Cache is empty');
     }
-    print('📊 END CACHE STATISTICS');
+    AppLogger.debug('END CACHE STATISTICS');
   }
 }

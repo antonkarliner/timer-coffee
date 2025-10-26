@@ -9,6 +9,7 @@ import 'coffee_beans_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:collection/collection.dart';
+import '../utils/app_logger.dart';
 
 class UserStatProvider extends ChangeNotifier {
   final Uuid _uuid = Uuid();
@@ -69,10 +70,11 @@ class UserStatProvider extends ChangeNotifier {
             .upsert(supabaseData)
             .timeout(const Duration(seconds: 2));
       } on TimeoutException catch (e) {
-        print('Supabase request timed out: $e');
+        AppLogger.error('Supabase request timed out', errorObject: e);
         // Optionally, handle the timeout, e.g., by retrying or queuing the request
       } catch (e) {
-        print('Error syncing new user stat to Supabase: $e');
+        AppLogger.error('Error syncing new user stat to Supabase',
+            errorObject: e);
         // Handle other exceptions as needed
       }
     }
@@ -97,16 +99,17 @@ class UserStatProvider extends ChangeNotifier {
     String? coffeeBeansUuid,
     bool clearBeans = false,
   }) async {
-    print(
-        'updateUserStat called with statUuid: $statUuid, coffeeBeansUuid: $coffeeBeansUuid');
+    AppLogger.debug(
+        'updateUserStat called with statUuid: ${AppLogger.sanitize(statUuid)}, coffeeBeansUuid: ${AppLogger.sanitize(coffeeBeansUuid)}');
 
     final currentStat = await db.userStatsDao.fetchStatByUuid(statUuid);
     if (currentStat == null) {
-      print('Error: Stat not found for UUID: $statUuid');
+      AppLogger.error('Stat not found for UUID',
+          errorObject: AppLogger.sanitize(statUuid));
       throw Exception('Stat not found');
     }
 
-    print('Current stat: $currentStat');
+    AppLogger.debug('Current stat: ${AppLogger.sanitize(currentStat)}');
 
     final currentVector = VersionVector.fromString(currentStat.versionVector);
     final newVector = currentVector.increment();
@@ -129,7 +132,8 @@ class UserStatProvider extends ChangeNotifier {
     );
 
     if (clearBeans) {
-      print('Clearing beans for stat $statUuid');
+      AppLogger.debug(
+          'Clearing beans for stat ${AppLogger.sanitize(statUuid)}');
       updatedStat = UserStatsModel(
         statUuid: currentStat.statUuid,
         id: currentStat.id,
@@ -152,14 +156,15 @@ class UserStatProvider extends ChangeNotifier {
       );
     }
 
-    print('Updated stat: $updatedStat');
+    AppLogger.debug('Updated stat: ${AppLogger.sanitize(updatedStat)}');
 
     await db.userStatsDao.updateUserStat(updatedStat);
-    print('Database updated');
+    AppLogger.debug('Database updated');
 
     // Force a refresh of the stat
     final refreshedStat = await db.userStatsDao.fetchStatByUuid(statUuid);
-    print('Refreshed stat after update: $refreshedStat');
+    AppLogger.debug(
+        'Refreshed stat after update: ${AppLogger.sanitize(refreshedStat)}');
 
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null && !user.isAnonymous) {
@@ -170,23 +175,25 @@ class UserStatProvider extends ChangeNotifier {
             .from('user_stats')
             .upsert(supabaseData, onConflict: 'user_id,stat_uuid')
             .timeout(const Duration(seconds: 3));
-        print('Supabase updated');
+        AppLogger.debug('Supabase updated');
       } on TimeoutException catch (e) {
-        print('Supabase request timed out: $e');
+        AppLogger.error('Supabase request timed out', errorObject: e);
         // Optionally, handle the timeout here
       } catch (e) {
-        print('Error syncing updated user stat to Supabase: $e');
+        AppLogger.error('Error syncing updated user stat to Supabase',
+            errorObject: e);
       }
     }
 
     notifyListeners();
-    print('notifyListeners called');
+    AppLogger.debug('notifyListeners called');
   }
 
   Future<void> deleteUserStat(String statUuid) async {
     final currentStat = await db.userStatsDao.fetchStatByUuid(statUuid);
     if (currentStat == null) {
-      print('Error: Stat not found for UUID: $statUuid');
+      AppLogger.error('Stat not found for UUID',
+          errorObject: AppLogger.sanitize(statUuid));
       throw Exception('Stat not found');
     }
 
@@ -213,10 +220,11 @@ class UserStatProvider extends ChangeNotifier {
             .timeout(const Duration(seconds: 2)); // Added 2-second timeout
       } catch (e) {
         if (e is TimeoutException) {
-          print('Supabase operation timed out: $e');
+          AppLogger.error('Supabase operation timed out', errorObject: e);
           // You might want to handle the timeout specifically here
         } else {
-          print('Error marking user stat as deleted in Supabase: $e');
+          AppLogger.error('Error marking user stat as deleted in Supabase',
+              errorObject: e);
           // Handle other exceptions
         }
         // Decide if you want to handle this error differently
@@ -248,7 +256,7 @@ class UserStatProvider extends ChangeNotifier {
   Future<void> batchUploadUserStats() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print('No user logged in or user is anonymous');
+      AppLogger.debug('No user logged in or user is anonymous');
       return;
     }
 
@@ -264,20 +272,27 @@ class UserStatProvider extends ChangeNotifier {
       final batch = statsData.skip(i).take(batchSize).toList();
 
       try {
-        await Supabase.instance.client.from('user_stats').upsert(batch);
-        print('Uploaded batch ${i ~/ batchSize + 1}');
+        await Supabase.instance.client
+            .from('user_stats')
+            .upsert(batch)
+            .timeout(const Duration(seconds: 5));
+        AppLogger.debug('Uploaded batch ${i ~/ batchSize + 1}');
+      } on TimeoutException catch (e) {
+        AppLogger.error('Supabase batch upload timed out', errorObject: e);
+        // Continue gracefully - some stats may sync later
       } catch (e) {
-        print('Error uploading batch ${i ~/ batchSize + 1}: $e');
+        AppLogger.error('Error uploading batch ${i ~/ batchSize + 1}',
+            errorObject: e);
       }
     }
 
-    print('Successfully uploaded ${statsData.length} stats');
+    AppLogger.debug('Successfully uploaded ${statsData.length} stats');
   }
 
   Future<void> batchDownloadUserStats() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print('No user logged in or user is anonymous');
+      AppLogger.debug('No user logged in or user is anonymous');
       return;
     }
 
@@ -285,16 +300,20 @@ class UserStatProvider extends ChangeNotifier {
       final response = await Supabase.instance.client
           .from('user_stats')
           .select()
-          .eq('user_id', user.id);
+          .eq('user_id', user.id)
+          .timeout(const Duration(seconds: 5));
 
       final remoteStats = (response as List<dynamic>)
           .map((json) => _jsonToUserStatsModel(json))
           .toList();
 
       await db.userStatsDao.insertOrUpdateMultipleStats(remoteStats);
-      print('Downloaded and updated ${remoteStats.length} stats');
+      AppLogger.debug('Downloaded and updated ${remoteStats.length} stats');
+    } on TimeoutException catch (e) {
+      AppLogger.error('Supabase stats download timed out', errorObject: e);
+      // Continue with local data if remote fetch fails
     } catch (e) {
-      print('Error downloading user stats: $e');
+      AppLogger.error('Error downloading user stats', errorObject: e);
     }
   }
 
@@ -350,7 +369,7 @@ class UserStatProvider extends ChangeNotifier {
     final statsToUpdate = await db.userStatsDao.fetchStatsNeedingUuidUpdate();
 
     if (statsToUpdate.isEmpty) {
-      print('No UserStats records need updating.');
+      AppLogger.debug('No UserStats records need updating.');
       return;
     }
 
@@ -366,15 +385,15 @@ class UserStatProvider extends ChangeNotifier {
             coffeeBeansUuid: Value(coffeeBeans.beansUuid),
           ));
         } else {
-          print(
-              'Warning: Coffee beans not found or missing UUID for ID: ${stat.coffeeBeansId}');
+          AppLogger.warning(
+              'Coffee beans not found or missing UUID for ID: ${AppLogger.sanitize(stat.coffeeBeansId)}');
         }
       }
     }
 
     if (updates.isNotEmpty) {
       await db.userStatsDao.batchUpdateCoffeeBeansUuids(updates);
-      print(
+      AppLogger.debug(
           'Updated ${updates.length} UserStats records with coffee beans UUIDs.');
     }
 
@@ -386,7 +405,7 @@ class UserStatProvider extends ChangeNotifier {
         await db.userStatsDao.fetchStatsNeedingStatUuidUpdate();
 
     if (statsToUpdate.isEmpty) {
-      print('No UserStats records need updating.');
+      AppLogger.debug('No UserStats records need updating.');
       return;
     }
 
@@ -408,7 +427,8 @@ class UserStatProvider extends ChangeNotifier {
 
     if (updates.isNotEmpty) {
       await db.userStatsDao.batchUpdateStatUuids(updates);
-      print('Updated ${updates.length} UserStats records with new UUIDv7s.');
+      AppLogger.debug(
+          'Updated ${updates.length} UserStats records with new UUIDv7s.');
     }
 
     notifyListeners();
@@ -417,7 +437,7 @@ class UserStatProvider extends ChangeNotifier {
   Future<void> syncNewUserStats() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
-      print('No user logged in or user is anonymous');
+      AppLogger.debug('No user logged in or user is anonymous');
       return;
     }
 
@@ -433,7 +453,8 @@ class UserStatProvider extends ChangeNotifier {
       final response = await Supabase.instance.client
           .from('user_stats')
           .select('stat_uuid, version_vector, is_deleted')
-          .eq('user_id', user.id);
+          .eq('user_id', user.id)
+          .timeout(const Duration(seconds: 5));
 
       final remoteStatsInfo = (response as List<dynamic>)
           .map((json) => (
@@ -500,10 +521,10 @@ class UserStatProvider extends ChangeNotifier {
         await _updateRemoteStats(remoteUpdates);
       }
 
-      print(
+      AppLogger.debug(
           'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}');
     } catch (e) {
-      print('Error syncing user stats: $e');
+      AppLogger.error('Error syncing user stats', errorObject: e);
     }
 
     notifyListeners();
@@ -513,7 +534,7 @@ class UserStatProvider extends ChangeNotifier {
   Future<void> _insertStatsWithFallback(List<UserStatsModel> stats) async {
     if (stats.isEmpty) return;
 
-    print(
+    AppLogger.debug(
         'Attempting to insert ${stats.length} stats with enhanced error handling');
 
     // Phase 1: Try fast batch insert
@@ -521,12 +542,14 @@ class UserStatProvider extends ChangeNotifier {
         await db.userStatsDao.insertOrUpdateMultipleStatsWithFeedback(stats);
 
     if (batchResult.success) {
-      print('Successfully inserted all ${stats.length} stats in batch');
+      AppLogger.debug(
+          'Successfully inserted all ${stats.length} stats in batch');
       return;
     }
 
-    print('Batch insert failed, falling back to individual processing');
-    print('Failed stats count: ${batchResult.failedStats.length}');
+    AppLogger.debug(
+        'Batch insert failed, falling back to individual processing');
+    AppLogger.debug('Failed stats count: ${batchResult.failedStats.length}');
 
     // Phase 2: Validate recipe references for failed stats
     final failedRecipeIds =
@@ -546,21 +569,22 @@ class UserStatProvider extends ChangeNotifier {
         validStats.add(stat);
       } else {
         // Recipe doesn't exist, handle individually with fallback
-        print(
-            'Stat ${stat.statUuid} references missing recipe ${stat.recipeId}');
+        AppLogger.warning(
+            'Stat ${AppLogger.sanitize(stat.statUuid)} references missing recipe ${AppLogger.sanitize(stat.recipeId)}');
         individualProcessingStats.add(stat);
       }
     }
 
     // Phase 3: Retry batch insert with valid stats
     if (validStats.isNotEmpty) {
-      print('Retrying batch insert with ${validStats.length} valid stats');
+      AppLogger.debug(
+          'Retrying batch insert with ${validStats.length} valid stats');
       try {
         await db.userStatsDao.insertOrUpdateMultipleStats(validStats);
-        print(
+        AppLogger.debug(
             'Successfully inserted ${validStats.length} valid stats in batch retry');
       } catch (e) {
-        print(
+        AppLogger.debug(
             'Batch retry also failed, falling back to individual processing for valid stats');
         individualProcessingStats.addAll(validStats);
       }
@@ -568,27 +592,32 @@ class UserStatProvider extends ChangeNotifier {
 
     // Phase 4: Individual processing for truly problematic stats
     if (individualProcessingStats.isNotEmpty) {
-      print(
+      AppLogger.debug(
           'Processing ${individualProcessingStats.length} stats individually');
 
       for (final stat in individualProcessingStats) {
         try {
           await db.userStatsDao.insertUserStatWithFallback(stat);
-          print('Successfully processed stat ${stat.statUuid} individually');
+          AppLogger.debug(
+              'Successfully processed stat ${AppLogger.sanitize(stat.statUuid)} individually');
         } catch (e) {
-          print('Failed to process stat ${stat.statUuid} individually: $e');
-          print('Original recipe ID: ${stat.recipeId}');
+          AppLogger.error(
+              'Failed to process stat ${AppLogger.sanitize(stat.statUuid)} individually',
+              errorObject: e);
+          AppLogger.debug(
+              'Original recipe ID: ${AppLogger.sanitize(stat.recipeId)}');
           skippedCount++;
         }
       }
     }
 
-    print('Stats insertion summary:');
-    print('- Total attempted: ${stats.length}');
-    print(
+    AppLogger.debug('Stats insertion summary:');
+    AppLogger.debug('- Total attempted: ${stats.length}');
+    AppLogger.debug(
         '- Batch successful: ${stats.length - batchResult.failedStats.length}');
-    print('- Individual processing: ${individualProcessingStats.length}');
-    print('- Skipped: $skippedCount');
+    AppLogger.debug(
+        '- Individual processing: ${individualProcessingStats.length}');
+    AppLogger.debug('- Skipped: $skippedCount');
   }
 
   bool _isRemoteNewer(VersionVector local, VersionVector remote) {
@@ -601,13 +630,23 @@ class UserStatProvider extends ChangeNotifier {
 
   Future<List<UserStatsModel>> _fetchFullRemoteStats(
       List<String> statUuids) async {
-    final response = await Supabase.instance.client
-        .from('user_stats')
-        .select()
-        .inFilter('stat_uuid', statUuids);
-    return (response as List<dynamic>)
-        .map((json) => _jsonToUserStatsModel(json))
-        .toList();
+    try {
+      final response = await Supabase.instance.client
+          .from('user_stats')
+          .select()
+          .inFilter('stat_uuid', statUuids)
+          .timeout(const Duration(seconds: 5));
+      return (response as List<dynamic>)
+          .map((json) => _jsonToUserStatsModel(json))
+          .toList();
+    } on TimeoutException catch (e) {
+      AppLogger.error('Supabase remote stats fetch timed out', errorObject: e);
+      // Return empty list on timeout to allow sync to continue
+      return [];
+    } catch (e) {
+      AppLogger.error('Error fetching full remote stats', errorObject: e);
+      return [];
+    }
   }
 
   Future<void> _updateRemoteStats(List<UserStatsModel> stats) async {
@@ -624,10 +663,11 @@ class UserStatProvider extends ChangeNotifier {
           .timeout(const Duration(seconds: 3)); // Added 3-second timeout
     } catch (e) {
       if (e is TimeoutException) {
-        print('Supabase operation timed out: $e');
+        AppLogger.error('Supabase operation timed out', errorObject: e);
         // Handle the timeout if needed
       } else {
-        print('Error updating user stats in Supabase: $e');
+        AppLogger.error('Error updating user stats in Supabase',
+            errorObject: e);
         // Handle other exceptions
       }
     }

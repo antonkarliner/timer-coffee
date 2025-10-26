@@ -12,6 +12,8 @@ import '../models/recipe_model.dart';
 import '../providers/database_provider.dart';
 import '../providers/recipe_provider.dart';
 import '../providers/user_recipe_provider.dart';
+import '../utils/app_logger.dart';
+import '../utils/input_validator.dart';
 import 'authentication_service.dart';
 
 /// Result class for recipe import operations
@@ -75,7 +77,7 @@ class RecipeImportSharingService {
     required BuildContext context,
     required String potentialImportId,
   }) async {
-    print("DEBUG: performInitialRecipeCheck started");
+    AppLogger.debug("performInitialRecipeCheck started");
 
     final l10n = AppLocalizations.of(context)!;
     final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
@@ -84,32 +86,41 @@ class RecipeImportSharingService {
         Provider.of<UserRecipeProvider>(context, listen: false);
     final appDb = Provider.of<AppDatabase>(context, listen: false);
 
-    print("DEBUG: Checking recipe with ID: $potentialImportId");
-    print(
-        "DEBUG: Current user: ${Supabase.instance.client.auth.currentUser?.id ?? "Not logged in"}");
+    // Validate and sanitize recipe ID
+    final String? validatedId =
+        InputValidator.validateAndSanitizeRecipeId(potentialImportId);
+    if (validatedId == null) {
+      return RecipeImportResult.error('Invalid recipe ID format');
+    }
+
+    AppLogger.debug(
+        "Checking recipe with ID: ${AppLogger.sanitize(validatedId)}");
+    AppLogger.debug(
+        "Current user: ${AppLogger.sanitize(Supabase.instance.client.auth.currentUser?.id ?? "Not logged in")}");
 
     try {
       // 1. First check if recipe exists directly by ID in local database
-      print("DEBUG: Step 1 - Checking if recipe exists locally by ID");
+      AppLogger.debug("Step 1 - Checking if recipe exists locally by ID");
       RecipeModel? localRecipe =
-          await recipeProvider.getRecipeById(potentialImportId);
+          await recipeProvider.getRecipeById(validatedId);
 
       if (localRecipe != null) {
-        print("DEBUG: Recipe found locally with ID: $potentialImportId");
-        return RecipeImportResult.success(potentialImportId);
-      } else if (potentialImportId.startsWith('usr-')) {
-        print(
-            "DEBUG: Step 2 - Recipe not found locally. Checking if it exists as an import_id");
+        AppLogger.debug(
+            "Recipe found locally with ID: ${AppLogger.sanitize(validatedId)}");
+        return RecipeImportResult.success(validatedId);
+      } else if (validatedId.startsWith('usr-')) {
+        AppLogger.debug(
+            "Step 2 - Recipe not found locally. Checking if it exists as an import_id");
         final localRecipeByImportId =
-            await appDb.recipesDao.getRecipeByImportId(potentialImportId);
+            await appDb.recipesDao.getRecipeByImportId(validatedId);
 
         if (localRecipeByImportId != null) {
-          print(
-              "DEBUG: Recipe found locally as import with ID: ${localRecipeByImportId.id} (Import ID: $potentialImportId)");
+          AppLogger.debug(
+              "Recipe found locally as import with ID: ${AppLogger.sanitize(localRecipeByImportId.id)} (Import ID: ${AppLogger.sanitize(validatedId)})");
           return RecipeImportResult.success(localRecipeByImportId.id);
         } else {
-          print(
-              "DEBUG: Step 3 - Recipe not found locally. Checking Supabase for import ID: $potentialImportId");
+          AppLogger.debug(
+              "Step 3 - Recipe not found locally. Checking Supabase for import ID: ${AppLogger.sanitize(validatedId)}");
 
           try {
             final testResponse = await Supabase.instance.client
@@ -117,60 +128,64 @@ class RecipeImportSharingService {
                 .select('brewing_method_id')
                 .limit(1)
                 .maybeSingle();
-            print(
-                "DEBUG: Supabase test query result: ${testResponse != null ? "Success" : "No data"}");
+            AppLogger.debug(
+                "Supabase test query result: ${testResponse != null ? "Success" : "No data"}");
           } catch (e) {
-            print("DEBUG: Supabase test query error: $e");
+            AppLogger.error("Supabase test query error", errorObject: e);
           }
 
           final metadata =
-              await dbProvider.getPublicUserRecipeMetadata(potentialImportId);
-          print(
-              "DEBUG: Metadata response: ${metadata != null ? "Found" : "Not found"}");
+              await dbProvider.getPublicUserRecipeMetadata(validatedId);
+          AppLogger.debug(
+              "Metadata response: ${metadata != null ? "Found" : "Not found"}");
           if (metadata != null) {
-            print("DEBUG: Recipe metadata: $metadata");
+            AppLogger.debug("Recipe metadata: ${AppLogger.sanitize(metadata)}");
           }
 
           if (metadata != null) {
-            print("DEBUG: Recipe exists in Supabase, showing import dialog");
+            AppLogger.debug("Recipe exists in Supabase, showing import dialog");
             final bool? wantsImport = await _showImportDialog(
               context: context,
-              recipeName: metadata['name'] ?? potentialImportId,
+              recipeName:
+                  InputValidator.sanitizeInput(metadata['name'] ?? validatedId),
             );
 
             if (wantsImport == true) {
-              print("DEBUG: User wants to import recipe");
-              final fullData = await dbProvider
-                  .fetchFullPublicUserRecipeData(potentialImportId);
-              print(
-                  "DEBUG: Full recipe data: ${fullData != null ? "Found" : "Not found"}");
+              AppLogger.debug("User wants to import recipe");
+              final fullData =
+                  await dbProvider.fetchFullPublicUserRecipeData(validatedId);
+              AppLogger.debug(
+                  "Full recipe data: ${fullData != null ? "Found" : "Not found"}");
 
               if (!context.mounted)
                 return RecipeImportResult.error('Context not mounted');
 
               if (fullData != null) {
-                print("DEBUG: Recipe data keys: ${fullData.keys.join(', ')}");
-                print(
-                    "DEBUG: Recipe has localizations: ${(fullData['user_recipe_localizations'] as List?)?.isNotEmpty ?? false}");
-                print(
-                    "DEBUG: Recipe has steps: ${(fullData['user_steps'] as List?)?.isNotEmpty ?? false}");
+                AppLogger.debug(
+                    "Recipe data keys: ${AppLogger.sanitize(fullData.keys.join(', '))}");
+                AppLogger.debug(
+                    "Recipe has localizations: ${(fullData['user_recipe_localizations'] as List?)?.isNotEmpty ?? false}");
+                AppLogger.debug(
+                    "Recipe has steps: ${(fullData['user_steps'] as List?)?.isNotEmpty ?? false}");
 
-                print("DEBUG: Importing recipe into local database");
+                AppLogger.debug("Importing recipe into local database");
                 final String? newLocalId =
                     await userRecipeProvider.importSupabaseRecipe(fullData);
-                print("DEBUG: Import result - new local ID: $newLocalId");
+                AppLogger.debug(
+                    "Import result - new local ID: ${AppLogger.sanitize(newLocalId)}");
 
                 if (newLocalId != null) {
-                  print("DEBUG: Recipe imported successfully");
+                  AppLogger.debug("Recipe imported successfully");
 
                   // Additional diagnostics to ensure local visibility after import
                   try {
-                    final byImport = await appDb.recipesDao
-                        .getRecipeByImportId(potentialImportId);
-                    print(
-                        "DEBUG: Post-import local lookup by import_id present: ${byImport != null} (id: ${byImport?.id})");
+                    final byImport =
+                        await appDb.recipesDao.getRecipeByImportId(validatedId);
+                    AppLogger.debug(
+                        "Post-import local lookup by import_id present: ${byImport != null} (id: ${AppLogger.sanitize(byImport?.id)})");
                   } catch (e) {
-                    print("DEBUG: Post-import diagnostic lookup error: $e");
+                    AppLogger.error("Post-import diagnostic lookup error",
+                        errorObject: e);
                   }
 
                   // Ensure provider state is refreshed before loading
@@ -185,28 +200,30 @@ class RecipeImportSharingService {
                         SnackBar(content: Text(l10n.recipeImportSuccess)));
                   }
 
-                  print("DEBUG: Triggering immediate sync after import...");
+                  AppLogger.debug("Triggering immediate sync after import...");
                   final currentUser = Supabase.instance.client.auth.currentUser;
                   if (currentUser != null && !currentUser.isAnonymous) {
                     if (context.mounted) {
                       try {
                         await dbProvider.syncUserRecipes(currentUser.id);
-                        print("DEBUG: Immediate sync triggered successfully.");
+                        AppLogger.debug(
+                            "Immediate sync triggered successfully.");
                       } catch (syncError) {
-                        print("DEBUG: Error during immediate sync: $syncError");
+                        AppLogger.error("Error during immediate sync",
+                            errorObject: syncError);
                       }
                     } else {
-                      print(
-                          "DEBUG: Context not mounted, skipping immediate sync.");
+                      AppLogger.debug(
+                          "Context not mounted, skipping immediate sync.");
                     }
                   } else {
-                    print(
-                        "DEBUG: User not logged in or anonymous, skipping immediate sync.");
+                    AppLogger.debug(
+                        "User not logged in or anonymous, skipping immediate sync.");
                   }
 
                   return RecipeImportResult.success(newLocalId);
                 } else {
-                  print("DEBUG: Failed to save imported recipe");
+                  AppLogger.error("Failed to save imported recipe");
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(l10n.recipeImportFailedSave)));
@@ -214,7 +231,7 @@ class RecipeImportSharingService {
                   return RecipeImportResult.error(l10n.recipeImportFailedSave);
                 }
               } else {
-                print("DEBUG: Failed to fetch full recipe data");
+                AppLogger.error("Failed to fetch full recipe data");
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(l10n.recipeImportFailedFetch)));
@@ -222,24 +239,26 @@ class RecipeImportSharingService {
                 return RecipeImportResult.error(l10n.recipeImportFailedFetch);
               }
             } else {
-              print("DEBUG: User declined to import recipe");
+              AppLogger.debug("User declined to import recipe");
               return RecipeImportResult.error(l10n.recipeNotImported);
             }
           } else {
-            print("DEBUG: Recipe not found in Supabase or not public");
+            AppLogger.debug("Recipe not found in Supabase or not public");
             return RecipeImportResult.error(l10n.recipeNotFoundCloud);
           }
         }
       } else {
-        print("DEBUG: Not a user recipe ID and not found locally");
+        AppLogger.debug("Not a user recipe ID and not found locally");
         return RecipeImportResult.error(l10n.recipeLoadErrorGeneric);
       }
     } catch (e) {
-      print("DEBUG: Error during initial recipe check: $e");
+      AppLogger.error("Error during initial recipe check", errorObject: e);
       if (e is PostgrestException) {
-        print("DEBUG: Postgrest error code: ${e.code}");
-        print("DEBUG: Postgrest error message: ${e.message}");
-        print("DEBUG: Postgrest error details: ${e.details}");
+        AppLogger.error("Postgrest error code: ${AppLogger.sanitize(e.code)}");
+        AppLogger.error(
+            "Postgrest error message: ${AppLogger.sanitize(e.message)}");
+        AppLogger.error(
+            "Postgrest error details: ${AppLogger.sanitize(e.details)}");
       }
       return RecipeImportResult.error(l10n.recipeLoadErrorGeneric);
     }
@@ -311,7 +330,8 @@ class RecipeImportSharingService {
   }) async {
     // If already public, no moderation needed
     if (isAlreadyPublic) {
-      print("Recipe $recipeId is already public. Skipping moderation.");
+      AppLogger.debug(
+          "Recipe ${AppLogger.sanitize(recipeId)} is already public. Skipping moderation.");
       return false;
     }
 
@@ -324,7 +344,8 @@ class RecipeImportSharingService {
       // Get local recipe model to verify it exists
       final localRecipeModel = await recipeProvider.getRecipeById(recipeId);
       if (localRecipeModel == null) {
-        print("Local recipe $recipeId not found. Performing moderation.");
+        AppLogger.debug(
+            "Local recipe ${AppLogger.sanitize(recipeId)} not found. Performing moderation.");
         return true;
       }
 
@@ -334,15 +355,15 @@ class RecipeImportSharingService {
           .getSingleOrNull();
 
       if (localRecipeEntity == null) {
-        print(
-            "Local recipe entity $recipeId not found. Performing moderation.");
+        AppLogger.debug(
+            "Local recipe entity ${AppLogger.sanitize(recipeId)} not found. Performing moderation.");
         return true;
       }
 
       // If local recipe is flagged for moderation review, perform moderation
       if (localRecipeEntity.needsModerationReview == true) {
-        print(
-            "Recipe $recipeId flagged for moderation review. Performing moderation.");
+        AppLogger.debug(
+            "Recipe ${AppLogger.sanitize(recipeId)} flagged for moderation review. Performing moderation.");
         return true;
       }
 
@@ -357,23 +378,24 @@ class RecipeImportSharingService {
       // If local is newer than remote, perform moderation (recipe was modified locally)
       if (localLastModified != null && remoteLastModified != null) {
         if (localLastModified.isAfter(remoteLastModified)) {
-          print(
-              "Recipe $recipeId was modified locally (local: ${localLastModified.toIso8601String()}, remote: ${remoteLastModified.toIso8601String()}). Performing moderation.");
+          AppLogger.debug(
+              "Recipe ${AppLogger.sanitize(recipeId)} was modified locally (local: ${localLastModified.toIso8601String()}, remote: ${remoteLastModified.toIso8601String()}). Performing moderation.");
           return true;
         } else {
-          print(
-              "Recipe $recipeId is up-to-date with remote. Skipping moderation.");
+          AppLogger.debug(
+              "Recipe ${AppLogger.sanitize(recipeId)} is up-to-date with remote. Skipping moderation.");
           return false;
         }
       }
 
       // If we can't compare timestamps reliably, err on the side of caution
-      print(
-          "Recipe $recipeId timestamp comparison inconclusive. Performing moderation.");
+      AppLogger.debug(
+          "Recipe ${AppLogger.sanitize(recipeId)} timestamp comparison inconclusive. Performing moderation.");
       return true;
     } catch (e) {
-      print(
-          "Error checking moderation status for recipe $recipeId: $e. Performing moderation.");
+      AppLogger.error(
+          "Error checking moderation status for recipe ${AppLogger.sanitize(recipeId)}",
+          errorObject: e);
       return true; // Err on the side of caution
     }
   }
@@ -402,11 +424,11 @@ class RecipeImportSharingService {
         // 1. Check Authentication using AuthenticationService
         final currentUser = Supabase.instance.client.auth.currentUser;
         if (currentUser == null || currentUser.isAnonymous) {
-          print(
-              'DEBUG: User not authenticated at start of share. Prompting sign-in...');
+          AppLogger.debug(
+              'User not authenticated at start of share. Prompting sign-in...');
           // Show prompt; may return before user completes email/OTP
           await AuthenticationService.promptSignIn(context);
-          print('DEBUG: Entering auth wait loop after promptSignIn');
+          AppLogger.debug('Entering auth wait loop after promptSignIn');
 
           // Wait until user becomes authenticated (non-anonymous) or timeout
           const totalTimeout = Duration(minutes: 3);
@@ -417,7 +439,8 @@ class RecipeImportSharingService {
           while (DateTime.now().difference(start) < totalTimeout) {
             final u = Supabase.instance.client.auth.currentUser;
             if (u != null && !u.isAnonymous) {
-              print('DEBUG: Auth check shows authenticated user: ${u.id}');
+              AppLogger.debug(
+                  'Auth check shows authenticated user: ${AppLogger.sanitize(u.id)}');
               authenticated = true;
               break;
             }
@@ -428,8 +451,8 @@ class RecipeImportSharingService {
                   .timeout(const Duration(milliseconds: 1));
               final streamUser = evt.session?.user;
               if (streamUser != null && !streamUser.isAnonymous) {
-                print(
-                    'DEBUG: Auth stream indicates authenticated user: ${streamUser.id}');
+                AppLogger.debug(
+                    'Auth stream indicates authenticated user: ${AppLogger.sanitize(streamUser.id)}');
                 authenticated = true;
                 break;
               }
@@ -440,8 +463,8 @@ class RecipeImportSharingService {
           }
 
           if (!authenticated) {
-            print(
-                'DEBUG: Sign-in not completed within waiting window. Aborting share.');
+            AppLogger.debug(
+                'Sign-in not completed within waiting window. Aborting share.');
             final l10n = AppLocalizations.of(context)!;
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content:
@@ -452,11 +475,12 @@ class RecipeImportSharingService {
 
         // Ensure we have the latest user ID after potential sign-in/sync
         final userId = Supabase.instance.client.auth.currentUser!.id;
-        print('DEBUG: Proceeding with share as authenticated user: $userId');
+        AppLogger.debug(
+            'Proceeding with share as authenticated user: ${AppLogger.sanitize(userId)}');
 
         // 2. Fetch Recipe Data from Supabase
-        print(
-            "Fetching recipe $shareRecipeId for user $userId from Supabase...");
+        AppLogger.debug(
+            "Fetching recipe ${AppLogger.sanitize(shareRecipeId)} for user ${AppLogger.sanitize(userId)} from Supabase...");
         Map<String, dynamic>? response = await Supabase.instance.client
             .from('user_recipes')
             .select('*, user_recipe_localizations(*), user_steps(*)')
@@ -467,14 +491,14 @@ class RecipeImportSharingService {
         // derive usr-<currentUserId>-<timestamp> and create remote rows from local recipe data.
         if (response == null && shareRecipeId.startsWith('usr-')) {
           try {
-            print(
-                "DEBUG: Supabase lookup returned null for $shareRecipeId. Attempting remediation for anonymous-to-signed-in sharing.");
+            AppLogger.debug(
+                "Supabase lookup returned null for ${AppLogger.sanitize(shareRecipeId)}. Attempting remediation for anonymous-to-signed-in sharing.");
             // Prefer server-driven sync path first
             try {
               final dbProvider =
                   Provider.of<DatabaseProvider>(context, listen: false);
-              print(
-                  'DEBUG: Attempting pre-remediation syncUserRecipes($userId)');
+              AppLogger.debug(
+                  'Attempting pre-remediation syncUserRecipes(${AppLogger.sanitize(userId)})');
               await dbProvider.syncUserRecipes(userId);
               // Re-check original id after sync
               response = await Supabase.instance.client
@@ -483,18 +507,19 @@ class RecipeImportSharingService {
                   .eq('id', shareRecipeId)
                   .maybeSingle();
             } catch (e) {
-              print('DEBUG: syncUserRecipes failed or not applicable: $e');
+              AppLogger.error('syncUserRecipes failed or not applicable',
+                  errorObject: e);
             }
 
             // Extract timestamp from the original id (last hyphen-separated token)
             final parts = shareRecipeId.split('-');
             if (parts.length < 3) {
-              print("DEBUG: Invalid usr-* id format, skip remediation.");
+              AppLogger.debug("Invalid usr-* id format, skip remediation.");
             } else {
               final timestamp = parts.last;
               final derivedNewId = 'usr-$userId-$timestamp';
-              print(
-                  'DEBUG: Derived new cloud id for current user: $derivedNewId');
+              AppLogger.debug(
+                  'Derived new cloud id for current user: ${AppLogger.sanitize(derivedNewId)}');
 
               // Try to fetch local recipe for either original or derived id.
               final recipeProvider =
@@ -505,12 +530,12 @@ class RecipeImportSharingService {
               if (localRecipe == null) {
                 localRecipe = await recipeProvider.getRecipeById(shareRecipeId);
                 if (localRecipe != null) {
-                  print(
-                      'DEBUG: Found local recipe under old id=$shareRecipeId; will push to cloud as $derivedNewId');
+                  AppLogger.debug(
+                      'Found local recipe under old id=${AppLogger.sanitize(shareRecipeId)}; will push to cloud as ${AppLogger.sanitize(derivedNewId)}');
                 }
               } else {
-                print(
-                    'DEBUG: Found local recipe already remapped to $derivedNewId');
+                AppLogger.debug(
+                    'Found local recipe already remapped to ${AppLogger.sanitize(derivedNewId)}');
               }
 
               if (localRecipe != null) {
@@ -534,7 +559,8 @@ class RecipeImportSharingService {
                   'last_modified': DateTime.now().toUtc().toIso8601String(),
                 };
 
-                print('DEBUG: Ensuring user_recipes row for $derivedNewId');
+                AppLogger.debug(
+                    'Ensuring user_recipes row for ${AppLogger.sanitize(derivedNewId)}');
                 final exists = await Supabase.instance.client
                     .from('user_recipes')
                     .select('id')
@@ -561,8 +587,8 @@ class RecipeImportSharingService {
                   'grind_size': localRecipe.grindSize,
                   'short_description': localRecipe.shortDescription,
                 };
-                print(
-                    'DEBUG: Inserting user_recipe_localizations for $derivedNewId locale=$currentLocale');
+                AppLogger.debug(
+                    'Inserting user_recipe_localizations for ${AppLogger.sanitize(derivedNewId)} locale=$currentLocale');
                 await Supabase.instance.client
                     .from('user_recipe_localizations')
                     .insert(locPayload);
@@ -579,18 +605,19 @@ class RecipeImportSharingService {
                             'locale': currentLocale,
                           })
                       .toList();
-                  print(
-                      'DEBUG: Inserting user_steps for $derivedNewId count=${stepsPayload.length} locale=$currentLocale');
+                  AppLogger.debug(
+                      'Inserting user_steps for ${AppLogger.sanitize(derivedNewId)} count=${stepsPayload.length} locale=$currentLocale');
                   await Supabase.instance.client
                       .from('user_steps')
                       .insert(stepsPayload);
                 } else {
-                  print(
-                      'DEBUG: Local recipe has zero steps, skipping steps upsert');
+                  AppLogger.debug(
+                      'Local recipe has zero steps, skipping steps upsert');
                 }
 
                 // Re-fetch from Supabase under the new id
-                print('DEBUG: Re-fetching created cloud recipe $derivedNewId');
+                AppLogger.debug(
+                    'Re-fetching created cloud recipe ${AppLogger.sanitize(derivedNewId)}');
                 response = await Supabase.instance.client
                     .from('user_recipes')
                     .select('*, user_recipe_localizations(*), user_steps(*)')
@@ -598,30 +625,30 @@ class RecipeImportSharingService {
                     .maybeSingle();
 
                 if (response != null) {
-                  print(
-                      'DEBUG: Remediation succeeded, continuing share with id=$derivedNewId');
+                  AppLogger.debug(
+                      'Remediation succeeded, continuing share with id=${AppLogger.sanitize(derivedNewId)}');
                   // Also update shareRecipeId variable to new id so share URL is correct
                   shareRecipeId = derivedNewId;
                   // Capture resolved id to inform caller
                   resolvedIdFromRemediation = derivedNewId;
                 } else {
-                  print(
-                      'DEBUG: Remediation failed to verify created record for $derivedNewId');
+                  AppLogger.error(
+                      'Remediation failed to verify created record for ${AppLogger.sanitize(derivedNewId)}');
                 }
               } else {
-                print(
-                    'DEBUG: No local recipe found for either $derivedNewId or $shareRecipeId. Cannot remediate.');
+                AppLogger.debug(
+                    'No local recipe found for either ${AppLogger.sanitize(derivedNewId)} or ${AppLogger.sanitize(shareRecipeId)}. Cannot remediate.');
               }
             }
           } catch (remapError, remapStack) {
-            print('DEBUG: Error during remediation: $remapError');
-            print(remapStack);
+            AppLogger.error('Error during remediation',
+                errorObject: remapError, stackTrace: remapStack);
           }
         }
 
         if (response == null) {
-          print(
-              "Recipe $shareRecipeId not found in Supabase or not owned by user $userId.");
+          AppLogger.error(
+              "Recipe ${AppLogger.sanitize(shareRecipeId)} not found in Supabase or not owned by user ${AppLogger.sanitize(userId)}.");
           scaffoldMessenger
               .showSnackBar(SnackBar(content: Text(l10n.recipeNotFoundCloud)));
           return RecipeSharingResult.error(l10n.recipeNotFoundCloud);
@@ -640,8 +667,8 @@ class RecipeImportSharingService {
 
         // Only perform moderation and update if needed
         if (needsModeration) {
-          print(
-              "Recipe $shareRecipeId is not public yet. Performing moderation and update...");
+          AppLogger.debug(
+              "Recipe ${AppLogger.sanitize(shareRecipeId)} is not public yet. Performing moderation and update...");
           final localizations =
               recipeData['user_recipe_localizations'] as List<dynamic>? ?? [];
           final steps = recipeData['user_steps'] as List<dynamic>? ?? [];
@@ -678,10 +705,11 @@ class RecipeImportSharingService {
           combinedText = combinedText.trim();
 
           if (combinedText.isEmpty) {
-            print(
-                "Warning: No text content found for moderation for recipe $shareRecipeId.");
+            AppLogger.warning(
+                "No text content found for moderation for recipe ${AppLogger.sanitize(shareRecipeId)}.");
           } else {
-            print("Calling content moderation for recipe $shareRecipeId...");
+            AppLogger.debug(
+                "Calling content moderation for recipe ${AppLogger.sanitize(shareRecipeId)}...");
             // 4. Call Moderation Function
             final moderationResponse =
                 await Supabase.instance.client.functions.invoke(
@@ -689,8 +717,10 @@ class RecipeImportSharingService {
               body: {'text': combinedText},
             );
 
-            print("Moderation response status: ${moderationResponse.status}");
-            print("Moderation response data: ${moderationResponse.data}");
+            AppLogger.debug(
+                "Moderation response status: ${moderationResponse.status}");
+            AppLogger.debug(
+                "Moderation response data: ${AppLogger.sanitize(moderationResponse.data)}");
 
             if (moderationResponse.status != 200 ||
                 moderationResponse.data == null) {
@@ -720,27 +750,30 @@ class RecipeImportSharingService {
               return RecipeSharingResult.error(
                   'Content moderation failed: $reason');
             }
-            print("Moderation passed for recipe $shareRecipeId.");
+            AppLogger.debug(
+                "Moderation passed for recipe ${AppLogger.sanitize(shareRecipeId)}.");
           }
 
           // Clear the moderation flag since moderation passed
           final dbProvider =
               Provider.of<DatabaseProvider>(context, listen: false);
           await dbProvider.clearNeedsModerationReview(shareRecipeId);
-          print("Cleared moderation flag for recipe $shareRecipeId.");
-          print(
-              "SAFETY_LOG: Moderation passed for $shareRecipeId - flag cleared before setting isPublic=true");
+          AppLogger.debug(
+              "Cleared moderation flag for recipe ${AppLogger.sanitize(shareRecipeId)}.");
+          AppLogger.security(
+              "Moderation passed for ${AppLogger.sanitize(shareRecipeId)} - flag cleared before setting isPublic=true");
 
           // 5. Make Public (only if moderation passed and it wasn't already public)
-          print("Setting recipe $shareRecipeId to public...");
+          AppLogger.debug(
+              "Setting recipe ${AppLogger.sanitize(shareRecipeId)} to public...");
           await Supabase.instance.client.from('user_recipes').update({
             'ispublic': true,
             'needs_moderation_review': false, // Explicitly clear the flag
             'last_modified': DateTime.now().toUtc().toIso8601String()
           }).eq('id', shareRecipeId);
         } else {
-          print(
-              "Recipe $shareRecipeId is already public. Skipping moderation and update.");
+          AppLogger.debug(
+              "Recipe ${AppLogger.sanitize(shareRecipeId)} is already public. Skipping moderation and update.");
         }
       } // --- End of User Recipe Sharing Logic ---
 
@@ -777,8 +810,8 @@ class RecipeImportSharingService {
       return RecipeSharingResult.success(
           resolvedRecipeId: resolvedIdFromRemediation);
     } catch (e, stacktrace) {
-      print("Error during sharing process: $e");
-      print(stacktrace);
+      AppLogger.error("Error during sharing process",
+          errorObject: e, stackTrace: stacktrace);
       scaffoldMessenger.showSnackBar(
           SnackBar(content: Text(l10n.shareErrorGeneric(e.toString()))));
       return RecipeSharingResult.error(e.toString());
