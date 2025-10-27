@@ -325,8 +325,8 @@ class AppLocalizationsKo extends AppLocalizations {
   String get noData => '데이터 없음';
 
   @override
-  String error(Object error) {
-    return '오류';
+  String error(String error) {
+    return '오류: $error';
   }
 
   @override

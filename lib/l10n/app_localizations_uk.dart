@@ -27,7 +27,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get newRoastersDiscoveredLabel => 'Нові обсмажувачі, яких відкрито';
 
   @override
-  String get favoriteRoastersLabel => 'Улюблені обсмажувачі';
+  String get favoriteRoastersLabel => 'Улюблені обсмажувальні';
 
   @override
   String get topOriginsLabel => 'Топ країни походження';
@@ -301,7 +301,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get beans => 'Зерна';
 
   @override
-  String get roaster => 'Обсмажувач';
+  String get roaster => 'Обсмажувальня';
 
   @override
   String get rating => 'Оцінка';
@@ -334,7 +334,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get noData => 'Дані відсутні';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'Помилка: $error';
   }
 
@@ -359,7 +359,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get statsFor => 'Статистика для ';
 
   @override
-  String get homescreenbrewcoffee => 'Зварити каву';
+  String get homescreenbrewcoffee => 'Заварити каву';
 
   @override
   String get homescreenhub => 'Центр';

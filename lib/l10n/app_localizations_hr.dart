@@ -332,8 +332,8 @@ class AppLocalizationsHr extends AppLocalizations {
   String get noData => 'Nema podataka';
 
   @override
-  String error(Object error) {
-    return 'Greška';
+  String error(String error) {
+    return 'Greška: $error';
   }
 
   @override

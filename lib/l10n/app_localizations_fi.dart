@@ -316,7 +316,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get coffeeBrewed => 'Kahvia uutettu:';
 
   @override
-  String get litersUnit => 'l';
+  String get litersUnit => 'L';
 
   @override
   String get mostUsedRecipes => 'Eniten käytetyt reseptit:';
@@ -331,7 +331,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get noData => 'Ei dataa';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'Virhe: $error';
   }
 

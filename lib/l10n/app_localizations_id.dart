@@ -27,7 +27,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get newRoastersDiscoveredLabel => 'Roaster baru yang ditemukan';
 
   @override
-  String get favoriteRoastersLabel => 'Roaster favorit';
+  String get favoriteRoastersLabel => 'Roastery favorit';
 
   @override
   String get topOriginsLabel => 'Asal-usul teratas';
@@ -145,7 +145,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get watertemp => 'Suhu air';
 
   @override
-  String get grindsize => 'Ukuran Penggilingan';
+  String get grindsize => 'Tingkat kehalusan gilingan';
 
   @override
   String get brewtime => 'Waktu Penyeduhan';
@@ -302,7 +302,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get beans => 'Biji';
 
   @override
-  String get roaster => 'Penyangrai';
+  String get roaster => 'Roastery';
 
   @override
   String get rating => 'Peringkat';
@@ -335,7 +335,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get noData => 'Tidak ada data';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'Kesalahan: $error';
   }
 
@@ -360,7 +360,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get statsFor => 'Statistik untuk ';
 
   @override
-  String get homescreenbrewcoffee => 'Membuat Kopi';
+  String get homescreenbrewcoffee => 'Seduh kopi';
 
   @override
   String get homescreenhub => 'Hub';

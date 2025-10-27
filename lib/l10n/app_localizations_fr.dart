@@ -163,7 +163,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get preparation => 'Préparation';
 
   @override
-  String get brewingprocess => 'Processus de brassage';
+  String get brewingprocess => 'Processus d’infusion';
 
   @override
   String get step => 'Étape';
@@ -335,7 +335,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get noData => 'Aucune donnée';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'Erreur : $error';
   }
 

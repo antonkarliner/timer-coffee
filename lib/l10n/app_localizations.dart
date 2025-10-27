@@ -740,11 +740,11 @@ abstract class AppLocalizations {
   /// **'No data'**
   String get noData;
 
-  /// No description provided for @error.
+  /// Generic error message label combined with the specific error description
   ///
   /// In en, this message translates to:
-  /// **'Error'**
-  String error(Object error);
+  /// **'Error: {error}'**
+  String error(String error);
 
   /// No description provided for @someoneJustBrewed.
   ///

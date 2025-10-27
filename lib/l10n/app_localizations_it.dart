@@ -27,7 +27,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get newRoastersDiscoveredLabel => 'Nuovi tostatori scoperti';
 
   @override
-  String get favoriteRoastersLabel => 'Tostatori preferiti';
+  String get favoriteRoastersLabel => 'Torrefazioni preferite';
 
   @override
   String get topOriginsLabel => 'Origini principali';
@@ -147,7 +147,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get watertemp => 'Temperatura dell\'Acqua';
 
   @override
-  String get grindsize => 'Grandezza della Macinatura';
+  String get grindsize => 'Grado di macinatura';
 
   @override
   String get brewtime => 'Tempo di Infusione';
@@ -303,7 +303,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get beans => 'Chicchi';
 
   @override
-  String get roaster => 'Tostatore';
+  String get roaster => 'Torrefazione';
 
   @override
   String get rating => 'Valutazione';
@@ -336,7 +336,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get noData => 'Nessun dato';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'Errore: $error';
   }
 
@@ -361,7 +361,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get statsFor => 'Statistiche per ';
 
   @override
-  String get homescreenbrewcoffee => 'Prepara caffè';
+  String get homescreenbrewcoffee => 'Prepara il caffè';
 
   @override
   String get homescreenhub => 'Hub';

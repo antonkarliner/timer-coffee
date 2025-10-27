@@ -158,7 +158,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get preparation => 'التحضير';
 
   @override
-  String get brewingprocess => 'عملية التخمير';
+  String get brewingprocess => 'عملية الاستخلاص';
 
   @override
   String get step => 'خطوة';
@@ -294,7 +294,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get brewdiarynotfound => 'لم يتم العثور على مداخلات';
 
   @override
-  String get beans => 'حبوب';
+  String get beans => 'حبوب القهوة';
 
   @override
   String get roaster => 'المحمصة';
@@ -330,7 +330,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noData => 'لا توجد بيانات';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'خطأ: $error';
   }
 

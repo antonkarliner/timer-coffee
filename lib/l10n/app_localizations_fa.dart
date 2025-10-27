@@ -27,7 +27,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get newRoastersDiscoveredLabel => 'رسترهای جدید کشف‌شده';
 
   @override
-  String get favoriteRoastersLabel => 'رسترهای موردعلاقه';
+  String get favoriteRoastersLabel => 'برشته‌خانه‌های موردعلاقه';
 
   @override
   String get topOriginsLabel => 'برترین خاستگاه‌ها';
@@ -160,7 +160,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get preparation => 'آماده‌سازی';
 
   @override
-  String get brewingprocess => 'فرآیند دم';
+  String get brewingprocess => 'فرآیند دم‌آوری';
 
   @override
   String get step => 'مرحله';
@@ -295,10 +295,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get brewdiarynotfound => 'دفترچه‌ای یافت نشد';
 
   @override
-  String get beans => 'دانه‌ها';
+  String get beans => 'دانه‌های قهوه';
 
   @override
-  String get roaster => 'رستر';
+  String get roaster => 'برشته‌خانه';
 
   @override
   String get rating => 'امتیاز';
@@ -331,8 +331,8 @@ class AppLocalizationsFa extends AppLocalizations {
   String get noData => 'داده‌ای وجود ندارد';
 
   @override
-  String error(Object error) {
-    return 'خطا';
+  String error(String error) {
+    return 'خطا: $error';
   }
 
   @override
@@ -1098,7 +1098,7 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String moderationReviewNeededMessage(String recipeNames) {
-    return 'این محتوا نیاز به بازبینی دستی دارد قبل از انتشار.';
+    return 'دستورهای زیر به دلیل مسائل پالایش محتوا نیاز به بازبینی دستی دارند: $recipeNames';
   }
 
   @override
@@ -1141,17 +1141,17 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String moderationFailedBody(String reason) {
-    return 'محتوا با خط‌مشی مطابقت ندارد و ذخیره نشد.';
+    return 'این دستور به دلیل «$reason» قابل اشتراک‌گذاری نیست.';
   }
 
   @override
   String shareErrorGeneric(String error) {
-    return 'خطا در اشتراک‌گذاری';
+    return 'خطا در اشتراک‌گذاری دستور: $error';
   }
 
   @override
   String recipeDetailWebTitle(String recipeName) {
-    return 'جزئیات دستور';
+    return '$recipeName در Timer.Coffee';
   }
 
   @override
@@ -1163,7 +1163,7 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String saveLocallyModerationFailedBody(String reason) {
-    return 'به دلیل خطای پالایش محتوا، دستور به صورت محلی ذخیره نشد.';
+    return 'تغییرات محلی ذخیره شد، اما نسخه عمومی به دلیل پالایش محتوا به‌روزرسانی نشد: $reason';
   }
 
   @override

@@ -107,7 +107,7 @@
   "globalStats": "글로벌 통계",
   "unknownRecipe": "알 수 없는 레시피",
   "noData": "데이터 없음",
-  "error": "오류",
+  "error": "오류: {error}",
   "someoneJustBrewed": "누군가 {recipeName}을(를) 방금 추출했어요",
   "timePeriodToday": "오늘",
   "timePeriodThisWeek": "이번 주",

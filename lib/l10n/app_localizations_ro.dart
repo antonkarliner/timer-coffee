@@ -27,7 +27,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get newRoastersDiscoveredLabel => 'Prăjitorii noi descoperiți';
 
   @override
-  String get favoriteRoastersLabel => 'Prăjitorii favoriți';
+  String get favoriteRoastersLabel => 'Prăjitoriile preferate';
 
   @override
   String get topOriginsLabel => 'Top origini';
@@ -301,7 +301,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get beans => 'Boabe';
 
   @override
-  String get roaster => 'Praji';
+  String get roaster => 'Prăjitorie';
 
   @override
   String get rating => 'Evaluare';
@@ -334,7 +334,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get noData => 'Fără date';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'Eroare: $error';
   }
 

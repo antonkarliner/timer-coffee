@@ -302,7 +302,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get beans => 'Bohnen';
 
   @override
-  String get roaster => 'Röster';
+  String get roaster => 'Rösterei';
 
   @override
   String get rating => 'Bewertung';
@@ -335,7 +335,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noData => 'Keine Daten';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'Fehler: $error';
   }
 
@@ -360,7 +360,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get statsFor => 'Statistiken für ';
 
   @override
-  String get homescreenbrewcoffee => 'Kaffee kochen';
+  String get homescreenbrewcoffee => 'Kaffee brühen';
 
   @override
   String get homescreenhub => 'Hub';

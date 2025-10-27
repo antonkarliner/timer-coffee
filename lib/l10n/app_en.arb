@@ -107,7 +107,16 @@
   "globalStats": "Global stats",
   "unknownRecipe": "Unknown Recipe",
   "noData": "No data",
-  "error": "Error",
+  "error": "Error: {error}",
+  "@error": {
+    "description": "Generic error message label combined with the specific error description",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network timeout"
+      }
+    }
+  },
   "someoneJustBrewed": "Someone just brewed {recipeName}",
   "timePeriodToday": "Today",
   "timePeriodThisWeek": "This Week",

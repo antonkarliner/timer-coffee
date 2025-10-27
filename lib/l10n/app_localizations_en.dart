@@ -331,8 +331,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noData => 'No data';
 
   @override
-  String error(Object error) {
-    return 'Error';
+  String error(String error) {
+    return 'Error: $error';
   }
 
   @override

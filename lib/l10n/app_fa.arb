@@ -39,7 +39,7 @@
   "recipesummary": "خلاصه دستور",
   "recipesummarynote": "نکته: این یک دستور پایه با مقادیر پیش‌فرض آب و قهوه است.",
   "preparation": "آماده‌سازی",
-  "brewingprocess": "فرآیند دم",
+  "brewingprocess": "فرآیند دم‌آوری",
   "step": "مرحله",
   "seconds": "{count, plural, =0{ثانیه} =1{ثانیه} other{ثانیه}}",
   "@seconds": {
@@ -88,8 +88,8 @@
   "timeFormat": "HH:mm",
   "brewdiary": "دفترچه دم",
   "brewdiarynotfound": "دفترچه‌ای یافت نشد",
-  "beans": "دانه‌ها",
-  "roaster": "رستر",
+  "beans": "دانه‌های قهوه",
+  "roaster": "برشته‌خانه",
   "rating": "امتیاز",
   "notes": "نکته‌ها",
   "statsscreen": "صفحه آمار",
@@ -100,7 +100,7 @@
   "originsExploredLabel": "خاستگاه‌های کشف‌شده",
   "regionsExploredLabel": "منطقه‌های کشف‌شده",
   "newRoastersDiscoveredLabel": "رسترهای جدید کشف‌شده",
-  "favoriteRoastersLabel": "رسترهای موردعلاقه",
+  "favoriteRoastersLabel": "برشته‌خانه‌های موردعلاقه",
   "topOriginsLabel": "برترین خاستگاه‌ها",
   "topRegionsLabel": "برترین منطقه‌ها",
   "coffeeBrewed": "قهوه دم‌شده",
@@ -109,9 +109,15 @@
   "globalStats": "آمار جهانی",
   "unknownRecipe": "دستور ناشناخته",
   "noData": "داده‌ای وجود ندارد",
-  "error": "خطا",
+  "error": "خطا: {error}",
   "@error": {
-    "type": "Object"
+    "description": "Generic error message label combined with the specific error description",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "پایان زمان اتصال"
+      }
+    }
   },
   "someoneJustBrewed": "کسی همین الان {recipeName} را دم کرد",
   "timePeriodToday": "امروز",
@@ -636,7 +642,7 @@
   },
   "dialogImport": "وارد کردن",
   "moderationReviewNeededTitle": "نیاز به بازبینی",
-  "moderationReviewNeededMessage": "این محتوا نیاز به بازبینی دستی دارد قبل از انتشار.",
+  "moderationReviewNeededMessage": "دستورهای زیر به دلیل مسائل پالایش محتوا نیاز به بازبینی دستی دارند: {recipeNames}",
   "@moderationReviewNeededMessage": {
     "description": "Message shown when recipes need moderation review",
     "placeholders": {
@@ -658,7 +664,7 @@
   "moderationErrorFunction": "در فراخوانی ماژول پالایش محتوا خطا رخ داد",
   "moderationReasonDefault": "محتوا با خط‌مشی مطابقت نداشت",
   "moderationFailedTitle": "رد شد",
-  "moderationFailedBody": "محتوا با خط‌مشی مطابقت ندارد و ذخیره نشد.",
+  "moderationFailedBody": "این دستور به دلیل «{reason}» قابل اشتراک‌گذاری نیست.",
   "@moderationFailedBody": {
     "description": "Body text for the dialog shown when content moderation fails",
     "placeholders": {
@@ -668,7 +674,7 @@
       }
     }
   },
-  "shareErrorGeneric": "خطا در اشتراک‌گذاری",
+  "shareErrorGeneric": "خطا در اشتراک‌گذاری دستور: {error}",
   "@shareErrorGeneric": {
     "description": "Generic error message shown if the sharing process fails",
     "placeholders": {
@@ -678,7 +684,7 @@
       }
     }
   },
-  "recipeDetailWebTitle": "جزئیات دستور",
+  "recipeDetailWebTitle": "{recipeName} در Timer.Coffee",
   "@recipeDetailWebTitle": {
     "description": "Web page title format for a recipe detail page",
     "placeholders": {
@@ -690,7 +696,7 @@
   },
   "saveLocallyCheckLater": "به صورت محلی ذخیره شد. بعداً دوباره بررسی کنید.",
   "saveLocallyModerationFailedTitle": "ذخیره محلی ناموفق",
-  "saveLocallyModerationFailedBody": "به دلیل خطای پالایش محتوا، دستور به صورت محلی ذخیره نشد.",
+  "saveLocallyModerationFailedBody": "تغییرات محلی ذخیره شد، اما نسخه عمومی به دلیل پالایش محتوا به‌روزرسانی نشد: {reason}",
   "@saveLocallyModerationFailedBody": {
     "description": "Body text for the dialog shown when moderation fails but local save succeeds",
     "placeholders": {

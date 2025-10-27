@@ -107,7 +107,7 @@
   "globalStats": "Globalna statistika",
   "unknownRecipe": "Nepoznat recept",
   "noData": "Nema podataka",
-  "error": "Greška",
+  "error": "Greška: {error}",
   "someoneJustBrewed": "Netko je upravo pripremio {recipeName}",
   "timePeriodToday": "Danas",
   "timePeriodThisWeek": "Ovaj tjedan",

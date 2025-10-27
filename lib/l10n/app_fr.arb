@@ -39,7 +39,7 @@
   "recipesummary": "Résumé de la recette",
   "recipesummarynote": "Remarque : ceci est une recette de base avec des quantités d'eau et de café par défaut.",
   "preparation": "Préparation",
-  "brewingprocess": "Processus de brassage",
+  "brewingprocess": "Processus d’infusion",
   "step": "Étape",
   "seconds": "{count, plural, =0{secondes} =1{seconde} other{secondes}}",
   "finishmsg": "Merci d'utiliser Timer.Coffee ! Profitez de votre",

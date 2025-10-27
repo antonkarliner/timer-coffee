@@ -300,7 +300,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get beans => 'Grãos';
 
   @override
-  String get roaster => 'Torrador';
+  String get roaster => 'Torrefação';
 
   @override
   String get rating => 'Classificação';
@@ -333,7 +333,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get noData => 'Sem dados';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'Erro: $error';
   }
 
@@ -358,7 +358,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get statsFor => 'Estatísticas para ';
 
   @override
-  String get homescreenbrewcoffee => 'Prepare café';
+  String get homescreenbrewcoffee => 'Preparar café';
 
   @override
   String get homescreenhub => 'Hub';

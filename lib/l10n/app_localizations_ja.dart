@@ -27,7 +27,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get newRoastersDiscoveredLabel => '見つけた新しいロースター';
 
   @override
-  String get favoriteRoastersLabel => 'お気に入りのロースター';
+  String get favoriteRoastersLabel => 'お気に入りの焙煎所';
 
   @override
   String get topOriginsLabel => 'トップ原産国';
@@ -140,7 +140,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get watertemp => '水の温度';
 
   @override
-  String get grindsize => '挽き目の大きさ';
+  String get grindsize => '挽き目';
 
   @override
   String get brewtime => '抽出時間';
@@ -292,7 +292,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get beans => '豆';
 
   @override
-  String get roaster => '焙煎機';
+  String get roaster => '焙煎所';
 
   @override
   String get rating => '評価';
@@ -325,7 +325,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get noData => 'データなし';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'エラー: $error';
   }
 

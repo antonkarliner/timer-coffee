@@ -27,7 +27,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get newRoastersDiscoveredLabel => 'Keşfedilen yeni kavurucular';
 
   @override
-  String get favoriteRoastersLabel => 'Favori kavurucular';
+  String get favoriteRoastersLabel => 'Favori kahve kavurucuları';
 
   @override
   String get topOriginsLabel => 'Önde gelen menşeler';
@@ -146,7 +146,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get watertemp => 'Su Sıcaklığı';
 
   @override
-  String get grindsize => 'Öğütme Boyutu';
+  String get grindsize => 'Öğütme derecesi';
 
   @override
   String get brewtime => 'Demleme Süresi';
@@ -303,7 +303,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get beans => 'Çekirdekler';
 
   @override
-  String get roaster => 'Kavurucu';
+  String get roaster => 'Kahve kavurucusu';
 
   @override
   String get rating => 'Puanlama';
@@ -336,7 +336,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get noData => 'Veri yok';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'Hata: $error';
   }
 
@@ -361,7 +361,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get statsFor => 'Için istatistik ';
 
   @override
-  String get homescreenbrewcoffee => 'Demlemek Kahve';
+  String get homescreenbrewcoffee => 'Kahve demle';
 
   @override
   String get homescreenhub => 'Hub';

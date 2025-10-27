@@ -27,7 +27,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get newRoastersDiscoveredLabel => 'Nowi palarze odkryci';
 
   @override
-  String get favoriteRoastersLabel => 'Ulubieni palarze';
+  String get favoriteRoastersLabel => 'Ulubione palarnie';
 
   @override
   String get topOriginsLabel => 'Najlepsze pochodzenia';
@@ -143,7 +143,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get watertemp => 'Temperatura wody';
 
   @override
-  String get grindsize => 'Wielkość mielenia';
+  String get grindsize => 'Stopień mielenia';
 
   @override
   String get brewtime => 'Czas parzenia';
@@ -331,7 +331,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get noData => 'Brak danych';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'Błąd: $error';
   }
 
@@ -356,7 +356,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get statsFor => 'Statystyki dla ';
 
   @override
-  String get homescreenbrewcoffee => 'Parz kawę';
+  String get homescreenbrewcoffee => 'Zaparz kawę';
 
   @override
   String get homescreenhub => 'Hub';

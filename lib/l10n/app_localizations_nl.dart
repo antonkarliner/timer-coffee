@@ -27,7 +27,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get newRoastersDiscoveredLabel => 'Nieuwe branders ontdekt';
 
   @override
-  String get favoriteRoastersLabel => 'Favoriete branders';
+  String get favoriteRoastersLabel => 'Favoriete branderijen';
 
   @override
   String get topOriginsLabel => 'Top herkomsten';
@@ -301,7 +301,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get beans => 'Bonen';
 
   @override
-  String get roaster => 'Brander';
+  String get roaster => 'Branderij';
 
   @override
   String get rating => 'Beoordeling';
@@ -334,7 +334,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get noData => 'Geen data';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'Fout: $error';
   }
 

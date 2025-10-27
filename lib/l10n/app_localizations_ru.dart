@@ -337,7 +337,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get noData => 'Нет данных';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return 'Ошибка: $error';
   }
 

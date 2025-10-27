@@ -140,7 +140,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get watertemp => '水温';
 
   @override
-  String get grindsize => '研磨粒度';
+  String get grindsize => '研磨度';
 
   @override
   String get brewtime => '冲泡时间';
@@ -288,10 +288,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get brewdiarynotfound => '未找到条目';
 
   @override
-  String get beans => '豆子';
+  String get beans => '咖啡豆';
 
   @override
-  String get roaster => '烘焙机';
+  String get roaster => '烘焙商';
 
   @override
   String get rating => '评分';
@@ -324,7 +324,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noData => '无数据';
 
   @override
-  String error(Object error) {
+  String error(String error) {
     return '错误：$error';
   }
 
