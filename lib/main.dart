@@ -40,6 +40,7 @@ import 'package:coffee_timer/utils/log_config.dart';
 /// Prevents sensitive data exposure by ensuring all logs go through AppLogger
 class SupabaseLogInterceptor {
   static bool _isInitialized = false;
+  static bool _isLogging = false; // Prevent recursive logging
 
   static void initialize() {
     if (_isInitialized) return; // Prevent multiple initializations
@@ -50,14 +51,29 @@ class SupabaseLogInterceptor {
     if (!LogConfig.isReleaseMode) {
       // In debug mode, we want to see sanitized logs
       debugPrint = (String? message, {int? wrapWidth}) {
+        // Prevent recursive logging
+        if (_isLogging) return;
+
         if (message != null && message.contains('supabase')) {
-          final sanitized = AppLogger.sanitize(message);
-          AppLogger.debug('[SUPABASE] ${sanitized}');
+          _isLogging = true;
+          try {
+            final sanitized = AppLogger.sanitize(message);
+            // Use direct print to avoid recursive call to AppLogger.debug
+            print('[SUPABASE] ${sanitized}');
+          } finally {
+            _isLogging = false;
+          }
           return; // Don't print the original message
         }
         // For non-Supabase messages, let them through normally
         if (message != null) {
-          AppLogger.debug(message);
+          _isLogging = true;
+          try {
+            // Use direct print to avoid recursive call to AppLogger.debug
+            print(message);
+          } finally {
+            _isLogging = false;
+          }
         }
       };
     }
@@ -65,6 +81,7 @@ class SupabaseLogInterceptor {
 
   static void dispose() {
     _isInitialized = false;
+    _isLogging = false;
   }
 }
 

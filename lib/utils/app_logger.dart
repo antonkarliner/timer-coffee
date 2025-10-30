@@ -30,6 +30,7 @@ import 'log_config.dart';
 /// - Regular security audits of logging implementation
 class AppLogger {
   static final Logger _logger = Logger('TimerCoffee');
+  static bool _isLogging = false; // Prevent recursive logging
 
   // Control characters that could be used for log injection
   static final RegExp _controlChars = RegExp(r'[\x00-\x1F\x7F-\x9F]');
@@ -170,13 +171,21 @@ class AppLogger {
   /// [stackTrace] Optional stack trace
   static void debug(String message,
       {Object? errorObject, StackTrace? stackTrace}) {
+    // Prevent recursive logging
+    if (_isLogging) return;
+
     // Use LogConfig to determine if we should log debug messages
     if (LogConfig.shouldLog(Level.FINE)) {
-      final sanitizedMessage = _sanitizeLogInput(message);
-      final sanitizedError = errorObject != null
-          ? _sanitizeLogInput(errorObject.toString())
-          : null;
-      _logger.fine(sanitizedMessage, sanitizedError, stackTrace);
+      _isLogging = true;
+      try {
+        final sanitizedMessage = _sanitizeLogInput(message);
+        final sanitizedError = errorObject != null
+            ? _sanitizeLogInput(errorObject.toString())
+            : null;
+        _logger.fine(sanitizedMessage, sanitizedError, stackTrace);
+      } finally {
+        _isLogging = false;
+      }
     }
   }
 
@@ -187,13 +196,21 @@ class AppLogger {
   /// [stackTrace] Optional stack trace
   static void info(String message,
       {Object? errorObject, StackTrace? stackTrace}) {
+    // Prevent recursive logging
+    if (_isLogging) return;
+
     // Use LogConfig to determine if we should log info messages
     if (LogConfig.shouldLog(Level.INFO)) {
-      final sanitizedMessage = _sanitizeLogInput(message);
-      final sanitizedError = errorObject != null
-          ? _sanitizeLogInput(errorObject.toString())
-          : null;
-      _logger.info(sanitizedMessage, sanitizedError, stackTrace);
+      _isLogging = true;
+      try {
+        final sanitizedMessage = _sanitizeLogInput(message);
+        final sanitizedError = errorObject != null
+            ? _sanitizeLogInput(errorObject.toString())
+            : null;
+        _logger.info(sanitizedMessage, sanitizedError, stackTrace);
+      } finally {
+        _isLogging = false;
+      }
     }
   }
 
@@ -204,13 +221,21 @@ class AppLogger {
   /// [stackTrace] Optional stack trace
   static void warning(String message,
       {Object? errorObject, StackTrace? stackTrace}) {
+    // Prevent recursive logging
+    if (_isLogging) return;
+
     // Use LogConfig to determine if we should log warning messages
     if (LogConfig.shouldLog(Level.WARNING)) {
-      final sanitizedMessage = _sanitizeLogInput(message);
-      final sanitizedError = errorObject != null
-          ? _sanitizeLogInput(errorObject.toString())
-          : null;
-      _logger.warning(sanitizedMessage, sanitizedError, stackTrace);
+      _isLogging = true;
+      try {
+        final sanitizedMessage = _sanitizeLogInput(message);
+        final sanitizedError = errorObject != null
+            ? _sanitizeLogInput(errorObject.toString())
+            : null;
+        _logger.warning(sanitizedMessage, sanitizedError, stackTrace);
+      } finally {
+        _isLogging = false;
+      }
     }
   }
 
@@ -221,20 +246,37 @@ class AppLogger {
   /// [stackTrace] Optional stack trace
   static void error(String message,
       {Object? errorObject, StackTrace? stackTrace}) {
+    // Prevent recursive logging
+    if (_isLogging) return;
+
     // Errors should always be logged regardless of build mode
-    final sanitizedMessage = _sanitizeLogInput(message);
-    final sanitizedError =
-        errorObject != null ? _sanitizeLogInput(errorObject.toString()) : null;
-    _logger.severe(sanitizedMessage, sanitizedError, stackTrace);
+    _isLogging = true;
+    try {
+      final sanitizedMessage = _sanitizeLogInput(message);
+      final sanitizedError = errorObject != null
+          ? _sanitizeLogInput(errorObject.toString())
+          : null;
+      _logger.severe(sanitizedMessage, sanitizedError, stackTrace);
+    } finally {
+      _isLogging = false;
+    }
   }
 
   /// Logs security-related events - always logged with SECURITY prefix
   ///
   /// [message] The security message to log
   static void security(String message) {
+    // Prevent recursive logging
+    if (_isLogging) return;
+
     // Security events should always be logged regardless of build mode
-    final sanitizedMessage = _sanitizeLogInput(message);
-    _logger.severe('SECURITY: $sanitizedMessage');
+    _isLogging = true;
+    try {
+      final sanitizedMessage = _sanitizeLogInput(message);
+      _logger.severe('SECURITY: $sanitizedMessage');
+    } finally {
+      _isLogging = false;
+    }
   }
 
   /// Sanitizes sensitive data before logging
