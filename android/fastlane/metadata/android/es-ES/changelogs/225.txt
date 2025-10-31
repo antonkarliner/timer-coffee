@@ -1,0 +1,9 @@
+Novedades:  
+• Alertas por vibración para el siguiente paso de la preparación.  
+• Avisos al cerrar pantallas de Granos o Recetas sin guardar.  
+• El peso del café en grano se actualiza automáticamente al añadir o quitar registros en el diario de preparaciones.  
+Mejoras:  
+• Reconocimiento más preciso de etiquetas de café, mejores traducciones y diseño más uniforme.  
+• Mejoras de seguridad y rendimiento.  
+Corrección:  
+• Las estadísticas del usuario ahora se sincronizan correctamente.

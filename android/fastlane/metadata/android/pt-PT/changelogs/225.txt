@@ -1,0 +1,11 @@
+Novo:  
+• Alertas por vibração para o próximo passo da extração.  
+• Avisos ao fechar Ecrãs de Grãos ou Receita sem guardar.  
+• O peso dos grãos atualiza automaticamente ao ligar/desligar registos no diário de extração.
+
+Melhorias:  
+• Reconhecimento mais preciso dos rótulos de grãos, traduções otimizadas e design mais uniforme.  
+• Segurança e desempenho reforçados.
+
+Correcção de erros:  
+• As estatísticas do utilizador sincronizam corretamente.

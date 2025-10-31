@@ -1,7 +1,13 @@
-Nuevo: se muestra el peso restante de granos al seleccionar granos en la pantalla de Receta.
+Nuevo:
+• ¡Alertas por vibración! Ahora puedes usar la vibración en lugar del timbre de sonido para señalar el siguiente paso de la preparación.
+• La app ahora te avisa si intentas cerrar las pantallas de Nuevo Café o Crear Receta sin guardar tus cambios.
+• Cuando adjuntas o desvinculas registros de cafés en las entradas del diario de preparación, el peso restante ahora se actualiza automáticamente.
 
-Mejorado: mejor traducción al croata. ¡Gracias @navdra!
+Mejoras:
+• Reconocimiento más preciso de las etiquetas de los paquetes de café.
+• Localizaciones mejoradas en varios idiomas.
+• Trabajo continuo para lograr un diseño de app más coherente.
+• Se añadieron diversas optimizaciones de seguridad y rendimiento.
 
-Mejorado: se añadió un fondo a los logotipos en la pantalla de Estadísticas de Preparación.
-
-Corrección de error: se solucionó un problema que causaba llamadas de red excesivas al agregar nuevos granos.
+Corrección de errores:
+• Se solucionó un problema donde las estadísticas de usuario no siempre se sincronizaban correctamente.

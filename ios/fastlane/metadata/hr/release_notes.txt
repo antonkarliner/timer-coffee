@@ -1,7 +1,13 @@
-Novo: prikazuje se preostala masa zrna prilikom odabira zrna na ekranu Recept.
+Novo:
+• Vibracijska upozorenja! Sada možete koristiti vibraciju umjesto zvučnog signala za označavanje sljedećeg koraka pripreme kave.
+• Aplikacija vas sada upozorava ako pokušate zatvoriti ekrane za unos novih zrna kave ili recepta bez spremanja promjena.
+• Kada dodate ili uklonite zapise o zrnu iz dnevnika pripreme, preostala masa se sada automatski ažurira.
 
-Poboljšano: bolji prijevod na hrvatski. Hvala @navdra!
+Poboljšano:
+• Preciznije prepoznavanje deklaracija na pakiranju kave.
+• Poboljšani prijevodi na više jezika.
+• Nastavili smo raditi na ujednačenijem dizajnu aplikacije.
+• Dodane su razne sigurnosne i performansne optimizacije.
 
-Poboljšano: dodana je pozadina logotipima na ekranu Statistika kuhanja.
-
-Ispravljeno: ispravljen je bug koji je uzrokovao prekomjerne mrežne pozive pri dodavanju novih zrna.
+Ispravljeno:
+• Ispravljen je problem zbog kojeg se korisničke statistike ponekad nisu ispravno sinkronizirale.

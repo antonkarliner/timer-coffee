@@ -1,0 +1,9 @@
+Nouveau :  
+• Alertes par vibration pour l’étape suivante de l’infusion.  
+• Avertissements lors de la fermeture des écrans Grain ou Recette non enregistrés.  
+• Le poids des grains se met à jour automatiquement avec l’ajout/suppression dans le journal d’infusion.  
+Amélioré :  
+• Reconnaissance d’étiquettes de grains plus précise, meilleures traductions et design harmonisé.  
+ 
+Correction :  
+• Les statistiques utilisateur se synchronisent correctement.

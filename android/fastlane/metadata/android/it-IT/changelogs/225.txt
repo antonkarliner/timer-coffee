@@ -1,0 +1,9 @@
+Novità:  
+• Avvisi tramite vibrazione per la prossima fase dell’estrazione.  
+• Avvisi quando si chiudono schermate Chicchi o Ricetta non salvate.  
+• Il peso dei chicchi si aggiorna automaticamente quando si collegano o scollegano record nel diario delle estrazioni.  
+Miglioramenti:  
+• Riconoscimento etichette chicchi più preciso, traduzioni riviste e design più uniforme.  
+
+Correzione bug:  
+• Le statistiche utente ora si sincronizzano correttamente.

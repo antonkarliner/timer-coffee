@@ -1,7 +1,13 @@
-New: Prikaz preostale težine zrna prilikom odabira kave na ekranu Recept.
+New:
+• Vibration alerts! You can now choose vibration instead of a sound signal to notify you of the next brewing step.
+• The app now notifies you if you attempt to close the New Beans or Recipe creation screens without saving your changes.
+• When you link or unlink bean records from your brew log entries, the remaining coffee weight now updates automatically.
 
-Poboljšano: bolji prijevod na hrvatski jezik. Hvala @navdra!
+Improved:
+• More accurate identification of coffee bean package labels.
+• Enhanced localizations across multiple languages.
+• Ongoing improvements for more consistent app design.
+• Various security and performance enhancements added.
 
-Poboljšano: dodana pozadina logotipima na ekranu Statistike pripreme.
-
-Ispravljeno: otklonjen bug koji je uzrokovao prekomjerne mrežne pozive prilikom dodavanja novih zrna.
+Bugfix:
+• Resolved an issue where user statistics did not always sync correctly.

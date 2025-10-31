@@ -1,7 +1,13 @@
-New: remaining beans weight is shown when selecting beans on Recipe screen.
+New:
+• Vibration alerts! You can now use vibration instead of the sound chime to signal the next brew step.
+• The app now warns you if you try to close the New Beans or Recipe creation screens without saving your changes.
+• When you attach or detach bean records from brew diary entries, the remaining weight now updates automatically.
 
-Improved: better translation to Croatian. Thanks @navdra!
+Improved:
+• More accurate recognition of coffee bean package labels.
+• Refined localizations across multiple languages.
+• Continued work toward a more consistent app design.
+• Added various security and performance optimizations.
 
-Improved: added background to logos on Brew Stats screen.
-
-Bugfix: fixed a bug causing excessive network calls when adding new beans.
+Bugfix:
+• Fixed an issue where user stats didn’t always sync correctly.

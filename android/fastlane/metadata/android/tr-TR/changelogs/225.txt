@@ -1,0 +1,9 @@
+Yeni:  
+• Demleme adımlarında titreşimli uyarılar.  
+• Kaydedilmemiş Çekirdek veya Tarif ekranı kapatılırken uyarı.  
+• Demleme günlüğünde kayıt ekleyip çıkarınca çekirdek ağırlığı otomatik güncellenir.  
+Geliştirildi:  
+• Daha doğru çekirdek etiketi tanıma, iyileştirilmiş çeviriler ve tutarlı tasarım.  
+• Güvenlik ve performans artışı.  
+Hata düzeltmesi:  
+• Kullanıcı istatistikleri artık doğru şekilde senkronize ediliyor.

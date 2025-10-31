@@ -1,0 +1,9 @@
+Baru:  
+• Getaran sebagai pengingat langkah penyeduhan berikutnya.  
+• Peringatan saat menutup layar Biji Kopi atau Resep yang belum disimpan.  
+• Berat biji kopi otomatis terupdate saat menambah/menghapus catatan di jurnal seduh.  
+Peningkatan:  
+• Pengenalan label biji kopi lebih akurat, terjemahan yang lebih baik, dan tampilan lebih konsisten.  
+• Keamanan dan performa ditingkatkan.  
+Perbaikan Bug:  
+• Statistik pengguna kini tersinkronisasi dengan benar.

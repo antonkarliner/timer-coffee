@@ -1,0 +1,10 @@
+Nouveautés :  
+• Alertes par vibration pour l’étape suivante de l’infusion.  
+• Avertissements lors de la fermeture d’écrans Grains ou Recette non sauvegardés.  
+• Le poids des grains se met à jour automatiquement lors de l’ajout/retrait de notes dans le journal d’infusion.
+
+Améliorations :  
+• Meilleure reconnaissance des étiquettes de café, traductions optimisées et design plus cohérent.  
+
+Correction :  
+• Les statistiques utilisateurs se synchronisent correctement.

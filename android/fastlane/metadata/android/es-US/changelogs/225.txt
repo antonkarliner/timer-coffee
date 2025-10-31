@@ -1,0 +1,9 @@
+Nuevo:  
+• Alertas por vibración para el siguiente paso de la preparación.  
+• Advertencias al cerrar pantallas de Granos o Receta sin guardar.  
+• El peso de los granos se actualiza automáticamente al agregar o quitar registros en el diario de preparación.  
+Mejorado:  
+• Reconocimiento más preciso de etiquetas de granos, traducciones optimizadas y diseño más uniforme.  
+• Mejoras en seguridad y rendimiento.  
+Corrección:  
+• Las estadísticas de usuario ahora se sincronizan correctamente.

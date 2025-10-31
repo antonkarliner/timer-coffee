@@ -1,0 +1,11 @@
+Novo:  
+• Vibracija za sljedeći korak pripreme kave.  
+• Upozorenja pri zatvaranju nespremljenih Zrna ili Recepta.  
+• Težina zrna se automatski ažurira kod dodavanja/uklanjanja zapisa u dnevniku kuhanja.
+
+Poboljšano:  
+• Preciznije prepoznavanje etiketa zrna, bolje prijevode i dosljedniji dizajn.  
+• Bolja sigurnost i rad aplikacije.
+
+Ispravljeno:  
+• Statistike korisnika se sada ispravno sinkroniziraju.

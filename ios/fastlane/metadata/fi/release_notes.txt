@@ -1,7 +1,13 @@
-Uutta: Jäljellä olevien papujen paino näytetään, kun valitset papuja reseptinäytöllä.
+Uutta:
+• Värinähälytykset! Voit nyt käyttää värinää äänimerkin sijaan ilmoittamaan seuraavasta uuton vaiheesta.
+• Sovellus varoittaa nyt, jos yrität sulkea Uudet pavut- tai Reseptin luontinäkymän tallentamatta muutoksia.
+• Kun liität tai irrotat paputietueita uuttopäiväkirjan merkinnöistä, jäljellä oleva määrä päivittyy nyt automaattisesti.
 
-Parannettu: parempi kroatian kielen käännös. Kiitos @navdra!
+Parannettu:
+• Tarkempi kahvipapupakkausten etikettien tunnistus.
+• Tarkennetut käännökset useilla kielillä.
+• Jatkuvaa kehitystyötä yhtenäisemmän sovellussuunnittelun suuntaan.
+• Useita tietoturvaan ja suorituskykyyn liittyviä parannuksia.
 
-Parannettu: logojen taustaan lisätty tausta Vahvuustilastot-näytöllä.
-
-Korjaus: korjattu virhe, joka aiheutti liiallisia verkkopyyntöjä uusia papuja lisättäessä.
+Virheenkorjaukset:
+• Korjattu ongelma, jossa käyttäjätilastot eivät aina synkronoituneet oikein.

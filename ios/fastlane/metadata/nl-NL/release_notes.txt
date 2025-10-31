@@ -1,7 +1,13 @@
-Nieuw: het resterende bonen­gewicht wordt weergegeven bij het selecteren van bonen op het receptenscherm.
+Nieuw:
+• Trilsignalen! Je kunt nu trilling gebruiken in plaats van het geluidssignaal om de volgende zetstap aan te geven.
+• De app waarschuwt je nu als je het scherm voor Nieuwe Bonen of Recept aanmaken wilt sluiten zonder je wijzigingen op te slaan.
+• Wanneer je bonenrecords koppelt aan of loskoppelt van zetdagboekvermeldingen, wordt het resterende gewicht nu automatisch bijgewerkt.
 
-Verbeterd: betere vertaling naar het Kroatisch. Bedankt @navdra!
+Verbeterd:
+• Nauwkeurigere herkenning van koffieverpakkingslabels.
+• Verbeterde vertalingen in meerdere talen.
+• Voortdurend gewerkt aan een consistenter app-ontwerp.
+• Diverse beveiligings- en prestatieoptimalisaties toegevoegd.
 
-Verbeterd: achtergrond toegevoegd aan logo’s op het brouwstatistieken­scherm.
-
-Bugfix: een bug verholpen waardoor er te veel netwerkverkeer ontstond bij het toevoegen van nieuwe bonen.
+Opgelost:
+• Een probleem verholpen waarbij gebruikersstatistieken niet altijd correct werden gesynchroniseerd.

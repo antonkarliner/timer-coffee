@@ -1,0 +1,11 @@
+Nowości:
+• Wibracje przy kolejnym kroku parzenia.
+• Ostrzeżenia przy zamykaniu niezapisanych ekranów Ziaren lub Przepisu.
+• Waga ziaren automatycznie się aktualizuje przy zmianach w dzienniku parzenia.
+
+Ulepszenia:
+• Dokładniejsze rozpoznawanie etykiet ziaren, lepsze tłumaczenia i spójniejszy wygląd.
+• Poprawa bezpieczeństwa i wydajności.
+
+Poprawki:
+• Statystyki użytkownika poprawnie się synchronizują.

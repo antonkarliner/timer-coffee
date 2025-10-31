@@ -1,0 +1,11 @@
+Uutta:  
+• Värinäilmoitukset seuraavaan haudutusvaiheeseen.  
+• Varoitukset tallentamattomien Papujen tai Reseptien sulkemisesta.  
+• Papupaino päivittyy automaattisesti, kun tietueita liitetään/irrotetaan haudutuspäiväkirjassa.
+
+Parannettu:  
+• Tarkempi paputarran tunnistus, paremmat käännökset ja yhtenäisempi ulkoasu.  
+• Parempi tietoturva ja suorituskyky.
+
+Virheenkorjaus:  
+• Käyttäjätilastot synkronoituvat nyt oikein.

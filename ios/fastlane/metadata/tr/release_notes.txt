@@ -1,7 +1,13 @@
-Yeni: Tarif ekranında çekirdek seçerken kalan çekirdek miktarı gösteriliyor.
+Yeni:
+• Titreşim uyarıları! Artık bir sonraki demleme adımını bildirmek için sesli uyarı yerine titreşimi kullanabilirsiniz.
+• Yeni Çekirdek veya Tarif oluşturma ekranlarını kaydetmeden kapatmaya çalıştığınızda uygulama sizi artık uyarıyor.
+• Demleme günlüğü girişlerine kahve çekirdeği kaydı eklediğinizde veya çıkardığınızda kalan çekirdek miktarı artık otomatik olarak güncelleniyor.
 
-Geliştirildi: Hırvatçaya daha iyi çeviri. Teşekkürler @navdra!
+Geliştirildi:
+• Kahve çekirdeği paket etiketlerinin daha hassas tanınması.
+• Birden fazla dilde iyileştirilmiş yerelleştirme.
+• Daha tutarlı bir uygulama tasarımı için devam eden çalışmalar.
+• Bir dizi güvenlik ve performans optimizasyonu eklendi.
 
-Geliştirildi: Demleme İstatistikleri ekranındaki logolara arka plan eklendi.
-
-Hata düzeltildi: Yeni çekirdek eklerken aşırı ağ isteği oluşmasına neden olan bir hata giderildi.
+Hata Düzeltmeleri:
+• Kullanıcı istatistiklerinin her zaman doğru şekilde senkronize olmama sorunu düzeltildi.

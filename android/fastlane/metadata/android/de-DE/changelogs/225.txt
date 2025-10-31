@@ -1,0 +1,9 @@
+Neu:  
+• Vibrationsalarm für den nächsten Brühschritt.  
+• Warnungen beim Schließen ungespeicherter Bohnen- oder Rezeptseiten.  
+• Bohnengewicht passt sich jetzt automatisch an, wenn Aufzeichnungen im Brühprotokoll hinzugefügt oder entfernt werden.  
+Verbessert:  
+• Präzisere Erkennung von Bohnensorten, optimierte Übersetzungen und einheitlicheres Design.  
+• Verbesserte Sicherheit und Performance.  
+Fehlerbehebung:  
+• Nutzerstatistiken werden jetzt korrekt synchronisiert.

@@ -1,0 +1,9 @@
+Nou:  
+• Alerte prin vibrație pentru pasul următor în preparare.  
+• Avertismente la închiderea ecranului de Boabe sau Rețetă nesalvate.  
+• Greutatea boabelor se actualizează automat când atașezi/detașezi înregistrări în jurnalul de preparare.  
+Îmbunătățit:  
+• Recunoaștere mai precisă a etichetelor de cafea, traduceri optimizate și un design mai uniform.  
+• Mai multă securitate și performanță.  
+Reparat:  
+• Statistica utilizatorului se sincronizează corect acum.

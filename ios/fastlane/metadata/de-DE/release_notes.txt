@@ -1,7 +1,13 @@
-Neu: Das verbleibende Bohnengewicht wird angezeigt, wenn auf dem Rezeptbildschirm Bohnen ausgewählt werden.
+Neu:
+• Vibrationsalarme! Sie können jetzt statt des Tonsignals eine Vibration als Hinweis für den nächsten Brühschritt verwenden.
+• Die App warnt Sie nun, wenn Sie versuchen, die Bildschirme für „Neue Bohnen“ oder „Rezept erstellen“ zu schließen, ohne Ihre Änderungen zu speichern.
+• Wenn Sie Bohnen-Datensätze an Brühprotokoll-Einträge anhängen oder entfernen, wird das verbleibende Gewicht jetzt automatisch aktualisiert.
 
-Verbessert: bessere Übersetzung ins Kroatische. Vielen Dank an @navdra!
+Verbessert:
+• Genauere Erkennung von Kaffeebohnen-Verpackungsetiketten.
+• Überarbeitete Übersetzungen in mehreren Sprachen.
+• Weitere Fortschritte für ein konsistenteres App-Design.
+• Verschiedene Sicherheits- und Leistungsoptimierungen hinzugefügt.
 
-Verbessert: Hintergrund zu den Logos auf dem Brew-Statistik-Bildschirm hinzugefügt.
-
-Fehlerbehebung: Ein Fehler wurde behoben, der beim Hinzufügen neuer Bohnen zu übermäßigen Netzwerkaufrufen führte.
+Fehlerbehebung:
+• Ein Problem behoben, bei dem Nutzerstatistiken nicht immer korrekt synchronisiert wurden.

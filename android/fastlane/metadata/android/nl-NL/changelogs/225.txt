@@ -1,0 +1,11 @@
+Nieuw:  
+• Trilsignalen bij de volgende zetstap.  
+• Waarschuwing bij het sluiten van niet-opgeslagen Bonen- of Receptschermen.  
+• Bonenhoeveelheid wordt automatisch bijgewerkt bij koppelen/ontkoppelen in het zetdagboek.
+
+Verbeterd:  
+• Nauwkeurigere bonenlabelherkenning, betere vertalingen en consistenter ontwerp.  
+• Betere beveiliging en prestaties.
+
+Opgelost:  
+• Gebruikersstatistieken synchroniseren nu correct.

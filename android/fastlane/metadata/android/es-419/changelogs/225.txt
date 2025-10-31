@@ -1,0 +1,9 @@
+Nuevo:  
+• Alertas por vibración para el siguiente paso del brew.  
+• Avisos al cerrar pantallas de Granos o Recetas sin guardar.  
+• El peso del grano se actualiza automáticamente al enlazar o quitar registros en el diario de brew.  
+Mejoras:  
+• Reconocimiento de etiquetas de granos más preciso, mejores traducciones y diseño más consistente.  
+• Mejoras de seguridad y rendimiento.  
+Corrección:  
+• Las estadísticas de usuario ahora se sincronizan correctamente.

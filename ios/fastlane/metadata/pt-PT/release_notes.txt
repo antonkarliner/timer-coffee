@@ -1,7 +1,13 @@
-Novo: o peso restante dos grãos é mostrado ao selecionar grãos no ecrã de Receita.
+Novo:
+• Alertas por vibração! Agora pode usar a vibração em vez do som para sinalizar o próximo passo da extração.
+• A app agora avisa se tentar fechar os ecrãs de criação de Novos Grãos ou Receita sem guardar as alterações.
+• Ao associar ou remover registos de grãos das entradas do diário de extrações, o peso restante é atualizado automaticamente.
 
-Melhorado: tradução para croata aprimorada. Obrigado @navdra!
+Melhorias:
+• Reconhecimento mais preciso dos rótulos das embalagens de café.
+• Localizações refinadas em vários idiomas.
+• Trabalho contínuo para um design da app mais consistente.
+• Foram adicionadas várias otimizações de segurança e desempenho.
 
-Melhorado: adicionámos um fundo aos logótipos no ecrã de Estatísticas da Preparação.
-
-Correção de erro: resolvido um problema que causava chamadas de rede excessivas ao adicionar novos grãos.
+Correção de erros:
+• Resolvido um problema em que as estatísticas do utilizador nem sempre sincronizavam corretamente.

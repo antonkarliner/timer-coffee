@@ -1,0 +1,9 @@
+New: 
+• Vibration alerts for next brew step.
+• Warnings when closing unsaved Beans or Recipe screens.
+• Bean weight now auto-updates when attaching/detaching records in brew diary.
+Improved: 
+• More accurate bean label recognition, refined translations, and more consistent design.
+• Security and performance boosts.
+Bugfix: 
+• User stats now sync correctly.
