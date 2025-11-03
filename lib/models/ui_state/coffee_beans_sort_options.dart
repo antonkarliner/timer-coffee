@@ -1,5 +1,5 @@
 /// Enumeration of available sort options for coffee beans
-enum SortOption { dateAdded, name, roaster, origin }
+enum SortOption { dateAdded, name, roaster, origin, remainingAmount }
 
 /// Enumeration of sort directions
 enum SortDirection { ascending, descending }

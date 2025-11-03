@@ -39,6 +39,9 @@ class CoffeeBeansSortDialog extends StatelessWidget {
             case SortOption.origin:
               title = loc.origin;
               break;
+            case SortOption.remainingAmount:
+              title = loc.amountLeft;
+              break;
           }
 
           return RadioListTile<SortOption>(

@@ -46,6 +46,15 @@ class CoffeeBeansSortService {
                 ? b.origin.compareTo(a.origin)
                 : a.origin.compareTo(b.origin));
         break;
+      case SortOption.remainingAmount:
+        sortedBeans.sort((a, b) {
+          final aWeight = a.validatedPackageWeightGrams ?? 0.0;
+          final bWeight = b.validatedPackageWeightGrams ?? 0.0;
+          return sortOptions.sortDirection == SortDirection.descending
+              ? bWeight.compareTo(aWeight)
+              : aWeight.compareTo(bWeight);
+        });
+        break;
     }
 
     return sortedBeans;
