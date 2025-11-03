@@ -389,6 +389,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get confirmDeleteTitle => '항목 삭제';
 
   @override
+  String get recipeDuplicateConfirmTitle => '레시피를 복제하시겠습니까?';
+
+  @override
+  String get recipeDuplicateConfirmMessage =>
+      '이 작업을 수행하면 레시피 사본이 생성되어 독립적으로 편집할 수 있습니다. 계속하시겠습니까?';
+
+  @override
   String get confirmDeleteMessage => '이 항목을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.';
 
   @override
@@ -980,6 +987,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get recipeCopySuccess => '레시피 복사 성공!';
 
   @override
+  String get recipeDuplicateSuccess => '레시피가 성공적으로 복제되었습니다!';
+
+  @override
   String recipeCopyError(String error) {
     return '레시피 복사 오류: $error';
   }
@@ -1064,6 +1074,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dialogCancel => '취소';
 
   @override
+  String get dialogDuplicate => '복제';
+
+  @override
   String get dialogUpdate => '업데이트';
 
   @override
@@ -1105,6 +1118,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => '레시피 복사';
+
+  @override
+  String get tooltipDuplicateRecipe => '레시피 복제';
 
   @override
   String get tooltipShareRecipe => '레시피 공유';

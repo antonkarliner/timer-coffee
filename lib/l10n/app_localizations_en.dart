@@ -395,6 +395,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmDeleteTitle => 'Delete Entry?';
 
   @override
+  String get recipeDuplicateConfirmTitle => 'Duplicate Recipe?';
+
+  @override
+  String get recipeDuplicateConfirmMessage =>
+      'This will create a copy of your recipe that you can edit independently. Do you want to continue?';
+
+  @override
   String get confirmDeleteMessage =>
       'Are you sure you want to delete this entry? This action cannot be undone.';
 
@@ -997,6 +1004,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recipeCopySuccess => 'Recipe copied successfully!';
 
   @override
+  String get recipeDuplicateSuccess => 'Recipe duplicated successfully!';
+
+  @override
   String recipeCopyError(String error) {
     return 'Error copying recipe: $error';
   }
@@ -1084,6 +1094,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dialogCancel => 'Cancel';
 
   @override
+  String get dialogDuplicate => 'Duplicate';
+
+  @override
   String get dialogUpdate => 'Update';
 
   @override
@@ -1126,6 +1139,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => 'Copy Recipe';
+
+  @override
+  String get tooltipDuplicateRecipe => 'Duplicate Recipe';
 
   @override
   String get tooltipShareRecipe => 'Share Recipe';

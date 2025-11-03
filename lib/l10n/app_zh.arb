@@ -304,6 +304,7 @@
   "unitGramsLong": "克",
   "unitMillilitersLong": "毫升",
   "recipeCopySuccess": "配方复制成功！",
+  "recipeDuplicateSuccess": "食谱复制成功！",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -370,6 +371,7 @@
     }
   },
   "dialogCancel": "取消",
+  "dialogDuplicate": "复制",
   "dialogUpdate": "更新",
   "recipeImportTitle": "导入食谱",
   "recipeImportBody": "您想从云端导入食谱“{recipeName}”吗？",
@@ -401,6 +403,7 @@
   "syncSuccess": "同步成功！",
   "tooltipEditRecipe": "编辑食谱",
   "tooltipCopyRecipe": "复制食谱",
+  "tooltipDuplicateRecipe": "复制食谱",
   "tooltipShareRecipe": "分享食谱",
   "signInRequiredSnackbar": "需要登录",
   "moderationErrorFunction": "内容审核检查失败。",
@@ -503,6 +506,8 @@
   "settingsBrewingMethodsTitle": "主屏幕冲泡方法",
   "account": "账户",
   "confirmDeleteTitle": "删除条目？",
+  "recipeDuplicateConfirmTitle": "复制食谱？",
+  "recipeDuplicateConfirmMessage": "这将创建一份您可以独立编辑的食谱副本。您要继续吗？",
   "confirmDeleteMessage": "您确定要删除此条目吗？此操作无法撤销。",
   "filter": "筛选",
   "settingsAppIcon": "应用图标",

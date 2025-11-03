@@ -395,6 +395,13 @@ class AppLocalizationsFi extends AppLocalizations {
   String get confirmDeleteTitle => 'Poista merkintä?';
 
   @override
+  String get recipeDuplicateConfirmTitle => 'Monistetaanko resepti?';
+
+  @override
+  String get recipeDuplicateConfirmMessage =>
+      'Tämä luo kopion reseptistäsi, jota voit muokata itsenäisesti. Haluatko jatkaa?';
+
+  @override
   String get confirmDeleteMessage =>
       'Haluatko varmasti poistaa tämän merkinnän? Tätä toimintoa ei voi perua.';
 
@@ -999,6 +1006,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get recipeCopySuccess => 'Resepti kopioitu onnistuneesti!';
 
   @override
+  String get recipeDuplicateSuccess => 'Resepti kopioitu onnistuneesti!';
+
+  @override
   String recipeCopyError(String error) {
     return 'Reseptin kopiointi epäonnistui: $error';
   }
@@ -1086,6 +1096,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get dialogCancel => 'Peruuta';
 
   @override
+  String get dialogDuplicate => 'Monista';
+
+  @override
   String get dialogUpdate => 'Päivitä';
 
   @override
@@ -1128,6 +1141,9 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => 'Kopioi resepti';
+
+  @override
+  String get tooltipDuplicateRecipe => 'Monista resepti';
 
   @override
   String get tooltipShareRecipe => 'Jaa resepti';

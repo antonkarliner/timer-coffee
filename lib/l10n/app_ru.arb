@@ -313,6 +313,7 @@
   "unitGramsLong": "граммы",
   "unitMillilitersLong": "миллилитры",
   "recipeCopySuccess": "Рецепт успешно скопирован!",
+  "recipeDuplicateSuccess": "Рецепт успешно дублирован!",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -379,6 +380,7 @@
     }
   },
   "dialogCancel": "Отмена",
+  "dialogDuplicate": "Дублировать",
   "dialogUpdate": "Обновить",
   "recipeImportTitle": "Импортировать рецепт",
   "recipeImportBody": "Вы хотите импортировать рецепт '{recipeName}' из облака?",
@@ -410,6 +412,7 @@
   "syncSuccess": "Синхронизация прошла успешно!",
   "tooltipEditRecipe": "Редактировать рецепт",
   "tooltipCopyRecipe": "Копировать рецепт",
+  "tooltipDuplicateRecipe": "Дублировать рецепт",
   "tooltipShareRecipe": "Поделиться рецептом",
   "signInRequiredSnackbar": "Требуется вход",
   "moderationErrorFunction": "Проверка модерации контента не удалась.",
@@ -511,6 +514,8 @@
   "deletePictureTooltip": "Удалить изображение",
   "account": "Аккаунт",
   "confirmDeleteTitle": "Удалить запись?",
+  "recipeDuplicateConfirmTitle": "Дублировать рецепт?",
+  "recipeDuplicateConfirmMessage": "Это создаст копию вашего рецепта, которую вы сможете редактировать независимо. Хотите продолжить?",
   "confirmDeleteMessage": "Вы уверены, что хотите удалить эту запись? Это действие нельзя отменить.",
   "filter": "Фильтр",
   "secondsAbbreviation": "с",

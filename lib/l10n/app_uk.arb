@@ -304,6 +304,7 @@
   "unitGramsLong": "грами",
   "unitMillilitersLong": "мілілітри",
   "recipeCopySuccess": "Рецепт успішно скопійовано!",
+  "recipeDuplicateSuccess": "Рецепт успішно дубльовано!",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -370,6 +371,7 @@
     }
   },
   "dialogCancel": "Скасувати",
+  "dialogDuplicate": "Дублювати",
   "dialogUpdate": "Оновити",
   "recipeImportTitle": "Імпортувати рецепт",
   "recipeImportBody": "Ви хочете імпортувати рецепт '{recipeName}' з хмари?",
@@ -401,6 +403,7 @@
   "syncSuccess": "Синхронізація успішна!",
   "tooltipEditRecipe": "Редагувати рецепт",
   "tooltipCopyRecipe": "Копіювати рецепт",
+  "tooltipDuplicateRecipe": "Дублювати рецепт",
   "tooltipShareRecipe": "Поділитися рецептом",
   "signInRequiredSnackbar": "Потрібен вхід",
   "moderationErrorFunction": "Перевірка модерації контенту не вдалася.",
@@ -503,6 +506,8 @@
   "settingsBrewingMethodsTitle": "Методи заварювання на головному екрані",
   "account": "Обліковий запис",
   "confirmDeleteTitle": "Видалити запис?",
+  "recipeDuplicateConfirmTitle": "Дублювати рецепт?",
+  "recipeDuplicateConfirmMessage": "Це створить копію вашого рецепту, яку ви зможете редагувати незалежно. Чи хочете продовжити?",
   "confirmDeleteMessage": "Ви впевнені, що хочете видалити цей запис? Цю дію не можна скасувати.",
   "filter": "Фільтр",
   "settingsAppIcon": "Іконка додатку",

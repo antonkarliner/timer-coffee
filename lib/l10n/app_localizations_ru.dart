@@ -401,6 +401,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get confirmDeleteTitle => 'Удалить запись?';
 
   @override
+  String get recipeDuplicateConfirmTitle => 'Дублировать рецепт?';
+
+  @override
+  String get recipeDuplicateConfirmMessage =>
+      'Это создаст копию вашего рецепта, которую вы сможете редактировать независимо. Хотите продолжить?';
+
+  @override
   String get confirmDeleteMessage =>
       'Вы уверены, что хотите удалить эту запись? Это действие нельзя отменить.';
 
@@ -1012,6 +1019,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get recipeCopySuccess => 'Рецепт успешно скопирован!';
 
   @override
+  String get recipeDuplicateSuccess => 'Рецепт успешно дублирован!';
+
+  @override
   String recipeCopyError(String error) {
     return 'Ошибка при копировании рецепта: $error';
   }
@@ -1101,6 +1111,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dialogCancel => 'Отмена';
 
   @override
+  String get dialogDuplicate => 'Дублировать';
+
+  @override
   String get dialogUpdate => 'Обновить';
 
   @override
@@ -1143,6 +1156,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => 'Копировать рецепт';
+
+  @override
+  String get tooltipDuplicateRecipe => 'Дублировать рецепт';
 
   @override
   String get tooltipShareRecipe => 'Поделиться рецептом';

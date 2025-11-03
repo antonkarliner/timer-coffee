@@ -311,6 +311,7 @@
   "unitGramsLong": "جرامات",
   "unitMillilitersLong": "ملليلتر",
   "recipeCopySuccess": "تم نسخ الوصفة بنجاح!",
+  "recipeDuplicateSuccess": "تم تكرار الوصفة بنجاح!",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -377,6 +378,7 @@
     }
   },
   "dialogCancel": "إلغاء",
+  "dialogDuplicate": "تكرار",
   "dialogUpdate": "تحديث",
   "recipeImportTitle": "استيراد وصفة",
   "recipeImportBody": "هل تريد استيراد الوصفة '{recipeName}' من السحابة؟",
@@ -408,6 +410,7 @@
   "syncSuccess": "تمت المزامنة بنجاح!",
   "tooltipEditRecipe": "تعديل الوصفة",
   "tooltipCopyRecipe": "نسخ الوصفة",
+  "tooltipDuplicateRecipe": "تكرار الوصفة",
   "tooltipShareRecipe": "مشاركة الوصفة",
   "signInRequiredSnackbar": "تسجيل الدخول مطلوب",
   "moderationErrorFunction": "فشل التحقق من الإشراف على المحتوى.",
@@ -510,6 +513,8 @@
   "settingsBrewingMethodsTitle": "طرق التخمير على الشاشة الرئيسية",
   "account": "الحساب",
   "confirmDeleteTitle": "حذف الإدخال؟",
+  "recipeDuplicateConfirmTitle": "تكرار الوصفة؟",
+  "recipeDuplicateConfirmMessage": "سيؤدي هذا إلى إنشاء نسخة من وصفتك يمكنك تعديلها بشكل مستقل. هل تريد المتابعة؟",
   "confirmDeleteMessage": "هل أنت متأكد أنك تريد حذف هذا الإدخال؟ لا يمكن التراجع عن هذا الإجراء.",
   "filter": "تصفية",
   "secondsAbbreviation": "ث",

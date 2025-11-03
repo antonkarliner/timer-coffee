@@ -394,6 +394,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get confirmDeleteTitle => 'حذف الإدخال؟';
 
   @override
+  String get recipeDuplicateConfirmTitle => 'تكرار الوصفة؟';
+
+  @override
+  String get recipeDuplicateConfirmMessage =>
+      'سيؤدي هذا إلى إنشاء نسخة من وصفتك يمكنك تعديلها بشكل مستقل. هل تريد المتابعة؟';
+
+  @override
   String get confirmDeleteMessage =>
       'هل أنت متأكد أنك تريد حذف هذا الإدخال؟ لا يمكن التراجع عن هذا الإجراء.';
 
@@ -1008,6 +1015,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recipeCopySuccess => 'تم نسخ الوصفة بنجاح!';
 
   @override
+  String get recipeDuplicateSuccess => 'تم تكرار الوصفة بنجاح!';
+
+  @override
   String recipeCopyError(String error) {
     return 'خطأ في نسخ الوصفة: $error';
   }
@@ -1093,6 +1103,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dialogCancel => 'إلغاء';
 
   @override
+  String get dialogDuplicate => 'تكرار';
+
+  @override
   String get dialogUpdate => 'تحديث';
 
   @override
@@ -1135,6 +1148,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => 'نسخ الوصفة';
+
+  @override
+  String get tooltipDuplicateRecipe => 'تكرار الوصفة';
 
   @override
   String get tooltipShareRecipe => 'مشاركة الوصفة';

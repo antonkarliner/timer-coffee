@@ -399,6 +399,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get confirmDeleteTitle => 'Hapus entri?';
 
   @override
+  String get recipeDuplicateConfirmTitle => 'Gandakan Resep?';
+
+  @override
+  String get recipeDuplicateConfirmMessage =>
+      'Ini akan membuat salinan dari resep Anda yang dapat Anda edit secara independen. Apakah Anda ingin melanjutkan?';
+
+  @override
   String get confirmDeleteMessage =>
       'Apakah Anda yakin ingin menghapus entri ini? Tindakan ini tidak dapat dibatalkan.';
 
@@ -1000,6 +1007,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get recipeCopySuccess => 'Resep berhasil disalin!';
 
   @override
+  String get recipeDuplicateSuccess => 'Resep berhasil digandakan!';
+
+  @override
   String recipeCopyError(String error) {
     return 'Gagal menyalin resep: $error';
   }
@@ -1088,6 +1098,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get dialogCancel => 'Batal';
 
   @override
+  String get dialogDuplicate => 'Gandakan';
+
+  @override
   String get dialogUpdate => 'Perbarui';
 
   @override
@@ -1130,6 +1143,9 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => 'Salin Resep';
+
+  @override
+  String get tooltipDuplicateRecipe => 'Gandakan Resep';
 
   @override
   String get tooltipShareRecipe => 'Bagikan Resep';

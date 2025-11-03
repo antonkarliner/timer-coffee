@@ -313,6 +313,7 @@
   "unitGramsLong": "gram",
   "unitMillilitersLong": "milliliter",
   "recipeCopySuccess": "Recept succesvol gekopieerd!",
+  "recipeDuplicateSuccess": "Recept succesvol gedupliceerd!",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -379,6 +380,7 @@
     }
   },
   "dialogCancel": "Annuleren",
+  "dialogDuplicate": "Dupliceren",
   "dialogUpdate": "Update",
   "recipeImportTitle": "Recept importeren",
   "recipeImportBody": "Wil je het recept '{recipeName}' uit de cloud importeren?",
@@ -410,6 +412,7 @@
   "syncSuccess": "Synchronisatie geslaagd!",
   "tooltipEditRecipe": "Recept bewerken",
   "tooltipCopyRecipe": "Recept kopiëren",
+  "tooltipDuplicateRecipe": "Recept dupliceren",
   "tooltipShareRecipe": "Recept delen",
   "signInRequiredSnackbar": "Aanmelden vereist",
   "moderationErrorFunction": "Controle van inhoudsmoderatie mislukt.",
@@ -512,6 +515,8 @@
   "settingsBrewingMethodsTitle": "Zetmethoden op het startscherm",
   "account": "Account",
   "confirmDeleteTitle": "Invoer verwijderen?",
+  "recipeDuplicateConfirmTitle": "Recept dupliceren?",
+  "recipeDuplicateConfirmMessage": "Dit zal een kopie van je recept maken die je onafhankelijk kunt bewerken. Wil je doorgaan?",
   "confirmDeleteMessage": "Weet je zeker dat je deze invoer wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
   "filter": "Filteren",
   "secondsAbbreviation": "s",

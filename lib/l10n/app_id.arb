@@ -313,6 +313,7 @@
   "unitGramsLong": "gram",
   "unitMillilitersLong": "mililiter",
   "recipeCopySuccess": "Resep berhasil disalin!",
+  "recipeDuplicateSuccess": "Resep berhasil digandakan!",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -379,6 +380,7 @@
     }
   },
   "dialogCancel": "Batal",
+  "dialogDuplicate": "Gandakan",
   "dialogUpdate": "Perbarui",
   "recipeImportTitle": "Impor Resep",
   "recipeImportBody": "Apakah Anda ingin mengimpor resep '{recipeName}' dari cloud?",
@@ -410,6 +412,7 @@
   "syncSuccess": "Sinkronisasi berhasil!",
   "tooltipEditRecipe": "Edit Resep",
   "tooltipCopyRecipe": "Salin Resep",
+  "tooltipDuplicateRecipe": "Gandakan Resep",
   "tooltipShareRecipe": "Bagikan Resep",
   "signInRequiredSnackbar": "Diperlukan Masuk",
   "moderationErrorFunction": "Pemeriksaan moderasi konten gagal.",
@@ -512,6 +515,8 @@
   "settingsBrewingMethodsTitle": "Metode Penyeduhan Layar Beranda",
   "account": "Akun",
   "confirmDeleteTitle": "Hapus entri?",
+  "recipeDuplicateConfirmTitle": "Gandakan Resep?",
+  "recipeDuplicateConfirmMessage": "Ini akan membuat salinan dari resep Anda yang dapat Anda edit secara independen. Apakah Anda ingin melanjutkan?",
   "confirmDeleteMessage": "Apakah Anda yakin ingin menghapus entri ini? Tindakan ini tidak dapat dibatalkan.",
   "filter": "Saring",
   "secondsAbbreviation": "s",

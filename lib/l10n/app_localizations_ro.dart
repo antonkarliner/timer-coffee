@@ -398,6 +398,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get confirmDeleteTitle => 'Ștergeți înregistrarea?';
 
   @override
+  String get recipeDuplicateConfirmTitle => 'Duplicați rețeta?';
+
+  @override
+  String get recipeDuplicateConfirmMessage =>
+      'Aceasta va crea o copie a rețetei tale pe care o poți edita independent. Dorești să continui?';
+
+  @override
   String get confirmDeleteMessage =>
       'Sigur doriți să ștergeți această înregistrare? Această acțiune nu poate fi anulată.';
 
@@ -1006,6 +1013,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get recipeCopySuccess => 'Rețetă copiată cu succes!';
 
   @override
+  String get recipeDuplicateSuccess => 'Rețetă duplicată cu succes!';
+
+  @override
   String recipeCopyError(String error) {
     return 'Eroare la copierea rețetei: $error';
   }
@@ -1094,6 +1104,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get dialogCancel => 'Anulați';
 
   @override
+  String get dialogDuplicate => 'Duplicați';
+
+  @override
   String get dialogUpdate => 'Actualizați';
 
   @override
@@ -1136,6 +1149,9 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => 'Copiază Rețeta';
+
+  @override
+  String get tooltipDuplicateRecipe => 'Duplicați Rețeta';
 
   @override
   String get tooltipShareRecipe => 'Partajează Rețeta';

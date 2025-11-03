@@ -313,6 +313,7 @@
   "unitGramsLong": "grammes",
   "unitMillilitersLong": "millilitres",
   "recipeCopySuccess": "Recette copiée avec succès !",
+  "recipeDuplicateSuccess": "Recette dupliquée avec succès !",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -379,6 +380,7 @@
     }
   },
   "dialogCancel": "Annuler",
+  "dialogDuplicate": "Dupliquer",
   "dialogUpdate": "Mettre à jour",
   "recipeImportTitle": "Importer la recette",
   "recipeImportBody": "Voulez-vous importer la recette '{recipeName}' depuis le cloud ?",
@@ -410,6 +412,7 @@
   "syncSuccess": "Synchronisation réussie !",
   "tooltipEditRecipe": "Modifier la recette",
   "tooltipCopyRecipe": "Copier la recette",
+  "tooltipDuplicateRecipe": "Dupliquer la recette",
   "tooltipShareRecipe": "Partager la recette",
   "signInRequiredSnackbar": "Connexion requise",
   "moderationErrorFunction": "La vérification de la modération du contenu a échoué.",
@@ -512,6 +515,8 @@
   "settingsBrewingMethodsTitle": "Méthodes d'infusion sur l'écran d'accueil",
   "account": "Compte",
   "confirmDeleteTitle": "Supprimer l'entrée ?",
+  "recipeDuplicateConfirmTitle": "Dupliquer la recette ?",
+  "recipeDuplicateConfirmMessage": "Ceci créera une copie de votre recette que vous pourrez modifier indépendamment. Voulez-vous continuer ?",
   "confirmDeleteMessage": "Êtes-vous sûr de vouloir supprimer cet élément ? Cette action est irréversible.",
   "filter": "Filtrer",
   "secondsAbbreviation": "s",

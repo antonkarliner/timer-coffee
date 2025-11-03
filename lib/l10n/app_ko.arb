@@ -130,6 +130,8 @@
   "nocoffeebeans": "원두를 찾을 수 없습니다",
   "delete": "삭제",
   "confirmDeleteTitle": "항목 삭제",
+  "recipeDuplicateConfirmTitle": "레시피를 복제하시겠습니까?",
+  "recipeDuplicateConfirmMessage": "이 작업을 수행하면 레시피 사본이 생성되어 독립적으로 편집할 수 있습니다. 계속하시겠습니까?",
   "confirmDeleteMessage": "이 항목을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
   "removeFavorite": "좋아하는 목록에서 제거",
   "addFavorite": "좋아하는 목록에 추가",
@@ -486,6 +488,7 @@
   "unitGramsLong": "그램",
   "unitMillilitersLong": "밀리리터",
   "recipeCopySuccess": "레시피 복사 성공!",
+  "recipeDuplicateSuccess": "레시피가 성공적으로 복제되었습니다!",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -551,6 +554,7 @@
     }
   },
   "dialogCancel": "취소",
+  "dialogDuplicate": "복제",
   "dialogUpdate": "업데이트",
   "recipeImportTitle": "레시피 가져오기",
   "recipeImportBody": "클라우드에서 '{recipeName}' 레시피를 가져오시겠습니까?",
@@ -582,6 +586,7 @@
   "syncSuccess": "동기화 성공!",
   "tooltipEditRecipe": "레시피 편집",
   "tooltipCopyRecipe": "레시피 복사",
+  "tooltipDuplicateRecipe": "레시피 복제",
   "tooltipShareRecipe": "레시피 공유",
   "signInRequiredSnackbar": "로그인 필요",
   "moderationErrorFunction": "콘텐츠 검토 확인 실패.",

@@ -389,6 +389,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get confirmDeleteTitle => 'エントリを削除しますか？';
 
   @override
+  String get recipeDuplicateConfirmTitle => 'レシピを複製しますか？';
+
+  @override
+  String get recipeDuplicateConfirmMessage =>
+      'これにより、レシピのコピーが作成され、個別に編集できます。続行しますか？';
+
+  @override
   String get confirmDeleteMessage => 'このエントリを削除してもよろしいですか？この操作は元に戻せません。';
 
   @override
@@ -978,6 +985,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get recipeCopySuccess => 'レシピが正常にコピーされました！';
 
   @override
+  String get recipeDuplicateSuccess => 'レシピが正常に複製されました！';
+
+  @override
   String recipeCopyError(String error) {
     return 'レシピのコピー中にエラーが発生しました: $error';
   }
@@ -1062,6 +1072,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dialogCancel => 'キャンセル';
 
   @override
+  String get dialogDuplicate => '複製';
+
+  @override
   String get dialogUpdate => 'アップデート';
 
   @override
@@ -1103,6 +1116,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => 'レシピをコピー';
+
+  @override
+  String get tooltipDuplicateRecipe => 'レシピを複製';
 
   @override
   String get tooltipShareRecipe => 'レシピを共有';

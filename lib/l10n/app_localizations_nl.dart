@@ -398,6 +398,13 @@ class AppLocalizationsNl extends AppLocalizations {
   String get confirmDeleteTitle => 'Invoer verwijderen?';
 
   @override
+  String get recipeDuplicateConfirmTitle => 'Recept dupliceren?';
+
+  @override
+  String get recipeDuplicateConfirmMessage =>
+      'Dit zal een kopie van je recept maken die je onafhankelijk kunt bewerken. Wil je doorgaan?';
+
+  @override
   String get confirmDeleteMessage =>
       'Weet je zeker dat je deze invoer wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.';
 
@@ -1002,6 +1009,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get recipeCopySuccess => 'Recept succesvol gekopieerd!';
 
   @override
+  String get recipeDuplicateSuccess => 'Recept succesvol gedupliceerd!';
+
+  @override
   String recipeCopyError(String error) {
     return 'Fout bij het kopiëren van het recept: $error';
   }
@@ -1090,6 +1100,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get dialogCancel => 'Annuleren';
 
   @override
+  String get dialogDuplicate => 'Dupliceren';
+
+  @override
   String get dialogUpdate => 'Update';
 
   @override
@@ -1132,6 +1145,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => 'Recept kopiëren';
+
+  @override
+  String get tooltipDuplicateRecipe => 'Recept dupliceren';
 
   @override
   String get tooltipShareRecipe => 'Recept delen';

@@ -395,6 +395,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get confirmDeleteTitle => 'Usunąć wpis?';
 
   @override
+  String get recipeDuplicateConfirmTitle => 'Duplikować przepis?';
+
+  @override
+  String get recipeDuplicateConfirmMessage =>
+      'To utworzy kopię Twojego przepisu, którą możesz niezależnie edytować. Czy chcesz kontynuować?';
+
+  @override
   String get confirmDeleteMessage =>
       'Czy na pewno chcesz usunąć ten wpis? Tej akcji nie można cofnąć.';
 
@@ -1010,6 +1017,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get recipeCopySuccess => 'Przepis skopiowany pomyślnie!';
 
   @override
+  String get recipeDuplicateSuccess => 'Przepis zduplikowany pomyślnie!';
+
+  @override
   String recipeCopyError(String error) {
     return 'Błąd podczas kopiowania przepisu: $error';
   }
@@ -1099,6 +1109,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get dialogCancel => 'Anuluj';
 
   @override
+  String get dialogDuplicate => 'Duplikuj';
+
+  @override
   String get dialogUpdate => 'Aktualizuj';
 
   @override
@@ -1141,6 +1154,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => 'Kopiuj przepis';
+
+  @override
+  String get tooltipDuplicateRecipe => 'Duplikuj przepis';
 
   @override
   String get tooltipShareRecipe => 'Udostępnij przepis';

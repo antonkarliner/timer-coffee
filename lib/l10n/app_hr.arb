@@ -130,6 +130,8 @@
   "nocoffeebeans": "Nisu pronađena zrna kave",
   "delete": "Izbriši",
   "confirmDeleteTitle": "Izbrisati unos?",
+  "recipeDuplicateConfirmTitle": "Duplicirati recept?",
+  "recipeDuplicateConfirmMessage": "Ovo će stvoriti kopiju tvog recepta koju možeš uređivati neovisno. Želiš li nastaviti?",
   "confirmDeleteMessage": "Jesi li siguran/na da želiš izbrisati ovaj unos? Ova radnja se ne može poništiti.",
   "removeFavorite": "Ukloni iz favorita",
   "addFavorite": "Dodaj u favorite",
@@ -509,6 +511,7 @@
   "unitGramsLong": "grama",
   "unitMillilitersLong": "mililitara",
   "recipeCopySuccess": "Recept je uspješno kopiran!",
+  "recipeDuplicateSuccess": "Recept je uspješno dupliciran!",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -574,6 +577,7 @@
     }
   },
   "dialogCancel": "Odustani",
+  "dialogDuplicate": "Dupliciraj",
   "dialogUpdate": "Ažuriraj",
   "recipeImportTitle": "Uvezi recept",
   "recipeImportBody": "Želiš li uvesti recept '{recipeName}' iz oblaka?",
@@ -605,6 +609,7 @@
   "syncSuccess": "Sinkronizacija uspješna!",
   "tooltipEditRecipe": "Uredi recept",
   "tooltipCopyRecipe": "Kopiraj recept",
+  "tooltipDuplicateRecipe": "Dupliciraj recept",
   "tooltipShareRecipe": "Podijeli recept",
   "signInRequiredSnackbar": "Potrebna je prijava",
   "moderationErrorFunction": "Provjera moderiranja sadržaja nije uspjela.",

@@ -313,6 +313,7 @@
   "unitGramsLong": "grammi",
   "unitMillilitersLong": "millilitri",
   "recipeCopySuccess": "Ricetta copiata con successo!",
+  "recipeDuplicateSuccess": "Ricetta duplicata con successo!",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -379,6 +380,7 @@
     }
   },
   "dialogCancel": "Annulla",
+  "dialogDuplicate": "Duplica",
   "dialogUpdate": "Aggiorna",
   "recipeImportTitle": "Importa ricetta",
   "recipeImportBody": "Vuoi importare la ricetta '{recipeName}' dal cloud?",
@@ -410,6 +412,7 @@
   "syncSuccess": "Sincronizzazione riuscita!",
   "tooltipEditRecipe": "Modifica Ricetta",
   "tooltipCopyRecipe": "Copia Ricetta",
+  "tooltipDuplicateRecipe": "Duplica Ricetta",
   "tooltipShareRecipe": "Condividi Ricetta",
   "signInRequiredSnackbar": "Accesso richiesto",
   "moderationErrorFunction": "Controllo della moderazione dei contenuti fallito.",
@@ -512,6 +515,8 @@
   "settingsBrewingMethodsTitle": "Metodi di preparazione nella schermata principale",
   "account": "Account",
   "confirmDeleteTitle": "Eliminare la voce?",
+  "recipeDuplicateConfirmTitle": "Duplicare la ricetta?",
+  "recipeDuplicateConfirmMessage": "Questo creerà una copia della tua ricetta che potrai modificare indipendentemente. Vuoi continuare?",
   "confirmDeleteMessage": "Sei sicuro di voler eliminare questa voce? Questa azione non può essere annullata.",
   "filter": "Filtro",
   "secondsAbbreviation": "s",

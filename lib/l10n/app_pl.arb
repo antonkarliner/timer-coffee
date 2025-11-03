@@ -313,6 +313,7 @@
   "unitGramsLong": "gramy",
   "unitMillilitersLong": "mililitry",
   "recipeCopySuccess": "Przepis skopiowany pomyślnie!",
+  "recipeDuplicateSuccess": "Przepis zduplikowany pomyślnie!",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -379,6 +380,7 @@
     }
   },
   "dialogCancel": "Anuluj",
+  "dialogDuplicate": "Duplikuj",
   "dialogUpdate": "Aktualizuj",
   "recipeImportTitle": "Importuj przepis",
   "recipeImportBody": "Czy chcesz zaimportować przepis '{recipeName}' z chmury?",
@@ -410,6 +412,7 @@
   "syncSuccess": "Synchronizacja zakończona pomyślnie!",
   "tooltipEditRecipe": "Edytuj przepis",
   "tooltipCopyRecipe": "Kopiuj przepis",
+  "tooltipDuplicateRecipe": "Duplikuj przepis",
   "tooltipShareRecipe": "Udostępnij przepis",
   "signInRequiredSnackbar": "Wymagane zalogowanie",
   "moderationErrorFunction": "Sprawdzenie moderacji treści nie powiodło się.",
@@ -512,6 +515,8 @@
   "settingsBrewingMethodsTitle": "Metody parzenia na ekranie głównym",
   "account": "Konto",
   "confirmDeleteTitle": "Usunąć wpis?",
+  "recipeDuplicateConfirmTitle": "Duplikować przepis?",
+  "recipeDuplicateConfirmMessage": "To utworzy kopię Twojego przepisu, którą możesz niezależnie edytować. Czy chcesz kontynuować?",
   "confirmDeleteMessage": "Czy na pewno chcesz usunąć ten wpis? Tej akcji nie można cofnąć.",
   "filter": "Filtr",
   "secondsAbbreviation": "s",

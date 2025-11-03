@@ -141,6 +141,8 @@
   "nocoffeebeans": "هیچ دانه قهوه‌ای یافت نشد",
   "delete": "حذف",
   "confirmDeleteTitle": "حذف ورودی؟",
+  "recipeDuplicateConfirmTitle": "دستور تکثیر شود؟",
+  "recipeDuplicateConfirmMessage": "این کار یک کپی از دستور شما ایجاد می‌کند که می‌توانید به طور مستقل ویرایش کنید. آیا می‌خواهید ادامه دهید؟",
   "confirmDeleteMessage": "آیا مطمئنید که می‌خواهید این ورودی را حذف کنید؟ این عمل قابل بازگشت نیست.",
   "removeFavorite": "حذف از محبوب‌ها",
   "addFavorite": "افزودن به محبوب‌ها",
@@ -513,6 +515,7 @@
   "unitGramsLong": "گرم",
   "unitMillilitersLong": "میلی‌لیتر",
   "recipeCopySuccess": "دستور با موفقیت کپی شد",
+  "recipeDuplicateSuccess": "دستور با موفقیت تکثیر شد!",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -628,6 +631,7 @@
     }
   },
   "dialogCancel": "لغو",
+  "dialogDuplicate": "تکثیر",
   "dialogUpdate": "بروزرسانی",
   "recipeImportTitle": "وارد کردن دستور",
   "recipeImportBody": "آیا می‌خواهید دستور «{recipeName}» را از فضای ابری وارد کنید؟",
@@ -659,6 +663,7 @@
   "syncSuccess": "همگام‌سازی موفق",
   "tooltipEditRecipe": "ویرایش دستور",
   "tooltipCopyRecipe": "کپی دستور",
+  "tooltipDuplicateRecipe": "تکثیر دستور",
   "tooltipShareRecipe": "اشتراک‌گذاری دستور",
   "signInRequiredSnackbar": "برای ادامه باید وارد شوید",
   "moderationErrorFunction": "در فراخوانی ماژول پالایش محتوا خطا رخ داد",

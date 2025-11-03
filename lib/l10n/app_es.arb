@@ -313,6 +313,7 @@
   "unitGramsLong": "gramos",
   "unitMillilitersLong": "mililitros",
   "recipeCopySuccess": "¡Receta copiada con éxito!",
+  "recipeDuplicateSuccess": "¡Receta duplicada con éxito!",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -379,6 +380,7 @@
     }
   },
   "dialogCancel": "Cancelar",
+  "dialogDuplicate": "Duplicar",
   "dialogUpdate": "Actualizar",
   "recipeImportTitle": "Importar receta",
   "recipeImportBody": "¿Quieres importar la receta '{recipeName}' de la nube?",
@@ -410,6 +412,7 @@
   "syncSuccess": "¡Sincronización exitosa!",
   "tooltipEditRecipe": "Editar Receta",
   "tooltipCopyRecipe": "Copiar Receta",
+  "tooltipDuplicateRecipe": "Duplicar Receta",
   "tooltipShareRecipe": "Compartir Receta",
   "signInRequiredSnackbar": "Inicio de sesión requerido",
   "moderationErrorFunction": "Falló la verificación de moderación de contenido.",
@@ -512,6 +515,8 @@
   "settingsBrewingMethodsTitle": "Métodos en la pantalla de inicio",
   "account": "Cuenta",
   "confirmDeleteTitle": "¿Eliminar entrada?",
+  "recipeDuplicateConfirmTitle": "¿Duplicar receta?",
+  "recipeDuplicateConfirmMessage": "Esto creará una copia de tu receta que puedes editar independientemente. ¿Quieres continuar?",
   "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar esta entrada? Esta acción no se puede deshacer.",
   "filter": "Filtro",
   "secondsAbbreviation": "s",

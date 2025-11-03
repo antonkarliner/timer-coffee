@@ -860,6 +860,18 @@ abstract class AppLocalizations {
   /// **'Delete Entry?'**
   String get confirmDeleteTitle;
 
+  /// No description provided for @recipeDuplicateConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate Recipe?'**
+  String get recipeDuplicateConfirmTitle;
+
+  /// No description provided for @recipeDuplicateConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will create a copy of your recipe that you can edit independently. Do you want to continue?'**
+  String get recipeDuplicateConfirmMessage;
+
   /// No description provided for @confirmDeleteMessage.
   ///
   /// In en, this message translates to:
@@ -1934,6 +1946,12 @@ abstract class AppLocalizations {
   /// **'Recipe copied successfully!'**
   String get recipeCopySuccess;
 
+  /// No description provided for @recipeDuplicateSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe duplicated successfully!'**
+  String get recipeDuplicateSuccess;
+
   /// Snackbar message shown when copying a recipe fails
   ///
   /// In en, this message translates to:
@@ -2078,6 +2096,12 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get dialogCancel;
 
+  /// No description provided for @dialogDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get dialogDuplicate;
+
   /// No description provided for @dialogUpdate.
   ///
   /// In en, this message translates to:
@@ -2155,6 +2179,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copy Recipe'**
   String get tooltipCopyRecipe;
+
+  /// No description provided for @tooltipDuplicateRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate Recipe'**
+  String get tooltipDuplicateRecipe;
 
   /// No description provided for @tooltipShareRecipe.
   ///

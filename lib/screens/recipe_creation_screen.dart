@@ -17,6 +17,7 @@ import '../widgets/recipe_creation/recipe_details_form.dart';
 import '../widgets/recipe_creation/recipe_steps_form.dart';
 import '../services/recipe_expression_service.dart';
 import '../services/recipe_save_service.dart';
+import '../services/recipe_navigation_service.dart';
 import '../widgets/unsaved_changes_dialog.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
 
@@ -321,6 +322,93 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     return true;
   }
 
+  /// Check if the current recipe belongs to the signed-in user
+  bool _isUserOwnedRecipe() {
+    if (widget.recipe == null) return false;
+
+    final currentUser = Supabase.instance.client.auth.currentUser;
+    if (currentUser == null) return false;
+
+    // Check if the recipe's vendorId matches the current user's ID pattern
+    final userVendorId = 'usr-${currentUser.id}';
+    return widget.recipe!.vendorId == userVendorId;
+  }
+
+  /// Show confirmation dialog before duplicating recipe
+  Future<bool?> _showDuplicateConfirmationDialog() async {
+    final l10n = AppLocalizations.of(context)!;
+
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        title: Text(l10n.recipeDuplicateConfirmTitle),
+        content: Text(l10n.recipeDuplicateConfirmMessage),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(
+              l10n.dialogCancel,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 56,
+            child: ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                elevation: 0,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              ),
+              child: Text(
+                l10n.dialogDuplicate,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Handle duplicate recipe functionality
+  Future<void> _duplicateRecipe() async {
+    if (widget.recipe == null || !_isUserOwnedRecipe()) return;
+
+    final confirmed = await _showDuplicateConfirmationDialog();
+
+    if (confirmed != true) return; // User cancelled
+
+    try {
+      await RecipeNavigationService.navigateToCopyRecipe(
+        context: context,
+        recipeToCopy: widget.recipe!,
+      );
+    } catch (e) {
+      AppLogger.error("Error duplicating recipe", errorObject: e);
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.recipeCopyError(e.toString()))),
+        );
+      }
+    }
+  }
+
   Future<void> _saveRecipe() async {
     if (!_isFirstPageValid || !_isSecondPageValid || _isSaving) {
       return;
@@ -461,6 +549,12 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
                 FocusScope.of(context).unfocus();
               },
             ),
+            if (widget.recipe != null && _isUserOwnedRecipe())
+              IconButton(
+                icon: const Icon(Icons.content_copy),
+                tooltip: l10n.tooltipDuplicateRecipe,
+                onPressed: _duplicateRecipe,
+              ),
           ],
         ),
         body: GestureDetector(

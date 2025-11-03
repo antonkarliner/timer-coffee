@@ -314,6 +314,7 @@
   "unitGramsLong": "グラム",
   "unitMillilitersLong": "ミリリットル",
   "recipeCopySuccess": "レシピが正常にコピーされました！",
+  "recipeDuplicateSuccess": "レシピが正常に複製されました！",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -380,6 +381,7 @@
     }
   },
   "dialogCancel": "キャンセル",
+  "dialogDuplicate": "複製",
   "dialogUpdate": "アップデート",
   "recipeImportTitle": "レシピをインポート",
   "recipeImportBody": "クラウドからレシピ'{recipeName}'をインポートしますか？",
@@ -411,6 +413,7 @@
   "syncSuccess": "同期成功！",
   "tooltipEditRecipe": "レシピを編集",
   "tooltipCopyRecipe": "レシピをコピー",
+  "tooltipDuplicateRecipe": "レシピを複製",
   "tooltipShareRecipe": "レシピを共有",
   "signInRequiredSnackbar": "サインインが必要です",
   "moderationErrorFunction": "コンテンツモデレーションチェックに失敗しました。",
@@ -513,6 +516,8 @@
   "settingsBrewingMethodsTitle": "ホーム画面の抽出方法",
   "account": "アカウント",
   "confirmDeleteTitle": "エントリを削除しますか？",
+  "recipeDuplicateConfirmTitle": "レシピを複製しますか？",
+  "recipeDuplicateConfirmMessage": "これにより、レシピのコピーが作成され、個別に編集できます。続行しますか？",
   "confirmDeleteMessage": "このエントリを削除してもよろしいですか？この操作は元に戻せません。",
   "filter": "フィルター",
   "secondsAbbreviation": "秒",

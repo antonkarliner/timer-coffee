@@ -396,6 +396,13 @@ class AppLocalizationsHr extends AppLocalizations {
   String get confirmDeleteTitle => 'Izbrisati unos?';
 
   @override
+  String get recipeDuplicateConfirmTitle => 'Duplicirati recept?';
+
+  @override
+  String get recipeDuplicateConfirmMessage =>
+      'Ovo će stvoriti kopiju tvog recepta koju možeš uređivati neovisno. Želiš li nastaviti?';
+
+  @override
   String get confirmDeleteMessage =>
       'Jesi li siguran/na da želiš izbrisati ovaj unos? Ova radnja se ne može poništiti.';
 
@@ -999,6 +1006,9 @@ class AppLocalizationsHr extends AppLocalizations {
   String get recipeCopySuccess => 'Recept je uspješno kopiran!';
 
   @override
+  String get recipeDuplicateSuccess => 'Recept je uspješno dupliciran!';
+
+  @override
   String recipeCopyError(String error) {
     return 'Greška pri kopiranju recepta: $error';
   }
@@ -1088,6 +1098,9 @@ class AppLocalizationsHr extends AppLocalizations {
   String get dialogCancel => 'Odustani';
 
   @override
+  String get dialogDuplicate => 'Dupliciraj';
+
+  @override
   String get dialogUpdate => 'Ažuriraj';
 
   @override
@@ -1130,6 +1143,9 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => 'Kopiraj recept';
+
+  @override
+  String get tooltipDuplicateRecipe => 'Dupliciraj recept';
 
   @override
   String get tooltipShareRecipe => 'Podijeli recept';

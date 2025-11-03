@@ -388,6 +388,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get confirmDeleteTitle => '删除条目？';
 
   @override
+  String get recipeDuplicateConfirmTitle => '复制食谱？';
+
+  @override
+  String get recipeDuplicateConfirmMessage => '这将创建一份您可以独立编辑的食谱副本。您要继续吗？';
+
+  @override
   String get confirmDeleteMessage => '您确定要删除此条目吗？此操作无法撤销。';
 
   @override
@@ -976,6 +982,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get recipeCopySuccess => '配方复制成功！';
 
   @override
+  String get recipeDuplicateSuccess => '食谱复制成功！';
+
+  @override
   String recipeCopyError(String error) {
     return '复制配方时出错：$error';
   }
@@ -1060,6 +1069,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dialogCancel => '取消';
 
   @override
+  String get dialogDuplicate => '复制';
+
+  @override
   String get dialogUpdate => '更新';
 
   @override
@@ -1101,6 +1113,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => '复制食谱';
+
+  @override
+  String get tooltipDuplicateRecipe => '复制食谱';
 
   @override
   String get tooltipShareRecipe => '分享食谱';

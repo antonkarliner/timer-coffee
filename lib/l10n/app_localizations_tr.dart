@@ -400,6 +400,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get confirmDeleteTitle => 'Girdiyi sil?';
 
   @override
+  String get recipeDuplicateConfirmTitle => 'Tarifi çoğalt?';
+
+  @override
+  String get recipeDuplicateConfirmMessage =>
+      'Bu, tarifinizin bağımsız olarak düzenleyebileceğiniz bir kopyasını oluşturacak. Devam etmek istiyor musunuz?';
+
+  @override
   String get confirmDeleteMessage =>
       'Bu girdiyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.';
 
@@ -1006,6 +1013,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get recipeCopySuccess => 'Tarif başarıyla kopyalandı!';
 
   @override
+  String get recipeDuplicateSuccess => 'Tarif başarıyla çoğaltıldı!';
+
+  @override
   String recipeCopyError(String error) {
     return 'Tarif kopyalanırken hata oluştu: $error';
   }
@@ -1094,6 +1104,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get dialogCancel => 'İptal';
 
   @override
+  String get dialogDuplicate => 'Çoğalt';
+
+  @override
   String get dialogUpdate => 'Güncelle';
 
   @override
@@ -1136,6 +1149,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => 'Tarifi Kopyala';
+
+  @override
+  String get tooltipDuplicateRecipe => 'Tarifi Çoğalt';
 
   @override
   String get tooltipShareRecipe => 'Tarifi Paylaş';

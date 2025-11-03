@@ -313,6 +313,7 @@
   "unitGramsLong": "grame",
   "unitMillilitersLong": "mililitri",
   "recipeCopySuccess": "Rețetă copiată cu succes!",
+  "recipeDuplicateSuccess": "Rețetă duplicată cu succes!",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -379,6 +380,7 @@
     }
   },
   "dialogCancel": "Anulați",
+  "dialogDuplicate": "Duplicați",
   "dialogUpdate": "Actualizați",
   "recipeImportTitle": "Importă rețeta",
   "recipeImportBody": "Doriți să importați rețeta '{recipeName}' din cloud?",
@@ -410,6 +412,7 @@
   "syncSuccess": "Sincronizare reușită!",
   "tooltipEditRecipe": "Editează Rețeta",
   "tooltipCopyRecipe": "Copiază Rețeta",
+  "tooltipDuplicateRecipe": "Duplicați Rețeta",
   "tooltipShareRecipe": "Partajează Rețeta",
   "signInRequiredSnackbar": "Autentificare necesară",
   "moderationErrorFunction": "Verificarea moderării conținutului a eșuat.",
@@ -512,6 +515,8 @@
   "settingsBrewingMethodsTitle": "Metode de preparare pe ecranul principal",
   "account": "Cont",
   "confirmDeleteTitle": "Ștergeți înregistrarea?",
+  "recipeDuplicateConfirmTitle": "Duplicați rețeta?",
+  "recipeDuplicateConfirmMessage": "Aceasta va crea o copie a rețetei tale pe care o poți edita independent. Dorești să continui?",
   "confirmDeleteMessage": "Sigur doriți să ștergeți această înregistrare? Această acțiune nu poate fi anulată.",
   "filter": "Filtru",
   "secondsAbbreviation": "s",

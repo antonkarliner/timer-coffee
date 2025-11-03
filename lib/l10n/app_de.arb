@@ -313,6 +313,7 @@
   "unitGramsLong": "Gramm",
   "unitMillilitersLong": "Milliliter",
   "recipeCopySuccess": "Rezept erfolgreich kopiert!",
+  "recipeDuplicateSuccess": "Rezept erfolgreich dupliziert!",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -379,6 +380,7 @@
     }
   },
   "dialogCancel": "Abbrechen",
+  "dialogDuplicate": "Duplizieren",
   "dialogUpdate": "Aktualisieren",
   "recipeImportTitle": "Rezept importieren",
   "recipeImportBody": "Möchten Sie das Rezept '{recipeName}' aus der Cloud importieren?",
@@ -410,6 +412,7 @@
   "syncSuccess": "Synchronisierung erfolgreich!",
   "tooltipEditRecipe": "Rezept bearbeiten",
   "tooltipCopyRecipe": "Rezept kopieren",
+  "tooltipDuplicateRecipe": "Rezept duplizieren",
   "tooltipShareRecipe": "Rezept teilen",
   "signInRequiredSnackbar": "Anmeldung erforderlich",
   "moderationErrorFunction": "Überprüfung der Inhaltsmoderation fehlgeschlagen.",
@@ -512,6 +515,8 @@
   "settingsBrewingMethodsTitle": "Startbildschirm Brühmethoden",
   "account": "Konto",
   "confirmDeleteTitle": "Eintrag löschen?",
+  "recipeDuplicateConfirmTitle": "Rezept duplizieren?",
+  "recipeDuplicateConfirmMessage": "Dies wird eine Kopie Ihres Rezepts erstellen, die Sie unabhängig bearbeiten können. Möchten Sie fortfahren?",
   "confirmDeleteMessage": "Möchten Sie diesen Eintrag wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
   "filter": "Filter",
   "secondsAbbreviation": "s",

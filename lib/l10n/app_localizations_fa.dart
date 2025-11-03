@@ -395,6 +395,13 @@ class AppLocalizationsFa extends AppLocalizations {
   String get confirmDeleteTitle => 'حذف ورودی؟';
 
   @override
+  String get recipeDuplicateConfirmTitle => 'دستور تکثیر شود؟';
+
+  @override
+  String get recipeDuplicateConfirmMessage =>
+      'این کار یک کپی از دستور شما ایجاد می‌کند که می‌توانید به طور مستقل ویرایش کنید. آیا می‌خواهید ادامه دهید؟';
+
+  @override
   String get confirmDeleteMessage =>
       'آیا مطمئنید که می‌خواهید این ورودی را حذف کنید؟ این عمل قابل بازگشت نیست.';
 
@@ -994,6 +1001,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get recipeCopySuccess => 'دستور با موفقیت کپی شد';
 
   @override
+  String get recipeDuplicateSuccess => 'دستور با موفقیت تکثیر شد!';
+
+  @override
   String recipeCopyError(String error) {
     return 'کپی دستور ناموفق بود: $error';
   }
@@ -1080,6 +1090,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get dialogCancel => 'لغو';
 
   @override
+  String get dialogDuplicate => 'تکثیر';
+
+  @override
   String get dialogUpdate => 'بروزرسانی';
 
   @override
@@ -1122,6 +1135,9 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get tooltipCopyRecipe => 'کپی دستور';
+
+  @override
+  String get tooltipDuplicateRecipe => 'تکثیر دستور';
 
   @override
   String get tooltipShareRecipe => 'اشتراک‌گذاری دستور';
