@@ -1,0 +1,5 @@
+Uutta:
+• Voit nyt kopioida reseptejäsi reseptin muokkausnäkymästä. Kätevää, jos haluat luoda nopeasti monta variaatiota.
+• Papujen järjestäminen jäljellä olevan pakkauspainon mukaan on nyt mahdollista.
+Korjaus:
+• Korjattu bugi, jossa linkit eivät avautuneet reseptisivulla napsautettaessa.

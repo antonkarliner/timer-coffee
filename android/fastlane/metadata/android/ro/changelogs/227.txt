@@ -1,0 +1,5 @@
+Nou:
+• Acum poți duplica rețetele direct din ecranul de editare, ideal pentru a crea rapid mai multe variante.
+• Poți sorta boabele de cafea după greutatea rămasă a pachetului.
+Remediere:
+• S-a rezolvat o problemă care împiedica deschiderea linkurilor în pagina rețetei.

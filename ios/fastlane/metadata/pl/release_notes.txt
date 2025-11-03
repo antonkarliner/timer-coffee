@@ -1,13 +1,3 @@
 Nowości:
-• Powiadomienia wibracyjne! Możesz teraz używać wibracji zamiast dźwięku dzwonka, aby sygnalizować kolejny etap parzenia.
-• Aplikacja ostrzega teraz, jeśli spróbujesz zamknąć ekran dodawania nowych ziaren kawy lub tworzenia przepisu bez zapisania zmian.
-• Podczas przypinania lub odpinania rekordów ziaren kawy do/z wpisów w dzienniku parzeń, pozostała waga aktualizuje się automatycznie.
-
-Ulepszenia:
-• Dokładniejsze rozpoznawanie etykiet opakowań ziaren kawy.
-• Udoskonalone tłumaczenia w wielu językach.
-• Kontynuacja prac nad bardziej spójnym wyglądem aplikacji.
-• Wprowadzenie różnych optymalizacji bezpieczeństwa i wydajności.
-
-Poprawki błędów:
-• Naprawiono problem, przez który statystyki użytkownika nie zawsze synchronizowały się poprawnie.
+• Możesz teraz duplikować swoje przepisy z poziomu ekranu edycji przepisu. Przydatne, jeśli chcesz szybko tworzyć wiele wariantów.
+• Możesz teraz sortować swoje kawy według pozostałej w opakowaniu wagi.

@@ -1,0 +1,5 @@
+Nouveautés :
+• Vous pouvez maintenant dupliquer vos recettes depuis l’écran d’édition, pratique pour créer rapidement des variantes.
+• Il est désormais possible de trier vos cafés en grains selon le poids restant du paquet.
+Correction : 
+• Résolution d’un bug empêchant l’ouverture des liens sur la page recette.

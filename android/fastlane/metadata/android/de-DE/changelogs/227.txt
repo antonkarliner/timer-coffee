@@ -1,0 +1,5 @@
+Neu:
+• Du kannst jetzt Rezepte aus dem Rezept-Bearbeitungsbildschirm duplizieren – ideal, um schnell Varianten zu erstellen.
+• Die Bohnenliste lässt sich jetzt nach verbleibendem Packungsgewicht sortieren.
+Fehlerbehebung:
+• Ein Fehler, bei dem Links auf der Rezeptseite nicht geöffnet wurden, ist behoben.

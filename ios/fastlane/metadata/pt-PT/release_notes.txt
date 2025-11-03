@@ -1,13 +1,3 @@
-Novo:
-• Alertas por vibração! Agora pode usar a vibração em vez do som para sinalizar o próximo passo da extração.
-• A app agora avisa se tentar fechar os ecrãs de criação de Novos Grãos ou Receita sem guardar as alterações.
-• Ao associar ou remover registos de grãos das entradas do diário de extrações, o peso restante é atualizado automaticamente.
-
-Melhorias:
-• Reconhecimento mais preciso dos rótulos das embalagens de café.
-• Localizações refinadas em vários idiomas.
-• Trabalho contínuo para um design da app mais consistente.
-• Foram adicionadas várias otimizações de segurança e desempenho.
-
-Correção de erros:
-• Resolvido um problema em que as estatísticas do utilizador nem sempre sincronizavam corretamente.
+Novidades:
+• Agora pode duplicar as suas receitas a partir do ecrã de edição de receitas. Útil se quiser criar rapidamente várias variações.
+• Pode agora ordenar os seus cafés por peso restante da embalagem.

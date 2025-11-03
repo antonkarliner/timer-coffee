@@ -1,0 +1,5 @@
+New:
+• You can now duplicate your recipes from recipe editing screen. Useful if you want to quickly create many variations.
+• You can now sort your beans by remaing package weight.
+Bugfix: 
+• Fixed a bug with links not opening when clicked on a recipe page.

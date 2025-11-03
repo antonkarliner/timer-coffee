@@ -1,13 +1,3 @@
 Noutăți:
-• Alerte prin vibrații! Acum poți folosi vibrația în locul sunetului pentru a semnala următorul pas din prepararea cafelei.
-• Aplicația te avertizează acum dacă încerci să închizi ecranele pentru boabe noi sau crearea unei rețete fără să salvezi modificările.
-• Când atașezi sau detașezi evidențe de boabe din jurnalele de extracție, greutatea rămasă se actualizează automat.
-
-Îmbunătățiri:
-• Recunoaștere mai precisă a etichetelor de pe pachetele de cafea boabe.
-• Localizare rafinată în mai multe limbi.
-• Continuăm să lucrăm pentru un design mai coerent al aplicației.
-• Au fost adăugate diverse optimizări de securitate și performanță.
-
-Corectare erori:
-• S-a remediat o problemă din cauza căreia statisticile utilizatorului nu se sincronizau corect.
+• Acum poți să-ți duplici rețetele din ecranul de editare al rețetei. Util dacă vrei să creezi rapid mai multe variații.
+• Acum poți sorta boabele de cafea după greutatea rămasă a pachetului.

@@ -1,13 +1,3 @@
 Baru:
-• Pemberitahuan getar! Sekarang Anda bisa menggunakan getaran sebagai pengganti bunyi lonceng untuk menandai langkah seduh berikutnya.
-• Aplikasi kini akan memberikan peringatan jika Anda mencoba menutup layar Penambahan Biji Baru atau Pembuatan Resep tanpa menyimpan perubahan.
-• Saat Anda menambahkan atau melepas catatan biji dari entri buku harian seduhan, sisa berat biji kini akan diperbarui secara otomatis.
-
-Perbaikan:
-• Pengenalan label kemasan biji kopi kini lebih akurat.
-• Lokalisasi diperhalus di berbagai bahasa.
-• Pengembangan berkelanjutan untuk desain aplikasi yang lebih konsisten.
-• Berbagai optimisasi keamanan dan performa telah ditambahkan.
-
-Perbaikan Bug:
-• Memperbaiki masalah di mana statistik pengguna tidak selalu tersinkronisasi dengan benar.
+• Sekarang Anda dapat menduplikasi resep dari layar pengeditan resep. Berguna jika Anda ingin dengan cepat membuat banyak variasi.
+• Sekarang Anda dapat mengurutkan biji kopi berdasarkan sisa berat kemasan.

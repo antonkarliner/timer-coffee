@@ -1,0 +1,5 @@
+Novo:
+• Sada možete duplicirati svoje recepte na ekranu za uređivanje. Korisno za brzo stvaranje više varijacija.
+• Sada možete sortirati zrna prema preostaloj težini pakiranja.
+Ispravljeno:
+• Riješen je problem s linkovima koji se nisu otvarali na stranici recepta.

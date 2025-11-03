@@ -1,0 +1,5 @@
+Nieuw:
+• Je kunt nu je recepten dupliceren vanuit het receptenbewerkingsscherm. Handig om snel variaties te maken.
+• Je kunt je koffiebonen nu sorteren op het resterende verpakkingsgewicht.
+Opgelost:
+• Een probleem verholpen waardoor links op de receptenpagina niet openden.

@@ -1,13 +1,3 @@
 Uutta:
-• Värinähälytykset! Voit nyt käyttää värinää äänimerkin sijaan ilmoittamaan seuraavasta uuton vaiheesta.
-• Sovellus varoittaa nyt, jos yrität sulkea Uudet pavut- tai Reseptin luontinäkymän tallentamatta muutoksia.
-• Kun liität tai irrotat paputietueita uuttopäiväkirjan merkinnöistä, jäljellä oleva määrä päivittyy nyt automaattisesti.
-
-Parannettu:
-• Tarkempi kahvipapupakkausten etikettien tunnistus.
-• Tarkennetut käännökset useilla kielillä.
-• Jatkuvaa kehitystyötä yhtenäisemmän sovellussuunnittelun suuntaan.
-• Useita tietoturvaan ja suorituskykyyn liittyviä parannuksia.
-
-Virheenkorjaukset:
-• Korjattu ongelma, jossa käyttäjätilastot eivät aina synkronoituneet oikein.
+• Voit nyt kopioida reseptejäsi reseptin muokkausnäkymässä. Kätevää, jos haluat luoda nopeasti useita variaatioita.
+• Voit nyt lajitella papusi jäljellä olevan pakkauspainon mukaan.

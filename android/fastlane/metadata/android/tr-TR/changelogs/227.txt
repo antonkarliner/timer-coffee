@@ -1,0 +1,5 @@
+Yenilikler:
+• Artık tarif düzenleme ekranından tariflerinizi kopyalayabilirsiniz. Hızlıca farklı varyasyonlar oluşturmak için ideal.
+• Çekirdeklerinizi artık kalan paket ağırlığına göre sıralayabilirsiniz.
+Hata Düzeltmesi:
+• Tarif sayfasında bağlantıların tıklanınca açılmama sorunu giderildi.

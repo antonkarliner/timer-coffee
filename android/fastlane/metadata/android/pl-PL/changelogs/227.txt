@@ -1,0 +1,5 @@
+Nowości:
+• Możesz teraz duplikować swoje przepisy z poziomu edycji przepisu. Przydatne, jeśli chcesz szybko tworzyć różne warianty.
+• Możesz sortować swoje ziarna według pozostałej wagi opakowania.
+Poprawka:
+• Naprawiono błąd, przez który linki na stronie przepisu nie otwierały się po kliknięciu.

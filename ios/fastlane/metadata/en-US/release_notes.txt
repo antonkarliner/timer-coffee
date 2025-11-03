@@ -1,13 +1,3 @@
 New:
-• Vibration alerts! You can now use vibration instead of the sound chime to signal the next brew step.
-• The app now warns you if you try to close the New Beans or Recipe creation screens without saving your changes.
-• When you attach or detach bean records from brew diary entries, the remaining weight now updates automatically.
-
-Improved:
-• More accurate recognition of coffee bean package labels.
-• Refined localizations across multiple languages.
-• Continued work toward a more consistent app design.
-• Added various security and performance optimizations.
-
-Bugfix:
-• Fixed an issue where user stats didn’t always sync correctly.
+• You can now duplicate your recipes from recipe editing screen. Useful if you want to quickly create many variations.
+• You can now sort your beans by remaing package weight.

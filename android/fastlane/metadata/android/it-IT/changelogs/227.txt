@@ -1,0 +1,5 @@
+Novità:
+• Ora puoi duplicare le tue ricette dalla schermata di modifica. Utile per creare rapidamente diverse varianti.
+• Ora puoi ordinare i tuoi caffè in base al peso rimanente della confezione.
+Correzione bug:
+• Risolto un problema che impediva l’apertura dei link nelle pagine delle ricette.

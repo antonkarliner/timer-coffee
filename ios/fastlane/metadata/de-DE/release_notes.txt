@@ -1,13 +1,3 @@
 Neu:
-• Vibrationsalarme! Sie können jetzt statt des Tonsignals eine Vibration als Hinweis für den nächsten Brühschritt verwenden.
-• Die App warnt Sie nun, wenn Sie versuchen, die Bildschirme für „Neue Bohnen“ oder „Rezept erstellen“ zu schließen, ohne Ihre Änderungen zu speichern.
-• Wenn Sie Bohnen-Datensätze an Brühprotokoll-Einträge anhängen oder entfernen, wird das verbleibende Gewicht jetzt automatisch aktualisiert.
-
-Verbessert:
-• Genauere Erkennung von Kaffeebohnen-Verpackungsetiketten.
-• Überarbeitete Übersetzungen in mehreren Sprachen.
-• Weitere Fortschritte für ein konsistenteres App-Design.
-• Verschiedene Sicherheits- und Leistungsoptimierungen hinzugefügt.
-
-Fehlerbehebung:
-• Ein Problem behoben, bei dem Nutzerstatistiken nicht immer korrekt synchronisiert wurden.
+• Du kannst jetzt deine Rezepte im Rezeptbearbeitungsbildschirm duplizieren. Praktisch, wenn du schnell viele Varianten erstellen möchtest.
+• Du kannst jetzt deine Bohnen nach verbleibendem Packungsgewicht sortieren.

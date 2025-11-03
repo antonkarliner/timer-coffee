@@ -1,0 +1,5 @@
+Baru:
+• Sekarang Anda bisa menduplikasi resep dari layar edit resep. Berguna untuk membuat variasi dengan cepat.
+• Sekarang Anda bisa mengurutkan biji kopi berdasarkan sisa berat kemasan.
+Perbaikan bug:
+• Memperbaiki bug di mana tautan tidak terbuka saat diklik di halaman resep.

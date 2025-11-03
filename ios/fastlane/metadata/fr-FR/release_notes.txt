@@ -1,13 +1,3 @@
 Nouveau :
-• Alertes par vibration ! Vous pouvez désormais utiliser la vibration au lieu du carillon sonore pour signaler l’étape suivante de l’infusion.
-• L’application vous avertit désormais si vous tentez de fermer les écrans de création de nouveaux cafés ou recettes sans enregistrer vos modifications.
-• Lorsque vous associez ou dissociez des fiches de café aux entrées du journal d’infusion, le poids restant se met maintenant à jour automatiquement.
-
-Améliorations :
-• Reconnaissance plus précise des étiquettes des paquets de café en grains.
-• Localisations affinées dans plusieurs langues.
-• Poursuite du travail pour offrir un design d’application plus cohérent.
-• Ajout de diverses optimisations de sécurité et de performance.
-
-Correctif :
-• Résolution d’un problème où les statistiques utilisateur ne se synchronisaient pas toujours correctement.
+• Vous pouvez désormais dupliquer vos recettes depuis l’écran d’édition de recette. Pratique si vous souhaitez créer rapidement plusieurs variantes.
+• Vous pouvez maintenant trier vos cafés par poids restant du paquet.

@@ -1,13 +1,3 @@
 New:
-• Vibration alerts! You can now choose vibration instead of a sound signal to notify you of the next brewing step.
-• The app now notifies you if you attempt to close the New Beans or Recipe creation screens without saving your changes.
-• When you link or unlink bean records from your brew log entries, the remaining coffee weight now updates automatically.
-
-Improved:
-• More accurate identification of coffee bean package labels.
-• Enhanced localizations across multiple languages.
-• Ongoing improvements for more consistent app design.
-• Various security and performance enhancements added.
-
-Bugfix:
-• Resolved an issue where user statistics did not always sync correctly.
+• You can now duplicate your recipes from the recipe editing screen. Useful if you want to quickly create many variations.
+• You can now sort your coffees by remaining bag weight.

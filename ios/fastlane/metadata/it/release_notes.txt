@@ -1,13 +1,3 @@
 Novità:
-• Avvisi tramite vibrazione! Ora puoi utilizzare la vibrazione invece del suono per segnalare il passaggio successivo dell’estrazione.
-• L’app ora ti avvisa se provi a chiudere le schermate di creazione Nuovi Chicchi o Ricetta senza salvare le modifiche.
-• Quando colleghi o scolleghi schede di chicchi alle voci del diario delle estrazioni, il peso residuo si aggiorna automaticamente.
-
-Miglioramenti:
-• Riconoscimento più accurato delle etichette dei pacchetti di caffè in chicchi.
-• Localizzazioni perfezionate in più lingue.
-• Proseguimento del lavoro per un design dell’app più coerente.
-• Sono state aggiunte diverse ottimizzazioni di sicurezza e prestazioni.
-
-Correzione bug:
-• Risolto un problema per cui le statistiche utente a volte non si sincronizzavano correttamente.
+• Ora puoi duplicare le tue ricette dalla schermata di modifica delle ricette. Utile se vuoi creare rapidamente molte varianti.
+• Ora puoi ordinare i tuoi caffè in base al peso rimanente della confezione.

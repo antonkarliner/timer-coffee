@@ -1,0 +1,5 @@
+Nuevo:
+• Ahora puedes duplicar tus recetas desde la pantalla de edición, ideal para crear variantes rápidamente.
+• Puedes ordenar tus cafés por el peso restante del paquete.
+Corrección:
+• Se corrigió un error que impedía abrir los enlaces en la página de recetas.
