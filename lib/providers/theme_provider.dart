@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../visual/color_shemes.dart';
+import '../visual/color_schemes.dart';
 import '../theme/design_tokens.dart';
 
 class ThemeProvider with ChangeNotifier {
