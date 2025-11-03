@@ -105,11 +105,9 @@ void main() async {
     OneSignal.initialize(Env.oneSignalAppId);
   }
 
-  // Initialize PurchaseManager
-  PurchaseManager();
-
-  // Restore previous purchases
-  InAppPurchase.instance.restorePurchases();
+  // Initialize PurchaseManager (no-op on unsupported platforms)
+  final purchaseManager = PurchaseManager();
+  unawaited(purchaseManager.restorePurchasesIfSupported());
 
   // Initialize Supabase
   await Supabase.initialize(url: Env.supaUrl, anonKey: Env.supaKey);

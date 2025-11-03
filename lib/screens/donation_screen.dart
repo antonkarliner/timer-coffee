@@ -22,18 +22,26 @@ class _DonationScreenState extends State<DonationScreen> {
     'tip_medium_coffee',
     'tip_small_coffee'
   };
-  late List<ProductDetails> _products;
+  List<ProductDetails> _products = const <ProductDetails>[];
   final PurchaseManager _purchaseManager = PurchaseManager();
 
   @override
   void initState() {
     super.initState();
-    _loadProducts();
+    if (_purchaseManager.isSupported) {
+      _loadProducts();
+    }
     _purchaseManager.setDeliverProductCallback(_deliverProduct);
     _purchaseManager.setPurchaseErrorCallback(_handleError);
   }
 
   Future<void> _loadProducts() async {
+    if (!_purchaseManager.isSupported) {
+      setState(() {
+        _products = const <ProductDetails>[];
+      });
+      return;
+    }
     final ProductDetailsResponse response =
         await InAppPurchase.instance.queryProductDetails(_kIds);
     setState(() {
@@ -44,6 +52,9 @@ class _DonationScreenState extends State<DonationScreen> {
   }
 
   void _makePurchase(ProductDetails productDetails) {
+    if (!_purchaseManager.isSupported) {
+      return;
+    }
     final PurchaseParam purchaseParam =
         PurchaseParam(productDetails: productDetails);
     InAppPurchase.instance.buyConsumable(purchaseParam: purchaseParam);

@@ -1,13 +1,15 @@
 // purchase_manager.dart
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:coffee_timer/utils/app_logger.dart';
 
 typedef DeliverProductCallback = void Function(PurchaseDetails details);
 typedef PurchaseErrorCallback = void Function(IAPError error);
 
 class PurchaseManager {
   static final PurchaseManager _singleton = PurchaseManager._internal();
-  late StreamSubscription<List<PurchaseDetails>> _purchaseSubscription;
+  StreamSubscription<List<PurchaseDetails>>? _purchaseSubscription;
   DeliverProductCallback? onProductDelivered;
   PurchaseErrorCallback? onPurchaseError;
 
@@ -19,7 +21,23 @@ class PurchaseManager {
     _initialize();
   }
 
+  static bool get _isSupportedPlatform {
+    if (kIsWeb) {
+      return false;
+    }
+    final platform = defaultTargetPlatform;
+    return platform == TargetPlatform.android ||
+        platform == TargetPlatform.iOS ||
+        platform == TargetPlatform.macOS;
+  }
+
+  bool get isSupported => _isSupportedPlatform;
+
   void _initialize() {
+    if (!_isSupportedPlatform) {
+      return;
+    }
+
     final Stream<List<PurchaseDetails>> purchaseUpdates =
         InAppPurchase.instance.purchaseStream;
     _purchaseSubscription = purchaseUpdates.listen(_listenToPurchaseUpdated);
@@ -50,6 +68,18 @@ class PurchaseManager {
   }
 
   void dispose() {
-    _purchaseSubscription.cancel();
+    _purchaseSubscription?.cancel();
+  }
+
+  Future<void> restorePurchasesIfSupported() async {
+    if (!_isSupportedPlatform) {
+      return;
+    }
+    try {
+      await InAppPurchase.instance.restorePurchases();
+    } catch (error) {
+      // Ignore restore errors on startup; platform-specific flows handle messaging.
+      AppLogger.warning('restorePurchases failed', errorObject: error);
+    }
   }
 }
