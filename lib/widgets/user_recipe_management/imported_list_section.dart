@@ -6,6 +6,7 @@ class ImportedListSection extends StatelessWidget {
   final String emptyHint;
   final List<RecipeModel> recipes;
   final Widget Function(BuildContext, RecipeModel) itemBuilder;
+  final bool isEditable;
 
   const ImportedListSection({
     super.key,
@@ -13,6 +14,7 @@ class ImportedListSection extends StatelessWidget {
     required this.emptyHint,
     required this.recipes,
     required this.itemBuilder,
+    this.isEditable = false,
   });
 
   @override
