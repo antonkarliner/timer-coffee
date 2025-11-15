@@ -1475,4 +1475,47 @@ class AppLocalizationsNl extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return '$amount$unit afgetrokken van $beanName. Nieuw gewicht: $newWeight$unit';
   }
+
+  @override
+  String get notifications => 'Notificaties';
+
+  @override
+  String get notificationsDisabledInSystemSettings =>
+      'Uitgeschakeld in systeeminstellingen';
+
+  @override
+  String get openSettings => 'Instellingen openen';
+
+  @override
+  String get notificationsDisabledDialogTitle =>
+      'Notificaties uitgeschakeld in systeeminstellingen';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'U heeft notificaties uitgeschakeld in de instellingen van uw apparaat. Om notificaties in te schakelen, opent u de instellingen van uw apparaat en staat u notificaties toe voor Timer.Coffee.';
+
+  @override
+  String get notificationDebug => 'Notificatie debug';
+
+  @override
+  String get testNotificationSystem => 'Test notificatiesysteem';
+
+  @override
+  String get notificationsEnabled => 'Ingeschakeld';
+
+  @override
+  String get notificationsDisabled => 'Uitgeschakeld';
+
+  @override
+  String get notificationPermissionDialogTitle => 'Notificaties inschakelen?';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      'U kunt notificaties inschakelen om nuttige updates te ontvangen (bijv. over nieuwe app-versies). Schakel nu in of wijzig dit op elk moment in de instellingen.';
+
+  @override
+  String get notificationPermissionEnable => 'Inschakelen';
+
+  @override
+  String get notificationPermissionSkip => 'Niet nu';
 }

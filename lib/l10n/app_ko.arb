@@ -846,5 +846,18 @@
         "example": "g"
       }
     }
-  }
+  },
+  "notifications": "알림",
+  "notificationsDisabledInSystemSettings": "시스템 설정에서 비활성화됨",
+  "openSettings": "설정 열기",
+  "notificationsDisabledDialogTitle": "시스템 설정에서 알림이 비활성화됨",
+  "notificationsDisabledDialogContent": "기기 설정에서 알림을 비활성화했습니다. 알림을 활성화하려면 기기 설정을 열고 Timer.Coffee에 대한 알림을 허용하세요.",
+  "notificationDebug": "알림 디버그",
+  "testNotificationSystem": "알림 시스템 테스트",
+  "notificationsEnabled": "활성화됨",
+  "notificationsDisabled": "비활성화됨",
+  "notificationPermissionDialogTitle": "알림을 활성화하시겠습니까?",
+  "notificationPermissionDialogMessage": "알림을 활성화하면 유용한 업데이트(예: 새 앱 버전)를 받을 수 있습니다. 지금 활성화하거나 설정에서 언제든지 변경할 수 있습니다.",
+  "notificationPermissionEnable": "활성화",
+  "notificationPermissionSkip": "나중에"
 }

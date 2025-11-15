@@ -656,5 +656,18 @@
     "newWeight": { "type": "String", "example": "250.0" },
     "unit": { "type": "String", "example": "г" }
   }
-}
+},
+"notifications": "Уведомления",
+"notificationsDisabledInSystemSettings": "Отключены в системных настройках",
+"openSettings": "Открыть настройки",
+"notificationsDisabledDialogTitle": "Уведомления отключены в системных настройках",
+"notificationsDisabledDialogContent": "Вы отключили уведомления в настройках вашего устройства. Чтобы включить уведомления, пожалуйста, откройте настройки вашего устройства и разрешите уведомления для Timer.Coffee.",
+"notificationDebug": "Отладка уведомлений",
+"testNotificationSystem": "Тестировать систему уведомлений",
+"notificationsEnabled": "Включены",
+"notificationsDisabled": "Отключены",
+"notificationPermissionDialogTitle": "Включить уведомления?",
+"notificationPermissionDialogMessage": "Вы можете включить уведомления, чтобы получать полезные обновления (например, о новых версиях приложения). Включите сейчас или измените это в любой момент в настройках.",
+"notificationPermissionEnable": "Включить",
+"notificationPermissionSkip": "Не сейчас"
 }

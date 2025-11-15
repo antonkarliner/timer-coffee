@@ -1471,4 +1471,46 @@ class AppLocalizationsAr extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return 'تم خصم $amount$unit من $beanName. الوزن الجديد: $newWeight$unit';
   }
+
+  @override
+  String get notifications => 'الإشعارات';
+
+  @override
+  String get notificationsDisabledInSystemSettings => 'معطل في إعدادات النظام';
+
+  @override
+  String get openSettings => 'فتح الإعدادات';
+
+  @override
+  String get notificationsDisabledDialogTitle =>
+      'الإشعارات معطلة في إعدادات النظام';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'لقد قمت بتعطيل الإشعارات في إعدادات جهازك. لتمكين الإشعارات، يرجى فتح إعدادات جهازك والسماح بالإشعارات لتطبيق Timer.Coffee.';
+
+  @override
+  String get notificationDebug => 'تصحيح الإشعارات';
+
+  @override
+  String get testNotificationSystem => 'اختبار نظام الإشعارات';
+
+  @override
+  String get notificationsEnabled => 'مفعّل';
+
+  @override
+  String get notificationsDisabled => 'معطّل';
+
+  @override
+  String get notificationPermissionDialogTitle => 'تفعيل الإشعارات؟';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      'يمكنك تفعيل الإشعارات للحصول على تحديثات مفيدة (مثلاً حول إصدارات جديدة من التطبيق). قم بالتفعيل الآن أو تغيير هذا في أي وقت في الإعدادات.';
+
+  @override
+  String get notificationPermissionEnable => 'تفعيل';
+
+  @override
+  String get notificationPermissionSkip => 'ليس الآن';
 }

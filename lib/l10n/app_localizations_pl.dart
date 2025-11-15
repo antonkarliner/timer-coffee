@@ -1485,4 +1485,47 @@ class AppLocalizationsPl extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return 'Odjęto $amount$unit od $beanName. Nowa waga: $newWeight$unit';
   }
+
+  @override
+  String get notifications => 'Powiadomienia';
+
+  @override
+  String get notificationsDisabledInSystemSettings =>
+      'Wyłączone w ustawieniach systemowych';
+
+  @override
+  String get openSettings => 'Otwórz ustawienia';
+
+  @override
+  String get notificationsDisabledDialogTitle =>
+      'Powiadomienia wyłączone w ustawieniach systemowych';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'Wyłączyłeś powiadomienia w ustawieniach urządzenia. Aby włączyć powiadomienia, otwórz ustawienia urządzenia i zezwól na powiadomienia dla Timer.Coffee.';
+
+  @override
+  String get notificationDebug => 'Debugowanie powiadomień';
+
+  @override
+  String get testNotificationSystem => 'Testuj system powiadomień';
+
+  @override
+  String get notificationsEnabled => 'Włączone';
+
+  @override
+  String get notificationsDisabled => 'Wyłączone';
+
+  @override
+  String get notificationPermissionDialogTitle => 'Włączyć powiadomienia?';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      'Możesz włączyć powiadomienia, aby otrzymywać przydatne aktualizacje (np. o nowych wersjach aplikacji). Włącz teraz lub zmień to w dowolnym momencie w ustawieniach.';
+
+  @override
+  String get notificationPermissionEnable => 'Włącz';
+
+  @override
+  String get notificationPermissionSkip => 'Nie teraz';
 }

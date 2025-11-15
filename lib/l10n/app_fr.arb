@@ -680,5 +680,18 @@
         "example": "g"
       }
     }
-  }
+  },
+  "notifications": "Notifications",
+  "notificationsDisabledInSystemSettings": "Désactivé dans les paramètres système",
+  "openSettings": "Ouvrir les paramètres",
+  "notificationsDisabledDialogTitle": "Notifications désactivées dans les paramètres système",
+  "notificationsDisabledDialogContent": "Vous avez désactivé les notifications dans les paramètres de votre appareil. Pour activer les notifications, veuillez ouvrir les paramètres de votre appareil et autoriser les notifications pour Timer.Coffee.",
+  "notificationDebug": "Débogage des notifications",
+  "testNotificationSystem": "Tester le système de notifications",
+  "notificationsEnabled": "Activé",
+  "notificationsDisabled": "Désactivé",
+  "notificationPermissionDialogTitle": "Activer les notifications ?",
+  "notificationPermissionDialogMessage": "Vous pouvez activer les notifications pour recevoir des mises à jour utiles (par ex. sur les nouvelles versions de l'application). Activez maintenant ou modifiez ce paramètre à tout moment dans les réglages.",
+  "notificationPermissionEnable": "Activer",
+  "notificationPermissionSkip": "Pas maintenant"
 }

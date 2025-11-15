@@ -655,6 +655,18 @@
     "beanName": { "type": "String", "example": "埃塞俄比亚 耶加雪菲" },
     "newWeight": { "type": "String", "example": "250.0" },
     "unit": { "type": "String", "example": "克" }
-  }
-}
+  }},
+  "notifications": "通知",
+  "notificationsDisabledInSystemSettings": "在系统设置中已禁用",
+  "openSettings": "打开设置",
+  "notificationsDisabledDialogTitle": "系统设置中已禁用通知",
+  "notificationsDisabledDialogContent": "您在设备设置中禁用了通知。要启用通知，请打开设备设置并允许 Timer.Coffee 的通知。",
+  "notificationDebug": "通知调试",
+  "testNotificationSystem": "测试通知系统",
+  "notificationsEnabled": "已启用",
+  "notificationsDisabled": "已禁用",
+  "notificationPermissionDialogTitle": "启用通知？",
+  "notificationPermissionDialogMessage": "您可以启用通知以获取有用的更新（例如，关于新应用版本）。现在启用或随时在设置中更改此选项。",
+  "notificationPermissionEnable": "启用",
+  "notificationPermissionSkip": "暂不启用"
 }

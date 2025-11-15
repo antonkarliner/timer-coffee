@@ -655,6 +655,18 @@
     "beanName": { "type": "String", "example": "Ефіопія Іргачеффе" },
     "newWeight": { "type": "String", "example": "250.0" },
     "unit": { "type": "String", "example": "г" }
-  }
-}
+  }},
+  "notifications": "Сповіщення",
+  "notificationsDisabledInSystemSettings": "Вимкнено в системних налаштуваннях",
+  "openSettings": "Відкрити налаштування",
+  "notificationsDisabledDialogTitle": "Сповіщення вимкнено в системних налаштуваннях",
+  "notificationsDisabledDialogContent": "Ви вимкнули сповіщення в налаштуваннях пристрою. Щоб увімкнути сповіщення, будь ласка, відкрийте налаштування пристрою та дозвольте сповіщення для Timer.Coffee.",
+  "notificationDebug": "Налагодження сповіщень",
+  "testNotificationSystem": "Тестувати систему сповіщень",
+  "notificationsEnabled": "Увімкнено",
+  "notificationsDisabled": "Вимкнено",
+  "notificationPermissionDialogTitle": "Увімкнути сповіщення?",
+  "notificationPermissionDialogMessage": "Ви можете увімкнути сповіщення, щоб отримувати корисні оновлення (наприклад, про нові версії додатку). Увімкніть зараз або змініть це в будь-який момент у налаштуваннях.",
+  "notificationPermissionEnable": "Увімкнути",
+  "notificationPermissionSkip": "Не зараз"
 }

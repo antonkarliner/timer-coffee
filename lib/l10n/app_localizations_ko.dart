@@ -1434,4 +1434,45 @@ class AppLocalizationsKo extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return '$beanName에서 $amount$unit을(를) 빼냈습니다. 새 무게: $newWeight$unit';
   }
+
+  @override
+  String get notifications => '알림';
+
+  @override
+  String get notificationsDisabledInSystemSettings => '시스템 설정에서 비활성화됨';
+
+  @override
+  String get openSettings => '설정 열기';
+
+  @override
+  String get notificationsDisabledDialogTitle => '시스템 설정에서 알림이 비활성화됨';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      '기기 설정에서 알림을 비활성화했습니다. 알림을 활성화하려면 기기 설정을 열고 Timer.Coffee에 대한 알림을 허용하세요.';
+
+  @override
+  String get notificationDebug => '알림 디버그';
+
+  @override
+  String get testNotificationSystem => '알림 시스템 테스트';
+
+  @override
+  String get notificationsEnabled => '활성화됨';
+
+  @override
+  String get notificationsDisabled => '비활성화됨';
+
+  @override
+  String get notificationPermissionDialogTitle => '알림을 활성화하시겠습니까?';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      '알림을 활성화하면 유용한 업데이트(예: 새 앱 버전)를 받을 수 있습니다. 지금 활성화하거나 설정에서 언제든지 변경할 수 있습니다.';
+
+  @override
+  String get notificationPermissionEnable => '활성화';
+
+  @override
+  String get notificationPermissionSkip => '나중에';
 }

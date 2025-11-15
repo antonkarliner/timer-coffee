@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:async';
 
 import 'package:coffee_timer/models/contributor_model.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,8 @@ import '../app_router.gr.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../providers/snow_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:app_settings/app_settings.dart';
+import 'package:coffee_timer/services/notification_service.dart';
 import 'package:flutter_dynamic_icon_plus/flutter_dynamic_icon_plus.dart';
 import 'package:flutter/services.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
@@ -38,6 +42,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _iconApiAvailable = false; //  ← NEW
   String? _localIconState; // ← NEW: Local state tracking
 
+  // Notifications state
+  bool _masterNotificationsEnabled =
+      true; // User's explicit setting from SharedPreferences
+  bool _notificationsEnabled = true; // Effective state (master && permission)
+  bool _systemPermissionDenied = false;
+  bool _isLoading = true;
+
+  final NotificationService _notificationService = NotificationService.instance;
+  StreamSubscription<bool>? _notifStateSub;
+  StreamSubscription<bool>? _permSub;
+
   bool get _isDefault =>
       _localIconState == null || _localIconState == 'Default';
 
@@ -46,6 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.initState();
     _loadUserData();
     _initIconApi(); //  ← NEW
+    _initNotificationSettings();
   }
 
   Future<void> _loadUserData() async {
@@ -108,12 +124,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: _changeLocale,
             ),
           ),
+          // Notification master toggle
+          if (!kIsWeb)
+            Semantics(
+              identifier: 'settingsNotificationsTile',
+              child: ListTile(
+                title: Text(AppLocalizations.of(context)!.notifications),
+                trailing: _isLoading
+                    ? const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Text(_getNotificationStatusText()),
+                onTap: _changeNotificationSettings,
+              ),
+            ),
           if (!kIsWeb &&
               (Platform.isAndroid || Platform.isIOS) &&
               _iconApiAvailable)
             _buildIconSelector(context),
           _buildBrewingMethodsSettings(
               context, recipeProvider), // Added section
+          Semantics(
+            identifier: 'notificationDebugTile',
+            child: ListTile(
+              leading: const Icon(Icons.bug_report),
+              title: Text(AppLocalizations.of(context)!.notificationDebug),
+              subtitle:
+                  Text(AppLocalizations.of(context)!.testNotificationSystem),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () => context.router.push(NotificationDebugRoute()),
+            ),
+          ),
           _buildAboutSection(context, snowEffectProvider),
         ],
       ),
@@ -188,7 +231,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           });
         }
       } else {
-        // iOS - use the plugin
+        // iOS - use plugin
         final supported = await FlutterDynamicIconPlus.supportsAlternateIcons;
         final current =
             supported ? await FlutterDynamicIconPlus.alternateIconName : null;
@@ -433,5 +476,254 @@ class _SettingsScreenState extends State<SettingsScreen> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  // ===== Notifications integration =====
+
+  Future<void> _initNotificationSettings() async {
+    if (kIsWeb) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _notificationsEnabled = false;
+          _systemPermissionDenied = false;
+        });
+      }
+      return;
+    }
+
+    try {
+      await _notificationService.initialize();
+
+      // Get the master setting from SharedPreferences (user's explicit choice)
+      final master = await _notificationService.settings.isMasterEnabled();
+      // Check actual permission status on initialization
+      final hasPermission =
+          await _notificationService.permissions.hasNotificationPermission;
+
+      if (mounted) {
+        setState(() {
+          _masterNotificationsEnabled =
+              master; // Preserve user's explicit setting
+          _notificationsEnabled = master && hasPermission; // Effective state
+          _systemPermissionDenied = !hasPermission;
+          _isLoading = false;
+        });
+      }
+
+      // Subscribe to live updates
+      _notifStateSub =
+          _notificationService.notificationStateStream.listen((state) {
+        if (!mounted) return;
+        setState(() {
+          _notificationsEnabled = state;
+        });
+      });
+
+      _permSub =
+          _notificationService.permissions.permissionChanges.listen((hasPerm) {
+        if (!mounted) return;
+        setState(() {
+          _systemPermissionDenied = !hasPerm;
+          if (!hasPerm && _notificationsEnabled) {
+            _notificationsEnabled = false;
+          }
+        });
+      });
+    } catch (e) {
+      AppLogger.error('Error initializing notification settings',
+          errorObject: e);
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  String _getNotificationStatusText() {
+    if (_isLoading) return '';
+
+    // Show master setting status, not effective state
+    // This ensures the UI reflects what the user explicitly set
+    return _masterNotificationsEnabled
+        ? AppLocalizations.of(context)!.notificationsEnabled
+        : AppLocalizations.of(context)!.notificationsDisabled;
+  }
+
+  void _changeNotificationSettings() async {
+    final result = await showModalBottomSheet<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              Semantics(
+                identifier: 'notificationEnabledListTile',
+                child: ListTile(
+                  leading: const Icon(Icons.notifications),
+                  title:
+                      Text(AppLocalizations.of(context)!.notificationsEnabled),
+                  trailing: _masterNotificationsEnabled
+                      ? const Icon(Icons.check)
+                      : null,
+                  onTap: () => Navigator.pop(context, true),
+                ),
+              ),
+              Semantics(
+                identifier: 'notificationDisabledListTile',
+                child: ListTile(
+                  leading: const Icon(Icons.notifications_off),
+                  title:
+                      Text(AppLocalizations.of(context)!.notificationsDisabled),
+                  trailing: !_masterNotificationsEnabled
+                      ? const Icon(Icons.check)
+                      : null,
+                  onTap: () => Navigator.pop(context, false),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (result != null) {
+      _toggleNotifications(result);
+    }
+  }
+
+  Future<void> _toggleNotifications(bool enabled) async {
+    if (kIsWeb) return;
+
+    try {
+      if (enabled) {
+        // Check if we already have permission
+        final hasPerm =
+            await _notificationService.permissions.hasNotificationPermission;
+
+        if (!hasPerm) {
+          // Request permission first, following pattern from notification_debug_screen.dart
+          final granted = await _notificationService.requestPermissions();
+
+          if (!granted) {
+            // Permission denied, show settings dialog
+            _showSettingsDialog();
+            return;
+          }
+        }
+      }
+
+      await _notificationService.updateMasterToggle(
+        enabled: enabled,
+        userId: _userId,
+      );
+
+      if (mounted) {
+        setState(() {
+          _masterNotificationsEnabled = enabled; // Update master setting
+          // Update effective state based on both master and current permission
+          _notificationsEnabled = enabled && !_systemPermissionDenied;
+        });
+      }
+    } catch (e) {
+      AppLogger.error('Error toggling notifications', errorObject: e);
+    }
+  }
+
+  void _showSettingsDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(
+              AppLocalizations.of(context)!.notificationsDisabledDialogTitle),
+          content: Text(
+              AppLocalizations.of(context)!.notificationsDisabledDialogContent),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.card),
+                ),
+              ),
+              child: Text(
+                l10n.cancel,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.card),
+                ),
+              ),
+              child: Text(
+                AppLocalizations.of(context)!.openSettings,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await _openNotificationSettings();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _openAppSettings() async {
+    try {
+      await AppSettings.openAppSettings(type: AppSettingsType.notification);
+    } catch (e) {
+      AppLogger.error('Error opening notification settings', errorObject: e);
+      try {
+        await AppSettings.openAppSettings();
+      } catch (fallbackError) {
+        AppLogger.error('Error opening generic app settings',
+            errorObject: fallbackError);
+      }
+    }
+  }
+
+  Future<void> _openNotificationSettings() async {
+    try {
+      // Try to open notification-specific settings first
+      await AppSettings.openAppSettings(type: AppSettingsType.notification);
+    } catch (e) {
+      AppLogger.error('Error opening notification settings', errorObject: e);
+      try {
+        // Fallback to general app settings
+        await AppSettings.openAppSettings();
+      } catch (fallbackError) {
+        AppLogger.error('Error opening general app settings',
+            errorObject: fallbackError);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _notifStateSub?.cancel();
+    _permSub?.cancel();
+    super.dispose();
   }
 }

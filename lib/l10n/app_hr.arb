@@ -846,5 +846,18 @@
         "example": "g"
       }
     }
-  }
+  },
+  "notifications": "Obavijesti",
+  "notificationsDisabledInSystemSettings": "Onemogućeno u sistemskim postavkama",
+  "openSettings": "Otvori postavke",
+  "notificationsDisabledDialogTitle": "Obavijesti onemogućene u sistemskim postavkama",
+  "notificationsDisabledDialogContent": "Onemogućili ste obavijesti u postavkama uređaja. Da biste omogućili obavijesti, molimo otvorite postavke uređaja i dozvolite obavijesti za Timer.Coffee.",
+  "notificationDebug": "Otklanjanje grešaka obavijesti",
+  "testNotificationSystem": "Testiraj sustav obavijesti",
+  "notificationsEnabled": "Omogućeno",
+  "notificationsDisabled": "Onemogućeno",
+  "notificationPermissionDialogTitle": "Omogućiti obavijesti?",
+  "notificationPermissionDialogMessage": "Možete omogućiti obavijesti da biste dobili korisne ažuriranja (npr. o novim verzijama aplikacije). Omogućite sada ili promijenite ovo bilo kada u postavkama.",
+  "notificationPermissionEnable": "Omogući",
+  "notificationPermissionSkip": "Ne sada"
 }

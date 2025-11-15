@@ -13,7 +13,6 @@ import 'dart:typed_data'; // For Uint8List
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image/image.dart' as img; // Use prefix to avoid conflicts
-import 'package:onesignal_flutter/onesignal_flutter.dart'; // For sign out
 import '../app_router.gr.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/confirm_delete_dialog.dart';
@@ -509,10 +508,6 @@ class _AccountScreenState extends State<AccountScreen> {
     setState(() => _isLoading = true); // Show loading indicator
 
     try {
-      if (!kIsWeb) {
-        await OneSignal.logout(); // Logout from OneSignal on mobile
-      }
-
       // Sign out the user
       await Supabase.instance.client.auth.signOut();
 

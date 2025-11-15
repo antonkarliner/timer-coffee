@@ -889,5 +889,18 @@
         "example": "g"
       }
     }
-  }
+  },
+  "notifications": "Notifications",
+  "notificationsDisabledInSystemSettings": "Disabled in system settings",
+  "openSettings": "Open Settings",
+  "notificationsDisabledDialogTitle": "Notifications Disabled in System Settings",
+  "notificationsDisabledDialogContent": "You have disabled notifications in your device settings. To enable notifications, please open your device settings and allow notifications for Timer.Coffee.",
+  "notificationDebug": "Notification Debug",
+  "testNotificationSystem": "Test notification system",
+  "notificationsEnabled": "Enabled",
+  "notificationsDisabled": "Disabled",
+  "notificationPermissionDialogTitle": "Enable Notifications?",
+  "notificationPermissionDialogMessage": "You can enable notifications to get useful updates (e.g. about new app versions). Enable now or change this anytime in settings.",
+  "notificationPermissionEnable": "Enable",
+  "notificationPermissionSkip": "Not Now"
 }

@@ -195,11 +195,28 @@ class _UserRecipeManagementScreenState
                 title: l10n.userRecipesSectionImported,
                 emptyHint: l10n.userRecipesEmpty,
                 recipes: importedByYou,
+                isEditable: true, // Enable delete for imported recipes
                 itemBuilder: (ctx, recipe) => RecipeListItem(
                   recipe: recipe,
-                  isEditable: false, // imported list never shows delete
+                  isEditable:
+                      true, // imported list now supports delete in edit mode
                   isInEditModeListenable: _controller.editMode,
                   onTap: () => _navigateToDetail(context, recipe),
+                  onDelete: () async {
+                    final l10n = AppLocalizations.of(context)!;
+                    final confirmed = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => ConfirmDeleteDialog(
+                        title: l10n.userRecipesDeleteTitle,
+                        content: l10n.userRecipesDeleteMessage,
+                        confirmLabel: l10n.userRecipesDeleteConfirm,
+                        cancelLabel: l10n.userRecipesDeleteCancel,
+                      ),
+                    );
+                    if (confirmed == true) {
+                      await _deleteRecipe(context, recipe);
+                    }
+                  },
                 ),
               ),
             ],

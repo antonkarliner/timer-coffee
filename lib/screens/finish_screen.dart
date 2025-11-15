@@ -3,7 +3,7 @@ import 'dart:async';
 
 import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:coffee_timer/services/notification_service.dart';
 import 'package:provider/provider.dart';
 import 'package:advanced_in_app_review/advanced_in_app_review.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -21,7 +21,8 @@ import '../providers/user_stat_provider.dart';
 import '../providers/coffee_beans_provider.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/design_tokens.dart';
-import '../utils/app_logger.dart'; // Import AppLogger
+import '../utils/app_logger.dart';
+import '../widgets/notification_permission_dialog.dart'; // Import AppLogger
 
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
@@ -66,7 +67,7 @@ class _FinishScreenState extends State<FinishScreen> {
     insertBrewingDataToSupabase();
     insertBrewingDataToAppDatabase();
     _updateBeanWeightAfterBrew();
-    requestOneSignalPermissionFirstTime();
+    requestNotificationPermissionFirstTime();
   }
 
   void insertBrewingDataToSupabase() async {
@@ -164,16 +165,47 @@ class _FinishScreenState extends State<FinishScreen> {
     }
   }
 
-  void requestOneSignalPermissionFirstTime() async {
+  void requestNotificationPermissionFirstTime() async {
     const firstFinishScreenKey = 'firstfinishscreen';
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool firstFinishScreen = prefs.getBool(firstFinishScreenKey) ?? true;
 
+    // Always mark as true regardless of user choice
+    await prefs.setBool(firstFinishScreenKey, false);
+
     if (firstFinishScreen) {
       if (!kIsWeb) {
-        OneSignal.Notifications.requestPermission(true);
+        // Show in-app dialog first
+        final result = await showDialog<bool>(
+          context: context,
+          builder: (context) => NotificationPermissionDialog(
+            onEnable: () async {
+              Navigator.of(context).pop(true);
+              await _requestSystemPermissionAndUpdateSettings();
+            },
+            onSkip: () => Navigator.of(context).pop(false),
+          ),
+        );
+
+        // User chose to enable - request system permission
+        if (result == true) {
+          await _requestSystemPermissionAndUpdateSettings();
+        }
       }
-      await prefs.setBool(firstFinishScreenKey, false);
+    }
+  }
+
+  Future<void> _requestSystemPermissionAndUpdateSettings() async {
+    // Request system permission
+    final granted = await NotificationService.instance.requestPermissions();
+
+    // If granted, update master toggle to enabled
+    if (granted) {
+      final user = Supabase.instance.client.auth.currentUser;
+      await NotificationService.instance.updateMasterToggle(
+        enabled: true,
+        userId: user?.id,
+      );
     }
   }
 

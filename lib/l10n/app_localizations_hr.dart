@@ -1472,4 +1472,47 @@ class AppLocalizationsHr extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return 'Oduzeto $amount$unit od $beanName. Nova težina: $newWeight$unit';
   }
+
+  @override
+  String get notifications => 'Obavijesti';
+
+  @override
+  String get notificationsDisabledInSystemSettings =>
+      'Onemogućeno u sistemskim postavkama';
+
+  @override
+  String get openSettings => 'Otvori postavke';
+
+  @override
+  String get notificationsDisabledDialogTitle =>
+      'Obavijesti onemogućene u sistemskim postavkama';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'Onemogućili ste obavijesti u postavkama uređaja. Da biste omogućili obavijesti, molimo otvorite postavke uređaja i dozvolite obavijesti za Timer.Coffee.';
+
+  @override
+  String get notificationDebug => 'Otklanjanje grešaka obavijesti';
+
+  @override
+  String get testNotificationSystem => 'Testiraj sustav obavijesti';
+
+  @override
+  String get notificationsEnabled => 'Omogućeno';
+
+  @override
+  String get notificationsDisabled => 'Onemogućeno';
+
+  @override
+  String get notificationPermissionDialogTitle => 'Omogućiti obavijesti?';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      'Možete omogućiti obavijesti da biste dobili korisne ažuriranja (npr. o novim verzijama aplikacije). Omogućite sada ili promijenite ovo bilo kada u postavkama.';
+
+  @override
+  String get notificationPermissionEnable => 'Omogući';
+
+  @override
+  String get notificationPermissionSkip => 'Ne sada';
 }

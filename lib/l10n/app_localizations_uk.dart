@@ -1487,4 +1487,47 @@ class AppLocalizationsUk extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return 'Віднято $amount$unit від $beanName. Нова вага: $newWeight$unit';
   }
+
+  @override
+  String get notifications => 'Сповіщення';
+
+  @override
+  String get notificationsDisabledInSystemSettings =>
+      'Вимкнено в системних налаштуваннях';
+
+  @override
+  String get openSettings => 'Відкрити налаштування';
+
+  @override
+  String get notificationsDisabledDialogTitle =>
+      'Сповіщення вимкнено в системних налаштуваннях';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'Ви вимкнули сповіщення в налаштуваннях пристрою. Щоб увімкнути сповіщення, будь ласка, відкрийте налаштування пристрою та дозвольте сповіщення для Timer.Coffee.';
+
+  @override
+  String get notificationDebug => 'Налагодження сповіщень';
+
+  @override
+  String get testNotificationSystem => 'Тестувати систему сповіщень';
+
+  @override
+  String get notificationsEnabled => 'Увімкнено';
+
+  @override
+  String get notificationsDisabled => 'Вимкнено';
+
+  @override
+  String get notificationPermissionDialogTitle => 'Увімкнути сповіщення?';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      'Ви можете увімкнути сповіщення, щоб отримувати корисні оновлення (наприклад, про нові версії додатку). Увімкніть зараз або змініть це в будь-який момент у налаштуваннях.';
+
+  @override
+  String get notificationPermissionEnable => 'Увімкнути';
+
+  @override
+  String get notificationPermissionSkip => 'Не зараз';
 }

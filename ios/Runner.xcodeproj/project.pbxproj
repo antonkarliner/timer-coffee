@@ -21,6 +21,7 @@
 		8BDA14062BD8780500ECDE21 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA14052BD8780500ECDE21 /* NotificationService.swift */; };
 		8BDA140A2BD8780500ECDE21 /* OneSignalNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8BDA14032BD8780500ECDE21 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		90C9DE8C4D8D86F4BADCE601 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E69E14BB7911C9654795B546 /* Pods_OneSignalNotificationServiceExtension.framework */; };
+		916D90C358E629050934490B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B3AAB0185F631DA1912B089D /* GoogleService-Info.plist */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
@@ -157,6 +158,7 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B3AAB0185F631DA1912B089D /* GoogleService-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Runner/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C05FDB2EB59429C78F4DDD5B /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		E69E14BB7911C9654795B546 /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E94D0F03E5B1F6DFB1D7E347 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				97C146EF1CF9000F007C117D /* Products */,
 				67104B78FA59373BA08278D8 /* Pods */,
 				D0C1EDA75D6A32C30DDA3906 /* Frameworks */,
+				B3AAB0185F631DA1912B089D /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -441,6 +444,7 @@
 				8BD78C4A2E18657800718E28 /* AppIcon.icon in Resources */,
 				8B74FB2D2AF002AA00701B6B /* Timer.storekit in Resources */,
 				8B9C76F12AE7320600E54A4B /* donationtest.storekit in Resources */,
+				916D90C358E629050934490B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

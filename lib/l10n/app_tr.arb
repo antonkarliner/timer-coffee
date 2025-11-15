@@ -656,5 +656,18 @@
     "newWeight": { "type": "String", "example": "250.0" },
     "unit": { "type": "String", "example": "g" }
   }
-}
+},
+"notifications": "Bildirimler",
+"notificationsDisabledInSystemSettings": "Sistem ayarlarında devre dışı",
+"openSettings": "Ayarları aç",
+"notificationsDisabledDialogTitle": "Bildirimler sistem ayarlarında devre dışı",
+"notificationsDisabledDialogContent": "Bildirimleri cihaz ayarlarınızda devre dışı bıraktınız. Bildirimleri etkinleştirmek için lütfen cihaz ayarlarınızı açın ve Timer.Coffee için bildirimlere izin verin.",
+"notificationDebug": "Bildirim hata ayıklama",
+"testNotificationSystem": "Bildirim sistemini test et",
+"notificationsEnabled": "Etkin",
+"notificationsDisabled": "Devre dışı",
+"notificationPermissionDialogTitle": "Bildirimler Etkinleştirilsin mi?",
+"notificationPermissionDialogMessage": "Yararlı güncellemeleri (örneğin, yeni uygulama sürümleri hakkında) almak için bildirimleri etkinleştirebilirsiniz. Şimdi etkinleştirin veya bu ayarı istediğiniz zaman ayarlardan değiştirin.",
+"notificationPermissionEnable": "Etkinleştir",
+"notificationPermissionSkip": "Şimdi Değil"
 }

@@ -1483,4 +1483,47 @@ class AppLocalizationsRo extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return 'Scăzut $amount$unit din $beanName. Greutate nouă: $newWeight$unit';
   }
+
+  @override
+  String get notifications => 'Notificări';
+
+  @override
+  String get notificationsDisabledInSystemSettings =>
+      'Dezactivat în setările sistemului';
+
+  @override
+  String get openSettings => 'Deschide setările';
+
+  @override
+  String get notificationsDisabledDialogTitle =>
+      'Notificări dezactivate în setările sistemului';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'Ați dezactivat notificările în setările dispozitivului dvs. Pentru a activa notificările, vă rugăm să deschideți setările dispozitivului și să permiteți notificări pentru Timer.Coffee.';
+
+  @override
+  String get notificationDebug => 'Depanare notificări';
+
+  @override
+  String get testNotificationSystem => 'Testează sistemul de notificări';
+
+  @override
+  String get notificationsEnabled => 'Activate';
+
+  @override
+  String get notificationsDisabled => 'Dezactivate';
+
+  @override
+  String get notificationPermissionDialogTitle => 'Activați Notificările?';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      'Puteți activa notificările pentru a primi actualizări utile (ex. despre versiuni noi ale aplicației). Activați acum sau schimbați acest lucru în orice moment în setări.';
+
+  @override
+  String get notificationPermissionEnable => 'Activează';
+
+  @override
+  String get notificationPermissionSkip => 'Nu acum';
 }

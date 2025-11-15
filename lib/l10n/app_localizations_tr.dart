@@ -1477,4 +1477,48 @@ class AppLocalizationsTr extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return '$amount$unit $beanName\'den çıkarıldı. Yeni ağırlık: $newWeight$unit';
   }
+
+  @override
+  String get notifications => 'Bildirimler';
+
+  @override
+  String get notificationsDisabledInSystemSettings =>
+      'Sistem ayarlarında devre dışı';
+
+  @override
+  String get openSettings => 'Ayarları aç';
+
+  @override
+  String get notificationsDisabledDialogTitle =>
+      'Bildirimler sistem ayarlarında devre dışı';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'Bildirimleri cihaz ayarlarınızda devre dışı bıraktınız. Bildirimleri etkinleştirmek için lütfen cihaz ayarlarınızı açın ve Timer.Coffee için bildirimlere izin verin.';
+
+  @override
+  String get notificationDebug => 'Bildirim hata ayıklama';
+
+  @override
+  String get testNotificationSystem => 'Bildirim sistemini test et';
+
+  @override
+  String get notificationsEnabled => 'Etkin';
+
+  @override
+  String get notificationsDisabled => 'Devre dışı';
+
+  @override
+  String get notificationPermissionDialogTitle =>
+      'Bildirimler Etkinleştirilsin mi?';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      'Yararlı güncellemeleri (örneğin, yeni uygulama sürümleri hakkında) almak için bildirimleri etkinleştirebilirsiniz. Şimdi etkinleştirin veya bu ayarı istediğiniz zaman ayarlardan değiştirin.';
+
+  @override
+  String get notificationPermissionEnable => 'Etkinleştir';
+
+  @override
+  String get notificationPermissionSkip => 'Şimdi Değil';
 }

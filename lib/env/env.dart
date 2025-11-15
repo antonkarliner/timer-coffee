@@ -11,8 +11,5 @@ abstract class Env {
   static final String supaKey = _Env.supaKey;
 
   @EnviedField(obfuscate: true, useConstantCase: true)
-  static final String oneSignalAppId = _Env.oneSignalAppId;
-
-  @EnviedField(obfuscate: true, useConstantCase: true)
   static final String bannerCountry = _Env.bannerCountry;
 }

@@ -680,5 +680,18 @@
       "example": "g"
     }
   }
-}
+},
+"notifications": "Notifiche",
+"notificationsDisabledInSystemSettings": "Disattivate nelle impostazioni di sistema",
+"openSettings": "Apri impostazioni",
+"notificationsDisabledDialogTitle": "Notifiche disattivate nelle impostazioni di sistema",
+"notificationsDisabledDialogContent": "Hai disattivato le notifiche nelle impostazioni del dispositivo. Per abilitare le notifiche, apri le impostazioni del dispositivo e consenti le notifiche per Timer.Coffee.",
+"notificationDebug": "Debug notifiche",
+"testNotificationSystem": "Testa sistema di notifica",
+"notificationsEnabled": "Attivate",
+"notificationsDisabled": "Disattivate",
+"notificationPermissionDialogTitle": "Abilitare le notifiche?",
+"notificationPermissionDialogMessage": "Puoi abilitare le notifiche per ricevere aggiornamenti utili (es. su nuove versioni dell'app). Abilita ora o modifica questa impostazione in qualsiasi momento nelle impostazioni.",
+"notificationPermissionEnable": "Abilita",
+"notificationPermissionSkip": "Non ora"
 }

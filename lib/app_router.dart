@@ -74,5 +74,9 @@ class AppRouter extends RootStackRouter {
           page: UserRecipeManagementRoute.page,
           path: '/user-recipes',
         ),
+        AutoRoute(
+          page: NotificationDebugRoute.page,
+          path: '/debug/notifications',
+        ),
       ];
 }

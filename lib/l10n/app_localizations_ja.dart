@@ -1433,4 +1433,45 @@ class AppLocalizationsJa extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return '$beanNameから$amount$unitを減らしました。新しい重量：$newWeight$unit';
   }
+
+  @override
+  String get notifications => '通知';
+
+  @override
+  String get notificationsDisabledInSystemSettings => 'システム設定で無効';
+
+  @override
+  String get openSettings => '設定を開く';
+
+  @override
+  String get notificationsDisabledDialogTitle => '通知がシステム設定で無効になっています';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'デバイス設定で通知を無効にしました。通知を有効にするには、デバイス設定を開き、Timer.Coffeeの通知を許可してください。';
+
+  @override
+  String get notificationDebug => '通知デバッグ';
+
+  @override
+  String get testNotificationSystem => '通知システムをテスト';
+
+  @override
+  String get notificationsEnabled => '有効';
+
+  @override
+  String get notificationsDisabled => '無効';
+
+  @override
+  String get notificationPermissionDialogTitle => '通知を有効にしますか？';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      '通知を有効にすると、便利なアップデート（例：新しいアプリバージョンについて）を受け取ることができます。今すぐ有効にするか、設定でいつでも変更できます。';
+
+  @override
+  String get notificationPermissionEnable => '有効にする';
+
+  @override
+  String get notificationPermissionSkip => '後で';
 }

@@ -1464,4 +1464,47 @@ class AppLocalizationsEn extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return 'Subtracted $amount$unit from $beanName. New weight: $newWeight$unit';
   }
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get notificationsDisabledInSystemSettings =>
+      'Disabled in system settings';
+
+  @override
+  String get openSettings => 'Open Settings';
+
+  @override
+  String get notificationsDisabledDialogTitle =>
+      'Notifications Disabled in System Settings';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'You have disabled notifications in your device settings. To enable notifications, please open your device settings and allow notifications for Timer.Coffee.';
+
+  @override
+  String get notificationDebug => 'Notification Debug';
+
+  @override
+  String get testNotificationSystem => 'Test notification system';
+
+  @override
+  String get notificationsEnabled => 'Enabled';
+
+  @override
+  String get notificationsDisabled => 'Disabled';
+
+  @override
+  String get notificationPermissionDialogTitle => 'Enable Notifications?';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      'You can enable notifications to get useful updates (e.g. about new app versions). Enable now or change this anytime in settings.';
+
+  @override
+  String get notificationPermissionEnable => 'Enable';
+
+  @override
+  String get notificationPermissionSkip => 'Not Now';
 }

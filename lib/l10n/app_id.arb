@@ -680,5 +680,18 @@
       "example": "g"
     }
   }
-}
+},
+"notifications": "Notifikasi",
+"notificationsDisabledInSystemSettings": "Dinonaktifkan di pengaturan sistem",
+"openSettings": "Buka Pengaturan",
+"notificationsDisabledDialogTitle": "Notifikasi Dinonaktifkan di Pengaturan Sistem",
+"notificationsDisabledDialogContent": "Anda telah menonaktifkan notifikasi di pengaturan perangkat. Untuk mengaktifkan notifikasi, silakan buka pengaturan perangkat Anda dan izinkan notifikasi untuk Timer.Coffee.",
+"notificationDebug": "Debug Notifikasi",
+"testNotificationSystem": "Uji sistem notifikasi",
+"notificationsEnabled": "Diaktifkan",
+"notificationsDisabled": "Dinonaktifkan",
+"notificationPermissionDialogTitle": "Aktifkan Notifikasi?",
+"notificationPermissionDialogMessage": "Anda dapat mengaktifkan notifikasi untuk mendapatkan pembaruan berguna (misalnya tentang versi aplikasi baru). Aktifkan sekarang atau ubah kapan saja di pengaturan.",
+"notificationPermissionEnable": "Aktifkan",
+"notificationPermissionSkip": "Nanti Saja"
 }

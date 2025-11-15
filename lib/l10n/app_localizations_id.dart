@@ -1473,4 +1473,47 @@ class AppLocalizationsId extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return 'Dikurangi $amount$unit dari $beanName. Berat baru: $newWeight$unit';
   }
+
+  @override
+  String get notifications => 'Notifikasi';
+
+  @override
+  String get notificationsDisabledInSystemSettings =>
+      'Dinonaktifkan di pengaturan sistem';
+
+  @override
+  String get openSettings => 'Buka Pengaturan';
+
+  @override
+  String get notificationsDisabledDialogTitle =>
+      'Notifikasi Dinonaktifkan di Pengaturan Sistem';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'Anda telah menonaktifkan notifikasi di pengaturan perangkat. Untuk mengaktifkan notifikasi, silakan buka pengaturan perangkat Anda dan izinkan notifikasi untuk Timer.Coffee.';
+
+  @override
+  String get notificationDebug => 'Debug Notifikasi';
+
+  @override
+  String get testNotificationSystem => 'Uji sistem notifikasi';
+
+  @override
+  String get notificationsEnabled => 'Diaktifkan';
+
+  @override
+  String get notificationsDisabled => 'Dinonaktifkan';
+
+  @override
+  String get notificationPermissionDialogTitle => 'Aktifkan Notifikasi?';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      'Anda dapat mengaktifkan notifikasi untuk mendapatkan pembaruan berguna (misalnya tentang versi aplikasi baru). Aktifkan sekarang atau ubah kapan saja di pengaturan.';
+
+  @override
+  String get notificationPermissionEnable => 'Aktifkan';
+
+  @override
+  String get notificationPermissionSkip => 'Nanti Saja';
 }

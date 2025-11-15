@@ -2739,6 +2739,84 @@ abstract class AppLocalizations {
   /// **'Subtracted {amount}{unit} from {beanName}. New weight: {newWeight}{unit}'**
   String beansWeightSubtracted(
       String amount, String beanName, String newWeight, String unit);
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @notificationsDisabledInSystemSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled in system settings'**
+  String get notificationsDisabledInSystemSettings;
+
+  /// No description provided for @openSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get openSettings;
+
+  /// No description provided for @notificationsDisabledDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications Disabled in System Settings'**
+  String get notificationsDisabledDialogTitle;
+
+  /// No description provided for @notificationsDisabledDialogContent.
+  ///
+  /// In en, this message translates to:
+  /// **'You have disabled notifications in your device settings. To enable notifications, please open your device settings and allow notifications for Timer.Coffee.'**
+  String get notificationsDisabledDialogContent;
+
+  /// No description provided for @notificationDebug.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Debug'**
+  String get notificationDebug;
+
+  /// No description provided for @testNotificationSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Test notification system'**
+  String get testNotificationSystem;
+
+  /// No description provided for @notificationsEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled'**
+  String get notificationsEnabled;
+
+  /// No description provided for @notificationsDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get notificationsDisabled;
+
+  /// No description provided for @notificationPermissionDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Notifications?'**
+  String get notificationPermissionDialogTitle;
+
+  /// No description provided for @notificationPermissionDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You can enable notifications to get useful updates (e.g. about new app versions). Enable now or change this anytime in settings.'**
+  String get notificationPermissionDialogMessage;
+
+  /// No description provided for @notificationPermissionEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable'**
+  String get notificationPermissionEnable;
+
+  /// No description provided for @notificationPermissionSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Now'**
+  String get notificationPermissionSkip;
 }
 
 class _AppLocalizationsDelegate

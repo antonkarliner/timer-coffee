@@ -1490,4 +1490,47 @@ class AppLocalizationsFr extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return '$amount$unit soustraits de $beanName. Nouveau poids : $newWeight$unit';
   }
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get notificationsDisabledInSystemSettings =>
+      'Désactivé dans les paramètres système';
+
+  @override
+  String get openSettings => 'Ouvrir les paramètres';
+
+  @override
+  String get notificationsDisabledDialogTitle =>
+      'Notifications désactivées dans les paramètres système';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'Vous avez désactivé les notifications dans les paramètres de votre appareil. Pour activer les notifications, veuillez ouvrir les paramètres de votre appareil et autoriser les notifications pour Timer.Coffee.';
+
+  @override
+  String get notificationDebug => 'Débogage des notifications';
+
+  @override
+  String get testNotificationSystem => 'Tester le système de notifications';
+
+  @override
+  String get notificationsEnabled => 'Activé';
+
+  @override
+  String get notificationsDisabled => 'Désactivé';
+
+  @override
+  String get notificationPermissionDialogTitle => 'Activer les notifications ?';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      'Vous pouvez activer les notifications pour recevoir des mises à jour utiles (par ex. sur les nouvelles versions de l\'application). Activez maintenant ou modifiez ce paramètre à tout moment dans les réglages.';
+
+  @override
+  String get notificationPermissionEnable => 'Activer';
+
+  @override
+  String get notificationPermissionSkip => 'Pas maintenant';
 }

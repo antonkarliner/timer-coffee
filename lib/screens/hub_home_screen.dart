@@ -16,7 +16,7 @@ import 'user_recipe_management_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:coffee_timer/services/notification_service.dart';
 import '../providers/user_stat_provider.dart';
 import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
 import '../theme/design_tokens.dart'; // Import design tokens for AppRadius
@@ -63,7 +63,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     _initialUserId = user?.id;
     AppLogger.debug('Initial User ID: $_initialUserId');
     if (user != null && !user.isAnonymous) {
-      await _updateOneSignalExternalId();
+      await _updateFcmToken();
     }
   }
 
@@ -142,10 +142,18 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     }
   }
 
-  Future<void> _updateOneSignalExternalId() async {
+  Future<void> _updateFcmToken() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null && !kIsWeb) {
-      await OneSignal.login(user.id);
+      final notificationService = NotificationService.instance;
+      final token = await notificationService.fcm.getToken();
+      if (token != null) {
+        await notificationService.fcm.storeFcmToken(user.id, token);
+      }
+      // Setup token refresh listener
+      notificationService.fcm.onTokenRefresh((newToken) async {
+        await notificationService.fcm.storeFcmToken(user.id, newToken);
+      });
     }
   }
 

@@ -1463,4 +1463,47 @@ class AppLocalizationsFa extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return 'مقدار $amount$unit از $beanName کم شد. وزن جدید: $newWeight$unit';
   }
+
+  @override
+  String get notifications => 'اعلان‌ها';
+
+  @override
+  String get notificationsDisabledInSystemSettings =>
+      'در تنظیمات سیستم غیرفعال شده';
+
+  @override
+  String get openSettings => 'باز کردن تنظیمات';
+
+  @override
+  String get notificationsDisabledDialogTitle =>
+      'اعلان‌ها در تنظیمات سیستم غیرفعال شده‌اند';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'شما اعلان‌ها را در تنظیمات دستگاه خود غیرفعال کرده‌اید. برای فعال کردن اعلان‌ها، لطفاً تنظیمات دستگاه خود را باز کرده و اعلان‌ها را برای Timer.Coffee مجاز کنید.';
+
+  @override
+  String get notificationDebug => 'اشکال‌زدایی اعلان‌ها';
+
+  @override
+  String get testNotificationSystem => 'تست سیستم اعلان‌ها';
+
+  @override
+  String get notificationsEnabled => 'فعال';
+
+  @override
+  String get notificationsDisabled => 'غیرفعال';
+
+  @override
+  String get notificationPermissionDialogTitle => 'فعال کردن اعلان‌ها؟';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      'می‌توانید اعلان‌ها را فعال کنید تا به‌روزرسانی‌های مفید (مثلاً در مورد نسخه‌های جدید برنامه) دریافت کنید. اکنون فعال کنید یا هر زمان در تنظیمات تغییر دهید.';
+
+  @override
+  String get notificationPermissionEnable => 'فعال کردن';
+
+  @override
+  String get notificationPermissionSkip => 'اکنون نه';
 }

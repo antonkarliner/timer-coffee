@@ -680,5 +680,18 @@
       "example": "g"
     }
   }
-}
+},
+"notifications": "Notificaties",
+"notificationsDisabledInSystemSettings": "Uitgeschakeld in systeeminstellingen",
+"openSettings": "Instellingen openen",
+"notificationsDisabledDialogTitle": "Notificaties uitgeschakeld in systeeminstellingen",
+"notificationsDisabledDialogContent": "U heeft notificaties uitgeschakeld in de instellingen van uw apparaat. Om notificaties in te schakelen, opent u de instellingen van uw apparaat en staat u notificaties toe voor Timer.Coffee.",
+"notificationDebug": "Notificatie debug",
+"testNotificationSystem": "Test notificatiesysteem",
+"notificationsEnabled": "Ingeschakeld",
+"notificationsDisabled": "Uitgeschakeld",
+"notificationPermissionDialogTitle": "Notificaties inschakelen?",
+"notificationPermissionDialogMessage": "U kunt notificaties inschakelen om nuttige updates te ontvangen (bijv. over nieuwe app-versies). Schakel nu in of wijzig dit op elk moment in de instellingen.",
+"notificationPermissionEnable": "Inschakelen",
+"notificationPermissionSkip": "Niet nu"
 }

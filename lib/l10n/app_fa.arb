@@ -853,5 +853,18 @@
         "example": "گرم"
       }
     }
-  }
+  },
+  "notifications": "اعلان‌ها",
+  "notificationsDisabledInSystemSettings": "در تنظیمات سیستم غیرفعال شده",
+  "openSettings": "باز کردن تنظیمات",
+  "notificationsDisabledDialogTitle": "اعلان‌ها در تنظیمات سیستم غیرفعال شده‌اند",
+  "notificationsDisabledDialogContent": "شما اعلان‌ها را در تنظیمات دستگاه خود غیرفعال کرده‌اید. برای فعال کردن اعلان‌ها، لطفاً تنظیمات دستگاه خود را باز کرده و اعلان‌ها را برای Timer.Coffee مجاز کنید.",
+  "notificationDebug": "اشکال‌زدایی اعلان‌ها",
+  "testNotificationSystem": "تست سیستم اعلان‌ها",
+  "notificationsEnabled": "فعال",
+  "notificationsDisabled": "غیرفعال",
+  "notificationPermissionDialogTitle": "فعال کردن اعلان‌ها؟",
+  "notificationPermissionDialogMessage": "می‌توانید اعلان‌ها را فعال کنید تا به‌روزرسانی‌های مفید (مثلاً در مورد نسخه‌های جدید برنامه) دریافت کنید. اکنون فعال کنید یا هر زمان در تنظیمات تغییر دهید.",
+  "notificationPermissionEnable": "فعال کردن",
+  "notificationPermissionSkip": "اکنون نه"
 }

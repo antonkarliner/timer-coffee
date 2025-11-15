@@ -656,5 +656,18 @@
     "newWeight": { "type": "String", "example": "250.0" },
     "unit": { "type": "String", "example": "g" }
   }
-}
+},
+"notifications": "Notificări",
+"notificationsDisabledInSystemSettings": "Dezactivat în setările sistemului",
+"openSettings": "Deschide setările",
+"notificationsDisabledDialogTitle": "Notificări dezactivate în setările sistemului",
+"notificationsDisabledDialogContent": "Ați dezactivat notificările în setările dispozitivului dvs. Pentru a activa notificările, vă rugăm să deschideți setările dispozitivului și să permiteți notificări pentru Timer.Coffee.",
+"notificationDebug": "Depanare notificări",
+"testNotificationSystem": "Testează sistemul de notificări",
+"notificationsEnabled": "Activate",
+"notificationsDisabled": "Dezactivate",
+"notificationPermissionDialogTitle": "Activați Notificările?",
+"notificationPermissionDialogMessage": "Puteți activa notificările pentru a primi actualizări utile (ex. despre versiuni noi ale aplicației). Activați acum sau schimbați acest lucru în orice moment în setări.",
+"notificationPermissionEnable": "Activează",
+"notificationPermissionSkip": "Nu acum"
 }

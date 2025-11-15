@@ -679,6 +679,18 @@
       "type": "String",
       "example": "غ"
     }
-  }
-}
+  }},
+  "notifications": "الإشعارات",
+  "notificationsDisabledInSystemSettings": "معطل في إعدادات النظام",
+  "openSettings": "فتح الإعدادات",
+  "notificationsDisabledDialogTitle": "الإشعارات معطلة في إعدادات النظام",
+  "notificationsDisabledDialogContent": "لقد قمت بتعطيل الإشعارات في إعدادات جهازك. لتمكين الإشعارات، يرجى فتح إعدادات جهازك والسماح بالإشعارات لتطبيق Timer.Coffee.",
+  "notificationDebug": "تصحيح الإشعارات",
+  "testNotificationSystem": "اختبار نظام الإشعارات",
+  "notificationsEnabled": "مفعّل",
+  "notificationsDisabled": "معطّل",
+  "notificationPermissionDialogTitle": "تفعيل الإشعارات؟",
+  "notificationPermissionDialogMessage": "يمكنك تفعيل الإشعارات للحصول على تحديثات مفيدة (مثلاً حول إصدارات جديدة من التطبيق). قم بالتفعيل الآن أو تغيير هذا في أي وقت في الإعدادات.",
+  "notificationPermissionEnable": "تفعيل",
+  "notificationPermissionSkip": "ليس الآن"
 }

@@ -681,5 +681,18 @@
       "example": "g"
     }
   }
-}
+},
+"notifications": "通知",
+"notificationsDisabledInSystemSettings": "システム設定で無効",
+"openSettings": "設定を開く",
+"notificationsDisabledDialogTitle": "通知がシステム設定で無効になっています",
+"notificationsDisabledDialogContent": "デバイス設定で通知を無効にしました。通知を有効にするには、デバイス設定を開き、Timer.Coffeeの通知を許可してください。",
+"notificationDebug": "通知デバッグ",
+"testNotificationSystem": "通知システムをテスト",
+"notificationsEnabled": "有効",
+"notificationsDisabled": "無効",
+"notificationPermissionDialogTitle": "通知を有効にしますか？",
+"notificationPermissionDialogMessage": "通知を有効にすると、便利なアップデート（例：新しいアプリバージョンについて）を受け取ることができます。今すぐ有効にするか、設定でいつでも変更できます。",
+"notificationPermissionEnable": "有効にする",
+"notificationPermissionSkip": "後で"
 }

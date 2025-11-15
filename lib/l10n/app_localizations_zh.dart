@@ -1428,4 +1428,45 @@ class AppLocalizationsZh extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return '已从 $beanName 中减去 $amount$unit。新重量：$newWeight$unit';
   }
+
+  @override
+  String get notifications => '通知';
+
+  @override
+  String get notificationsDisabledInSystemSettings => '在系统设置中已禁用';
+
+  @override
+  String get openSettings => '打开设置';
+
+  @override
+  String get notificationsDisabledDialogTitle => '系统设置中已禁用通知';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      '您在设备设置中禁用了通知。要启用通知，请打开设备设置并允许 Timer.Coffee 的通知。';
+
+  @override
+  String get notificationDebug => '通知调试';
+
+  @override
+  String get testNotificationSystem => '测试通知系统';
+
+  @override
+  String get notificationsEnabled => '已启用';
+
+  @override
+  String get notificationsDisabled => '已禁用';
+
+  @override
+  String get notificationPermissionDialogTitle => '启用通知？';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      '您可以启用通知以获取有用的更新（例如，关于新应用版本）。现在启用或随时在设置中更改此选项。';
+
+  @override
+  String get notificationPermissionEnable => '启用';
+
+  @override
+  String get notificationPermissionSkip => '暂不启用';
 }

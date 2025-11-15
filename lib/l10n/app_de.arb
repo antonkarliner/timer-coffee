@@ -680,5 +680,18 @@
       "example": "g"
     }
   }
-}
+},
+"notifications": "Benachrichtigungen",
+"notificationsDisabledInSystemSettings": "In Systemeinstellungen deaktiviert",
+"openSettings": "Einstellungen öffnen",
+"notificationsDisabledDialogTitle": "Benachrichtigungen in Systemeinstellungen deaktiviert",
+"notificationsDisabledDialogContent": "Sie haben Benachrichtigungen in Ihren Geräteeinstellungen deaktiviert. Um Benachrichtigungen zu aktivieren, öffnen Sie bitte Ihre Geräteeinstellungen und erlauben Sie Benachrichtigungen für Timer.Coffee.",
+"notificationDebug": "Benachrichtigungs-Debug",
+"testNotificationSystem": "Benachrichtigungssystem testen",
+"notificationsEnabled": "Aktiviert",
+"notificationsDisabled": "Deaktiviert",
+"notificationPermissionDialogTitle": "Benachrichtigungen aktivieren?",
+"notificationPermissionDialogMessage": "Sie können Benachrichtigungen aktivieren, um nützliche Updates zu erhalten (z.B. über neue App-Versionen). Jetzt aktivieren oder jederzeit in den Einstellungen ändern.",
+"notificationPermissionEnable": "Aktivieren",
+"notificationPermissionSkip": "Nicht jetzt"
 }

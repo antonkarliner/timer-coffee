@@ -1470,4 +1470,47 @@ class AppLocalizationsFi extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return 'Vähennetty $amount$unit $beanName. Uusi paino: $newWeight$unit';
   }
+
+  @override
+  String get notifications => 'Ilmoitukset';
+
+  @override
+  String get notificationsDisabledInSystemSettings =>
+      'Pois käytöstä järjestelmäasetuksissa';
+
+  @override
+  String get openSettings => 'Avaa asetukset';
+
+  @override
+  String get notificationsDisabledDialogTitle =>
+      'Ilmoitukset pois käytöstä järjestelmäasetuksissa';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'Olet poistanut ilmoitukset laiteasetuksista. Ilmoitusten ottamiseksi käyttöön, avaa laiteasetuksesi ja salli ilmoitukset Timer.Coffee-sovellukselle.';
+
+  @override
+  String get notificationDebug => 'Ilmoitusten virheenjäljitys';
+
+  @override
+  String get testNotificationSystem => 'Testaa ilmoitusjärjestelmää';
+
+  @override
+  String get notificationsEnabled => 'Käytössä';
+
+  @override
+  String get notificationsDisabled => 'Pois käytöstä';
+
+  @override
+  String get notificationPermissionDialogTitle => 'Ota ilmoitukset käyttöön?';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      'Voit ottaa ilmoitukset käyttöön saadaksesi hyödyllisiä päivityksiä (esim. uusista sovellusversioista). Ota käyttöön nyt tai muuta myöhemmin asetuksista.';
+
+  @override
+  String get notificationPermissionEnable => 'Ota käyttöön';
+
+  @override
+  String get notificationPermissionSkip => 'Ei nyt';
 }

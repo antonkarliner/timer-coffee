@@ -1487,4 +1487,47 @@ class AppLocalizationsRu extends AppLocalizations {
       String amount, String beanName, String newWeight, String unit) {
     return 'Убавлено $amount$unit из $beanName. Новый вес: $newWeight$unit';
   }
+
+  @override
+  String get notifications => 'Уведомления';
+
+  @override
+  String get notificationsDisabledInSystemSettings =>
+      'Отключены в системных настройках';
+
+  @override
+  String get openSettings => 'Открыть настройки';
+
+  @override
+  String get notificationsDisabledDialogTitle =>
+      'Уведомления отключены в системных настройках';
+
+  @override
+  String get notificationsDisabledDialogContent =>
+      'Вы отключили уведомления в настройках вашего устройства. Чтобы включить уведомления, пожалуйста, откройте настройки вашего устройства и разрешите уведомления для Timer.Coffee.';
+
+  @override
+  String get notificationDebug => 'Отладка уведомлений';
+
+  @override
+  String get testNotificationSystem => 'Тестировать систему уведомлений';
+
+  @override
+  String get notificationsEnabled => 'Включены';
+
+  @override
+  String get notificationsDisabled => 'Отключены';
+
+  @override
+  String get notificationPermissionDialogTitle => 'Включить уведомления?';
+
+  @override
+  String get notificationPermissionDialogMessage =>
+      'Вы можете включить уведомления, чтобы получать полезные обновления (например, о новых версиях приложения). Включите сейчас или измените это в любой момент в настройках.';
+
+  @override
+  String get notificationPermissionEnable => 'Включить';
+
+  @override
+  String get notificationPermissionSkip => 'Не сейчас';
 }

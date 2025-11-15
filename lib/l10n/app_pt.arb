@@ -656,5 +656,18 @@
     "newWeight": { "type": "String", "example": "250.0" },
     "unit": { "type": "String", "example": "g" }
   }
-}
+},
+"notifications": "Notificações",
+"notificationsDisabledInSystemSettings": "Desativado nas configurações do sistema",
+"openSettings": "Abrir configurações",
+"notificationsDisabledDialogTitle": "Notificações desativadas nas configurações do sistema",
+"notificationsDisabledDialogContent": "Você desativou as notificações nas configurações do seu dispositivo. Para ativar as notificações, por favor, abra as configurações do seu dispositivo e permita notificações para Timer.Coffee.",
+"notificationDebug": "Depuração de notificações",
+"testNotificationSystem": "Testar sistema de notificações",
+"notificationsEnabled": "Ativadas",
+"notificationsDisabled": "Desativadas",
+"notificationPermissionDialogTitle": "Ativar Notificações?",
+"notificationPermissionDialogMessage": "Você pode ativar as notificações para receber atualizações úteis (ex. sobre novas versões do aplicativo). Ative agora ou altere isso a qualquer momento nas configurações.",
+"notificationPermissionEnable": "Ativar",
+"notificationPermissionSkip": "Agora não"
 }

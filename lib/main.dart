@@ -29,8 +29,12 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import './providers/snow_provider.dart';
 import 'widgets/global_snow_overlay.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:coffee_timer/services/notification_service.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'notifiers/card_expansion_notifier.dart';
+import 'firebase_options.dart';
 import './providers/user_stat_provider.dart';
 import './providers/beans_stats_provider.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
@@ -97,20 +101,67 @@ void main() async {
   // Then initialize AppLogger
   LogConfig.initialize();
 
-  if (!kIsWeb) {
-    // OneSignal initialization
-    // Remove this method to stop OneSignal Debugging
-    OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  // Initialize Firebase with timeout protection
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    ).timeout(
+      const Duration(seconds: 10),
+      onTimeout: () {
+        AppLogger.warning('Firebase initialization timed out');
+        throw TimeoutException(
+            'Firebase initialization timed out after 10 seconds',
+            const Duration(seconds: 10));
+      },
+    );
+    AppLogger.debug('Firebase initialized successfully');
+  } catch (e) {
+    AppLogger.error('Failed to initialize Firebase', errorObject: e);
+    // Continue app startup even if Firebase fails, but functionality will be limited
+    rethrow; // Let calling code handle the error appropriately
+  }
 
-    OneSignal.initialize(Env.oneSignalAppId);
+  if (!kIsWeb) {
+    // Initialize timezone data for scheduling
+    tz.initializeTimeZones();
+    // Initialize NotificationService early to ensure proper setup with timeout protection
+    try {
+      await NotificationService.instance.initialize().timeout(
+        const Duration(seconds: 5),
+        onTimeout: () {
+          AppLogger.warning('NotificationService initialization timed out');
+          // Continue app startup even if notifications fail
+        },
+      );
+      AppLogger.debug('NotificationService initialized successfully');
+    } catch (e) {
+      AppLogger.error('Failed to initialize NotificationService',
+          errorObject: e);
+      // Continue app startup even if notifications fail
+    }
   }
 
   // Initialize PurchaseManager (no-op on unsupported platforms)
   final purchaseManager = PurchaseManager();
   unawaited(purchaseManager.restorePurchasesIfSupported());
 
-  // Initialize Supabase
-  await Supabase.initialize(url: Env.supaUrl, anonKey: Env.supaKey);
+  // Initialize Supabase with timeout protection
+  try {
+    await Supabase.initialize(url: Env.supaUrl, anonKey: Env.supaKey).timeout(
+      const Duration(seconds: 10),
+      onTimeout: () {
+        AppLogger.warning('Supabase initialization timed out');
+        throw TimeoutException(
+            'Supabase initialization timed out after 10 seconds',
+            const Duration(seconds: 10));
+      },
+    );
+    AppLogger.debug('Supabase initialized successfully');
+  } catch (e) {
+    AppLogger.error('Failed to initialize Supabase', errorObject: e);
+    // Continue app startup even if Supabase fails, but functionality will be limited
+    rethrow; // Let calling code handle the error appropriately
+  }
 
   // Check if there is an existing session or logged-in user
   final session = Supabase.instance.client.auth.currentSession;
@@ -125,8 +176,11 @@ void main() async {
   }
 
   final user = Supabase.instance.client.auth.currentUser;
-  if (!kIsWeb) {
-    OneSignal.login(user!.id);
+  if (!kIsWeb && user != null) {
+    // Note: NotificationService will be initialized lazily when first accessed
+    // FCM will be handled when user explicitly enables notifications
+    AppLogger.debug(
+        'User authenticated, notifications will be setup when enabled');
   }
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isFirstLaunch = prefs.getBool('firstLaunched') ?? true;
@@ -170,7 +224,7 @@ void main() async {
   List<Locale> updatedLocaleList =
       updatedSupportedLocales.map((locale) => Locale(locale.locale)).toList();
 
-  // Now that the DB is initialized, fetch supported locales and brewing methods
+  // Now that DB is initialized, fetch supported locales and brewing methods
   final List<SupportedLocaleModel> supportedLocalesModels =
       await supportedLocalesDao.getAllSupportedLocales();
   final List<BrewingMethodModel> brewingMethods =
@@ -251,7 +305,7 @@ void main() async {
   FlutterNativeSplash.remove();
 }
 
-class CoffeeTimerApp extends StatelessWidget {
+class CoffeeTimerApp extends StatefulWidget {
   final AppDatabase database;
   final DatabaseProvider databaseProvider;
   final List<Locale> supportedLocales;
@@ -278,36 +332,64 @@ class CoffeeTimerApp extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _CoffeeTimerAppState createState() => _CoffeeTimerAppState();
+}
+
+class _CoffeeTimerAppState extends State<CoffeeTimerApp> {
+  @override
+  void initState() {
+    super.initState();
+    _setupNotificationTapHandler(context);
+  }
+
+  void _setupNotificationTapHandler(BuildContext context) {
+    NotificationService.instance.onNotificationTapped.listen((payload) {
+      if (payload == null) return;
+
+      // Example deep link handling
+      if (payload.startsWith('/')) {
+        widget.appRouter.pushNamed(payload);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<AppDatabase>.value(value: database),
+        Provider<AppDatabase>.value(value: widget.database),
         ChangeNotifierProvider<RecipeProvider>(
           create: (_) => RecipeProvider(
-              initialLocale, supportedLocales, database, databaseProvider),
+              widget.initialLocale,
+              widget.supportedLocales,
+              widget.database,
+              widget.databaseProvider),
         ),
         ChangeNotifierProvider<ThemeProvider>(
-          create: (_) => ThemeProvider(themeMode),
+          create: (_) => ThemeProvider(widget.themeMode),
         ),
         ChangeNotifierProvider<SnowEffectProvider>(
           create: (_) => SnowEffectProvider(),
         ),
         Provider<List<BrewingMethodModel>>(
-          create: (_) => brewingMethods,
+          create: (_) => widget.brewingMethods,
         ),
-        Provider<Locale>.value(value: initialLocale),
-        Provider<DatabaseProvider>.value(value: databaseProvider),
+        Provider<Locale>.value(value: widget.initialLocale),
+        Provider<DatabaseProvider>.value(value: widget.databaseProvider),
         ChangeNotifierProvider<CoffeeBeansProvider>.value(
-            value: coffeeBeansProvider),
+            value: widget.coffeeBeansProvider),
         ChangeNotifierProvider<CardExpansionNotifier>(
           create: (_) => CardExpansionNotifier(),
         ),
-        ChangeNotifierProvider<UserStatProvider>.value(value: userStatProvider),
+        ChangeNotifierProvider<UserStatProvider>.value(
+            value: widget.userStatProvider),
         ChangeNotifierProvider<BeansStatsProvider>.value(
-            value: beansStatsProvider),
+            value: widget.beansStatsProvider),
         ChangeNotifierProvider<UserRecipeProvider>(
-          create: (_) => UserRecipeProvider(database),
+          create: (_) => UserRecipeProvider(widget.database),
         ),
+        Provider<NotificationService>.value(
+            value: NotificationService.instance),
       ],
       child: Consumer2<ThemeProvider, SnowEffectProvider>(
         builder: (context, themeProvider, snowProvider, child) {
@@ -320,8 +402,8 @@ class CoffeeTimerApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: supportedLocales,
-            routerConfig: appRouter.config(),
+            supportedLocales: widget.supportedLocales,
+            routerConfig: widget.appRouter.config(),
             builder: (context, router) => Stack(
               children: [
                 router!,

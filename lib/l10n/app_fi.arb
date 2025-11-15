@@ -532,5 +532,18 @@
       "example": "g"
     }
   }
-}
+},
+"notifications": "Ilmoitukset",
+"notificationsDisabledInSystemSettings": "Pois käytöstä järjestelmäasetuksissa",
+"openSettings": "Avaa asetukset",
+"notificationsDisabledDialogTitle": "Ilmoitukset pois käytöstä järjestelmäasetuksissa",
+"notificationsDisabledDialogContent": "Olet poistanut ilmoitukset laiteasetuksista. Ilmoitusten ottamiseksi käyttöön, avaa laiteasetuksesi ja salli ilmoitukset Timer.Coffee-sovellukselle.",
+"notificationDebug": "Ilmoitusten virheenjäljitys",
+"testNotificationSystem": "Testaa ilmoitusjärjestelmää",
+"notificationsEnabled": "Käytössä",
+"notificationsDisabled": "Pois käytöstä",
+"notificationPermissionDialogTitle": "Ota ilmoitukset käyttöön?",
+"notificationPermissionDialogMessage": "Voit ottaa ilmoitukset käyttöön saadaksesi hyödyllisiä päivityksiä (esim. uusista sovellusversioista). Ota käyttöön nyt tai muuta myöhemmin asetuksista.",
+"notificationPermissionEnable": "Ota käyttöön",
+"notificationPermissionSkip": "Ei nyt"
 }
