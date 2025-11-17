@@ -146,6 +146,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _buildIconSelector(context),
           _buildBrewingMethodsSettings(
               context, recipeProvider), // Added section
+          /* Commented out - Notification debug screen link
           Semantics(
             identifier: 'notificationDebugTile',
             child: ListTile(
@@ -157,6 +158,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: () => context.router.push(NotificationDebugRoute()),
             ),
           ),
+          */
           _buildAboutSection(context, snowEffectProvider),
         ],
       ),

@@ -58,44 +58,14 @@ class PermissionService {
   PermissionState? _lastPermissionState;
   DateTime? _lastPermissionCheck;
 
-  /// Initialize the permission service with Firebase-first approach
-  Future<void> initialize() async {
-    if (_initialized) return;
+  /// Tracks whether service is in silent initialization mode to prevent system dialogs
+  bool _silentInitializationMode = false;
 
-    AppLogger.debug(
-        'Initializing PermissionService with Firebase-first approach...');
+  /// Public getter to access initialization status
+  bool get isInitialized => _initialized;
 
-    // Web platform: notifications are supported via web push APIs
-    if (kIsWeb) {
-      _hasNotificationPermission = true;
-      _permissionSubject.add(true);
-      _permissionStateSubject.add(
-        PermissionState(
-          granted: true,
-          canShowNotifications: true,
-          isWeb: true,
-          lastChecked: DateTime.now(),
-        ),
-      );
-      _initialized = true;
-      AppLogger.debug(
-          'PermissionService initialized for web platform - notifications enabled');
-      return;
-    }
-
-    _initialized = true;
-
-    // Set up lifecycle listener for permission refresh
-    _lifecycleListener = AppLifecycleListener(
-      onShow: () {
-        AppLogger.debug('App resumed - refreshing permission status');
-        refreshStatus();
-      },
-    );
-
-    await refreshStatus();
-    AppLogger.debug('PermissionService initialized successfully');
-  }
+  /// Public getter to access silent initialization mode
+  bool get isSilentInitializationMode => _silentInitializationMode;
 
   /// Get current notification permission status
   Future<bool> get hasNotificationPermission async {
@@ -140,7 +110,15 @@ class PermissionService {
       return true;
     }
 
-    final current = await _computeCurrentPermission();
+    // Use silent permission checking during initialization to avoid system dialogs
+    bool current;
+    if (_silentInitializationMode) {
+      AppLogger.debug('Using silent permission check during initialization');
+      current = await checkPermissionsSilently();
+    } else {
+      current = await _computeCurrentPermission();
+    }
+
     if (current != _hasNotificationPermission) {
       _hasNotificationPermission = current;
       _permissionSubject.add(current);
@@ -157,11 +135,22 @@ class PermissionService {
   ///
   /// This method prioritizes Firebase permissions for cross-platform consistency
   /// and falls back to local notifications when needed.
+  ///
+  /// SAFETY CHECK: This method will throw an exception if called during silent initialization
+  /// to prevent accidental system dialog triggers during app startup.
   Future<bool> requestPermissions() async {
     if (kIsWeb) {
       _hasNotificationPermission = true;
       _permissionSubject.add(true);
       return true;
+    }
+
+    // CRITICAL SAFETY CHECK: Prevent permission requests during silent initialization
+    if (_silentInitializationMode) {
+      AppLogger.error(
+          'SECURITY: Attempted to request permissions during silent initialization');
+      throw Exception(
+          'Permission requests are not allowed during silent initialization mode');
     }
 
     AppLogger.debug('Requesting permissions with Firebase-first approach...');
@@ -185,6 +174,12 @@ class PermissionService {
             settings.authorizationStatus == AuthorizationStatus.authorized;
         AppLogger.debug(
             'Firebase permission result: ${settings.authorizationStatus} (granted: $permissionGranted)');
+
+        if (permissionGranted) {
+          AppLogger.debug('Firebase permissions GRANTED by user');
+        } else {
+          AppLogger.debug('Firebase permissions DENIED by user');
+        }
 
         // Store Firebase status for debugging
         final state = PermissionState(
@@ -238,6 +233,7 @@ class PermissionService {
 
       AppLogger.debug(
           'Permission request completed successfully: $_hasNotificationPermission');
+      AppLogger.debug('=== PERMISSION REQUEST COMPLETE ===');
       return permissionGranted;
     } catch (e) {
       AppLogger.error('Error requesting permissions', errorObject: e);
@@ -254,6 +250,7 @@ class PermissionService {
       );
       _permissionStateSubject.add(errorState);
 
+      AppLogger.debug('=== PERMISSION REQUEST FAILED ===');
       return false;
     }
   }
@@ -381,6 +378,130 @@ class PermissionService {
 
   /// Get last detailed permission state
   PermissionState? get lastPermissionState => _lastPermissionState;
+
+  /// Checks notification permissions silently without triggering system dialog
+  ///
+  /// This method checks current permission status without requesting permissions,
+  /// avoiding the iOS system dialog that appears on first launch.
+  /// Enhanced with additional safety checks to guarantee silent behavior.
+  ///
+  /// Returns true if permissions are granted, false otherwise
+  Future<bool> checkPermissionsSilently() async {
+    if (kIsWeb) {
+      AppLogger.debug('Silent check: Web platform - returning true');
+      return true;
+    }
+
+    try {
+      AppLogger.debug('=== Starting silent permission check ===');
+      AppLogger.debug('Silent mode: $_silentInitializationMode');
+
+      // CRITICAL: Only use getNotificationSettings() - NEVER requestPermission()
+      // This guarantees no system dialog will be triggered
+      final settings =
+          await FirebaseMessaging.instance.getNotificationSettings();
+      final isGranted =
+          settings.authorizationStatus == AuthorizationStatus.authorized;
+
+      AppLogger.debug(
+          'Firebase silent check: authorizationStatus=${settings.authorizationStatus}, granted=$isGranted');
+
+      // Also check local permissions without requesting
+      bool localGranted = false;
+      try {
+        if (Platform.isAndroid) {
+          final androidImplementation =
+              _plugin.resolvePlatformSpecificImplementation<
+                  AndroidFlutterLocalNotificationsPlugin>();
+          // areNotificationsEnabled() is safe and doesn't trigger dialogs
+          localGranted =
+              await androidImplementation?.areNotificationsEnabled() ?? false;
+          AppLogger.debug('Android local check: $localGranted');
+        } else if (Platform.isIOS) {
+          final iosImplementation =
+              _plugin.resolvePlatformSpecificImplementation<
+                  IOSFlutterLocalNotificationsPlugin>();
+          // checkPermissions() is safe and doesn't trigger dialogs
+          final NotificationsEnabledOptions? permissions =
+              await iosImplementation?.checkPermissions();
+          localGranted = permissions?.isEnabled ?? false;
+          AppLogger.debug('iOS local check: $localGranted');
+        } else {
+          localGranted = true;
+          AppLogger.debug('Other platform - defaulting to $localGranted');
+        }
+      } catch (e) {
+        AppLogger.error('Local silent permission check failed', errorObject: e);
+        // Continue with Firebase result even if local check fails
+      }
+
+      final finalResult = isGranted || localGranted;
+      AppLogger.debug('=== Silent permission check complete: $finalResult ===');
+
+      // Return combined status without triggering system dialog
+      return finalResult;
+    } catch (e) {
+      AppLogger.error('Error checking permissions silently', errorObject: e);
+      AppLogger.debug(
+          '=== Silent permission check failed, returning false ===');
+      return false;
+    }
+  }
+
+  /// Initialize permission service with silent mode support
+  ///
+  /// When [silentMode] is true, the service will use enhanced silent permission
+  /// checking to avoid triggering iOS system dialogs during app startup.
+  Future<void> initialize({bool silentMode = false}) async {
+    if (_initialized) return;
+
+    // Set silent initialization mode before any permission checks
+    _silentInitializationMode = silentMode;
+
+    AppLogger.debug(
+        'Initializing PermissionService with Firebase-first approach (silent: $silentMode)...');
+
+    // Web platform: notifications are supported via web push APIs
+    if (kIsWeb) {
+      _hasNotificationPermission = true;
+      _permissionSubject.add(true);
+      _permissionStateSubject.add(
+        PermissionState(
+          granted: true,
+          canShowNotifications: true,
+          isWeb: true,
+          lastChecked: DateTime.now(),
+        ),
+      );
+      _initialized = true;
+
+      // CRITICAL: Reset silent mode after initialization completes
+      _silentInitializationMode = false;
+
+      AppLogger.debug(
+          'PermissionService initialized for web platform - notifications enabled');
+      return;
+    }
+
+    _initialized = true;
+
+    // Set up lifecycle listener for permission refresh
+    _lifecycleListener = AppLifecycleListener(
+      onShow: () {
+        AppLogger.debug('App resumed - refreshing permission status');
+        refreshStatus();
+      },
+    );
+
+    await refreshStatus();
+
+    // CRITICAL: Reset silent mode after initialization completes
+    // This allows legitimate permission requests from UI after startup
+    _silentInitializationMode = false;
+
+    AppLogger.debug(
+        'PermissionService initialized successfully (silent: $silentMode)');
+  }
 
   void dispose() {
     _lifecycleListener?.dispose();

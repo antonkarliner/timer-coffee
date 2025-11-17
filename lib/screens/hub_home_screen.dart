@@ -129,6 +129,14 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       await _recipeProvider.fetchAllRecipes();
       AppLogger.debug('RecipeProvider state refreshed.');
 
+      // Update FCM token after user ID transition
+      // This ensures FCM tokens are associated with the new registered user ID
+      if (newUserId != null) {
+        AppLogger.debug('Updating FCM token after user ID transition...');
+        await _updateFcmToken();
+        AppLogger.info('FCM token updated successfully for new user ID');
+      }
+
       AppLogger.info('Data synchronization completed successfully');
     } catch (e) {
       AppLogger.error('Error syncing user data', errorObject: e);

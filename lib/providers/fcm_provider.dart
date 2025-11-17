@@ -96,8 +96,8 @@ class FcmProvider {
     // This ensures token persistence across app restarts
     if (masterEnabled && hasPermission) {
       AppLogger.debug(
-          'Notifications enabled on startup, attempting token restoration');
-      await _setupInitialToken();
+          'Notifications enabled on startup, checking for existing token only');
+      await _setupInitialToken(silentMode: true);
     } else {
       AppLogger.debug(
           'Notifications not enabled on startup, skipping token setup');
@@ -214,7 +214,7 @@ class FcmProvider {
   }
 
   /// Setup initial FCM token if notifications are enabled and user is authenticated
-  Future<void> _setupInitialToken() async {
+  Future<void> _setupInitialToken({bool silentMode = false}) async {
     try {
       // Apply 5-second timeout to token setup process
       await _setupInitialTokenInternal().timeout(
@@ -231,7 +231,7 @@ class FcmProvider {
   }
 
   /// Internal method for setting up initial token with timeout handling
-  Future<void> _setupInitialTokenInternal() async {
+  Future<void> _setupInitialTokenInternal({bool silentMode = false}) async {
     // Get current user to ensure we have proper ID
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null) {
@@ -255,21 +255,24 @@ class FcmProvider {
       await _reactivateToken(userId: userId, token: existingToken);
     } else {
       // No existing token found, get new one from Firebase
-      AppLogger.debug(
-          'No existing token found, requesting new token from Firebase');
-      final token = await _fcmService.getToken();
-
-      if (token != null) {
+      // Only get new token if not in silent mode (to avoid iOS permission dialog on startup)
+      if (!silentMode) {
         AppLogger.debug(
-            'Got new FCM token from Firebase: ${token.substring(0, 20)}...');
+            'No existing token found, requesting new token from Firebase');
+        final token = await _fcmService.getToken();
 
-        // Store the new token
-        await _storeToken(userId: userId, token: token);
-        _tokenController.add(token);
-        AppLogger.debug('New FCM token stored for user: $userId');
-      } else {
-        AppLogger.warning('No FCM token available from Firebase');
-        _tokenController.add(null);
+        if (token != null) {
+          AppLogger.debug(
+              'Got new FCM token from Firebase: ${token.substring(0, 20)}...');
+
+          // Store the new token
+          await _storeToken(userId: userId, token: token);
+          _tokenController.add(token);
+          AppLogger.debug('New FCM token stored for user: $userId');
+        } else {
+          AppLogger.warning('No FCM token available from Firebase');
+          _tokenController.add(null);
+        }
       }
     }
   }

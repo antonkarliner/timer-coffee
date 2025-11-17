@@ -787,6 +787,11 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
               context.router.pop();
             }
           }
+        } else {
+          // When there are no unsaved changes, allow navigation
+          if (mounted) {
+            context.router.pop();
+          }
         }
       },
       child: Scaffold(

@@ -50,6 +50,7 @@ class _FinishScreenState extends State<FinishScreen> {
   late Future<String> coffeeFact;
   final AdvancedInAppReview advancedInAppReview = AdvancedInAppReview();
   final Uuid _uuid = Uuid();
+  bool _permissionRequestInProgress = false;
 
   @override
   void initState() {
@@ -173,39 +174,60 @@ class _FinishScreenState extends State<FinishScreen> {
     // Always mark as true regardless of user choice
     await prefs.setBool(firstFinishScreenKey, false);
 
-    if (firstFinishScreen) {
-      if (!kIsWeb) {
-        // Show in-app dialog first
-        final result = await showDialog<bool>(
-          context: context,
-          builder: (context) => NotificationPermissionDialog(
-            onEnable: () async {
-              Navigator.of(context).pop(true);
-              await _requestSystemPermissionAndUpdateSettings();
-            },
-            onSkip: () => Navigator.of(context).pop(false),
-          ),
-        );
+    if (firstFinishScreen && !kIsWeb) {
+      // Show in-app dialog first
+      final result = await showDialog<bool>(
+        context: context,
+        barrierDismissible: false, // Prevent accidental dismissal
+        builder: (context) => NotificationPermissionDialog(
+          onEnable: () {
+            Navigator.of(context).pop(true);
+          },
+          onSkip: () => Navigator.of(context).pop(false),
+        ),
+      );
 
-        // User chose to enable - request system permission
-        if (result == true) {
-          await _requestSystemPermissionAndUpdateSettings();
-        }
+      // User chose to enable - request system permission with delay
+      if (result == true && !_permissionRequestInProgress) {
+        _permissionRequestInProgress = true;
+
+        // Add a small delay to ensure dialog is fully dismissed and screen has focus
+        // This is critical for Android to properly display the system permission dialog
+        Future.delayed(const Duration(milliseconds: 300), () {
+          if (mounted) {
+            _requestSystemPermissionAndUpdateSettings();
+          }
+          _permissionRequestInProgress = false;
+        });
       }
     }
   }
 
   Future<void> _requestSystemPermissionAndUpdateSettings() async {
-    // Request system permission
-    final granted = await NotificationService.instance.requestPermissions();
+    try {
+      AppLogger.debug(
+          'Requesting system notification permissions from finish screen');
 
-    // If granted, update master toggle to enabled
-    if (granted) {
-      final user = Supabase.instance.client.auth.currentUser;
-      await NotificationService.instance.updateMasterToggle(
-        enabled: true,
-        userId: user?.id,
-      );
+      // Request system permission
+      final granted = await NotificationService.instance.requestPermissions();
+
+      // If granted, update master toggle to enabled
+      if (granted) {
+        final user = Supabase.instance.client.auth.currentUser;
+        await NotificationService.instance.updateMasterToggle(
+          enabled: true,
+          userId: user?.id,
+        );
+        AppLogger.debug(
+            'Notification permissions granted and master toggle updated');
+      } else {
+        AppLogger.debug('Notification permissions denied by user');
+      }
+    } catch (e) {
+      AppLogger.error(
+          'Error requesting notification permissions from finish screen',
+          errorObject: e);
+      // Don't rethrow - allow the app to continue functioning even if permission request fails
     }
   }
 

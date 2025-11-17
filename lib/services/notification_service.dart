@@ -63,8 +63,8 @@ class NotificationService {
 
   /// Tracks whether service has been initialized
   /// Prevents duplicate initialization and ensures proper setup
-  bool _isInitialized = false;
-  bool get isInitialized => _isInitialized;
+  bool _initialized = false;
+  bool get isInitialized => _initialized;
 
   bool? _lastMasterEnabled;
   bool? _lastPermissionGranted;
@@ -78,36 +78,42 @@ class NotificationService {
   /// - FCM provider with token handling
   /// - Stream subscriptions for real-time state updates
   ///
+  /// [silentInit] When true, uses silent permission checking to avoid iOS system dialogs
   /// [Throws] Exception if initialization fails, allowing caller to handle errors appropriately
-  Future<void> initialize() async {
-    if (_isInitialized) {
+  Future<void> initialize({bool silentInit = true}) async {
+    if (_initialized) {
       AppLogger.debug('NotificationService already initialized');
       return;
     }
 
     try {
       AppLogger.debug(
-          'Initializing NotificationService with enhanced PermissionService...');
+          'Initializing NotificationService with enhanced PermissionService (silent: $silentInit)...');
 
       // Initialize services
       _settingsService = NotificationSettingsService();
       await _settingsService.init();
       _permissionService = PermissionService();
-      await _permissionService.initialize();
+      await _permissionService.initialize(silentMode: silentInit);
       _localManager = LocalNotificationManager(_localNotificationsPlugin);
 
       // CRITICAL: Initialize LocalNotificationManager to create Android channels
       await _localManager.initialize();
 
-      final initialMaster = await _settingsService.isMasterEnabled();
+      // Check permissions silently without triggering system dialog
       final initialPermission =
-          await _permissionService.hasNotificationPermission;
-      _lastMasterEnabled = initialMaster;
+          await _permissionService.checkPermissionsSilently();
       _lastPermissionGranted = initialPermission;
+
+      final initialMaster = await _settingsService.isMasterEnabled();
+      _lastMasterEnabled = initialMaster;
 
       // Initialize FcmProvider through getter to ensure proper initialization
       final fcmProvider = fcm;
       await fcmProvider.initialize();
+      // Note: ensureActiveToken will skip token retrieval during startup
+      // because FcmProvider now uses silentMode=true during initialization
+      // Token will be retrieved when user explicitly enables notifications
       await fcmProvider.ensureActiveToken();
       await _emitCurrentState();
 
@@ -172,7 +178,7 @@ class NotificationService {
       _localManager.onNotificationTapped.listen(onNotificationTapped.add);
       fcmProvider.onNotificationTapped.listen(onNotificationTapped.add);
 
-      _isInitialized = true;
+      _initialized = true;
       AppLogger.debug(
           'NotificationService initialized successfully with enhanced PermissionService');
     } catch (e) {
@@ -295,6 +301,17 @@ class NotificationService {
   /// Force refresh permission status
   Future<bool> refreshPermissionStatus() async {
     return await _permissionService.refreshStatus();
+  }
+
+  /// Get current permission status without triggering system dialog
+  ///
+  /// This method uses silent permission checking to avoid triggering
+  /// iOS system dialog on app startup or initialization.
+  Future<bool> get hasNotificationPermission async {
+    if (!_permissionService.isInitialized) {
+      await _permissionService.initialize();
+    }
+    return await _permissionService.checkPermissionsSilently();
   }
 
   /// Updates master notification toggle and manages FCM token lifecycle through FcmProvider

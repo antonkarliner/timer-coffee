@@ -125,15 +125,17 @@ void main() async {
     // Initialize timezone data for scheduling
     tz.initializeTimeZones();
     // Initialize NotificationService early to ensure proper setup with timeout protection
+    // Use silent initialization to prevent iOS system dialogs on first startup
     try {
-      await NotificationService.instance.initialize().timeout(
+      await NotificationService.instance.initialize(silentInit: true).timeout(
         const Duration(seconds: 5),
         onTimeout: () {
           AppLogger.warning('NotificationService initialization timed out');
           // Continue app startup even if notifications fail
         },
       );
-      AppLogger.debug('NotificationService initialized successfully');
+      AppLogger.debug(
+          'NotificationService initialized successfully (silent mode)');
     } catch (e) {
       AppLogger.error('Failed to initialize NotificationService',
           errorObject: e);

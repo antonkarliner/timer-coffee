@@ -1,10 +1,43 @@
 import 'dart:io';
 import 'package:coffee_timer/services/notification_service.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:rxdart/rxdart.dart';
+
+/// Top-level background message handler for Firebase Cloud Messaging
+///
+/// This function must be top-level (not a class method) because Firebase Messaging
+/// calls it from a separate isolate where the class instance may not be available.
+/// This is a requirement for background message handling in Firebase Messaging.
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  AppLogger.debug('Handling background FCM message: ${message.messageId}');
+  AppLogger.debug('Message data: ${message.data}');
+
+  // Handle background message - show notification or process data as needed
+  // This is called when app is in background or terminated
+  try {
+    // Initialize Firebase if not already initialized
+    if (Firebase.apps.isEmpty) {
+      await Firebase.initializeApp();
+    }
+
+    // Process the message
+    if (message.notification != null) {
+      AppLogger.debug('Background message contains notification');
+      // Background notifications are handled automatically by Firebase
+    }
+
+    if (message.data.isNotEmpty) {
+      AppLogger.debug('Processing background message data');
+      // Handle any data payload
+    }
+  } catch (e) {
+    AppLogger.error('Error in background message handler', errorObject: e);
+  }
+}
 
 /// Enhanced Firebase Cloud Messaging service with consolidated functionality
 ///
@@ -36,8 +69,10 @@ class FcmService {
 
     try {
       // Register background message handler FIRST (critical for Android 13+)
+      // Using the top-level function _firebaseMessagingBackgroundHandler
       if (!kIsWeb) {
-        FirebaseMessaging.onBackgroundMessage(_handleBackgroundMessage);
+        FirebaseMessaging.onBackgroundMessage(
+            _firebaseMessagingBackgroundHandler);
         AppLogger.debug('Background message handler registered');
       }
 
@@ -341,13 +376,5 @@ class FcmService {
     } catch (e) {
       AppLogger.error('Error checking for initial message', errorObject: e);
     }
-  }
-
-  /// Handle background FCM messages
-  Future<void> _handleBackgroundMessage(RemoteMessage message) async {
-    AppLogger.debug('Handling background FCM message: ${message.messageId}');
-    AppLogger.debug('Message data: ${message.data}');
-    // Handle background message - show notification or process data as needed
-    // This is called when app is in background or terminated
   }
 }

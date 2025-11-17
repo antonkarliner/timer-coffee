@@ -27,7 +27,15 @@ class LocalNotificationManager {
       const androidSettings =
           AndroidInitializationSettings('@mipmap/ic_launcher');
 
-      const iosSettings = DarwinInitializationSettings();
+      // CRITICAL: Explicitly disable all auto-permission requests on iOS
+      // This prevents the iOS system dialog from showing during app startup
+      const iosSettings = DarwinInitializationSettings(
+        requestAlertPermission: false,
+        requestBadgePermission: false,
+        requestSoundPermission: false,
+        requestCriticalPermission: false,
+        requestProvisionalPermission: false,
+      );
 
       final initializationSettings = InitializationSettings(
         android: androidSettings,
