@@ -248,17 +248,39 @@ class FcmService {
           AppLogger.info(
               'Existing FCM token reactivated with new token value for user: $userId');
         } else {
-          // No recent inactive token found - insert new one
-          AppLogger.debug('Inserting new FCM token: $token');
-          await supabase.schema('service').from('user_fcm_tokens').insert({
-            'user_id': userId,
-            'token': token,
-            'device_type': platform,
-            'is_active': true,
-            'updated_at': now,
-            'created_at': now,
-          });
-          AppLogger.info('New FCM token stored for user: $userId');
+          // Check if token exists for ANY user (not just current user) before inserting
+          final tokenExistsForAnyUser = await supabase
+              .schema('service')
+              .from('user_fcm_tokens')
+              .select()
+              .eq('token', token)
+              .maybeSingle();
+
+          if (tokenExistsForAnyUser != null) {
+            // Token exists for different user - reassign it to current user
+            AppLogger.debug(
+                'Token exists for different user, reassigning to current user: $userId');
+            await supabase.schema('service').from('user_fcm_tokens').update({
+              'user_id': userId,
+              'device_type': platform,
+              'is_active': true,
+              'updated_at': now,
+              'last_used_at': now,
+            }).eq('token', token);
+            AppLogger.info('Existing FCM token reassigned to user: $userId');
+          } else {
+            // No recent inactive token found and token doesn't exist for any user - insert new one
+            AppLogger.debug('Inserting new FCM token: $token');
+            await supabase.schema('service').from('user_fcm_tokens').insert({
+              'user_id': userId,
+              'token': token,
+              'device_type': platform,
+              'is_active': true,
+              'updated_at': now,
+              'created_at': now,
+            });
+            AppLogger.info('New FCM token stored for user: $userId');
+          }
         }
       }
 

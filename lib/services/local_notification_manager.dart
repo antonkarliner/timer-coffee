@@ -71,7 +71,8 @@ class LocalNotificationManager {
       CHANNEL_ID_GENERAL,
       CHANNEL_NAME_GENERAL,
       description: CHANNEL_DESC_GENERAL,
-      importance: Importance.defaultImportance,
+      importance: Importance
+          .high, // Changed from defaultImportance to high for better visibility
     );
 
     await androidPlugin.createNotificationChannel(generalChannel);

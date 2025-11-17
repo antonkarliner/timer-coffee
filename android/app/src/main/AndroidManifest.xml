@@ -117,6 +117,15 @@
             android:name="com.solusibejo.flutter_dynamic_icon_plus.FlutterDynamicIconPlusService"
             android:stopWithTask="false"/>
 
+        <!-- Firebase Messaging Service for background message handling -->
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
         <!-- Flutter plug-in marker -->
         <meta-data android:name="flutterEmbedding" android:value="2"/>
     </application>
