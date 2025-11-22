@@ -247,15 +247,16 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       });
       return BatchInsertResult.successful();
     } catch (e) {
-      if (e.toString().contains('FOREIGN KEY constraint failed')) {
+      final isForeignKeyError =
+          e.toString().contains('FOREIGN KEY constraint failed');
+
+      if (isForeignKeyError) {
         AppLogger.error(
             '[UserStatsDao] Foreign key constraint failed during batch insert. Stats count: ${stats.length}',
             errorObject: e);
         return BatchInsertResult.failed(stats, e.toString());
       }
-      // Re-throw non-foreign-key errors
-      rethrow;
-    } catch (e) {
+
       AppLogger.error('[UserStatsDao] Unexpected error during batch insert',
           errorObject: e);
       return BatchInsertResult.failed(stats, e.toString());
@@ -296,12 +297,25 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     }
   }
 
-  /// Creates a fallback stat with a null recipe reference for stats with missing recipes
-  UserStatsModel createFallbackStat(UserStatsModel originalStat) {
+  /// Returns any available recipe to use as a safe FK fallback
+  Future<Recipe?> _fetchAnyRecipe() async {
+    return (select(recipes)..limit(1)).getSingleOrNull();
+  }
+
+  /// Creates a fallback stat that points to an existing recipe (if any)
+  Future<UserStatsModel?> createFallbackStat(
+      UserStatsModel originalStat) async {
+    final fallbackRecipe = await _fetchAnyRecipe();
+
+    if (fallbackRecipe == null) {
+      AppLogger.warning(
+          '[UserStatsDao] Unable to create fallback stat: no recipes available');
+      return null;
+    }
+
     return originalStat.copyWith(
-      recipeId:
-          'unknown-recipe', // Use a simple placeholder that won't violate FK constraints
-      brewingMethodId: 'v60', // Use a common brewing method that should exist
+      recipeId: fallbackRecipe.id,
+      brewingMethodId: fallbackRecipe.brewingMethodId,
     );
   }
 
@@ -314,12 +328,18 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
         final sanitizedUuid = AppLogger.sanitize(stat.statUuid);
         final sanitizedRecipeId = AppLogger.sanitize(stat.recipeId);
         AppLogger.warning(
-            '[UserStatsDao] Foreign key constraint failed for stat $sanitizedUuid, using fallback recipe');
+            '[UserStatsDao] Foreign key constraint failed for stat $sanitizedUuid, attempting fallback');
         AppLogger.debug(
             '[UserStatsDao] Original recipe ID: $sanitizedRecipeId');
 
-        // Try with a fallback recipe reference
-        final fallbackStat = createFallbackStat(stat);
+        final fallbackStat = await createFallbackStat(stat);
+
+        if (fallbackStat == null) {
+          AppLogger.warning(
+              '[UserStatsDao] Skipping stat $sanitizedUuid - no valid fallback recipe found');
+          rethrow;
+        }
+
         try {
           await insertUserStat(fallbackStat);
           AppLogger.debug(

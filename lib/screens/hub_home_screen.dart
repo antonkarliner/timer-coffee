@@ -116,10 +116,8 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
 
       await _databaseProvider.uploadUserPreferencesToSupabase();
       await _databaseProvider.fetchAndInsertUserPreferencesFromSupabase();
-      await _userStatProvider.syncUserStats();
-      await _coffeeBeansProvider.syncCoffeeBeans();
 
-      // Sync user-created and imported recipes
+      // Sync recipes first to satisfy FK constraints for stats
       if (newUserId != null) {
         await _databaseProvider.syncUserRecipes(newUserId);
         await _databaseProvider.syncImportedRecipes(newUserId);
@@ -127,6 +125,12 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
 
       // Reload recipes into the provider state after sync
       await _recipeProvider.fetchAllRecipes();
+
+      // Stats rely on recipes being present locally
+      await _userStatProvider.syncUserStats();
+
+      // Coffee beans after stats (no FK on stats but keeps data fresh)
+      await _coffeeBeansProvider.syncCoffeeBeans();
       AppLogger.debug('RecipeProvider state refreshed.');
 
       // Update FCM token after user ID transition

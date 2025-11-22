@@ -17,6 +17,8 @@ class UserStatProvider extends ChangeNotifier {
   final CoffeeBeansProvider coffeeBeansProvider;
   final String deviceId;
 
+  static const int _supabasePageSize = 500;
+
   UserStatProvider(this.db, this.coffeeBeansProvider) : deviceId = Uuid().v4();
 
   Future<void> insertUserStat({
@@ -296,19 +298,36 @@ class UserStatProvider extends ChangeNotifier {
       return;
     }
 
+    final remoteStats = <UserStatsModel>[];
+    var from = 0;
+
     try {
-      final response = await Supabase.instance.client
-          .from('user_stats')
-          .select()
-          .eq('user_id', user.id)
-          .timeout(const Duration(seconds: 5));
+      while (true) {
+        final response = await Supabase.instance.client
+            .from('user_stats')
+            .select()
+            .eq('user_id', user.id)
+            .range(from, from + _supabasePageSize - 1)
+            .timeout(const Duration(seconds: 5));
 
-      final remoteStats = (response as List<dynamic>)
-          .map((json) => _jsonToUserStatsModel(json))
-          .toList();
+        final batch = (response as List<dynamic>)
+            .map((json) => _jsonToUserStatsModel(json))
+            .toList();
 
-      await db.userStatsDao.insertOrUpdateMultipleStats(remoteStats);
-      AppLogger.debug('Downloaded and updated ${remoteStats.length} stats');
+        remoteStats.addAll(batch);
+
+        if (batch.length < _supabasePageSize) {
+          break; // last page reached
+        }
+
+        from += _supabasePageSize;
+      }
+
+      if (remoteStats.isNotEmpty) {
+        await db.userStatsDao.insertOrUpdateMultipleStats(remoteStats);
+      }
+      AppLogger.debug(
+          'Downloaded and updated ${remoteStats.length} stats via pagination');
     } on TimeoutException catch (e) {
       AppLogger.error('Supabase stats download timed out', errorObject: e);
       // Continue with local data if remote fetch fails
@@ -318,9 +337,7 @@ class UserStatProvider extends ChangeNotifier {
   }
 
   Future<void> syncUserStats() async {
-    await batchUploadUserStats();
-    await batchDownloadUserStats();
-    notifyListeners();
+    await syncNewUserStats();
   }
 
   // Keep this method for backward compatibility
@@ -446,27 +463,67 @@ class UserStatProvider extends ChangeNotifier {
       final localStats =
           await db.userStatsDao.fetchAllStatsWithVersionVectors();
 
+      AppLogger.debug('Local stats present: ${localStats.length}');
+
       // Prepare a map of statUuid to localStat for quick lookup
       final localStatsMap = {for (var stat in localStats) stat.statUuid: stat};
 
-      // Fetch all remote stats, including deleted ones
-      final response = await Supabase.instance.client
-          .from('user_stats')
-          .select('stat_uuid, version_vector, is_deleted')
-          .eq('user_id', user.id)
-          .timeout(const Duration(seconds: 5));
+      // Fetch all remote stats, including deleted ones, with pagination
+      final remoteStatsInfo = <({String statUuid, String versionVector, bool isDeleted})>[];
+      var from = 0;
 
-      final remoteStatsInfo = (response as List<dynamic>)
-          .map((json) => (
-                statUuid: json['stat_uuid'] as String,
-                versionVector: json['version_vector'] as String,
-                isDeleted: json['is_deleted'] as bool,
-              ))
-          .toList();
+      while (true) {
+        final response = await Supabase.instance.client
+            .from('user_stats')
+            .select('stat_uuid, version_vector, is_deleted')
+            .eq('user_id', user.id)
+            .range(from, from + _supabasePageSize - 1)
+            .timeout(const Duration(seconds: 5));
+
+        final batch = (response as List<dynamic>)
+            .map((json) => (
+                  statUuid: json['stat_uuid'] as String,
+                  versionVector: json['version_vector'] as String,
+                  isDeleted: json['is_deleted'] as bool,
+                ))
+            .toList();
+
+        remoteStatsInfo.addAll(batch);
+
+        if (batch.length < _supabasePageSize) {
+          break; // last page reached
+        }
+
+        from += _supabasePageSize;
+      }
+
+      AppLogger.debug(
+          'Remote stats metadata fetched: ${remoteStatsInfo.length} records');
 
       // Prepare lists for updates
       final List<String> localUpdates = [];
       final List<UserStatsModel> remoteUpdates = [];
+
+      final nonDeletedRemote =
+          remoteStatsInfo.where((r) => r.isDeleted == false).length;
+      final deletedRemote = remoteStatsInfo.length - nonDeletedRemote;
+      AppLogger.debug(
+          'Remote stats split -> non-deleted: $nonDeletedRemote, deleted: $deletedRemote');
+
+      // Fast path: fresh install / empty local DB -> download all non-deleted remote stats
+      if (localStats.isEmpty && nonDeletedRemote > 0) {
+        final idsToFetch = remoteStatsInfo
+            .where((r) => r.isDeleted == false)
+            .map((r) => r.statUuid)
+            .toList();
+
+        final fullRemote = await _fetchFullRemoteStats(idsToFetch);
+        AppLogger.debug(
+            'Fresh restore: fetching all remote stats (${fullRemote.length})');
+        await _insertStatsWithFallback(fullRemote);
+        notifyListeners();
+        return;
+      }
 
       // Compare version vectors and handle deletions
       for (final remoteStat in remoteStatsInfo) {
@@ -513,6 +570,8 @@ class UserStatProvider extends ChangeNotifier {
       // Perform local updates with enhanced error handling
       if (localUpdates.isNotEmpty) {
         final updatedRemoteStats = await _fetchFullRemoteStats(localUpdates);
+        AppLogger.debug(
+            'Fetched ${updatedRemoteStats.length} full remote stats for local update');
         await _insertStatsWithFallback(updatedRemoteStats);
       }
 
@@ -522,7 +581,7 @@ class UserStatProvider extends ChangeNotifier {
       }
 
       AppLogger.debug(
-          'Sync completed. Local updates: ${localUpdates.length}, Remote updates: ${remoteUpdates.length}');
+          'Sync completed. Remote metadata: ${remoteStatsInfo.length}, Local updates (downloaded): ${localUpdates.length}, Remote updates (uploaded): ${remoteUpdates.length}');
     } catch (e) {
       AppLogger.error('Error syncing user stats', errorObject: e);
     }
@@ -631,18 +690,32 @@ class UserStatProvider extends ChangeNotifier {
   Future<List<UserStatsModel>> _fetchFullRemoteStats(
       List<String> statUuids) async {
     try {
-      final response = await Supabase.instance.client
-          .from('user_stats')
-          .select()
-          .inFilter('stat_uuid', statUuids)
-          .timeout(const Duration(seconds: 5));
-      return (response as List<dynamic>)
-          .map((json) => _jsonToUserStatsModel(json))
-          .toList();
-    } on TimeoutException catch (e) {
-      AppLogger.error('Supabase remote stats fetch timed out', errorObject: e);
-      // Return empty list on timeout to allow sync to continue
-      return [];
+      final results = <UserStatsModel>[];
+      const chunkSize = 200;
+
+      for (var i = 0; i < statUuids.length; i += chunkSize) {
+        final chunk = statUuids.skip(i).take(chunkSize).toList();
+
+        try {
+          final response = await Supabase.instance.client
+              .from('user_stats')
+              .select()
+              .inFilter('stat_uuid', chunk)
+              .timeout(const Duration(seconds: 5));
+
+          results.addAll((response as List<dynamic>)
+              .map((json) => _jsonToUserStatsModel(json))
+              .toList());
+        } on TimeoutException catch (e) {
+          AppLogger.error('Supabase remote stats fetch timed out for chunk',
+              errorObject: e);
+        } catch (e) {
+          AppLogger.error('Error fetching full remote stats chunk',
+              errorObject: e);
+        }
+      }
+
+      return results;
     } catch (e) {
       AppLogger.error('Error fetching full remote stats', errorObject: e);
       return [];
@@ -650,25 +723,34 @@ class UserStatProvider extends ChangeNotifier {
   }
 
   Future<void> _updateRemoteStats(List<UserStatsModel> stats) async {
-    try {
-      final updates = stats.map((stat) {
-        final data = _userStatModelToJson(stat);
-        data['user_id'] = Supabase.instance.client.auth.currentUser!.id;
-        return data;
-      }).toList();
+    const chunkSize = 200;
 
-      await Supabase.instance.client
-          .from('user_stats')
-          .upsert(updates)
-          .timeout(const Duration(seconds: 3)); // Added 3-second timeout
-    } catch (e) {
-      if (e is TimeoutException) {
-        AppLogger.error('Supabase operation timed out', errorObject: e);
-        // Handle the timeout if needed
-      } else {
-        AppLogger.error('Error updating user stats in Supabase',
-            errorObject: e);
-        // Handle other exceptions
+    for (var i = 0; i < stats.length; i += chunkSize) {
+      final chunk = stats.skip(i).take(chunkSize).toList();
+
+      try {
+        final updates = chunk.map((stat) {
+          final data = _userStatModelToJson(stat);
+          data['user_id'] = Supabase.instance.client.auth.currentUser!.id;
+          return data;
+        }).toList();
+
+        await Supabase.instance.client
+            .from('user_stats')
+            .upsert(updates)
+            .timeout(const Duration(seconds: 3)); // Added 3-second timeout
+
+        AppLogger.debug(
+            'Uploaded ${chunk.length} stats to Supabase (chunk ${(i ~/ chunkSize) + 1})');
+      } catch (e) {
+        if (e is TimeoutException) {
+          AppLogger.error('Supabase operation timed out', errorObject: e);
+          // Handle the timeout if needed
+        } else {
+          AppLogger.error('Error updating user stats in Supabase',
+              errorObject: e);
+          // Handle other exceptions
+        }
       }
     }
   }
