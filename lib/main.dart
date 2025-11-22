@@ -39,6 +39,7 @@ import './providers/user_stat_provider.dart';
 import './providers/beans_stats_provider.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/utils/log_config.dart';
+import 'package:coffee_timer/services/notification_migration_service.dart';
 
 /// Custom log handler that intercepts and sanitizes all Supabase library logs
 /// Prevents sensitive data exposure by ensuring all logs go through AppLogger
@@ -285,6 +286,15 @@ void main() async {
 
   AppLogger.debug('Supported locales (effective): $effectiveSupportedLocales');
   AppLogger.debug('Initial locale chosen: $initialLocale');
+
+  // Perform notification migration if needed
+  try {
+    await NotificationMigrationService.instance.performMigrationIfNeeded();
+  } catch (e) {
+    AppLogger.error('Error during notification migration', errorObject: e);
+    // Continue app startup even if migration fails
+  }
+
   runApp(
     CoffeeTimerApp(
       database: database,

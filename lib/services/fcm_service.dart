@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:coffee_timer/services/notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -167,6 +168,18 @@ class FcmService {
       String platform = Platform.isIOS ? 'ios' : 'android';
       final now = DateTime.now().toIso8601String();
 
+      // Get current app locale from SharedPreferences, default to 'en'
+      String currentLocale = 'en';
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        currentLocale = prefs.getString('locale') ?? 'en';
+        AppLogger.debug(
+            'Retrieved locale from SharedPreferences: $currentLocale');
+      } catch (e) {
+        AppLogger.warning(
+            'Failed to retrieve locale from SharedPreferences, using default: $currentLocale');
+      }
+
       // First, check if this specific token already exists for this user/device
       final existingTokenRecord = await supabase
           .schema('service')
@@ -189,6 +202,7 @@ class FcmService {
                 'is_active': true,
                 'updated_at': now,
                 'last_used_at': now,
+                'locale': currentLocale,
               })
               .eq('user_id', userId)
               .eq('device_type', platform)
@@ -202,6 +216,7 @@ class FcmService {
               .update({
                 'updated_at': now,
                 'last_used_at': now,
+                'locale': currentLocale,
               })
               .eq('user_id', userId)
               .eq('device_type', platform)
@@ -240,6 +255,7 @@ class FcmService {
                 'updated_at': now,
                 'last_used_at': now,
                 'token': token, // Update to new token from Firebase
+                'locale': currentLocale,
               })
               .eq('user_id', userId)
               .eq('device_type', platform)
@@ -266,6 +282,7 @@ class FcmService {
               'is_active': true,
               'updated_at': now,
               'last_used_at': now,
+              'locale': currentLocale,
             }).eq('token', token);
             AppLogger.info('Existing FCM token reassigned to user: $userId');
           } else {
@@ -278,6 +295,7 @@ class FcmService {
               'is_active': true,
               'updated_at': now,
               'created_at': now,
+              'locale': currentLocale,
             });
             AppLogger.info('New FCM token stored for user: $userId');
           }
@@ -305,6 +323,7 @@ class FcmService {
                 'is_active': false,
                 'updated_at': now,
                 'last_used_at': now,
+                'locale': currentLocale,
               })
               .eq('token', otherToken)
               .eq('device_type', platform);

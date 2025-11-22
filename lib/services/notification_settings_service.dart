@@ -43,4 +43,20 @@ class NotificationSettingsService {
       await init();
     }
   }
+
+  /// Check if notification migration has been completed
+  /// This method is used by the migration service to track completion status
+  Future<bool> isMigrationCompleted() async {
+    await _ensureInitialized();
+    return _prefs!.getBool('notification_migration_completed') ?? false;
+  }
+
+  /// Mark notification migration as completed
+  /// This method is used by the migration service to mark completion
+  Future<void> setMigrationCompleted(bool completed) async {
+    await _ensureInitialized();
+    await _prefs!.setBool('notification_migration_completed', completed);
+    AppLogger.debug(
+        'Notification migration completion status updated: $completed');
+  }
 }
