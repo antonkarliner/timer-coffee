@@ -18,7 +18,7 @@ const darkColorScheme = ColorScheme(
   brightness: Brightness.dark,
   primary: Colors.white,
   onPrimary: Color.fromRGBO(48, 48, 48, 1),
-  secondary: Color(0xff5F98B5), // updated secondary dark
+  secondary: Color(0xffb07035), // closer to secondary light
   onSecondary: Colors.black, // kept intact
   tertiary: Color(0xff5a798c), // updated tertiary dark
   onTertiary: Colors.black,
