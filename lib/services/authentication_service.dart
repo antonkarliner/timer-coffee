@@ -452,15 +452,18 @@ class AuthenticationService {
 
       await dbProvider.uploadUserPreferencesToSupabase();
       await dbProvider.fetchAndInsertUserPreferencesFromSupabase();
-      await userStatProvider.syncUserStats();
-      await coffeeBeansProvider.syncCoffeeBeans();
 
-      // Sync user-created and imported recipes
+      // Sync recipes first to satisfy FK constraints for stats
       await dbProvider.syncUserRecipes(newUserId);
       await dbProvider.syncImportedRecipes(newUserId);
 
       // Reload recipes into the provider state after sync
       await recipeProvider.fetchAllRecipes();
+
+      // Stats rely on recipes being present locally
+      await userStatProvider.syncUserStats();
+
+      await coffeeBeansProvider.syncCoffeeBeans();
       AppLogger.debug('RecipeProvider state refreshed.');
 
       AppLogger.debug('Data synchronization completed successfully');
