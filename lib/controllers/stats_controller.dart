@@ -53,9 +53,12 @@ class StatsController extends ChangeNotifier {
   void _recalcIncludesToday(UserStatProvider provider) {
     final start = getStartDate(provider);
     final end = getEndDate();
-    includesToday =
-        DateTime.now().isAfter(start) && DateTime.now().isBefore(end);
+    final now = DateTime.now();
+    includesToday = !_isBeforeInclusive(now, start) && !_isAfterInclusive(now, end);
   }
+
+  bool _isBeforeInclusive(DateTime a, DateTime b) => a.isBefore(b);
+  bool _isAfterInclusive(DateTime a, DateTime b) => a.isAfter(b);
 
   // --- Global total helpers ---
   void setInitialTotal(double initial) {
@@ -76,7 +79,7 @@ class StatsController extends ChangeNotifier {
   bool isDateWithinRange(UserStatProvider provider, DateTime date) {
     final start = getStartDate(provider);
     final end = getEndDate();
-    return date.isAfter(start) && date.isBefore(end);
+    return !date.isBefore(start) && !date.isAfter(end);
   }
 
   String labelForPeriod(AppLocalizations l10n, TimePeriod period) {

@@ -180,7 +180,8 @@ class _StatsScreenState extends State<StatsScreen> {
         Provider.of<UserStatProvider>(context, listen: false);
     final start = _controller.getStartDate(userStatProvider);
     final end = _controller.getEndDate();
-    final initial = await _db.fetchGlobalBrewedCoffeeAmount(start, end);
+    final initial =
+        await _db.fetchGlobalBrewedCoffeeAmountAggregated(start, end);
     if (mounted) {
       _controller.setInitialTotal(initial);
     }
@@ -939,7 +940,8 @@ class _GlobalStatsSection extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               FutureBuilder<List<String>>(
-                future: db.fetchGlobalTopRecipes(startDate, endDate),
+                future:
+                    db.fetchGlobalTopRecipesAggregated(startDate, endDate),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {

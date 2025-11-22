@@ -882,6 +882,34 @@ class DatabaseProvider {
         0.0, (sum, element) => sum + element['water_amount'] / 1000);
   }
 
+  /// Preferred aggregated query that avoids row-limit truncation.
+  /// Falls back to legacy client-side aggregation if the RPC is unavailable.
+  Future<double> fetchGlobalBrewedCoffeeAmountAggregated(
+      DateTime start, DateTime end) async {
+    final client = Supabase.instance.client;
+    final startIso = start.toUtc().toIso8601String();
+    final endIso = end.toUtc().toIso8601String();
+    final startDate = startIso.split('T').first;
+    final endDate = endIso.split('T').first;
+
+    try {
+      final response = await client.rpc('global_stats_range_sum', params: {
+        // Function arguments are p_start_date, p_end_date (dates)
+        'p_start_date': startDate,
+        'p_end_date': endDate,
+      }).timeout(const Duration(seconds: 5));
+      final maybe = _extractTotalLiters(response);
+      if (maybe != null) return maybe;
+      // If RPC returned empty/unknown structure, treat as zero instead of falling back to row-limited query.
+      return 0.0;
+    } catch (_) {
+      // Intentionally swallow and fall back.
+    }
+
+    // Fallback to legacy paginated select (subject to row limits).
+    return fetchGlobalBrewedCoffeeAmount(start, end);
+  }
+
   Future<List<String>> fetchGlobalTopRecipes(
       DateTime start, DateTime end) async {
     final startUtc = start.toUtc();
@@ -907,6 +935,79 @@ class DatabaseProvider {
     final sortedRecipes = recipeCounts.keys.toList()
       ..sort((a, b) => recipeCounts[b]!.compareTo(recipeCounts[a]!));
     return sortedRecipes.take(3).toList();
+  }
+
+  /// Aggregated top recipes that leverages server-side grouping to avoid row limits.
+  /// Returns top [topN] recipe_ids; falls back to legacy method if RPC is missing.
+  Future<List<String>> fetchGlobalTopRecipesAggregated(
+      DateTime start, DateTime end,
+      {int topN = 3}) async {
+    final client = Supabase.instance.client;
+    final startIso = start.toUtc().toIso8601String();
+    final endIso = end.toUtc().toIso8601String();
+    final startDate = startIso.split('T').first;
+    final endDate = endIso.split('T').first;
+    try {
+      // Primary: matches deployed function signature (p_start_date / p_end_date / p_top_n)
+      final response = await client.rpc('global_stats_top_recipes', params: {
+        'p_start_date': startDate,
+        'p_end_date': endDate,
+        'p_top_n': topN,
+      }).timeout(const Duration(seconds: 5));
+      final recipes = _extractRecipeIds(response);
+      if (recipes != null) return recipes;
+      return const <String>[];
+    } catch (_) {
+      // Intentionally swallow and fallback.
+    }
+
+    return fetchGlobalTopRecipes(start, end);
+  }
+
+  double? _extractTotalLiters(dynamic response) {
+    // Function returns SETOF table; PostgREST returns a list of rows.
+    if (response is List && response.isNotEmpty) {
+      final first = response.first;
+      if (first is Map) {
+        final map = first;
+        if (map['total_liters'] != null) {
+          return (map['total_liters'] as num).toDouble();
+        }
+        if (map['total'] != null) return (map['total'] as num).toDouble();
+        if (map['sum_liters'] != null) return (map['sum_liters'] as num).toDouble();
+        if (map.values.isNotEmpty && map.values.first is num) {
+          return (map.values.first as num).toDouble();
+        }
+      }
+    } else if (response is Map) {
+      if (response['total_liters'] != null) {
+        return (response['total_liters'] as num).toDouble();
+      }
+      if (response['total'] != null) return (response['total'] as num).toDouble();
+      if (response['sum_liters'] != null) return (response['sum_liters'] as num).toDouble();
+    }
+    return null;
+  }
+
+  List<String>? _extractRecipeIds(dynamic response) {
+    // The RPC returns jsonb array; PostgREST decodes it as List<dynamic>.
+    if (response is List) {
+      return response
+          .map((e) => e is Map ? e['recipe_id']?.toString() : e?.toString())
+          .whereType<String>()
+          .toList();
+    } else if (response is Map && response.isNotEmpty) {
+      // If PostgREST wraps scalar in a row, try to unwrap common keys
+      for (final value in response.values) {
+        if (value is List) {
+          return value
+              .map((e) => e is Map ? e['recipe_id']?.toString() : e?.toString())
+              .whereType<String>()
+              .toList();
+        }
+      }
+    }
+    return null;
   }
 
   Future<List<String>> fetchCountriesForLocale(String locale) async {
