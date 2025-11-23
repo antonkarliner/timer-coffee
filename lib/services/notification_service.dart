@@ -4,6 +4,7 @@ import 'package:coffee_timer/providers/fcm_provider.dart';
 import 'package:coffee_timer/services/local_notification_manager.dart';
 import 'package:coffee_timer/services/permission_service.dart';
 import 'package:coffee_timer/services/notification_settings_service.dart';
+import 'package:coffee_timer/services/exact_alarm_service.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -266,6 +267,15 @@ class NotificationService {
     if (!permissionState.granted || !permissionState.canShowNotifications) {
       AppLogger.debug(
           'Scheduled notification suppressed: permission not granted - $permissionState');
+      return;
+    }
+
+    // Exact alarm permission is required on Android 12+ for precise scheduling.
+    final canScheduleExactAlarms =
+        await ExactAlarmService.ensureExactAlarmPermission();
+    if (!canScheduleExactAlarms) {
+      AppLogger.debug(
+          'Scheduled notification suppressed: exact alarm permission missing');
       return;
     }
 

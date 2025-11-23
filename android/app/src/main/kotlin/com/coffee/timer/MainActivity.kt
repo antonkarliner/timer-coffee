@@ -1,17 +1,23 @@
 package com.coffee.timer
 
+import android.app.AlarmManager
 import android.content.ComponentName
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity: FlutterActivity() {
-    private val CHANNEL = "com.coffee.timer/icon"
+    private val ICON_CHANNEL = "com.coffee.timer/icon"
+    private val EXACT_ALARM_CHANNEL = "com.coffee.timer/exact_alarm"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, ICON_CHANNEL).setMethodCallHandler { call, result ->
             when (call.method) {
                 "getCurrentIcon" -> {
                     result.success(getCurrentActiveIcon())
@@ -24,6 +30,18 @@ class MainActivity: FlutterActivity() {
                 else -> {
                     result.notImplemented()
                 }
+            }
+        }
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, EXACT_ALARM_CHANNEL).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "canScheduleExactAlarms" -> {
+                    result.success(canScheduleExactAlarms())
+                }
+                "requestExactAlarmPermission" -> {
+                    result.success(requestExactAlarmPermission())
+                }
+                else -> result.notImplemented()
             }
         }
     }
@@ -98,6 +116,35 @@ class MainActivity: FlutterActivity() {
             true
         } catch (e: Exception) {
             println("DEBUG NATIVE: Error setting icon: ${e.message}")
+            false
+        }
+    }
+
+    // Exact alarm helpers ----------------------------------------------------
+    private fun canScheduleExactAlarms(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val alarmManager = getSystemService(AlarmManager::class.java)
+            alarmManager.canScheduleExactAlarms()
+        } else {
+            true
+        }
+    }
+
+    private fun requestExactAlarmPermission(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return true
+
+        val alarmManager = getSystemService(AlarmManager::class.java)
+        if (alarmManager.canScheduleExactAlarms()) return true
+
+        return try {
+            val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                data = Uri.parse("package:$packageName")
+            }
+            startActivity(intent)
+            // We cannot know the result immediately; caller should re-check after user action.
+            alarmManager.canScheduleExactAlarms()
+        } catch (e: Exception) {
+            println("DEBUG NATIVE: Error requesting exact alarm permission: ${e.message}")
             false
         }
     }
