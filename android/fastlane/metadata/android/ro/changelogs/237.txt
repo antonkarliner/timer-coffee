@@ -1,0 +1,8 @@
+Noutăți:
+• Rețetele personalizate acceptă acum April Brewer, Ceado Hoop Brewer și Oxo Rapid Brewer.
+• Notificările pot fi activate/dezactivate din Setări.
+• Poți șterge rețete importate din Gestionare rețete.
+Îmbunătățiri:
+• Notificări mai fiabile, mod întunecat optimizat.
+Corecții:
+• Sincronizare statistici, total infuzii, navigare înapoi la editarea boabelor. Unele infuzii șterse au reapărut — ne cerem scuze!

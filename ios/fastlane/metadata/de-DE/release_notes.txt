@@ -1,3 +1,13 @@
 Neu:
-• Du kannst jetzt deine Rezepte im Rezeptbearbeitungsbildschirm duplizieren. Praktisch, wenn du schnell viele Varianten erstellen möchtest.
-• Du kannst jetzt deine Bohnen nach verbleibendem Packungsgewicht sortieren.
+• Neue Brühmethoden für deine eigenen Rezepte! Timer.Coffee unterstützt jetzt den April Brewer, Ceado Hoop Brewer und Oxo Rapid Brewer.
+• Benachrichtigungs-Umschalter: Du kannst Benachrichtigungen jetzt in den Einstellungen ein- und ausschalten.
+• Importierte Rezepte können jetzt im Rezept-Management gelöscht werden.
+
+Verbessert:
+• Das Benachrichtigungssystem wurde komplett neu geschrieben. Fast alle Änderungen sind unter der Haube, aber (hoffentlich) ist es jetzt stabiler und weniger abhängig von Drittanbieterlösungen.
+• Die Farben im Dunkelmodus wurden leicht angepasst, damit sie besser zum Gesamtdesign passen.
+
+Fehlerbehebungen:
+• Ein vorheriger Bugfix für die Synchronisierung der Nutzerstatistiken hat einen neuen Fehler verursacht. Aber jetzt ist endlich alles behoben. Wichtig: Einige deiner gelöschten Brühprotokoll-Einträge könnten wiederhergestellt worden sein, entschuldige dafür!
+• Die weltweit gebrühten Kaffeemengen werden jetzt korrekt angezeigt.
+• Fehler behoben, bei dem das Zurück-Navigieren vom Kaffeebohnen-Bearbeitungsbildschirm nicht funktionierte, wenn keine Änderungen vorgenommen wurden.

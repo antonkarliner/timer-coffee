@@ -1,3 +1,13 @@
 Novità:
-• Ora puoi duplicare le tue ricette dalla schermata di modifica delle ricette. Utile se vuoi creare rapidamente molte varianti.
-• Ora puoi ordinare i tuoi caffè in base al peso rimanente della confezione.
+• Nuovi metodi di estrazione per le tue ricette personalizzate! Timer.Coffee ora supporta April Brewer, Ceado Hoop Brewer e Oxo Rapid Brewer.
+• Interruttore notifiche: ora puoi attivare o disattivare le notifiche nelle Impostazioni.
+• Ora puoi eliminare le ricette importate dalla schermata Gestione Ricette.
+
+Miglioramenti:
+• Il sistema di notifiche è stato completamente riscritto. Quasi tutte le modifiche sono “sotto il cofano”, ma (si spera) sarà più stabile e meno dipendente da soluzioni di terze parti.
+• I colori della modalità scura sono stati leggermente modificati per essere più coerenti con il design complessivo.
+
+Correzioni di bug:
+• Una precedente correzione relativa alla sincronizzazione delle statistiche utente aveva introdotto un altro problema. Ma finalmente è tutto risolto. Importante: alcune voci eliminate dal diario delle estrazioni potrebbero essere state ripristinate, ci scusiamo!
+• Le quantità di caffè estratto a livello globale vengono ora visualizzate correttamente.
+• Risolto un problema per cui la navigazione indietro dalla schermata di modifica dei chicchi di caffè non funzionava se non venivano apportate modifiche.

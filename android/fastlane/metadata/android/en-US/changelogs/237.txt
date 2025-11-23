@@ -1,0 +1,8 @@
+New:
+• Custom recipes now support April Brewer, Ceado Hoop Brewer and Oxo Rapid brewer.
+• Notification toggle in Settings.
+• Delete imported recipes in Recipe Management.
+Improved: 
+• more reliable notifications, polished dark mode.
+Bugfix: 
+• stats sync, global brew totals, beans edit back nav. Some deleted brews may have reappeared—sorry!

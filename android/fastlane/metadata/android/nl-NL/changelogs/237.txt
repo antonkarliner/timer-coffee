@@ -1,0 +1,10 @@
+Nieuw:
+• Aangepaste recepten ondersteunen nu April Brewer, Ceado Hoop Brewer en Oxo Rapid Brewer.
+• Notificatie-toggle in instellingen.
+• Geïmporteerde recepten verwijderen bij Receptbeheer.
+
+Verbeterd:
+• Betere notificaties, verbeterde donkere modus.
+
+Opgelost:
+• Statistieken-synchronisatie, totale zetstatistieken, terugnavigatie bij aanpassen van bonen. Excuses als sommige verwijderde brouwsels zijn teruggekeerd!

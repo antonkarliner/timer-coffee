@@ -1,0 +1,10 @@
+Uutta:  
+• Mukautetut reseptit tukevat nyt April Breweria, Ceado Hoop Breweria ja Oxo Rapid Breweria.  
+• Ilmoitusten kytkin asetuksissa.  
+• Tuo reseptien poisto reseptien hallinnassa.
+
+Parannettu:  
+• Luotettavammat ilmoitukset, hiotumpi tumma tila.
+
+Korjattu:  
+• Tilastojen synkkaus, globaalit keittotilastot, pavut-muokkauksen paluunavigointi. Poistetut keitot saattoivat ilmestyä takaisin – pahoittelut!

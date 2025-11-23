@@ -1,0 +1,10 @@
+Nouveau :  
+• Les recettes personnalisées prennent désormais en charge April Brewer, Ceado Hoop Brewer et Oxo Rapid Brewer.  
+• Option de notifications dans les paramètres.  
+• Suppression des recettes importées dans la gestion des recettes.
+
+Amélioré :  
+• Notifications plus fiables, mode sombre affiné.
+
+Correction de bugs :  
+• Synchronisation des stats, totaux globaux d’extractions, retour lors de l’édition des cafés. Certaines extractions supprimées ont pu réapparaître—désolé !

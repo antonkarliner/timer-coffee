@@ -1,0 +1,8 @@
+Novo:
+• As receitas personalizadas agora suportam April Brewer, Ceado Hoop Brewer e Oxo Rapid Brewer.
+• Novo botão de notificações nas Definições.
+• Apagar receitas importadas na Gestão de Receitas.
+Melhorias:
+• Notificações mais fiáveis, modo escuro melhorado.
+Correções:
+• Sincronização de estatísticas, totais globais de preparações, navegação ao editar cafés. Algumas preparações apagadas podem ter reaparecido—pedimos desculpa!

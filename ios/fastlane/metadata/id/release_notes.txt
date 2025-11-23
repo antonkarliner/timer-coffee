@@ -1,3 +1,13 @@
-Baru:
-• Sekarang Anda dapat menduplikasi resep dari layar pengeditan resep. Berguna jika Anda ingin dengan cepat membuat banyak variasi.
-• Sekarang Anda dapat mengurutkan biji kopi berdasarkan sisa berat kemasan.
+Baru: 
+• Metode seduh baru untuk resep kustom Anda! Timer.Coffee sekarang mendukung April Brewer, Ceado Hoop Brewer, dan Oxo Rapid Brewer.
+• Pengaturan notifikasi: Anda sekarang dapat mengaktifkan atau menonaktifkan notifikasi di Pengaturan.
+• Sekarang Anda dapat menghapus resep yang diimpor pada layar Manajemen Resep.
+
+Peningkatan: 
+• Sistem notifikasi sepenuhnya ditulis ulang. Hampir semua perubahan ada di balik layar, tetapi (semoga) akan lebih stabil dan tidak terlalu bergantung pada solusi pihak ketiga.
+• Warna-warna pada mode gelap sedikit diubah agar lebih konsisten dengan desain secara keseluruhan.
+
+Perbaikan bug: 
+• Perbaikan bug sebelumnya pada sinkronisasi Statistik Pengguna justru menimbulkan bug lain. Tapi akhirnya, semua sudah diperbaiki. Penting: beberapa entri catatan seduh yang sudah dihapus mungkin akan muncul kembali, mohon maaf untuk hal ini!
+• Jumlah kopi yang diseduh secara global sekarang sudah tampil dengan benar.
+• Memperbaiki masalah saat navigasi kembali dari layar pengeditan kopi tidak berfungsi ketika tidak ada perubahan yang dibuat.

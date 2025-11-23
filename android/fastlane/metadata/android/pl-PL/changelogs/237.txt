@@ -1,0 +1,10 @@
+Nowości:
+• Własne przepisy obsługują teraz April Brewer, Ceado Hoop Brewer oraz Oxo Rapid Brewer.
+• Przełącznik powiadomień w Ustawieniach.
+• Usuwanie zaimportowanych przepisów w Zarządzaniu Przepisami.
+
+Ulepszenia:
+• Bardziej niezawodne powiadomienia, dopracowany tryb ciemny.
+
+Poprawki:
+• Synchronizacja statystyk, globalne sumy parzeń, cofanie w edycji ziaren. Niektóre usunięte parzenia mogły się pojawić ponownie — przepraszamy!

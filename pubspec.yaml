@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 3.4.6+227
+version: 3.5.0+237
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
+  app_settings: ^6.1.1
   flutter_linkify: ^5.0.2
   intl: any
   url_launcher: ^6.3.0
@@ -28,7 +29,7 @@ dependencies:
   share_plus: ^11.0.0
   flutter_native_splash: ^2.4.6
   introduction_screen: ^3.1.11
-  coffeico: ^0.3.0
+  coffeico: ^0.4.0
   in_app_purchase: ^3.1.11
   supabase_flutter: ^2.8.2
   drift: ^2.28.1
@@ -39,7 +40,6 @@ dependencies:
     sdk: flutter
   envied: ^1.1.0
   flutter_rating_bar: ^4.0.1
-  onesignal_flutter: ^5.2.9
   calendar_date_picker2: ^0.5.6
   convex_bottom_bar: ^3.2.0
   textfield_tags: ^3.0.1
@@ -68,8 +68,12 @@ dependencies:
   flutter_native_ocr: ^0.1.0
   vibration: ^3.1.4
   logging: ^1.3.0
-  
-
+  firebase_core: ^4.2.1
+  firebase_messaging: ^16.0.4
+  flutter_local_notifications: ^19.5.0
+  timezone: ^0.10.1
+  rxdart: ^0.28.0
+ 
 dependency_overrides:
   flutter_keyboard_visibility:
     git:
@@ -84,7 +88,7 @@ dependency_overrides:
   coffeico:
     git:
       url: https://github.com/antonkarliner/coffeico.git
-      ref: 354b1aeeae20a332b4c412f3700058d571350ad2
+      ref: a6276617df40ae09efae915306a38a18fad8c73b
       path: flutter
 dev_dependencies:
   flutter_test:

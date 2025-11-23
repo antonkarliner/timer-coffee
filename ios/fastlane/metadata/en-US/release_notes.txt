@@ -1,3 +1,13 @@
 New:
-• You can now duplicate your recipes from recipe editing screen. Useful if you want to quickly create many variations.
-• You can now sort your beans by remaing package weight.
+• Added new brewing methods for your custom recipes! Timer.Coffee now supports the April Brewer, Ceado Hoop Brewer, and Oxo Rapid Brewer.  
+• Notification toggle: you can now enable or disable notifications in Settings.  
+• It’s now possible to delete imported recipes from the Recipe Management screen.
+
+Improved:  
+• Completely reengineered the notifications system. Most changes happen behind the scenes, but notifications should now be more stable and less reliant on third-party solutions.  
+• Slightly adjusted colors in dark mode for a look that better matches the app’s overall design.
+
+Bugfix:  
+• A previous fix for User Stats sync created an additional issue. Now, everything’s resolved. Important: some previously deleted brew diary entries may have been restored—sorry about that!  
+• Global totals for coffee brewed are now displayed accurately.  
+• Fixed an issue where navigating back from the coffee beans editing screen wouldn’t work if no changes had been made.

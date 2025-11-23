@@ -1,3 +1,13 @@
 Novo:
-• Sada možete duplicirati svoje recepte s ekrana za uređivanje recepta. Korisno ako želite brzo napraviti više varijacija.
-• Sada možete sortirati svoje kave prema preostaloj težini pakiranja.
+• Novi načini pripreme za vaše prilagođene recepte! Timer.Coffee sada podržava April Brewer, Ceado Hoop Brewer i Oxo Rapid Brewer.
+• Prekidač za obavijesti: sada možete uključiti ili isključiti obavijesti u postavkama.
+• Sada možete obrisati uvezene recepte na ekranu za upravljanje receptima.
+
+Poboljšano:
+• Potpuno smo preradili sustav obavijesti. Gotovo sve promjene su "ispod haube", ali (nadamo se) bit će stabilniji i manje ovisan o vanjskim rješenjima.
+• Malo smo doradili boje u tamnom načinu rada kako bi bile dosljednije s ukupnim dizajnom.
+
+Ispravci grešaka:
+• Prethodna ispravka za sinkronizaciju korisničkih statistika uzrokovala je novu grešku. No napokon, sve je popravljeno. Važno: neki vaši izbrisani unosi iz dnevnika kuhanja kave mogli su biti vraćeni, ispričavamo se zbog toga!
+• Količine skuhane kave na globalnoj razini sada se pravilno prikazuju.
+• Ispravljena je greška kod koje povratak s ekrana za uređivanje zrna kave nije radio ako nije bilo promjena.

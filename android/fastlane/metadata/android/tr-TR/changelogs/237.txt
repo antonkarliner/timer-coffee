@@ -1,0 +1,10 @@
+Yeni:
+• Artık özel tarifler April Brewer, Ceado Hoop Brewer ve Oxo Rapid Brewer ile uyumlu.
+• Ayarlarda bildirim aç/kapa seçeneği.
+• Tarif Yönetimi’nde içe aktarılan tarifleri silebilirsiniz.
+
+Geliştirildi:
+• Daha güvenilir bildirimler, iyileştirilmiş koyu mod.
+
+Hata düzeltmeleri:
+• İstatistik senkronizasyonu, toplam demleme sayısı, çekirdek düzenleme geri dönüşü. Bazı silinen demlemeler yeniden görünebilir—özürler!

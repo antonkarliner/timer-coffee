@@ -1,0 +1,8 @@
+Novità:
+• Le ricette personalizzate ora supportano April Brewer, Ceado Hoop Brewer e Oxo Rapid Brewer.
+• Nuova opzione notifiche nelle Impostazioni.
+• Elimina ricette importate nella Gestione Ricette.
+Miglioramenti: 
+• Notifiche più affidabili, modalità scura perfezionata.
+Correzioni: 
+• Sincronizzazione statistiche, totale infusioni globale, navigazione modifica caffè. Alcuni brew eliminati potevano ricomparire—scusate!

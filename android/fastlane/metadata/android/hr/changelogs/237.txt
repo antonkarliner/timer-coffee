@@ -1,0 +1,8 @@
+Novo:
+• Prilagođeni recepti sada podržavaju April Brewer, Ceado Hoop Brewer i Oxo Rapid Brewer.
+• Prekidač za obavijesti u postavkama.
+• Brisanje uvezenih recepata u Upravljanju receptima.
+Poboljšano:
+• Pouzdanije obavijesti, poboljšan tamni način rada.
+Ispravci:
+• Sinkronizacija statistika, ukupno kuhanje, povratak na uređivanje zrna. Neki izbrisani napici su se možda vratili—ispričavamo se!

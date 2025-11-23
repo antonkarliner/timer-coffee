@@ -1,3 +1,13 @@
-Noutăți:
-• Acum poți să-ți duplici rețetele din ecranul de editare al rețetei. Util dacă vrei să creezi rapid mai multe variații.
-• Acum poți sorta boabele de cafea după greutatea rămasă a pachetului.
+Nou:
+• Metode noi de preparare pentru rețetele tale personalizate! Timer.Coffee acceptă acum April Brewer, Ceado Hoop Brewer și Oxo Rapid Brewer.
+• Comutator notificări: acum poți activa sau dezactiva notificările din Setări.
+• Acum poți șterge rețetele importate din ecranul de gestionare a rețetelor.
+
+Îmbunătățiri:
+• Sistemul de notificări a fost rescris complet. Aproape toate modificările sunt interne, dar (sperăm) va fi mai stabil și mai puțin dependent de soluții externe.
+• Culorile din modul întunecat au fost ajustate pentru o consistență mai bună cu designul general.
+
+Corectare erori:
+• Corectarea anterioară pentru sincronizarea statisticilor utilizatorului a introdus un alt bug. Dar, în sfârșit, totul este rezolvat. Important: unele dintre intrările șterse din jurnalul de brew pot fi restaurate, ne cerem scuze pentru asta!
+• Cantitățile de cafea preparată la nivel global sunt afișate acum corect.
+• S-a rezolvat o problemă care împiedica revenirea de la ecranul de editare a boabelor de cafea când nu se făcuseră modificări.

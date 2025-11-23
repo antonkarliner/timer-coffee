@@ -1,0 +1,8 @@
+Baru:
+• Resep kustom kini mendukung April Brewer, Ceado Hoop Brewer, dan Oxo Rapid Brewer.
+• Pengaturan notifikasi di menu Settings.
+• Hapus resep impor di Manajemen Resep.
+Peningkatan:
+• Notifikasi lebih andal, mode gelap lebih mulus.
+Perbaikan Bug:
+• Sinkronisasi statistik, total seduhan global, navigasi balik edit biji kopi. Beberapa seduhan yang sudah dihapus bisa saja muncul lagi—maaf!

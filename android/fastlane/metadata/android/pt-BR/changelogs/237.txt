@@ -1,0 +1,10 @@
+Novidades:  
+• Receitas personalizadas agora suportam April Brewer, Ceado Hoop Brewer e Oxo Rapid Brewer.  
+• Alternar notificações nas Configurações.  
+• Exclua receitas importadas no Gerenciamento de Receitas.
+
+Melhorias:  
+• Notificações mais confiáveis e dark mode aprimorado.
+
+Correções:  
+• Sincronização de estatísticas, totais globais de preparo, navegação ao editar grãos. Alguns preparos excluídos podem ter reaparecido—desculpe!

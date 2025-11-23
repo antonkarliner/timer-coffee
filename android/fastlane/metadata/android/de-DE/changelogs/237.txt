@@ -1,0 +1,8 @@
+Neu:
+• Eigene Rezepte unterstützen jetzt April Brewer, Ceado Hoop Brewer und Oxo Rapid Brewer.
+• Benachrichtigungs-Schalter in den Einstellungen.
+• Importierte Rezepte im Rezept-Manager löschen.
+Verbessert:
+• Zuverlässigere Benachrichtigungen, optimierter Dark Mode.
+Fehlerbehebungen:
+• Synchronisation der Statistik, globale Brüh-Gesamtzahlen, Zurück-Navigation beim Bearbeiten von Bohnen. Einige gelöschte Brühvorgänge könnten wieder aufgetaucht sein – Entschuldigung!

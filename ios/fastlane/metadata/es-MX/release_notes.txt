@@ -1,3 +1,13 @@
 Nuevo:
-• Ahora puedes duplicar tus recetas desde la pantalla de edición de recetas. Útil si quieres crear rápidamente muchas variaciones.
-• Ahora puedes ordenar tus granos por el peso restante del paquete.
+• ¡Nuevos métodos de preparación para tus recetas personalizadas! Timer.Coffee ahora es compatible con April Brewer, Ceado Hoop Brewer y Oxo Rapid Brewer.
+• Opción de notificaciones: ahora puedes activar o desactivar las notificaciones en Configuración.
+• Ahora puedes eliminar recetas importadas desde la pantalla de Gestión de Recetas.
+
+Mejorado:
+• Reescribimos por completo el sistema de notificaciones. Casi todos los cambios son internos, pero (¡esperamos!) será más estable y menos dependiente de soluciones de terceros.
+• Ajustamos un poco los colores en el modo oscuro para que sean más consistentes con el diseño general.
+
+Corrección de errores:
+• La corrección anterior para la sincronización de Estadísticas de Usuario introdujo otro error. Pero finalmente, todo está solucionado. Importante: algunas de tus entradas eliminadas del diario de preparaciones podrían haberse restaurado, ¡disculpa por eso!
+• Ahora las cantidades de café preparado a nivel global se muestran correctamente.
+• Se solucionó el problema donde al regresar desde la pantalla de edición de granos de café no funcionaba si no se habían hecho cambios.

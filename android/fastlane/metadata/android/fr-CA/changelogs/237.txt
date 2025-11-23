@@ -1,0 +1,10 @@
+Nouveautés :  
+• Les recettes personnalisées prennent maintenant en charge les cafetières April Brewer, Ceado Hoop et Oxo Rapid.  
+• Bouton de notification dans les paramètres.  
+• Suppression des recettes importées dans la gestion des recettes.
+
+Amélioré :  
+• Notifications plus fiables, mode sombre amélioré.
+
+Corrections :  
+• Synchronisation des stats, totaux des extractions, navigation lors de la modification des grains. Certaines extractions supprimées ont pu réapparaître—désolé!
