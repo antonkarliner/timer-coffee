@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee (Web Version)
 
-Last Updated: 30.07.2024
+Last Updated: 08.12.2025
 
 1. INTRODUCTION
 
@@ -38,21 +38,15 @@ We use Supabase to handle user authentication. The data collected includes:
 - Created at timestamp
 - Updated at timestamp
 
-c. OneSignal SDK Data:
+c. Firebase Cloud Messaging Data:
 
-We use OneSignal SDK for push notifications. The data collected includes:
-- First session time
-- Last session time
-- Session count
-- Total usage duration
+We use Firebase Cloud Messaging for push notifications. The data collected includes:
 - Device OS
 - Device language
 - Timezone
 - Country
-- Push status
 - App version
 - Device model
-- Cellular carrier
 - IP address (excluding users in the EU and UK)
 
 d. App Usage Statistics:
@@ -106,7 +100,7 @@ All trademarks, service marks, trade names, trade dress, product names, and logo
 
 10. THIRD-PARTY SERVICES
 
-We use third-party services such as Google Gemini for image recognition to read information from coffee labels. We do not store any images sent by users. Users are responsible for ensuring no personal data is included in the images.
+We use third-party AI services to power various features in our app, including coffee label parsing and content analysis. We do not store any images or personal data sent by users. Users are responsible for ensuring no personal data is included in any content they submit.
 
 11. DATA RETENTION AND DELETION
 
