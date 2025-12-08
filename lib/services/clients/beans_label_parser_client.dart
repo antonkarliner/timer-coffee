@@ -1,6 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-/// Thin client wrapper around Supabase Edge Function `parse-coffee-label-gemini`.
+/// Thin client wrapper around Supabase Edge Function `parse-coffee-label-groq`.
 /// Hides transport details and normalizes error messages.
 class BeansLabelParserClient {
   final SupabaseClient supabase;
@@ -32,7 +32,7 @@ class BeansLabelParserClient {
     };
 
     final response = await supabase.functions.invoke(
-      'parse-coffee-label-gemini',
+      'parse-coffee-label-groq',
       body: body,
     );
 
