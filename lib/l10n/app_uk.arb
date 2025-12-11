@@ -117,10 +117,10 @@
   "coffeeBeansDetails": "Інформація про зерна кави",
   "edit": "Редагувати",
   "coffeeBeansNotFound": "Зерна кави не знайдені",
-    "basicInformation": "Основні відомості",
+  "basicInformation": "Основні відомості",
   "geographyTerroir": "Географія/Територія",
   "variety": "Сорт",
-  "region": "Регіон",
+  "region": "Північна Америка",
   "elevation": "Висота",
   "harvestDate": "Дата збору врожаю",
   "processing": "Обробка",
@@ -558,7 +558,7 @@
   "totalBeansBrewedLabel": "Всього використано зерен",
   "newBeansTriedLabel": "Нові зерна, які спробували",
   "originsExploredLabel": "Досліджені країни походження",
-  "regionsExploredLabel": "Досліджені регіони",
+  "regionsExploredLabel": "Європа",
   "newRoastersDiscoveredLabel": "Нові обсмажувачі, яких відкрито",
   "favoriteRoastersLabel": "Улюблені обсмажувальні",
   "topOriginsLabel": "Топ країни походження",
@@ -566,96 +566,121 @@
   "brewStats": "Статистика приготування",
   "showMore": "Показати ще",
   "showLess": "Показати менше",
-"unpublishRecipeDialogTitle": "Зробити рецепт приватним",
-"@unpublishRecipeDialogTitle": {
-  "description": "Текст заголовка для діалогового вікна підтвердження скасування публікації рецепта"
-},
-"unpublishRecipeDialogMessage": "Попередження: Якщо зробити цей рецепт приватним, це призведе до наступного:",
-"@unpublishRecipeDialogMessage": {
-  "description": "Попереджувальне повідомлення про зміни в конфіденційності"
-},
-"unpublishRecipeDialogBullet1": "Його буде видалено з результатів публічного пошуку",
-"@unpublishRecipeDialogBullet1": {
-  "description": "Перший пункт зміни конфіденційності"
-},
-"unpublishRecipeDialogBullet2": "Нові користувачі не зможуть його імпортувати",
-"@unpublishRecipeDialogBullet2": {
-  "description": "Другий пункт зміни конфіденційності"
-},
-"unpublishRecipeDialogBullet3": "Користувачі, які вже імпортували його, збережуть свої копії",
-"@unpublishRecipeDialogBullet3": {
-  "description": "Третій пункт зміни конфіденційності"
-},
-"unpublishRecipeDialogKeepPublic": "Залишити публічним",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "Текст кнопки для збереження рецепта публічним"
-},
-"unpublishRecipeDialogMakePrivate": "Зробити приватним",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "Текст кнопки для встановлення рецепта як приватного"
-},
-"recipeUnpublishSuccess": "Публікацію рецепта успішно скасовано",
-"@recipeUnpublishSuccess": {
-  "description": "Повідомлення про успіх при скасуванні публікації рецепта"
-},
-"recipeUnpublishError": "Помилка при скасуванні публікації рецепта: {error}",
-"@recipeUnpublishError": {
-  "description": "Повідомлення про помилку при невдалому скасуванні публікації рецепта",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "Помилка бази даних"
+  "unpublishRecipeDialogTitle": "Зробити рецепт приватним",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Текст заголовка для діалогового вікна підтвердження скасування публікації рецепта"
+  },
+  "unpublishRecipeDialogMessage": "Попередження: Якщо зробити цей рецепт приватним, це призведе до наступного:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Попереджувальне повідомлення про зміни в конфіденційності"
+  },
+  "unpublishRecipeDialogBullet1": "Його буде видалено з результатів публічного пошуку",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "Перший пункт зміни конфіденційності"
+  },
+  "unpublishRecipeDialogBullet2": "Нові користувачі не зможуть його імпортувати",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Другий пункт зміни конфіденційності"
+  },
+  "unpublishRecipeDialogBullet3": "Користувачі, які вже імпортували його, збережуть свої копії",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Третій пункт зміни конфіденційності"
+  },
+  "unpublishRecipeDialogKeepPublic": "Залишити публічним",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Текст кнопки для збереження рецепта публічним"
+  },
+  "unpublishRecipeDialogMakePrivate": "Зробити приватним",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Текст кнопки для встановлення рецепта як приватного"
+  },
+  "recipeUnpublishSuccess": "Публікацію рецепта успішно скасовано",
+  "@recipeUnpublishSuccess": {
+    "description": "Повідомлення про успіх при скасуванні публікації рецепта"
+  },
+  "recipeUnpublishError": "Помилка при скасуванні публікації рецепта: {error}",
+  "@recipeUnpublishError": {
+    "description": "Повідомлення про помилку при невдалому скасуванні публікації рецепта",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Помилка бази даних"
+      }
     }
-  }
-},
-"recipePublicTooltip": "Рецепт є публічним - торкніться, щоб зробити його приватним",
-"recipePrivateTooltip": "Рецепт є приватним - поділіться, щоб зробити його публічним",
-"inventory": "Запаси",
-"amountLeft": "Залишок",
-"enterAmountLeft": "Введіть залишок",
-"fieldClearButtonTooltip": "Очистити",
-"dateFieldClearButtonTooltip": "Очистити дату",
-"chipInputDuplicateError": "Цей тег вже додано",
-"chipInputMaxTagsError": "Досягнуто максимальної кількості тегів ({maxChips})",
-"chipInputHintText": "Додати тег...",
-"unitFieldRequiredError": "Це поле є обов'язковим",
-"unitFieldInvalidNumberError": "Будь ласка, введіть дійсне число",
-"unitFieldMinValueError": "Значення має бути не менше {min}",
-"unitFieldMaxValueError": "Значення має бути не більше {max}",
-"numericFieldRequiredError": "Це поле є обов'язковим",
-"numericFieldInvalidNumberError": "Будь ласка, введіть дійсне число",
-"numericFieldMinValueError": "Значення має бути не менше {min}",
-"numericFieldMaxValueError": "Значення має бути не більше {max}",
-"dropdownSearchHintText": "Введіть для пошуку...",
-"dropdownSearchLoadingError": "Помилка завантаження пропозицій: {error}",
-"dropdownSearchNoResults": "Результатів не знайдено",
-"dropdownSearchLoading": "Пошук...",
-"dropdownSearchUseCustomEntry": "Використати \"{currentQuery}\"",
-"requiredInfoSubtitle": "* Обов'язково",
-"inventoryWeightExample": "напр., 250.5",
-"unsavedChangesTitle": "Незбережені зміни",
-"unsavedChangesMessage": "У вас є незбережені зміни. Ви впевнені, що хочете їх скасувати?",
-"unsavedChangesStay": "Залишитися",
-"unsavedChangesDiscard": "Скасувати",
-"beansWeightAddedBack": "Додано {amount}{unit} назад до {beanName}. Нова вага: {newWeight}{unit}",
-"@beansWeightAddedBack": {
-  "description": "Повідомлення, що відображається при додаванні ваги кави назад до зерен після видалення з журналу заварювання",
-  "placeholders": {
-    "amount": { "type": "String", "example": "18.5" },
-    "beanName": { "type": "String", "example": "Ефіопія Іргачеффе" },
-    "newWeight": { "type": "String", "example": "250.0" },
-    "unit": { "type": "String", "example": "г" }
-  }
-},
-"beansWeightSubtracted": "Віднято {amount}{unit} від {beanName}. Нова вага: {newWeight}{unit}",
-"@beansWeightSubtracted": {
-  "description": "Повідомлення, що відображається при відніманні ваги кави від зерен",
-  "placeholders": {
-    "amount": { "type": "String", "example": "18.5" },
-    "beanName": { "type": "String", "example": "Ефіопія Іргачеффе" },
-    "newWeight": { "type": "String", "example": "250.0" },
-    "unit": { "type": "String", "example": "г" }
-  }},
+  },
+  "recipePublicTooltip": "Рецепт є публічним - торкніться, щоб зробити його приватним",
+  "recipePrivateTooltip": "Рецепт є приватним - поділіться, щоб зробити його публічним",
+  "inventory": "Запаси",
+  "amountLeft": "Залишок",
+  "enterAmountLeft": "Введіть залишок",
+  "fieldClearButtonTooltip": "Очистити",
+  "dateFieldClearButtonTooltip": "Очистити дату",
+  "chipInputDuplicateError": "Цей тег вже додано",
+  "chipInputMaxTagsError": "Досягнуто максимальної кількості тегів ({maxChips})",
+  "chipInputHintText": "Додати тег...",
+  "unitFieldRequiredError": "Це поле є обов'язковим",
+  "unitFieldInvalidNumberError": "Будь ласка, введіть дійсне число",
+  "unitFieldMinValueError": "Значення має бути не менше {min}",
+  "unitFieldMaxValueError": "Значення має бути не більше {max}",
+  "numericFieldRequiredError": "Це поле є обов'язковим",
+  "numericFieldInvalidNumberError": "Будь ласка, введіть дійсне число",
+  "numericFieldMinValueError": "Значення має бути не менше {min}",
+  "numericFieldMaxValueError": "Значення має бути не більше {max}",
+  "dropdownSearchHintText": "Введіть для пошуку...",
+  "dropdownSearchLoadingError": "Помилка завантаження пропозицій: {error}",
+  "dropdownSearchNoResults": "Результатів не знайдено",
+  "dropdownSearchLoading": "Пошук...",
+  "dropdownSearchUseCustomEntry": "Використати \"{currentQuery}\"",
+  "requiredInfoSubtitle": "* Обов'язково",
+  "inventoryWeightExample": "напр., 250.5",
+  "unsavedChangesTitle": "Незбережені зміни",
+  "unsavedChangesMessage": "У вас є незбережені зміни. Ви впевнені, що хочете їх скасувати?",
+  "unsavedChangesStay": "Залишитися",
+  "unsavedChangesDiscard": "Скасувати",
+  "beansWeightAddedBack": "Додано {amount}{unit} назад до {beanName}. Нова вага: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Повідомлення, що відображається при додаванні ваги кави назад до зерен після видалення з журналу заварювання",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Ефіопія Іргачеффе"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "г"
+      }
+    }
+  },
+  "beansWeightSubtracted": "Віднято {amount}{unit} від {beanName}. Нова вага: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Повідомлення, що відображається при відніманні ваги кави від зерен",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Ефіопія Іргачеффе"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "г"
+      }
+    }
+  },
   "notifications": "Сповіщення",
   "notificationsDisabledInSystemSettings": "Вимкнено в системних налаштуваннях",
   "openSettings": "Відкрити налаштування",
@@ -668,5 +693,60 @@
   "notificationPermissionDialogTitle": "Увімкнути сповіщення?",
   "notificationPermissionDialogMessage": "Ви можете увімкнути сповіщення, щоб отримувати корисні оновлення (наприклад, про нові версії додатку). Увімкніть зараз або змініть це в будь-який момент у налаштуваннях.",
   "notificationPermissionEnable": "Увімкнути",
-  "notificationPermissionSkip": "Не зараз"
+  "notificationPermissionSkip": "Не зараз",
+  "holidayGiftBoxTitle": "Святкова подарункова коробка",
+  "holidayGiftBoxInfoTrigger": "Що це?",
+  "holidayGiftBoxInfoBody": "Добірка сезонних пропозицій від партнерів. Посилання не є партнерськими - ми просто хочемо подарувати трохи радості користувачам Timer.Coffee на ці свята. Потягніть униз, щоб оновити.",
+  "holidayGiftBoxNoOffers": "Наразі немає доступних пропозицій.",
+  "holidayGiftBoxNoOffersSub": "Потягніть, щоб оновити, або спробуйте пізніше.",
+  "holidayGiftBoxShowingRegion": "Показуємо пропозиції для {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Переглянути деталі",
+  "holidayGiftBoxPromoCopied": "Промокод скопійовано",
+  "holidayGiftBoxPromoCode": "Промокод",
+  "giftDiscountOff": "{percent}% знижки",
+  "giftDiscountUpToOff": "До {percent}% знижки",
+  "holidayGiftBoxTerms": "Умови",
+  "holidayGiftBoxVisitSite": "Відвідати сайт партнера",
+  "holidayGiftBoxValidUntil": "Дійсно до {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Дійсно, доки є в наявності",
+  "holidayGiftBoxUpdated": "Оновлено {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Мова: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Спробувати ще раз",
+  "holidayGiftBoxLoadFailed": "Не вдалося завантажити пропозиції",
+  "regionEurope": "Європа",
+  "regionNorthAmerica": "Північна Америка",
+  "regionAsia": "Азія",
+  "regionAustralia": "Австралія / Океанія",
+  "regionWorldwide": "Увесь світ",
+  "regionAfrica": "Африка",
+  "regionMiddleEast": "Близький Схід",
+  "regionSouthAmerica": "Південна Америка"
 }

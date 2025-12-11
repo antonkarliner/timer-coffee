@@ -2817,6 +2817,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not Now'**
   String get notificationPermissionSkip;
+
+  /// No description provided for @holidayGiftBoxTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Holiday Gift Box'**
+  String get holidayGiftBoxTitle;
+
+  /// No description provided for @holidayGiftBoxInfoTrigger.
+  ///
+  /// In en, this message translates to:
+  /// **'What is this?'**
+  String get holidayGiftBoxInfoTrigger;
+
+  /// No description provided for @holidayGiftBoxInfoBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Curated seasonal offers from partners. Links are not affiliate - our goal is simply to bring a bit of joy to Timer.Coffee users these holidays. Pull to refresh anytime.'**
+  String get holidayGiftBoxInfoBody;
+
+  /// No description provided for @holidayGiftBoxNoOffers.
+  ///
+  /// In en, this message translates to:
+  /// **'No offers available right now.'**
+  String get holidayGiftBoxNoOffers;
+
+  /// No description provided for @holidayGiftBoxNoOffersSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull to refresh or check back soon.'**
+  String get holidayGiftBoxNoOffersSub;
+
+  /// No description provided for @holidayGiftBoxShowingRegion.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing offers for {region}'**
+  String holidayGiftBoxShowingRegion(String region);
+
+  /// No description provided for @holidayGiftBoxViewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get holidayGiftBoxViewDetails;
+
+  /// No description provided for @holidayGiftBoxPromoCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Promo code copied'**
+  String get holidayGiftBoxPromoCopied;
+
+  /// No description provided for @holidayGiftBoxPromoCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Promo Code'**
+  String get holidayGiftBoxPromoCode;
+
+  /// Label for a percentage discount when one percent value is present
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% off'**
+  String giftDiscountOff(String percent);
+
+  /// Label for a percentage discount when a range is present; uses the max percent
+  ///
+  /// In en, this message translates to:
+  /// **'Up to {percent}% off'**
+  String giftDiscountUpToOff(String percent);
+
+  /// No description provided for @holidayGiftBoxTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms & Conditions'**
+  String get holidayGiftBoxTerms;
+
+  /// No description provided for @holidayGiftBoxVisitSite.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit Partner Website'**
+  String get holidayGiftBoxVisitSite;
+
+  /// No description provided for @holidayGiftBoxValidUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid until {date}'**
+  String holidayGiftBoxValidUntil(String date);
+
+  /// No description provided for @holidayGiftBoxValidWhileAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid while available'**
+  String get holidayGiftBoxValidWhileAvailable;
+
+  /// No description provided for @holidayGiftBoxUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated {date}'**
+  String holidayGiftBoxUpdated(String date);
+
+  /// No description provided for @holidayGiftBoxLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language: {language}'**
+  String holidayGiftBoxLanguage(String language);
+
+  /// No description provided for @holidayGiftBoxRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get holidayGiftBoxRetry;
+
+  /// No description provided for @holidayGiftBoxLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load offers'**
+  String get holidayGiftBoxLoadFailed;
+
+  /// No description provided for @regionEurope.
+  ///
+  /// In en, this message translates to:
+  /// **'Europe'**
+  String get regionEurope;
+
+  /// No description provided for @regionNorthAmerica.
+  ///
+  /// In en, this message translates to:
+  /// **'North America'**
+  String get regionNorthAmerica;
+
+  /// No description provided for @regionAsia.
+  ///
+  /// In en, this message translates to:
+  /// **'Asia'**
+  String get regionAsia;
+
+  /// No description provided for @regionAustralia.
+  ///
+  /// In en, this message translates to:
+  /// **'Australia / Oceania'**
+  String get regionAustralia;
+
+  /// No description provided for @regionWorldwide.
+  ///
+  /// In en, this message translates to:
+  /// **'Worldwide'**
+  String get regionWorldwide;
+
+  /// No description provided for @regionAfrica.
+  ///
+  /// In en, this message translates to:
+  /// **'Africa'**
+  String get regionAfrica;
+
+  /// No description provided for @regionMiddleEast.
+  ///
+  /// In en, this message translates to:
+  /// **'Middle East'**
+  String get regionMiddleEast;
+
+  /// No description provided for @regionSouthAmerica.
+  ///
+  /// In en, this message translates to:
+  /// **'South America'**
+  String get regionSouthAmerica;
 }
 
 class _AppLocalizationsDelegate

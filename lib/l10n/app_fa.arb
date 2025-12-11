@@ -98,7 +98,7 @@
   "totalBeansBrewedLabel": "مجموع دانه‌های استفاده‌شده",
   "newBeansTriedLabel": "دانه‌های جدید امتحان‌شده",
   "originsExploredLabel": "خاستگاه‌های کشف‌شده",
-  "regionsExploredLabel": "منطقه‌های کشف‌شده",
+  "regionsExploredLabel": "اروپا",
   "newRoastersDiscoveredLabel": "رسترهای جدید کشف‌شده",
   "favoriteRoastersLabel": "برشته‌خانه‌های موردعلاقه",
   "topOriginsLabel": "برترین خاستگاه‌ها",
@@ -150,10 +150,10 @@
   "coffeeBeansDetails": "جزئیات دانه‌های قهوه",
   "edit": "ویرایش",
   "coffeeBeansNotFound": "دانه قهوه‌ای پیدا نشد",
-    "basicInformation": "اطلاعات پایه",
+  "basicInformation": "اطلاعات پایه",
   "geographyTerroir": "جغرافیا/ترُوار",
   "variety": "گونه",
-  "region": "منطقه",
+  "region": "آمریکای شمالی",
   "elevation": "ارتفاع",
   "harvestDate": "تاریخ برداشت",
   "processing": "فرآوری",
@@ -570,48 +570,48 @@
   "recipeCopyErrorLoadingEdit": "بارگذاری دستور کپی‌شده برای ویرایش ناموفق بود.",
   "recipeCopyErrorOperationFailed": "عملیات ناموفق بود.",
   "notProvided": "ارائه نشده",
-"unpublishRecipeDialogTitle": "خصوصی کردن دستور پخت",
-"@unpublishRecipeDialogTitle": {
-  "description": "متن عنوان برای گفتگوی تأیید لغو انتشار دستور پخت"
-},
-"unpublishRecipeDialogMessage": "هشدار: خصوصی کردن این دستور پخت باعث می‌شود:",
-"@unpublishRecipeDialogMessage": {
-  "description": "پیام هشدار برای معرفی تغییرات حریم خصوصی"
-},
-"unpublishRecipeDialogBullet1": "از نتایج جستجوی عمومی حذف شود",
-"@unpublishRecipeDialogBullet1": {
-  "description": "اولین نکته در مورد تغییر حریم خصوصی"
-},
-"unpublishRecipeDialogBullet2": "کاربران جدید نتوانند آن را وارد کنند",
-"@unpublishRecipeDialogBullet2": {
-  "description": "دومین نکته در مورد تغییر حریم خصوصی"
-},
-"unpublishRecipeDialogBullet3": "کاربرانی که قبلاً آن را وارد کرده‌اند، نسخه‌های خود را حفظ خواهند کرد",
-"@unpublishRecipeDialogBullet3": {
-  "description": "سومین نکته در مورد تغییر حریم خصوصی"
-},
-"unpublishRecipeDialogKeepPublic": "عمومی بماند",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "متن دکمه برای عمومی نگه داشتن دستور پخت"
-},
-"unpublishRecipeDialogMakePrivate": "خصوصی کردن",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "متن دکمه برای خصوصی کردن دستور پخت"
-},
-"recipeUnpublishSuccess": "دستور پخت با موفقیت از حالت انتشار خارج شد",
-"@recipeUnpublishSuccess": {
-  "description": "پیام موفقیت هنگام لغو انتشار یک دستور پخت"
-},
-"recipeUnpublishError": "خطا در لغو انتشار دستور پخت: {error}",
-"@recipeUnpublishError": {
-  "description": "پیام خطا هنگام عدم موفقیت در لغو انتشار یک دستور پخت",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "خطای پایگاه داده"
+  "unpublishRecipeDialogTitle": "خصوصی کردن دستور پخت",
+  "@unpublishRecipeDialogTitle": {
+    "description": "متن عنوان برای گفتگوی تأیید لغو انتشار دستور پخت"
+  },
+  "unpublishRecipeDialogMessage": "هشدار: خصوصی کردن این دستور پخت باعث می‌شود:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "پیام هشدار برای معرفی تغییرات حریم خصوصی"
+  },
+  "unpublishRecipeDialogBullet1": "از نتایج جستجوی عمومی حذف شود",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "اولین نکته در مورد تغییر حریم خصوصی"
+  },
+  "unpublishRecipeDialogBullet2": "کاربران جدید نتوانند آن را وارد کنند",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "دومین نکته در مورد تغییر حریم خصوصی"
+  },
+  "unpublishRecipeDialogBullet3": "کاربرانی که قبلاً آن را وارد کرده‌اند، نسخه‌های خود را حفظ خواهند کرد",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "سومین نکته در مورد تغییر حریم خصوصی"
+  },
+  "unpublishRecipeDialogKeepPublic": "عمومی بماند",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "متن دکمه برای عمومی نگه داشتن دستور پخت"
+  },
+  "unpublishRecipeDialogMakePrivate": "خصوصی کردن",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "متن دکمه برای خصوصی کردن دستور پخت"
+  },
+  "recipeUnpublishSuccess": "دستور پخت با موفقیت از حالت انتشار خارج شد",
+  "@recipeUnpublishSuccess": {
+    "description": "پیام موفقیت هنگام لغو انتشار یک دستور پخت"
+  },
+  "recipeUnpublishError": "خطا در لغو انتشار دستور پخت: {error}",
+  "@recipeUnpublishError": {
+    "description": "پیام خطا هنگام عدم موفقیت در لغو انتشار یک دستور پخت",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "خطای پایگاه داده"
+      }
     }
-  }
-},
+  },
   "recipeUpdateFailedFetch": "بروزرسانی دستور ناموفق بود.",
   "recipeImportSuccess": "دستور با موفقیت وارد شد!",
   "recipeImportFailedSave": "ذخیره دستور واردشده ناموفق بود.",
@@ -866,5 +866,60 @@
   "notificationPermissionDialogTitle": "فعال کردن اعلان‌ها؟",
   "notificationPermissionDialogMessage": "می‌توانید اعلان‌ها را فعال کنید تا به‌روزرسانی‌های مفید (مثلاً در مورد نسخه‌های جدید برنامه) دریافت کنید. اکنون فعال کنید یا هر زمان در تنظیمات تغییر دهید.",
   "notificationPermissionEnable": "فعال کردن",
-  "notificationPermissionSkip": "اکنون نه"
+  "notificationPermissionSkip": "اکنون نه",
+  "holidayGiftBoxTitle": "جعبه هدیه تعطیلات",
+  "holidayGiftBoxInfoTrigger": "این چیست؟",
+  "holidayGiftBoxInfoBody": "پیشنهادهای فصلی انتخاب‌شده از شرکا. لینک‌ها وابسته نیستند - هدف ما فقط این است که در این تعطیلات کمی خوشحالی به کاربران Timer.Coffee هدیه بدهیم. برای به‌روزرسانی به پایین بکشید.",
+  "holidayGiftBoxNoOffers": "در حال حاضر پیشنهادی موجود نیست.",
+  "holidayGiftBoxNoOffersSub": "برای به‌روزرسانی بکشید یا بعداً دوباره امتحان کنید.",
+  "holidayGiftBoxShowingRegion": "نمایش پیشنهادها برای {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "مشاهده جزئیات",
+  "holidayGiftBoxPromoCopied": "کد تخفیف کپی شد",
+  "holidayGiftBoxPromoCode": "کد تخفیف",
+  "giftDiscountOff": "{percent}٪ تخفیف",
+  "giftDiscountUpToOff": "تا {percent}٪ تخفیف",
+  "holidayGiftBoxTerms": "شرایط و ضوابط",
+  "holidayGiftBoxVisitSite": "مشاهده وب‌سایت شریک",
+  "holidayGiftBoxValidUntil": "معتبر تا {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "معتبر تا زمان موجود بودن",
+  "holidayGiftBoxUpdated": "به‌روزرسانی شده در {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "زبان: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "تلاش مجدد",
+  "holidayGiftBoxLoadFailed": "بارگذاری پیشنهادها ناموفق بود",
+  "regionEurope": "اروپا",
+  "regionNorthAmerica": "آمریکای شمالی",
+  "regionAsia": "آسیا",
+  "regionAustralia": "استرالیا / اقیانوسیه",
+  "regionWorldwide": "سراسر جهان",
+  "regionAfrica": "آفریقا",
+  "regionMiddleEast": "خاورمیانه",
+  "regionSouthAmerica": "آمریکای جنوبی"
 }

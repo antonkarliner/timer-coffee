@@ -11,6 +11,8 @@ import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart'; // Ensure Intl is imported if needed for locale logic
 import 'package:coffee_timer/models/launch_popup_model.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
+import 'package:coffee_timer/models/gift_offer_model.dart';
+import 'package:flutter/material.dart';
 
 class DatabaseProvider {
   final AppDatabase _db;
@@ -101,6 +103,99 @@ class DatabaseProvider {
         },
       ),
     ]);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Gift Box (online-only, no Drift tables)
+  // ---------------------------------------------------------------------------
+
+  /// Fetches active Gift Box offers from Supabase and applies client-side
+  /// validity + region ordering. Returns an empty list on failure.
+  Future<List<GiftOffer>> fetchGiftBoxOffers({
+    required Locale locale,
+    String? regionCode,
+  }) async {
+    final now = DateTime.now().toUtc();
+    try {
+      final response = await Supabase.instance.client
+          .from('giftbox_offers')
+          .select()
+          .eq('is_active', true)
+          // Higher priority value should float to the top; fetch in that order.
+          .order('priority', ascending: false)
+          .order('updated_at', ascending: false)
+          .timeout(const Duration(seconds: 8));
+
+      final rawList = (response as List<dynamic>).cast<Map<String, dynamic>>();
+      final offers = rawList
+          .map((row) => GiftOffer.fromMap(row, locale))
+          .where((offer) {
+        final vt = offer.validTo;
+        if (vt != null && vt.isBefore(now)) return false;
+        return true;
+      }).toList();
+
+      _sortOffers(offers, regionCode);
+      return offers;
+    } catch (e) {
+      AppLogger.error('Failed to fetch giftbox offers', errorObject: e);
+      return [];
+    }
+  }
+
+  /// Fetch a single offer by id. Returns null on not found / error.
+  Future<GiftOffer?> fetchGiftOfferById(
+      String id, {
+      required Locale locale,
+      String? regionCode,
+    }) async {
+    try {
+      final response = await Supabase.instance.client
+          .from('giftbox_offers')
+          .select()
+          .eq('id', id)
+          .limit(1)
+          .single()
+          .timeout(const Duration(seconds: 6));
+
+      final offer = GiftOffer.fromMap(
+          (response as Map<String, dynamic>), locale);
+
+      if (_isOfferExpired(offer)) return null;
+      return offer;
+    } catch (e) {
+      AppLogger.error('Failed to fetch giftbox offer $id', errorObject: e);
+      return null;
+    }
+  }
+
+  bool _isOfferExpired(GiftOffer offer) {
+    final now = DateTime.now().toUtc();
+    if (offer.validTo != null && offer.validTo!.isBefore(now)) return true;
+    return false;
+  }
+
+  void _sortOffers(List<GiftOffer> offers, String? regionCode) {
+    if (offers.isEmpty) return;
+    final region = regionCode?.toUpperCase();
+
+    int score(GiftOffer o) {
+      final regions = o.regions.map((e) => e.toUpperCase()).toList();
+      if (region != null && regions.contains(region)) return 0;
+      if (regions.contains('WORLDWIDE') || regions.contains('WW')) return 1;
+      return 2;
+    }
+
+    offers.sort((a, b) {
+      final s = score(a).compareTo(score(b));
+      if (s != 0) return s;
+      // Higher numeric priority should appear first.
+      final prio = (b.priority ?? 0).compareTo(a.priority ?? 0);
+      if (prio != 0) return prio;
+      final aValid = a.validTo ?? DateTime.utc(2100);
+      final bValid = b.validTo ?? DateTime.utc(2100);
+      return aValid.compareTo(bValid);
+    });
   }
 
   Future<void> _fetchAndStoreReferenceData(

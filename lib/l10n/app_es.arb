@@ -90,7 +90,7 @@
   "totalBeansBrewedLabel": "Total de granos preparados",
   "newBeansTriedLabel": "Nuevos granos probados",
   "originsExploredLabel": "Orígenes explorados",
-  "regionsExploredLabel": "Regiones exploradas",
+  "regionsExploredLabel": "Europa",
   "newRoastersDiscoveredLabel": "Nuevos tostadores descubiertos",
   "favoriteRoastersLabel": "Tostadurías favoritas",
   "topOriginsLabel": "Orígenes destacados",
@@ -129,7 +129,7 @@
   "basicInformation": "Datos básicos",
   "geographyTerroir": "Geografía/Terruño",
   "variety": "Variedad",
-  "region": "Región",
+  "region": "Norteamérica",
   "elevation": "Elevación",
   "harvestDate": "Fecha de cosecha",
   "processing": "Procesamiento",
@@ -693,5 +693,60 @@
   "notificationPermissionDialogTitle": "¿Activar notificaciones?",
   "notificationPermissionDialogMessage": "Puedes activar las notificaciones para recibir actualizaciones útiles (p. ej. sobre nuevas versiones de la aplicación). Activa ahora o cambia esto en cualquier momento en la configuración.",
   "notificationPermissionEnable": "Activar",
-  "notificationPermissionSkip": "Ahora no"
+  "notificationPermissionSkip": "Ahora no",
+  "holidayGiftBoxTitle": "Caja de Regalos Navideña",
+  "holidayGiftBoxInfoTrigger": "¿Qué es esto?",
+  "holidayGiftBoxInfoBody": "Ofertas de temporada seleccionadas de socios. Los enlaces no son de afiliados - solo queremos llevar un poco de alegría a los usuarios de Timer.Coffee en estas fiestas. Desliza para actualizar en cualquier momento.",
+  "holidayGiftBoxNoOffers": "No hay ofertas disponibles por ahora.",
+  "holidayGiftBoxNoOffersSub": "Desliza para actualizar o vuelve más tarde.",
+  "holidayGiftBoxShowingRegion": "Mostrando ofertas para {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Ver detalles",
+  "holidayGiftBoxPromoCopied": "Código copiado",
+  "holidayGiftBoxPromoCode": "Código promocional",
+  "giftDiscountOff": "{percent}% de descuento",
+  "giftDiscountUpToOff": "Hasta {percent}% de descuento",
+  "holidayGiftBoxTerms": "Términos y condiciones",
+  "holidayGiftBoxVisitSite": "Visitar sitio del socio",
+  "holidayGiftBoxValidUntil": "Válido hasta {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Válido mientras esté disponible",
+  "holidayGiftBoxUpdated": "Actualizado {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Idioma: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Reintentar",
+  "holidayGiftBoxLoadFailed": "No se pudieron cargar las ofertas",
+  "regionEurope": "Europa",
+  "regionNorthAmerica": "Norteamérica",
+  "regionAsia": "Asia",
+  "regionAustralia": "Australia / Oceanía",
+  "regionWorldwide": "Todo el mundo",
+  "regionAfrica": "África",
+  "regionMiddleEast": "Medio Oriente",
+  "regionSouthAmerica": "Sudamérica"
 }

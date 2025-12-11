@@ -84,7 +84,7 @@
   "totalBeansBrewedLabel": "إجمالي الحبوب المُحضرة",
   "newBeansTriedLabel": "حبوب جديدة مجرّبة",
   "originsExploredLabel": "المناشئ المستكشفة",
-  "regionsExploredLabel": "المناطق المستكشفة",
+  "regionsExploredLabel": "أوروبا",
   "newRoastersDiscoveredLabel": "محامص جديدة مُكتشفة",
   "favoriteRoastersLabel": "المحامص المفضلة",
   "topOriginsLabel": "أفضل المناشئ",
@@ -120,10 +120,10 @@
   "coffeeBeansDetails": "تفاصيل حبوب البن",
   "edit": "تعديل",
   "coffeeBeansNotFound": "لم يتم العثور على حبوب البن",
-    "basicInformation": "المعلومات الأساسية",
+  "basicInformation": "المعلومات الأساسية",
   "geographyTerroir": "الجغرافيا / المنشأ",
   "variety": "الصنف",
-  "region": "المنطقة",
+  "region": "أمريكا الشمالية",
   "elevation": "الارتفاع",
   "harvestDate": "تاريخ الحصاد",
   "processing": "المعالجة",
@@ -566,120 +566,121 @@
   "hubAboutSubtitle": "تفاصيل التطبيق والإصدار والمساهمون",
   "showMore": "عرض المزيد",
   "showLess": "عرض أقل",
-"unpublishRecipeDialogTitle": "جعل الوصفة خاصة",
-"@unpublishRecipeDialogTitle": {
-  "description": "نص العنوان لمربع حوار تأكيد إلغاء نشر الوصفة"
-},
-"unpublishRecipeDialogMessage": "تحذير: جعل هذه الوصفة خاصة سيؤدي إلى:",
-"@unpublishRecipeDialogMessage": {
-  "description": "رسالة تحذير توضح تغييرات الخصوصية"
-},
-"unpublishRecipeDialogBullet1": "إزالتها من نتائج البحث العامة",
-"@unpublishRecipeDialogBullet1": {
-  "description": "النقطة الأولى لتغيير الخصوصية"
-},
-"unpublishRecipeDialogBullet2": "منع المستخدمين الجدد من استيرادها",
-"@unpublishRecipeDialogBullet2": {
-  "description": "النقطة الثانية لتغيير الخصوصية"
-},
-"unpublishRecipeDialogBullet3": "المستخدمون الذين استوردوها بالفعل سيحتفظون بنسخهم",
-"@unpublishRecipeDialogBullet3": {
-  "description": "النقطة الثالثة لتغيير الخصوصية"
-},
-"unpublishRecipeDialogKeepPublic": "إبقاءها عامة",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "نص الزر لإبقاء الوصفة عامة"
-},
-"unpublishRecipeDialogMakePrivate": "جعلها خاصة",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "نص الزر لجعل الوصفة خاصة"
-},
-"recipeUnpublishSuccess": "تم إلغاء نشر الوصفة بنجاح",
-"@recipeUnpublishSuccess": {
-  "description": "رسالة نجاح عند إلغاء نشر الوصفة"
-},
-"recipeUnpublishError": "فشل إلغاء نشر الوصفة: {error}",
-"@recipeUnpublishError": {
-  "description": "رسالة خطأ عند فشل إلغاء نشر الوصفة",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "خطأ في قاعدة البيانات"
+  "unpublishRecipeDialogTitle": "جعل الوصفة خاصة",
+  "@unpublishRecipeDialogTitle": {
+    "description": "نص العنوان لمربع حوار تأكيد إلغاء نشر الوصفة"
+  },
+  "unpublishRecipeDialogMessage": "تحذير: جعل هذه الوصفة خاصة سيؤدي إلى:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "رسالة تحذير توضح تغييرات الخصوصية"
+  },
+  "unpublishRecipeDialogBullet1": "إزالتها من نتائج البحث العامة",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "النقطة الأولى لتغيير الخصوصية"
+  },
+  "unpublishRecipeDialogBullet2": "منع المستخدمين الجدد من استيرادها",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "النقطة الثانية لتغيير الخصوصية"
+  },
+  "unpublishRecipeDialogBullet3": "المستخدمون الذين استوردوها بالفعل سيحتفظون بنسخهم",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "النقطة الثالثة لتغيير الخصوصية"
+  },
+  "unpublishRecipeDialogKeepPublic": "إبقاءها عامة",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "نص الزر لإبقاء الوصفة عامة"
+  },
+  "unpublishRecipeDialogMakePrivate": "جعلها خاصة",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "نص الزر لجعل الوصفة خاصة"
+  },
+  "recipeUnpublishSuccess": "تم إلغاء نشر الوصفة بنجاح",
+  "@recipeUnpublishSuccess": {
+    "description": "رسالة نجاح عند إلغاء نشر الوصفة"
+  },
+  "recipeUnpublishError": "فشل إلغاء نشر الوصفة: {error}",
+  "@recipeUnpublishError": {
+    "description": "رسالة خطأ عند فشل إلغاء نشر الوصفة",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "خطأ في قاعدة البيانات"
+      }
     }
-  }
-},
-"recipePublicTooltip": "الوصفة عامة - انقر لجعلها خاصة",
-"recipePrivateTooltip": "الوصفة خاصة - شاركها لجعلها عامة",
-"inventory": "المخزون",
-"amountLeft": "الكمية المتبقية",
-"enterAmountLeft": "أدخل الكمية المتبقية",
-"fieldClearButtonTooltip": "مسح",
-"dateFieldClearButtonTooltip": "مسح التاريخ",
-"chipInputDuplicateError": "هذه العلامة مضافة بالفعل",
-"chipInputMaxTagsError": "تم الوصول إلى الحد الأقصى من العلامات ({maxChips})",
-"chipInputHintText": "أضف علامة...",
-"unitFieldRequiredError": "هذا الحقل مطلوب",
-"unitFieldInvalidNumberError": "يرجى إدخال رقم صحيح",
-"unitFieldMinValueError": "يجب أن تكون القيمة على الأقل {min}",
-"unitFieldMaxValueError": "يجب أن تكون القيمة على الأكثر {max}",
-"numericFieldRequiredError": "هذا الحقل مطلوب",
-"numericFieldInvalidNumberError": "يرجى إدخال رقم صحيح",
-"numericFieldMinValueError": "يجب أن تكون القيمة على الأقل {min}",
-"numericFieldMaxValueError": "يجب أن تكون القيمة على الأكثر {max}",
-"dropdownSearchHintText": "اكتب للبحث...",
-"dropdownSearchLoadingError": "خطأ في تحميل الاقتراحات: {error}",
-"dropdownSearchNoResults": "لم يتم العثور على نتائج",
-"dropdownSearchLoading": "جاري البحث...",
-"dropdownSearchUseCustomEntry": "استخدم \"{currentQuery}\"",
-"requiredInfoSubtitle": "* مطلوب",
-"inventoryWeightExample": "مثال: 250.5",
-"unsavedChangesTitle": "تغييرات غير محفوظة",
-"unsavedChangesMessage": "لديك تغييرات غير محفوظة. هل أنت متأكد من أنك تريد تجاهلها؟",
-"unsavedChangesStay": "البقاء",
-"unsavedChangesDiscard": "تجاهل",
-"beansWeightAddedBack": "تمت إضافة {amount}{unit} مرة أخرى إلى {beanName}. الوزن الجديد: {newWeight}{unit}",
-"@beansWeightAddedBack": {
-  "description": "الرسالة المعروضة عند إضافة وزن القهوة مرة أخرى إلى الحبوب بعد إزالتها من يوميات التخمير",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "إثيوبيا يرجاتشيف"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "250.0"
-    },
-    "unit": {
-      "type": "String",
-      "example": "غ"
+  },
+  "recipePublicTooltip": "الوصفة عامة - انقر لجعلها خاصة",
+  "recipePrivateTooltip": "الوصفة خاصة - شاركها لجعلها عامة",
+  "inventory": "المخزون",
+  "amountLeft": "الكمية المتبقية",
+  "enterAmountLeft": "أدخل الكمية المتبقية",
+  "fieldClearButtonTooltip": "مسح",
+  "dateFieldClearButtonTooltip": "مسح التاريخ",
+  "chipInputDuplicateError": "هذه العلامة مضافة بالفعل",
+  "chipInputMaxTagsError": "تم الوصول إلى الحد الأقصى من العلامات ({maxChips})",
+  "chipInputHintText": "أضف علامة...",
+  "unitFieldRequiredError": "هذا الحقل مطلوب",
+  "unitFieldInvalidNumberError": "يرجى إدخال رقم صحيح",
+  "unitFieldMinValueError": "يجب أن تكون القيمة على الأقل {min}",
+  "unitFieldMaxValueError": "يجب أن تكون القيمة على الأكثر {max}",
+  "numericFieldRequiredError": "هذا الحقل مطلوب",
+  "numericFieldInvalidNumberError": "يرجى إدخال رقم صحيح",
+  "numericFieldMinValueError": "يجب أن تكون القيمة على الأقل {min}",
+  "numericFieldMaxValueError": "يجب أن تكون القيمة على الأكثر {max}",
+  "dropdownSearchHintText": "اكتب للبحث...",
+  "dropdownSearchLoadingError": "خطأ في تحميل الاقتراحات: {error}",
+  "dropdownSearchNoResults": "لم يتم العثور على نتائج",
+  "dropdownSearchLoading": "جاري البحث...",
+  "dropdownSearchUseCustomEntry": "استخدم \"{currentQuery}\"",
+  "requiredInfoSubtitle": "* مطلوب",
+  "inventoryWeightExample": "مثال: 250.5",
+  "unsavedChangesTitle": "تغييرات غير محفوظة",
+  "unsavedChangesMessage": "لديك تغييرات غير محفوظة. هل أنت متأكد من أنك تريد تجاهلها؟",
+  "unsavedChangesStay": "البقاء",
+  "unsavedChangesDiscard": "تجاهل",
+  "beansWeightAddedBack": "تمت إضافة {amount}{unit} مرة أخرى إلى {beanName}. الوزن الجديد: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "الرسالة المعروضة عند إضافة وزن القهوة مرة أخرى إلى الحبوب بعد إزالتها من يوميات التخمير",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "إثيوبيا يرجاتشيف"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "غ"
+      }
     }
-  }
-},
-"beansWeightSubtracted": "تم خصم {amount}{unit} من {beanName}. الوزن الجديد: {newWeight}{unit}",
-"@beansWeightSubtracted": {
-  "description": "الرسالة المعروضة عند خصم وزن القهوة من الحبوب عند إضافتها إلى يوميات التخمير",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "كولومبيا سوبريمو"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "231.5"
-    },
-    "unit": {
-      "type": "String",
-      "example": "غ"
+  },
+  "beansWeightSubtracted": "تم خصم {amount}{unit} من {beanName}. الوزن الجديد: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "الرسالة المعروضة عند خصم وزن القهوة من الحبوب عند إضافتها إلى يوميات التخمير",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "كولومبيا سوبريمو"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "غ"
+      }
     }
-  }},
+  },
   "notifications": "الإشعارات",
   "notificationsDisabledInSystemSettings": "معطل في إعدادات النظام",
   "openSettings": "فتح الإعدادات",
@@ -692,5 +693,60 @@
   "notificationPermissionDialogTitle": "تفعيل الإشعارات؟",
   "notificationPermissionDialogMessage": "يمكنك تفعيل الإشعارات للحصول على تحديثات مفيدة (مثلاً حول إصدارات جديدة من التطبيق). قم بالتفعيل الآن أو تغيير هذا في أي وقت في الإعدادات.",
   "notificationPermissionEnable": "تفعيل",
-  "notificationPermissionSkip": "ليس الآن"
+  "notificationPermissionSkip": "ليس الآن",
+  "holidayGiftBoxTitle": "صندوق هدايا العطلات",
+  "holidayGiftBoxInfoTrigger": "ما هذا؟",
+  "holidayGiftBoxInfoBody": "عروض موسمية مختارة من الشركاء. الروابط ليست تابعة - هدفنا فقط إدخال بعض البهجة على مستخدمي Timer.Coffee في هذه العطلات. اسحب للتحديث في أي وقت.",
+  "holidayGiftBoxNoOffers": "لا توجد عروض متاحة حاليًا.",
+  "holidayGiftBoxNoOffersSub": "اسحب للتحديث أو جرّب لاحقًا.",
+  "holidayGiftBoxShowingRegion": "إظهار العروض لمنطقة {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "عرض التفاصيل",
+  "holidayGiftBoxPromoCopied": "تم نسخ رمز الخصم",
+  "holidayGiftBoxPromoCode": "رمز الخصم",
+  "giftDiscountOff": "خصم {percent}٪",
+  "giftDiscountUpToOff": "حتى {percent}٪ خصم",
+  "holidayGiftBoxTerms": "الشروط والأحكام",
+  "holidayGiftBoxVisitSite": "زيارة موقع الشريك",
+  "holidayGiftBoxValidUntil": "صالح حتى {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "صالح ما دام متاحًا",
+  "holidayGiftBoxUpdated": "تم التحديث {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "اللغة: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "إعادة المحاولة",
+  "holidayGiftBoxLoadFailed": "فشل تحميل العروض",
+  "regionEurope": "أوروبا",
+  "regionNorthAmerica": "أمريكا الشمالية",
+  "regionAsia": "آسيا",
+  "regionAustralia": "أستراليا / أوقيانوسيا",
+  "regionWorldwide": "حول العالم",
+  "regionAfrica": "أفريقيا",
+  "regionMiddleEast": "الشرق الأوسط",
+  "regionSouthAmerica": "أمريكا الجنوبية"
 }

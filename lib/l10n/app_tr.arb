@@ -117,10 +117,10 @@
   "coffeeBeansDetails": "Kahve Çekirdeği Detayları",
   "edit": "Düzenle",
   "coffeeBeansNotFound": "Kahve çekirdekleri bulunamadı",
-    "basicInformation": "Temel bilgiler",
+  "basicInformation": "Temel bilgiler",
   "geographyTerroir": "Coğrafya/Terroir",
   "variety": "Çeşit",
-  "region": "Bölge",
+  "region": "Kuzey Amerika",
   "elevation": "Yükseklik",
   "harvestDate": "Hasat Tarihi",
   "processing": "İşleme",
@@ -558,7 +558,7 @@
   "totalBeansBrewedLabel": "Toplam kullanılan çekirdek",
   "newBeansTriedLabel": "Denenen yeni çekirdekler",
   "originsExploredLabel": "Keşfedilen menşeler",
-  "regionsExploredLabel": "Keşfedilen bölgeler",
+  "regionsExploredLabel": "Avrupa",
   "newRoastersDiscoveredLabel": "Keşfedilen yeni kavurucular",
   "favoriteRoastersLabel": "Favori kahve kavurucuları",
   "topOriginsLabel": "Önde gelen menşeler",
@@ -566,108 +566,187 @@
   "brewStats": "Demleme istatistikleri",
   "showMore": "Daha fazla göster",
   "showLess": "Daha az göster",
-"unpublishRecipeDialogTitle": "Tarifi özel yap",
-"@unpublishRecipeDialogTitle": {
-  "description": "Tarif yayınını kaldırma onayı iletişim kutusu için başlık metni"
-},
-"unpublishRecipeDialogMessage": "Uyarı: Bu tarifi özel yapmak şunlara neden olur:",
-"@unpublishRecipeDialogMessage": {
-  "description": "Gizlilik değişikliklerini tanıtan uyarı mesajı"
-},
-"unpublishRecipeDialogBullet1": "Genel arama sonuçlarından kaldırılır",
-"@unpublishRecipeDialogBullet1": {
-  "description": "İlk gizlilik değişikliği maddesi"
-},
-"unpublishRecipeDialogBullet2": "Yeni kullanıcıların içe aktarmasını engeller",
-"@unpublishRecipeDialogBullet2": {
-  "description": "İkinci gizlilik değişikliği maddesi"
-},
-"unpublishRecipeDialogBullet3": "Daha önce içe aktarmış olan kullanıcılar kopyalarını saklar",
-"@unpublishRecipeDialogBullet3": {
-  "description": "Üçüncü gizlilik değişikliği maddesi"
-},
-"unpublishRecipeDialogKeepPublic": "Herkese açık bırak",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "Tarifi herkese açık bırakma düğmesi metni"
-},
-"unpublishRecipeDialogMakePrivate": "Özel yap",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "Tarifi özel yapma düğmesi metni"
-},
-"recipeUnpublishSuccess": "Tarif yayından başarıyla kaldırıldı",
-"@recipeUnpublishSuccess": {
-  "description": "Bir tarifin yayından kaldırıldığında gösterilen başarı mesajı"
-},
-"recipeUnpublishError": "Tarif yayından kaldırılamadı: {error}",
-"@recipeUnpublishError": {
-  "description": "Bir tarifin yayından kaldırılamadığında gösterilen hata mesajı",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "Veritabanı hatası"
+  "unpublishRecipeDialogTitle": "Tarifi özel yap",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Tarif yayınını kaldırma onayı iletişim kutusu için başlık metni"
+  },
+  "unpublishRecipeDialogMessage": "Uyarı: Bu tarifi özel yapmak şunlara neden olur:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Gizlilik değişikliklerini tanıtan uyarı mesajı"
+  },
+  "unpublishRecipeDialogBullet1": "Genel arama sonuçlarından kaldırılır",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "İlk gizlilik değişikliği maddesi"
+  },
+  "unpublishRecipeDialogBullet2": "Yeni kullanıcıların içe aktarmasını engeller",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "İkinci gizlilik değişikliği maddesi"
+  },
+  "unpublishRecipeDialogBullet3": "Daha önce içe aktarmış olan kullanıcılar kopyalarını saklar",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Üçüncü gizlilik değişikliği maddesi"
+  },
+  "unpublishRecipeDialogKeepPublic": "Herkese açık bırak",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Tarifi herkese açık bırakma düğmesi metni"
+  },
+  "unpublishRecipeDialogMakePrivate": "Özel yap",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Tarifi özel yapma düğmesi metni"
+  },
+  "recipeUnpublishSuccess": "Tarif yayından başarıyla kaldırıldı",
+  "@recipeUnpublishSuccess": {
+    "description": "Bir tarifin yayından kaldırıldığında gösterilen başarı mesajı"
+  },
+  "recipeUnpublishError": "Tarif yayından kaldırılamadı: {error}",
+  "@recipeUnpublishError": {
+    "description": "Bir tarifin yayından kaldırılamadığında gösterilen hata mesajı",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Veritabanı hatası"
+      }
     }
-  }
-},
-"recipePublicTooltip": "Tarif herkese açık - gizli yapmak için dokunun",
-"recipePrivateTooltip": "Tarif gizli - herkese açık yapmak için paylaşın",
-"inventory": "Stok",
-"amountLeft": "Kalan miktar",
-"enterAmountLeft": "Kalan miktarı girin",
-"fieldClearButtonTooltip": "Temizle",
-"dateFieldClearButtonTooltip": "Tarihi temizle",
-"chipInputDuplicateError": "Bu etiket zaten eklenmiş",
-"chipInputMaxTagsError": "Maksimum etiket sayısına ulaşıldı ({maxChips})",
-"chipInputHintText": "Etiket ekle...",
-"unitFieldRequiredError": "Bu alan zorunludur",
-"unitFieldInvalidNumberError": "Lütfen geçerli bir sayı girin",
-"unitFieldMinValueError": "Değer en az {min} olmalıdır",
-"unitFieldMaxValueError": "Değer en fazla {max} olmalıdır",
-"numericFieldRequiredError": "Bu alan zorunludur",
-"numericFieldInvalidNumberError": "Lütfen geçerli bir sayı girin",
-"numericFieldMinValueError": "Değer en az {min} olmalıdır",
-"numericFieldMaxValueError": "Değer en fazla {max} olmalıdır",
-"dropdownSearchHintText": "Aramak için yazın...",
-"dropdownSearchLoadingError": "Öneriler yüklenirken hata: {error}",
-"dropdownSearchNoResults": "Sonuç bulunamadı",
-"dropdownSearchLoading": "Aranıyor...",
-"dropdownSearchUseCustomEntry": "\"{currentQuery}\" kullan",
-"requiredInfoSubtitle": "* Zorunlu",
-"inventoryWeightExample": "örn. 250.5",
-"unsavedChangesTitle": "Kaydedilmemiş Değişiklikler",
-"unsavedChangesMessage": "Kaydedilmemiş değişiklikleriniz var. Onları silmek istediğinizden emin misiniz?",
-"unsavedChangesStay": "Kal",
-"unsavedChangesDiscard": "Sil",
-"beansWeightAddedBack": "{amount}{unit} {beanName}'e geri eklendi. Yeni ağırlık: {newWeight}{unit}",
-"@beansWeightAddedBack": {
-  "description": "Kahve ağırlığı demleme günlüğünden kaldırıldıktan sonra çekirdeklere geri eklendiğinde gösterilen mesaj",
-  "placeholders": {
-    "amount": { "type": "String", "example": "18.5" },
-    "beanName": { "type": "String", "example": "Etiyopya Yirgacheffe" },
-    "newWeight": { "type": "String", "example": "250.0" },
-    "unit": { "type": "String", "example": "g" }
-  }
-},
-"beansWeightSubtracted": "{amount}{unit} {beanName}'den çıkarıldı. Yeni ağırlık: {newWeight}{unit}",
-"@beansWeightSubtracted": {
-  "description": "Kahve ağırlığı çekirdeklerden çıkarıldığında gösterilen mesaj",
-  "placeholders": {
-    "amount": { "type": "String", "example": "18.5" },
-    "beanName": { "type": "String", "example": "Etiyopya Yirgacheffe" },
-    "newWeight": { "type": "String", "example": "250.0" },
-    "unit": { "type": "String", "example": "g" }
-  }
-},
-"notifications": "Bildirimler",
-"notificationsDisabledInSystemSettings": "Sistem ayarlarında devre dışı",
-"openSettings": "Ayarları aç",
-"notificationsDisabledDialogTitle": "Bildirimler sistem ayarlarında devre dışı",
-"notificationsDisabledDialogContent": "Bildirimleri cihaz ayarlarınızda devre dışı bıraktınız. Bildirimleri etkinleştirmek için lütfen cihaz ayarlarınızı açın ve Timer.Coffee için bildirimlere izin verin.",
-"notificationDebug": "Bildirim hata ayıklama",
-"testNotificationSystem": "Bildirim sistemini test et",
-"notificationsEnabled": "Etkin",
-"notificationsDisabled": "Devre dışı",
-"notificationPermissionDialogTitle": "Bildirimler Etkinleştirilsin mi?",
-"notificationPermissionDialogMessage": "Yararlı güncellemeleri (örneğin, yeni uygulama sürümleri hakkında) almak için bildirimleri etkinleştirebilirsiniz. Şimdi etkinleştirin veya bu ayarı istediğiniz zaman ayarlardan değiştirin.",
-"notificationPermissionEnable": "Etkinleştir",
-"notificationPermissionSkip": "Şimdi Değil"
+  },
+  "recipePublicTooltip": "Tarif herkese açık - gizli yapmak için dokunun",
+  "recipePrivateTooltip": "Tarif gizli - herkese açık yapmak için paylaşın",
+  "inventory": "Stok",
+  "amountLeft": "Kalan miktar",
+  "enterAmountLeft": "Kalan miktarı girin",
+  "fieldClearButtonTooltip": "Temizle",
+  "dateFieldClearButtonTooltip": "Tarihi temizle",
+  "chipInputDuplicateError": "Bu etiket zaten eklenmiş",
+  "chipInputMaxTagsError": "Maksimum etiket sayısına ulaşıldı ({maxChips})",
+  "chipInputHintText": "Etiket ekle...",
+  "unitFieldRequiredError": "Bu alan zorunludur",
+  "unitFieldInvalidNumberError": "Lütfen geçerli bir sayı girin",
+  "unitFieldMinValueError": "Değer en az {min} olmalıdır",
+  "unitFieldMaxValueError": "Değer en fazla {max} olmalıdır",
+  "numericFieldRequiredError": "Bu alan zorunludur",
+  "numericFieldInvalidNumberError": "Lütfen geçerli bir sayı girin",
+  "numericFieldMinValueError": "Değer en az {min} olmalıdır",
+  "numericFieldMaxValueError": "Değer en fazla {max} olmalıdır",
+  "dropdownSearchHintText": "Aramak için yazın...",
+  "dropdownSearchLoadingError": "Öneriler yüklenirken hata: {error}",
+  "dropdownSearchNoResults": "Sonuç bulunamadı",
+  "dropdownSearchLoading": "Aranıyor...",
+  "dropdownSearchUseCustomEntry": "\"{currentQuery}\" kullan",
+  "requiredInfoSubtitle": "* Zorunlu",
+  "inventoryWeightExample": "örn. 250.5",
+  "unsavedChangesTitle": "Kaydedilmemiş Değişiklikler",
+  "unsavedChangesMessage": "Kaydedilmemiş değişiklikleriniz var. Onları silmek istediğinizden emin misiniz?",
+  "unsavedChangesStay": "Kal",
+  "unsavedChangesDiscard": "Sil",
+  "beansWeightAddedBack": "{amount}{unit} {beanName}'e geri eklendi. Yeni ağırlık: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Kahve ağırlığı demleme günlüğünden kaldırıldıktan sonra çekirdeklere geri eklendiğinde gösterilen mesaj",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Etiyopya Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  },
+  "beansWeightSubtracted": "{amount}{unit} {beanName}'den çıkarıldı. Yeni ağırlık: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Kahve ağırlığı çekirdeklerden çıkarıldığında gösterilen mesaj",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Etiyopya Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  },
+  "notifications": "Bildirimler",
+  "notificationsDisabledInSystemSettings": "Sistem ayarlarında devre dışı",
+  "openSettings": "Ayarları aç",
+  "notificationsDisabledDialogTitle": "Bildirimler sistem ayarlarında devre dışı",
+  "notificationsDisabledDialogContent": "Bildirimleri cihaz ayarlarınızda devre dışı bıraktınız. Bildirimleri etkinleştirmek için lütfen cihaz ayarlarınızı açın ve Timer.Coffee için bildirimlere izin verin.",
+  "notificationDebug": "Bildirim hata ayıklama",
+  "testNotificationSystem": "Bildirim sistemini test et",
+  "notificationsEnabled": "Etkin",
+  "notificationsDisabled": "Devre dışı",
+  "notificationPermissionDialogTitle": "Bildirimler Etkinleştirilsin mi?",
+  "notificationPermissionDialogMessage": "Yararlı güncellemeleri (örneğin, yeni uygulama sürümleri hakkında) almak için bildirimleri etkinleştirebilirsiniz. Şimdi etkinleştirin veya bu ayarı istediğiniz zaman ayarlardan değiştirin.",
+  "notificationPermissionEnable": "Etkinleştir",
+  "notificationPermissionSkip": "Şimdi Değil",
+  "holidayGiftBoxTitle": "Tatil Hediye Kutusu",
+  "holidayGiftBoxInfoTrigger": "Bu nedir?",
+  "holidayGiftBoxInfoBody": "Ortaklardan özenle seçilmiş sezonluk fırsatlar. Linkler afiliye değil - amacımız bu tatil döneminde Timer.Coffee kullanıcılarına biraz neşe katmak. Yenilemek için aşağı çekin.",
+  "holidayGiftBoxNoOffers": "Şu anda teklif yok.",
+  "holidayGiftBoxNoOffersSub": "Yenilemek için aşağı çekin veya daha sonra tekrar deneyin.",
+  "holidayGiftBoxShowingRegion": "{region} için teklifler gösteriliyor",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Detayları gör",
+  "holidayGiftBoxPromoCopied": "Promosyon kodu kopyalandı",
+  "holidayGiftBoxPromoCode": "Promosyon kodu",
+  "giftDiscountOff": "{percent}% indirim",
+  "giftDiscountUpToOff": "En fazla {percent}% indirim",
+  "holidayGiftBoxTerms": "Şartlar ve koşullar",
+  "holidayGiftBoxVisitSite": "İş ortağı sitesini ziyaret et",
+  "holidayGiftBoxValidUntil": "{date} tarihine kadar geçerli",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Stoklar tükenene kadar geçerli",
+  "holidayGiftBoxUpdated": "{date} tarihinde güncellendi",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Dil: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Tekrar dene",
+  "holidayGiftBoxLoadFailed": "Teklifler yüklenemedi",
+  "regionEurope": "Avrupa",
+  "regionNorthAmerica": "Kuzey Amerika",
+  "regionAsia": "Asya",
+  "regionAustralia": "Avustralya / Okyanusya",
+  "regionWorldwide": "Dünya genelinde",
+  "regionAfrica": "Afrika",
+  "regionMiddleEast": "Orta Doğu",
+  "regionSouthAmerica": "Güney Amerika"
 }

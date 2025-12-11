@@ -21,7 +21,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get originsExploredLabel => 'Tutkitut alkuperämaat';
 
   @override
-  String get regionsExploredLabel => 'Tutkitut alueet';
+  String get regionsExploredLabel => 'Eurooppa';
 
   @override
   String get newRoastersDiscoveredLabel => 'Löydetyt uudet paahtimot';
@@ -433,7 +433,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get variety => 'Lajike';
 
   @override
-  String get region => 'Alue';
+  String get region => 'Pohjois-Amerikka';
 
   @override
   String get elevation => 'Kasvukorkeus';
@@ -1513,4 +1513,100 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get notificationPermissionSkip => 'Ei nyt';
+
+  @override
+  String get holidayGiftBoxTitle => 'Joulun lahjaboksi';
+
+  @override
+  String get holidayGiftBoxInfoTrigger => 'Mikä tämä on?';
+
+  @override
+  String get holidayGiftBoxInfoBody =>
+      'Kuratut kausitarjoukset kumppaneilta. Linkit eivät ole affiliate-linkkejä - haluamme vain tuoda hieman iloa Timer.Coffeen käyttäjille tänä juhlasesonkina. Päivitä vetämällä alas.';
+
+  @override
+  String get holidayGiftBoxNoOffers => 'Ei tarjouksia tällä hetkellä.';
+
+  @override
+  String get holidayGiftBoxNoOffersSub =>
+      'Päivitä vetämällä tai kokeile myöhemmin.';
+
+  @override
+  String holidayGiftBoxShowingRegion(String region) {
+    return 'Näytetään tarjouksia alueelle $region';
+  }
+
+  @override
+  String get holidayGiftBoxViewDetails => 'Näytä tiedot';
+
+  @override
+  String get holidayGiftBoxPromoCopied => 'Alennuskoodi kopioitu';
+
+  @override
+  String get holidayGiftBoxPromoCode => 'Alennuskoodi';
+
+  @override
+  String giftDiscountOff(String percent) {
+    return '$percent % alennus';
+  }
+
+  @override
+  String giftDiscountUpToOff(String percent) {
+    return 'Jopa $percent % alennus';
+  }
+
+  @override
+  String get holidayGiftBoxTerms => 'Ehdot';
+
+  @override
+  String get holidayGiftBoxVisitSite => 'Vieraile kumppanin sivustolla';
+
+  @override
+  String holidayGiftBoxValidUntil(String date) {
+    return 'Voimassa $date asti';
+  }
+
+  @override
+  String get holidayGiftBoxValidWhileAvailable =>
+      'Voimassa niin kauan kuin tuotteita riittää';
+
+  @override
+  String holidayGiftBoxUpdated(String date) {
+    return 'Päivitetty $date';
+  }
+
+  @override
+  String holidayGiftBoxLanguage(String language) {
+    return 'Kieli: $language';
+  }
+
+  @override
+  String get holidayGiftBoxRetry => 'Yritä uudelleen';
+
+  @override
+  String get holidayGiftBoxLoadFailed => 'Tarjousten lataus epäonnistui';
+
+  @override
+  String get regionEurope => 'Eurooppa';
+
+  @override
+  String get regionNorthAmerica => 'Pohjois-Amerikka';
+
+  @override
+  String get regionAsia => 'Aasia';
+
+  @override
+  String get regionAustralia => 'Australia / Oseania';
+
+  @override
+  String get regionWorldwide => 'Koko maailma';
+
+  @override
+  String get regionAfrica => 'Afrikka';
+
+  @override
+  String get regionMiddleEast => 'Lähi-itä';
+
+  @override
+  String get regionSouthAmerica => 'Etelä-Amerikka';
 }

@@ -90,7 +90,7 @@
   "totalBeansBrewedLabel": "Total boabe folosite",
   "newBeansTriedLabel": "Boabe noi încercate",
   "originsExploredLabel": "Origini explorate",
-  "regionsExploredLabel": "Regiuni explorate",
+  "regionsExploredLabel": "Europa",
   "newRoastersDiscoveredLabel": "Prăjitorii noi descoperiți",
   "favoriteRoastersLabel": "Prăjitoriile preferate",
   "topOriginsLabel": "Top origini",
@@ -126,10 +126,10 @@
   "coffeeBeansDetails": "Detalii boabe de cafea",
   "edit": "Editează",
   "coffeeBeansNotFound": "Boabele de cafea nu au fost găsite",
-    "basicInformation": "Date de bază",
+  "basicInformation": "Date de bază",
   "geographyTerroir": "Geografie/Terroir",
   "variety": "Soi",
-  "region": "Regiune",
+  "region": "America de Nord",
   "elevation": "Altitudine",
   "harvestDate": "Data recoltării",
   "processing": "Procesare",
@@ -566,108 +566,187 @@
   "brewStats": "Statistici de preparare",
   "showMore": "Arată mai mult",
   "showLess": "Arată mai puțin",
-"unpublishRecipeDialogTitle": "Setează rețeta ca privată",
-"@unpublishRecipeDialogTitle": {
-  "description": "Textul titlului pentru dialogul de confirmare a anulării publicării rețetei"
-},
-"unpublishRecipeDialogMessage": "Atenție: Setarea acestei rețete ca privată va duce la:",
-"@unpublishRecipeDialogMessage": {
-  "description": "Mesaj de avertizare care introduce modificările de confidențialitate"
-},
-"unpublishRecipeDialogBullet1": "Eliminarea acesteia din rezultatele căutărilor publice",
-"@unpublishRecipeDialogBullet1": {
-  "description": "Primul punct al modificării de confidențialitate"
-},
-"unpublishRecipeDialogBullet2": "Împiedicarea utilizatorilor noi să o importe",
-"@unpublishRecipeDialogBullet2": {
-  "description": "Al doilea punct al modificării de confidențialitate"
-},
-"unpublishRecipeDialogBullet3": "Utilizatorii care au importat-o deja își vor păstra copiile",
-"@unpublishRecipeDialogBullet3": {
-  "description": "Al treilea punct al modificării de confidențialitate"
-},
-"unpublishRecipeDialogKeepPublic": "Păstrează publică",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "Textul butonului pentru a păstra rețeta publică"
-},
-"unpublishRecipeDialogMakePrivate": "Setează ca privată",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "Textul butonului pentru a seta rețeta ca privată"
-},
-"recipeUnpublishSuccess": "Publicarea rețetei a fost anulată cu succes",
-"@recipeUnpublishSuccess": {
-  "description": "Mesaj de succes la anularea publicării unei rețete"
-},
-"recipeUnpublishError": "Eroare la anularea publicării rețetei: {error}",
-"@recipeUnpublishError": {
-  "description": "Mesaj de eroare la eșecul anulării publicării unei rețete",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "Eroare la baza de date"
+  "unpublishRecipeDialogTitle": "Setează rețeta ca privată",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Textul titlului pentru dialogul de confirmare a anulării publicării rețetei"
+  },
+  "unpublishRecipeDialogMessage": "Atenție: Setarea acestei rețete ca privată va duce la:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Mesaj de avertizare care introduce modificările de confidențialitate"
+  },
+  "unpublishRecipeDialogBullet1": "Eliminarea acesteia din rezultatele căutărilor publice",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "Primul punct al modificării de confidențialitate"
+  },
+  "unpublishRecipeDialogBullet2": "Împiedicarea utilizatorilor noi să o importe",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Al doilea punct al modificării de confidențialitate"
+  },
+  "unpublishRecipeDialogBullet3": "Utilizatorii care au importat-o deja își vor păstra copiile",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Al treilea punct al modificării de confidențialitate"
+  },
+  "unpublishRecipeDialogKeepPublic": "Păstrează publică",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Textul butonului pentru a păstra rețeta publică"
+  },
+  "unpublishRecipeDialogMakePrivate": "Setează ca privată",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Textul butonului pentru a seta rețeta ca privată"
+  },
+  "recipeUnpublishSuccess": "Publicarea rețetei a fost anulată cu succes",
+  "@recipeUnpublishSuccess": {
+    "description": "Mesaj de succes la anularea publicării unei rețete"
+  },
+  "recipeUnpublishError": "Eroare la anularea publicării rețetei: {error}",
+  "@recipeUnpublishError": {
+    "description": "Mesaj de eroare la eșecul anulării publicării unei rețete",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Eroare la baza de date"
+      }
     }
-  }
-},
-"recipePublicTooltip": "Rețeta este publică - atingeți pentru a o face privată",
-"recipePrivateTooltip": "Rețeta este privată - partajați pentru a o face publică",
-"inventory": "Stoc",
-"amountLeft": "Cantitate rămasă",
-"enterAmountLeft": "Introdu cantitatea rămasă",
-"fieldClearButtonTooltip": "Șterge",
-"dateFieldClearButtonTooltip": "Șterge data",
-"chipInputDuplicateError": "Acest tag a fost deja adăugat",
-"chipInputMaxTagsError": "Număr maxim de taguri atins ({maxChips})",
-"chipInputHintText": "Adaugă un tag...",
-"unitFieldRequiredError": "Acest câmp este obligatoriu",
-"unitFieldInvalidNumberError": "Vă rugăm introduceți un număr valid",
-"unitFieldMinValueError": "Valoarea trebuie să fie cel puțin {min}",
-"unitFieldMaxValueError": "Valoarea trebuie să fie cel mult {max}",
-"numericFieldRequiredError": "Acest câmp este obligatoriu",
-"numericFieldInvalidNumberError": "Vă rugăm introduceți un număr valid",
-"numericFieldMinValueError": "Valoarea trebuie să fie cel puțin {min}",
-"numericFieldMaxValueError": "Valoarea trebuie să fie cel mult {max}",
-"dropdownSearchHintText": "Tastați pentru a căuta...",
-"dropdownSearchLoadingError": "Eroare la încărcarea sugestiilor: {error}",
-"dropdownSearchNoResults": "Nu s-au găsit rezultate",
-"dropdownSearchLoading": "Se caută...",
-"dropdownSearchUseCustomEntry": "Folosiți \"{currentQuery}\"",
-"requiredInfoSubtitle": "* Obligatoriu",
-"inventoryWeightExample": "ex. 250.5",
-"unsavedChangesTitle": "Modificări nesalvate",
-"unsavedChangesMessage": "Aveți modificări nesalvate. Sigur doriți să le renunțați?",
-"unsavedChangesStay": "Rămâi",
-"unsavedChangesDiscard": "Renunță",
-"beansWeightAddedBack": "Adăugat {amount}{unit} înapoi la {beanName}. Greutate nouă: {newWeight}{unit}",
-"@beansWeightAddedBack": {
-  "description": "Mesaj afișat când greutatea cafelei este adăugată înapoi la boabe după eliminarea din jurnalul de preparare",
-  "placeholders": {
-    "amount": { "type": "String", "example": "18.5" },
-    "beanName": { "type": "String", "example": "Etiopia Yirgacheffe" },
-    "newWeight": { "type": "String", "example": "250.0" },
-    "unit": { "type": "String", "example": "g" }
-  }
-},
-"beansWeightSubtracted": "Scăzut {amount}{unit} din {beanName}. Greutate nouă: {newWeight}{unit}",
-"@beansWeightSubtracted": {
-  "description": "Mesaj afișat când greutatea cafelei este scăzută din boabe",
-  "placeholders": {
-    "amount": { "type": "String", "example": "18.5" },
-    "beanName": { "type": "String", "example": "Etiopia Yirgacheffe" },
-    "newWeight": { "type": "String", "example": "250.0" },
-    "unit": { "type": "String", "example": "g" }
-  }
-},
-"notifications": "Notificări",
-"notificationsDisabledInSystemSettings": "Dezactivat în setările sistemului",
-"openSettings": "Deschide setările",
-"notificationsDisabledDialogTitle": "Notificări dezactivate în setările sistemului",
-"notificationsDisabledDialogContent": "Ați dezactivat notificările în setările dispozitivului dvs. Pentru a activa notificările, vă rugăm să deschideți setările dispozitivului și să permiteți notificări pentru Timer.Coffee.",
-"notificationDebug": "Depanare notificări",
-"testNotificationSystem": "Testează sistemul de notificări",
-"notificationsEnabled": "Activate",
-"notificationsDisabled": "Dezactivate",
-"notificationPermissionDialogTitle": "Activați Notificările?",
-"notificationPermissionDialogMessage": "Puteți activa notificările pentru a primi actualizări utile (ex. despre versiuni noi ale aplicației). Activați acum sau schimbați acest lucru în orice moment în setări.",
-"notificationPermissionEnable": "Activează",
-"notificationPermissionSkip": "Nu acum"
+  },
+  "recipePublicTooltip": "Rețeta este publică - atingeți pentru a o face privată",
+  "recipePrivateTooltip": "Rețeta este privată - partajați pentru a o face publică",
+  "inventory": "Stoc",
+  "amountLeft": "Cantitate rămasă",
+  "enterAmountLeft": "Introdu cantitatea rămasă",
+  "fieldClearButtonTooltip": "Șterge",
+  "dateFieldClearButtonTooltip": "Șterge data",
+  "chipInputDuplicateError": "Acest tag a fost deja adăugat",
+  "chipInputMaxTagsError": "Număr maxim de taguri atins ({maxChips})",
+  "chipInputHintText": "Adaugă un tag...",
+  "unitFieldRequiredError": "Acest câmp este obligatoriu",
+  "unitFieldInvalidNumberError": "Vă rugăm introduceți un număr valid",
+  "unitFieldMinValueError": "Valoarea trebuie să fie cel puțin {min}",
+  "unitFieldMaxValueError": "Valoarea trebuie să fie cel mult {max}",
+  "numericFieldRequiredError": "Acest câmp este obligatoriu",
+  "numericFieldInvalidNumberError": "Vă rugăm introduceți un număr valid",
+  "numericFieldMinValueError": "Valoarea trebuie să fie cel puțin {min}",
+  "numericFieldMaxValueError": "Valoarea trebuie să fie cel mult {max}",
+  "dropdownSearchHintText": "Tastați pentru a căuta...",
+  "dropdownSearchLoadingError": "Eroare la încărcarea sugestiilor: {error}",
+  "dropdownSearchNoResults": "Nu s-au găsit rezultate",
+  "dropdownSearchLoading": "Se caută...",
+  "dropdownSearchUseCustomEntry": "Folosiți \"{currentQuery}\"",
+  "requiredInfoSubtitle": "* Obligatoriu",
+  "inventoryWeightExample": "ex. 250.5",
+  "unsavedChangesTitle": "Modificări nesalvate",
+  "unsavedChangesMessage": "Aveți modificări nesalvate. Sigur doriți să le renunțați?",
+  "unsavedChangesStay": "Rămâi",
+  "unsavedChangesDiscard": "Renunță",
+  "beansWeightAddedBack": "Adăugat {amount}{unit} înapoi la {beanName}. Greutate nouă: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Mesaj afișat când greutatea cafelei este adăugată înapoi la boabe după eliminarea din jurnalul de preparare",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Etiopia Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  },
+  "beansWeightSubtracted": "Scăzut {amount}{unit} din {beanName}. Greutate nouă: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Mesaj afișat când greutatea cafelei este scăzută din boabe",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Etiopia Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  },
+  "notifications": "Notificări",
+  "notificationsDisabledInSystemSettings": "Dezactivat în setările sistemului",
+  "openSettings": "Deschide setările",
+  "notificationsDisabledDialogTitle": "Notificări dezactivate în setările sistemului",
+  "notificationsDisabledDialogContent": "Ați dezactivat notificările în setările dispozitivului dvs. Pentru a activa notificările, vă rugăm să deschideți setările dispozitivului și să permiteți notificări pentru Timer.Coffee.",
+  "notificationDebug": "Depanare notificări",
+  "testNotificationSystem": "Testează sistemul de notificări",
+  "notificationsEnabled": "Activate",
+  "notificationsDisabled": "Dezactivate",
+  "notificationPermissionDialogTitle": "Activați Notificările?",
+  "notificationPermissionDialogMessage": "Puteți activa notificările pentru a primi actualizări utile (ex. despre versiuni noi ale aplicației). Activați acum sau schimbați acest lucru în orice moment în setări.",
+  "notificationPermissionEnable": "Activează",
+  "notificationPermissionSkip": "Nu acum",
+  "holidayGiftBoxTitle": "Cutia Cadou de Sărbători",
+  "holidayGiftBoxInfoTrigger": "Ce este asta?",
+  "holidayGiftBoxInfoBody": "Oferte sezoniere curate de la parteneri. Linkurile nu sunt de afiliere - vrem doar să aducem puțină bucurie utilizatorilor Timer.Coffee în aceste sărbători. Trage în jos pentru actualizare oricând.",
+  "holidayGiftBoxNoOffers": "Nicio ofertă disponibilă momentan.",
+  "holidayGiftBoxNoOffersSub": "Trage pentru a actualiza sau încearcă mai târziu.",
+  "holidayGiftBoxShowingRegion": "Afișăm oferte pentru {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Vezi detalii",
+  "holidayGiftBoxPromoCopied": "Cod promo copiat",
+  "holidayGiftBoxPromoCode": "Cod promoțional",
+  "giftDiscountOff": "{percent}% reducere",
+  "giftDiscountUpToOff": "Până la {percent}% reducere",
+  "holidayGiftBoxTerms": "Termeni și condiții",
+  "holidayGiftBoxVisitSite": "Vizitează site-ul partenerului",
+  "holidayGiftBoxValidUntil": "Valabil până la {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Valabil în limita stocului",
+  "holidayGiftBoxUpdated": "Actualizat la {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Limbă: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Reîncearcă",
+  "holidayGiftBoxLoadFailed": "Nu s-au putut încărca ofertele",
+  "regionEurope": "Europa",
+  "regionNorthAmerica": "America de Nord",
+  "regionAsia": "Asia",
+  "regionAustralia": "Australia / Oceania",
+  "regionWorldwide": "În toată lumea",
+  "regionAfrica": "Africa",
+  "regionMiddleEast": "Orientul Mijlociu",
+  "regionSouthAmerica": "America de Sud"
 }

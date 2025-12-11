@@ -4,7 +4,7 @@
   "totalBeansBrewedLabel": "Ukupno pripremljenih zrna",
   "newBeansTriedLabel": "Isprobano novih zrna",
   "originsExploredLabel": "Istražena podrijetla",
-  "regionsExploredLabel": "Istražene regije",
+  "regionsExploredLabel": "Europa",
   "newRoastersDiscoveredLabel": "Otkriveno novih pržionica",
   "favoriteRoastersLabel": "Omiljene pržionice",
   "topOriginsLabel": "Naj podrijetla",
@@ -142,7 +142,7 @@
   "basicInformation": "Osnovne informacije",
   "geographyTerroir": "Geografija/Tlo",
   "variety": "Sorta",
-  "region": "Regija",
+  "region": "Sjeverna Amerika",
   "elevation": "Nadmorska visina",
   "harvestDate": "Datum berbe",
   "processing": "Obrada",
@@ -859,5 +859,60 @@
   "notificationPermissionDialogTitle": "Omogućiti obavijesti?",
   "notificationPermissionDialogMessage": "Možete omogućiti obavijesti da biste dobili korisne ažuriranja (npr. o novim verzijama aplikacije). Omogućite sada ili promijenite ovo bilo kada u postavkama.",
   "notificationPermissionEnable": "Omogući",
-  "notificationPermissionSkip": "Ne sada"
+  "notificationPermissionSkip": "Ne sada",
+  "holidayGiftBoxTitle": "Blagdanska poklon kutija",
+  "holidayGiftBoxInfoTrigger": "Što je ovo?",
+  "holidayGiftBoxInfoBody": "Sezonske ponude naših partnera. Linkovi nisu partnerski - želimo samo donijeti malo radosti korisnicima Timer.Coffee u ove blagdane. Povucite za osvježavanje u bilo kojem trenutku.",
+  "holidayGiftBoxNoOffers": "Trenutno nema dostupnih ponuda.",
+  "holidayGiftBoxNoOffersSub": "Povucite za osvježavanje ili pokušajte kasnije.",
+  "holidayGiftBoxShowingRegion": "Prikazuju se ponude za {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Pogledaj detalje",
+  "holidayGiftBoxPromoCopied": "Promo kod kopiran",
+  "holidayGiftBoxPromoCode": "Promo kod",
+  "giftDiscountOff": "{percent}% popusta",
+  "giftDiscountUpToOff": "Do {percent}% popusta",
+  "holidayGiftBoxTerms": "Uvjeti i odredbe",
+  "holidayGiftBoxVisitSite": "Posjeti stranicu partnera",
+  "holidayGiftBoxValidUntil": "Vrijedi do {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Vrijedi dok traje zaliha",
+  "holidayGiftBoxUpdated": "Ažurirano {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Jezik: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Pokušaj ponovo",
+  "holidayGiftBoxLoadFailed": "Neuspjelo učitavanje ponuda",
+  "regionEurope": "Europa",
+  "regionNorthAmerica": "Sjeverna Amerika",
+  "regionAsia": "Azija",
+  "regionAustralia": "Australija / Oceanija",
+  "regionWorldwide": "Cijeli svijet",
+  "regionAfrica": "Afrika",
+  "regionMiddleEast": "Bliski istok",
+  "regionSouthAmerica": "Južna Amerika"
 }

@@ -117,10 +117,10 @@
   "coffeeBeansDetails": "咖啡豆详情",
   "edit": "编辑",
   "coffeeBeansNotFound": "未找到咖啡豆",
-    "basicInformation": "基本信息",
+  "basicInformation": "基本信息",
   "geographyTerroir": "地理/风土",
   "variety": "品种",
-  "region": "地区",
+  "region": "北美",
   "elevation": "海拔",
   "harvestDate": "收获日期",
   "processing": "加工方式",
@@ -558,7 +558,7 @@
   "totalBeansBrewedLabel": "使用的咖啡豆总量",
   "newBeansTriedLabel": "尝试的新咖啡豆",
   "originsExploredLabel": "探索的产地",
-  "regionsExploredLabel": "探索的地区",
+  "regionsExploredLabel": "欧洲",
   "newRoastersDiscoveredLabel": "发现的新烘焙商",
   "favoriteRoastersLabel": "最喜爱的烘焙商",
   "topOriginsLabel": "热门产地",
@@ -566,96 +566,121 @@
   "brewStats": "冲泡统计",
   "showMore": "显示更多",
   "showLess": "显示更少",
-"unpublishRecipeDialogTitle": "将配方设为私有",
-"@unpublishRecipeDialogTitle": {
-  "description": "取消发布配方确认对话框的标题文本"
-},
-"unpublishRecipeDialogMessage": "警告：将此配方设为私有将导致：",
-"@unpublishRecipeDialogMessage": {
-  "description": "介绍隐私更改的警告消息"
-},
-"unpublishRecipeDialogBullet1": "它将从公共搜索结果中删除",
-"@unpublishRecipeDialogBullet1": {
-  "description": "第一个隐私更改要点"
-},
-"unpublishRecipeDialogBullet2": "新用户将无法导入",
-"@unpublishRecipeDialogBullet2": {
-  "description": "第二个隐私更改要点"
-},
-"unpublishRecipeDialogBullet3": "已经导入的用户将保留其副本",
-"@unpublishRecipeDialogBullet3": {
-  "description": "第三个隐私更改要点"
-},
-"unpublishRecipeDialogKeepPublic": "保持公开",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "用于保持配方公开的按钮文本"
-},
-"unpublishRecipeDialogMakePrivate": "设为私有",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "用于将配方设为私有的按钮文本"
-},
-"recipeUnpublishSuccess": "配方已成功取消发布",
-"@recipeUnpublishSuccess": {
-  "description": "配方取消发布时的成功消息"
-},
-"recipeUnpublishError": "取消发布配方失败：{error}",
-"@recipeUnpublishError": {
-  "description": "配方取消发布失败时的错误消息",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "数据库错误"
+  "unpublishRecipeDialogTitle": "将配方设为私有",
+  "@unpublishRecipeDialogTitle": {
+    "description": "取消发布配方确认对话框的标题文本"
+  },
+  "unpublishRecipeDialogMessage": "警告：将此配方设为私有将导致：",
+  "@unpublishRecipeDialogMessage": {
+    "description": "介绍隐私更改的警告消息"
+  },
+  "unpublishRecipeDialogBullet1": "它将从公共搜索结果中删除",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "第一个隐私更改要点"
+  },
+  "unpublishRecipeDialogBullet2": "新用户将无法导入",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "第二个隐私更改要点"
+  },
+  "unpublishRecipeDialogBullet3": "已经导入的用户将保留其副本",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "第三个隐私更改要点"
+  },
+  "unpublishRecipeDialogKeepPublic": "保持公开",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "用于保持配方公开的按钮文本"
+  },
+  "unpublishRecipeDialogMakePrivate": "设为私有",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "用于将配方设为私有的按钮文本"
+  },
+  "recipeUnpublishSuccess": "配方已成功取消发布",
+  "@recipeUnpublishSuccess": {
+    "description": "配方取消发布时的成功消息"
+  },
+  "recipeUnpublishError": "取消发布配方失败：{error}",
+  "@recipeUnpublishError": {
+    "description": "配方取消发布失败时的错误消息",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "数据库错误"
+      }
     }
-  }
-},
-"recipePublicTooltip": "配方是公开的 - 点击设为私有",
-"recipePrivateTooltip": "配方是私有的 - 分享以公开",
-"inventory": "库存",
-"amountLeft": "剩余数量",
-"enterAmountLeft": "输入剩余数量",
-"fieldClearButtonTooltip": "清除",
-"dateFieldClearButtonTooltip": "清除日期",
-"chipInputDuplicateError": "此标签已添加",
-"chipInputMaxTagsError": "已达到最大标签数量 ({maxChips})",
-"chipInputHintText": "添加标签...",
-"unitFieldRequiredError": "此字段为必填项",
-"unitFieldInvalidNumberError": "请输入有效数字",
-"unitFieldMinValueError": "值必须至少为 {min}",
-"unitFieldMaxValueError": "值必须至多为 {max}",
-"numericFieldRequiredError": "此字段为必填项",
-"numericFieldInvalidNumberError": "请输入有效数字",
-"numericFieldMinValueError": "值必须至少为 {min}",
-"numericFieldMaxValueError": "值必须至多为 {max}",
-"dropdownSearchHintText": "输入以搜索...",
-"dropdownSearchLoadingError": "加载建议时出错：{error}",
-"dropdownSearchNoResults": "未找到结果",
-"dropdownSearchLoading": "搜索中...",
-"dropdownSearchUseCustomEntry": "使用 \"{currentQuery}\"",
-"requiredInfoSubtitle": "* 必填",
-"inventoryWeightExample": "例如：250.5",
-"unsavedChangesTitle": "未保存的更改",
-"unsavedChangesMessage": "您有未保存的更改。您确定要丢弃它们吗？",
-"unsavedChangesStay": "留下",
-"unsavedChangesDiscard": "丢弃",
-"beansWeightAddedBack": "已将 {amount}{unit} 添加回 {beanName}。新重量：{newWeight}{unit}",
-"@beansWeightAddedBack": {
-  "description": "当咖啡重量从冲泡日记中移除后重新添加到咖啡豆时显示的消息",
-  "placeholders": {
-    "amount": { "type": "String", "example": "18.5" },
-    "beanName": { "type": "String", "example": "埃塞俄比亚 耶加雪菲" },
-    "newWeight": { "type": "String", "example": "250.0" },
-    "unit": { "type": "String", "example": "克" }
-  }
-},
-"beansWeightSubtracted": "已从 {beanName} 中减去 {amount}{unit}。新重量：{newWeight}{unit}",
-"@beansWeightSubtracted": {
-  "description": "当从咖啡豆中减去咖啡重量时显示的消息",
-  "placeholders": {
-    "amount": { "type": "String", "example": "18.5" },
-    "beanName": { "type": "String", "example": "埃塞俄比亚 耶加雪菲" },
-    "newWeight": { "type": "String", "example": "250.0" },
-    "unit": { "type": "String", "example": "克" }
-  }},
+  },
+  "recipePublicTooltip": "配方是公开的 - 点击设为私有",
+  "recipePrivateTooltip": "配方是私有的 - 分享以公开",
+  "inventory": "库存",
+  "amountLeft": "剩余数量",
+  "enterAmountLeft": "输入剩余数量",
+  "fieldClearButtonTooltip": "清除",
+  "dateFieldClearButtonTooltip": "清除日期",
+  "chipInputDuplicateError": "此标签已添加",
+  "chipInputMaxTagsError": "已达到最大标签数量 ({maxChips})",
+  "chipInputHintText": "添加标签...",
+  "unitFieldRequiredError": "此字段为必填项",
+  "unitFieldInvalidNumberError": "请输入有效数字",
+  "unitFieldMinValueError": "值必须至少为 {min}",
+  "unitFieldMaxValueError": "值必须至多为 {max}",
+  "numericFieldRequiredError": "此字段为必填项",
+  "numericFieldInvalidNumberError": "请输入有效数字",
+  "numericFieldMinValueError": "值必须至少为 {min}",
+  "numericFieldMaxValueError": "值必须至多为 {max}",
+  "dropdownSearchHintText": "输入以搜索...",
+  "dropdownSearchLoadingError": "加载建议时出错：{error}",
+  "dropdownSearchNoResults": "未找到结果",
+  "dropdownSearchLoading": "搜索中...",
+  "dropdownSearchUseCustomEntry": "使用 \"{currentQuery}\"",
+  "requiredInfoSubtitle": "* 必填",
+  "inventoryWeightExample": "例如：250.5",
+  "unsavedChangesTitle": "未保存的更改",
+  "unsavedChangesMessage": "您有未保存的更改。您确定要丢弃它们吗？",
+  "unsavedChangesStay": "留下",
+  "unsavedChangesDiscard": "丢弃",
+  "beansWeightAddedBack": "已将 {amount}{unit} 添加回 {beanName}。新重量：{newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "当咖啡重量从冲泡日记中移除后重新添加到咖啡豆时显示的消息",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "埃塞俄比亚 耶加雪菲"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "克"
+      }
+    }
+  },
+  "beansWeightSubtracted": "已从 {beanName} 中减去 {amount}{unit}。新重量：{newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "当从咖啡豆中减去咖啡重量时显示的消息",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "埃塞俄比亚 耶加雪菲"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "克"
+      }
+    }
+  },
   "notifications": "通知",
   "notificationsDisabledInSystemSettings": "在系统设置中已禁用",
   "openSettings": "打开设置",
@@ -668,5 +693,60 @@
   "notificationPermissionDialogTitle": "启用通知？",
   "notificationPermissionDialogMessage": "您可以启用通知以获取有用的更新（例如，关于新应用版本）。现在启用或随时在设置中更改此选项。",
   "notificationPermissionEnable": "启用",
-  "notificationPermissionSkip": "暂不启用"
+  "notificationPermissionSkip": "暂不启用",
+  "holidayGiftBoxTitle": "假日礼盒",
+  "holidayGiftBoxInfoTrigger": "这是什么？",
+  "holidayGiftBoxInfoBody": "精选合作伙伴的季节性优惠。链接非推广性质 - 只是想在这个假日季给 Timer.Coffee 用户带来一点快乐。下拉即可刷新。",
+  "holidayGiftBoxNoOffers": "当前没有可用的优惠。",
+  "holidayGiftBoxNoOffersSub": "下拉刷新或稍后再试。",
+  "holidayGiftBoxShowingRegion": "显示 {region} 的优惠",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "查看详情",
+  "holidayGiftBoxPromoCopied": "优惠码已复制",
+  "holidayGiftBoxPromoCode": "优惠码",
+  "giftDiscountOff": "{percent}% 折扣",
+  "giftDiscountUpToOff": "最高 {percent}% 折扣",
+  "holidayGiftBoxTerms": "条款与细则",
+  "holidayGiftBoxVisitSite": "访问合作伙伴网站",
+  "holidayGiftBoxValidUntil": "有效期至 {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "库存有限，售完即止",
+  "holidayGiftBoxUpdated": "{date} 更新",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "语言：{language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "重试",
+  "holidayGiftBoxLoadFailed": "无法加载优惠",
+  "regionEurope": "欧洲",
+  "regionNorthAmerica": "北美",
+  "regionAsia": "亚洲",
+  "regionAustralia": "澳大利亚 / 大洋洲",
+  "regionWorldwide": "全球",
+  "regionAfrica": "非洲",
+  "regionMiddleEast": "中东",
+  "regionSouthAmerica": "南美洲"
 }

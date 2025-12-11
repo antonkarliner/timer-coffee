@@ -21,7 +21,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get originsExploredLabel => 'Istražena podrijetla';
 
   @override
-  String get regionsExploredLabel => 'Istražene regije';
+  String get regionsExploredLabel => 'Europa';
 
   @override
   String get newRoastersDiscoveredLabel => 'Otkriveno novih pržionica';
@@ -434,7 +434,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get variety => 'Sorta';
 
   @override
-  String get region => 'Regija';
+  String get region => 'Sjeverna Amerika';
 
   @override
   String get elevation => 'Nadmorska visina';
@@ -1515,4 +1515,99 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get notificationPermissionSkip => 'Ne sada';
+
+  @override
+  String get holidayGiftBoxTitle => 'Blagdanska poklon kutija';
+
+  @override
+  String get holidayGiftBoxInfoTrigger => 'Što je ovo?';
+
+  @override
+  String get holidayGiftBoxInfoBody =>
+      'Sezonske ponude naših partnera. Linkovi nisu partnerski - želimo samo donijeti malo radosti korisnicima Timer.Coffee u ove blagdane. Povucite za osvježavanje u bilo kojem trenutku.';
+
+  @override
+  String get holidayGiftBoxNoOffers => 'Trenutno nema dostupnih ponuda.';
+
+  @override
+  String get holidayGiftBoxNoOffersSub =>
+      'Povucite za osvježavanje ili pokušajte kasnije.';
+
+  @override
+  String holidayGiftBoxShowingRegion(String region) {
+    return 'Prikazuju se ponude za $region';
+  }
+
+  @override
+  String get holidayGiftBoxViewDetails => 'Pogledaj detalje';
+
+  @override
+  String get holidayGiftBoxPromoCopied => 'Promo kod kopiran';
+
+  @override
+  String get holidayGiftBoxPromoCode => 'Promo kod';
+
+  @override
+  String giftDiscountOff(String percent) {
+    return '$percent% popusta';
+  }
+
+  @override
+  String giftDiscountUpToOff(String percent) {
+    return 'Do $percent% popusta';
+  }
+
+  @override
+  String get holidayGiftBoxTerms => 'Uvjeti i odredbe';
+
+  @override
+  String get holidayGiftBoxVisitSite => 'Posjeti stranicu partnera';
+
+  @override
+  String holidayGiftBoxValidUntil(String date) {
+    return 'Vrijedi do $date';
+  }
+
+  @override
+  String get holidayGiftBoxValidWhileAvailable => 'Vrijedi dok traje zaliha';
+
+  @override
+  String holidayGiftBoxUpdated(String date) {
+    return 'Ažurirano $date';
+  }
+
+  @override
+  String holidayGiftBoxLanguage(String language) {
+    return 'Jezik: $language';
+  }
+
+  @override
+  String get holidayGiftBoxRetry => 'Pokušaj ponovo';
+
+  @override
+  String get holidayGiftBoxLoadFailed => 'Neuspjelo učitavanje ponuda';
+
+  @override
+  String get regionEurope => 'Europa';
+
+  @override
+  String get regionNorthAmerica => 'Sjeverna Amerika';
+
+  @override
+  String get regionAsia => 'Azija';
+
+  @override
+  String get regionAustralia => 'Australija / Oceanija';
+
+  @override
+  String get regionWorldwide => 'Cijeli svijet';
+
+  @override
+  String get regionAfrica => 'Afrika';
+
+  @override
+  String get regionMiddleEast => 'Bliski istok';
+
+  @override
+  String get regionSouthAmerica => 'Južna Amerika';
 }

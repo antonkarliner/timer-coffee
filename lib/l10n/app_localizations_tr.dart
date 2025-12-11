@@ -21,7 +21,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get originsExploredLabel => 'Keşfedilen menşeler';
 
   @override
-  String get regionsExploredLabel => 'Keşfedilen bölgeler';
+  String get regionsExploredLabel => 'Avrupa';
 
   @override
   String get newRoastersDiscoveredLabel => 'Keşfedilen yeni kavurucular';
@@ -438,7 +438,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get variety => 'Çeşit';
 
   @override
-  String get region => 'Bölge';
+  String get region => 'Kuzey Amerika';
 
   @override
   String get elevation => 'Yükseklik';
@@ -1521,4 +1521,100 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get notificationPermissionSkip => 'Şimdi Değil';
+
+  @override
+  String get holidayGiftBoxTitle => 'Tatil Hediye Kutusu';
+
+  @override
+  String get holidayGiftBoxInfoTrigger => 'Bu nedir?';
+
+  @override
+  String get holidayGiftBoxInfoBody =>
+      'Ortaklardan özenle seçilmiş sezonluk fırsatlar. Linkler afiliye değil - amacımız bu tatil döneminde Timer.Coffee kullanıcılarına biraz neşe katmak. Yenilemek için aşağı çekin.';
+
+  @override
+  String get holidayGiftBoxNoOffers => 'Şu anda teklif yok.';
+
+  @override
+  String get holidayGiftBoxNoOffersSub =>
+      'Yenilemek için aşağı çekin veya daha sonra tekrar deneyin.';
+
+  @override
+  String holidayGiftBoxShowingRegion(String region) {
+    return '$region için teklifler gösteriliyor';
+  }
+
+  @override
+  String get holidayGiftBoxViewDetails => 'Detayları gör';
+
+  @override
+  String get holidayGiftBoxPromoCopied => 'Promosyon kodu kopyalandı';
+
+  @override
+  String get holidayGiftBoxPromoCode => 'Promosyon kodu';
+
+  @override
+  String giftDiscountOff(String percent) {
+    return '$percent% indirim';
+  }
+
+  @override
+  String giftDiscountUpToOff(String percent) {
+    return 'En fazla $percent% indirim';
+  }
+
+  @override
+  String get holidayGiftBoxTerms => 'Şartlar ve koşullar';
+
+  @override
+  String get holidayGiftBoxVisitSite => 'İş ortağı sitesini ziyaret et';
+
+  @override
+  String holidayGiftBoxValidUntil(String date) {
+    return '$date tarihine kadar geçerli';
+  }
+
+  @override
+  String get holidayGiftBoxValidWhileAvailable =>
+      'Stoklar tükenene kadar geçerli';
+
+  @override
+  String holidayGiftBoxUpdated(String date) {
+    return '$date tarihinde güncellendi';
+  }
+
+  @override
+  String holidayGiftBoxLanguage(String language) {
+    return 'Dil: $language';
+  }
+
+  @override
+  String get holidayGiftBoxRetry => 'Tekrar dene';
+
+  @override
+  String get holidayGiftBoxLoadFailed => 'Teklifler yüklenemedi';
+
+  @override
+  String get regionEurope => 'Avrupa';
+
+  @override
+  String get regionNorthAmerica => 'Kuzey Amerika';
+
+  @override
+  String get regionAsia => 'Asya';
+
+  @override
+  String get regionAustralia => 'Avustralya / Okyanusya';
+
+  @override
+  String get regionWorldwide => 'Dünya genelinde';
+
+  @override
+  String get regionAfrica => 'Afrika';
+
+  @override
+  String get regionMiddleEast => 'Orta Doğu';
+
+  @override
+  String get regionSouthAmerica => 'Güney Amerika';
 }

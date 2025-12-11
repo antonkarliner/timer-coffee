@@ -84,7 +84,7 @@
   "totalBeansBrewedLabel": "Chicchi utilizzati in totale",
   "newBeansTriedLabel": "Nuovi chicchi provati",
   "originsExploredLabel": "Origini esplorate",
-  "regionsExploredLabel": "Regioni esplorate",
+  "regionsExploredLabel": "Europa",
   "newRoastersDiscoveredLabel": "Nuovi tostatori scoperti",
   "favoriteRoastersLabel": "Torrefazioni preferite",
   "topOriginsLabel": "Origini principali",
@@ -129,7 +129,7 @@
   "basicInformation": "Dati di base",
   "geographyTerroir": "Geografia/Terroir",
   "variety": "Varietà",
-  "region": "Regione",
+  "region": "Nord America",
   "elevation": "Altitudine",
   "harvestDate": "Data di raccolta",
   "processing": "Lavorazione",
@@ -567,131 +567,186 @@
   "showMore": "Mostra altro",
   "showLess": "Mostra meno",
   "unpublishRecipeDialogTitle": "Rendi la ricetta privata",
-"@unpublishRecipeDialogTitle": {
-  "description": "Testo del titolo per la finestra di dialogo di conferma dell'annullamento della pubblicazione della ricetta"
-},
-"unpublishRecipeDialogMessage": "Attenzione: Rendere questa ricetta privata:",
-"@unpublishRecipeDialogMessage": {
-  "description": "Messaggio di avviso che introduce le modifiche alla privacy"
-},
-"unpublishRecipeDialogBullet1": "La rimuoverà dai risultati di ricerca pubblici",
-"@unpublishRecipeDialogBullet1": {
-  "description": "Primo punto della modifica della privacy"
-},
-"unpublishRecipeDialogBullet2": "Impedirà a nuovi utenti di importarla",
-"@unpublishRecipeDialogBullet2": {
-  "description": "Secondo punto della modifica della privacy"
-},
-"unpublishRecipeDialogBullet3": "Gli utenti che l'hanno già importata manterranno le loro copie",
-"@unpublishRecipeDialogBullet3": {
-  "description": "Terzo punto della modifica della privacy"
-},
-"unpublishRecipeDialogKeepPublic": "Mantieni pubblica",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "Testo del pulsante per mantenere la ricetta pubblica"
-},
-"unpublishRecipeDialogMakePrivate": "Rendi privata",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "Testo del pulsante per rendere la ricetta privata"
-},
-"recipeUnpublishSuccess": "Pubblicazione della ricetta annullata con successo",
-"@recipeUnpublishSuccess": {
-  "description": "Messaggio di successo quando la pubblicazione di una ricetta viene annullata"
-},
-"recipeUnpublishError": "Errore durante l'annullamento della pubblicazione della ricetta: {error}",
-"@recipeUnpublishError": {
-  "description": "Messaggio di errore quando l'annullamento della pubblicazione di una ricetta fallisce",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "Errore del database"
+  "@unpublishRecipeDialogTitle": {
+    "description": "Testo del titolo per la finestra di dialogo di conferma dell'annullamento della pubblicazione della ricetta"
+  },
+  "unpublishRecipeDialogMessage": "Attenzione: Rendere questa ricetta privata:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Messaggio di avviso che introduce le modifiche alla privacy"
+  },
+  "unpublishRecipeDialogBullet1": "La rimuoverà dai risultati di ricerca pubblici",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "Primo punto della modifica della privacy"
+  },
+  "unpublishRecipeDialogBullet2": "Impedirà a nuovi utenti di importarla",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Secondo punto della modifica della privacy"
+  },
+  "unpublishRecipeDialogBullet3": "Gli utenti che l'hanno già importata manterranno le loro copie",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Terzo punto della modifica della privacy"
+  },
+  "unpublishRecipeDialogKeepPublic": "Mantieni pubblica",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Testo del pulsante per mantenere la ricetta pubblica"
+  },
+  "unpublishRecipeDialogMakePrivate": "Rendi privata",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Testo del pulsante per rendere la ricetta privata"
+  },
+  "recipeUnpublishSuccess": "Pubblicazione della ricetta annullata con successo",
+  "@recipeUnpublishSuccess": {
+    "description": "Messaggio di successo quando la pubblicazione di una ricetta viene annullata"
+  },
+  "recipeUnpublishError": "Errore durante l'annullamento della pubblicazione della ricetta: {error}",
+  "@recipeUnpublishError": {
+    "description": "Messaggio di errore quando l'annullamento della pubblicazione di una ricetta fallisce",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Errore del database"
+      }
     }
-  }
-},
-"recipePublicTooltip": "La ricetta è pubblica: tocca per renderla privata",
-"recipePrivateTooltip": "La ricetta è privata: condividi per renderla pubblica",
-"inventory": "Scorte",
-"amountLeft": "Quantità rimasta",
-"enterAmountLeft": "Inserisci la quantità rimasta",
-"fieldClearButtonTooltip": "Cancella",
-"dateFieldClearButtonTooltip": "Cancella data",
-"chipInputDuplicateError": "Questo tag è già stato aggiunto",
-"chipInputMaxTagsError": "Numero massimo di tag raggiunto ({maxChips})",
-"chipInputHintText": "Aggiungi un tag...",
-"unitFieldRequiredError": "Questo campo è obbligatorio",
-"unitFieldInvalidNumberError": "Inserisci un numero valido",
-"unitFieldMinValueError": "Il valore deve essere almeno {min}",
-"unitFieldMaxValueError": "Il valore deve essere al massimo {max}",
-"numericFieldRequiredError": "Questo campo è obbligatorio",
-"numericFieldInvalidNumberError": "Inserisci un numero valido",
-"numericFieldMinValueError": "Il valore deve essere almeno {min}",
-"numericFieldMaxValueError": "Il valore deve essere al massimo {max}",
-"dropdownSearchHintText": "Digita per cercare...",
-"dropdownSearchLoadingError": "Errore nel caricamento dei suggerimenti: {error}",
-"dropdownSearchNoResults": "Nessun risultato trovato",
-"dropdownSearchLoading": "Ricerca in corso...",
-"dropdownSearchUseCustomEntry": "Usa \"{currentQuery}\"",
-"requiredInfoSubtitle": "* Obbligatorio",
-"inventoryWeightExample": "es. 250,5",
-"unsavedChangesTitle": "Modifiche non salvate",
-"unsavedChangesMessage": "Hai delle modifiche non salvate. Sei sicuro di volerle scartare?",
-"unsavedChangesStay": "Rimani",
-"unsavedChangesDiscard": "Scarta",
-"beansWeightAddedBack": "Aggiunto {amount}{unit} di nuovo a {beanName}. Nuovo peso: {newWeight}{unit}",
-"@beansWeightAddedBack": {
-  "description": "Messaggio mostrato quando il peso del caffè viene aggiunto di nuovo ai chicchi dopo la rimozione dal diario di preparazione",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "Etiopia Yirgacheffe"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "250.0"
-    },
-    "unit": {
-      "type": "String",
-      "example": "g"
+  },
+  "recipePublicTooltip": "La ricetta è pubblica: tocca per renderla privata",
+  "recipePrivateTooltip": "La ricetta è privata: condividi per renderla pubblica",
+  "inventory": "Scorte",
+  "amountLeft": "Quantità rimasta",
+  "enterAmountLeft": "Inserisci la quantità rimasta",
+  "fieldClearButtonTooltip": "Cancella",
+  "dateFieldClearButtonTooltip": "Cancella data",
+  "chipInputDuplicateError": "Questo tag è già stato aggiunto",
+  "chipInputMaxTagsError": "Numero massimo di tag raggiunto ({maxChips})",
+  "chipInputHintText": "Aggiungi un tag...",
+  "unitFieldRequiredError": "Questo campo è obbligatorio",
+  "unitFieldInvalidNumberError": "Inserisci un numero valido",
+  "unitFieldMinValueError": "Il valore deve essere almeno {min}",
+  "unitFieldMaxValueError": "Il valore deve essere al massimo {max}",
+  "numericFieldRequiredError": "Questo campo è obbligatorio",
+  "numericFieldInvalidNumberError": "Inserisci un numero valido",
+  "numericFieldMinValueError": "Il valore deve essere almeno {min}",
+  "numericFieldMaxValueError": "Il valore deve essere al massimo {max}",
+  "dropdownSearchHintText": "Digita per cercare...",
+  "dropdownSearchLoadingError": "Errore nel caricamento dei suggerimenti: {error}",
+  "dropdownSearchNoResults": "Nessun risultato trovato",
+  "dropdownSearchLoading": "Ricerca in corso...",
+  "dropdownSearchUseCustomEntry": "Usa \"{currentQuery}\"",
+  "requiredInfoSubtitle": "* Obbligatorio",
+  "inventoryWeightExample": "es. 250,5",
+  "unsavedChangesTitle": "Modifiche non salvate",
+  "unsavedChangesMessage": "Hai delle modifiche non salvate. Sei sicuro di volerle scartare?",
+  "unsavedChangesStay": "Rimani",
+  "unsavedChangesDiscard": "Scarta",
+  "beansWeightAddedBack": "Aggiunto {amount}{unit} di nuovo a {beanName}. Nuovo peso: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Messaggio mostrato quando il peso del caffè viene aggiunto di nuovo ai chicchi dopo la rimozione dal diario di preparazione",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Etiopia Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
     }
-  }
-},
-"beansWeightSubtracted": "Sottratto {amount}{unit} da {beanName}. Nuovo peso: {newWeight}{unit}",
-"@beansWeightSubtracted": {
-  "description": "Messaggio mostrato quando il peso del caffè viene sottratto dai chicchi quando viene aggiunto al diario di preparazione",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "Colombia Supremo"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "231.5"
-    },
-    "unit": {
-      "type": "String",
-      "example": "g"
+  },
+  "beansWeightSubtracted": "Sottratto {amount}{unit} da {beanName}. Nuovo peso: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Messaggio mostrato quando il peso del caffè viene sottratto dai chicchi quando viene aggiunto al diario di preparazione",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Colombia Supremo"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
     }
-  }
-},
-"notifications": "Notifiche",
-"notificationsDisabledInSystemSettings": "Disattivate nelle impostazioni di sistema",
-"openSettings": "Apri impostazioni",
-"notificationsDisabledDialogTitle": "Notifiche disattivate nelle impostazioni di sistema",
-"notificationsDisabledDialogContent": "Hai disattivato le notifiche nelle impostazioni del dispositivo. Per abilitare le notifiche, apri le impostazioni del dispositivo e consenti le notifiche per Timer.Coffee.",
-"notificationDebug": "Debug notifiche",
-"testNotificationSystem": "Testa sistema di notifica",
-"notificationsEnabled": "Attivate",
-"notificationsDisabled": "Disattivate",
-"notificationPermissionDialogTitle": "Abilitare le notifiche?",
-"notificationPermissionDialogMessage": "Puoi abilitare le notifiche per ricevere aggiornamenti utili (es. su nuove versioni dell'app). Abilita ora o modifica questa impostazione in qualsiasi momento nelle impostazioni.",
-"notificationPermissionEnable": "Abilita",
-"notificationPermissionSkip": "Non ora"
+  },
+  "notifications": "Notifiche",
+  "notificationsDisabledInSystemSettings": "Disattivate nelle impostazioni di sistema",
+  "openSettings": "Apri impostazioni",
+  "notificationsDisabledDialogTitle": "Notifiche disattivate nelle impostazioni di sistema",
+  "notificationsDisabledDialogContent": "Hai disattivato le notifiche nelle impostazioni del dispositivo. Per abilitare le notifiche, apri le impostazioni del dispositivo e consenti le notifiche per Timer.Coffee.",
+  "notificationDebug": "Debug notifiche",
+  "testNotificationSystem": "Testa sistema di notifica",
+  "notificationsEnabled": "Attivate",
+  "notificationsDisabled": "Disattivate",
+  "notificationPermissionDialogTitle": "Abilitare le notifiche?",
+  "notificationPermissionDialogMessage": "Puoi abilitare le notifiche per ricevere aggiornamenti utili (es. su nuove versioni dell'app). Abilita ora o modifica questa impostazione in qualsiasi momento nelle impostazioni.",
+  "notificationPermissionEnable": "Abilita",
+  "notificationPermissionSkip": "Non ora",
+  "holidayGiftBoxTitle": "Cofanetto Regalo Festivo",
+  "holidayGiftBoxInfoTrigger": "Che cos’è?",
+  "holidayGiftBoxInfoBody": "Offerte stagionali selezionate dai partner. I link non sono affiliati - vogliamo solo portare un po' di gioia agli utenti di Timer.Coffee in queste feste. Trascina per aggiornare in qualsiasi momento.",
+  "holidayGiftBoxNoOffers": "Nessuna offerta disponibile al momento.",
+  "holidayGiftBoxNoOffersSub": "Trascina per aggiornare o riprova più tardi.",
+  "holidayGiftBoxShowingRegion": "Offerte per {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Vedi dettagli",
+  "holidayGiftBoxPromoCopied": "Codice promo copiato",
+  "holidayGiftBoxPromoCode": "Codice promo",
+  "giftDiscountOff": "{percent}% di sconto",
+  "giftDiscountUpToOff": "Fino al {percent}% di sconto",
+  "holidayGiftBoxTerms": "Termini e condizioni",
+  "holidayGiftBoxVisitSite": "Visita il sito del partner",
+  "holidayGiftBoxValidUntil": "Valido fino al {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Valido fino ad esaurimento",
+  "holidayGiftBoxUpdated": "Aggiornato il {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Lingua: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Riprova",
+  "holidayGiftBoxLoadFailed": "Caricamento delle offerte non riuscito",
+  "regionEurope": "Europa",
+  "regionNorthAmerica": "Nord America",
+  "regionAsia": "Asia",
+  "regionAustralia": "Australia / Oceania",
+  "regionWorldwide": "In tutto il mondo",
+  "regionAfrica": "Africa",
+  "regionMiddleEast": "Medio Oriente",
+  "regionSouthAmerica": "Sud America"
 }

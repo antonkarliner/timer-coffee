@@ -84,7 +84,7 @@
   "totalBeansBrewedLabel": "Totaal gebrouwen bonen",
   "newBeansTriedLabel": "Nieuwe bonen geprobeerd",
   "originsExploredLabel": "Ontdekte herkomsten",
-  "regionsExploredLabel": "Ontdekte regio's",
+  "regionsExploredLabel": "Europa",
   "newRoastersDiscoveredLabel": "Nieuwe branders ontdekt",
   "favoriteRoastersLabel": "Favoriete branderijen",
   "topOriginsLabel": "Top herkomsten",
@@ -126,10 +126,10 @@
   "coffeeBeansDetails": "Koffiebonen Details",
   "edit": "Bewerk",
   "coffeeBeansNotFound": "Koffiebonen niet gevonden",
-    "basicInformation": "Basisgegevens",
+  "basicInformation": "Basisgegevens",
   "geographyTerroir": "Geografie/Terroir",
   "variety": "Variëteit",
-  "region": "Regio",
+  "region": "Noord-Amerika",
   "elevation": "Hoogte",
   "harvestDate": "Oogstdatum",
   "processing": "Verwerking",
@@ -566,132 +566,187 @@
   "brewStats": "Brouwstatistieken",
   "showMore": "Meer weergeven",
   "showLess": "Minder weergeven",
-"unpublishRecipeDialogTitle": "Recept privé maken",
-"@unpublishRecipeDialogTitle": {
-  "description": "Titeltekst voor het bevestigingsvenster voor het intrekken van de publicatie van het recept"
-},
-"unpublishRecipeDialogMessage": "Waarschuwing: Als u dit recept privé maakt, gebeurt het volgende:",
-"@unpublishRecipeDialogMessage": {
-  "description": "Waarschuwingsbericht waarin de privacywijzigingen worden geïntroduceerd"
-},
-"unpublishRecipeDialogBullet1": "Het wordt verwijderd uit de openbare zoekresultaten",
-"@unpublishRecipeDialogBullet1": {
-  "description": "Eerste punt van de privacywijziging"
-},
-"unpublishRecipeDialogBullet2": "Nieuwe gebruikers kunnen het niet meer importeren",
-"@unpublishRecipeDialogBullet2": {
-  "description": "Tweede punt van de privacywijziging"
-},
-"unpublishRecipeDialogBullet3": "Gebruikers die het al hebben geïmporteerd, behouden hun kopieën",
-"@unpublishRecipeDialogBullet3": {
-  "description": "Derde punt van de privacywijziging"
-},
-"unpublishRecipeDialogKeepPublic": "Openbaar houden",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "Knoptekst om het recept openbaar te houden"
-},
-"unpublishRecipeDialogMakePrivate": "Privé maken",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "Knoptekst om het recept privé te maken"
-},
-"recipeUnpublishSuccess": "Publicatie van recept succesvol ingetrokken",
-"@recipeUnpublishSuccess": {
-  "description": "Succesbericht wanneer de publicatie van een recept wordt ingetrokken"
-},
-"recipeUnpublishError": "Fout bij het intrekken van de publicatie van het recept: {error}",
-"@recipeUnpublishError": {
-  "description": "Foutbericht wanneer het intrekken van de publicatie van een recept mislukt",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "Databasefout"
+  "unpublishRecipeDialogTitle": "Recept privé maken",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Titeltekst voor het bevestigingsvenster voor het intrekken van de publicatie van het recept"
+  },
+  "unpublishRecipeDialogMessage": "Waarschuwing: Als u dit recept privé maakt, gebeurt het volgende:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Waarschuwingsbericht waarin de privacywijzigingen worden geïntroduceerd"
+  },
+  "unpublishRecipeDialogBullet1": "Het wordt verwijderd uit de openbare zoekresultaten",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "Eerste punt van de privacywijziging"
+  },
+  "unpublishRecipeDialogBullet2": "Nieuwe gebruikers kunnen het niet meer importeren",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Tweede punt van de privacywijziging"
+  },
+  "unpublishRecipeDialogBullet3": "Gebruikers die het al hebben geïmporteerd, behouden hun kopieën",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Derde punt van de privacywijziging"
+  },
+  "unpublishRecipeDialogKeepPublic": "Openbaar houden",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Knoptekst om het recept openbaar te houden"
+  },
+  "unpublishRecipeDialogMakePrivate": "Privé maken",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Knoptekst om het recept privé te maken"
+  },
+  "recipeUnpublishSuccess": "Publicatie van recept succesvol ingetrokken",
+  "@recipeUnpublishSuccess": {
+    "description": "Succesbericht wanneer de publicatie van een recept wordt ingetrokken"
+  },
+  "recipeUnpublishError": "Fout bij het intrekken van de publicatie van het recept: {error}",
+  "@recipeUnpublishError": {
+    "description": "Foutbericht wanneer het intrekken van de publicatie van een recept mislukt",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Databasefout"
+      }
     }
-  }
-},
-"recipePublicTooltip": "Recept is openbaar - tik om privé te maken",
-"recipePrivateTooltip": "Recept is privé - deel om openbaar te maken",
-"inventory": "Voorraad",
-"amountLeft": "Resterende hoeveelheid",
-"enterAmountLeft": "Voer de resterende hoeveelheid in",
-"fieldClearButtonTooltip": "Wissen",
-"dateFieldClearButtonTooltip": "Datum wissen",
-"chipInputDuplicateError": "Deze tag is al toegevoegd",
-"chipInputMaxTagsError": "Maximum aantal tags bereikt ({maxChips})",
-"chipInputHintText": "Voeg een tag toe...",
-"unitFieldRequiredError": "Dit veld is verplicht",
-"unitFieldInvalidNumberError": "Voer een geldig nummer in",
-"unitFieldMinValueError": "Waarde moet minimaal {min} zijn",
-"unitFieldMaxValueError": "Waarde mag maximaal {max} zijn",
-"numericFieldRequiredError": "Dit veld is verplicht",
-"numericFieldInvalidNumberError": "Voer een geldig nummer in",
-"numericFieldMinValueError": "Waarde moet minimaal {min} zijn",
-"numericFieldMaxValueError": "Waarde mag maximaal {max} zijn",
-"dropdownSearchHintText": "Typ om te zoeken...",
-"dropdownSearchLoadingError": "Fout bij het laden van suggesties: {error}",
-"dropdownSearchNoResults": "Geen resultaten gevonden",
-"dropdownSearchLoading": "Zoeken...",
-"dropdownSearchUseCustomEntry": "Gebruik \"{currentQuery}\"",
-"requiredInfoSubtitle": "* Verplicht",
-"inventoryWeightExample": "bijv. 250.5",
-"unsavedChangesTitle": "Niet opgeslagen wijzigingen",
-"unsavedChangesMessage": "U hebt niet-opgeslagen wijzigingen. Weet u zeker dat u ze wilt verwijderen?",
-"unsavedChangesStay": "Blijven",
-"unsavedChangesDiscard": "Verwerpen",
-"beansWeightAddedBack": "{amount}{unit} terug toegevoegd aan {beanName}. Nieuw gewicht: {newWeight}{unit}",
-"@beansWeightAddedBack": {
-  "description": "Bericht weergegeven wanneer koffiegewicht wordt toegevoegd aan bonen na verwijdering uit brouwdagboek",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "Ethiopië Yirgacheffe"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "250.0"
-    },
-    "unit": {
-      "type": "String",
-      "example": "g"
+  },
+  "recipePublicTooltip": "Recept is openbaar - tik om privé te maken",
+  "recipePrivateTooltip": "Recept is privé - deel om openbaar te maken",
+  "inventory": "Voorraad",
+  "amountLeft": "Resterende hoeveelheid",
+  "enterAmountLeft": "Voer de resterende hoeveelheid in",
+  "fieldClearButtonTooltip": "Wissen",
+  "dateFieldClearButtonTooltip": "Datum wissen",
+  "chipInputDuplicateError": "Deze tag is al toegevoegd",
+  "chipInputMaxTagsError": "Maximum aantal tags bereikt ({maxChips})",
+  "chipInputHintText": "Voeg een tag toe...",
+  "unitFieldRequiredError": "Dit veld is verplicht",
+  "unitFieldInvalidNumberError": "Voer een geldig nummer in",
+  "unitFieldMinValueError": "Waarde moet minimaal {min} zijn",
+  "unitFieldMaxValueError": "Waarde mag maximaal {max} zijn",
+  "numericFieldRequiredError": "Dit veld is verplicht",
+  "numericFieldInvalidNumberError": "Voer een geldig nummer in",
+  "numericFieldMinValueError": "Waarde moet minimaal {min} zijn",
+  "numericFieldMaxValueError": "Waarde mag maximaal {max} zijn",
+  "dropdownSearchHintText": "Typ om te zoeken...",
+  "dropdownSearchLoadingError": "Fout bij het laden van suggesties: {error}",
+  "dropdownSearchNoResults": "Geen resultaten gevonden",
+  "dropdownSearchLoading": "Zoeken...",
+  "dropdownSearchUseCustomEntry": "Gebruik \"{currentQuery}\"",
+  "requiredInfoSubtitle": "* Verplicht",
+  "inventoryWeightExample": "bijv. 250.5",
+  "unsavedChangesTitle": "Niet opgeslagen wijzigingen",
+  "unsavedChangesMessage": "U hebt niet-opgeslagen wijzigingen. Weet u zeker dat u ze wilt verwijderen?",
+  "unsavedChangesStay": "Blijven",
+  "unsavedChangesDiscard": "Verwerpen",
+  "beansWeightAddedBack": "{amount}{unit} terug toegevoegd aan {beanName}. Nieuw gewicht: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Bericht weergegeven wanneer koffiegewicht wordt toegevoegd aan bonen na verwijdering uit brouwdagboek",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Ethiopië Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
     }
-  }
-},
-"beansWeightSubtracted": "{amount}{unit} afgetrokken van {beanName}. Nieuw gewicht: {newWeight}{unit}",
-"@beansWeightSubtracted": {
-  "description": "Bericht weergegeven wanneer koffiegewicht wordt afgetrokken van bonen bij toevoeging aan brouwdagboek",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "Colombia Supremo"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "231.5"
-    },
-    "unit": {
-      "type": "String",
-      "example": "g"
+  },
+  "beansWeightSubtracted": "{amount}{unit} afgetrokken van {beanName}. Nieuw gewicht: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Bericht weergegeven wanneer koffiegewicht wordt afgetrokken van bonen bij toevoeging aan brouwdagboek",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Colombia Supremo"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
     }
-  }
-},
-"notifications": "Notificaties",
-"notificationsDisabledInSystemSettings": "Uitgeschakeld in systeeminstellingen",
-"openSettings": "Instellingen openen",
-"notificationsDisabledDialogTitle": "Notificaties uitgeschakeld in systeeminstellingen",
-"notificationsDisabledDialogContent": "U heeft notificaties uitgeschakeld in de instellingen van uw apparaat. Om notificaties in te schakelen, opent u de instellingen van uw apparaat en staat u notificaties toe voor Timer.Coffee.",
-"notificationDebug": "Notificatie debug",
-"testNotificationSystem": "Test notificatiesysteem",
-"notificationsEnabled": "Ingeschakeld",
-"notificationsDisabled": "Uitgeschakeld",
-"notificationPermissionDialogTitle": "Notificaties inschakelen?",
-"notificationPermissionDialogMessage": "U kunt notificaties inschakelen om nuttige updates te ontvangen (bijv. over nieuwe app-versies). Schakel nu in of wijzig dit op elk moment in de instellingen.",
-"notificationPermissionEnable": "Inschakelen",
-"notificationPermissionSkip": "Niet nu"
+  },
+  "notifications": "Notificaties",
+  "notificationsDisabledInSystemSettings": "Uitgeschakeld in systeeminstellingen",
+  "openSettings": "Instellingen openen",
+  "notificationsDisabledDialogTitle": "Notificaties uitgeschakeld in systeeminstellingen",
+  "notificationsDisabledDialogContent": "U heeft notificaties uitgeschakeld in de instellingen van uw apparaat. Om notificaties in te schakelen, opent u de instellingen van uw apparaat en staat u notificaties toe voor Timer.Coffee.",
+  "notificationDebug": "Notificatie debug",
+  "testNotificationSystem": "Test notificatiesysteem",
+  "notificationsEnabled": "Ingeschakeld",
+  "notificationsDisabled": "Uitgeschakeld",
+  "notificationPermissionDialogTitle": "Notificaties inschakelen?",
+  "notificationPermissionDialogMessage": "U kunt notificaties inschakelen om nuttige updates te ontvangen (bijv. over nieuwe app-versies). Schakel nu in of wijzig dit op elk moment in de instellingen.",
+  "notificationPermissionEnable": "Inschakelen",
+  "notificationPermissionSkip": "Niet nu",
+  "holidayGiftBoxTitle": "Holiday Giftbox",
+  "holidayGiftBoxInfoTrigger": "Wat is dit?",
+  "holidayGiftBoxInfoBody": "Geselecteerde seizoensdeals van partners. Links zijn geen affiliate-links - ons doel is simpelweg Timer.Coffee-gebruikers in deze feestdagen wat vreugde te brengen. Trek omlaag om te verversen.",
+  "holidayGiftBoxNoOffers": "Op dit moment geen aanbiedingen.",
+  "holidayGiftBoxNoOffersSub": "Trek omlaag om te verversen of probeer later opnieuw.",
+  "holidayGiftBoxShowingRegion": "Aanbiedingen voor {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Details bekijken",
+  "holidayGiftBoxPromoCopied": "Kortingscode gekopieerd",
+  "holidayGiftBoxPromoCode": "Kortingscode",
+  "giftDiscountOff": "{percent}% korting",
+  "giftDiscountUpToOff": "Tot {percent}% korting",
+  "holidayGiftBoxTerms": "Voorwaarden",
+  "holidayGiftBoxVisitSite": "Partnerwebsite bezoeken",
+  "holidayGiftBoxValidUntil": "Geldig tot {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Geldig zolang de voorraad strekt",
+  "holidayGiftBoxUpdated": "Bijgewerkt op {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Taal: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Opnieuw proberen",
+  "holidayGiftBoxLoadFailed": "Aanbiedingen laden mislukt",
+  "regionEurope": "Europa",
+  "regionNorthAmerica": "Noord-Amerika",
+  "regionAsia": "Azië",
+  "regionAustralia": "Australië / Oceanië",
+  "regionWorldwide": "Wereldwijd",
+  "regionAfrica": "Afrika",
+  "regionMiddleEast": "Midden-Oosten",
+  "regionSouthAmerica": "Zuid-Amerika"
 }

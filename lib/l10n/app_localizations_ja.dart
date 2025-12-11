@@ -21,7 +21,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get originsExploredLabel => '探索した原産国';
 
   @override
-  String get regionsExploredLabel => '探索した地域';
+  String get regionsExploredLabel => 'ヨーロッパ';
 
   @override
   String get newRoastersDiscoveredLabel => '見つけた新しいロースター';
@@ -426,7 +426,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get variety => '品種';
 
   @override
-  String get region => '地域';
+  String get region => '北アメリカ';
 
   @override
   String get elevation => '標高';
@@ -1474,4 +1474,98 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get notificationPermissionSkip => '後で';
+
+  @override
+  String get holidayGiftBoxTitle => 'ホリデーギフトボックス';
+
+  @override
+  String get holidayGiftBoxInfoTrigger => 'これは何ですか？';
+
+  @override
+  String get holidayGiftBoxInfoBody =>
+      'パートナーからの季節限定オファーを厳選。リンクはアフィリエイトではありません - このホリデーシーズンに Timer.Coffee ユーザーへ少しでも喜びを届けたいだけです。いつでも下にスワイプして更新してください。';
+
+  @override
+  String get holidayGiftBoxNoOffers => '現在利用できるオファーはありません。';
+
+  @override
+  String get holidayGiftBoxNoOffersSub => 'スワイプして更新するか、後でもう一度お試しください。';
+
+  @override
+  String holidayGiftBoxShowingRegion(String region) {
+    return '$region向けのオファーを表示';
+  }
+
+  @override
+  String get holidayGiftBoxViewDetails => '詳細を見る';
+
+  @override
+  String get holidayGiftBoxPromoCopied => 'プロモコードをコピーしました';
+
+  @override
+  String get holidayGiftBoxPromoCode => 'プロモコード';
+
+  @override
+  String giftDiscountOff(String percent) {
+    return '$percent%オフ';
+  }
+
+  @override
+  String giftDiscountUpToOff(String percent) {
+    return '最大$percent%オフ';
+  }
+
+  @override
+  String get holidayGiftBoxTerms => '利用規約';
+
+  @override
+  String get holidayGiftBoxVisitSite => 'パートナーのサイトへ';
+
+  @override
+  String holidayGiftBoxValidUntil(String date) {
+    return '$date まで有効';
+  }
+
+  @override
+  String get holidayGiftBoxValidWhileAvailable => '在庫がある限り有効';
+
+  @override
+  String holidayGiftBoxUpdated(String date) {
+    return '$date に更新';
+  }
+
+  @override
+  String holidayGiftBoxLanguage(String language) {
+    return '言語: $language';
+  }
+
+  @override
+  String get holidayGiftBoxRetry => '再試行';
+
+  @override
+  String get holidayGiftBoxLoadFailed => 'オファーの読み込みに失敗しました';
+
+  @override
+  String get regionEurope => 'ヨーロッパ';
+
+  @override
+  String get regionNorthAmerica => '北アメリカ';
+
+  @override
+  String get regionAsia => 'アジア';
+
+  @override
+  String get regionAustralia => 'オーストラリア / オセアニア';
+
+  @override
+  String get regionWorldwide => '全世界';
+
+  @override
+  String get regionAfrica => 'アフリカ';
+
+  @override
+  String get regionMiddleEast => '中東';
+
+  @override
+  String get regionSouthAmerica => '南アメリカ';
 }

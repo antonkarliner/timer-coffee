@@ -153,6 +153,11 @@ class _InfoScreenState extends State<InfoScreen> {
                 onTap: () => snowEffectProvider.toggleSnowEffect(),
               ),
               ListTile(
+                leading: const Icon(Icons.card_giftcard),
+                title: Text(l10n.holidayGiftBoxTitle),
+                onTap: () => context.router.push(const GiftBoxListRoute()),
+              ),
+              ListTile(
                 leading: const Icon(Icons.calendar_month),
                 title: Text('${l10n.yearlyStatsAppBarTitle} – 2024'),
                 onTap: () => context.router.push(const YearlyStatsStoryRoute()),

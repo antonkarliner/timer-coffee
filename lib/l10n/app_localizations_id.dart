@@ -21,7 +21,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get originsExploredLabel => 'Asal-usul yang dijelajahi';
 
   @override
-  String get regionsExploredLabel => 'Wilayah yang dijelajahi';
+  String get regionsExploredLabel => 'Eropa';
 
   @override
   String get newRoastersDiscoveredLabel => 'Roaster baru yang ditemukan';
@@ -437,7 +437,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get variety => 'Varietas';
 
   @override
-  String get region => 'Wilayah';
+  String get region => 'Amerika Utara';
 
   @override
   String get elevation => 'Ketinggian';
@@ -1516,4 +1516,100 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get notificationPermissionSkip => 'Nanti Saja';
+
+  @override
+  String get holidayGiftBoxTitle => 'Kotak Hadiah Liburan';
+
+  @override
+  String get holidayGiftBoxInfoTrigger => 'Apa ini?';
+
+  @override
+  String get holidayGiftBoxInfoBody =>
+      'Penawaran musiman pilihan dari mitra. Tautan bukan afiliasi - tujuan kami hanya membawa sedikit kebahagiaan bagi pengguna Timer.Coffee di musim liburan ini. Tarik untuk menyegarkan kapan saja.';
+
+  @override
+  String get holidayGiftBoxNoOffers => 'Belum ada penawaran saat ini.';
+
+  @override
+  String get holidayGiftBoxNoOffersSub =>
+      'Tarik untuk menyegarkan atau coba lagi nanti.';
+
+  @override
+  String holidayGiftBoxShowingRegion(String region) {
+    return 'Menampilkan penawaran untuk $region';
+  }
+
+  @override
+  String get holidayGiftBoxViewDetails => 'Lihat detail';
+
+  @override
+  String get holidayGiftBoxPromoCopied => 'Kode promo disalin';
+
+  @override
+  String get holidayGiftBoxPromoCode => 'Kode promo';
+
+  @override
+  String giftDiscountOff(String percent) {
+    return 'Diskon $percent%';
+  }
+
+  @override
+  String giftDiscountUpToOff(String percent) {
+    return 'Hingga $percent% diskon';
+  }
+
+  @override
+  String get holidayGiftBoxTerms => 'Syarat & Ketentuan';
+
+  @override
+  String get holidayGiftBoxVisitSite => 'Kunjungi situs mitra';
+
+  @override
+  String holidayGiftBoxValidUntil(String date) {
+    return 'Berlaku hingga $date';
+  }
+
+  @override
+  String get holidayGiftBoxValidWhileAvailable =>
+      'Berlaku selama persediaan masih ada';
+
+  @override
+  String holidayGiftBoxUpdated(String date) {
+    return 'Diperbarui $date';
+  }
+
+  @override
+  String holidayGiftBoxLanguage(String language) {
+    return 'Bahasa: $language';
+  }
+
+  @override
+  String get holidayGiftBoxRetry => 'Coba lagi';
+
+  @override
+  String get holidayGiftBoxLoadFailed => 'Gagal memuat penawaran';
+
+  @override
+  String get regionEurope => 'Eropa';
+
+  @override
+  String get regionNorthAmerica => 'Amerika Utara';
+
+  @override
+  String get regionAsia => 'Asia';
+
+  @override
+  String get regionAustralia => 'Australia / Oseania';
+
+  @override
+  String get regionWorldwide => 'Seluruh dunia';
+
+  @override
+  String get regionAfrica => 'Afrika';
+
+  @override
+  String get regionMiddleEast => 'Timur Tengah';
+
+  @override
+  String get regionSouthAmerica => 'Amerika Selatan';
 }

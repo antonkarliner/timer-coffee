@@ -21,7 +21,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get originsExploredLabel => '探索的产地';
 
   @override
-  String get regionsExploredLabel => '探索的地区';
+  String get regionsExploredLabel => '欧洲';
 
   @override
   String get newRoastersDiscoveredLabel => '发现的新烘焙商';
@@ -424,7 +424,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get variety => '品种';
 
   @override
-  String get region => '地区';
+  String get region => '北美';
 
   @override
   String get elevation => '海拔';
@@ -1469,4 +1469,98 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get notificationPermissionSkip => '暂不启用';
+
+  @override
+  String get holidayGiftBoxTitle => '假日礼盒';
+
+  @override
+  String get holidayGiftBoxInfoTrigger => '这是什么？';
+
+  @override
+  String get holidayGiftBoxInfoBody =>
+      '精选合作伙伴的季节性优惠。链接非推广性质 - 只是想在这个假日季给 Timer.Coffee 用户带来一点快乐。下拉即可刷新。';
+
+  @override
+  String get holidayGiftBoxNoOffers => '当前没有可用的优惠。';
+
+  @override
+  String get holidayGiftBoxNoOffersSub => '下拉刷新或稍后再试。';
+
+  @override
+  String holidayGiftBoxShowingRegion(String region) {
+    return '显示 $region 的优惠';
+  }
+
+  @override
+  String get holidayGiftBoxViewDetails => '查看详情';
+
+  @override
+  String get holidayGiftBoxPromoCopied => '优惠码已复制';
+
+  @override
+  String get holidayGiftBoxPromoCode => '优惠码';
+
+  @override
+  String giftDiscountOff(String percent) {
+    return '$percent% 折扣';
+  }
+
+  @override
+  String giftDiscountUpToOff(String percent) {
+    return '最高 $percent% 折扣';
+  }
+
+  @override
+  String get holidayGiftBoxTerms => '条款与细则';
+
+  @override
+  String get holidayGiftBoxVisitSite => '访问合作伙伴网站';
+
+  @override
+  String holidayGiftBoxValidUntil(String date) {
+    return '有效期至 $date';
+  }
+
+  @override
+  String get holidayGiftBoxValidWhileAvailable => '库存有限，售完即止';
+
+  @override
+  String holidayGiftBoxUpdated(String date) {
+    return '$date 更新';
+  }
+
+  @override
+  String holidayGiftBoxLanguage(String language) {
+    return '语言：$language';
+  }
+
+  @override
+  String get holidayGiftBoxRetry => '重试';
+
+  @override
+  String get holidayGiftBoxLoadFailed => '无法加载优惠';
+
+  @override
+  String get regionEurope => '欧洲';
+
+  @override
+  String get regionNorthAmerica => '北美';
+
+  @override
+  String get regionAsia => '亚洲';
+
+  @override
+  String get regionAustralia => '澳大利亚 / 大洋洲';
+
+  @override
+  String get regionWorldwide => '全球';
+
+  @override
+  String get regionAfrica => '非洲';
+
+  @override
+  String get regionMiddleEast => '中东';
+
+  @override
+  String get regionSouthAmerica => '南美洲';
 }

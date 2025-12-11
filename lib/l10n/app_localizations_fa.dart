@@ -21,7 +21,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get originsExploredLabel => 'خاستگاه‌های کشف‌شده';
 
   @override
-  String get regionsExploredLabel => 'منطقه‌های کشف‌شده';
+  String get regionsExploredLabel => 'اروپا';
 
   @override
   String get newRoastersDiscoveredLabel => 'رسترهای جدید کشف‌شده';
@@ -433,7 +433,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get variety => 'گونه';
 
   @override
-  String get region => 'منطقه';
+  String get region => 'آمریکای شمالی';
 
   @override
   String get elevation => 'ارتفاع';
@@ -1506,4 +1506,99 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get notificationPermissionSkip => 'اکنون نه';
+
+  @override
+  String get holidayGiftBoxTitle => 'جعبه هدیه تعطیلات';
+
+  @override
+  String get holidayGiftBoxInfoTrigger => 'این چیست؟';
+
+  @override
+  String get holidayGiftBoxInfoBody =>
+      'پیشنهادهای فصلی انتخاب‌شده از شرکا. لینک‌ها وابسته نیستند - هدف ما فقط این است که در این تعطیلات کمی خوشحالی به کاربران Timer.Coffee هدیه بدهیم. برای به‌روزرسانی به پایین بکشید.';
+
+  @override
+  String get holidayGiftBoxNoOffers => 'در حال حاضر پیشنهادی موجود نیست.';
+
+  @override
+  String get holidayGiftBoxNoOffersSub =>
+      'برای به‌روزرسانی بکشید یا بعداً دوباره امتحان کنید.';
+
+  @override
+  String holidayGiftBoxShowingRegion(String region) {
+    return 'نمایش پیشنهادها برای $region';
+  }
+
+  @override
+  String get holidayGiftBoxViewDetails => 'مشاهده جزئیات';
+
+  @override
+  String get holidayGiftBoxPromoCopied => 'کد تخفیف کپی شد';
+
+  @override
+  String get holidayGiftBoxPromoCode => 'کد تخفیف';
+
+  @override
+  String giftDiscountOff(String percent) {
+    return '$percent٪ تخفیف';
+  }
+
+  @override
+  String giftDiscountUpToOff(String percent) {
+    return 'تا $percent٪ تخفیف';
+  }
+
+  @override
+  String get holidayGiftBoxTerms => 'شرایط و ضوابط';
+
+  @override
+  String get holidayGiftBoxVisitSite => 'مشاهده وب‌سایت شریک';
+
+  @override
+  String holidayGiftBoxValidUntil(String date) {
+    return 'معتبر تا $date';
+  }
+
+  @override
+  String get holidayGiftBoxValidWhileAvailable => 'معتبر تا زمان موجود بودن';
+
+  @override
+  String holidayGiftBoxUpdated(String date) {
+    return 'به‌روزرسانی شده در $date';
+  }
+
+  @override
+  String holidayGiftBoxLanguage(String language) {
+    return 'زبان: $language';
+  }
+
+  @override
+  String get holidayGiftBoxRetry => 'تلاش مجدد';
+
+  @override
+  String get holidayGiftBoxLoadFailed => 'بارگذاری پیشنهادها ناموفق بود';
+
+  @override
+  String get regionEurope => 'اروپا';
+
+  @override
+  String get regionNorthAmerica => 'آمریکای شمالی';
+
+  @override
+  String get regionAsia => 'آسیا';
+
+  @override
+  String get regionAustralia => 'استرالیا / اقیانوسیه';
+
+  @override
+  String get regionWorldwide => 'سراسر جهان';
+
+  @override
+  String get regionAfrica => 'آفریقا';
+
+  @override
+  String get regionMiddleEast => 'خاورمیانه';
+
+  @override
+  String get regionSouthAmerica => 'آمریکای جنوبی';
 }

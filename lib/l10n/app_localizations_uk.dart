@@ -21,7 +21,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get originsExploredLabel => 'Досліджені країни походження';
 
   @override
-  String get regionsExploredLabel => 'Досліджені регіони';
+  String get regionsExploredLabel => 'Європа';
 
   @override
   String get newRoastersDiscoveredLabel => 'Нові обсмажувачі, яких відкрито';
@@ -436,7 +436,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get variety => 'Сорт';
 
   @override
-  String get region => 'Регіон';
+  String get region => 'Північна Америка';
 
   @override
   String get elevation => 'Висота';
@@ -1530,4 +1530,99 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get notificationPermissionSkip => 'Не зараз';
+
+  @override
+  String get holidayGiftBoxTitle => 'Святкова подарункова коробка';
+
+  @override
+  String get holidayGiftBoxInfoTrigger => 'Що це?';
+
+  @override
+  String get holidayGiftBoxInfoBody =>
+      'Добірка сезонних пропозицій від партнерів. Посилання не є партнерськими - ми просто хочемо подарувати трохи радості користувачам Timer.Coffee на ці свята. Потягніть униз, щоб оновити.';
+
+  @override
+  String get holidayGiftBoxNoOffers => 'Наразі немає доступних пропозицій.';
+
+  @override
+  String get holidayGiftBoxNoOffersSub =>
+      'Потягніть, щоб оновити, або спробуйте пізніше.';
+
+  @override
+  String holidayGiftBoxShowingRegion(String region) {
+    return 'Показуємо пропозиції для $region';
+  }
+
+  @override
+  String get holidayGiftBoxViewDetails => 'Переглянути деталі';
+
+  @override
+  String get holidayGiftBoxPromoCopied => 'Промокод скопійовано';
+
+  @override
+  String get holidayGiftBoxPromoCode => 'Промокод';
+
+  @override
+  String giftDiscountOff(String percent) {
+    return '$percent% знижки';
+  }
+
+  @override
+  String giftDiscountUpToOff(String percent) {
+    return 'До $percent% знижки';
+  }
+
+  @override
+  String get holidayGiftBoxTerms => 'Умови';
+
+  @override
+  String get holidayGiftBoxVisitSite => 'Відвідати сайт партнера';
+
+  @override
+  String holidayGiftBoxValidUntil(String date) {
+    return 'Дійсно до $date';
+  }
+
+  @override
+  String get holidayGiftBoxValidWhileAvailable => 'Дійсно, доки є в наявності';
+
+  @override
+  String holidayGiftBoxUpdated(String date) {
+    return 'Оновлено $date';
+  }
+
+  @override
+  String holidayGiftBoxLanguage(String language) {
+    return 'Мова: $language';
+  }
+
+  @override
+  String get holidayGiftBoxRetry => 'Спробувати ще раз';
+
+  @override
+  String get holidayGiftBoxLoadFailed => 'Не вдалося завантажити пропозиції';
+
+  @override
+  String get regionEurope => 'Європа';
+
+  @override
+  String get regionNorthAmerica => 'Північна Америка';
+
+  @override
+  String get regionAsia => 'Азія';
+
+  @override
+  String get regionAustralia => 'Австралія / Океанія';
+
+  @override
+  String get regionWorldwide => 'Увесь світ';
+
+  @override
+  String get regionAfrica => 'Африка';
+
+  @override
+  String get regionMiddleEast => 'Близький Схід';
+
+  @override
+  String get regionSouthAmerica => 'Південна Америка';
 }

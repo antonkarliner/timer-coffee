@@ -21,7 +21,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get originsExploredLabel => 'Erkundete Herkünfte';
 
   @override
-  String get regionsExploredLabel => 'Erkundete Regionen';
+  String get regionsExploredLabel => 'Europa';
 
   @override
   String get newRoastersDiscoveredLabel => 'Neue Röstereien entdeckt';
@@ -437,7 +437,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get variety => 'Varietät';
 
   @override
-  String get region => 'Region';
+  String get region => 'Nordamerika';
 
   @override
   String get elevation => 'Höhe';
@@ -1528,4 +1528,100 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get notificationPermissionSkip => 'Nicht jetzt';
+
+  @override
+  String get holidayGiftBoxTitle => 'Holiday-Geschenkbox';
+
+  @override
+  String get holidayGiftBoxInfoTrigger => 'Was ist das?';
+
+  @override
+  String get holidayGiftBoxInfoBody =>
+      'Kuratiere saisonale Angebote von Partnern. Links sind keine Affiliate-Links - wir möchten Timer.Coffee-Nutzern in dieser Feiertagszeit einfach eine kleine Freude bereiten. Zum Aktualisieren nach unten ziehen.';
+
+  @override
+  String get holidayGiftBoxNoOffers => 'Derzeit keine Angebote verfügbar.';
+
+  @override
+  String get holidayGiftBoxNoOffersSub =>
+      'Zum Aktualisieren nach unten ziehen oder später erneut prüfen.';
+
+  @override
+  String holidayGiftBoxShowingRegion(String region) {
+    return 'Angebote für $region';
+  }
+
+  @override
+  String get holidayGiftBoxViewDetails => 'Details ansehen';
+
+  @override
+  String get holidayGiftBoxPromoCopied => 'Gutscheincode kopiert';
+
+  @override
+  String get holidayGiftBoxPromoCode => 'Gutscheincode';
+
+  @override
+  String giftDiscountOff(String percent) {
+    return '$percent% Rabatt';
+  }
+
+  @override
+  String giftDiscountUpToOff(String percent) {
+    return 'Bis zu $percent% Rabatt';
+  }
+
+  @override
+  String get holidayGiftBoxTerms => 'Bedingungen';
+
+  @override
+  String get holidayGiftBoxVisitSite => 'Partner-Website besuchen';
+
+  @override
+  String holidayGiftBoxValidUntil(String date) {
+    return 'Gültig bis $date';
+  }
+
+  @override
+  String get holidayGiftBoxValidWhileAvailable => 'Gültig solange verfügbar';
+
+  @override
+  String holidayGiftBoxUpdated(String date) {
+    return 'Aktualisiert $date';
+  }
+
+  @override
+  String holidayGiftBoxLanguage(String language) {
+    return 'Sprache: $language';
+  }
+
+  @override
+  String get holidayGiftBoxRetry => 'Erneut versuchen';
+
+  @override
+  String get holidayGiftBoxLoadFailed =>
+      'Angebote konnten nicht geladen werden';
+
+  @override
+  String get regionEurope => 'Europa';
+
+  @override
+  String get regionNorthAmerica => 'Nordamerika';
+
+  @override
+  String get regionAsia => 'Asien';
+
+  @override
+  String get regionAustralia => 'Australien / Ozeanien';
+
+  @override
+  String get regionWorldwide => 'Weltweit';
+
+  @override
+  String get regionAfrica => 'Afrika';
+
+  @override
+  String get regionMiddleEast => 'Naher Osten';
+
+  @override
+  String get regionSouthAmerica => 'Südamerika';
 }

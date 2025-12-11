@@ -90,7 +90,7 @@
   "totalBeansBrewedLabel": "Всего использовано зерен",
   "newBeansTriedLabel": "Новые зерна, которые вы попробовали",
   "originsExploredLabel": "Исследованные страны происхождения",
-  "regionsExploredLabel": "Исследованные регионы",
+  "regionsExploredLabel": "Европа",
   "newRoastersDiscoveredLabel": "Найдено новых обжарщиков",
   "favoriteRoastersLabel": "Любимые обжарщики",
   "topOriginsLabel": "Топ стран происхождения",
@@ -129,7 +129,7 @@
   "basicInformation": "Основное",
   "geographyTerroir": "География/Терруар",
   "variety": "Разновидность",
-  "region": "Регион",
+  "region": "Северная Америка",
   "elevation": "Высота произрастания",
   "harvestDate": "Дата сбора урожая",
   "processing": "Обработка",
@@ -566,108 +566,187 @@
   "brewStats": "Статистика заваривания",
   "showMore": "Показать еще",
   "showLess": "Показать меньше",
-"unpublishRecipeDialogTitle": "Сделать рецепт приватным",
-"@unpublishRecipeDialogTitle": {
-  "description": "Текст заголовка для диалогового окна подтверждения отмены публикации рецепта"
-},
-"unpublishRecipeDialogMessage": "Внимание: Если сделать этот рецепт приватным, это приведет к следующему:",
-"@unpublishRecipeDialogMessage": {
-  "description": "Предупреждающее сообщение о изменениях в конфиденциальности"
-},
-"unpublishRecipeDialogBullet1": "Он будет удален из результатов публичного поиска",
-"@unpublishRecipeDialogBullet1": {
-  "description": "Первый пункт изменения конфиденциальности"
-},
-"unpublishRecipeDialogBullet2": "Новые пользователи не смогут его импортировать",
-"@unpublishRecipeDialogBullet2": {
-  "description": "Второй пункт изменения конфиденциальности"
-},
-"unpublishRecipeDialogBullet3": "Пользователи, которые уже импортировали его, сохранят свои копии",
-"@unpublishRecipeDialogBullet3": {
-  "description": "Третий пункт изменения конфиденциальности"
-},
-"unpublishRecipeDialogKeepPublic": "Оставить публичным",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "Текст кнопки для сохранения рецепта публичным"
-},
-"unpublishRecipeDialogMakePrivate": "Сделать приватным",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "Текст кнопки для установки рецепта как приватного"
-},
-"recipeUnpublishSuccess": "Публикация рецепта успешно отменена",
-"@recipeUnpublishSuccess": {
-  "description": "Сообщение об успехе при отмене публикации рецепта"
-},
-"recipeUnpublishError": "Ошибка при отмене публикации рецепта: {error}",
-"@recipeUnpublishError": {
-  "description": "Сообщение об ошибке при неудачной отмене публикации рецепта",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "Ошибка базы данных"
+  "unpublishRecipeDialogTitle": "Сделать рецепт приватным",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Текст заголовка для диалогового окна подтверждения отмены публикации рецепта"
+  },
+  "unpublishRecipeDialogMessage": "Внимание: Если сделать этот рецепт приватным, это приведет к следующему:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Предупреждающее сообщение о изменениях в конфиденциальности"
+  },
+  "unpublishRecipeDialogBullet1": "Он будет удален из результатов публичного поиска",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "Первый пункт изменения конфиденциальности"
+  },
+  "unpublishRecipeDialogBullet2": "Новые пользователи не смогут его импортировать",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Второй пункт изменения конфиденциальности"
+  },
+  "unpublishRecipeDialogBullet3": "Пользователи, которые уже импортировали его, сохранят свои копии",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Третий пункт изменения конфиденциальности"
+  },
+  "unpublishRecipeDialogKeepPublic": "Оставить публичным",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Текст кнопки для сохранения рецепта публичным"
+  },
+  "unpublishRecipeDialogMakePrivate": "Сделать приватным",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Текст кнопки для установки рецепта как приватного"
+  },
+  "recipeUnpublishSuccess": "Публикация рецепта успешно отменена",
+  "@recipeUnpublishSuccess": {
+    "description": "Сообщение об успехе при отмене публикации рецепта"
+  },
+  "recipeUnpublishError": "Ошибка при отмене публикации рецепта: {error}",
+  "@recipeUnpublishError": {
+    "description": "Сообщение об ошибке при неудачной отмене публикации рецепта",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Ошибка базы данных"
+      }
     }
-  }
-},
-"recipePublicTooltip": "Рецепт общедоступен - нажмите, чтобы сделать его частным",
-"recipePrivateTooltip": "Рецепт частный - поделитесь, чтобы сделать его общедоступным",
-"inventory": "Запасы",
-"amountLeft": "Остаток",
-"enterAmountLeft": "Введите остаток",
-"fieldClearButtonTooltip": "Очистить",
-"dateFieldClearButtonTooltip": "Очистить дату",
-"chipInputDuplicateError": "Этот тег уже добавлен",
-"chipInputMaxTagsError": "Достигнуто максимальное количество тегов ({maxChips})",
-"chipInputHintText": "Добавить тег...",
-"unitFieldRequiredError": "Это поле обязательно для заполнения",
-"unitFieldInvalidNumberError": "Пожалуйста, введите действительное число",
-"unitFieldMinValueError": "Значение должно быть не менее {min}",
-"unitFieldMaxValueError": "Значение должно быть не более {max}",
-"numericFieldRequiredError": "Это поле обязательно для заполнения",
-"numericFieldInvalidNumberError": "Пожалуйста, введите действительное число",
-"numericFieldMinValueError": "Значение должно быть не менее {min}",
-"numericFieldMaxValueError": "Значение должно быть не более {max}",
-"dropdownSearchHintText": "Введите для поиска...",
-"dropdownSearchLoadingError": "Ошибка загрузки предложений: {error}",
-"dropdownSearchNoResults": "Результаты не найдены",
-"dropdownSearchLoading": "Поиск...",
-"dropdownSearchUseCustomEntry": "Использовать \"{currentQuery}\"",
-"requiredInfoSubtitle": "* Обязательно",
-"inventoryWeightExample": "Например, 250.5",
-"unsavedChangesTitle": "Несохраненные изменения",
-"unsavedChangesMessage": "У вас есть несохраненные изменения. Вы уверены, что хотите их отменить?",
-"unsavedChangesStay": "Остаться",
-"unsavedChangesDiscard": "Отменить",
-"beansWeightAddedBack": "Добавлено {amount}{unit} обратно к {beanName}. Новый вес: {newWeight}{unit}",
-"@beansWeightAddedBack": {
-  "description": "Сообщение, отображаемое при добавлении веса кофе обратно к зернам после удаления из журнала заваривания",
-  "placeholders": {
-    "amount": { "type": "String", "example": "18.5" },
-    "beanName": { "type": "String", "example": "Эфиопия Иргачеффе" },
-    "newWeight": { "type": "String", "example": "250.0" },
-    "unit": { "type": "String", "example": "г" }
-  }
-},
-"beansWeightSubtracted": "Убавлено {amount}{unit} из {beanName}. Новый вес: {newWeight}{unit}",
-"@beansWeightSubtracted": {
-  "description": "Сообщение, отображаемое при вычитании веса кофе из зерен",
-  "placeholders": {
-    "amount": { "type": "String", "example": "18.5" },
-    "beanName": { "type": "String", "example": "Эфиопия Иргачеффе" },
-    "newWeight": { "type": "String", "example": "250.0" },
-    "unit": { "type": "String", "example": "г" }
-  }
-},
-"notifications": "Уведомления",
-"notificationsDisabledInSystemSettings": "Отключены в системных настройках",
-"openSettings": "Открыть настройки",
-"notificationsDisabledDialogTitle": "Уведомления отключены в системных настройках",
-"notificationsDisabledDialogContent": "Вы отключили уведомления в настройках вашего устройства. Чтобы включить уведомления, пожалуйста, откройте настройки вашего устройства и разрешите уведомления для Timer.Coffee.",
-"notificationDebug": "Отладка уведомлений",
-"testNotificationSystem": "Тестировать систему уведомлений",
-"notificationsEnabled": "Включены",
-"notificationsDisabled": "Отключены",
-"notificationPermissionDialogTitle": "Включить уведомления?",
-"notificationPermissionDialogMessage": "Вы можете включить уведомления, чтобы получать полезные обновления (например, о новых версиях приложения). Включите сейчас или измените это в любой момент в настройках.",
-"notificationPermissionEnable": "Включить",
-"notificationPermissionSkip": "Не сейчас"
+  },
+  "recipePublicTooltip": "Рецепт общедоступен - нажмите, чтобы сделать его частным",
+  "recipePrivateTooltip": "Рецепт частный - поделитесь, чтобы сделать его общедоступным",
+  "inventory": "Запасы",
+  "amountLeft": "Остаток",
+  "enterAmountLeft": "Введите остаток",
+  "fieldClearButtonTooltip": "Очистить",
+  "dateFieldClearButtonTooltip": "Очистить дату",
+  "chipInputDuplicateError": "Этот тег уже добавлен",
+  "chipInputMaxTagsError": "Достигнуто максимальное количество тегов ({maxChips})",
+  "chipInputHintText": "Добавить тег...",
+  "unitFieldRequiredError": "Это поле обязательно для заполнения",
+  "unitFieldInvalidNumberError": "Пожалуйста, введите действительное число",
+  "unitFieldMinValueError": "Значение должно быть не менее {min}",
+  "unitFieldMaxValueError": "Значение должно быть не более {max}",
+  "numericFieldRequiredError": "Это поле обязательно для заполнения",
+  "numericFieldInvalidNumberError": "Пожалуйста, введите действительное число",
+  "numericFieldMinValueError": "Значение должно быть не менее {min}",
+  "numericFieldMaxValueError": "Значение должно быть не более {max}",
+  "dropdownSearchHintText": "Введите для поиска...",
+  "dropdownSearchLoadingError": "Ошибка загрузки предложений: {error}",
+  "dropdownSearchNoResults": "Результаты не найдены",
+  "dropdownSearchLoading": "Поиск...",
+  "dropdownSearchUseCustomEntry": "Использовать \"{currentQuery}\"",
+  "requiredInfoSubtitle": "* Обязательно",
+  "inventoryWeightExample": "Например, 250.5",
+  "unsavedChangesTitle": "Несохраненные изменения",
+  "unsavedChangesMessage": "У вас есть несохраненные изменения. Вы уверены, что хотите их отменить?",
+  "unsavedChangesStay": "Остаться",
+  "unsavedChangesDiscard": "Отменить",
+  "beansWeightAddedBack": "Добавлено {amount}{unit} обратно к {beanName}. Новый вес: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Сообщение, отображаемое при добавлении веса кофе обратно к зернам после удаления из журнала заваривания",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Эфиопия Иргачеффе"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "г"
+      }
+    }
+  },
+  "beansWeightSubtracted": "Убавлено {amount}{unit} из {beanName}. Новый вес: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Сообщение, отображаемое при вычитании веса кофе из зерен",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Эфиопия Иргачеффе"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "г"
+      }
+    }
+  },
+  "notifications": "Уведомления",
+  "notificationsDisabledInSystemSettings": "Отключены в системных настройках",
+  "openSettings": "Открыть настройки",
+  "notificationsDisabledDialogTitle": "Уведомления отключены в системных настройках",
+  "notificationsDisabledDialogContent": "Вы отключили уведомления в настройках вашего устройства. Чтобы включить уведомления, пожалуйста, откройте настройки вашего устройства и разрешите уведомления для Timer.Coffee.",
+  "notificationDebug": "Отладка уведомлений",
+  "testNotificationSystem": "Тестировать систему уведомлений",
+  "notificationsEnabled": "Включены",
+  "notificationsDisabled": "Отключены",
+  "notificationPermissionDialogTitle": "Включить уведомления?",
+  "notificationPermissionDialogMessage": "Вы можете включить уведомления, чтобы получать полезные обновления (например, о новых версиях приложения). Включите сейчас или измените это в любой момент в настройках.",
+  "notificationPermissionEnable": "Включить",
+  "notificationPermissionSkip": "Не сейчас",
+  "holidayGiftBoxTitle": "Праздничная подарочная коробка",
+  "holidayGiftBoxInfoTrigger": "Что это?",
+  "holidayGiftBoxInfoBody": "Подборка сезонных предложений от партнёров. Ссылки не аффилированные - мы просто хотим подарить немного радости пользователям Timer.Coffee в эти праздники. Потяните вниз, чтобы обновить.",
+  "holidayGiftBoxNoOffers": "Сейчас нет доступных предложений.",
+  "holidayGiftBoxNoOffersSub": "Потяните вниз для обновления или попробуйте позже.",
+  "holidayGiftBoxShowingRegion": "Показываем предложения для {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Подробнее",
+  "holidayGiftBoxPromoCopied": "Промокод скопирован",
+  "holidayGiftBoxPromoCode": "Промокод",
+  "giftDiscountOff": "Скидка {percent}%",
+  "giftDiscountUpToOff": "Скидка до {percent}%",
+  "holidayGiftBoxTerms": "Условия",
+  "holidayGiftBoxVisitSite": "Перейти на сайт партнёра",
+  "holidayGiftBoxValidUntil": "Действительно до {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Действительно, пока есть в наличии",
+  "holidayGiftBoxUpdated": "Обновлено {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Язык: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Повторить",
+  "holidayGiftBoxLoadFailed": "Не удалось загрузить предложения",
+  "regionEurope": "Европа",
+  "regionNorthAmerica": "Северная Америка",
+  "regionAsia": "Азия",
+  "regionAustralia": "Австралия / Океания",
+  "regionWorldwide": "По всему миру",
+  "regionAfrica": "Африка",
+  "regionMiddleEast": "Ближний Восток",
+  "regionSouthAmerica": "Южная Америка"
 }

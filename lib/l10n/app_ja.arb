@@ -90,7 +90,7 @@
   "totalBeansBrewedLabel": "使用した豆の合計",
   "newBeansTriedLabel": "新しく試した豆",
   "originsExploredLabel": "探索した原産国",
-  "regionsExploredLabel": "探索した地域",
+  "regionsExploredLabel": "ヨーロッパ",
   "newRoastersDiscoveredLabel": "見つけた新しいロースター",
   "favoriteRoastersLabel": "お気に入りの焙煎所",
   "topOriginsLabel": "トップ原産国",
@@ -127,10 +127,9 @@
   "edit": "編集",
   "coffeeBeansNotFound": "コーヒー豆が見つかりません",
   "basicInformation": "基本情報",
-    "basicInformation": "基本情報",
   "geographyTerroir": "地理/テロワール",
   "variety": "品種",
-  "region": "地域",
+  "region": "北アメリカ",
   "elevation": "標高",
   "harvestDate": "収穫日",
   "processing": "精製方法",
@@ -567,132 +566,187 @@
   "brewStats": "抽出統計",
   "showMore": "もっと見る",
   "showLess": "表示を減らす",
-"unpublishRecipeDialogTitle": "レシピを非公開にする",
-"@unpublishRecipeDialogTitle": {
-  "description": "レシピの公開停止確認ダイアログのタイトルテキスト"
-},
-"unpublishRecipeDialogMessage": "警告: このレシピを非公開にすると、次のようになります:",
-"@unpublishRecipeDialogMessage": {
-  "description": "プライバシーの変更を知らせる警告メッセージ"
-},
-"unpublishRecipeDialogBullet1": "公開検索結果から削除されます",
-"@unpublishRecipeDialogBullet1": {
-  "description": "プライバシー変更の最初の箇条書き"
-},
-"unpublishRecipeDialogBullet2": "新しいユーザーがインポートできなくなります",
-"@unpublishRecipeDialogBullet2": {
-  "description": "プライバシー変更の2番目の箇条書き"
-},
-"unpublishRecipeDialogBullet3": "すでにインポートしたユーザーはコピーを保持します",
-"@unpublishRecipeDialogBullet3": {
-  "description": "プライバシー変更の3番目の箇条書き"
-},
-"unpublishRecipeDialogKeepPublic": "公開のままにする",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "レシピを公開のままにするボタンのテキスト"
-},
-"unpublishRecipeDialogMakePrivate": "非公開にする",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "レシピを非公開にするボタンのテキスト"
-},
-"recipeUnpublishSuccess": "レシピの公開を正常に停止しました",
-"@recipeUnpublishSuccess": {
-  "description": "レシピの公開が停止されたときの成功メッセージ"
-},
-"recipeUnpublishError": "レシピの公開停止に失敗しました: {error}",
-"@recipeUnpublishError": {
-  "description": "レシピの公開停止に失敗したときのエラーメッセージ",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "データベースエラー"
+  "unpublishRecipeDialogTitle": "レシピを非公開にする",
+  "@unpublishRecipeDialogTitle": {
+    "description": "レシピの公開停止確認ダイアログのタイトルテキスト"
+  },
+  "unpublishRecipeDialogMessage": "警告: このレシピを非公開にすると、次のようになります:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "プライバシーの変更を知らせる警告メッセージ"
+  },
+  "unpublishRecipeDialogBullet1": "公開検索結果から削除されます",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "プライバシー変更の最初の箇条書き"
+  },
+  "unpublishRecipeDialogBullet2": "新しいユーザーがインポートできなくなります",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "プライバシー変更の2番目の箇条書き"
+  },
+  "unpublishRecipeDialogBullet3": "すでにインポートしたユーザーはコピーを保持します",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "プライバシー変更の3番目の箇条書き"
+  },
+  "unpublishRecipeDialogKeepPublic": "公開のままにする",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "レシピを公開のままにするボタンのテキスト"
+  },
+  "unpublishRecipeDialogMakePrivate": "非公開にする",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "レシピを非公開にするボタンのテキスト"
+  },
+  "recipeUnpublishSuccess": "レシピの公開を正常に停止しました",
+  "@recipeUnpublishSuccess": {
+    "description": "レシピの公開が停止されたときの成功メッセージ"
+  },
+  "recipeUnpublishError": "レシピの公開停止に失敗しました: {error}",
+  "@recipeUnpublishError": {
+    "description": "レシピの公開停止に失敗したときのエラーメッセージ",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "データベースエラー"
+      }
     }
-  }
-},
-"recipePublicTooltip": "レシピは公開中です - タップして非公開にします",
-"recipePrivateTooltip": "レシピは非公開です - 共有して公開します",
-"inventory": "在庫",
-"amountLeft": "残量",
-"enterAmountLeft": "残量を入力",
-"fieldClearButtonTooltip": "クリア",
-"dateFieldClearButtonTooltip": "日付をクリア",
-"chipInputDuplicateError": "このタグは既に追加されています",
-"chipInputMaxTagsError": "タグの最大数に達しました ({maxChips})",
-"chipInputHintText": "タグを追加...",
-"unitFieldRequiredError": "この項目は必須です",
-"unitFieldInvalidNumberError": "有効な数字を入力してください",
-"unitFieldMinValueError": "値は最低{min}である必要があります",
-"unitFieldMaxValueError": "値は最大{max}である必要があります",
-"numericFieldRequiredError": "この項目は必須です",
-"numericFieldInvalidNumberError": "有効な数字を入力してください",
-"numericFieldMinValueError": "値は最低{min}である必要があります",
-"numericFieldMaxValueError": "値は最大{max}である必要があります",
-"dropdownSearchHintText": "入力して検索...",
-"dropdownSearchLoadingError": "候補の読み込みエラー: {error}",
-"dropdownSearchNoResults": "結果が見つかりません",
-"dropdownSearchLoading": "検索中...",
-"dropdownSearchUseCustomEntry": "\"{currentQuery}\"を使用",
-"requiredInfoSubtitle": "* 必須",
-"inventoryWeightExample": "例: 250.5",
-"unsavedChangesTitle": "保存されていない変更",
-"unsavedChangesMessage": "保存されていない変更があります。破棄してもよろしいですか？",
-"unsavedChangesStay": "留まる",
-"unsavedChangesDiscard": "破棄",
-"beansWeightAddedBack": "{beanName}に{amount}{unit}を追加しました。新しい重量：{newWeight}{unit}",
-"@beansWeightAddedBack": {
-  "description": "醸造日記から削除した後、豆にコーヒーの重量を追加し直したときに表示されるメッセージ",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "エチオピア イルガチェフェ"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "250.0"
-    },
-    "unit": {
-      "type": "String",
-      "example": "g"
+  },
+  "recipePublicTooltip": "レシピは公開中です - タップして非公開にします",
+  "recipePrivateTooltip": "レシピは非公開です - 共有して公開します",
+  "inventory": "在庫",
+  "amountLeft": "残量",
+  "enterAmountLeft": "残量を入力",
+  "fieldClearButtonTooltip": "クリア",
+  "dateFieldClearButtonTooltip": "日付をクリア",
+  "chipInputDuplicateError": "このタグは既に追加されています",
+  "chipInputMaxTagsError": "タグの最大数に達しました ({maxChips})",
+  "chipInputHintText": "タグを追加...",
+  "unitFieldRequiredError": "この項目は必須です",
+  "unitFieldInvalidNumberError": "有効な数字を入力してください",
+  "unitFieldMinValueError": "値は最低{min}である必要があります",
+  "unitFieldMaxValueError": "値は最大{max}である必要があります",
+  "numericFieldRequiredError": "この項目は必須です",
+  "numericFieldInvalidNumberError": "有効な数字を入力してください",
+  "numericFieldMinValueError": "値は最低{min}である必要があります",
+  "numericFieldMaxValueError": "値は最大{max}である必要があります",
+  "dropdownSearchHintText": "入力して検索...",
+  "dropdownSearchLoadingError": "候補の読み込みエラー: {error}",
+  "dropdownSearchNoResults": "結果が見つかりません",
+  "dropdownSearchLoading": "検索中...",
+  "dropdownSearchUseCustomEntry": "\"{currentQuery}\"を使用",
+  "requiredInfoSubtitle": "* 必須",
+  "inventoryWeightExample": "例: 250.5",
+  "unsavedChangesTitle": "保存されていない変更",
+  "unsavedChangesMessage": "保存されていない変更があります。破棄してもよろしいですか？",
+  "unsavedChangesStay": "留まる",
+  "unsavedChangesDiscard": "破棄",
+  "beansWeightAddedBack": "{beanName}に{amount}{unit}を追加しました。新しい重量：{newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "醸造日記から削除した後、豆にコーヒーの重量を追加し直したときに表示されるメッセージ",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "エチオピア イルガチェフェ"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
     }
-  }
-},
-"beansWeightSubtracted": "{beanName}から{amount}{unit}を減らしました。新しい重量：{newWeight}{unit}",
-"@beansWeightSubtracted": {
-  "description": "醸造日記に追加したとき、豆からコーヒーの重量を減らしたときに表示されるメッセージ",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "コロンビア スプレモ"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "231.5"
-    },
-    "unit": {
-      "type": "String",
-      "example": "g"
+  },
+  "beansWeightSubtracted": "{beanName}から{amount}{unit}を減らしました。新しい重量：{newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "醸造日記に追加したとき、豆からコーヒーの重量を減らしたときに表示されるメッセージ",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "コロンビア スプレモ"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
     }
-  }
-},
-"notifications": "通知",
-"notificationsDisabledInSystemSettings": "システム設定で無効",
-"openSettings": "設定を開く",
-"notificationsDisabledDialogTitle": "通知がシステム設定で無効になっています",
-"notificationsDisabledDialogContent": "デバイス設定で通知を無効にしました。通知を有効にするには、デバイス設定を開き、Timer.Coffeeの通知を許可してください。",
-"notificationDebug": "通知デバッグ",
-"testNotificationSystem": "通知システムをテスト",
-"notificationsEnabled": "有効",
-"notificationsDisabled": "無効",
-"notificationPermissionDialogTitle": "通知を有効にしますか？",
-"notificationPermissionDialogMessage": "通知を有効にすると、便利なアップデート（例：新しいアプリバージョンについて）を受け取ることができます。今すぐ有効にするか、設定でいつでも変更できます。",
-"notificationPermissionEnable": "有効にする",
-"notificationPermissionSkip": "後で"
+  },
+  "notifications": "通知",
+  "notificationsDisabledInSystemSettings": "システム設定で無効",
+  "openSettings": "設定を開く",
+  "notificationsDisabledDialogTitle": "通知がシステム設定で無効になっています",
+  "notificationsDisabledDialogContent": "デバイス設定で通知を無効にしました。通知を有効にするには、デバイス設定を開き、Timer.Coffeeの通知を許可してください。",
+  "notificationDebug": "通知デバッグ",
+  "testNotificationSystem": "通知システムをテスト",
+  "notificationsEnabled": "有効",
+  "notificationsDisabled": "無効",
+  "notificationPermissionDialogTitle": "通知を有効にしますか？",
+  "notificationPermissionDialogMessage": "通知を有効にすると、便利なアップデート（例：新しいアプリバージョンについて）を受け取ることができます。今すぐ有効にするか、設定でいつでも変更できます。",
+  "notificationPermissionEnable": "有効にする",
+  "notificationPermissionSkip": "後で",
+  "holidayGiftBoxTitle": "ホリデーギフトボックス",
+  "holidayGiftBoxInfoTrigger": "これは何ですか？",
+  "holidayGiftBoxInfoBody": "パートナーからの季節限定オファーを厳選。リンクはアフィリエイトではありません - このホリデーシーズンに Timer.Coffee ユーザーへ少しでも喜びを届けたいだけです。いつでも下にスワイプして更新してください。",
+  "holidayGiftBoxNoOffers": "現在利用できるオファーはありません。",
+  "holidayGiftBoxNoOffersSub": "スワイプして更新するか、後でもう一度お試しください。",
+  "holidayGiftBoxShowingRegion": "{region}向けのオファーを表示",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "詳細を見る",
+  "holidayGiftBoxPromoCopied": "プロモコードをコピーしました",
+  "holidayGiftBoxPromoCode": "プロモコード",
+  "giftDiscountOff": "{percent}%オフ",
+  "giftDiscountUpToOff": "最大{percent}%オフ",
+  "holidayGiftBoxTerms": "利用規約",
+  "holidayGiftBoxVisitSite": "パートナーのサイトへ",
+  "holidayGiftBoxValidUntil": "{date} まで有効",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "在庫がある限り有効",
+  "holidayGiftBoxUpdated": "{date} に更新",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "言語: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "再試行",
+  "holidayGiftBoxLoadFailed": "オファーの読み込みに失敗しました",
+  "regionEurope": "ヨーロッパ",
+  "regionNorthAmerica": "北アメリカ",
+  "regionAsia": "アジア",
+  "regionAustralia": "オーストラリア / オセアニア",
+  "regionWorldwide": "全世界",
+  "regionAfrica": "アフリカ",
+  "regionMiddleEast": "中東",
+  "regionSouthAmerica": "南アメリカ"
 }

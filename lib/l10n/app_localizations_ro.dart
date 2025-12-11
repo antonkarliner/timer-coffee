@@ -21,7 +21,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get originsExploredLabel => 'Origini explorate';
 
   @override
-  String get regionsExploredLabel => 'Regiuni explorate';
+  String get regionsExploredLabel => 'Europa';
 
   @override
   String get newRoastersDiscoveredLabel => 'Prăjitorii noi descoperiți';
@@ -436,7 +436,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get variety => 'Soi';
 
   @override
-  String get region => 'Regiune';
+  String get region => 'America de Nord';
 
   @override
   String get elevation => 'Altitudine';
@@ -1526,4 +1526,99 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get notificationPermissionSkip => 'Nu acum';
+
+  @override
+  String get holidayGiftBoxTitle => 'Cutia Cadou de Sărbători';
+
+  @override
+  String get holidayGiftBoxInfoTrigger => 'Ce este asta?';
+
+  @override
+  String get holidayGiftBoxInfoBody =>
+      'Oferte sezoniere curate de la parteneri. Linkurile nu sunt de afiliere - vrem doar să aducem puțină bucurie utilizatorilor Timer.Coffee în aceste sărbători. Trage în jos pentru actualizare oricând.';
+
+  @override
+  String get holidayGiftBoxNoOffers => 'Nicio ofertă disponibilă momentan.';
+
+  @override
+  String get holidayGiftBoxNoOffersSub =>
+      'Trage pentru a actualiza sau încearcă mai târziu.';
+
+  @override
+  String holidayGiftBoxShowingRegion(String region) {
+    return 'Afișăm oferte pentru $region';
+  }
+
+  @override
+  String get holidayGiftBoxViewDetails => 'Vezi detalii';
+
+  @override
+  String get holidayGiftBoxPromoCopied => 'Cod promo copiat';
+
+  @override
+  String get holidayGiftBoxPromoCode => 'Cod promoțional';
+
+  @override
+  String giftDiscountOff(String percent) {
+    return '$percent% reducere';
+  }
+
+  @override
+  String giftDiscountUpToOff(String percent) {
+    return 'Până la $percent% reducere';
+  }
+
+  @override
+  String get holidayGiftBoxTerms => 'Termeni și condiții';
+
+  @override
+  String get holidayGiftBoxVisitSite => 'Vizitează site-ul partenerului';
+
+  @override
+  String holidayGiftBoxValidUntil(String date) {
+    return 'Valabil până la $date';
+  }
+
+  @override
+  String get holidayGiftBoxValidWhileAvailable => 'Valabil în limita stocului';
+
+  @override
+  String holidayGiftBoxUpdated(String date) {
+    return 'Actualizat la $date';
+  }
+
+  @override
+  String holidayGiftBoxLanguage(String language) {
+    return 'Limbă: $language';
+  }
+
+  @override
+  String get holidayGiftBoxRetry => 'Reîncearcă';
+
+  @override
+  String get holidayGiftBoxLoadFailed => 'Nu s-au putut încărca ofertele';
+
+  @override
+  String get regionEurope => 'Europa';
+
+  @override
+  String get regionNorthAmerica => 'America de Nord';
+
+  @override
+  String get regionAsia => 'Asia';
+
+  @override
+  String get regionAustralia => 'Australia / Oceania';
+
+  @override
+  String get regionWorldwide => 'În toată lumea';
+
+  @override
+  String get regionAfrica => 'Africa';
+
+  @override
+  String get regionMiddleEast => 'Orientul Mijlociu';
+
+  @override
+  String get regionSouthAmerica => 'America de Sud';
 }

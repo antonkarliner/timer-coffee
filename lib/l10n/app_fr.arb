@@ -90,7 +90,7 @@
   "totalBeansBrewedLabel": "Total de grains utilisés",
   "newBeansTriedLabel": "Nouveaux grains essayés",
   "originsExploredLabel": "Origines explorées",
-  "regionsExploredLabel": "Régions explorées",
+  "regionsExploredLabel": "Europe",
   "newRoastersDiscoveredLabel": "Nouveaux torréfacteurs découverts",
   "favoriteRoastersLabel": "Torréfacteurs favoris",
   "topOriginsLabel": "Meilleures origines",
@@ -129,7 +129,7 @@
   "basicInformation": "Informations de base",
   "geographyTerroir": "Géographie/Terroir",
   "variety": "Variété",
-  "region": "Région",
+  "region": "Amérique du Nord",
   "elevation": "Altitude",
   "harvestDate": "Date de récolte",
   "processing": "Traitement",
@@ -693,5 +693,60 @@
   "notificationPermissionDialogTitle": "Activer les notifications ?",
   "notificationPermissionDialogMessage": "Vous pouvez activer les notifications pour recevoir des mises à jour utiles (par ex. sur les nouvelles versions de l'application). Activez maintenant ou modifiez ce paramètre à tout moment dans les réglages.",
   "notificationPermissionEnable": "Activer",
-  "notificationPermissionSkip": "Pas maintenant"
+  "notificationPermissionSkip": "Pas maintenant",
+  "holidayGiftBoxTitle": "Coffret Cadeaux de Fêtes",
+  "holidayGiftBoxInfoTrigger": "Qu’est-ce que c’est ?",
+  "holidayGiftBoxInfoBody": "Offres saisonnières sélectionnées chez nos partenaires. Liens non affiliés - notre but est simplement d'apporter un peu de joie aux utilisateurs de Timer.Coffee pendant ces fêtes. Tirez pour actualiser à tout moment.",
+  "holidayGiftBoxNoOffers": "Aucune offre disponible pour le moment.",
+  "holidayGiftBoxNoOffersSub": "Tirez pour actualiser ou réessayez plus tard.",
+  "holidayGiftBoxShowingRegion": "Offres pour {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Voir les détails",
+  "holidayGiftBoxPromoCopied": "Code promo copié",
+  "holidayGiftBoxPromoCode": "Code promo",
+  "giftDiscountOff": "{percent}% de réduction",
+  "giftDiscountUpToOff": "Jusqu’à {percent}% de réduction",
+  "holidayGiftBoxTerms": "Conditions générales",
+  "holidayGiftBoxVisitSite": "Visiter le site du partenaire",
+  "holidayGiftBoxValidUntil": "Valable jusqu’au {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Valable dans la limite des stocks",
+  "holidayGiftBoxUpdated": "Mis à jour le {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Langue : {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Réessayer",
+  "holidayGiftBoxLoadFailed": "Échec du chargement des offres",
+  "regionEurope": "Europe",
+  "regionNorthAmerica": "Amérique du Nord",
+  "regionAsia": "Asie",
+  "regionAustralia": "Australie / Océanie",
+  "regionWorldwide": "Monde entier",
+  "regionAfrica": "Afrique",
+  "regionMiddleEast": "Moyen-Orient",
+  "regionSouthAmerica": "Amérique du Sud"
 }

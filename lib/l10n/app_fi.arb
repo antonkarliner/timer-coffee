@@ -50,7 +50,7 @@
   "totalBeansBrewedLabel": "Valmistettuja papuja yhteensä",
   "newBeansTriedLabel": "Uusia papuja kokeiltu",
   "originsExploredLabel": "Tutkitut alkuperämaat",
-  "regionsExploredLabel": "Tutkitut alueet",
+  "regionsExploredLabel": "Eurooppa",
   "newRoastersDiscoveredLabel": "Löydetyt uudet paahtimot",
   "favoriteRoastersLabel": "Suosikkipaahtimot",
   "topOriginsLabel": "Parhaat alkuperämaat",
@@ -76,10 +76,10 @@
   "coffeeBeansDetails": "Kahvipapujen tiedot",
   "edit": "Muokkaa",
   "coffeeBeansNotFound": "Kahvipapuja ei löytynyt",
-    "basicInformation": "Perustiedot",
+  "basicInformation": "Perustiedot",
   "geographyTerroir": "Maantiede/Terroir",
   "variety": "Lajike",
-  "region": "Alue",
+  "region": "Pohjois-Amerikka",
   "elevation": "Kasvukorkeus",
   "harvestDate": "Sadonkorjuupäivä",
   "processing": "Prosessointi",
@@ -418,132 +418,187 @@
   "brewStats": "Valmistustilastot",
   "showMore": "Näytä lisää",
   "showLess": "Näytä vähemmän",
-"unpublishRecipeDialogTitle": "Tee reseptistä yksityinen",
-"@unpublishRecipeDialogTitle": {
-  "description": "Otsikkoteksti reseptin julkaisun poistamisen vahvistusikkunalle"
-},
-"unpublishRecipeDialogMessage": "Varoitus: Tämän reseptin tekeminen yksityiseksi:",
-"@unpublishRecipeDialogMessage": {
-  "description": "Varoitusviesti, joka esittelee yksityisyysmuutokset"
-},
-"unpublishRecipeDialogBullet1": "Poistaa sen julkisista hakutuloksista",
-"@unpublishRecipeDialogBullet1": {
-  "description": "Ensimmäinen yksityisyysmuutoksen kohta"
-},
-"unpublishRecipeDialogBullet2": "Estää uusia käyttäjiä tuomasta sitä",
-"@unpublishRecipeDialogBullet2": {
-  "description": "Toinen yksityisyysmuutoksen kohta"
-},
-"unpublishRecipeDialogBullet3": "Käyttäjät, jotka ovat jo tuoneet sen, säilyttävät kopionsa",
-"@unpublishRecipeDialogBullet3": {
-  "description": "Kolmas yksityisyysmuutoksen kohta"
-},
-"unpublishRecipeDialogKeepPublic": "Pidä julkisena",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "Painikkeen teksti reseptin pitämiseksi julkisena"
-},
-"unpublishRecipeDialogMakePrivate": "Tee yksityiseksi",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "Painikkeen teksti reseptin tekemiseksi yksityiseksi"
-},
-"recipeUnpublishSuccess": "Reseptin julkaisu poistettu onnistuneesti",
-"@recipeUnpublishSuccess": {
-  "description": "Onnistumisviesti, kun reseptin julkaisu poistetaan"
-},
-"recipeUnpublishError": "Reseptin julkaisun poistaminen epäonnistui: {error}",
-"@recipeUnpublishError": {
-  "description": "Virheilmoitus, kun reseptin julkaisun poistaminen epäonnistuu",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "Tietokantavirhe"
+  "unpublishRecipeDialogTitle": "Tee reseptistä yksityinen",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Otsikkoteksti reseptin julkaisun poistamisen vahvistusikkunalle"
+  },
+  "unpublishRecipeDialogMessage": "Varoitus: Tämän reseptin tekeminen yksityiseksi:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Varoitusviesti, joka esittelee yksityisyysmuutokset"
+  },
+  "unpublishRecipeDialogBullet1": "Poistaa sen julkisista hakutuloksista",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "Ensimmäinen yksityisyysmuutoksen kohta"
+  },
+  "unpublishRecipeDialogBullet2": "Estää uusia käyttäjiä tuomasta sitä",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Toinen yksityisyysmuutoksen kohta"
+  },
+  "unpublishRecipeDialogBullet3": "Käyttäjät, jotka ovat jo tuoneet sen, säilyttävät kopionsa",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Kolmas yksityisyysmuutoksen kohta"
+  },
+  "unpublishRecipeDialogKeepPublic": "Pidä julkisena",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Painikkeen teksti reseptin pitämiseksi julkisena"
+  },
+  "unpublishRecipeDialogMakePrivate": "Tee yksityiseksi",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Painikkeen teksti reseptin tekemiseksi yksityiseksi"
+  },
+  "recipeUnpublishSuccess": "Reseptin julkaisu poistettu onnistuneesti",
+  "@recipeUnpublishSuccess": {
+    "description": "Onnistumisviesti, kun reseptin julkaisu poistetaan"
+  },
+  "recipeUnpublishError": "Reseptin julkaisun poistaminen epäonnistui: {error}",
+  "@recipeUnpublishError": {
+    "description": "Virheilmoitus, kun reseptin julkaisun poistaminen epäonnistuu",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Tietokantavirhe"
+      }
     }
-  }
-},
-"recipePublicTooltip": "Resepti on julkinen - napauta tehdäksesi siitä yksityisen",
-"recipePrivateTooltip": "Resepti on yksityinen - jaa tehdäksesi siitä julkisen",
-"inventory": "Varasto",
-"amountLeft": "Jäljellä",
-"enterAmountLeft": "Syötä jäljellä oleva määrä",
-"fieldClearButtonTooltip": "Tyhjennä",
-"dateFieldClearButtonTooltip": "Tyhjennä päivämäärä",
-"chipInputDuplicateError": "Tämä tunniste on jo lisätty",
-"chipInputMaxTagsError": "Tunnisteiden enimmäismäärä saavutettu ({maxChips})",
-"chipInputHintText": "Lisää tunniste...",
-"unitFieldRequiredError": "Tämä kenttä on pakollinen",
-"unitFieldInvalidNumberError": "Syötä kelvollinen numero",
-"unitFieldMinValueError": "Arvon on oltava vähintään {min}",
-"unitFieldMaxValueError": "Arvon on oltava enintään {max}",
-"numericFieldRequiredError": "Tämä kenttä on pakollinen",
-"numericFieldInvalidNumberError": "Syötä kelvollinen numero",
-"numericFieldMinValueError": "Arvon on oltava vähintään {min}",
-"numericFieldMaxValueError": "Arvon on oltava enintään {max}",
-"dropdownSearchHintText": "Kirjoita hakeaksesi...",
-"dropdownSearchLoadingError": "Virhe ehdotuksia ladatessa: {error}",
-"dropdownSearchNoResults": "Ei tuloksia",
-"dropdownSearchLoading": "Etsitään...",
-"dropdownSearchUseCustomEntry": "Käytä \"{currentQuery}\"",
-"requiredInfoSubtitle": "* Pakollinen",
-"inventoryWeightExample": "esim. 250.5",
-"unsavedChangesTitle": "Tallentamattomat muutokset",
-"unsavedChangesMessage": "Sinulla on tallentamattomia muutoksia. Oletko varma, että haluat hylätä ne?",
-"unsavedChangesStay": "Pysy",
-"unsavedChangesDiscard": "Hylkää",
-"beansWeightAddedBack": "Lisätty {amount}{unit} takaisin {beanName}. Uusi paino: {newWeight}{unit}",
-"@beansWeightAddedBack": {
-  "description": "Viesti, joka näytetään, kun kahvipapujen paino lisätään takaisin poiston jälkeen",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "Etiopia Yirgacheffe"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "250.0"
-    },
-    "unit": {
-      "type": "String",
-      "example": "g"
+  },
+  "recipePublicTooltip": "Resepti on julkinen - napauta tehdäksesi siitä yksityisen",
+  "recipePrivateTooltip": "Resepti on yksityinen - jaa tehdäksesi siitä julkisen",
+  "inventory": "Varasto",
+  "amountLeft": "Jäljellä",
+  "enterAmountLeft": "Syötä jäljellä oleva määrä",
+  "fieldClearButtonTooltip": "Tyhjennä",
+  "dateFieldClearButtonTooltip": "Tyhjennä päivämäärä",
+  "chipInputDuplicateError": "Tämä tunniste on jo lisätty",
+  "chipInputMaxTagsError": "Tunnisteiden enimmäismäärä saavutettu ({maxChips})",
+  "chipInputHintText": "Lisää tunniste...",
+  "unitFieldRequiredError": "Tämä kenttä on pakollinen",
+  "unitFieldInvalidNumberError": "Syötä kelvollinen numero",
+  "unitFieldMinValueError": "Arvon on oltava vähintään {min}",
+  "unitFieldMaxValueError": "Arvon on oltava enintään {max}",
+  "numericFieldRequiredError": "Tämä kenttä on pakollinen",
+  "numericFieldInvalidNumberError": "Syötä kelvollinen numero",
+  "numericFieldMinValueError": "Arvon on oltava vähintään {min}",
+  "numericFieldMaxValueError": "Arvon on oltava enintään {max}",
+  "dropdownSearchHintText": "Kirjoita hakeaksesi...",
+  "dropdownSearchLoadingError": "Virhe ehdotuksia ladatessa: {error}",
+  "dropdownSearchNoResults": "Ei tuloksia",
+  "dropdownSearchLoading": "Etsitään...",
+  "dropdownSearchUseCustomEntry": "Käytä \"{currentQuery}\"",
+  "requiredInfoSubtitle": "* Pakollinen",
+  "inventoryWeightExample": "esim. 250.5",
+  "unsavedChangesTitle": "Tallentamattomat muutokset",
+  "unsavedChangesMessage": "Sinulla on tallentamattomia muutoksia. Oletko varma, että haluat hylätä ne?",
+  "unsavedChangesStay": "Pysy",
+  "unsavedChangesDiscard": "Hylkää",
+  "beansWeightAddedBack": "Lisätty {amount}{unit} takaisin {beanName}. Uusi paino: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Viesti, joka näytetään, kun kahvipapujen paino lisätään takaisin poiston jälkeen",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Etiopia Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
     }
-  }
-},
-"beansWeightSubtracted": "Vähennetty {amount}{unit} {beanName}. Uusi paino: {newWeight}{unit}",
-"@beansWeightSubtracted": {
-  "description": "Viesti, joka näytetään, kun kahvipapujen painoa vähennetään",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "Kolumbia Supremo"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "231.5"
-    },
-    "unit": {
-      "type": "String",
-      "example": "g"
+  },
+  "beansWeightSubtracted": "Vähennetty {amount}{unit} {beanName}. Uusi paino: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Viesti, joka näytetään, kun kahvipapujen painoa vähennetään",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Kolumbia Supremo"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
     }
-  }
-},
-"notifications": "Ilmoitukset",
-"notificationsDisabledInSystemSettings": "Pois käytöstä järjestelmäasetuksissa",
-"openSettings": "Avaa asetukset",
-"notificationsDisabledDialogTitle": "Ilmoitukset pois käytöstä järjestelmäasetuksissa",
-"notificationsDisabledDialogContent": "Olet poistanut ilmoitukset laiteasetuksista. Ilmoitusten ottamiseksi käyttöön, avaa laiteasetuksesi ja salli ilmoitukset Timer.Coffee-sovellukselle.",
-"notificationDebug": "Ilmoitusten virheenjäljitys",
-"testNotificationSystem": "Testaa ilmoitusjärjestelmää",
-"notificationsEnabled": "Käytössä",
-"notificationsDisabled": "Pois käytöstä",
-"notificationPermissionDialogTitle": "Ota ilmoitukset käyttöön?",
-"notificationPermissionDialogMessage": "Voit ottaa ilmoitukset käyttöön saadaksesi hyödyllisiä päivityksiä (esim. uusista sovellusversioista). Ota käyttöön nyt tai muuta myöhemmin asetuksista.",
-"notificationPermissionEnable": "Ota käyttöön",
-"notificationPermissionSkip": "Ei nyt"
+  },
+  "notifications": "Ilmoitukset",
+  "notificationsDisabledInSystemSettings": "Pois käytöstä järjestelmäasetuksissa",
+  "openSettings": "Avaa asetukset",
+  "notificationsDisabledDialogTitle": "Ilmoitukset pois käytöstä järjestelmäasetuksissa",
+  "notificationsDisabledDialogContent": "Olet poistanut ilmoitukset laiteasetuksista. Ilmoitusten ottamiseksi käyttöön, avaa laiteasetuksesi ja salli ilmoitukset Timer.Coffee-sovellukselle.",
+  "notificationDebug": "Ilmoitusten virheenjäljitys",
+  "testNotificationSystem": "Testaa ilmoitusjärjestelmää",
+  "notificationsEnabled": "Käytössä",
+  "notificationsDisabled": "Pois käytöstä",
+  "notificationPermissionDialogTitle": "Ota ilmoitukset käyttöön?",
+  "notificationPermissionDialogMessage": "Voit ottaa ilmoitukset käyttöön saadaksesi hyödyllisiä päivityksiä (esim. uusista sovellusversioista). Ota käyttöön nyt tai muuta myöhemmin asetuksista.",
+  "notificationPermissionEnable": "Ota käyttöön",
+  "notificationPermissionSkip": "Ei nyt",
+  "holidayGiftBoxTitle": "Joulun lahjaboksi",
+  "holidayGiftBoxInfoTrigger": "Mikä tämä on?",
+  "holidayGiftBoxInfoBody": "Kuratut kausitarjoukset kumppaneilta. Linkit eivät ole affiliate-linkkejä - haluamme vain tuoda hieman iloa Timer.Coffeen käyttäjille tänä juhlasesonkina. Päivitä vetämällä alas.",
+  "holidayGiftBoxNoOffers": "Ei tarjouksia tällä hetkellä.",
+  "holidayGiftBoxNoOffersSub": "Päivitä vetämällä tai kokeile myöhemmin.",
+  "holidayGiftBoxShowingRegion": "Näytetään tarjouksia alueelle {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Näytä tiedot",
+  "holidayGiftBoxPromoCopied": "Alennuskoodi kopioitu",
+  "holidayGiftBoxPromoCode": "Alennuskoodi",
+  "giftDiscountOff": "{percent} % alennus",
+  "giftDiscountUpToOff": "Jopa {percent} % alennus",
+  "holidayGiftBoxTerms": "Ehdot",
+  "holidayGiftBoxVisitSite": "Vieraile kumppanin sivustolla",
+  "holidayGiftBoxValidUntil": "Voimassa {date} asti",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Voimassa niin kauan kuin tuotteita riittää",
+  "holidayGiftBoxUpdated": "Päivitetty {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Kieli: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Yritä uudelleen",
+  "holidayGiftBoxLoadFailed": "Tarjousten lataus epäonnistui",
+  "regionEurope": "Eurooppa",
+  "regionNorthAmerica": "Pohjois-Amerikka",
+  "regionAsia": "Aasia",
+  "regionAustralia": "Australia / Oseania",
+  "regionWorldwide": "Koko maailma",
+  "regionAfrica": "Afrikka",
+  "regionMiddleEast": "Lähi-itä",
+  "regionSouthAmerica": "Etelä-Amerikka"
 }

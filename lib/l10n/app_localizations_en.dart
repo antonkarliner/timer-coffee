@@ -1507,4 +1507,98 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notificationPermissionSkip => 'Not Now';
+
+  @override
+  String get holidayGiftBoxTitle => 'Holiday Gift Box';
+
+  @override
+  String get holidayGiftBoxInfoTrigger => 'What is this?';
+
+  @override
+  String get holidayGiftBoxInfoBody =>
+      'Curated seasonal offers from partners. Links are not affiliate - our goal is simply to bring a bit of joy to Timer.Coffee users these holidays. Pull to refresh anytime.';
+
+  @override
+  String get holidayGiftBoxNoOffers => 'No offers available right now.';
+
+  @override
+  String get holidayGiftBoxNoOffersSub => 'Pull to refresh or check back soon.';
+
+  @override
+  String holidayGiftBoxShowingRegion(String region) {
+    return 'Showing offers for $region';
+  }
+
+  @override
+  String get holidayGiftBoxViewDetails => 'View Details';
+
+  @override
+  String get holidayGiftBoxPromoCopied => 'Promo code copied';
+
+  @override
+  String get holidayGiftBoxPromoCode => 'Promo Code';
+
+  @override
+  String giftDiscountOff(String percent) {
+    return '$percent% off';
+  }
+
+  @override
+  String giftDiscountUpToOff(String percent) {
+    return 'Up to $percent% off';
+  }
+
+  @override
+  String get holidayGiftBoxTerms => 'Terms & Conditions';
+
+  @override
+  String get holidayGiftBoxVisitSite => 'Visit Partner Website';
+
+  @override
+  String holidayGiftBoxValidUntil(String date) {
+    return 'Valid until $date';
+  }
+
+  @override
+  String get holidayGiftBoxValidWhileAvailable => 'Valid while available';
+
+  @override
+  String holidayGiftBoxUpdated(String date) {
+    return 'Updated $date';
+  }
+
+  @override
+  String holidayGiftBoxLanguage(String language) {
+    return 'Language: $language';
+  }
+
+  @override
+  String get holidayGiftBoxRetry => 'Retry';
+
+  @override
+  String get holidayGiftBoxLoadFailed => 'Failed to load offers';
+
+  @override
+  String get regionEurope => 'Europe';
+
+  @override
+  String get regionNorthAmerica => 'North America';
+
+  @override
+  String get regionAsia => 'Asia';
+
+  @override
+  String get regionAustralia => 'Australia / Oceania';
+
+  @override
+  String get regionWorldwide => 'Worldwide';
+
+  @override
+  String get regionAfrica => 'Africa';
+
+  @override
+  String get regionMiddleEast => 'Middle East';
+
+  @override
+  String get regionSouthAmerica => 'South America';
 }

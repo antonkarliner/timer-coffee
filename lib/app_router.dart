@@ -69,6 +69,14 @@ class AppRouter extends RootStackRouter {
           page: InfoRoute.page,
           path: '/info',
         ),
+        AutoRoute(
+          page: GiftBoxListRoute.page,
+          path: '/giftbox',
+        ),
+        AutoRoute(
+          page: GiftBoxOfferDetailRoute.page,
+          path: '/giftbox/offer',
+        ),
         // User Recipe Management route
         AutoRoute(
           page: UserRecipeManagementRoute.page,

@@ -90,7 +90,7 @@
   "totalBeansBrewedLabel": "Insgesamt aufgebrühte Bohnen",
   "newBeansTriedLabel": "Neue Bohnen ausprobiert",
   "originsExploredLabel": "Erkundete Herkünfte",
-  "regionsExploredLabel": "Erkundete Regionen",
+  "regionsExploredLabel": "Europa",
   "newRoastersDiscoveredLabel": "Neue Röstereien entdeckt",
   "favoriteRoastersLabel": "Lieblingsröstereien",
   "topOriginsLabel": "Top-Herkünfte",
@@ -129,7 +129,7 @@
   "basicInformation": "Grunddaten",
   "geographyTerroir": "Geographie/Terroir",
   "variety": "Varietät",
-  "region": "Region",
+  "region": "Nordamerika",
   "elevation": "Höhe",
   "harvestDate": "Erntedatum",
   "processing": "Verarbeitung",
@@ -566,132 +566,187 @@
   "brewStats": "Brühstatistiken",
   "showMore": "Mehr anzeigen",
   "showLess": "Weniger anzeigen",
-"unpublishRecipeDialogTitle": "Rezept als privat markieren",
-"@unpublishRecipeDialogTitle": {
-  "description": "Titeltext für das Bestätigungsdialogfeld zum Aufheben der Veröffentlichung des Rezepts"
-},
-"unpublishRecipeDialogMessage": "Warnung: Wenn Sie dieses Rezept als privat markieren, wird Folgendes bewirkt:",
-"@unpublishRecipeDialogMessage": {
-  "description": "Warnmeldung, die die Datenschutzänderungen vorstellt"
-},
-"unpublishRecipeDialogBullet1": "Es wird aus den öffentlichen Suchergebnissen entfernt",
-"@unpublishRecipeDialogBullet1": {
-  "description": "Erster Aufzählungspunkt zur Datenschutzänderung"
-},
-"unpublishRecipeDialogBullet2": "Neue Benutzer können es nicht mehr importieren",
-"@unpublishRecipeDialogBullet2": {
-  "description": "Zweiter Aufzählungspunkt zur Datenschutzänderung"
-},
-"unpublishRecipeDialogBullet3": "Benutzer, die es bereits importiert haben, behalten ihre Kopien",
-"@unpublishRecipeDialogBullet3": {
-  "description": "Dritter Aufzählungspunkt zur Datenschutzänderung"
-},
-"unpublishRecipeDialogKeepPublic": "Öffentlich lassen",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "Schaltflächentext, um das Rezept öffentlich zu lassen"
-},
-"unpublishRecipeDialogMakePrivate": "Als privat markieren",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "Schaltflächentext, um das Rezept als privat zu markieren"
-},
-"recipeUnpublishSuccess": "Rezeptveröffentlichung erfolgreich aufgehoben",
-"@recipeUnpublishSuccess": {
-  "description": "Erfolgsmeldung, wenn die Veröffentlichung eines Rezepts aufgehoben wird"
-},
-"recipeUnpublishError": "Fehler beim Aufheben der Veröffentlichung des Rezepts: {error}",
-"@recipeUnpublishError": {
-  "description": "Fehlermeldung, wenn das Aufheben der Veröffentlichung eines Rezepts fehlschlägt",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "Datenbankfehler"
+  "unpublishRecipeDialogTitle": "Rezept als privat markieren",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Titeltext für das Bestätigungsdialogfeld zum Aufheben der Veröffentlichung des Rezepts"
+  },
+  "unpublishRecipeDialogMessage": "Warnung: Wenn Sie dieses Rezept als privat markieren, wird Folgendes bewirkt:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Warnmeldung, die die Datenschutzänderungen vorstellt"
+  },
+  "unpublishRecipeDialogBullet1": "Es wird aus den öffentlichen Suchergebnissen entfernt",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "Erster Aufzählungspunkt zur Datenschutzänderung"
+  },
+  "unpublishRecipeDialogBullet2": "Neue Benutzer können es nicht mehr importieren",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Zweiter Aufzählungspunkt zur Datenschutzänderung"
+  },
+  "unpublishRecipeDialogBullet3": "Benutzer, die es bereits importiert haben, behalten ihre Kopien",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Dritter Aufzählungspunkt zur Datenschutzänderung"
+  },
+  "unpublishRecipeDialogKeepPublic": "Öffentlich lassen",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Schaltflächentext, um das Rezept öffentlich zu lassen"
+  },
+  "unpublishRecipeDialogMakePrivate": "Als privat markieren",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Schaltflächentext, um das Rezept als privat zu markieren"
+  },
+  "recipeUnpublishSuccess": "Rezeptveröffentlichung erfolgreich aufgehoben",
+  "@recipeUnpublishSuccess": {
+    "description": "Erfolgsmeldung, wenn die Veröffentlichung eines Rezepts aufgehoben wird"
+  },
+  "recipeUnpublishError": "Fehler beim Aufheben der Veröffentlichung des Rezepts: {error}",
+  "@recipeUnpublishError": {
+    "description": "Fehlermeldung, wenn das Aufheben der Veröffentlichung eines Rezepts fehlschlägt",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Datenbankfehler"
+      }
     }
-  }
-},
-"recipePublicTooltip": "Rezept ist öffentlich - tippen, um es privat zu machen",
-"recipePrivateTooltip": "Rezept ist privat - teilen, um es öffentlich zu machen",
-"inventory": "Bestand",
-"amountLeft": "Restmenge",
-"enterAmountLeft": "Restmenge eingeben",
-"fieldClearButtonTooltip": "Löschen",
-"dateFieldClearButtonTooltip": "Datum löschen",
-"chipInputDuplicateError": "Dieses Tag wurde bereits hinzugefügt",
-"chipInputMaxTagsError": "Maximale Anzahl an Tags erreicht ({maxChips})",
-"chipInputHintText": "Tag hinzufügen...",
-"unitFieldRequiredError": "Dieses Feld ist erforderlich",
-"unitFieldInvalidNumberError": "Bitte geben Sie eine gültige Zahl ein",
-"unitFieldMinValueError": "Wert muss mindestens {min} sein",
-"unitFieldMaxValueError": "Wert darf höchstens {max} sein",
-"numericFieldRequiredError": "Dieses Feld ist erforderlich",
-"numericFieldInvalidNumberError": "Bitte geben Sie eine gültige Zahl ein",
-"numericFieldMinValueError": "Wert muss mindestens {min} sein",
-"numericFieldMaxValueError": "Wert darf höchstens {max} sein",
-"dropdownSearchHintText": "Tippen zum Suchen...",
-"dropdownSearchLoadingError": "Fehler beim Laden der Vorschläge: {error}",
-"dropdownSearchNoResults": "Keine Ergebnisse gefunden",
-"dropdownSearchLoading": "Suche...",
-"dropdownSearchUseCustomEntry": "\"{currentQuery}\" verwenden",
-"requiredInfoSubtitle": "* Erforderlich",
-"inventoryWeightExample": "z.B. 250.5",
-"unsavedChangesTitle": "Nicht gespeicherte Änderungen",
-"unsavedChangesMessage": "Sie haben nicht gespeicherte Änderungen. Sind Sie sicher, dass Sie sie verwerfen möchten?",
-"unsavedChangesStay": "Bleiben",
-"unsavedChangesDiscard": "Verwerfen",
-"beansWeightAddedBack": "{amount}{unit} zurück zu {beanName} hinzugefügt. Neues Gewicht: {newWeight}{unit}",
-"@beansWeightAddedBack": {
-  "description": "Nachricht angezeigt, wenn Kaffeegewicht nach dem Entfernen aus dem Brautagebuch zurück zu den Bohnen hinzugefügt wird",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "Äthiopien Yirgacheffe"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "250.0"
-    },
-    "unit": {
-      "type": "String",
-      "example": "g"
+  },
+  "recipePublicTooltip": "Rezept ist öffentlich - tippen, um es privat zu machen",
+  "recipePrivateTooltip": "Rezept ist privat - teilen, um es öffentlich zu machen",
+  "inventory": "Bestand",
+  "amountLeft": "Restmenge",
+  "enterAmountLeft": "Restmenge eingeben",
+  "fieldClearButtonTooltip": "Löschen",
+  "dateFieldClearButtonTooltip": "Datum löschen",
+  "chipInputDuplicateError": "Dieses Tag wurde bereits hinzugefügt",
+  "chipInputMaxTagsError": "Maximale Anzahl an Tags erreicht ({maxChips})",
+  "chipInputHintText": "Tag hinzufügen...",
+  "unitFieldRequiredError": "Dieses Feld ist erforderlich",
+  "unitFieldInvalidNumberError": "Bitte geben Sie eine gültige Zahl ein",
+  "unitFieldMinValueError": "Wert muss mindestens {min} sein",
+  "unitFieldMaxValueError": "Wert darf höchstens {max} sein",
+  "numericFieldRequiredError": "Dieses Feld ist erforderlich",
+  "numericFieldInvalidNumberError": "Bitte geben Sie eine gültige Zahl ein",
+  "numericFieldMinValueError": "Wert muss mindestens {min} sein",
+  "numericFieldMaxValueError": "Wert darf höchstens {max} sein",
+  "dropdownSearchHintText": "Tippen zum Suchen...",
+  "dropdownSearchLoadingError": "Fehler beim Laden der Vorschläge: {error}",
+  "dropdownSearchNoResults": "Keine Ergebnisse gefunden",
+  "dropdownSearchLoading": "Suche...",
+  "dropdownSearchUseCustomEntry": "\"{currentQuery}\" verwenden",
+  "requiredInfoSubtitle": "* Erforderlich",
+  "inventoryWeightExample": "z.B. 250.5",
+  "unsavedChangesTitle": "Nicht gespeicherte Änderungen",
+  "unsavedChangesMessage": "Sie haben nicht gespeicherte Änderungen. Sind Sie sicher, dass Sie sie verwerfen möchten?",
+  "unsavedChangesStay": "Bleiben",
+  "unsavedChangesDiscard": "Verwerfen",
+  "beansWeightAddedBack": "{amount}{unit} zurück zu {beanName} hinzugefügt. Neues Gewicht: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Nachricht angezeigt, wenn Kaffeegewicht nach dem Entfernen aus dem Brautagebuch zurück zu den Bohnen hinzugefügt wird",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Äthiopien Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
     }
-  }
-},
-"beansWeightSubtracted": "{amount}{unit} von {beanName} abgezogen. Neues Gewicht: {newWeight}{unit}",
-"@beansWeightSubtracted": {
-  "description": "Nachricht angezeigt, wenn Kaffeegewicht von Bohnen abgezogen wird, wenn zum Brautagebuch hinzugefügt",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "Kolumbien Supremo"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "231.5"
-    },
-    "unit": {
-      "type": "String",
-      "example": "g"
+  },
+  "beansWeightSubtracted": "{amount}{unit} von {beanName} abgezogen. Neues Gewicht: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Nachricht angezeigt, wenn Kaffeegewicht von Bohnen abgezogen wird, wenn zum Brautagebuch hinzugefügt",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Kolumbien Supremo"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
     }
-  }
-},
-"notifications": "Benachrichtigungen",
-"notificationsDisabledInSystemSettings": "In Systemeinstellungen deaktiviert",
-"openSettings": "Einstellungen öffnen",
-"notificationsDisabledDialogTitle": "Benachrichtigungen in Systemeinstellungen deaktiviert",
-"notificationsDisabledDialogContent": "Sie haben Benachrichtigungen in Ihren Geräteeinstellungen deaktiviert. Um Benachrichtigungen zu aktivieren, öffnen Sie bitte Ihre Geräteeinstellungen und erlauben Sie Benachrichtigungen für Timer.Coffee.",
-"notificationDebug": "Benachrichtigungs-Debug",
-"testNotificationSystem": "Benachrichtigungssystem testen",
-"notificationsEnabled": "Aktiviert",
-"notificationsDisabled": "Deaktiviert",
-"notificationPermissionDialogTitle": "Benachrichtigungen aktivieren?",
-"notificationPermissionDialogMessage": "Sie können Benachrichtigungen aktivieren, um nützliche Updates zu erhalten (z.B. über neue App-Versionen). Jetzt aktivieren oder jederzeit in den Einstellungen ändern.",
-"notificationPermissionEnable": "Aktivieren",
-"notificationPermissionSkip": "Nicht jetzt"
+  },
+  "notifications": "Benachrichtigungen",
+  "notificationsDisabledInSystemSettings": "In Systemeinstellungen deaktiviert",
+  "openSettings": "Einstellungen öffnen",
+  "notificationsDisabledDialogTitle": "Benachrichtigungen in Systemeinstellungen deaktiviert",
+  "notificationsDisabledDialogContent": "Sie haben Benachrichtigungen in Ihren Geräteeinstellungen deaktiviert. Um Benachrichtigungen zu aktivieren, öffnen Sie bitte Ihre Geräteeinstellungen und erlauben Sie Benachrichtigungen für Timer.Coffee.",
+  "notificationDebug": "Benachrichtigungs-Debug",
+  "testNotificationSystem": "Benachrichtigungssystem testen",
+  "notificationsEnabled": "Aktiviert",
+  "notificationsDisabled": "Deaktiviert",
+  "notificationPermissionDialogTitle": "Benachrichtigungen aktivieren?",
+  "notificationPermissionDialogMessage": "Sie können Benachrichtigungen aktivieren, um nützliche Updates zu erhalten (z.B. über neue App-Versionen). Jetzt aktivieren oder jederzeit in den Einstellungen ändern.",
+  "notificationPermissionEnable": "Aktivieren",
+  "notificationPermissionSkip": "Nicht jetzt",
+  "holidayGiftBoxTitle": "Holiday-Geschenkbox",
+  "holidayGiftBoxInfoTrigger": "Was ist das?",
+  "holidayGiftBoxInfoBody": "Kuratiere saisonale Angebote von Partnern. Links sind keine Affiliate-Links - wir möchten Timer.Coffee-Nutzern in dieser Feiertagszeit einfach eine kleine Freude bereiten. Zum Aktualisieren nach unten ziehen.",
+  "holidayGiftBoxNoOffers": "Derzeit keine Angebote verfügbar.",
+  "holidayGiftBoxNoOffersSub": "Zum Aktualisieren nach unten ziehen oder später erneut prüfen.",
+  "holidayGiftBoxShowingRegion": "Angebote für {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Details ansehen",
+  "holidayGiftBoxPromoCopied": "Gutscheincode kopiert",
+  "holidayGiftBoxPromoCode": "Gutscheincode",
+  "giftDiscountOff": "{percent}% Rabatt",
+  "giftDiscountUpToOff": "Bis zu {percent}% Rabatt",
+  "holidayGiftBoxTerms": "Bedingungen",
+  "holidayGiftBoxVisitSite": "Partner-Website besuchen",
+  "holidayGiftBoxValidUntil": "Gültig bis {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Gültig solange verfügbar",
+  "holidayGiftBoxUpdated": "Aktualisiert {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Sprache: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Erneut versuchen",
+  "holidayGiftBoxLoadFailed": "Angebote konnten nicht geladen werden",
+  "regionEurope": "Europa",
+  "regionNorthAmerica": "Nordamerika",
+  "regionAsia": "Asien",
+  "regionAustralia": "Australien / Ozeanien",
+  "regionWorldwide": "Weltweit",
+  "regionAfrica": "Afrika",
+  "regionMiddleEast": "Naher Osten",
+  "regionSouthAmerica": "Südamerika"
 }

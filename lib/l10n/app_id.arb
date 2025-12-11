@@ -4,7 +4,7 @@
   "totalBeansBrewedLabel": "Total biji yang digunakan",
   "newBeansTriedLabel": "Biji baru yang dicoba",
   "originsExploredLabel": "Asal-usul yang dijelajahi",
-  "regionsExploredLabel": "Wilayah yang dijelajahi",
+  "regionsExploredLabel": "Eropa",
   "newRoastersDiscoveredLabel": "Roaster baru yang ditemukan",
   "favoriteRoastersLabel": "Roastery favorit",
   "topOriginsLabel": "Asal-usul teratas",
@@ -126,10 +126,10 @@
   "coffeeBeansDetails": "Detail Kopi",
   "edit": "Edit",
   "coffeeBeansNotFound": "Kopi tidak ditemukan",
-    "basicInformation": "Informasi dasar",
+  "basicInformation": "Informasi dasar",
   "geographyTerroir": "Geografi/Terroir",
   "variety": "Varietas",
-  "region": "Wilayah",
+  "region": "Amerika Utara",
   "elevation": "Ketinggian",
   "harvestDate": "Tanggal Panen",
   "processing": "Pemrosesan",
@@ -566,132 +566,187 @@
   "brewStats": "Statistik seduh",
   "showMore": "Tampilkan lebih banyak",
   "showLess": "Tampilkan lebih sedikit",
-"unpublishRecipeDialogTitle": "Jadikan Resep Pribadi",
-"@unpublishRecipeDialogTitle": {
-  "description": "Teks judul untuk dialog konfirmasi pembatalan publikasi resep"
-},
-"unpublishRecipeDialogMessage": "Peringatan: Menjadikan resep ini pribadi akan:",
-"@unpublishRecipeDialogMessage": {
-  "description": "Pesan peringatan yang memperkenalkan perubahan privasi"
-},
-"unpublishRecipeDialogBullet1": "Menghapusnya dari hasil pencarian publik",
-"@unpublishRecipeDialogBullet1": {
-  "description": "Poin perubahan privasi pertama"
-},
-"unpublishRecipeDialogBullet2": "Mencegah pengguna baru mengimpornya",
-"@unpublishRecipeDialogBullet2": {
-  "description": "Poin perubahan privasi kedua"
-},
-"unpublishRecipeDialogBullet3": "Pengguna yang sudah mengimpornya akan tetap memiliki salinannya",
-"@unpublishRecipeDialogBullet3": {
-  "description": "Poin perubahan privasi ketiga"
-},
-"unpublishRecipeDialogKeepPublic": "Tetap Publik",
-"@unpublishRecipeDialogKeepPublic": {
-  "description": "Teks tombol untuk menjaga resep tetap publik"
-},
-"unpublishRecipeDialogMakePrivate": "Jadikan Pribadi",
-"@unpublishRecipeDialogMakePrivate": {
-  "description": "Teks tombol untuk menjadikan resep pribadi"
-},
-"recipeUnpublishSuccess": "Resep berhasil dibatalkan publikasinya",
-"@recipeUnpublishSuccess": {
-  "description": "Pesan sukses ketika resep dibatalkan publikasinya"
-},
-"recipeUnpublishError": "Gagal membatalkan publikasi resep: {error}",
-"@recipeUnpublishError": {
-  "description": "Pesan error ketika pembatalan publikasi resep gagal",
-  "placeholders": {
-    "error": {
-      "type": "String",
-      "example": "Kesalahan basis data"
+  "unpublishRecipeDialogTitle": "Jadikan Resep Pribadi",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Teks judul untuk dialog konfirmasi pembatalan publikasi resep"
+  },
+  "unpublishRecipeDialogMessage": "Peringatan: Menjadikan resep ini pribadi akan:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Pesan peringatan yang memperkenalkan perubahan privasi"
+  },
+  "unpublishRecipeDialogBullet1": "Menghapusnya dari hasil pencarian publik",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "Poin perubahan privasi pertama"
+  },
+  "unpublishRecipeDialogBullet2": "Mencegah pengguna baru mengimpornya",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Poin perubahan privasi kedua"
+  },
+  "unpublishRecipeDialogBullet3": "Pengguna yang sudah mengimpornya akan tetap memiliki salinannya",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Poin perubahan privasi ketiga"
+  },
+  "unpublishRecipeDialogKeepPublic": "Tetap Publik",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Teks tombol untuk menjaga resep tetap publik"
+  },
+  "unpublishRecipeDialogMakePrivate": "Jadikan Pribadi",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Teks tombol untuk menjadikan resep pribadi"
+  },
+  "recipeUnpublishSuccess": "Resep berhasil dibatalkan publikasinya",
+  "@recipeUnpublishSuccess": {
+    "description": "Pesan sukses ketika resep dibatalkan publikasinya"
+  },
+  "recipeUnpublishError": "Gagal membatalkan publikasi resep: {error}",
+  "@recipeUnpublishError": {
+    "description": "Pesan error ketika pembatalan publikasi resep gagal",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Kesalahan basis data"
+      }
     }
-  }
-},
-"recipePublicTooltip": "Resep ini publik - ketuk untuk menjadikannya pribadi",
-"recipePrivateTooltip": "Resep ini pribadi - bagikan untuk menjadikannya publik",
-"inventory": "Stok",
-"amountLeft": "Jumlah tersisa",
-"enterAmountLeft": "Masukkan jumlah tersisa",
-"fieldClearButtonTooltip": "Hapus",
-"dateFieldClearButtonTooltip": "Hapus tanggal",
-"chipInputDuplicateError": "Tag ini sudah ditambahkan",
-"chipInputMaxTagsError": "Jumlah tag maksimal telah tercapai ({maxChips})",
-"chipInputHintText": "Tambahkan tag...",
-"unitFieldRequiredError": "Field ini wajib diisi",
-"unitFieldInvalidNumberError": "Harap masukkan angka yang valid",
-"unitFieldMinValueError": "Nilai harus minimal {min}",
-"unitFieldMaxValueError": "Nilai harus maksimal {max}",
-"numericFieldRequiredError": "Field ini wajib diisi",
-"numericFieldInvalidNumberError": "Harap masukkan angka yang valid",
-"numericFieldMinValueError": "Nilai harus minimal {min}",
-"numericFieldMaxValueError": "Nilai harus maksimal {max}",
-"dropdownSearchHintText": "Ketik untuk mencari...",
-"dropdownSearchLoadingError": "Error memuat saran: {error}",
-"dropdownSearchNoResults": "Tidak ada hasil",
-"dropdownSearchLoading": "Mencari...",
-"dropdownSearchUseCustomEntry": "Gunakan \"{currentQuery}\"",
-"requiredInfoSubtitle": "* Wajib",
-"inventoryWeightExample": "contoh: 250.5",
-"unsavedChangesTitle": "Perubahan Belum Disimpan",
-"unsavedChangesMessage": "Anda memiliki perubahan yang belum disimpan. Apakah Anda yakin ingin membuangnya?",
-"unsavedChangesStay": "Tetap",
-"unsavedChangesDiscard": "Buang",
-"beansWeightAddedBack": "Ditambahkan {amount}{unit} kembali ke {beanName}. Berat baru: {newWeight}{unit}",
-"@beansWeightAddedBack": {
-  "description": "Pesan yang ditampilkan saat berat kopi ditambahkan kembali ke biji setelah dihapus dari buku harian seduhan",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "Ethiopia Yirgacheffe"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "250.0"
-    },
-    "unit": {
-      "type": "String",
-      "example": "g"
+  },
+  "recipePublicTooltip": "Resep ini publik - ketuk untuk menjadikannya pribadi",
+  "recipePrivateTooltip": "Resep ini pribadi - bagikan untuk menjadikannya publik",
+  "inventory": "Stok",
+  "amountLeft": "Jumlah tersisa",
+  "enterAmountLeft": "Masukkan jumlah tersisa",
+  "fieldClearButtonTooltip": "Hapus",
+  "dateFieldClearButtonTooltip": "Hapus tanggal",
+  "chipInputDuplicateError": "Tag ini sudah ditambahkan",
+  "chipInputMaxTagsError": "Jumlah tag maksimal telah tercapai ({maxChips})",
+  "chipInputHintText": "Tambahkan tag...",
+  "unitFieldRequiredError": "Field ini wajib diisi",
+  "unitFieldInvalidNumberError": "Harap masukkan angka yang valid",
+  "unitFieldMinValueError": "Nilai harus minimal {min}",
+  "unitFieldMaxValueError": "Nilai harus maksimal {max}",
+  "numericFieldRequiredError": "Field ini wajib diisi",
+  "numericFieldInvalidNumberError": "Harap masukkan angka yang valid",
+  "numericFieldMinValueError": "Nilai harus minimal {min}",
+  "numericFieldMaxValueError": "Nilai harus maksimal {max}",
+  "dropdownSearchHintText": "Ketik untuk mencari...",
+  "dropdownSearchLoadingError": "Error memuat saran: {error}",
+  "dropdownSearchNoResults": "Tidak ada hasil",
+  "dropdownSearchLoading": "Mencari...",
+  "dropdownSearchUseCustomEntry": "Gunakan \"{currentQuery}\"",
+  "requiredInfoSubtitle": "* Wajib",
+  "inventoryWeightExample": "contoh: 250.5",
+  "unsavedChangesTitle": "Perubahan Belum Disimpan",
+  "unsavedChangesMessage": "Anda memiliki perubahan yang belum disimpan. Apakah Anda yakin ingin membuangnya?",
+  "unsavedChangesStay": "Tetap",
+  "unsavedChangesDiscard": "Buang",
+  "beansWeightAddedBack": "Ditambahkan {amount}{unit} kembali ke {beanName}. Berat baru: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Pesan yang ditampilkan saat berat kopi ditambahkan kembali ke biji setelah dihapus dari buku harian seduhan",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Ethiopia Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
     }
-  }
-},
-"beansWeightSubtracted": "Dikurangi {amount}{unit} dari {beanName}. Berat baru: {newWeight}{unit}",
-"@beansWeightSubtracted": {
-  "description": "Pesan yang ditampilkan saat berat kopi dikurangi dari biji saat ditambahkan ke buku harian seduhan",
-  "placeholders": {
-    "amount": {
-      "type": "String",
-      "example": "18.5"
-    },
-    "beanName": {
-      "type": "String",
-      "example": "Colombia Supremo"
-    },
-    "newWeight": {
-      "type": "String",
-      "example": "231.5"
-    },
-    "unit": {
-      "type": "String",
-      "example": "g"
+  },
+  "beansWeightSubtracted": "Dikurangi {amount}{unit} dari {beanName}. Berat baru: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Pesan yang ditampilkan saat berat kopi dikurangi dari biji saat ditambahkan ke buku harian seduhan",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Colombia Supremo"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
     }
-  }
-},
-"notifications": "Notifikasi",
-"notificationsDisabledInSystemSettings": "Dinonaktifkan di pengaturan sistem",
-"openSettings": "Buka Pengaturan",
-"notificationsDisabledDialogTitle": "Notifikasi Dinonaktifkan di Pengaturan Sistem",
-"notificationsDisabledDialogContent": "Anda telah menonaktifkan notifikasi di pengaturan perangkat. Untuk mengaktifkan notifikasi, silakan buka pengaturan perangkat Anda dan izinkan notifikasi untuk Timer.Coffee.",
-"notificationDebug": "Debug Notifikasi",
-"testNotificationSystem": "Uji sistem notifikasi",
-"notificationsEnabled": "Diaktifkan",
-"notificationsDisabled": "Dinonaktifkan",
-"notificationPermissionDialogTitle": "Aktifkan Notifikasi?",
-"notificationPermissionDialogMessage": "Anda dapat mengaktifkan notifikasi untuk mendapatkan pembaruan berguna (misalnya tentang versi aplikasi baru). Aktifkan sekarang atau ubah kapan saja di pengaturan.",
-"notificationPermissionEnable": "Aktifkan",
-"notificationPermissionSkip": "Nanti Saja"
+  },
+  "notifications": "Notifikasi",
+  "notificationsDisabledInSystemSettings": "Dinonaktifkan di pengaturan sistem",
+  "openSettings": "Buka Pengaturan",
+  "notificationsDisabledDialogTitle": "Notifikasi Dinonaktifkan di Pengaturan Sistem",
+  "notificationsDisabledDialogContent": "Anda telah menonaktifkan notifikasi di pengaturan perangkat. Untuk mengaktifkan notifikasi, silakan buka pengaturan perangkat Anda dan izinkan notifikasi untuk Timer.Coffee.",
+  "notificationDebug": "Debug Notifikasi",
+  "testNotificationSystem": "Uji sistem notifikasi",
+  "notificationsEnabled": "Diaktifkan",
+  "notificationsDisabled": "Dinonaktifkan",
+  "notificationPermissionDialogTitle": "Aktifkan Notifikasi?",
+  "notificationPermissionDialogMessage": "Anda dapat mengaktifkan notifikasi untuk mendapatkan pembaruan berguna (misalnya tentang versi aplikasi baru). Aktifkan sekarang atau ubah kapan saja di pengaturan.",
+  "notificationPermissionEnable": "Aktifkan",
+  "notificationPermissionSkip": "Nanti Saja",
+  "holidayGiftBoxTitle": "Kotak Hadiah Liburan",
+  "holidayGiftBoxInfoTrigger": "Apa ini?",
+  "holidayGiftBoxInfoBody": "Penawaran musiman pilihan dari mitra. Tautan bukan afiliasi - tujuan kami hanya membawa sedikit kebahagiaan bagi pengguna Timer.Coffee di musim liburan ini. Tarik untuk menyegarkan kapan saja.",
+  "holidayGiftBoxNoOffers": "Belum ada penawaran saat ini.",
+  "holidayGiftBoxNoOffersSub": "Tarik untuk menyegarkan atau coba lagi nanti.",
+  "holidayGiftBoxShowingRegion": "Menampilkan penawaran untuk {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Lihat detail",
+  "holidayGiftBoxPromoCopied": "Kode promo disalin",
+  "holidayGiftBoxPromoCode": "Kode promo",
+  "giftDiscountOff": "Diskon {percent}%",
+  "giftDiscountUpToOff": "Hingga {percent}% diskon",
+  "holidayGiftBoxTerms": "Syarat & Ketentuan",
+  "holidayGiftBoxVisitSite": "Kunjungi situs mitra",
+  "holidayGiftBoxValidUntil": "Berlaku hingga {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Berlaku selama persediaan masih ada",
+  "holidayGiftBoxUpdated": "Diperbarui {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Bahasa: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Coba lagi",
+  "holidayGiftBoxLoadFailed": "Gagal memuat penawaran",
+  "regionEurope": "Eropa",
+  "regionNorthAmerica": "Amerika Utara",
+  "regionAsia": "Asia",
+  "regionAustralia": "Australia / Oseania",
+  "regionWorldwide": "Seluruh dunia",
+  "regionAfrica": "Afrika",
+  "regionMiddleEast": "Timur Tengah",
+  "regionSouthAmerica": "Amerika Selatan"
 }

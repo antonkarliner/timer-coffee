@@ -21,7 +21,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get originsExploredLabel => 'Poznane kraje pochodzenia';
 
   @override
-  String get regionsExploredLabel => 'Poznane regiony';
+  String get regionsExploredLabel => 'Europa';
 
   @override
   String get newRoastersDiscoveredLabel => 'Nowi palarze odkryci';
@@ -433,7 +433,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get variety => 'Odmiana';
 
   @override
-  String get region => 'Region';
+  String get region => 'Ameryka Północna';
 
   @override
   String get elevation => 'Wysokość';
@@ -1528,4 +1528,100 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get notificationPermissionSkip => 'Nie teraz';
+
+  @override
+  String get holidayGiftBoxTitle => 'Świąteczne Pudełko Prezentowe';
+
+  @override
+  String get holidayGiftBoxInfoTrigger => 'Co to jest?';
+
+  @override
+  String get holidayGiftBoxInfoBody =>
+      'Wyselekcjonowane oferty sezonowe od partnerów. Linki nie są afiliacyjne - chcemy po prostu sprawić trochę radości użytkownikom Timer.Coffee w te święta. Przeciągnij w dół, aby odświeżyć.';
+
+  @override
+  String get holidayGiftBoxNoOffers => 'Brak dostępnych ofert.';
+
+  @override
+  String get holidayGiftBoxNoOffersSub =>
+      'Przeciągnij w dół, aby odświeżyć, lub spróbuj później.';
+
+  @override
+  String holidayGiftBoxShowingRegion(String region) {
+    return 'Oferty dla regionu $region';
+  }
+
+  @override
+  String get holidayGiftBoxViewDetails => 'Zobacz szczegóły';
+
+  @override
+  String get holidayGiftBoxPromoCopied => 'Skopiowano kod promocyjny';
+
+  @override
+  String get holidayGiftBoxPromoCode => 'Kod promocyjny';
+
+  @override
+  String giftDiscountOff(String percent) {
+    return '$percent% zniżki';
+  }
+
+  @override
+  String giftDiscountUpToOff(String percent) {
+    return 'Do $percent% zniżki';
+  }
+
+  @override
+  String get holidayGiftBoxTerms => 'Warunki';
+
+  @override
+  String get holidayGiftBoxVisitSite => 'Odwiedź stronę partnera';
+
+  @override
+  String holidayGiftBoxValidUntil(String date) {
+    return 'Ważne do $date';
+  }
+
+  @override
+  String get holidayGiftBoxValidWhileAvailable =>
+      'Ważne do wyczerpania zapasów';
+
+  @override
+  String holidayGiftBoxUpdated(String date) {
+    return 'Zaktualizowano $date';
+  }
+
+  @override
+  String holidayGiftBoxLanguage(String language) {
+    return 'Język: $language';
+  }
+
+  @override
+  String get holidayGiftBoxRetry => 'Spróbuj ponownie';
+
+  @override
+  String get holidayGiftBoxLoadFailed => 'Nie udało się wczytać ofert';
+
+  @override
+  String get regionEurope => 'Europa';
+
+  @override
+  String get regionNorthAmerica => 'Ameryka Północna';
+
+  @override
+  String get regionAsia => 'Azja';
+
+  @override
+  String get regionAustralia => 'Australia / Oceania';
+
+  @override
+  String get regionWorldwide => 'Cały świat';
+
+  @override
+  String get regionAfrica => 'Afryka';
+
+  @override
+  String get regionMiddleEast => 'Bliski Wschód';
+
+  @override
+  String get regionSouthAmerica => 'Ameryka Południowa';
 }

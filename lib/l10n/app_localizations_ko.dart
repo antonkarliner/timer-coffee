@@ -21,7 +21,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get originsExploredLabel => '탐색된 원산지';
 
   @override
-  String get regionsExploredLabel => '탐색된 지역';
+  String get regionsExploredLabel => '유럽';
 
   @override
   String get newRoastersDiscoveredLabel => '새로운 로스터리 발견';
@@ -426,7 +426,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get variety => '품종';
 
   @override
-  String get region => '지역';
+  String get region => '북아메리카';
 
   @override
   String get elevation => '고도';
@@ -1475,4 +1475,98 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get notificationPermissionSkip => '나중에';
+
+  @override
+  String get holidayGiftBoxTitle => '홀리데이 기프트 박스';
+
+  @override
+  String get holidayGiftBoxInfoTrigger => '이게 뭐죠?';
+
+  @override
+  String get holidayGiftBoxInfoBody =>
+      '파트너의 시즌 한정 혜택을 모았습니다. 링크는 제휴가 아니며 - 이번 홀리데이 시즌 Timer.Coffee 사용자께 작은 기쁨을 드리려는 마음입니다. 언제든 아래로 당겨 새로고침하세요.';
+
+  @override
+  String get holidayGiftBoxNoOffers => '현재 이용 가능한 혜택이 없습니다.';
+
+  @override
+  String get holidayGiftBoxNoOffersSub => '아래로 당겨 새로고침하거나 나중에 다시 시도하세요.';
+
+  @override
+  String holidayGiftBoxShowingRegion(String region) {
+    return '$region 지역의 혜택 표시';
+  }
+
+  @override
+  String get holidayGiftBoxViewDetails => '자세히 보기';
+
+  @override
+  String get holidayGiftBoxPromoCopied => '프로모션 코드가 복사되었습니다';
+
+  @override
+  String get holidayGiftBoxPromoCode => '프로모션 코드';
+
+  @override
+  String giftDiscountOff(String percent) {
+    return '$percent% 할인';
+  }
+
+  @override
+  String giftDiscountUpToOff(String percent) {
+    return '최대 $percent% 할인';
+  }
+
+  @override
+  String get holidayGiftBoxTerms => '이용 약관';
+
+  @override
+  String get holidayGiftBoxVisitSite => '파트너 사이트 방문';
+
+  @override
+  String holidayGiftBoxValidUntil(String date) {
+    return '$date까지 유효';
+  }
+
+  @override
+  String get holidayGiftBoxValidWhileAvailable => '재고 소진 시까지 유효';
+
+  @override
+  String holidayGiftBoxUpdated(String date) {
+    return '$date 업데이트';
+  }
+
+  @override
+  String holidayGiftBoxLanguage(String language) {
+    return '언어: $language';
+  }
+
+  @override
+  String get holidayGiftBoxRetry => '다시 시도';
+
+  @override
+  String get holidayGiftBoxLoadFailed => '혜택을 불러오지 못했습니다';
+
+  @override
+  String get regionEurope => '유럽';
+
+  @override
+  String get regionNorthAmerica => '북아메리카';
+
+  @override
+  String get regionAsia => '아시아';
+
+  @override
+  String get regionAustralia => '호주 / 오세아니아';
+
+  @override
+  String get regionWorldwide => '전 세계';
+
+  @override
+  String get regionAfrica => '아프리카';
+
+  @override
+  String get regionMiddleEast => '중동';
+
+  @override
+  String get regionSouthAmerica => '남아메리카';
 }
