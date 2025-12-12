@@ -1,13 +1,5 @@
-Nieuw:  
-• Nieuwe zetmethodes voor je eigen recepten! Timer.Coffee ondersteunt nu de April Brewer, Ceado Hoop Brewer en Oxo Rapid Brewer.  
-• Notificatie-schakelaar: je kunt meldingen nu aan- of uitzetten in Instellingen.  
-• Je kunt nu geïmporteerde recepten verwijderen op het Receptbeheer-scherm.
+Nieuw:
+• Feestelijke verrassing! Open de app om te zien wat we voor je hebben klaargezet.
 
-Verbeterd:  
-• Het notificatiesysteem is volledig herschreven. Vrijwel alle veranderingen zijn onder de motorkap, maar hopelijk is het nu stabieler en minder afhankelijk van externe oplossingen.  
-• Kleuren in de donkere modus zijn iets aangepast zodat ze beter aansluiten bij het algehele ontwerp.
-
-Bugfix:  
-• De vorige bugfix voor synchronisatie van gebruikersstatistieken introduceerde een nieuwe bug. Maar nu is alles eindelijk opgelost. Belangrijk: sommige eerder verwijderde brouwdagboekvermeldingen kunnen zijn hersteld, excuses daarvoor!  
-• Aantallen gezette koffie wereldwijd worden nu correct weergegeven.  
-• Probleem opgelost waarbij navigeren terug vanaf het koffiebonen-bewerkingsscherm niet werkte als er geen wijzigingen waren gemaakt.
+Verbeterd:
+• Het herkennen van de labels op de koffiezakjes is nu sneller en (hopelijk) betrouwbaarder. Probeer het uit!

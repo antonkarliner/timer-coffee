@@ -1,13 +1,5 @@
 Nowości:  
-• Nowe metody parzenia do własnych przepisów! Timer.Coffee obsługuje teraz April Brewer, Ceado Hoop Brewer oraz Oxo Rapid Brewer.  
-• Przełącznik powiadomień: możesz teraz włączyć lub wyłączyć powiadomienia w Ustawieniach.  
-• Możesz teraz usuwać zaimportowane przepisy na ekranie Zarządzania Przepisami.
+• Świąteczna niespodzianka! Otwórz aplikację i zobacz, co dla Ciebie przygotowaliśmy.
 
 Ulepszenia:  
-• System powiadomień został całkowicie przepisany. Większość zmian jest „pod maską”, ale (miejmy nadzieję) powiadomienia będą stabilniejsze i mniej zależne od rozwiązań firm trzecich.  
-• Kolory w trybie ciemnym zostały lekko poprawione, aby były spójniejsze z ogólnym wyglądem aplikacji.
-
-Poprawki błędów:  
-• Poprzednia poprawka synchronizacji statystyk użytkownika wprowadziła nowy błąd. Ale w końcu wszystko zostało naprawione. Ważne: niektóre usunięte wpisy w dzienniku parzenia mogły zostać przywrócone, przepraszamy za to!  
-• Ilości zaparzonej kawy wyświetlają się teraz poprawnie globalnie.  
-• Naprawiono problem, przez który cofanie z ekranu edycji ziaren kawy nie działało, jeśli nie wprowadzono żadnych zmian.
+• Szybsze i – mamy nadzieję – bardziej niezawodne rozpoznawanie etykiet na opakowaniach ziaren kawy. Wypróbuj!

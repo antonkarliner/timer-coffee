@@ -1,13 +1,5 @@
-Yeni:
-• Kendi tarifleriniz için yeni demleme yöntemleri! Timer.Coffee artık April Brewer, Ceado Hoop Brewer ve Oxo Rapid Brewer’ı destekliyor.
-• Bildirim seçeneği: Artık Ayarlar bölümünden bildirimleri açıp kapatabilirsiniz.
-• Artık Tarif Yönetimi ekranında içe aktarılan tarifleri silebilirsiniz.
+Yeni:  
+• Tatil sürprizi! Sizin için ne hazırladığımızı görmek için uygulamayı açın.
 
-İyileştirildi:
-• Bildirim sistemini tamamen yeniden yazdık. Değişikliklerin neredeyse tamamı arka planda, fakat (umarız ki) artık daha stabil ve 3. parti çözümlere daha az bağımlı olacak.
-• Karanlık modda renk tonlarını biraz ayarladık, böylece genel tasarımla daha uyumlu hale geldi.
-
-Hata Düzeltmeleri:
-• Kullanıcı İstatistikleri senkronizasyonu için yapılan önceki hata düzeltmesi yeni bir hataya sebep olmuştu. Ama nihayet hepsi düzeltildi. Önemli: Silinen bazı demleme günlüğü kayıtlarınız geri gelmiş olabilir, bunun için özür dileriz!
-• Küresel olarak demlenen kahve miktarları artık doğru şekilde görüntüleniyor.
-• Kahve çekirdeği düzenleme ekranından geri dönüldüğünde, eğer herhangi bir değişiklik yapılmamışsa yaşanan gezinme problemi giderildi.
+Geliştirildi:  
+• Kahve çekirdeği paketlerinin etiketlerini tanıma artık daha hızlı ve (umarız) daha güvenilir. Deneyin!

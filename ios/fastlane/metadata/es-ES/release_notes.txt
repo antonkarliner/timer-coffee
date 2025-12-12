@@ -1,13 +1,5 @@
-Nuevo:
-• ¡Nuevos métodos de preparación para tus recetas personalizadas! Timer.Coffee ahora es compatible con April Brewer, Ceado Hoop Brewer y Oxo Rapid Brewer.
-• Opción de notificaciones: ahora puedes activar o desactivar las notificaciones en Ajustes.
-• Ahora puedes eliminar recetas importadas desde la pantalla de Gestión de Recetas.
+Novedades:
+• ¡Sorpresa navideña! Abre la app para descubrir lo que hemos preparado para ti.
 
-Mejorado:
-• Sistema de notificaciones completamente reescrito. Casi todos los cambios son internos, pero (con suerte) será más estable y menos dependiente de soluciones de terceros.
-• Se han ajustado los colores en el modo oscuro para que sean más coherentes con el diseño general.
-
-Corrección de errores:
-• La anterior corrección de errores para la sincronización de Estadísticas de Usuario introdujo otro error. Pero finalmente, todo está solucionado. Importante: ¡algunas de tus entradas eliminadas en el diario de preparaciones podrían haberse restaurado, disculpa por ello!
-• Las cantidades de café preparado globalmente ahora se muestran correctamente.
-• Solucionado el problema por el cual la navegación de regreso desde la pantalla de edición de café en grano no funcionaba cuando no se realizaban cambios.
+Mejoras:  
+• Hemos hecho que el reconocimiento de las etiquetas de las bolsas de café sea más rápido y (esperamos) más fiable. ¡Pruébalo!

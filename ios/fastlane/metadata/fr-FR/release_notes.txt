@@ -1,13 +1,5 @@
-Nouveau :  
-• Nouvelles méthodes d’extraction pour vos recettes personnalisées ! Timer.Coffee prend désormais en charge l’April Brewer, le Ceado Hoop Brewer et l’Oxo Rapid Brewer.  
-• Bascule des notifications : vous pouvez maintenant activer ou désactiver les notifications dans les paramètres.  
-• Vous pouvez désormais supprimer les recettes importées depuis l’écran de gestion des recettes.
+Nouveau :
+• Surprise des fêtes ! Ouvrez l’application pour découvrir ce que nous avons préparé pour vous.
 
-Amélioré :  
-• Réécriture complète du système de notifications. Presque tous les changements sont en coulisses, mais (espérons-le) le système sera désormais plus stable et moins dépendant de solutions tierces.  
-• Ajustement des couleurs en mode sombre afin qu’elles soient plus cohérentes avec le design général.
-
-Correction de bugs :  
-• La correction précédente pour la synchronisation des statistiques utilisateur avait introduit un autre bug. Mais cette fois, tout est réparé. Important : certaines de vos entrées supprimées dans le journal d’extraction ont pu être restaurées, désolé pour cela !  
-• Les quantités de café extraites dans le monde entier s’affichent désormais correctement.  
-• Correction d’un problème lors du retour depuis l’écran d’édition des cafés en grains, qui ne fonctionnait pas si aucune modification n’avait été effectuée.
+Amélioré :
+• La reconnaissance des étiquettes sur les sachets de grains de café est désormais plus rapide et (on l’espère) plus fiable. Essayez dès maintenant !

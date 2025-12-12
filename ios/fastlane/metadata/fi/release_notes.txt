@@ -1,13 +1,5 @@
-Uutta:  
-• Uudet valmistustavat omille resepteillesi! Timer.Coffee tukee nyt myös April Breweria, Ceado Hoop Breweria ja Oxo Rapid Breweria.  
-• Ilmoitusten kytkin: voit nyt laittaa ilmoitukset päälle tai pois asetuksista.  
-• Voit nyt poistaa tuodut reseptit Reseptien hallinta -näytöllä.  
+Uutta:
+• Jouluyllätys! Avaa sovellus ja katso, mitä olemme valmistelleet sinulle.
 
-Parannettu:  
-• Ilmoitusjärjestelmä on kirjoitettu kokonaan uusiksi. Lähes kaikki muutokset ovat pinnan alla, mutta (toivottavasti) järjestelmä on vakaampi ja vähemmän riippuvainen kolmannen osapuolen ratkaisuista.  
-• Tumma tila -värit on säädetty hienovaraisemmin, jotta ne sopivat paremmin sovelluksen yleisilmeeseen.  
-
-Virheenkorjaukset:  
-• Aiempi korjaus käyttäjätilastojen synkronoinnissa toi mukanaan uuden virheen. Nyt kuitenkin kaikki on korjattu. Huom! Osa poistamistasi keittopäiväkirjamerkinnöistä saattoi palautua, pahoittelut siitä!  
-• Kehitetyn kahvin määrät maailmanlaajuisesti näkyvät nyt oikein.  
-• Korjattiin ongelma, jossa kahvipapujen muokkausnäytöltä ei päässyt takaisin, jos muutoksia ei ollut tehty.
+Parannettu:
+• Kahvipapupussien etikettien tunnistus on nyt nopeampi ja (toivottavasti) luotettavampi. Kokeile ja totea itse!

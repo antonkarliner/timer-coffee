@@ -1,0 +1,5 @@
+Yeni:
+• Tatil sürprizi! Sizin için neler hazırladığımızı görmek için uygulamayı açın.
+
+Geliştirildi:  
+• Kahve çekirdeği paketlerindeki etiketlerin tanınması artık daha hızlı ve (umarız) daha güvenilir. Deneyin!
