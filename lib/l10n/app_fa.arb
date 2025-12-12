@@ -914,6 +914,8 @@
   },
   "holidayGiftBoxRetry": "تلاش مجدد",
   "holidayGiftBoxLoadFailed": "بارگذاری پیشنهادها ناموفق بود",
+  "holidayGiftBoxBannerTitle": "جعبه هدیه تعطیلات ما را ببینید",
+  "holidayGiftBoxBannerCta": "مشاهده پیشنهادها",
   "regionEurope": "اروپا",
   "regionNorthAmerica": "آمریکای شمالی",
   "regionAsia": "آسیا",

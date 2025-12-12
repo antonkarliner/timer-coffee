@@ -1590,6 +1590,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get holidayGiftBoxLoadFailed => 'Gagal memuat penawaran';
 
   @override
+  String get holidayGiftBoxBannerTitle => 'Lihat kotak hadiah liburan kami';
+
+  @override
+  String get holidayGiftBoxBannerCta => 'Lihat penawaran';
+
+  @override
   String get regionEurope => 'Eropa';
 
   @override

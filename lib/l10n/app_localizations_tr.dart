@@ -1595,6 +1595,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get holidayGiftBoxLoadFailed => 'Teklifler yüklenemedi';
 
   @override
+  String get holidayGiftBoxBannerTitle => 'Tatil hediye kutumuzu inceleyin';
+
+  @override
+  String get holidayGiftBoxBannerCta => 'Teklifleri gör';
+
+  @override
   String get regionEurope => 'Avrupa';
 
   @override

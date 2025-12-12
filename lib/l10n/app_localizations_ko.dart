@@ -1547,6 +1547,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get holidayGiftBoxLoadFailed => '혜택을 불러오지 못했습니다';
 
   @override
+  String get holidayGiftBoxBannerTitle => '홀리데이 기프트 박스를 확인하세요';
+
+  @override
+  String get holidayGiftBoxBannerCta => '오퍼 보기';
+
+  @override
   String get regionEurope => '유럽';
 
   @override

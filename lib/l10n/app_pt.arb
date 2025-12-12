@@ -741,6 +741,8 @@
   },
   "holidayGiftBoxRetry": "Tentar novamente",
   "holidayGiftBoxLoadFailed": "Falha ao carregar ofertas",
+  "holidayGiftBoxBannerTitle": "Confira nossa caixa de presentes de feriado",
+  "holidayGiftBoxBannerCta": "Ver ofertas",
   "regionEurope": "Europa",
   "regionNorthAmerica": "América do Norte",
   "regionAsia": "Ásia",

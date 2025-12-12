@@ -907,6 +907,8 @@
   },
   "holidayGiftBoxRetry": "다시 시도",
   "holidayGiftBoxLoadFailed": "혜택을 불러오지 못했습니다",
+  "holidayGiftBoxBannerTitle": "홀리데이 기프트 박스를 확인하세요",
+  "holidayGiftBoxBannerCta": "오퍼 보기",
   "regionEurope": "유럽",
   "regionNorthAmerica": "북아메리카",
   "regionAsia": "아시아",

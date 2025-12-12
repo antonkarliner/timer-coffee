@@ -1587,6 +1587,12 @@ class AppLocalizationsFi extends AppLocalizations {
   String get holidayGiftBoxLoadFailed => 'Tarjousten lataus epäonnistui';
 
   @override
+  String get holidayGiftBoxBannerTitle => 'Tutustu lahjaboxiimme';
+
+  @override
+  String get holidayGiftBoxBannerCta => 'Katso tarjoukset';
+
+  @override
   String get regionEurope => 'Eurooppa';
 
   @override

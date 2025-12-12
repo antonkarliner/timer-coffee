@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/gift_offer_model.dart';
+import '../providers/snow_provider.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/gift_discount_chip.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
@@ -18,82 +20,128 @@ class GiftBoxOfferDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
+    final isSnowing = context.watch<SnowEffectProvider>().isSnowing;
+    final base = theme.colorScheme.surfaceVariant;
+    final festiveRed = const Color(0xFFE53935);
+    final festiveGreen = const Color(0xFF43A047);
+    final festiveGold = const Color(0xFFFFD54F);
+    final tint = theme.brightness == Brightness.dark ? 0.30 : 0.42;
+    final gradient = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Color.lerp(base, festiveRed, tint)!,
+        Color.lerp(base, festiveGold, tint * 0.85)!,
+        Color.lerp(base, festiveGreen, tint)!,
+      ],
+    );
     return Scaffold(
-      appBar: AppBar(title: Text(offer.partnerName)),
-      body: ListView(
-        padding: const EdgeInsets.all(AppSpacing.cardPadding),
-        children: [
-          _heroImage(),
-          const SizedBox(height: AppSpacing.lg),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Text(
-                  offer.partnerName,
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    fontSize:
-                        (theme.textTheme.headlineSmall?.fontSize ?? 24) + 2,
-                  ),
-                ),
-              ),
-              ..._discountChip(context, offer),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Wrap(
-            spacing: AppSpacing.xs,
-            runSpacing: AppSpacing.xs,
-            children: [
-              ...offer.regions
-                  .map((r) => _chip(localizeRegion(r, l10n), theme,
-                      leadingIcon: Icons.location_on))
-                  .toList(),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          if (offer.description != null && offer.description!.isNotEmpty) ...[
-            Text(offer.description!, style: theme.textTheme.bodyLarge),
-            const SizedBox(height: AppSpacing.base),
-          ],
-          if (offer.promoCode != null) ...[
-            _promoField(context, theme, l10n),
-            const SizedBox(height: AppSpacing.base),
-          ],
-          if (offer.termsAndConditions != null &&
-              offer.termsAndConditions!.isNotEmpty)
-            _termsCard(theme, l10n),
-          const SizedBox(height: AppSpacing.lg),
-          if (offer.websiteUrl != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.base),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => _launchUrl(offer.websiteUrl!),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary,
-                    foregroundColor: theme.colorScheme.onPrimary,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.card),
-                    ),
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  child: Text(
-                    (offer.cta ?? '').trim().isNotEmpty
-                        ? offer.cta!.trim()
-                        : l10n.holidayGiftBoxVisitSite,
-                  ),
-                ),
-              ),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: Text(offer.partnerName),
+        backgroundColor: Colors.transparent,
+        foregroundColor: theme.colorScheme.primary,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        actions: [
+          IconButton(
+            tooltip: l10n.snow,
+            onPressed: () =>
+                context.read<SnowEffectProvider>().toggleSnowEffect(),
+            icon: Icon(
+              Icons.ac_unit,
+              color: isSnowing
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.primary.withOpacity(0.75),
             ),
+          ),
         ],
+      ),
+      body: Container(
+        decoration: BoxDecoration(gradient: gradient),
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: kToolbarHeight + MediaQuery.of(context).padding.top,
+          ),
+          child: ListView(
+            padding: const EdgeInsets.all(AppSpacing.cardPadding),
+            children: [
+              _heroImage(),
+              const SizedBox(height: AppSpacing.lg),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      offer.partnerName,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        fontSize:
+                            (theme.textTheme.headlineSmall?.fontSize ?? 24) + 2,
+                      ),
+                    ),
+                  ),
+                  ..._discountChip(context, offer),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              Wrap(
+                spacing: AppSpacing.xs,
+                runSpacing: AppSpacing.xs,
+                children: [
+                  ...offer.regions
+                      .map((r) => _chip(localizeRegion(r, l10n), theme,
+                          leadingIcon: Icons.location_on))
+                      .toList(),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              if (offer.description != null &&
+                  offer.description!.isNotEmpty) ...[
+                Text(offer.description!, style: theme.textTheme.bodyLarge),
+                const SizedBox(height: AppSpacing.base),
+              ],
+              if (offer.promoCode != null) ...[
+                _promoField(context, theme, l10n),
+                const SizedBox(height: AppSpacing.base),
+              ],
+              if (offer.termsAndConditions != null &&
+                  offer.termsAndConditions!.isNotEmpty)
+                _termsCard(theme, l10n),
+              const SizedBox(height: AppSpacing.lg),
+              if (offer.websiteUrl != null)
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: AppSpacing.base),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () => _launchUrl(offer.websiteUrl!),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.colorScheme.primary,
+                        foregroundColor: theme.colorScheme.onPrimary,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.card),
+                        ),
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      child: Text(
+                        (offer.cta ?? '').trim().isNotEmpty
+                            ? offer.cta!.trim()
+                            : l10n.holidayGiftBoxVisitSite,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }

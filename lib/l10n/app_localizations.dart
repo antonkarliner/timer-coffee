@@ -2932,6 +2932,18 @@ abstract class AppLocalizations {
   /// **'Failed to load offers'**
   String get holidayGiftBoxLoadFailed;
 
+  /// No description provided for @holidayGiftBoxBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check out our holiday gift box'**
+  String get holidayGiftBoxBannerTitle;
+
+  /// No description provided for @holidayGiftBoxBannerCta.
+  ///
+  /// In en, this message translates to:
+  /// **'See offers'**
+  String get holidayGiftBoxBannerCta;
+
   /// No description provided for @regionEurope.
   ///
   /// In en, this message translates to:

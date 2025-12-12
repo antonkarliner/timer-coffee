@@ -741,6 +741,8 @@
   },
   "holidayGiftBoxRetry": "重试",
   "holidayGiftBoxLoadFailed": "无法加载优惠",
+  "holidayGiftBoxBannerTitle": "看看我们的假日礼盒",
+  "holidayGiftBoxBannerCta": "查看优惠",
   "regionEurope": "欧洲",
   "regionNorthAmerica": "北美",
   "regionAsia": "亚洲",

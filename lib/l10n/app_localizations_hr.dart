@@ -1588,6 +1588,12 @@ class AppLocalizationsHr extends AppLocalizations {
   String get holidayGiftBoxLoadFailed => 'Neuspjelo učitavanje ponuda';
 
   @override
+  String get holidayGiftBoxBannerTitle => 'Pogledaj naš blagdanski gift box';
+
+  @override
+  String get holidayGiftBoxBannerCta => 'Vidi ponude';
+
+  @override
   String get regionEurope => 'Europa';
 
   @override

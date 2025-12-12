@@ -1585,6 +1585,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get holidayGiftBoxLoadFailed => 'فشل تحميل العروض';
 
   @override
+  String get holidayGiftBoxBannerTitle => 'تحقق من صندوق الهدايا للعطلات';
+
+  @override
+  String get holidayGiftBoxBannerCta => 'عرض العروض';
+
+  @override
   String get regionEurope => 'أوروبا';
 
   @override

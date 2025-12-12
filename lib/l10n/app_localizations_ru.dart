@@ -1604,6 +1604,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get holidayGiftBoxLoadFailed => 'Не удалось загрузить предложения';
 
   @override
+  String get holidayGiftBoxBannerTitle => 'Посмотрите наш праздничный gift box';
+
+  @override
+  String get holidayGiftBoxBannerCta => 'Смотреть предложения';
+
+  @override
   String get regionEurope => 'Европа';
 
   @override

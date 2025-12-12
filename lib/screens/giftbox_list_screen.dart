@@ -10,6 +10,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../models/gift_offer_model.dart';
 import '../app_router.gr.dart';
 import '../providers/database_provider.dart';
+import '../providers/snow_provider.dart';
 import '../services/region_service.dart';
 import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart';
@@ -81,14 +82,56 @@ class _GiftBoxListScreenState extends State<GiftBoxListScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
+    final isSnowing = context.watch<SnowEffectProvider>().isSnowing;
+    final base = theme.colorScheme.surfaceVariant;
+    final festiveRed = const Color(0xFFE53935);
+    final festiveGreen = const Color(0xFF43A047);
+    final festiveGold = const Color(0xFFFFD54F);
+    final tint = theme.brightness == Brightness.dark ? 0.30 : 0.42;
+    final gradient = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Color.lerp(base, festiveRed, tint)!,
+        Color.lerp(base, festiveGold, tint * 0.85)!,
+        Color.lerp(base, festiveGreen, tint)!,
+      ],
+    );
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text(l10n.holidayGiftBoxTitle),
         centerTitle: true,
+        backgroundColor: Colors.transparent,
+        foregroundColor: theme.colorScheme.primary,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        actions: [
+          IconButton(
+            tooltip: l10n.snow,
+            onPressed: () =>
+                context.read<SnowEffectProvider>().toggleSnowEffect(),
+            icon: Icon(
+              Icons.ac_unit,
+              color: isSnowing
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.primary.withOpacity(0.75),
+            ),
+          ),
+        ],
       ),
-      body: RefreshIndicator(
-        onRefresh: () => _load(Localizations.localeOf(context)),
-        child: _buildBody(theme),
+      body: Container(
+        decoration: BoxDecoration(gradient: gradient),
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: kToolbarHeight + MediaQuery.of(context).padding.top,
+          ),
+          child: RefreshIndicator(
+            onRefresh: () => _load(Localizations.localeOf(context)),
+            child: _buildBody(theme),
+          ),
+        ),
       ),
     );
   }

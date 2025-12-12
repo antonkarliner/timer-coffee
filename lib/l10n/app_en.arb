@@ -932,6 +932,8 @@
   },
   "holidayGiftBoxRetry": "Retry",
   "holidayGiftBoxLoadFailed": "Failed to load offers",
+  "holidayGiftBoxBannerTitle": "Check out our holiday gift box",
+  "holidayGiftBoxBannerCta": "See offers",
   "regionEurope": "Europe",
   "regionNorthAmerica": "North America",
   "regionAsia": "Asia",

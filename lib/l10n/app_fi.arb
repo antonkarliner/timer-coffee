@@ -593,6 +593,8 @@
   },
   "holidayGiftBoxRetry": "Yritä uudelleen",
   "holidayGiftBoxLoadFailed": "Tarjousten lataus epäonnistui",
+  "holidayGiftBoxBannerTitle": "Tutustu lahjaboxiimme",
+  "holidayGiftBoxBannerCta": "Katso tarjoukset",
   "regionEurope": "Eurooppa",
   "regionNorthAmerica": "Pohjois-Amerikka",
   "regionAsia": "Aasia",

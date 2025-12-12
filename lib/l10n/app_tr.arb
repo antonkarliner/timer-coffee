@@ -741,6 +741,8 @@
   },
   "holidayGiftBoxRetry": "Tekrar dene",
   "holidayGiftBoxLoadFailed": "Teklifler yüklenemedi",
+  "holidayGiftBoxBannerTitle": "Tatil hediye kutumuzu inceleyin",
+  "holidayGiftBoxBannerCta": "Teklifleri gör",
   "regionEurope": "Avrupa",
   "regionNorthAmerica": "Kuzey Amerika",
   "regionAsia": "Asya",

@@ -741,6 +741,8 @@
   },
   "holidayGiftBoxRetry": "再試行",
   "holidayGiftBoxLoadFailed": "オファーの読み込みに失敗しました",
+  "holidayGiftBoxBannerTitle": "ホリデーギフトボックスをチェック",
+  "holidayGiftBoxBannerCta": "オファーを見る",
   "regionEurope": "ヨーロッパ",
   "regionNorthAmerica": "北アメリカ",
   "regionAsia": "アジア",

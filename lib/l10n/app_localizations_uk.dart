@@ -1603,6 +1603,12 @@ class AppLocalizationsUk extends AppLocalizations {
   String get holidayGiftBoxLoadFailed => 'Не вдалося завантажити пропозиції';
 
   @override
+  String get holidayGiftBoxBannerTitle => 'Подивіться нашу святкову gift box';
+
+  @override
+  String get holidayGiftBoxBannerCta => 'Переглянути пропозиції';
+
+  @override
   String get regionEurope => 'Європа';
 
   @override

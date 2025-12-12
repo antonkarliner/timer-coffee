@@ -1599,6 +1599,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get holidayGiftBoxLoadFailed => 'Nu s-au putut încărca ofertele';
 
   @override
+  String get holidayGiftBoxBannerTitle =>
+      'Vezi cutia noastră cadou de sărbători';
+
+  @override
+  String get holidayGiftBoxBannerCta => 'Vezi oferte';
+
+  @override
   String get regionEurope => 'Europa';
 
   @override

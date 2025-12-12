@@ -1579,6 +1579,12 @@ class AppLocalizationsFa extends AppLocalizations {
   String get holidayGiftBoxLoadFailed => 'بارگذاری پیشنهادها ناموفق بود';
 
   @override
+  String get holidayGiftBoxBannerTitle => 'جعبه هدیه تعطیلات ما را ببینید';
+
+  @override
+  String get holidayGiftBoxBannerCta => 'مشاهده پیشنهادها';
+
+  @override
   String get regionEurope => 'اروپا';
 
   @override

@@ -741,6 +741,8 @@
   },
   "holidayGiftBoxRetry": "Réessayer",
   "holidayGiftBoxLoadFailed": "Échec du chargement des offres",
+  "holidayGiftBoxBannerTitle": "Découvrez notre coffret cadeau de fêtes",
+  "holidayGiftBoxBannerCta": "Voir les offres",
   "regionEurope": "Europe",
   "regionNorthAmerica": "Amérique du Nord",
   "regionAsia": "Asie",

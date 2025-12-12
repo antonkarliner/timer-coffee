@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:coffee_timer/env/env.dart';
 import 'package:coffeico/coffeico.dart';
+import 'package:auto_size_text_plus/auto_size_text_plus.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,7 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
 // Added import
 import 'package:http/http.dart' as http; // Import http package
+import 'package:coffee_timer/services/feature_flags/feature_flags_repository.dart';
 // Import for RecipeCreationScreen
 // Import AppDatabase and Recipe
 import '../widgets/launch_popup.dart';
@@ -314,6 +316,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context); // Get localizations safely
+    final flags = context.watch<Map<String, bool>>();
+    final showGiftBanner = flags[FeatureFlagKeys.holidayGiftBox] ?? false;
 
     // Handle case where localizations are null during initialization
     if (l10n == null) {
@@ -341,6 +345,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             children: [
               // Launch popup trigger (side-effect only, renders nothing)
               LaunchPopupWidget(),
+
+              // Holiday gift box banner (feature-flagged)
+              if (showGiftBanner) _GiftBoxBanner(onTap: () {
+                context.router.push(const GiftBoxListRoute());
+              }),
 
               // Show banner only on web if _showBanner is true.
               if (kIsWeb && _showBanner)
@@ -442,6 +451,75 @@ class _CustomTabBuilder extends DelegateBuilder {
                 color: active ? activeColor : inactiveColor,
               )),
         ],
+      ),
+    );
+  }
+}
+
+class _GiftBoxBanner extends StatelessWidget {
+  const _GiftBoxBanner({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    final base = theme.colorScheme.surfaceVariant;
+    final festiveRed = const Color(0xFFE53935);
+    final festiveGreen = const Color(0xFF43A047);
+    final festiveGold = const Color(0xFFFFD54F);
+    final tint = theme.brightness == Brightness.dark ? 0.30 : 0.42;
+    final gradient = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Color.lerp(base, festiveRed, tint)!,
+        Color.lerp(base, festiveGold, tint * 0.85)!,
+        Color.lerp(base, festiveGreen, tint)!,
+      ],
+    );
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: onTap,
+          child: Ink(
+            decoration: BoxDecoration(
+              gradient: gradient,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
+              child: Row(
+                children: [
+                  Icon(Icons.card_giftcard,
+                      color: theme.colorScheme.primary, size: 26),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: AutoSizeText(
+                      l10n.holidayGiftBoxBannerTitle,
+                      maxLines: 1,
+                      minFontSize: 12,
+                      stepGranularity: 0.5,
+                      wrapWords: false,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleMedium
+                          ?.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(Icons.arrow_forward_ios,
+                      size: 14, color: theme.colorScheme.primary),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -907,6 +907,8 @@
   },
   "holidayGiftBoxRetry": "Pokušaj ponovo",
   "holidayGiftBoxLoadFailed": "Neuspjelo učitavanje ponuda",
+  "holidayGiftBoxBannerTitle": "Pogledaj naš blagdanski gift box",
+  "holidayGiftBoxBannerCta": "Vidi ponude",
   "regionEurope": "Europa",
   "regionNorthAmerica": "Sjeverna Amerika",
   "regionAsia": "Azija",

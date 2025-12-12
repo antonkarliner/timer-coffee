@@ -1541,6 +1541,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get holidayGiftBoxLoadFailed => '无法加载优惠';
 
   @override
+  String get holidayGiftBoxBannerTitle => '看看我们的假日礼盒';
+
+  @override
+  String get holidayGiftBoxBannerCta => '查看优惠';
+
+  @override
   String get regionEurope => '欧洲';
 
   @override

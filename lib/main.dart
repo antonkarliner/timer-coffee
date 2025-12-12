@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/env/env.dart';
@@ -9,12 +8,13 @@ import 'package:coffee_timer/purchase_manager.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'
-    show SystemChrome, SystemUiMode, SystemUiOverlay, rootBundle;
+    show SystemChrome, SystemUiMode, SystemUiOverlay;
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:logging/logging.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'models/brewing_method_model.dart';
 import './providers/recipe_provider.dart';
 import './providers/theme_provider.dart';
@@ -40,6 +40,7 @@ import './providers/beans_stats_provider.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/utils/log_config.dart';
 import 'package:coffee_timer/services/notification_migration_service.dart';
+import 'services/feature_flags/feature_flags_repository.dart';
 
 /// Custom log handler that intercepts and sanitizes all Supabase library logs
 /// Prevents sensitive data exposure by ensuring all logs go through AppLogger
@@ -190,6 +191,25 @@ void main() async {
   bool hasPerformedUuidBackfill =
       prefs.getBool('hasPerformedUuidBackfill') ?? false;
 
+  // Determine platform/build for feature flags
+  final packageInfo = await PackageInfo.fromPlatform();
+  final buildNumber = int.tryParse(packageInfo.buildNumber) ?? 0;
+  final platform = kIsWeb
+      ? 'web'
+      : Platform.isIOS
+          ? 'ios'
+          : 'android';
+
+  final featureFlagsRepository = FeatureFlagsRepository(
+    remote: SupabaseFeatureFlagsDataSource(Supabase.instance.client),
+    local: LocalFeatureFlagsStore(prefs),
+    platform: platform,
+    buildNumber: buildNumber,
+    fetchTimeout: const Duration(seconds: 3),
+  );
+  // Kick off refresh but don't block startup
+  unawaited(featureFlagsRepository.refresh());
+
   final AppDatabase database =
       AppDatabase.withDefault(enableForeignKeyConstraints: !isFirstLaunch);
 
@@ -307,6 +327,7 @@ void main() async {
       coffeeBeansProvider: coffeeBeansProvider,
       userStatProvider: userStatProvider,
       beansStatsProvider: beansStatsProvider,
+      featureFlagsRepository: featureFlagsRepository,
     ),
   );
 
@@ -328,6 +349,7 @@ class CoffeeTimerApp extends StatefulWidget {
   final CoffeeBeansProvider coffeeBeansProvider;
   final UserStatProvider userStatProvider;
   final BeansStatsProvider beansStatsProvider;
+  final FeatureFlagsRepository featureFlagsRepository;
 
   const CoffeeTimerApp({
     Key? key,
@@ -341,6 +363,7 @@ class CoffeeTimerApp extends StatefulWidget {
     required this.coffeeBeansProvider,
     required this.userStatProvider,
     required this.beansStatsProvider,
+    required this.featureFlagsRepository,
   }) : super(key: key);
 
   @override
@@ -352,6 +375,12 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp> {
   void initState() {
     super.initState();
     _setupNotificationTapHandler(context);
+  }
+
+  @override
+  void dispose() {
+    widget.featureFlagsRepository.dispose();
+    super.dispose();
   }
 
   void _setupNotificationTapHandler(BuildContext context) {
@@ -402,6 +431,12 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp> {
         ),
         Provider<NotificationService>.value(
             value: NotificationService.instance),
+        Provider<FeatureFlagsRepository>.value(
+            value: widget.featureFlagsRepository),
+        StreamProvider<Map<String, bool>>(
+          create: (_) => widget.featureFlagsRepository.stream,
+          initialData: widget.featureFlagsRepository.currentFlags,
+        ),
       ],
       child: Consumer2<ThemeProvider, SnowEffectProvider>(
         builder: (context, themeProvider, snowProvider, child) {

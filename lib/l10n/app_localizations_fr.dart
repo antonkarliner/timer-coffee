@@ -1608,6 +1608,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get holidayGiftBoxLoadFailed => 'Échec du chargement des offres';
 
   @override
+  String get holidayGiftBoxBannerTitle =>
+      'Découvrez notre coffret cadeau de fêtes';
+
+  @override
+  String get holidayGiftBoxBannerCta => 'Voir les offres';
+
+  @override
   String get regionEurope => 'Europe';
 
   @override

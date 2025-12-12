@@ -741,6 +741,8 @@
   },
   "holidayGiftBoxRetry": "Повторить",
   "holidayGiftBoxLoadFailed": "Не удалось загрузить предложения",
+  "holidayGiftBoxBannerTitle": "Посмотрите наш праздничный gift box",
+  "holidayGiftBoxBannerCta": "Смотреть предложения",
   "regionEurope": "Европа",
   "regionNorthAmerica": "Северная Америка",
   "regionAsia": "Азия",

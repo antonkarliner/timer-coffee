@@ -741,6 +741,8 @@
   },
   "holidayGiftBoxRetry": "Reîncearcă",
   "holidayGiftBoxLoadFailed": "Nu s-au putut încărca ofertele",
+  "holidayGiftBoxBannerTitle": "Vezi cutia noastră cadou de sărbători",
+  "holidayGiftBoxBannerCta": "Vezi oferte",
   "regionEurope": "Europa",
   "regionNorthAmerica": "America de Nord",
   "regionAsia": "Asia",
