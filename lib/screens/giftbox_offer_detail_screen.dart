@@ -39,6 +39,8 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
   bool _loading = true;
   String? _error;
   Locale? _lastLocale;
+  int _promoCopySeq = 0;
+  bool _showPromoCopied = false;
 
   Future<String?> _getOrCreateInstallId() async {
     try {
@@ -112,6 +114,7 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
       _loading = true;
       _error = null;
       _offer = null;
+      _showPromoCopied = false;
     });
     try {
       final db = context.read<DatabaseProvider>();
@@ -120,19 +123,21 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
         locale: locale,
       );
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       setState(() {
         _offer = offer;
         _loading = false;
-        if (offer == null) _error = 'Offer unavailable';
+        if (offer == null) _error = l10n.holidayGiftBoxOfferUnavailable;
       });
     } catch (e) {
       AppLogger.error('GiftBox offer load failed (slug=${widget.slug})',
           errorObject: e);
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       setState(() {
         _offer = null;
         _loading = false;
-        _error = 'Offer unavailable';
+        _error = l10n.holidayGiftBoxOfferUnavailable;
       });
     }
   }
@@ -200,12 +205,12 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
       return ListView(
         padding: const EdgeInsets.all(AppSpacing.cardPadding),
         children: [
-          Text(_error ?? 'Offer unavailable',
+          Text(_error ?? l10n.holidayGiftBoxOfferUnavailable,
               style: theme.textTheme.bodyLarge),
           const SizedBox(height: AppSpacing.sm),
           ElevatedButton(
             onPressed: () => _load(Localizations.localeOf(context)),
-            child: const Text('Retry'),
+            child: Text(l10n.holidayGiftBoxRetry),
           ),
         ],
       );
@@ -355,21 +360,32 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
               child: Row(
                 children: [
                   Expanded(
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        offer.promoCode!,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                            letterSpacing: 1.0,
-                            fontFeatures: const [FontFeature.tabularFigures()]),
-                      ),
-                    ),
+                    child: _showPromoCopied
+                        ? Text(
+                            l10n.holidayGiftBoxPromoCopied,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
+                        : FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              offer.promoCode!,
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                  letterSpacing: 1.0,
+                                  fontFeatures: const [
+                                    FontFeature.tabularFigures()
+                                  ]),
+                            ),
+                          ),
                   ),
                   IconButton(
                     visualDensity: VisualDensity.compact,
-                    onPressed: () => _copyCode(context, offer.promoCode!, l10n),
-                    icon: const Icon(Icons.copy),
+                    onPressed: () => _copyCode(offer.promoCode!),
+                    icon: Icon(_showPromoCopied ? Icons.check : Icons.copy),
                     splashRadius: 18,
                   ),
                 ],
@@ -457,10 +473,16 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
     return [chip];
   }
 
-  void _copyCode(BuildContext context, String code, AppLocalizations l10n) {
-    Clipboard.setData(ClipboardData(text: code));
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(l10n.holidayGiftBoxPromoCopied)));
+  void _copyCode(String code) {
+    final trimmed = code.trim();
+    if (trimmed.isEmpty) return;
+    Clipboard.setData(ClipboardData(text: trimmed));
+    final seq = ++_promoCopySeq;
+    setState(() => _showPromoCopied = true);
+    Future.delayed(const Duration(seconds: 5), () {
+      if (!mounted || _promoCopySeq != seq) return;
+      setState(() => _showPromoCopied = false);
+    });
   }
 
   Future<void> _launchUri(Uri uri) async {
@@ -470,8 +492,9 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Could not open link')),
+        SnackBar(content: Text(l10n.couldNotOpenLink)),
       );
     }
   }

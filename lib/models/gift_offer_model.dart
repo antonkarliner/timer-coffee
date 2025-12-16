@@ -94,6 +94,9 @@ class GiftOffer {
                 ? requestedLocale.languageCode
                 : 'en');
 
+    final rawPromoCode = json['promo_code']?.toString();
+    final promoCode = rawPromoCode?.trim();
+
     return GiftOffer(
       id: json['id'].toString(),
       slug: json['slug']?.toString(),
@@ -113,7 +116,7 @@ class GiftOffer {
           '',
       discountMinPercent: _tryDouble(json['discount_min_percent']),
       discountMaxPercent: _tryDouble(json['discount_max_percent']),
-      promoCode: json['promo_code']?.toString(),
+      promoCode: (promoCode == null || promoCode.isEmpty) ? null : promoCode,
       regions: (json['regions'] as List?)?.map((e) => e.toString()).toList() ??
           const [],
       // Improved fallback chain: localized → top-level → English localization → empty string

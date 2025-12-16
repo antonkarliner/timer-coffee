@@ -70,8 +70,9 @@ class _GiftBoxListScreenState extends State<GiftBoxListScreen> {
     } catch (e) {
       AppLogger.error('GiftBox load failed', errorObject: e);
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       setState(() {
-        _error = 'Failed to load offers';
+        _error = l10n.holidayGiftBoxLoadFailed;
         _loading = false;
       });
     }
@@ -231,8 +232,9 @@ class _GiftBoxListScreenState extends State<GiftBoxListScreen> {
     final slug = offer.slug?.trim();
     if (slug == null || slug.isEmpty) {
       AppLogger.error('GiftBox offer is missing slug (id=${offer.id})');
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Offer unavailable')),
+        SnackBar(content: Text(l10n.holidayGiftBoxOfferUnavailable)),
       );
       return;
     }
