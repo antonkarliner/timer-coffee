@@ -10,8 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i22;
-import 'package:coffee_timer/models/gift_offer_model.dart' as _i25;
-import 'package:coffee_timer/models/recipe_model.dart' as _i26;
+import 'package:coffee_timer/models/recipe_model.dart' as _i25;
 import 'package:coffee_timer/screens/account_screen.dart' as _i1;
 import 'package:coffee_timer/screens/brew_diary_screen.dart' as _i2;
 import 'package:coffee_timer/screens/brewing_methods_screen.dart' as _i3;
@@ -238,11 +237,12 @@ class GiftBoxOfferDetailRoute
     extends _i22.PageRouteInfo<GiftBoxOfferDetailRouteArgs> {
   GiftBoxOfferDetailRoute({
     _i24.Key? key,
-    required _i25.GiftOffer offer,
+    required String slug,
     List<_i22.PageRouteInfo>? children,
   }) : super(
           GiftBoxOfferDetailRoute.name,
-          args: GiftBoxOfferDetailRouteArgs(key: key, offer: offer),
+          args: GiftBoxOfferDetailRouteArgs(key: key, slug: slug),
+          rawPathParams: {'slug': slug},
           initialChildren: children,
         );
 
@@ -251,33 +251,37 @@ class GiftBoxOfferDetailRoute
   static _i22.PageInfo page = _i22.PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<GiftBoxOfferDetailRouteArgs>();
-      return _i9.GiftBoxOfferDetailScreen(key: args.key, offer: args.offer);
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<GiftBoxOfferDetailRouteArgs>(
+        orElse: () =>
+            GiftBoxOfferDetailRouteArgs(slug: pathParams.getString('slug')),
+      );
+      return _i9.GiftBoxOfferDetailScreen(key: args.key, slug: args.slug);
     },
   );
 }
 
 class GiftBoxOfferDetailRouteArgs {
-  const GiftBoxOfferDetailRouteArgs({this.key, required this.offer});
+  const GiftBoxOfferDetailRouteArgs({this.key, required this.slug});
 
   final _i24.Key? key;
 
-  final _i25.GiftOffer offer;
+  final String slug;
 
   @override
   String toString() {
-    return 'GiftBoxOfferDetailRouteArgs{key: $key, offer: $offer}';
+    return 'GiftBoxOfferDetailRouteArgs{key: $key, slug: $slug}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! GiftBoxOfferDetailRouteArgs) return false;
-    return key == other.key && offer == other.offer;
+    return key == other.key && slug == other.slug;
   }
 
   @override
-  int get hashCode => key.hashCode ^ offer.hashCode;
+  int get hashCode => key.hashCode ^ slug.hashCode;
 }
 
 /// generated route for
@@ -427,7 +431,7 @@ class NotificationDebugRouteArgs {
 class RecipeCreationRoute extends _i22.PageRouteInfo<RecipeCreationRouteArgs> {
   RecipeCreationRoute({
     _i24.Key? key,
-    _i26.RecipeModel? recipe,
+    _i25.RecipeModel? recipe,
     String? brewingMethodId,
     bool redirectToNewDetailOnSave = false,
     List<_i22.PageRouteInfo>? children,
@@ -470,7 +474,7 @@ class RecipeCreationRouteArgs {
 
   final _i24.Key? key;
 
-  final _i26.RecipeModel? recipe;
+  final _i25.RecipeModel? recipe;
 
   final String? brewingMethodId;
 

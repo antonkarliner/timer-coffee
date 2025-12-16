@@ -14,7 +14,6 @@ import '../providers/snow_provider.dart';
 import '../services/region_service.dart';
 import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart';
-import 'giftbox_offer_detail_screen.dart';
 import '../widgets/gift_discount_chip.dart';
 import '../utils/region_labels.dart';
 
@@ -229,7 +228,15 @@ class _GiftBoxListScreenState extends State<GiftBoxListScreen> {
   }
 
   void _openDetail(GiftOffer offer) {
-    context.router.push(GiftBoxOfferDetailRoute(offer: offer));
+    final slug = offer.slug?.trim();
+    if (slug == null || slug.isEmpty) {
+      AppLogger.error('GiftBox offer is missing slug (id=${offer.id})');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Offer unavailable')),
+      );
+      return;
+    }
+    context.router.push(GiftBoxOfferDetailRoute(slug: slug));
   }
 }
 

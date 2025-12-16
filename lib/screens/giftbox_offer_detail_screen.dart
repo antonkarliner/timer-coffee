@@ -1,26 +1,148 @@
+import 'dart:io' show Platform;
+
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 
 import '../models/gift_offer_model.dart';
+import '../providers/database_provider.dart';
 import '../providers/snow_provider.dart';
 import '../theme/design_tokens.dart';
+import '../utils/app_logger.dart';
 import '../widgets/gift_discount_chip.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../utils/region_labels.dart';
 
 @RoutePage()
-class GiftBoxOfferDetailScreen extends StatelessWidget {
-  final GiftOffer offer;
-  const GiftBoxOfferDetailScreen({super.key, required this.offer});
+class GiftBoxOfferDetailScreen extends StatefulWidget {
+  final String slug;
+  const GiftBoxOfferDetailScreen({
+    super.key,
+    @PathParam('slug') required this.slug,
+  });
+
+  @override
+  State<GiftBoxOfferDetailScreen> createState() =>
+      _GiftBoxOfferDetailScreenState();
+}
+
+class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
+  static const _installIdKey = 'giftbox_install_id';
+
+  GiftOffer? _offer;
+  bool _loading = true;
+  String? _error;
+  Locale? _lastLocale;
+
+  Future<String?> _getOrCreateInstallId() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      var iid = prefs.getString(_installIdKey);
+      iid ??= const Uuid().v4();
+      await prefs.setString(_installIdKey, iid);
+      return iid;
+    } catch (_) {
+      return null; // still fine: tracking without iid
+    }
+  }
+
+  Future<String?> _getAppVersion() async {
+    try {
+      final info = await PackageInfo.fromPlatform();
+      return '${info.version}+${info.buildNumber}';
+    } catch (_) {
+      return null;
+    }
+  }
+
+  String _platformParam() {
+    if (kIsWeb) {
+      return switch (defaultTargetPlatform) {
+        TargetPlatform.iOS => 'ios',
+        TargetPlatform.android => 'android',
+        _ => 'web',
+      };
+    }
+    if (Platform.isIOS) return 'ios';
+    if (Platform.isAndroid) return 'android';
+    return 'other';
+  }
+
+  Future<Uri> _buildTrackedOfferUri(GiftOffer offer) async {
+    final slug = (offer.slug ?? widget.slug).trim();
+
+    // Fallback: no slug? open direct partner URL
+    if (slug.isEmpty || offer.websiteUrl == null || offer.websiteUrl!.isEmpty) {
+      return Uri.parse(offer.websiteUrl ?? '');
+    }
+
+    final locale = Localizations.localeOf(context).toLanguageTag();
+    final platform = _platformParam();
+
+    final iid = await _getOrCreateInstallId();
+    final appVersion = await _getAppVersion();
+
+    return Uri.https('timer.coffee', '/go/$slug', {
+      'src': 'app',
+      'p': platform,
+      'l': locale,
+      if (appVersion != null) 'v': appVersion,
+      if (iid != null) 'iid': iid,
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final locale = Localizations.localeOf(context);
+    if (_lastLocale == null || _lastLocale != locale) {
+      _lastLocale = locale;
+      WidgetsBinding.instance.addPostFrameCallback((_) => _load(locale));
+    }
+  }
+
+  Future<void> _load(Locale locale) async {
+    setState(() {
+      _loading = true;
+      _error = null;
+      _offer = null;
+    });
+    try {
+      final db = context.read<DatabaseProvider>();
+      final offer = await db.fetchGiftOfferBySlug(
+        widget.slug,
+        locale: locale,
+      );
+      if (!mounted) return;
+      setState(() {
+        _offer = offer;
+        _loading = false;
+        if (offer == null) _error = 'Offer unavailable';
+      });
+    } catch (e) {
+      AppLogger.error('GiftBox offer load failed (slug=${widget.slug})',
+          errorObject: e);
+      if (!mounted) return;
+      setState(() {
+        _offer = null;
+        _loading = false;
+        _error = 'Offer unavailable';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final isSnowing = context.watch<SnowEffectProvider>().isSnowing;
+    final offer = _offer;
     final base = theme.colorScheme.surfaceVariant;
     final festiveRed = const Color(0xFFE53935);
     final festiveGreen = const Color(0xFF43A047);
@@ -38,7 +160,7 @@ class GiftBoxOfferDetailScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text(offer.partnerName),
+        title: Text(offer?.partnerName ?? l10n.holidayGiftBoxTitle),
         backgroundColor: Colors.transparent,
         foregroundColor: theme.colorScheme.primary,
         elevation: 0,
@@ -64,89 +186,112 @@ class GiftBoxOfferDetailScreen extends StatelessWidget {
           padding: EdgeInsets.only(
             top: kToolbarHeight + MediaQuery.of(context).padding.top,
           ),
-          child: ListView(
-            padding: const EdgeInsets.all(AppSpacing.cardPadding),
-            children: [
-              _heroImage(),
-              const SizedBox(height: AppSpacing.lg),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Text(
-                      offer.partnerName,
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        fontSize:
-                            (theme.textTheme.headlineSmall?.fontSize ?? 24) + 2,
-                      ),
-                    ),
-                  ),
-                  ..._discountChip(context, offer),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              Wrap(
-                spacing: AppSpacing.xs,
-                runSpacing: AppSpacing.xs,
-                children: [
-                  ...offer.regions
-                      .map((r) => _chip(localizeRegion(r, l10n), theme,
-                          leadingIcon: Icons.location_on))
-                      .toList(),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              if (offer.description != null &&
-                  offer.description!.isNotEmpty) ...[
-                Text(offer.description!, style: theme.textTheme.bodyLarge),
-                const SizedBox(height: AppSpacing.base),
-              ],
-              if (offer.promoCode != null) ...[
-                _promoField(context, theme, l10n),
-                const SizedBox(height: AppSpacing.base),
-              ],
-              if (offer.termsAndConditions != null &&
-                  offer.termsAndConditions!.isNotEmpty)
-                _termsCard(theme, l10n),
-              const SizedBox(height: AppSpacing.lg),
-              if (offer.websiteUrl != null)
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: AppSpacing.base),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () => _launchUrl(offer.websiteUrl!),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.primary,
-                        foregroundColor: theme.colorScheme.onPrimary,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.card),
-                        ),
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      child: Text(
-                        (offer.cta ?? '').trim().isNotEmpty
-                            ? offer.cta!.trim()
-                            : l10n.holidayGiftBoxVisitSite,
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
+          child: _buildBody(theme, l10n, offer),
         ),
       ),
     );
   }
 
-  Widget _heroImage() {
+  Widget _buildBody(ThemeData theme, AppLocalizations l10n, GiftOffer? offer) {
+    if (_loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (offer == null) {
+      return ListView(
+        padding: const EdgeInsets.all(AppSpacing.cardPadding),
+        children: [
+          Text(_error ?? 'Offer unavailable',
+              style: theme.textTheme.bodyLarge),
+          const SizedBox(height: AppSpacing.sm),
+          ElevatedButton(
+            onPressed: () => _load(Localizations.localeOf(context)),
+            child: const Text('Retry'),
+          ),
+        ],
+      );
+    }
+
+    return ListView(
+      padding: const EdgeInsets.all(AppSpacing.cardPadding),
+      children: [
+        _heroImage(offer),
+        const SizedBox(height: AppSpacing.lg),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Text(
+                offer.partnerName,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  fontSize:
+                      (theme.textTheme.headlineSmall?.fontSize ?? 24) + 2,
+                ),
+              ),
+            ),
+            ..._discountChip(context, offer),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        Wrap(
+          spacing: AppSpacing.xs,
+          runSpacing: AppSpacing.xs,
+          children: [
+            ...offer.regions
+                .map((r) => _chip(localizeRegion(r, l10n), theme,
+                    leadingIcon: Icons.location_on))
+                .toList(),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        if (offer.description != null && offer.description!.isNotEmpty) ...[
+          Text(offer.description!, style: theme.textTheme.bodyLarge),
+          const SizedBox(height: AppSpacing.base),
+        ],
+        if (offer.promoCode != null) ...[
+          _promoField(context, theme, l10n, offer),
+          const SizedBox(height: AppSpacing.base),
+        ],
+        if (offer.termsAndConditions != null &&
+            offer.termsAndConditions!.isNotEmpty)
+          _termsCard(theme, l10n, offer),
+        const SizedBox(height: AppSpacing.lg),
+        if (offer.websiteUrl != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.base),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  final uri = await _buildTrackedOfferUri(offer);
+                  await _launchUri(uri);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.primary,
+                  foregroundColor: theme.colorScheme.onPrimary,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.card),
+                  ),
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                child: Text(
+                  (offer.cta ?? '').trim().isNotEmpty
+                      ? offer.cta!.trim()
+                      : l10n.holidayGiftBoxVisitSite,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _heroImage(GiftOffer offer) {
     if (offer.imageUrl == null || offer.imageUrl!.isEmpty) {
       return _placeholderHero();
     }
@@ -182,7 +327,11 @@ class GiftBoxOfferDetailScreen extends StatelessWidget {
   }
 
   Widget _promoField(
-      BuildContext context, ThemeData theme, AppLocalizations l10n) {
+    BuildContext context,
+    ThemeData theme,
+    AppLocalizations l10n,
+    GiftOffer offer,
+  ) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -232,7 +381,7 @@ class GiftBoxOfferDetailScreen extends StatelessWidget {
     ]);
   }
 
-  Widget _termsCard(ThemeData theme, AppLocalizations l10n) {
+  Widget _termsCard(ThemeData theme, AppLocalizations l10n, GiftOffer offer) {
     final termsText = offer.termsAndConditions ?? '';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,7 +402,7 @@ class GiftBoxOfferDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _meta(ThemeData theme, AppLocalizations l10n) {
+  Widget _meta(ThemeData theme, AppLocalizations l10n, GiftOffer offer) {
     final validTo = offer.validTo != null
         ? l10n.holidayGiftBoxValidUntil(_formatDate(offer.validTo!))
         : l10n.holidayGiftBoxValidWhileAvailable;
@@ -314,10 +463,16 @@ class GiftBoxOfferDetailScreen extends StatelessWidget {
         .showSnackBar(SnackBar(content: Text(l10n.holidayGiftBoxPromoCopied)));
   }
 
-  Future<void> _launchUrl(String url) async {
-    final uri = Uri.parse(url);
+  Future<void> _launchUri(Uri uri) async {
+    if (uri.toString().isEmpty) return;
+
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not open link')),
+      );
     }
   }
 }

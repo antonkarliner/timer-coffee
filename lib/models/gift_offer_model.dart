@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 /// No Drift tables are used; the data is kept in-memory per fetch.
 class GiftOffer {
   final String id;
+  final String? slug;
   final String partnerName;
   final String? discountLabel; // legacy fallback
   final String? discountText;
@@ -28,6 +29,7 @@ class GiftOffer {
 
   GiftOffer({
     required this.id,
+    this.slug,
     required this.partnerName,
     required this.localeUsed,
     this.discountLabel,
@@ -94,6 +96,7 @@ class GiftOffer {
 
     return GiftOffer(
       id: json['id'].toString(),
+      slug: json['slug']?.toString(),
       // Always use canonical partner_name from backend; do not localize title.
       partnerName: json['partner_name']?.toString() ?? '',
       discountLabel: json['discount_label']?.toString(),

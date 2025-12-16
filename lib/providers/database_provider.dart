@@ -169,6 +169,33 @@ class DatabaseProvider {
     }
   }
 
+  /// Fetch a single active offer by slug. Returns null on not found / inactive / error.
+  Future<GiftOffer?> fetchGiftOfferBySlug(
+    String slug, {
+    required Locale locale,
+    String? regionCode,
+  }) async {
+    try {
+      final response = await Supabase.instance.client
+          .from('giftbox_offers')
+          .select()
+          .eq('slug', slug)
+          .eq('is_active', true)
+          .limit(1)
+          .single()
+          .timeout(const Duration(seconds: 6));
+
+      final offer = GiftOffer.fromMap((response as Map<String, dynamic>), locale);
+
+      if (_isOfferExpired(offer)) return null;
+      return offer;
+    } catch (e) {
+      AppLogger.error('Failed to fetch active giftbox offer $slug',
+          errorObject: e);
+      return null;
+    }
+  }
+
   bool _isOfferExpired(GiftOffer offer) {
     final now = DateTime.now().toUtc();
     if (offer.validTo != null && offer.validTo!.isBefore(now)) return true;
