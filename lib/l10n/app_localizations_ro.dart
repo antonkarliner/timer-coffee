@@ -1495,6 +1495,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get openSettings => 'Deschide setările';
 
   @override
+  String get couldNotOpenLink => 'Nu s-a putut deschide linkul';
+
+  @override
   String get notificationsDisabledDialogTitle =>
       'Notificări dezactivate în setările sistemului';
 
@@ -1597,6 +1600,9 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get holidayGiftBoxLoadFailed => 'Nu s-au putut încărca ofertele';
+
+  @override
+  String get holidayGiftBoxOfferUnavailable => 'Oferta nu este disponibilă';
 
   @override
   String get holidayGiftBoxBannerTitle =>

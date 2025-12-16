@@ -1482,6 +1482,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get openSettings => 'Avaa asetukset';
 
   @override
+  String get couldNotOpenLink => 'Linkkiä ei voitu avata';
+
+  @override
   String get notificationsDisabledDialogTitle =>
       'Ilmoitukset pois käytöstä järjestelmäasetuksissa';
 
@@ -1585,6 +1588,9 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get holidayGiftBoxLoadFailed => 'Tarjousten lataus epäonnistui';
+
+  @override
+  String get holidayGiftBoxOfferUnavailable => 'Tarjous ei ole saatavilla';
 
   @override
   String get holidayGiftBoxBannerTitle => 'Tutustu lahjaboxiimme';

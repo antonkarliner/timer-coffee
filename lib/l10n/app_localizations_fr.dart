@@ -1502,6 +1502,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get openSettings => 'Ouvrir les paramètres';
 
   @override
+  String get couldNotOpenLink => 'Impossible d\'ouvrir le lien';
+
+  @override
   String get notificationsDisabledDialogTitle =>
       'Notifications désactivées dans les paramètres système';
 
@@ -1606,6 +1609,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get holidayGiftBoxLoadFailed => 'Échec du chargement des offres';
+
+  @override
+  String get holidayGiftBoxOfferUnavailable => 'Offre indisponible';
 
   @override
   String get holidayGiftBoxBannerTitle =>

@@ -1445,6 +1445,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get openSettings => '설정 열기';
 
   @override
+  String get couldNotOpenLink => '링크를 열 수 없습니다';
+
+  @override
   String get notificationsDisabledDialogTitle => '시스템 설정에서 알림이 비활성화됨';
 
   @override
@@ -1545,6 +1548,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get holidayGiftBoxLoadFailed => '혜택을 불러오지 못했습니다';
+
+  @override
+  String get holidayGiftBoxOfferUnavailable => '혜택을 사용할 수 없습니다';
 
   @override
   String get holidayGiftBoxBannerTitle => '홀리데이 기프트 박스를 확인하세요';

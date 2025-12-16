@@ -1482,6 +1482,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get openSettings => 'فتح الإعدادات';
 
   @override
+  String get couldNotOpenLink => 'تعذر فتح الرابط';
+
+  @override
   String get notificationsDisabledDialogTitle =>
       'الإشعارات معطلة في إعدادات النظام';
 
@@ -1583,6 +1586,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get holidayGiftBoxLoadFailed => 'فشل تحميل العروض';
+
+  @override
+  String get holidayGiftBoxOfferUnavailable => 'العرض غير متاح';
 
   @override
   String get holidayGiftBoxBannerTitle => 'تحقق من صندوق الهدايا للعطلات';

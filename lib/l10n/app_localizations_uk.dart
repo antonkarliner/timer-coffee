@@ -1499,6 +1499,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get openSettings => 'Відкрити налаштування';
 
   @override
+  String get couldNotOpenLink => 'Не вдалося відкрити посилання';
+
+  @override
   String get notificationsDisabledDialogTitle =>
       'Сповіщення вимкнено в системних налаштуваннях';
 
@@ -1601,6 +1604,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get holidayGiftBoxLoadFailed => 'Не вдалося завантажити пропозиції';
+
+  @override
+  String get holidayGiftBoxOfferUnavailable => 'Пропозиція недоступна';
 
   @override
   String get holidayGiftBoxBannerTitle => 'Подивіться нашу святкову gift box';

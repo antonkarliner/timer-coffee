@@ -1439,6 +1439,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get openSettings => '打开设置';
 
   @override
+  String get couldNotOpenLink => '无法打开链接';
+
+  @override
   String get notificationsDisabledDialogTitle => '系统设置中已禁用通知';
 
   @override
@@ -1539,6 +1542,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get holidayGiftBoxLoadFailed => '无法加载优惠';
+
+  @override
+  String get holidayGiftBoxOfferUnavailable => '优惠不可用';
 
   @override
   String get holidayGiftBoxBannerTitle => '看看我们的假日礼盒';

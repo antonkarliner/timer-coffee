@@ -1489,6 +1489,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get openSettings => 'Ayarları aç';
 
   @override
+  String get couldNotOpenLink => 'Bağlantı açılamadı';
+
+  @override
   String get notificationsDisabledDialogTitle =>
       'Bildirimler sistem ayarlarında devre dışı';
 
@@ -1593,6 +1596,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get holidayGiftBoxLoadFailed => 'Teklifler yüklenemedi';
+
+  @override
+  String get holidayGiftBoxOfferUnavailable => 'Teklif kullanılamıyor';
 
   @override
   String get holidayGiftBoxBannerTitle => 'Tatil hediye kutumuzu inceleyin';

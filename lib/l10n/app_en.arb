@@ -859,6 +859,10 @@
   "notifications": "Notifications",
   "notificationsDisabledInSystemSettings": "Disabled in system settings",
   "openSettings": "Open Settings",
+  "couldNotOpenLink": "Could not open link",
+  "@couldNotOpenLink": {
+    "description": "Generic error shown when the app cannot open an external link"
+  },
   "notificationsDisabledDialogTitle": "Notifications Disabled in System Settings",
   "notificationsDisabledDialogContent": "You have disabled notifications in your device settings. To enable notifications, please open your device settings and allow notifications for Timer.Coffee.",
   "notificationDebug": "Notification Debug",
@@ -932,6 +936,10 @@
   },
   "holidayGiftBoxRetry": "Retry",
   "holidayGiftBoxLoadFailed": "Failed to load offers",
+  "holidayGiftBoxOfferUnavailable": "Offer unavailable",
+  "@holidayGiftBoxOfferUnavailable": {
+    "description": "Shown when a gift box offer is missing or not available"
+  },
   "holidayGiftBoxBannerTitle": "Check out our holiday gift box",
   "holidayGiftBoxBannerCta": "See offers",
   "regionEurope": "Europe",

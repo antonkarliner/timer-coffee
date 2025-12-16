@@ -1485,6 +1485,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get openSettings => 'Buka Pengaturan';
 
   @override
+  String get couldNotOpenLink => 'Tidak dapat membuka tautan';
+
+  @override
   String get notificationsDisabledDialogTitle =>
       'Notifikasi Dinonaktifkan di Pengaturan Sistem';
 
@@ -1588,6 +1591,9 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get holidayGiftBoxLoadFailed => 'Gagal memuat penawaran';
+
+  @override
+  String get holidayGiftBoxOfferUnavailable => 'Penawaran tidak tersedia';
 
   @override
   String get holidayGiftBoxBannerTitle => 'Lihat kotak hadiah liburan kami';

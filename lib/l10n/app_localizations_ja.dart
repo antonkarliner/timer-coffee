@@ -1444,6 +1444,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get openSettings => '設定を開く';
 
   @override
+  String get couldNotOpenLink => 'リンクを開けませんでした';
+
+  @override
   String get notificationsDisabledDialogTitle => '通知がシステム設定で無効になっています';
 
   @override
@@ -1544,6 +1547,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get holidayGiftBoxLoadFailed => 'オファーの読み込みに失敗しました';
+
+  @override
+  String get holidayGiftBoxOfferUnavailable => 'オファーは利用できません';
 
   @override
   String get holidayGiftBoxBannerTitle => 'ホリデーギフトボックスをチェック';

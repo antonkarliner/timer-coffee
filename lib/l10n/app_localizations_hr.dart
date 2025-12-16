@@ -1484,6 +1484,9 @@ class AppLocalizationsHr extends AppLocalizations {
   String get openSettings => 'Otvori postavke';
 
   @override
+  String get couldNotOpenLink => 'Nije moguće otvoriti poveznicu';
+
+  @override
   String get notificationsDisabledDialogTitle =>
       'Obavijesti onemogućene u sistemskim postavkama';
 
@@ -1586,6 +1589,9 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get holidayGiftBoxLoadFailed => 'Neuspjelo učitavanje ponuda';
+
+  @override
+  String get holidayGiftBoxOfferUnavailable => 'Ponuda nije dostupna';
 
   @override
   String get holidayGiftBoxBannerTitle => 'Pogledaj naš blagdanski gift box';

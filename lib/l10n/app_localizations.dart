@@ -2758,6 +2758,12 @@ abstract class AppLocalizations {
   /// **'Open Settings'**
   String get openSettings;
 
+  /// Generic error shown when the app cannot open an external link
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open link'**
+  String get couldNotOpenLink;
+
   /// No description provided for @notificationsDisabledDialogTitle.
   ///
   /// In en, this message translates to:
@@ -2931,6 +2937,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to load offers'**
   String get holidayGiftBoxLoadFailed;
+
+  /// Shown when a gift box offer is missing or not available
+  ///
+  /// In en, this message translates to:
+  /// **'Offer unavailable'**
+  String get holidayGiftBoxOfferUnavailable;
 
   /// No description provided for @holidayGiftBoxBannerTitle.
   ///

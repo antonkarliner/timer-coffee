@@ -1475,6 +1475,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get openSettings => 'باز کردن تنظیمات';
 
   @override
+  String get couldNotOpenLink => 'باز کردن لینک ممکن نیست';
+
+  @override
   String get notificationsDisabledDialogTitle =>
       'اعلان‌ها در تنظیمات سیستم غیرفعال شده‌اند';
 
@@ -1577,6 +1580,9 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get holidayGiftBoxLoadFailed => 'بارگذاری پیشنهادها ناموفق بود';
+
+  @override
+  String get holidayGiftBoxOfferUnavailable => 'پیشنهاد در دسترس نیست';
 
   @override
   String get holidayGiftBoxBannerTitle => 'جعبه هدیه تعطیلات ما را ببینید';
