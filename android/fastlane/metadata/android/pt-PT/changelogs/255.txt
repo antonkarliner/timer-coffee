@@ -1,0 +1,5 @@
+Melhorado:  
+• Os ecrãs da Caixa de Ofertas estão agora mais informativos e completos.
+
+Correção:  
+• Resolvido: os links externos nas notificações nem sempre abriam corretamente.

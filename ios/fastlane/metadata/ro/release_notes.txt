@@ -1,5 +1,5 @@
-Nou:
-• Surpriză de sărbători! Deschide aplicația ca să vezi ce ți-am pregătit.
+Îmbunătățiri:  
+• Ecranele Cutie Cadou sunt acum mai informative și mai finisate.
 
-Îmbunătățiri:
-• Recunoașterea etichetelor de pe pungile de cafea este acum mai rapidă și, sperăm, mai fiabilă. Încearcă și tu!
+Corectare erori:  
+• Rezolvat: linkurile externe din notificări nu se deschideau întotdeauna corect.

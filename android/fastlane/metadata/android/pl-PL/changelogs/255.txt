@@ -1,5 +1,5 @@
 Ulepszenia:  
 • Ekrany Skrzynki Prezentowej są teraz bardziej przejrzyste i dopracowane.
 
-Poprawki błędów:  
+Poprawki:  
 • Naprawiono: zewnętrzne linki w powiadomieniach nie zawsze otwierały się prawidłowo.

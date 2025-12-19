@@ -1,5 +1,5 @@
 Mejoras:  
-• Las pantallas de la Caja de Regalo ahora son más informativas y refinadas.
+• Las pantallas de Caja de Regalo ahora son más informativas y refinadas.
 
 Corrección de errores:  
 • Solucionado: los enlaces externos en las notificaciones no siempre se abrían correctamente.

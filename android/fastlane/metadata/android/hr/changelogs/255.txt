@@ -1,0 +1,5 @@
+Poboljšano:  
+• Ekrani poklon kutije sada su informativniji i dotjeraniji.
+
+Ispravak greške:  
+• Ispravljeno: vanjske poveznice u obavijestima nisu se uvijek ispravno otvarale.

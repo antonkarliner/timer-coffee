@@ -1,5 +1,5 @@
-Novità:
-• Sorpresa festiva! Apri l’app per scoprire cosa abbiamo preparato per te.
+Migliorato:  
+• Le schermate della Gift Box sono ora più informative e curate.
 
-Miglioramenti:  
-• Il riconoscimento delle etichette dei sacchetti di caffè è ora più veloce e (si spera) più affidabile. Provalo subito!
+Correzione di bug:  
+• Risolto: i link esterni nelle notifiche a volte non si aprivano correttamente.

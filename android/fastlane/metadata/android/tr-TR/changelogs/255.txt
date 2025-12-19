@@ -1,0 +1,5 @@
+Geliştirildi:  
+• Hediye Kutusu ekranları artık daha bilgilendirici ve şık görünüyor.
+
+Hata Düzeltmesi:  
+• Düzeltildi: Bildirimlerdeki harici bağlantılar her zaman düzgün açılmıyordu.

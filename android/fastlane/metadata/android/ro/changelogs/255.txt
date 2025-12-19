@@ -1,0 +1,5 @@
+Îmbunătățiri:  
+• Ecranele Gift Box sunt acum mai informative și mai bine finisate.
+
+Corectări:  
+• Am remediat problema legăturilor externe din notificări, care uneori nu se deschideau corect.

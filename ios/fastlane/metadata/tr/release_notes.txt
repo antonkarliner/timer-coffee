@@ -1,5 +1,5 @@
-Yeni:  
-• Tatil sürprizi! Sizin için ne hazırladığımızı görmek için uygulamayı açın.
-
 Geliştirildi:  
-• Kahve çekirdeği paketlerinin etiketlerini tanıma artık daha hızlı ve (umarız) daha güvenilir. Deneyin!
+• Hediye Kutusu ekranları artık daha bilgilendirici ve özenli.
+
+Hata Düzeltmeleri:  
+• Düzeltildi: Bildirimlerdeki harici bağlantılar her zaman doğru şekilde açılmıyordu.

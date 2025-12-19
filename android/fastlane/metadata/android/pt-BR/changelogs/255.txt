@@ -1,0 +1,5 @@
+Melhorias:  
+• As telas do Gift Box estão mais informativas e aprimoradas.
+
+Correção de bugs:  
+• Corrigido: links externos em notificações nem sempre abriam corretamente.

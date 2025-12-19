@@ -1,5 +1,5 @@
 Verbeterd:  
-• Cadeaubox-schermen zijn nu informatiever en verfijnder.
+• Cadeau Box-schermen zijn nu informatiever en fraaier afgewerkt.
 
 Bugfix:  
 • Opgelost: externe links in meldingen werden niet altijd correct geopend.

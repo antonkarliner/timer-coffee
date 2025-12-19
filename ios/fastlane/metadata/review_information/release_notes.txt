@@ -1,5 +1,5 @@
-New:  
-• Holiday surprise! Open the app to see what we prepared for you.
-
 Improved:  
-• Made the coffee bean bag label recognition faster and (hopefully) more reliable. Give it a try!
+• Gift Box screens deliver clearer and more refined information.
+
+Bugfix:  
+• Fixed: external links in notifications now open reliably every time.

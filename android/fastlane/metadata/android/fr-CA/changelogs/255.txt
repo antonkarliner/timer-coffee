@@ -1,0 +1,5 @@
+Amélioré :  
+• Les écrans de la Boîte-cadeau sont maintenant plus détaillés et soignés.
+
+Correction de bogue :  
+• Correction : les liens externes dans les notifications ne s’ouvraient pas toujours correctement.

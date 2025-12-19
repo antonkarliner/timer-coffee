@@ -1,5 +1,5 @@
 Verbessert:  
-• Die Geschenkbox-Bildschirme sind jetzt informativer und ansprechender gestaltet.
+• Geschenkbox-Bildschirme sind jetzt informativer und ansprechender gestaltet.
 
 Fehlerbehebung:  
 • Behoben: Externe Links in Benachrichtigungen wurden nicht immer korrekt geöffnet.

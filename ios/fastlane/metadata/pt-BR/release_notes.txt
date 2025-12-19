@@ -1,5 +1,5 @@
-Novo:  
-• Surpresa de fim de ano! Abra o aplicativo para ver o que preparamos para você.
+Melhorias:
+• As telas de Caixa de Presentes agora estão mais informativas e refinadas.
 
-Aprimorado:  
-• O reconhecimento dos rótulos dos sacos de café ficou mais rápido e (esperamos) mais confiável. Experimente!
+Correção de bug:
+• Corrigido: links externos em notificações nem sempre abriam corretamente.

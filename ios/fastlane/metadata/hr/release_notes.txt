@@ -1,5 +1,5 @@
-Novo:
-• Blagdansko iznenađenje! Otvorite aplikaciju i pogledajte što smo vam pripremili.
-
 Poboljšano:
-• Brže i (nadamo se) pouzdanije prepoznavanje oznaka na vrećicama kave. Isprobajte!
+• Zasloni s poklon kutijama sada su informativniji i dotjeraniji.
+
+Ispravljeno:
+• Popravljeno: vanjske poveznice u obavijestima nisu se uvijek ispravno otvarale.

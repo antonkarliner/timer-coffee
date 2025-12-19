@@ -1,5 +1,5 @@
-Baru:  
-• Kejutan liburan! Buka aplikasi untuk melihat apa yang telah kami siapkan untukmu.
-
 Peningkatan:  
-• Pengenalan label pada kantong biji kopi kini lebih cepat dan (semoga) lebih akurat. Coba sekarang!
+• Layar Gift Box sekarang lebih informatif dan tampak lebih rapi.
+
+Perbaikan Bug:  
+• Diperbaiki: tautan eksternal pada notifikasi sebelumnya tidak selalu terbuka dengan benar.

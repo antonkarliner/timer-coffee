@@ -1,5 +1,5 @@
 Parannettu:  
-• Lahjalaatikkonäytöt ovat nyt informatiivisempia ja viimeistellympiä.
+• Lahjapakkaus-näytöt ovat nyt informatiivisempia ja viimeistellympiä.
 
 Korjaus:  
 • Korjattu: ilmoitusten ulkoiset linkit eivät aina avautuneet oikein.

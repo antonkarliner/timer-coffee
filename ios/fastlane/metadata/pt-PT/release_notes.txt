@@ -1,5 +1,5 @@
-Novo:
-• Surpresa de Natal! Abra a aplicação para ver o que preparámos para si.
+Melhorado:  
+• Os ecrãs da Caixa de Oferta estão agora mais informativos e refinados.
 
-Melhorias:
-• O reconhecimento dos rótulos dos sacos de café em grão está mais rápido e (esperamos) mais fiável. Experimente!
+Correção de erros:  
+• Corrigido: os links externos nas notificações nem sempre abriam corretamente.

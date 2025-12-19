@@ -1,5 +1,5 @@
-Nouveau :
-• Surprise des fêtes ! Ouvrez l’application pour découvrir ce que nous avons préparé pour vous.
+Amélioré :  
+• Les écrans du Coffret Cadeau sont désormais plus informatifs et soignés.
 
-Amélioré :
-• La reconnaissance des étiquettes sur les sachets de grains de café est désormais plus rapide et (on l’espère) plus fiable. Essayez dès maintenant !
+Correction de bug :  
+• Corrigé : les liens externes dans les notifications ne s’ouvraient pas toujours correctement.

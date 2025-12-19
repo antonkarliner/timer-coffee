@@ -1,0 +1,5 @@
+Ditingkatkan:  
+• Layar Gift Box kini lebih informatif dan tampak lebih rapi.
+
+Perbaikan Bug:  
+• Diperbaiki: tautan eksternal pada notifikasi kini sudah terbuka dengan benar.
