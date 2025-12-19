@@ -5,7 +5,8 @@ import 'package:coffee_timer/env/env.dart';
 import 'package:coffee_timer/models/supported_locale_model.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
 import 'package:coffee_timer/purchase_manager.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart'
+    show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'
     show SystemChrome, SystemUiMode, SystemUiOverlay;
@@ -41,6 +42,7 @@ import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/utils/log_config.dart';
 import 'package:coffee_timer/services/notification_migration_service.dart';
 import 'services/feature_flags/feature_flags_repository.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Custom log handler that intercepts and sanitizes all Supabase library logs
 /// Prevents sensitive data exposure by ensuring all logs go through AppLogger
@@ -88,6 +90,142 @@ class SupabaseLogInterceptor {
   static void dispose() {
     _isInitialized = false;
     _isLogging = false;
+  }
+}
+
+/// Top-level function to launch external URLs with delayed execution
+/// This is used by _checkPendingUrlLaunch during app initialization
+Future<void> _launchExternalUrlTopLevel(Uri uri) async {
+  try {
+    // Enhanced logging for URL launch process
+    AppLogger.debug('Starting external URL launch process (top-level): $uri');
+    AppLogger.debug('Current platform: ${defaultTargetPlatform}');
+    AppLogger.debug('App state: ${WidgetsBinding.instance.lifecycleState}');
+
+    // Ensure the app is fully initialized before launching URL
+    // This is critical for reliability when app is launched from terminated state
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      try {
+        AppLogger.debug('App frame ready, proceeding with URL launch: $uri');
+
+        // Use platform-appropriate launch modes
+        final launchModes = _getLaunchModesForPlatform();
+        AppLogger.debug('Available launch modes for platform: $launchModes');
+
+        // Track launch attempts for better debugging
+        int attemptNumber = 0;
+        final totalAttempts = launchModes.length + 1; // +1 for default mode
+
+        for (final mode in launchModes) {
+          attemptNumber++;
+          try {
+            AppLogger.debug(
+                'Launch attempt $attemptNumber/$totalAttempts: mode=$mode, uri=$uri');
+            final launched = await launchUrl(uri, mode: mode);
+            if (launched) {
+              AppLogger.debug(
+                  'Successfully launched external URL: $uri in mode: $mode (attempt $attemptNumber/$totalAttempts)');
+              return;
+            } else {
+              AppLogger.warning(
+                  'URL launch returned false in mode $mode: $uri (attempt $attemptNumber/$totalAttempts)');
+            }
+          } catch (e) {
+            AppLogger.warning(
+              'Failed to launch URL in $mode: $uri (attempt $attemptNumber/$totalAttempts)',
+              errorObject: e,
+            );
+          }
+        }
+
+        // If all launch modes failed, try the default mode
+        attemptNumber++;
+        AppLogger.debug(
+            'Final attempt $attemptNumber/$totalAttempts: trying default launch mode');
+        final defaultLaunched = await launchUrl(uri);
+        if (!defaultLaunched) {
+          AppLogger.warning(
+              'Failed to open external URL with all $totalAttempts launch modes: $uri');
+        } else {
+          AppLogger.debug(
+              'Successfully launched external URL with default mode: $uri');
+        }
+      } catch (e) {
+        AppLogger.error('Error during delayed URL launch: $uri',
+            errorObject: e);
+      }
+    });
+  } catch (e) {
+    AppLogger.error('Error scheduling external URL launch: $uri',
+        errorObject: e);
+  }
+}
+
+Future<void> _checkPendingUrlLaunch(SharedPreferences prefs) async {
+  try {
+    AppLogger.debug(
+        'Checking for pending external URL launch (iOS terminated state recovery)');
+
+    final pendingUrl = prefs.getString('pending_external_url');
+    if (pendingUrl != null && pendingUrl.isNotEmpty) {
+      AppLogger.debug(
+          'Found pending external URL from iOS terminated state: $pendingUrl');
+      AppLogger.debug(
+          'Attempting to launch pending URL during app initialization');
+
+      final uri = Uri.tryParse(pendingUrl);
+      if (uri != null) {
+        try {
+          AppLogger.debug('Pending URL parsed successfully: $uri');
+
+          // Use the top-level URL launch function which handles delayed execution
+          await _launchExternalUrlTopLevel(uri);
+
+          // Clean up after successful launch attempt
+          AppLogger.debug('Cleaning up pending URL after launch attempt');
+          await prefs.remove('pending_external_url');
+        } catch (e) {
+          AppLogger.error(
+              'Error launching pending external URL during app init: $uri',
+              errorObject: e);
+          // Clean up even if launch failed to prevent retry loops
+          await prefs.remove('pending_external_url');
+        }
+      } else {
+        AppLogger.warning(
+            'Pending URL failed to parse, cleaning up: $pendingUrl');
+        await prefs.remove('pending_external_url');
+      }
+    } else {
+      AppLogger.debug('No pending external URL found (normal app launch)');
+    }
+  } catch (e) {
+    AppLogger.error(
+        'Error checking pending URL launch during app initialization',
+        errorObject: e);
+  }
+}
+
+List<LaunchMode> _getLaunchModesForPlatform() {
+  if (kIsWeb) {
+    return const [LaunchMode.platformDefault];
+  } else if (defaultTargetPlatform == TargetPlatform.android) {
+    // Android: prefer external browser, fallback to in-app browser
+    return const [
+      LaunchMode.externalApplication,
+      LaunchMode.externalNonBrowserApplication,
+      LaunchMode.inAppBrowserView,
+      LaunchMode.inAppWebView,
+    ];
+  } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+    // iOS: prefer external browser, fallback to SFSafariViewController
+    return const [
+      LaunchMode.externalApplication,
+      LaunchMode.inAppBrowserView,
+    ];
+  } else {
+    // Desktop and other platforms
+    return const [LaunchMode.externalApplication];
   }
 }
 
@@ -187,6 +325,10 @@ void main() async {
         'User authenticated, notifications will be setup when enabled');
   }
   SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  // Check for pending external URL launch (iOS terminated state fix)
+  await _checkPendingUrlLaunch(prefs);
+
   bool isFirstLaunch = prefs.getBool('firstLaunched') ?? true;
   bool hasPerformedUuidBackfill =
       prefs.getBool('hasPerformedUuidBackfill') ?? false;
@@ -371,27 +513,223 @@ class CoffeeTimerApp extends StatefulWidget {
 }
 
 class _CoffeeTimerAppState extends State<CoffeeTimerApp> {
+  StreamSubscription<String?>? _notificationTapSubscription;
+
   @override
   void initState() {
     super.initState();
-    _setupNotificationTapHandler(context);
+    _setupNotificationTapHandler();
   }
 
   @override
   void dispose() {
+    _notificationTapSubscription?.cancel();
     widget.featureFlagsRepository.dispose();
     super.dispose();
   }
 
-  void _setupNotificationTapHandler(BuildContext context) {
-    NotificationService.instance.onNotificationTapped.listen((payload) {
-      if (payload == null) return;
+  void _setupNotificationTapHandler() {
+    _notificationTapSubscription =
+        NotificationService.instance.onNotificationTapped.listen((payload) {
+      final deepLink = payload?.trim();
+      if (deepLink == null || deepLink.isEmpty) return;
 
-      // Example deep link handling
-      if (payload.startsWith('/')) {
-        widget.appRouter.pushNamed(payload);
-      }
+      // Ensure router is attached before navigating/launching.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        unawaited(_handleNotificationDeepLink(deepLink));
+      });
     });
+  }
+
+  Future<void> _handleNotificationDeepLink(String deepLink) async {
+    try {
+      AppLogger.info('🔔 NOTIFICATION TAP: Starting deep link handling');
+      AppLogger.debug('Raw deep_link: $deepLink');
+
+      // NEW: Enhanced logging for link processing
+      final uri = Uri.tryParse(deepLink);
+      final isExternalUrl = uri != null &&
+          uri.isAbsolute &&
+          (uri.scheme.toLowerCase() == 'https' ||
+              uri.scheme.toLowerCase() == 'http') &&
+          uri.host.isNotEmpty;
+
+      AppLogger.debug(
+          'Link processing details - deepLink: $deepLink, isExternalUrl: $isExternalUrl, uriScheme: ${uri?.scheme}, uriHost: ${uri?.host}');
+
+      // Prioritize external URLs - open in browser immediately
+      if (isExternalUrl) {
+        AppLogger.info(
+            '🌐 EXTERNAL URL: Detected external URL, launching browser: $deepLink');
+        AppLogger.info('🌐 EXTERNAL URL: Platform: ${defaultTargetPlatform}');
+        await _launchExternalUrl(uri!);
+        return;
+      }
+
+      // Handle internal routes (starting with /)
+      if (deepLink.startsWith('/')) {
+        AppLogger.info('📱 INTERNAL ROUTE: Navigating to: $deepLink');
+        await _navigateToRoute(deepLink);
+        return;
+      }
+
+      // Handle app deep links (timercoffee:// or app://)
+      if (uri != null) {
+        final scheme = uri.scheme.toLowerCase();
+        if (scheme == 'timercoffee' || scheme == 'app') {
+          final routePath = _routePathFromAppDeepLink(uri);
+          if (routePath != null) {
+            AppLogger.info('📱 APP DEEP LINK: Navigating to: $routePath');
+            await _navigateToRoute(routePath);
+            return;
+          } else {
+            AppLogger.warning(
+                '📱 APP DEEP LINK: Could not extract route from: $deepLink');
+          }
+        } else {
+          AppLogger.debug('Unknown scheme: $scheme for deep_link: $deepLink');
+        }
+      }
+
+      AppLogger.warning(
+          '⚠️ UNSUPPORTED LINK: Ignoring unsupported deep_link: $deepLink');
+    } catch (e, stackTrace) {
+      AppLogger.error(
+          '❌ ERROR: Error handling notification deep_link: $deepLink',
+          errorObject: e,
+          stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _launchExternalUrl(Uri uri) async {
+    try {
+      // Enhanced logging for URL launch process
+      AppLogger.info('🚀 URL LAUNCH: Starting external URL launch process');
+      AppLogger.info('🚀 URL LAUNCH: URI: $uri');
+      AppLogger.info('🚀 URL LAUNCH: Platform: ${defaultTargetPlatform}');
+      AppLogger.info(
+          '🚀 URL LAUNCH: App state: ${WidgetsBinding.instance.lifecycleState}');
+
+      // Ensure the app is fully initialized before launching URL
+      // This is critical for reliability when app is launched from terminated state
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        try {
+          AppLogger.info(
+              '🚀 URL LAUNCH: App frame ready, proceeding with URL launch: $uri');
+
+          // Use platform-appropriate launch modes
+          final launchModes = _getLaunchModesForPlatform();
+          AppLogger.info(
+              '🚀 URL LAUNCH: Available launch modes for platform: $launchModes');
+
+          // Track launch attempts for better debugging
+          int attemptNumber = 0;
+          final totalAttempts = launchModes.length + 1; // +1 for default mode
+
+          for (final mode in launchModes) {
+            attemptNumber++;
+            try {
+              AppLogger.info(
+                  '🚀 URL LAUNCH: Attempt $attemptNumber/$totalAttempts: mode=$mode, uri=$uri');
+              final launched = await launchUrl(uri, mode: mode);
+              if (launched) {
+                AppLogger.info(
+                    '✅ URL LAUNCH SUCCESS: Launched $uri in mode: $mode (attempt $attemptNumber/$totalAttempts)');
+                return;
+              } else {
+                AppLogger.warning(
+                    '⚠️ URL LAUNCH FAILED: Launch returned false in mode $mode: $uri (attempt $attemptNumber/$totalAttempts)');
+              }
+            } catch (e, stackTrace) {
+              AppLogger.warning(
+                '❌ URL LAUNCH ERROR: Failed in $mode: $uri (attempt $attemptNumber/$totalAttempts)',
+                errorObject: e,
+                stackTrace: stackTrace,
+              );
+            }
+          }
+
+          // If all launch modes failed, try the default mode
+          attemptNumber++;
+          AppLogger.info(
+              '🚀 URL LAUNCH: Final attempt $attemptNumber/$totalAttempts: trying default launch mode');
+          final defaultLaunched = await launchUrl(uri);
+          if (!defaultLaunched) {
+            AppLogger.error(
+                '❌ URL LAUNCH FAILED: All $totalAttempts launch modes failed for: $uri');
+            // Show error to user or fallback to internal handling
+            _showUrlLaunchError(uri);
+          } else {
+            AppLogger.info(
+                '✅ URL LAUNCH SUCCESS: Launched with default mode: $uri');
+          }
+        } catch (e, stackTrace) {
+          AppLogger.error(
+              '❌ URL LAUNCH ERROR: Error during delayed URL launch: $uri',
+              errorObject: e,
+              stackTrace: stackTrace);
+          _showUrlLaunchError(uri);
+        }
+      });
+    } catch (e, stackTrace) {
+      AppLogger.error(
+          '❌ URL LAUNCH ERROR: Error scheduling external URL launch: $uri',
+          errorObject: e,
+          stackTrace: stackTrace);
+      _showUrlLaunchError(uri);
+    }
+  }
+
+  List<LaunchMode> _getLaunchModesForPlatform() {
+    if (kIsWeb) {
+      return const [LaunchMode.platformDefault];
+    } else if (defaultTargetPlatform == TargetPlatform.android) {
+      // Android: prefer external browser, fallback to in-app browser
+      return const [
+        LaunchMode.externalApplication,
+        LaunchMode.externalNonBrowserApplication,
+        LaunchMode.inAppBrowserView,
+        LaunchMode.inAppWebView,
+      ];
+    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+      // iOS: prefer external browser, fallback to SFSafariViewController
+      return const [
+        LaunchMode.externalApplication,
+        LaunchMode.inAppBrowserView,
+      ];
+    } else {
+      // Desktop and other platforms
+      return const [LaunchMode.externalApplication];
+    }
+  }
+
+  void _showUrlLaunchError(Uri uri) {
+    // This could show a snackbar or dialog to the user
+    // indicating that the URL couldn't be opened
+    AppLogger.warning(
+        'Failed to launch URL: $uri - consider showing user feedback');
+  }
+
+  String? _routePathFromAppDeepLink(Uri uri) {
+    final String routePath;
+    if (uri.host.isNotEmpty) {
+      routePath = '/${uri.host}${uri.path}';
+    } else {
+      routePath = uri.path;
+    }
+
+    if (routePath.isEmpty || routePath == '/') return null;
+
+    final normalized = routePath.startsWith('/') ? routePath : '/$routePath';
+    return uri.hasQuery ? '$normalized?${uri.query}' : normalized;
+  }
+
+  Future<void> _navigateToRoute(String routePath) async {
+    try {
+      await widget.appRouter.pushNamed(routePath);
+    } catch (e) {
+      AppLogger.warning('Failed to navigate to deep_link route: $routePath');
+    }
   }
 
   @override

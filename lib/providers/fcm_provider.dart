@@ -30,6 +30,7 @@ class FcmProvider {
   final BehaviorSubject<String?> _tokenController = BehaviorSubject<String?>();
   final BehaviorSubject<bool> _isInitializedController =
       BehaviorSubject<bool>.seeded(false);
+  StreamSubscription<String?>? _notificationTapSubscription;
 
   // Public streams
   Stream<bool> get isEnabledStream => _isEnabledController.stream.distinct();
@@ -78,6 +79,8 @@ class FcmProvider {
     // Initialize services
     _fcmService = FcmService();
     await _fcmService.initialize();
+    _notificationTapSubscription =
+        _fcmService.onNotificationTapped.listen(onNotificationTapped.add);
     _settingsService = NotificationSettingsService();
     await _settingsService.init();
 
@@ -536,9 +539,11 @@ class FcmProvider {
 
   /// Dispose all streams and resources
   void dispose() {
+    _notificationTapSubscription?.cancel();
     _isEnabledController.close();
     _hasPermissionController.close();
     _tokenController.close();
     _isInitializedController.close();
+    onNotificationTapped.close();
   }
 }

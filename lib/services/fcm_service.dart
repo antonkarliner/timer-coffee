@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:coffee_timer/services/notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +14,7 @@ import 'package:rxdart/rxdart.dart';
 /// This function must be top-level (not a class method) because Firebase Messaging
 /// calls it from a separate isolate where the class instance may not be available.
 /// This is a requirement for background message handling in Firebase Messaging.
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   AppLogger.debug('Handling background FCM message: ${message.messageId}');
   AppLogger.debug('Message data: ${message.data}');
@@ -34,6 +36,19 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     if (message.data.isNotEmpty) {
       AppLogger.debug('Processing background message data');
       // Handle any data payload
+    }
+
+    // Handle external URL caching for iOS terminated state
+    final externalUrl = message.data['external_url'];
+    if (externalUrl != null) {
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('pending_external_url', externalUrl);
+        AppLogger.debug(
+            'Cached external URL for iOS terminated state: $externalUrl');
+      } catch (e) {
+        AppLogger.error('Failed to cache external URL for iOS', errorObject: e);
+      }
     }
   } catch (e) {
     AppLogger.error('Error in background message handler', errorObject: e);
@@ -83,7 +98,7 @@ class FcmService {
       // Handle notification tap when app is in background
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
         AppLogger.debug(
-            'Notification opened app from background: ${message.messageId}');
+            'Notification opened app from background: ${message.messageId}, data=${message.data}');
         _handleNotificationTap(message);
       });
 
@@ -95,6 +110,9 @@ class FcmService {
 
       _isInitialized = true;
       AppLogger.debug('FcmService initialized successfully');
+
+      // Handle notification tap that launched the app (terminated state).
+      unawaited(checkForInitialMessage());
     } catch (e) {
       AppLogger.error('Failed to initialize FcmService', errorObject: e);
       rethrow;
@@ -367,6 +385,44 @@ class FcmService {
     }
   }
 
+  String? _extractNotificationLink(Map<String, dynamic> data) {
+    // NEW: Prioritize external_url field for external links
+    // This ensures external URLs open in browser immediately
+    final externalUrl = data['external_url'];
+    if (externalUrl is String) {
+      final trimmed = externalUrl.trim();
+      if (trimmed.isNotEmpty) {
+        AppLogger.debug(
+            'External URL extracted from external_url field: $trimmed');
+        return trimmed;
+      }
+    }
+
+    // Then check deep_link for internal links
+    final deepLink = data['deep_link'];
+    if (deepLink is String) {
+      final trimmed = deepLink.trim();
+      if (trimmed.isNotEmpty) {
+        AppLogger.debug(
+            'Internal link extracted from deep_link field: $trimmed');
+        return trimmed;
+      }
+    }
+
+    // Fallback to validated_url if present
+    final validatedUrl = data['validated_url'];
+    if (validatedUrl is String) {
+      final trimmed = validatedUrl.trim();
+      if (trimmed.isNotEmpty) {
+        AppLogger.debug('Link extracted from validated_url: $trimmed');
+        return trimmed;
+      }
+    }
+
+    AppLogger.debug('No link extracted from data: $data');
+    return null;
+  }
+
   /// Handle foreground FCM messages
   Future<void> _handleForegroundMessage(RemoteMessage message) async {
     AppLogger.debug('FCM message received in foreground: ${message.messageId}');
@@ -382,11 +438,12 @@ class FcmService {
       final title = message.notification?.title ?? 'Timer.Coffee';
       final body = message.notification?.body ?? 'You have a new notification';
 
+      final notificationLink = _extractNotificationLink(message.data);
       await notificationService.showLocalNotification(
         id: message.hashCode, // Use message hash as unique ID
         title: title,
         body: body,
-        payload: message.data['deep_link'],
+        payload: notificationLink,
       );
 
       AppLogger.debug('Local notification shown for foreground FCM message');
@@ -398,22 +455,54 @@ class FcmService {
 
   /// Handle notification tap events
   void _handleNotificationTap(RemoteMessage message) {
-    final deepLink = message.data['deep_link'];
-    if (deepLink != null) {
-      AppLogger.debug('Deep link from notification: $deepLink');
-      onNotificationTapped.add(deepLink);
+    AppLogger.debug(
+        'Handling notification tap: id=${message.messageId}, data=${message.data}, notification=${message.notification}');
+
+    final openInBrowser = message.data['open_in_browser'];
+    final linkType = message.data['link_type'];
+    final notificationLink = _extractNotificationLink(message.data);
+    if (notificationLink != null) {
+      AppLogger.debug(
+          'Link from notification tap: $notificationLink (link_type=$linkType, open_in_browser=$openInBrowser)');
+      onNotificationTapped.add(notificationLink);
+    } else {
+      AppLogger.warning(
+          'Notification tap had no actionable link; data keys=${message.data.keys.toList()}');
     }
   }
 
   /// Check for initial message when app launches from notification
   Future<void> checkForInitialMessage() async {
     try {
-      RemoteMessage? message = await _messaging.getInitialMessage();
-      if (message != null) {
-        AppLogger.debug(
-            'App opened from terminated state via notification: ${message.messageId}');
-        _handleNotificationTap(message);
+      final message = await _messaging.getInitialMessage();
+      if (message == null) return;
+
+      AppLogger.debug(
+        'App opened from terminated state via notification: ${message.messageId}, data=${message.data}',
+      );
+
+      // Cache external URL for iOS terminated-state recovery (same key main.dart reads)
+      final linkType =
+          (message.data['link_type'] as String?)?.trim().toLowerCase();
+
+      final openInBrowserRaw = message.data['open_in_browser'];
+      final openInBrowser = openInBrowserRaw == true ||
+          (openInBrowserRaw is String &&
+              openInBrowserRaw.trim().toLowerCase() == 'true');
+
+      final candidate =
+          message.data['external_url'] ?? message.data['validated_url'];
+      if ((openInBrowser || linkType == 'external_url') &&
+          candidate is String) {
+        final url = candidate.trim();
+        if (url.isNotEmpty) {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('pending_external_url', url);
+          AppLogger.debug('Cached external URL from initial message: $url');
+        }
       }
+
+      _handleNotificationTap(message);
     } catch (e) {
       AppLogger.error('Error checking for initial message', errorObject: e);
     }

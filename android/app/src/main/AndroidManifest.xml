@@ -53,13 +53,14 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="http"  android:host="app.timer.coffee"/>
-                <data android:scheme="https"/>
+                <data android:scheme="https" android:host="app.timer.coffee"/>
             </intent-filter>
 
             <intent-filter>
                 <action   android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="timercoffee"/>
                 <data android:scheme="timercofee"/>
             </intent-filter>
         </activity>

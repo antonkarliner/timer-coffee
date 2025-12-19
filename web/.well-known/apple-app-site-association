@@ -1,11 +1,42 @@
 {
   "applinks": {
-      "apps": [],
-      "details": [
+    "details": [
       {
-        "appID": "M9YGUG9LDA.timer.coffee",
-        "paths": ["*"]
+        "appIDs": [
+          "M9YGUG9LDA.com.timer.coffee"
+        ],
+        "components": [
+          {
+            "/": "/app/*",
+            "comment": "Matches internal app routes that should open in the app"
+          },
+          {
+            "/": "/share/*",
+            "comment": "Matches recipe sharing routes"
+          },
+          {
+            "/": "/recipe/*",
+            "comment": "Matches recipe deep links"
+          },
+          {
+            "/": "/user/*",
+            "comment": "Matches user profile routes"
+          },
+          {
+            "/": "/*",
+            "exclude": true,
+            "comment": "EXCLUDES all other URLs from Universal Links - critical for external URLs in notifications"
+          }
+        ]
       }
     ]
+  },
+  "webcredentials": {
+    "apps": [
+      "M9YGUG9LDA.com.timer.coffee"
+    ]
+  },
+  "appclips": {
+    "apps": []
   }
 }
