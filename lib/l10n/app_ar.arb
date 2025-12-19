@@ -723,6 +723,13 @@
       }
     }
   },
+  "holidayGiftBoxEndsInDays": "{days, plural, =0{ينتهي اليوم} =1{ينتهي غدًا} =2{ينتهي خلال يومين} few{ينتهي خلال {days} أيام} other{ينتهي خلال {days} يوم}}",
+  "@holidayGiftBoxEndsInDays": {
+    "description": "Relative expiry label for Gift Box offers (used when the offer ends within 7 days).",
+    "placeholders": {
+      "days": {}
+    }
+  },
   "holidayGiftBoxValidWhileAvailable": "صالح ما دام متاحًا",
   "holidayGiftBoxUpdated": "تم التحديث {date}",
   "@holidayGiftBoxUpdated": {

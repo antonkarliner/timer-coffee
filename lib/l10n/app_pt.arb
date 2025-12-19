@@ -723,6 +723,13 @@
       }
     }
   },
+  "holidayGiftBoxEndsInDays": "{days, plural, =0{Termina hoje} =1{Termina amanhã} other{Termina em {days} dias}}",
+  "@holidayGiftBoxEndsInDays": {
+    "description": "Relative expiry label for Gift Box offers (used when the offer ends within 7 days).",
+    "placeholders": {
+      "days": {}
+    }
+  },
   "holidayGiftBoxValidWhileAvailable": "Válido enquanto durar o estoque",
   "holidayGiftBoxUpdated": "Atualizado em {date}",
   "@holidayGiftBoxUpdated": {

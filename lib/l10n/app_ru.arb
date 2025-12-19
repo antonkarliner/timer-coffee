@@ -723,6 +723,13 @@
       }
     }
   },
+  "holidayGiftBoxEndsInDays": "{days, plural, =0{Заканчивается сегодня} =1{Заканчивается завтра} other{{days, plural, one{Заканчивается через {days} день} few{Заканчивается через {days} дня} many{Заканчивается через {days} дней} other{Заканчивается через {days} дней}}}}",
+  "@holidayGiftBoxEndsInDays": {
+    "description": "Relative expiry label for Gift Box offers (used when the offer ends within 7 days).",
+    "placeholders": {
+      "days": {}
+    }
+  },
   "holidayGiftBoxValidWhileAvailable": "Действительно, пока есть в наличии",
   "holidayGiftBoxUpdated": "Обновлено {date}",
   "@holidayGiftBoxUpdated": {

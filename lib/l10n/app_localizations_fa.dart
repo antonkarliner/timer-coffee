@@ -1563,6 +1563,18 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
+  String holidayGiftBoxEndsInDays(num days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'تا $days روز دیگر تمام می‌شود',
+      one: 'فردا تمام می‌شود',
+      zero: 'امروز تمام می‌شود',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get holidayGiftBoxValidWhileAvailable => 'معتبر تا زمان موجود بودن';
 
   @override

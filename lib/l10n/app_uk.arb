@@ -723,6 +723,13 @@
       }
     }
   },
+  "holidayGiftBoxEndsInDays": "{days, plural, =0{Закінчується сьогодні} =1{Закінчується завтра} other{{days, plural, one{Закінчується через {days} день} few{Закінчується через {days} дні} many{Закінчується через {days} днів} other{Закінчується через {days} днів}}}}",
+  "@holidayGiftBoxEndsInDays": {
+    "description": "Relative expiry label for Gift Box offers (used when the offer ends within 7 days).",
+    "placeholders": {
+      "days": {}
+    }
+  },
   "holidayGiftBoxValidWhileAvailable": "Дійсно, доки є в наявності",
   "holidayGiftBoxUpdated": "Оновлено {date}",
   "@holidayGiftBoxUpdated": {

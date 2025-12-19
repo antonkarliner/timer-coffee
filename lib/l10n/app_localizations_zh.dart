@@ -1525,6 +1525,18 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String holidayGiftBoxEndsInDays(num days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days天后结束',
+      one: '明天结束',
+      zero: '今天结束',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get holidayGiftBoxValidWhileAvailable => '库存有限，售完即止';
 
   @override

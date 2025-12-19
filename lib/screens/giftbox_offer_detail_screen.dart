@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -216,10 +217,20 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
       );
     }
 
+    final validityLabel = _validityLabel(context, l10n, offer);
+    final hasTerms = offer.termsAndConditions != null &&
+        offer.termsAndConditions!.isNotEmpty;
+    final showCta = offer.websiteUrl != null;
+
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.cardPadding),
       children: [
         _heroImage(offer),
+        if (_expiringSoonLabel(l10n, offer.validTo) case final String label)
+          ...[
+            const SizedBox(height: AppSpacing.sm),
+            _ExpiringSoonBanner(label: label),
+          ],
         const SizedBox(height: AppSpacing.lg),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,6 +257,8 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
                 .map((r) => _chip(localizeRegion(r, l10n), theme,
                     leadingIcon: Icons.location_on))
                 .toList(),
+            if (validityLabel != null)
+              _chip(validityLabel, theme, leadingIcon: Icons.event),
           ],
         ),
         const SizedBox(height: AppSpacing.lg),
@@ -257,11 +270,9 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
           _promoField(context, theme, l10n, offer),
           const SizedBox(height: AppSpacing.base),
         ],
-        if (offer.termsAndConditions != null &&
-            offer.termsAndConditions!.isNotEmpty)
-          _termsCard(theme, l10n, offer),
-        const SizedBox(height: AppSpacing.lg),
-        if (offer.websiteUrl != null)
+        if (hasTerms) _termsCard(theme, l10n, offer),
+        if (showCta) ...[
+          const SizedBox(height: AppSpacing.lg),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.base),
             child: SizedBox(
@@ -292,8 +303,21 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
               ),
             ),
           ),
+        ],
       ],
     );
+  }
+
+  String? _expiringSoonLabel(AppLocalizations l10n, DateTime? validTo) {
+    if (validTo == null) return null;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final localValidTo = validTo.toLocal();
+    final validToDate =
+        DateTime(localValidTo.year, localValidTo.month, localValidTo.day);
+    final daysLeft = validToDate.difference(today).inDays;
+    if (daysLeft < 0 || daysLeft > 7) return null;
+    return l10n.holidayGiftBoxEndsInDays(daysLeft);
   }
 
   Widget _heroImage(GiftOffer offer) {
@@ -418,12 +442,25 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
     );
   }
 
+  String? _validityLabel(
+    BuildContext context,
+    AppLocalizations l10n,
+    GiftOffer offer,
+  ) {
+    if (offer.validTo != null) {
+      return l10n.holidayGiftBoxValidUntil(
+        _formatDate(context, offer.validTo!),
+      );
+    }
+    return l10n.holidayGiftBoxValidWhileAvailable;
+  }
+
   Widget _meta(ThemeData theme, AppLocalizations l10n, GiftOffer offer) {
     final validTo = offer.validTo != null
-        ? l10n.holidayGiftBoxValidUntil(_formatDate(offer.validTo!))
+        ? l10n.holidayGiftBoxValidUntil(_formatDate(context, offer.validTo!))
         : l10n.holidayGiftBoxValidWhileAvailable;
     final updated = offer.updatedAt != null
-        ? l10n.holidayGiftBoxUpdated(_formatDate(offer.updatedAt!))
+        ? l10n.holidayGiftBoxUpdated(_formatDate(context, offer.updatedAt!))
         : null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -439,8 +476,9 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
     );
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  String _formatDate(BuildContext context, DateTime date) {
+    final locale = Localizations.localeOf(context).toLanguageTag();
+    return DateFormat.yMMMd(locale).format(date.toLocal());
   }
 
   Widget _chip(String label, ThemeData theme,
@@ -497,5 +535,39 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
         SnackBar(content: Text(l10n.couldNotOpenLink)),
       );
     }
+  }
+}
+
+class _ExpiringSoonBanner extends StatelessWidget {
+  final String label;
+  const _ExpiringSoonBanner({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    if (label.trim().isEmpty) return const SizedBox.shrink();
+    final theme = Theme.of(context);
+    final bg = theme.colorScheme.errorContainer;
+    final fg = theme.colorScheme.onErrorContainer;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.schedule, size: 16, color: fg),
+          const SizedBox(width: AppSpacing.xs),
+          Expanded(
+            child: Text(
+              label,
+              style: theme.textTheme.labelMedium?.copyWith(color: fg),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

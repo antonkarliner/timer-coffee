@@ -1583,6 +1583,18 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
+  String holidayGiftBoxEndsInDays(num days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Se încheie în $days zile',
+      one: 'Se încheie mâine',
+      zero: 'Se încheie astăzi',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get holidayGiftBoxValidWhileAvailable => 'Valabil în limita stocului';
 
   @override

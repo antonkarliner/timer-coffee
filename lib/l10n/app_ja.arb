@@ -723,6 +723,13 @@
       }
     }
   },
+  "holidayGiftBoxEndsInDays": "{days, plural, =0{本日終了} =1{明日終了} other{あと{days}日で終了}}",
+  "@holidayGiftBoxEndsInDays": {
+    "description": "Relative expiry label for Gift Box offers (used when the offer ends within 7 days).",
+    "placeholders": {
+      "days": {}
+    }
+  },
   "holidayGiftBoxValidWhileAvailable": "在庫がある限り有効",
   "holidayGiftBoxUpdated": "{date} に更新",
   "@holidayGiftBoxUpdated": {

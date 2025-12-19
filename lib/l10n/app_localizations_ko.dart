@@ -1531,6 +1531,18 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String holidayGiftBoxEndsInDays(num days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '종료까지 $days일',
+      one: '내일 종료',
+      zero: '오늘 종료',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get holidayGiftBoxValidWhileAvailable => '재고 소진 시까지 유효';
 
   @override

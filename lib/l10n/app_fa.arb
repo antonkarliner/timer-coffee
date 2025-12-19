@@ -896,6 +896,13 @@
       }
     }
   },
+  "holidayGiftBoxEndsInDays": "{days, plural, =0{امروز تمام می‌شود} =1{فردا تمام می‌شود} other{تا {days} روز دیگر تمام می‌شود}}",
+  "@holidayGiftBoxEndsInDays": {
+    "description": "Relative expiry label for Gift Box offers (used when the offer ends within 7 days).",
+    "placeholders": {
+      "days": {}
+    }
+  },
   "holidayGiftBoxValidWhileAvailable": "معتبر تا زمان موجود بودن",
   "holidayGiftBoxUpdated": "به‌روزرسانی شده در {date}",
   "@holidayGiftBoxUpdated": {

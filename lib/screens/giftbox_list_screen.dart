@@ -252,114 +252,135 @@ class GiftOfferCard extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final discountChip = buildDiscountChip(context, offer);
+    final expiringSoonLabel = _expiringSoonLabel(l10n, offer.validTo);
     return Material(
       borderRadius: BorderRadius.circular(AppRadius.card),
       color: theme.colorScheme.surface,
       elevation: 1,
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
         borderRadius: BorderRadius.circular(AppRadius.card),
         onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.cardPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.cardPadding),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _image(),
-                  const SizedBox(width: AppSpacing.base),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _image(),
+                      const SizedBox(width: AppSpacing.base),
+                      Expanded(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: AutoSizeText(
-                                offer.partnerName,
-                                style: theme.textTheme.titleMedium
-                                    ?.copyWith(fontWeight: FontWeight.w700),
-                                maxLines: 2,
-                                minFontSize: 14,
-                                stepGranularity: 0.5,
-                                wrapWords: false,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            if (discountChip != null)
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: ConstrainedBox(
-                                    constraints: const BoxConstraints(
-                                      maxWidth: 120,
-                                    ),
-                                    child: FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      alignment: Alignment.topRight,
-                                      child: discountChip,
-                                    ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: AutoSizeText(
+                                    offer.partnerName,
+                                    style: theme.textTheme.titleMedium
+                                        ?.copyWith(fontWeight: FontWeight.w700),
+                                    maxLines: 2,
+                                    minFontSize: 14,
+                                    stepGranularity: 0.5,
+                                    wrapWords: false,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                              ),
+                                if (discountChip != null)
+                                  Flexible(
+                                    fit: FlexFit.loose,
+                                    child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: ConstrainedBox(
+                                        constraints: const BoxConstraints(
+                                          maxWidth: 120,
+                                        ),
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          alignment: Alignment.topRight,
+                                          child: discountChip,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            const SizedBox(height: AppSpacing.xs),
+                            Wrap(
+                              alignment: WrapAlignment.start,
+                              spacing: AppSpacing.xs,
+                              runSpacing: AppSpacing.xs,
+                              children: [
+                                ...offer.regions
+                                    .map((r) => _chip(
+                                        localizeRegion(
+                                            r, AppLocalizations.of(context)!),
+                                        theme))
+                                    .toList(),
+                              ],
+                            ),
                           ],
                         ),
-                        const SizedBox(height: AppSpacing.xs),
-                        Wrap(
-                          alignment: WrapAlignment.start,
-                          spacing: AppSpacing.xs,
-                          runSpacing: AppSpacing.xs,
-                          children: [
-                            ...offer.regions
-                                .map((r) => _chip(
-                                    localizeRegion(
-                                        r, AppLocalizations.of(context)!),
-                                    theme))
-                                .toList(),
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
+                  const SizedBox(height: AppSpacing.sm),
+                  if (offer.description != null && offer.description!.isNotEmpty)
+                    Text(
+                      offer.description!,
+                      style: theme.textTheme.bodyMedium,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  const SizedBox(height: AppSpacing.base),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButton(
+                      onPressed: onTap,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.colorScheme.primary,
+                        foregroundColor: theme.colorScheme.onPrimary,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.card),
+                        ),
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      child: Text(l10n.holidayGiftBoxViewDetails),
+                    ),
+                  )
                 ],
               ),
-              const SizedBox(height: AppSpacing.sm),
-              if (offer.description != null && offer.description!.isNotEmpty)
-                Text(
-                  offer.description!,
-                  style: theme.textTheme.bodyMedium,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              const SizedBox(height: AppSpacing.base),
-              Align(
-                alignment: Alignment.centerRight,
-                child: ElevatedButton(
-                  onPressed: onTap,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary,
-                    foregroundColor: theme.colorScheme.onPrimary,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.card),
-                    ),
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  child: Text(l10n.holidayGiftBoxViewDetails),
-                ),
-              )
-            ],
-          ),
+            ),
+            if (expiringSoonLabel != null)
+              _ExpiringSoonStrip(label: expiringSoonLabel),
+          ],
         ),
       ),
     );
+  }
+
+  String? _expiringSoonLabel(AppLocalizations l10n, DateTime? validTo) {
+    if (validTo == null) return null;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final localValidTo = validTo.toLocal();
+    final validToDate =
+        DateTime(localValidTo.year, localValidTo.month, localValidTo.day);
+    final daysLeft = validToDate.difference(today).inDays;
+    if (daysLeft < 0 || daysLeft > 7) return null;
+    return l10n.holidayGiftBoxEndsInDays(daysLeft);
   }
 
   Widget _chip(String label, ThemeData theme,
@@ -422,6 +443,37 @@ class GiftOfferCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadius.card),
       ),
       child: const Icon(Icons.image_not_supported, size: 24),
+    );
+  }
+}
+
+class _ExpiringSoonStrip extends StatelessWidget {
+  final String label;
+  const _ExpiringSoonStrip({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final bg = theme.colorScheme.errorContainer;
+    final fg = theme.colorScheme.onErrorContainer;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.cardPadding, vertical: AppSpacing.sm),
+      color: bg,
+      child: Row(
+        children: [
+          Icon(Icons.schedule, size: 18, color: fg),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Text(
+              label,
+              style: theme.textTheme.labelLarge?.copyWith(color: fg),
+            ),
+          ),
+          Icon(Icons.chevron_right, size: 20, color: fg),
+        ],
+      ),
     );
   }
 }

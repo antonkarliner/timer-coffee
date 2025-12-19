@@ -1570,6 +1570,18 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
+  String holidayGiftBoxEndsInDays(num days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Päättyy $days päivän kuluttua',
+      one: 'Päättyy huomenna',
+      zero: 'Päättyy tänään',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get holidayGiftBoxValidWhileAvailable =>
       'Voimassa niin kauan kuin tuotteita riittää';
 

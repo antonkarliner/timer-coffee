@@ -1572,6 +1572,24 @@ class AppLocalizationsHr extends AppLocalizations {
   }
 
   @override
+  String holidayGiftBoxEndsInDays(num days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Istječe za $days dana',
+      one: 'Istječe za $days dan',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$_temp0',
+      one: 'Istječe sutra',
+      zero: 'Istječe danas',
+    );
+    return '$_temp1';
+  }
+
+  @override
   String get holidayGiftBoxValidWhileAvailable => 'Vrijedi dok traje zaliha';
 
   @override

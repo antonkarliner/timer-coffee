@@ -2908,6 +2908,12 @@ abstract class AppLocalizations {
   /// **'Valid until {date}'**
   String holidayGiftBoxValidUntil(String date);
 
+  /// Relative expiry label for Gift Box offers (used when the offer ends within 7 days).
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{Ends today} =1{Ends tomorrow} other{Ends in {days} days}}'**
+  String holidayGiftBoxEndsInDays(num days);
+
   /// No description provided for @holidayGiftBoxValidWhileAvailable.
   ///
   /// In en, this message translates to:

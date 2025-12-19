@@ -1587,6 +1587,26 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
+  String holidayGiftBoxEndsInDays(num days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Закінчується через $days днів',
+      many: 'Закінчується через $days днів',
+      few: 'Закінчується через $days дні',
+      one: 'Закінчується через $days день',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$_temp0',
+      one: 'Закінчується завтра',
+      zero: 'Закінчується сьогодні',
+    );
+    return '$_temp1';
+  }
+
+  @override
   String get holidayGiftBoxValidWhileAvailable => 'Дійсно, доки є в наявності';
 
   @override

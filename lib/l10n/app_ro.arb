@@ -723,6 +723,13 @@
       }
     }
   },
+  "holidayGiftBoxEndsInDays": "{days, plural, =0{Se încheie astăzi} =1{Se încheie mâine} other{Se încheie în {days} zile}}",
+  "@holidayGiftBoxEndsInDays": {
+    "description": "Relative expiry label for Gift Box offers (used when the offer ends within 7 days).",
+    "placeholders": {
+      "days": {}
+    }
+  },
   "holidayGiftBoxValidWhileAvailable": "Valabil în limita stocului",
   "holidayGiftBoxUpdated": "Actualizat la {date}",
   "@holidayGiftBoxUpdated": {
