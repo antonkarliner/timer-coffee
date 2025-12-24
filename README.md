@@ -126,4 +126,4 @@ Timer.Coffee is released under the [GNU General Public License v3.0](LICENSE).
 - Support: [https://buymeacoffee.com/timercoffee](https://buymeacoffee.com/timercoffee)
 
 
-![big-size-light](https://github.com/user-attachments/assets/52930e0d-9614-4b24-81ed-7220bd09a1b6)
+![big-size-light](https://www.timer.coffee/_next/image/?url=%2Fassets%2Fimages%2Fdevice-specific%2Fbig-size-light.webp&w=1200&q=75)
