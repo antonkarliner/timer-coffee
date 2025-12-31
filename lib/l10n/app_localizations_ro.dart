@@ -292,7 +292,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get timeFormat => 'HH:mm';
 
   @override
-  String get brewdiary => 'Jurnal de Brăzdat';
+  String get brewdiary => 'Jurnal de Preparare';
 
   @override
   String get brewdiarynotfound => 'Nu s-au găsit înregistrări';
@@ -436,7 +436,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get variety => 'Soi';
 
   @override
-  String get region => 'America de Nord';
+  String get region => 'Regiune';
 
   @override
   String get elevation => 'Altitudine';

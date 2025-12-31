@@ -19,11 +19,14 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart' hide TextDirection;
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 
 import '../app_router.gr.dart';
 
@@ -138,6 +141,10 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   static const double _emojiTilePad = _emojiTileSize / 2;
   static const double _emojiOverlayOpacity = 0.65;
   static const List<double> _emojiRotationsDeg = [-12.0, -4.0, 6.0, 12.0, -8.0];
+  static const String _trackingSchema = 'service';
+  static const String _trackingTable = 'year_story_clicks';
+  static const String _trackingSource = 'year_story_25';
+  static const String _trackingInstallIdKey = 'year_story_install_id';
 
   AppLocalizations get _l10n => AppLocalizations.of(context)!;
 
@@ -251,6 +258,10 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   final GlobalKey _ctaDonateKey = GlobalKey();
   final GlobalKey _ctaInstagramKey = GlobalKey();
   OverlayEntry? _shareOverlay;
+  String? _cachedInstallId;
+  String? _cachedAppVersion;
+  bool _trackedOpen = false;
+  bool _trackedLastSlide = false;
 
   String _appBarTitle = '';
   int _slide1Index = 0;
@@ -1032,6 +1043,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
               );
             }
             final mostRecent = dateFmt.format(peak.days.first);
+            final litersValue =
+                peak.liters != null ? _formatLiters(peak.liters!) : null;
             return _slideSurface(
               emoji: '⏱',
               child: Column(
@@ -1047,7 +1060,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
                     scratchKey: ValueKey(
                       'slide4-${_slide4ScratchSeed}-multi',
                     ),
-                    child: _slide4DetailsMultiPeak(mostRecent, peak.count),
+                    child:
+                        _slide4DetailsMultiPeak(mostRecent, peak.count, litersValue),
                     onReveal: handleReveal,
                     hideLabel: _showSlide4Details,
                     overlayOpacity: 1 - _slide4ScratchFade.value,
@@ -1165,6 +1179,14 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   // ------------------------
   void _startStory(int index) {
     if (_stories.isEmpty) return;
+    if (index == 0 && !_trackedOpen) {
+      _trackedOpen = true;
+      unawaited(_trackStoryEvent('open'));
+    }
+    if (index == _ctaIndex && !_trackedLastSlide) {
+      _trackedLastSlide = true;
+      unawaited(_trackStoryEvent('last_slide'));
+    }
     _slide5IgnorePause = index == _slide5Index && _isPaused;
     if (index != _slide2Index) {
       _stopGlobalCountTicker(reset: false);
@@ -2597,10 +2619,55 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     );
   }
 
+  List<String> _buildNumberUnitHighlights(String text, String number) {
+    if (number.isEmpty) return const [];
+    final highlights = <String>[number];
+    final index = text.indexOf(number);
+    if (index == -1) return highlights;
+
+    final afterIndex = index + number.length;
+    var i = afterIndex;
+    while (i < text.length && (text[i] == ' ' || text[i] == '\u00A0')) {
+      i++;
+    }
+    if (i < text.length) {
+      final match =
+          RegExp(r'^\p{L}+', unicode: true).firstMatch(text.substring(i));
+      if (match != null) {
+        final unit = match.group(0)!;
+        if (unit.isNotEmpty && unit.length <= 12) {
+          highlights.add(unit);
+          return highlights;
+        }
+      }
+    }
+
+    var j = index - 1;
+    while (j >= 0 && (text[j] == ' ' || text[j] == '\u00A0')) {
+      j--;
+    }
+    if (j >= 0) {
+      var end = j + 1;
+      var start = j;
+      while (start >= 0 &&
+          RegExp(r'\p{L}', unicode: true).hasMatch(text[start])) {
+        start--;
+      }
+      start++;
+      if (start < end) {
+        final unit = text.substring(start, end);
+        if (unit.isNotEmpty && unit.length <= 12) {
+          highlights.add(unit);
+        }
+      }
+    }
+    return highlights;
+  }
+
   Widget _slide4DetailsSinglePeak(_PeakDayInfo peak, DateFormat dateFmt) {
     final l10n = _l10n;
+    final dateText = dateFmt.format(peak.days.first);
     final brewsLabel = l10n.yearlyStats25BrewsCount(peak.count);
-    final brewsValue = peak.count.toString();
     final litersValue =
         peak.liters != null ? _formatLiters(peak.liters!) : null;
     return Column(
@@ -2609,32 +2676,61 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
       children: [
         _subtitleHighlightedText(
           l10n.yearlyStats25Slide4PeakSingle(
-            dateFmt.format(peak.days.first),
+            dateText,
             brewsLabel,
           ),
-          [brewsValue],
+          [dateText, brewsLabel],
           color: Colors.black,
         ),
         if (litersValue != null) ...[
           const SizedBox(height: 8),
-          _subtitleHighlightedText(
-            l10n.yearlyStats25Slide4PeakLiters(litersValue),
-            [litersValue],
-            color: Colors.black,
+          Builder(
+            builder: (context) {
+              final litersLine =
+                  l10n.yearlyStats25Slide4PeakLiters(litersValue);
+              return _subtitleHighlightedText(
+                litersLine,
+                _buildNumberUnitHighlights(litersLine, litersValue),
+                color: Colors.black,
+              );
+            },
           ),
         ],
       ],
     );
   }
 
-  Widget _slide4DetailsMultiPeak(String mostRecent, int count) {
+  Widget _slide4DetailsMultiPeak(
+    String mostRecent,
+    int count,
+    String? litersValue,
+  ) {
     final l10n = _l10n;
     final brewsLabel = l10n.yearlyStats25BrewsCount(count);
-    final brewsValue = count.toString();
-    return _subtitleHighlightedText(
-      l10n.yearlyStats25Slide4PeakMostRecent(mostRecent, brewsLabel),
-      [brewsValue],
-      color: Colors.black,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _subtitleHighlightedText(
+          l10n.yearlyStats25Slide4PeakMostRecent(mostRecent, brewsLabel),
+          [mostRecent, brewsLabel],
+          color: Colors.black,
+        ),
+        if (litersValue != null) ...[
+          const SizedBox(height: 8),
+          Builder(
+            builder: (context) {
+              final litersLine =
+                  l10n.yearlyStats25Slide4PeakLiters(litersValue);
+              return _subtitleHighlightedText(
+                litersLine,
+                _buildNumberUnitHighlights(litersLine, litersValue),
+                color: Colors.black,
+              );
+            },
+          ),
+        ],
+      ],
     );
   }
 
@@ -2890,6 +2986,74 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
       }
     } catch (_) {
       // Ignore and use fallback text.
+    }
+  }
+
+  // ------------------------
+  // Tracking
+  // ------------------------
+  Future<String?> _getOrCreateInstallId() async {
+    if (_cachedInstallId != null) return _cachedInstallId;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      var iid = prefs.getString(_trackingInstallIdKey);
+      iid ??= const Uuid().v4();
+      await prefs.setString(_trackingInstallIdKey, iid);
+      _cachedInstallId = iid;
+      return iid;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<String?> _getAppVersion() async {
+    if (_cachedAppVersion != null) return _cachedAppVersion;
+    try {
+      final info = await PackageInfo.fromPlatform();
+      _cachedAppVersion = '${info.version}+${info.buildNumber}';
+      return _cachedAppVersion;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  String _platformParam() {
+    if (kIsWeb) return 'web';
+    if (Platform.isIOS) return 'ios';
+    if (Platform.isAndroid) return 'android';
+    if (Platform.isMacOS) return 'macos';
+    if (Platform.isWindows) return 'windows';
+    if (Platform.isLinux) return 'linux';
+    return 'other';
+  }
+
+  Future<void> _trackStoryEvent(String event) async {
+    final supabase = Supabase.instance.client;
+    final user = supabase.auth.currentUser;
+    if (user == null) {
+      AppLogger.debug('YearlyStats25: tracking "$event" skipped (no user)');
+      return;
+    }
+    try {
+      final locale = Localizations.localeOf(context).toLanguageTag();
+      final installId = await _getOrCreateInstallId();
+      final appVersion = await _getAppVersion();
+      final payload = <String, dynamic>{
+        'src': _trackingSource,
+        'event': event,
+        'platform': _platformParam(),
+        'locale': locale,
+        if (appVersion != null) 'app_version': appVersion,
+        if (installId != null) 'install_id': installId,
+      };
+      await supabase
+          .schema(_trackingSchema)
+          .from(_trackingTable)
+          .insert(payload);
+      AppLogger.debug('YearlyStats25: tracked "$event"');
+    } catch (e) {
+      AppLogger.debug('YearlyStats25: tracking "$event" failed',
+          errorObject: e);
     }
   }
 
@@ -3295,16 +3459,25 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     }
 
     final capped = roasters.take(30).toList();
-    final selected = <String>[];
+    if (roasters.length <= 30) {
+      final fullText = buildText(capped, addOthers: false);
+      if (fits(fullText)) {
+        return fullText;
+      }
+    }
+
+    var selected = <String>[];
     for (final roaster in capped) {
       final tentative = [...selected, roaster];
-      final candidate = buildText(tentative, addOthers: true);
+      final remaining = roasters.length - tentative.length;
+      final candidate = buildText(tentative, addOthers: remaining > 0);
       if (!fits(candidate)) {
         break;
       }
-      selected.add(roaster);
+      selected = tentative;
     }
-    return buildText(selected, addOthers: true);
+    final remaining = roasters.length - selected.length;
+    return buildText(selected, addOthers: remaining > 0);
   }
 
   DateTime? _uuidV7ToDateTime(String uuid) {
