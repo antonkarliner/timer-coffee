@@ -833,6 +833,275 @@ class AppLocalizationsKo extends AppLocalizations {
   String get yearlyStatsShareProgressTop3Roasters => '내 상위 로스터리 3곳:';
 
   @override
+  String get yearlyStats25AppBarTitle => 'Timer.Coffee와 함께한 한 해 – 2025';
+
+  @override
+  String get yearlyStats25AppBarTitleSimple => '2025년 Timer.Coffee';
+
+  @override
+  String get yearlyStats25Slide1Title => 'Timer.Coffee와 함께한 한 해';
+
+  @override
+  String get yearlyStats25Slide1Subtitle => '2025년에 어떻게 추출했는지 보려면 탭하세요';
+
+  @override
+  String get yearlyStats25Slide2Intro => '함께 커피를 추출했어요...';
+
+  @override
+  String yearlyStats25Slide2Count(String count) {
+    return '$count번';
+  }
+
+  @override
+  String yearlyStats25Slide2Liters(String liters) {
+    return '대략 $liters리터의 커피예요';
+  }
+
+  @override
+  String get yearlyStats25Slide2Cambridge =>
+      '영국 케임브리지의 모든 사람에게 커피 한 잔씩 줄 수 있는 양이에요(특히 학생들이 좋아할 거예요).';
+
+  @override
+  String get yearlyStats25Slide3Title => '당신은요?';
+
+  @override
+  String yearlyStats25Slide3Subtitle(String brews, String liters) {
+    return '올해 Timer.Coffee로 $brews번 커피를 추출했어요. 총 $liters리터예요!';
+  }
+
+  @override
+  String yearlyStats25Slide3TopBadge(int topPct) {
+    return '커피 추출 상위 $topPct%예요!';
+  }
+
+  @override
+  String get yearlyStats25Slide4TitleSingle => '올해 가장 많이 커피를 추출한 날을 기억하나요?';
+
+  @override
+  String get yearlyStats25Slide4TitleMulti => '올해 가장 많이 커피를 추출한 날들을 기억하나요?';
+
+  @override
+  String get yearlyStats25Slide4TitleBrewTime => '올해의 추출 시간';
+
+  @override
+  String get yearlyStats25Slide4ScratchLabel => '긁어서 확인하기';
+
+  @override
+  String yearlyStats25BrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count회 추출',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel) {
+    return '$date — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakLiters(String liters) {
+    return '그날은 약 $liters리터';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel) {
+    return '가장 최근: $mostRecent — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel) {
+    return '추출에 $timeLabel 썼어요';
+  }
+
+  @override
+  String get yearlyStats25Slide4BrewTimeFooter => '잘 쓴 시간이네요';
+
+  @override
+  String get yearlyStats25Slide5Title => '이렇게 추출해요';
+
+  @override
+  String get yearlyStats25Slide5MethodsHeader => '좋아하는 방법:';
+
+  @override
+  String get yearlyStats25Slide5NoMethods => '아직 방법이 없어요';
+
+  @override
+  String get yearlyStats25Slide5RecipesHeader => '상위 레시피:';
+
+  @override
+  String get yearlyStats25Slide5NoRecipes => '아직 레시피가 없어요';
+
+  @override
+  String yearlyStats25MethodRow(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '회',
+    );
+    return '$name — $count$_temp0 추출';
+  }
+
+  @override
+  String yearlyStats25Slide6Title(String count) {
+    return '올해 $count곳의 로스터리를 발견했어요:';
+  }
+
+  @override
+  String get yearlyStats25Slide6NoRoasters => '아직 로스터리가 없어요';
+
+  @override
+  String get yearlyStats25Slide7Title => '커피는 당신을 여행으로 데려가요…';
+
+  @override
+  String yearlyStats25Slide7Subtitle(String count) {
+    return '올해 $count개의 원산지를 발견했어요:';
+  }
+
+  @override
+  String get yearlyStats25Others => '...외';
+
+  @override
+  String yearlyStats25FallbackTitle(int countries, int roasters) {
+    return '올해 Timer.Coffee 사용자는 $countries개 나라의 원두를 사용했고\n$roasters개의 로스터리를 등록했어요.';
+  }
+
+  @override
+  String get yearlyStats25FallbackPromptHasBeans => '원두 봉투 기록을 계속해보는 건 어때요?';
+
+  @override
+  String get yearlyStats25FallbackPromptNoBeans => '이제 참여해서 원두도 기록해볼까요?';
+
+  @override
+  String get yearlyStats25FallbackActionHasBeans => '원두 추가 계속하기';
+
+  @override
+  String get yearlyStats25FallbackActionNoBeans => '첫 원두 봉투 추가하기';
+
+  @override
+  String get yearlyStats25ContinueButton => '계속';
+
+  @override
+  String get yearlyStats25PostcardTitle => '다른 추출러에게 새해 인사를 보내요.';
+
+  @override
+  String get yearlyStats25PostcardSubtitle => '선택 사항. 친절하게. 개인 정보는 금지.';
+
+  @override
+  String get yearlyStats25PostcardHint => '새해 복 많이 받으세요! 좋은 추출 하세요!';
+
+  @override
+  String get yearlyStats25PostcardSending => '보내는 중...';
+
+  @override
+  String get yearlyStats25PostcardSend => '보내기';
+
+  @override
+  String get yearlyStats25PostcardSkip => '건너뛰기';
+
+  @override
+  String get yearlyStats25PostcardReceivedTitle => '다른 추출러의 메시지';
+
+  @override
+  String get yearlyStats25PostcardErrorLength => '2–160자를 입력하세요.';
+
+  @override
+  String get yearlyStats25PostcardErrorSend => '보낼 수 없어요. 다시 시도하세요.';
+
+  @override
+  String get yearlyStats25PostcardErrorRejected => '보낼 수 없어요. 다른 메시지를 시도하세요.';
+
+  @override
+  String get yearlyStats25CtaTitle => '2026년에 멋진 한 잔을 추출해요!';
+
+  @override
+  String get yearlyStats25CtaSubtitle => '몇 가지 아이디어:';
+
+  @override
+  String get yearlyStats25CtaExplorePrefix => '다음에서 제안을 둘러보세요: ';
+
+  @override
+  String get yearlyStats25CtaGiftBox => '홀리데이 기프트 박스';
+
+  @override
+  String get yearlyStats25CtaDonate => '기부';
+
+  @override
+  String get yearlyStats25CtaDonateSuffix => '로 내년에도 Timer.Coffee가 성장하도록 도와주세요';
+
+  @override
+  String get yearlyStats25CtaFollowPrefix => '다음에서 팔로우하세요: ';
+
+  @override
+  String get yearlyStats25CtaInstagram => 'Instagram';
+
+  @override
+  String get yearlyStats25CtaShareButton => '내 진행 상황 공유';
+
+  @override
+  String get yearlyStats25CtaShareHint => '@timercoffeeapp 태그하는 것 잊지 마세요';
+
+  @override
+  String get yearlyStats25AppBarTooltipResume => '재개';
+
+  @override
+  String get yearlyStats25AppBarTooltipPause => '일시정지';
+
+  @override
+  String get yearlyStats25ShareError => '리캡을 공유할 수 없어요. 다시 시도하세요.';
+
+  @override
+  String yearlyStats25BrewTimeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count분',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25BrewTimeHours(String hours) {
+    return '$hours시간';
+  }
+
+  @override
+  String get yearlyStats25ShareTitle => 'Timer.Coffee와 함께한 2025년';
+
+  @override
+  String get yearlyStats25ShareBrewedPrefix => '추출 ';
+
+  @override
+  String get yearlyStats25ShareBrewedMiddle => '번 · ';
+
+  @override
+  String get yearlyStats25ShareBrewedSuffix => '리터의 커피';
+
+  @override
+  String get yearlyStats25ShareRoastersPrefix => '로스터리 ';
+
+  @override
+  String get yearlyStats25ShareRoastersSuffix => '곳';
+
+  @override
+  String get yearlyStats25ShareOriginsPrefix => '원산지 ';
+
+  @override
+  String get yearlyStats25ShareOriginsSuffix => '개';
+
+  @override
+  String get yearlyStats25ShareMethodsTitle => '내가 좋아한 추출 방법:';
+
+  @override
+  String get yearlyStats25ShareRecipesTitle => '내 상위 레시피:';
+
+  @override
+  String get yearlyStats25ShareHandle => '@timercoffeeapp';
+
+  @override
   String get yearlyStatsFailedToLike => '좋아요 실패. 다시 시도하세요.';
 
   @override

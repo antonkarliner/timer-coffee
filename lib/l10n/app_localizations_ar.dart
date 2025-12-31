@@ -845,6 +845,301 @@ class AppLocalizationsAr extends AppLocalizations {
   String get yearlyStatsShareProgressTop3Roasters => 'أفضل 3 محامص:';
 
   @override
+  String get yearlyStats25AppBarTitle => 'عامك مع Timer.Coffee — 2025';
+
+  @override
+  String get yearlyStats25AppBarTitleSimple => 'Timer.Coffee في 2025';
+
+  @override
+  String get yearlyStats25Slide1Title => 'عامك مع Timer.Coffee';
+
+  @override
+  String get yearlyStats25Slide1Subtitle => 'اضغط لترى كيف حضرت القهوة في 2025';
+
+  @override
+  String get yearlyStats25Slide2Intro => 'معًا حضّرنا القهوة...';
+
+  @override
+  String yearlyStats25Slide2Count(String count) {
+    return '$count مرة';
+  }
+
+  @override
+  String yearlyStats25Slide2Liters(String liters) {
+    return 'أي حوالي $liters لتر من القهوة';
+  }
+
+  @override
+  String get yearlyStats25Slide2Cambridge =>
+      'يكفي لإعطاء فنجان قهوة لكل شخص في كامبريدج، المملكة المتحدة (وسيكون الطلاب ممتنين بشكل خاص).';
+
+  @override
+  String get yearlyStats25Slide3Title => 'وماذا عنك؟';
+
+  @override
+  String yearlyStats25Slide3Subtitle(String brews, String liters) {
+    return 'هذا العام حضرت القهوة باستخدام Timer.Coffee: $brews. بإجمالي $liters لتر!';
+  }
+
+  @override
+  String yearlyStats25Slide3TopBadge(int topPct) {
+    return 'أنت ضمن أفضل $topPct% من محضّري القهوة!';
+  }
+
+  @override
+  String get yearlyStats25Slide4TitleSingle =>
+      'هل تتذكر اليوم الذي حضرت فيه أكبر كمية قهوة هذا العام؟';
+
+  @override
+  String get yearlyStats25Slide4TitleMulti =>
+      'هل تتذكر الأيام التي حضرت فيها أكبر كمية قهوة هذا العام؟';
+
+  @override
+  String get yearlyStats25Slide4TitleBrewTime => 'وقت تحضيرك هذا العام';
+
+  @override
+  String get yearlyStats25Slide4ScratchLabel => 'اكشط للكشف';
+
+  @override
+  String yearlyStats25BrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# مرة',
+      many: '# مرة',
+      few: '# مرات',
+      two: 'مرتان',
+      one: 'مرة واحدة',
+      zero: '0 مرة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel) {
+    return '$date — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakLiters(String liters) {
+    return 'حوالي $liters لتر في ذلك اليوم';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel) {
+    return 'الأحدث: $mostRecent — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel) {
+    return 'قضيت $timeLabel في تحضير القهوة';
+  }
+
+  @override
+  String get yearlyStats25Slide4BrewTimeFooter => 'وقت مستثمر جيدًا';
+
+  @override
+  String get yearlyStats25Slide5Title => 'هكذا تحضّر قهوتك';
+
+  @override
+  String get yearlyStats25Slide5MethodsHeader => 'طرقك المفضلة:';
+
+  @override
+  String get yearlyStats25Slide5NoMethods => 'لا توجد طرق بعد';
+
+  @override
+  String get yearlyStats25Slide5RecipesHeader => 'أفضل الوصفات:';
+
+  @override
+  String get yearlyStats25Slide5NoRecipes => 'لا توجد وصفات بعد';
+
+  @override
+  String yearlyStats25MethodRow(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'مرة',
+      many: 'مرة',
+      few: 'مرات',
+      two: 'مرتين',
+      one: 'مرة',
+      zero: 'مرة',
+    );
+    return '$name — $count $_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide6Title(String count) {
+    return 'اكتشفت $count محمصة هذا العام:';
+  }
+
+  @override
+  String get yearlyStats25Slide6NoRoasters => 'لا توجد محامص بعد';
+
+  @override
+  String get yearlyStats25Slide7Title => 'شرب القهوة قد يأخذك إلى أماكن بعيدة…';
+
+  @override
+  String yearlyStats25Slide7Subtitle(String count) {
+    return 'اكتشفت $count مناشئ هذا العام:';
+  }
+
+  @override
+  String get yearlyStats25Others => '...وغيرها';
+
+  @override
+  String yearlyStats25FallbackTitle(int countries, int roasters) {
+    return 'استخدم مستخدمو Timer.Coffee هذا العام حبوبًا من $countries دولة\nوسجلوا $roasters محمصة مختلفة.';
+  }
+
+  @override
+  String get yearlyStats25FallbackPromptHasBeans =>
+      'لماذا لا تواصل تسجيل أكياس الحبوب لديك؟';
+
+  @override
+  String get yearlyStats25FallbackPromptNoBeans =>
+      'ربما حان الوقت للانضمام وتسجيل حبوبك أيضًا؟';
+
+  @override
+  String get yearlyStats25FallbackActionHasBeans => 'متابعة إضافة الحبوب';
+
+  @override
+  String get yearlyStats25FallbackActionNoBeans => 'أضف أول كيس حبوب لك';
+
+  @override
+  String get yearlyStats25ContinueButton => 'متابعة';
+
+  @override
+  String get yearlyStats25PostcardTitle =>
+      'أرسل تهنئة بالعام الجديد إلى محضّر قهوة آخر.';
+
+  @override
+  String get yearlyStats25PostcardSubtitle =>
+      'اختياري. كن لطيفًا. بدون معلومات شخصية.';
+
+  @override
+  String get yearlyStats25PostcardHint =>
+      'سنة جديدة سعيدة ودمتم تعدّون قهوة رائعة!';
+
+  @override
+  String get yearlyStats25PostcardSending => 'جارٍ الإرسال...';
+
+  @override
+  String get yearlyStats25PostcardSend => 'إرسال';
+
+  @override
+  String get yearlyStats25PostcardSkip => 'تخطي';
+
+  @override
+  String get yearlyStats25PostcardReceivedTitle => 'تهنئة من محضّر قهوة آخر';
+
+  @override
+  String get yearlyStats25PostcardErrorLength => 'يرجى إدخال 2–160 حرفًا.';
+
+  @override
+  String get yearlyStats25PostcardErrorSend =>
+      'تعذر الإرسال. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get yearlyStats25PostcardErrorRejected =>
+      'تعذر الإرسال. جرّب رسالة أخرى.';
+
+  @override
+  String get yearlyStats25CtaTitle => 'لنحضّر شيئًا رائعًا في 2026!';
+
+  @override
+  String get yearlyStats25CtaSubtitle => 'إليك بعض الأفكار:';
+
+  @override
+  String get yearlyStats25CtaExplorePrefix => 'استكشف العروض في ';
+
+  @override
+  String get yearlyStats25CtaGiftBox => 'صندوق هدايا العطلات';
+
+  @override
+  String get yearlyStats25CtaDonate => 'تبرع';
+
+  @override
+  String get yearlyStats25CtaDonateSuffix =>
+      ' لمساعدة Timer.Coffee على النمو في العام القادم';
+
+  @override
+  String get yearlyStats25CtaFollowPrefix => 'تابعنا على ';
+
+  @override
+  String get yearlyStats25CtaInstagram => 'Instagram';
+
+  @override
+  String get yearlyStats25CtaShareButton => 'شارك تقدمي';
+
+  @override
+  String get yearlyStats25CtaShareHint => 'لا تنسَ وضع وسم @timercoffeeapp';
+
+  @override
+  String get yearlyStats25AppBarTooltipResume => 'استئناف';
+
+  @override
+  String get yearlyStats25AppBarTooltipPause => 'إيقاف مؤقت';
+
+  @override
+  String get yearlyStats25ShareError =>
+      'تعذر مشاركة الملخص. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String yearlyStats25BrewTimeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# دقيقة',
+      many: '# دقيقة',
+      few: '# دقائق',
+      two: 'دقيقتان',
+      one: 'دقيقة واحدة',
+      zero: '0 دقيقة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25BrewTimeHours(String hours) {
+    return '$hours ساعة';
+  }
+
+  @override
+  String get yearlyStats25ShareTitle => 'عامي 2025 مع Timer.Coffee';
+
+  @override
+  String get yearlyStats25ShareBrewedPrefix => 'حضّرت ';
+
+  @override
+  String get yearlyStats25ShareBrewedMiddle => ' مرة و ';
+
+  @override
+  String get yearlyStats25ShareBrewedSuffix => ' لتر من القهوة';
+
+  @override
+  String get yearlyStats25ShareRoastersPrefix => 'استخدمت حبوبًا من ';
+
+  @override
+  String get yearlyStats25ShareRoastersSuffix => ' محمصة';
+
+  @override
+  String get yearlyStats25ShareOriginsPrefix => 'اكتشفت ';
+
+  @override
+  String get yearlyStats25ShareOriginsSuffix => ' منشأ للقهوة';
+
+  @override
+  String get yearlyStats25ShareMethodsTitle => 'طرق التحضير المفضلة لدي:';
+
+  @override
+  String get yearlyStats25ShareRecipesTitle => 'أفضل وصفاتي:';
+
+  @override
+  String get yearlyStats25ShareHandle => '@timercoffeeapp';
+
+  @override
   String get yearlyStatsFailedToLike => 'تعذر الإعجاب. يرجى إعادة المحاولة.';
 
   @override

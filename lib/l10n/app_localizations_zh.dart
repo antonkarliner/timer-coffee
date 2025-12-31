@@ -831,6 +831,274 @@ class AppLocalizationsZh extends AppLocalizations {
   String get yearlyStatsShareProgressTop3Roasters => '我的最爱前 3 名烘焙商：';
 
   @override
+  String get yearlyStats25AppBarTitle => '您与 Timer.Coffee 的 2025 年';
+
+  @override
+  String get yearlyStats25AppBarTitleSimple => '2025 年的 Timer.Coffee';
+
+  @override
+  String get yearlyStats25Slide1Title => '您与 Timer.Coffee 的一年';
+
+  @override
+  String get yearlyStats25Slide1Subtitle => '点按查看您在 2025 年的冲煮回顾';
+
+  @override
+  String get yearlyStats25Slide2Intro => '我们一起冲煮了咖啡...';
+
+  @override
+  String yearlyStats25Slide2Count(String count) {
+    return '$count 次';
+  }
+
+  @override
+  String yearlyStats25Slide2Liters(String liters) {
+    return '约 $liters 升咖啡';
+  }
+
+  @override
+  String get yearlyStats25Slide2Cambridge => '足够给英国剑桥的每个人送上一杯咖啡（学生们一定会特别感激）。';
+
+  @override
+  String get yearlyStats25Slide3Title => '那您呢？';
+
+  @override
+  String yearlyStats25Slide3Subtitle(String brews, String liters) {
+    return '今年您用 Timer.Coffee 冲煮了 $brews 次咖啡，共 $liters 升！';
+  }
+
+  @override
+  String yearlyStats25Slide3TopBadge(int topPct) {
+    return '您位列冲煮者前 $topPct%！';
+  }
+
+  @override
+  String get yearlyStats25Slide4TitleSingle => '还记得今年冲煮最多咖啡的那一天吗？';
+
+  @override
+  String get yearlyStats25Slide4TitleMulti => '还记得今年冲煮最多咖啡的那些天吗？';
+
+  @override
+  String get yearlyStats25Slide4TitleBrewTime => '您今年的冲煮时间';
+
+  @override
+  String get yearlyStats25Slide4ScratchLabel => '刮开查看';
+
+  @override
+  String yearlyStats25BrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 次冲煮',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel) {
+    return '$date — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakLiters(String liters) {
+    return '那天约 $liters 升';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel) {
+    return '最近一次：$mostRecent — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel) {
+    return '您花了 $timeLabel 冲煮';
+  }
+
+  @override
+  String get yearlyStats25Slide4BrewTimeFooter => '这些时间很值得';
+
+  @override
+  String get yearlyStats25Slide5Title => '这就是您的冲煮方式';
+
+  @override
+  String get yearlyStats25Slide5MethodsHeader => '最常用的方法：';
+
+  @override
+  String get yearlyStats25Slide5NoMethods => '暂无方法';
+
+  @override
+  String get yearlyStats25Slide5RecipesHeader => '热门配方：';
+
+  @override
+  String get yearlyStats25Slide5NoRecipes => '暂无配方';
+
+  @override
+  String yearlyStats25MethodRow(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '次',
+    );
+    return '$name — $count$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide6Title(String count) {
+    return '今年您发现了 $count 家烘焙商：';
+  }
+
+  @override
+  String get yearlyStats25Slide6NoRoasters => '暂无烘焙商';
+
+  @override
+  String get yearlyStats25Slide7Title => '喝咖啡也能带您去远方…';
+
+  @override
+  String yearlyStats25Slide7Subtitle(String count) {
+    return '今年您发现了 $count 个产地：';
+  }
+
+  @override
+  String get yearlyStats25Others => '...以及其他';
+
+  @override
+  String yearlyStats25FallbackTitle(int countries, int roasters) {
+    return '今年 Timer.Coffee 用户使用了来自 $countries 个国家/地区的咖啡豆\n并注册了 $roasters 家不同的烘焙商。';
+  }
+
+  @override
+  String get yearlyStats25FallbackPromptHasBeans => '要不要继续记录您的原豆袋呢？';
+
+  @override
+  String get yearlyStats25FallbackPromptNoBeans => '也许是时候加入并记录您的咖啡豆了？';
+
+  @override
+  String get yearlyStats25FallbackActionHasBeans => '继续添加咖啡豆';
+
+  @override
+  String get yearlyStats25FallbackActionNoBeans => '添加您的第一袋咖啡豆';
+
+  @override
+  String get yearlyStats25ContinueButton => '继续';
+
+  @override
+  String get yearlyStats25PostcardTitle => '给另一位冲煮者送上新年祝福。';
+
+  @override
+  String get yearlyStats25PostcardSubtitle => '可选。保持友善。不含个人信息。';
+
+  @override
+  String get yearlyStats25PostcardHint => '新年快乐，冲煮顺利！';
+
+  @override
+  String get yearlyStats25PostcardSending => '发送中...';
+
+  @override
+  String get yearlyStats25PostcardSend => '发送';
+
+  @override
+  String get yearlyStats25PostcardSkip => '跳过';
+
+  @override
+  String get yearlyStats25PostcardReceivedTitle => '来自另一位冲煮者的祝福';
+
+  @override
+  String get yearlyStats25PostcardErrorLength => '请输入 2–160 个字符。';
+
+  @override
+  String get yearlyStats25PostcardErrorSend => '无法发送。请重试。';
+
+  @override
+  String get yearlyStats25PostcardErrorRejected => '无法发送。请尝试换一条消息。';
+
+  @override
+  String get yearlyStats25CtaTitle => '让我们在 2026 年冲煮更棒的咖啡！';
+
+  @override
+  String get yearlyStats25CtaSubtitle => '这里有一些想法：';
+
+  @override
+  String get yearlyStats25CtaExplorePrefix => '浏览优惠：';
+
+  @override
+  String get yearlyStats25CtaGiftBox => '假日礼盒';
+
+  @override
+  String get yearlyStats25CtaDonate => '捐赠';
+
+  @override
+  String get yearlyStats25CtaDonateSuffix => '，支持 Timer.Coffee 在新的一年继续成长';
+
+  @override
+  String get yearlyStats25CtaFollowPrefix => '关注我们：';
+
+  @override
+  String get yearlyStats25CtaInstagram => 'Instagram';
+
+  @override
+  String get yearlyStats25CtaShareButton => '分享我的进度';
+
+  @override
+  String get yearlyStats25CtaShareHint => '别忘了标记 @timercoffeeapp';
+
+  @override
+  String get yearlyStats25AppBarTooltipResume => '继续';
+
+  @override
+  String get yearlyStats25AppBarTooltipPause => '暂停';
+
+  @override
+  String get yearlyStats25ShareError => '无法分享回顾。请重试。';
+
+  @override
+  String yearlyStats25BrewTimeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 分钟',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25BrewTimeHours(String hours) {
+    return '$hours 小时';
+  }
+
+  @override
+  String get yearlyStats25ShareTitle => '我的 Timer.Coffee 2025 年';
+
+  @override
+  String get yearlyStats25ShareBrewedPrefix => '冲煮 ';
+
+  @override
+  String get yearlyStats25ShareBrewedMiddle => ' 次 · ';
+
+  @override
+  String get yearlyStats25ShareBrewedSuffix => ' 升咖啡';
+
+  @override
+  String get yearlyStats25ShareRoastersPrefix => '烘焙商 ';
+
+  @override
+  String get yearlyStats25ShareRoastersSuffix => ' 家';
+
+  @override
+  String get yearlyStats25ShareOriginsPrefix => '产地 ';
+
+  @override
+  String get yearlyStats25ShareOriginsSuffix => ' 个';
+
+  @override
+  String get yearlyStats25ShareMethodsTitle => '我最爱的冲煮方法：';
+
+  @override
+  String get yearlyStats25ShareRecipesTitle => '我的热门配方：';
+
+  @override
+  String get yearlyStats25ShareHandle => '@timercoffeeapp';
+
+  @override
   String get yearlyStatsFailedToLike => '点赞失败。请重试。';
 
   @override

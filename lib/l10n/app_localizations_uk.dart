@@ -853,6 +853,300 @@ class AppLocalizationsUk extends AppLocalizations {
       'Мої 3 найкращі обсмажувальники:';
 
   @override
+  String get yearlyStats25AppBarTitle => 'Ваш рік із Timer.Coffee — 2025';
+
+  @override
+  String get yearlyStats25AppBarTitleSimple => 'Timer.Coffee у 2025';
+
+  @override
+  String get yearlyStats25Slide1Title => 'Ваш рік із Timer.Coffee';
+
+  @override
+  String get yearlyStats25Slide1Subtitle =>
+      'Натисніть, щоб побачити, як ви варили каву у 2025 році';
+
+  @override
+  String get yearlyStats25Slide2Intro => 'Разом ми зварили каву...';
+
+  @override
+  String yearlyStats25Slide2Count(String count) {
+    return '$count разів';
+  }
+
+  @override
+  String yearlyStats25Slide2Liters(String liters) {
+    return 'Це приблизно $liters л кави';
+  }
+
+  @override
+  String get yearlyStats25Slide2Cambridge =>
+      'Достатньо, щоб пригостити чашкою кави кожного в Кембриджі, Велика Британія (студенти були б особливо вдячні).';
+
+  @override
+  String get yearlyStats25Slide3Title => 'А як щодо вас?';
+
+  @override
+  String yearlyStats25Slide3Subtitle(String brews, String liters) {
+    return 'Цього року ви готували каву з Timer.Coffee: $brews. Усього — $liters л!';
+  }
+
+  @override
+  String yearlyStats25Slide3TopBadge(int topPct) {
+    return 'Ви в топі $topPct% тих, хто варить каву!';
+  }
+
+  @override
+  String get yearlyStats25Slide4TitleSingle =>
+      'Пам’ятаєте день, коли ви приготували найбільше кави цього року?';
+
+  @override
+  String get yearlyStats25Slide4TitleMulti =>
+      'Пам’ятаєте дні, коли ви приготували найбільше кави цього року?';
+
+  @override
+  String get yearlyStats25Slide4TitleBrewTime =>
+      'Ваш час заварювання цього року';
+
+  @override
+  String get yearlyStats25Slide4ScratchLabel => 'Зітріть, щоб відкрити';
+
+  @override
+  String yearlyStats25BrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# заварювання',
+      many: '# заварювань',
+      few: '# заварювання',
+      one: '# заварювання',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel) {
+    return '$date — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakLiters(String liters) {
+    return 'Приблизно $liters л того дня';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel) {
+    return 'Найсвіжіше: $mostRecent — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel) {
+    return 'Ви витратили $timeLabel на заварювання';
+  }
+
+  @override
+  String get yearlyStats25Slide4BrewTimeFooter => 'Час витрачено недарма';
+
+  @override
+  String get yearlyStats25Slide5Title => 'Ось як ви варите каву';
+
+  @override
+  String get yearlyStats25Slide5MethodsHeader => 'Улюблені методи:';
+
+  @override
+  String get yearlyStats25Slide5NoMethods => 'Поки що немає методів';
+
+  @override
+  String get yearlyStats25Slide5RecipesHeader => 'Топ-рецепти:';
+
+  @override
+  String get yearlyStats25Slide5NoRecipes => 'Поки що немає рецептів';
+
+  @override
+  String yearlyStats25MethodRow(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'заварювання',
+      many: 'заварювань',
+      few: 'заварювання',
+      one: 'заварювання',
+    );
+    return '$name — $count $_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide6Title(String count) {
+    return 'Обсмажувальники цього року: $count';
+  }
+
+  @override
+  String get yearlyStats25Slide6NoRoasters => 'Поки що немає обсмажувальників';
+
+  @override
+  String get yearlyStats25Slide7Title =>
+      'Кава може привести вас у різні місця…';
+
+  @override
+  String yearlyStats25Slide7Subtitle(String count) {
+    return 'Походження цього року: $count';
+  }
+
+  @override
+  String get yearlyStats25Others => '...та інші';
+
+  @override
+  String yearlyStats25FallbackTitle(int countries, int roasters) {
+    return 'Цього року користувачі Timer.Coffee використовували зерна з $countries країн\nі зареєстрували $roasters різних обсмажувальників.';
+  }
+
+  @override
+  String get yearlyStats25FallbackPromptHasBeans =>
+      'Чому б не продовжити записувати свої пакети зерен?';
+
+  @override
+  String get yearlyStats25FallbackPromptNoBeans =>
+      'Можливо, час приєднатися й теж почати записувати свої зерна?';
+
+  @override
+  String get yearlyStats25FallbackActionHasBeans => 'Продовжити додавати зерна';
+
+  @override
+  String get yearlyStats25FallbackActionNoBeans => 'Додати перший пакет зерен';
+
+  @override
+  String get yearlyStats25ContinueButton => 'Продовжити';
+
+  @override
+  String get yearlyStats25PostcardTitle =>
+      'Надішліть новорічне побажання іншому кавоману.';
+
+  @override
+  String get yearlyStats25PostcardSubtitle =>
+      'Необов’язково. Будьте доброзичливі. Без особистої інформації.';
+
+  @override
+  String get yearlyStats25PostcardHint => 'З Новим роком і смачних кав!';
+
+  @override
+  String get yearlyStats25PostcardSending => 'Надсилаємо...';
+
+  @override
+  String get yearlyStats25PostcardSend => 'Надіслати';
+
+  @override
+  String get yearlyStats25PostcardSkip => 'Пропустити';
+
+  @override
+  String get yearlyStats25PostcardReceivedTitle =>
+      'Побажання від іншого кавомана';
+
+  @override
+  String get yearlyStats25PostcardErrorLength => 'Введіть 2–160 символів.';
+
+  @override
+  String get yearlyStats25PostcardErrorSend =>
+      'Не вдалося надіслати. Спробуйте ще раз.';
+
+  @override
+  String get yearlyStats25PostcardErrorRejected =>
+      'Не вдалося надіслати. Спробуйте інше повідомлення.';
+
+  @override
+  String get yearlyStats25CtaTitle => 'Заварімо щось класне у 2026!';
+
+  @override
+  String get yearlyStats25CtaSubtitle => 'Ось кілька ідей:';
+
+  @override
+  String get yearlyStats25CtaExplorePrefix => 'Перегляньте пропозиції: ';
+
+  @override
+  String get yearlyStats25CtaGiftBox => 'Святкова подарункова коробка';
+
+  @override
+  String get yearlyStats25CtaDonate => 'Зробити пожертвування';
+
+  @override
+  String get yearlyStats25CtaDonateSuffix =>
+      ' щоб допомогти Timer.Coffee зростати в новому році';
+
+  @override
+  String get yearlyStats25CtaFollowPrefix => 'Підписуйтеся: ';
+
+  @override
+  String get yearlyStats25CtaInstagram => 'Instagram';
+
+  @override
+  String get yearlyStats25CtaShareButton => 'Поділитися моїм прогресом';
+
+  @override
+  String get yearlyStats25CtaShareHint =>
+      'Не забудьте позначити @timercoffeeapp';
+
+  @override
+  String get yearlyStats25AppBarTooltipResume => 'Продовжити';
+
+  @override
+  String get yearlyStats25AppBarTooltipPause => 'Пауза';
+
+  @override
+  String get yearlyStats25ShareError =>
+      'Не вдалося поділитися підсумком. Спробуйте ще раз.';
+
+  @override
+  String yearlyStats25BrewTimeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# хвилини',
+      many: '# хвилин',
+      few: '# хвилини',
+      one: '# хвилина',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25BrewTimeHours(String hours) {
+    return '$hours год';
+  }
+
+  @override
+  String get yearlyStats25ShareTitle => 'Мій рік 2025 з Timer.Coffee';
+
+  @override
+  String get yearlyStats25ShareBrewedPrefix => 'Заварювання: ';
+
+  @override
+  String get yearlyStats25ShareBrewedMiddle => ' • ';
+
+  @override
+  String get yearlyStats25ShareBrewedSuffix => ' л кави';
+
+  @override
+  String get yearlyStats25ShareRoastersPrefix => 'Обсмажувальники: ';
+
+  @override
+  String get yearlyStats25ShareRoastersSuffix => '';
+
+  @override
+  String get yearlyStats25ShareOriginsPrefix => 'Походження: ';
+
+  @override
+  String get yearlyStats25ShareOriginsSuffix => '';
+
+  @override
+  String get yearlyStats25ShareMethodsTitle =>
+      'Мої улюблені методи заварювання:';
+
+  @override
+  String get yearlyStats25ShareRecipesTitle => 'Мої топ-рецепти:';
+
+  @override
+  String get yearlyStats25ShareHandle => '@timercoffeeapp';
+
+  @override
   String get yearlyStatsFailedToLike =>
       'Не вдалося поставити лайк. Спробуйте ще раз.';
 

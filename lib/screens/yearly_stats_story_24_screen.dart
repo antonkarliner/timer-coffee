@@ -146,6 +146,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
 
   // Add this overlay entry field
   OverlayEntry? _shareOverlay;
+  final GlobalKey _shareButtonKey = GlobalKey();
 
   @override
   void initState() {
@@ -949,6 +950,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
                                       AppLocalizations.of(context)!
                                           .yearlyStatsActionShare,
                                       Icons.share,
+                                      key: _shareButtonKey,
                                       onPressed: () => _handleShare(data),
                                     ),
                                 ],
@@ -1490,6 +1492,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
     required VoidCallback onPressed,
     double? fontSize,
     bool isLoveButton = false,
+    Key? key,
   }) {
     // Let's check if the button is meant to "Share"
     final shareLabel = AppLocalizations.of(context)!.yearlyStatsActionShare;
@@ -1528,6 +1531,7 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
         button: true,
         label: text,
         child: Container(
+          key: key,
           width: double.infinity,
           height: 60,
           decoration: BoxDecoration(
@@ -1641,7 +1645,11 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
       );
 
       // Share the image
-      await Share.shareXFiles([xFile]);
+      final shareOrigin = _getShareOriginRect();
+      await Share.shareXFiles(
+        [xFile],
+        sharePositionOrigin: shareOrigin,
+      );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -1653,6 +1661,42 @@ class _YearlyStatsStoryScreenState extends State<YearlyStatsStoryScreen>
       );
       AppLogger.error('Share progress error', errorObject: e);
     }
+  }
+
+  Rect? _getShareOriginRect() {
+    RenderBox? buttonBox;
+    final buttonContext = _shareButtonKey.currentContext;
+    if (buttonContext != null) {
+      final renderObject = buttonContext.findRenderObject();
+      if (renderObject is RenderBox && renderObject.hasSize) {
+        buttonBox = renderObject;
+      }
+    }
+
+    if (buttonBox != null) {
+      final offset = buttonBox.localToGlobal(Offset.zero);
+      final size = buttonBox.size;
+      if (size.width > 0 && size.height > 0) {
+        return offset & size;
+      }
+    }
+
+    final overlay = Overlay.of(context);
+    final overlayObject = overlay?.context.findRenderObject();
+    if (overlayObject is RenderBox && overlayObject.hasSize) {
+      final offset = overlayObject.localToGlobal(Offset.zero);
+      final size = overlayObject.size;
+      if (size.width > 0 && size.height > 0) {
+        return offset & size;
+      }
+    }
+
+    final screenSize = MediaQuery.of(context).size;
+    if (screenSize.width > 0 && screenSize.height > 0) {
+      return Rect.fromLTWH(0, 0, screenSize.width, screenSize.height);
+    }
+
+    return null;
   }
 }
 

@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../providers/database_provider.dart';
 import '../providers/recipe_provider.dart';
+import '../providers/user_stat_provider.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart'; // Ensure this import is correct
 import '../webhelper/web_helper.dart' as web;
@@ -38,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late Locale initialLocale;
   bool _showBanner = false; // Banner flag
   String? _detectedCountry;
+  late final Future<int> _yearlyBrews2025Future;
 
   @override
   void initState() {
@@ -94,6 +96,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             "Skipping moderation check - user not authenticated or anonymous");
       }
     });
+
+    _yearlyBrews2025Future = _loadYearlyBrews2025();
   }
 
   Future<void> _checkRecipesNeedingModeration() async {
@@ -267,6 +271,28 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
+  Future<int> _loadYearlyBrews2025() async {
+    final userStatProvider =
+        Provider.of<UserStatProvider>(context, listen: false);
+    final start = DateTime(2025, 1, 1);
+    final end = DateTime(2026, 1, 1);
+    try {
+      final statsAll = await userStatProvider.fetchAllUserStats();
+      final brews2025 = statsAll
+          .where((s) =>
+              !s.isDeleted &&
+              !s.createdAt.isBefore(start) &&
+              s.createdAt.isBefore(end))
+          .length;
+      AppLogger.debug('Home banner: 2025 brews=$brews2025');
+      return brews2025;
+    } catch (e) {
+      AppLogger.error('Home banner: failed to load 2025 brews',
+          errorObject: e);
+      return 0;
+    }
+  }
+
   void _showThankYouPopup(PurchaseDetails details) {
     if (mounted) {
       final l10n = AppLocalizations.of(context)!; // Get localizations
@@ -318,6 +344,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final l10n = AppLocalizations.of(context); // Get localizations safely
     final flags = context.watch<Map<String, bool>>();
     final showGiftBanner = flags[FeatureFlagKeys.holidayGiftBox] ?? false;
+    final showYearlyStats25Banner =
+        flags[FeatureFlagKeys.yearlyStatsStory25Banner] ?? false;
 
     // Handle case where localizations are null during initialization
     if (l10n == null) {
@@ -345,6 +373,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             children: [
               // Launch popup trigger (side-effect only, renders nothing)
               LaunchPopupWidget(),
+
+              if (showYearlyStats25Banner)
+                FutureBuilder<int>(
+                  future: _yearlyBrews2025Future,
+                  builder: (context, snapshot) {
+                    final brews2025 = snapshot.data ?? 0;
+                    final title = brews2025 > 3
+                        ? l10n.yearlyStats25Slide1Title
+                        : l10n.yearlyStats25AppBarTitleSimple;
+                    return _YearlyStats25Banner(
+                      title: title,
+                      onTap: () {
+                        context.router.push(const YearlyStatsStory25Route());
+                      },
+                    );
+                  },
+                ),
 
               // Holiday gift box banner (feature-flagged)
               if (showGiftBanner) _GiftBoxBanner(onTap: () {
@@ -451,6 +496,155 @@ class _CustomTabBuilder extends DelegateBuilder {
                 color: active ? activeColor : inactiveColor,
               )),
         ],
+      ),
+    );
+  }
+}
+
+class _YearlyStats25Banner extends StatefulWidget {
+  const _YearlyStats25Banner({
+    required this.onTap,
+    required this.title,
+  });
+
+  final VoidCallback onTap;
+  final String title;
+
+  @override
+  State<_YearlyStats25Banner> createState() => _YearlyStats25BannerState();
+}
+
+class _YearlyStats25BannerState extends State<_YearlyStats25Banner>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _shimmerController;
+
+  @override
+  void initState() {
+    super.initState();
+    _shimmerController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 3800),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _shimmerController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textColor = theme.brightness == Brightness.light
+        ? colorScheme.onPrimary
+        : colorScheme.primary;
+    final shimmerOpacity = theme.brightness == Brightness.dark ? 0.05 : 0.10;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: widget.onTap,
+          child: Ink(
+            decoration: BoxDecoration(
+              color: colorScheme.secondary,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final availableWidth = constraints.maxWidth.isFinite
+                      ? constraints.maxWidth
+                      : MediaQuery.of(context).size.width;
+                  final baseHeight = constraints.maxHeight.isFinite
+                      ? constraints.maxHeight
+                      : 48.0;
+                  final shimmerWidth = availableWidth * 0.2;
+                  final shimmerHeight = baseHeight * 1.3;
+                  final travel = availableWidth + shimmerWidth * 2;
+                  return Stack(
+                    children: [
+                      Positioned.fill(
+                        child: IgnorePointer(
+                          child: AnimatedBuilder(
+                            animation: _shimmerController,
+                            builder: (context, _) {
+                              final dx = -shimmerWidth +
+                                  travel * _shimmerController.value;
+                              return Align(
+                                alignment: Alignment.centerLeft,
+                                child: Transform.translate(
+                                  offset: Offset(dx, 0),
+                                  child: Transform.rotate(
+                                    angle: -0.2,
+                                    child: SizedBox(
+                                      width: shimmerWidth,
+                                      height: shimmerHeight,
+                                      child: DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight,
+                                            colors: [
+                                              Colors.transparent,
+                                              Colors.white
+                                                  .withOpacity(shimmerOpacity),
+                                              Colors.transparent,
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 14),
+                        child: Row(
+                          children: [
+                            const Text(
+                              '📅',
+                              style: TextStyle(fontSize: 20, height: 1),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: AutoSizeText(
+                                widget.title,
+                                maxLines: 1,
+                                minFontSize: 10,
+                                stepGranularity: 0.25,
+                                wrapWords: false,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: textColor,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Icon(Icons.arrow_forward_ios,
+                                size: 14, color: textColor),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

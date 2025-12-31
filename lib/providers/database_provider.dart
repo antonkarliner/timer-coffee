@@ -14,6 +14,20 @@ import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/models/gift_offer_model.dart';
 import 'package:flutter/material.dart';
 
+class YearlyPercentileResult {
+  final double? percentile;
+  final int? topPct;
+  final double? liters;
+  final int? activeUsers;
+
+  const YearlyPercentileResult({
+    required this.percentile,
+    required this.topPct,
+    required this.liters,
+    required this.activeUsers,
+  });
+}
+
 class DatabaseProvider {
   final AppDatabase _db;
   LaunchPopupModel? _launchPopupModel; // Field to store fetched launch popup
@@ -1005,7 +1019,7 @@ class DatabaseProvider {
   }
 
   /// Preferred aggregated query that avoids row-limit truncation.
-  /// Falls back to legacy client-side aggregation if the RPC is unavailable.
+  /// Uses global_stats_daily; returns 0 on failure (do not fall back to global_stats).
   Future<double> fetchGlobalBrewedCoffeeAmountAggregated(
       DateTime start, DateTime end) async {
     final client = Supabase.instance.client;
@@ -1015,21 +1029,45 @@ class DatabaseProvider {
     final endDate = endIso.split('T').first;
 
     try {
-      final response = await client.rpc('global_stats_range_sum', params: {
+      final response = await client.rpc('global_stats_daily_range_sum', params: {
         // Function arguments are p_start_date, p_end_date (dates)
         'p_start_date': startDate,
         'p_end_date': endDate,
       }).timeout(const Duration(seconds: 5));
       final maybe = _extractTotalLiters(response);
       if (maybe != null) return maybe;
-      // If RPC returned empty/unknown structure, treat as zero instead of falling back to row-limited query.
       return 0.0;
-    } catch (_) {
-      // Intentionally swallow and fall back.
+    } catch (e) {
+      AppLogger.error('global_stats_daily_range_sum failed',
+          errorObject: AppLogger.sanitize(e));
+      // Intentionally swallow and return 0.
+      return 0.0;
     }
+  }
 
-    // Fallback to legacy paginated select (subject to row limits).
-    return fetchGlobalBrewedCoffeeAmount(start, end);
+  /// Aggregated count of global brews in the date range.
+  /// Uses global_stats_daily; returns 0 on failure.
+  Future<int> fetchGlobalBrewsCountAggregated(
+      DateTime start, DateTime end) async {
+    final client = Supabase.instance.client;
+    final startIso = start.toUtc().toIso8601String();
+    final endIso = end.toUtc().toIso8601String();
+    final startDate = startIso.split('T').first;
+    final endDate = endIso.split('T').first;
+    try {
+      final response = await client.rpc('global_stats_daily_range_count', params: {
+        'p_start_date': startDate,
+        'p_end_date': endDate,
+      }).timeout(const Duration(seconds: 5));
+      final count = _extractCount(response);
+      if (count != null) return count;
+      return 0;
+    } catch (e) {
+      AppLogger.error('global_stats_daily_range_count failed',
+          errorObject: AppLogger.sanitize(e));
+      // Intentionally swallow and return 0.
+      return 0;
+    }
   }
 
   Future<List<String>> fetchGlobalTopRecipes(
@@ -1086,8 +1124,39 @@ class DatabaseProvider {
     return fetchGlobalTopRecipes(start, end);
   }
 
+  /// Fetches the user's yearly percentile based on precomputed yearly_user_liters.
+  Future<YearlyPercentileResult?> fetchUserYearlyPercentile(int year) async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) return null;
+    try {
+      final response = await Supabase.instance.client
+          .rpc('yearly_user_liters_percentile', params: {
+            'p_year': year,
+            'p_user_id': user.id,
+          })
+          .timeout(const Duration(seconds: 5));
+      if (response is List && response.isNotEmpty && response.first is Map) {
+        final row = response.first as Map;
+        return YearlyPercentileResult(
+          percentile: (row['percentile'] as num?)?.toDouble(),
+          topPct: (row['top_pct'] as num?)?.toInt(),
+          liters: (row['liters'] as num?)?.toDouble(),
+          activeUsers: (row['active_users'] as num?)?.toInt(),
+        );
+      }
+    } catch (e) {
+      AppLogger.error('yearly_user_liters_percentile failed',
+          errorObject: AppLogger.sanitize(e));
+      // Ignore and return null.
+    }
+    return null;
+  }
+
   double? _extractTotalLiters(dynamic response) {
     // Function returns SETOF table; PostgREST returns a list of rows.
+    if (response is num) {
+      return response.toDouble();
+    }
     if (response is List && response.isNotEmpty) {
       final first = response.first;
       if (first is Map) {
@@ -1127,6 +1196,35 @@ class DatabaseProvider {
               .whereType<String>()
               .toList();
         }
+      }
+    }
+    return null;
+  }
+
+  int? _extractCount(dynamic response) {
+    if (response is num) return response.toInt();
+    if (response is List && response.isNotEmpty) {
+      final first = response.first;
+      if (first is Map) {
+        if (first['count'] != null && first['count'] is num) {
+          return (first['count'] as num).toInt();
+        }
+        if (first['total'] != null && first['total'] is num) {
+          return (first['total'] as num).toInt();
+        }
+        if (first.values.isNotEmpty && first.values.first is num) {
+          return (first.values.first as num).toInt();
+        }
+      }
+    } else if (response is Map) {
+      if (response['count'] != null && response['count'] is num) {
+        return (response['count'] as num).toInt();
+      }
+      if (response['total'] != null && response['total'] is num) {
+        return (response['total'] as num).toInt();
+      }
+      if (response.values.isNotEmpty && response.values.first is num) {
+        return (response.values.first as num).toInt();
       }
     }
     return null;

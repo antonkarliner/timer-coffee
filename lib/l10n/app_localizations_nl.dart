@@ -849,6 +849,295 @@ class AppLocalizationsNl extends AppLocalizations {
   String get yearlyStatsShareProgressTop3Roasters => 'Mijn top 3 branders:';
 
   @override
+  String get yearlyStats25AppBarTitle => 'Jouw jaar met Timer.Coffee – 2025';
+
+  @override
+  String get yearlyStats25AppBarTitleSimple => 'Timer.Coffee in 2025';
+
+  @override
+  String get yearlyStats25Slide1Title => 'Jouw jaar met Timer.Coffee';
+
+  @override
+  String get yearlyStats25Slide1Subtitle =>
+      'Tik om te zien hoe je in 2025 koffie zette';
+
+  @override
+  String get yearlyStats25Slide2Intro => 'Samen hebben we koffie gezet...';
+
+  @override
+  String yearlyStats25Slide2Count(String count) {
+    return '$count keer';
+  }
+
+  @override
+  String yearlyStats25Slide2Liters(String liters) {
+    return 'Dat is ongeveer $liters liter koffie';
+  }
+
+  @override
+  String get yearlyStats25Slide2Cambridge =>
+      'Genoeg om iedereen in Cambridge, VK een kop koffie te geven (de studenten zouden extra dankbaar zijn).';
+
+  @override
+  String get yearlyStats25Slide3Title => 'En jij?';
+
+  @override
+  String yearlyStats25Slide3Subtitle(String brews, String liters) {
+    return 'Je hebt dit jaar $brews keer koffie gezet met Timer.Coffee. Dat is in totaal $liters liter koffie!';
+  }
+
+  @override
+  String yearlyStats25Slide3TopBadge(int topPct) {
+    return 'Je zit in de top $topPct% van koffiezetters!';
+  }
+
+  @override
+  String get yearlyStats25Slide4TitleSingle =>
+      'Weet je nog welke dag je dit jaar het meest koffie zette?';
+
+  @override
+  String get yearlyStats25Slide4TitleMulti =>
+      'Weet je nog welke dagen je dit jaar het meest koffie zette?';
+
+  @override
+  String get yearlyStats25Slide4TitleBrewTime => 'Je zettijd dit jaar';
+
+  @override
+  String get yearlyStats25Slide4ScratchLabel => 'Kras om te onthullen';
+
+  @override
+  String yearlyStats25BrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count zetbeurten',
+      one: '1 zetbeurt',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel) {
+    return '$date — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakLiters(String liters) {
+    return 'Ongeveer $liters liter die dag';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel) {
+    return 'Meest recent: $mostRecent — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel) {
+    return 'Je besteedde $timeLabel aan koffie zetten';
+  }
+
+  @override
+  String get yearlyStats25Slide4BrewTimeFooter => 'Goed bestede tijd';
+
+  @override
+  String get yearlyStats25Slide5Title => 'Zo zet jij koffie';
+
+  @override
+  String get yearlyStats25Slide5MethodsHeader => 'Favoriete methoden:';
+
+  @override
+  String get yearlyStats25Slide5NoMethods => 'Nog geen methoden';
+
+  @override
+  String get yearlyStats25Slide5RecipesHeader => 'Toprecepten:';
+
+  @override
+  String get yearlyStats25Slide5NoRecipes => 'Nog geen recepten';
+
+  @override
+  String yearlyStats25MethodRow(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'zetbeurten',
+      one: 'zetbeurt',
+    );
+    return '$name — $count $_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide6Title(String count) {
+    return 'Je ontdekte dit jaar $count branderijen:';
+  }
+
+  @override
+  String get yearlyStats25Slide6NoRoasters => 'Nog geen branderijen';
+
+  @override
+  String get yearlyStats25Slide7Title =>
+      'Koffie drinken kan je overal brengen…';
+
+  @override
+  String yearlyStats25Slide7Subtitle(String count) {
+    return 'Je ontdekte dit jaar $count oorsprongen:';
+  }
+
+  @override
+  String get yearlyStats25Others => '...en meer';
+
+  @override
+  String yearlyStats25FallbackTitle(int countries, int roasters) {
+    return 'Timer.Coffee-gebruikers gebruikten dit jaar bonen uit $countries landen\nen registreerden $roasters verschillende branderijen.';
+  }
+
+  @override
+  String get yearlyStats25FallbackPromptHasBeans =>
+      'Waarom niet doorgaan met het loggen van je zakken bonen?';
+
+  @override
+  String get yearlyStats25FallbackPromptNoBeans =>
+      'Misschien is het tijd om mee te doen en je bonen ook bij te houden?';
+
+  @override
+  String get yearlyStats25FallbackActionHasBeans =>
+      'Doorgaan met bonen toevoegen';
+
+  @override
+  String get yearlyStats25FallbackActionNoBeans =>
+      'Je eerste zak bonen toevoegen';
+
+  @override
+  String get yearlyStats25ContinueButton => 'Doorgaan';
+
+  @override
+  String get yearlyStats25PostcardTitle =>
+      'Stuur een nieuwjaarswens naar een andere koffieliefhebber.';
+
+  @override
+  String get yearlyStats25PostcardSubtitle =>
+      'Optioneel. Houd het vriendelijk. Geen persoonlijke info.';
+
+  @override
+  String get yearlyStats25PostcardHint =>
+      'Gelukkig nieuwjaar en veel goede koffie!';
+
+  @override
+  String get yearlyStats25PostcardSending => 'Verzenden...';
+
+  @override
+  String get yearlyStats25PostcardSend => 'Verzenden';
+
+  @override
+  String get yearlyStats25PostcardSkip => 'Overslaan';
+
+  @override
+  String get yearlyStats25PostcardReceivedTitle =>
+      'Een wens van een andere koffieliefhebber';
+
+  @override
+  String get yearlyStats25PostcardErrorLength => 'Voer 2–160 tekens in.';
+
+  @override
+  String get yearlyStats25PostcardErrorSend =>
+      'Kon niet verzenden. Probeer het opnieuw.';
+
+  @override
+  String get yearlyStats25PostcardErrorRejected =>
+      'Kon niet verzenden. Probeer een ander bericht.';
+
+  @override
+  String get yearlyStats25CtaTitle => 'Laten we in 2026 iets moois zetten!';
+
+  @override
+  String get yearlyStats25CtaSubtitle => 'Hier zijn een paar ideeën:';
+
+  @override
+  String get yearlyStats25CtaExplorePrefix => 'Ontdek aanbiedingen in de ';
+
+  @override
+  String get yearlyStats25CtaGiftBox => 'Holiday Giftbox';
+
+  @override
+  String get yearlyStats25CtaDonate => 'Doneren';
+
+  @override
+  String get yearlyStats25CtaDonateSuffix =>
+      ' om Timer.Coffee het komende jaar te laten groeien';
+
+  @override
+  String get yearlyStats25CtaFollowPrefix => 'Volg ons op ';
+
+  @override
+  String get yearlyStats25CtaInstagram => 'Instagram';
+
+  @override
+  String get yearlyStats25CtaShareButton => 'Deel mijn voortgang';
+
+  @override
+  String get yearlyStats25CtaShareHint =>
+      'Vergeet niet @timercoffeeapp te taggen';
+
+  @override
+  String get yearlyStats25AppBarTooltipResume => 'Hervatten';
+
+  @override
+  String get yearlyStats25AppBarTooltipPause => 'Pauzeren';
+
+  @override
+  String get yearlyStats25ShareError =>
+      'Kon de terugblik niet delen. Probeer het opnieuw.';
+
+  @override
+  String yearlyStats25BrewTimeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minuten',
+      one: '1 minuut',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25BrewTimeHours(String hours) {
+    return '$hours uur';
+  }
+
+  @override
+  String get yearlyStats25ShareTitle => 'Mijn jaar 2025 met Timer.Coffee';
+
+  @override
+  String get yearlyStats25ShareBrewedPrefix => 'Gezet ';
+
+  @override
+  String get yearlyStats25ShareBrewedMiddle => ' keer en ';
+
+  @override
+  String get yearlyStats25ShareBrewedSuffix => ' liter koffie';
+
+  @override
+  String get yearlyStats25ShareRoastersPrefix => 'Bonen van ';
+
+  @override
+  String get yearlyStats25ShareRoastersSuffix => ' branderijen';
+
+  @override
+  String get yearlyStats25ShareOriginsPrefix => 'Ontdekte ';
+
+  @override
+  String get yearlyStats25ShareOriginsSuffix => ' koffie-oorsprongen';
+
+  @override
+  String get yearlyStats25ShareMethodsTitle => 'Mijn favoriete zetmethoden:';
+
+  @override
+  String get yearlyStats25ShareRecipesTitle => 'Mijn toprecepten:';
+
+  @override
+  String get yearlyStats25ShareHandle => '@timercoffeeapp';
+
+  @override
   String get yearlyStatsFailedToLike =>
       'Kon niet leuk vinden. Probeer het opnieuw.';
 

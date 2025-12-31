@@ -846,6 +846,291 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yearlyStatsShareProgressTop3Roasters => 'My top-3 roasters:';
 
   @override
+  String get yearlyStats25AppBarTitle => 'Your Year with Timer.Coffee – 2025';
+
+  @override
+  String get yearlyStats25AppBarTitleSimple => 'Timer.Coffee in 2025';
+
+  @override
+  String get yearlyStats25Slide1Title => 'Your year with Timer.Coffee';
+
+  @override
+  String get yearlyStats25Slide1Subtitle => 'Tap to see how you brewed in 2025';
+
+  @override
+  String get yearlyStats25Slide2Intro => 'Together we brewed coffee...';
+
+  @override
+  String yearlyStats25Slide2Count(String count) {
+    return '$count times';
+  }
+
+  @override
+  String yearlyStats25Slide2Liters(String liters) {
+    return 'That’s about $liters liters of coffee';
+  }
+
+  @override
+  String get yearlyStats25Slide2Cambridge =>
+      'Enough to give a cup of coffee to everyone in Cambridge, UK (the students would be especially grateful).';
+
+  @override
+  String get yearlyStats25Slide3Title => 'And what about you?';
+
+  @override
+  String yearlyStats25Slide3Subtitle(String brews, String liters) {
+    return 'You brewed $brews times with Timer.Coffee this year. That\'s total of $liters liters!';
+  }
+
+  @override
+  String yearlyStats25Slide3TopBadge(int topPct) {
+    return 'You\'re in top $topPct% of brewers!';
+  }
+
+  @override
+  String get yearlyStats25Slide4TitleSingle =>
+      'Remember the day you brewed the most coffee this year?';
+
+  @override
+  String get yearlyStats25Slide4TitleMulti =>
+      'Remember days when you brewed the most coffee this year?';
+
+  @override
+  String get yearlyStats25Slide4TitleBrewTime => 'Your brewing time this year';
+
+  @override
+  String get yearlyStats25Slide4ScratchLabel => 'Scratch to reveal';
+
+  @override
+  String yearlyStats25BrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count brews',
+      one: '1 brew',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel) {
+    return '$date — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakLiters(String liters) {
+    return 'About $liters liters that day';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel) {
+    return 'Most recent: $mostRecent — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel) {
+    return 'You spent $timeLabel brewing';
+  }
+
+  @override
+  String get yearlyStats25Slide4BrewTimeFooter => 'That is time well spent';
+
+  @override
+  String get yearlyStats25Slide5Title => 'This is how you brew';
+
+  @override
+  String get yearlyStats25Slide5MethodsHeader => 'Favorite methods:';
+
+  @override
+  String get yearlyStats25Slide5NoMethods => 'No methods yet';
+
+  @override
+  String get yearlyStats25Slide5RecipesHeader => 'Top recipes:';
+
+  @override
+  String get yearlyStats25Slide5NoRecipes => 'No recipes yet';
+
+  @override
+  String yearlyStats25MethodRow(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'brews',
+      one: 'brew',
+    );
+    return '$name — $count $_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide6Title(String count) {
+    return 'You discovered $count roasters this year:';
+  }
+
+  @override
+  String get yearlyStats25Slide6NoRoasters => 'No roasters yet';
+
+  @override
+  String get yearlyStats25Slide7Title => 'Drinking coffee can take you places…';
+
+  @override
+  String yearlyStats25Slide7Subtitle(String count) {
+    return 'You discovered $count origins this year:';
+  }
+
+  @override
+  String get yearlyStats25Others => '...and others';
+
+  @override
+  String yearlyStats25FallbackTitle(int countries, int roasters) {
+    return 'Timer.Coffee users used beans from $countries countries this year\nand registered $roasters different roasters.';
+  }
+
+  @override
+  String get yearlyStats25FallbackPromptHasBeans =>
+      'Why not continue logging your bean bags?';
+
+  @override
+  String get yearlyStats25FallbackPromptNoBeans =>
+      'Maybe it is time for you to join and record your beans too?';
+
+  @override
+  String get yearlyStats25FallbackActionHasBeans => 'Continue adding beans';
+
+  @override
+  String get yearlyStats25FallbackActionNoBeans => 'Add your first bean bag';
+
+  @override
+  String get yearlyStats25ContinueButton => 'Continue';
+
+  @override
+  String get yearlyStats25PostcardTitle =>
+      'Send a New Year wish to a fellow brewer.';
+
+  @override
+  String get yearlyStats25PostcardSubtitle =>
+      'Optional. Keep it kind. No personal info.';
+
+  @override
+  String get yearlyStats25PostcardHint => 'Happy New Year and great brews!';
+
+  @override
+  String get yearlyStats25PostcardSending => 'Sending...';
+
+  @override
+  String get yearlyStats25PostcardSend => 'Send';
+
+  @override
+  String get yearlyStats25PostcardSkip => 'Skip';
+
+  @override
+  String get yearlyStats25PostcardReceivedTitle => 'A wish from another brewer';
+
+  @override
+  String get yearlyStats25PostcardErrorLength =>
+      'Please enter 2–160 characters.';
+
+  @override
+  String get yearlyStats25PostcardErrorSend =>
+      'Could not send. Please try again.';
+
+  @override
+  String get yearlyStats25PostcardErrorRejected =>
+      'Could not send. Please try another message.';
+
+  @override
+  String get yearlyStats25CtaTitle => 'Let\'s brew something great in 2026!';
+
+  @override
+  String get yearlyStats25CtaSubtitle => 'Here are a few ideas:';
+
+  @override
+  String get yearlyStats25CtaExplorePrefix => 'Explore offers in ';
+
+  @override
+  String get yearlyStats25CtaGiftBox => 'Holiday Gift Box';
+
+  @override
+  String get yearlyStats25CtaDonate => 'Donate';
+
+  @override
+  String get yearlyStats25CtaDonateSuffix =>
+      ' to help Timer.Coffee grow in the coming year';
+
+  @override
+  String get yearlyStats25CtaFollowPrefix => 'Follow us on ';
+
+  @override
+  String get yearlyStats25CtaInstagram => 'Instagram';
+
+  @override
+  String get yearlyStats25CtaShareButton => 'Share my progress';
+
+  @override
+  String get yearlyStats25CtaShareHint =>
+      'Don\'t forget to tag @timercoffeeapp';
+
+  @override
+  String get yearlyStats25AppBarTooltipResume => 'Resume';
+
+  @override
+  String get yearlyStats25AppBarTooltipPause => 'Pause';
+
+  @override
+  String get yearlyStats25ShareError =>
+      'Could not share recap. Please try again.';
+
+  @override
+  String yearlyStats25BrewTimeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes',
+      one: '1 minute',
+      zero: '0 minutes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25BrewTimeHours(String hours) {
+    return '$hours hours';
+  }
+
+  @override
+  String get yearlyStats25ShareTitle => 'My Year-2025 with Timer.Coffee';
+
+  @override
+  String get yearlyStats25ShareBrewedPrefix => 'Brewed ';
+
+  @override
+  String get yearlyStats25ShareBrewedMiddle => ' times and ';
+
+  @override
+  String get yearlyStats25ShareBrewedSuffix => ' liters of coffee';
+
+  @override
+  String get yearlyStats25ShareRoastersPrefix => 'Used beans from ';
+
+  @override
+  String get yearlyStats25ShareRoastersSuffix => ' roasters';
+
+  @override
+  String get yearlyStats25ShareOriginsPrefix => 'Discovered ';
+
+  @override
+  String get yearlyStats25ShareOriginsSuffix => ' coffee origins';
+
+  @override
+  String get yearlyStats25ShareMethodsTitle => 'My favorite brewing methods:';
+
+  @override
+  String get yearlyStats25ShareRecipesTitle => 'My top recipes:';
+
+  @override
+  String get yearlyStats25ShareHandle => '@timercoffeeapp';
+
+  @override
   String get yearlyStatsFailedToLike => 'Failed to like. Please try again.';
 
   @override

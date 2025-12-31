@@ -855,6 +855,290 @@ class AppLocalizationsTr extends AppLocalizations {
       'En çok tercih ettiğim 3 kavurucu:';
 
   @override
+  String get yearlyStats25AppBarTitle => 'Timer.Coffee ile Yılım – 2025';
+
+  @override
+  String get yearlyStats25AppBarTitleSimple => '2025\'te Timer.Coffee';
+
+  @override
+  String get yearlyStats25Slide1Title => 'Timer.Coffee ile Yılınız';
+
+  @override
+  String get yearlyStats25Slide1Subtitle =>
+      '2025\'te nasıl demlediğinizi görmek için dokunun';
+
+  @override
+  String get yearlyStats25Slide2Intro => 'Birlikte kahve demledik...';
+
+  @override
+  String yearlyStats25Slide2Count(String count) {
+    return '$count kez';
+  }
+
+  @override
+  String yearlyStats25Slide2Liters(String liters) {
+    return 'Bu da yaklaşık $liters litre kahve demek';
+  }
+
+  @override
+  String get yearlyStats25Slide2Cambridge =>
+      'Cambridge, Birleşik Krallık\'taki herkes için bir fincan kahveye yetecek kadar (özellikle öğrenciler çok minnettar olurdu).';
+
+  @override
+  String get yearlyStats25Slide3Title => 'Peki ya siz?';
+
+  @override
+  String yearlyStats25Slide3Subtitle(String brews, String liters) {
+    return 'Bu yıl Timer.Coffee ile $brews kez kahve demlediniz. Toplamda $liters litre kahve!';
+  }
+
+  @override
+  String yearlyStats25Slide3TopBadge(int topPct) {
+    return 'En iyi %$topPct’lik dilimdesiniz!';
+  }
+
+  @override
+  String get yearlyStats25Slide4TitleSingle =>
+      'Bu yıl en çok kahve demlediğiniz günü hatırlıyor musunuz?';
+
+  @override
+  String get yearlyStats25Slide4TitleMulti =>
+      'Bu yıl en çok kahve demlediğiniz günleri hatırlıyor musunuz?';
+
+  @override
+  String get yearlyStats25Slide4TitleBrewTime => 'Bu yılki demleme süreniz';
+
+  @override
+  String get yearlyStats25Slide4ScratchLabel => 'Görmek için kazıyın';
+
+  @override
+  String yearlyStats25BrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count demleme',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel) {
+    return '$date — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakLiters(String liters) {
+    return 'O gün yaklaşık $liters litre';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel) {
+    return 'En son: $mostRecent — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel) {
+    return 'Demleme için $timeLabel harcadınız';
+  }
+
+  @override
+  String get yearlyStats25Slide4BrewTimeFooter => 'Bu zaman iyi harcandı';
+
+  @override
+  String get yearlyStats25Slide5Title => 'İşte nasıl demliyorsunuz';
+
+  @override
+  String get yearlyStats25Slide5MethodsHeader => 'Favori yöntemler:';
+
+  @override
+  String get yearlyStats25Slide5NoMethods => 'Henüz yöntem yok';
+
+  @override
+  String get yearlyStats25Slide5RecipesHeader => 'En iyi tarifler:';
+
+  @override
+  String get yearlyStats25Slide5NoRecipes => 'Henüz tarif yok';
+
+  @override
+  String yearlyStats25MethodRow(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'demleme',
+    );
+    return '$name — $count $_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide6Title(String count) {
+    return 'Bu yıl $count kavurucu keşfettiniz:';
+  }
+
+  @override
+  String get yearlyStats25Slide6NoRoasters => 'Henüz kavurucu yok';
+
+  @override
+  String get yearlyStats25Slide7Title =>
+      'Kahve içmek sizi yerlere götürebilir…';
+
+  @override
+  String yearlyStats25Slide7Subtitle(String count) {
+    return 'Bu yıl $count köken keşfettiniz:';
+  }
+
+  @override
+  String get yearlyStats25Others => '...ve diğerleri';
+
+  @override
+  String yearlyStats25FallbackTitle(int countries, int roasters) {
+    return 'Bu yıl Timer.Coffee kullanıcıları $countries ülkeden çekirdek kullandı\nve $roasters farklı kavurucu kaydetti.';
+  }
+
+  @override
+  String get yearlyStats25FallbackPromptHasBeans =>
+      'Çekirdek paketlerini kaydetmeye devam etmeye ne dersiniz?';
+
+  @override
+  String get yearlyStats25FallbackPromptNoBeans =>
+      'Belki de katılıp çekirdeklerinizi kaydetmenin zamanı gelmiştir?';
+
+  @override
+  String get yearlyStats25FallbackActionHasBeans =>
+      'Çekirdek eklemeye devam et';
+
+  @override
+  String get yearlyStats25FallbackActionNoBeans => 'İlk çekirdek paketini ekle';
+
+  @override
+  String get yearlyStats25ContinueButton => 'Devam et';
+
+  @override
+  String get yearlyStats25PostcardTitle =>
+      'Bir kahvesevere Yeni Yıl dileği gönderin.';
+
+  @override
+  String get yearlyStats25PostcardSubtitle =>
+      'İsteğe bağlı. Nazik olun. Kişisel bilgi yok.';
+
+  @override
+  String get yearlyStats25PostcardHint => 'Mutlu yıllar ve harika demlemeler!';
+
+  @override
+  String get yearlyStats25PostcardSending => 'Gönderiliyor...';
+
+  @override
+  String get yearlyStats25PostcardSend => 'Gönder';
+
+  @override
+  String get yearlyStats25PostcardSkip => 'Geç';
+
+  @override
+  String get yearlyStats25PostcardReceivedTitle =>
+      'Başka bir kahveseverden bir dilek';
+
+  @override
+  String get yearlyStats25PostcardErrorLength => 'Lütfen 2–160 karakter girin.';
+
+  @override
+  String get yearlyStats25PostcardErrorSend =>
+      'Gönderilemedi. Lütfen tekrar deneyin.';
+
+  @override
+  String get yearlyStats25PostcardErrorRejected =>
+      'Gönderilemedi. Lütfen başka bir mesaj deneyin.';
+
+  @override
+  String get yearlyStats25CtaTitle => '2026\'da harika bir şey demleyelim!';
+
+  @override
+  String get yearlyStats25CtaSubtitle => 'İşte birkaç fikir:';
+
+  @override
+  String get yearlyStats25CtaExplorePrefix => 'Tekliflere göz atın: ';
+
+  @override
+  String get yearlyStats25CtaGiftBox => 'Tatil Hediye Kutusu';
+
+  @override
+  String get yearlyStats25CtaDonate => 'Bağış Yap';
+
+  @override
+  String get yearlyStats25CtaDonateSuffix =>
+      ' gelecek yıl Timer.Coffee\'nin büyümesine yardımcı olmak için';
+
+  @override
+  String get yearlyStats25CtaFollowPrefix => 'Bizi takip edin: ';
+
+  @override
+  String get yearlyStats25CtaInstagram => 'Instagram';
+
+  @override
+  String get yearlyStats25CtaShareButton => 'İlerlememi paylaş';
+
+  @override
+  String get yearlyStats25CtaShareHint =>
+      '@timercoffeeapp\'i etiketlemeyi unutmayın';
+
+  @override
+  String get yearlyStats25AppBarTooltipResume => 'Devam et';
+
+  @override
+  String get yearlyStats25AppBarTooltipPause => 'Duraklat';
+
+  @override
+  String get yearlyStats25ShareError =>
+      'Özet paylaşılamadı. Lütfen tekrar deneyin.';
+
+  @override
+  String yearlyStats25BrewTimeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dakika',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25BrewTimeHours(String hours) {
+    return '$hours saat';
+  }
+
+  @override
+  String get yearlyStats25ShareTitle => 'Timer.Coffee ile 2025 Yılım';
+
+  @override
+  String get yearlyStats25ShareBrewedPrefix => 'Demleme: ';
+
+  @override
+  String get yearlyStats25ShareBrewedMiddle => ' kez · ';
+
+  @override
+  String get yearlyStats25ShareBrewedSuffix => ' L kahve';
+
+  @override
+  String get yearlyStats25ShareRoastersPrefix => 'Kavurucu: ';
+
+  @override
+  String get yearlyStats25ShareRoastersSuffix => '';
+
+  @override
+  String get yearlyStats25ShareOriginsPrefix => 'Köken: ';
+
+  @override
+  String get yearlyStats25ShareOriginsSuffix => '';
+
+  @override
+  String get yearlyStats25ShareMethodsTitle => 'Favori demleme yöntemlerim:';
+
+  @override
+  String get yearlyStats25ShareRecipesTitle => 'En iyi tariflerim:';
+
+  @override
+  String get yearlyStats25ShareHandle => '@timercoffeeapp';
+
+  @override
   String get yearlyStatsFailedToLike => 'Beğenilemedi. Lütfen tekrar deneyin.';
 
   @override

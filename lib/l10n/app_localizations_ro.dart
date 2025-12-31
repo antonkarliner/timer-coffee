@@ -851,6 +851,296 @@ class AppLocalizationsRo extends AppLocalizations {
   String get yearlyStatsShareProgressTop3Roasters => 'Top 3 prăjitori:';
 
   @override
+  String get yearlyStats25AppBarTitle => 'Anul tău cu Timer.Coffee – 2025';
+
+  @override
+  String get yearlyStats25AppBarTitleSimple => 'Timer.Coffee în 2025';
+
+  @override
+  String get yearlyStats25Slide1Title => 'Anul tău cu Timer.Coffee';
+
+  @override
+  String get yearlyStats25Slide1Subtitle =>
+      'Atinge pentru a vedea cum ai preparat cafea în 2025';
+
+  @override
+  String get yearlyStats25Slide2Intro => 'Împreună am preparat cafea...';
+
+  @override
+  String yearlyStats25Slide2Count(String count) {
+    return '$count ori';
+  }
+
+  @override
+  String yearlyStats25Slide2Liters(String liters) {
+    return 'Asta înseamnă aproximativ $liters litri de cafea';
+  }
+
+  @override
+  String get yearlyStats25Slide2Cambridge =>
+      'Suficient cât să oferim o ceașcă de cafea tuturor din Cambridge, Regatul Unit (studenții ar fi deosebit de recunoscători).';
+
+  @override
+  String get yearlyStats25Slide3Title => 'Dar tu?';
+
+  @override
+  String yearlyStats25Slide3Subtitle(String brews, String liters) {
+    return 'Anul acesta ai preparat cafea de $brews ori cu Timer.Coffee. În total, $liters litri de cafea!';
+  }
+
+  @override
+  String yearlyStats25Slide3TopBadge(int topPct) {
+    return 'Ești în top $topPct% dintre cei care prepară cafea!';
+  }
+
+  @override
+  String get yearlyStats25Slide4TitleSingle =>
+      'Îți amintești ziua în care ai preparat cea mai multă cafea anul acesta?';
+
+  @override
+  String get yearlyStats25Slide4TitleMulti =>
+      'Îți amintești zilele în care ai preparat cea mai multă cafea anul acesta?';
+
+  @override
+  String get yearlyStats25Slide4TitleBrewTime =>
+      'Timpul tău de preparare anul acesta';
+
+  @override
+  String get yearlyStats25Slide4ScratchLabel => 'Zgârie pentru a dezvălui';
+
+  @override
+  String yearlyStats25BrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de preparări',
+      few: '$count preparări',
+      one: '1 preparare',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel) {
+    return '$date — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakLiters(String liters) {
+    return 'Aproximativ $liters litri în ziua aceea';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel) {
+    return 'Cel mai recent: $mostRecent — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel) {
+    return 'Ai petrecut $timeLabel preparând cafea';
+  }
+
+  @override
+  String get yearlyStats25Slide4BrewTimeFooter => 'Timp bine petrecut';
+
+  @override
+  String get yearlyStats25Slide5Title => 'Așa îți prepari cafeaua';
+
+  @override
+  String get yearlyStats25Slide5MethodsHeader => 'Metode favorite:';
+
+  @override
+  String get yearlyStats25Slide5NoMethods => 'Nicio metodă încă';
+
+  @override
+  String get yearlyStats25Slide5RecipesHeader => 'Rețete de top:';
+
+  @override
+  String get yearlyStats25Slide5NoRecipes => 'Nicio rețetă încă';
+
+  @override
+  String yearlyStats25MethodRow(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'de preparări',
+      few: 'preparări',
+      one: 'preparare',
+    );
+    return '$name — $count $_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide6Title(String count) {
+    return 'Anul acesta ai descoperit $count prăjitori:';
+  }
+
+  @override
+  String get yearlyStats25Slide6NoRoasters => 'Niciun prăjitor încă';
+
+  @override
+  String get yearlyStats25Slide7Title => 'Cafeaua te poate duce departe…';
+
+  @override
+  String yearlyStats25Slide7Subtitle(String count) {
+    return 'Anul acesta ai descoperit $count origini:';
+  }
+
+  @override
+  String get yearlyStats25Others => '...și altele';
+
+  @override
+  String yearlyStats25FallbackTitle(int countries, int roasters) {
+    return 'Anul acesta, utilizatorii Timer.Coffee au folosit boabe din $countries țări\nși au înregistrat $roasters prăjitori diferiți.';
+  }
+
+  @override
+  String get yearlyStats25FallbackPromptHasBeans =>
+      'De ce să nu continui să înregistrezi pungile de boabe?';
+
+  @override
+  String get yearlyStats25FallbackPromptNoBeans =>
+      'Poate e timpul să te alături și să îți înregistrezi boabele și tu?';
+
+  @override
+  String get yearlyStats25FallbackActionHasBeans => 'Continuă să adaugi boabe';
+
+  @override
+  String get yearlyStats25FallbackActionNoBeans =>
+      'Adaugă prima ta pungă de boabe';
+
+  @override
+  String get yearlyStats25ContinueButton => 'Continuă';
+
+  @override
+  String get yearlyStats25PostcardTitle =>
+      'Trimite o urare de Anul Nou unui alt iubitor de cafea.';
+
+  @override
+  String get yearlyStats25PostcardSubtitle =>
+      'Opțional. Fii amabil. Fără informații personale.';
+
+  @override
+  String get yearlyStats25PostcardHint => 'La mulți ani și cafele grozave!';
+
+  @override
+  String get yearlyStats25PostcardSending => 'Se trimite...';
+
+  @override
+  String get yearlyStats25PostcardSend => 'Trimite';
+
+  @override
+  String get yearlyStats25PostcardSkip => 'Sari peste';
+
+  @override
+  String get yearlyStats25PostcardReceivedTitle =>
+      'O urare de la un alt iubitor de cafea';
+
+  @override
+  String get yearlyStats25PostcardErrorLength => 'Introdu 2–160 de caractere.';
+
+  @override
+  String get yearlyStats25PostcardErrorSend =>
+      'Nu s-a putut trimite. Încearcă din nou.';
+
+  @override
+  String get yearlyStats25PostcardErrorRejected =>
+      'Nu s-a putut trimite. Încearcă un alt mesaj.';
+
+  @override
+  String get yearlyStats25CtaTitle => 'Să preparăm ceva grozav în 2026!';
+
+  @override
+  String get yearlyStats25CtaSubtitle => 'Iată câteva idei:';
+
+  @override
+  String get yearlyStats25CtaExplorePrefix => 'Descoperă ofertele din ';
+
+  @override
+  String get yearlyStats25CtaGiftBox => 'Cutia Cadou de Sărbători';
+
+  @override
+  String get yearlyStats25CtaDonate => 'Donează';
+
+  @override
+  String get yearlyStats25CtaDonateSuffix =>
+      ' pentru a ajuta Timer.Coffee să crească în anul ce urmează';
+
+  @override
+  String get yearlyStats25CtaFollowPrefix => 'Urmărește-ne pe ';
+
+  @override
+  String get yearlyStats25CtaInstagram => 'Instagram';
+
+  @override
+  String get yearlyStats25CtaShareButton => 'Distribuie progresul meu';
+
+  @override
+  String get yearlyStats25CtaShareHint =>
+      'Nu uita să etichetezi @timercoffeeapp';
+
+  @override
+  String get yearlyStats25AppBarTooltipResume => 'Reia';
+
+  @override
+  String get yearlyStats25AppBarTooltipPause => 'Pauză';
+
+  @override
+  String get yearlyStats25ShareError =>
+      'Nu s-a putut distribui rezumatul. Încearcă din nou.';
+
+  @override
+  String yearlyStats25BrewTimeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de minute',
+      few: '$count minute',
+      one: '1 minut',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25BrewTimeHours(String hours) {
+    return '$hours h';
+  }
+
+  @override
+  String get yearlyStats25ShareTitle => 'Anul meu 2025 cu Timer.Coffee';
+
+  @override
+  String get yearlyStats25ShareBrewedPrefix => 'Am preparat ';
+
+  @override
+  String get yearlyStats25ShareBrewedMiddle => ' ori și ';
+
+  @override
+  String get yearlyStats25ShareBrewedSuffix => ' litri de cafea';
+
+  @override
+  String get yearlyStats25ShareRoastersPrefix => 'Boabe de la ';
+
+  @override
+  String get yearlyStats25ShareRoastersSuffix => ' prăjitori';
+
+  @override
+  String get yearlyStats25ShareOriginsPrefix => 'Descoperite ';
+
+  @override
+  String get yearlyStats25ShareOriginsSuffix => ' origini';
+
+  @override
+  String get yearlyStats25ShareMethodsTitle => 'Metodele mele favorite:';
+
+  @override
+  String get yearlyStats25ShareRecipesTitle => 'Rețetele mele de top:';
+
+  @override
+  String get yearlyStats25ShareHandle => '@timercoffeeapp';
+
+  @override
   String get yearlyStatsFailedToLike => 'Nu s-a apreciat. Încercați din nou.';
 
   @override

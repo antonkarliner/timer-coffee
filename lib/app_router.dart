@@ -57,6 +57,10 @@ class AppRouter extends RootStackRouter {
           path: '/yearly_stats_story',
         ),
         AutoRoute(
+          page: YearlyStatsStory25Route.page,
+          path: '/yearly_stats_story_25',
+        ),
+        AutoRoute(
           page: RecipeCreationRoute.page,
           path: '/create_recipe',
         ),

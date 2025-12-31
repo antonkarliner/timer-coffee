@@ -854,6 +854,294 @@ class AppLocalizationsEs extends AppLocalizations {
       'Mis 3 tostadores principales:';
 
   @override
+  String get yearlyStats25AppBarTitle => 'Tu año con Timer.Coffee – 2025';
+
+  @override
+  String get yearlyStats25AppBarTitleSimple => 'Timer.Coffee en 2025';
+
+  @override
+  String get yearlyStats25Slide1Title => 'Tu año con Timer.Coffee';
+
+  @override
+  String get yearlyStats25Slide1Subtitle =>
+      'Toca para ver cómo preparaste café en 2025';
+
+  @override
+  String get yearlyStats25Slide2Intro => 'Juntos preparamos café...';
+
+  @override
+  String yearlyStats25Slide2Count(String count) {
+    return '$count veces';
+  }
+
+  @override
+  String yearlyStats25Slide2Liters(String liters) {
+    return 'Eso son aproximadamente $liters litros de café';
+  }
+
+  @override
+  String get yearlyStats25Slide2Cambridge =>
+      'Suficiente para darle una taza de café a todos en Cambridge, Reino Unido (los estudiantes estarían especialmente agradecidos).';
+
+  @override
+  String get yearlyStats25Slide3Title => '¿Y tú?';
+
+  @override
+  String yearlyStats25Slide3Subtitle(String brews, String liters) {
+    return 'Preparaste café $brews veces con Timer.Coffee este año. ¡En total, $liters litros de café!';
+  }
+
+  @override
+  String yearlyStats25Slide3TopBadge(int topPct) {
+    return '¡Estás en el top $topPct% de los que preparan café!';
+  }
+
+  @override
+  String get yearlyStats25Slide4TitleSingle =>
+      '¿Recuerdas el día en que preparaste más café este año?';
+
+  @override
+  String get yearlyStats25Slide4TitleMulti =>
+      '¿Recuerdas los días en que preparaste más café este año?';
+
+  @override
+  String get yearlyStats25Slide4TitleBrewTime =>
+      'Tu tiempo de preparación este año';
+
+  @override
+  String get yearlyStats25Slide4ScratchLabel => 'Rasca para revelar';
+
+  @override
+  String yearlyStats25BrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count preparaciones',
+      one: '1 preparación',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel) {
+    return '$date — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakLiters(String liters) {
+    return 'Aproximadamente $liters litros ese día';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel) {
+    return 'Más reciente: $mostRecent — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel) {
+    return 'Pasaste $timeLabel preparando café';
+  }
+
+  @override
+  String get yearlyStats25Slide4BrewTimeFooter => 'Tiempo bien invertido';
+
+  @override
+  String get yearlyStats25Slide5Title => 'Así preparas café';
+
+  @override
+  String get yearlyStats25Slide5MethodsHeader => 'Métodos favoritos:';
+
+  @override
+  String get yearlyStats25Slide5NoMethods => 'Aún no hay métodos';
+
+  @override
+  String get yearlyStats25Slide5RecipesHeader => 'Recetas principales:';
+
+  @override
+  String get yearlyStats25Slide5NoRecipes => 'Aún no hay recetas';
+
+  @override
+  String yearlyStats25MethodRow(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'preparaciones',
+      one: 'preparación',
+    );
+    return '$name — $count $_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide6Title(String count) {
+    return 'Descubriste $count tostadores este año:';
+  }
+
+  @override
+  String get yearlyStats25Slide6NoRoasters => 'Aún no hay tostadores';
+
+  @override
+  String get yearlyStats25Slide7Title => 'Beber café te puede llevar lejos…';
+
+  @override
+  String yearlyStats25Slide7Subtitle(String count) {
+    return 'Descubriste $count orígenes este año:';
+  }
+
+  @override
+  String get yearlyStats25Others => '...y otros';
+
+  @override
+  String yearlyStats25FallbackTitle(int countries, int roasters) {
+    return 'Este año, los usuarios de Timer.Coffee usaron granos de $countries países\ny registraron $roasters tostadores diferentes.';
+  }
+
+  @override
+  String get yearlyStats25FallbackPromptHasBeans =>
+      '¿Por qué no sigues registrando tus bolsas de granos?';
+
+  @override
+  String get yearlyStats25FallbackPromptNoBeans =>
+      '¿Quizá es hora de unirte y registrar tus granos también?';
+
+  @override
+  String get yearlyStats25FallbackActionHasBeans => 'Seguir añadiendo granos';
+
+  @override
+  String get yearlyStats25FallbackActionNoBeans =>
+      'Añade tu primera bolsa de granos';
+
+  @override
+  String get yearlyStats25ContinueButton => 'Continuar';
+
+  @override
+  String get yearlyStats25PostcardTitle =>
+      'Envía un deseo de Año Nuevo a otro amante del café.';
+
+  @override
+  String get yearlyStats25PostcardSubtitle =>
+      'Opcional. Sé amable. Sin datos personales.';
+
+  @override
+  String get yearlyStats25PostcardHint => '¡Feliz Año Nuevo y buenos cafés!';
+
+  @override
+  String get yearlyStats25PostcardSending => 'Enviando...';
+
+  @override
+  String get yearlyStats25PostcardSend => 'Enviar';
+
+  @override
+  String get yearlyStats25PostcardSkip => 'Omitir';
+
+  @override
+  String get yearlyStats25PostcardReceivedTitle =>
+      'Un deseo de otro amante del café';
+
+  @override
+  String get yearlyStats25PostcardErrorLength => 'Introduce 2–160 caracteres.';
+
+  @override
+  String get yearlyStats25PostcardErrorSend =>
+      'No se pudo enviar. Inténtalo de nuevo.';
+
+  @override
+  String get yearlyStats25PostcardErrorRejected =>
+      'No se pudo enviar. Prueba con otro mensaje.';
+
+  @override
+  String get yearlyStats25CtaTitle => '¡Preparemos algo genial en 2026!';
+
+  @override
+  String get yearlyStats25CtaSubtitle => 'Aquí tienes algunas ideas:';
+
+  @override
+  String get yearlyStats25CtaExplorePrefix => 'Explora ofertas en la ';
+
+  @override
+  String get yearlyStats25CtaGiftBox => 'Caja de Regalos Navideña';
+
+  @override
+  String get yearlyStats25CtaDonate => 'Donar';
+
+  @override
+  String get yearlyStats25CtaDonateSuffix =>
+      ' para ayudar a Timer.Coffee a crecer el próximo año';
+
+  @override
+  String get yearlyStats25CtaFollowPrefix => 'Síguenos en ';
+
+  @override
+  String get yearlyStats25CtaInstagram => 'Instagram';
+
+  @override
+  String get yearlyStats25CtaShareButton => 'Comparte mi progreso';
+
+  @override
+  String get yearlyStats25CtaShareHint =>
+      'No olvides etiquetar a @timercoffeeapp';
+
+  @override
+  String get yearlyStats25AppBarTooltipResume => 'Reanudar';
+
+  @override
+  String get yearlyStats25AppBarTooltipPause => 'Pausar';
+
+  @override
+  String get yearlyStats25ShareError =>
+      'No se pudo compartir el resumen. Inténtalo de nuevo.';
+
+  @override
+  String yearlyStats25BrewTimeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutos',
+      one: '1 minuto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25BrewTimeHours(String hours) {
+    return '$hours h';
+  }
+
+  @override
+  String get yearlyStats25ShareTitle => 'Mi año 2025 con Timer.Coffee';
+
+  @override
+  String get yearlyStats25ShareBrewedPrefix => 'Preparé ';
+
+  @override
+  String get yearlyStats25ShareBrewedMiddle => ' veces y ';
+
+  @override
+  String get yearlyStats25ShareBrewedSuffix => ' litros de café';
+
+  @override
+  String get yearlyStats25ShareRoastersPrefix => 'Usé granos de ';
+
+  @override
+  String get yearlyStats25ShareRoastersSuffix => ' tostadores';
+
+  @override
+  String get yearlyStats25ShareOriginsPrefix => 'Descubrí ';
+
+  @override
+  String get yearlyStats25ShareOriginsSuffix => ' orígenes de café';
+
+  @override
+  String get yearlyStats25ShareMethodsTitle =>
+      'Mis métodos de preparación favoritos:';
+
+  @override
+  String get yearlyStats25ShareRecipesTitle => 'Mis recetas principales:';
+
+  @override
+  String get yearlyStats25ShareHandle => '@timercoffeeapp';
+
+  @override
   String get yearlyStatsFailedToLike =>
       'No se pudo dar me gusta. Inténtalo de nuevo.';
 

@@ -404,6 +404,200 @@
   "@yearlyStatsShareProgressTop3Roasters": {
     "description": "Header for top-3 roasters in the Share Progress Widget"
   },
+  "yearlyStats25AppBarTitle": "Your Year with Timer.Coffee – 2025",
+  "yearlyStats25AppBarTitleSimple": "Timer.Coffee in 2025",
+  "yearlyStats25Slide1Title": "Your year with Timer.Coffee",
+  "yearlyStats25Slide1Subtitle": "Tap to see how you brewed in 2025",
+  "yearlyStats25Slide2Intro": "Together we brewed coffee...",
+  "yearlyStats25Slide2Count": "{count} times",
+  "@yearlyStats25Slide2Count": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide2Liters": "That’s about {liters} liters of coffee",
+  "@yearlyStats25Slide2Liters": {
+    "placeholders": {
+      "liters": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide2Cambridge": "Enough to give a cup of coffee to everyone in Cambridge, UK (the students would be especially grateful).",
+  "yearlyStats25Slide3Title": "And what about you?",
+  "yearlyStats25Slide3Subtitle": "You brewed {brews} times with Timer.Coffee this year. That's total of {liters} liters!",
+  "@yearlyStats25Slide3Subtitle": {
+    "placeholders": {
+      "brews": {
+        "type": "String"
+      },
+      "liters": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide3TopBadge": "You're in top {topPct}% of brewers!",
+  "@yearlyStats25Slide3TopBadge": {
+    "placeholders": {
+      "topPct": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25Slide4TitleSingle": "Remember the day you brewed the most coffee this year?",
+  "yearlyStats25Slide4TitleMulti": "Remember days when you brewed the most coffee this year?",
+  "yearlyStats25Slide4TitleBrewTime": "Your brewing time this year",
+  "yearlyStats25Slide4ScratchLabel": "Scratch to reveal",
+  "yearlyStats25BrewsCount": "{count, plural, =1{1 brew} other{{count} brews}}",
+  "@yearlyStats25BrewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25Slide4PeakSingle": "{date} — {brewsLabel}",
+  "@yearlyStats25Slide4PeakSingle": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "brewsLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide4PeakLiters": "About {liters} liters that day",
+  "@yearlyStats25Slide4PeakLiters": {
+    "placeholders": {
+      "liters": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide4PeakMostRecent": "Most recent: {mostRecent} — {brewsLabel}",
+  "@yearlyStats25Slide4PeakMostRecent": {
+    "placeholders": {
+      "mostRecent": {
+        "type": "String"
+      },
+      "brewsLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide4BrewTimeLine": "You spent {timeLabel} brewing",
+  "@yearlyStats25Slide4BrewTimeLine": {
+    "placeholders": {
+      "timeLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide4BrewTimeFooter": "That is time well spent",
+  "yearlyStats25Slide5Title": "This is how you brew",
+  "yearlyStats25Slide5MethodsHeader": "Favorite methods:",
+  "yearlyStats25Slide5NoMethods": "No methods yet",
+  "yearlyStats25Slide5RecipesHeader": "Top recipes:",
+  "yearlyStats25Slide5NoRecipes": "No recipes yet",
+  "yearlyStats25MethodRow": "{name} — {count} {count, plural, =1{brew} other{brews}}",
+  "@yearlyStats25MethodRow": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25Slide6Title": "You discovered {count} roasters this year:",
+  "@yearlyStats25Slide6Title": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide6NoRoasters": "No roasters yet",
+  "yearlyStats25Slide7Title": "Drinking coffee can take you places…",
+  "yearlyStats25Slide7Subtitle": "You discovered {count} origins this year:",
+  "@yearlyStats25Slide7Subtitle": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Others": "...and others",
+  "yearlyStats25FallbackTitle": "Timer.Coffee users used beans from {countries} countries this year\nand registered {roasters} different roasters.",
+  "@yearlyStats25FallbackTitle": {
+    "placeholders": {
+      "countries": {
+        "type": "int"
+      },
+      "roasters": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25FallbackPromptHasBeans": "Why not continue logging your bean bags?",
+  "yearlyStats25FallbackPromptNoBeans": "Maybe it is time for you to join and record your beans too?",
+  "yearlyStats25FallbackActionHasBeans": "Continue adding beans",
+  "yearlyStats25FallbackActionNoBeans": "Add your first bean bag",
+  "yearlyStats25ContinueButton": "Continue",
+  "yearlyStats25PostcardTitle": "Send a New Year wish to a fellow brewer.",
+  "yearlyStats25PostcardSubtitle": "Optional. Keep it kind. No personal info.",
+  "yearlyStats25PostcardHint": "Happy New Year and great brews!",
+  "yearlyStats25PostcardSending": "Sending...",
+  "yearlyStats25PostcardSend": "Send",
+  "yearlyStats25PostcardSkip": "Skip",
+  "yearlyStats25PostcardReceivedTitle": "A wish from another brewer",
+  "yearlyStats25PostcardErrorLength": "Please enter 2–160 characters.",
+  "yearlyStats25PostcardErrorSend": "Could not send. Please try again.",
+  "yearlyStats25PostcardErrorRejected": "Could not send. Please try another message.",
+  "yearlyStats25CtaTitle": "Let's brew something great in 2026!",
+  "yearlyStats25CtaSubtitle": "Here are a few ideas:",
+  "yearlyStats25CtaExplorePrefix": "Explore offers in ",
+  "yearlyStats25CtaGiftBox": "Holiday Gift Box",
+  "yearlyStats25CtaDonate": "Donate",
+  "yearlyStats25CtaDonateSuffix": " to help Timer.Coffee grow in the coming year",
+  "yearlyStats25CtaFollowPrefix": "Follow us on ",
+  "yearlyStats25CtaInstagram": "Instagram",
+  "yearlyStats25CtaShareButton": "Share my progress",
+  "yearlyStats25CtaShareHint": "Don't forget to tag @timercoffeeapp",
+  "yearlyStats25AppBarTooltipResume": "Resume",
+  "yearlyStats25AppBarTooltipPause": "Pause",
+  "yearlyStats25ShareError": "Could not share recap. Please try again.",
+  "yearlyStats25BrewTimeMinutes": "{count, plural, =0{0 minutes} =1{1 minute} other{{count} minutes}}",
+  "@yearlyStats25BrewTimeMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25BrewTimeHours": "{hours} hours",
+  "@yearlyStats25BrewTimeHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25ShareTitle": "My Year-2025 with Timer.Coffee",
+  "yearlyStats25ShareBrewedPrefix": "Brewed ",
+  "yearlyStats25ShareBrewedMiddle": " times and ",
+  "yearlyStats25ShareBrewedSuffix": " liters of coffee",
+  "yearlyStats25ShareRoastersPrefix": "Used beans from ",
+  "yearlyStats25ShareRoastersSuffix": " roasters",
+  "yearlyStats25ShareOriginsPrefix": "Discovered ",
+  "yearlyStats25ShareOriginsSuffix": " coffee origins",
+  "yearlyStats25ShareMethodsTitle": "My favorite brewing methods:",
+  "yearlyStats25ShareRecipesTitle": "My top recipes:",
+  "yearlyStats25ShareHandle": "@timercoffeeapp",
   "yearlyStatsFailedToLike": "Failed to like. Please try again.",
   "@yearlyStatsFailedToLike": {
     "description": "Error message when liking fails"

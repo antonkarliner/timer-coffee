@@ -847,6 +847,297 @@ class AppLocalizationsHr extends AppLocalizations {
   String get yearlyStatsShareProgressTop3Roasters => 'Moje top 3 pržionice:';
 
   @override
+  String get yearlyStats25AppBarTitle => 'Tvoja godina s Timer.Coffee – 2025';
+
+  @override
+  String get yearlyStats25AppBarTitleSimple => 'Timer.Coffee u 2025.';
+
+  @override
+  String get yearlyStats25Slide1Title => 'Tvoja godina s Timer.Coffee';
+
+  @override
+  String get yearlyStats25Slide1Subtitle =>
+      'Dodirni da vidiš kako si kuhao/la kavu u 2025.';
+
+  @override
+  String get yearlyStats25Slide2Intro => 'Zajedno smo skuhali kavu...';
+
+  @override
+  String yearlyStats25Slide2Count(String count) {
+    return '$count puta';
+  }
+
+  @override
+  String yearlyStats25Slide2Liters(String liters) {
+    return 'To je oko $liters litara kave';
+  }
+
+  @override
+  String get yearlyStats25Slide2Cambridge =>
+      'Dovoljno da svatko u Cambridgeu, Ujedinjeno Kraljevstvo dobije šalicu kave (studenti bi bili posebno zahvalni).';
+
+  @override
+  String get yearlyStats25Slide3Title => 'A ti?';
+
+  @override
+  String yearlyStats25Slide3Subtitle(String brews, String liters) {
+    return 'Ove godine si skuhao/la kavu $brews puta uz Timer.Coffee. Ukupno $liters litara kave!';
+  }
+
+  @override
+  String yearlyStats25Slide3TopBadge(int topPct) {
+    return 'U top $topPct% si među onima koji kuhaju kavu!';
+  }
+
+  @override
+  String get yearlyStats25Slide4TitleSingle =>
+      'Sjećaš li se dana kada si skuhao/la najviše kave ove godine?';
+
+  @override
+  String get yearlyStats25Slide4TitleMulti =>
+      'Sjećaš li se dana kada si kuhao/la najviše kave ove godine?';
+
+  @override
+  String get yearlyStats25Slide4TitleBrewTime =>
+      'Tvoje vrijeme pripreme ove godine';
+
+  @override
+  String get yearlyStats25Slide4ScratchLabel => 'Ogrebi da otkriješ';
+
+  @override
+  String yearlyStats25BrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# priprema',
+      few: '# pripreme',
+      one: '# priprema',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel) {
+    return '$date — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakLiters(String liters) {
+    return 'Oko $liters litara tog dana';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel) {
+    return 'Najnovije: $mostRecent — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel) {
+    return 'Proveo/la si $timeLabel pripremajući kavu';
+  }
+
+  @override
+  String get yearlyStats25Slide4BrewTimeFooter => 'Vrijeme dobro provedeno';
+
+  @override
+  String get yearlyStats25Slide5Title => 'Ovako pripremaš kavu';
+
+  @override
+  String get yearlyStats25Slide5MethodsHeader => 'Omiljene metode:';
+
+  @override
+  String get yearlyStats25Slide5NoMethods => 'Još nema metoda';
+
+  @override
+  String get yearlyStats25Slide5RecipesHeader => 'Top recepti:';
+
+  @override
+  String get yearlyStats25Slide5NoRecipes => 'Još nema recepata';
+
+  @override
+  String yearlyStats25MethodRow(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'priprema',
+      few: 'pripreme',
+      one: 'priprema',
+    );
+    return '$name — $count $_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide6Title(String count) {
+    return 'Ove godine si otkrio/la $count pržionica:';
+  }
+
+  @override
+  String get yearlyStats25Slide6NoRoasters => 'Još nema pržionica';
+
+  @override
+  String get yearlyStats25Slide7Title =>
+      'Kava te može odvesti na mnoga mjesta…';
+
+  @override
+  String yearlyStats25Slide7Subtitle(String count) {
+    return 'Ove godine si otkrio/la $count podrijetla:';
+  }
+
+  @override
+  String get yearlyStats25Others => '...i ostali';
+
+  @override
+  String yearlyStats25FallbackTitle(int countries, int roasters) {
+    return 'Korisnici Timer.Coffeea su ove godine koristili zrna iz $countries zemalja\ni registrirali $roasters različitih pržionica.';
+  }
+
+  @override
+  String get yearlyStats25FallbackPromptHasBeans =>
+      'Zašto ne nastaviš bilježiti svoje vrećice zrna?';
+
+  @override
+  String get yearlyStats25FallbackPromptNoBeans =>
+      'Možda je vrijeme da se pridružiš i zabilježiš i svoja zrna?';
+
+  @override
+  String get yearlyStats25FallbackActionHasBeans => 'Nastavi dodavati zrna';
+
+  @override
+  String get yearlyStats25FallbackActionNoBeans =>
+      'Dodaj svoju prvu vrećicu zrna';
+
+  @override
+  String get yearlyStats25ContinueButton => 'Nastavi';
+
+  @override
+  String get yearlyStats25PostcardTitle =>
+      'Pošalji novogodišnju želju drugom ljubitelju kave.';
+
+  @override
+  String get yearlyStats25PostcardSubtitle =>
+      'Opcionalno. Budi ljubazan/na. Bez osobnih podataka.';
+
+  @override
+  String get yearlyStats25PostcardHint => 'Sretna Nova godina i odlične kave!';
+
+  @override
+  String get yearlyStats25PostcardSending => 'Šalje se...';
+
+  @override
+  String get yearlyStats25PostcardSend => 'Pošalji';
+
+  @override
+  String get yearlyStats25PostcardSkip => 'Preskoči';
+
+  @override
+  String get yearlyStats25PostcardReceivedTitle =>
+      'Želja od drugog ljubitelja kave';
+
+  @override
+  String get yearlyStats25PostcardErrorLength => 'Unesi 2–160 znakova.';
+
+  @override
+  String get yearlyStats25PostcardErrorSend =>
+      'Nije moguće poslati. Pokušaj ponovno.';
+
+  @override
+  String get yearlyStats25PostcardErrorRejected =>
+      'Nije moguće poslati. Pokušaj s drugom porukom.';
+
+  @override
+  String get yearlyStats25CtaTitle => 'Skuhajmo nešto sjajno u 2026!';
+
+  @override
+  String get yearlyStats25CtaSubtitle => 'Evo nekoliko ideja:';
+
+  @override
+  String get yearlyStats25CtaExplorePrefix => 'Istraži ponude u ';
+
+  @override
+  String get yearlyStats25CtaGiftBox => 'Blagdanska poklon kutija';
+
+  @override
+  String get yearlyStats25CtaDonate => 'Doniraj';
+
+  @override
+  String get yearlyStats25CtaDonateSuffix =>
+      ' kako bi Timer.Coffee rastao u nadolazećoj godini';
+
+  @override
+  String get yearlyStats25CtaFollowPrefix => 'Prati nas na ';
+
+  @override
+  String get yearlyStats25CtaInstagram => 'Instagram';
+
+  @override
+  String get yearlyStats25CtaShareButton => 'Podijeli moj napredak';
+
+  @override
+  String get yearlyStats25CtaShareHint =>
+      'Ne zaboravi označiti @timercoffeeapp';
+
+  @override
+  String get yearlyStats25AppBarTooltipResume => 'Nastavi';
+
+  @override
+  String get yearlyStats25AppBarTooltipPause => 'Pauziraj';
+
+  @override
+  String get yearlyStats25ShareError =>
+      'Nije moguće podijeliti sažetak. Pokušaj ponovno.';
+
+  @override
+  String yearlyStats25BrewTimeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# minuta',
+      few: '# minute',
+      one: '# minuta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25BrewTimeHours(String hours) {
+    return '$hours h';
+  }
+
+  @override
+  String get yearlyStats25ShareTitle => 'Moja 2025. s Timer.Coffee';
+
+  @override
+  String get yearlyStats25ShareBrewedPrefix => 'Skuhao/la ';
+
+  @override
+  String get yearlyStats25ShareBrewedMiddle => ' puta i ';
+
+  @override
+  String get yearlyStats25ShareBrewedSuffix => ' l kave';
+
+  @override
+  String get yearlyStats25ShareRoastersPrefix => 'Zrna iz ';
+
+  @override
+  String get yearlyStats25ShareRoastersSuffix => ' pržionica';
+
+  @override
+  String get yearlyStats25ShareOriginsPrefix => 'Otkrio/la ';
+
+  @override
+  String get yearlyStats25ShareOriginsSuffix => ' podrijetla kave';
+
+  @override
+  String get yearlyStats25ShareMethodsTitle => 'Moje omiljene metode pripreme:';
+
+  @override
+  String get yearlyStats25ShareRecipesTitle => 'Moji top recepti:';
+
+  @override
+  String get yearlyStats25ShareHandle => '@timercoffeeapp';
+
+  @override
   String get yearlyStatsFailedToLike =>
       'Označavanje sa \'Sviđa mi se\' nije uspjelo. Pokušaj ponovno.';
 

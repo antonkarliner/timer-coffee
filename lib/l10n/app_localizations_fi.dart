@@ -846,6 +846,294 @@ class AppLocalizationsFi extends AppLocalizations {
   String get yearlyStatsShareProgressTop3Roasters => 'Top 3 -paahtimoni:';
 
   @override
+  String get yearlyStats25AppBarTitle => 'Vuotesi Timer.Coffee:ssa – 2025';
+
+  @override
+  String get yearlyStats25AppBarTitleSimple => 'Timer.Coffee vuonna 2025';
+
+  @override
+  String get yearlyStats25Slide1Title => 'Vuotesi Timer.Coffee:ssa';
+
+  @override
+  String get yearlyStats25Slide1Subtitle =>
+      'Napauta nähdäksesi, miten valmistit kahvia vuonna 2025';
+
+  @override
+  String get yearlyStats25Slide2Intro => 'Yhdessä keitimme kahvia...';
+
+  @override
+  String yearlyStats25Slide2Count(String count) {
+    return '$count kertaa';
+  }
+
+  @override
+  String yearlyStats25Slide2Liters(String liters) {
+    return 'Se on noin $liters litraa kahvia';
+  }
+
+  @override
+  String get yearlyStats25Slide2Cambridge =>
+      'Tarpeeksi tarjotakseen kupin kahvia kaikille Cambridgessä, Iso-Britanniassa (opiskelijat olisivat erityisen kiitollisia).';
+
+  @override
+  String get yearlyStats25Slide3Title => 'Entä sinä?';
+
+  @override
+  String yearlyStats25Slide3Subtitle(String brews, String liters) {
+    return 'Valmistit kahvia $brews kertaa Timer.Coffeella tänä vuonna. Yhteensä $liters litraa kahvia!';
+  }
+
+  @override
+  String yearlyStats25Slide3TopBadge(int topPct) {
+    return 'Olet kahvinkeittäjien top $topPct%:ssa!';
+  }
+
+  @override
+  String get yearlyStats25Slide4TitleSingle =>
+      'Muistatko päivän, jolloin valmistit eniten kahvia tänä vuonna?';
+
+  @override
+  String get yearlyStats25Slide4TitleMulti =>
+      'Muistatko päivät, jolloin valmistit eniten kahvia tänä vuonna?';
+
+  @override
+  String get yearlyStats25Slide4TitleBrewTime =>
+      'Kahvinvalmistusaikasi tänä vuonna';
+
+  @override
+  String get yearlyStats25Slide4ScratchLabel => 'Raaputa paljastaaksesi';
+
+  @override
+  String yearlyStats25BrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count valmistusta',
+      one: '1 valmistus',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel) {
+    return '$date — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakLiters(String liters) {
+    return 'Noin $liters litraa sinä päivänä';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel) {
+    return 'Viimeisin: $mostRecent — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel) {
+    return 'Käytit $timeLabel kahvin valmistamiseen';
+  }
+
+  @override
+  String get yearlyStats25Slide4BrewTimeFooter => 'Hyvin käytettyä aikaa';
+
+  @override
+  String get yearlyStats25Slide5Title => 'Näin valmistat kahvia';
+
+  @override
+  String get yearlyStats25Slide5MethodsHeader => 'Suosikkimenetelmät:';
+
+  @override
+  String get yearlyStats25Slide5NoMethods => 'Ei vielä menetelmiä';
+
+  @override
+  String get yearlyStats25Slide5RecipesHeader => 'Parhaat reseptit:';
+
+  @override
+  String get yearlyStats25Slide5NoRecipes => 'Ei vielä reseptejä';
+
+  @override
+  String yearlyStats25MethodRow(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'valmistusta',
+      one: 'valmistus',
+    );
+    return '$name — $count $_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide6Title(String count) {
+    return 'Löysit tänä vuonna $count paahtimoa:';
+  }
+
+  @override
+  String get yearlyStats25Slide6NoRoasters => 'Ei vielä paahtimoita';
+
+  @override
+  String get yearlyStats25Slide7Title =>
+      'Kahvin juominen voi viedä sinut paikkoihin…';
+
+  @override
+  String yearlyStats25Slide7Subtitle(String count) {
+    return 'Löysit tänä vuonna $count alkuperää:';
+  }
+
+  @override
+  String get yearlyStats25Others => '...ja muita';
+
+  @override
+  String yearlyStats25FallbackTitle(int countries, int roasters) {
+    return 'Timer.Coffeen käyttäjät käyttivät tänä vuonna papuja $countries maasta\nja rekisteröivät $roasters eri paahtimoa.';
+  }
+
+  @override
+  String get yearlyStats25FallbackPromptHasBeans =>
+      'Miksi et jatkaisi papupussiesi kirjaamista?';
+
+  @override
+  String get yearlyStats25FallbackPromptNoBeans =>
+      'Ehkä on aika liittyä mukaan ja kirjata myös omat papusi?';
+
+  @override
+  String get yearlyStats25FallbackActionHasBeans => 'Jatka papujen lisäämistä';
+
+  @override
+  String get yearlyStats25FallbackActionNoBeans =>
+      'Lisää ensimmäinen papupussisi';
+
+  @override
+  String get yearlyStats25ContinueButton => 'Jatka';
+
+  @override
+  String get yearlyStats25PostcardTitle =>
+      'Lähetä uudenvuoden toivotus toiselle kahvinystävälle.';
+
+  @override
+  String get yearlyStats25PostcardSubtitle =>
+      'Valinnainen. Ole ystävällinen. Ei henkilökohtaisia tietoja.';
+
+  @override
+  String get yearlyStats25PostcardHint =>
+      'Hyvää uutta vuotta ja hyviä uuttoja!';
+
+  @override
+  String get yearlyStats25PostcardSending => 'Lähetetään...';
+
+  @override
+  String get yearlyStats25PostcardSend => 'Lähetä';
+
+  @override
+  String get yearlyStats25PostcardSkip => 'Ohita';
+
+  @override
+  String get yearlyStats25PostcardReceivedTitle =>
+      'Toivotus toiselta kahvinystävältä';
+
+  @override
+  String get yearlyStats25PostcardErrorLength => 'Syötä 2–160 merkkiä.';
+
+  @override
+  String get yearlyStats25PostcardErrorSend =>
+      'Ei voitu lähettää. Yritä uudelleen.';
+
+  @override
+  String get yearlyStats25PostcardErrorRejected =>
+      'Ei voitu lähettää. Kokeile toista viestiä.';
+
+  @override
+  String get yearlyStats25CtaTitle => 'Tehdään jotain mahtavaa vuonna 2026!';
+
+  @override
+  String get yearlyStats25CtaSubtitle => 'Tässä muutama idea:';
+
+  @override
+  String get yearlyStats25CtaExplorePrefix => 'Tutustu tarjouksiin: ';
+
+  @override
+  String get yearlyStats25CtaGiftBox => 'Joulun lahjaboksi';
+
+  @override
+  String get yearlyStats25CtaDonate => 'Lahjoita';
+
+  @override
+  String get yearlyStats25CtaDonateSuffix =>
+      ' auttaaksesi Timer.Coffeea kasvamaan tulevana vuonna';
+
+  @override
+  String get yearlyStats25CtaFollowPrefix => 'Seuraa meitä: ';
+
+  @override
+  String get yearlyStats25CtaInstagram => 'Instagram';
+
+  @override
+  String get yearlyStats25CtaShareButton => 'Jaa edistymiseni';
+
+  @override
+  String get yearlyStats25CtaShareHint => 'Muista merkitä @timercoffeeapp';
+
+  @override
+  String get yearlyStats25AppBarTooltipResume => 'Jatka';
+
+  @override
+  String get yearlyStats25AppBarTooltipPause => 'Tauko';
+
+  @override
+  String get yearlyStats25ShareError =>
+      'Yhteenvetoa ei voitu jakaa. Yritä uudelleen.';
+
+  @override
+  String yearlyStats25BrewTimeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minuuttia',
+      one: '1 minuutti',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25BrewTimeHours(String hours) {
+    return '$hours h';
+  }
+
+  @override
+  String get yearlyStats25ShareTitle => 'Vuoteni 2025 Timer.Coffee:ssa';
+
+  @override
+  String get yearlyStats25ShareBrewedPrefix => 'Uuttoja: ';
+
+  @override
+  String get yearlyStats25ShareBrewedMiddle => ' kertaa ja ';
+
+  @override
+  String get yearlyStats25ShareBrewedSuffix => ' litraa kahvia';
+
+  @override
+  String get yearlyStats25ShareRoastersPrefix => 'Paahtimoita: ';
+
+  @override
+  String get yearlyStats25ShareRoastersSuffix => '';
+
+  @override
+  String get yearlyStats25ShareOriginsPrefix => 'Alkuperät: ';
+
+  @override
+  String get yearlyStats25ShareOriginsSuffix => '';
+
+  @override
+  String get yearlyStats25ShareMethodsTitle => 'Suosikki valmistusmenetelmäni:';
+
+  @override
+  String get yearlyStats25ShareRecipesTitle => 'Parhaat reseptini:';
+
+  @override
+  String get yearlyStats25ShareHandle => '@timercoffeeapp';
+
+  @override
   String get yearlyStatsFailedToLike => 'Tykkäys epäonnistui. Yritä uudelleen.';
 
   @override

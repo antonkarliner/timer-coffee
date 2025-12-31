@@ -1694,6 +1694,451 @@ abstract class AppLocalizations {
   /// **'My top-3 roasters:'**
   String get yearlyStatsShareProgressTop3Roasters;
 
+  /// No description provided for @yearlyStats25AppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Year with Timer.Coffee – 2025'**
+  String get yearlyStats25AppBarTitle;
+
+  /// No description provided for @yearlyStats25AppBarTitleSimple.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer.Coffee in 2025'**
+  String get yearlyStats25AppBarTitleSimple;
+
+  /// No description provided for @yearlyStats25Slide1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Your year with Timer.Coffee'**
+  String get yearlyStats25Slide1Title;
+
+  /// No description provided for @yearlyStats25Slide1Subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to see how you brewed in 2025'**
+  String get yearlyStats25Slide1Subtitle;
+
+  /// No description provided for @yearlyStats25Slide2Intro.
+  ///
+  /// In en, this message translates to:
+  /// **'Together we brewed coffee...'**
+  String get yearlyStats25Slide2Intro;
+
+  /// No description provided for @yearlyStats25Slide2Count.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} times'**
+  String yearlyStats25Slide2Count(String count);
+
+  /// No description provided for @yearlyStats25Slide2Liters.
+  ///
+  /// In en, this message translates to:
+  /// **'That’s about {liters} liters of coffee'**
+  String yearlyStats25Slide2Liters(String liters);
+
+  /// No description provided for @yearlyStats25Slide2Cambridge.
+  ///
+  /// In en, this message translates to:
+  /// **'Enough to give a cup of coffee to everyone in Cambridge, UK (the students would be especially grateful).'**
+  String get yearlyStats25Slide2Cambridge;
+
+  /// No description provided for @yearlyStats25Slide3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'And what about you?'**
+  String get yearlyStats25Slide3Title;
+
+  /// No description provided for @yearlyStats25Slide3Subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You brewed {brews} times with Timer.Coffee this year. That\'s total of {liters} liters!'**
+  String yearlyStats25Slide3Subtitle(String brews, String liters);
+
+  /// No description provided for @yearlyStats25Slide3TopBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re in top {topPct}% of brewers!'**
+  String yearlyStats25Slide3TopBadge(int topPct);
+
+  /// No description provided for @yearlyStats25Slide4TitleSingle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember the day you brewed the most coffee this year?'**
+  String get yearlyStats25Slide4TitleSingle;
+
+  /// No description provided for @yearlyStats25Slide4TitleMulti.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember days when you brewed the most coffee this year?'**
+  String get yearlyStats25Slide4TitleMulti;
+
+  /// No description provided for @yearlyStats25Slide4TitleBrewTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Your brewing time this year'**
+  String get yearlyStats25Slide4TitleBrewTime;
+
+  /// No description provided for @yearlyStats25Slide4ScratchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Scratch to reveal'**
+  String get yearlyStats25Slide4ScratchLabel;
+
+  /// No description provided for @yearlyStats25BrewsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 brew} other{{count} brews}}'**
+  String yearlyStats25BrewsCount(int count);
+
+  /// No description provided for @yearlyStats25Slide4PeakSingle.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} — {brewsLabel}'**
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel);
+
+  /// No description provided for @yearlyStats25Slide4PeakLiters.
+  ///
+  /// In en, this message translates to:
+  /// **'About {liters} liters that day'**
+  String yearlyStats25Slide4PeakLiters(String liters);
+
+  /// No description provided for @yearlyStats25Slide4PeakMostRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Most recent: {mostRecent} — {brewsLabel}'**
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel);
+
+  /// No description provided for @yearlyStats25Slide4BrewTimeLine.
+  ///
+  /// In en, this message translates to:
+  /// **'You spent {timeLabel} brewing'**
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel);
+
+  /// No description provided for @yearlyStats25Slide4BrewTimeFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'That is time well spent'**
+  String get yearlyStats25Slide4BrewTimeFooter;
+
+  /// No description provided for @yearlyStats25Slide5Title.
+  ///
+  /// In en, this message translates to:
+  /// **'This is how you brew'**
+  String get yearlyStats25Slide5Title;
+
+  /// No description provided for @yearlyStats25Slide5MethodsHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite methods:'**
+  String get yearlyStats25Slide5MethodsHeader;
+
+  /// No description provided for @yearlyStats25Slide5NoMethods.
+  ///
+  /// In en, this message translates to:
+  /// **'No methods yet'**
+  String get yearlyStats25Slide5NoMethods;
+
+  /// No description provided for @yearlyStats25Slide5RecipesHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Top recipes:'**
+  String get yearlyStats25Slide5RecipesHeader;
+
+  /// No description provided for @yearlyStats25Slide5NoRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'No recipes yet'**
+  String get yearlyStats25Slide5NoRecipes;
+
+  /// No description provided for @yearlyStats25MethodRow.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} — {count} {count, plural, =1{brew} other{brews}}'**
+  String yearlyStats25MethodRow(String name, int count);
+
+  /// No description provided for @yearlyStats25Slide6Title.
+  ///
+  /// In en, this message translates to:
+  /// **'You discovered {count} roasters this year:'**
+  String yearlyStats25Slide6Title(String count);
+
+  /// No description provided for @yearlyStats25Slide6NoRoasters.
+  ///
+  /// In en, this message translates to:
+  /// **'No roasters yet'**
+  String get yearlyStats25Slide6NoRoasters;
+
+  /// No description provided for @yearlyStats25Slide7Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Drinking coffee can take you places…'**
+  String get yearlyStats25Slide7Title;
+
+  /// No description provided for @yearlyStats25Slide7Subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You discovered {count} origins this year:'**
+  String yearlyStats25Slide7Subtitle(String count);
+
+  /// No description provided for @yearlyStats25Others.
+  ///
+  /// In en, this message translates to:
+  /// **'...and others'**
+  String get yearlyStats25Others;
+
+  /// No description provided for @yearlyStats25FallbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer.Coffee users used beans from {countries} countries this year\nand registered {roasters} different roasters.'**
+  String yearlyStats25FallbackTitle(int countries, int roasters);
+
+  /// No description provided for @yearlyStats25FallbackPromptHasBeans.
+  ///
+  /// In en, this message translates to:
+  /// **'Why not continue logging your bean bags?'**
+  String get yearlyStats25FallbackPromptHasBeans;
+
+  /// No description provided for @yearlyStats25FallbackPromptNoBeans.
+  ///
+  /// In en, this message translates to:
+  /// **'Maybe it is time for you to join and record your beans too?'**
+  String get yearlyStats25FallbackPromptNoBeans;
+
+  /// No description provided for @yearlyStats25FallbackActionHasBeans.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue adding beans'**
+  String get yearlyStats25FallbackActionHasBeans;
+
+  /// No description provided for @yearlyStats25FallbackActionNoBeans.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first bean bag'**
+  String get yearlyStats25FallbackActionNoBeans;
+
+  /// No description provided for @yearlyStats25ContinueButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get yearlyStats25ContinueButton;
+
+  /// No description provided for @yearlyStats25PostcardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a New Year wish to a fellow brewer.'**
+  String get yearlyStats25PostcardTitle;
+
+  /// No description provided for @yearlyStats25PostcardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. Keep it kind. No personal info.'**
+  String get yearlyStats25PostcardSubtitle;
+
+  /// No description provided for @yearlyStats25PostcardHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Happy New Year and great brews!'**
+  String get yearlyStats25PostcardHint;
+
+  /// No description provided for @yearlyStats25PostcardSending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending...'**
+  String get yearlyStats25PostcardSending;
+
+  /// No description provided for @yearlyStats25PostcardSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get yearlyStats25PostcardSend;
+
+  /// No description provided for @yearlyStats25PostcardSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get yearlyStats25PostcardSkip;
+
+  /// No description provided for @yearlyStats25PostcardReceivedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A wish from another brewer'**
+  String get yearlyStats25PostcardReceivedTitle;
+
+  /// No description provided for @yearlyStats25PostcardErrorLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter 2–160 characters.'**
+  String get yearlyStats25PostcardErrorLength;
+
+  /// No description provided for @yearlyStats25PostcardErrorSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send. Please try again.'**
+  String get yearlyStats25PostcardErrorSend;
+
+  /// No description provided for @yearlyStats25PostcardErrorRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send. Please try another message.'**
+  String get yearlyStats25PostcardErrorRejected;
+
+  /// No description provided for @yearlyStats25CtaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s brew something great in 2026!'**
+  String get yearlyStats25CtaTitle;
+
+  /// No description provided for @yearlyStats25CtaSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Here are a few ideas:'**
+  String get yearlyStats25CtaSubtitle;
+
+  /// No description provided for @yearlyStats25CtaExplorePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore offers in '**
+  String get yearlyStats25CtaExplorePrefix;
+
+  /// No description provided for @yearlyStats25CtaGiftBox.
+  ///
+  /// In en, this message translates to:
+  /// **'Holiday Gift Box'**
+  String get yearlyStats25CtaGiftBox;
+
+  /// No description provided for @yearlyStats25CtaDonate.
+  ///
+  /// In en, this message translates to:
+  /// **'Donate'**
+  String get yearlyStats25CtaDonate;
+
+  /// No description provided for @yearlyStats25CtaDonateSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **' to help Timer.Coffee grow in the coming year'**
+  String get yearlyStats25CtaDonateSuffix;
+
+  /// No description provided for @yearlyStats25CtaFollowPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow us on '**
+  String get yearlyStats25CtaFollowPrefix;
+
+  /// No description provided for @yearlyStats25CtaInstagram.
+  ///
+  /// In en, this message translates to:
+  /// **'Instagram'**
+  String get yearlyStats25CtaInstagram;
+
+  /// No description provided for @yearlyStats25CtaShareButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Share my progress'**
+  String get yearlyStats25CtaShareButton;
+
+  /// No description provided for @yearlyStats25CtaShareHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t forget to tag @timercoffeeapp'**
+  String get yearlyStats25CtaShareHint;
+
+  /// No description provided for @yearlyStats25AppBarTooltipResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get yearlyStats25AppBarTooltipResume;
+
+  /// No description provided for @yearlyStats25AppBarTooltipPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get yearlyStats25AppBarTooltipPause;
+
+  /// No description provided for @yearlyStats25ShareError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not share recap. Please try again.'**
+  String get yearlyStats25ShareError;
+
+  /// No description provided for @yearlyStats25BrewTimeMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{0 minutes} =1{1 minute} other{{count} minutes}}'**
+  String yearlyStats25BrewTimeMinutes(int count);
+
+  /// No description provided for @yearlyStats25BrewTimeHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours'**
+  String yearlyStats25BrewTimeHours(String hours);
+
+  /// No description provided for @yearlyStats25ShareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Year-2025 with Timer.Coffee'**
+  String get yearlyStats25ShareTitle;
+
+  /// No description provided for @yearlyStats25ShareBrewedPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Brewed '**
+  String get yearlyStats25ShareBrewedPrefix;
+
+  /// No description provided for @yearlyStats25ShareBrewedMiddle.
+  ///
+  /// In en, this message translates to:
+  /// **' times and '**
+  String get yearlyStats25ShareBrewedMiddle;
+
+  /// No description provided for @yearlyStats25ShareBrewedSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **' liters of coffee'**
+  String get yearlyStats25ShareBrewedSuffix;
+
+  /// No description provided for @yearlyStats25ShareRoastersPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Used beans from '**
+  String get yearlyStats25ShareRoastersPrefix;
+
+  /// No description provided for @yearlyStats25ShareRoastersSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **' roasters'**
+  String get yearlyStats25ShareRoastersSuffix;
+
+  /// No description provided for @yearlyStats25ShareOriginsPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Discovered '**
+  String get yearlyStats25ShareOriginsPrefix;
+
+  /// No description provided for @yearlyStats25ShareOriginsSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **' coffee origins'**
+  String get yearlyStats25ShareOriginsSuffix;
+
+  /// No description provided for @yearlyStats25ShareMethodsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My favorite brewing methods:'**
+  String get yearlyStats25ShareMethodsTitle;
+
+  /// No description provided for @yearlyStats25ShareRecipesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My top recipes:'**
+  String get yearlyStats25ShareRecipesTitle;
+
+  /// No description provided for @yearlyStats25ShareHandle.
+  ///
+  /// In en, this message translates to:
+  /// **'@timercoffeeapp'**
+  String get yearlyStats25ShareHandle;
+
   /// Error message when liking fails
   ///
   /// In en, this message translates to:

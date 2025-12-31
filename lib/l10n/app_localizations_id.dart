@@ -852,6 +852,291 @@ class AppLocalizationsId extends AppLocalizations {
       '3 pemanggang teratas saya:';
 
   @override
+  String get yearlyStats25AppBarTitle =>
+      'Tahun Anda dengan Timer.Coffee – 2025';
+
+  @override
+  String get yearlyStats25AppBarTitleSimple => 'Timer.Coffee di 2025';
+
+  @override
+  String get yearlyStats25Slide1Title => 'Tahun Anda dengan Timer.Coffee';
+
+  @override
+  String get yearlyStats25Slide1Subtitle =>
+      'Ketuk untuk melihat bagaimana Anda menyeduh di 2025';
+
+  @override
+  String get yearlyStats25Slide2Intro => 'Bersama-sama kita menyeduh kopi...';
+
+  @override
+  String yearlyStats25Slide2Count(String count) {
+    return '$count kali';
+  }
+
+  @override
+  String yearlyStats25Slide2Liters(String liters) {
+    return 'Itu sekitar $liters liter kopi';
+  }
+
+  @override
+  String get yearlyStats25Slide2Cambridge =>
+      'Cukup untuk memberi secangkir kopi kepada semua orang di Cambridge, Inggris (para mahasiswa akan sangat berterima kasih).';
+
+  @override
+  String get yearlyStats25Slide3Title => 'Lalu bagaimana dengan Anda?';
+
+  @override
+  String yearlyStats25Slide3Subtitle(String brews, String liters) {
+    return 'Tahun ini Anda menyeduh $brews kali dengan Timer.Coffee. Total $liters liter kopi!';
+  }
+
+  @override
+  String yearlyStats25Slide3TopBadge(int topPct) {
+    return 'Anda masuk $topPct% teratas para penyeduh!';
+  }
+
+  @override
+  String get yearlyStats25Slide4TitleSingle =>
+      'Ingat hari ketika Anda menyeduh kopi paling banyak tahun ini?';
+
+  @override
+  String get yearlyStats25Slide4TitleMulti =>
+      'Ingat hari-hari ketika Anda menyeduh kopi paling banyak tahun ini?';
+
+  @override
+  String get yearlyStats25Slide4TitleBrewTime => 'Waktu seduh Anda tahun ini';
+
+  @override
+  String get yearlyStats25Slide4ScratchLabel => 'Gosok untuk membuka';
+
+  @override
+  String yearlyStats25BrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count seduhan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel) {
+    return '$date — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakLiters(String liters) {
+    return 'Sekitar $liters liter pada hari itu';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel) {
+    return 'Terbaru: $mostRecent — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel) {
+    return 'Anda menghabiskan $timeLabel untuk menyeduh';
+  }
+
+  @override
+  String get yearlyStats25Slide4BrewTimeFooter =>
+      'Waktu yang terpakai dengan baik';
+
+  @override
+  String get yearlyStats25Slide5Title => 'Inilah cara Anda menyeduh';
+
+  @override
+  String get yearlyStats25Slide5MethodsHeader => 'Metode favorit:';
+
+  @override
+  String get yearlyStats25Slide5NoMethods => 'Belum ada metode';
+
+  @override
+  String get yearlyStats25Slide5RecipesHeader => 'Resep teratas:';
+
+  @override
+  String get yearlyStats25Slide5NoRecipes => 'Belum ada resep';
+
+  @override
+  String yearlyStats25MethodRow(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'seduhan',
+    );
+    return '$name — $count $_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide6Title(String count) {
+    return 'Tahun ini Anda menemukan $count pemanggang:';
+  }
+
+  @override
+  String get yearlyStats25Slide6NoRoasters => 'Belum ada pemanggang';
+
+  @override
+  String get yearlyStats25Slide7Title =>
+      'Minum kopi bisa membawa Anda ke mana saja…';
+
+  @override
+  String yearlyStats25Slide7Subtitle(String count) {
+    return 'Anda menemukan $count asal tahun ini:';
+  }
+
+  @override
+  String get yearlyStats25Others => '...dan lainnya';
+
+  @override
+  String yearlyStats25FallbackTitle(int countries, int roasters) {
+    return 'Tahun ini pengguna Timer.Coffee menggunakan biji dari $countries negara\ndan mendaftarkan $roasters pemanggang berbeda.';
+  }
+
+  @override
+  String get yearlyStats25FallbackPromptHasBeans =>
+      'Mengapa tidak lanjut mencatat kantong biji Anda?';
+
+  @override
+  String get yearlyStats25FallbackPromptNoBeans =>
+      'Mungkin sudah waktunya Anda bergabung dan mencatat biji Anda juga?';
+
+  @override
+  String get yearlyStats25FallbackActionHasBeans => 'Lanjut menambah biji';
+
+  @override
+  String get yearlyStats25FallbackActionNoBeans =>
+      'Tambah kantong biji pertama Anda';
+
+  @override
+  String get yearlyStats25ContinueButton => 'Lanjut';
+
+  @override
+  String get yearlyStats25PostcardTitle =>
+      'Kirim ucapan Tahun Baru kepada sesama penyeduh.';
+
+  @override
+  String get yearlyStats25PostcardSubtitle =>
+      'Opsional. Tetap sopan. Tanpa info pribadi.';
+
+  @override
+  String get yearlyStats25PostcardHint =>
+      'Selamat Tahun Baru dan seduhan yang mantap!';
+
+  @override
+  String get yearlyStats25PostcardSending => 'Mengirim...';
+
+  @override
+  String get yearlyStats25PostcardSend => 'Kirim';
+
+  @override
+  String get yearlyStats25PostcardSkip => 'Lewati';
+
+  @override
+  String get yearlyStats25PostcardReceivedTitle => 'Ucapan dari penyeduh lain';
+
+  @override
+  String get yearlyStats25PostcardErrorLength => 'Masukkan 2–160 karakter.';
+
+  @override
+  String get yearlyStats25PostcardErrorSend =>
+      'Tidak dapat mengirim. Silakan coba lagi.';
+
+  @override
+  String get yearlyStats25PostcardErrorRejected =>
+      'Tidak dapat mengirim. Coba pesan lain.';
+
+  @override
+  String get yearlyStats25CtaTitle => 'Mari seduh sesuatu yang hebat di 2026!';
+
+  @override
+  String get yearlyStats25CtaSubtitle => 'Berikut beberapa ide:';
+
+  @override
+  String get yearlyStats25CtaExplorePrefix => 'Jelajahi penawaran di ';
+
+  @override
+  String get yearlyStats25CtaGiftBox => 'Kotak Hadiah Liburan';
+
+  @override
+  String get yearlyStats25CtaDonate => 'Donasi';
+
+  @override
+  String get yearlyStats25CtaDonateSuffix =>
+      ' untuk membantu Timer.Coffee tumbuh di tahun mendatang';
+
+  @override
+  String get yearlyStats25CtaFollowPrefix => 'Ikuti kami di ';
+
+  @override
+  String get yearlyStats25CtaInstagram => 'Instagram';
+
+  @override
+  String get yearlyStats25CtaShareButton => 'Bagikan progres saya';
+
+  @override
+  String get yearlyStats25CtaShareHint => 'Jangan lupa tag @timercoffeeapp';
+
+  @override
+  String get yearlyStats25AppBarTooltipResume => 'Lanjutkan';
+
+  @override
+  String get yearlyStats25AppBarTooltipPause => 'Jeda';
+
+  @override
+  String get yearlyStats25ShareError =>
+      'Tidak dapat membagikan rangkuman. Silakan coba lagi.';
+
+  @override
+  String yearlyStats25BrewTimeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count menit',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25BrewTimeHours(String hours) {
+    return '$hours jam';
+  }
+
+  @override
+  String get yearlyStats25ShareTitle => 'Tahun 2025 saya dengan Timer.Coffee';
+
+  @override
+  String get yearlyStats25ShareBrewedPrefix => 'Menyeduh ';
+
+  @override
+  String get yearlyStats25ShareBrewedMiddle => ' kali dan ';
+
+  @override
+  String get yearlyStats25ShareBrewedSuffix => ' liter kopi';
+
+  @override
+  String get yearlyStats25ShareRoastersPrefix => 'Biji dari ';
+
+  @override
+  String get yearlyStats25ShareRoastersSuffix => ' pemanggang';
+
+  @override
+  String get yearlyStats25ShareOriginsPrefix => 'Menemukan ';
+
+  @override
+  String get yearlyStats25ShareOriginsSuffix => ' asal kopi';
+
+  @override
+  String get yearlyStats25ShareMethodsTitle => 'Metode seduh favorit saya:';
+
+  @override
+  String get yearlyStats25ShareRecipesTitle => 'Resep teratas saya:';
+
+  @override
+  String get yearlyStats25ShareHandle => '@timercoffeeapp';
+
+  @override
   String get yearlyStatsFailedToLike => 'Gagal menyukai. Silakan coba lagi.';
 
   @override

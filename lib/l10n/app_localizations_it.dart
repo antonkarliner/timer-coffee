@@ -855,6 +855,295 @@ class AppLocalizationsIt extends AppLocalizations {
       'I miei 3 torrefattori migliori:';
 
   @override
+  String get yearlyStats25AppBarTitle => 'Il tuo anno con Timer.Coffee – 2025';
+
+  @override
+  String get yearlyStats25AppBarTitleSimple => 'Timer.Coffee nel 2025';
+
+  @override
+  String get yearlyStats25Slide1Title => 'Il tuo anno con Timer.Coffee';
+
+  @override
+  String get yearlyStats25Slide1Subtitle =>
+      'Tocca per vedere come hai preparato il caffè nel 2025';
+
+  @override
+  String get yearlyStats25Slide2Intro => 'Insieme abbiamo preparato caffè...';
+
+  @override
+  String yearlyStats25Slide2Count(String count) {
+    return '$count volte';
+  }
+
+  @override
+  String yearlyStats25Slide2Liters(String liters) {
+    return 'Sono circa $liters litri di caffè';
+  }
+
+  @override
+  String get yearlyStats25Slide2Cambridge =>
+      'Abbastanza per offrire una tazza di caffè a tutti a Cambridge, Regno Unito (gli studenti sarebbero particolarmente grati).';
+
+  @override
+  String get yearlyStats25Slide3Title => 'E tu?';
+
+  @override
+  String yearlyStats25Slide3Subtitle(String brews, String liters) {
+    return 'Quest\'anno hai preparato il caffè $brews volte con Timer.Coffee. In totale, $liters litri di caffè!';
+  }
+
+  @override
+  String yearlyStats25Slide3TopBadge(int topPct) {
+    return 'Sei nel top $topPct% di chi prepara il caffè!';
+  }
+
+  @override
+  String get yearlyStats25Slide4TitleSingle =>
+      'Ricordi il giorno in cui hai preparato più caffè quest\'anno?';
+
+  @override
+  String get yearlyStats25Slide4TitleMulti =>
+      'Ricordi i giorni in cui hai preparato più caffè quest\'anno?';
+
+  @override
+  String get yearlyStats25Slide4TitleBrewTime =>
+      'Il tuo tempo di preparazione quest\'anno';
+
+  @override
+  String get yearlyStats25Slide4ScratchLabel => 'Gratta per rivelare';
+
+  @override
+  String yearlyStats25BrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count preparazioni',
+      one: '1 preparazione',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakSingle(String date, String brewsLabel) {
+    return '$date — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakLiters(String liters) {
+    return 'Circa $liters litri quel giorno';
+  }
+
+  @override
+  String yearlyStats25Slide4PeakMostRecent(
+      String mostRecent, String brewsLabel) {
+    return 'Più recente: $mostRecent — $brewsLabel';
+  }
+
+  @override
+  String yearlyStats25Slide4BrewTimeLine(String timeLabel) {
+    return 'Hai passato $timeLabel a preparare caffè';
+  }
+
+  @override
+  String get yearlyStats25Slide4BrewTimeFooter => 'Tempo ben speso';
+
+  @override
+  String get yearlyStats25Slide5Title => 'Ecco come prepari il caffè';
+
+  @override
+  String get yearlyStats25Slide5MethodsHeader => 'Metodi preferiti:';
+
+  @override
+  String get yearlyStats25Slide5NoMethods => 'Nessun metodo ancora';
+
+  @override
+  String get yearlyStats25Slide5RecipesHeader => 'Ricette migliori:';
+
+  @override
+  String get yearlyStats25Slide5NoRecipes => 'Nessuna ricetta ancora';
+
+  @override
+  String yearlyStats25MethodRow(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'preparazioni',
+      one: 'preparazione',
+    );
+    return '$name — $count $_temp0';
+  }
+
+  @override
+  String yearlyStats25Slide6Title(String count) {
+    return 'Hai scoperto $count torrefazioni quest\'anno:';
+  }
+
+  @override
+  String get yearlyStats25Slide6NoRoasters => 'Nessuna torrefazione ancora';
+
+  @override
+  String get yearlyStats25Slide7Title => 'Bere caffè può portarti lontano…';
+
+  @override
+  String yearlyStats25Slide7Subtitle(String count) {
+    return 'Hai scoperto $count origini quest\'anno:';
+  }
+
+  @override
+  String get yearlyStats25Others => '...e altre';
+
+  @override
+  String yearlyStats25FallbackTitle(int countries, int roasters) {
+    return 'Quest\'anno gli utenti di Timer.Coffee hanno usato chicchi da $countries paesi\ne registrato $roasters torrefazioni diverse.';
+  }
+
+  @override
+  String get yearlyStats25FallbackPromptHasBeans =>
+      'Perché non continuare a registrare i tuoi sacchetti di chicchi?';
+
+  @override
+  String get yearlyStats25FallbackPromptNoBeans =>
+      'Forse è ora di unirti e registrare anche i tuoi chicchi?';
+
+  @override
+  String get yearlyStats25FallbackActionHasBeans =>
+      'Continua ad aggiungere chicchi';
+
+  @override
+  String get yearlyStats25FallbackActionNoBeans =>
+      'Aggiungi il tuo primo sacchetto di chicchi';
+
+  @override
+  String get yearlyStats25ContinueButton => 'Continua';
+
+  @override
+  String get yearlyStats25PostcardTitle =>
+      'Invia un augurio di Capodanno a un altro amante del caffè.';
+
+  @override
+  String get yearlyStats25PostcardSubtitle =>
+      'Opzionale. Sii gentile. Nessuna informazione personale.';
+
+  @override
+  String get yearlyStats25PostcardHint => 'Buon anno e ottimi caffè!';
+
+  @override
+  String get yearlyStats25PostcardSending => 'Invio...';
+
+  @override
+  String get yearlyStats25PostcardSend => 'Invia';
+
+  @override
+  String get yearlyStats25PostcardSkip => 'Salta';
+
+  @override
+  String get yearlyStats25PostcardReceivedTitle =>
+      'Un augurio da un altro amante del caffè';
+
+  @override
+  String get yearlyStats25PostcardErrorLength => 'Inserisci 2–160 caratteri.';
+
+  @override
+  String get yearlyStats25PostcardErrorSend => 'Impossibile inviare. Riprova.';
+
+  @override
+  String get yearlyStats25PostcardErrorRejected =>
+      'Impossibile inviare. Prova un altro messaggio.';
+
+  @override
+  String get yearlyStats25CtaTitle =>
+      'Prepariamo qualcosa di grandioso nel 2026!';
+
+  @override
+  String get yearlyStats25CtaSubtitle => 'Ecco alcune idee:';
+
+  @override
+  String get yearlyStats25CtaExplorePrefix => 'Esplora le offerte nel ';
+
+  @override
+  String get yearlyStats25CtaGiftBox => 'Cofanetto Regalo Festivo';
+
+  @override
+  String get yearlyStats25CtaDonate => 'Dona';
+
+  @override
+  String get yearlyStats25CtaDonateSuffix =>
+      ' per aiutare Timer.Coffee a crescere nel nuovo anno';
+
+  @override
+  String get yearlyStats25CtaFollowPrefix => 'Seguici su ';
+
+  @override
+  String get yearlyStats25CtaInstagram => 'Instagram';
+
+  @override
+  String get yearlyStats25CtaShareButton => 'Condividi i miei progressi';
+
+  @override
+  String get yearlyStats25CtaShareHint =>
+      'Non dimenticare di taggare @timercoffeeapp';
+
+  @override
+  String get yearlyStats25AppBarTooltipResume => 'Riprendi';
+
+  @override
+  String get yearlyStats25AppBarTooltipPause => 'Pausa';
+
+  @override
+  String get yearlyStats25ShareError =>
+      'Impossibile condividere il riepilogo. Riprova.';
+
+  @override
+  String yearlyStats25BrewTimeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minuti',
+      one: '1 minuto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearlyStats25BrewTimeHours(String hours) {
+    return '$hours h';
+  }
+
+  @override
+  String get yearlyStats25ShareTitle => 'Il mio anno 2025 con Timer.Coffee';
+
+  @override
+  String get yearlyStats25ShareBrewedPrefix => 'Preparazioni: ';
+
+  @override
+  String get yearlyStats25ShareBrewedMiddle => ' volte e ';
+
+  @override
+  String get yearlyStats25ShareBrewedSuffix => ' litri di caffè';
+
+  @override
+  String get yearlyStats25ShareRoastersPrefix => 'Torrefazioni: ';
+
+  @override
+  String get yearlyStats25ShareRoastersSuffix => '';
+
+  @override
+  String get yearlyStats25ShareOriginsPrefix => 'Origini: ';
+
+  @override
+  String get yearlyStats25ShareOriginsSuffix => '';
+
+  @override
+  String get yearlyStats25ShareMethodsTitle =>
+      'I miei metodi di preparazione preferiti:';
+
+  @override
+  String get yearlyStats25ShareRecipesTitle => 'Le mie ricette migliori:';
+
+  @override
+  String get yearlyStats25ShareHandle => '@timercoffeeapp';
+
+  @override
   String get yearlyStatsFailedToLike =>
       'Impossibile mettere mi piace. Riprova.';
 
