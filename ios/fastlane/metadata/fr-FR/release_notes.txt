@@ -1,5 +1,1 @@
-Amélioré :  
-• Les écrans du Coffret Cadeau sont désormais plus informatifs et soignés.
-
-Correction de bug :  
-• Corrigé : les liens externes dans les notifications ne s’ouvraient pas toujours correctement.
+Bonne année ! Mettez à jour l’application pour découvrir le récapitulatif spécial du Nouvel An. Tous mes meilleurs vœux !

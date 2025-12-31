@@ -1,5 +1,1 @@
-Improved:  
-• Gift Box screens deliver clearer and more refined information.
-
-Bugfix:  
-• Fixed: external links in notifications now open reliably every time.
+Happy New Year! Update the app to explore a special New Year brew recap. Wishing you rich flavors and perfect pours in the year ahead!

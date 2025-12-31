@@ -1,5 +1,1 @@
-Geliştirildi:  
-• Hediye Kutusu ekranları artık daha bilgilendirici ve özenli.
-
-Hata Düzeltmeleri:  
-• Düzeltildi: Bildirimlerdeki harici bağlantılar her zaman doğru şekilde açılmıyordu.
+Mutlu Yıllar! Özel Yeni Yıl özetini görmek için uygulamayı güncelleyin. Her şeyin en iyisini dileriz!

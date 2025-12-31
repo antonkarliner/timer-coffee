@@ -1,5 +1,1 @@
-Peningkatan:  
-• Layar Gift Box sekarang lebih informatif dan tampak lebih rapi.
-
-Perbaikan Bug:  
-• Diperbaiki: tautan eksternal pada notifikasi sebelumnya tidak selalu terbuka dengan benar.
+Selamat Tahun Baru! Perbarui aplikasinya untuk melihat rekap spesial Tahun Baru. Semoga yang terbaik untuk Anda!
