@@ -1,1 +1,7 @@
-Hyvää uutta vuotta! Päivitä sovellus nähdäksesi erityisen vuoden vaihteen yhteenvedon. Kaikkea hyvää sinulle!
+Hyvää uutta vuotta! Päivitä sovellus nähdäksesi erityisen vuoden vaihteen yhteenvedon. Toivotamme sinulle kaikkea hyvää!
+
+Parannettu:  
+• Parannettu romanian kielen lokalisaatiota kiitos @tacrita0
+
+Korjaus:  
+• Korjattu muutamia pieniä virheitä vuoden vaihteen yhteenvedossa.

@@ -1,0 +1,7 @@
+La mulți ani! Actualizează aplicația pentru a vedea recapitularea specială de Anul Nou. Îți dorim numai bine!
+
+Îmbunătățiri:
+• Localizare în limba română îmbunătățită, mulțumită @tacrita0
+
+Corecții:
+• Rezolvate câteva mici erori în recapitularea de Anul Nou.

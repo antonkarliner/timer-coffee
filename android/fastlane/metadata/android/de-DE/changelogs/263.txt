@@ -1,0 +1,7 @@
+Frohes neues Jahr! Aktualisiere die App, um das spezielle Neujahrsrückblick zu sehen. Alles Gute für dich!
+
+Verbessert:
+• Verbesserte rumänische Übersetzung, dank @tacrita0
+
+Fehlerbehebung:
+• Einige kleine Fehler im Neujahrsrückblick behoben.

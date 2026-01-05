@@ -1,0 +1,7 @@
+Hyvää uutta vuotta! Päivitä sovellus ja katso erikoislaatuinen uudenvuoden yhteenveto. Kaikkea hyvää sinulle!
+
+Parannukset:
+• Parannettu romanian kielen käännös, kiitos @tacrita0
+
+Korjaukset:
+• Korjattu muutamia pieniä virheitä uudenvuoden yhteenvedossa.

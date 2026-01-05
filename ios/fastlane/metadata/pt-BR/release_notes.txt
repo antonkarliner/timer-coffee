@@ -1,1 +1,7 @@
-Feliz Ano Novo! Atualize o app para conferir a retrospectiva especial de Ano Novo. Desejamos tudo de melhor para você!
+Feliz Ano Novo! Atualize o app para conferir o resumo especial de Ano Novo. Desejamos tudo de melhor para você!
+
+Melhorias:  
+• Localização em romeno aprimorada graças ao @tacrita0
+
+Correção de bugs:  
+• Corrigidos alguns pequenos bugs no resumo de Ano Novo.

@@ -1,1 +1,7 @@
-Bonne année ! Mettez à jour l’application pour découvrir le récapitulatif spécial du Nouvel An. Tous mes meilleurs vœux !
+Bonne année ! Mettez l'application à jour pour découvrir le récapitulatif spécial du Nouvel An. Tous nos meilleurs vœux !
+
+Améliorations :
+• Amélioration de la localisation en roumain grâce à @tacrita0
+
+Correction de bugs :
+• Correction de quelques petits bugs dans le récapitulatif du Nouvel An.

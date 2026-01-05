@@ -887,7 +887,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String yearlyStats25Slide3Subtitle(String brews, String liters) {
-    return 'В этом году вы готовили кофе с Timer.Coffee: $brews. Всего — $liters л!';
+    return 'В этом году вы готовили кофе с Timer.Coffee $brews раз. Всего — $liters л!';
   }
 
   @override
@@ -989,7 +989,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String yearlyStats25Slide7Subtitle(String count) {
-    return 'Происхождений в этом году: $count';
+    return 'Стран происхождения в этом году: $count';
   }
 
   @override

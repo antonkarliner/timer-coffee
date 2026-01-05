@@ -1,0 +1,7 @@
+¡Feliz Año Nuevo! Actualiza la app para ver el especial resumen de Año Nuevo. ¡Te deseamos lo mejor!
+
+Mejoras:
+• Mejorada la localización en rumano, gracias a @tacrita0
+
+Corrección de errores:
+• Arreglados algunos pequeños errores en el resumen de Año Nuevo.

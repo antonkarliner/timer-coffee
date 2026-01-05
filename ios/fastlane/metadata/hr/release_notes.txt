@@ -1,1 +1,7 @@
-Sretna Nova godina! Ažurirajte aplikaciju kako biste pogledali poseban novogodišnji pregled. Želimo vam sve najbolje!
+Sretna Nova godina! Ažurirajte aplikaciju kako biste vidjeli poseban pregled za Novu godinu. Želimo vam sve najbolje!
+
+Poboljšano:  
+• Poboljšana rumunjska lokalizacija zahvaljujući @tacrita0
+
+Ispravljeno:  
+• Ispravljeno nekoliko manjih grešaka u novogodišnjem pregledu.

@@ -1,0 +1,7 @@
+Bonne année! Mettez l’app à jour pour découvrir le récapitulatif spécial du Nouvel An. Tous nos meilleurs vœux!
+
+Améliorations :  
+• Amélioration de la localisation roumaine, merci à @tacrita0
+
+Correction de bogues :  
+• Quelques petits bogues corrigés dans le récapitulatif du Nouvel An.

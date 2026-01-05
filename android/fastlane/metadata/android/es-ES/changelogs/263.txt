@@ -4,4 +4,4 @@ Mejoras:
 • Mejora en la localización al rumano gracias a @tacrita0
 
 Corrección de errores:
-• Corregidos algunos pequeños errores en el resumen de Año Nuevo.
+• Solucionados algunos pequeños errores en el resumen de Año Nuevo.

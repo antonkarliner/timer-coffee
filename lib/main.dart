@@ -366,6 +366,16 @@ void main() async {
       (e) => e.toString().split('.').last == themeModeString,
       orElse: () => ThemeMode.system);
   String? savedLocaleCode = prefs.getString('locale');
+  if (savedLocaleCode != null) {
+    savedLocaleCode = savedLocaleCode
+        .split(RegExp('[-_]'))
+        .first
+        .trim()
+        .toLowerCase();
+    if (savedLocaleCode.isEmpty) {
+      savedLocaleCode = null;
+    }
+  }
   Locale systemLocale =
       Locale(WidgetsBinding.instance.window.locale.languageCode);
   // Choose an initial locale BEFORE DB init so first-launch uses correct language.

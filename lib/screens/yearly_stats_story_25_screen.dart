@@ -132,6 +132,11 @@ class YearlyStatsStory25Screen extends StatefulWidget {
 class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     with TickerProviderStateMixin {
   static const double _storyTitleFontSize = 78.0;
+  static const double _minStoryTitleFontSize = 14.0;
+  static const double _minStorySubtitleFontSize = 11.0;
+  static const double _storyTextStepGranularity = 0.5;
+  static const int _defaultTitleMaxLines = 3;
+  static const int _defaultSubtitleMaxLines = 4;
   static const TextStyle _storyTitleStyle = TextStyle(
     fontSize: _storyTitleFontSize,
     fontWeight: FontWeight.bold,
@@ -878,6 +883,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
                           maxLines: 2,
                           minFontSize: 12,
                           stepGranularity: 0.5,
+                          wrapWords: false,
                           overflow: TextOverflow.visible,
                           softWrap: true,
                           textAlign: TextAlign.left,
@@ -1870,9 +1876,14 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
                     }
                     final width = MediaQuery.of(context).size.width;
                     final dx = details.localPosition.dx;
-                    if (dx < width * 0.2) {
+                    final isRtl =
+                        Directionality.of(context) == TextDirection.rtl;
+                    final isBackTap = isRtl ? dx > width * 0.8 : dx < width * 0.2;
+                    final isForwardTap =
+                        isRtl ? dx < width * 0.2 : dx > width * 0.8;
+                    if (isBackTap) {
                       _goToPreviousStory();
-                    } else if (dx > width * 0.8 && story.allowTapForward) {
+                    } else if (isForwardTap && story.allowTapForward) {
                       _goToNextStory();
                     }
                   }
@@ -2037,64 +2048,86 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
 
     return _slideSurface(
       emoji: '🧪',
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _titleText(l10n.yearlyStats25Slide5Title),
-          const SizedBox(height: 16),
-          FadeTransition(
-            opacity: _slide5MethodsHeaderFade,
-            child: _subtitleText(l10n.yearlyStats25Slide5MethodsHeader,
-                maxLines: 1),
-          ),
-          const SizedBox(height: 8),
-          if (topMethods.isEmpty)
-            FadeTransition(
-              opacity: _slide5MethodFades.first,
-              child: _subtitleText(l10n.yearlyStats25Slide5NoMethods),
-            )
-          else
-            ...topMethods.asMap().entries.map((entry) {
-              final index = entry.key;
-              final method = entry.value;
-              final opacity = _slide5MethodFades[
-                  index.clamp(0, _slide5MethodFades.length - 1)];
-              return FadeTransition(
-                opacity: opacity,
-                child: _methodRow(method, data),
-              );
-            }),
-          const SizedBox(height: 20),
-          FadeTransition(
-            opacity: _slide5RecipesHeaderFade,
-            child:
-                _subtitleText(l10n.yearlyStats25Slide5RecipesHeader, maxLines: 1),
-          ),
-          const SizedBox(height: 8),
-          if (topRecipes.isEmpty)
-            FadeTransition(
-              opacity: _slide5RecipeFades.first,
-              child: _subtitleText(l10n.yearlyStats25Slide5NoRecipes),
-            )
-          else
-            Container(
-              key: _slide5RecipesKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: topRecipes.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final recipe = entry.value;
-                  final opacity = _slide5RecipeFades[
-                      index.clamp(0, _slide5RecipeFades.length - 1)];
-                  return FadeTransition(
-                    opacity: opacity,
-                    child: _recipeRow(recipe),
-                  );
-                }).toList(),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final content = ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: constraints.maxWidth),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _titleText(l10n.yearlyStats25Slide5Title),
+                const SizedBox(height: 16),
+                FadeTransition(
+                  opacity: _slide5MethodsHeaderFade,
+                  child: _subtitleText(
+                    l10n.yearlyStats25Slide5MethodsHeader,
+                    maxLines: 2,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                if (topMethods.isEmpty)
+                  FadeTransition(
+                    opacity: _slide5MethodFades.first,
+                    child: _subtitleText(l10n.yearlyStats25Slide5NoMethods),
+                  )
+                else
+                  ...topMethods.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final method = entry.value;
+                    final opacity = _slide5MethodFades[
+                        index.clamp(0, _slide5MethodFades.length - 1)];
+                    return FadeTransition(
+                      opacity: opacity,
+                      child: _methodRow(method, data),
+                    );
+                  }),
+                const SizedBox(height: 20),
+                FadeTransition(
+                  opacity: _slide5RecipesHeaderFade,
+                  child: _subtitleText(
+                    l10n.yearlyStats25Slide5RecipesHeader,
+                    maxLines: 2,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                if (topRecipes.isEmpty)
+                  FadeTransition(
+                    opacity: _slide5RecipeFades.first,
+                    child: _subtitleText(l10n.yearlyStats25Slide5NoRecipes),
+                  )
+                else
+                  Container(
+                    key: _slide5RecipesKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: topRecipes.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final recipe = entry.value;
+                        final opacity = _slide5RecipeFades[
+                            index.clamp(0, _slide5RecipeFades.length - 1)];
+                        return FadeTransition(
+                          opacity: opacity,
+                          child: _recipeRow(recipe),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+              ],
+            ),
+          );
+          return Align(
+            alignment: Alignment.topLeft,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.topLeft,
+              child: SizedBox(
+                width: constraints.maxWidth,
+                child: content,
               ),
             ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -2102,6 +2135,10 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   Widget _methodRow(_CountedItem method, _StoryData data) {
     final name = data.methodIdToName[method.id] ?? method.id;
     final l10n = _l10n;
+    final textStyle = _subtitleStyle();
+    final maxFontSize =
+        textStyle.fontSize ?? (_resolvedTitleFontSize ?? _storyTitleFontSize) / 2;
+    final minFontSize = math.min(maxFontSize, _minStorySubtitleFontSize);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -2109,11 +2146,15 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
           getIconByBrewingMethod(method.id),
           const SizedBox(width: 8),
           Flexible(
-            child: Text(
+            child: AutoSizeText(
               l10n.yearlyStats25MethodRow(name, method.count),
-              style: _subtitleStyle(),
+              style: textStyle,
               maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+              minFontSize: minFontSize,
+              maxFontSize: maxFontSize,
+              stepGranularity: _storyTextStepGranularity,
+              overflow: TextOverflow.visible,
+              softWrap: true,
             ),
           ),
         ],
@@ -2122,6 +2163,12 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   }
 
   Widget _recipeRow(RecipeModel recipe) {
+    final textStyle = _subtitleStyle().copyWith(
+      decoration: TextDecoration.underline,
+    );
+    final maxFontSize =
+        textStyle.fontSize ?? (_resolvedTitleFontSize ?? _storyTitleFontSize) / 2;
+    final minFontSize = math.min(maxFontSize, _minStorySubtitleFontSize);
     return InkWell(
       onTap: () => _openRecipeDetail(recipe),
       child: Padding(
@@ -2131,13 +2178,15 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
             getIconByBrewingMethod(recipe.brewingMethodId),
             const SizedBox(width: 8),
             Flexible(
-              child: Text(
+              child: AutoSizeText(
                 recipe.name,
-                style: _subtitleStyle().copyWith(
-                  decoration: TextDecoration.underline,
-                ),
+                style: textStyle,
                 maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+                minFontSize: minFontSize,
+                maxFontSize: maxFontSize,
+                stepGranularity: _storyTextStepGranularity,
+                overflow: TextOverflow.visible,
+                softWrap: true,
               ),
             ),
           ],
@@ -2204,43 +2253,60 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     final l10n = _l10n;
     return _slideSurface(
       emoji: '🌱',
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _titleText(l10n.yearlyStats25Slide7Title, maxLines: 3),
-          const SizedBox(height: 12),
-          FadeTransition(
-            opacity: _slide7SubtitleFade,
-            child: _subtitleText(
-              l10n.yearlyStats25Slide7Subtitle(
-                _formatCount(data.uniqueOriginNotes),
-              ),
-              maxLines: 2,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Expanded(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final content = ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: constraints.maxWidth),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                for (var i = 0; i < originsToShow.length; i++) ...[
-                  FadeTransition(
-                    opacity: _slide7OriginFades[i],
-                    child: _subtitleText(originsToShow[i], maxLines: 1),
+                _titleText(l10n.yearlyStats25Slide7Title, maxLines: 3),
+                const SizedBox(height: 12),
+                FadeTransition(
+                  opacity: _slide7SubtitleFade,
+                  child: _subtitleText(
+                    l10n.yearlyStats25Slide7Subtitle(
+                      _formatCount(data.uniqueOriginNotes),
+                    ),
+                    maxLines: 2,
                   ),
-                  const SizedBox(height: 6),
-                ],
-                if (showOthers)
-                  FadeTransition(
-                    opacity: _slide7OriginFades[
-                        originsToShow.length.clamp(0, _slide7OriginFades.length - 1)],
-                    child: _subtitleText(l10n.yearlyStats25Others, maxLines: 1),
-                  ),
+                ),
+                const SizedBox(height: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for (var i = 0; i < originsToShow.length; i++) ...[
+                      FadeTransition(
+                        opacity: _slide7OriginFades[i],
+                        child: _subtitleText(originsToShow[i], maxLines: 1),
+                      ),
+                      const SizedBox(height: 6),
+                    ],
+                    if (showOthers)
+                      FadeTransition(
+                        opacity: _slide7OriginFades[
+                            originsToShow.length.clamp(0, _slide7OriginFades.length - 1)],
+                        child:
+                            _subtitleText(l10n.yearlyStats25Others, maxLines: 1),
+                      ),
+                  ],
+                ),
               ],
             ),
-          ),
-        ],
+          );
+          return Align(
+            alignment: Alignment.topLeft,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.topLeft,
+              child: SizedBox(
+                width: constraints.maxWidth,
+                child: content,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -2268,16 +2334,10 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                _applyWidowControl(titleText),
-                maxLines: null,
-                overflow: TextOverflow.visible,
-                softWrap: true,
-                textAlign: TextAlign.left,
-                style: _storyTitleStyle.copyWith(
-                  fontSize: computedSize,
-                  fontWeight: FontWeight.w700,
-                ),
+              _titleText(
+                titleText,
+                maxLines: 4,
+                fontSize: computedSize,
               ),
               const SizedBox(height: 12),
               _subtitleText(prompt, maxLines: null),
@@ -2416,90 +2476,100 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     final showShare = !kIsWeb && data.userBrews >= 3 && data.hasAnyBeans;
     return _slideSurface(
       emoji: '🎁',
-      child: SizedBox.expand(
-        child: Align(
-          alignment: Alignment.topLeft,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: AppSpacing.sm),
-              _titleText(l10n.yearlyStats25CtaTitle),
-              const SizedBox(height: 12),
-              _subtitleText(l10n.yearlyStats25CtaSubtitle),
-              const SizedBox(height: AppSpacing.lg),
-              _bulletLine(
-                [
-                  TextSpan(text: l10n.yearlyStats25CtaExplorePrefix),
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.baseline,
-                    baseline: TextBaseline.alphabetic,
-                    child: _inlineActionButton(
-                      l10n.yearlyStats25CtaGiftBox,
-                      () => context.router.push(const GiftBoxListRoute()),
-                      key: _ctaGiftKey,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final content = SizedBox(
+            width: constraints.maxWidth,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: AppSpacing.sm),
+                _titleText(l10n.yearlyStats25CtaTitle),
+                const SizedBox(height: 12),
+                _subtitleText(l10n.yearlyStats25CtaSubtitle),
+                const SizedBox(height: AppSpacing.lg),
+                _bulletLine(
+                  [
+                    TextSpan(text: l10n.yearlyStats25CtaExplorePrefix),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.baseline,
+                      baseline: TextBaseline.alphabetic,
+                      child: _inlineActionButton(
+                        l10n.yearlyStats25CtaGiftBox,
+                        () => context.router.push(const GiftBoxListRoute()),
+                        key: _ctaGiftKey,
+                      ),
                     ),
-                  ),
-                ],
-                style: bulletStyle,
-              ),
-              const SizedBox(height: 12),
-              _bulletLine(
-                [
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.baseline,
-                    baseline: TextBaseline.alphabetic,
-                    child: _inlineActionButton(
-                      l10n.yearlyStats25CtaDonate,
-                      () => context.router.push(const DonationRoute()),
-                      key: _ctaDonateKey,
-                    ),
-                  ),
-                  TextSpan(text: l10n.yearlyStats25CtaDonateSuffix),
-                ],
-                style: bulletStyle,
-              ),
-              const SizedBox(height: 12),
-              _bulletLine(
-                [
-                  TextSpan(text: l10n.yearlyStats25CtaFollowPrefix),
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.baseline,
-                    baseline: TextBaseline.alphabetic,
-                    child: _inlineActionButton(
-                      l10n.yearlyStats25CtaInstagram,
-                      _openInstagram,
-                      key: _ctaInstagramKey,
-                    ),
-                  ),
-                ],
-                style: bulletStyle,
-              ),
-              if (showShare) ...[
-                const SizedBox(height: AppSpacing.xxl),
-                SizedBox(
-                  width: double.infinity,
-                  child: _buildActionButton(
-                    l10n.yearlyStats25CtaShareButton,
-                    () => _shareRecap(data),
-                    key: _shareButtonKey,
-                  ),
+                  ],
+                  style: bulletStyle,
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  l10n.yearlyStats25CtaShareHint,
-                  textAlign: TextAlign.left,
-                  style: _subtitleStyle(
-                    color: Colors.black54,
-                    fontSize: bulletStyle.fontSize != null
-                        ? bulletStyle.fontSize! * 0.8
-                        : null,
-                  ),
+                const SizedBox(height: 12),
+                _bulletLine(
+                  [
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.baseline,
+                      baseline: TextBaseline.alphabetic,
+                      child: _inlineActionButton(
+                        l10n.yearlyStats25CtaDonate,
+                        () => context.router.push(const DonationRoute()),
+                        key: _ctaDonateKey,
+                      ),
+                    ),
+                    TextSpan(text: l10n.yearlyStats25CtaDonateSuffix),
+                  ],
+                  style: bulletStyle,
                 ),
+                const SizedBox(height: 12),
+                _bulletLine(
+                  [
+                    TextSpan(text: l10n.yearlyStats25CtaFollowPrefix),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.baseline,
+                      baseline: TextBaseline.alphabetic,
+                      child: _inlineActionButton(
+                        l10n.yearlyStats25CtaInstagram,
+                        _openInstagram,
+                        key: _ctaInstagramKey,
+                      ),
+                    ),
+                  ],
+                  style: bulletStyle,
+                ),
+                if (showShare) ...[
+                  const SizedBox(height: AppSpacing.xxl),
+                  SizedBox(
+                    width: double.infinity,
+                    child: _buildActionButton(
+                      l10n.yearlyStats25CtaShareButton,
+                      () => _shareRecap(data),
+                      key: _shareButtonKey,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    l10n.yearlyStats25CtaShareHint,
+                    textAlign: TextAlign.left,
+                    style: _subtitleStyle(
+                      color: Colors.black54,
+                      fontSize: bulletStyle.fontSize != null
+                          ? bulletStyle.fontSize! * 0.8
+                          : null,
+                    ),
+                  ),
+                ],
               ],
-            ],
-          ),
-        ),
+            ),
+          );
+          return Align(
+            alignment: Alignment.topLeft,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.topLeft,
+              child: content,
+            ),
+          );
+        },
       ),
     );
   }
@@ -2576,8 +2646,14 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
           ),
         ),
         onPressed: onPressed,
-        child: Text(
+        child: AutoSizeText(
           label,
+          maxLines: 1,
+          minFontSize: _minStorySubtitleFontSize,
+          maxFontSize: 16,
+          stepGranularity: _storyTextStepGranularity,
+          softWrap: false,
+          overflow: TextOverflow.visible,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -2667,7 +2743,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   Widget _slide4DetailsSinglePeak(_PeakDayInfo peak, DateFormat dateFmt) {
     final l10n = _l10n;
     final dateText = dateFmt.format(peak.days.first);
-    final brewsLabel = l10n.yearlyStats25BrewsCount(peak.count);
+    final brewsLabel = _localizedBrewsLabel(peak.count, l10n);
     final litersValue =
         peak.liters != null ? _formatLiters(peak.liters!) : null;
     return Column(
@@ -2706,7 +2782,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     String? litersValue,
   ) {
     final l10n = _l10n;
-    final brewsLabel = l10n.yearlyStats25BrewsCount(count);
+    final brewsLabel = _localizedBrewsLabel(count, l10n);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -3221,10 +3297,16 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     final resolvedSize =
         fontSize ?? _resolvedTitleFontSize ?? _storyTitleFontSize;
     final displayText = _applyWidowControl(text);
-    return Text(
+    final resolvedMaxLines = maxLines ?? _defaultTitleMaxLines;
+    final minFontSize = math.min(resolvedSize, _minStoryTitleFontSize);
+    return AutoSizeText(
       displayText,
       textAlign: TextAlign.left,
-      maxLines: maxLines,
+      maxLines: resolvedMaxLines,
+      minFontSize: minFontSize,
+      maxFontSize: resolvedSize,
+      stepGranularity: _storyTextStepGranularity,
+      wrapWords: false,
       overflow: TextOverflow.visible,
       softWrap: true,
       style: _storyTitleStyle.copyWith(fontSize: resolvedSize),
@@ -3238,13 +3320,19 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   }) {
     final resolvedSize =
         fontSize ?? _resolvedTitleFontSize ?? _storyTitleFontSize;
-    return Text.rich(
+    final resolvedMaxLines = maxLines ?? _defaultTitleMaxLines;
+    final minFontSize = math.min(resolvedSize, _minStoryTitleFontSize);
+    return AutoSizeText.rich(
       TextSpan(
         style: _storyTitleStyle.copyWith(fontSize: resolvedSize),
         children: spans,
       ),
       textAlign: TextAlign.left,
-      maxLines: maxLines,
+      maxLines: resolvedMaxLines,
+      minFontSize: minFontSize,
+      maxFontSize: resolvedSize,
+      stepGranularity: _storyTextStepGranularity,
+      wrapWords: false,
       overflow: TextOverflow.visible,
       softWrap: true,
     );
@@ -3261,12 +3349,17 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     final baseStyle = _storyTitleStyle.copyWith(fontSize: resolvedSize);
     final highlightStyle =
         _storyTitleStyle.copyWith(fontSize: resolvedSize, fontWeight: FontWeight.w700);
+    final resolvedMaxLines = maxLines ?? _defaultTitleMaxLines;
+    final minFontSize = math.min(resolvedSize, _minStoryTitleFontSize);
     return _buildHighlightedText(
       text,
       highlights,
       baseStyle,
       highlightStyle,
-      maxLines: maxLines,
+      maxLines: resolvedMaxLines,
+      minFontSize: minFontSize,
+      maxFontSize: resolvedSize,
+      wrapWords: false,
     );
   }
 
@@ -3284,10 +3377,15 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
       fontWeight: FontWeight.w400,
       fontSize: resolvedSize,
     );
-    return Text(
+    final resolvedMaxLines = maxLines ?? _defaultSubtitleMaxLines;
+    final minFontSize = math.min(resolvedSize, _minStorySubtitleFontSize);
+    return AutoSizeText(
       displayText,
       textAlign: TextAlign.left,
-      maxLines: maxLines,
+      maxLines: resolvedMaxLines,
+      minFontSize: minFontSize,
+      maxFontSize: resolvedSize,
+      stepGranularity: _storyTextStepGranularity,
       overflow: TextOverflow.visible,
       softWrap: true,
       style: baseStyle,
@@ -3323,12 +3421,16 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
       fontWeight: FontWeight.w400,
     );
     final highlightStyle = baseStyle.copyWith(fontWeight: FontWeight.w700);
+    final resolvedMaxLines = maxLines ?? _defaultSubtitleMaxLines;
+    final minFontSize = math.min(resolvedSize, _minStorySubtitleFontSize);
     return _buildHighlightedText(
       text,
       highlights,
       baseStyle,
       highlightStyle,
-      maxLines: maxLines,
+      maxLines: resolvedMaxLines,
+      minFontSize: minFontSize,
+      maxFontSize: resolvedSize,
     );
   }
 
@@ -3338,13 +3440,26 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     TextStyle baseStyle,
     TextStyle highlightStyle, {
     int? maxLines,
+    double? minFontSize,
+    double? maxFontSize,
+    bool wrapWords = true,
   }) {
     final displayText = _applyWidowControl(text);
+    final resolvedMaxFontSize =
+        maxFontSize ?? baseStyle.fontSize ?? _storyTitleFontSize;
+    final resolvedMinFontSize = math.min(
+      resolvedMaxFontSize,
+      minFontSize ?? _minStorySubtitleFontSize,
+    );
     if (highlights.isEmpty) {
-      return Text(
+      return AutoSizeText(
         displayText,
         textAlign: TextAlign.left,
         maxLines: maxLines,
+        minFontSize: resolvedMinFontSize,
+        maxFontSize: resolvedMaxFontSize,
+        stepGranularity: _storyTextStepGranularity,
+        wrapWords: wrapWords,
         overflow: TextOverflow.visible,
         softWrap: true,
         style: baseStyle,
@@ -3384,10 +3499,14 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
       index = nextIndex + nextLength;
     }
 
-    return Text.rich(
+    return AutoSizeText.rich(
       TextSpan(style: baseStyle, children: spans),
       textAlign: TextAlign.left,
       maxLines: maxLines,
+      minFontSize: resolvedMinFontSize,
+      maxFontSize: resolvedMaxFontSize,
+      stepGranularity: _storyTextStepGranularity,
+      wrapWords: wrapWords,
       overflow: TextOverflow.visible,
       softWrap: true,
     );
@@ -3424,6 +3543,14 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     return NumberFormat.decimalPattern().format(brews).replaceAll(',', '.');
   }
 
+  String _localizedBrewsLabel(int count, AppLocalizations l10n) {
+    final label = l10n.yearlyStats25BrewsCount(count);
+    if (!label.contains('#')) return label;
+    final localeTag = Localizations.localeOf(context).toLanguageTag();
+    final formatted = NumberFormat.decimalPattern(localeTag).format(count);
+    return label.replaceAll('#', formatted);
+  }
+
   String _formatCount(int value) {
     return NumberFormat.decimalPattern().format(value).replaceAll(',', '.');
   }
@@ -3458,8 +3585,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
       return text;
     }
 
-    final capped = roasters.take(30).toList();
-    if (roasters.length <= 30) {
+    final capped = roasters.take(20).toList();
+    if (roasters.length <= 20) {
       final fullText = buildText(capped, addOthers: false);
       if (fits(fullText)) {
         return fullText;

@@ -1,0 +1,7 @@
+Bonne année ! Mettez à jour l’application pour découvrir le récap spécial Nouvel An. Meilleurs vœux à tous !
+
+Améliorations :
+• Amélioration de la traduction roumaine, merci à @tacrita0
+
+Correction de bugs :
+• Correction de quelques bugs mineurs dans le récap du Nouvel An.

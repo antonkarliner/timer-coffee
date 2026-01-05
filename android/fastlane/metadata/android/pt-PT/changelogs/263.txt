@@ -1,6 +1,6 @@
-Feliz Ano Novo! Atualize a app para ver o resumo especial de Ano Novo. Desejamos-lhe tudo de bom!
+Feliz Ano Novo! Atualize a aplicação para ver o resumo especial de Ano Novo. Desejamos tudo de bom!
 
-Melhorado:  
+Melhorias:  
 • Localização em romeno melhorada, graças a @tacrita0
 
 Correção de erros:  

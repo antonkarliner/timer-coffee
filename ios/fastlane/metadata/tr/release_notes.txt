@@ -1,1 +1,7 @@
-Mutlu Yıllar! Özel Yeni Yıl özetini görmek için uygulamayı güncelleyin. Her şeyin en iyisini dileriz!
+Mutlu Yıllar! Özel Yeni Yıl özetini görmek için uygulamayı güncelleyin. Her şeyin gönlünüzce olmasını dileriz!
+
+İyileştirilenler:  
+• @tacrita0 sayesinde Rumence yerelleştirme geliştirildi
+
+Hata düzeltmeleri:  
+• Yeni Yıl özetinde birkaç küçük hata giderildi.

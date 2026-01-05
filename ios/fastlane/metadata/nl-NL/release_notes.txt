@@ -1,1 +1,7 @@
-Gelukkig nieuwjaar! Update de app om de speciale nieuwjaarssamenvatting te bekijken. Ik wens je het allerbeste!
+Gelukkig nieuwjaar! Werk de app bij om het speciale nieuwjaarsoverzicht te bekijken. Wens je het allerbeste!
+
+Verbeterd:
+• Verbeterde Roemeense vertaling dankzij @tacrita0
+
+Bugfix:
+• Een paar kleine bugs in het nieuwjaarsoverzicht opgelost.

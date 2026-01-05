@@ -1,0 +1,7 @@
+Mutlu Yıllar! Özel Yeni Yıl özetini görmek için uygulamayı güncelleyin. Tüm demlemelerinizin harika olması dileğiyle!
+
+Geliştirmeler:
+• @tacrita0 sayesinde Romence yerelleştirme geliştirildi.
+
+Hata Düzeltmeleri:
+• Yeni Yıl özetindeki bazı küçük hatalar giderildi.

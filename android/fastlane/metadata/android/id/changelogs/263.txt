@@ -1,0 +1,7 @@
+Selamat Tahun Baru! Perbarui aplikasi untuk melihat rekap spesial Tahun Baru. Semoga yang terbaik untuk Anda!
+
+Peningkatan: 
+• Peningkatan lokalisasi bahasa Rumania berkat @tacrita0
+
+Perbaikan Bug:
+• Memperbaiki beberapa bug kecil pada rekap Tahun Baru.

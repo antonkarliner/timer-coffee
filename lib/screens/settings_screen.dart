@@ -462,7 +462,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _setLocale(Locale newLocale) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('locale', newLocale.toString());
+    await prefs.setString('locale', newLocale.languageCode);
 
     Provider.of<RecipeProvider>(context, listen: false).setLocale(newLocale);
 

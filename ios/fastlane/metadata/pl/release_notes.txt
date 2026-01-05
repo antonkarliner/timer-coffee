@@ -1,1 +1,7 @@
-Szczęśliwego Nowego Roku! Zaktualizuj aplikację, aby zobaczyć specjalne noworoczne podsumowanie. Wszystkiego najlepszego!
+Szczęśliwego Nowego Roku! Zaktualizuj aplikację, aby zobaczyć specjalne podsumowanie noworoczne. Wszystkiego najlepszego!
+
+Ulepszenia:  
+• Ulepszona lokalizacja na język rumuński dzięki @tacrita0
+
+Poprawki błędów:  
+• Naprawiono kilka drobnych błędów w podsumowaniu noworocznym.

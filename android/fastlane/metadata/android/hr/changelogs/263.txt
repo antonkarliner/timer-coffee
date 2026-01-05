@@ -1,0 +1,7 @@
+Sretna Nova godina! Ažurirajte aplikaciju i pogledajte poseban novogodišnji pregled. Sve najbolje!
+
+Poboljšano: 
+• Poboljšan rumunjski prijevod zahvaljujući @tacrita0
+
+Ispravci: 
+• Ispravljeno nekoliko manjih grešaka u novogodišnjem pregledu.

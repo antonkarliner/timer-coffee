@@ -1,0 +1,7 @@
+Gelukkig nieuwjaar! Update de app om de speciale nieuwjaarsterugblik te bekijken. De beste wensen!
+
+Verbeteringen:
+• Betere Roemeense vertaling dankzij @tacrita0
+
+Bugfix:
+• Kleine bugs verholpen in de nieuwjaarsterugblik.

@@ -69,6 +69,7 @@ class FcmService {
 
   String? _cachedToken;
   bool _isInitialized = false;
+  static const String _fallbackLocale = 'en';
 
   String? get cachedToken => _cachedToken;
   bool get isInitialized => _isInitialized;
@@ -117,6 +118,15 @@ class FcmService {
       AppLogger.error('Failed to initialize FcmService', errorObject: e);
       rethrow;
     }
+  }
+
+  String _normalizeLocaleCode(String raw) {
+    final trimmed = raw.trim();
+    if (trimmed.isEmpty) return _fallbackLocale;
+    final normalized = trimmed.replaceAll('-', '_');
+    final primary = normalized.split('_').first.trim();
+    if (primary.isEmpty) return _fallbackLocale;
+    return primary.toLowerCase();
   }
 
   /// Request notification permissions
@@ -187,15 +197,39 @@ class FcmService {
       final now = DateTime.now().toIso8601String();
 
       // Get current app locale from SharedPreferences, default to 'en'
-      String currentLocale = 'en';
+      String currentLocale = _fallbackLocale;
       try {
         final prefs = await SharedPreferences.getInstance();
-        currentLocale = prefs.getString('locale') ?? 'en';
+        currentLocale = prefs.getString('locale') ?? _fallbackLocale;
         AppLogger.debug(
             'Retrieved locale from SharedPreferences: $currentLocale');
       } catch (e) {
         AppLogger.warning(
             'Failed to retrieve locale from SharedPreferences, using default: $currentLocale');
+      }
+      final rawLocale = currentLocale;
+      String localeForDb = _normalizeLocaleCode(currentLocale);
+      if (rawLocale != localeForDb) {
+        AppLogger.debug(
+            'Normalized locale for token storage: "$rawLocale" -> "$localeForDb"');
+      }
+
+      Future<T> runWithLocaleFallback<T>(
+          Future<T> Function(String locale) operation) async {
+        try {
+          return await operation(localeForDb);
+        } on PostgrestException catch (e) {
+          final message = e.message ?? '';
+          if (e.code == '23514' &&
+              message.contains('valid_locale') &&
+              localeForDb != _fallbackLocale) {
+            AppLogger.warning(
+                'Locale "$localeForDb" rejected by database, retrying with "$_fallbackLocale".');
+            localeForDb = _fallbackLocale;
+            return await operation(localeForDb);
+          }
+          rethrow;
+        }
       }
 
       // First, check if this specific token already exists for this user/device
@@ -213,32 +247,36 @@ class FcmService {
         final bool isActive = existingTokenRecord['is_active'] ?? false;
         if (!isActive) {
           AppLogger.debug('Reactivating existing inactive token: $token');
-          await supabase
-              .schema('service')
-              .from('user_fcm_tokens')
-              .update({
-                'is_active': true,
-                'updated_at': now,
-                'last_used_at': now,
-                'locale': currentLocale,
-              })
-              .eq('user_id', userId)
-              .eq('device_type', platform)
-              .eq('token', token);
+          await runWithLocaleFallback((locale) {
+            return supabase
+                .schema('service')
+                .from('user_fcm_tokens')
+                .update({
+                  'is_active': true,
+                  'updated_at': now,
+                  'last_used_at': now,
+                  'locale': locale,
+                })
+                .eq('user_id', userId)
+                .eq('device_type', platform)
+                .eq('token', token);
+          });
           AppLogger.info('FCM token reactivated for user: $userId');
         } else {
           AppLogger.debug('Token already active, updating timestamp: $token');
-          await supabase
-              .schema('service')
-              .from('user_fcm_tokens')
-              .update({
-                'updated_at': now,
-                'last_used_at': now,
-                'locale': currentLocale,
-              })
-              .eq('user_id', userId)
-              .eq('device_type', platform)
-              .eq('token', token);
+          await runWithLocaleFallback((locale) {
+            return supabase
+                .schema('service')
+                .from('user_fcm_tokens')
+                .update({
+                  'updated_at': now,
+                  'last_used_at': now,
+                  'locale': locale,
+                })
+                .eq('user_id', userId)
+                .eq('device_type', platform)
+                .eq('token', token);
+          });
         }
       } else {
         // Token doesn't exist - check for recently inactive tokens to reuse
@@ -265,19 +303,21 @@ class FcmService {
           AppLogger.debug(
               'Reactivating recent inactive token instead of creating new: $existingTokenToReactivate');
 
-          await supabase
-              .schema('service')
-              .from('user_fcm_tokens')
-              .update({
-                'is_active': true,
-                'updated_at': now,
-                'last_used_at': now,
-                'token': token, // Update to new token from Firebase
-                'locale': currentLocale,
-              })
-              .eq('user_id', userId)
-              .eq('device_type', platform)
-              .eq('token', existingTokenToReactivate);
+          await runWithLocaleFallback((locale) {
+            return supabase
+                .schema('service')
+                .from('user_fcm_tokens')
+                .update({
+                  'is_active': true,
+                  'updated_at': now,
+                  'last_used_at': now,
+                  'token': token, // Update to new token from Firebase
+                  'locale': locale,
+                })
+                .eq('user_id', userId)
+                .eq('device_type', platform)
+                .eq('token', existingTokenToReactivate);
+          });
 
           AppLogger.info(
               'Existing FCM token reactivated with new token value for user: $userId');
@@ -294,26 +334,30 @@ class FcmService {
             // Token exists for different user - reassign it to current user
             AppLogger.debug(
                 'Token exists for different user, reassigning to current user: $userId');
-            await supabase.schema('service').from('user_fcm_tokens').update({
-              'user_id': userId,
-              'device_type': platform,
-              'is_active': true,
-              'updated_at': now,
-              'last_used_at': now,
-              'locale': currentLocale,
-            }).eq('token', token);
+            await runWithLocaleFallback((locale) {
+              return supabase.schema('service').from('user_fcm_tokens').update({
+                'user_id': userId,
+                'device_type': platform,
+                'is_active': true,
+                'updated_at': now,
+                'last_used_at': now,
+                'locale': locale,
+              }).eq('token', token);
+            });
             AppLogger.info('Existing FCM token reassigned to user: $userId');
           } else {
             // No recent inactive token found and token doesn't exist for any user - insert new one
             AppLogger.debug('Inserting new FCM token: $token');
-            await supabase.schema('service').from('user_fcm_tokens').insert({
-              'user_id': userId,
-              'token': token,
-              'device_type': platform,
-              'is_active': true,
-              'updated_at': now,
-              'created_at': now,
-              'locale': currentLocale,
+            await runWithLocaleFallback((locale) {
+              return supabase.schema('service').from('user_fcm_tokens').insert({
+                'user_id': userId,
+                'token': token,
+                'device_type': platform,
+                'is_active': true,
+                'updated_at': now,
+                'created_at': now,
+                'locale': locale,
+              });
             });
             AppLogger.info('New FCM token stored for user: $userId');
           }
@@ -334,17 +378,19 @@ class FcmService {
         final otherToken = tokenData['token'] as String?;
         if (otherToken != null && otherToken.isNotEmpty) {
           AppLogger.debug('Marking other token as inactive: $otherToken');
-          await supabase
-              .schema('service')
-              .from('user_fcm_tokens')
-              .update({
-                'is_active': false,
-                'updated_at': now,
-                'last_used_at': now,
-                'locale': currentLocale,
-              })
-              .eq('token', otherToken)
-              .eq('device_type', platform);
+          await runWithLocaleFallback((locale) {
+            return supabase
+                .schema('service')
+                .from('user_fcm_tokens')
+                .update({
+                  'is_active': false,
+                  'updated_at': now,
+                  'last_used_at': now,
+                  'locale': locale,
+                })
+                .eq('token', otherToken)
+                .eq('device_type', platform);
+          });
         }
       }
 

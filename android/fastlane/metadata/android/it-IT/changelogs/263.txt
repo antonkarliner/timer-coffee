@@ -1,0 +1,7 @@
+Buon Anno! Aggiorna l’app per scoprire lo speciale riepilogo di Capodanno. Tanti auguri a tutti!
+
+Migliorie:  
+• Migliorata la localizzazione in rumeno grazie a @tacrita0
+
+Correzione bug:  
+• Risolti alcuni piccoli bug nel riepilogo di Capodanno.
