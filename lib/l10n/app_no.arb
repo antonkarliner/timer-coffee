@@ -1,0 +1,1154 @@
+{
+  "@@locale": "no",
+  "beansStatsSectionTitle": "Bønnestatistikk",
+  "totalBeansBrewedLabel": "Totalt bryggede bønner",
+  "newBeansTriedLabel": "Nye bønner prøvd",
+  "originsExploredLabel": "Opprinnelser utforsket",
+  "regionsExploredLabel": "Regioner utforsket",
+  "newRoastersDiscoveredLabel": "Nye brennerier oppdaget",
+  "favoriteRoastersLabel": "Favoritt brennerier",
+  "topOriginsLabel": "Topp opprinnelser",
+  "topRegionsLabel": "Topp regioner",
+  "lastrecipe": "Sist brukte oppskrift:",
+  "userRecipesTitle": "Dine oppskrifter",
+  "userRecipesSectionCreated": "Opprettet av deg",
+  "userRecipesSectionImported": "Importert av deg",
+  "userRecipesEmpty": "Ingen oppskrifter funnet",
+  "userRecipesDeleteTitle": "Slett oppskrift?",
+  "userRecipesDeleteMessage": "Denne handlingen kan ikke angres.",
+  "userRecipesDeleteConfirm": "Slett",
+  "userRecipesDeleteCancel": "Avbryt",
+  "userRecipesSnackbarDeleted": "Oppskrift slettet",
+  "hubUserRecipesTitle": "Dine oppskrifter",
+  "hubUserRecipesSubtitle": "Vis og administrer opprettede og importerte oppskrifter",
+  "hubAccountSubtitle": "Administrer profilen din",
+  "hubSignInCreateSubtitle": "Logg inn for å synkronisere oppskrifter og innstillinger",
+  "hubBrewDiarySubtitle": "Se bryggehistorikken din og legg til notater",
+  "hubBrewStatsSubtitle": "Se personlig og global bryggestatistikk og trender",
+  "hubSettingsSubtitle": "Endre appinnstillinger og oppførsel",
+  "hubAboutSubtitle": "Appdetaljer, versjon og bidragsytere",
+  "about": "Om",
+  "author": "Forfatter",
+  "authortext": "Timer.Coffee-appen er laget av Anton Karliner, en kaffeentusiast, mediespesialist og fotojournalist. Jeg håper at denne appen vil hjelpe deg å nyte kaffen din. Bidra gjerne på GitHub.",
+  "contributors": "Bidragsytere",
+  "errorLoadingContributors": "Feil ved lasting av bidragsytere",
+  "license": "Lisens",
+  "licensetext": "Denne applikasjonen er fri programvare: du kan redistribuere den og/eller modifisere den under vilkårene i GNU General Public License som publisert av Free Software Foundation, enten versjon 3 av lisensen, eller (etter eget valg) en senere versjon.",
+  "licensebutton": "Les GNU General Public License v3",
+  "website": "Nettsted",
+  "sourcecode": "Kildekode",
+  "support": "Kjøp meg en kaffe",
+  "allrecipes": "Alle oppskrifter",
+  "favoriterecipes": "Favorittoppskrifter",
+  "coffeeamount": "Kaffemengde (g)",
+  "wateramount": "Vannmengde (ml)",
+  "watertemp": "Vanntemperatur",
+  "grindsize": "Malingsgrad",
+  "brewtime": "Bryggetid",
+  "recipesummary": "Oppskriftssammendrag",
+  "recipesummarynote": "Merk: dette er en grunnleggende oppskrift med standard vann- og kaffemengder.",
+  "preparation": "Forberedelse",
+  "brewingprocess": "Bryggeprosess",
+  "step": "Steg",
+  "seconds": "{count, plural, =0{sekunder} =1{sekund} other{sekunder}}",
+  "@seconds": {
+    "description": "Pluralization for seconds",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "finishmsg": "Takk for at du bruker Timer.Coffee! Nyt din",
+  "coffeefact": "Kaffefakta",
+  "home": "Hjem",
+  "appversion": "App-versjon",
+  "tipsmall": "Kjøp en liten kaffe",
+  "tipmedium": "Kjøp en medium kaffe",
+  "tiplarge": "Kjøp en stor kaffe",
+  "supportdevelopment": "Støtt utviklingen",
+  "supportdevmsg": "Dine donasjoner hjelper til med å dekke vedlikeholdskostnadene (som for eksempel utviklerlisenser). De lar meg også prøve flere kaffebryggere og legge til flere oppskrifter i appen.",
+  "supportdevtnx": "Takk for at du vurderer å donere!",
+  "donationok": "Takk!",
+  "donationtnx": "Jeg setter virkelig pris på støtten din! Ønsker deg mange flotte brygg! ☕️",
+  "donationerr": "Feil",
+  "donationerrmsg": "Feil ved behandling av kjøpet, vennligst prøv igjen.",
+  "sharemsg": "Sjekk ut denne oppskriften:",
+  "finishbrew": "Fullfør",
+  "settings": "Innstillinger",
+  "settingstheme": "Tema",
+  "settingsthemelight": "Lys",
+  "settingsthemedark": "Mørk",
+  "settingsthemesystem": "System",
+  "settingslang": "Språk",
+  "sweet": "Søt",
+  "balance": "Balanse",
+  "acidic": "Sur",
+  "light": "Lett",
+  "strong": "Sterk",
+  "slidertitle": "Bruk glidebrytere for å justere smak",
+  "whatsnewtitle": "Hva er nytt",
+  "whatsnewclose": "Lukk",
+  "seasonspecials": "Sesongspesialiteter",
+  "snow": "Snø",
+  "noFavoriteRecipesMessage": "Listen over favorittoppskrifter er for øyeblikket tom. Begynn å utforske og brygge for å oppdage favorittene dine!",
+  "explore": "Utforsk",
+  "dateFormat": "d. MMM yyyy",
+  "timeFormat": "HH:mm",
+  "brewdiary": "Bryggdagbok",
+  "brewdiarynotfound": "Ingen oppføringer funnet",
+  "beans": "Bønner",
+  "roaster": "Brenneri",
+  "rating": "Vurdering",
+  "notes": "Notater",
+  "statsscreen": "Kaffestatistikk",
+  "yourStats": "Din statistikk",
+  "coffeeBrewed": "Kaffe brygget:",
+  "litersUnit": "L",
+  "mostUsedRecipes": "Mest brukte oppskrifter:",
+  "globalStats": "Global statistikk",
+  "unknownRecipe": "Ukjent oppskrift",
+  "noData": "Ingen data",
+  "error": "Feil: {error}",
+  "@error": {
+    "description": "Generic error message label combined with the specific error description",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network timeout"
+      }
+    }
+  },
+  "someoneJustBrewed": "Noen har nettopp brygget {recipeName}",
+  "timePeriodToday": "I dag",
+  "timePeriodThisWeek": "Denne uken",
+  "timePeriodThisMonth": "Denne måneden",
+  "timePeriodCustom": "Tilpasset",
+  "statsFor": "Statistikk for ",
+  "@statsFor": {
+    "description": "Prefix text for statistics headings"
+  },
+  "homescreenbrewcoffee": "Brygg kaffe",
+  "homescreenhub": "Hub",
+  "homescreenmore": "Mer",
+  "addBeans": "Legg til bønner",
+  "removeBeans": "Fjern bønner",
+  "name": "Navn",
+  "origin": "Opprinnelse",
+  "details": "Detaljer",
+  "coffeebeans": "Kaffebønner",
+  "loading": "Laster",
+  "nocoffeebeans": "Ingen kaffebønner funnet",
+  "delete": "Slett",
+  "confirmDeleteTitle": "Slett oppføring?",
+  "recipeDuplicateConfirmTitle": "Dupliser oppskrift?",
+  "recipeDuplicateConfirmMessage": "Dette vil opprette en kopi av oppskriften som du kan redigere uavhengig. Vil du fortsette?",
+  "confirmDeleteMessage": "Er du sikker på at du vil slette denne oppføringen? Denne handlingen kan ikke angres.",
+  "removeFavorite": "Fjern fra favoritter",
+  "addFavorite": "Legg til i favoritter",
+  "toggleEditMode": "Veksle redigeringsmodus",
+  "coffeeBeansDetails": "Kaffebønnedetaljer",
+  "edit": "Rediger",
+  "coffeeBeansNotFound": "Kaffebønner ikke funnet",
+  "basicInformation": "Grunnleggende informasjon",
+  "geographyTerroir": "Geografi/Terroir",
+  "variety": "Variasjon",
+  "region": "Region",
+  "elevation": "Høyde",
+  "harvestDate": "Høstedato",
+  "processing": "Prosessering",
+  "processingMethod": "Prosesseringsmetode",
+  "roastDate": "Brenningsdato",
+  "roastLevel": "Brenningsgrad",
+  "cuppingScore": "Cuppingscore",
+  "flavorProfile": "Smaksprofil",
+  "tastingNotes": "Smaksnotater",
+  "additionalNotes": "Tilleggsnotater",
+  "noCoffeeBeans": "Ingen kaffebønner funnet",
+  "editCoffeeBeans": "Rediger kaffebønner",
+  "addCoffeeBeans": "Legg til kaffebønner",
+  "showImagePicker": "Vis bildevalg",
+  "pleaseNote": "Vennligst merk",
+  "firstTimePopupMessage": "1. Vi bruker eksterne tjenester for å behandle bilder. Ved å fortsette godtar du dette.\n2. Selv om vi ikke lagrer bildene dine, vennligst unngå å inkludere personlige detaljer.\n3. Bildegjenkjenning er for øyeblikket begrenset til 10 tokens per måned (1 token = 1 bilde). Denne grensen kan endres i fremtiden.",
+  "ok": "OK",
+  "takePhoto": "Ta et bilde",
+  "selectFromPhotos": "Velg fra bilder",
+  "takeAdditionalPhoto": "Ta ytterligere bilde?",
+  "no": "Nei",
+  "yes": "Ja",
+  "selectedImages": "Valgte bilder",
+  "selectedImage": "Valgt bilde",
+  "backToSelection": "Tilbake til utvalg",
+  "next": "Neste",
+  "unexpectedErrorOccurred": "Uventet feil oppstod",
+  "tokenLimitReached": "Beklager, du har nådd tokengrensen for bildegjenkjenning denne måneden",
+  "noCoffeeLabelsDetected": "Ingen kaffeetiketter oppdaget. Prøv med et annet bilde.",
+  "collectedInformation": "Innsamlet informasjon",
+  "enterRoaster": "Skriv inn brenneri",
+  "enterName": "Skriv inn navn",
+  "enterOrigin": "Skriv inn opprinnelse",
+  "optional": "Valgfritt",
+  "enterVariety": "Skriv inn variasjon",
+  "enterProcessingMethod": "Skriv inn prosesseringsmetode",
+  "enterRoastLevel": "Skriv inn brenningsgrad",
+  "enterRegion": "Skriv inn region",
+  "enterTastingNotes": "Skriv inn smaksnotater",
+  "enterElevation": "Skriv inn høyde",
+  "enterCuppingScore": "Skriv inn cuppingscore",
+  "enterNotes": "Skriv inn notater",
+  "inventory": "Beholdning",
+  "amountLeft": "Mengde igjen",
+  "enterAmountLeft": "Skriv inn mengde igjen",
+  "selectHarvestDate": "Velg høstedato",
+  "selectRoastDate": "Velg brenningsdato",
+  "selectDate": "Velg dato",
+  "save": "Lagre",
+  "fillRequiredFields": "Vennligst fyll ut alle obligatoriske felt.",
+  "analyzing": "Analyserer",
+  "errorMessage": "Feil",
+  "selectCoffeeBeans": "Velg kaffebønner",
+  "addNewBeans": "Legg til nye bønner",
+  "favorite": "Favoritt",
+  "notFavorite": "Ikke favoritt",
+  "myBeans": "Mine bønner",
+  "signIn": "Logg inn",
+  "signOut": "Logg ut",
+  "signInWithApple": "Logg inn med Apple",
+  "signInSuccessful": "Vellykket innlogging med Apple",
+  "signInError": "Feil ved innlogging med Apple",
+  "signInWithGoogle": "Logg inn med Google",
+  "signOutSuccessful": "Vellykket utlogging",
+  "signInSuccessfulGoogle": "Vellykket innlogging med Google",
+  "signInWithEmail": "Logg inn med e-post",
+  "enterEmail": "Skriv inn e-postadressen din",
+  "emailHint": "eksempel@epost.no",
+  "cancel": "Avbryt",
+  "sendMagicLink": "Send magisk lenke",
+  "magicLinkSent": "Magisk lenke sendt! Sjekk e-posten din.",
+  "sendOTP": "Send OTP",
+  "otpSent": "OTP sendt til e-posten din",
+  "otpSendError": "Feil ved sending av OTP",
+  "enterOTP": "Skriv inn OTP",
+  "otpHint": "Skriv inn 6-sifret kode",
+  "verify": "Bekreft",
+  "signInSuccessfulEmail": "Innlogging vellykket",
+  "invalidOTP": "Ugyldig OTP",
+  "otpVerificationError": "Feil ved bekreftelse av OTP",
+  "success": "Suksess!",
+  "otpSentMessage": "En OTP sendes til e-posten din. Vennligst skriv den inn nedenfor når du mottar den.",
+  "otpHint2": "Skriv inn kode her",
+  "signInCreate": "Logg inn / Opprett konto",
+  "accountManagement": "Kontobehandling",
+  "deleteAccount": "Slett konto",
+  "deleteAccountWarning": "Vennligst merk: hvis du velger å fortsette, vil vi slette kontoen din og relaterte data fra våre servere. Den lokale kopien av dataene vil forbli på enheten, hvis du vil slette den også, kan du bare slette appen. For å aktivere synkronisering igjen må du opprette en konto på nytt",
+  "deleteAccountConfirmation": "Konto slettet vellykket",
+  "accountDeleted": "Konto slettet",
+  "accountDeletionError": "Feil ved sletting av kontoen din, vennligst prøv igjen",
+  "deleteAccountTitle": "Viktig",
+  "selectBeans": "Velg bønner",
+  "all": "Alle",
+  "selectRoaster": "Velg brenneri",
+  "selectOrigin": "Velg opprinnelse",
+  "resetFilters": "Tilbakestill filtre",
+  "showFavoritesOnly": "Vis kun favoritter",
+  "apply": "Bruk",
+  "selectSize": "Velg størrelse",
+  "sizeStandard": "Standard",
+  "sizeMedium": "Medium",
+  "sizeXL": "XL",
+  "yearlyStatsAppBarTitle": "Mitt år med Timer.Coffee",
+  "@yearlyStatsAppBarTitle": {
+    "description": "Title for the AppBar in YearlyStatsStoryScreen"
+  },
+  "yearlyStatsStory1Text": "Hei, takk for at du var en del av Timer.Coffee-universet i år!",
+  "@yearlyStatsStory1Text": {
+    "description": "Greeting message for the first story in YearlyStatsStoryScreen"
+  },
+  "yearlyStatsStory2Text": "Først og fremst.\nDu brygget litt kaffe i år{ellipsis}",
+  "@yearlyStatsStory2Text": {
+    "description": "Introduction to total coffee brewed with ellipsis indicating continuation",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsStory3Text": "For å være mer presis,\ndu brygget {liters} liter kaffe i 2024!",
+  "@yearlyStatsStory3Text": {
+    "description": "Detailed coffee brewed amount in liters",
+    "placeholders": {
+      "liters": {
+        "example": "10.5"
+      }
+    }
+  },
+  "yearlyStatsStory4Text": "Du brukte bønner fra {roasterCount} brennerier",
+  "@yearlyStatsStory4Text": {
+    "description": "Statement about the number of distinct roasters used",
+    "placeholders": {
+      "roasterCount": {
+        "example": "5"
+      }
+    }
+  },
+  "yearlyStatsStory4Top3Roasters": "Dine topp 3 brennerier var:\n{top3}",
+  "@yearlyStatsStory4Top3Roasters": {
+    "description": "List of top 3 roasters used",
+    "placeholders": {
+      "top3": {
+        "example": "Roaster A, Roaster B, Roaster C"
+      }
+    }
+  },
+  "yearlyStatsStory5Text": "Kaffe tok deg med på en reise\nrundt i verden{ellipsis}",
+  "@yearlyStatsStory5Text": {
+    "description": "Statement about traveling with coffee, ending with ellipsis",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsStory6Text": "Du smakte kaffebønner\nfra {originCount} land!",
+  "@yearlyStatsStory6Text": {
+    "description": "Statement about the number of distinct origins",
+    "placeholders": {
+      "originCount": {
+        "example": "10"
+      }
+    }
+  },
+  "yearlyStatsStory7Part1": "Du brygget ikke alene…",
+  "@yearlyStatsStory7Part1": {
+    "description": "First part of story 7"
+  },
+  "yearlyStatsStory7Part2": "...men med brukere fra 110 andre\nland på tvers av 6 kontinenter!",
+  "@yearlyStatsStory7Part2": {
+    "description": "Second part of story 7"
+  },
+  "yearlyStatsStory8TitleLow": "Du holdt deg tro mot deg selv og brukte kun disse {count} bryggemetodene i år:",
+  "@yearlyStatsStory8TitleLow": {
+    "description": "Title for low number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "3"
+      }
+    }
+  },
+  "yearlyStatsStory8TitleMedium": "Du oppdaget nye smaker og brukte {count} bryggemetoder i år:",
+  "@yearlyStatsStory8TitleMedium": {
+    "description": "Title for medium number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "5"
+      }
+    }
+  },
+  "yearlyStatsStory8TitleHigh": "Du var en ekte kaffeoppdager og brukte {count} bryggemetoder i år:",
+  "@yearlyStatsStory8TitleHigh": {
+    "description": "Title for high number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "8"
+      }
+    }
+  },
+  "yearlyStatsStory9Text": "Så mye mer å oppdage!",
+  "@yearlyStatsStory9Text": {
+    "description": "Encouraging message for further discovery"
+  },
+  "yearlyStatsStory10Text": "Dine topp-3 oppskrifter i 2024 var{ellipsis}",
+  "@yearlyStatsStory10Text": {
+    "description": "Statement about top-3 recipes with ellipsis",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsFinalText": "Ses i 2025!",
+  "@yearlyStatsFinalText": {
+    "description": "Final farewell message"
+  },
+  "yearlyStatsActionLove": "Vis litt kjærlighet ({likesCount})",
+  "@yearlyStatsActionLove": {
+    "description": "Button text for showing love with likes count",
+    "placeholders": {
+      "likesCount": {
+        "example": "120"
+      }
+    }
+  },
+  "yearlyStatsActionDonate": "Doner",
+  "@yearlyStatsActionDonate": {
+    "description": "Button text for donation"
+  },
+  "yearlyStatsActionShare": "Del fremgangen din",
+  "@yearlyStatsActionShare": {
+    "description": "Button text for sharing progress"
+  },
+  "yearlyStatsUnknown": "Ukjent",
+  "@yearlyStatsUnknown": {
+    "description": "Text displayed when a value is unknown"
+  },
+  "yearlyStatsErrorSharing": "Kunne ikke dele: {error}",
+  "@yearlyStatsErrorSharing": {
+    "description": "Error message when sharing fails",
+    "placeholders": {
+      "error": {
+        "example": "Network error"
+      }
+    }
+  },
+  "yearlyStatsShareProgressMyYear": "Mitt år med Timer.Coffee",
+  "@yearlyStatsShareProgressMyYear": {
+    "description": "Title in the Share Progress Widget"
+  },
+  "yearlyStatsShareProgressTop3Recipes": "Mine topp-3 oppskrifter:",
+  "@yearlyStatsShareProgressTop3Recipes": {
+    "description": "Header for top-3 recipes in the Share Progress Widget"
+  },
+  "yearlyStatsShareProgressTop3Roasters": "Mine topp-3 brennerier:",
+  "@yearlyStatsShareProgressTop3Roasters": {
+    "description": "Header for top-3 roasters in the Share Progress Widget"
+  },
+  "yearlyStats25AppBarTitle": "Ditt år med Timer.Coffee – 2025",
+  "yearlyStats25AppBarTitleSimple": "Timer.Coffee i 2025",
+  "yearlyStats25Slide1Title": "Ditt år med Timer.Coffee",
+  "yearlyStats25Slide1Subtitle": "Trykk for å se hvordan du brygget i 2025",
+  "yearlyStats25Slide2Intro": "Sammen brygget vi kaffe...",
+  "yearlyStats25Slide2Count": "{count} ganger",
+  "@yearlyStats25Slide2Count": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide2Liters": "Det er omtrent {liters} liter kaffe",
+  "@yearlyStats25Slide2Liters": {
+    "placeholders": {
+      "liters": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide2Cambridge": "Nok til å gi en kopp kaffe til alle i Cambridge, Storbritannia (studentene ville vært spesielt takknemlige).",
+  "yearlyStats25Slide3Title": "Hva med deg?",
+  "yearlyStats25Slide3Subtitle": "Du brygget {brews} ganger med Timer.Coffee i år. Det er totalt {liters} liter!",
+  "@yearlyStats25Slide3Subtitle": {
+    "placeholders": {
+      "brews": {
+        "type": "String"
+      },
+      "liters": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide3TopBadge": "Du er i topp {topPct}% av bryggere!",
+  "@yearlyStats25Slide3TopBadge": {
+    "placeholders": {
+      "topPct": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25Slide4TitleSingle": "Husker du dagen du brygget mest kaffe i år?",
+  "yearlyStats25Slide4TitleMulti": "Husker du dagene da du brygget mest kaffe i år?",
+  "yearlyStats25Slide4TitleBrewTime": "Din bryggetid i år",
+  "yearlyStats25Slide4ScratchLabel": "Skrap for å avsløre",
+  "yearlyStats25BrewsCount": "{count, plural, =1{1 brygg} other{{count} brygg}}",
+  "@yearlyStats25BrewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25Slide4PeakSingle": "{date} — {brewsLabel}",
+  "@yearlyStats25Slide4PeakSingle": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "brewsLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide4PeakLiters": "Omtrent {liters} liter den dagen",
+  "@yearlyStats25Slide4PeakLiters": {
+    "placeholders": {
+      "liters": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide4PeakMostRecent": "Siste: {mostRecent} — {brewsLabel}",
+  "@yearlyStats25Slide4PeakMostRecent": {
+    "placeholders": {
+      "mostRecent": {
+        "type": "String"
+      },
+      "brewsLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide4BrewTimeLine": "Du brukte {timeLabel} på å brygge",
+  "@yearlyStats25Slide4BrewTimeLine": {
+    "placeholders": {
+      "timeLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide4BrewTimeFooter": "Det er godt brukt tid",
+  "yearlyStats25Slide5Title": "Slik brygger du",
+  "yearlyStats25Slide5MethodsHeader": "Favorittmetoder:",
+  "yearlyStats25Slide5NoMethods": "Ingen metoder ennå",
+  "yearlyStats25Slide5RecipesHeader": "Topp oppskrifter:",
+  "yearlyStats25Slide5NoRecipes": "Ingen oppskrifter ennå",
+  "yearlyStats25MethodRow": "{name} — {count} {count, plural, =1{brygg} other{brygg}}",
+  "@yearlyStats25MethodRow": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25Slide6Title": "Du oppdaget {count} brennerier i år:",
+  "@yearlyStats25Slide6Title": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide6NoRoasters": "Ingen brennerier ennå",
+  "yearlyStats25Slide7Title": "Å drikke kaffe kan ta deg steder…",
+  "yearlyStats25Slide7Subtitle": "Du oppdaget {count} opprinnelser i år:",
+  "@yearlyStats25Slide7Subtitle": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Others": "...og andre",
+  "yearlyStats25FallbackTitle": "Timer.Coffee-brukere brukte bønner fra {countries} land i år\nog registrerte {roasters} forskjellige brennerier.",
+  "@yearlyStats25FallbackTitle": {
+    "placeholders": {
+      "countries": {
+        "type": "int"
+      },
+      "roasters": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25FallbackPromptHasBeans": "Hvorfor ikke fortsette å logge bønneposene dine?",
+  "yearlyStats25FallbackPromptNoBeans": "Kanskje det er på tide at du også blir med og registrerer bønnene dine?",
+  "yearlyStats25FallbackActionHasBeans": "Fortsett å legge til bønner",
+  "yearlyStats25FallbackActionNoBeans": "Legg til din første bønnepose",
+  "yearlyStats25ContinueButton": "Fortsett",
+  "yearlyStats25PostcardTitle": "Send et nyttårsønske til en medbrygger.",
+  "yearlyStats25PostcardSubtitle": "Valgfritt. Hold det snilt. Ingen personlig informasjon.",
+  "yearlyStats25PostcardHint": "Godt nytt år og flott brygg!",
+  "yearlyStats25PostcardSending": "Sender...",
+  "yearlyStats25PostcardSend": "Send",
+  "yearlyStats25PostcardSkip": "Hopp over",
+  "yearlyStats25PostcardReceivedTitle": "Et ønske fra en annen brygger",
+  "yearlyStats25PostcardErrorLength": "Vennligst skriv inn 2–160 tegn.",
+  "yearlyStats25PostcardErrorSend": "Kunne ikke sende. Vennligst prøv igjen.",
+  "yearlyStats25PostcardErrorRejected": "Kunne ikke sende. Vennligst prøv en annen melding.",
+  "yearlyStats25CtaTitle": "La oss brygge noe fantastisk i 2026!",
+  "yearlyStats25CtaSubtitle": "Her er noen ideer:",
+  "yearlyStats25CtaExplorePrefix": "Utforsk tilbud i ",
+  "yearlyStats25CtaGiftBox": "Julegaveeske",
+  "yearlyStats25CtaDonate": "Doner",
+  "yearlyStats25CtaDonateSuffix": " for å hjelpe Timer.Coffee vokse i det kommende året",
+  "yearlyStats25CtaFollowPrefix": "Følg oss på ",
+  "yearlyStats25CtaInstagram": "Instagram",
+  "yearlyStats25CtaShareButton": "Del fremgangen min",
+  "yearlyStats25CtaShareHint": "Ikke glem å tagge @timercoffeeapp",
+  "yearlyStats25AppBarTooltipResume": "Gjenoppta",
+  "yearlyStats25AppBarTooltipPause": "Pause",
+  "yearlyStats25ShareError": "Kunne ikke dele oppsummering. Vennligst prøv igjen.",
+  "yearlyStats25BrewTimeMinutes": "{count, plural, =0{0 minutter} =1{1 minutt} other{{count} minutter}}",
+  "@yearlyStats25BrewTimeMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25BrewTimeHours": "{hours} timer",
+  "@yearlyStats25BrewTimeHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25ShareTitle": "Mitt år-2025 med Timer.Coffee",
+  "yearlyStats25ShareBrewedPrefix": "Brygget ",
+  "yearlyStats25ShareBrewedMiddle": " ganger og ",
+  "yearlyStats25ShareBrewedSuffix": " liter kaffe",
+  "yearlyStats25ShareRoastersPrefix": "Brukte bønner fra ",
+  "yearlyStats25ShareRoastersSuffix": " brennerier",
+  "yearlyStats25ShareOriginsPrefix": "Oppdaget ",
+  "yearlyStats25ShareOriginsSuffix": " kaffeopprinnelser",
+  "yearlyStats25ShareMethodsTitle": "Mine favoritt bryggemetoder:",
+  "yearlyStats25ShareRecipesTitle": "Mine topp oppskrifter:",
+  "yearlyStats25ShareHandle": "@timercoffeeapp",
+  "yearlyStatsFailedToLike": "Kunne ikke like. Vennligst prøv igjen.",
+  "@yearlyStatsFailedToLike": {
+    "description": "Error message when liking fails"
+  },
+  "labelCoffeeBrewed": "Kaffe brygget",
+  "@labelCoffeeBrewed": {
+    "description": "Label for coffee brewed"
+  },
+  "labelTastedBeansBy": "Smakte bønner fra",
+  "@labelTastedBeansBy": {
+    "description": "Label for roaster stats"
+  },
+  "labelDiscoveredCoffeeFrom": "Oppdaget kaffe fra",
+  "@labelDiscoveredCoffeeFrom": {
+    "description": "Label for origin stats"
+  },
+  "labelUsedBrewingMethods": "Brukte",
+  "@labelUsedBrewingMethods": {
+    "description": "Label for brewing methods stats"
+  },
+  "formattedRoasterCount": "{count} {count, plural, =1{brenneri} other{brennerier}}",
+  "@formattedRoasterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "formattedCountryCount": "{count} {count, plural, =1{land} other{land}}",
+  "@formattedCountryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "formattedBrewingMethodCount": "{count} {count, plural, =1{bryggemetode} other{bryggemetoder}}",
+  "@formattedBrewingMethodCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recipeCreationScreenEditRecipeTitle": "Rediger oppskrift",
+  "recipeCreationScreenCreateRecipeTitle": "Opprett oppskrift",
+  "recipeCreationScreenRecipeStepsTitle": "Oppskriftssteg",
+  "recipeCreationScreenRecipeNameLabel": "Oppskriftsnavn",
+  "recipeCreationScreenShortDescriptionLabel": "Kort beskrivelse",
+  "recipeCreationScreenBrewingMethodLabel": "Bryggemetode",
+  "recipeCreationScreenCoffeeAmountLabel": "Kaffemengde (g)",
+  "recipeCreationScreenWaterAmountLabel": "Vannmengde (ml)",
+  "recipeCreationScreenWaterTempLabel": "Vanntemperatur (°C)",
+  "recipeCreationScreenGrindSizeLabel": "Malingsgrad",
+  "recipeCreationScreenTotalBrewTimeLabel": "Total bryggetid:",
+  "recipeCreationScreenMinutesLabel": "Minutter",
+  "recipeCreationScreenSecondsLabel": "Sekunder",
+  "recipeCreationScreenPreparationStepTitle": "Forberedelsestrin",
+  "recipeCreationScreenBrewStepTitle": "Bryggsteg {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "Title for a brew step in the recipe creation screen",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "Stegbeskrivelse",
+  "recipeCreationScreenStepTimeLabel": "Stegtid: ",
+  "recipeCreationScreenRecipeNameValidator": "Vennligst skriv inn et oppskriftsnavn",
+  "recipeCreationScreenShortDescriptionValidator": "Vennligst skriv inn en kort beskrivelse",
+  "recipeCreationScreenBrewingMethodValidator": "Vennligst velg en bryggemetode",
+  "recipeCreationScreenRequiredValidator": "Påkrevd",
+  "recipeCreationScreenInvalidNumberValidator": "Ugyldig nummer",
+  "recipeCreationScreenStepDescriptionValidator": "Vennligst skriv inn en stegbeskrivelse",
+  "recipeCreationScreenContinueButton": "Fortsett til oppskriftssteg",
+  "recipeCreationScreenAddStepButton": "Legg til steg",
+  "recipeCreationScreenSaveRecipeButton": "Lagre oppskrift",
+  "recipeCreationScreenUpdateSuccess": "Oppskrift oppdatert vellykket",
+  "recipeCreationScreenSaveSuccess": "Oppskrift lagret vellykket",
+  "recipeCreationScreenSaveError": "Feil ved lagring av oppskrift: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "Error message when saving a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "unitGramsShort": "g",
+  "unitMillilitersShort": "ml",
+  "unitGramsLong": "gram",
+  "unitMillilitersLong": "milliliter",
+  "recipeCopySuccess": "Oppskrift kopiert vellykket!",
+  "recipeDuplicateSuccess": "Oppskrift duplisert vellykket!",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "Feil ved kopiering av oppskrift: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "Opprett oppskrift",
+  "errorSyncingData": "Feil ved synkronisering av data: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "errorSigningOut": "Feil ved utlogging: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "defaultPreparationStepDescription": "Forberedelse",
+  "loadingEllipsis": "Laster...",
+  "recipeDeletedSuccess": "Oppskrift slettet vellykket",
+  "recipeDeleteError": "Kunne ikke slette oppskrift: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "noRecipesFound": "Ingen oppskrifter funnet",
+  "recipeLoadError": "Kunne ikke laste oppskrift: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "unknownBrewingMethod": "Ukjent bryggemetode",
+  "recipeCopyErrorLoadingEdit": "Kunne ikke laste kopiert oppskrift for redigering.",
+  "recipeCopyErrorOperationFailed": "Operasjonen mislyktes.",
+  "notProvided": "Ikke oppgitt",
+  "recipeUpdateFailedFetch": "Kunne ikke hente oppdaterte oppskriftsdata.",
+  "recipeImportSuccess": "Oppskrift importert vellykket!",
+  "recipeImportFailedSave": "Kunne ikke lagre importert oppskrift.",
+  "recipeImportFailedFetch": "Kunne ikke hente oppskriftsdata for import.",
+  "recipeNotImported": "Oppskrift ikke importert.",
+  "recipeNotFoundCloud": "Oppskrift ikke funnet i skyen eller er ikke offentlig.",
+  "recipeLoadErrorGeneric": "Feil ved lasting av oppskrift.",
+  "recipeUpdateAvailableTitle": "Oppdatering tilgjengelig",
+  "recipeUpdateAvailableBody": "En nyere versjon av '{recipeName}' er tilgjengelig online. Oppdatere?",
+  "@recipeUpdateAvailableBody": {
+    "description": "Body text for the update confirmation dialog",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "My Awesome Recipe"
+      }
+    }
+  },
+  "dialogCancel": "Avbryt",
+  "dialogDuplicate": "Dupliser",
+  "dialogUpdate": "Oppdater",
+  "recipeImportTitle": "Importer oppskrift",
+  "recipeImportBody": "Vil du importere oppskriften '{recipeName}' fra skyen?",
+  "@recipeImportBody": {
+    "description": "Body text for the import confirmation dialog",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Shared Recipe"
+      }
+    }
+  },
+  "dialogImport": "Importer",
+  "moderationReviewNeededTitle": "Moderasjonsvurdering nødvendig",
+  "moderationReviewNeededMessage": "Følgende oppskrift(er) krever gjennomgang på grunn av innholdsmodereringsproblemer: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "Message shown when recipes need moderation review",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'My Recipe', 'Another Recipe'"
+      }
+    }
+  },
+  "dismiss": "Avvis",
+  "reviewRecipeButton": "Gjennomgå oppskrift",
+  "signInRequiredTitle": "Innlogging påkrevd",
+  "signInRequiredBodyShare": "Du må logge inn for å dele dine egne oppskrifter.",
+  "syncSuccess": "Synkronisering vellykket!",
+  "tooltipEditRecipe": "Rediger oppskrift",
+  "tooltipCopyRecipe": "Kopier oppskrift",
+  "tooltipDuplicateRecipe": "Dupliser oppskrift",
+  "tooltipShareRecipe": "Del oppskrift",
+  "signInRequiredSnackbar": "Innlogging påkrevd",
+  "moderationErrorFunction": "Innholdsmodereringskontroll mislyktes.",
+  "moderationReasonDefault": "Innhold flagget for gjennomgang.",
+  "moderationFailedTitle": "Moderering mislyktes",
+  "moderationFailedBody": "Denne oppskriften kan ikke deles fordi: {reason}",
+  "@moderationFailedBody": {
+    "description": "Body text for the dialog shown when content moderation fails",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Inappropriate language"
+      }
+    }
+  },
+  "shareErrorGeneric": "Feil ved deling av oppskrift: {error}",
+  "@shareErrorGeneric": {
+    "description": "Generic error message shown if the sharing process fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} på Timer.Coffee",
+  "@recipeDetailWebTitle": {
+    "description": "Web page title format for a recipe detail page",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "My Awesome V60"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "Kunne ikke sjekke innholdsstatus. Lagret lokalt, vil sjekke ved neste synkronisering.",
+  "saveLocallyModerationFailedTitle": "Endringer lagret lokalt",
+  "saveLocallyModerationFailedBody": "Dine lokale endringer har blitt lagret, men den offentlige versjonen kunne ikke oppdateres på grunn av innholdsmoderering: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "Body text for the dialog shown when moderation fails but local save succeeds",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Inappropriate language"
+      }
+    }
+  },
+  "editImportedRecipeTitle": "Rediger importert oppskrift",
+  "editImportedRecipeBody": "Dette er en importert oppskrift. Redigering av den vil opprette en ny, uavhengig kopi. Vil du fortsette?",
+  "editImportedRecipeButtonCopy": "Opprett kopi og rediger",
+  "editImportedRecipeButtonCancel": "Avbryt",
+  "editDisplayNameTitle": "Rediger visningsnavn",
+  "displayNameHint": "Skriv inn visningsnavnet ditt",
+  "displayNameEmptyError": "Visningsnavn kan ikke være tomt",
+  "displayNameTooLongError": "Visningsnavn kan ikke overstige 50 tegn",
+  "errorUserNotLoggedIn": "Bruker ikke logget inn. Vennligst logg inn igjen.",
+  "displayNameUpdateSuccess": "Visningsnavn oppdatert vellykket!",
+  "displayNameUpdateError": "Kunne ikke oppdatere visningsnavn: {error}",
+  "@displayNameUpdateError": {
+    "description": "Error message when updating display name fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "Slett bilde?",
+  "deletePictureConfirmationBody": "Er du sikker på at du vil slette profilbildet ditt?",
+  "deletePictureSuccess": "Profilbilde slettet.",
+  "deletePictureError": "Kunne ikke slette profilbilde: {error}",
+  "@deletePictureError": {
+    "description": "Error message when deleting profile picture fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Storage error"
+      }
+    }
+  },
+  "updatePictureError": "Kunne ikke oppdatere profilbilde: {error}",
+  "@updatePictureError": {
+    "description": "Error message when updating profile picture fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Upload error"
+      }
+    }
+  },
+  "updatePictureSuccess": "Profilbilde oppdatert vellykket!",
+  "deletePictureTooltip": "Slett bilde",
+  "account": "Konto",
+  "settingsBrewingMethodsTitle": "Hjemskjerm bryggemetoder",
+  "filter": "Filter",
+  "@filter": {
+    "description": "Label for the filter button in the coffee beans screen"
+  },
+  "sortBy": "Sorter etter",
+  "@sortBy": {
+    "description": "Title for the sort dialog in coffee beans screen"
+  },
+  "dateAdded": "Dato lagt til",
+  "@dateAdded": {
+    "description": "Sort option for sorting by date added"
+  },
+  "secondsAbbreviation": "s.",
+  "settingsAppIcon": "App-ikon",
+  "settingsAppIconDefault": "Standard",
+  "settingsAppIconLegacy": "Eldre",
+  "searchBeans": "Søk bønner...",
+  "@searchBeans": {
+    "description": "Placeholder text for the search field in coffee beans screen"
+  },
+  "favorites": "Favoritter",
+  "@favorites": {
+    "description": "Label for favorites filter chip"
+  },
+  "searchPrefix": "Søk: ",
+  "@searchPrefix": {
+    "description": "Prefix for search filter chip"
+  },
+  "clearAll": "Fjern alle",
+  "@clearAll": {
+    "description": "Label for clear all filters button"
+  },
+  "noBeansMatchSearch": "Ingen bønner samsvarer med søket ditt",
+  "@noBeansMatchSearch": {
+    "description": "Message shown when no beans match the search criteria"
+  },
+  "clearFilters": "Fjern filtre",
+  "@clearFilters": {
+    "description": "Button text to clear all active filters"
+  },
+  "farmer": "Bonde",
+  "farm": "Gård",
+  "enterFarmer": "Skriv inn bonde (valgfritt)",
+  "enterFarm": "Skriv inn gård (valgfritt)",
+  "requiredInformation": "Påkrevd informasjon",
+  "basicDetails": "Grunnleggende detaljer",
+  "qualityMeasurements": "Kvalitet og målinger",
+  "importantDates": "Viktige datoer",
+  "brewStats": "Bryggestatistikk",
+  "showMore": "Vis mer",
+  "showLess": "Vis mindre",
+  "unpublishRecipeDialogTitle": "Gjør oppskrift privat",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Title text for the unpublish recipe confirmation dialog"
+  },
+  "unpublishRecipeDialogMessage": "Advarsel: Å gjøre denne oppskriften privat vil:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Warning message introducing the privacy changes"
+  },
+  "unpublishRecipeDialogBullet1": "Fjerne den fra offentlige søkeresultater",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "First privacy change bullet point"
+  },
+  "unpublishRecipeDialogBullet2": "Hindre nye brukere i å importere den",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Second privacy change bullet point"
+  },
+  "unpublishRecipeDialogBullet3": "Brukere som allerede har importert den vil beholde sine kopier",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Third privacy change bullet point"
+  },
+  "unpublishRecipeDialogKeepPublic": "Hold offentlig",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Button text to keep the recipe public"
+  },
+  "unpublishRecipeDialogMakePrivate": "Gjør privat",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Button text to make the recipe private"
+  },
+  "recipeUnpublishSuccess": "Oppskrift avpublisert vellykket",
+  "@recipeUnpublishSuccess": {
+    "description": "Success message when a recipe is unpublished"
+  },
+  "recipeUnpublishError": "Kunne ikke avpublisere oppskrift: {error}",
+  "@recipeUnpublishError": {
+    "description": "Error message when unpublishing a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "recipePublicTooltip": "Oppskrift er offentlig - trykk for å gjøre privat",
+  "recipePrivateTooltip": "Oppskrift er privat - del for å gjøre offentlig",
+  "fieldClearButtonTooltip": "Fjern",
+  "dateFieldClearButtonTooltip": "Fjern dato",
+  "chipInputDuplicateError": "Denne taggen er allerede lagt til",
+  "chipInputMaxTagsError": "Maksimalt antall tagger nådd ({maxChips})",
+  "chipInputHintText": "Legg til en tagg...",
+  "unitFieldRequiredError": "Dette feltet er påkrevd",
+  "unitFieldInvalidNumberError": "Vennligst skriv inn et gyldig nummer",
+  "unitFieldMinValueError": "Verdien må være minst {min}",
+  "unitFieldMaxValueError": "Verdien må være maksimalt {max}",
+  "numericFieldRequiredError": "Dette feltet er påkrevd",
+  "numericFieldInvalidNumberError": "Vennligst skriv inn et gyldig nummer",
+  "numericFieldMinValueError": "Verdien må være minst {min}",
+  "numericFieldMaxValueError": "Verdien må være maksimalt {max}",
+  "dropdownSearchHintText": "Skriv for å søke...",
+  "dropdownSearchLoadingError": "Feil ved lasting av forslag: {error}",
+  "dropdownSearchNoResults": "Ingen resultater funnet",
+  "dropdownSearchLoading": "Søker...",
+  "dropdownSearchUseCustomEntry": "Bruk \"{currentQuery}\"",
+  "requiredInfoSubtitle": "* Påkrevd",
+  "inventoryWeightExample": "f.eks., 250.5",
+  "unsavedChangesTitle": "Ulagrede endringer",
+  "unsavedChangesMessage": "Du har ulagrede endringer. Er du sikker på at du vil forkaste dem?",
+  "unsavedChangesStay": "Bli",
+  "unsavedChangesDiscard": "Forkast",
+  "beansWeightAddedBack": "Lagt til {amount}{unit} tilbake til {beanName}. Ny vekt: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Message shown when coffee weight is added back to beans after removing from brew diary",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Ethiopia Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  },
+  "beansWeightSubtracted": "Trukket fra {amount}{unit} fra {beanName}. Ny vekt: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Message shown when coffee weight is subtracted from beans when adding to brew diary",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Colombia Supremo"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  },
+  "notifications": "Varsler",
+  "notificationsDisabledInSystemSettings": "Deaktivert i systeminnstillinger",
+  "openSettings": "Åpne innstillinger",
+  "couldNotOpenLink": "Kunne ikke åpne lenke",
+  "@couldNotOpenLink": {
+    "description": "Generic error shown when the app cannot open an external link"
+  },
+  "notificationsDisabledDialogTitle": "Varsler deaktivert i systeminnstillinger",
+  "notificationsDisabledDialogContent": "Du har deaktivert varsler i enhetsinnstillingene. For å aktivere varsler, vennligst åpne enhetsinnstillingene og tillat varsler for Timer.Coffee.",
+  "notificationDebug": "Varsel feilsøking",
+  "testNotificationSystem": "Test varselsystem",
+  "notificationsEnabled": "Aktivert",
+  "notificationsDisabled": "Deaktivert",
+  "notificationPermissionDialogTitle": "Aktiver varsler?",
+  "notificationPermissionDialogMessage": "Du kan aktivere varsler for å få nyttige oppdateringer (f.eks. om nye app-versjoner). Aktiver nå eller endre dette når som helst i innstillinger.",
+  "notificationPermissionEnable": "Aktiver",
+  "notificationPermissionSkip": "Ikke nå",
+  "holidayGiftBoxTitle": "Julegaveeske",
+  "holidayGiftBoxInfoTrigger": "Hva er dette?",
+  "holidayGiftBoxInfoBody": "Kuraterte sesongtilbud fra partnere. Lenker er ikke tilknyttet - målet vårt er ganske enkelt å bringe litt glede til Timer.Coffee-brukere i denne høytiden. Dra for å oppdatere når som helst.",
+  "holidayGiftBoxNoOffers": "Ingen tilbud tilgjengelig akkurat nå.",
+  "holidayGiftBoxNoOffersSub": "Dra for å oppdatere eller sjekk igjen snart.",
+  "holidayGiftBoxShowingRegion": "Viser tilbud for {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Vis detaljer",
+  "holidayGiftBoxPromoCopied": "Kampanjekode kopiert",
+  "holidayGiftBoxPromoCode": "Kampanjekode",
+  "giftDiscountOff": "{percent}% rabatt",
+  "@giftDiscountOff": {
+    "description": "Label for a percentage discount when one percent value is present",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "giftDiscountUpToOff": "Opptil {percent}% rabatt",
+  "@giftDiscountUpToOff": {
+    "description": "Label for a percentage discount when a range is present; uses the max percent",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxTerms": "Vilkår og betingelser",
+  "holidayGiftBoxVisitSite": "Besøk partnernettsted",
+  "holidayGiftBoxValidUntil": "Gyldig til {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxEndsInDays": "{days, plural, =0{Utløper i dag} =1{Utløper i morgen} other{Utløper om {days} dager}}",
+  "@holidayGiftBoxEndsInDays": {
+    "description": "Relative expiry label for Gift Box offers (used when the offer ends within 7 days).",
+    "placeholders": {
+      "days": {}
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Gyldig så lenge tilgjengelig",
+  "holidayGiftBoxUpdated": "Oppdatert {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Språk: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Prøv på nytt",
+  "holidayGiftBoxLoadFailed": "Kunne ikke laste tilbud",
+  "holidayGiftBoxOfferUnavailable": "Tilbud utilgjengelig",
+  "@holidayGiftBoxOfferUnavailable": {
+    "description": "Shown when a gift box offer is missing or not available"
+  },
+  "holidayGiftBoxBannerTitle": "Sjekk ut julegaveesken vår",
+  "holidayGiftBoxBannerCta": "Se tilbud",
+  "regionEurope": "Europa",
+  "regionNorthAmerica": "Nord-Amerika",
+  "regionAsia": "Asia",
+  "regionAustralia": "Australia / Oseania",
+  "regionWorldwide": "Verden",
+  "regionAfrica": "Afrika",
+  "regionMiddleEast": "Midtøsten",
+  "regionSouthAmerica": "Sør-Amerika"
+}
