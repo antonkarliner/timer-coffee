@@ -223,7 +223,7 @@
   "cancel": "Avbryt",
   "sendMagicLink": "Send magisk lenke",
   "magicLinkSent": "Magisk lenke sendt! Sjekk e-posten din.",
-  "sendOTP": "Send OTP",
+  "sendOTP": "Send engangskode",
   "otpSent": "OTP sendt til e-posten din",
   "otpSendError": "Feil ved sending av OTP",
   "enterOTP": "Skriv inn OTP",

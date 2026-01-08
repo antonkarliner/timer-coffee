@@ -83,6 +83,9 @@
 		8B0FAAB52B1F83E200BA115B /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ru; path = ru.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B0FAAB62B1F83EC00BA115B /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = es.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8B0FAAB72B1F83EC00BA115B /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = es.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B2424592F0EB9D500DA311F /* nb */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = nb; path = nb.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8B24245A2F0EB9D500DA311F /* nb */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = nb; path = nb.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B24245B2F0EB9D500DA311F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8B375E602AD4498C00347BBA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		8B589E342A6971880079991C /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		8B74FB2C2AF002AA00701B6B /* Timer.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Timer.storekit; sourceTree = "<group>"; };
@@ -339,6 +342,7 @@
 				fi,
 				fa,
 				hr,
+				nb,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
@@ -521,6 +525,7 @@
 				8B90DF412E6F31DA005150B8 /* fi */,
 				8B90DF442E6F3223005150B8 /* fa */,
 				8B9DAA882E9301C6004415BB /* hr */,
+				8B24245B2F0EB9D500DA311F /* nb */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -548,6 +553,7 @@
 				8B90DF3F2E6F31DA005150B8 /* fi */,
 				8B90DF422E6F3223005150B8 /* fa */,
 				8B9DAA862E9301C6004415BB /* hr */,
+				8B2424592F0EB9D500DA311F /* nb */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -575,6 +581,7 @@
 				8B90DF402E6F31DA005150B8 /* fi */,
 				8B90DF432E6F3223005150B8 /* fa */,
 				8B9DAA872E9301C6004415BB /* hr */,
+				8B24245A2F0EB9D500DA311F /* nb */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
