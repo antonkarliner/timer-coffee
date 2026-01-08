@@ -1,0 +1,5 @@
+Nou:
+• Aplicația acceptă acum limba norvegiană (Bokmål). Mulțumim lui @thisislola pentru traducere! Velkommen!
+
+Remediere:
+• Am corectat o eroare la procentajul de sus din recapitularea de Anul Nou.

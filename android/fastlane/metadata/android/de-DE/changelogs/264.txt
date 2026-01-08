@@ -1,0 +1,5 @@
+Neu:
+• Die App unterstützt jetzt Norwegisch (Bokmål). Danke an @thisislola für die Übersetzung! Velkommen!
+
+Bugfix:
+• Fehler bei der Anzeige des Top-Prozentwerts im Neujahrs-Rückblick behoben.

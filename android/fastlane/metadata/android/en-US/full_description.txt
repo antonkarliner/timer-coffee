@@ -1,4 +1,4 @@
-Timer.Coffee is a free and open-source coffee brewing timer and calculator designed to enhance your brewing experience. Completely free with optional in-app donations to support ongoing development, these donations don't impact your access to features.
+Timer.Coffee is a free, open-source coffee brewing timer and calculator designed to enhance your brewing experience. The app is completely free. Optional in-app donations support ongoing development and never affect access to features.
 
 What's New
 
@@ -12,10 +12,10 @@ Key Features
 - Favorites: Mark and easily access your favorite recipes.
 - Brew Diary: Log notes and track your brewing experiences.
 - Audio Chime: Receive audio alerts for each brewing step.
-- Bean Logging: Conveniently track your coffee beans with AI-powered label recognition.
-- Automatic Logging: Effortlessly record every brewing session.
+- Bean Tracking: Keep track of your coffee beans with AI-powered label recognition.
+- Automatic Logging: Automatically record every brewing session.
 - Device Sync: Seamlessly sync recipes, beans, and brews across all your devices.
-- Multilingual: Supports 20 languages.
+- Multilingual: Supports 21 languages.
 - Dark Mode: Comfortable brewing experience at any time of day.
 
 Coming Soon

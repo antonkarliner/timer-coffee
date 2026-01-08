@@ -1,7 +1,5 @@
-Frohes neues Jahr! Aktualisiere die App, um den speziellen Neujahrsrückblick zu sehen. Ich wünsche dir alles Gute!
-
-Verbessert:
-• Verbesserte rumänische Lokalisierung dank @tacrita0
+Neu:
+• Die App unterstützt jetzt Norwegisch (Bokmål). Danke an @thisislola für die Übersetzung! Velkommen!
 
 Fehlerbehebung:
-• Einige kleine Fehler im Neujahrsrückblick wurden behoben.
+• Ein Fehler bei der Anzeige des prozentualen Anteils ganz oben im Jahresrückblick zum neuen Jahr wurde behoben.

@@ -1,7 +1,5 @@
-Selamat Tahun Baru! Perbarui aplikasi untuk melihat rekap khusus Tahun Baru. Semoga yang terbaik untuk Anda!
+Baru:
+• Aplikasi kini mendukung bahasa Norwegia (Bokmål). Terima kasih kepada @thisislola atas terjemahannya! Velkommen!
 
-Peningkatan:  
-• Peningkatan lokalisasi bahasa Rumania berkat @tacrita0
-
-Perbaikan Bug:  
-• Memperbaiki beberapa bug kecil pada rekap Tahun Baru.
+Perbaikan bug:
+• Memperbaiki kesalahan pada penghitungan persentase teratas di rekap Tahun Baru.

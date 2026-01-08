@@ -115,7 +115,7 @@ GEM
       xcodeproj (>= 1.13.0, < 2.0.0)
       xcpretty (~> 0.4.1)
       xcpretty-travis-formatter (>= 0.0.3, < 2.0.0)
-    fastlane-plugin-translate_gpt_release_notes (0.1.0)
+    fastlane-plugin-translate_gpt_release_notes (0.1.1)
       loco_strings (~> 0.1.5)
       nokogiri (>= 1.18.9)
       ruby-openai (~> 3.7)
@@ -242,7 +242,7 @@ PLATFORMS
 
 DEPENDENCIES
   fastlane
-  fastlane-plugin-translate_gpt_release_notes (= 0.1.0)
+  fastlane-plugin-translate_gpt_release_notes (= 0.1.1)
 
 BUNDLED WITH
    2.4.22

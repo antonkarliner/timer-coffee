@@ -1,0 +1,5 @@
+Forbedret:
+• Gaveeske-skjermene er nå mer informative og mer polerte.
+
+Feilretting:
+• Fikset: eksterne lenker i varsler åpnet ikke alltid riktig.

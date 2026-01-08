@@ -1,22 +1,22 @@
-Timer.Coffee este un cronometru și calculator gratuit și open-source pentru prepararea cafelei, conceput pentru a vă îmbunătăți experiența de preparare. Complet gratuit, cu donații opționale în aplicație pentru a sprijini dezvoltarea continuă, aceste donații nu vă afectează accesul la funcții.
+Timer.Coffee este un cronometru și un calculator pentru prepararea cafelei, gratuit și open-source, conceput pentru a vă îmbunătăți experiența. Aplicația este complet gratuită. Donațiile opționale în aplicație susțin dezvoltarea continuă și nu vă afectează accesul la funcții.
 
-Ce este nou
+Noutăți
 
-- Creați-vă propriile rețete: Personalizați și salvați rețetele personale de preparare a cafelei.
-- Partajați rețete: Partajați cu ușurință rețetele preferate cu prietenii și alți pasionați de cafea.
+- Creați-vă propriile rețete: personalizați și salvați rețetele dvs. de preparare a cafelei.
+- Partajați rețete: partajați cu ușurință rețetele preferate cu prietenii și alți pasionați de cafea.
 
 Caracteristici cheie
 
-- Peste 40 de metode de preparare: Include instrucțiuni detaliate pas cu pas pentru metode precum Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper și Hario Switch.
-- Calculator de cafea: Ajustați rapid cantitățile de cafea și apă pentru a prepara cantitatea perfectă.
-- Favorite: Marcați și accesați cu ușurință rețetele preferate.
-- Jurnal de preparare: Înregistrați note și urmăriți experiențele dvs. de preparare.
-- Semnal sonor: Primiți alerte audio pentru fiecare pas de preparare.
-- Înregistrarea boabelor: Urmăriți convenabil boabele de cafea cu recunoașterea etichetelor bazată pe inteligență artificială.
-- Înregistrare automată: Înregistrați fără efort fiecare sesiune de preparare.
-- Sincronizare dispozitive: Sincronizați fără probleme rețete, boabe și preparate pe toate dispozitivele dvs.
-- Multilingv: Suportă 20 limbi.
-- Mod întunecat: Experiență de preparare confortabilă în orice moment al zilei.
+- Peste 40 de metode de preparare: instrucțiuni detaliate pas cu pas pentru metode precum Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch și multe altele.
+- Calculator de cafea: ajustați rapid cantitățile de cafea și apă pentru cantitatea dorită.
+- Favorite: marcați și accesați ușor rețetele preferate.
+- Jurnal de preparare: notați și urmăriți experiențele dvs.
+- Semnal sonor: primiți alerte audio pentru fiecare pas.
+- Evidența boabelor: urmăriți boabele cu recunoaștere de etichete bazată pe AI.
+- Înregistrare automată: înregistrați automat fiecare sesiune de preparare.
+- Sincronizare între dispozitive: sincronizați rețete, boabe și înregistrări pe toate dispozitivele.
+- Multilingv: suportă 21 de limbi.
+- Mod întunecat: confortabil în orice moment al zilei.
 
 În curând
 

@@ -1,23 +1,23 @@
-Timer.Coffee ist ein kostenloser und quelloffener Timer und Rechner für die Kaffeezubereitung, der Ihr Zubereitungserlebnis verbessern soll. Völlig kostenlos mit optionalen In-App-Spenden zur Unterstützung der laufenden Entwicklung, diese Spenden haben keinen Einfluss auf Ihren Zugang zu Funktionen.
+Timer.Coffee ist ein kostenloser Open‑Source‑Timer und Rechner für die Kaffeezubereitung, der Ihr Brüherlebnis verbessert. Die App ist komplett kostenlos. Optionale In‑App‑Spenden unterstützen die Weiterentwicklung und haben keinen Einfluss auf Ihren Zugriff auf alle Funktionen.
 
-Was ist neu?
+Neu
 
 - Erstellen Sie Ihre eigenen Rezepte: Passen Sie Ihre persönlichen Kaffeezubereitungsrezepte an und speichern Sie sie.
-- Rezepte teilen: Teilen Sie Ihre Lieblingsrezepte ganz einfach mit Freunden und anderen Kaffeeliebhabern.
+- Rezepte teilen: Teilen Sie Ihre Lieblingsrezepte ganz einfach mit Freunden und anderen Kaffee-Enthusiasten.
 
-Hauptmerkmale
+Hauptfunktionen
 
-- 40+ Brühmethoden: Enthält detaillierte Schritt-für-Schritt-Anleitungen für Methoden wie Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper und Hario Switch.
-- Kaffee-Rechner: Passen Sie Kaffee- und Wassermengen schnell an, um die perfekte Menge zu brühen.
-- Favoriten: Markieren Sie Ihre Lieblingsrezepte und greifen Sie einfach darauf zu.
-- Brüh-Tagebuch: Protokollieren Sie Notizen und verfolgen Sie Ihre Zubereitungserfahrungen.
-- Audio-Gong: Erhalten Sie Audio-Warnungen für jeden Brauschritt.
-- Bohnen-Protokollierung: Verfolgen Sie Ihre Kaffeebohnen bequem mit KI-gestützter Etikettenerkennung.
-- Automatische Aufzeichnung: Zeichnen Sie mühelos jeden Brühvorgang auf.
-- Geräte-Synchronisation: Nahtlose Synchronisierung von Rezepten, Bohnen und Brühvorgängen auf all Ihren Geräten.
-- Mehrsprachig: Unterstützt 20 Sprachen.
-- Dunkler Modus: Komfortables Brüh-Erlebnis zu jeder Tageszeit.
+- 40+ Brühmethoden: Detaillierte Schritt‑für‑Schritt‑Anleitungen für Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch und mehr.
+- Kaffeerechner: Passen Sie Kaffee- und Wassermengen schnell an, um genau die gewünschte Menge zu brühen.
+- Favoriten: Markieren Sie Ihre Lieblingsrezepte und greifen Sie schnell darauf zu.
+- Brühtagebuch: Protokollieren Sie Notizen und verfolgen Sie Ihre Brüherfahrungen.
+- Audio-Signalton: Erhalten Sie Audio-Benachrichtigungen für jeden Brühschritt.
+- Bohnen-Tracking: Behalten Sie Ihre Kaffeebohnen mit KI‑gestützter Etikettenerkennung im Blick.
+- Automatische Aufzeichnung: Jede Brühsession wird automatisch protokolliert.
+- Gerätesynchronisierung: Synchronisieren Sie Rezepte, Bohnen und Brühprotokolle auf allen Ihren Geräten.
+- Mehrsprachig: Unterstützt 21 Sprachen.
+- Dunkelmodus: Komfortables Brüherlebnis zu jeder Tageszeit.
 
-Demnächst verfügbar
+Demnächst
 
 - Verbesserte Community-Interaktion und Sharing-Funktionen.

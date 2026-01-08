@@ -1,0 +1,5 @@
+Novo:
+• Aplikacija sada podržava norveški (bokmål). Hvala @thisislola na prijevodu! Velkommen!
+
+Ispravak pogreške:
+• Ispravljena je pogreška s prikazom gornjeg postotka u novogodišnjem sažetku.

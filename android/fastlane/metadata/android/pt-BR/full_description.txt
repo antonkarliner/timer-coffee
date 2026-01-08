@@ -1,23 +1,23 @@
-Timer.Coffee é um timer e calculadora de preparação de café gratuitos e de código aberto, projetados para aprimorar sua experiência de preparação. Completamente gratuito com doações opcionais no aplicativo para apoiar o desenvolvimento contínuo, essas doações não afetam seu acesso aos recursos.
+Timer.Coffee é um temporizador e uma calculadora de preparo de café gratuitos e de código aberto, projetados para aprimorar sua experiência. O app é totalmente gratuito. As doações opcionais no app apoiam o desenvolvimento contínuo e não afetam o acesso aos recursos.
 
-Novidades
+O que há de novo
 
-- Crie Suas Próprias Receitas: Personalize e salve suas receitas pessoais de preparação de café.
-- Compartilhar Receitas: Compartilhe facilmente suas receitas favoritas com amigos e entusiastas do café.
+- Crie suas próprias receitas: personalize e salve suas receitas de preparo de café.
+- Compartilhe receitas: compartilhe facilmente suas receitas favoritas com amigos e outros entusiastas do café.
 
-Principais Recursos
+Recursos principais
 
-- 40+ Métodos de Preparação: Inclui instruções detalhadas, passo a passo, para métodos como Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper e Hario Switch.
-- Calculadora de Café: Ajuste rapidamente as quantidades de café e água para preparar a quantidade perfeita.
-- Favoritos: Marque e acesse facilmente suas receitas favoritas.
-- Diário de Preparação: Registre notas e acompanhe suas experiências de preparação.
-- Sino de Áudio: Receba alertas de áudio para cada etapa da preparação.
-- Registro de Grãos: Acompanhe convenientemente seus grãos de café com reconhecimento de etiquetas por IA.
-- Registro Automático: Registre sem esforço cada sessão de preparação.
-- Sincronização de Dispositivos: Sincronize perfeitamente receitas, grãos e preparações em todos os seus dispositivos.
-- Multilíngue: Suporta 20 idiomas.
-- Modo Escuro: Experiência de preparação confortável a qualquer hora do dia.
+- Mais de 40 métodos de preparo: instruções detalhadas passo a passo para métodos como Hario V60, AeroPress, Chemex, Prensa Francesa, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch e muito mais.
+- Calculadora de café: ajuste rapidamente as quantidades de café e água para preparar a quantidade desejada.
+- Favoritos: marque e acesse suas receitas favoritas com facilidade.
+- Diário de preparo: registre notas e acompanhe suas experiências.
+- Sinal sonoro: receba alertas de áudio em cada etapa.
+- Registro de grãos: acompanhe seus grãos com reconhecimento de rótulos via IA.
+- Registro automático: registre automaticamente cada sessão de preparo.
+- Sincronização de dispositivos: sincronize receitas, grãos e registros de preparo em todos os seus dispositivos.
+- Multilíngue: suporta 21 idiomas.
+- Modo escuro: experiência confortável a qualquer hora do dia.
 
-Em Breve
+Em breve
 
-- Recursos aprimorados de interação e compartilhamento da comunidade.
+- Recursos aprimorados de interação e compartilhamento com a comunidade.

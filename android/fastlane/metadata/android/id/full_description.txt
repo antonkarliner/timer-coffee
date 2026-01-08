@@ -1,22 +1,22 @@
-Timer.Coffee adalah timer dan kalkulator pembuatan kopi gratis dan open-source yang dirancang untuk meningkatkan pengalaman pembuatan Anda. Sepenuhnya gratis dengan donasi opsional dalam aplikasi untuk mendukung pengembangan berkelanjutan, donasi ini tidak memengaruhi akses Anda ke fitur.
+Timer.Coffee adalah timer dan kalkulator seduh kopi gratis dan open-source untuk meningkatkan pengalaman menyeduh Anda. Aplikasi ini sepenuhnya gratis. Donasi dalam aplikasi bersifat opsional untuk mendukung pengembangan, dan tidak memengaruhi akses Anda ke fitur.
 
-Apa yang Baru
+Yang Baru
 
-- Buat Resep Anda Sendiri: Sesuaikan dan simpan resep pembuatan kopi pribadi Anda.
-- Bagikan Resep: Bagikan resep favorit Anda dengan mudah kepada teman dan penggemar kopi.
+- Buat resep Anda sendiri: sesuaikan dan simpan resep seduh kopi Anda.
+- Bagikan resep: bagikan resep favorit Anda dengan mudah kepada teman dan sesama penggemar kopi.
 
 Fitur Utama
 
-- 40+ Metode Pembuatan: Termasuk instruksi terperinci langkah demi langkah untuk metode seperti Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, dan Hario Switch.
-- Kalkulator Kopi: Sesuaikan jumlah kopi dan air dengan cepat untuk membuat jumlah yang sempurna.
-- Favorit: Tandai dan akses dengan mudah resep favorit Anda.
-- Jurnal Pembuatan: Catat catatan dan lacak pengalaman pembuatan Anda.
-- Lonceng Audio: Terima peringatan audio untuk setiap langkah pembuatan.
-- Pencatatan Biji: Lacak biji kopi Anda dengan mudah dengan pengenalan label berbasis AI.
-- Pencatatan Otomatis: Catat setiap sesi pembuatan tanpa usaha.
-- Sinkronisasi Perangkat: Sinkronkan resep, biji, dan pembuatan dengan mulus di semua perangkat Anda.
-- Multibahasa: Mendukung 20 bahasa.
-- Mode Gelap: Pengalaman pembuatan yang nyaman kapan saja dalam sehari.
+- 40+ metode penyeduhan: instruksi langkah demi langkah untuk Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch, dan lainnya.
+- Kalkulator kopi: sesuaikan takaran kopi dan air dengan cepat untuk mendapatkan jumlah yang Anda inginkan.
+- Favorit: tandai dan akses resep favorit Anda dengan mudah.
+- Jurnal seduh: catat dan lacak pengalaman menyeduh Anda.
+- Notifikasi suara: terima pemberitahuan audio untuk setiap langkah penyeduhan.
+- Pelacakan biji: pantau biji kopi Anda dengan pengenalan label bertenaga AI.
+- Pencatatan otomatis: catat setiap sesi penyeduhan secara otomatis.
+- Sinkronisasi perangkat: sinkronkan resep, biji, dan catatan seduh di semua perangkat Anda.
+- Multibahasa: mendukung 21 bahasa.
+- Mode gelap: pengalaman menyeduh yang nyaman kapan saja.
 
 Segera Hadir
 

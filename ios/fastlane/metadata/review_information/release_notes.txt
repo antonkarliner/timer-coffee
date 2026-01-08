@@ -1,7 +1,5 @@
-La mulți ani! Actualizează aplicația pentru a vedea retrospectiva specială de Anul Nou. Îți dorim tot ce e mai bun!
+Nyheter:
+• Appen støtter nå norsk (bokmål). Takk til @thisislola for oversettelsen! Velkommen!
 
-Îmbunătățiri:
-• Localizare în limba română îmbunătățită, mulțumită lui @tacrita0
-
-Corectări:
-• S-au remediat câteva bug-uri minore în recapitularea de Anul Nou.
+Feilretting:
+• Rettet en feil med topp prosenttall i nyttårsoppsummeringen.

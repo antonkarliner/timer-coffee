@@ -1,7 +1,5 @@
-Feliz Ano Novo! Atualize a app para ver o resumo especial de Ano Novo. Desejamos-lhe tudo de bom!
+Novidades:
+• A app agora tem suporte para o idioma norueguês (Bokmål). Obrigado a @thisislola pela tradução! Velkommen!
 
-Melhorado:  
-• Localização em romeno melhorada, graças a @tacrita0
-
-Correção de erros:  
-• Corrigidos pequenos erros no resumo de Ano Novo.
+Correção de erros:
+• Corrigido um erro na contagem da percentagem no topo no resumo de Ano Novo.

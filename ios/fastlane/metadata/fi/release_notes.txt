@@ -1,7 +1,5 @@
-Hyvää uutta vuotta! Päivitä sovellus nähdäksesi erityisen vuoden vaihteen yhteenvedon. Toivotamme sinulle kaikkea hyvää!
+Uutta:
+• Sovellus tukee nyt norjaa (bokmål). Kiitos käännöksestä käyttäjälle @thisislola! Velkommen!
 
-Parannettu:  
-• Parannettu romanian kielen lokalisaatiota kiitos @tacrita0
-
-Korjaus:  
-• Korjattu muutamia pieniä virheitä vuoden vaihteen yhteenvedossa.
+Bugikorjaus:
+• Korjattu virhe uudenvuoden koosteen parhaiden prosenttiosuuksien määrässä.

@@ -1,7 +1,5 @@
-Szczęśliwego Nowego Roku! Zaktualizuj aplikację, aby zobaczyć specjalne podsumowanie noworoczne. Wszystkiego najlepszego!
+Nowości:
+• Aplikacja obsługuje teraz język norweski (bokmål). Dziękujemy @thisislola za tłumaczenie! Velkommen!
 
-Ulepszenia:  
-• Ulepszona lokalizacja na język rumuński dzięki @tacrita0
-
-Poprawki błędów:  
-• Naprawiono kilka drobnych błędów w podsumowaniu noworocznym.
+Poprawki błędów:
+• Naprawiono błąd dotyczący wyświetlania najwyższego procentu w podsumowaniu Nowego Roku.

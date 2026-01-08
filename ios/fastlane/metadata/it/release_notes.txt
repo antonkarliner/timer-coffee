@@ -1,7 +1,5 @@
-Buon Anno Nuovo! Aggiorna l’app per scoprire lo speciale riepilogo di fine anno. Ti auguriamo il meglio!
-
-Miglioramenti:
-• Migliorata la localizzazione in rumeno grazie a @tacrita0
+Novità:
+• L’app ora supporta la lingua norvegese (Bokmål). Grazie a @thisislola per la traduzione! Velkommen!
 
 Correzione bug:
-• Risolti alcuni piccoli bug nel riepilogo di fine anno.
+• Risolto un errore nel conteggio della percentuale massima nel riepilogo di fine anno.

@@ -1,0 +1,5 @@
+Nyheter:
+• Appen støtter nå norsk (bokmål). Takk til @thisislola for oversettelsen! Velkommen!
+
+Feilretting:
+• Rettet en feil med prosentandelen øverst i nyttårsoppsummeringen.

@@ -1,0 +1,5 @@
+Novo:
+• A app agora suporta Norueguês (Bokmål). Obrigado a @thisislola pela tradução! Velkommen!
+
+Correção:
+• Corrigido um erro na percentagem de topo no resumo de Ano Novo.

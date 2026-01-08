@@ -1,7 +1,5 @@
-Sretna Nova godina! Ažurirajte aplikaciju kako biste vidjeli poseban pregled za Novu godinu. Želimo vam sve najbolje!
+Novo:
+• Aplikacija sada podržava norveški jezik (Bokmål). Hvala @thisislola na prijevodu! Velkommen!
 
-Poboljšano:  
-• Poboljšana rumunjska lokalizacija zahvaljujući @tacrita0
-
-Ispravljeno:  
-• Ispravljeno nekoliko manjih grešaka u novogodišnjem pregledu.
+Ispravak greške:
+• Ispravljena je greška s postotkom na vrhu u novogodišnjem sažetku.

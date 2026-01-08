@@ -1,0 +1,5 @@
+Uutta:
+• Sovellus tukee nyt norjaa (bokmål). Kiitos @thisislola käännöksestä! Velkommen!
+
+Korjaus:
+• Korjattu virhe uudenvuoden yhteenvedon kärkiprosenttilaskennassa.

@@ -1,0 +1,5 @@
+Nytt:
+• Høytidsoverraskelse! Åpne appen for å se hva vi har forberedt til deg.
+
+Forbedret:
+• Gjorde etikettgjenkjenningen for kaffebønneposer raskere og (forhåpentligvis) mer pålitelig. Prøv det!

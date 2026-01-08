@@ -1,23 +1,23 @@
-Timer.Coffee, demleme deneyiminizi geliştirmek için tasarlanmış ücretsiz ve açık kaynaklı bir kahve demleme zamanlayıcısı ve hesaplayıcısıdır. Sürekli geliştirmeyi desteklemek için isteğe bağlı uygulama içi bağışlarla tamamen ücretsizdir, bu bağışlar özelliklere erişiminizi etkilemez.
+Timer.Coffee, demleme deneyiminizi geliştirmek için tasarlanmış ücretsiz ve açık kaynaklı bir kahve demleme zamanlayıcısı ve hesaplayıcısıdır. Uygulama tamamen ücretsizdir. Sürekli geliştirmeyi desteklemek için isteğe bağlı uygulama içi bağışlar vardır; bu bağışlar özelliklere erişiminizi etkilemez.
 
 Yenilikler
 
-- Kendi Tariflerinizi Oluşturun: Kişisel kahve demleme tariflerinizi özelleştirin ve kaydedin.
-- Tarifleri Paylaşın: Favori tariflerinizi arkadaşlarınızla ve diğer kahve meraklılarıyla kolayca paylaşın.
+- Kendi tariflerinizi oluşturun: kişisel kahve demleme tariflerinizi özelleştirin ve kaydedin.
+- Tarifleri paylaşın: favori tariflerinizi arkadaşlarınızla ve diğer kahve meraklılarıyla kolayca paylaşın.
 
-Temel Özellikler
+Temel özellikler
 
-- 40+ Demleme Yöntemi: Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper ve Hario Switch gibi yöntemler için ayrıntılı, adım adım talimatlar içerir.
-- Kahve Hesaplayıcı: Mükemmel miktarınızı demlemek için kahve ve su miktarlarını hızla ayarlayın.
-- Favoriler: Favori tariflerinizi işaretleyin ve kolayca erişin.
-- Demleme Günlüğü: Notları kaydedin ve demleme deneyimlerinizi takip edin.
-- Sesli Uyarı: Her demleme adımı için sesli uyarılar alın.
-- Çekirdek Kaydı: Yapay zeka destekli etiket tanıma ile kahve çekirdeklerinizi kolayca takip edin.
-- Otomatik Kayıt: Her demleme seansını zahmetsizce kaydedin.
-- Cihaz Senkronizasyonu: Tarifleri, çekirdekleri ve demlemeleri tüm cihazlarınızda sorunsuz bir şekilde senkronize edin.
-- Çok Dilli: 20 dili destekler.
-- Karanlık Mod: Günün her saatinde rahat demleme deneyimi.
+- 40+ demleme yöntemi: Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch ve daha fazlası için ayrıntılı, adım adım talimatlar.
+- Kahve hesaplayıcı: istediğiniz miktar için kahve ve su miktarlarını hızlıca ayarlayın.
+- Favoriler: favori tariflerinizi işaretleyin ve hızlıca erişin.
+- Demleme günlüğü: notlar alın ve demleme deneyimlerinizi takip edin.
+- Sesli uyarı: her demleme adımı için sesli bildirim alın.
+- Çekirdek takibi: yapay zekâ destekli etiket tanıma ile kahve çekirdeklerinizi takip edin.
+- Otomatik kayıt: her demleme seansını otomatik olarak kaydedin.
+- Cihaz senkronizasyonu: tarifleri, çekirdekleri ve kayıtları tüm cihazlarınızda senkronize edin.
+- Çok dilli: 21 dili destekler.
+- Karanlık mod: günün her saatinde rahat bir deneyim.
 
-Yakında Gelecek
+Yakında
 
 - Geliştirilmiş topluluk etkileşimi ve paylaşım özellikleri.

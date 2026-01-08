@@ -1,0 +1,5 @@
+Novità:
+• L’app ora supporta la lingua norvegese (Bokmål). Grazie a @thisislola per la traduzione! Velkommen!
+
+Correzione bug:
+• Risolto un errore nel conteggio della percentuale principale nel riepilogo di Capodanno.

@@ -1,0 +1,5 @@
+Nouveau :
+• L’app prend désormais en charge le norvégien (bokmål). Merci à @thisislola pour la traduction ! Velkommen !
+
+Correctif :
+• Correction d’une erreur sur le pourcentage en tête dans le récapitulatif du Nouvel An.

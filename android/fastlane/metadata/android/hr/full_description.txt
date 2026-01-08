@@ -1,4 +1,4 @@
-Timer.Coffee je besplatan i open-source timer za pripremu kave i kalkulator dizajniran za poboljšanje vašeg iskustva pripreme kave. Potpuno besplatan s opcionalnim donacijama unutar aplikacije za podršku razvoju, a te donacije ne utječu na vaš pristup značajkama.
+Timer.Coffee je besplatan i open‑source timer i kalkulator za pripremu kave, dizajniran za poboljšanje vašeg iskustva pripreme. Aplikacija je potpuno besplatna. Opcionalne donacije unutar aplikacije podržavaju daljnji razvoj i ne utječu na pristup značajkama.
 
 Što je novo
 
@@ -9,13 +9,13 @@ Ključne značajke
 
 - 40+ načina pripreme: Uključuje detaljne, korak-po-korak upute za metode poput Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper i Hario Switch.
 - Kalkulator za kavu: Brzo prilagodite količine kave i vode za pripremu savršene količine.
-- Omiljeni: Označite i lako pristupite svojim omiljenim receptima.
+- Favoriti: Označite i lako pristupite svojim omiljenim receptima.
 - Dnevnik pripreme: Zabilježite bilješke i pratite svoja iskustva pripreme kave.
 - Zvukovni signal: Primajte zvučna upozorenja za svaki korak pripreme.
 - Evidencija zrna: Pratite svoja zrna kave s prepoznavanjem etiketa pokretanog AI-om.
-- Automatsko evidentiranje: Naporno bilježite svaku sesiju pripreme.
+- Automatsko evidentiranje: Bez napora bilježite svaku sesiju pripreme.
 - Sinkronizacija uređaja: Besprijekorno sinkronizirajte recepte, zrna i pripreme na svim svojim uređajima.
-- Višejezičnost: Podržava 20 jezika.
+- Višejezičnost: Podržava 21 jezik.
 - Tamni način rada: Udobno iskustvo pripreme u bilo koje doba dana.
 
 Uskoro

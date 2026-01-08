@@ -1,22 +1,22 @@
-Timer.Coffee is een gratis en open-source koffiezet-timer en -calculator die is ontworpen om uw zetervaring te verbeteren. Volledig gratis met optionele in-app donaties om de voortdurende ontwikkeling te ondersteunen, deze donaties hebben geen invloed op uw toegang tot functies.
+Timer.Coffee is een gratis, open-source koffiezet‑timer en ‑calculator, ontworpen om uw zetervaring te verbeteren. De app is volledig gratis. Optionele in‑app donaties ondersteunen de verdere ontwikkeling en hebben geen invloed op uw toegang tot alle functies.
 
-Wat is er nieuw
+Nieuw
 
 - Maak uw eigen recepten: Pas uw persoonlijke koffiezetrecepten aan en sla ze op.
 - Deel recepten: Deel eenvoudig uw favoriete recepten met vrienden en andere koffieliefhebbers.
 
-Belangrijkste kenmerken
+Belangrijkste functies
 
-- 40+ zetmethoden: Bevat gedetailleerde, stapsgewijze instructies voor methoden zoals Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper en Hario Switch.
-- Koffiecalculator: Pas snel de hoeveelheden koffie en water aan om uw perfecte hoeveelheid te zetten.
+- 40+ zetmethoden: Gedetailleerde, stapsgewijze instructies voor Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch en meer.
+- Koffiecalculator: Pas snel de hoeveelheden koffie en water aan voor de gewenste hoeveelheid.
 - Favorieten: Markeer en open eenvoudig uw favoriete recepten.
-- Zetdagboek: Log notities en volg uw zetervaringen.
-- Audiogong: Ontvang audiomeldingen voor elke zetstap.
-- Bonenregistratie: Volg uw koffiebonen gemakkelijk met AI-aangedreven labelherkenning.
-- Automatische registratie: Registreer moeiteloos elke zetsessie.
-- Apparaatsynchronisatie: Synchroniseer recepten, bonen en brouwsels naadloos op al uw apparaten.
-- Meertalig: Ondersteunt 20 talen.
-- Donkere modus: Comfortabele zetervaring op elk moment van de dag.
+- Zetdagboek: Maak notities en volg uw zetervaringen.
+- Geluidssignaal: Ontvang audiomeldingen voor elke zetstap.
+- Bonentracking: Houd uw koffiebonen bij met AI‑gestuurde labelherkenning.
+- Automatische registratie: Registreer elke zetsessie automatisch.
+- Apparaatsynchronisatie: Synchroniseer recepten, bonen en zetlogboeken op al uw apparaten.
+- Meertalig: Ondersteunt 21 talen.
+- Donkere modus: Comfortabel zetten, op elk moment van de dag.
 
 Binnenkort beschikbaar
 

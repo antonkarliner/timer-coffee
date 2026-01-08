@@ -1,0 +1,5 @@
+Novedades:
+• La app ahora es compatible con el idioma noruego (bokmål). ¡Gracias a @thisislola por la traducción! ¡Velkommen!
+
+Corrección de errores:
+• Solucionado un fallo con el cálculo del porcentaje superior en el resumen de Año Nuevo.

@@ -1,7 +1,5 @@
-Bonne année ! Mettez l'application à jour pour découvrir le récapitulatif spécial du Nouvel An. Tous nos meilleurs vœux !
+Nouveau :
+• L’app prend désormais en charge le norvégien (bokmål). Merci à @thisislola pour la traduction ! Velkommen !
 
-Améliorations :
-• Amélioration de la localisation en roumain grâce à @tacrita0
-
-Correction de bugs :
-• Correction de quelques petits bugs dans le récapitulatif du Nouvel An.
+Correction de bug :
+• Correction d’une erreur concernant le calcul du pourcentage le plus élevé dans le récapitulatif du Nouvel An.

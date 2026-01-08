@@ -1,7 +1,5 @@
-Gelukkig nieuwjaar! Werk de app bij om het speciale nieuwjaarsoverzicht te bekijken. Wens je het allerbeste!
-
-Verbeterd:
-• Verbeterde Roemeense vertaling dankzij @tacrita0
+Nieuw:
+• De app ondersteunt nu de Noorse taal (Bokmål). Dank aan @thisislola voor de vertaling! Velkommen!
 
 Bugfix:
-• Een paar kleine bugs in het nieuwjaarsoverzicht opgelost.
+• Een fout opgelost met de berekening van het hoogste percentage in de Nieuwjaarsrecap.

@@ -1,23 +1,23 @@
-Timer.Coffee è un timer e un calcolatore per la preparazione del caffè gratuito e open-source, progettato per migliorare la vostra esperienza di preparazione. Completamente gratuito, con donazioni in-app opzionali per sostenere lo sviluppo continuo, che non influiscono sull'accesso alle funzioni.
+Timer.Coffee è un timer e un calcolatore per la preparazione del caffè, gratuito e open source, progettato per migliorare la tua esperienza. L’app è completamente gratuita. Le donazioni in-app sono facoltative, sostengono lo sviluppo continuo e non influiscono sull’accesso alle funzionalità.
 
-Cosa c'è di nuovo
+Novità
 
-- Creazione di ricette personalizzate: Personalizzate e salvate le vostre ricette personali per la preparazione del caffè.
-- Condividi le ricette: Condividete facilmente le vostre ricette preferite con gli amici e gli altri appassionati di caffè.
+- Crea le tue ricette: personalizza e salva le tue ricette di preparazione del caffè.
+- Condividi ricette: condividi facilmente le tue ricette preferite con amici e altri appassionati di caffè.
 
 Caratteristiche principali
 
-- 40+ metodi di preparazione: Include istruzioni dettagliate, passo dopo passo, per metodi come Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper e Hario Switch.
-- Calcolatore del caffè: Regola rapidamente le quantità di caffè e acqua per preparare la quantità perfetta.
-- Preferiti: Contrassegnare e accedere facilmente alle ricette preferite.
-- Diario dell'infusione: Annota le note e traccia le tue esperienze di infusione.
-- Suoneria audio: Ricevere avvisi audio per ogni fase della preparazione.
-- Registrazione dei chicchi: Traccia comodamente i chicchi di caffè con il riconoscimento delle etichette basato sull'intelligenza artificiale.
-- Registrazione automatica: Registra senza problemi ogni sessione di infusione.
-- Sincronizzazione dei dispositivi: Sincronizza senza problemi ricette, chicchi e infusi su tutti i dispositivi.
-- Multilingua: supporta 20 lingue.
-- Modalità scura: Esperienza di preparazione della birra confortevole a qualsiasi ora del giorno.
+- Oltre 40 metodi di preparazione: istruzioni dettagliate passo passo per Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch e altri.
+- Calcolatore del caffè: regola rapidamente le quantità di caffè e acqua per preparare la quantità desiderata.
+- Preferiti: contrassegna e accedi rapidamente alle tue ricette preferite.
+- Diario di preparazione: registra note e tieni traccia delle tue preparazioni.
+- Segnale acustico: ricevi avvisi audio per ogni fase.
+- Tracciamento dei chicchi: monitora i chicchi con riconoscimento delle etichette basato sull’IA.
+- Registrazione automatica: registra automaticamente ogni sessione di preparazione.
+- Sincronizzazione dei dispositivi: sincronizza ricette, chicchi e registri su tutti i tuoi dispositivi.
+- Multilingue: supporta 21 lingue.
+- Modalità scura: esperienza confortevole a qualsiasi ora del giorno.
 
 Prossimamente
 
-- Funzionalità di interazione e condivisione della comunità migliorate.
+- Funzionalità migliorate di interazione e condivisione della community.

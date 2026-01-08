@@ -1,7 +1,5 @@
-Mutlu Yıllar! Özel Yeni Yıl özetini görmek için uygulamayı güncelleyin. Her şeyin gönlünüzce olmasını dileriz!
+Yeni:
+• Uygulama artık Norveççe (Bokmål) dilini destekliyor. Çeviri için @thisislola’ya teşekkürler! Velkommen!
 
-İyileştirilenler:  
-• @tacrita0 sayesinde Rumence yerelleştirme geliştirildi
-
-Hata düzeltmeleri:  
-• Yeni Yıl özetinde birkaç küçük hata giderildi.
+Hata düzeltmesi:
+• Yeni Yıl özetindeki üst yüzde sayımıyla ilgili bir hata düzeltildi.

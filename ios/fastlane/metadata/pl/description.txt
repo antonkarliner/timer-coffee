@@ -1,23 +1,23 @@
-Timer.Coffee to darmowy i open-source'owy timer oraz kalkulator do parzenia kawy, zaprojektowany w celu ulepszenia Twojego doświadczenia z parzeniem. Całkowicie darmowy z opcjonalnymi darowiznami w aplikacji wspierającymi ciągły rozwój, te darowizny nie wpływają na Twój dostęp do funkcji.
+Timer.Coffee to darmowy timer i kalkulator do parzenia kawy, open source, stworzony, aby ulepszyć Twoje doświadczenie. Aplikacja jest całkowicie darmowa. Opcjonalne darowizny w aplikacji wspierają rozwój i nie wpływają na dostęp do funkcji.
 
-Co nowego
+Nowości
 
-- Twórz własne przepisy: Dostosuj i zapisz swoje osobiste przepisy na parzenie kawy.
-- Udostępniaj przepisy: Łatwo udostępniaj swoje ulubione przepisy znajomym i innym entuzjastom kawy.
+- Twórz własne przepisy: dostosuj i zapisuj swoje przepisy na parzenie kawy.
+- Udostępniaj przepisy: łatwo udostępniaj ulubione przepisy znajomym i innym miłośnikom kawy.
 
-Kluczowe cechy
+Kluczowe funkcje
 
-- Ponad 40 metod parzenia: Zawiera szczegółowe instrukcje krok po kroku dla metod takich jak Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper i Hario Switch.
-- Kalkulator kawy: Szybko dostosuj ilości kawy i wody, aby zaparzyć idealną ilość.
-- Ulubione: Zaznacz i łatwo uzyskaj dostęp do swoich ulubionych przepisów.
-- Dziennik parzenia: Zapisuj notatki i śledź swoje doświadczenia z parzeniem.
-- Dźwięk dzwonka: Otrzymuj powiadomienia dźwiękowe dla każdego kroku parzenia.
-- Rejestrowanie ziaren: Wygodnie śledź swoje ziarna kawy dzięki rozpoznawaniu etykiet opartemu na sztucznej inteligencji.
-- Automatyczne rejestrowanie: Bez wysiłku rejestruj każdą sesję parzenia.
-- Synchronizacja urządzeń: Bezproblemowo synchronizuj przepisy, ziarna i parzenia na wszystkich swoich urządzeniach.
-- Wielojęzyczny: Obsługuje 20 języków.
-- Tryb ciemny: Komfortowe doświadczenie parzenia o każdej porze dnia.
+- Ponad 40 metod parzenia: szczegółowe instrukcje krok po kroku dla metod takich jak Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch i wielu innych.
+- Kalkulator kawy: szybko dopasuj ilość kawy i wody, aby zaparzyć dokładnie tyle, ile potrzebujesz.
+- Ulubione: oznaczaj i szybko wracaj do swoich ulubionych przepisów.
+- Dziennik parzenia: zapisuj notatki i śledź swoje doświadczenia.
+- Sygnał dźwiękowy: otrzymuj powiadomienia dźwiękowe dla każdego kroku.
+- Śledzenie ziaren: kontroluj ziarna dzięki rozpoznawaniu etykiet wspieranemu przez AI.
+- Automatyczne zapisywanie: automatycznie rejestruj każdą sesję parzenia.
+- Synchronizacja urządzeń: synchronizuj przepisy, ziarna i zapisy na wszystkich swoich urządzeniach.
+- Wielojęzyczna: obsługuje 21 języków.
+- Tryb ciemny: wygodnie o każdej porze dnia.
 
 Wkrótce
 
-- Ulepszone funkcje interakcji i udostępniania społeczności.
+- Ulepszone funkcje społecznościowe i udostępniania.

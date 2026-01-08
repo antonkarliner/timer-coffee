@@ -1,0 +1,5 @@
+Nieuw:
+• De app ondersteunt nu Noors (Bokmål). Dank aan @thisislola voor de vertaling! Velkommen!
+
+Bugfix:
+• Een fout opgelost met het hoogste percentage in de nieuwjaarssamenvatting.

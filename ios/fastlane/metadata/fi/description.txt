@@ -1,23 +1,23 @@
-Timer.Coffee on ilmainen ja avoimen lähdekoodin kahvin keittämisen ajastin ja laskuri, joka on suunniteltu parantamaan keittämiskokemustasi. Täysin ilmainen valinnaisilla sovelluksen sisäisillä lahjoituksilla, jotka tukevat jatkuvaa kehitystä, nämä lahjoitukset eivät vaikuta ominaisuidesi käyttöön.
+Timer.Coffee on ilmainen ja avoimen lähdekoodin kahvinuuttoajastin ja -laskuri, joka on tehty parantamaan uuttokokemustasi. Sovellus on täysin ilmainen. Halutessasi voit tehdä vapaaehtoisen sovelluksen sisäisen lahjoituksen kehityksen tukemiseksi – lahjoitus ei vaikuta ominaisuuksiin.
 
-Uusia toimintoja
+Uutta
 
-- Luo omat reseptisi: Mukauta ja tallenna omat kahvin keittämisreseptisi.
-- Jaa reseptejä: Jaa suosikkireseptisi helposti ystävien ja muiden kahvin harrastajien kanssa.
+- Luo omat reseptisi: mukauta ja tallenna omat uuttoreseptisi.
+- Jaa reseptejä: jaa suosikkireseptisi helposti ystäville ja muille kahviharrastajille.
 
 Keskeiset ominaisuudet
 
-- Yli 40 keittämismenetelmää: Sisältää yksityiskohtaiset vaiheittaiset ohjeet menetelmille kuten Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper ja Hario Switch.
-- Kahvilaskuri: Säädä nopeasti kahvin ja veden määrää täydellisen annoksen keittämiseksi.
-- Suosikit: Merkitse ja pääsy suosikkiresepteihisi helposti.
-- Keittäjäpäiväkirja: Kirjaa muistiinpanoja ja seuraa keittämiskokemuksiasi.
-- Äänimerkki: Saat äänimerkit jokaiselle keittävävaiheelle.
-- Päa logging: Seuraa kahvipapujasi kätevästi AI-pohjaisella tunnistuksella.
-- Automaattinen logging: Kirjaa jokainen keittäjäistunto vaivattomasti.
-- Laitteiden synkronointi: Synkronoi reseptit, pavut ja keitot saumattomasti kaikkien laitteidesi välillä.
-- Monikielinen: Tukee 20 kieltä.
-- Tumma tila: Mukava keittämiskokemus milloin tahansa.
+- Yli 40 uuttomenetelmää: yksityiskohtaiset vaiheittaiset ohjeet mm. Hario V60:lle, AeroPressille, Chemexille, French Pressille, Clever Dripperille, Kalita Wavelle, Wilfa Svart Pour Overille, Origami Dripperille ja Hario Switchille.
+- Kahvilaskuri: säädä kahvin ja veden määrät nopeasti halutun määrän uuttoon.
+- Suosikit: merkitse suosikit ja palaa lempiresepteihisi nopeasti.
+- Uuttopäiväkirja: kirjaa muistiinpanot ja seuraa uuttokokeilujasi.
+- Äänimerkki: saat äänimerkin jokaisesta uuttovaiheesta.
+- Papuseuranta: seuraa kahvipapujasi AI-pohjaisella etikettien tunnistuksella.
+- Automaattinen kirjaus: tallenna jokainen uuttosessio automaattisesti.
+- Laitesynkronointi: synkronoi reseptit, pavut ja uuttokirjaukset kaikille laitteillesi.
+- Monikielinen: tukee 21 kieltä.
+- Tumma tila: mukava uuttokokemus mihin vuorokaudenaikaan tahansa.
 
 Tulossa pian
 
-- Parannettu yhteisön vuorovaikutus ja jakaminen.
+- Parannetut yhteisö- ja jakamisominaisuudet.

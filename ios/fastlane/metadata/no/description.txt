@@ -1,0 +1,23 @@
+Timer.Coffee er en gratis kaffetimer og kalkulator med åpen kildekode, laget for å forbedre bryggeopplevelsen din. Appen er helt gratis. Valgfrie donasjoner i appen støtter videre utvikling og påvirker ikke tilgangen din til alle funksjoner.
+
+Hva er nytt
+
+- Lag dine egne oppskrifter: Tilpass og lagre dine personlige kaffeoppskrifter.
+- Del oppskrifter: Del favorittoppskriftene dine enkelt med venner og andre kaffeentusiaster.
+
+Nøkkelfunksjoner
+
+- 40+ bryggemetoder: Inkluderer detaljerte, trinnvise instruksjoner for metoder som Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper og Hario Switch.
+- Kaffekalkulator: Juster raskt mengden kaffe og vann for å brygge ønsket mengde.
+- Favoritter: Merk og få rask tilgang til favorittoppskriftene dine.
+- Bryggedagbok: Loggfør notater og spor bryggeopplevelsene dine.
+- Lydsignal: Få lydvarsler for hvert bryggetrinn.
+- Bønnesporing: Hold oversikt over kaffebønnene dine med KI-drevet etikettgjenkjenning.
+- Automatisk logging: Registrer hver bryggesesjon automatisk.
+- Synkronisering mellom enheter: Synkroniser oppskrifter, bønner og brygg sømløst på tvers av alle enhetene dine.
+- Flerspråklig: Støtter 21 språk.
+- Mørk modus: En behagelig bryggeopplevelse når som helst på døgnet.
+
+Kommer snart
+
+- Forbedret fellesskapsinteraksjon og delingsfunksjoner.

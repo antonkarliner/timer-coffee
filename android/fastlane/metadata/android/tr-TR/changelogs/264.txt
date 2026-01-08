@@ -1,0 +1,5 @@
+Yeni:
+• Uygulama artık Norveççe (Bokmål) dilini destekliyor. Çeviri için @thisislola’ya teşekkürler! Velkommen!
+
+Hata düzeltmesi:
+• Yeni Yıl özetinde üst yüzde sayımıyla ilgili hata düzeltildi.

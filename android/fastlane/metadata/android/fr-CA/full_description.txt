@@ -1,23 +1,23 @@
-Timer.Coffee est un minuteur et une calculatrice de café gratuits et open-source conçus pour améliorer votre expérience de la préparation du café. Entièrement gratuit, il est possible de faire des dons dans l'application pour soutenir le développement continu. Ces dons n'ont aucune incidence sur l'accès aux fonctionnalités.
+Timer.Coffee est un minuteur et un calculateur de préparation du café, gratuit et open source, conçu pour améliorer votre expérience. L’app est entièrement gratuite. Des dons intégrés (facultatifs) soutiennent le développement continu, sans jamais influencer l’accès aux fonctionnalités.
 
 Nouveautés
 
-- Créez vos propres recettes : Personnalisez et enregistrez vos recettes personnelles de préparation du café.
-- Partagez vos recettes : Partagez facilement vos recettes préférées avec vos amis et les autres amateurs de café.
+- Créez vos propres recettes : personnalisez et enregistrez vos recettes de préparation du café.
+- Partagez des recettes : partagez facilement vos recettes préférées avec vos amis et d’autres passionnés de café.
 
-Caractéristiques principales
+Fonctionnalités principales
 
-- Plus de 40 méthodes d'infusion : Inclut des instructions détaillées, étape par étape, pour des méthodes telles que Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, et Hario Switch.
-- Calculatrice de café : Ajustez rapidement les quantités de café et d'eau pour obtenir la quantité parfaite.
-- Favoris : Marquez vos recettes préférées et accédez-y facilement.
-- Journal de brassage : Enregistrez vos notes et suivez vos expériences d'infusion.
-- Carillon audio : Recevez des alertes audio à chaque étape du brassage.
-- Enregistrement des grains : Suivez facilement vos grains de café grâce à la reconnaissance d'étiquettes assistée par l'IA.
-- Enregistrement automatique : Enregistrez sans effort chaque séance d'infusion.
-- Synchronisation des appareils : Synchronisez en toute transparence les recettes, les grains et les cafés sur tous vos appareils.
-- Multilingue : Prise en charge de 20 langues.
-- Mode sombre : Une expérience d'infusion confortable à tout moment de la journée.
+- Plus de 40 méthodes d’infusion : instructions détaillées étape par étape pour Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch, etc.
+- Calculateur de café : ajustez rapidement les quantités de café et d’eau pour obtenir la quantité idéale.
+- Favoris : marquez et accédez facilement à vos recettes préférées.
+- Journal d’infusion : prenez des notes et suivez vos sessions d’infusion.
+- Signal sonore : recevez des alertes audio à chaque étape.
+- Suivi des grains : suivez vos grains grâce à la reconnaissance d’étiquettes propulsée par l’IA.
+- Enregistrement automatique : enregistrez automatiquement chaque session d’infusion.
+- Synchronisation des appareils : synchronisez recettes, grains et infusions sur tous vos appareils.
+- Multilingue : prend en charge 21 langues.
+- Mode sombre : une expérience confortable à tout moment de la journée.
 
 Bientôt disponible
 
-- Fonctionnalités améliorées d'interaction et de partage avec la communauté.
+- Fonctionnalités communautaires et de partage améliorées.

@@ -1,0 +1,5 @@
+Nowość:
+• Aplikacja obsługuje teraz język norweski (bokmål). Dzięki @thisislola za tłumaczenie! Velkommen!
+
+Poprawka:
+• Naprawiono błąd w obliczaniu najwyższego odsetka w podsumowaniu Nowego Roku.

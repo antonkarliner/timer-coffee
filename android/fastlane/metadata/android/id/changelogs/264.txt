@@ -1,0 +1,5 @@
+Baru:
+• Aplikasi kini mendukung bahasa Norwegia (Bokmål). Terima kasih kepada @thisislola atas terjemahannya! Velkommen!
+
+Perbaikan bug:
+• Memperbaiki kesalahan pada persentase teratas di rangkuman Tahun Baru.
