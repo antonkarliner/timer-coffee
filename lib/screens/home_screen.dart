@@ -26,6 +26,7 @@ import 'package:coffee_timer/services/feature_flags/feature_flags_repository.dar
 // Import AppDatabase and Recipe
 import '../widgets/launch_popup.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
+import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -38,8 +39,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late Locale initialLocale;
   bool _showBanner = false; // Banner flag
+  bool _yearlyStats25BannerDismissed = false;
   String? _detectedCountry;
   late final Future<int> _yearlyBrews2025Future;
+
+  static const String _yearlyStats25BannerDismissedKey =
+      'yearlyStats25BannerDismissed';
 
   @override
   void initState() {
@@ -98,6 +103,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     });
 
     _yearlyBrews2025Future = _loadYearlyBrews2025();
+    _loadBannerDismissalState();
+  }
+
+  Future<void> _loadBannerDismissalState() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _yearlyStats25BannerDismissed =
+          prefs.getBool(_yearlyStats25BannerDismissedKey) ?? false;
+    });
   }
 
   Future<void> _checkRecipesNeedingModeration() async {
@@ -287,8 +301,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       AppLogger.debug('Home banner: 2025 brews=$brews2025');
       return brews2025;
     } catch (e) {
-      AppLogger.error('Home banner: failed to load 2025 brews',
-          errorObject: e);
+      AppLogger.error('Home banner: failed to load 2025 brews', errorObject: e);
       return 0;
     }
   }
@@ -374,7 +387,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               // Launch popup trigger (side-effect only, renders nothing)
               LaunchPopupWidget(),
 
-              if (showYearlyStats25Banner)
+              if (showYearlyStats25Banner && !_yearlyStats25BannerDismissed)
                 FutureBuilder<int>(
                   future: _yearlyBrews2025Future,
                   builder: (context, snapshot) {
@@ -387,14 +400,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       onTap: () {
                         context.router.push(const YearlyStatsStory25Route());
                       },
+                      onClose: () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool(
+                            _yearlyStats25BannerDismissedKey, true);
+                        setState(() {
+                          _yearlyStats25BannerDismissed = true;
+                        });
+                      },
                     );
                   },
                 ),
 
               // Holiday gift box banner (feature-flagged)
-              if (showGiftBanner) _GiftBoxBanner(onTap: () {
-                context.router.push(const GiftBoxListRoute());
-              }),
+              if (showGiftBanner)
+                _GiftBoxBanner(onTap: () {
+                  context.router.push(const GiftBoxListRoute());
+                }),
 
               // Show banner only on web if _showBanner is true.
               if (kIsWeb && _showBanner)
@@ -505,10 +527,12 @@ class _YearlyStats25Banner extends StatefulWidget {
   const _YearlyStats25Banner({
     required this.onTap,
     required this.title,
+    required this.onClose,
   });
 
   final VoidCallback onTap;
   final String title;
+  final VoidCallback onClose;
 
   @override
   State<_YearlyStats25Banner> createState() => _YearlyStats25BannerState();
@@ -633,8 +657,14 @@ class _YearlyStats25BannerState extends State<_YearlyStats25Banner>
                               ),
                             ),
                             const SizedBox(width: 8),
-                            Icon(Icons.arrow_forward_ios,
-                                size: 14, color: textColor),
+                            GestureDetector(
+                              onTap: widget.onClose,
+                              child: Icon(
+                                Icons.close,
+                                size: 20,
+                                color: textColor,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -687,8 +717,7 @@ class _GiftBoxBanner extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
               child: Row(
                 children: [
                   Icon(Icons.card_giftcard,

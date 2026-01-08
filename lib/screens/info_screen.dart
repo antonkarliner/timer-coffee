@@ -162,6 +162,12 @@ class _InfoScreenState extends State<InfoScreen> {
                 title: Text('${l10n.yearlyStatsAppBarTitle} – 2024'),
                 onTap: () => context.router.push(const YearlyStatsStoryRoute()),
               ),
+              ListTile(
+                leading: const Icon(Icons.calendar_month),
+                title: Text('${l10n.yearlyStatsAppBarTitle} – 2025'),
+                onTap: () =>
+                    context.router.push(const YearlyStatsStory25Route()),
+              ),
             ],
           ),
           // Links and support

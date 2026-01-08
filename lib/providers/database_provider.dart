@@ -141,9 +141,8 @@ class DatabaseProvider {
           .timeout(const Duration(seconds: 8));
 
       final rawList = (response as List<dynamic>).cast<Map<String, dynamic>>();
-      final offers = rawList
-          .map((row) => GiftOffer.fromMap(row, locale))
-          .where((offer) {
+      final offers =
+          rawList.map((row) => GiftOffer.fromMap(row, locale)).where((offer) {
         final vt = offer.validTo;
         if (vt != null && vt.isBefore(now)) return false;
         return true;
@@ -159,10 +158,10 @@ class DatabaseProvider {
 
   /// Fetch a single offer by id. Returns null on not found / error.
   Future<GiftOffer?> fetchGiftOfferById(
-      String id, {
-      required Locale locale,
-      String? regionCode,
-    }) async {
+    String id, {
+    required Locale locale,
+    String? regionCode,
+  }) async {
     try {
       final response = await Supabase.instance.client
           .from('giftbox_offers')
@@ -172,8 +171,8 @@ class DatabaseProvider {
           .single()
           .timeout(const Duration(seconds: 6));
 
-      final offer = GiftOffer.fromMap(
-          (response as Map<String, dynamic>), locale);
+      final offer =
+          GiftOffer.fromMap((response as Map<String, dynamic>), locale);
 
       if (_isOfferExpired(offer)) return null;
       return offer;
@@ -199,7 +198,8 @@ class DatabaseProvider {
           .single()
           .timeout(const Duration(seconds: 6));
 
-      final offer = GiftOffer.fromMap((response as Map<String, dynamic>), locale);
+      final offer =
+          GiftOffer.fromMap((response as Map<String, dynamic>), locale);
 
       if (_isOfferExpired(offer)) return null;
       return offer;
@@ -1029,7 +1029,8 @@ class DatabaseProvider {
     final endDate = endIso.split('T').first;
 
     try {
-      final response = await client.rpc('global_stats_daily_range_sum', params: {
+      final response =
+          await client.rpc('global_stats_daily_range_sum', params: {
         // Function arguments are p_start_date, p_end_date (dates)
         'p_start_date': startDate,
         'p_end_date': endDate,
@@ -1055,7 +1056,8 @@ class DatabaseProvider {
     final startDate = startIso.split('T').first;
     final endDate = endIso.split('T').first;
     try {
-      final response = await client.rpc('global_stats_daily_range_count', params: {
+      final response =
+          await client.rpc('global_stats_daily_range_count', params: {
         'p_start_date': startDate,
         'p_end_date': endDate,
       }).timeout(const Duration(seconds: 5));
@@ -1125,16 +1127,18 @@ class DatabaseProvider {
   }
 
   /// Fetches the user's yearly percentile based on precomputed yearly_user_liters.
-  Future<YearlyPercentileResult?> fetchUserYearlyPercentile(int year) async {
+  /// Optionally takes [liters] to calculate ranking against the distribution using a live value.
+  Future<YearlyPercentileResult?> fetchUserYearlyPercentile(int year,
+      {double? liters}) async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null) return null;
     try {
       final response = await Supabase.instance.client
           .rpc('yearly_user_liters_percentile', params: {
-            'p_year': year,
-            'p_user_id': user.id,
-          })
-          .timeout(const Duration(seconds: 5));
+        'p_year': year,
+        'p_user_id': user.id,
+        if (liters != null) 'p_liters': liters,
+      }).timeout(const Duration(seconds: 5));
       if (response is List && response.isNotEmpty && response.first is Map) {
         final row = response.first as Map;
         return YearlyPercentileResult(
@@ -1165,7 +1169,8 @@ class DatabaseProvider {
           return (map['total_liters'] as num).toDouble();
         }
         if (map['total'] != null) return (map['total'] as num).toDouble();
-        if (map['sum_liters'] != null) return (map['sum_liters'] as num).toDouble();
+        if (map['sum_liters'] != null)
+          return (map['sum_liters'] as num).toDouble();
         if (map.values.isNotEmpty && map.values.first is num) {
           return (map.values.first as num).toDouble();
         }
@@ -1174,8 +1179,10 @@ class DatabaseProvider {
       if (response['total_liters'] != null) {
         return (response['total_liters'] as num).toDouble();
       }
-      if (response['total'] != null) return (response['total'] as num).toDouble();
-      if (response['sum_liters'] != null) return (response['sum_liters'] as num).toDouble();
+      if (response['total'] != null)
+        return (response['total'] as num).toDouble();
+      if (response['sum_liters'] != null)
+        return (response['sum_liters'] as num).toDouble();
     }
     return null;
   }

@@ -382,8 +382,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
       vsync: this,
       duration: const Duration(milliseconds: 900),
     );
-    _slide4ScratchFade =
-        CurvedAnimation(parent: _slide4ScratchFadeController, curve: Curves.easeOut);
+    _slide4ScratchFade = CurvedAnimation(
+        parent: _slide4ScratchFadeController, curve: Curves.easeOut);
 
     _slide5MethodsHeaderController = AnimationController(
       vsync: this,
@@ -793,7 +793,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
         'YearlyStats25: hasLocalBeans=$hasLocalBeans, uniqueRoasters=$uniqueRoasters, uniqueOrigins=$uniqueOriginNotes');
 
     // Ranking
-    final rank = await db.fetchUserYearlyPercentile(2025);
+    final rank = await db.fetchUserYearlyPercentile(2025, liters: userLiters);
     final topPct =
         (rank?.topPct != null && rank!.topPct! <= 40) ? rank.topPct : null;
     AppLogger.debug(
@@ -933,58 +933,58 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     if (includeBrewSlides) {
       stories.add(
         _StoryConfig(
-        duration: const Duration(seconds: 7),
-        waitForInteractive: true,
-        onStart: () {
-          _slide3Row2Controller.reset();
-          _slide3Row3Controller.reset();
-          _showTopBadge = false;
-          _slide3Row2DelayTimer?.cancel();
-          _slide3Row3DelayTimer?.cancel();
-        },
-        builder: (context, data) {
-          final l10n = AppLocalizations.of(context)!;
-          final currentValue = data.userLiters;
-          final topBadge = data.topPct != null && data.topPct! <= 40
-              ? l10n.yearlyStats25Slide3TopBadge(data.topPct!)
-              : null;
-          _showTopBadge = topBadge != null;
-          final brewsText = _formatBrews(data.userBrews);
-          final litersText = _formatLiters(currentValue);
-          final titleLine = l10n.yearlyStats25Slide3Title;
-          final subtitleLine =
-              l10n.yearlyStats25Slide3Subtitle(brewsText, litersText);
-          final topPctLabel = data.topPct != null ? '${data.topPct}%' : '';
+          duration: const Duration(seconds: 7),
+          waitForInteractive: true,
+          onStart: () {
+            _slide3Row2Controller.reset();
+            _slide3Row3Controller.reset();
+            _showTopBadge = false;
+            _slide3Row2DelayTimer?.cancel();
+            _slide3Row3DelayTimer?.cancel();
+          },
+          builder: (context, data) {
+            final l10n = AppLocalizations.of(context)!;
+            final currentValue = data.userLiters;
+            final topBadge = data.topPct != null && data.topPct! <= 40
+                ? l10n.yearlyStats25Slide3TopBadge(data.topPct!)
+                : null;
+            _showTopBadge = topBadge != null;
+            final brewsText = _formatBrews(data.userBrews);
+            final litersText = _formatLiters(currentValue);
+            final titleLine = l10n.yearlyStats25Slide3Title;
+            final subtitleLine =
+                l10n.yearlyStats25Slide3Subtitle(brewsText, litersText);
+            final topPctLabel = data.topPct != null ? '${data.topPct}%' : '';
 
-          return _slideSurface(
-            emoji: '📈',
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _titleText(titleLine),
-                const SizedBox(height: 12),
-                FadeTransition(
-                  opacity: _slide3Row2Fade,
-                  child: _subtitleHighlightedText(
-                    subtitleLine,
-                    [brewsText, litersText],
-                    maxLines: null,
-                  ),
-                ),
-                if (topBadge != null) ...[
+            return _slideSurface(
+              emoji: '📈',
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _titleText(titleLine),
                   const SizedBox(height: 12),
                   FadeTransition(
-                    opacity: _slide3Row3Fade,
+                    opacity: _slide3Row2Fade,
                     child: _subtitleHighlightedText(
-                      topBadge,
-                      [topPctLabel],
+                      subtitleLine,
+                      [brewsText, litersText],
                       maxLines: null,
                     ),
                   ),
+                  if (topBadge != null) ...[
+                    const SizedBox(height: 12),
+                    FadeTransition(
+                      opacity: _slide3Row3Fade,
+                      child: _subtitleHighlightedText(
+                        topBadge,
+                        [topPctLabel],
+                        maxLines: null,
+                      ),
+                    ),
+                  ],
                 ],
-              ],
-            ),
+              ),
             );
           },
         ),
@@ -993,53 +993,80 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
 
       stories.add(
         _StoryConfig(
-        duration: const Duration(seconds: 7),
-        onStart: () {
-          if (_slide4Scratched) {
-            _showSlide4Details = true;
-            _slide4ScratchFadeController.value = 1.0;
-          } else {
-            _showSlide4Details = false;
-            _slide4ScratchSeed++;
-            _slide4ScratchFadeController.value = 0.0;
-          }
-          _slide4Timer?.cancel();
-        },
-        autoStartProgress: false,
-        builder: (context, data) {
-          final l10n = AppLocalizations.of(context)!;
-          final showPeak = data.userBrews >= 10 && data.peakDay != null;
-          void handleReveal() {
-            setState(() {
+          duration: const Duration(seconds: 7),
+          onStart: () {
+            if (_slide4Scratched) {
               _showSlide4Details = true;
-              _slide4Scratched = true;
-            });
-            _slide4ScratchFadeController.forward(from: 0.0);
-            if (!_isPaused) {
-              _progressController.forward(from: 0.0);
+              _slide4ScratchFadeController.value = 1.0;
+            } else {
+              _showSlide4Details = false;
+              _slide4ScratchSeed++;
+              _slide4ScratchFadeController.value = 0.0;
             }
-          }
-          if (showPeak) {
-            final peak = data.peakDay!;
-            final localeTag = Localizations.localeOf(context).toLanguageTag();
-            final dateFmt = DateFormat.MMMd(localeTag);
-            if (peak.days.length == 1) {
+            _slide4Timer?.cancel();
+          },
+          autoStartProgress: false,
+          builder: (context, data) {
+            final l10n = AppLocalizations.of(context)!;
+            final showPeak = data.userBrews >= 10 && data.peakDay != null;
+            void handleReveal() {
+              setState(() {
+                _showSlide4Details = true;
+                _slide4Scratched = true;
+              });
+              _slide4ScratchFadeController.forward(from: 0.0);
+              if (!_isPaused) {
+                _progressController.forward(from: 0.0);
+              }
+            }
+
+            if (showPeak) {
+              final peak = data.peakDay!;
+              final localeTag = Localizations.localeOf(context).toLanguageTag();
+              final dateFmt = DateFormat.MMMd(localeTag);
+              if (peak.days.length == 1) {
+                return _slideSurface(
+                  emoji: '⏱',
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _titleText(l10n.yearlyStats25Slide4TitleSingle),
+                      const SizedBox(height: 12),
+                      const SizedBox(height: 16),
+                      _scratchRevealBox(
+                        containerKey: _slide4ScratchKey,
+                        scratchKey: ValueKey(
+                          'slide4-${_slide4ScratchSeed}-single',
+                        ),
+                        child: _slide4DetailsSinglePeak(peak, dateFmt),
+                        onReveal: handleReveal,
+                        hideLabel: _showSlide4Details,
+                        overlayOpacity: 1 - _slide4ScratchFade.value,
+                      ),
+                    ],
+                  ),
+                );
+              }
+              final mostRecent = dateFmt.format(peak.days.first);
+              final litersValue =
+                  peak.liters != null ? _formatLiters(peak.liters!) : null;
               return _slideSurface(
                 emoji: '⏱',
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _titleText(
-                      l10n.yearlyStats25Slide4TitleSingle),
-                  const SizedBox(height: 12),
+                  children: [
+                    _titleText(l10n.yearlyStats25Slide4TitleMulti),
+                    const SizedBox(height: 12),
                     const SizedBox(height: 16),
                     _scratchRevealBox(
                       containerKey: _slide4ScratchKey,
                       scratchKey: ValueKey(
-                        'slide4-${_slide4ScratchSeed}-single',
+                        'slide4-${_slide4ScratchSeed}-multi',
                       ),
-                      child: _slide4DetailsSinglePeak(peak, dateFmt),
+                      child: _slide4DetailsMultiPeak(
+                          mostRecent, peak.count, litersValue),
                       onReveal: handleReveal,
                       hideLabel: _showSlide4Details,
                       overlayOpacity: 1 - _slide4ScratchFade.value,
@@ -1048,26 +1075,24 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
                 ),
               );
             }
-            final mostRecent = dateFmt.format(peak.days.first);
-            final litersValue =
-                peak.liters != null ? _formatLiters(peak.liters!) : null;
+
+            final brewTime = data.totalBrewTime;
+            final timeLabel = _formatBrewTime(brewTime, l10n);
             return _slideSurface(
               emoji: '⏱',
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _titleText(
-                      l10n.yearlyStats25Slide4TitleMulti),
+                  _titleText(l10n.yearlyStats25Slide4TitleBrewTime),
                   const SizedBox(height: 12),
                   const SizedBox(height: 16),
                   _scratchRevealBox(
                     containerKey: _slide4ScratchKey,
                     scratchKey: ValueKey(
-                      'slide4-${_slide4ScratchSeed}-multi',
+                      'slide4-${_slide4ScratchSeed}-time',
                     ),
-                    child:
-                        _slide4DetailsMultiPeak(mostRecent, peak.count, litersValue),
+                    child: _slide4DetailsBrewTime(timeLabel),
                     onReveal: handleReveal,
                     hideLabel: _showSlide4Details,
                     overlayOpacity: 1 - _slide4ScratchFade.value,
@@ -1075,43 +1100,17 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
                 ],
               ),
             );
-          }
-
-          final brewTime = data.totalBrewTime;
-          final timeLabel = _formatBrewTime(brewTime, l10n);
-          return _slideSurface(
-            emoji: '⏱',
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _titleText(l10n.yearlyStats25Slide4TitleBrewTime),
-                const SizedBox(height: 12),
-                const SizedBox(height: 16),
-                _scratchRevealBox(
-                  containerKey: _slide4ScratchKey,
-                  scratchKey: ValueKey(
-                    'slide4-${_slide4ScratchSeed}-time',
-                  ),
-                  child: _slide4DetailsBrewTime(timeLabel),
-                  onReveal: handleReveal,
-                  hideLabel: _showSlide4Details,
-                  overlayOpacity: 1 - _slide4ScratchFade.value,
-                ),
-              ],
-            ),
-          );
-        },
+          },
         ),
       );
       _slide4Index = index++;
 
       stories.add(
         _StoryConfig(
-        duration: const Duration(seconds: 8),
-        waitForInteractive: true,
-        onStart: () => _prepareSlide5Animations(data),
-        builder: (context, data) => _methodsAndRecipesSlide(data),
+          duration: const Duration(seconds: 8),
+          waitForInteractive: true,
+          onStart: () => _prepareSlide5Animations(data),
+          builder: (context, data) => _methodsAndRecipesSlide(data),
         ),
       );
       _slide5Index = index++;
@@ -1553,8 +1552,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
       return _slide5MethodsHeaderController.status ==
               AnimationStatus.completed &&
           methodsDone &&
-          _slide5RecipesHeaderController.status ==
-              AnimationStatus.completed &&
+          _slide5RecipesHeaderController.status == AnimationStatus.completed &&
           recipesDone;
     }
     if (index == _slide6Index) {
@@ -1568,8 +1566,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
       final lastIndex = (_slide7OriginCount - 1)
           .clamp(0, _slide7OriginControllers.length - 1)
           .toInt();
-      return _slide7SubtitleController.status ==
-              AnimationStatus.completed &&
+      return _slide7SubtitleController.status == AnimationStatus.completed &&
           _slide7OriginControllers[lastIndex].status ==
               AnimationStatus.completed;
     }
@@ -1878,7 +1875,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
                     final dx = details.localPosition.dx;
                     final isRtl =
                         Directionality.of(context) == TextDirection.rtl;
-                    final isBackTap = isRtl ? dx > width * 0.8 : dx < width * 0.2;
+                    final isBackTap =
+                        isRtl ? dx > width * 0.8 : dx < width * 0.2;
                     final isForwardTap =
                         isRtl ? dx < width * 0.2 : dx > width * 0.8;
                     if (isBackTap) {
@@ -1982,10 +1980,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (title != null)
-            _titleText(title!),
-          if (titleSpans != null)
-            _titleRich(titleSpans),
+          if (title != null) _titleText(title!),
+          if (titleSpans != null) _titleRich(titleSpans),
           if (subtitle != null) ...[
             const SizedBox(height: 12),
             _subtitleText(subtitle!),
@@ -2000,9 +1996,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
   }
 
   Widget _globalCommunitySlide(_StoryData data) {
-    final countText = _globalCountSnap
-        ? '100.000+'
-        : _formatBrews(_globalCountValue);
+    final countText =
+        _globalCountSnap ? '100.000+' : _formatBrews(_globalCountValue);
     final l10n = _l10n;
     final litersText = _formatLiters(data.globalLiters);
 
@@ -2136,8 +2131,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     final name = data.methodIdToName[method.id] ?? method.id;
     final l10n = _l10n;
     final textStyle = _subtitleStyle();
-    final maxFontSize =
-        textStyle.fontSize ?? (_resolvedTitleFontSize ?? _storyTitleFontSize) / 2;
+    final maxFontSize = textStyle.fontSize ??
+        (_resolvedTitleFontSize ?? _storyTitleFontSize) / 2;
     final minFontSize = math.min(maxFontSize, _minStorySubtitleFontSize);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -2166,8 +2161,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     final textStyle = _subtitleStyle().copyWith(
       decoration: TextDecoration.underline,
     );
-    final maxFontSize =
-        textStyle.fontSize ?? (_resolvedTitleFontSize ?? _storyTitleFontSize) / 2;
+    final maxFontSize = textStyle.fontSize ??
+        (_resolvedTitleFontSize ?? _storyTitleFontSize) / 2;
     final minFontSize = math.min(maxFontSize, _minStorySubtitleFontSize);
     return InkWell(
       onTap: () => _openRecipeDetail(recipe),
@@ -2285,10 +2280,10 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
                     ],
                     if (showOthers)
                       FadeTransition(
-                        opacity: _slide7OriginFades[
-                            originsToShow.length.clamp(0, _slide7OriginFades.length - 1)],
-                        child:
-                            _subtitleText(l10n.yearlyStats25Others, maxLines: 1),
+                        opacity: _slide7OriginFades[originsToShow.length
+                            .clamp(0, _slide7OriginFades.length - 1)],
+                        child: _subtitleText(l10n.yearlyStats25Others,
+                            maxLines: 1),
                       ),
                   ],
                 ),
@@ -2316,10 +2311,9 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     final prompt = data.hasAnyBeans
         ? l10n.yearlyStats25FallbackPromptHasBeans
         : l10n.yearlyStats25FallbackPromptNoBeans;
-    final actionLabel =
-        data.hasAnyBeans
-            ? l10n.yearlyStats25FallbackActionHasBeans
-            : l10n.yearlyStats25FallbackActionNoBeans;
+    final actionLabel = data.hasAnyBeans
+        ? l10n.yearlyStats25FallbackActionHasBeans
+        : l10n.yearlyStats25FallbackActionNoBeans;
     return _slideSurface(
       emoji: '🗺️',
       child: LayoutBuilder(
@@ -2352,8 +2346,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
               const SizedBox(height: AppSpacing.sm),
               SizedBox(
                 width: double.infinity,
-                child:
-                    _buildActionButton(l10n.yearlyStats25ContinueButton, _goToNextStory),
+                child: _buildActionButton(
+                    l10n.yearlyStats25ContinueButton, _goToNextStory),
               ),
             ],
           );
@@ -2621,8 +2615,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
 
   Future<void> _openInstagram() async {
     final uri = Uri.parse('https://www.instagram.com/timercoffeeapp');
-    final launched =
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
+    final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
     if (!launched) {
       AppLogger.warning('YearlyStats25: failed to open Instagram');
     }
@@ -2725,8 +2718,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     if (j >= 0) {
       var end = j + 1;
       var start = j;
-      while (start >= 0 &&
-          RegExp(r'\p{L}', unicode: true).hasMatch(text[start])) {
+      while (
+          start >= 0 && RegExp(r'\p{L}', unicode: true).hasMatch(text[start])) {
         start--;
       }
       start++;
@@ -2886,8 +2879,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
       }
 
       final image = await boundary.toImage(pixelRatio: 3.0);
-      final byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       if (byteData == null) {
         throw Exception('Share capture failed');
       }
@@ -3057,7 +3049,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
             setState(() => _receivedWish = text);
           }
         } else {
-          AppLogger.debug('YearlyStats25: wish ignored (locale mismatch/empty)');
+          AppLogger.debug(
+              'YearlyStats25: wish ignored (locale mismatch/empty)');
         }
       }
     } catch (_) {
@@ -3257,8 +3250,7 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     int maxLines,
     BuildContext context, {
     double minSize = 18.0,
-  }
-  ) {
+  }) {
     final maxSize = _resolvedTitleFontSize ?? _storyTitleFontSize;
     int low = minSize.round();
     int high = maxSize.round();
@@ -3347,8 +3339,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
     final resolvedSize =
         fontSize ?? _resolvedTitleFontSize ?? _storyTitleFontSize;
     final baseStyle = _storyTitleStyle.copyWith(fontSize: resolvedSize);
-    final highlightStyle =
-        _storyTitleStyle.copyWith(fontSize: resolvedSize, fontWeight: FontWeight.w700);
+    final highlightStyle = _storyTitleStyle.copyWith(
+        fontSize: resolvedSize, fontWeight: FontWeight.w700);
     final resolvedMaxLines = maxLines ?? _defaultTitleMaxLines;
     final minFontSize = math.min(resolvedSize, _minStoryTitleFontSize);
     return _buildHighlightedText(
@@ -3486,7 +3478,8 @@ class _YearlyStatsStory25ScreenState extends State<YearlyStatsStory25Screen>
         }
       }
       if (nextIndex == -1 || nextLength == 0) {
-        spans.add(TextSpan(text: displayText.substring(index), style: baseStyle));
+        spans.add(
+            TextSpan(text: displayText.substring(index), style: baseStyle));
         break;
       }
       if (nextIndex > index) {
@@ -3708,8 +3701,7 @@ class _ShareRecapWidgetState extends State<_ShareRecapWidget> {
         .take(3)
         .map((m) => MapEntry(m.id, widget.data.methodIdToName[m.id] ?? m.id))
         .toList();
-    final recipes =
-        widget.data.topRecipes.take(3).map((r) => r).toList();
+    final recipes = widget.data.topRecipes.take(3).map((r) => r).toList();
 
     String atName(List<MapEntry<String, String>> items, int index) =>
         index < items.length && items[index].value.isNotEmpty
@@ -3745,8 +3737,8 @@ class _ShareRecapWidgetState extends State<_ShareRecapWidget> {
               bottom: -_emojiTilePad,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF7F5F0)
-                      .withOpacity(_emojiOverlayOpacity),
+                  color:
+                      const Color(0xFFF7F5F0).withOpacity(_emojiOverlayOpacity),
                 ),
               ),
             ),
@@ -3759,8 +3751,8 @@ class _ShareRecapWidgetState extends State<_ShareRecapWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: height * 0.02),
-                Text(
-                  l10n.yearlyStats25ShareTitle,
+                  Text(
+                    l10n.yearlyStats25ShareTitle,
                     style: TextStyle(
                       fontSize: titleSize,
                       fontWeight: FontWeight.w700,
@@ -3828,23 +3820,20 @@ class _ShareRecapWidgetState extends State<_ShareRecapWidget> {
                   _shareListItem(
                     atRecipeName(recipes, 0),
                     subtitleSize,
-                    iconForMethod(recipes.isNotEmpty
-                        ? recipes[0].brewingMethodId
-                        : null),
+                    iconForMethod(
+                        recipes.isNotEmpty ? recipes[0].brewingMethodId : null),
                   ),
                   _shareListItem(
                     atRecipeName(recipes, 1),
                     subtitleSize,
-                    iconForMethod(recipes.length > 1
-                        ? recipes[1].brewingMethodId
-                        : null),
+                    iconForMethod(
+                        recipes.length > 1 ? recipes[1].brewingMethodId : null),
                   ),
                   _shareListItem(
                     atRecipeName(recipes, 2),
                     subtitleSize,
-                    iconForMethod(recipes.length > 2
-                        ? recipes[2].brewingMethodId
-                        : null),
+                    iconForMethod(
+                        recipes.length > 2 ? recipes[2].brewingMethodId : null),
                   ),
                 ],
               ),
@@ -4080,8 +4069,9 @@ class _ScratchRevealState extends State<_ScratchReveal>
         _scratchWeightHit += _colWeights[col];
       }
     }
-    final ratio =
-        _scratchWeightTotal == 0 ? 0.0 : _scratchWeightHit / _scratchWeightTotal;
+    final ratio = _scratchWeightTotal == 0
+        ? 0.0
+        : _scratchWeightHit / _scratchWeightTotal;
     if (ratio >= widget.revealThreshold && !_revealTriggered) {
       setState(() => _revealTriggered = true);
       _shimmerController.stop();
