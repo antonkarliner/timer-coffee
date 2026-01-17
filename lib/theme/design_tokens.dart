@@ -106,6 +106,65 @@ class AppIconSize {
   static const double large = AppTokens.iconLarge;
 }
 
+/// Button design tokens
+class AppButtonTokens {
+  AppButtonTokens._(); // Private constructor to prevent instantiation
+
+  // Button height constants
+  static const double heightSmall = 40.0;
+  static const double heightMedium = 48.0;
+  static const double heightLarge = 56.0;
+
+  // Button padding constants
+  static const EdgeInsetsGeometry paddingSmall =
+      EdgeInsets.symmetric(horizontal: 16, vertical: 8);
+  static const EdgeInsetsGeometry paddingMedium =
+      EdgeInsets.symmetric(horizontal: 24, vertical: 16);
+  static const EdgeInsetsGeometry paddingLarge =
+      EdgeInsets.symmetric(horizontal: 32, vertical: 20);
+
+  // Button radius constants
+  static const double radius = AppTokens.radiusMedium;
+
+  // Button elevation constants
+  static const double elevation = 2.0;
+
+  // Button text styles
+  static const TextStyle label = TextStyle(
+    fontSize: 16.0,
+    fontWeight: FontWeight.w600,
+  );
+
+  static const TextStyle smallLabel = TextStyle(
+    fontSize: 14.0,
+    fontWeight: FontWeight.w600,
+  );
+}
+
+class AppButton {
+  AppButton._();
+
+  // Height constants
+  static const double heightSmall = AppButtonTokens.heightSmall;
+  static const double heightMedium = AppButtonTokens.heightMedium;
+  static const double heightLarge = AppButtonTokens.heightLarge;
+
+  // Padding constants
+  static const EdgeInsetsGeometry paddingSmall = AppButtonTokens.paddingSmall;
+  static const EdgeInsetsGeometry paddingMedium = AppButtonTokens.paddingMedium;
+  static const EdgeInsetsGeometry paddingLarge = AppButtonTokens.paddingLarge;
+
+  // Radius constants
+  static const double radius = AppButtonTokens.radius;
+
+  // Elevation constants
+  static const double elevation = AppButtonTokens.elevation;
+
+  // Text styles
+  static const TextStyle label = AppButtonTokens.label;
+  static const TextStyle smallLabel = AppButtonTokens.smallLabel;
+}
+
 /// App text styles
 class AppTextStyles {
   AppTextStyles._(); // Private constructor to prevent instantiation

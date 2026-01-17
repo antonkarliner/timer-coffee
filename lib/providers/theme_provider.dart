@@ -124,6 +124,32 @@ class ThemeProvider with ChangeNotifier {
         ),
         margin: const EdgeInsets.all(AppSpacing.xs),
       ),
+      // Elevated button theme
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: lightColorScheme.primary,
+          foregroundColor: lightColorScheme.onPrimary,
+          minimumSize: const Size(double.infinity, AppButton.heightMedium),
+          padding: AppButton.paddingMedium,
+          elevation: AppButton.elevation,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppButton.radius),
+          ),
+          textStyle: AppButton.label,
+        ),
+      ),
+      // Text button theme
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: lightColorScheme.primary,
+          minimumSize: const Size(double.infinity, AppButton.heightMedium),
+          padding: AppButton.paddingMedium,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppButton.radius),
+          ),
+          textStyle: AppButton.label,
+        ),
+      ),
       // Text theme extensions
       textTheme: const TextTheme(
         displayLarge: AppTextStyles.title,
@@ -236,6 +262,32 @@ class ThemeProvider with ChangeNotifier {
           borderRadius: BorderRadius.circular(AppRadius.card),
         ),
         margin: const EdgeInsets.all(AppSpacing.xs),
+      ),
+      // Elevated button theme
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: darkColorScheme.primary,
+          foregroundColor: darkColorScheme.onPrimary,
+          minimumSize: const Size(double.infinity, AppButton.heightMedium),
+          padding: AppButton.paddingMedium,
+          elevation: AppButton.elevation,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppButton.radius),
+          ),
+          textStyle: AppButton.label,
+        ),
+      ),
+      // Text button theme
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: darkColorScheme.primary,
+          minimumSize: const Size(double.infinity, AppButton.heightMedium),
+          padding: AppButton.paddingMedium,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppButton.radius),
+          ),
+          textStyle: AppButton.label,
+        ),
       ),
       // Text theme extensions
       textTheme: const TextTheme(
