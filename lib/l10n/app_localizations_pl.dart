@@ -1944,4 +1944,26 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'Ameryka Południowa';
+
+  @override
+  String get setToZeroButton => 'Ustaw na zero';
+
+  @override
+  String get setToZeroDialogTitle => 'Ustawić zapasy na zero?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'To ustawi pozostałą ilość na 0 g. Możesz to edytować później.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Ustaw na zero';
+
+  @override
+  String get setToZeroDialogCancel => 'Anuluj';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Zapasy ustawione na 0 g';
+
+  @override
+  String get inventorySetToZeroFail => 'Nie udało się ustawić zapasów na zero';
 }

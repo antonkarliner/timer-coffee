@@ -1862,4 +1862,25 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => '남아메리카';
+
+  @override
+  String get setToZeroButton => '0으로 설정';
+
+  @override
+  String get setToZeroDialogTitle => '재고를 0으로 설정하시겠습니까?';
+
+  @override
+  String get setToZeroDialogBody => '남은 양이 0 g로 설정됩니다. 나중에 수정할 수 있습니다.';
+
+  @override
+  String get setToZeroDialogConfirm => '0으로 설정';
+
+  @override
+  String get setToZeroDialogCancel => '취소';
+
+  @override
+  String get inventorySetToZeroSuccess => '재고가 0 g로 설정되었습니다';
+
+  @override
+  String get inventorySetToZeroFail => '재고를 0으로 설정하는 데 실패했습니다';
 }

@@ -407,6 +407,30 @@ class CoffeeBeansDetailController extends ChangeNotifier {
     super.dispose();
   }
 
+  /// Sets the package weight to 0 grams for the current bean
+  Future<bool> setPackageWeightToZero(BuildContext context) async {
+    if (_bean == null) {
+      _setError('No bean data available');
+      return false;
+    }
+
+    try {
+      final coffeeBeansProvider =
+          Provider.of<CoffeeBeansProvider>(context, listen: false);
+
+      final updatedBeans = _bean!.copyWith(packageWeightGrams: 0.0);
+      await coffeeBeansProvider.updateCoffeeBeans(updatedBeans);
+
+      // Refresh data to get updated state
+      await refreshData(context);
+
+      return true;
+    } catch (error) {
+      _setError('Failed to set inventory to zero: $error');
+      return false;
+    }
+  }
+
   // --- Debug Support ---
 
   @override

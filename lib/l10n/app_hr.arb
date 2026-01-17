@@ -999,5 +999,12 @@
   "regionWorldwide": "Cijeli svijet",
   "regionAfrica": "Afrika",
   "regionMiddleEast": "Bliski istok",
-  "regionSouthAmerica": "Južna Amerika"
+  "regionSouthAmerica": "Južna Amerika",
+  "setToZeroButton": "Postavi na nulu",
+  "setToZeroDialogTitle": "Postaviti zalihu na nulu?",
+  "setToZeroDialogBody": "Ovo će postaviti preostalu količinu na 0 g. Možete je kasnije urediti.",
+  "setToZeroDialogConfirm": "Postavi na nulu",
+  "setToZeroDialogCancel": "Odustani",
+  "inventorySetToZeroSuccess": "Zaliha postavljena na 0 g",
+  "inventorySetToZeroFail": "Nije uspjelo postaviti zalihu na nulu"
 }

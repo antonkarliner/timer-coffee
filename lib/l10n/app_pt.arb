@@ -833,5 +833,12 @@
   "regionWorldwide": "Mundo inteiro",
   "regionAfrica": "África",
   "regionMiddleEast": "Oriente Médio",
-  "regionSouthAmerica": "América do Sul"
+  "regionSouthAmerica": "América do Sul",
+  "setToZeroButton": "Zerar",
+  "setToZeroDialogTitle": "Zerar o estoque?",
+  "setToZeroDialogBody": "Isto definirá a quantidade restante para 0 g. Você pode editá-la mais tarde.",
+  "setToZeroDialogConfirm": "Zerar",
+  "setToZeroDialogCancel": "Cancelar",
+  "inventorySetToZeroSuccess": "Estoque definido para 0 g",
+  "inventorySetToZeroFail": "Não foi possível zerar o estoque"
 }

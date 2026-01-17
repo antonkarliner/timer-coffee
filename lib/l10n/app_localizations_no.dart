@@ -1925,4 +1925,26 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'Sør-Amerika';
+
+  @override
+  String get setToZeroButton => 'Sett til null';
+
+  @override
+  String get setToZeroDialogTitle => 'Sett beholdningen til null?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Dette vil sette gjenværende mengde til 0 g. Du kan redigere den senere.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Sett til null';
+
+  @override
+  String get setToZeroDialogCancel => 'Avbryt';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Beholdning satt til 0 g';
+
+  @override
+  String get inventorySetToZeroFail => 'Kunne ikke sette beholdningen til null';
 }

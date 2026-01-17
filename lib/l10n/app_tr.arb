@@ -833,5 +833,12 @@
   "regionWorldwide": "Dünya genelinde",
   "regionAfrica": "Afrika",
   "regionMiddleEast": "Orta Doğu",
-  "regionSouthAmerica": "Güney Amerika"
+  "regionSouthAmerica": "Güney Amerika",
+  "setToZeroButton": "Sıfırla",
+  "setToZeroDialogTitle": "Stok sıfırlansın mı?",
+  "setToZeroDialogBody": "Bu, kalan miktarı 0 g olarak ayarlar. Daha sonra düzenleyebilirsiniz.",
+  "setToZeroDialogConfirm": "Sıfırla",
+  "setToZeroDialogCancel": "İptal",
+  "inventorySetToZeroSuccess": "Stok 0 g olarak ayarlandı",
+  "inventorySetToZeroFail": "Stok sıfırlama başarısız oldu"
 }

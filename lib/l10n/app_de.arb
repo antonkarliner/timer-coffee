@@ -833,5 +833,12 @@
   "regionWorldwide": "Weltweit",
   "regionAfrica": "Afrika",
   "regionMiddleEast": "Naher Osten",
-  "regionSouthAmerica": "Südamerika"
+  "regionSouthAmerica": "Südamerika",
+  "setToZeroButton": "Auf null setzen",
+  "setToZeroDialogTitle": "Bestand auf null setzen?",
+  "setToZeroDialogBody": "Dadurch wird die verbleibende Menge auf 0 g gesetzt. Du kannst sie später bearbeiten.",
+  "setToZeroDialogConfirm": "Auf null setzen",
+  "setToZeroDialogCancel": "Abbrechen",
+  "inventorySetToZeroSuccess": "Bestand auf 0 g gesetzt",
+  "inventorySetToZeroFail": "Bestand konnte nicht auf null gesetzt werden"
 }

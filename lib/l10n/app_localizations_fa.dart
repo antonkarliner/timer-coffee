@@ -1909,4 +1909,26 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'آمریکای جنوبی';
+
+  @override
+  String get setToZeroButton => 'تنظیم روی صفر';
+
+  @override
+  String get setToZeroDialogTitle => 'موجودی را روی صفر تنظیم کنیم؟';
+
+  @override
+  String get setToZeroDialogBody =>
+      'این کار مقدار باقی‌مانده را روی ۰ گرم تنظیم می‌کند. بعداً می‌توانید آن را ویرایش کنید.';
+
+  @override
+  String get setToZeroDialogConfirm => 'تنظیم روی صفر';
+
+  @override
+  String get setToZeroDialogCancel => 'انصراف';
+
+  @override
+  String get inventorySetToZeroSuccess => 'موجودی روی ۰ گرم تنظیم شد';
+
+  @override
+  String get inventorySetToZeroFail => 'تنظیم موجودی روی صفر ناموفق بود';
 }

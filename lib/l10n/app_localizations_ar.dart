@@ -1928,4 +1928,26 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'أمريكا الجنوبية';
+
+  @override
+  String get setToZeroButton => 'تعيين إلى صفر';
+
+  @override
+  String get setToZeroDialogTitle => 'تعيين المخزون إلى صفر؟';
+
+  @override
+  String get setToZeroDialogBody =>
+      'سيؤدي هذا إلى تعيين الكمية المتبقية إلى 0 غ. يمكنك تعديلها لاحقًا.';
+
+  @override
+  String get setToZeroDialogConfirm => 'تعيين إلى صفر';
+
+  @override
+  String get setToZeroDialogCancel => 'إلغاء';
+
+  @override
+  String get inventorySetToZeroSuccess => 'تم تعيين المخزون إلى 0 غ';
+
+  @override
+  String get inventorySetToZeroFail => 'فشل تعيين المخزون إلى صفر';
 }

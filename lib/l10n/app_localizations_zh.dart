@@ -1855,4 +1855,25 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => '南美洲';
+
+  @override
+  String get setToZeroButton => '设为零';
+
+  @override
+  String get setToZeroDialogTitle => '将库存设为零？';
+
+  @override
+  String get setToZeroDialogBody => '这将把剩余数量设为 0 克。你稍后可以编辑它。';
+
+  @override
+  String get setToZeroDialogConfirm => '设为零';
+
+  @override
+  String get setToZeroDialogCancel => '取消';
+
+  @override
+  String get inventorySetToZeroSuccess => '库存已设为 0 克';
+
+  @override
+  String get inventorySetToZeroFail => '无法将库存设为零';
 }

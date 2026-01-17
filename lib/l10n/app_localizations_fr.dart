@@ -1950,4 +1950,26 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'Amérique du Sud';
+
+  @override
+  String get setToZeroButton => 'Mettre à zéro';
+
+  @override
+  String get setToZeroDialogTitle => 'Mettre le stock à zéro ?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Cela définira la quantité restante à 0 g. Vous pourrez la modifier plus tard.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Mettre à zéro';
+
+  @override
+  String get setToZeroDialogCancel => 'Annuler';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Stock défini à 0 g';
+
+  @override
+  String get inventorySetToZeroFail => 'Impossible de mettre le stock à zéro';
 }

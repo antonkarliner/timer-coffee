@@ -833,5 +833,12 @@
   "regionWorldwide": "In tutto il mondo",
   "regionAfrica": "Africa",
   "regionMiddleEast": "Medio Oriente",
-  "regionSouthAmerica": "Sud America"
+  "regionSouthAmerica": "Sud America",
+  "setToZeroButton": "Imposta a zero",
+  "setToZeroDialogTitle": "Impostare le scorte a zero?",
+  "setToZeroDialogBody": "Questo imposterà la quantità rimanente su 0 g. Puoi modificarla più tardi.",
+  "setToZeroDialogConfirm": "Imposta a zero",
+  "setToZeroDialogCancel": "Annulla",
+  "inventorySetToZeroSuccess": "Scorte impostate su 0 g",
+  "inventorySetToZeroFail": "Impossibile impostare le scorte a zero"
 }

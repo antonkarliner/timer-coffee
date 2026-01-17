@@ -1862,4 +1862,25 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => '南アメリカ';
+
+  @override
+  String get setToZeroButton => '0に設定';
+
+  @override
+  String get setToZeroDialogTitle => '在庫を0に設定しますか？';
+
+  @override
+  String get setToZeroDialogBody => '残量が0 gに設定されます。後で編集できます。';
+
+  @override
+  String get setToZeroDialogConfirm => '0に設定';
+
+  @override
+  String get setToZeroDialogCancel => 'キャンセル';
+
+  @override
+  String get inventorySetToZeroSuccess => '在庫を0 gに設定しました';
+
+  @override
+  String get inventorySetToZeroFail => '在庫を0に設定できませんでした';
 }

@@ -833,5 +833,12 @@
   "regionWorldwide": "Увесь світ",
   "regionAfrica": "Африка",
   "regionMiddleEast": "Близький Схід",
-  "regionSouthAmerica": "Південна Америка"
+  "regionSouthAmerica": "Південна Америка",
+  "setToZeroButton": "Обнулити",
+  "setToZeroDialogTitle": "Обнулити запаси?",
+  "setToZeroDialogBody": "Це встановить залишок на 0 г. Ви зможете відредагувати його пізніше.",
+  "setToZeroDialogConfirm": "Обнулити",
+  "setToZeroDialogCancel": "Скасувати",
+  "inventorySetToZeroSuccess": "Запаси встановлено на 0 г",
+  "inventorySetToZeroFail": "Не вдалося обнулити запаси"
 }

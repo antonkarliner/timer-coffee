@@ -1150,5 +1150,12 @@
   "regionWorldwide": "Worldwide",
   "regionAfrica": "Africa",
   "regionMiddleEast": "Middle East",
-  "regionSouthAmerica": "South America"
+  "regionSouthAmerica": "South America",
+  "setToZeroButton": "Set to zero",
+  "setToZeroDialogTitle": "Set inventory to zero?",
+  "setToZeroDialogBody": "This will set the remaining amount to 0 g. You can edit it later.",
+  "setToZeroDialogConfirm": "Set to zero",
+  "setToZeroDialogCancel": "Cancel",
+  "inventorySetToZeroSuccess": "Inventory set to 0 g",
+  "inventorySetToZeroFail": "Failed to set inventory to zero"
 }

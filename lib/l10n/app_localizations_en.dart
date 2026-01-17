@@ -1910,4 +1910,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'South America';
+
+  @override
+  String get setToZeroButton => 'Set to zero';
+
+  @override
+  String get setToZeroDialogTitle => 'Set inventory to zero?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'This will set the remaining amount to 0 g. You can edit it later.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Set to zero';
+
+  @override
+  String get setToZeroDialogCancel => 'Cancel';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Inventory set to 0 g';
+
+  @override
+  String get inventorySetToZeroFail => 'Failed to set inventory to zero';
 }

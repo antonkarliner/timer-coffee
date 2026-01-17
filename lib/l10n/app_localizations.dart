@@ -3456,6 +3456,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'South America'**
   String get regionSouthAmerica;
+
+  /// No description provided for @setToZeroButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Set to zero'**
+  String get setToZeroButton;
+
+  /// No description provided for @setToZeroDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set inventory to zero?'**
+  String get setToZeroDialogTitle;
+
+  /// No description provided for @setToZeroDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This will set the remaining amount to 0 g. You can edit it later.'**
+  String get setToZeroDialogBody;
+
+  /// No description provided for @setToZeroDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Set to zero'**
+  String get setToZeroDialogConfirm;
+
+  /// No description provided for @setToZeroDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get setToZeroDialogCancel;
+
+  /// No description provided for @inventorySetToZeroSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Inventory set to 0 g'**
+  String get inventorySetToZeroSuccess;
+
+  /// No description provided for @inventorySetToZeroFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to set inventory to zero'**
+  String get inventorySetToZeroFail;
 }
 
 class _AppLocalizationsDelegate

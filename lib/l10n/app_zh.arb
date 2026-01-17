@@ -833,5 +833,12 @@
   "regionWorldwide": "全球",
   "regionAfrica": "非洲",
   "regionMiddleEast": "中东",
-  "regionSouthAmerica": "南美洲"
+  "regionSouthAmerica": "南美洲",
+  "setToZeroButton": "设为零",
+  "setToZeroDialogTitle": "将库存设为零？",
+  "setToZeroDialogBody": "这将把剩余数量设为 0 克。你稍后可以编辑它。",
+  "setToZeroDialogConfirm": "设为零",
+  "setToZeroDialogCancel": "取消",
+  "inventorySetToZeroSuccess": "库存已设为 0 克",
+  "inventorySetToZeroFail": "无法将库存设为零"
 }

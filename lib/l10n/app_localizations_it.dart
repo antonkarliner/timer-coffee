@@ -1943,4 +1943,26 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'Sud America';
+
+  @override
+  String get setToZeroButton => 'Imposta a zero';
+
+  @override
+  String get setToZeroDialogTitle => 'Impostare le scorte a zero?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Questo imposterà la quantità rimanente su 0 g. Puoi modificarla più tardi.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Imposta a zero';
+
+  @override
+  String get setToZeroDialogCancel => 'Annulla';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Scorte impostate su 0 g';
+
+  @override
+  String get inventorySetToZeroFail => 'Impossibile impostare le scorte a zero';
 }

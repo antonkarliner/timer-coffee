@@ -833,5 +833,12 @@
   "regionWorldwide": "Seluruh dunia",
   "regionAfrica": "Afrika",
   "regionMiddleEast": "Timur Tengah",
-  "regionSouthAmerica": "Amerika Selatan"
+  "regionSouthAmerica": "Amerika Selatan",
+  "setToZeroButton": "Atur ke nol",
+  "setToZeroDialogTitle": "Atur stok ke nol?",
+  "setToZeroDialogBody": "Ini akan mengatur jumlah tersisa menjadi 0 g. Anda dapat mengeditnya nanti.",
+  "setToZeroDialogConfirm": "Atur ke nol",
+  "setToZeroDialogCancel": "Batal",
+  "inventorySetToZeroSuccess": "Stok diatur menjadi 0 g",
+  "inventorySetToZeroFail": "Gagal mengatur stok ke nol"
 }

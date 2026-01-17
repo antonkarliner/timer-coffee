@@ -1939,4 +1939,27 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'Südamerika';
+
+  @override
+  String get setToZeroButton => 'Auf null setzen';
+
+  @override
+  String get setToZeroDialogTitle => 'Bestand auf null setzen?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Dadurch wird die verbleibende Menge auf 0 g gesetzt. Du kannst sie später bearbeiten.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Auf null setzen';
+
+  @override
+  String get setToZeroDialogCancel => 'Abbrechen';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Bestand auf 0 g gesetzt';
+
+  @override
+  String get inventorySetToZeroFail =>
+      'Bestand konnte nicht auf null gesetzt werden';
 }

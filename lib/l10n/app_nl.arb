@@ -833,5 +833,12 @@
   "regionWorldwide": "Wereldwijd",
   "regionAfrica": "Afrika",
   "regionMiddleEast": "Midden-Oosten",
-  "regionSouthAmerica": "Zuid-Amerika"
+  "regionSouthAmerica": "Zuid-Amerika",
+  "setToZeroButton": "Op nul zetten",
+  "setToZeroDialogTitle": "Voorraad op nul zetten?",
+  "setToZeroDialogBody": "Hiermee wordt de resterende hoeveelheid op 0 g gezet. Je kunt dit later aanpassen.",
+  "setToZeroDialogConfirm": "Op nul zetten",
+  "setToZeroDialogCancel": "Annuleren",
+  "inventorySetToZeroSuccess": "Voorraad ingesteld op 0 g",
+  "inventorySetToZeroFail": "Kon de voorraad niet op nul zetten"
 }

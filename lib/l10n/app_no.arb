@@ -1150,5 +1150,12 @@
   "regionWorldwide": "Verden",
   "regionAfrica": "Afrika",
   "regionMiddleEast": "Midtøsten",
-  "regionSouthAmerica": "Sør-Amerika"
+  "regionSouthAmerica": "Sør-Amerika",
+  "setToZeroButton": "Sett til null",
+  "setToZeroDialogTitle": "Sett beholdningen til null?",
+  "setToZeroDialogBody": "Dette vil sette gjenværende mengde til 0 g. Du kan redigere den senere.",
+  "setToZeroDialogConfirm": "Sett til null",
+  "setToZeroDialogCancel": "Avbryt",
+  "inventorySetToZeroSuccess": "Beholdning satt til 0 g",
+  "inventorySetToZeroFail": "Kunne ikke sette beholdningen til null"
 }

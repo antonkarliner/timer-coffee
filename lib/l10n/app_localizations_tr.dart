@@ -1925,4 +1925,26 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'Güney Amerika';
+
+  @override
+  String get setToZeroButton => 'Sıfırla';
+
+  @override
+  String get setToZeroDialogTitle => 'Stok sıfırlansın mı?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Bu, kalan miktarı 0 g olarak ayarlar. Daha sonra düzenleyebilirsiniz.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Sıfırla';
+
+  @override
+  String get setToZeroDialogCancel => 'İptal';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Stok 0 g olarak ayarlandı';
+
+  @override
+  String get inventorySetToZeroFail => 'Stok sıfırlama başarısız oldu';
 }

@@ -1921,4 +1921,26 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'Amerika Selatan';
+
+  @override
+  String get setToZeroButton => 'Atur ke nol';
+
+  @override
+  String get setToZeroDialogTitle => 'Atur stok ke nol?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Ini akan mengatur jumlah tersisa menjadi 0 g. Anda dapat mengeditnya nanti.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Atur ke nol';
+
+  @override
+  String get setToZeroDialogCancel => 'Batal';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Stok diatur menjadi 0 g';
+
+  @override
+  String get inventorySetToZeroFail => 'Gagal mengatur stok ke nol';
 }

@@ -1937,4 +1937,26 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'América do Sul';
+
+  @override
+  String get setToZeroButton => 'Zerar';
+
+  @override
+  String get setToZeroDialogTitle => 'Zerar o estoque?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Isto definirá a quantidade restante para 0 g. Você pode editá-la mais tarde.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Zerar';
+
+  @override
+  String get setToZeroDialogCancel => 'Cancelar';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Estoque definido para 0 g';
+
+  @override
+  String get inventorySetToZeroFail => 'Não foi possível zerar o estoque';
 }

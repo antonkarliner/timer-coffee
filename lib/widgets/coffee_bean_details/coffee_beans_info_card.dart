@@ -1,6 +1,11 @@
+import 'package:coffee_timer/widgets/base_buttons.dart';
+import 'package:coffee_timer/widgets/confirm_delete_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../../controllers/coffee_beans_detail_controller.dart';
 
 import '../../models/coffee_beans_model.dart';
 import 'detail_section_header.dart';
@@ -194,7 +199,7 @@ class CoffeeBeansInfoCard extends StatelessWidget {
       case CoffeeBeansInfoCardType.processing:
         return _buildProcessingContent(loc);
       case CoffeeBeansInfoCardType.inventory:
-        return _buildInventoryContent(loc);
+        return _buildInventoryContent(context, loc);
       case CoffeeBeansInfoCardType.flavor:
         return _buildFlavorContent(loc);
       case CoffeeBeansInfoCardType.notes:
@@ -299,7 +304,8 @@ class CoffeeBeansInfoCard extends StatelessWidget {
   }
 
   /// Builds inventory content
-  List<Widget> _buildInventoryContent(AppLocalizations loc) {
+  List<Widget> _buildInventoryContent(
+      BuildContext context, AppLocalizations loc) {
     final items = <Widget>[];
 
     if (bean.validatedPackageWeightGrams != null) {
@@ -307,9 +313,62 @@ class CoffeeBeansInfoCard extends StatelessWidget {
         label: loc.amountLeft,
         value: '${bean.validatedPackageWeightGrams!.toStringAsFixed(1)}g',
       ));
+
+      items.add(const SizedBox(height: 8));
+
+      items.add(AppTextButton(
+        label: loc.setToZeroButton,
+        onPressed: () {
+          _showSetToZeroConfirmationDialog(context, loc);
+        },
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+        height: 36,
+      ));
     }
 
     return items;
+  }
+
+  /// Shows the confirmation dialog for setting inventory to zero
+  void _showSetToZeroConfirmationDialog(
+      BuildContext context, AppLocalizations loc) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return ConfirmDeleteDialog(
+          title: loc.setToZeroDialogTitle,
+          content: loc.setToZeroDialogBody,
+          confirmLabel: loc.setToZeroDialogConfirm,
+          cancelLabel: loc.setToZeroDialogCancel,
+        );
+      },
+    ).then((confirmed) {
+      if (confirmed == true) {
+        _handleSetToZero(context);
+      }
+    });
+  }
+
+  /// Handles the set to zero operation
+  Future<void> _handleSetToZero(BuildContext context) async {
+    // Get the CoffeeBeansDetailController from the context
+    final controller = Provider.of<CoffeeBeansDetailController>(
+      context,
+      listen: false,
+    );
+
+    final success = await controller.setPackageWeightToZero(context);
+    final loc = AppLocalizations.of(context)!;
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(loc.inventorySetToZeroSuccess)),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(loc.inventorySetToZeroFail)),
+      );
+    }
   }
 
   /// Builds flavor profile content

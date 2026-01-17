@@ -1006,5 +1006,12 @@
   "regionWorldwide": "سراسر جهان",
   "regionAfrica": "آفریقا",
   "regionMiddleEast": "خاورمیانه",
-  "regionSouthAmerica": "آمریکای جنوبی"
+  "regionSouthAmerica": "آمریکای جنوبی",
+  "setToZeroButton": "تنظیم روی صفر",
+  "setToZeroDialogTitle": "موجودی را روی صفر تنظیم کنیم؟",
+  "setToZeroDialogBody": "این کار مقدار باقی‌مانده را روی ۰ گرم تنظیم می‌کند. بعداً می‌توانید آن را ویرایش کنید.",
+  "setToZeroDialogConfirm": "تنظیم روی صفر",
+  "setToZeroDialogCancel": "انصراف",
+  "inventorySetToZeroSuccess": "موجودی روی ۰ گرم تنظیم شد",
+  "inventorySetToZeroFail": "تنظیم موجودی روی صفر ناموفق بود"
 }

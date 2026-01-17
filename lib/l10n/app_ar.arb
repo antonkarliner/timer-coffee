@@ -833,5 +833,12 @@
   "regionWorldwide": "حول العالم",
   "regionAfrica": "أفريقيا",
   "regionMiddleEast": "الشرق الأوسط",
-  "regionSouthAmerica": "أمريكا الجنوبية"
+  "regionSouthAmerica": "أمريكا الجنوبية",
+  "setToZeroButton": "تعيين إلى صفر",
+  "setToZeroDialogTitle": "تعيين المخزون إلى صفر؟",
+  "setToZeroDialogBody": "سيؤدي هذا إلى تعيين الكمية المتبقية إلى 0 غ. يمكنك تعديلها لاحقًا.",
+  "setToZeroDialogConfirm": "تعيين إلى صفر",
+  "setToZeroDialogCancel": "إلغاء",
+  "inventorySetToZeroSuccess": "تم تعيين المخزون إلى 0 غ",
+  "inventorySetToZeroFail": "فشل تعيين المخزون إلى صفر"
 }

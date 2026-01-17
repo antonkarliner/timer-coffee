@@ -1951,4 +1951,26 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'Південна Америка';
+
+  @override
+  String get setToZeroButton => 'Обнулити';
+
+  @override
+  String get setToZeroDialogTitle => 'Обнулити запаси?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Це встановить залишок на 0 г. Ви зможете відредагувати його пізніше.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Обнулити';
+
+  @override
+  String get setToZeroDialogCancel => 'Скасувати';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Запаси встановлено на 0 г';
+
+  @override
+  String get inventorySetToZeroFail => 'Не вдалося обнулити запаси';
 }

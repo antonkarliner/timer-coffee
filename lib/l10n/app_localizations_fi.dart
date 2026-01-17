@@ -1921,4 +1921,26 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'Etelä-Amerikka';
+
+  @override
+  String get setToZeroButton => 'Aseta nollaan';
+
+  @override
+  String get setToZeroDialogTitle => 'Asetetaanko varasto nollaan?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Tämä asettaa jäljellä olevan määrän 0 g:aan. Voit muokata sitä myöhemmin.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Aseta nollaan';
+
+  @override
+  String get setToZeroDialogCancel => 'Peruuta';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Varasto asetettu 0 g:aan';
+
+  @override
+  String get inventorySetToZeroFail => 'Varastoa ei voitu asettaa nollaan';
 }

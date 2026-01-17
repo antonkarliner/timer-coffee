@@ -1936,4 +1936,26 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'America de Sud';
+
+  @override
+  String get setToZeroButton => 'Setează la zero';
+
+  @override
+  String get setToZeroDialogTitle => 'Setezi stocul la zero?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Aceasta va seta cantitatea rămasă la 0 g. O poți edita mai târziu.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Setează la zero';
+
+  @override
+  String get setToZeroDialogCancel => 'Anulare';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Stoc setat la 0 g';
+
+  @override
+  String get inventorySetToZeroFail => 'Nu s-a putut seta stocul la zero';
 }

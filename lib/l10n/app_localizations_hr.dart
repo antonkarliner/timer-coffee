@@ -1931,4 +1931,26 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'Južna Amerika';
+
+  @override
+  String get setToZeroButton => 'Postavi na nulu';
+
+  @override
+  String get setToZeroDialogTitle => 'Postaviti zalihu na nulu?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Ovo će postaviti preostalu količinu na 0 g. Možete je kasnije urediti.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Postavi na nulu';
+
+  @override
+  String get setToZeroDialogCancel => 'Odustani';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Zaliha postavljena na 0 g';
+
+  @override
+  String get inventorySetToZeroFail => 'Nije uspjelo postaviti zalihu na nulu';
 }

@@ -1927,4 +1927,26 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'Zuid-Amerika';
+
+  @override
+  String get setToZeroButton => 'Op nul zetten';
+
+  @override
+  String get setToZeroDialogTitle => 'Voorraad op nul zetten?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Hiermee wordt de resterende hoeveelheid op 0 g gezet. Je kunt dit later aanpassen.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Op nul zetten';
+
+  @override
+  String get setToZeroDialogCancel => 'Annuleren';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Voorraad ingesteld op 0 g';
+
+  @override
+  String get inventorySetToZeroFail => 'Kon de voorraad niet op nul zetten';
 }

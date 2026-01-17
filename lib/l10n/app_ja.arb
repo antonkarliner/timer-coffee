@@ -833,5 +833,12 @@
   "regionWorldwide": "全世界",
   "regionAfrica": "アフリカ",
   "regionMiddleEast": "中東",
-  "regionSouthAmerica": "南アメリカ"
+  "regionSouthAmerica": "南アメリカ",
+  "setToZeroButton": "0に設定",
+  "setToZeroDialogTitle": "在庫を0に設定しますか？",
+  "setToZeroDialogBody": "残量が0 gに設定されます。後で編集できます。",
+  "setToZeroDialogConfirm": "0に設定",
+  "setToZeroDialogCancel": "キャンセル",
+  "inventorySetToZeroSuccess": "在庫を0 gに設定しました",
+  "inventorySetToZeroFail": "在庫を0に設定できませんでした"
 }

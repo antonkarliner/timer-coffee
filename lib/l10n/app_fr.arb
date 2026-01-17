@@ -833,5 +833,12 @@
   "regionWorldwide": "Monde entier",
   "regionAfrica": "Afrique",
   "regionMiddleEast": "Moyen-Orient",
-  "regionSouthAmerica": "Amérique du Sud"
+  "regionSouthAmerica": "Amérique du Sud",
+  "setToZeroButton": "Mettre à zéro",
+  "setToZeroDialogTitle": "Mettre le stock à zéro ?",
+  "setToZeroDialogBody": "Cela définira la quantité restante à 0 g. Vous pourrez la modifier plus tard.",
+  "setToZeroDialogConfirm": "Mettre à zéro",
+  "setToZeroDialogCancel": "Annuler",
+  "inventorySetToZeroSuccess": "Stock défini à 0 g",
+  "inventorySetToZeroFail": "Impossible de mettre le stock à zéro"
 }

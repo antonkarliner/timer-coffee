@@ -1937,4 +1937,27 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'Sudamérica';
+
+  @override
+  String get setToZeroButton => 'Poner a cero';
+
+  @override
+  String get setToZeroDialogTitle => '¿Poner las existencias a cero?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Esto establecerá la cantidad restante en 0 g. Puedes editarla más tarde.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Poner a cero';
+
+  @override
+  String get setToZeroDialogCancel => 'Cancelar';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Existencias establecidas en 0 g';
+
+  @override
+  String get inventorySetToZeroFail =>
+      'No se pudieron poner a cero las existencias';
 }

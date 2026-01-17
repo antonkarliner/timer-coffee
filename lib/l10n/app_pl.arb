@@ -833,5 +833,12 @@
   "regionWorldwide": "Cały świat",
   "regionAfrica": "Afryka",
   "regionMiddleEast": "Bliski Wschód",
-  "regionSouthAmerica": "Ameryka Południowa"
+  "regionSouthAmerica": "Ameryka Południowa",
+  "setToZeroButton": "Ustaw na zero",
+  "setToZeroDialogTitle": "Ustawić zapasy na zero?",
+  "setToZeroDialogBody": "To ustawi pozostałą ilość na 0 g. Możesz to edytować później.",
+  "setToZeroDialogConfirm": "Ustaw na zero",
+  "setToZeroDialogCancel": "Anuluj",
+  "inventorySetToZeroSuccess": "Zapasy ustawione na 0 g",
+  "inventorySetToZeroFail": "Nie udało się ustawić zapasów na zero"
 }

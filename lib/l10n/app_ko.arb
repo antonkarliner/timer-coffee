@@ -999,5 +999,12 @@
   "regionWorldwide": "전 세계",
   "regionAfrica": "아프리카",
   "regionMiddleEast": "중동",
-  "regionSouthAmerica": "남아메리카"
+  "regionSouthAmerica": "남아메리카",
+  "setToZeroButton": "0으로 설정",
+  "setToZeroDialogTitle": "재고를 0으로 설정하시겠습니까?",
+  "setToZeroDialogBody": "남은 양이 0 g로 설정됩니다. 나중에 수정할 수 있습니다.",
+  "setToZeroDialogConfirm": "0으로 설정",
+  "setToZeroDialogCancel": "취소",
+  "inventorySetToZeroSuccess": "재고가 0 g로 설정되었습니다",
+  "inventorySetToZeroFail": "재고를 0으로 설정하는 데 실패했습니다"
 }

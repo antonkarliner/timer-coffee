@@ -833,5 +833,12 @@
   "regionWorldwide": "Todo el mundo",
   "regionAfrica": "África",
   "regionMiddleEast": "Medio Oriente",
-  "regionSouthAmerica": "Sudamérica"
+  "regionSouthAmerica": "Sudamérica",
+  "setToZeroButton": "Poner a cero",
+  "setToZeroDialogTitle": "¿Poner las existencias a cero?",
+  "setToZeroDialogBody": "Esto establecerá la cantidad restante en 0 g. Puedes editarla más tarde.",
+  "setToZeroDialogConfirm": "Poner a cero",
+  "setToZeroDialogCancel": "Cancelar",
+  "inventorySetToZeroSuccess": "Existencias establecidas en 0 g",
+  "inventorySetToZeroFail": "No se pudieron poner a cero las existencias"
 }

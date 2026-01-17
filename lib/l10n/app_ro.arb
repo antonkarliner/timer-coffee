@@ -833,5 +833,12 @@
   "regionWorldwide": "În toată lumea",
   "regionAfrica": "Africa",
   "regionMiddleEast": "Orientul Mijlociu",
-  "regionSouthAmerica": "America de Sud"
+  "regionSouthAmerica": "America de Sud",
+  "setToZeroButton": "Setează la zero",
+  "setToZeroDialogTitle": "Setezi stocul la zero?",
+  "setToZeroDialogBody": "Aceasta va seta cantitatea rămasă la 0 g. O poți edita mai târziu.",
+  "setToZeroDialogConfirm": "Setează la zero",
+  "setToZeroDialogCancel": "Anulare",
+  "inventorySetToZeroSuccess": "Stoc setat la 0 g",
+  "inventorySetToZeroFail": "Nu s-a putut seta stocul la zero"
 }

@@ -1954,4 +1954,26 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get regionSouthAmerica => 'Южная Америка';
+
+  @override
+  String get setToZeroButton => 'Обнулить';
+
+  @override
+  String get setToZeroDialogTitle => 'Обнулить запасы?';
+
+  @override
+  String get setToZeroDialogBody =>
+      'Это установит оставшееся количество на 0 г. Вы сможете изменить это позже.';
+
+  @override
+  String get setToZeroDialogConfirm => 'Обнулить';
+
+  @override
+  String get setToZeroDialogCancel => 'Отмена';
+
+  @override
+  String get inventorySetToZeroSuccess => 'Запасы установлены на 0 г';
+
+  @override
+  String get inventorySetToZeroFail => 'Не удалось обнулить запасы';
 }

@@ -685,5 +685,12 @@
   "regionWorldwide": "Koko maailma",
   "regionAfrica": "Afrikka",
   "regionMiddleEast": "Lähi-itä",
-  "regionSouthAmerica": "Etelä-Amerikka"
+  "regionSouthAmerica": "Etelä-Amerikka",
+  "setToZeroButton": "Aseta nollaan",
+  "setToZeroDialogTitle": "Asetetaanko varasto nollaan?",
+  "setToZeroDialogBody": "Tämä asettaa jäljellä olevan määrän 0 g:aan. Voit muokata sitä myöhemmin.",
+  "setToZeroDialogConfirm": "Aseta nollaan",
+  "setToZeroDialogCancel": "Peruuta",
+  "inventorySetToZeroSuccess": "Varasto asetettu 0 g:aan",
+  "inventorySetToZeroFail": "Varastoa ei voitu asettaa nollaan"
 }
