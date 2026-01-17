@@ -10,6 +10,7 @@ class AppElevatedButton extends StatelessWidget {
   final Color? foregroundColor;
   final double? height;
   final EdgeInsetsGeometry? padding;
+  final bool isFullWidth;
 
   const AppElevatedButton({
     super.key,
@@ -21,6 +22,7 @@ class AppElevatedButton extends StatelessWidget {
     this.foregroundColor,
     this.height,
     this.padding,
+    this.isFullWidth = true,
   });
 
   @override
@@ -31,7 +33,9 @@ class AppElevatedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor ?? theme.colorScheme.primary,
         foregroundColor: foregroundColor ?? theme.colorScheme.onPrimary,
-        minimumSize: Size(double.infinity, height ?? AppButton.heightMedium),
+        minimumSize: isFullWidth
+            ? Size(double.infinity, height ?? AppButton.heightMedium)
+            : Size.fromHeight(height ?? AppButton.heightMedium),
         padding: padding ?? AppButton.paddingMedium,
         elevation: AppButton.elevation,
         shape: RoundedRectangleBorder(
@@ -60,6 +64,7 @@ class AppTextButton extends StatelessWidget {
   final Color? foregroundColor;
   final double? height;
   final EdgeInsetsGeometry? padding;
+  final bool isFullWidth;
 
   const AppTextButton({
     super.key,
@@ -70,6 +75,7 @@ class AppTextButton extends StatelessWidget {
     this.foregroundColor,
     this.height,
     this.padding,
+    this.isFullWidth = true,
   });
 
   @override
@@ -79,7 +85,9 @@ class AppTextButton extends StatelessWidget {
     return TextButton.icon(
       style: TextButton.styleFrom(
         foregroundColor: foregroundColor ?? theme.colorScheme.primary,
-        minimumSize: Size(double.infinity, height ?? AppButton.heightMedium),
+        minimumSize: isFullWidth
+            ? Size(double.infinity, height ?? AppButton.heightMedium)
+            : Size.fromHeight(height ?? AppButton.heightMedium),
         padding: padding ?? AppButton.paddingMedium,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppButton.radius),
