@@ -39,11 +39,11 @@
 - **Coffee Calculator** – Adjust coffee or water amounts to brew any volume.
 - **Favorites** – Mark and quickly access your preferred recipes.
 - **Brew Diary & Automatic Logging** – Track every session, add tasting notes, and automatically log brews.
-- **Bean Logging with AI** – Scan coffee bag labels to save beans effortlessly.
+- **Bean Management** – Scan coffee bag labels to save beans effortlessly, log important details such as origin, roaster, etc. Add remaining amount, attach beans to brews.
 - **Device Sync** – Recipes, beans, and brews stay in sync across iOS, Android, and Web.
 - **Audio Chimes** – Get alerted for each brewing step.
 - **Dark Mode** – Brew comfortably any time of day.
-- **Multilingual** – Available in 18 languages (see below).
+- **Multilingual** – Available in 21 languages (see below).
 
 ---
 
