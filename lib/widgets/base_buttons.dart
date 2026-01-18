@@ -9,6 +9,7 @@ class AppElevatedButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? foregroundColor;
   final double? height;
+  final double? width;
   final EdgeInsetsGeometry? padding;
   final bool isFullWidth;
 
@@ -21,6 +22,7 @@ class AppElevatedButton extends StatelessWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.height,
+    this.width,
     this.padding,
     this.isFullWidth = true,
   });
@@ -33,9 +35,11 @@ class AppElevatedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor ?? theme.colorScheme.primary,
         foregroundColor: foregroundColor ?? theme.colorScheme.onPrimary,
-        minimumSize: isFullWidth
-            ? Size(double.infinity, height ?? AppButton.heightMedium)
-            : Size.fromHeight(height ?? AppButton.heightMedium),
+        minimumSize: width != null
+            ? Size(width!, height ?? AppButton.heightMedium)
+            : (isFullWidth
+                ? Size(double.infinity, height ?? AppButton.heightMedium)
+                : Size.fromHeight(height ?? AppButton.heightMedium)),
         padding: padding ?? AppButton.paddingMedium,
         elevation: AppButton.elevation,
         shape: RoundedRectangleBorder(
@@ -63,6 +67,7 @@ class AppTextButton extends StatelessWidget {
   final IconData? icon;
   final Color? foregroundColor;
   final double? height;
+  final double? width;
   final EdgeInsetsGeometry? padding;
   final bool isFullWidth;
 
@@ -74,6 +79,7 @@ class AppTextButton extends StatelessWidget {
     this.icon,
     this.foregroundColor,
     this.height,
+    this.width,
     this.padding,
     this.isFullWidth = true,
   });
@@ -85,9 +91,11 @@ class AppTextButton extends StatelessWidget {
     return TextButton.icon(
       style: TextButton.styleFrom(
         foregroundColor: foregroundColor ?? theme.colorScheme.primary,
-        minimumSize: isFullWidth
-            ? Size(double.infinity, height ?? AppButton.heightMedium)
-            : Size.fromHeight(height ?? AppButton.heightMedium),
+        minimumSize: width != null
+            ? Size(width!, height ?? AppButton.heightMedium)
+            : (isFullWidth
+                ? Size(double.infinity, height ?? AppButton.heightMedium)
+                : Size.fromHeight(height ?? AppButton.heightMedium)),
         padding: padding ?? AppButton.paddingMedium,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppButton.radius),
