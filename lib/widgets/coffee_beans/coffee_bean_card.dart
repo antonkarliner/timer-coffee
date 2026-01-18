@@ -10,6 +10,7 @@ import '../../providers/database_provider.dart';
 import '../../models/coffee_beans_model.dart';
 import '../confirm_delete_dialog.dart';
 import '../roaster_logo.dart';
+import '../delete_button.dart';
 
 /// A stateless widget representing a coffee bean card in list view.
 ///
@@ -169,9 +170,7 @@ class CoffeeBeanCard extends StatelessWidget {
                       ),
                       // ───────── ACTION BUTTONS ─────────
                       if (isEditMode)
-                        IconButton(
-                          icon: const Icon(Icons.remove_circle_outline,
-                              color: Colors.red),
+                        DeleteButton(
                           onPressed: () async {
                             final confirmed = await showDialog<bool>(
                               context: context,

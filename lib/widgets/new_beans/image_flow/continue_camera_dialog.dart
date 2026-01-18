@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 
 class ContinueCameraDialog extends StatelessWidget {
   const ContinueCameraDialog({super.key});
@@ -11,13 +12,15 @@ class ContinueCameraDialog extends StatelessWidget {
     return AlertDialog(
       title: Text(loc.takeAdditionalPhoto),
       actions: [
-        TextButton(
+        AppTextButton(
+          label: loc.no,
           onPressed: () => Navigator.of(context).pop(false),
-          child: Text(loc.no),
+          isFullWidth: false,
         ),
-        TextButton(
+        AppElevatedButton(
+          label: loc.yes,
           onPressed: () => Navigator.of(context).pop(true),
-          child: Text(loc.yes),
+          isFullWidth: false,
         ),
       ],
     );

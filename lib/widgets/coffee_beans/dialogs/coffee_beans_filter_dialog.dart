@@ -5,6 +5,7 @@ import 'package:coffee_timer/models/ui_state/coffee_beans_filter_options.dart';
 import 'package:coffee_timer/services/coffee_beans_filter_service.dart';
 import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'roaster_selection_dialog.dart';
 import 'origin_selection_dialog.dart';
 
@@ -262,40 +263,12 @@ class _CoffeeBeansFilterDialogState extends State<CoffeeBeansFilterDialog> {
               alignment: MainAxisAlignment.end,
               spacing: 16.0,
               children: [
-                TextButton(
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.card),
-                    ),
-                  ),
-                  child: Text(
-                    loc.resetFilters,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                AppTextButton(
+                  label: loc.resetFilters,
                   onPressed: _resetFilters,
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.card),
-                    ),
-                  ),
-                  child: Text(
-                    loc.apply,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                AppElevatedButton(
+                  label: loc.apply,
                   onPressed: () {
                     Navigator.pop(context, _tempFilterOptions);
                   },
