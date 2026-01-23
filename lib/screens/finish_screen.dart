@@ -23,6 +23,7 @@ import 'package:uuid/uuid.dart';
 import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart';
 import '../widgets/notification_permission_dialog.dart'; // Import AppLogger
+import '../widgets/base_buttons.dart';
 
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
@@ -252,6 +253,12 @@ class _FinishScreenState extends State<FinishScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double homeButtonWidth =
+        (screenWidth * 0.4).clamp(120.0, 150.0).toDouble();
+    final double supportButtonWidth =
+        (screenWidth * 0.6).clamp(200.0, 240.0).toDouble();
+
     return Scaffold(
       appBar: AppBar(
         title: Semantics(
@@ -316,84 +323,41 @@ class _FinishScreenState extends State<FinishScreen> {
             const SizedBox(height: 20),
             Semantics(
               identifier: 'homeButton',
-              child: SizedBox(
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.router.push(const HomeRoute());
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.surface,
-                    foregroundColor: Theme.of(context).colorScheme.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.card),
-                    ),
-                    elevation: 2,
-                  ),
-                  child: Text(
-                    AppLocalizations.of(context)!.home,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+              child: AppElevatedButton(
+                label: AppLocalizations.of(context)!.home,
+                onPressed: () => context.router.push(const HomeRoute()),
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                foregroundColor: Theme.of(context).colorScheme.primary,
+                height: AppButton.heightLarge,
+                width: homeButtonWidth,
               ),
             ),
             const SizedBox(height: 20),
             if (kIsWeb || !Platform.isIOS)
               Semantics(
                 identifier: 'buyMeACoffeeButton',
-                child: SizedBox(
-                  height: 56,
-                  child: ElevatedButton.icon(
-                    onPressed: () =>
-                        _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                    icon: const Icon(Icons.local_cafe),
-                    label: Text(
-                      AppLocalizations.of(context)!.support,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.surface,
-                      foregroundColor: Theme.of(context).colorScheme.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.card),
-                      ),
-                      elevation: 2,
-                    ),
-                  ),
+                child: AppElevatedButton(
+                  label: AppLocalizations.of(context)!.support,
+                  onPressed: () =>
+                      _launchURL('https://www.buymeacoffee.com/timercoffee'),
+                  icon: Icons.local_cafe,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
+                  foregroundColor: Theme.of(context).colorScheme.primary,
+                  height: AppButton.heightLarge,
+                  width: supportButtonWidth,
                 ),
               )
             else if (!kIsWeb && Platform.isIOS)
               Semantics(
                 identifier: 'supportButton',
-                child: SizedBox(
-                  height: 56,
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      context.router.push(const DonationRoute());
-                    },
-                    icon: const Icon(Icons.local_cafe),
-                    label: Text(
-                      AppLocalizations.of(context)!.support,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.surface,
-                      foregroundColor: Theme.of(context).colorScheme.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.card),
-                      ),
-                      elevation: 2,
-                    ),
-                  ),
+                child: AppElevatedButton(
+                  label: AppLocalizations.of(context)!.support,
+                  onPressed: () => context.router.push(const DonationRoute()),
+                  icon: Icons.local_cafe,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
+                  foregroundColor: Theme.of(context).colorScheme.primary,
+                  height: AppButton.heightLarge,
+                  width: supportButtonWidth,
                 ),
               ),
           ],

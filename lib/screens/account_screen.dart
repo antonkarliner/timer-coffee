@@ -17,6 +17,7 @@ import '../app_router.gr.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/confirm_delete_dialog.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
+import '../widgets/base_buttons.dart';
 
 // --- Top-level function for image processing in isolate ---
 Future<Uint8List> _processImageIsolate(Uint8List imageBytes) async {
@@ -172,17 +173,23 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
           ),
           actions: [
-            TextButton(
+            AppTextButton(
+              label: l10n.cancel,
               onPressed: () => Navigator.pop(context),
-              child: Text(l10n.cancel),
+              isFullWidth: false,
+              height: AppButton.heightSmall,
+              padding: AppButton.paddingSmall,
             ),
-            TextButton(
+            AppTextButton(
+              label: l10n.save,
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   Navigator.pop(context, nameController.text.trim());
                 }
               },
-              child: Text(l10n.save), // Use localization
+              isFullWidth: false,
+              height: AppButton.heightSmall,
+              padding: AppButton.paddingSmall,
             ),
           ],
         );
@@ -430,14 +437,20 @@ class _AccountScreenState extends State<AccountScreen> {
         title: Text(l10n.deletePictureConfirmationTitle), // Use localization
         content: Text(l10n.deletePictureConfirmationBody), // Use localization
         actions: [
-          TextButton(
+          AppTextButton(
+            label: l10n.cancel,
             onPressed: () => Navigator.pop(context, false),
-            child: Text(l10n.cancel),
+            isFullWidth: false,
+            height: AppButton.heightSmall,
+            padding: AppButton.paddingSmall,
           ),
-          TextButton(
+          AppTextButton(
+            label: l10n.delete,
             onPressed: () => Navigator.pop(context, true),
-            child: Text(l10n.delete),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            isFullWidth: false,
+            height: AppButton.heightSmall,
+            padding: AppButton.paddingSmall,
+            foregroundColor: Colors.red,
           ),
         ],
       ),
@@ -445,6 +458,49 @@ class _AccountScreenState extends State<AccountScreen> {
 
     if (confirmed == true) {
       await _deletePicture();
+    }
+  }
+
+  Future<void> _showSignOutConfirmation() async {
+    final l10n = AppLocalizations.of(context)!;
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.signOutConfirmationTitle),
+        content: Text(l10n.signOutConfirmationMessage),
+        actions: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: AppTextButton(
+                  label: l10n.cancel,
+                  onPressed: () => Navigator.pop(context, false),
+                  isFullWidth: true,
+                  height: AppButton.heightSmall,
+                  padding: AppButton.paddingSmall,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: AppElevatedButton(
+                  label: l10n.signOut,
+                  onPressed: () => Navigator.pop(context, true),
+                  icon: Icons.logout,
+                  height: AppButton.heightSmall,
+                  padding: AppButton.paddingSmall,
+                  backgroundColor: Theme.of(context).colorScheme.error,
+                  foregroundColor: Theme.of(context).colorScheme.onError,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      await _signOut();
     }
   }
 
@@ -525,8 +581,8 @@ class _AccountScreenState extends State<AccountScreen> {
       // Sign back in anonymously
       await Supabase.instance.client.auth.signInAnonymously();
 
-      // Navigate back to the root or home screen after sign out
-      router.popUntilRoot(); // Or specific route like HomeRoute()
+      // Navigate to hub_home_screen after sign out
+      router.navigate(const HubHomeRoute());
     } catch (e) {
       AppLogger.error('Error signing out', errorObject: e);
       if (mounted) {
@@ -793,24 +849,15 @@ class _AccountScreenState extends State<AccountScreen> {
                   SizedBox(
                     height: 56,
                     width: double.infinity,
-                    child: ElevatedButton.icon(
-                      icon: const Icon(Icons.logout),
-                      label: Text(
-                        l10n.signOut, // Use localization
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      onPressed: _signOut, // Call the sign out method
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.surface,
-                        foregroundColor: Theme.of(context).colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.card),
-                        ),
-                        elevation: 2,
-                      ),
+                    child: AppElevatedButton(
+                      label: l10n.signOut,
+                      onPressed: _showSignOutConfirmation,
+                      icon: Icons.logout,
+                      height: 56,
+                      padding: AppButton.paddingSmall,
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                      elevation: 2,
                     ),
                   ),
                   const SizedBox(height: 16), // Spacing between buttons
@@ -819,24 +866,15 @@ class _AccountScreenState extends State<AccountScreen> {
                   SizedBox(
                     height: 56,
                     width: double.infinity,
-                    child: ElevatedButton.icon(
-                      icon: const Icon(Icons.delete_forever),
-                      label: Text(
-                        l10n.deleteAccount,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                    child: AppElevatedButton(
+                      label: l10n.deleteAccount,
                       onPressed: _showDeleteAccountConfirmation,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.error,
-                        foregroundColor: Theme.of(context).colorScheme.onError,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.card),
-                        ),
-                        elevation: 2,
-                      ),
+                      icon: Icons.delete_forever,
+                      height: 56,
+                      padding: AppButton.paddingSmall,
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      foregroundColor: Theme.of(context).colorScheme.onError,
+                      elevation: 2,
                     ),
                   ),
                 ],

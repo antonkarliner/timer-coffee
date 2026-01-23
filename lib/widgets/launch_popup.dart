@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:url_launcher/url_launcher.dart'; // Ensure correct import path
 import 'package:flutter_markdown/flutter_markdown.dart';
 
@@ -94,14 +96,11 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
             child: _buildMarkdown(context, popup.content),
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text(
-                AppLocalizations.of(context)!.whatsnewclose,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+            AppTextButton(
+              label: AppLocalizations.of(context)!.whatsnewclose,
+              isFullWidth: false,
+              height: AppButton.heightSmall,
+              padding: AppButton.paddingSmall,
               onPressed: () async {
                 await prefs.setInt(idKey, popup.id);
                 Navigator.of(context).pop();

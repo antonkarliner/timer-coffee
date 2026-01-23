@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import '../../models/brew_step_model.dart';
 
 class RecipeStepsForm extends StatefulWidget {
@@ -143,23 +144,13 @@ class _RecipeStepsFormState extends State<RecipeStepsForm> {
             child: Row(
               children: [
                 Expanded(
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 50),
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 15),
-                    ),
-                    icon: const Icon(Icons.add),
-                    label: Text(
-                      l10n.recipeCreationScreenAddStepButton,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                  child: AppElevatedButton(
+                    label: l10n.recipeCreationScreenAddStepButton,
                     onPressed: _addStep,
+                    icon: Icons.add,
+                    height: 50,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
                   ),
                 ),
               ],
@@ -170,32 +161,13 @@ class _RecipeStepsFormState extends State<RecipeStepsForm> {
             child: Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 50),
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 15),
-                    ),
+                  child: AppElevatedButton(
+                    label: l10n.recipeCreationScreenSaveRecipeButton,
                     onPressed: widget.onSave,
-                    child: widget.isSaving
-                        ? SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Theme.of(context).colorScheme.onPrimary),
-                            ),
-                          )
-                        : Text(
-                            l10n.recipeCreationScreenSaveRecipeButton,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                    isLoading: widget.isSaving,
+                    height: 50,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
                   ),
                 ),
               ],

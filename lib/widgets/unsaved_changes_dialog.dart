@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 
 class UnsavedChangesDialog extends StatelessWidget {
   const UnsavedChangesDialog({
@@ -24,33 +25,21 @@ class UnsavedChangesDialog extends StatelessWidget {
         style: AppTextStyles.body,
       ),
       actions: [
-        TextButton(
+        AppTextButton(
+          label: l10n.unsavedChangesStay,
           onPressed: () => Navigator.of(context).pop(false),
-          child: Text(
-            l10n.unsavedChangesStay,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
         ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.error,
-            foregroundColor: Theme.of(context).colorScheme.onError,
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppRadius.card),
-            ),
-          ),
+        AppElevatedButton(
+          label: l10n.unsavedChangesDiscard,
           onPressed: () => Navigator.of(context).pop(true),
-          child: Text(
-            l10n.unsavedChangesDiscard,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
+          backgroundColor: Theme.of(context).colorScheme.error,
+          foregroundColor: Theme.of(context).colorScheme.onError,
         ),
       ],
     );

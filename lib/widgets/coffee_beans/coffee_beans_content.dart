@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 
 import '../../app_router.gr.dart';
 import '../../providers/coffee_beans_provider.dart';
@@ -122,9 +124,12 @@ class CoffeeBeansContent extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
-          TextButton(
+          AppTextButton(
+            label: loc.clearFilters,
             onPressed: onClearFilters,
-            child: Text(loc.clearFilters),
+            isFullWidth: false,
+            height: AppButton.heightSmall,
+            padding: AppButton.paddingSmall,
           ),
         ],
       ),
@@ -148,13 +153,16 @@ class CoffeeBeansContent extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
-          ElevatedButton.icon(
+          AppElevatedButton(
+            label: loc.addBeans,
             onPressed: () async {
               final result = await context.router.push(NewBeansRoute());
               // Note: State refresh should be handled by parent
             },
-            icon: const Icon(Icons.add),
-            label: Text(loc.addBeans),
+            icon: Icons.add,
+            isFullWidth: false,
+            height: AppButton.heightSmall,
+            padding: AppButton.paddingSmall,
           ),
         ],
       ),

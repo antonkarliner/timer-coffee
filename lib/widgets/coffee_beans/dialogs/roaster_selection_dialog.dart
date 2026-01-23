@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/services/coffee_beans_filter_service.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 
 /// Dialog for selecting multiple roasters from a list.
 ///
@@ -73,41 +74,23 @@ class _RoasterSelectionDialogState extends State<RoasterSelectionDialog> {
         ),
       ),
       actions: [
-        TextButton(
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppRadius.card),
-            ),
-          ),
-          child: Text(
-            loc.cancel,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+        AppTextButton(
+          label: loc.cancel,
           onPressed: () {
             Navigator.pop(context);
           },
+          isFullWidth: false,
+          height: AppButton.heightMedium,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         ),
-        TextButton(
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppRadius.card),
-            ),
-          ),
-          child: Text(
-            loc.ok,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+        AppElevatedButton(
+          label: loc.ok,
           onPressed: () {
             Navigator.pop(context, _tempSelectedRoasters);
           },
+          isFullWidth: false,
+          height: AppButton.heightMedium,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         ),
       ],
     );

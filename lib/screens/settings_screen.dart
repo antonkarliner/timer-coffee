@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:coffee_timer/models/contributor_model.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -645,46 +646,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
           content: Text(
               AppLocalizations.of(context)!.notificationsDisabledDialogContent),
           actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.card),
-                ),
-              ),
-              child: Text(
-                l10n.cancel,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+            AppTextButton(
+              label: l10n.cancel,
               onPressed: () {
                 Navigator.of(context).pop();
               },
+              isFullWidth: false,
+              height: AppButton.heightMedium,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.card),
-                ),
-              ),
-              child: Text(
-                AppLocalizations.of(context)!.openSettings,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+            AppElevatedButton(
+              label: AppLocalizations.of(context)!.openSettings,
               onPressed: () async {
                 Navigator.of(context).pop();
                 await _openNotificationSettings();
               },
+              isFullWidth: false,
+              height: AppButton.heightMedium,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
             ),
           ],
         );

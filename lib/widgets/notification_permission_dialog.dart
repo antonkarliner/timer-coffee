@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 
 /// Custom dialog for requesting notification permissions on first finish screen
 ///
@@ -24,39 +25,19 @@ class NotificationPermissionDialog extends StatelessWidget {
       title: Text(l10n.notificationPermissionDialogTitle),
       content: Text(l10n.notificationPermissionDialogMessage),
       actions: [
-        TextButton(
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppRadius.card),
-            ),
-          ),
+        AppTextButton(
+          label: l10n.notificationPermissionSkip,
           onPressed: onSkip,
-          child: Text(
-            l10n.notificationPermissionSkip,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          isFullWidth: false,
+          height: AppButton.heightMedium,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.onPrimary,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppRadius.card),
-            ),
-          ),
+        AppElevatedButton(
+          label: l10n.notificationPermissionEnable,
           onPressed: onEnable,
-          child: Text(
-            l10n.notificationPermissionEnable,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          isFullWidth: false,
+          height: AppButton.heightMedium,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         ),
       ],
     );

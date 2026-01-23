@@ -20,6 +20,8 @@ import '../services/recipe_save_service.dart';
 import '../services/recipe_navigation_service.dart';
 import '../widgets/unsaved_changes_dialog.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
+import '../theme/design_tokens.dart';
+import '../widgets/base_buttons.dart';
 
 @RoutePage()
 class RecipeCreationScreen extends StatefulWidget {
@@ -347,37 +349,22 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         title: Text(l10n.recipeDuplicateConfirmTitle),
         content: Text(l10n.recipeDuplicateConfirmMessage),
         actions: <Widget>[
-          TextButton(
+          AppTextButton(
+            label: l10n.dialogCancel,
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(
-              l10n.dialogCancel,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            isFullWidth: false,
+            height: AppButton.heightSmall,
+            padding: AppButton.paddingSmall,
           ),
           SizedBox(
             height: 56,
-            child: ElevatedButton(
+            child: AppElevatedButton(
+              label: l10n.dialogDuplicate,
               onPressed: () => Navigator.of(context).pop(true),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                elevation: 0,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              ),
-              child: Text(
-                l10n.dialogDuplicate,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              isFullWidth: false,
+              height: 56,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              elevation: 0,
             ),
           ),
         ],

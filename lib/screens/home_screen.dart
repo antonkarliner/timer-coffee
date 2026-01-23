@@ -19,6 +19,8 @@ import '../purchase_manager.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
+import '../theme/design_tokens.dart';
+import '../widgets/base_buttons.dart';
 // Added import
 import 'package:http/http.dart' as http; // Import http package
 import 'package:coffee_timer/services/feature_flags/feature_flags_repository.dart';
@@ -197,15 +199,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             title: Text(l10n.moderationReviewNeededTitle),
             content: Text(l10n.moderationReviewNeededMessage(recipeNames)),
             actions: [
-              TextButton(
-                child: Text(l10n.dismiss),
+              AppTextButton(
+                label: l10n.dismiss,
                 onPressed: () {
                   AppLogger.debug("User dismissed moderation popup");
                   Navigator.of(context).pop();
                 },
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
               ),
-              TextButton(
-                child: Text(l10n.reviewRecipeButton),
+              AppTextButton(
+                label: l10n.reviewRecipeButton,
                 onPressed: () {
                   AppLogger.debug(
                       "User chose to review recipe: ${firstFlaggedRecipe['id']}");
@@ -222,6 +227,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     // Could show a snackbar here if needed
                   }
                 },
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
               ),
             ],
           );
@@ -316,11 +324,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             title: Text(l10n.donationok),
             content: Text(l10n.donationtnx),
             actions: [
-              TextButton(
-                child: Text(l10n.ok),
+              AppTextButton(
+                label: l10n.ok,
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
               ),
             ],
           );
@@ -339,11 +350,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             title: Text(l10n.donationerr),
             content: Text(l10n.donationerrmsg),
             actions: [
-              TextButton(
-                child: Text(l10n.ok),
+              AppTextButton(
+                label: l10n.ok,
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
               ),
             ],
           );

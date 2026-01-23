@@ -9,6 +9,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../theme/design_tokens.dart';
+import '../widgets/base_buttons.dart';
 
 @RoutePage()
 class DonationScreen extends StatefulWidget {
@@ -69,11 +70,14 @@ class _DonationScreenState extends State<DonationScreen> {
                 title: Text(AppLocalizations.of(context)!.donationok),
                 content: Text(AppLocalizations.of(context)!.donationtnx),
                 actions: [
-                  TextButton(
-                    child: const Text("OK"),
+                  AppTextButton(
+                    label: 'OK',
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
+                    isFullWidth: false,
+                    height: AppButton.heightSmall,
+                    padding: AppButton.paddingSmall,
                   ),
                 ],
               );
@@ -90,11 +94,14 @@ class _DonationScreenState extends State<DonationScreen> {
               title: Text(AppLocalizations.of(context)!.donationerr),
               content: Text(AppLocalizations.of(context)!.donationerrmsg),
               actions: [
-                TextButton(
-                  child: const Text("OK"),
+                AppTextButton(
+                  label: 'OK',
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
+                  isFullWidth: false,
+                  height: AppButton.heightSmall,
+                  padding: AppButton.paddingSmall,
                 ),
               ],
             );
@@ -172,25 +179,17 @@ class _DonationScreenState extends State<DonationScreen> {
                 identifier: 'buyMeACoffeeButton',
                 child: SizedBox(
                   height: 56,
-                  child: ElevatedButton.icon(
+                  child: AppElevatedButton(
+                    label: AppLocalizations.of(context)!.support,
                     onPressed: () =>
                         _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                    icon: const Icon(Icons.local_cafe),
-                    label: Text(
-                      AppLocalizations.of(context)!.support,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.surface,
-                      foregroundColor: Theme.of(context).colorScheme.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.card),
-                      ),
-                      elevation: 2,
-                    ),
+                    icon: Icons.local_cafe,
+                    isFullWidth: false,
+                    height: 56,
+                    padding: AppButton.paddingSmall,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    foregroundColor: Theme.of(context).colorScheme.primary,
+                    elevation: 2,
                   ),
                 ),
               ),
@@ -199,25 +198,17 @@ class _DonationScreenState extends State<DonationScreen> {
               identifier: 'homeButton',
               child: SizedBox(
                 height: 56,
-                child: ElevatedButton(
+                child: AppElevatedButton(
+                  label: AppLocalizations.of(context)!.home,
                   onPressed: () {
                     context.router.push(const HomeRoute());
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.surface,
-                    foregroundColor: Theme.of(context).colorScheme.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.card),
-                    ),
-                    elevation: 2,
-                  ),
-                  child: Text(
-                    AppLocalizations.of(context)!.home,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  isFullWidth: false,
+                  height: 56,
+                  padding: AppButton.paddingSmall,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
+                  foregroundColor: Theme.of(context).colorScheme.primary,
+                  elevation: 2,
                 ),
               ),
             ),
@@ -233,23 +224,15 @@ class _DonationScreenState extends State<DonationScreen> {
       identifier: 'productButton_${product.id}',
       child: SizedBox(
         height: 56,
-        child: ElevatedButton(
+        child: AppElevatedButton(
+          label: productTitles[product.id] ?? 'Unknown Product',
           onPressed: () => _makePurchase(product),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.surface,
-            foregroundColor: Theme.of(context).colorScheme.primary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppRadius.card),
-            ),
-            elevation: 2,
-          ),
-          child: Text(
-            productTitles[product.id] ?? 'Unknown Product',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          isFullWidth: false,
+          height: 56,
+          padding: AppButton.paddingSmall,
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          foregroundColor: Theme.of(context).colorScheme.primary,
+          elevation: 2,
         ),
       ),
     );

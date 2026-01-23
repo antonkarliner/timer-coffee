@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 
 /// Empty state widgets for the coffee beans screen.
 ///
@@ -93,29 +95,20 @@ class CoffeeBeansEmptyState extends StatelessWidget {
   Widget _buildActionButton(BuildContext context, AppLocalizations loc) {
     switch (type) {
       case EmptyStateType.noBeans:
-        return ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.onPrimary,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          ),
+        return AppElevatedButton(
+          label: loc.addBeans,
           onPressed: onAddBeans,
-          icon: const Icon(Icons.add),
-          label: Text(
-            loc.addBeans,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          icon: Icons.add,
+          isFullWidth: false,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         );
       case EmptyStateType.noSearchResults:
-        return TextButton(
+        return AppTextButton(
+          label: loc.clearFilters,
           onPressed: onClearFilters,
-          child: Text(loc.clearFilters),
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
         );
     }
   }

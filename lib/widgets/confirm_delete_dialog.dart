@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import '../theme/design_tokens.dart';
 
 class ConfirmDeleteDialog extends StatelessWidget {
@@ -21,33 +22,21 @@ class ConfirmDeleteDialog extends StatelessWidget {
       title: Text(title),
       content: Text(content),
       actions: [
-        TextButton(
+        AppTextButton(
+          label: cancelLabel,
           onPressed: () => Navigator.of(context).pop(false),
-          child: Text(
-            cancelLabel,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
         ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.error,
-            foregroundColor: Theme.of(context).colorScheme.onError,
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppRadius.card),
-            ),
-          ),
+        AppElevatedButton(
+          label: confirmLabel,
           onPressed: () => Navigator.of(context).pop(true),
-          child: Text(
-            confirmLabel,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
+          backgroundColor: Theme.of(context).colorScheme.error,
+          foregroundColor: Theme.of(context).colorScheme.onError,
         ),
       ],
     );

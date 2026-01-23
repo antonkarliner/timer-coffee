@@ -3,6 +3,8 @@ import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import '../providers/coffee_beans_provider.dart';
 import '../providers/database_provider.dart';
 import '../models/coffee_beans_model.dart';
@@ -269,17 +271,16 @@ class _AddCoffeeBeansWidgetState extends State<AddCoffeeBeansWidget> {
               child: Semantics(
                 identifier: 'nextButton',
                 label: loc.next,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                  ),
+                child: AppElevatedButton(
+                  label: loc.next,
                   onPressed: selectedBeanUuid != null
                       ? () {
                           widget.onSelect(selectedBeanUuid!);
                         }
                       : null,
-                  child: Text(loc.next),
+                  isFullWidth: false,
+                  height: AppButton.heightSmall,
+                  padding: AppButton.paddingSmall,
                 ),
               ),
             ),

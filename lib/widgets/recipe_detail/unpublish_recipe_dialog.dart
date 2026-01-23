@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 
 /// Dialog for confirming whether to unpublish a recipe by making it private.
 class UnpublishRecipeDialog extends StatelessWidget {
@@ -22,13 +24,19 @@ class UnpublishRecipeDialog extends StatelessWidget {
         ],
       ),
       actions: [
-        TextButton(
+        AppTextButton(
+          label: l10n.unpublishRecipeDialogKeepPublic,
           onPressed: () => Navigator.of(context).pop(false),
-          child: Text(l10n.unpublishRecipeDialogKeepPublic),
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
         ),
-        ElevatedButton(
+        AppElevatedButton(
+          label: l10n.unpublishRecipeDialogMakePrivate,
           onPressed: () => Navigator.of(context).pop(true),
-          child: Text(l10n.unpublishRecipeDialogMakePrivate),
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
         ),
       ],
     );

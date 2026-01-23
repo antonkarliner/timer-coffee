@@ -20,6 +20,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 import 'package:uuid/uuid.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
 
 // Image flow controller and widgets
@@ -574,7 +575,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
             SizedBox(
               width: double.infinity,
               height: 56,
-              child: ElevatedButton(
+              child: AppElevatedButton(
+                label: loc.ok,
                 onPressed: () async {
                   Navigator.pop(context);
                   SharedPreferences prefs =
@@ -583,21 +585,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                   hasShownPopup = true;
                   await _startImageFlow();
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.card),
-                  ),
-                  elevation: 0,
-                ),
-                child: Text(
-                  loc.ok,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                height: 56,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                elevation: 0,
               ),
             ),
           ],

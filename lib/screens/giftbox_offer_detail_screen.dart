@@ -19,6 +19,7 @@ import '../utils/app_logger.dart';
 import '../widgets/gift_discount_chip.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../utils/region_labels.dart';
+import '../widgets/base_buttons.dart';
 
 @RoutePage()
 class GiftBoxOfferDetailScreen extends StatefulWidget {
@@ -209,9 +210,12 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
           Text(_error ?? l10n.holidayGiftBoxOfferUnavailable,
               style: theme.textTheme.bodyLarge),
           const SizedBox(height: AppSpacing.sm),
-          ElevatedButton(
+          AppElevatedButton(
+            label: l10n.holidayGiftBoxRetry,
             onPressed: () => _load(Localizations.localeOf(context)),
-            child: Text(l10n.holidayGiftBoxRetry),
+            isFullWidth: false,
+            height: AppButton.heightSmall,
+            padding: AppButton.paddingSmall,
           ),
         ],
       );
@@ -277,29 +281,19 @@ class _GiftBoxOfferDetailScreenState extends State<GiftBoxOfferDetailScreen> {
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.base),
             child: SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
+              child: AppElevatedButton(
+                label: (offer.cta ?? '').trim().isNotEmpty
+                    ? offer.cta!.trim()
+                    : l10n.holidayGiftBoxVisitSite,
                 onPressed: () async {
                   final uri = await _buildTrackedOfferUri(offer);
                   await _launchUri(uri);
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.colorScheme.primary,
-                  foregroundColor: theme.colorScheme.onPrimary,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.card),
-                  ),
-                  textStyle: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                child: Text(
-                  (offer.cta ?? '').trim().isNotEmpty
-                      ? offer.cta!.trim()
-                      : l10n.holidayGiftBoxVisitSite,
-                ),
+                height: AppButton.heightMedium,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                backgroundColor: theme.colorScheme.primary,
+                foregroundColor: theme.colorScheme.onPrimary,
               ),
             ),
           ),

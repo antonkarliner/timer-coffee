@@ -19,6 +19,7 @@ import '../models/coffee_beans_model.dart';
 import '../widgets/roaster_logo.dart';
 import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
+import '../widgets/base_buttons.dart';
 
 @RoutePage()
 class BrewDiaryScreen extends StatefulWidget {
@@ -454,27 +455,18 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                       label: 'Select Beans Button',
                       child: SizedBox(
                         height: 56,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.surface,
-                            foregroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            elevation: 2,
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(AppRadius.card),
-                            ),
-                          ),
+                        child: AppElevatedButton(
+                          label: loc.selectBeans,
                           onPressed: () =>
                               _openAddBeansPopup(context, stat.statUuid),
-                          child: Text(
-                            loc.selectBeans,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          isFullWidth: false,
+                          height: 56,
+                          padding: AppButton.paddingSmall,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.surface,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          elevation: 2,
                         ),
                       ),
                     ),
@@ -607,52 +599,31 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                   children: [
                                     SizedBox(
                                       height: 56,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .surface,
-                                          foregroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          elevation: 2,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                AppRadius.card),
-                                          ),
-                                        ),
+                                      child: AppElevatedButton(
+                                        label: loc.details,
                                         onPressed: () {
                                           context.router.push(
                                             CoffeeBeansDetailRoute(
                                                 uuid: bean.beansUuid!),
                                           );
                                         },
-                                        child: Text(
-                                          loc.details,
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
+                                        isFullWidth: false,
+                                        height: 56,
+                                        padding: AppButton.paddingSmall,
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        foregroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        elevation: 2,
                                       ),
                                     ),
                                     const SizedBox(width: 8),
                                     SizedBox(
                                       height: 56,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .surface,
-                                          foregroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          elevation: 2,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                AppRadius.card),
-                                          ),
-                                        ),
+                                      child: AppElevatedButton(
+                                        label: loc.removeBeans,
                                         onPressed: () async {
                                           AppLogger.debug(
                                               'Remove beans button pressed for stat: ${stat.statUuid}');
@@ -711,13 +682,16 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                           AppLogger.debug(
                                               'updateUserStat called');
                                         },
-                                        child: Text(
-                                          loc.removeBeans,
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
+                                        isFullWidth: false,
+                                        height: 56,
+                                        padding: AppButton.paddingSmall,
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        foregroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        elevation: 2,
                                       ),
                                     ),
                                   ],

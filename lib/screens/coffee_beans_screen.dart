@@ -8,6 +8,8 @@ import '../models/coffee_beans_model.dart';
 import '../models/ui_state/coffee_beans_view_state.dart';
 import '../widgets/coffee_beans/index.dart';
 import '../l10n/app_localizations.dart';
+import '../theme/design_tokens.dart';
+import '../widgets/base_buttons.dart';
 
 @RoutePage()
 class CoffeeBeansScreen extends StatefulWidget {
@@ -136,9 +138,12 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
-            ElevatedButton(
+            AppElevatedButton(
+              label: 'Retry',
               onPressed: () => controller.refreshData(context),
-              child: const Text('Retry'),
+              isFullWidth: false,
+              height: AppButton.heightSmall,
+              padding: AppButton.paddingSmall,
             ),
           ],
         ),

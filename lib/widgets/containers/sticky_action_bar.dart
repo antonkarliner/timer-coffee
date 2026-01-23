@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import '../../theme/design_tokens.dart';
 
 /// A standardized bottom action bar that provides keyboard-aware positioning
@@ -108,27 +108,17 @@ class StickyActionBar extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: 56,
-      child: ElevatedButton(
-        onPressed: primaryDisabled || isLoading ? null : onPrimaryPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: colorScheme.primary,
-          foregroundColor: colorScheme.onPrimary,
-          disabledBackgroundColor: colorScheme.primary.withOpacity(0.5),
-          disabledForegroundColor: colorScheme.onPrimary.withOpacity(0.5),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppRadius.card),
-          ),
-          elevation: 0,
-        ),
-        child: isLoading
-            ? _buildLoadingIndicator(colorScheme.onPrimary)
-            : Text(
-                primaryLabel,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+      child: AppElevatedButton(
+        label: primaryLabel,
+        onPressed: primaryDisabled ? null : onPrimaryPressed,
+        isLoading: isLoading,
+        height: 56,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
+        disabledBackgroundColor: colorScheme.primary.withOpacity(0.5),
+        disabledForegroundColor: colorScheme.onPrimary.withOpacity(0.5),
+        elevation: 0,
       ),
     );
   }
@@ -171,43 +161,21 @@ class StickyActionBar extends StatelessWidget {
           flex: 1,
           child: SizedBox(
             height: 56,
-            child: ElevatedButton(
-              onPressed: primaryDisabled || isLoading ? null : onPrimaryPressed,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colorScheme.primary,
-                foregroundColor: colorScheme.onPrimary,
-                disabledBackgroundColor: colorScheme.primary.withOpacity(0.5),
-                disabledForegroundColor: colorScheme.onPrimary.withOpacity(0.5),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.card),
-                ),
-                elevation: 0,
-              ),
-              child: isLoading
-                  ? _buildLoadingIndicator(colorScheme.onPrimary)
-                  : Text(
-                      primaryLabel,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+            child: AppElevatedButton(
+              label: primaryLabel,
+              onPressed: primaryDisabled ? null : onPrimaryPressed,
+              isLoading: isLoading,
+              height: 56,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              backgroundColor: colorScheme.primary,
+              foregroundColor: colorScheme.onPrimary,
+              disabledBackgroundColor: colorScheme.primary.withOpacity(0.5),
+              disabledForegroundColor: colorScheme.onPrimary.withOpacity(0.5),
+              elevation: 0,
             ),
           ),
         ),
       ],
-    );
-  }
-
-  /// Builds a loading indicator widget
-  Widget _buildLoadingIndicator(Color color) {
-    return SizedBox(
-      width: 20,
-      height: 20,
-      child: CircularProgressIndicator(
-        strokeWidth: 2.0,
-        valueColor: AlwaysStoppedAnimation<Color>(color),
-      ),
     );
   }
 }

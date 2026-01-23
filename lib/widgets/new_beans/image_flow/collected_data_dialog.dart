@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 
 class CollectedDataDialog extends StatelessWidget {
   final Map<String, dynamic> data;
@@ -129,23 +130,12 @@ class CollectedDataDialog extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           height: 56,
-          child: ElevatedButton(
+          child: AppElevatedButton(
+            label: loc.ok,
             onPressed: () => Navigator.pop(context),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Theme.of(context).colorScheme.onPrimary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              elevation: 0,
-            ),
-            child: Text(
-              loc.ok,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            height: 56,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            elevation: 0,
           ),
         ),
       ],

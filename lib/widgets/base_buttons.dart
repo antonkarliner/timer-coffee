@@ -8,6 +8,9 @@ class AppElevatedButton extends StatelessWidget {
   final IconData? icon;
   final Color? backgroundColor;
   final Color? foregroundColor;
+  final Color? disabledBackgroundColor;
+  final Color? disabledForegroundColor;
+  final double? elevation;
   final double? height;
   final double? width;
   final EdgeInsetsGeometry? padding;
@@ -21,6 +24,9 @@ class AppElevatedButton extends StatelessWidget {
     this.icon,
     this.backgroundColor,
     this.foregroundColor,
+    this.disabledBackgroundColor,
+    this.disabledForegroundColor,
+    this.elevation,
     this.height,
     this.width,
     this.padding,
@@ -30,18 +36,22 @@ class AppElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final resolvedForegroundColor =
+        foregroundColor ?? theme.colorScheme.onPrimary;
 
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor ?? theme.colorScheme.primary,
-        foregroundColor: foregroundColor ?? theme.colorScheme.onPrimary,
+        foregroundColor: resolvedForegroundColor,
+        disabledBackgroundColor: disabledBackgroundColor,
+        disabledForegroundColor: disabledForegroundColor,
         minimumSize: width != null
             ? Size(width!, height ?? AppButton.heightMedium)
             : (isFullWidth
                 ? Size(double.infinity, height ?? AppButton.heightMedium)
-                : Size.fromHeight(height ?? AppButton.heightMedium)),
+                : Size(0, height ?? AppButton.heightMedium)),
         padding: padding ?? AppButton.paddingMedium,
-        elevation: AppButton.elevation,
+        elevation: elevation ?? AppButton.elevation,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppButton.radius),
         ),
@@ -50,10 +60,14 @@ class AppElevatedButton extends StatelessWidget {
       onPressed: isLoading ? null : onPressed,
       icon: icon != null ? Icon(icon) : const SizedBox.shrink(),
       label: isLoading
-          ? const SizedBox(
+          ? SizedBox(
               width: 20,
               height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(resolvedForegroundColor),
+              ),
             )
           : Text(label),
     );
@@ -66,6 +80,7 @@ class AppTextButton extends StatelessWidget {
   final bool isLoading;
   final IconData? icon;
   final Color? foregroundColor;
+  final TextStyle? textStyle;
   final double? height;
   final double? width;
   final EdgeInsetsGeometry? padding;
@@ -78,6 +93,7 @@ class AppTextButton extends StatelessWidget {
     this.isLoading = false,
     this.icon,
     this.foregroundColor,
+    this.textStyle,
     this.height,
     this.width,
     this.padding,
@@ -87,28 +103,34 @@ class AppTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final resolvedForegroundColor =
+        foregroundColor ?? theme.colorScheme.primary;
 
     return TextButton.icon(
       style: TextButton.styleFrom(
-        foregroundColor: foregroundColor ?? theme.colorScheme.primary,
+        foregroundColor: resolvedForegroundColor,
         minimumSize: width != null
             ? Size(width!, height ?? AppButton.heightMedium)
             : (isFullWidth
                 ? Size(double.infinity, height ?? AppButton.heightMedium)
-                : Size.fromHeight(height ?? AppButton.heightMedium)),
+                : Size(0, height ?? AppButton.heightMedium)),
         padding: padding ?? AppButton.paddingMedium,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppButton.radius),
         ),
-        textStyle: AppButton.label,
+        textStyle: textStyle ?? AppButton.label,
       ),
       onPressed: isLoading ? null : onPressed,
       icon: icon != null ? Icon(icon) : const SizedBox.shrink(),
       label: isLoading
-          ? const SizedBox(
+          ? SizedBox(
               width: 20,
               height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(resolvedForegroundColor),
+              ),
             )
           : Text(label),
     );

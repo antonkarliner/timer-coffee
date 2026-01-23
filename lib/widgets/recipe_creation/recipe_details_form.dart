@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import '../../models/brewing_method_model.dart';
 import '../../theme/design_tokens.dart';
 import 'recipe_basic_info_card.dart';
@@ -99,24 +100,11 @@ class RecipeDetailsForm extends StatelessWidget {
             const SizedBox(height: AppSpacing.lg),
 
             // Continue Button
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                minimumSize: const Size(double.infinity, 50),
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              ),
+            AppElevatedButton(
+              label: l10n.recipeCreationScreenContinueButton,
               onPressed: onContinue,
-              child: Text(
-                l10n.recipeCreationScreenContinueButton,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              height: 50,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             ),
           ],
         ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 
 class SelectedImagesSheet extends StatefulWidget {
   final List<XFile> initialImages;
@@ -128,43 +129,19 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
               alignment: MainAxisAlignment.center,
               spacing: 16.0,
               children: [
-                TextButton(
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.card),
-                    ),
-                  ),
-                  child: Text(
-                    loc.backToSelection,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                AppTextButton(
+                  label: loc.backToSelection,
                   onPressed: () async {
                     Navigator.pop(context);
                     await widget.onBackToSelection();
                   },
+                  isFullWidth: false,
+                  height: AppButton.heightMedium,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.card),
-                    ),
-                  ),
-                  child: Text(
-                    loc.next,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                AppElevatedButton(
+                  label: loc.next,
                   onPressed: () async {
                     // Show immediate feedback before heavy OCR starts
                     showDialog(
@@ -204,6 +181,10 @@ class _SelectedImagesSheetState extends State<SelectedImagesSheet> {
                       Navigator.of(context).pop();
                     }
                   },
+                  isFullWidth: false,
+                  height: AppButton.heightMedium,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 ),
               ],
             ),

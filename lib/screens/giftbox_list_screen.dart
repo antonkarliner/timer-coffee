@@ -16,6 +16,7 @@ import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart';
 import '../widgets/gift_discount_chip.dart';
 import '../utils/region_labels.dart';
+import '../widgets/base_buttons.dart';
 
 @RoutePage()
 class GiftBoxListScreen extends StatefulWidget {
@@ -148,9 +149,13 @@ class _GiftBoxListScreenState extends State<GiftBoxListScreen> {
           Text(_error ?? l10n.holidayGiftBoxLoadFailed,
               style: theme.textTheme.bodyLarge),
           const SizedBox(height: AppSpacing.sm),
-          ElevatedButton(
-              onPressed: () => _load(Localizations.localeOf(context)),
-              child: Text(l10n.holidayGiftBoxRetry)),
+          AppElevatedButton(
+            label: l10n.holidayGiftBoxRetry,
+            onPressed: () => _load(Localizations.localeOf(context)),
+            isFullWidth: false,
+            height: AppButton.heightSmall,
+            padding: AppButton.paddingSmall,
+          ),
         ],
       );
     }
@@ -342,22 +347,15 @@ class GiftOfferCard extends StatelessWidget {
                   const SizedBox(height: AppSpacing.base),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: ElevatedButton(
+                    child: AppElevatedButton(
+                      label: l10n.holidayGiftBoxViewDetails,
                       onPressed: onTap,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.primary,
-                        foregroundColor: theme.colorScheme.onPrimary,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.card),
-                        ),
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      child: Text(l10n.holidayGiftBoxViewDetails),
+                      isFullWidth: false,
+                      height: AppButton.heightMedium,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 12),
+                      backgroundColor: theme.colorScheme.primary,
+                      foregroundColor: theme.colorScheme.onPrimary,
                     ),
                   )
                 ],

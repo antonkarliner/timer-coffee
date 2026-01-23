@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 
 class ErrorDialog extends StatelessWidget {
   final String message;
@@ -17,9 +19,12 @@ class ErrorDialog extends StatelessWidget {
       title: Text(loc.errorMessage),
       content: Text(message),
       actions: [
-        TextButton(
+        AppTextButton(
+          label: loc.ok,
           onPressed: () => Navigator.pop(context),
-          child: Text(loc.ok),
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
         ),
       ],
     );

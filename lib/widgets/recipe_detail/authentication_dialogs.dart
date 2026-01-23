@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
+import 'package:coffee_timer/widgets/base_buttons.dart';
 import 'dart:io';
 
 // Enum for sign-in method
@@ -52,9 +54,12 @@ class SignInPromptModal extends StatelessWidget {
               iconColor: isDarkMode ? Colors.black87 : Colors.white,
             ),
             const SizedBox(height: 16),
-            TextButton(
-              child: Text(l10n.dialogCancel),
+            AppTextButton(
+              label: l10n.dialogCancel,
               onPressed: () => Navigator.pop(context, false),
+              isFullWidth: false,
+              height: AppButton.heightSmall,
+              padding: AppButton.paddingSmall,
             ),
             const SizedBox(height: 16),
           ],
@@ -107,9 +112,12 @@ class SignInMethodSelectionModal extends StatelessWidget {
               iconColor: isDarkMode ? Colors.black87 : Colors.white,
             ),
             const SizedBox(height: 16),
-            TextButton(
-              child: Text(l10n.dialogCancel),
+            AppTextButton(
+              label: l10n.dialogCancel,
               onPressed: () => Navigator.pop(context, SignInMethod.cancel),
+              isFullWidth: false,
+              height: AppButton.heightSmall,
+              padding: AppButton.paddingSmall,
             ),
             const SizedBox(height: 16),
           ],
@@ -143,16 +151,22 @@ class EmailSignInDialog extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
-        TextButton(
-          child: Text(l10n.cancel),
+        AppTextButton(
+          label: l10n.cancel,
           onPressed: () => Navigator.of(context).pop(),
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
         ),
-        TextButton(
-          child: Text(l10n.sendOTP),
+        AppTextButton(
+          label: l10n.sendOTP,
           onPressed: () {
             Navigator.of(context).pop();
             onEmailSubmitted(emailController.text);
           },
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
         ),
       ],
     );
@@ -191,15 +205,21 @@ class OTPVerificationDialog extends StatelessWidget {
         ],
       ),
       actions: <Widget>[
-        TextButton(
-          child: Text(l10n.cancel),
+        AppTextButton(
+          label: l10n.cancel,
           onPressed: () => Navigator.of(context).pop(),
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
         ),
-        TextButton(
-          child: Text(l10n.verify),
+        AppTextButton(
+          label: l10n.verify,
           onPressed: () {
             onOTPSubmitted(email, otpController.text);
           },
+          isFullWidth: false,
+          height: AppButton.heightSmall,
+          padding: AppButton.paddingSmall,
         ),
       ],
     );
