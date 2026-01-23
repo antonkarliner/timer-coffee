@@ -9,5 +9,5 @@ New recipes added by [@Fplas](https://github.com/Fplas), [@trommelaere](https://
 [@ganjarsetia](https://github.com/ganjarsetia) – translated app to Indonesian.  
 [@sbezavvs](https://github.com/sbezavvs) – improved Spanish translation.  
 [@navdra](https://github.com/navdra) – translated app to Croatian!  
-[@thisislola](https://github.com/thisislola) – translated app to Norwegian!
+[@thisislola](https://github.com/thisislola) – translated app to Norwegian!  
 [@llibra](https://github.com/llibra) – improved Japanese translation.
