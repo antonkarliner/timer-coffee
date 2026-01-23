@@ -614,10 +614,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get signInError => '使用 Apple 登录时出错';
 
   @override
+  String get signInErrorGoogle => '使用 Google 登录时出错';
+
+  @override
   String get signInWithGoogle => '使用 Google 登录';
 
   @override
   String get signOutSuccessful => '成功退出';
+
+  @override
+  String get signOutConfirmationTitle => '确定要登出吗？';
+
+  @override
+  String get signOutConfirmationMessage => '云同步将停止工作。重新登录即可恢复。';
 
   @override
   String get signInSuccessfulGoogle => '已使用 Google 帐户成功登录';

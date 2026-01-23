@@ -625,10 +625,20 @@ class AppLocalizationsFi extends AppLocalizations {
   String get signInError => 'Virhe Apple-kirjautumisessa';
 
   @override
+  String get signInErrorGoogle => 'Virhe Google-kirjautumisessa';
+
+  @override
   String get signInWithGoogle => 'Kirjaudu Googlella';
 
   @override
   String get signOutSuccessful => 'Uloskirjautuminen onnistui';
+
+  @override
+  String get signOutConfirmationTitle => 'Haluatko varmasti kirjautua ulos?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'Pilvisynkronointi lakkaa toimimasta. Kirjaudu uudelleen sisään jatkaaksesi.';
 
   @override
   String get signInSuccessfulGoogle => 'Kirjautuminen Googlella onnistui';

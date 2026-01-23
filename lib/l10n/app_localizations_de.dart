@@ -631,10 +631,20 @@ class AppLocalizationsDe extends AppLocalizations {
   String get signInError => 'Fehler beim Anmelden mit Apple';
 
   @override
+  String get signInErrorGoogle => 'Fehler beim Anmelden mit Google';
+
+  @override
   String get signInWithGoogle => 'Mit Google anmelden';
 
   @override
   String get signOutSuccessful => 'Erfolgreich ausgeloggt';
+
+  @override
+  String get signOutConfirmationTitle => 'Möchten Sie sich wirklich abmelden?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'Die Cloud-Synchronisierung wird gestoppt. Melden Sie sich erneut an, um sie fortzusetzen.';
 
   @override
   String get signInSuccessfulGoogle => 'Erfolgreich mit Google angemeldet';

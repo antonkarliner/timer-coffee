@@ -21,6 +21,7 @@ import '../providers/user_stat_provider.dart';
 import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
 import '../theme/design_tokens.dart'; // Import design tokens for AppRadius
 import '../utils/app_logger.dart'; // Import AppLogger
+import '../widgets/base_buttons.dart';
 // Added import
 // Import http package
 // Import for RecipeCreationScreen
@@ -442,10 +443,16 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         ScaffoldMessenger.of(context); // Capture scaffold messenger
 
     try {
+      bool didSignIn = true;
       if (kIsWeb) {
         await _webSignInWithGoogle();
       } else {
-        await _nativeGoogleSignIn();
+        didSignIn = await _nativeGoogleSignIn();
+      }
+
+      if (!didSignIn) {
+        AppLogger.debug('Google sign-in canceled by user');
+        return;
       }
 
       // No need to call _loadUserData here, StreamBuilder handles UI update
@@ -461,7 +468,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       // Check mounted again before showing SnackBar
       if (mounted) {
         scaffoldMessenger.showSnackBar(
-          SnackBar(content: Text(l10n.signInError)),
+          SnackBar(content: Text(l10n.signInErrorGoogle)),
         );
       }
     }
@@ -474,7 +481,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     );
   }
 
-  Future<void> _nativeGoogleSignIn() async {
+  Future<bool> _nativeGoogleSignIn() async {
     const webClientId =
         '158450410168-i70d1cqrp1kkg9abet7nv835cbf8hmfn.apps.googleusercontent.com';
     const iosClientId =
@@ -486,6 +493,10 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     );
 
     final googleUser = await googleSignIn.signIn();
+    if (googleUser == null) {
+      return false;
+    }
+
     final googleAuth = await googleUser?.authentication;
     final accessToken = googleAuth?.accessToken;
     final idToken = googleAuth?.idToken;
@@ -502,6 +513,8 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       idToken: idToken,
       accessToken: accessToken,
     );
+
+    return true;
   }
 
   void _showEmailSignInDialog(BuildContext context) {
@@ -524,39 +537,26 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
             ),
           ),
           actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              child: Text(l10n.cancel),
+            AppTextButton(
+              label: l10n.cancel,
               onPressed: () {
                 Navigator.of(context).pop();
               },
+              isFullWidth: false,
+              height: AppButton.heightMedium,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.card),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              child: Text(l10n.sendOTP),
+            AppElevatedButton(
+              label: l10n.sendOTP,
               onPressed: () {
                 Navigator.of(context).pop();
                 _signInWithEmail(context, emailController.text);
               },
+              isFullWidth: false,
+              height: AppButton.heightMedium,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
             ),
           ],
         );
@@ -616,39 +616,26 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
             ],
           ),
           actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              child: Text(l10n.cancel),
+            AppTextButton(
+              label: l10n.cancel,
               onPressed: () {
                 Navigator.of(context).pop();
               },
+              isFullWidth: false,
+              height: AppButton.heightMedium,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.card),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              child: Text(l10n.verify),
+            AppElevatedButton(
+              label: l10n.verify,
               onPressed: () {
                 // Don't pop here, _verifyOTP will handle it if successful
                 _verifyOTP(context, email, otpController.text);
               },
+              isFullWidth: false,
+              height: AppButton.heightMedium,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
             ),
           ],
         );

@@ -629,10 +629,21 @@ class AppLocalizationsEs extends AppLocalizations {
   String get signInError => 'Error al iniciar sesión con Apple';
 
   @override
+  String get signInErrorGoogle => 'Error al iniciar sesión con Google';
+
+  @override
   String get signInWithGoogle => 'Inicia sesión con Google';
 
   @override
   String get signOutSuccessful => 'Cerraste tu sesión correctamente';
+
+  @override
+  String get signOutConfirmationTitle =>
+      '¿Estás seguro de que quieres cerrar sesión?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'La sincronización en la nube dejará de funcionar. Inicia sesión de nuevo para reanudarla.';
 
   @override
   String get signInSuccessfulGoogle =>

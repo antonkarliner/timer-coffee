@@ -629,10 +629,20 @@ class AppLocalizationsUk extends AppLocalizations {
   String get signInError => 'Помилка входу за допомогою Apple';
 
   @override
+  String get signInErrorGoogle => 'Помилка входу за допомогою Google';
+
+  @override
   String get signInWithGoogle => 'Увійти за допомогою Google';
 
   @override
   String get signOutSuccessful => 'Вихід успішно виконано';
+
+  @override
+  String get signOutConfirmationTitle => 'Ви впевнені, що хочете вийти?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'Хмарна синхронізація перестане працювати. Увійдіть знову, щоб відновити її.';
 
   @override
   String get signInSuccessfulGoogle =>

@@ -624,10 +624,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get signInError => 'خطأ في تسجيل الدخول باستخدام Apple';
 
   @override
+  String get signInErrorGoogle => 'خطأ في تسجيل الدخول باستخدام Google';
+
+  @override
   String get signInWithGoogle => 'تسجيل الدخول باستخدام جوجل';
 
   @override
   String get signOutSuccessful => 'تم تسجيل الخروج بنجاح';
+
+  @override
+  String get signOutConfirmationTitle => 'هل أنت متأكد أنك تريد تسجيل الخروج؟';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'ستتوقف المزامنة السحابية عن العمل. سجّل الدخول مرة أخرى لاستئنافها.';
 
   @override
   String get signInSuccessfulGoogle => 'تم تسجيل الدخول بنجاح باستخدام جوجل';

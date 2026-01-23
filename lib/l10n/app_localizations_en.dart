@@ -625,10 +625,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInError => 'Error signing in with Apple';
 
   @override
+  String get signInErrorGoogle => 'Error signing in with Google';
+
+  @override
   String get signInWithGoogle => 'Sign in with Google';
 
   @override
   String get signOutSuccessful => 'Successfully signed out';
+
+  @override
+  String get signOutConfirmationTitle => 'Are you sure you want to sign out?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'Cloud sync will stop working, sign-in again to resume.';
 
   @override
   String get signInSuccessfulGoogle => 'Successfully signed in with Google';

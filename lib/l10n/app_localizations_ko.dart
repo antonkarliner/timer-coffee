@@ -616,10 +616,20 @@ class AppLocalizationsKo extends AppLocalizations {
   String get signInError => 'Apple 로그인 오류';
 
   @override
+  String get signInErrorGoogle => 'Google 로그인 오류';
+
+  @override
   String get signInWithGoogle => 'Google로 로그인';
 
   @override
   String get signOutSuccessful => '성공적으로 로그아웃';
+
+  @override
+  String get signOutConfirmationTitle => '로그아웃하시겠습니까?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      '클라우드 동기화가 중지됩니다. 다시 시작하려면 다시 로그인하세요.';
 
   @override
   String get signInSuccessfulGoogle => 'Google로 성공적으로 로그인';

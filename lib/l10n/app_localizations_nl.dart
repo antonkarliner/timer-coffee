@@ -628,10 +628,20 @@ class AppLocalizationsNl extends AppLocalizations {
   String get signInError => 'Fout bij aanmelden met Apple';
 
   @override
+  String get signInErrorGoogle => 'Fout bij aanmelden met Google';
+
+  @override
   String get signInWithGoogle => 'Inloggen met Google';
 
   @override
   String get signOutSuccessful => 'Succesvol afgemeld';
+
+  @override
+  String get signOutConfirmationTitle => 'Weet u zeker dat u wilt afmelden?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'Cloudsynchronisatie stopt. Meld u opnieuw aan om door te gaan.';
 
   @override
   String get signInSuccessfulGoogle => 'Succesvol aangemeld met Google';

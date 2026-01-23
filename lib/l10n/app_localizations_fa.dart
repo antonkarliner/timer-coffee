@@ -623,10 +623,20 @@ class AppLocalizationsFa extends AppLocalizations {
   String get signInError => 'ورود با اپل با خطا مواجه شد';
 
   @override
+  String get signInErrorGoogle => 'Error signing in with Google';
+
+  @override
   String get signInWithGoogle => 'ورود با گوگل';
 
   @override
   String get signOutSuccessful => 'خروج موفق';
+
+  @override
+  String get signOutConfirmationTitle => 'آیا مطمئنید می‌خواهید خارج شوید؟';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'همگام‌سازی ابری متوقف می‌شود. برای ادامه دوباره وارد شوید.';
 
   @override
   String get signInSuccessfulGoogle => 'ورود موفق با گوگل';

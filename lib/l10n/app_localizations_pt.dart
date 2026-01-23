@@ -628,10 +628,20 @@ class AppLocalizationsPt extends AppLocalizations {
   String get signInError => 'Erro ao entrar com a Apple';
 
   @override
+  String get signInErrorGoogle => 'Erro ao entrar com a Google';
+
+  @override
   String get signInWithGoogle => 'Entrar com o Google';
 
   @override
   String get signOutSuccessful => 'Saída realizada com sucesso';
+
+  @override
+  String get signOutConfirmationTitle => 'Tem certeza de que deseja sair?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'A sincronização na nuvem vai parar de funcionar. Entre novamente para retomar.';
 
   @override
   String get signInSuccessfulGoogle =>

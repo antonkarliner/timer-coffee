@@ -626,10 +626,20 @@ class AppLocalizationsNo extends AppLocalizations {
   String get signInError => 'Feil ved innlogging med Apple';
 
   @override
+  String get signInErrorGoogle => 'Feil ved innlogging med Google';
+
+  @override
   String get signInWithGoogle => 'Logg inn med Google';
 
   @override
   String get signOutSuccessful => 'Vellykket utlogging';
+
+  @override
+  String get signOutConfirmationTitle => 'Er du sikker på at du vil logge ut?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'Synkronisering i skyen vil stoppe. Logg inn igjen for å fortsette.';
 
   @override
   String get signInSuccessfulGoogle => 'Vellykket innlogging med Google';

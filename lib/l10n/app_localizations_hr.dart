@@ -626,10 +626,21 @@ class AppLocalizationsHr extends AppLocalizations {
   String get signInError => 'Greška pri prijavi putem Applea';
 
   @override
+  String get signInErrorGoogle => 'Greška pri prijavi putem Googlea';
+
+  @override
   String get signInWithGoogle => 'Prijava putem Googlea';
 
   @override
   String get signOutSuccessful => 'Uspješna odjava';
+
+  @override
+  String get signOutConfirmationTitle =>
+      'Jeste li sigurni da se želite odjaviti?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'Sinkronizacija u oblaku prestat će raditi. Prijavi se ponovno za nastavak.';
 
   @override
   String get signInSuccessfulGoogle => 'Uspješna prijava putem Googlea';

@@ -1312,6 +1312,12 @@ abstract class AppLocalizations {
   /// **'Error signing in with Apple'**
   String get signInError;
 
+  /// No description provided for @signInErrorGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Error signing in with Google'**
+  String get signInErrorGoogle;
+
   /// No description provided for @signInWithGoogle.
   ///
   /// In en, this message translates to:
@@ -1323,6 +1329,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Successfully signed out'**
   String get signOutSuccessful;
+
+  /// No description provided for @signOutConfirmationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get signOutConfirmationTitle;
+
+  /// No description provided for @signOutConfirmationMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud sync will stop working, sign-in again to resume.'**
+  String get signOutConfirmationMessage;
 
   /// No description provided for @signInSuccessfulGoogle.
   ///

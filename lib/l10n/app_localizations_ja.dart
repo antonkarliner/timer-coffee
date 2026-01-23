@@ -78,10 +78,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hubSignInCreateSubtitle => 'レシピと設定を同期するにはサインインしてください';
 
   @override
-  String get hubBrewDiarySubtitle => '醸造履歴を表示してメモを追加';
+  String get hubBrewDiarySubtitle => '抽出履歴を表示してメモを追加';
 
   @override
-  String get hubBrewStatsSubtitle => '個人および世界の醸造統計と傾向を表示';
+  String get hubBrewStatsSubtitle => '個人および世界の抽出統計と傾向を表示';
 
   @override
   String get hubSettingsSubtitle => 'アプリの設定と動作を変更';
@@ -90,10 +90,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hubAboutSubtitle => 'アプリの詳細、バージョン、貢献者';
 
   @override
-  String get about => '約';
+  String get about => 'このアプリについて';
 
   @override
-  String get author => '著者';
+  String get author => '作成者';
 
   @override
   String get authortext =>
@@ -271,7 +271,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get noFavoriteRecipesMessage =>
-      'お気に入りのレシピリストは現在空です。探索して醸造を始めて、お気に入りを発見しましょう！';
+      'お気に入りのレシピリストは現在空です。探索して抽出を始めて、お気に入りを発見しましょう！';
 
   @override
   String get explore => '探索する';
@@ -283,7 +283,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get timeFormat => 'HH:mm';
 
   @override
-  String get brewdiary => '醸造日記';
+  String get brewdiary => '抽出日記';
 
   @override
   String get brewdiarynotfound => 'エントリーが見つかりません';
@@ -313,7 +313,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get litersUnit => 'リットル';
 
   @override
-  String get mostUsedRecipes => '最も使用されるレシピ:';
+  String get mostUsedRecipes => '最も使用されたレシピ:';
 
   @override
   String get globalStats => 'グローバル統計';
@@ -616,10 +616,20 @@ class AppLocalizationsJa extends AppLocalizations {
   String get signInError => 'Appleでサインイン中にエラーが発生しました';
 
   @override
+  String get signInErrorGoogle => 'Googleでサインイン中にエラーが発生しました';
+
+  @override
   String get signInWithGoogle => 'Googleでサインイン';
 
   @override
   String get signOutSuccessful => '正常にログアウトしました';
+
+  @override
+  String get signOutConfirmationTitle => 'サインアウトしてもよろしいですか？';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'クラウド同期が停止します。再開するにはもう一度サインインしてください。';
 
   @override
   String get signInSuccessfulGoogle => 'Googleで正常にサインインしました';

@@ -629,10 +629,20 @@ class AppLocalizationsRo extends AppLocalizations {
   String get signInError => 'Eroare la conectarea cu Apple';
 
   @override
+  String get signInErrorGoogle => 'Eroare la conectarea cu Google';
+
+  @override
   String get signInWithGoogle => 'Autentifică-te cu Google';
 
   @override
   String get signOutSuccessful => 'Deconectat cu succes';
+
+  @override
+  String get signOutConfirmationTitle => 'Sigur doriți să vă deconectați?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'Sincronizarea în cloud se va opri. Conectați-vă din nou pentru a o relua.';
 
   @override
   String get signInSuccessfulGoogle => 'Autentificat cu succes prin Google';

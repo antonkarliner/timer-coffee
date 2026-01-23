@@ -625,10 +625,20 @@ class AppLocalizationsPl extends AppLocalizations {
   String get signInError => 'Błąd logowania przez Apple';
 
   @override
+  String get signInErrorGoogle => 'Błąd logowania przez Google';
+
+  @override
   String get signInWithGoogle => 'Zaloguj się przez Google';
 
   @override
   String get signOutSuccessful => 'Pomyślnie wylogowano';
+
+  @override
+  String get signOutConfirmationTitle => 'Czy na pewno chcesz się wylogować?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'Synchronizacja w chmurze przestanie działać. Zaloguj się ponownie, aby ją wznowić.';
 
   @override
   String get signInSuccessfulGoogle => 'Pomyślnie zalogowano za pomocą Google';

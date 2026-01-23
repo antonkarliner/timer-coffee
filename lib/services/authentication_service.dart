@@ -101,8 +101,11 @@ class AuthenticationService {
           break;
         case SignInMethod.google:
           AppLogger.debug("Executing Google sign-in");
-          await signInWithGoogle();
-          signInSuccess = true;
+          signInSuccess = await signInWithGoogle();
+          if (!signInSuccess) {
+            AppLogger.debug("Google sign-in cancelled");
+            return false;
+          }
           break;
         case SignInMethod.email:
           AppLogger.debug("Executing Email sign-in");
@@ -137,7 +140,13 @@ class AuthenticationService {
       AppLogger.error("Sign-in error", errorObject: e);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.signInError)),
+          SnackBar(
+            content: Text(
+              chosenMethod == SignInMethod.google
+                  ? l10n.signInErrorGoogle
+                  : l10n.signInError,
+            ),
+          ),
         );
       }
       return false;
@@ -210,7 +219,10 @@ class AuthenticationService {
           await signInWithApple();
           return true;
         case SignInMethod.google:
-          await signInWithGoogle();
+          final didSignIn = await signInWithGoogle();
+          if (!didSignIn) {
+            return false;
+          }
           return true;
         case SignInMethod.email:
           if (context.mounted) {
@@ -227,7 +239,13 @@ class AuthenticationService {
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.signInError)),
+          SnackBar(
+            content: Text(
+              chosenMethod == SignInMethod.google
+                  ? l10n.signInErrorGoogle
+                  : l10n.signInError,
+            ),
+          ),
         );
       }
       return false;
@@ -278,11 +296,12 @@ class AuthenticationService {
   }
 
   /// Signs in with Google using the appropriate method based on platform
-  static Future<void> signInWithGoogle() async {
+  static Future<bool> signInWithGoogle() async {
     if (kIsWeb) {
       await _webSignInWithGoogle();
+      return true;
     } else {
-      await _nativeGoogleSignIn();
+      return await _nativeGoogleSignIn();
     }
   }
 
@@ -295,7 +314,7 @@ class AuthenticationService {
   }
 
   /// Native Google sign-in for mobile platforms
-  static Future<void> _nativeGoogleSignIn() async {
+  static Future<bool> _nativeGoogleSignIn() async {
     const webClientId =
         '158450410168-i70d1cqrp1kkg9abet7nv835cbf8hmfn.apps.googleusercontent.com';
     const iosClientId =
@@ -307,6 +326,9 @@ class AuthenticationService {
     );
 
     final googleUser = await googleSignIn.signIn();
+    if (googleUser == null) {
+      return false;
+    }
     final googleAuth = await googleUser?.authentication;
     final accessToken = googleAuth?.accessToken;
     final idToken = googleAuth?.idToken;
@@ -323,6 +345,8 @@ class AuthenticationService {
       idToken: idToken,
       accessToken: accessToken,
     );
+
+    return true;
   }
 
   /// Signs in with email using OTP

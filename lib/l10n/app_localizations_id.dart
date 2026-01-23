@@ -629,10 +629,20 @@ class AppLocalizationsId extends AppLocalizations {
   String get signInError => 'Kesalahan saat masuk dengan Apple';
 
   @override
+  String get signInErrorGoogle => 'Kesalahan saat masuk dengan Google';
+
+  @override
   String get signInWithGoogle => 'Masuk dengan Google';
 
   @override
   String get signOutSuccessful => 'Berhasil keluar';
+
+  @override
+  String get signOutConfirmationTitle => 'Apakah Anda yakin ingin keluar?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'Sinkronisasi cloud akan berhenti berfungsi. Masuk lagi untuk melanjutkannya.';
 
   @override
   String get signInSuccessfulGoogle => 'Berhasil masuk dengan Google';

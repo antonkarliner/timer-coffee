@@ -630,10 +630,21 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signInError => 'Apple ile oturum açma hatası';
 
   @override
+  String get signInErrorGoogle => 'Google ile oturum açma hatası';
+
+  @override
   String get signInWithGoogle => 'Google ile oturum açın';
 
   @override
   String get signOutSuccessful => 'Oturum başarıyla kapatıldı';
+
+  @override
+  String get signOutConfirmationTitle =>
+      'Çıkış yapmak istediğinizden emin misiniz?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'Bulut senkronizasyonu duracak. Devam etmek için yeniden oturum açın.';
 
   @override
   String get signInSuccessfulGoogle =>

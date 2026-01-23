@@ -632,10 +632,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get signInError => 'Ошибка входа с помощью Apple';
 
   @override
+  String get signInErrorGoogle => 'Ошибка входа с помощью Google';
+
+  @override
   String get signInWithGoogle => 'Войти через Google';
 
   @override
   String get signOutSuccessful => 'Выход из системы выполнен успешно';
+
+  @override
+  String get signOutConfirmationTitle => 'Вы уверены, что хотите выйти?';
+
+  @override
+  String get signOutConfirmationMessage =>
+      'Облачная синхронизация будет остановлена. Войдите снова, чтобы возобновить её.';
 
   @override
   String get signInSuccessfulGoogle => 'Успешно выполнен вход с помощью Google';
