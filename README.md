@@ -25,6 +25,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
+- [Translation](#translation)
 - [Roadmap](#roadmap)
 - [Support Development](#support-development)
 - [License](#license)
@@ -38,11 +39,11 @@
 - **Coffee Calculator** – Adjust coffee or water amounts to brew any volume.
 - **Favorites** – Mark and quickly access your preferred recipes.
 - **Brew Diary & Automatic Logging** – Track every session, add tasting notes, and automatically log brews.
-- **Bean Logging with AI** – Scan coffee bag labels to save beans effortlessly.
+- **Bean Management** – Scan coffee bag labels to save beans effortlessly, log important details such as origin, roaster, etc. Add remaining amount, attach beans to brews.
 - **Device Sync** – Recipes, beans, and brews stay in sync across iOS, Android, and Web.
 - **Audio Chimes** – Get alerted for each brewing step.
 - **Dark Mode** – Brew comfortably any time of day.
-- **Multilingual** – Available in 18 languages (see below).
+- **Multilingual** – Available in 21 languages (see below).
 
 ---
 
@@ -58,9 +59,9 @@ Aeropress · Batch Brew · Bee House Dripper · Cezve · Chemex · Clever Drippe
 
 ## Languages
 
-Timer.Coffee currently supports **20** languages:
+Timer.Coffee currently supports **21** languages:
 
-Arabic (العربية) · Chinese (中文) · English · Spanish (Español) · Portuguese (Português) · German (Deutsch) · French (Français) · Russian (Русский) · Polish (Polski) · Bahasa Indonesia · Turkish (Türkçe) · Italian (Italiano) · Dutch (Nederlands) · Romanian (Română) · Ukrainian (Українська) · Finnish (suomi) · Japanese (日本語) · Farsi (فارسى) · Korean (한국어) · Croatian (hrvatski)
+Arabic (العربية) · Chinese (中文) · English · Spanish (Español) · Portuguese (Português) · German (Deutsch) · French (Français) · Russian (Русский) · Polish (Polski) · Indonesian (Bahasa Indonesia) · Turkish (Türkçe) · Italian (Italiano) · Dutch (Nederlands) · Romanian (Română) · Ukrainian (Українська) · Finnish (suomi) · Japanese (日本語) · Farsi (فارسى) · Korean (한국어) · Croatian (hrvatski) · Norwegian (Norsk bokmål)
 
 ---
 
@@ -84,13 +85,24 @@ Arabic (العربية) · Chinese (中文) · English · Spanish (Español) · 
 
 ## Contributing
 
-Contributions of all kinds are welcome—recipes, features, and bug fixes.
+Contributions of all kinds are welcome — recipes, features, and bug fixes.
 
 **Quick recipe contribution:** Open a GitHub issue with your recipe description (grind size, ratio, steps, timings). We’ll review and add it.
 
 **Development:** Fork the repo, create a feature branch, and submit a Pull Request.
 
-Please see existing issues for ideas or to report bugs.
+Please see existing issues for ideas or to report bugs.  
+
+---  
+
+## Translation  
+
+If you want to contribute to app interface translation, there are 2 ways to do it:
+
+1. Improve existing translation: find corresponding language file in [l10n](lib/l10n) folder, edit file and submit Pull Request, ideally with explanation of change.
+2. Translate app to new language: fork repo, translate [base English .arb file](lib/l10n/app_en.arb), following the formatting, add new .arb file to l10n folder, submit pull request.
+
+**Important**: Please don't edit .dart files in l10n folder, they're generated automatically during app build. Also, if you use LLMs for translation, please make sure to check correctness and consistency of translation.  
 
 ---
 

@@ -7,5 +7,7 @@ New recipes added by [@Fplas](https://github.com/Fplas), [@trommelaere](https://
 [Diana](https://diana.karliner.pro/) edited the Russian translation for the recipes.  
 [@phernst](https://github.com/phernst) – helped to improve German translation.  
 [@ganjarsetia](https://github.com/ganjarsetia) – translated app to Indonesian.  
-[@sbezavvs](https://github.com/sbezavvs) – improved Spanish translation.
-[@navdra](https://github.com/navdra) – translated app to Croatian!
+[@sbezavvs](https://github.com/sbezavvs) – improved Spanish translation.  
+[@navdra](https://github.com/navdra) – translated app to Croatian!  
+[@thisislola](https://github.com/thisislola) – translated app to Norwegian!
+[@llibra](https://github.com/llibra) – improved Japanese translation.

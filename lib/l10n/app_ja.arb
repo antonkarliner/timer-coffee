@@ -13,13 +13,13 @@
   "hubUserRecipesSubtitle": "作成済み・インポート済みのレシピを表示して管理",
   "hubAccountSubtitle": "プロフィールを管理",
   "hubSignInCreateSubtitle": "レシピと設定を同期するにはサインインしてください",
-  "hubBrewDiarySubtitle": "醸造履歴を表示してメモを追加",
-  "hubBrewStatsSubtitle": "個人および世界の醸造統計と傾向を表示",
+  "hubBrewDiarySubtitle": "抽出履歴を表示してメモを追加",
+  "hubBrewStatsSubtitle": "個人および世界の抽出統計と傾向を表示",
   "hubSettingsSubtitle": "アプリの設定と動作を変更",
   "hubAboutSubtitle": "アプリの詳細、バージョン、貢献者",
   "lastrecipe": "最近使ったレシピ：",
-  "about": "約",
-  "author": "著者",
+  "about": "このアプリについて",
+  "author": "作成者",
   "authortext": "Timer.Coffee アプリは、コーヒー愛好家でありメディア専門家でフォトジャーナリストのアントン・カーリナーによって作成されました。このアプリがあなたのコーヒータイムをより楽しいものにすることを願っています。GitHubでの貢献もお気軽に。",
   "contributors": "貢献者",
   "errorLoadingContributors": "貢献者の読み込みエラー",
@@ -74,11 +74,11 @@
   "whatsnewclose": "閉じる",
   "seasonspecials": "シーズンスペシャル",
   "snow": "雪",
-  "noFavoriteRecipesMessage": "お気に入りのレシピリストは現在空です。探索して醸造を始めて、お気に入りを発見しましょう！",
+  "noFavoriteRecipesMessage": "お気に入りのレシピリストは現在空です。探索して抽出を始めて、お気に入りを発見しましょう！",
   "explore": "探索する",
   "dateFormat": "yyyy年MMMd日",
   "timeFormat": "HH:mm",
-  "brewdiary": "醸造日記",
+  "brewdiary": "抽出日記",
   "brewdiarynotfound": "エントリーが見つかりません",
   "beans": "豆",
   "roaster": "焙煎所",
@@ -97,7 +97,7 @@
   "topRegionsLabel": "トップ地域",
   "coffeeBrewed": "淹れたコーヒー:",
   "litersUnit": "リットル",
-  "mostUsedRecipes": "最も使用されるレシピ:",
+  "mostUsedRecipes": "最も使用されたレシピ:",
   "globalStats": "グローバル統計",
   "unknownRecipe": "不明なレシピ",
   "noData": "データなし",
@@ -713,7 +713,7 @@
   "unsavedChangesDiscard": "破棄",
   "beansWeightAddedBack": "{beanName}に{amount}{unit}を追加しました。新しい重量：{newWeight}{unit}",
   "@beansWeightAddedBack": {
-    "description": "醸造日記から削除した後、豆にコーヒーの重量を追加し直したときに表示されるメッセージ",
+    "description": "抽出日記から削除した後、豆にコーヒーの重量を追加し直したときに表示されるメッセージ",
     "placeholders": {
       "amount": {
         "type": "String",
@@ -735,7 +735,7 @@
   },
   "beansWeightSubtracted": "{beanName}から{amount}{unit}を減らしました。新しい重量：{newWeight}{unit}",
   "@beansWeightSubtracted": {
-    "description": "醸造日記に追加したとき、豆からコーヒーの重量を減らしたときに表示されるメッセージ",
+    "description": "抽出日記に追加したとき、豆からコーヒーの重量を減らしたときに表示されるメッセージ",
     "placeholders": {
       "amount": {
         "type": "String",
