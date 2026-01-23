@@ -42,11 +42,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late Locale initialLocale;
   bool _showBanner = false; // Banner flag
   bool _yearlyStats25BannerDismissed = false;
+  bool _giftBoxBannerDismissed = false;
   String? _detectedCountry;
   late final Future<int> _yearlyBrews2025Future;
 
   static const String _yearlyStats25BannerDismissedKey =
       'yearlyStats25BannerDismissed';
+  static const String _giftBoxBannerDismissedKey = 'giftBoxBannerDismissed';
 
   @override
   void initState() {
@@ -113,6 +115,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     setState(() {
       _yearlyStats25BannerDismissed =
           prefs.getBool(_yearlyStats25BannerDismissedKey) ?? false;
+      _giftBoxBannerDismissed =
+          prefs.getBool(_giftBoxBannerDismissedKey) ?? false;
     });
   }
 
@@ -427,10 +431,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 ),
 
               // Holiday gift box banner (feature-flagged)
-              if (showGiftBanner)
-                _GiftBoxBanner(onTap: () {
-                  context.router.push(const GiftBoxListRoute());
-                }),
+              if (showGiftBanner && !_giftBoxBannerDismissed)
+                _GiftBoxBanner(
+                  onTap: () {
+                    context.router.push(const GiftBoxListRoute());
+                  },
+                  onClose: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setBool(_giftBoxBannerDismissedKey, true);
+                    setState(() {
+                      _giftBoxBannerDismissed = true;
+                    });
+                  },
+                ),
 
               // Show banner only on web if _showBanner is true.
               if (kIsWeb && _showBanner)
@@ -695,9 +708,10 @@ class _YearlyStats25BannerState extends State<_YearlyStats25Banner>
 }
 
 class _GiftBoxBanner extends StatelessWidget {
-  const _GiftBoxBanner({required this.onTap});
+  const _GiftBoxBanner({required this.onTap, required this.onClose});
 
   final VoidCallback onTap;
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
@@ -750,8 +764,14 @@ class _GiftBoxBanner extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Icon(Icons.arrow_forward_ios,
-                      size: 14, color: theme.colorScheme.primary),
+                  GestureDetector(
+                    onTap: onClose,
+                    child: Icon(
+                      Icons.close,
+                      size: 20,
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
                 ],
               ),
             ),
