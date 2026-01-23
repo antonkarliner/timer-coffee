@@ -1,0 +1,10 @@
+Nou:
+• Uneori, punga de boabe e deja terminată, dar în inventarul din aplicație mai apar câteva grame „rămase”. În ecranul Detalii boabe există acum butonul „Setează la zero”, pentru a rezolva rapid.
+
+Îmbunătățiri:
+• Traducere japoneză îmbunătățită, mulțumim @llibra!
+• Confirmare înainte de deconectare.
+• Îmbunătățiri interne pentru mai multă stabilitate.
+
+Remedieri:
+• Reintroduse mesajele de eroare lipsă pentru autentificarea Google.

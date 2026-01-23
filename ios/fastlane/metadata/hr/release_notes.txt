@@ -1,5 +1,10 @@
 Novo:
-• Aplikacija sada podržava norveški jezik (Bokmål). Hvala @thisislola na prijevodu! Velkommen!
+• Ponekad se vrećica kave u zrnu već potroši, ali u inventaru aplikacije i dalje “ostane” nekoliko grama. Zaslon Detalji zrna sada ima gumb “Postavi na nulu” koji omogućuje da se to brzo riješi.
 
-Ispravak greške:
-• Ispravljena je greška s postotkom na vrhu u novogodišnjem sažetku.
+Poboljšano:
+• Poboljšan prijevod na japanski, hvala @llibra!
+• Dodana potvrda prije odjave.
+• Poboljšanja u pozadini koja će aplikaciju učiniti stabilnijom (nadamo se!).
+
+Ispravci grešaka:
+• Ponovno dodane nedostajuće poruke o pogrešci za Google prijavu.

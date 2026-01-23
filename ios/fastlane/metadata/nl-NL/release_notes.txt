@@ -1,5 +1,10 @@
 Nieuw:
-• De app ondersteunt nu de Noorse taal (Bokmål). Dank aan @thisislola voor de vertaling! Velkommen!
+• Soms is een zak koffiebonen al op, maar blijven er in de app-inventaris nog een paar gram “over”. Het scherm Bonendetails heeft nu een knop “Op nul zetten” waarmee je dit snel kunt oplossen.
+
+Verbeterd:
+• Verbeterde vertaling naar het Japans, bedankt @llibra!
+• Bevestiging toegevoegd vóór het uitloggen.
+• Verbeteringen onder de motorkap die de app stabieler moeten maken (hopelijk!).
 
 Bugfix:
-• Een fout opgelost met de berekening van het hoogste percentage in de Nieuwjaarsrecap.
+• Ontbrekende foutmeldingen voor Google-inloggen opnieuw toegevoegd.

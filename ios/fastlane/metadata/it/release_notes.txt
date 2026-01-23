@@ -1,5 +1,10 @@
 Novità:
-• L’app ora supporta la lingua norvegese (Bokmål). Grazie a @thisislola per la traduzione! Velkommen!
+• A volte il sacchetto di chicchi di caffè è già finito, ma nell’inventario dell’app risultano ancora “rimasti” alcuni grammi. La schermata Dettagli chicchi ora ha il pulsante “Imposta a zero”, che permette di sistemare rapidamente la situazione.
 
-Correzione bug:
-• Risolto un errore nel conteggio della percentuale massima nel riepilogo di fine anno.
+Miglioramenti:
+• Migliorata la traduzione in giapponese, grazie @llibra!
+• Aggiunta una conferma prima della disconnessione.
+• Miglioramenti sotto il cofano che renderanno l’app più stabile (si spera!).
+
+Correzioni di bug:
+• Reintrodotti i messaggi di errore mancanti per l’accesso con Google.

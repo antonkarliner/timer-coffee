@@ -1,0 +1,10 @@
+Nouveau :
+• Parfois, un sac de grains est terminé, mais il reste encore quelques grammes « en stock » dans l’inventaire de l’app. L’écran Détails des grains a maintenant un bouton « Mettre à zéro » pour régler ça rapidement.
+
+Améliorations :
+• Meilleure traduction en japonais, merci @llibra !
+• Ajout d’une confirmation avant la déconnexion.
+• Améliorations internes pour rendre l’app plus stable.
+
+Correctif :
+• Messages d’erreur manquants rétablis pour la connexion Google.

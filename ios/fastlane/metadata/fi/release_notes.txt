@@ -1,5 +1,10 @@
 Uutta:
-• Sovellus tukee nyt norjaa (bokmål). Kiitos käännöksestä käyttäjälle @thisislola! Velkommen!
+• Joskus kahvipapupussi on jo tyhjä, mutta sovelluksen varastossa näkyy silti muutama gramma “jäljellä”. Papujen tiedot -näkymässä on nyt “Aseta nollaan” -painike, jolla tämän voi korjata nopeasti.
+
+Parannettu:
+• Parannettu japaninkielistä käännöstä, kiitos @llibra!
+• Lisätty vahvistus ennen uloskirjautumista.
+• Kulissien takana tehty parannuksia, jotka tekevät sovelluksesta vakaamman (toivottavasti!).
 
 Bugikorjaus:
-• Korjattu virhe uudenvuoden koosteen parhaiden prosenttiosuuksien määrässä.
+• Lisätty takaisin puuttuneet virheilmoitukset Google-kirjautumiseen.

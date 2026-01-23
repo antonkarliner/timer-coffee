@@ -1,5 +1,10 @@
 Baru:
-• Aplikasi kini mendukung bahasa Norwegia (Bokmål). Terima kasih kepada @thisislola atas terjemahannya! Velkommen!
+• Terkadang kantong biji kopi sudah habis, tetapi masih ada beberapa gram yang “tersisa” di inventaris aplikasi. Layar Detail Biji kini memiliki tombol “Setel ke nol” yang memungkinkan hal ini dibereskan dengan cepat.
+
+Ditingkatkan:
+• Terjemahan ke bahasa Jepang ditingkatkan, terima kasih @llibra!
+• Menambahkan konfirmasi sebelum keluar.
+• Peningkatan di balik layar yang akan membuat aplikasi lebih stabil (semoga!).
 
 Perbaikan bug:
-• Memperbaiki kesalahan pada penghitungan persentase teratas di rekap Tahun Baru.
+• Menambahkan kembali pesan kesalahan yang sempat hilang untuk Google Sign-in.

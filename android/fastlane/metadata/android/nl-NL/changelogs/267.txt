@@ -1,0 +1,8 @@
+Nieuw:
+• Soms is een zak koffiebonen al op, maar staan er in de app nog een paar gram als ‘over’ in de voorraad. In Bonendetails is nu een knop ‘Op nul zetten’ om dit snel te corrigeren.
+Verbeterd:
+• Betere Japanse vertaling, dank @llibra!
+• Bevestiging toegevoegd vóór uitloggen.
+• Interne verbeteringen voor meer stabiliteit.
+Bugfix:
+• Ontbrekende foutmeldingen voor Google-inloggen teruggezet.

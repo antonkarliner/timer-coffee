@@ -1,5 +1,10 @@
-Nyheter:
-• Appen støtter nå norsk (bokmål). Takk til @thisislola for oversettelsen! Velkommen!
+新機能:
+• コーヒー豆の袋がすでに空なのに、アプリの在庫に数グラム「残っている」ことがあります。豆の詳細画面に「0 に設定」ボタンを追加し、素早く調整できるようにしました。
 
-Feilretting:
-• Rettet en feil med topp prosenttall i nyttårsoppsummeringen.
+改善:
+• 日本語翻訳を改善しました。@llibra さん、ありがとうございます！
+• サインアウト前の確認を追加しました。
+• アプリの安定性向上につながる内部改善を行いました（たぶん！）。
+
+不具合修正:
+• Google サインインで不足していたエラーメッセージを再追加しました。

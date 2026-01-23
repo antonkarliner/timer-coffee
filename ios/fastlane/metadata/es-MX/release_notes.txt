@@ -1,5 +1,10 @@
-Novedades:
-• La app ahora es compatible con el idioma noruego (bokmål). ¡Gracias a @thisislola por la traducción! ¡Velkommen!
+Nuevo:
+• A veces la bolsa de granos de café ya se terminó, pero en el inventario de la app todavía “quedan” unos cuantos gramos. La pantalla de Detalles del grano ahora tiene el botón “Establecer en cero”, que permite resolver esto rápidamente.
+
+Mejoras:
+• Se mejoró la traducción al japonés, ¡gracias @llibra!
+• Se agregó confirmación antes de cerrar sesión.
+• Mejoras internas que harán que la app sea más estable (¡esperamos!).
 
 Corrección de errores:
-• Se corrigió un error con el porcentaje superior en el resumen de Año Nuevo.
+• Se volvieron a agregar los mensajes de error faltantes para el inicio de sesión con Google.

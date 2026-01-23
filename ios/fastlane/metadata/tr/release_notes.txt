@@ -1,5 +1,10 @@
 Yeni:
-• Uygulama artık Norveççe (Bokmål) dilini destekliyor. Çeviri için @thisislola’ya teşekkürler! Velkommen!
+• Bazen kahve çekirdeği paketi aslında bitmiş oluyor, ancak uygulama envanterinde hâlâ birkaç gram “kalan” görünüyor. Çekirdek Detayları ekranında artık bunu hızlıca çözmenizi sağlayan “Sıfırla” düğmesi var.
+
+İyileştirildi:
+• Japonca çeviri iyileştirildi, teşekkürler @llibra!
+• Oturumu kapatmadan önce onay eklendi.
+• Uygulamayı daha kararlı hâle getirecek (umarız!) altyapı iyileştirmeleri.
 
 Hata düzeltmesi:
-• Yeni Yıl özetindeki üst yüzde sayımıyla ilgili bir hata düzeltildi.
+• Google ile Oturum Açma için eksik hata mesajları yeniden eklendi.

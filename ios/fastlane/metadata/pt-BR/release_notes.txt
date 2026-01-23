@@ -1,5 +1,10 @@
-Novidades:
-• O app agora oferece suporte ao idioma norueguês (Bokmål). Obrigado à @thisislola pela tradução! Velkommen!
+Novo:
+• Às vezes, o pacote de grãos de café já acabou, mas ainda restam alguns gramas “sobrando” no inventário do app. A tela Detalhes dos Grãos agora tem o botão “Zerar”, que permite resolver isso rapidamente.
+
+Melhorias:
+• Tradução para japonês aprimorada, obrigado @llibra!
+• Adicionada confirmação antes de sair da conta.
+• Melhorias internas que vão deixar o app mais estável (esperamos!).
 
 Correção de bug:
-• Corrigido um erro na contagem de percentual no topo do resumo de Ano Novo.
+• Reincorporadas as mensagens de erro que estavam faltando no login com o Google.

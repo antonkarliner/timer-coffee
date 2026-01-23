@@ -1,0 +1,8 @@
+Novo:
+• Ponekad je vrećica zrna već potrošena, ali u inventaru aplikacije ostane još par grama. Na ekranu Detalji zrna dodan je gumb „Postavi na nulu” za brzo rješavanje.
+Poboljšano:
+• Poboljšan prijevod na japanski, hvala @llibra!
+• Dodana potvrda prije odjave.
+• Poboljšanja u pozadini za stabilniji rad aplikacije.
+Ispravci:
+• Vraćene poruke o pogreškama za Google prijavu.

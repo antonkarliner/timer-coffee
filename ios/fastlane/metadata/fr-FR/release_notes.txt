@@ -1,5 +1,10 @@
 Nouveau :
-• L’app prend désormais en charge le norvégien (bokmål). Merci à @thisislola pour la traduction ! Velkommen !
+• Il arrive que le sachet de café en grains soit déjà terminé, mais que quelques grammes restent encore « en stock » dans l’inventaire de l’app. L’écran Détails des grains propose désormais un bouton « Mettre à zéro » pour régler cela rapidement.
+
+Améliorations :
+• Amélioration de la traduction en japonais, merci @llibra !
+• Ajout d’une confirmation avant la déconnexion.
+• Améliorations sous le capot qui rendront l’app plus stable (on l’espère !).
 
 Correction de bug :
-• Correction d’une erreur concernant le calcul du pourcentage le plus élevé dans le récapitulatif du Nouvel An.
+• Rétablissement des messages d’erreur manquants pour la connexion Google.

@@ -1,5 +1,10 @@
-Nou:
-• Aplicația acceptă acum limba norvegiană (Bokmål). Mulțumiri lui/ei @thisislola pentru traducere! Velkommen!
+Noutăți:
+• Uneori punga de boabe de cafea este deja terminată, dar în inventarul din aplicație mai „rămân” câteva grame. Ecranul Detalii boabe are acum butonul „Setează la zero”, care permite rezolvarea rapidă a situației.
 
-Remediere de erori:
-• Am corectat o eroare legată de calculul procentajului de top în recapitularea de Anul Nou.
+Îmbunătățiri:
+• Traducere îmbunătățită în japoneză, mulțumim @llibra!
+• A fost adăugată o confirmare înainte de deconectare.
+• Îmbunătățiri interne care vor face aplicația mai stabilă (sperăm!).
+
+Remedieri:
+• Au fost reintroduse mesajele de eroare lipsă pentru conectarea cu Google.

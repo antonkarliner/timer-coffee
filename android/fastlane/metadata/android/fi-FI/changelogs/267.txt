@@ -1,0 +1,8 @@
+Uutta:
+• Joskus papupussi on jo loppu, mutta sovelluksen varastossa näkyy vielä muutama gramma. Paputiedot-näkymässä on nyt “Aseta nollaan” -painike, jolla tämän saa nopeasti kuntoon.
+Parannettu:
+• Japanin käännöstä parannettu, kiitos @llibra!
+• Lisätty vahvistus ennen uloskirjautumista.
+• Sisäisiä parannuksia, jotka tekevät sovelluksesta vakaamman.
+Korjattu:
+• Palautettu puuttuneet virheilmoitukset Google-kirjautumiseen.

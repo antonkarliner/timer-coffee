@@ -1,5 +1,10 @@
-Nyheter:
-• Appen støtter nå norsk (bokmål). Takk til @thisislola for oversettelsen! Velkommen!
+Nyhet:
+• Noen ganger er posen med kaffebønner allerede tom, men det står fortsatt igjen noen gram som «rester» i appens lager. Skjermen for bønne-detaljer har nå en «Sett til null»-knapp som gjør det raskt å ordne dette.
+
+Forbedret:
+• Forbedret oversettelse til japansk, takk @llibra!
+• Lagt til bekreftelse før utlogging.
+• Forbedringer under panseret som vil gjøre appen mer stabil (forhåpentligvis!).
 
 Feilretting:
-• Rettet en feil med prosentandelen øverst i nyttårsoppsummeringen.
+• La tilbake manglende feilmeldinger for Google-pålogging.

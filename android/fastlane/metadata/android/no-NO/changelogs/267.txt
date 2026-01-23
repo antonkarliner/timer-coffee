@@ -1,0 +1,8 @@
+Nytt:
+• Noen ganger er kaffebønneposen tom, men appens lager viser fortsatt noen gram. Skjermen for bønnedetaljer har nå en «Sett til null»-knapp som fikser dette raskt.
+Forbedret:
+• Bedre japansk oversettelse, takk @llibra!
+• Lagt til bekreftelse før utlogging.
+• Forbedringer under panseret som gjør appen mer stabil (forhåpentligvis!).
+Feilretting:
+• Lagt tilbake manglende feilmeldinger for Google-pålogging.

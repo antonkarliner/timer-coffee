@@ -1,0 +1,8 @@
+Novo:
+• Às vezes o saco de grãos já acabou, mas ainda ficam alguns gramas “restantes” no inventário da app. O ecrã Detalhes dos Grãos tem agora o botão “Definir como zero” para resolver isso rapidamente.
+Melhorias:
+• Tradução para japonês melhorada, obrigado @llibra!
+• Adicionada confirmação antes de terminar sessão.
+• Melhorias internas para tornar a app mais estável (esperemos!).
+Correção de erros:
+• Repostas as mensagens de erro em falta no início de sessão com o Google.

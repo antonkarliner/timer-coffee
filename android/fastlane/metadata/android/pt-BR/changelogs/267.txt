@@ -1,0 +1,10 @@
+Novo:
+• Às vezes o saco de grãos já acabou, mas ainda ficam alguns gramas “restando” no estoque do app. A tela Detalhes do Café agora tem o botão “Zerar” para resolver isso rápido.
+
+Melhorias:
+• Tradução para japonês melhorada, obrigado @llibra!
+• Adicionada confirmação antes de sair da conta.
+• Melhorias internas para deixar o app mais estável (esperamos!).
+
+Correção:
+• Recolocadas mensagens de erro ausentes no login do Google.

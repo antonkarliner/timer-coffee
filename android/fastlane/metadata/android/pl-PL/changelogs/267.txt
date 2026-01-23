@@ -1,0 +1,10 @@
+Nowość:
+• Zdarza się, że torebka ziaren jest już pusta, a w aplikacji nadal „zostaje” kilka gramów w stanie magazynowym. Na ekranie Szczegóły ziaren dodaliśmy przycisk „Ustaw na zero”, by szybko to skorygować.
+
+Ulepszenia:
+• Lepsze tłumaczenie na japoński, dzięki @llibra!
+• Dodano potwierdzenie przed wylogowaniem.
+• Usprawnienia pod maską, które (mamy nadzieję) zwiększą stabilność.
+
+Poprawki:
+• Przywrócono brakujące komunikaty błędów dla logowania Google.

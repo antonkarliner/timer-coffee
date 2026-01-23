@@ -1,0 +1,8 @@
+Neu:
+• Manchmal ist ein Kaffeebohnenbeutel schon leer, aber in der App bleiben noch ein paar Gramm im Bestand. In den Bohnen-Details gibt es jetzt die Schaltfläche „Auf null setzen“, um das schnell zu korrigieren.
+Verbessert:
+• Japanische Übersetzung verbessert, danke @llibra!
+• Bestätigung vor dem Abmelden hinzugefügt.
+• Interne Verbesserungen für mehr Stabilität (hoffentlich!).
+Bugfix:
+• Fehlende Fehlermeldungen für Google-Anmeldung wieder hinzugefügt.

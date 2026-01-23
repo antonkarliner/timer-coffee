@@ -1,0 +1,8 @@
+Yeni:
+• Bazen kahve çekirdeği paketi bitmiş olur ama uygulama envanterinde birkaç gram “kalmış” görünür. Çekirdek Detayları ekranına, bunu hızlıca düzeltmek için “Sıfırla” düğmesi eklendi.
+İyileştirildi:
+• Japonca çeviri geliştirildi, teşekkürler @llibra!
+• Çıkış yapmadan önce onay eklendi.
+• Uygulama daha kararlı olsun diye altyapı iyileştirmeleri yapıldı.
+Hata düzeltmesi:
+• Google ile oturum açma için eksik hata mesajları geri eklendi.

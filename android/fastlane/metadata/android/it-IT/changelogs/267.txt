@@ -1,0 +1,10 @@
+Novità:
+• A volte un sacchetto di chicchi è già finito, ma in app restano ancora alcuni grammi “in inventario”. Nella schermata Dettagli chicchi ora c’è il pulsante “Azzera” per risolvere rapidamente.
+
+Miglioramenti:
+• Traduzione in giapponese migliorata, grazie @llibra!
+• Aggiunta conferma prima di uscire dall’account.
+• Migliorie interne per rendere l’app più stabile.
+
+Correzioni:
+• Ripristinati i messaggi di errore mancanti per l’accesso con Google.

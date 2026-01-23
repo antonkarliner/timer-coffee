@@ -1,10 +1,8 @@
 New:
 • Sometimes coffee bean bag is already finished, but there are a few grams still "remaining" in app inventiory. Bean Details screen now has "Set to zero" button which allows to quickly deal with this.
-
 Improved: 
 • Improved translation to Japanese, thanks @llibra!
 • Added confirmation before sign out.
 • Under the hood improvements which will make app more stable (hopefully!). 
-
 Bugfix: 
 • re-added missing error messages for Google Sign-in.

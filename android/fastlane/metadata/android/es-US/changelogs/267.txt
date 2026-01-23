@@ -1,0 +1,8 @@
+Nuevo:
+• A veces la bolsa de granos ya se terminó, pero en el inventario de la app aún “quedan” unos gramos. En Detalles del grano ahora hay un botón “Poner en cero” para resolverlo rápido.
+Mejoras:
+• Mejor traducción al japonés, gracias @llibra.
+• Se agregó confirmación antes de cerrar sesión.
+• Mejoras internas para mayor estabilidad.
+Corrección:
+• Volvieron los mensajes de error faltantes en el inicio de sesión con Google.

@@ -1,5 +1,10 @@
 Nowości:
-• Aplikacja obsługuje teraz język norweski (bokmål). Dziękujemy @thisislola za tłumaczenie! Velkommen!
+• Czasem opakowanie ziaren jest już puste, ale w magazynie w aplikacji nadal „zostaje” kilka gramów. Ekran Szczegóły ziaren ma teraz przycisk „Ustaw na zero”, który pozwala szybko to skorygować.
+
+Ulepszenia:
+• Ulepszono tłumaczenie na język japoński — dzięki @llibra!
+• Dodano potwierdzenie przed wylogowaniem.
+• Usprawnienia pod maską, które (miejmy nadzieję!) sprawią, że aplikacja będzie bardziej stabilna.
 
 Poprawki błędów:
-• Naprawiono błąd dotyczący wyświetlania najwyższego procentu w podsumowaniu Nowego Roku.
+• Ponownie dodano brakujące komunikaty o błędach dla logowania przez Google.

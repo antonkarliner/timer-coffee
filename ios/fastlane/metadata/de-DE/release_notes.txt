@@ -1,5 +1,10 @@
 Neu:
-• Die App unterstützt jetzt Norwegisch (Bokmål). Danke an @thisislola für die Übersetzung! Velkommen!
+• Manchmal ist eine Kaffeebohnenpackung bereits aufgebraucht, aber in der App verbleiben noch ein paar Gramm im Bestand. Der Bildschirm „Bohnen-Details“ hat jetzt eine Schaltfläche „Auf Null setzen“, mit der sich das schnell bereinigen lässt.
+
+Verbessert:
+• Verbesserte Übersetzung ins Japanische, danke @llibra!
+• Bestätigung vor dem Abmelden hinzugefügt.
+• Verbesserungen unter der Haube, die die App stabiler machen (hoffentlich!).
 
 Fehlerbehebung:
-• Ein Fehler bei der Anzeige des prozentualen Anteils ganz oben im Jahresrückblick zum neuen Jahr wurde behoben.
+• Fehlende Fehlermeldungen für die Google-Anmeldung wieder hinzugefügt.

@@ -1,0 +1,8 @@
+Baru:
+• Kadang kantong biji kopi sudah habis, tapi masih tersisa beberapa gram di inventaris aplikasi. Di layar Detail Biji kini ada tombol “Setel ke nol” untuk mengatasinya dengan cepat.
+Ditingkatkan:
+• Terjemahan bahasa Jepang ditingkatkan, terima kasih @llibra!
+• Ada konfirmasi sebelum keluar.
+• Perbaikan internal agar aplikasi lebih stabil (semoga!).
+Perbaikan bug:
+• Pesan galat yang sempat hilang untuk Google Sign-in ditambahkan lagi.
