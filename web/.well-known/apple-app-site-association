@@ -3,7 +3,7 @@
     "details": [
       {
         "appIDs": [
-          "M9YGUG9LDA.com.timer.coffee"
+          "M9YGUG9LDA.timer.coffee"
         ],
         "components": [
           {
@@ -48,7 +48,7 @@
   },
   "webcredentials": {
     "apps": [
-      "M9YGUG9LDA.com.timer.coffee"
+      "M9YGUG9LDA.timer.coffee"
     ]
   },
   "appclips": {
