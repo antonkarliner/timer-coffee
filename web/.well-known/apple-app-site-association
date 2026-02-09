@@ -1,20 +1,41 @@
 {
   "applinks": {
-    "apps": [],
     "details": [
       {
-        "appID": "M9YGUG9LDA.timer.coffee",
-        "paths": [
-          "/recipes/*",
-          "/user/*",
-          "/beans/*",
-          "/favorites",
-          "/brewdiary",
-          "/stats",
-          "/settings",
-          "/donate",
-          "/giftbox",
-          "/giftbox/*"
+        "appIDs": [
+          "M9YGUG9LDA.timer.coffee"
+        ],
+        "components": [
+          {
+            "/": "/recipes/*"
+          },
+          {
+            "/": "/user/*"
+          },
+          {
+            "/": "/beans/*"
+          },
+          {
+            "/": "/favorites"
+          },
+          {
+            "/": "/brewdiary"
+          },
+          {
+            "/": "/stats"
+          },
+          {
+            "/": "/settings"
+          },
+          {
+            "/": "/donate"
+          },
+          {
+            "/": "/giftbox"
+          },
+          {
+            "/": "/giftbox/*"
+          }
         ]
       }
     ]

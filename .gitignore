@@ -78,6 +78,7 @@ update_roaster_logos.sql
 project_docs.txt
 .goosehints
 *.json
+!/ios-universal-links-aasa-config.json
 android/app/.cxx
 untranslated.txt
 memory-bank/activeContext.md
