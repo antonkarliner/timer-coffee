@@ -455,15 +455,13 @@ class _BeanSelectionRowState extends State<BeanSelectionRow> {
 
     final radius = BorderRadius.circular(14);
 
-    final label = Flexible(
-      child: Text(
-        selected ? widget.selectedBeanName ?? '' : loc.selectBeans,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: textStyle?.copyWith(
-          fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-          color: selected ? t.text : t.text.withOpacity(0.75),
-        ),
+    final label = Text(
+      selected ? widget.selectedBeanName ?? '' : loc.selectBeans,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: textStyle?.copyWith(
+        fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
+        color: selected ? t.text : t.text.withOpacity(0.75),
       ),
     );
 
