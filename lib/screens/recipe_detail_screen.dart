@@ -366,30 +366,39 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     AppLogger.debug(
         'Share result - success: ${result.success}, resolvedRecipeId: ${result.resolvedRecipeId}');
 
-    // If service remapped to a stable usr-<user>-<timestamp> id during share, persist it
+    // If service remapped to a stable usr-<user>-<timestamp> id during share, persist it.
     if (result.success && result.resolvedRecipeId != null) {
       final newId = result.resolvedRecipeId!;
       if (mounted && _effectiveRecipeId != newId) {
         setState(() {
           _effectiveRecipeId = newId;
         });
-        // Optionally refresh to ensure UI and any dependent logic align with new id
+        // Refresh to ensure UI and dependent logic align with the new id.
         await _loadRecipeDetails(newId);
       }
-    } else if (result.success && mounted) {
-      // For recipes that were made public, update local state to fix privacy icon
-      // This fixes the privacy icon display issue after sharing
+    }
+
+    // Only user recipes should be marked public in local user-recipe storage.
+    final String effectiveSharedId = result.resolvedRecipeId ?? shareRecipeId;
+    final bool isUserRecipe = effectiveSharedId.startsWith('usr-');
+    if (result.success && isUserRecipe && mounted) {
       setState(() {
         _updatedRecipe = _updatedRecipe?.copyWith(isPublic: true);
-        _isSharing = false;
       });
-      final userRecipeProvider =
-          Provider.of<UserRecipeProvider>(context, listen: false);
-      await userRecipeProvider
-          .updateUserRecipe(_updatedRecipe!.copyWith(isPublic: true));
+      if (_updatedRecipe != null) {
+        final userRecipeProvider =
+            Provider.of<UserRecipeProvider>(context, listen: false);
+        await userRecipeProvider
+            .updateUserRecipe(_updatedRecipe!.copyWith(isPublic: true));
+      }
       AppLogger.debug(
-          'Updated local recipe database and state - isPublic: true');
-    } else if (mounted) {
+          'Updated local user recipe database and state - isPublic: true');
+    } else if (result.success && !isUserRecipe) {
+      AppLogger.debug(
+          'Skipping local user-recipe persistence after sharing built-in recipe: $effectiveSharedId');
+    }
+
+    if (mounted) {
       setState(() => _isSharing = false);
     }
 
