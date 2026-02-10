@@ -334,7 +334,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get unknownRecipe => 'Неизвестный рецепт';
 
   @override
+  String get pulseUserRecipe => 'Пользовательский рецепт';
+
+  @override
   String get noData => 'Нет данных';
+
+  @override
+  String get refresh => 'Обновить';
 
   @override
   String error(String error) {
@@ -347,16 +353,147 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneBrewed(String recipeName) {
+    return 'Кто-то приготовил $recipeName';
+  }
+
+  @override
+  String get pulseTitle => 'Пульс';
+
+  @override
+  String get hubPulseSubtitle => 'Лента завариваний в реальном времени';
+
+  @override
+  String get pulseLiveSummary => 'Сводка в реальном времени';
+
+  @override
+  String get pulseBrewsLabel => 'Заваривания';
+
+  @override
+  String pulseBrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count заваривания',
+      many: '$count завариваний',
+      few: '$count заваривания',
+      one: '$count заваривание',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timePeriodRecent => 'Недавно';
+
+  @override
+  String get timePeriodLastHour => 'Последний час';
+
+  @override
   String get timePeriodToday => 'Сегодня';
 
   @override
-  String get timePeriodThisWeek => 'Эту неделю';
+  String get timePeriodYesterday => 'Вчера';
+
+  @override
+  String get timePeriodThisWeek => 'Эта неделя';
 
   @override
   String get timePeriodThisMonth => 'Этот месяц';
 
   @override
+  String get timePeriodOlder => 'Ранее';
+
+  @override
   String get timePeriodCustom => 'Пользовательский';
+
+  @override
+  String get relativeTimeJustNow => 'только что';
+
+  @override
+  String relativeTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count минуты назад',
+      many: '$count минут назад',
+      few: '$count минуты назад',
+      one: '$count минуту назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count часа назад',
+      many: '$count часов назад',
+      few: '$count часа назад',
+      one: '$count час назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursMinutesAgo(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours часа',
+      many: '$hours часов',
+      few: '$hours часа',
+      one: '$hours час',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes минуты',
+      many: '$minutes минут',
+      few: '$minutes минуты',
+      one: '$minutes минуту',
+    );
+    return '$_temp0 $_temp1 назад';
+  }
+
+  @override
+  String relativeTimeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count дня назад',
+      many: '$count дней назад',
+      few: '$count дня назад',
+      one: '$count день назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count месяца назад',
+      many: '$count месяцев назад',
+      few: '$count месяца назад',
+      one: '$count месяц назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count года назад',
+      many: '$count лет назад',
+      few: '$count года назад',
+      one: '$count год назад',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get statsFor => 'Статистика за ';
@@ -1986,4 +2123,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get inventorySetToZeroFail => 'Не удалось обнулить запасы';
+
+  @override
+  String get timePeriodThisYear => 'Этот год';
+
+  @override
+  String get timePeriodLastYear => 'Прошлый год';
 }

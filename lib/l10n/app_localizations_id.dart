@@ -332,7 +332,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get unknownRecipe => 'Resep Tidak Dikenal';
 
   @override
+  String get pulseUserRecipe => 'Resep pengguna';
+
+  @override
   String get noData => 'Tidak ada data';
+
+  @override
+  String get refresh => 'Segarkan';
 
   @override
   String error(String error) {
@@ -345,7 +351,43 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneBrewed(String recipeName) {
+    return 'Seseorang menyeduh $recipeName';
+  }
+
+  @override
+  String get pulseTitle => 'Pulse';
+
+  @override
+  String get hubPulseSubtitle => 'Umpan seduhan langsung';
+
+  @override
+  String get pulseLiveSummary => 'Ringkasan langsung';
+
+  @override
+  String get pulseBrewsLabel => 'Seduhan';
+
+  @override
+  String pulseBrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count seduhan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timePeriodRecent => 'Terbaru';
+
+  @override
+  String get timePeriodLastHour => 'Satu jam terakhir';
+
+  @override
   String get timePeriodToday => 'Hari Ini';
+
+  @override
+  String get timePeriodYesterday => 'Kemarin';
 
   @override
   String get timePeriodThisWeek => 'Minggu Ini';
@@ -354,7 +396,85 @@ class AppLocalizationsId extends AppLocalizations {
   String get timePeriodThisMonth => 'Bulan Ini';
 
   @override
+  String get timePeriodOlder => 'Lebih lama';
+
+  @override
   String get timePeriodCustom => 'Kustom';
+
+  @override
+  String get relativeTimeJustNow => 'baru saja';
+
+  @override
+  String relativeTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count menit yang lalu',
+      one: '1 menit yang lalu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jam yang lalu',
+      one: '1 jam yang lalu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursMinutesAgo(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours jam',
+      one: '1 jam',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes menit',
+      one: '1 menit',
+    );
+    return '$_temp0 $_temp1 yang lalu';
+  }
+
+  @override
+  String relativeTimeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hari yang lalu',
+      one: '1 hari yang lalu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count bulan yang lalu',
+      one: '1 bulan yang lalu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tahun yang lalu',
+      one: '1 tahun yang lalu',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get statsFor => 'Statistik untuk ';
@@ -1953,4 +2073,10 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get inventorySetToZeroFail => 'Gagal mengatur stok ke nol';
+
+  @override
+  String get timePeriodThisYear => 'Tahun Ini';
+
+  @override
+  String get timePeriodLastYear => 'Tahun Lalu';
 }

@@ -121,6 +121,7 @@
   },
   "someoneJustBrewed": "کسی همین الان {recipeName} را دم کرد",
   "timePeriodToday": "امروز",
+  "timePeriodYesterday": "دیروز",
   "timePeriodThisWeek": "این هفته",
   "timePeriodThisMonth": "این ماه",
   "timePeriodCustom": "بازه سفارشی",
@@ -1016,5 +1017,33 @@
   "setToZeroDialogConfirm": "تنظیم روی صفر",
   "setToZeroDialogCancel": "انصراف",
   "inventorySetToZeroSuccess": "موجودی روی ۰ گرم تنظیم شد",
-  "inventorySetToZeroFail": "تنظیم موجودی روی صفر ناموفق بود"
+  "inventorySetToZeroFail": "تنظیم موجودی روی صفر ناموفق بود",
+  "pulseUserRecipe": "دستور کاربر",
+  "refresh": "تازه‌سازی",
+  "pulseSomeoneBrewed": "یک نفر {recipeName} را دم کرد",
+  "pulseTitle": "نبض",
+  "hubPulseSubtitle": "خوراک زنده دم‌آوری",
+  "pulseLiveSummary": "خلاصه زنده",
+  "pulseBrewsLabel": "دم‌آوری‌ها",
+  "timePeriodRecent": "اخیراً",
+  "timePeriodLastHour": "ساعت گذشته",
+  "timePeriodOlder": "قدیمی‌تر",
+  "relativeTimeJustNow": "همین الان",
+  "relativeTimeMinutesAgo": "{count, plural, =1{۱ دقیقه پیش} other{{count} دقیقه پیش}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{۱ ساعت پیش} other{{count} ساعت پیش}}",
+  "relativeTimeHoursMinutesAgo": "{hours, plural, =1{۱ ساعت} other{{hours} ساعت}} و {minutes, plural, =1{۱ دقیقه} other{{minutes} دقیقه}} پیش",
+  "relativeTimeDaysAgo": "{count, plural, =1{۱ روز پیش} other{{count} روز پیش}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{۱ ماه پیش} other{{count} ماه پیش}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{۱ سال پیش} other{{count} سال پیش}}",
+  "pulseBrewsCount": "{count, plural, other{{count} بار}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "امسال",
+  "timePeriodLastYear": "سال گذشته"
 }

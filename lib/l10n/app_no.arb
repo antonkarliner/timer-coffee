@@ -119,6 +119,7 @@
   },
   "someoneJustBrewed": "Noen har nettopp brygget {recipeName}",
   "timePeriodToday": "I dag",
+  "timePeriodYesterday": "I går",
   "timePeriodThisWeek": "Denne uken",
   "timePeriodThisMonth": "Denne måneden",
   "timePeriodCustom": "Tilpasset",
@@ -1160,5 +1161,33 @@
   "setToZeroDialogConfirm": "Sett til null",
   "setToZeroDialogCancel": "Avbryt",
   "inventorySetToZeroSuccess": "Beholdning satt til 0 g",
-  "inventorySetToZeroFail": "Kunne ikke sette beholdningen til null"
+  "inventorySetToZeroFail": "Kunne ikke sette beholdningen til null",
+  "pulseUserRecipe": "Brukeroppskrift",
+  "refresh": "Oppdater",
+  "pulseSomeoneBrewed": "Noen brygget {recipeName}",
+  "pulseTitle": "Puls",
+  "hubPulseSubtitle": "Live bryggefeed",
+  "pulseLiveSummary": "Livesammendrag",
+  "pulseBrewsLabel": "Brygg",
+  "timePeriodRecent": "Nylig",
+  "timePeriodLastHour": "Siste time",
+  "timePeriodOlder": "Eldre",
+  "relativeTimeJustNow": "akkurat nå",
+  "relativeTimeMinutesAgo": "{count, plural, =1{1 minutt siden} other{{count} minutter siden}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{1 time siden} other{{count} timer siden}}",
+  "relativeTimeHoursMinutesAgo": "{hours, plural, =1{1 time} other{{hours} timer}} og {minutes, plural, =1{1 minutt} other{{minutes} minutter}} siden",
+  "relativeTimeDaysAgo": "{count, plural, =1{1 dag siden} other{{count} dager siden}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{1 måned siden} other{{count} måneder siden}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{1 år siden} other{{count} år siden}}",
+  "pulseBrewsCount": "{count, plural, =1{1 brygg} other{{count} brygg}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "I år",
+  "timePeriodLastYear": "I fjor"
 }

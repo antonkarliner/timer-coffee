@@ -98,6 +98,7 @@
   "error": "خطأ: {error}",
   "someoneJustBrewed": "قام أحدهم بتحضير {recipeName} للتو",
   "timePeriodToday": "اليوم",
+  "timePeriodYesterday": "أمس",
   "timePeriodThisWeek": "هذا الأسبوع",
   "timePeriodThisMonth": "هذا الشهر",
   "timePeriodCustom": "مخصصة",
@@ -843,5 +844,33 @@
   "setToZeroDialogConfirm": "تعيين إلى صفر",
   "setToZeroDialogCancel": "إلغاء",
   "inventorySetToZeroSuccess": "تم تعيين المخزون إلى 0 غ",
-  "inventorySetToZeroFail": "فشل تعيين المخزون إلى صفر"
+  "inventorySetToZeroFail": "فشل تعيين المخزون إلى صفر",
+  "pulseUserRecipe": "وصفة مستخدم",
+  "refresh": "تحديث",
+  "pulseSomeoneBrewed": "قام أحدهم بتحضير {recipeName}",
+  "pulseTitle": "نبض",
+  "hubPulseSubtitle": "موجز تحضير القهوة المباشر",
+  "pulseLiveSummary": "ملخص مباشر",
+  "pulseBrewsLabel": "عمليات التحضير",
+  "timePeriodRecent": "مؤخرًا",
+  "timePeriodLastHour": "الساعة الماضية",
+  "timePeriodOlder": "الأقدم",
+  "relativeTimeJustNow": "الآن",
+  "relativeTimeMinutesAgo": "{count, plural, =1{منذ دقيقة واحدة} other{منذ {count} دقائق}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{منذ ساعة واحدة} other{منذ {count} ساعات}}",
+  "relativeTimeHoursMinutesAgo": "منذ {hours, plural, =1{ساعة واحدة} other{{hours} ساعات}} و{minutes, plural, =1{دقيقة واحدة} other{{minutes} دقائق}}",
+  "relativeTimeDaysAgo": "{count, plural, =1{منذ يوم واحد} other{منذ {count} أيام}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{منذ شهر واحد} other{منذ {count} أشهر}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{منذ سنة واحدة} other{منذ {count} سنوات}}",
+  "pulseBrewsCount": "{count, plural, zero{0 مرة} one{مرة واحدة} two{مرتان} few{{count} مرات} many{{count} مرة} other{{count} مرة}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "هذا العام",
+  "timePeriodLastYear": "العام الماضي"
 }

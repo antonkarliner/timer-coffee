@@ -331,7 +331,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unknownRecipe => 'Невідомий рецепт';
 
   @override
+  String get pulseUserRecipe => 'Рецепт користувача';
+
+  @override
   String get noData => 'Дані відсутні';
+
+  @override
+  String get refresh => 'Оновити';
 
   @override
   String error(String error) {
@@ -344,7 +350,46 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneBrewed(String recipeName) {
+    return 'Хтось приготував $recipeName';
+  }
+
+  @override
+  String get pulseTitle => 'Пульс';
+
+  @override
+  String get hubPulseSubtitle => 'Стрічка заварювань наживо';
+
+  @override
+  String get pulseLiveSummary => 'Зведення наживо';
+
+  @override
+  String get pulseBrewsLabel => 'Заварювання';
+
+  @override
+  String pulseBrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count заварювання',
+      many: '$count заварювань',
+      few: '$count заварювання',
+      one: '$count заварювання',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timePeriodRecent => 'Нещодавно';
+
+  @override
+  String get timePeriodLastHour => 'Остання година';
+
+  @override
   String get timePeriodToday => 'сьогодні';
+
+  @override
+  String get timePeriodYesterday => 'Вчора';
 
   @override
   String get timePeriodThisWeek => 'цього тижня';
@@ -353,7 +398,99 @@ class AppLocalizationsUk extends AppLocalizations {
   String get timePeriodThisMonth => 'цього місяця';
 
   @override
+  String get timePeriodOlder => 'Раніше';
+
+  @override
   String get timePeriodCustom => 'Індивідуально';
+
+  @override
+  String get relativeTimeJustNow => 'щойно';
+
+  @override
+  String relativeTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count хвилини тому',
+      many: '$count хвилин тому',
+      few: '$count хвилини тому',
+      one: '$count хвилину тому',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count години тому',
+      many: '$count годин тому',
+      few: '$count години тому',
+      one: '$count годину тому',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursMinutesAgo(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours години',
+      many: '$hours годин',
+      few: '$hours години',
+      one: '$hours годину',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes хвилини',
+      many: '$minutes хвилин',
+      few: '$minutes хвилини',
+      one: '$minutes хвилину',
+    );
+    return '$_temp0 і $_temp1 тому';
+  }
+
+  @override
+  String relativeTimeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count дня тому',
+      many: '$count днів тому',
+      few: '$count дні тому',
+      one: '$count день тому',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count місяця тому',
+      many: '$count місяців тому',
+      few: '$count місяці тому',
+      one: '$count місяць тому',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count року тому',
+      many: '$count років тому',
+      few: '$count роки тому',
+      one: '$count рік тому',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get statsFor => 'Статистика для ';
@@ -611,7 +748,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get notFavorite => 'Не улюблений';
 
   @override
-  String get myBeans => 'Мої кавові зерна';
+  String get myBeans => 'Мої зерна';
 
   @override
   String get signIn => 'Увійти';
@@ -1983,4 +2120,10 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get inventorySetToZeroFail => 'Не вдалося обнулити запаси';
+
+  @override
+  String get timePeriodThisYear => 'Цього року';
+
+  @override
+  String get timePeriodLastYear => 'Минулого року';
 }

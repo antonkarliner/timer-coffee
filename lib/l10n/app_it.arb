@@ -104,6 +104,7 @@
   "error": "Errore: {error}",
   "someoneJustBrewed": "Qualcuno ha appena preparato {recipeName}",
   "timePeriodToday": "Oggi",
+  "timePeriodYesterday": "Ieri",
   "timePeriodThisWeek": "Questa settimana",
   "timePeriodThisMonth": "Questo mese",
   "timePeriodCustom": "Personalizza",
@@ -843,5 +844,33 @@
   "setToZeroDialogConfirm": "Imposta a zero",
   "setToZeroDialogCancel": "Annulla",
   "inventorySetToZeroSuccess": "Scorte impostate su 0 g",
-  "inventorySetToZeroFail": "Impossibile impostare le scorte a zero"
+  "inventorySetToZeroFail": "Impossibile impostare le scorte a zero",
+  "pulseUserRecipe": "Ricetta utente",
+  "refresh": "Aggiorna",
+  "pulseSomeoneBrewed": "Qualcuno ha preparato {recipeName}",
+  "pulseTitle": "Pulse",
+  "hubPulseSubtitle": "Feed live delle preparazioni",
+  "pulseLiveSummary": "Riepilogo live",
+  "pulseBrewsLabel": "Preparazioni",
+  "timePeriodRecent": "Recente",
+  "timePeriodLastHour": "Ultima ora",
+  "timePeriodOlder": "Meno recente",
+  "relativeTimeJustNow": "proprio ora",
+  "relativeTimeMinutesAgo": "{count, plural, =1{1 minuto fa} other{{count} minuti fa}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{1 ora fa} other{{count} ore fa}}",
+  "relativeTimeHoursMinutesAgo": "{hours, plural, =1{1 ora} other{{hours} ore}} e {minutes, plural, =1{1 minuto} other{{minutes} minuti}} fa",
+  "relativeTimeDaysAgo": "{count, plural, =1{1 giorno fa} other{{count} giorni fa}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{1 mese fa} other{{count} mesi fa}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{1 anno fa} other{{count} anni fa}}",
+  "pulseBrewsCount": "{count, plural, =1{1 preparazione} other{{count} preparazioni}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "Quest'anno",
+  "timePeriodLastYear": "L'anno scorso"
 }

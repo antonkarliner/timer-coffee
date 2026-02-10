@@ -331,7 +331,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get unknownRecipe => 'Rețetă necunoscută';
 
   @override
+  String get pulseUserRecipe => 'Rețetă utilizator';
+
+  @override
   String get noData => 'Fără date';
+
+  @override
+  String get refresh => 'Actualizează';
 
   @override
   String error(String error) {
@@ -344,7 +350,45 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneBrewed(String recipeName) {
+    return 'Cineva a preparat $recipeName';
+  }
+
+  @override
+  String get pulseTitle => 'Pulse';
+
+  @override
+  String get hubPulseSubtitle => 'Flux live de preparări';
+
+  @override
+  String get pulseLiveSummary => 'Rezumat live';
+
+  @override
+  String get pulseBrewsLabel => 'Preparări';
+
+  @override
+  String pulseBrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de preparări',
+      few: '$count preparări',
+      one: '1 preparare',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timePeriodRecent => 'Recent';
+
+  @override
+  String get timePeriodLastHour => 'Ultima oră';
+
+  @override
   String get timePeriodToday => 'Astăzi';
+
+  @override
+  String get timePeriodYesterday => 'Ieri';
 
   @override
   String get timePeriodThisWeek => 'Săptămâna aceasta';
@@ -353,7 +397,85 @@ class AppLocalizationsRo extends AppLocalizations {
   String get timePeriodThisMonth => 'Luna aceasta';
 
   @override
+  String get timePeriodOlder => 'Mai vechi';
+
+  @override
   String get timePeriodCustom => 'Personalizat';
+
+  @override
+  String get relativeTimeJustNow => 'chiar acum';
+
+  @override
+  String relativeTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'acum $count minute',
+      one: 'acum 1 minut',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'acum $count ore',
+      one: 'acum 1 oră',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursMinutesAgo(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours ore',
+      one: '1 oră',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minute',
+      one: '1 minut',
+    );
+    return 'acum $_temp0 și $_temp1';
+  }
+
+  @override
+  String relativeTimeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'acum $count zile',
+      one: 'acum 1 zi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'acum $count luni',
+      one: 'acum 1 lună',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'acum $count ani',
+      one: 'acum 1 an',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get statsFor => 'Statistici pentru ';
@@ -1968,4 +2090,10 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get inventorySetToZeroFail => 'Nu s-a putut seta stocul la zero';
+
+  @override
+  String get timePeriodThisYear => 'Anul acesta';
+
+  @override
+  String get timePeriodLastYear => 'Anul trecut';
 }

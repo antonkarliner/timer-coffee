@@ -104,6 +104,7 @@
   "error": "Fout: {error}",
   "someoneJustBrewed": "iemand heeft zojuist {recipeName} gebrouwd.",
   "timePeriodToday": "Vandaag",
+  "timePeriodYesterday": "Gisteren",
   "timePeriodThisWeek": "Deze Week",
   "timePeriodThisMonth": "Deze Maand",
   "timePeriodCustom": "Custom",
@@ -843,5 +844,33 @@
   "setToZeroDialogConfirm": "Op nul zetten",
   "setToZeroDialogCancel": "Annuleren",
   "inventorySetToZeroSuccess": "Voorraad ingesteld op 0 g",
-  "inventorySetToZeroFail": "Kon de voorraad niet op nul zetten"
+  "inventorySetToZeroFail": "Kon de voorraad niet op nul zetten",
+  "pulseUserRecipe": "Gebruikersrecept",
+  "refresh": "Vernieuwen",
+  "pulseSomeoneBrewed": "Iemand heeft {recipeName} gezet",
+  "pulseTitle": "Pulse",
+  "hubPulseSubtitle": "Live zetfeed",
+  "pulseLiveSummary": "Live samenvatting",
+  "pulseBrewsLabel": "Zetsessies",
+  "timePeriodRecent": "Recent",
+  "timePeriodLastHour": "Afgelopen uur",
+  "timePeriodOlder": "Ouder",
+  "relativeTimeJustNow": "zojuist",
+  "relativeTimeMinutesAgo": "{count, plural, =1{1 minuut geleden} other{{count} minuten geleden}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{1 uur geleden} other{{count} uur geleden}}",
+  "relativeTimeHoursMinutesAgo": "{hours, plural, =1{1 uur} other{{hours} uur}} en {minutes, plural, =1{1 minuut} other{{minutes} minuten}} geleden",
+  "relativeTimeDaysAgo": "{count, plural, =1{1 dag geleden} other{{count} dagen geleden}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{1 maand geleden} other{{count} maanden geleden}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{1 jaar geleden} other{{count} jaar geleden}}",
+  "pulseBrewsCount": "{count, plural, =1{1 zetbeurt} other{{count} zetbeurten}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "Dit jaar",
+  "timePeriodLastYear": "Vorig jaar"
 }

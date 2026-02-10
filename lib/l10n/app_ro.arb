@@ -104,6 +104,7 @@
   "error": "Eroare: {error}",
   "someoneJustBrewed": "Cineva tocmai a preparat {recipeName}",
   "timePeriodToday": "Astăzi",
+  "timePeriodYesterday": "Ieri",
   "timePeriodThisWeek": "Săptămâna aceasta",
   "timePeriodThisMonth": "Luna aceasta",
   "timePeriodCustom": "Personalizat",
@@ -843,5 +844,33 @@
   "setToZeroDialogConfirm": "Setează la zero",
   "setToZeroDialogCancel": "Anulare",
   "inventorySetToZeroSuccess": "Stoc setat la 0 g",
-  "inventorySetToZeroFail": "Nu s-a putut seta stocul la zero"
+  "inventorySetToZeroFail": "Nu s-a putut seta stocul la zero",
+  "pulseUserRecipe": "Rețetă utilizator",
+  "refresh": "Actualizează",
+  "pulseSomeoneBrewed": "Cineva a preparat {recipeName}",
+  "pulseTitle": "Pulse",
+  "hubPulseSubtitle": "Flux live de preparări",
+  "pulseLiveSummary": "Rezumat live",
+  "pulseBrewsLabel": "Preparări",
+  "timePeriodRecent": "Recent",
+  "timePeriodLastHour": "Ultima oră",
+  "timePeriodOlder": "Mai vechi",
+  "relativeTimeJustNow": "chiar acum",
+  "relativeTimeMinutesAgo": "{count, plural, =1{acum 1 minut} other{acum {count} minute}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{acum 1 oră} other{acum {count} ore}}",
+  "relativeTimeHoursMinutesAgo": "acum {hours, plural, =1{1 oră} other{{hours} ore}} și {minutes, plural, =1{1 minut} other{{minutes} minute}}",
+  "relativeTimeDaysAgo": "{count, plural, =1{acum 1 zi} other{acum {count} zile}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{acum 1 lună} other{acum {count} luni}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{acum 1 an} other{acum {count} ani}}",
+  "pulseBrewsCount": "{count, plural, =1{1 preparare} few{{count} preparări} other{{count} de preparări}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "Anul acesta",
+  "timePeriodLastYear": "Anul trecut"
 }

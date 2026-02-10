@@ -110,6 +110,7 @@
   "error": "Greška: {error}",
   "someoneJustBrewed": "Netko je upravo pripremio {recipeName}",
   "timePeriodToday": "Danas",
+  "timePeriodYesterday": "Jučer",
   "timePeriodThisWeek": "Ovaj tjedan",
   "timePeriodThisMonth": "Ovaj mjesec",
   "timePeriodCustom": "Prilagođeno",
@@ -1009,5 +1010,33 @@
   "setToZeroDialogConfirm": "Postavi na nulu",
   "setToZeroDialogCancel": "Odustani",
   "inventorySetToZeroSuccess": "Zaliha postavljena na 0 g",
-  "inventorySetToZeroFail": "Nije uspjelo postaviti zalihu na nulu"
+  "inventorySetToZeroFail": "Nije uspjelo postaviti zalihu na nulu",
+  "pulseUserRecipe": "Korisnički recept",
+  "refresh": "Osvježi",
+  "pulseSomeoneBrewed": "Netko je pripremio {recipeName}",
+  "pulseTitle": "Puls",
+  "hubPulseSubtitle": "Uživo tijek pripreme kave",
+  "pulseLiveSummary": "Sažetak uživo",
+  "pulseBrewsLabel": "Pripreme",
+  "timePeriodRecent": "Nedavno",
+  "timePeriodLastHour": "Posljednji sat",
+  "timePeriodOlder": "Starije",
+  "relativeTimeJustNow": "upravo sada",
+  "relativeTimeMinutesAgo": "{count, plural, =1{prije 1 minute} other{prije {count} minuta}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{prije 1 sat} other{prije {count} sati}}",
+  "relativeTimeHoursMinutesAgo": "prije {hours, plural, =1{1 sat} other{{hours} sati}} i {minutes, plural, =1{1 minute} other{{minutes} minuta}}",
+  "relativeTimeDaysAgo": "{count, plural, =1{prije 1 dan} other{prije {count} dana}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{prije 1 mjesec} other{prije {count} mjeseci}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{prije 1 godinu} other{prije {count} godina}}",
+  "pulseBrewsCount": "{count, plural, one{{count} priprema} few{{count} pripreme} other{{count} priprema}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "Ove godine",
+  "timePeriodLastYear": "Prošle godine"
 }

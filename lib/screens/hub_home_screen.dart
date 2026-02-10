@@ -22,6 +22,7 @@ import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
 import '../theme/design_tokens.dart'; // Import design tokens for AppRadius
 import '../utils/app_logger.dart'; // Import AppLogger
 import '../widgets/base_buttons.dart';
+import 'pulse_screen.dart';
 // Added import
 // Import http package
 // Import for RecipeCreationScreen
@@ -243,6 +244,22 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
               subtitle: Text(l10n.hubBrewStatsSubtitle),
               onTap: () {
                 context.router.push(StatsRoute());
+              },
+            ),
+          ),
+          Semantics(
+            identifier: 'pulse',
+            label: l10n.pulseTitle,
+            child: ListTile(
+              leading: const Icon(Icons.monitor_heart),
+              title: Text(l10n.pulseTitle),
+              subtitle: Text(l10n.hubPulseSubtitle),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const PulseScreen(),
+                  ),
+                );
               },
             ),
           ),

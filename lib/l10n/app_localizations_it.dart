@@ -333,7 +333,13 @@ class AppLocalizationsIt extends AppLocalizations {
   String get unknownRecipe => 'Ricetta sconosciuta';
 
   @override
+  String get pulseUserRecipe => 'Ricetta utente';
+
+  @override
   String get noData => 'Nessun dato';
+
+  @override
+  String get refresh => 'Aggiorna';
 
   @override
   String error(String error) {
@@ -346,7 +352,44 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneBrewed(String recipeName) {
+    return 'Qualcuno ha preparato $recipeName';
+  }
+
+  @override
+  String get pulseTitle => 'Pulse';
+
+  @override
+  String get hubPulseSubtitle => 'Feed live delle preparazioni';
+
+  @override
+  String get pulseLiveSummary => 'Riepilogo live';
+
+  @override
+  String get pulseBrewsLabel => 'Preparazioni';
+
+  @override
+  String pulseBrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count preparazioni',
+      one: '1 preparazione',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timePeriodRecent => 'Recente';
+
+  @override
+  String get timePeriodLastHour => 'Ultima ora';
+
+  @override
   String get timePeriodToday => 'Oggi';
+
+  @override
+  String get timePeriodYesterday => 'Ieri';
 
   @override
   String get timePeriodThisWeek => 'Questa settimana';
@@ -355,7 +398,85 @@ class AppLocalizationsIt extends AppLocalizations {
   String get timePeriodThisMonth => 'Questo mese';
 
   @override
+  String get timePeriodOlder => 'Meno recente';
+
+  @override
   String get timePeriodCustom => 'Personalizza';
+
+  @override
+  String get relativeTimeJustNow => 'proprio ora';
+
+  @override
+  String relativeTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minuti fa',
+      one: '1 minuto fa',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ore fa',
+      one: '1 ora fa',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursMinutesAgo(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours ore',
+      one: '1 ora',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minuti',
+      one: '1 minuto',
+    );
+    return '$_temp0 e $_temp1 fa';
+  }
+
+  @override
+  String relativeTimeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count giorni fa',
+      one: '1 giorno fa',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mesi fa',
+      one: '1 mese fa',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count anni fa',
+      one: '1 anno fa',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get statsFor => 'Statistiche per ';
@@ -1975,4 +2096,10 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get inventorySetToZeroFail => 'Impossibile impostare le scorte a zero';
+
+  @override
+  String get timePeriodThisYear => 'Quest\'anno';
+
+  @override
+  String get timePeriodLastYear => 'L\'anno scorso';
 }

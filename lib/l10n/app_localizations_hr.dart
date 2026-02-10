@@ -329,7 +329,13 @@ class AppLocalizationsHr extends AppLocalizations {
   String get unknownRecipe => 'Nepoznat recept';
 
   @override
+  String get pulseUserRecipe => 'Korisnički recept';
+
+  @override
   String get noData => 'Nema podataka';
+
+  @override
+  String get refresh => 'Osvježi';
 
   @override
   String error(String error) {
@@ -342,7 +348,45 @@ class AppLocalizationsHr extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneBrewed(String recipeName) {
+    return 'Netko je pripremio $recipeName';
+  }
+
+  @override
+  String get pulseTitle => 'Puls';
+
+  @override
+  String get hubPulseSubtitle => 'Uživo tijek pripreme kave';
+
+  @override
+  String get pulseLiveSummary => 'Sažetak uživo';
+
+  @override
+  String get pulseBrewsLabel => 'Pripreme';
+
+  @override
+  String pulseBrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count priprema',
+      few: '$count pripreme',
+      one: '$count priprema',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timePeriodRecent => 'Nedavno';
+
+  @override
+  String get timePeriodLastHour => 'Posljednji sat';
+
+  @override
   String get timePeriodToday => 'Danas';
+
+  @override
+  String get timePeriodYesterday => 'Jučer';
 
   @override
   String get timePeriodThisWeek => 'Ovaj tjedan';
@@ -351,7 +395,85 @@ class AppLocalizationsHr extends AppLocalizations {
   String get timePeriodThisMonth => 'Ovaj mjesec';
 
   @override
+  String get timePeriodOlder => 'Starije';
+
+  @override
   String get timePeriodCustom => 'Prilagođeno';
+
+  @override
+  String get relativeTimeJustNow => 'upravo sada';
+
+  @override
+  String relativeTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'prije $count minuta',
+      one: 'prije 1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'prije $count sati',
+      one: 'prije 1 sat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursMinutesAgo(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours sati',
+      one: '1 sat',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minuta',
+      one: '1 minute',
+    );
+    return 'prije $_temp0 i $_temp1';
+  }
+
+  @override
+  String relativeTimeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'prije $count dana',
+      one: 'prije 1 dan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'prije $count mjeseci',
+      one: 'prije 1 mjesec',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'prije $count godina',
+      one: 'prije 1 godinu',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get statsFor => 'Statistika za ';
@@ -1964,4 +2086,10 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get inventorySetToZeroFail => 'Nije uspjelo postaviti zalihu na nulu';
+
+  @override
+  String get timePeriodThisYear => 'Ove godine';
+
+  @override
+  String get timePeriodLastYear => 'Prošle godine';
 }

@@ -95,6 +95,7 @@
   "error": "Hata: {error}",
   "someoneJustBrewed": "Birisi az önce demledi: {recipeName}",
   "timePeriodToday": "Bugün",
+  "timePeriodYesterday": "Dün",
   "timePeriodThisWeek": "Bu Hafta",
   "timePeriodThisMonth": "Bu Ay",
   "timePeriodCustom": "Özel",
@@ -843,5 +844,33 @@
   "setToZeroDialogConfirm": "Sıfırla",
   "setToZeroDialogCancel": "İptal",
   "inventorySetToZeroSuccess": "Stok 0 g olarak ayarlandı",
-  "inventorySetToZeroFail": "Stok sıfırlama başarısız oldu"
+  "inventorySetToZeroFail": "Stok sıfırlama başarısız oldu",
+  "pulseUserRecipe": "Kullanıcı tarifi",
+  "refresh": "Yenile",
+  "pulseSomeoneBrewed": "Birisi {recipeName} demledi",
+  "pulseTitle": "Nabız",
+  "hubPulseSubtitle": "Canlı demleme akışı",
+  "pulseLiveSummary": "Canlı özet",
+  "pulseBrewsLabel": "Demlemeler",
+  "timePeriodRecent": "Yakın zaman",
+  "timePeriodLastHour": "Son saat",
+  "timePeriodOlder": "Daha eski",
+  "relativeTimeJustNow": "az önce",
+  "relativeTimeMinutesAgo": "{count, plural, =1{1 dakika önce} other{{count} dakika önce}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{1 saat önce} other{{count} saat önce}}",
+  "relativeTimeHoursMinutesAgo": "{hours, plural, =1{1 saat} other{{hours} saat}} {minutes, plural, =1{1 dakika} other{{minutes} dakika}} önce",
+  "relativeTimeDaysAgo": "{count, plural, =1{1 gün önce} other{{count} gün önce}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{1 ay önce} other{{count} ay önce}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{1 yıl önce} other{{count} yıl önce}}",
+  "pulseBrewsCount": "{count, plural, other{{count} demleme}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "Bu Yıl",
+  "timePeriodLastYear": "Geçen Yıl"
 }

@@ -106,7 +106,9 @@
   "mostUsedRecipes": "Most used recipes:",
   "globalStats": "Global stats",
   "unknownRecipe": "Unknown Recipe",
+  "pulseUserRecipe": "User recipe",
   "noData": "No data",
+  "refresh": "Refresh",
   "error": "Error: {error}",
   "@error": {
     "description": "Generic error message label combined with the specific error description",
@@ -118,10 +120,95 @@
     }
   },
   "someoneJustBrewed": "Someone just brewed {recipeName}",
+  "pulseSomeoneBrewed": "Someone brewed {recipeName}",
+  "@pulseSomeoneBrewed": {
+    "description": "Feed card text for a brew event with recipe name placeholder",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "V60"
+      }
+    }
+  },
+  "pulseTitle": "Pulse",
+  "hubPulseSubtitle": "Live brew feed",
+  "pulseLiveSummary": "Live summary",
+  "pulseBrewsLabel": "Brews",
+  "pulseBrewsCount": "{count, plural, =1{1 brew} other{{count} brews}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodRecent": "Recent",
+  "timePeriodLastHour": "Last hour",
   "timePeriodToday": "Today",
+  "timePeriodYesterday": "Yesterday",
   "timePeriodThisWeek": "This Week",
   "timePeriodThisMonth": "This Month",
+  "timePeriodOlder": "Older",
   "timePeriodCustom": "Custom",
+  "relativeTimeJustNow": "just now",
+  "relativeTimeMinutesAgo": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
+  "@relativeTimeMinutesAgo": {
+    "description": "Relative time label in minutes",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeTimeHoursAgo": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
+  "@relativeTimeHoursAgo": {
+    "description": "Relative time label in hours",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeTimeHoursMinutesAgo": "{hours, plural, =1{1 hour} other{{hours} hours}} {minutes, plural, =1{1 minute} other{{minutes} minutes}} ago",
+  "@relativeTimeHoursMinutesAgo": {
+    "description": "Relative time label combining hours and minutes",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeTimeDaysAgo": "{count, plural, =1{1 day ago} other{{count} days ago}}",
+  "@relativeTimeDaysAgo": {
+    "description": "Relative time label in days",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeTimeMonthsAgo": "{count, plural, =1{1 month ago} other{{count} months ago}}",
+  "@relativeTimeMonthsAgo": {
+    "description": "Relative time label in months",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeTimeYearsAgo": "{count, plural, =1{1 year ago} other{{count} years ago}}",
+  "@relativeTimeYearsAgo": {
+    "description": "Relative time label in years",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "statsFor": "Stats for ",
   "@statsFor": {
     "description": "Prefix text for statistics headings"
@@ -1160,5 +1247,7 @@
   "setToZeroDialogConfirm": "Set to zero",
   "setToZeroDialogCancel": "Cancel",
   "inventorySetToZeroSuccess": "Inventory set to 0 g",
-  "inventorySetToZeroFail": "Failed to set inventory to zero"
+  "inventorySetToZeroFail": "Failed to set inventory to zero",
+  "timePeriodThisYear": "This Year",
+  "timePeriodLastYear": "Last Year"
 }

@@ -104,6 +104,7 @@
   "error": "Ошибка: {error}",
   "someoneJustBrewed": "Кто-то только что сварил {recipeName}",
   "timePeriodToday": "Сегодня",
+  "timePeriodYesterday": "Вчера",
   "timePeriodThisWeek": "Эту неделю",
   "timePeriodThisMonth": "Этот месяц",
   "timePeriodCustom": "Пользовательский",
@@ -843,5 +844,33 @@
   "setToZeroDialogConfirm": "Обнулить",
   "setToZeroDialogCancel": "Отмена",
   "inventorySetToZeroSuccess": "Запасы установлены на 0 г",
-  "inventorySetToZeroFail": "Не удалось обнулить запасы"
+  "inventorySetToZeroFail": "Не удалось обнулить запасы",
+  "pulseUserRecipe": "Пользовательский рецепт",
+  "refresh": "Обновить",
+  "pulseSomeoneBrewed": "Кто-то приготовил {recipeName}",
+  "pulseTitle": "Пульс",
+  "hubPulseSubtitle": "Лента завариваний в реальном времени",
+  "pulseLiveSummary": "Сводка в реальном времени",
+  "pulseBrewsLabel": "Заваривания",
+  "timePeriodRecent": "Недавно",
+  "timePeriodLastHour": "Последний час",
+  "timePeriodOlder": "Ранее",
+  "relativeTimeJustNow": "только что",
+  "relativeTimeMinutesAgo": "{count, plural, one{{count} минуту назад} few{{count} минуты назад} many{{count} минут назад} other{{count} минуты назад}}",
+  "relativeTimeHoursAgo": "{count, plural, one{{count} час назад} few{{count} часа назад} many{{count} часов назад} other{{count} часа назад}}",
+  "relativeTimeHoursMinutesAgo": "{hours, plural, one{{hours} час} few{{hours} часа} many{{hours} часов} other{{hours} часа}} {minutes, plural, one{{minutes} минуту} few{{minutes} минуты} many{{minutes} минут} other{{minutes} минуты}} назад",
+  "relativeTimeDaysAgo": "{count, plural, one{{count} день назад} few{{count} дня назад} many{{count} дней назад} other{{count} дня назад}}",
+  "relativeTimeMonthsAgo": "{count, plural, one{{count} месяц назад} few{{count} месяца назад} many{{count} месяцев назад} other{{count} месяца назад}}",
+  "relativeTimeYearsAgo": "{count, plural, one{{count} год назад} few{{count} года назад} many{{count} лет назад} other{{count} года назад}}",
+  "pulseBrewsCount": "{count, plural, one{{count} заваривание} few{{count} заваривания} many{{count} завариваний} other{{count} заваривания}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "Этот год",
+  "timePeriodLastYear": "Прошлый год"
 }

@@ -104,6 +104,7 @@
   "error": "Błąd: {error}",
   "someoneJustBrewed": "Ktoś właśnie zaparzył {recipeName}",
   "timePeriodToday": "Dzisiaj",
+  "timePeriodYesterday": "Wczoraj",
   "timePeriodThisWeek": "W tym tygodniu",
   "timePeriodThisMonth": "W tym miesiącu",
   "timePeriodCustom": "Niestandardowe",
@@ -843,5 +844,33 @@
   "setToZeroDialogConfirm": "Ustaw na zero",
   "setToZeroDialogCancel": "Anuluj",
   "inventorySetToZeroSuccess": "Zapasy ustawione na 0 g",
-  "inventorySetToZeroFail": "Nie udało się ustawić zapasów na zero"
+  "inventorySetToZeroFail": "Nie udało się ustawić zapasów na zero",
+  "pulseUserRecipe": "Przepis użytkownika",
+  "refresh": "Odśwież",
+  "pulseSomeoneBrewed": "Ktoś zaparzył {recipeName}",
+  "pulseTitle": "Puls",
+  "hubPulseSubtitle": "Kanał parzenia na żywo",
+  "pulseLiveSummary": "Podsumowanie na żywo",
+  "pulseBrewsLabel": "Parzenia",
+  "timePeriodRecent": "Niedawno",
+  "timePeriodLastHour": "Ostatnia godzina",
+  "timePeriodOlder": "Starsze",
+  "relativeTimeJustNow": "przed chwilą",
+  "relativeTimeMinutesAgo": "{count, plural, one{{count} minutę temu} few{{count} minuty temu} many{{count} minut temu} other{{count} minuty temu}}",
+  "relativeTimeHoursAgo": "{count, plural, one{{count} godzinę temu} few{{count} godziny temu} many{{count} godzin temu} other{{count} godziny temu}}",
+  "relativeTimeHoursMinutesAgo": "{hours, plural, one{{hours} godzinę} few{{hours} godziny} many{{hours} godzin} other{{hours} godziny}} i {minutes, plural, one{{minutes} minutę} few{{minutes} minuty} many{{minutes} minut} other{{minutes} minuty}} temu",
+  "relativeTimeDaysAgo": "{count, plural, one{{count} dzień temu} few{{count} dni temu} many{{count} dni temu} other{{count} dnia temu}}",
+  "relativeTimeMonthsAgo": "{count, plural, one{{count} miesiąc temu} few{{count} miesiące temu} many{{count} miesięcy temu} other{{count} miesiąca temu}}",
+  "relativeTimeYearsAgo": "{count, plural, one{{count} rok temu} few{{count} lata temu} many{{count} lat temu} other{{count} roku temu}}",
+  "pulseBrewsCount": "{count, plural, =1{1 parzenie} few{{count} parzenia} many{{count} parzeń} other{{count} parzenia}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "W tym roku",
+  "timePeriodLastYear": "W zeszłym roku"
 }

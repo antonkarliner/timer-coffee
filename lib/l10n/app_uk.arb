@@ -95,6 +95,7 @@
   "error": "Помилка: {error}",
   "someoneJustBrewed": "Хтось щойно заварив {recipeName}",
   "timePeriodToday": "сьогодні",
+  "timePeriodYesterday": "Вчора",
   "timePeriodThisWeek": "цього тижня",
   "timePeriodThisMonth": "цього місяця",
   "timePeriodCustom": "Індивідуально",
@@ -174,7 +175,7 @@
   "addNewBeans": "Додати нові зерна",
   "favorite": "Улюблений",
   "notFavorite": "Не улюблений",
-  "myBeans": "Мої кавові зерна",
+  "myBeans": "Мої зерна",
   "signIn": "Увійти",
   "signOut": "Вийти",
   "signInWithApple": "Увійти за допомогою Apple",
@@ -843,5 +844,33 @@
   "setToZeroDialogConfirm": "Обнулити",
   "setToZeroDialogCancel": "Скасувати",
   "inventorySetToZeroSuccess": "Запаси встановлено на 0 г",
-  "inventorySetToZeroFail": "Не вдалося обнулити запаси"
+  "inventorySetToZeroFail": "Не вдалося обнулити запаси",
+  "pulseUserRecipe": "Рецепт користувача",
+  "refresh": "Оновити",
+  "pulseSomeoneBrewed": "Хтось приготував {recipeName}",
+  "pulseTitle": "Пульс",
+  "hubPulseSubtitle": "Стрічка заварювань наживо",
+  "pulseLiveSummary": "Зведення наживо",
+  "pulseBrewsLabel": "Заварювання",
+  "timePeriodRecent": "Нещодавно",
+  "timePeriodLastHour": "Остання година",
+  "timePeriodOlder": "Раніше",
+  "relativeTimeJustNow": "щойно",
+  "relativeTimeMinutesAgo": "{count, plural, one{{count} хвилину тому} few{{count} хвилини тому} many{{count} хвилин тому} other{{count} хвилини тому}}",
+  "relativeTimeHoursAgo": "{count, plural, one{{count} годину тому} few{{count} години тому} many{{count} годин тому} other{{count} години тому}}",
+  "relativeTimeHoursMinutesAgo": "{hours, plural, one{{hours} годину} few{{hours} години} many{{hours} годин} other{{hours} години}} і {minutes, plural, one{{minutes} хвилину} few{{minutes} хвилини} many{{minutes} хвилин} other{{minutes} хвилини}} тому",
+  "relativeTimeDaysAgo": "{count, plural, one{{count} день тому} few{{count} дні тому} many{{count} днів тому} other{{count} дня тому}}",
+  "relativeTimeMonthsAgo": "{count, plural, one{{count} місяць тому} few{{count} місяці тому} many{{count} місяців тому} other{{count} місяця тому}}",
+  "relativeTimeYearsAgo": "{count, plural, one{{count} рік тому} few{{count} роки тому} many{{count} років тому} other{{count} року тому}}",
+  "pulseBrewsCount": "{count, plural, one{{count} заварювання} few{{count} заварювання} many{{count} заварювань} other{{count} заварювання}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "Цього року",
+  "timePeriodLastYear": "Минулого року"
 }

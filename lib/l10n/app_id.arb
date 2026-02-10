@@ -104,6 +104,7 @@
   "error": "Kesalahan: {error}",
   "someoneJustBrewed": "Seseorang baru saja menyeduh {recipeName}",
   "timePeriodToday": "Hari Ini",
+  "timePeriodYesterday": "Kemarin",
   "timePeriodThisWeek": "Minggu Ini",
   "timePeriodThisMonth": "Bulan Ini",
   "timePeriodCustom": "Kustom",
@@ -843,5 +844,33 @@
   "setToZeroDialogConfirm": "Atur ke nol",
   "setToZeroDialogCancel": "Batal",
   "inventorySetToZeroSuccess": "Stok diatur menjadi 0 g",
-  "inventorySetToZeroFail": "Gagal mengatur stok ke nol"
+  "inventorySetToZeroFail": "Gagal mengatur stok ke nol",
+  "pulseUserRecipe": "Resep pengguna",
+  "refresh": "Segarkan",
+  "pulseSomeoneBrewed": "Seseorang menyeduh {recipeName}",
+  "pulseTitle": "Pulse",
+  "hubPulseSubtitle": "Umpan seduhan langsung",
+  "pulseLiveSummary": "Ringkasan langsung",
+  "pulseBrewsLabel": "Seduhan",
+  "timePeriodRecent": "Terbaru",
+  "timePeriodLastHour": "Satu jam terakhir",
+  "timePeriodOlder": "Lebih lama",
+  "relativeTimeJustNow": "baru saja",
+  "relativeTimeMinutesAgo": "{count, plural, =1{1 menit yang lalu} other{{count} menit yang lalu}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{1 jam yang lalu} other{{count} jam yang lalu}}",
+  "relativeTimeHoursMinutesAgo": "{hours, plural, =1{1 jam} other{{hours} jam}} {minutes, plural, =1{1 menit} other{{minutes} menit}} yang lalu",
+  "relativeTimeDaysAgo": "{count, plural, =1{1 hari yang lalu} other{{count} hari yang lalu}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{1 bulan yang lalu} other{{count} bulan yang lalu}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{1 tahun yang lalu} other{{count} tahun yang lalu}}",
+  "pulseBrewsCount": "{count, plural, other{{count} seduhan}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "Tahun Ini",
+  "timePeriodLastYear": "Tahun Lalu"
 }

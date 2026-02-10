@@ -322,7 +322,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get unknownRecipe => '알 수 없는 레시피';
 
   @override
+  String get pulseUserRecipe => '사용자 레시피';
+
+  @override
   String get noData => '데이터 없음';
+
+  @override
+  String get refresh => '새로고침';
 
   @override
   String error(String error) {
@@ -335,7 +341,43 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneBrewed(String recipeName) {
+    return '누군가 $recipeName을(를) 추출했어요';
+  }
+
+  @override
+  String get pulseTitle => '펄스';
+
+  @override
+  String get hubPulseSubtitle => '실시간 추출 피드';
+
+  @override
+  String get pulseLiveSummary => '실시간 요약';
+
+  @override
+  String get pulseBrewsLabel => '추출 횟수';
+
+  @override
+  String pulseBrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count회 추출',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timePeriodRecent => '최근';
+
+  @override
+  String get timePeriodLastHour => '지난 1시간';
+
+  @override
   String get timePeriodToday => '오늘';
+
+  @override
+  String get timePeriodYesterday => '어제';
 
   @override
   String get timePeriodThisWeek => '이번 주';
@@ -344,7 +386,85 @@ class AppLocalizationsKo extends AppLocalizations {
   String get timePeriodThisMonth => '이번 달';
 
   @override
+  String get timePeriodOlder => '이전';
+
+  @override
   String get timePeriodCustom => '사용자 지정';
+
+  @override
+  String get relativeTimeJustNow => '방금 전';
+
+  @override
+  String relativeTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count분 전',
+      one: '1분 전',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count시간 전',
+      one: '1시간 전',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursMinutesAgo(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours시간',
+      one: '1시간',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes분',
+      one: '1분',
+    );
+    return '$_temp0 $_temp1 전';
+  }
+
+  @override
+  String relativeTimeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count일 전',
+      one: '1일 전',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count개월 전',
+      one: '1개월 전',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count년 전',
+      one: '1년 전',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get statsFor => '통계';
@@ -1893,4 +2013,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get inventorySetToZeroFail => '재고를 0으로 설정하는 데 실패했습니다';
+
+  @override
+  String get timePeriodThisYear => '올해';
+
+  @override
+  String get timePeriodLastYear => '작년';
 }

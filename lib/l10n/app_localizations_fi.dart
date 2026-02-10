@@ -328,7 +328,13 @@ class AppLocalizationsFi extends AppLocalizations {
   String get unknownRecipe => 'Tuntematon resepti';
 
   @override
+  String get pulseUserRecipe => 'Käyttäjän resepti';
+
+  @override
   String get noData => 'Ei dataa';
+
+  @override
+  String get refresh => 'Päivitä';
 
   @override
   String error(String error) {
@@ -341,7 +347,44 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneBrewed(String recipeName) {
+    return 'Joku valmisti $recipeName';
+  }
+
+  @override
+  String get pulseTitle => 'Syke';
+
+  @override
+  String get hubPulseSubtitle => 'Live-uuttosyöte';
+
+  @override
+  String get pulseLiveSummary => 'Live-yhteenveto';
+
+  @override
+  String get pulseBrewsLabel => 'Uutot';
+
+  @override
+  String pulseBrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count valmistusta',
+      one: '1 valmistus',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timePeriodRecent => 'Äskettäin';
+
+  @override
+  String get timePeriodLastHour => 'Viime tunti';
+
+  @override
   String get timePeriodToday => 'Tänään';
+
+  @override
+  String get timePeriodYesterday => 'Eilen';
 
   @override
   String get timePeriodThisWeek => 'Tällä viikolla';
@@ -350,7 +393,85 @@ class AppLocalizationsFi extends AppLocalizations {
   String get timePeriodThisMonth => 'Tässä kuussa';
 
   @override
+  String get timePeriodOlder => 'Vanhempi';
+
+  @override
   String get timePeriodCustom => 'Mukautettu';
+
+  @override
+  String get relativeTimeJustNow => 'juuri nyt';
+
+  @override
+  String relativeTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minuuttia sitten',
+      one: '1 minuutti sitten',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tuntia sitten',
+      one: '1 tunti sitten',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursMinutesAgo(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours tuntia',
+      one: '1 tunti',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minuuttia',
+      one: '1 minuutti',
+    );
+    return '$_temp0 ja $_temp1 sitten';
+  }
+
+  @override
+  String relativeTimeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count päivää sitten',
+      one: '1 päivä sitten',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count kuukautta sitten',
+      one: '1 kuukausi sitten',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count vuotta sitten',
+      one: '1 vuosi sitten',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get statsFor => 'Tilastot kohteelle ';
@@ -1953,4 +2074,10 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get inventorySetToZeroFail => 'Varastoa ei voitu asettaa nollaan';
+
+  @override
+  String get timePeriodThisYear => 'Tänä vuonna';
+
+  @override
+  String get timePeriodLastYear => 'Viime vuonna';
 }

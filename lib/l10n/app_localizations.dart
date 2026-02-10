@@ -736,11 +736,23 @@ abstract class AppLocalizations {
   /// **'Unknown Recipe'**
   String get unknownRecipe;
 
+  /// No description provided for @pulseUserRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'User recipe'**
+  String get pulseUserRecipe;
+
   /// No description provided for @noData.
   ///
   /// In en, this message translates to:
   /// **'No data'**
   String get noData;
+
+  /// No description provided for @refresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refresh;
 
   /// Generic error message label combined with the specific error description
   ///
@@ -754,11 +766,65 @@ abstract class AppLocalizations {
   /// **'Someone just brewed {recipeName}'**
   String someoneJustBrewed(Object recipeName);
 
+  /// Feed card text for a brew event with recipe name placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Someone brewed {recipeName}'**
+  String pulseSomeoneBrewed(String recipeName);
+
+  /// No description provided for @pulseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pulse'**
+  String get pulseTitle;
+
+  /// No description provided for @hubPulseSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Live brew feed'**
+  String get hubPulseSubtitle;
+
+  /// No description provided for @pulseLiveSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Live summary'**
+  String get pulseLiveSummary;
+
+  /// No description provided for @pulseBrewsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Brews'**
+  String get pulseBrewsLabel;
+
+  /// Pluralized brew count for Pulse summary
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 brew} other{{count} brews}}'**
+  String pulseBrewsCount(int count);
+
+  /// No description provided for @timePeriodRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent'**
+  String get timePeriodRecent;
+
+  /// No description provided for @timePeriodLastHour.
+  ///
+  /// In en, this message translates to:
+  /// **'Last hour'**
+  String get timePeriodLastHour;
+
   /// No description provided for @timePeriodToday.
   ///
   /// In en, this message translates to:
   /// **'Today'**
   String get timePeriodToday;
+
+  /// No description provided for @timePeriodYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get timePeriodYesterday;
 
   /// No description provided for @timePeriodThisWeek.
   ///
@@ -772,11 +838,59 @@ abstract class AppLocalizations {
   /// **'This Month'**
   String get timePeriodThisMonth;
 
+  /// No description provided for @timePeriodOlder.
+  ///
+  /// In en, this message translates to:
+  /// **'Older'**
+  String get timePeriodOlder;
+
   /// No description provided for @timePeriodCustom.
   ///
   /// In en, this message translates to:
   /// **'Custom'**
   String get timePeriodCustom;
+
+  /// No description provided for @relativeTimeJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get relativeTimeJustNow;
+
+  /// Relative time label in minutes
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 minute ago} other{{count} minutes ago}}'**
+  String relativeTimeMinutesAgo(int count);
+
+  /// Relative time label in hours
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 hour ago} other{{count} hours ago}}'**
+  String relativeTimeHoursAgo(int count);
+
+  /// Relative time label combining hours and minutes
+  ///
+  /// In en, this message translates to:
+  /// **'{hours, plural, =1{1 hour} other{{hours} hours}} {minutes, plural, =1{1 minute} other{{minutes} minutes}} ago'**
+  String relativeTimeHoursMinutesAgo(int hours, int minutes);
+
+  /// Relative time label in days
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day ago} other{{count} days ago}}'**
+  String relativeTimeDaysAgo(int count);
+
+  /// Relative time label in months
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 month ago} other{{count} months ago}}'**
+  String relativeTimeMonthsAgo(int count);
+
+  /// Relative time label in years
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 year ago} other{{count} years ago}}'**
+  String relativeTimeYearsAgo(int count);
 
   /// Prefix text for statistics headings
   ///
@@ -3516,6 +3630,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to set inventory to zero'**
   String get inventorySetToZeroFail;
+
+  /// No description provided for @timePeriodThisYear.
+  ///
+  /// In en, this message translates to:
+  /// **'This Year'**
+  String get timePeriodThisYear;
+
+  /// No description provided for @timePeriodLastYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Year'**
+  String get timePeriodLastYear;
 }
 
 class _AppLocalizationsDelegate

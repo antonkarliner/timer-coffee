@@ -328,7 +328,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get unknownRecipe => 'Nieznany przepis';
 
   @override
+  String get pulseUserRecipe => 'Przepis użytkownika';
+
+  @override
   String get noData => 'Brak danych';
+
+  @override
+  String get refresh => 'Odśwież';
 
   @override
   String error(String error) {
@@ -341,7 +347,46 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneBrewed(String recipeName) {
+    return 'Ktoś zaparzył $recipeName';
+  }
+
+  @override
+  String get pulseTitle => 'Puls';
+
+  @override
+  String get hubPulseSubtitle => 'Kanał parzenia na żywo';
+
+  @override
+  String get pulseLiveSummary => 'Podsumowanie na żywo';
+
+  @override
+  String get pulseBrewsLabel => 'Parzenia';
+
+  @override
+  String pulseBrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count parzenia',
+      many: '$count parzeń',
+      few: '$count parzenia',
+      one: '1 parzenie',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timePeriodRecent => 'Niedawno';
+
+  @override
+  String get timePeriodLastHour => 'Ostatnia godzina';
+
+  @override
   String get timePeriodToday => 'Dzisiaj';
+
+  @override
+  String get timePeriodYesterday => 'Wczoraj';
 
   @override
   String get timePeriodThisWeek => 'W tym tygodniu';
@@ -350,7 +395,99 @@ class AppLocalizationsPl extends AppLocalizations {
   String get timePeriodThisMonth => 'W tym miesiącu';
 
   @override
+  String get timePeriodOlder => 'Starsze';
+
+  @override
   String get timePeriodCustom => 'Niestandardowe';
+
+  @override
+  String get relativeTimeJustNow => 'przed chwilą';
+
+  @override
+  String relativeTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minuty temu',
+      many: '$count minut temu',
+      few: '$count minuty temu',
+      one: '$count minutę temu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count godziny temu',
+      many: '$count godzin temu',
+      few: '$count godziny temu',
+      one: '$count godzinę temu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursMinutesAgo(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours godziny',
+      many: '$hours godzin',
+      few: '$hours godziny',
+      one: '$hours godzinę',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minuty',
+      many: '$minutes minut',
+      few: '$minutes minuty',
+      one: '$minutes minutę',
+    );
+    return '$_temp0 i $_temp1 temu';
+  }
+
+  @override
+  String relativeTimeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dnia temu',
+      many: '$count dni temu',
+      few: '$count dni temu',
+      one: '$count dzień temu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count miesiąca temu',
+      many: '$count miesięcy temu',
+      few: '$count miesiące temu',
+      one: '$count miesiąc temu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count roku temu',
+      many: '$count lat temu',
+      few: '$count lata temu',
+      one: '$count rok temu',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get statsFor => 'Statystyki dla ';
@@ -1976,4 +2113,10 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get inventorySetToZeroFail => 'Nie udało się ustawić zapasów na zero';
+
+  @override
+  String get timePeriodThisYear => 'W tym roku';
+
+  @override
+  String get timePeriodLastYear => 'W zeszłym roku';
 }

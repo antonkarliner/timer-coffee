@@ -322,7 +322,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get unknownRecipe => '不明なレシピ';
 
   @override
+  String get pulseUserRecipe => 'ユーザーレシピ';
+
+  @override
   String get noData => 'データなし';
+
+  @override
+  String get refresh => '更新';
 
   @override
   String error(String error) {
@@ -335,7 +341,43 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneBrewed(String recipeName) {
+    return '誰かが$recipeNameを淹れました';
+  }
+
+  @override
+  String get pulseTitle => 'パルス';
+
+  @override
+  String get hubPulseSubtitle => 'ライブ抽出フィード';
+
+  @override
+  String get pulseLiveSummary => 'ライブサマリー';
+
+  @override
+  String get pulseBrewsLabel => '抽出回数';
+
+  @override
+  String pulseBrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 回',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timePeriodRecent => '最近';
+
+  @override
+  String get timePeriodLastHour => '過去1時間';
+
+  @override
   String get timePeriodToday => '今日';
+
+  @override
+  String get timePeriodYesterday => '昨日';
 
   @override
   String get timePeriodThisWeek => '今週';
@@ -344,7 +386,85 @@ class AppLocalizationsJa extends AppLocalizations {
   String get timePeriodThisMonth => '今月';
 
   @override
+  String get timePeriodOlder => 'さらに前';
+
+  @override
   String get timePeriodCustom => 'カスタム';
+
+  @override
+  String get relativeTimeJustNow => 'たった今';
+
+  @override
+  String relativeTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count分前',
+      one: '1分前',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count時間前',
+      one: '1時間前',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursMinutesAgo(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours時間',
+      one: '1時間',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes分',
+      one: '1分',
+    );
+    return '$_temp0$_temp1前';
+  }
+
+  @override
+  String relativeTimeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count日前',
+      one: '1日前',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countか月前',
+      one: '1か月前',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count年前',
+      one: '1年前',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get statsFor => '統計情報';
@@ -1893,4 +2013,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get inventorySetToZeroFail => '在庫を0に設定できませんでした';
+
+  @override
+  String get timePeriodThisYear => '今年';
+
+  @override
+  String get timePeriodLastYear => '昨年';
 }

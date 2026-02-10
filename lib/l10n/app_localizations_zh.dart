@@ -321,7 +321,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get unknownRecipe => '未知配方';
 
   @override
+  String get pulseUserRecipe => '用户配方';
+
+  @override
   String get noData => '无数据';
+
+  @override
+  String get refresh => '刷新';
 
   @override
   String error(String error) {
@@ -334,7 +340,43 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneBrewed(String recipeName) {
+    return '有人冲泡了$recipeName';
+  }
+
+  @override
+  String get pulseTitle => '脉动';
+
+  @override
+  String get hubPulseSubtitle => '实时冲煮动态';
+
+  @override
+  String get pulseLiveSummary => '实时摘要';
+
+  @override
+  String get pulseBrewsLabel => '冲煮次数';
+
+  @override
+  String pulseBrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 次冲煮',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timePeriodRecent => '最近';
+
+  @override
+  String get timePeriodLastHour => '过去一小时';
+
+  @override
   String get timePeriodToday => '今天';
+
+  @override
+  String get timePeriodYesterday => '昨天';
 
   @override
   String get timePeriodThisWeek => '本周';
@@ -343,7 +385,85 @@ class AppLocalizationsZh extends AppLocalizations {
   String get timePeriodThisMonth => '本月';
 
   @override
+  String get timePeriodOlder => '更早';
+
+  @override
   String get timePeriodCustom => '自定义';
+
+  @override
+  String get relativeTimeJustNow => '刚刚';
+
+  @override
+  String relativeTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count分钟前',
+      one: '1分钟前',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count小时前',
+      one: '1小时前',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursMinutesAgo(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours小时',
+      one: '1小时',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes分钟',
+      one: '1分钟',
+    );
+    return '$_temp0$_temp1前';
+  }
+
+  @override
+  String relativeTimeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count天前',
+      one: '1天前',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count个月前',
+      one: '1个月前',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count年前',
+      one: '1年前',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get statsFor => '的统计信息 ';
@@ -1885,4 +2005,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get inventorySetToZeroFail => '无法将库存设为零';
+
+  @override
+  String get timePeriodThisYear => '今年';
+
+  @override
+  String get timePeriodLastYear => '去年';
 }

@@ -104,6 +104,7 @@
   "error": "エラー: {error}",
   "someoneJustBrewed": "{recipeName}を淹れたばかりです",
   "timePeriodToday": "今日",
+  "timePeriodYesterday": "昨日",
   "timePeriodThisWeek": "今週",
   "timePeriodThisMonth": "今月",
   "timePeriodCustom": "カスタム",
@@ -843,5 +844,33 @@
   "setToZeroDialogConfirm": "0に設定",
   "setToZeroDialogCancel": "キャンセル",
   "inventorySetToZeroSuccess": "在庫を0 gに設定しました",
-  "inventorySetToZeroFail": "在庫を0に設定できませんでした"
+  "inventorySetToZeroFail": "在庫を0に設定できませんでした",
+  "pulseUserRecipe": "ユーザーレシピ",
+  "refresh": "更新",
+  "pulseSomeoneBrewed": "誰かが{recipeName}を淹れました",
+  "pulseTitle": "パルス",
+  "hubPulseSubtitle": "ライブ抽出フィード",
+  "pulseLiveSummary": "ライブサマリー",
+  "pulseBrewsLabel": "抽出回数",
+  "timePeriodRecent": "最近",
+  "timePeriodLastHour": "過去1時間",
+  "timePeriodOlder": "さらに前",
+  "relativeTimeJustNow": "たった今",
+  "relativeTimeMinutesAgo": "{count, plural, =1{1分前} other{{count}分前}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{1時間前} other{{count}時間前}}",
+  "relativeTimeHoursMinutesAgo": "{hours, plural, =1{1時間} other{{hours}時間}}{minutes, plural, =1{1分} other{{minutes}分}}前",
+  "relativeTimeDaysAgo": "{count, plural, =1{1日前} other{{count}日前}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{1か月前} other{{count}か月前}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{1年前} other{{count}年前}}",
+  "pulseBrewsCount": "{count, plural, other{{count} 回}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "今年",
+  "timePeriodLastYear": "昨年"
 }

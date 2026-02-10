@@ -328,7 +328,13 @@ class AppLocalizationsFa extends AppLocalizations {
   String get unknownRecipe => 'دستور ناشناخته';
 
   @override
+  String get pulseUserRecipe => 'دستور کاربر';
+
+  @override
   String get noData => 'داده‌ای وجود ندارد';
+
+  @override
+  String get refresh => 'تازه‌سازی';
 
   @override
   String error(String error) {
@@ -341,7 +347,43 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneBrewed(String recipeName) {
+    return 'یک نفر $recipeName را دم کرد';
+  }
+
+  @override
+  String get pulseTitle => 'نبض';
+
+  @override
+  String get hubPulseSubtitle => 'خوراک زنده دم‌آوری';
+
+  @override
+  String get pulseLiveSummary => 'خلاصه زنده';
+
+  @override
+  String get pulseBrewsLabel => 'دم‌آوری‌ها';
+
+  @override
+  String pulseBrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count بار',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timePeriodRecent => 'اخیراً';
+
+  @override
+  String get timePeriodLastHour => 'ساعت گذشته';
+
+  @override
   String get timePeriodToday => 'امروز';
+
+  @override
+  String get timePeriodYesterday => 'دیروز';
 
   @override
   String get timePeriodThisWeek => 'این هفته';
@@ -350,7 +392,85 @@ class AppLocalizationsFa extends AppLocalizations {
   String get timePeriodThisMonth => 'این ماه';
 
   @override
+  String get timePeriodOlder => 'قدیمی‌تر';
+
+  @override
   String get timePeriodCustom => 'بازه سفارشی';
+
+  @override
+  String get relativeTimeJustNow => 'همین الان';
+
+  @override
+  String relativeTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count دقیقه پیش',
+      one: '۱ دقیقه پیش',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ساعت پیش',
+      one: '۱ ساعت پیش',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursMinutesAgo(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours ساعت',
+      one: '۱ ساعت',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes دقیقه',
+      one: '۱ دقیقه',
+    );
+    return '$_temp0 و $_temp1 پیش';
+  }
+
+  @override
+  String relativeTimeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count روز پیش',
+      one: '۱ روز پیش',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ماه پیش',
+      one: '۱ ماه پیش',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count سال پیش',
+      one: '۱ سال پیش',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get statsFor => 'آمار برای';
@@ -1941,4 +2061,10 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get inventorySetToZeroFail => 'تنظیم موجودی روی صفر ناموفق بود';
+
+  @override
+  String get timePeriodThisYear => 'امسال';
+
+  @override
+  String get timePeriodLastYear => 'سال گذشته';
 }

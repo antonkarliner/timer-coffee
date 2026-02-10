@@ -95,6 +95,7 @@
   "error": "错误：{error}",
   "someoneJustBrewed": "有人刚刚冲泡了 {recipeName}",
   "timePeriodToday": "今天",
+  "timePeriodYesterday": "昨天",
   "timePeriodThisWeek": "本周",
   "timePeriodThisMonth": "本月",
   "timePeriodCustom": "自定义",
@@ -843,5 +844,33 @@
   "setToZeroDialogConfirm": "设为零",
   "setToZeroDialogCancel": "取消",
   "inventorySetToZeroSuccess": "库存已设为 0 克",
-  "inventorySetToZeroFail": "无法将库存设为零"
+  "inventorySetToZeroFail": "无法将库存设为零",
+  "pulseUserRecipe": "用户配方",
+  "refresh": "刷新",
+  "pulseSomeoneBrewed": "有人冲泡了{recipeName}",
+  "pulseTitle": "脉动",
+  "hubPulseSubtitle": "实时冲煮动态",
+  "pulseLiveSummary": "实时摘要",
+  "pulseBrewsLabel": "冲煮次数",
+  "timePeriodRecent": "最近",
+  "timePeriodLastHour": "过去一小时",
+  "timePeriodOlder": "更早",
+  "relativeTimeJustNow": "刚刚",
+  "relativeTimeMinutesAgo": "{count, plural, =1{1分钟前} other{{count}分钟前}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{1小时前} other{{count}小时前}}",
+  "relativeTimeHoursMinutesAgo": "{hours, plural, =1{1小时} other{{hours}小时}}{minutes, plural, =1{1分钟} other{{minutes}分钟}}前",
+  "relativeTimeDaysAgo": "{count, plural, =1{1天前} other{{count}天前}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{1个月前} other{{count}个月前}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{1年前} other{{count}年前}}",
+  "pulseBrewsCount": "{count, plural, other{{count} 次冲煮}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "今年",
+  "timePeriodLastYear": "去年"
 }

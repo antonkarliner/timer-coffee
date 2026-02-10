@@ -332,7 +332,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get unknownRecipe => 'Recette inconnue';
 
   @override
+  String get pulseUserRecipe => 'Recette utilisateur';
+
+  @override
   String get noData => 'Aucune donnée';
+
+  @override
+  String get refresh => 'Actualiser';
 
   @override
   String error(String error) {
@@ -345,7 +351,44 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneBrewed(String recipeName) {
+    return 'Quelqu\'un a préparé $recipeName';
+  }
+
+  @override
+  String get pulseTitle => 'Pulse';
+
+  @override
+  String get hubPulseSubtitle => 'Flux d\'infusions en direct';
+
+  @override
+  String get pulseLiveSummary => 'Résumé en direct';
+
+  @override
+  String get pulseBrewsLabel => 'Infusions';
+
+  @override
+  String pulseBrewsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count infusions',
+      one: '1 infusion',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timePeriodRecent => 'Récent';
+
+  @override
+  String get timePeriodLastHour => 'Dernière heure';
+
+  @override
   String get timePeriodToday => 'Aujourd\'hui';
+
+  @override
+  String get timePeriodYesterday => 'Hier';
 
   @override
   String get timePeriodThisWeek => 'Cette semaine';
@@ -354,7 +397,85 @@ class AppLocalizationsFr extends AppLocalizations {
   String get timePeriodThisMonth => 'Ce mois';
 
   @override
+  String get timePeriodOlder => 'Plus ancien';
+
+  @override
   String get timePeriodCustom => 'Personnalisée';
+
+  @override
+  String get relativeTimeJustNow => 'à l\'instant';
+
+  @override
+  String relativeTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'il y a $count minutes',
+      one: 'il y a 1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'il y a $count heures',
+      one: 'il y a 1 heure',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeHoursMinutesAgo(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours heures',
+      one: '1 heure',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutes',
+      one: '1 minute',
+    );
+    return 'il y a $_temp0 et $_temp1';
+  }
+
+  @override
+  String relativeTimeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'il y a $count jours',
+      one: 'il y a 1 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'il y a $count mois',
+      one: 'il y a 1 mois',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeTimeYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'il y a $count ans',
+      one: 'il y a 1 an',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get statsFor => 'Statistiques pour ';
@@ -1983,4 +2104,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get inventorySetToZeroFail => 'Impossible de mettre le stock à zéro';
+
+  @override
+  String get timePeriodThisYear => 'Cette année';
+
+  @override
+  String get timePeriodLastYear => 'L\'année dernière';
 }

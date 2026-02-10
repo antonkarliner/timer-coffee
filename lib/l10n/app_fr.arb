@@ -104,6 +104,7 @@
   "error": "Erreur : {error}",
   "someoneJustBrewed": "Quelqu'un vient d'infuser {recipeName}",
   "timePeriodToday": "Aujourd'hui",
+  "timePeriodYesterday": "Hier",
   "timePeriodThisWeek": "Cette semaine",
   "timePeriodThisMonth": "Ce mois",
   "timePeriodCustom": "Personnalisée",
@@ -843,5 +844,33 @@
   "setToZeroDialogConfirm": "Mettre à zéro",
   "setToZeroDialogCancel": "Annuler",
   "inventorySetToZeroSuccess": "Stock défini à 0 g",
-  "inventorySetToZeroFail": "Impossible de mettre le stock à zéro"
+  "inventorySetToZeroFail": "Impossible de mettre le stock à zéro",
+  "pulseUserRecipe": "Recette utilisateur",
+  "refresh": "Actualiser",
+  "pulseSomeoneBrewed": "Quelqu'un a préparé {recipeName}",
+  "pulseTitle": "Pulse",
+  "hubPulseSubtitle": "Flux d'infusions en direct",
+  "pulseLiveSummary": "Résumé en direct",
+  "pulseBrewsLabel": "Infusions",
+  "timePeriodRecent": "Récent",
+  "timePeriodLastHour": "Dernière heure",
+  "timePeriodOlder": "Plus ancien",
+  "relativeTimeJustNow": "à l'instant",
+  "relativeTimeMinutesAgo": "{count, plural, =1{il y a 1 minute} other{il y a {count} minutes}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{il y a 1 heure} other{il y a {count} heures}}",
+  "relativeTimeHoursMinutesAgo": "il y a {hours, plural, =1{1 heure} other{{hours} heures}} et {minutes, plural, =1{1 minute} other{{minutes} minutes}}",
+  "relativeTimeDaysAgo": "{count, plural, =1{il y a 1 jour} other{il y a {count} jours}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{il y a 1 mois} other{il y a {count} mois}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{il y a 1 an} other{il y a {count} ans}}",
+  "pulseBrewsCount": "{count, plural, =1{1 infusion} other{{count} infusions}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "Cette année",
+  "timePeriodLastYear": "L'année dernière"
 }

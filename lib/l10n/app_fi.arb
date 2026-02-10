@@ -280,6 +280,7 @@
   "unknownRecipe": "Tuntematon resepti",
   "noData": "Ei dataa",
   "timePeriodToday": "Tänään",
+  "timePeriodYesterday": "Eilen",
   "timePeriodThisWeek": "Tällä viikolla",
   "timePeriodThisMonth": "Tässä kuussa",
   "timePeriodCustom": "Mukautettu",
@@ -695,5 +696,33 @@
   "setToZeroDialogConfirm": "Aseta nollaan",
   "setToZeroDialogCancel": "Peruuta",
   "inventorySetToZeroSuccess": "Varasto asetettu 0 g:aan",
-  "inventorySetToZeroFail": "Varastoa ei voitu asettaa nollaan"
+  "inventorySetToZeroFail": "Varastoa ei voitu asettaa nollaan",
+  "pulseUserRecipe": "Käyttäjän resepti",
+  "refresh": "Päivitä",
+  "pulseSomeoneBrewed": "Joku valmisti {recipeName}",
+  "pulseTitle": "Syke",
+  "hubPulseSubtitle": "Live-uuttosyöte",
+  "pulseLiveSummary": "Live-yhteenveto",
+  "pulseBrewsLabel": "Uutot",
+  "timePeriodRecent": "Äskettäin",
+  "timePeriodLastHour": "Viime tunti",
+  "timePeriodOlder": "Vanhempi",
+  "relativeTimeJustNow": "juuri nyt",
+  "relativeTimeMinutesAgo": "{count, plural, =1{1 minuutti sitten} other{{count} minuuttia sitten}}",
+  "relativeTimeHoursAgo": "{count, plural, =1{1 tunti sitten} other{{count} tuntia sitten}}",
+  "relativeTimeHoursMinutesAgo": "{hours, plural, =1{1 tunti} other{{hours} tuntia}} ja {minutes, plural, =1{1 minuutti} other{{minutes} minuuttia}} sitten",
+  "relativeTimeDaysAgo": "{count, plural, =1{1 päivä sitten} other{{count} päivää sitten}}",
+  "relativeTimeMonthsAgo": "{count, plural, =1{1 kuukausi sitten} other{{count} kuukautta sitten}}",
+  "relativeTimeYearsAgo": "{count, plural, =1{1 vuosi sitten} other{{count} vuotta sitten}}",
+  "pulseBrewsCount": "{count, plural, =1{1 valmistus} other{{count} valmistusta}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodThisYear": "Tänä vuonna",
+  "timePeriodLastYear": "Viime vuonna"
 }
