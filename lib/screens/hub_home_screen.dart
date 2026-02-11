@@ -23,6 +23,7 @@ import '../theme/design_tokens.dart'; // Import design tokens for AppRadius
 import '../utils/app_logger.dart'; // Import AppLogger
 import '../widgets/base_buttons.dart';
 import 'pulse_screen.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 // Added import
 // Import http package
 // Import for RecipeCreationScreen
@@ -251,7 +252,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
             identifier: 'pulse',
             label: l10n.pulseTitle,
             child: ListTile(
-              leading: const Icon(Icons.monitor_heart),
+              leading: const Icon(Symbols.vital_signs),
               title: Text(l10n.pulseTitle),
               subtitle: Text(l10n.hubPulseSubtitle),
               onTap: () {

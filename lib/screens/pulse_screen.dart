@@ -7,6 +7,7 @@ import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -1308,7 +1309,7 @@ class _PulseScreenState extends State<PulseScreen>
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.monitor_heart),
+            const Icon(Symbols.vital_signs),
             const SizedBox(width: 8),
             Text(AppLocalizations.of(context)!.pulseTitle),
           ],
