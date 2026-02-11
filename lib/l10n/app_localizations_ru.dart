@@ -395,7 +395,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get timePeriodYesterday => 'Вчера';
 
   @override
-  String get timePeriodThisWeek => 'Эта неделя';
+  String get timePeriodThisWeek => 'Эту неделю';
 
   @override
   String get timePeriodThisMonth => 'Этот месяц';
