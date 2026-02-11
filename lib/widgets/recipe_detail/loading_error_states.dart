@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/widgets/smart_back_button.dart';
 
 /// Widget that displays a loading state with a basic app bar and circular progress indicator
 class RecipeLoadingState extends StatelessWidget {
@@ -8,7 +9,7 @@ class RecipeLoadingState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: const BackButton()),
+      appBar: AppBar(leading: const SmartBackButton()),
       body: const Center(child: CircularProgressIndicator()),
     );
   }
@@ -29,7 +30,7 @@ class RecipeErrorState extends StatelessWidget {
     final displayMessage = errorMessage ?? l10n.recipeLoadErrorGeneric;
 
     return Scaffold(
-      appBar: AppBar(leading: const BackButton()),
+      appBar: AppBar(leading: const SmartBackButton()),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -53,7 +54,7 @@ class RecipeNotFoundState extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(leading: const BackButton()),
+      appBar: AppBar(leading: const SmartBackButton()),
       body: Center(
         child: Text(
           l10n.recipeLoadErrorGeneric,

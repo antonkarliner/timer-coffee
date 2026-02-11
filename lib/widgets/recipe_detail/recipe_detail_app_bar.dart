@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:coffee_timer/widgets/favorite_button.dart';
+import 'package:coffee_timer/widgets/smart_back_button.dart';
 import 'package:coffee_timer/widgets/recipe_detail/title_bar.dart';
 import 'package:coffee_timer/widgets/recipe_detail/app_bar_actions.dart';
 
@@ -34,7 +35,7 @@ class RecipeDetailAppBar extends StatelessWidget
     final bool isUserRecipe = idForActions.startsWith('usr-');
 
     return AppBar(
-      leading: const BackButton(),
+      leading: const SmartBackButton(),
       title: RecipeDetailTitle(
         brewingMethodIcon: getIconByBrewingMethod(recipe.brewingMethodId),
         brewingMethodName: brewingMethodName,

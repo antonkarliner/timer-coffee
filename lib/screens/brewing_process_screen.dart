@@ -92,6 +92,10 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       _endBrewAnimationController; // For end of brew animation
   bool _isEndBrewAnimating = false; // Flag for end of brew animation state
 
+  DateTime? _currentStepStartedAtUtc; // Wall-clock anchor for current step
+  DateTime? _pausedAtUtc; // When pause was pressed (null if running)
+  AppLifecycleListener? _lifecycleListener;
+
   String replacePlaceholders(
     String description,
     double coffeeAmount,
@@ -283,6 +287,11 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         .toList();
 
     _preloadAudio();
+
+    _lifecycleListener = AppLifecycleListener(
+      onResume: _onAppResumed,
+    );
+
     startTimer();
   }
 
@@ -297,11 +306,12 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   @override
   void dispose() {
     timer.cancel();
+    _lifecycleListener?.dispose();
     WakelockPlus.disable();
     _player.dispose();
     _pulseController.dispose();
     _colorController.dispose();
-    _endBrewAnimationController.dispose(); // Dispose new controller
+    _endBrewAnimationController.dispose();
     super.dispose();
   }
 
@@ -324,45 +334,31 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   }
 
   void startTimer() {
+    // Set wall-clock anchor for the current step
+    _currentStepStartedAtUtc = DateTime.now().toUtc().subtract(
+          Duration(seconds: currentStepTime),
+        );
+
     timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       final stepDuration = brewingSteps[currentStepIndex].time.inSeconds;
       final last5Start = stepDuration - 5;
       if (currentStepTime >= stepDuration) {
         if (currentStepIndex < brewingSteps.length - 1) {
-          // Play sound if enabled
-          if (widget.notificationMode == NotificationMode.soundOnly) {
-            await _player.setAsset('assets/audio/next.mp3');
-            _player.play();
-          }
-
-          // Vibrate if enabled
-          if (widget.notificationMode == NotificationMode.vibrationOnly) {
-            Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
-          }
+          _playStepNotification();
 
           setState(() {
             currentStepIndex++;
             currentStepTime = 0;
           });
+          _currentStepStartedAtUtc = DateTime.now().toUtc();
         } else {
-          // Play sound if enabled
-          if (widget.notificationMode == NotificationMode.soundOnly) {
-            await _player.setAsset('assets/audio/next.mp3');
-            _player.play();
-          }
-
-          // Vibrate if enabled
-          if (widget.notificationMode == NotificationMode.vibrationOnly) {
-            Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
-          }
+          _playStepNotification();
 
           timer.cancel();
-          // Instead of navigating directly, trigger the end brew animation
           setState(() {
             _isEndBrewAnimating = true;
           });
           _endBrewAnimationController.forward(from: 0.0);
-          // _navigateToFinishScreen() will be called by the controller's status listener
         }
       } else {
         setState(() {
@@ -386,7 +382,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           }
         } else {
           if (_colorController.value != 0.0 && !_isEndBrewAnimating) {
-            // Check _isEndBrewAnimating here too
             _colorController.reverse();
           }
         }
@@ -403,31 +398,91 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
 
     if (_isPaused) {
       timer.cancel();
+      _pausedAtUtc = DateTime.now().toUtc();
     } else {
+      // Shift the step anchor forward by the paused duration
+      if (_pausedAtUtc != null && _currentStepStartedAtUtc != null) {
+        final pausedDuration = DateTime.now().toUtc().difference(_pausedAtUtc!);
+        _currentStepStartedAtUtc =
+            _currentStepStartedAtUtc!.add(pausedDuration);
+      }
+      _pausedAtUtc = null;
       startTimer();
     }
   }
 
-  Future<void> _skipLastStep() async {
-    // Only allow skipping on the last step
-    if (currentStepIndex != brewingSteps.length - 1 || _isEndBrewAnimating)
-      return;
-
-    // Cancel the timer
-    timer.cancel();
-
-    // Play sound if enabled - same as step change
+  Future<void> _playStepNotification() async {
     if (widget.notificationMode == NotificationMode.soundOnly) {
       await _player.setAsset('assets/audio/next.mp3');
       _player.play();
     }
-
-    // Vibrate if enabled
     if (widget.notificationMode == NotificationMode.vibrationOnly) {
       Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
     }
+  }
 
-    // Trigger the end animation before navigating
+  void _onAppResumed() {
+    // Do nothing if paused, animating end, or no anchor set
+    if (_isPaused || _isEndBrewAnimating || _currentStepStartedAtUtc == null) {
+      return;
+    }
+
+    final nowUtc = DateTime.now().toUtc();
+    var elapsed = nowUtc.difference(_currentStepStartedAtUtc!).inSeconds;
+
+    // Guard against negative elapsed (device clock changed backward)
+    if (elapsed < 0) elapsed = 0;
+
+    // Reconcile by step boundaries
+    var stepIndex = currentStepIndex;
+    var stepTime = elapsed;
+
+    while (stepIndex < brewingSteps.length) {
+      final stepDuration = brewingSteps[stepIndex].time.inSeconds;
+      if (stepTime < stepDuration) {
+        // Landed within this step
+        break;
+      }
+      // Exceeded this step
+      stepTime -= stepDuration;
+      stepIndex++;
+    }
+
+    if (stepIndex >= brewingSteps.length) {
+      // Brew should have finished — trigger finish flow
+      timer.cancel();
+      setState(() {
+        currentStepIndex = brewingSteps.length - 1;
+        currentStepTime = brewingSteps.last.time.inSeconds;
+        _isEndBrewAnimating = true;
+      });
+      _endBrewAnimationController.forward(from: 0.0);
+      return;
+    }
+
+    // Play notification if step changed
+    if (stepIndex > currentStepIndex) {
+      _playStepNotification();
+    }
+
+    setState(() {
+      currentStepIndex = stepIndex;
+      currentStepTime = stepTime;
+    });
+
+    // Reset anchor for new position
+    _currentStepStartedAtUtc = nowUtc.subtract(Duration(seconds: stepTime));
+  }
+
+  Future<void> _skipLastStep() async {
+    // Only allow skipping on the last step
+    if (currentStepIndex != brewingSteps.length - 1 || _isEndBrewAnimating) {
+      return;
+    }
+
+    timer.cancel();
+    _playStepNotification();
+
     setState(() {
       _isEndBrewAnimating = true;
     });
