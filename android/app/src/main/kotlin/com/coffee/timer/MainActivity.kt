@@ -14,9 +14,14 @@ import io.flutter.plugin.common.MethodChannel
 class MainActivity: FlutterActivity() {
     private val ICON_CHANNEL = "com.coffee.timer/icon"
     private val EXACT_ALARM_CHANNEL = "com.coffee.timer/exact_alarm"
+    private val LIVE_UPDATES_CHANNEL = "com.coffee.timer/live_updates"
+
+    private lateinit var brewingLiveUpdateService: BrewingLiveUpdateService
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+
+        brewingLiveUpdateService = BrewingLiveUpdateService(this)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, ICON_CHANNEL).setMethodCallHandler { call, result ->
             when (call.method) {
                 "getCurrentIcon" -> {
@@ -40,6 +45,41 @@ class MainActivity: FlutterActivity() {
                 }
                 "requestExactAlarmPermission" -> {
                     result.success(requestExactAlarmPermission())
+                }
+                else -> result.notImplemented()
+            }
+        }
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, LIVE_UPDATES_CHANNEL).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "isSupported" -> {
+                    result.success(brewingLiveUpdateService.canUseLiveUpdates())
+                }
+                "startBrewing" -> {
+                    try {
+                        val data = call.arguments as? Map<String, Any> ?: emptyMap()
+                        brewingLiveUpdateService.startBrewingNotification(data)
+                        result.success(null)
+                    } catch (e: Exception) {
+                        result.error("START_FAILED", e.message, null)
+                    }
+                }
+                "updateBrewing" -> {
+                    try {
+                        val data = call.arguments as? Map<String, Any> ?: emptyMap()
+                        brewingLiveUpdateService.updateBrewingNotification(data)
+                        result.success(null)
+                    } catch (e: Exception) {
+                        result.error("UPDATE_FAILED", e.message, null)
+                    }
+                }
+                "endBrewing" -> {
+                    try {
+                        brewingLiveUpdateService.endBrewingNotification()
+                        result.success(null)
+                    } catch (e: Exception) {
+                        result.error("END_FAILED", e.message, null)
+                    }
                 }
                 else -> result.notImplemented()
             }

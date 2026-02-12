@@ -19,6 +19,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:intl/intl.dart' as intl; // Corrected import statement
 import '../utils/app_logger.dart'; // Import AppLogger
 import '../services/live_activity_service.dart';
+import '../services/android_live_update_service.dart';
 
 class LocalizedNumberText extends StatelessWidget {
   final int currentNumber;
@@ -99,7 +100,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   DateTime? _pausedAtUtc; // When pause was pressed (null if running)
   AppLifecycleListener? _lifecycleListener;
 
-  bool get _isLiveActivitySupported => !kIsWeb && Platform.isIOS;
+  bool get _isLiveActivitySupported =>
+      !kIsWeb && (Platform.isIOS || Platform.isAndroid);
 
   String replacePlaceholders(
     String description,
@@ -364,6 +366,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           _playStepNotification();
 
           timer.cancel();
+          _endLiveActivity();
           setState(() {
             _isEndBrewAnimating = true;
           });
@@ -437,35 +440,75 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
 
   void _startLiveActivity() {
     if (!_isLiveActivitySupported) return;
-    LiveActivityService.instance.startBrewingActivity(
-      recipeName: widget.recipe.name,
-
-      stepDescription: brewingSteps[currentStepIndex].description,
-      currentStep: currentStepIndex + 1,
-      totalSteps: brewingSteps.length,
-      stepElapsedSeconds: currentStepTime,
-      stepTotalSeconds: brewingSteps[currentStepIndex].time.inSeconds,
-      isPaused: _isPaused,
-    );
+    final args = _liveActivityArgs();
+    if (!kIsWeb && Platform.isIOS) {
+      LiveActivityService.instance.startBrewingActivity(
+        recipeName: args['recipeName'],
+        stepDescription: args['stepDescription'],
+        currentStep: args['currentStep'],
+        totalSteps: args['totalSteps'],
+        stepElapsedSeconds: args['stepElapsedSeconds'],
+        stepTotalSeconds: args['stepTotalSeconds'],
+        isPaused: args['isPaused'],
+      );
+    } else if (!kIsWeb && Platform.isAndroid) {
+      AndroidLiveUpdateService.instance.startBrewingActivity(
+        recipeName: args['recipeName'],
+        stepDescription: args['stepDescription'],
+        currentStep: args['currentStep'],
+        totalSteps: args['totalSteps'],
+        stepElapsedSeconds: args['stepElapsedSeconds'],
+        stepTotalSeconds: args['stepTotalSeconds'],
+        isPaused: args['isPaused'],
+      );
+    }
   }
 
   void _updateLiveActivity() {
     if (!_isLiveActivitySupported) return;
-    LiveActivityService.instance.updateBrewingActivity(
-      recipeName: widget.recipe.name,
-
-      stepDescription: brewingSteps[currentStepIndex].description,
-      currentStep: currentStepIndex + 1,
-      totalSteps: brewingSteps.length,
-      stepElapsedSeconds: currentStepTime,
-      stepTotalSeconds: brewingSteps[currentStepIndex].time.inSeconds,
-      isPaused: _isPaused,
-    );
+    final args = _liveActivityArgs();
+    if (!kIsWeb && Platform.isIOS) {
+      LiveActivityService.instance.updateBrewingActivity(
+        recipeName: args['recipeName'],
+        stepDescription: args['stepDescription'],
+        currentStep: args['currentStep'],
+        totalSteps: args['totalSteps'],
+        stepElapsedSeconds: args['stepElapsedSeconds'],
+        stepTotalSeconds: args['stepTotalSeconds'],
+        isPaused: args['isPaused'],
+      );
+    } else if (!kIsWeb && Platform.isAndroid) {
+      AndroidLiveUpdateService.instance.updateBrewingActivity(
+        recipeName: args['recipeName'],
+        stepDescription: args['stepDescription'],
+        currentStep: args['currentStep'],
+        totalSteps: args['totalSteps'],
+        stepElapsedSeconds: args['stepElapsedSeconds'],
+        stepTotalSeconds: args['stepTotalSeconds'],
+        isPaused: args['isPaused'],
+      );
+    }
   }
 
   void _endLiveActivity() {
     if (!_isLiveActivitySupported) return;
-    LiveActivityService.instance.endBrewingActivity();
+    if (!kIsWeb && Platform.isIOS) {
+      LiveActivityService.instance.endBrewingActivity();
+    } else if (!kIsWeb && Platform.isAndroid) {
+      AndroidLiveUpdateService.instance.endBrewingActivity();
+    }
+  }
+
+  Map<String, dynamic> _liveActivityArgs() {
+    return {
+      'recipeName': widget.recipe.name,
+      'stepDescription': brewingSteps[currentStepIndex].description,
+      'currentStep': currentStepIndex + 1,
+      'totalSteps': brewingSteps.length,
+      'stepElapsedSeconds': currentStepTime,
+      'stepTotalSeconds': brewingSteps[currentStepIndex].time.inSeconds,
+      'isPaused': _isPaused,
+    };
   }
 
   void _onAppResumed() {
