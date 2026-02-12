@@ -872,5 +872,8 @@
     }
   },
   "timePeriodThisYear": "Este Ano",
-  "timePeriodLastYear": "Ano Passado"
+  "timePeriodLastYear": "Ano Passado",
+  "nativeAppPromoTitle": "Baixe o app Timer.Coffee",
+  "nativeAppPromoDescription": "Aproveite a experiência completa com recursos exclusivos: digitalização de rótulos de café com IA, Atividades ao Vivo na tela de bloqueio, notificações push, feedback háptico e muito mais.",
+  "nativeAppPromoButton": "Baixar o app"
 }

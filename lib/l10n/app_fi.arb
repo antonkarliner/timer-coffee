@@ -724,5 +724,8 @@
     }
   },
   "timePeriodThisYear": "Tänä vuonna",
-  "timePeriodLastYear": "Viime vuonna"
+  "timePeriodLastYear": "Viime vuonna",
+  "nativeAppPromoTitle": "Lataa Timer.Coffee-sovellus",
+  "nativeAppPromoDescription": "Nauti täydestä kokemuksesta yksinoikeudellisilla ominaisuuksilla: tekoälypohjainen kahvipakkauksen skannaus, Live-aktiviteetit lukitusnäytöllä, push-ilmoitukset, haptinen palaute ja paljon muuta.",
+  "nativeAppPromoButton": "Lataa sovellus"
 }

@@ -2129,4 +2129,14 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => 'Прошлый год';
+
+  @override
+  String get nativeAppPromoTitle => 'Скачайте приложение Timer.Coffee';
+
+  @override
+  String get nativeAppPromoDescription =>
+      'Откройте все возможности с эксклюзивными функциями: AI-сканирование этикеток кофе, Живые активности на экране блокировки, push-уведомления, тактильная отдача и многое другое.';
+
+  @override
+  String get nativeAppPromoButton => 'Скачать приложение';
 }

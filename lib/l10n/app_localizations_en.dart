@@ -2069,4 +2069,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => 'Last Year';
+
+  @override
+  String get nativeAppPromoTitle => 'Get the Timer.Coffee App';
+
+  @override
+  String get nativeAppPromoDescription =>
+      'Enjoy the full experience with exclusive features: AI-powered bean label scanning, Live Activities on your Lock Screen, push notifications, haptic feedback, and more.';
+
+  @override
+  String get nativeAppPromoButton => 'Get the App';
 }

@@ -1038,5 +1038,8 @@
     }
   },
   "timePeriodThisYear": "Ove godine",
-  "timePeriodLastYear": "Prošle godine"
+  "timePeriodLastYear": "Prošle godine",
+  "nativeAppPromoTitle": "Preuzmite aplikaciju Timer.Coffee",
+  "nativeAppPromoDescription": "Uživajte u potpunom iskustvu s ekskluzivnim značajkama: AI skeniranje etiketa kave, Live aktivnosti na zaključanom zaslonu, push obavijesti, haptički odziv i više.",
+  "nativeAppPromoButton": "Preuzmi aplikaciju"
 }

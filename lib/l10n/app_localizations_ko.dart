@@ -2019,4 +2019,14 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => '작년';
+
+  @override
+  String get nativeAppPromoTitle => 'Timer.Coffee 앱 다운로드';
+
+  @override
+  String get nativeAppPromoDescription =>
+      '독점 기능으로 완전한 경험을 즐기세요: AI 기반 커피 라벨 스캔, 잠금 화면 라이브 활동, 푸시 알림, 햅틱 피드백 등.';
+
+  @override
+  String get nativeAppPromoButton => '앱 다운로드';
 }

@@ -2092,4 +2092,14 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => 'Prošle godine';
+
+  @override
+  String get nativeAppPromoTitle => 'Preuzmite aplikaciju Timer.Coffee';
+
+  @override
+  String get nativeAppPromoDescription =>
+      'Uživajte u potpunom iskustvu s ekskluzivnim značajkama: AI skeniranje etiketa kave, Live aktivnosti na zaključanom zaslonu, push obavijesti, haptički odziv i više.';
+
+  @override
+  String get nativeAppPromoButton => 'Preuzmi aplikaciju';
 }

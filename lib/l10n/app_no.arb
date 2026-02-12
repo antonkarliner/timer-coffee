@@ -1189,5 +1189,8 @@
     }
   },
   "timePeriodThisYear": "I år",
-  "timePeriodLastYear": "I fjor"
+  "timePeriodLastYear": "I fjor",
+  "nativeAppPromoTitle": "Last ned Timer.Coffee-appen",
+  "nativeAppPromoDescription": "Nyt den fulle opplevelsen med eksklusive funksjoner: AI-drevet skanning av kaffeetiketter, Live-aktiviteter på låseskjermen, push-varsler, haptisk tilbakemelding og mer.",
+  "nativeAppPromoButton": "Last ned appen"
 }

@@ -872,5 +872,8 @@
     }
   },
   "timePeriodThisYear": "هذا العام",
-  "timePeriodLastYear": "العام الماضي"
+  "timePeriodLastYear": "العام الماضي",
+  "nativeAppPromoTitle": "حمّل تطبيق Timer.Coffee",
+  "nativeAppPromoDescription": "استمتع بالتجربة الكاملة مع ميزات حصرية: مسح ملصقات القهوة بالذكاء الاصطناعي، والأنشطة الحية على شاشة القفل، والإشعارات الفورية، والاهتزاز التفاعلي، والمزيد.",
+  "nativeAppPromoButton": "حمّل التطبيق"
 }

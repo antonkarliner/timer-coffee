@@ -2079,4 +2079,14 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => 'Tahun Lalu';
+
+  @override
+  String get nativeAppPromoTitle => 'Unduh Aplikasi Timer.Coffee';
+
+  @override
+  String get nativeAppPromoDescription =>
+      'Nikmati pengalaman lengkap dengan fitur eksklusif: pemindaian label kopi berbasis AI, Live Activities di layar kunci, notifikasi push, umpan balik haptic, dan lainnya.';
+
+  @override
+  String get nativeAppPromoButton => 'Unduh Aplikasi';
 }

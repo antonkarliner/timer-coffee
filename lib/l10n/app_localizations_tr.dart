@@ -2084,4 +2084,14 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => 'Geçen Yıl';
+
+  @override
+  String get nativeAppPromoTitle => 'Timer.Coffee Uygulamasını İndirin';
+
+  @override
+  String get nativeAppPromoDescription =>
+      'Özel özelliklerle tam deneyimin keyfini çıkarın: yapay zeka destekli kahve etiketi tarama, kilit ekranında Canlı Etkinlikler, anlık bildirimler, dokunsal geri bildirim ve daha fazlası.';
+
+  @override
+  String get nativeAppPromoButton => 'Uygulamayı İndir';
 }

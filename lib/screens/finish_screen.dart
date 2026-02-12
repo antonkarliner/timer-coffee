@@ -25,6 +25,8 @@ import '../utils/app_logger.dart';
 import '../widgets/notification_permission_dialog.dart'; // Import AppLogger
 import '../widgets/base_buttons.dart';
 
+const String _nativeAppUrl = 'https://www.timer.coffee/get/';
+
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
   final RecipeModel recipe;
@@ -52,6 +54,7 @@ class _FinishScreenState extends State<FinishScreen> {
   final AdvancedInAppReview advancedInAppReview = AdvancedInAppReview();
   final Uuid _uuid = Uuid();
   bool _permissionRequestInProgress = false;
+  bool _showPromoCard = false;
 
   @override
   void initState() {
@@ -70,6 +73,11 @@ class _FinishScreenState extends State<FinishScreen> {
     insertBrewingDataToAppDatabase();
     _updateBeanWeightAfterBrew();
     requestNotificationPermissionFirstTime();
+    if (kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.iOS ||
+            defaultTargetPlatform == TargetPlatform.android)) {
+      _checkWebPromoCounter();
+    }
   }
 
   void insertBrewingDataToSupabase() async {
@@ -251,6 +259,68 @@ class _FinishScreenState extends State<FinishScreen> {
     }
   }
 
+  void _checkWebPromoCounter() async {
+    final prefs = await SharedPreferences.getInstance();
+    final count = (prefs.getInt('webFinishCount') ?? 0) + 1;
+    await prefs.setInt('webFinishCount', count);
+    if (count % 3 == 0 && mounted) {
+      setState(() {
+        _showPromoCard = true;
+      });
+    }
+  }
+
+  Widget _buildNativeAppPromoCard(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    return Semantics(
+      identifier: 'nativeAppPromoCard',
+      child: Card(
+        margin: const EdgeInsets.all(10),
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                loc.nativeAppPromoTitle,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                loc.nativeAppPromoDescription,
+                style: const TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Theme.of(context).colorScheme.primary,
+                  minimumSize:
+                      const Size(0, AppButton.heightLarge),
+                  padding: AppButton.paddingMedium,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppButton.radius),
+                  ),
+                  side: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  textStyle: AppButton.label,
+                ),
+                onPressed: () => _launchURL(_nativeAppUrl),
+                icon: const Icon(Icons.download),
+                label: Text(loc.nativeAppPromoButton),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -282,44 +352,48 @@ class _FinishScreenState extends State<FinishScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            Semantics(
-              identifier: 'coffeeFactCard',
-              child: FutureBuilder<String>(
-                future: coffeeFact,
-                builder:
-                    (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  if (snapshot.hasData) {
-                    return Card(
-                      margin: const EdgeInsets.all(10),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: <TextSpan>[
-                              TextSpan(
-                                text:
-                                    '${AppLocalizations.of(context)!.coffeefact}: ',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
-                              ),
-                              TextSpan(
-                                  text: '${snapshot.data}',
-                                  style: const TextStyle(fontSize: 20)),
-                            ],
+            if (kIsWeb && _showPromoCard)
+              _buildNativeAppPromoCard(context)
+            else
+              Semantics(
+                identifier: 'coffeeFactCard',
+                child: FutureBuilder<String>(
+                  future: coffeeFact,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasData) {
+                      return Card(
+                        margin: const EdgeInsets.all(10),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              style: DefaultTextStyle.of(context).style,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text:
+                                      '${AppLocalizations.of(context)!.coffeefact}: ',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                TextSpan(
+                                    text: '${snapshot.data}',
+                                    style: const TextStyle(fontSize: 20)),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  },
+                ),
               ),
-            ),
             const SizedBox(height: 20),
             Semantics(
               identifier: 'homeButton',

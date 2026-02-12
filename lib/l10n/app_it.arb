@@ -872,5 +872,8 @@
     }
   },
   "timePeriodThisYear": "Quest'anno",
-  "timePeriodLastYear": "L'anno scorso"
+  "timePeriodLastYear": "L'anno scorso",
+  "nativeAppPromoTitle": "Scarica l'app Timer.Coffee",
+  "nativeAppPromoDescription": "Goditi l'esperienza completa con funzionalità esclusive: scansione etichette caffè con IA, Attività Live sulla schermata di blocco, notifiche push, feedback aptico e altro ancora.",
+  "nativeAppPromoButton": "Scarica l'app"
 }

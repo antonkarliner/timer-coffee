@@ -2067,4 +2067,14 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => 'سال گذشته';
+
+  @override
+  String get nativeAppPromoTitle => 'اپلیکیشن Timer.Coffee را دانلود کنید';
+
+  @override
+  String get nativeAppPromoDescription =>
+      'از تجربه کامل با ویژگی‌های انحصاری لذت ببرید: اسکن برچسب قهوه با هوش مصنوعی، فعالیت‌های زنده روی صفحه قفل، اعلان‌های فوری، بازخورد لمسی و موارد بیشتر.';
+
+  @override
+  String get nativeAppPromoButton => 'دانلود اپلیکیشن';
 }

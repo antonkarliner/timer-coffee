@@ -2080,4 +2080,14 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => 'Viime vuonna';
+
+  @override
+  String get nativeAppPromoTitle => 'Lataa Timer.Coffee-sovellus';
+
+  @override
+  String get nativeAppPromoDescription =>
+      'Nauti täydestä kokemuksesta yksinoikeudellisilla ominaisuuksilla: tekoälypohjainen kahvipakkauksen skannaus, Live-aktiviteetit lukitusnäytöllä, push-ilmoitukset, haptinen palaute ja paljon muuta.';
+
+  @override
+  String get nativeAppPromoButton => 'Lataa sovellus';
 }

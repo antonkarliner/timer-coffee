@@ -2091,4 +2091,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => 'العام الماضي';
+
+  @override
+  String get nativeAppPromoTitle => 'حمّل تطبيق Timer.Coffee';
+
+  @override
+  String get nativeAppPromoDescription =>
+      'استمتع بالتجربة الكاملة مع ميزات حصرية: مسح ملصقات القهوة بالذكاء الاصطناعي، والأنشطة الحية على شاشة القفل، والإشعارات الفورية، والاهتزاز التفاعلي، والمزيد.';
+
+  @override
+  String get nativeAppPromoButton => 'حمّل التطبيق';
 }

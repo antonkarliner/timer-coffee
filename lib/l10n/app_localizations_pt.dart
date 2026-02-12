@@ -2096,4 +2096,14 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => 'Ano Passado';
+
+  @override
+  String get nativeAppPromoTitle => 'Baixe o app Timer.Coffee';
+
+  @override
+  String get nativeAppPromoDescription =>
+      'Aproveite a experiência completa com recursos exclusivos: digitalização de rótulos de café com IA, Atividades ao Vivo na tela de bloqueio, notificações push, feedback háptico e muito mais.';
+
+  @override
+  String get nativeAppPromoButton => 'Baixar o app';
 }

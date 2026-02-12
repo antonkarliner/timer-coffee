@@ -872,5 +872,8 @@
     }
   },
   "timePeriodThisYear": "Dieses Jahr",
-  "timePeriodLastYear": "Letztes Jahr"
+  "timePeriodLastYear": "Letztes Jahr",
+  "nativeAppPromoTitle": "Hol dir die Timer.Coffee App",
+  "nativeAppPromoDescription": "Erlebe alle Funktionen: KI-gestütztes Scannen von Kaffeeetiketten, Live-Aktivitäten auf dem Sperrbildschirm, Push-Benachrichtigungen, haptisches Feedback und mehr.",
+  "nativeAppPromoButton": "App herunterladen"
 }

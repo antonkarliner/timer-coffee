@@ -872,5 +872,8 @@
     }
   },
   "timePeriodThisYear": "今年",
-  "timePeriodLastYear": "昨年"
+  "timePeriodLastYear": "昨年",
+  "nativeAppPromoTitle": "Timer.Coffeeアプリをダウンロード",
+  "nativeAppPromoDescription": "限定機能でフル体験を：AIによるコーヒーラベルスキャン、ロック画面でのライブアクティビティ、プッシュ通知、触覚フィードバックなど。",
+  "nativeAppPromoButton": "アプリを入手"
 }

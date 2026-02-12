@@ -872,5 +872,8 @@
     }
   },
   "timePeriodThisYear": "Dit jaar",
-  "timePeriodLastYear": "Vorig jaar"
+  "timePeriodLastYear": "Vorig jaar",
+  "nativeAppPromoTitle": "Download de Timer.Coffee App",
+  "nativeAppPromoDescription": "Geniet van de volledige ervaring met exclusieve functies: AI-gestuurde koffielabel scanning, Live Activiteiten op je vergrendelscherm, pushmeldingen, haptische feedback en meer.",
+  "nativeAppPromoButton": "Download de app"
 }

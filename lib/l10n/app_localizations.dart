@@ -3642,6 +3642,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Last Year'**
   String get timePeriodLastYear;
+
+  /// No description provided for @nativeAppPromoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get the Timer.Coffee App'**
+  String get nativeAppPromoTitle;
+
+  /// No description provided for @nativeAppPromoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enjoy the full experience with exclusive features: AI-powered bean label scanning, Live Activities on your Lock Screen, push notifications, haptic feedback, and more.'**
+  String get nativeAppPromoDescription;
+
+  /// No description provided for @nativeAppPromoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Get the App'**
+  String get nativeAppPromoButton;
 }
 
 class _AppLocalizationsDelegate

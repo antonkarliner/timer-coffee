@@ -872,5 +872,8 @@
     }
   },
   "timePeriodThisYear": "今年",
-  "timePeriodLastYear": "去年"
+  "timePeriodLastYear": "去年",
+  "nativeAppPromoTitle": "下载 Timer.Coffee 应用",
+  "nativeAppPromoDescription": "享受完整体验，解锁专属功能：AI 咖啡标签扫描、锁屏实时活动、推送通知、触觉反馈等。",
+  "nativeAppPromoButton": "下载应用"
 }

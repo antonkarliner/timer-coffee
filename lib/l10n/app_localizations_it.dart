@@ -2102,4 +2102,14 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => 'L\'anno scorso';
+
+  @override
+  String get nativeAppPromoTitle => 'Scarica l\'app Timer.Coffee';
+
+  @override
+  String get nativeAppPromoDescription =>
+      'Goditi l\'esperienza completa con funzionalità esclusive: scansione etichette caffè con IA, Attività Live sulla schermata di blocco, notifiche push, feedback aptico e altro ancora.';
+
+  @override
+  String get nativeAppPromoButton => 'Scarica l\'app';
 }

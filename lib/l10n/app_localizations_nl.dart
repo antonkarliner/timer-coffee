@@ -2086,4 +2086,14 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => 'Vorig jaar';
+
+  @override
+  String get nativeAppPromoTitle => 'Download de Timer.Coffee App';
+
+  @override
+  String get nativeAppPromoDescription =>
+      'Geniet van de volledige ervaring met exclusieve functies: AI-gestuurde koffielabel scanning, Live Activiteiten op je vergrendelscherm, pushmeldingen, haptische feedback en meer.';
+
+  @override
+  String get nativeAppPromoButton => 'Download de app';
 }

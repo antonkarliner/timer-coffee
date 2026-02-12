@@ -872,5 +872,8 @@
     }
   },
   "timePeriodThisYear": "Этот год",
-  "timePeriodLastYear": "Прошлый год"
+  "timePeriodLastYear": "Прошлый год",
+  "nativeAppPromoTitle": "Скачайте приложение Timer.Coffee",
+  "nativeAppPromoDescription": "Откройте все возможности с эксклюзивными функциями: AI-сканирование этикеток кофе, Живые активности на экране блокировки, push-уведомления, тактильная отдача и многое другое.",
+  "nativeAppPromoButton": "Скачать приложение"
 }

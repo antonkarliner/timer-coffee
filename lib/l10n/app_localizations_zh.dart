@@ -2011,4 +2011,14 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => '去年';
+
+  @override
+  String get nativeAppPromoTitle => '下载 Timer.Coffee 应用';
+
+  @override
+  String get nativeAppPromoDescription =>
+      '享受完整体验，解锁专属功能：AI 咖啡标签扫描、锁屏实时活动、推送通知、触觉反馈等。';
+
+  @override
+  String get nativeAppPromoButton => '下载应用';
 }

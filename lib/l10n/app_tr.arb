@@ -872,5 +872,8 @@
     }
   },
   "timePeriodThisYear": "Bu Yıl",
-  "timePeriodLastYear": "Geçen Yıl"
+  "timePeriodLastYear": "Geçen Yıl",
+  "nativeAppPromoTitle": "Timer.Coffee Uygulamasını İndirin",
+  "nativeAppPromoDescription": "Özel özelliklerle tam deneyimin keyfini çıkarın: yapay zeka destekli kahve etiketi tarama, kilit ekranında Canlı Etkinlikler, anlık bildirimler, dokunsal geri bildirim ve daha fazlası.",
+  "nativeAppPromoButton": "Uygulamayı İndir"
 }

@@ -872,5 +872,8 @@
     }
   },
   "timePeriodThisYear": "Tahun Ini",
-  "timePeriodLastYear": "Tahun Lalu"
+  "timePeriodLastYear": "Tahun Lalu",
+  "nativeAppPromoTitle": "Unduh Aplikasi Timer.Coffee",
+  "nativeAppPromoDescription": "Nikmati pengalaman lengkap dengan fitur eksklusif: pemindaian label kopi berbasis AI, Live Activities di layar kunci, notifikasi push, umpan balik haptic, dan lainnya.",
+  "nativeAppPromoButton": "Unduh Aplikasi"
 }

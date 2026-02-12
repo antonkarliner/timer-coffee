@@ -2096,4 +2096,14 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get timePeriodLastYear => 'Anul trecut';
+
+  @override
+  String get nativeAppPromoTitle => 'Descarcă aplicația Timer.Coffee';
+
+  @override
+  String get nativeAppPromoDescription =>
+      'Bucură-te de experiența completă cu funcții exclusive: scanare etichete cafea cu AI, Activități Live pe ecranul de blocare, notificări push, feedback haptic și multe altele.';
+
+  @override
+  String get nativeAppPromoButton => 'Descarcă aplicația';
 }

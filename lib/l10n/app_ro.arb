@@ -872,5 +872,8 @@
     }
   },
   "timePeriodThisYear": "Anul acesta",
-  "timePeriodLastYear": "Anul trecut"
+  "timePeriodLastYear": "Anul trecut",
+  "nativeAppPromoTitle": "Descarcă aplicația Timer.Coffee",
+  "nativeAppPromoDescription": "Bucură-te de experiența completă cu funcții exclusive: scanare etichete cafea cu AI, Activități Live pe ecranul de blocare, notificări push, feedback haptic și multe altele.",
+  "nativeAppPromoButton": "Descarcă aplicația"
 }

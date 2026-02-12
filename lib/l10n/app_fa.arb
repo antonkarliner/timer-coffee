@@ -1045,5 +1045,8 @@
     }
   },
   "timePeriodThisYear": "امسال",
-  "timePeriodLastYear": "سال گذشته"
+  "timePeriodLastYear": "سال گذشته",
+  "nativeAppPromoTitle": "اپلیکیشن Timer.Coffee را دانلود کنید",
+  "nativeAppPromoDescription": "از تجربه کامل با ویژگی‌های انحصاری لذت ببرید: اسکن برچسب قهوه با هوش مصنوعی، فعالیت‌های زنده روی صفحه قفل، اعلان‌های فوری، بازخورد لمسی و موارد بیشتر.",
+  "nativeAppPromoButton": "دانلود اپلیکیشن"
 }

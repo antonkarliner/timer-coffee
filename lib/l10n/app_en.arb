@@ -1249,5 +1249,8 @@
   "inventorySetToZeroSuccess": "Inventory set to 0 g",
   "inventorySetToZeroFail": "Failed to set inventory to zero",
   "timePeriodThisYear": "This Year",
-  "timePeriodLastYear": "Last Year"
+  "timePeriodLastYear": "Last Year",
+  "nativeAppPromoTitle": "Get the Timer.Coffee App",
+  "nativeAppPromoDescription": "Enjoy the full experience with exclusive features: AI-powered bean label scanning, Live Activities on your Lock Screen, push notifications, haptic feedback, and more.",
+  "nativeAppPromoButton": "Get the App"
 }
