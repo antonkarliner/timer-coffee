@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:core';
 import 'dart:core' as core;
+import 'dart:io';
 import 'dart:math' as math; // Added for math functions
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Added for system UI constants
 import 'package:just_audio/just_audio.dart';
@@ -16,6 +18,7 @@ import 'package:vibration/vibration_presets.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:intl/intl.dart' as intl; // Corrected import statement
 import '../utils/app_logger.dart'; // Import AppLogger
+import '../services/live_activity_service.dart';
 
 class LocalizedNumberText extends StatelessWidget {
   final int currentNumber;
@@ -95,6 +98,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   DateTime? _currentStepStartedAtUtc; // Wall-clock anchor for current step
   DateTime? _pausedAtUtc; // When pause was pressed (null if running)
   AppLifecycleListener? _lifecycleListener;
+
+  bool get _isLiveActivitySupported => !kIsWeb && Platform.isIOS;
 
   String replacePlaceholders(
     String description,
@@ -293,6 +298,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     );
 
     startTimer();
+    _startLiveActivity();
   }
 
   Future<void> _preloadAudio() async {
@@ -306,6 +312,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   @override
   void dispose() {
     timer.cancel();
+    _endLiveActivity();
     _lifecycleListener?.dispose();
     WakelockPlus.disable();
     _player.dispose();
@@ -318,6 +325,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   void _navigateToFinishScreen() {
     // Ensure it only navigates once and if mounted
     if (!mounted || !_isEndBrewAnimating) return;
+    _endLiveActivity();
 
     Navigator.pushReplacement(
       context,
@@ -351,6 +359,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
             currentStepTime = 0;
           });
           _currentStepStartedAtUtc = DateTime.now().toUtc();
+          _updateLiveActivity();
         } else {
           _playStepNotification();
 
@@ -364,6 +373,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         setState(() {
           currentStepTime++;
         });
+        _updateLiveActivity();
         // Pulse logic: last 5 seconds of the step
         if (!_isEndBrewAnimating &&
             currentStepTime > last5Start &&
@@ -399,6 +409,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     if (_isPaused) {
       timer.cancel();
       _pausedAtUtc = DateTime.now().toUtc();
+      _updateLiveActivity();
     } else {
       // Shift the step anchor forward by the paused duration
       if (_pausedAtUtc != null && _currentStepStartedAtUtc != null) {
@@ -408,6 +419,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       }
       _pausedAtUtc = null;
       startTimer();
+      _updateLiveActivity();
     }
   }
 
@@ -419,6 +431,41 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     if (widget.notificationMode == NotificationMode.vibrationOnly) {
       Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
     }
+  }
+
+  // ── Live Activity helpers ──
+
+  void _startLiveActivity() {
+    if (!_isLiveActivitySupported) return;
+    LiveActivityService.instance.startBrewingActivity(
+      recipeName: widget.recipe.name,
+
+      stepDescription: brewingSteps[currentStepIndex].description,
+      currentStep: currentStepIndex + 1,
+      totalSteps: brewingSteps.length,
+      stepElapsedSeconds: currentStepTime,
+      stepTotalSeconds: brewingSteps[currentStepIndex].time.inSeconds,
+      isPaused: _isPaused,
+    );
+  }
+
+  void _updateLiveActivity() {
+    if (!_isLiveActivitySupported) return;
+    LiveActivityService.instance.updateBrewingActivity(
+      recipeName: widget.recipe.name,
+
+      stepDescription: brewingSteps[currentStepIndex].description,
+      currentStep: currentStepIndex + 1,
+      totalSteps: brewingSteps.length,
+      stepElapsedSeconds: currentStepTime,
+      stepTotalSeconds: brewingSteps[currentStepIndex].time.inSeconds,
+      isPaused: _isPaused,
+    );
+  }
+
+  void _endLiveActivity() {
+    if (!_isLiveActivitySupported) return;
+    LiveActivityService.instance.endBrewingActivity();
   }
 
   void _onAppResumed() {
@@ -472,6 +519,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
 
     // Reset anchor for new position
     _currentStepStartedAtUtc = nowUtc.subtract(Duration(seconds: stepTime));
+    _updateLiveActivity();
   }
 
   Future<void> _skipLastStep() async {
@@ -499,6 +547,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   void _navigateToFinishScreenSkip() {
     // Ensure it only navigates once and if mounted
     if (!mounted) return;
+    _endLiveActivity();
 
     Navigator.pushReplacement(
       context,

@@ -33,6 +33,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:coffee_timer/services/notification_service.dart';
+import 'package:coffee_timer/services/live_activity_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'notifiers/card_expansion_notifier.dart';
 import 'firebase_options.dart';
@@ -280,6 +281,14 @@ void main() async {
       AppLogger.error('Failed to initialize NotificationService',
           errorObject: e);
       // Continue app startup even if notifications fail
+    }
+
+    // Initialize Live Activities (iOS only, no-op on other platforms)
+    try {
+      await LiveActivityService.instance.initialize();
+    } catch (e) {
+      AppLogger.error('Failed to initialize LiveActivityService',
+          errorObject: e);
     }
   }
 

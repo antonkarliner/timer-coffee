@@ -132,5 +132,7 @@
 		<false/>
 		<key>GIDClientID</key>
 		<string>158450410168-8o2bk6r3e4ik8i413ua66bc50iug45na.apps.googleusercontent.com</string>
+		<key>NSSupportsLiveActivities</key>
+		<true/>
 	</dict>
 </plist>
