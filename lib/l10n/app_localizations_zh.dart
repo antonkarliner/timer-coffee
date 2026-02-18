@@ -1034,7 +1034,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String yearlyStats25Slide4PeakMostRecent(
-      String mostRecent, String brewsLabel) {
+    String mostRecent,
+    String brewsLabel,
+  ) {
     return '最近一次：$mostRecent — $brewsLabel';
   }
 
@@ -1816,13 +1818,21 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String beansWeightAddedBack(
-      String amount, String beanName, String newWeight, String unit) {
+    String amount,
+    String beanName,
+    String newWeight,
+    String unit,
+  ) {
     return '已将 $amount$unit 添加回 $beanName。新重量：$newWeight$unit';
   }
 
   @override
   String beansWeightSubtracted(
-      String amount, String beanName, String newWeight, String unit) {
+    String amount,
+    String beanName,
+    String newWeight,
+    String unit,
+  ) {
     return '已从 $beanName 中减去 $amount$unit。新重量：$newWeight$unit';
   }
 

@@ -1062,7 +1062,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String yearlyStats25Slide4PeakMostRecent(
-      String mostRecent, String brewsLabel) {
+    String mostRecent,
+    String brewsLabel,
+  ) {
     return 'الأحدث: $mostRecent — $brewsLabel';
   }
 
@@ -1892,13 +1894,21 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String beansWeightAddedBack(
-      String amount, String beanName, String newWeight, String unit) {
+    String amount,
+    String beanName,
+    String newWeight,
+    String unit,
+  ) {
     return 'تمت إضافة $amount$unit مرة أخرى إلى $beanName. الوزن الجديد: $newWeight$unit';
   }
 
   @override
   String beansWeightSubtracted(
-      String amount, String beanName, String newWeight, String unit) {
+    String amount,
+    String beanName,
+    String newWeight,
+    String unit,
+  ) {
     return 'تم خصم $amount$unit من $beanName. الوزن الجديد: $newWeight$unit';
   }
 

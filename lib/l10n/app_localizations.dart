@@ -82,7 +82,7 @@ import 'app_localizations_zh.dart';
 /// property.
 abstract class AppLocalizations {
   AppLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -105,11 +105,11 @@ abstract class AppLocalizations {
   /// of delegates is preferred or required.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
       <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
@@ -133,7 +133,7 @@ abstract class AppLocalizations {
     Locale('ru'),
     Locale('tr'),
     Locale('uk'),
-    Locale('zh')
+    Locale('zh'),
   ];
 
   /// No description provided for @beansStatsSectionTitle.
@@ -1941,7 +1941,9 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Most recent: {mostRecent} — {brewsLabel}'**
   String yearlyStats25Slide4PeakMostRecent(
-      String mostRecent, String brewsLabel);
+    String mostRecent,
+    String brewsLabel,
+  );
 
   /// No description provided for @yearlyStats25Slide4BrewTimeLine.
   ///
@@ -3310,14 +3312,22 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Added {amount}{unit} back to {beanName}. New weight: {newWeight}{unit}'**
   String beansWeightAddedBack(
-      String amount, String beanName, String newWeight, String unit);
+    String amount,
+    String beanName,
+    String newWeight,
+    String unit,
+  );
 
   /// Message shown when coffee weight is subtracted from beans when adding to brew diary
   ///
   /// In en, this message translates to:
   /// **'Subtracted {amount}{unit} from {beanName}. New weight: {newWeight}{unit}'**
   String beansWeightSubtracted(
-      String amount, String beanName, String newWeight, String unit);
+    String amount,
+    String beanName,
+    String newWeight,
+    String unit,
+  );
 
   /// No description provided for @notifications.
   ///
@@ -3673,28 +3683,28 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) => <String>[
-        'ar',
-        'de',
-        'en',
-        'es',
-        'fa',
-        'fi',
-        'fr',
-        'hr',
-        'id',
-        'it',
-        'ja',
-        'ko',
-        'nl',
-        'no',
-        'pl',
-        'pt',
-        'ro',
-        'ru',
-        'tr',
-        'uk',
-        'zh'
-      ].contains(locale.languageCode);
+    'ar',
+    'de',
+    'en',
+    'es',
+    'fa',
+    'fi',
+    'fr',
+    'hr',
+    'id',
+    'it',
+    'ja',
+    'ko',
+    'nl',
+    'no',
+    'pl',
+    'pt',
+    'ro',
+    'ru',
+    'tr',
+    'uk',
+    'zh',
+  ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -3748,8 +3758,9 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   }
 
   throw FlutterError(
-      'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
 }
