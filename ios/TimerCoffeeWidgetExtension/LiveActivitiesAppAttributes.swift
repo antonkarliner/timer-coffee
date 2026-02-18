@@ -6,7 +6,17 @@ import Foundation
 struct LiveActivitiesAppAttributes: ActivityAttributes, Identifiable {
     public typealias LiveDeliveryData = ContentState
 
-    public struct ContentState: Codable, Hashable {}
+    public struct ContentState: Codable, Hashable {
+        var appGroupId: String
+        var recipeName: String?
+        var stepDescription: String?
+        var currentStep: Int?
+        var totalSteps: Int?
+        var stepStartDateMs: Int?
+        var stepEndDateMs: Int?
+        var effectiveAtMs: Int?
+        var isPaused: Bool?
+    }
 
     var id = UUID()
 }

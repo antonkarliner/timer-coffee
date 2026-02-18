@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Added for system UI constants
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter_animate/flutter_animate.dart'; // Added for animations
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 import '../models/recipe_model.dart';
 import '../models/brew_step_model.dart';
 import '../models/notification_mode.dart';
@@ -20,6 +22,8 @@ import 'package:intl/intl.dart' as intl; // Corrected import statement
 import '../utils/app_logger.dart'; // Import AppLogger
 import '../services/live_activity_service.dart';
 import '../services/android_live_update_service.dart';
+import '../services/live_activity_sync_service.dart';
+import '../services/feature_flags/feature_flags_repository.dart';
 
 class LocalizedNumberText extends StatelessWidget {
   final int currentNumber;
@@ -42,11 +46,7 @@ class LocalizedNumberText extends StatelessWidget {
 
     return Semantics(
       identifier: 'localizedNumberText_${currentNumber}_of_$totalNumber',
-      child: Text(
-        formattedText,
-        style: style,
-        textAlign: TextAlign.center,
-      ),
+      child: Text(formattedText, style: style, textAlign: TextAlign.center),
     );
   }
 }
@@ -93,15 +93,31 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   late Animation<Color?> _colorAnimation;
 
   late AnimationController
-      _endBrewAnimationController; // For end of brew animation
+  _endBrewAnimationController; // For end of brew animation
   bool _isEndBrewAnimating = false; // Flag for end of brew animation state
 
+  DateTime? _brewAnchorUtc; // Wall-clock anchor for brew start
   DateTime? _currentStepStartedAtUtc; // Wall-clock anchor for current step
   DateTime? _pausedAtUtc; // When pause was pressed (null if running)
   AppLifecycleListener? _lifecycleListener;
+  final LiveActivitySyncService _liveActivitySyncService =
+      LiveActivitySyncService.instance;
+  StreamSubscription<LiveActivityPushTokenUpdate>?
+  _liveActivityTokenSubscription;
+  String? _brewSessionId;
+  String? _liveActivityId;
+  String? _lastActivityPushToken;
+  bool _hasEndedLiveActivity = false;
+  bool _backendLiveActivitySessionStarted = false;
+  bool _isLiveActivityPlanBEnabled = false;
+  bool _isResyncInProgress = false;
+  static const int _iosLiveActivityHeartbeatSeconds = 3;
 
   bool get _isLiveActivitySupported =>
       !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+
+  bool get _shouldSyncLiveActivitySession =>
+      !kIsWeb && Platform.isIOS && _isLiveActivityPlanBEnabled;
 
   String replacePlaceholders(
     String description,
@@ -157,7 +173,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       } else {
         // Using AppLogger for simple logging
         AppLogger.warning(
-            "Unrecognized placeholder '${match.group(0)}' in step description. Raw description: '$description'");
+          "Unrecognized placeholder '${match.group(0)}' in step description. Raw description: '$description'",
+        );
         return match.group(0)!; // Keep original placeholder
       }
     });
@@ -213,8 +230,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         {'t7': 45, 't8': 70}, // Medium
         {'t7': 75, 't8': 55}, // XL
       ];
-      allTimeValues
-          .addAll(coffeeChroniclerTimeValues[coffeeChroniclerSliderPosition]);
+      allTimeValues.addAll(
+        coffeeChroniclerTimeValues[coffeeChroniclerSliderPosition],
+      );
     }
 
     // Replace time placeholders
@@ -240,13 +258,25 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     super.initState();
     WakelockPlus.enable();
 
+    final featureFlagsRepository = context.read<FeatureFlagsRepository>();
+    _isLiveActivityPlanBEnabled =
+        featureFlagsRepository.iosLiveActivityPushPlanB;
+    if (_shouldSyncLiveActivitySession) {
+      _brewSessionId = const Uuid().v4();
+      _liveActivityTokenSubscription = LiveActivityService
+          .instance
+          .pushTokenUpdates
+          .listen(_onLiveActivityPushTokenUpdate);
+    }
+
     _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 180),
     );
-    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.04).animate(
-      CurvedAnimation(parent: _pulseController, curve: Curves.easeOut),
-    );
+    _pulseAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.04,
+    ).animate(CurvedAnimation(parent: _pulseController, curve: Curves.easeOut));
 
     _colorController = AnimationController(
       vsync: this,
@@ -295,12 +325,14 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
 
     _preloadAudio();
 
-    _lifecycleListener = AppLifecycleListener(
-      onResume: _onAppResumed,
-    );
+    _lifecycleListener = AppLifecycleListener(onResume: _onAppResumed);
 
+    _brewAnchorUtc = DateTime.now().toUtc();
     startTimer();
-    _startLiveActivity();
+    unawaited(_startLiveActivity());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(_resyncFromLocalAndServer(trigger: 'init'));
+    });
   }
 
   Future<void> _preloadAudio() async {
@@ -314,7 +346,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   @override
   void dispose() {
     timer.cancel();
-    _endLiveActivity();
+    _liveActivityTokenSubscription?.cancel();
     _lifecycleListener?.dispose();
     WakelockPlus.disable();
     _player.dispose();
@@ -327,18 +359,19 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   void _navigateToFinishScreen() {
     // Ensure it only navigates once and if mounted
     if (!mounted || !_isEndBrewAnimating) return;
-    _endLiveActivity();
+    _endLiveActivity(reason: 'completed');
 
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => FinishScreen(
-            brewingMethodName: widget.brewingMethodName,
-            recipe: widget.recipe,
-            waterAmount: widget.waterAmount,
-            coffeeAmount: widget.coffeeAmount,
-            sweetnessSliderPosition: widget.sweetnessSliderPosition,
-            strengthSliderPosition: widget.strengthSliderPosition),
+          brewingMethodName: widget.brewingMethodName,
+          recipe: widget.recipe,
+          waterAmount: widget.waterAmount,
+          coffeeAmount: widget.coffeeAmount,
+          sweetnessSliderPosition: widget.sweetnessSliderPosition,
+          strengthSliderPosition: widget.strengthSliderPosition,
+        ),
       ),
     );
   }
@@ -346,8 +379,16 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   void startTimer() {
     // Set wall-clock anchor for the current step
     _currentStepStartedAtUtc = DateTime.now().toUtc().subtract(
-          Duration(seconds: currentStepTime),
-        );
+      Duration(seconds: currentStepTime),
+    );
+    if (_brewAnchorUtc == null) {
+      final elapsedBeforeCurrentStep = brewingSteps
+          .take(currentStepIndex)
+          .fold<int>(0, (sum, step) => sum + step.time.inSeconds);
+      _brewAnchorUtc = _currentStepStartedAtUtc!.subtract(
+        Duration(seconds: elapsedBeforeCurrentStep),
+      );
+    }
 
     timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       final stepDuration = brewingSteps[currentStepIndex].time.inSeconds;
@@ -366,7 +407,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           _playStepNotification();
 
           timer.cancel();
-          _endLiveActivity();
+          _endLiveActivity(reason: 'completed');
           setState(() {
             _isEndBrewAnimating = true;
           });
@@ -376,7 +417,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         setState(() {
           currentStepTime++;
         });
-        _updateLiveActivity();
+        _updateLiveActivity(isTimerTick: true);
         // Pulse logic: last 5 seconds of the step
         if (!_isEndBrewAnimating &&
             currentStepTime > last5Start &&
@@ -413,16 +454,50 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       timer.cancel();
       _pausedAtUtc = DateTime.now().toUtc();
       _updateLiveActivity();
+      if (_shouldSyncLiveActivitySession &&
+          _backendLiveActivitySessionStarted &&
+          _brewSessionId != null) {
+        final elapsedTotalSeconds = _elapsedTotalSecondsForSync();
+        AppLogger.info(
+          'Live activity pause sync -> elapsed_total=${elapsedTotalSeconds}s',
+        );
+        unawaited(
+          _liveActivitySyncService.pauseSession(
+            brewSessionId: _brewSessionId!,
+            elapsedTotalSeconds: elapsedTotalSeconds,
+          ),
+        );
+      }
     } else {
       // Shift the step anchor forward by the paused duration
       if (_pausedAtUtc != null && _currentStepStartedAtUtc != null) {
         final pausedDuration = DateTime.now().toUtc().difference(_pausedAtUtc!);
-        _currentStepStartedAtUtc =
-            _currentStepStartedAtUtc!.add(pausedDuration);
+        _currentStepStartedAtUtc = _currentStepStartedAtUtc!.add(
+          pausedDuration,
+        );
+        if (_brewAnchorUtc != null) {
+          _brewAnchorUtc = _brewAnchorUtc!.add(pausedDuration);
+        }
       }
       _pausedAtUtc = null;
       startTimer();
       _updateLiveActivity();
+      if (_shouldSyncLiveActivitySession && _brewSessionId != null) {
+        if (_backendLiveActivitySessionStarted) {
+          final elapsedTotalSeconds = _elapsedTotalSecondsForSync();
+          AppLogger.info(
+            'Live activity resume sync -> elapsed_total=${elapsedTotalSeconds}s',
+          );
+          unawaited(
+            _liveActivitySyncService.resumeSession(
+              brewSessionId: _brewSessionId!,
+              elapsedTotalSeconds: elapsedTotalSeconds,
+            ),
+          );
+        } else {
+          unawaited(_tryStartLiveActivityBackendSession());
+        }
+      }
     }
   }
 
@@ -438,21 +513,44 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
 
   // ── Live Activity helpers ──
 
-  void _startLiveActivity() {
-    if (!_isLiveActivitySupported) return;
+  Duration _iosLiveActivityStaleIn(List<int> stepDurationsSeconds) {
+    final totalDurationSeconds = stepDurationsSeconds.fold<int>(
+      0,
+      (sum, seconds) => sum + seconds,
+    );
+    final withBufferSeconds = totalDurationSeconds + 120;
+    final roundedUpMinutes = math.max(2, (withBufferSeconds / 60).ceil());
+    return Duration(minutes: roundedUpMinutes);
+  }
+
+  Future<void> _startLiveActivity() async {
+    if (!_isLiveActivitySupported || _hasEndedLiveActivity) return;
     final args = _liveActivityArgs();
     if (!kIsWeb && Platform.isIOS) {
-      LiveActivityService.instance.startBrewingActivity(
-        recipeName: args['recipeName'],
-        stepDescription: args['stepDescription'],
-        currentStep: args['currentStep'],
-        totalSteps: args['totalSteps'],
-        stepElapsedSeconds: args['stepElapsedSeconds'],
-        stepTotalSeconds: args['stepTotalSeconds'],
-        isPaused: args['isPaused'],
-      );
+      final stepDurations = (args['stepDurationsSeconds'] as List).cast<int>();
+      final activityId = await LiveActivityService.instance
+          .startBrewingActivity(
+            recipeName: args['recipeName'],
+            stepDescription: args['stepDescription'],
+            currentStep: args['currentStep'],
+            totalSteps: args['totalSteps'],
+            stepElapsedSeconds: args['stepElapsedSeconds'],
+            stepTotalSeconds: args['stepTotalSeconds'],
+            isPaused: args['isPaused'],
+            removeWhenAppIsKilled: true,
+            stepDurationsSeconds: stepDurations,
+            stepDescriptions: (args['stepDescriptions'] as List).cast<String>(),
+            brewStartDate: args['brewStartDate'],
+            stepStartDateMs: args['stepStartDateMs'],
+            stepEndDateMs: args['stepEndDateMs'],
+            staleIn: _iosLiveActivityStaleIn(stepDurations),
+          );
+      _liveActivityId = activityId;
+      if (_shouldSyncLiveActivitySession) {
+        await _tryStartLiveActivityBackendSession(activityId: activityId);
+      }
     } else if (!kIsWeb && Platform.isAndroid) {
-      AndroidLiveUpdateService.instance.startBrewingActivity(
+      await AndroidLiveUpdateService.instance.startBrewingActivity(
         recipeName: args['recipeName'],
         stepDescription: args['stepDescription'],
         currentStep: args['currentStep'],
@@ -464,10 +562,17 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     }
   }
 
-  void _updateLiveActivity() {
+  void _updateLiveActivity({bool isTimerTick = false}) {
     if (!_isLiveActivitySupported) return;
     final args = _liveActivityArgs();
     if (!kIsWeb && Platform.isIOS) {
+      if (isTimerTick) {
+        final shouldSendHeartbeatUpdate =
+            currentStepTime <= 1 ||
+            (currentStepTime % _iosLiveActivityHeartbeatSeconds == 0);
+        if (!shouldSendHeartbeatUpdate) return;
+      }
+
       LiveActivityService.instance.updateBrewingActivity(
         recipeName: args['recipeName'],
         stepDescription: args['stepDescription'],
@@ -476,6 +581,12 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         stepElapsedSeconds: args['stepElapsedSeconds'],
         stepTotalSeconds: args['stepTotalSeconds'],
         isPaused: args['isPaused'],
+        stepDurationsSeconds: (args['stepDurationsSeconds'] as List)
+            .cast<int>(),
+        stepDescriptions: (args['stepDescriptions'] as List).cast<String>(),
+        brewStartDate: args['brewStartDate'],
+        stepStartDateMs: args['stepStartDateMs'],
+        stepEndDateMs: args['stepEndDateMs'],
       );
     } else if (!kIsWeb && Platform.isAndroid) {
       AndroidLiveUpdateService.instance.updateBrewingActivity(
@@ -490,79 +601,389 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     }
   }
 
-  void _endLiveActivity() {
+  void _endLiveActivity({String reason = 'completed'}) {
+    if (_hasEndedLiveActivity) return;
+    _hasEndedLiveActivity = true;
+
+    if (_shouldSyncLiveActivitySession &&
+        _backendLiveActivitySessionStarted &&
+        _brewSessionId != null) {
+      _backendLiveActivitySessionStarted = false;
+      unawaited(
+        _liveActivitySyncService.endSession(
+          brewSessionId: _brewSessionId!,
+          reason: reason,
+        ),
+      );
+    }
+
     if (!_isLiveActivitySupported) return;
     if (!kIsWeb && Platform.isIOS) {
+      _liveActivityId = null;
+      _lastActivityPushToken = null;
       LiveActivityService.instance.endBrewingActivity();
     } else if (!kIsWeb && Platform.isAndroid) {
       AndroidLiveUpdateService.instance.endBrewingActivity();
     }
   }
 
+  void _onLiveActivityPushTokenUpdate(LiveActivityPushTokenUpdate update) {
+    if (!_shouldSyncLiveActivitySession || _hasEndedLiveActivity) return;
+    if (_liveActivityId != null && update.activityId != _liveActivityId) return;
+
+    _liveActivityId ??= update.activityId;
+
+    if (_lastActivityPushToken == update.activityToken) return;
+    _lastActivityPushToken = update.activityToken;
+
+    if (_backendLiveActivitySessionStarted && _brewSessionId != null) {
+      unawaited(
+        _liveActivitySyncService.refreshToken(
+          brewSessionId: _brewSessionId!,
+          activityId: update.activityId,
+          activityPushToken: update.activityToken,
+        ),
+      );
+      return;
+    }
+
+    unawaited(
+      _tryStartLiveActivityBackendSession(
+        activityId: update.activityId,
+        activityPushToken: update.activityToken,
+      ),
+    );
+  }
+
+  Future<void> _tryStartLiveActivityBackendSession({
+    String? activityId,
+    String? activityPushToken,
+  }) async {
+    if (!_shouldSyncLiveActivitySession ||
+        _hasEndedLiveActivity ||
+        _backendLiveActivitySessionStarted ||
+        _isPaused) {
+      return;
+    }
+
+    final brewSessionId = _brewSessionId;
+    if (brewSessionId == null) return;
+
+    final resolvedActivityId =
+        activityId ??
+        _liveActivityId ??
+        LiveActivityService.instance.currentActivityId;
+    if (resolvedActivityId == null || resolvedActivityId.isEmpty) return;
+    _liveActivityId = resolvedActivityId;
+
+    var resolvedPushToken = activityPushToken;
+    if (resolvedPushToken == null || resolvedPushToken.isEmpty) {
+      resolvedPushToken = await LiveActivityService.instance.getPushToken(
+        resolvedActivityId,
+      );
+    }
+    if (resolvedPushToken == null || resolvedPushToken.isEmpty) return;
+
+    _lastActivityPushToken = resolvedPushToken;
+    final args = _liveActivityArgs();
+
+    try {
+      final sessionStarted = await _liveActivitySyncService.startSession(
+        brewSessionId: brewSessionId,
+        recipeId: widget.recipe.id,
+        recipeName: args['recipeName'] as String,
+        activityId: resolvedActivityId,
+        activityPushToken: resolvedPushToken,
+        stepDurationsSeconds: (args['stepDurationsSeconds'] as List)
+            .cast<int>(),
+        stepDescriptions: (args['stepDescriptions'] as List).cast<String>(),
+        brewStartDateMs: args['brewStartDate'] as int,
+      );
+      _backendLiveActivitySessionStarted = sessionStarted;
+    } catch (e) {
+      AppLogger.error(
+        'Failed to start backend live activity session',
+        errorObject: e,
+      );
+    }
+  }
+
   Map<String, dynamic> _liveActivityArgs() {
+    final nowUtc = DateTime.now().toUtc();
+    final currentStepTotalSeconds =
+        brewingSteps[currentStepIndex].time.inSeconds;
+    final boundedCurrentStepTime = currentStepTime
+        .clamp(0, currentStepTotalSeconds)
+        .toInt();
+    final currentStepStartUtc =
+        _currentStepStartedAtUtc ??
+        nowUtc.subtract(Duration(seconds: boundedCurrentStepTime));
+    final elapsedBeforeCurrentStep = brewingSteps
+        .take(currentStepIndex)
+        .fold<int>(0, (sum, step) => sum + step.time.inSeconds);
+    final resolvedBrewAnchorUtc =
+        _brewAnchorUtc ??
+        currentStepStartUtc.subtract(
+          Duration(seconds: elapsedBeforeCurrentStep),
+        );
+    _brewAnchorUtc ??= resolvedBrewAnchorUtc;
+    final stepEndUtc = currentStepStartUtc.add(
+      Duration(seconds: currentStepTotalSeconds),
+    );
+
     return {
       'recipeName': widget.recipe.name,
       'stepDescription': brewingSteps[currentStepIndex].description,
       'currentStep': currentStepIndex + 1,
       'totalSteps': brewingSteps.length,
-      'stepElapsedSeconds': currentStepTime,
-      'stepTotalSeconds': brewingSteps[currentStepIndex].time.inSeconds,
+      'stepElapsedSeconds': boundedCurrentStepTime,
+      'stepTotalSeconds': currentStepTotalSeconds,
       'isPaused': _isPaused,
+      'stepDurationsSeconds': brewingSteps
+          .map((step) => step.time.inSeconds)
+          .toList(growable: false),
+      'stepDescriptions': brewingSteps
+          .map((step) => step.description)
+          .toList(growable: false),
+      'brewStartDate': resolvedBrewAnchorUtc.millisecondsSinceEpoch,
+      'stepStartDateMs': currentStepStartUtc.millisecondsSinceEpoch,
+      'stepEndDateMs': stepEndUtc.millisecondsSinceEpoch,
     };
   }
 
-  void _onAppResumed() {
-    // Do nothing if paused, animating end, or no anchor set
-    if (_isPaused || _isEndBrewAnimating || _currentStepStartedAtUtc == null) {
-      return;
+  int _elapsedTotalSecondsForSync() {
+    if (brewingSteps.isEmpty) return 0;
+
+    final totalDurationSeconds = brewingSteps.fold<int>(
+      0,
+      (sum, step) => sum + step.time.inSeconds,
+    );
+
+    final elapsedBeforeCurrentStep = brewingSteps
+        .take(currentStepIndex)
+        .fold<int>(0, (sum, step) => sum + step.time.inSeconds);
+
+    if (_isPaused || _currentStepStartedAtUtc == null) {
+      return math.max(0, elapsedBeforeCurrentStep + currentStepTime);
     }
 
-    final nowUtc = DateTime.now().toUtc();
-    var elapsed = nowUtc.difference(_currentStepStartedAtUtc!).inSeconds;
+    if (_brewAnchorUtc != null) {
+      final elapsed = DateTime.now()
+          .toUtc()
+          .difference(_brewAnchorUtc!)
+          .inSeconds
+          .clamp(0, totalDurationSeconds)
+          .toInt();
+      return math.max(0, elapsed);
+    }
 
-    // Guard against negative elapsed (device clock changed backward)
-    if (elapsed < 0) elapsed = 0;
+    final currentStepDuration = brewingSteps[currentStepIndex].time.inSeconds;
+    final liveStepElapsed = DateTime.now()
+        .toUtc()
+        .difference(_currentStepStartedAtUtc!)
+        .inSeconds
+        .clamp(0, currentStepDuration)
+        .toInt();
 
-    // Reconcile by step boundaries
-    var stepIndex = currentStepIndex;
-    var stepTime = elapsed;
+    return math.max(0, elapsedBeforeCurrentStep + liveStepElapsed);
+  }
 
-    while (stepIndex < brewingSteps.length) {
-      final stepDuration = brewingSteps[stepIndex].time.inSeconds;
-      if (stepTime < stepDuration) {
-        // Landed within this step
-        break;
+  void _onAppResumed() {
+    unawaited(_resyncFromLocalAndServer(trigger: 'resume'));
+  }
+
+  Future<void> _resyncFromLocalAndServer({required String trigger}) async {
+    if (!mounted || _isPaused || _isEndBrewAnimating || brewingSteps.isEmpty) {
+      return;
+    }
+    if (_isResyncInProgress) return;
+
+    _isResyncInProgress = true;
+    try {
+      final localState = _buildLocalResyncState();
+      final localWasAhead = _applyResyncStateIfAhead(
+        localState,
+        source: 'local',
+        trigger: trigger,
+      );
+      if (localState.isFinished) return;
+
+      if (!_shouldSyncLiveActivitySession || _brewSessionId == null) {
+        if (!localWasAhead) {
+          AppLogger.debug(
+            'Live activity resync [$trigger] local state already current',
+          );
+        }
+        return;
       }
-      // Exceeded this step
-      stepTime -= stepDuration;
+
+      final backendStatus = await _liveActivitySyncService.fetchSessionStatus(
+        brewSessionId: _brewSessionId!,
+      );
+
+      if (backendStatus == null) {
+        AppLogger.debug(
+          'Live activity resync [$trigger] backend status unavailable',
+        );
+        return;
+      }
+
+      AppLogger.debug(
+        'Live activity resync [$trigger] local=${localState.stepIndex + 1}/${brewingSteps.length} '
+        'local_elapsed=${localState.stepElapsedSeconds}s backend=${backendStatus.currentStep}/${backendStatus.totalSteps} '
+        'backend_elapsed=${backendStatus.stepElapsedSeconds}s backend_finished=${backendStatus.isFinished}',
+      );
+
+      final backendState = _buildResyncStateFromBackend(backendStatus);
+      _applyResyncStateIfAhead(
+        backendState,
+        source: 'backend',
+        trigger: trigger,
+      );
+    } catch (e) {
+      AppLogger.error(
+        'Failed to resync brewing state on app resume',
+        errorObject: e,
+      );
+    } finally {
+      _isResyncInProgress = false;
+    }
+  }
+
+  _BrewingResyncState _buildLocalResyncState() {
+    final nowUtc = DateTime.now().toUtc();
+    final stepStartUtc =
+        _currentStepStartedAtUtc ??
+        nowUtc.subtract(Duration(seconds: currentStepTime));
+
+    final elapsedBeforeCurrentStep = brewingSteps
+        .take(currentStepIndex)
+        .fold<int>(0, (sum, step) => sum + step.time.inSeconds);
+    final brewStartUtc =
+        _brewAnchorUtc ??
+        stepStartUtc.subtract(Duration(seconds: elapsedBeforeCurrentStep));
+    _brewAnchorUtc ??= brewStartUtc;
+    final elapsedTotalSeconds = math.max(
+      0,
+      nowUtc.difference(brewStartUtc).inSeconds,
+    );
+
+    return _buildResyncStateFromElapsedTotal(elapsedTotalSeconds);
+  }
+
+  _BrewingResyncState _buildResyncStateFromBackend(
+    LiveActivitySessionStatus status,
+  ) {
+    if (status.isFinished || brewingSteps.isEmpty) {
+      return const _BrewingResyncState(isFinished: true);
+    }
+
+    final maxIndex = brewingSteps.length - 1;
+    final clampedIndex = (status.currentStep - 1).clamp(0, maxIndex).toInt();
+    final stepTotal = brewingSteps[clampedIndex].time.inSeconds;
+    final clampedElapsed = status.stepElapsedSeconds
+        .clamp(0, stepTotal)
+        .toInt();
+
+    return _BrewingResyncState(
+      stepIndex: clampedIndex,
+      stepElapsedSeconds: clampedElapsed,
+      isFinished: false,
+    );
+  }
+
+  _BrewingResyncState _buildResyncStateFromElapsedTotal(
+    int elapsedTotalSeconds,
+  ) {
+    if (brewingSteps.isEmpty) {
+      return const _BrewingResyncState(isFinished: true);
+    }
+
+    final totalDurationSeconds = brewingSteps.fold<int>(
+      0,
+      (sum, step) => sum + step.time.inSeconds,
+    );
+    if (elapsedTotalSeconds >= totalDurationSeconds) {
+      return const _BrewingResyncState(isFinished: true);
+    }
+
+    var stepIndex = 0;
+    var remaining = elapsedTotalSeconds;
+    while (stepIndex < brewingSteps.length - 1 &&
+        remaining >= brewingSteps[stepIndex].time.inSeconds) {
+      remaining -= brewingSteps[stepIndex].time.inSeconds;
       stepIndex++;
     }
 
-    if (stepIndex >= brewingSteps.length) {
-      // Brew should have finished — trigger finish flow
-      timer.cancel();
-      setState(() {
-        currentStepIndex = brewingSteps.length - 1;
-        currentStepTime = brewingSteps.last.time.inSeconds;
-        _isEndBrewAnimating = true;
-      });
-      _endBrewAnimationController.forward(from: 0.0);
-      return;
+    final stepTotal = brewingSteps[stepIndex].time.inSeconds;
+    final stepElapsed = remaining.clamp(0, stepTotal).toInt();
+
+    return _BrewingResyncState(
+      stepIndex: stepIndex,
+      stepElapsedSeconds: stepElapsed,
+      isFinished: false,
+    );
+  }
+
+  bool _applyResyncStateIfAhead(
+    _BrewingResyncState state, {
+    required String source,
+    required String trigger,
+  }) {
+    if (state.isFinished) {
+      _finishFromResync(source: source, trigger: trigger);
+      return true;
     }
 
-    // Play notification if step changed
-    if (stepIndex > currentStepIndex) {
-      _playStepNotification();
-    }
+    final isAheadStep = state.stepIndex > currentStepIndex;
+    final isAheadElapsed =
+        state.stepIndex == currentStepIndex &&
+        state.stepElapsedSeconds > currentStepTime + 1;
+    if (!isAheadStep && !isAheadElapsed) return false;
+
+    if (!mounted) return false;
 
     setState(() {
-      currentStepIndex = stepIndex;
-      currentStepTime = stepTime;
+      currentStepIndex = state.stepIndex;
+      currentStepTime = state.stepElapsedSeconds;
     });
-
-    // Reset anchor for new position
-    _currentStepStartedAtUtc = nowUtc.subtract(Duration(seconds: stepTime));
+    _currentStepStartedAtUtc = DateTime.now().toUtc().subtract(
+      Duration(seconds: state.stepElapsedSeconds),
+    );
+    final elapsedBeforeResyncedStep = brewingSteps
+        .take(state.stepIndex)
+        .fold<int>(0, (sum, step) => sum + step.time.inSeconds);
+    _brewAnchorUtc = _currentStepStartedAtUtc!.subtract(
+      Duration(seconds: elapsedBeforeResyncedStep),
+    );
+    _pausedAtUtc = null;
     _updateLiveActivity();
+
+    AppLogger.info(
+      'Live activity hard jump [$trigger][$source] '
+      '-> step=${state.stepIndex + 1}/${brewingSteps.length}, '
+      'elapsed=${state.stepElapsedSeconds}s',
+    );
+    return true;
+  }
+
+  void _finishFromResync({required String source, required String trigger}) {
+    if (_isEndBrewAnimating) return;
+
+    timer.cancel();
+    _endLiveActivity(reason: 'completed');
+    if (!mounted || brewingSteps.isEmpty) return;
+
+    setState(() {
+      currentStepIndex = brewingSteps.length - 1;
+      currentStepTime = brewingSteps.last.time.inSeconds;
+      _isEndBrewAnimating = true;
+    });
+    _endBrewAnimationController.forward(from: 0.0);
+
+    AppLogger.info(
+      'Live activity resync [$trigger][$source] marked brew as completed',
+    );
   }
 
   Future<void> _skipLastStep() async {
@@ -590,18 +1011,19 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   void _navigateToFinishScreenSkip() {
     // Ensure it only navigates once and if mounted
     if (!mounted) return;
-    _endLiveActivity();
+    _endLiveActivity(reason: 'completed');
 
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => FinishScreen(
-            brewingMethodName: widget.brewingMethodName,
-            recipe: widget.recipe,
-            waterAmount: widget.waterAmount,
-            coffeeAmount: widget.coffeeAmount,
-            sweetnessSliderPosition: widget.sweetnessSliderPosition,
-            strengthSliderPosition: widget.strengthSliderPosition),
+          brewingMethodName: widget.brewingMethodName,
+          recipe: widget.recipe,
+          waterAmount: widget.waterAmount,
+          coffeeAmount: widget.coffeeAmount,
+          sweetnessSliderPosition: widget.sweetnessSliderPosition,
+          strengthSliderPosition: widget.strengthSliderPosition,
+        ),
       ),
     );
   }
@@ -638,18 +1060,22 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                 Semantics(
                                   identifier: 'circularProgressIndicator',
                                   child: AnimatedBuilder(
-                                    animation: Listenable.merge(
-                                        [_pulseController, _colorController]),
+                                    animation: Listenable.merge([
+                                      _pulseController,
+                                      _colorController,
+                                    ]),
                                     builder: (context, child) {
                                       final theme = Theme.of(context);
-                                      final isFinalStep = currentStepIndex ==
+                                      final isFinalStep =
+                                          currentStepIndex ==
                                           brewingSteps.length - 1;
                                       final remaining =
                                           brewingSteps[currentStepIndex]
-                                                  .time
-                                                  .inSeconds -
-                                              currentStepTime;
-                                      final isLast3 = isFinalStep &&
+                                              .time
+                                              .inSeconds -
+                                          currentStepTime;
+                                      final isLast3 =
+                                          isFinalStep &&
                                           remaining < 3 &&
                                           remaining >= 0 &&
                                           !_isEndBrewAnimating;
@@ -658,22 +1084,27 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                           theme.colorScheme.secondary;
                                       final Color endColor =
                                           theme.brightness == Brightness.dark
-                                              ? const Color(
-                                                  0xffc66564) // Cherry (dark)
-                                              : const Color(
-                                                  0xff8e2e2d); // Cherry (light)
+                                          ? const Color(
+                                              0xffc66564,
+                                            ) // Cherry (dark)
+                                          : const Color(
+                                              0xff8e2e2d,
+                                            ); // Cherry (light)
 
                                       final colorTween = ColorTween(
-                                          begin: beginColor, end: endColor);
+                                        begin: beginColor,
+                                        end: endColor,
+                                      );
 
                                       final Color currentRingColor = (isLast3
-                                          ? (colorTween
-                                                  .evaluate(_colorController) ??
-                                              beginColor)
+                                          ? (colorTween.evaluate(
+                                                  _colorController,
+                                                ) ??
+                                                beginColor)
                                           : beginColor);
 
-                                      Widget progressIndicatorDisplay =
-                                          SizedBox(
+                                      Widget
+                                      progressIndicatorDisplay = SizedBox(
                                         width: 120,
                                         height: 120,
                                         child: Stack(
@@ -683,33 +1114,33 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                               width: 120,
                                               height: 120,
                                               child: CircularProgressIndicator(
-                                                value: (_isEndBrewAnimating ||
+                                                value:
+                                                    (_isEndBrewAnimating ||
                                                         currentStepTime >=
-                                                            brewingSteps[
-                                                                    currentStepIndex]
+                                                            brewingSteps[currentStepIndex]
                                                                 .time
                                                                 .inSeconds)
                                                     ? 1.0
                                                     : (brewingSteps[currentStepIndex]
-                                                                .time
-                                                                .inSeconds >
-                                                            0
-                                                        ? currentStepTime /
-                                                            brewingSteps[
-                                                                    currentStepIndex]
-                                                                .time
-                                                                .inSeconds
-                                                        : 0),
-                                                backgroundColor: theme
-                                                            .brightness ==
+                                                                  .time
+                                                                  .inSeconds >
+                                                              0
+                                                          ? currentStepTime /
+                                                                brewingSteps[currentStepIndex]
+                                                                    .time
+                                                                    .inSeconds
+                                                          : 0),
+                                                backgroundColor:
+                                                    theme.brightness ==
                                                         Brightness.dark
                                                     ? const Color(0xFF5A5A5A)
                                                     : const Color(0xFFE4E4E4),
                                                 valueColor:
                                                     AlwaysStoppedAnimation(
-                                                        _isEndBrewAnimating
-                                                            ? endColor
-                                                            : currentRingColor),
+                                                      _isEndBrewAnimating
+                                                          ? endColor
+                                                          : currentRingColor,
+                                                    ),
                                                 strokeWidth: 8,
                                               ),
                                             ),
@@ -725,15 +1156,16 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                                     LocalizedNumberText(
                                                       currentNumber:
                                                           currentStepTime,
-                                                      totalNumber: brewingSteps[
-                                                              currentStepIndex]
-                                                          .time
-                                                          .inSeconds,
+                                                      totalNumber:
+                                                          brewingSteps[currentStepIndex]
+                                                              .time
+                                                              .inSeconds,
                                                       style: TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        color: theme.colorScheme
+                                                        color: theme
+                                                            .colorScheme
                                                             .onSurface,
                                                       ),
                                                     ),
@@ -741,7 +1173,8 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                                       ' ${AppLocalizations.of(context)!.secondsAbbreviation}',
                                                       style: TextStyle(
                                                         fontSize: 16,
-                                                        color: theme.colorScheme
+                                                        color: theme
+                                                            .colorScheme
                                                             .onSurface
                                                             .withOpacity(0.7),
                                                       ),
@@ -759,71 +1192,82 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                         final Color dropletColor = endColor;
                                         final double initialRingRadius = 60.0;
 
-                                        List<Widget> dropletWidgets =
-                                            List.generate(numDroplets, (i) {
-                                          final double angle =
-                                              (i / numDroplets) * 2 * math.pi;
-                                          return Animate(
-                                            onPlay: (controller) =>
-                                                controller.forward(),
-                                            delay: const Duration(
-                                                milliseconds:
-                                                    200), // All droplets start after 200ms
-                                            effects: [
-                                              FadeEffect(
+                                        List<Widget>
+                                        dropletWidgets = List.generate(
+                                          numDroplets,
+                                          (i) {
+                                            final double angle =
+                                                (i / numDroplets) * 2 * math.pi;
+                                            return Animate(
+                                              onPlay: (controller) =>
+                                                  controller.forward(),
+                                              delay: const Duration(
+                                                milliseconds: 200,
+                                              ), // All droplets start after 200ms
+                                              effects: [
+                                                FadeEffect(
                                                   duration: 50.milliseconds,
                                                   begin: 0.0,
-                                                  end: 1.0), // Initial fade in
-                                              MoveEffect(
-                                                begin: Offset(
+                                                  end: 1.0,
+                                                ), // Initial fade in
+                                                MoveEffect(
+                                                  begin: Offset(
                                                     math.cos(angle) *
                                                         initialRingRadius,
                                                     math.sin(angle) *
-                                                        initialRingRadius),
-                                                end: Offset.zero,
-                                                duration: 800.milliseconds,
-                                                curve: Curves.easeOutQuart,
-                                              ),
-                                              ScaleEffect(
+                                                        initialRingRadius,
+                                                  ),
+                                                  end: Offset.zero,
+                                                  duration: 800.milliseconds,
+                                                  curve: Curves.easeOutQuart,
+                                                ),
+                                                ScaleEffect(
                                                   begin: const Offset(1, 1),
                                                   end: const Offset(0.2, 0.2),
                                                   duration: 800.milliseconds,
-                                                  curve: Curves.easeOut),
-                                              FadeEffect(
+                                                  curve: Curves.easeOut,
+                                                ),
+                                                FadeEffect(
                                                   begin: 1.0,
                                                   end: 0.0,
                                                   duration: 700.milliseconds,
                                                   curve: Curves.easeIn,
-                                                  delay: 100.milliseconds),
-                                            ],
-                                            child: Container(
-                                              width: dropletStartSize,
-                                              height: dropletStartSize,
-                                              decoration: BoxDecoration(
+                                                  delay: 100.milliseconds,
+                                                ),
+                                              ],
+                                              child: Container(
+                                                width: dropletStartSize,
+                                                height: dropletStartSize,
+                                                decoration: BoxDecoration(
                                                   color: dropletColor,
-                                                  shape: BoxShape.circle),
-                                            ),
-                                          );
-                                        });
+                                                  shape: BoxShape.circle,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
 
                                         progressIndicatorDisplay = Animate(
                                           onPlay: (controller) =>
                                               controller.forward(),
                                           effects: [
                                             ShakeEffect(
-                                                hz: 12,
-                                                duration: 300.milliseconds,
-                                                curve: Curves.easeInOut),
+                                              hz: 12,
+                                              duration: 300.milliseconds,
+                                              curve: Curves.easeInOut,
+                                            ),
                                             FadeEffect(
-                                                begin: 1.0,
-                                                end: 0.0,
-                                                delay: 1400.milliseconds,
-                                                duration: 400.milliseconds),
+                                              begin: 1.0,
+                                              end: 0.0,
+                                              delay: 1400.milliseconds,
+                                              duration: 400.milliseconds,
+                                            ),
                                             ScaleEffect(
-                                                delay: 1400.milliseconds,
-                                                begin: const Offset(1, 1),
-                                                end: const Offset(0.5, 0.5),
-                                                duration: 400.milliseconds),
+                                              delay: 1400.milliseconds,
+                                              begin: const Offset(1, 1),
+                                              end: const Offset(0.5, 0.5),
+                                              duration: 400.milliseconds,
+                                            ),
                                           ],
                                           child: progressIndicatorDisplay,
                                         );
@@ -839,18 +1283,18 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                       }
 
                                       final bool
-                                          enablePulse = // Pulsation continues during color change, stops for end animation
+                                      enablePulse = // Pulsation continues during color change, stops for end animation
                                           !_isEndBrewAnimating &&
-                                              (brewingSteps[currentStepIndex]
-                                                              .time
-                                                              .inSeconds -
-                                                          currentStepTime <=
-                                                      5 &&
-                                                  brewingSteps[currentStepIndex]
-                                                              .time
-                                                              .inSeconds -
-                                                          currentStepTime >=
-                                                      0);
+                                          (brewingSteps[currentStepIndex]
+                                                          .time
+                                                          .inSeconds -
+                                                      currentStepTime <=
+                                                  5 &&
+                                              brewingSteps[currentStepIndex]
+                                                          .time
+                                                          .inSeconds -
+                                                      currentStepTime >=
+                                                  0);
 
                                       return Transform.scale(
                                         scale: enablePulse
@@ -891,7 +1335,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                                 .description,
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
-                                                fontSize: 28, height: 1.3),
+                                              fontSize: 28,
+                                              height: 1.3,
+                                            ),
                                           ),
                                   ),
                                 ),
@@ -921,10 +1367,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                         Text(
                           '${AppLocalizations.of(context)!.next}:',
                           style: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withOpacity(0.6),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withOpacity(0.6),
                             fontSize: 18,
                           ),
                         ),
@@ -932,10 +1377,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                         Text(
                           brewingSteps[currentStepIndex + 1].description,
                           style: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withOpacity(0.6),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withOpacity(0.6),
                             fontSize: 22,
                             height: 1.3,
                           ),
@@ -971,14 +1415,26 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                     _shouldShowSkipButton()
                         ? Icons.skip_next
                         : (_isPaused
-                            ? (Directionality.of(context) == TextDirection.rtl
-                                ? Icons.arrow_back_ios_new
-                                : Icons.play_arrow)
-                            : Icons.pause),
+                              ? (Directionality.of(context) == TextDirection.rtl
+                                    ? Icons.arrow_back_ios_new
+                                    : Icons.play_arrow)
+                              : Icons.pause),
                   ),
                 ),
               ),
             ),
     );
   }
+}
+
+class _BrewingResyncState {
+  const _BrewingResyncState({
+    this.stepIndex = 0,
+    this.stepElapsedSeconds = 0,
+    this.isFinished = false,
+  });
+
+  final int stepIndex;
+  final int stepElapsedSeconds;
+  final bool isFinished;
 }

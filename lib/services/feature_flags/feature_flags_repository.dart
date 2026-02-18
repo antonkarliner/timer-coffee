@@ -28,9 +28,8 @@ class SupabaseFeatureFlagsDataSource {
       final int? maxBuild = row['max_build'] as int?;
 
       final bool platformOk = platforms == null || platforms.contains(platform);
-      final bool buildOk =
-          (minBuild == null || buildNumber >= minBuild) &&
-              (maxBuild == null || buildNumber <= maxBuild);
+      final bool buildOk = (minBuild == null || buildNumber >= minBuild) &&
+          (maxBuild == null || buildNumber <= maxBuild);
 
       final dynamic key = row['key'];
       final dynamic enabled = row['enabled'];
@@ -133,6 +132,7 @@ class FeatureFlagKeys {
   static const newCalendar = 'new_calendar';
   static const testBanner = 'test_banner';
   static const yearlyStatsStory25Banner = 'yearly_stats_story_25_banner';
+  static const iosLiveActivityPushPlanB = 'ios_live_activity_push_plan_b';
 }
 
 extension FeatureFlagsX on FeatureFlagsRepository {
@@ -141,4 +141,6 @@ extension FeatureFlagsX on FeatureFlagsRepository {
   bool get testBanner => isEnabled(FeatureFlagKeys.testBanner);
   bool get yearlyStatsStory25Banner =>
       isEnabled(FeatureFlagKeys.yearlyStatsStory25Banner);
+  bool get iosLiveActivityPushPlanB =>
+      isEnabled(FeatureFlagKeys.iosLiveActivityPushPlanB);
 }

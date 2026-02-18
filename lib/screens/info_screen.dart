@@ -237,18 +237,28 @@ class _InfoScreenState extends State<InfoScreen> {
             ),
           ),
           const SizedBox(height: 12),
-          // App version
-          FutureBuilder<String>(
-            future: getVersionNumber(),
+          // App version and build number
+          FutureBuilder<PackageInfo>(
+            future: PackageInfo.fromPlatform(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                final info = snapshot.data!;
                 return Center(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 24.0),
-                    child: Text(
-                      '${l10n.appversion}: ${snapshot.data}',
-                      style:
-                          const TextStyle(fontSize: 16.0, color: Colors.grey),
+                    child: Column(
+                      children: [
+                        Text(
+                          '${l10n.appversion}: ${info.version}',
+                          style: const TextStyle(
+                              fontSize: 16.0, color: Colors.grey),
+                        ),
+                        Text(
+                          'Build: ${info.buildNumber}',
+                          style: const TextStyle(
+                              fontSize: 16.0, color: Colors.grey),
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -267,11 +277,6 @@ class _InfoScreenState extends State<InfoScreen> {
         ? 'assets/data/privacy_policy_web.md'
         : 'assets/data/privacy_policy.md';
     return await DefaultAssetBundle.of(context).loadString(filePath);
-  }
-
-  Future<String> getVersionNumber() async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    return packageInfo.version;
   }
 
   Future<void> _launchURL(String url) async {
