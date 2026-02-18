@@ -7,8 +7,8 @@ assignees: ''
 
 ---
 
-**Before submitting a bug request**
-Try to reinstall the app, from the experience it solves 90% of problems.
+**Before submitting a bug report**
+Try to reinstall the app, from experience it solves 90% of problems.
 
 **Describe the bug**
 A clear and concise description of what the bug is.
@@ -16,7 +16,7 @@ A clear and concise description of what the bug is.
 **To Reproduce**
 Steps to reproduce the behavior:
 1. Go to '...'
-2. Click on '....'
+2. Tap on '....'
 3. Scroll down to '....'
 4. See error
 
@@ -26,16 +26,13 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**Platform (please complete the following information):**
+ - Platform: [e.g. iOS, Android, Web]
+ - Device: [e.g. iPhone 15, Pixel 8, MacBook Pro]
+ - OS version: [e.g. iOS 18.1, Android 15]
+ - App version: [e.g. 1.5.0 — found in Settings]
+ - App language: [e.g. English]
+ - Browser (Web only): [e.g. Chrome, Safari]
 
 **Additional context**
 Add any other context about the problem here.
