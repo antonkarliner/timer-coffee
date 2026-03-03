@@ -1179,10 +1179,9 @@ packages:
   live_activities:
     dependency: "direct main"
     description:
-      name: live_activities
-      sha256: "98a73bde9a05c9bcda17775817f11da8003f259dc4bbfee0a6a739ce45be2c54"
-      url: "https://pub.dev"
-    source: hosted
+      path: "/Users/antonkarliner/GitHub/flutter_live_activities"
+      relative: false
+    source: path
     version: "2.4.6"
   logging:
     dependency: "direct main"
@@ -2071,4 +2070,4 @@ packages:
     version: "2.1.0"
 sdks:
   dart: ">=3.10.0 <4.0.0"
-  flutter: ">=3.38.0"
+  flutter: ">=3.35.0"

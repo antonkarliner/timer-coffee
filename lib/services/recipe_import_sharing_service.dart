@@ -713,7 +713,7 @@ class RecipeImportSharingService {
             // 4. Call Moderation Function
             final moderationResponse =
                 await Supabase.instance.client.functions.invoke(
-              'content-moderation-gemini',
+              'content-moderation',
               body: {'text': combinedText},
             );
 

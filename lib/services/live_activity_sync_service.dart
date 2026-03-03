@@ -77,6 +77,29 @@ class LiveActivitySessionStatus {
   }
 }
 
+enum LiveActivitySessionStartReasonCode {
+  started('started'),
+  missingAuth('missing_auth'),
+  missingActivityPushToken('missing_activity_push_token'),
+  missingFcmToken('missing_fcm_token'),
+  requestFailed('request_failed');
+
+  const LiveActivitySessionStartReasonCode(this.value);
+  final String value;
+}
+
+class LiveActivitySessionStartResult {
+  const LiveActivitySessionStartResult({
+    required this.started,
+    required this.reasonCode,
+    required this.retryable,
+  });
+
+  final bool started;
+  final LiveActivitySessionStartReasonCode reasonCode;
+  final bool retryable;
+}
+
 /// Syncs iOS Live Activity sessions/tokens with backend scheduling services.
 class LiveActivitySyncService {
   static final LiveActivitySyncService instance =
@@ -89,7 +112,7 @@ class LiveActivitySyncService {
 
   SupabaseClient get _supabase => Supabase.instance.client;
 
-  Future<bool> startSession({
+  Future<LiveActivitySessionStartResult> startSession({
     required String brewSessionId,
     required String recipeId,
     required String recipeName,
@@ -102,23 +125,38 @@ class LiveActivitySyncService {
     final user = _supabase.auth.currentUser;
     if (user == null) {
       AppLogger.warning(
-          'Skipping live activity session start: user is not authenticated');
-      return false;
+        'Skipping live activity session start: user is not authenticated',
+      );
+      return const LiveActivitySessionStartResult(
+        started: false,
+        reasonCode: LiveActivitySessionStartReasonCode.missingAuth,
+        retryable: true,
+      );
     }
     if (activityPushToken.isEmpty) {
       AppLogger.warning(
-          'Skipping live activity session start: missing activity push token');
-      return false;
+        'Skipping live activity session start: missing activity push token',
+      );
+      return const LiveActivitySessionStartResult(
+        started: false,
+        reasonCode: LiveActivitySessionStartReasonCode.missingActivityPushToken,
+        retryable: true,
+      );
     }
 
     final fcmToken = await _resolveFcmToken();
     if (fcmToken == null || fcmToken.isEmpty) {
       AppLogger.warning(
-          'Skipping live activity session start: missing FCM token');
-      return false;
+        'Skipping live activity session start: missing FCM token',
+      );
+      return const LiveActivitySessionStartResult(
+        started: false,
+        reasonCode: LiveActivitySessionStartReasonCode.missingFcmToken,
+        retryable: true,
+      );
     }
 
-    return _invokeWithRetry(
+    final started = await _invokeWithRetry(
       action: 'start',
       payload: {
         'brew_session_id': brewSessionId,
@@ -132,6 +170,23 @@ class LiveActivitySyncService {
         'brew_start_ms': brewStartDateMs,
       },
       logLabel: 'start',
+      // Single attempt: the retry timer in BrewingProcessScreen handles
+      // re-attempts, so retrying here only prolongs the blocking await.
+      maxAttempts: 1,
+    );
+
+    if (started) {
+      return const LiveActivitySessionStartResult(
+        started: true,
+        reasonCode: LiveActivitySessionStartReasonCode.started,
+        retryable: false,
+      );
+    }
+
+    return const LiveActivitySessionStartResult(
+      started: false,
+      reasonCode: LiveActivitySessionStartReasonCode.requestFailed,
+      retryable: true,
     );
   }
 
@@ -200,10 +255,7 @@ class LiveActivitySyncService {
 
     await _invokeWithRetry(
       action: 'end',
-      payload: {
-        'brew_session_id': brewSessionId,
-        'reason': reason,
-      },
+      payload: {'brew_session_id': brewSessionId, 'reason': reason},
       logLabel: 'end',
     );
   }
@@ -216,9 +268,7 @@ class LiveActivitySyncService {
 
     final data = await _invokeWithRetryRaw(
       action: 'status',
-      payload: {
-        'brew_session_id': brewSessionId,
-      },
+      payload: {'brew_session_id': brewSessionId},
       logLabel: 'status',
     );
 
@@ -227,8 +277,10 @@ class LiveActivitySyncService {
     try {
       return LiveActivitySessionStatus.fromJson(data);
     } catch (e) {
-      AppLogger.error('Failed to parse live activity status response',
-          errorObject: e);
+      AppLogger.error(
+        'Failed to parse live activity status response',
+        errorObject: e,
+      );
       return null;
     }
   }
@@ -245,8 +297,10 @@ class LiveActivitySyncService {
 
       return token;
     } catch (e) {
-      AppLogger.error('Failed to resolve FCM token for live activity sync',
-          errorObject: e);
+      AppLogger.error(
+        'Failed to resolve FCM token for live activity sync',
+        errorObject: e,
+      );
       return null;
     }
   }
@@ -255,11 +309,13 @@ class LiveActivitySyncService {
     required String action,
     required Map<String, Object?> payload,
     required String logLabel,
+    int maxAttempts = 3,
   }) async {
     final data = await _invokeWithRetryRaw(
       action: action,
       payload: payload,
       logLabel: logLabel,
+      maxAttempts: maxAttempts,
     );
     return data != null;
   }
@@ -268,23 +324,23 @@ class LiveActivitySyncService {
     required String action,
     required Map<String, Object?> payload,
     required String logLabel,
+    int maxAttempts = 3,
   }) async {
-    const maxAttempts = 3;
 
     for (var attempt = 1; attempt <= maxAttempts; attempt++) {
       try {
-        final response = await _supabase.functions.invoke(
-          _functionName,
-          method: HttpMethod.post,
-          body: {
-            'action': action,
-            ...payload,
-          },
-        ).timeout(_requestTimeout);
+        final response = await _supabase.functions
+            .invoke(
+              _functionName,
+              method: HttpMethod.post,
+              body: {'action': action, ...payload},
+            )
+            .timeout(_requestTimeout);
 
         if (response.status < 200 || response.status >= 300) {
           throw StateError(
-              'HTTP ${response.status} from $_functionName [$action]');
+            'HTTP ${response.status} from $_functionName [$action]',
+          );
         }
 
         Map<String, dynamic> data;
@@ -305,8 +361,9 @@ class LiveActivitySyncService {
       } catch (e) {
         if (attempt == maxAttempts) {
           AppLogger.error(
-              'Live activity sync failed ($logLabel) after $maxAttempts attempts',
-              errorObject: e);
+            'Live activity sync failed ($logLabel) after $maxAttempts attempts',
+            errorObject: e,
+          );
           return null;
         }
 

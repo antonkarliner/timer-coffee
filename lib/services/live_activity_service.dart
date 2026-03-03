@@ -343,8 +343,13 @@ class LiveActivityService {
       'stepElapsedSeconds': stepElapsedSeconds,
       'stepTotalSeconds': stepTotalSeconds,
       'isPaused': isPaused ? 1 : 0,
+      // Keep legacy keys for UserDefaults compatibility.
       'stepStartDate': resolvedStepStartDateMs,
       'stepEndDate': resolvedStepEndDateMs,
+      // Also publish canonical ms keys for ContentState and remote payload parity.
+      'stepStartDateMs': resolvedStepStartDateMs,
+      'stepEndDateMs': resolvedStepEndDateMs,
+      'effectiveAtMs': now.millisecondsSinceEpoch,
     };
 
     if (stepDurationsSeconds != null) {
@@ -355,6 +360,7 @@ class LiveActivityService {
     }
     if (brewStartDate != null) {
       data['brewStartDate'] = brewStartDate;
+      data['brewStartDateMs'] = brewStartDate;
     }
 
     return data;

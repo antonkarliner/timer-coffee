@@ -93,6 +93,18 @@ class FcmService {
         AppLogger.debug('Background message handler registered');
       }
 
+      // On iOS, suppress system-level notification banners/sounds while the
+      // app is in the foreground. Our _handleForegroundMessage() creates local
+      // notifications for legitimate messages, so this only prevents unwanted
+      // system presentation of APNs alerts (e.g., Live Activity pushes).
+      if (!kIsWeb && Platform.isIOS) {
+        await _messaging.setForegroundNotificationPresentationOptions(
+          alert: false,
+          badge: false,
+          sound: false,
+        );
+      }
+
       // Configure foreground message handling
       FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
 
@@ -476,6 +488,24 @@ class FcmService {
         'FCM message content: title="${message.notification?.title}", body="${message.notification?.body}"');
     AppLogger.debug('FCM data: ${message.data}');
 
+    // Skip live activity content-state pushes — they update the widget silently.
+    // These arrive as APNs pass-through messages via FCM with no notification
+    // payload, or with an alert title matching "Step X of Y" / "Brew Complete"
+    // (required by FCM to forward Live Activity pushes to APNs).
+    if (_isLiveActivityPush(message)) {
+      AppLogger.debug(
+          'Skipping local notification for live activity push: ${message.messageId}');
+      return;
+    }
+
+    // Skip data-only messages with no notification content — there's no
+    // meaningful text to show the user.
+    if (message.notification == null) {
+      AppLogger.debug(
+          'Skipping local notification for data-only FCM message: ${message.messageId}');
+      return;
+    }
+
     // Show local notification for foreground messages
     try {
       // Import NotificationService locally to avoid circular dependency
@@ -497,6 +527,17 @@ class FcmService {
       AppLogger.error('Error showing local notification for foreground message',
           errorObject: e);
     }
+  }
+
+  static final RegExp _liveActivityTitlePattern =
+      RegExp(r'^Step \d+ of \d+$');
+
+  bool _isLiveActivityPush(RemoteMessage message) {
+    if (message.data['message_type'] == 'live_activity_update') return true;
+    final title = message.notification?.title;
+    if (title == null) return false;
+    return title == 'Brew Complete' ||
+        _liveActivityTitlePattern.hasMatch(title);
   }
 
   /// Handle notification tap events

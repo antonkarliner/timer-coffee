@@ -23,6 +23,7 @@ import '../utils/app_logger.dart'; // Import AppLogger
 import '../services/live_activity_service.dart';
 import '../services/android_live_update_service.dart';
 import '../services/live_activity_sync_service.dart';
+import '../services/ios_background_task_service.dart';
 import '../services/feature_flags/feature_flags_repository.dart';
 
 class LocalizedNumberText extends StatelessWidget {
@@ -104,14 +105,19 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       LiveActivitySyncService.instance;
   StreamSubscription<LiveActivityPushTokenUpdate>?
   _liveActivityTokenSubscription;
+  StreamSubscription<Map<String, bool>>? _featureFlagsSubscription;
+  Timer? _liveActivitySessionRetryTimer;
   String? _brewSessionId;
   String? _liveActivityId;
   String? _lastActivityPushToken;
   bool _hasEndedLiveActivity = false;
   bool _backendLiveActivitySessionStarted = false;
+  bool _isStartingLiveActivityBackendSession = false;
   bool _isLiveActivityPlanBEnabled = false;
   bool _isResyncInProgress = false;
-  static const int _iosLiveActivityHeartbeatSeconds = 3;
+  static const Duration _liveActivitySessionRetryInterval = Duration(
+    seconds: 4,
+  );
 
   bool get _isLiveActivitySupported =>
       !kIsWeb && (Platform.isIOS || Platform.isAndroid);
@@ -259,15 +265,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     WakelockPlus.enable();
 
     final featureFlagsRepository = context.read<FeatureFlagsRepository>();
-    _isLiveActivityPlanBEnabled =
-        featureFlagsRepository.iosLiveActivityPushPlanB;
-    if (_shouldSyncLiveActivitySession) {
-      _brewSessionId = const Uuid().v4();
-      _liveActivityTokenSubscription = LiveActivityService
-          .instance
-          .pushTokenUpdates
-          .listen(_onLiveActivityPushTokenUpdate);
-    }
+    _setupLiveActivityPlanBSync(featureFlagsRepository);
 
     _pulseController = AnimationController(
       vsync: this,
@@ -329,6 +327,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
 
     _brewAnchorUtc = DateTime.now().toUtc();
     startTimer();
+    // Keep Flutter alive in background so step-transition activity.update()
+    // calls can reach the Lock Screen Live Activity on iOS.
+    unawaited(IosBackgroundTaskService.instance.startBrewingTask());
     unawaited(_startLiveActivity());
     WidgetsBinding.instance.addPostFrameCallback((_) {
       unawaited(_resyncFromLocalAndServer(trigger: 'init'));
@@ -346,6 +347,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   @override
   void dispose() {
     timer.cancel();
+    unawaited(IosBackgroundTaskService.instance.stopBrewingTask());
+    _stopLiveActivityBackendSessionRetryLoop();
+    _featureFlagsSubscription?.cancel();
     _liveActivityTokenSubscription?.cancel();
     _lifecycleListener?.dispose();
     WakelockPlus.disable();
@@ -495,7 +499,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
             ),
           );
         } else {
-          unawaited(_tryStartLiveActivityBackendSession());
+          unawaited(_tryStartLiveActivityBackendSession(trigger: 'resume'));
         }
       }
     }
@@ -512,6 +516,83 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   }
 
   // ── Live Activity helpers ──
+
+  void _setupLiveActivityPlanBSync(
+    FeatureFlagsRepository featureFlagsRepository,
+  ) {
+    if (kIsWeb || !Platform.isIOS) return;
+
+    _isLiveActivityPlanBEnabled =
+        featureFlagsRepository.iosLiveActivityPushPlanB;
+    AppLogger.info(
+      'Live activity Plan B active at session start: $_isLiveActivityPlanBEnabled',
+    );
+
+    _featureFlagsSubscription?.cancel();
+    _featureFlagsSubscription = featureFlagsRepository.stream.listen((_) {
+      if (!mounted || _hasEndedLiveActivity) return;
+      final flagEnabled = featureFlagsRepository.iosLiveActivityPushPlanB;
+      if (flagEnabled == _isLiveActivityPlanBEnabled) return;
+
+      _isLiveActivityPlanBEnabled = flagEnabled;
+      AppLogger.info(
+        'Live activity Plan B flag changed during brew: $flagEnabled',
+      );
+
+      if (flagEnabled) {
+        _activateLiveActivityPlanB(trigger: 'feature_flag_stream');
+      } else {
+        _stopLiveActivityBackendSessionRetryLoop();
+      }
+    });
+
+    if (_shouldSyncLiveActivitySession) {
+      _activateLiveActivityPlanB(trigger: 'session_start');
+    }
+  }
+
+  void _activateLiveActivityPlanB({required String trigger}) {
+    if (!_shouldSyncLiveActivitySession || _hasEndedLiveActivity) return;
+
+    _brewSessionId ??= const Uuid().v4();
+    _liveActivityTokenSubscription ??= LiveActivityService
+        .instance
+        .pushTokenUpdates
+        .listen(_onLiveActivityPushTokenUpdate);
+    _ensureLiveActivityBackendSessionRetryLoop();
+    unawaited(_tryStartLiveActivityBackendSession(trigger: trigger));
+  }
+
+  void _ensureLiveActivityBackendSessionRetryLoop() {
+    if (!_shouldSyncLiveActivitySession ||
+        _hasEndedLiveActivity ||
+        _backendLiveActivitySessionStarted) {
+      _stopLiveActivityBackendSessionRetryLoop();
+      return;
+    }
+
+    _brewSessionId ??= const Uuid().v4();
+    if (_liveActivitySessionRetryTimer != null) return;
+
+    _liveActivitySessionRetryTimer = Timer.periodic(
+      _liveActivitySessionRetryInterval,
+      (_) {
+        if (!_shouldSyncLiveActivitySession ||
+            _hasEndedLiveActivity ||
+            _backendLiveActivitySessionStarted) {
+          _stopLiveActivityBackendSessionRetryLoop();
+          return;
+        }
+        if (_isPaused) return;
+        unawaited(_tryStartLiveActivityBackendSession(trigger: 'retry_timer'));
+      },
+    );
+  }
+
+  void _stopLiveActivityBackendSessionRetryLoop() {
+    _liveActivitySessionRetryTimer?.cancel();
+    _liveActivitySessionRetryTimer = null;
+  }
 
   Duration _iosLiveActivityStaleIn(List<int> stepDurationsSeconds) {
     final totalDurationSeconds = stepDurationsSeconds.fold<int>(
@@ -547,7 +628,10 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
           );
       _liveActivityId = activityId;
       if (_shouldSyncLiveActivitySession) {
-        await _tryStartLiveActivityBackendSession(activityId: activityId);
+        await _tryStartLiveActivityBackendSession(
+          activityId: activityId,
+          trigger: 'start_live_activity',
+        );
       }
     } else if (!kIsWeb && Platform.isAndroid) {
       await AndroidLiveUpdateService.instance.startBrewingActivity(
@@ -566,12 +650,11 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     if (!_isLiveActivitySupported) return;
     final args = _liveActivityArgs();
     if (!kIsWeb && Platform.isIOS) {
-      if (isTimerTick) {
-        final shouldSendHeartbeatUpdate =
-            currentStepTime <= 1 ||
-            (currentStepTime % _iosLiveActivityHeartbeatSeconds == 0);
-        if (!shouldSendHeartbeatUpdate) return;
-      }
+      // iOS 18 throttles Live Activity re-renders to every 5-15 seconds.
+      // Text(timerInterval:) animates the countdown autonomously between
+      // step transitions, so periodic heartbeats are not needed.
+      // Only step transitions, pause/resume, and app-resume updates are sent.
+      if (isTimerTick) return;
 
       LiveActivityService.instance.updateBrewingActivity(
         recipeName: args['recipeName'],
@@ -604,10 +687,14 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   void _endLiveActivity({String reason = 'completed'}) {
     if (_hasEndedLiveActivity) return;
     _hasEndedLiveActivity = true;
+    unawaited(IosBackgroundTaskService.instance.stopBrewingTask());
+    _stopLiveActivityBackendSessionRetryLoop();
+    _featureFlagsSubscription?.cancel();
+    _featureFlagsSubscription = null;
+    _liveActivityTokenSubscription?.cancel();
+    _liveActivityTokenSubscription = null;
 
-    if (_shouldSyncLiveActivitySession &&
-        _backendLiveActivitySessionStarted &&
-        _brewSessionId != null) {
+    if (_backendLiveActivitySessionStarted && _brewSessionId != null) {
       _backendLiveActivitySessionStarted = false;
       unawaited(
         _liveActivitySyncService.endSession(
@@ -647,10 +734,12 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       return;
     }
 
+    _ensureLiveActivityBackendSessionRetryLoop();
     unawaited(
       _tryStartLiveActivityBackendSession(
         activityId: update.activityId,
         activityPushToken: update.activityToken,
+        trigger: 'push_token_update',
       ),
     );
   }
@@ -658,22 +747,30 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   Future<void> _tryStartLiveActivityBackendSession({
     String? activityId,
     String? activityPushToken,
+    String trigger = 'unknown',
   }) async {
     if (!_shouldSyncLiveActivitySession ||
         _hasEndedLiveActivity ||
         _backendLiveActivitySessionStarted ||
-        _isPaused) {
+        _isPaused ||
+        _isStartingLiveActivityBackendSession) {
       return;
     }
 
     final brewSessionId = _brewSessionId;
-    if (brewSessionId == null) return;
+    if (brewSessionId == null) {
+      _ensureLiveActivityBackendSessionRetryLoop();
+      return;
+    }
 
     final resolvedActivityId =
         activityId ??
         _liveActivityId ??
         LiveActivityService.instance.currentActivityId;
-    if (resolvedActivityId == null || resolvedActivityId.isEmpty) return;
+    if (resolvedActivityId == null || resolvedActivityId.isEmpty) {
+      _ensureLiveActivityBackendSessionRetryLoop();
+      return;
+    }
     _liveActivityId = resolvedActivityId;
 
     var resolvedPushToken = activityPushToken;
@@ -682,13 +779,17 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         resolvedActivityId,
       );
     }
-    if (resolvedPushToken == null || resolvedPushToken.isEmpty) return;
+    if (resolvedPushToken == null || resolvedPushToken.isEmpty) {
+      _ensureLiveActivityBackendSessionRetryLoop();
+      return;
+    }
 
     _lastActivityPushToken = resolvedPushToken;
     final args = _liveActivityArgs();
+    _isStartingLiveActivityBackendSession = true;
 
     try {
-      final sessionStarted = await _liveActivitySyncService.startSession(
+      final startResult = await _liveActivitySyncService.startSession(
         brewSessionId: brewSessionId,
         recipeId: widget.recipe.id,
         recipeName: args['recipeName'] as String,
@@ -699,12 +800,29 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         stepDescriptions: (args['stepDescriptions'] as List).cast<String>(),
         brewStartDateMs: args['brewStartDate'] as int,
       );
-      _backendLiveActivitySessionStarted = sessionStarted;
+      _backendLiveActivitySessionStarted = startResult.started;
+      AppLogger.info(
+        'Live activity backend start [$trigger] '
+        'brew_session=$brewSessionId activity_id=$resolvedActivityId '
+        'started=${startResult.started} reason=${startResult.reasonCode.value} '
+        'retryable=${startResult.retryable}',
+      );
+
+      if (startResult.started) {
+        _stopLiveActivityBackendSessionRetryLoop();
+      } else if (startResult.retryable) {
+        _ensureLiveActivityBackendSessionRetryLoop();
+      } else {
+        _stopLiveActivityBackendSessionRetryLoop();
+      }
     } catch (e) {
       AppLogger.error(
-        'Failed to start backend live activity session',
+        'Failed to start backend live activity session [$trigger]',
         errorObject: e,
       );
+      _ensureLiveActivityBackendSessionRetryLoop();
+    } finally {
+      _isStartingLiveActivityBackendSession = false;
     }
   }
 

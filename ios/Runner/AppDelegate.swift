@@ -7,6 +7,9 @@ import flutter_local_notifications
 
   private let pendingExternalUrlKey = "pending_external_url"
 
+  // MARK: - Background task for keeping Flutter alive during brewing
+  private var brewingBackgroundTaskId: UIBackgroundTaskIdentifier = .invalid
+
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -20,8 +23,62 @@ import flutter_local_notifications
       UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
     }
 
+    // Set up MethodChannel for background task management
+    let controller = window?.rootViewController as! FlutterViewController
+    let bgTaskChannel = FlutterMethodChannel(
+      name: "com.coffee.timer/background_task",
+      binaryMessenger: controller.binaryMessenger
+    )
+
+    bgTaskChannel.setMethodCallHandler { [weak self] (call, result) in
+      guard let self = self else {
+        result(FlutterError(code: "UNAVAILABLE", message: "AppDelegate deallocated", details: nil))
+        return
+      }
+      switch call.method {
+      case "startBrewingBackgroundTask":
+        self.startBrewingBackgroundTask()
+        result(true)
+      case "stopBrewingBackgroundTask":
+        self.stopBrewingBackgroundTask()
+        result(true)
+      default:
+        result(FlutterMethodNotImplemented)
+      }
+    }
+
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+
+  private func startBrewingBackgroundTask() {
+    // End any existing task first
+    if brewingBackgroundTaskId != .invalid {
+      UIApplication.shared.endBackgroundTask(brewingBackgroundTaskId)
+      brewingBackgroundTaskId = .invalid
+    }
+
+    brewingBackgroundTaskId = UIApplication.shared.beginBackgroundTask(
+      withName: "BrewingTimer"
+    ) { [weak self] in
+      // Expiration handler: iOS is about to suspend us
+      print("[BackgroundTask] Brewing background task expired by iOS")
+      self?.stopBrewingBackgroundTask()
+    }
+
+    if brewingBackgroundTaskId == .invalid {
+      print("[BackgroundTask] Failed to start brewing background task")
+    } else {
+      let remaining = UIApplication.shared.backgroundTimeRemaining
+      print("[BackgroundTask] Started brewing background task (id=\(brewingBackgroundTaskId.rawValue), remaining=\(String(format: "%.0f", remaining))s)")
+    }
+  }
+
+  private func stopBrewingBackgroundTask() {
+    guard brewingBackgroundTaskId != .invalid else { return }
+    print("[BackgroundTask] Ending brewing background task (id=\(brewingBackgroundTaskId.rawValue))")
+    UIApplication.shared.endBackgroundTask(brewingBackgroundTaskId)
+    brewingBackgroundTaskId = .invalid
   }
 
   // MARK: - Push notification tap handling (FCM/APNs)

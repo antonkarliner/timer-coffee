@@ -72,7 +72,7 @@ class RecipeSaveService {
             try {
               final moderationResponse =
                   await Supabase.instance.client.functions.invoke(
-                'content-moderation-gemini',
+                'content-moderation',
                 body: {'text': combinedText},
               ).timeout(const Duration(seconds: 5));
 

@@ -220,7 +220,7 @@ class _AccountScreenState extends State<AccountScreen> {
       // 1. Moderation Check
       AppLogger.debug("Calling content moderation for display name...");
       final moderationResponse = await supabase.functions.invoke(
-        'content-moderation-gemini',
+        'content-moderation',
         body: {'text': newName},
       );
 
@@ -354,7 +354,7 @@ class _AccountScreenState extends State<AccountScreen> {
       // Moderation Check
       AppLogger.debug("Calling content moderation for profile picture...");
       final moderationResponse = await supabase.functions.invoke(
-        'content-moderation-gemini',
+        'content-moderation',
         body: {'imageBase64': base64Image}, // Send base64 image
       );
 

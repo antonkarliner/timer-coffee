@@ -15,6 +15,17 @@ struct BrewingData {
         case push
         case schedule
         case explicit
+
+        var debugLabel: String {
+            switch self {
+            case .push:
+                return "push"
+            case .schedule:
+                return "schedule"
+            case .explicit:
+                return "explicit"
+            }
+        }
     }
 
     private struct Candidate {
@@ -31,9 +42,9 @@ struct BrewingData {
     }
 
     private static let defaults = UserDefaults(suiteName: "group.timer.coffee")
-    private static let boundaryAcceptanceToleranceMs = 1500
+    private static let boundaryAcceptanceToleranceMs = 2000
 
-    init(activityId: String, state: LiveActivitiesAppAttributes.ContentState? = nil) {
+    init(activityId: String, state: LiveActivitiesAppAttributes.ContentState? = nil, date: Date = Date()) {
         let d = BrewingData.defaults
 
         func key(_ k: String) -> String {
@@ -60,13 +71,13 @@ struct BrewingData {
                 return intValue
             }
             return nil
-        }.filter { $0 > 0 }
+        }.filter { $0 >= 0 }
 
         let scheduleDescriptions = d?.stringArray(forKey: key("stepDescriptions")) ?? []
-        let brewStartMs = d?.double(forKey: key("brewStartDate")) ?? 0
+        let brewStartMs = d?.double(forKey: key("brewStartDateMs")) ?? d?.double(forKey: key("brewStartDate")) ?? 0
 
-        let startMs = d?.double(forKey: key("stepStartDate")) ?? 0
-        let endMs = d?.double(forKey: key("stepEndDate")) ?? 0
+        let startMs = d?.double(forKey: key("stepStartDateMs")) ?? d?.double(forKey: key("stepStartDate")) ?? 0
+        let endMs = d?.double(forKey: key("stepEndDateMs")) ?? d?.double(forKey: key("stepEndDate")) ?? 0
         let storedStartDate = Date(timeIntervalSince1970: startMs / 1000.0)
         let storedEndDate = Date(timeIntervalSince1970: endMs / 1000.0)
 
@@ -77,7 +88,8 @@ struct BrewingData {
             isPaused: storedIsPaused,
             stepDurations: scheduleDurations,
             stepDescriptions: scheduleDescriptions,
-            brewStartMs: brewStartMs
+            brewStartMs: brewStartMs,
+            date: date
         )
         let explicitCandidate = BrewingData.makeExplicitCandidate(
             recipeName: storedRecipeName,
@@ -88,11 +100,15 @@ struct BrewingData {
             stepTotalSeconds: storedStepTotal,
             isPaused: storedIsPaused,
             startDate: storedStartDate,
-            endDate: storedEndDate
+            endDate: storedEndDate,
+            date: date
         )
 
         let localCandidate = scheduleCandidate ?? explicitCandidate
         if let selected = BrewingData.selectCandidate(push: pushCandidate, local: localCandidate) {
+#if DEBUG
+            BrewingData.debugLogSelectedCandidate(selected, activityId: activityId)
+#endif
             recipeName = selected.recipeName
             stepDescription = selected.stepDescription
             currentStep = selected.currentStep
@@ -104,7 +120,10 @@ struct BrewingData {
             return
         }
 
-        let now = Date()
+#if DEBUG
+        BrewingData.debugLogStoredFallback(activityId: activityId, currentStep: storedCurrentStep)
+#endif
+
         recipeName = storedRecipeName
         stepDescription = storedDescription
         currentStep = max(storedCurrentStep, 1)
@@ -112,22 +131,29 @@ struct BrewingData {
         stepElapsedSeconds = max(storedElapsed, 0)
         stepTotalSeconds = max(storedStepTotal, 0)
         isPaused = storedIsPaused
-        stepTimeRange = now...now
+        stepTimeRange = date...date
     }
 
     private static func selectCandidate(push: Candidate?, local: Candidate?) -> Candidate? {
+        // Evaluate push effectiveness against wall clock to avoid stale
+        // timeline callback dates blocking newer content-state updates.
+        let nowMs = wallClockNowMs()
+
         // Push is the authoritative source for paused state.
         if let push, push.isPaused {
             return push
         }
 
-        // Schedule-based local is always time-accurate and deterministic —
-        // prefer it unconditionally over push candidate for running brews.
-        // This ensures the lock screen advances correctly at step boundaries
-        // regardless of push delivery timing, rendering budget differences
-        // between the Dynamic Island and the lock screen notification area,
-        // or effectiveAtMs skew from early-dispatch windows.
+        // Schedule-based local is time-accurate and deterministic — prefer it
+        // for running brews when on the same step. However, allow push to win
+        // when it reports a *later* step, since the local schedule may be stale
+        // (e.g. budget exhaustion prevented refreshes).
         if let local, local.source == .schedule {
+            if let push, push.currentStep > local.currentStep {
+                if BrewingData.isPushEffective(push, nowMs: nowMs) {
+                    return push
+                }
+            }
             return local
         }
 
@@ -141,7 +167,6 @@ struct BrewingData {
             return push
         }
 
-        let nowMs = Int(Date().timeIntervalSince1970 * 1000.0)
         let pushEffective = BrewingData.isPushEffective(push, nowMs: nowMs)
 
         if push.currentStep > local.currentStep {
@@ -208,21 +233,41 @@ struct BrewingData {
         )
     }
 
+    private static func wallClockNowMs() -> Int {
+        Int(Date().timeIntervalSince1970 * 1000.0)
+    }
+
+#if DEBUG
+    private static func debugLogSelectedCandidate(_ candidate: Candidate, activityId: String) {
+        let effectiveAtMs = candidate.effectiveAtMs.map(String.init) ?? "nil"
+        NSLog(
+            "[BrewingData] activity=\(activityId) source=\(candidate.source.debugLabel) step=\(candidate.currentStep) effectiveAtMs=\(effectiveAtMs) nowMs=\(wallClockNowMs())"
+        )
+    }
+
+    private static func debugLogStoredFallback(activityId: String, currentStep: Int) {
+        NSLog(
+            "[BrewingData] activity=\(activityId) source=stored_fallback step=\(max(currentStep, 1)) effectiveAtMs=nil nowMs=\(wallClockNowMs())"
+        )
+    }
+#endif
+
     private static func makeScheduleCandidate(
         recipeName: String,
         fallbackDescription: String,
         isPaused: Bool,
         stepDurations: [Int],
         stepDescriptions: [String],
-        brewStartMs: Double
+        brewStartMs: Double,
+        date: Date = Date()
     ) -> Candidate? {
         if isPaused || stepDurations.isEmpty || brewStartMs <= 0 {
             return nil
         }
 
-        let now = Date()
+        let now = date
         let brewStartDate = Date(timeIntervalSince1970: brewStartMs / 1000.0)
-        var elapsedTotal = max(0, Int(now.timeIntervalSince(brewStartDate)))
+        var elapsedTotal = max(0, Int(round(now.timeIntervalSince(brewStartDate))))
 
         let totalBrewDuration = stepDurations.reduce(0, +)
         if totalBrewDuration > 0 {
@@ -278,9 +323,10 @@ struct BrewingData {
         stepTotalSeconds: Int,
         isPaused: Bool,
         startDate: Date,
-        endDate: Date
+        endDate: Date,
+        date: Date = Date()
     ) -> Candidate {
-        let now = Date()
+        let now = date
         let resolvedRange: ClosedRange<Date>
         if startDate <= endDate {
             resolvedRange = startDate...endDate
@@ -317,7 +363,7 @@ struct BrewingData {
         func key(_ k: String) -> String { "\(activityId)_\(k)" }
 
         let isPaused = (d?.integer(forKey: key("isPaused")) ?? 0) != 0
-        let brewStartMs = d?.double(forKey: key("brewStartDate")) ?? 0
+        let brewStartMs = d?.double(forKey: key("brewStartDateMs")) ?? d?.double(forKey: key("brewStartDate")) ?? 0
         guard !isPaused, brewStartMs > 0 else { return [] }
 
         let rawDurations = d?.array(forKey: key("stepDurationsSeconds")) ?? []
@@ -326,7 +372,7 @@ struct BrewingData {
             if let number = value as? NSNumber { return number.intValue }
             if let stringValue = value as? String, let intValue = Int(stringValue) { return intValue }
             return nil
-        }.filter { $0 > 0 }
+        }.filter { $0 >= 0 }
 
         guard !durations.isEmpty else { return [] }
 
@@ -335,70 +381,98 @@ struct BrewingData {
         var cumulative = 0
         for duration in durations {
             cumulative += duration
-            boundaries.append(brewStart.addingTimeInterval(TimeInterval(cumulative)))
+            // Skip 0-duration steps (e.g. start marker) — no meaningful boundary
+            if duration > 0 {
+                boundaries.append(brewStart.addingTimeInterval(TimeInterval(cumulative)))
+            }
         }
         return boundaries
     }
 
     /// Builds an array of explicit dates for `TimelineView(.explicit(...))`.
-    /// Dense around step boundaries + distributed catch-up dates.
-    /// Hard-capped at 48 entries to stay within the iOS lock screen rendering budget.
+    ///
+    /// Hybrid strategy: boundary offsets (0, +1s) for every step boundary
+    /// plus 5-second heartbeat dates between boundaries. Hard-capped at 40
+    /// entries (no Apple-documented limit exists; 40 is conservative).
+    ///
+    /// Priority order when filling dates:
+    ///   1. boundary +0s  (step transition precision)
+    ///   2. boundary +1s  (post-boundary safety against Int truncation)
+    ///   3. heartbeat dates every 5s (keep TimelineView alive between boundaries)
+    ///   4. boundary -1s  (pre-warm render, only if budget allows)
     static func explicitScheduleDates(activityId: String) -> [Date] {
-        let stepDates = stepBoundaryDates(activityId: activityId)
+        let d = defaults
+        func key(_ k: String) -> String { "\(activityId)_\(k)" }
+
+        let isPaused = (d?.integer(forKey: key("isPaused")) ?? 0) != 0
+        let brewStartMs = d?.double(forKey: key("brewStartDateMs")) ?? d?.double(forKey: key("brewStartDate")) ?? 0
+        guard !isPaused, brewStartMs > 0 else { return [] }
+
+        let rawDurations = d?.array(forKey: key("stepDurationsSeconds")) ?? []
+        let durations: [Int] = rawDurations.compactMap { value in
+            if let intValue = value as? Int { return intValue }
+            if let number = value as? NSNumber { return number.intValue }
+            if let stringValue = value as? String, let intValue = Int(stringValue) { return intValue }
+            return nil
+        }.filter { $0 >= 0 }
+        guard !durations.isEmpty else { return [] }
+
         let now = Date()
-        let maxDates = 48
+        let maxDates = 40
+        let brewStart = Date(timeIntervalSince1970: brewStartMs / 1000.0)
+        let totalBrewDuration = durations.reduce(0, +)
+        let brewEnd = brewStart.addingTimeInterval(TimeInterval(totalBrewDuration))
+        let pastWindow = now.addingTimeInterval(-30)
 
-        // Adapt offsets so we keep coverage for all step boundaries within budget.
-        let futureStepDates = stepDates.filter { $0 > now.addingTimeInterval(-5) }
-        let offsetCandidates: [[TimeInterval]] = [
-            [-1.0, 0.0, 2.0, 5.0],
-            [-1.0, 0.0, 2.0],
-            [0.0, 2.0],
-            [0.0]
-        ]
-        let selectedOffsets = offsetCandidates.first(where: { offsets in
-            futureStepDates.count * offsets.count <= maxDates
-        }) ?? [0.0]
-
-        var boundaryDates: [Date] = []
-        for date in futureStepDates {
-            for offset in selectedOffsets {
-                boundaryDates.append(date.addingTimeInterval(offset))
-            }
-        }
-        boundaryDates.sort()
-        let dedupedBoundaryDates = dedupeDates(boundaryDates)
-
-        // If boundaries alone consume the budget, prioritise earliest boundary points.
-        if dedupedBoundaryDates.count >= maxDates {
-            return Array(dedupedBoundaryDates.prefix(maxDates))
-        }
-
-        // Catch-up dates are spread across the remaining timeline budget so they don't crowd
-        // out later boundary refreshes (which can stall lock screen progress mid-brew).
-        let catchUpEnd: TimeInterval
-        if let brewEnd = stepDates.last {
-            catchUpEnd = max(brewEnd.timeIntervalSince(now) + 30, 30)
-        } else {
-            catchUpEnd = 180
-        }
-
-        let remainingBudget = maxDates - dedupedBoundaryDates.count
-        var catchUpDates: [Date] = []
-        if remainingBudget > 0 {
-            let denominator = max(1, remainingBudget - 1)
-            let catchUpStep = max(5.0, catchUpEnd / Double(denominator))
-            for index in 0..<remainingBudget {
-                let offset = min(Double(index) * catchUpStep, catchUpEnd)
-                catchUpDates.append(now.addingTimeInterval(offset))
+        // Compute step boundary dates (end of each step).
+        // Skip 0-duration steps — they don't produce meaningful boundaries.
+        var boundaries: [Date] = []
+        var cumulative = 0
+        for duration in durations {
+            cumulative += duration
+            if duration > 0 {
+                boundaries.append(brewStart.addingTimeInterval(TimeInterval(cumulative)))
             }
         }
 
-        // Merge + dedupe. Budget is preserved by construction.
-        var allDates = dedupedBoundaryDates
-        allDates.append(contentsOf: catchUpDates)
+        // Filter to relevant window: future + 30s past.
+        let relevantBoundaries = boundaries.filter { $0 > pastWindow }
+
+        // Priority 1: boundary +0s
+        let p1Dates: [Date] = relevantBoundaries
+
+        // Priority 2: boundary +1s (post-boundary safety)
+        let p2Dates: [Date] = relevantBoundaries.map { $0.addingTimeInterval(1.0) }
+
+        // Priority 3: heartbeat dates every 5s from now until brew end
+        var heartbeatDates: [Date] = []
+        let heartbeatInterval: TimeInterval = 5.0
+        var heartbeatTime = max(now, brewStart)
+        // Align to next 5-second boundary from brew start
+        let elapsed = heartbeatTime.timeIntervalSince(brewStart)
+        let nextHeartbeat = ceil(elapsed / heartbeatInterval) * heartbeatInterval
+        heartbeatTime = brewStart.addingTimeInterval(nextHeartbeat)
+        while heartbeatTime <= brewEnd {
+            if heartbeatTime > pastWindow {
+                heartbeatDates.append(heartbeatTime)
+            }
+            heartbeatTime = heartbeatTime.addingTimeInterval(heartbeatInterval)
+        }
+
+        // Priority 4: boundary -1s (pre-warm, only if budget allows)
+        let p4Dates: [Date] = relevantBoundaries.map { $0.addingTimeInterval(-1.0) }
+
+        // Assemble by priority, dedup, and cap.
+        var allDates: [Date] = []
+        allDates.append(contentsOf: p1Dates)
+        allDates.append(contentsOf: p2Dates)
+        allDates.append(contentsOf: heartbeatDates)
+        allDates.append(contentsOf: p4Dates)
         allDates.sort()
-        return dedupeDates(allDates)
+        let deduped = dedupeDates(allDates)
+        // Only keep future dates (with 30s past window) and cap at maxDates.
+        let filtered = deduped.filter { $0 > pastWindow }
+        return Array(filtered.prefix(maxDates))
     }
 
     private static func dedupeDates(_ dates: [Date]) -> [Date] {
