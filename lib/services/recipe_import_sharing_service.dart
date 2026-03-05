@@ -427,7 +427,11 @@ class RecipeImportSharingService {
           AppLogger.debug(
               'User not authenticated at start of share. Prompting sign-in...');
           // Show prompt; may return before user completes email/OTP
-          await AuthenticationService.promptSignIn(context);
+          final promptResult = await AuthenticationService.promptSignIn(context);
+          if (!promptResult) {
+            AppLogger.debug('Sign-in cancelled by user. Aborting share.');
+            return RecipeSharingResult.error('Authentication required');
+          }
           AppLogger.debug('Entering auth wait loop after promptSignIn');
 
           // Wait until user becomes authenticated (non-anonymous) or timeout
