@@ -130,6 +130,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get support => 'Compra un café para el desarrollador';
 
   @override
+  String get supportButtonLabel => 'Apoyar';
+
+  @override
   String get allrecipes => 'Todas las recetas';
 
   @override

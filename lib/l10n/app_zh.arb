@@ -29,6 +29,7 @@
   "website": "网站",
   "sourcecode": "源代码",
   "support": "为开发者买一杯咖啡",
+  "supportButtonLabel": "支持",
   "allrecipes": "所有食谱",
   "favoriterecipes": "喜爱的食谱",
   "coffeeamount": "咖啡量（克）",

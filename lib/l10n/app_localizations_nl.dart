@@ -130,6 +130,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get support => 'Koop me een koffie';
 
   @override
+  String get supportButtonLabel => 'Ondersteunen';
+
+  @override
   String get allrecipes => 'Alle Recepten';
 
   @override

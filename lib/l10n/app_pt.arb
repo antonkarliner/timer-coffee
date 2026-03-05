@@ -29,6 +29,7 @@
   "website": "Site",
   "sourcecode": "Código-fonte",
   "support": "Compre um café para o desenvolvedor",
+  "supportButtonLabel": "Apoiar",
   "allrecipes": "Todas as Receitas",
   "favoriterecipes": "Receitas Favoritas",
   "coffeeamount": "Quantidade de café (g)",

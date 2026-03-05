@@ -130,6 +130,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get support => 'Купіть мені каву';
 
   @override
+  String get supportButtonLabel => 'Підтримати';
+
+  @override
   String get allrecipes => 'Усі рецепти';
 
   @override

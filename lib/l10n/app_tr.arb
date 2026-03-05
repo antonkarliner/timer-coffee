@@ -29,6 +29,7 @@
   "website": "Web Sitesi",
   "sourcecode": "Kaynak Kodu",
   "support": "Bana Bir Kahve Al",
+  "supportButtonLabel": "Destek ol",
   "allrecipes": "Tüm Tarifler",
   "favoriterecipes": "Favori Tarifler",
   "coffeeamount": "Kahve Miktarı (g)",

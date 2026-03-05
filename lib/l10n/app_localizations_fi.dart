@@ -129,6 +129,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get support => 'Tarjoa minulle kahvi';
 
   @override
+  String get supportButtonLabel => 'Tue kehitystä';
+
+  @override
   String get allrecipes => 'Kaikki reseptit';
 
   @override

@@ -125,6 +125,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get support => '커피 사주기';
 
   @override
+  String get supportButtonLabel => '지원하기';
+
+  @override
   String get allrecipes => '모든 레시피';
 
   @override

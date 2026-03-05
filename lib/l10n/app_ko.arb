@@ -38,6 +38,7 @@
   "website": "웹사이트",
   "sourcecode": "소스 코드",
   "support": "커피 사주기",
+  "supportButtonLabel": "지원하기",
   "allrecipes": "모든 레시피",
   "favoriterecipes": "좋아하는 레시피",
   "coffeeamount": "커피 양 (g)",

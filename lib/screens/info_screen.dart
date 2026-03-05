@@ -6,6 +6,7 @@ import 'package:coffee_timer/providers/snow_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -173,67 +174,86 @@ class _InfoScreenState extends State<InfoScreen> {
           ),
           // Links and support
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                const double spacing = 12.0;
-                final double smallButtonWidth = ((constraints.maxWidth -
-                            spacing) /
-                        2)
-                    .clamp(140.0, 170.0)
-                    .toDouble();
-                final double wideButtonWidth =
-                    (smallButtonWidth + 60).clamp(200.0, 240.0).toDouble();
-
-                return Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: spacing,
-                  runSpacing: 12.0,
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    AppElevatedButton(
-                      label: l10n.website,
-                      onPressed: () => _launchURL('https://www.timer.coffee'),
-                      icon: Icons.explore,
-                      backgroundColor: Theme.of(context).colorScheme.surface,
-                      foregroundColor: Theme.of(context).colorScheme.primary,
-                      height: AppButton.heightLarge,
-                      width: smallButtonWidth,
+                    Expanded(
+                      child: AppElevatedButton(
+                        label: l10n.website,
+                        onPressed: () => _launchURL('https://www.timer.coffee'),
+                        icon: Icons.explore,
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                        height: AppButton.heightSmall,
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      ),
                     ),
-                    AppElevatedButton(
-                      label: l10n.sourcecode,
-                      onPressed: () => _launchURL(
-                          'https://github.com/antonkarliner/coffee-timer'),
-                      icon: Icons.code,
-                      backgroundColor: Theme.of(context).colorScheme.surface,
-                      foregroundColor: Theme.of(context).colorScheme.primary,
-                      height: AppButton.heightLarge,
-                      width: smallButtonWidth,
-                    ),
-                    if (kIsWeb || !Platform.isIOS)
-                      AppElevatedButton(
-                        label: l10n.support,
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: AppElevatedButton(
+                        label: l10n.sourcecode,
                         onPressed: () => _launchURL(
-                            'https://www.buymeacoffee.com/timercoffee'),
-                        icon: Icons.local_cafe,
+                            'https://github.com/antonkarliner/coffee-timer'),
+                        icon: Icons.code,
                         backgroundColor: Theme.of(context).colorScheme.surface,
                         foregroundColor: Theme.of(context).colorScheme.primary,
-                        height: AppButton.heightLarge,
-                        width: wideButtonWidth,
+                        height: AppButton.heightSmall,
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                       ),
-                    if (!kIsWeb && Platform.isIOS)
-                      AppElevatedButton(
-                        label: l10n.support,
-                        onPressed: () =>
-                            context.router.push(const DonationRoute()),
-                        icon: Icons.local_cafe,
-                        backgroundColor: Theme.of(context).colorScheme.surface,
-                        foregroundColor: Theme.of(context).colorScheme.primary,
-                        height: AppButton.heightLarge,
-                        width: wideButtonWidth,
-                      ),
+                    ),
                   ],
-                );
-              },
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppElevatedButton(
+                        label: 'Instagram',
+                        onPressed: () => _launchURL(
+                            'https://www.instagram.com/timercoffeeapp'),
+                        icon: FontAwesomeIcons.instagram,
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                        height: AppButton.heightSmall,
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: AppElevatedButton(
+                        label: l10n.supportButtonLabel,
+                        onPressed: () =>
+                            _launchURL('mailto:support@timer.coffee'),
+                        icon: Icons.mail_outline,
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                        height: AppButton.heightSmall,
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Center(
+                  child: IntrinsicWidth(
+                    child: AppElevatedButton(
+                      label: l10n.support,
+                      onPressed: kIsWeb || !Platform.isIOS
+                          ? () => _launchURL(
+                              'https://www.buymeacoffee.com/timercoffee')
+                          : () => context.router.push(const DonationRoute()),
+                      icon: Icons.local_cafe,
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                      height: AppButton.heightSmall,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                      isFullWidth: false,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 12),
@@ -281,10 +301,12 @@ class _InfoScreenState extends State<InfoScreen> {
 
   Future<void> _launchURL(String url) async {
     final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch $url';
+    final launched =
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!launched && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(url)),
+      );
     }
   }
 

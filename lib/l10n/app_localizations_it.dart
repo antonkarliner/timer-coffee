@@ -132,6 +132,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get support => 'Offrimi un caffè';
 
   @override
+  String get supportButtonLabel => 'Supporta';
+
+  @override
   String get allrecipes => 'Tutte le Ricette';
 
   @override

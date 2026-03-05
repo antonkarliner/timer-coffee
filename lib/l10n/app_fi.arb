@@ -29,6 +29,7 @@
   "website": "Verkkosivusto",
   "sourcecode": "Lähdekoodi",
   "support": "Tarjoa minulle kahvi",
+  "supportButtonLabel": "Tue kehitystä",
   "allrecipes": "Kaikki reseptit",
   "favoriterecipes": "Suosikkireseptit",
   "coffeeamount": "Kahvimäärä (g)",

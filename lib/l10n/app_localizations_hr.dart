@@ -129,6 +129,9 @@ class AppLocalizationsHr extends AppLocalizations {
   String get support => 'Kupi mi kavu';
 
   @override
+  String get supportButtonLabel => 'Podrška';
+
+  @override
   String get allrecipes => 'Svi recepti';
 
   @override

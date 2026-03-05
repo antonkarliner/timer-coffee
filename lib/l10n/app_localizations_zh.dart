@@ -125,6 +125,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get support => '为开发者买一杯咖啡';
 
   @override
+  String get supportButtonLabel => '支持';
+
+  @override
   String get allrecipes => '所有食谱';
 
   @override

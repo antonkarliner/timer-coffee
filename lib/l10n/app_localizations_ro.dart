@@ -131,6 +131,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get support => 'Cumpără-mi o cafea';
 
   @override
+  String get supportButtonLabel => 'Susține';
+
+  @override
   String get allrecipes => 'Toate Rețetele';
 
   @override

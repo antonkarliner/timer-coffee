@@ -38,6 +38,7 @@
   "website": "Website",
   "sourcecode": "Source code",
   "support": "Buy me a coffee",
+  "supportButtonLabel": "Support",
   "allrecipes": "All Recipes",
   "favoriterecipes": "Favorite Recipes",
   "coffeeamount": "Coffee amount (g)",

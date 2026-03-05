@@ -128,6 +128,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get support => 'Buy me a coffee';
 
   @override
+  String get supportButtonLabel => 'Support';
+
+  @override
   String get allrecipes => 'All Recipes';
 
   @override

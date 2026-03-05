@@ -129,6 +129,9 @@ class AppLocalizationsNo extends AppLocalizations {
   String get support => 'Kjøp meg en kaffe';
 
   @override
+  String get supportButtonLabel => 'Støtt oss';
+
+  @override
   String get allrecipes => 'Alle oppskrifter';
 
   @override

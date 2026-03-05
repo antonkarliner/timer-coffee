@@ -127,6 +127,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get support => 'اشترِ قهوة للمطور';
 
   @override
+  String get supportButtonLabel => 'الدعم';
+
+  @override
   String get allrecipes => 'جميع الوصفات';
 
   @override

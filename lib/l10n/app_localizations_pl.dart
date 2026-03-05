@@ -128,6 +128,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get support => 'Kup kawę dla programisty';
 
   @override
+  String get supportButtonLabel => 'Wesprzyj';
+
+  @override
   String get allrecipes => 'Wszystkie przepisy';
 
   @override

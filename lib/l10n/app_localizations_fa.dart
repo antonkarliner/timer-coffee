@@ -129,6 +129,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get support => 'برایم قهوه بخر';
 
   @override
+  String get supportButtonLabel => 'حمایت';
+
+  @override
   String get allrecipes => 'همه دستورها';
 
   @override

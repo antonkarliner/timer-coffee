@@ -364,6 +364,12 @@ abstract class AppLocalizations {
   /// **'Buy me a coffee'**
   String get support;
 
+  /// No description provided for @supportButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get supportButtonLabel;
+
   /// No description provided for @allrecipes.
   ///
   /// In en, this message translates to:

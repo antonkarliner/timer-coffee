@@ -125,6 +125,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get support => '開発者にコーヒーを買う';
 
   @override
+  String get supportButtonLabel => 'サポート';
+
+  @override
   String get allrecipes => 'すべてのレシピ';
 
   @override

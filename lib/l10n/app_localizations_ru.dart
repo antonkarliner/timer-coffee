@@ -131,6 +131,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get support => 'Купить кофе разработчику';
 
   @override
+  String get supportButtonLabel => 'Поддержать';
+
+  @override
   String get allrecipes => 'Все рецепты';
 
   @override

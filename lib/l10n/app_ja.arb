@@ -29,6 +29,7 @@
   "website": "ウェブサイト",
   "sourcecode": "ソースコード",
   "support": "開発者にコーヒーを買う",
+  "supportButtonLabel": "サポート",
   "allrecipes": "すべてのレシピ",
   "favoriterecipes": "お気に入りのレシピ",
   "coffeeamount": "コーヒー量(g)",
