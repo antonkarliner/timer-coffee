@@ -130,7 +130,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get support => 'Belikan saya kopi';
 
   @override
-  String get supportButtonLabel => 'Dukung';
+  String get supportButtonLabel => 'Dukungan';
 
   @override
   String get allrecipes => 'Semua Resep';

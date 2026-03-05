@@ -131,7 +131,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get support => 'Bana Bir Kahve Al';
 
   @override
-  String get supportButtonLabel => 'Destek ol';
+  String get supportButtonLabel => 'Destek';
 
   @override
   String get allrecipes => 'Tüm Tarifler';

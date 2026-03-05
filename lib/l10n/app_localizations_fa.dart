@@ -129,7 +129,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get support => 'برایم قهوه بخر';
 
   @override
-  String get supportButtonLabel => 'حمایت';
+  String get supportButtonLabel => 'پشتیبانی';
 
   @override
   String get allrecipes => 'همه دستورها';

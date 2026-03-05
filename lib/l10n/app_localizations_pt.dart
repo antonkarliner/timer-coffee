@@ -130,7 +130,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get support => 'Compre um café para o desenvolvedor';
 
   @override
-  String get supportButtonLabel => 'Apoiar';
+  String get supportButtonLabel => 'Suporte';
 
   @override
   String get allrecipes => 'Todas as Receitas';
