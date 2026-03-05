@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Added for system UI constants
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter_animate/flutter_animate.dart'; // Added for animations
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../models/recipe_model.dart';
 import '../models/brew_step_model.dart';
@@ -24,7 +23,6 @@ import '../services/live_activity_service.dart';
 import '../services/android_live_update_service.dart';
 import '../services/live_activity_sync_service.dart';
 import '../services/ios_background_task_service.dart';
-import '../services/feature_flags/feature_flags_repository.dart';
 
 class LocalizedNumberText extends StatelessWidget {
   final int currentNumber;
@@ -105,7 +103,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
       LiveActivitySyncService.instance;
   StreamSubscription<LiveActivityPushTokenUpdate>?
   _liveActivityTokenSubscription;
-  StreamSubscription<Map<String, bool>>? _featureFlagsSubscription;
   Timer? _liveActivitySessionRetryTimer;
   String? _brewSessionId;
   String? _liveActivityId;
@@ -113,7 +110,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   bool _hasEndedLiveActivity = false;
   bool _backendLiveActivitySessionStarted = false;
   bool _isStartingLiveActivityBackendSession = false;
-  bool _isLiveActivityPlanBEnabled = false;
   bool _isResyncInProgress = false;
   static const Duration _liveActivitySessionRetryInterval = Duration(
     seconds: 4,
@@ -122,8 +118,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   bool get _isLiveActivitySupported =>
       !kIsWeb && (Platform.isIOS || Platform.isAndroid);
 
-  bool get _shouldSyncLiveActivitySession =>
-      !kIsWeb && Platform.isIOS && _isLiveActivityPlanBEnabled;
+  bool get _shouldSyncLiveActivitySession => !kIsWeb && Platform.isIOS;
 
   String replacePlaceholders(
     String description,
@@ -264,8 +259,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     super.initState();
     WakelockPlus.enable();
 
-    final featureFlagsRepository = context.read<FeatureFlagsRepository>();
-    _setupLiveActivityPlanBSync(featureFlagsRepository);
+    if (!kIsWeb && Platform.isIOS) {
+      _activateLiveActivityPlanB(trigger: 'session_start');
+    }
 
     _pulseController = AnimationController(
       vsync: this,
@@ -349,7 +345,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     timer.cancel();
     unawaited(IosBackgroundTaskService.instance.stopBrewingTask());
     _stopLiveActivityBackendSessionRetryLoop();
-    _featureFlagsSubscription?.cancel();
     _liveActivityTokenSubscription?.cancel();
     _lifecycleListener?.dispose();
     WakelockPlus.disable();
@@ -517,40 +512,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
 
   // ── Live Activity helpers ──
 
-  void _setupLiveActivityPlanBSync(
-    FeatureFlagsRepository featureFlagsRepository,
-  ) {
-    if (kIsWeb || !Platform.isIOS) return;
-
-    _isLiveActivityPlanBEnabled =
-        featureFlagsRepository.iosLiveActivityPushPlanB;
-    AppLogger.info(
-      'Live activity Plan B active at session start: $_isLiveActivityPlanBEnabled',
-    );
-
-    _featureFlagsSubscription?.cancel();
-    _featureFlagsSubscription = featureFlagsRepository.stream.listen((_) {
-      if (!mounted || _hasEndedLiveActivity) return;
-      final flagEnabled = featureFlagsRepository.iosLiveActivityPushPlanB;
-      if (flagEnabled == _isLiveActivityPlanBEnabled) return;
-
-      _isLiveActivityPlanBEnabled = flagEnabled;
-      AppLogger.info(
-        'Live activity Plan B flag changed during brew: $flagEnabled',
-      );
-
-      if (flagEnabled) {
-        _activateLiveActivityPlanB(trigger: 'feature_flag_stream');
-      } else {
-        _stopLiveActivityBackendSessionRetryLoop();
-      }
-    });
-
-    if (_shouldSyncLiveActivitySession) {
-      _activateLiveActivityPlanB(trigger: 'session_start');
-    }
-  }
-
   void _activateLiveActivityPlanB({required String trigger}) {
     if (!_shouldSyncLiveActivitySession || _hasEndedLiveActivity) return;
 
@@ -689,8 +650,6 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     _hasEndedLiveActivity = true;
     unawaited(IosBackgroundTaskService.instance.stopBrewingTask());
     _stopLiveActivityBackendSessionRetryLoop();
-    _featureFlagsSubscription?.cancel();
-    _featureFlagsSubscription = null;
     _liveActivityTokenSubscription?.cancel();
     _liveActivityTokenSubscription = null;
 
