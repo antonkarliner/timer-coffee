@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 3.6.0+314
+version: 3.6.0+316
 
 environment:
   sdk: '>=3.10.0 <4.0.0'
@@ -76,6 +76,7 @@ dependencies:
   material_symbols_icons: ^4.2906.0
   live_activities: ^2.4.6
   audio_session: ^0.1.21
+  font_awesome_flutter: ^10.8.0
 
 dependency_overrides:
   flutter_keyboard_visibility:
@@ -94,7 +95,9 @@ dependency_overrides:
       ref: a6276617df40ae09efae915306a38a18fad8c73b
       path: flutter
   live_activities:
-    path: /Users/antonkarliner/GitHub/flutter_live_activities
+    git:
+      url: https://github.com/antonkarliner/flutter_live_activities.git
+      ref: bd20c2dae8c65590ea5592023e7441ed8748c5d2
 dev_dependencies:
   flutter_test:
     sdk: flutter

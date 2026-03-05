@@ -761,7 +761,7 @@ packages:
     source: sdk
     version: "0.0.0"
   font_awesome_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: font_awesome_flutter
       sha256: "27af5982e6c510dec1ba038eff634fa284676ee84e3fd807225c80c4ad869177"
@@ -1179,9 +1179,11 @@ packages:
   live_activities:
     dependency: "direct main"
     description:
-      path: "/Users/antonkarliner/GitHub/flutter_live_activities"
-      relative: false
-    source: path
+      path: "."
+      ref: bd20c2dae8c65590ea5592023e7441ed8748c5d2
+      resolved-ref: bd20c2dae8c65590ea5592023e7441ed8748c5d2
+      url: "https://github.com/antonkarliner/flutter_live_activities.git"
+    source: git
     version: "2.4.6"
   logging:
     dependency: "direct main"

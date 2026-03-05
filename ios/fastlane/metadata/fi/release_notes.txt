@@ -1,10 +1,16 @@
 Uutta:
-• Joskus kahvipapupussi on jo tyhjä, mutta sovelluksen varastossa näkyy silti muutama gramma “jäljellä”. Papujen tiedot -näkymässä on nyt “Aseta nollaan” -painike, jolla tämän voi korjata nopeasti.
+
+• Taustalla keittäminen — Pienennä sovellus kesken uuton ja palaa takaisin, kun olet valmis. Ajastin jatkaa tarkasti käyntiä taustalla.
+• Live Activities — Seuraa uuton etenemistä lukitusnäytöllä ja Dynamic Islandissa (vain tuetuilla laitteilla).
+• Syke — Uusi reaaliaikainen näkymä, joka näyttää, mitä muut käyttäjät ympäri maailmaa uuttavat juuri nyt.
+• Ota yhteyttä tukeen — Ota yhteyttä kehittäjään suoraan sähköpostitse uuden Tuki-painikkeen kautta Tietoja-näkymässä.
 
 Parannettu:
-• Parannettu japaninkielistä käännöstä, kiitos @llibra!
-• Lisätty vahvistus ennen uloskirjautumista.
-• Kulissien takana tehty parannuksia, jotka tekevät sovelluksesta vakaamman (toivottavasti!).
 
-Bugikorjaus:
-• Lisätty takaisin puuttuneet virheilmoitukset Google-kirjautumiseen.
+• Käännösviilauksia useilla kielillä.
+• Erilaisia viimeistelyjä ulkoasuun sujuvamman käyttökokemuksen takaamiseksi.
+
+Virhekorjaukset:
+
+• Korjattu ongelma, jossa sisäänrakennetut reseptit katosivat jakamisen jälkeen, kun sovelluksen kieleksi oli asetettu muu kuin englanti.
+• Korjattu ongelma, jossa käyttäjän luomien reseptien Jaa-painike ei enää reagoinut kirjautumisvalintaikkunan sulkemisen jälkeen.

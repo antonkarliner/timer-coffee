@@ -1,0 +1,12 @@
+Neu:
+• Hintergrund-Brühen — Timer läuft weiter, wenn die App minimiert ist
+• Live-Aktualisierungen — Brühfortschritt auf dem Sperrbildschirm
+• Pulse — sieh, was weltweit gebrüht wird
+• Support kontaktieren — E-Mail an den Entwickler im „Über"-Bildschirm
+
+Verbessert:
+• Übersetzungen & Design-Feinschliff
+
+Fehlerbehebungen:
+• Integrierte Rezepte verschwanden in nicht-englischen Sprachen
+• Teilen-Schaltfläche fror nach dem Schließen der Anmeldung ein

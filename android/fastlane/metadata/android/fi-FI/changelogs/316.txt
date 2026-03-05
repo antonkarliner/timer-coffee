@@ -1,0 +1,12 @@
+Uutta:
+• Taustahaudutus — ajastin käy myös pienennettynä
+• Live Updates — haudutuksen eteneminen lukitusnäytöllä
+• Syke — katso, mitä muut hauduttavat maailmanlaajuisesti
+• Ota yhteys tukeen — lähetä kehittäjälle sähköpostia Tietoja-näkymästä
+
+Parannettu:
+• Käännökset ja viimeistelty ulkoasu
+
+Virhekorjaukset:
+• Sisäänrakennettujen reseptien katoaminen muilla kuin englanniksi
+• Jaa-painikkeen jumittaminen, kun kirjautumisnäkymä suljetaan

@@ -1,0 +1,12 @@
+Nou:
+• Preparare în fundal — cronometrul rulează când aplicația e minimizată
+• Actualizări live — progresul preparării pe Ecranul de blocare
+• Pulse — vezi ce prepară alții în lume
+• Contactează suportul — trimite e-mail dezvoltatorului din ecranul Despre
+
+Îmbunătățiri:
+• Traduceri și finisaje de design
+
+Remedieri:
+• Rețetele incluse dispăreau în alte limbi
+• Butonul Partajează se bloca după închiderea autentificării

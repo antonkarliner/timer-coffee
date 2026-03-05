@@ -1,0 +1,12 @@
+Nuevo:
+• Infusión en segundo plano — el temporizador sigue al minimizar
+• Actualizaciones en vivo — progreso de la preparación en la pantalla de bloqueo
+• Pulso — mira lo que otros preparan en todo el mundo
+• Contactar Soporte — envía un correo al desarrollador desde la pantalla Acerca de
+
+Mejoras:
+• Traducciones y pulido de diseño
+
+Correcciones:
+• Recetas integradas que desaparecían en idiomas distintos del inglés
+• Botón Compartir que se congelaba al cerrar el inicio de sesión

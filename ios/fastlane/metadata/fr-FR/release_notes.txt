@@ -1,10 +1,16 @@
 Nouveau :
-• Il arrive que le sachet de café en grains soit déjà terminé, mais que quelques grammes restent encore « en stock » dans l’inventaire de l’app. L’écran Détails des grains propose désormais un bouton « Mettre à zéro » pour régler cela rapidement.
+
+• Infusion en arrière-plan — Réduisez l’app pendant l’infusion et revenez quand vous le souhaitez. Le minuteur continue de fonctionner avec précision en arrière-plan.  
+• Activités en direct — Suivez la progression de votre infusion sur l’écran verrouillé et dans la Dynamic Island (appareils compatibles uniquement).  
+• Pulse — Un nouvel écran en temps réel indiquant ce que les autres utilisateurs, partout dans le monde, sont en train d’infuser.  
+• Contacter l’assistance — Contactez directement le développeur par e-mail grâce au nouveau bouton Support sur l’écran À propos.
 
 Améliorations :
-• Amélioration de la traduction en japonais, merci @llibra !
-• Ajout d’une confirmation avant la déconnexion.
-• Améliorations sous le capot qui rendront l’app plus stable (on l’espère !).
 
-Correction de bug :
-• Rétablissement des messages d’erreur manquants pour la connexion Google.
+• Améliorations des traductions dans plusieurs langues.  
+• Divers ajustements de design pour une expérience plus fluide.
+
+Corrections de bugs :
+
+• Correction d’un problème où les recettes intégrées disparaissaient après un partage lorsque l’app était réglée sur une langue autre que l’anglais.  
+• Correction d’un problème où le bouton de partage des recettes créées par les utilisateurs ne répondait plus après la fermeture de la boîte de dialogue de connexion.

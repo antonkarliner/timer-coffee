@@ -1,0 +1,12 @@
+Novidades:
+• Infusão em segundo plano — o timer continua mesmo minimizado
+• Atualizações ao vivo — progresso da extração na tela de bloqueio
+• Pulso — veja o que outras pessoas estão preparando no mundo todo
+• Contatar o Suporte — envie e-mail ao desenvolvedor pela tela Sobre
+
+Melhorias:
+• Traduções e ajustes no design
+
+Correções:
+• Receitas integradas sumindo em idiomas não ingleses
+• Botão Compartilhar travando após fechar o login

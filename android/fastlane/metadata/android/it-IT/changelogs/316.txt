@@ -1,0 +1,12 @@
+Novità:
+• Infusione in background — il timer continua anche se l’app è in secondo piano
+• Live Updates — avanzamento dell’infusione nella schermata di blocco
+• Pulse — scopri cosa preparano gli altri nel mondo
+• Contatta l’assistenza — invia un’email allo sviluppatore dalla schermata Info
+
+Migliorie:
+• Traduzioni e rifiniture al design
+
+Correzioni bug:
+• Ricette integrate che sparivano in lingue diverse dall’inglese
+• Pulsante Condividi bloccato dopo la chiusura dell’accesso

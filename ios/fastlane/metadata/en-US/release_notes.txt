@@ -1,10 +1,16 @@
 New:
-• Sometimes coffee bean bag is already finished, but there are a few grams still "remaining" in app inventiory. Bean Details screen now has "Set to zero" button which allows to quickly deal with this.
 
-Improved: 
-• Improved translation to Japanese, thanks @llibra!
-• Added confirmation before sign out.
-• Under the hood improvements which will make app more stable (hopefully!). 
+• Background brewing — Minimize the app mid-brew and come back whenever you're ready. The timer keeps running accurately in the background.
+• Live Activities — Track your brew progress on the Lock Screen and in the Dynamic Island (supported devices only).
+• Pulse — A new real-time screen showing what other users around the world are brewing right now.
+• Contact Support — Reach the developer directly via email from the new Support button on the About screen.
 
-Bugfix: 
-• re-added missing error messages for Google Sign-in.
+Improved:
+
+• Translation refinements across multiple languages.
+• Various design polish for a smoother experience.
+
+Bug Fixes:
+
+• Fixed an issue where built-in recipes would disappear after sharing when the app was set to a non-English language.
+• Fixed an issue where the share button for user-created recipes became unresponsive after dismissing the sign-in dialog.

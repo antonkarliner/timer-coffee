@@ -1,10 +1,16 @@
 Nowości:
-• Czasem opakowanie ziaren jest już puste, ale w magazynie w aplikacji nadal „zostaje” kilka gramów. Ekran Szczegóły ziaren ma teraz przycisk „Ustaw na zero”, który pozwala szybko to skorygować.
+
+• Parzenie w tle — Zminimalizuj aplikację w trakcie parzenia i wróć, kiedy tylko będziesz gotowy. Timer nadal działa precyzyjnie w tle.
+• Live Activities — Śledź postęp parzenia na ekranie blokady i w Dynamic Island (tylko na obsługiwanych urządzeniach).
+• Puls — Nowy ekran na żywo pokazujący, co parzą teraz inni użytkownicy na całym świecie.
+• Kontakt ze wsparciem — Skontaktuj się bezpośrednio z deweloperem przez e-mail, korzystając z nowego przycisku Wsparcie na ekranie O aplikacji.
 
 Ulepszenia:
-• Ulepszono tłumaczenie na język japoński — dzięki @llibra!
-• Dodano potwierdzenie przed wylogowaniem.
-• Usprawnienia pod maską, które (miejmy nadzieję!) sprawią, że aplikacja będzie bardziej stabilna.
+
+• Udoskonalenia tłumaczeń w wielu językach.
+• Różne poprawki w projekcie dla płynniejszego działania.
 
 Poprawki błędów:
-• Ponownie dodano brakujące komunikaty o błędach dla logowania przez Google.
+
+• Naprawiono problem, przez który wbudowane receptury znikały po udostępnieniu, gdy aplikacja była ustawiona na język inny niż angielski.
+• Naprawiono problem, przez który przycisk udostępniania dla receptur utworzonych przez użytkownika przestawał reagować po zamknięciu okna logowania.

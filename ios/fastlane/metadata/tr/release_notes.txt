@@ -1,10 +1,16 @@
 Yeni:
-• Bazen kahve çekirdeği paketi aslında bitmiş oluyor, ancak uygulama envanterinde hâlâ birkaç gram “kalan” görünüyor. Çekirdek Detayları ekranında artık bunu hızlıca çözmenizi sağlayan “Sıfırla” düğmesi var.
+
+• Arka planda demleme — Demleme sırasında uygulamayı küçültün ve hazır olduğunuzda geri dönün. Kronometre arka planda da doğru şekilde çalışmaya devam eder.  
+• Canlı Etkinlikler — Demleme ilerlemenizi Kilit Ekranı’nda ve Dynamic Island’da takip edin (yalnızca desteklenen cihazlarda).  
+• Nabız — Dünyanın dört bir yanındaki diğer kullanıcıların şu anda neler demlediğini gösteren yeni, gerçek zamanlı bir ekran.  
+• Destek ile İletişime Geçin — Hakkında ekranındaki yeni Destek düğmesi üzerinden e-posta ile doğrudan geliştiriciye ulaşın.
 
 İyileştirildi:
-• Japonca çeviri iyileştirildi, teşekkürler @llibra!
-• Oturumu kapatmadan önce onay eklendi.
-• Uygulamayı daha kararlı hâle getirecek (umarız!) altyapı iyileştirmeleri.
 
-Hata düzeltmesi:
-• Google ile Oturum Açma için eksik hata mesajları yeniden eklendi.
+• Birden fazla dilde çeviri iyileştirmeleri.  
+• Daha akıcı bir deneyim için çeşitli tasarım rötuşları.
+
+Hata Düzeltmeleri:
+
+• Uygulama dili İngilizce dışında bir dile ayarlandığında, yerleşik tariflerin paylaşım sonrası kaybolmasına neden olan bir sorun düzeltildi.  
+• Oturum açma iletişim kutusu kapatıldıktan sonra, kullanıcı tarafından oluşturulan tariflerdeki paylaş düğmesinin yanıt vermemesine neden olan bir sorun düzeltildi.

@@ -1,0 +1,12 @@
+Novedades:
+• Preparación en segundo plano — el temporizador sigue al minimizar
+• Actualizaciones en vivo — progreso de la extracción en la pantalla de bloqueo
+• Pulso — descubre lo que preparan otras personas en todo el mundo
+• Contactar con Soporte — escribe al desarrollador desde la pantalla Acerca de
+
+Mejoras:
+• Traducciones y retoques de diseño
+
+Correcciones:
+• Recetas integradas que desaparecían en idiomas no ingleses
+• El botón Compartir se bloqueaba al cerrar el inicio de sesión

@@ -1,0 +1,12 @@
+Nowości:
+• Parzenie w tle — minutnik działa po zminimalizowaniu
+• Live Updates — postęp parzenia na ekranie blokady
+• Puls — zobacz, co parzą inni na całym świecie
+• Kontakt ze wsparciem — napisz do twórcy z ekranu „O aplikacji"
+
+Ulepszenia:
+• Tłumaczenia i dopracowany wygląd
+
+Poprawki:
+• Znikały wbudowane przepisy w wersjach innych niż angielska
+• Przycisk Udostępnij zawieszał się po zamknięciu logowania

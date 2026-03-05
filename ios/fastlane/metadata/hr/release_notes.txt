@@ -1,10 +1,16 @@
 Novo:
-• Ponekad se vrećica kave u zrnu već potroši, ali u inventaru aplikacije i dalje “ostane” nekoliko grama. Zaslon Detalji zrna sada ima gumb “Postavi na nulu” koji omogućuje da se to brzo riješi.
+
+• Priprema kave u pozadini — Minimizirajte aplikaciju usred pripreme i vratite se kad god budete spremni. Tajmer nastavlja točno raditi u pozadini.  
+• Aktivnosti uživo — Pratite napredak pripreme na zaključanom zaslonu i u Dynamic Islandu (samo na podržanim uređajima).  
+• Puls — Novi zaslon u stvarnom vremenu koji prikazuje što drugi korisnici diljem svijeta upravo pripremaju.  
+• Kontaktirajte podršku — Obratite se izravno razvojnom programeru putem e-pošte pomoću novog gumba Podrška na zaslonu O aplikaciji.
 
 Poboljšano:
-• Poboljšan prijevod na japanski, hvala @llibra!
-• Dodana potvrda prije odjave.
-• Poboljšanja u pozadini koja će aplikaciju učiniti stabilnijom (nadamo se!).
 
-Ispravci grešaka:
-• Ponovno dodane nedostajuće poruke o pogrešci za Google prijavu.
+• Dorade prijevoda u više jezika.  
+• Razna dizajnerska dotjerivanja za uglađenije iskustvo.
+
+Ispravci pogrešaka:
+
+• Ispravljen problem zbog kojeg bi ugrađeni recepti nestajali nakon dijeljenja kada je aplikacija bila postavljena na jezik koji nije engleski.  
+• Ispravljen problem zbog kojeg bi gumb za dijeljenje korisnički izrađenih recepata prestao reagirati nakon zatvaranja dijaloga za prijavu.

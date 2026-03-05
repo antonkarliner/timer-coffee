@@ -1,10 +1,16 @@
 Neu:
-• Manchmal ist eine Kaffeebohnenpackung bereits aufgebraucht, aber in der App verbleiben noch ein paar Gramm im Bestand. Der Bildschirm „Bohnen-Details“ hat jetzt eine Schaltfläche „Auf Null setzen“, mit der sich das schnell bereinigen lässt.
+
+• Brühen im Hintergrund — Minimiere die App während des Brühvorgangs und komm zurück, wann immer du bereit bist. Der Timer läuft im Hintergrund weiterhin präzise.
+• Live-Aktivitäten — Verfolge den Fortschritt deines Brühvorgangs auf dem Sperrbildschirm und in der Dynamic Island (nur auf unterstützten Geräten).
+• Pulse — Ein neuer Echtzeit-Bildschirm, der zeigt, was andere Nutzerinnen und Nutzer weltweit gerade brühen.
+• Support kontaktieren — Nimm über die neue Support-Schaltfläche im „Über“-Bildschirm direkt per E-Mail Kontakt mit dem Entwickler auf.
 
 Verbessert:
-• Verbesserte Übersetzung ins Japanische, danke @llibra!
-• Bestätigung vor dem Abmelden hinzugefügt.
-• Verbesserungen unter der Haube, die die App stabiler machen (hoffentlich!).
 
-Fehlerbehebung:
-• Fehlende Fehlermeldungen für die Google-Anmeldung wieder hinzugefügt.
+• Verbesserungen der Übersetzungen in mehreren Sprachen.
+• Verschiedene Design-Optimierungen für ein noch flüssigeres Nutzungserlebnis.
+
+Fehlerbehebungen:
+
+• Ein Problem behoben, bei dem integrierte Rezepte nach dem Teilen verschwanden, wenn die App auf eine nicht englische Sprache eingestellt war.
+• Ein Problem behoben, bei dem die Teilen-Schaltfläche für von Nutzerinnen und Nutzern erstellte Rezepte nach dem Schließen des Anmelde-Dialogs nicht mehr reagierte.

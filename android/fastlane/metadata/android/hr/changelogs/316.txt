@@ -1,0 +1,12 @@
+Novo:
+• Priprema u pozadini — mjerač vremena radi i kad je aplikacija minimizirana
+• Ažuriranja uživo — napredak pripreme na zaključanom zaslonu
+• Puls — pogledajte što drugi kuhaju diljem svijeta
+• Kontaktirajte podršku — pošaljite e‑poruku programeru iz zaslona O aplikaciji
+
+Poboljšano:
+• Prijevodi i dotjeran dizajn
+
+Ispravci grešaka:
+• Ugrađeni recepti nestaju na jezicima koji nisu engleski
+• Gumb Dijeli se zamrzne nakon zatvaranja prijave

@@ -1,10 +1,16 @@
-Nuevo:
-• A veces la bolsa de café en grano ya se ha terminado, pero en el inventario de la app aún “quedan” unos pocos gramos. La pantalla Detalles del café en grano ahora incluye un botón “Poner a cero” que permite solucionarlo rápidamente.
+Novedades:
 
-Mejorado:
-• Traducción al japonés mejorada, ¡gracias @llibra!
-• Se ha añadido una confirmación antes de cerrar sesión.
-• Mejoras internas que harán la app más estable (¡esperemos!).
+• Preparación en segundo plano — Minimiza la app a mitad de preparación y vuelve cuando quieras. El temporizador seguirá funcionando con precisión en segundo plano.  
+• Actividades en vivo — Sigue el progreso de tu preparación en la pantalla de bloqueo y en la Dynamic Island (solo en dispositivos compatibles).  
+• Pulso — Una nueva pantalla en tiempo real que muestra qué están preparando ahora mismo otros usuarios de todo el mundo.  
+• Contactar con soporte — Ponte en contacto directamente con el desarrollador por correo electrónico desde el nuevo botón Soporte en la pantalla Acerca de.
 
-Corrección de errores:
-• Se han vuelto a añadir los mensajes de error que faltaban para el inicio de sesión con Google.
+Mejoras:
+
+• Ajustes de traducción en varios idiomas.  
+• Varios retoques de diseño para una experiencia más fluida.
+
+Correcciones de errores:
+
+• Se ha corregido un problema por el que las recetas integradas desaparecían después de compartirlas cuando la app estaba configurada en un idioma distinto del inglés.  
+• Se ha corregido un problema por el que el botón de compartir de las recetas creadas por usuarios dejaba de responder tras cerrar el diálogo de inicio de sesión.

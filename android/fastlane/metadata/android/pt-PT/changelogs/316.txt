@@ -1,0 +1,12 @@
+Novidades:
+• Infusão em segundo plano — o temporizador continua a contar em segundo plano
+• Atualizações em tempo real — progresso da infusão no ecrã bloqueado
+• Pulso — vê o que outros estão a preparar em todo o mundo
+• Contactar Suporte — envia email ao programador a partir do ecrã Sobre
+
+Melhorias:
+• Traduções e refinamento do design
+
+Correções:
+• Receitas integradas a desaparecer em idiomas não ingleses
+• Botão Partilhar a bloquear após fechar o início de sessão

@@ -1,0 +1,12 @@
+Nytt:
+• Bakgrunnsbrygging — timeren går mens appen er minimert
+• Live-oppdateringer — bryggeframdrift på låseskjermen
+• Puls — se hva andre brygger verden over
+• Kontakt support — e-post til utvikleren fra Om-skjermen
+
+Forbedret:
+• Oversettelser og finpuss av design
+
+Feilrettinger:
+• Innebygde oppskrifter som forsvant i ikke-engelske språk
+• Del-knappen frøs etter at innlogging ble lukket

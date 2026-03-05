@@ -1,0 +1,12 @@
+New:
+• Background brewing — timer keeps running while minimized
+• Live Updates — brew progress on lock screen
+• Pulse — see what others brew worldwide
+• Contact Support — email the developer from the About screen
+
+Improved:
+• Translations & design polish
+
+Bug Fixes:
+• Built-in recipes disappearing in non-English locales
+• Share button freezing after dismissing sign-in

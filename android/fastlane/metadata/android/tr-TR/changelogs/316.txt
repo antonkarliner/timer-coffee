@@ -1,0 +1,12 @@
+Yeni:
+• Arka planda demleme — uygulama küçültülüyken zamanlayıcı çalışır
+• Canlı Güncellemeler — Kilit Ekranı'nda demleme ilerlemesi
+• Nabız — dünyada başkaları ne demliyor, gör
+• Destek ile İletişime Geçin — Hakkında ekranından geliştiriciye e-posta
+
+İyileştirildi:
+• Çeviriler ve tasarım cilası
+
+Hata Düzeltmeleri:
+• İngilizce dışı dillerde yerleşik tariflerin kaybolması
+• Giriş ekranı kapatıldıktan sonra Paylaş düğmesinin donması

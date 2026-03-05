@@ -1,0 +1,12 @@
+Nouveau :
+• Infusion en arrière-plan — le minuteur continue en mode réduit
+• Mises à jour en direct — progression sur l’écran verrouillé
+• Pulse — découvrez ce que les autres infusent partout dans le monde
+• Contacter l’assistance — courriel au développeur depuis l’écran À propos
+
+Améliorations :
+• Traductions et design peaufinés
+
+Correctifs :
+• Recettes intégrées qui disparaissaient en langues autres que l’anglais
+• Bouton Partager qui gelait après la fermeture de l’écran de connexion

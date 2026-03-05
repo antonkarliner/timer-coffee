@@ -1,10 +1,16 @@
 Baru:
-• Terkadang kantong biji kopi sudah habis, tetapi masih ada beberapa gram yang “tersisa” di inventaris aplikasi. Layar Detail Biji kini memiliki tombol “Setel ke nol” yang memungkinkan hal ini dibereskan dengan cepat.
 
-Ditingkatkan:
-• Terjemahan ke bahasa Jepang ditingkatkan, terima kasih @llibra!
-• Menambahkan konfirmasi sebelum keluar.
-• Peningkatan di balik layar yang akan membuat aplikasi lebih stabil (semoga!).
+• Seduh di latar belakang — Minimalkan aplikasi saat proses seduh berlangsung dan kembali kapan pun Anda siap. Timer tetap berjalan akurat di latar belakang.
+• Live Activities — Pantau progres seduh Anda di Layar Terkunci dan di Dynamic Island (hanya perangkat yang didukung).
+• Pulse — Layar real-time baru yang menampilkan apa yang sedang diseduh oleh pengguna lain di seluruh dunia saat ini.
+• Hubungi Dukungan — Hubungi pengembang secara langsung melalui email dari tombol Dukungan baru di layar Tentang.
 
-Perbaikan bug:
-• Menambahkan kembali pesan kesalahan yang sempat hilang untuk Google Sign-in.
+Peningkatan:
+
+• Penyempurnaan terjemahan di berbagai bahasa.
+• Berbagai penyempurnaan desain untuk pengalaman yang lebih mulus.
+
+Perbaikan Bug:
+
+• Memperbaiki masalah ketika resep bawaan menghilang setelah dibagikan saat aplikasi disetel ke bahasa selain Inggris.
+• Memperbaiki masalah ketika tombol bagikan untuk resep buatan pengguna menjadi tidak responsif setelah menutup dialog masuk.

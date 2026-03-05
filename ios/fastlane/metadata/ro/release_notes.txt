@@ -1,10 +1,16 @@
 Noutăți:
-• Uneori punga de boabe de cafea este deja terminată, dar în inventarul din aplicație mai „rămân” câteva grame. Ecranul Detalii boabe are acum butonul „Setează la zero”, care permite rezolvarea rapidă a situației.
+
+• Preparare în fundal — Minimizează aplicația în timpul preparării și revino când ești gata. Cronometrul continuă să ruleze cu precizie în fundal.  
+• Activități Live — Urmărește progresul preparării pe ecranul de blocare și în Dynamic Island (doar pe dispozitivele compatibile).  
+• Pulse — Un nou ecran în timp real care arată ce prepară chiar acum alți utilizatori din întreaga lume.  
+• Contactează suportul — Contactează direct dezvoltatorul prin e-mail din noul buton Suport din ecranul Despre.
 
 Îmbunătățiri:
-• Traducere îmbunătățită în japoneză, mulțumim @llibra!
-• A fost adăugată o confirmare înainte de deconectare.
-• Îmbunătățiri interne care vor face aplicația mai stabilă (sperăm!).
+
+• Ajustări ale traducerilor în mai multe limbi.  
+• Diverse îmbunătățiri de design pentru o experiență mai fluidă.
 
 Remedieri:
-• Au fost reintroduse mesajele de eroare lipsă pentru conectarea cu Google.
+
+• S-a remediat o problemă din cauza căreia rețetele incluse dispăreau după partajare atunci când aplicația era setată într-o limbă diferită de engleză.  
+• S-a remediat o problemă din cauza căreia butonul de partajare pentru rețetele create de utilizatori nu mai răspundea după închiderea dialogului de autentificare.

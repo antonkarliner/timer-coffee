@@ -1,10 +1,16 @@
-新機能:
-• コーヒー豆の袋がすでに空なのに、アプリの在庫に数グラム「残っている」ことがあります。豆の詳細画面に「0 に設定」ボタンを追加し、素早く調整できるようにしました。
+New:
 
-改善:
-• 日本語翻訳を改善しました。@llibra さん、ありがとうございます！
-• サインアウト前の確認を追加しました。
-• アプリの安定性向上につながる内部改善を行いました（たぶん！）。
+• Background brewing — Minimize the app mid-brew and come back whenever you're ready. The timer keeps running accurately in the background.
+• Live Activities — Track your brew progress on the Lock Screen and in the Dynamic Island (supported devices only).
+• Pulse — A new real-time screen showing what other users around the world are brewing right now.
+• Contact Support — Reach the developer directly via email from the new Support button on the About screen.
 
-不具合修正:
-• Google サインインで不足していたエラーメッセージを再追加しました。
+Improved:
+
+• Translation refinements across multiple languages.
+• Various design polish for a smoother experience.
+
+Bug Fixes:
+
+• Fixed an issue where built-in recipes would disappear after sharing when the app was set to a non-English language.
+• Fixed an issue where the share button for user-created recipes became unresponsive after dismissing the sign-in dialog.

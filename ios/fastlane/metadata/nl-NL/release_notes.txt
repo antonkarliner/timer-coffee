@@ -1,10 +1,16 @@
 Nieuw:
-• Soms is een zak koffiebonen al op, maar blijven er in de app-inventaris nog een paar gram “over”. Het scherm Bonendetails heeft nu een knop “Op nul zetten” waarmee je dit snel kunt oplossen.
+
+• Achtergrondzetten — Minimaliseer de app tijdens het zetten en kom terug wanneer je er klaar voor bent. De timer blijft op de achtergrond nauwkeurig doorlopen.  
+• Live-activiteiten — Volg de voortgang van je zet op het vergrendelscherm en in de Dynamic Island (alleen ondersteunde apparaten).  
+• Pulse — Een nieuw realtime scherm dat laat zien wat andere gebruikers wereldwijd op dit moment aan het zetten zijn.  
+• Contact opnemen met support — Neem rechtstreeks via e-mail contact op met de ontwikkelaar via de nieuwe Support-knop op het Over-scherm.
 
 Verbeterd:
-• Verbeterde vertaling naar het Japans, bedankt @llibra!
-• Bevestiging toegevoegd vóór het uitloggen.
-• Verbeteringen onder de motorkap die de app stabieler moeten maken (hopelijk!).
 
-Bugfix:
-• Ontbrekende foutmeldingen voor Google-inloggen opnieuw toegevoegd.
+• Verfijningen in vertalingen in meerdere talen.  
+• Diverse ontwerpverbeteringen voor een soepelere ervaring.
+
+Bugfixes:
+
+• Een probleem opgelost waarbij ingebouwde recepten na het delen verdwenen wanneer de app was ingesteld op een niet-Engelse taal.  
+• Een probleem opgelost waarbij de deelknop voor door gebruikers gemaakte recepten niet meer reageerde na het sluiten van het aanmeldvenster.

@@ -1,10 +1,16 @@
 Novità:
-• A volte il sacchetto di chicchi di caffè è già finito, ma nell’inventario dell’app risultano ancora “rimasti” alcuni grammi. La schermata Dettagli chicchi ora ha il pulsante “Imposta a zero”, che permette di sistemare rapidamente la situazione.
+
+• Infusione in background — Riduci al minimo l’app durante l’infusione e torna quando vuoi. Il timer continua a scorrere con precisione in background.
+• Attività in tempo reale — Tieni d’occhio l’avanzamento dell’infusione nella schermata di blocco e nella Dynamic Island (solo sui dispositivi supportati).
+• Pulse — Una nuova schermata in tempo reale che mostra cosa stanno preparando gli altri utenti in tutto il mondo, in questo momento.
+• Contatta l’assistenza — Contatta direttamente lo sviluppatore via email dal nuovo pulsante Supporto nella schermata Informazioni.
 
 Miglioramenti:
-• Migliorata la traduzione in giapponese, grazie @llibra!
-• Aggiunta una conferma prima della disconnessione.
-• Miglioramenti sotto il cofano che renderanno l’app più stabile (si spera!).
+
+• Miglioramenti alle traduzioni in più lingue.
+• Ritocchi al design per un’esperienza più fluida.
 
 Correzioni di bug:
-• Reintrodotti i messaggi di errore mancanti per l’accesso con Google.
+
+• Risolto un problema per cui le ricette integrate sparivano dopo la condivisione quando l’app era impostata su una lingua diversa dall’inglese.
+• Risolto un problema per cui il pulsante di condivisione delle ricette create dall’utente non rispondeva dopo aver chiuso la finestra di dialogo di accesso.

@@ -1,0 +1,12 @@
+Baru:
+• Seduh di latar belakang — timer tetap berjalan saat aplikasi diminimalkan
+• Live Updates — progres seduhan di layar terkunci
+• Pulse — lihat seduhan orang lain di seluruh dunia
+• Hubungi Dukungan — email pengembang dari layar Tentang
+
+Ditingkatkan:
+• Terjemahan & penyempurnaan desain
+
+Perbaikan Bug:
+• Resep bawaan hilang pada bahasa selain Inggris
+• Tombol Bagikan macet setelah layar masuk ditutup

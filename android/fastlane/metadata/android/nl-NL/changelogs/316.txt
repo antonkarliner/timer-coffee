@@ -1,0 +1,12 @@
+Nieuw:
+• Achtergrond brouwen — timer loopt door als de app is geminimaliseerd
+• Live-updates — brouwtijd en voortgang op het vergrendelscherm
+• Pulse — zie wat anderen wereldwijd zetten
+• Contact opnemen met support — mail de ontwikkelaar via het Over-scherm
+
+Verbeterd:
+• Vertalingen en designafwerking
+
+Bugfixes:
+• Ingebouwde recepten verdwenen in niet-Engelse taal
+• Deelknop bleef hangen na het sluiten van inloggen

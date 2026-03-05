@@ -1,10 +1,16 @@
-Nyhet:
-• Noen ganger er posen med kaffebønner allerede tom, men det står fortsatt igjen noen gram som «rester» i appens lager. Skjermen for bønne-detaljer har nå en «Sett til null»-knapp som gjør det raskt å ordne dette.
+Nytt:
+
+• Brygging i bakgrunnen — Minimer appen midt i bryggingen og kom tilbake når du er klar. Timeren fortsetter å gå nøyaktig i bakgrunnen.  
+• Liveaktiviteter — Følg bryggeprogresjonen på låseskjermen og i Dynamic Island (kun støttede enheter).  
+• Puls — En ny sanntidsskjerm som viser hva andre brukere rundt om i verden brygger akkurat nå.  
+• Kontakt support — Kontakt utvikleren direkte via e-post med den nye Support-knappen på Om-skjermen.
 
 Forbedret:
-• Forbedret oversettelse til japansk, takk @llibra!
-• Lagt til bekreftelse før utlogging.
-• Forbedringer under panseret som vil gjøre appen mer stabil (forhåpentligvis!).
 
-Feilretting:
-• La tilbake manglende feilmeldinger for Google-pålogging.
+• Forbedringer i oversettelser på tvers av flere språk.  
+• Ulike designjusteringer for en jevnere opplevelse.
+
+Feilrettinger:
+
+• Rettet et problem der innebygde oppskrifter kunne forsvinne etter deling når appen var satt til et ikke-engelsk språk.  
+• Rettet et problem der delingsknappen for brukerlagde oppskrifter sluttet å svare etter at innloggingsdialogen ble lukket.

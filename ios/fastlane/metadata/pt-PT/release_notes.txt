@@ -1,10 +1,16 @@
-Novo:
-• Por vezes, o saco de grãos de café já acabou, mas ainda ficam alguns gramas “restantes” no inventário da app. O ecrã Detalhes dos Grãos tem agora o botão “Definir como zero”, que permite resolver isto rapidamente.
+Novidades:
 
-Melhorado:
-• Melhorada a tradução para japonês, obrigado @llibra!
-• Adicionada confirmação antes de terminar sessão.
-• Melhorias internas que tornarão a app mais estável (esperemos!).
+• Preparação em segundo plano — Minimize a app a meio da preparação e volte quando estiver pronto. O temporizador continua a contar com precisão em segundo plano.
+• Atividades em direto — Acompanhe o progresso da sua preparação no Ecrã bloqueado e na Dynamic Island (apenas em dispositivos compatíveis).
+• Pulso — Um novo ecrã em tempo real que mostra o que outros utilizadores em todo o mundo estão a preparar neste momento.
+• Contactar o Suporte — Contacte diretamente o programador por e-mail através do novo botão Suporte no ecrã Sobre.
 
-Correção de erros:
-• Repostas as mensagens de erro em falta no início de sessão com o Google.
+Melhorias:
+
+• Ajustes e melhorias nas traduções em vários idiomas.
+• Vários refinamentos de design para uma experiência mais fluida.
+
+Correções de erros:
+
+• Corrigido um problema em que as receitas integradas desapareciam após a partilha quando a app estava definida para um idioma diferente do inglês.
+• Corrigido um problema em que o botão de partilha das receitas criadas pelo utilizador deixava de responder após fechar a janela de início de sessão.
