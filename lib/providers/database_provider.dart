@@ -938,11 +938,23 @@ class DatabaseProvider {
   }
 
   Future<void> _fetchAndStoreLaunchPopup(String locale) async {
+    final String currentPlatform;
+    if (kIsWeb) {
+      currentPlatform = 'web';
+    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+      currentPlatform = 'ios';
+    } else if (defaultTargetPlatform == TargetPlatform.android) {
+      currentPlatform = 'android';
+    } else {
+      currentPlatform = 'all';
+    }
+
     try {
       final response = await Supabase.instance.client
           .from('launch_popup')
           .select('id, content, locale, created_at, platform')
           .eq('locale', locale)
+          .or('platform.eq.$currentPlatform,platform.eq.all')
           .order('created_at', ascending: false)
           .limit(1)
           .maybeSingle()
