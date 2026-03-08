@@ -441,7 +441,10 @@ class _PulseScreenState extends State<PulseScreen>
 
   Future<void> _handlePullToRefresh() async {
     _triggerSummaryDotPulse();
-    await _loadInitialFeed();
+    await Future.wait([
+      _loadInitialFeed(),
+      Future.delayed(const Duration(milliseconds: 1200)),
+    ]);
   }
 
   Future<void> _resolveRecipe(String recipeId) async {
