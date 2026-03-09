@@ -2119,4 +2119,29 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'Descarcă aplicația';
+
+  @override
+  String get addBrewEntry => 'Adaugă înregistrare preparare';
+
+  @override
+  String get selectBrewingMethod => 'Selectează metoda de preparare';
+
+  @override
+  String get selectRecipe => 'Selectează rețeta';
+
+  @override
+  String get brewDate => 'Data';
+
+  @override
+  String get brewTime => 'Ora';
+
+  @override
+  String get brewEntrySaved => 'Înregistrare preparare salvată';
+
+  @override
+  String get brewingMethodRequired =>
+      'Vă rugăm selectați o metodă de preparare';
+
+  @override
+  String get recipeRequired => 'Vă rugăm selectați o rețetă';
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:coffee_timer/database/database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/database/extensions.dart';
 import 'package:diacritic/diacritic.dart';
@@ -58,32 +59,41 @@ class DatabaseProvider {
   }
 
   Future<void> _setLastDeferredModerationCheckTimestamp(
-      DateTime timestamp) async {
+    DateTime timestamp,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
-        _lastDeferredModerationCheckKey, timestamp.toIso8601String());
+      _lastDeferredModerationCheckKey,
+      timestamp.toIso8601String(),
+    );
   }
 
   // --- End SharedPreferences Helpers ---
 
-  Future<void> initializeDatabase(
-      {required bool isFirstLaunch, String? locale}) async {
+  Future<void> initializeDatabase({
+    required bool isFirstLaunch,
+    String? locale,
+  }) async {
     if (isFirstLaunch) {
       // No timeout on the first launch to ensure all essential data is loaded
       try {
         await _initializeDatabaseInternal(
-            isFirstLaunch: isFirstLaunch, locale: locale);
+          isFirstLaunch: isFirstLaunch,
+          locale: locale,
+        );
       } catch (error) {
         AppLogger.error(
-            'Error initializing database on first launch: ${AppLogger.sanitize(error)}');
+          'Error initializing database on first launch: ${AppLogger.sanitize(error)}',
+        );
         // Optionally, handle the error appropriately
       }
     } else {
       // Apply a 10-second timeout to the entire initialization process
       try {
         await _initializeDatabaseInternal(
-                isFirstLaunch: isFirstLaunch, locale: locale)
-            .timeout(
+          isFirstLaunch: isFirstLaunch,
+          locale: locale,
+        ).timeout(
           const Duration(seconds: 10),
           onTimeout: () {
             AppLogger.warning('initializeDatabase timed out');
@@ -93,14 +103,17 @@ class DatabaseProvider {
         );
       } catch (error) {
         AppLogger.error(
-            'Error initializing database: ${AppLogger.sanitize(error)}');
+          'Error initializing database: ${AppLogger.sanitize(error)}',
+        );
         // Optionally, handle other errors
       }
     }
   }
 
-  Future<void> _initializeDatabaseInternal(
-      {required bool isFirstLaunch, String? locale}) async {
+  Future<void> _initializeDatabaseInternal({
+    required bool isFirstLaunch,
+    String? locale,
+  }) async {
     // Added locale parameter
     await _fetchAndStoreReferenceData(isFirstLaunch: isFirstLaunch);
     await Future.wait([
@@ -141,12 +154,13 @@ class DatabaseProvider {
           .timeout(const Duration(seconds: 8));
 
       final rawList = (response as List<dynamic>).cast<Map<String, dynamic>>();
-      final offers =
-          rawList.map((row) => GiftOffer.fromMap(row, locale)).where((offer) {
-        final vt = offer.validTo;
-        if (vt != null && vt.isBefore(now)) return false;
-        return true;
-      }).toList();
+      final offers = rawList.map((row) => GiftOffer.fromMap(row, locale)).where(
+        (offer) {
+          final vt = offer.validTo;
+          if (vt != null && vt.isBefore(now)) return false;
+          return true;
+        },
+      ).toList();
 
       _sortOffers(offers, regionCode);
       return offers;
@@ -171,8 +185,10 @@ class DatabaseProvider {
           .single()
           .timeout(const Duration(seconds: 6));
 
-      final offer =
-          GiftOffer.fromMap((response as Map<String, dynamic>), locale);
+      final offer = GiftOffer.fromMap(
+        (response as Map<String, dynamic>),
+        locale,
+      );
 
       if (_isOfferExpired(offer)) return null;
       return offer;
@@ -198,14 +214,18 @@ class DatabaseProvider {
           .single()
           .timeout(const Duration(seconds: 6));
 
-      final offer =
-          GiftOffer.fromMap((response as Map<String, dynamic>), locale);
+      final offer = GiftOffer.fromMap(
+        (response as Map<String, dynamic>),
+        locale,
+      );
 
       if (_isOfferExpired(offer)) return null;
       return offer;
     } catch (e) {
-      AppLogger.error('Failed to fetch active giftbox offer $slug',
-          errorObject: e);
+      AppLogger.error(
+        'Failed to fetch active giftbox offer $slug',
+        errorObject: e,
+      );
       return null;
     }
   }
@@ -239,16 +259,19 @@ class DatabaseProvider {
     });
   }
 
-  Future<void> _fetchAndStoreReferenceData(
-      {required bool isFirstLaunch}) async {
+  Future<void> _fetchAndStoreReferenceData({
+    required bool isFirstLaunch,
+  }) async {
     try {
       // Define individual futures
       final brewingMethodsFuture = Supabase.instance.client
           .from('brewing_methods')
           .select(
-              'brewing_method_id,brewing_method'); // Removed show_on_main from select
-      final supportedLocalesFuture =
-          Supabase.instance.client.from('supported_locales').select();
+            'brewing_method_id,brewing_method',
+          ); // Removed show_on_main from select
+      final supportedLocalesFuture = Supabase.instance.client
+          .from('supported_locales')
+          .select();
 
       // Apply timeouts if it's not the first launch
       final brewingMethodsRequest = isFirstLaunch
@@ -279,12 +302,15 @@ class DatabaseProvider {
         await _db.batch((batch) {
           batch.insertAllOnConflictUpdate(_db.brewingMethods, brewingMethods);
           batch.insertAllOnConflictUpdate(
-              _db.supportedLocales, supportedLocales);
+            _db.supportedLocales,
+            supportedLocales,
+          );
         });
       });
     } catch (error) {
       AppLogger.error(
-          'Error fetching and storing reference data: ${AppLogger.sanitize(error)}');
+        'Error fetching and storing reference data: ${AppLogger.sanitize(error)}',
+      );
       // Optionally, handle the error (e.g., provide default data)
     }
   }
@@ -292,8 +318,8 @@ class DatabaseProvider {
   Future<void> _fetchAndStoreRecipes({required bool isFirstLaunch}) async {
     try {
       // Get all recipe IDs from local database
-      final localRecipeIds =
-          await _db.recipesDao.fetchIdsAndLastModifiedDates();
+      final localRecipeIds = await _db.recipesDao
+          .fetchIdsAndLastModifiedDates();
 
       // Fetch all recipes from Supabase
       var request = Supabase.instance.client
@@ -303,8 +329,10 @@ class DatabaseProvider {
       DateTime? lastModified = await _db.recipesDao.fetchLastModified();
       if (lastModified != null && !isFirstLaunch) {
         final lastModifiedUtc = lastModified.toUtc();
-        request =
-            request.gt('last_modified', lastModifiedUtc.toIso8601String());
+        request = request.gt(
+          'last_modified',
+          lastModifiedUtc.toIso8601String(),
+        );
       }
 
       // Apply timeout if it's not the first launch
@@ -325,8 +353,9 @@ class DatabaseProvider {
           .toList();
 
       // Extract and store steps
-      final stepsJson =
-          response.expand((json) => (json['steps'] as List<dynamic>)).toList();
+      final stepsJson = response
+          .expand((json) => (json['steps'] as List<dynamic>))
+          .toList();
       final steps = stepsJson
           .map((json) => StepsCompanionExtension.fromJson(json))
           .toList();
@@ -353,7 +382,8 @@ class DatabaseProvider {
       // Exclude user-created recipes (those with 'usr-' prefix) from deletion
       final deletedRecipeIds = localRecipeIds.keys
           .where(
-              (id) => !supabaseRecipeIds.contains(id) && !id.startsWith('usr-'))
+            (id) => !supabaseRecipeIds.contains(id) && !id.startsWith('usr-'),
+          )
           .toList();
 
       // Delete these recipes from local DB
@@ -365,7 +395,9 @@ class DatabaseProvider {
         await _db.batch((batch) {
           batch.insertAllOnConflictUpdate(_db.recipes, recipes);
           batch.insertAllOnConflictUpdate(
-              _db.recipeLocalizations, localizations);
+            _db.recipeLocalizations,
+            localizations,
+          );
           batch.insertAllOnConflictUpdate(_db.steps, steps);
         });
       });
@@ -378,51 +410,60 @@ class DatabaseProvider {
       }
     } catch (error) {
       AppLogger.error(
-          'Error fetching and storing recipes: ${AppLogger.sanitize(error)}');
+        'Error fetching and storing recipes: ${AppLogger.sanitize(error)}',
+      );
       // Optionally, handle the error
     }
   }
 
   // Sync user-created recipes with Supabase (Optimized with Timestamps)
   Future<void> _syncUserRecipes(
-      String userId, Map<String, DateTime> localRecipeIds) async {
+    String userId,
+    Map<String, DateTime> localRecipeIds,
+  ) async {
     final DateTime syncStartTime = DateTime.now().toUtc();
     final DateTime? lastSyncTime = await _getLastSyncTimestamp();
     AppLogger.debug(
-        'Starting user recipe sync. Last sync: ${lastSyncTime?.toIso8601String() ?? 'Never'}',
-        errorObject: {'userId': AppLogger.sanitize(userId)});
+      'Starting user recipe sync. Last sync: ${lastSyncTime?.toIso8601String() ?? 'Never'}',
+      errorObject: {'userId': AppLogger.sanitize(userId)},
+    );
 
     try {
       // --- UPLOAD ---
       AppLogger.debug('Checking for local recipes to upload...');
       // Get local user recipes modified since last sync AND not flagged for moderation
       // AND recipes that were newly imported but not yet uploaded.
-      final recipesToUpload = await _db.recipesDao
-          .getUserRecipesModifiedAfter(lastSyncTime, userId);
+      final recipesToUpload = await _db.recipesDao.getUserRecipesModifiedAfter(
+        lastSyncTime,
+        userId,
+      );
       final newlyImportedRecipes = await _db.recipesDao
           .getImportedRecipesForUserNotYetUploaded(
-              userId); // New DAO method needed
+            userId,
+          ); // New DAO method needed
 
       // Combine the lists, ensuring uniqueness based on recipe ID
       final allRecipesToPotentiallyUpload = {
-        for (var r in recipesToUpload) r.id: r
+        for (var r in recipesToUpload) r.id: r,
       };
       for (var r in newlyImportedRecipes) {
         allRecipesToPotentiallyUpload.putIfAbsent(r.id, () => r);
       }
 
       AppLogger.debug(
-          'Found ${allRecipesToPotentiallyUpload.length} local recipes to potentially upload (modified or newly imported).');
+        'Found ${allRecipesToPotentiallyUpload.length} local recipes to potentially upload (modified or newly imported).',
+      );
 
       for (final recipe in allRecipesToPotentiallyUpload.values) {
         // Double-check ownership (already filtered in DAO, but good practice)
         if (recipe.vendorId != 'usr-$userId') {
           AppLogger.warning(
-              'Skipping upload for recipe due to vendor ID mismatch',
-              errorObject: {
-                'recipeId': AppLogger.sanitize(recipe.id),
-                'vendorId': AppLogger.sanitize(recipe.vendorId)
-              });
+            'Skipping upload for recipe due to vendor ID mismatch',
+            errorObject: {
+              'recipeId': AppLogger.sanitize(recipe.id),
+              'vendorId': AppLogger.sanitize(recipe.vendorId),
+            },
+          );
           continue;
         }
 
@@ -430,14 +471,17 @@ class DatabaseProvider {
         final remoteData = await Supabase.instance.client
             .from('user_recipes')
             .select(
-                'id, last_modified, is_deleted, ispublic, needs_moderation_review')
+              'id, last_modified, is_deleted, ispublic, needs_moderation_review',
+            )
             .eq('id', recipe.id)
             .maybeSingle();
 
         // Skip if marked deleted remotely
         if (remoteData != null && remoteData['is_deleted'] == true) {
-          AppLogger.debug('Skipping upload for recipe, deleted remotely.',
-              errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
+          AppLogger.debug(
+            'Skipping upload for recipe, deleted remotely.',
+            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+          );
           continue;
         }
 
@@ -451,10 +495,14 @@ class DatabaseProvider {
         if (isFirstUploadForImport ||
             recipesToUpload.any((r) => r.id == recipe.id)) {
           AppLogger.debug(
-              'Uploading recipe. Reason: ${isFirstUploadForImport ? "Newly imported" : "Modified locally"}',
-              errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
-          await _uploadRecipeToSupabase(recipe, userId,
-              currentIsPublic: remoteData?['ispublic']);
+            'Uploading recipe. Reason: ${isFirstUploadForImport ? "Newly imported" : "Modified locally"}',
+            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+          );
+          await _uploadRecipeToSupabase(
+            recipe,
+            userId,
+            currentIsPublic: remoteData?['ispublic'],
+          );
 
           // // If it was the first upload for an imported recipe, mark isImported as false locally
           // // REMOVED: Keep isImported = true to allow future updates from parent
@@ -473,12 +521,15 @@ class DatabaseProvider {
         } else if (recipe.isImported == true && remoteData != null) {
           // Exists remotely but wasn't in the 'modified' list - likely already synced or only needs download sync
           AppLogger.debug(
-              'Skipping upload for imported recipe - already exists remotely and not modified locally.',
-              errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
+            'Skipping upload for imported recipe - already exists remotely and not modified locally.',
+            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+          );
         } else {
           // Wasn't modified locally and wasn't a new import needing upload
-          AppLogger.debug('Skipping upload for recipe - not modified locally.',
-              errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
+          AppLogger.debug(
+            'Skipping upload for recipe - not modified locally.',
+            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+          );
         }
       }
       AppLogger.debug('Finished processing potential uploads.');
@@ -504,10 +555,12 @@ class DatabaseProvider {
       // Perform local deletions if necessary
       if (idsToDeleteLocally.isNotEmpty) {
         AppLogger.debug(
-            'Found ${idsToDeleteLocally.length} recipes to delete locally based on remote status.');
+          'Found ${idsToDeleteLocally.length} recipes to delete locally based on remote status.',
+        );
         await _db.transaction(() async {
           AppLogger.debug(
-              'Deleting ${idsToDeleteLocally.length} recipes locally...');
+            'Deleting ${idsToDeleteLocally.length} recipes locally...',
+          );
           for (final id in idsToDeleteLocally) {
             // Pass false for markDeletedInSupabase as the deletion originated from Supabase.
             await _deleteRecipeFromLocalDb(id, markDeletedInSupabase: false);
@@ -516,7 +569,8 @@ class DatabaseProvider {
         });
       } else {
         AppLogger.debug(
-            'No remotely deleted recipes found that need local deletion.');
+          'No remotely deleted recipes found that need local deletion.',
+        );
       }
 
       // --- DOWNLOAD UPDATES/INSERTS ---
@@ -526,23 +580,29 @@ class DatabaseProvider {
           .from('user_recipes')
           .select('*, user_recipe_localizations(*), user_steps(*)')
           .eq('vendor_id', 'usr-$userId')
-          .eq('is_deleted',
-              false); // Only fetch non-deleted for updates/inserts
+          .eq(
+            'is_deleted',
+            false,
+          ); // Only fetch non-deleted for updates/inserts
 
       if (lastSyncTime != null) {
-        downloadQuery =
-            downloadQuery.gt('last_modified', lastSyncTime.toIso8601String());
+        downloadQuery = downloadQuery.gt(
+          'last_modified',
+          lastSyncTime.toIso8601String(),
+        );
       }
 
-      final downloadResponse =
-          await downloadQuery.timeout(const Duration(seconds: 3));
+      final downloadResponse = await downloadQuery.timeout(
+        const Duration(seconds: 3),
+      );
 
       if (downloadResponse == null || (downloadResponse as List).isEmpty) {
         AppLogger.debug('No new or updated remote recipes to download/insert.');
       } else {
         final remoteRecipesData = downloadResponse as List<dynamic>;
         AppLogger.debug(
-            'Found ${remoteRecipesData.length} remote recipes to download/insert.');
+          'Found ${remoteRecipesData.length} remote recipes to download/insert.',
+        );
 
         final List<RecipesCompanion> recipesToInsertOrUpdate = [];
         final List<RecipeLocalizationsCompanion> localizationsToInsertOrUpdate =
@@ -555,8 +615,9 @@ class DatabaseProvider {
           final isDeletedRemotely = recipeJson['is_deleted'] as bool? ?? false;
           if (isDeletedRemotely) {
             AppLogger.warning(
-                'Skipping unexpectedly deleted recipe in update/insert phase',
-                errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
+              'Skipping unexpectedly deleted recipe in update/insert phase',
+              errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
+            );
             continue;
           }
 
@@ -576,79 +637,108 @@ class DatabaseProvider {
               (remoteLastModified != null &&
                   !remoteLastModified.isAtSameMomentAs(localLastModified) &&
                   remoteLastModified.isAfter(localLastModified))) {
-            AppLogger.debug('Processing download/update for recipe',
-                errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
+            AppLogger.debug(
+              'Processing download/update for recipe',
+              errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
+            );
             final recipeCompanion =
                 RecipesCompanionExtension.fromUserRecipeJson(recipeJson);
             // Use remote moderation status if available, default to false
-            recipesToInsertOrUpdate.add(recipeCompanion.copyWith(
-                needsModerationReview:
-                    drift.Value(remoteNeedsModerationReview)));
+            recipesToInsertOrUpdate.add(
+              recipeCompanion.copyWith(
+                needsModerationReview: drift.Value(remoteNeedsModerationReview),
+              ),
+            );
 
             // Extract and add localizations
             final localizationsJson =
                 recipeJson['user_recipe_localizations'] as List<dynamic>? ?? [];
-            localizationsToInsertOrUpdate.addAll(localizationsJson.map((json) =>
-                RecipeLocalizationsCompanionExtension
-                    .fromUserRecipeLocalizationJson(json)));
+            localizationsToInsertOrUpdate.addAll(
+              localizationsJson.map(
+                (json) =>
+                    RecipeLocalizationsCompanionExtension.fromUserRecipeLocalizationJson(
+                      json,
+                    ),
+              ),
+            );
 
             // Extract and add steps
             final stepsJson = recipeJson['user_steps'] as List<dynamic>? ?? [];
-            stepsToInsertOrUpdate.addAll(stepsJson
-                .map((json) => StepsCompanionExtension.fromUserStepJson(json)));
+            stepsToInsertOrUpdate.addAll(
+              stepsJson.map(
+                (json) => StepsCompanionExtension.fromUserStepJson(json),
+              ),
+            );
           } else {
             // This case should ideally not happen often due to the query filter,
             // but log it if it does.
             AppLogger.debug(
-                'Skipping download for recipe (local is same or newer, or timestamp issue)',
-                errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
+              'Skipping download for recipe (local is same or newer, or timestamp issue)',
+              errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
+            );
           }
         }
 
         // Perform batch insert/update in a transaction
         if (recipesToInsertOrUpdate.isNotEmpty) {
           AppLogger.debug(
-              'Inserting/Updating ${recipesToInsertOrUpdate.length} downloaded recipes locally...');
+            'Inserting/Updating ${recipesToInsertOrUpdate.length} downloaded recipes locally...',
+          );
           await _db.transaction(() async {
             await _db.batch((batch) {
               batch.insertAllOnConflictUpdate(
-                  _db.recipes, recipesToInsertOrUpdate);
+                _db.recipes,
+                recipesToInsertOrUpdate,
+              );
               // See previous comment about potential issues with orphaned related data if IDs change.
               batch.insertAllOnConflictUpdate(
-                  _db.recipeLocalizations, localizationsToInsertOrUpdate);
+                _db.recipeLocalizations,
+                localizationsToInsertOrUpdate,
+              );
               batch.insertAllOnConflictUpdate(_db.steps, stepsToInsertOrUpdate);
             });
           });
           AppLogger.debug('Finished inserting/updating downloaded recipes.');
         } else {
           AppLogger.debug(
-              'No recipes needed inserting/updating from the downloaded batch.');
+            'No recipes needed inserting/updating from the downloaded batch.',
+          );
         }
       }
 
       // --- Update Last Sync Timestamp ---
       await _setLastSyncTimestamp(syncStartTime);
       AppLogger.debug(
-          'User recipe sync completed. Updated last sync time to: ${syncStartTime.toIso8601String()}');
+        'User recipe sync completed. Updated last sync time to: ${syncStartTime.toIso8601String()}',
+      );
     } catch (e, stacktrace) {
-      AppLogger.error('Error during user recipe sync',
-          errorObject: e, stackTrace: stacktrace);
+      AppLogger.error(
+        'Error during user recipe sync',
+        errorObject: e,
+        stackTrace: stacktrace,
+      );
       // Consider not updating the timestamp on error to retry next time
     }
   }
 
   // Upload a recipe to Supabase (minor adjustments for clarity)
-  Future<void> _uploadRecipeToSupabase(Recipe recipe, String userId,
-      {bool? currentIsPublic}) async {
+  Future<void> _uploadRecipeToSupabase(
+    Recipe recipe,
+    String userId, {
+    bool? currentIsPublic,
+  }) async {
     try {
       // Add debug logging
-      AppLogger.debug('UPLOADING RECIPE TO SUPABASE', errorObject: {
-        'timestamp': DateTime.now().toIso8601String(),
-        'recipeId': AppLogger.sanitize(recipe.id),
-        'userId': AppLogger.sanitize(userId),
-        'vendorId': AppLogger.sanitize(recipe.vendorId),
-        'needsModerationReview': recipe.needsModerationReview
-      });
+      AppLogger.debug(
+        'UPLOADING RECIPE TO SUPABASE',
+        errorObject: {
+          'timestamp': DateTime.now().toIso8601String(),
+          'recipeId': AppLogger.sanitize(recipe.id),
+          'userId': AppLogger.sanitize(userId),
+          'vendorId': AppLogger.sanitize(recipe.vendorId),
+          'needsModerationReview': recipe.needsModerationReview,
+        },
+      );
       // recipeJson will be logged after it's declared below
 
       // Ensure vendor_id uses the full user ID for RLS
@@ -659,13 +749,15 @@ class DatabaseProvider {
       // - Moderation is handled during share and edits; uploads of already-public recipes
       //   should carry needs_moderation_review = false.
       final bool effectiveIsPublic = currentIsPublic ?? false;
-      final bool effectiveNeedsModeration =
-          effectiveIsPublic ? false : (recipe.needsModerationReview == true);
+      final bool effectiveNeedsModeration = effectiveIsPublic
+          ? false
+          : (recipe.needsModerationReview == true);
 
       if (recipe.needsModerationReview == true && effectiveIsPublic) {
         AppLogger.debug(
-            'Guard: Coercing needs_moderation_review=false for already-public recipe',
-            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
+          'Guard: Coercing needs_moderation_review=false for already-public recipe',
+          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+        );
       }
 
       // Convert recipe to Supabase format
@@ -678,7 +770,8 @@ class DatabaseProvider {
         'brew_time': recipe.brewTime,
         'vendor_id':
             effectiveVendorId, // Use the effective vendor ID instead of just userId
-        'last_modified': recipe.lastModified?.toUtc().toIso8601String() ??
+        'last_modified':
+            recipe.lastModified?.toUtc().toIso8601String() ??
             DateTime.now().toUtc().toIso8601String(), // Ensure UTC
         'import_id': recipe.importId,
         'is_imported': recipe.isImported,
@@ -689,8 +782,10 @@ class DatabaseProvider {
       };
 
       // Log the full recipe JSON after it's been created
-      AppLogger.debug('Full recipe JSON',
-          errorObject: AppLogger.sanitize(recipeJson));
+      AppLogger.debug(
+        'Full recipe JSON',
+        errorObject: AppLogger.sanitize(recipeJson),
+      );
 
       // --- Explicit Insert/Update Logic ---
       // Check if the recipe already exists remotely
@@ -702,13 +797,17 @@ class DatabaseProvider {
 
       if (existingRecipe == null) {
         // Recipe doesn't exist, perform INSERT
-        AppLogger.debug('Recipe not found remotely, performing INSERT',
-            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
+        AppLogger.debug(
+          'Recipe not found remotely, performing INSERT',
+          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+        );
         await Supabase.instance.client.from('user_recipes').insert(recipeJson);
       } else {
         // Recipe exists, perform UPDATE
-        AppLogger.debug('Recipe found remotely, performing UPDATE',
-            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
+        AppLogger.debug(
+          'Recipe found remotely, performing UPDATE',
+          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+        );
         await Supabase.instance.client
             .from('user_recipes')
             .update(recipeJson)
@@ -717,8 +816,8 @@ class DatabaseProvider {
       // --- End Explicit Insert/Update Logic ---
 
       // Get localizations and steps for this recipe
-      final localizations =
-          await _db.recipeLocalizationsDao.getLocalizationsForRecipe(recipe.id);
+      final localizations = await _db.recipeLocalizationsDao
+          .getLocalizationsForRecipe(recipe.id);
       final steps = await _db.stepsDao.getStepsForRecipe(recipe.id);
 
       // Delete existing localizations before upload to prevent accumulation
@@ -729,15 +828,16 @@ class DatabaseProvider {
 
       // Upload localizations (Batch Upsert)
       final localizationsJsonList = localizations
-          .map((loc) => {
-                'id':
-                    loc.id, // Assuming local ID is stable or handled by upsert
-                'recipe_id': loc.recipeId,
-                'locale': loc.locale,
-                'name': loc.name,
-                'grind_size': loc.grindSize,
-                'short_description': loc.shortDescription,
-              })
+          .map(
+            (loc) => {
+              'id': loc.id, // Assuming local ID is stable or handled by upsert
+              'recipe_id': loc.recipeId,
+              'locale': loc.locale,
+              'name': loc.name,
+              'grind_size': loc.grindSize,
+              'short_description': loc.shortDescription,
+            },
+          )
           .toList();
       if (localizationsJsonList.isNotEmpty) {
         await Supabase.instance.client
@@ -750,39 +850,52 @@ class DatabaseProvider {
           .from('user_steps')
           .delete()
           .eq('recipe_id', recipe.id);
-      AppLogger.debug('Deleted existing steps for recipe before upload',
-          errorObject: {
-            'deletedStepsCount': deletedStepsCount,
-            'recipeId': AppLogger.sanitize(recipe.id)
-          });
+      AppLogger.debug(
+        'Deleted existing steps for recipe before upload',
+        errorObject: {
+          'deletedStepsCount': deletedStepsCount,
+          'recipeId': AppLogger.sanitize(recipe.id),
+        },
+      );
 
       // Upload steps (Batch Upsert)
       final stepsJsonList = steps
-          .map((step) => {
-                'id':
-                    step.id, // Assuming local ID is stable or handled by upsert
-                'recipe_id': step.recipeId,
-                'step_order': step.stepOrder,
-                'description': step.description,
-                'time': step.time,
-                'locale': step.locale,
-              })
+          .map(
+            (step) => {
+              'id': step.id, // Assuming local ID is stable or handled by upsert
+              'recipe_id': step.recipeId,
+              'step_order': step.stepOrder,
+              'description': step.description,
+              'time': step.time,
+              'locale': step.locale,
+            },
+          )
           .toList();
       if (stepsJsonList.isNotEmpty) {
         await Supabase.instance.client.from('user_steps').upsert(stepsJsonList);
-        AppLogger.debug('Uploaded steps for recipe', errorObject: {
-          'stepsCount': stepsJsonList.length,
-          'recipeId': AppLogger.sanitize(recipe.id)
-        });
+        AppLogger.debug(
+          'Uploaded steps for recipe',
+          errorObject: {
+            'stepsCount': stepsJsonList.length,
+            'recipeId': AppLogger.sanitize(recipe.id),
+          },
+        );
       }
 
-      AppLogger.debug('Successfully uploaded recipe and related data',
-          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
+      AppLogger.debug(
+        'Successfully uploaded recipe and related data',
+        errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+      );
     } catch (e, stacktrace) {
-      AppLogger.error('Error uploading recipe to Supabase',
-          errorObject: e, stackTrace: stacktrace);
-      AppLogger.debug('Recipe ID that failed to upload',
-          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
+      AppLogger.error(
+        'Error uploading recipe to Supabase',
+        errorObject: e,
+        stackTrace: stacktrace,
+      );
+      AppLogger.debug(
+        'Recipe ID that failed to upload',
+        errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+      );
       // Consider how to handle upload errors (e.g., retry later?)
     }
   }
@@ -824,25 +937,31 @@ class DatabaseProvider {
         // If original is newer than local copy
         if (originalLastModified != null &&
             originalLastModified.isAfter(localLastModified)) {
-          AppLogger.debug('Updating local imported recipe', errorObject: {
-            'recipeId': AppLogger.sanitize(recipe.id),
-            'importId': AppLogger.sanitize(importId)
-          });
+          AppLogger.debug(
+            'Updating local imported recipe',
+            errorObject: {
+              'recipeId': AppLogger.sanitize(recipe.id),
+              'importId': AppLogger.sanitize(importId),
+            },
+          );
           // Update local copy with original's data
           final updatedRecipe = RecipesCompanion(
             id: drift.Value(recipe.id), // Keep local ID
             brewingMethodId: drift.Value(response['brewing_method_id']),
-            coffeeAmount:
-                drift.Value((response['coffee_amount'] as num).toDouble()),
-            waterAmount:
-                drift.Value((response['water_amount'] as num).toDouble()),
+            coffeeAmount: drift.Value(
+              (response['coffee_amount'] as num).toDouble(),
+            ),
+            waterAmount: drift.Value(
+              (response['water_amount'] as num).toDouble(),
+            ),
             waterTemp: response['water_temp'] != null
                 ? drift.Value((response['water_temp'] as num).toDouble())
                 : const drift.Value.absent(),
             brewTime: drift.Value(response['brew_time']),
             vendorId: drift.Value(recipe.vendorId), // Keep local vendor
-            lastModified:
-                drift.Value(DateTime.now().toUtc()), // Update local time
+            lastModified: drift.Value(
+              DateTime.now().toUtc(),
+            ), // Update local time
             importId: drift.Value(recipe.importId), // Keep import ID
             isImported: drift.Value(true),
             // Ensure needs_moderation_review is false when updating from cloud
@@ -882,14 +1001,16 @@ class DatabaseProvider {
             await _db.recipesDao.insertOrUpdateRecipe(updatedRecipe);
 
             // Delete existing localizations and steps
-            await _db.recipeLocalizationsDao
-                .deleteLocalizationsForRecipe(recipe.id);
+            await _db.recipeLocalizationsDao.deleteLocalizationsForRecipe(
+              recipe.id,
+            );
             await _db.stepsDao.deleteStepsForRecipe(recipe.id);
 
             // Insert new localizations and steps
             for (final localization in localizations) {
-              await _db.recipeLocalizationsDao
-                  .insertOrUpdateLocalization(localization);
+              await _db.recipeLocalizationsDao.insertOrUpdateLocalization(
+                localization,
+              );
             }
 
             for (final step in steps) {
@@ -911,8 +1032,8 @@ class DatabaseProvider {
       return;
     }
     try {
-      final localRecipeIds =
-          await _db.recipesDao.fetchIdsAndLastModifiedDates();
+      final localRecipeIds = await _db.recipesDao
+          .fetchIdsAndLastModifiedDates();
       await _syncUserRecipes(userId, localRecipeIds);
     } catch (e) {
       AppLogger.error('Error in public syncUserRecipes', errorObject: e);
@@ -961,8 +1082,9 @@ class DatabaseProvider {
           .timeout(const Duration(seconds: 2));
 
       if (response != null) {
-        _launchPopupModel =
-            LaunchPopupModel.fromMap(response as Map<String, dynamic>);
+        _launchPopupModel = LaunchPopupModel.fromMap(
+          response as Map<String, dynamic>,
+        );
       } else {
         _launchPopupModel = null;
       }
@@ -970,8 +1092,10 @@ class DatabaseProvider {
       AppLogger.warning('Launch popup fetch timed out. Proceeding without it.');
       _launchPopupModel = null; // Ensure it's null on timeout
     } catch (e) {
-      AppLogger.error('Error fetching and storing remote launch popup',
-          errorObject: e);
+      AppLogger.error(
+        'Error fetching and storing remote launch popup',
+        errorObject: e,
+      );
       _launchPopupModel = null; // Ensure it's null on error
     }
   }
@@ -982,16 +1106,15 @@ class DatabaseProvider {
   Future<void> _fetchAndStoreExtraData({required bool isFirstLaunch}) async {
     try {
       // Define individual futures
-      final coffeeFactsFuture =
-          Supabase.instance.client.from('coffee_facts').select();
+      final coffeeFactsFuture = Supabase.instance.client
+          .from('coffee_facts')
+          .select();
       final coffeeFactsRequest = isFirstLaunch
           ? coffeeFactsFuture
           : coffeeFactsFuture.timeout(const Duration(seconds: 5));
 
       // Run all requests in parallel
-      final responses = await Future.wait([
-        coffeeFactsRequest,
-      ]);
+      final responses = await Future.wait([coffeeFactsRequest]);
 
       // Process the responses
       final coffeeFactsResponse = responses[0] as List<dynamic>;
@@ -1005,15 +1128,19 @@ class DatabaseProvider {
         });
       });
     } catch (error) {
-      AppLogger.error('Error fetching and storing extra data',
-          errorObject: AppLogger.sanitize(error));
+      AppLogger.error(
+        'Error fetching and storing extra data',
+        errorObject: AppLogger.sanitize(error),
+      );
       // Optionally, handle the error
     }
   }
 
   // Inside DatabaseProvider
   Future<double> fetchGlobalBrewedCoffeeAmount(
-      DateTime start, DateTime end) async {
+    DateTime start,
+    DateTime end,
+  ) async {
     final startUtc = start.toUtc();
     final endUtc = end.toUtc();
     final response = await Supabase.instance.client
@@ -1022,18 +1149,24 @@ class DatabaseProvider {
         .gte('created_at', startUtc.toIso8601String())
         .lte('created_at', endUtc.toIso8601String())
         .gte('water_amount', 50) // Filter out impossibly low values (< 50ml)
-        .lte('water_amount',
-            5000) // Filter out impossibly high values (> 5000ml)
+        .lte(
+          'water_amount',
+          5000,
+        ) // Filter out impossibly high values (> 5000ml)
         .timeout(const Duration(seconds: 5));
     final data = response as List<dynamic>;
     return data.fold<double>(
-        0.0, (sum, element) => sum + element['water_amount'] / 1000);
+      0.0,
+      (sum, element) => sum + element['water_amount'] / 1000,
+    );
   }
 
   /// Preferred aggregated query that avoids row-limit truncation.
   /// Uses global_stats_daily; returns 0 on failure (do not fall back to global_stats).
   Future<double> fetchGlobalBrewedCoffeeAmountAggregated(
-      DateTime start, DateTime end) async {
+    DateTime start,
+    DateTime end,
+  ) async {
     final client = Supabase.instance.client;
     final startIso = start.toUtc().toIso8601String();
     final endIso = end.toUtc().toIso8601String();
@@ -1041,18 +1174,24 @@ class DatabaseProvider {
     final endDate = endIso.split('T').first;
 
     try {
-      final response =
-          await client.rpc('global_stats_daily_range_sum', params: {
-        // Function arguments are p_start_date, p_end_date (dates)
-        'p_start_date': startDate,
-        'p_end_date': endDate,
-      }).timeout(const Duration(seconds: 5));
+      final response = await client
+          .rpc(
+            'global_stats_daily_range_sum',
+            params: {
+              // Function arguments are p_start_date, p_end_date (dates)
+              'p_start_date': startDate,
+              'p_end_date': endDate,
+            },
+          )
+          .timeout(const Duration(seconds: 5));
       final maybe = _extractTotalLiters(response);
       if (maybe != null) return maybe;
       return 0.0;
     } catch (e) {
-      AppLogger.error('global_stats_daily_range_sum failed',
-          errorObject: AppLogger.sanitize(e));
+      AppLogger.error(
+        'global_stats_daily_range_sum failed',
+        errorObject: AppLogger.sanitize(e),
+      );
       // Intentionally swallow and return 0.
       return 0.0;
     }
@@ -1061,31 +1200,38 @@ class DatabaseProvider {
   /// Aggregated count of global brews in the date range.
   /// Uses global_stats_daily; returns 0 on failure.
   Future<int> fetchGlobalBrewsCountAggregated(
-      DateTime start, DateTime end) async {
+    DateTime start,
+    DateTime end,
+  ) async {
     final client = Supabase.instance.client;
     final startIso = start.toUtc().toIso8601String();
     final endIso = end.toUtc().toIso8601String();
     final startDate = startIso.split('T').first;
     final endDate = endIso.split('T').first;
     try {
-      final response =
-          await client.rpc('global_stats_daily_range_count', params: {
-        'p_start_date': startDate,
-        'p_end_date': endDate,
-      }).timeout(const Duration(seconds: 5));
+      final response = await client
+          .rpc(
+            'global_stats_daily_range_count',
+            params: {'p_start_date': startDate, 'p_end_date': endDate},
+          )
+          .timeout(const Duration(seconds: 5));
       final count = _extractCount(response);
       if (count != null) return count;
       return 0;
     } catch (e) {
-      AppLogger.error('global_stats_daily_range_count failed',
-          errorObject: AppLogger.sanitize(e));
+      AppLogger.error(
+        'global_stats_daily_range_count failed',
+        errorObject: AppLogger.sanitize(e),
+      );
       // Intentionally swallow and return 0.
       return 0;
     }
   }
 
   Future<List<String>> fetchGlobalTopRecipes(
-      DateTime start, DateTime end) async {
+    DateTime start,
+    DateTime end,
+  ) async {
     final startUtc = start.toUtc();
     final endUtc = end.toUtc();
     final response = await Supabase.instance.client
@@ -1094,8 +1240,10 @@ class DatabaseProvider {
         .gte('created_at', startUtc.toIso8601String())
         .lte('created_at', endUtc.toIso8601String())
         .gte('water_amount', 50) // Filter out impossibly low values (< 50ml)
-        .lte('water_amount',
-            5000) // Filter out impossibly high values (> 5000ml)
+        .lte(
+          'water_amount',
+          5000,
+        ) // Filter out impossibly high values (> 5000ml)
         .timeout(const Duration(seconds: 5));
 
     // Aggregate counts of recipe_id
@@ -1114,8 +1262,10 @@ class DatabaseProvider {
   /// Aggregated top recipes that leverages server-side grouping to avoid row limits.
   /// Returns top [topN] recipe_ids; falls back to legacy method if RPC is missing.
   Future<List<String>> fetchGlobalTopRecipesAggregated(
-      DateTime start, DateTime end,
-      {int topN = 3}) async {
+    DateTime start,
+    DateTime end, {
+    int topN = 3,
+  }) async {
     final client = Supabase.instance.client;
     final startIso = start.toUtc().toIso8601String();
     final endIso = end.toUtc().toIso8601String();
@@ -1123,11 +1273,16 @@ class DatabaseProvider {
     final endDate = endIso.split('T').first;
     try {
       // Primary: matches deployed function signature (p_start_date / p_end_date / p_top_n)
-      final response = await client.rpc('global_stats_top_recipes', params: {
-        'p_start_date': startDate,
-        'p_end_date': endDate,
-        'p_top_n': topN,
-      }).timeout(const Duration(seconds: 5));
+      final response = await client
+          .rpc(
+            'global_stats_top_recipes',
+            params: {
+              'p_start_date': startDate,
+              'p_end_date': endDate,
+              'p_top_n': topN,
+            },
+          )
+          .timeout(const Duration(seconds: 5));
       final recipes = _extractRecipeIds(response);
       if (recipes != null) return recipes;
       return const <String>[];
@@ -1140,17 +1295,23 @@ class DatabaseProvider {
 
   /// Fetches the user's yearly percentile based on precomputed yearly_user_liters.
   /// Optionally takes [liters] to calculate ranking against the distribution using a live value.
-  Future<YearlyPercentileResult?> fetchUserYearlyPercentile(int year,
-      {double? liters}) async {
+  Future<YearlyPercentileResult?> fetchUserYearlyPercentile(
+    int year, {
+    double? liters,
+  }) async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null) return null;
     try {
       final response = await Supabase.instance.client
-          .rpc('yearly_user_liters_percentile', params: {
-        'p_year': year,
-        'p_user_id': user.id,
-        if (liters != null) 'p_liters': liters,
-      }).timeout(const Duration(seconds: 5));
+          .rpc(
+            'yearly_user_liters_percentile',
+            params: {
+              'p_year': year,
+              'p_user_id': user.id,
+              if (liters != null) 'p_liters': liters,
+            },
+          )
+          .timeout(const Duration(seconds: 5));
       if (response is List && response.isNotEmpty && response.first is Map) {
         final row = response.first as Map;
         return YearlyPercentileResult(
@@ -1161,8 +1322,10 @@ class DatabaseProvider {
         );
       }
     } catch (e) {
-      AppLogger.error('yearly_user_liters_percentile failed',
-          errorObject: AppLogger.sanitize(e));
+      AppLogger.error(
+        'yearly_user_liters_percentile failed',
+        errorObject: AppLogger.sanitize(e),
+      );
       // Ignore and return null.
     }
     return null;
@@ -1264,8 +1427,10 @@ class DatabaseProvider {
       // Return an empty list or handle the timeout as needed
       return [];
     } catch (error) {
-      AppLogger.error('Error fetching countries',
-          errorObject: AppLogger.sanitize(error));
+      AppLogger.error(
+        'Error fetching countries',
+        errorObject: AppLogger.sanitize(error),
+      );
       return [];
     }
   }
@@ -1285,8 +1450,10 @@ class DatabaseProvider {
       // Return an empty list or handle the timeout as needed
       return [];
     } catch (error) {
-      AppLogger.error('Error fetching tasting notes',
-          errorObject: AppLogger.sanitize(error));
+      AppLogger.error(
+        'Error fetching tasting notes',
+        errorObject: AppLogger.sanitize(error),
+      );
       return [];
     }
   }
@@ -1306,8 +1473,10 @@ class DatabaseProvider {
       // Return an empty list or handle the timeout as needed
       return [];
     } catch (error) {
-      AppLogger.error('Error fetching processing methods',
-          errorObject: AppLogger.sanitize(error));
+      AppLogger.error(
+        'Error fetching processing methods',
+        errorObject: AppLogger.sanitize(error),
+      );
       return [];
     }
   }
@@ -1326,8 +1495,10 @@ class DatabaseProvider {
       // Return an empty list or handle the timeout as needed
       return [];
     } catch (error) {
-      AppLogger.error('Error fetching roasters',
-          errorObject: AppLogger.sanitize(error));
+      AppLogger.error(
+        'Error fetching roasters',
+        errorObject: AppLogger.sanitize(error),
+      );
       return [];
     }
   }
@@ -1337,7 +1508,8 @@ class DatabaseProvider {
 
   // 2) Optionally, expose a method that uses the cache:
   Future<Map<String, String?>> fetchCachedRoasterLogoUrls(
-      String roasterName) async {
+    String roasterName,
+  ) async {
     // Normalize the roaster name the same way you do in fetchRoasterLogoUrls
     final normalizedRoasterName = removeDiacritics(roasterName).toLowerCase();
 
@@ -1362,9 +1534,9 @@ class DatabaseProvider {
       // But we do convert to lower if desired. Example:
       final searchTerm = roasterName.trim();
 
-      final response = await Supabase.instance.client.rpc(
-          'search_roaster_unaccent',
-          params: {'search_name': searchTerm}).maybeSingle();
+      final response = await Supabase.instance.client
+          .rpc('search_roaster_unaccent', params: {'search_name': searchTerm})
+          .maybeSingle();
       // maybeSingle() means: if multiple rows are returned, pick the first, else null.
 
       if (response != null) {
@@ -1374,12 +1546,16 @@ class DatabaseProvider {
         };
       }
 
-      AppLogger.debug('No matching data found for roaster',
-          errorObject: {'roasterName': AppLogger.sanitize(roasterName)});
+      AppLogger.debug(
+        'No matching data found for roaster',
+        errorObject: {'roasterName': AppLogger.sanitize(roasterName)},
+      );
       return {'original': null, 'mirror': null};
     } catch (error) {
-      AppLogger.error('Exception fetching roaster logo URLs',
-          errorObject: AppLogger.sanitize(error));
+      AppLogger.error(
+        'Exception fetching roaster logo URLs',
+        errorObject: AppLogger.sanitize(error),
+      );
       return {'original': null, 'mirror': null};
     }
   }
@@ -1391,20 +1567,22 @@ class DatabaseProvider {
       return;
     }
 
-    final localPreferences =
-        await _db.userRecipePreferencesDao.getAllPreferences();
+    final localPreferences = await _db.userRecipePreferencesDao
+        .getAllPreferences();
 
     final preferencesData = localPreferences
-        .map((pref) => {
-              'user_id': user.id,
-              'recipe_id': pref.recipeId,
-              'last_used': pref.lastUsed?.toUtc().toIso8601String(),
-              'is_favorite': pref.isFavorite,
-              'sweetness_slider_position': pref.sweetnessSliderPosition,
-              'strength_slider_position': pref.strengthSliderPosition,
-              'custom_coffee_amount': pref.customCoffeeAmount,
-              'custom_water_amount': pref.customWaterAmount,
-            })
+        .map(
+          (pref) => {
+            'user_id': user.id,
+            'recipe_id': pref.recipeId,
+            'last_used': pref.lastUsed?.toUtc().toIso8601String(),
+            'is_favorite': pref.isFavorite,
+            'sweetness_slider_position': pref.sweetnessSliderPosition,
+            'strength_slider_position': pref.strengthSliderPosition,
+            'custom_coffee_amount': pref.customCoffeeAmount,
+            'custom_water_amount': pref.customWaterAmount,
+          },
+        )
         .toList();
 
     try {
@@ -1412,8 +1590,10 @@ class DatabaseProvider {
           .from('user_recipe_preferences')
           .upsert(preferencesData);
 
-      AppLogger.debug('Successfully uploaded preferences',
-          errorObject: {'count': preferencesData.length});
+      AppLogger.debug(
+        'Successfully uploaded preferences',
+        errorObject: {'count': preferencesData.length},
+      );
     } catch (e) {
       AppLogger.error('Error uploading preferences', errorObject: e);
       // You might want to handle this error more gracefully,
@@ -1426,9 +1606,10 @@ class DatabaseProvider {
     bool? isFavorite,
     int? sweetnessSliderPosition,
     int? strengthSliderPosition,
-    int? coffeeChroniclerSliderPosition, // Add this parameter
+    int? coffeeChroniclerSliderPosition,
     double? customCoffeeAmount,
     double? customWaterAmount,
+    String? customGrindSize,
   }) async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
@@ -1451,6 +1632,7 @@ class DatabaseProvider {
       if (customCoffeeAmount != null)
         'custom_coffee_amount': customCoffeeAmount,
       if (customWaterAmount != null) 'custom_water_amount': customWaterAmount,
+      if (customGrindSize != null) 'custom_grind_size': customGrindSize,
     };
 
     try {
@@ -1470,22 +1652,29 @@ class DatabaseProvider {
 
   // Fetch minimal metadata for a public user recipe
   Future<Map<String, dynamic>?> getPublicUserRecipeMetadata(
-      String recipeId) async {
-    AppLogger.debug('getPublicUserRecipeMetadata called', errorObject: {
-      'recipeId': AppLogger.sanitize(recipeId),
-      'currentUser': AppLogger.sanitize(
-          Supabase.instance.client.auth.currentUser?.id ?? "Not logged in")
-    });
+    String recipeId,
+  ) async {
+    AppLogger.debug(
+      'getPublicUserRecipeMetadata called',
+      errorObject: {
+        'recipeId': AppLogger.sanitize(recipeId),
+        'currentUser': AppLogger.sanitize(
+          Supabase.instance.client.auth.currentUser?.id ?? "Not logged in",
+        ),
+      },
+    );
 
     try {
       // Step 1: Fetch basic recipe data (without name)
-      AppLogger.debug('Executing Supabase query (Step 1 - Recipe)',
-          errorObject: {
-            'table': 'user_recipes',
-            'select': 'id, last_modified',
-            'where':
-                'id = ${AppLogger.sanitize(recipeId)} AND ispublic = true AND is_deleted = false'
-          });
+      AppLogger.debug(
+        'Executing Supabase query (Step 1 - Recipe)',
+        errorObject: {
+          'table': 'user_recipes',
+          'select': 'id, last_modified',
+          'where':
+              'id = ${AppLogger.sanitize(recipeId)} AND ispublic = true AND is_deleted = false',
+        },
+      );
 
       final recipeResponse = await Supabase.instance.client
           .from('user_recipes')
@@ -1497,11 +1686,14 @@ class DatabaseProvider {
           .timeout(const Duration(seconds: 2));
 
       if (recipeResponse == null) {
-        AppLogger.debug('No public, non-deleted recipe found for id',
-            errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
+        AppLogger.debug(
+          'No public, non-deleted recipe found for id',
+          errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
+        );
         // Optional: Check if it exists but isn't public/deleted
         AppLogger.debug(
-            'Checking if recipe exists at all (ignoring public/deleted flags)...');
+          'Checking if recipe exists at all (ignoring public/deleted flags)...',
+        );
         final checkResponse = await Supabase.instance.client
             .from('user_recipes')
             .select('id, ispublic, is_deleted')
@@ -1509,27 +1701,34 @@ class DatabaseProvider {
             .maybeSingle()
             .timeout(const Duration(seconds: 2));
         if (checkResponse != null) {
-          AppLogger.debug('Recipe exists but with flags', errorObject: {
-            'ispublic': checkResponse['ispublic'],
-            'is_deleted': checkResponse['is_deleted']
-          });
+          AppLogger.debug(
+            'Recipe exists but with flags',
+            errorObject: {
+              'ispublic': checkResponse['ispublic'],
+              'is_deleted': checkResponse['is_deleted'],
+            },
+          );
         } else {
           AppLogger.debug('Recipe does not exist at all');
         }
         return null; // Recipe not found or not accessible
       }
 
-      AppLogger.debug('Basic recipe metadata found',
-          errorObject: AppLogger.sanitize(recipeResponse));
+      AppLogger.debug(
+        'Basic recipe metadata found',
+        errorObject: AppLogger.sanitize(recipeResponse),
+      );
 
       // Step 2: Fetch the name from localizations
-      AppLogger.debug('Executing Supabase query (Step 2 - Localization Name)',
-          errorObject: {
-            'table': 'user_recipe_localizations',
-            'select': 'name',
-            'where': 'recipe_id = ${AppLogger.sanitize(recipeId)}',
-            'limit': 1
-          });
+      AppLogger.debug(
+        'Executing Supabase query (Step 2 - Localization Name)',
+        errorObject: {
+          'table': 'user_recipe_localizations',
+          'select': 'name',
+          'where': 'recipe_id = ${AppLogger.sanitize(recipeId)}',
+          'limit': 1,
+        },
+      );
 
       final localizationResponse = await Supabase.instance.client
           .from('user_recipe_localizations')
@@ -1543,11 +1742,15 @@ class DatabaseProvider {
       if (localizationResponse != null &&
           localizationResponse['name'] != null) {
         recipeName = localizationResponse['name'];
-        AppLogger.debug('Found recipe name',
-            errorObject: {'recipeName': AppLogger.sanitize(recipeName)});
+        AppLogger.debug(
+          'Found recipe name',
+          errorObject: {'recipeName': AppLogger.sanitize(recipeName)},
+        );
       } else {
-        AppLogger.debug('No localization found for recipe, using default name',
-            errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
+        AppLogger.debug(
+          'No localization found for recipe, using default name',
+          errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
+        );
       }
 
       // Step 3: Combine results
@@ -1556,23 +1759,32 @@ class DatabaseProvider {
         'name': recipeName, // Add the fetched or default name
       };
 
-      AppLogger.debug('Combined metadata',
-          errorObject: AppLogger.sanitize(combinedMetadata));
+      AppLogger.debug(
+        'Combined metadata',
+        errorObject: AppLogger.sanitize(combinedMetadata),
+      );
       return combinedMetadata;
     } on TimeoutException {
-      AppLogger.warning('TIMEOUT fetching metadata for recipe',
-          errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
+      AppLogger.warning(
+        'TIMEOUT fetching metadata for recipe',
+        errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
+      );
       return null;
     } catch (e) {
       AppLogger.error('ERROR fetching metadata for recipe', errorObject: e);
-      AppLogger.debug('Recipe ID that had error',
-          errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
+      AppLogger.debug(
+        'Recipe ID that had error',
+        errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
+      );
       if (e is PostgrestException) {
-        AppLogger.error('Postgrest error details', errorObject: {
-          'code': e.code,
-          'message': e.message,
-          'details': e.details
-        });
+        AppLogger.error(
+          'Postgrest error details',
+          errorObject: {
+            'code': e.code,
+            'message': e.message,
+            'details': e.details,
+          },
+        );
       }
       return null;
     }
@@ -1580,20 +1792,28 @@ class DatabaseProvider {
 
   // Fetch full data for a public user recipe
   Future<Map<String, dynamic>?> fetchFullPublicUserRecipeData(
-      String recipeId) async {
-    AppLogger.debug('fetchFullPublicUserRecipeData called', errorObject: {
-      'recipeId': AppLogger.sanitize(recipeId),
-      'currentUser': AppLogger.sanitize(
-          Supabase.instance.client.auth.currentUser?.id ?? "Not logged in")
-    });
+    String recipeId,
+  ) async {
+    AppLogger.debug(
+      'fetchFullPublicUserRecipeData called',
+      errorObject: {
+        'recipeId': AppLogger.sanitize(recipeId),
+        'currentUser': AppLogger.sanitize(
+          Supabase.instance.client.auth.currentUser?.id ?? "Not logged in",
+        ),
+      },
+    );
 
     try {
-      AppLogger.debug('Executing Supabase query', errorObject: {
-        'table': 'user_recipes',
-        'select': '*, user_recipe_localizations(*), user_steps(*)',
-        'where':
-            'id = ${AppLogger.sanitize(recipeId)} AND ispublic = true AND is_deleted = false'
-      });
+      AppLogger.debug(
+        'Executing Supabase query',
+        errorObject: {
+          'table': 'user_recipes',
+          'select': '*, user_recipe_localizations(*), user_steps(*)',
+          'where':
+              'id = ${AppLogger.sanitize(recipeId)} AND ispublic = true AND is_deleted = false',
+        },
+      );
 
       final response = await Supabase.instance.client
           .from('user_recipes')
@@ -1605,28 +1825,40 @@ class DatabaseProvider {
           .timeout(const Duration(seconds: 2));
 
       if (response != null) {
-        AppLogger.debug('Recipe found with id', errorObject: {
-          'recipeId': AppLogger.sanitize(recipeId),
-          'dataPreview': AppLogger.sanitize(response
-              .toString()
-              .substring(0, math.min(200, response.toString().length))),
-          'localizationsCount':
-              (response['user_recipe_localizations'] as List?)?.length ?? 0,
-          'stepsCount': (response['user_steps'] as List?)?.length ?? 0
-        });
+        AppLogger.debug(
+          'Recipe found with id',
+          errorObject: {
+            'recipeId': AppLogger.sanitize(recipeId),
+            'dataPreview': AppLogger.sanitize(
+              response.toString().substring(
+                0,
+                math.min(200, response.toString().length),
+              ),
+            ),
+            'localizationsCount':
+                (response['user_recipe_localizations'] as List?)?.length ?? 0,
+            'stepsCount': (response['user_steps'] as List?)?.length ?? 0,
+          },
+        );
 
         // Check if localizations and steps are empty
         if ((response['user_recipe_localizations'] as List?)?.isEmpty ?? true) {
-          AppLogger.warning('WARNING - No localizations found for recipe',
-              errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
+          AppLogger.warning(
+            'WARNING - No localizations found for recipe',
+            errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
+          );
         }
         if ((response['user_steps'] as List?)?.isEmpty ?? true) {
-          AppLogger.warning('WARNING - No steps found for recipe',
-              errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
+          AppLogger.warning(
+            'WARNING - No steps found for recipe',
+            errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
+          );
         }
       } else {
-        AppLogger.debug('No recipe found for id',
-            errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
+        AppLogger.debug(
+          'No recipe found for id',
+          errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
+        );
 
         // Check if recipe exists but isn't public
         final checkResponse = await Supabase.instance.client
@@ -1637,10 +1869,13 @@ class DatabaseProvider {
             .timeout(const Duration(seconds: 2));
 
         if (checkResponse != null) {
-          AppLogger.debug('Recipe exists but with flags', errorObject: {
-            'ispublic': checkResponse['ispublic'],
-            'is_deleted': checkResponse['is_deleted']
-          });
+          AppLogger.debug(
+            'Recipe exists but with flags',
+            errorObject: {
+              'ispublic': checkResponse['ispublic'],
+              'is_deleted': checkResponse['is_deleted'],
+            },
+          );
 
           // Check if related data exists
           AppLogger.debug('Checking if localizations exist...');
@@ -1652,8 +1887,10 @@ class DatabaseProvider {
               .maybeSingle()
               .timeout(const Duration(seconds: 2));
 
-          AppLogger.debug('Localizations exist',
-              errorObject: {'exist': localizationsResponse != null});
+          AppLogger.debug(
+            'Localizations exist',
+            errorObject: {'exist': localizationsResponse != null},
+          );
 
           AppLogger.debug('Checking if steps exist...');
           final stepsResponse = await Supabase.instance.client
@@ -1664,8 +1901,10 @@ class DatabaseProvider {
               .maybeSingle()
               .timeout(const Duration(seconds: 2));
 
-          AppLogger.debug('Steps exist',
-              errorObject: {'exist': stepsResponse != null});
+          AppLogger.debug(
+            'Steps exist',
+            errorObject: {'exist': stepsResponse != null},
+          );
         } else {
           AppLogger.debug('Recipe does not exist at all');
         }
@@ -1673,22 +1912,29 @@ class DatabaseProvider {
 
       return response;
     } on TimeoutException {
-      AppLogger.warning('TIMEOUT fetching full data for recipe',
-          errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
+      AppLogger.warning(
+        'TIMEOUT fetching full data for recipe',
+        errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
+      );
       return null;
     } catch (e) {
-      AppLogger.error('ERROR fetching full data for recipe', errorObject: {
-        'error': e,
-        'recipeId': AppLogger.sanitize(recipeId),
-        'errorDetails': AppLogger.sanitize(e.toString())
-      });
+      AppLogger.error(
+        'ERROR fetching full data for recipe',
+        errorObject: {
+          'error': e,
+          'recipeId': AppLogger.sanitize(recipeId),
+          'errorDetails': AppLogger.sanitize(e.toString()),
+        },
+      );
       return null;
     }
   }
 
   // Updated to optionally skip marking deleted in Supabase if the deletion originated from there
-  Future<void> _deleteRecipeFromLocalDb(String recipeId,
-      {bool markDeletedInSupabase = true}) async {
+  Future<void> _deleteRecipeFromLocalDb(
+    String recipeId, {
+    bool markDeletedInSupabase = true,
+  }) async {
     try {
       // If requested, mark as deleted in Supabase (only for user recipes)
       if (markDeletedInSupabase && recipeId.startsWith('usr-')) {
@@ -1696,20 +1942,26 @@ class DatabaseProvider {
         // Only mark as deleted if user is logged in and not anonymous
         if (user != null && !user.isAnonymous) {
           try {
-            await Supabase.instance.client.from('user_recipes').update({
-              'is_deleted': true,
-              'ispublic': false, // Set ispublic to false on deletion
-              'last_modified': DateTime.now().toUtc().toIso8601String()
-            }) // Also update timestamp
+            await Supabase.instance.client
+                .from('user_recipes')
+                .update({
+                  'is_deleted': true,
+                  'ispublic': false, // Set ispublic to false on deletion
+                  'last_modified': DateTime.now().toUtc().toIso8601String(),
+                }) // Also update timestamp
                 .eq('id', recipeId);
-            AppLogger.debug('Marked recipe as deleted and private in Supabase',
-                errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
+            AppLogger.debug(
+              'Marked recipe as deleted and private in Supabase',
+              errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
+            );
           } catch (e) {
-            AppLogger.error('Error marking recipe as deleted in Supabase',
-                errorObject: {
-                  'error': e,
-                  'recipeId': AppLogger.sanitize(recipeId)
-                });
+            AppLogger.error(
+              'Error marking recipe as deleted in Supabase',
+              errorObject: {
+                'error': e,
+                'recipeId': AppLogger.sanitize(recipeId),
+              },
+            );
             // Decide if we should proceed with local deletion despite Supabase error
           }
         }
@@ -1717,14 +1969,18 @@ class DatabaseProvider {
 
       // Delete from local database (this should handle related data via cascades or DAO logic)
       await _db.recipesDao.deleteRecipe(recipeId);
-      AppLogger.debug('Deleted recipe from local database',
-          errorObject: {'recipeId': AppLogger.sanitize(recipeId)});
+      AppLogger.debug(
+        'Deleted recipe from local database',
+        errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
+      );
     } catch (error) {
-      AppLogger.error('Error deleting recipe from local database',
-          errorObject: {
-            'error': AppLogger.sanitize(error),
-            'recipeId': AppLogger.sanitize(recipeId)
-          });
+      AppLogger.error(
+        'Error deleting recipe from local database',
+        errorObject: {
+          'error': AppLogger.sanitize(error),
+          'recipeId': AppLogger.sanitize(recipeId),
+        },
+      );
     }
   }
 
@@ -1755,64 +2011,77 @@ class DatabaseProvider {
           .toList();
 
       // Defensive: only insert preferences for recipe_ids that exist locally.
-      final fetchedRecipeIds =
-          preferences.map((p) => p.recipeId.value).whereType<String>().toSet();
+      final fetchedRecipeIds = preferences
+          .map((p) => p.recipeId.value)
+          .whereType<String>()
+          .toSet();
 
       if (fetchedRecipeIds.isEmpty) {
         AppLogger.debug(
-            'No preferences to insert (no recipe ids found in fetched prefs).');
+          'No preferences to insert (no recipe ids found in fetched prefs).',
+        );
         return;
       }
 
       // Query local DB for existing recipe ids from the fetched set.
-      final existingLocalRecipes = await (_db.select(_db.recipes)
-            ..where((tbl) => tbl.id.isIn(fetchedRecipeIds.toList())))
-          .get();
+      final existingLocalRecipes = await (_db.select(
+        _db.recipes,
+      )..where((tbl) => tbl.id.isIn(fetchedRecipeIds.toList()))).get();
 
       final existingRecipeIds = existingLocalRecipes.map((r) => r.id).toSet();
 
       // Filter preferences to those whose recipeId exists locally.
       final filteredPreferences = preferences
-          .where((p) =>
-              p.recipeId.present &&
-              p.recipeId.value != null &&
-              existingRecipeIds.contains(p.recipeId.value))
+          .where(
+            (p) =>
+                p.recipeId.present &&
+                p.recipeId.value != null &&
+                existingRecipeIds.contains(p.recipeId.value),
+          )
           .toList();
 
       final skippedCount = preferences.length - filteredPreferences.length;
       if (skippedCount > 0) {
         final skippedIds = preferences
-            .where((p) =>
-                p.recipeId.present &&
-                p.recipeId.value != null &&
-                !existingRecipeIds.contains(p.recipeId.value))
+            .where(
+              (p) =>
+                  p.recipeId.present &&
+                  p.recipeId.value != null &&
+                  !existingRecipeIds.contains(p.recipeId.value),
+            )
             .map((p) => p.recipeId.value)
             .take(10)
             .toList();
         AppLogger.debug(
-            'Skipped preferences because referenced recipe_id not present locally',
-            errorObject: {
-              'skippedCount': skippedCount,
-              'sampleSkippedIds': AppLogger.sanitize(skippedIds)
-            });
+          'Skipped preferences because referenced recipe_id not present locally',
+          errorObject: {
+            'skippedCount': skippedCount,
+            'sampleSkippedIds': AppLogger.sanitize(skippedIds),
+          },
+        );
       }
 
       if (filteredPreferences.isNotEmpty) {
-        await _db.userRecipePreferencesDao
-            .insertOrUpdateMultiplePreferences(filteredPreferences);
+        await _db.userRecipePreferencesDao.insertOrUpdateMultiplePreferences(
+          filteredPreferences,
+        );
         AppLogger.debug(
-            'Successfully fetched and inserted preferences (filtered)',
-            errorObject: {'count': filteredPreferences.length});
+          'Successfully fetched and inserted preferences (filtered)',
+          errorObject: {'count': filteredPreferences.length},
+        );
       } else {
         AppLogger.debug(
-            'No preferences inserted after filtering - nothing to do.');
+          'No preferences inserted after filtering - nothing to do.',
+        );
       }
     } on TimeoutException catch (e) {
       AppLogger.warning('Supabase request timed out', errorObject: e);
       // Optionally, handle the timeout here
     } catch (e) {
-      AppLogger.error('Error fetching and inserting preferences',
-          errorObject: e);
+      AppLogger.error(
+        'Error fetching and inserting preferences',
+        errorObject: e,
+      );
     }
   }
 
@@ -1830,7 +2099,8 @@ class DatabaseProvider {
     if (lastCheckTime != null &&
         now.difference(lastCheckTime) < const Duration(hours: 24)) {
       AppLogger.debug(
-          'Skipping deferred moderation check, last check was at ${lastCheckTime.toIso8601String()}');
+        'Skipping deferred moderation check, last check was at ${lastCheckTime.toIso8601String()}',
+      );
       return;
     }
 
@@ -1839,12 +2109,15 @@ class DatabaseProvider {
     if (recipesToCheck.isEmpty) {
       AppLogger.debug('No recipes found needing deferred moderation check.');
       await _setLastDeferredModerationCheckTimestamp(
-          now); // Update check time even if none found
+        now,
+      ); // Update check time even if none found
       return;
     }
 
-    AppLogger.debug('Found recipes needing moderation check',
-        errorObject: {'count': recipesToCheck.length});
+    AppLogger.debug(
+      'Found recipes needing moderation check',
+      errorObject: {'count': recipesToCheck.length},
+    );
     int passedCount = 0;
     int failedCount = 0;
 
@@ -1852,11 +2125,13 @@ class DatabaseProvider {
       // Verify ownership again just in case
       if (recipe.vendorId != 'usr-${user.id}') continue;
 
-      AppLogger.debug('Checking recipe',
-          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
+      AppLogger.debug(
+        'Checking recipe',
+        errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+      );
       // Fetch full local data (steps, localizations) needed for combinedText
-      final localizations =
-          await _db.recipeLocalizationsDao.getLocalizationsForRecipe(recipe.id);
+      final localizations = await _db.recipeLocalizationsDao
+          .getLocalizationsForRecipe(recipe.id);
       final steps = await _db.stepsDao.getStepsForRecipe(recipe.id);
 
       // Prepare combinedText
@@ -1873,63 +2148,82 @@ class DatabaseProvider {
       bool moderationPassed = true; // Assume pass initially
       if (combinedText.isNotEmpty) {
         try {
-          final moderationResponse =
-              await Supabase.instance.client.functions.invoke(
-            'content-moderation',
-            body: {'text': combinedText},
-          ).timeout(const Duration(seconds: 10)); // Timeout for moderation call
+          final moderationResponse = await Supabase.instance.client.functions
+              .invoke('content-moderation', body: {'text': combinedText})
+              .timeout(
+                const Duration(seconds: 10),
+              ); // Timeout for moderation call
 
           if (moderationResponse.status != 200 ||
               moderationResponse.data == null) {
-            AppLogger.error("Deferred Moderation Error (Function Call)",
-                errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
+            AppLogger.error(
+              "Deferred Moderation Error (Function Call)",
+              errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+            );
             moderationPassed = false; // Treat function error as failure
           } else {
             final moderationResult =
                 moderationResponse.data as Map<String, dynamic>;
             if (moderationResult['safe'] != true) {
-              AppLogger.warning("Deferred Moderation Failed (Content Flagged)",
-                  errorObject: {
-                    'recipeId': AppLogger.sanitize(recipe.id),
-                    'reason': AppLogger.sanitize(moderationResult['reason'])
-                  });
+              AppLogger.warning(
+                "Deferred Moderation Failed (Content Flagged)",
+                errorObject: {
+                  'recipeId': AppLogger.sanitize(recipe.id),
+                  'reason': AppLogger.sanitize(moderationResult['reason']),
+                },
+              );
               moderationPassed = false;
             } else {
-              AppLogger.debug("Deferred Moderation Passed",
-                  errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
+              AppLogger.debug(
+                "Deferred Moderation Passed",
+                errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+              );
               moderationPassed = true;
             }
           }
         } catch (e) {
-          AppLogger.error("Deferred Moderation Error (Exception)",
-              errorObject: {
-                'error': e,
-                'recipeId': AppLogger.sanitize(recipe.id)
-              });
+          AppLogger.error(
+            "Deferred Moderation Error (Exception)",
+            errorObject: {
+              'error': e,
+              'recipeId': AppLogger.sanitize(recipe.id),
+            },
+          );
           moderationPassed = false; // Treat exceptions as failure
         }
       } else {
-        AppLogger.debug("Deferred Moderation Skipped (No Text), assuming pass",
-            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
+        AppLogger.debug(
+          "Deferred Moderation Skipped (No Text), assuming pass",
+          errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+        );
         moderationPassed = true; // No text, allow it
       }
 
       // Update local flag based on result
-      await _db.recipesDao
-          .setNeedsModerationReview(recipe.id, !moderationPassed);
+      await _db.recipesDao.setNeedsModerationReview(
+        recipe.id,
+        !moderationPassed,
+      );
 
       // Update Supabase if the recipe was moderated (status changed)
       if (moderationPassed && user != null && !user.isAnonymous) {
         try {
-          await Supabase.instance.client.from('user_recipes').update({
-            'needs_moderation_review': false,
-            'last_modified': DateTime.now().toUtc().toIso8601String()
-          }).eq('id', recipe.id);
-          AppLogger.debug('Updated moderation status in Supabase for recipe',
-              errorObject: {'recipeId': AppLogger.sanitize(recipe.id)});
+          await Supabase.instance.client
+              .from('user_recipes')
+              .update({
+                'needs_moderation_review': false,
+                'last_modified': DateTime.now().toUtc().toIso8601String(),
+              })
+              .eq('id', recipe.id);
+          AppLogger.debug(
+            'Updated moderation status in Supabase for recipe',
+            errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
+          );
         } catch (e) {
-          AppLogger.warning('Failed to update moderation status in Supabase',
-              errorObject: e);
+          AppLogger.warning(
+            'Failed to update moderation status in Supabase',
+            errorObject: e,
+          );
           // Don't fail the whole process for this
         }
       }
@@ -1943,11 +2237,14 @@ class DatabaseProvider {
 
     // Update the last check timestamp after processing all recipes
     await _setLastDeferredModerationCheckTimestamp(now);
-    AppLogger.debug('Deferred moderation checks complete', errorObject: {
-      'passed': passedCount,
-      'failed': failedCount,
-      'message': 'Updated last check time'
-    });
+    AppLogger.debug(
+      'Deferred moderation checks complete',
+      errorObject: {
+        'passed': passedCount,
+        'failed': failedCount,
+        'message': 'Updated last check time',
+      },
+    );
   }
   // --- End Deferred Moderation Check ---
 
@@ -1977,8 +2274,10 @@ class DatabaseProvider {
 
       // If no profile exists, create a default one
       if (existingProfile == null) {
-        AppLogger.debug('No profile found for user. Creating default profile.',
-            errorObject: {'userId': AppLogger.sanitize(userId)});
+        AppLogger.debug(
+          'No profile found for user. Creating default profile.',
+          errorObject: {'userId': AppLogger.sanitize(userId)},
+        );
         const defaultAvatarUrl =
             'https://mprokbemdullwezwwscn.supabase.co/storage/v1/object/public/user-profile-pictures//avatar_default.webp';
         // Format default display name as User-<first 5 chars of ID>
@@ -1988,19 +2287,27 @@ class DatabaseProvider {
           'display_name': defaultDisplayName,
           'profile_picture_url': defaultAvatarUrl,
         });
-        AppLogger.debug('Default profile created for user', errorObject: {
-          'userId': AppLogger.sanitize(userId),
-          'displayName': AppLogger.sanitize(defaultDisplayName)
-        });
+        AppLogger.debug(
+          'Default profile created for user',
+          errorObject: {
+            'userId': AppLogger.sanitize(userId),
+            'displayName': AppLogger.sanitize(defaultDisplayName),
+          },
+        );
       } else {
-        AppLogger.debug('Profile already exists for user.',
-            errorObject: {'userId': AppLogger.sanitize(userId)});
+        AppLogger.debug(
+          'Profile already exists for user.',
+          errorObject: {'userId': AppLogger.sanitize(userId)},
+        );
       }
     } catch (e) {
-      AppLogger.error('Error ensuring user profile exists',
-          errorObject: {'error': e, 'userId': AppLogger.sanitize(userId)});
+      AppLogger.error(
+        'Error ensuring user profile exists',
+        errorObject: {'error': e, 'userId': AppLogger.sanitize(userId)},
+      );
       // Handle error appropriately, maybe rethrow or log
     }
   }
+
   // --- End User Profile Management ---
 }

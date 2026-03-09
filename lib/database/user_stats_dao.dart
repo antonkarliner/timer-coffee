@@ -51,8 +51,9 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       coffeeBeansId: row.coffeeBeansId,
       isMarked: row.isMarked,
       coffeeBeansUuid: row.coffeeBeansUuid,
+      grindSize: row.grindSize,
       versionVector: row.versionVector,
-      isDeleted: row.isDeleted, // Added isDeleted field
+      isDeleted: row.isDeleted,
     );
   }
 
@@ -73,8 +74,9 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
       coffeeBeansId: Value(model.coffeeBeansId),
       isMarked: Value(model.isMarked),
       coffeeBeansUuid: Value(model.coffeeBeansUuid),
+      grindSize: Value(model.grindSize),
       versionVector: Value(model.versionVector),
-      isDeleted: Value(model.isDeleted), // Added isDeleted field
+      isDeleted: Value(model.isDeleted),
     );
   }
 

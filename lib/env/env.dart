@@ -2,7 +2,7 @@ import 'package:envied/envied.dart';
 
 part 'env.g.dart';
 
-@Envied()
+@Envied(path: '.env.local')
 abstract class Env {
   @EnviedField(obfuscate: true, useConstantCase: true)
   static final String supaUrl = _Env.supaUrl;

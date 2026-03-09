@@ -2042,4 +2042,28 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'アプリを入手';
+
+  @override
+  String get addBrewEntry => '抽出記録を追加';
+
+  @override
+  String get selectBrewingMethod => '抽出方法を選択';
+
+  @override
+  String get selectRecipe => 'レシピを選択';
+
+  @override
+  String get brewDate => '日付';
+
+  @override
+  String get brewTime => '時刻';
+
+  @override
+  String get brewEntrySaved => '抽出記録を保存しました';
+
+  @override
+  String get brewingMethodRequired => '抽出方法を選択してください';
+
+  @override
+  String get recipeRequired => 'レシピを選択してください';
 }

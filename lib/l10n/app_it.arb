@@ -876,5 +876,13 @@
   "timePeriodLastYear": "L'anno scorso",
   "nativeAppPromoTitle": "Scarica l'app Timer.Coffee",
   "nativeAppPromoDescription": "Goditi l'esperienza completa con funzionalità esclusive: scansione etichette caffè con IA, Attività Live sulla schermata di blocco, notifiche push, feedback aptico e altro ancora.",
-  "nativeAppPromoButton": "Scarica l'app"
+  "nativeAppPromoButton": "Scarica l'app",
+  "addBrewEntry": "Aggiungi registrazione infusione",
+  "selectBrewingMethod": "Seleziona metodo di infusione",
+  "selectRecipe": "Seleziona ricetta",
+  "brewDate": "Data",
+  "brewTime": "Ora",
+  "brewEntrySaved": "Registrazione infusione salvata",
+  "brewingMethodRequired": "Seleziona un metodo di infusione",
+  "recipeRequired": "Seleziona una ricetta"
 }

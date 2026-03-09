@@ -2107,4 +2107,28 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'Last ned appen';
+
+  @override
+  String get addBrewEntry => 'Legg til bryggeoppføring';
+
+  @override
+  String get selectBrewingMethod => 'Velg bryggemetode';
+
+  @override
+  String get selectRecipe => 'Velg oppskrift';
+
+  @override
+  String get brewDate => 'Dato';
+
+  @override
+  String get brewTime => 'Tid';
+
+  @override
+  String get brewEntrySaved => 'Bryggeoppføring lagret';
+
+  @override
+  String get brewingMethodRequired => 'Vennligst velg en bryggemetode';
+
+  @override
+  String get recipeRequired => 'Vennligst velg en oppskrift';
 }

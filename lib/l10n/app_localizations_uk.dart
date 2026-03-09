@@ -2149,4 +2149,28 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'Завантажити додаток';
+
+  @override
+  String get addBrewEntry => 'Додати запис заварювання';
+
+  @override
+  String get selectBrewingMethod => 'Оберіть спосіб заварювання';
+
+  @override
+  String get selectRecipe => 'Оберіть рецепт';
+
+  @override
+  String get brewDate => 'Дата';
+
+  @override
+  String get brewTime => 'Час';
+
+  @override
+  String get brewEntrySaved => 'Запис заварювання збережено';
+
+  @override
+  String get brewingMethodRequired => 'Будь ласка, оберіть спосіб заварювання';
+
+  @override
+  String get recipeRequired => 'Будь ласка, оберіть рецепт';
 }

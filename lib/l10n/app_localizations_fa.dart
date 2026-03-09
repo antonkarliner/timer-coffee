@@ -2090,4 +2090,28 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'دانلود اپلیکیشن';
+
+  @override
+  String get addBrewEntry => 'افزودن ثبت دم‌آوری';
+
+  @override
+  String get selectBrewingMethod => 'انتخاب روش دم‌آوری';
+
+  @override
+  String get selectRecipe => 'انتخاب دستور';
+
+  @override
+  String get brewDate => 'تاریخ';
+
+  @override
+  String get brewTime => 'زمان';
+
+  @override
+  String get brewEntrySaved => 'ثبت دم‌آوری ذخیره شد';
+
+  @override
+  String get brewingMethodRequired => 'لطفاً یک روش دم‌آوری انتخاب کنید';
+
+  @override
+  String get recipeRequired => 'لطفاً یک دستور انتخاب کنید';
 }

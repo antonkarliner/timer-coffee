@@ -876,5 +876,13 @@
   "timePeriodLastYear": "Anul trecut",
   "nativeAppPromoTitle": "Descarcă aplicația Timer.Coffee",
   "nativeAppPromoDescription": "Bucură-te de experiența completă cu funcții exclusive: scanare etichete cafea cu AI, Activități Live pe ecranul de blocare, notificări push, feedback haptic și multe altele.",
-  "nativeAppPromoButton": "Descarcă aplicația"
+  "nativeAppPromoButton": "Descarcă aplicația",
+  "addBrewEntry": "Adaugă înregistrare preparare",
+  "selectBrewingMethod": "Selectează metoda de preparare",
+  "selectRecipe": "Selectează rețeta",
+  "brewDate": "Data",
+  "brewTime": "Ora",
+  "brewEntrySaved": "Înregistrare preparare salvată",
+  "brewingMethodRequired": "Vă rugăm selectați o metodă de preparare",
+  "recipeRequired": "Vă rugăm selectați o rețetă"
 }

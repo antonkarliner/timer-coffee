@@ -2034,4 +2034,28 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => '下载应用';
+
+  @override
+  String get addBrewEntry => '添加冲煮记录';
+
+  @override
+  String get selectBrewingMethod => '选择冲煮方式';
+
+  @override
+  String get selectRecipe => '选择配方';
+
+  @override
+  String get brewDate => '日期';
+
+  @override
+  String get brewTime => '时间';
+
+  @override
+  String get brewEntrySaved => '冲煮记录已保存';
+
+  @override
+  String get brewingMethodRequired => '请选择冲煮方式';
+
+  @override
+  String get recipeRequired => '请选择配方';
 }

@@ -17,6 +17,7 @@ class RecipeModel {
   final int strengthSliderPosition;
   final double? customCoffeeAmount;
   final double? customWaterAmount;
+  final String? customGrindSize;
   final String? vendorId;
   final int? coffeeChroniclerSliderPosition;
   final String? importId;
@@ -40,6 +41,7 @@ class RecipeModel {
     this.strengthSliderPosition = 2,
     this.customCoffeeAmount,
     this.customWaterAmount,
+    this.customGrindSize,
     this.vendorId,
     this.coffeeChroniclerSliderPosition,
     this.importId,
@@ -64,6 +66,7 @@ class RecipeModel {
     int? strengthSliderPosition,
     double? customCoffeeAmount,
     double? customWaterAmount,
+    String? customGrindSize,
     String? vendorId,
     int? coffeeChroniclerSliderPosition,
     String? importId,
@@ -89,6 +92,7 @@ class RecipeModel {
           strengthSliderPosition ?? this.strengthSliderPosition,
       customCoffeeAmount: customCoffeeAmount ?? this.customCoffeeAmount,
       customWaterAmount: customWaterAmount ?? this.customWaterAmount,
+      customGrindSize: customGrindSize ?? this.customGrindSize,
       vendorId: vendorId ?? this.vendorId,
       coffeeChroniclerSliderPosition:
           coffeeChroniclerSliderPosition ?? this.coffeeChroniclerSliderPosition,

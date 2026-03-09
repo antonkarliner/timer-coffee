@@ -13,6 +13,7 @@ class RecipeDetailController extends ChangeNotifier {
   // --- Amounts / Ratio ---
   final TextEditingController coffeeController = TextEditingController();
   final TextEditingController waterController = TextEditingController();
+  final TextEditingController grindSizeController = TextEditingController();
 
   double initialRatio = 16.0; // default ratio
   bool editingCoffee = false;
@@ -53,6 +54,7 @@ class RecipeDetailController extends ChangeNotifier {
   void dispose() {
     coffeeController.dispose();
     waterController.dispose();
+    grindSizeController.dispose();
     super.dispose();
   }
 

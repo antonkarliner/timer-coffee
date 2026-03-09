@@ -17,8 +17,9 @@ class UserStatsModel {
   final int? coffeeBeansId;
   final bool isMarked;
   final String? coffeeBeansUuid;
+  final String? grindSize;
   final String versionVector;
-  final bool isDeleted; // New field to track deletion status
+  final bool isDeleted;
 
   UserStatsModel({
     required this.statUuid,
@@ -37,8 +38,9 @@ class UserStatsModel {
     this.coffeeBeansId,
     required this.isMarked,
     this.coffeeBeansUuid,
+    this.grindSize,
     required this.versionVector,
-    required this.isDeleted, // Initialize the new field
+    required this.isDeleted,
   });
 
   VersionVector get versionVectorObject =>
@@ -61,8 +63,9 @@ class UserStatsModel {
     int? coffeeBeansId,
     bool? isMarked,
     String? coffeeBeansUuid,
+    String? grindSize,
     String? versionVector,
-    bool? isDeleted, // Allow updating the isDeleted field
+    bool? isDeleted,
   }) {
     return UserStatsModel(
       statUuid: statUuid ?? this.statUuid,
@@ -82,11 +85,10 @@ class UserStatsModel {
       rating: rating ?? this.rating,
       coffeeBeansId: coffeeBeansId ?? this.coffeeBeansId,
       isMarked: isMarked ?? this.isMarked,
-      coffeeBeansUuid: coffeeBeansUuid ??
-          this.coffeeBeansUuid, // DEBUG: Added null-coalescing to preserve existing value
+      coffeeBeansUuid: coffeeBeansUuid ?? this.coffeeBeansUuid,
+      grindSize: grindSize ?? this.grindSize,
       versionVector: versionVector ?? this.versionVector,
-      isDeleted:
-          isDeleted ?? this.isDeleted, // Update or keep current isDeleted value
+      isDeleted: isDeleted ?? this.isDeleted,
     );
   }
 
@@ -112,6 +114,7 @@ class UserStatsModel {
           coffeeBeansId == other.coffeeBeansId &&
           isMarked == other.isMarked &&
           coffeeBeansUuid == other.coffeeBeansUuid &&
+          grindSize == other.grindSize &&
           versionVector == other.versionVector &&
           isDeleted == other.isDeleted;
 
@@ -134,6 +137,7 @@ class UserStatsModel {
       coffeeBeansId.hashCode ^
       isMarked.hashCode ^
       coffeeBeansUuid.hashCode ^
+      grindSize.hashCode ^
       versionVector.hashCode ^
       isDeleted.hashCode;
 }

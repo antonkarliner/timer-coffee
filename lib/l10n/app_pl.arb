@@ -876,5 +876,13 @@
   "timePeriodLastYear": "W zeszłym roku",
   "nativeAppPromoTitle": "Pobierz aplikację Timer.Coffee",
   "nativeAppPromoDescription": "Ciesz się pełnym doświadczeniem z ekskluzywnymi funkcjami: skanowanie etykiet kawy przez AI, aktywności na żywo na ekranie blokady, powiadomienia push, wibracje dotykowe i więcej.",
-  "nativeAppPromoButton": "Pobierz aplikację"
+  "nativeAppPromoButton": "Pobierz aplikację",
+  "addBrewEntry": "Dodaj wpis parzenia",
+  "selectBrewingMethod": "Wybierz metodę parzenia",
+  "selectRecipe": "Wybierz przepis",
+  "brewDate": "Data",
+  "brewTime": "Godzina",
+  "brewEntrySaved": "Wpis parzenia zapisany",
+  "brewingMethodRequired": "Proszę wybrać metodę parzenia",
+  "recipeRequired": "Proszę wybrać przepis"
 }

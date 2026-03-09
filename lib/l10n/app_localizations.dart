@@ -3676,6 +3676,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Get the App'**
   String get nativeAppPromoButton;
+
+  /// No description provided for @addBrewEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Brew Entry'**
+  String get addBrewEntry;
+
+  /// No description provided for @selectBrewingMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Brewing Method'**
+  String get selectBrewingMethod;
+
+  /// No description provided for @selectRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Recipe'**
+  String get selectRecipe;
+
+  /// No description provided for @brewDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get brewDate;
+
+  /// No description provided for @brewTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get brewTime;
+
+  /// No description provided for @brewEntrySaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Brew entry saved'**
+  String get brewEntrySaved;
+
+  /// No description provided for @brewingMethodRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a brewing method'**
+  String get brewingMethodRequired;
+
+  /// No description provided for @recipeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a recipe'**
+  String get recipeRequired;
 }
 
 class _AppLocalizationsDelegate

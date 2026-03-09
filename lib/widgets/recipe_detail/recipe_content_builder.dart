@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/controllers/recipe_detail_controller.dart';
 import 'package:coffee_timer/widgets/recipe_detail/rich_text_links.dart';
@@ -11,7 +12,7 @@ import 'package:coffee_timer/widgets/recipe_detail/sliders_106.dart';
 import 'package:coffee_timer/widgets/recipe_detail/recipe_summary_tile.dart';
 
 /// Widget that builds the main recipe content including all sections
-class RecipeContentBuilder extends StatelessWidget {
+class RecipeContentBuilder extends StatefulWidget {
   final RecipeModel recipe;
   final RecipeDetailController controller;
   final String? effectiveRecipeId;
@@ -36,7 +37,19 @@ class RecipeContentBuilder extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<RecipeContentBuilder> createState() => _RecipeContentBuilderState();
+}
+
+class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
+  bool _isEditingGrindSize = false;
+
+  @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    final recipe = widget.recipe;
+    final controller = widget.controller;
+    final effectiveRecipeId = widget.effectiveRecipeId;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -63,22 +76,64 @@ class RecipeContentBuilder extends StatelessWidget {
           selectedBeanName: controller.selectedBeanName,
           originalRoasterLogoUrl: controller.originalRoasterLogoUrl,
           mirrorRoasterLogoUrl: controller.mirrorRoasterLogoUrl,
-          onSelectBeans: onSelectBeans,
-          onClearSelection: onClearBeanSelection,
+          onSelectBeans: widget.onSelectBeans,
+          onClearSelection: widget.onClearBeanSelection,
         ),
         const SizedBox(height: 24),
         AmountFields(
           coffeeController: controller.coffeeController,
           waterController: controller.waterController,
-          onCoffeeChanged: onCoffeeAmountChanged,
-          onWaterChanged: onWaterAmountChanged,
-          onCoffeeFocus: onCoffeeFocus,
-          onWaterFocus: onWaterFocus,
+          onCoffeeChanged: widget.onCoffeeAmountChanged,
+          onWaterChanged: widget.onWaterAmountChanged,
+          onCoffeeFocus: widget.onCoffeeFocus,
+          onWaterFocus: widget.onWaterFocus,
         ),
+        const SizedBox(height: 16),
+        // Grind size: read-only by default, editable on tap of edit icon
+        if (_isEditingGrindSize)
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: controller.grindSizeController,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    labelText: loc.grindsize,
+                    border: const OutlineInputBorder(),
+                  ),
+                  onFieldSubmitted: (_) {
+                    setState(() => _isEditingGrindSize = false);
+                  },
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.check),
+                onPressed: () {
+                  setState(() => _isEditingGrindSize = false);
+                },
+              ),
+            ],
+          )
+        else
+          Row(
+            children: [
+              Flexible(
+                child: Text(
+                  '${loc.grindsize}: ${controller.grindSizeController.text.isNotEmpty ? controller.grindSizeController.text : loc.notProvided}',
+                ),
+              ),
+              const SizedBox(width: 4),
+              GestureDetector(
+                onTap: () {
+                  setState(() => _isEditingGrindSize = true);
+                },
+                child: const Icon(Icons.edit, size: 18),
+              ),
+            ],
+          ),
         const SizedBox(height: 16),
         MetaInfoSection(
           waterTempCelsius: recipe.waterTemp,
-          grindSize: recipe.grindSize,
           brewTime: recipe.brewTime,
         ),
         const SizedBox(height: 16),

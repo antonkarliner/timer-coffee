@@ -471,8 +471,14 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
             _controller.waterController.text.replaceAll(',', '.')) ??
         recipe.waterAmount;
 
+    final String? customGrindSize =
+        _controller.grindSizeController.text.trim().isEmpty
+            ? null
+            : _controller.grindSizeController.text.trim();
+
     await recipeProvider.saveCustomAmounts(
-        idToSave, customCoffeeAmount, customWaterAmount);
+        idToSave, customCoffeeAmount, customWaterAmount,
+        customGrindSize: customGrindSize);
 
     // Use effective ID for slider logic check
     if (idToSave == '106' || idToSave == '1002') {
@@ -492,6 +498,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       id: idToSave, // Ensure the ID passed to next screen is the effective one
       coffeeAmount: customCoffeeAmount,
       waterAmount: customWaterAmount,
+      grindSize: customGrindSize ?? recipe.grindSize,
       sweetnessSliderPosition:
           idToSave == '106' ? _controller.sweetnessSliderPosition : null,
       strengthSliderPosition:

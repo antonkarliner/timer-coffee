@@ -876,5 +876,13 @@
   "timePeriodLastYear": "去年",
   "nativeAppPromoTitle": "下载 Timer.Coffee 应用",
   "nativeAppPromoDescription": "享受完整体验，解锁专属功能：AI 咖啡标签扫描、锁屏实时活动、推送通知、触觉反馈等。",
-  "nativeAppPromoButton": "下载应用"
+  "nativeAppPromoButton": "下载应用",
+  "addBrewEntry": "添加冲煮记录",
+  "selectBrewingMethod": "选择冲煮方式",
+  "selectRecipe": "选择配方",
+  "brewDate": "日期",
+  "brewTime": "时间",
+  "brewEntrySaved": "冲煮记录已保存",
+  "brewingMethodRequired": "请选择冲煮方式",
+  "recipeRequired": "请选择配方"
 }

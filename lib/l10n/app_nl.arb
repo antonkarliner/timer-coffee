@@ -876,5 +876,13 @@
   "timePeriodLastYear": "Vorig jaar",
   "nativeAppPromoTitle": "Download de Timer.Coffee App",
   "nativeAppPromoDescription": "Geniet van de volledige ervaring met exclusieve functies: AI-gestuurde koffielabel scanning, Live Activiteiten op je vergrendelscherm, pushmeldingen, haptische feedback en meer.",
-  "nativeAppPromoButton": "Download de app"
+  "nativeAppPromoButton": "Download de app",
+  "addBrewEntry": "Zetvermelding toevoegen",
+  "selectBrewingMethod": "Selecteer zetmethode",
+  "selectRecipe": "Selecteer recept",
+  "brewDate": "Datum",
+  "brewTime": "Tijd",
+  "brewEntrySaved": "Zetvermelding opgeslagen",
+  "brewingMethodRequired": "Selecteer een zetmethode",
+  "recipeRequired": "Selecteer een recept"
 }

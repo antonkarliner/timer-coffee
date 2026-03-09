@@ -1049,5 +1049,13 @@
   "timePeriodLastYear": "سال گذشته",
   "nativeAppPromoTitle": "اپلیکیشن Timer.Coffee را دانلود کنید",
   "nativeAppPromoDescription": "از تجربه کامل با ویژگی‌های انحصاری لذت ببرید: اسکن برچسب قهوه با هوش مصنوعی، فعالیت‌های زنده روی صفحه قفل، اعلان‌های فوری، بازخورد لمسی و موارد بیشتر.",
-  "nativeAppPromoButton": "دانلود اپلیکیشن"
+  "nativeAppPromoButton": "دانلود اپلیکیشن",
+  "addBrewEntry": "افزودن ثبت دم‌آوری",
+  "selectBrewingMethod": "انتخاب روش دم‌آوری",
+  "selectRecipe": "انتخاب دستور",
+  "brewDate": "تاریخ",
+  "brewTime": "زمان",
+  "brewEntrySaved": "ثبت دم‌آوری ذخیره شد",
+  "brewingMethodRequired": "لطفاً یک روش دم‌آوری انتخاب کنید",
+  "recipeRequired": "لطفاً یک دستور انتخاب کنید"
 }

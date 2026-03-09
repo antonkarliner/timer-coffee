@@ -162,12 +162,14 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<void> saveCustomAmounts(
-      String recipeId, double coffeeAmount, double waterAmount) async {
+      String recipeId, double coffeeAmount, double waterAmount,
+      {String? customGrindSize}) async {
     // Update local database
     await db.userRecipePreferencesDao.updatePreferences(
       recipeId,
       customCoffeeAmount: coffeeAmount,
       customWaterAmount: waterAmount,
+      customGrindSize: customGrindSize,
     );
 
     // Update Supabase
@@ -175,6 +177,7 @@ class RecipeProvider extends ChangeNotifier {
       recipeId,
       customCoffeeAmount: coffeeAmount,
       customWaterAmount: waterAmount,
+      customGrindSize: customGrindSize,
     );
 
     await fetchAllRecipes();

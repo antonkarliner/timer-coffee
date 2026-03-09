@@ -35,7 +35,9 @@ class UserStatProvider extends ChangeNotifier {
     int? coffeeBeansId,
     bool isMarked = false,
     String? coffeeBeansUuid,
+    String? grindSize,
     String? statUuid,
+    DateTime? createdAt,
   }) async {
     final newStatUuid = statUuid ?? _uuid.v7();
     final versionVector = VersionVector.initial(deviceId).toString();
@@ -48,7 +50,7 @@ class UserStatProvider extends ChangeNotifier {
       sweetnessSliderPosition: sweetnessSliderPosition,
       strengthSliderPosition: strengthSliderPosition,
       brewingMethodId: brewingMethodId,
-      createdAt: DateTime.now().toUtc(),
+      createdAt: createdAt ?? DateTime.now().toUtc(),
       notes: notes,
       beans: beans,
       roaster: roaster,
@@ -56,8 +58,9 @@ class UserStatProvider extends ChangeNotifier {
       coffeeBeansId: coffeeBeansId,
       isMarked: isMarked,
       coffeeBeansUuid: coffeeBeansUuid,
+      grindSize: grindSize,
       versionVector: versionVector,
-      isDeleted: false, // Initialize isDeleted as false
+      isDeleted: false,
     );
 
     await db.userStatsDao.insertUserStat(newStat);
@@ -99,6 +102,7 @@ class UserStatProvider extends ChangeNotifier {
     int? coffeeBeansId,
     bool? isMarked,
     String? coffeeBeansUuid,
+    String? grindSize,
     bool clearBeans = false,
   }) async {
     AppLogger.debug(
@@ -130,6 +134,7 @@ class UserStatProvider extends ChangeNotifier {
       coffeeBeansId: coffeeBeansId,
       isMarked: isMarked,
       coffeeBeansUuid: coffeeBeansUuid,
+      grindSize: grindSize,
       versionVector: newVector.toString(),
     );
 
@@ -153,6 +158,7 @@ class UserStatProvider extends ChangeNotifier {
         coffeeBeansId: updatedStat.coffeeBeansId,
         isMarked: updatedStat.isMarked,
         coffeeBeansUuid: null,
+        grindSize: updatedStat.grindSize,
         versionVector: updatedStat.versionVector,
         isDeleted: currentStat.isDeleted,
       );
@@ -769,8 +775,9 @@ class UserStatProvider extends ChangeNotifier {
       'notes': model.notes,
       'is_marked': model.isMarked,
       'coffee_beans_uuid': model.coffeeBeansUuid,
+      'grind_size': model.grindSize,
       'version_vector': model.versionVector,
-      'is_deleted': model.isDeleted, // Include isDeleted field in JSON
+      'is_deleted': model.isDeleted,
     };
   }
 
@@ -786,6 +793,7 @@ class UserStatProvider extends ChangeNotifier {
       brewingMethodId: json['brewing_method_id'],
       createdAt: DateTime.parse(json['created_at']),
       notes: json['notes'],
+      grindSize: json['grind_size'],
       isMarked: json['is_marked'],
       coffeeBeansUuid: json['coffee_beans_uuid'],
       versionVector: json['version_vector'],

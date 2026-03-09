@@ -2103,4 +2103,28 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'Lataa sovellus';
+
+  @override
+  String get addBrewEntry => 'Lisää keittomerkintä';
+
+  @override
+  String get selectBrewingMethod => 'Valitse keittotapa';
+
+  @override
+  String get selectRecipe => 'Valitse resepti';
+
+  @override
+  String get brewDate => 'Päivämäärä';
+
+  @override
+  String get brewTime => 'Aika';
+
+  @override
+  String get brewEntrySaved => 'Keittomerkintä tallennettu';
+
+  @override
+  String get brewingMethodRequired => 'Valitse keittotapa';
+
+  @override
+  String get recipeRequired => 'Valitse resepti';
 }

@@ -2152,4 +2152,28 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'Скачать приложение';
+
+  @override
+  String get addBrewEntry => 'Добавить запись заваривания';
+
+  @override
+  String get selectBrewingMethod => 'Выберите способ заваривания';
+
+  @override
+  String get selectRecipe => 'Выберите рецепт';
+
+  @override
+  String get brewDate => 'Дата';
+
+  @override
+  String get brewTime => 'Время';
+
+  @override
+  String get brewEntrySaved => 'Запись заваривания сохранена';
+
+  @override
+  String get brewingMethodRequired => 'Пожалуйста, выберите способ заваривания';
+
+  @override
+  String get recipeRequired => 'Пожалуйста, выберите рецепт';
 }

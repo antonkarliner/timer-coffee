@@ -876,5 +876,13 @@
   "timePeriodLastYear": "Ano Passado",
   "nativeAppPromoTitle": "Baixe o app Timer.Coffee",
   "nativeAppPromoDescription": "Aproveite a experiência completa com recursos exclusivos: digitalização de rótulos de café com IA, Atividades ao Vivo na tela de bloqueio, notificações push, feedback háptico e muito mais.",
-  "nativeAppPromoButton": "Baixar o app"
+  "nativeAppPromoButton": "Baixar o app",
+  "addBrewEntry": "Adicionar registro de preparo",
+  "selectBrewingMethod": "Selecionar método de preparo",
+  "selectRecipe": "Selecionar receita",
+  "brewDate": "Data",
+  "brewTime": "Hora",
+  "brewEntrySaved": "Registro de preparo salvo",
+  "brewingMethodRequired": "Por favor, selecione um método de preparo",
+  "recipeRequired": "Por favor, selecione uma receita"
 }

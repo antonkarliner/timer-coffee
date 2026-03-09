@@ -2102,4 +2102,28 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'Unduh Aplikasi';
+
+  @override
+  String get addBrewEntry => 'Tambah Catatan Seduhan';
+
+  @override
+  String get selectBrewingMethod => 'Pilih Metode Seduh';
+
+  @override
+  String get selectRecipe => 'Pilih Resep';
+
+  @override
+  String get brewDate => 'Tanggal';
+
+  @override
+  String get brewTime => 'Waktu';
+
+  @override
+  String get brewEntrySaved => 'Catatan seduhan disimpan';
+
+  @override
+  String get brewingMethodRequired => 'Silakan pilih metode seduh';
+
+  @override
+  String get recipeRequired => 'Silakan pilih resep';
 }

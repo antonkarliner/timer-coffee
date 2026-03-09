@@ -40,10 +40,11 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
           preferences?.coffeeChroniclerSliderPosition ?? 0,
       customCoffeeAmount: preferences?.customCoffeeAmount,
       customWaterAmount: preferences?.customWaterAmount,
+      customGrindSize: preferences?.customGrindSize,
       vendorId: recipeData.vendorId,
-      importId: recipeData.importId, // Fetch importId
-      isImported: recipeData.isImported, // Fetch isImported
-      isPublic: recipeData.isPublic, // Fetch isPublic field
+      importId: recipeData.importId,
+      isImported: recipeData.isImported,
+      isPublic: recipeData.isPublic,
     );
   }
 
@@ -90,10 +91,11 @@ class RecipesDao extends DatabaseAccessor<AppDatabase> with _$RecipesDaoMixin {
             preferences?.coffeeChroniclerSliderPosition ?? 0,
         customCoffeeAmount: preferences?.customCoffeeAmount,
         customWaterAmount: preferences?.customWaterAmount,
+        customGrindSize: preferences?.customGrindSize,
         vendorId: recipeData.vendorId,
-        importId: recipeData.importId, // Fetch importId
-        isImported: recipeData.isImported, // Fetch isImported
-        isPublic: recipeData.isPublic, // Fetch isPublic field
+        importId: recipeData.importId,
+        isImported: recipeData.isImported,
+        isPublic: recipeData.isPublic,
       ));
     }
     return recipeModels;

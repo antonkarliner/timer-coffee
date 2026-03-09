@@ -2133,4 +2133,29 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'Télécharger l\'app';
+
+  @override
+  String get addBrewEntry => 'Ajouter une infusion';
+
+  @override
+  String get selectBrewingMethod => 'Sélectionner la méthode d\'infusion';
+
+  @override
+  String get selectRecipe => 'Sélectionner la recette';
+
+  @override
+  String get brewDate => 'Date';
+
+  @override
+  String get brewTime => 'Heure';
+
+  @override
+  String get brewEntrySaved => 'Infusion enregistrée';
+
+  @override
+  String get brewingMethodRequired =>
+      'Veuillez sélectionner une méthode d\'infusion';
+
+  @override
+  String get recipeRequired => 'Veuillez sélectionner une recette';
 }

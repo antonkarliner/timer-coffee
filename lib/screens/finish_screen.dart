@@ -125,7 +125,8 @@ class _FinishScreenState extends State<FinishScreen> {
           strengthSliderPosition: widget.strengthSliderPosition,
           brewingMethodId: widget.recipe.brewingMethodId,
           statUuid: statUuid,
-          coffeeBeansUuid: coffeeBeansUuid, // Add this line
+          coffeeBeansUuid: coffeeBeansUuid,
+          grindSize: widget.recipe.grindSize,
         );
         AppLogger.debug(
             'Inserted new stat with UUID: $statUuid and Coffee Beans UUID: $coffeeBeansUuid');

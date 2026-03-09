@@ -28,12 +28,14 @@ class RecipeCreationScreen extends StatefulWidget {
   final RecipeModel? recipe;
   final String? brewingMethodId;
   final bool redirectToNewDetailOnSave;
+  final bool popWithResultOnSave;
 
   const RecipeCreationScreen({
     Key? key,
     this.recipe,
     this.brewingMethodId,
     this.redirectToNewDetailOnSave = false,
+    this.popWithResultOnSave = false,
   }) : super(key: key);
 
   @override
@@ -449,6 +451,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         context,
         isUpdate: isUpdate,
         redirectToNewDetailOnSave: widget.redirectToNewDetailOnSave,
+        popWithResultOnSave: widget.popWithResultOnSave,
       );
 
       // Reset unsaved changes flag after successful save

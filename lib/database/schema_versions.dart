@@ -19,165 +19,135 @@ final class Schema2 extends i0.VersionedSchema {
     startPopups,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape2 brewingMethods = Shape2(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_10,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_15,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_10,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_15,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_17,
-          _column_18,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_17,
+        _column_18,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_17,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_18,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_17,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_18,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_17,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_17,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_18,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_18],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape8 startPopups = Shape8(
-      source: i0.VersionedTable(
-        entityName: 'start_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_33,
-          _column_34,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'start_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_33, _column_34],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
 }
 
 class Shape0 extends i0.VersionedTable {
@@ -195,24 +165,47 @@ class Shape0 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_0(String aliasedName) =>
-    i1.GeneratedColumn<String>('vendor_id', aliasedName, false,
-        additionalChecks: i1.GeneratedColumn.checkTextLength(
-            minTextLength: 1, maxTextLength: 255),
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'vendor_id',
+      aliasedName,
+      false,
+      additionalChecks: i1.GeneratedColumn.checkTextLength(
+        minTextLength: 1,
+        maxTextLength: 255,
+      ),
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_1(String aliasedName) =>
-    i1.GeneratedColumn<String>('vendor_name', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'vendor_name',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_2(String aliasedName) =>
-    i1.GeneratedColumn<String>('vendor_description', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'vendor_description',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_3(String aliasedName) =>
-    i1.GeneratedColumn<String>('banner_url', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'banner_url',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<bool> _column_4(String aliasedName) =>
-    i1.GeneratedColumn<bool>('active', aliasedName, false,
-        type: i1.DriftSqlType.bool,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'CHECK ("active" IN (0, 1))'));
+    i1.GeneratedColumn<bool>(
+      'active',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.bool,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'CHECK ("active" IN (0, 1))',
+      ),
+    );
 
 class Shape1 extends i0.VersionedTable {
   Shape1({required super.source, required super.alias}) : super.aliased();
@@ -223,15 +216,27 @@ class Shape1 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_5(String aliasedName) =>
-    i1.GeneratedColumn<String>('locale', aliasedName, false,
-        additionalChecks: i1.GeneratedColumn.checkTextLength(
-            minTextLength: 1, maxTextLength: 255),
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'locale',
+      aliasedName,
+      false,
+      additionalChecks: i1.GeneratedColumn.checkTextLength(
+        minTextLength: 1,
+        maxTextLength: 255,
+      ),
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_6(String aliasedName) =>
-    i1.GeneratedColumn<String>('locale_name', aliasedName, false,
-        additionalChecks: i1.GeneratedColumn.checkTextLength(
-            minTextLength: 1, maxTextLength: 255),
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'locale_name',
+      aliasedName,
+      false,
+      additionalChecks: i1.GeneratedColumn.checkTextLength(
+        minTextLength: 1,
+        maxTextLength: 255,
+      ),
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape2 extends i0.VersionedTable {
   Shape2({required super.source, required super.alias}) : super.aliased();
@@ -242,15 +247,27 @@ class Shape2 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_7(String aliasedName) =>
-    i1.GeneratedColumn<String>('brewing_method_id', aliasedName, false,
-        additionalChecks: i1.GeneratedColumn.checkTextLength(
-            minTextLength: 1, maxTextLength: 255),
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'brewing_method_id',
+      aliasedName,
+      false,
+      additionalChecks: i1.GeneratedColumn.checkTextLength(
+        minTextLength: 1,
+        maxTextLength: 255,
+      ),
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_8(String aliasedName) =>
-    i1.GeneratedColumn<String>('brewing_method', aliasedName, false,
-        additionalChecks: i1.GeneratedColumn.checkTextLength(
-            minTextLength: 1, maxTextLength: 255),
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'brewing_method',
+      aliasedName,
+      false,
+      additionalChecks: i1.GeneratedColumn.checkTextLength(
+        minTextLength: 1,
+        maxTextLength: 255,
+      ),
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape3 extends i0.VersionedTable {
   Shape3({required super.source, required super.alias}) : super.aliased();
@@ -273,36 +290,72 @@ class Shape3 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_9(String aliasedName) =>
-    i1.GeneratedColumn<String>('id', aliasedName, false,
-        additionalChecks: i1.GeneratedColumn.checkTextLength(
-            minTextLength: 1, maxTextLength: 255),
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'id',
+      aliasedName,
+      false,
+      additionalChecks: i1.GeneratedColumn.checkTextLength(
+        minTextLength: 1,
+        maxTextLength: 255,
+      ),
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_10(String aliasedName) =>
-    i1.GeneratedColumn<String>('brewing_method_id', aliasedName, false,
-        additionalChecks: i1.GeneratedColumn.checkTextLength(
-            minTextLength: 1, maxTextLength: 255),
-        type: i1.DriftSqlType.string,
-        $customConstraints:
-            'REFERENCES brewing_methods(brewing_method_id) NOT NULL');
+    i1.GeneratedColumn<String>(
+      'brewing_method_id',
+      aliasedName,
+      false,
+      additionalChecks: i1.GeneratedColumn.checkTextLength(
+        minTextLength: 1,
+        maxTextLength: 255,
+      ),
+      type: i1.DriftSqlType.string,
+      $customConstraints:
+          'REFERENCES brewing_methods(brewing_method_id) NOT NULL',
+    );
 i1.GeneratedColumn<double> _column_11(String aliasedName) =>
-    i1.GeneratedColumn<double>('coffee_amount', aliasedName, false,
-        type: i1.DriftSqlType.double);
+    i1.GeneratedColumn<double>(
+      'coffee_amount',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.double,
+    );
 i1.GeneratedColumn<double> _column_12(String aliasedName) =>
-    i1.GeneratedColumn<double>('water_amount', aliasedName, false,
-        type: i1.DriftSqlType.double);
+    i1.GeneratedColumn<double>(
+      'water_amount',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.double,
+    );
 i1.GeneratedColumn<double> _column_13(String aliasedName) =>
-    i1.GeneratedColumn<double>('water_temp', aliasedName, false,
-        type: i1.DriftSqlType.double);
+    i1.GeneratedColumn<double>(
+      'water_temp',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.double,
+    );
 i1.GeneratedColumn<int> _column_14(String aliasedName) =>
-    i1.GeneratedColumn<int>('brew_time', aliasedName, false,
-        type: i1.DriftSqlType.int);
+    i1.GeneratedColumn<int>(
+      'brew_time',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+    );
 i1.GeneratedColumn<String> _column_15(String aliasedName) =>
-    i1.GeneratedColumn<String>('vendor_id', aliasedName, true,
-        type: i1.DriftSqlType.string,
-        $customConstraints: 'REFERENCES vendors(vendor_id)');
+    i1.GeneratedColumn<String>(
+      'vendor_id',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+      $customConstraints: 'REFERENCES vendors(vendor_id)',
+    );
 i1.GeneratedColumn<DateTime> _column_16(String aliasedName) =>
-    i1.GeneratedColumn<DateTime>('last_modified', aliasedName, true,
-        type: i1.DriftSqlType.dateTime);
+    i1.GeneratedColumn<DateTime>(
+      'last_modified',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.dateTime,
+    );
 
 class Shape4 extends i0.VersionedTable {
   Shape4({required super.source, required super.alias}) : super.aliased();
@@ -321,26 +374,50 @@ class Shape4 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_17(String aliasedName) =>
-    i1.GeneratedColumn<String>('recipe_id', aliasedName, false,
-        type: i1.DriftSqlType.string,
-        $customConstraints: 'REFERENCES recipes(id) NOT NULL');
+    i1.GeneratedColumn<String>(
+      'recipe_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+      $customConstraints: 'REFERENCES recipes(id) NOT NULL',
+    );
 i1.GeneratedColumn<String> _column_18(String aliasedName) =>
-    i1.GeneratedColumn<String>('locale', aliasedName, false,
-        additionalChecks: i1.GeneratedColumn.checkTextLength(
-            minTextLength: 2, maxTextLength: 10),
-        type: i1.DriftSqlType.string,
-        $customConstraints: 'REFERENCES supported_locales(locale) NOT NULL');
+    i1.GeneratedColumn<String>(
+      'locale',
+      aliasedName,
+      false,
+      additionalChecks: i1.GeneratedColumn.checkTextLength(
+        minTextLength: 2,
+        maxTextLength: 10,
+      ),
+      type: i1.DriftSqlType.string,
+      $customConstraints: 'REFERENCES supported_locales(locale) NOT NULL',
+    );
 i1.GeneratedColumn<String> _column_19(String aliasedName) =>
-    i1.GeneratedColumn<String>('name', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'name',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_20(String aliasedName) =>
-    i1.GeneratedColumn<String>('grind_size', aliasedName, false,
-        additionalChecks: i1.GeneratedColumn.checkTextLength(
-            minTextLength: 1, maxTextLength: 255),
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'grind_size',
+      aliasedName,
+      false,
+      additionalChecks: i1.GeneratedColumn.checkTextLength(
+        minTextLength: 1,
+        maxTextLength: 255,
+      ),
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_21(String aliasedName) =>
-    i1.GeneratedColumn<String>('short_description', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'short_description',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape5 extends i0.VersionedTable {
   Shape5({required super.source, required super.alias}) : super.aliased();
@@ -359,14 +436,26 @@ class Shape5 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<int> _column_22(String aliasedName) =>
-    i1.GeneratedColumn<int>('step_order', aliasedName, false,
-        type: i1.DriftSqlType.int);
+    i1.GeneratedColumn<int>(
+      'step_order',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+    );
 i1.GeneratedColumn<String> _column_23(String aliasedName) =>
-    i1.GeneratedColumn<String>('description', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'description',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_24(String aliasedName) =>
-    i1.GeneratedColumn<String>('time', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'time',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape6 extends i0.VersionedTable {
   Shape6({required super.source, required super.alias}) : super.aliased();
@@ -387,25 +476,52 @@ class Shape6 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<DateTime> _column_25(String aliasedName) =>
-    i1.GeneratedColumn<DateTime>('last_used', aliasedName, true,
-        type: i1.DriftSqlType.dateTime);
+    i1.GeneratedColumn<DateTime>(
+      'last_used',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.dateTime,
+    );
 i1.GeneratedColumn<bool> _column_26(String aliasedName) =>
-    i1.GeneratedColumn<bool>('is_favorite', aliasedName, false,
-        type: i1.DriftSqlType.bool,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'CHECK ("is_favorite" IN (0, 1))'));
+    i1.GeneratedColumn<bool>(
+      'is_favorite',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.bool,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'CHECK ("is_favorite" IN (0, 1))',
+      ),
+    );
 i1.GeneratedColumn<int> _column_27(String aliasedName) =>
-    i1.GeneratedColumn<int>('sweetness_slider_position', aliasedName, false,
-        type: i1.DriftSqlType.int, defaultValue: const Constant(1));
+    i1.GeneratedColumn<int>(
+      'sweetness_slider_position',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      defaultValue: const Constant(1),
+    );
 i1.GeneratedColumn<int> _column_28(String aliasedName) =>
-    i1.GeneratedColumn<int>('strength_slider_position', aliasedName, false,
-        type: i1.DriftSqlType.int, defaultValue: const Constant(2));
+    i1.GeneratedColumn<int>(
+      'strength_slider_position',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      defaultValue: const Constant(2),
+    );
 i1.GeneratedColumn<double> _column_29(String aliasedName) =>
-    i1.GeneratedColumn<double>('custom_coffee_amount', aliasedName, true,
-        type: i1.DriftSqlType.double);
+    i1.GeneratedColumn<double>(
+      'custom_coffee_amount',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.double,
+    );
 i1.GeneratedColumn<double> _column_30(String aliasedName) =>
-    i1.GeneratedColumn<double>('custom_water_amount', aliasedName, true,
-        type: i1.DriftSqlType.double);
+    i1.GeneratedColumn<double>(
+      'custom_water_amount',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.double,
+    );
 
 class Shape7 extends i0.VersionedTable {
   Shape7({required super.source, required super.alias}) : super.aliased();
@@ -418,8 +534,12 @@ class Shape7 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_31(String aliasedName) =>
-    i1.GeneratedColumn<String>('fact', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'fact',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape8 extends i0.VersionedTable {
   Shape8({required super.source, required super.alias}) : super.aliased();
@@ -434,15 +554,27 @@ class Shape8 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_32(String aliasedName) =>
-    i1.GeneratedColumn<String>('content', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'content',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_33(String aliasedName) =>
-    i1.GeneratedColumn<String>('app_version', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'app_version',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_34(String aliasedName) =>
-    i1.GeneratedColumn<String>('locale', aliasedName, false,
-        type: i1.DriftSqlType.string,
-        $customConstraints: 'REFERENCES supported_locales(locale) NOT NULL');
+    i1.GeneratedColumn<String>(
+      'locale',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+      $customConstraints: 'REFERENCES supported_locales(locale) NOT NULL',
+    );
 
 final class Schema3 extends i0.VersionedSchema {
   Schema3({required super.database}) : super(version: 3);
@@ -460,167 +592,139 @@ final class Schema3 extends i0.VersionedSchema {
     idxRecipesLastModified,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape2 brewingMethods = Shape2(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_10,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_15,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_10,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_15,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_17,
-          _column_18,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_17,
+        _column_18,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_17,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_18,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_17,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_18,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_17,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_17,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_18,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_18],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape8 startPopups = Shape8(
-      source: i0.VersionedTable(
-        entityName: 'start_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_33,
-          _column_34,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'start_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_33, _column_34],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
 }
 
 final class Schema4 extends i0.VersionedSchema {
@@ -640,185 +744,150 @@ final class Schema4 extends i0.VersionedSchema {
     idxRecipesLastModified,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape9 brewingMethods = Shape9(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-          _column_36,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35, _column_36],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_10,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_15,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_10,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_15,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_17,
-          _column_18,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_17,
+        _column_18,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_17,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_18,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_17,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_18,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_17,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_17,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_18,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_18],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape8 startPopups = Shape8(
-      source: i0.VersionedTable(
-        entityName: 'start_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_33,
-          _column_34,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'start_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_33, _column_34],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_18,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_18],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
 }
 
 class Shape9 extends i0.VersionedTable {
@@ -834,14 +903,23 @@ class Shape9 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<bool> _column_35(String aliasedName) =>
-    i1.GeneratedColumn<bool>('show_on_main', aliasedName, false,
-        type: i1.DriftSqlType.bool,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'CHECK ("show_on_main" IN (0, 1))'),
-        defaultValue: const Constant(false));
+    i1.GeneratedColumn<bool>(
+      'show_on_main',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.bool,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'CHECK ("show_on_main" IN (0, 1))',
+      ),
+      defaultValue: const Constant(false),
+    );
 i1.GeneratedColumn<String> _column_36(String aliasedName) =>
-    i1.GeneratedColumn<String>('icon', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'icon',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape10 extends i0.VersionedTable {
   Shape10({required super.source, required super.alias}) : super.aliased();
@@ -871,208 +949,175 @@ final class Schema5 extends i0.VersionedSchema {
     idxRecipesLastModified,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape8 startPopups = Shape8(
-      source: i0.VersionedTable(
-        entityName: 'start_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_33,
-          _column_41,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'start_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_33, _column_41],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape12 userStats = Shape12(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_42,
-          _column_43,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_52,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_42,
+        _column_43,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_52,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
 }
 
 class Shape11 extends i0.VersionedTable {
@@ -1085,35 +1130,64 @@ class Shape11 extends i0.VersionedTable {
       columnsByName['show_on_main']! as i1.GeneratedColumn<bool>;
 }
 
-i1.GeneratedColumn<String> _column_37(String aliasedName) => i1.GeneratedColumn<
-        String>('brewing_method_id', aliasedName, false,
-    additionalChecks: i1.GeneratedColumn.checkTextLength(
-        minTextLength: 1, maxTextLength: 255),
-    type: i1.DriftSqlType.string,
-    defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-        'REFERENCES brewing_methods (brewing_method_id) ON DELETE CASCADE'));
+i1.GeneratedColumn<String> _column_37(String aliasedName) =>
+    i1.GeneratedColumn<String>(
+      'brewing_method_id',
+      aliasedName,
+      false,
+      additionalChecks: i1.GeneratedColumn.checkTextLength(
+        minTextLength: 1,
+        maxTextLength: 255,
+      ),
+      type: i1.DriftSqlType.string,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'REFERENCES brewing_methods (brewing_method_id) ON DELETE CASCADE',
+      ),
+    );
 i1.GeneratedColumn<String> _column_38(String aliasedName) =>
-    i1.GeneratedColumn<String>('vendor_id', aliasedName, true,
-        type: i1.DriftSqlType.string,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'REFERENCES vendors (vendor_id) ON DELETE SET NULL'));
+    i1.GeneratedColumn<String>(
+      'vendor_id',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'REFERENCES vendors (vendor_id) ON DELETE SET NULL',
+      ),
+    );
 i1.GeneratedColumn<String> _column_39(String aliasedName) =>
-    i1.GeneratedColumn<String>('recipe_id', aliasedName, false,
-        type: i1.DriftSqlType.string,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'REFERENCES recipes (id) ON DELETE CASCADE'));
+    i1.GeneratedColumn<String>(
+      'recipe_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'REFERENCES recipes (id) ON DELETE CASCADE',
+      ),
+    );
 i1.GeneratedColumn<String> _column_40(String aliasedName) =>
-    i1.GeneratedColumn<String>('locale', aliasedName, false,
-        additionalChecks: i1.GeneratedColumn.checkTextLength(
-            minTextLength: 2, maxTextLength: 10),
-        type: i1.DriftSqlType.string,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'REFERENCES supported_locales (locale) ON DELETE CASCADE'));
+    i1.GeneratedColumn<String>(
+      'locale',
+      aliasedName,
+      false,
+      additionalChecks: i1.GeneratedColumn.checkTextLength(
+        minTextLength: 2,
+        maxTextLength: 10,
+      ),
+      type: i1.DriftSqlType.string,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'REFERENCES supported_locales (locale) ON DELETE CASCADE',
+      ),
+    );
 i1.GeneratedColumn<String> _column_41(String aliasedName) =>
-    i1.GeneratedColumn<String>('locale', aliasedName, false,
-        type: i1.DriftSqlType.string,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'REFERENCES supported_locales (locale) ON DELETE CASCADE'));
+    i1.GeneratedColumn<String>(
+      'locale',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'REFERENCES supported_locales (locale) ON DELETE CASCADE',
+      ),
+    );
 
 class Shape12 extends i0.VersionedTable {
   Shape12({required super.source, required super.alias}) : super.aliased();
@@ -1146,45 +1220,93 @@ class Shape12 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<int> _column_42(String aliasedName) =>
-    i1.GeneratedColumn<int>('id', aliasedName, false,
-        hasAutoIncrement: true,
-        type: i1.DriftSqlType.int,
-        defaultConstraints:
-            i1.GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+    i1.GeneratedColumn<int>(
+      'id',
+      aliasedName,
+      false,
+      hasAutoIncrement: true,
+      type: i1.DriftSqlType.int,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'PRIMARY KEY AUTOINCREMENT',
+      ),
+    );
 i1.GeneratedColumn<String> _column_43(String aliasedName) =>
-    i1.GeneratedColumn<String>('user_id', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'user_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_44(String aliasedName) =>
-    i1.GeneratedColumn<String>('recipe_id', aliasedName, false,
-        type: i1.DriftSqlType.string,
-        defaultConstraints:
-            i1.GeneratedColumn.constraintIsAlways('REFERENCES recipes (id)'));
+    i1.GeneratedColumn<String>(
+      'recipe_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'REFERENCES recipes (id)',
+      ),
+    );
 i1.GeneratedColumn<int> _column_45(String aliasedName) =>
-    i1.GeneratedColumn<int>('sweetness_slider_position', aliasedName, false,
-        type: i1.DriftSqlType.int);
+    i1.GeneratedColumn<int>(
+      'sweetness_slider_position',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+    );
 i1.GeneratedColumn<int> _column_46(String aliasedName) =>
-    i1.GeneratedColumn<int>('strength_slider_position', aliasedName, false,
-        type: i1.DriftSqlType.int);
+    i1.GeneratedColumn<int>(
+      'strength_slider_position',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+    );
 i1.GeneratedColumn<String> _column_47(String aliasedName) =>
-    i1.GeneratedColumn<String>('brewing_method_id', aliasedName, false,
-        type: i1.DriftSqlType.string,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'REFERENCES brewing_methods (brewing_method_id)'));
+    i1.GeneratedColumn<String>(
+      'brewing_method_id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'REFERENCES brewing_methods (brewing_method_id)',
+      ),
+    );
 i1.GeneratedColumn<DateTime> _column_48(String aliasedName) =>
-    i1.GeneratedColumn<DateTime>('created_at', aliasedName, false,
-        type: i1.DriftSqlType.dateTime, defaultValue: currentDateAndTime);
+    i1.GeneratedColumn<DateTime>(
+      'created_at',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.dateTime,
+      defaultValue: currentDateAndTime,
+    );
 i1.GeneratedColumn<String> _column_49(String aliasedName) =>
-    i1.GeneratedColumn<String>('notes', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'notes',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_50(String aliasedName) =>
-    i1.GeneratedColumn<String>('beans', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'beans',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_51(String aliasedName) =>
-    i1.GeneratedColumn<String>('roaster', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'roaster',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<int> _column_52(String aliasedName) =>
-    i1.GeneratedColumn<int>('rating', aliasedName, true,
-        type: i1.DriftSqlType.int);
+    i1.GeneratedColumn<int>(
+      'rating',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.int,
+    );
 
 final class Schema6 extends i0.VersionedSchema {
   Schema6({required super.database}) : super(version: 6);
@@ -1205,211 +1327,179 @@ final class Schema6 extends i0.VersionedSchema {
     idxLaunchPopupsCreatedAt,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape14 userStats = Shape14(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_42,
-          _column_43,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_42,
+        _column_43,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
 }
 
 class Shape13 extends i0.VersionedTable {
@@ -1425,11 +1515,19 @@ class Shape13 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<int> _column_53(String aliasedName) =>
-    i1.GeneratedColumn<int>('id', aliasedName, false,
-        type: i1.DriftSqlType.int);
+    i1.GeneratedColumn<int>(
+      'id',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+    );
 i1.GeneratedColumn<DateTime> _column_54(String aliasedName) =>
-    i1.GeneratedColumn<DateTime>('created_at', aliasedName, false,
-        type: i1.DriftSqlType.dateTime);
+    i1.GeneratedColumn<DateTime>(
+      'created_at',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.dateTime,
+    );
 
 class Shape14 extends i0.VersionedTable {
   Shape14({required super.source, required super.alias}) : super.aliased();
@@ -1462,8 +1560,12 @@ class Shape14 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<double> _column_55(String aliasedName) =>
-    i1.GeneratedColumn<double>('rating', aliasedName, true,
-        type: i1.DriftSqlType.double);
+    i1.GeneratedColumn<double>(
+      'rating',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.double,
+    );
 
 final class Schema7 extends i0.VersionedSchema {
   Schema7({required super.database}) : super(version: 7);
@@ -1485,237 +1587,206 @@ final class Schema7 extends i0.VersionedSchema {
     idxLaunchPopupsCreatedAt,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape15 userStats = Shape15(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_42,
-          _column_43,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_56,
-          _column_57,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_42,
+        _column_43,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_56,
+        _column_57,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape16 coffeeBeans = Shape16(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_42,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_69,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_42,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_69,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
 }
 
 class Shape15 extends i0.VersionedTable {
@@ -1751,14 +1822,23 @@ class Shape15 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_56(String aliasedName) =>
-    i1.GeneratedColumn<String>('origin', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'origin',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<bool> _column_57(String aliasedName) =>
-    i1.GeneratedColumn<bool>('is_marked', aliasedName, false,
-        type: i1.DriftSqlType.bool,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'CHECK ("is_marked" IN (0, 1))'),
-        defaultValue: const Constant(false));
+    i1.GeneratedColumn<bool>(
+      'is_marked',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.bool,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'CHECK ("is_marked" IN (0, 1))',
+      ),
+      defaultValue: const Constant(false),
+    );
 
 class Shape16 extends i0.VersionedTable {
   Shape16({required super.source, required super.alias}) : super.aliased();
@@ -1793,44 +1873,93 @@ class Shape16 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_58(String aliasedName) =>
-    i1.GeneratedColumn<String>('roaster', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'roaster',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_59(String aliasedName) =>
-    i1.GeneratedColumn<String>('origin', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'origin',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_60(String aliasedName) =>
-    i1.GeneratedColumn<String>('variety', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'variety',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_61(String aliasedName) =>
-    i1.GeneratedColumn<String>('tasting_notes', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'tasting_notes',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_62(String aliasedName) =>
-    i1.GeneratedColumn<String>('processing_method', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'processing_method',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<int> _column_63(String aliasedName) =>
-    i1.GeneratedColumn<int>('elevation', aliasedName, true,
-        type: i1.DriftSqlType.int);
+    i1.GeneratedColumn<int>(
+      'elevation',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.int,
+    );
 i1.GeneratedColumn<DateTime> _column_64(String aliasedName) =>
-    i1.GeneratedColumn<DateTime>('harvest_date', aliasedName, true,
-        type: i1.DriftSqlType.dateTime);
+    i1.GeneratedColumn<DateTime>(
+      'harvest_date',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.dateTime,
+    );
 i1.GeneratedColumn<DateTime> _column_65(String aliasedName) =>
-    i1.GeneratedColumn<DateTime>('roast_date', aliasedName, true,
-        type: i1.DriftSqlType.dateTime);
+    i1.GeneratedColumn<DateTime>(
+      'roast_date',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.dateTime,
+    );
 i1.GeneratedColumn<String> _column_66(String aliasedName) =>
-    i1.GeneratedColumn<String>('region', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'region',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_67(String aliasedName) =>
-    i1.GeneratedColumn<String>('roast_level', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'roast_level',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<double> _column_68(String aliasedName) =>
-    i1.GeneratedColumn<double>('cupping_score', aliasedName, true,
-        type: i1.DriftSqlType.double);
+    i1.GeneratedColumn<double>(
+      'cupping_score',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.double,
+    );
 i1.GeneratedColumn<bool> _column_69(String aliasedName) =>
-    i1.GeneratedColumn<bool>('is_favorite', aliasedName, false,
-        type: i1.DriftSqlType.bool,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'CHECK ("is_favorite" IN (0, 1))'),
-        defaultValue: const Constant(false));
+    i1.GeneratedColumn<bool>(
+      'is_favorite',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.bool,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'CHECK ("is_favorite" IN (0, 1))',
+      ),
+      defaultValue: const Constant(false),
+    );
 
 final class Schema8 extends i0.VersionedSchema {
   Schema8({required super.database}) : super(version: 8);
@@ -1852,242 +1981,211 @@ final class Schema8 extends i0.VersionedSchema {
     idxLaunchPopupsCreatedAt,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape17 userStats = Shape17(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_42,
-          _column_43,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_57,
-          _column_71,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_42,
+        _column_43,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_57,
+        _column_71,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape18 coffeeBeans = Shape18(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_42,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_69,
-          _column_72,
-          _column_73,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_42,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_69,
+        _column_72,
+        _column_73,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
 }
 
 class Shape17 extends i0.VersionedTable {
@@ -2127,11 +2225,19 @@ class Shape17 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<int> _column_70(String aliasedName) =>
-    i1.GeneratedColumn<int>('coffee_beans_id', aliasedName, true,
-        type: i1.DriftSqlType.int);
+    i1.GeneratedColumn<int>(
+      'coffee_beans_id',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.int,
+    );
 i1.GeneratedColumn<String> _column_71(String aliasedName) =>
-    i1.GeneratedColumn<String>('coffee_beans_uuid', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'coffee_beans_uuid',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape18 extends i0.VersionedTable {
   Shape18({required super.source, required super.alias}) : super.aliased();
@@ -2172,11 +2278,20 @@ class Shape18 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_72(String aliasedName) =>
-    i1.GeneratedColumn<String>('beans_uuid', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'beans_uuid',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<DateTime> _column_73(String aliasedName) =>
-    i1.GeneratedColumn<DateTime>('created_at', aliasedName, true,
-        type: i1.DriftSqlType.dateTime, defaultValue: currentDateAndTime);
+    i1.GeneratedColumn<DateTime>(
+      'created_at',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.dateTime,
+      defaultValue: currentDateAndTime,
+    );
 
 final class Schema9 extends i0.VersionedSchema {
   Schema9({required super.database}) : super(version: 9);
@@ -2198,242 +2313,211 @@ final class Schema9 extends i0.VersionedSchema {
     idxLaunchPopupsCreatedAt,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape19 userStats = Shape19(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_42,
-          _column_43,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_57,
-          _column_71,
-          _column_74,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_42,
+        _column_43,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_57,
+        _column_71,
+        _column_74,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape20 coffeeBeans = Shape20(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_42,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_69,
-          _column_72,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_42,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_69,
+        _column_72,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
 }
 
 class Shape19 extends i0.VersionedTable {
@@ -2475,8 +2559,12 @@ class Shape19 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_74(String aliasedName) =>
-    i1.GeneratedColumn<String>('stat_uuid', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'stat_uuid',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 
 class Shape20 extends i0.VersionedTable {
   Shape20({required super.source, required super.alias}) : super.aliased();
@@ -2534,241 +2622,210 @@ final class Schema10 extends i0.VersionedSchema {
     idxLaunchPopupsCreatedAt,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape21 userStats = Shape21(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_42,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_57,
-          _column_71,
-          _column_74,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_42,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_57,
+        _column_71,
+        _column_74,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape20 coffeeBeans = Shape20(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_42,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_69,
-          _column_72,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_42,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_69,
+        _column_72,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
 }
 
 class Shape21 extends i0.VersionedTable {
@@ -2827,248 +2884,219 @@ final class Schema11 extends i0.VersionedSchema {
     idxLaunchPopupsCreatedAt,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape21 userStats = Shape21(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_57,
-          _column_71,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_57,
+        _column_71,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape20 coffeeBeans = Shape20(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [],
-        columns: [
-          _column_42,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_69,
-          _column_72,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_42,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_69,
+        _column_72,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
 }
 
 i1.GeneratedColumn<String> _column_75(String aliasedName) =>
-    i1.GeneratedColumn<String>('stat_uuid', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'stat_uuid',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<int> _column_76(String aliasedName) =>
     i1.GeneratedColumn<int>('id', aliasedName, true, type: i1.DriftSqlType.int);
 
@@ -3092,250 +3120,219 @@ final class Schema12 extends i0.VersionedSchema {
     idxLaunchPopupsCreatedAt,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape21 userStats = Shape21(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_57,
-          _column_71,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_57,
+        _column_71,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape20 coffeeBeans = Shape20(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_69,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_69,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
 }
 
 i1.GeneratedColumn<String> _column_77(String aliasedName) =>
-    i1.GeneratedColumn<String>('beans_uuid', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'beans_uuid',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 
 final class Schema13 extends i0.VersionedSchema {
   Schema13({required super.database}) : super(version: 13);
@@ -3358,249 +3355,215 @@ final class Schema13 extends i0.VersionedSchema {
     idxUserStatsStatUuidVersionVector,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape22 userStats = Shape22(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_57,
-          _column_71,
-          _column_78,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_57,
+        _column_71,
+        _column_78,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape20 coffeeBeans = Shape20(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_69,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_69,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
 }
 
 class Shape22 extends i0.VersionedTable {
@@ -3642,8 +3605,12 @@ class Shape22 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_78(String aliasedName) =>
-    i1.GeneratedColumn<String>('version_vector', aliasedName, false,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'version_vector',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.string,
+    );
 
 final class Schema14 extends i0.VersionedSchema {
   Schema14({required super.database}) : super(version: 14);
@@ -3667,253 +3634,220 @@ final class Schema14 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape22 userStats = Shape22(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_57,
-          _column_71,
-          _column_78,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_57,
+        _column_71,
+        _column_78,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape23 coffeeBeans = Shape23(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_69,
-          _column_78,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_69,
+        _column_78,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 class Shape23 extends i0.VersionedTable {
@@ -3976,253 +3910,220 @@ final class Schema15 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape22 userStats = Shape22(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_57,
-          _column_71,
-          _column_78,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_57,
+        _column_71,
+        _column_78,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape23 coffeeBeans = Shape23(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_69,
-          _column_78,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_69,
+        _column_78,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 final class Schema16 extends i0.VersionedSchema {
@@ -4247,254 +4148,221 @@ final class Schema16 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_57,
-          _column_71,
-          _column_78,
-          _column_79,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_57,
+        _column_71,
+        _column_78,
+        _column_79,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape23 coffeeBeans = Shape23(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_69,
-          _column_78,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_69,
+        _column_78,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 class Shape24 extends i0.VersionedTable {
@@ -4538,11 +4406,16 @@ class Shape24 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<bool> _column_79(String aliasedName) =>
-    i1.GeneratedColumn<bool>('is_deleted', aliasedName, false,
-        type: i1.DriftSqlType.bool,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'CHECK ("is_deleted" IN (0, 1))'),
-        defaultValue: const Constant(false));
+    i1.GeneratedColumn<bool>(
+      'is_deleted',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.bool,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'CHECK ("is_deleted" IN (0, 1))',
+      ),
+      defaultValue: const Constant(false),
+    );
 
 final class Schema17 extends i0.VersionedSchema {
   Schema17({required super.database}) : super(version: 17);
@@ -4566,255 +4439,222 @@ final class Schema17 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape6 userRecipePreferences = Shape6(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_57,
-          _column_71,
-          _column_78,
-          _column_79,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_57,
+        _column_71,
+        _column_78,
+        _column_79,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape25 coffeeBeans = Shape25(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_69,
-          _column_78,
-          _column_79,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_69,
+        _column_78,
+        _column_79,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 class Shape25 extends i0.VersionedTable {
@@ -4879,256 +4719,223 @@ final class Schema18 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_35,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_35],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_38,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_38,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape26 userRecipePreferences = Shape26(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_27,
-          _column_28,
-          _column_29,
-          _column_30,
-          _column_80,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+        _column_80,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_48,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_57,
-          _column_71,
-          _column_78,
-          _column_79,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_57,
+        _column_71,
+        _column_78,
+        _column_79,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape25 coffeeBeans = Shape25(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_69,
-          _column_78,
-          _column_79,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_69,
+        _column_78,
+        _column_79,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 class Shape26 extends i0.VersionedTable {
@@ -5154,8 +4961,12 @@ class Shape26 extends i0.VersionedTable {
 
 i1.GeneratedColumn<int> _column_80(String aliasedName) =>
     i1.GeneratedColumn<int>(
-        'coffee_chronicler_slider_position', aliasedName, false,
-        type: i1.DriftSqlType.int, defaultValue: const Constant(0));
+      'coffee_chronicler_slider_position',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      defaultValue: const Constant(0),
+    );
 
 final class Schema19 extends i0.VersionedSchema {
   Schema19({required super.database}) : super(version: 19);
@@ -5179,300 +4990,310 @@ final class Schema19 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape0 vendors = Shape0(
-      source: i0.VersionedTable(
-        entityName: 'vendors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(vendor_id)',
-        ],
-        columns: [
-          _column_0,
-          _column_1,
-          _column_2,
-          _column_3,
-          _column_4,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'vendors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(vendor_id)'],
+      columns: [_column_0, _column_1, _column_2, _column_3, _column_4],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_81,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_81],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_82,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_82,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape26 userRecipePreferences = Shape26(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_83,
-          _column_84,
-          _column_29,
-          _column_30,
-          _column_85,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_83,
+        _column_84,
+        _column_29,
+        _column_30,
+        _column_85,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_86,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_87,
-          _column_71,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_86,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_87,
+        _column_71,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape25 coffeeBeans = Shape25(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_89,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_89,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 i1.GeneratedColumn<bool> _column_81(String aliasedName) =>
-    i1.GeneratedColumn<bool>('show_on_main', aliasedName, false,
-        type: i1.DriftSqlType.bool,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'CHECK ("show_on_main" IN (0, 1))'),
-        defaultValue: const CustomExpression('0'));
+    i1.GeneratedColumn<bool>(
+      'show_on_main',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.bool,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'CHECK ("show_on_main" IN (0, 1))',
+      ),
+      defaultValue: const CustomExpression('0'),
+    );
 i1.GeneratedColumn<String> _column_82(String aliasedName) =>
-    i1.GeneratedColumn<String>('vendor_id', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'vendor_id',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<int> _column_83(String aliasedName) =>
-    i1.GeneratedColumn<int>('sweetness_slider_position', aliasedName, false,
-        type: i1.DriftSqlType.int, defaultValue: const CustomExpression('1'));
+    i1.GeneratedColumn<int>(
+      'sweetness_slider_position',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      defaultValue: const CustomExpression('1'),
+    );
 i1.GeneratedColumn<int> _column_84(String aliasedName) =>
-    i1.GeneratedColumn<int>('strength_slider_position', aliasedName, false,
-        type: i1.DriftSqlType.int, defaultValue: const CustomExpression('2'));
+    i1.GeneratedColumn<int>(
+      'strength_slider_position',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      defaultValue: const CustomExpression('2'),
+    );
 i1.GeneratedColumn<int> _column_85(String aliasedName) =>
     i1.GeneratedColumn<int>(
-        'coffee_chronicler_slider_position', aliasedName, false,
-        type: i1.DriftSqlType.int, defaultValue: const CustomExpression('0'));
+      'coffee_chronicler_slider_position',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      defaultValue: const CustomExpression('0'),
+    );
 i1.GeneratedColumn<DateTime> _column_86(String aliasedName) =>
-    i1.GeneratedColumn<DateTime>('created_at', aliasedName, false,
-        type: i1.DriftSqlType.dateTime,
-        defaultValue: const CustomExpression(
-            'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)'));
+    i1.GeneratedColumn<DateTime>(
+      'created_at',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.dateTime,
+      defaultValue: const CustomExpression(
+        'CAST(strftime(\'%s\', CURRENT_TIMESTAMP) AS INTEGER)',
+      ),
+    );
 i1.GeneratedColumn<bool> _column_87(String aliasedName) =>
-    i1.GeneratedColumn<bool>('is_marked', aliasedName, false,
-        type: i1.DriftSqlType.bool,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'CHECK ("is_marked" IN (0, 1))'),
-        defaultValue: const CustomExpression('0'));
+    i1.GeneratedColumn<bool>(
+      'is_marked',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.bool,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'CHECK ("is_marked" IN (0, 1))',
+      ),
+      defaultValue: const CustomExpression('0'),
+    );
 i1.GeneratedColumn<bool> _column_88(String aliasedName) =>
-    i1.GeneratedColumn<bool>('is_deleted', aliasedName, false,
-        type: i1.DriftSqlType.bool,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'CHECK ("is_deleted" IN (0, 1))'),
-        defaultValue: const CustomExpression('0'));
+    i1.GeneratedColumn<bool>(
+      'is_deleted',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.bool,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'CHECK ("is_deleted" IN (0, 1))',
+      ),
+      defaultValue: const CustomExpression('0'),
+    );
 i1.GeneratedColumn<bool> _column_89(String aliasedName) =>
-    i1.GeneratedColumn<bool>('is_favorite', aliasedName, false,
-        type: i1.DriftSqlType.bool,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'CHECK ("is_favorite" IN (0, 1))'),
-        defaultValue: const CustomExpression('0'));
+    i1.GeneratedColumn<bool>(
+      'is_favorite',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.bool,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'CHECK ("is_favorite" IN (0, 1))',
+      ),
+      defaultValue: const CustomExpression('0'),
+    );
 
 final class Schema20 extends i0.VersionedSchema {
   Schema20({required super.database}) : super(version: 20);
@@ -5495,238 +5316,212 @@ final class Schema20 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_81,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_81],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape3 recipes = Shape3(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_82,
-          _column_16,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_82,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape26 userRecipePreferences = Shape26(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_83,
-          _column_84,
-          _column_29,
-          _column_30,
-          _column_85,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_83,
+        _column_84,
+        _column_29,
+        _column_30,
+        _column_85,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_86,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_87,
-          _column_71,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_86,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_87,
+        _column_71,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape25 coffeeBeans = Shape25(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_89,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_89,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 final class Schema21 extends i0.VersionedSchema {
@@ -5750,240 +5545,214 @@ final class Schema21 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_81,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_81],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape27 recipes = Shape27(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_82,
-          _column_16,
-          _column_90,
-          _column_91,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_82,
+        _column_16,
+        _column_90,
+        _column_91,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape26 userRecipePreferences = Shape26(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_83,
-          _column_84,
-          _column_29,
-          _column_30,
-          _column_85,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_83,
+        _column_84,
+        _column_29,
+        _column_30,
+        _column_85,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_86,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_87,
-          _column_71,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_86,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_87,
+        _column_71,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape25 coffeeBeans = Shape25(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_89,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_89,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 class Shape27 extends i0.VersionedTable {
@@ -6011,14 +5780,23 @@ class Shape27 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_90(String aliasedName) =>
-    i1.GeneratedColumn<String>('import_id', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'import_id',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<bool> _column_91(String aliasedName) =>
-    i1.GeneratedColumn<bool>('is_imported', aliasedName, false,
-        type: i1.DriftSqlType.bool,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'CHECK ("is_imported" IN (0, 1))'),
-        defaultValue: const CustomExpression('0'));
+    i1.GeneratedColumn<bool>(
+      'is_imported',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.bool,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'CHECK ("is_imported" IN (0, 1))',
+      ),
+      defaultValue: const CustomExpression('0'),
+    );
 
 final class Schema22 extends i0.VersionedSchema {
   Schema22({required super.database}) : super(version: 22);
@@ -6041,241 +5819,215 @@ final class Schema22 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_81,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_81],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape28 recipes = Shape28(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_82,
-          _column_16,
-          _column_90,
-          _column_91,
-          _column_92,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_82,
+        _column_16,
+        _column_90,
+        _column_91,
+        _column_92,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape26 userRecipePreferences = Shape26(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_83,
-          _column_84,
-          _column_29,
-          _column_30,
-          _column_85,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_83,
+        _column_84,
+        _column_29,
+        _column_30,
+        _column_85,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_44,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_86,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_87,
-          _column_71,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_44,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_86,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_87,
+        _column_71,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape25 coffeeBeans = Shape25(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_89,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_89,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 class Shape28 extends i0.VersionedTable {
@@ -6305,11 +6057,16 @@ class Shape28 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<bool> _column_92(String aliasedName) =>
-    i1.GeneratedColumn<bool>('needs_moderation_review', aliasedName, false,
-        type: i1.DriftSqlType.bool,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'CHECK ("needs_moderation_review" IN (0, 1))'),
-        defaultValue: const CustomExpression('0'));
+    i1.GeneratedColumn<bool>(
+      'needs_moderation_review',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.bool,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'CHECK ("needs_moderation_review" IN (0, 1))',
+      ),
+      defaultValue: const CustomExpression('0'),
+    );
 
 final class Schema23 extends i0.VersionedSchema {
   Schema23({required super.database}) : super(version: 23);
@@ -6332,241 +6089,215 @@ final class Schema23 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape11 brewingMethods = Shape11(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-          _column_81,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8, _column_81],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape28 recipes = Shape28(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_82,
-          _column_16,
-          _column_90,
-          _column_91,
-          _column_92,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_82,
+        _column_16,
+        _column_90,
+        _column_91,
+        _column_92,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape26 userRecipePreferences = Shape26(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_83,
-          _column_84,
-          _column_29,
-          _column_30,
-          _column_85,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_83,
+        _column_84,
+        _column_29,
+        _column_30,
+        _column_85,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_39,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_86,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_87,
-          _column_71,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_39,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_86,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_87,
+        _column_71,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape25 coffeeBeans = Shape25(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_89,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_89,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 final class Schema24 extends i0.VersionedSchema {
@@ -6590,240 +6321,215 @@ final class Schema24 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape2 brewingMethods = Shape2(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape28 recipes = Shape28(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_82,
-          _column_16,
-          _column_90,
-          _column_91,
-          _column_92,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_82,
+        _column_16,
+        _column_90,
+        _column_91,
+        _column_92,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape26 userRecipePreferences = Shape26(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_83,
-          _column_84,
-          _column_29,
-          _column_30,
-          _column_85,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_83,
+        _column_84,
+        _column_29,
+        _column_30,
+        _column_85,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape10 contributors = Shape10(
-      source: i0.VersionedTable(
-        entityName: 'contributors',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_32,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'contributors',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_32, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_39,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_86,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_87,
-          _column_71,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_39,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_86,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_87,
+        _column_71,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape25 coffeeBeans = Shape25(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_89,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_89,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 final class Schema25 extends i0.VersionedSchema {
@@ -6846,224 +6552,204 @@ final class Schema25 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape2 brewingMethods = Shape2(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape28 recipes = Shape28(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_82,
-          _column_16,
-          _column_90,
-          _column_91,
-          _column_92,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_82,
+        _column_16,
+        _column_90,
+        _column_91,
+        _column_92,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape26 userRecipePreferences = Shape26(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_83,
-          _column_84,
-          _column_29,
-          _column_30,
-          _column_85,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_83,
+        _column_84,
+        _column_29,
+        _column_30,
+        _column_85,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_39,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_86,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_87,
-          _column_71,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_39,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_86,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_87,
+        _column_71,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape25 coffeeBeans = Shape25(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_89,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_89,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 final class Schema26 extends i0.VersionedSchema {
@@ -7086,226 +6772,206 @@ final class Schema26 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape2 brewingMethods = Shape2(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape28 recipes = Shape28(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_82,
-          _column_16,
-          _column_90,
-          _column_91,
-          _column_92,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_82,
+        _column_16,
+        _column_90,
+        _column_91,
+        _column_92,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape26 userRecipePreferences = Shape26(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_83,
-          _column_84,
-          _column_29,
-          _column_30,
-          _column_85,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_83,
+        _column_84,
+        _column_29,
+        _column_30,
+        _column_85,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape13 launchPopups = Shape13(
-      source: i0.VersionedTable(
-        entityName: 'launch_popups',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_53,
-          _column_32,
-          _column_41,
-          _column_54,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'launch_popups',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_53, _column_32, _column_41, _column_54],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_39,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_86,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_87,
-          _column_71,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_39,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_86,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_87,
+        _column_71,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape29 coffeeBeans = Shape29(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_93,
-          _column_94,
-          _column_89,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_93,
+        _column_94,
+        _column_89,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxLaunchPopupsCreatedAt = i1.Index(
-      'idx_launch_popups_created_at',
-      'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)');
+    'idx_launch_popups_created_at',
+    'CREATE INDEX idx_launch_popups_created_at ON launch_popups (created_at)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 class Shape29 extends i0.VersionedTable {
@@ -7353,11 +7019,19 @@ class Shape29 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<String> _column_93(String aliasedName) =>
-    i1.GeneratedColumn<String>('farmer', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'farmer',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i1.GeneratedColumn<String> _column_94(String aliasedName) =>
-    i1.GeneratedColumn<String>('farm', aliasedName, true,
-        type: i1.DriftSqlType.string);
+    i1.GeneratedColumn<String>(
+      'farm',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 
 final class Schema27 extends i0.VersionedSchema {
   Schema27({required super.database}) : super(version: 27);
@@ -7377,206 +7051,191 @@ final class Schema27 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape2 brewingMethods = Shape2(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape28 recipes = Shape28(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_82,
-          _column_16,
-          _column_90,
-          _column_91,
-          _column_92,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_82,
+        _column_16,
+        _column_90,
+        _column_91,
+        _column_92,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape26 userRecipePreferences = Shape26(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_83,
-          _column_84,
-          _column_29,
-          _column_30,
-          _column_85,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_83,
+        _column_84,
+        _column_29,
+        _column_30,
+        _column_85,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_39,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_86,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_87,
-          _column_71,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_39,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_86,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_87,
+        _column_71,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape29 coffeeBeans = Shape29(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_93,
-          _column_94,
-          _column_89,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_93,
+        _column_94,
+        _column_89,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 final class Schema28 extends i0.VersionedSchema {
@@ -7597,207 +7256,192 @@ final class Schema28 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape2 brewingMethods = Shape2(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape30 recipes = Shape30(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_82,
-          _column_16,
-          _column_90,
-          _column_91,
-          _column_92,
-          _column_95,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_82,
+        _column_16,
+        _column_90,
+        _column_91,
+        _column_92,
+        _column_95,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape26 userRecipePreferences = Shape26(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_83,
-          _column_84,
-          _column_29,
-          _column_30,
-          _column_85,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_83,
+        _column_84,
+        _column_29,
+        _column_30,
+        _column_85,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_39,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_86,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_87,
-          _column_71,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_39,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_86,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_87,
+        _column_71,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape29 coffeeBeans = Shape29(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_93,
-          _column_94,
-          _column_89,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_93,
+        _column_94,
+        _column_89,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 class Shape30 extends i0.VersionedTable {
@@ -7829,11 +7473,16 @@ class Shape30 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<bool> _column_95(String aliasedName) =>
-    i1.GeneratedColumn<bool>('is_public', aliasedName, false,
-        type: i1.DriftSqlType.bool,
-        defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
-            'CHECK ("is_public" IN (0, 1))'),
-        defaultValue: const CustomExpression('0'));
+    i1.GeneratedColumn<bool>(
+      'is_public',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.bool,
+      defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
+        'CHECK ("is_public" IN (0, 1))',
+      ),
+      defaultValue: const CustomExpression('0'),
+    );
 
 final class Schema29 extends i0.VersionedSchema {
   Schema29({required super.database}) : super(version: 29);
@@ -7853,207 +7502,192 @@ final class Schema29 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape2 brewingMethods = Shape2(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape30 recipes = Shape30(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_82,
-          _column_16,
-          _column_90,
-          _column_91,
-          _column_92,
-          _column_95,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_82,
+        _column_16,
+        _column_90,
+        _column_91,
+        _column_92,
+        _column_95,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape26 userRecipePreferences = Shape26(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_83,
-          _column_84,
-          _column_29,
-          _column_30,
-          _column_85,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_83,
+        _column_84,
+        _column_29,
+        _column_30,
+        _column_85,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_39,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_86,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_87,
-          _column_71,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_39,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_86,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_87,
+        _column_71,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape29 coffeeBeans = Shape29(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_49,
-          _column_93,
-          _column_94,
-          _column_89,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_49,
+        _column_93,
+        _column_94,
+        _column_89,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 final class Schema30 extends i0.VersionedSchema {
@@ -8074,208 +7708,193 @@ final class Schema30 extends i0.VersionedSchema {
     idxCoffeeBeansBeansUuidVersionVector,
   ];
   late final Shape1 supportedLocales = Shape1(
-      source: i0.VersionedTable(
-        entityName: 'supported_locales',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(locale)',
-        ],
-        columns: [
-          _column_5,
-          _column_6,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape2 brewingMethods = Shape2(
-      source: i0.VersionedTable(
-        entityName: 'brewing_methods',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(brewing_method_id)',
-        ],
-        columns: [
-          _column_7,
-          _column_8,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape30 recipes = Shape30(
-      source: i0.VersionedTable(
-        entityName: 'recipes',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_37,
-          _column_11,
-          _column_12,
-          _column_13,
-          _column_14,
-          _column_82,
-          _column_16,
-          _column_90,
-          _column_91,
-          _column_92,
-          _column_95,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_82,
+        _column_16,
+        _column_90,
+        _column_91,
+        _column_92,
+        _column_95,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape4 recipeLocalizations = Shape4(
-      source: i0.VersionedTable(
-        entityName: 'recipe_localizations',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_40,
-          _column_19,
-          _column_20,
-          _column_21,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape5 steps = Shape5(
-      source: i0.VersionedTable(
-        entityName: 'steps',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_39,
-          _column_22,
-          _column_23,
-          _column_24,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape26 userRecipePreferences = Shape26(
-      source: i0.VersionedTable(
-        entityName: 'user_recipe_preferences',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(recipe_id)',
-        ],
-        columns: [
-          _column_39,
-          _column_25,
-          _column_26,
-          _column_83,
-          _column_84,
-          _column_29,
-          _column_30,
-          _column_85,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_83,
+        _column_84,
+        _column_29,
+        _column_30,
+        _column_85,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape7 coffeeFacts = Shape7(
-      source: i0.VersionedTable(
-        entityName: 'coffee_facts',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(id)',
-        ],
-        columns: [
-          _column_9,
-          _column_31,
-          _column_40,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape24 userStats = Shape24(
-      source: i0.VersionedTable(
-        entityName: 'user_stats',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(stat_uuid)',
-        ],
-        columns: [
-          _column_75,
-          _column_76,
-          _column_39,
-          _column_11,
-          _column_12,
-          _column_45,
-          _column_46,
-          _column_47,
-          _column_86,
-          _column_49,
-          _column_50,
-          _column_51,
-          _column_55,
-          _column_70,
-          _column_87,
-          _column_71,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_39,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_86,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_87,
+        _column_71,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
   late final Shape31 coffeeBeans = Shape31(
-      source: i0.VersionedTable(
-        entityName: 'coffee_beans',
-        withoutRowId: false,
-        isStrict: false,
-        tableConstraints: [
-          'PRIMARY KEY(beans_uuid)',
-        ],
-        columns: [
-          _column_77,
-          _column_76,
-          _column_58,
-          _column_19,
-          _column_59,
-          _column_60,
-          _column_61,
-          _column_62,
-          _column_63,
-          _column_64,
-          _column_65,
-          _column_66,
-          _column_67,
-          _column_68,
-          _column_96,
-          _column_49,
-          _column_93,
-          _column_94,
-          _column_89,
-          _column_78,
-          _column_88,
-        ],
-        attachedDatabase: database,
-      ),
-      alias: null);
-  final i1.Index idxRecipesLastModified = i1.Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_96,
+        _column_49,
+        _column_93,
+        _column_94,
+        _column_89,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
 }
 
 class Shape31 extends i0.VersionedTable {
@@ -8325,8 +7944,302 @@ class Shape31 extends i0.VersionedTable {
 }
 
 i1.GeneratedColumn<double> _column_96(String aliasedName) =>
-    i1.GeneratedColumn<double>('package_weight_grams', aliasedName, true,
-        type: i1.DriftSqlType.double);
+    i1.GeneratedColumn<double>(
+      'package_weight_grams',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.double,
+    );
+
+final class Schema31 extends i0.VersionedSchema {
+  Schema31({required super.database}) : super(version: 31);
+  @override
+  late final List<i1.DatabaseSchemaEntity> entities = [
+    supportedLocales,
+    brewingMethods,
+    recipes,
+    recipeLocalizations,
+    steps,
+    userRecipePreferences,
+    coffeeFacts,
+    userStats,
+    coffeeBeans,
+    idxRecipesLastModified,
+    idxUserStatsStatUuidVersionVector,
+    idxCoffeeBeansBeansUuidVersionVector,
+  ];
+  late final Shape1 supportedLocales = Shape1(
+    source: i0.VersionedTable(
+      entityName: 'supported_locales',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(locale)'],
+      columns: [_column_5, _column_6],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape2 brewingMethods = Shape2(
+    source: i0.VersionedTable(
+      entityName: 'brewing_methods',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(brewing_method_id)'],
+      columns: [_column_7, _column_8],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape30 recipes = Shape30(
+    source: i0.VersionedTable(
+      entityName: 'recipes',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_37,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_82,
+        _column_16,
+        _column_90,
+        _column_91,
+        _column_92,
+        _column_95,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape4 recipeLocalizations = Shape4(
+    source: i0.VersionedTable(
+      entityName: 'recipe_localizations',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_40,
+        _column_19,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape5 steps = Shape5(
+    source: i0.VersionedTable(
+      entityName: 'steps',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_9,
+        _column_39,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_40,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape32 userRecipePreferences = Shape32(
+    source: i0.VersionedTable(
+      entityName: 'user_recipe_preferences',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(recipe_id)'],
+      columns: [
+        _column_39,
+        _column_25,
+        _column_26,
+        _column_83,
+        _column_84,
+        _column_29,
+        _column_30,
+        _column_85,
+        _column_97,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape7 coffeeFacts = Shape7(
+    source: i0.VersionedTable(
+      entityName: 'coffee_facts',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [_column_9, _column_31, _column_40],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape33 userStats = Shape33(
+    source: i0.VersionedTable(
+      entityName: 'user_stats',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(stat_uuid)'],
+      columns: [
+        _column_75,
+        _column_76,
+        _column_39,
+        _column_11,
+        _column_12,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_86,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_55,
+        _column_70,
+        _column_87,
+        _column_71,
+        _column_98,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape31 coffeeBeans = Shape31(
+    source: i0.VersionedTable(
+      entityName: 'coffee_beans',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(beans_uuid)'],
+      columns: [
+        _column_77,
+        _column_76,
+        _column_58,
+        _column_19,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_96,
+        _column_49,
+        _column_93,
+        _column_94,
+        _column_89,
+        _column_78,
+        _column_88,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxRecipesLastModified = i1.Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
+  final i1.Index idxUserStatsStatUuidVersionVector = i1.Index(
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
+  final i1.Index idxCoffeeBeansBeansUuidVersionVector = i1.Index(
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
+}
+
+class Shape32 extends i0.VersionedTable {
+  Shape32({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<String> get recipeId =>
+      columnsByName['recipe_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<DateTime> get lastUsed =>
+      columnsByName['last_used']! as i1.GeneratedColumn<DateTime>;
+  i1.GeneratedColumn<bool> get isFavorite =>
+      columnsByName['is_favorite']! as i1.GeneratedColumn<bool>;
+  i1.GeneratedColumn<int> get sweetnessSliderPosition =>
+      columnsByName['sweetness_slider_position']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get strengthSliderPosition =>
+      columnsByName['strength_slider_position']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<double> get customCoffeeAmount =>
+      columnsByName['custom_coffee_amount']! as i1.GeneratedColumn<double>;
+  i1.GeneratedColumn<double> get customWaterAmount =>
+      columnsByName['custom_water_amount']! as i1.GeneratedColumn<double>;
+  i1.GeneratedColumn<int> get coffeeChroniclerSliderPosition =>
+      columnsByName['coffee_chronicler_slider_position']!
+          as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get customGrindSize =>
+      columnsByName['custom_grind_size']! as i1.GeneratedColumn<String>;
+}
+
+i1.GeneratedColumn<String> _column_97(String aliasedName) =>
+    i1.GeneratedColumn<String>(
+      'custom_grind_size',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
+
+class Shape33 extends i0.VersionedTable {
+  Shape33({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<String> get statUuid =>
+      columnsByName['stat_uuid']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get id =>
+      columnsByName['id']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get recipeId =>
+      columnsByName['recipe_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<double> get coffeeAmount =>
+      columnsByName['coffee_amount']! as i1.GeneratedColumn<double>;
+  i1.GeneratedColumn<double> get waterAmount =>
+      columnsByName['water_amount']! as i1.GeneratedColumn<double>;
+  i1.GeneratedColumn<int> get sweetnessSliderPosition =>
+      columnsByName['sweetness_slider_position']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get strengthSliderPosition =>
+      columnsByName['strength_slider_position']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get brewingMethodId =>
+      columnsByName['brewing_method_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<DateTime> get createdAt =>
+      columnsByName['created_at']! as i1.GeneratedColumn<DateTime>;
+  i1.GeneratedColumn<String> get notes =>
+      columnsByName['notes']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get beans =>
+      columnsByName['beans']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get roaster =>
+      columnsByName['roaster']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<double> get rating =>
+      columnsByName['rating']! as i1.GeneratedColumn<double>;
+  i1.GeneratedColumn<int> get coffeeBeansId =>
+      columnsByName['coffee_beans_id']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<bool> get isMarked =>
+      columnsByName['is_marked']! as i1.GeneratedColumn<bool>;
+  i1.GeneratedColumn<String> get coffeeBeansUuid =>
+      columnsByName['coffee_beans_uuid']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get grindSize =>
+      columnsByName['grind_size']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get versionVector =>
+      columnsByName['version_vector']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<bool> get isDeleted =>
+      columnsByName['is_deleted']! as i1.GeneratedColumn<bool>;
+}
+
+i1.GeneratedColumn<String> _column_98(String aliasedName) =>
+    i1.GeneratedColumn<String>(
+      'grind_size',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+    );
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
   required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
@@ -8357,6 +8270,7 @@ i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema28 schema) from27To28,
   required Future<void> Function(i1.Migrator m, Schema29 schema) from28To29,
   required Future<void> Function(i1.Migrator m, Schema30 schema) from29To30,
+  required Future<void> Function(i1.Migrator m, Schema31 schema) from30To31,
 }) {
   return (currentVersion, database) async {
     switch (currentVersion) {
@@ -8505,6 +8419,11 @@ i0.MigrationStepWithVersion migrationSteps({
         final migrator = i1.Migrator(database, schema);
         await from29To30(migrator, schema);
         return 30;
+      case 30:
+        final schema = Schema31(database: database);
+        final migrator = i1.Migrator(database, schema);
+        await from30To31(migrator, schema);
+        return 31;
       default:
         throw ArgumentError.value('Unknown migration from $currentVersion');
     }
@@ -8541,36 +8460,38 @@ i1.OnUpgrade stepByStep({
   required Future<void> Function(i1.Migrator m, Schema28 schema) from27To28,
   required Future<void> Function(i1.Migrator m, Schema29 schema) from28To29,
   required Future<void> Function(i1.Migrator m, Schema30 schema) from29To30,
-}) =>
-    i0.VersionedSchema.stepByStepHelper(
-        step: migrationSteps(
-      from1To2: from1To2,
-      from2To3: from2To3,
-      from3To4: from3To4,
-      from4To5: from4To5,
-      from5To6: from5To6,
-      from6To7: from6To7,
-      from7To8: from7To8,
-      from8To9: from8To9,
-      from9To10: from9To10,
-      from10To11: from10To11,
-      from11To12: from11To12,
-      from12To13: from12To13,
-      from13To14: from13To14,
-      from14To15: from14To15,
-      from15To16: from15To16,
-      from16To17: from16To17,
-      from17To18: from17To18,
-      from18To19: from18To19,
-      from19To20: from19To20,
-      from20To21: from20To21,
-      from21To22: from21To22,
-      from22To23: from22To23,
-      from23To24: from23To24,
-      from24To25: from24To25,
-      from25To26: from25To26,
-      from26To27: from26To27,
-      from27To28: from27To28,
-      from28To29: from28To29,
-      from29To30: from29To30,
-    ));
+  required Future<void> Function(i1.Migrator m, Schema31 schema) from30To31,
+}) => i0.VersionedSchema.stepByStepHelper(
+  step: migrationSteps(
+    from1To2: from1To2,
+    from2To3: from2To3,
+    from3To4: from3To4,
+    from4To5: from4To5,
+    from5To6: from5To6,
+    from6To7: from6To7,
+    from7To8: from7To8,
+    from8To9: from8To9,
+    from9To10: from9To10,
+    from10To11: from10To11,
+    from11To12: from11To12,
+    from12To13: from12To13,
+    from13To14: from13To14,
+    from14To15: from14To15,
+    from15To16: from15To16,
+    from16To17: from16To17,
+    from17To18: from17To18,
+    from18To19: from18To19,
+    from19To20: from19To20,
+    from20To21: from20To21,
+    from21To22: from21To22,
+    from22To23: from22To23,
+    from23To24: from23To24,
+    from24To25: from24To25,
+    from25To26: from25To26,
+    from26To27: from26To27,
+    from27To28: from27To28,
+    from28To29: from28To29,
+    from29To30: from29To30,
+    from30To31: from30To31,
+  ),
+);

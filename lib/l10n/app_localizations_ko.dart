@@ -2042,4 +2042,28 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => '앱 다운로드';
+
+  @override
+  String get addBrewEntry => '추출 기록 추가';
+
+  @override
+  String get selectBrewingMethod => '추출 방법 선택';
+
+  @override
+  String get selectRecipe => '레시피 선택';
+
+  @override
+  String get brewDate => '날짜';
+
+  @override
+  String get brewTime => '시간';
+
+  @override
+  String get brewEntrySaved => '추출 기록이 저장되었습니다';
+
+  @override
+  String get brewingMethodRequired => '추출 방법을 선택해 주세요';
+
+  @override
+  String get recipeRequired => '레시피를 선택해 주세요';
 }

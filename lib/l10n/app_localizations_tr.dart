@@ -2107,4 +2107,28 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'Uygulamayı İndir';
+
+  @override
+  String get addBrewEntry => 'Demleme Kaydı Ekle';
+
+  @override
+  String get selectBrewingMethod => 'Demleme Yöntemini Seçin';
+
+  @override
+  String get selectRecipe => 'Tarif Seçin';
+
+  @override
+  String get brewDate => 'Tarih';
+
+  @override
+  String get brewTime => 'Saat';
+
+  @override
+  String get brewEntrySaved => 'Demleme kaydı kaydedildi';
+
+  @override
+  String get brewingMethodRequired => 'Lütfen bir demleme yöntemi seçin';
+
+  @override
+  String get recipeRequired => 'Lütfen bir tarif seçin';
 }

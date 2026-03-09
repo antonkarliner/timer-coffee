@@ -1253,5 +1253,13 @@
   "timePeriodLastYear": "Last Year",
   "nativeAppPromoTitle": "Get the Timer.Coffee App",
   "nativeAppPromoDescription": "Enjoy the full experience with exclusive features: AI-powered bean label scanning, Live Activities on your Lock Screen, push notifications, haptic feedback, and more.",
-  "nativeAppPromoButton": "Get the App"
+  "nativeAppPromoButton": "Get the App",
+  "addBrewEntry": "Add Brew Entry",
+  "selectBrewingMethod": "Select Brewing Method",
+  "selectRecipe": "Select Recipe",
+  "brewDate": "Date",
+  "brewTime": "Time",
+  "brewEntrySaved": "Brew entry saved",
+  "brewingMethodRequired": "Please select a brewing method",
+  "recipeRequired": "Please select a recipe"
 }

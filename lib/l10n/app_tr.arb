@@ -876,5 +876,13 @@
   "timePeriodLastYear": "Geçen Yıl",
   "nativeAppPromoTitle": "Timer.Coffee Uygulamasını İndirin",
   "nativeAppPromoDescription": "Özel özelliklerle tam deneyimin keyfini çıkarın: yapay zeka destekli kahve etiketi tarama, kilit ekranında Canlı Etkinlikler, anlık bildirimler, dokunsal geri bildirim ve daha fazlası.",
-  "nativeAppPromoButton": "Uygulamayı İndir"
+  "nativeAppPromoButton": "Uygulamayı İndir",
+  "addBrewEntry": "Demleme Kaydı Ekle",
+  "selectBrewingMethod": "Demleme Yöntemini Seçin",
+  "selectRecipe": "Tarif Seçin",
+  "brewDate": "Tarih",
+  "brewTime": "Saat",
+  "brewEntrySaved": "Demleme kaydı kaydedildi",
+  "brewingMethodRequired": "Lütfen bir demleme yöntemi seçin",
+  "recipeRequired": "Lütfen bir tarif seçin"
 }

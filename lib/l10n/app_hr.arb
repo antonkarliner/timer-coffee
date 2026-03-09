@@ -1042,5 +1042,13 @@
   "timePeriodLastYear": "Prošle godine",
   "nativeAppPromoTitle": "Preuzmite aplikaciju Timer.Coffee",
   "nativeAppPromoDescription": "Uživajte u potpunom iskustvu s ekskluzivnim značajkama: AI skeniranje etiketa kave, Live aktivnosti na zaključanom zaslonu, push obavijesti, haptički odziv i više.",
-  "nativeAppPromoButton": "Preuzmi aplikaciju"
+  "nativeAppPromoButton": "Preuzmi aplikaciju",
+  "addBrewEntry": "Dodaj zapis pripreme",
+  "selectBrewingMethod": "Odaberi metodu pripreme",
+  "selectRecipe": "Odaberi recept",
+  "brewDate": "Datum",
+  "brewTime": "Vrijeme",
+  "brewEntrySaved": "Zapis pripreme spremljen",
+  "brewingMethodRequired": "Molimo odaberite metodu pripreme",
+  "recipeRequired": "Molimo odaberite recept"
 }

@@ -876,5 +876,13 @@
   "timePeriodLastYear": "Минулого року",
   "nativeAppPromoTitle": "Завантажте додаток Timer.Coffee",
   "nativeAppPromoDescription": "Насолоджуйтесь повним досвідом з ексклюзивними функціями: AI-сканування етикеток кави, Живі активності на екрані блокування, push-сповіщення, тактильний відгук та багато іншого.",
-  "nativeAppPromoButton": "Завантажити додаток"
+  "nativeAppPromoButton": "Завантажити додаток",
+  "addBrewEntry": "Додати запис заварювання",
+  "selectBrewingMethod": "Оберіть спосіб заварювання",
+  "selectRecipe": "Оберіть рецепт",
+  "brewDate": "Дата",
+  "brewTime": "Час",
+  "brewEntrySaved": "Запис заварювання збережено",
+  "brewingMethodRequired": "Будь ласка, оберіть спосіб заварювання",
+  "recipeRequired": "Будь ласка, оберіть рецепт"
 }

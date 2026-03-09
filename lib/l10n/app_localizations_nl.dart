@@ -2109,4 +2109,28 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'Download de app';
+
+  @override
+  String get addBrewEntry => 'Zetvermelding toevoegen';
+
+  @override
+  String get selectBrewingMethod => 'Selecteer zetmethode';
+
+  @override
+  String get selectRecipe => 'Selecteer recept';
+
+  @override
+  String get brewDate => 'Datum';
+
+  @override
+  String get brewTime => 'Tijd';
+
+  @override
+  String get brewEntrySaved => 'Zetvermelding opgeslagen';
+
+  @override
+  String get brewingMethodRequired => 'Selecteer een zetmethode';
+
+  @override
+  String get recipeRequired => 'Selecteer een recept';
 }

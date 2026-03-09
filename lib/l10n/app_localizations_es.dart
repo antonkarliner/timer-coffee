@@ -2121,4 +2121,29 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'Descargar la app';
+
+  @override
+  String get addBrewEntry => 'Añadir registro de preparación';
+
+  @override
+  String get selectBrewingMethod => 'Seleccionar método de preparación';
+
+  @override
+  String get selectRecipe => 'Seleccionar receta';
+
+  @override
+  String get brewDate => 'Fecha';
+
+  @override
+  String get brewTime => 'Hora';
+
+  @override
+  String get brewEntrySaved => 'Registro de preparación guardado';
+
+  @override
+  String get brewingMethodRequired =>
+      'Por favor, selecciona un método de preparación';
+
+  @override
+  String get recipeRequired => 'Por favor, selecciona una receta';
 }

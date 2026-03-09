@@ -201,6 +201,20 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             ),
           ),
           actions: [
+            if (!isEditMode)
+              Semantics(
+                identifier: 'addBrewEntryButton',
+                child: IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () async {
+                    final result = await context.router
+                        .push(const ManualBrewEntryRoute());
+                    if (result == true) {
+                      setState(() {});
+                    }
+                  },
+                ),
+              ),
             Semantics(
               identifier: 'toggleEditModeButton',
               child: IconButton(
@@ -418,6 +432,26 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
               ),
             ),
             const SizedBox(height: 8),
+            // Grind Size
+            if (stat.grindSize != null && stat.grindSize!.isNotEmpty)
+              Semantics(
+                identifier: 'grindSize_${stat.statUuid}',
+                label: '${loc.grindsize}: ${stat.grindSize}',
+                child: Row(
+                  children: [
+                    Text(
+                      "${loc.grindsize}: ",
+                      style: labelStyle,
+                    ),
+                    Text(
+                      stat.grindSize!,
+                      style: valueStyle,
+                    ),
+                  ],
+                ),
+              ),
+            if (stat.grindSize != null && stat.grindSize!.isNotEmpty)
+              const SizedBox(height: 8),
             // Sweetness and Strength (if applicable)
             if (stat.recipeId == '106')
               Semantics(

@@ -876,5 +876,13 @@
   "timePeriodLastYear": "العام الماضي",
   "nativeAppPromoTitle": "حمّل تطبيق Timer.Coffee",
   "nativeAppPromoDescription": "استمتع بالتجربة الكاملة مع ميزات حصرية: مسح ملصقات القهوة بالذكاء الاصطناعي، والأنشطة الحية على شاشة القفل، والإشعارات الفورية، والاهتزاز التفاعلي، والمزيد.",
-  "nativeAppPromoButton": "حمّل التطبيق"
+  "nativeAppPromoButton": "حمّل التطبيق",
+  "addBrewEntry": "إضافة تسجيل تحضير",
+  "selectBrewingMethod": "اختر طريقة التحضير",
+  "selectRecipe": "اختر الوصفة",
+  "brewDate": "التاريخ",
+  "brewTime": "الوقت",
+  "brewEntrySaved": "تم حفظ تسجيل التحضير",
+  "brewingMethodRequired": "يرجى اختيار طريقة التحضير",
+  "recipeRequired": "يرجى اختيار وصفة"
 }

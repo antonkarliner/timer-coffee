@@ -19,6 +19,7 @@ class RecipeSaveService {
     BuildContext context, {
     required bool isUpdate,
     required bool redirectToNewDetailOnSave,
+    bool popWithResultOnSave = false,
   }) async {
     final l10n = AppLocalizations.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
@@ -188,7 +189,16 @@ class RecipeSaveService {
       AppLogger.debug(
           "Navigating after save for recipe: ${AppLogger.sanitize(recipeId)}");
 
-      if (redirectToNewDetailOnSave) {
+      if (popWithResultOnSave) {
+        // Pop back to the caller with the saved recipe data.
+        // Used when recipe creation is invoked from manual brew entry.
+        // The caller is responsible for refreshing recipes and showing feedback.
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.recipeCreationScreenSaveSuccess)),
+        );
+        context.router.pop(recipeData);
+        return;
+      } else if (redirectToNewDetailOnSave) {
         // This screen may have been pushed using MaterialPageRoute.
         // To ensure navigation works in that case, pop this route first,
         // then push the detail via AutoRoute.

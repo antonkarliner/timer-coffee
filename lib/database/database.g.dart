@@ -12,20 +12,31 @@ class $SupportedLocalesTable extends SupportedLocales
   static const VerificationMeta _localeMeta = const VerificationMeta('locale');
   @override
   late final GeneratedColumn<String> locale = GeneratedColumn<String>(
-      'locale', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _localeNameMeta =
-      const VerificationMeta('localeName');
+    'locale',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 255,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _localeNameMeta = const VerificationMeta(
+    'localeName',
+  );
   @override
   late final GeneratedColumn<String> localeName = GeneratedColumn<String>(
-      'locale_name', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
+    'locale_name',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 255,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [locale, localeName];
   @override
@@ -34,21 +45,25 @@ class $SupportedLocalesTable extends SupportedLocales
   String get actualTableName => $name;
   static const String $name = 'supported_locales';
   @override
-  VerificationContext validateIntegrity(Insertable<SupportedLocale> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<SupportedLocale> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('locale')) {
-      context.handle(_localeMeta,
-          locale.isAcceptableOrUnknown(data['locale']!, _localeMeta));
+      context.handle(
+        _localeMeta,
+        locale.isAcceptableOrUnknown(data['locale']!, _localeMeta),
+      );
     } else if (isInserting) {
       context.missing(_localeMeta);
     }
     if (data.containsKey('locale_name')) {
       context.handle(
-          _localeNameMeta,
-          localeName.isAcceptableOrUnknown(
-              data['locale_name']!, _localeNameMeta));
+        _localeNameMeta,
+        localeName.isAcceptableOrUnknown(data['locale_name']!, _localeNameMeta),
+      );
     } else if (isInserting) {
       context.missing(_localeNameMeta);
     }
@@ -61,10 +76,14 @@ class $SupportedLocalesTable extends SupportedLocales
   SupportedLocale map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SupportedLocale(
-      locale: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}locale'])!,
-      localeName: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}locale_name'])!,
+      locale: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}locale'],
+      )!,
+      localeName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}locale_name'],
+      )!,
     );
   }
 
@@ -93,8 +112,10 @@ class SupportedLocale extends DataClass implements Insertable<SupportedLocale> {
     );
   }
 
-  factory SupportedLocale.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory SupportedLocale.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SupportedLocale(
       locale: serializer.fromJson<String>(json['locale']),
@@ -118,8 +139,9 @@ class SupportedLocale extends DataClass implements Insertable<SupportedLocale> {
   SupportedLocale copyWithCompanion(SupportedLocalesCompanion data) {
     return SupportedLocale(
       locale: data.locale.present ? data.locale.value : this.locale,
-      localeName:
-          data.localeName.present ? data.localeName.value : this.localeName,
+      localeName: data.localeName.present
+          ? data.localeName.value
+          : this.localeName,
     );
   }
 
@@ -155,8 +177,8 @@ class SupportedLocalesCompanion extends UpdateCompanion<SupportedLocale> {
     required String locale,
     required String localeName,
     this.rowid = const Value.absent(),
-  })  : locale = Value(locale),
-        localeName = Value(localeName);
+  }) : locale = Value(locale),
+       localeName = Value(localeName);
   static Insertable<SupportedLocale> custom({
     Expression<String>? locale,
     Expression<String>? localeName,
@@ -169,8 +191,11 @@ class SupportedLocalesCompanion extends UpdateCompanion<SupportedLocale> {
     });
   }
 
-  SupportedLocalesCompanion copyWith(
-      {Value<String>? locale, Value<String>? localeName, Value<int>? rowid}) {
+  SupportedLocalesCompanion copyWith({
+    Value<String>? locale,
+    Value<String>? localeName,
+    Value<int>? rowid,
+  }) {
     return SupportedLocalesCompanion(
       locale: locale ?? this.locale,
       localeName: localeName ?? this.localeName,
@@ -210,24 +235,36 @@ class $BrewingMethodsTable extends BrewingMethods
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $BrewingMethodsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _brewingMethodIdMeta =
-      const VerificationMeta('brewingMethodId');
+  static const VerificationMeta _brewingMethodIdMeta = const VerificationMeta(
+    'brewingMethodId',
+  );
   @override
   late final GeneratedColumn<String> brewingMethodId = GeneratedColumn<String>(
-      'brewing_method_id', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _brewingMethodMeta =
-      const VerificationMeta('brewingMethod');
+    'brewing_method_id',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 255,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _brewingMethodMeta = const VerificationMeta(
+    'brewingMethod',
+  );
   @override
   late final GeneratedColumn<String> brewingMethod = GeneratedColumn<String>(
-      'brewing_method', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
+    'brewing_method',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 255,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [brewingMethodId, brewingMethod];
   @override
@@ -236,23 +273,31 @@ class $BrewingMethodsTable extends BrewingMethods
   String get actualTableName => $name;
   static const String $name = 'brewing_methods';
   @override
-  VerificationContext validateIntegrity(Insertable<BrewingMethod> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<BrewingMethod> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('brewing_method_id')) {
       context.handle(
+        _brewingMethodIdMeta,
+        brewingMethodId.isAcceptableOrUnknown(
+          data['brewing_method_id']!,
           _brewingMethodIdMeta,
-          brewingMethodId.isAcceptableOrUnknown(
-              data['brewing_method_id']!, _brewingMethodIdMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_brewingMethodIdMeta);
     }
     if (data.containsKey('brewing_method')) {
       context.handle(
+        _brewingMethodMeta,
+        brewingMethod.isAcceptableOrUnknown(
+          data['brewing_method']!,
           _brewingMethodMeta,
-          brewingMethod.isAcceptableOrUnknown(
-              data['brewing_method']!, _brewingMethodMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_brewingMethodMeta);
     }
@@ -266,9 +311,13 @@ class $BrewingMethodsTable extends BrewingMethods
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return BrewingMethod(
       brewingMethodId: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}brewing_method_id'])!,
-      brewingMethod: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}brewing_method'])!,
+        DriftSqlType.string,
+        data['${effectivePrefix}brewing_method_id'],
+      )!,
+      brewingMethod: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}brewing_method'],
+      )!,
     );
   }
 
@@ -281,8 +330,10 @@ class $BrewingMethodsTable extends BrewingMethods
 class BrewingMethod extends DataClass implements Insertable<BrewingMethod> {
   final String brewingMethodId;
   final String brewingMethod;
-  const BrewingMethod(
-      {required this.brewingMethodId, required this.brewingMethod});
+  const BrewingMethod({
+    required this.brewingMethodId,
+    required this.brewingMethod,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -298,8 +349,10 @@ class BrewingMethod extends DataClass implements Insertable<BrewingMethod> {
     );
   }
 
-  factory BrewingMethod.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory BrewingMethod.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return BrewingMethod(
       brewingMethodId: serializer.fromJson<String>(json['brewingMethodId']),
@@ -363,8 +416,8 @@ class BrewingMethodsCompanion extends UpdateCompanion<BrewingMethod> {
     required String brewingMethodId,
     required String brewingMethod,
     this.rowid = const Value.absent(),
-  })  : brewingMethodId = Value(brewingMethodId),
-        brewingMethod = Value(brewingMethod);
+  }) : brewingMethodId = Value(brewingMethodId),
+       brewingMethod = Value(brewingMethod);
   static Insertable<BrewingMethod> custom({
     Expression<String>? brewingMethodId,
     Expression<String>? brewingMethod,
@@ -377,10 +430,11 @@ class BrewingMethodsCompanion extends UpdateCompanion<BrewingMethod> {
     });
   }
 
-  BrewingMethodsCompanion copyWith(
-      {Value<String>? brewingMethodId,
-      Value<String>? brewingMethod,
-      Value<int>? rowid}) {
+  BrewingMethodsCompanion copyWith({
+    Value<String>? brewingMethodId,
+    Value<String>? brewingMethod,
+    Value<int>? rowid,
+  }) {
     return BrewingMethodsCompanion(
       brewingMethodId: brewingMethodId ?? this.brewingMethodId,
       brewingMethod: brewingMethod ?? this.brewingMethod,
@@ -422,117 +476,181 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _brewingMethodIdMeta =
-      const VerificationMeta('brewingMethodId');
+    'id',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 255,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _brewingMethodIdMeta = const VerificationMeta(
+    'brewingMethodId',
+  );
   @override
   late final GeneratedColumn<String> brewingMethodId = GeneratedColumn<String>(
-      'brewing_method_id', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES brewing_methods (brewing_method_id) ON DELETE CASCADE'));
-  static const VerificationMeta _coffeeAmountMeta =
-      const VerificationMeta('coffeeAmount');
+    'brewing_method_id',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 255,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES brewing_methods (brewing_method_id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _coffeeAmountMeta = const VerificationMeta(
+    'coffeeAmount',
+  );
   @override
   late final GeneratedColumn<double> coffeeAmount = GeneratedColumn<double>(
-      'coffee_amount', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
-  static const VerificationMeta _waterAmountMeta =
-      const VerificationMeta('waterAmount');
+    'coffee_amount',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _waterAmountMeta = const VerificationMeta(
+    'waterAmount',
+  );
   @override
   late final GeneratedColumn<double> waterAmount = GeneratedColumn<double>(
-      'water_amount', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
-  static const VerificationMeta _waterTempMeta =
-      const VerificationMeta('waterTemp');
+    'water_amount',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _waterTempMeta = const VerificationMeta(
+    'waterTemp',
+  );
   @override
   late final GeneratedColumn<double> waterTemp = GeneratedColumn<double>(
-      'water_temp', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
-  static const VerificationMeta _brewTimeMeta =
-      const VerificationMeta('brewTime');
+    'water_temp',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _brewTimeMeta = const VerificationMeta(
+    'brewTime',
+  );
   @override
   late final GeneratedColumn<int> brewTime = GeneratedColumn<int>(
-      'brew_time', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _vendorIdMeta =
-      const VerificationMeta('vendorId');
+    'brew_time',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _vendorIdMeta = const VerificationMeta(
+    'vendorId',
+  );
   @override
   late final GeneratedColumn<String> vendorId = GeneratedColumn<String>(
-      'vendor_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _lastModifiedMeta =
-      const VerificationMeta('lastModified');
+    'vendor_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _lastModifiedMeta = const VerificationMeta(
+    'lastModified',
+  );
   @override
   late final GeneratedColumn<DateTime> lastModified = GeneratedColumn<DateTime>(
-      'last_modified', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
-  static const VerificationMeta _importIdMeta =
-      const VerificationMeta('importId');
+    'last_modified',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _importIdMeta = const VerificationMeta(
+    'importId',
+  );
   @override
   late final GeneratedColumn<String> importId = GeneratedColumn<String>(
-      'import_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _isImportedMeta =
-      const VerificationMeta('isImported');
+    'import_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isImportedMeta = const VerificationMeta(
+    'isImported',
+  );
   @override
   late final GeneratedColumn<bool> isImported = GeneratedColumn<bool>(
-      'is_imported', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("is_imported" IN (0, 1))'),
-      defaultValue: const Constant(false));
+    'is_imported',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_imported" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   static const VerificationMeta _needsModerationReviewMeta =
       const VerificationMeta('needsModerationReview');
   @override
   late final GeneratedColumn<bool> needsModerationReview =
-      GeneratedColumn<bool>('needs_moderation_review', aliasedName, false,
-          type: DriftSqlType.bool,
-          requiredDuringInsert: false,
-          defaultConstraints: GeneratedColumn.constraintIsAlways(
-              'CHECK ("needs_moderation_review" IN (0, 1))'),
-          defaultValue: const Constant(false));
-  static const VerificationMeta _isPublicMeta =
-      const VerificationMeta('isPublic');
+      GeneratedColumn<bool>(
+        'needs_moderation_review',
+        aliasedName,
+        false,
+        type: DriftSqlType.bool,
+        requiredDuringInsert: false,
+        defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("needs_moderation_review" IN (0, 1))',
+        ),
+        defaultValue: const Constant(false),
+      );
+  static const VerificationMeta _isPublicMeta = const VerificationMeta(
+    'isPublic',
+  );
   @override
   late final GeneratedColumn<bool> isPublic = GeneratedColumn<bool>(
-      'is_public', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("is_public" IN (0, 1))'),
-      defaultValue: const Constant(false));
+    'is_public',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_public" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
-        id,
-        brewingMethodId,
-        coffeeAmount,
-        waterAmount,
-        waterTemp,
-        brewTime,
-        vendorId,
-        lastModified,
-        importId,
-        isImported,
-        needsModerationReview,
-        isPublic
-      ];
+    id,
+    brewingMethodId,
+    coffeeAmount,
+    waterAmount,
+    waterTemp,
+    brewTime,
+    vendorId,
+    lastModified,
+    importId,
+    isImported,
+    needsModerationReview,
+    isPublic,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'recipes';
   @override
-  VerificationContext validateIntegrity(Insertable<Recipe> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<Recipe> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -542,69 +660,94 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
     }
     if (data.containsKey('brewing_method_id')) {
       context.handle(
+        _brewingMethodIdMeta,
+        brewingMethodId.isAcceptableOrUnknown(
+          data['brewing_method_id']!,
           _brewingMethodIdMeta,
-          brewingMethodId.isAcceptableOrUnknown(
-              data['brewing_method_id']!, _brewingMethodIdMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_brewingMethodIdMeta);
     }
     if (data.containsKey('coffee_amount')) {
       context.handle(
+        _coffeeAmountMeta,
+        coffeeAmount.isAcceptableOrUnknown(
+          data['coffee_amount']!,
           _coffeeAmountMeta,
-          coffeeAmount.isAcceptableOrUnknown(
-              data['coffee_amount']!, _coffeeAmountMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_coffeeAmountMeta);
     }
     if (data.containsKey('water_amount')) {
       context.handle(
+        _waterAmountMeta,
+        waterAmount.isAcceptableOrUnknown(
+          data['water_amount']!,
           _waterAmountMeta,
-          waterAmount.isAcceptableOrUnknown(
-              data['water_amount']!, _waterAmountMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_waterAmountMeta);
     }
     if (data.containsKey('water_temp')) {
-      context.handle(_waterTempMeta,
-          waterTemp.isAcceptableOrUnknown(data['water_temp']!, _waterTempMeta));
+      context.handle(
+        _waterTempMeta,
+        waterTemp.isAcceptableOrUnknown(data['water_temp']!, _waterTempMeta),
+      );
     } else if (isInserting) {
       context.missing(_waterTempMeta);
     }
     if (data.containsKey('brew_time')) {
-      context.handle(_brewTimeMeta,
-          brewTime.isAcceptableOrUnknown(data['brew_time']!, _brewTimeMeta));
+      context.handle(
+        _brewTimeMeta,
+        brewTime.isAcceptableOrUnknown(data['brew_time']!, _brewTimeMeta),
+      );
     } else if (isInserting) {
       context.missing(_brewTimeMeta);
     }
     if (data.containsKey('vendor_id')) {
-      context.handle(_vendorIdMeta,
-          vendorId.isAcceptableOrUnknown(data['vendor_id']!, _vendorIdMeta));
+      context.handle(
+        _vendorIdMeta,
+        vendorId.isAcceptableOrUnknown(data['vendor_id']!, _vendorIdMeta),
+      );
     }
     if (data.containsKey('last_modified')) {
       context.handle(
+        _lastModifiedMeta,
+        lastModified.isAcceptableOrUnknown(
+          data['last_modified']!,
           _lastModifiedMeta,
-          lastModified.isAcceptableOrUnknown(
-              data['last_modified']!, _lastModifiedMeta));
+        ),
+      );
     }
     if (data.containsKey('import_id')) {
-      context.handle(_importIdMeta,
-          importId.isAcceptableOrUnknown(data['import_id']!, _importIdMeta));
+      context.handle(
+        _importIdMeta,
+        importId.isAcceptableOrUnknown(data['import_id']!, _importIdMeta),
+      );
     }
     if (data.containsKey('is_imported')) {
       context.handle(
-          _isImportedMeta,
-          isImported.isAcceptableOrUnknown(
-              data['is_imported']!, _isImportedMeta));
+        _isImportedMeta,
+        isImported.isAcceptableOrUnknown(data['is_imported']!, _isImportedMeta),
+      );
     }
     if (data.containsKey('needs_moderation_review')) {
       context.handle(
+        _needsModerationReviewMeta,
+        needsModerationReview.isAcceptableOrUnknown(
+          data['needs_moderation_review']!,
           _needsModerationReviewMeta,
-          needsModerationReview.isAcceptableOrUnknown(
-              data['needs_moderation_review']!, _needsModerationReviewMeta));
+        ),
+      );
     }
     if (data.containsKey('is_public')) {
-      context.handle(_isPublicMeta,
-          isPublic.isAcceptableOrUnknown(data['is_public']!, _isPublicMeta));
+      context.handle(
+        _isPublicMeta,
+        isPublic.isAcceptableOrUnknown(data['is_public']!, _isPublicMeta),
+      );
     }
     return context;
   }
@@ -615,31 +758,54 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
   Recipe map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Recipe(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
       brewingMethodId: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}brewing_method_id'])!,
-      coffeeAmount: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}coffee_amount'])!,
-      waterAmount: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}water_amount'])!,
-      waterTemp: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}water_temp'])!,
-      brewTime: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}brew_time'])!,
-      vendorId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}vendor_id']),
-      lastModified: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}last_modified']),
-      importId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}import_id']),
-      isImported: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_imported'])!,
+        DriftSqlType.string,
+        data['${effectivePrefix}brewing_method_id'],
+      )!,
+      coffeeAmount: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}coffee_amount'],
+      )!,
+      waterAmount: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}water_amount'],
+      )!,
+      waterTemp: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}water_temp'],
+      )!,
+      brewTime: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}brew_time'],
+      )!,
+      vendorId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}vendor_id'],
+      ),
+      lastModified: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_modified'],
+      ),
+      importId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}import_id'],
+      ),
+      isImported: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_imported'],
+      )!,
       needsModerationReview: attachedDatabase.typeMapping.read(
-          DriftSqlType.bool,
-          data['${effectivePrefix}needs_moderation_review'])!,
-      isPublic: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_public'])!,
+        DriftSqlType.bool,
+        data['${effectivePrefix}needs_moderation_review'],
+      )!,
+      isPublic: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_public'],
+      )!,
     );
   }
 
@@ -662,19 +828,20 @@ class Recipe extends DataClass implements Insertable<Recipe> {
   final bool isImported;
   final bool needsModerationReview;
   final bool isPublic;
-  const Recipe(
-      {required this.id,
-      required this.brewingMethodId,
-      required this.coffeeAmount,
-      required this.waterAmount,
-      required this.waterTemp,
-      required this.brewTime,
-      this.vendorId,
-      this.lastModified,
-      this.importId,
-      required this.isImported,
-      required this.needsModerationReview,
-      required this.isPublic});
+  const Recipe({
+    required this.id,
+    required this.brewingMethodId,
+    required this.coffeeAmount,
+    required this.waterAmount,
+    required this.waterTemp,
+    required this.brewTime,
+    this.vendorId,
+    this.lastModified,
+    this.importId,
+    required this.isImported,
+    required this.needsModerationReview,
+    required this.isPublic,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -722,8 +889,10 @@ class Recipe extends DataClass implements Insertable<Recipe> {
     );
   }
 
-  factory Recipe.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory Recipe.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Recipe(
       id: serializer.fromJson<String>(json['id']),
@@ -736,8 +905,9 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       lastModified: serializer.fromJson<DateTime?>(json['lastModified']),
       importId: serializer.fromJson<String?>(json['importId']),
       isImported: serializer.fromJson<bool>(json['isImported']),
-      needsModerationReview:
-          serializer.fromJson<bool>(json['needsModerationReview']),
+      needsModerationReview: serializer.fromJson<bool>(
+        json['needsModerationReview'],
+      ),
       isPublic: serializer.fromJson<bool>(json['isPublic']),
     );
   }
@@ -760,35 +930,33 @@ class Recipe extends DataClass implements Insertable<Recipe> {
     };
   }
 
-  Recipe copyWith(
-          {String? id,
-          String? brewingMethodId,
-          double? coffeeAmount,
-          double? waterAmount,
-          double? waterTemp,
-          int? brewTime,
-          Value<String?> vendorId = const Value.absent(),
-          Value<DateTime?> lastModified = const Value.absent(),
-          Value<String?> importId = const Value.absent(),
-          bool? isImported,
-          bool? needsModerationReview,
-          bool? isPublic}) =>
-      Recipe(
-        id: id ?? this.id,
-        brewingMethodId: brewingMethodId ?? this.brewingMethodId,
-        coffeeAmount: coffeeAmount ?? this.coffeeAmount,
-        waterAmount: waterAmount ?? this.waterAmount,
-        waterTemp: waterTemp ?? this.waterTemp,
-        brewTime: brewTime ?? this.brewTime,
-        vendorId: vendorId.present ? vendorId.value : this.vendorId,
-        lastModified:
-            lastModified.present ? lastModified.value : this.lastModified,
-        importId: importId.present ? importId.value : this.importId,
-        isImported: isImported ?? this.isImported,
-        needsModerationReview:
-            needsModerationReview ?? this.needsModerationReview,
-        isPublic: isPublic ?? this.isPublic,
-      );
+  Recipe copyWith({
+    String? id,
+    String? brewingMethodId,
+    double? coffeeAmount,
+    double? waterAmount,
+    double? waterTemp,
+    int? brewTime,
+    Value<String?> vendorId = const Value.absent(),
+    Value<DateTime?> lastModified = const Value.absent(),
+    Value<String?> importId = const Value.absent(),
+    bool? isImported,
+    bool? needsModerationReview,
+    bool? isPublic,
+  }) => Recipe(
+    id: id ?? this.id,
+    brewingMethodId: brewingMethodId ?? this.brewingMethodId,
+    coffeeAmount: coffeeAmount ?? this.coffeeAmount,
+    waterAmount: waterAmount ?? this.waterAmount,
+    waterTemp: waterTemp ?? this.waterTemp,
+    brewTime: brewTime ?? this.brewTime,
+    vendorId: vendorId.present ? vendorId.value : this.vendorId,
+    lastModified: lastModified.present ? lastModified.value : this.lastModified,
+    importId: importId.present ? importId.value : this.importId,
+    isImported: isImported ?? this.isImported,
+    needsModerationReview: needsModerationReview ?? this.needsModerationReview,
+    isPublic: isPublic ?? this.isPublic,
+  );
   Recipe copyWithCompanion(RecipesCompanion data) {
     return Recipe(
       id: data.id.present ? data.id.value : this.id,
@@ -798,8 +966,9 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       coffeeAmount: data.coffeeAmount.present
           ? data.coffeeAmount.value
           : this.coffeeAmount,
-      waterAmount:
-          data.waterAmount.present ? data.waterAmount.value : this.waterAmount,
+      waterAmount: data.waterAmount.present
+          ? data.waterAmount.value
+          : this.waterAmount,
       waterTemp: data.waterTemp.present ? data.waterTemp.value : this.waterTemp,
       brewTime: data.brewTime.present ? data.brewTime.value : this.brewTime,
       vendorId: data.vendorId.present ? data.vendorId.value : this.vendorId,
@@ -807,8 +976,9 @@ class Recipe extends DataClass implements Insertable<Recipe> {
           ? data.lastModified.value
           : this.lastModified,
       importId: data.importId.present ? data.importId.value : this.importId,
-      isImported:
-          data.isImported.present ? data.isImported.value : this.isImported,
+      isImported: data.isImported.present
+          ? data.isImported.value
+          : this.isImported,
       needsModerationReview: data.needsModerationReview.present
           ? data.needsModerationReview.value
           : this.needsModerationReview,
@@ -837,18 +1007,19 @@ class Recipe extends DataClass implements Insertable<Recipe> {
 
   @override
   int get hashCode => Object.hash(
-      id,
-      brewingMethodId,
-      coffeeAmount,
-      waterAmount,
-      waterTemp,
-      brewTime,
-      vendorId,
-      lastModified,
-      importId,
-      isImported,
-      needsModerationReview,
-      isPublic);
+    id,
+    brewingMethodId,
+    coffeeAmount,
+    waterAmount,
+    waterTemp,
+    brewTime,
+    vendorId,
+    lastModified,
+    importId,
+    isImported,
+    needsModerationReview,
+    isPublic,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -910,12 +1081,12 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     this.needsModerationReview = const Value.absent(),
     this.isPublic = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        brewingMethodId = Value(brewingMethodId),
-        coffeeAmount = Value(coffeeAmount),
-        waterAmount = Value(waterAmount),
-        waterTemp = Value(waterTemp),
-        brewTime = Value(brewTime);
+  }) : id = Value(id),
+       brewingMethodId = Value(brewingMethodId),
+       coffeeAmount = Value(coffeeAmount),
+       waterAmount = Value(waterAmount),
+       waterTemp = Value(waterTemp),
+       brewTime = Value(brewTime);
   static Insertable<Recipe> custom({
     Expression<String>? id,
     Expression<String>? brewingMethodId,
@@ -949,20 +1120,21 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     });
   }
 
-  RecipesCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? brewingMethodId,
-      Value<double>? coffeeAmount,
-      Value<double>? waterAmount,
-      Value<double>? waterTemp,
-      Value<int>? brewTime,
-      Value<String?>? vendorId,
-      Value<DateTime?>? lastModified,
-      Value<String?>? importId,
-      Value<bool>? isImported,
-      Value<bool>? needsModerationReview,
-      Value<bool>? isPublic,
-      Value<int>? rowid}) {
+  RecipesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? brewingMethodId,
+    Value<double>? coffeeAmount,
+    Value<double>? waterAmount,
+    Value<double>? waterTemp,
+    Value<int>? brewTime,
+    Value<String?>? vendorId,
+    Value<DateTime?>? lastModified,
+    Value<String?>? importId,
+    Value<bool>? isImported,
+    Value<bool>? needsModerationReview,
+    Value<bool>? isPublic,
+    Value<int>? rowid,
+  }) {
     return RecipesCompanion(
       id: id ?? this.id,
       brewingMethodId: brewingMethodId ?? this.brewingMethodId,
@@ -1015,8 +1187,9 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
       map['is_imported'] = Variable<bool>(isImported.value);
     }
     if (needsModerationReview.present) {
-      map['needs_moderation_review'] =
-          Variable<bool>(needsModerationReview.value);
+      map['needs_moderation_review'] = Variable<bool>(
+        needsModerationReview.value,
+      );
     }
     if (isPublic.present) {
       map['is_public'] = Variable<bool>(isPublic.value);
@@ -1057,61 +1230,100 @@ class $RecipeLocalizationsTable extends RecipeLocalizations
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _recipeIdMeta =
-      const VerificationMeta('recipeId');
+    'id',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 255,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _recipeIdMeta = const VerificationMeta(
+    'recipeId',
+  );
   @override
   late final GeneratedColumn<String> recipeId = GeneratedColumn<String>(
-      'recipe_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES recipes (id) ON DELETE CASCADE'));
+    'recipe_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES recipes (id) ON DELETE CASCADE',
+    ),
+  );
   static const VerificationMeta _localeMeta = const VerificationMeta('locale');
   @override
   late final GeneratedColumn<String> locale = GeneratedColumn<String>(
-      'locale', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 10),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES supported_locales (locale) ON DELETE CASCADE'));
+    'locale',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 2,
+      maxTextLength: 10,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES supported_locales (locale) ON DELETE CASCADE',
+    ),
+  );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _grindSizeMeta =
-      const VerificationMeta('grindSize');
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _grindSizeMeta = const VerificationMeta(
+    'grindSize',
+  );
   @override
   late final GeneratedColumn<String> grindSize = GeneratedColumn<String>(
-      'grind_size', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _shortDescriptionMeta =
-      const VerificationMeta('shortDescription');
+    'grind_size',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 255,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shortDescriptionMeta = const VerificationMeta(
+    'shortDescription',
+  );
   @override
   late final GeneratedColumn<String> shortDescription = GeneratedColumn<String>(
-      'short_description', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'short_description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, recipeId, locale, name, grindSize, shortDescription];
+  List<GeneratedColumn> get $columns => [
+    id,
+    recipeId,
+    locale,
+    name,
+    grindSize,
+    shortDescription,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'recipe_localizations';
   @override
-  VerificationContext validateIntegrity(Insertable<RecipeLocalization> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<RecipeLocalization> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -1120,34 +1332,45 @@ class $RecipeLocalizationsTable extends RecipeLocalizations
       context.missing(_idMeta);
     }
     if (data.containsKey('recipe_id')) {
-      context.handle(_recipeIdMeta,
-          recipeId.isAcceptableOrUnknown(data['recipe_id']!, _recipeIdMeta));
+      context.handle(
+        _recipeIdMeta,
+        recipeId.isAcceptableOrUnknown(data['recipe_id']!, _recipeIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_recipeIdMeta);
     }
     if (data.containsKey('locale')) {
-      context.handle(_localeMeta,
-          locale.isAcceptableOrUnknown(data['locale']!, _localeMeta));
+      context.handle(
+        _localeMeta,
+        locale.isAcceptableOrUnknown(data['locale']!, _localeMeta),
+      );
     } else if (isInserting) {
       context.missing(_localeMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('grind_size')) {
-      context.handle(_grindSizeMeta,
-          grindSize.isAcceptableOrUnknown(data['grind_size']!, _grindSizeMeta));
+      context.handle(
+        _grindSizeMeta,
+        grindSize.isAcceptableOrUnknown(data['grind_size']!, _grindSizeMeta),
+      );
     } else if (isInserting) {
       context.missing(_grindSizeMeta);
     }
     if (data.containsKey('short_description')) {
       context.handle(
+        _shortDescriptionMeta,
+        shortDescription.isAcceptableOrUnknown(
+          data['short_description']!,
           _shortDescriptionMeta,
-          shortDescription.isAcceptableOrUnknown(
-              data['short_description']!, _shortDescriptionMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_shortDescriptionMeta);
     }
@@ -1160,18 +1383,30 @@ class $RecipeLocalizationsTable extends RecipeLocalizations
   RecipeLocalization map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return RecipeLocalization(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      recipeId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}recipe_id'])!,
-      locale: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}locale'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      grindSize: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}grind_size'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      recipeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}recipe_id'],
+      )!,
+      locale: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}locale'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      grindSize: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}grind_size'],
+      )!,
       shortDescription: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}short_description'])!,
+        DriftSqlType.string,
+        data['${effectivePrefix}short_description'],
+      )!,
     );
   }
 
@@ -1189,13 +1424,14 @@ class RecipeLocalization extends DataClass
   final String name;
   final String grindSize;
   final String shortDescription;
-  const RecipeLocalization(
-      {required this.id,
-      required this.recipeId,
-      required this.locale,
-      required this.name,
-      required this.grindSize,
-      required this.shortDescription});
+  const RecipeLocalization({
+    required this.id,
+    required this.recipeId,
+    required this.locale,
+    required this.name,
+    required this.grindSize,
+    required this.shortDescription,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1219,8 +1455,10 @@ class RecipeLocalization extends DataClass
     );
   }
 
-  factory RecipeLocalization.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory RecipeLocalization.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return RecipeLocalization(
       id: serializer.fromJson<String>(json['id']),
@@ -1244,21 +1482,21 @@ class RecipeLocalization extends DataClass
     };
   }
 
-  RecipeLocalization copyWith(
-          {String? id,
-          String? recipeId,
-          String? locale,
-          String? name,
-          String? grindSize,
-          String? shortDescription}) =>
-      RecipeLocalization(
-        id: id ?? this.id,
-        recipeId: recipeId ?? this.recipeId,
-        locale: locale ?? this.locale,
-        name: name ?? this.name,
-        grindSize: grindSize ?? this.grindSize,
-        shortDescription: shortDescription ?? this.shortDescription,
-      );
+  RecipeLocalization copyWith({
+    String? id,
+    String? recipeId,
+    String? locale,
+    String? name,
+    String? grindSize,
+    String? shortDescription,
+  }) => RecipeLocalization(
+    id: id ?? this.id,
+    recipeId: recipeId ?? this.recipeId,
+    locale: locale ?? this.locale,
+    name: name ?? this.name,
+    grindSize: grindSize ?? this.grindSize,
+    shortDescription: shortDescription ?? this.shortDescription,
+  );
   RecipeLocalization copyWithCompanion(RecipeLocalizationsCompanion data) {
     return RecipeLocalization(
       id: data.id.present ? data.id.value : this.id,
@@ -1325,12 +1563,12 @@ class RecipeLocalizationsCompanion extends UpdateCompanion<RecipeLocalization> {
     required String grindSize,
     required String shortDescription,
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        recipeId = Value(recipeId),
-        locale = Value(locale),
-        name = Value(name),
-        grindSize = Value(grindSize),
-        shortDescription = Value(shortDescription);
+  }) : id = Value(id),
+       recipeId = Value(recipeId),
+       locale = Value(locale),
+       name = Value(name),
+       grindSize = Value(grindSize),
+       shortDescription = Value(shortDescription);
   static Insertable<RecipeLocalization> custom({
     Expression<String>? id,
     Expression<String>? recipeId,
@@ -1351,14 +1589,15 @@ class RecipeLocalizationsCompanion extends UpdateCompanion<RecipeLocalization> {
     });
   }
 
-  RecipeLocalizationsCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? recipeId,
-      Value<String>? locale,
-      Value<String>? name,
-      Value<String>? grindSize,
-      Value<String>? shortDescription,
-      Value<int>? rowid}) {
+  RecipeLocalizationsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? recipeId,
+    Value<String>? locale,
+    Value<String>? name,
+    Value<String>? grindSize,
+    Value<String>? shortDescription,
+    Value<int>? rowid,
+  }) {
     return RecipeLocalizationsCompanion(
       id: id ?? this.id,
       recipeId: recipeId ?? this.recipeId,
@@ -1420,58 +1659,96 @@ class $StepsTable extends Steps with TableInfo<$StepsTable, Step> {
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _recipeIdMeta =
-      const VerificationMeta('recipeId');
+    'id',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 255,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _recipeIdMeta = const VerificationMeta(
+    'recipeId',
+  );
   @override
   late final GeneratedColumn<String> recipeId = GeneratedColumn<String>(
-      'recipe_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES recipes (id) ON DELETE CASCADE'));
-  static const VerificationMeta _stepOrderMeta =
-      const VerificationMeta('stepOrder');
+    'recipe_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES recipes (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _stepOrderMeta = const VerificationMeta(
+    'stepOrder',
+  );
   @override
   late final GeneratedColumn<int> stepOrder = GeneratedColumn<int>(
-      'step_order', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
+    'step_order',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
   @override
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _timeMeta = const VerificationMeta('time');
   @override
   late final GeneratedColumn<String> time = GeneratedColumn<String>(
-      'time', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'time',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _localeMeta = const VerificationMeta('locale');
   @override
   late final GeneratedColumn<String> locale = GeneratedColumn<String>(
-      'locale', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 10),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES supported_locales (locale) ON DELETE CASCADE'));
+    'locale',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 2,
+      maxTextLength: 10,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES supported_locales (locale) ON DELETE CASCADE',
+    ),
+  );
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, recipeId, stepOrder, description, time, locale];
+  List<GeneratedColumn> get $columns => [
+    id,
+    recipeId,
+    stepOrder,
+    description,
+    time,
+    locale,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'steps';
   @override
-  VerificationContext validateIntegrity(Insertable<Step> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<Step> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -1480,34 +1757,45 @@ class $StepsTable extends Steps with TableInfo<$StepsTable, Step> {
       context.missing(_idMeta);
     }
     if (data.containsKey('recipe_id')) {
-      context.handle(_recipeIdMeta,
-          recipeId.isAcceptableOrUnknown(data['recipe_id']!, _recipeIdMeta));
+      context.handle(
+        _recipeIdMeta,
+        recipeId.isAcceptableOrUnknown(data['recipe_id']!, _recipeIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_recipeIdMeta);
     }
     if (data.containsKey('step_order')) {
-      context.handle(_stepOrderMeta,
-          stepOrder.isAcceptableOrUnknown(data['step_order']!, _stepOrderMeta));
+      context.handle(
+        _stepOrderMeta,
+        stepOrder.isAcceptableOrUnknown(data['step_order']!, _stepOrderMeta),
+      );
     } else if (isInserting) {
       context.missing(_stepOrderMeta);
     }
     if (data.containsKey('description')) {
       context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
           _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_descriptionMeta);
     }
     if (data.containsKey('time')) {
       context.handle(
-          _timeMeta, time.isAcceptableOrUnknown(data['time']!, _timeMeta));
+        _timeMeta,
+        time.isAcceptableOrUnknown(data['time']!, _timeMeta),
+      );
     } else if (isInserting) {
       context.missing(_timeMeta);
     }
     if (data.containsKey('locale')) {
-      context.handle(_localeMeta,
-          locale.isAcceptableOrUnknown(data['locale']!, _localeMeta));
+      context.handle(
+        _localeMeta,
+        locale.isAcceptableOrUnknown(data['locale']!, _localeMeta),
+      );
     } else if (isInserting) {
       context.missing(_localeMeta);
     }
@@ -1520,18 +1808,30 @@ class $StepsTable extends Steps with TableInfo<$StepsTable, Step> {
   Step map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Step(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      recipeId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}recipe_id'])!,
-      stepOrder: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}step_order'])!,
-      description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
-      time: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}time'])!,
-      locale: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}locale'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      recipeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}recipe_id'],
+      )!,
+      stepOrder: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}step_order'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
+      time: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}time'],
+      )!,
+      locale: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}locale'],
+      )!,
     );
   }
 
@@ -1548,13 +1848,14 @@ class Step extends DataClass implements Insertable<Step> {
   final String description;
   final String time;
   final String locale;
-  const Step(
-      {required this.id,
-      required this.recipeId,
-      required this.stepOrder,
-      required this.description,
-      required this.time,
-      required this.locale});
+  const Step({
+    required this.id,
+    required this.recipeId,
+    required this.stepOrder,
+    required this.description,
+    required this.time,
+    required this.locale,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1578,8 +1879,10 @@ class Step extends DataClass implements Insertable<Step> {
     );
   }
 
-  factory Step.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory Step.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Step(
       id: serializer.fromJson<String>(json['id']),
@@ -1603,28 +1906,29 @@ class Step extends DataClass implements Insertable<Step> {
     };
   }
 
-  Step copyWith(
-          {String? id,
-          String? recipeId,
-          int? stepOrder,
-          String? description,
-          String? time,
-          String? locale}) =>
-      Step(
-        id: id ?? this.id,
-        recipeId: recipeId ?? this.recipeId,
-        stepOrder: stepOrder ?? this.stepOrder,
-        description: description ?? this.description,
-        time: time ?? this.time,
-        locale: locale ?? this.locale,
-      );
+  Step copyWith({
+    String? id,
+    String? recipeId,
+    int? stepOrder,
+    String? description,
+    String? time,
+    String? locale,
+  }) => Step(
+    id: id ?? this.id,
+    recipeId: recipeId ?? this.recipeId,
+    stepOrder: stepOrder ?? this.stepOrder,
+    description: description ?? this.description,
+    time: time ?? this.time,
+    locale: locale ?? this.locale,
+  );
   Step copyWithCompanion(StepsCompanion data) {
     return Step(
       id: data.id.present ? data.id.value : this.id,
       recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
       stepOrder: data.stepOrder.present ? data.stepOrder.value : this.stepOrder,
-      description:
-          data.description.present ? data.description.value : this.description,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
       time: data.time.present ? data.time.value : this.time,
       locale: data.locale.present ? data.locale.value : this.locale,
     );
@@ -1683,12 +1987,12 @@ class StepsCompanion extends UpdateCompanion<Step> {
     required String time,
     required String locale,
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        recipeId = Value(recipeId),
-        stepOrder = Value(stepOrder),
-        description = Value(description),
-        time = Value(time),
-        locale = Value(locale);
+  }) : id = Value(id),
+       recipeId = Value(recipeId),
+       stepOrder = Value(stepOrder),
+       description = Value(description),
+       time = Value(time),
+       locale = Value(locale);
   static Insertable<Step> custom({
     Expression<String>? id,
     Expression<String>? recipeId,
@@ -1709,14 +2013,15 @@ class StepsCompanion extends UpdateCompanion<Step> {
     });
   }
 
-  StepsCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? recipeId,
-      Value<int>? stepOrder,
-      Value<String>? description,
-      Value<String>? time,
-      Value<String>? locale,
-      Value<int>? rowid}) {
+  StepsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? recipeId,
+    Value<int>? stepOrder,
+    Value<String>? description,
+    Value<String>? time,
+    Value<String>? locale,
+    Value<int>? rowid,
+  }) {
     return StepsCompanion(
       id: id ?? this.id,
       recipeId: recipeId ?? this.recipeId,
@@ -1776,78 +2081,126 @@ class $UserRecipePreferencesTable extends UserRecipePreferences
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $UserRecipePreferencesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _recipeIdMeta =
-      const VerificationMeta('recipeId');
+  static const VerificationMeta _recipeIdMeta = const VerificationMeta(
+    'recipeId',
+  );
   @override
   late final GeneratedColumn<String> recipeId = GeneratedColumn<String>(
-      'recipe_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES recipes (id) ON DELETE CASCADE'));
-  static const VerificationMeta _lastUsedMeta =
-      const VerificationMeta('lastUsed');
+    'recipe_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES recipes (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _lastUsedMeta = const VerificationMeta(
+    'lastUsed',
+  );
   @override
   late final GeneratedColumn<DateTime> lastUsed = GeneratedColumn<DateTime>(
-      'last_used', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
-  static const VerificationMeta _isFavoriteMeta =
-      const VerificationMeta('isFavorite');
+    'last_used',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isFavoriteMeta = const VerificationMeta(
+    'isFavorite',
+  );
   @override
   late final GeneratedColumn<bool> isFavorite = GeneratedColumn<bool>(
-      'is_favorite', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'CHECK ("is_favorite" IN (0, 1))'));
+    'is_favorite',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_favorite" IN (0, 1))',
+    ),
+  );
   static const VerificationMeta _sweetnessSliderPositionMeta =
       const VerificationMeta('sweetnessSliderPosition');
   @override
   late final GeneratedColumn<int> sweetnessSliderPosition =
-      GeneratedColumn<int>('sweetness_slider_position', aliasedName, false,
-          type: DriftSqlType.int,
-          requiredDuringInsert: false,
-          defaultValue: const Constant(1));
+      GeneratedColumn<int>(
+        'sweetness_slider_position',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+        defaultValue: const Constant(1),
+      );
   static const VerificationMeta _strengthSliderPositionMeta =
       const VerificationMeta('strengthSliderPosition');
   @override
   late final GeneratedColumn<int> strengthSliderPosition = GeneratedColumn<int>(
-      'strength_slider_position', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(2));
+    'strength_slider_position',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(2),
+  );
   static const VerificationMeta _customCoffeeAmountMeta =
       const VerificationMeta('customCoffeeAmount');
   @override
   late final GeneratedColumn<double> customCoffeeAmount =
-      GeneratedColumn<double>('custom_coffee_amount', aliasedName, true,
-          type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _customWaterAmountMeta =
-      const VerificationMeta('customWaterAmount');
+      GeneratedColumn<double>(
+        'custom_coffee_amount',
+        aliasedName,
+        true,
+        type: DriftSqlType.double,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _customWaterAmountMeta = const VerificationMeta(
+    'customWaterAmount',
+  );
   @override
   late final GeneratedColumn<double> customWaterAmount =
-      GeneratedColumn<double>('custom_water_amount', aliasedName, true,
-          type: DriftSqlType.double, requiredDuringInsert: false);
+      GeneratedColumn<double>(
+        'custom_water_amount',
+        aliasedName,
+        true,
+        type: DriftSqlType.double,
+        requiredDuringInsert: false,
+      );
   static const VerificationMeta _coffeeChroniclerSliderPositionMeta =
       const VerificationMeta('coffeeChroniclerSliderPosition');
   @override
   late final GeneratedColumn<int> coffeeChroniclerSliderPosition =
       GeneratedColumn<int>(
-          'coffee_chronicler_slider_position', aliasedName, false,
-          type: DriftSqlType.int,
-          requiredDuringInsert: false,
-          defaultValue: const Constant(0));
+        'coffee_chronicler_slider_position',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+        defaultValue: const Constant(0),
+      );
+  static const VerificationMeta _customGrindSizeMeta = const VerificationMeta(
+    'customGrindSize',
+  );
+  @override
+  late final GeneratedColumn<String> customGrindSize = GeneratedColumn<String>(
+    'custom_grind_size',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
-        recipeId,
-        lastUsed,
-        isFavorite,
-        sweetnessSliderPosition,
-        strengthSliderPosition,
-        customCoffeeAmount,
-        customWaterAmount,
-        coffeeChroniclerSliderPosition
-      ];
+    recipeId,
+    lastUsed,
+    isFavorite,
+    sweetnessSliderPosition,
+    strengthSliderPosition,
+    customCoffeeAmount,
+    customWaterAmount,
+    coffeeChroniclerSliderPosition,
+    customGrindSize,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1855,59 +2208,86 @@ class $UserRecipePreferencesTable extends UserRecipePreferences
   static const String $name = 'user_recipe_preferences';
   @override
   VerificationContext validateIntegrity(
-      Insertable<UserRecipePreference> instance,
-      {bool isInserting = false}) {
+    Insertable<UserRecipePreference> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('recipe_id')) {
-      context.handle(_recipeIdMeta,
-          recipeId.isAcceptableOrUnknown(data['recipe_id']!, _recipeIdMeta));
+      context.handle(
+        _recipeIdMeta,
+        recipeId.isAcceptableOrUnknown(data['recipe_id']!, _recipeIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_recipeIdMeta);
     }
     if (data.containsKey('last_used')) {
-      context.handle(_lastUsedMeta,
-          lastUsed.isAcceptableOrUnknown(data['last_used']!, _lastUsedMeta));
+      context.handle(
+        _lastUsedMeta,
+        lastUsed.isAcceptableOrUnknown(data['last_used']!, _lastUsedMeta),
+      );
     }
     if (data.containsKey('is_favorite')) {
       context.handle(
-          _isFavoriteMeta,
-          isFavorite.isAcceptableOrUnknown(
-              data['is_favorite']!, _isFavoriteMeta));
+        _isFavoriteMeta,
+        isFavorite.isAcceptableOrUnknown(data['is_favorite']!, _isFavoriteMeta),
+      );
     } else if (isInserting) {
       context.missing(_isFavoriteMeta);
     }
     if (data.containsKey('sweetness_slider_position')) {
       context.handle(
+        _sweetnessSliderPositionMeta,
+        sweetnessSliderPosition.isAcceptableOrUnknown(
+          data['sweetness_slider_position']!,
           _sweetnessSliderPositionMeta,
-          sweetnessSliderPosition.isAcceptableOrUnknown(
-              data['sweetness_slider_position']!,
-              _sweetnessSliderPositionMeta));
+        ),
+      );
     }
     if (data.containsKey('strength_slider_position')) {
       context.handle(
+        _strengthSliderPositionMeta,
+        strengthSliderPosition.isAcceptableOrUnknown(
+          data['strength_slider_position']!,
           _strengthSliderPositionMeta,
-          strengthSliderPosition.isAcceptableOrUnknown(
-              data['strength_slider_position']!, _strengthSliderPositionMeta));
+        ),
+      );
     }
     if (data.containsKey('custom_coffee_amount')) {
       context.handle(
+        _customCoffeeAmountMeta,
+        customCoffeeAmount.isAcceptableOrUnknown(
+          data['custom_coffee_amount']!,
           _customCoffeeAmountMeta,
-          customCoffeeAmount.isAcceptableOrUnknown(
-              data['custom_coffee_amount']!, _customCoffeeAmountMeta));
+        ),
+      );
     }
     if (data.containsKey('custom_water_amount')) {
       context.handle(
+        _customWaterAmountMeta,
+        customWaterAmount.isAcceptableOrUnknown(
+          data['custom_water_amount']!,
           _customWaterAmountMeta,
-          customWaterAmount.isAcceptableOrUnknown(
-              data['custom_water_amount']!, _customWaterAmountMeta));
+        ),
+      );
     }
     if (data.containsKey('coffee_chronicler_slider_position')) {
       context.handle(
+        _coffeeChroniclerSliderPositionMeta,
+        coffeeChroniclerSliderPosition.isAcceptableOrUnknown(
+          data['coffee_chronicler_slider_position']!,
           _coffeeChroniclerSliderPositionMeta,
-          coffeeChroniclerSliderPosition.isAcceptableOrUnknown(
-              data['coffee_chronicler_slider_position']!,
-              _coffeeChroniclerSliderPositionMeta));
+        ),
+      );
+    }
+    if (data.containsKey('custom_grind_size')) {
+      context.handle(
+        _customGrindSizeMeta,
+        customGrindSize.isAcceptableOrUnknown(
+          data['custom_grind_size']!,
+          _customGrindSizeMeta,
+        ),
+      );
     }
     return context;
   }
@@ -1918,25 +2298,42 @@ class $UserRecipePreferencesTable extends UserRecipePreferences
   UserRecipePreference map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return UserRecipePreference(
-      recipeId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}recipe_id'])!,
-      lastUsed: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}last_used']),
-      isFavorite: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_favorite'])!,
+      recipeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}recipe_id'],
+      )!,
+      lastUsed: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_used'],
+      ),
+      isFavorite: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_favorite'],
+      )!,
       sweetnessSliderPosition: attachedDatabase.typeMapping.read(
-          DriftSqlType.int,
-          data['${effectivePrefix}sweetness_slider_position'])!,
+        DriftSqlType.int,
+        data['${effectivePrefix}sweetness_slider_position'],
+      )!,
       strengthSliderPosition: attachedDatabase.typeMapping.read(
-          DriftSqlType.int,
-          data['${effectivePrefix}strength_slider_position'])!,
+        DriftSqlType.int,
+        data['${effectivePrefix}strength_slider_position'],
+      )!,
       customCoffeeAmount: attachedDatabase.typeMapping.read(
-          DriftSqlType.double, data['${effectivePrefix}custom_coffee_amount']),
+        DriftSqlType.double,
+        data['${effectivePrefix}custom_coffee_amount'],
+      ),
       customWaterAmount: attachedDatabase.typeMapping.read(
-          DriftSqlType.double, data['${effectivePrefix}custom_water_amount']),
+        DriftSqlType.double,
+        data['${effectivePrefix}custom_water_amount'],
+      ),
       coffeeChroniclerSliderPosition: attachedDatabase.typeMapping.read(
-          DriftSqlType.int,
-          data['${effectivePrefix}coffee_chronicler_slider_position'])!,
+        DriftSqlType.int,
+        data['${effectivePrefix}coffee_chronicler_slider_position'],
+      )!,
+      customGrindSize: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}custom_grind_size'],
+      ),
     );
   }
 
@@ -1956,15 +2353,18 @@ class UserRecipePreference extends DataClass
   final double? customCoffeeAmount;
   final double? customWaterAmount;
   final int coffeeChroniclerSliderPosition;
-  const UserRecipePreference(
-      {required this.recipeId,
-      this.lastUsed,
-      required this.isFavorite,
-      required this.sweetnessSliderPosition,
-      required this.strengthSliderPosition,
-      this.customCoffeeAmount,
-      this.customWaterAmount,
-      required this.coffeeChroniclerSliderPosition});
+  final String? customGrindSize;
+  const UserRecipePreference({
+    required this.recipeId,
+    this.lastUsed,
+    required this.isFavorite,
+    required this.sweetnessSliderPosition,
+    required this.strengthSliderPosition,
+    this.customCoffeeAmount,
+    this.customWaterAmount,
+    required this.coffeeChroniclerSliderPosition,
+    this.customGrindSize,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1981,8 +2381,12 @@ class UserRecipePreference extends DataClass
     if (!nullToAbsent || customWaterAmount != null) {
       map['custom_water_amount'] = Variable<double>(customWaterAmount);
     }
-    map['coffee_chronicler_slider_position'] =
-        Variable<int>(coffeeChroniclerSliderPosition);
+    map['coffee_chronicler_slider_position'] = Variable<int>(
+      coffeeChroniclerSliderPosition,
+    );
+    if (!nullToAbsent || customGrindSize != null) {
+      map['custom_grind_size'] = Variable<String>(customGrindSize);
+    }
     return map;
   }
 
@@ -2002,26 +2406,37 @@ class UserRecipePreference extends DataClass
           ? const Value.absent()
           : Value(customWaterAmount),
       coffeeChroniclerSliderPosition: Value(coffeeChroniclerSliderPosition),
+      customGrindSize: customGrindSize == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customGrindSize),
     );
   }
 
-  factory UserRecipePreference.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory UserRecipePreference.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return UserRecipePreference(
       recipeId: serializer.fromJson<String>(json['recipeId']),
       lastUsed: serializer.fromJson<DateTime?>(json['lastUsed']),
       isFavorite: serializer.fromJson<bool>(json['isFavorite']),
-      sweetnessSliderPosition:
-          serializer.fromJson<int>(json['sweetnessSliderPosition']),
-      strengthSliderPosition:
-          serializer.fromJson<int>(json['strengthSliderPosition']),
-      customCoffeeAmount:
-          serializer.fromJson<double?>(json['customCoffeeAmount']),
-      customWaterAmount:
-          serializer.fromJson<double?>(json['customWaterAmount']),
-      coffeeChroniclerSliderPosition:
-          serializer.fromJson<int>(json['coffeeChroniclerSliderPosition']),
+      sweetnessSliderPosition: serializer.fromJson<int>(
+        json['sweetnessSliderPosition'],
+      ),
+      strengthSliderPosition: serializer.fromJson<int>(
+        json['strengthSliderPosition'],
+      ),
+      customCoffeeAmount: serializer.fromJson<double?>(
+        json['customCoffeeAmount'],
+      ),
+      customWaterAmount: serializer.fromJson<double?>(
+        json['customWaterAmount'],
+      ),
+      coffeeChroniclerSliderPosition: serializer.fromJson<int>(
+        json['coffeeChroniclerSliderPosition'],
+      ),
+      customGrindSize: serializer.fromJson<String?>(json['customGrindSize']),
     );
   }
   @override
@@ -2031,48 +2446,56 @@ class UserRecipePreference extends DataClass
       'recipeId': serializer.toJson<String>(recipeId),
       'lastUsed': serializer.toJson<DateTime?>(lastUsed),
       'isFavorite': serializer.toJson<bool>(isFavorite),
-      'sweetnessSliderPosition':
-          serializer.toJson<int>(sweetnessSliderPosition),
+      'sweetnessSliderPosition': serializer.toJson<int>(
+        sweetnessSliderPosition,
+      ),
       'strengthSliderPosition': serializer.toJson<int>(strengthSliderPosition),
       'customCoffeeAmount': serializer.toJson<double?>(customCoffeeAmount),
       'customWaterAmount': serializer.toJson<double?>(customWaterAmount),
-      'coffeeChroniclerSliderPosition':
-          serializer.toJson<int>(coffeeChroniclerSliderPosition),
+      'coffeeChroniclerSliderPosition': serializer.toJson<int>(
+        coffeeChroniclerSliderPosition,
+      ),
+      'customGrindSize': serializer.toJson<String?>(customGrindSize),
     };
   }
 
-  UserRecipePreference copyWith(
-          {String? recipeId,
-          Value<DateTime?> lastUsed = const Value.absent(),
-          bool? isFavorite,
-          int? sweetnessSliderPosition,
-          int? strengthSliderPosition,
-          Value<double?> customCoffeeAmount = const Value.absent(),
-          Value<double?> customWaterAmount = const Value.absent(),
-          int? coffeeChroniclerSliderPosition}) =>
-      UserRecipePreference(
-        recipeId: recipeId ?? this.recipeId,
-        lastUsed: lastUsed.present ? lastUsed.value : this.lastUsed,
-        isFavorite: isFavorite ?? this.isFavorite,
-        sweetnessSliderPosition:
-            sweetnessSliderPosition ?? this.sweetnessSliderPosition,
-        strengthSliderPosition:
-            strengthSliderPosition ?? this.strengthSliderPosition,
-        customCoffeeAmount: customCoffeeAmount.present
-            ? customCoffeeAmount.value
-            : this.customCoffeeAmount,
-        customWaterAmount: customWaterAmount.present
-            ? customWaterAmount.value
-            : this.customWaterAmount,
-        coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition ??
-            this.coffeeChroniclerSliderPosition,
-      );
+  UserRecipePreference copyWith({
+    String? recipeId,
+    Value<DateTime?> lastUsed = const Value.absent(),
+    bool? isFavorite,
+    int? sweetnessSliderPosition,
+    int? strengthSliderPosition,
+    Value<double?> customCoffeeAmount = const Value.absent(),
+    Value<double?> customWaterAmount = const Value.absent(),
+    int? coffeeChroniclerSliderPosition,
+    Value<String?> customGrindSize = const Value.absent(),
+  }) => UserRecipePreference(
+    recipeId: recipeId ?? this.recipeId,
+    lastUsed: lastUsed.present ? lastUsed.value : this.lastUsed,
+    isFavorite: isFavorite ?? this.isFavorite,
+    sweetnessSliderPosition:
+        sweetnessSliderPosition ?? this.sweetnessSliderPosition,
+    strengthSliderPosition:
+        strengthSliderPosition ?? this.strengthSliderPosition,
+    customCoffeeAmount: customCoffeeAmount.present
+        ? customCoffeeAmount.value
+        : this.customCoffeeAmount,
+    customWaterAmount: customWaterAmount.present
+        ? customWaterAmount.value
+        : this.customWaterAmount,
+    coffeeChroniclerSliderPosition:
+        coffeeChroniclerSliderPosition ?? this.coffeeChroniclerSliderPosition,
+    customGrindSize: customGrindSize.present
+        ? customGrindSize.value
+        : this.customGrindSize,
+  );
   UserRecipePreference copyWithCompanion(UserRecipePreferencesCompanion data) {
     return UserRecipePreference(
       recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
       lastUsed: data.lastUsed.present ? data.lastUsed.value : this.lastUsed,
-      isFavorite:
-          data.isFavorite.present ? data.isFavorite.value : this.isFavorite,
+      isFavorite: data.isFavorite.present
+          ? data.isFavorite.value
+          : this.isFavorite,
       sweetnessSliderPosition: data.sweetnessSliderPosition.present
           ? data.sweetnessSliderPosition.value
           : this.sweetnessSliderPosition,
@@ -2087,8 +2510,11 @@ class UserRecipePreference extends DataClass
           : this.customWaterAmount,
       coffeeChroniclerSliderPosition:
           data.coffeeChroniclerSliderPosition.present
-              ? data.coffeeChroniclerSliderPosition.value
-              : this.coffeeChroniclerSliderPosition,
+          ? data.coffeeChroniclerSliderPosition.value
+          : this.coffeeChroniclerSliderPosition,
+      customGrindSize: data.customGrindSize.present
+          ? data.customGrindSize.value
+          : this.customGrindSize,
     );
   }
 
@@ -2103,21 +2529,25 @@ class UserRecipePreference extends DataClass
           ..write('customCoffeeAmount: $customCoffeeAmount, ')
           ..write('customWaterAmount: $customWaterAmount, ')
           ..write(
-              'coffeeChroniclerSliderPosition: $coffeeChroniclerSliderPosition')
+            'coffeeChroniclerSliderPosition: $coffeeChroniclerSliderPosition, ',
+          )
+          ..write('customGrindSize: $customGrindSize')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => Object.hash(
-      recipeId,
-      lastUsed,
-      isFavorite,
-      sweetnessSliderPosition,
-      strengthSliderPosition,
-      customCoffeeAmount,
-      customWaterAmount,
-      coffeeChroniclerSliderPosition);
+    recipeId,
+    lastUsed,
+    isFavorite,
+    sweetnessSliderPosition,
+    strengthSliderPosition,
+    customCoffeeAmount,
+    customWaterAmount,
+    coffeeChroniclerSliderPosition,
+    customGrindSize,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2130,7 +2560,8 @@ class UserRecipePreference extends DataClass
           other.customCoffeeAmount == this.customCoffeeAmount &&
           other.customWaterAmount == this.customWaterAmount &&
           other.coffeeChroniclerSliderPosition ==
-              this.coffeeChroniclerSliderPosition);
+              this.coffeeChroniclerSliderPosition &&
+          other.customGrindSize == this.customGrindSize);
 }
 
 class UserRecipePreferencesCompanion
@@ -2143,6 +2574,7 @@ class UserRecipePreferencesCompanion
   final Value<double?> customCoffeeAmount;
   final Value<double?> customWaterAmount;
   final Value<int> coffeeChroniclerSliderPosition;
+  final Value<String?> customGrindSize;
   final Value<int> rowid;
   const UserRecipePreferencesCompanion({
     this.recipeId = const Value.absent(),
@@ -2153,6 +2585,7 @@ class UserRecipePreferencesCompanion
     this.customCoffeeAmount = const Value.absent(),
     this.customWaterAmount = const Value.absent(),
     this.coffeeChroniclerSliderPosition = const Value.absent(),
+    this.customGrindSize = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   UserRecipePreferencesCompanion.insert({
@@ -2164,9 +2597,10 @@ class UserRecipePreferencesCompanion
     this.customCoffeeAmount = const Value.absent(),
     this.customWaterAmount = const Value.absent(),
     this.coffeeChroniclerSliderPosition = const Value.absent(),
+    this.customGrindSize = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : recipeId = Value(recipeId),
-        isFavorite = Value(isFavorite);
+  }) : recipeId = Value(recipeId),
+       isFavorite = Value(isFavorite);
   static Insertable<UserRecipePreference> custom({
     Expression<String>? recipeId,
     Expression<DateTime>? lastUsed,
@@ -2176,6 +2610,7 @@ class UserRecipePreferencesCompanion
     Expression<double>? customCoffeeAmount,
     Expression<double>? customWaterAmount,
     Expression<int>? coffeeChroniclerSliderPosition,
+    Expression<String>? customGrindSize,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2191,20 +2626,23 @@ class UserRecipePreferencesCompanion
       if (customWaterAmount != null) 'custom_water_amount': customWaterAmount,
       if (coffeeChroniclerSliderPosition != null)
         'coffee_chronicler_slider_position': coffeeChroniclerSliderPosition,
+      if (customGrindSize != null) 'custom_grind_size': customGrindSize,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
-  UserRecipePreferencesCompanion copyWith(
-      {Value<String>? recipeId,
-      Value<DateTime?>? lastUsed,
-      Value<bool>? isFavorite,
-      Value<int>? sweetnessSliderPosition,
-      Value<int>? strengthSliderPosition,
-      Value<double?>? customCoffeeAmount,
-      Value<double?>? customWaterAmount,
-      Value<int>? coffeeChroniclerSliderPosition,
-      Value<int>? rowid}) {
+  UserRecipePreferencesCompanion copyWith({
+    Value<String>? recipeId,
+    Value<DateTime?>? lastUsed,
+    Value<bool>? isFavorite,
+    Value<int>? sweetnessSliderPosition,
+    Value<int>? strengthSliderPosition,
+    Value<double?>? customCoffeeAmount,
+    Value<double?>? customWaterAmount,
+    Value<int>? coffeeChroniclerSliderPosition,
+    Value<String?>? customGrindSize,
+    Value<int>? rowid,
+  }) {
     return UserRecipePreferencesCompanion(
       recipeId: recipeId ?? this.recipeId,
       lastUsed: lastUsed ?? this.lastUsed,
@@ -2217,6 +2655,7 @@ class UserRecipePreferencesCompanion
       customWaterAmount: customWaterAmount ?? this.customWaterAmount,
       coffeeChroniclerSliderPosition:
           coffeeChroniclerSliderPosition ?? this.coffeeChroniclerSliderPosition,
+      customGrindSize: customGrindSize ?? this.customGrindSize,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2234,12 +2673,14 @@ class UserRecipePreferencesCompanion
       map['is_favorite'] = Variable<bool>(isFavorite.value);
     }
     if (sweetnessSliderPosition.present) {
-      map['sweetness_slider_position'] =
-          Variable<int>(sweetnessSliderPosition.value);
+      map['sweetness_slider_position'] = Variable<int>(
+        sweetnessSliderPosition.value,
+      );
     }
     if (strengthSliderPosition.present) {
-      map['strength_slider_position'] =
-          Variable<int>(strengthSliderPosition.value);
+      map['strength_slider_position'] = Variable<int>(
+        strengthSliderPosition.value,
+      );
     }
     if (customCoffeeAmount.present) {
       map['custom_coffee_amount'] = Variable<double>(customCoffeeAmount.value);
@@ -2248,8 +2689,12 @@ class UserRecipePreferencesCompanion
       map['custom_water_amount'] = Variable<double>(customWaterAmount.value);
     }
     if (coffeeChroniclerSliderPosition.present) {
-      map['coffee_chronicler_slider_position'] =
-          Variable<int>(coffeeChroniclerSliderPosition.value);
+      map['coffee_chronicler_slider_position'] = Variable<int>(
+        coffeeChroniclerSliderPosition.value,
+      );
+    }
+    if (customGrindSize.present) {
+      map['custom_grind_size'] = Variable<String>(customGrindSize.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -2268,7 +2713,9 @@ class UserRecipePreferencesCompanion
           ..write('customCoffeeAmount: $customCoffeeAmount, ')
           ..write('customWaterAmount: $customWaterAmount, ')
           ..write(
-              'coffeeChroniclerSliderPosition: $coffeeChroniclerSliderPosition, ')
+            'coffeeChroniclerSliderPosition: $coffeeChroniclerSliderPosition, ',
+          )
+          ..write('customGrindSize: $customGrindSize, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2284,26 +2731,41 @@ class $CoffeeFactsTable extends CoffeeFacts
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
+    'id',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 255,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _factMeta = const VerificationMeta('fact');
   @override
   late final GeneratedColumn<String> fact = GeneratedColumn<String>(
-      'fact', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'fact',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _localeMeta = const VerificationMeta('locale');
   @override
   late final GeneratedColumn<String> locale = GeneratedColumn<String>(
-      'locale', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 10),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES supported_locales (locale) ON DELETE CASCADE'));
+    'locale',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 2,
+      maxTextLength: 10,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES supported_locales (locale) ON DELETE CASCADE',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [id, fact, locale];
   @override
@@ -2312,8 +2774,10 @@ class $CoffeeFactsTable extends CoffeeFacts
   String get actualTableName => $name;
   static const String $name = 'coffee_facts';
   @override
-  VerificationContext validateIntegrity(Insertable<CoffeeFact> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<CoffeeFact> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -2323,13 +2787,17 @@ class $CoffeeFactsTable extends CoffeeFacts
     }
     if (data.containsKey('fact')) {
       context.handle(
-          _factMeta, fact.isAcceptableOrUnknown(data['fact']!, _factMeta));
+        _factMeta,
+        fact.isAcceptableOrUnknown(data['fact']!, _factMeta),
+      );
     } else if (isInserting) {
       context.missing(_factMeta);
     }
     if (data.containsKey('locale')) {
-      context.handle(_localeMeta,
-          locale.isAcceptableOrUnknown(data['locale']!, _localeMeta));
+      context.handle(
+        _localeMeta,
+        locale.isAcceptableOrUnknown(data['locale']!, _localeMeta),
+      );
     } else if (isInserting) {
       context.missing(_localeMeta);
     }
@@ -2342,12 +2810,18 @@ class $CoffeeFactsTable extends CoffeeFacts
   CoffeeFact map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return CoffeeFact(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      fact: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}fact'])!,
-      locale: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}locale'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      fact: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}fact'],
+      )!,
+      locale: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}locale'],
+      )!,
     );
   }
 
@@ -2361,8 +2835,11 @@ class CoffeeFact extends DataClass implements Insertable<CoffeeFact> {
   final String id;
   final String fact;
   final String locale;
-  const CoffeeFact(
-      {required this.id, required this.fact, required this.locale});
+  const CoffeeFact({
+    required this.id,
+    required this.fact,
+    required this.locale,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2380,8 +2857,10 @@ class CoffeeFact extends DataClass implements Insertable<CoffeeFact> {
     );
   }
 
-  factory CoffeeFact.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory CoffeeFact.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CoffeeFact(
       id: serializer.fromJson<String>(json['id']),
@@ -2400,10 +2879,10 @@ class CoffeeFact extends DataClass implements Insertable<CoffeeFact> {
   }
 
   CoffeeFact copyWith({String? id, String? fact, String? locale}) => CoffeeFact(
-        id: id ?? this.id,
-        fact: fact ?? this.fact,
-        locale: locale ?? this.locale,
-      );
+    id: id ?? this.id,
+    fact: fact ?? this.fact,
+    locale: locale ?? this.locale,
+  );
   CoffeeFact copyWithCompanion(CoffeeFactsCompanion data) {
     return CoffeeFact(
       id: data.id.present ? data.id.value : this.id,
@@ -2449,9 +2928,9 @@ class CoffeeFactsCompanion extends UpdateCompanion<CoffeeFact> {
     required String fact,
     required String locale,
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        fact = Value(fact),
-        locale = Value(locale);
+  }) : id = Value(id),
+       fact = Value(fact),
+       locale = Value(locale);
   static Insertable<CoffeeFact> custom({
     Expression<String>? id,
     Expression<String>? fact,
@@ -2466,11 +2945,12 @@ class CoffeeFactsCompanion extends UpdateCompanion<CoffeeFact> {
     });
   }
 
-  CoffeeFactsCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? fact,
-      Value<String>? locale,
-      Value<int>? rowid}) {
+  CoffeeFactsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? fact,
+    Value<String>? locale,
+    Value<int>? rowid,
+  }) {
     return CoffeeFactsCompanion(
       id: id ?? this.id,
       fact: fact ?? this.fact,
@@ -2515,160 +2995,260 @@ class $UserStatsTable extends UserStats
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $UserStatsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _statUuidMeta =
-      const VerificationMeta('statUuid');
+  static const VerificationMeta _statUuidMeta = const VerificationMeta(
+    'statUuid',
+  );
   @override
   late final GeneratedColumn<String> statUuid = GeneratedColumn<String>(
-      'stat_uuid', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'stat_uuid',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _recipeIdMeta =
-      const VerificationMeta('recipeId');
+    'id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _recipeIdMeta = const VerificationMeta(
+    'recipeId',
+  );
   @override
   late final GeneratedColumn<String> recipeId = GeneratedColumn<String>(
-      'recipe_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES recipes (id) ON DELETE CASCADE'));
-  static const VerificationMeta _coffeeAmountMeta =
-      const VerificationMeta('coffeeAmount');
+    'recipe_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES recipes (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _coffeeAmountMeta = const VerificationMeta(
+    'coffeeAmount',
+  );
   @override
   late final GeneratedColumn<double> coffeeAmount = GeneratedColumn<double>(
-      'coffee_amount', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
-  static const VerificationMeta _waterAmountMeta =
-      const VerificationMeta('waterAmount');
+    'coffee_amount',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _waterAmountMeta = const VerificationMeta(
+    'waterAmount',
+  );
   @override
   late final GeneratedColumn<double> waterAmount = GeneratedColumn<double>(
-      'water_amount', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
+    'water_amount',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _sweetnessSliderPositionMeta =
       const VerificationMeta('sweetnessSliderPosition');
   @override
   late final GeneratedColumn<int> sweetnessSliderPosition =
-      GeneratedColumn<int>('sweetness_slider_position', aliasedName, false,
-          type: DriftSqlType.int, requiredDuringInsert: true);
+      GeneratedColumn<int>(
+        'sweetness_slider_position',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+      );
   static const VerificationMeta _strengthSliderPositionMeta =
       const VerificationMeta('strengthSliderPosition');
   @override
   late final GeneratedColumn<int> strengthSliderPosition = GeneratedColumn<int>(
-      'strength_slider_position', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _brewingMethodIdMeta =
-      const VerificationMeta('brewingMethodId');
+    'strength_slider_position',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _brewingMethodIdMeta = const VerificationMeta(
+    'brewingMethodId',
+  );
   @override
   late final GeneratedColumn<String> brewingMethodId = GeneratedColumn<String>(
-      'brewing_method_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES brewing_methods (brewing_method_id)'));
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+    'brewing_method_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES brewing_methods (brewing_method_id)',
+    ),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
   static const VerificationMeta _notesMeta = const VerificationMeta('notes');
   @override
   late final GeneratedColumn<String> notes = GeneratedColumn<String>(
-      'notes', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _beansMeta = const VerificationMeta('beans');
   @override
   late final GeneratedColumn<String> beans = GeneratedColumn<String>(
-      'beans', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _roasterMeta =
-      const VerificationMeta('roaster');
+    'beans',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _roasterMeta = const VerificationMeta(
+    'roaster',
+  );
   @override
   late final GeneratedColumn<String> roaster = GeneratedColumn<String>(
-      'roaster', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+    'roaster',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _ratingMeta = const VerificationMeta('rating');
   @override
   late final GeneratedColumn<double> rating = GeneratedColumn<double>(
-      'rating', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _coffeeBeansIdMeta =
-      const VerificationMeta('coffeeBeansId');
+    'rating',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _coffeeBeansIdMeta = const VerificationMeta(
+    'coffeeBeansId',
+  );
   @override
   late final GeneratedColumn<int> coffeeBeansId = GeneratedColumn<int>(
-      'coffee_beans_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _isMarkedMeta =
-      const VerificationMeta('isMarked');
+    'coffee_beans_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isMarkedMeta = const VerificationMeta(
+    'isMarked',
+  );
   @override
   late final GeneratedColumn<bool> isMarked = GeneratedColumn<bool>(
-      'is_marked', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("is_marked" IN (0, 1))'),
-      defaultValue: const Constant(false));
-  static const VerificationMeta _coffeeBeansUuidMeta =
-      const VerificationMeta('coffeeBeansUuid');
+    'is_marked',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_marked" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _coffeeBeansUuidMeta = const VerificationMeta(
+    'coffeeBeansUuid',
+  );
   @override
   late final GeneratedColumn<String> coffeeBeansUuid = GeneratedColumn<String>(
-      'coffee_beans_uuid', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _versionVectorMeta =
-      const VerificationMeta('versionVector');
+    'coffee_beans_uuid',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _grindSizeMeta = const VerificationMeta(
+    'grindSize',
+  );
+  @override
+  late final GeneratedColumn<String> grindSize = GeneratedColumn<String>(
+    'grind_size',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _versionVectorMeta = const VerificationMeta(
+    'versionVector',
+  );
   @override
   late final GeneratedColumn<String> versionVector = GeneratedColumn<String>(
-      'version_vector', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _isDeletedMeta =
-      const VerificationMeta('isDeleted');
+    'version_vector',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isDeletedMeta = const VerificationMeta(
+    'isDeleted',
+  );
   @override
   late final GeneratedColumn<bool> isDeleted = GeneratedColumn<bool>(
-      'is_deleted', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("is_deleted" IN (0, 1))'),
-      defaultValue: const Constant(false));
+    'is_deleted',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_deleted" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
-        statUuid,
-        id,
-        recipeId,
-        coffeeAmount,
-        waterAmount,
-        sweetnessSliderPosition,
-        strengthSliderPosition,
-        brewingMethodId,
-        createdAt,
-        notes,
-        beans,
-        roaster,
-        rating,
-        coffeeBeansId,
-        isMarked,
-        coffeeBeansUuid,
-        versionVector,
-        isDeleted
-      ];
+    statUuid,
+    id,
+    recipeId,
+    coffeeAmount,
+    waterAmount,
+    sweetnessSliderPosition,
+    strengthSliderPosition,
+    brewingMethodId,
+    createdAt,
+    notes,
+    beans,
+    roaster,
+    rating,
+    coffeeBeansId,
+    isMarked,
+    coffeeBeansUuid,
+    grindSize,
+    versionVector,
+    isDeleted,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'user_stats';
   @override
-  VerificationContext validateIntegrity(Insertable<UserStat> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<UserStat> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('stat_uuid')) {
-      context.handle(_statUuidMeta,
-          statUuid.isAcceptableOrUnknown(data['stat_uuid']!, _statUuidMeta));
+      context.handle(
+        _statUuidMeta,
+        statUuid.isAcceptableOrUnknown(data['stat_uuid']!, _statUuidMeta),
+      );
     } else if (isInserting) {
       context.missing(_statUuidMeta);
     }
@@ -2676,99 +3256,144 @@ class $UserStatsTable extends UserStats
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('recipe_id')) {
-      context.handle(_recipeIdMeta,
-          recipeId.isAcceptableOrUnknown(data['recipe_id']!, _recipeIdMeta));
+      context.handle(
+        _recipeIdMeta,
+        recipeId.isAcceptableOrUnknown(data['recipe_id']!, _recipeIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_recipeIdMeta);
     }
     if (data.containsKey('coffee_amount')) {
       context.handle(
+        _coffeeAmountMeta,
+        coffeeAmount.isAcceptableOrUnknown(
+          data['coffee_amount']!,
           _coffeeAmountMeta,
-          coffeeAmount.isAcceptableOrUnknown(
-              data['coffee_amount']!, _coffeeAmountMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_coffeeAmountMeta);
     }
     if (data.containsKey('water_amount')) {
       context.handle(
+        _waterAmountMeta,
+        waterAmount.isAcceptableOrUnknown(
+          data['water_amount']!,
           _waterAmountMeta,
-          waterAmount.isAcceptableOrUnknown(
-              data['water_amount']!, _waterAmountMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_waterAmountMeta);
     }
     if (data.containsKey('sweetness_slider_position')) {
       context.handle(
+        _sweetnessSliderPositionMeta,
+        sweetnessSliderPosition.isAcceptableOrUnknown(
+          data['sweetness_slider_position']!,
           _sweetnessSliderPositionMeta,
-          sweetnessSliderPosition.isAcceptableOrUnknown(
-              data['sweetness_slider_position']!,
-              _sweetnessSliderPositionMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_sweetnessSliderPositionMeta);
     }
     if (data.containsKey('strength_slider_position')) {
       context.handle(
+        _strengthSliderPositionMeta,
+        strengthSliderPosition.isAcceptableOrUnknown(
+          data['strength_slider_position']!,
           _strengthSliderPositionMeta,
-          strengthSliderPosition.isAcceptableOrUnknown(
-              data['strength_slider_position']!, _strengthSliderPositionMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_strengthSliderPositionMeta);
     }
     if (data.containsKey('brewing_method_id')) {
       context.handle(
+        _brewingMethodIdMeta,
+        brewingMethodId.isAcceptableOrUnknown(
+          data['brewing_method_id']!,
           _brewingMethodIdMeta,
-          brewingMethodId.isAcceptableOrUnknown(
-              data['brewing_method_id']!, _brewingMethodIdMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_brewingMethodIdMeta);
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
     }
     if (data.containsKey('notes')) {
       context.handle(
-          _notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
     }
     if (data.containsKey('beans')) {
       context.handle(
-          _beansMeta, beans.isAcceptableOrUnknown(data['beans']!, _beansMeta));
+        _beansMeta,
+        beans.isAcceptableOrUnknown(data['beans']!, _beansMeta),
+      );
     }
     if (data.containsKey('roaster')) {
-      context.handle(_roasterMeta,
-          roaster.isAcceptableOrUnknown(data['roaster']!, _roasterMeta));
+      context.handle(
+        _roasterMeta,
+        roaster.isAcceptableOrUnknown(data['roaster']!, _roasterMeta),
+      );
     }
     if (data.containsKey('rating')) {
-      context.handle(_ratingMeta,
-          rating.isAcceptableOrUnknown(data['rating']!, _ratingMeta));
+      context.handle(
+        _ratingMeta,
+        rating.isAcceptableOrUnknown(data['rating']!, _ratingMeta),
+      );
     }
     if (data.containsKey('coffee_beans_id')) {
       context.handle(
+        _coffeeBeansIdMeta,
+        coffeeBeansId.isAcceptableOrUnknown(
+          data['coffee_beans_id']!,
           _coffeeBeansIdMeta,
-          coffeeBeansId.isAcceptableOrUnknown(
-              data['coffee_beans_id']!, _coffeeBeansIdMeta));
+        ),
+      );
     }
     if (data.containsKey('is_marked')) {
-      context.handle(_isMarkedMeta,
-          isMarked.isAcceptableOrUnknown(data['is_marked']!, _isMarkedMeta));
+      context.handle(
+        _isMarkedMeta,
+        isMarked.isAcceptableOrUnknown(data['is_marked']!, _isMarkedMeta),
+      );
     }
     if (data.containsKey('coffee_beans_uuid')) {
       context.handle(
+        _coffeeBeansUuidMeta,
+        coffeeBeansUuid.isAcceptableOrUnknown(
+          data['coffee_beans_uuid']!,
           _coffeeBeansUuidMeta,
-          coffeeBeansUuid.isAcceptableOrUnknown(
-              data['coffee_beans_uuid']!, _coffeeBeansUuidMeta));
+        ),
+      );
+    }
+    if (data.containsKey('grind_size')) {
+      context.handle(
+        _grindSizeMeta,
+        grindSize.isAcceptableOrUnknown(data['grind_size']!, _grindSizeMeta),
+      );
     }
     if (data.containsKey('version_vector')) {
       context.handle(
+        _versionVectorMeta,
+        versionVector.isAcceptableOrUnknown(
+          data['version_vector']!,
           _versionVectorMeta,
-          versionVector.isAcceptableOrUnknown(
-              data['version_vector']!, _versionVectorMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_versionVectorMeta);
     }
     if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta));
+      context.handle(
+        _isDeletedMeta,
+        isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta),
+      );
     }
     return context;
   }
@@ -2779,44 +3404,82 @@ class $UserStatsTable extends UserStats
   UserStat map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return UserStat(
-      statUuid: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}stat_uuid'])!,
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id']),
-      recipeId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}recipe_id'])!,
-      coffeeAmount: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}coffee_amount'])!,
-      waterAmount: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}water_amount'])!,
+      statUuid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}stat_uuid'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      ),
+      recipeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}recipe_id'],
+      )!,
+      coffeeAmount: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}coffee_amount'],
+      )!,
+      waterAmount: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}water_amount'],
+      )!,
       sweetnessSliderPosition: attachedDatabase.typeMapping.read(
-          DriftSqlType.int,
-          data['${effectivePrefix}sweetness_slider_position'])!,
+        DriftSqlType.int,
+        data['${effectivePrefix}sweetness_slider_position'],
+      )!,
       strengthSliderPosition: attachedDatabase.typeMapping.read(
-          DriftSqlType.int,
-          data['${effectivePrefix}strength_slider_position'])!,
+        DriftSqlType.int,
+        data['${effectivePrefix}strength_slider_position'],
+      )!,
       brewingMethodId: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}brewing_method_id'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
-      notes: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}notes']),
-      beans: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}beans']),
-      roaster: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}roaster']),
-      rating: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}rating']),
-      coffeeBeansId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}coffee_beans_id']),
-      isMarked: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_marked'])!,
+        DriftSqlType.string,
+        data['${effectivePrefix}brewing_method_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+      beans: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}beans'],
+      ),
+      roaster: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}roaster'],
+      ),
+      rating: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}rating'],
+      ),
+      coffeeBeansId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}coffee_beans_id'],
+      ),
+      isMarked: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_marked'],
+      )!,
       coffeeBeansUuid: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}coffee_beans_uuid']),
-      versionVector: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}version_vector'])!,
-      isDeleted: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_deleted'])!,
+        DriftSqlType.string,
+        data['${effectivePrefix}coffee_beans_uuid'],
+      ),
+      grindSize: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}grind_size'],
+      ),
+      versionVector: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}version_vector'],
+      )!,
+      isDeleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_deleted'],
+      )!,
     );
   }
 
@@ -2843,27 +3506,30 @@ class UserStat extends DataClass implements Insertable<UserStat> {
   final int? coffeeBeansId;
   final bool isMarked;
   final String? coffeeBeansUuid;
+  final String? grindSize;
   final String versionVector;
   final bool isDeleted;
-  const UserStat(
-      {required this.statUuid,
-      this.id,
-      required this.recipeId,
-      required this.coffeeAmount,
-      required this.waterAmount,
-      required this.sweetnessSliderPosition,
-      required this.strengthSliderPosition,
-      required this.brewingMethodId,
-      required this.createdAt,
-      this.notes,
-      this.beans,
-      this.roaster,
-      this.rating,
-      this.coffeeBeansId,
-      required this.isMarked,
-      this.coffeeBeansUuid,
-      required this.versionVector,
-      required this.isDeleted});
+  const UserStat({
+    required this.statUuid,
+    this.id,
+    required this.recipeId,
+    required this.coffeeAmount,
+    required this.waterAmount,
+    required this.sweetnessSliderPosition,
+    required this.strengthSliderPosition,
+    required this.brewingMethodId,
+    required this.createdAt,
+    this.notes,
+    this.beans,
+    this.roaster,
+    this.rating,
+    this.coffeeBeansId,
+    required this.isMarked,
+    this.coffeeBeansUuid,
+    this.grindSize,
+    required this.versionVector,
+    required this.isDeleted,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2897,6 +3563,9 @@ class UserStat extends DataClass implements Insertable<UserStat> {
     if (!nullToAbsent || coffeeBeansUuid != null) {
       map['coffee_beans_uuid'] = Variable<String>(coffeeBeansUuid);
     }
+    if (!nullToAbsent || grindSize != null) {
+      map['grind_size'] = Variable<String>(grindSize);
+    }
     map['version_vector'] = Variable<String>(versionVector);
     map['is_deleted'] = Variable<bool>(isDeleted);
     return map;
@@ -2913,15 +3582,18 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       strengthSliderPosition: Value(strengthSliderPosition),
       brewingMethodId: Value(brewingMethodId),
       createdAt: Value(createdAt),
-      notes:
-          notes == null && nullToAbsent ? const Value.absent() : Value(notes),
-      beans:
-          beans == null && nullToAbsent ? const Value.absent() : Value(beans),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+      beans: beans == null && nullToAbsent
+          ? const Value.absent()
+          : Value(beans),
       roaster: roaster == null && nullToAbsent
           ? const Value.absent()
           : Value(roaster),
-      rating:
-          rating == null && nullToAbsent ? const Value.absent() : Value(rating),
+      rating: rating == null && nullToAbsent
+          ? const Value.absent()
+          : Value(rating),
       coffeeBeansId: coffeeBeansId == null && nullToAbsent
           ? const Value.absent()
           : Value(coffeeBeansId),
@@ -2929,13 +3601,18 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       coffeeBeansUuid: coffeeBeansUuid == null && nullToAbsent
           ? const Value.absent()
           : Value(coffeeBeansUuid),
+      grindSize: grindSize == null && nullToAbsent
+          ? const Value.absent()
+          : Value(grindSize),
       versionVector: Value(versionVector),
       isDeleted: Value(isDeleted),
     );
   }
 
-  factory UserStat.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory UserStat.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return UserStat(
       statUuid: serializer.fromJson<String>(json['statUuid']),
@@ -2943,10 +3620,12 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       recipeId: serializer.fromJson<String>(json['recipeId']),
       coffeeAmount: serializer.fromJson<double>(json['coffeeAmount']),
       waterAmount: serializer.fromJson<double>(json['waterAmount']),
-      sweetnessSliderPosition:
-          serializer.fromJson<int>(json['sweetnessSliderPosition']),
-      strengthSliderPosition:
-          serializer.fromJson<int>(json['strengthSliderPosition']),
+      sweetnessSliderPosition: serializer.fromJson<int>(
+        json['sweetnessSliderPosition'],
+      ),
+      strengthSliderPosition: serializer.fromJson<int>(
+        json['strengthSliderPosition'],
+      ),
       brewingMethodId: serializer.fromJson<String>(json['brewingMethodId']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       notes: serializer.fromJson<String?>(json['notes']),
@@ -2956,6 +3635,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       coffeeBeansId: serializer.fromJson<int?>(json['coffeeBeansId']),
       isMarked: serializer.fromJson<bool>(json['isMarked']),
       coffeeBeansUuid: serializer.fromJson<String?>(json['coffeeBeansUuid']),
+      grindSize: serializer.fromJson<String?>(json['grindSize']),
       versionVector: serializer.fromJson<String>(json['versionVector']),
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
     );
@@ -2969,8 +3649,9 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       'recipeId': serializer.toJson<String>(recipeId),
       'coffeeAmount': serializer.toJson<double>(coffeeAmount),
       'waterAmount': serializer.toJson<double>(waterAmount),
-      'sweetnessSliderPosition':
-          serializer.toJson<int>(sweetnessSliderPosition),
+      'sweetnessSliderPosition': serializer.toJson<int>(
+        sweetnessSliderPosition,
+      ),
       'strengthSliderPosition': serializer.toJson<int>(strengthSliderPosition),
       'brewingMethodId': serializer.toJson<String>(brewingMethodId),
       'createdAt': serializer.toJson<DateTime>(createdAt),
@@ -2981,55 +3662,59 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       'coffeeBeansId': serializer.toJson<int?>(coffeeBeansId),
       'isMarked': serializer.toJson<bool>(isMarked),
       'coffeeBeansUuid': serializer.toJson<String?>(coffeeBeansUuid),
+      'grindSize': serializer.toJson<String?>(grindSize),
       'versionVector': serializer.toJson<String>(versionVector),
       'isDeleted': serializer.toJson<bool>(isDeleted),
     };
   }
 
-  UserStat copyWith(
-          {String? statUuid,
-          Value<int?> id = const Value.absent(),
-          String? recipeId,
-          double? coffeeAmount,
-          double? waterAmount,
-          int? sweetnessSliderPosition,
-          int? strengthSliderPosition,
-          String? brewingMethodId,
-          DateTime? createdAt,
-          Value<String?> notes = const Value.absent(),
-          Value<String?> beans = const Value.absent(),
-          Value<String?> roaster = const Value.absent(),
-          Value<double?> rating = const Value.absent(),
-          Value<int?> coffeeBeansId = const Value.absent(),
-          bool? isMarked,
-          Value<String?> coffeeBeansUuid = const Value.absent(),
-          String? versionVector,
-          bool? isDeleted}) =>
-      UserStat(
-        statUuid: statUuid ?? this.statUuid,
-        id: id.present ? id.value : this.id,
-        recipeId: recipeId ?? this.recipeId,
-        coffeeAmount: coffeeAmount ?? this.coffeeAmount,
-        waterAmount: waterAmount ?? this.waterAmount,
-        sweetnessSliderPosition:
-            sweetnessSliderPosition ?? this.sweetnessSliderPosition,
-        strengthSliderPosition:
-            strengthSliderPosition ?? this.strengthSliderPosition,
-        brewingMethodId: brewingMethodId ?? this.brewingMethodId,
-        createdAt: createdAt ?? this.createdAt,
-        notes: notes.present ? notes.value : this.notes,
-        beans: beans.present ? beans.value : this.beans,
-        roaster: roaster.present ? roaster.value : this.roaster,
-        rating: rating.present ? rating.value : this.rating,
-        coffeeBeansId:
-            coffeeBeansId.present ? coffeeBeansId.value : this.coffeeBeansId,
-        isMarked: isMarked ?? this.isMarked,
-        coffeeBeansUuid: coffeeBeansUuid.present
-            ? coffeeBeansUuid.value
-            : this.coffeeBeansUuid,
-        versionVector: versionVector ?? this.versionVector,
-        isDeleted: isDeleted ?? this.isDeleted,
-      );
+  UserStat copyWith({
+    String? statUuid,
+    Value<int?> id = const Value.absent(),
+    String? recipeId,
+    double? coffeeAmount,
+    double? waterAmount,
+    int? sweetnessSliderPosition,
+    int? strengthSliderPosition,
+    String? brewingMethodId,
+    DateTime? createdAt,
+    Value<String?> notes = const Value.absent(),
+    Value<String?> beans = const Value.absent(),
+    Value<String?> roaster = const Value.absent(),
+    Value<double?> rating = const Value.absent(),
+    Value<int?> coffeeBeansId = const Value.absent(),
+    bool? isMarked,
+    Value<String?> coffeeBeansUuid = const Value.absent(),
+    Value<String?> grindSize = const Value.absent(),
+    String? versionVector,
+    bool? isDeleted,
+  }) => UserStat(
+    statUuid: statUuid ?? this.statUuid,
+    id: id.present ? id.value : this.id,
+    recipeId: recipeId ?? this.recipeId,
+    coffeeAmount: coffeeAmount ?? this.coffeeAmount,
+    waterAmount: waterAmount ?? this.waterAmount,
+    sweetnessSliderPosition:
+        sweetnessSliderPosition ?? this.sweetnessSliderPosition,
+    strengthSliderPosition:
+        strengthSliderPosition ?? this.strengthSliderPosition,
+    brewingMethodId: brewingMethodId ?? this.brewingMethodId,
+    createdAt: createdAt ?? this.createdAt,
+    notes: notes.present ? notes.value : this.notes,
+    beans: beans.present ? beans.value : this.beans,
+    roaster: roaster.present ? roaster.value : this.roaster,
+    rating: rating.present ? rating.value : this.rating,
+    coffeeBeansId: coffeeBeansId.present
+        ? coffeeBeansId.value
+        : this.coffeeBeansId,
+    isMarked: isMarked ?? this.isMarked,
+    coffeeBeansUuid: coffeeBeansUuid.present
+        ? coffeeBeansUuid.value
+        : this.coffeeBeansUuid,
+    grindSize: grindSize.present ? grindSize.value : this.grindSize,
+    versionVector: versionVector ?? this.versionVector,
+    isDeleted: isDeleted ?? this.isDeleted,
+  );
   UserStat copyWithCompanion(UserStatsCompanion data) {
     return UserStat(
       statUuid: data.statUuid.present ? data.statUuid.value : this.statUuid,
@@ -3038,8 +3723,9 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       coffeeAmount: data.coffeeAmount.present
           ? data.coffeeAmount.value
           : this.coffeeAmount,
-      waterAmount:
-          data.waterAmount.present ? data.waterAmount.value : this.waterAmount,
+      waterAmount: data.waterAmount.present
+          ? data.waterAmount.value
+          : this.waterAmount,
       sweetnessSliderPosition: data.sweetnessSliderPosition.present
           ? data.sweetnessSliderPosition.value
           : this.sweetnessSliderPosition,
@@ -3061,6 +3747,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
       coffeeBeansUuid: data.coffeeBeansUuid.present
           ? data.coffeeBeansUuid.value
           : this.coffeeBeansUuid,
+      grindSize: data.grindSize.present ? data.grindSize.value : this.grindSize,
       versionVector: data.versionVector.present
           ? data.versionVector.value
           : this.versionVector,
@@ -3087,6 +3774,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           ..write('coffeeBeansId: $coffeeBeansId, ')
           ..write('isMarked: $isMarked, ')
           ..write('coffeeBeansUuid: $coffeeBeansUuid, ')
+          ..write('grindSize: $grindSize, ')
           ..write('versionVector: $versionVector, ')
           ..write('isDeleted: $isDeleted')
           ..write(')'))
@@ -3095,24 +3783,26 @@ class UserStat extends DataClass implements Insertable<UserStat> {
 
   @override
   int get hashCode => Object.hash(
-      statUuid,
-      id,
-      recipeId,
-      coffeeAmount,
-      waterAmount,
-      sweetnessSliderPosition,
-      strengthSliderPosition,
-      brewingMethodId,
-      createdAt,
-      notes,
-      beans,
-      roaster,
-      rating,
-      coffeeBeansId,
-      isMarked,
-      coffeeBeansUuid,
-      versionVector,
-      isDeleted);
+    statUuid,
+    id,
+    recipeId,
+    coffeeAmount,
+    waterAmount,
+    sweetnessSliderPosition,
+    strengthSliderPosition,
+    brewingMethodId,
+    createdAt,
+    notes,
+    beans,
+    roaster,
+    rating,
+    coffeeBeansId,
+    isMarked,
+    coffeeBeansUuid,
+    grindSize,
+    versionVector,
+    isDeleted,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3133,6 +3823,7 @@ class UserStat extends DataClass implements Insertable<UserStat> {
           other.coffeeBeansId == this.coffeeBeansId &&
           other.isMarked == this.isMarked &&
           other.coffeeBeansUuid == this.coffeeBeansUuid &&
+          other.grindSize == this.grindSize &&
           other.versionVector == this.versionVector &&
           other.isDeleted == this.isDeleted);
 }
@@ -3154,6 +3845,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
   final Value<int?> coffeeBeansId;
   final Value<bool> isMarked;
   final Value<String?> coffeeBeansUuid;
+  final Value<String?> grindSize;
   final Value<String> versionVector;
   final Value<bool> isDeleted;
   final Value<int> rowid;
@@ -3174,6 +3866,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     this.coffeeBeansId = const Value.absent(),
     this.isMarked = const Value.absent(),
     this.coffeeBeansUuid = const Value.absent(),
+    this.grindSize = const Value.absent(),
     this.versionVector = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -3195,17 +3888,18 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     this.coffeeBeansId = const Value.absent(),
     this.isMarked = const Value.absent(),
     this.coffeeBeansUuid = const Value.absent(),
+    this.grindSize = const Value.absent(),
     required String versionVector,
     this.isDeleted = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : statUuid = Value(statUuid),
-        recipeId = Value(recipeId),
-        coffeeAmount = Value(coffeeAmount),
-        waterAmount = Value(waterAmount),
-        sweetnessSliderPosition = Value(sweetnessSliderPosition),
-        strengthSliderPosition = Value(strengthSliderPosition),
-        brewingMethodId = Value(brewingMethodId),
-        versionVector = Value(versionVector);
+  }) : statUuid = Value(statUuid),
+       recipeId = Value(recipeId),
+       coffeeAmount = Value(coffeeAmount),
+       waterAmount = Value(waterAmount),
+       sweetnessSliderPosition = Value(sweetnessSliderPosition),
+       strengthSliderPosition = Value(strengthSliderPosition),
+       brewingMethodId = Value(brewingMethodId),
+       versionVector = Value(versionVector);
   static Insertable<UserStat> custom({
     Expression<String>? statUuid,
     Expression<int>? id,
@@ -3223,6 +3917,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     Expression<int>? coffeeBeansId,
     Expression<bool>? isMarked,
     Expression<String>? coffeeBeansUuid,
+    Expression<String>? grindSize,
     Expression<String>? versionVector,
     Expression<bool>? isDeleted,
     Expression<int>? rowid,
@@ -3246,32 +3941,35 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       if (coffeeBeansId != null) 'coffee_beans_id': coffeeBeansId,
       if (isMarked != null) 'is_marked': isMarked,
       if (coffeeBeansUuid != null) 'coffee_beans_uuid': coffeeBeansUuid,
+      if (grindSize != null) 'grind_size': grindSize,
       if (versionVector != null) 'version_vector': versionVector,
       if (isDeleted != null) 'is_deleted': isDeleted,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
-  UserStatsCompanion copyWith(
-      {Value<String>? statUuid,
-      Value<int?>? id,
-      Value<String>? recipeId,
-      Value<double>? coffeeAmount,
-      Value<double>? waterAmount,
-      Value<int>? sweetnessSliderPosition,
-      Value<int>? strengthSliderPosition,
-      Value<String>? brewingMethodId,
-      Value<DateTime>? createdAt,
-      Value<String?>? notes,
-      Value<String?>? beans,
-      Value<String?>? roaster,
-      Value<double?>? rating,
-      Value<int?>? coffeeBeansId,
-      Value<bool>? isMarked,
-      Value<String?>? coffeeBeansUuid,
-      Value<String>? versionVector,
-      Value<bool>? isDeleted,
-      Value<int>? rowid}) {
+  UserStatsCompanion copyWith({
+    Value<String>? statUuid,
+    Value<int?>? id,
+    Value<String>? recipeId,
+    Value<double>? coffeeAmount,
+    Value<double>? waterAmount,
+    Value<int>? sweetnessSliderPosition,
+    Value<int>? strengthSliderPosition,
+    Value<String>? brewingMethodId,
+    Value<DateTime>? createdAt,
+    Value<String?>? notes,
+    Value<String?>? beans,
+    Value<String?>? roaster,
+    Value<double?>? rating,
+    Value<int?>? coffeeBeansId,
+    Value<bool>? isMarked,
+    Value<String?>? coffeeBeansUuid,
+    Value<String?>? grindSize,
+    Value<String>? versionVector,
+    Value<bool>? isDeleted,
+    Value<int>? rowid,
+  }) {
     return UserStatsCompanion(
       statUuid: statUuid ?? this.statUuid,
       id: id ?? this.id,
@@ -3291,6 +3989,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       coffeeBeansId: coffeeBeansId ?? this.coffeeBeansId,
       isMarked: isMarked ?? this.isMarked,
       coffeeBeansUuid: coffeeBeansUuid ?? this.coffeeBeansUuid,
+      grindSize: grindSize ?? this.grindSize,
       versionVector: versionVector ?? this.versionVector,
       isDeleted: isDeleted ?? this.isDeleted,
       rowid: rowid ?? this.rowid,
@@ -3316,12 +4015,14 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
       map['water_amount'] = Variable<double>(waterAmount.value);
     }
     if (sweetnessSliderPosition.present) {
-      map['sweetness_slider_position'] =
-          Variable<int>(sweetnessSliderPosition.value);
+      map['sweetness_slider_position'] = Variable<int>(
+        sweetnessSliderPosition.value,
+      );
     }
     if (strengthSliderPosition.present) {
-      map['strength_slider_position'] =
-          Variable<int>(strengthSliderPosition.value);
+      map['strength_slider_position'] = Variable<int>(
+        strengthSliderPosition.value,
+      );
     }
     if (brewingMethodId.present) {
       map['brewing_method_id'] = Variable<String>(brewingMethodId.value);
@@ -3349,6 +4050,9 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     }
     if (coffeeBeansUuid.present) {
       map['coffee_beans_uuid'] = Variable<String>(coffeeBeansUuid.value);
+    }
+    if (grindSize.present) {
+      map['grind_size'] = Variable<String>(grindSize.value);
     }
     if (versionVector.present) {
       map['version_vector'] = Variable<String>(versionVector.value);
@@ -3381,6 +4085,7 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
           ..write('coffeeBeansId: $coffeeBeansId, ')
           ..write('isMarked: $isMarked, ')
           ..write('coffeeBeansUuid: $coffeeBeansUuid, ')
+          ..write('grindSize: $grindSize, ')
           ..write('versionVector: $versionVector, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('rowid: $rowid')
@@ -3395,170 +4100,272 @@ class $CoffeeBeansTable extends CoffeeBeans
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $CoffeeBeansTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _beansUuidMeta =
-      const VerificationMeta('beansUuid');
+  static const VerificationMeta _beansUuidMeta = const VerificationMeta(
+    'beansUuid',
+  );
   @override
   late final GeneratedColumn<String> beansUuid = GeneratedColumn<String>(
-      'beans_uuid', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'beans_uuid',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _roasterMeta =
-      const VerificationMeta('roaster');
+    'id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _roasterMeta = const VerificationMeta(
+    'roaster',
+  );
   @override
   late final GeneratedColumn<String> roaster = GeneratedColumn<String>(
-      'roaster', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'roaster',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _originMeta = const VerificationMeta('origin');
   @override
   late final GeneratedColumn<String> origin = GeneratedColumn<String>(
-      'origin', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _varietyMeta =
-      const VerificationMeta('variety');
+    'origin',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _varietyMeta = const VerificationMeta(
+    'variety',
+  );
   @override
   late final GeneratedColumn<String> variety = GeneratedColumn<String>(
-      'variety', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _tastingNotesMeta =
-      const VerificationMeta('tastingNotes');
+    'variety',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _tastingNotesMeta = const VerificationMeta(
+    'tastingNotes',
+  );
   @override
   late final GeneratedColumn<String> tastingNotes = GeneratedColumn<String>(
-      'tasting_notes', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _processingMethodMeta =
-      const VerificationMeta('processingMethod');
+    'tasting_notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _processingMethodMeta = const VerificationMeta(
+    'processingMethod',
+  );
   @override
   late final GeneratedColumn<String> processingMethod = GeneratedColumn<String>(
-      'processing_method', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _elevationMeta =
-      const VerificationMeta('elevation');
+    'processing_method',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _elevationMeta = const VerificationMeta(
+    'elevation',
+  );
   @override
   late final GeneratedColumn<int> elevation = GeneratedColumn<int>(
-      'elevation', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _harvestDateMeta =
-      const VerificationMeta('harvestDate');
+    'elevation',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _harvestDateMeta = const VerificationMeta(
+    'harvestDate',
+  );
   @override
   late final GeneratedColumn<DateTime> harvestDate = GeneratedColumn<DateTime>(
-      'harvest_date', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
-  static const VerificationMeta _roastDateMeta =
-      const VerificationMeta('roastDate');
+    'harvest_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _roastDateMeta = const VerificationMeta(
+    'roastDate',
+  );
   @override
   late final GeneratedColumn<DateTime> roastDate = GeneratedColumn<DateTime>(
-      'roast_date', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+    'roast_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _regionMeta = const VerificationMeta('region');
   @override
   late final GeneratedColumn<String> region = GeneratedColumn<String>(
-      'region', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _roastLevelMeta =
-      const VerificationMeta('roastLevel');
+    'region',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _roastLevelMeta = const VerificationMeta(
+    'roastLevel',
+  );
   @override
   late final GeneratedColumn<String> roastLevel = GeneratedColumn<String>(
-      'roast_level', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _cuppingScoreMeta =
-      const VerificationMeta('cuppingScore');
+    'roast_level',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _cuppingScoreMeta = const VerificationMeta(
+    'cuppingScore',
+  );
   @override
   late final GeneratedColumn<double> cuppingScore = GeneratedColumn<double>(
-      'cupping_score', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
+    'cupping_score',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _packageWeightGramsMeta =
       const VerificationMeta('packageWeightGrams');
   @override
   late final GeneratedColumn<double> packageWeightGrams =
-      GeneratedColumn<double>('package_weight_grams', aliasedName, true,
-          type: DriftSqlType.double, requiredDuringInsert: false);
+      GeneratedColumn<double>(
+        'package_weight_grams',
+        aliasedName,
+        true,
+        type: DriftSqlType.double,
+        requiredDuringInsert: false,
+      );
   static const VerificationMeta _notesMeta = const VerificationMeta('notes');
   @override
   late final GeneratedColumn<String> notes = GeneratedColumn<String>(
-      'notes', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _farmerMeta = const VerificationMeta('farmer');
   @override
   late final GeneratedColumn<String> farmer = GeneratedColumn<String>(
-      'farmer', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+    'farmer',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _farmMeta = const VerificationMeta('farm');
   @override
   late final GeneratedColumn<String> farm = GeneratedColumn<String>(
-      'farm', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _isFavoriteMeta =
-      const VerificationMeta('isFavorite');
+    'farm',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isFavoriteMeta = const VerificationMeta(
+    'isFavorite',
+  );
   @override
   late final GeneratedColumn<bool> isFavorite = GeneratedColumn<bool>(
-      'is_favorite', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("is_favorite" IN (0, 1))'),
-      defaultValue: const Constant(false));
-  static const VerificationMeta _versionVectorMeta =
-      const VerificationMeta('versionVector');
+    'is_favorite',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_favorite" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _versionVectorMeta = const VerificationMeta(
+    'versionVector',
+  );
   @override
   late final GeneratedColumn<String> versionVector = GeneratedColumn<String>(
-      'version_vector', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _isDeletedMeta =
-      const VerificationMeta('isDeleted');
+    'version_vector',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isDeletedMeta = const VerificationMeta(
+    'isDeleted',
+  );
   @override
   late final GeneratedColumn<bool> isDeleted = GeneratedColumn<bool>(
-      'is_deleted', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("is_deleted" IN (0, 1))'),
-      defaultValue: const Constant(false));
+    'is_deleted',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_deleted" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
-        beansUuid,
-        id,
-        roaster,
-        name,
-        origin,
-        variety,
-        tastingNotes,
-        processingMethod,
-        elevation,
-        harvestDate,
-        roastDate,
-        region,
-        roastLevel,
-        cuppingScore,
-        packageWeightGrams,
-        notes,
-        farmer,
-        farm,
-        isFavorite,
-        versionVector,
-        isDeleted
-      ];
+    beansUuid,
+    id,
+    roaster,
+    name,
+    origin,
+    variety,
+    tastingNotes,
+    processingMethod,
+    elevation,
+    harvestDate,
+    roastDate,
+    region,
+    roastLevel,
+    cuppingScore,
+    packageWeightGrams,
+    notes,
+    farmer,
+    farm,
+    isFavorite,
+    versionVector,
+    isDeleted,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'coffee_beans';
   @override
-  VerificationContext validateIntegrity(Insertable<CoffeeBean> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<CoffeeBean> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('beans_uuid')) {
-      context.handle(_beansUuidMeta,
-          beansUuid.isAcceptableOrUnknown(data['beans_uuid']!, _beansUuidMeta));
+      context.handle(
+        _beansUuidMeta,
+        beansUuid.isAcceptableOrUnknown(data['beans_uuid']!, _beansUuidMeta),
+      );
     } else if (isInserting) {
       context.missing(_beansUuidMeta);
     }
@@ -3566,104 +4373,144 @@ class $CoffeeBeansTable extends CoffeeBeans
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('roaster')) {
-      context.handle(_roasterMeta,
-          roaster.isAcceptableOrUnknown(data['roaster']!, _roasterMeta));
+      context.handle(
+        _roasterMeta,
+        roaster.isAcceptableOrUnknown(data['roaster']!, _roasterMeta),
+      );
     } else if (isInserting) {
       context.missing(_roasterMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('origin')) {
-      context.handle(_originMeta,
-          origin.isAcceptableOrUnknown(data['origin']!, _originMeta));
+      context.handle(
+        _originMeta,
+        origin.isAcceptableOrUnknown(data['origin']!, _originMeta),
+      );
     } else if (isInserting) {
       context.missing(_originMeta);
     }
     if (data.containsKey('variety')) {
-      context.handle(_varietyMeta,
-          variety.isAcceptableOrUnknown(data['variety']!, _varietyMeta));
+      context.handle(
+        _varietyMeta,
+        variety.isAcceptableOrUnknown(data['variety']!, _varietyMeta),
+      );
     }
     if (data.containsKey('tasting_notes')) {
       context.handle(
+        _tastingNotesMeta,
+        tastingNotes.isAcceptableOrUnknown(
+          data['tasting_notes']!,
           _tastingNotesMeta,
-          tastingNotes.isAcceptableOrUnknown(
-              data['tasting_notes']!, _tastingNotesMeta));
+        ),
+      );
     }
     if (data.containsKey('processing_method')) {
       context.handle(
+        _processingMethodMeta,
+        processingMethod.isAcceptableOrUnknown(
+          data['processing_method']!,
           _processingMethodMeta,
-          processingMethod.isAcceptableOrUnknown(
-              data['processing_method']!, _processingMethodMeta));
+        ),
+      );
     }
     if (data.containsKey('elevation')) {
-      context.handle(_elevationMeta,
-          elevation.isAcceptableOrUnknown(data['elevation']!, _elevationMeta));
+      context.handle(
+        _elevationMeta,
+        elevation.isAcceptableOrUnknown(data['elevation']!, _elevationMeta),
+      );
     }
     if (data.containsKey('harvest_date')) {
       context.handle(
+        _harvestDateMeta,
+        harvestDate.isAcceptableOrUnknown(
+          data['harvest_date']!,
           _harvestDateMeta,
-          harvestDate.isAcceptableOrUnknown(
-              data['harvest_date']!, _harvestDateMeta));
+        ),
+      );
     }
     if (data.containsKey('roast_date')) {
-      context.handle(_roastDateMeta,
-          roastDate.isAcceptableOrUnknown(data['roast_date']!, _roastDateMeta));
+      context.handle(
+        _roastDateMeta,
+        roastDate.isAcceptableOrUnknown(data['roast_date']!, _roastDateMeta),
+      );
     }
     if (data.containsKey('region')) {
-      context.handle(_regionMeta,
-          region.isAcceptableOrUnknown(data['region']!, _regionMeta));
+      context.handle(
+        _regionMeta,
+        region.isAcceptableOrUnknown(data['region']!, _regionMeta),
+      );
     }
     if (data.containsKey('roast_level')) {
       context.handle(
-          _roastLevelMeta,
-          roastLevel.isAcceptableOrUnknown(
-              data['roast_level']!, _roastLevelMeta));
+        _roastLevelMeta,
+        roastLevel.isAcceptableOrUnknown(data['roast_level']!, _roastLevelMeta),
+      );
     }
     if (data.containsKey('cupping_score')) {
       context.handle(
+        _cuppingScoreMeta,
+        cuppingScore.isAcceptableOrUnknown(
+          data['cupping_score']!,
           _cuppingScoreMeta,
-          cuppingScore.isAcceptableOrUnknown(
-              data['cupping_score']!, _cuppingScoreMeta));
+        ),
+      );
     }
     if (data.containsKey('package_weight_grams')) {
       context.handle(
+        _packageWeightGramsMeta,
+        packageWeightGrams.isAcceptableOrUnknown(
+          data['package_weight_grams']!,
           _packageWeightGramsMeta,
-          packageWeightGrams.isAcceptableOrUnknown(
-              data['package_weight_grams']!, _packageWeightGramsMeta));
+        ),
+      );
     }
     if (data.containsKey('notes')) {
       context.handle(
-          _notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
     }
     if (data.containsKey('farmer')) {
-      context.handle(_farmerMeta,
-          farmer.isAcceptableOrUnknown(data['farmer']!, _farmerMeta));
+      context.handle(
+        _farmerMeta,
+        farmer.isAcceptableOrUnknown(data['farmer']!, _farmerMeta),
+      );
     }
     if (data.containsKey('farm')) {
       context.handle(
-          _farmMeta, farm.isAcceptableOrUnknown(data['farm']!, _farmMeta));
+        _farmMeta,
+        farm.isAcceptableOrUnknown(data['farm']!, _farmMeta),
+      );
     }
     if (data.containsKey('is_favorite')) {
       context.handle(
-          _isFavoriteMeta,
-          isFavorite.isAcceptableOrUnknown(
-              data['is_favorite']!, _isFavoriteMeta));
+        _isFavoriteMeta,
+        isFavorite.isAcceptableOrUnknown(data['is_favorite']!, _isFavoriteMeta),
+      );
     }
     if (data.containsKey('version_vector')) {
       context.handle(
+        _versionVectorMeta,
+        versionVector.isAcceptableOrUnknown(
+          data['version_vector']!,
           _versionVectorMeta,
-          versionVector.isAcceptableOrUnknown(
-              data['version_vector']!, _versionVectorMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_versionVectorMeta);
     }
     if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta));
+      context.handle(
+        _isDeletedMeta,
+        isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta),
+      );
     }
     return context;
   }
@@ -3674,48 +4521,90 @@ class $CoffeeBeansTable extends CoffeeBeans
   CoffeeBean map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return CoffeeBean(
-      beansUuid: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}beans_uuid'])!,
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id']),
-      roaster: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}roaster'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      origin: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}origin'])!,
-      variety: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}variety']),
-      tastingNotes: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}tasting_notes']),
+      beansUuid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}beans_uuid'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      ),
+      roaster: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}roaster'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      origin: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}origin'],
+      )!,
+      variety: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}variety'],
+      ),
+      tastingNotes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tasting_notes'],
+      ),
       processingMethod: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}processing_method']),
-      elevation: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}elevation']),
-      harvestDate: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}harvest_date']),
-      roastDate: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}roast_date']),
-      region: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}region']),
-      roastLevel: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}roast_level']),
-      cuppingScore: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}cupping_score']),
+        DriftSqlType.string,
+        data['${effectivePrefix}processing_method'],
+      ),
+      elevation: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}elevation'],
+      ),
+      harvestDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}harvest_date'],
+      ),
+      roastDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}roast_date'],
+      ),
+      region: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}region'],
+      ),
+      roastLevel: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}roast_level'],
+      ),
+      cuppingScore: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}cupping_score'],
+      ),
       packageWeightGrams: attachedDatabase.typeMapping.read(
-          DriftSqlType.double, data['${effectivePrefix}package_weight_grams']),
-      notes: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}notes']),
-      farmer: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}farmer']),
-      farm: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}farm']),
-      isFavorite: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_favorite'])!,
-      versionVector: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}version_vector'])!,
-      isDeleted: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_deleted'])!,
+        DriftSqlType.double,
+        data['${effectivePrefix}package_weight_grams'],
+      ),
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+      farmer: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}farmer'],
+      ),
+      farm: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}farm'],
+      ),
+      isFavorite: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_favorite'],
+      )!,
+      versionVector: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}version_vector'],
+      )!,
+      isDeleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_deleted'],
+      )!,
     );
   }
 
@@ -3747,28 +4636,29 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
   final bool isFavorite;
   final String versionVector;
   final bool isDeleted;
-  const CoffeeBean(
-      {required this.beansUuid,
-      this.id,
-      required this.roaster,
-      required this.name,
-      required this.origin,
-      this.variety,
-      this.tastingNotes,
-      this.processingMethod,
-      this.elevation,
-      this.harvestDate,
-      this.roastDate,
-      this.region,
-      this.roastLevel,
-      this.cuppingScore,
-      this.packageWeightGrams,
-      this.notes,
-      this.farmer,
-      this.farm,
-      required this.isFavorite,
-      required this.versionVector,
-      required this.isDeleted});
+  const CoffeeBean({
+    required this.beansUuid,
+    this.id,
+    required this.roaster,
+    required this.name,
+    required this.origin,
+    this.variety,
+    this.tastingNotes,
+    this.processingMethod,
+    this.elevation,
+    this.harvestDate,
+    this.roastDate,
+    this.region,
+    this.roastLevel,
+    this.cuppingScore,
+    this.packageWeightGrams,
+    this.notes,
+    this.farmer,
+    this.farm,
+    required this.isFavorite,
+    required this.versionVector,
+    required this.isDeleted,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -3849,8 +4739,9 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       roastDate: roastDate == null && nullToAbsent
           ? const Value.absent()
           : Value(roastDate),
-      region:
-          region == null && nullToAbsent ? const Value.absent() : Value(region),
+      region: region == null && nullToAbsent
+          ? const Value.absent()
+          : Value(region),
       roastLevel: roastLevel == null && nullToAbsent
           ? const Value.absent()
           : Value(roastLevel),
@@ -3860,10 +4751,12 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       packageWeightGrams: packageWeightGrams == null && nullToAbsent
           ? const Value.absent()
           : Value(packageWeightGrams),
-      notes:
-          notes == null && nullToAbsent ? const Value.absent() : Value(notes),
-      farmer:
-          farmer == null && nullToAbsent ? const Value.absent() : Value(farmer),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+      farmer: farmer == null && nullToAbsent
+          ? const Value.absent()
+          : Value(farmer),
       farm: farm == null && nullToAbsent ? const Value.absent() : Value(farm),
       isFavorite: Value(isFavorite),
       versionVector: Value(versionVector),
@@ -3871,8 +4764,10 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
     );
   }
 
-  factory CoffeeBean.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory CoffeeBean.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CoffeeBean(
       beansUuid: serializer.fromJson<String>(json['beansUuid']),
@@ -3889,8 +4784,9 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       region: serializer.fromJson<String?>(json['region']),
       roastLevel: serializer.fromJson<String?>(json['roastLevel']),
       cuppingScore: serializer.fromJson<double?>(json['cuppingScore']),
-      packageWeightGrams:
-          serializer.fromJson<double?>(json['packageWeightGrams']),
+      packageWeightGrams: serializer.fromJson<double?>(
+        json['packageWeightGrams'],
+      ),
       notes: serializer.fromJson<String?>(json['notes']),
       farmer: serializer.fromJson<String?>(json['farmer']),
       farm: serializer.fromJson<String?>(json['farm']),
@@ -3927,57 +4823,55 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
     };
   }
 
-  CoffeeBean copyWith(
-          {String? beansUuid,
-          Value<int?> id = const Value.absent(),
-          String? roaster,
-          String? name,
-          String? origin,
-          Value<String?> variety = const Value.absent(),
-          Value<String?> tastingNotes = const Value.absent(),
-          Value<String?> processingMethod = const Value.absent(),
-          Value<int?> elevation = const Value.absent(),
-          Value<DateTime?> harvestDate = const Value.absent(),
-          Value<DateTime?> roastDate = const Value.absent(),
-          Value<String?> region = const Value.absent(),
-          Value<String?> roastLevel = const Value.absent(),
-          Value<double?> cuppingScore = const Value.absent(),
-          Value<double?> packageWeightGrams = const Value.absent(),
-          Value<String?> notes = const Value.absent(),
-          Value<String?> farmer = const Value.absent(),
-          Value<String?> farm = const Value.absent(),
-          bool? isFavorite,
-          String? versionVector,
-          bool? isDeleted}) =>
-      CoffeeBean(
-        beansUuid: beansUuid ?? this.beansUuid,
-        id: id.present ? id.value : this.id,
-        roaster: roaster ?? this.roaster,
-        name: name ?? this.name,
-        origin: origin ?? this.origin,
-        variety: variety.present ? variety.value : this.variety,
-        tastingNotes:
-            tastingNotes.present ? tastingNotes.value : this.tastingNotes,
-        processingMethod: processingMethod.present
-            ? processingMethod.value
-            : this.processingMethod,
-        elevation: elevation.present ? elevation.value : this.elevation,
-        harvestDate: harvestDate.present ? harvestDate.value : this.harvestDate,
-        roastDate: roastDate.present ? roastDate.value : this.roastDate,
-        region: region.present ? region.value : this.region,
-        roastLevel: roastLevel.present ? roastLevel.value : this.roastLevel,
-        cuppingScore:
-            cuppingScore.present ? cuppingScore.value : this.cuppingScore,
-        packageWeightGrams: packageWeightGrams.present
-            ? packageWeightGrams.value
-            : this.packageWeightGrams,
-        notes: notes.present ? notes.value : this.notes,
-        farmer: farmer.present ? farmer.value : this.farmer,
-        farm: farm.present ? farm.value : this.farm,
-        isFavorite: isFavorite ?? this.isFavorite,
-        versionVector: versionVector ?? this.versionVector,
-        isDeleted: isDeleted ?? this.isDeleted,
-      );
+  CoffeeBean copyWith({
+    String? beansUuid,
+    Value<int?> id = const Value.absent(),
+    String? roaster,
+    String? name,
+    String? origin,
+    Value<String?> variety = const Value.absent(),
+    Value<String?> tastingNotes = const Value.absent(),
+    Value<String?> processingMethod = const Value.absent(),
+    Value<int?> elevation = const Value.absent(),
+    Value<DateTime?> harvestDate = const Value.absent(),
+    Value<DateTime?> roastDate = const Value.absent(),
+    Value<String?> region = const Value.absent(),
+    Value<String?> roastLevel = const Value.absent(),
+    Value<double?> cuppingScore = const Value.absent(),
+    Value<double?> packageWeightGrams = const Value.absent(),
+    Value<String?> notes = const Value.absent(),
+    Value<String?> farmer = const Value.absent(),
+    Value<String?> farm = const Value.absent(),
+    bool? isFavorite,
+    String? versionVector,
+    bool? isDeleted,
+  }) => CoffeeBean(
+    beansUuid: beansUuid ?? this.beansUuid,
+    id: id.present ? id.value : this.id,
+    roaster: roaster ?? this.roaster,
+    name: name ?? this.name,
+    origin: origin ?? this.origin,
+    variety: variety.present ? variety.value : this.variety,
+    tastingNotes: tastingNotes.present ? tastingNotes.value : this.tastingNotes,
+    processingMethod: processingMethod.present
+        ? processingMethod.value
+        : this.processingMethod,
+    elevation: elevation.present ? elevation.value : this.elevation,
+    harvestDate: harvestDate.present ? harvestDate.value : this.harvestDate,
+    roastDate: roastDate.present ? roastDate.value : this.roastDate,
+    region: region.present ? region.value : this.region,
+    roastLevel: roastLevel.present ? roastLevel.value : this.roastLevel,
+    cuppingScore: cuppingScore.present ? cuppingScore.value : this.cuppingScore,
+    packageWeightGrams: packageWeightGrams.present
+        ? packageWeightGrams.value
+        : this.packageWeightGrams,
+    notes: notes.present ? notes.value : this.notes,
+    farmer: farmer.present ? farmer.value : this.farmer,
+    farm: farm.present ? farm.value : this.farm,
+    isFavorite: isFavorite ?? this.isFavorite,
+    versionVector: versionVector ?? this.versionVector,
+    isDeleted: isDeleted ?? this.isDeleted,
+  );
   CoffeeBean copyWithCompanion(CoffeeBeansCompanion data) {
     return CoffeeBean(
       beansUuid: data.beansUuid.present ? data.beansUuid.value : this.beansUuid,
@@ -3993,12 +4887,14 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           ? data.processingMethod.value
           : this.processingMethod,
       elevation: data.elevation.present ? data.elevation.value : this.elevation,
-      harvestDate:
-          data.harvestDate.present ? data.harvestDate.value : this.harvestDate,
+      harvestDate: data.harvestDate.present
+          ? data.harvestDate.value
+          : this.harvestDate,
       roastDate: data.roastDate.present ? data.roastDate.value : this.roastDate,
       region: data.region.present ? data.region.value : this.region,
-      roastLevel:
-          data.roastLevel.present ? data.roastLevel.value : this.roastLevel,
+      roastLevel: data.roastLevel.present
+          ? data.roastLevel.value
+          : this.roastLevel,
       cuppingScore: data.cuppingScore.present
           ? data.cuppingScore.value
           : this.cuppingScore,
@@ -4008,8 +4904,9 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       notes: data.notes.present ? data.notes.value : this.notes,
       farmer: data.farmer.present ? data.farmer.value : this.farmer,
       farm: data.farm.present ? data.farm.value : this.farm,
-      isFavorite:
-          data.isFavorite.present ? data.isFavorite.value : this.isFavorite,
+      isFavorite: data.isFavorite.present
+          ? data.isFavorite.value
+          : this.isFavorite,
       versionVector: data.versionVector.present
           ? data.versionVector.value
           : this.versionVector,
@@ -4047,28 +4944,28 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
 
   @override
   int get hashCode => Object.hashAll([
-        beansUuid,
-        id,
-        roaster,
-        name,
-        origin,
-        variety,
-        tastingNotes,
-        processingMethod,
-        elevation,
-        harvestDate,
-        roastDate,
-        region,
-        roastLevel,
-        cuppingScore,
-        packageWeightGrams,
-        notes,
-        farmer,
-        farm,
-        isFavorite,
-        versionVector,
-        isDeleted
-      ]);
+    beansUuid,
+    id,
+    roaster,
+    name,
+    origin,
+    variety,
+    tastingNotes,
+    processingMethod,
+    elevation,
+    harvestDate,
+    roastDate,
+    region,
+    roastLevel,
+    cuppingScore,
+    packageWeightGrams,
+    notes,
+    farmer,
+    farm,
+    isFavorite,
+    versionVector,
+    isDeleted,
+  ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4166,11 +5063,11 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     required String versionVector,
     this.isDeleted = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : beansUuid = Value(beansUuid),
-        roaster = Value(roaster),
-        name = Value(name),
-        origin = Value(origin),
-        versionVector = Value(versionVector);
+  }) : beansUuid = Value(beansUuid),
+       roaster = Value(roaster),
+       name = Value(name),
+       origin = Value(origin),
+       versionVector = Value(versionVector);
   static Insertable<CoffeeBean> custom({
     Expression<String>? beansUuid,
     Expression<int>? id,
@@ -4222,29 +5119,30 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     });
   }
 
-  CoffeeBeansCompanion copyWith(
-      {Value<String>? beansUuid,
-      Value<int?>? id,
-      Value<String>? roaster,
-      Value<String>? name,
-      Value<String>? origin,
-      Value<String?>? variety,
-      Value<String?>? tastingNotes,
-      Value<String?>? processingMethod,
-      Value<int?>? elevation,
-      Value<DateTime?>? harvestDate,
-      Value<DateTime?>? roastDate,
-      Value<String?>? region,
-      Value<String?>? roastLevel,
-      Value<double?>? cuppingScore,
-      Value<double?>? packageWeightGrams,
-      Value<String?>? notes,
-      Value<String?>? farmer,
-      Value<String?>? farm,
-      Value<bool>? isFavorite,
-      Value<String>? versionVector,
-      Value<bool>? isDeleted,
-      Value<int>? rowid}) {
+  CoffeeBeansCompanion copyWith({
+    Value<String>? beansUuid,
+    Value<int?>? id,
+    Value<String>? roaster,
+    Value<String>? name,
+    Value<String>? origin,
+    Value<String?>? variety,
+    Value<String?>? tastingNotes,
+    Value<String?>? processingMethod,
+    Value<int?>? elevation,
+    Value<DateTime?>? harvestDate,
+    Value<DateTime?>? roastDate,
+    Value<String?>? region,
+    Value<String?>? roastLevel,
+    Value<double?>? cuppingScore,
+    Value<double?>? packageWeightGrams,
+    Value<String?>? notes,
+    Value<String?>? farmer,
+    Value<String?>? farm,
+    Value<bool>? isFavorite,
+    Value<String>? versionVector,
+    Value<bool>? isDeleted,
+    Value<int>? rowid,
+  }) {
     return CoffeeBeansCompanion(
       beansUuid: beansUuid ?? this.beansUuid,
       id: id ?? this.id,
@@ -4376,8 +5274,9 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
-  late final $SupportedLocalesTable supportedLocales =
-      $SupportedLocalesTable(this);
+  late final $SupportedLocalesTable supportedLocales = $SupportedLocalesTable(
+    this,
+  );
   late final $BrewingMethodsTable brewingMethods = $BrewingMethodsTable(this);
   late final $RecipesTable recipes = $RecipesTable(this);
   late final $RecipeLocalizationsTable recipeLocalizations =
@@ -4388,177 +5287,207 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $CoffeeFactsTable coffeeFacts = $CoffeeFactsTable(this);
   late final $UserStatsTable userStats = $UserStatsTable(this);
   late final $CoffeeBeansTable coffeeBeans = $CoffeeBeansTable(this);
-  late final Index idxRecipesLastModified = Index('idx_recipes_last_modified',
-      'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)');
+  late final Index idxRecipesLastModified = Index(
+    'idx_recipes_last_modified',
+    'CREATE INDEX idx_recipes_last_modified ON recipes (last_modified)',
+  );
   late final Index idxUserStatsStatUuidVersionVector = Index(
-      'idx_user_stats_stat_uuid_version_vector',
-      'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)');
+    'idx_user_stats_stat_uuid_version_vector',
+    'CREATE INDEX idx_user_stats_stat_uuid_version_vector ON user_stats (stat_uuid, version_vector)',
+  );
   late final Index idxCoffeeBeansBeansUuidVersionVector = Index(
-      'idx_coffee_beans_beans_uuid_version_vector',
-      'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)');
+    'idx_coffee_beans_beans_uuid_version_vector',
+    'CREATE INDEX idx_coffee_beans_beans_uuid_version_vector ON coffee_beans (beans_uuid, version_vector)',
+  );
   late final RecipesDao recipesDao = RecipesDao(this as AppDatabase);
   late final StepsDao stepsDao = StepsDao(this as AppDatabase);
   late final RecipeLocalizationsDao recipeLocalizationsDao =
       RecipeLocalizationsDao(this as AppDatabase);
   late final UserRecipePreferencesDao userRecipePreferencesDao =
       UserRecipePreferencesDao(this as AppDatabase);
-  late final BrewingMethodsDao brewingMethodsDao =
-      BrewingMethodsDao(this as AppDatabase);
-  late final SupportedLocalesDao supportedLocalesDao =
-      SupportedLocalesDao(this as AppDatabase);
-  late final CoffeeFactsDao coffeeFactsDao =
-      CoffeeFactsDao(this as AppDatabase);
+  late final BrewingMethodsDao brewingMethodsDao = BrewingMethodsDao(
+    this as AppDatabase,
+  );
+  late final SupportedLocalesDao supportedLocalesDao = SupportedLocalesDao(
+    this as AppDatabase,
+  );
+  late final CoffeeFactsDao coffeeFactsDao = CoffeeFactsDao(
+    this as AppDatabase,
+  );
   late final UserStatsDao userStatsDao = UserStatsDao(this as AppDatabase);
-  late final CoffeeBeansDao coffeeBeansDao =
-      CoffeeBeansDao(this as AppDatabase);
+  late final CoffeeBeansDao coffeeBeansDao = CoffeeBeansDao(
+    this as AppDatabase,
+  );
   late final BeansStatsDao beansStatsDao = BeansStatsDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
-        supportedLocales,
-        brewingMethods,
-        recipes,
-        recipeLocalizations,
-        steps,
-        userRecipePreferences,
-        coffeeFacts,
-        userStats,
-        coffeeBeans,
-        idxRecipesLastModified,
-        idxUserStatsStatUuidVersionVector,
-        idxCoffeeBeansBeansUuidVersionVector
-      ];
+    supportedLocales,
+    brewingMethods,
+    recipes,
+    recipeLocalizations,
+    steps,
+    userRecipePreferences,
+    coffeeFacts,
+    userStats,
+    coffeeBeans,
+    idxRecipesLastModified,
+    idxUserStatsStatUuidVersionVector,
+    idxCoffeeBeansBeansUuidVersionVector,
+  ];
   @override
-  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
-        [
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('brewing_methods',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('recipes', kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('recipes',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('recipe_localizations', kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('supported_locales',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('recipe_localizations', kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('recipes',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('steps', kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('supported_locales',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('steps', kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('recipes',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('user_recipe_preferences', kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('supported_locales',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('coffee_facts', kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('recipes',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('user_stats', kind: UpdateKind.delete),
-            ],
-          ),
-        ],
-      );
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'brewing_methods',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('recipes', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'recipes',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('recipe_localizations', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'supported_locales',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('recipe_localizations', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'recipes',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('steps', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'supported_locales',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('steps', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'recipes',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('user_recipe_preferences', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'supported_locales',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('coffee_facts', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'recipes',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('user_stats', kind: UpdateKind.delete)],
+    ),
+  ]);
 }
 
-typedef $$SupportedLocalesTableCreateCompanionBuilder
-    = SupportedLocalesCompanion Function({
-  required String locale,
-  required String localeName,
-  Value<int> rowid,
-});
-typedef $$SupportedLocalesTableUpdateCompanionBuilder
-    = SupportedLocalesCompanion Function({
-  Value<String> locale,
-  Value<String> localeName,
-  Value<int> rowid,
-});
+typedef $$SupportedLocalesTableCreateCompanionBuilder =
+    SupportedLocalesCompanion Function({
+      required String locale,
+      required String localeName,
+      Value<int> rowid,
+    });
+typedef $$SupportedLocalesTableUpdateCompanionBuilder =
+    SupportedLocalesCompanion Function({
+      Value<String> locale,
+      Value<String> localeName,
+      Value<int> rowid,
+    });
 
-final class $$SupportedLocalesTableReferences extends BaseReferences<
-    _$AppDatabase, $SupportedLocalesTable, SupportedLocale> {
+final class $$SupportedLocalesTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $SupportedLocalesTable, SupportedLocale> {
   $$SupportedLocalesTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
 
-  static MultiTypedResultKey<$RecipeLocalizationsTable,
-      List<RecipeLocalization>> _recipeLocalizationsRefsTable(
-          _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.recipeLocalizations,
-          aliasName: $_aliasNameGenerator(
-              db.supportedLocales.locale, db.recipeLocalizations.locale));
+  static MultiTypedResultKey<
+    $RecipeLocalizationsTable,
+    List<RecipeLocalization>
+  >
+  _recipeLocalizationsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.recipeLocalizations,
+        aliasName: $_aliasNameGenerator(
+          db.supportedLocales.locale,
+          db.recipeLocalizations.locale,
+        ),
+      );
 
   $$RecipeLocalizationsTableProcessedTableManager get recipeLocalizationsRefs {
     final manager = $$RecipeLocalizationsTableTableManager(
-            $_db, $_db.recipeLocalizations)
-        .filter(
-            (f) => f.locale.locale.sqlEquals($_itemColumn<String>('locale')!));
+      $_db,
+      $_db.recipeLocalizations,
+    ).filter((f) => f.locale.locale.sqlEquals($_itemColumn<String>('locale')!));
 
-    final cache =
-        $_typedResult.readTableOrNull(_recipeLocalizationsRefsTable($_db));
+    final cache = $_typedResult.readTableOrNull(
+      _recipeLocalizationsRefsTable($_db),
+    );
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 
   static MultiTypedResultKey<$StepsTable, List<Step>> _stepsRefsTable(
-          _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.steps,
-          aliasName: $_aliasNameGenerator(
-              db.supportedLocales.locale, db.steps.locale));
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.steps,
+    aliasName: $_aliasNameGenerator(
+      db.supportedLocales.locale,
+      db.steps.locale,
+    ),
+  );
 
   $$StepsTableProcessedTableManager get stepsRefs {
-    final manager = $$StepsTableTableManager($_db, $_db.steps).filter(
-        (f) => f.locale.locale.sqlEquals($_itemColumn<String>('locale')!));
+    final manager = $$StepsTableTableManager(
+      $_db,
+      $_db.steps,
+    ).filter((f) => f.locale.locale.sqlEquals($_itemColumn<String>('locale')!));
 
     final cache = $_typedResult.readTableOrNull(_stepsRefsTable($_db));
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 
   static MultiTypedResultKey<$CoffeeFactsTable, List<CoffeeFact>>
-      _coffeeFactsRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.coffeeFacts,
-              aliasName: $_aliasNameGenerator(
-                  db.supportedLocales.locale, db.coffeeFacts.locale));
+  _coffeeFactsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.coffeeFacts,
+    aliasName: $_aliasNameGenerator(
+      db.supportedLocales.locale,
+      db.coffeeFacts.locale,
+    ),
+  );
 
   $$CoffeeFactsTableProcessedTableManager get coffeeFactsRefs {
-    final manager = $$CoffeeFactsTableTableManager($_db, $_db.coffeeFacts)
-        .filter(
-            (f) => f.locale.locale.sqlEquals($_itemColumn<String>('locale')!));
+    final manager = $$CoffeeFactsTableTableManager(
+      $_db,
+      $_db.coffeeFacts,
+    ).filter((f) => f.locale.locale.sqlEquals($_itemColumn<String>('locale')!));
 
     final cache = $_typedResult.readTableOrNull(_coffeeFactsRefsTable($_db));
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 }
 
@@ -4572,71 +5501,87 @@ class $$SupportedLocalesTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get locale => $composableBuilder(
-      column: $table.locale, builder: (column) => ColumnFilters(column));
+    column: $table.locale,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get localeName => $composableBuilder(
-      column: $table.localeName, builder: (column) => ColumnFilters(column));
+    column: $table.localeName,
+    builder: (column) => ColumnFilters(column),
+  );
 
   Expression<bool> recipeLocalizationsRefs(
-      Expression<bool> Function($$RecipeLocalizationsTableFilterComposer f) f) {
+    Expression<bool> Function($$RecipeLocalizationsTableFilterComposer f) f,
+  ) {
     final $$RecipeLocalizationsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.recipeLocalizations,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipeLocalizationsTableFilterComposer(
-              $db: $db,
-              $table: $db.recipeLocalizations,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.recipeLocalizations,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipeLocalizationsTableFilterComposer(
+            $db: $db,
+            $table: $db.recipeLocalizations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 
   Expression<bool> stepsRefs(
-      Expression<bool> Function($$StepsTableFilterComposer f) f) {
+    Expression<bool> Function($$StepsTableFilterComposer f) f,
+  ) {
     final $$StepsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.steps,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$StepsTableFilterComposer(
-              $db: $db,
-              $table: $db.steps,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.steps,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$StepsTableFilterComposer(
+            $db: $db,
+            $table: $db.steps,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 
   Expression<bool> coffeeFactsRefs(
-      Expression<bool> Function($$CoffeeFactsTableFilterComposer f) f) {
+    Expression<bool> Function($$CoffeeFactsTableFilterComposer f) f,
+  ) {
     final $$CoffeeFactsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.coffeeFacts,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$CoffeeFactsTableFilterComposer(
-              $db: $db,
-              $table: $db.coffeeFacts,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.coffeeFacts,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CoffeeFactsTableFilterComposer(
+            $db: $db,
+            $table: $db.coffeeFacts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
@@ -4651,10 +5596,14 @@ class $$SupportedLocalesTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get locale => $composableBuilder(
-      column: $table.locale, builder: (column) => ColumnOrderings(column));
+    column: $table.locale,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get localeName => $composableBuilder(
-      column: $table.localeName, builder: (column) => ColumnOrderings(column));
+    column: $table.localeName,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SupportedLocalesTableAnnotationComposer
@@ -4670,90 +5619,111 @@ class $$SupportedLocalesTableAnnotationComposer
       $composableBuilder(column: $table.locale, builder: (column) => column);
 
   GeneratedColumn<String> get localeName => $composableBuilder(
-      column: $table.localeName, builder: (column) => column);
+    column: $table.localeName,
+    builder: (column) => column,
+  );
 
   Expression<T> recipeLocalizationsRefs<T extends Object>(
-      Expression<T> Function($$RecipeLocalizationsTableAnnotationComposer a)
-          f) {
+    Expression<T> Function($$RecipeLocalizationsTableAnnotationComposer a) f,
+  ) {
     final $$RecipeLocalizationsTableAnnotationComposer composer =
         $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.locale,
-            referencedTable: $db.recipeLocalizations,
-            getReferencedColumn: (t) => t.locale,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$RecipeLocalizationsTableAnnotationComposer(
-                  $db: $db,
-                  $table: $db.recipeLocalizations,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+          composer: this,
+          getCurrentColumn: (t) => t.locale,
+          referencedTable: $db.recipeLocalizations,
+          getReferencedColumn: (t) => t.locale,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$RecipeLocalizationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.recipeLocalizations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 
   Expression<T> stepsRefs<T extends Object>(
-      Expression<T> Function($$StepsTableAnnotationComposer a) f) {
+    Expression<T> Function($$StepsTableAnnotationComposer a) f,
+  ) {
     final $$StepsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.steps,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$StepsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.steps,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.steps,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$StepsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.steps,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 
   Expression<T> coffeeFactsRefs<T extends Object>(
-      Expression<T> Function($$CoffeeFactsTableAnnotationComposer a) f) {
+    Expression<T> Function($$CoffeeFactsTableAnnotationComposer a) f,
+  ) {
     final $$CoffeeFactsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.coffeeFacts,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$CoffeeFactsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.coffeeFacts,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.coffeeFacts,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CoffeeFactsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.coffeeFacts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
 
-class $$SupportedLocalesTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $SupportedLocalesTable,
-    SupportedLocale,
-    $$SupportedLocalesTableFilterComposer,
-    $$SupportedLocalesTableOrderingComposer,
-    $$SupportedLocalesTableAnnotationComposer,
-    $$SupportedLocalesTableCreateCompanionBuilder,
-    $$SupportedLocalesTableUpdateCompanionBuilder,
-    (SupportedLocale, $$SupportedLocalesTableReferences),
-    SupportedLocale,
-    PrefetchHooks Function(
-        {bool recipeLocalizationsRefs, bool stepsRefs, bool coffeeFactsRefs})> {
+class $$SupportedLocalesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SupportedLocalesTable,
+          SupportedLocale,
+          $$SupportedLocalesTableFilterComposer,
+          $$SupportedLocalesTableOrderingComposer,
+          $$SupportedLocalesTableAnnotationComposer,
+          $$SupportedLocalesTableCreateCompanionBuilder,
+          $$SupportedLocalesTableUpdateCompanionBuilder,
+          (SupportedLocale, $$SupportedLocalesTableReferences),
+          SupportedLocale,
+          PrefetchHooks Function({
+            bool recipeLocalizationsRefs,
+            bool stepsRefs,
+            bool coffeeFactsRefs,
+          })
+        > {
   $$SupportedLocalesTableTableManager(
-      _$AppDatabase db, $SupportedLocalesTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $SupportedLocalesTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -4762,153 +5732,203 @@ class $$SupportedLocalesTableTableManager extends RootTableManager<
               $$SupportedLocalesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$SupportedLocalesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> locale = const Value.absent(),
-            Value<String> localeName = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              SupportedLocalesCompanion(
-            locale: locale,
-            localeName: localeName,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String locale,
-            required String localeName,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              SupportedLocalesCompanion.insert(
-            locale: locale,
-            localeName: localeName,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> locale = const Value.absent(),
+                Value<String> localeName = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SupportedLocalesCompanion(
+                locale: locale,
+                localeName: localeName,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String locale,
+                required String localeName,
+                Value<int> rowid = const Value.absent(),
+              }) => SupportedLocalesCompanion.insert(
+                locale: locale,
+                localeName: localeName,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$SupportedLocalesTableReferences(db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SupportedLocalesTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: (
-              {recipeLocalizationsRefs = false,
-              stepsRefs = false,
-              coffeeFactsRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (recipeLocalizationsRefs) db.recipeLocalizations,
-                if (stepsRefs) db.steps,
-                if (coffeeFactsRefs) db.coffeeFacts
-              ],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (recipeLocalizationsRefs)
-                    await $_getPrefetchedData<SupportedLocale,
-                            $SupportedLocalesTable, RecipeLocalization>(
-                        currentTable: table,
-                        referencedTable: $$SupportedLocalesTableReferences
-                            ._recipeLocalizationsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$SupportedLocalesTableReferences(db, table, p0)
-                                .recipeLocalizationsRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems
-                                .where((e) => e.locale == item.locale),
-                        typedResults: items),
-                  if (stepsRefs)
-                    await $_getPrefetchedData<SupportedLocale,
-                            $SupportedLocalesTable, Step>(
-                        currentTable: table,
-                        referencedTable: $$SupportedLocalesTableReferences
-                            ._stepsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$SupportedLocalesTableReferences(db, table, p0)
-                                .stepsRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems
-                                .where((e) => e.locale == item.locale),
-                        typedResults: items),
-                  if (coffeeFactsRefs)
-                    await $_getPrefetchedData<SupportedLocale,
-                            $SupportedLocalesTable, CoffeeFact>(
-                        currentTable: table,
-                        referencedTable: $$SupportedLocalesTableReferences
-                            ._coffeeFactsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$SupportedLocalesTableReferences(db, table, p0)
-                                .coffeeFactsRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems
-                                .where((e) => e.locale == item.locale),
-                        typedResults: items)
-                ];
+          prefetchHooksCallback:
+              ({
+                recipeLocalizationsRefs = false,
+                stepsRefs = false,
+                coffeeFactsRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (recipeLocalizationsRefs) db.recipeLocalizations,
+                    if (stepsRefs) db.steps,
+                    if (coffeeFactsRefs) db.coffeeFacts,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (recipeLocalizationsRefs)
+                        await $_getPrefetchedData<
+                          SupportedLocale,
+                          $SupportedLocalesTable,
+                          RecipeLocalization
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SupportedLocalesTableReferences
+                              ._recipeLocalizationsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SupportedLocalesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).recipeLocalizationsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.locale == item.locale,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (stepsRefs)
+                        await $_getPrefetchedData<
+                          SupportedLocale,
+                          $SupportedLocalesTable,
+                          Step
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SupportedLocalesTableReferences
+                              ._stepsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SupportedLocalesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).stepsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.locale == item.locale,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (coffeeFactsRefs)
+                        await $_getPrefetchedData<
+                          SupportedLocale,
+                          $SupportedLocalesTable,
+                          CoffeeFact
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SupportedLocalesTableReferences
+                              ._coffeeFactsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SupportedLocalesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).coffeeFactsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.locale == item.locale,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
-        ));
+        ),
+      );
 }
 
-typedef $$SupportedLocalesTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $SupportedLocalesTable,
-    SupportedLocale,
-    $$SupportedLocalesTableFilterComposer,
-    $$SupportedLocalesTableOrderingComposer,
-    $$SupportedLocalesTableAnnotationComposer,
-    $$SupportedLocalesTableCreateCompanionBuilder,
-    $$SupportedLocalesTableUpdateCompanionBuilder,
-    (SupportedLocale, $$SupportedLocalesTableReferences),
-    SupportedLocale,
-    PrefetchHooks Function(
-        {bool recipeLocalizationsRefs, bool stepsRefs, bool coffeeFactsRefs})>;
-typedef $$BrewingMethodsTableCreateCompanionBuilder = BrewingMethodsCompanion
-    Function({
-  required String brewingMethodId,
-  required String brewingMethod,
-  Value<int> rowid,
-});
-typedef $$BrewingMethodsTableUpdateCompanionBuilder = BrewingMethodsCompanion
-    Function({
-  Value<String> brewingMethodId,
-  Value<String> brewingMethod,
-  Value<int> rowid,
-});
+typedef $$SupportedLocalesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SupportedLocalesTable,
+      SupportedLocale,
+      $$SupportedLocalesTableFilterComposer,
+      $$SupportedLocalesTableOrderingComposer,
+      $$SupportedLocalesTableAnnotationComposer,
+      $$SupportedLocalesTableCreateCompanionBuilder,
+      $$SupportedLocalesTableUpdateCompanionBuilder,
+      (SupportedLocale, $$SupportedLocalesTableReferences),
+      SupportedLocale,
+      PrefetchHooks Function({
+        bool recipeLocalizationsRefs,
+        bool stepsRefs,
+        bool coffeeFactsRefs,
+      })
+    >;
+typedef $$BrewingMethodsTableCreateCompanionBuilder =
+    BrewingMethodsCompanion Function({
+      required String brewingMethodId,
+      required String brewingMethod,
+      Value<int> rowid,
+    });
+typedef $$BrewingMethodsTableUpdateCompanionBuilder =
+    BrewingMethodsCompanion Function({
+      Value<String> brewingMethodId,
+      Value<String> brewingMethod,
+      Value<int> rowid,
+    });
 
 final class $$BrewingMethodsTableReferences
     extends BaseReferences<_$AppDatabase, $BrewingMethodsTable, BrewingMethod> {
   $$BrewingMethodsTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
 
   static MultiTypedResultKey<$RecipesTable, List<Recipe>> _recipesRefsTable(
-          _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.recipes,
-          aliasName: $_aliasNameGenerator(
-              db.brewingMethods.brewingMethodId, db.recipes.brewingMethodId));
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.recipes,
+    aliasName: $_aliasNameGenerator(
+      db.brewingMethods.brewingMethodId,
+      db.recipes.brewingMethodId,
+    ),
+  );
 
   $$RecipesTableProcessedTableManager get recipesRefs {
-    final manager = $$RecipesTableTableManager($_db, $_db.recipes).filter((f) =>
-        f.brewingMethodId.brewingMethodId
-            .sqlEquals($_itemColumn<String>('brewing_method_id')!));
+    final manager = $$RecipesTableTableManager($_db, $_db.recipes).filter(
+      (f) => f.brewingMethodId.brewingMethodId.sqlEquals(
+        $_itemColumn<String>('brewing_method_id')!,
+      ),
+    );
 
     final cache = $_typedResult.readTableOrNull(_recipesRefsTable($_db));
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 
   static MultiTypedResultKey<$UserStatsTable, List<UserStat>>
-      _userStatsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-          db.userStats,
-          aliasName: $_aliasNameGenerator(
-              db.brewingMethods.brewingMethodId, db.userStats.brewingMethodId));
+  _userStatsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.userStats,
+    aliasName: $_aliasNameGenerator(
+      db.brewingMethods.brewingMethodId,
+      db.userStats.brewingMethodId,
+    ),
+  );
 
   $$UserStatsTableProcessedTableManager get userStatsRefs {
     final manager = $$UserStatsTableTableManager($_db, $_db.userStats).filter(
-        (f) => f.brewingMethodId.brewingMethodId
-            .sqlEquals($_itemColumn<String>('brewing_method_id')!));
+      (f) => f.brewingMethodId.brewingMethodId.sqlEquals(
+        $_itemColumn<String>('brewing_method_id')!,
+      ),
+    );
 
     final cache = $_typedResult.readTableOrNull(_userStatsRefsTable($_db));
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 }
 
@@ -4922,51 +5942,62 @@ class $$BrewingMethodsTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get brewingMethodId => $composableBuilder(
-      column: $table.brewingMethodId,
-      builder: (column) => ColumnFilters(column));
+    column: $table.brewingMethodId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get brewingMethod => $composableBuilder(
-      column: $table.brewingMethod, builder: (column) => ColumnFilters(column));
+    column: $table.brewingMethod,
+    builder: (column) => ColumnFilters(column),
+  );
 
   Expression<bool> recipesRefs(
-      Expression<bool> Function($$RecipesTableFilterComposer f) f) {
+    Expression<bool> Function($$RecipesTableFilterComposer f) f,
+  ) {
     final $$RecipesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableFilterComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.brewingMethodId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.brewingMethodId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableFilterComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 
   Expression<bool> userStatsRefs(
-      Expression<bool> Function($$UserStatsTableFilterComposer f) f) {
+    Expression<bool> Function($$UserStatsTableFilterComposer f) f,
+  ) {
     final $$UserStatsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $db.userStats,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$UserStatsTableFilterComposer(
-              $db: $db,
-              $table: $db.userStats,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.brewingMethodId,
+      referencedTable: $db.userStats,
+      getReferencedColumn: (t) => t.brewingMethodId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserStatsTableFilterComposer(
+            $db: $db,
+            $table: $db.userStats,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
@@ -4981,12 +6012,14 @@ class $$BrewingMethodsTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get brewingMethodId => $composableBuilder(
-      column: $table.brewingMethodId,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.brewingMethodId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get brewingMethod => $composableBuilder(
-      column: $table.brewingMethod,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.brewingMethod,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$BrewingMethodsTableAnnotationComposer
@@ -4999,69 +6032,86 @@ class $$BrewingMethodsTableAnnotationComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   GeneratedColumn<String> get brewingMethodId => $composableBuilder(
-      column: $table.brewingMethodId, builder: (column) => column);
+    column: $table.brewingMethodId,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get brewingMethod => $composableBuilder(
-      column: $table.brewingMethod, builder: (column) => column);
+    column: $table.brewingMethod,
+    builder: (column) => column,
+  );
 
   Expression<T> recipesRefs<T extends Object>(
-      Expression<T> Function($$RecipesTableAnnotationComposer a) f) {
+    Expression<T> Function($$RecipesTableAnnotationComposer a) f,
+  ) {
     final $$RecipesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.brewingMethodId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.brewingMethodId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 
   Expression<T> userStatsRefs<T extends Object>(
-      Expression<T> Function($$UserStatsTableAnnotationComposer a) f) {
+    Expression<T> Function($$UserStatsTableAnnotationComposer a) f,
+  ) {
     final $$UserStatsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $db.userStats,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$UserStatsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.userStats,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.brewingMethodId,
+      referencedTable: $db.userStats,
+      getReferencedColumn: (t) => t.brewingMethodId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserStatsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.userStats,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
 
-class $$BrewingMethodsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $BrewingMethodsTable,
-    BrewingMethod,
-    $$BrewingMethodsTableFilterComposer,
-    $$BrewingMethodsTableOrderingComposer,
-    $$BrewingMethodsTableAnnotationComposer,
-    $$BrewingMethodsTableCreateCompanionBuilder,
-    $$BrewingMethodsTableUpdateCompanionBuilder,
-    (BrewingMethod, $$BrewingMethodsTableReferences),
-    BrewingMethod,
-    PrefetchHooks Function({bool recipesRefs, bool userStatsRefs})> {
+class $$BrewingMethodsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $BrewingMethodsTable,
+          BrewingMethod,
+          $$BrewingMethodsTableFilterComposer,
+          $$BrewingMethodsTableOrderingComposer,
+          $$BrewingMethodsTableAnnotationComposer,
+          $$BrewingMethodsTableCreateCompanionBuilder,
+          $$BrewingMethodsTableUpdateCompanionBuilder,
+          (BrewingMethod, $$BrewingMethodsTableReferences),
+          BrewingMethod,
+          PrefetchHooks Function({bool recipesRefs, bool userStatsRefs})
+        > {
   $$BrewingMethodsTableTableManager(
-      _$AppDatabase db, $BrewingMethodsTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $BrewingMethodsTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -5070,204 +6120,260 @@ class $$BrewingMethodsTableTableManager extends RootTableManager<
               $$BrewingMethodsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$BrewingMethodsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> brewingMethodId = const Value.absent(),
-            Value<String> brewingMethod = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              BrewingMethodsCompanion(
-            brewingMethodId: brewingMethodId,
-            brewingMethod: brewingMethod,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String brewingMethodId,
-            required String brewingMethod,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              BrewingMethodsCompanion.insert(
-            brewingMethodId: brewingMethodId,
-            brewingMethod: brewingMethod,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> brewingMethodId = const Value.absent(),
+                Value<String> brewingMethod = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => BrewingMethodsCompanion(
+                brewingMethodId: brewingMethodId,
+                brewingMethod: brewingMethod,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String brewingMethodId,
+                required String brewingMethod,
+                Value<int> rowid = const Value.absent(),
+              }) => BrewingMethodsCompanion.insert(
+                brewingMethodId: brewingMethodId,
+                brewingMethod: brewingMethod,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$BrewingMethodsTableReferences(db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$BrewingMethodsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: (
-              {recipesRefs = false, userStatsRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (recipesRefs) db.recipes,
-                if (userStatsRefs) db.userStats
-              ],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (recipesRefs)
-                    await $_getPrefetchedData<BrewingMethod,
-                            $BrewingMethodsTable, Recipe>(
-                        currentTable: table,
-                        referencedTable: $$BrewingMethodsTableReferences
-                            ._recipesRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$BrewingMethodsTableReferences(db, table, p0)
-                                .recipesRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems.where(
+          prefetchHooksCallback:
+              ({recipesRefs = false, userStatsRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (recipesRefs) db.recipes,
+                    if (userStatsRefs) db.userStats,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (recipesRefs)
+                        await $_getPrefetchedData<
+                          BrewingMethod,
+                          $BrewingMethodsTable,
+                          Recipe
+                        >(
+                          currentTable: table,
+                          referencedTable: $$BrewingMethodsTableReferences
+                              ._recipesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$BrewingMethodsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).recipesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
                                 (e) =>
-                                    e.brewingMethodId == item.brewingMethodId),
-                        typedResults: items),
-                  if (userStatsRefs)
-                    await $_getPrefetchedData<BrewingMethod,
-                            $BrewingMethodsTable, UserStat>(
-                        currentTable: table,
-                        referencedTable: $$BrewingMethodsTableReferences
-                            ._userStatsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$BrewingMethodsTableReferences(db, table, p0)
-                                .userStatsRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems.where(
+                                    e.brewingMethodId == item.brewingMethodId,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (userStatsRefs)
+                        await $_getPrefetchedData<
+                          BrewingMethod,
+                          $BrewingMethodsTable,
+                          UserStat
+                        >(
+                          currentTable: table,
+                          referencedTable: $$BrewingMethodsTableReferences
+                              ._userStatsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$BrewingMethodsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).userStatsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
                                 (e) =>
-                                    e.brewingMethodId == item.brewingMethodId),
-                        typedResults: items)
-                ];
+                                    e.brewingMethodId == item.brewingMethodId,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
-        ));
+        ),
+      );
 }
 
-typedef $$BrewingMethodsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $BrewingMethodsTable,
-    BrewingMethod,
-    $$BrewingMethodsTableFilterComposer,
-    $$BrewingMethodsTableOrderingComposer,
-    $$BrewingMethodsTableAnnotationComposer,
-    $$BrewingMethodsTableCreateCompanionBuilder,
-    $$BrewingMethodsTableUpdateCompanionBuilder,
-    (BrewingMethod, $$BrewingMethodsTableReferences),
-    BrewingMethod,
-    PrefetchHooks Function({bool recipesRefs, bool userStatsRefs})>;
-typedef $$RecipesTableCreateCompanionBuilder = RecipesCompanion Function({
-  required String id,
-  required String brewingMethodId,
-  required double coffeeAmount,
-  required double waterAmount,
-  required double waterTemp,
-  required int brewTime,
-  Value<String?> vendorId,
-  Value<DateTime?> lastModified,
-  Value<String?> importId,
-  Value<bool> isImported,
-  Value<bool> needsModerationReview,
-  Value<bool> isPublic,
-  Value<int> rowid,
-});
-typedef $$RecipesTableUpdateCompanionBuilder = RecipesCompanion Function({
-  Value<String> id,
-  Value<String> brewingMethodId,
-  Value<double> coffeeAmount,
-  Value<double> waterAmount,
-  Value<double> waterTemp,
-  Value<int> brewTime,
-  Value<String?> vendorId,
-  Value<DateTime?> lastModified,
-  Value<String?> importId,
-  Value<bool> isImported,
-  Value<bool> needsModerationReview,
-  Value<bool> isPublic,
-  Value<int> rowid,
-});
+typedef $$BrewingMethodsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $BrewingMethodsTable,
+      BrewingMethod,
+      $$BrewingMethodsTableFilterComposer,
+      $$BrewingMethodsTableOrderingComposer,
+      $$BrewingMethodsTableAnnotationComposer,
+      $$BrewingMethodsTableCreateCompanionBuilder,
+      $$BrewingMethodsTableUpdateCompanionBuilder,
+      (BrewingMethod, $$BrewingMethodsTableReferences),
+      BrewingMethod,
+      PrefetchHooks Function({bool recipesRefs, bool userStatsRefs})
+    >;
+typedef $$RecipesTableCreateCompanionBuilder =
+    RecipesCompanion Function({
+      required String id,
+      required String brewingMethodId,
+      required double coffeeAmount,
+      required double waterAmount,
+      required double waterTemp,
+      required int brewTime,
+      Value<String?> vendorId,
+      Value<DateTime?> lastModified,
+      Value<String?> importId,
+      Value<bool> isImported,
+      Value<bool> needsModerationReview,
+      Value<bool> isPublic,
+      Value<int> rowid,
+    });
+typedef $$RecipesTableUpdateCompanionBuilder =
+    RecipesCompanion Function({
+      Value<String> id,
+      Value<String> brewingMethodId,
+      Value<double> coffeeAmount,
+      Value<double> waterAmount,
+      Value<double> waterTemp,
+      Value<int> brewTime,
+      Value<String?> vendorId,
+      Value<DateTime?> lastModified,
+      Value<String?> importId,
+      Value<bool> isImported,
+      Value<bool> needsModerationReview,
+      Value<bool> isPublic,
+      Value<int> rowid,
+    });
 
 final class $$RecipesTableReferences
     extends BaseReferences<_$AppDatabase, $RecipesTable, Recipe> {
   $$RecipesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $BrewingMethodsTable _brewingMethodIdTable(_$AppDatabase db) =>
-      db.brewingMethods.createAlias($_aliasNameGenerator(
-          db.recipes.brewingMethodId, db.brewingMethods.brewingMethodId));
+      db.brewingMethods.createAlias(
+        $_aliasNameGenerator(
+          db.recipes.brewingMethodId,
+          db.brewingMethods.brewingMethodId,
+        ),
+      );
 
   $$BrewingMethodsTableProcessedTableManager get brewingMethodId {
     final $_column = $_itemColumn<String>('brewing_method_id')!;
 
-    final manager = $$BrewingMethodsTableTableManager($_db, $_db.brewingMethods)
-        .filter((f) => f.brewingMethodId.sqlEquals($_column));
+    final manager = $$BrewingMethodsTableTableManager(
+      $_db,
+      $_db.brewingMethods,
+    ).filter((f) => f.brewingMethodId.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_brewingMethodIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 
-  static MultiTypedResultKey<$RecipeLocalizationsTable,
-      List<RecipeLocalization>> _recipeLocalizationsRefsTable(
-          _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.recipeLocalizations,
-          aliasName: $_aliasNameGenerator(
-              db.recipes.id, db.recipeLocalizations.recipeId));
+  static MultiTypedResultKey<
+    $RecipeLocalizationsTable,
+    List<RecipeLocalization>
+  >
+  _recipeLocalizationsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.recipeLocalizations,
+        aliasName: $_aliasNameGenerator(
+          db.recipes.id,
+          db.recipeLocalizations.recipeId,
+        ),
+      );
 
   $$RecipeLocalizationsTableProcessedTableManager get recipeLocalizationsRefs {
     final manager = $$RecipeLocalizationsTableTableManager(
-            $_db, $_db.recipeLocalizations)
-        .filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
+      $_db,
+      $_db.recipeLocalizations,
+    ).filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
 
-    final cache =
-        $_typedResult.readTableOrNull(_recipeLocalizationsRefsTable($_db));
+    final cache = $_typedResult.readTableOrNull(
+      _recipeLocalizationsRefsTable($_db),
+    );
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 
   static MultiTypedResultKey<$StepsTable, List<Step>> _stepsRefsTable(
-          _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.steps,
-          aliasName: $_aliasNameGenerator(db.recipes.id, db.steps.recipeId));
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.steps,
+    aliasName: $_aliasNameGenerator(db.recipes.id, db.steps.recipeId),
+  );
 
   $$StepsTableProcessedTableManager get stepsRefs {
-    final manager = $$StepsTableTableManager($_db, $_db.steps)
-        .filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
+    final manager = $$StepsTableTableManager(
+      $_db,
+      $_db.steps,
+    ).filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_stepsRefsTable($_db));
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 
-  static MultiTypedResultKey<$UserRecipePreferencesTable,
-      List<UserRecipePreference>> _userRecipePreferencesRefsTable(
-          _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.userRecipePreferences,
-          aliasName: $_aliasNameGenerator(
-              db.recipes.id, db.userRecipePreferences.recipeId));
+  static MultiTypedResultKey<
+    $UserRecipePreferencesTable,
+    List<UserRecipePreference>
+  >
+  _userRecipePreferencesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.userRecipePreferences,
+        aliasName: $_aliasNameGenerator(
+          db.recipes.id,
+          db.userRecipePreferences.recipeId,
+        ),
+      );
 
   $$UserRecipePreferencesTableProcessedTableManager
-      get userRecipePreferencesRefs {
+  get userRecipePreferencesRefs {
     final manager = $$UserRecipePreferencesTableTableManager(
-            $_db, $_db.userRecipePreferences)
-        .filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
+      $_db,
+      $_db.userRecipePreferences,
+    ).filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
 
-    final cache =
-        $_typedResult.readTableOrNull(_userRecipePreferencesRefsTable($_db));
+    final cache = $_typedResult.readTableOrNull(
+      _userRecipePreferencesRefsTable($_db),
+    );
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 
   static MultiTypedResultKey<$UserStatsTable, List<UserStat>>
-      _userStatsRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.userStats,
-              aliasName:
-                  $_aliasNameGenerator(db.recipes.id, db.userStats.recipeId));
+  _userStatsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.userStats,
+    aliasName: $_aliasNameGenerator(db.recipes.id, db.userStats.recipeId),
+  );
 
   $$UserStatsTableProcessedTableManager get userStatsRefs {
-    final manager = $$UserStatsTableTableManager($_db, $_db.userStats)
-        .filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
+    final manager = $$UserStatsTableTableManager(
+      $_db,
+      $_db.userStats,
+    ).filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_userStatsRefsTable($_db));
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 }
 
@@ -5281,142 +6387,181 @@ class $$RecipesTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<double> get coffeeAmount => $composableBuilder(
-      column: $table.coffeeAmount, builder: (column) => ColumnFilters(column));
+    column: $table.coffeeAmount,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<double> get waterAmount => $composableBuilder(
-      column: $table.waterAmount, builder: (column) => ColumnFilters(column));
+    column: $table.waterAmount,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<double> get waterTemp => $composableBuilder(
-      column: $table.waterTemp, builder: (column) => ColumnFilters(column));
+    column: $table.waterTemp,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get brewTime => $composableBuilder(
-      column: $table.brewTime, builder: (column) => ColumnFilters(column));
+    column: $table.brewTime,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get vendorId => $composableBuilder(
-      column: $table.vendorId, builder: (column) => ColumnFilters(column));
+    column: $table.vendorId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get lastModified => $composableBuilder(
-      column: $table.lastModified, builder: (column) => ColumnFilters(column));
+    column: $table.lastModified,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get importId => $composableBuilder(
-      column: $table.importId, builder: (column) => ColumnFilters(column));
+    column: $table.importId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get isImported => $composableBuilder(
-      column: $table.isImported, builder: (column) => ColumnFilters(column));
+    column: $table.isImported,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get needsModerationReview => $composableBuilder(
-      column: $table.needsModerationReview,
-      builder: (column) => ColumnFilters(column));
+    column: $table.needsModerationReview,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get isPublic => $composableBuilder(
-      column: $table.isPublic, builder: (column) => ColumnFilters(column));
+    column: $table.isPublic,
+    builder: (column) => ColumnFilters(column),
+  );
 
   $$BrewingMethodsTableFilterComposer get brewingMethodId {
     final $$BrewingMethodsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $db.brewingMethods,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BrewingMethodsTableFilterComposer(
-              $db: $db,
-              $table: $db.brewingMethods,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.brewingMethodId,
+      referencedTable: $db.brewingMethods,
+      getReferencedColumn: (t) => t.brewingMethodId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BrewingMethodsTableFilterComposer(
+            $db: $db,
+            $table: $db.brewingMethods,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   Expression<bool> recipeLocalizationsRefs(
-      Expression<bool> Function($$RecipeLocalizationsTableFilterComposer f) f) {
+    Expression<bool> Function($$RecipeLocalizationsTableFilterComposer f) f,
+  ) {
     final $$RecipeLocalizationsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.recipeLocalizations,
-        getReferencedColumn: (t) => t.recipeId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipeLocalizationsTableFilterComposer(
-              $db: $db,
-              $table: $db.recipeLocalizations,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.recipeLocalizations,
+      getReferencedColumn: (t) => t.recipeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipeLocalizationsTableFilterComposer(
+            $db: $db,
+            $table: $db.recipeLocalizations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 
   Expression<bool> stepsRefs(
-      Expression<bool> Function($$StepsTableFilterComposer f) f) {
+    Expression<bool> Function($$StepsTableFilterComposer f) f,
+  ) {
     final $$StepsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.steps,
-        getReferencedColumn: (t) => t.recipeId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$StepsTableFilterComposer(
-              $db: $db,
-              $table: $db.steps,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.steps,
+      getReferencedColumn: (t) => t.recipeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$StepsTableFilterComposer(
+            $db: $db,
+            $table: $db.steps,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 
   Expression<bool> userRecipePreferencesRefs(
-      Expression<bool> Function($$UserRecipePreferencesTableFilterComposer f)
-          f) {
+    Expression<bool> Function($$UserRecipePreferencesTableFilterComposer f) f,
+  ) {
     final $$UserRecipePreferencesTableFilterComposer composer =
         $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $db.userRecipePreferences,
-            getReferencedColumn: (t) => t.recipeId,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$UserRecipePreferencesTableFilterComposer(
-                  $db: $db,
-                  $table: $db.userRecipePreferences,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.userRecipePreferences,
+          getReferencedColumn: (t) => t.recipeId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$UserRecipePreferencesTableFilterComposer(
+                $db: $db,
+                $table: $db.userRecipePreferences,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 
   Expression<bool> userStatsRefs(
-      Expression<bool> Function($$UserStatsTableFilterComposer f) f) {
+    Expression<bool> Function($$UserStatsTableFilterComposer f) f,
+  ) {
     final $$UserStatsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.userStats,
-        getReferencedColumn: (t) => t.recipeId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$UserStatsTableFilterComposer(
-              $db: $db,
-              $table: $db.userStats,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userStats,
+      getReferencedColumn: (t) => t.recipeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserStatsTableFilterComposer(
+            $db: $db,
+            $table: $db.userStats,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
@@ -5431,58 +6576,80 @@ class $$RecipesTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<double> get coffeeAmount => $composableBuilder(
-      column: $table.coffeeAmount,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.coffeeAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<double> get waterAmount => $composableBuilder(
-      column: $table.waterAmount, builder: (column) => ColumnOrderings(column));
+    column: $table.waterAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<double> get waterTemp => $composableBuilder(
-      column: $table.waterTemp, builder: (column) => ColumnOrderings(column));
+    column: $table.waterTemp,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get brewTime => $composableBuilder(
-      column: $table.brewTime, builder: (column) => ColumnOrderings(column));
+    column: $table.brewTime,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get vendorId => $composableBuilder(
-      column: $table.vendorId, builder: (column) => ColumnOrderings(column));
+    column: $table.vendorId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get lastModified => $composableBuilder(
-      column: $table.lastModified,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.lastModified,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get importId => $composableBuilder(
-      column: $table.importId, builder: (column) => ColumnOrderings(column));
+    column: $table.importId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get isImported => $composableBuilder(
-      column: $table.isImported, builder: (column) => ColumnOrderings(column));
+    column: $table.isImported,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get needsModerationReview => $composableBuilder(
-      column: $table.needsModerationReview,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.needsModerationReview,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get isPublic => $composableBuilder(
-      column: $table.isPublic, builder: (column) => ColumnOrderings(column));
+    column: $table.isPublic,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$BrewingMethodsTableOrderingComposer get brewingMethodId {
     final $$BrewingMethodsTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $db.brewingMethods,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BrewingMethodsTableOrderingComposer(
-              $db: $db,
-              $table: $db.brewingMethods,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.brewingMethodId,
+      referencedTable: $db.brewingMethods,
+      getReferencedColumn: (t) => t.brewingMethodId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BrewingMethodsTableOrderingComposer(
+            $db: $db,
+            $table: $db.brewingMethods,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -5500,10 +6667,14 @@ class $$RecipesTableAnnotationComposer
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<double> get coffeeAmount => $composableBuilder(
-      column: $table.coffeeAmount, builder: (column) => column);
+    column: $table.coffeeAmount,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get waterAmount => $composableBuilder(
-      column: $table.waterAmount, builder: (column) => column);
+    column: $table.waterAmount,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get waterTemp =>
       $composableBuilder(column: $table.waterTemp, builder: (column) => column);
@@ -5515,148 +6686,176 @@ class $$RecipesTableAnnotationComposer
       $composableBuilder(column: $table.vendorId, builder: (column) => column);
 
   GeneratedColumn<DateTime> get lastModified => $composableBuilder(
-      column: $table.lastModified, builder: (column) => column);
+    column: $table.lastModified,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get importId =>
       $composableBuilder(column: $table.importId, builder: (column) => column);
 
   GeneratedColumn<bool> get isImported => $composableBuilder(
-      column: $table.isImported, builder: (column) => column);
+    column: $table.isImported,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<bool> get needsModerationReview => $composableBuilder(
-      column: $table.needsModerationReview, builder: (column) => column);
+    column: $table.needsModerationReview,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<bool> get isPublic =>
       $composableBuilder(column: $table.isPublic, builder: (column) => column);
 
   $$BrewingMethodsTableAnnotationComposer get brewingMethodId {
     final $$BrewingMethodsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $db.brewingMethods,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BrewingMethodsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.brewingMethods,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.brewingMethodId,
+      referencedTable: $db.brewingMethods,
+      getReferencedColumn: (t) => t.brewingMethodId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BrewingMethodsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.brewingMethods,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   Expression<T> recipeLocalizationsRefs<T extends Object>(
-      Expression<T> Function($$RecipeLocalizationsTableAnnotationComposer a)
-          f) {
+    Expression<T> Function($$RecipeLocalizationsTableAnnotationComposer a) f,
+  ) {
     final $$RecipeLocalizationsTableAnnotationComposer composer =
         $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $db.recipeLocalizations,
-            getReferencedColumn: (t) => t.recipeId,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$RecipeLocalizationsTableAnnotationComposer(
-                  $db: $db,
-                  $table: $db.recipeLocalizations,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.recipeLocalizations,
+          getReferencedColumn: (t) => t.recipeId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$RecipeLocalizationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.recipeLocalizations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 
   Expression<T> stepsRefs<T extends Object>(
-      Expression<T> Function($$StepsTableAnnotationComposer a) f) {
+    Expression<T> Function($$StepsTableAnnotationComposer a) f,
+  ) {
     final $$StepsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.steps,
-        getReferencedColumn: (t) => t.recipeId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$StepsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.steps,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.steps,
+      getReferencedColumn: (t) => t.recipeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$StepsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.steps,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 
   Expression<T> userRecipePreferencesRefs<T extends Object>(
-      Expression<T> Function($$UserRecipePreferencesTableAnnotationComposer a)
-          f) {
+    Expression<T> Function($$UserRecipePreferencesTableAnnotationComposer a) f,
+  ) {
     final $$UserRecipePreferencesTableAnnotationComposer composer =
         $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $db.userRecipePreferences,
-            getReferencedColumn: (t) => t.recipeId,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$UserRecipePreferencesTableAnnotationComposer(
-                  $db: $db,
-                  $table: $db.userRecipePreferences,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.userRecipePreferences,
+          getReferencedColumn: (t) => t.recipeId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$UserRecipePreferencesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.userRecipePreferences,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 
   Expression<T> userStatsRefs<T extends Object>(
-      Expression<T> Function($$UserStatsTableAnnotationComposer a) f) {
+    Expression<T> Function($$UserStatsTableAnnotationComposer a) f,
+  ) {
     final $$UserStatsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.userStats,
-        getReferencedColumn: (t) => t.recipeId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$UserStatsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.userStats,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userStats,
+      getReferencedColumn: (t) => t.recipeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserStatsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.userStats,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
 
-class $$RecipesTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $RecipesTable,
-    Recipe,
-    $$RecipesTableFilterComposer,
-    $$RecipesTableOrderingComposer,
-    $$RecipesTableAnnotationComposer,
-    $$RecipesTableCreateCompanionBuilder,
-    $$RecipesTableUpdateCompanionBuilder,
-    (Recipe, $$RecipesTableReferences),
-    Recipe,
-    PrefetchHooks Function(
-        {bool brewingMethodId,
-        bool recipeLocalizationsRefs,
-        bool stepsRefs,
-        bool userRecipePreferencesRefs,
-        bool userStatsRefs})> {
+class $$RecipesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $RecipesTable,
+          Recipe,
+          $$RecipesTableFilterComposer,
+          $$RecipesTableOrderingComposer,
+          $$RecipesTableAnnotationComposer,
+          $$RecipesTableCreateCompanionBuilder,
+          $$RecipesTableUpdateCompanionBuilder,
+          (Recipe, $$RecipesTableReferences),
+          Recipe,
+          PrefetchHooks Function({
+            bool brewingMethodId,
+            bool recipeLocalizationsRefs,
+            bool stepsRefs,
+            bool userRecipePreferencesRefs,
+            bool userStatsRefs,
+          })
+        > {
   $$RecipesTableTableManager(_$AppDatabase db, $RecipesTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -5665,241 +6864,301 @@ class $$RecipesTableTableManager extends RootTableManager<
               $$RecipesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$RecipesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> brewingMethodId = const Value.absent(),
-            Value<double> coffeeAmount = const Value.absent(),
-            Value<double> waterAmount = const Value.absent(),
-            Value<double> waterTemp = const Value.absent(),
-            Value<int> brewTime = const Value.absent(),
-            Value<String?> vendorId = const Value.absent(),
-            Value<DateTime?> lastModified = const Value.absent(),
-            Value<String?> importId = const Value.absent(),
-            Value<bool> isImported = const Value.absent(),
-            Value<bool> needsModerationReview = const Value.absent(),
-            Value<bool> isPublic = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              RecipesCompanion(
-            id: id,
-            brewingMethodId: brewingMethodId,
-            coffeeAmount: coffeeAmount,
-            waterAmount: waterAmount,
-            waterTemp: waterTemp,
-            brewTime: brewTime,
-            vendorId: vendorId,
-            lastModified: lastModified,
-            importId: importId,
-            isImported: isImported,
-            needsModerationReview: needsModerationReview,
-            isPublic: isPublic,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String brewingMethodId,
-            required double coffeeAmount,
-            required double waterAmount,
-            required double waterTemp,
-            required int brewTime,
-            Value<String?> vendorId = const Value.absent(),
-            Value<DateTime?> lastModified = const Value.absent(),
-            Value<String?> importId = const Value.absent(),
-            Value<bool> isImported = const Value.absent(),
-            Value<bool> needsModerationReview = const Value.absent(),
-            Value<bool> isPublic = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              RecipesCompanion.insert(
-            id: id,
-            brewingMethodId: brewingMethodId,
-            coffeeAmount: coffeeAmount,
-            waterAmount: waterAmount,
-            waterTemp: waterTemp,
-            brewTime: brewTime,
-            vendorId: vendorId,
-            lastModified: lastModified,
-            importId: importId,
-            isImported: isImported,
-            needsModerationReview: needsModerationReview,
-            isPublic: isPublic,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> brewingMethodId = const Value.absent(),
+                Value<double> coffeeAmount = const Value.absent(),
+                Value<double> waterAmount = const Value.absent(),
+                Value<double> waterTemp = const Value.absent(),
+                Value<int> brewTime = const Value.absent(),
+                Value<String?> vendorId = const Value.absent(),
+                Value<DateTime?> lastModified = const Value.absent(),
+                Value<String?> importId = const Value.absent(),
+                Value<bool> isImported = const Value.absent(),
+                Value<bool> needsModerationReview = const Value.absent(),
+                Value<bool> isPublic = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => RecipesCompanion(
+                id: id,
+                brewingMethodId: brewingMethodId,
+                coffeeAmount: coffeeAmount,
+                waterAmount: waterAmount,
+                waterTemp: waterTemp,
+                brewTime: brewTime,
+                vendorId: vendorId,
+                lastModified: lastModified,
+                importId: importId,
+                isImported: isImported,
+                needsModerationReview: needsModerationReview,
+                isPublic: isPublic,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String brewingMethodId,
+                required double coffeeAmount,
+                required double waterAmount,
+                required double waterTemp,
+                required int brewTime,
+                Value<String?> vendorId = const Value.absent(),
+                Value<DateTime?> lastModified = const Value.absent(),
+                Value<String?> importId = const Value.absent(),
+                Value<bool> isImported = const Value.absent(),
+                Value<bool> needsModerationReview = const Value.absent(),
+                Value<bool> isPublic = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => RecipesCompanion.insert(
+                id: id,
+                brewingMethodId: brewingMethodId,
+                coffeeAmount: coffeeAmount,
+                waterAmount: waterAmount,
+                waterTemp: waterTemp,
+                brewTime: brewTime,
+                vendorId: vendorId,
+                lastModified: lastModified,
+                importId: importId,
+                isImported: isImported,
+                needsModerationReview: needsModerationReview,
+                isPublic: isPublic,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$RecipesTableReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$RecipesTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: (
-              {brewingMethodId = false,
-              recipeLocalizationsRefs = false,
-              stepsRefs = false,
-              userRecipePreferencesRefs = false,
-              userStatsRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (recipeLocalizationsRefs) db.recipeLocalizations,
-                if (stepsRefs) db.steps,
-                if (userRecipePreferencesRefs) db.userRecipePreferences,
-                if (userStatsRefs) db.userStats
-              ],
-              addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
-                if (brewingMethodId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.brewingMethodId,
-                    referencedTable:
-                        $$RecipesTableReferences._brewingMethodIdTable(db),
-                    referencedColumn: $$RecipesTableReferences
-                        ._brewingMethodIdTable(db)
-                        .brewingMethodId,
-                  ) as T;
-                }
+          prefetchHooksCallback:
+              ({
+                brewingMethodId = false,
+                recipeLocalizationsRefs = false,
+                stepsRefs = false,
+                userRecipePreferencesRefs = false,
+                userStatsRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (recipeLocalizationsRefs) db.recipeLocalizations,
+                    if (stepsRefs) db.steps,
+                    if (userRecipePreferencesRefs) db.userRecipePreferences,
+                    if (userStatsRefs) db.userStats,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (brewingMethodId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.brewingMethodId,
+                                    referencedTable: $$RecipesTableReferences
+                                        ._brewingMethodIdTable(db),
+                                    referencedColumn: $$RecipesTableReferences
+                                        ._brewingMethodIdTable(db)
+                                        .brewingMethodId,
+                                  )
+                                  as T;
+                        }
 
-                return state;
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (recipeLocalizationsRefs)
+                        await $_getPrefetchedData<
+                          Recipe,
+                          $RecipesTable,
+                          RecipeLocalization
+                        >(
+                          currentTable: table,
+                          referencedTable: $$RecipesTableReferences
+                              ._recipeLocalizationsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$RecipesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).recipeLocalizationsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.recipeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (stepsRefs)
+                        await $_getPrefetchedData<Recipe, $RecipesTable, Step>(
+                          currentTable: table,
+                          referencedTable: $$RecipesTableReferences
+                              ._stepsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$RecipesTableReferences(db, table, p0).stepsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.recipeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (userRecipePreferencesRefs)
+                        await $_getPrefetchedData<
+                          Recipe,
+                          $RecipesTable,
+                          UserRecipePreference
+                        >(
+                          currentTable: table,
+                          referencedTable: $$RecipesTableReferences
+                              ._userRecipePreferencesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$RecipesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).userRecipePreferencesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.recipeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (userStatsRefs)
+                        await $_getPrefetchedData<
+                          Recipe,
+                          $RecipesTable,
+                          UserStat
+                        >(
+                          currentTable: table,
+                          referencedTable: $$RecipesTableReferences
+                              ._userStatsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$RecipesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).userStatsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.recipeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (recipeLocalizationsRefs)
-                    await $_getPrefetchedData<Recipe, $RecipesTable,
-                            RecipeLocalization>(
-                        currentTable: table,
-                        referencedTable: $$RecipesTableReferences
-                            ._recipeLocalizationsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$RecipesTableReferences(db, table, p0)
-                                .recipeLocalizationsRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
-                            referencedItems.where((e) => e.recipeId == item.id),
-                        typedResults: items),
-                  if (stepsRefs)
-                    await $_getPrefetchedData<Recipe, $RecipesTable, Step>(
-                        currentTable: table,
-                        referencedTable:
-                            $$RecipesTableReferences._stepsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$RecipesTableReferences(db, table, p0).stepsRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
-                            referencedItems.where((e) => e.recipeId == item.id),
-                        typedResults: items),
-                  if (userRecipePreferencesRefs)
-                    await $_getPrefetchedData<Recipe, $RecipesTable,
-                            UserRecipePreference>(
-                        currentTable: table,
-                        referencedTable: $$RecipesTableReferences
-                            ._userRecipePreferencesRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$RecipesTableReferences(db, table, p0)
-                                .userRecipePreferencesRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
-                            referencedItems.where((e) => e.recipeId == item.id),
-                        typedResults: items),
-                  if (userStatsRefs)
-                    await $_getPrefetchedData<Recipe, $RecipesTable, UserStat>(
-                        currentTable: table,
-                        referencedTable:
-                            $$RecipesTableReferences._userStatsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$RecipesTableReferences(db, table, p0)
-                                .userStatsRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
-                            referencedItems.where((e) => e.recipeId == item.id),
-                        typedResults: items)
-                ];
-              },
-            );
-          },
-        ));
+        ),
+      );
 }
 
-typedef $$RecipesTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $RecipesTable,
-    Recipe,
-    $$RecipesTableFilterComposer,
-    $$RecipesTableOrderingComposer,
-    $$RecipesTableAnnotationComposer,
-    $$RecipesTableCreateCompanionBuilder,
-    $$RecipesTableUpdateCompanionBuilder,
-    (Recipe, $$RecipesTableReferences),
-    Recipe,
-    PrefetchHooks Function(
-        {bool brewingMethodId,
+typedef $$RecipesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $RecipesTable,
+      Recipe,
+      $$RecipesTableFilterComposer,
+      $$RecipesTableOrderingComposer,
+      $$RecipesTableAnnotationComposer,
+      $$RecipesTableCreateCompanionBuilder,
+      $$RecipesTableUpdateCompanionBuilder,
+      (Recipe, $$RecipesTableReferences),
+      Recipe,
+      PrefetchHooks Function({
+        bool brewingMethodId,
         bool recipeLocalizationsRefs,
         bool stepsRefs,
         bool userRecipePreferencesRefs,
-        bool userStatsRefs})>;
-typedef $$RecipeLocalizationsTableCreateCompanionBuilder
-    = RecipeLocalizationsCompanion Function({
-  required String id,
-  required String recipeId,
-  required String locale,
-  required String name,
-  required String grindSize,
-  required String shortDescription,
-  Value<int> rowid,
-});
-typedef $$RecipeLocalizationsTableUpdateCompanionBuilder
-    = RecipeLocalizationsCompanion Function({
-  Value<String> id,
-  Value<String> recipeId,
-  Value<String> locale,
-  Value<String> name,
-  Value<String> grindSize,
-  Value<String> shortDescription,
-  Value<int> rowid,
-});
+        bool userStatsRefs,
+      })
+    >;
+typedef $$RecipeLocalizationsTableCreateCompanionBuilder =
+    RecipeLocalizationsCompanion Function({
+      required String id,
+      required String recipeId,
+      required String locale,
+      required String name,
+      required String grindSize,
+      required String shortDescription,
+      Value<int> rowid,
+    });
+typedef $$RecipeLocalizationsTableUpdateCompanionBuilder =
+    RecipeLocalizationsCompanion Function({
+      Value<String> id,
+      Value<String> recipeId,
+      Value<String> locale,
+      Value<String> name,
+      Value<String> grindSize,
+      Value<String> shortDescription,
+      Value<int> rowid,
+    });
 
-final class $$RecipeLocalizationsTableReferences extends BaseReferences<
-    _$AppDatabase, $RecipeLocalizationsTable, RecipeLocalization> {
+final class $$RecipeLocalizationsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $RecipeLocalizationsTable,
+          RecipeLocalization
+        > {
   $$RecipeLocalizationsTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
 
   static $RecipesTable _recipeIdTable(_$AppDatabase db) =>
       db.recipes.createAlias(
-          $_aliasNameGenerator(db.recipeLocalizations.recipeId, db.recipes.id));
+        $_aliasNameGenerator(db.recipeLocalizations.recipeId, db.recipes.id),
+      );
 
   $$RecipesTableProcessedTableManager get recipeId {
     final $_column = $_itemColumn<String>('recipe_id')!;
 
-    final manager = $$RecipesTableTableManager($_db, $_db.recipes)
-        .filter((f) => f.id.sqlEquals($_column));
+    final manager = $$RecipesTableTableManager(
+      $_db,
+      $_db.recipes,
+    ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 
   static $SupportedLocalesTable _localeTable(_$AppDatabase db) =>
-      db.supportedLocales.createAlias($_aliasNameGenerator(
-          db.recipeLocalizations.locale, db.supportedLocales.locale));
+      db.supportedLocales.createAlias(
+        $_aliasNameGenerator(
+          db.recipeLocalizations.locale,
+          db.supportedLocales.locale,
+        ),
+      );
 
   $$SupportedLocalesTableProcessedTableManager get locale {
     final $_column = $_itemColumn<String>('locale')!;
 
-    final manager =
-        $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
-            .filter((f) => f.locale.sqlEquals($_column));
+    final manager = $$SupportedLocalesTableTableManager(
+      $_db,
+      $_db.supportedLocales,
+    ).filter((f) => f.locale.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_localeTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 }
 
@@ -5913,55 +7172,68 @@ class $$RecipeLocalizationsTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnFilters(column));
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get grindSize => $composableBuilder(
-      column: $table.grindSize, builder: (column) => ColumnFilters(column));
+    column: $table.grindSize,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get shortDescription => $composableBuilder(
-      column: $table.shortDescription,
-      builder: (column) => ColumnFilters(column));
+    column: $table.shortDescription,
+    builder: (column) => ColumnFilters(column),
+  );
 
   $$RecipesTableFilterComposer get recipeId {
     final $$RecipesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableFilterComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.recipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableFilterComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   $$SupportedLocalesTableFilterComposer get locale {
     final $$SupportedLocalesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableFilterComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.supportedLocales,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SupportedLocalesTableFilterComposer(
+            $db: $db,
+            $table: $db.supportedLocales,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -5976,55 +7248,68 @@ class $$RecipeLocalizationsTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnOrderings(column));
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get grindSize => $composableBuilder(
-      column: $table.grindSize, builder: (column) => ColumnOrderings(column));
+    column: $table.grindSize,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get shortDescription => $composableBuilder(
-      column: $table.shortDescription,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.shortDescription,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$RecipesTableOrderingComposer get recipeId {
     final $$RecipesTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableOrderingComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.recipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableOrderingComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   $$SupportedLocalesTableOrderingComposer get locale {
     final $$SupportedLocalesTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableOrderingComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.supportedLocales,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SupportedLocalesTableOrderingComposer(
+            $db: $db,
+            $table: $db.supportedLocales,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -6048,122 +7333,142 @@ class $$RecipeLocalizationsTableAnnotationComposer
       $composableBuilder(column: $table.grindSize, builder: (column) => column);
 
   GeneratedColumn<String> get shortDescription => $composableBuilder(
-      column: $table.shortDescription, builder: (column) => column);
+    column: $table.shortDescription,
+    builder: (column) => column,
+  );
 
   $$RecipesTableAnnotationComposer get recipeId {
     final $$RecipesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.recipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   $$SupportedLocalesTableAnnotationComposer get locale {
     final $$SupportedLocalesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.supportedLocales,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SupportedLocalesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.supportedLocales,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
 
-class $$RecipeLocalizationsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $RecipeLocalizationsTable,
-    RecipeLocalization,
-    $$RecipeLocalizationsTableFilterComposer,
-    $$RecipeLocalizationsTableOrderingComposer,
-    $$RecipeLocalizationsTableAnnotationComposer,
-    $$RecipeLocalizationsTableCreateCompanionBuilder,
-    $$RecipeLocalizationsTableUpdateCompanionBuilder,
-    (RecipeLocalization, $$RecipeLocalizationsTableReferences),
-    RecipeLocalization,
-    PrefetchHooks Function({bool recipeId, bool locale})> {
+class $$RecipeLocalizationsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $RecipeLocalizationsTable,
+          RecipeLocalization,
+          $$RecipeLocalizationsTableFilterComposer,
+          $$RecipeLocalizationsTableOrderingComposer,
+          $$RecipeLocalizationsTableAnnotationComposer,
+          $$RecipeLocalizationsTableCreateCompanionBuilder,
+          $$RecipeLocalizationsTableUpdateCompanionBuilder,
+          (RecipeLocalization, $$RecipeLocalizationsTableReferences),
+          RecipeLocalization,
+          PrefetchHooks Function({bool recipeId, bool locale})
+        > {
   $$RecipeLocalizationsTableTableManager(
-      _$AppDatabase db, $RecipeLocalizationsTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $RecipeLocalizationsTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
               $$RecipeLocalizationsTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
               $$RecipeLocalizationsTableOrderingComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
               $$RecipeLocalizationsTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> recipeId = const Value.absent(),
-            Value<String> locale = const Value.absent(),
-            Value<String> name = const Value.absent(),
-            Value<String> grindSize = const Value.absent(),
-            Value<String> shortDescription = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              RecipeLocalizationsCompanion(
-            id: id,
-            recipeId: recipeId,
-            locale: locale,
-            name: name,
-            grindSize: grindSize,
-            shortDescription: shortDescription,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String recipeId,
-            required String locale,
-            required String name,
-            required String grindSize,
-            required String shortDescription,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              RecipeLocalizationsCompanion.insert(
-            id: id,
-            recipeId: recipeId,
-            locale: locale,
-            name: name,
-            grindSize: grindSize,
-            shortDescription: shortDescription,
-            rowid: rowid,
-          ),
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> recipeId = const Value.absent(),
+                Value<String> locale = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> grindSize = const Value.absent(),
+                Value<String> shortDescription = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => RecipeLocalizationsCompanion(
+                id: id,
+                recipeId: recipeId,
+                locale: locale,
+                name: name,
+                grindSize: grindSize,
+                shortDescription: shortDescription,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String recipeId,
+                required String locale,
+                required String name,
+                required String grindSize,
+                required String shortDescription,
+                Value<int> rowid = const Value.absent(),
+              }) => RecipeLocalizationsCompanion.insert(
+                id: id,
+                recipeId: recipeId,
+                locale: locale,
+                name: name,
+                grindSize: grindSize,
+                shortDescription: shortDescription,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$RecipeLocalizationsTableReferences(db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$RecipeLocalizationsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: ({recipeId = false, locale = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
+              addJoins:
+                  <
+                    T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -6174,70 +7479,85 @@ class $$RecipeLocalizationsTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic>>(state) {
-                if (recipeId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.recipeId,
-                    referencedTable:
-                        $$RecipeLocalizationsTableReferences._recipeIdTable(db),
-                    referencedColumn: $$RecipeLocalizationsTableReferences
-                        ._recipeIdTable(db)
-                        .id,
-                  ) as T;
-                }
-                if (locale) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.locale,
-                    referencedTable:
-                        $$RecipeLocalizationsTableReferences._localeTable(db),
-                    referencedColumn: $$RecipeLocalizationsTableReferences
-                        ._localeTable(db)
-                        .locale,
-                  ) as T;
-                }
+                      dynamic
+                    >
+                  >(state) {
+                    if (recipeId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.recipeId,
+                                referencedTable:
+                                    $$RecipeLocalizationsTableReferences
+                                        ._recipeIdTable(db),
+                                referencedColumn:
+                                    $$RecipeLocalizationsTableReferences
+                                        ._recipeIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (locale) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.locale,
+                                referencedTable:
+                                    $$RecipeLocalizationsTableReferences
+                                        ._localeTable(db),
+                                referencedColumn:
+                                    $$RecipeLocalizationsTableReferences
+                                        ._localeTable(db)
+                                        .locale,
+                              )
+                              as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$RecipeLocalizationsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $RecipeLocalizationsTable,
-    RecipeLocalization,
-    $$RecipeLocalizationsTableFilterComposer,
-    $$RecipeLocalizationsTableOrderingComposer,
-    $$RecipeLocalizationsTableAnnotationComposer,
-    $$RecipeLocalizationsTableCreateCompanionBuilder,
-    $$RecipeLocalizationsTableUpdateCompanionBuilder,
-    (RecipeLocalization, $$RecipeLocalizationsTableReferences),
-    RecipeLocalization,
-    PrefetchHooks Function({bool recipeId, bool locale})>;
-typedef $$StepsTableCreateCompanionBuilder = StepsCompanion Function({
-  required String id,
-  required String recipeId,
-  required int stepOrder,
-  required String description,
-  required String time,
-  required String locale,
-  Value<int> rowid,
-});
-typedef $$StepsTableUpdateCompanionBuilder = StepsCompanion Function({
-  Value<String> id,
-  Value<String> recipeId,
-  Value<int> stepOrder,
-  Value<String> description,
-  Value<String> time,
-  Value<String> locale,
-  Value<int> rowid,
-});
+typedef $$RecipeLocalizationsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $RecipeLocalizationsTable,
+      RecipeLocalization,
+      $$RecipeLocalizationsTableFilterComposer,
+      $$RecipeLocalizationsTableOrderingComposer,
+      $$RecipeLocalizationsTableAnnotationComposer,
+      $$RecipeLocalizationsTableCreateCompanionBuilder,
+      $$RecipeLocalizationsTableUpdateCompanionBuilder,
+      (RecipeLocalization, $$RecipeLocalizationsTableReferences),
+      RecipeLocalization,
+      PrefetchHooks Function({bool recipeId, bool locale})
+    >;
+typedef $$StepsTableCreateCompanionBuilder =
+    StepsCompanion Function({
+      required String id,
+      required String recipeId,
+      required int stepOrder,
+      required String description,
+      required String time,
+      required String locale,
+      Value<int> rowid,
+    });
+typedef $$StepsTableUpdateCompanionBuilder =
+    StepsCompanion Function({
+      Value<String> id,
+      Value<String> recipeId,
+      Value<int> stepOrder,
+      Value<String> description,
+      Value<String> time,
+      Value<String> locale,
+      Value<int> rowid,
+    });
 
 final class $$StepsTableReferences
     extends BaseReferences<_$AppDatabase, $StepsTable, Step> {
@@ -6249,28 +7569,34 @@ final class $$StepsTableReferences
   $$RecipesTableProcessedTableManager get recipeId {
     final $_column = $_itemColumn<String>('recipe_id')!;
 
-    final manager = $$RecipesTableTableManager($_db, $_db.recipes)
-        .filter((f) => f.id.sqlEquals($_column));
+    final manager = $$RecipesTableTableManager(
+      $_db,
+      $_db.recipes,
+    ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 
   static $SupportedLocalesTable _localeTable(_$AppDatabase db) =>
       db.supportedLocales.createAlias(
-          $_aliasNameGenerator(db.steps.locale, db.supportedLocales.locale));
+        $_aliasNameGenerator(db.steps.locale, db.supportedLocales.locale),
+      );
 
   $$SupportedLocalesTableProcessedTableManager get locale {
     final $_column = $_itemColumn<String>('locale')!;
 
-    final manager =
-        $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
-            .filter((f) => f.locale.sqlEquals($_column));
+    final manager = $$SupportedLocalesTableTableManager(
+      $_db,
+      $_db.supportedLocales,
+    ).filter((f) => f.locale.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_localeTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 }
 
@@ -6283,54 +7609,68 @@ class $$StepsTableFilterComposer extends Composer<_$AppDatabase, $StepsTable> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get stepOrder => $composableBuilder(
-      column: $table.stepOrder, builder: (column) => ColumnFilters(column));
+    column: $table.stepOrder,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnFilters(column));
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get time => $composableBuilder(
-      column: $table.time, builder: (column) => ColumnFilters(column));
+    column: $table.time,
+    builder: (column) => ColumnFilters(column),
+  );
 
   $$RecipesTableFilterComposer get recipeId {
     final $$RecipesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableFilterComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.recipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableFilterComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   $$SupportedLocalesTableFilterComposer get locale {
     final $$SupportedLocalesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableFilterComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.supportedLocales,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SupportedLocalesTableFilterComposer(
+            $db: $db,
+            $table: $db.supportedLocales,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -6345,54 +7685,68 @@ class $$StepsTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get stepOrder => $composableBuilder(
-      column: $table.stepOrder, builder: (column) => ColumnOrderings(column));
+    column: $table.stepOrder,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnOrderings(column));
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get time => $composableBuilder(
-      column: $table.time, builder: (column) => ColumnOrderings(column));
+    column: $table.time,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$RecipesTableOrderingComposer get recipeId {
     final $$RecipesTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableOrderingComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.recipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableOrderingComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   $$SupportedLocalesTableOrderingComposer get locale {
     final $$SupportedLocalesTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableOrderingComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.supportedLocales,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SupportedLocalesTableOrderingComposer(
+            $db: $db,
+            $table: $db.supportedLocales,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -6413,66 +7767,78 @@ class $$StepsTableAnnotationComposer
       $composableBuilder(column: $table.stepOrder, builder: (column) => column);
 
   GeneratedColumn<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => column);
+    column: $table.description,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get time =>
       $composableBuilder(column: $table.time, builder: (column) => column);
 
   $$RecipesTableAnnotationComposer get recipeId {
     final $$RecipesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.recipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   $$SupportedLocalesTableAnnotationComposer get locale {
     final $$SupportedLocalesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.supportedLocales,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SupportedLocalesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.supportedLocales,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
 
-class $$StepsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $StepsTable,
-    Step,
-    $$StepsTableFilterComposer,
-    $$StepsTableOrderingComposer,
-    $$StepsTableAnnotationComposer,
-    $$StepsTableCreateCompanionBuilder,
-    $$StepsTableUpdateCompanionBuilder,
-    (Step, $$StepsTableReferences),
-    Step,
-    PrefetchHooks Function({bool recipeId, bool locale})> {
+class $$StepsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $StepsTable,
+          Step,
+          $$StepsTableFilterComposer,
+          $$StepsTableOrderingComposer,
+          $$StepsTableAnnotationComposer,
+          $$StepsTableCreateCompanionBuilder,
+          $$StepsTableUpdateCompanionBuilder,
+          (Step, $$StepsTableReferences),
+          Step,
+          PrefetchHooks Function({bool recipeId, bool locale})
+        > {
   $$StepsTableTableManager(_$AppDatabase db, $StepsTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -6481,52 +7847,55 @@ class $$StepsTableTableManager extends RootTableManager<
               $$StepsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$StepsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> recipeId = const Value.absent(),
-            Value<int> stepOrder = const Value.absent(),
-            Value<String> description = const Value.absent(),
-            Value<String> time = const Value.absent(),
-            Value<String> locale = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              StepsCompanion(
-            id: id,
-            recipeId: recipeId,
-            stepOrder: stepOrder,
-            description: description,
-            time: time,
-            locale: locale,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String recipeId,
-            required int stepOrder,
-            required String description,
-            required String time,
-            required String locale,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              StepsCompanion.insert(
-            id: id,
-            recipeId: recipeId,
-            stepOrder: stepOrder,
-            description: description,
-            time: time,
-            locale: locale,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> recipeId = const Value.absent(),
+                Value<int> stepOrder = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<String> time = const Value.absent(),
+                Value<String> locale = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => StepsCompanion(
+                id: id,
+                recipeId: recipeId,
+                stepOrder: stepOrder,
+                description: description,
+                time: time,
+                locale: locale,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String recipeId,
+                required int stepOrder,
+                required String description,
+                required String time,
+                required String locale,
+                Value<int> rowid = const Value.absent(),
+              }) => StepsCompanion.insert(
+                id: id,
+                recipeId: recipeId,
+                stepOrder: stepOrder,
+                description: description,
+                time: time,
+                locale: locale,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$StepsTableReferences(db, table, e)))
+              .map(
+                (e) =>
+                    (e.readTable(table), $$StepsTableReferences(db, table, e)),
+              )
               .toList(),
           prefetchHooksCallback: ({recipeId = false, locale = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
+              addJoins:
+                  <
+                    T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -6537,91 +7906,118 @@ class $$StepsTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic>>(state) {
-                if (recipeId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.recipeId,
-                    referencedTable: $$StepsTableReferences._recipeIdTable(db),
-                    referencedColumn:
-                        $$StepsTableReferences._recipeIdTable(db).id,
-                  ) as T;
-                }
-                if (locale) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.locale,
-                    referencedTable: $$StepsTableReferences._localeTable(db),
-                    referencedColumn:
-                        $$StepsTableReferences._localeTable(db).locale,
-                  ) as T;
-                }
+                      dynamic
+                    >
+                  >(state) {
+                    if (recipeId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.recipeId,
+                                referencedTable: $$StepsTableReferences
+                                    ._recipeIdTable(db),
+                                referencedColumn: $$StepsTableReferences
+                                    ._recipeIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (locale) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.locale,
+                                referencedTable: $$StepsTableReferences
+                                    ._localeTable(db),
+                                referencedColumn: $$StepsTableReferences
+                                    ._localeTable(db)
+                                    .locale,
+                              )
+                              as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$StepsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $StepsTable,
-    Step,
-    $$StepsTableFilterComposer,
-    $$StepsTableOrderingComposer,
-    $$StepsTableAnnotationComposer,
-    $$StepsTableCreateCompanionBuilder,
-    $$StepsTableUpdateCompanionBuilder,
-    (Step, $$StepsTableReferences),
-    Step,
-    PrefetchHooks Function({bool recipeId, bool locale})>;
-typedef $$UserRecipePreferencesTableCreateCompanionBuilder
-    = UserRecipePreferencesCompanion Function({
-  required String recipeId,
-  Value<DateTime?> lastUsed,
-  required bool isFavorite,
-  Value<int> sweetnessSliderPosition,
-  Value<int> strengthSliderPosition,
-  Value<double?> customCoffeeAmount,
-  Value<double?> customWaterAmount,
-  Value<int> coffeeChroniclerSliderPosition,
-  Value<int> rowid,
-});
-typedef $$UserRecipePreferencesTableUpdateCompanionBuilder
-    = UserRecipePreferencesCompanion Function({
-  Value<String> recipeId,
-  Value<DateTime?> lastUsed,
-  Value<bool> isFavorite,
-  Value<int> sweetnessSliderPosition,
-  Value<int> strengthSliderPosition,
-  Value<double?> customCoffeeAmount,
-  Value<double?> customWaterAmount,
-  Value<int> coffeeChroniclerSliderPosition,
-  Value<int> rowid,
-});
+typedef $$StepsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $StepsTable,
+      Step,
+      $$StepsTableFilterComposer,
+      $$StepsTableOrderingComposer,
+      $$StepsTableAnnotationComposer,
+      $$StepsTableCreateCompanionBuilder,
+      $$StepsTableUpdateCompanionBuilder,
+      (Step, $$StepsTableReferences),
+      Step,
+      PrefetchHooks Function({bool recipeId, bool locale})
+    >;
+typedef $$UserRecipePreferencesTableCreateCompanionBuilder =
+    UserRecipePreferencesCompanion Function({
+      required String recipeId,
+      Value<DateTime?> lastUsed,
+      required bool isFavorite,
+      Value<int> sweetnessSliderPosition,
+      Value<int> strengthSliderPosition,
+      Value<double?> customCoffeeAmount,
+      Value<double?> customWaterAmount,
+      Value<int> coffeeChroniclerSliderPosition,
+      Value<String?> customGrindSize,
+      Value<int> rowid,
+    });
+typedef $$UserRecipePreferencesTableUpdateCompanionBuilder =
+    UserRecipePreferencesCompanion Function({
+      Value<String> recipeId,
+      Value<DateTime?> lastUsed,
+      Value<bool> isFavorite,
+      Value<int> sweetnessSliderPosition,
+      Value<int> strengthSliderPosition,
+      Value<double?> customCoffeeAmount,
+      Value<double?> customWaterAmount,
+      Value<int> coffeeChroniclerSliderPosition,
+      Value<String?> customGrindSize,
+      Value<int> rowid,
+    });
 
-final class $$UserRecipePreferencesTableReferences extends BaseReferences<
-    _$AppDatabase, $UserRecipePreferencesTable, UserRecipePreference> {
+final class $$UserRecipePreferencesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $UserRecipePreferencesTable,
+          UserRecipePreference
+        > {
   $$UserRecipePreferencesTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
 
   static $RecipesTable _recipeIdTable(_$AppDatabase db) =>
-      db.recipes.createAlias($_aliasNameGenerator(
-          db.userRecipePreferences.recipeId, db.recipes.id));
+      db.recipes.createAlias(
+        $_aliasNameGenerator(db.userRecipePreferences.recipeId, db.recipes.id),
+      );
 
   $$RecipesTableProcessedTableManager get recipeId {
     final $_column = $_itemColumn<String>('recipe_id')!;
 
-    final manager = $$RecipesTableTableManager($_db, $_db.recipes)
-        .filter((f) => f.id.sqlEquals($_column));
+    final manager = $$RecipesTableTableManager(
+      $_db,
+      $_db.recipes,
+    ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 }
 
@@ -6635,48 +8031,65 @@ class $$UserRecipePreferencesTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<DateTime> get lastUsed => $composableBuilder(
-      column: $table.lastUsed, builder: (column) => ColumnFilters(column));
+    column: $table.lastUsed,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get isFavorite => $composableBuilder(
-      column: $table.isFavorite, builder: (column) => ColumnFilters(column));
+    column: $table.isFavorite,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get sweetnessSliderPosition => $composableBuilder(
-      column: $table.sweetnessSliderPosition,
-      builder: (column) => ColumnFilters(column));
+    column: $table.sweetnessSliderPosition,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get strengthSliderPosition => $composableBuilder(
-      column: $table.strengthSliderPosition,
-      builder: (column) => ColumnFilters(column));
+    column: $table.strengthSliderPosition,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<double> get customCoffeeAmount => $composableBuilder(
-      column: $table.customCoffeeAmount,
-      builder: (column) => ColumnFilters(column));
+    column: $table.customCoffeeAmount,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<double> get customWaterAmount => $composableBuilder(
-      column: $table.customWaterAmount,
-      builder: (column) => ColumnFilters(column));
+    column: $table.customWaterAmount,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get coffeeChroniclerSliderPosition => $composableBuilder(
-      column: $table.coffeeChroniclerSliderPosition,
-      builder: (column) => ColumnFilters(column));
+    column: $table.coffeeChroniclerSliderPosition,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get customGrindSize => $composableBuilder(
+    column: $table.customGrindSize,
+    builder: (column) => ColumnFilters(column),
+  );
 
   $$RecipesTableFilterComposer get recipeId {
     final $$RecipesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableFilterComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.recipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableFilterComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -6691,48 +8104,65 @@ class $$UserRecipePreferencesTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<DateTime> get lastUsed => $composableBuilder(
-      column: $table.lastUsed, builder: (column) => ColumnOrderings(column));
+    column: $table.lastUsed,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get isFavorite => $composableBuilder(
-      column: $table.isFavorite, builder: (column) => ColumnOrderings(column));
+    column: $table.isFavorite,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get sweetnessSliderPosition => $composableBuilder(
-      column: $table.sweetnessSliderPosition,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.sweetnessSliderPosition,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get strengthSliderPosition => $composableBuilder(
-      column: $table.strengthSliderPosition,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.strengthSliderPosition,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<double> get customCoffeeAmount => $composableBuilder(
-      column: $table.customCoffeeAmount,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.customCoffeeAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<double> get customWaterAmount => $composableBuilder(
-      column: $table.customWaterAmount,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.customWaterAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get coffeeChroniclerSliderPosition => $composableBuilder(
-      column: $table.coffeeChroniclerSliderPosition,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.coffeeChroniclerSliderPosition,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get customGrindSize => $composableBuilder(
+    column: $table.customGrindSize,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$RecipesTableOrderingComposer get recipeId {
     final $$RecipesTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableOrderingComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.recipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableOrderingComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -6750,127 +8180,166 @@ class $$UserRecipePreferencesTableAnnotationComposer
       $composableBuilder(column: $table.lastUsed, builder: (column) => column);
 
   GeneratedColumn<bool> get isFavorite => $composableBuilder(
-      column: $table.isFavorite, builder: (column) => column);
+    column: $table.isFavorite,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get sweetnessSliderPosition => $composableBuilder(
-      column: $table.sweetnessSliderPosition, builder: (column) => column);
+    column: $table.sweetnessSliderPosition,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get strengthSliderPosition => $composableBuilder(
-      column: $table.strengthSliderPosition, builder: (column) => column);
+    column: $table.strengthSliderPosition,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get customCoffeeAmount => $composableBuilder(
-      column: $table.customCoffeeAmount, builder: (column) => column);
+    column: $table.customCoffeeAmount,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get customWaterAmount => $composableBuilder(
-      column: $table.customWaterAmount, builder: (column) => column);
+    column: $table.customWaterAmount,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get coffeeChroniclerSliderPosition => $composableBuilder(
-      column: $table.coffeeChroniclerSliderPosition,
-      builder: (column) => column);
+    column: $table.coffeeChroniclerSliderPosition,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get customGrindSize => $composableBuilder(
+    column: $table.customGrindSize,
+    builder: (column) => column,
+  );
 
   $$RecipesTableAnnotationComposer get recipeId {
     final $$RecipesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.recipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
 
-class $$UserRecipePreferencesTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $UserRecipePreferencesTable,
-    UserRecipePreference,
-    $$UserRecipePreferencesTableFilterComposer,
-    $$UserRecipePreferencesTableOrderingComposer,
-    $$UserRecipePreferencesTableAnnotationComposer,
-    $$UserRecipePreferencesTableCreateCompanionBuilder,
-    $$UserRecipePreferencesTableUpdateCompanionBuilder,
-    (UserRecipePreference, $$UserRecipePreferencesTableReferences),
-    UserRecipePreference,
-    PrefetchHooks Function({bool recipeId})> {
+class $$UserRecipePreferencesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UserRecipePreferencesTable,
+          UserRecipePreference,
+          $$UserRecipePreferencesTableFilterComposer,
+          $$UserRecipePreferencesTableOrderingComposer,
+          $$UserRecipePreferencesTableAnnotationComposer,
+          $$UserRecipePreferencesTableCreateCompanionBuilder,
+          $$UserRecipePreferencesTableUpdateCompanionBuilder,
+          (UserRecipePreference, $$UserRecipePreferencesTableReferences),
+          UserRecipePreference,
+          PrefetchHooks Function({bool recipeId})
+        > {
   $$UserRecipePreferencesTableTableManager(
-      _$AppDatabase db, $UserRecipePreferencesTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $UserRecipePreferencesTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
               $$UserRecipePreferencesTableFilterComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createOrderingComposer: () =>
               $$UserRecipePreferencesTableOrderingComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
               $$UserRecipePreferencesTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> recipeId = const Value.absent(),
-            Value<DateTime?> lastUsed = const Value.absent(),
-            Value<bool> isFavorite = const Value.absent(),
-            Value<int> sweetnessSliderPosition = const Value.absent(),
-            Value<int> strengthSliderPosition = const Value.absent(),
-            Value<double?> customCoffeeAmount = const Value.absent(),
-            Value<double?> customWaterAmount = const Value.absent(),
-            Value<int> coffeeChroniclerSliderPosition = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              UserRecipePreferencesCompanion(
-            recipeId: recipeId,
-            lastUsed: lastUsed,
-            isFavorite: isFavorite,
-            sweetnessSliderPosition: sweetnessSliderPosition,
-            strengthSliderPosition: strengthSliderPosition,
-            customCoffeeAmount: customCoffeeAmount,
-            customWaterAmount: customWaterAmount,
-            coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String recipeId,
-            Value<DateTime?> lastUsed = const Value.absent(),
-            required bool isFavorite,
-            Value<int> sweetnessSliderPosition = const Value.absent(),
-            Value<int> strengthSliderPosition = const Value.absent(),
-            Value<double?> customCoffeeAmount = const Value.absent(),
-            Value<double?> customWaterAmount = const Value.absent(),
-            Value<int> coffeeChroniclerSliderPosition = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              UserRecipePreferencesCompanion.insert(
-            recipeId: recipeId,
-            lastUsed: lastUsed,
-            isFavorite: isFavorite,
-            sweetnessSliderPosition: sweetnessSliderPosition,
-            strengthSliderPosition: strengthSliderPosition,
-            customCoffeeAmount: customCoffeeAmount,
-            customWaterAmount: customWaterAmount,
-            coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition,
-            rowid: rowid,
-          ),
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> recipeId = const Value.absent(),
+                Value<DateTime?> lastUsed = const Value.absent(),
+                Value<bool> isFavorite = const Value.absent(),
+                Value<int> sweetnessSliderPosition = const Value.absent(),
+                Value<int> strengthSliderPosition = const Value.absent(),
+                Value<double?> customCoffeeAmount = const Value.absent(),
+                Value<double?> customWaterAmount = const Value.absent(),
+                Value<int> coffeeChroniclerSliderPosition =
+                    const Value.absent(),
+                Value<String?> customGrindSize = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => UserRecipePreferencesCompanion(
+                recipeId: recipeId,
+                lastUsed: lastUsed,
+                isFavorite: isFavorite,
+                sweetnessSliderPosition: sweetnessSliderPosition,
+                strengthSliderPosition: strengthSliderPosition,
+                customCoffeeAmount: customCoffeeAmount,
+                customWaterAmount: customWaterAmount,
+                coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition,
+                customGrindSize: customGrindSize,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String recipeId,
+                Value<DateTime?> lastUsed = const Value.absent(),
+                required bool isFavorite,
+                Value<int> sweetnessSliderPosition = const Value.absent(),
+                Value<int> strengthSliderPosition = const Value.absent(),
+                Value<double?> customCoffeeAmount = const Value.absent(),
+                Value<double?> customWaterAmount = const Value.absent(),
+                Value<int> coffeeChroniclerSliderPosition =
+                    const Value.absent(),
+                Value<String?> customGrindSize = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => UserRecipePreferencesCompanion.insert(
+                recipeId: recipeId,
+                lastUsed: lastUsed,
+                isFavorite: isFavorite,
+                sweetnessSliderPosition: sweetnessSliderPosition,
+                strengthSliderPosition: strengthSliderPosition,
+                customCoffeeAmount: customCoffeeAmount,
+                customWaterAmount: customWaterAmount,
+                coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition,
+                customGrindSize: customGrindSize,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$UserRecipePreferencesTableReferences(db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$UserRecipePreferencesTableReferences(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: ({recipeId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
+              addJoins:
+                  <
+                    T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -6881,75 +8350,86 @@ class $$UserRecipePreferencesTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic>>(state) {
-                if (recipeId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.recipeId,
-                    referencedTable: $$UserRecipePreferencesTableReferences
-                        ._recipeIdTable(db),
-                    referencedColumn: $$UserRecipePreferencesTableReferences
-                        ._recipeIdTable(db)
-                        .id,
-                  ) as T;
-                }
+                      dynamic
+                    >
+                  >(state) {
+                    if (recipeId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.recipeId,
+                                referencedTable:
+                                    $$UserRecipePreferencesTableReferences
+                                        ._recipeIdTable(db),
+                                referencedColumn:
+                                    $$UserRecipePreferencesTableReferences
+                                        ._recipeIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$UserRecipePreferencesTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $UserRecipePreferencesTable,
-        UserRecipePreference,
-        $$UserRecipePreferencesTableFilterComposer,
-        $$UserRecipePreferencesTableOrderingComposer,
-        $$UserRecipePreferencesTableAnnotationComposer,
-        $$UserRecipePreferencesTableCreateCompanionBuilder,
-        $$UserRecipePreferencesTableUpdateCompanionBuilder,
-        (UserRecipePreference, $$UserRecipePreferencesTableReferences),
-        UserRecipePreference,
-        PrefetchHooks Function({bool recipeId})>;
-typedef $$CoffeeFactsTableCreateCompanionBuilder = CoffeeFactsCompanion
-    Function({
-  required String id,
-  required String fact,
-  required String locale,
-  Value<int> rowid,
-});
-typedef $$CoffeeFactsTableUpdateCompanionBuilder = CoffeeFactsCompanion
-    Function({
-  Value<String> id,
-  Value<String> fact,
-  Value<String> locale,
-  Value<int> rowid,
-});
+typedef $$UserRecipePreferencesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UserRecipePreferencesTable,
+      UserRecipePreference,
+      $$UserRecipePreferencesTableFilterComposer,
+      $$UserRecipePreferencesTableOrderingComposer,
+      $$UserRecipePreferencesTableAnnotationComposer,
+      $$UserRecipePreferencesTableCreateCompanionBuilder,
+      $$UserRecipePreferencesTableUpdateCompanionBuilder,
+      (UserRecipePreference, $$UserRecipePreferencesTableReferences),
+      UserRecipePreference,
+      PrefetchHooks Function({bool recipeId})
+    >;
+typedef $$CoffeeFactsTableCreateCompanionBuilder =
+    CoffeeFactsCompanion Function({
+      required String id,
+      required String fact,
+      required String locale,
+      Value<int> rowid,
+    });
+typedef $$CoffeeFactsTableUpdateCompanionBuilder =
+    CoffeeFactsCompanion Function({
+      Value<String> id,
+      Value<String> fact,
+      Value<String> locale,
+      Value<int> rowid,
+    });
 
 final class $$CoffeeFactsTableReferences
     extends BaseReferences<_$AppDatabase, $CoffeeFactsTable, CoffeeFact> {
   $$CoffeeFactsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $SupportedLocalesTable _localeTable(_$AppDatabase db) =>
-      db.supportedLocales.createAlias($_aliasNameGenerator(
-          db.coffeeFacts.locale, db.supportedLocales.locale));
+      db.supportedLocales.createAlias(
+        $_aliasNameGenerator(db.coffeeFacts.locale, db.supportedLocales.locale),
+      );
 
   $$SupportedLocalesTableProcessedTableManager get locale {
     final $_column = $_itemColumn<String>('locale')!;
 
-    final manager =
-        $$SupportedLocalesTableTableManager($_db, $_db.supportedLocales)
-            .filter((f) => f.locale.sqlEquals($_column));
+    final manager = $$SupportedLocalesTableTableManager(
+      $_db,
+      $_db.supportedLocales,
+    ).filter((f) => f.locale.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_localeTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 }
 
@@ -6963,28 +8443,35 @@ class $$CoffeeFactsTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get fact => $composableBuilder(
-      column: $table.fact, builder: (column) => ColumnFilters(column));
+    column: $table.fact,
+    builder: (column) => ColumnFilters(column),
+  );
 
   $$SupportedLocalesTableFilterComposer get locale {
     final $$SupportedLocalesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableFilterComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.supportedLocales,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SupportedLocalesTableFilterComposer(
+            $db: $db,
+            $table: $db.supportedLocales,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -6999,28 +8486,35 @@ class $$CoffeeFactsTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get fact => $composableBuilder(
-      column: $table.fact, builder: (column) => ColumnOrderings(column));
+    column: $table.fact,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$SupportedLocalesTableOrderingComposer get locale {
     final $$SupportedLocalesTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableOrderingComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.supportedLocales,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SupportedLocalesTableOrderingComposer(
+            $db: $db,
+            $table: $db.supportedLocales,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -7042,39 +8536,46 @@ class $$CoffeeFactsTableAnnotationComposer
 
   $$SupportedLocalesTableAnnotationComposer get locale {
     final $$SupportedLocalesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.locale,
-        referencedTable: $db.supportedLocales,
-        getReferencedColumn: (t) => t.locale,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$SupportedLocalesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.supportedLocales,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.locale,
+      referencedTable: $db.supportedLocales,
+      getReferencedColumn: (t) => t.locale,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SupportedLocalesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.supportedLocales,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
 
-class $$CoffeeFactsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $CoffeeFactsTable,
-    CoffeeFact,
-    $$CoffeeFactsTableFilterComposer,
-    $$CoffeeFactsTableOrderingComposer,
-    $$CoffeeFactsTableAnnotationComposer,
-    $$CoffeeFactsTableCreateCompanionBuilder,
-    $$CoffeeFactsTableUpdateCompanionBuilder,
-    (CoffeeFact, $$CoffeeFactsTableReferences),
-    CoffeeFact,
-    PrefetchHooks Function({bool locale})> {
+class $$CoffeeFactsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CoffeeFactsTable,
+          CoffeeFact,
+          $$CoffeeFactsTableFilterComposer,
+          $$CoffeeFactsTableOrderingComposer,
+          $$CoffeeFactsTableAnnotationComposer,
+          $$CoffeeFactsTableCreateCompanionBuilder,
+          $$CoffeeFactsTableUpdateCompanionBuilder,
+          (CoffeeFact, $$CoffeeFactsTableReferences),
+          CoffeeFact,
+          PrefetchHooks Function({bool locale})
+        > {
   $$CoffeeFactsTableTableManager(_$AppDatabase db, $CoffeeFactsTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -7083,42 +8584,45 @@ class $$CoffeeFactsTableTableManager extends RootTableManager<
               $$CoffeeFactsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$CoffeeFactsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> fact = const Value.absent(),
-            Value<String> locale = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CoffeeFactsCompanion(
-            id: id,
-            fact: fact,
-            locale: locale,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String fact,
-            required String locale,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CoffeeFactsCompanion.insert(
-            id: id,
-            fact: fact,
-            locale: locale,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> fact = const Value.absent(),
+                Value<String> locale = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CoffeeFactsCompanion(
+                id: id,
+                fact: fact,
+                locale: locale,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String fact,
+                required String locale,
+                Value<int> rowid = const Value.absent(),
+              }) => CoffeeFactsCompanion.insert(
+                id: id,
+                fact: fact,
+                locale: locale,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$CoffeeFactsTableReferences(db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$CoffeeFactsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: ({locale = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
+              addJoins:
+                  <
+                    T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -7129,82 +8633,94 @@ class $$CoffeeFactsTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic>>(state) {
-                if (locale) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.locale,
-                    referencedTable:
-                        $$CoffeeFactsTableReferences._localeTable(db),
-                    referencedColumn:
-                        $$CoffeeFactsTableReferences._localeTable(db).locale,
-                  ) as T;
-                }
+                      dynamic
+                    >
+                  >(state) {
+                    if (locale) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.locale,
+                                referencedTable: $$CoffeeFactsTableReferences
+                                    ._localeTable(db),
+                                referencedColumn: $$CoffeeFactsTableReferences
+                                    ._localeTable(db)
+                                    .locale,
+                              )
+                              as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$CoffeeFactsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $CoffeeFactsTable,
-    CoffeeFact,
-    $$CoffeeFactsTableFilterComposer,
-    $$CoffeeFactsTableOrderingComposer,
-    $$CoffeeFactsTableAnnotationComposer,
-    $$CoffeeFactsTableCreateCompanionBuilder,
-    $$CoffeeFactsTableUpdateCompanionBuilder,
-    (CoffeeFact, $$CoffeeFactsTableReferences),
-    CoffeeFact,
-    PrefetchHooks Function({bool locale})>;
-typedef $$UserStatsTableCreateCompanionBuilder = UserStatsCompanion Function({
-  required String statUuid,
-  Value<int?> id,
-  required String recipeId,
-  required double coffeeAmount,
-  required double waterAmount,
-  required int sweetnessSliderPosition,
-  required int strengthSliderPosition,
-  required String brewingMethodId,
-  Value<DateTime> createdAt,
-  Value<String?> notes,
-  Value<String?> beans,
-  Value<String?> roaster,
-  Value<double?> rating,
-  Value<int?> coffeeBeansId,
-  Value<bool> isMarked,
-  Value<String?> coffeeBeansUuid,
-  required String versionVector,
-  Value<bool> isDeleted,
-  Value<int> rowid,
-});
-typedef $$UserStatsTableUpdateCompanionBuilder = UserStatsCompanion Function({
-  Value<String> statUuid,
-  Value<int?> id,
-  Value<String> recipeId,
-  Value<double> coffeeAmount,
-  Value<double> waterAmount,
-  Value<int> sweetnessSliderPosition,
-  Value<int> strengthSliderPosition,
-  Value<String> brewingMethodId,
-  Value<DateTime> createdAt,
-  Value<String?> notes,
-  Value<String?> beans,
-  Value<String?> roaster,
-  Value<double?> rating,
-  Value<int?> coffeeBeansId,
-  Value<bool> isMarked,
-  Value<String?> coffeeBeansUuid,
-  Value<String> versionVector,
-  Value<bool> isDeleted,
-  Value<int> rowid,
-});
+typedef $$CoffeeFactsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CoffeeFactsTable,
+      CoffeeFact,
+      $$CoffeeFactsTableFilterComposer,
+      $$CoffeeFactsTableOrderingComposer,
+      $$CoffeeFactsTableAnnotationComposer,
+      $$CoffeeFactsTableCreateCompanionBuilder,
+      $$CoffeeFactsTableUpdateCompanionBuilder,
+      (CoffeeFact, $$CoffeeFactsTableReferences),
+      CoffeeFact,
+      PrefetchHooks Function({bool locale})
+    >;
+typedef $$UserStatsTableCreateCompanionBuilder =
+    UserStatsCompanion Function({
+      required String statUuid,
+      Value<int?> id,
+      required String recipeId,
+      required double coffeeAmount,
+      required double waterAmount,
+      required int sweetnessSliderPosition,
+      required int strengthSliderPosition,
+      required String brewingMethodId,
+      Value<DateTime> createdAt,
+      Value<String?> notes,
+      Value<String?> beans,
+      Value<String?> roaster,
+      Value<double?> rating,
+      Value<int?> coffeeBeansId,
+      Value<bool> isMarked,
+      Value<String?> coffeeBeansUuid,
+      Value<String?> grindSize,
+      required String versionVector,
+      Value<bool> isDeleted,
+      Value<int> rowid,
+    });
+typedef $$UserStatsTableUpdateCompanionBuilder =
+    UserStatsCompanion Function({
+      Value<String> statUuid,
+      Value<int?> id,
+      Value<String> recipeId,
+      Value<double> coffeeAmount,
+      Value<double> waterAmount,
+      Value<int> sweetnessSliderPosition,
+      Value<int> strengthSliderPosition,
+      Value<String> brewingMethodId,
+      Value<DateTime> createdAt,
+      Value<String?> notes,
+      Value<String?> beans,
+      Value<String?> roaster,
+      Value<double?> rating,
+      Value<int?> coffeeBeansId,
+      Value<bool> isMarked,
+      Value<String?> coffeeBeansUuid,
+      Value<String?> grindSize,
+      Value<String> versionVector,
+      Value<bool> isDeleted,
+      Value<int> rowid,
+    });
 
 final class $$UserStatsTableReferences
     extends BaseReferences<_$AppDatabase, $UserStatsTable, UserStat> {
@@ -7216,27 +8732,37 @@ final class $$UserStatsTableReferences
   $$RecipesTableProcessedTableManager get recipeId {
     final $_column = $_itemColumn<String>('recipe_id')!;
 
-    final manager = $$RecipesTableTableManager($_db, $_db.recipes)
-        .filter((f) => f.id.sqlEquals($_column));
+    final manager = $$RecipesTableTableManager(
+      $_db,
+      $_db.recipes,
+    ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 
   static $BrewingMethodsTable _brewingMethodIdTable(_$AppDatabase db) =>
-      db.brewingMethods.createAlias($_aliasNameGenerator(
-          db.userStats.brewingMethodId, db.brewingMethods.brewingMethodId));
+      db.brewingMethods.createAlias(
+        $_aliasNameGenerator(
+          db.userStats.brewingMethodId,
+          db.brewingMethods.brewingMethodId,
+        ),
+      );
 
   $$BrewingMethodsTableProcessedTableManager get brewingMethodId {
     final $_column = $_itemColumn<String>('brewing_method_id')!;
 
-    final manager = $$BrewingMethodsTableTableManager($_db, $_db.brewingMethods)
-        .filter((f) => f.brewingMethodId.sqlEquals($_column));
+    final manager = $$BrewingMethodsTableTableManager(
+      $_db,
+      $_db.brewingMethods,
+    ).filter((f) => f.brewingMethodId.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_brewingMethodIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 }
 
@@ -7250,93 +8776,133 @@ class $$UserStatsTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get statUuid => $composableBuilder(
-      column: $table.statUuid, builder: (column) => ColumnFilters(column));
+    column: $table.statUuid,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<double> get coffeeAmount => $composableBuilder(
-      column: $table.coffeeAmount, builder: (column) => ColumnFilters(column));
+    column: $table.coffeeAmount,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<double> get waterAmount => $composableBuilder(
-      column: $table.waterAmount, builder: (column) => ColumnFilters(column));
+    column: $table.waterAmount,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get sweetnessSliderPosition => $composableBuilder(
-      column: $table.sweetnessSliderPosition,
-      builder: (column) => ColumnFilters(column));
+    column: $table.sweetnessSliderPosition,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get strengthSliderPosition => $composableBuilder(
-      column: $table.strengthSliderPosition,
-      builder: (column) => ColumnFilters(column));
+    column: $table.strengthSliderPosition,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get notes => $composableBuilder(
-      column: $table.notes, builder: (column) => ColumnFilters(column));
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get beans => $composableBuilder(
-      column: $table.beans, builder: (column) => ColumnFilters(column));
+    column: $table.beans,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get roaster => $composableBuilder(
-      column: $table.roaster, builder: (column) => ColumnFilters(column));
+    column: $table.roaster,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<double> get rating => $composableBuilder(
-      column: $table.rating, builder: (column) => ColumnFilters(column));
+    column: $table.rating,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get coffeeBeansId => $composableBuilder(
-      column: $table.coffeeBeansId, builder: (column) => ColumnFilters(column));
+    column: $table.coffeeBeansId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get isMarked => $composableBuilder(
-      column: $table.isMarked, builder: (column) => ColumnFilters(column));
+    column: $table.isMarked,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get coffeeBeansUuid => $composableBuilder(
-      column: $table.coffeeBeansUuid,
-      builder: (column) => ColumnFilters(column));
+    column: $table.coffeeBeansUuid,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get grindSize => $composableBuilder(
+    column: $table.grindSize,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get versionVector => $composableBuilder(
-      column: $table.versionVector, builder: (column) => ColumnFilters(column));
+    column: $table.versionVector,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get isDeleted => $composableBuilder(
-      column: $table.isDeleted, builder: (column) => ColumnFilters(column));
+    column: $table.isDeleted,
+    builder: (column) => ColumnFilters(column),
+  );
 
   $$RecipesTableFilterComposer get recipeId {
     final $$RecipesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableFilterComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.recipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableFilterComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   $$BrewingMethodsTableFilterComposer get brewingMethodId {
     final $$BrewingMethodsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $db.brewingMethods,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BrewingMethodsTableFilterComposer(
-              $db: $db,
-              $table: $db.brewingMethods,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.brewingMethodId,
+      referencedTable: $db.brewingMethods,
+      getReferencedColumn: (t) => t.brewingMethodId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BrewingMethodsTableFilterComposer(
+            $db: $db,
+            $table: $db.brewingMethods,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -7351,96 +8917,133 @@ class $$UserStatsTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get statUuid => $composableBuilder(
-      column: $table.statUuid, builder: (column) => ColumnOrderings(column));
+    column: $table.statUuid,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<double> get coffeeAmount => $composableBuilder(
-      column: $table.coffeeAmount,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.coffeeAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<double> get waterAmount => $composableBuilder(
-      column: $table.waterAmount, builder: (column) => ColumnOrderings(column));
+    column: $table.waterAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get sweetnessSliderPosition => $composableBuilder(
-      column: $table.sweetnessSliderPosition,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.sweetnessSliderPosition,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get strengthSliderPosition => $composableBuilder(
-      column: $table.strengthSliderPosition,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.strengthSliderPosition,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get notes => $composableBuilder(
-      column: $table.notes, builder: (column) => ColumnOrderings(column));
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get beans => $composableBuilder(
-      column: $table.beans, builder: (column) => ColumnOrderings(column));
+    column: $table.beans,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get roaster => $composableBuilder(
-      column: $table.roaster, builder: (column) => ColumnOrderings(column));
+    column: $table.roaster,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<double> get rating => $composableBuilder(
-      column: $table.rating, builder: (column) => ColumnOrderings(column));
+    column: $table.rating,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get coffeeBeansId => $composableBuilder(
-      column: $table.coffeeBeansId,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.coffeeBeansId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get isMarked => $composableBuilder(
-      column: $table.isMarked, builder: (column) => ColumnOrderings(column));
+    column: $table.isMarked,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get coffeeBeansUuid => $composableBuilder(
-      column: $table.coffeeBeansUuid,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.coffeeBeansUuid,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get grindSize => $composableBuilder(
+    column: $table.grindSize,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get versionVector => $composableBuilder(
-      column: $table.versionVector,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.versionVector,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get isDeleted => $composableBuilder(
-      column: $table.isDeleted, builder: (column) => ColumnOrderings(column));
+    column: $table.isDeleted,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$RecipesTableOrderingComposer get recipeId {
     final $$RecipesTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableOrderingComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.recipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableOrderingComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   $$BrewingMethodsTableOrderingComposer get brewingMethodId {
     final $$BrewingMethodsTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $db.brewingMethods,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BrewingMethodsTableOrderingComposer(
-              $db: $db,
-              $table: $db.brewingMethods,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.brewingMethodId,
+      referencedTable: $db.brewingMethods,
+      getReferencedColumn: (t) => t.brewingMethodId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BrewingMethodsTableOrderingComposer(
+            $db: $db,
+            $table: $db.brewingMethods,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -7461,16 +9064,24 @@ class $$UserStatsTableAnnotationComposer
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<double> get coffeeAmount => $composableBuilder(
-      column: $table.coffeeAmount, builder: (column) => column);
+    column: $table.coffeeAmount,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get waterAmount => $composableBuilder(
-      column: $table.waterAmount, builder: (column) => column);
+    column: $table.waterAmount,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get sweetnessSliderPosition => $composableBuilder(
-      column: $table.sweetnessSliderPosition, builder: (column) => column);
+    column: $table.sweetnessSliderPosition,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get strengthSliderPosition => $composableBuilder(
-      column: $table.strengthSliderPosition, builder: (column) => column);
+    column: $table.strengthSliderPosition,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -7488,75 +9099,94 @@ class $$UserStatsTableAnnotationComposer
       $composableBuilder(column: $table.rating, builder: (column) => column);
 
   GeneratedColumn<int> get coffeeBeansId => $composableBuilder(
-      column: $table.coffeeBeansId, builder: (column) => column);
+    column: $table.coffeeBeansId,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<bool> get isMarked =>
       $composableBuilder(column: $table.isMarked, builder: (column) => column);
 
   GeneratedColumn<String> get coffeeBeansUuid => $composableBuilder(
-      column: $table.coffeeBeansUuid, builder: (column) => column);
+    column: $table.coffeeBeansUuid,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get grindSize =>
+      $composableBuilder(column: $table.grindSize, builder: (column) => column);
 
   GeneratedColumn<String> get versionVector => $composableBuilder(
-      column: $table.versionVector, builder: (column) => column);
+    column: $table.versionVector,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<bool> get isDeleted =>
       $composableBuilder(column: $table.isDeleted, builder: (column) => column);
 
   $$RecipesTableAnnotationComposer get recipeId {
     final $$RecipesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.recipeId,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   $$BrewingMethodsTableAnnotationComposer get brewingMethodId {
     final $$BrewingMethodsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.brewingMethodId,
-        referencedTable: $db.brewingMethods,
-        getReferencedColumn: (t) => t.brewingMethodId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$BrewingMethodsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.brewingMethods,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.brewingMethodId,
+      referencedTable: $db.brewingMethods,
+      getReferencedColumn: (t) => t.brewingMethodId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BrewingMethodsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.brewingMethods,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
 
-class $$UserStatsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $UserStatsTable,
-    UserStat,
-    $$UserStatsTableFilterComposer,
-    $$UserStatsTableOrderingComposer,
-    $$UserStatsTableAnnotationComposer,
-    $$UserStatsTableCreateCompanionBuilder,
-    $$UserStatsTableUpdateCompanionBuilder,
-    (UserStat, $$UserStatsTableReferences),
-    UserStat,
-    PrefetchHooks Function({bool recipeId, bool brewingMethodId})> {
+class $$UserStatsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UserStatsTable,
+          UserStat,
+          $$UserStatsTableFilterComposer,
+          $$UserStatsTableOrderingComposer,
+          $$UserStatsTableAnnotationComposer,
+          $$UserStatsTableCreateCompanionBuilder,
+          $$UserStatsTableUpdateCompanionBuilder,
+          (UserStat, $$UserStatsTableReferences),
+          UserStat,
+          PrefetchHooks Function({bool recipeId, bool brewingMethodId})
+        > {
   $$UserStatsTableTableManager(_$AppDatabase db, $UserStatsTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -7565,102 +9195,109 @@ class $$UserStatsTableTableManager extends RootTableManager<
               $$UserStatsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$UserStatsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> statUuid = const Value.absent(),
-            Value<int?> id = const Value.absent(),
-            Value<String> recipeId = const Value.absent(),
-            Value<double> coffeeAmount = const Value.absent(),
-            Value<double> waterAmount = const Value.absent(),
-            Value<int> sweetnessSliderPosition = const Value.absent(),
-            Value<int> strengthSliderPosition = const Value.absent(),
-            Value<String> brewingMethodId = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<String?> notes = const Value.absent(),
-            Value<String?> beans = const Value.absent(),
-            Value<String?> roaster = const Value.absent(),
-            Value<double?> rating = const Value.absent(),
-            Value<int?> coffeeBeansId = const Value.absent(),
-            Value<bool> isMarked = const Value.absent(),
-            Value<String?> coffeeBeansUuid = const Value.absent(),
-            Value<String> versionVector = const Value.absent(),
-            Value<bool> isDeleted = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              UserStatsCompanion(
-            statUuid: statUuid,
-            id: id,
-            recipeId: recipeId,
-            coffeeAmount: coffeeAmount,
-            waterAmount: waterAmount,
-            sweetnessSliderPosition: sweetnessSliderPosition,
-            strengthSliderPosition: strengthSliderPosition,
-            brewingMethodId: brewingMethodId,
-            createdAt: createdAt,
-            notes: notes,
-            beans: beans,
-            roaster: roaster,
-            rating: rating,
-            coffeeBeansId: coffeeBeansId,
-            isMarked: isMarked,
-            coffeeBeansUuid: coffeeBeansUuid,
-            versionVector: versionVector,
-            isDeleted: isDeleted,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String statUuid,
-            Value<int?> id = const Value.absent(),
-            required String recipeId,
-            required double coffeeAmount,
-            required double waterAmount,
-            required int sweetnessSliderPosition,
-            required int strengthSliderPosition,
-            required String brewingMethodId,
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<String?> notes = const Value.absent(),
-            Value<String?> beans = const Value.absent(),
-            Value<String?> roaster = const Value.absent(),
-            Value<double?> rating = const Value.absent(),
-            Value<int?> coffeeBeansId = const Value.absent(),
-            Value<bool> isMarked = const Value.absent(),
-            Value<String?> coffeeBeansUuid = const Value.absent(),
-            required String versionVector,
-            Value<bool> isDeleted = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              UserStatsCompanion.insert(
-            statUuid: statUuid,
-            id: id,
-            recipeId: recipeId,
-            coffeeAmount: coffeeAmount,
-            waterAmount: waterAmount,
-            sweetnessSliderPosition: sweetnessSliderPosition,
-            strengthSliderPosition: strengthSliderPosition,
-            brewingMethodId: brewingMethodId,
-            createdAt: createdAt,
-            notes: notes,
-            beans: beans,
-            roaster: roaster,
-            rating: rating,
-            coffeeBeansId: coffeeBeansId,
-            isMarked: isMarked,
-            coffeeBeansUuid: coffeeBeansUuid,
-            versionVector: versionVector,
-            isDeleted: isDeleted,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> statUuid = const Value.absent(),
+                Value<int?> id = const Value.absent(),
+                Value<String> recipeId = const Value.absent(),
+                Value<double> coffeeAmount = const Value.absent(),
+                Value<double> waterAmount = const Value.absent(),
+                Value<int> sweetnessSliderPosition = const Value.absent(),
+                Value<int> strengthSliderPosition = const Value.absent(),
+                Value<String> brewingMethodId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<String?> beans = const Value.absent(),
+                Value<String?> roaster = const Value.absent(),
+                Value<double?> rating = const Value.absent(),
+                Value<int?> coffeeBeansId = const Value.absent(),
+                Value<bool> isMarked = const Value.absent(),
+                Value<String?> coffeeBeansUuid = const Value.absent(),
+                Value<String?> grindSize = const Value.absent(),
+                Value<String> versionVector = const Value.absent(),
+                Value<bool> isDeleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => UserStatsCompanion(
+                statUuid: statUuid,
+                id: id,
+                recipeId: recipeId,
+                coffeeAmount: coffeeAmount,
+                waterAmount: waterAmount,
+                sweetnessSliderPosition: sweetnessSliderPosition,
+                strengthSliderPosition: strengthSliderPosition,
+                brewingMethodId: brewingMethodId,
+                createdAt: createdAt,
+                notes: notes,
+                beans: beans,
+                roaster: roaster,
+                rating: rating,
+                coffeeBeansId: coffeeBeansId,
+                isMarked: isMarked,
+                coffeeBeansUuid: coffeeBeansUuid,
+                grindSize: grindSize,
+                versionVector: versionVector,
+                isDeleted: isDeleted,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String statUuid,
+                Value<int?> id = const Value.absent(),
+                required String recipeId,
+                required double coffeeAmount,
+                required double waterAmount,
+                required int sweetnessSliderPosition,
+                required int strengthSliderPosition,
+                required String brewingMethodId,
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<String?> beans = const Value.absent(),
+                Value<String?> roaster = const Value.absent(),
+                Value<double?> rating = const Value.absent(),
+                Value<int?> coffeeBeansId = const Value.absent(),
+                Value<bool> isMarked = const Value.absent(),
+                Value<String?> coffeeBeansUuid = const Value.absent(),
+                Value<String?> grindSize = const Value.absent(),
+                required String versionVector,
+                Value<bool> isDeleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => UserStatsCompanion.insert(
+                statUuid: statUuid,
+                id: id,
+                recipeId: recipeId,
+                coffeeAmount: coffeeAmount,
+                waterAmount: waterAmount,
+                sweetnessSliderPosition: sweetnessSliderPosition,
+                strengthSliderPosition: strengthSliderPosition,
+                brewingMethodId: brewingMethodId,
+                createdAt: createdAt,
+                notes: notes,
+                beans: beans,
+                roaster: roaster,
+                rating: rating,
+                coffeeBeansId: coffeeBeansId,
+                isMarked: isMarked,
+                coffeeBeansUuid: coffeeBeansUuid,
+                grindSize: grindSize,
+                versionVector: versionVector,
+                isDeleted: isDeleted,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$UserStatsTableReferences(db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$UserStatsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: ({recipeId = false, brewingMethodId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
+              addJoins:
+                  <
+                    T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -7671,101 +9308,111 @@ class $$UserStatsTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic>>(state) {
-                if (recipeId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.recipeId,
-                    referencedTable:
-                        $$UserStatsTableReferences._recipeIdTable(db),
-                    referencedColumn:
-                        $$UserStatsTableReferences._recipeIdTable(db).id,
-                  ) as T;
-                }
-                if (brewingMethodId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.brewingMethodId,
-                    referencedTable:
-                        $$UserStatsTableReferences._brewingMethodIdTable(db),
-                    referencedColumn: $$UserStatsTableReferences
-                        ._brewingMethodIdTable(db)
-                        .brewingMethodId,
-                  ) as T;
-                }
+                      dynamic
+                    >
+                  >(state) {
+                    if (recipeId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.recipeId,
+                                referencedTable: $$UserStatsTableReferences
+                                    ._recipeIdTable(db),
+                                referencedColumn: $$UserStatsTableReferences
+                                    ._recipeIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (brewingMethodId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.brewingMethodId,
+                                referencedTable: $$UserStatsTableReferences
+                                    ._brewingMethodIdTable(db),
+                                referencedColumn: $$UserStatsTableReferences
+                                    ._brewingMethodIdTable(db)
+                                    .brewingMethodId,
+                              )
+                              as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$UserStatsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $UserStatsTable,
-    UserStat,
-    $$UserStatsTableFilterComposer,
-    $$UserStatsTableOrderingComposer,
-    $$UserStatsTableAnnotationComposer,
-    $$UserStatsTableCreateCompanionBuilder,
-    $$UserStatsTableUpdateCompanionBuilder,
-    (UserStat, $$UserStatsTableReferences),
-    UserStat,
-    PrefetchHooks Function({bool recipeId, bool brewingMethodId})>;
-typedef $$CoffeeBeansTableCreateCompanionBuilder = CoffeeBeansCompanion
-    Function({
-  required String beansUuid,
-  Value<int?> id,
-  required String roaster,
-  required String name,
-  required String origin,
-  Value<String?> variety,
-  Value<String?> tastingNotes,
-  Value<String?> processingMethod,
-  Value<int?> elevation,
-  Value<DateTime?> harvestDate,
-  Value<DateTime?> roastDate,
-  Value<String?> region,
-  Value<String?> roastLevel,
-  Value<double?> cuppingScore,
-  Value<double?> packageWeightGrams,
-  Value<String?> notes,
-  Value<String?> farmer,
-  Value<String?> farm,
-  Value<bool> isFavorite,
-  required String versionVector,
-  Value<bool> isDeleted,
-  Value<int> rowid,
-});
-typedef $$CoffeeBeansTableUpdateCompanionBuilder = CoffeeBeansCompanion
-    Function({
-  Value<String> beansUuid,
-  Value<int?> id,
-  Value<String> roaster,
-  Value<String> name,
-  Value<String> origin,
-  Value<String?> variety,
-  Value<String?> tastingNotes,
-  Value<String?> processingMethod,
-  Value<int?> elevation,
-  Value<DateTime?> harvestDate,
-  Value<DateTime?> roastDate,
-  Value<String?> region,
-  Value<String?> roastLevel,
-  Value<double?> cuppingScore,
-  Value<double?> packageWeightGrams,
-  Value<String?> notes,
-  Value<String?> farmer,
-  Value<String?> farm,
-  Value<bool> isFavorite,
-  Value<String> versionVector,
-  Value<bool> isDeleted,
-  Value<int> rowid,
-});
+typedef $$UserStatsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UserStatsTable,
+      UserStat,
+      $$UserStatsTableFilterComposer,
+      $$UserStatsTableOrderingComposer,
+      $$UserStatsTableAnnotationComposer,
+      $$UserStatsTableCreateCompanionBuilder,
+      $$UserStatsTableUpdateCompanionBuilder,
+      (UserStat, $$UserStatsTableReferences),
+      UserStat,
+      PrefetchHooks Function({bool recipeId, bool brewingMethodId})
+    >;
+typedef $$CoffeeBeansTableCreateCompanionBuilder =
+    CoffeeBeansCompanion Function({
+      required String beansUuid,
+      Value<int?> id,
+      required String roaster,
+      required String name,
+      required String origin,
+      Value<String?> variety,
+      Value<String?> tastingNotes,
+      Value<String?> processingMethod,
+      Value<int?> elevation,
+      Value<DateTime?> harvestDate,
+      Value<DateTime?> roastDate,
+      Value<String?> region,
+      Value<String?> roastLevel,
+      Value<double?> cuppingScore,
+      Value<double?> packageWeightGrams,
+      Value<String?> notes,
+      Value<String?> farmer,
+      Value<String?> farm,
+      Value<bool> isFavorite,
+      required String versionVector,
+      Value<bool> isDeleted,
+      Value<int> rowid,
+    });
+typedef $$CoffeeBeansTableUpdateCompanionBuilder =
+    CoffeeBeansCompanion Function({
+      Value<String> beansUuid,
+      Value<int?> id,
+      Value<String> roaster,
+      Value<String> name,
+      Value<String> origin,
+      Value<String?> variety,
+      Value<String?> tastingNotes,
+      Value<String?> processingMethod,
+      Value<int?> elevation,
+      Value<DateTime?> harvestDate,
+      Value<DateTime?> roastDate,
+      Value<String?> region,
+      Value<String?> roastLevel,
+      Value<double?> cuppingScore,
+      Value<double?> packageWeightGrams,
+      Value<String?> notes,
+      Value<String?> farmer,
+      Value<String?> farm,
+      Value<bool> isFavorite,
+      Value<String> versionVector,
+      Value<bool> isDeleted,
+      Value<int> rowid,
+    });
 
 class $$CoffeeBeansTableFilterComposer
     extends Composer<_$AppDatabase, $CoffeeBeansTable> {
@@ -7777,69 +9424,109 @@ class $$CoffeeBeansTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get beansUuid => $composableBuilder(
-      column: $table.beansUuid, builder: (column) => ColumnFilters(column));
+    column: $table.beansUuid,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get roaster => $composableBuilder(
-      column: $table.roaster, builder: (column) => ColumnFilters(column));
+    column: $table.roaster,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnFilters(column));
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get origin => $composableBuilder(
-      column: $table.origin, builder: (column) => ColumnFilters(column));
+    column: $table.origin,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get variety => $composableBuilder(
-      column: $table.variety, builder: (column) => ColumnFilters(column));
+    column: $table.variety,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get tastingNotes => $composableBuilder(
-      column: $table.tastingNotes, builder: (column) => ColumnFilters(column));
+    column: $table.tastingNotes,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get processingMethod => $composableBuilder(
-      column: $table.processingMethod,
-      builder: (column) => ColumnFilters(column));
+    column: $table.processingMethod,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get elevation => $composableBuilder(
-      column: $table.elevation, builder: (column) => ColumnFilters(column));
+    column: $table.elevation,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get harvestDate => $composableBuilder(
-      column: $table.harvestDate, builder: (column) => ColumnFilters(column));
+    column: $table.harvestDate,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get roastDate => $composableBuilder(
-      column: $table.roastDate, builder: (column) => ColumnFilters(column));
+    column: $table.roastDate,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get region => $composableBuilder(
-      column: $table.region, builder: (column) => ColumnFilters(column));
+    column: $table.region,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get roastLevel => $composableBuilder(
-      column: $table.roastLevel, builder: (column) => ColumnFilters(column));
+    column: $table.roastLevel,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<double> get cuppingScore => $composableBuilder(
-      column: $table.cuppingScore, builder: (column) => ColumnFilters(column));
+    column: $table.cuppingScore,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<double> get packageWeightGrams => $composableBuilder(
-      column: $table.packageWeightGrams,
-      builder: (column) => ColumnFilters(column));
+    column: $table.packageWeightGrams,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get notes => $composableBuilder(
-      column: $table.notes, builder: (column) => ColumnFilters(column));
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get farmer => $composableBuilder(
-      column: $table.farmer, builder: (column) => ColumnFilters(column));
+    column: $table.farmer,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get farm => $composableBuilder(
-      column: $table.farm, builder: (column) => ColumnFilters(column));
+    column: $table.farm,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get isFavorite => $composableBuilder(
-      column: $table.isFavorite, builder: (column) => ColumnFilters(column));
+    column: $table.isFavorite,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get versionVector => $composableBuilder(
-      column: $table.versionVector, builder: (column) => ColumnFilters(column));
+    column: $table.versionVector,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get isDeleted => $composableBuilder(
-      column: $table.isDeleted, builder: (column) => ColumnFilters(column));
+    column: $table.isDeleted,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$CoffeeBeansTableOrderingComposer
@@ -7852,72 +9539,109 @@ class $$CoffeeBeansTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get beansUuid => $composableBuilder(
-      column: $table.beansUuid, builder: (column) => ColumnOrderings(column));
+    column: $table.beansUuid,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get roaster => $composableBuilder(
-      column: $table.roaster, builder: (column) => ColumnOrderings(column));
+    column: $table.roaster,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnOrderings(column));
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get origin => $composableBuilder(
-      column: $table.origin, builder: (column) => ColumnOrderings(column));
+    column: $table.origin,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get variety => $composableBuilder(
-      column: $table.variety, builder: (column) => ColumnOrderings(column));
+    column: $table.variety,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get tastingNotes => $composableBuilder(
-      column: $table.tastingNotes,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.tastingNotes,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get processingMethod => $composableBuilder(
-      column: $table.processingMethod,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.processingMethod,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get elevation => $composableBuilder(
-      column: $table.elevation, builder: (column) => ColumnOrderings(column));
+    column: $table.elevation,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get harvestDate => $composableBuilder(
-      column: $table.harvestDate, builder: (column) => ColumnOrderings(column));
+    column: $table.harvestDate,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get roastDate => $composableBuilder(
-      column: $table.roastDate, builder: (column) => ColumnOrderings(column));
+    column: $table.roastDate,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get region => $composableBuilder(
-      column: $table.region, builder: (column) => ColumnOrderings(column));
+    column: $table.region,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get roastLevel => $composableBuilder(
-      column: $table.roastLevel, builder: (column) => ColumnOrderings(column));
+    column: $table.roastLevel,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<double> get cuppingScore => $composableBuilder(
-      column: $table.cuppingScore,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.cuppingScore,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<double> get packageWeightGrams => $composableBuilder(
-      column: $table.packageWeightGrams,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.packageWeightGrams,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get notes => $composableBuilder(
-      column: $table.notes, builder: (column) => ColumnOrderings(column));
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get farmer => $composableBuilder(
-      column: $table.farmer, builder: (column) => ColumnOrderings(column));
+    column: $table.farmer,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get farm => $composableBuilder(
-      column: $table.farm, builder: (column) => ColumnOrderings(column));
+    column: $table.farm,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get isFavorite => $composableBuilder(
-      column: $table.isFavorite, builder: (column) => ColumnOrderings(column));
+    column: $table.isFavorite,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get versionVector => $composableBuilder(
-      column: $table.versionVector,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.versionVector,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get isDeleted => $composableBuilder(
-      column: $table.isDeleted, builder: (column) => ColumnOrderings(column));
+    column: $table.isDeleted,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$CoffeeBeansTableAnnotationComposer
@@ -7948,16 +9672,22 @@ class $$CoffeeBeansTableAnnotationComposer
       $composableBuilder(column: $table.variety, builder: (column) => column);
 
   GeneratedColumn<String> get tastingNotes => $composableBuilder(
-      column: $table.tastingNotes, builder: (column) => column);
+    column: $table.tastingNotes,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get processingMethod => $composableBuilder(
-      column: $table.processingMethod, builder: (column) => column);
+    column: $table.processingMethod,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get elevation =>
       $composableBuilder(column: $table.elevation, builder: (column) => column);
 
   GeneratedColumn<DateTime> get harvestDate => $composableBuilder(
-      column: $table.harvestDate, builder: (column) => column);
+    column: $table.harvestDate,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<DateTime> get roastDate =>
       $composableBuilder(column: $table.roastDate, builder: (column) => column);
@@ -7966,13 +9696,19 @@ class $$CoffeeBeansTableAnnotationComposer
       $composableBuilder(column: $table.region, builder: (column) => column);
 
   GeneratedColumn<String> get roastLevel => $composableBuilder(
-      column: $table.roastLevel, builder: (column) => column);
+    column: $table.roastLevel,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get cuppingScore => $composableBuilder(
-      column: $table.cuppingScore, builder: (column) => column);
+    column: $table.cuppingScore,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<double> get packageWeightGrams => $composableBuilder(
-      column: $table.packageWeightGrams, builder: (column) => column);
+    column: $table.packageWeightGrams,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get notes =>
       $composableBuilder(column: $table.notes, builder: (column) => column);
@@ -7984,29 +9720,40 @@ class $$CoffeeBeansTableAnnotationComposer
       $composableBuilder(column: $table.farm, builder: (column) => column);
 
   GeneratedColumn<bool> get isFavorite => $composableBuilder(
-      column: $table.isFavorite, builder: (column) => column);
+    column: $table.isFavorite,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get versionVector => $composableBuilder(
-      column: $table.versionVector, builder: (column) => column);
+    column: $table.versionVector,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<bool> get isDeleted =>
       $composableBuilder(column: $table.isDeleted, builder: (column) => column);
 }
 
-class $$CoffeeBeansTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $CoffeeBeansTable,
-    CoffeeBean,
-    $$CoffeeBeansTableFilterComposer,
-    $$CoffeeBeansTableOrderingComposer,
-    $$CoffeeBeansTableAnnotationComposer,
-    $$CoffeeBeansTableCreateCompanionBuilder,
-    $$CoffeeBeansTableUpdateCompanionBuilder,
-    (CoffeeBean, BaseReferences<_$AppDatabase, $CoffeeBeansTable, CoffeeBean>),
-    CoffeeBean,
-    PrefetchHooks Function()> {
+class $$CoffeeBeansTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CoffeeBeansTable,
+          CoffeeBean,
+          $$CoffeeBeansTableFilterComposer,
+          $$CoffeeBeansTableOrderingComposer,
+          $$CoffeeBeansTableAnnotationComposer,
+          $$CoffeeBeansTableCreateCompanionBuilder,
+          $$CoffeeBeansTableUpdateCompanionBuilder,
+          (
+            CoffeeBean,
+            BaseReferences<_$AppDatabase, $CoffeeBeansTable, CoffeeBean>,
+          ),
+          CoffeeBean,
+          PrefetchHooks Function()
+        > {
   $$CoffeeBeansTableTableManager(_$AppDatabase db, $CoffeeBeansTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -8015,121 +9762,127 @@ class $$CoffeeBeansTableTableManager extends RootTableManager<
               $$CoffeeBeansTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$CoffeeBeansTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> beansUuid = const Value.absent(),
-            Value<int?> id = const Value.absent(),
-            Value<String> roaster = const Value.absent(),
-            Value<String> name = const Value.absent(),
-            Value<String> origin = const Value.absent(),
-            Value<String?> variety = const Value.absent(),
-            Value<String?> tastingNotes = const Value.absent(),
-            Value<String?> processingMethod = const Value.absent(),
-            Value<int?> elevation = const Value.absent(),
-            Value<DateTime?> harvestDate = const Value.absent(),
-            Value<DateTime?> roastDate = const Value.absent(),
-            Value<String?> region = const Value.absent(),
-            Value<String?> roastLevel = const Value.absent(),
-            Value<double?> cuppingScore = const Value.absent(),
-            Value<double?> packageWeightGrams = const Value.absent(),
-            Value<String?> notes = const Value.absent(),
-            Value<String?> farmer = const Value.absent(),
-            Value<String?> farm = const Value.absent(),
-            Value<bool> isFavorite = const Value.absent(),
-            Value<String> versionVector = const Value.absent(),
-            Value<bool> isDeleted = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CoffeeBeansCompanion(
-            beansUuid: beansUuid,
-            id: id,
-            roaster: roaster,
-            name: name,
-            origin: origin,
-            variety: variety,
-            tastingNotes: tastingNotes,
-            processingMethod: processingMethod,
-            elevation: elevation,
-            harvestDate: harvestDate,
-            roastDate: roastDate,
-            region: region,
-            roastLevel: roastLevel,
-            cuppingScore: cuppingScore,
-            packageWeightGrams: packageWeightGrams,
-            notes: notes,
-            farmer: farmer,
-            farm: farm,
-            isFavorite: isFavorite,
-            versionVector: versionVector,
-            isDeleted: isDeleted,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String beansUuid,
-            Value<int?> id = const Value.absent(),
-            required String roaster,
-            required String name,
-            required String origin,
-            Value<String?> variety = const Value.absent(),
-            Value<String?> tastingNotes = const Value.absent(),
-            Value<String?> processingMethod = const Value.absent(),
-            Value<int?> elevation = const Value.absent(),
-            Value<DateTime?> harvestDate = const Value.absent(),
-            Value<DateTime?> roastDate = const Value.absent(),
-            Value<String?> region = const Value.absent(),
-            Value<String?> roastLevel = const Value.absent(),
-            Value<double?> cuppingScore = const Value.absent(),
-            Value<double?> packageWeightGrams = const Value.absent(),
-            Value<String?> notes = const Value.absent(),
-            Value<String?> farmer = const Value.absent(),
-            Value<String?> farm = const Value.absent(),
-            Value<bool> isFavorite = const Value.absent(),
-            required String versionVector,
-            Value<bool> isDeleted = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              CoffeeBeansCompanion.insert(
-            beansUuid: beansUuid,
-            id: id,
-            roaster: roaster,
-            name: name,
-            origin: origin,
-            variety: variety,
-            tastingNotes: tastingNotes,
-            processingMethod: processingMethod,
-            elevation: elevation,
-            harvestDate: harvestDate,
-            roastDate: roastDate,
-            region: region,
-            roastLevel: roastLevel,
-            cuppingScore: cuppingScore,
-            packageWeightGrams: packageWeightGrams,
-            notes: notes,
-            farmer: farmer,
-            farm: farm,
-            isFavorite: isFavorite,
-            versionVector: versionVector,
-            isDeleted: isDeleted,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> beansUuid = const Value.absent(),
+                Value<int?> id = const Value.absent(),
+                Value<String> roaster = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> origin = const Value.absent(),
+                Value<String?> variety = const Value.absent(),
+                Value<String?> tastingNotes = const Value.absent(),
+                Value<String?> processingMethod = const Value.absent(),
+                Value<int?> elevation = const Value.absent(),
+                Value<DateTime?> harvestDate = const Value.absent(),
+                Value<DateTime?> roastDate = const Value.absent(),
+                Value<String?> region = const Value.absent(),
+                Value<String?> roastLevel = const Value.absent(),
+                Value<double?> cuppingScore = const Value.absent(),
+                Value<double?> packageWeightGrams = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<String?> farmer = const Value.absent(),
+                Value<String?> farm = const Value.absent(),
+                Value<bool> isFavorite = const Value.absent(),
+                Value<String> versionVector = const Value.absent(),
+                Value<bool> isDeleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CoffeeBeansCompanion(
+                beansUuid: beansUuid,
+                id: id,
+                roaster: roaster,
+                name: name,
+                origin: origin,
+                variety: variety,
+                tastingNotes: tastingNotes,
+                processingMethod: processingMethod,
+                elevation: elevation,
+                harvestDate: harvestDate,
+                roastDate: roastDate,
+                region: region,
+                roastLevel: roastLevel,
+                cuppingScore: cuppingScore,
+                packageWeightGrams: packageWeightGrams,
+                notes: notes,
+                farmer: farmer,
+                farm: farm,
+                isFavorite: isFavorite,
+                versionVector: versionVector,
+                isDeleted: isDeleted,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String beansUuid,
+                Value<int?> id = const Value.absent(),
+                required String roaster,
+                required String name,
+                required String origin,
+                Value<String?> variety = const Value.absent(),
+                Value<String?> tastingNotes = const Value.absent(),
+                Value<String?> processingMethod = const Value.absent(),
+                Value<int?> elevation = const Value.absent(),
+                Value<DateTime?> harvestDate = const Value.absent(),
+                Value<DateTime?> roastDate = const Value.absent(),
+                Value<String?> region = const Value.absent(),
+                Value<String?> roastLevel = const Value.absent(),
+                Value<double?> cuppingScore = const Value.absent(),
+                Value<double?> packageWeightGrams = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<String?> farmer = const Value.absent(),
+                Value<String?> farm = const Value.absent(),
+                Value<bool> isFavorite = const Value.absent(),
+                required String versionVector,
+                Value<bool> isDeleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CoffeeBeansCompanion.insert(
+                beansUuid: beansUuid,
+                id: id,
+                roaster: roaster,
+                name: name,
+                origin: origin,
+                variety: variety,
+                tastingNotes: tastingNotes,
+                processingMethod: processingMethod,
+                elevation: elevation,
+                harvestDate: harvestDate,
+                roastDate: roastDate,
+                region: region,
+                roastLevel: roastLevel,
+                cuppingScore: cuppingScore,
+                packageWeightGrams: packageWeightGrams,
+                notes: notes,
+                farmer: farmer,
+                farm: farm,
+                isFavorite: isFavorite,
+                versionVector: versionVector,
+                isDeleted: isDeleted,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$CoffeeBeansTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $CoffeeBeansTable,
-    CoffeeBean,
-    $$CoffeeBeansTableFilterComposer,
-    $$CoffeeBeansTableOrderingComposer,
-    $$CoffeeBeansTableAnnotationComposer,
-    $$CoffeeBeansTableCreateCompanionBuilder,
-    $$CoffeeBeansTableUpdateCompanionBuilder,
-    (CoffeeBean, BaseReferences<_$AppDatabase, $CoffeeBeansTable, CoffeeBean>),
-    CoffeeBean,
-    PrefetchHooks Function()>;
+typedef $$CoffeeBeansTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CoffeeBeansTable,
+      CoffeeBean,
+      $$CoffeeBeansTableFilterComposer,
+      $$CoffeeBeansTableOrderingComposer,
+      $$CoffeeBeansTableAnnotationComposer,
+      $$CoffeeBeansTableCreateCompanionBuilder,
+      $$CoffeeBeansTableUpdateCompanionBuilder,
+      (
+        CoffeeBean,
+        BaseReferences<_$AppDatabase, $CoffeeBeansTable, CoffeeBean>,
+      ),
+      CoffeeBean,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -8164,14 +9917,66 @@ mixin _$RecipesDaoMixin on DatabaseAccessor<AppDatabase> {
   $StepsTable get steps => attachedDatabase.steps;
   $UserRecipePreferencesTable get userRecipePreferences =>
       attachedDatabase.userRecipePreferences;
+  RecipesDaoManager get managers => RecipesDaoManager(this);
 }
+
+class RecipesDaoManager {
+  final _$RecipesDaoMixin _db;
+  RecipesDaoManager(this._db);
+  $$BrewingMethodsTableTableManager get brewingMethods =>
+      $$BrewingMethodsTableTableManager(
+        _db.attachedDatabase,
+        _db.brewingMethods,
+      );
+  $$RecipesTableTableManager get recipes =>
+      $$RecipesTableTableManager(_db.attachedDatabase, _db.recipes);
+  $$SupportedLocalesTableTableManager get supportedLocales =>
+      $$SupportedLocalesTableTableManager(
+        _db.attachedDatabase,
+        _db.supportedLocales,
+      );
+  $$RecipeLocalizationsTableTableManager get recipeLocalizations =>
+      $$RecipeLocalizationsTableTableManager(
+        _db.attachedDatabase,
+        _db.recipeLocalizations,
+      );
+  $$StepsTableTableManager get steps =>
+      $$StepsTableTableManager(_db.attachedDatabase, _db.steps);
+  $$UserRecipePreferencesTableTableManager get userRecipePreferences =>
+      $$UserRecipePreferencesTableTableManager(
+        _db.attachedDatabase,
+        _db.userRecipePreferences,
+      );
+}
+
 mixin _$StepsDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
   $RecipesTable get recipes => attachedDatabase.recipes;
   $SupportedLocalesTable get supportedLocales =>
       attachedDatabase.supportedLocales;
   $StepsTable get steps => attachedDatabase.steps;
+  StepsDaoManager get managers => StepsDaoManager(this);
 }
+
+class StepsDaoManager {
+  final _$StepsDaoMixin _db;
+  StepsDaoManager(this._db);
+  $$BrewingMethodsTableTableManager get brewingMethods =>
+      $$BrewingMethodsTableTableManager(
+        _db.attachedDatabase,
+        _db.brewingMethods,
+      );
+  $$RecipesTableTableManager get recipes =>
+      $$RecipesTableTableManager(_db.attachedDatabase, _db.recipes);
+  $$SupportedLocalesTableTableManager get supportedLocales =>
+      $$SupportedLocalesTableTableManager(
+        _db.attachedDatabase,
+        _db.supportedLocales,
+      );
+  $$StepsTableTableManager get steps =>
+      $$StepsTableTableManager(_db.attachedDatabase, _db.steps);
+}
+
 mixin _$RecipeLocalizationsDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
   $RecipesTable get recipes => attachedDatabase.recipes;
@@ -8179,36 +9984,161 @@ mixin _$RecipeLocalizationsDaoMixin on DatabaseAccessor<AppDatabase> {
       attachedDatabase.supportedLocales;
   $RecipeLocalizationsTable get recipeLocalizations =>
       attachedDatabase.recipeLocalizations;
+  RecipeLocalizationsDaoManager get managers =>
+      RecipeLocalizationsDaoManager(this);
 }
+
+class RecipeLocalizationsDaoManager {
+  final _$RecipeLocalizationsDaoMixin _db;
+  RecipeLocalizationsDaoManager(this._db);
+  $$BrewingMethodsTableTableManager get brewingMethods =>
+      $$BrewingMethodsTableTableManager(
+        _db.attachedDatabase,
+        _db.brewingMethods,
+      );
+  $$RecipesTableTableManager get recipes =>
+      $$RecipesTableTableManager(_db.attachedDatabase, _db.recipes);
+  $$SupportedLocalesTableTableManager get supportedLocales =>
+      $$SupportedLocalesTableTableManager(
+        _db.attachedDatabase,
+        _db.supportedLocales,
+      );
+  $$RecipeLocalizationsTableTableManager get recipeLocalizations =>
+      $$RecipeLocalizationsTableTableManager(
+        _db.attachedDatabase,
+        _db.recipeLocalizations,
+      );
+}
+
 mixin _$UserRecipePreferencesDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
   $RecipesTable get recipes => attachedDatabase.recipes;
   $UserRecipePreferencesTable get userRecipePreferences =>
       attachedDatabase.userRecipePreferences;
+  UserRecipePreferencesDaoManager get managers =>
+      UserRecipePreferencesDaoManager(this);
 }
+
+class UserRecipePreferencesDaoManager {
+  final _$UserRecipePreferencesDaoMixin _db;
+  UserRecipePreferencesDaoManager(this._db);
+  $$BrewingMethodsTableTableManager get brewingMethods =>
+      $$BrewingMethodsTableTableManager(
+        _db.attachedDatabase,
+        _db.brewingMethods,
+      );
+  $$RecipesTableTableManager get recipes =>
+      $$RecipesTableTableManager(_db.attachedDatabase, _db.recipes);
+  $$UserRecipePreferencesTableTableManager get userRecipePreferences =>
+      $$UserRecipePreferencesTableTableManager(
+        _db.attachedDatabase,
+        _db.userRecipePreferences,
+      );
+}
+
 mixin _$BrewingMethodsDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
+  BrewingMethodsDaoManager get managers => BrewingMethodsDaoManager(this);
 }
+
+class BrewingMethodsDaoManager {
+  final _$BrewingMethodsDaoMixin _db;
+  BrewingMethodsDaoManager(this._db);
+  $$BrewingMethodsTableTableManager get brewingMethods =>
+      $$BrewingMethodsTableTableManager(
+        _db.attachedDatabase,
+        _db.brewingMethods,
+      );
+}
+
 mixin _$SupportedLocalesDaoMixin on DatabaseAccessor<AppDatabase> {
   $SupportedLocalesTable get supportedLocales =>
       attachedDatabase.supportedLocales;
+  SupportedLocalesDaoManager get managers => SupportedLocalesDaoManager(this);
 }
+
+class SupportedLocalesDaoManager {
+  final _$SupportedLocalesDaoMixin _db;
+  SupportedLocalesDaoManager(this._db);
+  $$SupportedLocalesTableTableManager get supportedLocales =>
+      $$SupportedLocalesTableTableManager(
+        _db.attachedDatabase,
+        _db.supportedLocales,
+      );
+}
+
 mixin _$CoffeeFactsDaoMixin on DatabaseAccessor<AppDatabase> {
   $SupportedLocalesTable get supportedLocales =>
       attachedDatabase.supportedLocales;
   $CoffeeFactsTable get coffeeFacts => attachedDatabase.coffeeFacts;
+  CoffeeFactsDaoManager get managers => CoffeeFactsDaoManager(this);
 }
+
+class CoffeeFactsDaoManager {
+  final _$CoffeeFactsDaoMixin _db;
+  CoffeeFactsDaoManager(this._db);
+  $$SupportedLocalesTableTableManager get supportedLocales =>
+      $$SupportedLocalesTableTableManager(
+        _db.attachedDatabase,
+        _db.supportedLocales,
+      );
+  $$CoffeeFactsTableTableManager get coffeeFacts =>
+      $$CoffeeFactsTableTableManager(_db.attachedDatabase, _db.coffeeFacts);
+}
+
 mixin _$UserStatsDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
   $RecipesTable get recipes => attachedDatabase.recipes;
   $UserStatsTable get userStats => attachedDatabase.userStats;
+  UserStatsDaoManager get managers => UserStatsDaoManager(this);
 }
+
+class UserStatsDaoManager {
+  final _$UserStatsDaoMixin _db;
+  UserStatsDaoManager(this._db);
+  $$BrewingMethodsTableTableManager get brewingMethods =>
+      $$BrewingMethodsTableTableManager(
+        _db.attachedDatabase,
+        _db.brewingMethods,
+      );
+  $$RecipesTableTableManager get recipes =>
+      $$RecipesTableTableManager(_db.attachedDatabase, _db.recipes);
+  $$UserStatsTableTableManager get userStats =>
+      $$UserStatsTableTableManager(_db.attachedDatabase, _db.userStats);
+}
+
 mixin _$CoffeeBeansDaoMixin on DatabaseAccessor<AppDatabase> {
   $CoffeeBeansTable get coffeeBeans => attachedDatabase.coffeeBeans;
+  CoffeeBeansDaoManager get managers => CoffeeBeansDaoManager(this);
 }
+
+class CoffeeBeansDaoManager {
+  final _$CoffeeBeansDaoMixin _db;
+  CoffeeBeansDaoManager(this._db);
+  $$CoffeeBeansTableTableManager get coffeeBeans =>
+      $$CoffeeBeansTableTableManager(_db.attachedDatabase, _db.coffeeBeans);
+}
+
 mixin _$BeansStatsDaoMixin on DatabaseAccessor<AppDatabase> {
   $BrewingMethodsTable get brewingMethods => attachedDatabase.brewingMethods;
   $RecipesTable get recipes => attachedDatabase.recipes;
   $UserStatsTable get userStats => attachedDatabase.userStats;
   $CoffeeBeansTable get coffeeBeans => attachedDatabase.coffeeBeans;
+  BeansStatsDaoManager get managers => BeansStatsDaoManager(this);
+}
+
+class BeansStatsDaoManager {
+  final _$BeansStatsDaoMixin _db;
+  BeansStatsDaoManager(this._db);
+  $$BrewingMethodsTableTableManager get brewingMethods =>
+      $$BrewingMethodsTableTableManager(
+        _db.attachedDatabase,
+        _db.brewingMethods,
+      );
+  $$RecipesTableTableManager get recipes =>
+      $$RecipesTableTableManager(_db.attachedDatabase, _db.recipes);
+  $$UserStatsTableTableManager get userStats =>
+      $$UserStatsTableTableManager(_db.attachedDatabase, _db.userStats);
+  $$CoffeeBeansTableTableManager get coffeeBeans =>
+      $$CoffeeBeansTableTableManager(_db.attachedDatabase, _db.coffeeBeans);
 }

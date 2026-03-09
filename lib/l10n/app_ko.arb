@@ -1042,5 +1042,13 @@
   "timePeriodLastYear": "작년",
   "nativeAppPromoTitle": "Timer.Coffee 앱 다운로드",
   "nativeAppPromoDescription": "독점 기능으로 완전한 경험을 즐기세요: AI 기반 커피 라벨 스캔, 잠금 화면 라이브 활동, 푸시 알림, 햅틱 피드백 등.",
-  "nativeAppPromoButton": "앱 다운로드"
+  "nativeAppPromoButton": "앱 다운로드",
+  "addBrewEntry": "추출 기록 추가",
+  "selectBrewingMethod": "추출 방법 선택",
+  "selectRecipe": "레시피 선택",
+  "brewDate": "날짜",
+  "brewTime": "시간",
+  "brewEntrySaved": "추출 기록이 저장되었습니다",
+  "brewingMethodRequired": "추출 방법을 선택해 주세요",
+  "recipeRequired": "레시피를 선택해 주세요"
 }

@@ -128,6 +128,8 @@ class UserRecipePreferences extends Table {
   IntColumn get coffeeChroniclerSliderPosition => integer()
       .named('coffee_chronicler_slider_position')
       .withDefault(const Constant(0))();
+  TextColumn get customGrindSize =>
+      text().named('custom_grind_size').nullable()();
 
   @override
   Set<Column> get primaryKey => {recipeId};
@@ -175,6 +177,7 @@ class UserStats extends Table {
       boolean().named('is_marked').withDefault(const Constant(false))();
   TextColumn get coffeeBeansUuid =>
       text().named('coffee_beans_uuid').nullable()();
+  TextColumn get grindSize => text().named('grind_size').nullable()();
   TextColumn get versionVector => text().named('version_vector')();
   BoolColumn get isDeleted =>
       boolean().named('is_deleted').withDefault(const Constant(false))();
@@ -259,7 +262,7 @@ class AppDatabase extends _$AppDatabase {
   factory AppDatabase.fromExecutor(QueryExecutor e) => AppDatabase(e);
 
   @override
-  int get schemaVersion => 30; // Added packageWeightGrams to CoffeeBeans table
+  int get schemaVersion => 31; // Added customGrindSize to preferences + grindSize to stats
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -712,6 +715,12 @@ class AppDatabase extends _$AppDatabase {
             from29To30: (m, schema) async {
               await m.addColumn(
                   schema.coffeeBeans, schema.coffeeBeans.packageWeightGrams);
+            },
+            from30To31: (m, schema) async {
+              await m.addColumn(schema.userRecipePreferences,
+                  schema.userRecipePreferences.customGrindSize);
+              await m.addColumn(
+                  schema.userStats, schema.userStats.grindSize);
             },
           )(m, oldVersion, newVersion);
         },

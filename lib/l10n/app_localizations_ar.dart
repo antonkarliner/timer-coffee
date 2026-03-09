@@ -2114,4 +2114,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'حمّل التطبيق';
+
+  @override
+  String get addBrewEntry => 'إضافة تسجيل تحضير';
+
+  @override
+  String get selectBrewingMethod => 'اختر طريقة التحضير';
+
+  @override
+  String get selectRecipe => 'اختر الوصفة';
+
+  @override
+  String get brewDate => 'التاريخ';
+
+  @override
+  String get brewTime => 'الوقت';
+
+  @override
+  String get brewEntrySaved => 'تم حفظ تسجيل التحضير';
+
+  @override
+  String get brewingMethodRequired => 'يرجى اختيار طريقة التحضير';
+
+  @override
+  String get recipeRequired => 'يرجى اختيار وصفة';
 }

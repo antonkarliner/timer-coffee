@@ -193,6 +193,9 @@ extension UserRecipePreferencesCompanionExtension
       customWaterAmount: json['custom_water_amount'] != null
           ? Value(_parseDouble(json['custom_water_amount']))
           : const Value.absent(),
+      customGrindSize: json['custom_grind_size'] != null
+          ? Value(json['custom_grind_size'] as String)
+          : const Value.absent(),
     );
   }
 
@@ -243,10 +246,11 @@ extension UserStatsCompanionExtension on UserStatsCompanion {
           ? Value(json['is_marked'] as bool)
           : const Value.absent(),
       coffeeBeansUuid: Value(json['coffee_beans_uuid']),
+      grindSize: Value(json['grind_size']),
       versionVector: Value(json['version_vector']),
       isDeleted: json['is_deleted'] != null
           ? Value(json['is_deleted'] as bool)
-          : const Value.absent(), // Added isDeleted field
+          : const Value.absent(),
     );
   }
 
@@ -268,8 +272,9 @@ extension UserStatsCompanionExtension on UserStatsCompanion {
       'coffee_beans_id': coffeeBeansId.value,
       'is_marked': isMarked.value,
       'coffee_beans_uuid': coffeeBeansUuid.value,
+      'grind_size': grindSize.value,
       'version_vector': versionVector.value,
-      'is_deleted': isDeleted.value, // Added isDeleted field
+      'is_deleted': isDeleted.value,
     };
   }
 }

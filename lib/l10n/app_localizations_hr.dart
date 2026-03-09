@@ -2115,4 +2115,28 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get nativeAppPromoButton => 'Preuzmi aplikaciju';
+
+  @override
+  String get addBrewEntry => 'Dodaj zapis pripreme';
+
+  @override
+  String get selectBrewingMethod => 'Odaberi metodu pripreme';
+
+  @override
+  String get selectRecipe => 'Odaberi recept';
+
+  @override
+  String get brewDate => 'Datum';
+
+  @override
+  String get brewTime => 'Vrijeme';
+
+  @override
+  String get brewEntrySaved => 'Zapis pripreme spremljen';
+
+  @override
+  String get brewingMethodRequired => 'Molimo odaberite metodu pripreme';
+
+  @override
+  String get recipeRequired => 'Molimo odaberite recept';
 }

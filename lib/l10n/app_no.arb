@@ -1193,5 +1193,13 @@
   "timePeriodLastYear": "I fjor",
   "nativeAppPromoTitle": "Last ned Timer.Coffee-appen",
   "nativeAppPromoDescription": "Nyt den fulle opplevelsen med eksklusive funksjoner: AI-drevet skanning av kaffeetiketter, Live-aktiviteter på låseskjermen, push-varsler, haptisk tilbakemelding og mer.",
-  "nativeAppPromoButton": "Last ned appen"
+  "nativeAppPromoButton": "Last ned appen",
+  "addBrewEntry": "Legg til bryggeoppføring",
+  "selectBrewingMethod": "Velg bryggemetode",
+  "selectRecipe": "Velg oppskrift",
+  "brewDate": "Dato",
+  "brewTime": "Tid",
+  "brewEntrySaved": "Bryggeoppføring lagret",
+  "brewingMethodRequired": "Vennligst velg en bryggemetode",
+  "recipeRequired": "Vennligst velg en oppskrift"
 }

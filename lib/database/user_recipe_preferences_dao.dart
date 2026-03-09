@@ -17,9 +17,10 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
       {bool? isFavorite,
       int? sweetnessSliderPosition,
       int? strengthSliderPosition,
-      int? coffeeChroniclerSliderPosition, // Add this parameter
+      int? coffeeChroniclerSliderPosition,
       double? customCoffeeAmount,
-      double? customWaterAmount}) async {
+      double? customWaterAmount,
+      String? customGrindSize}) async {
     // Check if the entry exists.
     final existingPreference = await (select(userRecipePreferences)
           ..where((tbl) => tbl.recipeId.equals(recipeId)))
@@ -41,13 +42,16 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
             : Value(strengthSliderPosition),
         coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition == null
             ? Value.absent()
-            : Value(coffeeChroniclerSliderPosition), // Add this line
+            : Value(coffeeChroniclerSliderPosition),
         customCoffeeAmount: customCoffeeAmount == null
             ? Value.absent()
             : Value(customCoffeeAmount),
         customWaterAmount: customWaterAmount == null
             ? Value.absent()
             : Value(customWaterAmount),
+        customGrindSize: customGrindSize == null
+            ? Value.absent()
+            : Value(customGrindSize),
       );
       await into(userRecipePreferences).insert(preferencesCompanion);
     } else {
@@ -62,13 +66,16 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
             : Value(strengthSliderPosition),
         coffeeChroniclerSliderPosition: coffeeChroniclerSliderPosition == null
             ? Value.absent()
-            : Value(coffeeChroniclerSliderPosition), // Add this line
+            : Value(coffeeChroniclerSliderPosition),
         customCoffeeAmount: customCoffeeAmount == null
             ? Value.absent()
             : Value(customCoffeeAmount),
         customWaterAmount: customWaterAmount == null
             ? Value.absent()
             : Value(customWaterAmount),
+        customGrindSize: customGrindSize == null
+            ? Value.absent()
+            : Value(customGrindSize),
       );
 
       if (isFavorite != null) {
@@ -100,6 +107,7 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
       "coffeeChroniclerSliderPosition": prefs?.coffeeChroniclerSliderPosition,
       "customCoffeeAmount": prefs?.customCoffeeAmount,
       "customWaterAmount": prefs?.customWaterAmount,
+      "customGrindSize": prefs?.customGrindSize,
     };
   }
 

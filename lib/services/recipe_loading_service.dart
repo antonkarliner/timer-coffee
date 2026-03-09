@@ -131,6 +131,10 @@ class RecipeLoadingService {
       waterAmount: customWater,
     );
 
+    // Set grind size (custom takes precedence over default)
+    controller.grindSizeController.text =
+        recipe.customGrindSize ?? recipe.grindSize;
+
     // Set slider positions for special recipes
     controller.sweetnessSliderPosition = recipe.sweetnessSliderPosition;
     controller.strengthSliderPosition = recipe.strengthSliderPosition;

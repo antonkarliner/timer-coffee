@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 
-/// Shows recipe meta information: water temperature (°C/°F), grind size, and brew time.
+/// Shows recipe meta information: water temperature (°C/°F) and brew time.
 class MetaInfoSection extends StatelessWidget {
   final double? waterTempCelsius;
-  final String grindSize;
   final Duration? brewTime;
 
   const MetaInfoSection({
     Key? key,
     required this.waterTempCelsius,
-    required this.grindSize,
     required this.brewTime,
   }) : super(key: key);
 
@@ -31,9 +29,7 @@ class MetaInfoSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('${loc.watertemp}: $waterCºC / $waterFºF'),
-        const SizedBox(height: 16),
-        Text('${loc.grindsize}: $grindSize'),
+        Text('${loc.watertemp}: $waterC°C / $waterF°F'),
         const SizedBox(height: 16),
         Text('${loc.brewtime}: $formattedBrewTime'),
       ],

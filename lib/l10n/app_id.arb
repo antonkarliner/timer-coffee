@@ -876,5 +876,13 @@
   "timePeriodLastYear": "Tahun Lalu",
   "nativeAppPromoTitle": "Unduh Aplikasi Timer.Coffee",
   "nativeAppPromoDescription": "Nikmati pengalaman lengkap dengan fitur eksklusif: pemindaian label kopi berbasis AI, Live Activities di layar kunci, notifikasi push, umpan balik haptic, dan lainnya.",
-  "nativeAppPromoButton": "Unduh Aplikasi"
+  "nativeAppPromoButton": "Unduh Aplikasi",
+  "addBrewEntry": "Tambah Catatan Seduhan",
+  "selectBrewingMethod": "Pilih Metode Seduh",
+  "selectRecipe": "Pilih Resep",
+  "brewDate": "Tanggal",
+  "brewTime": "Waktu",
+  "brewEntrySaved": "Catatan seduhan disimpan",
+  "brewingMethodRequired": "Silakan pilih metode seduh",
+  "recipeRequired": "Silakan pilih resep"
 }

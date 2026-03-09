@@ -41,6 +41,10 @@ class AppRouter extends RootStackRouter {
           path: '/brewdiary',
         ),
         AutoRoute(
+          page: ManualBrewEntryRoute.page,
+          path: '/brewdiary/add',
+        ),
+        AutoRoute(
           page: StatsRoute.page,
           path: '/stats',
         ),

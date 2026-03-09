@@ -876,5 +876,13 @@
   "timePeriodLastYear": "Letztes Jahr",
   "nativeAppPromoTitle": "Hol dir die Timer.Coffee App",
   "nativeAppPromoDescription": "Erlebe alle Funktionen: KI-gestütztes Scannen von Kaffeeetiketten, Live-Aktivitäten auf dem Sperrbildschirm, Push-Benachrichtigungen, haptisches Feedback und mehr.",
-  "nativeAppPromoButton": "App herunterladen"
+  "nativeAppPromoButton": "App herunterladen",
+  "addBrewEntry": "Brühvorgang hinzufügen",
+  "selectBrewingMethod": "Brühmethode auswählen",
+  "selectRecipe": "Rezept auswählen",
+  "brewDate": "Datum",
+  "brewTime": "Uhrzeit",
+  "brewEntrySaved": "Brühvorgang gespeichert",
+  "brewingMethodRequired": "Bitte wähle eine Brühmethode",
+  "recipeRequired": "Bitte wähle ein Rezept"
 }
