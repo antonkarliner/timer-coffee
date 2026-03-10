@@ -177,6 +177,7 @@
   "selectHarvestDate": "Sélectionnez la date de récolte",
   "selectRoastDate": "Sélectionnez la date de torréfaction",
   "selectDate": "Sélectionnez la date",
+  "selectTime": "Sélectionnez l'heure",
   "save": "Enregistrer",
   "fillRequiredFields": "Veuillez remplir tous les champs obligatoires.",
   "analyzing": "Analyse en cours",

@@ -710,6 +710,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get selectDate => 'حدد التاريخ';
 
   @override
+  String get selectTime => 'حدد الوقت';
+
+  @override
   String get save => 'حفظ';
 
   @override

@@ -202,6 +202,7 @@
   "selectHarvestDate": "Velg høstedato",
   "selectRoastDate": "Velg brenningsdato",
   "selectDate": "Velg dato",
+  "selectTime": "Velg tid",
   "save": "Lagre",
   "fillRequiredFields": "Vennligst fyll ut alle obligatoriske felt.",
   "analyzing": "Analyserer",

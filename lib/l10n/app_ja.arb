@@ -177,6 +177,7 @@
   "selectHarvestDate": "収穫日を選択",
   "selectRoastDate": "焙煎日を選択",
   "selectDate": "日付を選択",
+  "selectTime": "時刻を選択",
   "save": "保存",
   "fillRequiredFields": "必須項目をすべて入力してください。",
   "analyzing": "分析中",

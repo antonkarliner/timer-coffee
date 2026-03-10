@@ -710,6 +710,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get selectDate => 'Pilih tanggal';
 
   @override
+  String get selectTime => 'Pilih waktu';
+
+  @override
   String get save => 'Simpan';
 
   @override

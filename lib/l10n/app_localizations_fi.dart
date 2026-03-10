@@ -707,6 +707,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get selectDate => 'Valitse päivämäärä';
 
   @override
+  String get selectTime => 'Valitse aika';
+
+  @override
   String get save => 'Tallenna';
 
   @override

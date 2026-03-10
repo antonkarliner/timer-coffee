@@ -707,6 +707,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectDate => 'Select date';
 
   @override
+  String get selectTime => 'Select time';
+
+  @override
   String get save => 'Save';
 
   @override

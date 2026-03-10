@@ -697,6 +697,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get selectDate => '날짜 선택';
 
   @override
+  String get selectTime => '시간 선택';
+
+  @override
   String get save => '저장';
 
   @override

@@ -177,6 +177,7 @@
   "selectHarvestDate": "Seleccionar fecha de cosecha",
   "selectRoastDate": "Seleccionar fecha de tueste",
   "selectDate": "Seleccionar fecha",
+  "selectTime": "Seleccionar hora",
   "save": "Guardar",
   "fillRequiredFields": "Por favor, rellena todos los campos obligatorios.",
   "analyzing": "Analizando",

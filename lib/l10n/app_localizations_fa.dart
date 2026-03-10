@@ -704,6 +704,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get selectDate => 'انتخاب تاریخ';
 
   @override
+  String get selectTime => 'انتخاب زمان';
+
+  @override
   String get save => 'ذخیره';
 
   @override

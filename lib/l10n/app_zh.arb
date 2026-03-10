@@ -168,6 +168,7 @@
   "selectHarvestDate": "选择收获日期",
   "selectRoastDate": "选择烘焙日期",
   "selectDate": "选择日期",
+  "selectTime": "选择时间",
   "save": "保存",
   "fillRequiredFields": "请填写所有必填字段。",
   "analyzing": "分析中",

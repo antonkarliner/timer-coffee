@@ -726,6 +726,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get selectDate => 'Виберіть дату';
 
   @override
+  String get selectTime => 'Виберіть час';
+
+  @override
   String get save => 'Зберегти';
 
   @override

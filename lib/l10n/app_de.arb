@@ -177,6 +177,7 @@
   "selectHarvestDate": "Erntedatum auswählen",
   "selectRoastDate": "Röstdatum auswählen",
   "selectDate": "Datum auswählen",
+  "selectTime": "Uhrzeit auswählen",
   "save": "Speichern",
   "fillRequiredFields": "Bitte füllen Sie alle erforderlichen Felder aus.",
   "analyzing": "Analysieren...",

@@ -709,6 +709,9 @@ class AppLocalizationsHr extends AppLocalizations {
   String get selectDate => 'Odaberi datum';
 
   @override
+  String get selectTime => 'Odaberi vrijeme';
+
+  @override
   String get save => 'Spremi';
 
   @override

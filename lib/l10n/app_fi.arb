@@ -108,6 +108,7 @@
   "selectHarvestDate": "Valitse sadonkorjuupäivä",
   "selectRoastDate": "Valitse paahtopäivä",
   "selectDate": "Valitse päivämäärä",
+  "selectTime": "Valitse aika",
   "save": "Tallenna",
   "fillRequiredFields": "Täytä kaikki pakolliset kentät.",
   "analyzing": "Analysoidaan",

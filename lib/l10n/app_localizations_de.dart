@@ -712,6 +712,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get selectDate => 'Datum auswählen';
 
   @override
+  String get selectTime => 'Uhrzeit auswählen';
+
+  @override
   String get save => 'Speichern';
 
   @override

@@ -288,6 +288,7 @@
   "selectHarvestDate": "Select Harvest Date",
   "selectRoastDate": "Select Roast Date",
   "selectDate": "Select date",
+  "selectTime": "Select time",
   "save": "Save",
   "fillRequiredFields": "Please fill in all required fields.",
   "analyzing": "Analyzing",

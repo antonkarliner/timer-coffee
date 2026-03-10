@@ -708,6 +708,9 @@ class AppLocalizationsNo extends AppLocalizations {
   String get selectDate => 'Velg dato';
 
   @override
+  String get selectTime => 'Velg tid';
+
+  @override
   String get save => 'Lagre';
 
   @override

@@ -171,6 +171,7 @@
   "selectHarvestDate": "حدد تاريخ الحصاد",
   "selectRoastDate": "حدد تاريخ التحميص",
   "selectDate": "حدد التاريخ",
+  "selectTime": "حدد الوقت",
   "save": "حفظ",
   "fillRequiredFields": "يرجى ملء جميع الحقول المطلوبة.",
   "analyzing": "جاري التحليل",

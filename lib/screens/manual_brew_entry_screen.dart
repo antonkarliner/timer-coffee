@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:uuid/uuid.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
 import '../models/brewing_method_model.dart';
 import '../models/recipe_model.dart';
 import '../providers/recipe_provider.dart';
@@ -18,6 +17,8 @@ import '../widgets/base_buttons.dart';
 import '../widgets/roaster_logo.dart';
 import '../services/roaster_logo_service.dart';
 import '../widgets/unsaved_changes_dialog.dart';
+import '../widgets/fields/date_field.dart';
+import '../widgets/fields/time_field.dart';
 
 @RoutePage()
 class ManualBrewEntryScreen extends StatefulWidget {
@@ -112,25 +113,15 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
     });
   }
 
-  Future<void> _pickDate() async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null) {
-      setState(() => _selectedDate = picked);
+  void _onDateChanged(String? isoString) {
+    if (isoString != null) {
+      setState(() => _selectedDate = DateTime.parse(isoString));
     }
   }
 
-  Future<void> _pickTime() async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: _selectedTime,
-    );
-    if (picked != null) {
-      setState(() => _selectedTime = picked);
+  void _onTimeChanged(TimeOfDay? time) {
+    if (time != null) {
+      setState(() => _selectedTime = time);
     }
   }
 
@@ -559,38 +550,25 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
 
                         // Date and Time
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
-                              child: InkWell(
-                                onTap: _pickDate,
-                                child: InputDecorator(
-                                  decoration: InputDecoration(
-                                    labelText: loc.brewDate,
-                                    border: const OutlineInputBorder(),
-                                  ),
-                                  child: Text(
-                                    DateFormat(
-                                      loc.dateFormat,
-                                      Localizations.localeOf(context)
-                                          .toString(),
-                                    ).format(_selectedDate),
-                                  ),
-                                ),
+                              child: DateField(
+                                label: loc.brewDate,
+                                initialValue:
+                                    _selectedDate.toIso8601String(),
+                                firstDate: DateTime(2020),
+                                lastDate: DateTime.now(),
+                                showClearButton: false,
+                                onChanged: _onDateChanged,
                               ),
                             ),
                             const SizedBox(width: 16),
                             Expanded(
-                              child: InkWell(
-                                onTap: _pickTime,
-                                child: InputDecorator(
-                                  decoration: InputDecoration(
-                                    labelText: loc.brewTime,
-                                    border: const OutlineInputBorder(),
-                                  ),
-                                  child: Text(
-                                    _selectedTime.format(context),
-                                  ),
-                                ),
+                              child: TimeField(
+                                label: loc.brewTime,
+                                initialValue: _selectedTime,
+                                onChanged: _onTimeChanged,
                               ),
                             ),
                           ],

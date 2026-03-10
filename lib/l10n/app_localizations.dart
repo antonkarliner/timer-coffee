@@ -1348,6 +1348,12 @@ abstract class AppLocalizations {
   /// **'Select date'**
   String get selectDate;
 
+  /// No description provided for @selectTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Select time'**
+  String get selectTime;
+
   /// No description provided for @save.
   ///
   /// In en, this message translates to:

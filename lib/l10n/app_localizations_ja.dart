@@ -697,6 +697,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get selectDate => '日付を選択';
 
   @override
+  String get selectTime => '時刻を選択';
+
+  @override
   String get save => '保存';
 
   @override

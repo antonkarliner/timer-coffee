@@ -710,6 +710,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get selectDate => 'Selecteer datum';
 
   @override
+  String get selectTime => 'Selecteer tijd';
+
+  @override
   String get save => 'Opslaan';
 
   @override

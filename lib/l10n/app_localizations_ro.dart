@@ -711,6 +711,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get selectDate => 'Selectați data';
 
   @override
+  String get selectTime => 'Selectați ora';
+
+  @override
   String get save => 'Salvează';
 
   @override

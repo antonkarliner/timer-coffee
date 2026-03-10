@@ -177,6 +177,7 @@
   "selectHarvestDate": "Выберите дату сбора урожая",
   "selectRoastDate": "Выберите дату обжарки",
   "selectDate": "Выберите дату",
+  "selectTime": "Выберите время",
   "save": "Сохранить",
   "fillRequiredFields": "Пожалуйста, заполните все обязательные поля.",
   "analyzing": "Анализируем",

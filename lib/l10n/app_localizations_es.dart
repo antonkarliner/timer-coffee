@@ -710,6 +710,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get selectDate => 'Seleccionar fecha';
 
   @override
+  String get selectTime => 'Seleccionar hora';
+
+  @override
   String get save => 'Guardar';
 
   @override

@@ -695,6 +695,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get selectDate => '选择日期';
 
   @override
+  String get selectTime => '选择时间';
+
+  @override
   String get save => '保存';
 
   @override

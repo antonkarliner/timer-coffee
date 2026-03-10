@@ -711,6 +711,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get selectDate => 'Tarih seçin';
 
   @override
+  String get selectTime => 'Saat seçin';
+
+  @override
   String get save => 'Kaydet';
 
   @override
