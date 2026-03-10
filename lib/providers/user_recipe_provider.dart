@@ -411,7 +411,7 @@ class UserRecipeProvider with ChangeNotifier {
         await _database.userRecipePreferencesDao.updatePreferences(
           newRecipeId,
           isFavorite: false, // Explicitly set default
-          // Ensure other fields are handled by updatePreferences defaults or are absent
+          customGrindSize: originalRecipe.customGrindSize,
         );
       });
 
