@@ -413,7 +413,14 @@ class _ManualBrewEntryScreenState extends State<ManualBrewEntryScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(loc.addBrewEntry),
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.add_circle_outline),
+              const SizedBox(width: 8),
+              Text(loc.addBrewEntry),
+            ],
+          ),
         ),
         body: _isLoading
           ? const Center(child: CircularProgressIndicator())
