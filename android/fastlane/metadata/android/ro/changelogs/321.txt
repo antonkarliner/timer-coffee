@@ -1,0 +1,9 @@
+Nou:
+• Adaugă manual înregistrări în Jurnal de Preparare pe ecranul Jurnal de Preparare — util dacă ai preparat fără aplicație.
+• Setează Mărimea Măcinăturii Personalizat pentru orice rețetă pe ecranul Detalii Rețetă (se păstrează între sesiuni).
+
+Îmbunătățit:
+• Îmbunătățiri mici de UI pe ecranul Pulse.
+
+Remedieri:
+• Remediere probleme legate de platformă cu popup-urile la lansare.

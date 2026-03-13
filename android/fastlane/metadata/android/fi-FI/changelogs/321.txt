@@ -1,0 +1,9 @@
+Uutta:
+• Lisää Uuttopäiväkirjaan merkintöjä manuaalisesti Uuttopäiväkirja-näytössä – hyödyllinen, jos keitit ilman sovellusta.
+• Aseta Mukautettu Jauhatuksen karkeus mille tahansa reseptille Reseptin tiedot -näytössä (säilyy istuntojen välillä).
+
+Parannettu:
+• Pieniä käyttöliittymäparannuksia Syke-näytössä.
+
+Virhekorjaukset:
+• Korjattu alustakohtaisia ongelmia käynnistysponnahdusikkunoissa.

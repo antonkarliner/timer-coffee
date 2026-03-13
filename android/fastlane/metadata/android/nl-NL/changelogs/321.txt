@@ -1,0 +1,9 @@
+Nieuw:
+• Voeg brouwdagboekvermeldingen handmatig toe op het Brouwdagboek-scherm — handig als je zonder de app hebt gezet.
+• Stel een Custom Maalgraad in voor elk recept op het scherm Receptdetails (blijft bewaard tussen sessies).
+
+Verbeterd:
+• Kleine UI-verbeteringen op het Pulse-scherm.
+
+Bugfixes:
+• Platformgerelateerde problemen met opstart-pop-ups opgelost.

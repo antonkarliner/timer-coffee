@@ -1,0 +1,9 @@
+Novità:
+• Aggiungi manualmente le voci del Diario di Infusione nella schermata Diario di Infusione — utile se hai preparato senza l’app.
+• Personalizza il Grado di macinatura per qualsiasi ricetta nella schermata Dettaglio Ricetta (salvato tra le sessioni).
+
+Miglioramenti:
+• Piccoli miglioramenti UI nella schermata Pulse.
+
+Correzioni di bug:
+• Risolti problemi legati alla piattaforma con i popup di avvio.

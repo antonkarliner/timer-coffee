@@ -1,0 +1,9 @@
+Nowość:
+• Ręcznie dodawaj wpisy w Dziennik Warzenia na ekranie Dziennik Warzenia — przydatne, jeśli parzyłeś bez aplikacji.
+• Ustaw Niestandardowe Stopień mielenia dla dowolnego przepisu na ekranie Szczegóły przepisu (zapisywane między sesjami).
+
+Ulepszenia:
+• Drobne ulepszenia interfejsu na ekranie Puls.
+
+Poprawki błędów:
+• Naprawiono problemy związane z platformą dotyczące wyskakujących okienek przy uruchamianiu.

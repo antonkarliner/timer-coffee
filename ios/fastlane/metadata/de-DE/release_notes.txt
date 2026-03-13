@@ -1,16 +1,12 @@
 Neu:
 
-• Brühen im Hintergrund — Minimiere die App während des Brühvorgangs und komm zurück, wann immer du bereit bist. Der Timer läuft im Hintergrund weiterhin präzise.
-• Live-Aktivitäten — Verfolge den Fortschritt deines Brühvorgangs auf dem Sperrbildschirm und in der Dynamic Island (nur auf unterstützten Geräten).
-• Pulse — Ein neuer Echtzeit-Bildschirm, der zeigt, was andere Nutzerinnen und Nutzer weltweit gerade brühen.
-• Support kontaktieren — Nimm über die neue Support-Schaltfläche im „Über“-Bildschirm direkt per E-Mail Kontakt mit dem Entwickler auf.
+• Du kannst jetzt Brautagebuch-Einträge manuell auf dem Brautagebuch-Bildschirm hinzufügen. Nützlich, wenn du vergessen hast, die App während des Brühens zu starten oder wenn du deine Brühvorgänge einfach manuell festhalten möchtest.
+• Lege einen benutzerdefinierten Mahlgrad für jedes Rezept auf dem Bildschirm „Rezeptdetails“ fest. Z. B. „Comandante C40 25 Klicks“ oder „Wilfa Uniform 25“. Der Mahlgrad wird zwischen den Sitzungen gespeichert.
 
 Verbessert:
 
-• Verbesserungen der Übersetzungen in mehreren Sprachen.
-• Verschiedene Design-Optimierungen für ein noch flüssigeres Nutzungserlebnis.
+• Kleine UI-Verbesserungen auf dem Pulse-Bildschirm.
 
 Fehlerbehebungen:
 
-• Ein Problem behoben, bei dem integrierte Rezepte nach dem Teilen verschwanden, wenn die App auf eine nicht englische Sprache eingestellt war.
-• Ein Problem behoben, bei dem die Teilen-Schaltfläche für von Nutzerinnen und Nutzern erstellte Rezepte nach dem Schließen des Anmelde-Dialogs nicht mehr reagierte.
+• Plattformbezogene Probleme mit Start-Popups behoben.

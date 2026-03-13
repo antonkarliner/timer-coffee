@@ -1,0 +1,9 @@
+Neu:
+• Brautagebuch-Einträge manuell im Brautagebuch-Bildschirm hinzufügen – nützlich, wenn du ohne App gebrüht hast.
+• Benutzerdefiniert Mahlgrad für jedes Rezept im Rezeptdetail-Bildschirm festlegen (bleibt zwischen Sitzungen gespeichert).
+
+Verbessert:
+• Kleine UI-Verbesserungen im Pulse-Bildschirm.
+
+Fehlerbehebungen:
+• Plattformbezogene Probleme mit Start-Popups behoben.

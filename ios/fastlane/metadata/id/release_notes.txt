@@ -1,16 +1,12 @@
 Baru:
 
-• Seduh di latar belakang — Minimalkan aplikasi saat proses seduh berlangsung dan kembali kapan pun Anda siap. Timer tetap berjalan akurat di latar belakang.
-• Live Activities — Pantau progres seduh Anda di Layar Terkunci dan di Dynamic Island (hanya perangkat yang didukung).
-• Pulse — Layar real-time baru yang menampilkan apa yang sedang diseduh oleh pengguna lain di seluruh dunia saat ini.
-• Hubungi Dukungan — Hubungi pengembang secara langsung melalui email dari tombol Dukungan baru di layar Tentang.
+• Sekarang Anda dapat menambahkan catatan Diari Seduhan secara manual di layar Diari Seduhan. Berguna jika Anda lupa menjalankan aplikasi saat menyeduh atau jika Anda hanya ingin mencatat seduhan Anda secara manual.
+• Atur Tingkat kehalusan gilingan Kustom untuk resep apa pun di layar Detail Resep. Mis. "Comandate C40 25 klik" atau "Wilfa Uniform 25". Tingkat kehalusan gilingan disimpan di antara sesi.
 
-Peningkatan:
+Ditingkatkan:
 
-• Penyempurnaan terjemahan di berbagai bahasa.
-• Berbagai penyempurnaan desain untuk pengalaman yang lebih mulus.
+• Peningkatan UI kecil di layar Pulse .
 
 Perbaikan Bug:
 
-• Memperbaiki masalah ketika resep bawaan menghilang setelah dibagikan saat aplikasi disetel ke bahasa selain Inggris.
-• Memperbaiki masalah ketika tombol bagikan untuk resep buatan pengguna menjadi tidak responsif setelah menutup dialog masuk.
+• Memperbaiki masalah terkait platform pada popup saat peluncuran.

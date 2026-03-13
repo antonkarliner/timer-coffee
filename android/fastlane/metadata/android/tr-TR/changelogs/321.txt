@@ -1,0 +1,9 @@
+Yeni:
+• Uygulamayı kullanmadan demleme yaptıysanız faydalı olması için, Demleme Günlüğü ekranında demleme kayıtlarını manuel olarak ekleyin.
+• Tarif Detayı ekranında herhangi bir tarif için Özel Öğütme derecesi ayarlayın (oturumlar arasında kaydedilir).
+
+İyileştirildi:
+• Nabız ekranında küçük arayüz iyileştirmeleri.
+
+Hata Düzeltmeleri:
+• Açılış açılır pencereleriyle ilgili platform kaynaklı sorunlar düzeltildi.

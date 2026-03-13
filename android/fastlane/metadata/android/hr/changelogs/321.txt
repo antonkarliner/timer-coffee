@@ -1,0 +1,9 @@
+Novo:
+• Ručno dodajte zapise u Dnevnik pripreme na zaslonu Dnevnik pripreme — korisno ako ste kavu skuhao/la bez aplikacije.
+• Postavite Prilagođeno Finoća mljevenja za bilo koji recept na zaslonu Detalji recepta (sprema se između sesija).
+
+Poboljšano:
+• Manja UI poboljšanja na zaslonu Puls.
+
+Ispravci pogrešaka:
+• Ispravljeni problemi s početnim skočnim prozorima vezani uz platformu.

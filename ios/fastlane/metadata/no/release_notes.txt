@@ -1,16 +1,12 @@
 Nytt:
 
-• Brygging i bakgrunnen — Minimer appen midt i bryggingen og kom tilbake når du er klar. Timeren fortsetter å gå nøyaktig i bakgrunnen.  
-• Liveaktiviteter — Følg bryggeprogresjonen på låseskjermen og i Dynamic Island (kun støttede enheter).  
-• Puls — En ny sanntidsskjerm som viser hva andre brukere rundt om i verden brygger akkurat nå.  
-• Kontakt support — Kontakt utvikleren direkte via e-post med den nye Support-knappen på Om-skjermen.
+• Du kan nå legge til bryggdagbokoppføringer manuelt på Bryggdagbok-skjermen. Nyttig hvis du glemte å bruke appen mens du brygget, eller hvis du bare vil registrere bryggene dine manuelt.
+• Angi Tilpasset Malingsgrad for hvilken som helst oppskrift på skjermen for oppskriftsdetaljer. F.eks. «Comandate C40 25 klikk» eller «Wilfa Uniform 25». Malingsgraden lagres mellom økter.
 
 Forbedret:
 
-• Forbedringer i oversettelser på tvers av flere språk.  
-• Ulike designjusteringer for en jevnere opplevelse.
+• Små UI-forbedringer på Puls-skjermen.
 
 Feilrettinger:
 
-• Rettet et problem der innebygde oppskrifter kunne forsvinne etter deling når appen var satt til et ikke-engelsk språk.  
-• Rettet et problem der delingsknappen for brukerlagde oppskrifter sluttet å svare etter at innloggingsdialogen ble lukket.
+• Rettet plattformrelaterte problemer med oppstartspopup-vinduer.

@@ -1,16 +1,12 @@
 Nowości:
 
-• Parzenie w tle — Zminimalizuj aplikację w trakcie parzenia i wróć, kiedy tylko będziesz gotowy. Timer nadal działa precyzyjnie w tle.
-• Live Activities — Śledź postęp parzenia na ekranie blokady i w Dynamic Island (tylko na obsługiwanych urządzeniach).
-• Puls — Nowy ekran na żywo pokazujący, co parzą teraz inni użytkownicy na całym świecie.
-• Kontakt ze wsparciem — Skontaktuj się bezpośrednio z deweloperem przez e-mail, korzystając z nowego przycisku Wsparcie na ekranie O aplikacji.
+• Teraz możesz ręcznie dodawać wpisy w Dziennik Warzenia na ekranie Dziennik Warzenia. Przydatne, jeśli zapomniałeś uruchomić aplikację podczas parzenia albo jeśli po prostu chcesz zapisywać swoje parzenia ręcznie.
+• Ustaw Niestandardowe Stopień mielenia dla dowolnego przepisu na ekranie Szczegóły przepisu. Np. „Comandate C40 25 kliknięć” lub „Wilfa Uniform 25”. Stopień mielenia jest zapisywany między sesjami.
 
 Ulepszenia:
 
-• Udoskonalenia tłumaczeń w wielu językach.
-• Różne poprawki w projekcie dla płynniejszego działania.
+• Drobne ulepszenia UI na ekranie Puls.
 
 Poprawki błędów:
 
-• Naprawiono problem, przez który wbudowane receptury znikały po udostępnieniu, gdy aplikacja była ustawiona na język inny niż angielski.
-• Naprawiono problem, przez który przycisk udostępniania dla receptur utworzonych przez użytkownika przestawał reagować po zamknięciu okna logowania.
+• Naprawiono problemy zależne od platformy z wyskakującymi oknami przy uruchamianiu.

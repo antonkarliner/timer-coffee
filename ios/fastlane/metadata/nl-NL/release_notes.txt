@@ -1,16 +1,12 @@
 Nieuw:
 
-• Achtergrondzetten — Minimaliseer de app tijdens het zetten en kom terug wanneer je er klaar voor bent. De timer blijft op de achtergrond nauwkeurig doorlopen.  
-• Live-activiteiten — Volg de voortgang van je zet op het vergrendelscherm en in de Dynamic Island (alleen ondersteunde apparaten).  
-• Pulse — Een nieuw realtime scherm dat laat zien wat andere gebruikers wereldwijd op dit moment aan het zetten zijn.  
-• Contact opnemen met support — Neem rechtstreeks via e-mail contact op met de ontwikkelaar via de nieuwe Support-knop op het Over-scherm.
+• Je kunt nu handmatig vermeldingen toevoegen op het scherm Brouwdagboek. Handig als je bent vergeten de app te gebruiken tijdens het zetten of als je je zetten gewoon handmatig wilt registreren.
+• Stel een Custom Maalgraad in voor elk recept op het scherm Receptdetails. Bijvoorbeeld: "Comandante C40 25 clicks" of "Wilfa Uniform 25". Maalgraad wordt tussen sessies opgeslagen.
 
 Verbeterd:
 
-• Verfijningen in vertalingen in meerdere talen.  
-• Diverse ontwerpverbeteringen voor een soepelere ervaring.
+• Kleine UI-verbeteringen op het Pulse-scherm.
 
 Bugfixes:
 
-• Een probleem opgelost waarbij ingebouwde recepten na het delen verdwenen wanneer de app was ingesteld op een niet-Engelse taal.  
-• Een probleem opgelost waarbij de deelknop voor door gebruikers gemaakte recepten niet meer reageerde na het sluiten van het aanmeldvenster.
+• Platformgerelateerde problemen met opstart-pop-ups opgelost.

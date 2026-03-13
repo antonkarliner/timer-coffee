@@ -1,0 +1,9 @@
+Novo:
+• Adicione manualmente registros no Diário de Preparo — útil se você preparou sem o app.
+• Defina Tamanho da Moagem Personalizado para qualquer receita na tela de Detalhes da Receita (salvo entre sessões).
+
+Melhorias:
+• Pequenas melhorias de UI na tela de Pulso.
+
+Correções de bugs:
+• Corrige problemas relacionados à plataforma com pop-ups de inicialização.

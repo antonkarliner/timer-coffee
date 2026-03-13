@@ -1,0 +1,9 @@
+New:
+• Manually add brew diary entries on Brew Diary screen — useful if you brewed without the app.
+• Set custom grind size for any recipe on Recipe Detail screen (saved between sessions).
+
+Improved:
+• Small UI improvements on Pulse screen.
+
+Bug Fixes:
+• Fix platform-related issues with launch popups.

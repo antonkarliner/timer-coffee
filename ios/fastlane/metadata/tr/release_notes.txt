@@ -1,16 +1,12 @@
 Yeni:
 
-• Arka planda demleme — Demleme sırasında uygulamayı küçültün ve hazır olduğunuzda geri dönün. Kronometre arka planda da doğru şekilde çalışmaya devam eder.  
-• Canlı Etkinlikler — Demleme ilerlemenizi Kilit Ekranı’nda ve Dynamic Island’da takip edin (yalnızca desteklenen cihazlarda).  
-• Nabız — Dünyanın dört bir yanındaki diğer kullanıcıların şu anda neler demlediğini gösteren yeni, gerçek zamanlı bir ekran.  
-• Destek ile İletişime Geçin — Hakkında ekranındaki yeni Destek düğmesi üzerinden e-posta ile doğrudan geliştiriciye ulaşın.
+• Artık Demleme Günlüğü ekranında demleme günlüğü kayıtlarını manuel olarak ekleyebilirsiniz. Demlerken uygulamayı çalıştırmayı unuttuysanız veya demlemelerinizi manuel olarak kaydetmek istiyorsanız kullanışlıdır.
+• Tarif Detay ekranında herhangi bir tarif için Özel Öğütme derecesi ayarlayın. Örn. "Comandate C40 25 click" veya "Wilfa Uniform 25". Öğütme derecesi oturumlar arasında kaydedilir.
 
 İyileştirildi:
 
-• Birden fazla dilde çeviri iyileştirmeleri.  
-• Daha akıcı bir deneyim için çeşitli tasarım rötuşları.
+• Nabız ekranında küçük UI iyileştirmeleri.
 
 Hata Düzeltmeleri:
 
-• Uygulama dili İngilizce dışında bir dile ayarlandığında, yerleşik tariflerin paylaşım sonrası kaybolmasına neden olan bir sorun düzeltildi.  
-• Oturum açma iletişim kutusu kapatıldıktan sonra, kullanıcı tarafından oluşturulan tariflerdeki paylaş düğmesinin yanıt vermemesine neden olan bir sorun düzeltildi.
+• Başlatma açılır pencereleriyle ilgili platform kaynaklı sorunlar düzeltildi.

@@ -7,7 +7,7 @@
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/antonkarliner/timer-coffee/issues)
 [![Last Commit](https://img.shields.io/github/last-commit/antonkarliner/timer-coffee.svg)](https://github.com/antonkarliner/timer-coffee/commits/main)
 [![Made with Flutter](https://img.shields.io/badge/made%20with-Flutter-46D1FD.svg)](#)
-[![Localization](https://img.shields.io/badge/i18n-20%20languages-orange.svg)](#languages)
+[![Localization](https://img.shields.io/badge/i18n-21%20languages-orange.svg)](#languages)
 [![Buy Me A Coffee](https://img.shields.io/badge/support-Buy%20Me%20a%20Coffee-yellow.svg)](https://buymeacoffee.com/timercoffee)
 [![GitHub Stars](https://img.shields.io/github/stars/antonkarliner/timer-coffee.svg)](https://github.com/antonkarliner/timer-coffee/stargazers)
 
@@ -26,7 +26,6 @@
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [Translation](#translation)
-- [Roadmap](#roadmap)
 - [Support Development](#support-development)
 - [License](#license)
 
@@ -38,10 +37,14 @@
 - **40+ Recipes** – Guided timers with detailed steps for popular brewing methods (see list below).
 - **Coffee Calculator** – Adjust coffee or water amounts to brew any volume.
 - **Favorites** – Mark and quickly access your preferred recipes.
-- **Brew Diary & Automatic Logging** – Track every session, add tasting notes, and automatically log brews.
-- **Bean Management** – Scan coffee bag labels to save beans effortlessly, log important details such as origin, roaster, etc. Add remaining amount, attach beans to brews.
+- **Brew Diary** – Log brews automatically during a timer session or add entries manually. Add tasting notes and track every cup.
+- **Custom Grind Size per Recipe** – Save your grind setting (e.g. "Comandante C40 25 clicks") directly on the recipe so it's always there when you need it.
+- **Bean Management** – Scan coffee bag labels to save beans effortlessly, log origin, roaster, farm info, and remaining weight. Inventory auto-updates after each brew.
+- **Background Brewing** – The timer keeps running accurately when you switch apps or lock your screen.
+- **Live Activities & Live Updates** – On iPhone, your brew step and countdown appear on the Lock Screen and in the Dynamic Island. On Android, a persistent notification tracks your brew in real time.
+- **Pulse** – A live view of what other Timer.Coffee users around the world are brewing right now.
 - **Device Sync** – Recipes, beans, and brews stay in sync across iOS, Android, and Web.
-- **Audio Chimes** – Get alerted for each brewing step.
+- **Step Alerts** – Audio chimes or vibration alerts for each brewing step.
 - **Dark Mode** – Brew comfortably any time of day.
 - **Multilingual** – Available in 21 languages (see below).
 
@@ -51,7 +54,7 @@
 
 More than 20 methods and variations are supported, including:
 
-Aeropress · Batch Brew · Bee House Dripper · Cezve · Chemex · Clever Dripper · Espresso · French Press · Kalita Wave · **Melitta** Cone · Moka Pot · **Neapolitan** Flip Pot · Orea Brewer · Origami Dripper · Phin Filter · Pulsar · Siphon Brewer · Hario Switch · Tricolate · UFO Dripper · Hario V60 · Wilfa Svart Pour Over.
+Aeropress · April Brewer · Batch Brew · Bee House Dripper · Ceado Hoop Brewer · Cezve · Chemex · Clever Dripper · Espresso · French Press · Kalita Wave · **Melitta** Cone · Moka Pot · **Neapolitan** Flip Pot · Orea Brewer · Origami Dripper · Oxo Rapid Brewer · Phin Filter · Pulsar · Siphon Brewer · Hario Switch · Tricolate · UFO Dripper · Hario V60 · Wilfa Svart Pour Over.
 
 > Have a favorite method that’s missing? Open an issue with the details and we’ll add it.
 
@@ -77,8 +80,8 @@ Arabic (العربية) · Chinese (中文) · English · Spanish (Español) · 
 
 1. Select a brewing method and recipe.  
 2. Optionally adjust coffee or water amounts using the calculator.  
-3. Start the timer and follow the guided steps (audio chimes available).  
-4. Log beans, add notes, and track brews in the diary.  
+3. Start the timer and follow the guided steps (audio chimes or vibration alerts).
+4. Log beans, add tasting notes, and track brews in the diary (entries are logged automatically or added manually).  
 5. Create your own recipes or share existing ones.
 
 ---
@@ -91,9 +94,9 @@ Contributions of all kinds are welcome — recipes, features, and bug fixes.
 
 **Development:** Fork the repo, create a feature branch, and submit a Pull Request.
 
-Please see existing issues for ideas or to report bugs.  
+Please see existing issues for ideas, feature requests, or bug reports.
 
----  
+---
 
 ## Translation  
 
@@ -103,14 +106,6 @@ If you want to contribute to app interface translation, there are 2 ways to do i
 2. Translate app to new language: fork repo, translate [base English .arb file](lib/l10n/app_en.arb), following the formatting, add new .arb file to l10n folder, submit pull request.
 
 **Important**: Please don't edit .dart files in l10n folder, they're generated automatically during app build. Also, if you use LLMs for translation, please make sure to check correctness and consistency of translation.  
-
----
-
-## Roadmap
-
-- Enhanced community interaction and sharing features.
-
-Have suggestions? [Open an issue](https://github.com/antonkarliner/timer-coffee/issues).
 
 ---
 
@@ -126,16 +121,6 @@ Thank you! Enjoy your coffee ☕
 ## License
 
 Timer.Coffee is released under the [GNU General Public License v3.0](LICENSE).
-
----
-
-## Links
-
-- GitHub: [https://github.com/antonkarliner/timer-coffee](https://github.com/antonkarliner/timer-coffee)
-- App Store: [https://apps.apple.com/app/apple-store/id6449322787](https://apps.apple.com/app/apple-store/id6449322787)
-- Google Play: [https://play.google.com/store/apps/details?id=com.coffee.timer](https://play.google.com/store/apps/details?id=com.coffee.timer)
-- Web App: [https://app.timer.coffee/](https://app.timer.coffee/)
-- Support: [https://buymeacoffee.com/timercoffee](https://buymeacoffee.com/timercoffee)
 
 
 ![big-size-light](https://www.timer.coffee/_next/image/?url=%2Fassets%2Fimages%2Fdevice-specific%2Fbig-size-light.webp&w=1200&q=75)

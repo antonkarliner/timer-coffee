@@ -1,0 +1,9 @@
+Nuevo:
+• Agrega manualmente registros en la pantalla de Diario de preparaciones — útil si preparaste sin la app.
+• Establece Tamaño de molienda Personalizado para cualquier receta en la pantalla Detalle de receta (se guarda entre sesiones).
+
+Mejoras:
+• Pequeñas mejoras de IU en la pantalla de Pulso.
+
+Correcciones de errores:
+• Se corrigieron problemas relacionados con la plataforma en los popups de inicio.

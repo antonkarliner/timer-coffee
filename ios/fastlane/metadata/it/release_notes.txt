@@ -1,16 +1,12 @@
 Novità:
 
-• Infusione in background — Riduci al minimo l’app durante l’infusione e torna quando vuoi. Il timer continua a scorrere con precisione in background.
-• Attività in tempo reale — Tieni d’occhio l’avanzamento dell’infusione nella schermata di blocco e nella Dynamic Island (solo sui dispositivi supportati).
-• Pulse — Una nuova schermata in tempo reale che mostra cosa stanno preparando gli altri utenti in tutto il mondo, in questo momento.
-• Contatta l’assistenza — Contatta direttamente lo sviluppatore via email dal nuovo pulsante Supporto nella schermata Informazioni.
+• Ora puoi aggiungere manualmente le registrazioni nel Diario di Infusione nella schermata Diario di Infusione. Utile se hai dimenticato di avviare l’app durante l’infusione o se vuoi semplicemente registrare le tue preparazioni manualmente.
+• Imposta il Grado di macinatura Personalizza per qualsiasi ricetta nella schermata Dettaglio Ricetta. Ad es. "Comandate C40 25 click" o "Wilfa Uniform 25". Il Grado di macinatura viene salvato tra una sessione e l’altra.
 
 Miglioramenti:
 
-• Miglioramenti alle traduzioni in più lingue.
-• Ritocchi al design per un’esperienza più fluida.
+• Piccoli miglioramenti dell’interfaccia utente nella schermata Pulse .
 
 Correzioni di bug:
 
-• Risolto un problema per cui le ricette integrate sparivano dopo la condivisione quando l’app era impostata su una lingua diversa dall’inglese.
-• Risolto un problema per cui il pulsante di condivisione delle ricette create dall’utente non rispondeva dopo aver chiuso la finestra di dialogo di accesso.
+• Correzione di problemi legati alla piattaforma con i popup di avvio.

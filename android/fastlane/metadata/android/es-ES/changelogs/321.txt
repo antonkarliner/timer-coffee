@@ -1,0 +1,9 @@
+Nuevo:
+• Añade manualmente registros al Diario de preparaciones en la pantalla del Diario de preparaciones — útil si preparaste café sin la app.
+• Establece un Tamaño de molienda Personalizado para cualquier receta en la pantalla de Detalle de receta (se guarda entre sesiones).
+
+Mejorado:
+• Pequeñas mejoras de la UI en la pantalla de Pulso.
+
+Correcciones de errores:
+• Se corrigen problemas de la plataforma con los popups de inicio.

@@ -1,16 +1,12 @@
-Noutăți:
+Nou:
 
-• Preparare în fundal — Minimizează aplicația în timpul preparării și revino când ești gata. Cronometrul continuă să ruleze cu precizie în fundal.  
-• Activități Live — Urmărește progresul preparării pe ecranul de blocare și în Dynamic Island (doar pe dispozitivele compatibile).  
-• Pulse — Un nou ecran în timp real care arată ce prepară chiar acum alți utilizatori din întreaga lume.  
-• Contactează suportul — Contactează direct dezvoltatorul prin e-mail din noul buton Suport din ecranul Despre.
+• Acum poți adăuga manual înregistrări în Jurnal de Preparare pe ecranul Jurnal de Preparare. Util dacă ai uitat să rulezi aplicația în timpul preparării sau dacă vrei doar să îți înregistrezi preparările manual.
+• Setează Mărimea Măcinăturii Personalizat pentru orice rețetă pe ecranul Detalii Rețetă. De ex. „Comandate C40 25 clicks” sau „Wilfa Uniform 25”. Mărimea măcinăturii este salvată între sesiuni.
 
-Îmbunătățiri:
+Îmbunătățit:
 
-• Ajustări ale traducerilor în mai multe limbi.  
-• Diverse îmbunătățiri de design pentru o experiență mai fluidă.
+• Îmbunătățiri minore ale interfeței pe ecranul Pulse.
 
-Remedieri:
+Remedieri de erori:
 
-• S-a remediat o problemă din cauza căreia rețetele incluse dispăreau după partajare atunci când aplicația era setată într-o limbă diferită de engleză.  
-• S-a remediat o problemă din cauza căreia butonul de partajare pentru rețetele create de utilizatori nu mai răspundea după închiderea dialogului de autentificare.
+• Remediază problemele legate de platformă cu ferestrele pop-up de lansare.

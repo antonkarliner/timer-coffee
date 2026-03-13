@@ -1,0 +1,9 @@
+Baru:
+• Tambahkan catatan Diari Seduhan secara manual di layar Diari Seduhan — berguna jika Anda menyeduh tanpa aplikasi.
+• Atur Tingkat kehalusan gilingan kustom untuk resep apa pun di layar Detail Resep (tersimpan antar-sesi).
+
+Ditingkatkan:
+• Peningkatan UI kecil di layar Pulse.
+
+Perbaikan Bug:
+• Perbaiki masalah terkait platform pada pop-up saat peluncuran.

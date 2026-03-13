@@ -1,0 +1,9 @@
+Nouveau :
+• Ajoutez manuellement des entrées dans le Journal de Brassage sur l’écran Journal de Brassage — utile si vous avez infusé sans l’app.
+• Définissez une Taille de mouture Personnalisée pour n’importe quelle recette sur l’écran Détails de la recette (conservée entre les sessions).
+
+Amélioré :
+• Petites améliorations de l’interface sur l’écran Pulse.
+
+Corrections de bugs :
+• Correction de problèmes liés à la plateforme avec les popups au lancement.

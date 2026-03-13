@@ -1,16 +1,12 @@
-Novidades:
+Novo:
 
-• Preparo em segundo plano — Minimize o app durante o preparo e volte quando quiser. O timer continua funcionando com precisão em segundo plano.
-• Atividades ao Vivo — Acompanhe o progresso do seu preparo na Tela Bloqueada e na Dynamic Island (somente em dispositivos compatíveis).
-• Pulso — Uma nova tela em tempo real mostrando o que outros usuários ao redor do mundo estão preparando agora.
-• Contatar o Suporte — Fale diretamente com o desenvolvedor por e-mail pelo novo botão Suporte na tela Sobre.
+• Agora você pode adicionar manualmente registros do Diário de Preparo na tela do Diário de Preparo. Útil se você esqueceu de usar o app durante o preparo ou se você só quer registrar seus preparos manualmente.
+• Defina o Tamanho da Moagem Personalizado para qualquer receita na tela de Detalhes da Receita. Ex.: "Comandate C40 25 cliques" ou "Wilfa Uniform 25". O tamanho da moagem é salvo entre sessões.
 
 Melhorias:
 
-• Ajustes nas traduções em vários idiomas.
-• Diversos refinamentos de design para uma experiência mais fluida.
+• Pequenas melhorias de UI na tela de Pulso.
 
 Correções de Bugs:
 
-• Corrigido um problema em que receitas integradas desapareciam após compartilhar quando o app estava configurado para um idioma diferente do inglês.
-• Corrigido um problema em que o botão de compartilhar de receitas criadas pelo usuário ficava sem resposta após fechar a janela de login.
+• Correção de problemas relacionados à plataforma com pop-ups de inicialização.

@@ -1,3 +1,7 @@
+# iOS build artifacts
+ios/Runner.ipa
+ios/Runner.app.dSYM.zip
+
 # Miscellaneous
 *.py
 # Python virtual environments

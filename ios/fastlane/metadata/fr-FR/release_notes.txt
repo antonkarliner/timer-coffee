@@ -1,16 +1,12 @@
 Nouveau :
 
-• Infusion en arrière-plan — Réduisez l’app pendant l’infusion et revenez quand vous le souhaitez. Le minuteur continue de fonctionner avec précision en arrière-plan.  
-• Activités en direct — Suivez la progression de votre infusion sur l’écran verrouillé et dans la Dynamic Island (appareils compatibles uniquement).  
-• Pulse — Un nouvel écran en temps réel indiquant ce que les autres utilisateurs, partout dans le monde, sont en train d’infuser.  
-• Contacter l’assistance — Contactez directement le développeur par e-mail grâce au nouveau bouton Support sur l’écran À propos.
+• Vous pouvez désormais ajouter manuellement des entrées au Journal de Brassage sur l'écran Journal de Brassage. Utile si vous avez oublié de lancer l'app pendant l'infusion ou si vous voulez simplement enregistrer vos infusions manuellement.
+• Définissez une Taille de mouture Personnalisée pour n'importe quelle recette sur l'écran Détail de la recette. Ex. « Comandate C40 25 clics » ou « Wilfa Uniform 25 ». La taille de mouture est conservée entre les sessions.
 
-Améliorations :
+Amélioré :
 
-• Améliorations des traductions dans plusieurs langues.  
-• Divers ajustements de design pour une expérience plus fluide.
+• Petites améliorations de l'interface utilisateur sur l'écran Pulse.
 
 Corrections de bugs :
 
-• Correction d’un problème où les recettes intégrées disparaissaient après un partage lorsque l’app était réglée sur une langue autre que l’anglais.  
-• Correction d’un problème où le bouton de partage des recettes créées par les utilisateurs ne répondait plus après la fermeture de la boîte de dialogue de connexion.
+• Correction de problèmes liés à la plateforme avec les pop-ups au lancement.

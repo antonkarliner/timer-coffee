@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 3.6.1+318
+version: 3.6.1+321
 
 environment:
   sdk: '>=3.10.0 <4.0.0'
@@ -106,6 +106,7 @@ dev_dependencies:
   drift_dev: ^2.28.1
   build_runner: ^2.4.8
   envied_generator: ^1.1.0
+  mockito: ^5.4.4
 
 flutter_native_splash:
   color: "#ffffff"

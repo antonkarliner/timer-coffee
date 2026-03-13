@@ -1,16 +1,12 @@
-Novedades:
+Nuevo:
 
-• Preparación en segundo plano — Minimiza la app durante la preparación y vuelve cuando estés listo. El temporizador sigue funcionando con precisión en segundo plano.  
-• Actividades en vivo — Sigue el progreso de tu preparación en la pantalla bloqueada y en Dynamic Island (solo en dispositivos compatibles).  
-• Pulso — Una nueva pantalla en tiempo real que muestra lo que otros usuarios de todo el mundo están preparando en este momento.  
-• Contactar a Soporte — Comunícate directamente con el desarrollador por correo electrónico desde el nuevo botón Soporte en la pantalla Acerca de.
+• Ahora puedes agregar manualmente registros al Diario de preparaciones en la pantalla de Diario de preparaciones. Útil si olvidaste usar la app mientras preparabas café o si solo quieres registrar tus preparaciones manualmente.
+• Establece un Tamaño de molienda Personalizado para cualquier receta en la pantalla de Detalle de receta. Por ejemplo: "Comandate C40 25 clics" o "Wilfa Uniform 25". El Tamaño de molienda se guarda entre sesiones.
 
-Mejoras:
+Mejorado:
 
-• Mejoras en la traducción en varios idiomas.  
-• Varios ajustes de diseño para una experiencia más fluida.
+• Pequeñas mejoras de UI en la pantalla de Pulso .
 
 Correcciones de errores:
 
-• Se corrigió un problema por el cual las recetas integradas desaparecían después de compartirlas cuando la app estaba configurada en un idioma distinto del inglés.  
-• Se corrigió un problema por el cual el botón de compartir de las recetas creadas por el usuario dejaba de responder después de cerrar el cuadro de diálogo de inicio de sesión.
+• Se corrigieron problemas relacionados con la plataforma en los popups de inicio.

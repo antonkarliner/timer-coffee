@@ -1,0 +1,9 @@
+Nytt:
+• Legg til bryggeoppføringer manuelt på Bryggdagbok-skjermen – nyttig hvis du brygget uten appen.
+• Angi tilpasset Malingsgrad for en oppskrift på Oppskriftsdetaljer-skjermen (lagres mellom økter).
+
+Forbedret:
+• Små UI-forbedringer på Puls-skjermen.
+
+Feilrettinger:
+• Rettet plattformrelaterte problemer med popup-vinduer ved oppstart.
