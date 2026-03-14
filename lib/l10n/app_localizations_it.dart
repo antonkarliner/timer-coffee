@@ -297,7 +297,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get timeFormat => 'HH:mm';
 
   @override
-  String get brewdiary => 'Diario di Infusione';
+  String get brewdiary => 'Diario del caffè';
 
   @override
   String get brewdiarynotfound => 'Nessuna voce trovata';

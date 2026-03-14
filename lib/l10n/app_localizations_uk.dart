@@ -295,7 +295,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get timeFormat => 'HH:mm';
 
   @override
-  String get brewdiary => 'Щоденник Заварок';
+  String get brewdiary => 'Щоденник заварювань';
 
   @override
   String get brewdiarynotfound => 'Записів не знайдено';

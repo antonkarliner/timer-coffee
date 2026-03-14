@@ -1,1 +1,1 @@
-Brew better coffee at home with this open-source brew timer app.
+Free, open-source brew timer with 40+ recipes, background brewing, and real-time Pulse.

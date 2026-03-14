@@ -1,23 +1,19 @@
 Timer.Coffee is a free, open-source coffee brewing timer and calculator designed to enhance your brewing experience. The app is completely free. Optional in-app donations support ongoing development and never affect access to features.
 
-What's New
-
-- Create Your Own Recipes: Customize and save your personal coffee brewing recipes.
-- Share Recipes: Easily share your favorite recipes with friends and fellow coffee enthusiasts.
-
 Key Features
 
-- 40+ Brewing Methods: Includes detailed, step-by-step instructions for methods like Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, and Hario Switch.
-- Coffee Calculator: Quickly adjust coffee and water quantities to brew your perfect amount.
-- Favorites: Mark and easily access your favorite recipes.
-- Brew Diary: Log notes and track your brewing experiences.
-- Audio Chime: Receive audio alerts for each brewing step.
-- Bean Tracking: Keep track of your coffee beans with AI-powered label recognition.
-- Automatic Logging: Automatically record every brewing session.
-- Device Sync: Seamlessly sync recipes, beans, and brews across all your devices.
-- Multilingual: Supports 21 languages.
-- Dark Mode: Comfortable brewing experience at any time of day.
-
-Coming Soon
-
-- Enhanced community interaction and sharing features.
+- 40+ Brewing Methods: Step-by-step instructions for Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch, and more.
+- Coffee Calculator: Adjust coffee and water quantities on the fly.
+- Custom Grind Size: Save your grind settings per recipe — never forget your Comandante clicks again.
+- Background Brewing: The timer keeps running accurately when you minimize the app — switch apps or check a message without losing your place.
+- Live Activities: Follow your brew step-by-step on the Lock Screen and in the Dynamic Island without unlocking your phone.
+- Pulse: See what coffee lovers around the world are brewing right now, in real time.
+- Create & Share Recipes: Build your own brewing recipes and share them with the community.
+- Brew Diary: Log notes, track sessions, and manually add entries for brews made without the app.
+- Bean Tracking: Manage your coffee bean inventory with AI-powered label recognition.
+- Favorites: Quick access to your most-used recipes.
+- Audio Chime: Audio alerts for every brewing step.
+- Automatic Logging: Every session is recorded automatically.
+- Device Sync: Recipes, beans, and brews synced across all your devices.
+- 21 Languages: Fully localized for a global audience.
+- Dark Mode: Easy on the eyes at any hour.

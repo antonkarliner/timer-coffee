@@ -1,23 +1,19 @@
 Timer.Coffee er en gratis kaffetimer og kalkulator med åpen kildekode, laget for å forbedre bryggeopplevelsen din. Appen er helt gratis. Valgfrie donasjoner i appen støtter videre utvikling og påvirker ikke tilgangen din til alle funksjoner.
 
-Hva er nytt
-
-- Lag dine egne oppskrifter: Tilpass og lagre dine personlige kaffeoppskrifter.
-- Del oppskrifter: Del favorittoppskriftene dine enkelt med venner og andre kaffeentusiaster.
-
 Nøkkelfunksjoner
 
 - 40+ bryggemetoder: Inkluderer detaljerte, trinnvise instruksjoner for metoder som Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper og Hario Switch.
-- Kaffekalkulator: Juster raskt mengden kaffe og vann for å brygge ønsket mengde.
-- Favoritter: Merk og få rask tilgang til favorittoppskriftene dine.
-- Bryggedagbok: Loggfør notater og spor bryggeopplevelsene dine.
-- Lydsignal: Få lydvarsler for hvert bryggetrinn.
-- Bønnesporing: Hold oversikt over kaffebønnene dine med KI-drevet etikettgjenkjenning.
-- Automatisk logging: Registrer hver bryggesesjon automatisk.
-- Synkronisering mellom enheter: Synkroniser oppskrifter, bønner og brygg sømløst på tvers av alle enhetene dine.
-- Flerspråklig: Støtter 21 språk.
-- Mørk modus: En behagelig bryggeopplevelse når som helst på døgnet.
-
-Kommer snart
-
-- Forbedret fellesskapsinteraksjon og delingsfunksjoner.
+- Kaffekalkulator: Juster raskt mengden kaffe og vann på farten.
+- Egendefinert maleinnstilling: Lagre maleinnstillingene dine per oppskrift.
+- Brygging i bakgrunnen: Timeren kjører nøyaktig når du minimerer appen — bytt app eller sjekk en melding uten å miste plassen din.
+- Live Updates: Følg brygget trinn for trinn med et vedvarende varsel — uten å låse opp telefonen.
+- Pulse: Se i sanntid hva kaffeelskere rundt om i verden brygger akkurat nå.
+- Lag og del oppskrifter: Lag dine egne bryggeoppskrifter og del dem med fellesskapet.
+- Bryggedagbok: Loggfør notater, spor sesjoner og legg til oppføringer manuelt for brygger gjort uten appen.
+- Bønnesporing: Administrer beholdningen din av kaffebønner med KI-drevet etikettgjenkjenning.
+- Favoritter: Rask tilgang til oppskriftene du bruker mest.
+- Lydsignal: Lydvarsler for hvert bryggtrinn.
+- Automatisk logging: Hver sesjon registreres automatisk.
+- Synkronisering mellom enheter: Oppskrifter, bønner og brygg synkronisert på tvers av alle enhetene dine.
+- 21 språk: Fullt lokalisert for et globalt publikum.
+- Mørk modus: Behagelig for øynene til enhver tid.

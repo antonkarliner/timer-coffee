@@ -1,23 +1,19 @@
 Timer.Coffee é um temporizador e calculadora de preparação de café, gratuito e de código aberto, concebido para melhorar a sua experiência. A app é totalmente gratuita. Existem donativos opcionais na aplicação para apoiar o desenvolvimento contínuo e não influenciam o acesso às funcionalidades.
 
-Novidades
-
-- Crie as suas próprias receitas: personalize e guarde as suas receitas de preparação de café.
-- Partilhe receitas: partilhe facilmente as suas receitas favoritas com amigos e outros entusiastas do café.
-
 Funcionalidades principais
 
 - Mais de 40 métodos de preparação: instruções detalhadas passo a passo para métodos como Hario V60, AeroPress, Chemex, Prensa Francesa, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch e outros.
-- Calculadora de café: ajuste rapidamente as quantidades de café e água para preparar a quantidade desejada.
-- Favoritos: marque e aceda facilmente às suas receitas favoritas.
-- Diário de preparação: registe notas e acompanhe as suas experiências.
-- Sinal sonoro: receba alertas áudio em cada etapa.
-- Registo de grãos: acompanhe os seus grãos com reconhecimento de rótulos com IA.
-- Registo automático: registe automaticamente cada sessão de preparação.
-- Sincronização entre dispositivos: sincronize receitas, grãos e registos de preparação em todos os seus dispositivos.
-- Multilingue: suporta 21 idiomas.
-- Modo escuro: experiência confortável a qualquer hora do dia.
-
-Em breve
-
-- Funcionalidades melhoradas de interação e partilha na comunidade.
+- Calculadora de café: ajuste as quantidades de café e água na hora.
+- Tamanho de moagem personalizado: guarde as definições de moagem por receita.
+- Preparação em segundo plano: o temporizador funciona com precisão quando minimiza a app — mude de app ou verifique uma mensagem sem perder o seu lugar.
+- Live Updates: acompanhe a preparação passo a passo com uma notificação persistente — sem desbloquear o telemóvel.
+- Pulse: veja em tempo real o que os amantes de café em todo o mundo estão a preparar.
+- Criar e partilhar receitas: crie as suas próprias receitas de preparação e partilhe-as com a comunidade.
+- Diário de preparação: registe notas, acompanhe sessões e adicione manualmente entradas para preparações feitas sem a app.
+- Registo de grãos: faça a gestão do seu inventário de grãos de café com reconhecimento de rótulos por IA.
+- Favoritos: acesso rápido às receitas mais utilizadas.
+- Sinal sonoro: alertas de áudio em cada etapa da preparação.
+- Registo automático: cada sessão é registada automaticamente.
+- Sincronização entre dispositivos: receitas, grãos e preparações sincronizados em todos os seus dispositivos.
+- 21 idiomas: totalmente localizado para um público global.
+- Modo escuro: confortável para os olhos a qualquer hora.

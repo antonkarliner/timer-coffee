@@ -81,7 +81,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get hubBrewDiarySubtitle =>
-      'Consultez votre historique de brassage et ajoutez des notes';
+      'Consultez votre historique de préparation et ajoutez des notes';
 
   @override
   String get hubBrewStatsSubtitle =>
@@ -296,7 +296,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get timeFormat => 'HH:mm';
 
   @override
-  String get brewdiary => 'Journal de Brassage';
+  String get brewdiary => 'Journal de préparation';
 
   @override
   String get brewdiarynotfound => 'Aucune entrée trouvée';

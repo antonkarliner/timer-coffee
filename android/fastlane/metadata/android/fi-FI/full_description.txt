@@ -1,23 +1,19 @@
 Timer.Coffee on ilmainen ja avoimen lähdekoodin kahvinuuttoajastin ja -laskuri, joka on tehty parantamaan uuttokokemustasi. Sovellus on täysin ilmainen. Halutessasi voit tehdä vapaaehtoisen sovelluksen sisäisen lahjoituksen kehityksen tukemiseksi – lahjoitus ei vaikuta ominaisuuksiin.
 
-Uutta
-
-- Luo omat reseptisi: mukauta ja tallenna omat uuttoreseptisi.
-- Jaa reseptejä: jaa suosikkireseptisi helposti ystäville ja muille kahviharrastajille.
-
 Keskeiset ominaisuudet
 
 - Yli 40 uuttomenetelmää: yksityiskohtaiset vaiheittaiset ohjeet mm. Hario V60:lle, AeroPressille, Chemexille, French Pressille, Clever Dripperille, Kalita Wavelle, Wilfa Svart Pour Overille, Origami Dripperille ja Hario Switchille.
-- Kahvilaskuri: säädä kahvin ja veden määrät nopeasti halutun määrän uuttoon.
-- Suosikit: merkitse suosikit ja palaa lempiresepteihisi nopeasti.
-- Uuttopäiväkirja: kirjaa muistiinpanot ja seuraa uuttokokeilujasi.
-- Äänimerkki: saat äänimerkin jokaisesta uuttovaiheesta.
-- Papuseuranta: seuraa kahvipapujasi AI-pohjaisella etikettien tunnistuksella.
-- Automaattinen kirjaus: tallenna jokainen uuttosessio automaattisesti.
-- Laitesynkronointi: synkronoi reseptit, pavut ja uuttokirjaukset kaikille laitteillesi.
-- Monikielinen: tukee 21 kieltä.
-- Tumma tila: mukava uuttokokemus mihin vuorokaudenaikaan tahansa.
-
-Tulossa pian
-
-- Parannetut yhteisö- ja jakamisominaisuudet.
+- Kahvilaskuri: säädä kahvin ja veden määrät nopeasti lennossa.
+- Mukautettu jauhinkoko: tallenna jauhimasettingit reseptikohtaisesti.
+- Taustauutto: ajastin toimii tarkasti, kun minimoit sovelluksen — vaihda sovellusta tai tarkista viesti menettämättä paikkaasi.
+- Live Updates: seuraa uuttoa vaihe vaiheelta pysyvän ilmoituksen avulla — ilman puhelimen avaamista.
+- Pulse: näe reaaliajassa, mitä kahviharrastajat ympäri maailmaa uuttavat juuri nyt.
+- Luo ja jaa reseptejä: luo omia uuttoreseptejä ja jaa ne yhteisön kanssa.
+- Uuttopäiväkirja: kirjaa muistiinpanot, seuraa sessioita ja lisää manuaalisesti merkintöjä ilman sovellusta tehdyistä uutoista.
+- Papuseuranta: hallinnoi kahvipapuvarastosi AI-pohjaisella etikettien tunnistuksella.
+- Suosikit: nopea pääsy eniten käytettyihin resepteihin.
+- Äänimerkki: äänimerkit jokaisesta uuttovaiheesta.
+- Automaattinen kirjaus: jokainen sessio kirjataan automaattisesti.
+- Laitesynkronointi: reseptit, pavut ja uutot synkronoituna kaikille laitteillesi.
+- 21 kieltä: täysin lokalisoitu globaalille yleisölle.
+- Tumma tila: silmäystävällinen mihin vuorokaudenaikaan tahansa.

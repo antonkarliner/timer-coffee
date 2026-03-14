@@ -1,23 +1,19 @@
-Timer.Coffee je besplatan i open‑source timer i kalkulator za pripremu kave, dizajniran za poboljšanje vašeg iskustva pripreme. Aplikacija je potpuno besplatna. Opcionalne donacije unutar aplikacije podržavaju daljnji razvoj i ne utječu na pristup značajkama.
-
-Što je novo
-
-- Stvorite vlastite recepte: Prilagodite i spremite svoje osobne recepte za pripremu kave.
-- Dijelite recepte: Lako dijelite svoje omiljene recepte s prijateljima i drugim ljubiteljima kave.
+Timer.Coffee je besplatna aplikacija otvorenog koda za mjerenje vremena i izračun kave, osmišljena za unapređenje vašeg iskustva kuhanja. Aplikacija je potpuno besplatna. Opcionalne donacije unutar aplikacije podržavaju razvoj i nikada ne utječu na pristup značajkama.
 
 Ključne značajke
 
-- 40+ načina pripreme: Uključuje detaljne, korak-po-korak upute za metode poput Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper i Hario Switch.
-- Kalkulator za kavu: Brzo prilagodite količine kave i vode za pripremu savršene količine.
-- Favoriti: Označite i lako pristupite svojim omiljenim receptima.
-- Dnevnik pripreme: Zabilježite bilješke i pratite svoja iskustva pripreme kave.
-- Zvukovni signal: Primajte zvučna upozorenja za svaki korak pripreme.
-- Evidencija zrna: Pratite svoja zrna kave s prepoznavanjem etiketa pokretanog AI-om.
-- Automatsko evidentiranje: Bez napora bilježite svaku sesiju pripreme.
-- Sinkronizacija uređaja: Besprijekorno sinkronizirajte recepte, zrna i pripreme na svim svojim uređajima.
-- Višejezičnost: Podržava 21 jezik.
-- Tamni način rada: Udobno iskustvo pripreme u bilo koje doba dana.
-
-Uskoro
-
-- Poboljšana interakcija s zajednicom i značajke dijeljenja.
+- 40+ metoda kuhanja: Upute korak po korak za Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch i još mnogo toga.
+- Kalkulator kave: Prilagodite količine kave i vode u hodu.
+- Prilagođena veličina mljevenja: Spremite postavke mljevenja po receptu — nikada više ne zaboravite svoje postavke.
+- Kuhanje u pozadini: Mjerač vremena nastavlja točno raditi kada minimizirate aplikaciju — prebacite aplikacije ili provjerite poruku bez gubitka mjesta.
+- Live ažuriranja: Trajna obavijest prati vaš korak kuhanja u stvarnom vremenu, tako da možete provjeriti napredak bez otvaranja aplikacije.
+- Pulse: Pogledajte što ljubitelji kave širom svijeta kuhaju upravo sada, u stvarnom vremenu.
+- Stvaranje i dijeljenje recepata: Izradite vlastite recepte za kuhanje i podijelite ih sa zajednicom.
+- Dnevnik kuhanja: Bilježite napomene, pratite sesije i ručno dodajte unose za kuhanja bez aplikacije.
+- Praćenje zrna: Upravljajte zalihama zrna kave uz AI prepoznavanje naljepnica.
+- Favoriti: Brzi pristup vašim najkorištenijim receptima.
+- Zvučni signal: Zvučna upozorenja za svaki korak kuhanja.
+- Automatsko bilježenje: Svaka sesija automatski se bilježi.
+- Sinkronizacija uređaja: Recepti, zrna i kuhanja sinkronizirani na svim vašim uređajima.
+- 21 jezik: Potpuno lokalizirano za globalnu publiku.
+- Tamni način rada: Ugodno za oči u svako doba.

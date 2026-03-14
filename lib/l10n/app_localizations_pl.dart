@@ -292,7 +292,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get timeFormat => 'HH:mm';
 
   @override
-  String get brewdiary => 'Dziennik Warzenia';
+  String get brewdiary => 'Dziennik Parzenia';
 
   @override
   String get brewdiarynotfound => 'Nie znaleziono wpisów';

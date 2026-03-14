@@ -1,23 +1,19 @@
 Timer.Coffee adalah timer dan kalkulator seduh kopi gratis dan open-source untuk meningkatkan pengalaman menyeduh Anda. Aplikasi ini sepenuhnya gratis. Donasi dalam aplikasi bersifat opsional untuk mendukung pengembangan, dan tidak memengaruhi akses Anda ke fitur.
 
-Yang Baru
-
-- Buat resep Anda sendiri: sesuaikan dan simpan resep seduh kopi Anda.
-- Bagikan resep: bagikan resep favorit Anda dengan mudah kepada teman dan sesama penggemar kopi.
-
 Fitur Utama
 
 - 40+ metode penyeduhan: instruksi langkah demi langkah untuk Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch, dan lainnya.
-- Kalkulator kopi: sesuaikan takaran kopi dan air dengan cepat untuk mendapatkan jumlah yang Anda inginkan.
-- Favorit: tandai dan akses resep favorit Anda dengan mudah.
-- Jurnal seduh: catat dan lacak pengalaman menyeduh Anda.
-- Notifikasi suara: terima pemberitahuan audio untuk setiap langkah penyeduhan.
-- Pelacakan biji: pantau biji kopi Anda dengan pengenalan label bertenaga AI.
-- Pencatatan otomatis: catat setiap sesi penyeduhan secara otomatis.
-- Sinkronisasi perangkat: sinkronkan resep, biji, dan catatan seduh di semua perangkat Anda.
-- Multibahasa: mendukung 21 bahasa.
-- Mode gelap: pengalaman menyeduh yang nyaman kapan saja.
-
-Segera Hadir
-
-- Fitur interaksi dan berbagi komunitas yang ditingkatkan.
+- Kalkulator kopi: sesuaikan takaran kopi dan air dengan cepat saat menyeduh.
+- Ukuran giling kustom: simpan pengaturan giling per resep — jangan pernah lupa pengaturan Anda lagi.
+- Seduh di latar belakang: timer terus berjalan akurat saat aplikasi diminimalkan — beralih aplikasi atau cek pesan tanpa kehilangan langkah.
+- Live Updates: notifikasi persisten melacak langkah seduhan Anda secara real time, sehingga Anda bisa cek kemajuan tanpa membuka aplikasi.
+- Pulse: lihat apa yang sedang diseduh oleh pecinta kopi di seluruh dunia, secara real time.
+- Buat & Bagikan Resep: buat resep seduhan sendiri dan bagikan ke komunitas.
+- Jurnal seduh: catat catatan, lacak sesi, dan tambahkan entri manual untuk seduhan yang dibuat tanpa aplikasi.
+- Pelacakan biji: kelola inventaris biji kopi Anda dengan pengenalan label bertenaga AI.
+- Favorit: akses cepat ke resep yang paling sering digunakan.
+- Notifikasi suara: peringatan audio untuk setiap langkah penyeduhan.
+- Pencatatan otomatis: setiap sesi dicatat secara otomatis.
+- Sinkronisasi perangkat: resep, biji, dan catatan seduh tersinkron di semua perangkat Anda.
+- 21 bahasa: terlokalisasi penuh untuk audiens global.
+- Mode gelap: nyaman di mata kapan saja.

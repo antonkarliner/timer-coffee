@@ -1,23 +1,19 @@
-Timer.Coffee to darmowy timer i kalkulator do parzenia kawy, open source, stworzony, aby ulepszyć Twoje doświadczenie. Aplikacja jest całkowicie darmowa. Opcjonalne darowizny w aplikacji wspierają rozwój i nie wpływają na dostęp do funkcji.
-
-Nowości
-
-- Twórz własne przepisy: dostosuj i zapisuj swoje przepisy na parzenie kawy.
-- Udostępniaj przepisy: łatwo udostępniaj ulubione przepisy znajomym i innym miłośnikom kawy.
+Timer.Coffee to darmowy, otwartoźródłowy timer i kalkulator do parzenia kawy, zaprojektowany, aby ulepszyć Twoje doświadczenie. Aplikacja jest całkowicie bezpłatna. Opcjonalne darowizny w aplikacji wspierają ciągły rozwój i nigdy nie wpływają na dostęp do funkcji.
 
 Kluczowe funkcje
 
-- Ponad 40 metod parzenia: szczegółowe instrukcje krok po kroku dla metod takich jak Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch i wielu innych.
-- Kalkulator kawy: szybko dopasuj ilość kawy i wody, aby zaparzyć dokładnie tyle, ile potrzebujesz.
-- Ulubione: oznaczaj i szybko wracaj do swoich ulubionych przepisów.
-- Dziennik parzenia: zapisuj notatki i śledź swoje doświadczenia.
-- Sygnał dźwiękowy: otrzymuj powiadomienia dźwiękowe dla każdego kroku.
-- Śledzenie ziaren: kontroluj ziarna dzięki rozpoznawaniu etykiet wspieranemu przez AI.
-- Automatyczne zapisywanie: automatycznie rejestruj każdą sesję parzenia.
-- Synchronizacja urządzeń: synchronizuj przepisy, ziarna i zapisy na wszystkich swoich urządzeniach.
-- Wielojęzyczna: obsługuje 21 języków.
-- Tryb ciemny: wygodnie o każdej porze dnia.
-
-Wkrótce
-
-- Ulepszone funkcje społecznościowe i udostępniania.
+- Ponad 40 metod parzenia: instrukcje krok po kroku dla Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch i innych.
+- Kalkulator kawy: dostosuj ilości kawy i wody na bieżąco.
+- Niestandardowy stopień zmielenia: zapisuj ustawienia mielenia dla każdego przepisu — nigdy więcej nie zapomnisz kliknięć Comandante.
+- Parzenie w tle: timer działa dokładnie, gdy zminimalizujesz aplikację — przełączaj aplikacje lub sprawdzaj wiadomości bez utraty miejsca.
+- Live Activities: śledź parzenie krok po kroku na ekranie blokady i w Dynamic Island bez odblokowywania telefonu.
+- Pulse: sprawdzaj w czasie rzeczywistym, co parzą miłośnicy kawy na całym świecie.
+- Tworzenie i udostępnianie przepisów: twórz własne przepisy parzenia i udostępniaj je społeczności.
+- Dziennik parzenia: zapisuj notatki, śledź sesje i ręcznie dodawaj wpisy dla parzeit wykonanych bez aplikacji.
+- Śledzenie ziaren: zarządzaj zapasami ziaren kawy z rozpoznawaniem etykiet opartym na AI.
+- Ulubione: szybki dostęp do najczęściej używanych przepisów.
+- Sygnał dźwiękowy: alerty audio dla każdego etapu parzenia.
+- Automatyczne rejestrowanie: każda sesja jest automatycznie rejestrowana.
+- Synchronizacja urządzeń: przepisy, ziarna i parzenia zsynchronizowane na wszystkich urządzeniach.
+- 21 języków: w pełni zlokalizowane dla globalnej publiczności.
+- Tryb ciemny: przyjazny dla oczu o każdej porze dnia.

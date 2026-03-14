@@ -291,7 +291,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get timeFormat => 'HH:mm';
 
   @override
-  String get brewdiary => 'يوميات القهوة';
+  String get brewdiary => 'سجل التحضير';
 
   @override
   String get brewdiarynotfound => 'لم يتم العثور على مداخلات';

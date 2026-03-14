@@ -1,23 +1,19 @@
 Timer.Coffee, demleme deneyiminizi geliştirmek için tasarlanmış ücretsiz ve açık kaynaklı bir kahve demleme zamanlayıcısı ve hesaplayıcısıdır. Uygulama tamamen ücretsizdir. Sürekli geliştirmeyi desteklemek için isteğe bağlı uygulama içi bağışlar vardır; bu bağışlar özelliklere erişiminizi etkilemez.
 
-Yenilikler
-
-- Kendi tariflerinizi oluşturun: kişisel kahve demleme tariflerinizi özelleştirin ve kaydedin.
-- Tarifleri paylaşın: favori tariflerinizi arkadaşlarınızla ve diğer kahve meraklılarıyla kolayca paylaşın.
-
 Temel özellikler
 
 - 40+ demleme yöntemi: Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch ve daha fazlası için ayrıntılı, adım adım talimatlar.
-- Kahve hesaplayıcı: istediğiniz miktar için kahve ve su miktarlarını hızlıca ayarlayın.
-- Favoriler: favori tariflerinizi işaretleyin ve hızlıca erişin.
-- Demleme günlüğü: notlar alın ve demleme deneyimlerinizi takip edin.
-- Sesli uyarı: her demleme adımı için sesli bildirim alın.
-- Çekirdek takibi: yapay zekâ destekli etiket tanıma ile kahve çekirdeklerinizi takip edin.
-- Otomatik kayıt: her demleme seansını otomatik olarak kaydedin.
+- Kahve hesaplayıcı: kahve ve su miktarlarını demleme sırasında anında ayarlayın.
+- Özel çekim derecesi: her tarif için çekim ayarlarınızı kaydedin — Comandante tıklamalarınızı bir daha unutmayın.
+- Arka planda demleme: uygulamayı küçülttüğünüzde zamanlayıcı doğru şekilde çalışmaya devam eder — yerinizi kaybetmeden başka uygulamalara geçin veya mesajlarınızı kontrol edin.
+- Live Activities: telefonu açmadan Kilit Ekranı'nda ve Dynamic Island'da demleyişinizi adım adım takip edin.
+- Pulse: dünyanın dört bir yanındaki kahve tutkunlarının şu an ne demleyip olmadığını gerçek zamanlı olarak görün.
+- Tarif oluşturma ve paylaşma: kendi demleme tariflerinizi oluşturun ve toplulukla paylaşın.
+- Demleme günlüğü: notlar alın, seansları takip edin ve uygulama dışında yapılan demlemeler için manuel giriş ekleyin.
+- Çekirdek takibi: yapay zekâ destekli etiket tanıma ile kahve çekirdeği envanterinizi yönetin.
+- Favoriler: en çok kullandığınız tariflere hızlı erişim.
+- Sesli uyarı: her demleme adımı için sesli bildirim.
+- Otomatik kayıt: her seans otomatik olarak kaydedilir.
 - Cihaz senkronizasyonu: tarifleri, çekirdekleri ve kayıtları tüm cihazlarınızda senkronize edin.
-- Çok dilli: 21 dili destekler.
-- Karanlık mod: günün her saatinde rahat bir deneyim.
-
-Yakında
-
-- Geliştirilmiş topluluk etkileşimi ve paylaşım özellikleri.
+- 21 dil: küresel bir kitle için tam yerelleştirme.
+- Karanlık mod: günün her saatinde göz dostu.

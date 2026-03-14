@@ -1,23 +1,19 @@
-Timer.Coffee is een gratis, open-source koffiezet‑timer en ‑calculator, ontworpen om uw zetervaring te verbeteren. De app is volledig gratis. Optionele in‑app donaties ondersteunen de verdere ontwikkeling en hebben geen invloed op uw toegang tot alle functies.
-
-Nieuw
-
-- Maak uw eigen recepten: Pas uw persoonlijke koffiezetrecepten aan en sla ze op.
-- Deel recepten: Deel eenvoudig uw favoriete recepten met vrienden en andere koffieliefhebbers.
+Timer.Coffee is een gratis, open-source koffiezettimer en rekenmachine voor een betere brouwervaring. De app is volledig gratis. Optionele in-app-donaties ondersteunen de voortdurende ontwikkeling en hebben nooit invloed op de toegang tot functies.
 
 Belangrijkste functies
 
-- 40+ zetmethoden: Gedetailleerde, stapsgewijze instructies voor Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch en meer.
-- Koffiecalculator: Pas snel de hoeveelheden koffie en water aan voor de gewenste hoeveelheid.
-- Favorieten: Markeer en open eenvoudig uw favoriete recepten.
-- Zetdagboek: Maak notities en volg uw zetervaringen.
-- Geluidssignaal: Ontvang audiomeldingen voor elke zetstap.
-- Bonentracking: Houd uw koffiebonen bij met AI‑gestuurde labelherkenning.
-- Automatische registratie: Registreer elke zetsessie automatisch.
-- Apparaatsynchronisatie: Synchroniseer recepten, bonen en zetlogboeken op al uw apparaten.
-- Meertalig: Ondersteunt 21 talen.
-- Donkere modus: Comfortabel zetten, op elk moment van de dag.
-
-Binnenkort beschikbaar
-
-- Verbeterde community-interactie en deelfuncties.
+- 40+ Zetmethodes: stapsgewijze instructies voor Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch en meer.
+- Koffierekenmachine: pas koffie- en waterhoeveelheden snel aan.
+- Aangepaste maalgraad: sla je maalinstellingen op per recept — vergeet nooit meer je instellingen.
+- Op de achtergrond zetten: de timer blijft nauwkeurig lopen wanneer je de app minimaliseert — wissel van app of bekijk een bericht zonder je plek te verliezen.
+- Live Updates: een permanente melding volgt je zetstap in real time, zodat je de voortgang kunt controleren zonder de app te openen.
+- Pulse: zie wat koffieliefhebbers wereldwijd op dit moment zetten, in real time.
+- Recepten maken en delen: maak je eigen koffiezetrecepten en deel ze met de community.
+- Zetdagboek: notities bijhouden, sessies bijhouden en handmatig items toevoegen voor zetwerk buiten de app.
+- Bonenregistratie: beheer je koffiebonenvoorraad met AI-gestuurde labelherkenning.
+- Favorieten: snelle toegang tot je meestgebruikte recepten.
+- Geluidssignaal: audio-meldingen bij elke zetstap.
+- Automatische registratie: elke sessie wordt automatisch vastgelegd.
+- Apparaatsynchronisatie: recepten, bonen en zetwerk gesynchroniseerd op al je apparaten.
+- 21 talen: volledig gelokaliseerd voor een wereldwijd publiek.
+- Donkere modus: aangenaam voor de ogen op elk uur.

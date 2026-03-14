@@ -79,7 +79,7 @@
   "explore": "Esplorare",
   "dateFormat": "d MMM yyyy",
   "timeFormat": "HH:mm",
-  "brewdiary": "Diario di Infusione",
+  "brewdiary": "Diario del caffè",
   "brewdiarynotfound": "Nessuna voce trovata",
   "beansStatsSectionTitle": "Statistiche dei chicchi",
   "totalBeansBrewedLabel": "Chicchi utilizzati in totale",

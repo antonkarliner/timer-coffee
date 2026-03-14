@@ -1,23 +1,19 @@
-Timer.Coffee è un timer e un calcolatore per la preparazione del caffè, gratuito e open source, progettato per migliorare la tua esperienza. L’app è completamente gratuita. Le donazioni in-app sono facoltative, sostengono lo sviluppo continuo e non influiscono sull’accesso alle funzionalità.
+Timer.Coffee è un'app gratuita e open-source per cronometrare e calcolare il caffè, progettata per migliorare la tua esperienza di preparazione. L'app è completamente gratuita. Le donazioni in-app opzionali supportano lo sviluppo continuo e non influenzano mai l'accesso alle funzionalità.
 
-Novità
+Funzionalità principali
 
-- Crea le tue ricette: personalizza e salva le tue ricette di preparazione del caffè.
-- Condividi ricette: condividi facilmente le tue ricette preferite con amici e altri appassionati di caffè.
-
-Caratteristiche principali
-
-- Oltre 40 metodi di preparazione: istruzioni dettagliate passo passo per Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch e altri.
-- Calcolatore del caffè: regola rapidamente le quantità di caffè e acqua per preparare la quantità desiderata.
-- Preferiti: contrassegna e accedi rapidamente alle tue ricette preferite.
-- Diario di preparazione: registra note e tieni traccia delle tue preparazioni.
-- Segnale acustico: ricevi avvisi audio per ogni fase.
-- Tracciamento dei chicchi: monitora i chicchi con riconoscimento delle etichette basato sull’IA.
-- Registrazione automatica: registra automaticamente ogni sessione di preparazione.
-- Sincronizzazione dei dispositivi: sincronizza ricette, chicchi e registri su tutti i tuoi dispositivi.
-- Multilingue: supporta 21 lingue.
-- Modalità scura: esperienza confortevole a qualsiasi ora del giorno.
-
-Prossimamente
-
-- Funzionalità migliorate di interazione e condivisione della community.
+- Oltre 40 metodi di preparazione: Istruzioni passo dopo passo per Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch e altri ancora.
+- Calcolatore del caffè: Regola le quantità di caffè e acqua al volo.
+- Dimensione di macinatura personalizzata: Salva le impostazioni di macinatura per ogni ricetta — non dimenticare più le regolazioni del tuo Comandante.
+- Preparazione in background: Il timer continua a funzionare con precisione quando minimizzi l'app — cambia app o controlla un messaggio senza perdere il filo.
+- Live Activities: Segui il tuo caffè passo dopo passo sul Lock Screen e nel Dynamic Island senza sbloccare il telefono.
+- Pulse: Scopri cosa stanno preparando gli appassionati di caffè in tutto il mondo, in tempo reale.
+- Crea e condividi ricette: Crea le tue ricette di preparazione e condividile con la community.
+- Diario di preparazione: Annota note, tieni traccia delle sessioni e aggiungi manualmente voci per preparazioni effettuate senza l'app.
+- Gestione dei chicchi: Gestisci il tuo inventario di chicchi di caffè con riconoscimento delle etichette basato su IA.
+- Preferiti: Accesso rapido alle ricette più utilizzate.
+- Segnale audio: Avvisi sonori per ogni fase di preparazione.
+- Registrazione automatica: Ogni sessione viene registrata automaticamente.
+- Sincronizzazione dispositivi: Ricette, chicchi e preparazioni sincronizzati su tutti i tuoi dispositivi.
+- 21 lingue: Completamente localizzata per un pubblico globale.
+- Modalità scura: Piacevole per gli occhi a qualsiasi ora.

@@ -285,7 +285,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get timeFormat => 'HH:mm';
 
   @override
-  String get brewdiary => '酿造日记';
+  String get brewdiary => '冲煮日记';
 
   @override
   String get brewdiarynotfound => '未找到条目';

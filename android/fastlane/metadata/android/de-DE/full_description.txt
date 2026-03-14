@@ -1,23 +1,19 @@
-Timer.Coffee ist ein kostenloser Open‑Source‑Timer und Rechner für die Kaffeezubereitung, der Ihr Brüherlebnis verbessert. Die App ist komplett kostenlos. Optionale In‑App‑Spenden unterstützen die Weiterentwicklung und haben keinen Einfluss auf Ihren Zugriff auf alle Funktionen.
-
-Neu
-
-- Erstellen Sie Ihre eigenen Rezepte: Passen Sie Ihre persönlichen Kaffeezubereitungsrezepte an und speichern Sie sie.
-- Rezepte teilen: Teilen Sie Ihre Lieblingsrezepte ganz einfach mit Freunden und anderen Kaffee-Enthusiasten.
+Timer.Coffee ist ein kostenloser, quelloffener Kaffee-Brühtimer und -Rechner, der dein Brüherlebnis verbessert. Die App ist vollständig kostenlos. Optionale In-App-Spenden unterstützen die laufende Entwicklung und beeinflussen niemals den Zugang zu Funktionen.
 
 Hauptfunktionen
 
-- 40+ Brühmethoden: Detaillierte Schritt‑für‑Schritt‑Anleitungen für Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch und mehr.
-- Kaffeerechner: Passen Sie Kaffee- und Wassermengen schnell an, um genau die gewünschte Menge zu brühen.
-- Favoriten: Markieren Sie Ihre Lieblingsrezepte und greifen Sie schnell darauf zu.
-- Brühtagebuch: Protokollieren Sie Notizen und verfolgen Sie Ihre Brüherfahrungen.
-- Audio-Signalton: Erhalten Sie Audio-Benachrichtigungen für jeden Brühschritt.
-- Bohnen-Tracking: Behalten Sie Ihre Kaffeebohnen mit KI‑gestützter Etikettenerkennung im Blick.
-- Automatische Aufzeichnung: Jede Brühsession wird automatisch protokolliert.
-- Gerätesynchronisierung: Synchronisieren Sie Rezepte, Bohnen und Brühprotokolle auf allen Ihren Geräten.
-- Mehrsprachig: Unterstützt 21 Sprachen.
-- Dunkelmodus: Komfortables Brüherlebnis zu jeder Tageszeit.
-
-Demnächst
-
-- Verbesserte Community-Interaktion und Sharing-Funktionen.
+- 40+ Brühmethoden: Schritt-für-Schritt-Anleitungen für Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch und mehr.
+- Kaffeerechner: Kaffee- und Wassermengen auf die Schnelle anpassen.
+- Individuelle Mahlgradeinstellung: Speichere deine Mahleinstellungen pro Rezept — vergiss nie wieder deine Einstellungen.
+- Hintergrundbrühen: Der Timer läuft weiterhin präzise, wenn du die App minimierst — wechsle Apps oder lese eine Nachricht, ohne deinen Platz zu verlieren.
+- Live Updates: Eine dauerhafte Benachrichtigung verfolgt deinen aktuellen Brühschritt in Echtzeit – so kannst du den Fortschritt prüfen, ohne die App zu öffnen.
+- Pulse: Sieh in Echtzeit, was Kaffeeliebhaber auf der ganzen Welt gerade brühen.
+- Rezepte erstellen und teilen: Erstelle deine eigenen Brührezepte und teile sie mit der Community.
+- Brühtagebuch: Notizen erfassen, Sitzungen verfolgen und Einträge für Brühungen ohne App manuell hinzufügen.
+- Bohnen-Tracking: Verwalte deinen Kaffeebohnenvorrat mit KI-gestützter Etikettenerkennung.
+- Favoriten: Schneller Zugriff auf deine am häufigsten genutzten Rezepte.
+- Klangsignal: Audiobenachrichtigungen für jeden Brühschritt.
+- Automatische Protokollierung: Jede Sitzung wird automatisch aufgezeichnet.
+- Gerätesynchronisierung: Rezepte, Bohnen und Brühungen auf all deinen Geräten synchronisiert.
+- 21 Sprachen: Vollständig lokalisiert für ein weltweites Publikum.
+- Dunkelmodus: Schont die Augen zu jeder Tages- und Nachtzeit.
