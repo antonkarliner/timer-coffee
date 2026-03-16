@@ -177,6 +177,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
                 _handleFavoriteToggle(context, controller, bean),
             onTap: (bean) =>
                 controller.navigateToBeanDetail(context, bean.beansUuid!),
+            sortOption: controller.sortOptions.sortOption,
           )
         : CoffeeBeansGridView(
             beans: beans,
@@ -187,6 +188,7 @@ class _CoffeeBeansScreenState extends State<CoffeeBeansScreen> {
                 _handleFavoriteToggle(context, controller, bean),
             onTap: (bean) =>
                 controller.navigateToBeanDetail(context, bean.beansUuid!),
+            sortOption: controller.sortOptions.sortOption,
           );
   }
 

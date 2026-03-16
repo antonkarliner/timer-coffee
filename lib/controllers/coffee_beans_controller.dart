@@ -350,15 +350,16 @@ class CoffeeBeansController extends ChangeNotifier {
 
   // --- Sort Management ---
   Future<void> showSortDialog(BuildContext context) async {
-    final result = await showDialog<SortOption>(
+    final result = await showModalBottomSheet<CoffeeBeansSortOptions>(
       context: context,
+      useRootNavigator: true,
       builder: (context) => CoffeeBeansSortDialog(
-        currentSort: _sortOptions.sortOption,
+        currentSortOptions: _sortOptions,
       ),
     );
 
     if (result != null) {
-      _sortOptions = _sortOptions.copyWith(sortOption: result);
+      _sortOptions = result;
       await _sortService.saveSortOptions(_sortOptions);
       _applyLocalFilters();
       notifyListeners();

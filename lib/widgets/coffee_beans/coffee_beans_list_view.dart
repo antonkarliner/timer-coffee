@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/coffee_beans_model.dart';
+import '../../models/ui_state/coffee_beans_sort_options.dart';
 import '../../models/ui_state/coffee_beans_view_state.dart';
 import 'coffee_bean_card.dart';
 
@@ -28,6 +29,9 @@ class CoffeeBeansListView extends StatelessWidget {
   /// Callback for navigation to detail screen
   final void Function(CoffeeBeansModel bean) onTap;
 
+  /// Current sort option, passed to cards for contextual subtitle
+  final SortOption sortOption;
+
   const CoffeeBeansListView({
     Key? key,
     required this.beans,
@@ -36,6 +40,7 @@ class CoffeeBeansListView extends StatelessWidget {
     required this.onDelete,
     required this.onFavoriteToggle,
     required this.onTap,
+    this.sortOption = SortOption.dateAdded,
   }) : super(key: key);
 
   @override
@@ -55,6 +60,7 @@ class CoffeeBeansListView extends StatelessWidget {
             onDelete: () => onDelete(bean),
             onFavoriteToggle: () => onFavoriteToggle(bean),
             onTap: () => onTap(bean),
+            sortOption: sortOption,
           ),
         );
       },

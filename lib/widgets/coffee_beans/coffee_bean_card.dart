@@ -8,6 +8,8 @@ import '../../app_router.gr.dart';
 import '../../providers/coffee_beans_provider.dart';
 import '../../providers/database_provider.dart';
 import '../../models/coffee_beans_model.dart';
+import '../../models/ui_state/coffee_beans_sort_options.dart';
+import '../../utils/date_utils.dart' as app_date_utils;
 import '../confirm_delete_dialog.dart';
 import '../roaster_logo.dart';
 import '../delete_button.dart';
@@ -33,6 +35,9 @@ class CoffeeBeanCard extends StatelessWidget {
   /// Callback for navigation to detail screen
   final VoidCallback? onTap;
 
+  /// Current sort option, used to contextually swap the subtitle line
+  final SortOption sortOption;
+
   const CoffeeBeanCard({
     Key? key,
     required this.bean,
@@ -40,6 +45,7 @@ class CoffeeBeanCard extends StatelessWidget {
     required this.onDelete,
     this.onFavoriteToggle,
     this.onTap,
+    this.sortOption = SortOption.dateAdded,
   }) : super(key: key);
 
   @override
@@ -156,7 +162,11 @@ class CoffeeBeanCard extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              bean.origin,
+                              sortOption == SortOption.roastDate
+                                  ? (bean.roastDate != null
+                                      ? '${loc.roastDate}: ${app_date_utils.DateUtils.formatMediumDate(bean.roastDate!)}'
+                                      : bean.origin)
+                                  : bean.origin,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Theme.of(context)

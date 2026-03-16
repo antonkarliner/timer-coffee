@@ -55,6 +55,18 @@ class CoffeeBeansSortService {
               : aWeight.compareTo(bWeight);
         });
         break;
+      case SortOption.roastDate:
+        sortedBeans.sort((a, b) {
+          final aDate = a.roastDate;
+          final bDate = b.roastDate;
+          if (aDate == null && bDate == null) return 0;
+          if (aDate == null) return 1;
+          if (bDate == null) return -1;
+          return sortOptions.sortDirection == SortDirection.descending
+              ? bDate.compareTo(aDate)
+              : aDate.compareTo(bDate);
+        });
+        break;
     }
 
     return sortedBeans;
