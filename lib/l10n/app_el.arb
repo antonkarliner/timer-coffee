@@ -1,0 +1,1266 @@
+{
+  "@@locale": "el",
+  "beansStatsSectionTitle": "Στατιστικά κόκκων",
+  "totalBeansBrewedLabel": "Συνολικοί κόκκοι που παρασκευάστηκαν",
+  "newBeansTriedLabel": "Νέοι κόκκοι που δοκιμάστηκαν",
+  "originsExploredLabel": "Προελεύσεις που εξερευνήθηκαν",
+  "regionsExploredLabel": "Περιοχές που εξερευνήθηκαν",
+  "newRoastersDiscoveredLabel": "Νέα καβουρδιστήρια που ανακαλύφθηκαν",
+  "favoriteRoastersLabel": "Αγαπημένα καβουρδιστήρια",
+  "topOriginsLabel": "Κορυφαίες προελεύσεις",
+  "topRegionsLabel": "Κορυφαίες περιοχές",
+  "lastrecipe": "Πιο πρόσφατα χρησιμοποιημένη συνταγή:",
+  "userRecipesTitle": "Οι συνταγές σας",
+  "userRecipesSectionCreated": "Δημιουργήθηκαν από εσάς",
+  "userRecipesSectionImported": "Εισήχθησαν από εσάς",
+  "userRecipesEmpty": "Δεν βρέθηκαν συνταγές",
+  "userRecipesDeleteTitle": "Διαγραφή συνταγής;",
+  "userRecipesDeleteMessage": "Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
+  "userRecipesDeleteConfirm": "Διαγραφή",
+  "userRecipesDeleteCancel": "Ακύρωση",
+  "userRecipesSnackbarDeleted": "Η συνταγή διαγράφηκε",
+  "hubUserRecipesTitle": "Οι συνταγές σας",
+  "hubUserRecipesSubtitle": "Δείτε και διαχειριστείτε συνταγές που δημιουργήσατε ή εισαγάγατε",
+  "hubAccountSubtitle": "Διαχειριστείτε το προφίλ σας",
+  "hubSignInCreateSubtitle": "Συνδεθείτε για να συγχρονίσετε συνταγές και προτιμήσεις",
+  "hubBrewDiarySubtitle": "Δείτε το ιστορικό παρασκευών σας και προσθέστε σημειώσεις",
+  "hubBrewStatsSubtitle": "Δείτε προσωπικά και παγκόσμια στατιστικά και τάσεις παρασκευής",
+  "hubSettingsSubtitle": "Αλλάξτε τις προτιμήσεις και τη συμπεριφορά της εφαρμογής",
+  "hubAboutSubtitle": "Λεπτομέρειες εφαρμογής, έκδοση και συντελεστές",
+  "about": "Σχετικά",
+  "author": "Δημιουργός",
+  "authortext": "Η εφαρμογή Timer.Coffee δημιουργήθηκε από τον Anton Karliner, λάτρη του καφέ, ειδικό στα media και φωτορεπόρτερ. Ελπίζω αυτή η εφαρμογή να σας βοηθήσει να απολαμβάνετε τον καφέ σας. Μη διστάσετε να συνεισφέρετε στο GitHub.",
+  "contributors": "Συντελεστές",
+  "errorLoadingContributors": "Σφάλμα κατά τη φόρτωση των συντελεστών",
+  "license": "Άδεια",
+  "licensetext": "Αυτή η εφαρμογή είναι ελεύθερο λογισμικό: μπορείτε να την αναδιανείμετε και/ή να την τροποποιήσετε σύμφωνα με τους όρους της GNU General Public License όπως δημοσιεύθηκε από το Free Software Foundation, είτε στην έκδοση 3 της Άδειας είτε (κατ' επιλογή σας) σε οποιαδήποτε νεότερη έκδοση.",
+  "licensebutton": "Διαβάστε την GNU General Public License v3",
+  "website": "Ιστότοπος",
+  "sourcecode": "Πηγαίος κώδικας",
+  "support": "Κεράστε μου έναν καφέ",
+  "supportButtonLabel": "Υποστήριξη",
+  "allrecipes": "Όλες οι συνταγές",
+  "favoriterecipes": "Αγαπημένες συνταγές",
+  "coffeeamount": "Ποσότητα καφέ (g)",
+  "wateramount": "Ποσότητα νερού (ml)",
+  "watertemp": "Θερμοκρασία νερού",
+  "grindsize": "Μέγεθος άλεσης",
+  "brewtime": "Χρόνος παρασκευής",
+  "recipesummary": "Σύνοψη συνταγής",
+  "recipesummarynote": "Σημείωση: αυτή είναι μια βασική συνταγή με προεπιλεγμένες ποσότητες νερού και καφέ.",
+  "preparation": "Προετοιμασία",
+  "brewingprocess": "Διαδικασία παρασκευής",
+  "step": "Βήμα",
+  "seconds": "{count, plural, =0{δευτερόλεπτα} =1{δευτερόλεπτο} other{δευτερόλεπτα}}",
+  "@seconds": {
+    "description": "Pluralization for seconds",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "finishmsg": "Ευχαριστούμε που χρησιμοποιείτε το Timer.Coffee! Απολαύστε τον",
+  "coffeefact": "Στοιχείο για τον καφέ",
+  "home": "Αρχική",
+  "appversion": "Έκδοση εφαρμογής",
+  "tipsmall": "Κεράστε έναν μικρό καφέ",
+  "tipmedium": "Κεράστε έναν μεσαίο καφέ",
+  "tiplarge": "Κεράστε έναν μεγάλο καφέ",
+  "supportdevelopment": "Υποστηρίξτε την ανάπτυξη",
+  "supportdevmsg": "Οι δωρεές σας βοηθούν να καλυφθούν τα έξοδα συντήρησης (όπως, για παράδειγμα, άδειες προγραμματιστή). Μου επιτρέπουν επίσης να δοκιμάζω περισσότερες συσκευές παρασκευής καφέ και να προσθέτω περισσότερες συνταγές στην εφαρμογή.",
+  "supportdevtnx": "Ευχαριστώ που σκέφτεστε να κάνετε δωρεά!",
+  "donationok": "Ευχαριστώ!",
+  "donationtnx": "Εκτιμώ πραγματικά την υποστήριξή σας! Σας εύχομαι πολλές υπέροχες παρασκευές! ☕️",
+  "donationerr": "Σφάλμα",
+  "donationerrmsg": "Σφάλμα κατά την επεξεργασία της αγοράς. Παρακαλώ δοκιμάστε ξανά.",
+  "sharemsg": "Δείτε αυτή τη συνταγή:",
+  "finishbrew": "Τέλος",
+  "settings": "Ρυθμίσεις",
+  "settingstheme": "Θέμα",
+  "settingsthemelight": "Φωτεινό",
+  "settingsthemedark": "Σκούρο",
+  "settingsthemesystem": "Σύστημα",
+  "settingslang": "Γλώσσα",
+  "sweet": "Γλυκό",
+  "balance": "Ισορροπία",
+  "acidic": "Όξινο",
+  "light": "Ελαφρύ",
+  "strong": "Δυνατό",
+  "slidertitle": "Χρησιμοποιήστε τα ρυθμιστικά για να προσαρμόσετε τη γεύση",
+  "whatsnewtitle": "Τι νέο υπάρχει",
+  "whatsnewclose": "Κλείσιμο",
+  "seasonspecials": "Εποχικές προσφορές",
+  "snow": "Χιόνι",
+  "noFavoriteRecipesMessage": "Η λίστα με τις αγαπημένες σας συνταγές είναι προς το παρόν κενή. Ξεκινήστε να εξερευνάτε και να παρασκευάζετε για να ανακαλύψετε τις αγαπημένες σας!",
+  "explore": "Εξερεύνηση",
+  "dateFormat": "d MMM yyyy",
+  "timeFormat": "HH:mm",
+  "brewdiary": "Ημερολόγιο παρασκευών",
+  "brewdiarynotfound": "Δεν βρέθηκαν καταχωρίσεις",
+  "beans": "Κόκκοι",
+  "roaster": "Καβουρδιστής",
+  "rating": "Αξιολόγηση",
+  "notes": "Σημειώσεις",
+  "statsscreen": "Στατιστικά καφέ",
+  "yourStats": "Τα στατιστικά σας",
+  "coffeeBrewed": "Καφές που παρασκευάστηκε:",
+  "litersUnit": "L",
+  "mostUsedRecipes": "Πιο συχνά χρησιμοποιημένες συνταγές:",
+  "globalStats": "Παγκόσμια στατιστικά",
+  "unknownRecipe": "Άγνωστη συνταγή",
+  "pulseUserRecipe": "Συνταγή χρήστη",
+  "noData": "Δεν υπάρχουν δεδομένα",
+  "refresh": "Ανανέωση",
+  "error": "Σφάλμα: {error}",
+  "@error": {
+    "description": "Generic error message label combined with the specific error description",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network timeout"
+      }
+    }
+  },
+  "someoneJustBrewed": "Κάποιος μόλις παρασκεύασε {recipeName}",
+  "pulseSomeoneBrewed": "Κάποιος παρασκεύασε {recipeName}",
+  "@pulseSomeoneBrewed": {
+    "description": "Feed card text for a brew event with recipe name placeholder",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "V60"
+      }
+    }
+  },
+  "pulseTitle": "Pulse",
+  "hubPulseSubtitle": "Ζωντανή ροή παρασκευών",
+  "pulseLiveSummary": "Ζωντανή σύνοψη",
+  "pulseBrewsLabel": "Παρασκευές",
+  "pulseBrewsCount": "{count, plural, =1{1 παρασκευή} other{{count} παρασκευές}}",
+  "@pulseBrewsCount": {
+    "description": "Pluralized brew count for Pulse summary",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timePeriodRecent": "Πρόσφατα",
+  "timePeriodLastHour": "Τελευταία ώρα",
+  "timePeriodToday": "Σήμερα",
+  "timePeriodYesterday": "Χθες",
+  "timePeriodThisWeek": "Αυτή την εβδομάδα",
+  "timePeriodThisMonth": "Αυτόν τον μήνα",
+  "timePeriodOlder": "Παλαιότερα",
+  "timePeriodCustom": "Προσαρμοσμένο",
+  "relativeTimeJustNow": "μόλις τώρα",
+  "relativeTimeMinutesAgo": "{count, plural, =1{πριν από 1 λεπτό} other{πριν από {count} λεπτά}}",
+  "@relativeTimeMinutesAgo": {
+    "description": "Relative time label in minutes",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeTimeHoursAgo": "{count, plural, =1{πριν από 1 ώρα} other{πριν από {count} ώρες}}",
+  "@relativeTimeHoursAgo": {
+    "description": "Relative time label in hours",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeTimeHoursMinutesAgo": "πριν από {hours, plural, =1{1 ώρα} other{{hours} ώρες}} και {minutes, plural, =1{1 λεπτό} other{{minutes} λεπτά}}",
+  "@relativeTimeHoursMinutesAgo": {
+    "description": "Relative time label combining hours and minutes",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeTimeDaysAgo": "{count, plural, =1{πριν από 1 ημέρα} other{πριν από {count} ημέρες}}",
+  "@relativeTimeDaysAgo": {
+    "description": "Relative time label in days",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeTimeMonthsAgo": "{count, plural, =1{πριν από 1 μήνα} other{πριν από {count} μήνες}}",
+  "@relativeTimeMonthsAgo": {
+    "description": "Relative time label in months",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeTimeYearsAgo": "{count, plural, =1{πριν από 1 χρόνο} other{πριν από {count} χρόνια}}",
+  "@relativeTimeYearsAgo": {
+    "description": "Relative time label in years",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsFor": "Στατιστικά για ",
+  "@statsFor": {
+    "description": "Prefix text for statistics headings"
+  },
+  "homescreenbrewcoffee": "Παρασκευή καφέ",
+  "homescreenhub": "Κέντρο",
+  "homescreenmore": "Περισσότερα",
+  "addBeans": "Προσθήκη κόκκων",
+  "removeBeans": "Αφαίρεση κόκκων",
+  "name": "Όνομα",
+  "origin": "Προέλευση",
+  "details": "Λεπτομέρειες",
+  "coffeebeans": "Κόκκοι καφέ",
+  "loading": "Φόρτωση",
+  "nocoffeebeans": "Δεν βρέθηκαν κόκκοι καφέ",
+  "delete": "Διαγραφή",
+  "confirmDeleteTitle": "Διαγραφή καταχώρισης;",
+  "recipeDuplicateConfirmTitle": "Δημιουργία αντιγράφου συνταγής;",
+  "recipeDuplicateConfirmMessage": "Αυτό θα δημιουργήσει ένα αντίγραφο της συνταγής σας, το οποίο μπορείτε να επεξεργαστείτε ανεξάρτητα. Θέλετε να συνεχίσετε;",
+  "confirmDeleteMessage": "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτή την καταχώριση; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
+  "removeFavorite": "Αφαίρεση από τα αγαπημένα",
+  "addFavorite": "Προσθήκη στα αγαπημένα",
+  "toggleEditMode": "Εναλλαγή λειτουργίας επεξεργασίας",
+  "coffeeBeansDetails": "Λεπτομέρειες κόκκων καφέ",
+  "edit": "Επεξεργασία",
+  "coffeeBeansNotFound": "Δεν βρέθηκαν κόκκοι καφέ",
+  "basicInformation": "Βασικές πληροφορίες",
+  "geographyTerroir": "Γεωγραφία/Terroir",
+  "variety": "Ποικιλία",
+  "region": "Περιοχή",
+  "elevation": "Υψόμετρο",
+  "harvestDate": "Ημερομηνία συγκομιδής",
+  "processing": "Επεξεργασία",
+  "processingMethod": "Μέθοδος επεξεργασίας",
+  "roastDate": "Ημερομηνία καβουρδίσματος",
+  "roastLevel": "Επίπεδο καβουρδίσματος",
+  "cuppingScore": "Βαθμολογία cupping",
+  "flavorProfile": "Γευστικό προφίλ",
+  "tastingNotes": "Γευστικές νότες",
+  "additionalNotes": "Επιπλέον σημειώσεις",
+  "noCoffeeBeans": "Δεν βρέθηκαν κόκκοι καφέ",
+  "editCoffeeBeans": "Επεξεργασία κόκκων καφέ",
+  "addCoffeeBeans": "Προσθήκη κόκκων καφέ",
+  "showImagePicker": "Εμφάνιση επιλογέα εικόνας",
+  "pleaseNote": "Παρακαλώ σημειώστε",
+  "firstTimePopupMessage": "1. Χρησιμοποιούμε εξωτερικές υπηρεσίες για την επεξεργασία εικόνων. Συνεχίζοντας, συμφωνείτε με αυτό.\n2. Παρόλο που δεν αποθηκεύουμε τις εικόνες σας, παρακαλούμε αποφύγετε να περιλαμβάνετε προσωπικά στοιχεία.\n3. Η αναγνώριση εικόνας περιορίζεται επί του παρόντος σε 10 tokens τον μήνα (1 token = 1 εικόνα). Αυτό το όριο μπορεί να αλλάξει στο μέλλον.",
+  "ok": "ΟΚ",
+  "takePhoto": "Τραβήξτε φωτογραφία",
+  "selectFromPhotos": "Επιλογή από φωτογραφίες",
+  "takeAdditionalPhoto": "Να τραβήξετε επιπλέον φωτογραφία;",
+  "no": "Όχι",
+  "yes": "Ναι",
+  "selectedImages": "Επιλεγμένες εικόνες",
+  "selectedImage": "Επιλεγμένη εικόνα",
+  "backToSelection": "Επιστροφή στην επιλογή",
+  "next": "Επόμενο",
+  "unexpectedErrorOccurred": "Παρουσιάστηκε απρόσμενο σφάλμα",
+  "tokenLimitReached": "Λυπούμαστε, φτάσατε το όριο token για αναγνώριση εικόνας αυτόν τον μήνα",
+  "noCoffeeLabelsDetected": "Δεν εντοπίστηκαν ετικέτες καφέ. Δοκιμάστε με άλλη εικόνα.",
+  "collectedInformation": "Συλλεγμένες πληροφορίες",
+  "enterRoaster": "Εισαγάγετε καβουρδιστή",
+  "enterName": "Εισαγάγετε όνομα",
+  "enterOrigin": "Εισαγάγετε προέλευση",
+  "optional": "Προαιρετικό",
+  "enterVariety": "Εισαγάγετε ποικιλία",
+  "enterProcessingMethod": "Εισαγάγετε μέθοδο επεξεργασίας",
+  "enterRoastLevel": "Εισαγάγετε επίπεδο καβουρδίσματος",
+  "enterRegion": "Εισαγάγετε περιοχή",
+  "enterTastingNotes": "Εισαγάγετε γευστικές νότες",
+  "enterElevation": "Εισαγάγετε υψόμετρο",
+  "enterCuppingScore": "Εισαγάγετε βαθμολογία cupping",
+  "enterNotes": "Εισαγάγετε σημειώσεις",
+  "inventory": "Απόθεμα",
+  "amountLeft": "Υπόλοιπο ποσότητας",
+  "enterAmountLeft": "Εισαγάγετε το υπόλοιπο",
+  "selectHarvestDate": "Επιλέξτε ημερομηνία συγκομιδής",
+  "selectRoastDate": "Επιλέξτε ημερομηνία καβουρδίσματος",
+  "selectDate": "Επιλογή ημερομηνίας",
+  "selectTime": "Επιλογή ώρας",
+  "save": "Αποθήκευση",
+  "fillRequiredFields": "Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία.",
+  "analyzing": "Ανάλυση",
+  "errorMessage": "Σφάλμα",
+  "selectCoffeeBeans": "Επιλέξτε κόκκους καφέ",
+  "addNewBeans": "Προσθήκη νέων κόκκων",
+  "favorite": "Αγαπημένο",
+  "notFavorite": "Όχι αγαπημένο",
+  "myBeans": "Οι κόκκοι μου",
+  "signIn": "Σύνδεση",
+  "signOut": "Αποσύνδεση",
+  "signInWithApple": "Σύνδεση με Apple",
+  "signInSuccessful": "Επιτυχής σύνδεση με Apple",
+  "signInError": "Σφάλμα κατά τη σύνδεση με Apple",
+  "signInErrorGoogle": "Σφάλμα κατά τη σύνδεση με Google",
+  "signInWithGoogle": "Σύνδεση με Google",
+  "signOutSuccessful": "Επιτυχής αποσύνδεση",
+  "signOutConfirmationTitle": "Είστε βέβαιοι ότι θέλετε να αποσυνδεθείτε;",
+  "signOutConfirmationMessage": "Ο συγχρονισμός στο cloud θα σταματήσει. Συνδεθείτε ξανά για να συνεχίσει.",
+  "signInSuccessfulGoogle": "Επιτυχής σύνδεση με Google",
+  "signInWithEmail": "Σύνδεση με email",
+  "enterEmail": "Εισαγάγετε το email σας",
+  "emailHint": "example@email.com",
+  "cancel": "Ακύρωση",
+  "sendMagicLink": "Αποστολή Magic Link",
+  "magicLinkSent": "Το Magic Link στάλθηκε! Ελέγξτε το email σας.",
+  "sendOTP": "Αποστολή OTP",
+  "otpSent": "Το OTP στάλθηκε στο email σας",
+  "otpSendError": "Σφάλμα κατά την αποστολή OTP",
+  "enterOTP": "Εισαγάγετε OTP",
+  "otpHint": "Εισαγάγετε τον 6ψήφιο κωδικό",
+  "verify": "Επαλήθευση",
+  "signInSuccessfulEmail": "Η σύνδεση ολοκληρώθηκε με επιτυχία",
+  "invalidOTP": "Μη έγκυρο OTP",
+  "otpVerificationError": "Σφάλμα κατά την επαλήθευση OTP",
+  "success": "Επιτυχία!",
+  "otpSentMessage": "Στέλνεται ένα OTP στο email σας. Παρακαλώ εισαγάγετέ το παρακάτω μόλις το λάβετε.",
+  "otpHint2": "Εισαγάγετε τον κωδικό εδώ",
+  "signInCreate": "Σύνδεση / Δημιουργία λογαριασμού",
+  "accountManagement": "Διαχείριση λογαριασμού",
+  "deleteAccount": "Διαγραφή λογαριασμού",
+  "deleteAccountWarning": "Παρακαλώ σημειώστε: αν επιλέξετε να συνεχίσετε, θα διαγράψουμε τον λογαριασμό σας και τα σχετικά δεδομένα από τους διακομιστές μας. Το τοπικό αντίγραφο των δεδομένων θα παραμείνει στη συσκευή. Αν θέλετε να διαγραφεί κι αυτό, μπορείτε απλώς να διαγράψετε την εφαρμογή. Για να ενεργοποιήσετε ξανά τον συγχρονισμό, θα χρειαστεί να δημιουργήσετε ξανά λογαριασμό.",
+  "deleteAccountConfirmation": "Ο λογαριασμός διαγράφηκε με επιτυχία",
+  "accountDeleted": "Ο λογαριασμός διαγράφηκε",
+  "accountDeletionError": "Σφάλμα κατά τη διαγραφή του λογαριασμού σας. Παρακαλώ δοκιμάστε ξανά",
+  "deleteAccountTitle": "Σημαντικό",
+  "selectBeans": "Επιλέξτε κόκκους",
+  "all": "Όλα",
+  "selectRoaster": "Επιλέξτε καβουρδιστή",
+  "selectOrigin": "Επιλέξτε προέλευση",
+  "resetFilters": "Επαναφορά φίλτρων",
+  "showFavoritesOnly": "Εμφάνιση μόνο αγαπημένων",
+  "apply": "Εφαρμογή",
+  "selectSize": "Επιλέξτε μέγεθος",
+  "sizeStandard": "Κανονικό",
+  "sizeMedium": "Μεσαίο",
+  "sizeXL": "XL",
+  "yearlyStatsAppBarTitle": "Η χρονιά μου με το Timer.Coffee",
+  "@yearlyStatsAppBarTitle": {
+    "description": "Title for the AppBar in YearlyStatsStoryScreen"
+  },
+  "yearlyStatsStory1Text": "Γεια σας και ευχαριστούμε που ήσασταν μέρος του σύμπαντος του Timer.Coffee φέτος!",
+  "@yearlyStatsStory1Text": {
+    "description": "Greeting message for the first story in YearlyStatsStoryScreen"
+  },
+  "yearlyStatsStory2Text": "Πρώτα απ' όλα.\nΦέτος παρασκευάσατε καφέ{ellipsis}",
+  "@yearlyStatsStory2Text": {
+    "description": "Introduction to total coffee brewed with ellipsis indicating continuation",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsStory3Text": "Για να είμαστε πιο ακριβείς,\nπαρασκευάσατε {liters} λίτρα καφέ το 2024!",
+  "@yearlyStatsStory3Text": {
+    "description": "Detailed coffee brewed amount in liters",
+    "placeholders": {
+      "liters": {
+        "example": "10.5"
+      }
+    }
+  },
+  "yearlyStatsStory4Text": "Χρησιμοποιήσατε κόκκους από {roasterCount} καβουρδιστήρια",
+  "@yearlyStatsStory4Text": {
+    "description": "Statement about the number of distinct roasters used",
+    "placeholders": {
+      "roasterCount": {
+        "example": "5"
+      }
+    }
+  },
+  "yearlyStatsStory4Top3Roasters": "Τα 3 κορυφαία καβουρδιστήριά σας ήταν:\n{top3}",
+  "@yearlyStatsStory4Top3Roasters": {
+    "description": "List of top 3 roasters used",
+    "placeholders": {
+      "top3": {
+        "example": "Roaster A, Roaster B, Roaster C"
+      }
+    }
+  },
+  "yearlyStatsStory5Text": "Ο καφές σας ταξίδεψε\nσε όλο τον κόσμο{ellipsis}",
+  "@yearlyStatsStory5Text": {
+    "description": "Statement about traveling with coffee, ending with ellipsis",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsStory6Text": "Δοκιμάσατε κόκκους καφέ\nαπό {originCount} χώρες!",
+  "@yearlyStatsStory6Text": {
+    "description": "Statement about the number of distinct origins",
+    "placeholders": {
+      "originCount": {
+        "example": "10"
+      }
+    }
+  },
+  "yearlyStatsStory7Part1": "Δεν παρασκευάζατε μόνοι σας...",
+  "@yearlyStatsStory7Part1": {
+    "description": "First part of story 7"
+  },
+  "yearlyStatsStory7Part2": "...αλλά μαζί με χρήστες από 110 άλλες\nχώρες σε 6 ηπείρους!",
+  "@yearlyStatsStory7Part2": {
+    "description": "Second part of story 7"
+  },
+  "yearlyStatsStory8TitleLow": "Μείνατε πιστοί στον εαυτό σας και χρησιμοποιήσατε μόνο αυτές τις {count} μεθόδους παρασκευής φέτος:",
+  "@yearlyStatsStory8TitleLow": {
+    "description": "Title for low number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "3"
+      }
+    }
+  },
+  "yearlyStatsStory8TitleMedium": "Ανακαλύπτατε νέες γεύσεις και χρησιμοποιήσατε {count} μεθόδους παρασκευής φέτος:",
+  "@yearlyStatsStory8TitleMedium": {
+    "description": "Title for medium number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "5"
+      }
+    }
+  },
+  "yearlyStatsStory8TitleHigh": "Ήσασταν πραγματικός εξερευνητής καφέ και χρησιμοποιήσατε {count} μεθόδους παρασκευής φέτος:",
+  "@yearlyStatsStory8TitleHigh": {
+    "description": "Title for high number of brewing methods",
+    "placeholders": {
+      "count": {
+        "example": "8"
+      }
+    }
+  },
+  "yearlyStatsStory9Text": "Υπάρχουν τόσα ακόμη να ανακαλύψετε!",
+  "@yearlyStatsStory9Text": {
+    "description": "Encouraging message for further discovery"
+  },
+  "yearlyStatsStory10Text": "Οι 3 κορυφαίες συνταγές σας το 2024 ήταν{ellipsis}",
+  "@yearlyStatsStory10Text": {
+    "description": "Statement about top-3 recipes with ellipsis",
+    "placeholders": {
+      "ellipsis": {}
+    }
+  },
+  "yearlyStatsFinalText": "Τα λέμε το 2025!",
+  "@yearlyStatsFinalText": {
+    "description": "Final farewell message"
+  },
+  "yearlyStatsActionLove": "Δείξτε λίγη αγάπη ({likesCount})",
+  "@yearlyStatsActionLove": {
+    "description": "Button text for showing love with likes count",
+    "placeholders": {
+      "likesCount": {
+        "example": "120"
+      }
+    }
+  },
+  "yearlyStatsActionDonate": "Δωρεά",
+  "@yearlyStatsActionDonate": {
+    "description": "Button text for donation"
+  },
+  "yearlyStatsActionShare": "Μοιραστείτε την πρόοδό σας",
+  "@yearlyStatsActionShare": {
+    "description": "Button text for sharing progress"
+  },
+  "yearlyStatsUnknown": "Άγνωστο",
+  "@yearlyStatsUnknown": {
+    "description": "Text displayed when a value is unknown"
+  },
+  "yearlyStatsErrorSharing": "Αποτυχία κοινοποίησης: {error}",
+  "@yearlyStatsErrorSharing": {
+    "description": "Error message when sharing fails",
+    "placeholders": {
+      "error": {
+        "example": "Network error"
+      }
+    }
+  },
+  "yearlyStatsShareProgressMyYear": "Η χρονιά μου με το Timer.Coffee",
+  "@yearlyStatsShareProgressMyYear": {
+    "description": "Title in the Share Progress Widget"
+  },
+  "yearlyStatsShareProgressTop3Recipes": "Οι 3 κορυφαίες συνταγές μου:",
+  "@yearlyStatsShareProgressTop3Recipes": {
+    "description": "Header for top-3 recipes in the Share Progress Widget"
+  },
+  "yearlyStatsShareProgressTop3Roasters": "Τα 3 κορυφαία καβουρδιστήριά μου:",
+  "@yearlyStatsShareProgressTop3Roasters": {
+    "description": "Header for top-3 roasters in the Share Progress Widget"
+  },
+  "yearlyStats25AppBarTitle": "Η χρονιά σας με το Timer.Coffee – 2025",
+  "yearlyStats25AppBarTitleSimple": "Timer.Coffee το 2025",
+  "yearlyStats25Slide1Title": "Η χρονιά σας με το Timer.Coffee",
+  "yearlyStats25Slide1Subtitle": "Πατήστε για να δείτε πώς παρασκευάσατε καφέ το 2025",
+  "yearlyStats25Slide2Intro": "Μαζί παρασκευάσαμε καφέ...",
+  "yearlyStats25Slide2Count": "{count} φορές",
+  "@yearlyStats25Slide2Count": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide2Liters": "Αυτό αντιστοιχεί σε περίπου {liters} λίτρα καφέ",
+  "@yearlyStats25Slide2Liters": {
+    "placeholders": {
+      "liters": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide2Cambridge": "Αρκετό για να προσφέρετε ένα φλιτζάνι καφέ σε όλους στο Cambridge, Ηνωμένο Βασίλειο (οι φοιτητές θα ήταν ιδιαίτερα ευγνώμονες).",
+  "yearlyStats25Slide3Title": "Και τι έγινε με εσάς;",
+  "yearlyStats25Slide3Subtitle": "Παρασκευάσατε καφέ {brews} φορές με το Timer.Coffee φέτος. Αυτό είναι συνολικά {liters} λίτρα!",
+  "@yearlyStats25Slide3Subtitle": {
+    "placeholders": {
+      "brews": {
+        "type": "String"
+      },
+      "liters": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide3TopBadge": "Βρίσκεστε στο κορυφαίο {topPct}% όσων παρασκευάζουν καφέ!",
+  "@yearlyStats25Slide3TopBadge": {
+    "placeholders": {
+      "topPct": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25Slide4TitleSingle": "Θυμάστε τη μέρα που παρασκευάσατε τον περισσότερο καφέ φέτος;",
+  "yearlyStats25Slide4TitleMulti": "Θυμάστε τις μέρες που παρασκευάσατε τον περισσότερο καφέ φέτος;",
+  "yearlyStats25Slide4TitleBrewTime": "Ο χρόνος παρασκευής σας φέτος",
+  "yearlyStats25Slide4ScratchLabel": "Ξύστε για αποκάλυψη",
+  "yearlyStats25BrewsCount": "{count, plural, =1{1 παρασκευή} other{{count} παρασκευές}}",
+  "@yearlyStats25BrewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25Slide4PeakSingle": "{date} — {brewsLabel}",
+  "@yearlyStats25Slide4PeakSingle": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "brewsLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide4PeakLiters": "Περίπου {liters} λίτρα εκείνη την ημέρα",
+  "@yearlyStats25Slide4PeakLiters": {
+    "placeholders": {
+      "liters": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide4PeakMostRecent": "Πιο πρόσφατα: {mostRecent} — {brewsLabel}",
+  "@yearlyStats25Slide4PeakMostRecent": {
+    "placeholders": {
+      "mostRecent": {
+        "type": "String"
+      },
+      "brewsLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide4BrewTimeLine": "Περάσατε {timeLabel} παρασκευάζοντας καφέ",
+  "@yearlyStats25Slide4BrewTimeLine": {
+    "placeholders": {
+      "timeLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide4BrewTimeFooter": "Ήταν χρόνος που άξιζε",
+  "yearlyStats25Slide5Title": "Έτσι παρασκευάζετε τον καφέ σας",
+  "yearlyStats25Slide5MethodsHeader": "Αγαπημένες μέθοδοι:",
+  "yearlyStats25Slide5NoMethods": "Δεν υπάρχουν ακόμη μέθοδοι",
+  "yearlyStats25Slide5RecipesHeader": "Κορυφαίες συνταγές:",
+  "yearlyStats25Slide5NoRecipes": "Δεν υπάρχουν ακόμη συνταγές",
+  "yearlyStats25MethodRow": "{name} — {count} {count, plural, =1{παρασκευή} other{παρασκευές}}",
+  "@yearlyStats25MethodRow": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25Slide6Title": "Ανακαλύψατε {count} καβουρδιστήρια φέτος:",
+  "@yearlyStats25Slide6Title": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Slide6NoRoasters": "Δεν υπάρχουν ακόμη καβουρδιστήρια",
+  "yearlyStats25Slide7Title": "Ο καφές μπορεί να σας ταξιδέψει...",
+  "yearlyStats25Slide7Subtitle": "Ανακαλύψατε {count} προελεύσεις φέτος:",
+  "@yearlyStats25Slide7Subtitle": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25Others": "...και άλλες",
+  "yearlyStats25FallbackTitle": "Οι χρήστες του Timer.Coffee χρησιμοποίησαν κόκκους από {countries} χώρες φέτος\nκαι κατέγραψαν {roasters} διαφορετικά καβουρδιστήρια.",
+  "@yearlyStats25FallbackTitle": {
+    "placeholders": {
+      "countries": {
+        "type": "int"
+      },
+      "roasters": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25FallbackPromptHasBeans": "Γιατί να μη συνεχίσετε να καταγράφετε τις σακούλες καφέ σας;",
+  "yearlyStats25FallbackPromptNoBeans": "Ίσως ήρθε η ώρα να συμμετάσχετε κι εσείς και να καταγράψετε τους κόκκους σας;",
+  "yearlyStats25FallbackActionHasBeans": "Συνεχίστε να προσθέτετε κόκκους",
+  "yearlyStats25FallbackActionNoBeans": "Προσθέστε την πρώτη σας σακούλα καφέ",
+  "yearlyStats25ContinueButton": "Συνέχεια",
+  "yearlyStats25PostcardTitle": "Στείλτε μια πρωτοχρονιάτικη ευχή σε έναν άλλο λάτρη του καφέ.",
+  "yearlyStats25PostcardSubtitle": "Προαιρετικό. Κρατήστε το ευγενικό. Χωρίς προσωπικά στοιχεία.",
+  "yearlyStats25PostcardHint": "Καλή Χρονιά και υπέροχες παρασκευές!",
+  "yearlyStats25PostcardSending": "Αποστολή...",
+  "yearlyStats25PostcardSend": "Αποστολή",
+  "yearlyStats25PostcardSkip": "Παράλειψη",
+  "yearlyStats25PostcardReceivedTitle": "Μια ευχή από έναν άλλο λάτρη του καφέ",
+  "yearlyStats25PostcardErrorLength": "Παρακαλώ εισαγάγετε 2-160 χαρακτήρες.",
+  "yearlyStats25PostcardErrorSend": "Δεν ήταν δυνατή η αποστολή. Παρακαλώ δοκιμάστε ξανά.",
+  "yearlyStats25PostcardErrorRejected": "Δεν ήταν δυνατή η αποστολή. Παρακαλώ δοκιμάστε άλλο μήνυμα.",
+  "yearlyStats25CtaTitle": "Ας παρασκευάσουμε κάτι υπέροχο το 2026!",
+  "yearlyStats25CtaSubtitle": "Δείτε μερικές ιδέες:",
+  "yearlyStats25CtaExplorePrefix": "Δείτε προσφορές στο ",
+  "yearlyStats25CtaGiftBox": "Εορταστικό κουτί δώρου",
+  "yearlyStats25CtaDonate": "Δωρεά",
+  "yearlyStats25CtaDonateSuffix": " για να βοηθήσετε το Timer.Coffee να αναπτυχθεί τη νέα χρονιά",
+  "yearlyStats25CtaFollowPrefix": "Ακολουθήστε μας στο ",
+  "yearlyStats25CtaInstagram": "Instagram",
+  "yearlyStats25CtaShareButton": "Μοιραστείτε την πρόοδό μου",
+  "yearlyStats25CtaShareHint": "Μην ξεχάσετε να κάνετε tag το @timercoffeeapp",
+  "yearlyStats25AppBarTooltipResume": "Συνέχιση",
+  "yearlyStats25AppBarTooltipPause": "Παύση",
+  "yearlyStats25ShareError": "Δεν ήταν δυνατή η κοινοποίηση της ανακεφαλαίωσης. Παρακαλώ δοκιμάστε ξανά.",
+  "yearlyStats25BrewTimeMinutes": "{count, plural, =0{0 λεπτά} =1{1 λεπτό} other{{count} λεπτά}}",
+  "@yearlyStats25BrewTimeMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "yearlyStats25BrewTimeHours": "{hours} ώρες",
+  "@yearlyStats25BrewTimeHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "yearlyStats25ShareTitle": "Η χρονιά μου το 2025 με το Timer.Coffee",
+  "yearlyStats25ShareBrewedPrefix": "Παρασκευάστηκαν ",
+  "yearlyStats25ShareBrewedMiddle": " φορές και ",
+  "yearlyStats25ShareBrewedSuffix": " λίτρα καφέ",
+  "yearlyStats25ShareRoastersPrefix": "Χρησιμοποιήθηκαν κόκκοι από ",
+  "yearlyStats25ShareRoastersSuffix": " καβουρδιστήρια",
+  "yearlyStats25ShareOriginsPrefix": "Ανακαλύφθηκαν ",
+  "yearlyStats25ShareOriginsSuffix": " προελεύσεις καφέ",
+  "yearlyStats25ShareMethodsTitle": "Οι αγαπημένες μου μέθοδοι παρασκευής:",
+  "yearlyStats25ShareRecipesTitle": "Οι κορυφαίες συνταγές μου:",
+  "yearlyStats25ShareHandle": "@timercoffeeapp",
+  "yearlyStatsFailedToLike": "Αποτυχία προσθήκης like. Παρακαλώ δοκιμάστε ξανά.",
+  "@yearlyStatsFailedToLike": {
+    "description": "Error message when liking fails"
+  },
+  "labelCoffeeBrewed": "Καφές που παρασκευάστηκε",
+  "@labelCoffeeBrewed": {
+    "description": "Label for coffee brewed"
+  },
+  "labelTastedBeansBy": "Δοκιμάσατε κόκκους από",
+  "@labelTastedBeansBy": {
+    "description": "Label for roaster stats"
+  },
+  "labelDiscoveredCoffeeFrom": "Ανακαλύψατε καφέ από",
+  "@labelDiscoveredCoffeeFrom": {
+    "description": "Label for origin stats"
+  },
+  "labelUsedBrewingMethods": "Χρησιμοποιήσατε",
+  "@labelUsedBrewingMethods": {
+    "description": "Label for brewing methods stats"
+  },
+  "formattedRoasterCount": "{count} {count, plural, =1{καβουρδιστήριο} other{καβουρδιστήρια}}",
+  "@formattedRoasterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "formattedCountryCount": "{count} {count, plural, =1{χώρα} other{χώρες}}",
+  "@formattedCountryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "formattedBrewingMethodCount": "{count} {count, plural, =1{μέθοδος παρασκευής} other{μέθοδοι παρασκευής}}",
+  "@formattedBrewingMethodCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recipeCreationScreenEditRecipeTitle": "Επεξεργασία συνταγής",
+  "recipeCreationScreenCreateRecipeTitle": "Δημιουργία συνταγής",
+  "recipeCreationScreenRecipeStepsTitle": "Βήματα συνταγής",
+  "recipeCreationScreenRecipeNameLabel": "Όνομα συνταγής",
+  "recipeCreationScreenShortDescriptionLabel": "Σύντομη περιγραφή",
+  "recipeCreationScreenBrewingMethodLabel": "Μέθοδος παρασκευής",
+  "recipeCreationScreenCoffeeAmountLabel": "Ποσότητα καφέ (g)",
+  "recipeCreationScreenWaterAmountLabel": "Ποσότητα νερού (ml)",
+  "recipeCreationScreenWaterTempLabel": "Θερμοκρασία νερού (°C)",
+  "recipeCreationScreenGrindSizeLabel": "Μέγεθος άλεσης",
+  "recipeCreationScreenTotalBrewTimeLabel": "Συνολικός χρόνος παρασκευής:",
+  "recipeCreationScreenMinutesLabel": "Λεπτά",
+  "recipeCreationScreenSecondsLabel": "Δευτερόλεπτα",
+  "recipeCreationScreenPreparationStepTitle": "Βήμα προετοιμασίας",
+  "recipeCreationScreenBrewStepTitle": "Βήμα παρασκευής {stepOrder}",
+  "@recipeCreationScreenBrewStepTitle": {
+    "description": "Title for a brew step in the recipe creation screen",
+    "placeholders": {
+      "stepOrder": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "recipeCreationScreenStepDescriptionLabel": "Περιγραφή βήματος",
+  "recipeCreationScreenStepTimeLabel": "Χρόνος βήματος: ",
+  "recipeCreationScreenRecipeNameValidator": "Παρακαλώ εισαγάγετε όνομα συνταγής",
+  "recipeCreationScreenShortDescriptionValidator": "Παρακαλώ εισαγάγετε σύντομη περιγραφή",
+  "recipeCreationScreenBrewingMethodValidator": "Παρακαλώ επιλέξτε μέθοδο παρασκευής",
+  "recipeCreationScreenRequiredValidator": "Υποχρεωτικό",
+  "recipeCreationScreenInvalidNumberValidator": "Μη έγκυρος αριθμός",
+  "recipeCreationScreenStepDescriptionValidator": "Παρακαλώ εισαγάγετε περιγραφή βήματος",
+  "recipeCreationScreenContinueButton": "Συνέχεια στα βήματα συνταγής",
+  "recipeCreationScreenAddStepButton": "Προσθήκη βήματος",
+  "recipeCreationScreenSaveRecipeButton": "Αποθήκευση συνταγής",
+  "recipeCreationScreenUpdateSuccess": "Η συνταγή ενημερώθηκε με επιτυχία",
+  "recipeCreationScreenSaveSuccess": "Η συνταγή αποθηκεύτηκε με επιτυχία",
+  "recipeCreationScreenSaveError": "Σφάλμα κατά την αποθήκευση της συνταγής: {error}",
+  "@recipeCreationScreenSaveError": {
+    "description": "Error message when saving a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "unitGramsShort": "g",
+  "unitMillilitersShort": "ml",
+  "unitGramsLong": "γραμμάρια",
+  "unitMillilitersLong": "χιλιοστόλιτρα",
+  "recipeCopySuccess": "Η συνταγή αντιγράφηκε με επιτυχία!",
+  "recipeDuplicateSuccess": "Το αντίγραφο της συνταγής δημιουργήθηκε με επιτυχία!",
+  "@recipeCopySuccess": {
+    "description": "Snackbar message shown when a recipe is copied successfully"
+  },
+  "recipeCopyError": "Σφάλμα κατά την αντιγραφή της συνταγής: {error}",
+  "@recipeCopyError": {
+    "description": "Snackbar message shown when copying a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "createRecipe": "Δημιουργία συνταγής",
+  "errorSyncingData": "Σφάλμα κατά τον συγχρονισμό δεδομένων: {error}",
+  "@errorSyncingData": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "errorSigningOut": "Σφάλμα κατά την αποσύνδεση: {error}",
+  "@errorSigningOut": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "defaultPreparationStepDescription": "Προετοιμασία",
+  "loadingEllipsis": "Φόρτωση...",
+  "recipeDeletedSuccess": "Η συνταγή διαγράφηκε με επιτυχία",
+  "recipeDeleteError": "Αποτυχία διαγραφής συνταγής: {error}",
+  "@recipeDeleteError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "noRecipesFound": "Δεν βρέθηκαν συνταγές",
+  "recipeLoadError": "Αποτυχία φόρτωσης συνταγής: {error}",
+  "@recipeLoadError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "unknownBrewingMethod": "Άγνωστη μέθοδος παρασκευής",
+  "recipeCopyErrorLoadingEdit": "Αποτυχία φόρτωσης της αντιγραμμένης συνταγής για επεξεργασία.",
+  "recipeCopyErrorOperationFailed": "Η ενέργεια απέτυχε.",
+  "notProvided": "Δεν παρέχεται",
+  "recipeUpdateFailedFetch": "Αποτυχία ανάκτησης ενημερωμένων δεδομένων συνταγής.",
+  "recipeImportSuccess": "Η συνταγή εισήχθη με επιτυχία!",
+  "recipeImportFailedSave": "Αποτυχία αποθήκευσης της εισαγόμενης συνταγής.",
+  "recipeImportFailedFetch": "Αποτυχία ανάκτησης δεδομένων συνταγής για εισαγωγή.",
+  "recipeNotImported": "Η συνταγή δεν εισήχθη.",
+  "recipeNotFoundCloud": "Η συνταγή δεν βρέθηκε στο cloud ή δεν είναι δημόσια.",
+  "recipeLoadErrorGeneric": "Σφάλμα κατά τη φόρτωση της συνταγής.",
+  "recipeUpdateAvailableTitle": "Διαθέσιμη ενημέρωση",
+  "recipeUpdateAvailableBody": "Μια νεότερη έκδοση της συνταγής '{recipeName}' είναι διαθέσιμη online. Να ενημερωθεί;",
+  "@recipeUpdateAvailableBody": {
+    "description": "Body text for the update confirmation dialog",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "My Awesome Recipe"
+      }
+    }
+  },
+  "dialogCancel": "Ακύρωση",
+  "dialogDuplicate": "Δημιουργία αντιγράφου",
+  "dialogUpdate": "Ενημέρωση",
+  "recipeImportTitle": "Εισαγωγή συνταγής",
+  "recipeImportBody": "Θέλετε να εισαγάγετε τη συνταγή '{recipeName}' από το cloud;",
+  "@recipeImportBody": {
+    "description": "Body text for the import confirmation dialog",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "Shared Recipe"
+      }
+    }
+  },
+  "dialogImport": "Εισαγωγή",
+  "moderationReviewNeededTitle": "Απαιτείται έλεγχος εποπτείας",
+  "moderationReviewNeededMessage": "Οι παρακάτω συνταγές χρειάζονται έλεγχο λόγω ζητημάτων εποπτείας περιεχομένου: {recipeNames}",
+  "@moderationReviewNeededMessage": {
+    "description": "Message shown when recipes need moderation review",
+    "placeholders": {
+      "recipeNames": {
+        "type": "String",
+        "example": "'My Recipe', 'Another Recipe'"
+      }
+    }
+  },
+  "dismiss": "Απόρριψη",
+  "reviewRecipeButton": "Έλεγχος συνταγής",
+  "signInRequiredTitle": "Απαιτείται σύνδεση",
+  "signInRequiredBodyShare": "Πρέπει να συνδεθείτε για να μοιραστείτε τις δικές σας συνταγές.",
+  "syncSuccess": "Ο συγχρονισμός ολοκληρώθηκε με επιτυχία!",
+  "tooltipEditRecipe": "Επεξεργασία συνταγής",
+  "tooltipCopyRecipe": "Αντιγραφή συνταγής",
+  "tooltipDuplicateRecipe": "Δημιουργία αντιγράφου συνταγής",
+  "tooltipShareRecipe": "Κοινοποίηση συνταγής",
+  "signInRequiredSnackbar": "Απαιτείται σύνδεση",
+  "moderationErrorFunction": "Ο έλεγχος εποπτείας περιεχομένου απέτυχε.",
+  "moderationReasonDefault": "Το περιεχόμενο επισημάνθηκε για έλεγχο.",
+  "moderationFailedTitle": "Η εποπτεία απέτυχε",
+  "moderationFailedBody": "Αυτή η συνταγή δεν μπορεί να κοινοποιηθεί επειδή: {reason}",
+  "@moderationFailedBody": {
+    "description": "Body text for the dialog shown when content moderation fails",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Inappropriate language"
+      }
+    }
+  },
+  "shareErrorGeneric": "Σφάλμα κατά την κοινοποίηση της συνταγής: {error}",
+  "@shareErrorGeneric": {
+    "description": "Generic error message shown if the sharing process fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "recipeDetailWebTitle": "{recipeName} στο Timer.Coffee",
+  "@recipeDetailWebTitle": {
+    "description": "Web page title format for a recipe detail page",
+    "placeholders": {
+      "recipeName": {
+        "type": "String",
+        "example": "My Awesome V60"
+      }
+    }
+  },
+  "saveLocallyCheckLater": "Δεν ήταν δυνατός ο έλεγχος της κατάστασης του περιεχομένου. Αποθηκεύτηκε τοπικά και θα ελεγχθεί στον επόμενο συγχρονισμό.",
+  "saveLocallyModerationFailedTitle": "Οι αλλαγές αποθηκεύτηκαν τοπικά",
+  "saveLocallyModerationFailedBody": "Οι τοπικές αλλαγές σας αποθηκεύτηκαν, αλλά η δημόσια έκδοση δεν μπόρεσε να ενημερωθεί λόγω εποπτείας περιεχομένου: {reason}",
+  "@saveLocallyModerationFailedBody": {
+    "description": "Body text for the dialog shown when moderation fails but local save succeeds",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Inappropriate language"
+      }
+    }
+  },
+  "editImportedRecipeTitle": "Επεξεργασία εισαγόμενης συνταγής",
+  "editImportedRecipeBody": "Αυτή είναι μια εισαγόμενη συνταγή. Αν την επεξεργαστείτε, θα δημιουργηθεί ένα νέο, ανεξάρτητο αντίγραφο. Θέλετε να συνεχίσετε;",
+  "editImportedRecipeButtonCopy": "Δημιουργία αντιγράφου και επεξεργασία",
+  "editImportedRecipeButtonCancel": "Ακύρωση",
+  "editDisplayNameTitle": "Επεξεργασία εμφανιζόμενου ονόματος",
+  "displayNameHint": "Εισαγάγετε το εμφανιζόμενο όνομά σας",
+  "displayNameEmptyError": "Το εμφανιζόμενο όνομα δεν μπορεί να είναι κενό",
+  "displayNameTooLongError": "Το εμφανιζόμενο όνομα δεν μπορεί να υπερβαίνει τους 50 χαρακτήρες",
+  "errorUserNotLoggedIn": "Ο χρήστης δεν είναι συνδεδεμένος. Παρακαλώ συνδεθείτε ξανά.",
+  "displayNameUpdateSuccess": "Το εμφανιζόμενο όνομα ενημερώθηκε με επιτυχία!",
+  "displayNameUpdateError": "Αποτυχία ενημέρωσης του εμφανιζόμενου ονόματος: {error}",
+  "@displayNameUpdateError": {
+    "description": "Error message when updating display name fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "deletePictureConfirmationTitle": "Διαγραφή εικόνας;",
+  "deletePictureConfirmationBody": "Είστε βέβαιοι ότι θέλετε να διαγράψετε την εικόνα προφίλ σας;",
+  "deletePictureSuccess": "Η εικόνα προφίλ διαγράφηκε.",
+  "deletePictureError": "Αποτυχία διαγραφής της εικόνας προφίλ: {error}",
+  "@deletePictureError": {
+    "description": "Error message when deleting profile picture fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Storage error"
+      }
+    }
+  },
+  "updatePictureError": "Αποτυχία ενημέρωσης της εικόνας προφίλ: {error}",
+  "@updatePictureError": {
+    "description": "Error message when updating profile picture fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Upload error"
+      }
+    }
+  },
+  "updatePictureSuccess": "Η εικόνα προφίλ ενημερώθηκε με επιτυχία!",
+  "deletePictureTooltip": "Διαγραφή εικόνας",
+  "account": "Λογαριασμός",
+  "settingsBrewingMethodsTitle": "Μέθοδοι παρασκευής στην αρχική οθόνη",
+  "filter": "Φίλτρο",
+  "@filter": {
+    "description": "Label for the filter button in the coffee beans screen"
+  },
+  "sortBy": "Ταξινόμηση κατά",
+  "@sortBy": {
+    "description": "Title for the sort dialog in coffee beans screen"
+  },
+  "dateAdded": "Ημερομηνία προσθήκης",
+  "@dateAdded": {
+    "description": "Sort option for sorting by date added"
+  },
+  "secondsAbbreviation": "δ.",
+  "settingsAppIcon": "Εικονίδιο εφαρμογής",
+  "settingsAppIconDefault": "Προεπιλογή",
+  "settingsAppIconLegacy": "Παλιό",
+  "searchBeans": "Αναζήτηση κόκκων...",
+  "@searchBeans": {
+    "description": "Placeholder text for the search field in coffee beans screen"
+  },
+  "favorites": "Αγαπημένα",
+  "@favorites": {
+    "description": "Label for favorites filter chip"
+  },
+  "searchPrefix": "Αναζήτηση: ",
+  "@searchPrefix": {
+    "description": "Prefix for search filter chip"
+  },
+  "clearAll": "Καθαρισμός όλων",
+  "@clearAll": {
+    "description": "Label for clear all filters button"
+  },
+  "noBeansMatchSearch": "Κανένας κόκκος δεν ταιριάζει με την αναζήτησή σας",
+  "@noBeansMatchSearch": {
+    "description": "Message shown when no beans match the search criteria"
+  },
+  "clearFilters": "Καθαρισμός φίλτρων",
+  "@clearFilters": {
+    "description": "Button text to clear all active filters"
+  },
+  "farmer": "Παραγωγός",
+  "farm": "Φάρμα",
+  "enterFarmer": "Εισαγάγετε παραγωγό (προαιρετικό)",
+  "enterFarm": "Εισαγάγετε φάρμα (προαιρετικό)",
+  "requiredInformation": "Απαιτούμενες πληροφορίες",
+  "basicDetails": "Βασικές λεπτομέρειες",
+  "qualityMeasurements": "Ποιότητα και μετρήσεις",
+  "importantDates": "Σημαντικές ημερομηνίες",
+  "brewStats": "Στατιστικά παρασκευής",
+  "showMore": "Εμφάνιση περισσότερων",
+  "showLess": "Εμφάνιση λιγότερων",
+  "unpublishRecipeDialogTitle": "Κάντε τη συνταγή ιδιωτική",
+  "@unpublishRecipeDialogTitle": {
+    "description": "Title text for the unpublish recipe confirmation dialog"
+  },
+  "unpublishRecipeDialogMessage": "Προειδοποίηση: Αν κάνετε αυτή τη συνταγή ιδιωτική, θα συμβούν τα εξής:",
+  "@unpublishRecipeDialogMessage": {
+    "description": "Warning message introducing the privacy changes"
+  },
+  "unpublishRecipeDialogBullet1": "Θα αφαιρεθεί από τα δημόσια αποτελέσματα αναζήτησης",
+  "@unpublishRecipeDialogBullet1": {
+    "description": "First privacy change bullet point"
+  },
+  "unpublishRecipeDialogBullet2": "Οι νέοι χρήστες δεν θα μπορούν να την εισαγάγουν",
+  "@unpublishRecipeDialogBullet2": {
+    "description": "Second privacy change bullet point"
+  },
+  "unpublishRecipeDialogBullet3": "Οι χρήστες που την έχουν ήδη εισαγάγει θα διατηρήσουν τα αντίγραφά τους",
+  "@unpublishRecipeDialogBullet3": {
+    "description": "Third privacy change bullet point"
+  },
+  "unpublishRecipeDialogKeepPublic": "Διατήρηση δημόσιας",
+  "@unpublishRecipeDialogKeepPublic": {
+    "description": "Button text to keep the recipe public"
+  },
+  "unpublishRecipeDialogMakePrivate": "Κάντε τη ιδιωτική",
+  "@unpublishRecipeDialogMakePrivate": {
+    "description": "Button text to make the recipe private"
+  },
+  "recipeUnpublishSuccess": "Η δημοσίευση της συνταγής καταργήθηκε με επιτυχία",
+  "@recipeUnpublishSuccess": {
+    "description": "Success message when a recipe is unpublished"
+  },
+  "recipeUnpublishError": "Αποτυχία κατάργησης δημοσίευσης της συνταγής: {error}",
+  "@recipeUnpublishError": {
+    "description": "Error message when unpublishing a recipe fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Database error"
+      }
+    }
+  },
+  "recipePublicTooltip": "Η συνταγή είναι δημόσια - πατήστε για να γίνει ιδιωτική",
+  "recipePrivateTooltip": "Η συνταγή είναι ιδιωτική - κοινοποιήστε τη για να γίνει δημόσια",
+  "fieldClearButtonTooltip": "Καθαρισμός",
+  "dateFieldClearButtonTooltip": "Καθαρισμός ημερομηνίας",
+  "chipInputDuplicateError": "Αυτή η ετικέτα έχει ήδη προστεθεί",
+  "chipInputMaxTagsError": "Έχει επιτευχθεί ο μέγιστος αριθμός ετικετών ({maxChips})",
+  "chipInputHintText": "Προσθήκη ετικέτας...",
+  "unitFieldRequiredError": "Αυτό το πεδίο είναι υποχρεωτικό",
+  "unitFieldInvalidNumberError": "Παρακαλώ εισαγάγετε έγκυρο αριθμό",
+  "unitFieldMinValueError": "Η τιμή πρέπει να είναι τουλάχιστον {min}",
+  "unitFieldMaxValueError": "Η τιμή πρέπει να είναι το πολύ {max}",
+  "numericFieldRequiredError": "Αυτό το πεδίο είναι υποχρεωτικό",
+  "numericFieldInvalidNumberError": "Παρακαλώ εισαγάγετε έγκυρο αριθμό",
+  "numericFieldMinValueError": "Η τιμή πρέπει να είναι τουλάχιστον {min}",
+  "numericFieldMaxValueError": "Η τιμή πρέπει να είναι το πολύ {max}",
+  "dropdownSearchHintText": "Πληκτρολογήστε για αναζήτηση...",
+  "dropdownSearchLoadingError": "Σφάλμα κατά τη φόρτωση προτάσεων: {error}",
+  "dropdownSearchNoResults": "Δεν βρέθηκαν αποτελέσματα",
+  "dropdownSearchLoading": "Αναζήτηση...",
+  "dropdownSearchUseCustomEntry": "Χρήση \"{currentQuery}\"",
+  "requiredInfoSubtitle": "* Υποχρεωτικό",
+  "inventoryWeightExample": "π.χ. 250.5",
+  "unsavedChangesTitle": "Μη αποθηκευμένες αλλαγές",
+  "unsavedChangesMessage": "Έχετε μη αποθηκευμένες αλλαγές. Είστε βέβαιοι ότι θέλετε να τις απορρίψετε;",
+  "unsavedChangesStay": "Παραμονή",
+  "unsavedChangesDiscard": "Απόρριψη",
+  "beansWeightAddedBack": "Προστέθηκαν ξανά {amount}{unit} στο {beanName}. Νέο βάρος: {newWeight}{unit}",
+  "@beansWeightAddedBack": {
+    "description": "Message shown when coffee weight is added back to beans after removing from brew diary",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Ethiopia Yirgacheffe"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "250.0"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  },
+  "beansWeightSubtracted": "Αφαιρέθηκαν {amount}{unit} από το {beanName}. Νέο βάρος: {newWeight}{unit}",
+  "@beansWeightSubtracted": {
+    "description": "Message shown when coffee weight is subtracted from beans when adding to brew diary",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "18.5"
+      },
+      "beanName": {
+        "type": "String",
+        "example": "Colombia Supremo"
+      },
+      "newWeight": {
+        "type": "String",
+        "example": "231.5"
+      },
+      "unit": {
+        "type": "String",
+        "example": "g"
+      }
+    }
+  },
+  "notifications": "Ειδοποιήσεις",
+  "notificationsDisabledInSystemSettings": "Απενεργοποιημένες στις ρυθμίσεις συστήματος",
+  "openSettings": "Άνοιγμα ρυθμίσεων",
+  "couldNotOpenLink": "Δεν ήταν δυνατό το άνοιγμα του συνδέσμου",
+  "@couldNotOpenLink": {
+    "description": "Generic error shown when the app cannot open an external link"
+  },
+  "notificationsDisabledDialogTitle": "Οι ειδοποιήσεις είναι απενεργοποιημένες στις ρυθμίσεις συστήματος",
+  "notificationsDisabledDialogContent": "Έχετε απενεργοποιήσει τις ειδοποιήσεις στις ρυθμίσεις της συσκευής σας. Για να τις ενεργοποιήσετε, ανοίξτε τις ρυθμίσεις της συσκευής και επιτρέψτε τις ειδοποιήσεις για το Timer.Coffee.",
+  "notificationDebug": "Αποσφαλμάτωση ειδοποιήσεων",
+  "testNotificationSystem": "Δοκιμή συστήματος ειδοποιήσεων",
+  "notificationsEnabled": "Ενεργοποιημένες",
+  "notificationsDisabled": "Απενεργοποιημένες",
+  "notificationPermissionDialogTitle": "Ενεργοποίηση ειδοποιήσεων;",
+  "notificationPermissionDialogMessage": "Μπορείτε να ενεργοποιήσετε τις ειδοποιήσεις για να λαμβάνετε χρήσιμες ενημερώσεις (π.χ. για νέες εκδόσεις της εφαρμογής). Ενεργοποιήστε τις τώρα ή αλλάξτε το οποιαδήποτε στιγμή από τις ρυθμίσεις.",
+  "notificationPermissionEnable": "Ενεργοποίηση",
+  "notificationPermissionSkip": "Όχι τώρα",
+  "holidayGiftBoxTitle": "Εορταστικό κουτί δώρου",
+  "holidayGiftBoxInfoTrigger": "Τι είναι αυτό;",
+  "holidayGiftBoxInfoBody": "Επιλεγμένες εποχικές προσφορές από συνεργάτες. Οι σύνδεσμοι δεν είναι affiliate - στόχος μας είναι απλώς να φέρουμε λίγη χαρά στους χρήστες του Timer.Coffee αυτές τις γιορτές. Τραβήξτε προς τα κάτω για ανανέωση οποιαδήποτε στιγμή.",
+  "holidayGiftBoxNoOffers": "Δεν υπάρχουν διαθέσιμες προσφορές αυτή τη στιγμή.",
+  "holidayGiftBoxNoOffersSub": "Τραβήξτε για ανανέωση ή ελέγξτε ξανά σύντομα.",
+  "holidayGiftBoxShowingRegion": "Εμφάνιση προσφορών για {region}",
+  "@holidayGiftBoxShowingRegion": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxViewDetails": "Προβολή λεπτομερειών",
+  "holidayGiftBoxPromoCopied": "Ο κωδικός προσφοράς αντιγράφηκε",
+  "holidayGiftBoxPromoCode": "Κωδικός προσφοράς",
+  "giftDiscountOff": "{percent}% έκπτωση",
+  "@giftDiscountOff": {
+    "description": "Label for a percentage discount when one percent value is present",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "giftDiscountUpToOff": "Έως {percent}% έκπτωση",
+  "@giftDiscountUpToOff": {
+    "description": "Label for a percentage discount when a range is present; uses the max percent",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxTerms": "Όροι και προϋποθέσεις",
+  "holidayGiftBoxVisitSite": "Επίσκεψη στον ιστότοπο συνεργάτη",
+  "holidayGiftBoxValidUntil": "Ισχύει έως {date}",
+  "@holidayGiftBoxValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxEndsInDays": "{days, plural, =0{Λήγει σήμερα} =1{Λήγει αύριο} other{Λήγει σε {days} ημέρες}}",
+  "@holidayGiftBoxEndsInDays": {
+    "description": "Relative expiry label for Gift Box offers (used when the offer ends within 7 days).",
+    "placeholders": {
+      "days": {}
+    }
+  },
+  "holidayGiftBoxValidWhileAvailable": "Ισχύει όσο υπάρχουν διαθέσιμα",
+  "holidayGiftBoxUpdated": "Ενημερώθηκε {date}",
+  "@holidayGiftBoxUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxLanguage": "Γλώσσα: {language}",
+  "@holidayGiftBoxLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "holidayGiftBoxRetry": "Δοκιμάστε ξανά",
+  "holidayGiftBoxLoadFailed": "Αποτυχία φόρτωσης προσφορών",
+  "holidayGiftBoxOfferUnavailable": "Η προσφορά δεν είναι διαθέσιμη",
+  "@holidayGiftBoxOfferUnavailable": {
+    "description": "Shown when a gift box offer is missing or not available"
+  },
+  "holidayGiftBoxBannerTitle": "Δείτε το εορταστικό μας κουτί δώρου",
+  "holidayGiftBoxBannerCta": "Δείτε τις προσφορές",
+  "regionEurope": "Ευρώπη",
+  "regionNorthAmerica": "Βόρεια Αμερική",
+  "regionAsia": "Ασία",
+  "regionAustralia": "Αυστραλία / Ωκεανία",
+  "regionWorldwide": "Παγκοσμίως",
+  "regionAfrica": "Αφρική",
+  "regionMiddleEast": "Μέση Ανατολή",
+  "regionSouthAmerica": "Νότια Αμερική",
+  "setToZeroButton": "Ορισμός σε μηδέν",
+  "setToZeroDialogTitle": "Να οριστεί το απόθεμα σε μηδέν;",
+  "setToZeroDialogBody": "Αυτό θα ορίσει την υπολειπόμενη ποσότητα σε 0 g. Μπορείτε να την επεξεργαστείτε αργότερα.",
+  "setToZeroDialogConfirm": "Ορισμός σε μηδέν",
+  "setToZeroDialogCancel": "Ακύρωση",
+  "inventorySetToZeroSuccess": "Το απόθεμα ορίστηκε σε 0 g",
+  "inventorySetToZeroFail": "Αποτυχία ορισμού του αποθέματος σε μηδέν",
+  "timePeriodThisYear": "Φέτος",
+  "timePeriodLastYear": "Πέρυσι",
+  "nativeAppPromoTitle": "Αποκτήστε την εφαρμογή Timer.Coffee",
+  "nativeAppPromoDescription": "Απολαύστε την πλήρη εμπειρία με αποκλειστικές δυνατότητες: σάρωση ετικετών κόκκων με AI, Live Activities στην οθόνη κλειδώματος, push ειδοποιήσεις, απτική ανάδραση και πολλά άλλα.",
+  "nativeAppPromoButton": "Αποκτήστε την εφαρμογή",
+  "addBrewEntry": "Προσθήκη καταχώρισης παρασκευής",
+  "selectBrewingMethod": "Επιλέξτε μέθοδο παρασκευής",
+  "selectRecipe": "Επιλέξτε συνταγή",
+  "brewDate": "Ημερομηνία",
+  "brewTime": "Ώρα",
+  "brewEntrySaved": "Η καταχώριση παρασκευής αποθηκεύτηκε",
+  "brewingMethodRequired": "Παρακαλώ επιλέξτε μέθοδο παρασκευής",
+  "recipeRequired": "Παρακαλώ επιλέξτε συνταγή"
+}
