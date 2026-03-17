@@ -1,0 +1,4 @@
+Baru:
+
+• Timer.Coffee kini mendukung bahasa Yunani. Καλώς ήρθατε!
+• Opsi pengurutan baru untuk kopi Anda: kini Anda dapat mengurutkan berdasarkan Tanggal Sangrai + memilih urutan naik/turun.

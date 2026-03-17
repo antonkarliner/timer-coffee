@@ -1,1 +1,1 @@
-后台冲煮、Live Activities 和 Pulse 已上线。在 Lock Screen 上追踪冲煮进度、手动添加记录，并为每个配方设置自定义研磨度。
+后台冲煮、Live Activities 已上线。在 Lock Screen 上追踪冲煮进度、手动添加记录，并为每个配方设置自定义研磨度。

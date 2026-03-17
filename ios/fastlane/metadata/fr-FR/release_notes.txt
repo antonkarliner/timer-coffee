@@ -1,12 +1,4 @@
-Nouveau :
+Nouveau :
 
-• Vous pouvez désormais ajouter manuellement des entrées au Journal de Brassage sur l'écran Journal de Brassage. Utile si vous avez oublié de lancer l'app pendant l'infusion ou si vous voulez simplement enregistrer vos infusions manuellement.
-• Définissez une Taille de mouture Personnalisée pour n'importe quelle recette sur l'écran Détail de la recette. Ex. « Comandate C40 25 clics » ou « Wilfa Uniform 25 ». La taille de mouture est conservée entre les sessions.
-
-Amélioré :
-
-• Petites améliorations de l'interface utilisateur sur l'écran Pulse.
-
-Corrections de bugs :
-
-• Correction de problèmes liés à la plateforme avec les pop-ups au lancement.
+• Timer.Coffee parle désormais grec. Καλώς ήρθατε !
+• Nouvelles options de tri pour vos grains de café : vous pouvez maintenant trier par date de torréfaction et choisir entre un ordre croissant/décroissant.

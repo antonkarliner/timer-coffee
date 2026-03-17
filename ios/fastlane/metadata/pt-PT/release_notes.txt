@@ -1,12 +1,4 @@
 Novo:
 
-• Agora pode adicionar manualmente registos no Diário de Preparo no ecrã do Diário de Preparo. Útil se se esqueceu de usar a app durante a preparação ou se quiser apenas registar os seus preparos manualmente.
-• Defina o Tamanho da Moagem Personalizado para qualquer receita no ecrã de Detalhes da Receita. Ex.: "Comandate C40 25 cliques" ou "Wilfa Uniform 25". O tamanho da moagem é salvo entre sessões.
-
-Melhorado:
-
-• Pequenas melhorias de UI no ecrã do Pulso .
-
-Correções de erros:
-
-• Correção de problemas relacionados com a plataforma nos popups de arranque.
+• O Timer.Coffee agora fala grego. Καλώς ήρθατε!
+• Novas opções de ordenação para os seus grãos de café: agora pode ordenar por data de torrefação + escolher entre ordem ascendente/descendente.

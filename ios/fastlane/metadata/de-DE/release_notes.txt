@@ -1,12 +1,4 @@
 Neu:
 
-• Du kannst jetzt Brautagebuch-Einträge manuell auf dem Brautagebuch-Bildschirm hinzufügen. Nützlich, wenn du vergessen hast, die App während des Brühens zu starten oder wenn du deine Brühvorgänge einfach manuell festhalten möchtest.
-• Lege einen benutzerdefinierten Mahlgrad für jedes Rezept auf dem Bildschirm „Rezeptdetails“ fest. Z. B. „Comandante C40 25 Klicks“ oder „Wilfa Uniform 25“. Der Mahlgrad wird zwischen den Sitzungen gespeichert.
-
-Verbessert:
-
-• Kleine UI-Verbesserungen auf dem Pulse-Bildschirm.
-
-Fehlerbehebungen:
-
-• Plattformbezogene Probleme mit Start-Popups behoben.
+• Timer.Coffee spricht jetzt auch Griechisch. Καλώς ήρθατε!
+• Neue Sortieroptionen für deine Kaffeebohnen: Du kannst jetzt nach Röstdatum sortieren + zwischen aufsteigender/absteigender Reihenfolge wählen.

@@ -1,1 +1,1 @@
-백그라운드 추출, Live Activities, Pulse가 출시되었습니다. Lock Screen에서 추출을 확인하고, 수동 기록과 레시피별 분쇄 크기 설정도 지원합니다.
+백그라운드 추출, Live Activities가 출시되었습니다. Lock Screen에서 추출을 확인하고, 수동 기록과 레시피별 분쇄 크기 설정도 지원합니다.

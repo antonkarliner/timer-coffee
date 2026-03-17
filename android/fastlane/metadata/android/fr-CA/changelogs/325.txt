@@ -1,0 +1,4 @@
+Nouveau :
+
+• Timer.Coffee parle maintenant grec. Καλώς ήρθατε!
+• Nouvelles options pour Trier par vos grains de café : triez par Date de torréfaction et choisissez l’ordre croissant/décroissant.

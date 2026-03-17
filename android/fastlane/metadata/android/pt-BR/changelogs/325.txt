@@ -1,0 +1,4 @@
+Novo:
+
+• O Timer.Coffee agora fala grego. Καλώς ήρθατε!
+• Novas opções de Ordenar por para seus Grãos de Café: agora você pode ordenar por Data de Torrefação e escolher entre ordem crescente/decrescente.

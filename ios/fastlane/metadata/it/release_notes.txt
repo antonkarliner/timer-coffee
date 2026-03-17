@@ -1,12 +1,4 @@
 Novità:
 
-• Ora puoi aggiungere manualmente le registrazioni nel Diario di Infusione nella schermata Diario di Infusione. Utile se hai dimenticato di avviare l’app durante l’infusione o se vuoi semplicemente registrare le tue preparazioni manualmente.
-• Imposta il Grado di macinatura Personalizza per qualsiasi ricetta nella schermata Dettaglio Ricetta. Ad es. "Comandate C40 25 click" o "Wilfa Uniform 25". Il Grado di macinatura viene salvato tra una sessione e l’altra.
-
-Miglioramenti:
-
-• Piccoli miglioramenti dell’interfaccia utente nella schermata Pulse .
-
-Correzioni di bug:
-
-• Correzione di problemi legati alla piattaforma con i popup di avvio.
+• Timer.Coffee ora parla greco. Καλώς ήρθατε!
+• Nuove opzioni di ordinamento per i tuoi chicchi di caffè: ora puoi ordinare per data di tostatura + scegliere tra ordine crescente/decrescente.

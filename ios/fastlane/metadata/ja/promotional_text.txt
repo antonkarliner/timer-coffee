@@ -1,1 +1,1 @@
-バックグラウンド抽出、Live Activities、Pulseが登場。Lock Screenで抽出を確認し、手動記録やレシピごとの挽き目設定も可能です。
+バックグラウンド抽出、Live Activitiesが登場。Lock Screenで抽出を確認し、手動記録やレシピごとの挽き目設定も可能です。

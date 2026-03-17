@@ -1,12 +1,4 @@
 Novo:
 
-• Sada možete ručno dodavati zapise u Dnevnik pripreme na zaslonu Dnevnik pripreme. Korisno ako ste zaboravili pokrenuti aplikaciju tijekom pripreme ili ako samo želite ručno zabilježiti svoje pripreme.
-• Postavite Prilagođeno Finoća mljevenja za bilo koji recept na zaslonu Detalji recepta. Npr. "Comandate C40 25 clicks" ili "Wilfa Uniform 25". Finoća mljevenja se sprema između sesija.
-
-Poboljšano:
-
-• Manja UI poboljšanja na zaslonu Puls .
-
-Ispravci grešaka:
-
-• Ispravljeni problemi povezani s platformom s početnim skočnim prozorima.
+• Timer.Coffee sada govori grčki. Καλώς ήρθατε!
+• Nove opcije sortiranja za tvoja zrna kave: sada možeš sortirati prema datumu prženja + odabrati između uzlaznog/silaznog redoslijeda.

@@ -1,1 +1,1 @@
-Free, open-source brew timer with 40+ recipes, background brewing, and real-time Pulse.
+Free, open-source brew timer with 40+ recipes and background brewing.

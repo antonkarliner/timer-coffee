@@ -1,12 +1,4 @@
-New:
+Νέο:
 
-• You can now manually add brew diary entries on Brew Diary screen. Useful if you forgot to run the app while brewing or if you just want to record your brews manually.
-• Set custom grind size for any recipe on Recipe Detail screen. E.g. "Comandante C40 25 clicks" or "Wilfa Uniform 25". Grind size is saved between sessions.
-
-Improved:
-
-• Small UI improvements on Pulse screen.
-
-Bug Fixes:
-
-• Fix platform-related issues with launch popups.
+• Το Timer.Coffee μιλά πλέον Ελληνικά. Καλώς ήρθατε!
+• Νέες επιλογές ταξινόμησης για τους κόκκους καφέ σας: μπορείτε πλέον να ταξινομείτε κατά ημερομηνία καβουρδίσματος και να επιλέγετε αύξουσα/φθίνουσα σειρά.

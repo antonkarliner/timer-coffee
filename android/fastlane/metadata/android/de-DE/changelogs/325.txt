@@ -1,0 +1,4 @@
+Neu:
+
+• Timer.Coffee spricht jetzt Griechisch. Καλώς ήρθατε!
+• Neue Sortieroptionen für deine Kaffeebohnen: Du kannst jetzt nach Röstdatum sortieren und zwischen aufsteigender/absteigender Reihenfolge wählen.

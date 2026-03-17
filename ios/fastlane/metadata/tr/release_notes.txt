@@ -1,12 +1,4 @@
 Yeni:
 
-• Artık Demleme Günlüğü ekranında demleme günlüğü kayıtlarını manuel olarak ekleyebilirsiniz. Demlerken uygulamayı çalıştırmayı unuttuysanız veya demlemelerinizi manuel olarak kaydetmek istiyorsanız kullanışlıdır.
-• Tarif Detay ekranında herhangi bir tarif için Özel Öğütme derecesi ayarlayın. Örn. "Comandate C40 25 click" veya "Wilfa Uniform 25". Öğütme derecesi oturumlar arasında kaydedilir.
-
-İyileştirildi:
-
-• Nabız ekranında küçük UI iyileştirmeleri.
-
-Hata Düzeltmeleri:
-
-• Başlatma açılır pencereleriyle ilgili platform kaynaklı sorunlar düzeltildi.
+• Timer.Coffee artık Yunanca konuşuyor. Καλώς ήρθατε!
+• Kahve çekirdekleriniz için yeni sıralama seçenekleri: artık Kavurma Tarihi’ne göre sıralayabilir ve artan/azalan sıra arasında seçim yapabilirsiniz.

@@ -1,1 +1,1 @@
-40+ tarifli ücretsiz açık kaynaklı demleme zamanlayıcısı, arka planda demleme ve gerçek zamanlı Pulse.
+40+ tarifli ücretsiz açık kaynaklı demleme zamanlayıcısı ve arka planda demleme.

@@ -1,0 +1,4 @@
+Novità:
+
+• Timer.Coffee ora parla greco. Καλώς ήρθατε!
+• Nuove opzioni di ordinamento per i tuoi chicchi di caffè: ora puoi ordinare per Data di tostatura e scegliere tra ordine crescente/decrescente.

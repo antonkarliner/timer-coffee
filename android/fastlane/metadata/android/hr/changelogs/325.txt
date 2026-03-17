@@ -1,0 +1,4 @@
+Novo:
+
+• Timer.Coffee sada govori grčki. Καλώς ήρθατε!
+• Nove mogućnosti sortiranja za tvoja zrna kave: sada možeš sortirati prema Datumu prženja + birati između uzlaznog/silaznog redoslijeda.

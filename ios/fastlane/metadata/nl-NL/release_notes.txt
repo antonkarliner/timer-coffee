@@ -1,12 +1,4 @@
 Nieuw:
 
-• Je kunt nu handmatig vermeldingen toevoegen op het scherm Brouwdagboek. Handig als je bent vergeten de app te gebruiken tijdens het zetten of als je je zetten gewoon handmatig wilt registreren.
-• Stel een Custom Maalgraad in voor elk recept op het scherm Receptdetails. Bijvoorbeeld: "Comandante C40 25 clicks" of "Wilfa Uniform 25". Maalgraad wordt tussen sessies opgeslagen.
-
-Verbeterd:
-
-• Kleine UI-verbeteringen op het Pulse-scherm.
-
-Bugfixes:
-
-• Platformgerelateerde problemen met opstart-pop-ups opgelost.
+• Timer.Coffee spreekt nu Grieks. Καλώς ήρθατε!
+• Nieuwe sorteeropties voor je koffiebonen: je kunt nu sorteren op branddatum + kiezen tussen oplopende/aflopende volgorde.

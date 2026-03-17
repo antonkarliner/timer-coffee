@@ -1,0 +1,4 @@
+Yeni:
+
+• Timer.Coffee artık Yunanca konuşuyor. Καλώς ήρθατε!
+• Kahve Çekirdekleriniz için yeni sıralama seçenekleri: artık Kavurma Tarihi’ne göre Sırala + artan/azalan sırayı seçin.

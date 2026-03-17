@@ -1,0 +1,4 @@
+Nowość:
+
+• Timer.Coffee mówi teraz po grecku. Καλώς ήρθατε!
+• Nowe opcje Sortuj według dla kawy ziarnistej: możesz sortować według Daty palenia i wybrać rosnąco/malejąco.

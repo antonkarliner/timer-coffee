@@ -1,12 +1,4 @@
 Nowości:
 
-• Teraz możesz ręcznie dodawać wpisy w Dziennik Warzenia na ekranie Dziennik Warzenia. Przydatne, jeśli zapomniałeś uruchomić aplikację podczas parzenia albo jeśli po prostu chcesz zapisywać swoje parzenia ręcznie.
-• Ustaw Niestandardowe Stopień mielenia dla dowolnego przepisu na ekranie Szczegóły przepisu. Np. „Comandate C40 25 kliknięć” lub „Wilfa Uniform 25”. Stopień mielenia jest zapisywany między sesjami.
-
-Ulepszenia:
-
-• Drobne ulepszenia UI na ekranie Puls.
-
-Poprawki błędów:
-
-• Naprawiono problemy zależne od platformy z wyskakującymi oknami przy uruchamianiu.
+• Timer.Coffee mówi teraz po grecku. Καλώς ήρθατε!
+• Nowe opcje sortowania kawy ziarnistej: możesz teraz sortować według daty palenia + wybrać kolejność rosnącą/malejącą.

@@ -1,12 +1,4 @@
-Nytt:
+Ny:
 
-• Du kan nå legge til bryggdagbokoppføringer manuelt på Bryggdagbok-skjermen. Nyttig hvis du glemte å bruke appen mens du brygget, eller hvis du bare vil registrere bryggene dine manuelt.
-• Angi Tilpasset Malingsgrad for hvilken som helst oppskrift på skjermen for oppskriftsdetaljer. F.eks. «Comandate C40 25 klikk» eller «Wilfa Uniform 25». Malingsgraden lagres mellom økter.
-
-Forbedret:
-
-• Små UI-forbedringer på Puls-skjermen.
-
-Feilrettinger:
-
-• Rettet plattformrelaterte problemer med oppstartspopup-vinduer.
+• Timer.Coffee snakker nå gresk. Καλώς ήρθατε!
+• Nye sorteringsalternativer for kaffebønnene dine: du kan nå sortere etter brenningsdato + velge mellom stigende/synkende rekkefølge.

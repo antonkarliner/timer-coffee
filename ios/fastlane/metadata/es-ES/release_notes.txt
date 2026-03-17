@@ -1,12 +1,4 @@
 Nuevo:
 
-• Ahora puedes añadir manualmente registros del Diario de preparaciones en la pantalla de Diario de preparaciones. Útil si olvidaste usar la app mientras preparabas o si simplemente quieres registrar tus preparaciones manualmente.
-• Establece un Tamaño de molienda personalizado para cualquier receta en la pantalla de Detalles de la receta. Por ejemplo: "Comandate C40 25 clics" o "Wilfa Uniform 25". El Tamaño de molienda se guarda entre sesiones.
-
-Mejorado:
-
-• Pequeñas mejoras de la interfaz de usuario en la pantalla de Pulso.
-
-Correcciones de errores:
-
-• Se corrigen problemas relacionados con la plataforma en los popups de inicio.
+• Timer.Coffee ahora habla griego. Καλώς ήρθατε!
+• Nuevas opciones de ordenación para tus granos de café: ahora puedes ordenar por Fecha de tueste + elegir entre orden ascendente/descendente.

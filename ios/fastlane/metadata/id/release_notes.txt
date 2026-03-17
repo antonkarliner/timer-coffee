@@ -1,12 +1,4 @@
 Baru:
 
-• Sekarang Anda dapat menambahkan catatan Diari Seduhan secara manual di layar Diari Seduhan. Berguna jika Anda lupa menjalankan aplikasi saat menyeduh atau jika Anda hanya ingin mencatat seduhan Anda secara manual.
-• Atur Tingkat kehalusan gilingan Kustom untuk resep apa pun di layar Detail Resep. Mis. "Comandate C40 25 klik" atau "Wilfa Uniform 25". Tingkat kehalusan gilingan disimpan di antara sesi.
-
-Ditingkatkan:
-
-• Peningkatan UI kecil di layar Pulse .
-
-Perbaikan Bug:
-
-• Memperbaiki masalah terkait platform pada popup saat peluncuran.
+• Timer.Coffee sekarang berbicara bahasa Yunani. Καλώς ήρθατε!
+• Opsi pengurutan baru untuk kopi Anda: sekarang Anda dapat mengurutkan berdasarkan Tanggal Sangrai + memilih antara urutan menaik/menurun.
