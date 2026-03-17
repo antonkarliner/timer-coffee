@@ -15,5 +15,5 @@ Temel özellikler
 - Sesli uyarı: her demleme adımı için sesli bildirim.
 - Otomatik kayıt: her seans otomatik olarak kaydedilir.
 - Cihaz senkronizasyonu: tarifleri, çekirdekleri ve kayıtları tüm cihazlarınızda senkronize edin.
-- 21 dil: küresel bir kitle için tam yerelleştirme.
+- 22 dil: küresel bir kitle için tam yerelleştirme.
 - Karanlık mod: günün her saatinde göz dostu.

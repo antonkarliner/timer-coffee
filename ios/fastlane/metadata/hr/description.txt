@@ -15,5 +15,5 @@ Ključne značajke
 - Zvučni signal: Zvučna upozorenja za svaki korak kuhanja.
 - Automatsko bilježenje: Svaka sesija automatski se bilježi.
 - Sinkronizacija uređaja: Recepti, zrna i kuhanja sinkronizirani na svim vašim uređajima.
-- 21 jezik: Potpuno lokalizirano za globalnu publiku.
+- 22 jezika: Potpuno lokalizirano za globalnu publiku.
 - Tamni način rada: Ugodno za oči u svako doba.

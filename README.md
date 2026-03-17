@@ -7,7 +7,7 @@
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/antonkarliner/timer-coffee/issues)
 [![Last Commit](https://img.shields.io/github/last-commit/antonkarliner/timer-coffee.svg)](https://github.com/antonkarliner/timer-coffee/commits/main)
 [![Made with Flutter](https://img.shields.io/badge/made%20with-Flutter-46D1FD.svg)](#)
-[![Localization](https://img.shields.io/badge/i18n-21%20languages-orange.svg)](#languages)
+[![Localization](https://img.shields.io/badge/i18n-22%20languages-orange.svg)](#languages)
 [![Buy Me A Coffee](https://img.shields.io/badge/support-Buy%20Me%20a%20Coffee-yellow.svg)](https://buymeacoffee.com/timercoffee)
 [![GitHub Stars](https://img.shields.io/github/stars/antonkarliner/timer-coffee.svg)](https://github.com/antonkarliner/timer-coffee/stargazers)
 
@@ -46,7 +46,7 @@
 - **Device Sync** – Recipes, beans, and brews stay in sync across iOS, Android, and Web.
 - **Step Alerts** – Audio chimes or vibration alerts for each brewing step.
 - **Dark Mode** – Brew comfortably any time of day.
-- **Multilingual** – Available in 21 languages (see below).
+- **Multilingual** – Available in 22 languages (see below).
 
 ---
 
@@ -62,9 +62,9 @@ Aeropress · April Brewer · Batch Brew · Bee House Dripper · Ceado Hoop Brewe
 
 ## Languages
 
-Timer.Coffee currently supports **21** languages:
+Timer.Coffee currently supports **22** languages:
 
-Arabic (العربية) · Chinese (中文) · English · Spanish (Español) · Portuguese (Português) · German (Deutsch) · French (Français) · Russian (Русский) · Polish (Polski) · Indonesian (Bahasa Indonesia) · Turkish (Türkçe) · Italian (Italiano) · Dutch (Nederlands) · Romanian (Română) · Ukrainian (Українська) · Finnish (suomi) · Japanese (日本語) · Farsi (فارسى) · Korean (한국어) · Croatian (hrvatski) · Norwegian (Norsk bokmål)
+Arabic (العربية) · Chinese (中文) · English · Spanish (Español) · Portuguese (Português) · German (Deutsch) · Greek (Ελληνικά) · French (Français) · Russian (Русский) · Polish (Polski) · Indonesian (Bahasa Indonesia) · Turkish (Türkçe) · Italian (Italiano) · Dutch (Nederlands) · Romanian (Română) · Ukrainian (Українська) · Finnish (suomi) · Japanese (日本語) · Farsi (فارسى) · Korean (한국어) · Croatian (hrvatski) · Norwegian (Norsk bokmål)
 
 ---
 

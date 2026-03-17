@@ -15,5 +15,5 @@ Nøkkelfunksjoner
 - Lydsignal: Lydvarsler for hvert bryggtrinn.
 - Automatisk logging: Hver sesjon registreres automatisk.
 - Synkronisering mellom enheter: Oppskrifter, bønner og brygg synkronisert på tvers av alle enhetene dine.
-- 21 språk: Fullt lokalisert for et globalt publikum.
+- 22 språk: Fullt lokalisert for et globalt publikum.
 - Mørk modus: Behagelig for øynene til enhver tid.

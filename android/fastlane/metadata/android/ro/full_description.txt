@@ -15,5 +15,5 @@ Caracteristici cheie
 - Semnal sonor: alerte audio la fiecare etapă de preparare.
 - Înregistrare automată: fiecare sesiune este înregistrată automat.
 - Sincronizare între dispozitive: rețete, boabe și preparări sincronizate pe toate dispozitivele dvs.
-- 21 de limbi: complet localizat pentru un public global.
+- 22 de limbi: complet localizat pentru un public global.
 - Mod întunecat: confortabil pentru ochi la orice oră.

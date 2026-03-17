@@ -15,5 +15,5 @@ Hauptfunktionen
 - Klangsignal: Audiobenachrichtigungen für jeden Brühschritt.
 - Automatische Protokollierung: Jede Sitzung wird automatisch aufgezeichnet.
 - Gerätesynchronisierung: Rezepte, Bohnen und Brühungen auf all deinen Geräten synchronisiert.
-- 21 Sprachen: Vollständig lokalisiert für ein weltweites Publikum.
+- 22 Sprachen: Vollständig lokalisiert für ein weltweites Publikum.
 - Dunkelmodus: Schont die Augen zu jeder Tages- und Nachtzeit.

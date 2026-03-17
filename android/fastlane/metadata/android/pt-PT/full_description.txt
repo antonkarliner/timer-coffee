@@ -15,5 +15,5 @@ Funcionalidades principais
 - Sinal sonoro: alertas de áudio em cada etapa da preparação.
 - Registo automático: cada sessão é registada automaticamente.
 - Sincronização entre dispositivos: receitas, grãos e preparações sincronizados em todos os seus dispositivos.
-- 21 idiomas: totalmente localizado para um público global.
+- 22 idiomas: totalmente localizado para um público global.
 - Modo escuro: confortável para os olhos a qualquer hora.

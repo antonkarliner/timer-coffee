@@ -15,5 +15,5 @@ Fitur Utama
 - Notifikasi suara: peringatan audio untuk setiap langkah penyeduhan.
 - Pencatatan otomatis: setiap sesi dicatat secara otomatis.
 - Sinkronisasi perangkat: resep, biji, dan catatan seduh tersinkron di semua perangkat Anda.
-- 21 bahasa: terlokalisasi penuh untuk audiens global.
+- 22 bahasa: terlokalisasi penuh untuk audiens global.
 - Mode gelap: nyaman di mata kapan saja.

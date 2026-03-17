@@ -15,5 +15,5 @@ Kluczowe funkcje
 - Sygnał dźwiękowy: alerty audio dla każdego etapu parzenia.
 - Automatyczne rejestrowanie: każda sesja jest automatycznie rejestrowana.
 - Synchronizacja urządzeń: przepisy, ziarna i parzenia zsynchronizowane na wszystkich urządzeniach.
-- 21 języków: w pełni zlokalizowane dla globalnej publiczności.
+- 22 języki: w pełni zlokalizowane dla globalnej publiczności.
 - Tryb ciemny: przyjazny dla oczu o każdej porze dnia.

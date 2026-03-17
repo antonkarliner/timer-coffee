@@ -15,5 +15,5 @@ Funzionalità principali
 - Segnale audio: Avvisi sonori per ogni fase di preparazione.
 - Registrazione automatica: Ogni sessione viene registrata automaticamente.
 - Sincronizzazione dispositivi: Ricette, chicchi e preparazioni sincronizzati su tutti i tuoi dispositivi.
-- 21 lingue: Completamente localizzata per un pubblico globale.
+- 22 lingue: Completamente localizzata per un pubblico globale.
 - Modalità scura: Piacevole per gli occhi a qualsiasi ora.

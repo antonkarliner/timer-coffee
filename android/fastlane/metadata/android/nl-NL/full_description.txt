@@ -15,5 +15,5 @@ Belangrijkste functies
 - Geluidssignaal: audio-meldingen bij elke zetstap.
 - Automatische registratie: elke sessie wordt automatisch vastgelegd.
 - Apparaatsynchronisatie: recepten, bonen en zetwerk gesynchroniseerd op al je apparaten.
-- 21 talen: volledig gelokaliseerd voor een wereldwijd publiek.
+- 22 talen: volledig gelokaliseerd voor een wereldwijd publiek.
 - Donkere modus: aangenaam voor de ogen op elk uur.

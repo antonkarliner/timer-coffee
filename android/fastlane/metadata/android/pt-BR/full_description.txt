@@ -15,5 +15,5 @@ Recursos principais
 - Sinal sonoro: alertas de áudio em cada etapa do preparo.
 - Registro automático: cada sessão é registrada automaticamente.
 - Sincronização de dispositivos: receitas, grãos e preparos sincronizados em todos os seus dispositivos.
-- 21 idiomas: totalmente localizado para um público global.
+- 22 idiomas: totalmente localizado para um público global.
 - Modo escuro: confortável para os olhos a qualquer hora.

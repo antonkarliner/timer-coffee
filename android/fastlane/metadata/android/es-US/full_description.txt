@@ -15,5 +15,5 @@ Características clave
 - Aviso sonoro: alertas de audio en cada paso de la preparación.
 - Registro automático: cada sesión se registra automáticamente.
 - Sincronización de dispositivos: recetas, granos y preparaciones sincronizados en todos tus dispositivos.
-- 21 idiomas: completamente localizada para una audiencia global.
+- 22 idiomas: completamente localizada para una audiencia global.
 - Modo oscuro: cómodo para los ojos a cualquier hora.

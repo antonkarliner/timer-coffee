@@ -15,5 +15,5 @@ Key Features
 - Audio Chime: Audio alerts for every brewing step.
 - Automatic Logging: Every session is recorded automatically.
 - Device Sync: Recipes, beans, and brews synced across all your devices.
-- 21 Languages: Fully localized for a global audience.
+- 22 Languages: Fully localized for a global audience.
 - Dark Mode: Easy on the eyes at any hour.

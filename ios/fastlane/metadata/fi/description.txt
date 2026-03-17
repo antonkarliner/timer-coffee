@@ -15,5 +15,5 @@ Keskeiset ominaisuudet
 - Äänimerkki: äänimerkit jokaisesta uuttovaiheesta.
 - Automaattinen kirjaus: jokainen sessio kirjataan automaattisesti.
 - Laitesynkronointi: reseptit, pavut ja uutot synkronoituna kaikille laitteillesi.
-- 21 kieltä: täysin lokalisoitu globaalille yleisölle.
+- 22 kieltä: täysin lokalisoitu globaalille yleisölle.
 - Tumma tila: silmäystävällinen mihin vuorokaudenaikaan tahansa.
