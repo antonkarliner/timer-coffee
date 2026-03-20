@@ -22,6 +22,7 @@ import 'package:uuid/uuid.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
+import '../services/onboarding_service.dart';
 
 // Image flow controller and widgets
 import 'package:coffee_timer/controllers/new_beans_image_controller.dart';
@@ -437,6 +438,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       } else {
         resultUuid = await coffeeBeansProvider.addCoffeeBeans(bean);
         await _insertBeansDataToSupabase(bean);
+        if (mounted) {
+          Provider.of<OnboardingService>(context, listen: false)
+              .completeMilestoneAddBeans();
+        }
       }
 
       if (mounted) {

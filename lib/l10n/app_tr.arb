@@ -885,5 +885,22 @@
   "brewTime": "Saat",
   "brewEntrySaved": "Demleme kaydı kaydedildi",
   "brewingMethodRequired": "Lütfen bir demleme yöntemi seçin",
-  "recipeRequired": "Lütfen bir tarif seçin"
+  "recipeRequired": "Lütfen bir tarif seçin",
+  "onboardingTitle": "Timer.Coffee'ya hoş geldiniz",
+  "onboardingSubtitle": "Kahvenizi hangi yöntemle demliyorsunuz?",
+  "onboardingShowAll": "Tüm yöntemleri göster",
+  "coffeeJourneyTitle": "İlk Adımlar",
+  "coffeeJourneyMilestoneFirstBrew": "İlk demlemenizi tamamlayın",
+  "coffeeJourneyMilestoneTryMethod": "Farklı bir demleme yöntemi deneyin",
+  "coffeeJourneyMilestoneAddBeans": "İlk kahve çekirdeklerinizi ekleyin",
+  "coffeeJourneyMilestoneFavorite": "Bir tarifi favorilere ekleyin",
+  "coffeeJourneyMilestoneStats": "Demleme istatistiklerinize göz atın",
+  "coffeeJourneyMilestonePulse": "Dünyanın sizinle birlikte nasıl demlediğini görün",
+  "coffeeJourneyCompleted": "İlk adımları tamamladınız!",
+  "coffeeJourneyDoneButton": "Tamam",
+  "coffeeJourneyDismissHint": "İlerlemenizi her zaman Daha Fazla sekmesinde kontrol edebilirsiniz.",
+  "coffeeJourneyDismissConfirm": "İlk Adımlar bölümündeki ilerlemenizi gizlemek ister misiniz?",
+  "coffeeJourneyHideButton": "Gizle",
+  "firstBrewCongrats": "İlk demlemeniz için tebrikler! Demleme Günlüğü'ne kaydedildi.",
+  "firstBrewDiaryLink": "Demleme Günlüğü'nü görüntüle"
 }

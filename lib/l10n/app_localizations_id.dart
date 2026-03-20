@@ -2129,4 +2129,63 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get recipeRequired => 'Silakan pilih resep';
+
+  @override
+  String get onboardingTitle => 'Selamat datang di Timer.Coffee';
+
+  @override
+  String get onboardingSubtitle => 'Anda biasa menyeduh dengan metode apa?';
+
+  @override
+  String get onboardingShowAll => 'Tampilkan Semua Metode';
+
+  @override
+  String get coffeeJourneyTitle => 'Langkah Pertama';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew =>
+      'Selesaikan seduhan pertama Anda';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod =>
+      'Coba metode seduh yang berbeda';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans =>
+      'Tambahkan biji kopi pertama Anda';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite => 'Tambahkan resep ke favorit';
+
+  @override
+  String get coffeeJourneyMilestoneStats => 'Periksa statistik seduh Anda';
+
+  @override
+  String get coffeeJourneyMilestonePulse =>
+      'Lihat bagaimana dunia menyeduh bersama Anda';
+
+  @override
+  String get coffeeJourneyCompleted =>
+      'Anda telah menyelesaikan perjalanan kopi Anda!';
+
+  @override
+  String get coffeeJourneyDoneButton => 'Selesai';
+
+  @override
+  String get coffeeJourneyDismissHint =>
+      'Anda selalu dapat memeriksa progres Anda di tab Lainnya.';
+
+  @override
+  String get coffeeJourneyDismissConfirm =>
+      'Apakah Anda ingin menyembunyikan progres perjalanan kopi Anda?';
+
+  @override
+  String get coffeeJourneyHideButton => 'Sembunyikan';
+
+  @override
+  String get firstBrewCongrats =>
+      'Selamat atas seduhan pertama Anda! Seduhan itu telah disimpan ke Diari Seduhan Anda.';
+
+  @override
+  String get firstBrewDiaryLink => 'Lihat Diari Seduhan';
 }

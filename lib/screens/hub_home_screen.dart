@@ -22,6 +22,8 @@ import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
 import '../theme/design_tokens.dart'; // Import design tokens for AppRadius
 import '../utils/app_logger.dart'; // Import AppLogger
 import '../widgets/base_buttons.dart';
+import '../widgets/coffee_journey_card.dart';
+import '../services/onboarding_service.dart';
 import 'pulse_screen.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 // Added import
@@ -144,6 +146,9 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         AppLogger.info('FCM token updated successfully for new user ID');
       }
 
+      // Returning user detection: auto-complete milestones based on synced data.
+      await _reconcileMilestonesAfterSync();
+
       AppLogger.info('Data synchronization completed successfully');
     } catch (e) {
       AppLogger.error('Error syncing user data', errorObject: e);
@@ -155,6 +160,48 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
         );
       }
     }
+  }
+
+  /// After login + sync, auto-complete milestones that the synced data proves
+  /// the user has already achieved. Leaves undiscovered features unchecked.
+  Future<void> _reconcileMilestonesAfterSync() async {
+    final onboarding =
+        Provider.of<OnboardingService>(context, listen: false);
+    if (onboarding.journeyFullyDone) return; // nothing to do
+
+    final stats = await _userStatProvider.fetchAllUserStats();
+    if (stats.isEmpty) return; // genuinely new user
+
+    // Mark onboarding welcome as complete (they've used the app before).
+    await onboarding.completeOnboarding();
+
+    // First brew
+    final firstStat = stats.first;
+    await onboarding.recordBrew(firstStat.brewingMethodId);
+
+    // Tried multiple methods?
+    final distinctMethods =
+        stats.map((s) => s.brewingMethodId).toSet();
+    if (distinctMethods.length > 1) {
+      for (final methodId in distinctMethods) {
+        await onboarding.recordBrew(methodId);
+      }
+    }
+
+    // Has coffee beans?
+    final beans = await _coffeeBeansProvider.fetchAllCoffeeBeans();
+    if (beans.isNotEmpty) {
+      await onboarding.completeMilestoneAddBeans();
+    }
+
+    // Has favorites?
+    final favorites = _recipeProvider.getFavoriteRecipes();
+    if (favorites.isNotEmpty) {
+      await onboarding.completeMilestoneFavorite();
+    }
+
+    AppLogger.debug(
+        'Returning user milestones reconciled: ${onboarding.completedMilestoneCount}/${OnboardingService.totalMilestones}');
   }
 
   Future<void> _updateFcmToken() async {
@@ -313,6 +360,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
               },
             ),
           ),
+          const CoffeeJourneyCard(location: JourneyCardLocation.hub),
         ],
       ),
     );

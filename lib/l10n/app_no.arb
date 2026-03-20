@@ -1202,5 +1202,22 @@
   "brewTime": "Tid",
   "brewEntrySaved": "Bryggeoppføring lagret",
   "brewingMethodRequired": "Vennligst velg en bryggemetode",
-  "recipeRequired": "Vennligst velg en oppskrift"
+  "recipeRequired": "Vennligst velg en oppskrift",
+  "onboardingTitle": "Velkommen til Timer.Coffee",
+  "onboardingSubtitle": "Hva brygger du med?",
+  "onboardingShowAll": "Vis alle bryggemetoder",
+  "coffeeJourneyTitle": "Første steg",
+  "coffeeJourneyMilestoneFirstBrew": "Fullfør ditt første brygg",
+  "coffeeJourneyMilestoneTryMethod": "Prøv en annen bryggemetode",
+  "coffeeJourneyMilestoneAddBeans": "Legg til dine første kaffebønner",
+  "coffeeJourneyMilestoneFavorite": "Legg til en oppskrift i favoritter",
+  "coffeeJourneyMilestoneStats": "Sjekk bryggestatistikken din",
+  "coffeeJourneyMilestonePulse": "Se hvordan verden brygger sammen med deg",
+  "coffeeJourneyCompleted": "Du har fullført de første stegene!",
+  "coffeeJourneyDoneButton": "Ferdig",
+  "coffeeJourneyDismissHint": "Du kan alltid sjekke fremdriften din i fanen Mer.",
+  "coffeeJourneyDismissConfirm": "Vil du skjule fremdriften din i delen Første steg?",
+  "coffeeJourneyHideButton": "Skjul",
+  "firstBrewCongrats": "Gratulerer med ditt første brygg! Det har blitt lagret i Bryggdagboken din.",
+  "firstBrewDiaryLink": "Vis Bryggdagbok"
 }

@@ -2119,4 +2119,59 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recipeRequired => 'Please select a recipe';
+
+  @override
+  String get onboardingTitle => 'Welcome to Timer.Coffee';
+
+  @override
+  String get onboardingSubtitle => 'What do you brew with?';
+
+  @override
+  String get onboardingShowAll => 'Show All Methods';
+
+  @override
+  String get coffeeJourneyTitle => 'First Steps';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew => 'Complete your first brew';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod =>
+      'Try a different brewing method';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans => 'Add your first coffee beans';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite => 'Favorite a recipe';
+
+  @override
+  String get coffeeJourneyMilestoneStats => 'Check your brew stats';
+
+  @override
+  String get coffeeJourneyMilestonePulse => 'See how the world brews with you';
+
+  @override
+  String get coffeeJourneyCompleted => 'You\'ve completed your coffee journey!';
+
+  @override
+  String get coffeeJourneyDoneButton => 'Done';
+
+  @override
+  String get coffeeJourneyDismissHint =>
+      'You can always check your progress in the More tab.';
+
+  @override
+  String get coffeeJourneyDismissConfirm =>
+      'Would you like to hide your Coffee Journey progress?';
+
+  @override
+  String get coffeeJourneyHideButton => 'Hide';
+
+  @override
+  String get firstBrewCongrats =>
+      'Congratulations on your first brew! It has been saved to your Brew Diary.';
+
+  @override
+  String get firstBrewDiaryLink => 'View Brew Diary';
 }

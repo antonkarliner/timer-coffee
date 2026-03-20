@@ -2169,4 +2169,60 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get recipeRequired => 'Proszę wybrać przepis';
+
+  @override
+  String get onboardingTitle => 'Witamy w Timer.Coffee';
+
+  @override
+  String get onboardingSubtitle => 'Czym parzysz kawę?';
+
+  @override
+  String get onboardingShowAll => 'Pokaż wszystkie metody';
+
+  @override
+  String get coffeeJourneyTitle => 'Pierwsze kroki';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew => 'Ukończ pierwsze parzenie';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod => 'Wypróbuj inną metodę parzenia';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans =>
+      'Dodaj swoje pierwsze ziarna kawy';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite => 'Dodaj przepis do ulubionych';
+
+  @override
+  String get coffeeJourneyMilestoneStats => 'Sprawdź statystyki parzenia';
+
+  @override
+  String get coffeeJourneyMilestonePulse =>
+      'Zobacz, jak świat parzy razem z Tobą';
+
+  @override
+  String get coffeeJourneyCompleted => 'Masz za sobą pierwsze kroki!';
+
+  @override
+  String get coffeeJourneyDoneButton => 'Gotowe';
+
+  @override
+  String get coffeeJourneyDismissHint =>
+      'Zawsze możesz sprawdzić swoje postępy w karcie Więcej.';
+
+  @override
+  String get coffeeJourneyDismissConfirm =>
+      'Czy chcesz ukryć postępy w sekcji Pierwsze kroki?';
+
+  @override
+  String get coffeeJourneyHideButton => 'Ukryj';
+
+  @override
+  String get firstBrewCongrats =>
+      'Gratulacje z okazji pierwszego parzenia! Zostało zapisane w Dzienniku Parzenia.';
+
+  @override
+  String get firstBrewDiaryLink => 'Zobacz Dziennik Parzenia';
 }

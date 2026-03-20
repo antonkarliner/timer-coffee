@@ -19,6 +19,7 @@ import 'package:coffee_timer/widgets/roaster_logo.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../services/onboarding_service.dart';
 
 /// Custom plate widget for RoasterLogo with background styling and horizontal logo adaptation
 class _StatsRoasterLogoPlate extends StatefulWidget {
@@ -156,6 +157,12 @@ class _StatsScreenState extends State<StatsScreen> {
 
       // Initial total
       await _refreshGlobalTotal();
+
+      // Mark stats milestone for onboarding
+      if (mounted) {
+        Provider.of<OnboardingService>(context, listen: false)
+            .completeMilestoneStats();
+      }
 
       // Start realtime updates
       _realtime.start(onEvent: ({

@@ -2069,4 +2069,55 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get recipeRequired => '레시피를 선택해 주세요';
+
+  @override
+  String get onboardingTitle => 'Timer.Coffee에 오신 것을 환영합니다';
+
+  @override
+  String get onboardingSubtitle => '어떤 추출 방법을 사용하시나요?';
+
+  @override
+  String get onboardingShowAll => '모든 추출 방법 보기';
+
+  @override
+  String get coffeeJourneyTitle => '첫걸음';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew => '첫 추출 완료하기';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod => '다른 추출 방법 시도하기';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans => '첫 원두 추가하기';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite => '레시피를 좋아하는 목록에 추가하기';
+
+  @override
+  String get coffeeJourneyMilestoneStats => '추출 통계 확인하기';
+
+  @override
+  String get coffeeJourneyMilestonePulse => '전 세계 사람들이 어떻게 추출하는지 보기';
+
+  @override
+  String get coffeeJourneyCompleted => '커피 여정을 완료했어요!';
+
+  @override
+  String get coffeeJourneyDoneButton => '완료';
+
+  @override
+  String get coffeeJourneyDismissHint => '진행 상황은 언제든지 더 보기 탭에서 확인할 수 있어요.';
+
+  @override
+  String get coffeeJourneyDismissConfirm => '커피 여정 진행 상황을 숨길까요?';
+
+  @override
+  String get coffeeJourneyHideButton => '숨기기';
+
+  @override
+  String get firstBrewCongrats => '첫 추출을 축하합니다! 브루잉 일지에 저장되었어요.';
+
+  @override
+  String get firstBrewDiaryLink => '브루잉 일지 보기';
 }

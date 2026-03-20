@@ -2069,4 +2069,55 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get recipeRequired => 'レシピを選択してください';
+
+  @override
+  String get onboardingTitle => 'Timer.Coffeeへようこそ';
+
+  @override
+  String get onboardingSubtitle => 'どの抽出方法で淹れますか？';
+
+  @override
+  String get onboardingShowAll => 'すべての抽出方法を表示';
+
+  @override
+  String get coffeeJourneyTitle => 'はじめの一歩';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew => '最初の1杯を淹れる';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod => '別の抽出方法を試す';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans => '最初の豆を追加';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite => 'レシピをお気に入りに追加';
+
+  @override
+  String get coffeeJourneyMilestoneStats => '抽出統計を確認';
+
+  @override
+  String get coffeeJourneyMilestonePulse => '世界中のみんながどう淹れているかを見る';
+
+  @override
+  String get coffeeJourneyCompleted => 'コーヒーの旅を完了しました！';
+
+  @override
+  String get coffeeJourneyDoneButton => '完了';
+
+  @override
+  String get coffeeJourneyDismissHint => '進捗はいつでももっとタブで確認できます。';
+
+  @override
+  String get coffeeJourneyDismissConfirm => 'コーヒーの旅の進捗を非表示にしますか？';
+
+  @override
+  String get coffeeJourneyHideButton => '非表示';
+
+  @override
+  String get firstBrewCongrats => '最初の抽出、おめでとうございます！抽出日記に保存されました。';
+
+  @override
+  String get firstBrewDiaryLink => '抽出日記を見る';
 }

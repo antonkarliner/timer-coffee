@@ -885,5 +885,22 @@
   "brewTime": "Tijd",
   "brewEntrySaved": "Zetvermelding opgeslagen",
   "brewingMethodRequired": "Selecteer een zetmethode",
-  "recipeRequired": "Selecteer een recept"
+  "recipeRequired": "Selecteer een recept",
+  "onboardingTitle": "Welkom bij Timer.Coffee",
+  "onboardingSubtitle": "Waarmee zet je koffie?",
+  "onboardingShowAll": "Toon alle zetmethoden",
+  "coffeeJourneyTitle": "Eerste stappen",
+  "coffeeJourneyMilestoneFirstBrew": "Rond je eerste zetbeurt af",
+  "coffeeJourneyMilestoneTryMethod": "Probeer een andere zetmethode",
+  "coffeeJourneyMilestoneAddBeans": "Voeg je eerste koffiebonen toe",
+  "coffeeJourneyMilestoneFavorite": "Voeg een recept toe aan favorieten",
+  "coffeeJourneyMilestoneStats": "Bekijk je brouwstatistieken",
+  "coffeeJourneyMilestonePulse": "Zie hoe er wereldwijd koffie wordt gezet",
+  "coffeeJourneyCompleted": "Je hebt je eerste stappen afgerond!",
+  "coffeeJourneyDoneButton": "Klaar",
+  "coffeeJourneyDismissHint": "Je kunt je voortgang altijd bekijken op het tabblad Meer.",
+  "coffeeJourneyDismissConfirm": "Wil je je voortgang in de sectie Eerste stappen verbergen?",
+  "coffeeJourneyHideButton": "Verbergen",
+  "firstBrewCongrats": "Gefeliciteerd met je eerste zetbeurt! Deze is opgeslagen in je Brouwdagboek.",
+  "firstBrewDiaryLink": "Brouwdagboek bekijken"
 }

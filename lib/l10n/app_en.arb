@@ -1262,5 +1262,25 @@
   "brewTime": "Time",
   "brewEntrySaved": "Brew entry saved",
   "brewingMethodRequired": "Please select a brewing method",
-  "recipeRequired": "Please select a recipe"
+  "recipeRequired": "Please select a recipe",
+
+  "onboardingTitle": "Welcome to Timer.Coffee",
+  "onboardingSubtitle": "What do you brew with?",
+  "onboardingShowAll": "Show All Methods",
+
+  "coffeeJourneyTitle": "First Steps",
+  "coffeeJourneyMilestoneFirstBrew": "Complete your first brew",
+  "coffeeJourneyMilestoneTryMethod": "Try a different brewing method",
+  "coffeeJourneyMilestoneAddBeans": "Add your first coffee beans",
+  "coffeeJourneyMilestoneFavorite": "Favorite a recipe",
+  "coffeeJourneyMilestoneStats": "Check your brew stats",
+  "coffeeJourneyMilestonePulse": "See how the world brews with you",
+  "coffeeJourneyCompleted": "You've completed your coffee journey!",
+  "coffeeJourneyDoneButton": "Done",
+  "coffeeJourneyDismissHint": "You can always check your progress in the More tab.",
+  "coffeeJourneyDismissConfirm": "Would you like to hide your Coffee Journey progress?",
+  "coffeeJourneyHideButton": "Hide",
+
+  "firstBrewCongrats": "Congratulations on your first brew! It has been saved to your Brew Diary.",
+  "firstBrewDiaryLink": "View Brew Diary"
 }

@@ -478,7 +478,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get homescreenhub => '中心区';
 
   @override
-  String get homescreenmore => '更';
+  String get homescreenmore => '更多';
 
   @override
   String get addBeans => '添加咖啡豆';
@@ -2061,4 +2061,55 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get recipeRequired => '请选择配方';
+
+  @override
+  String get onboardingTitle => '欢迎使用 Timer.Coffee';
+
+  @override
+  String get onboardingSubtitle => '通常用什么方式冲煮？';
+
+  @override
+  String get onboardingShowAll => '显示所有冲煮方式';
+
+  @override
+  String get coffeeJourneyTitle => '第一步';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew => '完成第一次冲煮';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod => '尝试不同的冲煮方式';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans => '添加第一款咖啡豆';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite => '将配方添加到收藏夹';
+
+  @override
+  String get coffeeJourneyMilestoneStats => '查看冲泡统计';
+
+  @override
+  String get coffeeJourneyMilestonePulse => '看看世界各地的人都在怎么冲煮';
+
+  @override
+  String get coffeeJourneyCompleted => '已完成咖啡之旅！';
+
+  @override
+  String get coffeeJourneyDoneButton => '完成';
+
+  @override
+  String get coffeeJourneyDismissHint => '随时都可以在“更多”标签页查看进度。';
+
+  @override
+  String get coffeeJourneyDismissConfirm => '要隐藏咖啡之旅进度吗？';
+
+  @override
+  String get coffeeJourneyHideButton => '隐藏';
+
+  @override
+  String get firstBrewCongrats => '恭喜完成第一次冲煮！它已保存到冲煮日记中。';
+
+  @override
+  String get firstBrewDiaryLink => '查看冲煮日记';
 }

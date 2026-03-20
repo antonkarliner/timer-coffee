@@ -885,5 +885,22 @@
   "brewTime": "Время",
   "brewEntrySaved": "Запись заваривания сохранена",
   "brewingMethodRequired": "Пожалуйста, выберите способ заваривания",
-  "recipeRequired": "Пожалуйста, выберите рецепт"
+  "recipeRequired": "Пожалуйста, выберите рецепт",
+  "onboardingTitle": "Добро пожаловать в Timer.Coffee",
+  "onboardingSubtitle": "Как вы завариваете кофе?",
+  "onboardingShowAll": "Показать все способы",
+  "coffeeJourneyTitle": "Первые шаги",
+  "coffeeJourneyMilestoneFirstBrew": "Завершите свою первую заварку",
+  "coffeeJourneyMilestoneTryMethod": "Попробуйте другой способ заваривания",
+  "coffeeJourneyMilestoneAddBeans": "Добавьте свои первые зерна",
+  "coffeeJourneyMilestoneFavorite": "Добавьте рецепт в избранное",
+  "coffeeJourneyMilestoneStats": "Проверьте статистику заваривания",
+  "coffeeJourneyMilestonePulse": "Посмотрите, как мир заваривает вместе с вами",
+  "coffeeJourneyCompleted": "Вы сделали свои первые шаги!",
+  "coffeeJourneyDoneButton": "Готово",
+  "coffeeJourneyDismissHint": "Вы всегда можете посмотреть свой прогресс на вкладке Ещё.",
+  "coffeeJourneyDismissConfirm": "Хотите скрыть свой прогресс в разделе Первые шаги?",
+  "coffeeJourneyHideButton": "Скрыть",
+  "firstBrewCongrats": "Поздравляем с первой заваркой! Она сохранена в Дневнике заварок.",
+  "firstBrewDiaryLink": "Открыть Дневник заварок"
 }

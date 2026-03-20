@@ -2134,4 +2134,62 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get recipeRequired => 'Lütfen bir tarif seçin';
+
+  @override
+  String get onboardingTitle => 'Timer.Coffee\'ya hoş geldiniz';
+
+  @override
+  String get onboardingSubtitle => 'Kahvenizi hangi yöntemle demliyorsunuz?';
+
+  @override
+  String get onboardingShowAll => 'Tüm yöntemleri göster';
+
+  @override
+  String get coffeeJourneyTitle => 'İlk Adımlar';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew => 'İlk demlemenizi tamamlayın';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod =>
+      'Farklı bir demleme yöntemi deneyin';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans =>
+      'İlk kahve çekirdeklerinizi ekleyin';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite => 'Bir tarifi favorilere ekleyin';
+
+  @override
+  String get coffeeJourneyMilestoneStats =>
+      'Demleme istatistiklerinize göz atın';
+
+  @override
+  String get coffeeJourneyMilestonePulse =>
+      'Dünyanın sizinle birlikte nasıl demlediğini görün';
+
+  @override
+  String get coffeeJourneyCompleted => 'İlk adımları tamamladınız!';
+
+  @override
+  String get coffeeJourneyDoneButton => 'Tamam';
+
+  @override
+  String get coffeeJourneyDismissHint =>
+      'İlerlemenizi her zaman Daha Fazla sekmesinde kontrol edebilirsiniz.';
+
+  @override
+  String get coffeeJourneyDismissConfirm =>
+      'İlk Adımlar bölümündeki ilerlemenizi gizlemek ister misiniz?';
+
+  @override
+  String get coffeeJourneyHideButton => 'Gizle';
+
+  @override
+  String get firstBrewCongrats =>
+      'İlk demlemeniz için tebrikler! Demleme Günlüğü\'ne kaydedildi.';
+
+  @override
+  String get firstBrewDiaryLink => 'Demleme Günlüğü\'nü görüntüle';
 }

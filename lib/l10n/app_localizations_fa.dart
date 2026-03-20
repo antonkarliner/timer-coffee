@@ -2117,4 +2117,63 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get recipeRequired => 'لطفاً یک دستور انتخاب کنید';
+
+  @override
+  String get onboardingTitle => 'به Timer.Coffee خوش آمدید';
+
+  @override
+  String get onboardingSubtitle => 'قهوه‌تان را با چه روشی دم می‌کنید؟';
+
+  @override
+  String get onboardingShowAll => 'نمایش همه روش‌های دم‌آوری';
+
+  @override
+  String get coffeeJourneyTitle => 'قدم‌های اول';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew =>
+      'اولین دم‌آوری‌تان را کامل کنید';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod =>
+      'یک روش دم‌آوری دیگر را امتحان کنید';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans =>
+      'اولین دانه‌های قهوه‌تان را اضافه کنید';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite =>
+      'یک دستور را به موردعلاقه‌ها اضافه کنید';
+
+  @override
+  String get coffeeJourneyMilestoneStats => 'آمار دم‌آوری‌تان را ببینید';
+
+  @override
+  String get coffeeJourneyMilestonePulse =>
+      'ببینید دنیا همراه شما چگونه قهوه دم می‌کند';
+
+  @override
+  String get coffeeJourneyCompleted => 'قدم‌های اول را کامل کردید!';
+
+  @override
+  String get coffeeJourneyDoneButton => 'تمام';
+
+  @override
+  String get coffeeJourneyDismissHint =>
+      'همیشه می‌توانید پیشرفتتان را در تب بیشتر ببینید.';
+
+  @override
+  String get coffeeJourneyDismissConfirm =>
+      'می‌خواهید پیشرفتتان در بخش قدم‌های اول را پنهان کنید؟';
+
+  @override
+  String get coffeeJourneyHideButton => 'پنهان کن';
+
+  @override
+  String get firstBrewCongrats =>
+      'اولین دم‌آوری‌تان مبارک! در دفترچه دم ذخیره شد.';
+
+  @override
+  String get firstBrewDiaryLink => 'مشاهده دفترچه دم';
 }

@@ -885,5 +885,22 @@
   "brewTime": "Godzina",
   "brewEntrySaved": "Wpis parzenia zapisany",
   "brewingMethodRequired": "Proszę wybrać metodę parzenia",
-  "recipeRequired": "Proszę wybrać przepis"
+  "recipeRequired": "Proszę wybrać przepis",
+  "onboardingTitle": "Witamy w Timer.Coffee",
+  "onboardingSubtitle": "Czym parzysz kawę?",
+  "onboardingShowAll": "Pokaż wszystkie metody",
+  "coffeeJourneyTitle": "Pierwsze kroki",
+  "coffeeJourneyMilestoneFirstBrew": "Ukończ pierwsze parzenie",
+  "coffeeJourneyMilestoneTryMethod": "Wypróbuj inną metodę parzenia",
+  "coffeeJourneyMilestoneAddBeans": "Dodaj swoje pierwsze ziarna kawy",
+  "coffeeJourneyMilestoneFavorite": "Dodaj przepis do ulubionych",
+  "coffeeJourneyMilestoneStats": "Sprawdź statystyki parzenia",
+  "coffeeJourneyMilestonePulse": "Zobacz, jak świat parzy razem z Tobą",
+  "coffeeJourneyCompleted": "Masz za sobą pierwsze kroki!",
+  "coffeeJourneyDoneButton": "Gotowe",
+  "coffeeJourneyDismissHint": "Zawsze możesz sprawdzić swoje postępy w karcie Więcej.",
+  "coffeeJourneyDismissConfirm": "Czy chcesz ukryć postępy w sekcji Pierwsze kroki?",
+  "coffeeJourneyHideButton": "Ukryj",
+  "firstBrewCongrats": "Gratulacje z okazji pierwszego parzenia! Zostało zapisane w Dzienniku Parzenia.",
+  "firstBrewDiaryLink": "Zobacz Dziennik Parzenia"
 }

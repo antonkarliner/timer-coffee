@@ -885,5 +885,22 @@
   "brewTime": "Час",
   "brewEntrySaved": "Запис заварювання збережено",
   "brewingMethodRequired": "Будь ласка, оберіть спосіб заварювання",
-  "recipeRequired": "Будь ласка, оберіть рецепт"
+  "recipeRequired": "Будь ласка, оберіть рецепт",
+  "onboardingTitle": "Ласкаво просимо до Timer.Coffee",
+  "onboardingSubtitle": "Чим ви заварюєте каву?",
+  "onboardingShowAll": "Показати всі способи",
+  "coffeeJourneyTitle": "Перші кроки",
+  "coffeeJourneyMilestoneFirstBrew": "Завершіть своє перше заварювання",
+  "coffeeJourneyMilestoneTryMethod": "Спробуйте інший спосіб заварювання",
+  "coffeeJourneyMilestoneAddBeans": "Додайте свої перші зерна",
+  "coffeeJourneyMilestoneFavorite": "Додайте рецепт до обраного",
+  "coffeeJourneyMilestoneStats": "Перегляньте статистику приготування",
+  "coffeeJourneyMilestonePulse": "Подивіться, як світ заварює разом з вами",
+  "coffeeJourneyCompleted": "Ви зробили свої перші кроки!",
+  "coffeeJourneyDoneButton": "Готово",
+  "coffeeJourneyDismissHint": "Ви завжди можете перевірити свій прогрес на вкладці Ще.",
+  "coffeeJourneyDismissConfirm": "Хочете приховати свій прогрес у розділі Перші кроки?",
+  "coffeeJourneyHideButton": "Приховати",
+  "firstBrewCongrats": "Вітаємо з першим заварюванням! Його збережено в Щоденнику заварювань.",
+  "firstBrewDiaryLink": "Переглянути Щоденник заварювань"
 }

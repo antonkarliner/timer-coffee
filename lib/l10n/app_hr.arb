@@ -1051,5 +1051,22 @@
   "brewTime": "Vrijeme",
   "brewEntrySaved": "Zapis pripreme spremljen",
   "brewingMethodRequired": "Molimo odaberite metodu pripreme",
-  "recipeRequired": "Molimo odaberite recept"
+  "recipeRequired": "Molimo odaberite recept",
+  "onboardingTitle": "Dobrodošli u Timer.Coffee",
+  "onboardingSubtitle": "Kako pripremaš kavu?",
+  "onboardingShowAll": "Prikaži sve metode pripreme",
+  "coffeeJourneyTitle": "Prvi koraci",
+  "coffeeJourneyMilestoneFirstBrew": "Dovrši svoju prvu pripremu",
+  "coffeeJourneyMilestoneTryMethod": "Isprobaj drugu metodu pripreme",
+  "coffeeJourneyMilestoneAddBeans": "Dodaj svoja prva zrna kave",
+  "coffeeJourneyMilestoneFavorite": "Dodaj recept u favorite",
+  "coffeeJourneyMilestoneStats": "Provjeri svoju statistiku pripreme",
+  "coffeeJourneyMilestonePulse": "Pogledaj kako svijet priprema kavu s tobom",
+  "coffeeJourneyCompleted": "Prvi koraci su završeni!",
+  "coffeeJourneyDoneButton": "Gotovo",
+  "coffeeJourneyDismissHint": "Svoj napredak uvijek možeš provjeriti na kartici Više.",
+  "coffeeJourneyDismissConfirm": "Želiš li sakriti napredak u odjeljku Prvi koraci?",
+  "coffeeJourneyHideButton": "Sakrij",
+  "firstBrewCongrats": "Čestitamo na tvojoj prvoj pripremi! Spremljena je u tvoj Dnevnik pripreme.",
+  "firstBrewDiaryLink": "Prikaži Dnevnik pripreme"
 }

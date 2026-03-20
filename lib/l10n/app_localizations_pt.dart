@@ -2147,4 +2147,63 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get recipeRequired => 'Por favor, selecione uma receita';
+
+  @override
+  String get onboardingTitle => 'Boas-vindas ao Timer.Coffee';
+
+  @override
+  String get onboardingSubtitle => 'Como você prepara seu café?';
+
+  @override
+  String get onboardingShowAll => 'Mostrar todos os métodos de preparo';
+
+  @override
+  String get coffeeJourneyTitle => 'Primeiros passos';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew => 'Conclua seu primeiro preparo';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod =>
+      'Experimente um método de preparo diferente';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans =>
+      'Adicione seus primeiros grãos de café';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite =>
+      'Adicione uma receita aos favoritos';
+
+  @override
+  String get coffeeJourneyMilestoneStats =>
+      'Confira suas estatísticas de preparo';
+
+  @override
+  String get coffeeJourneyMilestonePulse =>
+      'Veja como o mundo prepara café com você';
+
+  @override
+  String get coffeeJourneyCompleted => 'Você concluiu seus primeiros passos!';
+
+  @override
+  String get coffeeJourneyDoneButton => 'Concluir';
+
+  @override
+  String get coffeeJourneyDismissHint =>
+      'Você sempre pode acompanhar seu progresso na aba Mais.';
+
+  @override
+  String get coffeeJourneyDismissConfirm =>
+      'Você quer ocultar seu progresso na seção Primeiros passos?';
+
+  @override
+  String get coffeeJourneyHideButton => 'Ocultar';
+
+  @override
+  String get firstBrewCongrats =>
+      'Parabéns pelo seu primeiro preparo! Ele foi salvo no seu Diário de Preparo.';
+
+  @override
+  String get firstBrewDiaryLink => 'Ver Diário de Preparo';
 }

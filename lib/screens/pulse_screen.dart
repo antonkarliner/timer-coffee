@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../services/onboarding_service.dart';
 
 class _PulseEntry {
   final int? id;
@@ -162,6 +163,7 @@ class _PulseScreenState extends State<PulseScreen>
   @override
   void initState() {
     super.initState();
+    _completePulseMilestone();
     _summaryDotPulseController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 3200),
@@ -205,6 +207,11 @@ class _PulseScreenState extends State<PulseScreen>
     super.reassemble();
     // Hot reload can leave stale realtime callbacks alive after class-shape edits.
     _restartRealtimeSubscription();
+  }
+
+  void _completePulseMilestone() {
+    Provider.of<OnboardingService>(context, listen: false)
+        .completeMilestonePulse();
   }
 
   @override

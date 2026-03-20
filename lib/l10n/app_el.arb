@@ -1262,5 +1262,22 @@
   "brewTime": "Ώρα",
   "brewEntrySaved": "Η καταχώριση παρασκευής αποθηκεύτηκε",
   "brewingMethodRequired": "Παρακαλώ επιλέξτε μέθοδο παρασκευής",
-  "recipeRequired": "Παρακαλώ επιλέξτε συνταγή"
+  "recipeRequired": "Παρακαλώ επιλέξτε συνταγή",
+  "onboardingTitle": "Καλώς ήρθατε στο Timer.Coffee",
+  "onboardingSubtitle": "Πώς φτιάχνετε τον καφέ σας;",
+  "onboardingShowAll": "Εμφάνιση όλων των μεθόδων",
+  "coffeeJourneyTitle": "Πρώτα βήματα",
+  "coffeeJourneyMilestoneFirstBrew": "Ολοκληρώστε την πρώτη σας παρασκευή",
+  "coffeeJourneyMilestoneTryMethod": "Δοκιμάστε μια διαφορετική μέθοδο παρασκευής",
+  "coffeeJourneyMilestoneAddBeans": "Προσθέστε τους πρώτους σας κόκκους καφέ",
+  "coffeeJourneyMilestoneFavorite": "Προσθέστε μια συνταγή στα αγαπημένα",
+  "coffeeJourneyMilestoneStats": "Δείτε τα στατιστικά παρασκευής",
+  "coffeeJourneyMilestonePulse": "Δείτε πώς παρασκευάζει καφέ ο κόσμος μαζί σας",
+  "coffeeJourneyCompleted": "Ολοκληρώσατε τα πρώτα σας βήματα!",
+  "coffeeJourneyDoneButton": "Τέλος",
+  "coffeeJourneyDismissHint": "Μπορείτε πάντα να ελέγχετε την πρόοδό σας στην καρτέλα Περισσότερα.",
+  "coffeeJourneyDismissConfirm": "Θέλετε να κρύψετε την πρόοδό σας στην ενότητα Πρώτα βήματα;",
+  "coffeeJourneyHideButton": "Απόκρυψη",
+  "firstBrewCongrats": "Συγχαρητήρια για την πρώτη σας παρασκευή! Αποθηκεύτηκε στο Ημερολόγιο παρασκευών.",
+  "firstBrewDiaryLink": "Προβολή Ημερολογίου παρασκευών"
 }

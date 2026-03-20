@@ -2136,4 +2136,60 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get recipeRequired => 'Selecteer een recept';
+
+  @override
+  String get onboardingTitle => 'Welkom bij Timer.Coffee';
+
+  @override
+  String get onboardingSubtitle => 'Waarmee zet je koffie?';
+
+  @override
+  String get onboardingShowAll => 'Toon alle zetmethoden';
+
+  @override
+  String get coffeeJourneyTitle => 'Eerste stappen';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew => 'Rond je eerste zetbeurt af';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod => 'Probeer een andere zetmethode';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans => 'Voeg je eerste koffiebonen toe';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite =>
+      'Voeg een recept toe aan favorieten';
+
+  @override
+  String get coffeeJourneyMilestoneStats => 'Bekijk je brouwstatistieken';
+
+  @override
+  String get coffeeJourneyMilestonePulse =>
+      'Zie hoe er wereldwijd koffie wordt gezet';
+
+  @override
+  String get coffeeJourneyCompleted => 'Je hebt je eerste stappen afgerond!';
+
+  @override
+  String get coffeeJourneyDoneButton => 'Klaar';
+
+  @override
+  String get coffeeJourneyDismissHint =>
+      'Je kunt je voortgang altijd bekijken op het tabblad Meer.';
+
+  @override
+  String get coffeeJourneyDismissConfirm =>
+      'Wil je je voortgang in de sectie Eerste stappen verbergen?';
+
+  @override
+  String get coffeeJourneyHideButton => 'Verbergen';
+
+  @override
+  String get firstBrewCongrats =>
+      'Gefeliciteerd met je eerste zetbeurt! Deze is opgeslagen in je Brouwdagboek.';
+
+  @override
+  String get firstBrewDiaryLink => 'Brouwdagboek bekijken';
 }

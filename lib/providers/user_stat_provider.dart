@@ -246,6 +246,8 @@ class UserStatProvider extends ChangeNotifier {
     return await db.userStatsDao.fetchAllStats();
   }
 
+
+
   Future<UserStatsModel?> fetchUserStatByUuid(String statUuid) async {
     return await db.userStatsDao.fetchStatByUuid(statUuid);
   }

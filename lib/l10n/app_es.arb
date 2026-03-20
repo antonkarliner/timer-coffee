@@ -885,5 +885,22 @@
   "brewTime": "Hora",
   "brewEntrySaved": "Registro de preparación guardado",
   "brewingMethodRequired": "Por favor, selecciona un método de preparación",
-  "recipeRequired": "Por favor, selecciona una receta"
+  "recipeRequired": "Por favor, selecciona una receta",
+  "onboardingTitle": "Bienvenido a Timer.Coffee",
+  "onboardingSubtitle": "¿Cómo preparas tu café?",
+  "onboardingShowAll": "Mostrar todos los métodos de preparación",
+  "coffeeJourneyTitle": "Primeros pasos",
+  "coffeeJourneyMilestoneFirstBrew": "Completa tu primera preparación",
+  "coffeeJourneyMilestoneTryMethod": "Prueba un método de preparación diferente",
+  "coffeeJourneyMilestoneAddBeans": "Añade tus primeros granos de café",
+  "coffeeJourneyMilestoneFavorite": "Añade una receta a favoritos",
+  "coffeeJourneyMilestoneStats": "Consulta tus estadísticas de preparación",
+  "coffeeJourneyMilestonePulse": "Mira cómo el mundo prepara café contigo",
+  "coffeeJourneyCompleted": "¡Has completado tus primeros pasos!",
+  "coffeeJourneyDoneButton": "Listo",
+  "coffeeJourneyDismissHint": "Siempre puedes consultar tu progreso en la pestaña Más.",
+  "coffeeJourneyDismissConfirm": "¿Quieres ocultar tu progreso en la sección Primeros pasos?",
+  "coffeeJourneyHideButton": "Ocultar",
+  "firstBrewCongrats": "¡Felicidades por tu primera preparación! Se ha guardado en tu Diario de preparaciones.",
+  "firstBrewDiaryLink": "Ver Diario de preparaciones"
 }

@@ -885,5 +885,22 @@
   "brewTime": "Waktu",
   "brewEntrySaved": "Catatan seduhan disimpan",
   "brewingMethodRequired": "Silakan pilih metode seduh",
-  "recipeRequired": "Silakan pilih resep"
+  "recipeRequired": "Silakan pilih resep",
+  "onboardingTitle": "Selamat datang di Timer.Coffee",
+  "onboardingSubtitle": "Anda biasa menyeduh dengan metode apa?",
+  "onboardingShowAll": "Tampilkan Semua Metode",
+  "coffeeJourneyTitle": "Langkah Pertama",
+  "coffeeJourneyMilestoneFirstBrew": "Selesaikan seduhan pertama Anda",
+  "coffeeJourneyMilestoneTryMethod": "Coba metode seduh yang berbeda",
+  "coffeeJourneyMilestoneAddBeans": "Tambahkan biji kopi pertama Anda",
+  "coffeeJourneyMilestoneFavorite": "Tambahkan resep ke favorit",
+  "coffeeJourneyMilestoneStats": "Periksa statistik seduh Anda",
+  "coffeeJourneyMilestonePulse": "Lihat bagaimana dunia menyeduh bersama Anda",
+  "coffeeJourneyCompleted": "Anda telah menyelesaikan perjalanan kopi Anda!",
+  "coffeeJourneyDoneButton": "Selesai",
+  "coffeeJourneyDismissHint": "Anda selalu dapat memeriksa progres Anda di tab Lainnya.",
+  "coffeeJourneyDismissConfirm": "Apakah Anda ingin menyembunyikan progres perjalanan kopi Anda?",
+  "coffeeJourneyHideButton": "Sembunyikan",
+  "firstBrewCongrats": "Selamat atas seduhan pertama Anda! Seduhan itu telah disimpan ke Diari Seduhan Anda.",
+  "firstBrewDiaryLink": "Lihat Diari Seduhan"
 }

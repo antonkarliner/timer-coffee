@@ -737,5 +737,22 @@
   "brewTime": "Aika",
   "brewEntrySaved": "Keittomerkintä tallennettu",
   "brewingMethodRequired": "Valitse keittotapa",
-  "recipeRequired": "Valitse resepti"
+  "recipeRequired": "Valitse resepti",
+  "onboardingTitle": "Tervetuloa Timer.Coffeeen",
+  "onboardingSubtitle": "Millä keität kahvisi?",
+  "onboardingShowAll": "Näytä kaikki keittotavat",
+  "coffeeJourneyTitle": "Ensiaskeleet",
+  "coffeeJourneyMilestoneFirstBrew": "Valmista ensimmäinen kahvisi",
+  "coffeeJourneyMilestoneTryMethod": "Kokeile eri keittotapaa",
+  "coffeeJourneyMilestoneAddBeans": "Lisää ensimmäiset kahvipapusi",
+  "coffeeJourneyMilestoneFavorite": "Lisää resepti suosikkeihin",
+  "coffeeJourneyMilestoneStats": "Katso valmistustilastosi",
+  "coffeeJourneyMilestonePulse": "Katso, miten maailma valmistaa kahvia kanssasi",
+  "coffeeJourneyCompleted": "Olet suorittanut ensiaskelesi!",
+  "coffeeJourneyDoneButton": "Valmis",
+  "coffeeJourneyDismissHint": "Voit aina tarkistaa edistymisesi Lisää-välilehdeltä.",
+  "coffeeJourneyDismissConfirm": "Haluatko piilottaa edistymisesi kohdassa Ensiaskeleet?",
+  "coffeeJourneyHideButton": "Piilota",
+  "firstBrewCongrats": "Onnittelut ensimmäisestä valmistuksestasi! Se on tallennettu Uuttopäiväkirjaasi.",
+  "firstBrewDiaryLink": "Näytä Uuttopäiväkirja"
 }

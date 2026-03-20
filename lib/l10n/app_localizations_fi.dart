@@ -2130,4 +2130,59 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get recipeRequired => 'Valitse resepti';
+
+  @override
+  String get onboardingTitle => 'Tervetuloa Timer.Coffeeen';
+
+  @override
+  String get onboardingSubtitle => 'Millä keität kahvisi?';
+
+  @override
+  String get onboardingShowAll => 'Näytä kaikki keittotavat';
+
+  @override
+  String get coffeeJourneyTitle => 'Ensiaskeleet';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew => 'Valmista ensimmäinen kahvisi';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod => 'Kokeile eri keittotapaa';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans => 'Lisää ensimmäiset kahvipapusi';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite => 'Lisää resepti suosikkeihin';
+
+  @override
+  String get coffeeJourneyMilestoneStats => 'Katso valmistustilastosi';
+
+  @override
+  String get coffeeJourneyMilestonePulse =>
+      'Katso, miten maailma valmistaa kahvia kanssasi';
+
+  @override
+  String get coffeeJourneyCompleted => 'Olet suorittanut ensiaskelesi!';
+
+  @override
+  String get coffeeJourneyDoneButton => 'Valmis';
+
+  @override
+  String get coffeeJourneyDismissHint =>
+      'Voit aina tarkistaa edistymisesi Lisää-välilehdeltä.';
+
+  @override
+  String get coffeeJourneyDismissConfirm =>
+      'Haluatko piilottaa edistymisesi kohdassa Ensiaskeleet?';
+
+  @override
+  String get coffeeJourneyHideButton => 'Piilota';
+
+  @override
+  String get firstBrewCongrats =>
+      'Onnittelut ensimmäisestä valmistuksestasi! Se on tallennettu Uuttopäiväkirjaasi.';
+
+  @override
+  String get firstBrewDiaryLink => 'Näytä Uuttopäiväkirja';
 }

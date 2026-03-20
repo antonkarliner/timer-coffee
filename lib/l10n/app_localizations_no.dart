@@ -2134,4 +2134,61 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get recipeRequired => 'Vennligst velg en oppskrift';
+
+  @override
+  String get onboardingTitle => 'Velkommen til Timer.Coffee';
+
+  @override
+  String get onboardingSubtitle => 'Hva brygger du med?';
+
+  @override
+  String get onboardingShowAll => 'Vis alle bryggemetoder';
+
+  @override
+  String get coffeeJourneyTitle => 'Første steg';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew => 'Fullfør ditt første brygg';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod => 'Prøv en annen bryggemetode';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans =>
+      'Legg til dine første kaffebønner';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite =>
+      'Legg til en oppskrift i favoritter';
+
+  @override
+  String get coffeeJourneyMilestoneStats => 'Sjekk bryggestatistikken din';
+
+  @override
+  String get coffeeJourneyMilestonePulse =>
+      'Se hvordan verden brygger sammen med deg';
+
+  @override
+  String get coffeeJourneyCompleted => 'Du har fullført de første stegene!';
+
+  @override
+  String get coffeeJourneyDoneButton => 'Ferdig';
+
+  @override
+  String get coffeeJourneyDismissHint =>
+      'Du kan alltid sjekke fremdriften din i fanen Mer.';
+
+  @override
+  String get coffeeJourneyDismissConfirm =>
+      'Vil du skjule fremdriften din i delen Første steg?';
+
+  @override
+  String get coffeeJourneyHideButton => 'Skjul';
+
+  @override
+  String get firstBrewCongrats =>
+      'Gratulerer med ditt første brygg! Det har blitt lagret i Bryggdagboken din.';
+
+  @override
+  String get firstBrewDiaryLink => 'Vis Bryggdagbok';
 }

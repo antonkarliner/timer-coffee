@@ -9,8 +9,8 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i24;
-import 'package:coffee_timer/models/recipe_model.dart' as _i27;
+import 'package:auto_route/auto_route.dart' as _i25;
+import 'package:coffee_timer/models/recipe_model.dart' as _i28;
 import 'package:coffee_timer/screens/account_screen.dart' as _i1;
 import 'package:coffee_timer/screens/brew_diary_screen.dart' as _i2;
 import 'package:coffee_timer/screens/brewing_methods_screen.dart' as _i3;
@@ -26,25 +26,26 @@ import 'package:coffee_timer/screens/info_screen.dart' as _i12;
 import 'package:coffee_timer/screens/manual_brew_entry_screen.dart' as _i13;
 import 'package:coffee_timer/screens/new_beans_screen.dart' as _i14;
 import 'package:coffee_timer/screens/notification_debug_screen.dart' as _i15;
-import 'package:coffee_timer/screens/recipe_creation_screen.dart' as _i16;
-import 'package:coffee_timer/screens/recipe_detail_screen.dart' as _i17;
-import 'package:coffee_timer/screens/recipe_list_screen.dart' as _i18;
-import 'package:coffee_timer/screens/settings_screen.dart' as _i19;
-import 'package:coffee_timer/screens/stats_screen.dart' as _i20;
+import 'package:coffee_timer/screens/onboarding_screen.dart' as _i16;
+import 'package:coffee_timer/screens/recipe_creation_screen.dart' as _i17;
+import 'package:coffee_timer/screens/recipe_detail_screen.dart' as _i18;
+import 'package:coffee_timer/screens/recipe_list_screen.dart' as _i19;
+import 'package:coffee_timer/screens/settings_screen.dart' as _i20;
+import 'package:coffee_timer/screens/stats_screen.dart' as _i21;
 import 'package:coffee_timer/screens/user_recipe_management_screen.dart'
-    as _i21;
-import 'package:coffee_timer/screens/yearly_stats_story_24_screen.dart' as _i23;
-import 'package:coffee_timer/screens/yearly_stats_story_25_screen.dart' as _i22;
-import 'package:flutter/foundation.dart' as _i25;
-import 'package:flutter/material.dart' as _i26;
+    as _i22;
+import 'package:coffee_timer/screens/yearly_stats_story_24_screen.dart' as _i24;
+import 'package:coffee_timer/screens/yearly_stats_story_25_screen.dart' as _i23;
+import 'package:flutter/foundation.dart' as _i26;
+import 'package:flutter/material.dart' as _i27;
 
 /// generated route for
 /// [_i1.AccountScreen]
-class AccountRoute extends _i24.PageRouteInfo<AccountRouteArgs> {
+class AccountRoute extends _i25.PageRouteInfo<AccountRouteArgs> {
   AccountRoute({
-    _i25.Key? key,
+    _i26.Key? key,
     required String userId,
-    List<_i24.PageRouteInfo>? children,
+    List<_i25.PageRouteInfo>? children,
   }) : super(
          AccountRoute.name,
          args: AccountRouteArgs(key: key, userId: userId),
@@ -54,7 +55,7 @@ class AccountRoute extends _i24.PageRouteInfo<AccountRouteArgs> {
 
   static const String name = 'AccountRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
@@ -69,7 +70,7 @@ class AccountRoute extends _i24.PageRouteInfo<AccountRouteArgs> {
 class AccountRouteArgs {
   const AccountRouteArgs({this.key, required this.userId});
 
-  final _i25.Key? key;
+  final _i26.Key? key;
 
   final String userId;
 
@@ -91,13 +92,13 @@ class AccountRouteArgs {
 
 /// generated route for
 /// [_i2.BrewDiaryScreen]
-class BrewDiaryRoute extends _i24.PageRouteInfo<void> {
-  const BrewDiaryRoute({List<_i24.PageRouteInfo>? children})
+class BrewDiaryRoute extends _i25.PageRouteInfo<void> {
+  const BrewDiaryRoute({List<_i25.PageRouteInfo>? children})
     : super(BrewDiaryRoute.name, initialChildren: children);
 
   static const String name = 'BrewDiaryRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i2.BrewDiaryScreen();
@@ -107,13 +108,13 @@ class BrewDiaryRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.BrewingMethodsScreen]
-class BrewingMethodsRoute extends _i24.PageRouteInfo<void> {
-  const BrewingMethodsRoute({List<_i24.PageRouteInfo>? children})
+class BrewingMethodsRoute extends _i25.PageRouteInfo<void> {
+  const BrewingMethodsRoute({List<_i25.PageRouteInfo>? children})
     : super(BrewingMethodsRoute.name, initialChildren: children);
 
   static const String name = 'BrewingMethodsRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i3.BrewingMethodsScreen();
@@ -124,11 +125,11 @@ class BrewingMethodsRoute extends _i24.PageRouteInfo<void> {
 /// generated route for
 /// [_i4.CoffeeBeansDetailScreen]
 class CoffeeBeansDetailRoute
-    extends _i24.PageRouteInfo<CoffeeBeansDetailRouteArgs> {
+    extends _i25.PageRouteInfo<CoffeeBeansDetailRouteArgs> {
   CoffeeBeansDetailRoute({
-    _i26.Key? key,
+    _i27.Key? key,
     required String uuid,
-    List<_i24.PageRouteInfo>? children,
+    List<_i25.PageRouteInfo>? children,
   }) : super(
          CoffeeBeansDetailRoute.name,
          args: CoffeeBeansDetailRouteArgs(key: key, uuid: uuid),
@@ -137,7 +138,7 @@ class CoffeeBeansDetailRoute
 
   static const String name = 'CoffeeBeansDetailRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<CoffeeBeansDetailRouteArgs>();
@@ -149,7 +150,7 @@ class CoffeeBeansDetailRoute
 class CoffeeBeansDetailRouteArgs {
   const CoffeeBeansDetailRouteArgs({this.key, required this.uuid});
 
-  final _i26.Key? key;
+  final _i27.Key? key;
 
   final String uuid;
 
@@ -171,13 +172,13 @@ class CoffeeBeansDetailRouteArgs {
 
 /// generated route for
 /// [_i5.CoffeeBeansScreen]
-class CoffeeBeansRoute extends _i24.PageRouteInfo<void> {
-  const CoffeeBeansRoute({List<_i24.PageRouteInfo>? children})
+class CoffeeBeansRoute extends _i25.PageRouteInfo<void> {
+  const CoffeeBeansRoute({List<_i25.PageRouteInfo>? children})
     : super(CoffeeBeansRoute.name, initialChildren: children);
 
   static const String name = 'CoffeeBeansRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i5.CoffeeBeansScreen();
@@ -187,13 +188,13 @@ class CoffeeBeansRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.DonationScreen]
-class DonationRoute extends _i24.PageRouteInfo<void> {
-  const DonationRoute({List<_i24.PageRouteInfo>? children})
+class DonationRoute extends _i25.PageRouteInfo<void> {
+  const DonationRoute({List<_i25.PageRouteInfo>? children})
     : super(DonationRoute.name, initialChildren: children);
 
   static const String name = 'DonationRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return _i6.DonationScreen();
@@ -203,13 +204,13 @@ class DonationRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.FavoriteRecipesScreen]
-class FavoriteRecipesRoute extends _i24.PageRouteInfo<void> {
-  const FavoriteRecipesRoute({List<_i24.PageRouteInfo>? children})
+class FavoriteRecipesRoute extends _i25.PageRouteInfo<void> {
+  const FavoriteRecipesRoute({List<_i25.PageRouteInfo>? children})
     : super(FavoriteRecipesRoute.name, initialChildren: children);
 
   static const String name = 'FavoriteRecipesRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return _i7.FavoriteRecipesScreen();
@@ -219,13 +220,13 @@ class FavoriteRecipesRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.GiftBoxListScreen]
-class GiftBoxListRoute extends _i24.PageRouteInfo<void> {
-  const GiftBoxListRoute({List<_i24.PageRouteInfo>? children})
+class GiftBoxListRoute extends _i25.PageRouteInfo<void> {
+  const GiftBoxListRoute({List<_i25.PageRouteInfo>? children})
     : super(GiftBoxListRoute.name, initialChildren: children);
 
   static const String name = 'GiftBoxListRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i8.GiftBoxListScreen();
@@ -236,11 +237,11 @@ class GiftBoxListRoute extends _i24.PageRouteInfo<void> {
 /// generated route for
 /// [_i9.GiftBoxOfferDetailScreen]
 class GiftBoxOfferDetailRoute
-    extends _i24.PageRouteInfo<GiftBoxOfferDetailRouteArgs> {
+    extends _i25.PageRouteInfo<GiftBoxOfferDetailRouteArgs> {
   GiftBoxOfferDetailRoute({
-    _i25.Key? key,
+    _i26.Key? key,
     required String slug,
-    List<_i24.PageRouteInfo>? children,
+    List<_i25.PageRouteInfo>? children,
   }) : super(
          GiftBoxOfferDetailRoute.name,
          args: GiftBoxOfferDetailRouteArgs(key: key, slug: slug),
@@ -250,7 +251,7 @@ class GiftBoxOfferDetailRoute
 
   static const String name = 'GiftBoxOfferDetailRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
@@ -266,7 +267,7 @@ class GiftBoxOfferDetailRoute
 class GiftBoxOfferDetailRouteArgs {
   const GiftBoxOfferDetailRouteArgs({this.key, required this.slug});
 
-  final _i25.Key? key;
+  final _i26.Key? key;
 
   final String slug;
 
@@ -288,13 +289,13 @@ class GiftBoxOfferDetailRouteArgs {
 
 /// generated route for
 /// [_i10.HomeScreen]
-class HomeRoute extends _i24.PageRouteInfo<void> {
-  const HomeRoute({List<_i24.PageRouteInfo>? children})
+class HomeRoute extends _i25.PageRouteInfo<void> {
+  const HomeRoute({List<_i25.PageRouteInfo>? children})
     : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i10.HomeScreen();
@@ -304,13 +305,13 @@ class HomeRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i11.HubHomeScreen]
-class HubHomeRoute extends _i24.PageRouteInfo<void> {
-  const HubHomeRoute({List<_i24.PageRouteInfo>? children})
+class HubHomeRoute extends _i25.PageRouteInfo<void> {
+  const HubHomeRoute({List<_i25.PageRouteInfo>? children})
     : super(HubHomeRoute.name, initialChildren: children);
 
   static const String name = 'HubHomeRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i11.HubHomeScreen();
@@ -320,13 +321,13 @@ class HubHomeRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.InfoScreen]
-class InfoRoute extends _i24.PageRouteInfo<void> {
-  const InfoRoute({List<_i24.PageRouteInfo>? children})
+class InfoRoute extends _i25.PageRouteInfo<void> {
+  const InfoRoute({List<_i25.PageRouteInfo>? children})
     : super(InfoRoute.name, initialChildren: children);
 
   static const String name = 'InfoRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i12.InfoScreen();
@@ -336,13 +337,13 @@ class InfoRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i13.ManualBrewEntryScreen]
-class ManualBrewEntryRoute extends _i24.PageRouteInfo<void> {
-  const ManualBrewEntryRoute({List<_i24.PageRouteInfo>? children})
+class ManualBrewEntryRoute extends _i25.PageRouteInfo<void> {
+  const ManualBrewEntryRoute({List<_i25.PageRouteInfo>? children})
     : super(ManualBrewEntryRoute.name, initialChildren: children);
 
   static const String name = 'ManualBrewEntryRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i13.ManualBrewEntryScreen();
@@ -352,11 +353,11 @@ class ManualBrewEntryRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i14.NewBeansScreen]
-class NewBeansRoute extends _i24.PageRouteInfo<NewBeansRouteArgs> {
+class NewBeansRoute extends _i25.PageRouteInfo<NewBeansRouteArgs> {
   NewBeansRoute({
-    _i26.Key? key,
+    _i27.Key? key,
     String? uuid,
-    List<_i24.PageRouteInfo>? children,
+    List<_i25.PageRouteInfo>? children,
   }) : super(
          NewBeansRoute.name,
          args: NewBeansRouteArgs(key: key, uuid: uuid),
@@ -365,7 +366,7 @@ class NewBeansRoute extends _i24.PageRouteInfo<NewBeansRouteArgs> {
 
   static const String name = 'NewBeansRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<NewBeansRouteArgs>(
@@ -379,7 +380,7 @@ class NewBeansRoute extends _i24.PageRouteInfo<NewBeansRouteArgs> {
 class NewBeansRouteArgs {
   const NewBeansRouteArgs({this.key, this.uuid});
 
-  final _i26.Key? key;
+  final _i27.Key? key;
 
   final String? uuid;
 
@@ -402,8 +403,8 @@ class NewBeansRouteArgs {
 /// generated route for
 /// [_i15.NotificationDebugScreen]
 class NotificationDebugRoute
-    extends _i24.PageRouteInfo<NotificationDebugRouteArgs> {
-  NotificationDebugRoute({_i26.Key? key, List<_i24.PageRouteInfo>? children})
+    extends _i25.PageRouteInfo<NotificationDebugRouteArgs> {
+  NotificationDebugRoute({_i27.Key? key, List<_i25.PageRouteInfo>? children})
     : super(
         NotificationDebugRoute.name,
         args: NotificationDebugRouteArgs(key: key),
@@ -412,7 +413,7 @@ class NotificationDebugRoute
 
   static const String name = 'NotificationDebugRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<NotificationDebugRouteArgs>(
@@ -426,7 +427,7 @@ class NotificationDebugRoute
 class NotificationDebugRouteArgs {
   const NotificationDebugRouteArgs({this.key});
 
-  final _i26.Key? key;
+  final _i27.Key? key;
 
   @override
   String toString() {
@@ -445,15 +446,31 @@ class NotificationDebugRouteArgs {
 }
 
 /// generated route for
-/// [_i16.RecipeCreationScreen]
-class RecipeCreationRoute extends _i24.PageRouteInfo<RecipeCreationRouteArgs> {
+/// [_i16.OnboardingScreen]
+class OnboardingRoute extends _i25.PageRouteInfo<void> {
+  const OnboardingRoute({List<_i25.PageRouteInfo>? children})
+    : super(OnboardingRoute.name, initialChildren: children);
+
+  static const String name = 'OnboardingRoute';
+
+  static _i25.PageInfo page = _i25.PageInfo(
+    name,
+    builder: (data) {
+      return const _i16.OnboardingScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i17.RecipeCreationScreen]
+class RecipeCreationRoute extends _i25.PageRouteInfo<RecipeCreationRouteArgs> {
   RecipeCreationRoute({
-    _i26.Key? key,
-    _i27.RecipeModel? recipe,
+    _i27.Key? key,
+    _i28.RecipeModel? recipe,
     String? brewingMethodId,
     bool redirectToNewDetailOnSave = false,
     bool popWithResultOnSave = false,
-    List<_i24.PageRouteInfo>? children,
+    List<_i25.PageRouteInfo>? children,
   }) : super(
          RecipeCreationRoute.name,
          args: RecipeCreationRouteArgs(
@@ -468,13 +485,13 @@ class RecipeCreationRoute extends _i24.PageRouteInfo<RecipeCreationRouteArgs> {
 
   static const String name = 'RecipeCreationRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<RecipeCreationRouteArgs>(
         orElse: () => const RecipeCreationRouteArgs(),
       );
-      return _i16.RecipeCreationScreen(
+      return _i17.RecipeCreationScreen(
         key: args.key,
         recipe: args.recipe,
         brewingMethodId: args.brewingMethodId,
@@ -494,9 +511,9 @@ class RecipeCreationRouteArgs {
     this.popWithResultOnSave = false,
   });
 
-  final _i26.Key? key;
+  final _i27.Key? key;
 
-  final _i27.RecipeModel? recipe;
+  final _i28.RecipeModel? recipe;
 
   final String? brewingMethodId;
 
@@ -530,13 +547,13 @@ class RecipeCreationRouteArgs {
 }
 
 /// generated route for
-/// [_i17.RecipeDetailScreen]
-class RecipeDetailRoute extends _i24.PageRouteInfo<RecipeDetailRouteArgs> {
+/// [_i18.RecipeDetailScreen]
+class RecipeDetailRoute extends _i25.PageRouteInfo<RecipeDetailRouteArgs> {
   RecipeDetailRoute({
-    _i26.Key? key,
+    _i27.Key? key,
     required String brewingMethodId,
     required String recipeId,
-    List<_i24.PageRouteInfo>? children,
+    List<_i25.PageRouteInfo>? children,
   }) : super(
          RecipeDetailRoute.name,
          args: RecipeDetailRouteArgs(
@@ -553,7 +570,7 @@ class RecipeDetailRoute extends _i24.PageRouteInfo<RecipeDetailRouteArgs> {
 
   static const String name = 'RecipeDetailRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
@@ -563,7 +580,7 @@ class RecipeDetailRoute extends _i24.PageRouteInfo<RecipeDetailRouteArgs> {
           recipeId: pathParams.getString('recipeId'),
         ),
       );
-      return _i17.RecipeDetailScreen(
+      return _i18.RecipeDetailScreen(
         key: args.key,
         brewingMethodId: args.brewingMethodId,
         recipeId: args.recipeId,
@@ -579,7 +596,7 @@ class RecipeDetailRouteArgs {
     required this.recipeId,
   });
 
-  final _i26.Key? key;
+  final _i27.Key? key;
 
   final String brewingMethodId;
 
@@ -605,12 +622,12 @@ class RecipeDetailRouteArgs {
 }
 
 /// generated route for
-/// [_i18.RecipeListScreen]
-class RecipeListRoute extends _i24.PageRouteInfo<RecipeListRouteArgs> {
+/// [_i19.RecipeListScreen]
+class RecipeListRoute extends _i25.PageRouteInfo<RecipeListRouteArgs> {
   RecipeListRoute({
-    _i26.Key? key,
+    _i27.Key? key,
     String? brewingMethodId,
-    List<_i24.PageRouteInfo>? children,
+    List<_i25.PageRouteInfo>? children,
   }) : super(
          RecipeListRoute.name,
          args: RecipeListRouteArgs(key: key, brewingMethodId: brewingMethodId),
@@ -620,7 +637,7 @@ class RecipeListRoute extends _i24.PageRouteInfo<RecipeListRouteArgs> {
 
   static const String name = 'RecipeListRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
@@ -629,7 +646,7 @@ class RecipeListRoute extends _i24.PageRouteInfo<RecipeListRouteArgs> {
           brewingMethodId: pathParams.optString('brewingMethodId'),
         ),
       );
-      return _i18.RecipeListScreen(
+      return _i19.RecipeListScreen(
         key: args.key,
         brewingMethodId: args.brewingMethodId,
       );
@@ -640,7 +657,7 @@ class RecipeListRoute extends _i24.PageRouteInfo<RecipeListRouteArgs> {
 class RecipeListRouteArgs {
   const RecipeListRouteArgs({this.key, this.brewingMethodId});
 
-  final _i26.Key? key;
+  final _i27.Key? key;
 
   final String? brewingMethodId;
 
@@ -661,81 +678,81 @@ class RecipeListRouteArgs {
 }
 
 /// generated route for
-/// [_i19.SettingsScreen]
-class SettingsRoute extends _i24.PageRouteInfo<void> {
-  const SettingsRoute({List<_i24.PageRouteInfo>? children})
+/// [_i20.SettingsScreen]
+class SettingsRoute extends _i25.PageRouteInfo<void> {
+  const SettingsRoute({List<_i25.PageRouteInfo>? children})
     : super(SettingsRoute.name, initialChildren: children);
 
   static const String name = 'SettingsRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
-      return const _i19.SettingsScreen();
+      return const _i20.SettingsScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i20.StatsScreen]
-class StatsRoute extends _i24.PageRouteInfo<void> {
-  const StatsRoute({List<_i24.PageRouteInfo>? children})
+/// [_i21.StatsScreen]
+class StatsRoute extends _i25.PageRouteInfo<void> {
+  const StatsRoute({List<_i25.PageRouteInfo>? children})
     : super(StatsRoute.name, initialChildren: children);
 
   static const String name = 'StatsRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
-      return const _i20.StatsScreen();
+      return const _i21.StatsScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i21.UserRecipeManagementScreen]
-class UserRecipeManagementRoute extends _i24.PageRouteInfo<void> {
-  const UserRecipeManagementRoute({List<_i24.PageRouteInfo>? children})
+/// [_i22.UserRecipeManagementScreen]
+class UserRecipeManagementRoute extends _i25.PageRouteInfo<void> {
+  const UserRecipeManagementRoute({List<_i25.PageRouteInfo>? children})
     : super(UserRecipeManagementRoute.name, initialChildren: children);
 
   static const String name = 'UserRecipeManagementRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
-      return const _i21.UserRecipeManagementScreen();
+      return const _i22.UserRecipeManagementScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i22.YearlyStatsStory25Screen]
-class YearlyStatsStory25Route extends _i24.PageRouteInfo<void> {
-  const YearlyStatsStory25Route({List<_i24.PageRouteInfo>? children})
+/// [_i23.YearlyStatsStory25Screen]
+class YearlyStatsStory25Route extends _i25.PageRouteInfo<void> {
+  const YearlyStatsStory25Route({List<_i25.PageRouteInfo>? children})
     : super(YearlyStatsStory25Route.name, initialChildren: children);
 
   static const String name = 'YearlyStatsStory25Route';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
-      return const _i22.YearlyStatsStory25Screen();
+      return const _i23.YearlyStatsStory25Screen();
     },
   );
 }
 
 /// generated route for
-/// [_i23.YearlyStatsStoryScreen]
-class YearlyStatsStoryRoute extends _i24.PageRouteInfo<void> {
-  const YearlyStatsStoryRoute({List<_i24.PageRouteInfo>? children})
+/// [_i24.YearlyStatsStoryScreen]
+class YearlyStatsStoryRoute extends _i25.PageRouteInfo<void> {
+  const YearlyStatsStoryRoute({List<_i25.PageRouteInfo>? children})
     : super(YearlyStatsStoryRoute.name, initialChildren: children);
 
   static const String name = 'YearlyStatsStoryRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
-      return const _i23.YearlyStatsStoryScreen();
+      return const _i24.YearlyStatsStoryScreen();
     },
   );
 }

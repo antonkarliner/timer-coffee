@@ -459,6 +459,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         setState(() {
           _hasUnsavedChanges = false;
         });
+        // Milestone trigger removed — replaced by Pulse milestone.
       }
     } catch (e) {
       AppLogger.error("Error in _saveRecipe", errorObject: e);

@@ -2179,4 +2179,60 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get recipeRequired => 'Пожалуйста, выберите рецепт';
+
+  @override
+  String get onboardingTitle => 'Добро пожаловать в Timer.Coffee';
+
+  @override
+  String get onboardingSubtitle => 'Как вы завариваете кофе?';
+
+  @override
+  String get onboardingShowAll => 'Показать все способы';
+
+  @override
+  String get coffeeJourneyTitle => 'Первые шаги';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew => 'Завершите свою первую заварку';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod =>
+      'Попробуйте другой способ заваривания';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans => 'Добавьте свои первые зерна';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite => 'Добавьте рецепт в избранное';
+
+  @override
+  String get coffeeJourneyMilestoneStats => 'Проверьте статистику заваривания';
+
+  @override
+  String get coffeeJourneyMilestonePulse =>
+      'Посмотрите, как мир заваривает вместе с вами';
+
+  @override
+  String get coffeeJourneyCompleted => 'Вы сделали свои первые шаги!';
+
+  @override
+  String get coffeeJourneyDoneButton => 'Готово';
+
+  @override
+  String get coffeeJourneyDismissHint =>
+      'Вы всегда можете посмотреть свой прогресс на вкладке Ещё.';
+
+  @override
+  String get coffeeJourneyDismissConfirm =>
+      'Хотите скрыть свой прогресс в разделе Первые шаги?';
+
+  @override
+  String get coffeeJourneyHideButton => 'Скрыть';
+
+  @override
+  String get firstBrewCongrats =>
+      'Поздравляем с первой заваркой! Она сохранена в Дневнике заварок.';
+
+  @override
+  String get firstBrewDiaryLink => 'Открыть Дневник заварок';
 }

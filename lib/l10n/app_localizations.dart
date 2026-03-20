@@ -3732,6 +3732,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please select a recipe'**
   String get recipeRequired;
+
+  /// No description provided for @onboardingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Timer.Coffee'**
+  String get onboardingTitle;
+
+  /// No description provided for @onboardingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you brew with?'**
+  String get onboardingSubtitle;
+
+  /// No description provided for @onboardingShowAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show All Methods'**
+  String get onboardingShowAll;
+
+  /// No description provided for @coffeeJourneyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'First Steps'**
+  String get coffeeJourneyTitle;
+
+  /// No description provided for @coffeeJourneyMilestoneFirstBrew.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your first brew'**
+  String get coffeeJourneyMilestoneFirstBrew;
+
+  /// No description provided for @coffeeJourneyMilestoneTryMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different brewing method'**
+  String get coffeeJourneyMilestoneTryMethod;
+
+  /// No description provided for @coffeeJourneyMilestoneAddBeans.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first coffee beans'**
+  String get coffeeJourneyMilestoneAddBeans;
+
+  /// No description provided for @coffeeJourneyMilestoneFavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite a recipe'**
+  String get coffeeJourneyMilestoneFavorite;
+
+  /// No description provided for @coffeeJourneyMilestoneStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your brew stats'**
+  String get coffeeJourneyMilestoneStats;
+
+  /// No description provided for @coffeeJourneyMilestonePulse.
+  ///
+  /// In en, this message translates to:
+  /// **'See how the world brews with you'**
+  String get coffeeJourneyMilestonePulse;
+
+  /// No description provided for @coffeeJourneyCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve completed your coffee journey!'**
+  String get coffeeJourneyCompleted;
+
+  /// No description provided for @coffeeJourneyDoneButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get coffeeJourneyDoneButton;
+
+  /// No description provided for @coffeeJourneyDismissHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can always check your progress in the More tab.'**
+  String get coffeeJourneyDismissHint;
+
+  /// No description provided for @coffeeJourneyDismissConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to hide your Coffee Journey progress?'**
+  String get coffeeJourneyDismissConfirm;
+
+  /// No description provided for @coffeeJourneyHideButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide'**
+  String get coffeeJourneyHideButton;
+
+  /// No description provided for @firstBrewCongrats.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations on your first brew! It has been saved to your Brew Diary.'**
+  String get firstBrewCongrats;
+
+  /// No description provided for @firstBrewDiaryLink.
+  ///
+  /// In en, this message translates to:
+  /// **'View Brew Diary'**
+  String get firstBrewDiaryLink;
 }
 
 class _AppLocalizationsDelegate

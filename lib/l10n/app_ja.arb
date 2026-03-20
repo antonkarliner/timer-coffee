@@ -885,5 +885,22 @@
   "brewTime": "時刻",
   "brewEntrySaved": "抽出記録を保存しました",
   "brewingMethodRequired": "抽出方法を選択してください",
-  "recipeRequired": "レシピを選択してください"
+  "recipeRequired": "レシピを選択してください",
+  "onboardingTitle": "Timer.Coffeeへようこそ",
+  "onboardingSubtitle": "どの抽出方法で淹れますか？",
+  "onboardingShowAll": "すべての抽出方法を表示",
+  "coffeeJourneyTitle": "はじめの一歩",
+  "coffeeJourneyMilestoneFirstBrew": "最初の1杯を淹れる",
+  "coffeeJourneyMilestoneTryMethod": "別の抽出方法を試す",
+  "coffeeJourneyMilestoneAddBeans": "最初の豆を追加",
+  "coffeeJourneyMilestoneFavorite": "レシピをお気に入りに追加",
+  "coffeeJourneyMilestoneStats": "抽出統計を確認",
+  "coffeeJourneyMilestonePulse": "世界中のみんながどう淹れているかを見る",
+  "coffeeJourneyCompleted": "コーヒーの旅を完了しました！",
+  "coffeeJourneyDoneButton": "完了",
+  "coffeeJourneyDismissHint": "進捗はいつでももっとタブで確認できます。",
+  "coffeeJourneyDismissConfirm": "コーヒーの旅の進捗を非表示にしますか？",
+  "coffeeJourneyHideButton": "非表示",
+  "firstBrewCongrats": "最初の抽出、おめでとうございます！抽出日記に保存されました。",
+  "firstBrewDiaryLink": "抽出日記を見る"
 }

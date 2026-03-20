@@ -1058,5 +1058,22 @@
   "brewTime": "زمان",
   "brewEntrySaved": "ثبت دم‌آوری ذخیره شد",
   "brewingMethodRequired": "لطفاً یک روش دم‌آوری انتخاب کنید",
-  "recipeRequired": "لطفاً یک دستور انتخاب کنید"
+  "recipeRequired": "لطفاً یک دستور انتخاب کنید",
+  "onboardingTitle": "به Timer.Coffee خوش آمدید",
+  "onboardingSubtitle": "قهوه‌تان را با چه روشی دم می‌کنید؟",
+  "onboardingShowAll": "نمایش همه روش‌های دم‌آوری",
+  "coffeeJourneyTitle": "قدم‌های اول",
+  "coffeeJourneyMilestoneFirstBrew": "اولین دم‌آوری‌تان را کامل کنید",
+  "coffeeJourneyMilestoneTryMethod": "یک روش دم‌آوری دیگر را امتحان کنید",
+  "coffeeJourneyMilestoneAddBeans": "اولین دانه‌های قهوه‌تان را اضافه کنید",
+  "coffeeJourneyMilestoneFavorite": "یک دستور را به موردعلاقه‌ها اضافه کنید",
+  "coffeeJourneyMilestoneStats": "آمار دم‌آوری‌تان را ببینید",
+  "coffeeJourneyMilestonePulse": "ببینید دنیا همراه شما چگونه قهوه دم می‌کند",
+  "coffeeJourneyCompleted": "قدم‌های اول را کامل کردید!",
+  "coffeeJourneyDoneButton": "تمام",
+  "coffeeJourneyDismissHint": "همیشه می‌توانید پیشرفتتان را در تب بیشتر ببینید.",
+  "coffeeJourneyDismissConfirm": "می‌خواهید پیشرفتتان در بخش قدم‌های اول را پنهان کنید؟",
+  "coffeeJourneyHideButton": "پنهان کن",
+  "firstBrewCongrats": "اولین دم‌آوری‌تان مبارک! در دفترچه دم ذخیره شد.",
+  "firstBrewDiaryLink": "مشاهده دفترچه دم"
 }

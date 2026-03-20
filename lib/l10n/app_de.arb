@@ -885,5 +885,22 @@
   "brewTime": "Uhrzeit",
   "brewEntrySaved": "Brühvorgang gespeichert",
   "brewingMethodRequired": "Bitte wähle eine Brühmethode",
-  "recipeRequired": "Bitte wähle ein Rezept"
+  "recipeRequired": "Bitte wähle ein Rezept",
+  "onboardingTitle": "Willkommen bei Timer.Coffee",
+  "onboardingSubtitle": "Womit brühst du?",
+  "onboardingShowAll": "Alle Brühmethoden anzeigen",
+  "coffeeJourneyTitle": "Erste Schritte",
+  "coffeeJourneyMilestoneFirstBrew": "Schließe deinen ersten Brühvorgang ab",
+  "coffeeJourneyMilestoneTryMethod": "Probiere eine andere Brühmethode aus",
+  "coffeeJourneyMilestoneAddBeans": "Füge deine ersten Kaffeebohnen hinzu",
+  "coffeeJourneyMilestoneFavorite": "Füge ein Rezept zu den Favoriten hinzu",
+  "coffeeJourneyMilestoneStats": "Sieh dir deine Brühstatistiken an",
+  "coffeeJourneyMilestonePulse": "Sieh, wie auf der ganzen Welt gebrüht wird",
+  "coffeeJourneyCompleted": "Du hast die ersten Schritte abgeschlossen!",
+  "coffeeJourneyDoneButton": "Fertig",
+  "coffeeJourneyDismissHint": "Du kannst deinen Fortschritt jederzeit im Tab Mehr ansehen.",
+  "coffeeJourneyDismissConfirm": "Möchtest du deinen Fortschritt im Bereich Erste Schritte ausblenden?",
+  "coffeeJourneyHideButton": "Ausblenden",
+  "firstBrewCongrats": "Glückwunsch zu deinem ersten Brühvorgang! Er wurde in deinem Brühtagebuch gespeichert.",
+  "firstBrewDiaryLink": "Brühtagebuch ansehen"
 }

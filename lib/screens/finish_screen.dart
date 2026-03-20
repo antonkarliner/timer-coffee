@@ -24,6 +24,8 @@ import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart';
 import '../widgets/notification_permission_dialog.dart'; // Import AppLogger
 import '../widgets/base_buttons.dart';
+import '../services/onboarding_service.dart';
+import '../widgets/first_brew_celebration.dart';
 
 const String _nativeAppUrl = 'https://www.timer.coffee/get/';
 
@@ -68,6 +70,7 @@ class _FinishScreenState extends State<FinishScreen> {
 
     coffeeFact = Provider.of<RecipeProvider>(context, listen: false)
         .getRandomCoffeeFactFromDB();
+    _recordBrewForOnboarding();
     requestReview();
     insertBrewingDataToSupabase();
     insertBrewingDataToAppDatabase();
@@ -78,6 +81,11 @@ class _FinishScreenState extends State<FinishScreen> {
             defaultTargetPlatform == TargetPlatform.android)) {
       _checkWebPromoCounter();
     }
+  }
+
+  void _recordBrewForOnboarding() {
+    final onboarding = Provider.of<OnboardingService>(context, listen: false);
+    onboarding.recordBrew(widget.recipe.brewingMethodId);
   }
 
   void insertBrewingDataToSupabase() async {
@@ -353,6 +361,8 @@ class _FinishScreenState extends State<FinishScreen> {
               ),
             ),
             const SizedBox(height: 20),
+            FirstBrewCelebration(
+                brewingMethodId: widget.recipe.brewingMethodId),
             if (kIsWeb && _showPromoCard)
               _buildNativeAppPromoCard(context)
             else

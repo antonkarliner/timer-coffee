@@ -885,5 +885,22 @@
   "brewTime": "الوقت",
   "brewEntrySaved": "تم حفظ تسجيل التحضير",
   "brewingMethodRequired": "يرجى اختيار طريقة التحضير",
-  "recipeRequired": "يرجى اختيار وصفة"
+  "recipeRequired": "يرجى اختيار وصفة",
+  "onboardingTitle": "مرحبًا بك في Timer.Coffee",
+  "onboardingSubtitle": "بأي طريقة تُحضّر قهوتك؟",
+  "onboardingShowAll": "عرض جميع طرق التحضير",
+  "coffeeJourneyTitle": "الخطوات الأولى",
+  "coffeeJourneyMilestoneFirstBrew": "أكمل أول تحضير لك",
+  "coffeeJourneyMilestoneTryMethod": "جرّب طريقة تحضير مختلفة",
+  "coffeeJourneyMilestoneAddBeans": "أضف أول حبوب القهوة الخاصة بك",
+  "coffeeJourneyMilestoneFavorite": "أضف وصفة إلى المفضلة",
+  "coffeeJourneyMilestoneStats": "اطّلع على إحصاءات التحضير",
+  "coffeeJourneyMilestonePulse": "شاهد كيف يُحضّر العالم القهوة معك",
+  "coffeeJourneyCompleted": "لقد أكملت خطواتك الأولى!",
+  "coffeeJourneyDoneButton": "تم",
+  "coffeeJourneyDismissHint": "يمكنك دائمًا التحقق من تقدمك في تبويب المزيد.",
+  "coffeeJourneyDismissConfirm": "هل ترغب في إخفاء تقدمك في قسم الخطوات الأولى؟",
+  "coffeeJourneyHideButton": "إخفاء",
+  "firstBrewCongrats": "تهانينا على أول تحضير لك! تم حفظه في سجل التحضير.",
+  "firstBrewDiaryLink": "عرض سجل التحضير"
 }

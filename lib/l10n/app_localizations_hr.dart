@@ -2142,4 +2142,61 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get recipeRequired => 'Molimo odaberite recept';
+
+  @override
+  String get onboardingTitle => 'Dobrodošli u Timer.Coffee';
+
+  @override
+  String get onboardingSubtitle => 'Kako pripremaš kavu?';
+
+  @override
+  String get onboardingShowAll => 'Prikaži sve metode pripreme';
+
+  @override
+  String get coffeeJourneyTitle => 'Prvi koraci';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew => 'Dovrši svoju prvu pripremu';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod =>
+      'Isprobaj drugu metodu pripreme';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans => 'Dodaj svoja prva zrna kave';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite => 'Dodaj recept u favorite';
+
+  @override
+  String get coffeeJourneyMilestoneStats =>
+      'Provjeri svoju statistiku pripreme';
+
+  @override
+  String get coffeeJourneyMilestonePulse =>
+      'Pogledaj kako svijet priprema kavu s tobom';
+
+  @override
+  String get coffeeJourneyCompleted => 'Prvi koraci su završeni!';
+
+  @override
+  String get coffeeJourneyDoneButton => 'Gotovo';
+
+  @override
+  String get coffeeJourneyDismissHint =>
+      'Svoj napredak uvijek možeš provjeriti na kartici Više.';
+
+  @override
+  String get coffeeJourneyDismissConfirm =>
+      'Želiš li sakriti napredak u odjeljku Prvi koraci?';
+
+  @override
+  String get coffeeJourneyHideButton => 'Sakrij';
+
+  @override
+  String get firstBrewCongrats =>
+      'Čestitamo na tvojoj prvoj pripremi! Spremljena je u tvoj Dnevnik pripreme.';
+
+  @override
+  String get firstBrewDiaryLink => 'Prikaži Dnevnik pripreme';
 }

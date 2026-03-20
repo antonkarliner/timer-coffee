@@ -885,5 +885,22 @@
   "brewTime": "Heure",
   "brewEntrySaved": "Infusion enregistrée",
   "brewingMethodRequired": "Veuillez sélectionner une méthode d'infusion",
-  "recipeRequired": "Veuillez sélectionner une recette"
+  "recipeRequired": "Veuillez sélectionner une recette",
+  "onboardingTitle": "Bienvenue sur Timer.Coffee",
+  "onboardingSubtitle": "Avec quoi préparez-vous votre café ?",
+  "onboardingShowAll": "Afficher toutes les méthodes d'infusion",
+  "coffeeJourneyTitle": "Premiers pas",
+  "coffeeJourneyMilestoneFirstBrew": "Réalisez votre première infusion",
+  "coffeeJourneyMilestoneTryMethod": "Essayez une autre méthode d'infusion",
+  "coffeeJourneyMilestoneAddBeans": "Ajoutez vos premiers grains de café",
+  "coffeeJourneyMilestoneFavorite": "Ajoutez une recette aux favoris",
+  "coffeeJourneyMilestoneStats": "Consultez vos statistiques de préparation",
+  "coffeeJourneyMilestonePulse": "Découvrez comment le monde prépare son café à vos côtés",
+  "coffeeJourneyCompleted": "Vous avez terminé vos premiers pas !",
+  "coffeeJourneyDoneButton": "Terminé",
+  "coffeeJourneyDismissHint": "Vous pouvez toujours consulter votre progression dans l'onglet Plus.",
+  "coffeeJourneyDismissConfirm": "Voulez-vous masquer votre progression dans la section Premiers pas ?",
+  "coffeeJourneyHideButton": "Masquer",
+  "firstBrewCongrats": "Félicitations pour votre première infusion ! Elle a été enregistrée dans votre Journal de préparation.",
+  "firstBrewDiaryLink": "Voir le Journal de préparation"
 }

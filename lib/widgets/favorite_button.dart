@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/recipe_provider.dart';
+import '../services/onboarding_service.dart';
 
 class FavoriteButton extends StatefulWidget {
   final String recipeId;
@@ -66,6 +67,8 @@ class _FavoriteButtonState extends State<FavoriteButton>
       // If changed to favorite, trigger the pop-up scale animation.
       if (newStatus) {
         _controller.forward(from: 0.0);
+        Provider.of<OnboardingService>(context, listen: false)
+            .completeMilestoneFavorite();
       }
     }
   }

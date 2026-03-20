@@ -2147,4 +2147,63 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get recipeRequired => 'Vă rugăm selectați o rețetă';
+
+  @override
+  String get onboardingTitle => 'Bine ai venit la Timer.Coffee';
+
+  @override
+  String get onboardingSubtitle => 'Cu ce îți prepari cafeaua?';
+
+  @override
+  String get onboardingShowAll => 'Afișează toate metodele de preparare';
+
+  @override
+  String get coffeeJourneyTitle => 'Primii pași';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew =>
+      'Finalizează prima ta preparare';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod =>
+      'Încearcă o altă metodă de preparare';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans =>
+      'Adaugă primele tale boabe de cafea';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite => 'Adaugă o rețetă la favorite';
+
+  @override
+  String get coffeeJourneyMilestoneStats =>
+      'Verifică-ți statisticile de preparare';
+
+  @override
+  String get coffeeJourneyMilestonePulse =>
+      'Vezi cum prepară lumea cafea alături de tine';
+
+  @override
+  String get coffeeJourneyCompleted => 'Ți-ai finalizat primii pași!';
+
+  @override
+  String get coffeeJourneyDoneButton => 'Gata';
+
+  @override
+  String get coffeeJourneyDismissHint =>
+      'Îți poți verifica oricând progresul în fila Mai mult.';
+
+  @override
+  String get coffeeJourneyDismissConfirm =>
+      'Vrei să ascunzi progresul din secțiunea Primii pași?';
+
+  @override
+  String get coffeeJourneyHideButton => 'Ascunde';
+
+  @override
+  String get firstBrewCongrats =>
+      'Felicitări pentru prima ta preparare! A fost salvată în Jurnal de Preparare.';
+
+  @override
+  String get firstBrewDiaryLink => 'Vezi Jurnal de Preparare';
 }

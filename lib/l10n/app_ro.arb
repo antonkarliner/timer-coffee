@@ -885,5 +885,22 @@
   "brewTime": "Ora",
   "brewEntrySaved": "Înregistrare preparare salvată",
   "brewingMethodRequired": "Vă rugăm selectați o metodă de preparare",
-  "recipeRequired": "Vă rugăm selectați o rețetă"
+  "recipeRequired": "Vă rugăm selectați o rețetă",
+  "onboardingTitle": "Bine ai venit la Timer.Coffee",
+  "onboardingSubtitle": "Cu ce îți prepari cafeaua?",
+  "onboardingShowAll": "Afișează toate metodele de preparare",
+  "coffeeJourneyTitle": "Primii pași",
+  "coffeeJourneyMilestoneFirstBrew": "Finalizează prima ta preparare",
+  "coffeeJourneyMilestoneTryMethod": "Încearcă o altă metodă de preparare",
+  "coffeeJourneyMilestoneAddBeans": "Adaugă primele tale boabe de cafea",
+  "coffeeJourneyMilestoneFavorite": "Adaugă o rețetă la favorite",
+  "coffeeJourneyMilestoneStats": "Verifică-ți statisticile de preparare",
+  "coffeeJourneyMilestonePulse": "Vezi cum prepară lumea cafea alături de tine",
+  "coffeeJourneyCompleted": "Ți-ai finalizat primii pași!",
+  "coffeeJourneyDoneButton": "Gata",
+  "coffeeJourneyDismissHint": "Îți poți verifica oricând progresul în fila Mai mult.",
+  "coffeeJourneyDismissConfirm": "Vrei să ascunzi progresul din secțiunea Primii pași?",
+  "coffeeJourneyHideButton": "Ascunde",
+  "firstBrewCongrats": "Felicitări pentru prima ta preparare! A fost salvată în Jurnal de Preparare.",
+  "firstBrewDiaryLink": "Vezi Jurnal de Preparare"
 }

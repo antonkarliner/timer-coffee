@@ -21,6 +21,7 @@ import './providers/recipe_provider.dart';
 import './providers/theme_provider.dart';
 import './providers/coffee_beans_provider.dart';
 import './providers/user_recipe_provider.dart';
+import 'package:auto_route/auto_route.dart';
 import './app_router.dart';
 import './app_router.gr.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -43,6 +44,7 @@ import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:coffee_timer/utils/log_config.dart';
 import 'package:coffee_timer/services/notification_migration_service.dart';
 import 'services/feature_flags/feature_flags_repository.dart';
+import 'services/onboarding_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Custom log handler that intercepts and sanitizes all Supabase library logs
@@ -432,6 +434,7 @@ void main() async {
   final coffeeBeansProvider = CoffeeBeansProvider(database, databaseProvider);
   final userStatProvider = UserStatProvider(database, coffeeBeansProvider);
   final beansStatsProvider = BeansStatsProvider(database);
+  final onboardingService = OnboardingService(prefs);
 
   if (!hasPerformedUuidBackfill) {
     // Perform backfill operations
@@ -489,6 +492,7 @@ void main() async {
       userStatProvider: userStatProvider,
       beansStatsProvider: beansStatsProvider,
       featureFlagsRepository: featureFlagsRepository,
+      onboardingService: onboardingService,
     ),
   );
 
@@ -511,6 +515,7 @@ class CoffeeTimerApp extends StatefulWidget {
   final UserStatProvider userStatProvider;
   final BeansStatsProvider beansStatsProvider;
   final FeatureFlagsRepository featureFlagsRepository;
+  final OnboardingService onboardingService;
 
   const CoffeeTimerApp({
     Key? key,
@@ -525,6 +530,7 @@ class CoffeeTimerApp extends StatefulWidget {
     required this.userStatProvider,
     required this.beansStatsProvider,
     required this.featureFlagsRepository,
+    required this.onboardingService,
   }) : super(key: key);
 
   @override
@@ -790,6 +796,8 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp> {
             value: NotificationService.instance),
         Provider<FeatureFlagsRepository>.value(
             value: widget.featureFlagsRepository),
+        ChangeNotifierProvider<OnboardingService>.value(
+            value: widget.onboardingService),
         StreamProvider<Map<String, bool>>(
           create: (_) => widget.featureFlagsRepository.stream,
           initialData: widget.featureFlagsRepository.currentFlags,
@@ -807,7 +815,14 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp> {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: widget.supportedLocales,
-            routerConfig: widget.appRouter.config(),
+            routerConfig: widget.appRouter.config(
+              deepLinkBuilder: (deepLink) {
+                if (!widget.onboardingService.onboardingComplete) {
+                  return DeepLink([const OnboardingRoute()]);
+                }
+                return deepLink;
+              },
+            ),
             builder: (context, router) => Stack(
               children: [
                 router!,

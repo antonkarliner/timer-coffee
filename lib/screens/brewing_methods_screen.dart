@@ -7,6 +7,7 @@ import '../models/recipe_model.dart';
 import '../app_router.gr.dart';
 import '../utils/icon_utils.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import '../widgets/coffee_journey_card.dart';
 
 @RoutePage()
 class BrewingMethodsScreen extends StatelessWidget {
@@ -45,6 +46,7 @@ class BrewingMethodsScreen extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
+          const CoffeeJourneyCard(),
           buildFixedContent(context, recipeProvider),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),

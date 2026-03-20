@@ -55,6 +55,15 @@ class _LaunchPopupWidgetState extends State<LaunchPopupWidget> {
     if (_shownThisSession) return;
 
     final prefs = await SharedPreferences.getInstance();
+
+    // Don't show launch popups on the very first session (let onboarding breathe).
+    // The popup will show normally on the next app open.
+    final hasCompletedFirstSession =
+        prefs.getBool('launch_popup_first_session_done') ?? false;
+    if (!hasCompletedFirstSession) {
+      await prefs.setBool('launch_popup_first_session_done', true);
+      return;
+    }
     final locale = Localizations.localeOf(context).languageCode;
 
     // Fetch latest popup (remote-first via provider)

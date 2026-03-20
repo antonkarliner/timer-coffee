@@ -2167,4 +2167,63 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get recipeRequired => 'Παρακαλώ επιλέξτε συνταγή';
+
+  @override
+  String get onboardingTitle => 'Καλώς ήρθατε στο Timer.Coffee';
+
+  @override
+  String get onboardingSubtitle => 'Πώς φτιάχνετε τον καφέ σας;';
+
+  @override
+  String get onboardingShowAll => 'Εμφάνιση όλων των μεθόδων';
+
+  @override
+  String get coffeeJourneyTitle => 'Πρώτα βήματα';
+
+  @override
+  String get coffeeJourneyMilestoneFirstBrew =>
+      'Ολοκληρώστε την πρώτη σας παρασκευή';
+
+  @override
+  String get coffeeJourneyMilestoneTryMethod =>
+      'Δοκιμάστε μια διαφορετική μέθοδο παρασκευής';
+
+  @override
+  String get coffeeJourneyMilestoneAddBeans =>
+      'Προσθέστε τους πρώτους σας κόκκους καφέ';
+
+  @override
+  String get coffeeJourneyMilestoneFavorite =>
+      'Προσθέστε μια συνταγή στα αγαπημένα';
+
+  @override
+  String get coffeeJourneyMilestoneStats => 'Δείτε τα στατιστικά παρασκευής';
+
+  @override
+  String get coffeeJourneyMilestonePulse =>
+      'Δείτε πώς παρασκευάζει καφέ ο κόσμος μαζί σας';
+
+  @override
+  String get coffeeJourneyCompleted => 'Ολοκληρώσατε τα πρώτα σας βήματα!';
+
+  @override
+  String get coffeeJourneyDoneButton => 'Τέλος';
+
+  @override
+  String get coffeeJourneyDismissHint =>
+      'Μπορείτε πάντα να ελέγχετε την πρόοδό σας στην καρτέλα Περισσότερα.';
+
+  @override
+  String get coffeeJourneyDismissConfirm =>
+      'Θέλετε να κρύψετε την πρόοδό σας στην ενότητα Πρώτα βήματα;';
+
+  @override
+  String get coffeeJourneyHideButton => 'Απόκρυψη';
+
+  @override
+  String get firstBrewCongrats =>
+      'Συγχαρητήρια για την πρώτη σας παρασκευή! Αποθηκεύτηκε στο Ημερολόγιο παρασκευών.';
+
+  @override
+  String get firstBrewDiaryLink => 'Προβολή Ημερολογίου παρασκευών';
 }
