@@ -345,10 +345,19 @@ class _FinishScreenState extends State<FinishScreen> {
           child: Text(AppLocalizations.of(context)!.finishbrew),
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+      body: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height -
+                kToolbarHeight -
+                MediaQuery.of(context).padding.top -
+                MediaQuery.of(context).padding.bottom,
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Semantics(
@@ -446,6 +455,8 @@ class _FinishScreenState extends State<FinishScreen> {
                 ),
               ),
           ],
+            ),
+          ),
         ),
       ),
     );
