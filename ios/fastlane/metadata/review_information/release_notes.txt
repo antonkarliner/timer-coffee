@@ -1,4 +1,9 @@
-Νέο:
+Nouveautés :
+• À la demande générale : ajoutez des photos aux fiches de grains de café. Pratique pour distinguer rapidement entre de nombreux paquets.
+• Parcours d’accueil pour les nouveaux utilisateurs afin de se familiariser avec les différentes fonctionnalités de l’app.
+• Mise en place d’analyses respectueuses de la vie privée pour améliorer l’app. Vous pouvez toujours désactiver cette option dans les réglages.
+• L’écran Pulse affiche désormais les pays des extractions. Toujours respectueux de la vie privée !
 
-• Το Timer.Coffee μιλά πλέον Ελληνικά. Καλώς ήρθατε!
-• Νέες επιλογές ταξινόμησης για τους κόκκους καφέ σας: μπορείτε πλέον να ταξινομείτε κατά ημερομηνία καβουρδίσματος και να επιλέγετε αύξουσα/φθίνουσα σειρά.
+Améliorations :
+• Politique de confidentialité mise à jour pour mieux refléter l’état actuel.
+• L’écran de fin est maintenant défilable afin de mieux fonctionner sur les petits écrans.

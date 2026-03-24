@@ -1,0 +1,11 @@
+Nieuw:
+
+• Voeg foto's toe aan boonitems om onderscheid te maken tussen verpakkingen.
+• Onboarding voor nieuwe gebruikers om app-functies te Verken.
+• Privacyvriendelijke analyses om de app te verbeteren (opt-out in Instellingen).
+• Pulse-scherm toont nu herkomstlanden van brouwsels.
+
+Verbeterd:
+
+• Klaar-scherm is nu scrollbaar op kleine schermen.
+• Update van het privacybeleid.

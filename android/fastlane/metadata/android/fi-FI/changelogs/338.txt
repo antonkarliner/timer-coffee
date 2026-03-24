@@ -1,0 +1,11 @@
+Uutta:
+
+• Liitä kuvia papumerkintöihin erottaaksesi pakkaukset toisistaan.
+• Uusien käyttäjien käyttöönotto sovelluksen ominaisuuksien tutkimiseen.
+• Yksityisyyttä kunnioittava analytiikka sovelluksen parantamiseksi (voi poistaa käytöstä Asetukset).
+• Syke-näkymä näyttää nyt uuttomaiden tiedot.
+
+Parannettua:
+
+• Valmis-näkymää voi nyt vierittää pienillä näytöillä.
+• Päivitetty tietosuojakäytäntö.

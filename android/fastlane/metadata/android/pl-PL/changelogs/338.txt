@@ -1,0 +1,11 @@
+Nowości:
+
+• Dołączaj zdjęcia do wpisów ziaren, aby odróżniać opakowania.
+• Onboarding dla nowych użytkowników, by odkrywać funkcje aplikacji.
+• Analityka przyjazna prywatności, by ulepszać aplikację (rezygnacja w Ustawienia).
+• Ekran Puls pokazuje teraz kraje pochodzenia kawy.
+
+Ulepszenia:
+
+• Ekran Zakończ jest teraz przewijalny na małych ekranach.
+• Zaktualizowana Polityka prywatności.

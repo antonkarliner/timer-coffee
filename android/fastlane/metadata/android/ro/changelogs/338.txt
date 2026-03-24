@@ -1,0 +1,11 @@
+Nou:
+
+• Atașați fotografii la intrările de boabe pentru a distinge între pachete.
+• Onboarding pentru utilizatorii noi, ca să Explorează funcțiile aplicației.
+• Analitice prietenoase cu confidențialitatea pentru a îmbunătăți aplicația (dezactivare în Setări).
+• Ecranul Pulse afișează acum țările de preparare.
+
+Îmbunătățit:
+
+• Ecranul Finalizează este acum derulabil pe ecrane mici.
+• Politica de confidențialitate actualizată.

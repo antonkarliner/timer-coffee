@@ -1,7 +1,7 @@
 name: coffee_timer
 description: Brew delicious coffee at home with Timer.Coffee
 publish_to: 'none'
-version: 3.6.2+325
+version: 3.6.3+338
 
 environment:
   sdk: '>=3.10.0 <4.0.0'
@@ -18,6 +18,7 @@ dependencies:
   provider: ^6.0.5
   shared_preferences: ^2.5.3
   ionicons: ^0.2.2
+  
   wakelock_plus: ^1.2.10
   advanced_in_app_review: ^1.3.0
   package_info_plus: ^8.1.2
@@ -77,6 +78,7 @@ dependencies:
   live_activities: ^2.4.6
   audio_session: ^0.1.21
   font_awesome_flutter: ^10.8.0
+  l10n_countries: ^2.0.2
 
 dependency_overrides:
   flutter_keyboard_visibility:

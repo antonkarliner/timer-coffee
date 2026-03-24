@@ -1,0 +1,11 @@
+Nytt:
+
+• Legg ved bilder i bønneoppføringer for å skille mellom pakker.
+• Onboarding for nye brukere for å Utforsk appfunksjoner.
+• Personvernvennlig analyse for å forbedre appen (velg bort i Innstillinger).
+• Puls-skjermen viser nå bryggeland.
+
+Forbedret:
+
+• Fullfør-skjermen kan nå rulles på små skjermer.
+• Oppdatert personvernerklæring.

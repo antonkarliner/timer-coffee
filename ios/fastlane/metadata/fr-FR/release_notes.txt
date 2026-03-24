@@ -1,4 +1,9 @@
 Nouveau :
+• À la demande générale : joignez des photos aux entrées des grains de café. Utile lorsque vous souhaitez distinguer rapidement de nombreux paquets.
+• Parcours d’accueil pour les nouveaux utilisateurs afin de se familiariser avec les différentes fonctionnalités de l’application.
+• Introduction d’analyses respectueuses de la vie privée pour améliorer l’application. Vous pouvez toujours vous désinscrire dans Paramètres.
+• L’écran Pulse affiche maintenant les pays des infusions. Respectueux de la vie privée également !
 
-• Timer.Coffee parle désormais grec. Καλώς ήρθατε !
-• Nouvelles options de tri pour vos grains de café : vous pouvez maintenant trier par date de torréfaction et choisir entre un ordre croissant/décroissant.
+Améliorations :
+• Mise à jour de la Politique de confidentialité afin de mieux refléter l’état actuel.
+• L’écran Terminer est désormais défilable afin de mieux fonctionner sur les petits écrans.

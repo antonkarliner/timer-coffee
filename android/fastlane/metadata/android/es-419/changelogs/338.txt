@@ -1,0 +1,11 @@
+Nuevo:
+
+• Adjunta fotos a las entradas de granos para distinguir entre paquetes.
+• Onboarding para que los nuevos usuarios puedan explorar funciones de la app.
+• Analíticas respetuosas de la privacidad para mejorar la app (desactivar en Configuración).
+• La pantalla de Pulso ahora muestra los países de preparación.
+
+Mejorado:
+
+• La pantalla de Finalizar ahora se puede desplazar en pantallas pequeñas.
+• Política de privacidad actualizada.

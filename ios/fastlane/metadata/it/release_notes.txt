@@ -1,4 +1,9 @@
 Novità:
+• Su richiesta popolare: allega foto alle voci dei chicchi di caffè. Utile quando vuoi distinguere rapidamente tra molti pacchetti.
+• Onboarding per i nuovi utenti per familiarizzare con diverse funzionalità dell’app.
+• Introdotte analisi rispettose della privacy per migliorare l’app. Puoi sempre scegliere di non partecipare nelle Impostazioni.
+• La schermata Pulse ora mostra i paesi delle Preparazioni. Anche nel rispetto della privacy!
 
-• Timer.Coffee ora parla greco. Καλώς ήρθατε!
-• Nuove opzioni di ordinamento per i tuoi chicchi di caffè: ora puoi ordinare per data di tostatura + scegliere tra ordine crescente/decrescente.
+Miglioramenti:
+• Aggiornata l’Informativa sulla privacy per rispecchiare meglio lo stato attuale.
+• La schermata Termina ora è scorrevole per funzionare meglio sugli schermi piccoli.

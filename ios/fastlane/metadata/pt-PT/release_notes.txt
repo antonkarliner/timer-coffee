@@ -1,4 +1,9 @@
 Novo:
+• Por pedido popular: anexar fotos às entradas de Grãos de Café. Útil quando quer distinguir rapidamente entre muitos pacotes.
+• Integração para novos utilizadores se familiarizarem com diferentes funcionalidades da app.
+• Introduzimos análises respeitadoras da privacidade para melhorar a app. Pode sempre desativar nas Configurações.
+• O ecrã de Pulso agora mostra os países dos Preparos. Também respeitador da privacidade!
 
-• O Timer.Coffee agora fala grego. Καλώς ήρθατε!
-• Novas opções de ordenação para os seus grãos de café: agora pode ordenar por data de torrefação + escolher entre ordem ascendente/descendente.
+Melhorado:
+• Atualizámos a Política de Privacidade para refletir melhor o estado atual.
+• O ecrã de Finalizar agora é deslocável para funcionar melhor em ecrãs pequenos.

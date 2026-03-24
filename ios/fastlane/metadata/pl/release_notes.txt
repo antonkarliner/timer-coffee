@@ -1,4 +1,9 @@
-Nowości:
+Nowość:
+• Na prośbę wielu użytkowników: dodawanie zdjęć do wpisów kawy ziarnistej. Przydatne, gdy chcesz szybko odróżnić wiele opakowań.
+• Onboarding dla nowych użytkowników, aby zapoznać się z różnymi funkcjami aplikacji.
+• Wprowadzono przyjazną dla prywatności analitykę, aby ulepszać aplikację. Zawsze możesz zrezygnować w Ustawieniach.
+• Ekran Puls teraz pokazuje kraje parzeń. Również z poszanowaniem prywatności!
 
-• Timer.Coffee mówi teraz po grecku. Καλώς ήρθατε!
-• Nowe opcje sortowania kawy ziarnistej: możesz teraz sortować według daty palenia + wybrać kolejność rosnącą/malejącą.
+Ulepszenia:
+• Zaktualizowano Politykę prywatności, aby lepiej odzwierciedlała obecny stan.
+• Ekran Zakończ jest teraz przewijany, aby lepiej działał na małych ekranach.

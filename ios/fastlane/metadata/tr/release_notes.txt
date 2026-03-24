@@ -1,4 +1,9 @@
 Yeni:
+• Yoğun istek üzerine: kahve çekirdeği girdilerine fotoğraf ekleyin. Birçok paket arasında hızlıca ayırt etmek istediğinizde kullanışlıdır.
+• Yeni kullanıcıların uygulamanın farklı özelliklerine aşina olması için başlangıç akışı.
+• Uygulamayı daha iyi hale getirmek için gizlilik dostu analizler eklendi. Ayarlar’dan her zaman devre dışı bırakabilirsiniz.
+• Nabız ekranı artık demlemelerin ülkelerini gösteriyor. Ayrıca gizlilik dostu!
 
-• Timer.Coffee artık Yunanca konuşuyor. Καλώς ήρθατε!
-• Kahve çekirdekleriniz için yeni sıralama seçenekleri: artık Kavurma Tarihi’ne göre sıralayabilir ve artan/azalan sıra arasında seçim yapabilirsiniz.
+İyileştirildi:
+• Gizlilik Politikası, mevcut durumu daha iyi yansıtacak şekilde güncellendi.
+• Bitir ekranı, küçük ekranlarda daha iyi çalışması için artık kaydırılabilir.

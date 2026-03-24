@@ -1,4 +1,9 @@
 New:
+• By popular request: attach photos to coffee beans entries. Useful when you want to quickly distinguish between lots of packages.
+• Onboarding for new users to get familiar with different app features.
+• Introduced privacy-friendly analytics to make the app better. You can always opt-out in settings.
+• Pulse screen now shows the countries of brews. Also privacy-friendly!
 
-• Timer.Coffee now speaks Greek. Καλώς ήρθατε!
-• New sorting options for your coffee beans: you can now sort by roast date + choose between ascending/descending order.
+Improved:
+• Updated Privacy Policy to better reflect current state.
+• Finish screen is now scrollable in order to work better on small screens.

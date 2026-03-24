@@ -1,0 +1,11 @@
+Yeni:
+
+• Paketleri ayırt etmek için çekirdek kayıtlarına fotoğraf ekleyin.
+• Yeni kullanıcılar için uygulama özelliklerini Keşfet’e yönelik tanıtım.
+• Uygulamayı geliştirmek için gizlilik dostu analizler (Ayarlar’dan devre dışı bırakılabilir).
+• Nabız ekranı artık demleme ülkelerini gösteriyor.
+
+İyileştirildi:
+
+• Bitir ekranı küçük ekranlarda artık kaydırılabiliyor.
+• Güncellenmiş Gizlilik Politikası.

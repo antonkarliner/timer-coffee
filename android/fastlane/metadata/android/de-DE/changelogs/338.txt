@@ -1,0 +1,11 @@
+Neu:
+
+• Fotos zu Bohnen-Einträgen hinzufügen, um Packungen zu unterscheiden.
+• Onboarding für neue Nutzer, um App-Funktionen zu entdecken.
+• Datenschutzfreundliche Analysen zur App-Verbesserung (Opt-out in Einstellungen).
+• Pulse zeigt jetzt Brühländer.
+
+Verbessert:
+
+• Fertig ist auf kleinen Bildschirmen jetzt scrollbar.
+• Datenschutzerklärung aktualisiert.

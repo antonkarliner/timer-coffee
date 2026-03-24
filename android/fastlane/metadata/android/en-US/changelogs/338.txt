@@ -1,0 +1,11 @@
+New:
+
+• Attach photos to bean entries to distinguish between packages.
+• Onboarding for new users to explore app features.
+• Privacy-friendly analytics to improve the app (opt-out in Settings).
+• Pulse screen now shows brew countries.
+
+Improved:
+
+• Finish screen is now scrollable on small screens.
+• Updated Privacy Policy.

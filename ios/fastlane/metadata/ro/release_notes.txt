@@ -1,4 +1,9 @@
 Nou:
+• La cererea populară: atașează fotografii la intrările de boabe de cafea. Util când vrei să distingi rapid între multe pachete.
+• Onboarding pentru utilizatorii noi, ca să se familiarizeze cu diferite funcții ale aplicației.
+• Am introdus analitice prietenoase cu confidențialitatea pentru a îmbunătăți aplicația. Poți oricând să renunți în Setări.
+• Ecranul Pulse arată acum țările preparărilor. Tot prietenos cu confidențialitatea!
 
-• Timer.Coffee vorbește acum greacă. Καλώς ήρθατε!
-• Opțiuni noi de sortare pentru boabele tale de cafea: acum poți sorta după data prăjirii + poți alege între ordinea crescătoare/descrescătoare.
+Îmbunătățit:
+• Am actualizat Politica de confidențialitate pentru a reflecta mai bine starea curentă.
+• Ecranul Finalizează este acum derulabil pentru a funcționa mai bine pe ecrane mici.

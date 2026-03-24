@@ -1,4 +1,9 @@
 Nieuw:
+• Op veler verzoek: foto's toevoegen aan koffiebonevermeldingen. Handig als je snel onderscheid wilt maken tussen veel verschillende verpakkingen.
+• Onboarding voor nieuwe gebruikers om vertrouwd te raken met verschillende app-functies.
+• Privacyvriendelijke analyses geïntroduceerd om de app beter te maken. Je kunt je altijd afmelden in Instellingen.
+• Het Pulse-scherm toont nu de landen van zetsessies. Ook privacyvriendelijk!
 
-• Timer.Coffee spreekt nu Grieks. Καλώς ήρθατε!
-• Nieuwe sorteeropties voor je koffiebonen: je kunt nu sorteren op branddatum + kiezen tussen oplopende/aflopende volgorde.
+Verbeterd:
+• Privacybeleid bijgewerkt om de huidige stand beter weer te geven.
+• Het Klaar-scherm is nu scrollbaar om beter te werken op kleine schermen.

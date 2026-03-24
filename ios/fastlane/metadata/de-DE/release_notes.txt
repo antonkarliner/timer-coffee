@@ -1,4 +1,9 @@
 Neu:
+• Auf vielfachen Wunsch: Fotos zu Einträgen für Kaffeebohnen hinzufügen. Praktisch, wenn du schnell zwischen vielen Packungen unterscheiden möchtest.
+• Onboarding für neue Nutzer, um sich mit verschiedenen App-Funktionen vertraut zu machen.
+• Datenschutzfreundliche Analysen eingeführt, um die App zu verbessern. Du kannst dich jederzeit in den Einstellungen abmelden.
+• Der Pulse-Bildschirm zeigt jetzt die Länder der Brühvorgänge. Ebenfalls datenschutzfreundlich!
 
-• Timer.Coffee spricht jetzt auch Griechisch. Καλώς ήρθατε!
-• Neue Sortieroptionen für deine Kaffeebohnen: Du kannst jetzt nach Röstdatum sortieren + zwischen aufsteigender/absteigender Reihenfolge wählen.
+Verbessert:
+• Die Datenschutzerklärung aktualisiert, um den aktuellen Stand besser widerzuspiegeln.
+• Der Fertig-Bildschirm ist jetzt scrollbar, damit er auf kleinen Bildschirmen besser funktioniert.

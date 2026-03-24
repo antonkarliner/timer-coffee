@@ -1,0 +1,11 @@
+Novo:
+
+• Anexar fotos às entradas de grãos para distinguir entre embalagens.
+• Integração para novos utilizadores para descobrir as funcionalidades da app.
+• Análises amigas da privacidade para melhorar a app (desativar nas Configurações).
+• Ecrã Pulso agora mostra países de preparação.
+
+Melhorado:
+
+• Ecrã Finalizar agora é deslocável em ecrãs pequenos.
+• Política de Privacidade atualizada.

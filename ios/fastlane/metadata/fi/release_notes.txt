@@ -1,4 +1,9 @@
 Uutta:
+• Suositusta pyynnöstä: liitä valokuvia kahvipapumerkintöihin. Kätevää, kun haluat nopeasti erottaa monien pakettien välillä.
+• Uusien käyttäjien käyttöönotto, jotta eri sovelluksen ominaisuudet tulevat tutuiksi.
+• Otettiin käyttöön tietosuojaystävällinen analytiikka sovelluksen parantamiseksi. Voit aina kieltäytyä Asetuksissa.
+• Syke-näyttö näyttää nyt uuttojen maat. Myös tietosuojaystävällisesti!
 
-• Timer.Coffee puhuu nyt kreikkaa. Καλώς ήρθατε!
-• Uudet lajitteluvaihtoehdot kahvipavuille: voit nyt lajitella paahtopäivän mukaan + valita nousevan/laskevan järjestyksen.
+Parannettua:
+• Päivitettiin tietosuojakäytäntö vastaamaan paremmin nykytilaa.
+• Valmis-näyttö on nyt vieritettävä, jotta se toimii paremmin pienillä näytöillä.

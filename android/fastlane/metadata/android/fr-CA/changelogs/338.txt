@@ -1,0 +1,11 @@
+Nouveau :
+
+• Joignez des photos aux entrées de grains pour distinguer les paquets.
+• Parcours d’accueil pour les nouveaux utilisateurs afin d’Explorer les fonctions de l’app.
+• Analyses respectueuses de la vie privée pour améliorer l’app (désactivation dans Paramètres).
+• L’écran Pulse affiche maintenant les pays d’infusion.
+
+Améliorations :
+
+• L’écran Terminer est maintenant défilable sur les petits écrans.
+• Politique de confidentialité mise à jour.

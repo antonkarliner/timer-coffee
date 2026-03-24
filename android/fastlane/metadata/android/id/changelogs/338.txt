@@ -1,0 +1,11 @@
+Baru:
+
+• Lampirkan foto ke entri biji kopi untuk membedakan kemasan.
+• Onboarding untuk pengguna baru agar dapat Jelajahi fitur aplikasi.
+• Analitik ramah privasi untuk meningkatkan aplikasi (nonaktifkan di Pengaturan).
+• Layar Pulse kini menampilkan negara asal seduhan.
+
+Ditingkatkan:
+
+• Layar Selesai kini dapat digulir pada layar kecil.
+• Kebijakan Privasi diperbarui.

@@ -1,0 +1,11 @@
+Novidades:
+
+• Anexe fotos às entradas de grãos para distinguir entre pacotes.
+• Integração para novos usuários para descobrir recursos do app.
+• Análises com foco em privacidade para melhorar o app (desativar em Configurações).
+• A tela de Pulso agora mostra os países de preparo.
+
+Melhorias:
+
+• A tela Finalizar agora rola em telas pequenas.
+• Política de Privacidade atualizada.

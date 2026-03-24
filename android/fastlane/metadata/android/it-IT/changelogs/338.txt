@@ -1,0 +1,11 @@
+Novità:
+
+• Allega foto alle voci dei chicchi per distinguere le confezioni.
+• Onboarding per nuovi utenti per Esplorare le funzioni dell’app.
+• Analisi rispettose della privacy per migliorare l’app (disattivabile in Impostazioni).
+• La schermata Pulse ora mostra i paesi di origine del caffè.
+
+Miglioramenti:
+
+• La schermata Termina ora è scorrevole sui piccoli schermi.
+• Informativa sulla privacy aggiornata.

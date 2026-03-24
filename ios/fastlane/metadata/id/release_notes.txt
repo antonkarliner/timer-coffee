@@ -1,4 +1,9 @@
 Baru:
+• Sesuai permintaan populer: lampirkan foto pada entri kopi. Berguna ketika Anda ingin dengan cepat membedakan antara banyak kemasan.
+• Onboarding untuk pengguna baru agar terbiasa dengan berbagai fitur aplikasi.
+• Memperkenalkan analitik yang ramah privasi untuk membuat aplikasi lebih baik. Anda selalu dapat memilih untuk tidak ikut serta di Pengaturan.
+• Layar Pulse sekarang menampilkan negara asal seduhan. Juga ramah privasi!
 
-• Timer.Coffee sekarang berbicara bahasa Yunani. Καλώς ήρθατε!
-• Opsi pengurutan baru untuk kopi Anda: sekarang Anda dapat mengurutkan berdasarkan Tanggal Sangrai + memilih antara urutan menaik/menurun.
+Ditingkatkan:
+• Memperbarui Kebijakan Privasi agar lebih mencerminkan kondisi saat ini.
+• Layar Selesai sekarang dapat digulir agar bekerja lebih baik di layar kecil.

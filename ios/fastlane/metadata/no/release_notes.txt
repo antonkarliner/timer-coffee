@@ -1,4 +1,9 @@
-Ny:
+Nytt:
+• Etter stor etterspørsel: legg ved bilder til oppføringer for kaffebønner. Nyttig når du raskt vil skille mellom mange pakker.
+• Introduksjon for nye brukere for å bli kjent med ulike funksjoner i appen.
+• Introduserte personvernvennlig analyse for å gjøre appen bedre. Du kan alltid velge det bort i Innstillinger.
+• Puls-skjermen viser nå landene til brygg. Også personvernvennlig!
 
-• Timer.Coffee snakker nå gresk. Καλώς ήρθατε!
-• Nye sorteringsalternativer for kaffebønnene dine: du kan nå sortere etter brenningsdato + velge mellom stigende/synkende rekkefølge.
+Forbedret:
+• Oppdaterte personvernerklæringen for å bedre gjenspeile nåværende tilstand.
+• Fullfør-skjermen kan nå rulles for å fungere bedre på små skjermer.
