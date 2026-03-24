@@ -808,6 +808,7 @@ class CoffeeBeansProvider with ChangeNotifier {
       'is_favorite': model.isFavorite,
       'version_vector': model.versionVector,
       'is_deleted': model.isDeleted,
+      'photo_url': model.photoUrl,
     };
   }
 
@@ -842,6 +843,7 @@ class CoffeeBeansProvider with ChangeNotifier {
       isFavorite: json['is_favorite'],
       versionVector: json['version_vector'],
       isDeleted: json['is_deleted'] ?? false,
+      photoUrl: json['photo_url'],
     );
   }
 

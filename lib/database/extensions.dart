@@ -316,6 +316,9 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
           ? Value((json['package_weight_grams'] as num).toDouble())
           : const Value.absent(),
       versionVector: Value(json['version_vector']),
+      photoUrl: json['photo_url'] != null
+          ? Value(json['photo_url'] as String)
+          : const Value.absent(),
     );
   }
 
@@ -341,11 +344,11 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
       'farmer': farmer.value,
       'farm': farm.value,
       'is_favorite': isFavorite.present ? isFavorite.value : null,
-      'is_deleted':
-          isDeleted.present ? isDeleted.value : null, // Include isDeleted
+      'is_deleted': isDeleted.present ? isDeleted.value : null,
       'package_weight_grams':
           packageWeightGrams.present ? packageWeightGrams.value : null,
       'version_vector': versionVector.value,
+      'photo_url': photoUrl.present ? photoUrl.value : null,
     };
   }
 }

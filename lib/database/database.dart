@@ -217,6 +217,7 @@ class CoffeeBeans extends Table {
   TextColumn get versionVector => text().named('version_vector')();
   BoolColumn get isDeleted =>
       boolean().named('is_deleted').withDefault(const Constant(false))();
+  TextColumn get photoUrl => text().named('photo_url').nullable()();
 
   @override
   Set<Column> get primaryKey => {beansUuid};
@@ -262,7 +263,7 @@ class AppDatabase extends _$AppDatabase {
   factory AppDatabase.fromExecutor(QueryExecutor e) => AppDatabase(e);
 
   @override
-  int get schemaVersion => 31; // Added customGrindSize to preferences + grindSize to stats
+  int get schemaVersion => 32; // Added photoUrl to CoffeeBeans
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -721,6 +722,9 @@ class AppDatabase extends _$AppDatabase {
                   schema.userRecipePreferences.customGrindSize);
               await m.addColumn(
                   schema.userStats, schema.userStats.grindSize);
+            },
+            from31To32: (m, schema) async {
+              await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.photoUrl);
             },
           )(m, oldVersion, newVersion);
         },

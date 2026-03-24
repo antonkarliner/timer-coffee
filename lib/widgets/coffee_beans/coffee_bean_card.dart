@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
@@ -93,46 +94,54 @@ class CoffeeBeanCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      // ───────── LOGO SLOT ─────────
+                      // ───────── LOGO / PHOTO SLOT ─────────
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            minHeight: logoHeight,
-                            maxHeight: logoHeight,
-                            minWidth: logoHeight,
-                            maxWidth: logoHeight * maxWidthFactor,
-                          ),
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            alignment: Alignment.centerLeft,
-                            child: FutureBuilder<Map<String, String?>>(
-                              future: databaseProvider
-                                  .fetchCachedRoasterLogoUrls(bean.roaster),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  final originalUrl =
-                                      snapshot.data!['original'];
-                                  final mirrorUrl = snapshot.data!['mirror'];
-                                  if (originalUrl != null ||
-                                      mirrorUrl != null) {
-                                    return RoasterLogo(
-                                      originalUrl: originalUrl,
-                                      mirrorUrl: mirrorUrl,
-                                      height: logoHeight,
-                                      borderRadius: 8.0,
-                                      forceFit: BoxFit.contain,
+                        child: SizedBox(
+                          height: logoHeight,
+                          width: logoHeight,
+                          child: bean.photoUrl != null
+                              ? CachedNetworkImage(
+                                  imageUrl: bean.photoUrl!,
+                                  height: logoHeight,
+                                  width: logoHeight,
+                                  fit: BoxFit.cover,
+                                  errorWidget: (_, __, ___) => Icon(
+                                    Coffeico.bag_with_bean,
+                                    size: logoHeight,
+                                    color: iconColor,
+                                  ),
+                                )
+                              : FutureBuilder<Map<String, String?>>(
+                                  future: databaseProvider
+                                      .fetchCachedRoasterLogoUrls(bean.roaster),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      final originalUrl =
+                                          snapshot.data!['original'];
+                                      final mirrorUrl = snapshot.data!['mirror'];
+                                      if (originalUrl != null ||
+                                          mirrorUrl != null) {
+                                        return FittedBox(
+                                          fit: BoxFit.contain,
+                                          alignment: Alignment.centerLeft,
+                                          child: RoasterLogo(
+                                            originalUrl: originalUrl,
+                                            mirrorUrl: mirrorUrl,
+                                            height: logoHeight,
+                                            borderRadius: 8.0,
+                                            forceFit: BoxFit.contain,
+                                          ),
+                                        );
+                                      }
+                                    }
+                                    return Icon(
+                                      Coffeico.bag_with_bean,
+                                      size: logoHeight,
+                                      color: iconColor,
                                     );
-                                  }
-                                }
-                                return Icon(
-                                  Coffeico.bag_with_bean,
-                                  size: logoHeight,
-                                  color: iconColor,
-                                );
-                              },
-                            ),
-                          ),
+                                  },
+                                ),
                         ),
                       ),
                       // ───────── TEXT SECTION ─────────

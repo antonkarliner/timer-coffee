@@ -431,6 +431,26 @@ class CoffeeBeansDetailController extends ChangeNotifier {
     }
   }
 
+  // --- Delete ---
+
+  /// Deletes the current bean and pops the screen.
+  Future<bool> deleteBean(BuildContext context) async {
+    if (_bean?.beansUuid == null) {
+      _setError('No bean data available');
+      return false;
+    }
+
+    try {
+      final coffeeBeansProvider =
+          Provider.of<CoffeeBeansProvider>(context, listen: false);
+      await coffeeBeansProvider.deleteCoffeeBeans(_bean!.beansUuid!);
+      return true;
+    } catch (error) {
+      _setError('Failed to delete coffee bean: $error');
+      return false;
+    }
+  }
+
   // --- Debug Support ---
 
   @override

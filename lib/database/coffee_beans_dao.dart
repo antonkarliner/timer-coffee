@@ -29,7 +29,8 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       isFavorite: row.isFavorite,
       versionVector: row.versionVector,
       packageWeightGrams: row.packageWeightGrams,
-      isDeleted: row.isDeleted, // Added isDeleted field
+      isDeleted: row.isDeleted,
+      photoUrl: row.photoUrl,
     );
   }
 
@@ -54,7 +55,8 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       isFavorite: Value(model.isFavorite),
       versionVector: Value(model.versionVector),
       packageWeightGrams: Value(model.packageWeightGrams),
-      isDeleted: Value(model.isDeleted), // Added isDeleted field
+      isDeleted: Value(model.isDeleted),
+      photoUrl: Value(model.photoUrl),
     );
   }
 

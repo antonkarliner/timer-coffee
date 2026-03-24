@@ -22,6 +22,7 @@ class CoffeeBeansModel {
   final bool isFavorite;
   final bool isDeleted; // New field to track soft deletion
   final String versionVector;
+  final String? photoUrl;
 
   CoffeeBeansModel({
     required this.beansUuid,
@@ -45,6 +46,7 @@ class CoffeeBeansModel {
     this.isFavorite = false,
     this.isDeleted = false, // Default value set to false
     required this.versionVector,
+    this.photoUrl,
   });
 
   VersionVector get versionVectorObject =>
@@ -78,8 +80,9 @@ class CoffeeBeansModel {
     String? farm,
     double? packageWeightGrams,
     bool? isFavorite,
-    bool? isDeleted, // Optional field in the copyWith method
+    bool? isDeleted,
     String? versionVector,
+    String? photoUrl,
   }) {
     return CoffeeBeansModel(
       beansUuid: beansUuid ?? this.beansUuid,
@@ -101,8 +104,9 @@ class CoffeeBeansModel {
       farm: farm ?? this.farm,
       packageWeightGrams: packageWeightGrams ?? this.packageWeightGrams,
       isFavorite: isFavorite ?? this.isFavorite,
-      isDeleted: isDeleted ?? this.isDeleted, // Handle isDeleted in copyWith
+      isDeleted: isDeleted ?? this.isDeleted,
       versionVector: versionVector ?? this.versionVector,
+      photoUrl: photoUrl ?? this.photoUrl,
     );
   }
 
@@ -130,8 +134,9 @@ class CoffeeBeansModel {
           farm == other.farm &&
           packageWeightGrams == other.packageWeightGrams &&
           isFavorite == other.isFavorite &&
-          isDeleted == other.isDeleted && // Include isDeleted in equality
-          versionVector == other.versionVector;
+          isDeleted == other.isDeleted &&
+          versionVector == other.versionVector &&
+          photoUrl == other.photoUrl;
 
   @override
   int get hashCode =>
@@ -154,6 +159,7 @@ class CoffeeBeansModel {
       farm.hashCode ^
       packageWeightGrams.hashCode ^
       isFavorite.hashCode ^
-      isDeleted.hashCode ^ // Include isDeleted in hashCode
-      versionVector.hashCode;
+      isDeleted.hashCode ^
+      versionVector.hashCode ^
+      photoUrl.hashCode;
 }

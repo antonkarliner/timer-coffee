@@ -4325,6 +4325,17 @@ class $CoffeeBeansTable extends CoffeeBeans
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _photoUrlMeta = const VerificationMeta(
+    'photoUrl',
+  );
+  @override
+  late final GeneratedColumn<String> photoUrl = GeneratedColumn<String>(
+    'photo_url',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     beansUuid,
@@ -4348,6 +4359,7 @@ class $CoffeeBeansTable extends CoffeeBeans
     isFavorite,
     versionVector,
     isDeleted,
+    photoUrl,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4512,6 +4524,12 @@ class $CoffeeBeansTable extends CoffeeBeans
         isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta),
       );
     }
+    if (data.containsKey('photo_url')) {
+      context.handle(
+        _photoUrlMeta,
+        photoUrl.isAcceptableOrUnknown(data['photo_url']!, _photoUrlMeta),
+      );
+    }
     return context;
   }
 
@@ -4605,6 +4623,10 @@ class $CoffeeBeansTable extends CoffeeBeans
         DriftSqlType.bool,
         data['${effectivePrefix}is_deleted'],
       )!,
+      photoUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}photo_url'],
+      ),
     );
   }
 
@@ -4636,6 +4658,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
   final bool isFavorite;
   final String versionVector;
   final bool isDeleted;
+  final String? photoUrl;
   const CoffeeBean({
     required this.beansUuid,
     this.id,
@@ -4658,6 +4681,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
     required this.isFavorite,
     required this.versionVector,
     required this.isDeleted,
+    this.photoUrl,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4711,6 +4735,9 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
     map['is_favorite'] = Variable<bool>(isFavorite);
     map['version_vector'] = Variable<String>(versionVector);
     map['is_deleted'] = Variable<bool>(isDeleted);
+    if (!nullToAbsent || photoUrl != null) {
+      map['photo_url'] = Variable<String>(photoUrl);
+    }
     return map;
   }
 
@@ -4761,6 +4788,9 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       isFavorite: Value(isFavorite),
       versionVector: Value(versionVector),
       isDeleted: Value(isDeleted),
+      photoUrl: photoUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(photoUrl),
     );
   }
 
@@ -4793,6 +4823,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       isFavorite: serializer.fromJson<bool>(json['isFavorite']),
       versionVector: serializer.fromJson<String>(json['versionVector']),
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      photoUrl: serializer.fromJson<String?>(json['photoUrl']),
     );
   }
   @override
@@ -4820,6 +4851,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
       'isFavorite': serializer.toJson<bool>(isFavorite),
       'versionVector': serializer.toJson<String>(versionVector),
       'isDeleted': serializer.toJson<bool>(isDeleted),
+      'photoUrl': serializer.toJson<String?>(photoUrl),
     };
   }
 
@@ -4845,6 +4877,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
     bool? isFavorite,
     String? versionVector,
     bool? isDeleted,
+    Value<String?> photoUrl = const Value.absent(),
   }) => CoffeeBean(
     beansUuid: beansUuid ?? this.beansUuid,
     id: id.present ? id.value : this.id,
@@ -4871,6 +4904,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
     isFavorite: isFavorite ?? this.isFavorite,
     versionVector: versionVector ?? this.versionVector,
     isDeleted: isDeleted ?? this.isDeleted,
+    photoUrl: photoUrl.present ? photoUrl.value : this.photoUrl,
   );
   CoffeeBean copyWithCompanion(CoffeeBeansCompanion data) {
     return CoffeeBean(
@@ -4911,6 +4945,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           ? data.versionVector.value
           : this.versionVector,
       isDeleted: data.isDeleted.present ? data.isDeleted.value : this.isDeleted,
+      photoUrl: data.photoUrl.present ? data.photoUrl.value : this.photoUrl,
     );
   }
 
@@ -4937,7 +4972,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           ..write('farm: $farm, ')
           ..write('isFavorite: $isFavorite, ')
           ..write('versionVector: $versionVector, ')
-          ..write('isDeleted: $isDeleted')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('photoUrl: $photoUrl')
           ..write(')'))
         .toString();
   }
@@ -4965,6 +5001,7 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
     isFavorite,
     versionVector,
     isDeleted,
+    photoUrl,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -4990,7 +5027,8 @@ class CoffeeBean extends DataClass implements Insertable<CoffeeBean> {
           other.farm == this.farm &&
           other.isFavorite == this.isFavorite &&
           other.versionVector == this.versionVector &&
-          other.isDeleted == this.isDeleted);
+          other.isDeleted == this.isDeleted &&
+          other.photoUrl == this.photoUrl);
 }
 
 class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
@@ -5015,6 +5053,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
   final Value<bool> isFavorite;
   final Value<String> versionVector;
   final Value<bool> isDeleted;
+  final Value<String?> photoUrl;
   final Value<int> rowid;
   const CoffeeBeansCompanion({
     this.beansUuid = const Value.absent(),
@@ -5038,6 +5077,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     this.isFavorite = const Value.absent(),
     this.versionVector = const Value.absent(),
     this.isDeleted = const Value.absent(),
+    this.photoUrl = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   CoffeeBeansCompanion.insert({
@@ -5062,6 +5102,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     this.isFavorite = const Value.absent(),
     required String versionVector,
     this.isDeleted = const Value.absent(),
+    this.photoUrl = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : beansUuid = Value(beansUuid),
        roaster = Value(roaster),
@@ -5090,6 +5131,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     Expression<bool>? isFavorite,
     Expression<String>? versionVector,
     Expression<bool>? isDeleted,
+    Expression<String>? photoUrl,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -5115,6 +5157,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       if (isFavorite != null) 'is_favorite': isFavorite,
       if (versionVector != null) 'version_vector': versionVector,
       if (isDeleted != null) 'is_deleted': isDeleted,
+      if (photoUrl != null) 'photo_url': photoUrl,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -5141,6 +5184,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     Value<bool>? isFavorite,
     Value<String>? versionVector,
     Value<bool>? isDeleted,
+    Value<String?>? photoUrl,
     Value<int>? rowid,
   }) {
     return CoffeeBeansCompanion(
@@ -5165,6 +5209,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
       isFavorite: isFavorite ?? this.isFavorite,
       versionVector: versionVector ?? this.versionVector,
       isDeleted: isDeleted ?? this.isDeleted,
+      photoUrl: photoUrl ?? this.photoUrl,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -5235,6 +5280,9 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
     if (isDeleted.present) {
       map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
+    if (photoUrl.present) {
+      map['photo_url'] = Variable<String>(photoUrl.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -5265,6 +5313,7 @@ class CoffeeBeansCompanion extends UpdateCompanion<CoffeeBean> {
           ..write('isFavorite: $isFavorite, ')
           ..write('versionVector: $versionVector, ')
           ..write('isDeleted: $isDeleted, ')
+          ..write('photoUrl: $photoUrl, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -9386,6 +9435,7 @@ typedef $$CoffeeBeansTableCreateCompanionBuilder =
       Value<bool> isFavorite,
       required String versionVector,
       Value<bool> isDeleted,
+      Value<String?> photoUrl,
       Value<int> rowid,
     });
 typedef $$CoffeeBeansTableUpdateCompanionBuilder =
@@ -9411,6 +9461,7 @@ typedef $$CoffeeBeansTableUpdateCompanionBuilder =
       Value<bool> isFavorite,
       Value<String> versionVector,
       Value<bool> isDeleted,
+      Value<String?> photoUrl,
       Value<int> rowid,
     });
 
@@ -9525,6 +9576,11 @@ class $$CoffeeBeansTableFilterComposer
 
   ColumnFilters<bool> get isDeleted => $composableBuilder(
     column: $table.isDeleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get photoUrl => $composableBuilder(
+    column: $table.photoUrl,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -9642,6 +9698,11 @@ class $$CoffeeBeansTableOrderingComposer
     column: $table.isDeleted,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get photoUrl => $composableBuilder(
+    column: $table.photoUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$CoffeeBeansTableAnnotationComposer
@@ -9731,6 +9792,9 @@ class $$CoffeeBeansTableAnnotationComposer
 
   GeneratedColumn<bool> get isDeleted =>
       $composableBuilder(column: $table.isDeleted, builder: (column) => column);
+
+  GeneratedColumn<String> get photoUrl =>
+      $composableBuilder(column: $table.photoUrl, builder: (column) => column);
 }
 
 class $$CoffeeBeansTableTableManager
@@ -9785,6 +9849,7 @@ class $$CoffeeBeansTableTableManager
                 Value<bool> isFavorite = const Value.absent(),
                 Value<String> versionVector = const Value.absent(),
                 Value<bool> isDeleted = const Value.absent(),
+                Value<String?> photoUrl = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CoffeeBeansCompanion(
                 beansUuid: beansUuid,
@@ -9808,6 +9873,7 @@ class $$CoffeeBeansTableTableManager
                 isFavorite: isFavorite,
                 versionVector: versionVector,
                 isDeleted: isDeleted,
+                photoUrl: photoUrl,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -9833,6 +9899,7 @@ class $$CoffeeBeansTableTableManager
                 Value<bool> isFavorite = const Value.absent(),
                 required String versionVector,
                 Value<bool> isDeleted = const Value.absent(),
+                Value<String?> photoUrl = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CoffeeBeansCompanion.insert(
                 beansUuid: beansUuid,
@@ -9856,6 +9923,7 @@ class $$CoffeeBeansTableTableManager
                 isFavorite: isFavorite,
                 versionVector: versionVector,
                 isDeleted: isDeleted,
+                photoUrl: photoUrl,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

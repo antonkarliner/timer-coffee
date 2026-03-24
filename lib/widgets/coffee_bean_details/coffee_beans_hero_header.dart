@@ -153,18 +153,20 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
 
   /// Builds the logo section with roaster logo or fallback icon
   Widget _buildLogoSection(BuildContext context, Color iconColor) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final effectiveLogoWidth = screenWidth <= 390 ? 80.0 : logoWidth;
     return Semantics(
       identifier: 'roasterLogo_${bean.roaster}',
       label: 'Logo for ${bean.roaster}',
       child: SizedBox(
         height: logoHeight,
-        width: logoWidth,
+        width: effectiveLogoWidth,
         child: (originalUrl != null || mirrorUrl != null)
             ? RoasterLogo(
                 originalUrl: originalUrl,
                 mirrorUrl: mirrorUrl,
                 height: logoHeight,
-                width: logoWidth,
+                width: effectiveLogoWidth,
                 borderRadius: 12.0,
                 forceFit: BoxFit.contain,
               )
@@ -208,6 +210,8 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
             label: 'Roaster: ${bean.roaster}',
             child: Text(
               bean.roaster,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: secondaryColor,
                   ),
@@ -219,6 +223,8 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
             label: 'Origin: ${bean.origin}',
             child: Text(
               bean.origin,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: tertiaryColor,
                   ),

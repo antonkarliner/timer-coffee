@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
@@ -127,36 +128,53 @@ class CoffeeBeanGridCard extends StatelessWidget {
                       ),
                     ),
 
-                    // Logo section - flexible but with constraints
+                    // Logo / photo section
                     Expanded(
                       flex: 3,
                       child: Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: FutureBuilder<Map<String, String?>>(
-                          future: databaseProvider
-                              .fetchCachedRoasterLogoUrls(bean.roaster),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              final originalUrl = snapshot.data!['original'];
-                              final mirrorUrl = snapshot.data!['mirror'];
-                              if (originalUrl != null || mirrorUrl != null) {
-                                return RoasterLogo(
-                                  originalUrl: originalUrl,
-                                  mirrorUrl: mirrorUrl,
-                                  height: 50, // Reduced height
-                                  borderRadius: 8.0,
-                                  forceFit: BoxFit.contain,
-                                );
-                              }
-                            }
-                            return Icon(
-                              Coffeico.bag_with_bean,
-                              size: 50, // Reduced size
-                              color: iconColor,
-                            );
-                          },
-                        ),
+                        child: bean.photoUrl != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: CachedNetworkImage(
+                                  imageUrl: bean.photoUrl!,
+                                  height: 50,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  errorWidget: (_, __, ___) => Icon(
+                                    Coffeico.bag_with_bean,
+                                    size: 50,
+                                    color: iconColor,
+                                  ),
+                                ),
+                              )
+                            : FutureBuilder<Map<String, String?>>(
+                                future: databaseProvider
+                                    .fetchCachedRoasterLogoUrls(bean.roaster),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    final originalUrl =
+                                        snapshot.data!['original'];
+                                    final mirrorUrl = snapshot.data!['mirror'];
+                                    if (originalUrl != null ||
+                                        mirrorUrl != null) {
+                                      return RoasterLogo(
+                                        originalUrl: originalUrl,
+                                        mirrorUrl: mirrorUrl,
+                                        height: 50,
+                                        borderRadius: 8.0,
+                                        forceFit: BoxFit.contain,
+                                      );
+                                    }
+                                  }
+                                  return Icon(
+                                    Coffeico.bag_with_bean,
+                                    size: 50,
+                                    color: iconColor,
+                                  );
+                                },
+                              ),
                       ),
                     ),
 
