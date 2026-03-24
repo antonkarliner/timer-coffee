@@ -355,6 +355,11 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'Ktoś z $country zaparzył $recipeName';
+  }
+
+  @override
   String get pulseTitle => 'Puls';
 
   @override
@@ -2225,4 +2230,51 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'Zobacz Dziennik Parzenia';
+
+  @override
+  String get beanCoverPhoto => 'Zdjęcie okładkowe';
+
+  @override
+  String get beanCoverPhotoAdd => 'Dodaj zdjęcie okładkowe';
+
+  @override
+  String get beanCoverPhotoChange => 'Zmień zdjęcie';
+
+  @override
+  String get beanCoverPhotoRemove => 'Usuń zdjęcie';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => 'Użyć jako zdjęcie okładkowe?';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'Czy chcesz zapisać jedno ze skanowanych obrazów jako zdjęcie okładkowe tego ziarna kawy?';
+
+  @override
+  String get beanCoverPhotoUploading => 'Przesyłanie zdjęcia…';
+
+  @override
+  String get beanCoverPhotoError => 'Nie udało się przesłać zdjęcia';
+
+  @override
+  String get beanCoverPhotoSignInPrompt =>
+      'Zaloguj się, aby dodać zdjęcie okładkowe';
+
+  @override
+  String get settingsAnalyticsTitle => 'Prywatność i analityka';
+
+  @override
+  String get settingsAnalyticsBrews => 'Udostępniaj statystyki parzenia';
+
+  @override
+  String get settingsAnalyticsBeans => 'Udostępniaj statystyki ziaren';
+
+  @override
+  String get settingsAnalyticsGeneral => 'Udostępniaj ogólne statystyki użycia';
+
+  @override
+  String get done => 'Gotowe';
+
+  @override
+  String get saving => 'Zapisywanie…';
 }

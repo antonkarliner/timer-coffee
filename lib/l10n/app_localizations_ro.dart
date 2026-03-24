@@ -358,6 +358,11 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'Cineva din $country a preparat $recipeName';
+  }
+
+  @override
   String get pulseTitle => 'Pulse';
 
   @override
@@ -2206,4 +2211,53 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'Vezi Jurnal de Preparare';
+
+  @override
+  String get beanCoverPhoto => 'Fotografie de copertă';
+
+  @override
+  String get beanCoverPhotoAdd => 'Adaugă fotografie de copertă';
+
+  @override
+  String get beanCoverPhotoChange => 'Schimbă fotografia';
+
+  @override
+  String get beanCoverPhotoRemove => 'Elimină fotografia';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle =>
+      'Folosești ca fotografie de copertă?';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'Dorești să salvezi una dintre imaginile scanate ca fotografie de copertă a acestui bob?';
+
+  @override
+  String get beanCoverPhotoUploading => 'Se încarcă fotografia…';
+
+  @override
+  String get beanCoverPhotoError => 'Încărcarea fotografiei a eșuat';
+
+  @override
+  String get beanCoverPhotoSignInPrompt =>
+      'Autentifică-te pentru a adăuga o fotografie de copertă';
+
+  @override
+  String get settingsAnalyticsTitle => 'Confidențialitate și analitice';
+
+  @override
+  String get settingsAnalyticsBrews => 'Partajează analiticele de preparare';
+
+  @override
+  String get settingsAnalyticsBeans => 'Partajează analiticele boabelor';
+
+  @override
+  String get settingsAnalyticsGeneral =>
+      'Partajează analiticele generale de utilizare';
+
+  @override
+  String get done => 'Gata';
+
+  @override
+  String get saving => 'Se salvează…';
 }

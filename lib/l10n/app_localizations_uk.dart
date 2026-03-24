@@ -358,6 +358,11 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'Хтось з $country приготував $recipeName';
+  }
+
+  @override
   String get pulseTitle => 'Пульс';
 
   @override
@@ -2234,4 +2239,52 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'Переглянути Щоденник заварювань';
+
+  @override
+  String get beanCoverPhoto => 'Фото обкладинки';
+
+  @override
+  String get beanCoverPhotoAdd => 'Додати фото обкладинки';
+
+  @override
+  String get beanCoverPhotoChange => 'Змінити фото';
+
+  @override
+  String get beanCoverPhotoRemove => 'Видалити фото';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => 'Використати як фото обкладинки?';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'Бажаєте зберегти одне зі сканованих зображень як фото обкладинки цього зерна?';
+
+  @override
+  String get beanCoverPhotoUploading => 'Завантаження фото…';
+
+  @override
+  String get beanCoverPhotoError => 'Не вдалося завантажити фото';
+
+  @override
+  String get beanCoverPhotoSignInPrompt =>
+      'Увійдіть, щоб додати фото обкладинки';
+
+  @override
+  String get settingsAnalyticsTitle => 'Конфіденційність і аналітика';
+
+  @override
+  String get settingsAnalyticsBrews => 'Поділитися аналітикою заварювання';
+
+  @override
+  String get settingsAnalyticsBeans => 'Поділитися аналітикою зерен';
+
+  @override
+  String get settingsAnalyticsGeneral =>
+      'Поділитися загальною аналітикою використання';
+
+  @override
+  String get done => 'Готово';
+
+  @override
+  String get saving => 'Збереження…';
 }

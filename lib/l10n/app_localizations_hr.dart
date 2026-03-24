@@ -356,6 +356,11 @@ class AppLocalizationsHr extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'Netko iz $country je pripremio $recipeName';
+  }
+
+  @override
   String get pulseTitle => 'Puls';
 
   @override
@@ -2199,4 +2204,52 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'Prikaži Dnevnik pripreme';
+
+  @override
+  String get beanCoverPhoto => 'Naslovna fotografija';
+
+  @override
+  String get beanCoverPhotoAdd => 'Dodaj naslovnu fotografiju';
+
+  @override
+  String get beanCoverPhotoChange => 'Promijeni fotografiju';
+
+  @override
+  String get beanCoverPhotoRemove => 'Ukloni fotografiju';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle =>
+      'Upotrijebiti kao naslovnu fotografiju?';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'Želite li spremiti jednu od skeniranih slika kao naslovnu fotografiju ovog zrna kave?';
+
+  @override
+  String get beanCoverPhotoUploading => 'Učitavanje fotografije…';
+
+  @override
+  String get beanCoverPhotoError => 'Neuspjelo učitavanje fotografije';
+
+  @override
+  String get beanCoverPhotoSignInPrompt =>
+      'Prijavite se da biste dodali naslovnu fotografiju';
+
+  @override
+  String get settingsAnalyticsTitle => 'Privatnost i analitika';
+
+  @override
+  String get settingsAnalyticsBrews => 'Dijeli analitiku pripreme';
+
+  @override
+  String get settingsAnalyticsBeans => 'Dijeli analitiku zrna';
+
+  @override
+  String get settingsAnalyticsGeneral => 'Dijeli analitiku opće upotrebe';
+
+  @override
+  String get done => 'Gotovo';
+
+  @override
+  String get saving => 'Spremanje…';
 }

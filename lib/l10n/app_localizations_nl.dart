@@ -358,6 +358,11 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'Iemand uit $country heeft $recipeName gezet';
+  }
+
+  @override
   String get pulseTitle => 'Pulse';
 
   @override
@@ -2192,4 +2197,51 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'Brouwdagboek bekijken';
+
+  @override
+  String get beanCoverPhoto => 'Omslagfoto';
+
+  @override
+  String get beanCoverPhotoAdd => 'Omslagfoto toevoegen';
+
+  @override
+  String get beanCoverPhotoChange => 'Foto wijzigen';
+
+  @override
+  String get beanCoverPhotoRemove => 'Foto verwijderen';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => 'Als omslagfoto gebruiken?';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'Wil je een van de gescande afbeeldingen opslaan als omslagfoto van deze boon?';
+
+  @override
+  String get beanCoverPhotoUploading => 'Foto uploaden…';
+
+  @override
+  String get beanCoverPhotoError => 'Foto uploaden mislukt';
+
+  @override
+  String get beanCoverPhotoSignInPrompt =>
+      'Meld je aan om een omslagfoto toe te voegen';
+
+  @override
+  String get settingsAnalyticsTitle => 'Privacy en analyses';
+
+  @override
+  String get settingsAnalyticsBrews => 'Deel brouwanalyses';
+
+  @override
+  String get settingsAnalyticsBeans => 'Deel boonanalyses';
+
+  @override
+  String get settingsAnalyticsGeneral => 'Deel algemene gebruiksanalyses';
+
+  @override
+  String get done => 'Klaar';
+
+  @override
+  String get saving => 'Opslaan…';
 }

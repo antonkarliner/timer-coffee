@@ -359,6 +359,11 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'Jemand aus $country hat $recipeName gebrüht';
+  }
+
+  @override
   String get pulseTitle => 'Pulse';
 
   @override
@@ -2209,4 +2214,51 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'Brühtagebuch ansehen';
+
+  @override
+  String get beanCoverPhoto => 'Titelbild';
+
+  @override
+  String get beanCoverPhotoAdd => 'Titelbild hinzufügen';
+
+  @override
+  String get beanCoverPhotoChange => 'Foto ändern';
+
+  @override
+  String get beanCoverPhotoRemove => 'Foto entfernen';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => 'Als Titelbild verwenden?';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'Möchtest du eines der gescannten Bilder als Titelbild für diese Bohne speichern?';
+
+  @override
+  String get beanCoverPhotoUploading => 'Foto wird hochgeladen…';
+
+  @override
+  String get beanCoverPhotoError => 'Foto konnte nicht hochgeladen werden';
+
+  @override
+  String get beanCoverPhotoSignInPrompt =>
+      'Melde dich an, um ein Titelbild hinzuzufügen';
+
+  @override
+  String get settingsAnalyticsTitle => 'Datenschutz & Analysen';
+
+  @override
+  String get settingsAnalyticsBrews => 'Brüh-Analysen teilen';
+
+  @override
+  String get settingsAnalyticsBeans => 'Bohnen-Analysen teilen';
+
+  @override
+  String get settingsAnalyticsGeneral => 'Allgemeine Nutzungsdaten teilen';
+
+  @override
+  String get done => 'Fertig';
+
+  @override
+  String get saving => 'Wird gespeichert…';
 }

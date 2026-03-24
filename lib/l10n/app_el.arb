@@ -131,6 +131,7 @@
       }
     }
   },
+  "pulseSomeoneFromBrewed": "Κάποιος από {country} παρασκεύασε {recipeName}",
   "pulseTitle": "Παλμός",
   "hubPulseSubtitle": "Ζωντανή ροή παρασκευών",
   "pulseLiveSummary": "Ζωντανή σύνοψη",
@@ -1279,5 +1280,20 @@
   "coffeeJourneyDismissConfirm": "Θέλετε να κρύψετε την πρόοδό σας στην ενότητα Πρώτα βήματα;",
   "coffeeJourneyHideButton": "Απόκρυψη",
   "firstBrewCongrats": "Συγχαρητήρια για την πρώτη σας παρασκευή! Αποθηκεύτηκε στο Ημερολόγιο παρασκευών.",
-  "firstBrewDiaryLink": "Προβολή Ημερολογίου παρασκευών"
+  "firstBrewDiaryLink": "Προβολή Ημερολογίου παρασκευών",
+  "beanCoverPhoto": "Φωτογραφία εξωφύλλου",
+  "beanCoverPhotoAdd": "Προσθήκη φωτογραφίας εξωφύλλου",
+  "beanCoverPhotoChange": "Αλλαγή φωτογραφίας",
+  "beanCoverPhotoRemove": "Αφαίρεση φωτογραφίας",
+  "beanCoverPhotoSavePromptTitle": "Να χρησιμοποιηθεί ως φωτογραφία εξωφύλλου;",
+  "beanCoverPhotoSavePromptBody": "Θέλετε να αποθηκεύσετε μία από τις σαρωμένες εικόνες ως φωτογραφία εξωφύλλου αυτού του κόκκου;",
+  "beanCoverPhotoUploading": "Μεταφόρτωση φωτογραφίας…",
+  "beanCoverPhotoError": "Αποτυχία μεταφόρτωσης φωτογραφίας",
+  "beanCoverPhotoSignInPrompt": "Συνδεθείτε για να προσθέσετε φωτογραφία εξωφύλλου",
+  "settingsAnalyticsTitle": "Απόρρητο και αναλυτικά στοιχεία",
+  "settingsAnalyticsBrews": "Κοινοποίηση αναλυτικών στοιχείων παρασκευής",
+  "settingsAnalyticsBeans": "Κοινοποίηση αναλυτικών στοιχείων κόκκων",
+  "settingsAnalyticsGeneral": "Κοινοποίηση γενικών αναλυτικών στοιχείων χρήσης",
+  "done": "Τέλος",
+  "saving": "Αποθήκευση…"
 }

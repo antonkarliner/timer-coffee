@@ -348,6 +348,11 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return '$country有人冲泡了$recipeName';
+  }
+
+  @override
   String get pulseTitle => '脉动';
 
   @override
@@ -2112,4 +2117,49 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => '查看冲煮日记';
+
+  @override
+  String get beanCoverPhoto => '封面照片';
+
+  @override
+  String get beanCoverPhotoAdd => '添加封面照片';
+
+  @override
+  String get beanCoverPhotoChange => '更改照片';
+
+  @override
+  String get beanCoverPhotoRemove => '移除照片';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => '设为封面照片？';
+
+  @override
+  String get beanCoverPhotoSavePromptBody => '要把其中一张扫描图像保存为这款豆子的封面照片吗？';
+
+  @override
+  String get beanCoverPhotoUploading => '正在上传照片…';
+
+  @override
+  String get beanCoverPhotoError => '照片上传失败';
+
+  @override
+  String get beanCoverPhotoSignInPrompt => '登录后才能添加封面照片';
+
+  @override
+  String get settingsAnalyticsTitle => '隐私与分析';
+
+  @override
+  String get settingsAnalyticsBrews => '分享冲煮分析';
+
+  @override
+  String get settingsAnalyticsBeans => '分享咖啡豆分析';
+
+  @override
+  String get settingsAnalyticsGeneral => '分享通用使用分析';
+
+  @override
+  String get done => '完成';
+
+  @override
+  String get saving => '正在保存…';
 }

@@ -359,6 +359,11 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'Seseorang dari $country menyeduh $recipeName';
+  }
+
+  @override
   String get pulseTitle => 'Pulse';
 
   @override
@@ -2188,4 +2193,51 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'Lihat Diari Seduhan';
+
+  @override
+  String get beanCoverPhoto => 'Foto sampul';
+
+  @override
+  String get beanCoverPhotoAdd => 'Tambahkan foto sampul';
+
+  @override
+  String get beanCoverPhotoChange => 'Ganti foto';
+
+  @override
+  String get beanCoverPhotoRemove => 'Hapus foto';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => 'Gunakan sebagai foto sampul?';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'Apakah Anda ingin menyimpan salah satu gambar hasil pemindaian sebagai foto sampul biji kopi ini?';
+
+  @override
+  String get beanCoverPhotoUploading => 'Mengunggah foto…';
+
+  @override
+  String get beanCoverPhotoError => 'Gagal mengunggah foto';
+
+  @override
+  String get beanCoverPhotoSignInPrompt =>
+      'Masuk untuk menambahkan foto sampul';
+
+  @override
+  String get settingsAnalyticsTitle => 'Privasi & Analitik';
+
+  @override
+  String get settingsAnalyticsBrews => 'Bagikan analitik seduh';
+
+  @override
+  String get settingsAnalyticsBeans => 'Bagikan analitik biji kopi';
+
+  @override
+  String get settingsAnalyticsGeneral => 'Bagikan analitik penggunaan umum';
+
+  @override
+  String get done => 'Selesai';
+
+  @override
+  String get saving => 'Menyimpan…';
 }

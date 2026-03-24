@@ -354,6 +354,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'قام أحدهم من $country بتحضير $recipeName';
+  }
+
+  @override
   String get pulseTitle => 'نبض';
 
   @override
@@ -2195,4 +2200,50 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'عرض سجل التحضير';
+
+  @override
+  String get beanCoverPhoto => 'صورة الغلاف';
+
+  @override
+  String get beanCoverPhotoAdd => 'إضافة صورة غلاف';
+
+  @override
+  String get beanCoverPhotoChange => 'تغيير الصورة';
+
+  @override
+  String get beanCoverPhotoRemove => 'إزالة الصورة';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => 'استخدامها كصورة غلاف؟';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'هل ترغب في حفظ إحدى الصور الممسوحة ضوئيًا كصورة الغلاف لهذا البن؟';
+
+  @override
+  String get beanCoverPhotoUploading => 'جارٍ رفع الصورة…';
+
+  @override
+  String get beanCoverPhotoError => 'فشل رفع الصورة';
+
+  @override
+  String get beanCoverPhotoSignInPrompt => 'سجّل الدخول لإضافة صورة غلاف';
+
+  @override
+  String get settingsAnalyticsTitle => 'الخصوصية والتحليلات';
+
+  @override
+  String get settingsAnalyticsBrews => 'مشاركة تحليلات التحضير';
+
+  @override
+  String get settingsAnalyticsBeans => 'مشاركة تحليلات البن';
+
+  @override
+  String get settingsAnalyticsGeneral => 'مشاركة تحليلات الاستخدام العامة';
+
+  @override
+  String get done => 'تم';
+
+  @override
+  String get saving => 'جارٍ الحفظ…';
 }

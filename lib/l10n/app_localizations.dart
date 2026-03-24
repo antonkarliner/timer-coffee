@@ -780,6 +780,12 @@ abstract class AppLocalizations {
   /// **'Someone brewed {recipeName}'**
   String pulseSomeoneBrewed(String recipeName);
 
+  /// Feed card text for a brew event showing the brewer's country
+  ///
+  /// In en, this message translates to:
+  /// **'Someone from {country} brewed {recipeName}'**
+  String pulseSomeoneFromBrewed(String country, String recipeName);
+
   /// No description provided for @pulseTitle.
   ///
   /// In en, this message translates to:
@@ -3834,6 +3840,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View Brew Diary'**
   String get firstBrewDiaryLink;
+
+  /// No description provided for @beanCoverPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover photo'**
+  String get beanCoverPhoto;
+
+  /// No description provided for @beanCoverPhotoAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add cover photo'**
+  String get beanCoverPhotoAdd;
+
+  /// No description provided for @beanCoverPhotoChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get beanCoverPhotoChange;
+
+  /// No description provided for @beanCoverPhotoRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get beanCoverPhotoRemove;
+
+  /// No description provided for @beanCoverPhotoSavePromptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use as cover photo?'**
+  String get beanCoverPhotoSavePromptTitle;
+
+  /// No description provided for @beanCoverPhotoSavePromptBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to save one of the scanned images as this bean\'s cover photo?'**
+  String get beanCoverPhotoSavePromptBody;
+
+  /// No description provided for @beanCoverPhotoUploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading photo…'**
+  String get beanCoverPhotoUploading;
+
+  /// No description provided for @beanCoverPhotoError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to upload photo'**
+  String get beanCoverPhotoError;
+
+  /// No description provided for @beanCoverPhotoSignInPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to add a cover photo'**
+  String get beanCoverPhotoSignInPrompt;
+
+  /// No description provided for @settingsAnalyticsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy & Analytics'**
+  String get settingsAnalyticsTitle;
+
+  /// No description provided for @settingsAnalyticsBrews.
+  ///
+  /// In en, this message translates to:
+  /// **'Share brewing analytics'**
+  String get settingsAnalyticsBrews;
+
+  /// No description provided for @settingsAnalyticsBeans.
+  ///
+  /// In en, this message translates to:
+  /// **'Share bean analytics'**
+  String get settingsAnalyticsBeans;
+
+  /// No description provided for @settingsAnalyticsGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'Share general usage analytics'**
+  String get settingsAnalyticsGeneral;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// No description provided for @saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving…'**
+  String get saving;
 }
 
 class _AppLocalizationsDelegate

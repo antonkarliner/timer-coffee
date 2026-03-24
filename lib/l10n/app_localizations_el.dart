@@ -363,6 +363,11 @@ class AppLocalizationsEl extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'Κάποιος από $country παρασκεύασε $recipeName';
+  }
+
+  @override
   String get pulseTitle => 'Παλμός';
 
   @override
@@ -2226,4 +2231,55 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'Προβολή Ημερολογίου παρασκευών';
+
+  @override
+  String get beanCoverPhoto => 'Φωτογραφία εξωφύλλου';
+
+  @override
+  String get beanCoverPhotoAdd => 'Προσθήκη φωτογραφίας εξωφύλλου';
+
+  @override
+  String get beanCoverPhotoChange => 'Αλλαγή φωτογραφίας';
+
+  @override
+  String get beanCoverPhotoRemove => 'Αφαίρεση φωτογραφίας';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle =>
+      'Να χρησιμοποιηθεί ως φωτογραφία εξωφύλλου;';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'Θέλετε να αποθηκεύσετε μία από τις σαρωμένες εικόνες ως φωτογραφία εξωφύλλου αυτού του κόκκου;';
+
+  @override
+  String get beanCoverPhotoUploading => 'Μεταφόρτωση φωτογραφίας…';
+
+  @override
+  String get beanCoverPhotoError => 'Αποτυχία μεταφόρτωσης φωτογραφίας';
+
+  @override
+  String get beanCoverPhotoSignInPrompt =>
+      'Συνδεθείτε για να προσθέσετε φωτογραφία εξωφύλλου';
+
+  @override
+  String get settingsAnalyticsTitle => 'Απόρρητο και αναλυτικά στοιχεία';
+
+  @override
+  String get settingsAnalyticsBrews =>
+      'Κοινοποίηση αναλυτικών στοιχείων παρασκευής';
+
+  @override
+  String get settingsAnalyticsBeans =>
+      'Κοινοποίηση αναλυτικών στοιχείων κόκκων';
+
+  @override
+  String get settingsAnalyticsGeneral =>
+      'Κοινοποίηση γενικών αναλυτικών στοιχείων χρήσης';
+
+  @override
+  String get done => 'Τέλος';
+
+  @override
+  String get saving => 'Αποθήκευση…';
 }

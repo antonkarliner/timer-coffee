@@ -355,6 +355,11 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'Joku $country valmisti $recipeName';
+  }
+
+  @override
   String get pulseTitle => 'Syke';
 
   @override
@@ -2185,4 +2190,51 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'Näytä Uuttopäiväkirja';
+
+  @override
+  String get beanCoverPhoto => 'Kansikuva';
+
+  @override
+  String get beanCoverPhotoAdd => 'Lisää kansikuva';
+
+  @override
+  String get beanCoverPhotoChange => 'Vaihda kuva';
+
+  @override
+  String get beanCoverPhotoRemove => 'Poista kuva';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => 'Käytetäänkö kansikuvana?';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'Haluatko tallentaa yhden skannatuista kuvista tämän pavun kansikuvaksi?';
+
+  @override
+  String get beanCoverPhotoUploading => 'Ladataan kuvaa…';
+
+  @override
+  String get beanCoverPhotoError => 'Kuvan lataus epäonnistui';
+
+  @override
+  String get beanCoverPhotoSignInPrompt =>
+      'Kirjaudu sisään lisätäksesi kansikuvan';
+
+  @override
+  String get settingsAnalyticsTitle => 'Tietosuoja ja analytiikka';
+
+  @override
+  String get settingsAnalyticsBrews => 'Jaa valmistusanalytiikka';
+
+  @override
+  String get settingsAnalyticsBeans => 'Jaa papujen analytiikka';
+
+  @override
+  String get settingsAnalyticsGeneral => 'Jaa yleiset käyttötiedot';
+
+  @override
+  String get done => 'Valmis';
+
+  @override
+  String get saving => 'Tallennetaan…';
 }

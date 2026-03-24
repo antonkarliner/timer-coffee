@@ -349,6 +349,11 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return '$country의 누군가 $recipeName을(를) 추출했어요';
+  }
+
+  @override
   String get pulseTitle => '펄스';
 
   @override
@@ -2120,4 +2125,50 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => '브루잉 일지 보기';
+
+  @override
+  String get beanCoverPhoto => '표지 사진';
+
+  @override
+  String get beanCoverPhotoAdd => '표지 사진 추가';
+
+  @override
+  String get beanCoverPhotoChange => '사진 변경';
+
+  @override
+  String get beanCoverPhotoRemove => '사진 제거';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => '표지 사진으로 사용할까요?';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      '스캔한 이미지 중 하나를 이 원두의 표지 사진으로 저장하시겠어요?';
+
+  @override
+  String get beanCoverPhotoUploading => '사진 업로드 중…';
+
+  @override
+  String get beanCoverPhotoError => '사진 업로드에 실패했습니다';
+
+  @override
+  String get beanCoverPhotoSignInPrompt => '표지 사진을 추가하려면 로그인해 주세요';
+
+  @override
+  String get settingsAnalyticsTitle => '개인정보 및 분석';
+
+  @override
+  String get settingsAnalyticsBrews => '추출 분석 공유';
+
+  @override
+  String get settingsAnalyticsBeans => '원두 분석 공유';
+
+  @override
+  String get settingsAnalyticsGeneral => '일반 사용 분석 공유';
+
+  @override
+  String get done => '완료';
+
+  @override
+  String get saving => '저장 중…';
 }

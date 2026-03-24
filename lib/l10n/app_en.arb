@@ -131,6 +131,20 @@
       }
     }
   },
+  "pulseSomeoneFromBrewed": "Someone from {country} brewed {recipeName}",
+  "@pulseSomeoneFromBrewed": {
+    "description": "Feed card text for a brew event showing the brewer's country",
+    "placeholders": {
+      "country": {
+        "type": "String",
+        "example": "France"
+      },
+      "recipeName": {
+        "type": "String",
+        "example": "V60"
+      }
+    }
+  },
   "pulseTitle": "Pulse",
   "hubPulseSubtitle": "Live brew feed",
   "pulseLiveSummary": "Live summary",
@@ -1282,5 +1296,22 @@
   "coffeeJourneyHideButton": "Hide",
 
   "firstBrewCongrats": "Congratulations on your first brew! It has been saved to your Brew Diary.",
-  "firstBrewDiaryLink": "View Brew Diary"
+  "firstBrewDiaryLink": "View Brew Diary",
+
+  "beanCoverPhoto": "Cover photo",
+  "beanCoverPhotoAdd": "Add cover photo",
+  "beanCoverPhotoChange": "Change photo",
+  "beanCoverPhotoRemove": "Remove photo",
+  "beanCoverPhotoSavePromptTitle": "Use as cover photo?",
+  "beanCoverPhotoSavePromptBody": "Would you like to save one of the scanned images as this bean's cover photo?",
+  "beanCoverPhotoUploading": "Uploading photo…",
+  "beanCoverPhotoError": "Failed to upload photo",
+  "beanCoverPhotoSignInPrompt": "Sign in to add a cover photo",
+  "settingsAnalyticsTitle": "Privacy & Analytics",
+  "settingsAnalyticsBrews": "Share brewing analytics",
+  "settingsAnalyticsBeans": "Share bean analytics",
+  "settingsAnalyticsGeneral": "Share general usage analytics",
+
+  "done": "Done",
+  "saving": "Saving…"
 }

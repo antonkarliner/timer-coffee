@@ -356,6 +356,11 @@ class AppLocalizationsNo extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'Noen fra $country brygget $recipeName';
+  }
+
+  @override
   String get pulseTitle => 'Puls';
 
   @override
@@ -2191,4 +2196,51 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'Vis Bryggdagbok';
+
+  @override
+  String get beanCoverPhoto => 'Forsidebilde';
+
+  @override
+  String get beanCoverPhotoAdd => 'Legg til forsidebilde';
+
+  @override
+  String get beanCoverPhotoChange => 'Endre bilde';
+
+  @override
+  String get beanCoverPhotoRemove => 'Fjern bilde';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => 'Bruke som forsidebilde?';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'Vil du lagre et av de skannede bildene som forsidebildet til denne bønnen?';
+
+  @override
+  String get beanCoverPhotoUploading => 'Laster opp bilde…';
+
+  @override
+  String get beanCoverPhotoError => 'Kunne ikke laste opp bilde';
+
+  @override
+  String get beanCoverPhotoSignInPrompt =>
+      'Logg inn for å legge til et forsidebilde';
+
+  @override
+  String get settingsAnalyticsTitle => 'Personvern og analyse';
+
+  @override
+  String get settingsAnalyticsBrews => 'Del bryggeanalyse';
+
+  @override
+  String get settingsAnalyticsBeans => 'Del bønneanalyse';
+
+  @override
+  String get settingsAnalyticsGeneral => 'Del generell bruksanalyse';
+
+  @override
+  String get done => 'Ferdig';
+
+  @override
+  String get saving => 'Lagrer…';
 }

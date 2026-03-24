@@ -355,6 +355,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'Someone from $country brewed $recipeName';
+  }
+
+  @override
   String get pulseTitle => 'Pulse';
 
   @override
@@ -2174,4 +2179,50 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'View Brew Diary';
+
+  @override
+  String get beanCoverPhoto => 'Cover photo';
+
+  @override
+  String get beanCoverPhotoAdd => 'Add cover photo';
+
+  @override
+  String get beanCoverPhotoChange => 'Change photo';
+
+  @override
+  String get beanCoverPhotoRemove => 'Remove photo';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => 'Use as cover photo?';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'Would you like to save one of the scanned images as this bean\'s cover photo?';
+
+  @override
+  String get beanCoverPhotoUploading => 'Uploading photo…';
+
+  @override
+  String get beanCoverPhotoError => 'Failed to upload photo';
+
+  @override
+  String get beanCoverPhotoSignInPrompt => 'Sign in to add a cover photo';
+
+  @override
+  String get settingsAnalyticsTitle => 'Privacy & Analytics';
+
+  @override
+  String get settingsAnalyticsBrews => 'Share brewing analytics';
+
+  @override
+  String get settingsAnalyticsBeans => 'Share bean analytics';
+
+  @override
+  String get settingsAnalyticsGeneral => 'Share general usage analytics';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get saving => 'Saving…';
 }

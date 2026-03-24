@@ -360,6 +360,11 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return '$country birisi $recipeName demledi';
+  }
+
+  @override
   String get pulseTitle => 'Nabız';
 
   @override
@@ -2192,4 +2197,52 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'Demleme Günlüğü\'nü görüntüle';
+
+  @override
+  String get beanCoverPhoto => 'Kapak fotoğrafı';
+
+  @override
+  String get beanCoverPhotoAdd => 'Kapak fotoğrafı ekle';
+
+  @override
+  String get beanCoverPhotoChange => 'Fotoğrafı değiştir';
+
+  @override
+  String get beanCoverPhotoRemove => 'Fotoğrafı kaldır';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle =>
+      'Kapak fotoğrafı olarak kullanılsın mı?';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'Taranan görüntülerden birini bu çekirdeğin kapak fotoğrafı olarak kaydetmek ister misiniz?';
+
+  @override
+  String get beanCoverPhotoUploading => 'Fotoğraf yükleniyor…';
+
+  @override
+  String get beanCoverPhotoError => 'Fotoğraf yüklenemedi';
+
+  @override
+  String get beanCoverPhotoSignInPrompt =>
+      'Kapak fotoğrafı eklemek için oturum açın';
+
+  @override
+  String get settingsAnalyticsTitle => 'Gizlilik ve analizler';
+
+  @override
+  String get settingsAnalyticsBrews => 'Demleme analizlerini paylaş';
+
+  @override
+  String get settingsAnalyticsBeans => 'Çekirdek analizlerini paylaş';
+
+  @override
+  String get settingsAnalyticsGeneral => 'Genel kullanım analizlerini paylaş';
+
+  @override
+  String get done => 'Tamam';
+
+  @override
+  String get saving => 'Kaydediliyor…';
 }

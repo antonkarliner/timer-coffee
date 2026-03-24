@@ -349,6 +349,11 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return '$countryの誰かが$recipeNameを淹れました';
+  }
+
+  @override
   String get pulseTitle => 'パルス';
 
   @override
@@ -2120,4 +2125,49 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => '抽出日記を見る';
+
+  @override
+  String get beanCoverPhoto => 'カバー写真';
+
+  @override
+  String get beanCoverPhotoAdd => 'カバー写真を追加';
+
+  @override
+  String get beanCoverPhotoChange => '写真を変更';
+
+  @override
+  String get beanCoverPhotoRemove => '写真を削除';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => 'カバー写真として使用しますか？';
+
+  @override
+  String get beanCoverPhotoSavePromptBody => 'スキャンした画像の1つを、この豆のカバー写真として保存しますか？';
+
+  @override
+  String get beanCoverPhotoUploading => '写真をアップロード中…';
+
+  @override
+  String get beanCoverPhotoError => '写真のアップロードに失敗しました';
+
+  @override
+  String get beanCoverPhotoSignInPrompt => 'カバー写真を追加するにはサインインしてください';
+
+  @override
+  String get settingsAnalyticsTitle => 'プライバシーと分析';
+
+  @override
+  String get settingsAnalyticsBrews => '抽出分析を共有';
+
+  @override
+  String get settingsAnalyticsBeans => '豆の分析を共有';
+
+  @override
+  String get settingsAnalyticsGeneral => '一般的な利用分析を共有';
+
+  @override
+  String get done => '完了';
+
+  @override
+  String get saving => '保存中…';
 }

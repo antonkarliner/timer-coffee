@@ -358,6 +358,11 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'Alguien de $country preparó $recipeName';
+  }
+
+  @override
   String get pulseTitle => 'Pulso';
 
   @override
@@ -2208,4 +2213,51 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'Ver Diario de preparaciones';
+
+  @override
+  String get beanCoverPhoto => 'Foto de portada';
+
+  @override
+  String get beanCoverPhotoAdd => 'Añadir foto de portada';
+
+  @override
+  String get beanCoverPhotoChange => 'Cambiar foto';
+
+  @override
+  String get beanCoverPhotoRemove => 'Eliminar foto';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => '¿Usar como foto de portada?';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      '¿Quieres guardar una de las imágenes escaneadas como la foto de portada de este grano de café?';
+
+  @override
+  String get beanCoverPhotoUploading => 'Subiendo foto…';
+
+  @override
+  String get beanCoverPhotoError => 'No se pudo subir la foto';
+
+  @override
+  String get beanCoverPhotoSignInPrompt =>
+      'Inicia sesión para añadir una foto de portada';
+
+  @override
+  String get settingsAnalyticsTitle => 'Privacidad y análisis';
+
+  @override
+  String get settingsAnalyticsBrews => 'Compartir analíticas de preparación';
+
+  @override
+  String get settingsAnalyticsBeans => 'Compartir analíticas de granos';
+
+  @override
+  String get settingsAnalyticsGeneral => 'Compartir analíticas de uso general';
+
+  @override
+  String get done => 'Listo';
+
+  @override
+  String get saving => 'Guardando…';
 }

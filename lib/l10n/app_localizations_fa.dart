@@ -355,6 +355,11 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
+  String pulseSomeoneFromBrewed(String country, String recipeName) {
+    return 'یک نفر از $country $recipeName را دم کرد';
+  }
+
+  @override
   String get pulseTitle => 'نبض';
 
   @override
@@ -2176,4 +2181,50 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get firstBrewDiaryLink => 'مشاهده دفترچه دم';
+
+  @override
+  String get beanCoverPhoto => 'عکس کاور';
+
+  @override
+  String get beanCoverPhotoAdd => 'افزودن عکس کاور';
+
+  @override
+  String get beanCoverPhotoChange => 'تغییر عکس';
+
+  @override
+  String get beanCoverPhotoRemove => 'حذف عکس';
+
+  @override
+  String get beanCoverPhotoSavePromptTitle => 'به‌عنوان عکس کاور استفاده شود؟';
+
+  @override
+  String get beanCoverPhotoSavePromptBody =>
+      'مایلید یکی از تصاویر اسکن‌شده را به‌عنوان عکس کاور این دانه ذخیره کنید؟';
+
+  @override
+  String get beanCoverPhotoUploading => 'در حال بارگذاری عکس…';
+
+  @override
+  String get beanCoverPhotoError => 'بارگذاری عکس ناموفق بود';
+
+  @override
+  String get beanCoverPhotoSignInPrompt => 'برای افزودن عکس کاور وارد شوید';
+
+  @override
+  String get settingsAnalyticsTitle => 'حریم خصوصی و تحلیل‌ها';
+
+  @override
+  String get settingsAnalyticsBrews => 'اشتراک‌گذاری تحلیل‌های دم‌آوری';
+
+  @override
+  String get settingsAnalyticsBeans => 'اشتراک‌گذاری تحلیل‌های دانه';
+
+  @override
+  String get settingsAnalyticsGeneral => 'اشتراک‌گذاری تحلیل‌های کلی استفاده';
+
+  @override
+  String get done => 'تمام';
+
+  @override
+  String get saving => 'در حال ذخیره…';
 }
