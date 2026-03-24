@@ -1,3 +1,4 @@
+import 'package:auto_size_text_plus/auto_size_text_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
@@ -69,7 +70,7 @@ class OnboardingScreen extends StatelessWidget {
                     crossAxisCount: 2,
                     mainAxisSpacing: AppSpacing.sm,
                     crossAxisSpacing: AppSpacing.sm,
-                    childAspectRatio: 1.6,
+                    childAspectRatio: 1.3,
                   ),
                   itemCount: featured.length,
                   itemBuilder: (context, index) {
@@ -156,13 +157,14 @@ class _MethodCard extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-              child: Text(
+              child: AutoSizeText(
                 method.brewingMethod,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 2,
+                minFontSize: 10,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
