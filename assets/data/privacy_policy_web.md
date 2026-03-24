@@ -1,111 +1,126 @@
 # Privacy Policy for Timer.Coffee (Web Version)
 
-Last Updated: 08.12.2025
+Last Updated: 22.03.2026
 
 1. INTRODUCTION
 
-Timer.Coffee respects the privacy of its users and is committed to protecting it in all respects. This policy explains how Timer.Coffee uses the data we collect from you when you use our web application.
+Timer.Coffee respects your privacy and is committed to handling your data responsibly. This Privacy Policy explains what data we collect, how we use it, how long we keep it, and how you can request deletion when you use the Timer.Coffee web application.
 
 2. DATA COLLECTION AND USAGE
 
-Timer.Coffee collects minimal data to provide and improve our services. The data we collect includes:
+In plain language, we collect the data we need to keep your brews and recipes saved, sync your content across devices, run optional features like profiles, and understand how the website is being used.
 
-a. User Account Data:
+a. Account and Authentication Data
 
-We now offer multiple options for account creation and authentication:
-- Email registration
-- Apple ID sign-in
-- Google Account sign-in
+We use account data to sign you in, keep you signed in, securely fetch recipe and sync data from Supabase, and let you start using the product before you decide whether to create a full account.
 
-When you create an account or sign in, we may collect the following information:
-- Email address (for email registration)
-- Name (as provided by Apple ID or Google Account)
-- Unique identifier provided by Apple or Google
-- Profile picture (if available and chosen to be shared from Apple ID or Google Account)
+- If you do not already have a session, the web app may create an anonymous Supabase account so the app can securely fetch recipe and sync data from Supabase without exposing the product to the same level of abuse risk as a fully unauthenticated public flow.
+- We also use this anonymous account flow to improve the experience if you later decide to sign up, because your existing data can be carried forward instead of making you start over.
+- If you later sign in with email, Apple, or Google, some data created under the anonymous account may be migrated to your signed-in account so you do not lose it.
+- Depending on the sign-in method you use, we may process your Supabase user ID, email address, display name, provider-specific identifier, sign-in timestamps, and basic account metadata so authentication and sync work correctly.
+- If Apple or Google provides a profile image and you choose to share it, that image may be used as part of your account profile.
 
-For Google Account sign-ins:
-- We access only the information you explicitly approve during the sign-in process.
-- We use this data solely for authentication and to provide you with a personalized experience within our app.
-- We do not share your Google user data with third parties except as necessary to provide and improve our services, or as required by law.
-- You can revoke our access to your Google Account data at any time through your Google Account settings.
+b. Profile Data
 
-b. Supabase Users Data:
+We use profile data so your account can show a name and picture inside the product.
 
-We use Supabase to handle user authentication. The data collected includes:
-- ID
-- Instance ID
-- Last sign-in timestamp
-- Created at timestamp
-- Updated at timestamp
+- If you use profile features, we store your display name and profile picture URL in our user profile records so the product can display your profile consistently across devices.
+- If you upload a profile picture, the image file is stored in Supabase Storage and linked to your profile.
+- Profile content, including display names and uploaded profile pictures, may be checked by automated moderation providers to reduce abuse and inappropriate content.
 
-c. Firebase Cloud Messaging Data:
+c. Brew, Recipe, Bean, and Preference Data
 
-We use Firebase Cloud Messaging for push notifications. The data collected includes:
-- Device OS
-- Device language
-- Timezone
-- Country
-- App version
-- Device model
-- IP address (excluding users in the EU and UK)
+This is the core data of the product. We store it so the web app can remember your brewing history, sync your content, and restore it when you sign in somewhere else.
 
-d. App Usage Statistics:
+- Brew statistics and brew events, such as recipe ID, brewing method, water amount, country of origin (country level only, derived from your IP address at the time of the brew), timestamps, and related identifiers, so your brewing history and aggregate stats work. The country is displayed publicly in the Pulse feed alongside the recipe name; no city or sub-national location is stored or shown.
+- Brew diary content, such as notes, grind size, bean links, favorite or marked state, and sync metadata, so you can keep personal brewing records.
+- Recipes, recipe localizations, and recipe steps, such as amounts, temperatures, brew times, descriptions, visibility state, and moderation flags, so custom recipes can be saved and synced.
+- Bean records, such as roaster, bean name, origin, variety, tasting notes, processing method, elevation, harvest date, roast date, region, roast level, cupping score, notes, farmer, farm, package weight, favorite state, cover photo URL, and sync metadata, so you can track and reuse your bean information.
+- Recipe preferences, such as favorites, last-used timestamps, slider positions, custom amounts, and custom grind size, so the product can remember how you like to brew.
 
-We collect statistics to improve app functionality, including:
-- Brew statistics (recipe ID, amount of water used, brewing method, created at)
-- Coffee beans data (roaster, name, origin, variety, tasting notes, processing method, region, cupping score)
+d. Website Analytics and Technical Data
 
-e. Tracking Script Data:
+We use this data to understand traffic, debug website issues, and see which parts of the site people actually use.
 
-The tracking script aggregates the following statistical information:
-- The day of the week (e.g., Monday, Tuesday, etc.)
-- Your device type (e.g., Phone, Tablet, or Computer)
-- The date of the visit
-- The referring website
-- Your browser (e.g., Firefox, Chrome, Microsoft Edge, etc.)
-- The hour component of the current time in a day
-- Your country, mapped to your IP address
-- Your operating system (e.g., Windows or Mac)
-- Information on your screen size
-- Your preferred language
-- Pages visited
+- The current web application does not initialize mobile push-notification or live-activity features.
+- The website includes a Vercel-provided tracking script configured at deployment time.
+- Based on the repository code, that script is used for website analytics and may collect standard technical and usage data such as page views, referrer, browser, operating system, device type, screen size, language, time of visit, and approximate country or region inferred from IP address.
+- The exact analytics fields and whether cookies or similar technologies are used depend on the deployed configuration of that script.
 
-3. COOKIES
+e. AI-Assisted Features and Content Processing
 
-Timer.Coffee uses cookies to collect anonymous data for improving user experience and for analytical purposes.
+We use AI tools mainly to save you manual work, such as reading a coffee bag label for you instead of making you type every field by hand.
+
+- Timer.Coffee uses third-party AI providers, which may include Groq, Google Gemini or Vertex AI, and OpenAI, to support coffee label or bean recognition, content moderation, and certain translation or notification-processing features.
+- For coffee label or bean recognition, submitted images and optional OCR text are sent to these providers so they can extract bean information for you.
+- We currently do not write the submitted recognition images or OCR text to our main application tables as part of normal operation.
+- We do store recognition usage metadata, such as the user ID, invocation timestamp, and token or usage counters, so we can operate the feature, enforce limits, and understand usage.
+- Diagnostic or platform logs may include limited processing information, such as response-format summaries, truncated text where needed, errors, and operational metadata, so we can debug failures and investigate abuse without storing raw recognition results in routine logs.
+- If you upload a profile picture, that image is intentionally stored as part of the profile feature and is separate from temporary recognition input.
+- If you upload a cover photo for a bean record via the mobile app, the image is compressed on your device and stored in Supabase Storage. The resulting URL is saved in your bean record and syncs to the web application. This feature is only available to signed-in, non-anonymous users and cannot be initiated from the web app.
+- Because AI-assisted features may involve third-party processing and diagnostic logging, you should avoid submitting sensitive personal data unless it is necessary for the feature you are using.
+
+f. Location and Regionalization Data
+
+- To localize pricing, content, or availability, we may infer your country or broad region from your IP address through server-side or client-side geolocation services.
+
+g. Anonymous Usage Analytics
+
+We collect anonymous usage analytics so we can understand which features people actually use, where the brewing flow drops off, and how donation behavior relates to usage patterns. This data helps us improve the product without knowing who you are.
+
+- The web app collects anonymous event data such as brew starts and completions, bean additions, recipe creation and sharing, screen views, and donation-related interactions. No personal information such as your name, email, or account ID is included in analytics events.
+- Each installation is identified by a randomly generated ID that is not linked to your Supabase account or any other identifying information. A random session ID is generated each time you open the web app.
+- Events are buffered in-browser and sent in batches to a Supabase Edge Function. Your IP address is stripped server-side before storage.
+- Analytics events are organized into three categories — brewing analytics, bean analytics, and general usage analytics — each of which you can enable or disable independently in the app's Settings screen. All three categories are enabled by default.
+- We can also disable all analytics collection remotely via a server-side feature flag, without requiring a code update.
+- Raw analytics events are retained for 90 days and then automatically deleted. Pre-aggregated daily metrics that contain no device-level identifiers may be retained indefinitely.
+- This is separate from the Vercel-provided website analytics described in section 2d above.
+
+3. COOKIES AND SIMILAR TECHNOLOGIES
+
+- The repository does not currently show app-managed analytics cookies being set directly by the web application code.
+- Deployed analytics or third-party services may use cookies or similar technologies depending on their configuration. These are typically used to keep analytics and website infrastructure working.
+- You can manage cookies through your browser settings.
 
 4. SECURITY
 
-We value your trust in providing us with your data and strive to use commercially acceptable means of protecting it. However, please remember that no method of transmission over the internet or electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.
+We use commercially reasonable measures to protect your data. However, no method of transmission over the internet or electronic storage is completely secure, and we cannot guarantee absolute security.
 
-5. PRIVACY POLICIES OF OTHER WEBSITES
+5. THIRD-PARTY SERVICES
 
-The Timer.Coffee web application contains links to other websites. Our privacy policy applies only to our web application, so if you click on a link to another website or service, you should read their privacy policy.
+We rely on other providers for parts of the website that we do not run ourselves. For example:
 
-6. CHANGES TO OUR PRIVACY POLICY
+- Supabase for authentication, database storage, Edge Functions, and file storage
+- Vercel or similar website infrastructure and analytics tooling
+- Apple and Google for sign-in, if you choose those sign-in methods
+- AI providers such as Groq, Google, and OpenAI for the AI-assisted features described above
 
-We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.
+These providers may process data on our behalf so the feature you asked for actually works.
 
-7. CONTACT US
+6. DATA RETENTION AND DELETION
 
-For any questions or clarifications regarding the Privacy Policy, please contact us at support@timer.coffee.
+- We retain account, sync, and content data for as long as your account remains active or as long as needed to provide the service. We do this so your data is still there when you come back.
+- You can delete your account from within the product or by contacting support@timer.coffee.
+- When you delete your account, we delete profile data, bean data, recipe preferences, recipes, user stats, and push token records associated with your account, if any exist. Bean cover photo files stored in Supabase Storage are also removed as part of this process.
+- Some analytics and usage records, including brew statistics and AI-recognition invocation records, may be retained in anonymized form by replacing your user ID with a non-identifying placeholder. We keep these records to measure product usage and operate the service without keeping them tied to you.
+- We may retain limited information where required for legal, security, fraud-prevention, or accounting reasons.
 
-8. HOW TO CONTACT THE APPROPRIATE AUTHORITY
+7. USER RIGHTS
 
-Should you wish to report a complaint or if you feel that Timer.Coffee has not addressed your concern in a satisfactory manner, you may contact your local data protection authority.
+Depending on your location, you may have rights regarding your personal data, including the right to access, correct, or delete your data. To exercise these rights, please contact support@timer.coffee.
 
-9. TRADEMARKS
+8. CHANGES TO OUR PRIVACY POLICY
+
+We may update this Privacy Policy from time to time. We will post any updated version in the web application or on our website. Changes become effective when posted unless stated otherwise.
+
+9. CONTACT US
+
+For any questions or clarifications regarding this Privacy Policy, please contact us at support@timer.coffee.
+
+10. HOW TO CONTACT THE APPROPRIATE AUTHORITY
+
+If you believe Timer.Coffee has not handled your privacy concerns appropriately, you may contact your local data protection authority.
+
+11. TRADEMARKS
 
 All trademarks, service marks, trade names, trade dress, product names, and logos appearing in the app are the property of their respective owners.
-
-10. THIRD-PARTY SERVICES
-
-We use third-party AI services to power various features in our app, including coffee label parsing and content analysis. We do not store any images or personal data sent by users. Users are responsible for ensuring no personal data is included in any content they submit.
-
-11. DATA RETENTION AND DELETION
-
-We retain user data only for as long as necessary to provide our services and as required by law. You can request deletion of your account and associated data by contacting us at support@timer.coffee. Upon receiving such a request, we will delete your data within a reasonable timeframe, except where we are required to retain it for legal purposes.
-
-12. USER RIGHTS
-
-Depending on your location, you may have certain rights regarding your personal data, including the right to access, correct, or delete your data. To exercise these rights, please contact us at support@timer.coffee.
