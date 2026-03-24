@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
+import '../services/analytics_service.dart';
 import '../services/onboarding_service.dart';
 import '../theme/design_tokens.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
@@ -231,6 +232,11 @@ class CoffeeJourneyCard extends StatelessWidget {
       ),
     ).then((confirmed) {
       if (confirmed == true) {
+        if (!onboarding.allMilestonesComplete) {
+          AnalyticsService.instance.track('journey_dismissed', properties: {
+            'milestones_completed': onboarding.completedMilestoneCount,
+          });
+        }
         onboarding.completeJourney();
       }
     });

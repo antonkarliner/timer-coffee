@@ -65,6 +65,12 @@ class AnalyticsService extends ChangeNotifier {
     'donation_button_tapped': 'general',
     'donation_completed': 'general',
     'donation_failed': 'general',
+    // Onboarding & journey
+    'onboarding_completed': 'general',
+    'journey_started': 'general',
+    'journey_milestone_completed': 'general',
+    'journey_completed': 'general',
+    'journey_dismissed': 'general',
   };
 
   // ──────────────────── State ────────────────────

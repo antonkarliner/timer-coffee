@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart';
 import '../models/brewing_method_model.dart';
 import '../utils/icon_utils.dart';
+import '../services/analytics_service.dart';
 import '../services/onboarding_service.dart';
 import '../theme/design_tokens.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
@@ -104,6 +105,10 @@ class OnboardingScreen extends StatelessWidget {
   }
 
   void _selectMethod(BuildContext context, BrewingMethodModel method) {
+    AnalyticsService.instance.track('onboarding_completed', properties: {
+      'completion_type': 'method_selected',
+      'brewing_method_id': method.brewingMethodId,
+    });
     final onboarding = Provider.of<OnboardingService>(context, listen: false);
     onboarding.completeOnboarding();
     context.router.replace(const HomeRoute());
@@ -116,6 +121,9 @@ class OnboardingScreen extends StatelessWidget {
   }
 
   void _showAll(BuildContext context) {
+    AnalyticsService.instance.track('onboarding_completed', properties: {
+      'completion_type': 'show_all',
+    });
     final onboarding = Provider.of<OnboardingService>(context, listen: false);
     onboarding.completeOnboarding();
     context.router.replace(const HomeRoute());

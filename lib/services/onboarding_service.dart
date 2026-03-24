@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'analytics_service.dart';
+
 /// Tracks onboarding state: welcome screen completion, first-brew flag,
 /// and Coffee Journey milestone progress.
 class OnboardingService extends ChangeNotifier {
@@ -114,6 +116,9 @@ class OnboardingService extends ChangeNotifier {
       _firstBrewMethodId = brewingMethodId;
       await _prefs.setBool(_keyFirstBrewDone, true);
       await _prefs.setString(_keyFirstBrewMethodId, brewingMethodId);
+      AnalyticsService.instance.track('journey_started', properties: {
+        'brewing_method_id': brewingMethodId,
+      });
       notifyListeners();
     }
   }
@@ -124,6 +129,9 @@ class OnboardingService extends ChangeNotifier {
     } else if (!_milestoneTryMethod && brewingMethodId != _firstBrewMethodId) {
       _milestoneTryMethod = true;
       await _prefs.setBool(_keyMilestoneTryMethod, true);
+      AnalyticsService.instance.track('journey_milestone_completed', properties: {
+        'milestone': 'try_method',
+      });
       notifyListeners();
     }
   }
@@ -132,6 +140,9 @@ class OnboardingService extends ChangeNotifier {
     if (!_milestoneAddBeans) {
       _milestoneAddBeans = true;
       await _prefs.setBool(_keyMilestoneAddBeans, true);
+      AnalyticsService.instance.track('journey_milestone_completed', properties: {
+        'milestone': 'add_beans',
+      });
       notifyListeners();
     }
   }
@@ -140,6 +151,9 @@ class OnboardingService extends ChangeNotifier {
     if (!_milestoneFavorite) {
       _milestoneFavorite = true;
       await _prefs.setBool(_keyMilestoneFavorite, true);
+      AnalyticsService.instance.track('journey_milestone_completed', properties: {
+        'milestone': 'favorite',
+      });
       notifyListeners();
     }
   }
@@ -148,6 +162,9 @@ class OnboardingService extends ChangeNotifier {
     if (!_milestoneStats) {
       _milestoneStats = true;
       await _prefs.setBool(_keyMilestoneStats, true);
+      AnalyticsService.instance.track('journey_milestone_completed', properties: {
+        'milestone': 'stats',
+      });
       notifyListeners();
     }
   }
@@ -156,6 +173,9 @@ class OnboardingService extends ChangeNotifier {
     if (!_milestonePulse) {
       _milestonePulse = true;
       await _prefs.setBool(_keyMilestonePulse, true);
+      AnalyticsService.instance.track('journey_milestone_completed', properties: {
+        'milestone': 'pulse',
+      });
       notifyListeners();
     }
   }
@@ -184,6 +204,9 @@ class OnboardingService extends ChangeNotifier {
   /// Fully dismiss the journey (Done button after all milestones complete).
   /// Card is removed from everywhere.
   Future<void> completeJourney() async {
+    if (!_journeyFullyDone && allMilestonesComplete) {
+      AnalyticsService.instance.track('journey_completed');
+    }
     _journeyFullyDone = true;
     await _prefs.setBool(_keyJourneyFullyDone, true);
     notifyListeners();
