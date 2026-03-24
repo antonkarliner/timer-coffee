@@ -132,6 +132,7 @@ class FeatureFlagKeys {
   static const newCalendar = 'new_calendar';
   static const testBanner = 'test_banner';
   static const yearlyStatsStory25Banner = 'yearly_stats_story_25_banner';
+  static const analyticsEnabled = 'analytics_enabled';
 }
 
 extension FeatureFlagsX on FeatureFlagsRepository {
@@ -140,4 +141,6 @@ extension FeatureFlagsX on FeatureFlagsRepository {
   bool get testBanner => isEnabled(FeatureFlagKeys.testBanner);
   bool get yearlyStatsStory25Banner =>
       isEnabled(FeatureFlagKeys.yearlyStatsStory25Banner);
+  bool get analyticsEnabled =>
+      isEnabled(FeatureFlagKeys.analyticsEnabled, defaultValue: true);
 }

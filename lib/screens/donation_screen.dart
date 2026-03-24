@@ -10,6 +10,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../theme/design_tokens.dart';
 import '../widgets/base_buttons.dart';
+import '../services/analytics_service.dart';
 
 @RoutePage()
 class DonationScreen extends StatefulWidget {
@@ -18,10 +19,14 @@ class DonationScreen extends StatefulWidget {
 }
 
 class _DonationScreenState extends State<DonationScreen> {
+  static const String _buyMeACoffeeUrl =
+      'https://www.buymeacoffee.com/timercoffee';
+  static const Duration _analyticsFlushTimeout = Duration(seconds: 1);
+
   final Set<String> _kIds = {
     'tip_large_coffee',
     'tip_medium_coffee',
-    'tip_small_coffee'
+    'tip_small_coffee',
   };
   List<ProductDetails> _products = const <ProductDetails>[];
   final PurchaseManager _purchaseManager = PurchaseManager();
@@ -29,6 +34,12 @@ class _DonationScreenState extends State<DonationScreen> {
   @override
   void initState() {
     super.initState();
+    AnalyticsService.instance.track(
+      'donation_screen_viewed',
+      properties: {
+        'platform': kIsWeb ? 'web' : (Platform.isIOS ? 'ios' : 'android'),
+      },
+    );
     if (_purchaseManager.isSupported) {
       _loadProducts();
     }
@@ -43,12 +54,16 @@ class _DonationScreenState extends State<DonationScreen> {
       });
       return;
     }
-    final ProductDetailsResponse response =
-        await InAppPurchase.instance.queryProductDetails(_kIds);
+    final ProductDetailsResponse response = await InAppPurchase.instance
+        .queryProductDetails(_kIds);
     setState(() {
       _products = response.productDetails;
-      _products.sort((a, b) =>
-          _kIds.toList().indexOf(a.id).compareTo(_kIds.toList().indexOf(b.id)));
+      _products.sort(
+        (a, b) => _kIds
+            .toList()
+            .indexOf(a.id)
+            .compareTo(_kIds.toList().indexOf(b.id)),
+      );
     });
   }
 
@@ -56,43 +71,32 @@ class _DonationScreenState extends State<DonationScreen> {
     if (!_purchaseManager.isSupported) {
       return;
     }
-    final PurchaseParam purchaseParam =
-        PurchaseParam(productDetails: productDetails);
+    AnalyticsService.instance.track(
+      'donation_button_tapped',
+      properties: {
+        'product_id': productDetails.id,
+        'source_screen': 'donation_screen',
+      },
+    );
+    final PurchaseParam purchaseParam = PurchaseParam(
+      productDetails: productDetails,
+    );
     InAppPurchase.instance.buyConsumable(purchaseParam: purchaseParam);
   }
 
   void _deliverProduct(PurchaseDetails purchaseDetails) {
+    AnalyticsService.instance.track(
+      'donation_completed',
+      properties: {'product_id': purchaseDetails.productID},
+    );
     if (mounted) {
-      Future.microtask(() => showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text(AppLocalizations.of(context)!.donationok),
-                content: Text(AppLocalizations.of(context)!.donationtnx),
-                actions: [
-                  AppTextButton(
-                    label: 'OK',
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    isFullWidth: false,
-                    height: AppButton.heightSmall,
-                    padding: AppButton.paddingSmall,
-                  ),
-                ],
-              );
-            },
-          ));
-    } else {}
-  }
-
-  void _handleError(IAPError error) {
-    Future.microtask(() => showDialog(
+      Future.microtask(
+        () => showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text(AppLocalizations.of(context)!.donationerr),
-              content: Text(AppLocalizations.of(context)!.donationerrmsg),
+              title: Text(AppLocalizations.of(context)!.donationok),
+              content: Text(AppLocalizations.of(context)!.donationtnx),
               actions: [
                 AppTextButton(
                   label: 'OK',
@@ -106,7 +110,35 @@ class _DonationScreenState extends State<DonationScreen> {
               ],
             );
           },
-        ));
+        ),
+      );
+    } else {}
+  }
+
+  void _handleError(IAPError error) {
+    AnalyticsService.instance.track('donation_failed');
+    Future.microtask(
+      () => showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(AppLocalizations.of(context)!.donationerr),
+            content: Text(AppLocalizations.of(context)!.donationerrmsg),
+            actions: [
+              AppTextButton(
+                label: 'OK',
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 
   Map<String, String> getProductTitles(BuildContext context) {
@@ -132,6 +164,22 @@ class _DonationScreenState extends State<DonationScreen> {
     }
   }
 
+  Future<void> _openExternalDonationLink() async {
+    AnalyticsService.instance.track(
+      'donation_button_tapped',
+      properties: {
+        'product_id': 'buymeacoffee_external',
+        'source_screen': 'donation_screen',
+      },
+    );
+    try {
+      await AnalyticsService.instance.flushNow().timeout(
+        _analyticsFlushTimeout,
+      );
+    } catch (_) {}
+    await _launchURL(_buyMeACoffeeUrl);
+  }
+
   @override
   Widget build(BuildContext context) {
     final productTitles = getProductTitles(context);
@@ -152,8 +200,10 @@ class _DonationScreenState extends State<DonationScreen> {
               identifier: 'supportDevelopmentThanks',
               child: Text(
                 AppLocalizations.of(context)!.supportdevtnx,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -181,8 +231,9 @@ class _DonationScreenState extends State<DonationScreen> {
                   height: 56,
                   child: AppElevatedButton(
                     label: AppLocalizations.of(context)!.support,
-                    onPressed: () =>
-                        _launchURL('https://www.buymeacoffee.com/timercoffee'),
+                    onPressed: () async {
+                      await _openExternalDonationLink();
+                    },
                     icon: Icons.local_cafe,
                     isFullWidth: false,
                     height: 56,
@@ -219,7 +270,9 @@ class _DonationScreenState extends State<DonationScreen> {
   }
 
   Widget _buildProductButton(
-      ProductDetails product, Map<String, String> productTitles) {
+    ProductDetails product,
+    Map<String, String> productTitles,
+  ) {
     Widget button = Semantics(
       identifier: 'productButton_${product.id}',
       child: SizedBox(
@@ -253,8 +306,11 @@ class _DonationScreenState extends State<DonationScreen> {
                   color: Theme.of(context).colorScheme.secondary,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.star,
-                    size: 10, color: Theme.of(context).colorScheme.onSecondary),
+                child: Icon(
+                  Icons.star,
+                  size: 10,
+                  color: Theme.of(context).colorScheme.onSecondary,
+                ),
               ),
             ),
           ],

@@ -11,6 +11,7 @@ import 'package:coffee_timer/services/ocr/ocr_fallback_handler.dart';
 import 'package:coffee_timer/services/ocr/background_ocr_manager.dart';
 import 'package:coffee_timer/utils/images/image_resizer.dart';
 import 'package:coffee_timer/services/clients/beans_label_parser_client.dart';
+import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/utils/device_profiler.dart';
 import 'package:coffee_timer/utils/images/image_preprocessor.dart';
 import 'package:coffee_timer/utils/ocr_performance_monitor.dart';
@@ -356,22 +357,20 @@ class NewBeansImageController {
 
           // Perform native OCR directly
           final ocrSw = _StopwatchX();
-          ocrText = await _ocrService.recognizeText(preprocessedFile ?? file);
+          ocrText = await _ocrService.recognizeText(preprocessedFile);
           final ocrMs = ocrSw.stopMs();
           performanceMetrics['ocrMs'] = ocrMs;
 
           _log('Native OCR completed in ${ocrMs}ms: chars=${ocrText.length}');
 
           // Clean up preprocessed file
-          if (preprocessedFile != null) {
-            try {
-              if (preprocessedFile.path != file.path) {
-                await preprocessedFile.delete();
-                _log('Cleaned up preprocessed file: ${preprocessedFile.path}');
-              }
-            } catch (e) {
-              _log('Error cleaning up preprocessed file: $e');
+          try {
+            if (preprocessedFile.path != file.path) {
+              await preprocessedFile.delete();
+              _log('Cleaned up preprocessed file: ${preprocessedFile.path}');
             }
+          } catch (e) {
+            _log('Error cleaning up preprocessed file: $e');
           }
 
           // Force garbage collection after OCR to free memory
@@ -566,7 +565,7 @@ class NewBeansImageController {
         ocrText: ocrText, // Will be null, but that's okay
         performanceMetrics: performanceMetrics,
       );
-    } catch (e, st) {
+    } catch (e) {
       _log('Error generating base64 for edge function for $fileName: $e');
       return ImageProcessingResult.failure(
         fileName: fileName,
@@ -731,7 +730,7 @@ class NewBeansImageController {
           'ocr_chars=${ocrPayload?.length ?? 0}, images=${base64Images.length}, locale=$locale');
       // Add detailed logging to show OCR text content
       if (ocrPayload != null && ocrPayload.isNotEmpty) {
-        _log('OCR text being sent to Edge: "${ocrPayload}"');
+        _log('OCR text being sent to Edge: "$ocrPayload"');
       } else {
         _log('No OCR text being sent to Edge (OCR disabled or empty)');
       }
@@ -754,12 +753,15 @@ class NewBeansImageController {
       );
       final edgeMs = swEdge.stopMs();
 
+      AnalyticsService.instance.track('beans_scan_used', properties: {
+        'success': true,
+        'mode': mode,
+      });
+
       // Log meta if server returned it
       Map<String, dynamic>? serverMeta;
       try {
-        serverMeta = parsed is Map<String, dynamic>
-            ? parsed['meta'] as Map<String, dynamic>?
-            : null;
+        serverMeta = parsed['meta'] as Map<String, dynamic>?;
         if (serverMeta is Map<String, dynamic>) {
           _log(
               'Server meta: decided_mode=${serverMeta['decided_mode']}, tokens_used=${serverMeta['tokens_used']}, '
@@ -797,6 +799,10 @@ class NewBeansImageController {
       _log('Total client flow time: ${swTotal.stopMs()}ms');
       onData(parsed);
     } catch (e, st) {
+      AnalyticsService.instance.track('beans_scan_used', properties: {
+        'success': false,
+        'mode': 'auto',
+      });
       onLoading(false);
       _log('Error during OCR/parse: $e\n$st');
       onError(e.toString());

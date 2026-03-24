@@ -2,6 +2,23 @@
 
 import 'app_router.gr.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'services/analytics_service.dart';
+
+/// Tracks screen views via [AnalyticsService] on every push navigation.
+class AnalyticsRouteObserver extends AutoRouterObserver {
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    super.didPush(route, previousRoute);
+    final name = route.settings.name;
+    if (name != null) {
+      AnalyticsService.instance.track(
+        'screen_viewed',
+        properties: {'screen_name': name},
+      );
+    }
+  }
+}
 
 @AutoRouterConfig()
 class AppRouter extends RootStackRouter {

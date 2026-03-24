@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:coffeico/coffeico.dart';
@@ -22,7 +23,10 @@ import 'package:uuid/uuid.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
+import '../app_router.gr.dart';
 import '../services/onboarding_service.dart';
+import '../services/bean_photo_service.dart';
+import '../services/analytics_service.dart';
 
 // Image flow controller and widgets
 import 'package:coffee_timer/controllers/new_beans_image_controller.dart';
@@ -79,6 +83,12 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
 
   // New: image flow controller
   late final NewBeansImageController _imageController;
+
+  // Photo cover state
+  File? _pendingPhotoFile; // local file awaiting upload on save
+  String? _photoUrl;       // stored URL (loaded in edit mode or set after upload)
+  List<XFile>? _lastOcrImages; // images from the last OCR scan (for cover prompt)
+  bool _isSaving = false; // true while bean save + optional photo upload is in progress
 
   // Validation state
   bool _isFormValid = false;
@@ -354,6 +364,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         _initialHarvestDate = bean.harvestDate;
         _initialRoastDate = bean.roastDate;
         _initialPackageWeightGrams = bean.packageWeightGrams;
+        _photoUrl = bean.photoUrl;
 
         // Trigger validation after loading bean details
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -369,10 +380,23 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         Provider.of<CoffeeBeansProvider>(context, listen: false);
 
     try {
+      // Generate (or reuse) the bean UUID once — used for both photo path and bean record
+      final beansUuid = widget.uuid ?? _uuid.v7();
+
+      // If user selected a new photo, upload it now (before saving the bean)
+      String? resolvedPhotoUrl = _photoUrl;
+      if (_pendingPhotoFile != null) {
+        final photoService = BeanPhotoService(Supabase.instance.client);
+        final uploaded =
+            await photoService.uploadPhoto(_pendingPhotoFile!, beansUuid);
+        if (uploaded != null) {
+          resolvedPhotoUrl = uploaded;
+        }
+      }
+
       final bean = CoffeeBeansModel(
         id: 0, // This will be ignored for new beans
-        beansUuid:
-            widget.uuid ?? _uuid.v7(), // Generate new UUID if not provided
+        beansUuid: beansUuid,
         roaster: _roasterController.text.trim(),
         name: _nameController.text.trim(),
         origin: _originController.text.trim(),
@@ -406,6 +430,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                     ?.versionVector ??
                 VersionVector.initial(coffeeBeansProvider.deviceId).toString()
             : VersionVector.initial(coffeeBeansProvider.deviceId).toString(),
+        photoUrl: resolvedPhotoUrl,
       );
 
       String resultUuid;
@@ -438,6 +463,11 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       } else {
         resultUuid = await coffeeBeansProvider.addCoffeeBeans(bean);
         await _insertBeansDataToSupabase(bean);
+        AnalyticsService.instance.track('beans_added', properties: {
+          'has_roaster': _roasterController.text.trim().isNotEmpty,
+          'has_origin': _originController.text.trim().isNotEmpty,
+          'used_ocr': _lastOcrImages != null,
+        });
         if (mounted) {
           Provider.of<OnboardingService>(context, listen: false)
               .completeMilestoneAddBeans();
@@ -455,7 +485,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       }
     } finally {
       if (mounted) {
-        setState(() => isLoading = false);
+        setState(() => _isSaving = false);
       }
     }
   }
@@ -514,14 +544,26 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           });
         }
 
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          showDialog(
-            context: context,
-            builder: (_) => CollectedDataDialog(
-              data: collectedData!,
-              humanizeKey: _humanReadableFieldName,
-            ),
-          );
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          // Show the data confirmation dialog first
+          if (mounted) {
+            await showDialog(
+              context: context,
+              builder: (_) => CollectedDataDialog(
+                data: collectedData!,
+                humanizeKey: _humanReadableFieldName,
+              ),
+            );
+          }
+          // After user dismisses, offer to save one of the OCR images as cover photo
+          // (only if no cover photo already selected and we have images)
+          if (mounted &&
+              _pendingPhotoFile == null &&
+              _photoUrl == null &&
+              _lastOcrImages != null &&
+              _lastOcrImages!.isNotEmpty) {
+            await _showCoverPhotoPrompt(_lastOcrImages!);
+          }
         });
       },
       onError: (msg) {
@@ -550,6 +592,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         );
       },
       onShowPreview: (images, onConfirm, onBackToSelection) async {
+        // Capture images for the cover photo prompt shown after OCR
+        _lastOcrImages = images;
         await showModalBottomSheet(
           context: context,
           shape: RoundedRectangleBorder(
@@ -565,6 +609,137 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         );
       },
     );
+  }
+
+  /// Shows a dialog asking the user if they want to save one of the OCR images
+  /// as the bean's cover photo.
+  Future<void> _showCoverPhotoPrompt(List<XFile> images) async {
+    if (!mounted || images.isEmpty || kIsWeb) return;
+    final loc = AppLocalizations.of(context)!;
+
+    final selected = await showDialog<XFile>(
+      context: context,
+      builder: (ctx) {
+        XFile? dialogSelected;
+        return StatefulBuilder(
+          builder: (ctx, setDialogState) => AlertDialog(
+            title: Text(loc.beanCoverPhotoSavePromptTitle),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(loc.beanCoverPhotoSavePromptBody),
+                const SizedBox(height: AppSpacing.base),
+                Wrap(
+                  spacing: AppSpacing.sm,
+                  runSpacing: AppSpacing.sm,
+                  children: images.map((xfile) {
+                    final isSelected = dialogSelected?.path == xfile.path;
+                    return GestureDetector(
+                      onTap: () =>
+                          setDialogState(() => dialogSelected = xfile),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: isSelected
+                              ? Border.all(
+                                  color:
+                                      Theme.of(ctx).colorScheme.primary,
+                                  width: AppStroke.focus,
+                                )
+                              : null,
+                          borderRadius:
+                              BorderRadius.circular(AppRadius.small),
+                        ),
+                        child: ClipRRect(
+                          borderRadius:
+                              BorderRadius.circular(AppRadius.small),
+                          child: Image.file(
+                            File(xfile.path),
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+            actions: [
+              AppTextButton(
+                label: loc.cancel,
+                onPressed: () => Navigator.pop(ctx),
+                isFullWidth: false,
+                height: AppButton.heightMedium,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.base, vertical: AppSpacing.sm),
+              ),
+              AppElevatedButton(
+                label: loc.done,
+                onPressed: dialogSelected != null
+                    ? () => Navigator.pop(ctx, dialogSelected)
+                    : null,
+                isFullWidth: false,
+                height: AppButton.heightMedium,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.base, vertical: AppSpacing.sm),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (selected != null && mounted) {
+      setState(() {
+        _pendingPhotoFile = File(selected.path);
+        _photoUrl = null; // clear any existing stored URL
+      });
+    }
+  }
+
+  /// Picks a single photo from camera or gallery for the bean cover.
+  Future<void> _pickCoverPhoto() async {
+    if (kIsWeb) return;
+    final loc = AppLocalizations.of(context)!;
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      builder: (_) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: Text(loc.takePhoto),
+              onTap: () => Navigator.pop(context, ImageSource.camera),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: Text(loc.selectFromPhotos),
+              onTap: () => Navigator.pop(context, ImageSource.gallery),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (source == null) return;
+
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: source);
+    if (picked != null && mounted) {
+      setState(() {
+        _pendingPhotoFile = File(picked.path);
+        _photoUrl = null;
+      });
+    }
+  }
+
+  void _removeCoverPhoto() {
+    setState(() {
+      _pendingPhotoFile = null;
+      _photoUrl = null;
+    });
   }
 
   Future<void> _showFirstTimePopup() async {
@@ -878,13 +1053,19 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                 label: loc.analyzing,
                 child: LoadingOverlay(label: loc.analyzing),
               ),
+            if (_isSaving)
+              Semantics(
+                identifier: 'savingOverlay',
+                label: loc.saving,
+                child: LoadingOverlay(label: loc.saving),
+              ),
           ],
         ),
         bottomNavigationBar: KeyboardAwareStickyActionBar(
           child: StickyActionBar(
             primaryLabel: isEditMode ? loc.save : loc.addCoffeeBeans,
             primaryDisabled: !_isFormValid,
-            isLoading: isLoading,
+            isLoading: isLoading || _isSaving,
             onPrimaryPressed: _isFormValid
                 ? () {
                     // Double-check validation before saving
@@ -900,12 +1081,163 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                       return;
                     }
 
-                    setState(() => isLoading = true);
+                    setState(() => _isSaving = true);
                     _saveCoffeeBeans();
                   }
                 : null,
             semanticIdentifier: 'saveButton',
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCoverPhotoCard(AppLocalizations loc) {
+    final user = Supabase.instance.client.auth.currentUser;
+    final isSignedIn = user != null && !user.isAnonymous;
+    final hasPhoto = _pendingPhotoFile != null || _photoUrl != null;
+    return Card(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.card)),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.base),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(loc.beanCoverPhoto,
+                style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: AppSpacing.sm),
+            if (hasPhoto)
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(AppRadius.card),
+                    child: _pendingPhotoFile != null
+                        ? Image.file(
+                            _pendingPhotoFile!,
+                            height: 160,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.network(
+                            _photoUrl!,
+                            height: 160,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) => const SizedBox(
+                              height: 160,
+                              child: Center(child: Icon(Icons.broken_image)),
+                            ),
+                          ),
+                  ),
+                  Positioned(
+                    top: AppSpacing.xs,
+                    right: AppSpacing.xs,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _photoActionChip(
+                          icon: Icons.edit,
+                          label: loc.beanCoverPhotoChange,
+                          onTap: _pickCoverPhoto,
+                        ),
+                        const SizedBox(width: AppSpacing.xs),
+                        _photoActionChip(
+                          icon: Icons.delete_outline,
+                          label: loc.beanCoverPhotoRemove,
+                          onTap: _removeCoverPhoto,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            else if (isSignedIn)
+              GestureDetector(
+                onTap: _pickCoverPhoto,
+                child: Container(
+                  height: 80,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.outlineVariant),
+                    borderRadius: BorderRadius.circular(AppRadius.card),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.add_photo_alternate_outlined,
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant),
+                      const SizedBox(width: AppSpacing.sm),
+                      Text(
+                        loc.beanCoverPhotoAdd,
+                        style: TextStyle(
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            else
+              GestureDetector(
+                onTap: () => context.router.push(const HubHomeRoute()),
+                child: Container(
+                  height: 80,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.outlineVariant),
+                    borderRadius: BorderRadius.circular(AppRadius.card),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.lock_outline,
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant),
+                      const SizedBox(width: AppSpacing.sm),
+                      Text(
+                        loc.beanCoverPhotoSignInPrompt,
+                        style: TextStyle(
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _photoActionChip(
+      {required IconData icon,
+      required String label,
+      required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+        decoration: BoxDecoration(
+          color: Colors.black54,
+          borderRadius: BorderRadius.circular(AppRadius.chip),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: AppIconSize.small, color: Colors.white),
+            const SizedBox(width: 4),
+            Text(label,
+                style: const TextStyle(
+                    color: Colors.white, fontSize: 12)),
+          ],
         ),
       ),
     );
@@ -957,6 +1289,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           },
         ),
         SizedBox(height: spacing),
+
+        // Cover photo card (hidden on web)
+        if (!kIsWeb) _buildCoverPhotoCard(loc),
+        if (!kIsWeb) SizedBox(height: spacing),
 
         // Optional Details Card
         Semantics(
@@ -1148,6 +1484,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           },
         ),
         SizedBox(height: spacing),
+
+        // Cover photo card (hidden on web)
+        if (!kIsWeb) _buildCoverPhotoCard(loc),
+        if (!kIsWeb) SizedBox(height: spacing),
 
         // Two column layout for remaining cards
         Row(

@@ -14,6 +14,7 @@ import '../services/recipe_import_sharing_service.dart';
 import '../services/recipe_loading_service.dart';
 import '../services/recipe_navigation_service.dart';
 import '../services/bean_selection_service.dart';
+import '../services/analytics_service.dart';
 
 // Providers
 import '../providers/recipe_provider.dart';
@@ -365,6 +366,13 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     );
     AppLogger.debug(
         'Share result - success: ${result.success}, resolvedRecipeId: ${result.resolvedRecipeId}');
+
+    if (result.success) {
+      AnalyticsService.instance.track('recipe_shared', properties: {
+        'recipe_id': shareRecipeId,
+        'brewing_method_id': _updatedRecipe?.brewingMethodId,
+      });
+    }
 
     // If service remapped to a stable usr-<user>-<timestamp> id during share, persist it.
     if (result.success && result.resolvedRecipeId != null) {

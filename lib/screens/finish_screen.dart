@@ -25,9 +25,12 @@ import '../utils/app_logger.dart';
 import '../widgets/notification_permission_dialog.dart'; // Import AppLogger
 import '../widgets/base_buttons.dart';
 import '../services/onboarding_service.dart';
+import '../services/analytics_service.dart';
+import '../services/region_service.dart';
 import '../widgets/first_brew_celebration.dart';
 
 const String _nativeAppUrl = 'https://www.timer.coffee/get/';
+const String _buyMeACoffeeUrl = 'https://www.buymeacoffee.com/timercoffee';
 
 class FinishScreen extends StatefulWidget {
   final String brewingMethodName;
@@ -52,6 +55,8 @@ class FinishScreen extends StatefulWidget {
 }
 
 class _FinishScreenState extends State<FinishScreen> {
+  static const Duration _analyticsFlushTimeout = Duration(seconds: 1);
+
   late Future<String> coffeeFact;
   final AdvancedInAppReview advancedInAppReview = AdvancedInAppReview();
   final Uuid _uuid = Uuid();
@@ -68,8 +73,20 @@ class _FinishScreenState extends State<FinishScreen> {
       }
     });
 
-    coffeeFact = Provider.of<RecipeProvider>(context, listen: false)
-        .getRandomCoffeeFactFromDB();
+    AnalyticsService.instance.track(
+      'brew_completed',
+      properties: {
+        'recipe_id': widget.recipe.id,
+        'brewing_method_id': widget.recipe.brewingMethodId,
+        'coffee_amount': widget.coffeeAmount,
+        'water_amount': widget.waterAmount,
+      },
+    );
+
+    coffeeFact = Provider.of<RecipeProvider>(
+      context,
+      listen: false,
+    ).getRandomCoffeeFactFromDB();
     _recordBrewForOnboarding();
     requestReview();
     insertBrewingDataToSupabase();
@@ -98,6 +115,13 @@ class _FinishScreenState extends State<FinishScreen> {
         'water_amount': widget.waterAmount,
       };
 
+      final regionService = RegionService(Supabase.instance.client);
+      final localeCode = Localizations.localeOf(context).toLanguageTag();
+      final countryCode = await regionService
+          .getCountryCode(localeCode: localeCode)
+          .catchError((_) => null);
+      if (countryCode != null) data['country_code'] = countryCode;
+
       try {
         await Supabase.instance.client
             .from('global_stats')
@@ -107,8 +131,10 @@ class _FinishScreenState extends State<FinishScreen> {
         AppLogger.error('Supabase request timed out', errorObject: e);
         // Optionally, handle the timeout here
       } catch (e) {
-        AppLogger.error('Error inserting brewing data to Supabase',
-            errorObject: e);
+        AppLogger.error(
+          'Error inserting brewing data to Supabase',
+          errorObject: e,
+        );
         // Handle other exceptions as needed
       }
     }
@@ -124,8 +150,10 @@ class _FinishScreenState extends State<FinishScreen> {
         final prefs = await SharedPreferences.getInstance();
         final coffeeBeansUuid = prefs.getString('selectedBeanUuid');
 
-        await Provider.of<UserStatProvider>(context, listen: false)
-            .insertUserStat(
+        await Provider.of<UserStatProvider>(
+          context,
+          listen: false,
+        ).insertUserStat(
           recipeId: widget.recipe.id,
           coffeeAmount: widget.coffeeAmount,
           waterAmount: widget.waterAmount,
@@ -136,11 +164,23 @@ class _FinishScreenState extends State<FinishScreen> {
           coffeeBeansUuid: coffeeBeansUuid,
           grindSize: widget.recipe.grindSize,
         );
+        if (coffeeBeansUuid != null && coffeeBeansUuid.isNotEmpty) {
+          AnalyticsService.instance.track(
+            'beans_attached',
+            properties: {
+              'recipe_id': widget.recipe.id,
+              'brewing_method_id': widget.recipe.brewingMethodId,
+            },
+          );
+        }
         AppLogger.debug(
-            'Inserted new stat with UUID: $statUuid and Coffee Beans UUID: $coffeeBeansUuid');
+          'Inserted new stat with UUID: $statUuid and Coffee Beans UUID: $coffeeBeansUuid',
+        );
       } catch (e) {
-        AppLogger.error("Error inserting brewing data to app database",
-            errorObject: e);
+        AppLogger.error(
+          "Error inserting brewing data to app database",
+          errorObject: e,
+        );
       }
     } else {
       AppLogger.debug('No user signed in');
@@ -165,8 +205,10 @@ class _FinishScreenState extends State<FinishScreen> {
       }
 
       // Get the CoffeeBeansProvider from context
-      final coffeeBeansProvider =
-          Provider.of<CoffeeBeansProvider>(context, listen: false);
+      final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+        context,
+        listen: false,
+      );
 
       // Update the bean weight
       final newWeight = await coffeeBeansProvider.updateBeanWeightAfterBrew(
@@ -224,7 +266,8 @@ class _FinishScreenState extends State<FinishScreen> {
   Future<void> _requestSystemPermissionAndUpdateSettings() async {
     try {
       AppLogger.debug(
-          'Requesting system notification permissions from finish screen');
+        'Requesting system notification permissions from finish screen',
+      );
 
       // Request system permission
       final granted = await NotificationService.instance.requestPermissions();
@@ -237,14 +280,16 @@ class _FinishScreenState extends State<FinishScreen> {
           userId: user?.id,
         );
         AppLogger.debug(
-            'Notification permissions granted and master toggle updated');
+          'Notification permissions granted and master toggle updated',
+        );
       } else {
         AppLogger.debug('Notification permissions denied by user');
       }
     } catch (e) {
       AppLogger.error(
-          'Error requesting notification permissions from finish screen',
-          errorObject: e);
+        'Error requesting notification permissions from finish screen',
+        errorObject: e,
+      );
       // Don't rethrow - allow the app to continue functioning even if permission request fails
     }
   }
@@ -266,6 +311,22 @@ class _FinishScreenState extends State<FinishScreen> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  Future<void> _openExternalDonationLink() async {
+    AnalyticsService.instance.track(
+      'donation_button_tapped',
+      properties: {
+        'product_id': 'buymeacoffee_external',
+        'source_screen': 'finish_screen',
+      },
+    );
+    try {
+      await AnalyticsService.instance.flushNow().timeout(
+        _analyticsFlushTimeout,
+      );
+    } catch (_) {}
+    await _launchURL(_buyMeACoffeeUrl);
   }
 
   void _checkWebPromoCounter() async {
@@ -308,8 +369,7 @@ class _FinishScreenState extends State<FinishScreen> {
               OutlinedButton.icon(
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Theme.of(context).colorScheme.primary,
-                  minimumSize:
-                      const Size(0, AppButton.heightLarge),
+                  minimumSize: const Size(0, AppButton.heightLarge),
                   padding: AppButton.paddingMedium,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppButton.radius),
@@ -333,10 +393,12 @@ class _FinishScreenState extends State<FinishScreen> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double homeButtonWidth =
-        (screenWidth * 0.4).clamp(120.0, 150.0).toDouble();
-    final double supportButtonWidth =
-        (screenWidth * 0.6).clamp(200.0, 240.0).toDouble();
+    final double homeButtonWidth = (screenWidth * 0.4)
+        .clamp(120.0, 150.0)
+        .toDouble();
+    final double supportButtonWidth = (screenWidth * 0.6)
+        .clamp(200.0, 240.0)
+        .toDouble();
 
     return Scaffold(
       appBar: AppBar(
@@ -348,7 +410,8 @@ class _FinishScreenState extends State<FinishScreen> {
       body: SingleChildScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            minHeight: MediaQuery.of(context).size.height -
+            minHeight:
+                MediaQuery.of(context).size.height -
                 kToolbarHeight -
                 MediaQuery.of(context).padding.top -
                 MediaQuery.of(context).padding.bottom,
@@ -358,103 +421,109 @@ class _FinishScreenState extends State<FinishScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Semantics(
-                identifier: 'finishMessage',
-                child: Text(
-                  '${AppLocalizations.of(context)!.finishmsg} ${widget.brewingMethodName}!',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 24),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Semantics(
+                    identifier: 'finishMessage',
+                    child: Text(
+                      '${AppLocalizations.of(context)!.finishmsg} ${widget.brewingMethodName}!',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 24),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            FirstBrewCelebration(
-                brewingMethodId: widget.recipe.brewingMethodId),
-            if (kIsWeb && _showPromoCard)
-              _buildNativeAppPromoCard(context)
-            else
-              Semantics(
-                identifier: 'coffeeFactCard',
-                child: FutureBuilder<String>(
-                  future: coffeeFact,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasData) {
-                      return Card(
-                        margin: const EdgeInsets.all(10),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              style: DefaultTextStyle.of(context).style,
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text:
-                                      '${AppLocalizations.of(context)!.coffeefact}: ',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                const SizedBox(height: 20),
+                FirstBrewCelebration(
+                  brewingMethodId: widget.recipe.brewingMethodId,
+                ),
+                if (kIsWeb && _showPromoCard)
+                  _buildNativeAppPromoCard(context)
+                else
+                  Semantics(
+                    identifier: 'coffeeFactCard',
+                    child: FutureBuilder<String>(
+                      future: coffeeFact,
+                      builder:
+                          (
+                            BuildContext context,
+                            AsyncSnapshot<String> snapshot,
+                          ) {
+                            if (snapshot.hasData) {
+                              return Card(
+                                margin: const EdgeInsets.all(10),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context).style,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text:
+                                              '${AppLocalizations.of(context)!.coffeefact}: ',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: '${snapshot.data}',
+                                          style: const TextStyle(fontSize: 20),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                TextSpan(
-                                    text: '${snapshot.data}',
-                                    style: const TextStyle(fontSize: 20)),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  },
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          },
+                    ),
+                  ),
+                const SizedBox(height: 20),
+                Semantics(
+                  identifier: 'homeButton',
+                  child: AppElevatedButton(
+                    label: AppLocalizations.of(context)!.home,
+                    onPressed: () => context.router.push(const HomeRoute()),
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    foregroundColor: Theme.of(context).colorScheme.primary,
+                    height: AppButton.heightLarge,
+                    width: homeButtonWidth,
+                  ),
                 ),
-              ),
-            const SizedBox(height: 20),
-            Semantics(
-              identifier: 'homeButton',
-              child: AppElevatedButton(
-                label: AppLocalizations.of(context)!.home,
-                onPressed: () => context.router.push(const HomeRoute()),
-                backgroundColor: Theme.of(context).colorScheme.surface,
-                foregroundColor: Theme.of(context).colorScheme.primary,
-                height: AppButton.heightLarge,
-                width: homeButtonWidth,
-              ),
-            ),
-            const SizedBox(height: 20),
-            if (kIsWeb || !Platform.isIOS)
-              Semantics(
-                identifier: 'buyMeACoffeeButton',
-                child: AppElevatedButton(
-                  label: AppLocalizations.of(context)!.support,
-                  onPressed: () =>
-                      _launchURL('https://www.buymeacoffee.com/timercoffee'),
-                  icon: Icons.local_cafe,
-                  backgroundColor: Theme.of(context).colorScheme.surface,
-                  foregroundColor: Theme.of(context).colorScheme.primary,
-                  height: AppButton.heightLarge,
-                  width: supportButtonWidth,
-                ),
-              )
-            else if (!kIsWeb && Platform.isIOS)
-              Semantics(
-                identifier: 'supportButton',
-                child: AppElevatedButton(
-                  label: AppLocalizations.of(context)!.support,
-                  onPressed: () => context.router.push(const DonationRoute()),
-                  icon: Icons.local_cafe,
-                  backgroundColor: Theme.of(context).colorScheme.surface,
-                  foregroundColor: Theme.of(context).colorScheme.primary,
-                  height: AppButton.heightLarge,
-                  width: supportButtonWidth,
-                ),
-              ),
-          ],
+                const SizedBox(height: 20),
+                if (kIsWeb || !Platform.isIOS)
+                  Semantics(
+                    identifier: 'buyMeACoffeeButton',
+                    child: AppElevatedButton(
+                      label: AppLocalizations.of(context)!.support,
+                      onPressed: () async => _openExternalDonationLink(),
+                      icon: Icons.local_cafe,
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                      height: AppButton.heightLarge,
+                      width: supportButtonWidth,
+                    ),
+                  )
+                else if (!kIsWeb && Platform.isIOS)
+                  Semantics(
+                    identifier: 'supportButton',
+                    child: AppElevatedButton(
+                      label: AppLocalizations.of(context)!.support,
+                      onPressed: () =>
+                          context.router.push(const DonationRoute()),
+                      icon: Icons.local_cafe,
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                      height: AppButton.heightLarge,
+                      width: supportButtonWidth,
+                    ),
+                  ),
+              ],
             ),
           ),
         ),

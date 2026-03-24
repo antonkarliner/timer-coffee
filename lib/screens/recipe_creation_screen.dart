@@ -22,6 +22,7 @@ import '../widgets/unsaved_changes_dialog.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
 import '../theme/design_tokens.dart';
 import '../widgets/base_buttons.dart';
+import '../services/analytics_service.dart';
 
 @RoutePage()
 class RecipeCreationScreen extends StatefulWidget {
@@ -453,6 +454,11 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         redirectToNewDetailOnSave: widget.redirectToNewDetailOnSave,
         popWithResultOnSave: widget.popWithResultOnSave,
       );
+
+      AnalyticsService.instance.track('recipe_created', properties: {
+        'brewing_method_id': _selectedBrewingMethodId,
+        'steps_count': _steps.length,
+      });
 
       // Reset unsaved changes flag after successful save
       if (mounted) {

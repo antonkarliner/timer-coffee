@@ -23,6 +23,7 @@ import '../services/live_activity_service.dart';
 import '../services/android_live_update_service.dart';
 import '../services/live_activity_sync_service.dart';
 import '../services/ios_background_task_service.dart';
+import '../services/analytics_service.dart';
 
 class LocalizedNumberText extends StatelessWidget {
   final int currentNumber;
@@ -108,6 +109,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   String? _liveActivityId;
   String? _lastActivityPushToken;
   bool _hasEndedLiveActivity = false;
+  bool _navigatedToFinish = false;
   bool _backendLiveActivitySessionStarted = false;
   bool _isStartingLiveActivityBackendSession = false;
   bool _isResyncInProgress = false;
@@ -259,6 +261,13 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     super.initState();
     WakelockPlus.enable();
 
+    AnalyticsService.instance.track('brew_started', properties: {
+      'recipe_id': widget.recipe.id,
+      'brewing_method_id': widget.recipe.brewingMethodId,
+      'coffee_amount': widget.coffeeAmount,
+      'water_amount': widget.waterAmount,
+    });
+
     if (!kIsWeb && Platform.isIOS) {
       _activateLiveActivityPlanB(trigger: 'session_start');
     }
@@ -342,6 +351,13 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
 
   @override
   void dispose() {
+    if (!_navigatedToFinish) {
+      AnalyticsService.instance.track('brew_abandoned', properties: {
+        'recipe_id': widget.recipe.id,
+        'step_reached': currentStepIndex,
+        'total_steps': brewingSteps.length,
+      });
+    }
     timer.cancel();
     unawaited(IosBackgroundTaskService.instance.stopBrewingTask());
     _stopLiveActivityBackendSessionRetryLoop();
@@ -358,6 +374,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   void _navigateToFinishScreen() {
     // Ensure it only navigates once and if mounted
     if (!mounted || !_isEndBrewAnimating) return;
+    _navigatedToFinish = true;
     _endLiveActivity(reason: 'completed');
 
     Navigator.pushReplacement(
@@ -1088,6 +1105,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   void _navigateToFinishScreenSkip() {
     // Ensure it only navigates once and if mounted
     if (!mounted) return;
+    _navigatedToFinish = true;
     _endLiveActivity(reason: 'completed');
 
     Navigator.pushReplacement(

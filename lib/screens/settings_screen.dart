@@ -26,6 +26,7 @@ import 'package:coffee_timer/services/notification_service.dart';
 import 'package:flutter_dynamic_icon_plus/flutter_dynamic_icon_plus.dart';
 import 'package:flutter/services.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
+import '../services/analytics_service.dart';
 
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
@@ -160,6 +161,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           */
+          _buildAnalyticsPrivacySection(context),
           _buildAboutSection(context, snowEffectProvider),
         ],
       ),
@@ -347,6 +349,37 @@ class _SettingsScreenState extends State<SettingsScreen> {
           onTap: () => _setIcon('Legacy'), // enable .Legacy alias
         ),
       ],
+    );
+  }
+
+  Widget _buildAnalyticsPrivacySection(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    return Consumer<AnalyticsService>(
+      builder: (context, analytics, _) {
+        return Semantics(
+          identifier: 'analyticsPrivacyExpansionTile',
+          child: ExpansionTile(
+            title: Text(loc.settingsAnalyticsTitle),
+            children: [
+              SwitchListTile(
+                title: Text(loc.settingsAnalyticsBrews),
+                value: analytics.brewsEnabled,
+                onChanged: (value) => analytics.setBrewsEnabled(value),
+              ),
+              SwitchListTile(
+                title: Text(loc.settingsAnalyticsBeans),
+                value: analytics.beansEnabled,
+                onChanged: (value) => analytics.setBeansEnabled(value),
+              ),
+              SwitchListTile(
+                title: Text(loc.settingsAnalyticsGeneral),
+                value: analytics.generalEnabled,
+                onChanged: (value) => analytics.setGeneralEnabled(value),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

@@ -13,6 +13,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../app_router.gr.dart';
+import '../services/analytics_service.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/base_buttons.dart';
 
@@ -25,6 +26,10 @@ class InfoScreen extends StatefulWidget {
 }
 
 class _InfoScreenState extends State<InfoScreen> {
+  static const String _buyMeACoffeeUrl =
+      'https://www.buymeacoffee.com/timercoffee';
+  static const Duration _analyticsFlushTimeout = Duration(seconds: 1);
+
   bool _isAnonymous = true;
   String? _userId;
 
@@ -78,15 +83,19 @@ class _InfoScreenState extends State<InfoScreen> {
           ListTile(
             title: Text(l10n.contributors),
             onTap: () => _launchURL(
-                'https://github.com/antonkarliner/timer-coffee/blob/main/CONTRIBUTORS.md'),
+              'https://github.com/antonkarliner/timer-coffee/blob/main/CONTRIBUTORS.md',
+            ),
           ),
           // License
           ExpansionTile(
             title: Text(l10n.license),
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 16.0, right: 16, bottom: 8),
+                padding: const EdgeInsets.only(
+                  left: 16.0,
+                  right: 16,
+                  bottom: 8,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -94,12 +103,14 @@ class _InfoScreenState extends State<InfoScreen> {
                     AppTextButton(
                       label: l10n.licensebutton,
                       onPressed: () => _launchURL(
-                          'https://www.gnu.org/licenses/gpl-3.0.html'),
+                        'https://www.gnu.org/licenses/gpl-3.0.html',
+                      ),
                       isFullWidth: false,
                       height: AppButton.heightSmall,
                       padding: AppButton.paddingSmall,
-                      textStyle: AppButton.label
-                          .copyWith(decoration: TextDecoration.underline),
+                      textStyle: AppButton.label.copyWith(
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ],
                 ),
@@ -174,7 +185,10 @@ class _InfoScreenState extends State<InfoScreen> {
           ),
           // Links and support
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12.0,
+              vertical: 8.0,
+            ),
             child: Column(
               children: [
                 Row(
@@ -187,7 +201,10 @@ class _InfoScreenState extends State<InfoScreen> {
                         backgroundColor: Theme.of(context).colorScheme.surface,
                         foregroundColor: Theme.of(context).colorScheme.primary,
                         height: AppButton.heightSmall,
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 8,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -195,12 +212,16 @@ class _InfoScreenState extends State<InfoScreen> {
                       child: AppElevatedButton(
                         label: l10n.sourcecode,
                         onPressed: () => _launchURL(
-                            'https://github.com/antonkarliner/coffee-timer'),
+                          'https://github.com/antonkarliner/coffee-timer',
+                        ),
                         icon: Icons.code,
                         backgroundColor: Theme.of(context).colorScheme.surface,
                         foregroundColor: Theme.of(context).colorScheme.primary,
                         height: AppButton.heightSmall,
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 8,
+                        ),
                       ),
                     ),
                   ],
@@ -212,12 +233,16 @@ class _InfoScreenState extends State<InfoScreen> {
                       child: AppElevatedButton(
                         label: 'Instagram',
                         onPressed: () => _launchURL(
-                            'https://www.instagram.com/timercoffeeapp'),
+                          'https://www.instagram.com/timercoffeeapp',
+                        ),
                         icon: FontAwesomeIcons.instagram,
                         backgroundColor: Theme.of(context).colorScheme.surface,
                         foregroundColor: Theme.of(context).colorScheme.primary,
                         height: AppButton.heightSmall,
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 8,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -230,7 +255,10 @@ class _InfoScreenState extends State<InfoScreen> {
                         backgroundColor: Theme.of(context).colorScheme.surface,
                         foregroundColor: Theme.of(context).colorScheme.primary,
                         height: AppButton.heightSmall,
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 8,
+                        ),
                       ),
                     ),
                   ],
@@ -241,14 +269,16 @@ class _InfoScreenState extends State<InfoScreen> {
                     child: AppElevatedButton(
                       label: l10n.support,
                       onPressed: kIsWeb || !Platform.isIOS
-                          ? () => _launchURL(
-                              'https://www.buymeacoffee.com/timercoffee')
+                          ? () async => _openExternalDonationLink()
                           : () => context.router.push(const DonationRoute()),
                       icon: Icons.local_cafe,
                       backgroundColor: Theme.of(context).colorScheme.surface,
                       foregroundColor: Theme.of(context).colorScheme.primary,
                       height: AppButton.heightSmall,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 8,
+                      ),
                       isFullWidth: false,
                     ),
                   ),
@@ -271,12 +301,16 @@ class _InfoScreenState extends State<InfoScreen> {
                         Text(
                           '${l10n.appversion}: ${info.version}',
                           style: const TextStyle(
-                              fontSize: 16.0, color: Colors.grey),
+                            fontSize: 16.0,
+                            color: Colors.grey,
+                          ),
                         ),
                         Text(
                           'Build: ${info.buildNumber}',
                           style: const TextStyle(
-                              fontSize: 16.0, color: Colors.grey),
+                            fontSize: 16.0,
+                            color: Colors.grey,
+                          ),
                         ),
                       ],
                     ),
@@ -301,13 +335,26 @@ class _InfoScreenState extends State<InfoScreen> {
 
   Future<void> _launchURL(String url) async {
     final uri = Uri.parse(url);
-    final launched =
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
+    final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
     if (!launched && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(url)),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(url)));
     }
+  }
+
+  Future<void> _openExternalDonationLink() async {
+    AnalyticsService.instance.track(
+      'donation_button_tapped',
+      properties: {
+        'product_id': 'buymeacoffee_external',
+        'source_screen': 'info_screen',
+      },
+    );
+    try {
+      await AnalyticsService.instance.flushNow().timeout(
+        _analyticsFlushTimeout,
+      );
+    } catch (_) {}
+    await _launchURL(_buyMeACoffeeUrl);
   }
 
   void _showDeleteAccountConfirmation() {
@@ -357,14 +404,14 @@ class _InfoScreenState extends State<InfoScreen> {
         _userId = Supabase.instance.client.auth.currentUser?.id;
       });
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.accountDeleted)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.accountDeleted)));
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.accountDeletionError)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.accountDeletionError)));
     }
   }
 }
