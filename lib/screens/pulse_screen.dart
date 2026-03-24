@@ -11,18 +11,21 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/onboarding_service.dart';
+import '../utils/country_names.dart';
 
 class _PulseEntry {
   final int? id;
   final String recipeId;
   final DateTime createdAt;
   final double waterAmount;
+  final String? countryCode;
 
   const _PulseEntry({
     required this.id,
     required this.recipeId,
     required this.createdAt,
     required this.waterAmount,
+    this.countryCode,
   });
 
   String get dedupeKey =>
@@ -260,7 +263,8 @@ class _PulseScreenState extends State<PulseScreen>
       for (final entry in parsed) {
         _resolveRecipe(entry.recipeId);
       }
-    } catch (_) {
+    } catch (e, st) {
+      debugPrint('[PulseScreen] _loadInitialFeed error: $e\n$st');
       if (!mounted) return;
       setState(() {
         _isLoading = false;
@@ -275,7 +279,7 @@ class _PulseScreenState extends State<PulseScreen>
   }) async {
     var query = Supabase.instance.client
         .from('global_stats')
-        .select('id, recipe_id, created_at, water_amount')
+        .select()
         .gte('water_amount', 50)
         .lte('water_amount', 5000);
 
@@ -309,6 +313,7 @@ class _PulseScreenState extends State<PulseScreen>
         recipeId: recipeId,
         createdAt: createdAt,
         waterAmount: waterAmount,
+        countryCode: row['country_code']?.toString(),
       ));
     }
 
@@ -378,7 +383,8 @@ class _PulseScreenState extends State<PulseScreen>
       for (final entry in toAppend) {
         _resolveRecipe(entry.recipeId);
       }
-    } catch (_) {
+    } catch (e, st) {
+      debugPrint('[PulseScreen] _loadMoreFeed error: $e\n$st');
       if (!mounted) return;
       setState(() {
         _isLoadingMore = false;
@@ -413,6 +419,7 @@ class _PulseScreenState extends State<PulseScreen>
             recipeId: recipeId,
             createdAt: createdAt,
             waterAmount: water,
+            countryCode: record['country_code']?.toString(),
           );
 
           if (!mounted) return;
@@ -1364,7 +1371,11 @@ class _PulseScreenState extends State<PulseScreen>
   ) {
     final l10n = AppLocalizations.of(context)!;
     const marker = '__recipe_name__';
-    final template = l10n.pulseSomeoneBrewed(marker);
+    final String? localizedCountry =
+        localizedCountryNameGenitive(entry.countryCode, Localizations.localeOf(context));
+    final template = localizedCountry != null
+        ? l10n.pulseSomeoneFromBrewed(localizedCountry, marker)
+        : l10n.pulseSomeoneBrewed(marker);
     final parts = template.split(marker);
     final widgets = <Widget>[];
 

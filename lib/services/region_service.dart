@@ -11,6 +11,8 @@ import '../utils/app_logger.dart';
 class RegionService {
   static const _cacheKey = 'giftbox_region_code';
   static const _cacheTsKey = 'giftbox_region_cached_at';
+  static const _countryCodeKey = 'country_code_cache';
+  static const _countryCodeTsKey = 'country_code_cached_at';
   static const _cacheTtlHours = 24;
 
   final SupabaseClient _supabaseClient;
@@ -98,6 +100,111 @@ class RegionService {
     }
     if (lc.startsWith('ja') || lc.startsWith('zh') || lc.startsWith('ko')) return 'ASIA';
     return 'WW';
+  }
+
+  // ---------------------------------------------------------------------------
+  // Country code detection (ISO 3166-1 alpha-2)
+  // ---------------------------------------------------------------------------
+
+  /// Returns the user's ISO 3166-1 alpha-2 country code (e.g. "FR"), cached
+  /// for 24 hours. Falls back through: geoip edge function → country.is API →
+  /// locale heuristic. Returns null if all methods fail.
+  Future<String?> getCountryCode({required String localeCode}) async {
+    final cached = await _getCachedCountryCode();
+    if (cached != null) return cached;
+
+    final fromEdge = await _tryEdgeFunctionCountry();
+    if (fromEdge != null) {
+      await _cacheCountryCode(fromEdge);
+      return fromEdge;
+    }
+
+    final fromCountryIs = await _tryCountryIsRaw();
+    if (fromCountryIs != null) {
+      await _cacheCountryCode(fromCountryIs);
+      return fromCountryIs;
+    }
+
+    final fallback = _mapLocaleToCountry(localeCode);
+    if (fallback != null) {
+      await _cacheCountryCode(fallback);
+    }
+    return fallback;
+  }
+
+  Future<String?> _getCachedCountryCode() async {
+    final prefs = await SharedPreferences.getInstance();
+    final cached = prefs.getString(_countryCodeKey);
+    final ts = prefs.getInt(_countryCodeTsKey);
+    if (cached != null && ts != null) {
+      final cachedAt = DateTime.fromMillisecondsSinceEpoch(ts);
+      if (DateTime.now().difference(cachedAt).inHours < _cacheTtlHours) {
+        return cached;
+      }
+    }
+    return null;
+  }
+
+  Future<void> _cacheCountryCode(String code) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_countryCodeKey, code);
+    await prefs.setInt(_countryCodeTsKey, DateTime.now().millisecondsSinceEpoch);
+  }
+
+  Future<String?> _tryEdgeFunctionCountry() async {
+    try {
+      final res = await _supabaseClient.functions.invoke('geoip');
+      final data = res.data as Map?;
+      final country = data?['country']?.toString();
+      if (country != null && country.isNotEmpty) return country.toUpperCase();
+    } catch (e) {
+      AppLogger.debug('geoip country lookup failed: ${AppLogger.sanitize(e)}');
+    }
+    return null;
+  }
+
+  Future<String?> _tryCountryIsRaw() async {
+    try {
+      final resp = await http
+          .get(Uri.parse('https://api.country.is/'))
+          .timeout(const Duration(seconds: 4));
+      if (resp.statusCode == 200) {
+        final data = jsonDecode(resp.body) as Map<String, dynamic>;
+        final country = data['country']?.toString();
+        if (country != null && country.isNotEmpty) return country.toUpperCase();
+      }
+    } catch (e) {
+      AppLogger.debug('country.is raw lookup failed: ${AppLogger.sanitize(e)}');
+    }
+    return null;
+  }
+
+  String? _mapLocaleToCountry(String localeCode) {
+    final lc = localeCode.toLowerCase();
+    if (lc.startsWith('ja')) return 'JP';
+    if (lc.startsWith('zh')) return 'CN';
+    if (lc.startsWith('ko')) return 'KR';
+    if (lc.startsWith('de')) return 'DE';
+    if (lc.startsWith('fr')) return 'FR';
+    if (lc.startsWith('es')) return 'ES';
+    if (lc.startsWith('it')) return 'IT';
+    if (lc.startsWith('pt')) return 'BR';
+    if (lc.startsWith('nl')) return 'NL';
+    if (lc.startsWith('pl')) return 'PL';
+    if (lc.startsWith('ru')) return 'RU';
+    if (lc.startsWith('uk')) return 'UA';
+    if (lc.startsWith('ar')) return 'SA';
+    if (lc.startsWith('tr')) return 'TR';
+    if (lc.startsWith('fi')) return 'FI';
+    if (lc.startsWith('no')) return 'NO';
+    if (lc.startsWith('hr')) return 'HR';
+    if (lc.startsWith('ro')) return 'RO';
+    if (lc.startsWith('id')) return 'ID';
+    if (lc.startsWith('en-us') || lc.startsWith('en_us')) return 'US';
+    if (lc.startsWith('en-gb') || lc.startsWith('en_gb')) return 'GB';
+    if (lc.startsWith('en-au') || lc.startsWith('en_au')) return 'AU';
+    if (lc.startsWith('en-ca') || lc.startsWith('en_ca')) return 'CA';
+    return null;
   }
 
   String? _mapCountryToRegion(String countryCode) {
