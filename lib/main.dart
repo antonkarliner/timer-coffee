@@ -45,6 +45,7 @@ import 'package:coffee_timer/utils/log_config.dart';
 import 'package:coffee_timer/services/notification_migration_service.dart';
 import 'services/feature_flags/feature_flags_repository.dart';
 import 'services/onboarding_service.dart';
+import 'services/analytics_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Custom log handler that intercepts and sanitizes all Supabase library logs
@@ -436,6 +437,15 @@ void main() async {
   final beansStatsProvider = BeansStatsProvider(database);
   final onboardingService = OnboardingService(prefs);
 
+  // Initialize analytics (non-blocking, fire-and-forget)
+  final analyticsService = await AnalyticsService.initialize(prefs);
+
+  // Wire up feature flags kill switch for analytics
+  featureFlagsRepository.stream.listen((flags) {
+    final analyticsEnabled = flags['analyticsEnabled'] ?? true;
+    analyticsService.setGlobalKillSwitch(!analyticsEnabled);
+  });
+
   if (!hasPerformedUuidBackfill) {
     // Perform backfill operations
     await coffeeBeansProvider.backfillMissingUuids();
@@ -479,6 +489,12 @@ void main() async {
     // Continue app startup even if migration fails
   }
 
+  // Track app open
+  analyticsService.track('app_opened', properties: {
+    'locale': initialLocale.languageCode,
+    'is_first_launch': isFirstLaunch,
+  });
+
   runApp(
     CoffeeTimerApp(
       database: database,
@@ -493,6 +509,7 @@ void main() async {
       beansStatsProvider: beansStatsProvider,
       featureFlagsRepository: featureFlagsRepository,
       onboardingService: onboardingService,
+      analyticsService: analyticsService,
     ),
   );
 
@@ -516,6 +533,7 @@ class CoffeeTimerApp extends StatefulWidget {
   final BeansStatsProvider beansStatsProvider;
   final FeatureFlagsRepository featureFlagsRepository;
   final OnboardingService onboardingService;
+  final AnalyticsService analyticsService;
 
   const CoffeeTimerApp({
     Key? key,
@@ -531,23 +549,36 @@ class CoffeeTimerApp extends StatefulWidget {
     required this.beansStatsProvider,
     required this.featureFlagsRepository,
     required this.onboardingService,
+    required this.analyticsService,
   }) : super(key: key);
 
   @override
   _CoffeeTimerAppState createState() => _CoffeeTimerAppState();
 }
 
-class _CoffeeTimerAppState extends State<CoffeeTimerApp> {
+class _CoffeeTimerAppState extends State<CoffeeTimerApp>
+    with WidgetsBindingObserver {
   StreamSubscription<String?>? _notificationTapSubscription;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _setupNotificationTapHandler();
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.hidden ||
+        state == AppLifecycleState.detached) {
+      widget.analyticsService.flushNow();
+    }
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _notificationTapSubscription?.cancel();
     widget.featureFlagsRepository.dispose();
     super.dispose();
@@ -798,6 +829,8 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp> {
             value: widget.featureFlagsRepository),
         ChangeNotifierProvider<OnboardingService>.value(
             value: widget.onboardingService),
+        ChangeNotifierProvider<AnalyticsService>.value(
+            value: widget.analyticsService),
         StreamProvider<Map<String, bool>>(
           create: (_) => widget.featureFlagsRepository.stream,
           initialData: widget.featureFlagsRepository.currentFlags,
@@ -816,6 +849,7 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp> {
             ],
             supportedLocales: widget.supportedLocales,
             routerConfig: widget.appRouter.config(
+              navigatorObservers: () => [AnalyticsRouteObserver()],
               deepLinkBuilder: (deepLink) {
                 if (!widget.onboardingService.onboardingComplete) {
                   return DeepLink([const OnboardingRoute()]);
