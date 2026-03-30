@@ -1,0 +1,14 @@
+Nouveau :
+
+• Ajoutez des photos aux fiches de grains pour distinguer les paquets.
+• Présentation pour les nouveaux utilisateurs afin d’explorer les fonctionnalités de l’app.
+• Analyses respectueuses de la confidentialité pour améliorer l’app (désactivation dans Paramètres).
+• L’écran Pulse affiche désormais les pays d’origine des cafés.
+
+Amélioré :
+
+• L’écran Terminer est désormais défilable sur les petits écrans.
+• Politique de confidentialité mise à jour.
+
+Correction :
+• Correction de bugs.

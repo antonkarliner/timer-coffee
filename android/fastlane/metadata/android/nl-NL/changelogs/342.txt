@@ -1,0 +1,14 @@
+Nieuw:
+
+• Voeg foto's toe aan boonitems om verpakkingen te onderscheiden.
+• Introductie voor nieuwe gebruikers om appfuncties te verkennen.
+• Privacyvriendelijke analyses om de app te verbeteren (uit te schakelen in Instellingen).
+• Pulse-scherm toont nu zetlanden.
+
+Verbeterd:
+
+• Klaar-scherm is nu scrollbaar op kleine schermen.
+• Privacybeleid bijgewerkt.
+
+Bugfix:
+• Bugs in de introductiestroom opgelost.

@@ -1,9 +1,12 @@
 Neu:
-• Auf vielfachen Wunsch: Fotos zu Einträgen für Kaffeebohnen hinzufügen. Praktisch, wenn du schnell zwischen vielen Packungen unterscheiden möchtest.
+• Auf vielfachen Wunsch: Fotos zu Kaffeebohnen-Einträgen hinzufügen. Nützlich, wenn du schnell zwischen vielen Packungen unterscheiden möchtest.
 • Onboarding für neue Nutzer, um sich mit verschiedenen App-Funktionen vertraut zu machen.
-• Datenschutzfreundliche Analysen eingeführt, um die App zu verbessern. Du kannst dich jederzeit in den Einstellungen abmelden.
+• Datenschutzfreundliche Analysen eingeführt, um die App zu verbessern. Du kannst dich in den Einstellungen jederzeit abmelden.
 • Der Pulse-Bildschirm zeigt jetzt die Länder der Brühvorgänge. Ebenfalls datenschutzfreundlich!
 
 Verbessert:
-• Die Datenschutzerklärung aktualisiert, um den aktuellen Stand besser widerzuspiegeln.
+• Datenschutzerklärung aktualisiert, um den aktuellen Stand besser widerzuspiegeln.
 • Der Fertig-Bildschirm ist jetzt scrollbar, damit er auf kleinen Bildschirmen besser funktioniert.
+
+Bugfix:
+• Ein paar Bugs im Onboarding-Ablauf behoben, danke für das Feedback!

@@ -1,0 +1,14 @@
+Novo:
+
+• Priložite fotografije unosima zrna kako biste razlikovali pakiranja.
+• Uvod za nove korisnike za istraživanje značajki aplikacije.
+• Analitika prilagođena privatnosti za poboljšanje aplikacije (isključivanje u Postavkama).
+• Zaslon Puls sada prikazuje zemlje pripreme.
+
+Poboljšano:
+
+• Zaslon Završi sada se može pomicati na malim zaslonima.
+• Ažurirana Pravila privatnosti.
+
+Ispravci grešaka:
+• Ispravljene greške u tijeku uvoda.

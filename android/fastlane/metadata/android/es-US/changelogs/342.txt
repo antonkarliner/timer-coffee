@@ -1,0 +1,11 @@
+Nuevo:
+
+• Adjunta fotos a las entradas de granos para distinguir entre paquetes.
+• Introducción para nuevos usuarios para explorar funciones de la app.
+• Analíticas respetuosas con la privacidad para mejorar la app (desactívalas en Configuración).
+• La pantalla de Pulso ahora muestra los países de origen del café.
+
+Mejorado:
+
+• La pantalla Finalizar ahora se puede desplazar en pantallas pequeñas.
+• Política de privacidad actualizada.

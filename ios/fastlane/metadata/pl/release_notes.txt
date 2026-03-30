@@ -1,9 +1,12 @@
-Nowość:
-• Na prośbę wielu użytkowników: dodawanie zdjęć do wpisów kawy ziarnistej. Przydatne, gdy chcesz szybko odróżnić wiele opakowań.
-• Onboarding dla nowych użytkowników, aby zapoznać się z różnymi funkcjami aplikacji.
-• Wprowadzono przyjazną dla prywatności analitykę, aby ulepszać aplikację. Zawsze możesz zrezygnować w Ustawieniach.
-• Ekran Puls teraz pokazuje kraje parzeń. Również z poszanowaniem prywatności!
+Nowe:
+• Zgodnie z licznymi prośbami: dodano możliwość dołączania zdjęć do wpisów dotyczących ziaren kawy. Przydatne, gdy chcesz szybko rozróżnić wiele opakowań.
+• Wprowadzono onboarding dla nowych użytkowników, aby mogli zapoznać się z różnymi funkcjami aplikacji.
+• Wprowadzono przyjazną prywatności analitykę, aby ulepszać aplikację. Zawsze możesz z niej zrezygnować w Ustawieniach.
+• Ekran Puls pokazuje teraz kraje parzeń. Również w sposób przyjazny prywatności!
 
 Ulepszenia:
 • Zaktualizowano Politykę prywatności, aby lepiej odzwierciedlała obecny stan.
-• Ekran Zakończ jest teraz przewijany, aby lepiej działał na małych ekranach.
+• Ekran Zakończ jest teraz przewijalny, aby lepiej działał na małych ekranach.
+
+Poprawki błędów:
+• Naprawiono kilka błędów w przepływie onboardingu — dzięki za opinie!

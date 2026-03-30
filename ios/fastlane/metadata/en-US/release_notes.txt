@@ -7,3 +7,6 @@ New:
 Improved:
 • Updated Privacy Policy to better reflect current state.
 • Finish screen is now scrollable in order to work better on small screens.
+
+Bugfix:
+• Fixed a few bugs in the onboarding flow, thanks for the feedback!

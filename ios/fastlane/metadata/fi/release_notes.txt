@@ -1,9 +1,12 @@
 Uutta:
-• Suositusta pyynnöstä: liitä valokuvia kahvipapumerkintöihin. Kätevää, kun haluat nopeasti erottaa monien pakettien välillä.
-• Uusien käyttäjien käyttöönotto, jotta eri sovelluksen ominaisuudet tulevat tutuiksi.
-• Otettiin käyttöön tietosuojaystävällinen analytiikka sovelluksen parantamiseksi. Voit aina kieltäytyä Asetuksissa.
+• Suositusta toiveesta: liitä kuvia kahvipapujen merkintöihin. Hyödyllinen, kun haluat nopeasti erottaa toisistaan monia pakkauksia.
+• Perehdytys uusille käyttäjille, jotta eri sovelluksen ominaisuudet tulevat tutuksi.
+• Otettiin käyttöön tietosuojaystävällinen analytiikka sovelluksen parantamiseksi. Voit aina kieltäytyä siitä Asetuksissa.
 • Syke-näyttö näyttää nyt uuttojen maat. Myös tietosuojaystävällisesti!
 
 Parannettua:
 • Päivitettiin tietosuojakäytäntö vastaamaan paremmin nykytilaa.
 • Valmis-näyttö on nyt vieritettävä, jotta se toimii paremmin pienillä näytöillä.
+
+Bugikorjaukset:
+• Korjattiin muutamia bugeja perehdytyksen kulussa, kiitos palautteesta!

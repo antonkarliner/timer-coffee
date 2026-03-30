@@ -1,9 +1,12 @@
 Nuevo:
 • Por petición popular: adjunta fotos a las entradas de granos de café. Útil cuando quieres distinguir rápidamente entre muchos paquetes.
-• Incorporación para nuevos usuarios para familiarizarse con diferentes funciones de la app.
+• Onboarding para que los nuevos usuarios se familiaricen con diferentes funciones de la app.
 • Se introdujeron analíticas respetuosas con la privacidad para mejorar la app. Siempre puedes desactivarlas en Configuración.
-• La pantalla de Pulso ahora muestra los países de las Preparaciones. ¡También respeta la privacidad!
+• La pantalla de Pulso ahora muestra los países de las Preparaciones. ¡También respetuoso con la privacidad!
 
 Mejorado:
 • Se actualizó la Política de privacidad para reflejar mejor el estado actual.
-• La pantalla de Finalizar ahora se puede desplazar para funcionar mejor en pantallas pequeñas.
+• La pantalla de Finalizar ahora es desplazable para funcionar mejor en pantallas pequeñas.
+
+Corrección de errores:
+• Se corrigieron algunos errores en el flujo de onboarding, ¡gracias por los comentarios!

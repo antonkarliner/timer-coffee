@@ -1,9 +1,12 @@
 Nou:
-• La cererea populară: atașează fotografii la intrările de boabe de cafea. Util când vrei să distingi rapid între multe pachete.
+• La cererea populară: atașați fotografii la intrările pentru boabe de cafea. Util când vrei să distingi rapid între multe pachete.
 • Onboarding pentru utilizatorii noi, ca să se familiarizeze cu diferite funcții ale aplicației.
-• Am introdus analitice prietenoase cu confidențialitatea pentru a îmbunătăți aplicația. Poți oricând să renunți în Setări.
-• Ecranul Pulse arată acum țările preparărilor. Tot prietenos cu confidențialitatea!
+• Am introdus analitice prietenoase cu confidențialitatea pentru a face aplicația mai bună. Poți oricând să renunți în Setări.
+• Ecranul Pulse afișează acum țările preparărilor. Tot prietenos cu confidențialitatea!
 
 Îmbunătățit:
-• Am actualizat Politica de confidențialitate pentru a reflecta mai bine starea curentă.
+• Am actualizat Politica de confidențialitate pentru a reflecta mai bine starea actuală.
 • Ecranul Finalizează este acum derulabil pentru a funcționa mai bine pe ecrane mici.
+
+Remediere erori:
+• Am remediat câteva erori în fluxul de onboarding, mulțumim pentru feedback!

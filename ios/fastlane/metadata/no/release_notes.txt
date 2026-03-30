@@ -1,9 +1,12 @@
-Nytt:
-• Etter stor etterspørsel: legg ved bilder til oppføringer for kaffebønner. Nyttig når du raskt vil skille mellom mange pakker.
-• Introduksjon for nye brukere for å bli kjent med ulike funksjoner i appen.
+Ny:
+• Etter stor etterspørsel: legg ved bilder til kaffebønneoppføringer. Nyttig når du raskt vil skille mellom mange pakker.
+• Onboarding for nye brukere for å bli kjent med ulike appfunksjoner.
 • Introduserte personvernvennlig analyse for å gjøre appen bedre. Du kan alltid velge det bort i Innstillinger.
 • Puls-skjermen viser nå landene til brygg. Også personvernvennlig!
 
 Forbedret:
-• Oppdaterte personvernerklæringen for å bedre gjenspeile nåværende tilstand.
+• Oppdaterte personvernerklæringen for å bedre gjenspeile nåværende status.
 • Fullfør-skjermen kan nå rulles for å fungere bedre på små skjermer.
+
+Feilretting:
+• Fikset noen feil i onboarding-flyten, takk for tilbakemeldingen!

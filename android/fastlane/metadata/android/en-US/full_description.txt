@@ -2,7 +2,7 @@ Timer.Coffee is a free, open-source coffee brewing timer and calculator designed
 
 Key Features
 
-- 40+ Brewing Methods: Step-by-step instructions for Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch, and more.
+- 22 Brewing Methods: Step-by-step instructions for Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch, and more.
 - Coffee Calculator: Adjust coffee and water quantities on the fly.
 - Custom Grind Size: Save your grind settings per recipe — never forget your settings again.
 - Background Brewing: The timer keeps running accurately when you minimize the app — switch apps or check a message without losing your place.

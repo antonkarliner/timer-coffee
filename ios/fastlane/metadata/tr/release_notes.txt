@@ -1,9 +1,12 @@
 Yeni:
-• Yoğun istek üzerine: kahve çekirdeği girdilerine fotoğraf ekleyin. Birçok paket arasında hızlıca ayırt etmek istediğinizde kullanışlıdır.
-• Yeni kullanıcıların uygulamanın farklı özelliklerine aşina olması için başlangıç akışı.
+• Popüler istek üzerine: kahve çekirdeği girişlerine fotoğraf ekleme. Birçok paket arasında hızlıca ayırt etmek istediğinizde kullanışlı.
+• Yeni kullanıcıların farklı uygulama özelliklerine aşina olması için başlangıç yönlendirmesi.
 • Uygulamayı daha iyi hale getirmek için gizlilik dostu analizler eklendi. Ayarlar’dan her zaman devre dışı bırakabilirsiniz.
-• Nabız ekranı artık demlemelerin ülkelerini gösteriyor. Ayrıca gizlilik dostu!
+• Nabız ekranı artık demlemelerin ülkelerini gösteriyor. Üstelik gizlilik dostu!
 
 İyileştirildi:
 • Gizlilik Politikası, mevcut durumu daha iyi yansıtacak şekilde güncellendi.
-• Bitir ekranı, küçük ekranlarda daha iyi çalışması için artık kaydırılabilir.
+• Bitir ekranı artık kaydırılabilir; böylece küçük ekranlarda daha iyi çalışır.
+
+Hata düzeltmesi:
+• Başlangıç akışındaki birkaç hata düzeltildi; geri bildirimler için teşekkürler!

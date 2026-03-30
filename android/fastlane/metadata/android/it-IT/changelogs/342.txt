@@ -1,0 +1,14 @@
+Novità:
+
+• Allega foto alle voci dei chicchi per distinguere le confezioni.
+• Onboarding per nuovi utenti per esplorare le funzioni dell’app.
+• Analisi rispettose della privacy per migliorare l’app (disattivabili in Impostazioni).
+• La schermata Pulse ora mostra i paesi di preparazione.
+
+Miglioramenti:
+
+• La schermata Termina ora è scorrevole sugli schermi piccoli.
+• Privacy Policy aggiornata.
+
+Correzioni:
+• Risolti bug nel flusso di onboarding.

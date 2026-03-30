@@ -2,7 +2,7 @@ Timer.Coffee, demleme deneyiminizi geliştirmek için tasarlanmış ücretsiz ve
 
 Temel özellikler
 
-- 40+ demleme yöntemi: Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch ve daha fazlası için ayrıntılı, adım adım talimatlar.
+- 22 demleme yöntemi: Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch ve daha fazlası için ayrıntılı, adım adım talimatlar.
 - Kahve hesaplayıcı: kahve ve su miktarlarını demleme sırasında anında ayarlayın.
 - Özel çekim derecesi: her tarif için çekim ayarlarınızı kaydedin — ayarlarınızı bir daha unutmayın.
 - Arka planda demleme: uygulamayı küçülttüğünüzde zamanlayıcı doğru şekilde çalışmaya devam eder — yerinizi kaybetmeden başka uygulamalara geçin veya mesajlarınızı kontrol edin.

@@ -1,9 +1,12 @@
-Nouveautés :
-• À la demande générale : ajoutez des photos aux fiches de grains de café. Pratique pour distinguer rapidement entre de nombreux paquets.
+Nou :
+• À la demande générale : joignez des photos aux entrées de grains de café. Pratique quand vous voulez distinguer rapidement différents paquets.
 • Parcours d’accueil pour les nouveaux utilisateurs afin de se familiariser avec les différentes fonctionnalités de l’app.
-• Mise en place d’analyses respectueuses de la vie privée pour améliorer l’app. Vous pouvez toujours désactiver cette option dans les réglages.
-• L’écran Pulse affiche désormais les pays des extractions. Toujours respectueux de la vie privée !
+• Ajout d’analyses respectueuses de la vie privée pour améliorer l’app. Vous pouvez toujours les désactiver dans les réglages.
+• L’écran Pulse affiche désormais les pays des infusions. Toujours dans le respect de la vie privée !
 
 Améliorations :
-• Politique de confidentialité mise à jour pour mieux refléter l’état actuel.
-• L’écran de fin est maintenant défilable afin de mieux fonctionner sur les petits écrans.
+• Mise à jour de la Politique de confidentialité pour mieux refléter l’état actuel.
+• L’écran de fin est désormais défilable afin de mieux fonctionner sur les petits écrans.
+
+Correctifs :
+• Correction de quelques bugs dans le parcours d’accueil, merci pour vos retours !

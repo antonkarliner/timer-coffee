@@ -1,9 +1,12 @@
 Nieuw:
-• Op veler verzoek: foto's toevoegen aan koffiebonevermeldingen. Handig als je snel onderscheid wilt maken tussen veel verschillende verpakkingen.
+• Op veler verzoek: voeg foto’s toe aan koffiebonen-items. Handig als je snel onderscheid wilt maken tussen veel verpakkingen.
 • Onboarding voor nieuwe gebruikers om vertrouwd te raken met verschillende app-functies.
 • Privacyvriendelijke analyses geïntroduceerd om de app beter te maken. Je kunt je altijd afmelden in Instellingen.
 • Het Pulse-scherm toont nu de landen van zetsessies. Ook privacyvriendelijk!
 
 Verbeterd:
-• Privacybeleid bijgewerkt om de huidige stand beter weer te geven.
+• Privacybeleid geüpdatet om de huidige stand beter weer te geven.
 • Het Klaar-scherm is nu scrollbaar om beter te werken op kleine schermen.
+
+Bugfix:
+• Een paar bugs in de onboarding-flow opgelost, bedankt voor de feedback!

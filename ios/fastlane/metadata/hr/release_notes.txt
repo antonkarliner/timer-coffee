@@ -1,9 +1,12 @@
 Novo:
-• Na popularan zahtjev: priloži fotografije unosima zrna kave. Korisno kada želiš brzo razlikovati mnogo pakiranja.
-• Uvod za nove korisnike kako bi se upoznali s različitim značajkama aplikacije.
-• Uvedena analitika prilagođena privatnosti kako bismo poboljšali aplikaciju. Uvijek se možeš odjaviti u Postavkama.
-• Zaslon Puls sada prikazuje države priprema. Također prilagođeno privatnosti!
+• Na popularan zahtjev: priloži fotografije unosima za zrna kave. Korisno kada želiš brzo razlikovati mnogo pakiranja.
+• Uvodno postavljanje za nove korisnike kako bi se upoznali s različitim značajkama aplikacije.
+• Uvedena analitika prilagođena privatnosti kako bi aplikacija bila bolja. Uvijek se možeš isključiti u postavkama.
+• Zaslon Puls sada prikazuje države Priprema. Također prilagođeno privatnosti!
 
 Poboljšano:
-• Ažurirana Pravila privatnosti kako bi bolje odražavala trenutno stanje.
+• Ažurirana Pravila privatnosti kako bi bolje odražavala trenutačno stanje.
 • Zaslon Završi sada se može pomicati kako bi bolje radio na malim zaslonima.
+
+Ispravci grešaka:
+• Ispravljeno nekoliko grešaka u tijeku uvodnog postavljanja, hvala na povratnim informacijama!

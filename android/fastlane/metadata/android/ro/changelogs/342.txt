@@ -1,0 +1,14 @@
+Noutăți:
+
+• Atașează fotografii la intrările boabelor pentru a distinge pachetele.
+• Introducere pentru utilizatorii noi ca să exploreze funcțiile aplicației.
+• Analitice prietenoase cu confidențialitatea pentru a îmbunătăți aplicația (dezactivare în Setări).
+• Ecranul Pulse afișează acum țările de preparare.
+
+Îmbunătățiri:
+
+• Ecranul Finalizează se poate derula pe ecrane mici.
+• Politica de confidențialitate a fost actualizată.
+
+Remedieri:
+• Au fost corectate erori în fluxul de introducere.

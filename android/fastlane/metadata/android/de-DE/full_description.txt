@@ -2,7 +2,7 @@ Timer.Coffee ist ein kostenloser, quelloffener Kaffee-Brühtimer und -Rechner, d
 
 Hauptfunktionen
 
-- 40+ Brühmethoden: Schritt-für-Schritt-Anleitungen für Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch und mehr.
+- 22 Brühmethoden: Schritt-für-Schritt-Anleitungen für Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch und mehr.
 - Kaffeerechner: Kaffee- und Wassermengen auf die Schnelle anpassen.
 - Individuelle Mahlgradeinstellung: Speichere deine Mahleinstellungen pro Rezept — vergiss nie wieder deine Einstellungen.
 - Hintergrundbrühen: Der Timer läuft weiterhin präzise, wenn du die App minimierst — wechsle Apps oder lese eine Nachricht, ohne deinen Platz zu verlieren.

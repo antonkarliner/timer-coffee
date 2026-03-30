@@ -1,9 +1,12 @@
 Novità:
-• Su richiesta popolare: allega foto alle voci dei chicchi di caffè. Utile quando vuoi distinguere rapidamente tra molti pacchetti.
-• Onboarding per i nuovi utenti per familiarizzare con diverse funzionalità dell’app.
-• Introdotte analisi rispettose della privacy per migliorare l’app. Puoi sempre scegliere di non partecipare nelle Impostazioni.
-• La schermata Pulse ora mostra i paesi delle Preparazioni. Anche nel rispetto della privacy!
+• Richiesta a gran voce: allega foto alle voci dei Chicchi di caffè. Utile quando vuoi distinguere rapidamente tra tanti pacchetti.
+• Onboarding per i nuovi utenti per familiarizzare con le diverse funzionalità dell’app.
+• Introdotte analisi rispettose della privacy per migliorare l’app. Puoi sempre disattivarle in Impostazioni.
+• La schermata Pulse ora mostra i paesi delle Preparazioni. Anche questa rispettosa della privacy!
 
 Miglioramenti:
-• Aggiornata l’Informativa sulla privacy per rispecchiare meglio lo stato attuale.
+• Aggiornata l’Informativa sulla privacy per riflettere meglio lo stato attuale.
 • La schermata Termina ora è scorrevole per funzionare meglio sugli schermi piccoli.
+
+Correzioni di bug:
+• Risolti alcuni bug nel flusso di onboarding, grazie per il feedback!

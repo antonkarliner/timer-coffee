@@ -1,9 +1,12 @@
 Novo:
-• Por solicitação popular: anexe fotos às entradas de Grãos de Café. Útil quando você quer distinguir rapidamente entre muitos pacotes.
-• Integração para novos usuários se familiarizarem com diferentes recursos do app.
-• Introduzimos análises com foco em privacidade para melhorar o app. Você sempre pode desativar em Configurações.
-• A tela de Pulso agora mostra os países dos Preparos. Também com foco em privacidade!
+• Por solicitação popular: anexe fotos às entradas de Grãos de Café. Útil quando você quer distinguir rapidamente entre vários pacotes.
+• Onboarding para novos usuários se familiarizarem com diferentes recursos do app.
+• Introduzimos Privacidade e análises amigáveis à privacidade para melhorar o app. Você sempre pode desativar em Configurações.
+• A tela de Pulso agora mostra os países dos Preparos. Também amigável à privacidade!
 
 Melhorias:
 • Atualizamos a Política de Privacidade para refletir melhor o estado atual.
 • A tela de Finalizar agora é rolável para funcionar melhor em telas pequenas.
+
+Correção de bugs:
+• Corrigimos alguns bugs no fluxo de onboarding; obrigado pelo feedback!

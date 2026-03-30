@@ -1,0 +1,15 @@
+Uutta:
+
+• Liitä kuvia papumerkintöihin erottaaksesi pakkaukset.
+• Opastus uusille käyttäjille sovelluksen ominaisuuksien tutkimiseen.
+• Tietosuojaa kunnioittava analytiikka sovelluksen parantamiseen (poistettavissa käytöstä Asetukset-valikossa).
+• Syke-näyttö näyttää nyt uuttomaat.
+
+Parannettu:
+
+• Valmis-näyttö on nyt vieritettävä pienillä näytöillä.
+• Tietosuojakäytäntö päivitetty.
+
+Virheenkorjaukset:
+
+• Korjattu virheitä käyttöönoton kulussa.

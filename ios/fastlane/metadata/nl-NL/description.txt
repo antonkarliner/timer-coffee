@@ -2,7 +2,7 @@ Timer.Coffee is een gratis, open-source koffiezettimer en rekenmachine voor een 
 
 Belangrijkste functies
 
-- 40+ Zetmethodes: stapsgewijze instructies voor Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch en meer.
+- 22 Zetmethodes: stapsgewijze instructies voor Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch en meer.
 - Koffierekenmachine: pas koffie- en waterhoeveelheden snel aan.
 - Aangepaste maalgraad: sla je maalinstellingen op per recept — vergeet nooit meer je Comandante-klikken.
 - Op de achtergrond zetten: de timer blijft nauwkeurig lopen wanneer je de app minimaliseert — wissel van app of bekijk een bericht zonder je plek te verliezen.
