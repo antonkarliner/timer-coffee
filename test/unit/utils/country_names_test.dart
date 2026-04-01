@@ -114,7 +114,7 @@ void main() {
 
       expect(
         l10n.pulseSomeoneFromBrewed(country!, 'V60'),
-        'Joku Suomesta valmisti V60',
+        'Joku Suomesta uutti V60',
       );
     });
 
