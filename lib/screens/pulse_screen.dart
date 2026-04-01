@@ -120,6 +120,7 @@ class _PinnedPulseHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
+@RoutePage()
 class PulseScreen extends StatefulWidget {
   const PulseScreen({super.key});
 

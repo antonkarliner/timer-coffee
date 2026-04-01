@@ -115,5 +115,9 @@ class AppRouter extends RootStackRouter {
           page: NotificationDebugRoute.page,
           path: '/debug/notifications',
         ),
+        AutoRoute(
+          page: PulseRoute.page,
+          path: '/pulse',
+        ),
       ];
 }
