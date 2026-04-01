@@ -53,6 +53,19 @@ class LocalNotificationManager {
         await _createAndroidChannels();
       }
 
+      // Check if app was launched by tapping a notification (terminated state).
+      // onDidReceiveNotificationResponse does NOT fire for cold starts —
+      // getNotificationAppLaunchDetails() is the only way to retrieve the payload.
+      final launchDetails = await _plugin.getNotificationAppLaunchDetails();
+      if (launchDetails?.didNotificationLaunchApp == true) {
+        final payload = launchDetails!.notificationResponse?.payload;
+        if (payload != null && payload.isNotEmpty) {
+          AppLogger.debug(
+              'App launched from notification tap (terminated), payload: $payload');
+          onNotificationTapped.add(payload);
+        }
+      }
+
       AppLogger.debug('LocalNotificationManager initialized');
     } catch (e) {
       AppLogger.error('Failed to initialize LocalNotificationManager',
@@ -148,6 +161,15 @@ class LocalNotificationManager {
       AppLogger.debug('Local notification scheduled for: $scheduledDate');
     } catch (e) {
       AppLogger.error('Failed to schedule local notification', errorObject: e);
+    }
+  }
+
+  Future<void> cancelNotification(int id) async {
+    try {
+      await _plugin.cancel(id);
+      AppLogger.debug('Local notification cancelled with id: $id');
+    } catch (e) {
+      AppLogger.error('Failed to cancel local notification', errorObject: e);
     }
   }
 

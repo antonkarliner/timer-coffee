@@ -1,8 +1,15 @@
+import 'package:flutter/material.dart' show TimeOfDay;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 const String KEY_MASTER_ENABLED = 'notifications_master_enabled';
+const String KEY_MORNING_REMINDER = 'notifications_morning_reminder_enabled';
+const String KEY_MORNING_REMINDER_HOUR = 'notifications_morning_reminder_hour';
+const String KEY_MORNING_REMINDER_MINUTE =
+    'notifications_morning_reminder_minute';
+const String KEY_WEEKLY_SUMMARY = 'notifications_weekly_summary_enabled';
+const String KEY_BEAN_FRESHNESS = 'notifications_bean_freshness_enabled';
 
 class NotificationSettingsService {
   static final NotificationSettingsService instance =
@@ -13,13 +20,33 @@ class NotificationSettingsService {
   SharedPreferences? _prefs;
   final BehaviorSubject<bool> _masterSubject =
       BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> _morningSubject =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<TimeOfDay> _morningTimeSubject =
+      BehaviorSubject<TimeOfDay>.seeded(const TimeOfDay(hour: 8, minute: 30));
+  final BehaviorSubject<bool> _weeklySubject =
+      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> _beanFreshnessSubject =
+      BehaviorSubject<bool>.seeded(false);
 
   Stream<bool> get masterChanges => _masterSubject.stream.distinct();
+  Stream<bool> get morningChanges => _morningSubject.stream.distinct();
+  Stream<TimeOfDay> get morningTimeChanges =>
+      _morningTimeSubject.stream.distinct();
+  Stream<bool> get weeklyChanges => _weeklySubject.stream.distinct();
+  Stream<bool> get beanFreshnessChanges =>
+      _beanFreshnessSubject.stream.distinct();
 
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
-    final current = _prefs!.getBool(KEY_MASTER_ENABLED) ?? false;
-    _masterSubject.add(current);
+    _masterSubject.add(_prefs!.getBool(KEY_MASTER_ENABLED) ?? false);
+    _morningSubject.add(_prefs!.getBool(KEY_MORNING_REMINDER) ?? false);
+    _morningTimeSubject.add(TimeOfDay(
+      hour: _prefs!.getInt(KEY_MORNING_REMINDER_HOUR) ?? 8,
+      minute: _prefs!.getInt(KEY_MORNING_REMINDER_MINUTE) ?? 30,
+    ));
+    _weeklySubject.add(_prefs!.getBool(KEY_WEEKLY_SUMMARY) ?? false);
+    _beanFreshnessSubject.add(_prefs!.getBool(KEY_BEAN_FRESHNESS) ?? false);
   }
 
   Future<bool> isMasterEnabled() async {
@@ -34,8 +61,65 @@ class NotificationSettingsService {
     AppLogger.debug('Master notification setting updated: $enabled');
   }
 
+  Future<bool> isMorningReminderEnabled() async {
+    await _ensureInitialized();
+    return _prefs!.getBool(KEY_MORNING_REMINDER) ?? false;
+  }
+
+  Future<void> setMorningReminderEnabled(bool enabled) async {
+    await _ensureInitialized();
+    await _prefs!.setBool(KEY_MORNING_REMINDER, enabled);
+    _morningSubject.add(enabled);
+    AppLogger.debug('Morning reminder setting updated: $enabled');
+  }
+
+  Future<TimeOfDay> getMorningReminderTime() async {
+    await _ensureInitialized();
+    return TimeOfDay(
+      hour: _prefs!.getInt(KEY_MORNING_REMINDER_HOUR) ?? 8,
+      minute: _prefs!.getInt(KEY_MORNING_REMINDER_MINUTE) ?? 30,
+    );
+  }
+
+  Future<void> setMorningReminderTime(TimeOfDay time) async {
+    await _ensureInitialized();
+    await _prefs!.setInt(KEY_MORNING_REMINDER_HOUR, time.hour);
+    await _prefs!.setInt(KEY_MORNING_REMINDER_MINUTE, time.minute);
+    _morningTimeSubject.add(time);
+    AppLogger.debug(
+        'Morning reminder time updated: ${time.hour}:${time.minute}');
+  }
+
+  Future<bool> isWeeklySummaryEnabled() async {
+    await _ensureInitialized();
+    return _prefs!.getBool(KEY_WEEKLY_SUMMARY) ?? false;
+  }
+
+  Future<void> setWeeklySummaryEnabled(bool enabled) async {
+    await _ensureInitialized();
+    await _prefs!.setBool(KEY_WEEKLY_SUMMARY, enabled);
+    _weeklySubject.add(enabled);
+    AppLogger.debug('Weekly summary setting updated: $enabled');
+  }
+
+  Future<bool> isBeanFreshnessEnabled() async {
+    await _ensureInitialized();
+    return _prefs!.getBool(KEY_BEAN_FRESHNESS) ?? false;
+  }
+
+  Future<void> setBeanFreshnessEnabled(bool enabled) async {
+    await _ensureInitialized();
+    await _prefs!.setBool(KEY_BEAN_FRESHNESS, enabled);
+    _beanFreshnessSubject.add(enabled);
+    AppLogger.debug('Bean freshness setting updated: $enabled');
+  }
+
   void dispose() {
     _masterSubject.close();
+    _morningSubject.close();
+    _morningTimeSubject.close();
+    _weeklySubject.close();
+    _beanFreshnessSubject.close();
   }
 
   Future<void> _ensureInitialized() async {

@@ -404,6 +404,12 @@ class NotificationService {
     }
   }
 
+  /// Cancels a scheduled or shown local notification by its ID
+  Future<void> cancelNotification(int id) async {
+    if (!_initialized) return;
+    await _localManager.cancelNotification(id);
+  }
+
   // --- Getters for services ---
   NotificationSettingsService get settings => _settingsService;
   PermissionService get permissions => _permissionService;

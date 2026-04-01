@@ -71,6 +71,12 @@ class AnalyticsService extends ChangeNotifier {
     'journey_milestone_completed': 'general',
     'journey_completed': 'general',
     'journey_dismissed': 'general',
+    // Notification permission A/B test
+    'notification_permission_ab_assigned': 'general',
+    'notification_permission_shown': 'general',
+    'notification_permission_result': 'general',
+    // Notification engagement
+    'notification_tapped': 'general',
   };
 
   // ──────────────────── State ────────────────────
