@@ -144,6 +144,12 @@ class _StatsScreenState extends State<StatsScreen> {
     _controller = StatsController();
     _realtime = StatsRealtimeService();
 
+    // Apply pending initial period from deep link (e.g. weekly summary notification)
+    if (StatsController.pendingInitialPeriod != null) {
+      _controller.selectedPeriod = StatsController.pendingInitialPeriod!;
+      StatsController.pendingInitialPeriod = null;
+    }
+
     // Safe to read providers with listen: false in initState
     _db = Provider.of<DatabaseProvider>(context, listen: false);
 
