@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:coffee_timer/services/date_time_format_service.dart';
 
 import '../../controllers/coffee_beans_detail_controller.dart';
 
@@ -82,6 +83,7 @@ class CoffeeBeansInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final fmtSvc = Provider.of<DateTimeFormatService>(context);
 
     // Check if card should be rendered based on available data
     if (!_shouldRenderCard(loc)) {
@@ -102,7 +104,7 @@ class CoffeeBeansInfoCard extends StatelessWidget {
             children: [
               _buildHeader(context, loc),
               const SizedBox(height: 16),
-              ..._buildContent(context, loc),
+              ..._buildContent(context, loc, fmtSvc),
             ],
           ),
         ),
@@ -190,14 +192,16 @@ class CoffeeBeansInfoCard extends StatelessWidget {
   }
 
   /// Builds the card content based on the card type
-  List<Widget> _buildContent(BuildContext context, AppLocalizations loc) {
+  List<Widget> _buildContent(BuildContext context, AppLocalizations loc,
+      DateTimeFormatService fmtSvc) {
+    final datePattern = fmtSvc.datePattern('MMM d, yyyy');
     switch (type) {
       case CoffeeBeansInfoCardType.basicInfo:
         return _buildBasicInfoContent(loc);
       case CoffeeBeansInfoCardType.geography:
-        return _buildGeographyContent(loc);
+        return _buildGeographyContent(loc, datePattern);
       case CoffeeBeansInfoCardType.processing:
-        return _buildProcessingContent(loc);
+        return _buildProcessingContent(loc, datePattern);
       case CoffeeBeansInfoCardType.inventory:
         return _buildInventoryContent(context, loc);
       case CoffeeBeansInfoCardType.flavor:
@@ -241,7 +245,7 @@ class CoffeeBeansInfoCard extends StatelessWidget {
   }
 
   /// Builds geography & terroir content
-  List<Widget> _buildGeographyContent(AppLocalizations loc) {
+  List<Widget> _buildGeographyContent(AppLocalizations loc, String datePattern) {
     final items = <Widget>[];
 
     if (bean.region?.isNotEmpty == true) {
@@ -261,7 +265,7 @@ class CoffeeBeansInfoCard extends StatelessWidget {
     if (bean.harvestDate != null) {
       items.add(DetailItemRow(
         label: loc.harvestDate,
-        value: DateFormat.yMMMd().format(bean.harvestDate!),
+        value: DateFormat(datePattern).format(bean.harvestDate!),
       ));
     }
 
@@ -269,7 +273,7 @@ class CoffeeBeansInfoCard extends StatelessWidget {
   }
 
   /// Builds processing & roasting content
-  List<Widget> _buildProcessingContent(AppLocalizations loc) {
+  List<Widget> _buildProcessingContent(AppLocalizations loc, String datePattern) {
     final items = <Widget>[];
 
     if (bean.processingMethod?.isNotEmpty == true) {
@@ -280,9 +284,11 @@ class CoffeeBeansInfoCard extends StatelessWidget {
     }
 
     if (bean.roastDate != null) {
+      final days = DateTime.now().difference(bean.roastDate!).inDays;
       items.add(DetailItemRow(
         label: loc.roastDate,
-        value: DateFormat.yMMMd().format(bean.roastDate!),
+        value: DateFormat(datePattern).format(bean.roastDate!),
+        valueSubtitle: days > 0 ? loc.daysAgo(days) : null,
       ));
     }
 

@@ -3,9 +3,11 @@ import 'package:auto_size_text_plus/auto_size_text_plus.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/coffee_beans_model.dart';
 import '../../providers/coffee_beans_provider.dart';
+import '../../services/date_time_format_service.dart';
 import '../roaster_logo.dart';
 import 'quick_stat_chip.dart';
 
@@ -87,6 +89,8 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final fmtSvc = Provider.of<DateTimeFormatService>(context);
+    final datePattern = fmtSvc.datePattern('MMM d, yyyy');
     final theme = Theme.of(context);
     final isLight = theme.brightness == Brightness.light;
 
@@ -142,7 +146,7 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
                 if (bean.roastDate != null ||
                     bean.cuppingScore != null ||
                     bean.validatedPackageWeightGrams != null)
-                  _buildQuickStats(context, loc),
+                  _buildQuickStats(context, loc, datePattern),
               ],
             ),
           ),
@@ -262,7 +266,8 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
   }
 
   /// Builds the quick stats section with roast date and cupping score
-  Widget _buildQuickStats(BuildContext context, AppLocalizations loc) {
+  Widget _buildQuickStats(BuildContext context, AppLocalizations loc,
+      String datePattern) {
     return Semantics(
       identifier: 'quickStats_${bean.beansUuid}',
       label: 'Quick statistics',
@@ -277,7 +282,8 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
               QuickStatChip(
                 icon: Icons.calendar_today,
                 label: loc.roastDate,
-                value: DateFormat.yMMMd().format(bean.roastDate!),
+                value: DateFormat(datePattern).format(bean.roastDate!),
+                subtitle: _daysAgoText(bean.roastDate!, loc),
               ),
             if (bean.validatedPackageWeightGrams != null)
               QuickStatChip(
@@ -296,5 +302,11 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String? _daysAgoText(DateTime roastDate, AppLocalizations loc) {
+    final days = DateTime.now().difference(roastDate).inDays;
+    if (days <= 0) return null;
+    return loc.daysAgo(days);
   }
 }

@@ -41,6 +41,9 @@ class DetailItemRow extends StatelessWidget {
   /// Flex ratio for the value column (defaults to 3)
   final int valueFlex;
 
+  /// Optional secondary text shown below the value in a muted style
+  final String? valueSubtitle;
+
   const DetailItemRow({
     super.key,
     required this.label,
@@ -51,6 +54,7 @@ class DetailItemRow extends StatelessWidget {
     this.verticalPadding = 4.0,
     this.labelFlex = 2,
     this.valueFlex = 3,
+    this.valueSubtitle,
   });
 
   @override
@@ -79,12 +83,24 @@ class DetailItemRow extends StatelessWidget {
             ),
             Expanded(
               flex: valueFlex,
-              child: Text(
-                displayValue,
-                style: valueStyle ??
-                    theme.textTheme.bodyMedium?.copyWith(
-                      fontSize: 18,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    displayValue,
+                    style: valueStyle ??
+                        theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 18,
+                        ),
+                  ),
+                  if (valueSubtitle != null)
+                    Text(
+                      valueSubtitle!,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurface.withValues(alpha: 0.55),
+                      ),
                     ),
+                ],
               ),
             ),
           ],
