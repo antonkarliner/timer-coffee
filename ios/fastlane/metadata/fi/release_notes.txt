@@ -1,12 +1,12 @@
 Uutta:
-• Suositusta toiveesta: liitä kuvia kahvipapujen merkintöihin. Hyödyllinen, kun haluat nopeasti erottaa toisistaan monia pakkauksia.
-• Perehdytys uusille käyttäjille, jotta eri sovelluksen ominaisuudet tulevat tutuksi.
-• Otettiin käyttöön tietosuojaystävällinen analytiikka sovelluksen parantamiseksi. Voit aina kieltäytyä siitä Asetuksissa.
-• Syke-näyttö näyttää nyt uuttojen maat. Myös tietosuojaystävällisesti!
+• Määritä ilmoitukset, jotka muistuttavat aamukahvimuistutuksesta, papujen tuoreushuipusta ja viikoittaisista uuttokoosteista.
+• Valitse haluamasi Päivämäärän ja ajan muoto Asetuksissa.
+• Lisää nopeasti Muistiinpanoja kahvipaputietueisiin Tiedot-sivulta.
+• Kahvipapujen tiedot -sivu näyttää nyt päivät paahtopäivästä (jos lisätty).
 
-Parannettua:
-• Päivitettiin tietosuojakäytäntö vastaamaan paremmin nykytilaa.
-• Valmis-näyttö on nyt vieritettävä, jotta se toimii paremmin pienillä näytöillä.
+Parannettu:
+• Lokalisointiparannuksia monissa kielissä.
 
-Bugikorjaukset:
-• Korjattiin muutamia bugeja perehdytyksen kulussa, kiitos palautteesta!
+Virheenkorjaukset:
+• Korjattu muutamia tapauksia, joissa merkkijonot eivät olleet lokalisoituja / olivat kovakoodattuja.
+• Pieniä UI- ja UX-korjauksia.

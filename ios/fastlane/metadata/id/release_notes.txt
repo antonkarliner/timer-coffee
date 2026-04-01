@@ -1,12 +1,12 @@
 Baru:
-• Berdasarkan banyak permintaan: lampirkan foto ke entri biji kopi. Berguna saat Anda ingin cepat membedakan antara banyak kemasan.
-• Onboarding untuk pengguna baru agar terbiasa dengan berbagai fitur aplikasi.
-• Memperkenalkan analitik yang ramah privasi untuk membuat aplikasi lebih baik. Anda selalu dapat memilih untuk tidak ikut serta di Pengaturan.
-• Layar Pulse kini menampilkan negara dari seduhan. Juga ramah privasi!
+• Atur notifikasi untuk mengingatkan Anda tentang seduhan kopi pagi, puncak kesegaran biji, dan rekap seduhan mingguan.
+• Pilih Format tanggal & waktu yang diinginkan di Pengaturan.
+• Tambahkan Catatan dengan cepat ke catatan biji kopi dari halaman Detail.
+• Halaman Detail kopi kini menampilkan jumlah hari sejak Tanggal sangrai (jika ditambahkan).
 
 Ditingkatkan:
-• Memperbarui Kebijakan Privasi agar lebih mencerminkan kondisi saat ini.
-• Layar Selesai kini dapat digulir agar bekerja lebih baik pada layar kecil.
+• Peningkatan lokalisasi di banyak bahasa.
 
 Perbaikan bug:
-• Memperbaiki beberapa bug pada alur onboarding, terima kasih atas masukannya!
+• Memperbaiki beberapa kasus string yang tidak dilokalkan/di-hard-code.
+• Perbaikan kecil pada UI dan UX.

@@ -1,12 +1,12 @@
 Nieuw:
-• Op veler verzoek: voeg foto’s toe aan koffiebonen-items. Handig als je snel onderscheid wilt maken tussen veel verpakkingen.
-• Onboarding voor nieuwe gebruikers om vertrouwd te raken met verschillende app-functies.
-• Privacyvriendelijke analyses geïntroduceerd om de app beter te maken. Je kunt je altijd afmelden in Instellingen.
-• Het Pulse-scherm toont nu de landen van zetsessies. Ook privacyvriendelijk!
+• Stel notificaties in om je te herinneren aan je ochtendkoffie, het hoogtepunt van de bonenversheid en wekelijkse brouwoverzichten.
+• Selecteer je gewenste Datum- en tijdnotatie in Instellingen.
+• Voeg snel Notities toe aan koffiebonenrecords vanaf de Details-pagina.
+• De pagina Koffiebonendetails toont nu het aantal dagen sinds de Branddatum (indien toegevoegd).
 
 Verbeterd:
-• Privacybeleid geüpdatet om de huidige stand beter weer te geven.
-• Het Klaar-scherm is nu scrollbaar om beter te werken op kleine schermen.
+• Lokalisatieverbeteringen in veel talen.
 
 Bugfix:
-• Een paar bugs in de onboarding-flow opgelost, bedankt voor de feedback!
+• Een paar gevallen van niet-gelokaliseerde/hard-coded strings opgelost.
+• Kleine UI- en UX-fixes.

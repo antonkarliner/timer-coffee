@@ -1,12 +1,12 @@
-Nouveau :
-• Suite à une demande populaire : joignez des photos aux entrées de grains de café. Utile lorsque vous souhaitez distinguer rapidement entre de nombreux paquets.
-• Parcours d’intégration pour les nouveaux utilisateurs afin de se familiariser avec différentes fonctionnalités de l’app.
-• Introduction d’analyses respectueuses de la vie privée pour améliorer l’app. Vous pouvez toujours vous désinscrire dans les paramètres.
-• L’écran Pulse affiche désormais les pays des infusions. Aussi respectueux de la vie privée !
+Nouveau :
+• Configurez des notifications pour vous rappeler votre café du matin, le pic de fraîcheur des grains et des récapitulatifs hebdomadaires de préparation.
+• Sélectionnez le Format de date et d'heure préféré dans les Paramètres.
+• Ajoutez rapidement des Notes aux enregistrements de grains de café depuis la page Détails.
+• La page Détails des grains de café affiche désormais le nombre de jours depuis la Date de torréfaction (si renseignée).
 
-Améliorations :
-• Mise à jour de la politique de confidentialité pour mieux refléter l’état actuel.
-• L’écran Terminer est désormais défilable afin de mieux fonctionner sur les petits écrans.
+Amélioré :
+• Améliorations de la localisation dans de nombreuses langues.
 
-Correction de bugs :
-• Correction de quelques bugs dans le parcours d’intégration, merci pour vos retours !
+Correctif :
+• Correction de quelques occurrences de chaînes non localisées/codées en dur.
+• Petites corrections d’UI et d’UX.

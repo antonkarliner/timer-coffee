@@ -1,0 +1,11 @@
+Nowość: 
+• Ustaw powiadomienia: poranna kawa, szczyt świeżości ziaren i tygodniowe podsumowania. 
+• W Ustawieniach wybierz preferowany Format daty i czasu. 
+• Dodawaj Notatki do zapisów ziaren ze Szczegółów. 
+• Szczegóły ziaren pokazują teraz dni od Daty palenia (jeśli ustawiona).
+
+Ulepszenia: 
+• Lepsze tłumaczenia w wielu językach.
+
+Poprawki: 
+• Drobne poprawki UI i UX.

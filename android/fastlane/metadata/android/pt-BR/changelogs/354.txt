@@ -1,0 +1,11 @@
+Novo: 
+• Configure notificações para lembretes do café matinal, pico de frescor dos grãos e resumos semanais. 
+• Escolha o formato de data/hora nas Configurações. 
+• Adicione notas aos registros de grãos na página de detalhes. 
+• Os detalhes dos grãos agora mostram os dias desde a Data de Torrefação (se definida).
+
+Melhorias: 
+• Melhorias de localização em vários idiomas.
+
+Correções: 
+• Pequenos ajustes de UI e UX.

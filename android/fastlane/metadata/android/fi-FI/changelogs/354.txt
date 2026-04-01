@@ -1,0 +1,11 @@
+Uutta: 
+• Aseta ilmoitukset aamukahvimuistutuksille, papujen tuoreushuipulle ja viikkoyhteenvedoille. 
+• Valitse haluamasi päivämäärän ja ajan muoto Asetuksissa. 
+• Lisää muistiinpanoja paputietoihin Tiedot-sivulta. 
+• Papujen tiedoissa näkyy nyt päivät paahtopäivästä (jos asetettu).
+
+Parannettu: 
+• Lokalisointia parannettu monilla kielillä.
+
+Korjattu: 
+• Pieniä UI- ja UX-korjauksia.

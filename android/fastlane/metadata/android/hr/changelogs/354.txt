@@ -1,0 +1,11 @@
+Novo:
+• Postavi obavijesti za jutarnje podsjetnike za kavu, vrhunac svježine zrna i tjedne sažetke.
+• U Postavkama odaberi željeni format datuma i vremena.
+• Dodaj bilješke zapisima o zrnu na stranici detalja.
+• Detalji o zrnu sada prikazuju dane od datuma prženja.
+
+Poboljšano:
+• Poboljšana lokalizacija na mnogim jezicima.
+
+Ispravci:
+• Manji UI i UX ispravci.

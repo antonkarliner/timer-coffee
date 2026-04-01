@@ -1,0 +1,11 @@
+Nuevo: 
+• Configura notificaciones para recordatorios de café matutino, punto óptimo de frescura y resúmenes semanales. 
+• Elige tu Formato de fecha y hora en Configuración. 
+• Agrega Notas a los registros de granos desde Detalles. 
+• Detalles del grano ahora muestra los días desde la Fecha de tueste (si está definida).
+
+Mejorado: 
+• Mejoras de localización en varios idiomas.
+
+Corrección: 
+• Pequeños ajustes de IU y UX.

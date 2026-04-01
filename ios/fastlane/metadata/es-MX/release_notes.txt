@@ -1,12 +1,12 @@
-Nuevo:
-• Por solicitud popular: adjunta fotos a las entradas de granos de café. Útil cuando quieres distinguir rápidamente entre muchos paquetes.
-• Onboarding para que los nuevos usuarios se familiaricen con diferentes funciones de la app.
-• Se introdujeron analíticas con enfoque en la privacidad para mejorar la app. Siempre puedes desactivarlas en Configuración.
-• La pantalla de Pulso ahora muestra los países de las preparaciones. ¡También con enfoque en la privacidad!
+New:
+• Configura notificaciones para recordarte tu café de la mañana, el pico de frescura de los granos y resúmenes semanales de preparaciones.
+• Selecciona el Formato de fecha y hora preferido en Configuración.
+• Añade Notas rápidamente a los registros de granos de café desde la página de Detalles.
+• La página de Detalles de los granos ahora muestra los días desde la Fecha de tueste (si se añadió).
 
-Mejorado:
-• Se actualizó la Política de privacidad para reflejar mejor el estado actual.
-• La pantalla de Finalizar ahora se puede desplazar para funcionar mejor en pantallas pequeñas.
+Improved:
+• Mejoras de localización en muchos idiomas.
 
-Corrección de errores:
-• Se corrigieron algunos errores en el flujo de onboarding, ¡gracias por los comentarios!
+Bugfix:
+• Se corrigieron algunos casos de cadenas no localizadas/fijas en el código.
+• Pequeñas correcciones de UI y UX.

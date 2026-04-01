@@ -1,0 +1,11 @@
+Neu: 
+• Benachrichtigungen für Morgen-Erinnerungen, Bohnen-Frische und Wochenrückblicke einrichten. 
+• Bevorzugtes Datums- und Uhrzeitformat in Einstellungen wählen. 
+• Notizen zu Bohnen in den Details hinzufügen. 
+• Bohnendetails zeigen jetzt Tage seit dem Röstdatum (falls gesetzt).
+
+Verbessert: 
+• Verbesserte Lokalisierung in vielen Sprachen.
+
+Fehlerbehebung: 
+• Kleine UI- und UX-Korrekturen.

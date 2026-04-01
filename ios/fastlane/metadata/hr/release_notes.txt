@@ -1,12 +1,12 @@
 Novo:
-• Na popularan zahtjev: priloži fotografije unosima za zrna kave. Korisno kada želiš brzo razlikovati mnogo pakiranja.
-• Uvodno postavljanje za nove korisnike kako bi se upoznali s različitim značajkama aplikacije.
-• Uvedena analitika prilagođena privatnosti kako bi aplikacija bila bolja. Uvijek se možeš isključiti u postavkama.
-• Zaslon Puls sada prikazuje države Priprema. Također prilagođeno privatnosti!
+• Postavi obavijesti koje će te podsjećati na jutarnju pripremu kave, vrhunac svježine zrna i tjedne sažetke pripreme.
+• U Postavkama odaberi željeni Format datuma i vremena.
+• Brzo dodaj Bilješke zapisima o zrnima kave na stranici Detalji.
+• Stranica Detalji o zrnima kave sada prikazuje broj dana od Datuma prženja (ako je dodan).
 
 Poboljšano:
-• Ažurirana Pravila privatnosti kako bi bolje odražavala trenutačno stanje.
-• Zaslon Završi sada se može pomicati kako bi bolje radio na malim zaslonima.
+• Poboljšanja lokalizacije na mnogim jezicima.
 
 Ispravci grešaka:
-• Ispravljeno nekoliko grešaka u tijeku uvodnog postavljanja, hvala na povratnim informacijama!
+• Ispravljeno nekoliko slučajeva nelokaliziranih/tvrdo kodiranih nizova.
+• Manji UI i UX popravci.

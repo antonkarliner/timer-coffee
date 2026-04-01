@@ -1,12 +1,12 @@
-Nowe:
-• Zgodnie z licznymi prośbami: dodano możliwość dołączania zdjęć do wpisów dotyczących ziaren kawy. Przydatne, gdy chcesz szybko rozróżnić wiele opakowań.
-• Wprowadzono onboarding dla nowych użytkowników, aby mogli zapoznać się z różnymi funkcjami aplikacji.
-• Wprowadzono przyjazną prywatności analitykę, aby ulepszać aplikację. Zawsze możesz z niej zrezygnować w Ustawieniach.
-• Ekran Puls pokazuje teraz kraje parzeń. Również w sposób przyjazny prywatności!
+Nowość:
+• Skonfiguruj Powiadomienia, aby przypominały o porannej kawie, szczycie świeżości ziaren i cotygodniowych podsumowaniach parzenia.
+• Wybierz preferowany Format daty i czasu w Ustawieniach.
+• Szybko dodawaj Notatki do wpisów o ziarnach kawy ze strony Szczegóły.
+• Strona Szczegóły ziaren kawy pokazuje teraz liczbę dni od Daty palenia (jeśli dodano).
 
 Ulepszenia:
-• Zaktualizowano Politykę prywatności, aby lepiej odzwierciedlała obecny stan.
-• Ekran Zakończ jest teraz przewijalny, aby lepiej działał na małych ekranach.
+• Ulepszenia lokalizacji w wielu językach.
 
 Poprawki błędów:
-• Naprawiono kilka błędów w przepływie onboardingu — dzięki za opinie!
+• Naprawiono kilka przypadków niezlokalizowanych/zakodowanych na sztywno ciągów znaków.
+• Drobne poprawki UI i UX.

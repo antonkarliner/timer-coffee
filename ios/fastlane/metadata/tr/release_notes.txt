@@ -1,12 +1,12 @@
 Yeni:
-• Popüler istek üzerine: kahve çekirdeği girişlerine fotoğraf ekleme. Birçok paket arasında hızlıca ayırt etmek istediğinizde kullanışlı.
-• Yeni kullanıcıların farklı uygulama özelliklerine aşina olması için başlangıç yönlendirmesi.
-• Uygulamayı daha iyi hale getirmek için gizlilik dostu analizler eklendi. Ayarlar’dan her zaman devre dışı bırakabilirsiniz.
-• Nabız ekranı artık demlemelerin ülkelerini gösteriyor. Üstelik gizlilik dostu!
+• Sabah kahvesi demlemeni, çekirdek tazeliği zirvesini ve haftalık demleme özetlerini hatırlatmak için bildirimleri ayarla.
+• Ayarlar'da tercih edilen tarih ve saat biçimini seç.
+• Ayrıntılar sayfasından kahve çekirdeği kayıtlarına hızlıca Notlar ekle.
+• Kahve Çekirdeği Detayları sayfası artık kavurma tarihinden bu yana geçen günleri (eklendiyse) gösteriyor.
 
 İyileştirildi:
-• Gizlilik Politikası, mevcut durumu daha iyi yansıtacak şekilde güncellendi.
-• Bitir ekranı artık kaydırılabilir; böylece küçük ekranlarda daha iyi çalışır.
+• Birçok dilde yerelleştirme iyileştirmeleri.
 
 Hata düzeltmesi:
-• Başlangıç akışındaki birkaç hata düzeltildi; geri bildirimler için teşekkürler!
+• Yerelleştirilmemiş/sabit kodlanmış dizelerin birkaç örneği düzeltildi.
+• Küçük UI ve UX düzeltmeleri.

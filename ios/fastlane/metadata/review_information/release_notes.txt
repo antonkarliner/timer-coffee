@@ -1,12 +1,12 @@
-Nou :
-• À la demande générale : joignez des photos aux entrées de grains de café. Pratique quand vous voulez distinguer rapidement différents paquets.
-• Parcours d’accueil pour les nouveaux utilisateurs afin de se familiariser avec les différentes fonctionnalités de l’app.
-• Ajout d’analyses respectueuses de la vie privée pour améliorer l’app. Vous pouvez toujours les désactiver dans les réglages.
-• L’écran Pulse affiche désormais les pays des infusions. Toujours dans le respect de la vie privée !
+Neu:
+• Richte Benachrichtigungen ein, die dich an deinen Kaffee am Morgen, den Frischehöhepunkt der Bohnen und wöchentliche Brüh-Rückblicke erinnern.
+• Wähle in den Einstellungen dein bevorzugtes Datums- und Zeitformat.
+• Füge Notizen zu Kaffeebohnen-Einträgen schnell über die Detailseite hinzu.
+• Die Detailseite der Kaffeebohnen zeigt jetzt die Tage seit dem Röstdatum an (falls hinzugefügt).
 
-Améliorations :
-• Mise à jour de la Politique de confidentialité pour mieux refléter l’état actuel.
-• L’écran de fin est désormais défilable afin de mieux fonctionner sur les petits écrans.
+Verbessert:
+• Verbesserte Lokalisierung in vielen Sprachen.
 
-Correctifs :
-• Correction de quelques bugs dans le parcours d’accueil, merci pour vos retours !
+Fehlerbehebungen:
+• Einige Vorkommen von nicht lokalisierten/fest codierten Strings behoben.
+• Kleine UI- und UX-Korrekturen.

@@ -1,12 +1,12 @@
 Nou:
-• La cererea populară: atașați fotografii la intrările pentru boabe de cafea. Util când vrei să distingi rapid între multe pachete.
-• Onboarding pentru utilizatorii noi, ca să se familiarizeze cu diferite funcții ale aplicației.
-• Am introdus analitice prietenoase cu confidențialitatea pentru a face aplicația mai bună. Poți oricând să renunți în Setări.
-• Ecranul Pulse afișează acum țările preparărilor. Tot prietenos cu confidențialitatea!
+• Configurează notificări pentru a-ți reaminti despre mementoul pentru cafeaua de dimineață, vârful prospețimii boabelor și recapitulări săptămânale ale preparărilor.
+• Selectează formatul preferat de dată și oră în setări.
+• Adaugă rapid Note la înregistrările boabelor de cafea din pagina Detalii.
+• Pagina Detalii boabe de cafea afișează acum zilele de la Data prăjirii (dacă a fost adăugată).
 
 Îmbunătățit:
-• Am actualizat Politica de confidențialitate pentru a reflecta mai bine starea actuală.
-• Ecranul Finalizează este acum derulabil pentru a funcționa mai bine pe ecrane mici.
+• Îmbunătățiri de localizare în multe limbi.
 
 Remediere erori:
-• Am remediat câteva erori în fluxul de onboarding, mulțumim pentru feedback!
+• Au fost remediate câteva cazuri de șiruri ne-localizate/încodate direct.
+• Remedieri minore de UI și UX.

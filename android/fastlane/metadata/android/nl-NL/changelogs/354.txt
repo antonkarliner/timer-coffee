@@ -1,0 +1,11 @@
+Nieuw:
+• Stel notificaties in voor ochtendherinneringen, piekversheid van bonen en wekelijkse samenvattingen.
+• Kies je gewenste datum- en tijdnotatie in Instellingen.
+• Voeg notities toe aan bonen via de detailspagina.
+• Bonendetails tonen nu dagen sinds de branddatum (indien ingesteld).
+
+Verbeterd:
+• Betere vertalingen in veel talen.
+
+Bugfix:
+• Kleine UI- en UX-fixes.

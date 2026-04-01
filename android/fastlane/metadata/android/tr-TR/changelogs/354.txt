@@ -1,0 +1,11 @@
+Yeni: 
+• Sabah demleme hatırlatıcıları, çekirdek tazelik zirvesi ve haftalık özetler için bildirimler ayarlayın. 
+• Ayarlar'dan tercih ettiğiniz tarih/saat biçimini seçin. 
+• Ayrıntılar sayfasından çekirdek kayıtlarına not ekleyin. 
+• Çekirdek ayrıntıları artık kavurma tarihinden beri geçen günleri gösterir (ayarlanmışsa).
+
+İyileştirildi: 
+• Birçok dilde yerelleştirme iyileştirmeleri.
+
+Hata düzeltmesi: 
+• Küçük UI ve UX düzeltmeleri.

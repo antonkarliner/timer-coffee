@@ -1,12 +1,12 @@
 Neu:
-• Auf vielfachen Wunsch: Fotos zu Kaffeebohnen-Einträgen hinzufügen. Nützlich, wenn du schnell zwischen vielen Packungen unterscheiden möchtest.
-• Onboarding für neue Nutzer, um sich mit verschiedenen App-Funktionen vertraut zu machen.
-• Datenschutzfreundliche Analysen eingeführt, um die App zu verbessern. Du kannst dich in den Einstellungen jederzeit abmelden.
-• Der Pulse-Bildschirm zeigt jetzt die Länder der Brühvorgänge. Ebenfalls datenschutzfreundlich!
+• Richte Benachrichtigungen ein, um dich an deinen Morgenkaffee, den Frischehöhepunkt der Bohnen und wöchentliche Brüh-Zusammenfassungen zu erinnern.
+• Wähle in den Einstellungen dein bevorzugtes Datums- und Uhrzeitformat aus.
+• Füge Kaffeebohnen-Einträgen auf der Seite „Details zu den Kaffeebohnen“ schnell Notizen hinzu.
+• Die Seite „Details zu den Kaffeebohnen“ zeigt jetzt die Tage seit dem Röstdatum an (falls hinzugefügt).
 
 Verbessert:
-• Datenschutzerklärung aktualisiert, um den aktuellen Stand besser widerzuspiegeln.
-• Der Fertig-Bildschirm ist jetzt scrollbar, damit er auf kleinen Bildschirmen besser funktioniert.
+• Verbesserungen der Lokalisierung in vielen Sprachen.
 
-Bugfix:
-• Ein paar Bugs im Onboarding-Ablauf behoben, danke für das Feedback!
+Fehlerbehebungen:
+• Einige Fälle von nicht lokalisierten/fest codierten Strings behoben.
+• Kleine UI- und UX-Korrekturen.

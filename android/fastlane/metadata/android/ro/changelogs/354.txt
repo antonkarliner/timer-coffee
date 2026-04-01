@@ -1,0 +1,11 @@
+Nou:
+• Configurează notificări pentru mementouri de cafea dimineața, vârful prospețimii boabelor și rezumate săptămânale.
+• Alege formatul preferat pentru dată/oră în Setări.
+• Adaugă Note la înregistrările boabelor din pagina de Detalii.
+• Detaliile boabelor arată acum zilele de la Data prăjirii (dacă e setată).
+
+Îmbunătățit:
+• Localizare îmbunătățită în multe limbi.
+
+Remediere:
+• Mici corecții UI și UX.

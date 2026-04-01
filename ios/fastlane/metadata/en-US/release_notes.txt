@@ -1,12 +1,12 @@
 New:
-• By popular request: attach photos to coffee beans entries. Useful when you want to quickly distinguish between lots of packages.
-• Onboarding for new users to get familiar with different app features.
-• Introduced privacy-friendly analytics to make the app better. You can always opt-out in settings.
-• Pulse screen now shows the countries of brews. Also privacy-friendly!
+• Set up notifications to remind you about morning coffee brew, bean freshness peak and weekly brewing recaps.
+• Select preffered date and time format in settings.
+• Quickly add notes to coffee bean records from details page.
+• Coffee bean details page now shows days since roast date (if added).
 
 Improved:
-• Updated Privacy Policy to better reflect current state.
-• Finish screen is now scrollable in order to work better on small screens.
+• Localization improvements across many languages.
 
 Bugfix:
-• Fixed a few bugs in the onboarding flow, thanks for the feedback!
+• Fixed a few instances of non-localized/hard-coded strings.
+• Small UI and UX fixes.

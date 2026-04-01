@@ -1,0 +1,11 @@
+New: 
+• Set up notifications for morning brew reminders, bean freshness peaks and weekly recaps. 
+• Choose preferred date/time format in settings. 
+• Add notes to bean records from details page. 
+• Bean details now shows days since roast date (if set).
+
+Improved: 
+• Localization improvements across many languages.
+
+Bugfix: 
+• Small UI and UX fixes.

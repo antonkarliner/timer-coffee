@@ -110,3 +110,4 @@ ios/build/.last_build_id
 CLAUDE.md
 lib/services/CLAUDE_ANALYTICS.md
 grafana/sync.sh
+.claude
