@@ -8,23 +8,25 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
   UserRecipePreferencesDao(this.db) : super(db);
 
   Future<UserRecipePreference?> getPreferencesForRecipe(String recipeId) async {
-    return (select(db.userRecipePreferences)
-          ..where((tbl) => tbl.recipeId.equals(recipeId)))
-        .getSingleOrNull();
+    return (select(
+      db.userRecipePreferences,
+    )..where((tbl) => tbl.recipeId.equals(recipeId))).getSingleOrNull();
   }
 
-  Future<void> updatePreferences(String recipeId,
-      {bool? isFavorite,
-      int? sweetnessSliderPosition,
-      int? strengthSliderPosition,
-      int? coffeeChroniclerSliderPosition,
-      double? customCoffeeAmount,
-      double? customWaterAmount,
-      String? customGrindSize}) async {
+  Future<void> updatePreferences(
+    String recipeId, {
+    bool? isFavorite,
+    int? sweetnessSliderPosition,
+    int? strengthSliderPosition,
+    int? coffeeChroniclerSliderPosition,
+    double? customCoffeeAmount,
+    double? customWaterAmount,
+    String? customGrindSize,
+  }) async {
     // Check if the entry exists.
-    final existingPreference = await (select(userRecipePreferences)
-          ..where((tbl) => tbl.recipeId.equals(recipeId)))
-        .getSingleOrNull();
+    final existingPreference = await (select(
+      userRecipePreferences,
+    )..where((tbl) => tbl.recipeId.equals(recipeId))).getSingleOrNull();
 
     UserRecipePreferencesCompanion preferencesCompanion;
 
@@ -79,8 +81,9 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
       );
 
       if (isFavorite != null) {
-        preferencesCompanion =
-            preferencesCompanion.copyWith(isFavorite: Value(isFavorite));
+        preferencesCompanion = preferencesCompanion.copyWith(
+          isFavorite: Value(isFavorite),
+        );
       }
 
       await (update(userRecipePreferences)
@@ -112,19 +115,39 @@ class UserRecipePreferencesDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<List<UserRecipePreference>> getFavoritePreferences() async {
-    return (select(userRecipePreferences)
-          ..where((tbl) => tbl.isFavorite.equals(true)))
-        .get();
+    return (select(
+      userRecipePreferences,
+    )..where((tbl) => tbl.isFavorite.equals(true))).get();
+  }
+
+  Future<int> countAllPreferences() async {
+    final query = customSelect(
+      'SELECT COUNT(*) AS preference_count FROM user_recipe_preferences',
+      readsFrom: {userRecipePreferences},
+    );
+    final row = await query.getSingleOrNull();
+    return row?.read<int>('preference_count') ?? 0;
+  }
+
+  Future<int> countFavoritePreferences() async {
+    final query = customSelect(
+      'SELECT COUNT(*) AS favorite_count '
+      'FROM user_recipe_preferences WHERE is_favorite = true',
+      readsFrom: {userRecipePreferences},
+    );
+    final row = await query.getSingleOrNull();
+    return row?.read<int>('favorite_count') ?? 0;
   }
 
   Future<void> insertOrUpdateMultiplePreferences(
-      List<UserRecipePreferencesCompanion> preferences) async {
+    List<UserRecipePreferencesCompanion> preferences,
+  ) async {
     await batch((batch) {
       batch.insertAllOnConflictUpdate(userRecipePreferences, preferences);
     });
   }
 
-// Also add this method to fetch all preferences
+  // Also add this method to fetch all preferences
   Future<List<UserRecipePreference>> getAllPreferences() {
     return select(userRecipePreferences).get();
   }

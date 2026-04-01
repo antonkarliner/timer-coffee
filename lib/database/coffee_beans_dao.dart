@@ -61,17 +61,20 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<void> insertCoffeeBeans(CoffeeBeansModel beans) async {
-    await into(coffeeBeans)
-        .insertOnConflictUpdate(_coffeeBeansToCompanion(beans));
+    await into(
+      coffeeBeans,
+    ).insertOnConflictUpdate(_coffeeBeansToCompanion(beans));
   }
 
   Future<List<String>> fetchAllDistinctFarmers() async {
     final query = selectOnly(coffeeBeans, distinct: true)
       ..addColumns([coffeeBeans.farmer])
       ..where(
-          coffeeBeans.farmer.isNotNull() & coffeeBeans.isDeleted.equals(false));
-    final farmers =
-        await query.map((row) => row.read(coffeeBeans.farmer)).get();
+        coffeeBeans.farmer.isNotNull() & coffeeBeans.isDeleted.equals(false),
+      );
+    final farmers = await query
+        .map((row) => row.read(coffeeBeans.farmer))
+        .get();
     return farmers.whereType<String>().toList();
   }
 
@@ -79,7 +82,8 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
     final query = selectOnly(coffeeBeans, distinct: true)
       ..addColumns([coffeeBeans.farm])
       ..where(
-          coffeeBeans.farm.isNotNull() & coffeeBeans.isDeleted.equals(false));
+        coffeeBeans.farm.isNotNull() & coffeeBeans.isDeleted.equals(false),
+      );
     final farms = await query.map((row) => row.read(coffeeBeans.farm)).get();
     return farms.whereType<String>().toList();
   }
@@ -87,21 +91,33 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   Future<List<CoffeeBeansModel>> fetchAllCoffeeBeans() async {
     final query = select(coffeeBeans)
       ..orderBy([
-        (t) => OrderingTerm(expression: t.roastDate, mode: OrderingMode.desc)
+        (t) => OrderingTerm(expression: t.roastDate, mode: OrderingMode.desc),
       ])
       ..where((t) => t.isDeleted.equals(false)); // Fetch only non-deleted beans
     final List<CoffeeBean> beansList = await query.get();
     return beansList.map(_coffeeBeansFromRow).toList();
   }
 
+  Future<int> countActiveCoffeeBeans() async {
+    final query = customSelect(
+      'SELECT COUNT(*) AS bean_count '
+      'FROM coffee_beans WHERE is_deleted = false',
+      readsFrom: {coffeeBeans},
+    );
+    final row = await query.getSingleOrNull();
+    return row?.read<int>('bean_count') ?? 0;
+  }
+
   Future<List<String>> fetchAllDistinctRoasters() async {
     final query = selectOnly(coffeeBeans, distinct: true)
       ..addColumns([coffeeBeans.roaster])
-      ..where(coffeeBeans.roaster.isNotNull() &
-          coffeeBeans.isDeleted.equals(false));
+      ..where(
+        coffeeBeans.roaster.isNotNull() & coffeeBeans.isDeleted.equals(false),
+      );
 
-    final roasters =
-        await query.map((row) => row.read(coffeeBeans.roaster)!).get();
+    final roasters = await query
+        .map((row) => row.read(coffeeBeans.roaster)!)
+        .get();
 
     // Group roasters case-insensitively
     final roasterSet = <String, String>{};
@@ -117,8 +133,9 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   Future<List<String>> fetchAllDistinctNames() async {
     final query = selectOnly(coffeeBeans, distinct: true)
       ..addColumns([coffeeBeans.name])
-      ..where(coffeeBeans.name.isNotNull() &
-          coffeeBeans.isDeleted.equals(false)); // Exclude deleted beans
+      ..where(
+        coffeeBeans.name.isNotNull() & coffeeBeans.isDeleted.equals(false),
+      ); // Exclude deleted beans
     final names = await query.map((row) => row.read(coffeeBeans.name)).get();
     return names.whereType<String>().toList();
   }
@@ -126,30 +143,38 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   Future<List<String>> fetchAllDistinctVarieties() async {
     final query = selectOnly(coffeeBeans, distinct: true)
       ..addColumns([coffeeBeans.variety])
-      ..where(coffeeBeans.variety.isNotNull() &
-          coffeeBeans.isDeleted.equals(false)); // Exclude deleted beans
-    final varieties =
-        await query.map((row) => row.read(coffeeBeans.variety)).get();
+      ..where(
+        coffeeBeans.variety.isNotNull() & coffeeBeans.isDeleted.equals(false),
+      ); // Exclude deleted beans
+    final varieties = await query
+        .map((row) => row.read(coffeeBeans.variety))
+        .get();
     return varieties.whereType<String>().toList();
   }
 
   Future<List<String>> fetchAllDistinctProcessingMethods() async {
     final query = selectOnly(coffeeBeans, distinct: true)
       ..addColumns([coffeeBeans.processingMethod])
-      ..where(coffeeBeans.processingMethod.isNotNull() &
-          coffeeBeans.isDeleted.equals(false)); // Exclude deleted beans
-    final processingMethods =
-        await query.map((row) => row.read(coffeeBeans.processingMethod)).get();
+      ..where(
+        coffeeBeans.processingMethod.isNotNull() &
+            coffeeBeans.isDeleted.equals(false),
+      ); // Exclude deleted beans
+    final processingMethods = await query
+        .map((row) => row.read(coffeeBeans.processingMethod))
+        .get();
     return processingMethods.whereType<String>().toList();
   }
 
   Future<List<String>> fetchAllDistinctRoastLevels() async {
     final query = selectOnly(coffeeBeans, distinct: true)
       ..addColumns([coffeeBeans.roastLevel])
-      ..where(coffeeBeans.roastLevel.isNotNull() &
-          coffeeBeans.isDeleted.equals(false)); // Exclude deleted beans
-    final roastLevels =
-        await query.map((row) => row.read(coffeeBeans.roastLevel)).get();
+      ..where(
+        coffeeBeans.roastLevel.isNotNull() &
+            coffeeBeans.isDeleted.equals(false),
+      ); // Exclude deleted beans
+    final roastLevels = await query
+        .map((row) => row.read(coffeeBeans.roastLevel))
+        .get();
     return roastLevels.whereType<String>().toList();
   }
 
@@ -157,10 +182,12 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
     final query = selectOnly(coffeeBeans, distinct: true)
       ..addColumns([coffeeBeans.origin])
       ..where(
-          coffeeBeans.origin.isNotNull() & coffeeBeans.isDeleted.equals(false));
+        coffeeBeans.origin.isNotNull() & coffeeBeans.isDeleted.equals(false),
+      );
 
-    final origins =
-        await query.map((row) => row.read(coffeeBeans.origin)!).get();
+    final origins = await query
+        .map((row) => row.read(coffeeBeans.origin)!)
+        .get();
 
     // Group origins case-insensitively
     final originSet = <String, String>{};
@@ -176,10 +203,13 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   Future<List<String>> fetchAllDistinctTastingNotes() async {
     final query = selectOnly(coffeeBeans, distinct: true)
       ..addColumns([coffeeBeans.tastingNotes])
-      ..where(coffeeBeans.tastingNotes.isNotNull() &
-          coffeeBeans.isDeleted.equals(false)); // Exclude deleted beans
-    final tastingNotes =
-        await query.map((row) => row.read(coffeeBeans.tastingNotes)).get();
+      ..where(
+        coffeeBeans.tastingNotes.isNotNull() &
+            coffeeBeans.isDeleted.equals(false),
+      ); // Exclude deleted beans
+    final tastingNotes = await query
+        .map((row) => row.read(coffeeBeans.tastingNotes))
+        .get();
     return tastingNotes
         .whereType<String>()
         .expand((note) => note.split(', '))
@@ -189,30 +219,33 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   Future<List<String>> fetchAllDistinctRegions() async {
     final query = selectOnly(coffeeBeans, distinct: true)
       ..addColumns([coffeeBeans.region])
-      ..where(coffeeBeans.region.isNotNull() &
-          coffeeBeans.isDeleted.equals(false)); // Exclude deleted beans
-    final regions =
-        await query.map((row) => row.read(coffeeBeans.region)).get();
+      ..where(
+        coffeeBeans.region.isNotNull() & coffeeBeans.isDeleted.equals(false),
+      ); // Exclude deleted beans
+    final regions = await query
+        .map((row) => row.read(coffeeBeans.region))
+        .get();
     return regions.whereType<String>().toList();
   }
 
   Future<CoffeeBeansModel?> fetchCoffeeBeansById(int id) async {
     final query = select(coffeeBeans)
-      ..where((tbl) =>
-          tbl.id.equals(id) &
-          tbl.isDeleted.equals(false)); // Exclude deleted beans
+      ..where(
+        (tbl) => tbl.id.equals(id) & tbl.isDeleted.equals(false),
+      ); // Exclude deleted beans
     final beans = await query.getSingleOrNull();
     AppLogger.debug(
-        '[CoffeeBeansDao] Query result for ID $id: ${AppLogger.sanitize(beans)}');
+      '[CoffeeBeansDao] Query result for ID $id: ${AppLogger.sanitize(beans)}',
+    );
     if (beans == null) return null;
     return _coffeeBeansFromRow(beans);
   }
 
   Future<CoffeeBeansModel?> fetchCoffeeBeansByUuid(String uuid) async {
     final query = select(coffeeBeans)
-      ..where((tbl) =>
-          tbl.beansUuid.equals(uuid) &
-          tbl.isDeleted.equals(false)); // Exclude deleted beans
+      ..where(
+        (tbl) => tbl.beansUuid.equals(uuid) & tbl.isDeleted.equals(false),
+      ); // Exclude deleted beans
     final beans = await query.getSingleOrNull();
     return beans != null ? _coffeeBeansFromRow(beans) : null;
   }
@@ -222,25 +255,32 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
     final sanitizedName = AppLogger.sanitize(beans.name);
     final sanitizedRoaster = AppLogger.sanitize(beans.roaster);
     AppLogger.debug(
-        '[CoffeeBeansDao] DAO updateCoffeeBeans called for UUID: $sanitizedUuid');
+      '[CoffeeBeansDao] DAO updateCoffeeBeans called for UUID: $sanitizedUuid',
+    );
     AppLogger.debug(
-        '[CoffeeBeansDao] Updating with data - Name: $sanitizedName, Roaster: $sanitizedRoaster');
+      '[CoffeeBeansDao] Updating with data - Name: $sanitizedName, Roaster: $sanitizedRoaster',
+    );
 
     try {
-      final rowsAffected = await (update(coffeeBeans)
-            ..where((tbl) => tbl.beansUuid.equals(beans.beansUuid)))
-          .write(_coffeeBeansToCompanion(beans));
+      final rowsAffected =
+          await (update(coffeeBeans)
+                ..where((tbl) => tbl.beansUuid.equals(beans.beansUuid)))
+              .write(_coffeeBeansToCompanion(beans));
 
       AppLogger.debug(
-          '[CoffeeBeansDao] Database update completed. Rows affected: $rowsAffected');
+        '[CoffeeBeansDao] Database update completed. Rows affected: $rowsAffected',
+      );
 
       if (rowsAffected == 0) {
         AppLogger.warning(
-            '[CoffeeBeansDao] WARNING - No rows were updated! Bean may not exist.');
+          '[CoffeeBeansDao] WARNING - No rows were updated! Bean may not exist.',
+        );
       }
     } catch (e) {
-      AppLogger.error('[CoffeeBeansDao] ERROR in DAO updateCoffeeBeans',
-          errorObject: e);
+      AppLogger.error(
+        '[CoffeeBeansDao] ERROR in DAO updateCoffeeBeans',
+        errorObject: e,
+      );
       throw e;
     }
   }
@@ -253,12 +293,14 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> deleteCoffeeBeans(String uuid) async {
     // Physical delete only if necessary
-    await (delete(coffeeBeans)..where((tbl) => tbl.beansUuid.equals(uuid)))
-        .go();
+    await (delete(
+      coffeeBeans,
+    )..where((tbl) => tbl.beansUuid.equals(uuid))).go();
   }
 
   Future<void> insertOrUpdateMultipleCoffeeBeans(
-      List<CoffeeBeansModel> beansList) async {
+    List<CoffeeBeansModel> beansList,
+  ) async {
     await batch((batch) {
       for (final beans in beansList) {
         batch.insert(
@@ -276,7 +318,8 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<void> batchUpdateMissingUuidsAndTimestamps(
-      List<CoffeeBeansCompanion> updates) async {
+    List<CoffeeBeansCompanion> updates,
+  ) async {
     await batch((batch) {
       for (final update in updates) {
         if (update.id.present && update.id.value != null) {
@@ -297,8 +340,9 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<List<CoffeeBean>> fetchBeansNeedingUpdate() {
-    return (select(coffeeBeans)..where((tbl) => tbl.versionVector.isNull()))
-        .get();
+    return (select(
+      coffeeBeans,
+    )..where((tbl) => tbl.versionVector.isNull())).get();
   }
 
   Future<List<CoffeeBeansModel>> fetchAllBeansWithVersionVectors() async {
@@ -309,9 +353,9 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
 
   Future<List<CoffeeBeansModel>> fetchBeansByUuids(List<String> uuids) async {
     final query = select(coffeeBeans)
-      ..where((tbl) =>
-          tbl.beansUuid.isIn(uuids) &
-          tbl.isDeleted.equals(false)); // Fetch only non-deleted beans
+      ..where(
+        (tbl) => tbl.beansUuid.isIn(uuids) & tbl.isDeleted.equals(false),
+      ); // Fetch only non-deleted beans
     final results = await query.get();
     return results.map(_coffeeBeansFromRow).toList();
   }
@@ -346,7 +390,8 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<List<String>> fetchOriginsForRoasters(
-      List<String> selectedRoasters) async {
+    List<String> selectedRoasters,
+  ) async {
     if (selectedRoasters.isEmpty) {
       return await fetchAllDistinctOrigins();
     }
@@ -355,12 +400,15 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
 
     final query = selectOnly(coffeeBeans, distinct: true)
       ..addColumns([coffeeBeans.origin])
-      ..where(coffeeBeans.origin.isNotNull() &
-          coffeeBeans.isDeleted.equals(false) &
-          coffeeBeans.roaster.lower().isIn(lowerRoasters));
+      ..where(
+        coffeeBeans.origin.isNotNull() &
+            coffeeBeans.isDeleted.equals(false) &
+            coffeeBeans.roaster.lower().isIn(lowerRoasters),
+      );
 
-    final origins =
-        await query.map((row) => row.read(coffeeBeans.origin)!).get();
+    final origins = await query
+        .map((row) => row.read(coffeeBeans.origin)!)
+        .get();
 
     // Group origins case-insensitively
     final originSet = <String, String>{};
