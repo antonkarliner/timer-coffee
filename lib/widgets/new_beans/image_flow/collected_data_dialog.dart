@@ -74,7 +74,7 @@ class CollectedDataDialog extends StatelessWidget {
 
     String _labelFor(String key) {
       // Keep internal keys intact; only adjust presentation
-      if (key == 'processingMethod') return 'Processing Method';
+      if (key == 'processingMethod') return loc.processingMethod;
       return humanizeKey(key);
     }
 
