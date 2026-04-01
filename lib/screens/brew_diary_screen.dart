@@ -20,6 +20,7 @@ import '../widgets/roaster_logo.dart';
 import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
 import '../widgets/base_buttons.dart';
+import '../services/date_time_format_service.dart';
 
 @RoutePage()
 class BrewDiaryScreen extends StatefulWidget {
@@ -68,11 +69,13 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
 
   Widget _buildGroupedList(List<UserStatsModel> stats) {
     final loc = AppLocalizations.of(context)!;
+    final fmtSvc = Provider.of<DateTimeFormatService>(context);
 
     // Group stats by date
     Map<String, List<UserStatsModel>> groupedStats = {};
+    final activeDatePattern = fmtSvc.datePattern(loc.dateFormat);
     DateFormat dateFormat = DateFormat(
-      loc.dateFormat,
+      activeDatePattern,
       Localizations.localeOf(context).toString(),
     );
 
@@ -87,12 +90,12 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     // Sort dates in descending order (newest first)
     List<String> sortedDates = groupedStats.keys.toList();
     sortedDates.sort((a, b) {
-      DateTime dateA =
-          DateFormat(loc.dateFormat, Localizations.localeOf(context).toString())
-              .parse(a);
-      DateTime dateB =
-          DateFormat(loc.dateFormat, Localizations.localeOf(context).toString())
-              .parse(b);
+      DateTime dateA = DateFormat(
+              activeDatePattern, Localizations.localeOf(context).toString())
+          .parse(a);
+      DateTime dateB = DateFormat(
+              activeDatePattern, Localizations.localeOf(context).toString())
+          .parse(b);
       return dateB.compareTo(dateA); // Descending order
     });
 
@@ -271,8 +274,11 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     final userStatProvider = Provider.of<UserStatProvider>(context);
     final databaseProvider = Provider.of<DatabaseProvider>(
         context); // Ensure this provider is available
+    final fmtSvc = Provider.of<DateTimeFormatService>(context);
+    final is24h = fmtSvc.use24Hour(MediaQuery.of(context).alwaysUse24HourFormat);
+    final timePattern = is24h ? 'HH:mm' : 'hh:mm a';
     DateFormat dateFormat = DateFormat(
-      '${loc.dateFormat} ${loc.timeFormat}',
+      '${fmtSvc.datePattern(loc.dateFormat)} $timePattern',
       Localizations.localeOf(context).toString(),
     );
 
