@@ -167,6 +167,23 @@ class _TimeFieldState extends State<TimeField> {
 }
 
 // ---------------------------------------------------------------------------
+// Public helper — use this anywhere you need the app's scroll-wheel picker
+// ---------------------------------------------------------------------------
+
+/// Opens the app's custom scroll-wheel time picker dialog.
+/// Returns the selected [TimeOfDay], or `null` if cancelled.
+Future<TimeOfDay?> showAppTimePicker({
+  required BuildContext context,
+  required TimeOfDay initialTime,
+}) {
+  return showDialog<TimeOfDay>(
+    context: context,
+    barrierDismissible: false,
+    builder: (ctx) => _TimePickerDialog(initialTime: initialTime),
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Internal time picker dialog
 // ---------------------------------------------------------------------------
 
