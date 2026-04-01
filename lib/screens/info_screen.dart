@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import 'package:coffee_timer/models/launch_popup_model.dart';
 import 'package:coffee_timer/providers/snow_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -66,6 +68,68 @@ class _InfoScreenState extends State<InfoScreen> {
       ),
       body: ListView(
         children: [
+          // What's New history
+          ExpansionTile(
+            title: Text(l10n.whatsnewtitle),
+            children: [
+              FutureBuilder<List<LaunchPopupModel>>(
+                future: _fetchLaunchPopupHistory(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+                  if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
+                  final popups = snapshot.data!;
+                  final dateFormatter = DateFormat.yMMMd();
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      for (int i = 0; i < popups.length; i++) ...[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                          child: Text(
+                            dateFormatter.format(popups[i].createdAt.toLocal()),
+                            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                          child: MarkdownBody(
+                            data: popups[i].content,
+                            styleSheet: MarkdownStyleSheet.fromTheme(
+                              Theme.of(context),
+                            ).copyWith(
+                              p: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            softLineBreak: true,
+                            onTapLink: (text, href, title) async {
+                              if (href == null) return;
+                              if (href.startsWith('app://')) {
+                                context.router.pushPath(href.substring(6));
+                                return;
+                              }
+                              final uri = Uri.parse(href);
+                              if (await canLaunchUrl(uri)) {
+                                await launchUrl(uri);
+                              }
+                            },
+                          ),
+                        ),
+                        if (i < popups.length - 1) const Divider(height: 1),
+                      ],
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
           // Author
           ExpansionTile(
             title: Text(l10n.author),
@@ -324,6 +388,30 @@ class _InfoScreenState extends State<InfoScreen> {
         ],
       ),
     );
+  }
+
+  Future<List<LaunchPopupModel>> _fetchLaunchPopupHistory() async {
+    final locale = Localizations.localeOf(context).languageCode;
+    final String currentPlatform;
+    if (kIsWeb) {
+      currentPlatform = 'web';
+    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+      currentPlatform = 'ios';
+    } else if (defaultTargetPlatform == TargetPlatform.android) {
+      currentPlatform = 'android';
+    } else {
+      currentPlatform = 'all';
+    }
+    final response = await Supabase.instance.client
+        .from('launch_popup')
+        .select('id, content, locale, created_at, platform')
+        .eq('locale', locale)
+        .or('platform.eq.$currentPlatform,platform.eq.all')
+        .order('created_at', ascending: false)
+        .limit(20);
+    return (response as List)
+        .map((r) => LaunchPopupModel.fromMap(r as Map<String, dynamic>))
+        .toList();
   }
 
   Future<String> loadPrivacyPolicy() async {
