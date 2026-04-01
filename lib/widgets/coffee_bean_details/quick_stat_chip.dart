@@ -48,6 +48,9 @@ class QuickStatChip extends StatelessWidget {
   /// Optional custom padding (defaults to symmetric horizontal: 12, vertical: 8)
   final EdgeInsetsGeometry? padding;
 
+  /// Optional secondary text shown below the value in a muted style
+  final String? subtitle;
+
   const QuickStatChip({
     super.key,
     required this.icon,
@@ -60,6 +63,7 @@ class QuickStatChip extends StatelessWidget {
     this.backgroundColor,
     this.borderRadius = 8.0,
     this.padding,
+    this.subtitle,
   });
 
   @override
@@ -98,6 +102,14 @@ class QuickStatChip extends StatelessWidget {
                   ),
               textAlign: TextAlign.center,
             ),
+            if (subtitle != null)
+              Text(
+                subtitle!,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.55),
+                ),
+                textAlign: TextAlign.center,
+              ),
           ],
         ),
       ),
