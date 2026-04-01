@@ -17,7 +17,7 @@
   "hubBrewStatsSubtitle": "Bekijk persoonlijke en wereldwijde brouwstatistieken en trends",
   "hubSettingsSubtitle": "Wijzig app-voorkeuren en gedrag",
   "hubAboutSubtitle": "App-gegevens, versie en bijdragers",
-  "lastrecipe": "Meest Recent Gebruikte Recept:",
+  "lastrecipe": "Laatst gebruikt recept:",
   "about": "Over",
   "author": "Auteur",
   "authortext": "Timer.Coffee App is gecreëerd door Anton Karliner, een koffie-enthousiast, mediaspecialist en fotojournalist. Ik hoop dat deze app je zal helpen genieten van je koffie. Voel je vrij om bij te dragen op GitHub.",
@@ -29,9 +29,9 @@
   "website": "Website",
   "sourcecode": "Broncode",
   "support": "Koop me een koffie",
-  "supportButtonLabel": "Support",
-  "allrecipes": "Alle Recepten",
-  "favoriterecipes": "Favoriete Recepten",
+  "supportButtonLabel": "Contact",
+  "allrecipes": "Alle recepten",
+  "favoriterecipes": "Favoriete recepten",
   "coffeeamount": "Hoeveelheid koffie (g)",
   "wateramount": "Hoeveelheid water (ml)",
   "watertemp": "Watertemperatuur",
@@ -46,7 +46,7 @@
   "finishmsg": "Bedankt voor het gebruiken van Timer.Coffee! Geniet van je",
   "coffeefact": "Koffieweetje",
   "home": "Home",
-  "appversion": "App Versie",
+  "appversion": "Appversie",
   "tipsmall": "Koop een kleine koffie",
   "tipmedium": "Koop een medium koffie",
   "tiplarge": "Koop een grote koffie",
@@ -65,6 +65,15 @@
   "settingsthemedark": "Donker",
   "settingsthemesystem": "Systeem",
   "settingslang": "Taal",
+  "settingsDateTimeFormat": "Datum- en tijdnotatie",
+  "settingsDateFormatLabel": "Datumnotatie",
+  "settingsTimeFormatLabel": "Tijdnotatie",
+  "settingsDateFormatAuto": "Automatisch (op basis van taal)",
+  "settingsDateFormatDMY": "DD-MM-JJJJ",
+  "settingsDateFormatMDY": "MM-DD-JJJJ",
+  "settingsDateFormatYMD": "JJJJ-MM-DD",
+  "settingsTimeFormat12h": "12-uur (AM/PM)",
+  "settingsTimeFormat24h": "24-uur",
   "sweet": "Zoet",
   "balance": "Balans",
   "acidic": "Zuur",
@@ -73,7 +82,7 @@
   "slidertitle": "Gebruik schuifregelaars om smaak aan te passen",
   "whatsnewtitle": "Wat is nieuw",
   "whatsnewclose": "Sluiten",
-  "seasonspecials": "Seizoen Specials",
+  "seasonspecials": "Seizoensspecials",
   "snow": "Sneeuw",
   "noFavoriteRecipesMessage": "Je lijst met favoriete recepten is momenteel leeg. Begin met verkennen en brouwen om je favorieten te ontdekken!",
   "explore": "Verken",
@@ -85,8 +94,8 @@
   "totalBeansBrewedLabel": "Totaal gebrouwen bonen",
   "newBeansTriedLabel": "Nieuwe bonen geprobeerd",
   "originsExploredLabel": "Ontdekte herkomsten",
-  "regionsExploredLabel": "Europa",
-  "newRoastersDiscoveredLabel": "Nieuwe branders ontdekt",
+  "regionsExploredLabel": "Ontdekte regio's",
+  "newRoastersDiscoveredLabel": "Nieuwe branderijen ontdekt",
   "favoriteRoastersLabel": "Favoriete branderijen",
   "topOriginsLabel": "Top herkomsten",
   "topRegionsLabel": "Top regio's",
@@ -94,22 +103,22 @@
   "roaster": "Branderij",
   "rating": "Beoordeling",
   "notes": "Notities",
-  "statsscreen": "Koffiestijl statistieken",
-  "yourStats": "Jouw statistiek",
-  "coffeeBrewed": "Koffie Gebrouwen:",
+  "statsscreen": "Koffiestatistieken",
+  "yourStats": "Jouw statistieken",
+  "coffeeBrewed": "Koffie gezet",
   "litersUnit": "L",
-  "mostUsedRecipes": "Meeste gebruikte recepten:",
-  "globalStats": "Global Statistieken",
-  "unknownRecipe": "Onbekend Recept",
+  "mostUsedRecipes": "Meest gebruikte recepten",
+  "globalStats": "Wereldwijde statistieken",
+  "unknownRecipe": "Onbekend recept",
   "noData": "Geen data",
   "error": "Fout: {error}",
-  "someoneJustBrewed": "iemand heeft zojuist {recipeName} gebrouwd.",
+  "someoneJustBrewed": "Iemand heeft zojuist {recipeName} gezet.",
   "timePeriodToday": "Vandaag",
   "timePeriodYesterday": "Gisteren",
   "timePeriodThisWeek": "Deze Week",
   "timePeriodThisMonth": "Deze Maand",
-  "timePeriodCustom": "Custom",
-  "statsFor": "Stats voor ",
+  "timePeriodCustom": "Aangepast",
+  "statsFor": "Periode",
   "homescreenbrewcoffee": "Zet koffie",
   "homescreenhub": "Hub",
   "homescreenmore": "Meer",
@@ -125,13 +134,13 @@
   "removeFavorite": "Verwijder uit favorieten",
   "addFavorite": "Voeg toe aan favorieten",
   "toggleEditMode": "Bewerkingsmodus in-/uitschakelen",
-  "coffeeBeansDetails": "Koffiebonen Details",
+  "coffeeBeansDetails": "Koffiebonendetails",
   "edit": "Bewerk",
   "coffeeBeansNotFound": "Koffiebonen niet gevonden",
   "basicInformation": "Basisgegevens",
   "geographyTerroir": "Geografie/Terroir",
   "variety": "Variëteit",
-  "region": "Noord-Amerika",
+  "region": "Regio",
   "elevation": "Hoogte",
   "harvestDate": "Oogstdatum",
   "processing": "Verwerking",
@@ -160,9 +169,9 @@
   "next": "Volgende",
   "unexpectedErrorOccurred": "Onverwachte fout opgetreden",
   "tokenLimitReached": "Sorry, je hebt je tokenlimiet voor beeldherkenning deze maand bereikt",
-  "noCoffeeLabelsDetected": "Geen koffie labels gedetecteerd. Probeer het met een andere afbeelding.",
+  "noCoffeeLabelsDetected": "Geen koffielabels gevonden. Probeer een andere afbeelding.",
   "collectedInformation": "Verzamelde informatie",
-  "enterRoaster": "Voer brander in",
+  "enterRoaster": "Voer branderij in",
   "enterName": "Voer naam in",
   "enterOrigin": "Voer oorsprong in",
   "optional": "Optioneel",
@@ -193,7 +202,7 @@
   "signInSuccessful": "Succesvol aangemeld met Apple",
   "signInError": "Fout bij aanmelden met Apple",
   "signInErrorGoogle": "Fout bij aanmelden met Google",
-  "signInWithGoogle": "Inloggen met Google",
+  "signInWithGoogle": "Aanmelden met Google",
   "signOutSuccessful": "Succesvol afgemeld",
   "signOutConfirmationTitle": "Weet u zeker dat u wilt afmelden?",
   "signOutConfirmationMessage": "Cloudsynchronisatie stopt. Meld u opnieuw aan om door te gaan.",
@@ -202,8 +211,8 @@
   "enterEmail": "Voer uw e-mailadres in",
   "emailHint": "voorbeeld@email.com",
   "cancel": "Annuleren",
-  "sendMagicLink": "Stuur magische link",
-  "magicLinkSent": "Magische link verzonden! Controleer uw e-mail.",
+  "sendMagicLink": "Aanmeldlink sturen",
+  "magicLinkSent": "Aanmeldlink verzonden. Controleer uw e-mail.",
   "sendOTP": "Verstuur OTP",
   "otpSent": "OTP verzonden naar uw e-mail",
   "otpSendError": "Fout bij het verzenden van OTP",
@@ -216,19 +225,19 @@
   "success": "Succes!",
   "otpSentMessage": "Een eenmalige toegangscode is naar uw e-mailadres verzonden. Voer de code hieronder in wanneer u deze ontvangt.",
   "otpHint2": "Voer hier de code in",
-  "signInCreate": "Inloggen / Account aanmaken",
+  "signInCreate": "Aanmelden / account aanmaken",
   "accountManagement": "Accountbeheer",
   "deleteAccount": "Account verwijderen",
-  "deleteAccountWarning": "Let op: als u doorgaat, verwijderen we uw account en bijbehorende gegevens van onze servers. De lokale kopie van de gegevens blijft op het apparaat staan. Als u die ook wilt verwijderen, kunt u de app eenvoudig verwijderen. Om synchronisatie opnieuw in te schakelen, moet u een nieuw account aanmaken",
+  "deleteAccountWarning": "Let op: als u doorgaat, verwijderen we uw account en alle bijbehorende gegevens van onze servers. De lokale kopie van uw gegevens blijft op uw apparaat staan. Wilt u die ook verwijderen, dan kunt u de app verwijderen. Als u synchronisatie later opnieuw wilt inschakelen, moet u een nieuw account aanmaken.",
   "deleteAccountConfirmation": "Account succesvol verwijderd",
   "accountDeleted": "Account verwijderd",
   "accountDeletionError": "Fout bij het verwijderen van uw account, probeer het opnieuw",
   "deleteAccountTitle": "Belangrijk",
   "selectBeans": "Kies bonen",
   "all": "Alles",
-  "selectRoaster": "Selecteer Brander",
-  "selectOrigin": "Selecteer Oorsprong",
-  "resetFilters": "Filters Resetten",
+  "selectRoaster": "Selecteer branderij",
+  "selectOrigin": "Selecteer oorsprong",
+  "resetFilters": "Filters resetten",
   "showFavoritesOnly": "Alleen favorieten weergeven",
   "apply": "Toepassen",
   "selectSize": "Grootte selecteren",
@@ -338,7 +347,7 @@
   "labelTastedBeansBy": "Geproefde bonen van",
   "labelDiscoveredCoffeeFrom": "Ontdekte koffie uit",
   "labelUsedBrewingMethods": "Gebruikte",
-  "formattedRoasterCount": "{count} {count, plural, one {brander} other {branders}}",
+  "formattedRoasterCount": "{count} {count, plural, =1{branderij} other{branderijen}}",
   "formattedCountryCount": "{count} {count, plural, one {land} other {landen}}",
   "formattedBrewingMethodCount": "{count} {count, plural, one {zetmethode} other {zetmethoden}}",
   "recipeCreationScreenEditRecipeTitle": "Recept bewerken",
@@ -461,7 +470,7 @@
   },
   "dialogCancel": "Annuleren",
   "dialogDuplicate": "Dupliceren",
-  "dialogUpdate": "Update",
+  "dialogUpdate": "Bijwerken",
   "recipeImportTitle": "Recept importeren",
   "recipeImportBody": "Wil je het recept '{recipeName}' uit de cloud importeren?",
   "@recipeImportBody": {
@@ -772,7 +781,9 @@
   "notificationsEnabled": "Ingeschakeld",
   "notificationsDisabled": "Uitgeschakeld",
   "notificationPermissionDialogTitle": "Notificaties inschakelen?",
-  "notificationPermissionDialogMessage": "U kunt notificaties inschakelen om nuttige updates te ontvangen (bijv. over nieuwe app-versies). Schakel nu in of wijzig dit op elk moment in de instellingen.",
+  "notificationPermissionDialogMessage": "U kunt notificaties inschakelen om nuttige updates te ontvangen (bijv. over nieuwe app-versies). Notificaties zijn ook nodig voor live voortgangsupdates tijdens het zetten. Schakel nu in of wijzig dit op elk moment in de instellingen.",
+  "notificationPermissionDialogMessageIos": "U kunt notificaties inschakelen om nuttige updates te ontvangen (bijv. over nieuwe app-versies). Notificaties zijn ook nodig voor Live Activities en Dynamic Island op iOS. Schakel nu in of wijzig dit op elk moment in de instellingen.",
+  "notificationPermissionDialogMessageAndroid": "U kunt notificaties inschakelen om nuttige updates te ontvangen (bijv. over nieuwe app-versies). Notificaties zijn ook nodig voor Live Updates op Android. Schakel nu in of wijzig dit op elk moment in de instellingen.",
   "notificationPermissionEnable": "Inschakelen",
   "notificationPermissionSkip": "Niet nu",
   "holidayGiftBoxTitle": "Holiday Giftbox",
@@ -830,7 +841,7 @@
   "holidayGiftBoxRetry": "Opnieuw proberen",
   "holidayGiftBoxLoadFailed": "Aanbiedingen laden mislukt",
   "holidayGiftBoxOfferUnavailable": "Aanbieding niet beschikbaar",
-  "holidayGiftBoxBannerTitle": "Bekijk onze holiday gift box",
+  "holidayGiftBoxBannerTitle": "Bekijk onze Holiday Giftbox",
   "holidayGiftBoxBannerCta": "Bekijk aanbiedingen",
   "regionEurope": "Europa",
   "regionNorthAmerica": "Noord-Amerika",
@@ -876,7 +887,7 @@
   },
   "timePeriodThisYear": "Dit jaar",
   "timePeriodLastYear": "Vorig jaar",
-  "nativeAppPromoTitle": "Download de Timer.Coffee App",
+  "nativeAppPromoTitle": "Download de Timer.Coffee-app",
   "nativeAppPromoDescription": "Geniet van de volledige ervaring met exclusieve functies: AI-gestuurde koffielabel scanning, Live Activiteiten op je vergrendelscherm, pushmeldingen, haptische feedback en meer.",
   "nativeAppPromoButton": "Download de app",
   "addBrewEntry": "Zetvermelding toevoegen",
@@ -892,7 +903,7 @@
   "onboardingShowAll": "Toon alle zetmethoden",
   "coffeeJourneyTitle": "Eerste stappen",
   "coffeeJourneyMilestoneFirstBrew": "Rond je eerste zetbeurt af",
-  "coffeeJourneyMilestoneTryMethod": "Probeer een andere zetmethode",
+  "coffeeJourneyMilestoneTryMethod": "Probeer een ander recept",
   "coffeeJourneyMilestoneAddBeans": "Voeg je eerste koffiebonen toe",
   "coffeeJourneyMilestoneFavorite": "Voeg een recept toe aan favorieten",
   "coffeeJourneyMilestoneStats": "Bekijk je brouwstatistieken",
@@ -918,5 +929,101 @@
   "settingsAnalyticsBeans": "Deel boonanalyses",
   "settingsAnalyticsGeneral": "Deel algemene gebruiksanalyses",
   "done": "Klaar",
-  "saving": "Opslaan…"
+  "saving": "Opslaan…",
+
+  "notifBrewReminderTitle": "Mis je je koffieritueel?",
+  "notifBrewReminderBody": "Het is een paar dagen geleden. Zin in nog een kop koffie?",
+  "notifBrewReminderTitle2": "Tijd voor koffie?",
+  "notifBrewReminderBody2": "Je set-up staat klaar wanneer jij er klaar voor bent.",
+  "notifBrewReminderTitle3": "Je waterkoker roept",
+  "notifBrewReminderBody3": "Een goede kop koffie is nog maar een paar minuten van je verwijderd.",
+  "notifBrewEscalationTitle": "Terug voor nog een kop koffie?",
+  "notifBrewEscalationBody": "Het is een tijdje geleden. Zin om weer iets goeds te zetten?",
+  "notifBrewEscalationTitle2": "Al een tijdje geleden?",
+  "notifBrewEscalationBody2": "Geen haast. Je set-up staat klaar wanneer jij er klaar voor bent.",
+  "notifBrewEscalationTitle3": "Weer tijd voor koffie?",
+  "notifBrewEscalationBody3": "Een echt goede kop koffie begint binnen een paar minuten.",
+
+  "notifDiscoverBeansTitle": "Houd je bonen bij",
+  "notifDiscoverBeansBody": "Log je bonen en onthoud welke je favoriet waren.",
+  "notifDiscoverPulseTitle": "Zie wat anderen zetten",
+  "notifDiscoverPulseBody": "Open Pulse om live zetbeurten van over de hele wereld te zien.",
+
+  "notifBrewMilestoneTitle": "Je hebt een mijlpaal bereikt",
+  "notifBrewMilestoneBody": "Je hebt {count} keer gezet. Tik om je voortgang te bekijken.",
+  "@notifBrewMilestoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifExploreRecipesTitle": "Probeer een nieuw {methodName}-recept",
+  "@notifExploreRecipesTitle": {
+    "placeholders": {
+      "methodName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifExploreRecipesBody": "{count, plural, =1{Tot nu toe heb je 1 recept geprobeerd. Hier is er nog een om te proberen.} other{Tot nu toe heb je {count} recepten geprobeerd. Hier is er nog een om te proberen.}}",
+  "@notifExploreRecipesBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifMorningTitle": "Goedemorgen. Klaar om te zetten?",
+  "notifMorningBody": "Begin de dag met een goede kop koffie.",
+  "notifMorningTitle2": "Opstaan en zetten",
+  "notifMorningBody2": "Je ochtendkoffie kan binnen een paar minuten klaar zijn.",
+  "notifMorningTitle3": "De eerste kop van de dag?",
+  "notifMorningBody3": "Kies een recept en ga aan de slag.",
+  "notifWeeklyTitle": "{count, plural, =1{1 zetbeurt deze week} other{{count} zetbeurten deze week}}",
+  "@notifWeeklyTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifWeeklyBody": "{recipes, plural, =1{Tik om je weekstatistieken te bekijken.} other{Over {recipes} recepten verspreid. Tik om de verdeling te bekijken.}}",
+  "@notifWeeklyBody": {
+    "placeholders": {
+      "recipes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifBeanFreshnessTitle": "Tijd voor verse bonen?",
+  "notifBeanFreshnessBody": "Je bonen {beanName} zijn {days} dagen geleden gebrand. Ze zijn misschien niet meer op hun best.",
+  "@notifBeanFreshnessBody": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "settingsNotificationsToggle": "Meldingen inschakelen",
+  "settingsMorningReminder": "Ochtendherinnering voor koffie",
+  "settingsMorningReminderSubtitle": "Dagelijkse herinnering voor je ochtendkoffie",
+  "settingsMorningReminderTime": "Herinneringstijd",
+  "settingsWeeklySummary": "Wekelijkse samenvatting",
+  "settingsWeeklySummarySubtitle": "Zondagavondoverzicht van je zetbeurten",
+  "settingsBeanFreshness": "Versheidsmeldingen voor bonen",
+  "settingsBeanFreshnessSubtitle": "Melden wanneer bonen ouder zijn dan 3 weken",
+  "daysAgo": "{count, plural, one{1 dag geleden} other{{count} dagen geleden}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

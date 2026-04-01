@@ -249,6 +249,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingslang => 'Language';
 
   @override
+  String get settingsDateTimeFormat => 'Date & Time Format';
+
+  @override
+  String get settingsDateFormatLabel => 'Date format';
+
+  @override
+  String get settingsTimeFormatLabel => 'Time format';
+
+  @override
+  String get settingsDateFormatAuto => 'Auto (matches language)';
+
+  @override
+  String get settingsDateFormatDMY => 'DD/MM/YYYY';
+
+  @override
+  String get settingsDateFormatMDY => 'MM/DD/YYYY';
+
+  @override
+  String get settingsDateFormatYMD => 'YYYY-MM-DD';
+
+  @override
+  String get settingsTimeFormat12h => '12-hour (AM/PM)';
+
+  @override
+  String get settingsTimeFormat24h => '24-hour';
+
+  @override
   String get sweet => 'Sweet';
 
   @override
@@ -907,7 +934,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return 'You used beans from $roasterCount roasters';
   }
 
@@ -922,7 +949,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'You tasted coffee beans\nfrom $originCount countries!';
   }
 
@@ -934,17 +961,17 @@ class AppLocalizationsEn extends AppLocalizations {
       '...but with users from 110 other\ncountries across 6 continents!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return 'You stayed true to yourself and used only these $count brewing methods this year:';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return 'You were discovering new tastes and used $count brewing methods this year:';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return 'You were a true coffee discoverer and used $count brewing methods this year:';
   }
 
@@ -1940,7 +1967,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      'You can enable notifications to get useful updates (e.g. about new app versions). Enable now or change this anytime in settings.';
+      'You can enable notifications to get useful updates (e.g. about new app versions). Notifications are also required for live brew progress updates. Enable now or change this anytime in settings.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'You can enable notifications to get useful updates (e.g. about new app versions). Notifications are also required for Live Activities and Dynamic Island on iOS. Enable now or change this anytime in settings.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'You can enable notifications to get useful updates (e.g. about new app versions). Notifications are also required for Live Updates on Android. Enable now or change this anytime in settings.';
 
   @override
   String get notificationPermissionEnable => 'Enable';
@@ -2141,8 +2176,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get coffeeJourneyMilestoneFirstBrew => 'Complete your first brew';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod =>
-      'Try a different brewing method';
+  String get coffeeJourneyMilestoneTryMethod => 'Try another recipe';
 
   @override
   String get coffeeJourneyMilestoneAddBeans => 'Add your first coffee beans';
@@ -2225,4 +2259,169 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saving => 'Saving…';
+
+  @override
+  String get notifBrewReminderTitle => 'Missing your coffee ritual?';
+
+  @override
+  String get notifBrewReminderBody =>
+      'It\'s been a few days. Ready for another brew?';
+
+  @override
+  String get notifBrewReminderTitle2 => 'Time for a brew?';
+
+  @override
+  String get notifBrewReminderBody2 => 'Your setup is ready when you are.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'Your kettle is calling';
+
+  @override
+  String get notifBrewReminderBody3 => 'A good cup is only a few minutes away.';
+
+  @override
+  String get notifBrewEscalationTitle => 'Back for another brew?';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'It\'s been a while. Ready to make something good?';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'Been a while?';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'No rush. Your setup is ready when you are.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'Coffee time again?';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'A really good cup can start in just a few minutes.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'Keep track of your beans';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'Log your beans and remember the ones you loved.';
+
+  @override
+  String get notifDiscoverPulseTitle => 'See what others are brewing';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'Open Pulse to see live brews from around the world.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'You hit a milestone';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    return 'You\'ve brewed $count times. Tap to see your progress.';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return 'Try a new $methodName recipe';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'So far, you have tried $count recipes. Here is one more to try.',
+      one: 'So far, you have tried 1 recipe. Here is another one to try.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'Good morning. Ready to brew?';
+
+  @override
+  String get notifMorningBody => 'Start the day with a good cup.';
+
+  @override
+  String get notifMorningTitle2 => 'Rise and brew';
+
+  @override
+  String get notifMorningBody2 =>
+      'Your morning brew can be ready in a few minutes.';
+
+  @override
+  String get notifMorningTitle3 => 'First cup of the day?';
+
+  @override
+  String get notifMorningBody3 => 'Pick a recipe and get brewing.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count brews this week',
+      one: '1 brew this week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: 'Across $recipes recipes. Tap to see the breakdown.',
+      one: 'Tap to see your weekly stats.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'Time for fresh beans?';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    return 'Your $beanName was roasted $days days ago. It may be past its peak.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'Enable notifications';
+
+  @override
+  String get settingsMorningReminder => 'Morning brew reminder';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'Daily reminder for your morning brew';
+
+  @override
+  String get settingsMorningReminderTime => 'Reminder time';
+
+  @override
+  String get settingsWeeklySummary => 'Weekly summary';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'Sunday evening recap of your brews';
+
+  @override
+  String get settingsBeanFreshness => 'Bean freshness alerts';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'Notify when beans are more than 3 weeks past roast date';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days ago',
+      one: '1 day ago',
+    );
+    return '$_temp0';
+  }
 }

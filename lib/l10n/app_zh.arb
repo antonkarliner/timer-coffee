@@ -1,49 +1,49 @@
 {
   "@@locale": "zh",
-  "userRecipesTitle": "你的食谱",
+  "userRecipesTitle": "你的配方",
   "userRecipesSectionCreated": "你创建的",
   "userRecipesSectionImported": "你导入的",
-  "userRecipesEmpty": "未找到食谱",
-  "userRecipesDeleteTitle": "删除食谱？",
+  "userRecipesEmpty": "未找到配方",
+  "userRecipesDeleteTitle": "删除配方？",
   "userRecipesDeleteMessage": "此操作无法撤销。",
   "userRecipesDeleteConfirm": "删除",
   "userRecipesDeleteCancel": "取消",
-  "userRecipesSnackbarDeleted": "已删除食谱",
-  "hubUserRecipesTitle": "你的食谱",
-  "hubUserRecipesSubtitle": "查看并管理你创建和导入的食谱",
-  "hubAccountSubtitle": "管理您的个人资料",
+  "userRecipesSnackbarDeleted": "已删除配方",
+  "hubUserRecipesTitle": "你的配方",
+  "hubUserRecipesSubtitle": "查看并管理你创建和导入的配方",
+  "hubAccountSubtitle": "管理个人资料",
   "hubSignInCreateSubtitle": "登录以同步配方和偏好设置",
-  "hubBrewDiarySubtitle": "查看您的冲泡历史并添加笔记",
-  "hubBrewStatsSubtitle": "查看个人和全球冲泡统计和趋势",
+  "hubBrewDiarySubtitle": "查看冲煮记录并添加笔记",
+  "hubBrewStatsSubtitle": "查看个人和全球冲煮统计和趋势",
   "hubSettingsSubtitle": "更改应用偏好和行为",
   "hubAboutSubtitle": "应用详情、版本和贡献者",
-  "lastrecipe": "最近使用的食谱：",
+  "lastrecipe": "最近使用的配方：",
   "about": "关于",
   "author": "作者",
   "authortext": "Timer.Coffee应用由咖啡爱好者、媒体专家和摄影记者安东·卡尔纳创建。希望这个应用能帮助您享受咖啡。欢迎在GitHub上贡献。",
   "contributors": "贡献者",
   "errorLoadingContributors": "加载贡献者时出错",
   "license": "许可证",
-  "licensetext": "这个应用程序是免费软件:您可以在自由软件基金会发布的GNU通用公共许可证条款下重新分发和/或修改它，不论是许可证的第3版，或（根据您的选择）任何后续版本。",
+  "licensetext": "本应用为免费软件：您可以根据自由软件基金会发布的 GNU 通用公共许可证条款重新分发和/或修改它，适用许可证第 3 版或（根据您的选择）任何后续版本。",
   "licensebutton": "阅读GNU通用公共许可证v3",
   "website": "网站",
   "sourcecode": "源代码",
   "support": "为开发者买一杯咖啡",
   "supportButtonLabel": "客服",
-  "allrecipes": "所有食谱",
-  "favoriterecipes": "喜爱的食谱",
-  "coffeeamount": "咖啡量（克）",
+  "allrecipes": "所有配方",
+  "favoriterecipes": "喜爱的配方",
+  "coffeeamount": "咖啡粉量（克）",
   "wateramount": "水量（毫升）",
   "watertemp": "水温",
   "grindsize": "研磨度",
-  "brewtime": "冲泡时间",
-  "recipesummary": "食谱摘要",
-  "recipesummarynote": "注：这是一份基本食谱，包含默认的水和咖啡量。",
+  "brewtime": "冲煮时间",
+  "recipesummary": "配方摘要",
+  "recipesummarynote": "注：这是一份基本配方，包含默认的水和咖啡量。",
   "preparation": "准备",
-  "brewingprocess": "冲泡过程",
+  "brewingprocess": "冲煮过程",
   "step": "步骤",
   "seconds": "{count, plural, =0{秒} =1{秒} other{秒}}",
-  "finishmsg": "感谢您使用Timer.Coffee!请享用您的",
+  "finishmsg": "感谢您使用 Timer.Coffee！请享用您的",
   "coffeefact": "咖啡事实",
   "home": "首页",
   "appversion": "应用版本",
@@ -51,20 +51,29 @@
   "tipmedium": "买一杯中咖啡",
   "tiplarge": "买一杯大咖啡",
   "supportdevelopment": "支持开发",
-  "supportdevmsg": "您的捐款有助于覆盖维护成本（例如开发者许可证等）。它们还使我能够尝试更多咖啡冲泡设备，并向应用中添加更多食谱。",
+  "supportdevmsg": "您的捐款有助于覆盖维护成本（例如开发者许可证等）。它们还使我能够尝试更多咖啡冲煮设备，并向应用中添加更多配方。",
   "supportdevtnx": "感谢您考虑捐赠！",
   "donationok": "谢谢您！",
-  "donationtnx": "非常感谢您的支持！祝您冲泡出许多美味的咖啡！☕️",
+  "donationtnx": "非常感谢您的支持！祝您冲煮出许多美味的咖啡！☕️",
   "donationerr": "错误",
   "donationerrmsg": "处理购买时出错，请重试。",
-  "sharemsg": "查看这个食谱：",
+  "sharemsg": "查看这个配方：",
   "finishbrew": "完成",
-  "settings": "設定",
+  "settings": "设置",
   "settingstheme": "主题",
   "settingsthemelight": "浅色",
   "settingsthemedark": "深色",
   "settingsthemesystem": "系统",
-  "settingslang": "言語",
+  "settingslang": "语言",
+  "settingsDateTimeFormat": "日期和时间格式",
+  "settingsDateFormatLabel": "日期格式",
+  "settingsTimeFormatLabel": "时间格式",
+  "settingsDateFormatAuto": "自动（跟随语言）",
+  "settingsDateFormatDMY": "DD/MM/YYYY",
+  "settingsDateFormatMDY": "MM/DD/YYYY",
+  "settingsDateFormatYMD": "YYYY-MM-DD",
+  "settingsTimeFormat12h": "12小时制（上午/下午）",
+  "settingsTimeFormat24h": "24小时制",
   "sweet": "甜",
   "balance": "平衡",
   "acidic": "酸",
@@ -75,7 +84,7 @@
   "whatsnewclose": "关闭",
   "seasonspecials": "季节特惠",
   "snow": "雪",
-  "noFavoriteRecipesMessage": "您的最爱食谱列表当前为空。开始探索和酿造，以发现您的最爱！",
+  "noFavoriteRecipesMessage": "您最爱的配方列表当前为空。开始探索和冲煮，发现您最爱的配方！",
   "explore": "探索",
   "dateFormat": "yyyy年MMMd日",
   "timeFormat": "HH:mm",
@@ -87,21 +96,21 @@
   "notes": "笔记",
   "statsscreen": "咖啡统计",
   "yourStats": "您的统计数据",
-  "coffeeBrewed": "咖啡冲泡：",
+  "coffeeBrewed": "咖啡冲煮：",
   "litersUnit": "升",
   "mostUsedRecipes": "最常用配方：",
   "globalStats": "全球统计数据",
   "unknownRecipe": "未知配方",
   "noData": "无数据",
   "error": "错误：{error}",
-  "someoneJustBrewed": "有人刚刚冲泡了 {recipeName}",
+  "someoneJustBrewed": "有人刚刚冲煮了 {recipeName}",
   "timePeriodToday": "今天",
   "timePeriodYesterday": "昨天",
   "timePeriodThisWeek": "本周",
   "timePeriodThisMonth": "本月",
   "timePeriodCustom": "自定义",
   "statsFor": "的统计信息 ",
-  "homescreenbrewcoffee": "冲泡咖啡",
+  "homescreenbrewcoffee": "冲煮咖啡",
   "homescreenhub": "中心区",
   "homescreenmore": "更多",
   "addBeans": "添加咖啡豆",
@@ -122,23 +131,23 @@
   "basicInformation": "基本信息",
   "geographyTerroir": "地理/风土",
   "variety": "品种",
-  "region": "北美",
+  "region": "产区",
   "elevation": "海拔",
   "harvestDate": "收获日期",
-  "processing": "加工方式",
-  "processingMethod": "加工方法",
+  "processing": "处理法",
+  "processingMethod": "处理方式",
   "roastDate": "烘焙日期",
   "roastLevel": "烘焙程度",
   "cuppingScore": "杯测评分",
   "flavorProfile": "风味特征",
-  "tastingNotes": "品尝笔记",
+  "tastingNotes": "风味描述",
   "additionalNotes": "附加说明",
   "noCoffeeBeans": "未找到咖啡豆",
   "editCoffeeBeans": "编辑咖啡豆",
   "addCoffeeBeans": "添加咖啡豆",
   "showImagePicker": "显示图片选择器",
   "pleaseNote": "请注意",
-  "firstTimePopupMessage": "1. 我们使用外部服务来处理图像。继续操作即表示您同意此操作。\n2. 虽然我们不会存储您的图像，但请避免包含任何个人信息。\n3. 图像识别目前每月限制为 10 个令牌（1 个令牌 = 1 张图像）。此限制将来可能会更改。",
+  "firstTimePopupMessage": "1. 我们使用外部服务来处理图像。继续操作即表示您同意此操作。\n2. 虽然我们不会存储您的图像，但请避免包含任何个人信息。\n3. 图像识别目前每月限制为 10 次（1 次 = 1 张图像）。此限制将来可能会更改。",
   "ok": "好的",
   "takePhoto": "拍照",
   "selectFromPhotos": "从照片中选择",
@@ -158,10 +167,10 @@
   "enterOrigin": "输入产地",
   "optional": "可选",
   "enterVariety": "输入品种",
-  "enterProcessingMethod": "输入加工方法",
+  "enterProcessingMethod": "输入处理方式",
   "enterRoastLevel": "输入烘焙程度",
   "enterRegion": "输入地区",
-  "enterTastingNotes": "输入品尝笔记",
+  "enterTastingNotes": "输入风味描述",
   "enterElevation": "输入海拔",
   "enterCuppingScore": "输入杯测评分",
   "enterNotes": "输入注释",
@@ -178,23 +187,23 @@
   "favorite": "收藏",
   "notFavorite": "未收藏",
   "myBeans": "我的咖啡豆",
-  "signIn": "登入",
-  "signOut": "登出",
+  "signIn": "登录",
+  "signOut": "退出",
   "signInWithApple": "使用 Apple 登录",
   "signInSuccessful": "使用 Apple 登录成功",
   "signInError": "使用 Apple 登录时出错",
   "signInErrorGoogle": "使用 Google 登录时出错",
   "signInWithGoogle": "使用 Google 登录",
   "signOutSuccessful": "成功退出",
-  "signOutConfirmationTitle": "确定要登出吗？",
+  "signOutConfirmationTitle": "确定要退出吗？",
   "signOutConfirmationMessage": "云同步将停止工作。重新登录即可恢复。",
   "signInSuccessfulGoogle": "已使用 Google 帐户成功登录",
-  "signInWithEmail": "用電子郵件登入",
-  "enterEmail": "請輸入您的電子郵件",
+  "signInWithEmail": "使用电子邮件登录",
+  "enterEmail": "请输入您的电子邮件",
   "emailHint": "例： example@email.com",
   "cancel": "取消",
-  "sendMagicLink": "傳送神奇連結",
-  "magicLinkSent": "神奇連結已發送！請查看您的電子郵件。",
+  "sendMagicLink": "发送登录链接",
+  "magicLinkSent": "登录链接已发送！请查看您的电子邮件。",
   "sendOTP": "发送一次性密码",
   "otpSent": "一次性密码已发送到您的邮箱",
   "otpSendError": "发送一次性密码出错",
@@ -206,7 +215,7 @@
   "otpVerificationError": "OTP验证错误",
   "success": "成功！",
   "otpSentMessage": "一个一次性密码已发送至您的邮箱。收到后，请在下方输入。",
-  "otpHint2": "輸入代碼",
+  "otpHint2": "输入验证码",
   "signInCreate": "登录 / 创建帐户",
   "accountManagement": "账户管理",
   "deleteAccount": "删除账户",
@@ -228,7 +237,7 @@
   "sizeXL": "加大",
   "yearlyStatsAppBarTitle": "我与 Timer.Coffee 的一年",
   "yearlyStatsStory1Text": "嘿，感谢您今年成为 Timer.Coffee 世界的一部分！",
-  "yearlyStatsStory2Text": "首先...\n您今年煮了一些咖啡{ellipsis}",
+  "yearlyStatsStory2Text": "首先…\n您今年煮了一些咖啡{ellipsis}",
   "yearlyStatsStory3Text": "更准确地说，\n您在 2024 年煮了 {liters} 升咖啡！",
   "yearlyStatsStory4Text": "您使用了来自 {roasterCount} 个烘焙商的咖啡豆",
   "yearlyStatsStory4Top3Roasters": "您的前 3 名烘焙商是：\n{top3}",
@@ -255,7 +264,7 @@
   "yearlyStats25AppBarTitleSimple": "2025 年的 Timer.Coffee",
   "yearlyStats25Slide1Title": "您与 Timer.Coffee 的一年",
   "yearlyStats25Slide1Subtitle": "点按查看您在 2025 年的冲煮回顾",
-  "yearlyStats25Slide2Intro": "我们一起冲煮了咖啡...",
+  "yearlyStats25Slide2Intro": "我们一起冲煮了咖啡…",
   "yearlyStats25Slide2Count": "{count} 次",
   "yearlyStats25Slide2Liters": "约 {liters} 升咖啡",
   "yearlyStats25Slide2Cambridge": "足够给英国剑桥的每个人送上一杯咖啡（学生们一定会特别感激）。",
@@ -282,7 +291,7 @@
   "yearlyStats25Slide6NoRoasters": "暂无烘焙商",
   "yearlyStats25Slide7Title": "喝咖啡也能带您去远方…",
   "yearlyStats25Slide7Subtitle": "今年您发现了 {count} 个产地：",
-  "yearlyStats25Others": "...以及其他",
+  "yearlyStats25Others": "…以及其他",
   "yearlyStats25FallbackTitle": "今年 Timer.Coffee 用户使用了来自 {countries} 个国家/地区的咖啡豆\n并注册了 {roasters} 家不同的烘焙商。",
   "yearlyStats25FallbackPromptHasBeans": "要不要继续记录您的原豆袋呢？",
   "yearlyStats25FallbackPromptNoBeans": "也许是时候加入并记录您的咖啡豆了？",
@@ -292,7 +301,7 @@
   "yearlyStats25PostcardTitle": "给另一位冲煮者送上新年祝福。",
   "yearlyStats25PostcardSubtitle": "可选。保持友善。不含个人信息。",
   "yearlyStats25PostcardHint": "新年快乐，冲煮顺利！",
-  "yearlyStats25PostcardSending": "发送中...",
+  "yearlyStats25PostcardSending": "发送中…",
   "yearlyStats25PostcardSend": "发送",
   "yearlyStats25PostcardSkip": "跳过",
   "yearlyStats25PostcardReceivedTitle": "来自另一位冲煮者的祝福",
@@ -332,10 +341,10 @@
   "formattedRoasterCount": "{count} {count, plural, other{家烘焙商}}",
   "formattedCountryCount": "{count} {count, plural, other{个国家/地区}}",
   "formattedBrewingMethodCount": "{count} {count, plural, other{种冲煮方法}}",
-  "recipeCreationScreenEditRecipeTitle": "编辑食谱",
-  "recipeCreationScreenCreateRecipeTitle": "创建食谱",
-  "recipeCreationScreenRecipeStepsTitle": "食谱步骤",
-  "recipeCreationScreenRecipeNameLabel": "食谱名称",
+  "recipeCreationScreenEditRecipeTitle": "编辑配方",
+  "recipeCreationScreenCreateRecipeTitle": "创建配方",
+  "recipeCreationScreenRecipeStepsTitle": "配方步骤",
+  "recipeCreationScreenRecipeNameLabel": "配方名称",
   "recipeCreationScreenShortDescriptionLabel": "简短描述",
   "recipeCreationScreenBrewingMethodLabel": "冲煮方法",
   "recipeCreationScreenCoffeeAmountLabel": "咖啡量 (克)",
@@ -348,7 +357,7 @@
   "recipeCreationScreenPreparationStepTitle": "准备步骤",
   "recipeCreationScreenBrewStepTitle": "冲煮步骤 {stepOrder}",
   "@recipeCreationScreenBrewStepTitle": {
-    "description": "食谱创建屏幕中冲煮步骤的标题",
+    "description": "配方创建屏幕中冲煮步骤的标题",
     "placeholders": {
       "stepOrder": {
         "type": "String",
@@ -358,20 +367,20 @@
   },
   "recipeCreationScreenStepDescriptionLabel": "步骤描述",
   "recipeCreationScreenStepTimeLabel": "步骤时间: ",
-  "recipeCreationScreenRecipeNameValidator": "请输入食谱名称",
+  "recipeCreationScreenRecipeNameValidator": "请输入配方名称",
   "recipeCreationScreenShortDescriptionValidator": "请输入简短描述",
   "recipeCreationScreenBrewingMethodValidator": "请选择冲煮方法",
   "recipeCreationScreenRequiredValidator": "必填",
   "recipeCreationScreenInvalidNumberValidator": "无效数字",
   "recipeCreationScreenStepDescriptionValidator": "请输入步骤描述",
-  "recipeCreationScreenContinueButton": "继续至食谱步骤",
+  "recipeCreationScreenContinueButton": "继续至配方步骤",
   "recipeCreationScreenAddStepButton": "添加步骤",
-  "recipeCreationScreenSaveRecipeButton": "保存食谱",
-  "recipeCreationScreenUpdateSuccess": "食谱更新成功",
-  "recipeCreationScreenSaveSuccess": "食谱保存成功",
-  "recipeCreationScreenSaveError": "保存食谱时出错: {error}",
+  "recipeCreationScreenSaveRecipeButton": "保存配方",
+  "recipeCreationScreenUpdateSuccess": "配方更新成功",
+  "recipeCreationScreenSaveSuccess": "配方保存成功",
+  "recipeCreationScreenSaveError": "保存配方时出错: {error}",
   "@recipeCreationScreenSaveError": {
-    "description": "保存食谱失败时的错误消息",
+    "description": "保存配方失败时的错误消息",
     "placeholders": {
       "error": {
         "type": "String",
@@ -384,7 +393,7 @@
   "unitGramsLong": "克",
   "unitMillilitersLong": "毫升",
   "recipeCopySuccess": "配方复制成功！",
-  "recipeDuplicateSuccess": "食谱复制成功！",
+  "recipeDuplicateSuccess": "配方复制成功！",
   "@recipeCopySuccess": {
     "description": "Snackbar message shown when a recipe is copied successfully"
   },
@@ -416,7 +425,7 @@
     }
   },
   "defaultPreparationStepDescription": "准备",
-  "loadingEllipsis": "加载中...",
+  "loadingEllipsis": "加载中…",
   "recipeDeletedSuccess": "配方已成功删除",
   "recipeDeleteError": "删除配方失败：{error}",
   "@recipeDeleteError": {
@@ -446,50 +455,50 @@
     "placeholders": {
       "recipeName": {
         "type": "String",
-        "example": "我的超赞食谱"
+        "example": "我的超赞配方"
       }
     }
   },
   "dialogCancel": "取消",
   "dialogDuplicate": "复制",
   "dialogUpdate": "更新",
-  "recipeImportTitle": "导入食谱",
-  "recipeImportBody": "您想从云端导入食谱“{recipeName}”吗？",
+  "recipeImportTitle": "导入配方",
+  "recipeImportBody": "您想从云端导入配方“{recipeName}”吗？",
   "@recipeImportBody": {
     "description": "导入确认对话框的正文",
     "placeholders": {
       "recipeName": {
         "type": "String",
-        "example": "共享食谱"
+        "example": "共享配方"
       }
     }
   },
   "dialogImport": "导入",
   "moderationReviewNeededTitle": "需要审核",
-  "moderationReviewNeededMessage": "由于内容审核问题，以下食谱需要审核：{recipeNames}",
+  "moderationReviewNeededMessage": "由于内容审核问题，以下配方需要审核：{recipeNames}",
   "@moderationReviewNeededMessage": {
-    "description": "当食谱需要审核时显示的消息",
+    "description": "当配方需要审核时显示的消息",
     "placeholders": {
       "recipeNames": {
         "type": "String",
-        "example": "'我的食谱', '另一个食谱'"
+        "example": "'我的配方', '另一个配方'"
       }
     }
   },
   "dismiss": "忽略",
-  "reviewRecipeButton": "审核食谱",
+  "reviewRecipeButton": "审核配方",
   "signInRequiredTitle": "需要登录",
-  "signInRequiredBodyShare": "您需要登录才能分享您自己的食谱。",
+  "signInRequiredBodyShare": "您需要登录才能分享您自己的配方。",
   "syncSuccess": "同步成功！",
-  "tooltipEditRecipe": "编辑食谱",
-  "tooltipCopyRecipe": "复制食谱",
-  "tooltipDuplicateRecipe": "复制食谱",
-  "tooltipShareRecipe": "分享食谱",
+  "tooltipEditRecipe": "编辑配方",
+  "tooltipCopyRecipe": "复制配方",
+  "tooltipDuplicateRecipe": "复制配方",
+  "tooltipShareRecipe": "分享配方",
   "signInRequiredSnackbar": "需要登录",
   "moderationErrorFunction": "内容审核检查失败。",
   "moderationReasonDefault": "内容已标记待审核。",
   "moderationFailedTitle": "审核失败",
-  "moderationFailedBody": "此食谱无法分享，原因：{reason}",
+  "moderationFailedBody": "此配方无法分享，原因：{reason}",
   "@moderationFailedBody": {
     "description": "内容审核失败时显示的对话框正文",
     "placeholders": {
@@ -499,7 +508,7 @@
       }
     }
   },
-  "shareErrorGeneric": "分享食谱时出错：{error}",
+  "shareErrorGeneric": "分享配方时出错：{error}",
   "@shareErrorGeneric": {
     "description": "分享过程失败时显示的通用错误消息",
     "placeholders": {
@@ -511,7 +520,7 @@
   },
   "recipeDetailWebTitle": "{recipeName} 在 Timer.Coffee 上",
   "@recipeDetailWebTitle": {
-    "description": "食谱详情页面的网页标题格式",
+    "description": "配方详情页面的网页标题格式",
     "placeholders": {
       "recipeName": {
         "type": "String",
@@ -531,13 +540,13 @@
       }
     }
   },
-  "recipeUpdateFailedFetch": "获取更新的食谱数据失败。",
-  "recipeImportSuccess": "食谱导入成功！",
-  "recipeImportFailedSave": "保存导入的食谱失败。",
-  "recipeImportFailedFetch": "获取导入的食谱数据失败。",
-  "recipeNotImported": "食谱未导入。",
-  "recipeNotFoundCloud": "在云端找不到食谱或食谱未公开。",
-  "recipeLoadErrorGeneric": "加载食谱时出错。",
+  "recipeUpdateFailedFetch": "获取更新的配方数据失败。",
+  "recipeImportSuccess": "配方导入成功！",
+  "recipeImportFailedSave": "保存导入的配方失败。",
+  "recipeImportFailedFetch": "获取导入的配方数据失败。",
+  "recipeNotImported": "配方未导入。",
+  "recipeNotFoundCloud": "在云端找不到配方或配方未公开。",
+  "recipeLoadErrorGeneric": "加载配方时出错。",
   "editImportedRecipeTitle": "编辑导入的配方",
   "editImportedRecipeBody": "这是一个导入的配方。编辑它将创建一个新的独立副本。您想继续吗？",
   "editImportedRecipeButtonCopy": "创建副本并编辑",
@@ -583,11 +592,11 @@
   },
   "updatePictureSuccess": "个人资料图片更新成功！",
   "deletePictureTooltip": "删除图片",
-  "settingsBrewingMethodsTitle": "主屏幕冲泡方法",
+  "settingsBrewingMethodsTitle": "主屏幕冲煮方法",
   "account": "账户",
   "confirmDeleteTitle": "删除条目？",
-  "recipeDuplicateConfirmTitle": "复制食谱？",
-  "recipeDuplicateConfirmMessage": "这将创建一份您可以独立编辑的食谱副本。您要继续吗？",
+  "recipeDuplicateConfirmTitle": "复制配方？",
+  "recipeDuplicateConfirmMessage": "这将创建一份您可以独立编辑的配方副本。您要继续吗？",
   "confirmDeleteMessage": "您确定要删除此条目吗？此操作无法撤销。",
   "filter": "筛选",
   "settingsAppIcon": "应用图标",
@@ -601,7 +610,7 @@
   "@dateAdded": {
     "description": "按添加日期排序的选项"
   },
-  "searchBeans": "搜索咖啡豆...",
+  "searchBeans": "搜索咖啡豆…",
   "@searchBeans": {
     "description": "咖啡豆屏幕搜索字段的占位符文本"
   },
@@ -638,12 +647,12 @@
   "totalBeansBrewedLabel": "使用的咖啡豆总量",
   "newBeansTriedLabel": "尝试的新咖啡豆",
   "originsExploredLabel": "探索的产地",
-  "regionsExploredLabel": "欧洲",
+  "regionsExploredLabel": "探索的产区",
   "newRoastersDiscoveredLabel": "发现的新烘焙商",
   "favoriteRoastersLabel": "最喜爱的烘焙商",
   "topOriginsLabel": "热门产地",
-  "topRegionsLabel": "热门地区",
-  "brewStats": "冲泡统计",
+  "topRegionsLabel": "热门产区",
+  "brewStats": "冲煮统计",
   "showMore": "显示更多",
   "showLess": "显示更少",
   "unpublishRecipeDialogTitle": "将配方设为私有",
@@ -697,7 +706,7 @@
   "dateFieldClearButtonTooltip": "清除日期",
   "chipInputDuplicateError": "此标签已添加",
   "chipInputMaxTagsError": "已达到最大标签数量 ({maxChips})",
-  "chipInputHintText": "添加标签...",
+  "chipInputHintText": "添加标签…",
   "unitFieldRequiredError": "此字段为必填项",
   "unitFieldInvalidNumberError": "请输入有效数字",
   "unitFieldMinValueError": "值必须至少为 {min}",
@@ -706,10 +715,10 @@
   "numericFieldInvalidNumberError": "请输入有效数字",
   "numericFieldMinValueError": "值必须至少为 {min}",
   "numericFieldMaxValueError": "值必须至多为 {max}",
-  "dropdownSearchHintText": "输入以搜索...",
+  "dropdownSearchHintText": "输入以搜索…",
   "dropdownSearchLoadingError": "加载建议时出错：{error}",
   "dropdownSearchNoResults": "未找到结果",
-  "dropdownSearchLoading": "搜索中...",
+  "dropdownSearchLoading": "搜索中…",
   "dropdownSearchUseCustomEntry": "使用 \"{currentQuery}\"",
   "requiredInfoSubtitle": "* 必填",
   "inventoryWeightExample": "例如：250.5",
@@ -719,7 +728,7 @@
   "unsavedChangesDiscard": "丢弃",
   "beansWeightAddedBack": "已将 {amount}{unit} 添加回 {beanName}。新重量：{newWeight}{unit}",
   "@beansWeightAddedBack": {
-    "description": "当咖啡重量从冲泡日记中移除后重新添加到咖啡豆时显示的消息",
+    "description": "当咖啡重量从冲煮日记中移除后重新添加到咖啡豆时显示的消息",
     "placeholders": {
       "amount": {
         "type": "String",
@@ -772,7 +781,9 @@
   "notificationsEnabled": "已启用",
   "notificationsDisabled": "已禁用",
   "notificationPermissionDialogTitle": "启用通知？",
-  "notificationPermissionDialogMessage": "您可以启用通知以获取有用的更新（例如，关于新应用版本）。现在启用或随时在设置中更改此选项。",
+  "notificationPermissionDialogMessage": "您可以启用通知以获取有用的更新（例如，关于新应用版本）。通知也是显示冲煮进度实时更新所必需的。现在启用，或稍后随时在设置中更改。",
+  "notificationPermissionDialogMessageIos": "您可以启用通知以获取有用的更新（例如，关于新应用版本）。通知也是 iOS 上 Live Activities 和 Dynamic Island 所必需的。现在启用，或稍后随时在设置中更改。",
+  "notificationPermissionDialogMessageAndroid": "您可以启用通知以获取有用的更新（例如，关于新应用版本）。通知也是 Android 上 Live Updates 所必需的。现在启用，或稍后随时在设置中更改。",
   "notificationPermissionEnable": "启用",
   "notificationPermissionSkip": "暂不启用",
   "holidayGiftBoxTitle": "假日礼盒",
@@ -849,9 +860,9 @@
   "inventorySetToZeroFail": "无法将库存设为零",
   "pulseUserRecipe": "用户配方",
   "refresh": "刷新",
-  "pulseSomeoneBrewed": "有人冲泡了{recipeName}",
-  "pulseSomeoneFromBrewed": "{country}有人冲泡了{recipeName}",
-  "pulseTitle": "脉动",
+  "pulseSomeoneBrewed": "有人冲煮了{recipeName}",
+  "pulseSomeoneFromBrewed": "{country}有人冲煮了{recipeName}",
+  "pulseTitle": "动态",
   "hubPulseSubtitle": "实时冲煮动态",
   "pulseLiveSummary": "实时摘要",
   "pulseBrewsLabel": "冲煮次数",
@@ -892,10 +903,10 @@
   "onboardingShowAll": "显示所有冲煮方式",
   "coffeeJourneyTitle": "第一步",
   "coffeeJourneyMilestoneFirstBrew": "完成第一次冲煮",
-  "coffeeJourneyMilestoneTryMethod": "尝试不同的冲煮方式",
+  "coffeeJourneyMilestoneTryMethod": "尝试另一款配方",
   "coffeeJourneyMilestoneAddBeans": "添加第一款咖啡豆",
   "coffeeJourneyMilestoneFavorite": "将配方添加到收藏夹",
-  "coffeeJourneyMilestoneStats": "查看冲泡统计",
+  "coffeeJourneyMilestoneStats": "查看冲煮统计",
   "coffeeJourneyMilestonePulse": "看看世界各地的人都在怎么冲煮",
   "coffeeJourneyCompleted": "已完成咖啡之旅！",
   "coffeeJourneyDoneButton": "完成",
@@ -918,5 +929,101 @@
   "settingsAnalyticsBeans": "分享咖啡豆分析",
   "settingsAnalyticsGeneral": "分享通用使用分析",
   "done": "完成",
-  "saving": "正在保存…"
+  "saving": "正在保存…",
+
+  "notifBrewReminderTitle": "最近想喝咖啡了吗？",
+  "notifBrewReminderBody": "好几天没冲了。准备再来一杯吗？",
+  "notifBrewReminderTitle2": "该来一杯了吗？",
+  "notifBrewReminderBody2": "器具已经准备好了，就等你。",
+  "notifBrewReminderTitle3": "你的水壶在等你",
+  "notifBrewReminderBody3": "一杯好咖啡，只差几分钟。",
+  "notifBrewEscalationTitle": "想再来一杯吗？",
+  "notifBrewEscalationBody": "有一阵子没冲了。准备再来一杯吗？",
+  "notifBrewEscalationTitle2": "有段时间没冲了？",
+  "notifBrewEscalationBody2": "不用着急。器具已经准备好了，就等你。",
+  "notifBrewEscalationTitle3": "又到咖啡时间了吗？",
+  "notifBrewEscalationBody3": "一杯真正好喝的咖啡，几分钟就能开始。",
+
+  "notifDiscoverBeansTitle": "记录你的咖啡豆",
+  "notifDiscoverBeansBody": "把咖啡豆记下来，别忘了那些你最喜欢的。",
+  "notifDiscoverPulseTitle": "看看大家都在冲什么",
+  "notifDiscoverPulseBody": "打开动态，看看世界各地的实时冲煮。",
+
+  "notifBrewMilestoneTitle": "你刷新记录了",
+  "notifBrewMilestoneBody": "你已经冲煮了{count}次。点按查看进度。",
+  "@notifBrewMilestoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifExploreRecipesTitle": "试试新的{methodName}配方",
+  "@notifExploreRecipesTitle": {
+    "placeholders": {
+      "methodName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifExploreRecipesBody": "{count, plural, =1{到目前为止，你已经试过1个配方。再给你一个试试。} other{到目前为止，你已经试过{count}个配方。再给你一个试试。}}",
+  "@notifExploreRecipesBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifMorningTitle": "早安。准备开始冲煮了吗？",
+  "notifMorningBody": "用一杯好咖啡开启一天。",
+  "notifMorningTitle2": "起床，开冲",
+  "notifMorningBody2": "你的晨间咖啡几分钟就能准备好。",
+  "notifMorningTitle3": "今天的第一杯？",
+  "notifMorningBody3": "选个配方，开始冲吧。",
+  "notifWeeklyTitle": "{count, plural, =1{本周冲煮 1 次} other{本周冲煮 {count} 次}}",
+  "@notifWeeklyTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifWeeklyBody": "{recipes, plural, =1{点按查看你的每周统计。} other{你试过 {recipes} 个配方。点按查看详情。}}",
+  "@notifWeeklyBody": {
+    "placeholders": {
+      "recipes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifBeanFreshnessTitle": "该换更新鲜的豆子了吗？",
+  "notifBeanFreshnessBody": "{beanName} 是 {days} 天前烘焙的。可能已经过了最佳风味期。",
+  "@notifBeanFreshnessBody": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "settingsNotificationsToggle": "启用通知",
+  "settingsMorningReminder": "晨间冲煮提醒",
+  "settingsMorningReminderSubtitle": "每天提醒你冲一杯晨间咖啡",
+  "settingsMorningReminderTime": "提醒时间",
+  "settingsWeeklySummary": "每周总结",
+  "settingsWeeklySummarySubtitle": "周日晚上回顾本周的冲煮",
+  "settingsBeanFreshness": "咖啡豆新鲜度提醒",
+  "settingsBeanFreshnessSubtitle": "咖啡豆烘焙满 3 周时通知",
+  "daysAgo": "{count, plural, other{{count}天前}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

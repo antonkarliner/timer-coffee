@@ -18,17 +18,17 @@
   "hubSettingsSubtitle": "Змінюйте налаштування додатку та поведінку",
   "hubAboutSubtitle": "Інформація про додаток, версія та учасники",
   "lastrecipe": "Останній використаний рецепт:",
-  "about": "Про програму",
+  "about": "Про додаток",
   "author": "Автор",
   "authortext": "Додаток Timer.Coffee створено Антоном Карлінером, ентузіастом кави, медіаспеціалістом та фотожурналістом. Я сподіваюся, що цей додаток допоможе вам насолоджуватися кавою. Будь ласка, приєднуйтесь до спільноти на GitHub.",
   "contributors": "Учасники",
   "errorLoadingContributors": "Помилка завантаження учасників",
   "license": "Ліцензія",
-  "licensetext": "Цей додаток є безкоштовним програмним забезпеченням: ви можете розповсюджувати його та/або модифікувати на умовах GNU General Public License, як опубліковано Free Software Foundation, або версії 3 Ліцензії, або (за вашим вибором) будь-якої пізнішої версії.",
-  "licensebutton": "Прочитайте GNU General Public License v3",
+  "licensetext": "Цей додаток є вільним програмним забезпеченням: ви можете розповсюджувати його та/або змінювати його на умовах GNU General Public License, опублікованої Free Software Foundation, версії 3 або (за вашим вибором) будь-якої пізнішої версії.",
+  "licensebutton": "Ознайомитися з GNU General Public License v3",
   "website": "Вебсайт",
   "sourcecode": "Вихідний код",
-  "support": "Купіть мені каву",
+  "support": "Пригощайте кавою",
   "supportButtonLabel": "Підтримка",
   "allrecipes": "Усі рецепти",
   "favoriterecipes": "Улюблені рецепти",
@@ -46,17 +46,17 @@
   "finishmsg": "Дякуємо, що користуєтесь Timer.Coffee! Насолоджуйтесь вашою",
   "coffeefact": "Факт про каву",
   "home": "Головна",
-  "appversion": "Версія додатку",
+  "appversion": "Версія додатка",
   "tipsmall": "Купіть маленьку каву",
   "tipmedium": "Купіть середню каву",
   "tiplarge": "Купіть велику каву",
   "supportdevelopment": "Підтримайте розробку",
-  "supportdevmsg": "Ваші пожертвування допомагають покривати витрати на утримання (наприклад, ліцензії для розробників). Вони також дозволяють мені пробувати більше пристроїв для заварювання кави та додавати більше рецептів до додатку.",
-  "supportdevtnx": "Дякую, що розглядаєте можливість пожертвування!",
+  "supportdevmsg": "Ваші пожертвування допомагають покривати витрати на обслуговування (наприклад, ліцензії для розробників). Також вони дають змогу тестувати більше пристроїв для заварювання кави й додавати нові рецепти до додатка.",
+  "supportdevtnx": "Дякуємо, що розглядаєте можливість підтримати проєкт!",
   "donationok": "Дякуємо!",
-  "donationtnx": "Я дуже ціную вашу підтримку! Бажаю вам багато чудових заварювань! ☕️",
+  "donationtnx": "Я дуже ціную вашу підтримку! Бажаю вам багатьох чудових заварювань! ☕️",
   "donationerr": "Помилка",
-  "donationerrmsg": "Помилка обробки покупки, будь ласка, спробуйте ще раз.",
+  "donationerrmsg": "Не вдалося обробити покупку. Будь ласка, спробуйте ще раз.",
   "sharemsg": "Перегляньте цей рецепт:",
   "finishbrew": "Завершити",
   "settings": "Налаштування",
@@ -65,6 +65,15 @@
   "settingsthemedark": "Темна",
   "settingsthemesystem": "Системна",
   "settingslang": "Мова",
+  "settingsDateTimeFormat": "Формат дати та часу",
+  "settingsDateFormatLabel": "Формат дати",
+  "settingsTimeFormatLabel": "Формат часу",
+  "settingsDateFormatAuto": "Автоматично (відповідно до мови)",
+  "settingsDateFormatDMY": "ДД.ММ.РРРР",
+  "settingsDateFormatMDY": "ММ/ДД/РРРР",
+  "settingsDateFormatYMD": "РРРР-ММ-ДД",
+  "settingsTimeFormat12h": "12-годинний (AM/PM)",
+  "settingsTimeFormat24h": "24-годинний",
   "sweet": "Солодкий",
   "balance": "Збалансований",
   "acidic": "Кислий",
@@ -75,7 +84,7 @@
   "whatsnewclose": "Закрити",
   "seasonspecials": "Спеціальні пропозиції сезону",
   "snow": "Сніг",
-  "noFavoriteRecipesMessage": "Ваш список улюблених рецептів наразі порожній. Почніть досліджувати та заварювати, щоб відкрити для себе улюблені!",
+  "noFavoriteRecipesMessage": "Ваш список улюблених рецептів наразі порожній. Почніть досліджувати й заварювати, щоб знайти свої найкращі!",
   "explore": "Досліджувати",
   "dateFormat": "d MMM yyyy",
   "timeFormat": "HH:mm",
@@ -120,16 +129,16 @@
   "edit": "Редагувати",
   "coffeeBeansNotFound": "Зерна кави не знайдені",
   "basicInformation": "Основні відомості",
-  "geographyTerroir": "Географія/Територія",
+  "geographyTerroir": "Географія/Терруар",
   "variety": "Сорт",
-  "region": "Північна Америка",
+  "region": "Регіон",
   "elevation": "Висота",
   "harvestDate": "Дата збору врожаю",
   "processing": "Обробка",
   "processingMethod": "Спосіб обробки",
   "roastDate": "Дата обсмажування",
   "roastLevel": "Ступінь обсмажування",
-  "cuppingScore": "Оцінка дегустації",
+  "cuppingScore": "Капінг-оцінка",
   "flavorProfile": "Смаковий профіль",
   "tastingNotes": "Смакові ноти",
   "additionalNotes": "Додаткові нотатки",
@@ -187,11 +196,11 @@
   "signInWithGoogle": "Увійти за допомогою Google",
   "signOutSuccessful": "Вихід успішно виконано",
   "signOutConfirmationTitle": "Ви впевнені, що хочете вийти?",
-  "signOutConfirmationMessage": "Хмарна синхронізація перестане працювати. Увійдіть знову, щоб відновити її.",
+  "signOutConfirmationMessage": "Хмарна синхронізація припинить роботу. Увійдіть знову, щоб відновити її.",
   "signInSuccessfulGoogle": "Вхід за допомогою Google виконано успішно",
   "signInWithEmail": "Увійти за допомогою електронної пошти",
   "enterEmail": "Введіть адресу електронної пошти",
-  "emailHint": "приклад@електронна_пошта.com",
+  "emailHint": "example@email.com",
   "cancel": "Скасувати",
   "sendMagicLink": "Надіслати чарівне посилання",
   "magicLinkSent": "Чарівне посилання надіслано! Перевірте свою електронну пошту.",
@@ -204,13 +213,13 @@
   "signInSuccessfulEmail": "Вхід успішний",
   "invalidOTP": "Недійсний OTP",
   "otpVerificationError": "Помилка перевірки OTP",
-  "success": "¡Éxito!",
+  "success": "Успіх!",
   "otpSentMessage": "OTP-код буде надіслано на вашу електронну пошту. Будь ласка, введіть його, коли отримаєте.",
   "otpHint2": "Введіть код тут",
   "signInCreate": "Вхід / Створити обліковий запис",
   "accountManagement": "Управління обліковим записом",
   "deleteAccount": "Видалити обліковий запис",
-  "deleteAccountWarning": "Зверніть увагу: якщо ви вирішите продовжити, ми видалимо ваш обліковий запис і пов'язані з ним дані з наших серверів. Локальна копія даних залишиться на пристрої, якщо ви хочете видалити її також, ви можете просто видалити програму. Щоб знову ввімкнути синхронізацію, вам потрібно буде створити обліковий запис знову",
+  "deleteAccountWarning": "Зверніть увагу: якщо ви продовжите, ми видалимо ваш обліковий запис і пов'язані дані з наших серверів. Локальна копія даних залишиться на пристрої; якщо ви хочете видалити її також, просто видаліть додаток. Щоб знову увімкнути синхронізацію, вам доведеться створити новий обліковий запис.",
   "deleteAccountConfirmation": "Обліковий запис успішно видалено",
   "accountDeleted": "Обліковий запис видалено",
   "accountDeletionError": "Помилка видалення облікового запису, спробуйте ще раз",
@@ -590,8 +599,8 @@
   "recipeDuplicateConfirmMessage": "Це створить копію вашого рецепту, яку ви зможете редагувати незалежно. Чи хочете продовжити?",
   "confirmDeleteMessage": "Ви впевнені, що хочете видалити цей запис? Цю дію не можна скасувати.",
   "filter": "Фільтр",
-  "settingsAppIcon": "Іконка додатку",
-  "settingsAppIconDefault": "За замовчуванням",
+  "settingsAppIcon": "Іконка додатка",
+  "settingsAppIconDefault": "Типова",
   "settingsAppIconLegacy": "Стара",
   "sortBy": "Сортувати за",
   "@sortBy": {
@@ -630,7 +639,7 @@
   "enterFarmer": "Введіть фермера (необов'язково)",
   "enterFarm": "Введіть ферму (необов'язково)",
   "secondsAbbreviation": "с.",
-  "requiredInformation": "Необхідна інформація",
+  "requiredInformation": "Обов'язкова інформація",
   "basicDetails": "Основні деталі",
   "qualityMeasurements": "Якість та вимірювання",
   "importantDates": "Важливі дати",
@@ -638,7 +647,7 @@
   "totalBeansBrewedLabel": "Всього використано зерен",
   "newBeansTriedLabel": "Нові зерна, які спробували",
   "originsExploredLabel": "Досліджені країни походження",
-  "regionsExploredLabel": "Європа",
+  "regionsExploredLabel": "Досліджені регіони",
   "newRoastersDiscoveredLabel": "Нові обсмажувачі, яких відкрито",
   "favoriteRoastersLabel": "Улюблені обсмажувальні",
   "topOriginsLabel": "Топ країни походження",
@@ -772,7 +781,9 @@
   "notificationsEnabled": "Увімкнено",
   "notificationsDisabled": "Вимкнено",
   "notificationPermissionDialogTitle": "Увімкнути сповіщення?",
-  "notificationPermissionDialogMessage": "Ви можете увімкнути сповіщення, щоб отримувати корисні оновлення (наприклад, про нові версії додатку). Увімкніть зараз або змініть це в будь-який момент у налаштуваннях.",
+  "notificationPermissionDialogMessage": "Ви можете увімкнути сповіщення, щоб отримувати корисні оновлення (наприклад, про нові версії додатку). Сповіщення також потрібні для оновлень прогресу заварювання в реальному часі. Увімкніть зараз або змініть це в будь-який момент у налаштуваннях.",
+  "notificationPermissionDialogMessageIos": "Ви можете увімкнути сповіщення, щоб отримувати корисні оновлення (наприклад, про нові версії додатку). Сповіщення також потрібні для Live Activities і Dynamic Island на iOS. Увімкніть зараз або змініть це в будь-який момент у налаштуваннях.",
+  "notificationPermissionDialogMessageAndroid": "Ви можете увімкнути сповіщення, щоб отримувати корисні оновлення (наприклад, про нові версії додатку). Сповіщення також потрібні для Live Updates на Android. Увімкніть зараз або змініть це в будь-який момент у налаштуваннях.",
   "notificationPermissionEnable": "Увімкнути",
   "notificationPermissionSkip": "Не зараз",
   "holidayGiftBoxTitle": "Святкова подарункова коробка",
@@ -793,7 +804,7 @@
   "holidayGiftBoxPromoCode": "Промокод",
   "giftDiscountOff": "{percent}% знижки",
   "giftDiscountUpToOff": "До {percent}% знижки",
-  "holidayGiftBoxTerms": "Умови",
+  "holidayGiftBoxTerms": "Умови та положення",
   "holidayGiftBoxVisitSite": "Відвідати сайт партнера",
   "holidayGiftBoxValidUntil": "Дійсно до {date}",
   "@holidayGiftBoxValidUntil": {
@@ -830,7 +841,7 @@
   "holidayGiftBoxRetry": "Спробувати ще раз",
   "holidayGiftBoxLoadFailed": "Не вдалося завантажити пропозиції",
   "holidayGiftBoxOfferUnavailable": "Пропозиція недоступна",
-  "holidayGiftBoxBannerTitle": "Подивіться нашу святкову gift box",
+  "holidayGiftBoxBannerTitle": "Ознайомтеся з нашою святковою подарунковою коробкою",
   "holidayGiftBoxBannerCta": "Переглянути пропозиції",
   "regionEurope": "Європа",
   "regionNorthAmerica": "Північна Америка",
@@ -877,7 +888,7 @@
   "timePeriodThisYear": "Цього року",
   "timePeriodLastYear": "Минулого року",
   "nativeAppPromoTitle": "Завантажте додаток Timer.Coffee",
-  "nativeAppPromoDescription": "Насолоджуйтесь повним досвідом з ексклюзивними функціями: AI-сканування етикеток кави, Живі активності на екрані блокування, push-сповіщення, тактильний відгук та багато іншого.",
+  "nativeAppPromoDescription": "Отримайте найбільше від додатка з ексклюзивними функціями: сканування етикеток кави за допомогою ШІ, Живі активності на екрані блокування, push-сповіщення, тактильний відгук та багато іншого.",
   "nativeAppPromoButton": "Завантажити додаток",
   "addBrewEntry": "Додати запис заварювання",
   "selectBrewingMethod": "Оберіть спосіб заварювання",
@@ -892,24 +903,24 @@
   "onboardingShowAll": "Показати всі способи",
   "coffeeJourneyTitle": "Перші кроки",
   "coffeeJourneyMilestoneFirstBrew": "Завершіть своє перше заварювання",
-  "coffeeJourneyMilestoneTryMethod": "Спробуйте інший спосіб заварювання",
-  "coffeeJourneyMilestoneAddBeans": "Додайте свої перші зерна",
+  "coffeeJourneyMilestoneTryMethod": "Спробуйте інший рецепт",
+  "coffeeJourneyMilestoneAddBeans": "Додайте свої перші кавові зерна",
   "coffeeJourneyMilestoneFavorite": "Додайте рецепт до обраного",
   "coffeeJourneyMilestoneStats": "Перегляньте статистику приготування",
-  "coffeeJourneyMilestonePulse": "Подивіться, як світ заварює разом з вами",
-  "coffeeJourneyCompleted": "Ви зробили свої перші кроки!",
+  "coffeeJourneyMilestonePulse": "Погляньте, як увесь світ заварює каву разом із вами",
+  "coffeeJourneyCompleted": "Ви завершили свою кавову подорож!",
   "coffeeJourneyDoneButton": "Готово",
-  "coffeeJourneyDismissHint": "Ви завжди можете перевірити свій прогрес на вкладці Ще.",
-  "coffeeJourneyDismissConfirm": "Хочете приховати свій прогрес у розділі Перші кроки?",
+  "coffeeJourneyDismissHint": "Ви завжди можете перевірити свій прогрес у вкладці «Ще».",
+  "coffeeJourneyDismissConfirm": "Бажаєте приховати свій прогрес розділу «Перші кроки»?",
   "coffeeJourneyHideButton": "Приховати",
-  "firstBrewCongrats": "Вітаємо з першим заварюванням! Його збережено в Щоденнику заварювань.",
+  "firstBrewCongrats": "Вітаємо з першим заварюванням! Його збережено у Щоденнику заварювань.",
   "firstBrewDiaryLink": "Переглянути Щоденник заварювань",
   "beanCoverPhoto": "Фото обкладинки",
   "beanCoverPhotoAdd": "Додати фото обкладинки",
   "beanCoverPhotoChange": "Змінити фото",
   "beanCoverPhotoRemove": "Видалити фото",
   "beanCoverPhotoSavePromptTitle": "Використати як фото обкладинки?",
-  "beanCoverPhotoSavePromptBody": "Бажаєте зберегти одне зі сканованих зображень як фото обкладинки цього зерна?",
+  "beanCoverPhotoSavePromptBody": "Бажаєте зберегти одне з відсканованих зображень як фото обкладинки цих зерен?",
   "beanCoverPhotoUploading": "Завантаження фото…",
   "beanCoverPhotoError": "Не вдалося завантажити фото",
   "beanCoverPhotoSignInPrompt": "Увійдіть, щоб додати фото обкладинки",
@@ -918,5 +929,101 @@
   "settingsAnalyticsBeans": "Поділитися аналітикою зерен",
   "settingsAnalyticsGeneral": "Поділитися загальною аналітикою використання",
   "done": "Готово",
-  "saving": "Збереження…"
+  "saving": "Збереження…",
+
+  "notifBrewReminderTitle": "Ностальгуєте за кавовим ритуалом?",
+  "notifBrewReminderBody": "Минуло кілька днів. Готові знову заварити каву?",
+  "notifBrewReminderTitle2": "Час заварити каву?",
+  "notifBrewReminderBody2": "Усе готово, коли будете готові.",
+  "notifBrewReminderTitle3": "Ваш чайник кличе",
+  "notifBrewReminderBody3": "До гарної чашки всього кілька хвилин.",
+  "notifBrewEscalationTitle": "Повернетеся за ще однією чашкою?",
+  "notifBrewEscalationBody": "Минуло вже чимало часу. Готові приготувати щось смачне?",
+  "notifBrewEscalationTitle2": "Давно не заходили?",
+  "notifBrewEscalationBody2": "Без поспіху. Усе готово, коли будете готові.",
+  "notifBrewEscalationTitle3": "Знову час для кави?",
+  "notifBrewEscalationBody3": "Справді хорошу чашку можна приготувати всього за кілька хвилин.",
+
+  "notifDiscoverBeansTitle": "Стежте за своїми зернами",
+  "notifDiscoverBeansBody": "Додавайте зерна й запам’ятовуйте ті, що сподобалися найбільше.",
+  "notifDiscoverPulseTitle": "Подивіться, що готують інші",
+  "notifDiscoverPulseBody": "Відкрийте Пульс, щоб побачити заварювання наживо з усього світу.",
+
+  "notifBrewMilestoneTitle": "Нове досягнення",
+  "notifBrewMilestoneBody": "{count, plural, one{Ви заварили каву {count} раз. Натисніть, щоб переглянути свій прогрес.} few{Ви заварили каву {count} рази. Натисніть, щоб переглянути свій прогрес.} many{Ви заварили каву {count} разів. Натисніть, щоб переглянути свій прогрес.} other{Ви заварили каву {count} разу. Натисніть, щоб переглянути свій прогрес.}}",
+  "@notifBrewMilestoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifExploreRecipesTitle": "Спробуйте новий рецепт для {methodName}",
+  "@notifExploreRecipesTitle": {
+    "placeholders": {
+      "methodName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifExploreRecipesBody": "{count, plural, one{Ви вже спробували {count} рецепт. Ось ще один для наступної чашки.} few{Ви вже спробували {count} рецепти. Ось ще один для наступної чашки.} many{Ви вже спробували {count} рецептів. Ось ще один для наступної чашки.} other{Ви вже спробували {count} рецепта. Ось ще один для наступної чашки.}}",
+  "@notifExploreRecipesBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifMorningTitle": "Добрий ранок. Готові заварити каву?",
+  "notifMorningBody": "Почніть день із хорошої чашки.",
+  "notifMorningTitle2": "Підйом і заварюємо!",
+  "notifMorningBody2": "Ранкова кава може бути готова за кілька хвилин.",
+  "notifMorningTitle3": "Перша чашка дня?",
+  "notifMorningBody3": "Виберіть рецепт і починайте.",
+  "notifWeeklyTitle": "{count, plural, one{{count} заварювання цього тижня} few{{count} заварювання цього тижня} many{{count} заварювань цього тижня} other{{count} заварювання цього тижня}}",
+  "@notifWeeklyTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifWeeklyBody": "{recipes, plural, =1{Натисніть, щоб переглянути статистику за тиждень.} other{У {recipes} рецептах. Натисніть, щоб переглянути деталі.}}",
+  "@notifWeeklyBody": {
+    "placeholders": {
+      "recipes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifBeanFreshnessTitle": "Час для свіжих зерен?",
+  "notifBeanFreshnessBody": "Ваші зерна {beanName} були обсмажені {days, plural, one{{days} день тому} few{{days} дні тому} many{{days} днів тому} other{{days} дня тому}}. Можливо, вони вже не на піку свіжості.",
+  "@notifBeanFreshnessBody": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "settingsNotificationsToggle": "Увімкнути сповіщення",
+  "settingsMorningReminder": "Ранкове нагадування про каву",
+  "settingsMorningReminderSubtitle": "Щоденне нагадування про вашу ранкову чашку",
+  "settingsMorningReminderTime": "Час нагадування",
+  "settingsWeeklySummary": "Підсумки тижня",
+  "settingsWeeklySummarySubtitle": "Короткий підсумок ваших заварювань у неділю ввечері",
+  "settingsBeanFreshness": "Сповіщення про свіжість зерна",
+  "settingsBeanFreshnessSubtitle": "Сповіщати, коли з дати обсмаження минуло понад 3 тижні",
+  "daysAgo": "{count, plural, one{{count} день тому} few{{count} дні тому} many{{count} днів тому} other{{count} дня тому}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

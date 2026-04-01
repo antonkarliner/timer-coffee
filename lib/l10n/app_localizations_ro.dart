@@ -21,7 +21,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get originsExploredLabel => 'Origini explorate';
 
   @override
-  String get regionsExploredLabel => 'Europa';
+  String get regionsExploredLabel => 'Regiuni explorate';
 
   @override
   String get newRoastersDiscoveredLabel => 'Prăjitorii noi descoperiți';
@@ -102,7 +102,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get authortext =>
-      'Aplicația Timer.Coffee a fost creată de Anton Karliner, un entuziast al cafelei, specialist media și fotojurnalist. Sper că această aplicație vă va ajuta să vă bucurați de cafea. Simțiți-vă liber să contribuiți pe GitHub.';
+      'Aplicația Timer.Coffee a fost creată de Anton Karliner, un entuziast al cafelei, specialist media și fotojurnalist. Sper că această aplicație te va ajuta să te bucuri de cafea. Simte-te liber să contribui pe GitHub.';
 
   @override
   String get contributors => 'Contribuitori';
@@ -116,7 +116,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get licensetext =>
-      'Această aplicație este un software liber: puteți redistribui și/sau modifica sub termenii Licenței Publice Generale GNU publicată de Free Software Foundation, fie versiunea 3 a Licenței, fie (la alegerea dvs.) orice versiune ulterioară.';
+      'Această aplicație este un software liber: poți redistribui și/sau modifica conform termenilor Licenței Publice Generale GNU publicată de Free Software Foundation, fie versiunea 3 a Licenței, fie (la alegerea ta) orice versiune ulterioară.';
 
   @override
   String get licensebutton => 'Citește Licența Publică Generală GNU v3';
@@ -175,9 +175,10 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'secunde',
-      one: 'secundă',
-      zero: 'secunde',
+      other: '$count de secunde',
+      few: '$count secunde',
+      one: '1 secundă',
+      zero: '0 secunde',
     );
     return '$_temp0';
   }
@@ -208,7 +209,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get supportdevmsg =>
-      'Donările tale ajută la acoperirea costurilor de întreținere (cum ar fi licențele de dezvoltator, de exemplu). Ele îmi permit de asemenea să încerc mai multe dispozitive de preparare a cafelei și să adaug mai multe rețete în aplicație.';
+      'Donațiile tale ajută la acoperirea costurilor de întreținere (cum ar fi licențele de dezvoltator, de exemplu). De asemenea, îmi permit să încerc mai multe dispozitive de preparare a cafelei și să adaug mai multe rețete în aplicație.';
 
   @override
   String get supportdevtnx => 'Mulțumim că iei în considerare să donezi!';
@@ -218,7 +219,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get donationtnx =>
-      'Apreciem foarte mult sprijinul tău! Îți dorim multe preparate grozave! ☕️';
+      'Apreciez foarte mult sprijinul tău! Îți doresc multe preparări grozave! ☕️';
 
   @override
   String get donationerr => 'Eroare';
@@ -240,7 +241,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get settingstheme => 'Temă';
 
   @override
-  String get settingsthemelight => 'Luminos';
+  String get settingsthemelight => 'Luminoasă';
 
   @override
   String get settingsthemedark => 'Întunecat';
@@ -252,6 +253,33 @@ class AppLocalizationsRo extends AppLocalizations {
   String get settingslang => 'Limbă';
 
   @override
+  String get settingsDateTimeFormat => 'Format dată și oră';
+
+  @override
+  String get settingsDateFormatLabel => 'Format dată';
+
+  @override
+  String get settingsTimeFormatLabel => 'Format oră';
+
+  @override
+  String get settingsDateFormatAuto => 'Automat (conform limbii)';
+
+  @override
+  String get settingsDateFormatDMY => 'ZZ/LL/AAAA';
+
+  @override
+  String get settingsDateFormatMDY => 'LL/ZZ/AAAA';
+
+  @override
+  String get settingsDateFormatYMD => 'AAAA-LL-ZZ';
+
+  @override
+  String get settingsTimeFormat12h => '12 ore (AM/PM)';
+
+  @override
+  String get settingsTimeFormat24h => '24 ore';
+
+  @override
   String get sweet => 'Dulce';
 
   @override
@@ -261,7 +289,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get acidic => 'Acid';
 
   @override
-  String get light => 'Luminos';
+  String get light => 'Ușor';
 
   @override
   String get strong => 'Puternic';
@@ -418,7 +446,8 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'acum $count minute',
+      other: 'acum $count de minute',
+      few: 'acum $count minute',
       one: 'acum 1 minut',
     );
     return '$_temp0';
@@ -429,7 +458,8 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'acum $count ore',
+      other: 'acum $count de ore',
+      few: 'acum $count ore',
       one: 'acum 1 oră',
     );
     return '$_temp0';
@@ -440,13 +470,15 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '$hours ore',
+      other: '$hours de ore',
+      few: '$hours ore',
       one: '1 oră',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '$minutes minute',
+      other: '$minutes de minute',
+      few: '$minutes minute',
       one: '1 minut',
     );
     return 'acum $_temp0 și $_temp1';
@@ -457,7 +489,8 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'acum $count zile',
+      other: 'acum $count de zile',
+      few: 'acum $count zile',
       one: 'acum 1 zi',
     );
     return '$_temp0';
@@ -468,7 +501,8 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'acum $count luni',
+      other: 'acum $count de luni',
+      few: 'acum $count luni',
       one: 'acum 1 lună',
     );
     return '$_temp0';
@@ -479,7 +513,8 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'acum $count ani',
+      other: 'acum $count de ani',
+      few: 'acum $count ani',
       one: 'acum 1 an',
     );
     return '$_temp0';
@@ -498,10 +533,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get homescreenmore => 'Mai mult';
 
   @override
-  String get addBeans => 'Adăugați boabe';
+  String get addBeans => 'Adaugă boabe';
 
   @override
-  String get removeBeans => 'Eliminați boabe';
+  String get removeBeans => 'Elimină boabe';
 
   @override
   String get name => 'Nume';
@@ -525,10 +560,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get delete => 'Șterge';
 
   @override
-  String get confirmDeleteTitle => 'Ștergeți înregistrarea?';
+  String get confirmDeleteTitle => 'Ștergi înregistrarea?';
 
   @override
-  String get recipeDuplicateConfirmTitle => 'Duplicați rețeta?';
+  String get recipeDuplicateConfirmTitle => 'Duplici rețeta?';
 
   @override
   String get recipeDuplicateConfirmMessage =>
@@ -536,7 +571,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get confirmDeleteMessage =>
-      'Sigur doriți să ștergeți această înregistrare? Această acțiune nu poate fi anulată.';
+      'Sigur vrei să ștergi această înregistrare? Acțiunea nu poate fi anulată.';
 
   @override
   String get removeFavorite => 'Elimină din favorite';
@@ -611,11 +646,11 @@ class AppLocalizationsRo extends AppLocalizations {
   String get showImagePicker => 'Arată selectorul de imagini';
 
   @override
-  String get pleaseNote => 'Vă rugăm să rețineți';
+  String get pleaseNote => 'Reține';
 
   @override
   String get firstTimePopupMessage =>
-      '1. Folosim servicii externe pentru a procesa imaginile. Continuând, sunteți de acord cu acest lucru.\n2. Deși nu stocăm imaginile dvs., vă rugăm să evitați includerea oricăror detalii personale.\n3. Recunoașterea imaginilor este în prezent limitată la 10 jetoane pe lună (1 jeton = 1 imagine). Această limită se poate schimba în viitor.';
+      '1. Folosim servicii externe pentru a procesa imaginile. Continuând, ești de acord cu acest lucru.\n2. Deși nu stocăm imaginile tale, te rugăm să eviți includerea oricăror detalii personale.\n3. Recunoașterea imaginilor este în prezent limitată la 10 jetoane pe lună (1 jeton = 1 imagine). Această limită se poate schimba în viitor.';
 
   @override
   String get ok => 'OK';
@@ -652,50 +687,50 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get tokenLimitReached =>
-      'Ne pare rău, ați atins limita de jetoane pentru recunoașterea imaginilor luna aceasta';
+      'Ne pare răă, ai atins limita de jetoane pentru recunoașterea imaginilor luna aceasta';
 
   @override
   String get noCoffeeLabelsDetected =>
-      'Nu au fost detectate etichete de cafea. Încercați cu o altă imagine.';
+      'Nu au fost detectate etichete de cafea. Încearcă cu o altă imagine.';
 
   @override
   String get collectedInformation => 'Informații colectate';
 
   @override
-  String get enterRoaster => 'Introduceți prăjitorul';
+  String get enterRoaster => 'Introdu prăjitorul';
 
   @override
-  String get enterName => 'Introduceți numele';
+  String get enterName => 'Introdu numele';
 
   @override
-  String get enterOrigin => 'Introduceți originea';
+  String get enterOrigin => 'Introdu originea';
 
   @override
   String get optional => 'Opțional';
 
   @override
-  String get enterVariety => 'Introduceți soiul';
+  String get enterVariety => 'Introdu soiul';
 
   @override
-  String get enterProcessingMethod => 'Introduceți metoda de procesare';
+  String get enterProcessingMethod => 'Introdu metoda de procesare';
 
   @override
-  String get enterRoastLevel => 'Introduceți nivelul de prăjire';
+  String get enterRoastLevel => 'Introdu nivelul de prăjire';
 
   @override
-  String get enterRegion => 'Introduceți regiunea';
+  String get enterRegion => 'Introdu regiunea';
 
   @override
-  String get enterTastingNotes => 'Introduceți notele de degustare';
+  String get enterTastingNotes => 'Introdu notele de degustare';
 
   @override
-  String get enterElevation => 'Introduceți altitudinea';
+  String get enterElevation => 'Introdu altitudinea';
 
   @override
-  String get enterCuppingScore => 'Introduceți scorul cupping';
+  String get enterCuppingScore => 'Introdu scorul cupping';
 
   @override
-  String get enterNotes => 'Introduceți note';
+  String get enterNotes => 'Introdu note';
 
   @override
   String get inventory => 'Stoc';
@@ -707,23 +742,22 @@ class AppLocalizationsRo extends AppLocalizations {
   String get enterAmountLeft => 'Introdu cantitatea rămasă';
 
   @override
-  String get selectHarvestDate => 'Selectați data recoltării';
+  String get selectHarvestDate => 'Selectează data recoltării';
 
   @override
-  String get selectRoastDate => 'Selectați data prăjirii';
+  String get selectRoastDate => 'Selectează data prăjirii';
 
   @override
-  String get selectDate => 'Selectați data';
+  String get selectDate => 'Selectează data';
 
   @override
-  String get selectTime => 'Selectați ora';
+  String get selectTime => 'Selectează ora';
 
   @override
   String get save => 'Salvează';
 
   @override
-  String get fillRequiredFields =>
-      'Vă rugăm să completați toate câmpurile obligatorii.';
+  String get fillRequiredFields => 'Completează toate câmpurile obligatorii.';
 
   @override
   String get analyzing => 'Se analizează';
@@ -732,10 +766,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get errorMessage => 'Eroare';
 
   @override
-  String get selectCoffeeBeans => 'Selectați boabele de cafea';
+  String get selectCoffeeBeans => 'Selectează boabe de cafea';
 
   @override
-  String get addNewBeans => 'Adăugați boabe noi';
+  String get addNewBeans => 'Adaugă boabe no';
 
   @override
   String get favorite => 'Favorit';
@@ -753,7 +787,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get signOut => 'Deconectare';
 
   @override
-  String get signInWithApple => 'Conectați-vă cu Apple';
+  String get signInWithApple => 'Conectează-te cu Apple';
 
   @override
   String get signInSuccessful => 'Conectat cu succes cu Apple';
@@ -771,20 +805,20 @@ class AppLocalizationsRo extends AppLocalizations {
   String get signOutSuccessful => 'Deconectat cu succes';
 
   @override
-  String get signOutConfirmationTitle => 'Sigur doriți să vă deconectați?';
+  String get signOutConfirmationTitle => 'Sigur vrei să te deconectezi?';
 
   @override
   String get signOutConfirmationMessage =>
-      'Sincronizarea în cloud se va opri. Conectați-vă din nou pentru a o relua.';
+      'Sincronizarea în cloud se va opri. Conectează-te din nou pentru a o relua.';
 
   @override
   String get signInSuccessfulGoogle => 'Autentificat cu succes prin Google';
 
   @override
-  String get signInWithEmail => 'Autentificați-vă cu e-mail';
+  String get signInWithEmail => 'Autentifică-te cu e-mail';
 
   @override
-  String get enterEmail => 'Introduceți adresa dvs. de e-mail';
+  String get enterEmail => 'Introdu adresa de e-mail';
 
   @override
   String get emailHint => 'exemplu@email.com';
@@ -793,11 +827,11 @@ class AppLocalizationsRo extends AppLocalizations {
   String get cancel => 'Anulare';
 
   @override
-  String get sendMagicLink => 'Trimiteți link magic';
+  String get sendMagicLink => 'Trimite link magic';
 
   @override
   String get magicLinkSent =>
-      'Link-ul magic a fost trimis! Verificați-vă e-mailul.';
+      'Link-ul magic a fost trimis! Verifică-ți e-mailul.';
 
   @override
   String get sendOTP => 'Trimite OTP';
@@ -831,10 +865,10 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get otpSentMessage =>
-      'Un cod OTP este trimis la adresa dumneavoastră de email. Vă rugăm să îl introduceți mai jos când îl primiți.';
+      'Un cod OTP a fost trimis la adresa ta de email. Introdu-l mai jos când îl primești.';
 
   @override
-  String get otpHint2 => 'Introduceți codul aici';
+  String get otpHint2 => 'Introdu codul aici';
 
   @override
   String get signInCreate => 'Autentificare / Creare cont';
@@ -843,11 +877,11 @@ class AppLocalizationsRo extends AppLocalizations {
   String get accountManagement => 'Administrarea contului';
 
   @override
-  String get deleteAccount => 'Ștergeți contul';
+  String get deleteAccount => 'Șterge contul';
 
   @override
   String get deleteAccountWarning =>
-      'Rețineți că, dacă alegeți să continuați, vă vom șterge contul și datele asociate de pe serverele noastre. Copia locală a datelor va rămâne pe dispozitiv, dar dacă doriți să o ștergeți, puteți pur și simplu să ștergeți aplicația. Pentru a reactiva sincronizarea, va trebui să creați din nou un cont.';
+      'Reține că, dacă alegi să continui, îți vom șterge contul și datele asociate de pe serverele noastre. Copia locală a datelor va rămâne pe dispozitiv, dar dacă vrei să o ștergi, poți pur și simplu să dezinstalezi aplicația. Pentru a reactiva sincronizarea, va trebui să creezi din nou un cont.';
 
   @override
   String get deleteAccountConfirmation => 'Contul șters cu succes';
@@ -857,13 +891,13 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get accountDeletionError =>
-      'Eroare la ștergerea contului, vă rugăm să încercați din nou.';
+      'Eroare la ștergerea contului, încearcă din nou.';
 
   @override
   String get deleteAccountTitle => 'Important';
 
   @override
-  String get selectBeans => 'Selectați boabele';
+  String get selectBeans => 'Selectează boabe';
 
   @override
   String get all => 'Toate';
@@ -881,10 +915,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get showFavoritesOnly => 'Afișare doar favorite';
 
   @override
-  String get apply => 'Se aplică';
+  String get apply => 'Aplică';
 
   @override
-  String get selectSize => 'Selectați dimensiunea';
+  String get selectSize => 'Selectează dimensiunea';
 
   @override
   String get sizeStandard => 'Standard';
@@ -913,7 +947,7 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return 'Ai folosit boabe de la $roasterCount prăjitori';
   }
 
@@ -928,7 +962,7 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'Ai gustat boabe de cafea\ndin $originCount țări!';
   }
 
@@ -940,17 +974,17 @@ class AppLocalizationsRo extends AppLocalizations {
       '…ci alături de utilizatori din alte 110\nțări de pe 6 continente!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return 'Ai rămas fidel gusturilor tale și ai folosit doar aceste $count metode de preparare anul acesta:';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return 'Ai descoperit gusturi noi și ai folosit $count metode de preparare anul acesta:';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return 'Ai fost un adevărat explorator al cafelei și ai folosit $count metode de preparare anul acesta:';
   }
 
@@ -1286,7 +1320,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get yearlyStats25ShareHandle => '@timercoffeeapp';
 
   @override
-  String get yearlyStatsFailedToLike => 'Nu s-a apreciat. Încercați din nou.';
+  String get yearlyStatsFailedToLike => 'Nu s-a apreciat. Încearcă din nou.';
 
   @override
   String get labelCoffeeBrewed => 'Cafea preparată';
@@ -1391,15 +1425,15 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get recipeCreationScreenRecipeNameValidator =>
-      'Introduceți un nume pentru rețetă';
+      'Introdu un nume pentru rețetă';
 
   @override
   String get recipeCreationScreenShortDescriptionValidator =>
-      'Introduceți o descriere scurtă';
+      'Introdu o descriere scurtă';
 
   @override
   String get recipeCreationScreenBrewingMethodValidator =>
-      'Selectați o metodă de preparare';
+      'Selectează o metodă de preparare';
 
   @override
   String get recipeCreationScreenRequiredValidator => 'Obligatoriu';
@@ -1409,7 +1443,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get recipeCreationScreenStepDescriptionValidator =>
-      'Introduceți o descriere pentru pas';
+      'Introdu o descriere pentru pas';
 
   @override
   String get recipeCreationScreenContinueButton => 'Continuă la Pașii Rețetei';
@@ -1532,24 +1566,24 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String recipeUpdateAvailableBody(String recipeName) {
-    return 'O versiune mai nouă a \'$recipeName\' este disponibilă online. Actualizați?';
+    return 'O versiune mai nouă a \'$recipeName\' este disponibilă online. Actualizezi?';
   }
 
   @override
-  String get dialogCancel => 'Anulați';
+  String get dialogCancel => 'Anulează';
 
   @override
-  String get dialogDuplicate => 'Duplicați';
+  String get dialogDuplicate => 'Duplică';
 
   @override
-  String get dialogUpdate => 'Actualizați';
+  String get dialogUpdate => 'Actualizează';
 
   @override
   String get recipeImportTitle => 'Importă rețeta';
 
   @override
   String recipeImportBody(String recipeName) {
-    return 'Doriți să importați rețeta \'$recipeName\' din cloud?';
+    return 'Vrei să imporți rețeta \'$recipeName\' din cloud?';
   }
 
   @override
@@ -1586,7 +1620,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get tooltipCopyRecipe => 'Copiază Rețeta';
 
   @override
-  String get tooltipDuplicateRecipe => 'Duplicați Rețeta';
+  String get tooltipDuplicateRecipe => 'Duplică Rețeta';
 
   @override
   String get tooltipShareRecipe => 'Partajează Rețeta';
@@ -1636,7 +1670,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get editImportedRecipeBody =>
-      'Aceasta este o rețetă importată. Editarea acesteia va crea o copie nouă, independentă. Doriți să continuați?';
+      'Aceasta este o rețetă importată. Editarea ei va crea o copie nouă, independentă. Vrei să continui?';
 
   @override
   String get editImportedRecipeButtonCopy => 'Creează copie și editează';
@@ -1645,10 +1679,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get editImportedRecipeButtonCancel => 'Anulează';
 
   @override
-  String get editDisplayNameTitle => 'Editează Numele Afișat';
+  String get editDisplayNameTitle => 'Editează numele afișat';
 
   @override
-  String get displayNameHint => 'Introduceți numele dvs. afișat';
+  String get displayNameHint => 'Introdu numele afișat';
 
   @override
   String get displayNameEmptyError => 'Numele afișat nu poate fi gol';
@@ -1659,7 +1693,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get errorUserNotLoggedIn =>
-      'Utilizatorul nu este autentificat. Vă rugăm să vă autentificați din nou.';
+      'Nu ești autentificat. Autentifică-te din nou.';
 
   @override
   String get displayNameUpdateSuccess =>
@@ -1671,11 +1705,11 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get deletePictureConfirmationTitle => 'Ștergeți Imaginea?';
+  String get deletePictureConfirmationTitle => 'Ștergi imaginea?';
 
   @override
   String get deletePictureConfirmationBody =>
-      'Sunteți sigur că doriți să ștergeți poza de profil?';
+      'Sigur vrei să ștergi poza de profil?';
 
   @override
   String get deletePictureSuccess => 'Poza de profil a fost ștearsă.';
@@ -1695,7 +1729,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Poza de profil a fost actualizată cu succes!';
 
   @override
-  String get deletePictureTooltip => 'Șterge Imaginea';
+  String get deletePictureTooltip => 'Șterge imaginea';
 
   @override
   String get account => 'Cont';
@@ -1750,10 +1784,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get farm => 'Fermă de cafea';
 
   @override
-  String get enterFarmer => 'Introduceți fermierul';
+  String get enterFarmer => 'Introdu fermierul (opțional)';
 
   @override
-  String get enterFarm => 'Introduceți ferma de cafea';
+  String get enterFarm => 'Introdu ferma de cafea (opțional)';
 
   @override
   String get requiredInformation => 'Informații necesare';
@@ -1812,11 +1846,11 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get recipePublicTooltip =>
-      'Rețeta este publică - atingeți pentru a o face privată';
+      'Rețeta este publică - atinge pentru a o face privată';
 
   @override
   String get recipePrivateTooltip =>
-      'Rețeta este privată - partajați pentru a o face publică';
+      'Rețeta este privată - partajează pentru a o face publică';
 
   @override
   String get fieldClearButtonTooltip => 'Șterge';
@@ -1839,8 +1873,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get unitFieldRequiredError => 'Acest câmp este obligatoriu';
 
   @override
-  String get unitFieldInvalidNumberError =>
-      'Vă rugăm introduceți un număr valid';
+  String get unitFieldInvalidNumberError => 'Introdu un număr valid';
 
   @override
   String unitFieldMinValueError(Object min) {
@@ -1856,8 +1889,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get numericFieldRequiredError => 'Acest câmp este obligatoriu';
 
   @override
-  String get numericFieldInvalidNumberError =>
-      'Vă rugăm introduceți un număr valid';
+  String get numericFieldInvalidNumberError => 'Introdu un număr valid';
 
   @override
   String numericFieldMinValueError(Object min) {
@@ -1885,7 +1917,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String dropdownSearchUseCustomEntry(Object currentQuery) {
-    return 'Folosiți \"$currentQuery\"';
+    return 'Folosește \"$currentQuery\"';
   }
 
   @override
@@ -1899,7 +1931,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get unsavedChangesMessage =>
-      'Aveți modificări nesalvate. Sigur doriți să le renunțați?';
+      'Ai modificări nesalvate. Sigur vrei să renunți la ele?';
 
   @override
   String get unsavedChangesStay => 'Rămâi';
@@ -1946,7 +1978,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get notificationsDisabledDialogContent =>
-      'Ați dezactivat notificările în setările dispozitivului dvs. Pentru a activa notificările, vă rugăm să deschideți setările dispozitivului și să permiteți notificări pentru Timer.Coffee.';
+      'Ai dezactivat notificările în setările dispozitivului. Pentru a le activa, deschide setările dispozitivului și permite notificările pentru Timer.Coffee.';
 
   @override
   String get notificationDebug => 'Depanare notificări';
@@ -1961,11 +1993,19 @@ class AppLocalizationsRo extends AppLocalizations {
   String get notificationsDisabled => 'Dezactivate';
 
   @override
-  String get notificationPermissionDialogTitle => 'Activați Notificările?';
+  String get notificationPermissionDialogTitle => 'Activezi notificările?';
 
   @override
   String get notificationPermissionDialogMessage =>
-      'Puteți activa notificările pentru a primi actualizări utile (ex. despre versiuni noi ale aplicației). Activați acum sau schimbați acest lucru în orice moment în setări.';
+      'Poți activa notificările pentru a primi actualizări utile (ex. despre versiuni noi ale aplicației). Notificările sunt necesare și pentru actualizări live ale progresului preparării. Activează acum sau schimbă asta oricând din setări.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'Poți activa notificările pentru a primi actualizări utile (ex. despre versiuni noi ale aplicației). Notificările sunt necesare și pentru Live Activities și Dynamic Island pe iOS. Activează acum sau schimbă asta oricând din setări.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'Poți activa notificările pentru a primi actualizări utile (ex. despre versiuni noi ale aplicației). Notificările sunt necesare și pentru Live Updates pe Android. Activează acum sau schimbă asta oricând din setări.';
 
   @override
   String get notificationPermissionEnable => 'Activează';
@@ -2030,7 +2070,8 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       days,
       locale: localeName,
-      other: 'Se încheie în $days zile',
+      other: 'Se încheie în $days de zile',
+      few: 'Se încheie în $days zile',
       one: 'Se încheie mâine',
       zero: 'Se încheie astăzi',
     );
@@ -2147,11 +2188,10 @@ class AppLocalizationsRo extends AppLocalizations {
   String get brewEntrySaved => 'Înregistrare preparare salvată';
 
   @override
-  String get brewingMethodRequired =>
-      'Vă rugăm selectați o metodă de preparare';
+  String get brewingMethodRequired => 'Selectează o metodă de preparare';
 
   @override
-  String get recipeRequired => 'Vă rugăm selectați o rețetă';
+  String get recipeRequired => 'Selectează o rețetă';
 
   @override
   String get onboardingTitle => 'Bine ai venit la Timer.Coffee';
@@ -2170,8 +2210,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Finalizează prima ta preparare';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod =>
-      'Încearcă o altă metodă de preparare';
+  String get coffeeJourneyMilestoneTryMethod => 'Încearcă o altă rețetă';
 
   @override
   String get coffeeJourneyMilestoneAddBeans =>
@@ -2243,21 +2282,192 @@ class AppLocalizationsRo extends AppLocalizations {
       'Autentifică-te pentru a adăuga o fotografie de copertă';
 
   @override
-  String get settingsAnalyticsTitle => 'Confidențialitate și analitice';
+  String get settingsAnalyticsTitle => 'Confidențialitate și statistici';
 
   @override
-  String get settingsAnalyticsBrews => 'Partajează analiticele de preparare';
+  String get settingsAnalyticsBrews => 'Partajează statisticile de preparare';
 
   @override
-  String get settingsAnalyticsBeans => 'Partajează analiticele boabelor';
+  String get settingsAnalyticsBeans => 'Partajează statisticile boabelor';
 
   @override
   String get settingsAnalyticsGeneral =>
-      'Partajează analiticele generale de utilizare';
+      'Partajează statisticile generale de utilizare';
 
   @override
   String get done => 'Gata';
 
   @override
   String get saving => 'Se salvează…';
+
+  @override
+  String get notifBrewReminderTitle => 'Îți lipsește ritualul cafelei?';
+
+  @override
+  String get notifBrewReminderBody =>
+      'Au trecut câteva zile. Îți vine să mai prepari o cafea?';
+
+  @override
+  String get notifBrewReminderTitle2 => 'E timpul pentru o cafea?';
+
+  @override
+  String get notifBrewReminderBody2 =>
+      'Echipamentul tău e pregătit când ești și tu.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'Fierbătorul te cheamă';
+
+  @override
+  String get notifBrewReminderBody3 =>
+      'O ceașcă bună e gata în doar câteva minute.';
+
+  @override
+  String get notifBrewEscalationTitle => 'Revii pentru încă o cafea?';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'A trecut ceva timp. Îți vine să prepari ceva bun?';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'A trecut ceva timp?';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'Fără grabă. Echipamentul tău e pregătit când ești și tu.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'E din nou timpul pentru cafea?';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'O ceașcă foarte bună se poate prepara în doar câteva minute.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'Ține evidența boabelor tale';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'Notează-ți boabele și amintește-ți de cele care ți-au plăcut cel mai mult.';
+
+  @override
+  String get notifDiscoverPulseTitle => 'Vezi ce prepară alții';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'Deschide Pulse ca să vezi preparări live din toată lumea.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'Ai atins un prag important';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    return 'Ai preparat cafea de $count ori. Atinge pentru a-ți vedea progresul.';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return 'Încearcă o nouă rețetă de $methodName';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Până acum ai încercat $count de rețete. Iată încă una de încercat.',
+      few: 'Până acum ai încercat $count rețete. Iată încă una de încercat.',
+      one: 'Până acum ai încercat o rețetă. Iată încă una de încercat.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'Bună dimineața. Gata de preparat?';
+
+  @override
+  String get notifMorningBody => 'Începe ziua cu o ceașcă bună.';
+
+  @override
+  String get notifMorningTitle2 => 'Trezirea și cafeaua';
+
+  @override
+  String get notifMorningBody2 =>
+      'Cafeaua de dimineață poate fi gata în doar câteva minute.';
+
+  @override
+  String get notifMorningTitle3 => 'Prima ceașcă a zilei?';
+
+  @override
+  String get notifMorningBody3 => 'Alege o rețetă și apucă-te de preparat.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de preparări săptămâna aceasta',
+      few: '$count preparări săptămâna aceasta',
+      one: '1 preparare săptămâna aceasta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: 'În $recipes rețete. Atinge pentru a vedea detaliile.',
+      one: 'Atinge pentru a vedea statisticile săptămânii.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'E timpul pentru boabe proaspete?';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    return 'Boabele tale $beanName au fost prăjite acum $days zile. S-ar putea să fi trecut de vârf.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'Activează notificările';
+
+  @override
+  String get settingsMorningReminder => 'Memento pentru cafeaua de dimineață';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'Memento zilnic pentru cafeaua ta de dimineață';
+
+  @override
+  String get settingsMorningReminderTime => 'Ora mementoului';
+
+  @override
+  String get settingsWeeklySummary => 'Rezumat săptămânal';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'Recapitulare a preparărilor tale duminică seara';
+
+  @override
+  String get settingsBeanFreshness => 'Alerte pentru prospețimea boabelor';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'Te anunță când boabele au fost prăjite de peste 3 săptămâni';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'acum $count de zile',
+      few: 'acum $count zile',
+      one: 'acum 1 zi',
+    );
+    return '$_temp0';
+  }
 }

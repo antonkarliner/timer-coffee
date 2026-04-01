@@ -12,7 +12,7 @@ class AppLocalizationsEl extends AppLocalizations {
   String get beansStatsSectionTitle => 'Στατιστικά κόκκων';
 
   @override
-  String get totalBeansBrewedLabel => 'Συνολικοί κόκκοι που παρασκευάστηκαν';
+  String get totalBeansBrewedLabel => 'Σύνολο κόκκων που χρησιμοποιήθηκαν';
 
   @override
   String get newBeansTriedLabel => 'Νέοι κόκκοι που δοκιμάστηκαν';
@@ -152,7 +152,7 @@ class AppLocalizationsEl extends AppLocalizations {
   String get watertemp => 'Θερμοκρασία νερού';
 
   @override
-  String get grindsize => 'Μέγεθος άλεσης';
+  String get grindsize => 'Βαθμός άλεσης';
 
   @override
   String get brewtime => 'Χρόνος παρασκευής';
@@ -187,7 +187,7 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get finishmsg =>
-      'Ευχαριστούμε που χρησιμοποιείτε το Timer.Coffee! Απολαύστε τον';
+      'Ευχαριστούμε που χρησιμοποιείτε το Timer.Coffee! Απολαύστε τον καφέ σας με';
 
   @override
   String get coffeefact => 'Στοιχείο για τον καφέ';
@@ -256,6 +256,33 @@ class AppLocalizationsEl extends AppLocalizations {
   String get settingslang => 'Γλώσσα';
 
   @override
+  String get settingsDateTimeFormat => 'Μορφοποίηση ημερομηνίας και ώρας';
+
+  @override
+  String get settingsDateFormatLabel => 'Μορφή ημερομηνίας';
+
+  @override
+  String get settingsTimeFormatLabel => 'Μορφή ώρας';
+
+  @override
+  String get settingsDateFormatAuto => 'Αυτόματη (ανάλογα με τη γλώσσα)';
+
+  @override
+  String get settingsDateFormatDMY => 'ΗΗ/ΜΜ/ΕΕΕΕ';
+
+  @override
+  String get settingsDateFormatMDY => 'ΜΜ/ΗΗ/ΕΕΕΕ';
+
+  @override
+  String get settingsDateFormatYMD => 'ΕΕΕΕ-ΜΜ-ΗΗ';
+
+  @override
+  String get settingsTimeFormat12h => '12 ώρες (ΠΜ/ΜΜ)';
+
+  @override
+  String get settingsTimeFormat24h => '24 ώρες';
+
+  @override
   String get sweet => 'Γλυκό';
 
   @override
@@ -281,7 +308,7 @@ class AppLocalizationsEl extends AppLocalizations {
   String get whatsnewclose => 'Κλείσιμο';
 
   @override
-  String get seasonspecials => 'Εποχικές προσφορές';
+  String get seasonspecials => 'Εποχιακές επιλογές';
 
   @override
   String get snow => 'Χιόνι';
@@ -309,7 +336,7 @@ class AppLocalizationsEl extends AppLocalizations {
   String get beans => 'Κόκκοι';
 
   @override
-  String get roaster => 'Καβουρδιστής';
+  String get roaster => 'Καβουρδιστήριο';
 
   @override
   String get rating => 'Αξιολόγηση';
@@ -588,7 +615,7 @@ class AppLocalizationsEl extends AppLocalizations {
   String get roastDate => 'Ημερομηνία καβουρδίσματος';
 
   @override
-  String get roastLevel => 'Επίπεδο καβουρδίσματος';
+  String get roastLevel => 'Βαθμός καβουρδίσματος';
 
   @override
   String get cuppingScore => 'Βαθμολογία cupping';
@@ -666,7 +693,7 @@ class AppLocalizationsEl extends AppLocalizations {
   String get collectedInformation => 'Συλλεγμένες πληροφορίες';
 
   @override
-  String get enterRoaster => 'Εισαγάγετε καβουρδιστή';
+  String get enterRoaster => 'Εισαγάγετε καβουρδιστήριο';
 
   @override
   String get enterName => 'Εισαγάγετε όνομα';
@@ -780,7 +807,7 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get signOutConfirmationMessage =>
-      'Ο συγχρονισμός στο cloud θα σταματήσει. Συνδεθείτε ξανά για να συνεχίσει.';
+      'Ο συγχρονισμός στο cloud θα σταματήσει. Συνδεθείτε ξανά για να συνεχιστεί ο συγχρονισμός.';
 
   @override
   String get signInSuccessfulGoogle => 'Επιτυχής σύνδεση με Google';
@@ -874,7 +901,7 @@ class AppLocalizationsEl extends AppLocalizations {
   String get all => 'Όλα';
 
   @override
-  String get selectRoaster => 'Επιλέξτε καβουρδιστή';
+  String get selectRoaster => 'Επιλέξτε καβουρδιστήριο';
 
   @override
   String get selectOrigin => 'Επιλέξτε προέλευση';
@@ -905,11 +932,11 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get yearlyStatsStory1Text =>
-      'Γεια σας και ευχαριστούμε που ήσασταν μέρος του σύμπαντος του Timer.Coffee φέτος!';
+      'Γεια σας και ευχαριστούμε που ήσασταν μέλος της κοινότητας του Timer.Coffee φέτος!';
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
-    return 'Πρώτα απ\' όλα.\nΦέτος παρασκευάσατε καφέ$ellipsis';
+    return 'Πρώτα απ\' όλα.\nΦέτος ετοιμάσατε αρκετό καφέ$ellipsis';
   }
 
   @override
@@ -918,7 +945,7 @@ class AppLocalizationsEl extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return 'Χρησιμοποιήσατε κόκκους από $roasterCount καβουρδιστήρια';
   }
 
@@ -929,11 +956,11 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String yearlyStatsStory5Text(Object ellipsis) {
-    return 'Ο καφές σας ταξίδεψε\nσε όλο τον κόσμο$ellipsis';
+    return 'Ο καφές σάς ταξίδεψε\nσε όλο τον κόσμο$ellipsis';
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'Δοκιμάσατε κόκκους καφέ\nαπό $originCount χώρες!';
   }
 
@@ -945,17 +972,17 @@ class AppLocalizationsEl extends AppLocalizations {
       '...αλλά μαζί με χρήστες από 110 άλλες\nχώρες σε 6 ηπείρους!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return 'Μείνατε πιστοί στον εαυτό σας και χρησιμοποιήσατε μόνο αυτές τις $count μεθόδους παρασκευής φέτος:';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return 'Ανακαλύπτατε νέες γεύσεις και χρησιμοποιήσατε $count μεθόδους παρασκευής φέτος:';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return 'Ήσασταν πραγματικός εξερευνητής καφέ και χρησιμοποιήσατε $count μεθόδους παρασκευής φέτος:';
   }
 
@@ -1042,7 +1069,7 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String yearlyStats25Slide3TopBadge(int topPct) {
-    return 'Βρίσκεστε στο κορυφαίο $topPct% όσων παρασκευάζουν καφέ!';
+    return 'Ανήκετε στο κορυφαίο $topPct% όσων παρασκευάζουν καφέ!';
   }
 
   @override
@@ -1268,22 +1295,22 @@ class AppLocalizationsEl extends AppLocalizations {
       'Η χρονιά μου το 2025 με το Timer.Coffee';
 
   @override
-  String get yearlyStats25ShareBrewedPrefix => 'Παρασκευάστηκαν ';
+  String get yearlyStats25ShareBrewedPrefix => 'Έφτιαξα καφέ ';
 
   @override
-  String get yearlyStats25ShareBrewedMiddle => ' φορές και ';
+  String get yearlyStats25ShareBrewedMiddle => ' φορές, συνολικά ';
 
   @override
-  String get yearlyStats25ShareBrewedSuffix => ' λίτρα καφέ';
+  String get yearlyStats25ShareBrewedSuffix => ' λίτρα';
 
   @override
-  String get yearlyStats25ShareRoastersPrefix => 'Χρησιμοποιήθηκαν κόκκοι από ';
+  String get yearlyStats25ShareRoastersPrefix => 'Χρησιμοποίησα κόκκους από ';
 
   @override
   String get yearlyStats25ShareRoastersSuffix => ' καβουρδιστήρια';
 
   @override
-  String get yearlyStats25ShareOriginsPrefix => 'Ανακαλύφθηκαν ';
+  String get yearlyStats25ShareOriginsPrefix => 'Ανακάλυψα ';
 
   @override
   String get yearlyStats25ShareOriginsSuffix => ' προελεύσεις καφέ';
@@ -1580,7 +1607,7 @@ class AppLocalizationsEl extends AppLocalizations {
   }
 
   @override
-  String get dismiss => 'Απόρριψη';
+  String get dismiss => 'Κλείσιμο';
 
   @override
   String get reviewRecipeButton => 'Έλεγχος συνταγής';
@@ -1819,7 +1846,7 @@ class AppLocalizationsEl extends AppLocalizations {
   String get unpublishRecipeDialogKeepPublic => 'Διατήρηση δημόσιας';
 
   @override
-  String get unpublishRecipeDialogMakePrivate => 'Κάντε τη ιδιωτική';
+  String get unpublishRecipeDialogMakePrivate => 'Να γίνει ιδιωτική';
 
   @override
   String get recipeUnpublishSuccess =>
@@ -1984,7 +2011,15 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      'Μπορείτε να ενεργοποιήσετε τις ειδοποιήσεις για να λαμβάνετε χρήσιμες ενημερώσεις (π.χ. για νέες εκδόσεις της εφαρμογής). Ενεργοποιήστε τις τώρα ή αλλάξτε το οποιαδήποτε στιγμή από τις ρυθμίσεις.';
+      'Μπορείτε να ενεργοποιήσετε τις ειδοποιήσεις για να λαμβάνετε χρήσιμες ενημερώσεις (π.χ. για νέες εκδόσεις της εφαρμογής). Οι ειδοποιήσεις είναι επίσης απαραίτητες για ζωντανές ενημερώσεις της προόδου παρασκευής. Ενεργοποιήστε τες τώρα ή αλλάξτε αυτή την επιλογή οποτεδήποτε από τις ρυθμίσεις.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'Μπορείτε να ενεργοποιήσετε τις ειδοποιήσεις για να λαμβάνετε χρήσιμες ενημερώσεις (π.χ. για νέες εκδόσεις της εφαρμογής). Οι ειδοποιήσεις είναι επίσης απαραίτητες για τα Live Activities και το Dynamic Island στο iOS. Ενεργοποιήστε τες τώρα ή αλλάξτε αυτή την επιλογή οποτεδήποτε από τις ρυθμίσεις.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'Μπορείτε να ενεργοποιήσετε τις ειδοποιήσεις για να λαμβάνετε χρήσιμες ενημερώσεις (π.χ. για νέες εκδόσεις της εφαρμογής). Οι ειδοποιήσεις είναι επίσης απαραίτητες για τα Live Updates στο Android. Ενεργοποιήστε τες τώρα ή αλλάξτε αυτή την επιλογή οποτεδήποτε από τις ρυθμίσεις.';
 
   @override
   String get notificationPermissionEnable => 'Ενεργοποίηση';
@@ -2190,8 +2225,7 @@ class AppLocalizationsEl extends AppLocalizations {
       'Ολοκληρώστε την πρώτη σας παρασκευή';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod =>
-      'Δοκιμάστε μια διαφορετική μέθοδο παρασκευής';
+  String get coffeeJourneyMilestoneTryMethod => 'Δοκιμάστε μια άλλη συνταγή';
 
   @override
   String get coffeeJourneyMilestoneAddBeans =>
@@ -2282,4 +2316,173 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get saving => 'Αποθήκευση…';
+
+  @override
+  String get notifBrewReminderTitle => 'Σου λείπει το τελετουργικό του καφέ;';
+
+  @override
+  String get notifBrewReminderBody =>
+      'Πέρασαν λίγες μέρες. Θες να φτιάξεις έναν ακόμη καφέ;';
+
+  @override
+  String get notifBrewReminderTitle2 => 'Ώρα για καφέ;';
+
+  @override
+  String get notifBrewReminderBody2 =>
+      'Ο εξοπλισμός σου είναι έτοιμος όποτε θελήσεις.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'Ο βραστήρας σε φωνάζει';
+
+  @override
+  String get notifBrewReminderBody3 =>
+      'Ένα καλό φλιτζάνι απέχει μόνο λίγα λεπτά.';
+
+  @override
+  String get notifBrewEscalationTitle => 'Πάλι για έναν ακόμη καφέ;';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'Πέρασε καιρός. Θες να φτιάξεις κάτι καλό;';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'Πέρασε καιρός;';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'Χωρίς βιασύνη. Ο εξοπλισμός σου είναι έτοιμος όποτε θελήσεις.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'Ώρα για καφέ ξανά;';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'Ένα πραγματικά καλό φλιτζάνι μπορεί να είναι έτοιμο σε λίγα λεπτά.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'Παρακολούθησε τους κόκκους σου';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'Κατέγραψε τους κόκκους σου και θυμήσου εκείνους που αγάπησες.';
+
+  @override
+  String get notifDiscoverPulseTitle => 'Δες τι φτιάχνουν οι άλλοι';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'Άνοιξε τον Παλμό για να δεις ζωντανές παρασκευές από όλο τον κόσμο.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'Έφτασες σε ένα ορόσημο';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    return 'Έχεις φτιάξει καφέ $count φορές. Πάτησε για να δεις την πρόοδό σου.';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return 'Δοκίμασε μια νέα συνταγή για $methodName';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Μέχρι τώρα έχεις δοκιμάσει $count συνταγές. Ορίστε άλλη μία για να δοκιμάσεις.',
+      one:
+          'Μέχρι τώρα έχεις δοκιμάσει 1 συνταγή. Ορίστε άλλη μία για να δοκιμάσεις.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'Καλημέρα. Ώρα για καφέ;';
+
+  @override
+  String get notifMorningBody => 'Ξεκίνα τη μέρα με ένα καλό φλιτζάνι.';
+
+  @override
+  String get notifMorningTitle2 => 'Σήκω και φτιάξε καφέ';
+
+  @override
+  String get notifMorningBody2 =>
+      'Ο πρωινός καφές μπορεί να είναι έτοιμος σε λίγα λεπτά.';
+
+  @override
+  String get notifMorningTitle3 => 'Το πρώτο φλιτζάνι της ημέρας;';
+
+  @override
+  String get notifMorningBody3 => 'Διάλεξε μια συνταγή και ξεκίνα.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count παρασκευές αυτή την εβδομάδα',
+      one: '1 παρασκευή αυτή την εβδομάδα',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: 'Σε $recipes συνταγές συνολικά. Πάτησε για να δεις την ανάλυση.',
+      one: 'Πάτησε για να δεις τα εβδομαδιαία στατιστικά σου.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'Ώρα για πιο φρέσκους κόκκους;';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    return 'Οι κόκκοι $beanName καβουρδίστηκαν πριν από $days ημέρες. Μπορεί να έχουν περάσει το καλύτερό τους σημείο.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'Ενεργοποίηση ειδοποιήσεων';
+
+  @override
+  String get settingsMorningReminder => 'Πρωινή υπενθύμιση καφέ';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'Καθημερινή υπενθύμιση για τον πρωινό σου καφέ';
+
+  @override
+  String get settingsMorningReminderTime => 'Ώρα υπενθύμισης';
+
+  @override
+  String get settingsWeeklySummary => 'Εβδομαδιαία σύνοψη';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'Κυριακάτικη βραδινή ανακεφαλαίωση των παρασκευών σου';
+
+  @override
+  String get settingsBeanFreshness => 'Ειδοποιήσεις φρεσκάδας κόκκων';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'Ειδοποίηση όταν έχουν περάσει πάνω από 3 εβδομάδες από την ημερομηνία καβουρδίσματος';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'πριν $count ημέρες',
+      one: 'πριν 1 ημέρα',
+    );
+    return '$_temp0';
+  }
 }

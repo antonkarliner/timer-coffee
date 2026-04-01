@@ -80,6 +80,15 @@
   "settingsthemedark": "Tamna",
   "settingsthemesystem": "Sustav",
   "settingslang": "Jezik",
+  "settingsDateTimeFormat": "Format datuma i vremena",
+  "settingsDateFormatLabel": "Format datuma",
+  "settingsTimeFormatLabel": "Format vremena",
+  "settingsDateFormatAuto": "Automatski (prema jeziku)",
+  "settingsDateFormatDMY": "DD.MM.GGGG.",
+  "settingsDateFormatMDY": "MM/DD/GGGG",
+  "settingsDateFormatYMD": "GGGG-MM-DD",
+  "settingsTimeFormat12h": "12-satni (AM/PM)",
+  "settingsTimeFormat24h": "24-satni",
   "sweet": "Slatko",
   "balance": "Balans",
   "acidic": "Kiselo",
@@ -300,6 +309,7 @@
     "description": "Statement about the number of distinct roasters used",
     "placeholders": {
       "roasterCount": {
+        "type": "num",
         "example": "5"
       }
     }
@@ -325,6 +335,7 @@
     "description": "Statement about the number of distinct origins",
     "placeholders": {
       "originCount": {
+        "type": "num",
         "example": "10"
       }
     }
@@ -342,6 +353,7 @@
     "description": "Title for low number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "3"
       }
     }
@@ -351,6 +363,7 @@
     "description": "Title for medium number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "5"
       }
     }
@@ -360,6 +373,7 @@
     "description": "Title for high number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "8"
       }
     }
@@ -938,7 +952,9 @@
   "notificationsEnabled": "Omogućeno",
   "notificationsDisabled": "Onemogućeno",
   "notificationPermissionDialogTitle": "Omogućiti obavijesti?",
-  "notificationPermissionDialogMessage": "Možete omogućiti obavijesti da biste dobili korisne ažuriranja (npr. o novim verzijama aplikacije). Omogućite sada ili promijenite ovo bilo kada u postavkama.",
+  "notificationPermissionDialogMessage": "Možete omogućiti obavijesti da biste dobili korisna ažuriranja (npr. o novim verzijama aplikacije). Obavijesti su također potrebne za ažuriranja napretka pripreme uživo. Omogućite sada ili promijenite ovo bilo kada u postavkama.",
+  "notificationPermissionDialogMessageIos": "Možete omogućiti obavijesti da biste dobili korisna ažuriranja (npr. o novim verzijama aplikacije). Obavijesti su također potrebne za Live Activities i Dynamic Island na iOS-u. Omogućite sada ili promijenite ovo bilo kada u postavkama.",
+  "notificationPermissionDialogMessageAndroid": "Možete omogućiti obavijesti da biste dobili korisna ažuriranja (npr. o novim verzijama aplikacije). Obavijesti su također potrebne za Live Updates na Androidu. Omogućite sada ili promijenite ovo bilo kada u postavkama.",
   "notificationPermissionEnable": "Omogući",
   "notificationPermissionSkip": "Ne sada",
   "holidayGiftBoxTitle": "Blagdanska poklon kutija",
@@ -1058,7 +1074,7 @@
   "onboardingShowAll": "Prikaži sve metode pripreme",
   "coffeeJourneyTitle": "Prvi koraci",
   "coffeeJourneyMilestoneFirstBrew": "Dovrši svoju prvu pripremu",
-  "coffeeJourneyMilestoneTryMethod": "Isprobaj drugu metodu pripreme",
+  "coffeeJourneyMilestoneTryMethod": "Isprobaj drugi recept",
   "coffeeJourneyMilestoneAddBeans": "Dodaj svoja prva zrna kave",
   "coffeeJourneyMilestoneFavorite": "Dodaj recept u favorite",
   "coffeeJourneyMilestoneStats": "Provjeri svoju statistiku pripreme",
@@ -1084,5 +1100,101 @@
   "settingsAnalyticsBeans": "Dijeli analitiku zrna",
   "settingsAnalyticsGeneral": "Dijeli analitiku opće upotrebe",
   "done": "Gotovo",
-  "saving": "Spremanje…"
+  "saving": "Spremanje…",
+
+  "notifBrewReminderTitle": "Nedostaje li ti tvoj kavni ritual?",
+  "notifBrewReminderBody": "Prošlo je nekoliko dana. Vrijeme za još jednu kavu?",
+  "notifBrewReminderTitle2": "Vrijeme za pripremu kave?",
+  "notifBrewReminderBody2": "Tvoja oprema je spremna kad i ti.",
+  "notifBrewReminderTitle3": "Tvoje kuhalo za vodu zove",
+  "notifBrewReminderBody3": "Do dobre šalice treba samo nekoliko minuta.",
+  "notifBrewEscalationTitle": "Vraćaš se po još jednu kavu?",
+  "notifBrewEscalationBody": "Prošlo je neko vrijeme. Vrijeme je za nešto dobro?",
+  "notifBrewEscalationTitle2": "Prošlo je neko vrijeme?",
+  "notifBrewEscalationBody2": "Bez žurbe. Tvoja oprema je spremna kad i ti.",
+  "notifBrewEscalationTitle3": "Vrijeme za kavu opet?",
+  "notifBrewEscalationBody3": "Stvarno dobra šalica može biti spremna za samo nekoliko minuta.",
+
+  "notifDiscoverBeansTitle": "Prati svoja zrna",
+  "notifDiscoverBeansBody": "Bilježi svoja zrna i zapamti ona koja su ti se najviše svidjela.",
+  "notifDiscoverPulseTitle": "Pogledaj što drugi pripremaju",
+  "notifDiscoverPulseBody": "Otvori Puls i pogledaj pripreme uživo iz cijelog svijeta.",
+
+  "notifBrewMilestoneTitle": "Dosegnuli ste novu prekretnicu",
+  "notifBrewMilestoneBody": "Skuhali ste kavu {count, plural, one{{count} put} few{{count} puta} other{{count} puta}}. Dodirnite za pregled napretka.",
+  "@notifBrewMilestoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifExploreRecipesTitle": "Isprobaj novi recept za {methodName}",
+  "@notifExploreRecipesTitle": {
+    "placeholders": {
+      "methodName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifExploreRecipesBody": "{count, plural, one{Dosad ste isprobali {count} recept. Evo još jednog za probati.} few{Dosad ste isprobali {count} recepta. Evo još jednog za probati.} other{Dosad ste isprobali {count} recepata. Evo još jednog za probati.}}",
+  "@notifExploreRecipesBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifMorningTitle": "Dobro jutro. Spremni za kavu?",
+  "notifMorningBody": "Započni dan dobrom šalicom.",
+  "notifMorningTitle2": "Ustani i kuhaj",
+  "notifMorningBody2": "Jutarnja kava može biti spremna za nekoliko minuta.",
+  "notifMorningTitle3": "Prva šalica dana?",
+  "notifMorningBody3": "Odaberi recept i kreni.",
+  "notifWeeklyTitle": "{count, plural, one{{count} priprema ovaj tjedan} few{{count} pripreme ovaj tjedan} other{{count} priprema ovaj tjedan}}",
+  "@notifWeeklyTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifWeeklyBody": "{recipes, plural, =1{Ukupno 1 recept. Dodirnite za pregled tjedne statistike.} few{Ukupno {recipes} recepta. Dodirnite za pregled detalja.} other{Ukupno {recipes} recepata. Dodirnite za pregled detalja.}}",
+  "@notifWeeklyBody": {
+    "placeholders": {
+      "recipes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifBeanFreshnessTitle": "Vrijeme za svježa zrna?",
+  "notifBeanFreshnessBody": "Tvoja zrna {beanName} pržena su prije {days, plural, one{{days} dan} few{{days} dana} other{{days} dana}}. Možda su prošla svoj vrhunac.",
+  "@notifBeanFreshnessBody": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "settingsNotificationsToggle": "Omogući obavijesti",
+  "settingsMorningReminder": "Jutarnji podsjetnik za kavu",
+  "settingsMorningReminderSubtitle": "Dnevni podsjetnik za tvoju jutarnju kavu",
+  "settingsMorningReminderTime": "Vrijeme podsjetnika",
+  "settingsWeeklySummary": "Tjedni sažetak",
+  "settingsWeeklySummarySubtitle": "Nedjeljni večernji pregled tvojih priprema",
+  "settingsBeanFreshness": "Upozorenja o svježini zrna",
+  "settingsBeanFreshnessSubtitle": "Obavijesti kada je od datuma prženja prošlo više od 3 tjedna",
+  "daysAgo": "{count, plural, one{prije 1 dan} few{prije {count} dana} other{prije {count} dana}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

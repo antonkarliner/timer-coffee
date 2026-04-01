@@ -6,7 +6,7 @@
   "originsExploredLabel": "Opprinnelser utforsket",
   "regionsExploredLabel": "Regioner utforsket",
   "newRoastersDiscoveredLabel": "Nye brennerier oppdaget",
-  "favoriteRoastersLabel": "Favoritt brennerier",
+  "favoriteRoastersLabel": "Favorittbrennerier",
   "topOriginsLabel": "Topp opprinnelser",
   "topRegionsLabel": "Topp regioner",
   "lastrecipe": "Sist brukte oppskrift:",
@@ -38,7 +38,7 @@
   "website": "Nettsted",
   "sourcecode": "Kildekode",
   "support": "Kjøp meg en kaffe",
-  "supportButtonLabel": "Support",
+  "supportButtonLabel": "Kontakt",
   "allrecipes": "Alle oppskrifter",
   "favoriterecipes": "Favorittoppskrifter",
   "coffeeamount": "Kaffemengde (g)",
@@ -80,9 +80,18 @@
   "settingsthemedark": "Mørk",
   "settingsthemesystem": "System",
   "settingslang": "Språk",
+  "settingsDateTimeFormat": "Dato- og klokkeslettformat",
+  "settingsDateFormatLabel": "Datoformat",
+  "settingsTimeFormatLabel": "Tidsformat",
+  "settingsDateFormatAuto": "Automatisk (tilpasset språk)",
+  "settingsDateFormatDMY": "DD.MM.ÅÅÅÅ",
+  "settingsDateFormatMDY": "MM/DD/ÅÅÅÅ",
+  "settingsDateFormatYMD": "ÅÅÅÅ-MM-DD",
+  "settingsTimeFormat12h": "12-timers (AM/PM)",
+  "settingsTimeFormat24h": "24-timers",
   "sweet": "Søt",
   "balance": "Balanse",
-  "acidic": "Sur",
+  "acidic": "Syrlig",
   "light": "Lett",
   "strong": "Sterk",
   "slidertitle": "Bruk glidebrytere for å justere smak",
@@ -152,12 +161,12 @@
   "coffeeBeansNotFound": "Kaffebønner ikke funnet",
   "basicInformation": "Grunnleggende informasjon",
   "geographyTerroir": "Geografi/Terroir",
-  "variety": "Variasjon",
+  "variety": "Bønnetype",
   "region": "Region",
   "elevation": "Høyde",
   "harvestDate": "Høstedato",
   "processing": "Prosessering",
-  "processingMethod": "Prosesseringsmetode",
+  "processingMethod": "Prosess",
   "roastDate": "Brenningsdato",
   "roastLevel": "Brenningsgrad",
   "cuppingScore": "Cuppingscore",
@@ -167,7 +176,7 @@
   "noCoffeeBeans": "Ingen kaffebønner funnet",
   "editCoffeeBeans": "Rediger kaffebønner",
   "addCoffeeBeans": "Legg til kaffebønner",
-  "showImagePicker": "Vis bildevalg",
+  "showImagePicker": "Åpne bildevalg",
   "pleaseNote": "Vennligst merk",
   "firstTimePopupMessage": "1. Vi bruker eksterne tjenester for å behandle bilder. Ved å fortsette godtar du dette.\n2. Selv om vi ikke lagrer bildene dine, vennligst unngå å inkludere personlige detaljer.\n3. Bildegjenkjenning er for øyeblikket begrenset til 10 tokens per måned (1 token = 1 bilde). Denne grensen kan endres i fremtiden.",
   "ok": "OK",
@@ -188,8 +197,8 @@
   "enterName": "Skriv inn navn",
   "enterOrigin": "Skriv inn opprinnelse",
   "optional": "Valgfritt",
-  "enterVariety": "Skriv inn variasjon",
-  "enterProcessingMethod": "Skriv inn prosesseringsmetode",
+  "enterVariety": "Skriv inn bønnetype",
+  "enterProcessingMethod": "Skriv inn prosess",
   "enterRoastLevel": "Skriv inn brenningsgrad",
   "enterRegion": "Skriv inn region",
   "enterTastingNotes": "Skriv inn smaksnotater",
@@ -289,6 +298,7 @@
     "description": "Statement about the number of distinct roasters used",
     "placeholders": {
       "roasterCount": {
+        "type": "num",
         "example": "5"
       }
     }
@@ -314,6 +324,7 @@
     "description": "Statement about the number of distinct origins",
     "placeholders": {
       "originCount": {
+        "type": "num",
         "example": "10"
       }
     }
@@ -331,6 +342,7 @@
     "description": "Title for low number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "3"
       }
     }
@@ -340,6 +352,7 @@
     "description": "Title for medium number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "5"
       }
     }
@@ -349,6 +362,7 @@
     "description": "Title for high number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "8"
       }
     }
@@ -569,7 +583,7 @@
   "yearlyStats25CtaExplorePrefix": "Utforsk tilbud i ",
   "yearlyStats25CtaGiftBox": "Julegaveeske",
   "yearlyStats25CtaDonate": "Doner",
-  "yearlyStats25CtaDonateSuffix": " for å hjelpe Timer.Coffee vokse i det kommende året",
+  "yearlyStats25CtaDonateSuffix": " for å hjelpe Timer.Coffee med å vokse det kommende året",
   "yearlyStats25CtaFollowPrefix": "Følg oss på ",
   "yearlyStats25CtaInstagram": "Instagram",
   "yearlyStats25CtaShareButton": "Del fremgangen min",
@@ -593,16 +607,16 @@
       }
     }
   },
-  "yearlyStats25ShareTitle": "Mitt år-2025 med Timer.Coffee",
+  "yearlyStats25ShareTitle": "Mitt år med Timer.Coffee – 2025",
   "yearlyStats25ShareBrewedPrefix": "Brygget ",
   "yearlyStats25ShareBrewedMiddle": " ganger og ",
   "yearlyStats25ShareBrewedSuffix": " liter kaffe",
   "yearlyStats25ShareRoastersPrefix": "Brukte bønner fra ",
   "yearlyStats25ShareRoastersSuffix": " brennerier",
   "yearlyStats25ShareOriginsPrefix": "Oppdaget ",
-  "yearlyStats25ShareOriginsSuffix": " kaffeopprinnelser",
-  "yearlyStats25ShareMethodsTitle": "Mine favoritt bryggemetoder:",
-  "yearlyStats25ShareRecipesTitle": "Mine topp oppskrifter:",
+  "yearlyStats25ShareOriginsSuffix": " opprinnelser",
+  "yearlyStats25ShareMethodsTitle": "Mine favorittbryggemetoder:",
+  "yearlyStats25ShareRecipesTitle": "Mine mest brukte oppskrifter:",
   "yearlyStats25ShareHandle": "@timercoffeeapp",
   "yearlyStatsFailedToLike": "Kunne ikke like. Vennligst prøv igjen.",
   "@yearlyStatsFailedToLike": {
@@ -972,7 +986,7 @@
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Button text to make the recipe private"
   },
-  "recipeUnpublishSuccess": "Oppskrift avpublisert vellykket",
+  "recipeUnpublishSuccess": "Oppskriften er nå privat",
   "@recipeUnpublishSuccess": {
     "description": "Success message when a recipe is unpublished"
   },
@@ -1012,7 +1026,7 @@
   "unsavedChangesMessage": "Du har ulagrede endringer. Er du sikker på at du vil forkaste dem?",
   "unsavedChangesStay": "Bli",
   "unsavedChangesDiscard": "Forkast",
-  "beansWeightAddedBack": "Lagt til {amount}{unit} tilbake til {beanName}. Ny vekt: {newWeight}{unit}",
+  "beansWeightAddedBack": "La {amount}{unit} tilbake til beholdningen for {beanName}. Ny vekt: {newWeight}{unit}",
   "@beansWeightAddedBack": {
     "description": "Message shown when coffee weight is added back to beans after removing from brew diary",
     "placeholders": {
@@ -1034,7 +1048,7 @@
       }
     }
   },
-  "beansWeightSubtracted": "Trukket fra {amount}{unit} fra {beanName}. Ny vekt: {newWeight}{unit}",
+  "beansWeightSubtracted": "Trakk {amount}{unit} fra beholdningen for {beanName}. Ny vekt: {newWeight}{unit}",
   "@beansWeightSubtracted": {
     "description": "Message shown when coffee weight is subtracted from beans when adding to brew diary",
     "placeholders": {
@@ -1070,7 +1084,9 @@
   "notificationsEnabled": "Aktivert",
   "notificationsDisabled": "Deaktivert",
   "notificationPermissionDialogTitle": "Aktiver varsler?",
-  "notificationPermissionDialogMessage": "Du kan aktivere varsler for å få nyttige oppdateringer (f.eks. om nye app-versjoner). Aktiver nå eller endre dette når som helst i innstillinger.",
+  "notificationPermissionDialogMessage": "Du kan aktivere varsler for å få nyttige oppdateringer (f.eks. om nye app-versjoner). Varsler er også nødvendige for direkte oppdateringer av bryggeframdriften. Aktiver nå eller endre dette når som helst i innstillinger.",
+  "notificationPermissionDialogMessageIos": "Du kan aktivere varsler for å få nyttige oppdateringer (f.eks. om nye app-versjoner). Varsler er også nødvendige for Live Activities og Dynamic Island på iOS. Aktiver nå eller endre dette når som helst i innstillinger.",
+  "notificationPermissionDialogMessageAndroid": "Du kan aktivere varsler for å få nyttige oppdateringer (f.eks. om nye app-versjoner). Varsler er også nødvendige for Live Updates på Android. Aktiver nå eller endre dette når som helst i innstillinger.",
   "notificationPermissionEnable": "Aktiver",
   "notificationPermissionSkip": "Ikke nå",
   "holidayGiftBoxTitle": "Julegaveeske",
@@ -1169,8 +1185,8 @@
   "pulseSomeoneBrewed": "Noen brygget {recipeName}",
   "pulseSomeoneFromBrewed": "Noen fra {country} brygget {recipeName}",
   "pulseTitle": "Puls",
-  "hubPulseSubtitle": "Live bryggefeed",
-  "pulseLiveSummary": "Livesammendrag",
+  "hubPulseSubtitle": "Bryggefeed i sanntid",
+  "pulseLiveSummary": "Sanntidsoversikt",
   "pulseBrewsLabel": "Brygg",
   "timePeriodRecent": "Nylig",
   "timePeriodLastHour": "Siste time",
@@ -1209,7 +1225,7 @@
   "onboardingShowAll": "Vis alle bryggemetoder",
   "coffeeJourneyTitle": "Første steg",
   "coffeeJourneyMilestoneFirstBrew": "Fullfør ditt første brygg",
-  "coffeeJourneyMilestoneTryMethod": "Prøv en annen bryggemetode",
+  "coffeeJourneyMilestoneTryMethod": "Prøv en annen oppskrift",
   "coffeeJourneyMilestoneAddBeans": "Legg til dine første kaffebønner",
   "coffeeJourneyMilestoneFavorite": "Legg til en oppskrift i favoritter",
   "coffeeJourneyMilestoneStats": "Sjekk bryggestatistikken din",
@@ -1235,5 +1251,101 @@
   "settingsAnalyticsBeans": "Del bønneanalyse",
   "settingsAnalyticsGeneral": "Del generell bruksanalyse",
   "done": "Ferdig",
-  "saving": "Lagrer…"
+  "saving": "Lagrer…",
+
+  "notifBrewReminderTitle": "Savner du kafferitualet ditt?",
+  "notifBrewReminderBody": "Det er noen dager siden. Klar for en ny kopp?",
+  "notifBrewReminderTitle2": "Tid for å brygge?",
+  "notifBrewReminderBody2": "Utstyret ditt er klart når du er det.",
+  "notifBrewReminderTitle3": "Vannkokeren kaller",
+  "notifBrewReminderBody3": "En god kopp er bare noen minutter unna.",
+  "notifBrewEscalationTitle": "Lyst på en kopp til?",
+  "notifBrewEscalationBody": "Det er en stund siden. Klar for å lage noe godt?",
+  "notifBrewEscalationTitle2": "Har det gått en stund?",
+  "notifBrewEscalationBody2": "Ingen hast. Utstyret ditt er klart når du er det.",
+  "notifBrewEscalationTitle3": "Tid for kaffe igjen?",
+  "notifBrewEscalationBody3": "En virkelig god kopp kan være klar på få minutter.",
+
+  "notifDiscoverBeansTitle": "Hold oversikt over bønnene dine",
+  "notifDiscoverBeansBody": "Registrer bønnene dine og husk dem du likte best.",
+  "notifDiscoverPulseTitle": "Se hva andre brygger",
+  "notifDiscoverPulseBody": "Åpne Puls for å se brygg i sanntid fra hele verden.",
+
+  "notifBrewMilestoneTitle": "Du nådde en milepæl",
+  "notifBrewMilestoneBody": "Du har brygget {count} ganger. Trykk for å se fremgangen din.",
+  "@notifBrewMilestoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifExploreRecipesTitle": "Prøv en ny {methodName}-oppskrift",
+  "@notifExploreRecipesTitle": {
+    "placeholders": {
+      "methodName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifExploreRecipesBody": "{count, plural, =1{Så langt har du prøvd 1 oppskrift. Her er en til å teste.} other{Så langt har du prøvd {count} oppskrifter. Her er en til å teste.}}",
+  "@notifExploreRecipesBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifMorningTitle": "God morgen. Klar til å brygge?",
+  "notifMorningBody": "Start dagen med en god kopp.",
+  "notifMorningTitle2": "Opp og brygg",
+  "notifMorningBody2": "Morgenkaffen kan være klar på få minutter.",
+  "notifMorningTitle3": "Dagens første kopp?",
+  "notifMorningBody3": "Velg en oppskrift og sett i gang.",
+  "notifWeeklyTitle": "{count, plural, =1{1 brygg denne uken} other{{count} brygg denne uken}}",
+  "@notifWeeklyTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifWeeklyBody": "{recipes, plural, =1{Trykk for å se ukesstatistikken din.} other{Fordelt på {recipes} oppskrifter. Trykk for å se oversikten.}}",
+  "@notifWeeklyBody": {
+    "placeholders": {
+      "recipes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifBeanFreshnessTitle": "Tid for ferske bønner?",
+  "notifBeanFreshnessBody": "Bønnene dine, {beanName}, ble brent for {days} dager siden. De er kanskje ikke lenger på sitt beste.",
+  "@notifBeanFreshnessBody": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "settingsNotificationsToggle": "Aktiver varsler",
+  "settingsMorningReminder": "Morgenpåminnelse for kaffe",
+  "settingsMorningReminderSubtitle": "Daglig påminnelse om morgenkaffen",
+  "settingsMorningReminderTime": "Tidspunkt for påminnelse",
+  "settingsWeeklySummary": "Ukentlig oppsummering",
+  "settingsWeeklySummarySubtitle": "Søndag kveldsoppsummering av bryggene dine",
+  "settingsBeanFreshness": "Varsler om bønnenes ferskhet",
+  "settingsBeanFreshnessSubtitle": "Gi beskjed når bønnene er eldre enn 3 uker",
+  "daysAgo": "{count, plural, one{for 1 dag siden} other{for {count} dager siden}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

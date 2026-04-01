@@ -14,13 +14,13 @@
   "hubAccountSubtitle": "Zarządzaj swoim profilem",
   "hubSignInCreateSubtitle": "Zaloguj się, aby synchronizować przepisy i ustawienia",
   "hubBrewDiarySubtitle": "Zobacz historię parzeń i dodawaj notatki",
-  "hubBrewStatsSubtitle": "Zobacz osobiste i globalne statystyki oraz trendy parzeń",
+  "hubBrewStatsSubtitle": "Sprawdź swoje i globalne statystyki oraz trendy parzeń",
   "hubSettingsSubtitle": "Zmień ustawienia aplikacji i zachowanie",
   "hubAboutSubtitle": "Szczegóły aplikacji, wersja i współtwórcy",
   "lastrecipe": "Ostatnio używany przepis:",
   "about": "O aplikacji",
   "author": "Autor",
-  "authortext": "Aplikacja Timer.Coffee została stworzona przez Anton Karliner, entuzjastę kawy, specjalistę od mediów i fotoreportera. Mam nadzieję, że ta aplikacja pomoże Ci cieszyć się kawą. Zapraszamy do współpracy na GitHubie.",
+  "authortext": "Aplikację Timer.Coffee stworzył Anton Karliner — miłośnik kawy, specjalista ds. mediów i fotoreporter. Mam nadzieję, że pomoże Ci lepiej cieszyć się kawą. Zapraszam do współpracy na GitHubie.",
   "contributors": "Współtwórcy",
   "errorLoadingContributors": "Błąd ładowania współtwórców",
   "license": "Licencja",
@@ -51,10 +51,10 @@
   "tipmedium": "Kup średnią kawę",
   "tiplarge": "Kup dużą kawę",
   "supportdevelopment": "Wesprzyj rozwój",
-  "supportdevmsg": "Twoje datki pomagają pokryć koszty utrzymania (takie jak licencje deweloperskie, na przykład). Pozwalają mi również wypróbować więcej urządzeń do parzenia kawy i dodać więcej przepisów do aplikacji.",
+  "supportdevmsg": "Twoje wsparcie pomaga pokryć koszty utrzymania (np. licencje deweloperskie). Pozwala mi też testować więcej sprzętu do parzenia i dodawać nowe przepisy do aplikacji.",
   "supportdevtnx": "Dziękujemy za rozważenie wsparcia!",
   "donationok": "Dziękujemy!",
-  "donationtnx": "Bardzo doceniam Twoje wsparcie! Życzę wielu wspaniałych parzeń! ☕️",
+  "donationtnx": "Bardzo dziękuję za wsparcie! Życzę wielu udanych parzeń! ☕️",
   "donationerr": "Błąd",
   "donationerrmsg": "Błąd przetwarzania zakupu, spróbuj ponownie.",
   "sharemsg": "Sprawdź ten przepis:",
@@ -65,21 +65,30 @@
   "settingsthemedark": "Ciemny",
   "settingsthemesystem": "System",
   "settingslang": "Język",
+  "settingsDateTimeFormat": "Format daty i czasu",
+  "settingsDateFormatLabel": "Format daty",
+  "settingsTimeFormatLabel": "Format czasu",
+  "settingsDateFormatAuto": "Automatyczny (zgodny z językiem)",
+  "settingsDateFormatDMY": "DD.MM.RRRR",
+  "settingsDateFormatMDY": "MM/DD/RRRR",
+  "settingsDateFormatYMD": "RRRR-MM-DD",
+  "settingsTimeFormat12h": "12-godzinny (AM/PM)",
+  "settingsTimeFormat24h": "24-godzinny",
   "sweet": "Słodki",
   "balance": "Równowaga",
-  "acidic": "Kwasowy",
-  "light": "Lekki",
+  "acidic": "Kwasowity",
+  "light": "Delikatny",
   "strong": "Mocny",
   "slidertitle": "Użyj suwaków, aby dostosować smak",
   "whatsnewtitle": "Co nowego",
   "whatsnewclose": "Zamknij",
-  "seasonspecials": "Specjalne Oferty Sezonowe",
+  "seasonspecials": "Oferty sezonowe",
   "snow": "Śnieg",
   "noFavoriteRecipesMessage": "Twoja lista ulubionych przepisów jest obecnie pusta. Zacznij eksplorować i warzyć, aby odkryć swoje ulubione!",
   "explore": "Odkrywaj",
   "dateFormat": "d MMM, yyyy",
   "timeFormat": "HH:mm",
-  "brewdiary": "Dziennik Parzenia",
+  "brewdiary": "Dziennik parzeń",
   "brewdiarynotfound": "Nie znaleziono wpisów",
   "beans": "Ziarna",
   "roaster": "Palarnia",
@@ -91,8 +100,8 @@
   "totalBeansBrewedLabel": "Łącznie użytych ziaren",
   "newBeansTriedLabel": "Nowe ziarna wypróbowane",
   "originsExploredLabel": "Poznane kraje pochodzenia",
-  "regionsExploredLabel": "Europa",
-  "newRoastersDiscoveredLabel": "Nowi palarze odkryci",
+  "regionsExploredLabel": "Odkryte regiony",
+  "newRoastersDiscoveredLabel": "Nowo odkryte palarnie",
   "favoriteRoastersLabel": "Ulubione palarnie",
   "topOriginsLabel": "Najlepsze pochodzenia",
   "topRegionsLabel": "Najlepsze regiony",
@@ -118,20 +127,20 @@
   "name": "Nazwa",
   "origin": "Pochodzenie",
   "details": "Szczegóły",
-  "coffeebeans": "Kawa ziarnista",
+  "coffeebeans": "Ziarna kawy",
   "loading": "Ładowanie",
-  "nocoffeebeans": "Nie znaleziono kawy ziarnistej",
+  "nocoffeebeans": "Nie znaleziono ziaren kawy",
   "delete": "Usuń",
   "removeFavorite": "Usuń z ulubionych",
   "addFavorite": "Dodaj do ulubionych",
   "toggleEditMode": "Przełącz tryb edycji",
-  "coffeeBeansDetails": "Szczegóły kawy ziarnistej",
+  "coffeeBeansDetails": "Szczegóły ziaren kawy",
   "edit": "Edytuj",
-  "coffeeBeansNotFound": "Nie znaleziono kawy ziarnistej",
+  "coffeeBeansNotFound": "Nie znaleziono ziaren kawy",
   "basicInformation": "Dane podstawowe",
   "geographyTerroir": "Pochodzenie/Region",
   "variety": "Odmiana",
-  "region": "Ameryka Północna",
+  "region": "Region",
   "elevation": "Wysokość",
   "harvestDate": "Data zbioru",
   "processing": "Obróbka",
@@ -142,12 +151,12 @@
   "flavorProfile": "Profil smakowy",
   "tastingNotes": "Nuty smakowe",
   "additionalNotes": "Dodatkowe notatki",
-  "noCoffeeBeans": "Nie znaleziono kawy ziarnistej",
-  "editCoffeeBeans": "Edytuj kawę ziarnistą",
-  "addCoffeeBeans": "Dodaj kawę ziarnistą",
+  "noCoffeeBeans": "Nie znaleziono ziaren kawy",
+  "editCoffeeBeans": "Edytuj ziarna kawy",
+  "addCoffeeBeans": "Dodaj ziarna kawy",
   "showImagePicker": "Pokaż wybór obrazu",
   "pleaseNote": "Uwaga",
-  "firstTimePopupMessage": "1. Do przetwarzania obrazów używamy usług zewnętrznych. Kontynuując, wyrażasz na to zgodę.\n2. Chociaż nie przechowujemy twoich obrazów, unikaj umieszczania na nich danych osobowych.\n3. Rozpoznawanie obrazu jest obecnie ograniczone do 10 tokenów miesięcznie (1 token = 1 obraz). Ten limit może ulec zmianie w przyszłości.",
+  "firstTimePopupMessage": "1. Do przetwarzania obrazów używamy usług zewnętrznych. Kontynuując, wyrażasz zgodę.\n2. Chociaż nie przechowujemy twoich obrazów, unikaj umieszczania na nich danych osobowych.\n3. Rozpoznawanie obrazu jest obecnie ograniczone do 10 tokenów miesięcznie (1 token = 1 obraz). Ten limit może ulec zmianie w przyszłości.",
   "ok": "OK",
   "takePhoto": "Zrób zdjęcie",
   "selectFromPhotos": "Wybierz ze zdjęć",
@@ -182,7 +191,7 @@
   "fillRequiredFields": "Wypełnij wszystkie wymagane pola.",
   "analyzing": "Analizowanie",
   "errorMessage": "Błąd",
-  "selectCoffeeBeans": "Wybierz kawę ziarnistą",
+  "selectCoffeeBeans": "Wybierz ziarna kawy",
   "addNewBeans": "Dodaj nową kawę",
   "favorite": "Ulubione",
   "notFavorite": "Nieulubione",
@@ -258,7 +267,7 @@
   "yearlyStatsErrorSharing": "Nie udało się udostępnić: {error}",
   "yearlyStatsShareProgressMyYear": "Mój rok z Timer.Coffee",
   "yearlyStatsShareProgressTop3Recipes": "Moje 3 najlepsze przepisy:",
-  "yearlyStatsShareProgressTop3Roasters": "Moi 3 najlepsi producenci:",
+  "yearlyStatsShareProgressTop3Roasters": "Moje 3 ulubione palarnie:",
   "yearlyStatsFailedToLike": "Nie udało się polubić. Spróbuj ponownie.",
   "yearlyStats25AppBarTitle": "Twój rok z Timer.Coffee – 2025",
   "yearlyStats25AppBarTitleSimple": "Timer.Coffee w 2025",
@@ -311,7 +320,7 @@
   "yearlyStats25CtaTitle": "Zaparzmy coś świetnego w 2026!",
   "yearlyStats25CtaSubtitle": "Oto kilka pomysłów:",
   "yearlyStats25CtaExplorePrefix": "Sprawdź oferty w ",
-  "yearlyStats25CtaGiftBox": "Świąteczne Pudełko Prezentowe",
+  "yearlyStats25CtaGiftBox": "Świąteczny zestaw prezentowy",
   "yearlyStats25CtaDonate": "Wpłać darowiznę",
   "yearlyStats25CtaDonateSuffix": " aby pomóc Timer.Coffee rozwijać się w nadchodzącym roku",
   "yearlyStats25CtaFollowPrefix": "Obserwuj nas na ",
@@ -338,7 +347,7 @@
   "labelTastedBeansBy": "Spróbowane ziarna od",
   "labelDiscoveredCoffeeFrom": "Odkryta kawa z",
   "labelUsedBrewingMethods": "Użyte",
-  "formattedRoasterCount": "{count} {count, plural, =1{producent} few{producentów} many{producentów} other{producentów}}",
+  "formattedRoasterCount": "{count} {count, plural, =1{palarnia} few{palarnie} many{palarni} other{palarnie}}",
   "formattedCountryCount": "{count} {count, plural, =1{kraj} few{kraje} many{krajów} other{krajów}}",
   "formattedBrewingMethodCount": "{count} {count, plural, =1{metoda parzenia} few{metody parzenia} many{metod parzenia} other{metod parzenia}}",
   "recipeCreationScreenEditRecipeTitle": "Edytuj przepis",
@@ -350,7 +359,7 @@
   "recipeCreationScreenCoffeeAmountLabel": "Ilość kawy (g)",
   "recipeCreationScreenWaterAmountLabel": "Ilość wody (ml)",
   "recipeCreationScreenWaterTempLabel": "Temperatura wody (°C)",
-  "recipeCreationScreenGrindSizeLabel": "Rozmiar mielenia",
+  "recipeCreationScreenGrindSizeLabel": "Stopień mielenia",
   "recipeCreationScreenTotalBrewTimeLabel": "Całkowity czas parzenia:",
   "recipeCreationScreenMinutesLabel": "Minuty",
   "recipeCreationScreenSecondsLabel": "Sekundy",
@@ -636,9 +645,9 @@
     "description": "Tekst przycisku do czyszczenia wszystkich aktywnych filtrów"
   },
   "farmer": "Rolnik",
-  "farm": "Farma kawy",
+  "farm": "Farma",
   "enterFarmer": "Wprowadź rolnika",
-  "enterFarm": "Wprowadź farmę kawy",
+  "enterFarm": "Wprowadź farmę",
   "requiredInformation": "Wymagane informacje",
   "basicDetails": "Podstawowe szczegóły",
   "qualityMeasurements": "Jakość i pomiary",
@@ -772,10 +781,12 @@
   "notificationsEnabled": "Włączone",
   "notificationsDisabled": "Wyłączone",
   "notificationPermissionDialogTitle": "Włączyć powiadomienia?",
-  "notificationPermissionDialogMessage": "Możesz włączyć powiadomienia, aby otrzymywać przydatne aktualizacje (np. o nowych wersjach aplikacji). Włącz teraz lub zmień to w dowolnym momencie w ustawieniach.",
+  "notificationPermissionDialogMessage": "Możesz włączyć powiadomienia, aby otrzymywać przydatne aktualizacje (np. o nowych wersjach aplikacji). Powiadomienia są też wymagane do aktualizacji postępu parzenia na żywo. Włącz teraz lub zmień to w dowolnym momencie w ustawieniach.",
+  "notificationPermissionDialogMessageIos": "Możesz włączyć powiadomienia, aby otrzymywać przydatne aktualizacje (np. o nowych wersjach aplikacji). Powiadomienia są też wymagane do Live Activities i Dynamic Island na iOS. Włącz teraz lub zmień to w dowolnym momencie w ustawieniach.",
+  "notificationPermissionDialogMessageAndroid": "Możesz włączyć powiadomienia, aby otrzymywać przydatne aktualizacje (np. o nowych wersjach aplikacji). Powiadomienia są też wymagane do Live Updates na Androidzie. Włącz teraz lub zmień to w dowolnym momencie w ustawieniach.",
   "notificationPermissionEnable": "Włącz",
   "notificationPermissionSkip": "Nie teraz",
-  "holidayGiftBoxTitle": "Świąteczne Pudełko Prezentowe",
+  "holidayGiftBoxTitle": "Świąteczny zestaw prezentowy",
   "holidayGiftBoxInfoTrigger": "Co to jest?",
   "holidayGiftBoxInfoBody": "Wyselekcjonowane oferty sezonowe od partnerów. Linki nie są afiliacyjne - chcemy po prostu sprawić trochę radości użytkownikom Timer.Coffee w te święta. Przeciągnij w dół, aby odświeżyć.",
   "holidayGiftBoxNoOffers": "Brak dostępnych ofert.",
@@ -862,9 +873,9 @@
   "relativeTimeMinutesAgo": "{count, plural, one{{count} minutę temu} few{{count} minuty temu} many{{count} minut temu} other{{count} minuty temu}}",
   "relativeTimeHoursAgo": "{count, plural, one{{count} godzinę temu} few{{count} godziny temu} many{{count} godzin temu} other{{count} godziny temu}}",
   "relativeTimeHoursMinutesAgo": "{hours, plural, one{{hours} godzinę} few{{hours} godziny} many{{hours} godzin} other{{hours} godziny}} i {minutes, plural, one{{minutes} minutę} few{{minutes} minuty} many{{minutes} minut} other{{minutes} minuty}} temu",
-  "relativeTimeDaysAgo": "{count, plural, one{{count} dzień temu} few{{count} dni temu} many{{count} dni temu} other{{count} dnia temu}}",
-  "relativeTimeMonthsAgo": "{count, plural, one{{count} miesiąc temu} few{{count} miesiące temu} many{{count} miesięcy temu} other{{count} miesiąca temu}}",
-  "relativeTimeYearsAgo": "{count, plural, one{{count} rok temu} few{{count} lata temu} many{{count} lat temu} other{{count} roku temu}}",
+  "relativeTimeDaysAgo": "{count, plural, one{{count} dzień temu} few{{count} dni temu} many{{count} dni temu} other{{count} dni temu}}",
+  "relativeTimeMonthsAgo": "{count, plural, one{{count} miesiąc temu} few{{count} miesiące temu} many{{count} miesięcy temu} other{{count} miesięcy temu}}",
+  "relativeTimeYearsAgo": "{count, plural, one{{count} rok temu} few{{count} lata temu} many{{count} lat temu} other{{count} lat temu}}",
   "pulseBrewsCount": "{count, plural, =1{1 parzenie} few{{count} parzenia} many{{count} parzeń} other{{count} parzenia}}",
   "@pulseBrewsCount": {
     "description": "Pluralized brew count for Pulse summary",
@@ -892,7 +903,7 @@
   "onboardingShowAll": "Pokaż wszystkie metody",
   "coffeeJourneyTitle": "Pierwsze kroki",
   "coffeeJourneyMilestoneFirstBrew": "Ukończ pierwsze parzenie",
-  "coffeeJourneyMilestoneTryMethod": "Wypróbuj inną metodę parzenia",
+  "coffeeJourneyMilestoneTryMethod": "Wypróbuj inny przepis",
   "coffeeJourneyMilestoneAddBeans": "Dodaj swoje pierwsze ziarna kawy",
   "coffeeJourneyMilestoneFavorite": "Dodaj przepis do ulubionych",
   "coffeeJourneyMilestoneStats": "Sprawdź statystyki parzenia",
@@ -909,7 +920,7 @@
   "beanCoverPhotoChange": "Zmień zdjęcie",
   "beanCoverPhotoRemove": "Usuń zdjęcie",
   "beanCoverPhotoSavePromptTitle": "Użyć jako zdjęcie okładkowe?",
-  "beanCoverPhotoSavePromptBody": "Czy chcesz zapisać jedno ze skanowanych obrazów jako zdjęcie okładkowe tego ziarna kawy?",
+  "beanCoverPhotoSavePromptBody": "Czy chcesz zapisać jedno ze zeskanowanych zdjęć jako zdjęcie okładkowe tych ziaren kawy?",
   "beanCoverPhotoUploading": "Przesyłanie zdjęcia…",
   "beanCoverPhotoError": "Nie udało się przesłać zdjęcia",
   "beanCoverPhotoSignInPrompt": "Zaloguj się, aby dodać zdjęcie okładkowe",
@@ -918,5 +929,101 @@
   "settingsAnalyticsBeans": "Udostępniaj statystyki ziaren",
   "settingsAnalyticsGeneral": "Udostępniaj ogólne statystyki użycia",
   "done": "Gotowe",
-  "saving": "Zapisywanie…"
+  "saving": "Zapisywanie…",
+
+  "notifBrewReminderTitle": "Tęsknisz za swoim kawowym rytuałem?",
+  "notifBrewReminderBody": "Minęło kilka dni. Masz ochotę na kolejną kawę?",
+  "notifBrewReminderTitle2": "Czas na kawę?",
+  "notifBrewReminderBody2": "Twój sprzęt czeka, kiedy tylko zechcesz.",
+  "notifBrewReminderTitle3": "Czajnik Cię woła",
+  "notifBrewReminderBody3": "Do dobrej filiżanki zostało tylko kilka minut.",
+  "notifBrewEscalationTitle": "Wracasz po kolejną kawę?",
+  "notifBrewEscalationBody": "Minęło trochę czasu. Masz ochotę przygotować coś dobrego?",
+  "notifBrewEscalationTitle2": "Minęło trochę czasu?",
+  "notifBrewEscalationBody2": "Bez pośpiechu. Twój sprzęt czeka, kiedy tylko zechcesz.",
+  "notifBrewEscalationTitle3": "Znów czas na kawę?",
+  "notifBrewEscalationBody3": "Naprawdę dobra filiżanka może być gotowa już za kilka minut.",
+
+  "notifDiscoverBeansTitle": "Śledź swoje ziarna",
+  "notifDiscoverBeansBody": "Zapisuj ziarna i pamiętaj te, które najbardziej Ci smakowały.",
+  "notifDiscoverPulseTitle": "Zobacz, co parzą inni",
+  "notifDiscoverPulseBody": "Otwórz Puls, aby zobaczyć parzenia na żywo z całego świata.",
+
+  "notifBrewMilestoneTitle": "Masz na koncie kolejny kamień milowy",
+  "notifBrewMilestoneBody": "{count, plural, one{Masz już {count} zaparzenie. Dotknij, aby zobaczyć postępy.} few{Masz już {count} zaparzenia. Dotknij, aby zobaczyć postępy.} many{Masz już {count} zaparzeń. Dotknij, aby zobaczyć postępy.} other{Masz już {count} zaparzenia. Dotknij, aby zobaczyć postępy.}}",
+  "@notifBrewMilestoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifExploreRecipesTitle": "Wypróbuj nowy przepis na {methodName}",
+  "@notifExploreRecipesTitle": {
+    "placeholders": {
+      "methodName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifExploreRecipesBody": "{count, plural, one{Dotąd wypróbowałeś {count} przepis. Oto kolejny do sprawdzenia.} few{Dotąd wypróbowałeś {count} przepisy. Oto kolejny do sprawdzenia.} many{Dotąd wypróbowałeś {count} przepisów. Oto kolejny do sprawdzenia.} other{Dotąd wypróbowałeś {count} przepisów. Oto kolejny do sprawdzenia.}}",
+  "@notifExploreRecipesBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifMorningTitle": "Dzień dobry. Czas na kawę?",
+  "notifMorningBody": "Zacznij dzień od dobrej filiżanki.",
+  "notifMorningTitle2": "Pobudka i parzenie",
+  "notifMorningBody2": "Poranna kawa może być gotowa w kilka minut.",
+  "notifMorningTitle3": "Pierwsza filiżanka dnia?",
+  "notifMorningBody3": "Wybierz przepis i zacznij parzyć.",
+  "notifWeeklyTitle": "{count, plural, one{{count} parzenie w tym tygodniu} few{{count} parzenia w tym tygodniu} many{{count} parzeń w tym tygodniu} other{{count} parzenia w tym tygodniu}}",
+  "@notifWeeklyTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifWeeklyBody": "{recipes, plural, =1{Dotknij, aby zobaczyć statystyki tygodnia.} other{W ramach {recipes} przepisów. Dotknij, aby zobaczyć szczegóły.}}",
+  "@notifWeeklyBody": {
+    "placeholders": {
+      "recipes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifBeanFreshnessTitle": "Czas na świeże ziarna?",
+  "notifBeanFreshnessBody": "Twoje ziarna {beanName} zostały wypalone {days, plural, one{{days} dzień temu} few{{days} dni temu} many{{days} dni temu} other{{days} dni temu}}. Mogą już nie być w szczytnej formie.",
+  "@notifBeanFreshnessBody": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "settingsNotificationsToggle": "Włącz powiadomienia",
+  "settingsMorningReminder": "Poranne przypomnienie o kawie",
+  "settingsMorningReminderSubtitle": "Codzienne przypomnienie o porannej kawie",
+  "settingsMorningReminderTime": "Godzina przypomnienia",
+  "settingsWeeklySummary": "Podsumowanie tygodnia",
+  "settingsWeeklySummarySubtitle": "Niedzielne wieczorne podsumowanie Twoich parzeń",
+  "settingsBeanFreshness": "Alerty świeżości ziaren",
+  "settingsBeanFreshnessSubtitle": "Powiadamiaj, gdy od daty palenia miną ponad 3 tygodnie",
+  "daysAgo": "{count, plural, one{1 dzień temu} few{{count} dni temu} many{{count} dni temu} other{{count} dni temu}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

@@ -11,11 +11,11 @@
   "userRecipesSnackbarDeleted": "Tarif silindi",
   "hubUserRecipesTitle": "Tariflerin",
   "hubUserRecipesSubtitle": "Oluşturduğun ve içe aktardığın tarifleri görüntüle ve yönet",
-  "hubAccountSubtitle": "Profilinizi yönetin",
-  "hubSignInCreateSubtitle": "Tarifleri ve tercihleri senkronize etmek için oturum açın",
-  "hubBrewDiarySubtitle": "Demleme geçmişinizi görüntüleyin ve not ekleyin",
-  "hubBrewStatsSubtitle": "Kişisel ve küresel demleme istatistiklerini ve trendlerini görüntüleyin",
-  "hubSettingsSubtitle": "Uygulama tercihlerini ve davranışını değiştirin",
+  "hubAccountSubtitle": "Profilini yönet",
+  "hubSignInCreateSubtitle": "Tarifleri ve tercihleri senkronize etmek için oturum aç",
+  "hubBrewDiarySubtitle": "Demleme geçmişini görüntüle ve not ekle",
+  "hubBrewStatsSubtitle": "Kişisel ve küresel demleme istatistiklerini ve trendlerini görüntüle",
+  "hubSettingsSubtitle": "Uygulama tercihlerini ve davranışını değiştir",
   "hubAboutSubtitle": "Uygulama detayları, sürüm ve katkıda bulunanlar",
   "lastrecipe": "En Son Kullanılan Tarif:",
   "about": "Hakkında",
@@ -35,7 +35,7 @@
   "coffeeamount": "Kahve Miktarı (g)",
   "wateramount": "Su Miktarı (ml)",
   "watertemp": "Su Sıcaklığı",
-  "grindsize": "Öğütme derecesi",
+  "grindsize": "Öğütme boyutu",
   "brewtime": "Demleme Süresi",
   "recipesummary": "Tarif Özeti",
   "recipesummarynote": "Not: Bu, varsayılan su ve kahve miktarlarıyla temel bir tariftir.",
@@ -61,10 +61,19 @@
   "finishbrew": "Bitir",
   "settings": "Ayarlar",
   "settingstheme": "Tema",
-  "settingsthemelight": "Aydınlık",
-  "settingsthemedark": "Karanlık",
+  "settingsthemelight": "Açık",
+  "settingsthemedark": "Koyu",
   "settingsthemesystem": "Sistem",
   "settingslang": "Dil",
+  "settingsDateTimeFormat": "Tarih ve saat biçimi",
+  "settingsDateFormatLabel": "Tarih biçimi",
+  "settingsTimeFormatLabel": "Saat biçimi",
+  "settingsDateFormatAuto": "Otomatik (dille eşleşir)",
+  "settingsDateFormatDMY": "GG/AA/YYYY",
+  "settingsDateFormatMDY": "AA/GG/YYYY",
+  "settingsDateFormatYMD": "YYYY-AA-GG",
+  "settingsTimeFormat12h": "12 saat (AM/PM)",
+  "settingsTimeFormat24h": "24 saat",
   "sweet": "Tatlı",
   "balance": "Denge",
   "acidic": "Asidik",
@@ -75,7 +84,7 @@
   "whatsnewclose": "Kapat",
   "seasonspecials": "Mevsim Özel",
   "snow": "Kar",
-  "noFavoriteRecipesMessage": "Favori tarifler listeniz şu anda boş. Keşfetmeye ve demlemeye başlayarak favorilerinizi keşfedin!",
+  "noFavoriteRecipesMessage": "Favori tarifler listen şu anda boş. Keşfetmeye ve demlemeye başlayarak favorilerini keşfet!",
   "explore": "Keşfet",
   "dateFormat": "d MMM yyyy",
   "timeFormat": "HH:mm",
@@ -122,8 +131,8 @@
   "basicInformation": "Temel bilgiler",
   "geographyTerroir": "Coğrafya/Terroir",
   "variety": "Çeşit",
-  "region": "Kuzey Amerika",
-  "elevation": "Yükseklik",
+  "region": "Bölge",
+  "elevation": "Rakım",
   "harvestDate": "Hasat Tarihi",
   "processing": "İşleme",
   "processingMethod": "İşleme Yöntemi",
@@ -131,27 +140,27 @@
   "roastLevel": "Kavurma Derecesi",
   "cuppingScore": "Cupping Puanı",
   "flavorProfile": "Lezzet Profili",
-  "tastingNotes": "Tat Alma Notları",
+  "tastingNotes": "Tadım Notları",
   "additionalNotes": "Ek Notlar",
   "noCoffeeBeans": "Kahve çekirdeği bulunamadı",
   "editCoffeeBeans": "Kahve Çekirdeklerini Düzenle",
   "addCoffeeBeans": "Kahve Çekirdeği Ekle",
-  "showImagePicker": "Görüntü Seçiciyi Göster",
+  "showImagePicker": "Görsel Seçiciyi Göster",
   "pleaseNote": "Lütfen dikkat",
-  "firstTimePopupMessage": "1. Görüntüleri işlemek için harici hizmetler kullanıyoruz. Devam ederek, bunu kabul etmiş olursunuz.\n2. Görüntülerinizi saklamasak da, lütfen herhangi bir kişisel ayrıntı eklemekten kaçının.\n3. Görüntü tanıma şu anda ayda 10 belirteçle sınırlıdır (1 belirteç = 1 görüntü). Bu sınır gelecekte değişebilir.",
+  "firstTimePopupMessage": "1. Görselleri işlemek için harici hizmetler kullanıyoruz. Devam ederek, bunu kabul etmiş olursun.\n2. Görsellerinizi saklamasak da, lütfen herhangi bir kişisel ayrıntı eklemekten kaçın.\n3. Görsel tanıma şu anda ayda 10 belirteçle sınırlıdır (1 belirteç = 1 görsel). Bu sınır gelecekte değişebilir.",
   "ok": "Tamam",
   "takePhoto": "Fotoğraf çek",
   "selectFromPhotos": "Fotoğraflardan seç",
   "takeAdditionalPhoto": "Ek fotoğraf çekilsin mi?",
   "no": "Hayır",
   "yes": "Evet",
-  "selectedImages": "Seçilen Görüntüler",
-  "selectedImage": "Seçilen Görüntü",
+  "selectedImages": "Seçilen Görseller",
+  "selectedImage": "Seçilen Görsel",
   "backToSelection": "Seçime Geri Dön",
   "next": "Sonraki",
   "unexpectedErrorOccurred": "Beklenmeyen bir hata oluştu",
-  "tokenLimitReached": "Üzgünüz, bu ay için görüntü tanıma belirteç sınırınıza ulaştınız",
-  "noCoffeeLabelsDetected": "Kahve etiketi algılanmadı. Başka bir görüntüyle deneyin.",
+  "tokenLimitReached": "Üzgünüz, bu ay için görsel tanıma belirteç sınırınıza ulaştınız",
+  "noCoffeeLabelsDetected": "Kahve etiketi algılanmadı. Başka bir görselle deneyin.",
   "collectedInformation": "Toplanan Bilgiler",
   "enterRoaster": "Kavurucu girin",
   "enterName": "İsim girin",
@@ -161,8 +170,8 @@
   "enterProcessingMethod": "İşleme yöntemini girin",
   "enterRoastLevel": "Kavurma derecesini girin",
   "enterRegion": "Bölge girin",
-  "enterTastingNotes": "Tatma notlarını girin",
-  "enterElevation": "Yükseklik girin",
+  "enterTastingNotes": "Tadım notlarını girin",
+  "enterElevation": "Rakım girin",
   "enterCuppingScore": "Cupping puanını girin",
   "enterNotes": "Notları girin",
   "selectHarvestDate": "Hasat Tarihini Seçin",
@@ -180,14 +189,14 @@
   "myBeans": "Çekirdeklerim",
   "signIn": "Giriş",
   "signOut": "Çıkış",
-  "signInWithApple": "Apple ile oturum açın",
+  "signInWithApple": "Apple ile oturum aç",
   "signInSuccessful": "Apple ile oturum açma başarılı",
   "signInError": "Apple ile oturum açma hatası",
   "signInErrorGoogle": "Google ile oturum açma hatası",
-  "signInWithGoogle": "Google ile oturum açın",
+  "signInWithGoogle": "Google ile oturum aç",
   "signOutSuccessful": "Oturum başarıyla kapatıldı",
-  "signOutConfirmationTitle": "Çıkış yapmak istediğinizden emin misiniz?",
-  "signOutConfirmationMessage": "Bulut senkronizasyonu duracak. Devam etmek için yeniden oturum açın.",
+  "signOutConfirmationTitle": "Çıkış yapmak istediğinden emin misin?",
+  "signOutConfirmationMessage": "Bulut senkronizasyonu duracak. Devam etmek için yeniden oturum aç.",
   "signInSuccessfulGoogle": "Google ile başarılı bir şekilde oturum açıldı",
   "signInWithEmail": "E-posta ile Oturum Aç",
   "enterEmail": "E-postanızı girin",
@@ -210,10 +219,10 @@
   "signInCreate": "Oturum Aç / Hesap Oluştur",
   "accountManagement": "Hesap Yönetimi",
   "deleteAccount": "Hesabı Sil",
-  "deleteAccountWarning": "Lütfen dikkat: Devam etmeyi seçerseniz, hesabınızı ve ilgili verileri sunucularımızdan sileceğiz. Verilerin yerel kopyası cihazda kalacaktır, eğer onu da silmek istiyorsanız, uygulamayı silebilirsiniz. Senkronizasyonu yeniden etkinleştirmek için, tekrar hesap oluşturmanız gerekecek",
+  "deleteAccountWarning": "Lütfen dikkat: Devam etmeyi seçersen, hesabını ve ilgili verileri sunucularımızdan sileceğiz. Verilerin yerel kopyası cihazda kalacaktır, eğer onu da silmek istiyorsan, uygulamayı silebilirsin. Senkronizasyonu yeniden etkinleştirmek için, tekrar hesap oluşturman gerekecek",
   "deleteAccountConfirmation": "Hesap başarıyla silindi",
   "accountDeleted": "Hesap silindi",
-  "accountDeletionError": "Hesabınızı silerken hata oluştu, lütfen tekrar deneyin",
+  "accountDeletionError": "Hesabını silerken hata oluştu, lütfen tekrar dene",
   "deleteAccountTitle": "Önemli",
   "selectBeans": "Çekirdekleri Seçin",
   "all": "Tümü",
@@ -440,7 +449,7 @@
   "recipeCopyErrorOperationFailed": "İşlem başarısız oldu.",
   "notProvided": "Sağlanmadı",
   "recipeUpdateAvailableTitle": "Güncelleme Mevcut",
-  "recipeUpdateAvailableBody": "'{recipeName}' uygulamasının daha yeni bir sürümü çevrimiçi olarak kullanılabilir. Güncellensin mi?",
+  "recipeUpdateAvailableBody": "'{recipeName}' tarifinin daha yeni bir sürümü çevrimiçi olarak kullanılabilir. Güncellensin mi?",
   "@recipeUpdateAvailableBody": {
     "description": "Güncelleme onay iletişim kutusu için gövde metni",
     "placeholders": {
@@ -479,7 +488,7 @@
   "dismiss": "Kapat",
   "reviewRecipeButton": "Tarifi İncele",
   "signInRequiredTitle": "Oturum Açma Gerekli",
-  "signInRequiredBodyShare": "Kendi tariflerinizi paylaşmak için oturum açmanız gerekiyor.",
+  "signInRequiredBodyShare": "Kendi tariflerini paylaşmak için oturum açman gerekiyor.",
   "syncSuccess": "Senkronizasyon başarılı!",
   "tooltipEditRecipe": "Tarifi Düzenle",
   "tooltipCopyRecipe": "Tarifi Kopyala",
@@ -539,14 +548,14 @@
   "recipeNotFoundCloud": "Tarif bulutta bulunamadı veya herkese açık değil.",
   "recipeLoadErrorGeneric": "Tarif yüklenirken hata oluştu.",
   "editImportedRecipeTitle": "İçe Aktarılan Tarifi Düzenle",
-  "editImportedRecipeBody": "Bu içe aktarılmış bir tariftir. Düzenlemek yeni, bağımsız bir kopya oluşturacaktır. Devam etmek istiyor musunuz?",
+  "editImportedRecipeBody": "Bu içe aktarılmış bir tariftir. Düzenlemek yeni, bağımsız bir kopya oluşturacaktır. Devam etmek istiyor musun?",
   "editImportedRecipeButtonCopy": "Kopya Oluştur ve Düzenle",
   "editImportedRecipeButtonCancel": "İptal",
   "editDisplayNameTitle": "Görünen Adı Düzenle",
   "displayNameHint": "Görünen adınızı girin",
   "displayNameEmptyError": "Görünen ad boş olamaz",
   "displayNameTooLongError": "Görünen ad 50 karakteri geçemez",
-  "errorUserNotLoggedIn": "Kullanıcı giriş yapmadı. Lütfen tekrar giriş yapın.",
+  "errorUserNotLoggedIn": "Kullanıcı giriş yapmadı. Lütfen tekrar giriş yap.",
   "displayNameUpdateSuccess": "Görünen ad başarıyla güncellendi!",
   "displayNameUpdateError": "Görünen ad güncellenemedi: {error}",
   "@displayNameUpdateError": {
@@ -559,7 +568,7 @@
     }
   },
   "deletePictureConfirmationTitle": "Resmi Sil?",
-  "deletePictureConfirmationBody": "Profil resminizi silmek istediğinizden emin misiniz?",
+  "deletePictureConfirmationBody": "Profil resmini silmek istediğinden emin misin?",
   "deletePictureSuccess": "Profil resmi silindi.",
   "deletePictureError": "Profil resmi silinemedi: {error}",
   "@deletePictureError": {
@@ -587,8 +596,8 @@
   "account": "Hesap",
   "confirmDeleteTitle": "Girdiyi sil?",
   "recipeDuplicateConfirmTitle": "Tarifi çoğalt?",
-  "recipeDuplicateConfirmMessage": "Bu, tarifinizin bağımsız olarak düzenleyebileceğiniz bir kopyasını oluşturacak. Devam etmek istiyor musunuz?",
-  "confirmDeleteMessage": "Bu girdiyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  "recipeDuplicateConfirmMessage": "Bu, tarifinin bağımsız olarak düzenleyebileceğin bir kopyasını oluşturacak. Devam etmek istiyor musun?",
+  "confirmDeleteMessage": "Bu girdiyi silmek istediğinden emin misin? Bu işlem geri alınamaz.",
   "filter": "Filtre",
   "secondsAbbreviation": "sn",
   "settingsAppIcon": "Uygulama Simgesi",
@@ -638,7 +647,7 @@
   "totalBeansBrewedLabel": "Toplam kullanılan çekirdek",
   "newBeansTriedLabel": "Denenen yeni çekirdekler",
   "originsExploredLabel": "Keşfedilen menşeler",
-  "regionsExploredLabel": "Avrupa",
+  "regionsExploredLabel": "Keşfedilen bölgeler",
   "newRoastersDiscoveredLabel": "Keşfedilen yeni kavurucular",
   "favoriteRoastersLabel": "Favori kahve kavurucuları",
   "topOriginsLabel": "Önde gelen menşeler",
@@ -714,7 +723,7 @@
   "requiredInfoSubtitle": "* Zorunlu",
   "inventoryWeightExample": "örn. 250.5",
   "unsavedChangesTitle": "Kaydedilmemiş Değişiklikler",
-  "unsavedChangesMessage": "Kaydedilmemiş değişiklikleriniz var. Onları silmek istediğinizden emin misiniz?",
+  "unsavedChangesMessage": "Kaydedilmemiş değişiklikleriniz var. Onları silmek istediğinden emin misin?",
   "unsavedChangesStay": "Kal",
   "unsavedChangesDiscard": "Sil",
   "beansWeightAddedBack": "{amount}{unit} {beanName}'e geri eklendi. Yeni ağırlık: {newWeight}{unit}",
@@ -766,13 +775,15 @@
   "openSettings": "Ayarları aç",
   "couldNotOpenLink": "Bağlantı açılamadı",
   "notificationsDisabledDialogTitle": "Bildirimler sistem ayarlarında devre dışı",
-  "notificationsDisabledDialogContent": "Bildirimleri cihaz ayarlarınızda devre dışı bıraktınız. Bildirimleri etkinleştirmek için lütfen cihaz ayarlarınızı açın ve Timer.Coffee için bildirimlere izin verin.",
+  "notificationsDisabledDialogContent": "Bildirimleri cihaz ayarlarında devre dışı bıraktın. Bildirimleri etkinleştirmek için lütfen cihaz ayarlarını aç ve Timer.Coffee için bildirimlere izin ver.",
   "notificationDebug": "Bildirim hata ayıklama",
   "testNotificationSystem": "Bildirim sistemini test et",
   "notificationsEnabled": "Etkin",
   "notificationsDisabled": "Devre dışı",
   "notificationPermissionDialogTitle": "Bildirimler Etkinleştirilsin mi?",
-  "notificationPermissionDialogMessage": "Yararlı güncellemeleri (örneğin, yeni uygulama sürümleri hakkında) almak için bildirimleri etkinleştirebilirsiniz. Şimdi etkinleştirin veya bu ayarı istediğiniz zaman ayarlardan değiştirin.",
+  "notificationPermissionDialogMessage": "Yararlı güncellemeleri (örneğin, yeni uygulama sürümleri hakkında) almak için bildirimleri etkinleştirebilirsin. Bildirimler ayrıca demleme ilerlemesini canlı olarak göstermek için gereklidir. Şimdi etkinleştir veya bu ayarı istediğiniz zaman ayarlardan değiştir.",
+  "notificationPermissionDialogMessageIos": "Yararlı güncellemeleri (örneğin, yeni uygulama sürümleri hakkında) almak için bildirimleri etkinleştirebilirsin. Bildirimler ayrıca iOS'ta Live Activities ve Dynamic Island için gereklidir. Şimdi etkinleştir veya bu ayarı istediğiniz zaman ayarlardan değiştir.",
+  "notificationPermissionDialogMessageAndroid": "Yararlı güncellemeleri (örneğin, yeni uygulama sürümleri hakkında) almak için bildirimleri etkinleştirebilirsin. Bildirimler ayrıca Android'de Live Updates için gereklidir. Şimdi etkinleştir veya bu ayarı istediğiniz zaman ayarlardan değiştir.",
   "notificationPermissionEnable": "Etkinleştir",
   "notificationPermissionSkip": "Şimdi Değil",
   "holidayGiftBoxTitle": "Tatil Hediye Kutusu",
@@ -842,7 +853,7 @@
   "regionSouthAmerica": "Güney Amerika",
   "setToZeroButton": "Sıfırla",
   "setToZeroDialogTitle": "Stok sıfırlansın mı?",
-  "setToZeroDialogBody": "Bu, kalan miktarı 0 g olarak ayarlar. Daha sonra düzenleyebilirsiniz.",
+  "setToZeroDialogBody": "Bu, kalan miktarı 0 g olarak ayarlar. Daha sonra düzenleyebilirsin.",
   "setToZeroDialogConfirm": "Sıfırla",
   "setToZeroDialogCancel": "İptal",
   "inventorySetToZeroSuccess": "Stok 0 g olarak ayarlandı",
@@ -892,7 +903,7 @@
   "onboardingShowAll": "Tüm yöntemleri göster",
   "coffeeJourneyTitle": "İlk Adımlar",
   "coffeeJourneyMilestoneFirstBrew": "İlk demlemenizi tamamlayın",
-  "coffeeJourneyMilestoneTryMethod": "Farklı bir demleme yöntemi deneyin",
+  "coffeeJourneyMilestoneTryMethod": "Başka bir tarif deneyin",
   "coffeeJourneyMilestoneAddBeans": "İlk kahve çekirdeklerinizi ekleyin",
   "coffeeJourneyMilestoneFavorite": "Bir tarifi favorilere ekleyin",
   "coffeeJourneyMilestoneStats": "Demleme istatistiklerinize göz atın",
@@ -900,7 +911,7 @@
   "coffeeJourneyCompleted": "İlk adımları tamamladınız!",
   "coffeeJourneyDoneButton": "Tamam",
   "coffeeJourneyDismissHint": "İlerlemenizi her zaman Daha Fazla sekmesinde kontrol edebilirsiniz.",
-  "coffeeJourneyDismissConfirm": "İlk Adımlar bölümündeki ilerlemenizi gizlemek ister misiniz?",
+  "coffeeJourneyDismissConfirm": "İlk Adımlar bölümündeki ilerlemenizi gizlemek ister misin?",
   "coffeeJourneyHideButton": "Gizle",
   "firstBrewCongrats": "İlk demlemeniz için tebrikler! Demleme Günlüğü'ne kaydedildi.",
   "firstBrewDiaryLink": "Demleme Günlüğü'nü görüntüle",
@@ -909,14 +920,110 @@
   "beanCoverPhotoChange": "Fotoğrafı değiştir",
   "beanCoverPhotoRemove": "Fotoğrafı kaldır",
   "beanCoverPhotoSavePromptTitle": "Kapak fotoğrafı olarak kullanılsın mı?",
-  "beanCoverPhotoSavePromptBody": "Taranan görüntülerden birini bu çekirdeğin kapak fotoğrafı olarak kaydetmek ister misiniz?",
+  "beanCoverPhotoSavePromptBody": "Taranan görsellerden birini bu çekirdeğin kapak fotoğrafı olarak kaydetmek ister misin?",
   "beanCoverPhotoUploading": "Fotoğraf yükleniyor…",
   "beanCoverPhotoError": "Fotoğraf yüklenemedi",
-  "beanCoverPhotoSignInPrompt": "Kapak fotoğrafı eklemek için oturum açın",
+  "beanCoverPhotoSignInPrompt": "Kapak fotoğrafı eklemek için oturum aç",
   "settingsAnalyticsTitle": "Gizlilik ve analizler",
   "settingsAnalyticsBrews": "Demleme analizlerini paylaş",
   "settingsAnalyticsBeans": "Çekirdek analizlerini paylaş",
   "settingsAnalyticsGeneral": "Genel kullanım analizlerini paylaş",
   "done": "Tamam",
-  "saving": "Kaydediliyor…"
+  "saving": "Kaydediliyor…",
+
+  "notifBrewReminderTitle": "Kahve ritüelini özledin mi?",
+  "notifBrewReminderBody": "Birkaç gün oldu. Yeni bir demleme ister misin?",
+  "notifBrewReminderTitle2": "Demleme zamanı?",
+  "notifBrewReminderBody2": "Kurulumun hazır, ne zaman istersen.",
+  "notifBrewReminderTitle3": "Su ısıtıcın seni çağırıyor",
+  "notifBrewReminderBody3": "İyi bir fincan sadece birkaç dakika uzağında.",
+  "notifBrewEscalationTitle": "Bir demleme daha mı?",
+  "notifBrewEscalationBody": "Bir süre oldu. Güzel bir şey demlemeye hazır mısın?",
+  "notifBrewEscalationTitle2": "Bir süre oldu mu?",
+  "notifBrewEscalationBody2": "Acele yok. Kurulumun hazır, ne zaman istersen.",
+  "notifBrewEscalationTitle3": "Yine kahve zamanı mı?",
+  "notifBrewEscalationBody3": "Gerçekten iyi bir fincan sadece birkaç dakikada hazır olabilir.",
+
+  "notifDiscoverBeansTitle": "Çekirdeklerini takip et",
+  "notifDiscoverBeansBody": "Çekirdeklerini kaydet ve en sevdiklerini hatırla.",
+  "notifDiscoverPulseTitle": "Başkalarının ne demlediğini gör",
+  "notifDiscoverPulseBody": "Dünyanın dört bir yanından canlı demlemeleri görmek için Nabız'ı aç.",
+
+  "notifBrewMilestoneTitle": "Yeni bir dönüm noktası",
+  "notifBrewMilestoneBody": "Toplam {count} kez demleme yaptın. İlerlemeni görmek için dokun.",
+  "@notifBrewMilestoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifExploreRecipesTitle": "{methodName} için yeni bir tarif dene",
+  "@notifExploreRecipesTitle": {
+    "placeholders": {
+      "methodName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifExploreRecipesBody": "{count, plural, =1{Şimdiye kadar 1 tarif denedin. İşte denemen için bir tane daha.} other{Şimdiye kadar {count} tarif denedin. İşte denemen için bir tane daha.}}",
+  "@notifExploreRecipesBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifMorningTitle": "Günaydın. Demlemeye hazır mısın?",
+  "notifMorningBody": "Güne iyi bir fincanla başla.",
+  "notifMorningTitle2": "Uyan ve demle",
+  "notifMorningBody2": "Sabah kahven birkaç dakika içinde hazır olabilir.",
+  "notifMorningTitle3": "Günün ilk fincanı?",
+  "notifMorningBody3": "Bir tarif seç ve demlemeye başla.",
+  "notifWeeklyTitle": "{count, plural, =1{Bu hafta 1 demleme} other{Bu hafta {count} demleme}}",
+  "@notifWeeklyTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifWeeklyBody": "{recipes, plural, =1{Haftalık istatistiklerini görmek için dokun.} other{Bu hafta {recipes} tarif kullandın. Ayrıntıları görmek için dokun.}}",
+  "@notifWeeklyBody": {
+    "placeholders": {
+      "recipes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifBeanFreshnessTitle": "Taze çekirdek zamanı mı?",
+  "notifBeanFreshnessBody": "{beanName} {days} gün önce kavruldu. En iyi dönemini geçmiş olabilir.",
+  "@notifBeanFreshnessBody": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "settingsNotificationsToggle": "Bildirimleri etkinleştir",
+  "settingsMorningReminder": "Sabah demleme hatırlatıcısı",
+  "settingsMorningReminderSubtitle": "Sabah kahven için günlük hatırlatıcı",
+  "settingsMorningReminderTime": "Hatırlatma saati",
+  "settingsWeeklySummary": "Haftalık özet",
+  "settingsWeeklySummarySubtitle": "Pazar akşamı demlemelerinin özeti",
+  "settingsBeanFreshness": "Çekirdek tazelik uyarıları",
+  "settingsBeanFreshnessSubtitle": "Kavrulma tarihinin üzerinden 3 haftadan fazla geçtiğinde bildir",
+  "daysAgo": "{count, plural, one{1 gün önce} other{{count} gün önce}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

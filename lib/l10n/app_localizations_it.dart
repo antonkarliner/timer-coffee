@@ -21,7 +21,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get originsExploredLabel => 'Origini esplorate';
 
   @override
-  String get regionsExploredLabel => 'Europa';
+  String get regionsExploredLabel => 'Regioni esplorate';
 
   @override
   String get newRoastersDiscoveredLabel => 'Nuovi tostatori scoperti';
@@ -36,7 +36,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get topRegionsLabel => 'Regioni principali';
 
   @override
-  String get lastrecipe => 'Ricetta Utilizzata Più di Recente:';
+  String get lastrecipe => 'Ultima ricetta usata:';
 
   @override
   String get userRecipesTitle => 'Le tue ricette';
@@ -123,10 +123,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get licensebutton => 'Leggi la GNU General Public License v3';
 
   @override
-  String get website => 'Sito Web';
+  String get website => 'Sito web';
 
   @override
-  String get sourcecode => 'Codice Sorgente';
+  String get sourcecode => 'Codice sorgente';
 
   @override
   String get support => 'Offrimi un caffè';
@@ -135,10 +135,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get supportButtonLabel => 'Supporto';
 
   @override
-  String get allrecipes => 'Tutte le Ricette';
+  String get allrecipes => 'Tutte le ricette';
 
   @override
-  String get favoriterecipes => 'Ricette Preferite';
+  String get favoriterecipes => 'Ricette preferite';
 
   @override
   String get coffeeamount => 'Quantità di caffè (g)';
@@ -147,16 +147,16 @@ class AppLocalizationsIt extends AppLocalizations {
   String get wateramount => 'Quantità di acqua (ml)';
 
   @override
-  String get watertemp => 'Temperatura dell\'Acqua';
+  String get watertemp => 'Temperatura dell\'acqua';
 
   @override
   String get grindsize => 'Grado di macinatura';
 
   @override
-  String get brewtime => 'Tempo di Infusione';
+  String get brewtime => 'Tempo di preparazione';
 
   @override
-  String get recipesummary => 'Sommario della Ricetta';
+  String get recipesummary => 'Riepilogo della ricetta';
 
   @override
   String get recipesummarynote =>
@@ -166,7 +166,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get preparation => 'Preparazione';
 
   @override
-  String get brewingprocess => 'Processo di Infusione';
+  String get brewingprocess => 'Procedimento';
 
   @override
   String get step => 'Passaggio';
@@ -194,7 +194,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get home => 'Home';
 
   @override
-  String get appversion => 'Versione dell\'App';
+  String get appversion => 'Versione dell\'app';
 
   @override
   String get tipsmall => 'Offri un caffè piccolo';
@@ -252,6 +252,33 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get settingslang => 'Lingua';
+
+  @override
+  String get settingsDateTimeFormat => 'Formato data e ora';
+
+  @override
+  String get settingsDateFormatLabel => 'Formato data';
+
+  @override
+  String get settingsTimeFormatLabel => 'Formato ora';
+
+  @override
+  String get settingsDateFormatAuto => 'Automatico (in base alla lingua)';
+
+  @override
+  String get settingsDateFormatDMY => 'GG/MM/AAAA';
+
+  @override
+  String get settingsDateFormatMDY => 'MM/GG/AAAA';
+
+  @override
+  String get settingsDateFormatYMD => 'AAAA-MM-GG';
+
+  @override
+  String get settingsTimeFormat12h => '12 ore (AM/PM)';
+
+  @override
+  String get settingsTimeFormat24h => '24 ore';
 
   @override
   String get sweet => 'Dolce';
@@ -361,7 +388,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String pulseSomeoneFromBrewed(String country, String recipeName) {
-    return 'Qualcuno da $country ha preparato $recipeName';
+    return 'Qualcuno ha preparato $recipeName ($country)';
   }
 
   @override
@@ -409,7 +436,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get timePeriodOlder => 'Meno recente';
 
   @override
-  String get timePeriodCustom => 'Personalizza';
+  String get timePeriodCustom => 'Personalizzato';
 
   @override
   String get relativeTimeJustNow => 'proprio ora';
@@ -567,7 +594,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get variety => 'Varietà';
 
   @override
-  String get region => 'Nord America';
+  String get region => 'Regione';
 
   @override
   String get elevation => 'Altitudine';
@@ -782,7 +809,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Accesso effettuato correttamente con Google';
 
   @override
-  String get signInWithEmail => 'Accedi con Email';
+  String get signInWithEmail => 'Accedi con email';
 
   @override
   String get enterEmail => 'Inserisci la tua email';
@@ -794,14 +821,14 @@ class AppLocalizationsIt extends AppLocalizations {
   String get cancel => 'Annulla';
 
   @override
-  String get sendMagicLink => 'Invia Magic Link';
+  String get sendMagicLink => 'Invia link di accesso';
 
   @override
   String get magicLinkSent =>
-      'Magic link inviato! Controlla la tua casella di posta.';
+      'Link di accesso inviato. Controlla la tua email.';
 
   @override
-  String get sendOTP => 'Invia OTP';
+  String get sendOTP => 'Invia codice OTP';
 
   @override
   String get otpSent => 'OTP inviato all\'indirizzo email specificato';
@@ -810,7 +837,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get otpSendError => 'Errore durante l\'invio dell\'OTP';
 
   @override
-  String get enterOTP => 'Inserisci OTP';
+  String get enterOTP => 'Inserisci il codice OTP';
 
   @override
   String get otpHint => 'Inserisci il codice a 6 cifre';
@@ -914,13 +941,13 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return 'Hai usato chicchi di $roasterCount torrefazioni';
   }
 
   @override
   String yearlyStatsStory4Top3Roasters(Object top3) {
-    return 'Le tue 3 torrefazioni migliori sono state:\n$top3';
+    return 'Le 3 torrefazioni che hai usato di più sono:\n$top3';
   }
 
   @override
@@ -929,7 +956,7 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'Hai assaggiato chicchi di caffè\ndi $originCount paesi!';
   }
 
@@ -941,17 +968,17 @@ class AppLocalizationsIt extends AppLocalizations {
       '...ma con utenti di altri 110\npaesi in 6 continenti!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return 'Sei rimasto fedele a te stesso e quest\'anno hai utilizzato solo questi $count metodi di preparazione:';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return 'Stavi scoprendo nuovi gusti e quest\'anno hai utilizzato $count metodi di preparazione:';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return 'Eri un vero scopritore di caffè e quest\'anno hai utilizzato $count metodi di preparazione:';
   }
 
@@ -994,7 +1021,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get yearlyStatsShareProgressTop3Roasters =>
-      'I miei 3 torrefattori migliori:';
+      'Le 3 torrefazioni che ho usato di più:';
 
   @override
   String get yearlyStats25AppBarTitle => 'Il tuo anno con Timer.Coffee – 2025';
@@ -1205,7 +1232,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get yearlyStats25CtaExplorePrefix => 'Esplora le offerte nel ';
 
   @override
-  String get yearlyStats25CtaGiftBox => 'Cofanetto Regalo Festivo';
+  String get yearlyStats25CtaGiftBox => 'Cofanetto regalo delle feste';
 
   @override
   String get yearlyStats25CtaDonate => 'Dona';
@@ -1295,21 +1322,21 @@ class AppLocalizationsIt extends AppLocalizations {
   String get labelCoffeeBrewed => 'Caffè preparato';
 
   @override
-  String get labelTastedBeansBy => 'Chicchi assaggiati da';
+  String get labelTastedBeansBy => 'Torrefazioni provate';
 
   @override
-  String get labelDiscoveredCoffeeFrom => 'Caffè scoperto da';
+  String get labelDiscoveredCoffeeFrom => 'Origini scoperte';
 
   @override
-  String get labelUsedBrewingMethods => 'Utilizzati';
+  String get labelUsedBrewingMethods => 'Metodi usati';
 
   @override
   String formattedRoasterCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'torrefattori',
-      one: 'torrefattore',
+      other: 'torrefazioni',
+      one: 'torrefazione',
     );
     return '$count $_temp0';
   }
@@ -1330,45 +1357,46 @@ class AppLocalizationsIt extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'metodi di infusione',
-      one: 'metodo di infusione',
+      other: 'metodi di preparazione',
+      one: 'metodo di preparazione',
     );
     return '$count $_temp0';
   }
 
   @override
-  String get recipeCreationScreenEditRecipeTitle => 'Modifica Ricetta';
+  String get recipeCreationScreenEditRecipeTitle => 'Modifica ricetta';
 
   @override
-  String get recipeCreationScreenCreateRecipeTitle => 'Crea Ricetta';
+  String get recipeCreationScreenCreateRecipeTitle => 'Crea ricetta';
 
   @override
-  String get recipeCreationScreenRecipeStepsTitle => 'Passaggi della Ricetta';
+  String get recipeCreationScreenRecipeStepsTitle => 'Passaggi della ricetta';
 
   @override
-  String get recipeCreationScreenRecipeNameLabel => 'Nome Ricetta';
+  String get recipeCreationScreenRecipeNameLabel => 'Nome ricetta';
 
   @override
-  String get recipeCreationScreenShortDescriptionLabel => 'Descrizione Breve';
+  String get recipeCreationScreenShortDescriptionLabel => 'Descrizione breve';
 
   @override
-  String get recipeCreationScreenBrewingMethodLabel => 'Metodo di Infusione';
+  String get recipeCreationScreenBrewingMethodLabel => 'Metodo di preparazione';
 
   @override
-  String get recipeCreationScreenCoffeeAmountLabel => 'Quantità Caffè (g)';
+  String get recipeCreationScreenCoffeeAmountLabel => 'Quantità caffè (g)';
 
   @override
-  String get recipeCreationScreenWaterAmountLabel => 'Quantità Acqua (ml)';
+  String get recipeCreationScreenWaterAmountLabel => 'Quantità acqua (ml)';
 
   @override
-  String get recipeCreationScreenWaterTempLabel => 'Temperatura Acqua (°C)';
+  String get recipeCreationScreenWaterTempLabel =>
+      'Temperatura dell\'acqua (°C)';
 
   @override
-  String get recipeCreationScreenGrindSizeLabel => 'Dimensione Macinatura';
+  String get recipeCreationScreenGrindSizeLabel => 'Grado di macinatura';
 
   @override
   String get recipeCreationScreenTotalBrewTimeLabel =>
-      'Tempo Totale Infusione:';
+      'Tempo totale di preparazione:';
 
   @override
   String get recipeCreationScreenMinutesLabel => 'Minuti';
@@ -1378,19 +1406,19 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get recipeCreationScreenPreparationStepTitle =>
-      'Passaggio di Preparazione';
+      'Passaggio di preparazione';
 
   @override
   String recipeCreationScreenBrewStepTitle(String stepOrder) {
-    return 'Passaggio di Infusione $stepOrder';
+    return 'Passaggio $stepOrder';
   }
 
   @override
   String get recipeCreationScreenStepDescriptionLabel =>
-      'Descrizione Passaggio';
+      'Descrizione del passaggio';
 
   @override
-  String get recipeCreationScreenStepTimeLabel => 'Tempo Passaggio: ';
+  String get recipeCreationScreenStepTimeLabel => 'Durata del passaggio: ';
 
   @override
   String get recipeCreationScreenRecipeNameValidator =>
@@ -1402,7 +1430,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get recipeCreationScreenBrewingMethodValidator =>
-      'Seleziona un metodo di infusione';
+      'Seleziona un metodo di preparazione';
 
   @override
   String get recipeCreationScreenRequiredValidator => 'Obbligatorio';
@@ -1416,13 +1444,13 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get recipeCreationScreenContinueButton =>
-      'Continua ai Passaggi della Ricetta';
+      'Continua ai passaggi della ricetta';
 
   @override
-  String get recipeCreationScreenAddStepButton => 'Aggiungi Passaggio';
+  String get recipeCreationScreenAddStepButton => 'Aggiungi passaggio';
 
   @override
-  String get recipeCreationScreenSaveRecipeButton => 'Salva Ricetta';
+  String get recipeCreationScreenSaveRecipeButton => 'Salva ricetta';
 
   @override
   String get recipeCreationScreenUpdateSuccess =>
@@ -1495,7 +1523,7 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String get unknownBrewingMethod => 'Metodo di estrazione sconosciuto';
+  String get unknownBrewingMethod => 'Metodo di preparazione sconosciuto';
 
   @override
   String get recipeCopyErrorLoadingEdit =>
@@ -1573,7 +1601,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get dismiss => 'Ignora';
 
   @override
-  String get reviewRecipeButton => 'Rivedi Ricetta';
+  String get reviewRecipeButton => 'Rivedi ricetta';
 
   @override
   String get signInRequiredTitle => 'Accesso richiesto';
@@ -1586,16 +1614,16 @@ class AppLocalizationsIt extends AppLocalizations {
   String get syncSuccess => 'Sincronizzazione riuscita!';
 
   @override
-  String get tooltipEditRecipe => 'Modifica Ricetta';
+  String get tooltipEditRecipe => 'Modifica ricetta';
 
   @override
-  String get tooltipCopyRecipe => 'Copia Ricetta';
+  String get tooltipCopyRecipe => 'Copia ricetta';
 
   @override
-  String get tooltipDuplicateRecipe => 'Duplica Ricetta';
+  String get tooltipDuplicateRecipe => 'Duplica ricetta';
 
   @override
-  String get tooltipShareRecipe => 'Condividi Ricetta';
+  String get tooltipShareRecipe => 'Condividi ricetta';
 
   @override
   String get signInRequiredSnackbar => 'Accesso richiesto';
@@ -1608,7 +1636,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get moderationReasonDefault => 'Contenuto segnalato per la revisione.';
 
   @override
-  String get moderationFailedTitle => 'Moderazione Fallita';
+  String get moderationFailedTitle => 'Moderazione fallita';
 
   @override
   String moderationFailedBody(String reason) {
@@ -1630,7 +1658,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Impossibile controllare lo stato del contenuto. Salvato localmente, verrà controllato alla prossima sincronizzazione.';
 
   @override
-  String get saveLocallyModerationFailedTitle => 'Modifiche Salvate Localmente';
+  String get saveLocallyModerationFailedTitle => 'Modifiche salvate in locale';
 
   @override
   String saveLocallyModerationFailedBody(String reason) {
@@ -1970,7 +1998,15 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      'Puoi abilitare le notifiche per ricevere aggiornamenti utili (es. su nuove versioni dell\'app). Abilita ora o modifica questa impostazione in qualsiasi momento nelle impostazioni.';
+      'Puoi abilitare le notifiche per ricevere aggiornamenti utili (es. su nuove versioni dell\'app). Le notifiche sono necessarie anche per gli aggiornamenti in tempo reale del progresso di preparazione. Abilita ora o modifica questa impostazione in qualsiasi momento nelle impostazioni.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'Puoi abilitare le notifiche per ricevere aggiornamenti utili (es. su nuove versioni dell\'app). Le notifiche sono necessarie anche per le Live Activities e Dynamic Island su iOS. Abilita ora o modifica questa impostazione in qualsiasi momento nelle impostazioni.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'Puoi abilitare le notifiche per ricevere aggiornamenti utili (es. su nuove versioni dell\'app). Le notifiche sono necessarie anche per Live Updates su Android. Abilita ora o modifica questa impostazione in qualsiasi momento nelle impostazioni.';
 
   @override
   String get notificationPermissionEnable => 'Abilita';
@@ -1979,7 +2015,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get notificationPermissionSkip => 'Non ora';
 
   @override
-  String get holidayGiftBoxTitle => 'Cofanetto Regalo Festivo';
+  String get holidayGiftBoxTitle => 'Cofanetto regalo delle feste';
 
   @override
   String get holidayGiftBoxInfoTrigger => 'Che cos’è?';
@@ -2067,7 +2103,8 @@ class AppLocalizationsIt extends AppLocalizations {
   String get holidayGiftBoxOfferUnavailable => 'Offerta non disponibile';
 
   @override
-  String get holidayGiftBoxBannerTitle => 'Scopri la nostra holiday gift box';
+  String get holidayGiftBoxBannerTitle =>
+      'Scopri il nostro cofanetto regalo delle feste';
 
   @override
   String get holidayGiftBoxBannerCta => 'Vedi le offerte';
@@ -2135,10 +2172,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get nativeAppPromoButton => 'Scarica l\'app';
 
   @override
-  String get addBrewEntry => 'Aggiungi registrazione infusione';
+  String get addBrewEntry => 'Aggiungi preparazione';
 
   @override
-  String get selectBrewingMethod => 'Seleziona metodo di infusione';
+  String get selectBrewingMethod => 'Seleziona metodo di preparazione';
 
   @override
   String get selectRecipe => 'Seleziona ricetta';
@@ -2150,10 +2187,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get brewTime => 'Ora';
 
   @override
-  String get brewEntrySaved => 'Registrazione infusione salvata';
+  String get brewEntrySaved => 'Preparazione salvata';
 
   @override
-  String get brewingMethodRequired => 'Seleziona un metodo di infusione';
+  String get brewingMethodRequired => 'Seleziona un metodo di preparazione';
 
   @override
   String get recipeRequired => 'Seleziona una ricetta';
@@ -2165,7 +2202,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get onboardingSubtitle => 'Come prepari il tuo caffè?';
 
   @override
-  String get onboardingShowAll => 'Mostra tutti i metodi di infusione';
+  String get onboardingShowAll => 'Mostra tutti i metodi di preparazione';
 
   @override
   String get coffeeJourneyTitle => 'Primi passi';
@@ -2175,8 +2212,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Completa la tua prima preparazione';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod =>
-      'Prova un metodo di infusione diverso';
+  String get coffeeJourneyMilestoneTryMethod => 'Prova un\'altra ricetta';
 
   @override
   String get coffeeJourneyMilestoneAddBeans =>
@@ -2251,7 +2287,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get settingsAnalyticsTitle => 'Privacy e analisi';
 
   @override
-  String get settingsAnalyticsBrews => 'Condividi analisi di infusione';
+  String get settingsAnalyticsBrews => 'Condividi analisi delle preparazioni';
 
   @override
   String get settingsAnalyticsBeans => 'Condividi analisi dei chicchi';
@@ -2265,4 +2301,172 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get saving => 'Salvataggio…';
+
+  @override
+  String get notifBrewReminderTitle => 'Ti manca il tuo rituale del caffè?';
+
+  @override
+  String get notifBrewReminderBody =>
+      'Sono passati alcuni giorni. Ti va un altro caffè?';
+
+  @override
+  String get notifBrewReminderTitle2 => 'È ora di preparare un caffè?';
+
+  @override
+  String get notifBrewReminderBody2 =>
+      'La tua attrezzatura è pronta quando vuoi.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'Il bollitore ti sta chiamando';
+
+  @override
+  String get notifBrewReminderBody3 =>
+      'Una buona tazza è pronta in pochi minuti.';
+
+  @override
+  String get notifBrewEscalationTitle => 'Ti va un altro caffè?';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'È passato un po\' di tempo. Ti va di preparare qualcosa di buono?';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'È passato un po\'?';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'Nessuna fretta. La tua attrezzatura è pronta quando vuoi.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'È di nuovo l\'ora del caffè?';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'Una tazza davvero buona si prepara in pochi minuti.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'Tieni traccia dei tuoi chicchi';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'Registra i tuoi chicchi e ricorda quelli che hai amato.';
+
+  @override
+  String get notifDiscoverPulseTitle =>
+      'Guarda cosa stanno preparando gli altri';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'Apri Pulse per vedere preparazioni dal vivo da tutto il mondo.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'Hai raggiunto un traguardo';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    return 'Hai preparato $count volte. Tocca per vedere i tuoi progressi.';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return 'Prova una nuova ricetta per $methodName';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Finora hai provato $count ricette. Eccone un\'altra da provare.',
+      one: 'Finora hai provato 1 ricetta. Eccone un\'altra da provare.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'Buongiorno. Ti va di preparare un caffè?';
+
+  @override
+  String get notifMorningBody => 'Inizia la giornata con una buona tazza.';
+
+  @override
+  String get notifMorningTitle2 => 'Svegliati e prepara';
+
+  @override
+  String get notifMorningBody2 =>
+      'Il tuo caffè del mattino può essere pronto in pochi minuti.';
+
+  @override
+  String get notifMorningTitle3 => 'La prima tazza della giornata?';
+
+  @override
+  String get notifMorningBody3 => 'Scegli una ricetta e inizia a preparare.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count preparazioni questa settimana',
+      one: '1 preparazione questa settimana',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: 'Su $recipes ricette. Tocca per vedere il dettaglio.',
+      one: 'Tocca per vedere le tue statistiche settimanali.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'È il momento di chicchi freschi?';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    return 'I tuoi chicchi $beanName sono stati tostati $days giorni fa. Potrebbero aver superato il loro momento migliore.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'Attiva le notifiche';
+
+  @override
+  String get settingsMorningReminder => 'Promemoria caffè del mattino';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'Promemoria quotidiano per il tuo caffè del mattino';
+
+  @override
+  String get settingsMorningReminderTime => 'Ora del promemoria';
+
+  @override
+  String get settingsWeeklySummary => 'Riepilogo settimanale';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'Riepilogo delle tue preparazioni di domenica sera';
+
+  @override
+  String get settingsBeanFreshness => 'Avvisi freschezza chicchi';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'Ti avvisa quando i chicchi sono stati tostati da più di 3 settimane';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count giorni fa',
+      one: '1 giorno fa',
+    );
+    return '$_temp0';
+  }
 }

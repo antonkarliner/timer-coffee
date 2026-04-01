@@ -20,15 +20,15 @@
   "lastrecipe": "最近使ったレシピ：",
   "about": "このアプリについて",
   "author": "作成者",
-  "authortext": "Timer.Coffee アプリは、コーヒー愛好家でありメディア専門家でフォトジャーナリストのアントン・カーリナーによって作成されました。このアプリがあなたのコーヒータイムをより楽しいものにすることを願っています。GitHubでの貢献もお気軽に。",
+  "authortext": "Timer.Coffee は、コーヒー愛好家でメディア専門家・フォトジャーナリストの Anton Karliner が開発しました。このアプリでコーヒータイムがより楽しいものになれば幸いです。GitHub でのご協力もお待ちしています。",
   "contributors": "貢献者",
   "errorLoadingContributors": "貢献者の読み込みエラー",
   "license": "ライセンス",
-  "licensetext": "このアプリケーションはフリーソフトウェアです:フリーソフトウェア財団によって公開されたGNU一般公衆利用許諾契約書（GPL）の条項の下で、あなたはそれを再配布および/または変更することができます。それはライセンスのバージョン3、または（あなたの選択によって）いかなる後のバージョンにも適用されます。",
+  "licensetext": "このアプリケーションはフリーソフトウェアです。フリーソフトウェア財団が公開するGNU一般公衆利用許諾契約書（GPL）の条項に基づき、再配布および変更を行うことができます。ライセンスのバージョン3、または（オプションで）それ以降のバージョンが適用されます。",
   "licensebutton": "GNU一般公衆利用許諾契約書v3を読む",
   "website": "ウェブサイト",
   "sourcecode": "ソースコード",
-  "support": "開発者にコーヒーを買う",
+  "support": "コーヒーをおごる",
   "supportButtonLabel": "サポート",
   "allrecipes": "すべてのレシピ",
   "favoriterecipes": "お気に入りのレシピ",
@@ -38,23 +38,23 @@
   "grindsize": "挽き目",
   "brewtime": "抽出時間",
   "recipesummary": "レシピの概要",
-  "recipesummarynote": "注：これは、デフォルトの水とコーヒーの量で基本的なレシピです。",
+  "recipesummarynote": "注：水量とコーヒー量はデフォルト値です。",
   "preparation": "準備",
   "brewingprocess": "抽出プロセス",
   "step": "ステップ",
   "seconds": "{count, plural, =0{秒} =1{秒} other{秒}}",
-  "finishmsg": "Timer.Coffeeをご利用いただきありがとうございます! お楽しみください",
+  "finishmsg": "Timer.Coffee をご利用いただきありがとうございます！素晴らしい",
   "coffeefact": "コーヒーの事実",
   "home": "ホーム",
   "appversion": "アプリバージョン",
-  "tipsmall": "小さなコーヒーを買う",
-  "tipmedium": "中くらいのコーヒーを買う",
-  "tiplarge": "大きなコーヒーを買う",
+  "tipsmall": "スモールコーヒー",
+  "tipmedium": "ミディアムコーヒー",
+  "tiplarge": "ラージコーヒー",
   "supportdevelopment": "開発をサポートする",
-  "supportdevmsg": "あなたの寄付は、メンテナンス費用（例えば、開発者ライセンスなど）をカバーするのに役立ちます。また、より多くのコーヒー抽出器具を試し、アプリにより多くのレシピを追加することを可能にします。",
-  "supportdevtnx": "寄付を検討してくださりありがとうございます！",
+  "supportdevmsg": "ご寄付は、開発者ライセンスなどの維持費に役立てられます。また、さまざまな抽出器具を試してアプリにより多くのレシピを追加することもできます。",
+  "supportdevtnx": "ご寄付をご検討いただき、ありがとうございます！",
   "donationok": "ありがとうございます！",
-  "donationtnx": "あなたのサポートに心から感謝します！素晴らしいコーヒーをたくさんお楽しみください！☕️",
+  "donationtnx": "ご支援、心より感謝いたします！素晴らしいコーヒーライフを！☕️",
   "donationerr": "エラー",
   "donationerrmsg": "購入処理中のエラー、もう一度お試しください。",
   "sharemsg": "このレシピをチェックしてください：",
@@ -65,24 +65,33 @@
   "settingsthemedark": "ダーク",
   "settingsthemesystem": "システム",
   "settingslang": "言語",
-  "sweet": "甘い",
+  "settingsDateTimeFormat": "日付と時刻の形式",
+  "settingsDateFormatLabel": "日付形式",
+  "settingsTimeFormatLabel": "時刻形式",
+  "settingsDateFormatAuto": "自動（言語に合わせる）",
+  "settingsDateFormatDMY": "DD/MM/YYYY",
+  "settingsDateFormatMDY": "MM/DD/YYYY",
+  "settingsDateFormatYMD": "YYYY-MM-DD",
+  "settingsTimeFormat12h": "12時間制（AM/PM）",
+  "settingsTimeFormat24h": "24時間制",
+  "sweet": "甘さ",
   "balance": "バランス",
-  "acidic": "酸っぱい",
-  "light": "ライト",
-  "strong": "強い",
+  "acidic": "酸味",
+  "light": "軽やか",
+  "strong": "コク",
   "slidertitle": "スライダーを使用して味を調整する",
   "whatsnewtitle": "新着情報",
   "whatsnewclose": "閉じる",
   "seasonspecials": "シーズンスペシャル",
   "snow": "雪",
-  "noFavoriteRecipesMessage": "お気に入りのレシピリストは現在空です。探索して抽出を始めて、お気に入りを発見しましょう！",
+  "noFavoriteRecipesMessage": "お気に入りのレシピはまだありません。いろいろなレシピを試して、お気に入りを見つけましょう！",
   "explore": "探索する",
   "dateFormat": "yyyy年MMMd日",
   "timeFormat": "HH:mm",
   "brewdiary": "抽出日記",
   "brewdiarynotfound": "エントリーが見つかりません",
   "beans": "豆",
-  "roaster": "焙煎所",
+  "roaster": "ロースター",
   "rating": "評価",
   "notes": "ノート",
   "statsscreen": "コーヒー統計",
@@ -91,9 +100,9 @@
   "totalBeansBrewedLabel": "使用した豆の合計",
   "newBeansTriedLabel": "新しく試した豆",
   "originsExploredLabel": "探索した原産国",
-  "regionsExploredLabel": "ヨーロッパ",
+  "regionsExploredLabel": "探索した地域",
   "newRoastersDiscoveredLabel": "見つけた新しいロースター",
-  "favoriteRoastersLabel": "お気に入りの焙煎所",
+  "favoriteRoastersLabel": "お気に入りのロースター",
   "topOriginsLabel": "トップ原産国",
   "topRegionsLabel": "トップ地域",
   "coffeeBrewed": "淹れたコーヒー:",
@@ -103,7 +112,7 @@
   "unknownRecipe": "不明なレシピ",
   "noData": "データなし",
   "error": "エラー: {error}",
-  "someoneJustBrewed": "{recipeName}を淹れたばかりです",
+  "someoneJustBrewed": "誰かが{recipeName}を淹れたばかりです",
   "timePeriodToday": "今日",
   "timePeriodYesterday": "昨日",
   "timePeriodThisWeek": "今週",
@@ -116,7 +125,7 @@
   "addBeans": "豆を追加",
   "removeBeans": "豆を取り除く",
   "name": "名前",
-  "origin": "原産地",
+  "origin": "産地",
   "details": "詳細",
   "coffeebeans": "コーヒー豆",
   "loading": "読み込み中",
@@ -131,7 +140,7 @@
   "basicInformation": "基本情報",
   "geographyTerroir": "地理/テロワール",
   "variety": "品種",
-  "region": "北アメリカ",
+  "region": "地域",
   "elevation": "標高",
   "harvestDate": "収穫日",
   "processing": "精製方法",
@@ -140,14 +149,14 @@
   "roastLevel": "焙煎度",
   "cuppingScore": "カッピングスコア",
   "flavorProfile": "フレーバープロファイル",
-  "tastingNotes": "テイスティングノート",
+  "tastingNotes": "フレーバーノート",
   "additionalNotes": "追加メモ",
   "noCoffeeBeans": "コーヒー豆が見つかりません",
   "editCoffeeBeans": "コーヒー豆を編集",
   "addCoffeeBeans": "コーヒー豆を追加",
   "showImagePicker": "画像ピッカーを表示",
   "pleaseNote": "ご注意ください",
-  "firstTimePopupMessage": "1. 画像の処理には外部サービスを使用しています。続行すると、これに同意したことになります。\n2. 画像は保存しませんが、個人情報を含めないでください。\n3. 画像認識は現在、月間10トークンに制限されています（1トークン=1画像）。この制限は今後変更される可能性があります。",
+  "firstTimePopupMessage": "1. 画像の処理に外部サービスを使用しています。続行することで、これに同意したものとみなされます。\n2. 画像は保存されませんが、個人情報を含めないでください。\n3. 画像認識は現在、月間10回（1回＝1画像）までご利用いただけます。この制限は今後変更される場合があります。",
   "ok": "OK",
   "takePhoto": "写真を撮る",
   "selectFromPhotos": "写真から選択",
@@ -164,13 +173,13 @@
   "collectedInformation": "収集された情報",
   "enterRoaster": "ロースターを入力",
   "enterName": "名前を入力",
-  "enterOrigin": "原産国を入力",
+  "enterOrigin": "産地を入力",
   "optional": "任意",
   "enterVariety": "品種を入力",
   "enterProcessingMethod": "精製方法を入力",
   "enterRoastLevel": "焙煎度を入力",
   "enterRegion": "地域を入力",
-  "enterTastingNotes": "テイスティングノートを入力",
+  "enterTastingNotes": "フレーバーノートを入力",
   "enterElevation": "標高を入力",
   "enterCuppingScore": "カッピングスコアを入力",
   "enterNotes": "メモを入力",
@@ -196,7 +205,7 @@
   "signInWithGoogle": "Googleでサインイン",
   "signOutSuccessful": "正常にログアウトしました",
   "signOutConfirmationTitle": "サインアウトしてもよろしいですか？",
-  "signOutConfirmationMessage": "クラウド同期が停止します。再開するにはもう一度サインインしてください。",
+  "signOutConfirmationMessage": "クラウド同期が停止します。再開するには、再度サインインしてください。",
   "signInSuccessfulGoogle": "Googleで正常にサインインしました",
   "signInWithEmail": "メールでサインイン",
   "enterEmail": "メールアドレスを入力してください",
@@ -219,15 +228,15 @@
   "signInCreate": "サインイン / アカウントを作成",
   "accountManagement": "アカウント管理",
   "deleteAccount": "アカウントを削除",
-  "deleteAccountWarning": "注意: 続行すると、アカウントとその関連データがサーバーから削除されます。データのローカルコピーはデバイスに残ります。削除するには、アプリを削除するだけです。同期を再度有効にするには、アカウントを再作成する必要があります。",
+  "deleteAccountWarning": "注意：続行すると、アカウントと関連データがサーバーから削除されます。データのローカルコピーはデバイスに残ります（完全に削除するにはアプリをアンインストールしてください）。同期を再有効にするには、アカウントの再作成が必要です。",
   "deleteAccountConfirmation": "アカウントの削除に成功しました",
   "accountDeleted": "アカウントが削除されました",
   "accountDeletionError": "アカウントの削除中にエラーが発生しました。もう一度お試しください",
   "deleteAccountTitle": "重要なお知らせ",
   "selectBeans": "豆を選択",
   "all": "すべて",
-  "selectRoaster": "焙煎所を選択",
-  "selectOrigin": "原産地を選択",
+  "selectRoaster": "ロースターを選択",
+  "selectOrigin": "産地を選択",
   "resetFilters": "フィルターをリセット",
   "showFavoritesOnly": "お気に入りを表示",
   "apply": "適用",
@@ -236,15 +245,15 @@
   "sizeMedium": "中",
   "sizeXL": "XL",
   "yearlyStatsAppBarTitle": "Timer.Coffee との一年",
-  "yearlyStatsStory1Text": "こんにちは、今年は Timer.Coffee の世界に参加していただきありがとうございます。",
-  "yearlyStatsStory2Text": "まず最初に。\n今年はコーヒーを淹れました{ellipsis}",
+  "yearlyStatsStory1Text": "今年も Timer.Coffee をご利用いただき、ありがとうございます！",
+  "yearlyStatsStory2Text": "まずはこちら。\n今年、あなたが淹れたコーヒーは{ellipsis}",
   "yearlyStatsStory3Text": "もっと正確に言うと、\n2024 年には {liters} リットルのコーヒーを淹れました。",
   "yearlyStatsStory4Text": "{roasterCount} 軒のロースターの豆を使用しました",
   "yearlyStatsStory4Top3Roasters": "上位 3 つのロースターは次のとおりです。\n{top3}",
-  "yearlyStatsStory5Text": "コーヒーがあなたを旅に連れて行ってくれました\n世界中を{ellipsis}",
+  "yearlyStatsStory5Text": "コーヒーがあなたを世界中へ\n連れて行ってくれました{ellipsis}",
   "yearlyStatsStory6Text": "コーヒー豆を味わいました\n{originCount} か国から！",
-  "yearlyStatsStory7Part1": "あなたは一人でコーヒーを淹れていたわけではありません…",
-  "yearlyStatsStory7Part2": "…6 大陸の 110 か国のユーザーと一緒でした。",
+  "yearlyStatsStory7Part1": "あなただけではありません…",
+  "yearlyStatsStory7Part2": "…世界6大陸・110か国のユーザーが一緒に淹れていました。",
   "yearlyStatsStory8TitleLow": "今年は、{count} つの抽出方法だけを使用しました。",
   "yearlyStatsStory8TitleMedium": "今年は、{count} つの抽出方法を試して、新しい味を発見しました。",
   "yearlyStatsStory8TitleHigh": "今年は、{count} つの抽出方法を試して、真のコーヒー愛好家でした。",
@@ -336,7 +345,7 @@
   "yearlyStats25ShareHandle": "@timercoffeeapp",
   "labelCoffeeBrewed": "コーヒーを淹れました",
   "labelTastedBeansBy": "焙煎者:",
-  "labelDiscoveredCoffeeFrom": "原産地の発見:",
+  "labelDiscoveredCoffeeFrom": "産地の発見:",
   "labelUsedBrewingMethods": "使用:",
   "formattedRoasterCount": "{count} {count, plural, other{ロースター}}",
   "formattedCountryCount": "{count} {count, plural, other{か国}}",
@@ -447,7 +456,7 @@
   "unknownBrewingMethod": "不明な抽出方法",
   "recipeCopyErrorLoadingEdit": "コピーしたレシピの編集読み込みに失敗しました。",
   "recipeCopyErrorOperationFailed": "操作に失敗しました。",
-  "notProvided": "未提供",
+  "notProvided": "未入力",
   "recipeUpdateAvailableTitle": "アップデートがあります",
   "recipeUpdateAvailableBody": "'{recipeName}'の新しいバージョンがオンラインで利用可能です。アップデートしますか？",
   "@recipeUpdateAvailableBody": {
@@ -602,7 +611,7 @@
   "secondsAbbreviation": "秒",
   "settingsAppIcon": "アプリアイコン",
   "settingsAppIconDefault": "デフォルト",
-  "settingsAppIconLegacy": "古い",
+  "settingsAppIconLegacy": "クラシック",
   "sortBy": "並び替え",
   "@sortBy": {
     "description": "コーヒー豆画面の並び替えダイアログのタイトル"
@@ -645,7 +654,7 @@
   "importantDates": "重要な日程",
   "brewStats": "抽出統計",
   "showMore": "もっと見る",
-  "showLess": "表示を減らす",
+  "showLess": "閉じる",
   "unpublishRecipeDialogTitle": "レシピを非公開にする",
   "@unpublishRecipeDialogTitle": {
     "description": "レシピの公開停止確認ダイアログのタイトルテキスト"
@@ -772,7 +781,9 @@
   "notificationsEnabled": "有効",
   "notificationsDisabled": "無効",
   "notificationPermissionDialogTitle": "通知を有効にしますか？",
-  "notificationPermissionDialogMessage": "通知を有効にすると、便利なアップデート（例：新しいアプリバージョンについて）を受け取ることができます。今すぐ有効にするか、設定でいつでも変更できます。",
+  "notificationPermissionDialogMessage": "通知を有効にすると、便利なアップデート（例：新しいアプリバージョンについて）を受け取ることができます。通知は抽出の進行状況をリアルタイムで表示するためにも必要です。今すぐ有効にするか、設定でいつでも変更できます。",
+  "notificationPermissionDialogMessageIos": "通知を有効にすると、便利なアップデート（例：新しいアプリバージョンについて）を受け取ることができます。通知はiOSのLive ActivitiesとDynamic Islandにも必要です。今すぐ有効にするか、設定でいつでも変更できます。",
+  "notificationPermissionDialogMessageAndroid": "通知を有効にすると、便利なアップデート（例：新しいアプリバージョンについて）を受け取ることができます。通知はAndroidのLive Updatesにも必要です。今すぐ有効にするか、設定でいつでも変更できます。",
   "notificationPermissionEnable": "有効にする",
   "notificationPermissionSkip": "後で",
   "holidayGiftBoxTitle": "ホリデーギフトボックス",
@@ -892,7 +903,7 @@
   "onboardingShowAll": "すべての抽出方法を表示",
   "coffeeJourneyTitle": "はじめの一歩",
   "coffeeJourneyMilestoneFirstBrew": "最初の1杯を淹れる",
-  "coffeeJourneyMilestoneTryMethod": "別の抽出方法を試す",
+  "coffeeJourneyMilestoneTryMethod": "別のレシピを試す",
   "coffeeJourneyMilestoneAddBeans": "最初の豆を追加",
   "coffeeJourneyMilestoneFavorite": "レシピをお気に入りに追加",
   "coffeeJourneyMilestoneStats": "抽出統計を確認",
@@ -918,5 +929,101 @@
   "settingsAnalyticsBeans": "豆の分析を共有",
   "settingsAnalyticsGeneral": "一般的な利用分析を共有",
   "done": "完了",
-  "saving": "保存中…"
+  "saving": "保存中…",
+
+  "notifBrewReminderTitle": "最近、コーヒーを飲んでいませんか？",
+  "notifBrewReminderBody": "ここ数日淹れていません。もう一杯いかがですか？",
+  "notifBrewReminderTitle2": "そろそろ一杯いかがですか？",
+  "notifBrewReminderBody2": "準備はいつでもできています。",
+  "notifBrewReminderTitle3": "ケトルが呼んでいます",
+  "notifBrewReminderBody3": "おいしい一杯まで、あと数分です。",
+  "notifBrewEscalationTitle": "また淹れてみませんか？",
+  "notifBrewEscalationBody": "しばらく空いています。何かおいしい一杯を淹れませんか？",
+  "notifBrewEscalationTitle2": "少し間が空きましたね",
+  "notifBrewEscalationBody2": "急がなくて大丈夫。準備はいつでもできています。",
+  "notifBrewEscalationTitle3": "またコーヒーの時間ですか？",
+  "notifBrewEscalationBody3": "本当においしい一杯も、ほんの数分で始められます。",
+
+  "notifDiscoverBeansTitle": "豆を記録しておきましょう",
+  "notifDiscoverBeansBody": "豆を記録して、お気に入りを忘れずに。",
+  "notifDiscoverPulseTitle": "みんなが何を淹れているか見てみましょう",
+  "notifDiscoverPulseBody": "パルスを開くと、世界中のライブ抽出が見られます。",
+
+  "notifBrewMilestoneTitle": "新記録です",
+  "notifBrewMilestoneBody": "これまでに{count}回淹れました。タップして進捗を見ましょう。",
+  "@notifBrewMilestoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifExploreRecipesTitle": "新しい{methodName}レシピを試してみませんか？",
+  "@notifExploreRecipesTitle": {
+    "placeholders": {
+      "methodName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifExploreRecipesBody": "{count, plural, =1{これまでに試したレシピは1つです。次に試せるレシピはこちら。} other{これまでに{count}件のレシピを試しました。次に試せるレシピはこちら。}}",
+  "@notifExploreRecipesBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifMorningTitle": "おはようございます。淹れる準備はできていますか？",
+  "notifMorningBody": "いい一杯で一日を始めましょう。",
+  "notifMorningTitle2": "起きて、淹れましょう",
+  "notifMorningBody2": "朝の一杯は数分で準備できます。",
+  "notifMorningTitle3": "今日の最初の一杯ですか？",
+  "notifMorningBody3": "レシピを選んで、淹れ始めましょう。",
+  "notifWeeklyTitle": "{count, plural, =1{今週の抽出は1回} other{今週の抽出は{count}回}}",
+  "@notifWeeklyTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifWeeklyBody": "{recipes, plural, =1{タップして今週の統計を見ましょう。} other{レシピ{recipes}件分です。タップして内訳を見ましょう。}}",
+  "@notifWeeklyBody": {
+    "placeholders": {
+      "recipes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifBeanFreshnessTitle": "そろそろ新しい豆が必要ですか？",
+  "notifBeanFreshnessBody": "{beanName}は焙煎から{days}日経っています。ベストな時期を過ぎているかもしれません。",
+  "@notifBeanFreshnessBody": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "settingsNotificationsToggle": "通知を有効にする",
+  "settingsMorningReminder": "朝のコーヒーリマインダー",
+  "settingsMorningReminderSubtitle": "毎朝のコーヒーリマインダー",
+  "settingsMorningReminderTime": "通知時刻",
+  "settingsWeeklySummary": "週間まとめ",
+  "settingsWeeklySummarySubtitle": "日曜の夜に今週のコーヒーを振り返る",
+  "settingsBeanFreshness": "豆の鮮度アラート",
+  "settingsBeanFreshnessSubtitle": "焙煎日から3週間を過ぎた豆を通知する",
+  "daysAgo": "{count, plural, other{{count}日前}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

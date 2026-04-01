@@ -21,13 +21,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get originsExploredLabel => '探索した原産国';
 
   @override
-  String get regionsExploredLabel => 'ヨーロッパ';
+  String get regionsExploredLabel => '探索した地域';
 
   @override
   String get newRoastersDiscoveredLabel => '見つけた新しいロースター';
 
   @override
-  String get favoriteRoastersLabel => 'お気に入りの焙煎所';
+  String get favoriteRoastersLabel => 'お気に入りのロースター';
 
   @override
   String get topOriginsLabel => 'トップ原産国';
@@ -97,7 +97,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get authortext =>
-      'Timer.Coffee アプリは、コーヒー愛好家でありメディア専門家でフォトジャーナリストのアントン・カーリナーによって作成されました。このアプリがあなたのコーヒータイムをより楽しいものにすることを願っています。GitHubでの貢献もお気軽に。';
+      'Timer.Coffee は、コーヒー愛好家でメディア専門家・フォトジャーナリストの Anton Karliner が開発しました。このアプリでコーヒータイムがより楽しいものになれば幸いです。GitHub でのご協力もお待ちしています。';
 
   @override
   String get contributors => '貢献者';
@@ -110,7 +110,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get licensetext =>
-      'このアプリケーションはフリーソフトウェアです:フリーソフトウェア財団によって公開されたGNU一般公衆利用許諾契約書（GPL）の条項の下で、あなたはそれを再配布および/または変更することができます。それはライセンスのバージョン3、または（あなたの選択によって）いかなる後のバージョンにも適用されます。';
+      'このアプリケーションはフリーソフトウェアです。フリーソフトウェア財団が公開するGNU一般公衆利用許諾契約書（GPL）の条項に基づき、再配布および変更を行うことができます。ライセンスのバージョン3、または（オプションで）それ以降のバージョンが適用されます。';
 
   @override
   String get licensebutton => 'GNU一般公衆利用許諾契約書v3を読む';
@@ -122,7 +122,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get sourcecode => 'ソースコード';
 
   @override
-  String get support => '開発者にコーヒーを買う';
+  String get support => 'コーヒーをおごる';
 
   @override
   String get supportButtonLabel => 'サポート';
@@ -152,7 +152,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get recipesummary => 'レシピの概要';
 
   @override
-  String get recipesummarynote => '注：これは、デフォルトの水とコーヒーの量で基本的なレシピです。';
+  String get recipesummarynote => '注：水量とコーヒー量はデフォルト値です。';
 
   @override
   String get preparation => '準備';
@@ -176,7 +176,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get finishmsg => 'Timer.Coffeeをご利用いただきありがとうございます! お楽しみください';
+  String get finishmsg => 'Timer.Coffee をご利用いただきありがとうございます！素晴らしい';
 
   @override
   String get coffeefact => 'コーヒーの事実';
@@ -188,29 +188,29 @@ class AppLocalizationsJa extends AppLocalizations {
   String get appversion => 'アプリバージョン';
 
   @override
-  String get tipsmall => '小さなコーヒーを買う';
+  String get tipsmall => 'スモールコーヒー';
 
   @override
-  String get tipmedium => '中くらいのコーヒーを買う';
+  String get tipmedium => 'ミディアムコーヒー';
 
   @override
-  String get tiplarge => '大きなコーヒーを買う';
+  String get tiplarge => 'ラージコーヒー';
 
   @override
   String get supportdevelopment => '開発をサポートする';
 
   @override
   String get supportdevmsg =>
-      'あなたの寄付は、メンテナンス費用（例えば、開発者ライセンスなど）をカバーするのに役立ちます。また、より多くのコーヒー抽出器具を試し、アプリにより多くのレシピを追加することを可能にします。';
+      'ご寄付は、開発者ライセンスなどの維持費に役立てられます。また、さまざまな抽出器具を試してアプリにより多くのレシピを追加することもできます。';
 
   @override
-  String get supportdevtnx => '寄付を検討してくださりありがとうございます！';
+  String get supportdevtnx => 'ご寄付をご検討いただき、ありがとうございます！';
 
   @override
   String get donationok => 'ありがとうございます！';
 
   @override
-  String get donationtnx => 'あなたのサポートに心から感謝します！素晴らしいコーヒーをたくさんお楽しみください！☕️';
+  String get donationtnx => 'ご支援、心より感謝いたします！素晴らしいコーヒーライフを！☕️';
 
   @override
   String get donationerr => 'エラー';
@@ -243,19 +243,46 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingslang => '言語';
 
   @override
-  String get sweet => '甘い';
+  String get settingsDateTimeFormat => '日付と時刻の形式';
+
+  @override
+  String get settingsDateFormatLabel => '日付形式';
+
+  @override
+  String get settingsTimeFormatLabel => '時刻形式';
+
+  @override
+  String get settingsDateFormatAuto => '自動（言語に合わせる）';
+
+  @override
+  String get settingsDateFormatDMY => 'DD/MM/YYYY';
+
+  @override
+  String get settingsDateFormatMDY => 'MM/DD/YYYY';
+
+  @override
+  String get settingsDateFormatYMD => 'YYYY-MM-DD';
+
+  @override
+  String get settingsTimeFormat12h => '12時間制（AM/PM）';
+
+  @override
+  String get settingsTimeFormat24h => '24時間制';
+
+  @override
+  String get sweet => '甘さ';
 
   @override
   String get balance => 'バランス';
 
   @override
-  String get acidic => '酸っぱい';
+  String get acidic => '酸味';
 
   @override
-  String get light => 'ライト';
+  String get light => '軽やか';
 
   @override
-  String get strong => '強い';
+  String get strong => 'コク';
 
   @override
   String get slidertitle => 'スライダーを使用して味を調整する';
@@ -274,7 +301,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get noFavoriteRecipesMessage =>
-      'お気に入りのレシピリストは現在空です。探索して抽出を始めて、お気に入りを発見しましょう！';
+      'お気に入りのレシピはまだありません。いろいろなレシピを試して、お気に入りを見つけましょう！';
 
   @override
   String get explore => '探索する';
@@ -295,7 +322,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get beans => '豆';
 
   @override
-  String get roaster => '焙煎所';
+  String get roaster => 'ロースター';
 
   @override
   String get rating => '評価';
@@ -340,7 +367,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String someoneJustBrewed(Object recipeName) {
-    return '$recipeNameを淹れたばかりです';
+    return '誰かが$recipeNameを淹れたばかりです';
   }
 
   @override
@@ -496,7 +523,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get name => '名前';
 
   @override
-  String get origin => '原産地';
+  String get origin => '産地';
 
   @override
   String get details => '詳細';
@@ -554,7 +581,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get variety => '品種';
 
   @override
-  String get region => '北アメリカ';
+  String get region => '地域';
 
   @override
   String get elevation => '標高';
@@ -581,7 +608,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get flavorProfile => 'フレーバープロファイル';
 
   @override
-  String get tastingNotes => 'テイスティングノート';
+  String get tastingNotes => 'フレーバーノート';
 
   @override
   String get additionalNotes => '追加メモ';
@@ -603,7 +630,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get firstTimePopupMessage =>
-      '1. 画像の処理には外部サービスを使用しています。続行すると、これに同意したことになります。\n2. 画像は保存しませんが、個人情報を含めないでください。\n3. 画像認識は現在、月間10トークンに制限されています（1トークン=1画像）。この制限は今後変更される可能性があります。';
+      '1. 画像の処理に外部サービスを使用しています。続行することで、これに同意したものとみなされます。\n2. 画像は保存されませんが、個人情報を含めないでください。\n3. 画像認識は現在、月間10回（1回＝1画像）までご利用いただけます。この制限は今後変更される場合があります。';
 
   @override
   String get ok => 'OK';
@@ -654,7 +681,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get enterName => '名前を入力';
 
   @override
-  String get enterOrigin => '原産国を入力';
+  String get enterOrigin => '産地を入力';
 
   @override
   String get optional => '任意';
@@ -672,7 +699,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get enterRegion => '地域を入力';
 
   @override
-  String get enterTastingNotes => 'テイスティングノートを入力';
+  String get enterTastingNotes => 'フレーバーノートを入力';
 
   @override
   String get enterElevation => '標高を入力';
@@ -759,8 +786,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get signOutConfirmationTitle => 'サインアウトしてもよろしいですか？';
 
   @override
-  String get signOutConfirmationMessage =>
-      'クラウド同期が停止します。再開するにはもう一度サインインしてください。';
+  String get signOutConfirmationMessage => 'クラウド同期が停止します。再開するには、再度サインインしてください。';
 
   @override
   String get signInSuccessfulGoogle => 'Googleで正常にサインインしました';
@@ -830,7 +856,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get deleteAccountWarning =>
-      '注意: 続行すると、アカウントとその関連データがサーバーから削除されます。データのローカルコピーはデバイスに残ります。削除するには、アプリを削除するだけです。同期を再度有効にするには、アカウントを再作成する必要があります。';
+      '注意：続行すると、アカウントと関連データがサーバーから削除されます。データのローカルコピーはデバイスに残ります（完全に削除するにはアプリをアンインストールしてください）。同期を再有効にするには、アカウントの再作成が必要です。';
 
   @override
   String get deleteAccountConfirmation => 'アカウントの削除に成功しました';
@@ -851,10 +877,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get all => 'すべて';
 
   @override
-  String get selectRoaster => '焙煎所を選択';
+  String get selectRoaster => 'ロースターを選択';
 
   @override
-  String get selectOrigin => '原産地を選択';
+  String get selectOrigin => '産地を選択';
 
   @override
   String get resetFilters => 'フィルターをリセット';
@@ -881,12 +907,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get yearlyStatsAppBarTitle => 'Timer.Coffee との一年';
 
   @override
-  String get yearlyStatsStory1Text =>
-      'こんにちは、今年は Timer.Coffee の世界に参加していただきありがとうございます。';
+  String get yearlyStatsStory1Text => '今年も Timer.Coffee をご利用いただき、ありがとうございます！';
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
-    return 'まず最初に。\n今年はコーヒーを淹れました$ellipsis';
+    return 'まずはこちら。\n今年、あなたが淹れたコーヒーは$ellipsis';
   }
 
   @override
@@ -895,7 +920,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return '$roasterCount 軒のロースターの豆を使用しました';
   }
 
@@ -906,32 +931,32 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String yearlyStatsStory5Text(Object ellipsis) {
-    return 'コーヒーがあなたを旅に連れて行ってくれました\n世界中を$ellipsis';
+    return 'コーヒーがあなたを世界中へ\n連れて行ってくれました$ellipsis';
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'コーヒー豆を味わいました\n$originCount か国から！';
   }
 
   @override
-  String get yearlyStatsStory7Part1 => 'あなたは一人でコーヒーを淹れていたわけではありません…';
+  String get yearlyStatsStory7Part1 => 'あなただけではありません…';
 
   @override
-  String get yearlyStatsStory7Part2 => '…6 大陸の 110 か国のユーザーと一緒でした。';
+  String get yearlyStatsStory7Part2 => '…世界6大陸・110か国のユーザーが一緒に淹れていました。';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return '今年は、$count つの抽出方法だけを使用しました。';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return '今年は、$count つの抽出方法を試して、新しい味を発見しました。';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return '今年は、$count つの抽出方法を試して、真のコーヒー愛好家でした。';
   }
 
@@ -1256,7 +1281,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get labelTastedBeansBy => '焙煎者:';
 
   @override
-  String get labelDiscoveredCoffeeFrom => '原産地の発見:';
+  String get labelDiscoveredCoffeeFrom => '産地の発見:';
 
   @override
   String get labelUsedBrewingMethods => '使用:';
@@ -1450,7 +1475,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get recipeCopyErrorOperationFailed => '操作に失敗しました。';
 
   @override
-  String get notProvided => '未提供';
+  String get notProvided => '未入力';
 
   @override
   String get recipeUpdateFailedFetch => '更新されたレシピデータの取得に失敗しました。';
@@ -1661,7 +1686,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsAppIconDefault => 'デフォルト';
 
   @override
-  String get settingsAppIconLegacy => '古い';
+  String get settingsAppIconLegacy => 'クラシック';
 
   @override
   String get searchBeans => '豆を検索...';
@@ -1712,7 +1737,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get showMore => 'もっと見る';
 
   @override
-  String get showLess => '表示を減らす';
+  String get showLess => '閉じる';
 
   @override
   String get unpublishRecipeDialogTitle => 'レシピを非公開にする';
@@ -1891,7 +1916,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      '通知を有効にすると、便利なアップデート（例：新しいアプリバージョンについて）を受け取ることができます。今すぐ有効にするか、設定でいつでも変更できます。';
+      '通知を有効にすると、便利なアップデート（例：新しいアプリバージョンについて）を受け取ることができます。通知は抽出の進行状況をリアルタイムで表示するためにも必要です。今すぐ有効にするか、設定でいつでも変更できます。';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      '通知を有効にすると、便利なアップデート（例：新しいアプリバージョンについて）を受け取ることができます。通知はiOSのLive ActivitiesとDynamic Islandにも必要です。今すぐ有効にするか、設定でいつでも変更できます。';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      '通知を有効にすると、便利なアップデート（例：新しいアプリバージョンについて）を受け取ることができます。通知はAndroidのLive Updatesにも必要です。今すぐ有効にするか、設定でいつでも変更できます。';
 
   @override
   String get notificationPermissionEnable => '有効にする';
@@ -2091,7 +2124,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get coffeeJourneyMilestoneFirstBrew => '最初の1杯を淹れる';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod => '別の抽出方法を試す';
+  String get coffeeJourneyMilestoneTryMethod => '別のレシピを試す';
 
   @override
   String get coffeeJourneyMilestoneAddBeans => '最初の豆を追加';
@@ -2170,4 +2203,158 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get saving => '保存中…';
+
+  @override
+  String get notifBrewReminderTitle => '最近、コーヒーを飲んでいませんか？';
+
+  @override
+  String get notifBrewReminderBody => 'ここ数日淹れていません。もう一杯いかがですか？';
+
+  @override
+  String get notifBrewReminderTitle2 => 'そろそろ一杯いかがですか？';
+
+  @override
+  String get notifBrewReminderBody2 => '準備はいつでもできています。';
+
+  @override
+  String get notifBrewReminderTitle3 => 'ケトルが呼んでいます';
+
+  @override
+  String get notifBrewReminderBody3 => 'おいしい一杯まで、あと数分です。';
+
+  @override
+  String get notifBrewEscalationTitle => 'また淹れてみませんか？';
+
+  @override
+  String get notifBrewEscalationBody => 'しばらく空いています。何かおいしい一杯を淹れませんか？';
+
+  @override
+  String get notifBrewEscalationTitle2 => '少し間が空きましたね';
+
+  @override
+  String get notifBrewEscalationBody2 => '急がなくて大丈夫。準備はいつでもできています。';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'またコーヒーの時間ですか？';
+
+  @override
+  String get notifBrewEscalationBody3 => '本当においしい一杯も、ほんの数分で始められます。';
+
+  @override
+  String get notifDiscoverBeansTitle => '豆を記録しておきましょう';
+
+  @override
+  String get notifDiscoverBeansBody => '豆を記録して、お気に入りを忘れずに。';
+
+  @override
+  String get notifDiscoverPulseTitle => 'みんなが何を淹れているか見てみましょう';
+
+  @override
+  String get notifDiscoverPulseBody => 'パルスを開くと、世界中のライブ抽出が見られます。';
+
+  @override
+  String get notifBrewMilestoneTitle => '新記録です';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    return 'これまでに$count回淹れました。タップして進捗を見ましょう。';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return '新しい$methodNameレシピを試してみませんか？';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'これまでに$count件のレシピを試しました。次に試せるレシピはこちら。',
+      one: 'これまでに試したレシピは1つです。次に試せるレシピはこちら。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'おはようございます。淹れる準備はできていますか？';
+
+  @override
+  String get notifMorningBody => 'いい一杯で一日を始めましょう。';
+
+  @override
+  String get notifMorningTitle2 => '起きて、淹れましょう';
+
+  @override
+  String get notifMorningBody2 => '朝の一杯は数分で準備できます。';
+
+  @override
+  String get notifMorningTitle3 => '今日の最初の一杯ですか？';
+
+  @override
+  String get notifMorningBody3 => 'レシピを選んで、淹れ始めましょう。';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '今週の抽出は$count回',
+      one: '今週の抽出は1回',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: 'レシピ$recipes件分です。タップして内訳を見ましょう。',
+      one: 'タップして今週の統計を見ましょう。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'そろそろ新しい豆が必要ですか？';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    return '$beanNameは焙煎から$days日経っています。ベストな時期を過ぎているかもしれません。';
+  }
+
+  @override
+  String get settingsNotificationsToggle => '通知を有効にする';
+
+  @override
+  String get settingsMorningReminder => '朝のコーヒーリマインダー';
+
+  @override
+  String get settingsMorningReminderSubtitle => '毎朝のコーヒーリマインダー';
+
+  @override
+  String get settingsMorningReminderTime => '通知時刻';
+
+  @override
+  String get settingsWeeklySummary => '週間まとめ';
+
+  @override
+  String get settingsWeeklySummarySubtitle => '日曜の夜に今週のコーヒーを振り返る';
+
+  @override
+  String get settingsBeanFreshness => '豆の鮮度アラート';
+
+  @override
+  String get settingsBeanFreshnessSubtitle => '焙煎日から3週間を過ぎた豆を通知する';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count日前',
+    );
+    return '$_temp0';
+  }
 }

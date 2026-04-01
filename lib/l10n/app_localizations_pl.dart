@@ -21,10 +21,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get originsExploredLabel => 'Poznane kraje pochodzenia';
 
   @override
-  String get regionsExploredLabel => 'Europa';
+  String get regionsExploredLabel => 'Odkryte regiony';
 
   @override
-  String get newRoastersDiscoveredLabel => 'Nowi palarze odkryci';
+  String get newRoastersDiscoveredLabel => 'Nowo odkryte palarnie';
 
   @override
   String get favoriteRoastersLabel => 'Ulubione palarnie';
@@ -84,7 +84,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get hubBrewStatsSubtitle =>
-      'Zobacz osobiste i globalne statystyki oraz trendy parzeń';
+      'Sprawdź swoje i globalne statystyki oraz trendy parzeń';
 
   @override
   String get hubSettingsSubtitle => 'Zmień ustawienia aplikacji i zachowanie';
@@ -100,7 +100,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get authortext =>
-      'Aplikacja Timer.Coffee została stworzona przez Anton Karliner, entuzjastę kawy, specjalistę od mediów i fotoreportera. Mam nadzieję, że ta aplikacja pomoże Ci cieszyć się kawą. Zapraszamy do współpracy na GitHubie.';
+      'Aplikację Timer.Coffee stworzył Anton Karliner — miłośnik kawy, specjalista ds. mediów i fotoreporter. Mam nadzieję, że pomoże Ci lepiej cieszyć się kawą. Zapraszam do współpracy na GitHubie.';
 
   @override
   String get contributors => 'Współtwórcy';
@@ -206,7 +206,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get supportdevmsg =>
-      'Twoje datki pomagają pokryć koszty utrzymania (takie jak licencje deweloperskie, na przykład). Pozwalają mi również wypróbować więcej urządzeń do parzenia kawy i dodać więcej przepisów do aplikacji.';
+      'Twoje wsparcie pomaga pokryć koszty utrzymania (np. licencje deweloperskie). Pozwala mi też testować więcej sprzętu do parzenia i dodawać nowe przepisy do aplikacji.';
 
   @override
   String get supportdevtnx => 'Dziękujemy za rozważenie wsparcia!';
@@ -216,7 +216,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get donationtnx =>
-      'Bardzo doceniam Twoje wsparcie! Życzę wielu wspaniałych parzeń! ☕️';
+      'Bardzo dziękuję za wsparcie! Życzę wielu udanych parzeń! ☕️';
 
   @override
   String get donationerr => 'Błąd';
@@ -249,16 +249,43 @@ class AppLocalizationsPl extends AppLocalizations {
   String get settingslang => 'Język';
 
   @override
+  String get settingsDateTimeFormat => 'Format daty i czasu';
+
+  @override
+  String get settingsDateFormatLabel => 'Format daty';
+
+  @override
+  String get settingsTimeFormatLabel => 'Format czasu';
+
+  @override
+  String get settingsDateFormatAuto => 'Automatyczny (zgodny z językiem)';
+
+  @override
+  String get settingsDateFormatDMY => 'DD.MM.RRRR';
+
+  @override
+  String get settingsDateFormatMDY => 'MM/DD/RRRR';
+
+  @override
+  String get settingsDateFormatYMD => 'RRRR-MM-DD';
+
+  @override
+  String get settingsTimeFormat12h => '12-godzinny (AM/PM)';
+
+  @override
+  String get settingsTimeFormat24h => '24-godzinny';
+
+  @override
   String get sweet => 'Słodki';
 
   @override
   String get balance => 'Równowaga';
 
   @override
-  String get acidic => 'Kwasowy';
+  String get acidic => 'Kwasowity';
 
   @override
-  String get light => 'Lekki';
+  String get light => 'Delikatny';
 
   @override
   String get strong => 'Mocny';
@@ -273,7 +300,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get whatsnewclose => 'Zamknij';
 
   @override
-  String get seasonspecials => 'Specjalne Oferty Sezonowe';
+  String get seasonspecials => 'Oferty sezonowe';
 
   @override
   String get snow => 'Śnieg';
@@ -292,7 +319,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get timeFormat => 'HH:mm';
 
   @override
-  String get brewdiary => 'Dziennik Parzenia';
+  String get brewdiary => 'Dziennik parzeń';
 
   @override
   String get brewdiarynotfound => 'Nie znaleziono wpisów';
@@ -463,7 +490,7 @@ class AppLocalizationsPl extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count dnia temu',
+      other: '$count dni temu',
       many: '$count dni temu',
       few: '$count dni temu',
       one: '$count dzień temu',
@@ -476,7 +503,7 @@ class AppLocalizationsPl extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count miesiąca temu',
+      other: '$count miesięcy temu',
       many: '$count miesięcy temu',
       few: '$count miesiące temu',
       one: '$count miesiąc temu',
@@ -489,7 +516,7 @@ class AppLocalizationsPl extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count roku temu',
+      other: '$count lat temu',
       many: '$count lat temu',
       few: '$count lata temu',
       one: '$count rok temu',
@@ -525,13 +552,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get details => 'Szczegóły';
 
   @override
-  String get coffeebeans => 'Kawa ziarnista';
+  String get coffeebeans => 'Ziarna kawy';
 
   @override
   String get loading => 'Ładowanie';
 
   @override
-  String get nocoffeebeans => 'Nie znaleziono kawy ziarnistej';
+  String get nocoffeebeans => 'Nie znaleziono ziaren kawy';
 
   @override
   String get delete => 'Usuń';
@@ -560,13 +587,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get toggleEditMode => 'Przełącz tryb edycji';
 
   @override
-  String get coffeeBeansDetails => 'Szczegóły kawy ziarnistej';
+  String get coffeeBeansDetails => 'Szczegóły ziaren kawy';
 
   @override
   String get edit => 'Edytuj';
 
   @override
-  String get coffeeBeansNotFound => 'Nie znaleziono kawy ziarnistej';
+  String get coffeeBeansNotFound => 'Nie znaleziono ziaren kawy';
 
   @override
   String get basicInformation => 'Dane podstawowe';
@@ -578,7 +605,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get variety => 'Odmiana';
 
   @override
-  String get region => 'Ameryka Północna';
+  String get region => 'Region';
 
   @override
   String get elevation => 'Wysokość';
@@ -611,13 +638,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get additionalNotes => 'Dodatkowe notatki';
 
   @override
-  String get noCoffeeBeans => 'Nie znaleziono kawy ziarnistej';
+  String get noCoffeeBeans => 'Nie znaleziono ziaren kawy';
 
   @override
-  String get editCoffeeBeans => 'Edytuj kawę ziarnistą';
+  String get editCoffeeBeans => 'Edytuj ziarna kawy';
 
   @override
-  String get addCoffeeBeans => 'Dodaj kawę ziarnistą';
+  String get addCoffeeBeans => 'Dodaj ziarna kawy';
 
   @override
   String get showImagePicker => 'Pokaż wybór obrazu';
@@ -627,7 +654,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get firstTimePopupMessage =>
-      '1. Do przetwarzania obrazów używamy usług zewnętrznych. Kontynuując, wyrażasz na to zgodę.\n2. Chociaż nie przechowujemy twoich obrazów, unikaj umieszczania na nich danych osobowych.\n3. Rozpoznawanie obrazu jest obecnie ograniczone do 10 tokenów miesięcznie (1 token = 1 obraz). Ten limit może ulec zmianie w przyszłości.';
+      '1. Do przetwarzania obrazów używamy usług zewnętrznych. Kontynuując, wyrażasz zgodę.\n2. Chociaż nie przechowujemy twoich obrazów, unikaj umieszczania na nich danych osobowych.\n3. Rozpoznawanie obrazu jest obecnie ograniczone do 10 tokenów miesięcznie (1 token = 1 obraz). Ten limit może ulec zmianie w przyszłości.';
 
   @override
   String get ok => 'OK';
@@ -743,7 +770,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get errorMessage => 'Błąd';
 
   @override
-  String get selectCoffeeBeans => 'Wybierz kawę ziarnistą';
+  String get selectCoffeeBeans => 'Wybierz ziarna kawy';
 
   @override
   String get addNewBeans => 'Dodaj nową kawę';
@@ -924,7 +951,7 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return 'Użyłeś ziaren od $roasterCount palarni';
   }
 
@@ -939,7 +966,7 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'Spróbowałeś ziaren kawy\nz $originCount krajów!';
   }
 
@@ -951,17 +978,17 @@ class AppLocalizationsPl extends AppLocalizations {
       '...ale z użytkownikami ze 110 innych\nkrajów na 6 kontynentach!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return 'Byłeś wierny sobie i korzystałeś tylko z tych $count metod parzenia w tym roku:';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return 'Odkrywałeś nowe smaki i używałeś $count metod parzenia w tym roku:';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return 'Byłeś prawdziwym odkrywcą kawy i używałeś $count metod parzenia w tym roku:';
   }
 
@@ -1004,7 +1031,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get yearlyStatsShareProgressTop3Roasters =>
-      'Moi 3 najlepsi producenci:';
+      'Moje 3 ulubione palarnie:';
 
   @override
   String get yearlyStats25AppBarTitle => 'Twój rok z Timer.Coffee – 2025';
@@ -1221,7 +1248,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get yearlyStats25CtaExplorePrefix => 'Sprawdź oferty w ';
 
   @override
-  String get yearlyStats25CtaGiftBox => 'Świąteczne Pudełko Prezentowe';
+  String get yearlyStats25CtaGiftBox => 'Świąteczny zestaw prezentowy';
 
   @override
   String get yearlyStats25CtaDonate => 'Wpłać darowiznę';
@@ -1325,10 +1352,10 @@ class AppLocalizationsPl extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'producentów',
-      many: 'producentów',
-      few: 'producentów',
-      one: 'producent',
+      other: 'palarnie',
+      many: 'palarni',
+      few: 'palarnie',
+      one: 'palarnia',
     );
     return '$count $_temp0';
   }
@@ -1387,7 +1414,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get recipeCreationScreenWaterTempLabel => 'Temperatura wody (°C)';
 
   @override
-  String get recipeCreationScreenGrindSizeLabel => 'Rozmiar mielenia';
+  String get recipeCreationScreenGrindSizeLabel => 'Stopień mielenia';
 
   @override
   String get recipeCreationScreenTotalBrewTimeLabel =>
@@ -1773,13 +1800,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get farmer => 'Rolnik';
 
   @override
-  String get farm => 'Farma kawy';
+  String get farm => 'Farma';
 
   @override
   String get enterFarmer => 'Wprowadź rolnika';
 
   @override
-  String get enterFarm => 'Wprowadź farmę kawy';
+  String get enterFarm => 'Wprowadź farmę';
 
   @override
   String get requiredInformation => 'Wymagane informacje';
@@ -1988,7 +2015,15 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      'Możesz włączyć powiadomienia, aby otrzymywać przydatne aktualizacje (np. o nowych wersjach aplikacji). Włącz teraz lub zmień to w dowolnym momencie w ustawieniach.';
+      'Możesz włączyć powiadomienia, aby otrzymywać przydatne aktualizacje (np. o nowych wersjach aplikacji). Powiadomienia są też wymagane do aktualizacji postępu parzenia na żywo. Włącz teraz lub zmień to w dowolnym momencie w ustawieniach.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'Możesz włączyć powiadomienia, aby otrzymywać przydatne aktualizacje (np. o nowych wersjach aplikacji). Powiadomienia są też wymagane do Live Activities i Dynamic Island na iOS. Włącz teraz lub zmień to w dowolnym momencie w ustawieniach.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'Możesz włączyć powiadomienia, aby otrzymywać przydatne aktualizacje (np. o nowych wersjach aplikacji). Powiadomienia są też wymagane do Live Updates na Androidzie. Włącz teraz lub zmień to w dowolnym momencie w ustawieniach.';
 
   @override
   String get notificationPermissionEnable => 'Włącz';
@@ -1997,7 +2032,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get notificationPermissionSkip => 'Nie teraz';
 
   @override
-  String get holidayGiftBoxTitle => 'Świąteczne Pudełko Prezentowe';
+  String get holidayGiftBoxTitle => 'Świąteczny zestaw prezentowy';
 
   @override
   String get holidayGiftBoxInfoTrigger => 'Co to jest?';
@@ -2191,7 +2226,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get coffeeJourneyMilestoneFirstBrew => 'Ukończ pierwsze parzenie';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod => 'Wypróbuj inną metodę parzenia';
+  String get coffeeJourneyMilestoneTryMethod => 'Wypróbuj inny przepis';
 
   @override
   String get coffeeJourneyMilestoneAddBeans =>
@@ -2248,7 +2283,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get beanCoverPhotoSavePromptBody =>
-      'Czy chcesz zapisać jedno ze skanowanych obrazów jako zdjęcie okładkowe tego ziarna kawy?';
+      'Czy chcesz zapisać jedno ze zeskanowanych zdjęć jako zdjęcie okładkowe tych ziaren kawy?';
 
   @override
   String get beanCoverPhotoUploading => 'Przesyłanie zdjęcia…';
@@ -2277,4 +2312,192 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get saving => 'Zapisywanie…';
+
+  @override
+  String get notifBrewReminderTitle => 'Tęsknisz za swoim kawowym rytuałem?';
+
+  @override
+  String get notifBrewReminderBody =>
+      'Minęło kilka dni. Masz ochotę na kolejną kawę?';
+
+  @override
+  String get notifBrewReminderTitle2 => 'Czas na kawę?';
+
+  @override
+  String get notifBrewReminderBody2 =>
+      'Twój sprzęt czeka, kiedy tylko zechcesz.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'Czajnik Cię woła';
+
+  @override
+  String get notifBrewReminderBody3 =>
+      'Do dobrej filiżanki zostało tylko kilka minut.';
+
+  @override
+  String get notifBrewEscalationTitle => 'Wracasz po kolejną kawę?';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'Minęło trochę czasu. Masz ochotę przygotować coś dobrego?';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'Minęło trochę czasu?';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'Bez pośpiechu. Twój sprzęt czeka, kiedy tylko zechcesz.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'Znów czas na kawę?';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'Naprawdę dobra filiżanka może być gotowa już za kilka minut.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'Śledź swoje ziarna';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'Zapisuj ziarna i pamiętaj te, które najbardziej Ci smakowały.';
+
+  @override
+  String get notifDiscoverPulseTitle => 'Zobacz, co parzą inni';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'Otwórz Puls, aby zobaczyć parzenia na żywo z całego świata.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'Masz na koncie kolejny kamień milowy';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Masz już $count zaparzenia. Dotknij, aby zobaczyć postępy.',
+      many: 'Masz już $count zaparzeń. Dotknij, aby zobaczyć postępy.',
+      few: 'Masz już $count zaparzenia. Dotknij, aby zobaczyć postępy.',
+      one: 'Masz już $count zaparzenie. Dotknij, aby zobaczyć postępy.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return 'Wypróbuj nowy przepis na $methodName';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Dotąd wypróbowałeś $count przepisów. Oto kolejny do sprawdzenia.',
+      many: 'Dotąd wypróbowałeś $count przepisów. Oto kolejny do sprawdzenia.',
+      few: 'Dotąd wypróbowałeś $count przepisy. Oto kolejny do sprawdzenia.',
+      one: 'Dotąd wypróbowałeś $count przepis. Oto kolejny do sprawdzenia.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'Dzień dobry. Czas na kawę?';
+
+  @override
+  String get notifMorningBody => 'Zacznij dzień od dobrej filiżanki.';
+
+  @override
+  String get notifMorningTitle2 => 'Pobudka i parzenie';
+
+  @override
+  String get notifMorningBody2 => 'Poranna kawa może być gotowa w kilka minut.';
+
+  @override
+  String get notifMorningTitle3 => 'Pierwsza filiżanka dnia?';
+
+  @override
+  String get notifMorningBody3 => 'Wybierz przepis i zacznij parzyć.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count parzenia w tym tygodniu',
+      many: '$count parzeń w tym tygodniu',
+      few: '$count parzenia w tym tygodniu',
+      one: '$count parzenie w tym tygodniu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: 'W ramach $recipes przepisów. Dotknij, aby zobaczyć szczegóły.',
+      one: 'Dotknij, aby zobaczyć statystyki tygodnia.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'Czas na świeże ziarna?';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days dni temu',
+      many: '$days dni temu',
+      few: '$days dni temu',
+      one: '$days dzień temu',
+    );
+    return 'Twoje ziarna $beanName zostały wypalone $_temp0. Mogą już nie być w szczytnej formie.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'Włącz powiadomienia';
+
+  @override
+  String get settingsMorningReminder => 'Poranne przypomnienie o kawie';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'Codzienne przypomnienie o porannej kawie';
+
+  @override
+  String get settingsMorningReminderTime => 'Godzina przypomnienia';
+
+  @override
+  String get settingsWeeklySummary => 'Podsumowanie tygodnia';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'Niedzielne wieczorne podsumowanie Twoich parzeń';
+
+  @override
+  String get settingsBeanFreshness => 'Alerty świeżości ziaren';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'Powiadamiaj, gdy od daty palenia miną ponad 3 tygodnie';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dni temu',
+      many: '$count dni temu',
+      few: '$count dni temu',
+      one: '1 dzień temu',
+    );
+    return '$_temp0';
+  }
 }

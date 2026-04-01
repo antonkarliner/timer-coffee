@@ -12,16 +12,16 @@ class AppLocalizationsFi extends AppLocalizations {
   String get beansStatsSectionTitle => 'Papujen tilastot';
 
   @override
-  String get totalBeansBrewedLabel => 'Valmistettuja papuja yhteensä';
+  String get totalBeansBrewedLabel => 'Uutettuja papuja yhteensä';
 
   @override
   String get newBeansTriedLabel => 'Uusia papuja kokeiltu';
 
   @override
-  String get originsExploredLabel => 'Tutkitut alkuperämaat';
+  String get originsExploredLabel => 'Tutkitut alkuperät';
 
   @override
-  String get regionsExploredLabel => 'Eurooppa';
+  String get regionsExploredLabel => 'Tutkitut alueet';
 
   @override
   String get newRoastersDiscoveredLabel => 'Löydetyt uudet paahtimot';
@@ -30,10 +30,10 @@ class AppLocalizationsFi extends AppLocalizations {
   String get favoriteRoastersLabel => 'Suosikkipaahtimot';
 
   @override
-  String get topOriginsLabel => 'Parhaat alkuperämaat';
+  String get topOriginsLabel => 'Suosituimmat alkuperät';
 
   @override
-  String get topRegionsLabel => 'Parhaat alueet';
+  String get topRegionsLabel => 'Suosituimmat alueet';
 
   @override
   String get lastrecipe => 'Viimeksi käytetty resepti:';
@@ -70,7 +70,7 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get hubUserRecipesSubtitle =>
-      'Näytä ja hallitse luotuja ja tuotuja reseptejä';
+      'Näytä ja hallitse luomiasi ja tuomiasi reseptejä';
 
   @override
   String get hubAccountSubtitle => 'Hallitse profiiliasi';
@@ -81,14 +81,14 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get hubBrewDiarySubtitle =>
-      'Katso valmistushistoriasi ja lisää muistiinpanoja';
+      'Katso uuttohistoriaasi ja lisää muistiinpanoja';
 
   @override
   String get hubBrewStatsSubtitle =>
-      'Näytä henkilökohtaiset ja globaalit valmistusstatistiikat ja trendit';
+      'Näytä omat ja maailmanlaajuiset uuttotilastot ja trendit';
 
   @override
-  String get hubSettingsSubtitle => 'Vaihda sovelluksen asetuksia ja toimintaa';
+  String get hubSettingsSubtitle => 'Muuta sovelluksen asetuksia ja toimintaa';
 
   @override
   String get hubAboutSubtitle => 'Sovelluksen tiedot, versio ja osallistujat';
@@ -101,7 +101,7 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get authortext =>
-      'Timer.Coffee -sovelluksen on luonut kahviharrastaja Anton Karliner, ja sen tarkoitus on auttaa sinua nauttimaan kahvistasi entistä enemmän. Voit osallistua kehitykseen GitHubissa.';
+      'Timer.Coffee-sovelluksen on tehnyt Anton Karliner, kahviharrastaja, media-alan ammattilainen ja kuvajournalisti. Toivon, että sovellus auttaa sinua nauttimaan kahvistasi entistä enemmän. Voit osallistua kehitykseen GitHubissa.';
 
   @override
   String get contributors => 'Avustajat';
@@ -126,7 +126,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get sourcecode => 'Lähdekoodi';
 
   @override
-  String get support => 'Tarjoa minulle kahvi';
+  String get support => 'Tarjoa kahvi';
 
   @override
   String get supportButtonLabel => 'Tuki';
@@ -163,7 +163,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get preparation => 'Valmistelu';
 
   @override
-  String get brewingprocess => 'Valmistusprosessi';
+  String get brewingprocess => 'Uuttoprosessi';
 
   @override
   String get step => 'Vaihe';
@@ -181,35 +181,36 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
-  String get finishmsg => 'Kiitos, että käytät Timer.Coffeea! Nauti';
+  String get finishmsg =>
+      'Kiitos, että käytät Timer.Coffeea! Nauti kahvistasi:';
 
   @override
-  String get coffeefact => 'Kahvitieto';
+  String get coffeefact => 'Kahvifakta';
 
   @override
-  String get home => 'Koti';
+  String get home => 'Etusivu';
 
   @override
   String get appversion => 'Sovellusversio';
 
   @override
-  String get tipsmall => 'Osta pieni kahvi';
+  String get tipsmall => 'Tarjoa pieni kahvi';
 
   @override
-  String get tipmedium => 'Osta keskikokoinen kahvi';
+  String get tipmedium => 'Tarjoa keskikokoinen kahvi';
 
   @override
-  String get tiplarge => 'Osta iso kahvi';
+  String get tiplarge => 'Tarjoa iso kahvi';
 
   @override
-  String get supportdevelopment => 'Tue kehitystä';
+  String get supportdevelopment => 'Tue sovelluksen kehitystä';
 
   @override
   String get supportdevmsg =>
-      'Lahjoituksesi auttavat kattamaan ylläpitokustannukset ja mahdollistavat uusien kahvinkeitinlaitteiden hankinnan sekä reseptien lisäämisen sovellukseen.';
+      'Lahjoituksesi auttavat kattamaan ylläpitokuluja, kuten kehittäjälisenssejä. Niiden avulla voin myös kokeilla uusia kahvinvalmistusvälineitä ja lisätä sovellukseen uusia reseptejä.';
 
   @override
-  String get supportdevtnx => 'Kiitos, että harkitset lahjoitusta!';
+  String get supportdevtnx => 'Kiitos, että harkitset tukemista!';
 
   @override
   String get donationok => 'Kiitos!';
@@ -249,6 +250,33 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingslang => 'Kieli';
 
   @override
+  String get settingsDateTimeFormat => 'Päivämäärän ja ajan muoto';
+
+  @override
+  String get settingsDateFormatLabel => 'Päivämäärämuoto';
+
+  @override
+  String get settingsTimeFormatLabel => 'Ajan muoto';
+
+  @override
+  String get settingsDateFormatAuto => 'Automaattinen (kielen mukainen)';
+
+  @override
+  String get settingsDateFormatDMY => 'PP.KK.VVVV';
+
+  @override
+  String get settingsDateFormatMDY => 'KK/PP/VVVV';
+
+  @override
+  String get settingsDateFormatYMD => 'VVVV-KK-PP';
+
+  @override
+  String get settingsTimeFormat12h => '12 tuntia (AM/PM)';
+
+  @override
+  String get settingsTimeFormat24h => '24 tuntia';
+
+  @override
   String get sweet => 'Makea';
 
   @override
@@ -264,7 +292,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get strong => 'Vahva';
 
   @override
-  String get slidertitle => 'Säädä makua liu\'uttamalla';
+  String get slidertitle => 'Säädä makua liukusäätimillä';
 
   @override
   String get whatsnewtitle => 'Mitä uutta';
@@ -280,10 +308,10 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get noFavoriteRecipesMessage =>
-      'Suosikkireseptiesi lista on tyhjä. Aloita tutkiminen ja uuttaminen löytääksesi suosikkisi!';
+      'Suosikkireseptilistasi on vielä tyhjä. Tutustu resepteihin ja löydä omat suosikkisi!';
 
   @override
-  String get explore => 'Tutki';
+  String get explore => 'Tutustu';
 
   @override
   String get dateFormat => 'd. MMM yyyy';
@@ -295,7 +323,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get brewdiary => 'Uuttopäiväkirja';
 
   @override
-  String get brewdiarynotfound => 'Ei merkintöjä';
+  String get brewdiarynotfound => 'Merkintöjä ei löytynyt';
 
   @override
   String get beans => 'Pavut';
@@ -325,7 +353,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get mostUsedRecipes => 'Eniten käytetyt reseptit:';
 
   @override
-  String get globalStats => 'Maailman tilastot';
+  String get globalStats => 'Maailmanlaajuiset tilastot';
 
   @override
   String get unknownRecipe => 'Tuntematon resepti';
@@ -334,7 +362,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get pulseUserRecipe => 'Käyttäjän resepti';
 
   @override
-  String get noData => 'Ei dataa';
+  String get noData => 'Ei tietoja';
 
   @override
   String get refresh => 'Päivitä';
@@ -346,27 +374,27 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String someoneJustBrewed(Object recipeName) {
-    return 'Joku juuri valmisti $recipeName';
+    return 'Joku juuri uutti $recipeName';
   }
 
   @override
   String pulseSomeoneBrewed(String recipeName) {
-    return 'Joku valmisti $recipeName';
+    return 'Joku uutti $recipeName';
   }
 
   @override
   String pulseSomeoneFromBrewed(String country, String recipeName) {
-    return 'Joku $country valmisti $recipeName';
+    return 'Joku $country uutti $recipeName';
   }
 
   @override
-  String get pulseTitle => 'Syke';
+  String get pulseTitle => 'Pulse';
 
   @override
-  String get hubPulseSubtitle => 'Live-uuttosyöte';
+  String get hubPulseSubtitle => 'Reaaliaikainen uuttovirta';
 
   @override
-  String get pulseLiveSummary => 'Live-yhteenveto';
+  String get pulseLiveSummary => 'Reaaliaikainen yhteenveto';
 
   @override
   String get pulseBrewsLabel => 'Uutot';
@@ -376,8 +404,8 @@ class AppLocalizationsFi extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count valmistusta',
-      one: '1 valmistus',
+      other: '$count uuttoa',
+      one: '1 uutto',
     );
     return '$_temp0';
   }
@@ -401,7 +429,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get timePeriodThisMonth => 'Tässä kuussa';
 
   @override
-  String get timePeriodOlder => 'Vanhempi';
+  String get timePeriodOlder => 'Aiemmat';
 
   @override
   String get timePeriodCustom => 'Mukautettu';
@@ -482,13 +510,13 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
-  String get statsFor => 'Tilastot kohteelle ';
+  String get statsFor => 'Tilastot ajalta';
 
   @override
   String get homescreenbrewcoffee => 'Valmista kahvi';
 
   @override
-  String get homescreenhub => 'Hubi';
+  String get homescreenhub => 'Hub';
 
   @override
   String get homescreenmore => 'Lisää';
@@ -506,7 +534,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get origin => 'Alkuperä';
 
   @override
-  String get details => 'Lisätiedot';
+  String get details => 'Tiedot';
 
   @override
   String get coffeebeans => 'Kahvipavut';
@@ -556,13 +584,13 @@ class AppLocalizationsFi extends AppLocalizations {
   String get basicInformation => 'Perustiedot';
 
   @override
-  String get geographyTerroir => 'Maantiede/Terroir';
+  String get geographyTerroir => 'Maantiede ja terroir';
 
   @override
   String get variety => 'Lajike';
 
   @override
-  String get region => 'Pohjois-Amerikka';
+  String get region => 'Alue';
 
   @override
   String get elevation => 'Kasvukorkeus';
@@ -589,7 +617,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get flavorProfile => 'Makuprofiili';
 
   @override
-  String get tastingNotes => 'Maku- ja tuoksuvihjeet';
+  String get tastingNotes => 'Makuvivahteet';
 
   @override
   String get additionalNotes => 'Lisähuomiot';
@@ -655,7 +683,7 @@ class AppLocalizationsFi extends AppLocalizations {
       'Kahvipakkauksia ei havaittu. Kokeile toista kuvaa.';
 
   @override
-  String get collectedInformation => 'Kerätyt tiedot';
+  String get collectedInformation => 'Tunnistetut tiedot';
 
   @override
   String get enterRoaster => 'Syötä paahtimo';
@@ -682,7 +710,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get enterRegion => 'Syötä alue';
 
   @override
-  String get enterTastingNotes => 'Syötä tasting-muistiinpanot';
+  String get enterTastingNotes => 'Syötä makuvivahteet';
 
   @override
   String get enterElevation => 'Syötä kasvukorkeus';
@@ -894,7 +922,7 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get yearlyStatsStory1Text =>
-      'Kiitos, että olit osa Timer.Coffee-universumia tänä vuonna!';
+      'Kiitos, että olit mukana Timer.Coffeessa tänä vuonna!';
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
@@ -907,13 +935,13 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return 'Käytit papuja $roasterCount paahtimolta';
   }
 
   @override
   String yearlyStatsStory4Top3Roasters(Object top3) {
-    return 'Top 3 -paahtimosi olivat:\n$top3';
+    return 'Kolme suosituinta paahtimoasi olivat:\n$top3';
   }
 
   @override
@@ -922,7 +950,7 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'Maistoit kahvipapuja\n$originCount maasta!';
   }
 
@@ -934,18 +962,42 @@ class AppLocalizationsFi extends AppLocalizations {
       '...vaan kanssasi oli käyttäjiä 110 muusta\nmaasta kuudelta mantereelta!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
-    return 'Pysyttelit omassa tyylissäsi ja käytit vain näitä $count valmistusmenetelmää tänä vuonna:';
+  String yearlyStatsStory8TitleLow(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Pysyttelit omassa tyylissäsi ja käytit vain näitä $count valmistusmenetelmää tänä vuonna:',
+      one:
+          'Pysyttelit omassa tyylissäsi ja käytit vain tätä yhtä valmistusmenetelmää tänä vuonna:',
+    );
+    return '$_temp0';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
-    return 'Kokeilit uusia makuja ja käytit $count valmistusmenetelmää tänä vuonna:';
+  String yearlyStatsStory8TitleMedium(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Kokeilit uusia makuja ja käytit $count valmistusmenetelmää tänä vuonna:',
+      one:
+          'Kokeilit uusia makuja ja käytit tätä yhtä valmistusmenetelmää tänä vuonna:',
+    );
+    return '$_temp0';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
-    return 'Olit todellinen kahvintutkija ja käytit $count valmistusmenetelmää tänä vuonna:';
+  String yearlyStatsStory8TitleHigh(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Olit todellinen kahvintutkija ja käytit $count valmistusmenetelmää tänä vuonna:',
+      one:
+          'Olit todellinen kahvintutkija ja käytit tätä yhtä valmistusmenetelmää tänä vuonna:',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -953,7 +1005,7 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String yearlyStatsStory10Text(Object ellipsis) {
-    return 'Top 3 -reseptisi vuonna 2024 olivat$ellipsis';
+    return 'Kolme suosituinta reseptiäsi vuonna 2024 olivat$ellipsis';
   }
 
   @override
@@ -961,7 +1013,7 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String yearlyStatsActionLove(Object likesCount) {
-    return 'Näytä tykkäyksesi ($likesCount)';
+    return 'Tykkää ($likesCount)';
   }
 
   @override
@@ -982,10 +1034,12 @@ class AppLocalizationsFi extends AppLocalizations {
   String get yearlyStatsShareProgressMyYear => 'Vuoteni Timer.Coffee:ssa';
 
   @override
-  String get yearlyStatsShareProgressTop3Recipes => 'Top 3 -reseptini:';
+  String get yearlyStatsShareProgressTop3Recipes =>
+      'Kolme suosituinta reseptiäni:';
 
   @override
-  String get yearlyStatsShareProgressTop3Roasters => 'Top 3 -paahtimoni:';
+  String get yearlyStatsShareProgressTop3Roasters =>
+      'Kolme suosituinta paahtimoani:';
 
   @override
   String get yearlyStats25AppBarTitle => 'Vuotesi Timer.Coffee:ssa – 2025';
@@ -1001,7 +1055,7 @@ class AppLocalizationsFi extends AppLocalizations {
       'Napauta nähdäksesi, miten valmistit kahvia vuonna 2025';
 
   @override
-  String get yearlyStats25Slide2Intro => 'Yhdessä keitimme kahvia...';
+  String get yearlyStats25Slide2Intro => 'Yhdessä uutimme kahvia...';
 
   @override
   String yearlyStats25Slide2Count(String count) {
@@ -1015,32 +1069,31 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get yearlyStats25Slide2Cambridge =>
-      'Tarpeeksi tarjotakseen kupin kahvia kaikille Cambridgessä, Iso-Britanniassa (opiskelijat olisivat erityisen kiitollisia).';
+      'Tarpeeksi siihen, että kaikille Cambridgen, Ison-Britannian, asukkaille riittäisi kupillinen kahvia. Opiskelijat olisivat siitä erityisen kiitollisia.';
 
   @override
   String get yearlyStats25Slide3Title => 'Entä sinä?';
 
   @override
   String yearlyStats25Slide3Subtitle(String brews, String liters) {
-    return 'Valmistit kahvia $brews kertaa Timer.Coffeella tänä vuonna. Yhteensä $liters litraa kahvia!';
+    return 'Uutit kahvia $brews kertaa Timer.Coffeella tänä vuonna. Se tekee yhteensä $liters litraa kahvia!';
   }
 
   @override
   String yearlyStats25Slide3TopBadge(int topPct) {
-    return 'Olet kahvinkeittäjien top $topPct%:ssa!';
+    return 'Kuulut aktiivisimpaan $topPct %:iin!';
   }
 
   @override
   String get yearlyStats25Slide4TitleSingle =>
-      'Muistatko päivän, jolloin valmistit eniten kahvia tänä vuonna?';
+      'Muistatko päivän, jolloin uutit eniten kahvia tänä vuonna?';
 
   @override
   String get yearlyStats25Slide4TitleMulti =>
-      'Muistatko päivät, jolloin valmistit eniten kahvia tänä vuonna?';
+      'Muistatko ne päivät, jolloin uutit eniten kahvia tänä vuonna?';
 
   @override
-  String get yearlyStats25Slide4TitleBrewTime =>
-      'Kahvinvalmistusaikasi tänä vuonna';
+  String get yearlyStats25Slide4TitleBrewTime => 'Uuttoaikasi tänä vuonna';
 
   @override
   String get yearlyStats25Slide4ScratchLabel => 'Raaputa paljastaaksesi';
@@ -1050,8 +1103,8 @@ class AppLocalizationsFi extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count valmistusta',
-      one: '1 valmistus',
+      other: '$count uuttoa',
+      one: '1 uutto',
     );
     return '$_temp0';
   }
@@ -1092,7 +1145,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get yearlyStats25Slide5NoMethods => 'Ei vielä menetelmiä';
 
   @override
-  String get yearlyStats25Slide5RecipesHeader => 'Parhaat reseptit:';
+  String get yearlyStats25Slide5RecipesHeader => 'Suosituimmat reseptit:';
 
   @override
   String get yearlyStats25Slide5NoRecipes => 'Ei vielä reseptejä';
@@ -1102,8 +1155,8 @@ class AppLocalizationsFi extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'valmistusta',
-      one: 'valmistus',
+      other: 'uuttoa',
+      one: 'uutto',
     );
     return '$name — $count $_temp0';
   }
@@ -1130,12 +1183,12 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String yearlyStats25FallbackTitle(int countries, int roasters) {
-    return 'Timer.Coffeen käyttäjät käyttivät tänä vuonna papuja $countries maasta\nja rekisteröivät $roasters eri paahtimoa.';
+    return 'Timer.Coffeen käyttäjät käyttivät tänä vuonna papuja $countries maasta\nja kirjasivat $roasters eri paahtimoa.';
   }
 
   @override
   String get yearlyStats25FallbackPromptHasBeans =>
-      'Miksi et jatkaisi papupussiesi kirjaamista?';
+      'Miksi et jatkaisi papujesi kirjaamista?';
 
   @override
   String get yearlyStats25FallbackPromptNoBeans =>
@@ -1188,7 +1241,7 @@ class AppLocalizationsFi extends AppLocalizations {
       'Ei voitu lähettää. Kokeile toista viestiä.';
 
   @override
-  String get yearlyStats25CtaTitle => 'Tehdään jotain mahtavaa vuonna 2026!';
+  String get yearlyStats25CtaTitle => 'Uutetaan jotain hienoa vuonna 2026!';
 
   @override
   String get yearlyStats25CtaSubtitle => 'Tässä muutama idea:';
@@ -1269,10 +1322,10 @@ class AppLocalizationsFi extends AppLocalizations {
   String get yearlyStats25ShareOriginsSuffix => '';
 
   @override
-  String get yearlyStats25ShareMethodsTitle => 'Suosikki valmistusmenetelmäni:';
+  String get yearlyStats25ShareMethodsTitle => 'Suosikkimenetelmäni:';
 
   @override
-  String get yearlyStats25ShareRecipesTitle => 'Parhaat reseptini:';
+  String get yearlyStats25ShareRecipesTitle => 'Suosituimmat reseptini:';
 
   @override
   String get yearlyStats25ShareHandle => '@timercoffeeapp';
@@ -1356,7 +1409,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get recipeCreationScreenGrindSizeLabel => 'Jauhatuksen karkeus';
 
   @override
-  String get recipeCreationScreenTotalBrewTimeLabel => 'Kokonaisaika:';
+  String get recipeCreationScreenTotalBrewTimeLabel => 'Uuton kokonaisaika:';
 
   @override
   String get recipeCreationScreenMinutesLabel => 'Minuutit';
@@ -1376,7 +1429,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get recipeCreationScreenStepDescriptionLabel => 'Vaiheen kuvaus';
 
   @override
-  String get recipeCreationScreenStepTimeLabel => 'Vaiheen aika: ';
+  String get recipeCreationScreenStepTimeLabel => 'Vaiheen kesto: ';
 
   @override
   String get recipeCreationScreenRecipeNameValidator => 'Anna reseptin nimi';
@@ -1700,7 +1753,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get dateAdded => 'Lisäyspäivämäärä';
 
   @override
-  String get secondsAbbreviation => 's.';
+  String get secondsAbbreviation => 's';
 
   @override
   String get settingsAppIcon => 'Sovelluksen kuvake';
@@ -1754,7 +1807,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get importantDates => 'Tärkeitä päivämääriä';
 
   @override
-  String get brewStats => 'Valmistustilastot';
+  String get brewStats => 'Uuttotilastot';
 
   @override
   String get showMore => 'Näytä lisää';
@@ -1949,7 +2002,15 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      'Voit ottaa ilmoitukset käyttöön saadaksesi hyödyllisiä päivityksiä (esim. uusista sovellusversioista). Ota käyttöön nyt tai muuta myöhemmin asetuksista.';
+      'Voit ottaa ilmoitukset käyttöön saadaksesi hyödyllisiä päivityksiä (esim. uusista sovellusversioista). Ilmoitukset ovat myös tarpeen uuton etenemisen reaaliaikaisiin päivityksiin. Ota käyttöön nyt tai muuta myöhemmin asetuksista.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'Voit ottaa ilmoitukset käyttöön saadaksesi hyödyllisiä päivityksiä (esim. uusista sovellusversioista). Ilmoitukset ovat myös tarpeen iOS:n Live Activities- ja Dynamic Island -toiminnoille. Ota käyttöön nyt tai muuta myöhemmin asetuksista.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'Voit ottaa ilmoitukset käyttöön saadaksesi hyödyllisiä päivityksiä (esim. uusista sovellusversioista). Ilmoitukset ovat myös tarpeen Androidin Live Updates -toiminnolle. Ota käyttöön nyt tai muuta myöhemmin asetuksista.';
 
   @override
   String get notificationPermissionEnable => 'Ota käyttöön';
@@ -2107,7 +2168,7 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get nativeAppPromoDescription =>
-      'Nauti täydestä kokemuksesta yksinoikeudellisilla ominaisuuksilla: tekoälypohjainen kahvipakkauksen skannaus, Live-aktiviteetit lukitusnäytöllä, push-ilmoitukset, haptinen palaute ja paljon muuta.';
+      'Saat sovelluksesta enemmän irti lisäominaisuuksilla: tekoälypohjainen kahvipakkausten skannaus, Live Activities lukitusnäytöllä, push-ilmoitukset, haptinen palaute ja paljon muuta.';
 
   @override
   String get nativeAppPromoButton => 'Lataa sovellus';
@@ -2116,7 +2177,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get addBrewEntry => 'Lisää keittomerkintä';
 
   @override
-  String get selectBrewingMethod => 'Valitse keittotapa';
+  String get selectBrewingMethod => 'Valitse valmistusmenetelmä';
 
   @override
   String get selectRecipe => 'Valitse resepti';
@@ -2131,7 +2192,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get brewEntrySaved => 'Keittomerkintä tallennettu';
 
   @override
-  String get brewingMethodRequired => 'Valitse keittotapa';
+  String get brewingMethodRequired => 'Valitse valmistusmenetelmä';
 
   @override
   String get recipeRequired => 'Valitse resepti';
@@ -2152,7 +2213,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get coffeeJourneyMilestoneFirstBrew => 'Valmista ensimmäinen kahvisi';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod => 'Kokeile eri keittotapaa';
+  String get coffeeJourneyMilestoneTryMethod => 'Kokeile toista reseptiä';
 
   @override
   String get coffeeJourneyMilestoneAddBeans => 'Lisää ensimmäiset kahvipapusi';
@@ -2237,4 +2298,172 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get saving => 'Tallennetaan…';
+
+  @override
+  String get notifBrewReminderTitle => 'Kaipaatko kahvirituaaliasi?';
+
+  @override
+  String get notifBrewReminderBody =>
+      'Edellisestä kerrasta on muutama päivä. Tekisikö mieli taas keittää?';
+
+  @override
+  String get notifBrewReminderTitle2 => 'Olisiko aika keittää kahvia?';
+
+  @override
+  String get notifBrewReminderBody2 => 'Välineesi odottavat, kun olet valmis.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'Vedenkeittimesi kutsuu';
+
+  @override
+  String get notifBrewReminderBody3 =>
+      'Hyvä kuppi on vain muutaman minuutin päässä.';
+
+  @override
+  String get notifBrewEscalationTitle => 'Haluatko vielä yhden kupin?';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'Tästä on jo hetki. Tekisikö mieli valmistaa jotain hyvää?';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'Onko siitä jo hetki?';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'Ei kiirettä. Välineesi odottavat, kun olet valmis.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'Kahvin aika taas?';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'Todella hyvä kuppi voi olla valmis muutamassa minuutissa.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'Pidä pavuistasi kirjaa';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'Kirjaa pavut ylös ja muista ne, joista pidit eniten.';
+
+  @override
+  String get notifDiscoverPulseTitle => 'Katso, mitä muut valmistavat';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'Avaa Syke ja katso, mitä muualla keitetään reaaliajassa.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'Saavutit merkkipaalun';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    return 'Olet valmistanut kahvia $count kertaa. Napauta nähdäksesi edistymisesi.';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return 'Kokeile uutta $methodName-reseptiä';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Olet kokeillut tähän mennessä $count reseptiä. Tässä on vielä yksi kokeiltavaksi.',
+      one:
+          'Olet kokeillut tähän mennessä 1 reseptiä. Tässä on vielä yksi kokeiltavaksi.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'Huomenta. Valmis valmistamaan kahvia?';
+
+  @override
+  String get notifMorningBody => 'Aloita päivä hyvällä kupillisella.';
+
+  @override
+  String get notifMorningTitle2 => 'Ylös ja kahville';
+
+  @override
+  String get notifMorningBody2 =>
+      'Aamun kahvi voi olla valmis muutamassa minuutissa.';
+
+  @override
+  String get notifMorningTitle3 => 'Päivän ensimmäinen kuppi?';
+
+  @override
+  String get notifMorningBody3 => 'Valitse resepti ja aloita valmistus.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count valmistusta tällä viikolla',
+      one: '1 valmistus tällä viikolla',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: 'Yhteensä $recipes reseptiä. Napauta nähdäksesi erittelyn.',
+      one: 'Napauta nähdäksesi viikkotilastosi.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'Olisiko aika tuoreemmille pavuille?';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    return 'Pavut $beanName paahdettiin $days päivää sitten. Ne eivät ehkä ole enää parhaimmillaan.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'Ota ilmoitukset käyttöön';
+
+  @override
+  String get settingsMorningReminder => 'Aamukahvimuistutus';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'Päivittäinen muistutus aamun kahvihetkestä';
+
+  @override
+  String get settingsMorningReminderTime => 'Muistutuksen aika';
+
+  @override
+  String get settingsWeeklySummary => 'Viikkoyhteenveto';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'Sunnuntai-illan yhteenveto viikon valmistuksista';
+
+  @override
+  String get settingsBeanFreshness => 'Papujen tuoreushälytykset';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'Ilmoita, kun paahtopäivästä on kulunut yli 3 viikkoa';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count päivää sitten',
+      one: '1 päivä sitten',
+    );
+    return '$_temp0';
+  }
 }

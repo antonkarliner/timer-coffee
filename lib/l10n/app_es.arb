@@ -65,6 +65,15 @@
   "settingsthemedark": "Oscuro",
   "settingsthemesystem": "Sistema",
   "settingslang": "Idioma",
+  "settingsDateTimeFormat": "Formato de fecha y hora",
+  "settingsDateFormatLabel": "Formato de fecha",
+  "settingsTimeFormatLabel": "Formato de hora",
+  "settingsDateFormatAuto": "Automático (según el idioma)",
+  "settingsDateFormatDMY": "DD/MM/AAAA",
+  "settingsDateFormatMDY": "MM/DD/AAAA",
+  "settingsDateFormatYMD": "AAAA-MM-DD",
+  "settingsTimeFormat12h": "12 horas (AM/PM)",
+  "settingsTimeFormat24h": "24 horas",
   "sweet": "Dulce",
   "balance": "Balanceado",
   "acidic": "Ácido",
@@ -772,7 +781,9 @@
   "notificationsEnabled": "Activado",
   "notificationsDisabled": "Desactivado",
   "notificationPermissionDialogTitle": "¿Activar notificaciones?",
-  "notificationPermissionDialogMessage": "Puedes activar las notificaciones para recibir actualizaciones útiles (p. ej. sobre nuevas versiones de la aplicación). Activa ahora o cambia esto en cualquier momento en la configuración.",
+  "notificationPermissionDialogMessage": "Puedes activar las notificaciones para recibir actualizaciones útiles (p. ej. sobre nuevas versiones de la aplicación). Las notificaciones también son necesarias para las actualizaciones en tiempo real del progreso de la preparación. Activa ahora o cambia esto en cualquier momento en la configuración.",
+  "notificationPermissionDialogMessageIos": "Puedes activar las notificaciones para recibir actualizaciones útiles (p. ej. sobre nuevas versiones de la aplicación). Las notificaciones también son necesarias para Live Activities y Dynamic Island en iOS. Activa ahora o cambia esto en cualquier momento en la configuración.",
+  "notificationPermissionDialogMessageAndroid": "Puedes activar las notificaciones para recibir actualizaciones útiles (p. ej. sobre nuevas versiones de la aplicación). Las notificaciones también son necesarias para Live Updates en Android. Activa ahora o cambia esto en cualquier momento en la configuración.",
   "notificationPermissionEnable": "Activar",
   "notificationPermissionSkip": "Ahora no",
   "holidayGiftBoxTitle": "Caja de Regalos Navideña",
@@ -892,7 +903,7 @@
   "onboardingShowAll": "Mostrar todos los métodos de preparación",
   "coffeeJourneyTitle": "Primeros pasos",
   "coffeeJourneyMilestoneFirstBrew": "Completa tu primera preparación",
-  "coffeeJourneyMilestoneTryMethod": "Prueba un método de preparación diferente",
+  "coffeeJourneyMilestoneTryMethod": "Prueba otra receta",
   "coffeeJourneyMilestoneAddBeans": "Añade tus primeros granos de café",
   "coffeeJourneyMilestoneFavorite": "Añade una receta a favoritos",
   "coffeeJourneyMilestoneStats": "Consulta tus estadísticas de preparación",
@@ -918,5 +929,101 @@
   "settingsAnalyticsBeans": "Compartir analíticas de granos",
   "settingsAnalyticsGeneral": "Compartir analíticas de uso general",
   "done": "Listo",
-  "saving": "Guardando…"
+  "saving": "Guardando…",
+
+  "notifBrewReminderTitle": "¿Extrañas tu ritual del café?",
+  "notifBrewReminderBody": "Han pasado unos días. ¿Te apetece preparar otro café?",
+  "notifBrewReminderTitle2": "¿Hora de preparar café?",
+  "notifBrewReminderBody2": "Tu equipo está listo cuando quieras.",
+  "notifBrewReminderTitle3": "Tu hervidor te está llamando",
+  "notifBrewReminderBody3": "Una buena taza está lista en solo unos minutos.",
+  "notifBrewEscalationTitle": "¿Vuelves a preparar café?",
+  "notifBrewEscalationBody": "Ha pasado un tiempo. ¿Te apetece preparar algo rico?",
+  "notifBrewEscalationTitle2": "¿Ha pasado un tiempo?",
+  "notifBrewEscalationBody2": "Sin prisa. Tu equipo está listo cuando tú quieras.",
+  "notifBrewEscalationTitle3": "¿Hora de café otra vez?",
+  "notifBrewEscalationBody3": "Una taza realmente buena puede estar lista en solo unos minutos.",
+
+  "notifDiscoverBeansTitle": "Lleva el control de tus granos",
+  "notifDiscoverBeansBody": "Registra tus granos y recuerda los que más te gustaron.",
+  "notifDiscoverPulseTitle": "Mira lo que otros están preparando",
+  "notifDiscoverPulseBody": "Abre Pulso para ver preparaciones en vivo de todo el mundo.",
+
+  "notifBrewMilestoneTitle": "Has alcanzado un hito",
+  "notifBrewMilestoneBody": "Has preparado café {count} veces. Toca para ver tu progreso.",
+  "@notifBrewMilestoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifExploreRecipesTitle": "Prueba una nueva receta de {methodName}",
+  "@notifExploreRecipesTitle": {
+    "placeholders": {
+      "methodName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifExploreRecipesBody": "{count, plural, =1{Hasta ahora has probado 1 receta. Aquí tienes otra para probar.} other{Hasta ahora has probado {count} recetas. Aquí tienes una más para probar.}}",
+  "@notifExploreRecipesBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifMorningTitle": "Buenos días. ¿Te apetece preparar café?",
+  "notifMorningBody": "Empieza el día con una buena taza.",
+  "notifMorningTitle2": "Arriba, a preparar café",
+  "notifMorningBody2": "Tu café de la mañana puede estar listo en unos minutos.",
+  "notifMorningTitle3": "¿La primera taza del día?",
+  "notifMorningBody3": "Elige una receta y ponte a preparar.",
+  "notifWeeklyTitle": "{count, plural, =1{1 preparación esta semana} other{{count} preparaciones esta semana}}",
+  "@notifWeeklyTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifWeeklyBody": "{recipes, plural, =1{Toca para ver tus estadísticas semanales.} other{En {recipes} recetas. Toca para ver el desglose.}}",
+  "@notifWeeklyBody": {
+    "placeholders": {
+      "recipes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifBeanFreshnessTitle": "¿Hora de granos frescos?",
+  "notifBeanFreshnessBody": "Tus granos {beanName} se tostaron hace {days} días. Puede que ya hayan pasado su mejor momento.",
+  "@notifBeanFreshnessBody": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "settingsNotificationsToggle": "Activar notificaciones",
+  "settingsMorningReminder": "Recordatorio de café matutino",
+  "settingsMorningReminderSubtitle": "Recordatorio diario para tu café de la mañana",
+  "settingsMorningReminderTime": "Hora del recordatorio",
+  "settingsWeeklySummary": "Resumen semanal",
+  "settingsWeeklySummarySubtitle": "Resumen de tus preparaciones el domingo por la noche",
+  "settingsBeanFreshness": "Alertas de frescura de granos",
+  "settingsBeanFreshnessSubtitle": "Avisar cuando los granos lleven más de 3 semanas tostados",
+  "daysAgo": "{count, plural, one{hace 1 día} other{hace {count} días}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

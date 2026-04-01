@@ -1,7 +1,7 @@
 {
   "@@locale": "el",
   "beansStatsSectionTitle": "Στατιστικά κόκκων",
-  "totalBeansBrewedLabel": "Συνολικοί κόκκοι που παρασκευάστηκαν",
+  "totalBeansBrewedLabel": "Σύνολο κόκκων που χρησιμοποιήθηκαν",
   "newBeansTriedLabel": "Νέοι κόκκοι που δοκιμάστηκαν",
   "originsExploredLabel": "Προελεύσεις που εξερευνήθηκαν",
   "regionsExploredLabel": "Περιοχές που εξερευνήθηκαν",
@@ -44,7 +44,7 @@
   "coffeeamount": "Ποσότητα καφέ (g)",
   "wateramount": "Ποσότητα νερού (ml)",
   "watertemp": "Θερμοκρασία νερού",
-  "grindsize": "Μέγεθος άλεσης",
+  "grindsize": "Βαθμός άλεσης",
   "brewtime": "Χρόνος παρασκευής",
   "recipesummary": "Σύνοψη συνταγής",
   "recipesummarynote": "Σημείωση: αυτή είναι μια βασική συνταγή με προεπιλεγμένες ποσότητες νερού και καφέ.",
@@ -58,7 +58,7 @@
       "count": {}
     }
   },
-  "finishmsg": "Ευχαριστούμε που χρησιμοποιείτε το Timer.Coffee! Απολαύστε τον",
+  "finishmsg": "Ευχαριστούμε που χρησιμοποιείτε το Timer.Coffee! Απολαύστε τον καφέ σας με",
   "coffeefact": "Στοιχείο για τον καφέ",
   "home": "Αρχική",
   "appversion": "Έκδοση εφαρμογής",
@@ -80,6 +80,15 @@
   "settingsthemedark": "Σκούρο",
   "settingsthemesystem": "Σύστημα",
   "settingslang": "Γλώσσα",
+  "settingsDateTimeFormat": "Μορφοποίηση ημερομηνίας και ώρας",
+  "settingsDateFormatLabel": "Μορφή ημερομηνίας",
+  "settingsTimeFormatLabel": "Μορφή ώρας",
+  "settingsDateFormatAuto": "Αυτόματη (ανάλογα με τη γλώσσα)",
+  "settingsDateFormatDMY": "ΗΗ/ΜΜ/ΕΕΕΕ",
+  "settingsDateFormatMDY": "ΜΜ/ΗΗ/ΕΕΕΕ",
+  "settingsDateFormatYMD": "ΕΕΕΕ-ΜΜ-ΗΗ",
+  "settingsTimeFormat12h": "12 ώρες (ΠΜ/ΜΜ)",
+  "settingsTimeFormat24h": "24 ώρες",
   "sweet": "Γλυκό",
   "balance": "Ισορροπία",
   "acidic": "Όξινο",
@@ -88,7 +97,7 @@
   "slidertitle": "Χρησιμοποιήστε τα ρυθμιστικά για να προσαρμόσετε τη γεύση",
   "whatsnewtitle": "Τι νέο υπάρχει",
   "whatsnewclose": "Κλείσιμο",
-  "seasonspecials": "Εποχικές προσφορές",
+  "seasonspecials": "Εποχιακές επιλογές",
   "snow": "Χιόνι",
   "noFavoriteRecipesMessage": "Η λίστα με τις αγαπημένες σας συνταγές είναι προς το παρόν κενή. Ξεκινήστε να εξερευνάτε και να παρασκευάζετε για να ανακαλύψετε τις αγαπημένες σας!",
   "explore": "Εξερεύνηση",
@@ -97,7 +106,7 @@
   "brewdiary": "Ημερολόγιο παρασκευών",
   "brewdiarynotfound": "Δεν βρέθηκαν καταχωρίσεις",
   "beans": "Κόκκοι",
-  "roaster": "Καβουρδιστής",
+  "roaster": "Καβουρδιστήριο",
   "rating": "Αξιολόγηση",
   "notes": "Σημειώσεις",
   "statsscreen": "Στατιστικά καφέ",
@@ -132,6 +141,19 @@
     }
   },
   "pulseSomeoneFromBrewed": "Κάποιος από {country} παρασκεύασε {recipeName}",
+  "@pulseSomeoneFromBrewed": {
+    "description": "Feed card text for a brew event showing the brewer's country",
+    "placeholders": {
+      "country": {
+        "type": "String",
+        "example": "France"
+      },
+      "recipeName": {
+        "type": "String",
+        "example": "V60"
+      }
+    }
+  },
   "pulseTitle": "Παλμός",
   "hubPulseSubtitle": "Ζωντανή ροή παρασκευών",
   "pulseLiveSummary": "Ζωντανή σύνοψη",
@@ -246,7 +268,7 @@
   "processing": "Επεξεργασία",
   "processingMethod": "Μέθοδος επεξεργασίας",
   "roastDate": "Ημερομηνία καβουρδίσματος",
-  "roastLevel": "Επίπεδο καβουρδίσματος",
+  "roastLevel": "Βαθμός καβουρδίσματος",
   "cuppingScore": "Βαθμολογία cupping",
   "flavorProfile": "Γευστικό προφίλ",
   "tastingNotes": "Γευστικές νότες",
@@ -271,7 +293,7 @@
   "tokenLimitReached": "Λυπούμαστε, φτάσατε το όριο token για αναγνώριση εικόνας αυτόν τον μήνα",
   "noCoffeeLabelsDetected": "Δεν εντοπίστηκαν ετικέτες καφέ. Δοκιμάστε με άλλη εικόνα.",
   "collectedInformation": "Συλλεγμένες πληροφορίες",
-  "enterRoaster": "Εισαγάγετε καβουρδιστή",
+  "enterRoaster": "Εισαγάγετε καβουρδιστήριο",
   "enterName": "Εισαγάγετε όνομα",
   "enterOrigin": "Εισαγάγετε προέλευση",
   "optional": "Προαιρετικό",
@@ -308,7 +330,7 @@
   "signInWithGoogle": "Σύνδεση με Google",
   "signOutSuccessful": "Επιτυχής αποσύνδεση",
   "signOutConfirmationTitle": "Είστε βέβαιοι ότι θέλετε να αποσυνδεθείτε;",
-  "signOutConfirmationMessage": "Ο συγχρονισμός στο cloud θα σταματήσει. Συνδεθείτε ξανά για να συνεχίσει.",
+  "signOutConfirmationMessage": "Ο συγχρονισμός στο cloud θα σταματήσει. Συνδεθείτε ξανά για να συνεχιστεί ο συγχρονισμός.",
   "signInSuccessfulGoogle": "Επιτυχής σύνδεση με Google",
   "signInWithEmail": "Σύνδεση με email",
   "enterEmail": "Εισαγάγετε το email σας",
@@ -338,7 +360,7 @@
   "deleteAccountTitle": "Σημαντικό",
   "selectBeans": "Επιλέξτε κόκκους",
   "all": "Όλα",
-  "selectRoaster": "Επιλέξτε καβουρδιστή",
+  "selectRoaster": "Επιλέξτε καβουρδιστήριο",
   "selectOrigin": "Επιλέξτε προέλευση",
   "resetFilters": "Επαναφορά φίλτρων",
   "showFavoritesOnly": "Εμφάνιση μόνο αγαπημένων",
@@ -351,11 +373,11 @@
   "@yearlyStatsAppBarTitle": {
     "description": "Title for the AppBar in YearlyStatsStoryScreen"
   },
-  "yearlyStatsStory1Text": "Γεια σας και ευχαριστούμε που ήσασταν μέρος του σύμπαντος του Timer.Coffee φέτος!",
+  "yearlyStatsStory1Text": "Γεια σας και ευχαριστούμε που ήσασταν μέλος της κοινότητας του Timer.Coffee φέτος!",
   "@yearlyStatsStory1Text": {
     "description": "Greeting message for the first story in YearlyStatsStoryScreen"
   },
-  "yearlyStatsStory2Text": "Πρώτα απ' όλα.\nΦέτος παρασκευάσατε καφέ{ellipsis}",
+  "yearlyStatsStory2Text": "Πρώτα απ' όλα.\nΦέτος ετοιμάσατε αρκετό καφέ{ellipsis}",
   "@yearlyStatsStory2Text": {
     "description": "Introduction to total coffee brewed with ellipsis indicating continuation",
     "placeholders": {
@@ -376,6 +398,7 @@
     "description": "Statement about the number of distinct roasters used",
     "placeholders": {
       "roasterCount": {
+        "type": "num",
         "example": "5"
       }
     }
@@ -389,7 +412,7 @@
       }
     }
   },
-  "yearlyStatsStory5Text": "Ο καφές σας ταξίδεψε\nσε όλο τον κόσμο{ellipsis}",
+  "yearlyStatsStory5Text": "Ο καφές σάς ταξίδεψε\nσε όλο τον κόσμο{ellipsis}",
   "@yearlyStatsStory5Text": {
     "description": "Statement about traveling with coffee, ending with ellipsis",
     "placeholders": {
@@ -401,6 +424,7 @@
     "description": "Statement about the number of distinct origins",
     "placeholders": {
       "originCount": {
+        "type": "num",
         "example": "10"
       }
     }
@@ -418,6 +442,7 @@
     "description": "Title for low number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "3"
       }
     }
@@ -427,6 +452,7 @@
     "description": "Title for medium number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "5"
       }
     }
@@ -436,6 +462,7 @@
     "description": "Title for high number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "8"
       }
     }
@@ -531,7 +558,7 @@
       }
     }
   },
-  "yearlyStats25Slide3TopBadge": "Βρίσκεστε στο κορυφαίο {topPct}% όσων παρασκευάζουν καφέ!",
+  "yearlyStats25Slide3TopBadge": "Ανήκετε στο κορυφαίο {topPct}% όσων παρασκευάζουν καφέ!",
   "@yearlyStats25Slide3TopBadge": {
     "placeholders": {
       "topPct": {
@@ -681,12 +708,12 @@
     }
   },
   "yearlyStats25ShareTitle": "Η χρονιά μου το 2025 με το Timer.Coffee",
-  "yearlyStats25ShareBrewedPrefix": "Παρασκευάστηκαν ",
-  "yearlyStats25ShareBrewedMiddle": " φορές και ",
-  "yearlyStats25ShareBrewedSuffix": " λίτρα καφέ",
-  "yearlyStats25ShareRoastersPrefix": "Χρησιμοποιήθηκαν κόκκοι από ",
+  "yearlyStats25ShareBrewedPrefix": "Έφτιαξα καφέ ",
+  "yearlyStats25ShareBrewedMiddle": " φορές, συνολικά ",
+  "yearlyStats25ShareBrewedSuffix": " λίτρα",
+  "yearlyStats25ShareRoastersPrefix": "Χρησιμοποίησα κόκκους από ",
   "yearlyStats25ShareRoastersSuffix": " καβουρδιστήρια",
-  "yearlyStats25ShareOriginsPrefix": "Ανακαλύφθηκαν ",
+  "yearlyStats25ShareOriginsPrefix": "Ανακάλυψα ",
   "yearlyStats25ShareOriginsSuffix": " προελεύσεις καφέ",
   "yearlyStats25ShareMethodsTitle": "Οι αγαπημένες μου μέθοδοι παρασκευής:",
   "yearlyStats25ShareRecipesTitle": "Οι κορυφαίες συνταγές μου:",
@@ -878,7 +905,7 @@
       }
     }
   },
-  "dismiss": "Απόρριψη",
+  "dismiss": "Κλείσιμο",
   "reviewRecipeButton": "Έλεγχος συνταγής",
   "signInRequiredTitle": "Απαιτείται σύνδεση",
   "signInRequiredBodyShare": "Πρέπει να συνδεθείτε για να μοιραστείτε τις δικές σας συνταγές.",
@@ -1055,7 +1082,7 @@
   "@unpublishRecipeDialogKeepPublic": {
     "description": "Button text to keep the recipe public"
   },
-  "unpublishRecipeDialogMakePrivate": "Κάντε τη ιδιωτική",
+  "unpublishRecipeDialogMakePrivate": "Να γίνει ιδιωτική",
   "@unpublishRecipeDialogMakePrivate": {
     "description": "Button text to make the recipe private"
   },
@@ -1157,7 +1184,9 @@
   "notificationsEnabled": "Ενεργοποιημένες",
   "notificationsDisabled": "Απενεργοποιημένες",
   "notificationPermissionDialogTitle": "Ενεργοποίηση ειδοποιήσεων;",
-  "notificationPermissionDialogMessage": "Μπορείτε να ενεργοποιήσετε τις ειδοποιήσεις για να λαμβάνετε χρήσιμες ενημερώσεις (π.χ. για νέες εκδόσεις της εφαρμογής). Ενεργοποιήστε τις τώρα ή αλλάξτε το οποιαδήποτε στιγμή από τις ρυθμίσεις.",
+  "notificationPermissionDialogMessage": "Μπορείτε να ενεργοποιήσετε τις ειδοποιήσεις για να λαμβάνετε χρήσιμες ενημερώσεις (π.χ. για νέες εκδόσεις της εφαρμογής). Οι ειδοποιήσεις είναι επίσης απαραίτητες για ζωντανές ενημερώσεις της προόδου παρασκευής. Ενεργοποιήστε τες τώρα ή αλλάξτε αυτή την επιλογή οποτεδήποτε από τις ρυθμίσεις.",
+  "notificationPermissionDialogMessageIos": "Μπορείτε να ενεργοποιήσετε τις ειδοποιήσεις για να λαμβάνετε χρήσιμες ενημερώσεις (π.χ. για νέες εκδόσεις της εφαρμογής). Οι ειδοποιήσεις είναι επίσης απαραίτητες για τα Live Activities και το Dynamic Island στο iOS. Ενεργοποιήστε τες τώρα ή αλλάξτε αυτή την επιλογή οποτεδήποτε από τις ρυθμίσεις.",
+  "notificationPermissionDialogMessageAndroid": "Μπορείτε να ενεργοποιήσετε τις ειδοποιήσεις για να λαμβάνετε χρήσιμες ενημερώσεις (π.χ. για νέες εκδόσεις της εφαρμογής). Οι ειδοποιήσεις είναι επίσης απαραίτητες για τα Live Updates στο Android. Ενεργοποιήστε τες τώρα ή αλλάξτε αυτή την επιλογή οποτεδήποτε από τις ρυθμίσεις.",
   "notificationPermissionEnable": "Ενεργοποίηση",
   "notificationPermissionSkip": "Όχι τώρα",
   "holidayGiftBoxTitle": "Εορταστικό κουτί δώρου",
@@ -1269,7 +1298,7 @@
   "onboardingShowAll": "Εμφάνιση όλων των μεθόδων",
   "coffeeJourneyTitle": "Πρώτα βήματα",
   "coffeeJourneyMilestoneFirstBrew": "Ολοκληρώστε την πρώτη σας παρασκευή",
-  "coffeeJourneyMilestoneTryMethod": "Δοκιμάστε μια διαφορετική μέθοδο παρασκευής",
+  "coffeeJourneyMilestoneTryMethod": "Δοκιμάστε μια άλλη συνταγή",
   "coffeeJourneyMilestoneAddBeans": "Προσθέστε τους πρώτους σας κόκκους καφέ",
   "coffeeJourneyMilestoneFavorite": "Προσθέστε μια συνταγή στα αγαπημένα",
   "coffeeJourneyMilestoneStats": "Δείτε τα στατιστικά παρασκευής",
@@ -1295,5 +1324,101 @@
   "settingsAnalyticsBeans": "Κοινοποίηση αναλυτικών στοιχείων κόκκων",
   "settingsAnalyticsGeneral": "Κοινοποίηση γενικών αναλυτικών στοιχείων χρήσης",
   "done": "Τέλος",
-  "saving": "Αποθήκευση…"
+  "saving": "Αποθήκευση…",
+
+  "notifBrewReminderTitle": "Σου λείπει το τελετουργικό του καφέ;",
+  "notifBrewReminderBody": "Πέρασαν λίγες μέρες. Θες να φτιάξεις έναν ακόμη καφέ;",
+  "notifBrewReminderTitle2": "Ώρα για καφέ;",
+  "notifBrewReminderBody2": "Ο εξοπλισμός σου είναι έτοιμος όποτε θελήσεις.",
+  "notifBrewReminderTitle3": "Ο βραστήρας σε φωνάζει",
+  "notifBrewReminderBody3": "Ένα καλό φλιτζάνι απέχει μόνο λίγα λεπτά.",
+  "notifBrewEscalationTitle": "Πάλι για έναν ακόμη καφέ;",
+  "notifBrewEscalationBody": "Πέρασε καιρός. Θες να φτιάξεις κάτι καλό;",
+  "notifBrewEscalationTitle2": "Πέρασε καιρός;",
+  "notifBrewEscalationBody2": "Χωρίς βιασύνη. Ο εξοπλισμός σου είναι έτοιμος όποτε θελήσεις.",
+  "notifBrewEscalationTitle3": "Ώρα για καφέ ξανά;",
+  "notifBrewEscalationBody3": "Ένα πραγματικά καλό φλιτζάνι μπορεί να είναι έτοιμο σε λίγα λεπτά.",
+
+  "notifDiscoverBeansTitle": "Παρακολούθησε τους κόκκους σου",
+  "notifDiscoverBeansBody": "Κατέγραψε τους κόκκους σου και θυμήσου εκείνους που αγάπησες.",
+  "notifDiscoverPulseTitle": "Δες τι φτιάχνουν οι άλλοι",
+  "notifDiscoverPulseBody": "Άνοιξε τον Παλμό για να δεις ζωντανές παρασκευές από όλο τον κόσμο.",
+
+  "notifBrewMilestoneTitle": "Έφτασες σε ένα ορόσημο",
+  "notifBrewMilestoneBody": "Έχεις φτιάξει καφέ {count} φορές. Πάτησε για να δεις την πρόοδό σου.",
+  "@notifBrewMilestoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifExploreRecipesTitle": "Δοκίμασε μια νέα συνταγή για {methodName}",
+  "@notifExploreRecipesTitle": {
+    "placeholders": {
+      "methodName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifExploreRecipesBody": "{count, plural, =1{Μέχρι τώρα έχεις δοκιμάσει 1 συνταγή. Ορίστε άλλη μία για να δοκιμάσεις.} other{Μέχρι τώρα έχεις δοκιμάσει {count} συνταγές. Ορίστε άλλη μία για να δοκιμάσεις.}}",
+  "@notifExploreRecipesBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifMorningTitle": "Καλημέρα. Ώρα για καφέ;",
+  "notifMorningBody": "Ξεκίνα τη μέρα με ένα καλό φλιτζάνι.",
+  "notifMorningTitle2": "Σήκω και φτιάξε καφέ",
+  "notifMorningBody2": "Ο πρωινός καφές μπορεί να είναι έτοιμος σε λίγα λεπτά.",
+  "notifMorningTitle3": "Το πρώτο φλιτζάνι της ημέρας;",
+  "notifMorningBody3": "Διάλεξε μια συνταγή και ξεκίνα.",
+  "notifWeeklyTitle": "{count, plural, =1{1 παρασκευή αυτή την εβδομάδα} other{{count} παρασκευές αυτή την εβδομάδα}}",
+  "@notifWeeklyTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifWeeklyBody": "{recipes, plural, =1{Πάτησε για να δεις τα εβδομαδιαία στατιστικά σου.} other{Σε {recipes} συνταγές συνολικά. Πάτησε για να δεις την ανάλυση.}}",
+  "@notifWeeklyBody": {
+    "placeholders": {
+      "recipes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifBeanFreshnessTitle": "Ώρα για πιο φρέσκους κόκκους;",
+  "notifBeanFreshnessBody": "Οι κόκκοι {beanName} καβουρδίστηκαν πριν από {days} ημέρες. Μπορεί να έχουν περάσει το καλύτερό τους σημείο.",
+  "@notifBeanFreshnessBody": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "settingsNotificationsToggle": "Ενεργοποίηση ειδοποιήσεων",
+  "settingsMorningReminder": "Πρωινή υπενθύμιση καφέ",
+  "settingsMorningReminderSubtitle": "Καθημερινή υπενθύμιση για τον πρωινό σου καφέ",
+  "settingsMorningReminderTime": "Ώρα υπενθύμισης",
+  "settingsWeeklySummary": "Εβδομαδιαία σύνοψη",
+  "settingsWeeklySummarySubtitle": "Κυριακάτικη βραδινή ανακεφαλαίωση των παρασκευών σου",
+  "settingsBeanFreshness": "Ειδοποιήσεις φρεσκάδας κόκκων",
+  "settingsBeanFreshnessSubtitle": "Ειδοποίηση όταν έχουν περάσει πάνω από 3 εβδομάδες από την ημερομηνία καβουρδίσματος",
+  "daysAgo": "{count, plural, one{πριν 1 ημέρα} other{πριν {count} ημέρες}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

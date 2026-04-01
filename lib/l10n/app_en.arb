@@ -80,6 +80,15 @@
   "settingsthemedark": "Dark",
   "settingsthemesystem": "System",
   "settingslang": "Language",
+  "settingsDateTimeFormat": "Date & Time Format",
+  "settingsDateFormatLabel": "Date format",
+  "settingsTimeFormatLabel": "Time format",
+  "settingsDateFormatAuto": "Auto (matches language)",
+  "settingsDateFormatDMY": "DD/MM/YYYY",
+  "settingsDateFormatMDY": "MM/DD/YYYY",
+  "settingsDateFormatYMD": "YYYY-MM-DD",
+  "settingsTimeFormat12h": "12-hour (AM/PM)",
+  "settingsTimeFormat24h": "24-hour",
   "sweet": "Sweet",
   "balance": "Balance",
   "acidic": "Acidic",
@@ -389,6 +398,7 @@
     "description": "Statement about the number of distinct roasters used",
     "placeholders": {
       "roasterCount": {
+        "type": "num",
         "example": "5"
       }
     }
@@ -414,6 +424,7 @@
     "description": "Statement about the number of distinct origins",
     "placeholders": {
       "originCount": {
+        "type": "num",
         "example": "10"
       }
     }
@@ -431,6 +442,7 @@
     "description": "Title for low number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "3"
       }
     }
@@ -440,6 +452,7 @@
     "description": "Title for medium number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "5"
       }
     }
@@ -449,6 +462,7 @@
     "description": "Title for high number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "8"
       }
     }
@@ -1170,7 +1184,9 @@
   "notificationsEnabled": "Enabled",
   "notificationsDisabled": "Disabled",
   "notificationPermissionDialogTitle": "Enable Notifications?",
-  "notificationPermissionDialogMessage": "You can enable notifications to get useful updates (e.g. about new app versions). Enable now or change this anytime in settings.",
+  "notificationPermissionDialogMessage": "You can enable notifications to get useful updates (e.g. about new app versions). Notifications are also required for live brew progress updates. Enable now or change this anytime in settings.",
+  "notificationPermissionDialogMessageIos": "You can enable notifications to get useful updates (e.g. about new app versions). Notifications are also required for Live Activities and Dynamic Island on iOS. Enable now or change this anytime in settings.",
+  "notificationPermissionDialogMessageAndroid": "You can enable notifications to get useful updates (e.g. about new app versions). Notifications are also required for Live Updates on Android. Enable now or change this anytime in settings.",
   "notificationPermissionEnable": "Enable",
   "notificationPermissionSkip": "Not Now",
   "holidayGiftBoxTitle": "Holiday Gift Box",
@@ -1284,7 +1300,7 @@
 
   "coffeeJourneyTitle": "First Steps",
   "coffeeJourneyMilestoneFirstBrew": "Complete your first brew",
-  "coffeeJourneyMilestoneTryMethod": "Try a different brewing method",
+  "coffeeJourneyMilestoneTryMethod": "Try another recipe",
   "coffeeJourneyMilestoneAddBeans": "Add your first coffee beans",
   "coffeeJourneyMilestoneFavorite": "Favorite a recipe",
   "coffeeJourneyMilestoneStats": "Check your brew stats",
@@ -1313,5 +1329,101 @@
   "settingsAnalyticsGeneral": "Share general usage analytics",
 
   "done": "Done",
-  "saving": "Saving…"
+  "saving": "Saving…",
+
+  "notifBrewReminderTitle": "Missing your coffee ritual?",
+  "notifBrewReminderBody": "It's been a few days. Ready for another brew?",
+  "notifBrewReminderTitle2": "Time for a brew?",
+  "notifBrewReminderBody2": "Your setup is ready when you are.",
+  "notifBrewReminderTitle3": "Your kettle is calling",
+  "notifBrewReminderBody3": "A good cup is only a few minutes away.",
+  "notifBrewEscalationTitle": "Back for another brew?",
+  "notifBrewEscalationBody": "It's been a while. Ready to make something good?",
+  "notifBrewEscalationTitle2": "Been a while?",
+  "notifBrewEscalationBody2": "No rush. Your setup is ready when you are.",
+  "notifBrewEscalationTitle3": "Coffee time again?",
+  "notifBrewEscalationBody3": "A really good cup can start in just a few minutes.",
+
+  "notifDiscoverBeansTitle": "Keep track of your beans",
+  "notifDiscoverBeansBody": "Log your beans and remember the ones you loved.",
+  "notifDiscoverPulseTitle": "See what others are brewing",
+  "notifDiscoverPulseBody": "Open Pulse to see live brews from around the world.",
+
+  "notifBrewMilestoneTitle": "You hit a milestone",
+  "notifBrewMilestoneBody": "You've brewed {count} times. Tap to see your progress.",
+  "@notifBrewMilestoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifExploreRecipesTitle": "Try a new {methodName} recipe",
+  "@notifExploreRecipesTitle": {
+    "placeholders": {
+      "methodName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifExploreRecipesBody": "{count, plural, =1{So far, you have tried 1 recipe. Here is another one to try.} other{So far, you have tried {count} recipes. Here is one more to try.}}",
+  "@notifExploreRecipesBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifMorningTitle": "Good morning. Ready to brew?",
+  "notifMorningBody": "Start the day with a good cup.",
+  "notifMorningTitle2": "Rise and brew",
+  "notifMorningBody2": "Your morning brew can be ready in a few minutes.",
+  "notifMorningTitle3": "First cup of the day?",
+  "notifMorningBody3": "Pick a recipe and get brewing.",
+  "notifWeeklyTitle": "{count, plural, =1{1 brew this week} other{{count} brews this week}}",
+  "@notifWeeklyTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifWeeklyBody": "{recipes, plural, =1{Tap to see your weekly stats.} other{Across {recipes} recipes. Tap to see the breakdown.}}",
+  "@notifWeeklyBody": {
+    "placeholders": {
+      "recipes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifBeanFreshnessTitle": "Time for fresh beans?",
+  "notifBeanFreshnessBody": "Your {beanName} was roasted {days} days ago. It may be past its peak.",
+  "@notifBeanFreshnessBody": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "settingsNotificationsToggle": "Enable notifications",
+  "settingsMorningReminder": "Morning brew reminder",
+  "settingsMorningReminderSubtitle": "Daily reminder for your morning brew",
+  "settingsMorningReminderTime": "Reminder time",
+  "settingsWeeklySummary": "Weekly summary",
+  "settingsWeeklySummarySubtitle": "Sunday evening recap of your brews",
+  "settingsBeanFreshness": "Bean freshness alerts",
+  "settingsBeanFreshnessSubtitle": "Notify when beans are more than 3 weeks past roast date",
+  "daysAgo": "{count, plural, one{1 day ago} other{{count} days ago}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

@@ -21,7 +21,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get originsExploredLabel => '探索的产地';
 
   @override
-  String get regionsExploredLabel => '欧洲';
+  String get regionsExploredLabel => '探索的产区';
 
   @override
   String get newRoastersDiscoveredLabel => '发现的新烘焙商';
@@ -33,13 +33,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get topOriginsLabel => '热门产地';
 
   @override
-  String get topRegionsLabel => '热门地区';
+  String get topRegionsLabel => '热门产区';
 
   @override
-  String get lastrecipe => '最近使用的食谱：';
+  String get lastrecipe => '最近使用的配方：';
 
   @override
-  String get userRecipesTitle => '你的食谱';
+  String get userRecipesTitle => '你的配方';
 
   @override
   String get userRecipesSectionCreated => '你创建的';
@@ -48,10 +48,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get userRecipesSectionImported => '你导入的';
 
   @override
-  String get userRecipesEmpty => '未找到食谱';
+  String get userRecipesEmpty => '未找到配方';
 
   @override
-  String get userRecipesDeleteTitle => '删除食谱？';
+  String get userRecipesDeleteTitle => '删除配方？';
 
   @override
   String get userRecipesDeleteMessage => '此操作无法撤销。';
@@ -63,25 +63,25 @@ class AppLocalizationsZh extends AppLocalizations {
   String get userRecipesDeleteCancel => '取消';
 
   @override
-  String get userRecipesSnackbarDeleted => '已删除食谱';
+  String get userRecipesSnackbarDeleted => '已删除配方';
 
   @override
-  String get hubUserRecipesTitle => '你的食谱';
+  String get hubUserRecipesTitle => '你的配方';
 
   @override
-  String get hubUserRecipesSubtitle => '查看并管理你创建和导入的食谱';
+  String get hubUserRecipesSubtitle => '查看并管理你创建和导入的配方';
 
   @override
-  String get hubAccountSubtitle => '管理您的个人资料';
+  String get hubAccountSubtitle => '管理个人资料';
 
   @override
   String get hubSignInCreateSubtitle => '登录以同步配方和偏好设置';
 
   @override
-  String get hubBrewDiarySubtitle => '查看您的冲泡历史并添加笔记';
+  String get hubBrewDiarySubtitle => '查看冲煮记录并添加笔记';
 
   @override
-  String get hubBrewStatsSubtitle => '查看个人和全球冲泡统计和趋势';
+  String get hubBrewStatsSubtitle => '查看个人和全球冲煮统计和趋势';
 
   @override
   String get hubSettingsSubtitle => '更改应用偏好和行为';
@@ -110,7 +110,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get licensetext =>
-      '这个应用程序是免费软件:您可以在自由软件基金会发布的GNU通用公共许可证条款下重新分发和/或修改它，不论是许可证的第3版，或（根据您的选择）任何后续版本。';
+      '本应用为免费软件：您可以根据自由软件基金会发布的 GNU 通用公共许可证条款重新分发和/或修改它，适用许可证第 3 版或（根据您的选择）任何后续版本。';
 
   @override
   String get licensebutton => '阅读GNU通用公共许可证v3';
@@ -128,13 +128,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get supportButtonLabel => '客服';
 
   @override
-  String get allrecipes => '所有食谱';
+  String get allrecipes => '所有配方';
 
   @override
-  String get favoriterecipes => '喜爱的食谱';
+  String get favoriterecipes => '喜爱的配方';
 
   @override
-  String get coffeeamount => '咖啡量（克）';
+  String get coffeeamount => '咖啡粉量（克）';
 
   @override
   String get wateramount => '水量（毫升）';
@@ -146,19 +146,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get grindsize => '研磨度';
 
   @override
-  String get brewtime => '冲泡时间';
+  String get brewtime => '冲煮时间';
 
   @override
-  String get recipesummary => '食谱摘要';
+  String get recipesummary => '配方摘要';
 
   @override
-  String get recipesummarynote => '注：这是一份基本食谱，包含默认的水和咖啡量。';
+  String get recipesummarynote => '注：这是一份基本配方，包含默认的水和咖啡量。';
 
   @override
   String get preparation => '准备';
 
   @override
-  String get brewingprocess => '冲泡过程';
+  String get brewingprocess => '冲煮过程';
 
   @override
   String get step => '步骤';
@@ -176,7 +176,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get finishmsg => '感谢您使用Timer.Coffee!请享用您的';
+  String get finishmsg => '感谢您使用 Timer.Coffee！请享用您的';
 
   @override
   String get coffeefact => '咖啡事实';
@@ -201,7 +201,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get supportdevmsg =>
-      '您的捐款有助于覆盖维护成本（例如开发者许可证等）。它们还使我能够尝试更多咖啡冲泡设备，并向应用中添加更多食谱。';
+      '您的捐款有助于覆盖维护成本（例如开发者许可证等）。它们还使我能够尝试更多咖啡冲煮设备，并向应用中添加更多配方。';
 
   @override
   String get supportdevtnx => '感谢您考虑捐赠！';
@@ -210,7 +210,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get donationok => '谢谢您！';
 
   @override
-  String get donationtnx => '非常感谢您的支持！祝您冲泡出许多美味的咖啡！☕️';
+  String get donationtnx => '非常感谢您的支持！祝您冲煮出许多美味的咖啡！☕️';
 
   @override
   String get donationerr => '错误';
@@ -219,13 +219,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get donationerrmsg => '处理购买时出错，请重试。';
 
   @override
-  String get sharemsg => '查看这个食谱：';
+  String get sharemsg => '查看这个配方：';
 
   @override
   String get finishbrew => '完成';
 
   @override
-  String get settings => '設定';
+  String get settings => '设置';
 
   @override
   String get settingstheme => '主题';
@@ -240,7 +240,34 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsthemesystem => '系统';
 
   @override
-  String get settingslang => '言語';
+  String get settingslang => '语言';
+
+  @override
+  String get settingsDateTimeFormat => '日期和时间格式';
+
+  @override
+  String get settingsDateFormatLabel => '日期格式';
+
+  @override
+  String get settingsTimeFormatLabel => '时间格式';
+
+  @override
+  String get settingsDateFormatAuto => '自动（跟随语言）';
+
+  @override
+  String get settingsDateFormatDMY => 'DD/MM/YYYY';
+
+  @override
+  String get settingsDateFormatMDY => 'MM/DD/YYYY';
+
+  @override
+  String get settingsDateFormatYMD => 'YYYY-MM-DD';
+
+  @override
+  String get settingsTimeFormat12h => '12小时制（上午/下午）';
+
+  @override
+  String get settingsTimeFormat24h => '24小时制';
 
   @override
   String get sweet => '甜';
@@ -273,7 +300,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get snow => '雪';
 
   @override
-  String get noFavoriteRecipesMessage => '您的最爱食谱列表当前为空。开始探索和酿造，以发现您的最爱！';
+  String get noFavoriteRecipesMessage => '您最爱的配方列表当前为空。开始探索和冲煮，发现您最爱的配方！';
 
   @override
   String get explore => '探索';
@@ -309,7 +336,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get yourStats => '您的统计数据';
 
   @override
-  String get coffeeBrewed => '咖啡冲泡：';
+  String get coffeeBrewed => '咖啡冲煮：';
 
   @override
   String get litersUnit => '升';
@@ -339,21 +366,21 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String someoneJustBrewed(Object recipeName) {
-    return '有人刚刚冲泡了 $recipeName';
+    return '有人刚刚冲煮了 $recipeName';
   }
 
   @override
   String pulseSomeoneBrewed(String recipeName) {
-    return '有人冲泡了$recipeName';
+    return '有人冲煮了$recipeName';
   }
 
   @override
   String pulseSomeoneFromBrewed(String country, String recipeName) {
-    return '$country有人冲泡了$recipeName';
+    return '$country有人冲煮了$recipeName';
   }
 
   @override
-  String get pulseTitle => '脉动';
+  String get pulseTitle => '动态';
 
   @override
   String get hubPulseSubtitle => '实时冲煮动态';
@@ -477,7 +504,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get statsFor => '的统计信息 ';
 
   @override
-  String get homescreenbrewcoffee => '冲泡咖啡';
+  String get homescreenbrewcoffee => '冲煮咖啡';
 
   @override
   String get homescreenhub => '中心区';
@@ -516,10 +543,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get confirmDeleteTitle => '删除条目？';
 
   @override
-  String get recipeDuplicateConfirmTitle => '复制食谱？';
+  String get recipeDuplicateConfirmTitle => '复制配方？';
 
   @override
-  String get recipeDuplicateConfirmMessage => '这将创建一份您可以独立编辑的食谱副本。您要继续吗？';
+  String get recipeDuplicateConfirmMessage => '这将创建一份您可以独立编辑的配方副本。您要继续吗？';
 
   @override
   String get confirmDeleteMessage => '您确定要删除此条目吗？此操作无法撤销。';
@@ -552,7 +579,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get variety => '品种';
 
   @override
-  String get region => '北美';
+  String get region => '产区';
 
   @override
   String get elevation => '海拔';
@@ -561,10 +588,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get harvestDate => '收获日期';
 
   @override
-  String get processing => '加工方式';
+  String get processing => '处理法';
 
   @override
-  String get processingMethod => '加工方法';
+  String get processingMethod => '处理方式';
 
   @override
   String get roastDate => '烘焙日期';
@@ -579,7 +606,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get flavorProfile => '风味特征';
 
   @override
-  String get tastingNotes => '品尝笔记';
+  String get tastingNotes => '风味描述';
 
   @override
   String get additionalNotes => '附加说明';
@@ -601,7 +628,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get firstTimePopupMessage =>
-      '1. 我们使用外部服务来处理图像。继续操作即表示您同意此操作。\n2. 虽然我们不会存储您的图像，但请避免包含任何个人信息。\n3. 图像识别目前每月限制为 10 个令牌（1 个令牌 = 1 张图像）。此限制将来可能会更改。';
+      '1. 我们使用外部服务来处理图像。继续操作即表示您同意此操作。\n2. 虽然我们不会存储您的图像，但请避免包含任何个人信息。\n3. 图像识别目前每月限制为 10 次（1 次 = 1 张图像）。此限制将来可能会更改。';
 
   @override
   String get ok => '好的';
@@ -661,7 +688,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get enterVariety => '输入品种';
 
   @override
-  String get enterProcessingMethod => '输入加工方法';
+  String get enterProcessingMethod => '输入处理方式';
 
   @override
   String get enterRoastLevel => '输入烘焙程度';
@@ -670,7 +697,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get enterRegion => '输入地区';
 
   @override
-  String get enterTastingNotes => '输入品尝笔记';
+  String get enterTastingNotes => '输入风味描述';
 
   @override
   String get enterElevation => '输入海拔';
@@ -730,10 +757,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get myBeans => '我的咖啡豆';
 
   @override
-  String get signIn => '登入';
+  String get signIn => '登录';
 
   @override
-  String get signOut => '登出';
+  String get signOut => '退出';
 
   @override
   String get signInWithApple => '使用 Apple 登录';
@@ -754,7 +781,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get signOutSuccessful => '成功退出';
 
   @override
-  String get signOutConfirmationTitle => '确定要登出吗？';
+  String get signOutConfirmationTitle => '确定要退出吗？';
 
   @override
   String get signOutConfirmationMessage => '云同步将停止工作。重新登录即可恢复。';
@@ -763,10 +790,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get signInSuccessfulGoogle => '已使用 Google 帐户成功登录';
 
   @override
-  String get signInWithEmail => '用電子郵件登入';
+  String get signInWithEmail => '使用电子邮件登录';
 
   @override
-  String get enterEmail => '請輸入您的電子郵件';
+  String get enterEmail => '请输入您的电子邮件';
 
   @override
   String get emailHint => '例： example@email.com';
@@ -775,10 +802,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cancel => '取消';
 
   @override
-  String get sendMagicLink => '傳送神奇連結';
+  String get sendMagicLink => '发送登录链接';
 
   @override
-  String get magicLinkSent => '神奇連結已發送！請查看您的電子郵件。';
+  String get magicLinkSent => '登录链接已发送！请查看您的电子邮件。';
 
   @override
   String get sendOTP => '发送一次性密码';
@@ -814,7 +841,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get otpSentMessage => '一个一次性密码已发送至您的邮箱。收到后，请在下方输入。';
 
   @override
-  String get otpHint2 => '輸入代碼';
+  String get otpHint2 => '输入验证码';
 
   @override
   String get signInCreate => '登录 / 创建帐户';
@@ -882,7 +909,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String yearlyStatsStory2Text(Object ellipsis) {
-    return '首先...\n您今年煮了一些咖啡$ellipsis';
+    return '首先…\n您今年煮了一些咖啡$ellipsis';
   }
 
   @override
@@ -891,7 +918,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return '您使用了来自 $roasterCount 个烘焙商的咖啡豆';
   }
 
@@ -906,7 +933,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return '您品尝了来自\n$originCount 个国家的咖啡豆！';
   }
 
@@ -917,17 +944,17 @@ class AppLocalizationsZh extends AppLocalizations {
   String get yearlyStatsStory7Part2 => '……还有来自 6 大洲 110 个\n其他国家的用户！';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return '您忠于自己，今年只使用了这 $count 种冲煮方法：';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return '您在探索新口味，今年使用了 $count 种冲煮方法：';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return '您是一位真正的咖啡探索者，今年使用了 $count 种冲煮方法：';
   }
 
@@ -983,7 +1010,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get yearlyStats25Slide1Subtitle => '点按查看您在 2025 年的冲煮回顾';
 
   @override
-  String get yearlyStats25Slide2Intro => '我们一起冲煮了咖啡...';
+  String get yearlyStats25Slide2Intro => '我们一起冲煮了咖啡…';
 
   @override
   String yearlyStats25Slide2Count(String count) {
@@ -1101,7 +1128,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get yearlyStats25Others => '...以及其他';
+  String get yearlyStats25Others => '…以及其他';
 
   @override
   String yearlyStats25FallbackTitle(int countries, int roasters) {
@@ -1133,7 +1160,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get yearlyStats25PostcardHint => '新年快乐，冲煮顺利！';
 
   @override
-  String get yearlyStats25PostcardSending => '发送中...';
+  String get yearlyStats25PostcardSending => '发送中…';
 
   @override
   String get yearlyStats25PostcardSend => '发送';
@@ -1286,16 +1313,16 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get recipeCreationScreenEditRecipeTitle => '编辑食谱';
+  String get recipeCreationScreenEditRecipeTitle => '编辑配方';
 
   @override
-  String get recipeCreationScreenCreateRecipeTitle => '创建食谱';
+  String get recipeCreationScreenCreateRecipeTitle => '创建配方';
 
   @override
-  String get recipeCreationScreenRecipeStepsTitle => '食谱步骤';
+  String get recipeCreationScreenRecipeStepsTitle => '配方步骤';
 
   @override
-  String get recipeCreationScreenRecipeNameLabel => '食谱名称';
+  String get recipeCreationScreenRecipeNameLabel => '配方名称';
 
   @override
   String get recipeCreationScreenShortDescriptionLabel => '简短描述';
@@ -1339,7 +1366,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get recipeCreationScreenStepTimeLabel => '步骤时间: ';
 
   @override
-  String get recipeCreationScreenRecipeNameValidator => '请输入食谱名称';
+  String get recipeCreationScreenRecipeNameValidator => '请输入配方名称';
 
   @override
   String get recipeCreationScreenShortDescriptionValidator => '请输入简短描述';
@@ -1357,23 +1384,23 @@ class AppLocalizationsZh extends AppLocalizations {
   String get recipeCreationScreenStepDescriptionValidator => '请输入步骤描述';
 
   @override
-  String get recipeCreationScreenContinueButton => '继续至食谱步骤';
+  String get recipeCreationScreenContinueButton => '继续至配方步骤';
 
   @override
   String get recipeCreationScreenAddStepButton => '添加步骤';
 
   @override
-  String get recipeCreationScreenSaveRecipeButton => '保存食谱';
+  String get recipeCreationScreenSaveRecipeButton => '保存配方';
 
   @override
-  String get recipeCreationScreenUpdateSuccess => '食谱更新成功';
+  String get recipeCreationScreenUpdateSuccess => '配方更新成功';
 
   @override
-  String get recipeCreationScreenSaveSuccess => '食谱保存成功';
+  String get recipeCreationScreenSaveSuccess => '配方保存成功';
 
   @override
   String recipeCreationScreenSaveError(String error) {
-    return '保存食谱时出错: $error';
+    return '保存配方时出错: $error';
   }
 
   @override
@@ -1392,7 +1419,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get recipeCopySuccess => '配方复制成功！';
 
   @override
-  String get recipeDuplicateSuccess => '食谱复制成功！';
+  String get recipeDuplicateSuccess => '配方复制成功！';
 
   @override
   String recipeCopyError(String error) {
@@ -1416,7 +1443,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get defaultPreparationStepDescription => '准备';
 
   @override
-  String get loadingEllipsis => '加载中...';
+  String get loadingEllipsis => '加载中…';
 
   @override
   String get recipeDeletedSuccess => '配方已成功删除';
@@ -1447,25 +1474,25 @@ class AppLocalizationsZh extends AppLocalizations {
   String get notProvided => '未提供';
 
   @override
-  String get recipeUpdateFailedFetch => '获取更新的食谱数据失败。';
+  String get recipeUpdateFailedFetch => '获取更新的配方数据失败。';
 
   @override
-  String get recipeImportSuccess => '食谱导入成功！';
+  String get recipeImportSuccess => '配方导入成功！';
 
   @override
-  String get recipeImportFailedSave => '保存导入的食谱失败。';
+  String get recipeImportFailedSave => '保存导入的配方失败。';
 
   @override
-  String get recipeImportFailedFetch => '获取导入的食谱数据失败。';
+  String get recipeImportFailedFetch => '获取导入的配方数据失败。';
 
   @override
-  String get recipeNotImported => '食谱未导入。';
+  String get recipeNotImported => '配方未导入。';
 
   @override
-  String get recipeNotFoundCloud => '在云端找不到食谱或食谱未公开。';
+  String get recipeNotFoundCloud => '在云端找不到配方或配方未公开。';
 
   @override
-  String get recipeLoadErrorGeneric => '加载食谱时出错。';
+  String get recipeLoadErrorGeneric => '加载配方时出错。';
 
   @override
   String get recipeUpdateAvailableTitle => '有可用的更新';
@@ -1485,11 +1512,11 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dialogUpdate => '更新';
 
   @override
-  String get recipeImportTitle => '导入食谱';
+  String get recipeImportTitle => '导入配方';
 
   @override
   String recipeImportBody(String recipeName) {
-    return '您想从云端导入食谱“$recipeName”吗？';
+    return '您想从云端导入配方“$recipeName”吗？';
   }
 
   @override
@@ -1500,35 +1527,35 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String moderationReviewNeededMessage(String recipeNames) {
-    return '由于内容审核问题，以下食谱需要审核：$recipeNames';
+    return '由于内容审核问题，以下配方需要审核：$recipeNames';
   }
 
   @override
   String get dismiss => '忽略';
 
   @override
-  String get reviewRecipeButton => '审核食谱';
+  String get reviewRecipeButton => '审核配方';
 
   @override
   String get signInRequiredTitle => '需要登录';
 
   @override
-  String get signInRequiredBodyShare => '您需要登录才能分享您自己的食谱。';
+  String get signInRequiredBodyShare => '您需要登录才能分享您自己的配方。';
 
   @override
   String get syncSuccess => '同步成功！';
 
   @override
-  String get tooltipEditRecipe => '编辑食谱';
+  String get tooltipEditRecipe => '编辑配方';
 
   @override
-  String get tooltipCopyRecipe => '复制食谱';
+  String get tooltipCopyRecipe => '复制配方';
 
   @override
-  String get tooltipDuplicateRecipe => '复制食谱';
+  String get tooltipDuplicateRecipe => '复制配方';
 
   @override
-  String get tooltipShareRecipe => '分享食谱';
+  String get tooltipShareRecipe => '分享配方';
 
   @override
   String get signInRequiredSnackbar => '需要登录';
@@ -1544,12 +1571,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String moderationFailedBody(String reason) {
-    return '此食谱无法分享，原因：$reason';
+    return '此配方无法分享，原因：$reason';
   }
 
   @override
   String shareErrorGeneric(String error) {
-    return '分享食谱时出错：$error';
+    return '分享配方时出错：$error';
   }
 
   @override
@@ -1632,7 +1659,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get account => '账户';
 
   @override
-  String get settingsBrewingMethodsTitle => '主屏幕冲泡方法';
+  String get settingsBrewingMethodsTitle => '主屏幕冲煮方法';
 
   @override
   String get filter => '筛选';
@@ -1656,7 +1683,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsAppIconLegacy => '旧版';
 
   @override
-  String get searchBeans => '搜索咖啡豆...';
+  String get searchBeans => '搜索咖啡豆…';
 
   @override
   String get favorites => '收藏';
@@ -1698,7 +1725,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get importantDates => '重要日期';
 
   @override
-  String get brewStats => '冲泡统计';
+  String get brewStats => '冲煮统计';
 
   @override
   String get showMore => '显示更多';
@@ -1756,7 +1783,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get chipInputHintText => '添加标签...';
+  String get chipInputHintText => '添加标签…';
 
   @override
   String get unitFieldRequiredError => '此字段为必填项';
@@ -1791,7 +1818,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get dropdownSearchHintText => '输入以搜索...';
+  String get dropdownSearchHintText => '输入以搜索…';
 
   @override
   String dropdownSearchLoadingError(Object error) {
@@ -1802,7 +1829,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dropdownSearchNoResults => '未找到结果';
 
   @override
-  String get dropdownSearchLoading => '搜索中...';
+  String get dropdownSearchLoading => '搜索中…';
 
   @override
   String dropdownSearchUseCustomEntry(Object currentQuery) {
@@ -1883,7 +1910,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      '您可以启用通知以获取有用的更新（例如，关于新应用版本）。现在启用或随时在设置中更改此选项。';
+      '您可以启用通知以获取有用的更新（例如，关于新应用版本）。通知也是显示冲煮进度实时更新所必需的。现在启用，或稍后随时在设置中更改。';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      '您可以启用通知以获取有用的更新（例如，关于新应用版本）。通知也是 iOS 上 Live Activities 和 Dynamic Island 所必需的。现在启用，或稍后随时在设置中更改。';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      '您可以启用通知以获取有用的更新（例如，关于新应用版本）。通知也是 Android 上 Live Updates 所必需的。现在启用，或稍后随时在设置中更改。';
 
   @override
   String get notificationPermissionEnable => '启用';
@@ -2083,7 +2118,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get coffeeJourneyMilestoneFirstBrew => '完成第一次冲煮';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod => '尝试不同的冲煮方式';
+  String get coffeeJourneyMilestoneTryMethod => '尝试另一款配方';
 
   @override
   String get coffeeJourneyMilestoneAddBeans => '添加第一款咖啡豆';
@@ -2092,7 +2127,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get coffeeJourneyMilestoneFavorite => '将配方添加到收藏夹';
 
   @override
-  String get coffeeJourneyMilestoneStats => '查看冲泡统计';
+  String get coffeeJourneyMilestoneStats => '查看冲煮统计';
 
   @override
   String get coffeeJourneyMilestonePulse => '看看世界各地的人都在怎么冲煮';
@@ -2162,4 +2197,158 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get saving => '正在保存…';
+
+  @override
+  String get notifBrewReminderTitle => '最近想喝咖啡了吗？';
+
+  @override
+  String get notifBrewReminderBody => '好几天没冲了。准备再来一杯吗？';
+
+  @override
+  String get notifBrewReminderTitle2 => '该来一杯了吗？';
+
+  @override
+  String get notifBrewReminderBody2 => '器具已经准备好了，就等你。';
+
+  @override
+  String get notifBrewReminderTitle3 => '你的水壶在等你';
+
+  @override
+  String get notifBrewReminderBody3 => '一杯好咖啡，只差几分钟。';
+
+  @override
+  String get notifBrewEscalationTitle => '想再来一杯吗？';
+
+  @override
+  String get notifBrewEscalationBody => '有一阵子没冲了。准备再来一杯吗？';
+
+  @override
+  String get notifBrewEscalationTitle2 => '有段时间没冲了？';
+
+  @override
+  String get notifBrewEscalationBody2 => '不用着急。器具已经准备好了，就等你。';
+
+  @override
+  String get notifBrewEscalationTitle3 => '又到咖啡时间了吗？';
+
+  @override
+  String get notifBrewEscalationBody3 => '一杯真正好喝的咖啡，几分钟就能开始。';
+
+  @override
+  String get notifDiscoverBeansTitle => '记录你的咖啡豆';
+
+  @override
+  String get notifDiscoverBeansBody => '把咖啡豆记下来，别忘了那些你最喜欢的。';
+
+  @override
+  String get notifDiscoverPulseTitle => '看看大家都在冲什么';
+
+  @override
+  String get notifDiscoverPulseBody => '打开动态，看看世界各地的实时冲煮。';
+
+  @override
+  String get notifBrewMilestoneTitle => '你刷新记录了';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    return '你已经冲煮了$count次。点按查看进度。';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return '试试新的$methodName配方';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '到目前为止，你已经试过$count个配方。再给你一个试试。',
+      one: '到目前为止，你已经试过1个配方。再给你一个试试。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => '早安。准备开始冲煮了吗？';
+
+  @override
+  String get notifMorningBody => '用一杯好咖啡开启一天。';
+
+  @override
+  String get notifMorningTitle2 => '起床，开冲';
+
+  @override
+  String get notifMorningBody2 => '你的晨间咖啡几分钟就能准备好。';
+
+  @override
+  String get notifMorningTitle3 => '今天的第一杯？';
+
+  @override
+  String get notifMorningBody3 => '选个配方，开始冲吧。';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '本周冲煮 $count 次',
+      one: '本周冲煮 1 次',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: '你试过 $recipes 个配方。点按查看详情。',
+      one: '点按查看你的每周统计。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => '该换更新鲜的豆子了吗？';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    return '$beanName 是 $days 天前烘焙的。可能已经过了最佳风味期。';
+  }
+
+  @override
+  String get settingsNotificationsToggle => '启用通知';
+
+  @override
+  String get settingsMorningReminder => '晨间冲煮提醒';
+
+  @override
+  String get settingsMorningReminderSubtitle => '每天提醒你冲一杯晨间咖啡';
+
+  @override
+  String get settingsMorningReminderTime => '提醒时间';
+
+  @override
+  String get settingsWeeklySummary => '每周总结';
+
+  @override
+  String get settingsWeeklySummarySubtitle => '周日晚上回顾本周的冲煮';
+
+  @override
+  String get settingsBeanFreshness => '咖啡豆新鲜度提醒';
+
+  @override
+  String get settingsBeanFreshnessSubtitle => '咖啡豆烘焙满 3 周时通知';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count天前',
+    );
+    return '$_temp0';
+  }
 }

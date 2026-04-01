@@ -21,7 +21,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get originsExploredLabel => 'Origens exploradas';
 
   @override
-  String get regionsExploredLabel => 'Europa';
+  String get regionsExploredLabel => 'Regiões exploradas';
 
   @override
   String get newRoastersDiscoveredLabel => 'Novas torrefações descobertas';
@@ -102,7 +102,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get authortext =>
-      'O aplicativo Timer.Coffee foi criado por Anton Karliner, um entusiasta do café, especialista em mídia e fotojornalista. Espero que este aplicativo ajude você a desfrutar do seu café. Sinta-se à vontade para contribuir no GitHub.';
+      'O app Timer.Coffee foi criado por Anton Karliner, um entusiasta de café, especialista em mídia e fotojornalista. Espero que este app ajude você a aproveitar ainda mais seu café. Fique à vontade para contribuir no GitHub.';
 
   @override
   String get contributors => 'Contribuidores';
@@ -115,7 +115,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get licensetext =>
-      'Este aplicativo é um software livre: você pode redistribuí-lo e/ou modificá-lo sob os termos da Licença Pública Geral GNU conforme publicada pela Free Software Foundation, seja a versão 3 da Licença, ou (a seu critério) qualquer versão posterior.';
+      'Este app é um software livre: você pode redistribuí-lo e/ou modificá-lo nos termos da Licença Pública Geral GNU, publicada pela Free Software Foundation, seja na versão 3 da Licença ou (a seu critério) qualquer versão posterior.';
 
   @override
   String get licensebutton => 'Leia a Licença Pública Geral GNU v3';
@@ -127,7 +127,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get sourcecode => 'Código-fonte';
 
   @override
-  String get support => 'Compre um café para o desenvolvedor';
+  String get support => 'Me pague um café';
 
   @override
   String get supportButtonLabel => 'Suporte';
@@ -158,7 +158,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get recipesummarynote =>
-      'Nota: esta é uma receita básica com quantidades padrão de água e café.';
+      'Nota: esta é uma receita básica com as quantidades padrão de água e café.';
 
   @override
   String get preparation => 'Preparação';
@@ -207,7 +207,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get supportdevmsg =>
-      'Suas doações ajudam a cobrir os custos de manutenção (como licenças de desenvolvedor, por exemplo). Elas também me permitem experimentar mais dispositivos de preparação de café e adicionar mais receitas ao aplicativo.';
+      'Suas doações ajudam a cobrir os custos de manutenção (como licenças de desenvolvedor, por exemplo). Elas também me permitem testar mais métodos de preparo e adicionar mais receitas ao app.';
 
   @override
   String get supportdevtnx => 'Obrigado por considerar uma doação!';
@@ -217,7 +217,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get donationtnx =>
-      'Realmente aprecio seu apoio! Desejo-lhe muitos ótimos cafés! ☕️';
+      'Agradeço muito pelo apoio! Que você faça muitos ótimos preparos! ☕️';
 
   @override
   String get donationerr => 'Erro';
@@ -249,6 +249,33 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settingslang => 'Idioma';
+
+  @override
+  String get settingsDateTimeFormat => 'Formato de data e hora';
+
+  @override
+  String get settingsDateFormatLabel => 'Formato de data';
+
+  @override
+  String get settingsTimeFormatLabel => 'Formato de hora';
+
+  @override
+  String get settingsDateFormatAuto => 'Automático (baseado no idioma)';
+
+  @override
+  String get settingsDateFormatDMY => 'DD/MM/AAAA';
+
+  @override
+  String get settingsDateFormatMDY => 'MM/DD/AAAA';
+
+  @override
+  String get settingsDateFormatYMD => 'AAAA-MM-DD';
+
+  @override
+  String get settingsTimeFormat12h => '12 horas (AM/PM)';
+
+  @override
+  String get settingsTimeFormat24h => '24 horas';
 
   @override
   String get sweet => 'Doce';
@@ -564,7 +591,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get variety => 'Variedade';
 
   @override
-  String get region => 'América do Norte';
+  String get region => 'Região';
 
   @override
   String get elevation => 'Altitude';
@@ -613,7 +640,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get firstTimePopupMessage =>
-      '1. Usamos serviços externos para processar imagens. Ao continuar, você concorda com isso.\n2. Embora não armazenemos suas imagens, evite incluir quaisquer dados pessoais.\n3. O reconhecimento de imagem está atualmente limitado a 10 tokens por mês (1 token = 1 imagem). Esse limite pode mudar no futuro.';
+      '1. Usamos serviços externos para processar imagens. Ao continuar, você concorda com isso.\n2. Embora não armazenemos suas imagens, evite incluir quaisquer dados pessoais.\n3. O reconhecimento de imagem está limitado a 10 tokens por mês (1 token = 1 imagem). Esse limite pode mudar no futuro.';
 
   @override
   String get ok => 'OK';
@@ -845,7 +872,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get deleteAccountWarning =>
-      'Cuidado: se você escolher continuar, nós excluiremos sua conta e dados relacionados dos nossos servidores. A cópia local dos dados permanecerá no dispositivo, mas se você quiser excluí-la também, basta desinstalar o aplicativo. Para reativar a sincronização, você precisará criar uma conta novamente';
+      'Atenção: se você continuar, sua conta e os dados relacionados serão excluídos dos nossos servidores. A cópia local dos dados permanecerá no dispositivo. Para excluí-la também, basta desinstalar o app. Para reativar a sincronização, será preciso criar uma nova conta';
 
   @override
   String get deleteAccountConfirmation => 'Conta excluída com sucesso';
@@ -911,7 +938,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return 'Você usou grãos de $roasterCount torrefações';
   }
 
@@ -926,30 +953,30 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'Você experimentou grãos de café\nde $originCount países!';
   }
 
   @override
   String get yearlyStatsStory7Part1 =>
-      'Você não estava a preparar café sozinho…';
+      'Você não estava preparando café sozinho…';
 
   @override
   String get yearlyStatsStory7Part2 =>
-      '...mas com utilizadores de outros 110\npaíses em 6 continentes!';
+      '...mas com usuários de outros 110\npaíses em 6 continentes!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return 'Você se manteve fiel a si mesmo e usou apenas estes $count métodos de preparo este ano:';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return 'Você estava descobrindo novos sabores e usou $count métodos de preparo este ano:';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return 'Você foi um verdadeiro descobridor de café e usou $count métodos de preparo este ano:';
   }
 
@@ -992,7 +1019,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get yearlyStatsShareProgressTop3Roasters =>
-      'Meus 3 melhores torrefadores:';
+      'Minhas 3 torrefações favoritas:';
 
   @override
   String get yearlyStats25AppBarTitle => 'Seu ano com Timer.Coffee – 2025';
@@ -1746,13 +1773,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get farmer => 'Agricultor';
 
   @override
-  String get farm => 'Fazenda de café';
+  String get farm => 'Fazenda';
 
   @override
-  String get enterFarmer => 'Digite o agricultor';
+  String get enterFarmer => 'Digite o produtor (opcional)';
 
   @override
-  String get enterFarm => 'Digite a fazenda de café';
+  String get enterFarm => 'Digite a fazenda (opcional)';
 
   @override
   String get requiredInformation => 'Informações necessárias';
@@ -1788,11 +1815,11 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get unpublishRecipeDialogBullet2 =>
-      'Impedir que novos utilizadores a importem';
+      'Impedir que novos usuários a importem';
 
   @override
   String get unpublishRecipeDialogBullet3 =>
-      'Os utilizadores que já a importaram irão manter as suas cópias';
+      'Usuários que já importaram a receita manterão suas cópias';
 
   @override
   String get unpublishRecipeDialogKeepPublic => 'Manter pública';
@@ -1811,11 +1838,11 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get recipePublicTooltip =>
-      'A receita é pública - toque para a tornar privada';
+      'Receita pública — toque para tornar privada';
 
   @override
   String get recipePrivateTooltip =>
-      'A receita é privada - partilhe para a tornar pública';
+      'Receita privada — compartilhe para tornar pública';
 
   @override
   String get fieldClearButtonTooltip => 'Limpar';
@@ -1964,7 +1991,15 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      'Você pode ativar as notificações para receber atualizações úteis (ex. sobre novas versões do aplicativo). Ative agora ou altere isso a qualquer momento nas configurações.';
+      'Você pode ativar as notificações para receber atualizações úteis (por exemplo, sobre novas versões do app). As notificações também são necessárias para acompanhar o progresso do preparo em tempo real. Ative agora ou altere isso a qualquer momento nas configurações.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'Você pode ativar as notificações para receber atualizações úteis (por exemplo, sobre novas versões do app). As notificações também são necessárias para Live Activities e Dynamic Island no iOS. Ative agora ou altere isso a qualquer momento nas configurações.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'Você pode ativar as notificações para receber atualizações úteis (por exemplo, sobre novas versões do app). As notificações também são necessárias para Live Updates no Android. Ative agora ou altere isso a qualquer momento nas configurações.';
 
   @override
   String get notificationPermissionEnable => 'Ativar';
@@ -2123,7 +2158,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get nativeAppPromoDescription =>
-      'Aproveite a experiência completa com recursos exclusivos: digitalização de rótulos de café com IA, Atividades ao Vivo na tela de bloqueio, notificações push, feedback háptico e muito mais.';
+      'Aproveite a experiência completa com recursos exclusivos: digitalização de rótulos de café com IA, Atividades ao Vivo na tela de bloqueio, notificações push, retorno háptico e muito mais.';
 
   @override
   String get nativeAppPromoButton => 'Baixar o app';
@@ -2169,8 +2204,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get coffeeJourneyMilestoneFirstBrew => 'Conclua seu primeiro preparo';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod =>
-      'Experimente um método de preparo diferente';
+  String get coffeeJourneyMilestoneTryMethod => 'Experimente outra receita';
 
   @override
   String get coffeeJourneyMilestoneAddBeans =>
@@ -2186,21 +2220,21 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get coffeeJourneyMilestonePulse =>
-      'Veja como o mundo prepara café com você';
+      'Veja como o mundo prepara café junto com você';
 
   @override
-  String get coffeeJourneyCompleted => 'Você concluiu seus primeiros passos!';
+  String get coffeeJourneyCompleted => 'Você completou sua jornada do café!';
 
   @override
   String get coffeeJourneyDoneButton => 'Concluir';
 
   @override
   String get coffeeJourneyDismissHint =>
-      'Você sempre pode acompanhar seu progresso na aba Mais.';
+      'Você sempre pode acompanhar seu progresso na guia Mais.';
 
   @override
   String get coffeeJourneyDismissConfirm =>
-      'Você quer ocultar seu progresso na seção Primeiros passos?';
+      'Deseja ocultar seu progresso na Jornada do Café?';
 
   @override
   String get coffeeJourneyHideButton => 'Ocultar';
@@ -2258,4 +2292,173 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get saving => 'Salvando…';
+
+  @override
+  String get notifBrewReminderTitle => 'Sentindo falta do seu ritual do café?';
+
+  @override
+  String get notifBrewReminderBody =>
+      'Já se passaram alguns dias. Que tal preparar outro café?';
+
+  @override
+  String get notifBrewReminderTitle2 => 'Hora de preparar café?';
+
+  @override
+  String get notifBrewReminderBody2 =>
+      'Seu equipamento está pronto quando você estiver.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'Sua chaleira está chamando';
+
+  @override
+  String get notifBrewReminderBody3 =>
+      'Uma boa xícara está pronta em poucos minutos.';
+
+  @override
+  String get notifBrewEscalationTitle => 'Pronto para outro café?';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'Já faz um tempinho. Que tal preparar um café bom?';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'Faz tempo?';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'Sem pressa. Seu equipamento está pronto quando você estiver.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'Hora do café de novo?';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'Uma xícara realmente boa pode ficar pronta em poucos minutos.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'Acompanhe seus grãos';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'Registre seus grãos e lembre-se daqueles de que você mais gostou.';
+
+  @override
+  String get notifDiscoverPulseTitle => 'Veja o que os outros estão preparando';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'Abra o Pulso para ver preparos ao vivo do mundo todo.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'Você atingiu um marco';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    return 'Você já preparou café $count vezes. Toque para ver seu progresso.';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return 'Experimente uma nova receita de $methodName';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Até agora, você experimentou $count receitas. Aqui vai mais uma para testar.',
+      one:
+          'Até agora, você experimentou 1 receita. Aqui vai mais uma para testar.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'Bom dia. Que tal preparar um café?';
+
+  @override
+  String get notifMorningBody => 'Comece o dia com uma boa xícara.';
+
+  @override
+  String get notifMorningTitle2 => 'Acordou, preparou';
+
+  @override
+  String get notifMorningBody2 =>
+      'Seu café matinal pode ficar pronto em poucos minutos.';
+
+  @override
+  String get notifMorningTitle3 => 'Primeira xícara do dia?';
+
+  @override
+  String get notifMorningBody3 => 'Escolha uma receita e comece a preparar.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count preparos nesta semana',
+      one: '1 preparo nesta semana',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: 'Em $recipes receitas. Toque para ver o detalhamento.',
+      one: 'Toque para ver suas estatísticas da semana.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'Hora de grãos frescos?';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    return 'Seus grãos $beanName foram torrados há $days dias. Eles podem já ter passado do auge.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'Ativar notificações';
+
+  @override
+  String get settingsMorningReminder => 'Lembrete matinal de café';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'Lembrete diário para o seu café matinal';
+
+  @override
+  String get settingsMorningReminderTime => 'Horário do lembrete';
+
+  @override
+  String get settingsWeeklySummary => 'Resumo semanal';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'Resumo dos seus preparos no domingo à noite';
+
+  @override
+  String get settingsBeanFreshness => 'Alertas de frescor dos grãos';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'Avisar quando os grãos tiverem sido torrados há mais de 3 semanas';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'há $count dias',
+      one: 'há 1 dia',
+    );
+    return '$_temp0';
+  }
 }

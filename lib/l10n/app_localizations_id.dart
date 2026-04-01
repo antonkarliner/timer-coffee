@@ -18,16 +18,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get newBeansTriedLabel => 'Biji baru yang dicoba';
 
   @override
-  String get originsExploredLabel => 'Asal-usul yang dijelajahi';
+  String get originsExploredLabel => 'Asal yang dijelajahi';
 
   @override
-  String get regionsExploredLabel => 'Eropa';
+  String get regionsExploredLabel => 'Wilayah yang dijelajahi';
 
   @override
   String get newRoastersDiscoveredLabel => 'Roaster baru yang ditemukan';
 
   @override
-  String get favoriteRoastersLabel => 'Roastery favorit';
+  String get favoriteRoastersLabel => 'Roaster favorit';
 
   @override
   String get topOriginsLabel => 'Asal-usul teratas';
@@ -36,7 +36,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get topRegionsLabel => 'Wilayah teratas';
 
   @override
-  String get lastrecipe => 'Resep yang Terakhir Digunakan:';
+  String get lastrecipe => 'Resep terakhir:';
 
   @override
   String get userRecipesTitle => 'Resep Anda';
@@ -101,7 +101,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get authortext =>
-      'Timer.Coffee App dibuat oleh Anton Karliner, seorang pecinta kopi, spesialis berita, dan jurnalis foto. Saya harap aplikasi ini akan membantu Kamu menikmati kopimu. Jangan ragu untuk berkontribusi di GitHub.';
+      'Aplikasi Timer.Coffee dibuat oleh Anton Karliner, seorang pecinta kopi, spesialis media, dan jurnalis foto. Semoga aplikasi ini membantu Anda menikmati kopi. Jangan ragu untuk berkontribusi di GitHub.';
 
   @override
   String get contributors => 'Kontributor';
@@ -127,16 +127,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get sourcecode => 'Kode sumber';
 
   @override
-  String get support => 'Belikan saya kopi';
+  String get support => 'Traktir saya kopi';
 
   @override
-  String get supportButtonLabel => 'Dukungan';
+  String get supportButtonLabel => 'Dukung';
 
   @override
-  String get allrecipes => 'Semua Resep';
+  String get allrecipes => 'Semua resep';
 
   @override
-  String get favoriterecipes => 'Resep Favorit';
+  String get favoriterecipes => 'Resep favorit';
 
   @override
   String get coffeeamount => 'Jumlah kopi (g)';
@@ -151,7 +151,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get grindsize => 'Tingkat kehalusan gilingan';
 
   @override
-  String get brewtime => 'Waktu Penyeduhan';
+  String get brewtime => 'Waktu penyeduhan';
 
   @override
   String get recipesummary => 'Ringkasan resep';
@@ -164,7 +164,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get preparation => 'Persiapan';
 
   @override
-  String get brewingprocess => 'Proses Penyeduhan';
+  String get brewingprocess => 'Proses penyeduhan';
 
   @override
   String get step => 'Langkah';
@@ -186,13 +186,13 @@ class AppLocalizationsId extends AppLocalizations {
       'Terima kasih telah menggunakan Timer.Coffee! Nikmati';
 
   @override
-  String get coffeefact => 'Fakta Kopi';
+  String get coffeefact => 'Fakta kopi';
 
   @override
   String get home => 'Beranda';
 
   @override
-  String get appversion => 'Versi Aplikasi';
+  String get appversion => 'Versi aplikasi';
 
   @override
   String get tipsmall => 'Beli kopi kecil';
@@ -208,7 +208,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get supportdevmsg =>
-      'Donasi Anda membantu menutupi biaya pemeliharaan (seperti lisensi pengembang, misalnya). Mereka juga memperbolehkan saya mencoba lebih banyak perangkat pembuat kopi dan menambahkan lebih banyak resep ke aplikasi.';
+      'Donasi Anda membantu menutup biaya pemeliharaan, misalnya lisensi pengembang. Dukungan ini juga memungkinkan saya mencoba lebih banyak alat seduh dan menambahkan lebih banyak resep ke aplikasi.';
 
   @override
   String get supportdevtnx =>
@@ -219,14 +219,14 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get donationtnx =>
-      'Saya sangat menghargai dukungan Kamu! Semoga Kamu dapat banyak minuman enak! ☕️';
+      'Saya sangat menghargai dukungan Anda! Semoga Anda menikmati banyak seduhan enak! ☕️';
 
   @override
   String get donationerr => 'Error';
 
   @override
   String get donationerrmsg =>
-      'Terjadi error saat memproses pembelian, harap coba lagi.';
+      'Terjadi kesalahan saat memproses pembelian. Silakan coba lagi.';
 
   @override
   String get sharemsg => 'Lihat resep ini:';
@@ -251,6 +251,33 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get settingslang => 'Bahasa';
+
+  @override
+  String get settingsDateTimeFormat => 'Format tanggal & waktu';
+
+  @override
+  String get settingsDateFormatLabel => 'Format tanggal';
+
+  @override
+  String get settingsTimeFormatLabel => 'Format waktu';
+
+  @override
+  String get settingsDateFormatAuto => 'Otomatis (sesuai bahasa)';
+
+  @override
+  String get settingsDateFormatDMY => 'DD/MM/YYYY';
+
+  @override
+  String get settingsDateFormatMDY => 'MM/DD/YYYY';
+
+  @override
+  String get settingsDateFormatYMD => 'YYYY-MM-DD';
+
+  @override
+  String get settingsTimeFormat12h => '12 jam (AM/PM)';
+
+  @override
+  String get settingsTimeFormat24h => '24 jam';
 
   @override
   String get sweet => 'Manis';
@@ -284,7 +311,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get noFavoriteRecipesMessage =>
-      'Daftar resep favorit Kamu saat ini kosong. Mulailah menjelajah dan menyeduh untuk menemukan favorit Kamu!';
+      'Daftar resep favorit Anda saat ini kosong. Mulailah menjelajah dan menyeduh untuk menemukan favorit Anda!';
 
   @override
   String get explore => 'Jelajahi';
@@ -296,7 +323,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get timeFormat => 'HH:mm';
 
   @override
-  String get brewdiary => 'Diari Seduhan';
+  String get brewdiary => 'Diari seduhan';
 
   @override
   String get brewdiarynotfound => 'Tidak ada entri yang ditemukan';
@@ -305,7 +332,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get beans => 'Biji';
 
   @override
-  String get roaster => 'Roastery';
+  String get roaster => 'Roaster';
 
   @override
   String get rating => 'Peringkat';
@@ -314,7 +341,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get notes => 'Catatan';
 
   @override
-  String get statsscreen => 'Statistik Kopi';
+  String get statsscreen => 'Statistik kopi';
 
   @override
   String get yourStats => 'Statistik Anda';
@@ -329,10 +356,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get mostUsedRecipes => 'Resep yang paling sering digunakan:';
 
   @override
-  String get globalStats => 'Statistik Global';
+  String get globalStats => 'Statistik global';
 
   @override
-  String get unknownRecipe => 'Resep Tidak Dikenal';
+  String get unknownRecipe => 'Resep tidak dikenal';
 
   @override
   String get pulseUserRecipe => 'Resep pengguna';
@@ -392,16 +419,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get timePeriodLastHour => 'Satu jam terakhir';
 
   @override
-  String get timePeriodToday => 'Hari Ini';
+  String get timePeriodToday => 'Hari ini';
 
   @override
   String get timePeriodYesterday => 'Kemarin';
 
   @override
-  String get timePeriodThisWeek => 'Minggu Ini';
+  String get timePeriodThisWeek => 'Minggu ini';
 
   @override
-  String get timePeriodThisMonth => 'Bulan Ini';
+  String get timePeriodThisMonth => 'Bulan ini';
 
   @override
   String get timePeriodOlder => 'Lebih lama';
@@ -485,7 +512,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get statsFor => 'Statistik untuk ';
+  String get statsFor => 'Periode';
 
   @override
   String get homescreenbrewcoffee => 'Seduh kopi';
@@ -547,7 +574,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get toggleEditMode => 'Alihkan mode edit';
 
   @override
-  String get coffeeBeansDetails => 'Detail Kopi';
+  String get coffeeBeansDetails => 'Detail kopi';
 
   @override
   String get edit => 'Edit';
@@ -565,49 +592,49 @@ class AppLocalizationsId extends AppLocalizations {
   String get variety => 'Varietas';
 
   @override
-  String get region => 'Amerika Utara';
+  String get region => 'Wilayah';
 
   @override
   String get elevation => 'Ketinggian';
 
   @override
-  String get harvestDate => 'Tanggal Panen';
+  String get harvestDate => 'Tanggal panen';
 
   @override
   String get processing => 'Pemrosesan';
 
   @override
-  String get processingMethod => 'Metode Pemrosesan';
+  String get processingMethod => 'Metode pemrosesan';
 
   @override
-  String get roastDate => 'Tanggal Sangrai';
+  String get roastDate => 'Tanggal sangrai';
 
   @override
-  String get roastLevel => 'Tingkat Sangrai';
+  String get roastLevel => 'Tingkat sangrai';
 
   @override
-  String get cuppingScore => 'Skor Cupping';
+  String get cuppingScore => 'Skor cupping';
 
   @override
-  String get flavorProfile => 'Profil Rasa';
+  String get flavorProfile => 'Profil rasa';
 
   @override
-  String get tastingNotes => 'Catatan Rasa';
+  String get tastingNotes => 'Catatan rasa';
 
   @override
-  String get additionalNotes => 'Catatan Tambahan';
+  String get additionalNotes => 'Catatan tambahan';
 
   @override
   String get noCoffeeBeans => 'Tidak ada kopi yang ditemukan';
 
   @override
-  String get editCoffeeBeans => 'Edit Kopi';
+  String get editCoffeeBeans => 'Edit kopi';
 
   @override
-  String get addCoffeeBeans => 'Tambahkan Kopi';
+  String get addCoffeeBeans => 'Tambahkan kopi';
 
   @override
-  String get showImagePicker => 'Tampilkan Pemilih Gambar';
+  String get showImagePicker => 'Pilih gambar';
 
   @override
   String get pleaseNote => 'Harap perhatikan';
@@ -617,7 +644,7 @@ class AppLocalizationsId extends AppLocalizations {
       '1. Kami menggunakan layanan eksternal untuk memproses gambar. Dengan melanjutkan, Anda setuju dengan ini.\n2. Meskipun kami tidak menyimpan gambar Anda, harap hindari menyertakan detail pribadi.\n3. Pengenalan gambar saat ini dibatasi hingga 10 token per bulan (1 token = 1 gambar). Batas ini dapat berubah di kemudian hari.';
 
   @override
-  String get ok => 'OKE';
+  String get ok => 'OK';
 
   @override
   String get takePhoto => 'Ambil foto';
@@ -635,10 +662,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get yes => 'Ya';
 
   @override
-  String get selectedImages => 'Gambar yang Dipilih';
+  String get selectedImages => 'Gambar yang dipilih';
 
   @override
-  String get selectedImage => 'Gambar yang Dipilih';
+  String get selectedImage => 'Gambar yang dipilih';
 
   @override
   String get backToSelection => 'Kembali ke Pilihan';
@@ -658,10 +685,10 @@ class AppLocalizationsId extends AppLocalizations {
       'Tidak ada label kopi yang terdeteksi. Coba dengan gambar lain.';
 
   @override
-  String get collectedInformation => 'Informasi yang Dikumpulkan';
+  String get collectedInformation => 'Informasi yang dikumpulkan';
 
   @override
-  String get enterRoaster => 'Masukkan penyangrai';
+  String get enterRoaster => 'Masukkan nama roaster';
 
   @override
   String get enterName => 'Masukkan nama';
@@ -706,10 +733,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get enterAmountLeft => 'Masukkan jumlah tersisa';
 
   @override
-  String get selectHarvestDate => 'Pilih Tanggal Panen';
+  String get selectHarvestDate => 'Pilih tanggal panen';
 
   @override
-  String get selectRoastDate => 'Pilih Tanggal Sangrai';
+  String get selectRoastDate => 'Pilih tanggal sangrai';
 
   @override
   String get selectDate => 'Pilih tanggal';
@@ -730,10 +757,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get errorMessage => 'Kesalahan';
 
   @override
-  String get selectCoffeeBeans => 'Pilih Kopi';
+  String get selectCoffeeBeans => 'Pilih kopi';
 
   @override
-  String get addNewBeans => 'Tambahkan Kopi Baru';
+  String get addNewBeans => 'Tambahkan kopi baru';
 
   @override
   String get favorite => 'Favorit';
@@ -779,7 +806,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get signInSuccessfulGoogle => 'Berhasil masuk dengan Google';
 
   @override
-  String get signInWithEmail => 'Masuk dengan Email';
+  String get signInWithEmail => 'Masuk dengan email';
 
   @override
   String get enterEmail => 'Masukkan email Anda';
@@ -791,7 +818,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get cancel => 'Batal';
 
   @override
-  String get sendMagicLink => 'Kirim Tautan Ajaib';
+  String get sendMagicLink => 'Kirim tautan ajaib';
 
   @override
   String get magicLinkSent => 'Tautan ajaib terkirim! Periksa email Anda.';
@@ -837,10 +864,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get signInCreate => 'Masuk / Buat akun';
 
   @override
-  String get accountManagement => 'Manajemen Akun';
+  String get accountManagement => 'Manajemen akun';
 
   @override
-  String get deleteAccount => 'Hapus Akun';
+  String get deleteAccount => 'Hapus akun';
 
   @override
   String get deleteAccountWarning =>
@@ -860,16 +887,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get deleteAccountTitle => 'Penting';
 
   @override
-  String get selectBeans => 'Pilih Biji Kopi';
+  String get selectBeans => 'Pilih biji kopi';
 
   @override
   String get all => 'Semua';
 
   @override
-  String get selectRoaster => 'Pilih Penyangrai';
+  String get selectRoaster => 'Pilih roaster';
 
   @override
-  String get selectOrigin => 'Pilih Asal';
+  String get selectOrigin => 'Pilih asal';
 
   @override
   String get resetFilters => 'Atur Ulang Filter';
@@ -881,7 +908,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get apply => 'Terapkan';
 
   @override
-  String get selectSize => 'Pilih Ukuran';
+  String get selectSize => 'Pilih ukuran';
 
   @override
   String get sizeStandard => 'Standar';
@@ -910,13 +937,13 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
-    return 'Anda menggunakan biji dari $roasterCount pemanggang';
+  String yearlyStatsStory4Text(num roasterCount) {
+    return 'Anda menggunakan biji dari $roasterCount roaster';
   }
 
   @override
   String yearlyStatsStory4Top3Roasters(Object top3) {
-    return '3 pemanggang teratas Anda adalah:\n$top3';
+    return '3 roaster teratas Anda adalah:\n$top3';
   }
 
   @override
@@ -925,7 +952,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'Anda mencicipi biji kopi\ndari $originCount negara!';
   }
 
@@ -937,17 +964,17 @@ class AppLocalizationsId extends AppLocalizations {
       '...tetapi dengan pengguna dari 110 negara lain\ndi 6 benua!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return 'Anda tetap setia pada diri sendiri dan hanya menggunakan $count metode seduh ini tahun ini:';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return 'Anda menemukan rasa baru dan menggunakan $count metode seduh tahun ini:';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return 'Anda adalah penemu kopi sejati dan menggunakan $count metode seduh tahun ini:';
   }
 
@@ -989,8 +1016,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get yearlyStatsShareProgressTop3Recipes => '3 resep teratas saya:';
 
   @override
-  String get yearlyStatsShareProgressTop3Roasters =>
-      '3 pemanggang teratas saya:';
+  String get yearlyStatsShareProgressTop3Roasters => '3 roaster teratas saya:';
 
   @override
   String get yearlyStats25AppBarTitle =>
@@ -1114,11 +1140,11 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String yearlyStats25Slide6Title(String count) {
-    return 'Tahun ini Anda menemukan $count pemanggang:';
+    return 'Tahun ini Anda menemukan $count roaster:';
   }
 
   @override
-  String get yearlyStats25Slide6NoRoasters => 'Belum ada pemanggang';
+  String get yearlyStats25Slide6NoRoasters => 'Belum ada roaster';
 
   @override
   String get yearlyStats25Slide7Title =>
@@ -1134,7 +1160,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String yearlyStats25FallbackTitle(int countries, int roasters) {
-    return 'Tahun ini pengguna Timer.Coffee menggunakan biji dari $countries negara\ndan mendaftarkan $roasters pemanggang berbeda.';
+    return 'Tahun ini pengguna Timer.Coffee menggunakan biji dari $countries negara\ndan mendaftarkan $roasters roaster berbeda.';
   }
 
   @override
@@ -1262,7 +1288,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get yearlyStats25ShareRoastersPrefix => 'Biji dari ';
 
   @override
-  String get yearlyStats25ShareRoastersSuffix => ' pemanggang';
+  String get yearlyStats25ShareRoastersSuffix => ' roaster';
 
   @override
   String get yearlyStats25ShareOriginsPrefix => 'Menemukan ';
@@ -1283,23 +1309,23 @@ class AppLocalizationsId extends AppLocalizations {
   String get yearlyStatsFailedToLike => 'Gagal menyukai. Silakan coba lagi.';
 
   @override
-  String get labelCoffeeBrewed => 'Kopi diseduh';
+  String get labelCoffeeBrewed => 'Kopi yang diseduh';
 
   @override
-  String get labelTastedBeansBy => 'Biji kopi dicicipi oleh';
+  String get labelTastedBeansBy => 'Roaster yang dicoba';
 
   @override
-  String get labelDiscoveredCoffeeFrom => 'Kopi ditemukan dari';
+  String get labelDiscoveredCoffeeFrom => 'Negara asal yang ditemukan';
 
   @override
-  String get labelUsedBrewingMethods => 'Digunakan';
+  String get labelUsedBrewingMethods => 'Metode seduh yang digunakan';
 
   @override
   String formattedRoasterCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'pemanggang',
+      other: 'roaster',
     );
     return '$count $_temp0';
   }
@@ -1325,37 +1351,37 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get recipeCreationScreenEditRecipeTitle => 'Edit Resep';
+  String get recipeCreationScreenEditRecipeTitle => 'Edit resep';
 
   @override
-  String get recipeCreationScreenCreateRecipeTitle => 'Buat Resep';
+  String get recipeCreationScreenCreateRecipeTitle => 'Buat resep';
 
   @override
-  String get recipeCreationScreenRecipeStepsTitle => 'Langkah Resep';
+  String get recipeCreationScreenRecipeStepsTitle => 'Langkah resep';
 
   @override
-  String get recipeCreationScreenRecipeNameLabel => 'Nama Resep';
+  String get recipeCreationScreenRecipeNameLabel => 'Nama resep';
 
   @override
-  String get recipeCreationScreenShortDescriptionLabel => 'Deskripsi Singkat';
+  String get recipeCreationScreenShortDescriptionLabel => 'Deskripsi singkat';
 
   @override
-  String get recipeCreationScreenBrewingMethodLabel => 'Metode Penyeduhan';
+  String get recipeCreationScreenBrewingMethodLabel => 'Metode seduh';
 
   @override
-  String get recipeCreationScreenCoffeeAmountLabel => 'Jumlah Kopi (g)';
+  String get recipeCreationScreenCoffeeAmountLabel => 'Jumlah kopi (g)';
 
   @override
-  String get recipeCreationScreenWaterAmountLabel => 'Jumlah Air (ml)';
+  String get recipeCreationScreenWaterAmountLabel => 'Jumlah air (ml)';
 
   @override
-  String get recipeCreationScreenWaterTempLabel => 'Suhu Air (°C)';
+  String get recipeCreationScreenWaterTempLabel => 'Suhu air (°C)';
 
   @override
-  String get recipeCreationScreenGrindSizeLabel => 'Ukuran Gilingan';
+  String get recipeCreationScreenGrindSizeLabel => 'Ukuran gilingan';
 
   @override
-  String get recipeCreationScreenTotalBrewTimeLabel => 'Total Waktu Seduh:';
+  String get recipeCreationScreenTotalBrewTimeLabel => 'Total waktu seduh:';
 
   @override
   String get recipeCreationScreenMinutesLabel => 'Menit';
@@ -1364,18 +1390,18 @@ class AppLocalizationsId extends AppLocalizations {
   String get recipeCreationScreenSecondsLabel => 'Detik';
 
   @override
-  String get recipeCreationScreenPreparationStepTitle => 'Langkah Persiapan';
+  String get recipeCreationScreenPreparationStepTitle => 'Langkah persiapan';
 
   @override
   String recipeCreationScreenBrewStepTitle(String stepOrder) {
-    return 'Langkah Seduh $stepOrder';
+    return 'Langkah seduh $stepOrder';
   }
 
   @override
-  String get recipeCreationScreenStepDescriptionLabel => 'Deskripsi Langkah';
+  String get recipeCreationScreenStepDescriptionLabel => 'Deskripsi langkah';
 
   @override
-  String get recipeCreationScreenStepTimeLabel => 'Waktu Langkah: ';
+  String get recipeCreationScreenStepTimeLabel => 'Waktu langkah: ';
 
   @override
   String get recipeCreationScreenRecipeNameValidator =>
@@ -1387,7 +1413,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get recipeCreationScreenBrewingMethodValidator =>
-      'Harap pilih metode penyeduhan';
+      'Harap pilih metode seduh';
 
   @override
   String get recipeCreationScreenRequiredValidator => 'Wajib diisi';
@@ -1400,13 +1426,13 @@ class AppLocalizationsId extends AppLocalizations {
       'Harap masukkan deskripsi langkah';
 
   @override
-  String get recipeCreationScreenContinueButton => 'Lanjut ke Langkah Resep';
+  String get recipeCreationScreenContinueButton => 'Lanjut ke langkah resep';
 
   @override
-  String get recipeCreationScreenAddStepButton => 'Tambah Langkah';
+  String get recipeCreationScreenAddStepButton => 'Tambah langkah';
 
   @override
-  String get recipeCreationScreenSaveRecipeButton => 'Simpan Resep';
+  String get recipeCreationScreenSaveRecipeButton => 'Simpan resep';
 
   @override
   String get recipeCreationScreenUpdateSuccess => 'Resep berhasil diperbarui';
@@ -1478,7 +1504,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get unknownBrewingMethod => 'Metode penyeduhan tidak diketahui';
+  String get unknownBrewingMethod => 'Metode seduh tidak diketahui';
 
   @override
   String get recipeCopyErrorLoadingEdit =>
@@ -1532,7 +1558,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get dialogUpdate => 'Perbarui';
 
   @override
-  String get recipeImportTitle => 'Impor Resep';
+  String get recipeImportTitle => 'Impor resep';
 
   @override
   String recipeImportBody(String recipeName) {
@@ -1543,7 +1569,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get dialogImport => 'Impor';
 
   @override
-  String get moderationReviewNeededTitle => 'Diperlukan Tinjauan Moderasi';
+  String get moderationReviewNeededTitle => 'Diperlukan tinjauan moderasi';
 
   @override
   String moderationReviewNeededMessage(String recipeNames) {
@@ -1554,10 +1580,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get dismiss => 'Tutup';
 
   @override
-  String get reviewRecipeButton => 'Tinjau Resep';
+  String get reviewRecipeButton => 'Tinjau resep';
 
   @override
-  String get signInRequiredTitle => 'Diperlukan Masuk';
+  String get signInRequiredTitle => 'Perlu masuk';
 
   @override
   String get signInRequiredBodyShare =>
@@ -1567,16 +1593,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get syncSuccess => 'Sinkronisasi berhasil!';
 
   @override
-  String get tooltipEditRecipe => 'Edit Resep';
+  String get tooltipEditRecipe => 'Edit resep';
 
   @override
-  String get tooltipCopyRecipe => 'Salin Resep';
+  String get tooltipCopyRecipe => 'Salin resep';
 
   @override
-  String get tooltipDuplicateRecipe => 'Gandakan Resep';
+  String get tooltipDuplicateRecipe => 'Gandakan resep';
 
   @override
-  String get tooltipShareRecipe => 'Bagikan Resep';
+  String get tooltipShareRecipe => 'Bagikan resep';
 
   @override
   String get signInRequiredSnackbar => 'Diperlukan Masuk';
@@ -1657,7 +1683,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get deletePictureConfirmationTitle => 'Hapus Gambar?';
+  String get deletePictureConfirmationTitle => 'Hapus gambar?';
 
   @override
   String get deletePictureConfirmationBody =>
@@ -1680,16 +1706,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get updatePictureSuccess => 'Gambar profil berhasil diperbarui!';
 
   @override
-  String get deletePictureTooltip => 'Hapus Gambar';
+  String get deletePictureTooltip => 'Hapus gambar';
 
   @override
   String get account => 'Akun';
 
   @override
-  String get settingsBrewingMethodsTitle => 'Metode Penyeduhan Layar Beranda';
+  String get settingsBrewingMethodsTitle => 'Metode seduh di layar beranda';
 
   @override
-  String get filter => 'Saring';
+  String get filter => 'Filter';
 
   @override
   String get sortBy => 'Urutkan berdasarkan';
@@ -1701,7 +1727,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get secondsAbbreviation => 's';
 
   @override
-  String get settingsAppIcon => 'Ikon Aplikasi';
+  String get settingsAppIcon => 'Ikon aplikasi';
 
   @override
   String get settingsAppIconDefault => 'Bawaan';
@@ -1741,13 +1767,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get enterFarm => 'Masukkan perkebunan kopi';
 
   @override
-  String get requiredInformation => 'Informasi yang Diperlukan';
+  String get requiredInformation => 'Informasi yang diperlukan';
 
   @override
-  String get basicDetails => 'Detail Dasar';
+  String get basicDetails => 'Detail dasar';
 
   @override
-  String get qualityMeasurements => 'Kualitas & Pengukuran';
+  String get qualityMeasurements => 'Kualitas & pengukuran';
 
   @override
   String get importantDates => 'Tanggal-tanggal penting';
@@ -1944,20 +1970,28 @@ class AppLocalizationsId extends AppLocalizations {
   String get notificationsDisabled => 'Dinonaktifkan';
 
   @override
-  String get notificationPermissionDialogTitle => 'Aktifkan Notifikasi?';
+  String get notificationPermissionDialogTitle => 'Aktifkan notifikasi?';
 
   @override
   String get notificationPermissionDialogMessage =>
-      'Anda dapat mengaktifkan notifikasi untuk mendapatkan pembaruan berguna (misalnya tentang versi aplikasi baru). Aktifkan sekarang atau ubah kapan saja di pengaturan.';
+      'Anda dapat mengaktifkan notifikasi untuk mendapatkan pembaruan berguna (misalnya tentang versi aplikasi baru). Notifikasi juga diperlukan untuk pembaruan progres seduhan secara langsung. Aktifkan sekarang atau ubah kapan saja di pengaturan.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'Anda dapat mengaktifkan notifikasi untuk mendapatkan pembaruan berguna (misalnya tentang versi aplikasi baru). Notifikasi juga diperlukan untuk Live Activities dan Dynamic Island di iOS. Aktifkan sekarang atau ubah kapan saja di pengaturan.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'Anda dapat mengaktifkan notifikasi untuk mendapatkan pembaruan berguna (misalnya tentang versi aplikasi baru). Notifikasi juga diperlukan untuk Live Updates di Android. Aktifkan sekarang atau ubah kapan saja di pengaturan.';
 
   @override
   String get notificationPermissionEnable => 'Aktifkan';
 
   @override
-  String get notificationPermissionSkip => 'Nanti Saja';
+  String get notificationPermissionSkip => 'Nanti saja';
 
   @override
-  String get holidayGiftBoxTitle => 'Kotak Hadiah Liburan';
+  String get holidayGiftBoxTitle => 'Kotak hadiah liburan';
 
   @override
   String get holidayGiftBoxInfoTrigger => 'Apa ini?';
@@ -1998,7 +2032,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get holidayGiftBoxTerms => 'Syarat & Ketentuan';
+  String get holidayGiftBoxTerms => 'Syarat & ketentuan';
 
   @override
   String get holidayGiftBoxVisitSite => 'Kunjungi situs mitra';
@@ -2096,29 +2130,29 @@ class AppLocalizationsId extends AppLocalizations {
   String get inventorySetToZeroFail => 'Gagal mengatur stok ke nol';
 
   @override
-  String get timePeriodThisYear => 'Tahun Ini';
+  String get timePeriodThisYear => 'Tahun ini';
 
   @override
-  String get timePeriodLastYear => 'Tahun Lalu';
+  String get timePeriodLastYear => 'Tahun lalu';
 
   @override
-  String get nativeAppPromoTitle => 'Unduh Aplikasi Timer.Coffee';
+  String get nativeAppPromoTitle => 'Unduh aplikasi Timer.Coffee';
 
   @override
   String get nativeAppPromoDescription =>
       'Nikmati pengalaman lengkap dengan fitur eksklusif: pemindaian label kopi berbasis AI, Live Activities di layar kunci, notifikasi push, umpan balik haptic, dan lainnya.';
 
   @override
-  String get nativeAppPromoButton => 'Unduh Aplikasi';
+  String get nativeAppPromoButton => 'Unduh aplikasi';
 
   @override
-  String get addBrewEntry => 'Tambah Catatan Seduhan';
+  String get addBrewEntry => 'Tambah catatan seduhan';
 
   @override
-  String get selectBrewingMethod => 'Pilih Metode Seduh';
+  String get selectBrewingMethod => 'Pilih metode seduh';
 
   @override
-  String get selectRecipe => 'Pilih Resep';
+  String get selectRecipe => 'Pilih resep';
 
   @override
   String get brewDate => 'Tanggal';
@@ -2142,18 +2176,17 @@ class AppLocalizationsId extends AppLocalizations {
   String get onboardingSubtitle => 'Anda biasa menyeduh dengan metode apa?';
 
   @override
-  String get onboardingShowAll => 'Tampilkan Semua Metode';
+  String get onboardingShowAll => 'Tampilkan semua metode';
 
   @override
-  String get coffeeJourneyTitle => 'Langkah Pertama';
+  String get coffeeJourneyTitle => 'Langkah pertama';
 
   @override
   String get coffeeJourneyMilestoneFirstBrew =>
       'Selesaikan seduhan pertama Anda';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod =>
-      'Coba metode seduh yang berbeda';
+  String get coffeeJourneyMilestoneTryMethod => 'Coba resep lain';
 
   @override
   String get coffeeJourneyMilestoneAddBeans =>
@@ -2192,7 +2225,7 @@ class AppLocalizationsId extends AppLocalizations {
       'Selamat atas seduhan pertama Anda! Seduhan itu telah disimpan ke Diari Seduhan Anda.';
 
   @override
-  String get firstBrewDiaryLink => 'Lihat Diari Seduhan';
+  String get firstBrewDiaryLink => 'Lihat diari seduhan';
 
   @override
   String get beanCoverPhoto => 'Foto sampul';
@@ -2224,7 +2257,7 @@ class AppLocalizationsId extends AppLocalizations {
       'Masuk untuk menambahkan foto sampul';
 
   @override
-  String get settingsAnalyticsTitle => 'Privasi & Analitik';
+  String get settingsAnalyticsTitle => 'Privasi & analitik';
 
   @override
   String get settingsAnalyticsBrews => 'Bagikan analitik seduh';
@@ -2240,4 +2273,170 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get saving => 'Menyimpan…';
+
+  @override
+  String get notifBrewReminderTitle => 'Kangen ritual kopimu?';
+
+  @override
+  String get notifBrewReminderBody => 'Sudah beberapa hari. Siap seduh lagi?';
+
+  @override
+  String get notifBrewReminderTitle2 => 'Waktunya seduh kopi?';
+
+  @override
+  String get notifBrewReminderBody2 => 'Peralatanmu siap kapan pun kamu siap.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'Ketelmu memanggil';
+
+  @override
+  String get notifBrewReminderBody3 =>
+      'Secangkir enak cuma tinggal beberapa menit lagi.';
+
+  @override
+  String get notifBrewEscalationTitle => 'Mau seduh lagi?';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'Sudah cukup lama. Siap bikin sesuatu yang enak?';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'Sudah lama?';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'Tidak perlu buru-buru. Peralatanmu siap kapan pun kamu siap.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'Waktunya ngopi lagi?';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'Secangkir yang benar-benar enak bisa siap hanya dalam beberapa menit.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'Pantau biji kopimu';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'Catat biji kopimu dan ingat mana yang paling kamu suka.';
+
+  @override
+  String get notifDiscoverPulseTitle =>
+      'Lihat apa yang sedang diseduh orang lain';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'Buka Pulse untuk melihat seduhan langsung dari seluruh dunia.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'Kamu meraih pencapaian baru';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    return 'Kamu sudah menyeduh $count kali. Ketuk untuk melihat progresmu.';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return 'Coba resep $methodName baru';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Sejauh ini kamu sudah mencoba $count resep. Ini satu lagi buat dicoba.',
+      one: 'Sejauh ini kamu sudah mencoba 1 resep. Ini satu lagi buat dicoba.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'Selamat pagi. Siap menyeduh?';
+
+  @override
+  String get notifMorningBody => 'Mulai hari dengan secangkir yang enak.';
+
+  @override
+  String get notifMorningTitle2 => 'Bangun dan seduh';
+
+  @override
+  String get notifMorningBody2 =>
+      'Seduhan pagimu bisa siap dalam beberapa menit.';
+
+  @override
+  String get notifMorningTitle3 => 'Cangkir pertama hari ini?';
+
+  @override
+  String get notifMorningBody3 => 'Pilih resep dan mulai menyeduh.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count seduhan minggu ini',
+      one: '1 seduhan minggu ini',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: 'Hasil dari $recipes resep. Ketuk untuk melihat rinciannya.',
+      one: 'Ketuk untuk melihat statistik mingguanmu.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'Saatnya biji yang lebih segar?';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    return 'Biji $beanName kamu disangrai $days hari lalu. Mungkin sudah lewat masa terbaiknya.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'Aktifkan notifikasi';
+
+  @override
+  String get settingsMorningReminder => 'Pengingat seduh pagi';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'Pengingat harian untuk kopi pagi Anda';
+
+  @override
+  String get settingsMorningReminderTime => 'Waktu pengingat';
+
+  @override
+  String get settingsWeeklySummary => 'Ringkasan mingguan';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'Rekap seduhan Anda pada Minggu malam';
+
+  @override
+  String get settingsBeanFreshness => 'Peringatan kesegaran biji';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'Beri tahu saat biji sudah lebih dari 3 minggu sejak tanggal sangrai';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hari yang lalu',
+    );
+    return '$_temp0';
+  }
 }

@@ -21,10 +21,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get originsExploredLabel => 'Ontdekte herkomsten';
 
   @override
-  String get regionsExploredLabel => 'Europa';
+  String get regionsExploredLabel => 'Ontdekte regio\'s';
 
   @override
-  String get newRoastersDiscoveredLabel => 'Nieuwe branders ontdekt';
+  String get newRoastersDiscoveredLabel => 'Nieuwe branderijen ontdekt';
 
   @override
   String get favoriteRoastersLabel => 'Favoriete branderijen';
@@ -36,7 +36,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get topRegionsLabel => 'Top regio\'s';
 
   @override
-  String get lastrecipe => 'Meest Recent Gebruikte Recept:';
+  String get lastrecipe => 'Laatst gebruikt recept:';
 
   @override
   String get userRecipesTitle => 'Jouw recepten';
@@ -130,13 +130,13 @@ class AppLocalizationsNl extends AppLocalizations {
   String get support => 'Koop me een koffie';
 
   @override
-  String get supportButtonLabel => 'Support';
+  String get supportButtonLabel => 'Contact';
 
   @override
-  String get allrecipes => 'Alle Recepten';
+  String get allrecipes => 'Alle recepten';
 
   @override
-  String get favoriterecipes => 'Favoriete Recepten';
+  String get favoriterecipes => 'Favoriete recepten';
 
   @override
   String get coffeeamount => 'Hoeveelheid koffie (g)';
@@ -192,7 +192,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get home => 'Home';
 
   @override
-  String get appversion => 'App Versie';
+  String get appversion => 'Appversie';
 
   @override
   String get tipsmall => 'Koop een kleine koffie';
@@ -252,6 +252,33 @@ class AppLocalizationsNl extends AppLocalizations {
   String get settingslang => 'Taal';
 
   @override
+  String get settingsDateTimeFormat => 'Datum- en tijdnotatie';
+
+  @override
+  String get settingsDateFormatLabel => 'Datumnotatie';
+
+  @override
+  String get settingsTimeFormatLabel => 'Tijdnotatie';
+
+  @override
+  String get settingsDateFormatAuto => 'Automatisch (op basis van taal)';
+
+  @override
+  String get settingsDateFormatDMY => 'DD-MM-JJJJ';
+
+  @override
+  String get settingsDateFormatMDY => 'MM-DD-JJJJ';
+
+  @override
+  String get settingsDateFormatYMD => 'JJJJ-MM-DD';
+
+  @override
+  String get settingsTimeFormat12h => '12-uur (AM/PM)';
+
+  @override
+  String get settingsTimeFormat24h => '24-uur';
+
+  @override
   String get sweet => 'Zoet';
 
   @override
@@ -276,7 +303,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get whatsnewclose => 'Sluiten';
 
   @override
-  String get seasonspecials => 'Seizoen Specials';
+  String get seasonspecials => 'Seizoensspecials';
 
   @override
   String get snow => 'Sneeuw';
@@ -313,25 +340,25 @@ class AppLocalizationsNl extends AppLocalizations {
   String get notes => 'Notities';
 
   @override
-  String get statsscreen => 'Koffiestijl statistieken';
+  String get statsscreen => 'Koffiestatistieken';
 
   @override
-  String get yourStats => 'Jouw statistiek';
+  String get yourStats => 'Jouw statistieken';
 
   @override
-  String get coffeeBrewed => 'Koffie Gebrouwen:';
+  String get coffeeBrewed => 'Koffie gezet';
 
   @override
   String get litersUnit => 'L';
 
   @override
-  String get mostUsedRecipes => 'Meeste gebruikte recepten:';
+  String get mostUsedRecipes => 'Meest gebruikte recepten';
 
   @override
-  String get globalStats => 'Global Statistieken';
+  String get globalStats => 'Wereldwijde statistieken';
 
   @override
-  String get unknownRecipe => 'Onbekend Recept';
+  String get unknownRecipe => 'Onbekend recept';
 
   @override
   String get pulseUserRecipe => 'Gebruikersrecept';
@@ -349,7 +376,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String someoneJustBrewed(Object recipeName) {
-    return 'iemand heeft zojuist $recipeName gebrouwd.';
+    return 'Iemand heeft zojuist $recipeName gezet.';
   }
 
   @override
@@ -407,7 +434,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get timePeriodOlder => 'Ouder';
 
   @override
-  String get timePeriodCustom => 'Custom';
+  String get timePeriodCustom => 'Aangepast';
 
   @override
   String get relativeTimeJustNow => 'zojuist';
@@ -485,7 +512,7 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
-  String get statsFor => 'Stats voor ';
+  String get statsFor => 'Periode';
 
   @override
   String get homescreenbrewcoffee => 'Zet koffie';
@@ -547,7 +574,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get toggleEditMode => 'Bewerkingsmodus in-/uitschakelen';
 
   @override
-  String get coffeeBeansDetails => 'Koffiebonen Details';
+  String get coffeeBeansDetails => 'Koffiebonendetails';
 
   @override
   String get edit => 'Bewerk';
@@ -565,7 +592,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get variety => 'Variëteit';
 
   @override
-  String get region => 'Noord-Amerika';
+  String get region => 'Regio';
 
   @override
   String get elevation => 'Hoogte';
@@ -655,13 +682,13 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get noCoffeeLabelsDetected =>
-      'Geen koffie labels gedetecteerd. Probeer het met een andere afbeelding.';
+      'Geen koffielabels gevonden. Probeer een andere afbeelding.';
 
   @override
   String get collectedInformation => 'Verzamelde informatie';
 
   @override
-  String get enterRoaster => 'Voer brander in';
+  String get enterRoaster => 'Voer branderij in';
 
   @override
   String get enterName => 'Voer naam in';
@@ -763,7 +790,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get signInErrorGoogle => 'Fout bij aanmelden met Google';
 
   @override
-  String get signInWithGoogle => 'Inloggen met Google';
+  String get signInWithGoogle => 'Aanmelden met Google';
 
   @override
   String get signOutSuccessful => 'Succesvol afgemeld';
@@ -791,10 +818,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get cancel => 'Annuleren';
 
   @override
-  String get sendMagicLink => 'Stuur magische link';
+  String get sendMagicLink => 'Aanmeldlink sturen';
 
   @override
-  String get magicLinkSent => 'Magische link verzonden! Controleer uw e-mail.';
+  String get magicLinkSent => 'Aanmeldlink verzonden. Controleer uw e-mail.';
 
   @override
   String get sendOTP => 'Verstuur OTP';
@@ -834,7 +861,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get otpHint2 => 'Voer hier de code in';
 
   @override
-  String get signInCreate => 'Inloggen / Account aanmaken';
+  String get signInCreate => 'Aanmelden / account aanmaken';
 
   @override
   String get accountManagement => 'Accountbeheer';
@@ -844,7 +871,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get deleteAccountWarning =>
-      'Let op: als u doorgaat, verwijderen we uw account en bijbehorende gegevens van onze servers. De lokale kopie van de gegevens blijft op het apparaat staan. Als u die ook wilt verwijderen, kunt u de app eenvoudig verwijderen. Om synchronisatie opnieuw in te schakelen, moet u een nieuw account aanmaken';
+      'Let op: als u doorgaat, verwijderen we uw account en alle bijbehorende gegevens van onze servers. De lokale kopie van uw gegevens blijft op uw apparaat staan. Wilt u die ook verwijderen, dan kunt u de app verwijderen. Als u synchronisatie later opnieuw wilt inschakelen, moet u een nieuw account aanmaken.';
 
   @override
   String get deleteAccountConfirmation => 'Account succesvol verwijderd';
@@ -866,13 +893,13 @@ class AppLocalizationsNl extends AppLocalizations {
   String get all => 'Alles';
 
   @override
-  String get selectRoaster => 'Selecteer Brander';
+  String get selectRoaster => 'Selecteer branderij';
 
   @override
-  String get selectOrigin => 'Selecteer Oorsprong';
+  String get selectOrigin => 'Selecteer oorsprong';
 
   @override
-  String get resetFilters => 'Filters Resetten';
+  String get resetFilters => 'Filters resetten';
 
   @override
   String get showFavoritesOnly => 'Alleen favorieten weergeven';
@@ -910,7 +937,7 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return 'Je hebt bonen van $roasterCount branderijen gebruikt';
   }
 
@@ -925,7 +952,7 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'Je hebt koffiebonen geproefd\nuit $originCount landen!';
   }
 
@@ -937,17 +964,17 @@ class AppLocalizationsNl extends AppLocalizations {
       '...maar met gebruikers uit 110 andere\nlanden verspreid over 6 continenten!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return 'Je bent trouw gebleven aan jezelf en hebt dit jaar alleen deze $count zetmethoden gebruikt:';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return 'Je was nieuwe smaken aan het ontdekken en hebt dit jaar $count zetmethoden gebruikt:';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return 'Je was een echte koffieontdekker en hebt dit jaar $count zetmethoden gebruikt:';
   }
 
@@ -1302,8 +1329,8 @@ class AppLocalizationsNl extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'branders',
-      one: 'brander',
+      other: 'branderijen',
+      one: 'branderij',
     );
     return '$count $_temp0';
   }
@@ -1536,7 +1563,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get dialogDuplicate => 'Dupliceren';
 
   @override
-  String get dialogUpdate => 'Update';
+  String get dialogUpdate => 'Bijwerken';
 
   @override
   String get recipeImportTitle => 'Recept importeren';
@@ -1955,7 +1982,15 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      'U kunt notificaties inschakelen om nuttige updates te ontvangen (bijv. over nieuwe app-versies). Schakel nu in of wijzig dit op elk moment in de instellingen.';
+      'U kunt notificaties inschakelen om nuttige updates te ontvangen (bijv. over nieuwe app-versies). Notificaties zijn ook nodig voor live voortgangsupdates tijdens het zetten. Schakel nu in of wijzig dit op elk moment in de instellingen.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'U kunt notificaties inschakelen om nuttige updates te ontvangen (bijv. over nieuwe app-versies). Notificaties zijn ook nodig voor Live Activities en Dynamic Island op iOS. Schakel nu in of wijzig dit op elk moment in de instellingen.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'U kunt notificaties inschakelen om nuttige updates te ontvangen (bijv. over nieuwe app-versies). Notificaties zijn ook nodig voor Live Updates op Android. Schakel nu in of wijzig dit op elk moment in de instellingen.';
 
   @override
   String get notificationPermissionEnable => 'Inschakelen';
@@ -2051,7 +2086,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get holidayGiftBoxOfferUnavailable => 'Aanbieding niet beschikbaar';
 
   @override
-  String get holidayGiftBoxBannerTitle => 'Bekijk onze holiday gift box';
+  String get holidayGiftBoxBannerTitle => 'Bekijk onze Holiday Giftbox';
 
   @override
   String get holidayGiftBoxBannerCta => 'Bekijk aanbiedingen';
@@ -2109,7 +2144,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get timePeriodLastYear => 'Vorig jaar';
 
   @override
-  String get nativeAppPromoTitle => 'Download de Timer.Coffee App';
+  String get nativeAppPromoTitle => 'Download de Timer.Coffee-app';
 
   @override
   String get nativeAppPromoDescription =>
@@ -2158,7 +2193,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get coffeeJourneyMilestoneFirstBrew => 'Rond je eerste zetbeurt af';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod => 'Probeer een andere zetmethode';
+  String get coffeeJourneyMilestoneTryMethod => 'Probeer een ander recept';
 
   @override
   String get coffeeJourneyMilestoneAddBeans => 'Voeg je eerste koffiebonen toe';
@@ -2244,4 +2279,174 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get saving => 'Opslaan…';
+
+  @override
+  String get notifBrewReminderTitle => 'Mis je je koffieritueel?';
+
+  @override
+  String get notifBrewReminderBody =>
+      'Het is een paar dagen geleden. Zin in nog een kop koffie?';
+
+  @override
+  String get notifBrewReminderTitle2 => 'Tijd voor koffie?';
+
+  @override
+  String get notifBrewReminderBody2 =>
+      'Je set-up staat klaar wanneer jij er klaar voor bent.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'Je waterkoker roept';
+
+  @override
+  String get notifBrewReminderBody3 =>
+      'Een goede kop koffie is nog maar een paar minuten van je verwijderd.';
+
+  @override
+  String get notifBrewEscalationTitle => 'Terug voor nog een kop koffie?';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'Het is een tijdje geleden. Zin om weer iets goeds te zetten?';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'Al een tijdje geleden?';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'Geen haast. Je set-up staat klaar wanneer jij er klaar voor bent.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'Weer tijd voor koffie?';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'Een echt goede kop koffie begint binnen een paar minuten.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'Houd je bonen bij';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'Log je bonen en onthoud welke je favoriet waren.';
+
+  @override
+  String get notifDiscoverPulseTitle => 'Zie wat anderen zetten';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'Open Pulse om live zetbeurten van over de hele wereld te zien.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'Je hebt een mijlpaal bereikt';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    return 'Je hebt $count keer gezet. Tik om je voortgang te bekijken.';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return 'Probeer een nieuw $methodName-recept';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Tot nu toe heb je $count recepten geprobeerd. Hier is er nog een om te proberen.',
+      one:
+          'Tot nu toe heb je 1 recept geprobeerd. Hier is er nog een om te proberen.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'Goedemorgen. Klaar om te zetten?';
+
+  @override
+  String get notifMorningBody => 'Begin de dag met een goede kop koffie.';
+
+  @override
+  String get notifMorningTitle2 => 'Opstaan en zetten';
+
+  @override
+  String get notifMorningBody2 =>
+      'Je ochtendkoffie kan binnen een paar minuten klaar zijn.';
+
+  @override
+  String get notifMorningTitle3 => 'De eerste kop van de dag?';
+
+  @override
+  String get notifMorningBody3 => 'Kies een recept en ga aan de slag.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count zetbeurten deze week',
+      one: '1 zetbeurt deze week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other:
+          'Over $recipes recepten verspreid. Tik om de verdeling te bekijken.',
+      one: 'Tik om je weekstatistieken te bekijken.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'Tijd voor verse bonen?';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    return 'Je bonen $beanName zijn $days dagen geleden gebrand. Ze zijn misschien niet meer op hun best.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'Meldingen inschakelen';
+
+  @override
+  String get settingsMorningReminder => 'Ochtendherinnering voor koffie';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'Dagelijkse herinnering voor je ochtendkoffie';
+
+  @override
+  String get settingsMorningReminderTime => 'Herinneringstijd';
+
+  @override
+  String get settingsWeeklySummary => 'Wekelijkse samenvatting';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'Zondagavondoverzicht van je zetbeurten';
+
+  @override
+  String get settingsBeanFreshness => 'Versheidsmeldingen voor bonen';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'Melden wanneer bonen ouder zijn dan 3 weken';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dagen geleden',
+      one: '1 dag geleden',
+    );
+    return '$_temp0';
+  }
 }

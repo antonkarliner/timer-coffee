@@ -3,16 +3,16 @@
   "beansStatsSectionTitle": "원두 통계",
   "totalBeansBrewedLabel": "사용한 원두 총량",
   "newBeansTriedLabel": "처음 시도한 원두",
-  "originsExploredLabel": "탐색된 원산지",
-  "regionsExploredLabel": "유럽",
+  "originsExploredLabel": "탐색한 원산지",
+  "regionsExploredLabel": "탐색한 지역",
   "newRoastersDiscoveredLabel": "새로운 로스터리 발견",
   "favoriteRoastersLabel": "좋아하는 로스터리",
   "topOriginsLabel": "상위 원산지",
   "topRegionsLabel": "상위 지역",
   "lastrecipe": "가장 최근 사용된 레시피:",
   "userRecipesTitle": "내 레시피",
-  "userRecipesSectionCreated": "당신이 만든",
-  "userRecipesSectionImported": "당신이 가져온",
+  "userRecipesSectionCreated": "직접 만든 레시피",
+  "userRecipesSectionImported": "가져온 레시피",
   "userRecipesEmpty": "레시피를 찾을 수 없습니다",
   "userRecipesDeleteTitle": "레시피 삭제",
   "userRecipesDeleteMessage": "이 작업은 되돌릴 수 없습니다.",
@@ -20,14 +20,14 @@
   "userRecipesDeleteCancel": "취소",
   "userRecipesSnackbarDeleted": "레시피가 삭제되었습니다",
   "hubUserRecipesTitle": "내 레시피",
-  "hubUserRecipesSubtitle": "생성 및 가져온 레시피 보기 및 관리",
+  "hubUserRecipesSubtitle": "직접 만들거나 가져온 레시피를 보고 관리합니다",
   "hubAccountSubtitle": "프로필 관리",
-  "hubSignInCreateSubtitle": "레시피와 선호 설정 동기화 위해 로그인",
-  "hubBrewDiarySubtitle": "추출 기록 보기 및 노트 추가",
-  "hubBrewStatsSubtitle": "개인 및 글로벌 추출 통계 및 추세 보기",
-  "hubSettingsSubtitle": "앱 선호 및 동작 변경",
-  "hubAboutSubtitle": "앱 세부 정보, 버전 및 기여자",
-  "about": "정보",
+  "hubSignInCreateSubtitle": "레시피와 설정을 동기화하려면 로그인하세요",
+  "hubBrewDiarySubtitle": "추출 기록을 보고 메모를 추가합니다",
+  "hubBrewStatsSubtitle": "개인 및 전 세계 추출 통계와 추세를 봅니다",
+  "hubSettingsSubtitle": "앱 설정과 동작을 변경합니다",
+  "hubAboutSubtitle": "앱 정보, 버전, 기여자를 확인합니다",
+  "about": "앱 정보",
   "author": "작성자",
   "authortext": "Timer.Coffee 앱은 커피 애호가, 미디어 전문가, 사진 저널리스트인 Anton Karliner가 만들었습니다. 이 앱이 커피를 즐기는 데 도움이 되기를 바랍니다. GitHub에서 기여하세요.",
   "contributors": "기여자",
@@ -38,7 +38,7 @@
   "website": "웹사이트",
   "sourcecode": "소스 코드",
   "support": "커피 사주기",
-  "supportButtonLabel": "문의",
+  "supportButtonLabel": "문의하기",
   "allrecipes": "모든 레시피",
   "favoriterecipes": "좋아하는 레시피",
   "coffeeamount": "커피 양 (g)",
@@ -69,9 +69,9 @@
   "supportdevmsg": "기부는 유지 비용 (예: 개발자 라이선스)을 충당하는 데 도움이 돼요 또한 더 많은 커피 추출 기기와 레시피를 앱에 추가할 수 있게 해요",
   "supportdevtnx": "기부 고려 감사해요!",
   "donationok": "감사해요!",
-  "donationtnx": "지원에 정말 감사해요! 훌륭한 추출를 기원해요! ☕️",
+  "donationtnx": "지원해 주셔서 정말 감사합니다! 맛있는 커피가 늘 함께하길 바랄게요! ☕️",
   "donationerr": "오류",
-  "donationerrmsg": "구매 처리 오류, 다시 시도하세요.",
+  "donationerrmsg": "구매 처리 중 오류가 발생했습니다. 다시 시도해 주세요.",
   "sharemsg": "이 레시피 확인:",
   "finishbrew": "완료",
   "settings": "설정",
@@ -80,17 +80,26 @@
   "settingsthemedark": "다크",
   "settingsthemesystem": "시스템",
   "settingslang": "언어",
-  "sweet": "달콤한",
+  "settingsDateTimeFormat": "날짜 및 시간 형식",
+  "settingsDateFormatLabel": "날짜 형식",
+  "settingsTimeFormatLabel": "시간 형식",
+  "settingsDateFormatAuto": "자동 (언어에 맞춤)",
+  "settingsDateFormatDMY": "DD/MM/YYYY",
+  "settingsDateFormatMDY": "MM/DD/YYYY",
+  "settingsDateFormatYMD": "YYYY-MM-DD",
+  "settingsTimeFormat12h": "12시간제 (AM/PM)",
+  "settingsTimeFormat24h": "24시간제",
+  "sweet": "단맛",
   "balance": "균형",
-  "acidic": "신맛",
-  "light": "라이트",
-  "strong": "스트롱",
-  "slidertitle": "맛 조정을 위한 슬라이더 사용",
+  "acidic": "산미",
+  "light": "연함",
+  "strong": "진함",
+  "slidertitle": "슬라이더로 맛을 조절해 보세요",
   "whatsnewtitle": "새로운 기능",
   "whatsnewclose": "닫기",
   "seasonspecials": "시즌 특선",
   "snow": "눈",
-  "noFavoriteRecipesMessage": "좋아하는 레시피 목록이 비어 있습니다. 탐색하고 추출하여 좋아하는 것을 발견하세요!",
+  "noFavoriteRecipesMessage": "아직 즐겨찾기한 레시피가 없습니다. 둘러보고 직접 추출해 보며 마음에 드는 레시피를 찾아보세요!",
   "explore": "탐색",
   "dateFormat": "MMM d, yyyy",
   "timeFormat": "hh:mm a",
@@ -102,20 +111,20 @@
   "notes": "노트",
   "statsscreen": "커피 통계",
   "yourStats": "내 통계",
-  "coffeeBrewed": "추출된 커피:",
+  "coffeeBrewed": "추출량",
   "litersUnit": "L",
-  "mostUsedRecipes": "가장 많이 사용된 레시피:",
-  "globalStats": "글로벌 통계",
+  "mostUsedRecipes": "자주 사용한 레시피",
+  "globalStats": "전 세계 통계",
   "unknownRecipe": "알 수 없는 레시피",
   "noData": "데이터 없음",
   "error": "오류: {error}",
-  "someoneJustBrewed": "누군가 {recipeName}을(를) 방금 추출했어요",
+  "someoneJustBrewed": "누군가 방금 {recipeName}을 추출했어요",
   "timePeriodToday": "오늘",
   "timePeriodYesterday": "어제",
   "timePeriodThisWeek": "이번 주",
   "timePeriodThisMonth": "이번 달",
   "timePeriodCustom": "사용자 지정",
-  "statsFor": "통계",
+  "statsFor": "기간",
   "@statsFor": {
     "description": "Prefix text for statistics headings"
   },
@@ -144,7 +153,7 @@
   "basicInformation": "기본 정보",
   "geographyTerroir": "지리/테루아",
   "variety": "품종",
-  "region": "북아메리카",
+  "region": "지역",
   "elevation": "고도",
   "harvestDate": "수확 날짜",
   "processing": "가공",
@@ -158,27 +167,27 @@
   "noCoffeeBeans": "원두를 찾을 수 없습니다",
   "editCoffeeBeans": "커피 원두 편집",
   "addCoffeeBeans": "커피 원두 추가",
-  "showImagePicker": "이미지 선택기 표시",
-  "pleaseNote": "주의",
-  "firstTimePopupMessage": "1. 이미지를 처리하기 위해 외부 서비스를 사용해요 계속하면 이에 동의해요\n2. 이미지를 저장하지 않지만 개인 세부 정보를 포함하지 마세요.\n3. 이미지 인식은 현재 월 10 토큰으로 제한돼요 (1 토큰 = 1 이미지). 이 제한은 변경될 수 있습니다.",
+  "showImagePicker": "이미지 선택 열기",
+  "pleaseNote": "안내",
+  "firstTimePopupMessage": "1. 이미지 처리를 위해 외부 서비스를 사용합니다. 계속하면 이에 동의하게 됩니다.\n2. 이미지는 저장하지 않지만, 개인 정보가 담긴 이미지는 업로드하지 마세요.\n3. 이미지 인식은 현재 월 10회로 제한됩니다. (이미지 1장 = 1회) 이 한도는 추후 변경될 수 있습니다.",
   "ok": "확인",
   "takePhoto": "사진 찍기",
   "selectFromPhotos": "사진에서 선택",
   "takeAdditionalPhoto": "추가 사진 찍기?",
   "no": "아니오",
   "yes": "예",
-  "selectedImages": "선택된 이미지",
-  "selectedImage": "선택된 이미지",
-  "backToSelection": "선택으로 돌아가기",
+  "selectedImages": "선택한 이미지",
+  "selectedImage": "선택한 이미지",
+  "backToSelection": "선택 화면으로 돌아가기",
   "next": "다음",
   "unexpectedErrorOccurred": "예상치 못한 오류 발생",
-  "tokenLimitReached": "죄송해요, 이번 달 이미지 인식 토큰 한도에 도달했어요",
-  "noCoffeeLabelsDetected": "커피 라벨을 감지할 수 없습니다. 다른 이미지로 시도하기",
+  "tokenLimitReached": "죄송합니다. 이번 달 이미지 인식 한도에 도달했습니다.",
+  "noCoffeeLabelsDetected": "커피 라벨을 찾지 못했습니다. 다른 이미지로 다시 시도해 보세요.",
   "collectedInformation": "수집된 정보",
   "enterRoaster": "로스터리 이름 입력",
   "enterName": "이름 입력",
   "enterOrigin": "원산지 입력",
-  "optional": "선택",
+  "optional": "선택 사항",
   "enterVariety": "품종 입력",
   "enterProcessingMethod": "가공 방법 입력",
   "enterRoastLevel": "로스팅 레벨 입력",
@@ -192,7 +201,7 @@
   "selectDate": "날짜 선택",
   "selectTime": "시간 선택",
   "save": "저장",
-  "fillRequiredFields": "모든 필수 필드를 채워주세요.",
+  "fillRequiredFields": "필수 항목을 모두 입력해 주세요.",
   "analyzing": "분석 중",
   "errorMessage": "오류",
   "selectCoffeeBeans": "커피 원두 선택",
@@ -232,11 +241,11 @@
   "signInCreate": "로그인 / 계정 생성",
   "accountManagement": "계정 관리",
   "deleteAccount": "계정 삭제",
-  "deleteAccountWarning": "주의: 계속하면 서버에서 계정 및 관련 데이터를 삭제해요 로컬 데이터는 기기를 삭제하면 제거돼요 동기화를 다시 활성화하려면 계정을 다시 생성하세요",
+  "deleteAccountWarning": "주의: 계속하면 서버에서 계정과 관련 데이터를 삭제합니다. 데이터의 로컬 사본은 기기에 남아 있으며, 그것도 삭제하려면 앱을 삭제하면 됩니다. 동기화를 다시 사용하려면 계정을 다시 만들어야 합니다.",
   "deleteAccountConfirmation": "계정 삭제 성공",
   "accountDeleted": "계정 삭제됨",
   "accountDeletionError": "계정 삭제 오류, 다시 시도하세요",
-  "deleteAccountTitle": "중요",
+  "deleteAccountTitle": "주의",
   "selectBeans": "원두 선택",
   "all": "모두",
   "selectRoaster": "로스터리 선택",
@@ -277,6 +286,7 @@
     "description": "Statement about the number of distinct roasters used",
     "placeholders": {
       "roasterCount": {
+        "type": "num",
         "example": "5"
       }
     }
@@ -302,6 +312,7 @@
     "description": "Statement about the number of distinct origins",
     "placeholders": {
       "originCount": {
+        "type": "num",
         "example": "10"
       }
     }
@@ -319,6 +330,7 @@
     "description": "Title for low number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "3"
       }
     }
@@ -328,6 +340,7 @@
     "description": "Title for medium number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "5"
       }
     }
@@ -337,6 +350,7 @@
     "description": "Title for high number of brewing methods",
     "placeholders": {
       "count": {
+        "type": "num",
         "example": "8"
       }
     }
@@ -410,7 +424,7 @@
   "yearlyStats25Slide2Count": "{count}번",
   "yearlyStats25Slide2Liters": "대략 {liters}리터의 커피예요",
   "yearlyStats25Slide2Cambridge": "영국 케임브리지의 모든 사람에게 커피 한 잔씩 줄 수 있는 양이에요(특히 학생들이 좋아할 거예요).",
-  "yearlyStats25Slide3Title": "당신은요?",
+  "yearlyStats25Slide3Title": "그럼 나는요?",
   "yearlyStats25Slide3Subtitle": "올해 Timer.Coffee로 {brews}번 커피를 추출했어요. 총 {liters}리터예요!",
   "yearlyStats25Slide3TopBadge": "커피 추출 상위 {topPct}%예요!",
   "yearlyStats25Slide4TitleSingle": "올해 가장 많이 커피를 추출한 날을 기억하나요?",
@@ -419,7 +433,7 @@
   "yearlyStats25Slide4ScratchLabel": "긁어서 확인하기",
   "yearlyStats25BrewsCount": "{count, plural, other{{count}회 추출}}",
   "yearlyStats25Slide4PeakSingle": "{date} — {brewsLabel}",
-  "yearlyStats25Slide4PeakLiters": "그날은 약 {liters}리터",
+  "yearlyStats25Slide4PeakLiters": "그날은 약 {liters}리터를 추출했어요",
   "yearlyStats25Slide4PeakMostRecent": "가장 최근: {mostRecent} — {brewsLabel}",
   "yearlyStats25Slide4BrewTimeLine": "추출에 {timeLabel} 썼어요",
   "yearlyStats25Slide4BrewTimeFooter": "잘 쓴 시간이네요",
@@ -431,7 +445,7 @@
   "yearlyStats25MethodRow": "{name} — {count}{count, plural, other{회}} 추출",
   "yearlyStats25Slide6Title": "올해 {count}곳의 로스터리를 발견했어요:",
   "yearlyStats25Slide6NoRoasters": "아직 로스터리가 없어요",
-  "yearlyStats25Slide7Title": "커피는 당신을 여행으로 데려가요…",
+  "yearlyStats25Slide7Title": "커피는 여행으로 데려가 줘요…",
   "yearlyStats25Slide7Subtitle": "올해 {count}개의 원산지를 발견했어요:",
   "yearlyStats25Others": "...외",
   "yearlyStats25FallbackTitle": "올해 Timer.Coffee 사용자는 {countries}개 나라의 원두를 사용했고\n{roasters}개의 로스터리를 등록했어요.",
@@ -441,7 +455,7 @@
   "yearlyStats25FallbackActionNoBeans": "첫 원두 봉투 추가하기",
   "yearlyStats25ContinueButton": "계속",
   "yearlyStats25PostcardTitle": "다른 추출러에게 새해 인사를 보내요.",
-  "yearlyStats25PostcardSubtitle": "선택 사항. 친절하게. 개인 정보는 금지.",
+  "yearlyStats25PostcardSubtitle": "선택 사항입니다. 따뜻한 말로 남겨 주세요. 개인 정보는 쓰지 마세요.",
   "yearlyStats25PostcardHint": "새해 복 많이 받으세요! 좋은 추출 하세요!",
   "yearlyStats25PostcardSending": "보내는 중...",
   "yearlyStats25PostcardSend": "보내기",
@@ -459,10 +473,10 @@
   "yearlyStats25CtaFollowPrefix": "다음에서 팔로우하세요: ",
   "yearlyStats25CtaInstagram": "Instagram",
   "yearlyStats25CtaShareButton": "내 진행 상황 공유",
-  "yearlyStats25CtaShareHint": "@timercoffeeapp 태그하는 것 잊지 마세요",
+  "yearlyStats25CtaShareHint": "@timercoffeeapp 태그도 잊지 마세요",
   "yearlyStats25AppBarTooltipResume": "재개",
   "yearlyStats25AppBarTooltipPause": "일시정지",
-  "yearlyStats25ShareError": "리캡을 공유할 수 없어요. 다시 시도하세요.",
+  "yearlyStats25ShareError": "연말 결산을 공유할 수 없어요. 다시 시도해 주세요.",
   "yearlyStats25BrewTimeMinutes": "{count, plural, other{{count}분}}",
   "yearlyStats25BrewTimeHours": "{hours}시간",
   "yearlyStats25ShareTitle": "Timer.Coffee와 함께한 2025년",
@@ -542,12 +556,12 @@
   },
   "recipeCreationScreenStepDescriptionLabel": "단계 설명",
   "recipeCreationScreenStepTimeLabel": "단계 시간:",
-  "recipeCreationScreenRecipeNameValidator": "레시피 이름을 입력하기",
-  "recipeCreationScreenShortDescriptionValidator": "짧은 설명을 입력하기",
-  "recipeCreationScreenBrewingMethodValidator": "추출 방법을 선택하기",
+  "recipeCreationScreenRecipeNameValidator": "레시피 이름을 입력해 주세요",
+  "recipeCreationScreenShortDescriptionValidator": "짧은 설명을 입력해 주세요",
+  "recipeCreationScreenBrewingMethodValidator": "추출 방법을 선택해 주세요",
   "recipeCreationScreenRequiredValidator": "필수",
   "recipeCreationScreenInvalidNumberValidator": "잘못된 숫자",
-  "recipeCreationScreenStepDescriptionValidator": "단계 설명을 입력하기",
+  "recipeCreationScreenStepDescriptionValidator": "단계 설명을 입력해 주세요",
   "recipeCreationScreenContinueButton": "레시피 단계로 계속",
   "recipeCreationScreenAddStepButton": "단계 추가",
   "recipeCreationScreenSaveRecipeButton": "레시피 저장",
@@ -623,7 +637,7 @@
   "recipeNotFoundCloud": "클라우드에서 레시피를 찾을 수 없거나 공개되지 않음.",
   "recipeLoadErrorGeneric": "레시피 로드 오류.",
   "recipeUpdateAvailableTitle": "업데이트 사용 가능",
-  "recipeUpdateAvailableBody": "'{recipeName}'의 새 버전이 온라인에서 사용 가능해요 업데이트하시겠습니까?",
+  "recipeUpdateAvailableBody": "'{recipeName}'의 새 버전이 온라인에 있습니다. 업데이트하시겠어요?",
   "@recipeUpdateAvailableBody": {
     "description": "Body text for the update confirmation dialog",
     "placeholders": {
@@ -715,7 +729,7 @@
     }
   },
   "editImportedRecipeTitle": "가져온 레시피 편집",
-  "editImportedRecipeBody": "이것은 가져온 레시피입니다. 편집하면 새로운 독립 복사가 생성돼요 계속하시겠습니까?",
+  "editImportedRecipeBody": "이 레시피는 가져온 레시피입니다. 편집하면 새롭고 독립적인 사본이 만들어집니다. 계속하시겠어요?",
   "editImportedRecipeButtonCopy": "복사 생성 및 편집",
   "editImportedRecipeButtonCancel": "취소",
   "editDisplayNameTitle": "표시 이름 편집",
@@ -803,8 +817,8 @@
   },
   "farmer": "농부",
   "farm": "농장",
-  "enterFarmer": "농부 입력 (선택)",
-  "enterFarm": "농장 입력 (선택)",
+  "enterFarmer": "농부 입력 (선택 사항)",
+  "enterFarm": "농장 입력 (선택 사항)",
   "requiredInformation": "필수 정보",
   "basicDetails": "기본 세부 정보",
   "qualityMeasurements": "품질 및 측정",
@@ -879,10 +893,10 @@
   "dropdownSearchUseCustomEntry": "\"{currentQuery}\" 사용",
   "requiredInfoSubtitle": "* 필수",
   "inventoryWeightExample": "예: 250.5",
-  "unsavedChangesTitle": "저장되지 않은 변경",
-  "unsavedChangesMessage": "저장되지 않은 변경이 있습니다. 변경을 삭제하시겠습니까?",
+  "unsavedChangesTitle": "저장되지 않은 변경 사항",
+  "unsavedChangesMessage": "저장되지 않은 변경 사항이 있습니다. 변경 사항을 버리시겠어요?",
   "unsavedChangesStay": "머무르기",
-  "unsavedChangesDiscard": "삭제",
+  "unsavedChangesDiscard": "버리기",
   "beansWeightAddedBack": "{beanName}에 {amount}{unit}을(를) 다시 추가했습니다. 새 무게: {newWeight}{unit}",
   "@beansWeightAddedBack": {
     "description": "브루잉 일지에서 제거한 후 원두에 커피 무게를 다시 추가할 때 표시되는 메시지",
@@ -938,7 +952,9 @@
   "notificationsEnabled": "활성화됨",
   "notificationsDisabled": "비활성화됨",
   "notificationPermissionDialogTitle": "알림을 활성화하시겠습니까?",
-  "notificationPermissionDialogMessage": "알림을 활성화하면 유용한 업데이트(예: 새 앱 버전)를 받을 수 있습니다. 지금 활성화하거나 설정에서 언제든지 변경할 수 있습니다.",
+  "notificationPermissionDialogMessage": "알림을 활성화하면 유용한 업데이트(예: 새 앱 버전)를 받을 수 있습니다. 알림은 추출 진행 상황의 실시간 업데이트에도 필요합니다. 지금 활성화하거나 설정에서 언제든지 변경할 수 있습니다.",
+  "notificationPermissionDialogMessageIos": "알림을 활성화하면 유용한 업데이트(예: 새 앱 버전)를 받을 수 있습니다. 알림은 iOS의 Live Activities 및 Dynamic Island에도 필요합니다. 지금 활성화하거나 설정에서 언제든지 변경할 수 있습니다.",
+  "notificationPermissionDialogMessageAndroid": "알림을 활성화하면 유용한 업데이트(예: 새 앱 버전)를 받을 수 있습니다. 알림은 Android의 Live Updates에도 필요합니다. 지금 활성화하거나 설정에서 언제든지 변경할 수 있습니다.",
   "notificationPermissionEnable": "활성화",
   "notificationPermissionSkip": "나중에",
   "holidayGiftBoxTitle": "홀리데이 기프트 박스",
@@ -1015,8 +1031,8 @@
   "inventorySetToZeroFail": "재고를 0으로 설정하는 데 실패했습니다",
   "pulseUserRecipe": "사용자 레시피",
   "refresh": "새로고침",
-  "pulseSomeoneBrewed": "누군가 {recipeName}을(를) 추출했어요",
-  "pulseSomeoneFromBrewed": "{country}의 누군가 {recipeName}을(를) 추출했어요",
+  "pulseSomeoneBrewed": "누군가 {recipeName}을 추출했어요",
+  "pulseSomeoneFromBrewed": "{country}에서 누군가 {recipeName}을 추출했어요",
   "pulseTitle": "펄스",
   "hubPulseSubtitle": "실시간 추출 피드",
   "pulseLiveSummary": "실시간 요약",
@@ -1058,7 +1074,7 @@
   "onboardingShowAll": "모든 추출 방법 보기",
   "coffeeJourneyTitle": "첫걸음",
   "coffeeJourneyMilestoneFirstBrew": "첫 추출 완료하기",
-  "coffeeJourneyMilestoneTryMethod": "다른 추출 방법 시도하기",
+  "coffeeJourneyMilestoneTryMethod": "다른 레시피 시도하기",
   "coffeeJourneyMilestoneAddBeans": "첫 원두 추가하기",
   "coffeeJourneyMilestoneFavorite": "레시피를 좋아하는 목록에 추가하기",
   "coffeeJourneyMilestoneStats": "추출 통계 확인하기",
@@ -1084,5 +1100,101 @@
   "settingsAnalyticsBeans": "원두 분석 공유",
   "settingsAnalyticsGeneral": "일반 사용 분석 공유",
   "done": "완료",
-  "saving": "저장 중…"
+  "saving": "저장 중…",
+
+  "notifBrewReminderTitle": "요즘 커피가 생각나시나요?",
+  "notifBrewReminderBody": "며칠째 커피를 안 내리셨네요. 다시 한 잔 어떠세요?",
+  "notifBrewReminderTitle2": "커피 내릴 시간인가요?",
+  "notifBrewReminderBody2": "준비는 언제든 되어 있습니다.",
+  "notifBrewReminderTitle3": "주전자가 부르고 있어요",
+  "notifBrewReminderBody3": "좋은 한 잔까지는 몇 분이면 충분해요.",
+  "notifBrewEscalationTitle": "다시 한 잔 내릴까요?",
+  "notifBrewEscalationBody": "꽤 시간이 지났네요. 맛있는 한 잔 다시 내려볼까요?",
+  "notifBrewEscalationTitle2": "오랜만이네요?",
+  "notifBrewEscalationBody2": "서두르지 않아도 됩니다. 준비는 언제든 되어 있어요.",
+  "notifBrewEscalationTitle3": "다시 커피 시간인가요?",
+  "notifBrewEscalationBody3": "정말 좋은 한 잔도 몇 분이면 준비할 수 있어요.",
+
+  "notifDiscoverBeansTitle": "원두를 기록해 보세요",
+  "notifDiscoverBeansBody": "원두를 기록하고 마음에 들었던 것들을 기억해 두세요.",
+  "notifDiscoverPulseTitle": "다른 사람들이 무엇을 내리는지 확인해 보세요",
+  "notifDiscoverPulseBody": "펄스를 열어 전 세계의 실시간 추출을 확인해 보세요.",
+
+  "notifBrewMilestoneTitle": "새 기록을 세웠어요",
+  "notifBrewMilestoneBody": "{count}번 추출했어요. 탭해서 진행 상황을 확인해 보세요.",
+  "@notifBrewMilestoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifExploreRecipesTitle": "새로운 {methodName} 레시피를 시도해 보세요",
+  "@notifExploreRecipesTitle": {
+    "placeholders": {
+      "methodName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifExploreRecipesBody": "{count, plural, =1{지금까지 1개의 레시피를 시도했어요. 하나 더 추천해 드릴게요.} other{지금까지 {count}개의 레시피를 시도했어요. 하나 더 추천해 드릴게요.}}",
+  "@notifExploreRecipesBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifMorningTitle": "좋은 아침이에요. 커피 내릴 준비 되셨나요?",
+  "notifMorningBody": "좋은 한 잔으로 하루를 시작해 보세요.",
+  "notifMorningTitle2": "일어나서 한 잔 내려보세요",
+  "notifMorningBody2": "아침 커피는 몇 분이면 준비할 수 있어요.",
+  "notifMorningTitle3": "오늘의 첫 잔인가요?",
+  "notifMorningBody3": "레시피를 고르고 바로 추출해 보세요.",
+  "notifWeeklyTitle": "{count, plural, =1{이번 주 추출 1회} other{이번 주 추출 {count}회}}",
+  "@notifWeeklyTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifWeeklyBody": "{recipes, plural, =1{탭해서 주간 통계를 확인해 보세요.} other{{recipes}개 레시피에서의 결과예요. 탭해서 자세히 보세요.}}",
+  "@notifWeeklyBody": {
+    "placeholders": {
+      "recipes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifBeanFreshnessTitle": "더 신선한 원두가 필요할까요?",
+  "notifBeanFreshnessBody": "{beanName}는 로스팅한 지 {days}일이 지났어요. 최상의 시기를 지났을 수 있어요.",
+  "@notifBeanFreshnessBody": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "settingsNotificationsToggle": "알림 사용",
+  "settingsMorningReminder": "아침 커피 알림",
+  "settingsMorningReminderSubtitle": "아침 커피를 위한 매일 알림",
+  "settingsMorningReminderTime": "알림 시간",
+  "settingsWeeklySummary": "주간 요약",
+  "settingsWeeklySummarySubtitle": "일요일 저녁에 보는 이번 주 커피 요약",
+  "settingsBeanFreshness": "원두 신선도 알림",
+  "settingsBeanFreshnessSubtitle": "로스팅한 지 3주가 지난 원두를 알려주기",
+  "daysAgo": "{count, plural, other{{count}일 전}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

@@ -582,6 +582,60 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get settingslang;
 
+  /// No description provided for @settingsDateTimeFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Date & Time Format'**
+  String get settingsDateTimeFormat;
+
+  /// No description provided for @settingsDateFormatLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date format'**
+  String get settingsDateFormatLabel;
+
+  /// No description provided for @settingsTimeFormatLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Time format'**
+  String get settingsTimeFormatLabel;
+
+  /// No description provided for @settingsDateFormatAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto (matches language)'**
+  String get settingsDateFormatAuto;
+
+  /// No description provided for @settingsDateFormatDMY.
+  ///
+  /// In en, this message translates to:
+  /// **'DD/MM/YYYY'**
+  String get settingsDateFormatDMY;
+
+  /// No description provided for @settingsDateFormatMDY.
+  ///
+  /// In en, this message translates to:
+  /// **'MM/DD/YYYY'**
+  String get settingsDateFormatMDY;
+
+  /// No description provided for @settingsDateFormatYMD.
+  ///
+  /// In en, this message translates to:
+  /// **'YYYY-MM-DD'**
+  String get settingsDateFormatYMD;
+
+  /// No description provided for @settingsTimeFormat12h.
+  ///
+  /// In en, this message translates to:
+  /// **'12-hour (AM/PM)'**
+  String get settingsTimeFormat12h;
+
+  /// No description provided for @settingsTimeFormat24h.
+  ///
+  /// In en, this message translates to:
+  /// **'24-hour'**
+  String get settingsTimeFormat24h;
+
   /// No description provided for @sweet.
   ///
   /// In en, this message translates to:
@@ -1732,7 +1786,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'You used beans from {roasterCount} roasters'**
-  String yearlyStatsStory4Text(Object roasterCount);
+  String yearlyStatsStory4Text(num roasterCount);
 
   /// List of top 3 roasters used
   ///
@@ -1750,7 +1804,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'You tasted coffee beans\nfrom {originCount} countries!'**
-  String yearlyStatsStory6Text(Object originCount);
+  String yearlyStatsStory6Text(num originCount);
 
   /// First part of story 7
   ///
@@ -1768,19 +1822,19 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'You stayed true to yourself and used only these {count} brewing methods this year:'**
-  String yearlyStatsStory8TitleLow(Object count);
+  String yearlyStatsStory8TitleLow(num count);
 
   /// Title for medium number of brewing methods
   ///
   /// In en, this message translates to:
   /// **'You were discovering new tastes and used {count} brewing methods this year:'**
-  String yearlyStatsStory8TitleMedium(Object count);
+  String yearlyStatsStory8TitleMedium(num count);
 
   /// Title for high number of brewing methods
   ///
   /// In en, this message translates to:
   /// **'You were a true coffee discoverer and used {count} brewing methods this year:'**
-  String yearlyStatsStory8TitleHigh(Object count);
+  String yearlyStatsStory8TitleHigh(num count);
 
   /// Encouraging message for further discovery
   ///
@@ -3418,8 +3472,20 @@ abstract class AppLocalizations {
   /// No description provided for @notificationPermissionDialogMessage.
   ///
   /// In en, this message translates to:
-  /// **'You can enable notifications to get useful updates (e.g. about new app versions). Enable now or change this anytime in settings.'**
+  /// **'You can enable notifications to get useful updates (e.g. about new app versions). Notifications are also required for live brew progress updates. Enable now or change this anytime in settings.'**
   String get notificationPermissionDialogMessage;
+
+  /// No description provided for @notificationPermissionDialogMessageIos.
+  ///
+  /// In en, this message translates to:
+  /// **'You can enable notifications to get useful updates (e.g. about new app versions). Notifications are also required for Live Activities and Dynamic Island on iOS. Enable now or change this anytime in settings.'**
+  String get notificationPermissionDialogMessageIos;
+
+  /// No description provided for @notificationPermissionDialogMessageAndroid.
+  ///
+  /// In en, this message translates to:
+  /// **'You can enable notifications to get useful updates (e.g. about new app versions). Notifications are also required for Live Updates on Android. Enable now or change this anytime in settings.'**
+  String get notificationPermissionDialogMessageAndroid;
 
   /// No description provided for @notificationPermissionEnable.
   ///
@@ -3772,7 +3838,7 @@ abstract class AppLocalizations {
   /// No description provided for @coffeeJourneyMilestoneTryMethod.
   ///
   /// In en, this message translates to:
-  /// **'Try a different brewing method'**
+  /// **'Try another recipe'**
   String get coffeeJourneyMilestoneTryMethod;
 
   /// No description provided for @coffeeJourneyMilestoneAddBeans.
@@ -3930,6 +3996,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saving…'**
   String get saving;
+
+  /// No description provided for @notifBrewReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing your coffee ritual?'**
+  String get notifBrewReminderTitle;
+
+  /// No description provided for @notifBrewReminderBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s been a few days. Ready for another brew?'**
+  String get notifBrewReminderBody;
+
+  /// No description provided for @notifBrewReminderTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Time for a brew?'**
+  String get notifBrewReminderTitle2;
+
+  /// No description provided for @notifBrewReminderBody2.
+  ///
+  /// In en, this message translates to:
+  /// **'Your setup is ready when you are.'**
+  String get notifBrewReminderBody2;
+
+  /// No description provided for @notifBrewReminderTitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Your kettle is calling'**
+  String get notifBrewReminderTitle3;
+
+  /// No description provided for @notifBrewReminderBody3.
+  ///
+  /// In en, this message translates to:
+  /// **'A good cup is only a few minutes away.'**
+  String get notifBrewReminderBody3;
+
+  /// No description provided for @notifBrewEscalationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Back for another brew?'**
+  String get notifBrewEscalationTitle;
+
+  /// No description provided for @notifBrewEscalationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s been a while. Ready to make something good?'**
+  String get notifBrewEscalationBody;
+
+  /// No description provided for @notifBrewEscalationTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Been a while?'**
+  String get notifBrewEscalationTitle2;
+
+  /// No description provided for @notifBrewEscalationBody2.
+  ///
+  /// In en, this message translates to:
+  /// **'No rush. Your setup is ready when you are.'**
+  String get notifBrewEscalationBody2;
+
+  /// No description provided for @notifBrewEscalationTitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Coffee time again?'**
+  String get notifBrewEscalationTitle3;
+
+  /// No description provided for @notifBrewEscalationBody3.
+  ///
+  /// In en, this message translates to:
+  /// **'A really good cup can start in just a few minutes.'**
+  String get notifBrewEscalationBody3;
+
+  /// No description provided for @notifDiscoverBeansTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep track of your beans'**
+  String get notifDiscoverBeansTitle;
+
+  /// No description provided for @notifDiscoverBeansBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Log your beans and remember the ones you loved.'**
+  String get notifDiscoverBeansBody;
+
+  /// No description provided for @notifDiscoverPulseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See what others are brewing'**
+  String get notifDiscoverPulseTitle;
+
+  /// No description provided for @notifDiscoverPulseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Pulse to see live brews from around the world.'**
+  String get notifDiscoverPulseBody;
+
+  /// No description provided for @notifBrewMilestoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You hit a milestone'**
+  String get notifBrewMilestoneTitle;
+
+  /// No description provided for @notifBrewMilestoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve brewed {count} times. Tap to see your progress.'**
+  String notifBrewMilestoneBody(int count);
+
+  /// No description provided for @notifExploreRecipesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a new {methodName} recipe'**
+  String notifExploreRecipesTitle(String methodName);
+
+  /// No description provided for @notifExploreRecipesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{So far, you have tried 1 recipe. Here is another one to try.} other{So far, you have tried {count} recipes. Here is one more to try.}}'**
+  String notifExploreRecipesBody(int count);
+
+  /// No description provided for @notifMorningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning. Ready to brew?'**
+  String get notifMorningTitle;
+
+  /// No description provided for @notifMorningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the day with a good cup.'**
+  String get notifMorningBody;
+
+  /// No description provided for @notifMorningTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Rise and brew'**
+  String get notifMorningTitle2;
+
+  /// No description provided for @notifMorningBody2.
+  ///
+  /// In en, this message translates to:
+  /// **'Your morning brew can be ready in a few minutes.'**
+  String get notifMorningBody2;
+
+  /// No description provided for @notifMorningTitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'First cup of the day?'**
+  String get notifMorningTitle3;
+
+  /// No description provided for @notifMorningBody3.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a recipe and get brewing.'**
+  String get notifMorningBody3;
+
+  /// No description provided for @notifWeeklyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 brew this week} other{{count} brews this week}}'**
+  String notifWeeklyTitle(int count);
+
+  /// No description provided for @notifWeeklyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{recipes, plural, =1{Tap to see your weekly stats.} other{Across {recipes} recipes. Tap to see the breakdown.}}'**
+  String notifWeeklyBody(int recipes);
+
+  /// No description provided for @notifBeanFreshnessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time for fresh beans?'**
+  String get notifBeanFreshnessTitle;
+
+  /// No description provided for @notifBeanFreshnessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your {beanName} was roasted {days} days ago. It may be past its peak.'**
+  String notifBeanFreshnessBody(String beanName, int days);
+
+  /// No description provided for @settingsNotificationsToggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications'**
+  String get settingsNotificationsToggle;
+
+  /// No description provided for @settingsMorningReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning brew reminder'**
+  String get settingsMorningReminder;
+
+  /// No description provided for @settingsMorningReminderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily reminder for your morning brew'**
+  String get settingsMorningReminderSubtitle;
+
+  /// No description provided for @settingsMorningReminderTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder time'**
+  String get settingsMorningReminderTime;
+
+  /// No description provided for @settingsWeeklySummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly summary'**
+  String get settingsWeeklySummary;
+
+  /// No description provided for @settingsWeeklySummarySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday evening recap of your brews'**
+  String get settingsWeeklySummarySubtitle;
+
+  /// No description provided for @settingsBeanFreshness.
+  ///
+  /// In en, this message translates to:
+  /// **'Bean freshness alerts'**
+  String get settingsBeanFreshness;
+
+  /// No description provided for @settingsBeanFreshnessSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify when beans are more than 3 weeks past roast date'**
+  String get settingsBeanFreshnessSubtitle;
+
+  /// No description provided for @daysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 day ago} other{{count} days ago}}'**
+  String daysAgo(int count);
 }
 
 class _AppLocalizationsDelegate

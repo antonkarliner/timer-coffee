@@ -21,13 +21,13 @@ class AppLocalizationsFa extends AppLocalizations {
   String get originsExploredLabel => 'خاستگاه‌های کشف‌شده';
 
   @override
-  String get regionsExploredLabel => 'اروپا';
+  String get regionsExploredLabel => 'منطقه‌های کشف‌شده';
 
   @override
-  String get newRoastersDiscoveredLabel => 'رسترهای جدید کشف‌شده';
+  String get newRoastersDiscoveredLabel => 'رُستری‌های جدید کشف‌شده';
 
   @override
-  String get favoriteRoastersLabel => 'برشته‌خانه‌های موردعلاقه';
+  String get favoriteRoastersLabel => 'رُستری‌های موردعلاقه';
 
   @override
   String get topOriginsLabel => 'برترین خاستگاه‌ها';
@@ -48,7 +48,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get userRecipesSectionImported => 'وارد شده توسط شما';
 
   @override
-  String get userRecipesEmpty => 'هیچ دستور غذایی یافت نشد';
+  String get userRecipesEmpty => 'هیچ دستوری پیدا نشد';
 
   @override
   String get userRecipesDeleteTitle => 'حذف دستور؟';
@@ -150,7 +150,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get grindsize => 'درجه آسیاب';
 
   @override
-  String get brewtime => 'زمان دم';
+  String get brewtime => 'زمان دم‌آوری';
 
   @override
   String get recipesummary => 'خلاصه دستور';
@@ -207,7 +207,7 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get supportdevmsg =>
-      'کمک‌های شما هزینه نگهداری سرورها را پوشش می‌دهد، امکان افزودن دستگاه‌های دم‌آوری بیشتر و اضافه کردن دستورهای جدید به برنامه را فراهم می‌کند.';
+      'کمک‌های شما به پوشش هزینه‌های نگهداری، مانند مجوزهای توسعه‌دهنده، کمک می‌کند. همچنین به من امکان می‌دهد ابزارهای دم‌آوری بیشتری را امتحان کنم و دستورهای بیشتری به برنامه اضافه کنم.';
 
   @override
   String get supportdevtnx => 'ممنون که به کمک فکر می‌کنید!';
@@ -250,22 +250,49 @@ class AppLocalizationsFa extends AppLocalizations {
   String get settingslang => 'زبان';
 
   @override
+  String get settingsDateTimeFormat => 'فرمت تاریخ و زمان';
+
+  @override
+  String get settingsDateFormatLabel => 'فرمت تاریخ';
+
+  @override
+  String get settingsTimeFormatLabel => 'فرمت زمان';
+
+  @override
+  String get settingsDateFormatAuto => 'خودکار (مطابق زبان)';
+
+  @override
+  String get settingsDateFormatDMY => 'DD/MM/YYYY';
+
+  @override
+  String get settingsDateFormatMDY => 'MM/DD/YYYY';
+
+  @override
+  String get settingsDateFormatYMD => 'YYYY-MM-DD';
+
+  @override
+  String get settingsTimeFormat12h => '۱۲ ساعته (AM/PM)';
+
+  @override
+  String get settingsTimeFormat24h => '۲۴ ساعته';
+
+  @override
   String get sweet => 'شیرین';
 
   @override
-  String get balance => 'تعادل';
+  String get balance => 'متعادل';
 
   @override
   String get acidic => 'اسیدی';
 
   @override
-  String get light => 'روشن';
+  String get light => 'ملایم';
 
   @override
   String get strong => 'قوی';
 
   @override
-  String get slidertitle => 'عنوان اسلایدر';
+  String get slidertitle => 'برای تنظیم طعم از لغزنده‌ها استفاده کنید';
 
   @override
   String get whatsnewtitle => 'چه چیز جدید است';
@@ -280,7 +307,8 @@ class AppLocalizationsFa extends AppLocalizations {
   String get snow => 'برف';
 
   @override
-  String get noFavoriteRecipesMessage => 'هنوز دستوری را محبوب نکرده‌اید.';
+  String get noFavoriteRecipesMessage =>
+      'فهرست دستورهای موردعلاقه‌تان فعلاً خالی است. با کاوش و دم‌آوری، محبوب‌های خودتان را پیدا کنید!';
 
   @override
   String get explore => 'کاوش';
@@ -292,22 +320,22 @@ class AppLocalizationsFa extends AppLocalizations {
   String get timeFormat => 'HH:mm';
 
   @override
-  String get brewdiary => 'دفترچه دم';
+  String get brewdiary => 'دفترچه دم‌آوری';
 
   @override
-  String get brewdiarynotfound => 'دفترچه‌ای یافت نشد';
+  String get brewdiarynotfound => 'هیچ ورودی‌ای پیدا نشد';
 
   @override
   String get beans => 'دانه‌های قهوه';
 
   @override
-  String get roaster => 'برشته‌خانه';
+  String get roaster => 'رُستری';
 
   @override
   String get rating => 'امتیاز';
 
   @override
-  String get notes => 'نکته‌ها';
+  String get notes => 'یادداشت‌ها';
 
   @override
   String get statsscreen => 'صفحه آمار';
@@ -502,7 +530,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get name => 'نام';
 
   @override
-  String get origin => 'مبدا';
+  String get origin => 'خاستگاه';
 
   @override
   String get details => 'جزئیات';
@@ -523,7 +551,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get confirmDeleteTitle => 'حذف ورودی؟';
 
   @override
-  String get recipeDuplicateConfirmTitle => 'دستور تکثیر شود؟';
+  String get recipeDuplicateConfirmTitle => 'از این دستور یک کپی ساخته شود؟';
 
   @override
   String get recipeDuplicateConfirmMessage =>
@@ -561,7 +589,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get variety => 'گونه';
 
   @override
-  String get region => 'آمریکای شمالی';
+  String get region => 'منطقه';
 
   @override
   String get elevation => 'ارتفاع';
@@ -588,7 +616,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get flavorProfile => 'پروفایل طعمی';
 
   @override
-  String get tastingNotes => 'یادداشت‌های چشایی';
+  String get tastingNotes => 'نُت‌های طعمی';
 
   @override
   String get additionalNotes => 'یادداشت‌های اضافی';
@@ -610,7 +638,7 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get firstTimePopupMessage =>
-      '۱. ما برای پردازش تصاویر از سرویس‌های خارجی استفاده می‌کنیم. با ادامه کار، موافقت می‌کنید که تصاویر شما به این سرویس‌ها ارسال شود.\n۲. در حال حاضر محدودیت ۵ تصویر در ماه وجود دارد (۱ توکن = ۱ تصویر). این محدودیت ممکن است در آینده تغییر کند.';
+      '۱. برای پردازش تصاویر از سرویس‌های خارجی استفاده می‌کنیم. با ادامه دادن، با این موضوع موافقت می‌کنید.\n۲. اگرچه تصاویر شما را ذخیره نمی‌کنیم، لطفاً از درج هرگونه اطلاعات شخصی در آن‌ها خودداری کنید.\n۳. در حال حاضر شناسایی تصویر به ۱۰ توکن در ماه محدود است (۱ توکن = ۱ تصویر). این محدودیت ممکن است در آینده تغییر کند.';
 
   @override
   String get ok => 'باشه';
@@ -646,22 +674,24 @@ class AppLocalizationsFa extends AppLocalizations {
   String get unexpectedErrorOccurred => 'خطای غیرمنتظره رخ داد';
 
   @override
-  String get tokenLimitReached => 'محدودیت توکن به پایان رسید';
+  String get tokenLimitReached =>
+      'متأسفیم، این ماه به سقف توکن شناسایی تصویر رسیده‌اید';
 
   @override
-  String get noCoffeeLabelsDetected => 'برچسبی شناسایی نشد';
+  String get noCoffeeLabelsDetected =>
+      'هیچ برچسب قهوه‌ای شناسایی نشد. با تصویر دیگری امتحان کنید.';
 
   @override
   String get collectedInformation => 'اطلاعات جمع‌آوری‌شده';
 
   @override
-  String get enterRoaster => 'رستر را وارد کنید';
+  String get enterRoaster => 'رُستری را وارد کنید';
 
   @override
   String get enterName => 'نام را وارد کنید';
 
   @override
-  String get enterOrigin => 'مبدا را وارد کنید';
+  String get enterOrigin => 'خاستگاه را وارد کنید';
 
   @override
   String get optional => 'اختیاری';
@@ -679,7 +709,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get enterRegion => 'منطقه را وارد کنید';
 
   @override
-  String get enterTastingNotes => 'یادداشت‌های چشایی را وارد کنید';
+  String get enterTastingNotes => 'نُت‌های طعمی را وارد کنید';
 
   @override
   String get enterElevation => 'ارتفاع را وارد کنید';
@@ -721,7 +751,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get analyzing => 'در حال تحلیل...';
 
   @override
-  String get errorMessage => 'پیام خطا';
+  String get errorMessage => 'خطا';
 
   @override
   String get selectCoffeeBeans => 'انتخاب دانه قهوه';
@@ -754,7 +784,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get signInError => 'ورود با اپل با خطا مواجه شد';
 
   @override
-  String get signInErrorGoogle => 'Error signing in with Google';
+  String get signInErrorGoogle => 'خطا در ورود با گوگل';
 
   @override
   String get signInWithGoogle => 'ورود با گوگل';
@@ -794,7 +824,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get sendOTP => 'ارسال کد';
 
   @override
-  String get otpSent => 'کد ارسال شد';
+  String get otpSent => 'کد یک‌بارمصرف به ایمیل شما ارسال شد';
 
   @override
   String get otpSendError => 'خطا در ارسال کد';
@@ -821,7 +851,8 @@ class AppLocalizationsFa extends AppLocalizations {
   String get success => 'موفقیت';
 
   @override
-  String get otpSentMessage => 'کد تایید به ایمیل/شماره شما ارسال شد';
+  String get otpSentMessage =>
+      'یک کد یک‌بارمصرف به ایمیل شما ارسال می‌شود. لطفاً پس از دریافت، آن را در پایین وارد کنید.';
 
   @override
   String get otpHint2 => 'کد ۶ رقمی';
@@ -837,7 +868,7 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get deleteAccountWarning =>
-      'لطفاً توجه کنید: اگر ادامه دهید، حساب شما حذف می‌شود. برای فعال‌سازی همگام‌سازی دوباره باید حساب جدید بسازید.';
+      'لطفاً توجه کنید: اگر ادامه دهید، حساب شما و داده‌های مرتبط با آن از سرورهای ما حذف خواهد شد. نسخه محلی داده‌ها روی دستگاه باقی می‌ماند؛ اگر می‌خواهید آن را هم حذف کنید، کافی است برنامه را پاک کنید. برای فعال‌سازی دوباره همگام‌سازی، باید دوباره یک حساب جدید بسازید.';
 
   @override
   String get deleteAccountConfirmation => 'حساب با موفقیت حذف شد';
@@ -858,10 +889,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get all => 'همه';
 
   @override
-  String get selectRoaster => 'انتخاب رستر';
+  String get selectRoaster => 'انتخاب رُستری';
 
   @override
-  String get selectOrigin => 'انتخاب مبدا';
+  String get selectOrigin => 'انتخاب خاستگاه';
 
   @override
   String get resetFilters => 'ریست فیلترها';
@@ -882,7 +913,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get sizeMedium => 'متوسط';
 
   @override
-  String get sizeXL => 'بزرگ';
+  String get sizeXL => 'XL';
 
   @override
   String get yearlyStatsAppBarTitle => 'آمار سال ۲۰۲۴';
@@ -902,13 +933,13 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
-    return 'شما از $roasterCount رستر استفاده کردید';
+  String yearlyStatsStory4Text(num roasterCount) {
+    return 'دانه‌هایی از $roasterCount رُستری را امتحان کردی';
   }
 
   @override
   String yearlyStatsStory4Top3Roasters(Object top3) {
-    return 'سه رستر برتر شما:\n$top3';
+    return 'سه رُستری برترت:\n$top3';
   }
 
   @override
@@ -917,29 +948,29 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'شما دانه‌های قهوه از $originCount کشور چشیدید!';
   }
 
   @override
-  String get yearlyStatsStory7Part1 => 'شما طعم‌های جدیدی را امتحان کردید و';
+  String get yearlyStatsStory7Part1 => 'تو تنها دم‌آوری نمی‌کردی…';
 
   @override
   String get yearlyStatsStory7Part2 =>
-      '...اما با کاربران از 110 کشور دیگر\nدر 6 قاره!';
+      '...بلکه همراه کاربران ۱۱۰ کشور دیگر\nدر ۶ قاره دم می‌کردی!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return 'شما وفادار ماندید و فقط از این $count روش دم‌آوری در سال استفاده کردید:';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return 'شما در حال کشف طعم‌های جدید بودید و $count روش دم‌آوری در سال استفاده کردید:';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return 'شما یک کاشف واقعی قهوه بودید و $count روش دم‌آوری در سال استفاده کردید:';
   }
 
@@ -952,7 +983,7 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
-  String get yearlyStatsFinalText => 'به خاطر یک سال عالی قهوه سپاسگزاریم!';
+  String get yearlyStatsFinalText => 'در ۲۰۲۵ می‌بینیمت!';
 
   @override
   String yearlyStatsActionLove(Object likesCount) {
@@ -974,15 +1005,13 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
-  String get yearlyStatsShareProgressMyYear => 'در حال آماده‌سازی «سال من»...';
+  String get yearlyStatsShareProgressMyYear => 'سال من با Timer.Coffee';
 
   @override
-  String get yearlyStatsShareProgressTop3Recipes =>
-      'در حال آماده‌سازی سه دستور برتر...';
+  String get yearlyStatsShareProgressTop3Recipes => 'سه دستور برتر من:';
 
   @override
-  String get yearlyStatsShareProgressTop3Roasters =>
-      'در حال آماده‌سازی سه رستر برتر...';
+  String get yearlyStatsShareProgressTop3Roasters => 'سه رُستری برتر من:';
 
   @override
   String get yearlyStats25AppBarTitle => 'سال شما با Timer.Coffee — ۲۰۲۵';
@@ -1104,11 +1133,11 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String yearlyStats25Slide6Title(String count) {
-    return 'امسال $count رستر را کشف کردی:';
+    return 'امسال $count رُستری را کشف کردی:';
   }
 
   @override
-  String get yearlyStats25Slide6NoRoasters => 'هنوز رستری نیست';
+  String get yearlyStats25Slide6NoRoasters => 'هنوز رُستری‌ای نیست';
 
   @override
   String get yearlyStats25Slide7Title =>
@@ -1124,7 +1153,7 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String yearlyStats25FallbackTitle(int countries, int roasters) {
-    return 'کاربران Timer.Coffee امسال از $countries کشور دانه استفاده کردند\nو $roasters رستر مختلف ثبت شد.';
+    return 'کاربران Timer.Coffee امسال از $countries کشور دانه استفاده کردند\nو $roasters رُستری مختلف ثبت کردند.';
   }
 
   @override
@@ -1250,13 +1279,13 @@ class AppLocalizationsFa extends AppLocalizations {
   String get yearlyStats25ShareBrewedSuffix => ' لیتر قهوه';
 
   @override
-  String get yearlyStats25ShareRoastersPrefix => 'رستر: ';
+  String get yearlyStats25ShareRoastersPrefix => 'رُستری‌های تجربه‌شده: ';
 
   @override
   String get yearlyStats25ShareRoastersSuffix => '';
 
   @override
-  String get yearlyStats25ShareOriginsPrefix => 'خاستگاه: ';
+  String get yearlyStats25ShareOriginsPrefix => 'خاستگاه‌های کشف‌شده: ';
 
   @override
   String get yearlyStats25ShareOriginsSuffix => '';
@@ -1277,45 +1306,27 @@ class AppLocalizationsFa extends AppLocalizations {
   String get labelCoffeeBrewed => 'قهوه دم‌شده:';
 
   @override
-  String get labelTastedBeansBy => 'دانه‌ها چشیده شده از:';
+  String get labelTastedBeansBy => 'رُستری‌های تجربه‌شده:';
 
   @override
-  String get labelDiscoveredCoffeeFrom => 'قهوه کشف‌شده از:';
+  String get labelDiscoveredCoffeeFrom => 'خاستگاه‌های کشف‌شده:';
 
   @override
   String get labelUsedBrewingMethods => 'روش‌های دم استفاده‌شده:';
 
   @override
   String formattedRoasterCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'رسترها',
-      one: 'رستر',
-    );
-    return '$count $_temp0';
+    return '$count رُستری';
   }
 
   @override
   String formattedCountryCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'کشورها',
-      one: 'کشور',
-    );
-    return '$count $_temp0';
+    return '$count کشور';
   }
 
   @override
   String formattedBrewingMethodCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'روش‌های دم‌آوری',
-      one: 'روش دم‌آوری',
-    );
-    return '$count $_temp0';
+    return '$count روش دم‌آوری';
   }
 
   @override
@@ -1334,7 +1345,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get recipeCreationScreenShortDescriptionLabel => 'توضیح کوتاه';
 
   @override
-  String get recipeCreationScreenBrewingMethodLabel => 'روش دم';
+  String get recipeCreationScreenBrewingMethodLabel => 'روش دم‌آوری';
 
   @override
   String get recipeCreationScreenCoffeeAmountLabel => 'مقدار قهوه';
@@ -1346,10 +1357,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get recipeCreationScreenWaterTempLabel => 'دمای آب';
 
   @override
-  String get recipeCreationScreenGrindSizeLabel => 'اندازه آسیاب';
+  String get recipeCreationScreenGrindSizeLabel => 'درجه آسیاب';
 
   @override
-  String get recipeCreationScreenTotalBrewTimeLabel => 'کل زمان دم';
+  String get recipeCreationScreenTotalBrewTimeLabel => 'زمان کل دم‌آوری';
 
   @override
   String get recipeCreationScreenMinutesLabel => 'دقیقه';
@@ -1362,7 +1373,7 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String recipeCreationScreenBrewStepTitle(String stepOrder) {
-    return 'مرحله دم $stepOrder';
+    return 'مرحله دم‌آوری $stepOrder';
   }
 
   @override
@@ -1413,10 +1424,10 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
-  String get unitGramsShort => 'گرم';
+  String get unitGramsShort => 'g';
 
   @override
-  String get unitMillilitersShort => 'میلی‌لیتر';
+  String get unitMillilitersShort => 'ml';
 
   @override
   String get unitGramsLong => 'گرم';
@@ -1428,7 +1439,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get recipeCopySuccess => 'دستور با موفقیت کپی شد';
 
   @override
-  String get recipeDuplicateSuccess => 'دستور با موفقیت تکثیر شد!';
+  String get recipeDuplicateSuccess => 'کپی دستور با موفقیت ایجاد شد!';
 
   @override
   String recipeCopyError(String error) {
@@ -1449,7 +1460,7 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
-  String get defaultPreparationStepDescription => 'آماده‌سازی تجهیزات';
+  String get defaultPreparationStepDescription => 'آماده‌سازی';
 
   @override
   String get loadingEllipsis => 'در حال بارگذاری...';
@@ -1517,7 +1528,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get dialogCancel => 'لغو';
 
   @override
-  String get dialogDuplicate => 'تکثیر';
+  String get dialogDuplicate => 'کپی';
 
   @override
   String get dialogUpdate => 'بروزرسانی';
@@ -1564,7 +1575,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get tooltipCopyRecipe => 'کپی دستور';
 
   @override
-  String get tooltipDuplicateRecipe => 'تکثیر دستور';
+  String get tooltipDuplicateRecipe => 'کپی گرفتن از دستور';
 
   @override
   String get tooltipShareRecipe => 'اشتراک‌گذاری دستور';
@@ -1599,10 +1610,11 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get saveLocallyCheckLater =>
-      'به صورت محلی ذخیره شد. بعداً دوباره بررسی کنید.';
+      'بررسی وضعیت محتوا ممکن نشد. تغییرات به‌صورت محلی ذخیره شد و در همگام‌سازی بعدی دوباره بررسی می‌شود.';
 
   @override
-  String get saveLocallyModerationFailedTitle => 'ذخیره محلی ناموفق';
+  String get saveLocallyModerationFailedTitle =>
+      'تغییرات به‌صورت محلی ذخیره شد';
 
   @override
   String saveLocallyModerationFailedBody(String reason) {
@@ -1752,11 +1764,11 @@ class AppLocalizationsFa extends AppLocalizations {
   String get showLess => 'نمایش کمتر';
 
   @override
-  String get unpublishRecipeDialogTitle => 'خصوصی کردن دستور پخت';
+  String get unpublishRecipeDialogTitle => 'خصوصی کردن دستور';
 
   @override
   String get unpublishRecipeDialogMessage =>
-      'هشدار: خصوصی کردن این دستور پخت باعث می‌شود:';
+      'هشدار: خصوصی کردن این دستور باعث می‌شود:';
 
   @override
   String get unpublishRecipeDialogBullet1 => 'از نتایج جستجوی عمومی حذف شود';
@@ -1776,21 +1788,20 @@ class AppLocalizationsFa extends AppLocalizations {
   String get unpublishRecipeDialogMakePrivate => 'خصوصی کردن';
 
   @override
-  String get recipeUnpublishSuccess =>
-      'دستور پخت با موفقیت از حالت انتشار خارج شد';
+  String get recipeUnpublishSuccess => 'انتشار دستور با موفقیت لغو شد';
 
   @override
   String recipeUnpublishError(String error) {
-    return 'خطا در لغو انتشار دستور پخت: $error';
+    return 'خطا در لغو انتشار دستور: $error';
   }
 
   @override
   String get recipePublicTooltip =>
-      'دستور پخت عمومی است - برای خصوصی کردن ضربه بزنید';
+      'این دستور عمومی است؛ برای خصوصی کردن روی آن بزنید';
 
   @override
   String get recipePrivateTooltip =>
-      'دستور پخت خصوصی است - برای عمومی کردن به اشتراک بگذارید';
+      'این دستور خصوصی است؛ برای عمومی کردن آن را به اشتراک بگذارید';
 
   @override
   String get fieldClearButtonTooltip => 'پاک کردن';
@@ -1937,7 +1948,15 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      'می‌توانید اعلان‌ها را فعال کنید تا به‌روزرسانی‌های مفید (مثلاً در مورد نسخه‌های جدید برنامه) دریافت کنید. اکنون فعال کنید یا هر زمان در تنظیمات تغییر دهید.';
+      'می‌توانید اعلان‌ها را فعال کنید تا به‌روزرسانی‌های مفید (مثلاً در مورد نسخه‌های جدید برنامه) دریافت کنید. اعلان‌ها همچنین برای به‌روزرسانی زندهٔ پیشرفت دم‌آوری لازم هستند. اکنون فعال کنید یا هر زمان در تنظیمات تغییر دهید.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'می‌توانید اعلان‌ها را فعال کنید تا به‌روزرسانی‌های مفید (مثلاً در مورد نسخه‌های جدید برنامه) دریافت کنید. اعلان‌ها همچنین برای Live Activities و Dynamic Island در iOS لازم هستند. اکنون فعال کنید یا هر زمان در تنظیمات تغییر دهید.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'می‌توانید اعلان‌ها را فعال کنید تا به‌روزرسانی‌های مفید (مثلاً در مورد نسخه‌های جدید برنامه) دریافت کنید. اعلان‌ها همچنین برای Live Updates در Android لازم هستند. اکنون فعال کنید یا هر زمان در تنظیمات تغییر دهید.';
 
   @override
   String get notificationPermissionEnable => 'فعال کردن';
@@ -2140,8 +2159,7 @@ class AppLocalizationsFa extends AppLocalizations {
       'اولین دم‌آوری‌تان را کامل کنید';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod =>
-      'یک روش دم‌آوری دیگر را امتحان کنید';
+  String get coffeeJourneyMilestoneTryMethod => 'یک دستور دیگر را امتحان کنید';
 
   @override
   String get coffeeJourneyMilestoneAddBeans =>
@@ -2177,10 +2195,10 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get firstBrewCongrats =>
-      'اولین دم‌آوری‌تان مبارک! در دفترچه دم ذخیره شد.';
+      'اولین دم‌آوری‌تان مبارک! در دفترچه دم‌آوری ذخیره شد.';
 
   @override
-  String get firstBrewDiaryLink => 'مشاهده دفترچه دم';
+  String get firstBrewDiaryLink => 'مشاهده دفترچه دم‌آوری';
 
   @override
   String get beanCoverPhoto => 'عکس کاور';
@@ -2227,4 +2245,169 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get saving => 'در حال ذخیره…';
+
+  @override
+  String get notifBrewReminderTitle => 'دلت برای قهوه‌ات تنگ شده؟';
+
+  @override
+  String get notifBrewReminderBody =>
+      'چند روزی گذشته. آماده‌ای یک فنجان دیگر دم کنی؟';
+
+  @override
+  String get notifBrewReminderTitle2 => 'وقت قهوه است؟';
+
+  @override
+  String get notifBrewReminderBody2 => 'ابزارهایت هر وقت بخواهی آماده‌اند.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'کتری صدایت می‌کند';
+
+  @override
+  String get notifBrewReminderBody3 =>
+      'تا یک فنجان خوب فقط چند دقیقه مانده است.';
+
+  @override
+  String get notifBrewEscalationTitle => 'برای یک فنجان دیگر برگشتی؟';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'مدتی گذشته. آماده‌ای چیزی خوب درست کنی؟';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'مدتی گذشته؟';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'عجله‌ای نیست. ابزارت هر وقت آماده باشی، آماده است.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'دوباره وقت قهوه است؟';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'یک فنجان واقعاً خوب می‌تواند فقط در چند دقیقه آماده شود.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'حواست به دانه‌هایت باشد';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'دانه‌هایت را ثبت کن و آن‌هایی را که دوست داشتی به خاطر بسپار.';
+
+  @override
+  String get notifDiscoverPulseTitle => 'ببین دیگران چه چیزی دم می‌کنند';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'نبض را باز کن تا دم‌آوری‌های زنده از سراسر جهان را ببینی.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'به یک رکورد جدید رسیدی';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    return 'تا حالا $count بار دم‌آوری کرده‌ای. برای دیدن پیشرفتت ضربه بزن.';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return 'یک دستور $methodName جدید امتحان کن';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تا الان $count دستور را امتحان کرده‌ای. این یکی را هم امتحان کن.',
+      one: 'تا الان ۱ دستور را امتحان کرده‌ای. این یکی را هم امتحان کن.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'صبح بخیر. آماده‌ای قهوه دم کنی؟';
+
+  @override
+  String get notifMorningBody => 'روزت را با یک فنجان خوب شروع کن.';
+
+  @override
+  String get notifMorningTitle2 => 'بیدار شو و دم کن';
+
+  @override
+  String get notifMorningBody2 =>
+      'قهوه صبحگاهی‌ات می‌تواند در چند دقیقه آماده شود.';
+
+  @override
+  String get notifMorningTitle3 => 'اولین فنجان امروز؟';
+
+  @override
+  String get notifMorningBody3 => 'یک دستور انتخاب کن و شروع به دم‌آوری کن.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count دم‌آوری این هفته',
+      one: '۱ دم‌آوری این هفته',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: 'نتیجه‌ی $recipes دستور است. برای دیدن جزئیات ضربه بزن.',
+      one: 'برای دیدن آمار هفتگی‌ات ضربه بزن.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'وقت دانه‌های تازه رسیده؟';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    return '$beanName $days روز پیش رست شده است. ممکن است از بهترین زمانش گذشته باشد.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'فعال کردن اعلان‌ها';
+
+  @override
+  String get settingsMorningReminder => 'یادآور دم‌آوری صبحگاهی';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'یادآور روزانه برای قهوه صبحگاهی‌ات';
+
+  @override
+  String get settingsMorningReminderTime => 'زمان یادآور';
+
+  @override
+  String get settingsWeeklySummary => 'خلاصه هفتگی';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'مرور دم‌آوری‌های هفته در یکشنبه شب';
+
+  @override
+  String get settingsBeanFreshness => 'هشدار تازگی دانه‌ها';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'وقتی بیش از ۳ هفته از تاریخ رست گذشته باشد اطلاع بده';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count روز پیش',
+    );
+    return '$_temp0';
+  }
 }

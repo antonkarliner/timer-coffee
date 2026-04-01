@@ -250,6 +250,33 @@ class AppLocalizationsHr extends AppLocalizations {
   String get settingslang => 'Jezik';
 
   @override
+  String get settingsDateTimeFormat => 'Format datuma i vremena';
+
+  @override
+  String get settingsDateFormatLabel => 'Format datuma';
+
+  @override
+  String get settingsTimeFormatLabel => 'Format vremena';
+
+  @override
+  String get settingsDateFormatAuto => 'Automatski (prema jeziku)';
+
+  @override
+  String get settingsDateFormatDMY => 'DD.MM.GGGG.';
+
+  @override
+  String get settingsDateFormatMDY => 'MM/DD/GGGG';
+
+  @override
+  String get settingsDateFormatYMD => 'GGGG-MM-DD';
+
+  @override
+  String get settingsTimeFormat12h => '12-satni (AM/PM)';
+
+  @override
+  String get settingsTimeFormat24h => '24-satni';
+
+  @override
   String get sweet => 'Slatko';
 
   @override
@@ -910,7 +937,7 @@ class AppLocalizationsHr extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return 'Koristio/la si zrna iz $roasterCount pržionica';
   }
 
@@ -925,7 +952,7 @@ class AppLocalizationsHr extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'Kušao/la si zrna kave\niz $originCount država!';
   }
 
@@ -937,17 +964,17 @@ class AppLocalizationsHr extends AppLocalizations {
       '...nego s korisnicima iz još 110\ndržava na 6 kontinenata!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return 'Ostao/la si dosljedan/dosljedna i koristio/la samo ovih $count načina pripreme ove godine:';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return 'Otkrivao/la si nove okuse i koristio/la $count načina pripreme ove godine:';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return 'Bio/la si pravi istraživač kave i koristio/la $count načina pripreme ove godine:';
   }
 
@@ -1956,7 +1983,15 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      'Možete omogućiti obavijesti da biste dobili korisne ažuriranja (npr. o novim verzijama aplikacije). Omogućite sada ili promijenite ovo bilo kada u postavkama.';
+      'Možete omogućiti obavijesti da biste dobili korisna ažuriranja (npr. o novim verzijama aplikacije). Obavijesti su također potrebne za ažuriranja napretka pripreme uživo. Omogućite sada ili promijenite ovo bilo kada u postavkama.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'Možete omogućiti obavijesti da biste dobili korisna ažuriranja (npr. o novim verzijama aplikacije). Obavijesti su također potrebne za Live Activities i Dynamic Island na iOS-u. Omogućite sada ili promijenite ovo bilo kada u postavkama.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'Možete omogućiti obavijesti da biste dobili korisna ažuriranja (npr. o novim verzijama aplikacije). Obavijesti su također potrebne za Live Updates na Androidu. Omogućite sada ili promijenite ovo bilo kada u postavkama.';
 
   @override
   String get notificationPermissionEnable => 'Omogući';
@@ -2164,8 +2199,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get coffeeJourneyMilestoneFirstBrew => 'Dovrši svoju prvu pripremu';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod =>
-      'Isprobaj drugu metodu pripreme';
+  String get coffeeJourneyMilestoneTryMethod => 'Isprobaj drugi recept';
 
   @override
   String get coffeeJourneyMilestoneAddBeans => 'Dodaj svoja prva zrna kave';
@@ -2252,4 +2286,188 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get saving => 'Spremanje…';
+
+  @override
+  String get notifBrewReminderTitle => 'Nedostaje li ti tvoj kavni ritual?';
+
+  @override
+  String get notifBrewReminderBody =>
+      'Prošlo je nekoliko dana. Vrijeme za još jednu kavu?';
+
+  @override
+  String get notifBrewReminderTitle2 => 'Vrijeme za pripremu kave?';
+
+  @override
+  String get notifBrewReminderBody2 => 'Tvoja oprema je spremna kad i ti.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'Tvoje kuhalo za vodu zove';
+
+  @override
+  String get notifBrewReminderBody3 =>
+      'Do dobre šalice treba samo nekoliko minuta.';
+
+  @override
+  String get notifBrewEscalationTitle => 'Vraćaš se po još jednu kavu?';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'Prošlo je neko vrijeme. Vrijeme je za nešto dobro?';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'Prošlo je neko vrijeme?';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'Bez žurbe. Tvoja oprema je spremna kad i ti.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'Vrijeme za kavu opet?';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'Stvarno dobra šalica može biti spremna za samo nekoliko minuta.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'Prati svoja zrna';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'Bilježi svoja zrna i zapamti ona koja su ti se najviše svidjela.';
+
+  @override
+  String get notifDiscoverPulseTitle => 'Pogledaj što drugi pripremaju';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'Otvori Puls i pogledaj pripreme uživo iz cijelog svijeta.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'Dosegnuli ste novu prekretnicu';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count puta',
+      few: '$count puta',
+      one: '$count put',
+    );
+    return 'Skuhali ste kavu $_temp0. Dodirnite za pregled napretka.';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return 'Isprobaj novi recept za $methodName';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Dosad ste isprobali $count recepata. Evo još jednog za probati.',
+      few: 'Dosad ste isprobali $count recepta. Evo još jednog za probati.',
+      one: 'Dosad ste isprobali $count recept. Evo još jednog za probati.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'Dobro jutro. Spremni za kavu?';
+
+  @override
+  String get notifMorningBody => 'Započni dan dobrom šalicom.';
+
+  @override
+  String get notifMorningTitle2 => 'Ustani i kuhaj';
+
+  @override
+  String get notifMorningBody2 =>
+      'Jutarnja kava može biti spremna za nekoliko minuta.';
+
+  @override
+  String get notifMorningTitle3 => 'Prva šalica dana?';
+
+  @override
+  String get notifMorningBody3 => 'Odaberi recept i kreni.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count priprema ovaj tjedan',
+      few: '$count pripreme ovaj tjedan',
+      one: '$count priprema ovaj tjedan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: 'Ukupno $recipes recepata. Dodirnite za pregled detalja.',
+      few: 'Ukupno $recipes recepta. Dodirnite za pregled detalja.',
+      one: 'Ukupno 1 recept. Dodirnite za pregled tjedne statistike.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'Vrijeme za svježa zrna?';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days dana',
+      few: '$days dana',
+      one: '$days dan',
+    );
+    return 'Tvoja zrna $beanName pržena su prije $_temp0. Možda su prošla svoj vrhunac.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'Omogući obavijesti';
+
+  @override
+  String get settingsMorningReminder => 'Jutarnji podsjetnik za kavu';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'Dnevni podsjetnik za tvoju jutarnju kavu';
+
+  @override
+  String get settingsMorningReminderTime => 'Vrijeme podsjetnika';
+
+  @override
+  String get settingsWeeklySummary => 'Tjedni sažetak';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'Nedjeljni večernji pregled tvojih priprema';
+
+  @override
+  String get settingsBeanFreshness => 'Upozorenja o svježini zrna';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'Obavijesti kada je od datuma prženja prošlo više od 3 tjedna';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'prije $count dana',
+      few: 'prije $count dana',
+      one: 'prije 1 dan',
+    );
+    return '$_temp0';
+  }
 }

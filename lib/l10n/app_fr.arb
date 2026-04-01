@@ -14,7 +14,7 @@
   "hubAccountSubtitle": "Gérer votre profil",
   "hubSignInCreateSubtitle": "Connectez-vous pour synchroniser les recettes et les préférences",
   "hubBrewDiarySubtitle": "Consultez votre historique de préparation et ajoutez des notes",
-  "hubBrewStatsSubtitle": "Consultez les statistiques et tendances de brassage personnelles et mondiales",
+  "hubBrewStatsSubtitle": "Consultez vos statistiques de préparation et les tendances mondiales",
   "hubSettingsSubtitle": "Modifiez les préférences et le comportement de l'application",
   "hubAboutSubtitle": "Détails de l'application, version et contributeurs",
   "lastrecipe": "Recette la plus récemment utilisée :",
@@ -28,7 +28,7 @@
   "licensebutton": "Lire la GNU General Public License v3",
   "website": "Site Web",
   "sourcecode": "Code source",
-  "support": "Achète un café au développeur",
+  "support": "Offrez-moi un café",
   "supportButtonLabel": "Support",
   "allrecipes": "Toutes les recettes",
   "favoriterecipes": "Recettes favorites",
@@ -40,21 +40,21 @@
   "recipesummary": "Résumé de la recette",
   "recipesummarynote": "Remarque : ceci est une recette de base avec des quantités d'eau et de café par défaut.",
   "preparation": "Préparation",
-  "brewingprocess": "Processus d’infusion",
+  "brewingprocess": "Processus de préparation",
   "step": "Étape",
   "seconds": "{count, plural, =0{secondes} =1{seconde} other{secondes}}",
   "finishmsg": "Merci d'utiliser Timer.Coffee ! Profitez de votre",
   "coffeefact": "Fait sur le café",
   "home": "Accueil",
   "appversion": "Version de l'application",
-  "tipsmall": "Acheter un petit café",
-  "tipmedium": "Acheter un café moyen",
-  "tiplarge": "Acheter un grand café",
+  "tipsmall": "Offrir un petit café",
+  "tipmedium": "Offrir un café moyen",
+  "tiplarge": "Offrir un grand café",
   "supportdevelopment": "Soutenir le développement",
-  "supportdevmsg": "Vos dons aident à couvrir les coûts de maintenance (comme les licences de développeur, par exemple). Ils me permettent également d'essayer plus d'appareils de brassage de café et d'ajouter plus de recettes à l'application.",
-  "supportdevtnx": "Merci de considérer faire un don !",
+  "supportdevmsg": "Vos dons aident à couvrir les coûts de maintenance (comme les licences de développeur, par exemple). Ils me permettent aussi d'essayer davantage de méthodes de préparation et d'ajouter plus de recettes à l'application.",
+  "supportdevtnx": "Merci de penser à faire un don !",
   "donationok": "Merci !",
-  "donationtnx": "J'apprécie vraiment votre soutien ! Je vous souhaite beaucoup de bons brassages ! ☕️",
+  "donationtnx": "Un grand merci pour votre soutien ! Plein de bonnes tasses de café ! ☕️",
   "donationerr": "Erreur",
   "donationerrmsg": "Erreur lors du traitement de l'achat, veuillez réessayer.",
   "sharemsg": "Découvrez cette recette :",
@@ -65,6 +65,15 @@
   "settingsthemedark": "Sombre",
   "settingsthemesystem": "Système",
   "settingslang": "Langue",
+  "settingsDateTimeFormat": "Format de date et d'heure",
+  "settingsDateFormatLabel": "Format de date",
+  "settingsTimeFormatLabel": "Format de l'heure",
+  "settingsDateFormatAuto": "Automatique (selon la langue)",
+  "settingsDateFormatDMY": "JJ/MM/AAAA",
+  "settingsDateFormatMDY": "MM/JJ/AAAA",
+  "settingsDateFormatYMD": "AAAA-MM-JJ",
+  "settingsTimeFormat12h": "12 heures (AM/PM)",
+  "settingsTimeFormat24h": "24 heures",
   "sweet": "Doux",
   "balance": "Équilibre",
   "acidic": "Acide",
@@ -75,7 +84,7 @@
   "whatsnewclose": "Fermer",
   "seasonspecials": "Spéciaux de Saison",
   "snow": "Neige",
-  "noFavoriteRecipesMessage": "Votre liste de recettes favorites est actuellement vide. Commencez à explorer et à brasser pour découvrir vos favoris !",
+  "noFavoriteRecipesMessage": "Votre liste de recettes favorites est actuellement vide. Commencez à explorer et à préparer du café pour découvrir vos favoris !",
   "explore": "Explorer",
   "dateFormat": "d MMM yyyy",
   "timeFormat": "HH:mm",
@@ -91,7 +100,7 @@
   "totalBeansBrewedLabel": "Total de grains utilisés",
   "newBeansTriedLabel": "Nouveaux grains essayés",
   "originsExploredLabel": "Origines explorées",
-  "regionsExploredLabel": "Europe",
+  "regionsExploredLabel": "Régions explorées",
   "newRoastersDiscoveredLabel": "Nouveaux torréfacteurs découverts",
   "favoriteRoastersLabel": "Torréfacteurs favoris",
   "topOriginsLabel": "Meilleures origines",
@@ -103,7 +112,7 @@
   "unknownRecipe": "Recette inconnue",
   "noData": "Aucune donnée",
   "error": "Erreur : {error}",
-  "someoneJustBrewed": "Quelqu'un vient d'infuser {recipeName}",
+  "someoneJustBrewed": "Quelqu'un vient de préparer {recipeName}",
   "timePeriodToday": "Aujourd'hui",
   "timePeriodYesterday": "Hier",
   "timePeriodThisWeek": "Cette semaine",
@@ -131,7 +140,7 @@
   "basicInformation": "Informations de base",
   "geographyTerroir": "Géographie/Terroir",
   "variety": "Variété",
-  "region": "Amérique du Nord",
+  "region": "Région",
   "elevation": "Altitude",
   "harvestDate": "Date de récolte",
   "processing": "Traitement",
@@ -187,7 +196,7 @@
   "favorite": "Favori",
   "notFavorite": "Non favori",
   "myBeans": "Mes cafés",
-  "signIn": "S’identifier",
+  "signIn": "Se connecter",
   "signOut": "Se déconnecter",
   "signInWithApple": "Se connecter avec Apple",
   "signInSuccessful": "Connexion réussie avec Apple",
@@ -223,7 +232,7 @@
   "deleteAccountConfirmation": "Compte supprimé avec succès",
   "accountDeleted": "Compte supprimé",
   "accountDeletionError": "Erreur lors de la suppression de votre compte. Veuillez réessayer.",
-  "deleteAccountTitle": "important",
+  "deleteAccountTitle": "Important",
   "selectBeans": "Sélectionner les grains",
   "all": "Tous",
   "selectRoaster": "Sélectionner un torréfacteur",
@@ -240,14 +249,14 @@
   "yearlyStatsStory2Text": "Tout d'abord.\nVous avez préparé du café cette année{ellipsis}",
   "yearlyStatsStory3Text": "Pour être plus précis,\nvous avez infusé {liters} litres de café en 2024 !",
   "yearlyStatsStory4Text": "Vous avez utilisé des grains de {roasterCount} torréfacteurs",
-  "yearlyStatsStory4Top3Roasters": "Vos 3 meilleurs torréfacteurs étaient :\n{top3}",
+  "yearlyStatsStory4Top3Roasters": "Vos 3 torréfacteurs préférés :\n{top3}",
   "yearlyStatsStory5Text": "Le café vous a fait voyager\nautour du monde{ellipsis}",
   "yearlyStatsStory6Text": "Vous avez dégusté des grains de café\nde {originCount} pays !",
-  "yearlyStatsStory7Part1": "Vous n'étiez pas seul à infuser…",
+  "yearlyStatsStory7Part1": "Vous n'étiez pas seul(e) à préparer du café…",
   "yearlyStatsStory7Part2": "...mais avec des utilisateurs de 110 autres\npays sur 6 continents !",
-  "yearlyStatsStory8TitleLow": "Vous êtes resté fidèle à vous-même et n'avez utilisé que ces {count} méthodes d'infusion cette année :",
-  "yearlyStatsStory8TitleMedium": "Vous découvriez de nouvelles saveurs et avez utilisé {count} méthodes d'infusion cette année :",
-  "yearlyStatsStory8TitleHigh": "Vous étiez un véritable découvreur de café et avez utilisé {count} méthodes d'infusion cette année :",
+  "yearlyStatsStory8TitleLow": "Vous êtes resté(e) fidèle à vous-même et n'avez utilisé que ces {count} méthodes d'extraction cette année :",
+  "yearlyStatsStory8TitleMedium": "Vous avez exploré de nouvelles saveurs et utilisé {count} méthodes d'extraction cette année :",
+  "yearlyStatsStory8TitleHigh": "Un véritable explorateur du café, vous avez utilisé {count} méthodes d'extraction cette année :",
   "yearlyStatsStory9Text": "Tant d'autres choses à découvrir !",
   "yearlyStatsStory10Text": "Vos 3 meilleures recettes en 2024 étaient{ellipsis}",
   "yearlyStatsFinalText": "Rendez-vous en 2025 !",
@@ -334,19 +343,19 @@
   "yearlyStats25ShareMethodsTitle": "Mes méthodes de préparation préférées :",
   "yearlyStats25ShareRecipesTitle": "Mes meilleures recettes :",
   "yearlyStats25ShareHandle": "@timercoffeeapp",
-  "labelCoffeeBrewed": "Cafés infusés",
-  "labelTastedBeansBy": "Grains goûtés par",
-  "labelDiscoveredCoffeeFrom": "Café découvert de",
+  "labelCoffeeBrewed": "Café préparé",
+  "labelTastedBeansBy": "Grains dégustés de",
+  "labelDiscoveredCoffeeFrom": "Café découvert en provenance de",
   "labelUsedBrewingMethods": "Utilisé",
   "formattedRoasterCount": "{count} {count, plural, one {torréfacteur} other {torréfacteurs}}",
   "formattedCountryCount": "{count} {count, plural, one {pays} other {pays}}",
-  "formattedBrewingMethodCount": "{count} {count, plural, one {méthode d'infusion} other {méthodes d'infusion}}",
+  "formattedBrewingMethodCount": "{count} {count, plural, one {méthode d'extraction} other {méthodes d'extraction}}",
   "recipeCreationScreenEditRecipeTitle": "Modifier la recette",
   "recipeCreationScreenCreateRecipeTitle": "Créer une recette",
   "recipeCreationScreenRecipeStepsTitle": "Étapes de la recette",
   "recipeCreationScreenRecipeNameLabel": "Nom de la recette",
   "recipeCreationScreenShortDescriptionLabel": "Description courte",
-  "recipeCreationScreenBrewingMethodLabel": "Méthode d'infusion",
+  "recipeCreationScreenBrewingMethodLabel": "Méthode d'extraction",
   "recipeCreationScreenCoffeeAmountLabel": "Quantité de café (g)",
   "recipeCreationScreenWaterAmountLabel": "Quantité d'eau (ml)",
   "recipeCreationScreenWaterTempLabel": "Température de l'eau (°C)",
@@ -369,9 +378,9 @@
   "recipeCreationScreenStepTimeLabel": "Temps de l'étape : ",
   "recipeCreationScreenRecipeNameValidator": "Veuillez entrer un nom de recette",
   "recipeCreationScreenShortDescriptionValidator": "Veuillez entrer une description courte",
-  "recipeCreationScreenBrewingMethodValidator": "Veuillez sélectionner une méthode d'infusion",
+  "recipeCreationScreenBrewingMethodValidator": "Veuillez sélectionner une méthode d'extraction",
   "recipeCreationScreenRequiredValidator": "Requis",
-  "recipeCreationScreenInvalidNumberValidator": "Numéro invalide",
+  "recipeCreationScreenInvalidNumberValidator": "Nombre invalide",
   "recipeCreationScreenStepDescriptionValidator": "Veuillez entrer une description pour l'étape",
   "recipeCreationScreenContinueButton": "Continuer vers les étapes de la recette",
   "recipeCreationScreenAddStepButton": "Ajouter une étape",
@@ -444,7 +453,7 @@
       }
     }
   },
-  "unknownBrewingMethod": "Méthode d'infusion inconnue",
+  "unknownBrewingMethod": "Méthode d'extraction inconnue",
   "recipeCopyErrorLoadingEdit": "Erreur lors du chargement de la recette copiée pour modification.",
   "recipeCopyErrorOperationFailed": "L'opération a échoué.",
   "notProvided": "Non fourni",
@@ -592,7 +601,7 @@
   },
   "updatePictureSuccess": "Photo de profil mise à jour avec succès !",
   "deletePictureTooltip": "Supprimer l'image",
-  "settingsBrewingMethodsTitle": "Méthodes d'infusion sur l'écran d'accueil",
+  "settingsBrewingMethodsTitle": "Méthodes d'extraction sur l'écran d'accueil",
   "account": "Compte",
   "confirmDeleteTitle": "Supprimer l'entrée ?",
   "recipeDuplicateConfirmTitle": "Dupliquer la recette ?",
@@ -635,10 +644,10 @@
   "@clearFilters": {
     "description": "Texte du bouton pour effacer tous les filtres actifs"
   },
-  "farmer": "Agriculteur",
-  "farm": "Plantation de café",
-  "enterFarmer": "Entrez l'agriculteur",
-  "enterFarm": "Entrez la plantation de café",
+  "farmer": "Producteur",
+  "farm": "Exploitation",
+  "enterFarmer": "Entrez le producteur (facultatif)",
+  "enterFarm": "Entrez l'exploitation (facultatif)",
   "requiredInformation": "Informations requises",
   "basicDetails": "Détails de base",
   "qualityMeasurements": "Qualité et mesures",
@@ -772,7 +781,9 @@
   "notificationsEnabled": "Activé",
   "notificationsDisabled": "Désactivé",
   "notificationPermissionDialogTitle": "Activer les notifications ?",
-  "notificationPermissionDialogMessage": "Vous pouvez activer les notifications pour recevoir des mises à jour utiles (par ex. sur les nouvelles versions de l'application). Activez maintenant ou modifiez ce paramètre à tout moment dans les réglages.",
+  "notificationPermissionDialogMessage": "Vous pouvez activer les notifications pour recevoir des mises à jour utiles (par ex. sur les nouvelles versions de l'application). Les notifications sont aussi nécessaires pour les mises à jour en direct de la progression de l'infusion. Activez maintenant ou modifiez ce paramètre à tout moment dans les réglages.",
+  "notificationPermissionDialogMessageIos": "Vous pouvez activer les notifications pour recevoir des mises à jour utiles (par ex. sur les nouvelles versions de l'application). Les notifications sont aussi nécessaires pour les Live Activities et Dynamic Island sur iOS. Activez maintenant ou modifiez ce paramètre à tout moment dans les réglages.",
+  "notificationPermissionDialogMessageAndroid": "Vous pouvez activer les notifications pour recevoir des mises à jour utiles (par ex. sur les nouvelles versions de l'application). Les notifications sont aussi nécessaires pour les Live Updates sur Android. Activez maintenant ou modifiez ce paramètre à tout moment dans les réglages.",
   "notificationPermissionEnable": "Activer",
   "notificationPermissionSkip": "Pas maintenant",
   "holidayGiftBoxTitle": "Coffret Cadeaux de Fêtes",
@@ -879,20 +890,20 @@
   "nativeAppPromoTitle": "Téléchargez l'app Timer.Coffee",
   "nativeAppPromoDescription": "Profitez de l'expérience complète avec des fonctionnalités exclusives : scan d'étiquettes de café par IA, Activités en Direct sur l'écran de verrouillage, notifications push, retour haptique et plus encore.",
   "nativeAppPromoButton": "Télécharger l'app",
-  "addBrewEntry": "Ajouter une infusion",
-  "selectBrewingMethod": "Sélectionner la méthode d'infusion",
+  "addBrewEntry": "Ajouter une préparation",
+  "selectBrewingMethod": "Sélectionner la méthode d'extraction",
   "selectRecipe": "Sélectionner la recette",
   "brewDate": "Date",
   "brewTime": "Heure",
-  "brewEntrySaved": "Infusion enregistrée",
-  "brewingMethodRequired": "Veuillez sélectionner une méthode d'infusion",
+  "brewEntrySaved": "Préparation enregistrée",
+  "brewingMethodRequired": "Veuillez sélectionner une méthode d'extraction",
   "recipeRequired": "Veuillez sélectionner une recette",
   "onboardingTitle": "Bienvenue sur Timer.Coffee",
   "onboardingSubtitle": "Avec quoi préparez-vous votre café ?",
-  "onboardingShowAll": "Afficher toutes les méthodes d'infusion",
+  "onboardingShowAll": "Afficher toutes les méthodes d'extraction",
   "coffeeJourneyTitle": "Premiers pas",
-  "coffeeJourneyMilestoneFirstBrew": "Réalisez votre première infusion",
-  "coffeeJourneyMilestoneTryMethod": "Essayez une autre méthode d'infusion",
+  "coffeeJourneyMilestoneFirstBrew": "Réalisez votre première préparation",
+  "coffeeJourneyMilestoneTryMethod": "Essayez une autre recette",
   "coffeeJourneyMilestoneAddBeans": "Ajoutez vos premiers grains de café",
   "coffeeJourneyMilestoneFavorite": "Ajoutez une recette aux favoris",
   "coffeeJourneyMilestoneStats": "Consultez vos statistiques de préparation",
@@ -902,8 +913,8 @@
   "coffeeJourneyDismissHint": "Vous pouvez toujours consulter votre progression dans l'onglet Plus.",
   "coffeeJourneyDismissConfirm": "Voulez-vous masquer votre progression dans la section Premiers pas ?",
   "coffeeJourneyHideButton": "Masquer",
-  "firstBrewCongrats": "Félicitations pour votre première infusion ! Elle a été enregistrée dans votre Journal de préparation.",
-  "firstBrewDiaryLink": "Voir le Journal de préparation",
+  "firstBrewCongrats": "Félicitations pour votre première préparation ! Elle a été enregistrée dans votre Journal de préparation.",
+  "firstBrewDiaryLink": "Voir mon journal de préparation",
   "beanCoverPhoto": "Photo de couverture",
   "beanCoverPhotoAdd": "Ajouter une photo de couverture",
   "beanCoverPhotoChange": "Modifier la photo",
@@ -918,5 +929,101 @@
   "settingsAnalyticsBeans": "Partager les analyses des grains",
   "settingsAnalyticsGeneral": "Partager les analyses d'utilisation générale",
   "done": "Terminé",
-  "saving": "Enregistrement…"
+  "saving": "Enregistrement…",
+
+  "notifBrewReminderTitle": "Votre rituel du café vous manque ?",
+  "notifBrewReminderBody": "Cela fait quelques jours. Envie d'une nouvelle préparation ?",
+  "notifBrewReminderTitle2": "L'heure d'un café ?",
+  "notifBrewReminderBody2": "Votre matériel est prêt dès que vous voulez.",
+  "notifBrewReminderTitle3": "Votre bouilloire vous appelle",
+  "notifBrewReminderBody3": "Une bonne tasse se prépare en quelques minutes.",
+  "notifBrewEscalationTitle": "Partant pour une nouvelle préparation ?",
+  "notifBrewEscalationBody": "Cela fait un moment. Envie de préparer quelque chose de bon ?",
+  "notifBrewEscalationTitle2": "Ça fait longtemps ?",
+  "notifBrewEscalationBody2": "Pas de pression. Tout est prêt quand vous voulez.",
+  "notifBrewEscalationTitle3": "C'est l'heure du café ?",
+  "notifBrewEscalationBody3": "Une très bonne tasse se prépare en quelques minutes.",
+
+  "notifDiscoverBeansTitle": "Gardez une trace de vos grains",
+  "notifDiscoverBeansBody": "Enregistrez vos grains et retrouvez ceux que vous avez adorés.",
+  "notifDiscoverPulseTitle": "Voyez ce que les autres préparent",
+  "notifDiscoverPulseBody": "Ouvrez Pulse pour voir des préparations en direct du monde entier.",
+
+  "notifBrewMilestoneTitle": "Vous avez atteint un cap",
+  "notifBrewMilestoneBody": "Vous avez préparé {count} fois. Touchez pour voir votre progression.",
+  "@notifBrewMilestoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifExploreRecipesTitle": "Essayez une nouvelle recette pour {methodName}",
+  "@notifExploreRecipesTitle": {
+    "placeholders": {
+      "methodName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifExploreRecipesBody": "{count, plural, =1{Vous avez essayé 1 recette pour l'instant. En voici une autre à découvrir.} other{Vous avez essayé {count} recettes pour l'instant. En voici une autre à découvrir.}}",
+  "@notifExploreRecipesBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifMorningTitle": "Bonjour. Envie d'un café ?",
+  "notifMorningBody": "Commencez la journée avec une bonne tasse.",
+  "notifMorningTitle2": "Debout, place au café !",
+  "notifMorningBody2": "Votre café du matin peut être prêt en quelques minutes.",
+  "notifMorningTitle3": "Première tasse de la journée ?",
+  "notifMorningBody3": "Choisissez une recette et lancez-vous.",
+  "notifWeeklyTitle": "{count, plural, =1{1 préparation cette semaine} other{{count} préparations cette semaine}}",
+  "@notifWeeklyTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifWeeklyBody": "{recipes, plural, =1{Appuyez pour voir vos statistiques de la semaine.} other{Sur {recipes} recettes. Appuyez pour voir le détail.}}",
+  "@notifWeeklyBody": {
+    "placeholders": {
+      "recipes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "notifBeanFreshnessTitle": "Il est temps de changer de grains ?",
+  "notifBeanFreshnessBody": "Votre {beanName} a été torréfié il y a {days} jours. Il a peut-être passé son optimum.",
+  "@notifBeanFreshnessBody": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+
+  "settingsNotificationsToggle": "Activer les notifications",
+  "settingsMorningReminder": "Rappel café du matin",
+  "settingsMorningReminderSubtitle": "Rappel quotidien pour votre café du matin",
+  "settingsMorningReminderTime": "Heure du rappel",
+  "settingsWeeklySummary": "Résumé hebdomadaire",
+  "settingsWeeklySummarySubtitle": "Récapitulatif de vos préparations le dimanche soir",
+  "settingsBeanFreshness": "Alertes de fraîcheur des grains",
+  "settingsBeanFreshnessSubtitle": "Vous avertir quand les grains ont été torréfiés il y a plus de 3 semaines",
+  "daysAgo": "{count, plural, one{il y a 1 jour} other{il y a {count} jours}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

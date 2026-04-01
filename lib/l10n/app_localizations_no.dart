@@ -27,7 +27,7 @@ class AppLocalizationsNo extends AppLocalizations {
   String get newRoastersDiscoveredLabel => 'Nye brennerier oppdaget';
 
   @override
-  String get favoriteRoastersLabel => 'Favoritt brennerier';
+  String get favoriteRoastersLabel => 'Favorittbrennerier';
 
   @override
   String get topOriginsLabel => 'Topp opprinnelser';
@@ -129,7 +129,7 @@ class AppLocalizationsNo extends AppLocalizations {
   String get support => 'Kjøp meg en kaffe';
 
   @override
-  String get supportButtonLabel => 'Support';
+  String get supportButtonLabel => 'Kontakt';
 
   @override
   String get allrecipes => 'Alle oppskrifter';
@@ -250,13 +250,40 @@ class AppLocalizationsNo extends AppLocalizations {
   String get settingslang => 'Språk';
 
   @override
+  String get settingsDateTimeFormat => 'Dato- og klokkeslettformat';
+
+  @override
+  String get settingsDateFormatLabel => 'Datoformat';
+
+  @override
+  String get settingsTimeFormatLabel => 'Tidsformat';
+
+  @override
+  String get settingsDateFormatAuto => 'Automatisk (tilpasset språk)';
+
+  @override
+  String get settingsDateFormatDMY => 'DD.MM.ÅÅÅÅ';
+
+  @override
+  String get settingsDateFormatMDY => 'MM/DD/ÅÅÅÅ';
+
+  @override
+  String get settingsDateFormatYMD => 'ÅÅÅÅ-MM-DD';
+
+  @override
+  String get settingsTimeFormat12h => '12-timers (AM/PM)';
+
+  @override
+  String get settingsTimeFormat24h => '24-timers';
+
+  @override
   String get sweet => 'Søt';
 
   @override
   String get balance => 'Balanse';
 
   @override
-  String get acidic => 'Sur';
+  String get acidic => 'Syrlig';
 
   @override
   String get light => 'Lett';
@@ -364,10 +391,10 @@ class AppLocalizationsNo extends AppLocalizations {
   String get pulseTitle => 'Puls';
 
   @override
-  String get hubPulseSubtitle => 'Live bryggefeed';
+  String get hubPulseSubtitle => 'Bryggefeed i sanntid';
 
   @override
-  String get pulseLiveSummary => 'Livesammendrag';
+  String get pulseLiveSummary => 'Sanntidsoversikt';
 
   @override
   String get pulseBrewsLabel => 'Brygg';
@@ -560,7 +587,7 @@ class AppLocalizationsNo extends AppLocalizations {
   String get geographyTerroir => 'Geografi/Terroir';
 
   @override
-  String get variety => 'Variasjon';
+  String get variety => 'Bønnetype';
 
   @override
   String get region => 'Region';
@@ -575,7 +602,7 @@ class AppLocalizationsNo extends AppLocalizations {
   String get processing => 'Prosessering';
 
   @override
-  String get processingMethod => 'Prosesseringsmetode';
+  String get processingMethod => 'Prosess';
 
   @override
   String get roastDate => 'Brenningsdato';
@@ -605,7 +632,7 @@ class AppLocalizationsNo extends AppLocalizations {
   String get addCoffeeBeans => 'Legg til kaffebønner';
 
   @override
-  String get showImagePicker => 'Vis bildevalg';
+  String get showImagePicker => 'Åpne bildevalg';
 
   @override
   String get pleaseNote => 'Vennligst merk';
@@ -671,10 +698,10 @@ class AppLocalizationsNo extends AppLocalizations {
   String get optional => 'Valgfritt';
 
   @override
-  String get enterVariety => 'Skriv inn variasjon';
+  String get enterVariety => 'Skriv inn bønnetype';
 
   @override
-  String get enterProcessingMethod => 'Skriv inn prosesseringsmetode';
+  String get enterProcessingMethod => 'Skriv inn prosess';
 
   @override
   String get enterRoastLevel => 'Skriv inn brenningsgrad';
@@ -908,7 +935,7 @@ class AppLocalizationsNo extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return 'Du brukte bønner fra $roasterCount brennerier';
   }
 
@@ -923,7 +950,7 @@ class AppLocalizationsNo extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'Du smakte kaffebønner\nfra $originCount land!';
   }
 
@@ -935,17 +962,17 @@ class AppLocalizationsNo extends AppLocalizations {
       '...men med brukere fra 110 andre\nland på tvers av 6 kontinenter!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return 'Du holdt deg tro mot deg selv og brukte kun disse $count bryggemetodene i år:';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return 'Du oppdaget nye smaker og brukte $count bryggemetoder i år:';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return 'Du var en ekte kaffeoppdager og brukte $count bryggemetoder i år:';
   }
 
@@ -1204,7 +1231,7 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get yearlyStats25CtaDonateSuffix =>
-      ' for å hjelpe Timer.Coffee vokse i det kommende året';
+      ' for å hjelpe Timer.Coffee med å vokse det kommende året';
 
   @override
   String get yearlyStats25CtaFollowPrefix => 'Følg oss på ';
@@ -1246,7 +1273,7 @@ class AppLocalizationsNo extends AppLocalizations {
   }
 
   @override
-  String get yearlyStats25ShareTitle => 'Mitt år-2025 med Timer.Coffee';
+  String get yearlyStats25ShareTitle => 'Mitt år med Timer.Coffee – 2025';
 
   @override
   String get yearlyStats25ShareBrewedPrefix => 'Brygget ';
@@ -1267,13 +1294,13 @@ class AppLocalizationsNo extends AppLocalizations {
   String get yearlyStats25ShareOriginsPrefix => 'Oppdaget ';
 
   @override
-  String get yearlyStats25ShareOriginsSuffix => ' kaffeopprinnelser';
+  String get yearlyStats25ShareOriginsSuffix => ' opprinnelser';
 
   @override
-  String get yearlyStats25ShareMethodsTitle => 'Mine favoritt bryggemetoder:';
+  String get yearlyStats25ShareMethodsTitle => 'Mine favorittbryggemetoder:';
 
   @override
-  String get yearlyStats25ShareRecipesTitle => 'Mine topp oppskrifter:';
+  String get yearlyStats25ShareRecipesTitle => 'Mine mest brukte oppskrifter:';
 
   @override
   String get yearlyStats25ShareHandle => '@timercoffeeapp';
@@ -1791,7 +1818,7 @@ class AppLocalizationsNo extends AppLocalizations {
   String get unpublishRecipeDialogMakePrivate => 'Gjør privat';
 
   @override
-  String get recipeUnpublishSuccess => 'Oppskrift avpublisert vellykket';
+  String get recipeUnpublishSuccess => 'Oppskriften er nå privat';
 
   @override
   String recipeUnpublishError(String error) {
@@ -1902,7 +1929,7 @@ class AppLocalizationsNo extends AppLocalizations {
     String newWeight,
     String unit,
   ) {
-    return 'Lagt til $amount$unit tilbake til $beanName. Ny vekt: $newWeight$unit';
+    return 'La $amount$unit tilbake til beholdningen for $beanName. Ny vekt: $newWeight$unit';
   }
 
   @override
@@ -1912,7 +1939,7 @@ class AppLocalizationsNo extends AppLocalizations {
     String newWeight,
     String unit,
   ) {
-    return 'Trukket fra $amount$unit fra $beanName. Ny vekt: $newWeight$unit';
+    return 'Trakk $amount$unit fra beholdningen for $beanName. Ny vekt: $newWeight$unit';
   }
 
   @override
@@ -1953,7 +1980,15 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      'Du kan aktivere varsler for å få nyttige oppdateringer (f.eks. om nye app-versjoner). Aktiver nå eller endre dette når som helst i innstillinger.';
+      'Du kan aktivere varsler for å få nyttige oppdateringer (f.eks. om nye app-versjoner). Varsler er også nødvendige for direkte oppdateringer av bryggeframdriften. Aktiver nå eller endre dette når som helst i innstillinger.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'Du kan aktivere varsler for å få nyttige oppdateringer (f.eks. om nye app-versjoner). Varsler er også nødvendige for Live Activities og Dynamic Island på iOS. Aktiver nå eller endre dette når som helst i innstillinger.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'Du kan aktivere varsler for å få nyttige oppdateringer (f.eks. om nye app-versjoner). Varsler er også nødvendige for Live Updates på Android. Aktiver nå eller endre dette når som helst i innstillinger.';
 
   @override
   String get notificationPermissionEnable => 'Aktiver';
@@ -2156,7 +2191,7 @@ class AppLocalizationsNo extends AppLocalizations {
   String get coffeeJourneyMilestoneFirstBrew => 'Fullfør ditt første brygg';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod => 'Prøv en annen bryggemetode';
+  String get coffeeJourneyMilestoneTryMethod => 'Prøv en annen oppskrift';
 
   @override
   String get coffeeJourneyMilestoneAddBeans =>
@@ -2243,4 +2278,169 @@ class AppLocalizationsNo extends AppLocalizations {
 
   @override
   String get saving => 'Lagrer…';
+
+  @override
+  String get notifBrewReminderTitle => 'Savner du kafferitualet ditt?';
+
+  @override
+  String get notifBrewReminderBody =>
+      'Det er noen dager siden. Klar for en ny kopp?';
+
+  @override
+  String get notifBrewReminderTitle2 => 'Tid for å brygge?';
+
+  @override
+  String get notifBrewReminderBody2 => 'Utstyret ditt er klart når du er det.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'Vannkokeren kaller';
+
+  @override
+  String get notifBrewReminderBody3 =>
+      'En god kopp er bare noen minutter unna.';
+
+  @override
+  String get notifBrewEscalationTitle => 'Lyst på en kopp til?';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'Det er en stund siden. Klar for å lage noe godt?';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'Har det gått en stund?';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'Ingen hast. Utstyret ditt er klart når du er det.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'Tid for kaffe igjen?';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'En virkelig god kopp kan være klar på få minutter.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'Hold oversikt over bønnene dine';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'Registrer bønnene dine og husk dem du likte best.';
+
+  @override
+  String get notifDiscoverPulseTitle => 'Se hva andre brygger';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'Åpne Puls for å se brygg i sanntid fra hele verden.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'Du nådde en milepæl';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    return 'Du har brygget $count ganger. Trykk for å se fremgangen din.';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return 'Prøv en ny $methodName-oppskrift';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Så langt har du prøvd $count oppskrifter. Her er en til å teste.',
+      one: 'Så langt har du prøvd 1 oppskrift. Her er en til å teste.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'God morgen. Klar til å brygge?';
+
+  @override
+  String get notifMorningBody => 'Start dagen med en god kopp.';
+
+  @override
+  String get notifMorningTitle2 => 'Opp og brygg';
+
+  @override
+  String get notifMorningBody2 => 'Morgenkaffen kan være klar på få minutter.';
+
+  @override
+  String get notifMorningTitle3 => 'Dagens første kopp?';
+
+  @override
+  String get notifMorningBody3 => 'Velg en oppskrift og sett i gang.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count brygg denne uken',
+      one: '1 brygg denne uken',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: 'Fordelt på $recipes oppskrifter. Trykk for å se oversikten.',
+      one: 'Trykk for å se ukesstatistikken din.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'Tid for ferske bønner?';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    return 'Bønnene dine, $beanName, ble brent for $days dager siden. De er kanskje ikke lenger på sitt beste.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'Aktiver varsler';
+
+  @override
+  String get settingsMorningReminder => 'Morgenpåminnelse for kaffe';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'Daglig påminnelse om morgenkaffen';
+
+  @override
+  String get settingsMorningReminderTime => 'Tidspunkt for påminnelse';
+
+  @override
+  String get settingsWeeklySummary => 'Ukentlig oppsummering';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'Søndag kveldsoppsummering av bryggene dine';
+
+  @override
+  String get settingsBeanFreshness => 'Varsler om bønnenes ferskhet';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'Gi beskjed når bønnene er eldre enn 3 uker';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'for $count dager siden',
+      one: 'for 1 dag siden',
+    );
+    return '$_temp0';
+  }
 }

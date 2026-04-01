@@ -21,7 +21,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get originsExploredLabel => 'Keşfedilen menşeler';
 
   @override
-  String get regionsExploredLabel => 'Avrupa';
+  String get regionsExploredLabel => 'Keşfedilen bölgeler';
 
   @override
   String get newRoastersDiscoveredLabel => 'Keşfedilen yeni kavurucular';
@@ -73,23 +73,22 @@ class AppLocalizationsTr extends AppLocalizations {
       'Oluşturduğun ve içe aktardığın tarifleri görüntüle ve yönet';
 
   @override
-  String get hubAccountSubtitle => 'Profilinizi yönetin';
+  String get hubAccountSubtitle => 'Profilini yönet';
 
   @override
   String get hubSignInCreateSubtitle =>
-      'Tarifleri ve tercihleri senkronize etmek için oturum açın';
+      'Tarifleri ve tercihleri senkronize etmek için oturum aç';
 
   @override
-  String get hubBrewDiarySubtitle =>
-      'Demleme geçmişinizi görüntüleyin ve not ekleyin';
+  String get hubBrewDiarySubtitle => 'Demleme geçmişini görüntüle ve not ekle';
 
   @override
   String get hubBrewStatsSubtitle =>
-      'Kişisel ve küresel demleme istatistiklerini ve trendlerini görüntüleyin';
+      'Kişisel ve küresel demleme istatistiklerini ve trendlerini görüntüle';
 
   @override
   String get hubSettingsSubtitle =>
-      'Uygulama tercihlerini ve davranışını değiştirin';
+      'Uygulama tercihlerini ve davranışını değiştir';
 
   @override
   String get hubAboutSubtitle =>
@@ -149,7 +148,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get watertemp => 'Su Sıcaklığı';
 
   @override
-  String get grindsize => 'Öğütme derecesi';
+  String get grindsize => 'Öğütme boyutu';
 
   @override
   String get brewtime => 'Demleme Süresi';
@@ -242,16 +241,43 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingstheme => 'Tema';
 
   @override
-  String get settingsthemelight => 'Aydınlık';
+  String get settingsthemelight => 'Açık';
 
   @override
-  String get settingsthemedark => 'Karanlık';
+  String get settingsthemedark => 'Koyu';
 
   @override
   String get settingsthemesystem => 'Sistem';
 
   @override
   String get settingslang => 'Dil';
+
+  @override
+  String get settingsDateTimeFormat => 'Tarih ve saat biçimi';
+
+  @override
+  String get settingsDateFormatLabel => 'Tarih biçimi';
+
+  @override
+  String get settingsTimeFormatLabel => 'Saat biçimi';
+
+  @override
+  String get settingsDateFormatAuto => 'Otomatik (dille eşleşir)';
+
+  @override
+  String get settingsDateFormatDMY => 'GG/AA/YYYY';
+
+  @override
+  String get settingsDateFormatMDY => 'AA/GG/YYYY';
+
+  @override
+  String get settingsDateFormatYMD => 'YYYY-AA-GG';
+
+  @override
+  String get settingsTimeFormat12h => '12 saat (AM/PM)';
+
+  @override
+  String get settingsTimeFormat24h => '24 saat';
 
   @override
   String get sweet => 'Tatlı';
@@ -285,7 +311,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get noFavoriteRecipesMessage =>
-      'Favori tarifler listeniz şu anda boş. Keşfetmeye ve demlemeye başlayarak favorilerinizi keşfedin!';
+      'Favori tarifler listen şu anda boş. Keşfetmeye ve demlemeye başlayarak favorilerini keşfet!';
 
   @override
   String get explore => 'Keşfet';
@@ -532,11 +558,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get recipeDuplicateConfirmMessage =>
-      'Bu, tarifinizin bağımsız olarak düzenleyebileceğiniz bir kopyasını oluşturacak. Devam etmek istiyor musunuz?';
+      'Bu, tarifinin bağımsız olarak düzenleyebileceğin bir kopyasını oluşturacak. Devam etmek istiyor musun?';
 
   @override
   String get confirmDeleteMessage =>
-      'Bu girdiyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.';
+      'Bu girdiyi silmek istediğinden emin misin? Bu işlem geri alınamaz.';
 
   @override
   String get removeFavorite => 'Favorilerden kaldır';
@@ -566,10 +592,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get variety => 'Çeşit';
 
   @override
-  String get region => 'Kuzey Amerika';
+  String get region => 'Bölge';
 
   @override
-  String get elevation => 'Yükseklik';
+  String get elevation => 'Rakım';
 
   @override
   String get harvestDate => 'Hasat Tarihi';
@@ -593,7 +619,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get flavorProfile => 'Lezzet Profili';
 
   @override
-  String get tastingNotes => 'Tat Alma Notları';
+  String get tastingNotes => 'Tadım Notları';
 
   @override
   String get additionalNotes => 'Ek Notlar';
@@ -608,14 +634,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get addCoffeeBeans => 'Kahve Çekirdeği Ekle';
 
   @override
-  String get showImagePicker => 'Görüntü Seçiciyi Göster';
+  String get showImagePicker => 'Görsel Seçiciyi Göster';
 
   @override
   String get pleaseNote => 'Lütfen dikkat';
 
   @override
   String get firstTimePopupMessage =>
-      '1. Görüntüleri işlemek için harici hizmetler kullanıyoruz. Devam ederek, bunu kabul etmiş olursunuz.\n2. Görüntülerinizi saklamasak da, lütfen herhangi bir kişisel ayrıntı eklemekten kaçının.\n3. Görüntü tanıma şu anda ayda 10 belirteçle sınırlıdır (1 belirteç = 1 görüntü). Bu sınır gelecekte değişebilir.';
+      '1. Görselleri işlemek için harici hizmetler kullanıyoruz. Devam ederek, bunu kabul etmiş olursun.\n2. Görsellerinizi saklamasak da, lütfen herhangi bir kişisel ayrıntı eklemekten kaçın.\n3. Görsel tanıma şu anda ayda 10 belirteçle sınırlıdır (1 belirteç = 1 görsel). Bu sınır gelecekte değişebilir.';
 
   @override
   String get ok => 'Tamam';
@@ -636,10 +662,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get yes => 'Evet';
 
   @override
-  String get selectedImages => 'Seçilen Görüntüler';
+  String get selectedImages => 'Seçilen Görseller';
 
   @override
-  String get selectedImage => 'Seçilen Görüntü';
+  String get selectedImage => 'Seçilen Görsel';
 
   @override
   String get backToSelection => 'Seçime Geri Dön';
@@ -652,11 +678,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get tokenLimitReached =>
-      'Üzgünüz, bu ay için görüntü tanıma belirteç sınırınıza ulaştınız';
+      'Üzgünüz, bu ay için görsel tanıma belirteç sınırınıza ulaştınız';
 
   @override
   String get noCoffeeLabelsDetected =>
-      'Kahve etiketi algılanmadı. Başka bir görüntüyle deneyin.';
+      'Kahve etiketi algılanmadı. Başka bir görselle deneyin.';
 
   @override
   String get collectedInformation => 'Toplanan Bilgiler';
@@ -686,10 +712,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get enterRegion => 'Bölge girin';
 
   @override
-  String get enterTastingNotes => 'Tatma notlarını girin';
+  String get enterTastingNotes => 'Tadım notlarını girin';
 
   @override
-  String get enterElevation => 'Yükseklik girin';
+  String get enterElevation => 'Rakım girin';
 
   @override
   String get enterCuppingScore => 'Cupping puanını girin';
@@ -752,7 +778,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signOut => 'Çıkış';
 
   @override
-  String get signInWithApple => 'Apple ile oturum açın';
+  String get signInWithApple => 'Apple ile oturum aç';
 
   @override
   String get signInSuccessful => 'Apple ile oturum açma başarılı';
@@ -764,18 +790,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signInErrorGoogle => 'Google ile oturum açma hatası';
 
   @override
-  String get signInWithGoogle => 'Google ile oturum açın';
+  String get signInWithGoogle => 'Google ile oturum aç';
 
   @override
   String get signOutSuccessful => 'Oturum başarıyla kapatıldı';
 
   @override
   String get signOutConfirmationTitle =>
-      'Çıkış yapmak istediğinizden emin misiniz?';
+      'Çıkış yapmak istediğinden emin misin?';
 
   @override
   String get signOutConfirmationMessage =>
-      'Bulut senkronizasyonu duracak. Devam etmek için yeniden oturum açın.';
+      'Bulut senkronizasyonu duracak. Devam etmek için yeniden oturum aç.';
 
   @override
   String get signInSuccessfulGoogle =>
@@ -848,7 +874,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get deleteAccountWarning =>
-      'Lütfen dikkat: Devam etmeyi seçerseniz, hesabınızı ve ilgili verileri sunucularımızdan sileceğiz. Verilerin yerel kopyası cihazda kalacaktır, eğer onu da silmek istiyorsanız, uygulamayı silebilirsiniz. Senkronizasyonu yeniden etkinleştirmek için, tekrar hesap oluşturmanız gerekecek';
+      'Lütfen dikkat: Devam etmeyi seçersen, hesabını ve ilgili verileri sunucularımızdan sileceğiz. Verilerin yerel kopyası cihazda kalacaktır, eğer onu da silmek istiyorsan, uygulamayı silebilirsin. Senkronizasyonu yeniden etkinleştirmek için, tekrar hesap oluşturman gerekecek';
 
   @override
   String get deleteAccountConfirmation => 'Hesap başarıyla silindi';
@@ -858,7 +884,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get accountDeletionError =>
-      'Hesabınızı silerken hata oluştu, lütfen tekrar deneyin';
+      'Hesabını silerken hata oluştu, lütfen tekrar dene';
 
   @override
   String get deleteAccountTitle => 'Önemli';
@@ -914,7 +940,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return '$roasterCount farklı kavurucudan çekirdek kullandınız';
   }
 
@@ -929,7 +955,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return '$originCount farklı ülkeden\nkahve çekirdeklerini tattınız!';
   }
 
@@ -941,17 +967,17 @@ class AppLocalizationsTr extends AppLocalizations {
       '…6 kıtada 110 farklı\nülkeden kullanıcılarımızla birlikteydiniz!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return 'Kendinize sadık kaldınız ve bu yıl yalnızca şu $count demleme yöntemini kullandınız:';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return 'Yeni tatlar keşfediyordunuz ve bu yıl $count demleme yöntemi kullandınız:';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return 'Gerçek bir kahve kaşifiydiniz ve bu yıl $count demleme yöntemi kullandınız:';
   }
 
@@ -1525,7 +1551,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String recipeUpdateAvailableBody(String recipeName) {
-    return '\'$recipeName\' uygulamasının daha yeni bir sürümü çevrimiçi olarak kullanılabilir. Güncellensin mi?';
+    return '\'$recipeName\' tarifinin daha yeni bir sürümü çevrimiçi olarak kullanılabilir. Güncellensin mi?';
   }
 
   @override
@@ -1567,7 +1593,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get signInRequiredBodyShare =>
-      'Kendi tariflerinizi paylaşmak için oturum açmanız gerekiyor.';
+      'Kendi tariflerini paylaşmak için oturum açman gerekiyor.';
 
   @override
   String get syncSuccess => 'Senkronizasyon başarılı!';
@@ -1630,7 +1656,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get editImportedRecipeBody =>
-      'Bu içe aktarılmış bir tariftir. Düzenlemek yeni, bağımsız bir kopya oluşturacaktır. Devam etmek istiyor musunuz?';
+      'Bu içe aktarılmış bir tariftir. Düzenlemek yeni, bağımsız bir kopya oluşturacaktır. Devam etmek istiyor musun?';
 
   @override
   String get editImportedRecipeButtonCopy => 'Kopya Oluştur ve Düzenle';
@@ -1652,7 +1678,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get errorUserNotLoggedIn =>
-      'Kullanıcı giriş yapmadı. Lütfen tekrar giriş yapın.';
+      'Kullanıcı giriş yapmadı. Lütfen tekrar giriş yap.';
 
   @override
   String get displayNameUpdateSuccess => 'Görünen ad başarıyla güncellendi!';
@@ -1667,7 +1693,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get deletePictureConfirmationBody =>
-      'Profil resminizi silmek istediğinizden emin misiniz?';
+      'Profil resmini silmek istediğinden emin misin?';
 
   @override
   String get deletePictureSuccess => 'Profil resmi silindi.';
@@ -1886,7 +1912,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get unsavedChangesMessage =>
-      'Kaydedilmemiş değişiklikleriniz var. Onları silmek istediğinizden emin misiniz?';
+      'Kaydedilmemiş değişiklikleriniz var. Onları silmek istediğinden emin misin?';
 
   @override
   String get unsavedChangesStay => 'Kal';
@@ -1933,7 +1959,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get notificationsDisabledDialogContent =>
-      'Bildirimleri cihaz ayarlarınızda devre dışı bıraktınız. Bildirimleri etkinleştirmek için lütfen cihaz ayarlarınızı açın ve Timer.Coffee için bildirimlere izin verin.';
+      'Bildirimleri cihaz ayarlarında devre dışı bıraktın. Bildirimleri etkinleştirmek için lütfen cihaz ayarlarını aç ve Timer.Coffee için bildirimlere izin ver.';
 
   @override
   String get notificationDebug => 'Bildirim hata ayıklama';
@@ -1953,7 +1979,15 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      'Yararlı güncellemeleri (örneğin, yeni uygulama sürümleri hakkında) almak için bildirimleri etkinleştirebilirsiniz. Şimdi etkinleştirin veya bu ayarı istediğiniz zaman ayarlardan değiştirin.';
+      'Yararlı güncellemeleri (örneğin, yeni uygulama sürümleri hakkında) almak için bildirimleri etkinleştirebilirsin. Bildirimler ayrıca demleme ilerlemesini canlı olarak göstermek için gereklidir. Şimdi etkinleştir veya bu ayarı istediğiniz zaman ayarlardan değiştir.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'Yararlı güncellemeleri (örneğin, yeni uygulama sürümleri hakkında) almak için bildirimleri etkinleştirebilirsin. Bildirimler ayrıca iOS\'ta Live Activities ve Dynamic Island için gereklidir. Şimdi etkinleştir veya bu ayarı istediğiniz zaman ayarlardan değiştir.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'Yararlı güncellemeleri (örneğin, yeni uygulama sürümleri hakkında) almak için bildirimleri etkinleştirebilirsin. Bildirimler ayrıca Android\'de Live Updates için gereklidir. Şimdi etkinleştir veya bu ayarı istediğiniz zaman ayarlardan değiştir.';
 
   @override
   String get notificationPermissionEnable => 'Etkinleştir';
@@ -2086,7 +2120,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get setToZeroDialogBody =>
-      'Bu, kalan miktarı 0 g olarak ayarlar. Daha sonra düzenleyebilirsiniz.';
+      'Bu, kalan miktarı 0 g olarak ayarlar. Daha sonra düzenleyebilirsin.';
 
   @override
   String get setToZeroDialogConfirm => 'Sıfırla';
@@ -2156,8 +2190,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get coffeeJourneyMilestoneFirstBrew => 'İlk demlemenizi tamamlayın';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod =>
-      'Farklı bir demleme yöntemi deneyin';
+  String get coffeeJourneyMilestoneTryMethod => 'Başka bir tarif deneyin';
 
   @override
   String get coffeeJourneyMilestoneAddBeans =>
@@ -2186,7 +2219,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get coffeeJourneyDismissConfirm =>
-      'İlk Adımlar bölümündeki ilerlemenizi gizlemek ister misiniz?';
+      'İlk Adımlar bölümündeki ilerlemenizi gizlemek ister misin?';
 
   @override
   String get coffeeJourneyHideButton => 'Gizle';
@@ -2216,7 +2249,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get beanCoverPhotoSavePromptBody =>
-      'Taranan görüntülerden birini bu çekirdeğin kapak fotoğrafı olarak kaydetmek ister misiniz?';
+      'Taranan görsellerden birini bu çekirdeğin kapak fotoğrafı olarak kaydetmek ister misin?';
 
   @override
   String get beanCoverPhotoUploading => 'Fotoğraf yükleniyor…';
@@ -2226,7 +2259,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get beanCoverPhotoSignInPrompt =>
-      'Kapak fotoğrafı eklemek için oturum açın';
+      'Kapak fotoğrafı eklemek için oturum aç';
 
   @override
   String get settingsAnalyticsTitle => 'Gizlilik ve analizler';
@@ -2245,4 +2278,172 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get saving => 'Kaydediliyor…';
+
+  @override
+  String get notifBrewReminderTitle => 'Kahve ritüelini özledin mi?';
+
+  @override
+  String get notifBrewReminderBody =>
+      'Birkaç gün oldu. Yeni bir demleme ister misin?';
+
+  @override
+  String get notifBrewReminderTitle2 => 'Demleme zamanı?';
+
+  @override
+  String get notifBrewReminderBody2 => 'Kurulumun hazır, ne zaman istersen.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'Su ısıtıcın seni çağırıyor';
+
+  @override
+  String get notifBrewReminderBody3 =>
+      'İyi bir fincan sadece birkaç dakika uzağında.';
+
+  @override
+  String get notifBrewEscalationTitle => 'Bir demleme daha mı?';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'Bir süre oldu. Güzel bir şey demlemeye hazır mısın?';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'Bir süre oldu mu?';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'Acele yok. Kurulumun hazır, ne zaman istersen.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'Yine kahve zamanı mı?';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'Gerçekten iyi bir fincan sadece birkaç dakikada hazır olabilir.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'Çekirdeklerini takip et';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'Çekirdeklerini kaydet ve en sevdiklerini hatırla.';
+
+  @override
+  String get notifDiscoverPulseTitle => 'Başkalarının ne demlediğini gör';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'Dünyanın dört bir yanından canlı demlemeleri görmek için Nabız\'ı aç.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'Yeni bir dönüm noktası';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    return 'Toplam $count kez demleme yaptın. İlerlemeni görmek için dokun.';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return '$methodName için yeni bir tarif dene';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Şimdiye kadar $count tarif denedin. İşte denemen için bir tane daha.',
+      one: 'Şimdiye kadar 1 tarif denedin. İşte denemen için bir tane daha.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'Günaydın. Demlemeye hazır mısın?';
+
+  @override
+  String get notifMorningBody => 'Güne iyi bir fincanla başla.';
+
+  @override
+  String get notifMorningTitle2 => 'Uyan ve demle';
+
+  @override
+  String get notifMorningBody2 =>
+      'Sabah kahven birkaç dakika içinde hazır olabilir.';
+
+  @override
+  String get notifMorningTitle3 => 'Günün ilk fincanı?';
+
+  @override
+  String get notifMorningBody3 => 'Bir tarif seç ve demlemeye başla.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Bu hafta $count demleme',
+      one: 'Bu hafta 1 demleme',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other:
+          'Bu hafta $recipes tarif kullandın. Ayrıntıları görmek için dokun.',
+      one: 'Haftalık istatistiklerini görmek için dokun.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'Taze çekirdek zamanı mı?';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    return '$beanName $days gün önce kavruldu. En iyi dönemini geçmiş olabilir.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'Bildirimleri etkinleştir';
+
+  @override
+  String get settingsMorningReminder => 'Sabah demleme hatırlatıcısı';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'Sabah kahven için günlük hatırlatıcı';
+
+  @override
+  String get settingsMorningReminderTime => 'Hatırlatma saati';
+
+  @override
+  String get settingsWeeklySummary => 'Haftalık özet';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'Pazar akşamı demlemelerinin özeti';
+
+  @override
+  String get settingsBeanFreshness => 'Çekirdek tazelik uyarıları';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'Kavrulma tarihinin üzerinden 3 haftadan fazla geçtiğinde bildir';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count gün önce',
+      one: '1 gün önce',
+    );
+    return '$_temp0';
+  }
 }

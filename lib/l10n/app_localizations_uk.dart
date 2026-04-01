@@ -21,7 +21,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get originsExploredLabel => 'Досліджені країни походження';
 
   @override
-  String get regionsExploredLabel => 'Європа';
+  String get regionsExploredLabel => 'Досліджені регіони';
 
   @override
   String get newRoastersDiscoveredLabel => 'Нові обсмажувачі, яких відкрито';
@@ -95,7 +95,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get hubAboutSubtitle => 'Інформація про додаток, версія та учасники';
 
   @override
-  String get about => 'Про програму';
+  String get about => 'Про додаток';
 
   @override
   String get author => 'Автор';
@@ -115,10 +115,10 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get licensetext =>
-      'Цей додаток є безкоштовним програмним забезпеченням: ви можете розповсюджувати його та/або модифікувати на умовах GNU General Public License, як опубліковано Free Software Foundation, або версії 3 Ліцензії, або (за вашим вибором) будь-якої пізнішої версії.';
+      'Цей додаток є вільним програмним забезпеченням: ви можете розповсюджувати його та/або змінювати його на умовах GNU General Public License, опублікованої Free Software Foundation, версії 3 або (за вашим вибором) будь-якої пізнішої версії.';
 
   @override
-  String get licensebutton => 'Прочитайте GNU General Public License v3';
+  String get licensebutton => 'Ознайомитися з GNU General Public License v3';
 
   @override
   String get website => 'Вебсайт';
@@ -127,7 +127,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get sourcecode => 'Вихідний код';
 
   @override
-  String get support => 'Купіть мені каву';
+  String get support => 'Пригощайте кавою';
 
   @override
   String get supportButtonLabel => 'Підтримка';
@@ -192,7 +192,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get home => 'Головна';
 
   @override
-  String get appversion => 'Версія додатку';
+  String get appversion => 'Версія додатка';
 
   @override
   String get tipsmall => 'Купіть маленьку каву';
@@ -208,24 +208,25 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get supportdevmsg =>
-      'Ваші пожертвування допомагають покривати витрати на утримання (наприклад, ліцензії для розробників). Вони також дозволяють мені пробувати більше пристроїв для заварювання кави та додавати більше рецептів до додатку.';
+      'Ваші пожертвування допомагають покривати витрати на обслуговування (наприклад, ліцензії для розробників). Також вони дають змогу тестувати більше пристроїв для заварювання кави й додавати нові рецепти до додатка.';
 
   @override
-  String get supportdevtnx => 'Дякую, що розглядаєте можливість пожертвування!';
+  String get supportdevtnx =>
+      'Дякуємо, що розглядаєте можливість підтримати проєкт!';
 
   @override
   String get donationok => 'Дякуємо!';
 
   @override
   String get donationtnx =>
-      'Я дуже ціную вашу підтримку! Бажаю вам багато чудових заварювань! ☕️';
+      'Я дуже ціную вашу підтримку! Бажаю вам багатьох чудових заварювань! ☕️';
 
   @override
   String get donationerr => 'Помилка';
 
   @override
   String get donationerrmsg =>
-      'Помилка обробки покупки, будь ласка, спробуйте ще раз.';
+      'Не вдалося обробити покупку. Будь ласка, спробуйте ще раз.';
 
   @override
   String get sharemsg => 'Перегляньте цей рецепт:';
@@ -250,6 +251,33 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get settingslang => 'Мова';
+
+  @override
+  String get settingsDateTimeFormat => 'Формат дати та часу';
+
+  @override
+  String get settingsDateFormatLabel => 'Формат дати';
+
+  @override
+  String get settingsTimeFormatLabel => 'Формат часу';
+
+  @override
+  String get settingsDateFormatAuto => 'Автоматично (відповідно до мови)';
+
+  @override
+  String get settingsDateFormatDMY => 'ДД.ММ.РРРР';
+
+  @override
+  String get settingsDateFormatMDY => 'ММ/ДД/РРРР';
+
+  @override
+  String get settingsDateFormatYMD => 'РРРР-ММ-ДД';
+
+  @override
+  String get settingsTimeFormat12h => '12-годинний (AM/PM)';
+
+  @override
+  String get settingsTimeFormat24h => '24-годинний';
 
   @override
   String get sweet => 'Солодкий';
@@ -283,7 +311,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get noFavoriteRecipesMessage =>
-      'Ваш список улюблених рецептів наразі порожній. Почніть досліджувати та заварювати, щоб відкрити для себе улюблені!';
+      'Ваш список улюблених рецептів наразі порожній. Почніть досліджувати й заварювати, щоб знайти свої найкращі!';
 
   @override
   String get explore => 'Досліджувати';
@@ -575,13 +603,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String get basicInformation => 'Основні відомості';
 
   @override
-  String get geographyTerroir => 'Географія/Територія';
+  String get geographyTerroir => 'Географія/Терруар';
 
   @override
   String get variety => 'Сорт';
 
   @override
-  String get region => 'Північна Америка';
+  String get region => 'Регіон';
 
   @override
   String get elevation => 'Висота';
@@ -602,7 +630,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get roastLevel => 'Ступінь обсмажування';
 
   @override
-  String get cuppingScore => 'Оцінка дегустації';
+  String get cuppingScore => 'Капінг-оцінка';
 
   @override
   String get flavorProfile => 'Смаковий профіль';
@@ -790,7 +818,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get signOutConfirmationMessage =>
-      'Хмарна синхронізація перестане працювати. Увійдіть знову, щоб відновити її.';
+      'Хмарна синхронізація припинить роботу. Увійдіть знову, щоб відновити її.';
 
   @override
   String get signInSuccessfulGoogle =>
@@ -803,7 +831,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get enterEmail => 'Введіть адресу електронної пошти';
 
   @override
-  String get emailHint => 'приклад@електронна_пошта.com';
+  String get emailHint => 'example@email.com';
 
   @override
   String get cancel => 'Скасувати';
@@ -843,7 +871,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get otpVerificationError => 'Помилка перевірки OTP';
 
   @override
-  String get success => '¡Éxito!';
+  String get success => 'Успіх!';
 
   @override
   String get otpSentMessage =>
@@ -863,7 +891,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get deleteAccountWarning =>
-      'Зверніть увагу: якщо ви вирішите продовжити, ми видалимо ваш обліковий запис і пов\'язані з ним дані з наших серверів. Локальна копія даних залишиться на пристрої, якщо ви хочете видалити її також, ви можете просто видалити програму. Щоб знову ввімкнути синхронізацію, вам потрібно буде створити обліковий запис знову';
+      'Зверніть увагу: якщо ви продовжите, ми видалимо ваш обліковий запис і пов\'язані дані з наших серверів. Локальна копія даних залишиться на пристрої; якщо ви хочете видалити її також, просто видаліть додаток. Щоб знову увімкнути синхронізацію, вам доведеться створити новий обліковий запис.';
 
   @override
   String get deleteAccountConfirmation => 'Обліковий запис успішно видалено';
@@ -929,7 +957,7 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory4Text(Object roasterCount) {
+  String yearlyStatsStory4Text(num roasterCount) {
     return 'Ви використовували зерна від $roasterCount обсмажувачів';
   }
 
@@ -944,7 +972,7 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String yearlyStatsStory6Text(Object originCount) {
+  String yearlyStatsStory6Text(num originCount) {
     return 'Ви скуштували кавові зерна\nз $originCount країн!';
   }
 
@@ -956,17 +984,17 @@ class AppLocalizationsUk extends AppLocalizations {
       '…а разом з користувачами з 110 інших\nкраїн на 6 континентах!';
 
   @override
-  String yearlyStatsStory8TitleLow(Object count) {
+  String yearlyStatsStory8TitleLow(num count) {
     return 'Ви залишилися вірними собі та використовували лише ці $count способи заварювання цього року:';
   }
 
   @override
-  String yearlyStatsStory8TitleMedium(Object count) {
+  String yearlyStatsStory8TitleMedium(num count) {
     return 'Ви відкривали для себе нові смаки та використовували $count способів заварювання цього року:';
   }
 
   @override
-  String yearlyStatsStory8TitleHigh(Object count) {
+  String yearlyStatsStory8TitleHigh(num count) {
     return 'Ви були справжнім першовідкривачем кави та використовували $count способів заварювання цього року:';
   }
 
@@ -1742,10 +1770,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get secondsAbbreviation => 'с.';
 
   @override
-  String get settingsAppIcon => 'Іконка додатку';
+  String get settingsAppIcon => 'Іконка додатка';
 
   @override
-  String get settingsAppIconDefault => 'За замовчуванням';
+  String get settingsAppIconDefault => 'Типова';
 
   @override
   String get settingsAppIconLegacy => 'Стара';
@@ -1781,7 +1809,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get enterFarm => 'Введіть ферму (необов\'язково)';
 
   @override
-  String get requiredInformation => 'Необхідна інформація';
+  String get requiredInformation => 'Обов\'язкова інформація';
 
   @override
   String get basicDetails => 'Основні деталі';
@@ -1988,7 +2016,15 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get notificationPermissionDialogMessage =>
-      'Ви можете увімкнути сповіщення, щоб отримувати корисні оновлення (наприклад, про нові версії додатку). Увімкніть зараз або змініть це в будь-який момент у налаштуваннях.';
+      'Ви можете увімкнути сповіщення, щоб отримувати корисні оновлення (наприклад, про нові версії додатку). Сповіщення також потрібні для оновлень прогресу заварювання в реальному часі. Увімкніть зараз або змініть це в будь-який момент у налаштуваннях.';
+
+  @override
+  String get notificationPermissionDialogMessageIos =>
+      'Ви можете увімкнути сповіщення, щоб отримувати корисні оновлення (наприклад, про нові версії додатку). Сповіщення також потрібні для Live Activities і Dynamic Island на iOS. Увімкніть зараз або змініть це в будь-який момент у налаштуваннях.';
+
+  @override
+  String get notificationPermissionDialogMessageAndroid =>
+      'Ви можете увімкнути сповіщення, щоб отримувати корисні оновлення (наприклад, про нові версії додатку). Сповіщення також потрібні для Live Updates на Android. Увімкніть зараз або змініть це в будь-який момент у налаштуваннях.';
 
   @override
   String get notificationPermissionEnable => 'Увімкнути';
@@ -2038,7 +2074,7 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get holidayGiftBoxTerms => 'Умови';
+  String get holidayGiftBoxTerms => 'Умови та положення';
 
   @override
   String get holidayGiftBoxVisitSite => 'Відвідати сайт партнера';
@@ -2091,7 +2127,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get holidayGiftBoxOfferUnavailable => 'Пропозиція недоступна';
 
   @override
-  String get holidayGiftBoxBannerTitle => 'Подивіться нашу святкову gift box';
+  String get holidayGiftBoxBannerTitle =>
+      'Ознайомтеся з нашою святковою подарунковою коробкою';
 
   @override
   String get holidayGiftBoxBannerCta => 'Переглянути пропозиції';
@@ -2153,7 +2190,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get nativeAppPromoDescription =>
-      'Насолоджуйтесь повним досвідом з ексклюзивними функціями: AI-сканування етикеток кави, Живі активності на екрані блокування, push-сповіщення, тактильний відгук та багато іншого.';
+      'Отримайте найбільше від додатка з ексклюзивними функціями: сканування етикеток кави за допомогою ШІ, Живі активності на екрані блокування, push-сповіщення, тактильний відгук та багато іншого.';
 
   @override
   String get nativeAppPromoButton => 'Завантажити додаток';
@@ -2199,11 +2236,11 @@ class AppLocalizationsUk extends AppLocalizations {
       'Завершіть своє перше заварювання';
 
   @override
-  String get coffeeJourneyMilestoneTryMethod =>
-      'Спробуйте інший спосіб заварювання';
+  String get coffeeJourneyMilestoneTryMethod => 'Спробуйте інший рецепт';
 
   @override
-  String get coffeeJourneyMilestoneAddBeans => 'Додайте свої перші зерна';
+  String get coffeeJourneyMilestoneAddBeans =>
+      'Додайте свої перші кавові зерна';
 
   @override
   String get coffeeJourneyMilestoneFavorite => 'Додайте рецепт до обраного';
@@ -2214,28 +2251,28 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get coffeeJourneyMilestonePulse =>
-      'Подивіться, як світ заварює разом з вами';
+      'Погляньте, як увесь світ заварює каву разом із вами';
 
   @override
-  String get coffeeJourneyCompleted => 'Ви зробили свої перші кроки!';
+  String get coffeeJourneyCompleted => 'Ви завершили свою кавову подорож!';
 
   @override
   String get coffeeJourneyDoneButton => 'Готово';
 
   @override
   String get coffeeJourneyDismissHint =>
-      'Ви завжди можете перевірити свій прогрес на вкладці Ще.';
+      'Ви завжди можете перевірити свій прогрес у вкладці «Ще».';
 
   @override
   String get coffeeJourneyDismissConfirm =>
-      'Хочете приховати свій прогрес у розділі Перші кроки?';
+      'Бажаєте приховати свій прогрес розділу «Перші кроки»?';
 
   @override
   String get coffeeJourneyHideButton => 'Приховати';
 
   @override
   String get firstBrewCongrats =>
-      'Вітаємо з першим заварюванням! Його збережено в Щоденнику заварювань.';
+      'Вітаємо з першим заварюванням! Його збережено у Щоденнику заварювань.';
 
   @override
   String get firstBrewDiaryLink => 'Переглянути Щоденник заварювань';
@@ -2257,7 +2294,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get beanCoverPhotoSavePromptBody =>
-      'Бажаєте зберегти одне зі сканованих зображень як фото обкладинки цього зерна?';
+      'Бажаєте зберегти одне з відсканованих зображень як фото обкладинки цих зерен?';
 
   @override
   String get beanCoverPhotoUploading => 'Завантаження фото…';
@@ -2287,4 +2324,197 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get saving => 'Збереження…';
+
+  @override
+  String get notifBrewReminderTitle => 'Ностальгуєте за кавовим ритуалом?';
+
+  @override
+  String get notifBrewReminderBody =>
+      'Минуло кілька днів. Готові знову заварити каву?';
+
+  @override
+  String get notifBrewReminderTitle2 => 'Час заварити каву?';
+
+  @override
+  String get notifBrewReminderBody2 => 'Усе готово, коли будете готові.';
+
+  @override
+  String get notifBrewReminderTitle3 => 'Ваш чайник кличе';
+
+  @override
+  String get notifBrewReminderBody3 => 'До гарної чашки всього кілька хвилин.';
+
+  @override
+  String get notifBrewEscalationTitle => 'Повернетеся за ще однією чашкою?';
+
+  @override
+  String get notifBrewEscalationBody =>
+      'Минуло вже чимало часу. Готові приготувати щось смачне?';
+
+  @override
+  String get notifBrewEscalationTitle2 => 'Давно не заходили?';
+
+  @override
+  String get notifBrewEscalationBody2 =>
+      'Без поспіху. Усе готово, коли будете готові.';
+
+  @override
+  String get notifBrewEscalationTitle3 => 'Знову час для кави?';
+
+  @override
+  String get notifBrewEscalationBody3 =>
+      'Справді хорошу чашку можна приготувати всього за кілька хвилин.';
+
+  @override
+  String get notifDiscoverBeansTitle => 'Стежте за своїми зернами';
+
+  @override
+  String get notifDiscoverBeansBody =>
+      'Додавайте зерна й запам’ятовуйте ті, що сподобалися найбільше.';
+
+  @override
+  String get notifDiscoverPulseTitle => 'Подивіться, що готують інші';
+
+  @override
+  String get notifDiscoverPulseBody =>
+      'Відкрийте Пульс, щоб побачити заварювання наживо з усього світу.';
+
+  @override
+  String get notifBrewMilestoneTitle => 'Нове досягнення';
+
+  @override
+  String notifBrewMilestoneBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Ви заварили каву $count разу. Натисніть, щоб переглянути свій прогрес.',
+      many:
+          'Ви заварили каву $count разів. Натисніть, щоб переглянути свій прогрес.',
+      few:
+          'Ви заварили каву $count рази. Натисніть, щоб переглянути свій прогрес.',
+      one:
+          'Ви заварили каву $count раз. Натисніть, щоб переглянути свій прогрес.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifExploreRecipesTitle(String methodName) {
+    return 'Спробуйте новий рецепт для $methodName';
+  }
+
+  @override
+  String notifExploreRecipesBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Ви вже спробували $count рецепта. Ось ще один для наступної чашки.',
+      many:
+          'Ви вже спробували $count рецептів. Ось ще один для наступної чашки.',
+      few: 'Ви вже спробували $count рецепти. Ось ще один для наступної чашки.',
+      one: 'Ви вже спробували $count рецепт. Ось ще один для наступної чашки.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMorningTitle => 'Добрий ранок. Готові заварити каву?';
+
+  @override
+  String get notifMorningBody => 'Почніть день із хорошої чашки.';
+
+  @override
+  String get notifMorningTitle2 => 'Підйом і заварюємо!';
+
+  @override
+  String get notifMorningBody2 =>
+      'Ранкова кава може бути готова за кілька хвилин.';
+
+  @override
+  String get notifMorningTitle3 => 'Перша чашка дня?';
+
+  @override
+  String get notifMorningBody3 => 'Виберіть рецепт і починайте.';
+
+  @override
+  String notifWeeklyTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count заварювання цього тижня',
+      many: '$count заварювань цього тижня',
+      few: '$count заварювання цього тижня',
+      one: '$count заварювання цього тижня',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifWeeklyBody(int recipes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      recipes,
+      locale: localeName,
+      other: 'У $recipes рецептах. Натисніть, щоб переглянути деталі.',
+      one: 'Натисніть, щоб переглянути статистику за тиждень.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifBeanFreshnessTitle => 'Час для свіжих зерен?';
+
+  @override
+  String notifBeanFreshnessBody(String beanName, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days дня тому',
+      many: '$days днів тому',
+      few: '$days дні тому',
+      one: '$days день тому',
+    );
+    return 'Ваші зерна $beanName були обсмажені $_temp0. Можливо, вони вже не на піку свіжості.';
+  }
+
+  @override
+  String get settingsNotificationsToggle => 'Увімкнути сповіщення';
+
+  @override
+  String get settingsMorningReminder => 'Ранкове нагадування про каву';
+
+  @override
+  String get settingsMorningReminderSubtitle =>
+      'Щоденне нагадування про вашу ранкову чашку';
+
+  @override
+  String get settingsMorningReminderTime => 'Час нагадування';
+
+  @override
+  String get settingsWeeklySummary => 'Підсумки тижня';
+
+  @override
+  String get settingsWeeklySummarySubtitle =>
+      'Короткий підсумок ваших заварювань у неділю ввечері';
+
+  @override
+  String get settingsBeanFreshness => 'Сповіщення про свіжість зерна';
+
+  @override
+  String get settingsBeanFreshnessSubtitle =>
+      'Сповіщати, коли з дати обсмаження минуло понад 3 тижні';
+
+  @override
+  String daysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count дня тому',
+      many: '$count днів тому',
+      few: '$count дні тому',
+      one: '$count день тому',
+    );
+    return '$_temp0';
+  }
 }
