@@ -105,8 +105,9 @@ class CoffeeJourneyCard extends StatelessWidget {
                           : _dismissFromHub(context, onboarding),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
-                      tooltip: MaterialLocalizations.of(context)
-                          .closeButtonTooltip,
+                      tooltip: MaterialLocalizations.of(
+                        context,
+                      ).closeButtonTooltip,
                     ),
                   ],
                 ),
@@ -158,7 +159,7 @@ class CoffeeJourneyCard extends StatelessWidget {
       ),
       _Milestone(
         label: l10n.coffeeJourneyMilestoneTryMethod,
-        done: onboarding.milestoneTryMethod,
+        done: onboarding.milestoneTryRecipe,
         onTap: null, // User is already on/near the methods screen
       ),
       _Milestone(
@@ -179,16 +180,15 @@ class CoffeeJourneyCard extends StatelessWidget {
       _Milestone(
         label: l10n.coffeeJourneyMilestonePulse,
         done: onboarding.milestonePulse,
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const PulseScreen()),
-        ),
+        onTap: () => Navigator.of(
+          context,
+        ).push(MaterialPageRoute(builder: (_) => const PulseScreen())),
       ),
     ];
   }
 
   /// Dismiss from brewing methods screen — card remains in hub.
-  void _dismissFromHome(
-      BuildContext context, OnboardingService onboarding) {
+  void _dismissFromHome(BuildContext context, OnboardingService onboarding) {
     onboarding.dismissJourneyCard();
     final l10n = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(context).showSnackBar(
@@ -200,8 +200,7 @@ class CoffeeJourneyCard extends StatelessWidget {
   }
 
   /// Dismiss from hub — confirmation dialog, then permanent dismiss.
-  void _dismissFromHub(
-      BuildContext context, OnboardingService onboarding) {
+  void _dismissFromHub(BuildContext context, OnboardingService onboarding) {
     final l10n = AppLocalizations.of(context)!;
     showDialog<bool>(
       context: context,
@@ -216,8 +215,7 @@ class CoffeeJourneyCard extends StatelessWidget {
             label: MaterialLocalizations.of(ctx).cancelButtonLabel,
             onPressed: () => Navigator.of(ctx).pop(false),
             height: AppButton.heightMedium,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           ),
           AppElevatedButton(
             label: l10n.coffeeJourneyHideButton,
@@ -225,17 +223,19 @@ class CoffeeJourneyCard extends StatelessWidget {
             backgroundColor: Theme.of(ctx).colorScheme.error,
             foregroundColor: Theme.of(ctx).colorScheme.onError,
             height: AppButton.heightMedium,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           ),
         ],
       ),
     ).then((confirmed) {
       if (confirmed == true) {
         if (!onboarding.allMilestonesComplete) {
-          AnalyticsService.instance.track('journey_dismissed', properties: {
-            'milestones_completed': onboarding.completedMilestoneCount,
-          });
+          AnalyticsService.instance.track(
+            'journey_dismissed',
+            properties: {
+              'milestones_completed': onboarding.completedMilestoneCount,
+            },
+          );
         }
         onboarding.completeJourney();
       }
@@ -288,8 +288,9 @@ class _MilestoneTile extends StatelessWidget {
                   color: milestone.done
                       ? theme.colorScheme.onSurfaceVariant
                       : theme.colorScheme.onSurface,
-                  decoration:
-                      milestone.done ? TextDecoration.lineThrough : null,
+                  decoration: milestone.done
+                      ? TextDecoration.lineThrough
+                      : null,
                 ),
               ),
             ),
