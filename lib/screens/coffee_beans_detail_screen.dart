@@ -280,10 +280,10 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
           ),
           const SizedBox(height: 16),
 
-          // Additional Notes Card
-          CoffeeBeansInfoCard(
-            type: CoffeeBeansInfoCardType.notes,
+          // Additional Notes Card (inline quick edit)
+          QuickNotesCard(
             bean: bean,
+            controller: controller,
           ),
         ],
       ),
