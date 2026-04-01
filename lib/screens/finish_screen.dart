@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:coffee_timer/services/notification_service.dart';
 import 'package:provider/provider.dart';
 import 'package:advanced_in_app_review/advanced_in_app_review.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:auto_route/auto_route.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../app_router.gr.dart';
@@ -22,11 +21,14 @@ import '../providers/coffee_beans_provider.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart';
-import '../widgets/notification_permission_dialog.dart'; // Import AppLogger
+import '../widgets/notification_permission_dialog.dart';
+import '../services/notification_permission_ab_service.dart';
 import '../widgets/base_buttons.dart';
 import '../services/onboarding_service.dart';
 import '../services/analytics_service.dart';
 import '../services/region_service.dart';
+import '../services/local_notification_scheduler_service.dart';
+import '../database/database.dart';
 import '../widgets/first_brew_celebration.dart';
 
 const String _nativeAppUrl = 'https://www.timer.coffee/get/';
@@ -92,7 +94,7 @@ class _FinishScreenState extends State<FinishScreen> {
     insertBrewingDataToSupabase();
     insertBrewingDataToAppDatabase();
     _updateBeanWeightAfterBrew();
-    requestNotificationPermissionFirstTime();
+    _checkAndRequestNotificationPermission();
     if (kIsWeb &&
         (defaultTargetPlatform == TargetPlatform.iOS ||
             defaultTargetPlatform == TargetPlatform.android)) {
@@ -102,7 +104,19 @@ class _FinishScreenState extends State<FinishScreen> {
 
   void _recordBrewForOnboarding() {
     final onboarding = Provider.of<OnboardingService>(context, listen: false);
-    onboarding.recordBrew(widget.recipe.brewingMethodId);
+    onboarding.recordBrew(
+      recipeId: widget.recipe.id,
+      brewingMethodId: widget.recipe.brewingMethodId,
+    );
+
+    // Reschedule engagement notifications (pushes brew reminders forward)
+    final database = Provider.of<AppDatabase>(context, listen: false);
+    final locale = Localizations.localeOf(context).languageCode;
+    unawaited(LocalNotificationSchedulerService.instance.rescheduleAll(
+      database: database,
+      onboarding: onboarding,
+      locale: locale,
+    ));
   }
 
   void insertBrewingDataToSupabase() async {
@@ -226,53 +240,81 @@ class _FinishScreenState extends State<FinishScreen> {
     }
   }
 
-  void requestNotificationPermissionFirstTime() async {
-    const firstFinishScreenKey = 'firstfinishscreen';
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool firstFinishScreen = prefs.getBool(firstFinishScreenKey) ?? true;
+  void _checkAndRequestNotificationPermission() async {
+    final prefs = await SharedPreferences.getInstance();
+    final abService = NotificationPermissionAbService(prefs);
 
-    // Always mark as true regardless of user choice
-    await prefs.setBool(firstFinishScreenKey, false);
+    final shouldShow = await abService.recordBrewAndCheckShouldShow();
+    if (!shouldShow) return;
 
-    if (firstFinishScreen && !kIsWeb) {
-      // Show in-app dialog first
-      final result = await showDialog<bool>(
-        context: context,
-        barrierDismissible: false, // Prevent accidental dismissal
-        builder: (context) => NotificationPermissionDialog(
-          onEnable: () {
-            Navigator.of(context).pop(true);
-          },
-          onSkip: () => Navigator.of(context).pop(false),
-        ),
+    // Skip if the user already has permission — no need to ask again.
+    final alreadyGranted =
+        await NotificationService.instance.permissions.hasNotificationPermission;
+    if (alreadyGranted) {
+      await abService.markShown();
+      return;
+    }
+
+    // Wait for the finish screen to fully render before interrupting with a dialog.
+    await Future.delayed(const Duration(milliseconds: 1500));
+    if (!mounted) return;
+
+    AnalyticsService.instance.track(
+      'notification_permission_shown',
+      properties: {
+        'variant': abService.variant,
+        'threshold': abService.threshold,
+        'brew_count': abService.brewCount,
+      },
+    );
+    await abService.markShown();
+
+    final result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => NotificationPermissionDialog(
+        onEnable: () => Navigator.of(context).pop(true),
+        onSkip: () => Navigator.of(context).pop(false),
+      ),
+    );
+
+    if (result == true && !_permissionRequestInProgress) {
+      _permissionRequestInProgress = true;
+      // Small delay so the dialog is fully dismissed before the system prompt.
+      Future.delayed(const Duration(milliseconds: 300), () async {
+        if (mounted) {
+          final granted = await _requestSystemPermissionAndUpdateSettings();
+          AnalyticsService.instance.track(
+            'notification_permission_result',
+            properties: {
+              'variant': abService.variant,
+              'threshold': abService.threshold,
+              'result': granted ? 'granted' : 'denied',
+            },
+          );
+        }
+        _permissionRequestInProgress = false;
+      });
+    } else if (result == false) {
+      AnalyticsService.instance.track(
+        'notification_permission_result',
+        properties: {
+          'variant': abService.variant,
+          'threshold': abService.threshold,
+          'result': 'skipped',
+        },
       );
-
-      // User chose to enable - request system permission with delay
-      if (result == true && !_permissionRequestInProgress) {
-        _permissionRequestInProgress = true;
-
-        // Add a small delay to ensure dialog is fully dismissed and screen has focus
-        // This is critical for Android to properly display the system permission dialog
-        Future.delayed(const Duration(milliseconds: 300), () {
-          if (mounted) {
-            _requestSystemPermissionAndUpdateSettings();
-          }
-          _permissionRequestInProgress = false;
-        });
-      }
     }
   }
 
-  Future<void> _requestSystemPermissionAndUpdateSettings() async {
+  Future<bool> _requestSystemPermissionAndUpdateSettings() async {
     try {
       AppLogger.debug(
         'Requesting system notification permissions from finish screen',
       );
 
-      // Request system permission
       final granted = await NotificationService.instance.requestPermissions();
 
-      // If granted, update master toggle to enabled
       if (granted) {
         final user = Supabase.instance.client.auth.currentUser;
         await NotificationService.instance.updateMasterToggle(
@@ -285,12 +327,14 @@ class _FinishScreenState extends State<FinishScreen> {
       } else {
         AppLogger.debug('Notification permissions denied by user');
       }
+
+      return granted;
     } catch (e) {
       AppLogger.error(
         'Error requesting notification permissions from finish screen',
         errorObject: e,
       );
-      // Don't rethrow - allow the app to continue functioning even if permission request fails
+      return false;
     }
   }
 

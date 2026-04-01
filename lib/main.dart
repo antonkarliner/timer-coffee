@@ -14,7 +14,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:logging/logging.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'models/brewing_method_model.dart';
 import './providers/recipe_provider.dart';
@@ -25,14 +24,12 @@ import 'package:auto_route/auto_route.dart';
 import './app_router.dart';
 import './app_router.gr.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'models/recipe_model.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import './providers/snow_provider.dart';
 import 'widgets/global_snow_overlay.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:coffee_timer/services/notification_service.dart';
 import 'package:coffee_timer/services/live_activity_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -46,6 +43,9 @@ import 'package:coffee_timer/services/notification_migration_service.dart';
 import 'services/feature_flags/feature_flags_repository.dart';
 import 'services/onboarding_service.dart';
 import 'services/analytics_service.dart';
+import 'services/local_notification_scheduler_service.dart';
+import 'services/date_time_format_service.dart';
+import 'controllers/stats_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Custom log handler that intercepts and sanitizes all Supabase library logs
@@ -124,15 +124,18 @@ Future<void> _launchExternalUrlTopLevel(Uri uri) async {
           attemptNumber++;
           try {
             AppLogger.debug(
-                'Launch attempt $attemptNumber/$totalAttempts: mode=$mode, uri=$uri');
+              'Launch attempt $attemptNumber/$totalAttempts: mode=$mode, uri=$uri',
+            );
             final launched = await launchUrl(uri, mode: mode);
             if (launched) {
               AppLogger.debug(
-                  'Successfully launched external URL: $uri in mode: $mode (attempt $attemptNumber/$totalAttempts)');
+                'Successfully launched external URL: $uri in mode: $mode (attempt $attemptNumber/$totalAttempts)',
+              );
               return;
             } else {
               AppLogger.warning(
-                  'URL launch returned false in mode $mode: $uri (attempt $attemptNumber/$totalAttempts)');
+                'URL launch returned false in mode $mode: $uri (attempt $attemptNumber/$totalAttempts)',
+              );
             }
           } catch (e) {
             AppLogger.warning(
@@ -145,37 +148,47 @@ Future<void> _launchExternalUrlTopLevel(Uri uri) async {
         // If all launch modes failed, try the default mode
         attemptNumber++;
         AppLogger.debug(
-            'Final attempt $attemptNumber/$totalAttempts: trying default launch mode');
+          'Final attempt $attemptNumber/$totalAttempts: trying default launch mode',
+        );
         final defaultLaunched = await launchUrl(uri);
         if (!defaultLaunched) {
           AppLogger.warning(
-              'Failed to open external URL with all $totalAttempts launch modes: $uri');
+            'Failed to open external URL with all $totalAttempts launch modes: $uri',
+          );
         } else {
           AppLogger.debug(
-              'Successfully launched external URL with default mode: $uri');
+            'Successfully launched external URL with default mode: $uri',
+          );
         }
       } catch (e) {
-        AppLogger.error('Error during delayed URL launch: $uri',
-            errorObject: e);
+        AppLogger.error(
+          'Error during delayed URL launch: $uri',
+          errorObject: e,
+        );
       }
     });
   } catch (e) {
-    AppLogger.error('Error scheduling external URL launch: $uri',
-        errorObject: e);
+    AppLogger.error(
+      'Error scheduling external URL launch: $uri',
+      errorObject: e,
+    );
   }
 }
 
 Future<void> _checkPendingUrlLaunch(SharedPreferences prefs) async {
   try {
     AppLogger.debug(
-        'Checking for pending external URL launch (iOS terminated state recovery)');
+      'Checking for pending external URL launch (iOS terminated state recovery)',
+    );
 
     final pendingUrl = prefs.getString('pending_external_url');
     if (pendingUrl != null && pendingUrl.isNotEmpty) {
       AppLogger.debug(
-          'Found pending external URL from iOS terminated state: $pendingUrl');
+        'Found pending external URL from iOS terminated state: $pendingUrl',
+      );
       AppLogger.debug(
-          'Attempting to launch pending URL during app initialization');
+        'Attempting to launch pending URL during app initialization',
+      );
 
       final uri = Uri.tryParse(pendingUrl);
       if (uri != null) {
@@ -190,14 +203,16 @@ Future<void> _checkPendingUrlLaunch(SharedPreferences prefs) async {
           await prefs.remove('pending_external_url');
         } catch (e) {
           AppLogger.error(
-              'Error launching pending external URL during app init: $uri',
-              errorObject: e);
+            'Error launching pending external URL during app init: $uri',
+            errorObject: e,
+          );
           // Clean up even if launch failed to prevent retry loops
           await prefs.remove('pending_external_url');
         }
       } else {
         AppLogger.warning(
-            'Pending URL failed to parse, cleaning up: $pendingUrl');
+          'Pending URL failed to parse, cleaning up: $pendingUrl',
+        );
         await prefs.remove('pending_external_url');
       }
     } else {
@@ -205,8 +220,9 @@ Future<void> _checkPendingUrlLaunch(SharedPreferences prefs) async {
     }
   } catch (e) {
     AppLogger.error(
-        'Error checking pending URL launch during app initialization',
-        errorObject: e);
+      'Error checking pending URL launch during app initialization',
+      errorObject: e,
+    );
   }
 }
 
@@ -223,10 +239,7 @@ List<LaunchMode> _getLaunchModesForPlatform() {
     ];
   } else if (defaultTargetPlatform == TargetPlatform.iOS) {
     // iOS: prefer external browser, fallback to SFSafariViewController
-    return const [
-      LaunchMode.externalApplication,
-      LaunchMode.inAppBrowserView,
-    ];
+    return const [LaunchMode.externalApplication, LaunchMode.inAppBrowserView];
   } else {
     // Desktop and other platforms
     return const [LaunchMode.externalApplication];
@@ -236,8 +249,10 @@ List<LaunchMode> _getLaunchModesForPlatform() {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: WidgetsBinding.instance);
-  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
+  await SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
+  );
 
   // Initialize Supabase log interceptor FIRST
   SupabaseLogInterceptor.initialize();
@@ -254,8 +269,9 @@ void main() async {
       onTimeout: () {
         AppLogger.warning('Firebase initialization timed out');
         throw TimeoutException(
-            'Firebase initialization timed out after 10 seconds',
-            const Duration(seconds: 10));
+          'Firebase initialization timed out after 10 seconds',
+          const Duration(seconds: 10),
+        );
       },
     );
     AppLogger.debug('Firebase initialized successfully');
@@ -271,18 +287,23 @@ void main() async {
     // Initialize NotificationService early to ensure proper setup with timeout protection
     // Use silent initialization to prevent iOS system dialogs on first startup
     try {
-      await NotificationService.instance.initialize(silentInit: true).timeout(
-        const Duration(seconds: 5),
-        onTimeout: () {
-          AppLogger.warning('NotificationService initialization timed out');
-          // Continue app startup even if notifications fail
-        },
-      );
+      await NotificationService.instance
+          .initialize(silentInit: true)
+          .timeout(
+            const Duration(seconds: 5),
+            onTimeout: () {
+              AppLogger.warning('NotificationService initialization timed out');
+              // Continue app startup even if notifications fail
+            },
+          );
       AppLogger.debug(
-          'NotificationService initialized successfully (silent mode)');
+        'NotificationService initialized successfully (silent mode)',
+      );
     } catch (e) {
-      AppLogger.error('Failed to initialize NotificationService',
-          errorObject: e);
+      AppLogger.error(
+        'Failed to initialize NotificationService',
+        errorObject: e,
+      );
       // Continue app startup even if notifications fail
     }
 
@@ -290,8 +311,10 @@ void main() async {
     try {
       await LiveActivityService.instance.initialize();
     } catch (e) {
-      AppLogger.error('Failed to initialize LiveActivityService',
-          errorObject: e);
+      AppLogger.error(
+        'Failed to initialize LiveActivityService',
+        errorObject: e,
+      );
     }
   }
 
@@ -306,8 +329,9 @@ void main() async {
       onTimeout: () {
         AppLogger.warning('Supabase initialization timed out');
         throw TimeoutException(
-            'Supabase initialization timed out after 10 seconds',
-            const Duration(seconds: 10));
+          'Supabase initialization timed out after 10 seconds',
+          const Duration(seconds: 10),
+        );
       },
     );
     AppLogger.debug('Supabase initialized successfully');
@@ -334,9 +358,11 @@ void main() async {
     // Note: NotificationService will be initialized lazily when first accessed
     // FCM will be handled when user explicitly enables notifications
     AppLogger.debug(
-        'User authenticated, notifications will be setup when enabled');
+      'User authenticated, notifications will be setup when enabled',
+    );
   }
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  final previousAppVersionAtLaunch = prefs.getString('previous_app_version');
 
   // Check for pending external URL launch (iOS terminated state fix)
   await _checkPendingUrlLaunch(prefs);
@@ -351,8 +377,8 @@ void main() async {
   final platform = kIsWeb
       ? 'web'
       : Platform.isIOS
-          ? 'ios'
-          : 'android';
+      ? 'ios'
+      : 'android';
 
   final featureFlagsRepository = FeatureFlagsRepository(
     remote: SupabaseFeatureFlagsDataSource(Supabase.instance.client),
@@ -364,8 +390,9 @@ void main() async {
   // Kick off refresh but don't block startup
   unawaited(featureFlagsRepository.refresh());
 
-  final AppDatabase database =
-      AppDatabase.withDefault(enableForeignKeyConstraints: !isFirstLaunch);
+  final AppDatabase database = AppDatabase.withDefault(
+    enableForeignKeyConstraints: !isFirstLaunch,
+  );
 
   final supportedLocalesDao = SupportedLocalesDao(database);
   final brewingMethodsDao = BrewingMethodsDao(database);
@@ -375,8 +402,9 @@ void main() async {
 
   String themeModeString = prefs.getString('themeMode') ?? 'system';
   ThemeMode themeMode = ThemeMode.values.firstWhere(
-      (e) => e.toString().split('.').last == themeModeString,
-      orElse: () => ThemeMode.system);
+    (e) => e.toString().split('.').last == themeModeString,
+    orElse: () => ThemeMode.system,
+  );
   String? savedLocaleCode = prefs.getString('locale');
   if (savedLocaleCode != null) {
     savedLocaleCode = savedLocaleCode
@@ -388,44 +416,45 @@ void main() async {
       savedLocaleCode = null;
     }
   }
-  Locale systemLocale =
-      Locale(WidgetsBinding.instance.window.locale.languageCode);
+  Locale systemLocale = Locale(
+    WidgetsBinding.instance.window.locale.languageCode,
+  );
   // Choose an initial locale BEFORE DB init so first-launch uses correct language.
   // Constrain to generated l10n locales to avoid empty/unsynced DB lists on first run.
   final List<Locale> genSupported = AppLocalizations.supportedLocales;
   Locale initialLocale = const Locale('en'); // default
   if (savedLocaleCode != null) {
     initialLocale = Locale(savedLocaleCode);
-  } else if (genSupported
-      .any((l) => l.languageCode == systemLocale.languageCode)) {
+  } else if (genSupported.any(
+    (l) => l.languageCode == systemLocale.languageCode,
+  )) {
     initialLocale = systemLocale;
   }
 
   final DatabaseProvider databaseProvider = DatabaseProvider(database);
   await databaseProvider.initializeDatabase(
-      isFirstLaunch: isFirstLaunch, locale: initialLocale.languageCode);
-
-  // Re-fetch supported locales after initialization to ensure they are populated
-  final List<SupportedLocaleModel> updatedSupportedLocales =
-      await supportedLocalesDao.getAllSupportedLocales();
-  List<Locale> updatedLocaleList =
-      updatedSupportedLocales.map((locale) => Locale(locale.locale)).toList();
+    isFirstLaunch: isFirstLaunch,
+    locale: initialLocale.languageCode,
+  );
 
   // Now that DB is initialized, fetch supported locales and brewing methods
   final List<SupportedLocaleModel> supportedLocalesModels =
       await supportedLocalesDao.getAllSupportedLocales();
-  final List<BrewingMethodModel> brewingMethods =
-      await brewingMethodsDao.getAllBrewingMethods();
+  final List<BrewingMethodModel> brewingMethods = await brewingMethodsDao
+      .getAllBrewingMethods();
 
   // Prefer DB locales if available; otherwise fall back to generated ones
-  final List<Locale> dbLocales =
-      supportedLocalesModels.map((l) => Locale(l.locale)).toList();
-  final List<Locale> effectiveSupportedLocales =
-      dbLocales.isNotEmpty ? dbLocales : AppLocalizations.supportedLocales;
+  final List<Locale> dbLocales = supportedLocalesModels
+      .map((l) => Locale(l.locale))
+      .toList();
+  final List<Locale> effectiveSupportedLocales = dbLocales.isNotEmpty
+      ? dbLocales
+      : AppLocalizations.supportedLocales;
 
   // Re-check initial locale against effectiveSupportedLocales; if not present, fallback to en
-  if (!effectiveSupportedLocales
-      .any((l) => l.languageCode == initialLocale.languageCode)) {
+  if (!effectiveSupportedLocales.any(
+    (l) => l.languageCode == initialLocale.languageCode,
+  )) {
     initialLocale = const Locale('en');
   }
 
@@ -460,23 +489,39 @@ void main() async {
       databaseProvider
           .fetchAndInsertUserPreferencesFromSupabase()
           .timeout(const Duration(seconds: 10))
-          .catchError((e) => AppLogger.error('User preferences sync timed out',
-              errorObject: e)),
+          .catchError(
+            (e) => AppLogger.error(
+              'User preferences sync timed out',
+              errorObject: e,
+            ),
+          ),
       userStatProvider
           .syncNewUserStats()
           .timeout(const Duration(seconds: 10))
-          .catchError((e) =>
-              AppLogger.error('User stats sync timed out', errorObject: e)),
+          .catchError(
+            (e) => AppLogger.error('User stats sync timed out', errorObject: e),
+          ),
       coffeeBeansProvider
           .syncNewCoffeeBeans()
           .timeout(const Duration(seconds: 10))
-          .catchError((e) =>
-              AppLogger.error('Coffee beans sync timed out', errorObject: e)),
+          .catchError(
+            (e) =>
+                AppLogger.error('Coffee beans sync timed out', errorObject: e),
+          ),
     ]);
   } catch (e) {
     AppLogger.error('Error during parallel sync operations', errorObject: e);
     // Continue app startup even if sync fails
   }
+
+  final onboardingSnapshot =
+      await OnboardingReconciliationSnapshot.fromPersistence(
+        database: database,
+        prefs: prefs,
+        isFirstLaunch: isFirstLaunch,
+        previousAppVersion: previousAppVersionAtLaunch,
+      );
+  await onboardingService.reconcileState(onboardingSnapshot);
 
   AppLogger.debug('Supported locales (effective): $effectiveSupportedLocales');
   AppLogger.debug('Initial locale chosen: $initialLocale');
@@ -489,11 +534,21 @@ void main() async {
     // Continue app startup even if migration fails
   }
 
+  // Reschedule engagement notifications on every app open (self-healing)
+  unawaited(LocalNotificationSchedulerService.instance.rescheduleAll(
+    database: database,
+    onboarding: onboardingService,
+    locale: initialLocale.languageCode,
+  ));
+
   // Track app open
-  analyticsService.track('app_opened', properties: {
-    'locale': initialLocale.languageCode,
-    'is_first_launch': isFirstLaunch,
-  });
+  analyticsService.track(
+    'app_opened',
+    properties: {
+      'locale': initialLocale.languageCode,
+      'is_first_launch': isFirstLaunch,
+    },
+  );
 
   runApp(
     CoffeeTimerApp(
@@ -585,16 +640,18 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
   }
 
   void _setupNotificationTapHandler() {
-    _notificationTapSubscription =
-        NotificationService.instance.onNotificationTapped.listen((payload) {
-      final deepLink = payload?.trim();
-      if (deepLink == null || deepLink.isEmpty) return;
+    _notificationTapSubscription = NotificationService
+        .instance
+        .onNotificationTapped
+        .listen((payload) {
+          final deepLink = payload?.trim();
+          if (deepLink == null || deepLink.isEmpty) return;
 
-      // Ensure router is attached before navigating/launching.
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        unawaited(_handleNotificationDeepLink(deepLink));
-      });
-    });
+          // Ensure router is attached before navigating/launching.
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            unawaited(_handleNotificationDeepLink(deepLink));
+          });
+        });
   }
 
   Future<void> _handleNotificationDeepLink(String deepLink) async {
@@ -604,19 +661,22 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
 
       // NEW: Enhanced logging for link processing
       final uri = Uri.tryParse(deepLink);
-      final isExternalUrl = uri != null &&
+      final isExternalUrl =
+          uri != null &&
           uri.isAbsolute &&
           (uri.scheme.toLowerCase() == 'https' ||
               uri.scheme.toLowerCase() == 'http') &&
           uri.host.isNotEmpty;
 
       AppLogger.debug(
-          'Link processing details - deepLink: $deepLink, isExternalUrl: $isExternalUrl, uriScheme: ${uri?.scheme}, uriHost: ${uri?.host}');
+        'Link processing details - deepLink: $deepLink, isExternalUrl: $isExternalUrl, uriScheme: ${uri?.scheme}, uriHost: ${uri?.host}',
+      );
 
       // Prioritize external URLs - open in browser immediately
       if (isExternalUrl) {
         AppLogger.info(
-            '🌐 EXTERNAL URL: Detected external URL, launching browser: $deepLink');
+          '🌐 EXTERNAL URL: Detected external URL, launching browser: $deepLink',
+        );
         AppLogger.info('🌐 EXTERNAL URL: Platform: ${defaultTargetPlatform}');
         await _launchExternalUrl(uri!);
         return;
@@ -624,8 +684,46 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
 
       // Handle internal routes (starting with /)
       if (deepLink.startsWith('/')) {
-        AppLogger.info('📱 INTERNAL ROUTE: Navigating to: $deepLink');
-        await _navigateToRoute(deepLink);
+        // Track notification tap for analytics
+        AnalyticsService.instance.track(
+          'notification_tapped',
+          properties: {'notification_type': _notificationTypeFromDeepLink(deepLink)},
+        );
+
+        // /beans/:uuid — pushNamed conflicts with the /beans tab child of
+        // HomeRoute, so use a typed push instead.
+        if (deepLink.startsWith('/beans/')) {
+          final uuid = deepLink.substring('/beans/'.length);
+          if (uuid.isNotEmpty) {
+            AppLogger.info('📱 BEAN DETAIL: Navigating to bean uuid=$uuid');
+            await widget.appRouter.push(CoffeeBeansDetailRoute(uuid: uuid));
+            return;
+          }
+        }
+
+        // Parse query parameters for stats period deep linking
+        String routePath = deepLink;
+        if (deepLink.startsWith('/stats')) {
+          final parsed = Uri.tryParse(deepLink);
+          final period = parsed?.queryParameters['period'];
+          if (period == 'thisWeek') {
+            StatsController.pendingInitialPeriod = TimePeriod.thisWeek;
+          }
+          routePath = parsed?.path ?? deepLink;
+        }
+
+        AppLogger.info('📱 INTERNAL ROUTE: Navigating to: $routePath');
+        await _navigateToRoute(routePath);
+        return;
+      }
+
+      // Handle tracking-only notifications (notif: scheme, no navigation)
+      if (uri?.scheme == 'notif') {
+        AnalyticsService.instance.track(
+          'notification_tapped',
+          properties: {'notification_type': uri!.path},
+        );
+        AppLogger.debug('🔔 NOTIF SCHEME: Tracked tap for: ${uri.path}');
         return;
       }
 
@@ -640,7 +738,8 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
             return;
           } else {
             AppLogger.warning(
-                '📱 APP DEEP LINK: Could not extract route from: $deepLink');
+              '📱 APP DEEP LINK: Could not extract route from: $deepLink',
+            );
           }
         } else {
           AppLogger.debug('Unknown scheme: $scheme for deep_link: $deepLink');
@@ -648,13 +747,28 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
       }
 
       AppLogger.warning(
-          '⚠️ UNSUPPORTED LINK: Ignoring unsupported deep_link: $deepLink');
+        '⚠️ UNSUPPORTED LINK: Ignoring unsupported deep_link: $deepLink',
+      );
     } catch (e, stackTrace) {
       AppLogger.error(
-          '❌ ERROR: Error handling notification deep_link: $deepLink',
-          errorObject: e,
-          stackTrace: stackTrace);
+        '❌ ERROR: Error handling notification deep_link: $deepLink',
+        errorObject: e,
+        stackTrace: stackTrace,
+      );
     }
+  }
+
+  String _notificationTypeFromDeepLink(String deepLink) {
+    if (deepLink == '/new_beans') return 'feature_discovery_beans';
+    if (deepLink == '/pulse') return 'feature_discovery_pulse';
+    if (deepLink.startsWith('/stats') &&
+        Uri.tryParse(deepLink)?.queryParameters['period'] == 'thisWeek') {
+      return 'weekly_summary';
+    }
+    if (deepLink == '/stats') return 'brew_milestone';
+    if (deepLink.startsWith('/beans/')) return 'bean_freshness';
+    if (deepLink.startsWith('/recipes/')) return 'recipe_exploration';
+    return 'unknown';
   }
 
   Future<void> _launchExternalUrl(Uri uri) async {
@@ -664,19 +778,22 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
       AppLogger.info('🚀 URL LAUNCH: URI: $uri');
       AppLogger.info('🚀 URL LAUNCH: Platform: ${defaultTargetPlatform}');
       AppLogger.info(
-          '🚀 URL LAUNCH: App state: ${WidgetsBinding.instance.lifecycleState}');
+        '🚀 URL LAUNCH: App state: ${WidgetsBinding.instance.lifecycleState}',
+      );
 
       // Ensure the app is fully initialized before launching URL
       // This is critical for reliability when app is launched from terminated state
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         try {
           AppLogger.info(
-              '🚀 URL LAUNCH: App frame ready, proceeding with URL launch: $uri');
+            '🚀 URL LAUNCH: App frame ready, proceeding with URL launch: $uri',
+          );
 
           // Use platform-appropriate launch modes
           final launchModes = _getLaunchModesForPlatform();
           AppLogger.info(
-              '🚀 URL LAUNCH: Available launch modes for platform: $launchModes');
+            '🚀 URL LAUNCH: Available launch modes for platform: $launchModes',
+          );
 
           // Track launch attempts for better debugging
           int attemptNumber = 0;
@@ -686,15 +803,18 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
             attemptNumber++;
             try {
               AppLogger.info(
-                  '🚀 URL LAUNCH: Attempt $attemptNumber/$totalAttempts: mode=$mode, uri=$uri');
+                '🚀 URL LAUNCH: Attempt $attemptNumber/$totalAttempts: mode=$mode, uri=$uri',
+              );
               final launched = await launchUrl(uri, mode: mode);
               if (launched) {
                 AppLogger.info(
-                    '✅ URL LAUNCH SUCCESS: Launched $uri in mode: $mode (attempt $attemptNumber/$totalAttempts)');
+                  '✅ URL LAUNCH SUCCESS: Launched $uri in mode: $mode (attempt $attemptNumber/$totalAttempts)',
+                );
                 return;
               } else {
                 AppLogger.warning(
-                    '⚠️ URL LAUNCH FAILED: Launch returned false in mode $mode: $uri (attempt $attemptNumber/$totalAttempts)');
+                  '⚠️ URL LAUNCH FAILED: Launch returned false in mode $mode: $uri (attempt $attemptNumber/$totalAttempts)',
+                );
               }
             } catch (e, stackTrace) {
               AppLogger.warning(
@@ -708,30 +828,35 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
           // If all launch modes failed, try the default mode
           attemptNumber++;
           AppLogger.info(
-              '🚀 URL LAUNCH: Final attempt $attemptNumber/$totalAttempts: trying default launch mode');
+            '🚀 URL LAUNCH: Final attempt $attemptNumber/$totalAttempts: trying default launch mode',
+          );
           final defaultLaunched = await launchUrl(uri);
           if (!defaultLaunched) {
             AppLogger.error(
-                '❌ URL LAUNCH FAILED: All $totalAttempts launch modes failed for: $uri');
+              '❌ URL LAUNCH FAILED: All $totalAttempts launch modes failed for: $uri',
+            );
             // Show error to user or fallback to internal handling
             _showUrlLaunchError(uri);
           } else {
             AppLogger.info(
-                '✅ URL LAUNCH SUCCESS: Launched with default mode: $uri');
+              '✅ URL LAUNCH SUCCESS: Launched with default mode: $uri',
+            );
           }
         } catch (e, stackTrace) {
           AppLogger.error(
-              '❌ URL LAUNCH ERROR: Error during delayed URL launch: $uri',
-              errorObject: e,
-              stackTrace: stackTrace);
+            '❌ URL LAUNCH ERROR: Error during delayed URL launch: $uri',
+            errorObject: e,
+            stackTrace: stackTrace,
+          );
           _showUrlLaunchError(uri);
         }
       });
     } catch (e, stackTrace) {
       AppLogger.error(
-          '❌ URL LAUNCH ERROR: Error scheduling external URL launch: $uri',
-          errorObject: e,
-          stackTrace: stackTrace);
+        '❌ URL LAUNCH ERROR: Error scheduling external URL launch: $uri',
+        errorObject: e,
+        stackTrace: stackTrace,
+      );
       _showUrlLaunchError(uri);
     }
   }
@@ -763,7 +888,8 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
     // This could show a snackbar or dialog to the user
     // indicating that the URL couldn't be opened
     AppLogger.warning(
-        'Failed to launch URL: $uri - consider showing user feedback');
+      'Failed to launch URL: $uri - consider showing user feedback',
+    );
   }
 
   String? _routePathFromAppDeepLink(Uri uri) {
@@ -795,10 +921,11 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         Provider<AppDatabase>.value(value: widget.database),
         ChangeNotifierProvider<RecipeProvider>(
           create: (_) => RecipeProvider(
-              widget.initialLocale,
-              widget.supportedLocales,
-              widget.database,
-              widget.databaseProvider),
+            widget.initialLocale,
+            widget.supportedLocales,
+            widget.database,
+            widget.databaseProvider,
+          ),
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(widget.themeMode),
@@ -812,25 +939,35 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         Provider<Locale>.value(value: widget.initialLocale),
         Provider<DatabaseProvider>.value(value: widget.databaseProvider),
         ChangeNotifierProvider<CoffeeBeansProvider>.value(
-            value: widget.coffeeBeansProvider),
+          value: widget.coffeeBeansProvider,
+        ),
         ChangeNotifierProvider<CardExpansionNotifier>(
           create: (_) => CardExpansionNotifier(),
         ),
         ChangeNotifierProvider<UserStatProvider>.value(
-            value: widget.userStatProvider),
+          value: widget.userStatProvider,
+        ),
         ChangeNotifierProvider<BeansStatsProvider>.value(
-            value: widget.beansStatsProvider),
+          value: widget.beansStatsProvider,
+        ),
         ChangeNotifierProvider<UserRecipeProvider>(
           create: (_) => UserRecipeProvider(widget.database),
         ),
         Provider<NotificationService>.value(
-            value: NotificationService.instance),
+          value: NotificationService.instance,
+        ),
         Provider<FeatureFlagsRepository>.value(
-            value: widget.featureFlagsRepository),
+          value: widget.featureFlagsRepository,
+        ),
         ChangeNotifierProvider<OnboardingService>.value(
-            value: widget.onboardingService),
+          value: widget.onboardingService,
+        ),
         ChangeNotifierProvider<AnalyticsService>.value(
-            value: widget.analyticsService),
+          value: widget.analyticsService,
+        ),
+        ChangeNotifierProvider<DateTimeFormatService>(
+          create: (_) => DateTimeFormatService()..init(),
+        ),
         StreamProvider<Map<String, bool>>(
           create: (_) => widget.featureFlagsRepository.stream,
           initialData: widget.featureFlagsRepository.currentFlags,
@@ -839,8 +976,10 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
       child: Consumer2<ThemeProvider, SnowEffectProvider>(
         builder: (context, themeProvider, snowProvider, child) {
           return MaterialApp.router(
-            locale: Provider.of<RecipeProvider>(context, listen: true)
-                .currentLocale,
+            locale: Provider.of<RecipeProvider>(
+              context,
+              listen: true,
+            ).currentLocale,
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -851,7 +990,7 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
             routerConfig: widget.appRouter.config(
               navigatorObservers: () => [AnalyticsRouteObserver()],
               deepLinkBuilder: (deepLink) {
-                if (!widget.onboardingService.onboardingComplete) {
+                if (shouldRedirectToOnboarding(widget.onboardingService)) {
                   return DeepLink([const OnboardingRoute()]);
                 }
                 return deepLink;
@@ -877,7 +1016,9 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
 
 class PurchaseHandler {
   static void deliverProduct(
-      BuildContext context, PurchaseDetails purchaseDetails) {
+    BuildContext context,
+    PurchaseDetails purchaseDetails,
+  ) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

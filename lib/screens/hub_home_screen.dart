@@ -4,7 +4,6 @@ import 'package:coffee_timer/providers/coffee_beans_provider.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../providers/database_provider.dart';
@@ -24,6 +23,8 @@ import '../utils/app_logger.dart'; // Import AppLogger
 import '../widgets/base_buttons.dart';
 import '../widgets/coffee_journey_card.dart';
 import '../services/onboarding_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../database/database.dart';
 import 'pulse_screen.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 // Added import
@@ -54,10 +55,14 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     super.initState();
     _databaseProvider = Provider.of<DatabaseProvider>(context, listen: false);
     _userStatProvider = Provider.of<UserStatProvider>(context, listen: false);
-    _coffeeBeansProvider =
-        Provider.of<CoffeeBeansProvider>(context, listen: false);
-    _userRecipeProvider =
-        Provider.of<UserRecipeProvider>(context, listen: false);
+    _coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
+    _userRecipeProvider = Provider.of<UserRecipeProvider>(
+      context,
+      listen: false,
+    );
     _recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
     _determineInitialUserId(); // Still needed for sync logic
   }
@@ -90,10 +95,13 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
           newUserId != null &&
           _initialUserId != newUserId) {
         AppLogger.debug(
-            'User ID changed from $_initialUserId to $newUserId. Updating local recipe IDs...');
+          'User ID changed from $_initialUserId to $newUserId. Updating local recipe IDs...',
+        );
         // Update local recipe IDs BEFORE calling the edge function or syncing
         await _userRecipeProvider.updateUserRecipeIdsAfterLogin(
-            _initialUserId!, newUserId);
+          _initialUserId!,
+          newUserId,
+        );
 
         AppLogger.debug('Attempting to update user ID via Edge Function...');
         // Invoke the Supabase Edge Function to update user ID
@@ -165,43 +173,22 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
   /// After login + sync, auto-complete milestones that the synced data proves
   /// the user has already achieved. Leaves undiscovered features unchecked.
   Future<void> _reconcileMilestonesAfterSync() async {
-    final onboarding =
-        Provider.of<OnboardingService>(context, listen: false);
-    if (onboarding.journeyFullyDone) return; // nothing to do
+    final onboarding = Provider.of<OnboardingService>(context, listen: false);
+    final database = Provider.of<AppDatabase>(context, listen: false);
+    final prefs = await SharedPreferences.getInstance();
+    final snapshot = await OnboardingReconciliationSnapshot.fromPersistence(
+      database: database,
+      prefs: prefs,
+      isFirstLaunch: false,
+      previousAppVersion: prefs.getString('previous_app_version'),
+    );
 
-    final stats = await _userStatProvider.fetchAllUserStats();
-    if (stats.isEmpty) return; // genuinely new user
-
-    // Mark onboarding welcome as complete (they've used the app before).
-    await onboarding.completeOnboarding();
-
-    // First brew
-    final firstStat = stats.first;
-    await onboarding.recordBrew(firstStat.brewingMethodId);
-
-    // Tried multiple methods?
-    final distinctMethods =
-        stats.map((s) => s.brewingMethodId).toSet();
-    if (distinctMethods.length > 1) {
-      for (final methodId in distinctMethods) {
-        await onboarding.recordBrew(methodId);
-      }
-    }
-
-    // Has coffee beans?
-    final beans = await _coffeeBeansProvider.fetchAllCoffeeBeans();
-    if (beans.isNotEmpty) {
-      await onboarding.completeMilestoneAddBeans();
-    }
-
-    // Has favorites?
-    final favorites = _recipeProvider.getFavoriteRecipes();
-    if (favorites.isNotEmpty) {
-      await onboarding.completeMilestoneFavorite();
-    }
+    await onboarding.reconcileState(snapshot);
 
     AppLogger.debug(
-        'Returning user milestones reconciled: ${onboarding.completedMilestoneCount}/${OnboardingService.totalMilestones}');
+      'Returning user milestones reconciled: '
+      '${onboarding.completedMilestoneCount}/${OnboardingService.totalMilestones}',
+    );
   }
 
   Future<void> _updateFcmToken() async {
@@ -240,15 +227,17 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                   identifier: 'account',
                   label: l10n.account, // Use new localization key
                   child: ListTile(
-                    leading:
-                        const Icon(Icons.account_circle), // Or appropriate icon
+                    leading: const Icon(
+                      Icons.account_circle,
+                    ), // Or appropriate icon
                     title: Text(l10n.account), // Use new localization key
                     subtitle: Text(l10n.hubAccountSubtitle),
                     onTap: () {
                       final userId =
                           Supabase.instance.client.auth.currentUser?.id;
                       AppLogger.debug(
-                          'Navigating to AccountRoute with userId: $userId');
+                        'Navigating to AccountRoute with userId: $userId',
+                      );
                       if (userId != null) {
                         context.router.push(AccountRoute(userId: userId));
                       }
@@ -265,7 +254,8 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                     title: Text(l10n.signInCreate),
                     subtitle: Text(l10n.hubSignInCreateSubtitle),
                     onTap: () => _showSignInOptions(
-                        context), // This modal contains Apple Sign In
+                      context,
+                    ), // This modal contains Apple Sign In
                   ),
                 );
               }
@@ -303,11 +293,9 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
               title: Text(l10n.pulseTitle),
               subtitle: Text(l10n.hubPulseSubtitle),
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const PulseScreen(),
-                  ),
-                );
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (_) => const PulseScreen()));
               },
             ),
           ),
@@ -344,7 +332,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
               title: Text(l10n.settings),
               subtitle: Text(l10n.hubSettingsSubtitle),
               onTap: () {
-                context.router.push(const SettingsRoute());
+                context.router.push(SettingsRoute());
               },
             ),
           ),
@@ -384,10 +372,11 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
           child: SafeArea(
             child: Padding(
               padding: EdgeInsets.fromLTRB(
-                  AppSpacing.lg,
-                  AppSpacing.xl,
-                  AppSpacing.lg,
-                  AppSpacing.xl + MediaQuery.of(context).viewInsets.bottom),
+                AppSpacing.lg,
+                AppSpacing.xl,
+                AppSpacing.lg,
+                AppSpacing.xl + MediaQuery.of(context).viewInsets.bottom,
+              ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -421,8 +410,9 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
                       Navigator.pop(context);
                       _showEmailSignInDialog(context);
                     },
-                    backgroundColor:
-                        isDarkMode ? Colors.white : Colors.blueGrey.shade700,
+                    backgroundColor: isDarkMode
+                        ? Colors.white
+                        : Colors.blueGrey.shade700,
                     textColor: isDarkMode ? Colors.black87 : Colors.white,
                     iconColor: isDarkMode ? Colors.black87 : Colors.white,
                   ),
@@ -440,8 +430,9 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     // Ensure context is valid before proceeding
     if (!mounted) return;
     final l10n = AppLocalizations.of(context)!; // Get localizations
-    final scaffoldMessenger =
-        ScaffoldMessenger.of(context); // Capture scaffold messenger
+    final scaffoldMessenger = ScaffoldMessenger.of(
+      context,
+    ); // Capture scaffold messenger
 
     try {
       if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) {
@@ -484,7 +475,8 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     final idToken = credential.identityToken;
     if (idToken == null) {
       throw const AuthException(
-          'Could not find ID Token from generated credential.');
+        'Could not find ID Token from generated credential.',
+      );
     }
 
     await Supabase.instance.client.auth.signInWithIdToken(
@@ -505,8 +497,9 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     // Ensure context is valid before proceeding
     if (!mounted) return;
     final l10n = AppLocalizations.of(context)!; // Get localizations
-    final scaffoldMessenger =
-        ScaffoldMessenger.of(context); // Capture scaffold messenger
+    final scaffoldMessenger = ScaffoldMessenger.of(
+      context,
+    ); // Capture scaffold messenger
 
     try {
       bool didSignIn = true;
@@ -598,9 +591,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
           content: TextField(
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              hintText: l10n.emailHint,
-            ),
+            decoration: InputDecoration(hintText: l10n.emailHint),
           ),
           actions: <Widget>[
             AppTextButton(
@@ -634,8 +625,9 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     // Ensure context is valid before proceeding
     if (!mounted) return;
     final l10n = AppLocalizations.of(context)!; // Get localizations
-    final scaffoldMessenger =
-        ScaffoldMessenger.of(context); // Capture scaffold messenger
+    final scaffoldMessenger = ScaffoldMessenger.of(
+      context,
+    ); // Capture scaffold messenger
 
     _showOTPVerificationDialog(context, email);
 
@@ -675,9 +667,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
               TextField(
                 controller: otpController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: l10n.otpHint2,
-                ),
+                decoration: InputDecoration(hintText: l10n.otpHint2),
               ),
             ],
           ),
@@ -710,12 +700,16 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
   }
 
   Future<void> _verifyOTP(
-      BuildContext context, String email, String token) async {
+    BuildContext context,
+    String email,
+    String token,
+  ) async {
     // Ensure context is valid before proceeding
     if (!mounted) return;
     final l10n = AppLocalizations.of(context)!; // Get localizations
-    final scaffoldMessenger =
-        ScaffoldMessenger.of(context); // Capture scaffold messenger
+    final scaffoldMessenger = ScaffoldMessenger.of(
+      context,
+    ); // Capture scaffold messenger
 
     try {
       final AuthResponse res = await Supabase.instance.client.auth.verifyOTP(
