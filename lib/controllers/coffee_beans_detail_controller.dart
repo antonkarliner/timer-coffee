@@ -431,6 +431,25 @@ class CoffeeBeansDetailController extends ChangeNotifier {
     }
   }
 
+  // --- Notes ---
+
+  /// Saves the notes for the current bean inline (without navigating to edit screen).
+  Future<bool> saveNotes(BuildContext context, String notes) async {
+    if (_bean == null) return false;
+
+    try {
+      final coffeeBeansProvider =
+          Provider.of<CoffeeBeansProvider>(context, listen: false);
+      final updatedBeans = _bean!.copyWith(notes: notes.trim());
+      await coffeeBeansProvider.updateCoffeeBeans(updatedBeans);
+      await refreshData(context);
+      return true;
+    } catch (error) {
+      _setError('Failed to save notes: $error');
+      return false;
+    }
+  }
+
   // --- Delete ---
 
   /// Deletes the current bean and pops the screen.

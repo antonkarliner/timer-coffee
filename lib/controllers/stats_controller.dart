@@ -8,6 +8,10 @@ enum TimePeriod { today, thisWeek, thisMonth, custom }
 /// Central controller for the Stats feature: holds the selected time window,
 /// custom date range, and the running global brewed total. UI subscribes via ChangeNotifier.
 class StatsController extends ChangeNotifier {
+  /// Set by deep link handler before navigating to stats screen.
+  /// StatsScreen reads and clears this on init.
+  static TimePeriod? pendingInitialPeriod;
+
   TimePeriod selectedPeriod = TimePeriod.today;
   DateTime? customStartDate;
   DateTime? customEndDate;
