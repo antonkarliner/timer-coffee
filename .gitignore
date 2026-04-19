@@ -62,6 +62,7 @@ app.*.map.json
 
 # Node.js related
 node_modules
+deno.lock
 ios/fastlane/Preview.html
 ios/fastlane/report.xml
 android/fastlane/report.xml
@@ -72,6 +73,8 @@ jsontodb.py
 jsontodbf.py
 jsontodbsp.py
 lib/env/env.g.dart
+lib/app_router.gr.dart
+lib/l10n/app_localizations*.dart
 .env.local
 all_translations_queries.txt
 initdb.py
@@ -111,3 +114,7 @@ CLAUDE.md
 lib/services/CLAUDE_ANALYTICS.md
 grafana/sync.sh
 .claude
+.stignore
+.stfolder/syncthing-folder-9033ce.txt
+AGENTS.md
+PROJECT_OVERVIEW.md
