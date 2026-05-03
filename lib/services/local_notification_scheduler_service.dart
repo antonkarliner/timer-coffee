@@ -432,18 +432,25 @@ class LocalNotificationSchedulerService {
         .where((s) => !s.createdAt.isBefore(weekStart))
         .toList();
     final brewCount = weeklyStats.length;
-    if (brewCount == 0) return;
-
     final distinctRecipes =
         weeklyStats.map((s) => s.recipeId).toSet().length;
 
-    // Next Sunday at 18:00
-    final daysUntilSunday = (DateTime.sunday - now.weekday) % 7;
-    final nextSunday = now.add(Duration(
-      days: daysUntilSunday == 0 ? 7 : daysUntilSunday,
-    ));
-    final target =
-        DateTime(nextSunday.year, nextSunday.month, nextSunday.day, 18, 0);
+    // Sunday at 18:00 — today if it's still Sunday and 18:00 hasn't passed,
+    // otherwise next Sunday. Without this branch, a Sunday-morning reschedule
+    // (e.g. from a daily brewer's first brew) cancels the pending 18:00 recap
+    // and pushes it a week out, so the recap never fires.
+    final todayAt6pm = DateTime(now.year, now.month, now.day, 18, 0);
+    final DateTime target;
+    if (now.weekday == DateTime.sunday && now.isBefore(todayAt6pm)) {
+      target = todayAt6pm;
+    } else {
+      final daysUntilSunday = (DateTime.sunday - now.weekday) % 7;
+      final nextSunday = now.add(Duration(
+        days: daysUntilSunday == 0 ? 7 : daysUntilSunday,
+      ));
+      target =
+          DateTime(nextSunday.year, nextSunday.month, nextSunday.day, 18, 0);
+    }
 
     await _schedule(
       id: _idWeeklySummary,

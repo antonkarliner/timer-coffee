@@ -358,20 +358,26 @@ class FcmService {
             });
             AppLogger.info('Existing FCM token reassigned to user: $userId');
           } else {
-            // No recent inactive token found and token doesn't exist for any user - insert new one
-            AppLogger.debug('Inserting new FCM token: $token');
+            // Upsert so that a token already owned by a different user (e.g.
+            // the previous anonymous session) is reassigned instead of
+            // triggering a duplicate-key violation that RLS may have hidden
+            // from the select check above.
+            AppLogger.debug('Upserting FCM token: $token');
             await runWithLocaleFallback((locale) {
-              return supabase.schema('service').from('user_fcm_tokens').insert({
-                'user_id': userId,
-                'token': token,
-                'device_type': platform,
-                'is_active': true,
-                'updated_at': now,
-                'created_at': now,
-                'locale': locale,
-              });
+              return supabase.schema('service').from('user_fcm_tokens').upsert(
+                {
+                  'user_id': userId,
+                  'token': token,
+                  'device_type': platform,
+                  'is_active': true,
+                  'updated_at': now,
+                  'created_at': now,
+                  'locale': locale,
+                },
+                onConflict: 'token',
+              );
             });
-            AppLogger.info('New FCM token stored for user: $userId');
+            AppLogger.info('FCM token upserted for user: $userId');
           }
         }
       }

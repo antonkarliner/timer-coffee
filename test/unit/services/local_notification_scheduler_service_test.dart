@@ -464,8 +464,7 @@ void main() {
       expect(scheduled(1301), isFalse);
     });
 
-    test('does not schedule when setting enabled but no brews this week',
-        () async {
+    test('schedules even when no brews this week (toggle is on)', () async {
       SharedPreferences.setMockInitialValues({KEY_WEEKLY_SUMMARY: true});
       await NotificationSettingsService.instance.init();
       // Brew was 8 days ago — before the start of the current ISO week
@@ -475,7 +474,8 @@ void main() {
       );
       await runScheduler();
 
-      expect(scheduled(1301), isFalse);
+      expect(scheduled(1301), isTrue);
+      expect(payloadOf(1301), equals('/stats?period=thisWeek'));
     });
 
     test('schedules with /stats?period=thisWeek payload when enabled and brewed this week',
