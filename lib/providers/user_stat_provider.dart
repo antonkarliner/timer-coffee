@@ -252,6 +252,33 @@ class UserStatProvider extends ChangeNotifier {
     return await db.userStatsDao.fetchStatByUuid(statUuid);
   }
 
+  Future<List<UserStatsModel>> fetchStatsByBeanUuid(String beansUuid) =>
+      db.userStatsDao.fetchStatsByBeanUuid(beansUuid);
+
+  /// Estimates how many brews remain in a bag based on the user's median dose.
+  ///
+  /// Prefers the median dose from this specific bean's brews (≥3 samples);
+  /// falls back to the user's median dose across all brews in the trailing
+  /// 90 days (≥3 samples). Returns null when no reliable median is available
+  /// or when [packageWeightGrams] is null/non-positive, or when the rounded
+  /// estimate would be 0.
+  Future<int?> estimateBrewsLeft({
+    required String beansUuid,
+    required double? packageWeightGrams,
+  }) async {
+    if (packageWeightGrams == null || packageWeightGrams <= 0) return null;
+    final perBean = await db.userStatsDao
+        .medianCoffeeAmountForBean(beansUuid, minBrews: 3);
+    final dose = perBean ??
+        await db.userStatsDao.medianCoffeeAmountSince(
+          DateTime.now().toUtc().subtract(const Duration(days: 90)),
+          minBrews: 3,
+        );
+    if (dose == null || dose <= 0) return null;
+    final estimate = (packageWeightGrams / dose).round();
+    return estimate > 0 ? estimate : null;
+  }
+
   // Keep this method for backward compatibility
   Future<UserStatsModel?> fetchUserStatById(int id) async {
     final allStats = await fetchAllUserStats();

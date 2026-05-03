@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/coffee_beans_model.dart';
+import '../../theme/design_tokens.dart';
 import '../../providers/coffee_beans_provider.dart';
 import '../../services/date_time_format_service.dart';
 import '../roaster_logo.dart';
@@ -68,6 +69,13 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
   /// Optional custom favorite icon size
   final double favoriteIconSize;
 
+  /// Called when the roaster name is tapped. Pass null to disable tapping.
+  final VoidCallback? onRoasterTap;
+
+  /// Estimated remaining brews based on the user's median dose. When non-null,
+  /// it is shown as a subtitle on the "Amount Left" quick-stat chip.
+  final int? brewsLeft;
+
   const CoffeeBeansHeroHeader({
     super.key,
     required this.bean,
@@ -84,6 +92,8 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
     this.logoHeight = 80.0,
     this.logoWidth = 120.0,
     this.favoriteIconSize = 28.0,
+    this.onRoasterTap,
+    this.brewsLeft,
   });
 
   @override
@@ -212,14 +222,31 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
           Semantics(
             identifier: 'roasterName_${bean.beansUuid}',
             label: 'Roaster: ${bean.roaster}',
-            child: Text(
-              bean.roaster,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: secondaryColor,
+            child: onRoasterTap != null
+                ? InkWell(
+                    onTap: onRoasterTap,
+                    borderRadius: BorderRadius.circular(AppRadius.small),
+                    child: AutoSizeText(
+                      bean.roaster,
+                      maxLines: 2,
+                      minFontSize: 11,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: secondaryColor,
+                                decoration: TextDecoration.underline,
+                              ),
+                    ),
+                  )
+                : AutoSizeText(
+                    bean.roaster,
+                    maxLines: 2,
+                    minFontSize: 11,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: secondaryColor,
+                        ),
                   ),
-            ),
           ),
           const SizedBox(height: 4),
           Semantics(
@@ -273,32 +300,39 @@ class CoffeeBeansHeroHeader extends StatelessWidget {
       label: 'Quick statistics',
       child: Padding(
         padding: const EdgeInsets.only(top: 16.0),
-        child: Wrap(
-          alignment: WrapAlignment.spaceEvenly,
-          spacing: 16.0, // Horizontal spacing between chips
-          runSpacing: 8.0, // Vertical spacing between rows
-          children: [
-            if (bean.roastDate != null)
-              QuickStatChip(
-                icon: Icons.calendar_today,
-                label: loc.roastDate,
-                value: DateFormat(datePattern).format(bean.roastDate!),
-                subtitle: _daysAgoText(bean.roastDate!, loc),
-              ),
-            if (bean.validatedPackageWeightGrams != null)
-              QuickStatChip(
-                icon: Coffeico.bag_with_bean,
-                label: loc.amountLeft,
-                value:
-                    '${bean.validatedPackageWeightGrams!.toStringAsFixed(1)}g',
-              ),
-            if (bean.cuppingScore != null)
-              QuickStatChip(
-                icon: Icons.star,
-                label: loc.cuppingScore,
-                value: '${bean.cuppingScore}',
-              ),
-          ],
+        child: IntrinsicHeight(
+          child: Wrap(
+            alignment: WrapAlignment.spaceEvenly,
+            spacing: 16.0, // Horizontal spacing between chips
+            runSpacing: 8.0, // Vertical spacing between rows
+            children: [
+              if (bean.roastDate != null)
+                QuickStatChip(
+                  icon: Icons.calendar_today,
+                  label: loc.roastDate,
+                  value: DateFormat(datePattern).format(bean.roastDate!),
+                  subtitle: _daysAgoText(bean.roastDate!, loc),
+                  expandHeight: true,
+                ),
+              if (bean.validatedPackageWeightGrams != null)
+                QuickStatChip(
+                  icon: Coffeico.bag_with_bean,
+                  label: loc.amountLeft,
+                  value:
+                      '${bean.validatedPackageWeightGrams!.toStringAsFixed(1)}g',
+                  subtitle:
+                      brewsLeft != null ? loc.approxBrewsLeft(brewsLeft!) : null,
+                  expandHeight: true,
+                ),
+              if (bean.cuppingScore != null)
+                QuickStatChip(
+                  icon: Icons.star,
+                  label: loc.cuppingScore,
+                  value: '${bean.cuppingScore}',
+                  expandHeight: true,
+                ),
+            ],
+          ),
         ),
       ),
     );

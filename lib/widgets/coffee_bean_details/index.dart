@@ -10,3 +10,4 @@ export 'quick_stat_chip.dart';
 export 'coffee_beans_hero_header.dart';
 export 'coffee_beans_info_card.dart';
 export 'quick_notes_card.dart';
+export 'bean_brews_section.dart';

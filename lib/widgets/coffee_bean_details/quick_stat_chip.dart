@@ -51,6 +51,12 @@ class QuickStatChip extends StatelessWidget {
   /// Optional secondary text shown below the value in a muted style
   final String? subtitle;
 
+  /// When true, the chip stretches vertically to fill its parent's height
+  /// and centers its content. Use this when the chip sits inside an
+  /// IntrinsicHeight (or other height-constraining) parent that aligns
+  /// sibling chips to a common height.
+  final bool expandHeight;
+
   const QuickStatChip({
     super.key,
     required this.icon,
@@ -64,6 +70,7 @@ class QuickStatChip extends StatelessWidget {
     this.borderRadius = 8.0,
     this.padding,
     this.subtitle,
+    this.expandHeight = false,
   });
 
   @override
@@ -81,7 +88,11 @@ class QuickStatChip extends StatelessWidget {
           color: backgroundColor ?? theme.colorScheme.surface.withOpacity(0.8),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize:
+              expandHeight ? MainAxisSize.max : MainAxisSize.min,
+          mainAxisAlignment: expandHeight
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.start,
           children: [
             Icon(
               icon,
