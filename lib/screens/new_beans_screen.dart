@@ -23,10 +23,10 @@ import 'package:uuid/uuid.dart';
 import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/base_buttons.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
-import '../app_router.gr.dart';
 import '../services/onboarding_service.dart';
 import '../services/bean_photo_service.dart';
 import '../services/analytics_service.dart';
+import '../services/authentication_service.dart';
 
 // Image flow controller and widgets
 import 'package:coffee_timer/controllers/new_beans_image_controller.dart';
@@ -84,11 +84,16 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   // New: image flow controller
   late final NewBeansImageController _imageController;
 
+  // Auth state listener — refreshes cover photo card when user signs in
+  StreamSubscription<AuthState>? _authStateSubscription;
+
   // Photo cover state
   File? _pendingPhotoFile; // local file awaiting upload on save
-  String? _photoUrl;       // stored URL (loaded in edit mode or set after upload)
-  List<XFile>? _lastOcrImages; // images from the last OCR scan (for cover prompt)
-  bool _isSaving = false; // true while bean save + optional photo upload is in progress
+  String? _photoUrl; // stored URL (loaded in edit mode or set after upload)
+  List<XFile>?
+  _lastOcrImages; // images from the last OCR scan (for cover prompt)
+  bool _isSaving =
+      false; // true while bean save + optional photo upload is in progress
 
   // Validation state
   bool _isFormValid = false;
@@ -223,9 +228,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   void _showFieldError(String fieldName) {
     if (_fieldErrors.containsKey(fieldName) &&
         _fieldErrors[fieldName] != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(_fieldErrors[fieldName]!)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_fieldErrors[fieldName]!)));
     }
   }
 
@@ -238,8 +243,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     }
 
     // Init image controller and multi-shot callback
-    _imageController =
-        NewBeansImageController(supabaseClient: Supabase.instance.client);
+    _imageController = NewBeansImageController(
+      supabaseClient: Supabase.instance.client,
+    );
     _imageController.setAskTakeAnotherPhotoCallback(() async {
       final res = await showDialog<bool>(
         context: context,
@@ -296,6 +302,12 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
 
     // Initial validation
     _validateForm();
+
+    // Refresh cover photo card when auth state changes (e.g. after sign-in)
+    _authStateSubscription =
+        Supabase.instance.client.auth.onAuthStateChange.listen((_) {
+      if (mounted) setState(() {});
+    });
   }
 
   @override
@@ -319,13 +331,16 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     _notesController.dispose();
     _farmerController.dispose();
     _farmController.dispose();
+    _authStateSubscription?.cancel();
 
     super.dispose();
   }
 
   Future<void> _loadBeanDetails(String uuid) async {
-    final coffeeBeansProvider =
-        Provider.of<CoffeeBeansProvider>(context, listen: false);
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
     final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(uuid);
 
     if (bean != null) {
@@ -376,8 +391,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
 
   /// Saves the coffee beans data
   Future<void> _saveCoffeeBeans() async {
-    final coffeeBeansProvider =
-        Provider.of<CoffeeBeansProvider>(context, listen: false);
+    final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+      context,
+      listen: false,
+    );
 
     try {
       // Generate (or reuse) the bean UUID once — used for both photo path and bean record
@@ -387,8 +404,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       String? resolvedPhotoUrl = _photoUrl;
       if (_pendingPhotoFile != null) {
         final photoService = BeanPhotoService(Supabase.instance.client);
-        final uploaded =
-            await photoService.uploadPhoto(_pendingPhotoFile!, beansUuid);
+        final uploaded = await photoService.uploadPhoto(
+          _pendingPhotoFile!,
+          beansUuid,
+        );
         if (uploaded != null) {
           resolvedPhotoUrl = uploaded;
         }
@@ -401,8 +420,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         name: _nameController.text.trim(),
         origin: _originController.text.trim(),
         variety: variety,
-        tastingNotes:
-            _tastingNotes.isNotEmpty ? _tastingNotes.join(', ') : null,
+        tastingNotes: _tastingNotes.isNotEmpty
+            ? _tastingNotes.join(', ')
+            : null,
         processingMethod: processingMethod,
         elevation: _elevationController.text.isNotEmpty
             ? int.tryParse(_elevationController.text)
@@ -426,9 +446,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         packageWeightGrams: packageWeightGrams,
         isFavorite: false,
         versionVector: isEditMode
-            ? (await coffeeBeansProvider.fetchCoffeeBeansByUuid(widget.uuid!))
-                    ?.versionVector ??
-                VersionVector.initial(coffeeBeansProvider.deviceId).toString()
+            ? (await coffeeBeansProvider.fetchCoffeeBeansByUuid(
+                    widget.uuid!,
+                  ))?.versionVector ??
+                  VersionVector.initial(coffeeBeansProvider.deviceId).toString()
             : VersionVector.initial(coffeeBeansProvider.deviceId).toString(),
         photoUrl: resolvedPhotoUrl,
       );
@@ -463,14 +484,19 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       } else {
         resultUuid = await coffeeBeansProvider.addCoffeeBeans(bean);
         await _insertBeansDataToSupabase(bean);
-        AnalyticsService.instance.track('beans_added', properties: {
-          'has_roaster': _roasterController.text.trim().isNotEmpty,
-          'has_origin': _originController.text.trim().isNotEmpty,
-          'used_ocr': _lastOcrImages != null,
-        });
+        AnalyticsService.instance.track(
+          'beans_added',
+          properties: {
+            'has_roaster': _roasterController.text.trim().isNotEmpty,
+            'has_origin': _originController.text.trim().isNotEmpty,
+            'used_ocr': _lastOcrImages != null,
+          },
+        );
         if (mounted) {
-          Provider.of<OnboardingService>(context, listen: false)
-              .completeMilestoneAddBeans();
+          Provider.of<OnboardingService>(
+            context,
+            listen: false,
+          ).completeMilestoneAddBeans();
         }
       }
 
@@ -586,9 +612,8 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       onChooseSource: () async {
         return await showModalBottomSheet<ImageSource>(
           context: context,
-          builder: (_) => ImagePickerSheet(
-            onPick: (src) => Navigator.pop(context, src),
-          ),
+          builder: (_) =>
+              ImagePickerSheet(onPick: (src) => Navigator.pop(context, src)),
         );
       },
       onShowPreview: (images, onConfirm, onBackToSelection) async {
@@ -636,23 +661,19 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                   children: images.map((xfile) {
                     final isSelected = dialogSelected?.path == xfile.path;
                     return GestureDetector(
-                      onTap: () =>
-                          setDialogState(() => dialogSelected = xfile),
+                      onTap: () => setDialogState(() => dialogSelected = xfile),
                       child: Container(
                         decoration: BoxDecoration(
                           border: isSelected
                               ? Border.all(
-                                  color:
-                                      Theme.of(ctx).colorScheme.primary,
+                                  color: Theme.of(ctx).colorScheme.primary,
                                   width: AppStroke.focus,
                                 )
                               : null,
-                          borderRadius:
-                              BorderRadius.circular(AppRadius.small),
+                          borderRadius: BorderRadius.circular(AppRadius.small),
                         ),
                         child: ClipRRect(
-                          borderRadius:
-                              BorderRadius.circular(AppRadius.small),
+                          borderRadius: BorderRadius.circular(AppRadius.small),
                           child: Image.file(
                             File(xfile.path),
                             width: 80,
@@ -673,7 +694,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                 isFullWidth: false,
                 height: AppButton.heightMedium,
                 padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.base, vertical: AppSpacing.sm),
+                  horizontal: AppSpacing.base,
+                  vertical: AppSpacing.sm,
+                ),
               ),
               AppElevatedButton(
                 label: loc.done,
@@ -683,7 +706,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                 isFullWidth: false,
                 height: AppButton.heightMedium,
                 padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.base, vertical: AppSpacing.sm),
+                  horizontal: AppSpacing.base,
+                  vertical: AppSpacing.sm,
+                ),
               ),
             ],
           ),
@@ -766,7 +791,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                   await _startImageFlow();
                 },
                 height: 56,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 elevation: 0,
               ),
             ),
@@ -836,10 +864,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         _tastingNotes = (tn == null || tn.trim().isEmpty)
             ? []
             : tn
-                .split(',')
-                .map((e) => e.trim())
-                .where((e) => e.isNotEmpty && e != 'Unknown')
-                .toList();
+                  .split(',')
+                  .map((e) => e.trim())
+                  .where((e) => e.isNotEmpty && e != 'Unknown')
+                  .toList();
 
         variety = _nullableStr(d['variety']);
         processingMethod = _nullableStr(d['processingMethod']);
@@ -880,8 +908,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         AppLogger.error('Supabase request timed out', errorObject: e);
         // Optionally, handle the timeout, e.g., by retrying or queuing the request
       } catch (e) {
-        AppLogger.error('Error inserting beans data to Supabase',
-            errorObject: e);
+        AppLogger.error(
+          'Error inserting beans data to Supabase',
+          errorObject: e,
+        );
         // Handle other exceptions as needed
       }
     }
@@ -978,31 +1008,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
               ],
             ),
           ),
-          actions: [
-            if (!kIsWeb) // Hide camera button on web
-              Semantics(
-                identifier: 'showImagePickerButton',
-                label: loc.showImagePicker,
-                child: GestureDetector(
-                  onTap: _showImagePickerOptions, // Make badge also clickable
-                  child: Badge(
-                    backgroundColor: Colors.transparent,
-                    alignment: Alignment.topLeft,
-                    offset:
-                        const Offset(0.5, 5.5), // Adjust the offset as needed
-                    label: Icon(
-                      Icons.auto_awesome,
-                      size: 16, // Adjust the size as needed
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.camera_alt),
-                      onPressed: _showImagePickerOptions,
-                    ),
-                  ),
-                ),
-              ),
-          ],
+          actions: const [],
         ),
         body: Stack(
           children: [
@@ -1016,8 +1022,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                 final renderObject = currentFocus.context?.findRenderObject();
                 if (renderObject is RenderBox) {
                   final tapPos = details.globalPosition;
-                  final boxRect = renderObject.paintBounds
-                      .shift(renderObject.localToGlobal(Offset.zero));
+                  final boxRect = renderObject.paintBounds.shift(
+                    renderObject.localToGlobal(Offset.zero),
+                  );
                   final tappedInsideFocused = boxRect.contains(tapPos);
                   if (!tappedInsideFocused) {
                     currentFocus.unfocus();
@@ -1040,9 +1047,17 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                     padding: EdgeInsets.all(isWideScreen ? 24.0 : 16.0),
                     child: isWideScreen
                         ? _buildWideLayout(
-                            coffeeBeansProvider, locale, loc, cardSpacing)
+                            coffeeBeansProvider,
+                            locale,
+                            loc,
+                            cardSpacing,
+                          )
                         : _buildNarrowLayout(
-                            coffeeBeansProvider, locale, loc, cardSpacing),
+                            coffeeBeansProvider,
+                            locale,
+                            loc,
+                            cardSpacing,
+                          ),
                   );
                 },
               ),
@@ -1092,21 +1107,57 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     );
   }
 
+  Widget _buildAiScanButton(AppLocalizations loc) {
+    return Semantics(
+      identifier: 'showImagePickerButton',
+      label: loc.showImagePicker,
+      child: AppElevatedButton(
+        label: loc.aiScanLabel,
+        onPressed: _showImagePickerOptions,
+        iconWidget: SizedBox(
+          width: 30,
+          height: 22,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Icon(
+                  Icons.camera_alt,
+                  size: 22,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+              ),
+              Positioned(
+                top: -4,
+                left: 2,
+                child: Icon(
+                  Icons.auto_awesome,
+                  size: 12,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildCoverPhotoCard(AppLocalizations loc) {
     final user = Supabase.instance.client.auth.currentUser;
     final isSignedIn = user != null && !user.isAnonymous;
     final hasPhoto = _pendingPhotoFile != null || _photoUrl != null;
     return Card(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.card)),
+        borderRadius: BorderRadius.circular(AppRadius.card),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.base),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(loc.beanCoverPhoto,
-                style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: AppSpacing.sm),
             if (hasPhoto)
               Stack(
                 children: [
@@ -1160,21 +1211,22 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: Theme.of(context).colorScheme.outlineVariant),
+                      color: Theme.of(context).colorScheme.outlineVariant,
+                    ),
                     borderRadius: BorderRadius.circular(AppRadius.card),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add_photo_alternate_outlined,
-                          color:
-                              Theme.of(context).colorScheme.onSurfaceVariant),
+                      Icon(
+                        Icons.add_photo_alternate_outlined,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                       const SizedBox(width: AppSpacing.sm),
                       Text(
                         loc.beanCoverPhotoAdd,
                         style: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.onSurfaceVariant,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ],
@@ -1183,27 +1235,28 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
               )
             else
               GestureDetector(
-                onTap: () => context.router.push(const HubHomeRoute()),
+                onTap: () => AuthenticationService.promptSignIn(context),
                 child: Container(
                   height: 80,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: Theme.of(context).colorScheme.outlineVariant),
+                      color: Theme.of(context).colorScheme.outlineVariant,
+                    ),
                     borderRadius: BorderRadius.circular(AppRadius.card),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.lock_outline,
-                          color:
-                              Theme.of(context).colorScheme.onSurfaceVariant),
+                      Icon(
+                        Icons.lock_outline,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                       const SizedBox(width: AppSpacing.sm),
                       Text(
                         loc.beanCoverPhotoSignInPrompt,
                         style: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.onSurfaceVariant,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ],
@@ -1216,15 +1269,18 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     );
   }
 
-  Widget _photoActionChip(
-      {required IconData icon,
-      required String label,
-      required VoidCallback onTap}) {
+  Widget _photoActionChip({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+          horizontal: AppSpacing.sm,
+          vertical: AppSpacing.xs,
+        ),
         decoration: BoxDecoration(
           color: Colors.black54,
           borderRadius: BorderRadius.circular(AppRadius.chip),
@@ -1234,9 +1290,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           children: [
             Icon(icon, size: AppIconSize.small, color: Colors.white),
             const SizedBox(width: 4),
-            Text(label,
-                style: const TextStyle(
-                    color: Colors.white, fontSize: 12)),
+            Text(
+              label,
+              style: const TextStyle(color: Colors.white, fontSize: 12),
+            ),
           ],
         ),
       ),
@@ -1244,11 +1301,16 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   }
 
   // Build layout for narrow screens (single column)
-  Widget _buildNarrowLayout(CoffeeBeansProvider coffeeBeansProvider,
-      String locale, AppLocalizations loc, double spacing) {
+  Widget _buildNarrowLayout(
+    CoffeeBeansProvider coffeeBeansProvider,
+    String locale,
+    AppLocalizations loc,
+    double spacing,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (!kIsWeb) ...[_buildAiScanButton(loc), SizedBox(height: spacing)],
         // Required Fields Card
         RequiredInfoCard(
           roaster: _roasterController.text,
@@ -1318,12 +1380,13 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
             regionOptions: coffeeBeansProvider.fetchAllDistinctRegions(),
             farmerOptions: coffeeBeansProvider.fetchAllDistinctFarmers(),
             farmOptions: coffeeBeansProvider.fetchAllDistinctFarms(),
-            processingMethodOptions:
-                coffeeBeansProvider.fetchCombinedProcessingMethods(locale),
-            roastLevelOptions:
-                coffeeBeansProvider.fetchAllDistinctRoastLevels(),
-            tastingNotesOptions:
-                coffeeBeansProvider.fetchCombinedTastingNotes(locale),
+            processingMethodOptions: coffeeBeansProvider
+                .fetchCombinedProcessingMethods(locale),
+            roastLevelOptions: coffeeBeansProvider
+                .fetchAllDistinctRoastLevels(),
+            tastingNotesOptions: coffeeBeansProvider.fetchCombinedTastingNotes(
+              locale,
+            ),
             // callbacks
             onVarietyChanged: (v) {
               variety = v;
@@ -1373,23 +1436,27 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
             onElevationChanged: (val) {
               final newText = val != null ? val.toString() : '';
               if (_elevationController.text != newText) {
-                _elevationController.value =
-                    _elevationController.value.copyWith(
-                  text: newText,
-                  selection: TextSelection.collapsed(offset: newText.length),
-                  composing: TextRange.empty,
-                );
+                _elevationController.value = _elevationController.value
+                    .copyWith(
+                      text: newText,
+                      selection: TextSelection.collapsed(
+                        offset: newText.length,
+                      ),
+                      composing: TextRange.empty,
+                    );
               }
             },
             onCuppingScoreChanged: (val) {
               final newText = val != null ? val.toString() : '';
               if (_cuppingScoreController.text != newText) {
-                _cuppingScoreController.value =
-                    _cuppingScoreController.value.copyWith(
-                  text: newText,
-                  selection: TextSelection.collapsed(offset: newText.length),
-                  composing: TextRange.empty,
-                );
+                _cuppingScoreController.value = _cuppingScoreController.value
+                    .copyWith(
+                      text: newText,
+                      selection: TextSelection.collapsed(
+                        offset: newText.length,
+                      ),
+                      composing: TextRange.empty,
+                    );
               }
             },
             packageWeightGrams: packageWeightGrams,
@@ -1439,11 +1506,16 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   }
 
   // Build layout for wide screens (two columns where appropriate)
-  Widget _buildWideLayout(CoffeeBeansProvider coffeeBeansProvider,
-      String locale, AppLocalizations loc, double spacing) {
+  Widget _buildWideLayout(
+    CoffeeBeansProvider coffeeBeansProvider,
+    String locale,
+    AppLocalizations loc,
+    double spacing,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (!kIsWeb) ...[_buildAiScanButton(loc), SizedBox(height: spacing)],
         // Required Fields Card - always full width
         RequiredInfoCard(
           roaster: _roasterController.text,
@@ -1517,19 +1589,19 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                           ? double.tryParse(_cuppingScoreController.text)
                           : null,
                       // options (as Futures)
-                      varietyOptions:
-                          coffeeBeansProvider.fetchAllDistinctVarieties(),
-                      regionOptions:
-                          coffeeBeansProvider.fetchAllDistinctRegions(),
-                      farmerOptions:
-                          coffeeBeansProvider.fetchAllDistinctFarmers(),
+                      varietyOptions: coffeeBeansProvider
+                          .fetchAllDistinctVarieties(),
+                      regionOptions: coffeeBeansProvider
+                          .fetchAllDistinctRegions(),
+                      farmerOptions: coffeeBeansProvider
+                          .fetchAllDistinctFarmers(),
                       farmOptions: coffeeBeansProvider.fetchAllDistinctFarms(),
                       processingMethodOptions: coffeeBeansProvider
                           .fetchCombinedProcessingMethods(locale),
-                      roastLevelOptions:
-                          coffeeBeansProvider.fetchAllDistinctRoastLevels(),
-                      tastingNotesOptions:
-                          coffeeBeansProvider.fetchCombinedTastingNotes(locale),
+                      roastLevelOptions: coffeeBeansProvider
+                          .fetchAllDistinctRoastLevels(),
+                      tastingNotesOptions: coffeeBeansProvider
+                          .fetchCombinedTastingNotes(locale),
                       // callbacks
                       onVarietyChanged: (v) {
                         variety = v;
@@ -1544,25 +1616,27 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                       onFarmerChanged: (v) {
                         final newText = v ?? '';
                         if (_farmerController.text != newText) {
-                          _farmerController.value =
-                              _farmerController.value.copyWith(
-                            text: newText,
-                            selection:
-                                TextSelection.collapsed(offset: newText.length),
-                            composing: TextRange.empty,
-                          );
+                          _farmerController.value = _farmerController.value
+                              .copyWith(
+                                text: newText,
+                                selection: TextSelection.collapsed(
+                                  offset: newText.length,
+                                ),
+                                composing: TextRange.empty,
+                              );
                         }
                       },
                       onFarmChanged: (v) {
                         final newText = v ?? '';
                         if (_farmController.text != newText) {
-                          _farmController.value =
-                              _farmController.value.copyWith(
-                            text: newText,
-                            selection:
-                                TextSelection.collapsed(offset: newText.length),
-                            composing: TextRange.empty,
-                          );
+                          _farmController.value = _farmController.value
+                              .copyWith(
+                                text: newText,
+                                selection: TextSelection.collapsed(
+                                  offset: newText.length,
+                                ),
+                                composing: TextRange.empty,
+                              );
                         }
                       },
                       onProcessingMethodChanged: (v) {
@@ -1583,13 +1657,15 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                       onElevationChanged: (val) {
                         final newText = val != null ? val.toString() : '';
                         if (_elevationController.text != newText) {
-                          _elevationController.value =
-                              _elevationController.value.copyWith(
-                            text: newText,
-                            selection:
-                                TextSelection.collapsed(offset: newText.length),
-                            composing: TextRange.empty,
-                          );
+                          _elevationController.value = _elevationController
+                              .value
+                              .copyWith(
+                                text: newText,
+                                selection: TextSelection.collapsed(
+                                  offset: newText.length,
+                                ),
+                                composing: TextRange.empty,
+                              );
                         }
                       },
                       onCuppingScoreChanged: (val) {
@@ -1597,11 +1673,12 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                         if (_cuppingScoreController.text != newText) {
                           _cuppingScoreController.value =
                               _cuppingScoreController.value.copyWith(
-                            text: newText,
-                            selection:
-                                TextSelection.collapsed(offset: newText.length),
-                            composing: TextRange.empty,
-                          );
+                                text: newText,
+                                selection: TextSelection.collapsed(
+                                  offset: newText.length,
+                                ),
+                                composing: TextRange.empty,
+                              );
                         }
                       },
                       packageWeightGrams: packageWeightGrams,
@@ -1641,12 +1718,14 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                     notes: _notesController.text,
                     onNotesChanged: (v) {
                       if (_notesController.text != v) {
-                        _notesController.value =
-                            _notesController.value.copyWith(
-                          text: v,
-                          selection: TextSelection.collapsed(offset: v.length),
-                          composing: TextRange.empty,
-                        );
+                        _notesController.value = _notesController.value
+                            .copyWith(
+                              text: v,
+                              selection: TextSelection.collapsed(
+                                offset: v.length,
+                              ),
+                              composing: TextRange.empty,
+                            );
                       }
                     },
                   ),
