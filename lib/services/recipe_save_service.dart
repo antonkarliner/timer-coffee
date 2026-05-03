@@ -11,7 +11,9 @@ import '../providers/recipe_provider.dart';
 import '../providers/database_provider.dart';
 import '../database/database.dart';
 import '../app_router.gr.dart';
+import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart';
+import '../widgets/base_buttons.dart';
 
 class RecipeSaveService {
   static Future<void> save(
@@ -146,15 +148,34 @@ class RecipeSaveService {
 
     if (requiresModeration && !moderationPassed && !supabaseCheckFailed) {
       if (context.mounted) {
+        final outerContext = context;
         await showDialog(
           context: context,
-          builder: (context) => AlertDialog(
+          builder: (dialogContext) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadius.card),
+            ),
             title: Text(l10n.saveLocallyModerationFailedTitle),
             content: Text(
                 l10n.saveLocallyModerationFailedBody(moderationFailureReason)),
             actions: [
-              TextButton(
-                  onPressed: () => Navigator.pop(context), child: Text(l10n.ok))
+              AppTextButton(
+                label: l10n.moderationRulesLearnMore,
+                onPressed: () {
+                  Navigator.pop(dialogContext);
+                  outerContext.router.push(InfoRoute(section: 'moderation'));
+                },
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
+              ),
+              AppTextButton(
+                label: l10n.ok,
+                onPressed: () => Navigator.pop(dialogContext),
+                isFullWidth: false,
+                height: AppButton.heightSmall,
+                padding: AppButton.paddingSmall,
+              ),
             ],
           ),
         );
