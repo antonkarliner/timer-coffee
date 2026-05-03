@@ -234,9 +234,41 @@ class _AccountScreenState extends State<AccountScreen> {
 
       final moderationResult = moderationResponse.data as Map<String, dynamic>;
       if (moderationResult['safe'] != true) {
-        final reason = moderationResult['reason'] ??
-            l10n.moderationReasonDefault; // Use localization
-        throw Exception(l10n.moderationFailedBody(reason)); // Use localization
+        final reason = moderationResult['reason'] as String? ??
+            l10n.moderationReasonDefault;
+        setState(() => _isLoading = false);
+        if (mounted) {
+          await showDialog<void>(
+            context: context,
+            builder: (dialogContext) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppRadius.card),
+              ),
+              title: Text(l10n.moderationDisplayNameFailedTitle),
+              content: Text(l10n.moderationDisplayNameFailedBody(reason)),
+              actions: [
+                AppTextButton(
+                  label: l10n.moderationRulesLearnMore,
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                    context.router.push(InfoRoute(section: 'moderation'));
+                  },
+                  isFullWidth: false,
+                  height: AppButton.heightMedium,
+                  padding: AppButton.paddingMedium,
+                ),
+                AppElevatedButton(
+                  label: l10n.ok,
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  isFullWidth: false,
+                  height: AppButton.heightMedium,
+                  padding: AppButton.paddingMedium,
+                ),
+              ],
+            ),
+          );
+        }
+        return;
       }
       AppLogger.debug("Moderation passed for display name.");
 
