@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee
 
-Last Updated: 24.03.2026
+Last Updated: 30.04.2026
 
 1. INTRODUCTION
 
@@ -36,6 +36,7 @@ This is the core data of the product. We store it so the app can remember your b
 - Recipes, recipe localizations, and recipe steps, such as amounts, temperatures, brew times, descriptions, visibility state, and moderation flags, so custom recipes can be saved and synced.
 - Bean records, such as roaster, bean name, origin, variety, tasting notes, processing method, elevation, harvest date, roast date, region, roast level, cupping score, notes, farmer, farm, package weight, favorite state, cover photo URL, and sync metadata, so you can track and reuse your bean information.
 - Recipe preferences, such as favorites, last-used timestamps, slider positions, custom amounts, and custom grind size, so the app can remember how you like to brew.
+- Recipe import events, recording your anonymized user identifier, the source recipe identifier, and a timestamp when you import a recipe shared by another user, so creators can see how many people have imported their public recipes.
 
 d. Notifications and Live Activities
 
