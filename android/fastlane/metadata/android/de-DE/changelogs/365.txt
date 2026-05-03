@@ -1,0 +1,17 @@
+Neu:
+
+Seiten für Röstereien mit Infos, Links & Rezensionen.
+Bewerte gebrühte Bohnen: Sterne, Geschmacksnoten & Kommentare. Rezensionen erscheinen auf Rösterei-Seiten.
+Alle Brühvorgänge pro Bohnenbeutel sehen.
+Brühtagebuch-Einträge markieren.
+
+Verbessert:
+
+Natürlicherer Rezeptimport.
+Onboarding wird beim Import übersprungen.
+Besserer Bohnen-Detailbildschirm.
+Diverse UI-Verbesserungen.
+
+Fehlerbehebung:
+
+Wochenzusammenfassungs-Benachrichtigungen behoben.

@@ -1,12 +1,15 @@
 Nieuw:
-• Stel notificaties in om je te herinneren aan je ochtendkoffie, het hoogtepunt van de bonenversheid en wekelijkse brouwoverzichten.
-• Selecteer je gewenste Datum- en tijdnotatie in Instellingen.
-• Voeg snel Notities toe aan koffiebonenrecords vanaf de Details-pagina.
-• De pagina Koffiebonendetails toont nu het aantal dagen sinds de Branddatum (indien toegevoegd).
+• Branderijpagina's! Elke branderij heeft nu een pagina met informatie, links en reviews.
+• Review koffiebonen die je hebt gezet. Beoordeel, voeg smaaknotities en opmerkingen toe. Reviews verschijnen op branderijprofielpagina's.
+• Bekijk alle zetsessies die zijn gemaakt met een specifieke zak bonen.
+• Markeer items die zijn toegevoegd aan het Brouwdagboek.
+
 
 Verbeterd:
-• Lokalisatieverbeteringen in veel talen.
+• Het Recept importeren-proces is natuurlijker.
+• Onboarding wordt overgeslagen bij het importeren van een recept.
+• Het scherm Koffiebonendetails is informatiever.
+• Verschillende UI-verbeteringen.
 
 Bugfix:
-• Een paar gevallen van niet-gelokaliseerde/hard-coded strings opgelost.
-• Kleine UI- en UX-fixes.
+• Een bug met wekelijkse samenvatting-notificaties opgelost.

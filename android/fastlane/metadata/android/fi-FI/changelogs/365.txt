@@ -1,0 +1,17 @@
+Uutta:
+
+Paahtimojen sivut: tiedot, linkit ja arvostelut.
+Arvostele uuttamasi pavut: tähdet, makumuistiinpanot ja kommentit. Arvostelut näkyvät paahtimon sivuilla.
+Näe kaikki saman pussin uutot.
+Merkitse Uuttopäiväkirjan merkintöjä.
+
+Parannettu:
+
+Luontevampi reseptin tuonti.
+Käyttöönotto ohitetaan tuonnissa.
+Parempi papujen tietonäkymä.
+Erilaisia käyttöliittymäparannuksia.
+
+Korjattu:
+
+Viikkoyhteenvedon ilmoitukset korjattu.

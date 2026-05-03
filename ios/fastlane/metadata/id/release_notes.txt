@@ -1,12 +1,15 @@
 Baru:
-• Atur notifikasi untuk mengingatkan Anda tentang seduhan kopi pagi, puncak kesegaran biji, dan rekap seduhan mingguan.
-• Pilih Format tanggal & waktu yang diinginkan di Pengaturan.
-• Tambahkan Catatan dengan cepat ke catatan biji kopi dari halaman Detail.
-• Halaman Detail kopi kini menampilkan jumlah hari sejak Tanggal sangrai (jika ditambahkan).
+• Halaman roaster! Setiap roaster kini memiliki halaman dengan informasi, tautan, dan ulasan.
+• Ulas kopi yang Anda seduh. Beri rating, tambahkan catatan profil rasa dan komentar. Ulasan akan muncul di halaman Profil roaster.
+• Lihat semua seduhan yang dibuat dengan satu kantong biji tertentu.
+• Tandai entri yang ditambahkan ke Diari seduhan.
+
 
 Ditingkatkan:
-• Peningkatan lokalisasi di banyak bahasa.
+• Alur impor resep lebih alami.
+• Onboarding dilewati saat mengimpor resep.
+• Layar Detail kopi lebih informatif.
+• Berbagai peningkatan UI.
 
 Perbaikan bug:
-• Memperbaiki beberapa kasus string yang tidak dilokalkan/di-hard-code.
-• Perbaikan kecil pada UI dan UX.
+• Memperbaiki bug pada notifikasi Ringkasan mingguan.

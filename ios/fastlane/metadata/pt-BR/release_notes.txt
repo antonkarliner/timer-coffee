@@ -1,12 +1,15 @@
 Novo:
-• Configure notificações para lembrá-lo sobre o preparo do café matinal, o pico de frescor dos grãos e resumos semanais de preparo.
-• Selecione o Formato de data e hora preferido em Configurações.
-• Adicione rapidamente Notas aos registros de grãos de café na página Detalhes.
-• A página Detalhes dos Grãos de Café agora mostra os dias desde a Data de Torrefação (se adicionada).
+• Páginas de Torrefação! Agora, cada torrefação tem uma página com informações, links e avaliações.
+• Avalie os grãos de café que você preparou. Dê uma nota, adicione notas de sabor e comentários. As avaliações aparecem nas páginas de Perfil da torrefação.
+• Veja todos os preparos feitos com um saco específico de grãos.
+• Marque entradas adicionadas ao Diário de Preparo.
 
-Melhorado:
-• Melhorias de localização em vários idiomas.
+
+Melhorias:
+• O fluxo de Importar Receita está mais natural.
+• O onboarding é pulado ao importar uma receita.
+• A tela de Detalhes dos Grãos de Café está mais informativa.
+• Diferentes melhorias na interface.
 
 Correção de bugs:
-• Corrigidas algumas ocorrências de strings não localizadas/codificadas diretamente.
-• Pequenas correções de UI e UX.
+• Corrigido um bug nas notificações do Resumo semanal.

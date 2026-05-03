@@ -1,12 +1,15 @@
-Ny:
-• Sett opp varsler som minner deg på morgenbrygg, når bønnene er på toppen av ferskheten og ukentlige bryggeoppsummeringer.
-• Velg foretrukket dato- og klokkeslettformat i Innstillinger.
-• Legg raskt til Notater i kaffebønneregistre fra Detaljer-siden.
-• Kaffebønnedetaljer-siden viser nå antall dager siden brenningsdato (hvis lagt til).
+Nytt:
+• Brennerisider! Hvert brenneri har nå en side med informasjon, lenker og anmeldelser.
+• Anmeld kaffebønner du har brygget med. Gi vurdering, legg til smaksnotater og kommentarer. Anmeldelser vises på Brenneriprofil-sider.
+• Se alle brygg laget med en spesifikk pose bønner.
+• Merk oppføringer lagt til i Bryggdagbok.
+
 
 Forbedret:
-• Lokaliseringsforbedringer på tvers av mange språk.
+• Flyten for å importere oppskrift er mer naturlig.
+• Onboarding hoppes over ved import av oppskrift.
+• Kaffebønnedetaljer-skjermen er mer informativ.
+• Ulike UI-forbedringer.
 
 Feilretting:
-• Rettet noen tilfeller av ikke-lokaliserte/hardkodede strenger.
-• Små UI- og UX-rettelser.
+• Rettet en feil med varsler for ukentlig oppsummering.

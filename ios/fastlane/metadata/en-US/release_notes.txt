@@ -1,12 +1,15 @@
 New:
-• Set up notifications to remind you about morning coffee brew, bean freshness peak and weekly brewing recaps.
-• Select preffered date and time format in settings.
-• Quickly add notes to coffee bean records from details page.
-• Coffee bean details page now shows days since roast date (if added).
+• Roaster pages! Every roaster now has a page with information, links and reviews.
+• Review coffee beans you brewed with. Rate, add taste notes and commentaries. Reviews appear on roaster profile pages.
+• See all brews made with specific bag of beans.
+• Mark entries added to Brew Diary.
+
 
 Improved:
-• Localization improvements across many languages.
+• Recipe import flow is more natural.
+• Onboarding is skipped when importing recipe.
+• Coffee beans detail screen is more informative.
+• Different UI imporvements.
 
 Bugfix:
-• Fixed a few instances of non-localized/hard-coded strings.
-• Small UI and UX fixes.
+• Fixed a bug with weekly summary notifications.

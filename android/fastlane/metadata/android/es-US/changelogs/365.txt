@@ -1,0 +1,17 @@
+Nuevo:
+
+Páginas de tostadurías con info, enlaces y reseñas.
+Califica los granos que preparaste: estrellas, notas de sabor y comentarios. Las reseñas aparecen en páginas de tostadurías.
+Ver todas las preparaciones por bolsa de granos.
+Marcar entradas del Diario de preparaciones.
+
+Mejoras:
+
+Importación de recetas más natural.
+La introducción se omite al importar.
+Mejor pantalla de detalle de granos.
+Varias mejoras de interfaz.
+
+Corrección:
+
+Arregladas las notificaciones del resumen semanal.

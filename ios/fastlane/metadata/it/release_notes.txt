@@ -1,12 +1,15 @@
-Nuovo:
-• Imposta le notifiche per ricordarti il caffè del mattino, il picco di freschezza dei chicchi e i riepiloghi settimanali delle preparazioni.
-• Seleziona il formato data e ora preferito nelle Impostazioni.
-• Aggiungi rapidamente Note ai record dei chicchi di caffè dalla pagina Dettagli.
-• La pagina Dettagli sui chicchi di caffè ora mostra i giorni trascorsi dalla Data di tostatura (se aggiunta).
+Novità:
+• Pagine della Torrefazione! Ogni torrefazione ora ha una pagina con informazioni, link e recensioni.
+• Recensisci i chicchi di caffè con cui hai preparato. Valuta, aggiungi note di degustazione e commenti. Le recensioni compaiono nelle pagine del Profilo della torrefazione.
+• Vedi tutte le preparazioni effettuate con uno specifico sacchetto di chicchi.
+• Contrassegna le voci aggiunte al Diario del caffè.
+
 
 Miglioramenti:
-• Miglioramenti alla localizzazione in molte lingue.
+• Il flusso di Importa ricetta è più naturale.
+• L’onboarding viene saltato durante l’importazione della ricetta.
+• La schermata Dettagli sui chicchi di caffè è più informativa.
+• Varie migliorie dell’interfaccia utente.
 
-Correzione bug:
-• Corretti alcuni casi di stringhe non localizzate/codificate direttamente.
-• Piccole correzioni a UI e UX.
+Correzioni:
+• Risolto un bug con le notifiche del Riepilogo settimanale.

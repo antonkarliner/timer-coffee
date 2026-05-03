@@ -1,0 +1,17 @@
+Nytt:
+
+Brennerisider med info, lenker og anmeldelser.
+Vurder bønner du har brygget: stjerner, smaksnotater og kommentarer. Anmeldelser vises på brennerisider.
+Se alle brygg for hver bønnepose.
+Marker oppføringer i Bryggdagbok.
+
+Forbedret:
+
+Mer naturlig oppskriftsimport.
+Onboarding hopper over ved import.
+Bedre detaljvisning for bønner.
+Diverse UI-forbedringer.
+
+Feilretting:
+
+Fikset varsler for ukentlig oppsummering.

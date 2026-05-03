@@ -1,12 +1,15 @@
 Nuevo:
-• Configura notificaciones para recordarte el café de la mañana, el pico de frescura de los granos y los resúmenes semanales de preparaciones.
-• Selecciona el Formato de fecha y hora preferido en Configuración.
-• Añade rápidamente Notas a los registros de granos de café desde la página de Detalles.
-• La página de Detalles de los granos ahora muestra los días desde la Fecha de tueste (si se ha añadido).
+• ¡Páginas de tostadurías! Ahora cada tostaduría tiene una página con información, enlaces y reseñas.
+• Reseña los granos de café con los que has preparado. Valora, añade notas de sabor y comentarios. Las reseñas aparecen en las páginas de Perfil de la tostaduría.
+• Ver todas las preparaciones hechas con una bolsa específica de granos.
+• Marcar entradas añadidas al Diario de preparaciones.
+
 
 Mejorado:
-• Mejoras de localización en muchos idiomas.
+• El flujo de Importar receta es más natural.
+• Se omite el onboarding al importar receta.
+• La pantalla de Detalles de los granos es más informativa.
+• Diferentes mejoras de la IU.
 
 Corrección de errores:
-• Se corrigieron algunos casos de cadenas no localizadas/codificadas de forma fija.
-• Pequeñas correcciones de interfaz de usuario y experiencia de usuario.
+• Se corrigió un error con las notificaciones del Resumen semanal.

@@ -1,0 +1,17 @@
+Nouveau :
+
+Pages torréfacteur avec infos, liens et avis.
+Notez les grains préparés : étoiles, notes de goût et commentaires. Les avis s’affichent sur les pages torréfacteur.
+Voir toutes les préparations par sachet de grains.
+Marquer les entrées du Journal de préparation.
+
+Amélioré :
+
+Import de recette plus naturel.
+L’onboarding est passé lors de l’import.
+Meilleur écran de détail des grains.
+Diverses améliorations de l’interface.
+
+Correctif :
+
+Correction des notifications du résumé hebdomadaire.

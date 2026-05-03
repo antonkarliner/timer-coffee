@@ -1,12 +1,15 @@
 Yeni:
-• Sabah kahvesi demlemeni, çekirdek tazeliği zirvesini ve haftalık demleme özetlerini hatırlatmak için bildirimleri ayarla.
-• Ayarlar'da tercih edilen tarih ve saat biçimini seç.
-• Ayrıntılar sayfasından kahve çekirdeği kayıtlarına hızlıca Notlar ekle.
-• Kahve Çekirdeği Detayları sayfası artık kavurma tarihinden bu yana geçen günleri (eklendiyse) gösteriyor.
+• Kahve kavurucusu sayfaları! Artık her kahve kavurucusunun bilgi, bağlantılar ve yorumlar içeren bir sayfası var.
+• Demlediğiniz kahve çekirdeklerine yorum yapın. Puan verin, tat notları ve yorumlar ekleyin. Yorumlar kavurucu profili sayfalarında görünür.
+• Belirli bir çekirdek paketinden yapılan tüm demlemeleri görün.
+• Demleme Günlüğü'ne eklenen kayıtları işaretleyin.
+
 
 İyileştirildi:
-• Birçok dilde yerelleştirme iyileştirmeleri.
+• Tarifi İçe Aktar akışı daha doğal.
+• Tarif içe aktarırken onboarding atlanır.
+• Kahve Çekirdeği Detayları ekranı daha bilgilendirici.
+• Farklı UI iyileştirmeleri.
 
 Hata düzeltmesi:
-• Yerelleştirilmemiş/sabit kodlanmış dizelerin birkaç örneği düzeltildi.
-• Küçük UI ve UX düzeltmeleri.
+• Haftalık özet bildirimleriyle ilgili bir hata düzeltildi.

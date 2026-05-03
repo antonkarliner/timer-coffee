@@ -1,12 +1,15 @@
-Neu:
-• Richte Benachrichtigungen ein, die dich an deinen Kaffee am Morgen, den Frischehöhepunkt der Bohnen und wöchentliche Brüh-Rückblicke erinnern.
-• Wähle in den Einstellungen dein bevorzugtes Datums- und Zeitformat.
-• Füge Notizen zu Kaffeebohnen-Einträgen schnell über die Detailseite hinzu.
-• Die Detailseite der Kaffeebohnen zeigt jetzt die Tage seit dem Röstdatum an (falls hinzugefügt).
+Novedades:
+• ¡Páginas de tostadores! Ahora cada tostador tiene una página con información, enlaces y reseñas.
+• Reseña los granos de café que preparaste. Califica, agrega notas de sabor y comentarios. Las reseñas aparecen en las páginas de perfil de los tostadores.
+• Ver todas las preparaciones realizadas con una bolsa específica de granos.
+• Marcar las entradas agregadas al Diario de Preparación.
 
-Verbessert:
-• Verbesserte Lokalisierung in vielen Sprachen.
 
-Fehlerbehebungen:
-• Einige Vorkommen von nicht lokalisierten/fest codierten Strings behoben.
-• Kleine UI- und UX-Korrekturen.
+Mejoras:
+• El flujo de importación de recetas es más natural.
+• Se omite la introducción al importar una receta.
+• La pantalla de detalles de los granos de café es más informativa.
+• Varias mejoras de la interfaz de usuario.
+
+Correcciones de errores:
+• Se corrigió un error con las notificaciones del resumen semanal.

@@ -1,0 +1,17 @@
+Novo:
+
+Stranice pržionica s informacijama, poveznicama i recenzijama.
+Ocijeni pripremljena zrna: zvjezdice, bilješke okusa i komentari. Recenzije se prikazuju na stranicama pržionica.
+Prikaži sve pripreme po vrećici zrna.
+Označi unose u Dnevniku pripreme.
+
+Poboljšano:
+
+Prirodniji uvoz recepta.
+Uvod se preskače pri uvozu.
+Bolji zaslon detalja zrna.
+Razna UI poboljšanja.
+
+Ispravci:
+
+Ispravljene obavijesti tjednog sažetka.

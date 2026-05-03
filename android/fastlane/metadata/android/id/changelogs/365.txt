@@ -1,0 +1,17 @@
+Baru:
+
+Halaman Roaster dengan info, tautan & ulasan.
+Nilai biji yang Anda seduh: bintang, catatan rasa & komentar. Ulasan tampil di halaman Roaster.
+Lihat semua seduhan per kantong biji.
+Tandai entri Diari seduhan.
+
+Ditingkatkan:
+
+Impor resep lebih natural.
+Onboarding dilewati saat impor.
+Layar detail biji lebih baik.
+Berbagai peningkatan UI.
+
+Perbaikan bug:
+
+Memperbaiki notifikasi ringkasan mingguan.

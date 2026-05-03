@@ -1,12 +1,15 @@
 Uutta:
-• Määritä ilmoitukset, jotka muistuttavat aamukahvimuistutuksesta, papujen tuoreushuipusta ja viikoittaisista uuttokoosteista.
-• Valitse haluamasi Päivämäärän ja ajan muoto Asetuksissa.
-• Lisää nopeasti Muistiinpanoja kahvipaputietueisiin Tiedot-sivulta.
-• Kahvipapujen tiedot -sivu näyttää nyt päivät paahtopäivästä (jos lisätty).
+• Paahtimosivut! Jokaisella paahtimolla on nyt oma sivu, jossa on tietoja, linkkejä ja arvosteluja.
+• Arvostele kahvipapuja, joilla olet uuttanut. Anna arvosana, lisää makumuistiinpanoja ja kommentteja. Arvostelut näkyvät Paahtimon profiili -sivuilla.
+• Katso kaikki Uutot, jotka on tehty tietyllä papupussilla.
+• Merkitse Uuttopäiväkirjaasi lisätyt merkinnät.
+
 
 Parannettu:
-• Lokalisointiparannuksia monissa kielissä.
+• Reseptin tuontiprosessi on luontevampi.
+• Aloitusohjeistus ohitetaan, kun resepti tuodaan.
+• Kahvipapujen tiedot -näkymä on informatiivisempi.
+• Erilaisia käyttöliittymäparannuksia.
 
-Virheenkorjaukset:
-• Korjattu muutamia tapauksia, joissa merkkijonot eivät olleet lokalisoituja / olivat kovakoodattuja.
-• Pieniä UI- ja UX-korjauksia.
+Bugikorjaukset:
+• Korjattiin bugi viikkoyhteenvetoilmoituksissa.

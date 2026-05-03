@@ -1,0 +1,17 @@
+Nouveau :
+
+Pages de torréfacteur avec infos, liens et avis.
+Notez les grains préparés : étoiles, notes de goût et commentaires. Les avis s’affichent sur les pages du torréfacteur.
+Voyez toutes les infusions par sac de grains.
+Marquez des entrées du Journal de préparation.
+
+Amélioré :
+
+Importation de recette plus naturelle.
+L’intégration se saute à l’import.
+Meilleur écran de détail des grains.
+Diverses améliorations de l’interface.
+
+Correctif :
+
+Notifications du résumé hebdomadaire corrigées.

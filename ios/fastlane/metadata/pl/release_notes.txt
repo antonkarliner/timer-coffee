@@ -1,12 +1,15 @@
-Nowość:
-• Skonfiguruj Powiadomienia, aby przypominały o porannej kawie, szczycie świeżości ziaren i cotygodniowych podsumowaniach parzenia.
-• Wybierz preferowany Format daty i czasu w Ustawieniach.
-• Szybko dodawaj Notatki do wpisów o ziarnach kawy ze strony Szczegóły.
-• Strona Szczegóły ziaren kawy pokazuje teraz liczbę dni od Daty palenia (jeśli dodano).
+Nowości:
+• Strony palarni! Każda palarnia ma teraz stronę z informacjami, linkami i recenzjami.
+• Recenzuj ziarna kawy, z których zaparzyłeś kawę. Oceniaj, dodawaj notatki smakowe i komentarze. Recenzje pojawiają się na stronach Profilu palarni.
+• Zobacz wszystkie Parzenia z tą kawą dla konkretnej paczki ziaren.
+• Oznaczaj wpisy dodane do Dziennika parzeń.
+
 
 Ulepszenia:
-• Ulepszenia lokalizacji w wielu językach.
+• Proces Importu przepisu jest bardziej naturalny.
+• Onboarding jest pomijany podczas importowania przepisu.
+• Ekran Szczegóły ziaren kawy jest bardziej informacyjny.
+• Różne ulepszenia interfejsu.
 
 Poprawki błędów:
-• Naprawiono kilka przypadków niezlokalizowanych/zakodowanych na sztywno ciągów znaków.
-• Drobne poprawki UI i UX.
+• Naprawiono błąd związany z powiadomieniami Podsumowania tygodnia.

@@ -1,0 +1,17 @@
+New:
+
+Roaster pages with info, links & reviews.
+Rate beans you brewed: stars, taste notes & comments. Reviews appear on roaster pages.
+See all brews per bean bag.
+Mark Brew Diary entries.
+
+Improved:
+
+More natural recipe import.
+Onboarding skips on import.
+Better bean detail screen.
+Various UI improvements.
+
+Bugfix:
+
+Fixed weekly summary notifications.

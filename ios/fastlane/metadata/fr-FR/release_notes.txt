@@ -1,12 +1,15 @@
 Nouveau :
-• Configurez des notifications pour vous rappeler votre café du matin, le pic de fraîcheur des grains et des récapitulatifs hebdomadaires de préparation.
-• Sélectionnez le Format de date et d'heure préféré dans les Paramètres.
-• Ajoutez rapidement des Notes aux enregistrements de grains de café depuis la page Détails.
-• La page Détails des grains de café affiche désormais le nombre de jours depuis la Date de torréfaction (si renseignée).
+• Pages de torréfacteurs ! Chaque torréfacteur dispose désormais d’une page avec des informations, des liens et des avis.
+• Donnez votre avis sur les grains de café avec lesquels vous avez préparé du café. Notez, ajoutez des notes de dégustation et des commentaires. Les avis apparaissent sur les pages Profil du torréfacteur.
+• Voir toutes les infusions réalisées avec un sac de grains spécifique.
+• Marquer les entrées ajoutées au Journal de préparation.
+
 
 Amélioré :
-• Améliorations de la localisation dans de nombreuses langues.
+• Le flux Importer la recette est plus naturel.
+• L’onboarding est ignoré lors de l’importation d’une recette.
+• L’écran Détails des grains de café est plus informatif.
+• Diverses améliorations de l’interface utilisateur.
 
 Correctif :
-• Correction de quelques occurrences de chaînes non localisées/codées en dur.
-• Petites corrections d’UI et d’UX.
+• Correction d’un bug lié aux notifications du Résumé hebdomadaire.

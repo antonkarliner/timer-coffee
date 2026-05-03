@@ -1,12 +1,15 @@
 Neu:
-• Richte Benachrichtigungen ein, um dich an deinen Morgenkaffee, den Frischehöhepunkt der Bohnen und wöchentliche Brüh-Zusammenfassungen zu erinnern.
-• Wähle in den Einstellungen dein bevorzugtes Datums- und Uhrzeitformat aus.
-• Füge Kaffeebohnen-Einträgen auf der Seite „Details zu den Kaffeebohnen“ schnell Notizen hinzu.
-• Die Seite „Details zu den Kaffeebohnen“ zeigt jetzt die Tage seit dem Röstdatum an (falls hinzugefügt).
+• Seiten für Röstereien! Jede Rösterei hat jetzt eine Seite mit Informationen, Links und Bewertungen.
+• Bewerte Kaffeebohnen, die du gebrüht hast. Bewerte sie, füge Geschmacksnotizen und Kommentare hinzu. Rezensionen erscheinen auf den Röstereiprofil-Seiten.
+• Sieh dir alle Brühvorgänge an, die mit einer bestimmten Tüte Bohnen gemacht wurden.
+• Markiere Einträge, die dem Brühtagebuch hinzugefügt wurden.
+
 
 Verbessert:
-• Verbesserungen der Lokalisierung in vielen Sprachen.
+• Der Ablauf zum Rezept importieren ist natürlicher.
+• Das Onboarding wird beim Rezept importieren übersprungen.
+• Der Bildschirm Details zu den Kaffeebohnen ist informativer.
+• Verschiedene UI-Verbesserungen.
 
-Fehlerbehebungen:
-• Einige Fälle von nicht lokalisierten/fest codierten Strings behoben.
-• Kleine UI- und UX-Korrekturen.
+Fehlerbehebung:
+• Ein Problem mit Benachrichtigungen zur Wochenzusammenfassung wurde behoben.

@@ -1,0 +1,17 @@
+Nou:
+
+Pagini pentru prăjitorii cu info, linkuri și recenzii.
+Evaluează boabele preparate: stele, note de gust și comentarii. Recenziile apar pe paginile prăjitoriilor.
+Vezi toate preparările pentru fiecare pungă de boabe.
+Marchează intrările din Jurnal de Preparare.
+
+Îmbunătățit:
+
+Import de rețete mai natural.
+Onboardingul se sare la import.
+Ecran mai bun pentru detaliile boabelor.
+Diverse îmbunătățiri UI.
+
+Corecturi:
+
+Notificările pentru rezumatul săptămânal au fost reparate.

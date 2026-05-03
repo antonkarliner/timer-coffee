@@ -1,0 +1,17 @@
+Yeni:
+
+Bilgi, bağlantı ve yorum içeren kavurucu sayfaları.
+Demlediğiniz çekirdekleri puanlayın: yıldız, tat notları ve yorumlar. Yorumlar kavurucu sayfalarında görünür.
+Her çekirdek paketi için tüm demlemeleri görün.
+Demleme Günlüğü kayıtlarını işaretleyin.
+
+İyileştirildi:
+
+Daha doğal tarif içe aktarma.
+İçe aktarmada başlangıç tanıtımı atlanır.
+Daha iyi çekirdek detay ekranı.
+Çeşitli arayüz iyileştirmeleri.
+
+Hata düzeltmesi:
+
+Haftalık özet bildirimleri düzeltildi.

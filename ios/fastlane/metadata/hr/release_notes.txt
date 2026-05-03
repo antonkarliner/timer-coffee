@@ -1,12 +1,15 @@
 Novo:
-• Postavi obavijesti koje će te podsjećati na jutarnju pripremu kave, vrhunac svježine zrna i tjedne sažetke pripreme.
-• U Postavkama odaberi željeni Format datuma i vremena.
-• Brzo dodaj Bilješke zapisima o zrnima kave na stranici Detalji.
-• Stranica Detalji o zrnima kave sada prikazuje broj dana od Datuma prženja (ako je dodan).
+• Stranice pržionica! Svaka pržionica sada ima stranicu s informacijama, poveznicama i recenzijama.
+• Recenziraj zrna kave s kojima si pripremao/la. Ocijeni, dodaj bilješke o okusu i komentare. Recenzije se prikazuju na stranicama profila pržionice.
+• Pogledaj sve pripreme napravljene s određenom vrećicom zrna.
+• Označi unose dodane u Dnevnik pripreme.
+
 
 Poboljšano:
-• Poboljšanja lokalizacije na mnogim jezicima.
+• Tijek uvoza recepta je prirodniji.
+• Uvodno postavljanje se preskače pri uvozu recepta.
+• Zaslon Detalji o zrnima kave je informativniji.
+• Razna poboljšanja korisničkog sučelja.
 
 Ispravci grešaka:
-• Ispravljeno nekoliko slučajeva nelokaliziranih/tvrdo kodiranih nizova.
-• Manji UI i UX popravci.
+• Ispravljena je greška s obavijestima tjednog sažetka.

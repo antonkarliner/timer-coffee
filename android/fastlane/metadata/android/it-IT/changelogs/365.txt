@@ -1,0 +1,17 @@
+Novità:
+
+Pagine delle torrefazioni con info, link e recensioni.
+Valuta i chicchi preparati: stelle, note di gusto e commenti. Le recensioni appaiono nelle pagine delle torrefazioni.
+Vedi tutte le preparazioni per sacchetto di chicchi.
+Contrassegna le voci del Diario del caffè.
+
+Miglioramenti:
+
+Importazione ricetta più naturale.
+L'onboarding si salta con l'importazione.
+Schermata dettaglio chicchi migliorata.
+Vari miglioramenti UI.
+
+Correzioni:
+
+Corrette le notifiche del riepilogo settimanale.

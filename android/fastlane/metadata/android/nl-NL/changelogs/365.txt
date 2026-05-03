@@ -1,0 +1,17 @@
+Nieuw:
+
+Branderijpagina's met info, links en reviews.
+Beoordeel gezette bonen: sterren, smaaknotities en reacties. Reviews verschijnen op branderijpagina's.
+Bekijk alle zetsessies per bonenzak.
+Markeer Brouwdagboek-items.
+
+Verbeterd:
+
+Natuurlijker recepten importeren.
+Onboarding wordt overgeslagen bij import.
+Beter bonendetailscherm.
+Diverse UI-verbeteringen.
+
+Bugfix:
+
+Wekelijkse samenvattingsnotificaties opgelost.

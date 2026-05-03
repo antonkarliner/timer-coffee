@@ -1,0 +1,17 @@
+Nowości:
+
+Strony palarni z informacjami, linkami i recenzjami.
+Oceniaj zaparzone ziarna: gwiazdki, nuty smakowe i komentarze. Recenzje pojawią się na stronach palarni.
+Zobacz wszystkie parzenia dla danej paczki ziaren.
+Oznaczaj wpisy w Dzienniku parzeń.
+
+Ulepszenia:
+
+Bardziej naturalny import przepisu.
+Pomijanie onboardingu przy imporcie.
+Lepszy ekran szczegółów ziaren.
+Różne ulepszenia UI.
+
+Poprawki:
+
+Naprawiono powiadomienia z podsumowaniem tygodnia.

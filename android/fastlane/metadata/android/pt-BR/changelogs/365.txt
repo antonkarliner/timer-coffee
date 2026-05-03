@@ -1,0 +1,17 @@
+Novo:
+
+Páginas de Torrefação com info, links e avaliações.
+Avalie os grãos preparados: estrelas, notas de sabor e comentários. As avaliações aparecem nas páginas da torrefação.
+Veja todos os preparos por pacote de grãos.
+Marque entradas no Diário de Preparo.
+
+Melhorias:
+
+Importação de receita mais natural.
+Onboarding pula ao importar.
+Tela de detalhes do grão melhor.
+Várias melhorias na interface.
+
+Correção:
+
+Corrigidas as notificações do resumo semanal.
