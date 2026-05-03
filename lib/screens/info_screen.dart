@@ -21,7 +21,12 @@ import '../widgets/base_buttons.dart';
 
 @RoutePage()
 class InfoScreen extends StatefulWidget {
-  const InfoScreen({Key? key}) : super(key: key);
+  const InfoScreen({
+    Key? key,
+    @QueryParam('section') this.section,
+  }) : super(key: key);
+
+  final String? section;
 
   @override
   State<InfoScreen> createState() => _InfoScreenState();
@@ -35,10 +40,28 @@ class _InfoScreenState extends State<InfoScreen> {
   bool _isAnonymous = true;
   String? _userId;
 
+  final _moderationKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    if (widget.section == 'moderation') {
+      // Two nested callbacks: first lets the expanded tile lay out,
+      // second scrolls once the new height is committed.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final ctx = _moderationKey.currentContext;
+          if (ctx != null) {
+            Scrollable.ensureVisible(
+              ctx,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+            );
+          }
+        });
+      });
+    }
   }
 
   Future<void> _loadUserData() async {
@@ -219,6 +242,28 @@ class _InfoScreenState extends State<InfoScreen> {
                 },
               ),
             ],
+          ),
+          // Content Rules (moderation)
+          KeyedSubtree(
+            key: _moderationKey,
+            child: ExpansionTile(
+              initiallyExpanded: widget.section == 'moderation',
+              title: Text(l10n.moderationRulesTitle),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  child: MarkdownBody(
+                    data: l10n.moderationRulesBody,
+                    styleSheet: MarkdownStyleSheet.fromTheme(
+                      Theme.of(context),
+                    ).copyWith(
+                      p: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    softLineBreak: true,
+                  ),
+                ),
+              ],
+            ),
           ),
           // Seasonal specials
           ExpansionTile(
