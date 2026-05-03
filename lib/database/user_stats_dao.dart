@@ -117,6 +117,74 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     return result != null ? _userStatFromRow(result) : null;
   }
 
+  Future<List<String>> fetchDistinctBrewingMethodsForBean(
+      String beansUuid) async {
+    final query = customSelect(
+      'SELECT brewing_method_id FROM user_stats '
+      'WHERE coffee_beans_uuid = ? AND is_deleted = false '
+      'GROUP BY brewing_method_id ORDER BY MAX(created_at) DESC',
+      variables: [Variable.withString(beansUuid)],
+      readsFrom: {userStats},
+    );
+    return (await query.get())
+        .map((r) => r.read<String>('brewing_method_id'))
+        .toList();
+  }
+
+  Future<List<UserStatsModel>> fetchStatsByBeanUuid(String beansUuid) async {
+    final query = select(userStats)
+      ..where((t) =>
+          t.coffeeBeansUuid.equals(beansUuid) & t.isDeleted.equals(false))
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.createdAt, mode: OrderingMode.desc),
+      ]);
+    return (await query.get()).map(_userStatFromRow).toList();
+  }
+
+  /// Median `coffeeAmount` (grams) for non-deleted brews on a specific bean.
+  /// Returns null when fewer than [minBrews] valid samples exist.
+  Future<double?> medianCoffeeAmountForBean(
+    String beansUuid, {
+    int minBrews = 3,
+  }) async {
+    final query = selectOnly(userStats)
+      ..addColumns([userStats.coffeeAmount])
+      ..where(userStats.coffeeBeansUuid.equals(beansUuid) &
+          userStats.isDeleted.equals(false) &
+          userStats.coffeeAmount.isBiggerThanValue(0));
+    final values = (await query.get())
+        .map((row) => row.read(userStats.coffeeAmount))
+        .whereType<double>()
+        .toList();
+    return _median(values, minBrews: minBrews);
+  }
+
+  /// Median `coffeeAmount` (grams) for non-deleted brews created on/after
+  /// [since]. Returns null when fewer than [minBrews] valid samples exist.
+  Future<double?> medianCoffeeAmountSince(
+    DateTime since, {
+    int minBrews = 3,
+  }) async {
+    final query = selectOnly(userStats)
+      ..addColumns([userStats.coffeeAmount])
+      ..where(userStats.isDeleted.equals(false) &
+          userStats.coffeeAmount.isBiggerThanValue(0) &
+          userStats.createdAt.isBiggerOrEqualValue(since));
+    final values = (await query.get())
+        .map((row) => row.read(userStats.coffeeAmount))
+        .whereType<double>()
+        .toList();
+    return _median(values, minBrews: minBrews);
+  }
+
+  static double? _median(List<double> values, {required int minBrews}) {
+    if (values.length < minBrews) return null;
+    values.sort();
+    final n = values.length;
+    if (n.isOdd) return values[n ~/ 2];
+    return (values[n ~/ 2 - 1] + values[n ~/ 2]) / 2.0;
+  }
+
   Future<int> countDistinctBrewedRecipes() async {
     final query = customSelect(
       'SELECT COUNT(DISTINCT recipe_id) AS recipe_count '
