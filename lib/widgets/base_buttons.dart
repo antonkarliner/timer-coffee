@@ -6,6 +6,7 @@ class AppElevatedButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool isLoading;
   final IconData? icon;
+  final Widget? iconWidget;
   final Color? backgroundColor;
   final Color? foregroundColor;
   final Color? disabledBackgroundColor;
@@ -22,6 +23,7 @@ class AppElevatedButton extends StatelessWidget {
     required this.onPressed,
     this.isLoading = false,
     this.icon,
+    this.iconWidget,
     this.backgroundColor,
     this.foregroundColor,
     this.disabledBackgroundColor,
@@ -39,37 +41,57 @@ class AppElevatedButton extends StatelessWidget {
     final resolvedForegroundColor =
         foregroundColor ?? theme.colorScheme.onPrimary;
 
-    return ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: backgroundColor ?? theme.colorScheme.primary,
-        foregroundColor: resolvedForegroundColor,
-        disabledBackgroundColor: disabledBackgroundColor,
-        disabledForegroundColor: disabledForegroundColor,
-        minimumSize: width != null
-            ? Size(width!, height ?? AppButton.heightMedium)
-            : (isFullWidth
-                ? Size(double.infinity, height ?? AppButton.heightMedium)
-                : Size(0, height ?? AppButton.heightMedium)),
-        padding: padding ?? AppButton.paddingMedium,
-        elevation: elevation ?? AppButton.elevation,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppButton.radius),
-        ),
-        textStyle: AppButton.label,
+    final buttonStyle = ElevatedButton.styleFrom(
+      backgroundColor: backgroundColor ?? theme.colorScheme.primary,
+      foregroundColor: resolvedForegroundColor,
+      disabledBackgroundColor: disabledBackgroundColor,
+      disabledForegroundColor: disabledForegroundColor,
+      minimumSize: width != null
+          ? Size(width!, height ?? AppButton.heightMedium)
+          : (isFullWidth
+              ? Size(double.infinity, height ?? AppButton.heightMedium)
+              : Size(0, height ?? AppButton.heightMedium)),
+      padding: padding ?? AppButton.paddingMedium,
+      elevation: elevation ?? AppButton.elevation,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppButton.radius),
       ),
+      textStyle: AppButton.label,
+    );
+
+    final labelChild = isLoading
+        ? SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              valueColor:
+                  AlwaysStoppedAnimation<Color>(resolvedForegroundColor),
+            ),
+          )
+        : Text(label);
+
+    if (iconWidget != null) {
+      return ElevatedButton(
+        style: buttonStyle,
+        onPressed: isLoading ? null : onPressed,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            iconWidget!,
+            const SizedBox(width: 8),
+            labelChild,
+          ],
+        ),
+      );
+    }
+
+    return ElevatedButton.icon(
+      style: buttonStyle,
       onPressed: isLoading ? null : onPressed,
       icon: icon != null ? Icon(icon) : const SizedBox.shrink(),
-      label: isLoading
-          ? SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor:
-                    AlwaysStoppedAnimation<Color>(resolvedForegroundColor),
-              ),
-            )
-          : Text(label),
+      label: labelChild,
     );
   }
 }
