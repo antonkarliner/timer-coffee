@@ -1484,8 +1484,9 @@ class DatabaseProvider {
   Future<List<String>> fetchRoasters() async {
     try {
       final response = await Supabase.instance.client
-          .from('coffee_roasters')
+          .from('roaster_profiles')
           .select('roaster_name')
+          .eq('is_active', true)
           .timeout(const Duration(seconds: 2));
 
       final data = response as List<dynamic>;
@@ -1543,6 +1544,7 @@ class DatabaseProvider {
         return {
           'original': response['roaster_logo_url'] as String?,
           'mirror': response['roaster_logo_mirror_url'] as String?,
+          'dominant_color_hex': response['dominant_color_hex'] as String?,
         };
       }
 

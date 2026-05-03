@@ -5,6 +5,9 @@ import 'package:provider/provider.dart';
 
 import '../models/coffee_beans_model.dart';
 import '../providers/coffee_beans_provider.dart';
+import '../providers/user_stat_provider.dart';
+import '../services/feature_flags/feature_flags_repository.dart';
+import '../services/roaster_color_service.dart';
 import '../services/roaster_logo_service.dart';
 import '../app_router.gr.dart';
 import '../utils/app_logger.dart';
@@ -65,9 +68,11 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   // --- State ---
   CoffeeBeansModel? _bean;
   RoasterLogoResult? _logoResult;
+  RoasterColorResult? _roasterColorResult;
   bool _isLoading = false;
   String? _errorMessage;
   String? _currentUuid;
+  int? _brewsLeft;
 
   // --- Constructor ---
   CoffeeBeansDetailController({
@@ -82,6 +87,9 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   /// The roaster logo result containing original and mirror URLs
   RoasterLogoResult? get logoResult => _logoResult;
 
+  /// The logo color analysis result (vibrant color, monochrome, or none).
+  RoasterColorResult? get roasterColorResult => _roasterColorResult;
+
   /// Whether a loading operation is in progress
   bool get isLoading => _isLoading;
 
@@ -93,6 +101,11 @@ class CoffeeBeansDetailController extends ChangeNotifier {
 
   /// The UUID of the currently loaded bean
   String? get currentUuid => _currentUuid;
+
+  /// Estimated remaining brews based on the user's median dose. Null when
+  /// no reliable estimate is available (insufficient brew history, no
+  /// package weight, or estimate rounds to zero).
+  int? get brewsLeft => _brewsLeft;
 
   // --- Computed Properties ---
 
@@ -173,6 +186,7 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   Future<void> loadBean(BuildContext context, String uuid) async {
     _setLoading(true);
     _clearError();
+    _brewsLeft = null;
 
     try {
       final coffeeBeansProvider =
@@ -191,6 +205,8 @@ class CoffeeBeansDetailController extends ChangeNotifier {
 
       // Load roaster logos concurrently (don't block on logo loading)
       _loadRoasterLogos(context, bean.roaster);
+      // Compute brews-left estimate concurrently (don't block on it)
+      _loadBrewsLeft(context, bean);
     } catch (error) {
       _setError('Failed to load coffee bean: $error');
     } finally {
@@ -239,11 +255,57 @@ class CoffeeBeansDetailController extends ChangeNotifier {
           await _logoService.fetchRoasterLogos(context, roasterName);
       _logoResult = logoResult;
       notifyListeners();
+
+      // Analyse logo color for screen background tinting (gated by feature flag)
+      final flags =
+          Provider.of<FeatureFlagsRepository>(context, listen: false);
+      if (logoResult.isSuccess &&
+          logoResult.hasAnyLogo &&
+          flags.roasterBackendColor) {
+        final RoasterColorResult colorResult;
+        if (logoResult.dominantColorHex != null) {
+          colorResult =
+              RoasterColorService.fromBackendHex(logoResult.dominantColorHex);
+        } else {
+          colorResult = await RoasterColorService.instance.analyseLogoColor(
+            logoResult.originalUrl,
+            logoResult.mirrorUrl,
+          );
+        }
+        _roasterColorResult = colorResult;
+        notifyListeners();
+      }
     } catch (error) {
       // Logo loading failures are handled silently
       // The UI will show fallback icons instead
       AppLogger.debug(
           '[CoffeeBeansDetailController] Failed to load roaster logos for $roasterName: $error');
+    }
+  }
+
+  /// Computes the estimated remaining brews for the loaded bean using the
+  /// user's brewing history. Failures are swallowed: this is a best-effort
+  /// hint, never a blocker for the screen.
+  Future<void> _loadBrewsLeft(
+      BuildContext context, CoffeeBeansModel bean) async {
+    final uuid = bean.beansUuid;
+    if (uuid == null) {
+      _brewsLeft = null;
+      notifyListeners();
+      return;
+    }
+    try {
+      final userStatProvider =
+          Provider.of<UserStatProvider>(context, listen: false);
+      _brewsLeft = await userStatProvider.estimateBrewsLeft(
+        beansUuid: uuid,
+        packageWeightGrams: bean.validatedPackageWeightGrams,
+      );
+      notifyListeners();
+    } catch (error) {
+      AppLogger.debug(
+          '[CoffeeBeansDetailController] Failed to compute brews left: $error');
+      _brewsLeft = null;
     }
   }
 
@@ -394,6 +456,7 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   void clearData() {
     _bean = null;
     _logoResult = null;
+    _roasterColorResult = null;
     _currentUuid = null;
     _clearError();
     _setLoading(false);

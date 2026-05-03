@@ -15,6 +15,10 @@ class RoasterLogoResult {
   /// The mirror logo URL, if available
   final String? mirrorUrl;
 
+  /// The dominant color hex string from the backend, if available.
+  /// Format: '#RRGGBB', 'monochrome', or null (not yet computed).
+  final String? dominantColorHex;
+
   /// Whether the operation was successful
   final bool isSuccess;
 
@@ -24,6 +28,7 @@ class RoasterLogoResult {
   const RoasterLogoResult._({
     this.originalUrl,
     this.mirrorUrl,
+    this.dominantColorHex,
     required this.isSuccess,
     this.errorMessage,
   });
@@ -32,10 +37,12 @@ class RoasterLogoResult {
   factory RoasterLogoResult.success({
     String? originalUrl,
     String? mirrorUrl,
+    String? dominantColorHex,
   }) {
     return RoasterLogoResult._(
       originalUrl: originalUrl,
       mirrorUrl: mirrorUrl,
+      dominantColorHex: dominantColorHex,
       isSuccess: true,
     );
   }
@@ -149,14 +156,11 @@ class RoasterLogoService {
       final logoUrls =
           await databaseProvider.fetchCachedRoasterLogoUrls(roasterName);
 
-      // Extract URLs from the result map
-      final originalUrl = logoUrls['original'];
-      final mirrorUrl = logoUrls['mirror'];
-
       // Return successful result with the fetched URLs
       return RoasterLogoResult.success(
-        originalUrl: originalUrl,
-        mirrorUrl: mirrorUrl,
+        originalUrl: logoUrls['original'],
+        mirrorUrl: logoUrls['mirror'],
+        dominantColorHex: logoUrls['dominant_color_hex'],
       );
     } catch (error) {
       // Handle any errors that occur during the operation

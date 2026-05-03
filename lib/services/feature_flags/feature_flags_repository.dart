@@ -133,6 +133,7 @@ class FeatureFlagKeys {
   static const testBanner = 'test_banner';
   static const yearlyStatsStory25Banner = 'yearly_stats_story_25_banner';
   static const analyticsEnabled = 'analytics_enabled';
+  static const roasterBackendColor = 'roaster_backend_color';
 }
 
 extension FeatureFlagsX on FeatureFlagsRepository {
@@ -143,4 +144,6 @@ extension FeatureFlagsX on FeatureFlagsRepository {
       isEnabled(FeatureFlagKeys.yearlyStatsStory25Banner);
   bool get analyticsEnabled =>
       isEnabled(FeatureFlagKeys.analyticsEnabled, defaultValue: true);
+  bool get roasterBackendColor =>
+      isEnabled(FeatureFlagKeys.roasterBackendColor);
 }

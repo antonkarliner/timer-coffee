@@ -119,5 +119,13 @@ class AppRouter extends RootStackRouter {
           page: PulseRoute.page,
           path: '/pulse',
         ),
+        AutoRoute(
+          page: RoastersRoute.page,
+          path: '/roasters',
+        ),
+        AutoRoute(
+          page: RoasterProfileRoute.page,
+          path: '/roaster/:slug',
+        ),
       ];
 }
