@@ -24,7 +24,10 @@ import '../services/date_time_format_service.dart';
 
 @RoutePage()
 class BrewDiaryScreen extends StatefulWidget {
-  const BrewDiaryScreen({Key? key}) : super(key: key);
+  const BrewDiaryScreen({Key? key, this.initialExpandedStatUuid})
+      : super(key: key);
+
+  final String? initialExpandedStatUuid;
 
   @override
   _BrewDiaryScreenState createState() => _BrewDiaryScreenState();
@@ -32,6 +35,15 @@ class BrewDiaryScreen extends StatefulWidget {
 
 class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
   bool isEditMode = false;
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey _targetKey = GlobalKey();
+  bool _scrollScheduled = false;
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   String getSweeetnessLabel(int position) {
     final loc = AppLocalizations.of(context)!;
@@ -99,13 +111,70 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
       return dateB.compareTo(dateA); // Descending order
     });
 
+    if (widget.initialExpandedStatUuid != null && !_scrollScheduled) {
+      _scrollScheduled = true;
+      _scheduleScrollToTarget(groupedStats, sortedDates);
+    }
+
     return ListView.builder(
+      controller: _scrollController,
       padding: const EdgeInsets.all(16.0),
       itemCount: _calculateTotalItems(groupedStats, sortedDates),
       itemBuilder: (context, index) {
         return _buildListItem(groupedStats, sortedDates, index);
       },
     );
+  }
+
+  // Date separator height (vertical padding 32 + text row ~24)
+  static const double _separatorHeight = 56.0;
+  // Collapsed card height (ListTile + subtitle + Card borders) + bottom padding
+  static const double _cardHeight = 124.0;
+  // ListView top padding
+  static const double _listPadding = 16.0;
+
+  void _scheduleScrollToTarget(
+    Map<String, List<UserStatsModel>> groupedStats,
+    List<String> sortedDates,
+  ) {
+    final targetUuid = widget.initialExpandedStatUuid!;
+    double offset = _listPadding;
+    bool found = false;
+
+    for (final date in sortedDates) {
+      offset += _separatorHeight;
+      for (final stat in groupedStats[date]!) {
+        if (stat.statUuid == targetUuid) {
+          found = true;
+          break;
+        }
+        offset += _cardHeight;
+      }
+      if (found) break;
+    }
+
+    if (!found) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_scrollController.hasClients) return;
+      // Jump to estimated position so ListView.builder builds the target item.
+      _scrollController.jumpTo(
+        offset.clamp(0.0, _scrollController.position.maxScrollExtent),
+      );
+      // Second frame: the target item is now built — scroll precisely to it.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        final ctx = _targetKey.currentContext;
+        if (ctx != null) {
+          Scrollable.ensureVisible(
+            ctx,
+            duration: const Duration(milliseconds: 350),
+            curve: Curves.easeOut,
+            alignment: 0.1,
+          );
+        }
+      });
+    });
   }
 
   int _calculateTotalItems(Map<String, List<UserStatsModel>> groupedStats,
@@ -133,9 +202,14 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
       List<UserStatsModel> statsForDate = groupedStats[date]!;
       for (int i = 0; i < statsForDate.length; i++) {
         if (currentIndex == index) {
+          final card = buildUserStatCard(context, statsForDate[i]);
+          final isTarget = statsForDate[i].statUuid ==
+              widget.initialExpandedStatUuid;
           return Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
-            child: buildUserStatCard(context, statsForDate[i]),
+            child: isTarget
+                ? KeyedSubtree(key: _targetKey, child: card)
+                : card,
           );
         }
         currentIndex++;
@@ -183,8 +257,15 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     final userStatProvider = Provider.of<UserStatProvider>(context);
     final loc = AppLocalizations.of(context)!;
 
+    final initialUuid = widget.initialExpandedStatUuid;
     return ChangeNotifierProvider(
-      create: (_) => CardExpansionNotifier(),
+      create: (_) {
+        final notifier = CardExpansionNotifier();
+        if (initialUuid != null) {
+          notifier.setExpansion(initialUuid, true);
+        }
+        return notifier;
+      },
       child: Scaffold(
         appBar: AppBar(
           leading: Semantics(
@@ -340,7 +421,47 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                             },
                           ),
                         )
-                      : null,
+                      : Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            if (stat.rating != null)
+                              Text(
+                                '★ ${stat.rating!.toStringAsFixed(1)}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                              ),
+                            Semantics(
+                              identifier:
+                                  'markBrewButton_${stat.statUuid}',
+                              child: IconButton(
+                                icon: Icon(
+                                  stat.isMarked
+                                      ? Icons.bookmark
+                                      : Icons.bookmark_border,
+                                  color: stat.isMarked
+                                      ? Theme.of(context).colorScheme.primary
+                                      : null,
+                                ),
+                                iconSize: AppIconSize.medium,
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+                                onPressed: () =>
+                                    userStatProvider.updateUserStat(
+                                  statUuid: stat.statUuid,
+                                  isMarked: !stat.isMarked,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                   isExpanded: isExpanded,
                   onExpansionChanged: (bool expanded) {
                     notifier.setExpansion(stat.statUuid, expanded);
