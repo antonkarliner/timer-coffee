@@ -11,7 +11,6 @@ import '../providers/recipe_provider.dart';
 import 'package:auto_route/auto_route.dart';
 import '../app_router.gr.dart'; // Ensure this import is correct
 import 'package:coffee_timer/l10n/app_localizations.dart';
-import 'user_recipe_management_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -34,10 +33,10 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 @RoutePage()
 class HubHomeScreen extends StatefulWidget {
-  const HubHomeScreen({Key? key}) : super(key: key);
+  const HubHomeScreen({super.key});
 
   @override
-  _HubHomeScreenState createState() => _HubHomeScreenState();
+  State<HubHomeScreen> createState() => _HubHomeScreenState();
 }
 
 class _HubHomeScreenState extends State<HubHomeScreen> {
@@ -211,146 +210,145 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     final l10n = AppLocalizations.of(context)!; // Get localizations
     return SafeArea(
       child: ListView(
+        padding: EdgeInsets.only(
+          bottom:
+              MediaQuery.of(context).padding.bottom +
+              kBottomNavigationBarHeight +
+              AppSpacing.base,
+        ),
         children: [
-          // Use StreamBuilder to listen to auth changes
-          StreamBuilder<AuthState>(
-            stream: Supabase.instance.client.auth.onAuthStateChange,
-            builder: (context, snapshot) {
-              final session = snapshot.data?.session;
-              // Consider logged in if session exists AND user is not anonymous
-              final bool isLoggedIn =
-                  session != null && !session.user.isAnonymous;
-
-              if (isLoggedIn) {
-                // Show Account button if logged in
-                return Semantics(
-                  identifier: 'account',
-                  label: l10n.account, // Use new localization key
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.account_circle,
-                    ), // Or appropriate icon
-                    title: Text(l10n.account), // Use new localization key
-                    subtitle: Text(l10n.hubAccountSubtitle),
-                    onTap: () {
-                      final userId =
-                          Supabase.instance.client.auth.currentUser?.id;
-                      AppLogger.debug(
-                        'Navigating to AccountRoute with userId: $userId',
-                      );
-                      if (userId != null) {
-                        context.router.push(AccountRoute(userId: userId));
-                      }
-                    }, // Navigate to AccountScreen
-                  ),
-                );
-              } else {
-                // Show Sign In button if not logged in (or anonymous)
-                return Semantics(
-                  identifier: 'signIn',
-                  label: l10n.signInCreate,
-                  child: ListTile(
-                    leading: const Icon(Icons.login),
-                    title: Text(l10n.signInCreate),
-                    subtitle: Text(l10n.hubSignInCreateSubtitle),
-                    onTap: () => _showSignInOptions(
-                      context,
-                    ), // This modal contains Apple Sign In
-                  ),
-                );
-              }
-            },
-          ),
-          Semantics(
-            identifier: 'brewDiary',
-            label: l10n.brewdiary,
-            child: ListTile(
-              leading: const Icon(Icons.library_books),
-              title: Text(l10n.brewdiary),
-              subtitle: Text(l10n.hubBrewDiarySubtitle),
-              onTap: () {
-                context.router.push(const BrewDiaryRoute());
-              },
-            ),
-          ),
-          Semantics(
-            identifier: 'stats',
-            label: l10n.brewStats,
-            child: ListTile(
-              leading: const Icon(Icons.bar_chart),
-              title: Text(l10n.brewStats),
-              subtitle: Text(l10n.hubBrewStatsSubtitle),
-              onTap: () {
-                context.router.push(StatsRoute());
-              },
-            ),
-          ),
-          Semantics(
-            identifier: 'pulse',
-            label: l10n.pulseTitle,
-            child: ListTile(
-              leading: const Icon(Symbols.vital_signs),
-              title: Text(l10n.pulseTitle),
-              subtitle: Text(l10n.hubPulseSubtitle),
-              onTap: () {
-                Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (_) => const PulseScreen()));
-              },
-            ),
-          ),
-          Semantics(
-            identifier: 'userRecipes',
-            label: l10n.hubUserRecipesTitle,
-            child: ListTile(
-              leading: const Icon(Icons.bookmarks_outlined),
-              title: Text(l10n.hubUserRecipesTitle),
-              subtitle: Text(l10n.hubUserRecipesSubtitle),
-              onTap: () {
-                // Prefer auto_route generated route if available, fallback to MaterialPageRoute
-                // Use generated route if present in app_router.gr.dart; otherwise fallback.
-                // ignore: unused_catch_clause
-                try {
-                  // If a generated route exists, this will compile.
-                  // ignore: undefined_class
-                  context.router.push(const UserRecipeManagementRoute());
-                } on Object {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const UserRecipeManagementScreen(),
-                    ),
-                  );
-                }
-              },
-            ),
-          ),
-          Semantics(
-            identifier: 'settings',
-            label: l10n.settings,
-            child: ListTile(
-              leading: const Icon(Icons.settings),
-              title: Text(l10n.settings),
-              subtitle: Text(l10n.hubSettingsSubtitle),
-              onTap: () {
-                context.router.push(SettingsRoute());
-              },
-            ),
-          ),
-          Semantics(
-            identifier: 'info',
-            label: l10n.about,
-            child: ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: Text(l10n.about),
-              subtitle: Text(l10n.hubAboutSubtitle),
-              onTap: () {
-                context.router.push(const InfoRoute());
-              },
-            ),
-          ),
           const CoffeeJourneyCard(location: JourneyCardLocation.hub),
+          _HubSection(
+            title: l10n.hubSectionYourCoffee,
+            children: [
+              _HubListTile(
+                identifier: 'brewDiary',
+                label: l10n.brewdiary,
+                icon: Icons.library_books,
+                title: l10n.brewdiary,
+                subtitle: l10n.hubBrewDiarySubtitle,
+                onTap: () {
+                  context.router.push(BrewDiaryRoute());
+                },
+              ),
+              _HubListTile(
+                identifier: 'stats',
+                label: l10n.brewStats,
+                icon: Icons.bar_chart,
+                title: l10n.brewStats,
+                subtitle: l10n.hubBrewStatsSubtitle,
+                onTap: () {
+                  context.router.push(StatsRoute());
+                },
+              ),
+              _HubListTile(
+                identifier: 'userRecipes',
+                label: l10n.hubUserRecipesTitle,
+                icon: Icons.bookmarks_outlined,
+                title: l10n.hubUserRecipesTitle,
+                subtitle: l10n.hubUserRecipesSubtitle,
+                onTap: () {
+                  context.router.push(const UserRecipeManagementRoute());
+                },
+              ),
+            ],
+          ),
+          _HubSection(
+            title: l10n.explore,
+            children: [
+              _HubListTile(
+                identifier: 'pulse',
+                label: l10n.pulseTitle,
+                icon: Symbols.vital_signs,
+                title: l10n.pulseTitle,
+                subtitle: l10n.hubPulseSubtitle,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const PulseScreen()),
+                  );
+                },
+              ),
+              _HubListTile(
+                identifier: 'roasters',
+                label: l10n.roastersCatalogTitle,
+                icon: Icons.store_outlined,
+                title: l10n.roastersCatalogTitle,
+                subtitle: l10n.hubRoastersSubtitle,
+                onTap: () {
+                  context.router.push(const RoastersRoute());
+                },
+              ),
+            ],
+          ),
+          _HubSection(
+            title: l10n.account,
+            children: [_buildAccountTile(context, l10n)],
+          ),
+          _HubSection(
+            title: l10n.hubSectionApp,
+            children: [
+              _HubListTile(
+                identifier: 'settings',
+                label: l10n.settings,
+                icon: Icons.settings,
+                title: l10n.settings,
+                isCompact: true,
+                onTap: () {
+                  context.router.push(SettingsRoute());
+                },
+              ),
+              _HubListTile(
+                identifier: 'info',
+                label: l10n.about,
+                icon: Icons.info_outline,
+                title: l10n.about,
+                isCompact: true,
+                onTap: () {
+                  context.router.push(InfoRoute());
+                },
+              ),
+            ],
+          ),
         ],
       ),
+    );
+  }
+
+  Widget _buildAccountTile(BuildContext context, AppLocalizations l10n) {
+    return StreamBuilder<AuthState>(
+      stream: Supabase.instance.client.auth.onAuthStateChange,
+      builder: (context, snapshot) {
+        final session = snapshot.data?.session;
+        final isLoggedIn = session != null && !session.user.isAnonymous;
+
+        if (isLoggedIn) {
+          return _HubListTile(
+            identifier: 'account',
+            label: l10n.account,
+            icon: Icons.account_circle,
+            title: l10n.account,
+            subtitle: l10n.hubAccountSubtitle,
+            onTap: () {
+              final userId = Supabase.instance.client.auth.currentUser?.id;
+              AppLogger.debug(
+                'Navigating to AccountRoute with userId: $userId',
+              );
+              if (userId != null) {
+                context.router.push(AccountRoute(userId: userId));
+              }
+            },
+          );
+        }
+
+        return _HubListTile(
+          identifier: 'signIn',
+          label: l10n.signInCreate,
+          icon: Icons.login,
+          title: l10n.signInCreate,
+          subtitle: l10n.hubSignInCreateSubtitle,
+          onTap: () => _showSignInOptions(context),
+        );
+      },
     );
   }
 
@@ -556,9 +554,9 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       return false;
     }
 
-    final googleAuth = await googleUser?.authentication;
-    final accessToken = googleAuth?.accessToken;
-    final idToken = googleAuth?.idToken;
+    final googleAuth = await googleUser.authentication;
+    final accessToken = googleAuth.accessToken;
+    final idToken = googleAuth.idToken;
 
     if (accessToken == null) {
       throw 'No Access Token found.';
@@ -710,6 +708,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     final scaffoldMessenger = ScaffoldMessenger.of(
       context,
     ); // Capture scaffold messenger
+    final navigator = Navigator.of(context);
 
     try {
       final AuthResponse res = await Supabase.instance.client.auth.verifyOTP(
@@ -719,7 +718,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
       );
 
       // Pop the OTP dialog regardless of success/failure of verification
-      Navigator.of(context).pop();
+      navigator.pop();
 
       if (res.session != null) {
         // No need to call _loadUserData here, StreamBuilder handles UI update
@@ -741,8 +740,8 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
     } catch (e) {
       AppLogger.error('Error verifying OTP', errorObject: e);
       // Pop the OTP dialog if it wasn't popped due to an exception before this point
-      if (Navigator.canPop(context)) {
-        Navigator.of(context).pop();
+      if (navigator.canPop()) {
+        navigator.pop();
       }
       // Check mounted again before showing SnackBar
       if (mounted) {
@@ -754,4 +753,93 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
   }
 
   // Removed _signOut method as it's now handled in AccountScreen
+}
+
+class _HubSection extends StatelessWidget {
+  const _HubSection({required this.title, required this.children});
+
+  final String title;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.base),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              AppSpacing.base,
+              AppSpacing.sm,
+              AppSpacing.base,
+              AppSpacing.xs,
+            ),
+            child: Text(
+              title,
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: theme.colorScheme.primary,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0,
+              ),
+            ),
+          ),
+          Column(mainAxisSize: MainAxisSize.min, children: children),
+        ],
+      ),
+    );
+  }
+}
+
+class _HubListTile extends StatelessWidget {
+  const _HubListTile({
+    required this.identifier,
+    required this.label,
+    required this.icon,
+    required this.title,
+    required this.onTap,
+    this.subtitle,
+    this.isCompact = false,
+  });
+
+  final String identifier;
+  final String label;
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final VoidCallback onTap;
+  final bool isCompact;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Semantics(
+      identifier: identifier,
+      label: label,
+      child: ListTile(
+        dense: isCompact,
+        visualDensity: isCompact ? VisualDensity.compact : null,
+        leading: Icon(icon),
+        title: Text(
+          title,
+          style: theme.textTheme.bodyLarge?.copyWith(
+            color: theme.colorScheme.onSurface,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        subtitle: subtitle == null
+            ? null
+            : Text(
+                subtitle!,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+        onTap: onTap,
+      ),
+    );
+  }
 }
