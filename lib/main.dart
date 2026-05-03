@@ -46,6 +46,9 @@ import 'services/analytics_service.dart';
 import 'services/local_notification_scheduler_service.dart';
 import 'services/date_time_format_service.dart';
 import 'controllers/stats_controller.dart';
+import 'providers/roaster_profile_provider.dart';
+import 'providers/bean_review_provider.dart';
+import 'providers/roasters_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Custom log handler that intercepts and sanitizes all Supabase library logs
@@ -696,6 +699,10 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
           final uuid = deepLink.substring('/beans/'.length);
           if (uuid.isNotEmpty) {
             AppLogger.info('📱 BEAN DETAIL: Navigating to bean uuid=$uuid');
+            await _completeOnboardingForInternalRoute(
+              Uri(path: '/beans/$uuid'),
+              isValidInternalRoute: true,
+            );
             await widget.appRouter.push(CoffeeBeansDetailRoute(uuid: uuid));
             return;
           }
@@ -908,10 +915,50 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
 
   Future<void> _navigateToRoute(String routePath) async {
     try {
-      await widget.appRouter.pushNamed(routePath);
+      final uri = Uri.tryParse(routePath);
+      if (uri != null) {
+        final isValidInternalRoute =
+            widget.appRouter
+                .buildPageRoutesStack(routePath, includePrefixMatches: false)
+                ?.isNotEmpty ??
+            false;
+        final decision = await _completeOnboardingForInternalRoute(
+          uri,
+          isValidInternalRoute: isValidInternalRoute,
+        );
+        if (decision == OnboardingRouteGateDecision.showOnboarding) {
+          await widget.appRouter.push(const OnboardingRoute());
+          return;
+        }
+      }
+
+      await widget.appRouter.pushPath(routePath);
     } catch (e) {
       AppLogger.warning('Failed to navigate to deep_link route: $routePath');
     }
+  }
+
+  Future<OnboardingRouteGateDecision> _completeOnboardingForInternalRoute(
+    Uri uri, {
+    required bool isValidInternalRoute,
+  }) async {
+    final decision = widget.onboardingService.routeGateDecisionForUri(
+      uri,
+      isValidInternalRoute: isValidInternalRoute,
+    );
+
+    if (decision == OnboardingRouteGateDecision.skipOnboarding) {
+      AnalyticsService.instance.track(
+        'onboarding_completed',
+        properties: {
+          'completion_type': 'deep_link_skipped',
+          'path': OnboardingService.normalizedRoutePath(uri),
+        },
+      );
+      await widget.onboardingService.completeOnboarding();
+    }
+
+    return decision;
   }
 
   @override
@@ -968,6 +1015,15 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         ChangeNotifierProvider<DateTimeFormatService>(
           create: (_) => DateTimeFormatService()..init(),
         ),
+        ChangeNotifierProvider<RoasterProfileProvider>(
+          create: (_) => RoasterProfileProvider(),
+        ),
+        ChangeNotifierProvider<BeanReviewProvider>(
+          create: (_) => BeanReviewProvider(),
+        ),
+        ChangeNotifierProvider<RoastersProvider>(
+          create: (_) => RoastersProvider(),
+        ),
         StreamProvider<Map<String, bool>>(
           create: (_) => widget.featureFlagsRepository.stream,
           initialData: widget.featureFlagsRepository.currentFlags,
@@ -989,10 +1045,16 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
             supportedLocales: widget.supportedLocales,
             routerConfig: widget.appRouter.config(
               navigatorObservers: () => [AnalyticsRouteObserver()],
-              deepLinkBuilder: (deepLink) {
-                if (shouldRedirectToOnboarding(widget.onboardingService)) {
+              deepLinkBuilder: (deepLink) async {
+                final decision = await _completeOnboardingForInternalRoute(
+                  deepLink.uri,
+                  isValidInternalRoute: deepLink.isValid,
+                );
+
+                if (decision == OnboardingRouteGateDecision.showOnboarding) {
                   return DeepLink([const OnboardingRoute()]);
                 }
+
                 return deepLink;
               },
             ),
