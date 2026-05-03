@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/recipe_model.dart';
+import 'package:coffee_timer/models/roaster_profile_model.dart';
 import 'package:coffee_timer/controllers/recipe_detail_controller.dart';
+import 'package:coffee_timer/providers/roaster_profile_provider.dart';
+import 'package:coffee_timer/app_router.gr.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 import 'package:coffee_timer/widgets/recipe_detail/rich_text_links.dart';
 import 'package:coffee_timer/widgets/recipe_detail/bean_selection_row.dart';
 import 'package:coffee_timer/widgets/recipe_detail/amount_fields.dart';
@@ -42,6 +48,81 @@ class RecipeContentBuilder extends StatefulWidget {
 
 class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
   bool _isEditingGrindSize = false;
+  RoasterProfileModel? _recipeRoasterProfile;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _lookupRoasterProfile());
+  }
+
+  @override
+  void didUpdateWidget(covariant RecipeContentBuilder oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.recipe.vendorId != widget.recipe.vendorId ||
+        oldWidget.recipe.importId != widget.recipe.importId) {
+      setState(() => _recipeRoasterProfile = null);
+      _lookupRoasterProfile();
+    }
+  }
+
+  Future<void> _lookupRoasterProfile() async {
+    final provider =
+        Provider.of<RoasterProfileProvider>(context, listen: false);
+
+    // Try vendorId first (works for the recipe viewed on the roaster's own device)
+    final vendorId = widget.recipe.vendorId;
+    if (vendorId != null && vendorId.startsWith('usr-')) {
+      final profile = await provider.fetchRoasterProfileByVendorId(vendorId);
+      if (profile != null) {
+        if (mounted) setState(() => _recipeRoasterProfile = profile);
+        return;
+      }
+    }
+
+    // Fall back to importId — format is 'usr-<uuid>-<timestamp>'.
+    // Supabase UUIDs are 36 chars, so the creator's vendorId is the first 40
+    // chars ('usr-' + UUID). Used when the recipe was imported and vendorId
+    // was overwritten with the importer's own ID.
+    final importId = widget.recipe.importId;
+    if (importId != null &&
+        importId.startsWith('usr-') &&
+        importId.length >= 40) {
+      final creatorVendorId = importId.substring(0, 40);
+      final profile =
+          await provider.fetchRoasterProfileByVendorId(creatorVendorId);
+      if (mounted) setState(() => _recipeRoasterProfile = profile);
+    }
+  }
+
+  Widget _buildRoasterAttribution(
+      BuildContext context, RoasterProfileModel profile) {
+    final loc = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return InkWell(
+      onTap: () => context.router.push(RoasterProfileRoute(slug: profile.slug)),
+      borderRadius: BorderRadius.circular(AppRadius.small),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            loc.recipeByPrefix,
+            style: AppTextStyles.caption.copyWith(
+              color: colorScheme.onSurface.withValues(alpha: 0.6),
+            ),
+          ),
+          Text(
+            profile.roasterName,
+            style: AppTextStyles.caption.copyWith(
+              color: colorScheme.primary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +135,10 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(recipe.name, style: Theme.of(context).textTheme.headlineSmall),
+        if (_recipeRoasterProfile != null) ...[
+          const SizedBox(height: AppSpacing.xs),
+          _buildRoasterAttribution(context, _recipeRoasterProfile!),
+        ],
         const SizedBox(height: 16),
         // Rich text with markdown-like links; disable for user recipes
         if (!(effectiveRecipeId?.startsWith('usr-') ?? false))
