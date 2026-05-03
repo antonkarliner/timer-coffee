@@ -19,6 +19,8 @@
   "userRecipesDeleteConfirm": "Slett",
   "userRecipesDeleteCancel": "Avbryt",
   "userRecipesSnackbarDeleted": "Oppskrift slettet",
+  "hubSectionYourCoffee": "Din kaffe",
+  "hubSectionApp": "Appen",
   "hubUserRecipesTitle": "Dine oppskrifter",
   "hubUserRecipesSubtitle": "Vis og administrer opprettede og importerte oppskrifter",
   "hubAccountSubtitle": "Administrer profilen din",
@@ -105,6 +107,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "Bryggdagbok",
   "brewdiarynotfound": "Ingen oppføringer funnet",
+  "brewsWithThisCoffee": "Brygg med denne kaffen",
+  "showAllNBrews": "{count, plural, =1{Vis 1 brygg} other{Vis alle {count} brygg}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "Bønner",
   "roaster": "Brenneri",
   "rating": "Vurdering",
@@ -207,6 +219,13 @@
   "enterNotes": "Skriv inn notater",
   "inventory": "Beholdning",
   "amountLeft": "Mengde igjen",
+  "approxBrewsLeft": "{count, plural, =1{≈ 1 brygg igjen} other{≈ {count} brygg igjen}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "Skriv inn mengde igjen",
   "selectHarvestDate": "Velg høstedato",
   "selectRoastDate": "Velg brenningsdato",
@@ -1304,7 +1323,7 @@
   "notifMorningBody2": "Morgenkaffen kan være klar på få minutter.",
   "notifMorningTitle3": "Dagens første kopp?",
   "notifMorningBody3": "Velg en oppskrift og sett i gang.",
-  "notifWeeklyTitle": "{count, plural, =1{1 brygg denne uken} other{{count} brygg denne uken}}",
+  "notifWeeklyTitle": "{count, plural, =0{Ingen brygg denne uken} =1{1 brygg denne uken} other{{count} brygg denne uken}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -1312,7 +1331,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{Trykk for å se ukesstatistikken din.} other{Fordelt på {recipes} oppskrifter. Trykk for å se oversikten.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{Rolig uke — trykk for å planlegge neste brygg.} =1{Trykk for å se ukesstatistikken din.} other{Fordelt på {recipes} oppskrifter. Trykk for å se oversikten.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1347,5 +1366,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "AI-skann",
+  "reviewModerationFailedBody": "Anmeldelsen din kunne ikke publiseres fordi: {reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "Brenneriprofil",
+  "roasterRecipes": "Oppskrifter",
+  "roasterReviews": "Anmeldelser",
+  "roasterWebsite": "Nettsted",
+  "roasterLinks": "Lenker",
+  "roasterLocation": "Sted",
+  "roasterDisclaimerTitle": "Ansvarsfraskrivelse",
+  "roasterDisclaimerTrademark": "Alle merkenavn, logoer og varemerker som vises på denne siden, tilhører sine respektive eiere. At et brenneri er oppført på denne plattformen, innebærer ingen tilknytning til eller anbefaling fra Timer.Coffee.",
+  "roasterDisclaimerReviews": "Anmeldelser er skrevet av Timer.Coffee-brukere og er ikke verifisert av Timer.Coffee-teamet. Timer.Coffee er ikke ansvarlig for nøyaktigheten eller påliteligheten til innhold sendt inn av brukere.",
+  "roasterDisclaimerDetails": "Detaljer om brenneriet (sted, nettsted, sosiale lenker) oppgis av brenneriene selv eller hentes fra offentlige kilder, og er ikke nødvendigvis alltid oppdaterte.",
+  "yourReview": "Din anmeldelse",
+  "addReview": "Legg til anmeldelse",
+  "writeReview": "Skriv en anmeldelse",
+  "editReview": "Rediger anmeldelse",
+  "deleteReview": "Slett anmeldelse",
+  "myReviews": "Mine anmeldelser",
+  "roasterResponse": "Svar fra brenneriet",
+  "replyToReview": "Svar på denne anmeldelsen",
+  "editReply": "Rediger svar",
+  "noRecipesYet": "Ingen oppskrifter ennå",
+  "noReviewsYet": "Ingen anmeldelser ennå",
+  "reviewSubmitted": "Anmeldelse sendt",
+  "reviewUpdated": "Anmeldelse oppdatert",
+  "reviewDeleted": "Anmeldelse slettet",
+  "replySubmitted": "Svar sendt",
+  "tasteSweet": "Sødme",
+  "tasteAcidic": "Syrlighet",
+  "tasteFruity": "Fruktighet",
+  "tasteBody": "Fylde",
+  "reviewRatingLabel": "Vurdering",
+  "reviewTextLabel": "Anmeldelse",
+  "signInToReview": "Logg inn for å skrive en anmeldelse",
+  "selectBeanForReview": "Velg bønner",
+  "reviewBeanLabel": "Bønne",
+  "submitReviewButton": "Send",
+  "confirmDeleteReviewTitle": "Slette denne anmeldelsen?",
+  "confirmDeleteReviewMessage": "Denne handlingen kan ikke angres.",
+  "reviewsCount": "{count, plural, one{1 anmeldelse} other{{count} anmeldelser}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "Bryggemetode",
+  "reviewBrewMethodHint": "Velg bryggemetode",
+  "reviewWouldBuyAgainLabel": "Ville kjøpt igjen?",
+  "reviewFlavorNotesLabel": "Smaksnotater",
+  "tasteProfileAdvancedTitle": "Smaksprofil",
+  "tasteBrightness": "Friskhet",
+  "tasteBitterness": "Bitterhet",
+  "tasteAftertaste": "Ettersmak",
+  "flavorCatFruity": "Fruktig",
+  "flavorSubBerry": "Bær",
+  "flavorSubCitrus": "Sitrus",
+  "flavorSubDriedFruit": "Tørket frukt",
+  "flavorSubTropical": "Tropisk",
+  "flavorCatFloral": "Floral",
+  "flavorCatSweet": "Søt",
+  "flavorSubHoney": "Honning",
+  "flavorSubVanilla": "Vanilje",
+  "flavorSubCaramel": "Karamell",
+  "flavorSubBrownSugar": "Brunt sukker",
+  "flavorCatNuttyCocoa": "Nøtteaktig/Kakao",
+  "flavorSubNutty": "Nøtteaktig",
+  "flavorSubMilkChocolate": "Melkesjokolade",
+  "flavorSubDarkChocolate": "Mørk sjokolade",
+  "flavorCatRoasted": "Ristet",
+  "flavorSubCereal": "Korn",
+  "flavorSubSmoky": "Røykpreget",
+  "flavorSubBurnt": "Brent",
+  "flavorCatSpices": "Krydder",
+  "flavorCatSourFermented": "Sur/Fermentert",
+  "flavorCatGreenVegetative": "Grønn/Vegetal",
+  "moderationRulesTitle": "Innholdsregler",
+  "moderationRulesLearnMore": "Se innholdsregler",
+  "moderationDisplayNameFailedTitle": "Visningsnavn ikke lagret",
+  "moderationDisplayNameFailedBody": "Visningsnavnet ditt kunne ikke lagres fordi: {reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "Innhold du deler på Timer.Coffee blir automatisk gjennomgått. Innsendinger kan avvises hvis de inneholder:\n\n- **Lenker eller kontaktinformasjon**: URL-er, telefonnumre, e-postadresser eller skjulte varianter av dette\n- **Hatefullt eller støtende innhold**: hatefulle ytringer, trakassering eller diskriminering av noe slag\n- **Eksplisitt innhold**: seksuelt eksplisitt materiale eller grafiske beskrivelser av vold\n- **Farlig innhold**: promotering av selvskading eller andre farlige aktiviteter\n\nDisse reglene gjelder når du publiserer en oppskrift (private oppskrifter blir ikke gjennomgått), for tekst i bønneanmeldelser, visningsnavnet ditt og profilbilder. Vurderinger og andre felt som ikke er tekst, påvirkes ikke.\n\nHvis innsendingen avvises, får du se en grunn og kan redigere og sende inn på nytt. Det finnes ingen manuell klageprosess. Hvis du mener avvisningen var en feil, kan du prøve å formulere innholdet på nytt.",
+  "recipeByPrefix": "Oppskrift av ",
+  "roastersCatalogTitle": "Brennerier",
+  "hubRoastersSubtitle": "Bla gjennom alle kaffebrennerier",
+  "searchRoasters": "Søk etter brennerier...",
+  "filterByCountry": "Filtrer etter land",
+  "allCountries": "Alle land",
+  "roasterCountryCount": "{count, plural, one{1 brenneri} other{{count} brennerier}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "Fant ingen brennerier",
+  "roastersCatalogEmptySearch": "Ingen brennerier passer med \"{query}\"",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "Verifisert brenneri",
+  "retry": "Prøv igjen"
 }

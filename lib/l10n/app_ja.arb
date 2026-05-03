@@ -9,6 +9,8 @@
   "userRecipesDeleteConfirm": "削除",
   "userRecipesDeleteCancel": "キャンセル",
   "userRecipesSnackbarDeleted": "レシピを削除しました",
+  "hubSectionYourCoffee": "あなたのコーヒー",
+  "hubSectionApp": "アプリ",
   "hubUserRecipesTitle": "あなたのレシピ",
   "hubUserRecipesSubtitle": "作成済み・インポート済みのレシピを表示して管理",
   "hubAccountSubtitle": "プロフィールを管理",
@@ -90,6 +92,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "抽出日記",
   "brewdiarynotfound": "エントリーが見つかりません",
+  "brewsWithThisCoffee": "このコーヒーでの抽出",
+  "showAllNBrews": "{count, plural, =1{1件の抽出を表示} other{{count}件すべての抽出を表示}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "豆",
   "roaster": "ロースター",
   "rating": "評価",
@@ -701,6 +713,13 @@
   "recipePrivateTooltip": "レシピは非公開です - 共有して公開します",
   "inventory": "在庫",
   "amountLeft": "残量",
+  "approxBrewsLeft": "{count, plural, =1{≈ 残り1回分} other{≈ 残り{count}回分}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "残量を入力",
   "fieldClearButtonTooltip": "クリア",
   "dateFieldClearButtonTooltip": "日付をクリア",
@@ -982,7 +1001,7 @@
   "notifMorningBody2": "朝の一杯は数分で準備できます。",
   "notifMorningTitle3": "今日の最初の一杯ですか？",
   "notifMorningBody3": "レシピを選んで、淹れ始めましょう。",
-  "notifWeeklyTitle": "{count, plural, =1{今週の抽出は1回} other{今週の抽出は{count}回}}",
+  "notifWeeklyTitle": "{count, plural, =0{今週は抽出なし} =1{今週の抽出は1回} other{今週の抽出は{count}回}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -990,7 +1009,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{タップして今週の統計を見ましょう。} other{レシピ{recipes}件分です。タップして内訳を見ましょう。}}",
+  "notifWeeklyBody": "{recipes, plural, =0{静かな一週間 — タップして次の抽出を計画しましょう。} =1{タップして今週の統計を見ましょう。} other{レシピ{recipes}件分です。タップして内訳を見ましょう。}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1025,5 +1044,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "AIスキャン",
+  "reviewModerationFailedBody": "レビューを公開できませんでした。理由: {reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "ロースターのプロフィール",
+  "roasterRecipes": "レシピ",
+  "roasterReviews": "レビュー",
+  "roasterWebsite": "ウェブサイト",
+  "roasterLinks": "リンク",
+  "roasterLocation": "所在地",
+  "roasterDisclaimerTitle": "免責事項",
+  "roasterDisclaimerTrademark": "このページに表示されるすべてのブランド名、ロゴ、商標は、それぞれの所有者に帰属します。このプラットフォームにロースターを掲載していることは、Timer.Coffeeとの提携やTimer.Coffeeによる推薦を意味するものではありません。",
+  "roasterDisclaimerReviews": "レビューはTimer.Coffeeのユーザーによって投稿されたもので、Timer.Coffeeチームによる確認は行われていません。Timer.Coffeeは、ユーザー投稿コンテンツの正確性または信頼性について責任を負いません。",
+  "roasterDisclaimerDetails": "ロースターの詳細情報（所在地、ウェブサイト、ソーシャルリンク）は、ロースター自身が提供したもの、または公開情報に基づくものであり、常に最新とは限りません。",
+  "yourReview": "あなたのレビュー",
+  "addReview": "レビューを追加",
+  "writeReview": "レビューを書く",
+  "editReview": "レビューを編集",
+  "deleteReview": "レビューを削除",
+  "myReviews": "自分のレビュー",
+  "roasterResponse": "ロースターからの返信",
+  "replyToReview": "このレビューに返信",
+  "editReply": "返信を編集",
+  "noRecipesYet": "まだレシピはありません",
+  "noReviewsYet": "まだレビューはありません",
+  "reviewSubmitted": "レビューを送信しました",
+  "reviewUpdated": "レビューを更新しました",
+  "reviewDeleted": "レビューを削除しました",
+  "replySubmitted": "返信を送信しました",
+  "tasteSweet": "甘さ",
+  "tasteAcidic": "酸味",
+  "tasteFruity": "フルーティーさ",
+  "tasteBody": "ボディ",
+  "reviewRatingLabel": "評価",
+  "reviewTextLabel": "レビュー",
+  "signInToReview": "レビューを書くにはサインインしてください",
+  "selectBeanForReview": "豆を選択",
+  "reviewBeanLabel": "豆",
+  "submitReviewButton": "送信",
+  "confirmDeleteReviewTitle": "このレビューを削除しますか？",
+  "confirmDeleteReviewMessage": "この操作は元に戻せません。",
+  "reviewsCount": "{count, plural, other{{count}件のレビュー}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "抽出方法",
+  "reviewBrewMethodHint": "抽出方法を選択",
+  "reviewWouldBuyAgainLabel": "また購入したいですか？",
+  "reviewFlavorNotesLabel": "フレーバーノート",
+  "tasteProfileAdvancedTitle": "フレーバープロファイル",
+  "tasteBrightness": "明るさ",
+  "tasteBitterness": "苦味",
+  "tasteAftertaste": "後味",
+  "flavorCatFruity": "フルーティー",
+  "flavorSubBerry": "ベリー",
+  "flavorSubCitrus": "柑橘",
+  "flavorSubDriedFruit": "ドライフルーツ",
+  "flavorSubTropical": "トロピカル",
+  "flavorCatFloral": "フローラル",
+  "flavorCatSweet": "甘い",
+  "flavorSubHoney": "はちみつ",
+  "flavorSubVanilla": "バニラ",
+  "flavorSubCaramel": "キャラメル",
+  "flavorSubBrownSugar": "黒糖",
+  "flavorCatNuttyCocoa": "ナッツ/ココア",
+  "flavorSubNutty": "ナッツ",
+  "flavorSubMilkChocolate": "ミルクチョコレート",
+  "flavorSubDarkChocolate": "ダークチョコレート",
+  "flavorCatRoasted": "ロースト",
+  "flavorSubCereal": "シリアル",
+  "flavorSubSmoky": "スモーキー",
+  "flavorSubBurnt": "焦げ",
+  "flavorCatSpices": "スパイス",
+  "flavorCatSourFermented": "酸味/発酵",
+  "flavorCatGreenVegetative": "グリーン/植物系",
+  "moderationRulesTitle": "コンテンツルール",
+  "moderationRulesLearnMore": "コンテンツルールを見る",
+  "moderationDisplayNameFailedTitle": "表示名を保存できませんでした",
+  "moderationDisplayNameFailedBody": "表示名を保存できませんでした。理由: {reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "Timer.Coffeeで共有するコンテンツは自動的に確認されます。次の内容を含む投稿は拒否されることがあります:\n\n- **リンクまたは連絡先情報**: URL、電話番号、メールアドレス、またはそれらを隠した表記\n- **憎悪的または攻撃的な内容**: ヘイトスピーチ、嫌がらせ、あらゆる種類の差別\n- **露骨な内容**: 性的に露骨な素材、または暴力の生々しい描写\n- **危険な内容**: 自傷行為やその他の危険な行為の助長\n\nこれらのルールは、レシピの公開時（非公開レシピは確認されません）、豆レビューの本文、表示名、プロフィール写真に適用されます。評価やその他のテキスト以外の項目には影響しません。\n\n投稿が拒否された場合は理由が表示され、編集して再送信できます。手動の異議申し立て手続きはありません。拒否が誤りだと思う場合は、内容を言い換えてみてください。",
+  "recipeByPrefix": "レシピ提供: ",
+  "roastersCatalogTitle": "ロースター",
+  "hubRoastersSubtitle": "すべてのコーヒーロースターを見る",
+  "searchRoasters": "ロースターを検索...",
+  "filterByCountry": "国で絞り込み",
+  "allCountries": "すべての国",
+  "roasterCountryCount": "{count, plural, other{{count}件のロースター}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "ロースターが見つかりません",
+  "roastersCatalogEmptySearch": "\"{query}\"に一致するロースターはありません",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "認証済みロースター",
+  "retry": "再試行"
 }

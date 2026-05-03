@@ -9,6 +9,8 @@
   "userRecipesDeleteConfirm": "حذف",
   "userRecipesDeleteCancel": "إلغاء",
   "userRecipesSnackbarDeleted": "تم حذف الوصفة",
+  "hubSectionYourCoffee": "قهوتك",
+  "hubSectionApp": "التطبيق",
   "hubUserRecipesTitle": "وصفاتك",
   "hubUserRecipesSubtitle": "عرض وإدارة الوصفات المنشأة والمستوردة",
   "lastrecipe": "أحدث وصفة مستخدمة:",
@@ -84,6 +86,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "سجل التحضير",
   "brewdiarynotfound": "لا توجد إدخالات",
+  "brewsWithThisCoffee": "تحضيرات بهذه القهوة",
+  "showAllNBrews": "{count, plural, =1{عرض تحضير واحد} =2{عرض التحضيرين} few{عرض كل {count} تحضيرات} many{عرض كل {count} تحضيرًا} other{عرض كل {count} تحضير}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "حبوب القهوة",
   "roaster": "المحمصة",
   "rating": "التقييم",
@@ -481,7 +493,7 @@
     }
   },
   "dialogImport": "استيراد",
-  "moderationReviewNeededTitle": "مراجعة الإشراف مطلوبة",
+  "moderationReviewNeededTitle": "يلزم مراجعة المحتوى",
   "moderationReviewNeededMessage": "الوصفة (الوصفات) التالية تتطلب مراجعة بسبب مشكلات الإشراف على المحتوى: {recipeNames}",
   "@moderationReviewNeededMessage": {
     "description": "الرسالة المعروضة عندما تحتاج الوصفات إلى مراجعة الإشراف",
@@ -504,7 +516,7 @@
   "signInRequiredSnackbar": "تسجيل الدخول مطلوب",
   "moderationErrorFunction": "فشل التحقق من الإشراف على المحتوى.",
   "moderationReasonDefault": "تم الإبلاغ عن المحتوى للمراجعة.",
-  "moderationFailedTitle": "فشل الإشراف",
+  "moderationFailedTitle": "تعذّر نشر المحتوى",
   "moderationFailedBody": "لا يمكن مشاركة هذه الوصفة بسبب: {reason}",
   "@moderationFailedBody": {
     "description": "نص الحوار المعروض عند فشل الإشراف على المحتوى",
@@ -701,6 +713,13 @@
   "recipePrivateTooltip": "الوصفة خاصة - شاركها لجعلها عامة",
   "inventory": "المخزون",
   "amountLeft": "الكمية المتبقية",
+  "approxBrewsLeft": "{count, plural, =1{≈ تحضير واحد متبقٍ} =2{≈ تحضيران متبقيان} few{≈ {count} تحضيرات متبقية} many{≈ {count} تحضيرًا متبقيًا} other{≈ {count} تحضير متبقٍ}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "أدخل الكمية المتبقية",
   "fieldClearButtonTooltip": "مسح",
   "dateFieldClearButtonTooltip": "مسح التاريخ",
@@ -982,7 +1001,7 @@
   "notifMorningBody2": "يمكن أن تكون قهوتك الصباحية جاهزة خلال بضع دقائق.",
   "notifMorningTitle3": "أول فنجان في اليوم؟",
   "notifMorningBody3": "اختر وصفة وابدأ التحضير.",
-  "notifWeeklyTitle": "{count, plural, =1{تحضير واحد هذا الأسبوع} =2{تحضيران هذا الأسبوع} few{{count} تحضيرات هذا الأسبوع} many{{count} تحضيرًا هذا الأسبوع} other{{count} تحضير هذا الأسبوع}}",
+  "notifWeeklyTitle": "{count, plural, =0{لا توجد تحضيرات هذا الأسبوع} =1{تحضير واحد هذا الأسبوع} =2{تحضيران هذا الأسبوع} few{{count} تحضيرات هذا الأسبوع} many{{count} تحضيرًا هذا الأسبوع} other{{count} تحضير هذا الأسبوع}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -990,7 +1009,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{اضغط لرؤية إحصاءاتك الأسبوعية.} other{عبر {recipes} وصفات. اضغط لرؤية التفاصيل.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{أسبوع هادئ — اضغط لتخطيط تحضيرك القادم.} =1{اضغط لرؤية إحصاءاتك الأسبوعية.} other{عبر {recipes} وصفات. اضغط لرؤية التفاصيل.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1025,5 +1044,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "مسح بالذكاء الاصطناعي",
+  "reviewModerationFailedBody": "تعذر نشر مراجعتك بسبب: {reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "ملف المحمصة",
+  "roasterRecipes": "الوصفات",
+  "roasterReviews": "المراجعات",
+  "roasterWebsite": "الموقع الإلكتروني",
+  "roasterLinks": "الروابط",
+  "roasterLocation": "الموقع",
+  "roasterDisclaimerTitle": "إخلاء مسؤولية",
+  "roasterDisclaimerTrademark": "جميع أسماء العلامات التجارية والشعارات والعلامات المعروضة في هذه الصفحة مملوكة لأصحابها المعنيين. إدراج محمصة على هذه المنصة لا يعني وجود أي ارتباط بـ Timer.Coffee أو تأييد منه.",
+  "roasterDisclaimerReviews": "المراجعات يكتبها مستخدمو Timer.Coffee ولم يتم التحقق منها من قِبل فريق Timer.Coffee. لا يتحمل Timer.Coffee مسؤولية دقة أو موثوقية المحتوى الذي يقدمه المستخدمون.",
+  "roasterDisclaimerDetails": "تفاصيل المحمصة (الموقع، الموقع الإلكتروني، روابط التواصل الاجتماعي) تقدمها المحامص نفسها أو تُستمد من سجلات عامة وقد لا تكون محدثة دائمًا.",
+  "yourReview": "مراجعتك",
+  "addReview": "إضافة مراجعة",
+  "writeReview": "اكتب مراجعة",
+  "editReview": "تعديل المراجعة",
+  "deleteReview": "حذف المراجعة",
+  "myReviews": "مراجعاتي",
+  "roasterResponse": "رد المحمصة",
+  "replyToReview": "الرد على هذه المراجعة",
+  "editReply": "تعديل الرد",
+  "noRecipesYet": "لا توجد وصفات بعد",
+  "noReviewsYet": "لا توجد مراجعات بعد",
+  "reviewSubmitted": "تم إرسال المراجعة",
+  "reviewUpdated": "تم تحديث المراجعة",
+  "reviewDeleted": "تم حذف المراجعة",
+  "replySubmitted": "تم إرسال الرد",
+  "tasteSweet": "الحلاوة",
+  "tasteAcidic": "الحموضة",
+  "tasteFruity": "الفاكهية",
+  "tasteBody": "القوام",
+  "reviewRatingLabel": "التقييم",
+  "reviewTextLabel": "المراجعة",
+  "signInToReview": "سجّل الدخول لكتابة مراجعة",
+  "selectBeanForReview": "اختر الحبوب",
+  "reviewBeanLabel": "حبة القهوة",
+  "submitReviewButton": "إرسال",
+  "confirmDeleteReviewTitle": "حذف هذه المراجعة؟",
+  "confirmDeleteReviewMessage": "لا يمكن التراجع عن هذا الإجراء.",
+  "reviewsCount": "{count, plural, zero{0 مراجعات} one{مراجعة واحدة} two{مراجعتان} few{{count} مراجعات} many{{count} مراجعة} other{{count} مراجعة}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "طريقة التحضير",
+  "reviewBrewMethodHint": "اختر طريقة التحضير",
+  "reviewWouldBuyAgainLabel": "هل ستشتريها مرة أخرى؟",
+  "reviewFlavorNotesLabel": "ملاحظات النكهة",
+  "tasteProfileAdvancedTitle": "ملف التذوق",
+  "tasteBrightness": "الحيوية",
+  "tasteBitterness": "المرارة",
+  "tasteAftertaste": "النهاية",
+  "flavorCatFruity": "فاكهية",
+  "flavorSubBerry": "توتية",
+  "flavorSubCitrus": "حمضيات",
+  "flavorSubDriedFruit": "فواكه مجففة",
+  "flavorSubTropical": "استوائية",
+  "flavorCatFloral": "زهرية",
+  "flavorCatSweet": "حلوة",
+  "flavorSubHoney": "عسل",
+  "flavorSubVanilla": "فانيليا",
+  "flavorSubCaramel": "كراميل",
+  "flavorSubBrownSugar": "سكر بني",
+  "flavorCatNuttyCocoa": "مكسرات/كاكاو",
+  "flavorSubNutty": "مكسرات",
+  "flavorSubMilkChocolate": "شوكولاتة بالحليب",
+  "flavorSubDarkChocolate": "شوكولاتة داكنة",
+  "flavorCatRoasted": "محمصة",
+  "flavorSubCereal": "حبوب",
+  "flavorSubSmoky": "مدخنة",
+  "flavorSubBurnt": "محروقة",
+  "flavorCatSpices": "توابل",
+  "flavorCatSourFermented": "حامضة/مخمرة",
+  "flavorCatGreenVegetative": "خضراء/نباتية",
+  "moderationRulesTitle": "قواعد المحتوى",
+  "moderationRulesLearnMore": "عرض قواعد المحتوى",
+  "moderationDisplayNameFailedTitle": "لم يتم حفظ اسم العرض",
+  "moderationDisplayNameFailedBody": "تعذر حفظ اسم العرض الخاص بك بسبب: {reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "تتم مراجعة المحتوى الذي تشاركه على Timer.Coffee تلقائيًا. قد يتم رفض المشاركات إذا كانت تحتوي على:\n\n- **روابط أو تفاصيل اتصال**: عناوين URL أو أرقام هواتف أو عناوين بريد إلكتروني أو أي نسخ مخفية منها\n- **محتوى يحض على الكراهية أو مسيء**: خطاب كراهية أو مضايقة أو تمييز من أي نوع\n- **محتوى صريح**: مواد ذات طابع جنسي صريح أو أوصاف رسومية للعنف\n- **محتوى خطير**: الترويج لإيذاء النفس أو أنشطة خطيرة أخرى\n\nتنطبق هذه القواعد عند نشر وصفة (لا تتم مراجعة الوصفات الخاصة)، وعلى نص مراجعات الحبوب، واسم العرض الخاص بك، وصور الملف الشخصي. لا تتأثر التقييمات والحقول غير النصية الأخرى.\n\nإذا تم رفض مشاركتك، فسترى السبب ويمكنك تعديلها وإعادة إرسالها. لا توجد عملية استئناف يدوية. إذا كنت تعتقد أن الرفض كان خطأ، فجرّب إعادة صياغة المحتوى.",
+  "recipeByPrefix": "وصفة من ",
+  "roastersCatalogTitle": "المحامص",
+  "hubRoastersSubtitle": "تصفح جميع محامص القهوة",
+  "searchRoasters": "ابحث عن المحامص...",
+  "filterByCountry": "تصفية حسب البلد",
+  "allCountries": "كل البلدان",
+  "roasterCountryCount": "{count, plural, zero{0 محامص} one{محمصة واحدة} two{محمصتان} few{{count} محامص} many{{count} محمصة} other{{count} محمصة}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "لم يتم العثور على محامص",
+  "roastersCatalogEmptySearch": "لا توجد محامص تطابق \"{query}\"",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "محمصة موثّقة",
+  "retry": "إعادة المحاولة"
 }

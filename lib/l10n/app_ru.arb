@@ -9,6 +9,8 @@
   "userRecipesDeleteConfirm": "Удалить",
   "userRecipesDeleteCancel": "Отмена",
   "userRecipesSnackbarDeleted": "Рецепт удалён",
+  "hubSectionYourCoffee": "Ваш кофе",
+  "hubSectionApp": "Приложение",
   "hubUserRecipesTitle": "Ваши рецепты",
   "hubUserRecipesSubtitle": "Просмотр и управление созданными и импортированными рецептами",
   "hubAccountSubtitle": "Управляйте своим профилем",
@@ -90,6 +92,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "Дневник заварок",
   "brewdiarynotfound": "Записи не найдены",
+  "brewsWithThisCoffee": "Заварки с этим кофе",
+  "showAllNBrews": "{count, plural, =1{Показать 1 заварку} other{Показать все заварки ({count})}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "Зёрна",
   "roaster": "Обжарщик",
   "rating": "Рейтинг",
@@ -701,6 +713,13 @@
   "recipePrivateTooltip": "Рецепт частный - поделитесь, чтобы сделать его общедоступным",
   "inventory": "Остаток",
   "amountLeft": "Остаток",
+  "approxBrewsLeft": "{count, plural, one{≈ осталась {count} заварка} few{≈ осталось {count} заварки} many{≈ осталось {count} заварок} other{≈ осталось {count} заварки}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "Укажите остаток",
   "fieldClearButtonTooltip": "Очистить",
   "dateFieldClearButtonTooltip": "Очистить дату",
@@ -982,7 +1001,7 @@
   "notifMorningBody2": "Утренний кофе может быть готов за несколько минут.",
   "notifMorningTitle3": "Первая чашка за день?",
   "notifMorningBody3": "Выберите рецепт и начинайте.",
-  "notifWeeklyTitle": "{count, plural, one{{count} заваривание на этой неделе} few{{count} заваривания на этой неделе} many{{count} завариваний на этой неделе} other{{count} заваривания на этой неделе}}",
+  "notifWeeklyTitle": "{count, plural, =0{На этой неделе завариваний нет} one{{count} заваривание на этой неделе} few{{count} заваривания на этой неделе} many{{count} завариваний на этой неделе} other{{count} заваривания на этой неделе}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -990,7 +1009,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{Нажмите, чтобы посмотреть статистику за неделю.} other{В {recipes} рецептах. Нажмите, чтобы посмотреть детали.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{Спокойная неделя — нажмите, чтобы спланировать следующее заваривание.} =1{Нажмите, чтобы посмотреть статистику за неделю.} other{В {recipes} рецептах. Нажмите, чтобы посмотреть детали.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1025,5 +1044,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "AI-сканирование",
+  "reviewModerationFailedBody": "Ваш отзыв не удалось опубликовать, потому что: {reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "Профиль обжарщика",
+  "roasterRecipes": "Рецепты",
+  "roasterReviews": "Отзывы",
+  "roasterWebsite": "Сайт",
+  "roasterLinks": "Ссылки",
+  "roasterLocation": "Местоположение",
+  "roasterDisclaimerTitle": "Отказ от ответственности",
+  "roasterDisclaimerTrademark": "Все названия брендов, логотипы и товарные знаки, показанные на этой странице, принадлежат их владельцам. Размещение обжарщика на этой платформе не означает связи с Timer.Coffee или одобрения со стороны Timer.Coffee.",
+  "roasterDisclaimerReviews": "Отзывы пишут пользователи Timer.Coffee, и команда Timer.Coffee их не проверяет. Timer.Coffee не несёт ответственности за точность или надёжность контента, отправленного пользователями.",
+  "roasterDisclaimerDetails": "Сведения об обжарщике (местоположение, сайт, ссылки на соцсети) предоставляются самими обжарщиками или берутся из открытых источников и могут быть не всегда актуальными.",
+  "yourReview": "Ваш отзыв",
+  "addReview": "Добавить отзыв",
+  "writeReview": "Написать отзыв",
+  "editReview": "Редактировать отзыв",
+  "deleteReview": "Удалить отзыв",
+  "myReviews": "Мои отзывы",
+  "roasterResponse": "Ответ обжарщика",
+  "replyToReview": "Ответить на этот отзыв",
+  "editReply": "Редактировать ответ",
+  "noRecipesYet": "Рецептов пока нет",
+  "noReviewsYet": "Отзывов пока нет",
+  "reviewSubmitted": "Отзыв отправлен",
+  "reviewUpdated": "Отзыв обновлён",
+  "reviewDeleted": "Отзыв удалён",
+  "replySubmitted": "Ответ отправлен",
+  "tasteSweet": "Сладость",
+  "tasteAcidic": "Кислотность",
+  "tasteFruity": "Фруктовость",
+  "tasteBody": "Плотность",
+  "reviewRatingLabel": "Рейтинг",
+  "reviewTextLabel": "Отзыв",
+  "signInToReview": "Войдите, чтобы написать отзыв",
+  "selectBeanForReview": "Выберите зёрна",
+  "reviewBeanLabel": "Зерно",
+  "submitReviewButton": "Отправить",
+  "confirmDeleteReviewTitle": "Удалить этот отзыв?",
+  "confirmDeleteReviewMessage": "Это действие нельзя отменить.",
+  "reviewsCount": "{count, plural, one{{count} отзыв} few{{count} отзыва} many{{count} отзывов} other{{count} отзыва}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "Способ заваривания",
+  "reviewBrewMethodHint": "Выберите способ заваривания",
+  "reviewWouldBuyAgainLabel": "Купили бы снова?",
+  "reviewFlavorNotesLabel": "Вкусовые ноты",
+  "tasteProfileAdvancedTitle": "Вкусовой профиль",
+  "tasteBrightness": "Яркость",
+  "tasteBitterness": "Горечь",
+  "tasteAftertaste": "Послевкусие",
+  "flavorCatFruity": "Фруктовый",
+  "flavorSubBerry": "Ягодный",
+  "flavorSubCitrus": "Цитрус",
+  "flavorSubDriedFruit": "Сухофрукты",
+  "flavorSubTropical": "Тропический",
+  "flavorCatFloral": "Цветочный",
+  "flavorCatSweet": "Сладкий",
+  "flavorSubHoney": "Мёд",
+  "flavorSubVanilla": "Ваниль",
+  "flavorSubCaramel": "Карамель",
+  "flavorSubBrownSugar": "Коричневый сахар",
+  "flavorCatNuttyCocoa": "Орехи/Какао",
+  "flavorSubNutty": "Ореховый",
+  "flavorSubMilkChocolate": "Молочный шоколад",
+  "flavorSubDarkChocolate": "Тёмный шоколад",
+  "flavorCatRoasted": "Жареный",
+  "flavorSubCereal": "Злаки",
+  "flavorSubSmoky": "Дымный",
+  "flavorSubBurnt": "Горелый",
+  "flavorCatSpices": "Специи",
+  "flavorCatSourFermented": "Кислый/Ферментированный",
+  "flavorCatGreenVegetative": "Зелёный/Растительный",
+  "moderationRulesTitle": "Правила контента",
+  "moderationRulesLearnMore": "Посмотреть правила контента",
+  "moderationDisplayNameFailedTitle": "Отображаемое имя не сохранено",
+  "moderationDisplayNameFailedBody": "Ваше отображаемое имя не удалось сохранить, потому что: {reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "Контент, которым вы делитесь в Timer.Coffee, автоматически проверяется. Публикации могут быть отклонены, если содержат:\n\n- **Ссылки или контактные данные**: URL, номера телефонов, адреса электронной почты или любые замаскированные варианты\n- **Ненавистнический или оскорбительный контент**: язык вражды, травлю или дискриминацию любого рода\n- **Откровенный контент**: материалы сексуального характера или графические описания насилия\n- **Опасный контент**: пропаганду самоповреждения или других опасных действий\n\nЭти правила действуют при публикации рецепта (приватные рецепты не проверяются), для текста отзывов о зёрнах, вашего отображаемого имени и фотографий профиля. Рейтинги и другие нетекстовые поля не затрагиваются.\n\nЕсли ваша публикация отклонена, вы увидите причину и сможете отредактировать её и отправить снова. Ручной процедуры апелляции нет. Если вы считаете, что отклонение было ошибкой, попробуйте переформулировать текст.",
+  "recipeByPrefix": "Рецепт от ",
+  "roastersCatalogTitle": "Обжарщики",
+  "hubRoastersSubtitle": "Посмотреть всех обжарщиков кофе",
+  "searchRoasters": "Искать обжарщиков...",
+  "filterByCountry": "Фильтр по стране",
+  "allCountries": "Все страны",
+  "roasterCountryCount": "{count, plural, one{{count} обжарщик} few{{count} обжарщика} many{{count} обжарщиков} other{{count} обжарщика}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "Обжарщики не найдены",
+  "roastersCatalogEmptySearch": "Нет обжарщиков по запросу \"{query}\"",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "Проверенный обжарщик",
+  "retry": "Повторить"
 }

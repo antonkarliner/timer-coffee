@@ -9,6 +9,8 @@
   "userRecipesDeleteConfirm": "Excluir",
   "userRecipesDeleteCancel": "Cancelar",
   "userRecipesSnackbarDeleted": "Receita excluída",
+  "hubSectionYourCoffee": "Seu café",
+  "hubSectionApp": "App",
   "hubUserRecipesTitle": "Suas receitas",
   "hubUserRecipesSubtitle": "Ver e gerenciar receitas criadas e importadas",
   "hubAccountSubtitle": "Gerencie seu perfil",
@@ -90,6 +92,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "Diário de Preparo",
   "brewdiarynotfound": "Nenhuma entrada encontrada",
+  "brewsWithThisCoffee": "Preparos com este café",
+  "showAllNBrews": "{count, plural, =1{Mostrar 1 preparo} other{Mostrar todos os {count} preparos}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "Grãos",
   "roaster": "Torrefação",
   "rating": "Classificação",
@@ -701,6 +713,13 @@
   "recipePrivateTooltip": "Receita privada — compartilhe para tornar pública",
   "inventory": "Estoque",
   "amountLeft": "Quantidade restante",
+  "approxBrewsLeft": "{count, plural, =1{≈ 1 preparo restante} other{≈ {count} preparos restantes}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "Digite a quantidade restante",
   "fieldClearButtonTooltip": "Limpar",
   "dateFieldClearButtonTooltip": "Limpar data",
@@ -982,7 +1001,7 @@
   "notifMorningBody2": "Seu café matinal pode ficar pronto em poucos minutos.",
   "notifMorningTitle3": "Primeira xícara do dia?",
   "notifMorningBody3": "Escolha uma receita e comece a preparar.",
-  "notifWeeklyTitle": "{count, plural, =1{1 preparo nesta semana} other{{count} preparos nesta semana}}",
+  "notifWeeklyTitle": "{count, plural, =0{Sem preparos nesta semana} =1{1 preparo nesta semana} other{{count} preparos nesta semana}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -990,7 +1009,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{Toque para ver suas estatísticas da semana.} other{Em {recipes} receitas. Toque para ver o detalhamento.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{Semana tranquila — toque para planejar seu próximo preparo.} =1{Toque para ver suas estatísticas da semana.} other{Em {recipes} receitas. Toque para ver o detalhamento.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1025,5 +1044,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "Escaneamento por IA",
+  "reviewModerationFailedBody": "Sua avaliação não pôde ser publicada porque: {reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "Perfil da torrefação",
+  "roasterRecipes": "Receitas",
+  "roasterReviews": "Avaliações",
+  "roasterWebsite": "Site",
+  "roasterLinks": "Links",
+  "roasterLocation": "Localização",
+  "roasterDisclaimerTitle": "Aviso legal",
+  "roasterDisclaimerTrademark": "Todos os nomes de marcas, logotipos e marcas comerciais exibidos nesta página pertencem aos seus respectivos proprietários. Listar uma torrefação nesta plataforma não implica qualquer afiliação com a Timer.Coffee nem endosso por parte dela.",
+  "roasterDisclaimerReviews": "As avaliações são escritas por usuários da Timer.Coffee e não foram verificadas pela equipe da Timer.Coffee. A Timer.Coffee não se responsabiliza pela precisão ou confiabilidade do conteúdo enviado pelos usuários.",
+  "roasterDisclaimerDetails": "Os detalhes da torrefação (localização, site, links sociais) são fornecidos pelas próprias torrefações ou obtidos de registros públicos e podem nem sempre estar atualizados.",
+  "yourReview": "Sua avaliação",
+  "addReview": "Adicionar avaliação",
+  "writeReview": "Escrever uma avaliação",
+  "editReview": "Editar avaliação",
+  "deleteReview": "Excluir avaliação",
+  "myReviews": "Minhas avaliações",
+  "roasterResponse": "Resposta da torrefação",
+  "replyToReview": "Responder a esta avaliação",
+  "editReply": "Editar resposta",
+  "noRecipesYet": "Ainda não há receitas",
+  "noReviewsYet": "Ainda não há avaliações",
+  "reviewSubmitted": "Avaliação enviada",
+  "reviewUpdated": "Avaliação atualizada",
+  "reviewDeleted": "Avaliação excluída",
+  "replySubmitted": "Resposta enviada",
+  "tasteSweet": "Doçura",
+  "tasteAcidic": "Acidez",
+  "tasteFruity": "Frutado",
+  "tasteBody": "Corpo",
+  "reviewRatingLabel": "Classificação",
+  "reviewTextLabel": "Avaliação",
+  "signInToReview": "Entre para escrever uma avaliação",
+  "selectBeanForReview": "Selecionar grãos",
+  "reviewBeanLabel": "Grão",
+  "submitReviewButton": "Enviar",
+  "confirmDeleteReviewTitle": "Excluir esta avaliação?",
+  "confirmDeleteReviewMessage": "Esta ação não pode ser desfeita.",
+  "reviewsCount": "{count, plural, =1{1 avaliação} other{{count} avaliações}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "Método de preparo",
+  "reviewBrewMethodHint": "Selecione o método de preparo",
+  "reviewWouldBuyAgainLabel": "Compraria novamente?",
+  "reviewFlavorNotesLabel": "Notas de sabor",
+  "tasteProfileAdvancedTitle": "Perfil de sabor",
+  "tasteBrightness": "Vivacidade",
+  "tasteBitterness": "Amargor",
+  "tasteAftertaste": "Finalização",
+  "flavorCatFruity": "Frutado",
+  "flavorSubBerry": "Frutas vermelhas",
+  "flavorSubCitrus": "Cítrico",
+  "flavorSubDriedFruit": "Frutas secas",
+  "flavorSubTropical": "Tropical",
+  "flavorCatFloral": "Floral",
+  "flavorCatSweet": "Doce",
+  "flavorSubHoney": "Mel",
+  "flavorSubVanilla": "Baunilha",
+  "flavorSubCaramel": "Caramelo",
+  "flavorSubBrownSugar": "Açúcar mascavo",
+  "flavorCatNuttyCocoa": "Castanhas/Cacau",
+  "flavorSubNutty": "Castanhas",
+  "flavorSubMilkChocolate": "Chocolate ao leite",
+  "flavorSubDarkChocolate": "Chocolate amargo",
+  "flavorCatRoasted": "Torrado",
+  "flavorSubCereal": "Cereal",
+  "flavorSubSmoky": "Defumado",
+  "flavorSubBurnt": "Queimado",
+  "flavorCatSpices": "Especiarias",
+  "flavorCatSourFermented": "Azedo/Fermentado",
+  "flavorCatGreenVegetative": "Verde/Vegetal",
+  "moderationRulesTitle": "Regras de conteúdo",
+  "moderationRulesLearnMore": "Ver regras de conteúdo",
+  "moderationDisplayNameFailedTitle": "Nome de exibição não salvo",
+  "moderationDisplayNameFailedBody": "Seu nome de exibição não pôde ser salvo porque: {reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "O conteúdo que você compartilha no Timer.Coffee é revisado automaticamente. Envios podem ser rejeitados se contiverem:\n\n- **Links ou dados de contato**: URLs, números de telefone, endereços de e-mail ou versões disfarçadas desses dados\n- **Conteúdo ofensivo ou de ódio**: discurso de ódio, assédio ou discriminação de qualquer tipo\n- **Conteúdo explícito**: material sexualmente explícito ou descrições gráficas de violência\n- **Conteúdo perigoso**: promoção de automutilação ou outras atividades perigosas\n\nEssas regras se aplicam ao publicar uma receita (receitas privadas não são revisadas), ao texto de avaliações de grãos, ao seu nome de exibição e às fotos de perfil. Classificações e outros campos que não são texto não são afetados.\n\nSe o seu envio for rejeitado, você verá o motivo e poderá editar e enviar novamente. Não há processo de recurso manual. Se você acredita que a rejeição foi um erro, tente reformular o conteúdo.",
+  "recipeByPrefix": "Receita de ",
+  "roastersCatalogTitle": "Torrefações",
+  "hubRoastersSubtitle": "Explore todas as torrefações de café",
+  "searchRoasters": "Buscar torrefações...",
+  "filterByCountry": "Filtrar por país",
+  "allCountries": "Todos os países",
+  "roasterCountryCount": "{count, plural, =1{1 torrefação} other{{count} torrefações}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "Nenhuma torrefação encontrada",
+  "roastersCatalogEmptySearch": "Nenhuma torrefação corresponde a \"{query}\"",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "Torrefação verificada",
+  "retry": "Tentar novamente"
 }

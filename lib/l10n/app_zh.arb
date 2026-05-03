@@ -9,6 +9,8 @@
   "userRecipesDeleteConfirm": "删除",
   "userRecipesDeleteCancel": "取消",
   "userRecipesSnackbarDeleted": "已删除配方",
+  "hubSectionYourCoffee": "你的咖啡",
+  "hubSectionApp": "应用",
   "hubUserRecipesTitle": "你的配方",
   "hubUserRecipesSubtitle": "查看并管理你创建和导入的配方",
   "hubAccountSubtitle": "管理个人资料",
@@ -90,6 +92,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "冲煮日记",
   "brewdiarynotfound": "未找到条目",
+  "brewsWithThisCoffee": "用这款咖啡冲煮",
+  "showAllNBrews": "{count, plural, =1{显示 1 次冲煮} other{显示全部 {count} 次冲煮}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "咖啡豆",
   "roaster": "烘焙商",
   "rating": "评分",
@@ -701,6 +713,13 @@
   "recipePrivateTooltip": "配方是私有的 - 分享以公开",
   "inventory": "库存",
   "amountLeft": "剩余数量",
+  "approxBrewsLeft": "{count, plural, =1{≈ 剩余 1 次冲煮} other{≈ 剩余 {count} 次冲煮}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "输入剩余数量",
   "fieldClearButtonTooltip": "清除",
   "dateFieldClearButtonTooltip": "清除日期",
@@ -982,7 +1001,7 @@
   "notifMorningBody2": "你的晨间咖啡几分钟就能准备好。",
   "notifMorningTitle3": "今天的第一杯？",
   "notifMorningBody3": "选个配方，开始冲吧。",
-  "notifWeeklyTitle": "{count, plural, =1{本周冲煮 1 次} other{本周冲煮 {count} 次}}",
+  "notifWeeklyTitle": "{count, plural, =0{本周没有冲煮} =1{本周冲煮 1 次} other{本周冲煮 {count} 次}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -990,7 +1009,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{点按查看你的每周统计。} other{你试过 {recipes} 个配方。点按查看详情。}}",
+  "notifWeeklyBody": "{recipes, plural, =0{安静的一周 — 点按计划下一次冲煮。} =1{点按查看你的每周统计。} other{你试过 {recipes} 个配方。点按查看详情。}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1025,5 +1044,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "AI 扫描",
+  "reviewModerationFailedBody": "你的评价无法发布，原因：{reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "烘焙商资料",
+  "roasterRecipes": "配方",
+  "roasterReviews": "评价",
+  "roasterWebsite": "网站",
+  "roasterLinks": "链接",
+  "roasterLocation": "位置",
+  "roasterDisclaimerTitle": "免责声明",
+  "roasterDisclaimerTrademark": "本页面显示的所有品牌名称、标志和商标均归其各自所有者所有。在本平台列出某个烘焙商，并不表示其与 Timer.Coffee 存在关联，也不表示 Timer.Coffee 对其背书。",
+  "roasterDisclaimerReviews": "评价由 Timer.Coffee 用户撰写，尚未经过 Timer.Coffee 团队验证。Timer.Coffee 不对用户提交内容的准确性或可靠性负责。",
+  "roasterDisclaimerDetails": "烘焙商详情（位置、网站、社交链接）由烘焙商自行提供，或来自公开记录，可能并非始终为最新信息。",
+  "yourReview": "你的评价",
+  "addReview": "添加评价",
+  "writeReview": "写评价",
+  "editReview": "编辑评价",
+  "deleteReview": "删除评价",
+  "myReviews": "我的评价",
+  "roasterResponse": "烘焙商回复",
+  "replyToReview": "回复这条评价",
+  "editReply": "编辑回复",
+  "noRecipesYet": "暂无配方",
+  "noReviewsYet": "暂无评价",
+  "reviewSubmitted": "评价已提交",
+  "reviewUpdated": "评价已更新",
+  "reviewDeleted": "评价已删除",
+  "replySubmitted": "回复已提交",
+  "tasteSweet": "甜感",
+  "tasteAcidic": "酸质",
+  "tasteFruity": "果香",
+  "tasteBody": "醇厚度",
+  "reviewRatingLabel": "评分",
+  "reviewTextLabel": "评价",
+  "signInToReview": "登录后即可写评价",
+  "selectBeanForReview": "选择咖啡豆",
+  "reviewBeanLabel": "咖啡豆",
+  "submitReviewButton": "提交",
+  "confirmDeleteReviewTitle": "删除这条评价？",
+  "confirmDeleteReviewMessage": "此操作无法撤销。",
+  "reviewsCount": "{count, plural, other{{count} 条评价}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "冲煮方式",
+  "reviewBrewMethodHint": "选择冲煮方式",
+  "reviewWouldBuyAgainLabel": "会再次购买吗？",
+  "reviewFlavorNotesLabel": "风味描述",
+  "tasteProfileAdvancedTitle": "风味档案",
+  "tasteBrightness": "明亮度",
+  "tasteBitterness": "苦感",
+  "tasteAftertaste": "余韵",
+  "flavorCatFruity": "果香",
+  "flavorSubBerry": "莓果",
+  "flavorSubCitrus": "柑橘",
+  "flavorSubDriedFruit": "果干",
+  "flavorSubTropical": "热带水果",
+  "flavorCatFloral": "花香",
+  "flavorCatSweet": "甜香",
+  "flavorSubHoney": "蜂蜜",
+  "flavorSubVanilla": "香草",
+  "flavorSubCaramel": "焦糖",
+  "flavorSubBrownSugar": "红糖",
+  "flavorCatNuttyCocoa": "坚果/可可",
+  "flavorSubNutty": "坚果",
+  "flavorSubMilkChocolate": "牛奶巧克力",
+  "flavorSubDarkChocolate": "黑巧克力",
+  "flavorCatRoasted": "烘焙",
+  "flavorSubCereal": "谷物",
+  "flavorSubSmoky": "烟熏",
+  "flavorSubBurnt": "焦糊",
+  "flavorCatSpices": "香料",
+  "flavorCatSourFermented": "酸/发酵",
+  "flavorCatGreenVegetative": "青绿/植物",
+  "moderationRulesTitle": "内容规则",
+  "moderationRulesLearnMore": "查看内容规则",
+  "moderationDisplayNameFailedTitle": "显示名称未保存",
+  "moderationDisplayNameFailedBody": "你的显示名称无法保存，原因：{reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "你在 Timer.Coffee 分享的内容会自动审核。如包含以下内容，提交可能会被拒绝：\n\n- **链接或联系方式**：URL、电话号码、电子邮件地址，或任何变形隐藏写法\n- **仇恨或冒犯性内容**：仇恨言论、骚扰或任何形式的歧视\n- **露骨内容**：露骨的性内容或对暴力的细节描写\n- **危险内容**：宣扬自伤或其他危险活动\n\n这些规则适用于发布配方时（私人配方不会审核）、咖啡豆评价文本、显示名称和头像。评分及其他非文本字段不受影响。\n\n如果你的提交被拒绝，你会看到原因，并可以编辑后重新提交。当前没有人工申诉流程。如果你认为这是误判，请尝试改写内容。",
+  "recipeByPrefix": "配方来自 ",
+  "roastersCatalogTitle": "烘焙商",
+  "hubRoastersSubtitle": "浏览所有咖啡烘焙商",
+  "searchRoasters": "搜索烘焙商...",
+  "filterByCountry": "按国家筛选",
+  "allCountries": "所有国家",
+  "roasterCountryCount": "{count, plural, other{{count} 家烘焙商}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "未找到烘焙商",
+  "roastersCatalogEmptySearch": "没有与“{query}”匹配的烘焙商",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "已认证烘焙商",
+  "retry": "重试"
 }

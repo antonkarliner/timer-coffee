@@ -9,6 +9,8 @@
   "userRecipesDeleteConfirm": "Usuń",
   "userRecipesDeleteCancel": "Anuluj",
   "userRecipesSnackbarDeleted": "Przepis usunięty",
+  "hubSectionYourCoffee": "Twoja kawa",
+  "hubSectionApp": "Aplikacja",
   "hubUserRecipesTitle": "Twoje przepisy",
   "hubUserRecipesSubtitle": "Przeglądaj i zarządzaj utworzonymi i zaimportowanymi przepisami",
   "hubAccountSubtitle": "Zarządzaj swoim profilem",
@@ -90,6 +92,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "Dziennik parzeń",
   "brewdiarynotfound": "Nie znaleziono wpisów",
+  "brewsWithThisCoffee": "Parzenia z tą kawą",
+  "showAllNBrews": "{count, plural, =1{Pokaż 1 parzenie} few{Pokaż wszystkie {count} parzenia} many{Pokaż wszystkie {count} parzeń} other{Pokaż wszystkie {count} parzenia}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "Ziarna",
   "roaster": "Palarnia",
   "rating": "Ocena",
@@ -701,6 +713,13 @@
   "recipePrivateTooltip": "Przepis jest prywatny - udostępnij, aby uczynić go publicznym",
   "inventory": "Zapasy",
   "amountLeft": "Pozostała ilość",
+  "approxBrewsLeft": "{count, plural, =1{≈ zostało 1 parzenie} few{≈ zostały {count} parzenia} many{≈ zostało {count} parzeń} other{≈ zostało {count} parzenia}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "Wprowadź pozostałą ilość",
   "fieldClearButtonTooltip": "Wyczyść",
   "dateFieldClearButtonTooltip": "Wyczyść datę",
@@ -982,7 +1001,7 @@
   "notifMorningBody2": "Poranna kawa może być gotowa w kilka minut.",
   "notifMorningTitle3": "Pierwsza filiżanka dnia?",
   "notifMorningBody3": "Wybierz przepis i zacznij parzyć.",
-  "notifWeeklyTitle": "{count, plural, one{{count} parzenie w tym tygodniu} few{{count} parzenia w tym tygodniu} many{{count} parzeń w tym tygodniu} other{{count} parzenia w tym tygodniu}}",
+  "notifWeeklyTitle": "{count, plural, =0{Brak parzeń w tym tygodniu} one{{count} parzenie w tym tygodniu} few{{count} parzenia w tym tygodniu} many{{count} parzeń w tym tygodniu} other{{count} parzenia w tym tygodniu}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -990,7 +1009,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{Dotknij, aby zobaczyć statystyki tygodnia.} other{W ramach {recipes} przepisów. Dotknij, aby zobaczyć szczegóły.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{Spokojny tydzień — dotknij, aby zaplanować kolejne parzenie.} =1{Dotknij, aby zobaczyć statystyki tygodnia.} other{W ramach {recipes} przepisów. Dotknij, aby zobaczyć szczegóły.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1025,5 +1044,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "Skan AI",
+  "reviewModerationFailedBody": "Twoja recenzja nie mogła zostać opublikowana, ponieważ: {reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "Profil palarni",
+  "roasterRecipes": "Przepisy",
+  "roasterReviews": "Recenzje",
+  "roasterWebsite": "Strona internetowa",
+  "roasterLinks": "Linki",
+  "roasterLocation": "Lokalizacja",
+  "roasterDisclaimerTitle": "Zastrzeżenie",
+  "roasterDisclaimerTrademark": "Wszystkie nazwy marek, logo i znaki towarowe wyświetlane na tej stronie należą do ich właścicieli. Umieszczenie palarni na tej platformie nie oznacza powiązania z Timer.Coffee ani rekomendacji ze strony Timer.Coffee.",
+  "roasterDisclaimerReviews": "Recenzje są pisane przez użytkowników Timer.Coffee i nie zostały zweryfikowane przez zespół Timer.Coffee. Timer.Coffee nie ponosi odpowiedzialności za dokładność ani wiarygodność treści przesyłanych przez użytkowników.",
+  "roasterDisclaimerDetails": "Dane palarni (lokalizacja, strona internetowa, linki społecznościowe) są podawane przez same palarnie lub pochodzą z publicznych źródeł i mogą nie zawsze być aktualne.",
+  "yourReview": "Twoja recenzja",
+  "addReview": "Dodaj recenzję",
+  "writeReview": "Napisz recenzję",
+  "editReview": "Edytuj recenzję",
+  "deleteReview": "Usuń recenzję",
+  "myReviews": "Moje recenzje",
+  "roasterResponse": "Odpowiedź palarni",
+  "replyToReview": "Odpowiedz na tę recenzję",
+  "editReply": "Edytuj odpowiedź",
+  "noRecipesYet": "Brak przepisów",
+  "noReviewsYet": "Brak recenzji",
+  "reviewSubmitted": "Recenzja wysłana",
+  "reviewUpdated": "Recenzja zaktualizowana",
+  "reviewDeleted": "Recenzja usunięta",
+  "replySubmitted": "Odpowiedź wysłana",
+  "tasteSweet": "Słodycz",
+  "tasteAcidic": "Kwasowość",
+  "tasteFruity": "Owocowość",
+  "tasteBody": "Pełnia",
+  "reviewRatingLabel": "Ocena",
+  "reviewTextLabel": "Recenzja",
+  "signInToReview": "Zaloguj się, aby napisać recenzję",
+  "selectBeanForReview": "Wybierz ziarna",
+  "reviewBeanLabel": "Ziarno",
+  "submitReviewButton": "Wyślij",
+  "confirmDeleteReviewTitle": "Usunąć tę recenzję?",
+  "confirmDeleteReviewMessage": "Tej czynności nie można cofnąć.",
+  "reviewsCount": "{count, plural, one{{count} recenzja} few{{count} recenzje} many{{count} recenzji} other{{count} recenzji}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "Metoda parzenia",
+  "reviewBrewMethodHint": "Wybierz metodę parzenia",
+  "reviewWouldBuyAgainLabel": "Kupić ponownie?",
+  "reviewFlavorNotesLabel": "Nuty smakowe",
+  "tasteProfileAdvancedTitle": "Profil smakowy",
+  "tasteBrightness": "Jasność",
+  "tasteBitterness": "Gorycz",
+  "tasteAftertaste": "Finisz",
+  "flavorCatFruity": "Owocowe",
+  "flavorSubBerry": "Jagodowe",
+  "flavorSubCitrus": "Cytrusy",
+  "flavorSubDriedFruit": "Suszone owoce",
+  "flavorSubTropical": "Tropikalne",
+  "flavorCatFloral": "Kwiatowe",
+  "flavorCatSweet": "Słodkie",
+  "flavorSubHoney": "Miód",
+  "flavorSubVanilla": "Wanilia",
+  "flavorSubCaramel": "Karmel",
+  "flavorSubBrownSugar": "Brązowy cukier",
+  "flavorCatNuttyCocoa": "Orzechy/Kakao",
+  "flavorSubNutty": "Orzechowe",
+  "flavorSubMilkChocolate": "Czekolada mleczna",
+  "flavorSubDarkChocolate": "Czekolada deserowa",
+  "flavorCatRoasted": "Palone",
+  "flavorSubCereal": "Zbożowe",
+  "flavorSubSmoky": "Dymne",
+  "flavorSubBurnt": "Spalone",
+  "flavorCatSpices": "Przyprawy",
+  "flavorCatSourFermented": "Kwaśne/Fermentowane",
+  "flavorCatGreenVegetative": "Zielone/Roślinne",
+  "moderationRulesTitle": "Zasady dotyczące treści",
+  "moderationRulesLearnMore": "Zobacz zasady dotyczące treści",
+  "moderationDisplayNameFailedTitle": "Nazwa wyświetlana nie została zapisana",
+  "moderationDisplayNameFailedBody": "Twoja nazwa wyświetlana nie mogła zostać zapisana, ponieważ: {reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "Treści udostępniane w Timer.Coffee są sprawdzane automatycznie. Zgłoszenia mogą zostać odrzucone, jeśli zawierają:\n\n- **Linki lub dane kontaktowe**: adresy URL, numery telefonów, adresy e-mail albo ich ukryte wersje\n- **Treści nienawistne lub obraźliwe**: mowę nienawiści, nękanie albo dyskryminację dowolnego rodzaju\n- **Treści jednoznaczne**: materiały o charakterze seksualnym albo drastyczne opisy przemocy\n- **Treści niebezpieczne**: promowanie samookaleczeń lub innych niebezpiecznych działań\n\nTe zasady obowiązują podczas publikowania przepisu (prywatne przepisy nie są sprawdzane), w tekście recenzji ziaren, nazwie wyświetlanej i zdjęciach profilowych. Oceny oraz inne pola nietekstowe nie są objęte kontrolą.\n\nJeśli zgłoszenie zostanie odrzucone, zobaczysz powód i możesz je edytować oraz wysłać ponownie. Nie ma ręcznego procesu odwoławczego. Jeśli uważasz, że odrzucenie było pomyłką, spróbuj przeformułować treść.",
+  "recipeByPrefix": "Przepis od ",
+  "roastersCatalogTitle": "Palarnie",
+  "hubRoastersSubtitle": "Przeglądaj wszystkie palarnie kawy",
+  "searchRoasters": "Szukaj palarni...",
+  "filterByCountry": "Filtruj według kraju",
+  "allCountries": "Wszystkie kraje",
+  "roasterCountryCount": "{count, plural, one{{count} palarnia} few{{count} palarnie} many{{count} palarni} other{{count} palarni}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "Nie znaleziono palarni",
+  "roastersCatalogEmptySearch": "Żadna palarnia nie pasuje do \"{query}\"",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "Zweryfikowana palarnia",
+  "retry": "Spróbuj ponownie"
 }

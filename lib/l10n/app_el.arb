@@ -19,6 +19,8 @@
   "userRecipesDeleteConfirm": "Διαγραφή",
   "userRecipesDeleteCancel": "Ακύρωση",
   "userRecipesSnackbarDeleted": "Η συνταγή διαγράφηκε",
+  "hubSectionYourCoffee": "Ο καφές σας",
+  "hubSectionApp": "Εφαρμογή",
   "hubUserRecipesTitle": "Οι συνταγές σας",
   "hubUserRecipesSubtitle": "Δείτε και διαχειριστείτε συνταγές που δημιουργήσατε ή εισαγάγατε",
   "hubAccountSubtitle": "Διαχειριστείτε το προφίλ σας",
@@ -105,6 +107,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "Ημερολόγιο παρασκευών",
   "brewdiarynotfound": "Δεν βρέθηκαν καταχωρίσεις",
+  "brewsWithThisCoffee": "Παρασκευές με αυτόν τον καφέ",
+  "showAllNBrews": "{count, plural, =1{Εμφάνιση 1 παρασκευής} other{Εμφάνιση και των {count} παρασκευών}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "Κόκκοι",
   "roaster": "Καβουρδιστήριο",
   "rating": "Αξιολόγηση",
@@ -307,6 +319,13 @@
   "enterNotes": "Εισαγάγετε σημειώσεις",
   "inventory": "Απόθεμα",
   "amountLeft": "Υπόλοιπο ποσότητας",
+  "approxBrewsLeft": "{count, plural, =1{≈ απομένει 1 παρασκευή} other{≈ απομένουν {count} παρασκευές}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "Εισαγάγετε το υπόλοιπο",
   "selectHarvestDate": "Επιλέξτε ημερομηνία συγκομιδής",
   "selectRoastDate": "Επιλέξτε ημερομηνία καβουρδίσματος",
@@ -1377,7 +1396,7 @@
   "notifMorningBody2": "Ο πρωινός καφές μπορεί να είναι έτοιμος σε λίγα λεπτά.",
   "notifMorningTitle3": "Το πρώτο φλιτζάνι της ημέρας;",
   "notifMorningBody3": "Διάλεξε μια συνταγή και ξεκίνα.",
-  "notifWeeklyTitle": "{count, plural, =1{1 παρασκευή αυτή την εβδομάδα} other{{count} παρασκευές αυτή την εβδομάδα}}",
+  "notifWeeklyTitle": "{count, plural, =0{Καμία παρασκευή αυτή την εβδομάδα} =1{1 παρασκευή αυτή την εβδομάδα} other{{count} παρασκευές αυτή την εβδομάδα}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -1385,7 +1404,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{Πάτησε για να δεις τα εβδομαδιαία στατιστικά σου.} other{Σε {recipes} συνταγές συνολικά. Πάτησε για να δεις την ανάλυση.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{Ήσυχη εβδομάδα — πάτησε για να σχεδιάσεις την επόμενη παρασκευή σου.} =1{Πάτησε για να δεις τα εβδομαδιαία στατιστικά σου.} other{Σε {recipes} συνταγές συνολικά. Πάτησε για να δεις την ανάλυση.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1420,5 +1439,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "Σάρωση AI",
+  "reviewModerationFailedBody": "Η αξιολόγησή σας δεν μπόρεσε να δημοσιευτεί επειδή: {reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "Προφίλ καβουρδιστηρίου",
+  "roasterRecipes": "Συνταγές",
+  "roasterReviews": "Αξιολογήσεις",
+  "roasterWebsite": "Ιστότοπος",
+  "roasterLinks": "Σύνδεσμοι",
+  "roasterLocation": "Τοποθεσία",
+  "roasterDisclaimerTitle": "Αποποίηση ευθύνης",
+  "roasterDisclaimerTrademark": "Όλες οι επωνυμίες, τα λογότυπα και τα εμπορικά σήματα που εμφανίζονται σε αυτήν τη σελίδα ανήκουν στους αντίστοιχους κατόχους τους. Η καταχώριση ενός καβουρδιστηρίου σε αυτήν την πλατφόρμα δεν συνεπάγεται συνεργασία με το Timer.Coffee ή έγκριση από αυτό.",
+  "roasterDisclaimerReviews": "Οι αξιολογήσεις γράφονται από χρήστες του Timer.Coffee και δεν έχουν επαληθευτεί από την ομάδα του Timer.Coffee. Το Timer.Coffee δεν ευθύνεται για την ακρίβεια ή την αξιοπιστία του περιεχομένου που υποβάλλουν οι χρήστες.",
+  "roasterDisclaimerDetails": "Τα στοιχεία του καβουρδιστηρίου (τοποθεσία, ιστότοπος, σύνδεσμοι κοινωνικών δικτύων) παρέχονται από τα ίδια τα καβουρδιστήρια ή προέρχονται από δημόσια αρχεία και ενδέχεται να μην είναι πάντα ενημερωμένα.",
+  "yourReview": "Η αξιολόγησή σας",
+  "addReview": "Προσθήκη αξιολόγησης",
+  "writeReview": "Γράψτε αξιολόγηση",
+  "editReview": "Επεξεργασία αξιολόγησης",
+  "deleteReview": "Διαγραφή αξιολόγησης",
+  "myReviews": "Οι αξιολογήσεις μου",
+  "roasterResponse": "Απάντηση καβουρδιστηρίου",
+  "replyToReview": "Απάντηση σε αυτήν την αξιολόγηση",
+  "editReply": "Επεξεργασία απάντησης",
+  "noRecipesYet": "Δεν υπάρχουν συνταγές ακόμα",
+  "noReviewsYet": "Δεν υπάρχουν αξιολογήσεις ακόμα",
+  "reviewSubmitted": "Η αξιολόγηση στάλθηκε",
+  "reviewUpdated": "Η αξιολόγηση ενημερώθηκε",
+  "reviewDeleted": "Η αξιολόγηση διαγράφηκε",
+  "replySubmitted": "Η απάντηση στάλθηκε",
+  "tasteSweet": "Γλυκύτητα",
+  "tasteAcidic": "Οξύτητα",
+  "tasteFruity": "Φρουτώδες",
+  "tasteBody": "Σώμα",
+  "reviewRatingLabel": "Βαθμολογία",
+  "reviewTextLabel": "Κριτική",
+  "signInToReview": "Συνδεθείτε για να γράψετε αξιολόγηση",
+  "selectBeanForReview": "Επιλέξτε κόκκους",
+  "reviewBeanLabel": "Κόκκος",
+  "submitReviewButton": "Υποβολή",
+  "confirmDeleteReviewTitle": "Διαγραφή αυτής της αξιολόγησης;",
+  "confirmDeleteReviewMessage": "Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
+  "reviewsCount": "{count, plural, one{1 αξιολόγηση} other{{count} αξιολογήσεις}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "Μέθοδος παρασκευής",
+  "reviewBrewMethodHint": "Επιλέξτε μέθοδο παρασκευής",
+  "reviewWouldBuyAgainLabel": "Θα αγοράζατε ξανά;",
+  "reviewFlavorNotesLabel": "Γευστικές νότες",
+  "tasteProfileAdvancedTitle": "Γευστικό προφίλ",
+  "tasteBrightness": "Φωτεινότητα",
+  "tasteBitterness": "Πικράδα",
+  "tasteAftertaste": "Επίγευση",
+  "flavorCatFruity": "Φρουτώδες",
+  "flavorSubBerry": "Μούρα",
+  "flavorSubCitrus": "Εσπεριδοειδή",
+  "flavorSubDriedFruit": "Αποξηραμένα φρούτα",
+  "flavorSubTropical": "Τροπικό",
+  "flavorCatFloral": "Ανθικό",
+  "flavorCatSweet": "Γλυκό",
+  "flavorSubHoney": "Μέλι",
+  "flavorSubVanilla": "Βανίλια",
+  "flavorSubCaramel": "Καραμέλα",
+  "flavorSubBrownSugar": "Καστανή ζάχαρη",
+  "flavorCatNuttyCocoa": "Ξηροί καρποί/Κακάο",
+  "flavorSubNutty": "Ξηροί καρποί",
+  "flavorSubMilkChocolate": "Σοκολάτα γάλακτος",
+  "flavorSubDarkChocolate": "Μαύρη σοκολάτα",
+  "flavorCatRoasted": "Καβουρδισμένο",
+  "flavorSubCereal": "Δημητριακά",
+  "flavorSubSmoky": "Καπνιστό",
+  "flavorSubBurnt": "Καμένο",
+  "flavorCatSpices": "Μπαχαρικά",
+  "flavorCatSourFermented": "Ξινό/Ζυμωμένο",
+  "flavorCatGreenVegetative": "Πράσινο/Φυτικό",
+  "moderationRulesTitle": "Κανόνες περιεχομένου",
+  "moderationRulesLearnMore": "Προβολή κανόνων περιεχομένου",
+  "moderationDisplayNameFailedTitle": "Το εμφανιζόμενο όνομα δεν αποθηκεύτηκε",
+  "moderationDisplayNameFailedBody": "Το εμφανιζόμενο όνομά σας δεν μπόρεσε να αποθηκευτεί επειδή: {reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "Το περιεχόμενο που μοιράζεστε στο Timer.Coffee ελέγχεται αυτόματα. Οι υποβολές μπορεί να απορριφθούν αν περιέχουν:\n\n- **Συνδέσμους ή στοιχεία επικοινωνίας**: URL, αριθμούς τηλεφώνου, διευθύνσεις email ή οποιεσδήποτε συγκαλυμμένες εκδοχές τους\n- **Μισαλλόδοξο ή προσβλητικό περιεχόμενο**: ρητορική μίσους, παρενόχληση ή διακρίσεις οποιουδήποτε είδους\n- **Ρητό περιεχόμενο**: σεξουαλικά ρητό υλικό ή γραφικές περιγραφές βίας\n- **Επικίνδυνο περιεχόμενο**: προώθηση αυτοτραυματισμού ή άλλων επικίνδυνων δραστηριοτήτων\n\nΑυτοί οι κανόνες ισχύουν κατά τη δημοσίευση μιας συνταγής (οι ιδιωτικές συνταγές δεν ελέγχονται), για το κείμενο αξιολογήσεων κόκκων, το εμφανιζόμενο όνομά σας και τις φωτογραφίες προφίλ. Οι βαθμολογίες και άλλα μη κειμενικά πεδία δεν επηρεάζονται.\n\nΑν η υποβολή σας απορριφθεί, θα δείτε τον λόγο και μπορείτε να την επεξεργαστείτε και να την υποβάλετε ξανά. Δεν υπάρχει διαδικασία χειροκίνητης ένστασης. Αν πιστεύετε ότι η απόρριψη ήταν λάθος, δοκιμάστε να αναδιατυπώσετε το περιεχόμενό σας.",
+  "recipeByPrefix": "Συνταγή από ",
+  "roastersCatalogTitle": "Καβουρδιστήρια",
+  "hubRoastersSubtitle": "Περιηγηθείτε σε όλα τα καβουρδιστήρια καφέ",
+  "searchRoasters": "Αναζήτηση καβουρδιστηρίων...",
+  "filterByCountry": "Φιλτράρισμα ανά χώρα",
+  "allCountries": "Όλες οι χώρες",
+  "roasterCountryCount": "{count, plural, one{1 καβουρδιστήριο} other{{count} καβουρδιστήρια}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "Δεν βρέθηκαν καβουρδιστήρια",
+  "roastersCatalogEmptySearch": "Κανένα καβουρδιστήριο δεν ταιριάζει με \"{query}\"",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "Επαληθευμένο καβουρδιστήριο",
+  "retry": "Δοκιμή ξανά"
 }

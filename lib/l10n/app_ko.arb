@@ -19,6 +19,8 @@
   "userRecipesDeleteConfirm": "삭제",
   "userRecipesDeleteCancel": "취소",
   "userRecipesSnackbarDeleted": "레시피가 삭제되었습니다",
+  "hubSectionYourCoffee": "내 커피",
+  "hubSectionApp": "앱",
   "hubUserRecipesTitle": "내 레시피",
   "hubUserRecipesSubtitle": "직접 만들거나 가져온 레시피를 보고 관리합니다",
   "hubAccountSubtitle": "프로필 관리",
@@ -105,6 +107,16 @@
   "timeFormat": "hh:mm a",
   "brewdiary": "브루잉 일지",
   "brewdiarynotfound": "항목을 찾을 수 없습니다",
+  "brewsWithThisCoffee": "이 원두로 추출한 기록",
+  "showAllNBrews": "{count, plural, =1{추출 기록 1개 보기} other{추출 기록 {count}개 모두 보기}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "원두",
   "roaster": "로스터리",
   "rating": "평점",
@@ -872,6 +884,13 @@
   "recipePrivateTooltip": "레시피 비공개 - 공유하여 공개 만들기",
   "inventory": "재고",
   "amountLeft": "남은 양",
+  "approxBrewsLeft": "{count, plural, =1{≈ 1회 추출 가능} other{≈ {count}회 추출 가능}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "남은 양을 입력하세요",
   "fieldClearButtonTooltip": "지우기",
   "dateFieldClearButtonTooltip": "날짜 지우기",
@@ -1153,7 +1172,7 @@
   "notifMorningBody2": "아침 커피는 몇 분이면 준비할 수 있어요.",
   "notifMorningTitle3": "오늘의 첫 잔인가요?",
   "notifMorningBody3": "레시피를 고르고 바로 추출해 보세요.",
-  "notifWeeklyTitle": "{count, plural, =1{이번 주 추출 1회} other{이번 주 추출 {count}회}}",
+  "notifWeeklyTitle": "{count, plural, =0{이번 주 추출 없음} =1{이번 주 추출 1회} other{이번 주 추출 {count}회}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -1161,7 +1180,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{탭해서 주간 통계를 확인해 보세요.} other{{recipes}개 레시피에서의 결과예요. 탭해서 자세히 보세요.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{조용한 한 주 — 탭해서 다음 추출을 계획해 보세요.} =1{탭해서 주간 통계를 확인해 보세요.} other{{recipes}개 레시피에서의 결과예요. 탭해서 자세히 보세요.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1196,5 +1215,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "AI 스캔",
+  "reviewModerationFailedBody": "리뷰를 게시할 수 없습니다. 이유: {reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "로스터리 프로필",
+  "roasterRecipes": "레시피",
+  "roasterReviews": "리뷰",
+  "roasterWebsite": "웹사이트",
+  "roasterLinks": "링크",
+  "roasterLocation": "위치",
+  "roasterDisclaimerTitle": "면책 고지",
+  "roasterDisclaimerTrademark": "이 페이지에 표시된 모든 브랜드명, 로고 및 상표는 각 소유자에게 귀속됩니다. 이 플랫폼에 로스터리를 등록했다는 사실이 Timer.Coffee와의 제휴 또는 Timer.Coffee의 보증을 의미하지는 않습니다.",
+  "roasterDisclaimerReviews": "리뷰는 Timer.Coffee 사용자가 작성한 것이며 Timer.Coffee 팀이 검증하지 않았습니다. Timer.Coffee는 사용자가 제출한 콘텐츠의 정확성이나 신뢰성에 대해 책임지지 않습니다.",
+  "roasterDisclaimerDetails": "로스터리 세부 정보(위치, 웹사이트, 소셜 링크)는 로스터리가 직접 제공하거나 공개 기록에서 가져온 것으로, 항상 최신 정보가 아닐 수 있습니다.",
+  "yourReview": "내 리뷰",
+  "addReview": "리뷰 추가",
+  "writeReview": "리뷰 작성",
+  "editReview": "리뷰 편집",
+  "deleteReview": "리뷰 삭제",
+  "myReviews": "내 리뷰",
+  "roasterResponse": "로스터리 답변",
+  "replyToReview": "이 리뷰에 답글 달기",
+  "editReply": "답글 편집",
+  "noRecipesYet": "아직 레시피가 없습니다",
+  "noReviewsYet": "아직 리뷰가 없습니다",
+  "reviewSubmitted": "리뷰가 제출되었습니다",
+  "reviewUpdated": "리뷰가 업데이트되었습니다",
+  "reviewDeleted": "리뷰가 삭제되었습니다",
+  "replySubmitted": "답글이 제출되었습니다",
+  "tasteSweet": "단맛",
+  "tasteAcidic": "산미",
+  "tasteFruity": "과일향",
+  "tasteBody": "바디",
+  "reviewRatingLabel": "평점",
+  "reviewTextLabel": "리뷰",
+  "signInToReview": "리뷰를 작성하려면 로그인하세요",
+  "selectBeanForReview": "원두 선택",
+  "reviewBeanLabel": "원두",
+  "submitReviewButton": "제출",
+  "confirmDeleteReviewTitle": "이 리뷰를 삭제할까요?",
+  "confirmDeleteReviewMessage": "이 작업은 되돌릴 수 없습니다.",
+  "reviewsCount": "{count, plural, other{리뷰 {count}개}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "추출 방법",
+  "reviewBrewMethodHint": "추출 방법 선택",
+  "reviewWouldBuyAgainLabel": "다시 구매할까요?",
+  "reviewFlavorNotesLabel": "향미 노트",
+  "tasteProfileAdvancedTitle": "풍미 프로필",
+  "tasteBrightness": "밝기",
+  "tasteBitterness": "쓴맛",
+  "tasteAftertaste": "후미",
+  "flavorCatFruity": "과일향",
+  "flavorSubBerry": "베리",
+  "flavorSubCitrus": "시트러스",
+  "flavorSubDriedFruit": "말린 과일",
+  "flavorSubTropical": "열대 과일",
+  "flavorCatFloral": "꽃향",
+  "flavorCatSweet": "단맛",
+  "flavorSubHoney": "꿀",
+  "flavorSubVanilla": "바닐라",
+  "flavorSubCaramel": "캐러멜",
+  "flavorSubBrownSugar": "흑설탕",
+  "flavorCatNuttyCocoa": "견과/코코아",
+  "flavorSubNutty": "견과류",
+  "flavorSubMilkChocolate": "밀크 초콜릿",
+  "flavorSubDarkChocolate": "다크 초콜릿",
+  "flavorCatRoasted": "로스티드",
+  "flavorSubCereal": "곡물",
+  "flavorSubSmoky": "스모키",
+  "flavorSubBurnt": "탄맛",
+  "flavorCatSpices": "향신료",
+  "flavorCatSourFermented": "신맛/발효",
+  "flavorCatGreenVegetative": "풋내/식물성",
+  "moderationRulesTitle": "콘텐츠 규칙",
+  "moderationRulesLearnMore": "콘텐츠 규칙 보기",
+  "moderationDisplayNameFailedTitle": "표시 이름이 저장되지 않음",
+  "moderationDisplayNameFailedBody": "표시 이름을 저장할 수 없습니다. 이유: {reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "Timer.Coffee에 공유하는 콘텐츠는 자동으로 검토됩니다. 제출 내용에 다음이 포함되면 거부될 수 있습니다:\n\n- **링크 또는 연락처 정보**: URL, 전화번호, 이메일 주소 또는 이를 숨긴 표현\n- **혐오 또는 공격적인 콘텐츠**: 혐오 표현, 괴롭힘 또는 모든 종류의 차별\n- **노골적인 콘텐츠**: 성적으로 노골적인 자료 또는 폭력에 대한 상세한 묘사\n- **위험한 콘텐츠**: 자해 또는 기타 위험한 활동의 조장\n\n이 규칙은 레시피를 게시할 때(비공개 레시피는 검토되지 않음), 원두 리뷰 텍스트, 표시 이름, 프로필 사진에 적용됩니다. 평점과 기타 텍스트가 아닌 필드는 영향을 받지 않습니다.\n\n제출 내용이 거부되면 이유가 표시되며, 수정 후 다시 제출할 수 있습니다. 수동 이의 제기 절차는 없습니다. 거부가 실수라고 생각되면 내용을 다시 표현해 보세요.",
+  "recipeByPrefix": "레시피 제공: ",
+  "roastersCatalogTitle": "로스터리",
+  "hubRoastersSubtitle": "모든 커피 로스터리 둘러보기",
+  "searchRoasters": "로스터리 검색...",
+  "filterByCountry": "국가별 필터",
+  "allCountries": "모든 국가",
+  "roasterCountryCount": "{count, plural, other{로스터리 {count}곳}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "로스터리를 찾을 수 없습니다",
+  "roastersCatalogEmptySearch": "\"{query}\"와 일치하는 로스터리가 없습니다",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "인증된 로스터리",
+  "retry": "다시 시도"
 }

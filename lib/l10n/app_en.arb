@@ -19,6 +19,8 @@
   "userRecipesDeleteConfirm": "Delete",
   "userRecipesDeleteCancel": "Cancel",
   "userRecipesSnackbarDeleted": "Recipe deleted",
+  "hubSectionYourCoffee": "Your Coffee",
+  "hubSectionApp": "App",
   "hubUserRecipesTitle": "Your recipes",
   "hubUserRecipesSubtitle": "View and manage created and imported recipes",
   "hubAccountSubtitle": "Manage your profile",
@@ -105,6 +107,16 @@
   "timeFormat": "hh:mm a",
   "brewdiary": "Brew Diary",
   "brewdiarynotfound": "No entries found",
+  "brewsWithThisCoffee": "Brews with this Coffee",
+  "showAllNBrews": "{count, plural, =1{Show 1 brew} other{Show all {count} brews}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "Beans",
   "roaster": "Roaster",
   "rating": "Rating",
@@ -277,6 +289,7 @@
   "editCoffeeBeans": "Edit Coffee Beans",
   "addCoffeeBeans": "Add Coffee Beans",
   "showImagePicker": "Show Image Picker",
+  "aiScanLabel": "AI Scan",
   "pleaseNote": "Please note",
   "firstTimePopupMessage": "1. We use external services to process images. By continuing, you agree to this.\n2. While we do not store your images, please avoid including any personal details.\n3. Image recognition is currently limited to 10 tokens per month (1 token = 1 image). This limit may change in the future.",
   "ok": "OK",
@@ -928,6 +941,16 @@
       }
     }
   },
+  "reviewModerationFailedBody": "Your review couldn't be published because: {reason}",
+  "@reviewModerationFailedBody": {
+    "description": "Body text for the dialog shown when content moderation fails for a bean review",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Inappropriate language"
+      }
+    }
+  },
   "shareErrorGeneric": "Error sharing recipe: {error}",
   "@shareErrorGeneric": {
     "description": "Generic error message shown if the sharing process fails",
@@ -1382,7 +1405,7 @@
   "notifMorningBody2": "Your morning brew can be ready in a few minutes.",
   "notifMorningTitle3": "First cup of the day?",
   "notifMorningBody3": "Pick a recipe and get brewing.",
-  "notifWeeklyTitle": "{count, plural, =1{1 brew this week} other{{count} brews this week}}",
+  "notifWeeklyTitle": "{count, plural, =0{No brews this week} =1{1 brew this week} other{{count} brews this week}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -1390,7 +1413,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{Tap to see your weekly stats.} other{Across {recipes} recipes. Tap to see the breakdown.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{Quiet week — tap to plan your next brew.} =1{Tap to see your weekly stats.} other{Across {recipes} recipes. Tap to see the breakdown.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1425,5 +1448,153 @@
     "placeholders": {
       "count": { "type": "int" }
     }
+  },
+  "approxBrewsLeft": "{count, plural, one{≈ 1 brew left} other{≈ {count} brews left}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "roasterProfile": "Roaster Profile",
+  "roasterRecipes": "Recipes",
+  "roasterReviews": "Reviews",
+  "roasterWebsite": "Website",
+  "roasterLinks": "Links",
+  "roasterLocation": "Location",
+  "roasterDisclaimerTitle": "Disclaimer",
+  "roasterDisclaimerTrademark": "All brand names, logos, and trademarks displayed on this page belong to their respective owners. Listing a roaster on this platform does not imply any affiliation with or endorsement by Timer.Coffee.",
+  "roasterDisclaimerReviews": "Reviews are written by Timer.Coffee users and have not been verified by the Timer.Coffee team. Timer.Coffee is not responsible for the accuracy or reliability of user-submitted content.",
+  "roasterDisclaimerDetails": "Roaster details (location, website, social links) are provided by the roasters themselves or sourced from public records and may not always be current.",
+  "yourReview": "Your Review",
+  "addReview": "Add Review",
+  "writeReview": "Write a Review",
+  "editReview": "Edit Review",
+  "deleteReview": "Delete Review",
+  "myReviews": "My Reviews",
+  "roasterResponse": "Roaster Response",
+  "replyToReview": "Reply to this review",
+  "editReply": "Edit Reply",
+  "noRecipesYet": "No recipes yet",
+  "noReviewsYet": "No reviews yet",
+  "reviewSubmitted": "Review submitted",
+  "reviewUpdated": "Review updated",
+  "reviewDeleted": "Review deleted",
+  "replySubmitted": "Reply submitted",
+  "tasteSweet": "Sweetness",
+  "tasteAcidic": "Acidic",
+  "tasteFruity": "Fruity",
+  "tasteBody": "Body",
+  "reviewRatingLabel": "Rating",
+  "reviewTextLabel": "Review",
+  "signInToReview": "Sign in to write a review",
+  "selectBeanForReview": "Select beans",
+  "reviewBeanLabel": "Bean",
+  "submitReviewButton": "Submit",
+  "confirmDeleteReviewTitle": "Delete this review?",
+  "confirmDeleteReviewMessage": "This action cannot be undone.",
+  "reviewsCount": "{count, plural, one{1 review} other{{count} reviews}}",
+  "@reviewsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "reviewBrewMethodLabel": "Brew Method",
+  "reviewBrewMethodHint": "Select brew method",
+  "reviewWouldBuyAgainLabel": "Would buy again?",
+  "reviewFlavorNotesLabel": "Flavor Notes",
+  "tasteProfileAdvancedTitle": "Taste Profile",
+  "tasteBrightness": "Brightness",
+  "tasteBitterness": "Bitterness",
+  "tasteAftertaste": "Finish",
+  "flavorCatFruity": "Fruity",
+  "flavorSubBerry": "Berry",
+  "flavorSubCitrus": "Citrus",
+  "flavorSubDriedFruit": "Dried Fruit",
+  "flavorSubTropical": "Tropical",
+  "flavorCatFloral": "Floral",
+  "flavorCatSweet": "Sweet",
+  "flavorSubHoney": "Honey",
+  "flavorSubVanilla": "Vanilla",
+  "flavorSubCaramel": "Caramel",
+  "flavorSubBrownSugar": "Brown Sugar",
+  "flavorCatNuttyCocoa": "Nutty/Cocoa",
+  "flavorSubNutty": "Nutty",
+  "flavorSubMilkChocolate": "Milk Chocolate",
+  "flavorSubDarkChocolate": "Dark Chocolate",
+  "flavorCatRoasted": "Roasted",
+  "flavorSubCereal": "Cereal",
+  "flavorSubSmoky": "Smoky",
+  "flavorSubBurnt": "Burnt",
+  "flavorCatSpices": "Spices",
+  "flavorCatSourFermented": "Sour/Fermented",
+  "flavorCatGreenVegetative": "Green/Vegetative",
+  "moderationRulesTitle": "Content Rules",
+  "moderationRulesLearnMore": "View content rules",
+  "moderationDisplayNameFailedTitle": "Display Name Not Saved",
+  "moderationDisplayNameFailedBody": "Your display name couldn't be saved because: {reason}",
+  "@moderationDisplayNameFailedBody": {
+    "description": "Body text for the dialog shown when display name fails content moderation",
+    "placeholders": {
+      "reason": {
+        "type": "String",
+        "example": "Detected link or phone number"
+      }
+    }
+  },
+  "moderationRulesBody": "Content you share on Timer.Coffee is automatically reviewed. Submissions may be rejected if they contain:\n\n- **Links or contact details** — URLs, phone numbers, email addresses, or any obfuscated versions\n- **Hateful or offensive content** — hate speech, harassment, or discrimination of any kind\n- **Explicit content** — sexually explicit material or graphic descriptions of violence\n- **Dangerous content** — promotion of self-harm or other dangerous activities\n\nThese rules apply when publishing a recipe (private recipes are not reviewed), to bean review text, your display name, and profile pictures. Ratings and other non-text fields are not affected.\n\nIf your submission is rejected, you'll see a reason and can edit and resubmit. There is no manual appeal process — if you believe the rejection was a mistake, try rephrasing your content.",
+  "recipeByPrefix": "Recipe by ",
+  "@recipeByPrefix": {
+    "description": "Prefix shown before the roaster name attribution on recipe detail. Trailing space is intentional."
+  },
+  "roastersCatalogTitle": "Roasters",
+  "@roastersCatalogTitle": {
+    "description": "Title for the roasters catalog screen and hub entry"
+  },
+  "hubRoastersSubtitle": "Browse all coffee roasters",
+  "@hubRoastersSubtitle": {
+    "description": "Subtitle for the roasters catalog entry in the hub screen"
+  },
+  "searchRoasters": "Search roasters...",
+  "@searchRoasters": {
+    "description": "Placeholder text for the search field in the roasters catalog screen"
+  },
+  "filterByCountry": "Filter by country",
+  "@filterByCountry": {
+    "description": "Tooltip and sheet title for the country filter in the roasters catalog"
+  },
+  "allCountries": "All countries",
+  "@allCountries": {
+    "description": "Label for the 'show all countries' option in the country filter sheet"
+  },
+  "roasterCountryCount": "{count, plural, =1{1 roaster} other{{count} roasters}}",
+  "@roasterCountryCount": {
+    "description": "Number of roasters shown next to a country in the filter sheet",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "roastersCatalogEmpty": "No roasters found",
+  "@roastersCatalogEmpty": {
+    "description": "Empty state message when no roasters are found without a search query"
+  },
+  "roastersCatalogEmptySearch": "No roasters match \"{query}\"",
+  "@roastersCatalogEmptySearch": {
+    "description": "Empty state message when no roasters match the search query",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "roasterVerifiedTooltip": "Verified roaster",
+  "@roasterVerifiedTooltip": {
+    "description": "Tooltip for the verified badge on a roaster tile"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Generic retry button label"
   }
 }

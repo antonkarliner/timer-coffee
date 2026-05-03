@@ -9,6 +9,8 @@
   "userRecipesDeleteConfirm": "Verwijderen",
   "userRecipesDeleteCancel": "Annuleren",
   "userRecipesSnackbarDeleted": "Recept verwijderd",
+  "hubSectionYourCoffee": "Jouw koffie",
+  "hubSectionApp": "App",
   "hubUserRecipesTitle": "Jouw recepten",
   "hubUserRecipesSubtitle": "Gemaakte en geïmporteerde recepten bekijken en beheren",
   "hubAccountSubtitle": "Beheer je profiel",
@@ -90,6 +92,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "Brouwdagboek",
   "brewdiarynotfound": "Geen vermeldingen gevonden",
+  "brewsWithThisCoffee": "Zetbeurten met deze koffie",
+  "showAllNBrews": "{count, plural, =1{1 zetbeurt tonen} other{Alle {count} zetbeurten tonen}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beansStatsSectionTitle": "Bonenstatistieken",
   "totalBeansBrewedLabel": "Totaal gebrouwen bonen",
   "newBeansTriedLabel": "Nieuwe bonen geprobeerd",
@@ -701,6 +713,13 @@
   "recipePrivateTooltip": "Recept is privé - deel om openbaar te maken",
   "inventory": "Voorraad",
   "amountLeft": "Resterende hoeveelheid",
+  "approxBrewsLeft": "{count, plural, =1{≈ 1 zetbeurt over} other{≈ {count} zetbeurten over}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "Voer de resterende hoeveelheid in",
   "fieldClearButtonTooltip": "Wissen",
   "dateFieldClearButtonTooltip": "Datum wissen",
@@ -982,7 +1001,7 @@
   "notifMorningBody2": "Je ochtendkoffie kan binnen een paar minuten klaar zijn.",
   "notifMorningTitle3": "De eerste kop van de dag?",
   "notifMorningBody3": "Kies een recept en ga aan de slag.",
-  "notifWeeklyTitle": "{count, plural, =1{1 zetbeurt deze week} other{{count} zetbeurten deze week}}",
+  "notifWeeklyTitle": "{count, plural, =0{Geen zetbeurten deze week} =1{1 zetbeurt deze week} other{{count} zetbeurten deze week}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -990,7 +1009,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{Tik om je weekstatistieken te bekijken.} other{Over {recipes} recepten verspreid. Tik om de verdeling te bekijken.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{Rustige week — tik om je volgende zetbeurt te plannen.} =1{Tik om je weekstatistieken te bekijken.} other{Over {recipes} recepten verspreid. Tik om de verdeling te bekijken.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1025,5 +1044,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "AI-scan",
+  "reviewModerationFailedBody": "Je review kon niet worden gepubliceerd omdat: {reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "Branderijprofiel",
+  "roasterRecipes": "Recepten",
+  "roasterReviews": "Reviews",
+  "roasterWebsite": "Website",
+  "roasterLinks": "Links",
+  "roasterLocation": "Locatie",
+  "roasterDisclaimerTitle": "Disclaimer",
+  "roasterDisclaimerTrademark": "Alle merknamen, logo’s en handelsmerken die op deze pagina worden weergegeven, zijn eigendom van hun respectieve eigenaren. Het vermelden van een branderij op dit platform impliceert geen band met of goedkeuring door Timer.Coffee.",
+  "roasterDisclaimerReviews": "Reviews zijn geschreven door Timer.Coffee-gebruikers en zijn niet gecontroleerd door het Timer.Coffee-team. Timer.Coffee is niet verantwoordelijk voor de juistheid of betrouwbaarheid van door gebruikers ingediende content.",
+  "roasterDisclaimerDetails": "Gegevens van de branderij (locatie, website, sociale links) worden verstrekt door de branderijen zelf of zijn afkomstig uit openbare bronnen en zijn mogelijk niet altijd actueel.",
+  "yourReview": "Je review",
+  "addReview": "Review toevoegen",
+  "writeReview": "Review schrijven",
+  "editReview": "Review bewerken",
+  "deleteReview": "Review verwijderen",
+  "myReviews": "Mijn reviews",
+  "roasterResponse": "Reactie van de branderij",
+  "replyToReview": "Op deze review reageren",
+  "editReply": "Reactie bewerken",
+  "noRecipesYet": "Nog geen recepten",
+  "noReviewsYet": "Nog geen reviews",
+  "reviewSubmitted": "Review verzonden",
+  "reviewUpdated": "Review bijgewerkt",
+  "reviewDeleted": "Review verwijderd",
+  "replySubmitted": "Reactie verzonden",
+  "tasteSweet": "Zoetheid",
+  "tasteAcidic": "Zuurheid",
+  "tasteFruity": "Fruitig",
+  "tasteBody": "Body",
+  "reviewRatingLabel": "Beoordeling",
+  "reviewTextLabel": "Review",
+  "signInToReview": "Meld je aan om een review te schrijven",
+  "selectBeanForReview": "Bonen selecteren",
+  "reviewBeanLabel": "Boon",
+  "submitReviewButton": "Verzenden",
+  "confirmDeleteReviewTitle": "Deze review verwijderen?",
+  "confirmDeleteReviewMessage": "Deze actie kan niet ongedaan worden gemaakt.",
+  "reviewsCount": "{count, plural, =1{1 review} other{{count} reviews}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "Zetmethode",
+  "reviewBrewMethodHint": "Selecteer zetmethode",
+  "reviewWouldBuyAgainLabel": "Opnieuw kopen?",
+  "reviewFlavorNotesLabel": "Smaaknotities",
+  "tasteProfileAdvancedTitle": "Smaakprofiel",
+  "tasteBrightness": "Levendigheid",
+  "tasteBitterness": "Bitterheid",
+  "tasteAftertaste": "Afdronk",
+  "flavorCatFruity": "Fruitig",
+  "flavorSubBerry": "Bessen",
+  "flavorSubCitrus": "Citrus",
+  "flavorSubDriedFruit": "Gedroogd fruit",
+  "flavorSubTropical": "Tropisch",
+  "flavorCatFloral": "Bloemig",
+  "flavorCatSweet": "Zoet",
+  "flavorSubHoney": "Honing",
+  "flavorSubVanilla": "Vanille",
+  "flavorSubCaramel": "Karamel",
+  "flavorSubBrownSugar": "Bruine suiker",
+  "flavorCatNuttyCocoa": "Nootachtig/Cacao",
+  "flavorSubNutty": "Nootachtig",
+  "flavorSubMilkChocolate": "Melkchocolade",
+  "flavorSubDarkChocolate": "Pure chocolade",
+  "flavorCatRoasted": "Geroosterd",
+  "flavorSubCereal": "Graan",
+  "flavorSubSmoky": "Rokerig",
+  "flavorSubBurnt": "Verbrand",
+  "flavorCatSpices": "Specerijen",
+  "flavorCatSourFermented": "Zuur/Gefermenteerd",
+  "flavorCatGreenVegetative": "Groen/Vegetaal",
+  "moderationRulesTitle": "Contentregels",
+  "moderationRulesLearnMore": "Contentregels bekijken",
+  "moderationDisplayNameFailedTitle": "Weergavenaam niet opgeslagen",
+  "moderationDisplayNameFailedBody": "Je weergavenaam kon niet worden opgeslagen omdat: {reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "Content die je op Timer.Coffee deelt, wordt automatisch beoordeeld. Inzendingen kunnen worden geweigerd als ze het volgende bevatten:\n\n- **Links of contactgegevens**: URL's, telefoonnummers, e-mailadressen of verhulde varianten daarvan\n- **Haatdragende of beledigende content**: haatspraak, intimidatie of discriminatie van welke aard dan ook\n- **Expliciete content**: seksueel expliciet materiaal of grafische beschrijvingen van geweld\n- **Gevaarlijke content**: aanmoediging van zelfbeschadiging of andere gevaarlijke activiteiten\n\nDeze regels gelden bij het publiceren van een recept (privérecepten worden niet beoordeeld), voor tekst in bonenreviews, je weergavenaam en profielfoto's. Beoordelingen en andere niet-tekstvelden worden niet beïnvloed.\n\nAls je inzending wordt geweigerd, zie je een reden en kun je deze aanpassen en opnieuw verzenden. Er is geen handmatige beroepsprocedure. Als je denkt dat de weigering een vergissing was, probeer je content dan anders te formuleren.",
+  "recipeByPrefix": "Recept van ",
+  "roastersCatalogTitle": "Branderijen",
+  "hubRoastersSubtitle": "Bekijk alle koffiebranderijen",
+  "searchRoasters": "Branderijen zoeken...",
+  "filterByCountry": "Filteren op land",
+  "allCountries": "Alle landen",
+  "roasterCountryCount": "{count, plural, =1{1 branderij} other{{count} branderijen}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "Geen branderijen gevonden",
+  "roastersCatalogEmptySearch": "Geen branderijen gevonden voor \"{query}\"",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "Geverifieerde branderij",
+  "retry": "Opnieuw proberen"
 }

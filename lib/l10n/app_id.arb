@@ -18,6 +18,8 @@
   "userRecipesDeleteConfirm": "Hapus",
   "userRecipesDeleteCancel": "Batal",
   "userRecipesSnackbarDeleted": "Resep dihapus",
+  "hubSectionYourCoffee": "Kopi Anda",
+  "hubSectionApp": "Aplikasi",
   "hubUserRecipesTitle": "Resep Anda",
   "hubUserRecipesSubtitle": "Lihat dan kelola resep yang dibuat dan diimpor",
   "hubAccountSubtitle": "Kelola profil Anda",
@@ -99,6 +101,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "Diari seduhan",
   "brewdiarynotfound": "Tidak ada entri yang ditemukan",
+  "brewsWithThisCoffee": "Seduhan dengan kopi ini",
+  "showAllNBrews": "{count, plural, =1{Tampilkan 1 seduhan} other{Tampilkan semua {count} seduhan}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "Biji",
   "roaster": "Roaster",
   "rating": "Peringkat",
@@ -701,6 +713,13 @@
   "recipePrivateTooltip": "Resep ini pribadi - bagikan untuk menjadikannya publik",
   "inventory": "Stok",
   "amountLeft": "Jumlah tersisa",
+  "approxBrewsLeft": "{count, plural, =1{≈ tersisa 1 seduhan} other{≈ tersisa {count} seduhan}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "Masukkan jumlah tersisa",
   "fieldClearButtonTooltip": "Hapus",
   "dateFieldClearButtonTooltip": "Hapus tanggal",
@@ -982,7 +1001,7 @@
   "notifMorningBody2": "Seduhan pagimu bisa siap dalam beberapa menit.",
   "notifMorningTitle3": "Cangkir pertama hari ini?",
   "notifMorningBody3": "Pilih resep dan mulai menyeduh.",
-  "notifWeeklyTitle": "{count, plural, =1{1 seduhan minggu ini} other{{count} seduhan minggu ini}}",
+  "notifWeeklyTitle": "{count, plural, =0{Tidak ada seduhan minggu ini} =1{1 seduhan minggu ini} other{{count} seduhan minggu ini}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -990,7 +1009,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{Ketuk untuk melihat statistik mingguanmu.} other{Hasil dari {recipes} resep. Ketuk untuk melihat rinciannya.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{Minggu yang tenang — ketuk untuk merencanakan seduhan berikutnya.} =1{Ketuk untuk melihat statistik mingguanmu.} other{Hasil dari {recipes} resep. Ketuk untuk melihat rinciannya.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1025,5 +1044,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "Pindai AI",
+  "reviewModerationFailedBody": "Ulasan Anda tidak dapat diterbitkan karena: {reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "Profil roaster",
+  "roasterRecipes": "Resep",
+  "roasterReviews": "Ulasan",
+  "roasterWebsite": "Situs web",
+  "roasterLinks": "Tautan",
+  "roasterLocation": "Lokasi",
+  "roasterDisclaimerTitle": "Penafian",
+  "roasterDisclaimerTrademark": "Semua nama merek, logo, dan merek dagang yang ditampilkan di halaman ini adalah milik pemiliknya masing-masing. Pencantuman roaster di platform ini tidak menyiratkan afiliasi dengan atau dukungan dari Timer.Coffee.",
+  "roasterDisclaimerReviews": "Ulasan ditulis oleh pengguna Timer.Coffee dan belum diverifikasi oleh tim Timer.Coffee. Timer.Coffee tidak bertanggung jawab atas keakuratan atau keandalan konten yang dikirimkan pengguna.",
+  "roasterDisclaimerDetails": "Detail roaster (lokasi, situs web, tautan sosial) disediakan oleh roaster itu sendiri atau bersumber dari catatan publik dan mungkin tidak selalu terbaru.",
+  "yourReview": "Ulasan Anda",
+  "addReview": "Tambah ulasan",
+  "writeReview": "Tulis ulasan",
+  "editReview": "Edit ulasan",
+  "deleteReview": "Hapus ulasan",
+  "myReviews": "Ulasan saya",
+  "roasterResponse": "Tanggapan roaster",
+  "replyToReview": "Balas ulasan ini",
+  "editReply": "Edit balasan",
+  "noRecipesYet": "Belum ada resep",
+  "noReviewsYet": "Belum ada ulasan",
+  "reviewSubmitted": "Ulasan dikirim",
+  "reviewUpdated": "Ulasan diperbarui",
+  "reviewDeleted": "Ulasan dihapus",
+  "replySubmitted": "Balasan dikirim",
+  "tasteSweet": "Manis",
+  "tasteAcidic": "Keasaman",
+  "tasteFruity": "Buah",
+  "tasteBody": "Kekentalan",
+  "reviewRatingLabel": "Peringkat",
+  "reviewTextLabel": "Ulasan",
+  "signInToReview": "Masuk untuk menulis ulasan",
+  "selectBeanForReview": "Pilih biji",
+  "reviewBeanLabel": "Biji kopi",
+  "submitReviewButton": "Kirim",
+  "confirmDeleteReviewTitle": "Hapus ulasan ini?",
+  "confirmDeleteReviewMessage": "Tindakan ini tidak dapat dibatalkan.",
+  "reviewsCount": "{count, plural, other{{count} ulasan}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "Metode seduh",
+  "reviewBrewMethodHint": "Pilih metode seduh",
+  "reviewWouldBuyAgainLabel": "Beli lagi?",
+  "reviewFlavorNotesLabel": "Catatan rasa",
+  "tasteProfileAdvancedTitle": "Profil rasa",
+  "tasteBrightness": "Kecerahan",
+  "tasteBitterness": "Kepahitan",
+  "tasteAftertaste": "Sisa rasa",
+  "flavorCatFruity": "Buah",
+  "flavorSubBerry": "Beri",
+  "flavorSubCitrus": "Sitrus",
+  "flavorSubDriedFruit": "Buah kering",
+  "flavorSubTropical": "Tropis",
+  "flavorCatFloral": "Floral",
+  "flavorCatSweet": "Manis",
+  "flavorSubHoney": "Madu",
+  "flavorSubVanilla": "Vanila",
+  "flavorSubCaramel": "Karamel",
+  "flavorSubBrownSugar": "Gula merah",
+  "flavorCatNuttyCocoa": "Kacang/Kakao",
+  "flavorSubNutty": "Kacang",
+  "flavorSubMilkChocolate": "Cokelat susu",
+  "flavorSubDarkChocolate": "Cokelat hitam",
+  "flavorCatRoasted": "Sangrai",
+  "flavorSubCereal": "Sereal",
+  "flavorSubSmoky": "Berasap",
+  "flavorSubBurnt": "Gosong",
+  "flavorCatSpices": "Rempah",
+  "flavorCatSourFermented": "Asam/Fermentasi",
+  "flavorCatGreenVegetative": "Hijau/Nabati",
+  "moderationRulesTitle": "Aturan konten",
+  "moderationRulesLearnMore": "Lihat aturan konten",
+  "moderationDisplayNameFailedTitle": "Nama tampilan tidak disimpan",
+  "moderationDisplayNameFailedBody": "Nama tampilan Anda tidak dapat disimpan karena: {reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "Konten yang Anda bagikan di Timer.Coffee ditinjau secara otomatis. Kiriman dapat ditolak jika berisi:\n\n- **Tautan atau detail kontak**: URL, nomor telepon, alamat email, atau versi yang disamarkan\n- **Konten kebencian atau ofensif**: ujaran kebencian, pelecehan, atau diskriminasi apa pun\n- **Konten eksplisit**: materi seksual eksplisit atau deskripsi grafis tentang kekerasan\n- **Konten berbahaya**: promosi tindakan menyakiti diri sendiri atau aktivitas berbahaya lainnya\n\nAturan ini berlaku saat menerbitkan resep (resep pribadi tidak ditinjau), untuk teks ulasan biji, nama tampilan, dan foto profil. Peringkat dan bidang nonteks lainnya tidak terpengaruh.\n\nJika kiriman Anda ditolak, Anda akan melihat alasannya dan dapat mengedit serta mengirim ulang. Tidak ada proses banding manual. Jika Anda merasa penolakan itu keliru, coba susun ulang konten Anda.",
+  "recipeByPrefix": "Resep dari ",
+  "roastersCatalogTitle": "Roaster",
+  "hubRoastersSubtitle": "Jelajahi semua roaster kopi",
+  "searchRoasters": "Cari roaster...",
+  "filterByCountry": "Filter berdasarkan negara",
+  "allCountries": "Semua negara",
+  "roasterCountryCount": "{count, plural, other{{count} roaster}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "Roaster tidak ditemukan",
+  "roastersCatalogEmptySearch": "Tidak ada roaster yang cocok dengan \"{query}\"",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "Roaster terverifikasi",
+  "retry": "Coba lagi"
 }

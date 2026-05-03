@@ -9,6 +9,8 @@
   "userRecipesDeleteConfirm": "حذف",
   "userRecipesDeleteCancel": "انصراف",
   "userRecipesSnackbarDeleted": "دستور حذف شد",
+  "hubSectionYourCoffee": "قهوه شما",
+  "hubSectionApp": "برنامه",
   "hubUserRecipesTitle": "دستورهای شما",
   "hubUserRecipesSubtitle": "مشاهده و مدیریت دستورهای ایجادشده و واردشده",
   "hubAccountSubtitle": "پروفایل خود را مدیریت کنید",
@@ -98,6 +100,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "دفترچه دم‌آوری",
   "brewdiarynotfound": "هیچ ورودی‌ای پیدا نشد",
+  "brewsWithThisCoffee": "دم‌آوری‌ها با این قهوه",
+  "showAllNBrews": "{count, plural, =1{نمایش ۱ دم‌آوری} other{نمایش همهٔ {count} دم‌آوری}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "دانه‌های قهوه",
   "roaster": "رُستری",
   "rating": "امتیاز",
@@ -874,6 +886,13 @@
   "recipePrivateTooltip": "این دستور خصوصی است؛ برای عمومی کردن آن را به اشتراک بگذارید",
   "inventory": "موجودی",
   "amountLeft": "مقدار باقیمانده",
+  "approxBrewsLeft": "{count, plural, =1{≈ ۱ دم‌آوری باقی مانده} other{≈ {count} دم‌آوری باقی مانده}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "مقدار باقیمانده را وارد کنید",
   "fieldClearButtonTooltip": "پاک کردن",
   "dateFieldClearButtonTooltip": "پاک کردن تاریخ",
@@ -1155,7 +1174,7 @@
   "notifMorningBody2": "قهوه صبحگاهی‌ات می‌تواند در چند دقیقه آماده شود.",
   "notifMorningTitle3": "اولین فنجان امروز؟",
   "notifMorningBody3": "یک دستور انتخاب کن و شروع به دم‌آوری کن.",
-  "notifWeeklyTitle": "{count, plural, =1{۱ دم‌آوری این هفته} other{{count} دم‌آوری این هفته}}",
+  "notifWeeklyTitle": "{count, plural, =0{این هفته دم‌آوری نداشتی} =1{۱ دم‌آوری این هفته} other{{count} دم‌آوری این هفته}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -1163,7 +1182,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{برای دیدن آمار هفتگی‌ات ضربه بزن.} other{نتیجه‌ی {recipes} دستور است. برای دیدن جزئیات ضربه بزن.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{هفته‌ای آرام — برای برنامه‌ریزی دم‌آوری بعدی ضربه بزن.} =1{برای دیدن آمار هفتگی‌ات ضربه بزن.} other{نتیجه‌ی {recipes} دستور است. برای دیدن جزئیات ضربه بزن.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1198,5 +1217,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "اسکن با هوش مصنوعی",
+  "reviewModerationFailedBody": "نظر شما به دلیل «{reason}» منتشر نشد.",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "پروفایل رُستری",
+  "roasterRecipes": "دستورها",
+  "roasterReviews": "نظرها",
+  "roasterWebsite": "وب‌سایت",
+  "roasterLinks": "پیوندها",
+  "roasterLocation": "موقعیت",
+  "roasterDisclaimerTitle": "سلب مسئولیت",
+  "roasterDisclaimerTrademark": "همه نام‌های تجاری، لوگوها و علائم تجاری نمایش‌داده‌شده در این صفحه متعلق به مالکان مربوطه هستند. فهرست شدن یک رُستری در این پلتفرم به معنای وابستگی به Timer.Coffee یا تأیید از سوی آن نیست.",
+  "roasterDisclaimerReviews": "نظرها توسط کاربران Timer.Coffee نوشته می‌شوند و تیم Timer.Coffee آن‌ها را تأیید نکرده است. Timer.Coffee مسئول دقت یا قابل‌اعتماد بودن محتوای ارسال‌شده توسط کاربران نیست.",
+  "roasterDisclaimerDetails": "جزئیات رُستری (موقعیت، وب‌سایت، پیوندهای شبکه‌های اجتماعی) توسط خود رُستری‌ها ارائه می‌شود یا از سوابق عمومی گرفته شده و ممکن است همیشه به‌روز نباشد.",
+  "yourReview": "نظر شما",
+  "addReview": "افزودن نظر",
+  "writeReview": "نوشتن نظر",
+  "editReview": "ویرایش نظر",
+  "deleteReview": "حذف نظر",
+  "myReviews": "نظرهای من",
+  "roasterResponse": "پاسخ رُستری",
+  "replyToReview": "پاسخ به این نظر",
+  "editReply": "ویرایش پاسخ",
+  "noRecipesYet": "هنوز دستوری وجود ندارد",
+  "noReviewsYet": "هنوز نظری ثبت نشده است",
+  "reviewSubmitted": "نظر ارسال شد",
+  "reviewUpdated": "نظر به‌روزرسانی شد",
+  "reviewDeleted": "نظر حذف شد",
+  "replySubmitted": "پاسخ ارسال شد",
+  "tasteSweet": "شیرینی",
+  "tasteAcidic": "اسیدیته",
+  "tasteFruity": "میوه‌ای",
+  "tasteBody": "بادی",
+  "reviewRatingLabel": "امتیاز",
+  "reviewTextLabel": "نظر",
+  "signInToReview": "برای نوشتن نظر وارد شوید",
+  "selectBeanForReview": "دانه‌ها را انتخاب کنید",
+  "reviewBeanLabel": "دانه",
+  "submitReviewButton": "ارسال",
+  "confirmDeleteReviewTitle": "این نظر حذف شود؟",
+  "confirmDeleteReviewMessage": "این کار قابل بازگشت نیست.",
+  "reviewsCount": "{count, plural, other{{count} نظر}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "روش دم‌آوری",
+  "reviewBrewMethodHint": "روش دم‌آوری را انتخاب کنید",
+  "reviewWouldBuyAgainLabel": "دوباره می‌خرید؟",
+  "reviewFlavorNotesLabel": "نُت‌های طعمی",
+  "tasteProfileAdvancedTitle": "پروفایل طعمی",
+  "tasteBrightness": "درخشندگی",
+  "tasteBitterness": "تلخی",
+  "tasteAftertaste": "پس‌مزه",
+  "flavorCatFruity": "میوه‌ای",
+  "flavorSubBerry": "توتی",
+  "flavorSubCitrus": "مرکباتی",
+  "flavorSubDriedFruit": "میوه خشک",
+  "flavorSubTropical": "استوایی",
+  "flavorCatFloral": "گلی",
+  "flavorCatSweet": "شیرین",
+  "flavorSubHoney": "عسل",
+  "flavorSubVanilla": "وانیل",
+  "flavorSubCaramel": "کارامل",
+  "flavorSubBrownSugar": "شکر قهوه‌ای",
+  "flavorCatNuttyCocoa": "آجیلی/کاکائویی",
+  "flavorSubNutty": "آجیلی",
+  "flavorSubMilkChocolate": "شکلات شیری",
+  "flavorSubDarkChocolate": "شکلات تلخ",
+  "flavorCatRoasted": "رُست‌شده",
+  "flavorSubCereal": "غلات",
+  "flavorSubSmoky": "دودی",
+  "flavorSubBurnt": "سوخته",
+  "flavorCatSpices": "ادویه‌ها",
+  "flavorCatSourFermented": "ترش/تخمیری",
+  "flavorCatGreenVegetative": "سبز/گیاهی",
+  "moderationRulesTitle": "قوانین محتوا",
+  "moderationRulesLearnMore": "مشاهده قوانین محتوا",
+  "moderationDisplayNameFailedTitle": "نام نمایشی ذخیره نشد",
+  "moderationDisplayNameFailedBody": "نام نمایشی شما به دلیل «{reason}» ذخیره نشد.",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "محتوایی که در Timer.Coffee به اشتراک می‌گذارید به‌صورت خودکار بررسی می‌شود. ارسال‌ها ممکن است رد شوند اگر شامل موارد زیر باشند:\n\n- **پیوندها یا اطلاعات تماس**: URL، شماره تلفن، نشانی ایمیل یا نسخه‌های پنهان‌شده آن‌ها\n- **محتوای نفرت‌پراکن یا توهین‌آمیز**: نفرت‌پراکنی، آزار یا تبعیض از هر نوع\n- **محتوای صریح**: محتوای صریح جنسی یا توصیف‌های گرافیکی خشونت\n- **محتوای خطرناک**: ترویج خودآزاری یا فعالیت‌های خطرناک دیگر\n\nاین قوانین هنگام انتشار دستور قهوه اعمال می‌شوند (دستورهای خصوصی بررسی نمی‌شوند)، همچنین برای متن نظر درباره دانه‌ها، نام نمایشی و عکس‌های پروفایل. امتیازها و دیگر فیلدهای غیرمتنی تحت تأثیر قرار نمی‌گیرند.\n\nاگر ارسال شما رد شود، دلیل آن را می‌بینید و می‌توانید محتوا را ویرایش کرده و دوباره ارسال کنید. فرایند اعتراض دستی وجود ندارد. اگر فکر می‌کنید رد شدن اشتباه بوده، متن را بازنویسی کنید.",
+  "recipeByPrefix": "دستور از ",
+  "roastersCatalogTitle": "رُستری‌ها",
+  "hubRoastersSubtitle": "مرور همه رُستری‌های قهوه",
+  "searchRoasters": "جستجوی رُستری‌ها...",
+  "filterByCountry": "فیلتر بر اساس کشور",
+  "allCountries": "همه کشورها",
+  "roasterCountryCount": "{count, plural, other{{count} رُستری}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "رُستری‌ای پیدا نشد",
+  "roastersCatalogEmptySearch": "هیچ رُستری‌ای با «{query}» مطابقت ندارد",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "رُستری تأییدشده",
+  "retry": "تلاش دوباره"
 }

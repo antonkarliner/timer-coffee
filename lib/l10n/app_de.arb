@@ -9,6 +9,8 @@
   "userRecipesDeleteConfirm": "Löschen",
   "userRecipesDeleteCancel": "Abbrechen",
   "userRecipesSnackbarDeleted": "Rezept gelöscht",
+  "hubSectionYourCoffee": "Dein Kaffee",
+  "hubSectionApp": "App",
   "hubUserRecipesTitle": "Deine Rezepte",
   "hubUserRecipesSubtitle": "Erstellte und importierte Rezepte ansehen und verwalten",
   "hubAccountSubtitle": "Verwalte dein Profil",
@@ -90,6 +92,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "Brühtagebuch",
   "brewdiarynotfound": "Keine Einträge gefunden",
+  "brewsWithThisCoffee": "Brühungen mit diesem Kaffee",
+  "showAllNBrews": "{count, plural, =1{1 Brühung anzeigen} other{Alle {count} Brühungen anzeigen}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "Bohnen",
   "roaster": "Rösterei",
   "rating": "Bewertung",
@@ -701,6 +713,13 @@
   "recipePrivateTooltip": "Rezept ist privat - teilen, um es öffentlich zu machen",
   "inventory": "Bestand",
   "amountLeft": "Restmenge",
+  "approxBrewsLeft": "{count, plural, =1{≈ 1 Brühung übrig} other{≈ {count} Brühungen übrig}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "Restmenge eingeben",
   "fieldClearButtonTooltip": "Löschen",
   "dateFieldClearButtonTooltip": "Datum löschen",
@@ -982,7 +1001,7 @@
   "notifMorningBody2": "Dein Morgenkaffee kann in wenigen Minuten fertig sein.",
   "notifMorningTitle3": "Die erste Tasse des Tages?",
   "notifMorningBody3": "Wähle ein Rezept und leg los.",
-  "notifWeeklyTitle": "{count, plural, =1{1 Brühvorgang diese Woche} other{{count} Brühvorgänge diese Woche}}",
+  "notifWeeklyTitle": "{count, plural, =0{Keine Brühvorgänge diese Woche} =1{1 Brühvorgang diese Woche} other{{count} Brühvorgänge diese Woche}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -990,7 +1009,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{Tippe, um deine Wochenstatistik zu sehen.} other{Über {recipes} Rezepte hinweg. Tippe, um die Aufschlüsselung zu sehen.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{Ruhige Woche – tippe, um deinen nächsten Brühvorgang zu planen.} =1{Tippe, um deine Wochenstatistik zu sehen.} other{Über {recipes} Rezepte hinweg. Tippe, um die Aufschlüsselung zu sehen.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1025,5 +1044,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "KI-Scan",
+  "reviewModerationFailedBody": "Deine Bewertung konnte nicht veröffentlicht werden, weil: {reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "Röstereiprofil",
+  "roasterRecipes": "Rezepte",
+  "roasterReviews": "Bewertungen",
+  "roasterWebsite": "Webseite",
+  "roasterLinks": "Links",
+  "roasterLocation": "Standort",
+  "roasterDisclaimerTitle": "Haftungsausschluss",
+  "roasterDisclaimerTrademark": "Alle auf dieser Seite angezeigten Markennamen, Logos und Marken gehören ihren jeweiligen Eigentümern. Die Aufnahme einer Rösterei auf dieser Plattform bedeutet keine Verbindung zu Timer.Coffee und keine Empfehlung durch Timer.Coffee.",
+  "roasterDisclaimerReviews": "Bewertungen werden von Timer.Coffee-Nutzern verfasst und wurden nicht vom Timer.Coffee-Team überprüft. Timer.Coffee ist nicht für die Richtigkeit oder Zuverlässigkeit nutzergenerierter Inhalte verantwortlich.",
+  "roasterDisclaimerDetails": "Angaben zur Rösterei (Standort, Webseite, Social-Media-Links) werden von den Röstereien selbst bereitgestellt oder aus öffentlichen Quellen übernommen und sind möglicherweise nicht immer aktuell.",
+  "yourReview": "Deine Bewertung",
+  "addReview": "Bewertung hinzufügen",
+  "writeReview": "Bewertung schreiben",
+  "editReview": "Bewertung bearbeiten",
+  "deleteReview": "Bewertung löschen",
+  "myReviews": "Meine Bewertungen",
+  "roasterResponse": "Antwort der Rösterei",
+  "replyToReview": "Auf diese Bewertung antworten",
+  "editReply": "Antwort bearbeiten",
+  "noRecipesYet": "Noch keine Rezepte",
+  "noReviewsYet": "Noch keine Bewertungen",
+  "reviewSubmitted": "Bewertung gesendet",
+  "reviewUpdated": "Bewertung aktualisiert",
+  "reviewDeleted": "Bewertung gelöscht",
+  "replySubmitted": "Antwort gesendet",
+  "tasteSweet": "Süße",
+  "tasteAcidic": "Säure",
+  "tasteFruity": "Fruchtig",
+  "tasteBody": "Körper",
+  "reviewRatingLabel": "Bewertung",
+  "reviewTextLabel": "Rezension",
+  "signInToReview": "Melde dich an, um eine Bewertung zu schreiben",
+  "selectBeanForReview": "Bohnen auswählen",
+  "reviewBeanLabel": "Bohne",
+  "submitReviewButton": "Senden",
+  "confirmDeleteReviewTitle": "Diese Bewertung löschen?",
+  "confirmDeleteReviewMessage": "Diese Aktion kann nicht rückgängig gemacht werden.",
+  "reviewsCount": "{count, plural, =1{1 Bewertung} other{{count} Bewertungen}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "Brühmethode",
+  "reviewBrewMethodHint": "Brühmethode auswählen",
+  "reviewWouldBuyAgainLabel": "Wieder kaufen?",
+  "reviewFlavorNotesLabel": "Geschmacksnoten",
+  "tasteProfileAdvancedTitle": "Geschmacksprofil",
+  "tasteBrightness": "Lebendigkeit",
+  "tasteBitterness": "Bitterkeit",
+  "tasteAftertaste": "Nachgeschmack",
+  "flavorCatFruity": "Fruchtig",
+  "flavorSubBerry": "Beere",
+  "flavorSubCitrus": "Zitrus",
+  "flavorSubDriedFruit": "Trockenfrucht",
+  "flavorSubTropical": "Tropisch",
+  "flavorCatFloral": "Blumig",
+  "flavorCatSweet": "Süß",
+  "flavorSubHoney": "Honig",
+  "flavorSubVanilla": "Vanille",
+  "flavorSubCaramel": "Karamell",
+  "flavorSubBrownSugar": "Brauner Zucker",
+  "flavorCatNuttyCocoa": "Nussig/Kakao",
+  "flavorSubNutty": "Nussig",
+  "flavorSubMilkChocolate": "Milchschokolade",
+  "flavorSubDarkChocolate": "Dunkle Schokolade",
+  "flavorCatRoasted": "Röstig",
+  "flavorSubCereal": "Getreide",
+  "flavorSubSmoky": "Rauchig",
+  "flavorSubBurnt": "Verbrannt",
+  "flavorCatSpices": "Gewürze",
+  "flavorCatSourFermented": "Sauer/Fermentiert",
+  "flavorCatGreenVegetative": "Grün/Pflanzlich",
+  "moderationRulesTitle": "Inhaltsregeln",
+  "moderationRulesLearnMore": "Inhaltsregeln ansehen",
+  "moderationDisplayNameFailedTitle": "Anzeigename nicht gespeichert",
+  "moderationDisplayNameFailedBody": "Dein Anzeigename konnte nicht gespeichert werden, weil: {reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "Inhalte, die du auf Timer.Coffee teilst, werden automatisch geprüft. Beiträge können abgelehnt werden, wenn sie Folgendes enthalten:\n\n- **Links oder Kontaktdaten**: URLs, Telefonnummern, E-Mail-Adressen oder verschleierte Varianten davon\n- **Hasserfüllte oder beleidigende Inhalte**: Hassrede, Belästigung oder Diskriminierung jeder Art\n- **Explizite Inhalte**: sexuell explizites Material oder drastische Gewaltdarstellungen\n- **Gefährliche Inhalte**: Förderung von Selbstverletzung oder anderen gefährlichen Aktivitäten\n\nDiese Regeln gelten beim Veröffentlichen eines Rezepts (private Rezepte werden nicht geprüft), für Bewertungstexte zu Bohnen, deinen Anzeigenamen und Profilbilder. Bewertungen mit Sternen und andere nicht textliche Felder sind nicht betroffen.\n\nWenn dein Beitrag abgelehnt wird, siehst du einen Grund und kannst ihn bearbeiten und erneut einreichen. Es gibt kein manuelles Einspruchsverfahren. Wenn du glaubst, dass die Ablehnung ein Fehler war, formuliere deinen Inhalt um.",
+  "recipeByPrefix": "Rezept von ",
+  "roastersCatalogTitle": "Röstereien",
+  "hubRoastersSubtitle": "Alle Kaffeeröstereien durchsuchen",
+  "searchRoasters": "Röstereien suchen...",
+  "filterByCountry": "Nach Land filtern",
+  "allCountries": "Alle Länder",
+  "roasterCountryCount": "{count, plural, =1{1 Rösterei} other{{count} Röstereien}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "Keine Röstereien gefunden",
+  "roastersCatalogEmptySearch": "Keine Röstereien passen zu \"{query}\"",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "Verifizierte Rösterei",
+  "retry": "Erneut versuchen"
 }

@@ -9,6 +9,8 @@
   "userRecipesDeleteConfirm": "Sil",
   "userRecipesDeleteCancel": "İptal",
   "userRecipesSnackbarDeleted": "Tarif silindi",
+  "hubSectionYourCoffee": "Kahven",
+  "hubSectionApp": "Uygulama",
   "hubUserRecipesTitle": "Tariflerin",
   "hubUserRecipesSubtitle": "Oluşturduğun ve içe aktardığın tarifleri görüntüle ve yönet",
   "hubAccountSubtitle": "Profilini yönet",
@@ -90,6 +92,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "Demleme Günlüğü",
   "brewdiarynotfound": "Giriş bulunamadı",
+  "brewsWithThisCoffee": "Bu kahveyle yapılan demlemeler",
+  "showAllNBrews": "{count, plural, =1{1 demlemeyi göster} other{Tüm {count} demlemeyi göster}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beans": "Çekirdekler",
   "roaster": "Kahve kavurucusu",
   "rating": "Puanlama",
@@ -701,6 +713,13 @@
   "recipePrivateTooltip": "Tarif gizli - herkese açık yapmak için paylaşın",
   "inventory": "Stok",
   "amountLeft": "Kalan miktar",
+  "approxBrewsLeft": "{count, plural, =1{≈ 1 demleme kaldı} other{≈ {count} demleme kaldı}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "Kalan miktarı girin",
   "fieldClearButtonTooltip": "Temizle",
   "dateFieldClearButtonTooltip": "Tarihi temizle",
@@ -982,7 +1001,7 @@
   "notifMorningBody2": "Sabah kahven birkaç dakika içinde hazır olabilir.",
   "notifMorningTitle3": "Günün ilk fincanı?",
   "notifMorningBody3": "Bir tarif seç ve demlemeye başla.",
-  "notifWeeklyTitle": "{count, plural, =1{Bu hafta 1 demleme} other{Bu hafta {count} demleme}}",
+  "notifWeeklyTitle": "{count, plural, =0{Bu hafta demleme yok} =1{Bu hafta 1 demleme} other{Bu hafta {count} demleme}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -990,7 +1009,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{Haftalık istatistiklerini görmek için dokun.} other{Bu hafta {recipes} tarif kullandın. Ayrıntıları görmek için dokun.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{Sakin bir hafta — sonraki demlemeni planlamak için dokun.} =1{Haftalık istatistiklerini görmek için dokun.} other{Bu hafta {recipes} tarif kullandın. Ayrıntıları görmek için dokun.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -1025,5 +1044,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "AI taraması",
+  "reviewModerationFailedBody": "Yorumun yayımlanamadı çünkü: {reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "Kavurucu profili",
+  "roasterRecipes": "Tarifler",
+  "roasterReviews": "Yorumlar",
+  "roasterWebsite": "Web Sitesi",
+  "roasterLinks": "Bağlantılar",
+  "roasterLocation": "Konum",
+  "roasterDisclaimerTitle": "Sorumluluk reddi",
+  "roasterDisclaimerTrademark": "Bu sayfada gösterilen tüm marka adları, logolar ve ticari markalar ilgili sahiplerine aittir. Bir kavurucunun bu platformda listelenmesi, Timer.Coffee ile herhangi bir bağlantı veya Timer.Coffee tarafından onay anlamına gelmez.",
+  "roasterDisclaimerReviews": "Yorumlar Timer.Coffee kullanıcıları tarafından yazılır ve Timer.Coffee ekibi tarafından doğrulanmamıştır. Timer.Coffee, kullanıcıların gönderdiği içeriğin doğruluğundan veya güvenilirliğinden sorumlu değildir.",
+  "roasterDisclaimerDetails": "Kavurucu bilgileri (konum, web sitesi, sosyal bağlantılar) kavurucuların kendileri tarafından sağlanır veya kamuya açık kayıtlardan alınır ve her zaman güncel olmayabilir.",
+  "yourReview": "Yorumun",
+  "addReview": "Yorum ekle",
+  "writeReview": "Yorum yaz",
+  "editReview": "Yorumu düzenle",
+  "deleteReview": "Yorumu sil",
+  "myReviews": "Yorumlarım",
+  "roasterResponse": "Kavurucunun yanıtı",
+  "replyToReview": "Bu yoruma yanıt ver",
+  "editReply": "Yanıtı düzenle",
+  "noRecipesYet": "Henüz tarif yok",
+  "noReviewsYet": "Henüz yorum yok",
+  "reviewSubmitted": "Yorum gönderildi",
+  "reviewUpdated": "Yorum güncellendi",
+  "reviewDeleted": "Yorum silindi",
+  "replySubmitted": "Yanıt gönderildi",
+  "tasteSweet": "Tatlılık",
+  "tasteAcidic": "Asidite",
+  "tasteFruity": "Meyvemsilik",
+  "tasteBody": "Gövde",
+  "reviewRatingLabel": "Puanlama",
+  "reviewTextLabel": "Yorum",
+  "signInToReview": "Yorum yazmak için oturum aç",
+  "selectBeanForReview": "Çekirdek seç",
+  "reviewBeanLabel": "Çekirdek",
+  "submitReviewButton": "Gönder",
+  "confirmDeleteReviewTitle": "Bu yorum silinsin mi?",
+  "confirmDeleteReviewMessage": "Bu işlem geri alınamaz.",
+  "reviewsCount": "{count, plural, other{{count} yorum}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "Demleme yöntemi",
+  "reviewBrewMethodHint": "Demleme yöntemi seç",
+  "reviewWouldBuyAgainLabel": "Tekrar alır mıydın?",
+  "reviewFlavorNotesLabel": "Lezzet notları",
+  "tasteProfileAdvancedTitle": "Tat profili",
+  "tasteBrightness": "Canlılık",
+  "tasteBitterness": "Acılık",
+  "tasteAftertaste": "Bitiş",
+  "flavorCatFruity": "Meyvemsi",
+  "flavorSubBerry": "Orman meyvesi",
+  "flavorSubCitrus": "Narenciye",
+  "flavorSubDriedFruit": "Kuru meyve",
+  "flavorSubTropical": "Tropikal",
+  "flavorCatFloral": "Çiçeksi",
+  "flavorCatSweet": "Tatlı",
+  "flavorSubHoney": "Bal",
+  "flavorSubVanilla": "Vanilya",
+  "flavorSubCaramel": "Karamel",
+  "flavorSubBrownSugar": "Esmer şeker",
+  "flavorCatNuttyCocoa": "Kuruyemiş/Kakao",
+  "flavorSubNutty": "Kuruyemiş",
+  "flavorSubMilkChocolate": "Sütlü çikolata",
+  "flavorSubDarkChocolate": "Bitter çikolata",
+  "flavorCatRoasted": "Kavrulmuş",
+  "flavorSubCereal": "Tahıl",
+  "flavorSubSmoky": "İsli",
+  "flavorSubBurnt": "Yanık",
+  "flavorCatSpices": "Baharatlar",
+  "flavorCatSourFermented": "Ekşi/Fermente",
+  "flavorCatGreenVegetative": "Yeşil/Bitkisel",
+  "moderationRulesTitle": "İçerik kuralları",
+  "moderationRulesLearnMore": "İçerik kurallarını görüntüle",
+  "moderationDisplayNameFailedTitle": "Görünen ad kaydedilmedi",
+  "moderationDisplayNameFailedBody": "Görünen adın kaydedilemedi çünkü: {reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "Timer.Coffee'de paylaştığın içerik otomatik olarak incelenir. Gönderiler şunları içerirse reddedilebilir:\n\n- **Bağlantılar veya iletişim bilgileri**: URL'ler, telefon numaraları, e-posta adresleri ya da bunların gizlenmiş sürümleri\n- **Nefret içeren veya saldırgan içerik**: nefret söylemi, taciz ya da herhangi bir tür ayrımcılık\n- **Açık içerik**: cinsel açıdan açık materyal veya şiddetin grafik anlatımları\n- **Tehlikeli içerik**: kendine zarar vermeyi veya diğer tehlikeli etkinlikleri teşvik etme\n\nBu kurallar bir tarifi yayımlarken (özel tarifler incelenmez), çekirdek yorumu metinlerinde, görünen adında ve profil fotoğraflarında geçerlidir. Puanlar ve diğer metin dışı alanlar etkilenmez.\n\nGönderin reddedilirse nedeni görür, içeriği düzenleyip yeniden gönderebilirsin. Manuel itiraz süreci yoktur. Reddin hata olduğunu düşünüyorsan içeriğini yeniden ifade etmeyi dene.",
+  "recipeByPrefix": "Tarif: ",
+  "roastersCatalogTitle": "Kavurucular",
+  "hubRoastersSubtitle": "Tüm kahve kavurucularına göz at",
+  "searchRoasters": "Kavurucu ara...",
+  "filterByCountry": "Ülkeye göre filtrele",
+  "allCountries": "Tüm ülkeler",
+  "roasterCountryCount": "{count, plural, other{{count} kavurucu}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "Kavurucu bulunamadı",
+  "roastersCatalogEmptySearch": "\"{query}\" ile eşleşen kavurucu yok",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "Doğrulanmış kavurucu",
+  "retry": "Tekrar dene"
 }

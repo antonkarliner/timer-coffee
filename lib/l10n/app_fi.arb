@@ -9,6 +9,8 @@
   "userRecipesDeleteConfirm": "Poista",
   "userRecipesDeleteCancel": "Peruuta",
   "userRecipesSnackbarDeleted": "Resepti poistettu",
+  "hubSectionYourCoffee": "Oma kahvi",
+  "hubSectionApp": "Sovellus",
   "hubUserRecipesTitle": "Omat reseptit",
   "hubUserRecipesSubtitle": "Näytä ja hallitse luomiasi ja tuomiasi reseptejä",
   "hubAccountSubtitle": "Hallitse profiiliasi",
@@ -47,6 +49,16 @@
   "timeFormat": "HH:mm",
   "brewdiary": "Uuttopäiväkirja",
   "brewdiarynotfound": "Merkintöjä ei löytynyt",
+  "brewsWithThisCoffee": "Uutot tällä kahvilla",
+  "showAllNBrews": "{count, plural, =1{Näytä 1 uutto} other{Näytä kaikki {count} uuttoa}}",
+  "@showAllNBrews": {
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
   "beansStatsSectionTitle": "Papujen tilastot",
   "totalBeansBrewedLabel": "Uutettuja papuja yhteensä",
   "newBeansTriedLabel": "Uusia papuja kokeiltu",
@@ -553,6 +565,13 @@
   "recipePrivateTooltip": "Resepti on yksityinen - jaa tehdäksesi siitä julkisen",
   "inventory": "Varasto",
   "amountLeft": "Jäljellä",
+  "approxBrewsLeft": "{count, plural, =1{≈ 1 uutto jäljellä} other{≈ {count} uuttoa jäljellä}}",
+  "@approxBrewsLeft": {
+    "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "enterAmountLeft": "Syötä jäljellä oleva määrä",
   "fieldClearButtonTooltip": "Tyhjennä",
   "dateFieldClearButtonTooltip": "Tyhjennä päivämäärä",
@@ -834,7 +853,7 @@
   "notifMorningBody2": "Aamun kahvi voi olla valmis muutamassa minuutissa.",
   "notifMorningTitle3": "Päivän ensimmäinen kuppi?",
   "notifMorningBody3": "Valitse resepti ja aloita valmistus.",
-  "notifWeeklyTitle": "{count, plural, =1{1 valmistus tällä viikolla} other{{count} valmistusta tällä viikolla}}",
+  "notifWeeklyTitle": "{count, plural, =0{Ei valmistuksia tällä viikolla} =1{1 valmistus tällä viikolla} other{{count} valmistusta tällä viikolla}}",
   "@notifWeeklyTitle": {
     "placeholders": {
       "count": {
@@ -842,7 +861,7 @@
       }
     }
   },
-  "notifWeeklyBody": "{recipes, plural, =1{Napauta nähdäksesi viikkotilastosi.} other{Yhteensä {recipes} reseptiä. Napauta nähdäksesi erittelyn.}}",
+  "notifWeeklyBody": "{recipes, plural, =0{Hiljainen viikko — napauta suunnitellaksesi seuraavaa valmistusta.} =1{Napauta nähdäksesi viikkotilastosi.} other{Yhteensä {recipes} reseptiä. Napauta nähdäksesi erittelyn.}}",
   "@notifWeeklyBody": {
     "placeholders": {
       "recipes": {
@@ -877,5 +896,97 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+
+  "aiScanLabel": "AI-skannaus",
+  "reviewModerationFailedBody": "Arvosteluasi ei voitu julkaista, koska: {reason}",
+  "@reviewModerationFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "roasterProfile": "Paahtimon profiili",
+  "roasterRecipes": "Reseptit",
+  "roasterReviews": "Arvostelut",
+  "roasterWebsite": "Verkkosivusto",
+  "roasterLinks": "Linkit",
+  "roasterLocation": "Sijainti",
+  "roasterDisclaimerTitle": "Vastuuvapauslauseke",
+  "roasterDisclaimerTrademark": "Kaikki tällä sivulla näkyvät brändinimet, logot ja tavaramerkit kuuluvat niiden omistajille. Paahtimon listaaminen tällä alustalla ei tarkoita yhteyttä Timer.Coffeehen eikä Timer.Coffeen suositusta.",
+  "roasterDisclaimerReviews": "Arvostelut ovat Timer.Coffee-käyttäjien kirjoittamia, eikä Timer.Coffee-tiimi ole vahvistanut niitä. Timer.Coffee ei vastaa käyttäjien lähettämän sisällön paikkansapitävyydestä tai luotettavuudesta.",
+  "roasterDisclaimerDetails": "Paahtimon tiedot (sijainti, verkkosivusto, sosiaalisen median linkit) ovat paahtimoiden itsensä antamia tai julkisista lähteistä kerättyjä, eivätkä ne välttämättä ole aina ajan tasalla.",
+  "yourReview": "Arvostelusi",
+  "addReview": "Lisää arvostelu",
+  "writeReview": "Kirjoita arvostelu",
+  "editReview": "Muokkaa arvostelua",
+  "deleteReview": "Poista arvostelu",
+  "myReviews": "Omat arvostelut",
+  "roasterResponse": "Paahtimon vastaus",
+  "replyToReview": "Vastaa tähän arvosteluun",
+  "editReply": "Muokkaa vastausta",
+  "noRecipesYet": "Ei vielä reseptejä",
+  "noReviewsYet": "Ei vielä arvosteluja",
+  "reviewSubmitted": "Arvostelu lähetetty",
+  "reviewUpdated": "Arvostelu päivitetty",
+  "reviewDeleted": "Arvostelu poistettu",
+  "replySubmitted": "Vastaus lähetetty",
+  "tasteSweet": "Makeus",
+  "tasteAcidic": "Hapokkuus",
+  "tasteFruity": "Hedelmäisyys",
+  "tasteBody": "Runko",
+  "reviewRatingLabel": "Arvosana",
+  "reviewTextLabel": "Arvostelu",
+  "signInToReview": "Kirjaudu sisään kirjoittaaksesi arvostelun",
+  "selectBeanForReview": "Valitse pavut",
+  "reviewBeanLabel": "Kahvipapu",
+  "submitReviewButton": "Lähetä",
+  "confirmDeleteReviewTitle": "Poistetaanko tämä arvostelu?",
+  "confirmDeleteReviewMessage": "Tätä toimintoa ei voi kumota.",
+  "reviewsCount": "{count, plural, one{1 arvostelu} other{{count} arvostelua}}",
+  "@reviewsCount": { "placeholders": { "count": { "type": "int" } } },
+  "reviewBrewMethodLabel": "Valmistusmenetelmä",
+  "reviewBrewMethodHint": "Valitse valmistusmenetelmä",
+  "reviewWouldBuyAgainLabel": "Ostaisitko uudelleen?",
+  "reviewFlavorNotesLabel": "Makuvivahteet",
+  "tasteProfileAdvancedTitle": "Makuprofiili",
+  "tasteBrightness": "Kirkkaus",
+  "tasteBitterness": "Kitkeryys",
+  "tasteAftertaste": "Jälkimaku",
+  "flavorCatFruity": "Hedelmäinen",
+  "flavorSubBerry": "Marjainen",
+  "flavorSubCitrus": "Sitrus",
+  "flavorSubDriedFruit": "Kuivattu hedelmä",
+  "flavorSubTropical": "Trooppinen",
+  "flavorCatFloral": "Kukkainen",
+  "flavorCatSweet": "Makea",
+  "flavorSubHoney": "Hunaja",
+  "flavorSubVanilla": "Vanilja",
+  "flavorSubCaramel": "Karamelli",
+  "flavorSubBrownSugar": "Fariinisokeri",
+  "flavorCatNuttyCocoa": "Pähkinäinen/Kaakao",
+  "flavorSubNutty": "Pähkinäinen",
+  "flavorSubMilkChocolate": "Maitosuklaa",
+  "flavorSubDarkChocolate": "Tumma suklaa",
+  "flavorCatRoasted": "Paahteinen",
+  "flavorSubCereal": "Viljainen",
+  "flavorSubSmoky": "Savuinen",
+  "flavorSubBurnt": "Palaneen makuinen",
+  "flavorCatSpices": "Mausteet",
+  "flavorCatSourFermented": "Hapan/Fermentoitunut",
+  "flavorCatGreenVegetative": "Vihreä/Kasvimainen",
+  "moderationRulesTitle": "Sisältösäännöt",
+  "moderationRulesLearnMore": "Näytä sisältösäännöt",
+  "moderationDisplayNameFailedTitle": "Näyttönimeä ei tallennettu",
+  "moderationDisplayNameFailedBody": "Näyttönimeäsi ei voitu tallentaa, koska: {reason}",
+  "@moderationDisplayNameFailedBody": { "placeholders": { "reason": { "type": "String" } } },
+  "moderationRulesBody": "Timer.Coffeessa jakamasi sisältö tarkistetaan automaattisesti. Lähetykset voidaan hylätä, jos ne sisältävät:\n\n- **Linkkejä tai yhteystietoja**: URL-osoitteita, puhelinnumeroita, sähköpostiosoitteita tai niiden peiteltyjä versioita\n- **Vihamielistä tai loukkaavaa sisältöä**: vihapuhetta, häirintää tai kaikenlaista syrjintää\n- **Eksplisiittistä sisältöä**: seksuaalisesti eksplisiittistä materiaalia tai graafisia väkivaltakuvauksia\n- **Vaarallista sisältöä**: itsensä vahingoittamisen tai muiden vaarallisten toimien edistämistä\n\nNämä säännöt koskevat reseptin julkaisemista (yksityisiä reseptejä ei tarkisteta), papuarvostelujen tekstiä, näyttönimeäsi ja profiilikuvia. Arvosanat ja muut ei-tekstikentät eivät vaikutu.\n\nJos lähetyksesi hylätään, näet syyn ja voit muokata sisältöä ja lähettää sen uudelleen. Manuaalista valitusprosessia ei ole. Jos uskot hylkäyksen olleen virhe, kokeile muotoilla sisältö uudelleen.",
+  "recipeByPrefix": "Resepti paahtimolta ",
+  "roastersCatalogTitle": "Paahtimot",
+  "hubRoastersSubtitle": "Selaa kaikkia kahvipaahtimoita",
+  "searchRoasters": "Hae paahtimoita...",
+  "filterByCountry": "Suodata maan mukaan",
+  "allCountries": "Kaikki maat",
+  "roasterCountryCount": "{count, plural, one{1 paahtimo} other{{count} paahtimoa}}",
+  "@roasterCountryCount": { "placeholders": { "count": { "type": "int" } } },
+  "roastersCatalogEmpty": "Paahtimoita ei löytynyt",
+  "roastersCatalogEmptySearch": "Mikään paahtimo ei vastaa hakua \"{query}\"",
+  "@roastersCatalogEmptySearch": { "placeholders": { "query": { "type": "String" } } },
+  "roasterVerifiedTooltip": "Vahvistettu paahtimo",
+  "retry": "Yritä uudelleen"
 }
