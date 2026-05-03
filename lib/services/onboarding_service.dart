@@ -67,8 +67,18 @@ class OnboardingReconciliationSnapshot {
   }
 }
 
+enum OnboardingRouteGateDecision {
+  showOnboarding,
+  skipOnboarding,
+  continueNavigation,
+}
+
 bool shouldRedirectToOnboarding(OnboardingService onboardingService) =>
-    !onboardingService.onboardingComplete;
+    onboardingService.routeGateDecisionForUri(
+      Uri(path: '/'),
+      isValidInternalRoute: true,
+    ) ==
+    OnboardingRouteGateDecision.showOnboarding;
 
 /// Tracks onboarding state: welcome screen completion, first-brew flag,
 /// and Coffee Journey milestone progress.
@@ -159,6 +169,28 @@ class OnboardingService extends ChangeNotifier {
   }
 
   static const int totalMilestones = 6;
+
+  static String normalizedRoutePath(Uri uri) {
+    final path = uri.path.trim();
+    if (path.isEmpty) return '/';
+    return path.startsWith('/') ? path : '/$path';
+  }
+
+  OnboardingRouteGateDecision routeGateDecisionForUri(
+    Uri uri, {
+    required bool isValidInternalRoute,
+  }) {
+    if (_onboardingComplete) {
+      return OnboardingRouteGateDecision.continueNavigation;
+    }
+
+    final path = normalizedRoutePath(uri);
+    if (!isValidInternalRoute || path == '/' || path == '/onboarding') {
+      return OnboardingRouteGateDecision.showOnboarding;
+    }
+
+    return OnboardingRouteGateDecision.skipOnboarding;
+  }
 
   void _load() {
     _onboardingComplete = _prefs.getBool(_keyOnboardingComplete) ?? false;
