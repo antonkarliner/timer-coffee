@@ -304,10 +304,67 @@ void main() {
       expect(shouldRedirectToOnboarding(service), isTrue);
     });
 
+    test('redirects to onboarding for root route', () {
+      expect(
+        service.routeGateDecisionForUri(
+          Uri.parse('/'),
+          isValidInternalRoute: true,
+        ),
+        OnboardingRouteGateDecision.showOnboarding,
+      );
+    });
+
+    test('redirects to onboarding for onboarding route', () {
+      expect(
+        service.routeGateDecisionForUri(
+          Uri.parse('/onboarding'),
+          isValidInternalRoute: true,
+        ),
+        OnboardingRouteGateDecision.showOnboarding,
+      );
+    });
+
+    test('skips onboarding for valid recipe links', () {
+      expect(
+        service.routeGateDecisionForUri(
+          Uri.parse('/recipes/v60/recipe-1'),
+          isValidInternalRoute: true,
+        ),
+        OnboardingRouteGateDecision.skipOnboarding,
+      );
+    });
+
+    test('skips onboarding for valid links with query parameters', () {
+      final uri = Uri.parse('/stats?period=thisWeek');
+
+      expect(
+        service.routeGateDecisionForUri(uri, isValidInternalRoute: true),
+        OnboardingRouteGateDecision.skipOnboarding,
+      );
+      expect(OnboardingService.normalizedRoutePath(uri), '/stats');
+    });
+
+    test('does not skip onboarding for invalid internal links', () {
+      expect(
+        service.routeGateDecisionForUri(
+          Uri.parse('/unknown-route'),
+          isValidInternalRoute: false,
+        ),
+        OnboardingRouteGateDecision.showOnboarding,
+      );
+    });
+
     test('does not redirect after onboarding completion', () async {
       await service.completeOnboarding();
 
       expect(shouldRedirectToOnboarding(service), isFalse);
+      expect(
+        service.routeGateDecisionForUri(
+          Uri.parse('/'),
+          isValidInternalRoute: true,
+        ),
+        OnboardingRouteGateDecision.continueNavigation,
+      );
     });
   });
 
