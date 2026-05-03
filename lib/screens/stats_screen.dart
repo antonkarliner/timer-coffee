@@ -21,8 +21,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/onboarding_service.dart';
 
-/// Custom plate widget for RoasterLogo with background styling and horizontal logo adaptation
-class _StatsRoasterLogoPlate extends StatefulWidget {
+/// Custom plate widget for RoasterLogo with fixed-size background styling.
+/// All plates are the same 1.5:1 rectangle so the list rows align uniformly.
+class _StatsRoasterLogoPlate extends StatelessWidget {
   final String? originalUrl;
   final String? mirrorUrl;
   final double height;
@@ -32,95 +33,47 @@ class _StatsRoasterLogoPlate extends StatefulWidget {
     super.key,
     required this.originalUrl,
     required this.mirrorUrl,
-    this.height = 40.0,
+    this.height = 48.0,
     this.borderRadius = 8.0,
   });
 
   @override
-  State<_StatsRoasterLogoPlate> createState() => _StatsRoasterLogoPlateState();
-}
-
-class _StatsRoasterLogoPlateState extends State<_StatsRoasterLogoPlate> {
-  bool _isLogoHorizontal = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // Reset the horizontal flag when the widget is initialized
-    _isLogoHorizontal = false;
-  }
-
-  @override
-  void didUpdateWidget(_StatsRoasterLogoPlate oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // Reset the horizontal flag when the logo image changes
-    if (oldWidget.originalUrl != widget.originalUrl ||
-        oldWidget.mirrorUrl != widget.mirrorUrl) {
-      setState(() {
-        _isLogoHorizontal = false;
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final hasLogo = widget.originalUrl != null || widget.mirrorUrl != null;
+    final hasLogo = originalUrl != null || mirrorUrl != null;
+    final plateWidth = height * 1.5;
 
-    // Make plate responsive: square for square logos (44x44), wider for horizontal logos (60x40)
-    final plateWidth = _isLogoHorizontal ? 60.0 : widget.height;
-    final plateHeight = _isLogoHorizontal ? 40.0 : widget.height;
-
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 160),
-      curve: Curves.easeOut,
+    return Container(
       width: plateWidth,
-      height: plateHeight,
+      height: height,
       decoration: BoxDecoration(
         color: hasLogo
             ? (Theme.of(context).brightness == Brightness.light
                 ? Colors.grey.shade400
                 : Colors.grey.shade700)
             : Colors.transparent,
-        borderRadius: BorderRadius.circular(widget.borderRadius),
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
       clipBehavior: Clip.hardEdge,
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 160),
-        transitionBuilder: (child, anim) => FadeTransition(
-            opacity: anim,
-            child: ScaleTransition(
-                scale: Tween<double>(begin: 0.95, end: 1).animate(anim),
-                child: child)),
-        child: hasLogo
-            ? Padding(
-                key: const ValueKey('logo'),
-                padding: const EdgeInsets.all(4.0),
-                child: RoasterLogo(
-                  originalUrl: widget.originalUrl,
-                  mirrorUrl: widget.mirrorUrl,
-                  height: _isLogoHorizontal ? 32.0 : widget.height - 8.0,
-                  width: _isLogoHorizontal ? 52.0 : null,
-                  borderRadius: 4.0,
-                  forceFit: BoxFit.contain,
-                  onAspectRatioDetermined: (isHorizontal) {
-                    if (mounted && _isLogoHorizontal != isHorizontal) {
-                      setState(() {
-                        _isLogoHorizontal = isHorizontal;
-                      });
-                    }
-                  },
-                ),
-              )
-            : Icon(
-                key: const ValueKey('placeholder'),
-                Coffeico.bag_with_bean,
-                size: widget.height * 0.7,
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: 0.55),
+      child: hasLogo
+          ? Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: RoasterLogo(
+                originalUrl: originalUrl,
+                mirrorUrl: mirrorUrl,
+                height: height - 8.0,
+                width: plateWidth - 8.0,
+                borderRadius: 4.0,
+                forceFit: BoxFit.contain,
               ),
-      ),
+            )
+          : Icon(
+              Coffeico.bag_with_bean,
+              size: height * 0.7,
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.55),
+            ),
     );
   }
 }
@@ -635,8 +588,8 @@ class _YourStatsSection extends StatelessWidget {
                               if (snap.connectionState ==
                                   ConnectionState.waiting) {
                                 return SizedBox(
-                                  height: isPreview ? 28 : 40,
-                                  width: isPreview ? 28 : 40,
+                                  height: isPreview ? 28 : 48,
+                                  width: isPreview ? 42 : 72,
                                   child: const Center(
                                     child: SizedBox(
                                       height: 16,
@@ -654,7 +607,7 @@ class _YourStatsSection extends StatelessWidget {
                                   return _StatsRoasterLogoPlate(
                                     originalUrl: originalUrl,
                                     mirrorUrl: mirrorUrl,
-                                    height: isPreview ? 28 : 40,
+                                    height: isPreview ? 28 : 48,
                                     borderRadius: 8.0,
                                   );
                                 }
@@ -664,7 +617,7 @@ class _YourStatsSection extends StatelessWidget {
                                   .onSurface
                                   .withAlpha((255 * 0.6).round());
                               return Icon(Coffeico.bag_with_bean,
-                                  size: isPreview ? 28 : 40, color: iconColor);
+                                  size: isPreview ? 28 : 48, color: iconColor);
                             },
                           ),
                           const SizedBox(width: 8),
@@ -713,8 +666,8 @@ class _YourStatsSection extends StatelessWidget {
                               if (snap.connectionState ==
                                   ConnectionState.waiting) {
                                 return SizedBox(
-                                  height: isPreview ? 28 : 40,
-                                  width: isPreview ? 28 : 40,
+                                  height: isPreview ? 28 : 48,
+                                  width: isPreview ? 42 : 72,
                                   child: const Center(
                                     child: SizedBox(
                                       height: 16,
@@ -732,7 +685,7 @@ class _YourStatsSection extends StatelessWidget {
                                   return _StatsRoasterLogoPlate(
                                     originalUrl: originalUrl,
                                     mirrorUrl: mirrorUrl,
-                                    height: isPreview ? 28 : 40,
+                                    height: isPreview ? 28 : 48,
                                     borderRadius: 8.0,
                                   );
                                 }
@@ -742,7 +695,7 @@ class _YourStatsSection extends StatelessWidget {
                                   .onSurface
                                   .withAlpha((255 * 0.6).round());
                               return Icon(Coffeico.bag_with_bean,
-                                  size: isPreview ? 28 : 40, color: iconColor);
+                                  size: isPreview ? 28 : 48, color: iconColor);
                             },
                           ),
                           const SizedBox(width: 8),
