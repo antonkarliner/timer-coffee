@@ -55,7 +55,7 @@ class FirstBrewCelebration extends StatelessWidget {
               AppTextButton(
                 label: l10n.firstBrewDiaryLink,
                 onPressed: () =>
-                    context.router.push(const BrewDiaryRoute()),
+                    context.router.push(BrewDiaryRoute()),
                 icon: Icons.library_books,
               ),
             ],
