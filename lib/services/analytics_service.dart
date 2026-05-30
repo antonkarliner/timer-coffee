@@ -17,7 +17,10 @@ import '../utils/app_logger.dart';
 ///
 /// Three privacy categories let users opt-in/out granularly:
 /// - **brews**: brew_started, brew_completed, brew_abandoned
-/// - **beans**: beans_added, beans_scan_used, beans_attached
+/// - **beans**: beans_added, beans_scan_used, beans_attached,
+///   review_form_opened, review_added, review_added_after_notification,
+///   review_edited, review_deleted, review_translated,
+///   reviews_translated_batch
 /// - **general**: app_opened, screen_viewed, recipe_created, recipe_shared,
 ///   donation_screen_viewed, donation_button_tapped, donation_completed,
 ///   donation_failed
@@ -56,6 +59,13 @@ class AnalyticsService extends ChangeNotifier {
     'beans_added': 'beans',
     'beans_scan_used': 'beans',
     'beans_attached': 'beans',
+    'review_form_opened': 'beans',
+    'review_added': 'beans',
+    'review_added_after_notification': 'beans',
+    'review_edited': 'beans',
+    'review_deleted': 'beans',
+    'review_translated': 'beans',
+    'reviews_translated_batch': 'beans',
     // General
     'app_opened': 'general',
     'screen_viewed': 'general',
@@ -71,12 +81,14 @@ class AnalyticsService extends ChangeNotifier {
     'journey_milestone_completed': 'general',
     'journey_completed': 'general',
     'journey_dismissed': 'general',
-    // Notification permission A/B test
-    'notification_permission_ab_assigned': 'general',
+    // Notification permission prompt
     'notification_permission_shown': 'general',
     'notification_permission_result': 'general',
     // Notification engagement
     'notification_tapped': 'general',
+    'notification_scheduled': 'general',
+    // Advanced / beta feature toggles
+    'beta_feature_toggled': 'general',
   };
 
   // ──────────────────── State ────────────────────
