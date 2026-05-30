@@ -186,6 +186,9 @@ class _RecipeContentBuilderState extends State<RecipeContentBuilder> {
                     labelText: loc.grindsize,
                     border: const OutlineInputBorder(),
                   ),
+                  onChanged: (_) {
+                    controller.markGrindSizeManuallyEdited();
+                  },
                   onFieldSubmitted: (_) {
                     setState(() => _isEditingGrindSize = false);
                   },
