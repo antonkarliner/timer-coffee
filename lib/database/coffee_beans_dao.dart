@@ -22,6 +22,7 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       roastDate: row.roastDate,
       region: row.region,
       roastLevel: row.roastLevel,
+      grindSize: row.grindSize,
       cuppingScore: row.cuppingScore,
       notes: row.notes,
       farmer: row.farmer,
@@ -31,6 +32,7 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       packageWeightGrams: row.packageWeightGrams,
       isDeleted: row.isDeleted,
       photoUrl: row.photoUrl,
+      reviewNudgeScheduledAt: row.reviewNudgeScheduledAt,
     );
   }
 
@@ -48,6 +50,7 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       roastDate: Value(model.roastDate),
       region: Value(model.region),
       roastLevel: Value(model.roastLevel),
+      grindSize: Value(model.grindSize),
       cuppingScore: Value(model.cuppingScore),
       notes: Value(model.notes),
       farmer: Value(model.farmer),
@@ -57,6 +60,7 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
       packageWeightGrams: Value(model.packageWeightGrams),
       isDeleted: Value(model.isDeleted),
       photoUrl: Value(model.photoUrl),
+      reviewNudgeScheduledAt: Value(model.reviewNudgeScheduledAt),
     );
   }
 
@@ -76,6 +80,22 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
         .map((row) => row.read(coffeeBeans.farmer))
         .get();
     return farmers.whereType<String>().toList();
+  }
+
+  Future<List<String>> fetchAllDistinctGrindSizes() async {
+    final query = selectOnly(coffeeBeans, distinct: true)
+      ..addColumns([coffeeBeans.grindSize])
+      ..where(
+        coffeeBeans.grindSize.isNotNull() &
+            coffeeBeans.isDeleted.equals(false),
+      );
+    final grindSizes = await query
+        .map((row) => row.read(coffeeBeans.grindSize))
+        .get();
+    return grindSizes
+        .whereType<String>()
+        .where((value) => value.trim().isNotEmpty)
+        .toList();
   }
 
   Future<List<String>> fetchAllDistinctFarms() async {
@@ -310,6 +330,51 @@ class CoffeeBeansDao extends DatabaseAccessor<AppDatabase>
         );
       }
     });
+  }
+
+  Future<void> updateReviewNudgeScheduledAt(
+      String uuid, DateTime scheduledAt) async {
+    await (update(coffeeBeans)..where((tbl) => tbl.beansUuid.equals(uuid)))
+        .write(
+            CoffeeBeansCompanion(reviewNudgeScheduledAt: Value(scheduledAt)));
+  }
+
+  /// Returns beans that are candidates for a "write a review" nudge: not deleted,
+  /// never nudged yet, with at least [minBrews] entries in `user_stats` and the
+  /// most recent brew within the last [activeWithinDays] days. Ordered by most
+  /// recent brew first, limited to [limit].
+  Future<List<CoffeeBeansModel>> fetchBeanReviewBacklogCandidates({
+    required int activeWithinDays,
+    required int minBrews,
+    required int limit,
+  }) async {
+    final cutoff = DateTime.now().subtract(Duration(days: activeWithinDays));
+    final rows = await customSelect(
+      '''
+      SELECT cb.*
+      FROM coffee_beans cb
+      JOIN user_stats us ON us.coffee_beans_uuid = cb.beans_uuid
+      WHERE cb.is_deleted = 0
+        AND cb.review_nudge_scheduled_at IS NULL
+        AND us.is_deleted = 0
+      GROUP BY cb.beans_uuid
+      HAVING COUNT(us.stat_uuid) >= ?
+        AND MAX(us.created_at) >= ?
+      ORDER BY MAX(us.created_at) DESC
+      LIMIT ?
+      ''',
+      variables: [
+        Variable.withInt(minBrews),
+        Variable.withDateTime(cutoff),
+        Variable.withInt(limit),
+      ],
+      readsFrom: {coffeeBeans, db.userStats},
+    ).get();
+
+    return rows.map((row) {
+      final bean = coffeeBeans.map(row.data);
+      return _coffeeBeansFromRow(bean);
+    }).toList();
   }
 
   Future<void> updateFavoriteStatus(String uuid, bool isFavorite) async {

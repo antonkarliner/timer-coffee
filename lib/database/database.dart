@@ -9,6 +9,7 @@ import '../models/coffee_fact_model.dart';
 import '../models/user_stat_model.dart';
 import '../models/coffee_beans_model.dart';
 import 'package:coffee_timer/models/beans_stats_models.dart';
+import '../models/recipe_collection_model.dart';
 import '../database/schema_versions.dart';
 import 'package:uuid/uuid.dart';
 import 'package:collection/collection.dart';
@@ -24,6 +25,7 @@ part 'coffee_facts_dao.dart';
 part 'user_stats_dao.dart';
 part 'coffee_beans_dao.dart';
 part 'beans_stats_dao.dart';
+part 'recipe_collections_dao.dart';
 
 class SupportedLocales extends Table {
   TextColumn get locale =>
@@ -205,6 +207,7 @@ class CoffeeBeans extends Table {
   DateTimeColumn get roastDate => dateTime().named('roast_date').nullable()();
   TextColumn get region => text().named('region').nullable()();
   TextColumn get roastLevel => text().named('roast_level').nullable()();
+  TextColumn get grindSize => text().named('grind_size').nullable()();
   RealColumn get cuppingScore => real().named('cupping_score').nullable()();
   RealColumn get packageWeightGrams =>
       real().named('package_weight_grams').nullable()();
@@ -218,9 +221,60 @@ class CoffeeBeans extends Table {
   BoolColumn get isDeleted =>
       boolean().named('is_deleted').withDefault(const Constant(false))();
   TextColumn get photoUrl => text().named('photo_url').nullable()();
+  DateTimeColumn get reviewNudgeScheduledAt =>
+      dateTime().named('review_nudge_scheduled_at').nullable()();
 
   @override
   Set<Column> get primaryKey => {beansUuid};
+}
+
+class RecipeCollections extends Table {
+  TextColumn get id => text().named('id').withLength(min: 1, max: 255)();
+  TextColumn get emoji => text().named('emoji')();
+  IntColumn get displayOrder =>
+      integer().named('display_order').withDefault(const Constant(0))();
+  BoolColumn get isPublished =>
+      boolean().named('is_published').withDefault(const Constant(false))();
+  DateTimeColumn get lastModified =>
+      dateTime().named('last_modified').nullable()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+class RecipeCollectionLocalizations extends Table {
+  IntColumn get id => integer().named('id').autoIncrement()();
+  TextColumn get collectionId => text()
+      .named('collection_id')
+      .references(RecipeCollections, #id, onDelete: KeyAction.cascade)
+      .withLength(min: 1, max: 255)();
+  TextColumn get locale => text()
+      .named('locale')
+      .references(SupportedLocales, #locale, onDelete: KeyAction.cascade)
+      .withLength(min: 2, max: 10)();
+  TextColumn get name => text().named('name')();
+  TextColumn get description => text().named('description').nullable()();
+
+  @override
+  List<Set<Column>> get uniqueKeys => [
+        {collectionId, locale}
+      ];
+}
+
+class RecipeCollectionMembers extends Table {
+  TextColumn get collectionId => text()
+      .named('collection_id')
+      .references(RecipeCollections, #id, onDelete: KeyAction.cascade)
+      .withLength(min: 1, max: 255)();
+  TextColumn get recipeId => text()
+      .named('recipe_id')
+      .references(Recipes, #id, onDelete: KeyAction.cascade)
+      .withLength(min: 1, max: 255)();
+  IntColumn get sortOrder =>
+      integer().named('sort_order').withDefault(const Constant(0))();
+
+  @override
+  Set<Column> get primaryKey => {collectionId, recipeId};
 }
 
 @DriftDatabase(
@@ -233,7 +287,10 @@ class CoffeeBeans extends Table {
     UserRecipePreferences,
     CoffeeFacts,
     UserStats,
-    CoffeeBeans
+    CoffeeBeans,
+    RecipeCollections,
+    RecipeCollectionLocalizations,
+    RecipeCollectionMembers,
   ],
   daos: [
     RecipesDao,
@@ -245,7 +302,8 @@ class CoffeeBeans extends Table {
     CoffeeFactsDao,
     UserStatsDao,
     CoffeeBeansDao,
-    BeansStatsDao
+    BeansStatsDao,
+    RecipeCollectionsDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -263,7 +321,8 @@ class AppDatabase extends _$AppDatabase {
   factory AppDatabase.fromExecutor(QueryExecutor e) => AppDatabase(e);
 
   @override
-  int get schemaVersion => 32; // Added photoUrl to CoffeeBeans
+  int get schemaVersion =>
+      35; // Added RecipeCollections tables
 
   String _generateUuidV7() {
     return _uuid.v7();
@@ -725,6 +784,19 @@ class AppDatabase extends _$AppDatabase {
             },
             from31To32: (m, schema) async {
               await m.addColumn(schema.coffeeBeans, schema.coffeeBeans.photoUrl);
+            },
+            from32To33: (m, schema) async {
+              await m.addColumn(schema.coffeeBeans,
+                  schema.coffeeBeans.reviewNudgeScheduledAt);
+            },
+            from33To34: (m, schema) async {
+              await m.addColumn(
+                  schema.coffeeBeans, schema.coffeeBeans.grindSize);
+            },
+            from34To35: (m, schema) async {
+              await m.createTable(recipeCollections);
+              await m.createTable(recipeCollectionLocalizations);
+              await m.createTable(recipeCollectionMembers);
             },
           )(m, oldVersion, newVersion);
         },

@@ -463,6 +463,10 @@ class CoffeeBeansProvider with ChangeNotifier {
     return await db.coffeeBeansDao.fetchAllDistinctFarms();
   }
 
+  Future<List<String>> fetchAllDistinctGrindSizes() async {
+    return await db.coffeeBeansDao.fetchAllDistinctGrindSizes();
+  }
+
   Future<List<String>> fetchCombinedTastingNotes(String locale) async {
     final cacheKey = _getCacheKey('tasting_notes', locale);
 
@@ -800,6 +804,7 @@ class CoffeeBeansProvider with ChangeNotifier {
       'roast_date': model.roastDate?.toUtc().toIso8601String(),
       'region': model.region,
       'roast_level': model.roastLevel,
+      'grind_size': model.grindSize,
       'cupping_score': model.cuppingScore,
       'package_weight_grams': model.packageWeightGrams,
       'notes': model.notes,
@@ -831,6 +836,7 @@ class CoffeeBeansProvider with ChangeNotifier {
           : null,
       region: json['region'],
       roastLevel: json['roast_level'],
+      grindSize: json['grind_size'],
       cuppingScore: json['cupping_score'] != null
           ? (json['cupping_score'] as num).toDouble()
           : null,

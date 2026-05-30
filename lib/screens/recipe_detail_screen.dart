@@ -77,6 +77,9 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
 
   // Core state variables
   RecipeModel? _updatedRecipe;
+  // Grind size of the currently attached bean (if any). Highest priority when
+  // resolving the displayed grind size (bean > manual override > recipe default).
+  String? _selectedBeanGrindSize;
   String _brewingMethodName = "";
   String?
       _effectiveRecipeId; // The ID used to load the recipe (might change after import)
@@ -194,6 +197,11 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
         _updatedRecipe = result.recipe;
         _errorMessage = null;
       });
+      // RecipeLoadingService just set the grind field to the recipe's base value
+      // (customGrindSize ?? grindSize). Re-apply the bean's grind size on top if
+      // a bean with one is attached, so the priority order is respected
+      // regardless of whether recipe or bean finished loading first.
+      _applyGrindSizePriority();
     } else {
       setState(() {
         _errorMessage = result.errorMessage;
@@ -293,14 +301,32 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     if (!mounted) return;
 
     if (result == null) {
+      _selectedBeanGrindSize = null;
       _controller.clearBeanSelection();
     } else {
+      _selectedBeanGrindSize = result.grindSize;
       _controller.setBeanSelection(
         uuid: result.uuid,
         name: result.name,
         originalUrl: result.originalLogoUrl,
         mirrorUrl: result.mirrorLogoUrl,
       );
+    }
+    _applyGrindSizePriority();
+  }
+
+  /// Resolves the grind size shown on the recipe screen using the priority:
+  /// attached bean's grind size > recipe's saved manual override > recipe default.
+  /// Safe to call after either the recipe or the bean finishes loading.
+  void _applyGrindSizePriority() {
+    final recipe = _updatedRecipe;
+    if (recipe == null) return;
+    final beanGrind = _selectedBeanGrindSize?.trim();
+    if (beanGrind != null && beanGrind.isNotEmpty) {
+      _controller.applyBeanGrindSize(beanGrind);
+    } else {
+      _controller
+          .resetGrindSizeToFallback(recipe.customGrindSize ?? recipe.grindSize);
     }
   }
 
@@ -327,19 +353,20 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
     if (uuid != null) {
       final result = await service.updateSelectedBean(context, uuid);
       if (!mounted) return;
-      if (result != null) {
-        _controller.setBeanSelection(
-          uuid: result.uuid,
-          name: result.name,
-          originalUrl: result.originalLogoUrl,
-          mirrorUrl: result.mirrorLogoUrl,
-        );
-      }
+      _selectedBeanGrindSize = result.grindSize;
+      _controller.setBeanSelection(
+        uuid: result.uuid,
+        name: result.name,
+        originalUrl: result.originalLogoUrl,
+        mirrorUrl: result.mirrorLogoUrl,
+      );
     } else {
       await service.clearSelectedBean(context);
       if (!mounted) return;
+      _selectedBeanGrindSize = null;
       _controller.clearBeanSelection();
     }
+    _applyGrindSizePriority();
   }
 
   /// Handles recipe sharing using RecipeImportSharingService
@@ -479,14 +506,24 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
             _controller.waterController.text.replaceAll(',', '.')) ??
         recipe.waterAmount;
 
-    final String? customGrindSize =
-        _controller.grindSizeController.text.trim().isEmpty
-            ? null
-            : _controller.grindSizeController.text.trim();
+    final String controllerGrind =
+        _controller.grindSizeController.text.trim();
+    // Value used for the actual brew — the attached bean's grind size takes
+    // effect here when present.
+    final String? effectiveGrindSize =
+        controllerGrind.isEmpty ? null : controllerGrind;
+
+    // Value persisted as the recipe's manual override. If the displayed grind
+    // size came from the attached bean (and wasn't manually edited since),
+    // leave the recipe's saved override untouched so attaching a bean does not
+    // clobber it (layered priority: bean > manual override > default).
+    final String? grindSizeToPersist = _controller.grindSizeFromBean
+        ? recipe.customGrindSize
+        : effectiveGrindSize;
 
     await recipeProvider.saveCustomAmounts(
         idToSave, customCoffeeAmount, customWaterAmount,
-        customGrindSize: customGrindSize);
+        customGrindSize: grindSizeToPersist);
 
     // Use effective ID for slider logic check
     if (idToSave == '106' || idToSave == '1002') {
@@ -506,7 +543,7 @@ class _RecipeDetailBaseState extends State<RecipeDetailBase> {
       id: idToSave, // Ensure the ID passed to next screen is the effective one
       coffeeAmount: customCoffeeAmount,
       waterAmount: customWaterAmount,
-      grindSize: customGrindSize ?? recipe.grindSize,
+      grindSize: effectiveGrindSize ?? recipe.grindSize,
       sweetnessSliderPosition:
           idToSave == '106' ? _controller.sweetnessSliderPosition : null,
       strengthSliderPosition:

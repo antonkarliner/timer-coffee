@@ -301,6 +301,7 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
           : const Value.absent(),
       region: Value(json['region']),
       roastLevel: Value(json['roast_level']),
+      grindSize: Value(json['grind_size']),
       cuppingScore: json['cupping_score'] != null
           ? Value((json['cupping_score'] as num).toDouble())
           : const Value.absent(),
@@ -318,6 +319,9 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
       versionVector: Value(json['version_vector']),
       photoUrl: json['photo_url'] != null
           ? Value(json['photo_url'] as String)
+          : const Value.absent(),
+      reviewNudgeScheduledAt: json['review_nudge_scheduled_at'] != null
+          ? Value(DateTime.parse(json['review_nudge_scheduled_at']))
           : const Value.absent(),
     );
   }
@@ -339,6 +343,7 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
           roastDate.present ? roastDate.value?.toIso8601String() : null,
       'region': region.value,
       'roast_level': roastLevel.value,
+      'grind_size': grindSize.value,
       'cupping_score': cuppingScore.present ? cuppingScore.value : null,
       'notes': notes.value,
       'farmer': farmer.value,
@@ -349,6 +354,9 @@ extension CoffeeBeansCompanionExtension on CoffeeBeansCompanion {
           packageWeightGrams.present ? packageWeightGrams.value : null,
       'version_vector': versionVector.value,
       'photo_url': photoUrl.present ? photoUrl.value : null,
+      'review_nudge_scheduled_at': reviewNudgeScheduledAt.present
+          ? reviewNudgeScheduledAt.value?.toIso8601String()
+          : null,
     };
   }
 }

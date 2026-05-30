@@ -497,13 +497,25 @@ class CoffeeBeansDetailController extends ChangeNotifier {
   // --- Notes ---
 
   /// Saves the notes for the current bean inline (without navigating to edit screen).
-  Future<bool> saveNotes(BuildContext context, String notes) async {
+  /// Saves the inline-edited "Notes & Preferences" fields. Both [notes] and
+  /// [grindSize] are optional; only provided values are written.
+  Future<bool> saveNotesAndGrindSize(
+    BuildContext context, {
+    String? notes,
+    String? grindSize,
+  }) async {
     if (_bean == null) return false;
 
     try {
       final coffeeBeansProvider =
           Provider.of<CoffeeBeansProvider>(context, listen: false);
-      final updatedBeans = _bean!.copyWith(notes: notes.trim());
+      var updatedBeans = _bean!;
+      if (notes != null) {
+        updatedBeans = updatedBeans.copyWith(notes: notes.trim());
+      }
+      if (grindSize != null) {
+        updatedBeans = updatedBeans.copyWith(grindSize: grindSize.trim());
+      }
       await coffeeBeansProvider.updateCoffeeBeans(updatedBeans);
       await refreshData(context);
       return true;

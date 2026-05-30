@@ -10,12 +10,14 @@ class BeanSelection {
   final String? name;
   final String? originalLogoUrl;
   final String? mirrorLogoUrl;
+  final String? grindSize;
 
   const BeanSelection({
     required this.uuid,
     required this.name,
     required this.originalLogoUrl,
     required this.mirrorLogoUrl,
+    this.grindSize,
   });
 
   BeanSelection copyWith({
@@ -23,12 +25,14 @@ class BeanSelection {
     String? name,
     String? originalLogoUrl,
     String? mirrorLogoUrl,
+    String? grindSize,
   }) {
     return BeanSelection(
       uuid: uuid ?? this.uuid,
       name: name ?? this.name,
       originalLogoUrl: originalLogoUrl ?? this.originalLogoUrl,
       mirrorLogoUrl: mirrorLogoUrl ?? this.mirrorLogoUrl,
+      grindSize: grindSize ?? this.grindSize,
     );
   }
 
@@ -37,6 +41,7 @@ class BeanSelection {
     name: null,
     originalLogoUrl: null,
     mirrorLogoUrl: null,
+    grindSize: null,
   );
 }
 
@@ -79,6 +84,7 @@ class BeanSelectionService {
       name: bean.name,
       originalLogoUrl: originalUrl,
       mirrorLogoUrl: mirrorUrl,
+      grindSize: bean.grindSize,
     );
   }
 
@@ -110,6 +116,7 @@ class BeanSelectionService {
       name: bean?.name,
       originalLogoUrl: originalUrl,
       mirrorLogoUrl: mirrorUrl,
+      grindSize: bean?.grindSize,
     );
   }
 

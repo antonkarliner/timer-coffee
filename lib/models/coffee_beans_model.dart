@@ -14,6 +14,7 @@ class CoffeeBeansModel {
   final DateTime? roastDate;
   final String? region;
   final String? roastLevel;
+  final String? grindSize;
   final double? cuppingScore;
   final String? notes;
   final String? farmer; // New optional field
@@ -23,6 +24,7 @@ class CoffeeBeansModel {
   final bool isDeleted; // New field to track soft deletion
   final String versionVector;
   final String? photoUrl;
+  final DateTime? reviewNudgeScheduledAt;
 
   CoffeeBeansModel({
     required this.beansUuid,
@@ -38,6 +40,7 @@ class CoffeeBeansModel {
     this.roastDate,
     this.region,
     this.roastLevel,
+    this.grindSize,
     this.cuppingScore,
     this.notes,
     this.farmer,
@@ -47,6 +50,7 @@ class CoffeeBeansModel {
     this.isDeleted = false, // Default value set to false
     required this.versionVector,
     this.photoUrl,
+    this.reviewNudgeScheduledAt,
   });
 
   VersionVector get versionVectorObject =>
@@ -74,6 +78,7 @@ class CoffeeBeansModel {
     DateTime? roastDate,
     String? region,
     String? roastLevel,
+    String? grindSize,
     double? cuppingScore,
     String? notes,
     String? farmer,
@@ -83,6 +88,7 @@ class CoffeeBeansModel {
     bool? isDeleted,
     String? versionVector,
     String? photoUrl,
+    DateTime? reviewNudgeScheduledAt,
   }) {
     return CoffeeBeansModel(
       beansUuid: beansUuid ?? this.beansUuid,
@@ -98,6 +104,7 @@ class CoffeeBeansModel {
       roastDate: roastDate ?? this.roastDate,
       region: region ?? this.region,
       roastLevel: roastLevel ?? this.roastLevel,
+      grindSize: grindSize ?? this.grindSize,
       cuppingScore: cuppingScore ?? this.cuppingScore,
       notes: notes ?? this.notes,
       farmer: farmer ?? this.farmer,
@@ -107,6 +114,8 @@ class CoffeeBeansModel {
       isDeleted: isDeleted ?? this.isDeleted,
       versionVector: versionVector ?? this.versionVector,
       photoUrl: photoUrl ?? this.photoUrl,
+      reviewNudgeScheduledAt:
+          reviewNudgeScheduledAt ?? this.reviewNudgeScheduledAt,
     );
   }
 
@@ -128,6 +137,7 @@ class CoffeeBeansModel {
           roastDate == other.roastDate &&
           region == other.region &&
           roastLevel == other.roastLevel &&
+          grindSize == other.grindSize &&
           cuppingScore == other.cuppingScore &&
           notes == other.notes &&
           farmer == other.farmer &&
@@ -136,7 +146,8 @@ class CoffeeBeansModel {
           isFavorite == other.isFavorite &&
           isDeleted == other.isDeleted &&
           versionVector == other.versionVector &&
-          photoUrl == other.photoUrl;
+          photoUrl == other.photoUrl &&
+          reviewNudgeScheduledAt == other.reviewNudgeScheduledAt;
 
   @override
   int get hashCode =>
@@ -153,6 +164,7 @@ class CoffeeBeansModel {
       roastDate.hashCode ^
       region.hashCode ^
       roastLevel.hashCode ^
+      grindSize.hashCode ^
       cuppingScore.hashCode ^
       notes.hashCode ^
       farmer.hashCode ^
@@ -161,5 +173,6 @@ class CoffeeBeansModel {
       isFavorite.hashCode ^
       isDeleted.hashCode ^
       versionVector.hashCode ^
-      photoUrl.hashCode;
+      photoUrl.hashCode ^
+      reviewNudgeScheduledAt.hashCode;
 }

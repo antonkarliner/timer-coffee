@@ -49,6 +49,11 @@ class RecipeDetailController extends ChangeNotifier {
   String? originalRoasterLogoUrl;
   String? mirrorRoasterLogoUrl;
 
+  /// True when the current grind size value was applied from the attached bean
+  /// (highest priority) and has not been manually edited since. Used so that
+  /// attaching a bean does not clobber the recipe's saved manual override.
+  bool grindSizeFromBean = false;
+
   // --- Lifecycle / disposal ---
   @override
   void dispose() {
@@ -195,5 +200,26 @@ class RecipeDetailController extends ChangeNotifier {
     originalRoasterLogoUrl = null;
     mirrorRoasterLogoUrl = null;
     notifyListeners();
+  }
+
+  /// Applies a grind size sourced from the attached bean (top priority) and
+  /// marks it as bean-derived so it won't overwrite the saved manual override.
+  void applyBeanGrindSize(String grindSize) {
+    grindSizeController.text = grindSize;
+    grindSizeFromBean = true;
+    notifyListeners();
+  }
+
+  /// Reverts the grind size field to the given fallback (manual override or
+  /// recipe default) and clears the bean-derived flag.
+  void resetGrindSizeToFallback(String fallback) {
+    grindSizeController.text = fallback;
+    grindSizeFromBean = false;
+    notifyListeners();
+  }
+
+  /// Marks the grind size as manually edited so it is treated as a user value.
+  void markGrindSizeManuallyEdited() {
+    grindSizeFromBean = false;
   }
 }

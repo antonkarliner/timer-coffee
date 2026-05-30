@@ -56,6 +56,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   double? packageWeightGrams;
   final TextEditingController _farmerController = TextEditingController();
   final TextEditingController _farmController = TextEditingController();
+  final TextEditingController _grindSizeController = TextEditingController();
   final Uuid _uuid = Uuid();
 
   // Store listener functions to properly remove them later
@@ -67,6 +68,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   late VoidCallback _notesListener;
   late VoidCallback _farmerListener;
   late VoidCallback _farmListener;
+  late VoidCallback _grindSizeListener;
 
   List<String> _tastingNotes = [];
   String? variety;
@@ -111,6 +113,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
   String? _initialNotes;
   String? _initialFarmer;
   String? _initialFarm;
+  String? _initialGrindSize;
   List<String> _initialTastingNotes = [];
   String? _initialVariety;
   String? _initialProcessingMethod;
@@ -176,6 +179,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
           _notesController.text.trim().isNotEmpty ||
           _farmerController.text.trim().isNotEmpty ||
           _farmController.text.trim().isNotEmpty ||
+          _grindSizeController.text.trim().isNotEmpty ||
           _tastingNotes.isNotEmpty ||
           variety != null ||
           processingMethod != null ||
@@ -195,6 +199,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         _notesController.text.trim() != (_initialNotes ?? '') ||
         _farmerController.text.trim() != (_initialFarmer ?? '') ||
         _farmController.text.trim() != (_initialFarm ?? '') ||
+        _grindSizeController.text.trim() != (_initialGrindSize ?? '') ||
         !_listsEqual(_tastingNotes, _initialTastingNotes) ||
         variety != _initialVariety ||
         processingMethod != _initialProcessingMethod ||
@@ -246,10 +251,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     _imageController = NewBeansImageController(
       supabaseClient: Supabase.instance.client,
     );
-    _imageController.setAskTakeAnotherPhotoCallback(() async {
+    _imageController.setAskTakeAnotherPhotoCallback((lastPhoto) async {
       final res = await showDialog<bool>(
         context: context,
-        builder: (_) => const ContinueCameraDialog(),
+        builder: (_) => ContinueCameraDialog(lastPhoto: lastPhoto),
       );
       return res ?? false;
     });
@@ -289,6 +294,10 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
       _updateUnsavedChanges();
       _validateForm();
     };
+    _grindSizeListener = () {
+      _updateUnsavedChanges();
+      _validateForm();
+    };
 
     // Add listeners to all text controllers for validation and change detection
     _roasterController.addListener(_roasterListener);
@@ -299,6 +308,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     _notesController.addListener(_notesListener);
     _farmerController.addListener(_farmerListener);
     _farmController.addListener(_farmListener);
+    _grindSizeController.addListener(_grindSizeListener);
 
     // Initial validation
     _validateForm();
@@ -321,6 +331,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     _notesController.removeListener(_notesListener);
     _farmerController.removeListener(_farmerListener);
     _farmController.removeListener(_farmListener);
+    _grindSizeController.removeListener(_grindSizeListener);
 
     // Dispose controllers
     _roasterController.dispose();
@@ -331,6 +342,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
     _notesController.dispose();
     _farmerController.dispose();
     _farmController.dispose();
+    _grindSizeController.dispose();
     _authStateSubscription?.cancel();
 
     super.dispose();
@@ -353,6 +365,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         _notesController.text = bean.notes ?? '';
         _farmerController.text = bean.farmer ?? '';
         _farmController.text = bean.farm ?? '';
+        _grindSizeController.text = bean.grindSize ?? '';
         _tastingNotes = bean.tastingNotes?.split(', ') ?? [];
         variety = bean.variety;
         processingMethod = bean.processingMethod;
@@ -371,6 +384,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         _initialNotes = bean.notes ?? '';
         _initialFarmer = bean.farmer ?? '';
         _initialFarm = bean.farm ?? '';
+        _initialGrindSize = bean.grindSize ?? '';
         _initialTastingNotes = bean.tastingNotes?.split(', ') ?? [];
         _initialVariety = bean.variety;
         _initialProcessingMethod = bean.processingMethod;
@@ -443,6 +457,9 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
         farm: _farmController.text.isNotEmpty
             ? _farmController.text.trim()
             : null,
+        grindSize: _grindSizeController.text.trim().isNotEmpty
+            ? _grindSizeController.text.trim()
+            : null,
         packageWeightGrams: packageWeightGrams,
         isFavorite: false,
         versionVector: isEditMode
@@ -470,6 +487,7 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
             _initialNotes = bean.notes;
             _initialFarmer = bean.farmer;
             _initialFarm = bean.farm;
+            _initialGrindSize = bean.grindSize ?? '';
             _initialTastingNotes = bean.tastingNotes?.split(', ') ?? [];
             _initialVariety = bean.variety;
             _initialProcessingMethod = bean.processingMethod;
@@ -1498,6 +1516,18 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
               );
             }
           },
+          grindSize: _grindSizeController.text,
+          grindSizeOptions: coffeeBeansProvider.fetchAllDistinctGrindSizes(),
+          onGrindSizeChanged: (v) {
+            final newText = v ?? '';
+            if (_grindSizeController.text != newText) {
+              _grindSizeController.value = _grindSizeController.value.copyWith(
+                text: newText,
+                selection: TextSelection.collapsed(offset: newText.length),
+                composing: TextRange.empty,
+              );
+            }
+          },
         ),
         // Add extra padding at bottom to account for sticky action bar
         const SizedBox(height: 100),
@@ -1723,6 +1753,22 @@ class _NewBeansScreenState extends State<NewBeansScreen> {
                               text: v,
                               selection: TextSelection.collapsed(
                                 offset: v.length,
+                              ),
+                              composing: TextRange.empty,
+                            );
+                      }
+                    },
+                    grindSize: _grindSizeController.text,
+                    grindSizeOptions:
+                        coffeeBeansProvider.fetchAllDistinctGrindSizes(),
+                    onGrindSizeChanged: (v) {
+                      final newText = v ?? '';
+                      if (_grindSizeController.text != newText) {
+                        _grindSizeController.value = _grindSizeController.value
+                            .copyWith(
+                              text: newText,
+                              selection: TextSelection.collapsed(
+                                offset: newText.length,
                               ),
                               composing: TextRange.empty,
                             );
