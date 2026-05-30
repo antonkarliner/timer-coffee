@@ -74,6 +74,7 @@ jsontodbf.py
 jsontodbsp.py
 lib/env/env.g.dart
 lib/app_router.gr.dart
+lib/database/database.g.dart
 lib/l10n/app_localizations*.dart
 .env.local
 all_translations_queries.txt
