@@ -45,10 +45,14 @@ import 'services/onboarding_service.dart';
 import 'services/analytics_service.dart';
 import 'services/local_notification_scheduler_service.dart';
 import 'services/date_time_format_service.dart';
+import 'services/advanced_features_service.dart';
+import 'services/collections_preferences_service.dart';
+import 'services/moments_service.dart';
 import 'controllers/stats_controller.dart';
 import 'providers/roaster_profile_provider.dart';
 import 'providers/bean_review_provider.dart';
 import 'providers/roasters_provider.dart';
+import 'providers/recipe_collection_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Custom log handler that intercepts and sanitizes all Supabase library logs
@@ -280,8 +284,9 @@ void main() async {
     AppLogger.debug('Firebase initialized successfully');
   } catch (e) {
     AppLogger.error('Failed to initialize Firebase', errorObject: e);
-    // Continue app startup even if Firebase fails, but functionality will be limited
-    rethrow; // Let calling code handle the error appropriately
+    // Continue app startup even if Firebase fails. Downstream FCM code guards its
+    // FirebaseMessaging.instance calls, so the app degrades to no-push but stays usable.
+    // This matters in regions where Google services are throttled/blocked.
   }
 
   if (!kIsWeb) {
@@ -340,8 +345,11 @@ void main() async {
     AppLogger.debug('Supabase initialized successfully');
   } catch (e) {
     AppLogger.error('Failed to initialize Supabase', errorObject: e);
-    // Continue app startup even if Supabase fails, but functionality will be limited
-    rethrow; // Let calling code handle the error appropriately
+    // Continue app startup even if Supabase init times out. Supabase.initialize sets up
+    // the client synchronously before the only awaited call (recoverSession is
+    // fire-and-forget), so Supabase.instance.client stays usable; remote data fetches are
+    // individually guarded and degrade to a local-only DB rather than crashing startup.
+    // This matters in regions where Cloudflare (Supabase's edge) is throttled/blocked.
   }
 
   // Check if there is an existing session or logged-in user
@@ -468,6 +476,9 @@ void main() async {
   final userStatProvider = UserStatProvider(database, coffeeBeansProvider);
   final beansStatsProvider = BeansStatsProvider(database);
   final onboardingService = OnboardingService(prefs);
+  final momentsService = MomentsService(prefs: prefs, database: database);
+  // Warm the first-brew cache in the background; not awaited.
+  unawaited(momentsService.earliestBrewAt());
 
   // Initialize analytics (non-blocking, fire-and-forget)
   final analyticsService = await AnalyticsService.initialize(prefs);
@@ -568,6 +579,7 @@ void main() async {
       featureFlagsRepository: featureFlagsRepository,
       onboardingService: onboardingService,
       analyticsService: analyticsService,
+      momentsService: momentsService,
     ),
   );
 
@@ -592,6 +604,7 @@ class CoffeeTimerApp extends StatefulWidget {
   final FeatureFlagsRepository featureFlagsRepository;
   final OnboardingService onboardingService;
   final AnalyticsService analyticsService;
+  final MomentsService momentsService;
 
   const CoffeeTimerApp({
     Key? key,
@@ -608,6 +621,7 @@ class CoffeeTimerApp extends StatefulWidget {
     required this.featureFlagsRepository,
     required this.onboardingService,
     required this.analyticsService,
+    required this.momentsService,
   }) : super(key: key);
 
   @override
@@ -687,26 +701,54 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
 
       // Handle internal routes (starting with /)
       if (deepLink.startsWith('/')) {
-        // Track notification tap for analytics
-        AnalyticsService.instance.track(
-          'notification_tapped',
-          properties: {'notification_type': _notificationTypeFromDeepLink(deepLink)},
-        );
+        final notificationType = _notificationTypeFromDeepLink(deepLink);
 
         // /beans/:uuid — pushNamed conflicts with the /beans tab child of
         // HomeRoute, so use a typed push instead.
         if (deepLink.startsWith('/beans/')) {
-          final uuid = deepLink.substring('/beans/'.length);
+          final beansUri = Uri.tryParse(deepLink);
+          final pathSegments = beansUri?.pathSegments ?? const <String>[];
+          final uuid =
+              pathSegments.length >= 2 ? pathSegments[1] : '';
+          final focus = beansUri?.queryParameters['focus'];
+
+          // Track tap with bean attribution for engagement analytics
+          AnalyticsService.instance.track(
+            'notification_tapped',
+            properties: {
+              'notification_type': notificationType,
+              if (uuid.isNotEmpty) 'bean_uuid': uuid,
+            },
+          );
+
+          // Stamp a SharedPreferences key so a review submitted within the next
+          // 60 minutes can be attributed back to this nudge tap.
+          if (uuid.isNotEmpty && notificationType == 'bean_review_nudge') {
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setInt(
+              'notif_bean_review_tap_ms_$uuid',
+              DateTime.now().millisecondsSinceEpoch,
+            );
+          }
+
           if (uuid.isNotEmpty) {
-            AppLogger.info('📱 BEAN DETAIL: Navigating to bean uuid=$uuid');
+            AppLogger.info(
+                '📱 BEAN DETAIL: Navigating to bean uuid=$uuid focus=$focus');
             await _completeOnboardingForInternalRoute(
               Uri(path: '/beans/$uuid'),
               isValidInternalRoute: true,
             );
-            await widget.appRouter.push(CoffeeBeansDetailRoute(uuid: uuid));
+            await widget.appRouter.push(
+                CoffeeBeansDetailRoute(uuid: uuid, focusSection: focus));
             return;
           }
         }
+
+        // Track notification tap for analytics (non-bean paths)
+        AnalyticsService.instance.track(
+          'notification_tapped',
+          properties: {'notification_type': notificationType},
+        );
 
         // Parse query parameters for stats period deep linking
         String routePath = deepLink;
@@ -773,7 +815,11 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
       return 'weekly_summary';
     }
     if (deepLink == '/stats') return 'brew_milestone';
-    if (deepLink.startsWith('/beans/')) return 'bean_freshness';
+    if (deepLink.startsWith('/beans/')) {
+      final focus = Uri.tryParse(deepLink)?.queryParameters['focus'];
+      if (focus == 'review') return 'bean_review_nudge';
+      return 'bean_freshness';
+    }
     if (deepLink.startsWith('/recipes/')) return 'recipe_exploration';
     return 'unknown';
   }
@@ -1012,8 +1058,17 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         ChangeNotifierProvider<AnalyticsService>.value(
           value: widget.analyticsService,
         ),
+        ChangeNotifierProvider<MomentsService>.value(
+          value: widget.momentsService,
+        ),
         ChangeNotifierProvider<DateTimeFormatService>(
           create: (_) => DateTimeFormatService()..init(),
+        ),
+        ChangeNotifierProvider<AdvancedFeaturesService>(
+          create: (_) => AdvancedFeaturesService()..init(),
+        ),
+        ChangeNotifierProvider<CollectionsPreferencesService>(
+          create: (_) => CollectionsPreferencesService()..init(),
         ),
         ChangeNotifierProvider<RoasterProfileProvider>(
           create: (_) => RoasterProfileProvider(),
@@ -1023,6 +1078,9 @@ class _CoffeeTimerAppState extends State<CoffeeTimerApp>
         ),
         ChangeNotifierProvider<RoastersProvider>(
           create: (_) => RoastersProvider(),
+        ),
+        ChangeNotifierProvider<RecipeCollectionProvider>(
+          create: (_) => RecipeCollectionProvider(widget.database),
         ),
         StreamProvider<Map<String, bool>>(
           create: (_) => widget.featureFlagsRepository.stream,
