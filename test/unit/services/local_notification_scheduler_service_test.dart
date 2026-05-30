@@ -637,4 +637,206 @@ void main() {
       expect(p.getString('notif_bean_freshness_last_uuid'), 'bean-2');
     });
   });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Bean review nudge (ID 1601)
+  // ─────────────────────────────────────────────────────────────────────────
+
+  group('bean review nudge — reactive', () {
+    Future<void> seedBrews({
+      required String beansUuid,
+      required int count,
+      int daysAgoFirst = 6,
+    }) async {
+      for (var i = 0; i < count; i++) {
+        await db.userStatsDao.insertUserStat(
+          _makeStat(
+            uuid: 'stat-$beansUuid-$i',
+            createdAt:
+                DateTime.now().subtract(Duration(days: daysAgoFirst - i)),
+          ).copyWith(coffeeBeansUuid: beansUuid),
+        );
+      }
+    }
+
+    test('does nothing when fewer than 5 brews', () async {
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(uuid: 'bean-x', name: 'Yirgacheffe'),
+      );
+      await seedBrews(beansUuid: 'bean-x', count: 4);
+
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudge(
+        database: db,
+        beansUuid: 'bean-x',
+        locale: 'en',
+      );
+
+      expect(scheduled(1601), isFalse);
+    });
+
+    test('schedules with /beans/<uuid>?focus=review when 5 brews and no review',
+        () async {
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(uuid: 'bean-x', name: 'Yirgacheffe'),
+      );
+      await seedBrews(beansUuid: 'bean-x', count: 5);
+
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudge(
+        database: db,
+        beansUuid: 'bean-x',
+        locale: 'en',
+      );
+
+      expect(scheduled(1601), isTrue);
+      expect(payloadOf(1601), equals('/beans/bean-x?focus=review'));
+    });
+
+    test('marks reviewNudgeScheduledAt on the bean after scheduling', () async {
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(uuid: 'bean-x', name: 'Yirgacheffe'),
+      );
+      await seedBrews(beansUuid: 'bean-x', count: 5);
+
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudge(
+        database: db,
+        beansUuid: 'bean-x',
+        locale: 'en',
+      );
+
+      final updated =
+          await db.coffeeBeansDao.fetchCoffeeBeansByUuid('bean-x');
+      expect(updated?.reviewNudgeScheduledAt, isNotNull);
+    });
+
+    test('does not re-schedule once reviewNudgeScheduledAt is set', () async {
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(uuid: 'bean-x', name: 'Yirgacheffe').copyWith(
+          reviewNudgeScheduledAt: DateTime.now(),
+        ),
+      );
+      await seedBrews(beansUuid: 'bean-x', count: 6);
+
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudge(
+        database: db,
+        beansUuid: 'bean-x',
+        locale: 'en',
+      );
+
+      expect(scheduled(1601), isFalse);
+    });
+
+    test('does nothing when toggle is disabled', () async {
+      await NotificationSettingsService.instance
+          .setBeanReviewNudgeEnabled(false);
+
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(uuid: 'bean-x', name: 'Yirgacheffe'),
+      );
+      await seedBrews(beansUuid: 'bean-x', count: 5);
+
+      await LocalNotificationSchedulerService.instance
+          .maybeScheduleBeanReviewNudge(
+        database: db,
+        beansUuid: 'bean-x',
+        locale: 'en',
+      );
+
+      expect(scheduled(1601), isFalse);
+    });
+  });
+
+  group('bean review nudge — backlog', () {
+    Future<void> seedEligibleBean({
+      required String uuid,
+      required String name,
+      required int daysSinceLastBrew,
+    }) async {
+      await db.coffeeBeansDao.insertCoffeeBeans(
+        _makeBean(uuid: uuid, name: name),
+      );
+      // 5 brews, most recent `daysSinceLastBrew` days ago.
+      for (var i = 0; i < 5; i++) {
+        await db.userStatsDao.insertUserStat(
+          _makeStat(
+            uuid: 'stat-$uuid-$i',
+            createdAt: DateTime.now()
+                .subtract(Duration(days: daysSinceLastBrew + (4 - i))),
+          ).copyWith(coffeeBeansUuid: uuid),
+        );
+      }
+    }
+
+    test('one-shot scan schedules first candidate and queues the rest',
+        () async {
+      await seedEligibleBean(uuid: 'bean-a', name: 'A', daysSinceLastBrew: 2);
+      await seedEligibleBean(uuid: 'bean-b', name: 'B', daysSinceLastBrew: 5);
+      await seedEligibleBean(uuid: 'bean-c', name: 'C', daysSinceLastBrew: 10);
+
+      await runScheduler();
+
+      expect(scheduled(1601), isTrue);
+      expect(payloadOf(1601), equals('/beans/bean-a?focus=review'));
+
+      final p = await SharedPreferences.getInstance();
+      expect(
+          p.getBool('notif_bean_review_backlog_scanned_v1'), isTrue);
+      final queue = p.getString('notif_bean_review_backlog_uuids');
+      expect(queue, isNotNull);
+      expect(queue, contains('bean-b'));
+      expect(queue, contains('bean-c'));
+    });
+
+    test('backlog scan ignores beans active more than 30 days ago', () async {
+      await seedEligibleBean(uuid: 'bean-old', name: 'Old', daysSinceLastBrew: 60);
+
+      await runScheduler();
+
+      expect(scheduled(1601), isFalse);
+    });
+
+    test('drip waits 7 days between scheduled nudges', () async {
+      // Pretend a nudge was scheduled 3 days ago and queue has one entry.
+      SharedPreferences.setMockInitialValues({
+        'notif_bean_review_backlog_scanned_v1': true,
+        'notif_bean_review_backlog_uuids': '["bean-b"]',
+        'notif_bean_review_last_scheduled_ms': DateTime.now()
+            .subtract(const Duration(days: 3))
+            .millisecondsSinceEpoch,
+      });
+      prefs = await SharedPreferences.getInstance();
+      await NotificationSettingsService.instance.init();
+
+      await seedEligibleBean(uuid: 'bean-b', name: 'B', daysSinceLastBrew: 2);
+
+      await runScheduler();
+
+      expect(scheduled(1601), isFalse);
+    });
+
+    test('drip schedules next when 7+ days have passed', () async {
+      SharedPreferences.setMockInitialValues({
+        'notif_bean_review_backlog_scanned_v1': true,
+        'notif_bean_review_backlog_uuids': '["bean-b"]',
+        'notif_bean_review_last_scheduled_ms': DateTime.now()
+            .subtract(const Duration(days: 8))
+            .millisecondsSinceEpoch,
+      });
+      prefs = await SharedPreferences.getInstance();
+      await NotificationSettingsService.instance.init();
+
+      await seedEligibleBean(uuid: 'bean-b', name: 'B', daysSinceLastBrew: 2);
+
+      await runScheduler();
+
+      expect(scheduled(1601), isTrue);
+      expect(payloadOf(1601), equals('/beans/bean-b?focus=review'));
+
+      final p = await SharedPreferences.getInstance();
+      expect(p.getString('notif_bean_review_backlog_uuids'), equals('[]'));
+    });
+  });
 }

@@ -91,7 +91,27 @@ void main() {
       service.track('beans_added');
       service.track('beans_scan_used');
       service.track('beans_attached');
+      service.track('review_form_opened');
+      service.track('review_added');
+      service.track('review_added_after_notification');
+      service.track('review_edited');
+      service.track('review_deleted');
+      service.track('review_translated');
+      service.track('reviews_translated_batch');
       expect(service.bufferLength, 0);
+    });
+
+    test('registers new bean review events (beans category)', () {
+      service.track('review_form_opened', properties: {'mode': 'create'});
+      service.track('review_edited', properties: {'rating': 4});
+      service.track('review_deleted');
+      service.track('review_translated', properties: {'status': 'translated'});
+      service.track('reviews_translated_batch', properties: {
+        'requested_count': 3,
+        'succeeded_count': 2,
+      });
+      // All five are known beans events, so all should buffer.
+      expect(service.bufferLength, 5);
     });
 
     test('is no-op when category disabled (general)', () async {
@@ -99,7 +119,18 @@ void main() {
       service.track('app_opened');
       service.track('screen_viewed');
       service.track('donation_screen_viewed');
+      service.track('notification_scheduled');
+      service.track('notification_tapped');
+      service.track('beta_feature_toggled');
       expect(service.bufferLength, 0);
+    });
+
+    test('buffers beta_feature_toggled under general category', () {
+      service.track('beta_feature_toggled', properties: {
+        'feature': 'manual_step_control',
+        'enabled': true,
+      });
+      expect(service.bufferLength, 1);
     });
 
     test('respects categories independently', () async {
