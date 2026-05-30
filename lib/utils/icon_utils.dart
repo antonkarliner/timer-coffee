@@ -28,6 +28,8 @@ Icon getIconByBrewingMethod(String? brewingMethodId) {
     "aprilbrewer": Icon(Coffeico.april_brewer),
     "ceadohoopbrewer": Icon(Coffeico.ceado_hoop_brewer),
     "oxorapidbrewer": Icon(Coffeico.oxo_rapid_brewer),
+    "timemoreb75": Icon(Coffeico.timermore_b75),
+    "esprobloom": Icon(Coffeico.espro_bloom),
   };
 
   return icons[brewingMethodId] ?? const Icon(Coffeico.bean);
