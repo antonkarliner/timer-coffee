@@ -2,7 +2,7 @@ Timer.Coffee adalah timer dan kalkulator seduh kopi gratis dan open-source untuk
 
 Fitur Utama
 
-- 22 metode penyeduhan: instruksi langkah demi langkah untuk Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch, dan lainnya.
+- 27 metode penyeduhan: instruksi langkah demi langkah untuk Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch, dan lainnya.
 - Kalkulator kopi: sesuaikan takaran kopi dan air dengan cepat saat menyeduh.
 - Ukuran giling kustom: simpan pengaturan giling per resep — jangan pernah lupa klik Comandante Anda lagi.
 - Seduh di latar belakang: timer terus berjalan akurat saat aplikasi diminimalkan — beralih aplikasi atau cek pesan tanpa kehilangan langkah.

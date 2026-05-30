@@ -2,7 +2,7 @@ Timer.Coffee este un cronometru și un calculator pentru prepararea cafelei, gra
 
 Caracteristici cheie
 
-- Peste 40 de metode de preparare: instrucțiuni detaliate pas cu pas pentru Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch și multe altele.
+- 27 de metode de preparare: instrucțiuni detaliate pas cu pas pentru Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch și multe altele.
 - Calculator de cafea: ajustați cantitățile de cafea și apă din mers.
 - Dimensiune de măcinare personalizată: salvați setările de măcinare per rețetă — nu uitați niciodată numărul de clicuri Comandante.
 - Preparare în fundal: cronometrul continuă să funcționeze cu precizie când minimizați aplicația — comutați între aplicații sau verificați un mesaj fără să vă pierdeți locul.

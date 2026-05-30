@@ -2,7 +2,7 @@ Timer.Coffee는 커피 추출 경험을 향상시키기 위해 설계된 무료 
 
 주요 기능
 
-- 40가지 이상의 추출 방법: Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch 등 단계별 안내를 제공합니다.
+- 27가지 추출 방법: Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch 등 단계별 안내를 제공합니다.
 - 커피 계산기: 커피와 물의 양을 즉석에서 조정할 수 있습니다.
 - 커스텀 분쇄 크기: 레시피별로 분쇄 설정을 저장하세요 — Comandante 클릭 수를 더 이상 잊어버리지 않아도 됩니다.
 - 백그라운드 추출: 앱을 최소화해도 타이머가 정확하게 계속 작동합니다 — 다른 앱으로 전환하거나 메시지를 확인해도 진행 상황을 잃지 않습니다.

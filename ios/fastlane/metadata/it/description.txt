@@ -2,7 +2,7 @@ Timer.Coffee è un'app gratuita e open-source per cronometrare e calcolare il ca
 
 Funzionalità principali
 
-- Oltre 40 metodi di preparazione: Istruzioni passo dopo passo per Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch e altri ancora.
+- 27 metodi di preparazione: Istruzioni passo dopo passo per Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch e altri ancora.
 - Calcolatore del caffè: Regola le quantità di caffè e acqua al volo.
 - Dimensione di macinatura personalizzata: Salva le impostazioni di macinatura per ogni ricetta — non dimenticare più le regolazioni del tuo Comandante.
 - Preparazione in background: Il timer continua a funzionare con precisione quando minimizzi l'app — cambia app o controlla un messaggio senza perdere il filo.

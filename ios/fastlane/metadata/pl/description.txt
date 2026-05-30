@@ -2,7 +2,7 @@ Timer.Coffee to darmowy, otwartoźródłowy timer i kalkulator do parzenia kawy,
 
 Kluczowe funkcje
 
-- Ponad 40 metod parzenia: instrukcje krok po kroku dla Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch i innych.
+- 27 metod parzenia: instrukcje krok po kroku dla Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch i innych.
 - Kalkulator kawy: dostosuj ilości kawy i wody na bieżąco.
 - Niestandardowy stopień zmielenia: zapisuj ustawienia mielenia dla każdego przepisu — nigdy więcej nie zapomnisz kliknięć Comandante.
 - Parzenie w tle: timer działa dokładnie, gdy zminimalizujesz aplikację — przełączaj aplikacje lub sprawdzaj wiadomości bez utraty miejsca.

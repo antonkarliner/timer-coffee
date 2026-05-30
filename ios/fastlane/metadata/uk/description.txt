@@ -2,7 +2,7 @@ Timer.Coffee — безплатний таймер і калькулятор д�
 
 Ключові функції
 
-- Понад 40 методів заварювання: покрокові інструкції для Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch та інших.
+- 27 методів заварювання: покрокові інструкції для Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch та інших.
 - Калькулятор кави: регулюйте кількість кави та води на льоту.
 - Налаштування ступеня помелу: зберігайте параметри помелу для кожного рецепту — більше ніколи не забудете кліки Comandante.
 - Заварювання у фоновому режимі: таймер продовжує точно відраховувати час при згортанні застосунку — перемикайтеся між програмами або перевіряйте повідомлення, не втрачаючи прогрес.

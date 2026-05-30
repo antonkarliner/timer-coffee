@@ -2,7 +2,7 @@ Timer.Coffee είναι ένα δωρεάν χρονόμετρο και υπολ
 
 Βασικά χαρακτηριστικά
 
-- 22 μέθοδοι παρασκευής: οδηγίες βήμα προς βήμα για Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch και άλλα.
+- 27 μέθοδοι παρασκευής: οδηγίες βήμα προς βήμα για Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch και άλλα.
 - Υπολογιστής καφέ: προσαρμόστε ποσότητες καφέ και νερού άμεσα.
 - Προσαρμοσμένο μέγεθος άλεσης: αποθηκεύστε τη ρύθμιση άλεσης για κάθε συνταγή, ώστε να μη χάνετε ποτέ ξανά τα clicks του Comandante.
 - Παρασκευή στο παρασκήνιο: το χρονόμετρο συνεχίζει με ακρίβεια ακόμη κι όταν ελαχιστοποιείτε την εφαρμογή, αλλάζετε εφαρμογή ή ελέγχετε ένα μήνυμα.

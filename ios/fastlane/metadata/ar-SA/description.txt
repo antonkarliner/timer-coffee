@@ -2,7 +2,7 @@ Timer.Coffee مؤقّت وحاسبة لتحضير القهوة، مجاني وم
 
 الميزات الرئيسية
 
-- أكثر من 40 طريقة تحضير: تعليمات مفصّلة خطوة بخطوة لـ Hario V60، AeroPress، Chemex، French Press، Clever Dripper، Kalita Wave، Wilfa Svart Pour Over، Origami Dripper، Hario Switch، والمزيد.
+- 27 طريقة تحضير: تعليمات مفصّلة خطوة بخطوة لـ Hario V60، AeroPress، Chemex، French Press، Clever Dripper، Kalita Wave، Wilfa Svart Pour Over، Origami Dripper، Hario Switch، والمزيد.
 - حاسبة القهوة: اضبط كميات القهوة والماء بسرعة أثناء التحضير.
 - درجة الطحن المخصّصة: احفظ إعدادات الطحن لكل وصفة — لن تنسى عدد دورات Comandante مجددًا.
 - التحضير في الخلفية: يواصل المؤقّت العمل بدقة عند تصغير التطبيق — انتقل بين التطبيقات أو تحقق من رسالة دون أن تفقد مكانك.

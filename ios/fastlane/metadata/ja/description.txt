@@ -2,7 +2,7 @@ Timer.Coffeeは、コーヒーの抽出体験を向上させるために設計�
 
 主な機能
 
-- 40以上の抽出方法：Hario V60、AeroPress、Chemex、French Press、Clever Dripper、Kalita Wave、Wilfa Svart Pour Over、Origami Dripper、Hario Switchなど、ステップごとの手順を提供。
+- 27種類の抽出方法：Hario V60、AeroPress、Chemex、French Press、Clever Dripper、Kalita Wave、Wilfa Svart Pour Over、Origami Dripper、Hario Switchなど、ステップごとの手順を提供。
 - コーヒー計算機：コーヒーと水の量をその場で調整できます。
 - カスタムグラインドサイズ：レシピごとに挽き目の設定を保存 — Comandanteのクリック数を忘れる心配がなくなります。
 - バックグラウンド抽出：アプリを最小化してもタイマーは正確に動き続けます — アプリを切り替えたりメッセージを確認しても進行状況が失われません。

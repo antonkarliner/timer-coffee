@@ -2,7 +2,7 @@ Timer.Coffee 是一款免费开源的咖啡冲煮计时器与计算工具，专�
 
 核心功能
 
-- 40 余种冲煮方式：为 Hario V60、AeroPress、Chemex、法压壶、Clever Dripper、Kalita Wave、Wilfa Svart Pour Over、Origami Dripper、Hario Switch 等提供详细的分步指引。
+- 27 种冲煮方式：为 Hario V60、AeroPress、Chemex、法压壶、Clever Dripper、Kalita Wave、Wilfa Svart Pour Over、Origami Dripper、Hario Switch 等提供详细的分步指引。
 - 咖啡计算器：随时调整咖啡和水的用量。
 - 自定义研磨度：为每个配方保存研磨设置——再也不会忘记您的 Comandante 圈数。
 - 后台冲煮：最小化应用后，计时器仍精准运行——切换应用或查看消息，进度不丢失。

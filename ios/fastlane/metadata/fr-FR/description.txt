@@ -2,7 +2,7 @@ Timer.Coffee est un minuteur et un calculateur de préparation du café, gratuit
 
 Fonctionnalités principales
 
-- Plus de 40 méthodes d'infusion : instructions détaillées étape par étape pour Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch, etc.
+- 27 méthodes d'infusion : instructions détaillées étape par étape pour Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch, etc.
 - Calculateur de café : ajustez les quantités de café et d'eau à la volée.
 - Taille de mouture personnalisée : enregistrez vos réglages de mouture par recette — n'oubliez plus jamais vos crans Comandante.
 - Infusion en arrière-plan : le minuteur continue de tourner avec précision lorsque vous minimisez l'app — changez d'application ou consultez un message sans perdre votre progression.
