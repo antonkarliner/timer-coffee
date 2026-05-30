@@ -28,14 +28,16 @@ class _RoastersScreenState extends State<RoastersScreen> {
   @override
   void initState() {
     super.initState();
-    _searchController = TextEditingController();
+    final provider = context.read<RoastersProvider>();
+    _searchController = TextEditingController(text: provider.searchQuery);
     _searchFocusNode = FocusNode();
     _scrollController = ScrollController()..addListener(_onScroll);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final provider = context.read<RoastersProvider>();
       await provider.loadCountries();
-      await provider.loadInitial();
+      if (provider.roasters.isEmpty) {
+        await provider.loadInitial();
+      }
     });
   }
 

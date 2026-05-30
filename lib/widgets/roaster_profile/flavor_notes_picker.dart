@@ -10,18 +10,25 @@ import '../../l10n/app_localizations.dart';
 import '../../theme/design_tokens.dart';
 
 class _FlavorSub {
+  final String key;
   final String Function(AppLocalizations) label;
   final Color color;
 
-  const _FlavorSub({required this.label, required this.color});
+  const _FlavorSub({
+    required this.key,
+    required this.label,
+    required this.color,
+  });
 }
 
 class _FlavorCategory {
+  final String key;
   final String Function(AppLocalizations) label;
   final Color color; // inner-ring SCA color; also used for leaf chips
   final List<_FlavorSub> subcategories;
 
   const _FlavorCategory({
+    required this.key,
     required this.label,
     required this.color,
     required this.subcategories,
@@ -32,74 +39,134 @@ class _FlavorCategory {
 
 final _kCategories = <_FlavorCategory>[
   _FlavorCategory(
+    key: 'fruity',
     label: (l) => l.flavorCatFruity,
     color: const Color(0xFFC82828),
     subcategories: [
-      _FlavorSub(label: (l) => l.flavorSubBerry,      color: const Color(0xFF9E1E28)),
-      _FlavorSub(label: (l) => l.flavorSubCitrus,     color: const Color(0xFFF0BC00)),
-      _FlavorSub(label: (l) => l.flavorSubDriedFruit, color: const Color(0xFF701228)),
-      _FlavorSub(label: (l) => l.flavorSubTropical,   color: const Color(0xFFE05428)),
+      _FlavorSub(key: 'berry',      label: (l) => l.flavorSubBerry,      color: const Color(0xFF9E1E28)),
+      _FlavorSub(key: 'citrus',     label: (l) => l.flavorSubCitrus,     color: const Color(0xFFF0BC00)),
+      _FlavorSub(key: 'driedFruit', label: (l) => l.flavorSubDriedFruit, color: const Color(0xFF701228)),
+      _FlavorSub(key: 'tropical',   label: (l) => l.flavorSubTropical,   color: const Color(0xFFE05428)),
     ],
   ),
   _FlavorCategory(
+    key: 'sweet',
     label: (l) => l.flavorCatSweet,
     color: const Color(0xFFF09020),
     subcategories: [
-      _FlavorSub(label: (l) => l.flavorSubHoney,      color: const Color(0xFFE8B415)),
-      _FlavorSub(label: (l) => l.flavorSubVanilla,    color: const Color(0xFFC8A030)),
-      _FlavorSub(label: (l) => l.flavorSubCaramel,    color: const Color(0xFFC87510)),
-      _FlavorSub(label: (l) => l.flavorSubBrownSugar, color: const Color(0xFFB86518)),
+      _FlavorSub(key: 'honey',      label: (l) => l.flavorSubHoney,      color: const Color(0xFFE8B415)),
+      _FlavorSub(key: 'vanilla',    label: (l) => l.flavorSubVanilla,    color: const Color(0xFFC8A030)),
+      _FlavorSub(key: 'caramel',    label: (l) => l.flavorSubCaramel,    color: const Color(0xFFC87510)),
+      _FlavorSub(key: 'brownSugar', label: (l) => l.flavorSubBrownSugar, color: const Color(0xFFB86518)),
     ],
   ),
   _FlavorCategory(
+    key: 'nuttyCocoa',
     label: (l) => l.flavorCatNuttyCocoa,
     color: const Color(0xFF8B5A2B),
     subcategories: [
-      _FlavorSub(label: (l) => l.flavorSubNutty,         color: const Color(0xFFB88850)),
-      _FlavorSub(label: (l) => l.flavorSubMilkChocolate, color: const Color(0xFF7A4828)),
-      _FlavorSub(label: (l) => l.flavorSubDarkChocolate, color: const Color(0xFF3C1C08)),
+      _FlavorSub(key: 'nutty',         label: (l) => l.flavorSubNutty,         color: const Color(0xFFB88850)),
+      _FlavorSub(key: 'milkChocolate', label: (l) => l.flavorSubMilkChocolate, color: const Color(0xFF7A4828)),
+      _FlavorSub(key: 'darkChocolate', label: (l) => l.flavorSubDarkChocolate, color: const Color(0xFF3C1C08)),
     ],
   ),
   _FlavorCategory(
+    key: 'roasted',
     label: (l) => l.flavorCatRoasted,
     color: const Color(0xFF6B3820),
     subcategories: [
-      _FlavorSub(label: (l) => l.flavorSubCereal, color: const Color(0xFFB09840)),
-      _FlavorSub(label: (l) => l.flavorSubSmoky,  color: const Color(0xFF6B7880)),
-      _FlavorSub(label: (l) => l.flavorSubBurnt,  color: const Color(0xFF384048)),
+      _FlavorSub(key: 'cereal', label: (l) => l.flavorSubCereal, color: const Color(0xFFB09840)),
+      _FlavorSub(key: 'smoky',  label: (l) => l.flavorSubSmoky,  color: const Color(0xFF6B7880)),
+      _FlavorSub(key: 'burnt',  label: (l) => l.flavorSubBurnt,  color: const Color(0xFF384048)),
     ],
   ),
   _FlavorCategory(
+    key: 'floral',
     label: (l) => l.flavorCatFloral,
     color: const Color(0xFFE05C8C),
     subcategories: [],
   ),
   _FlavorCategory(
+    key: 'spices',
     label: (l) => l.flavorCatSpices,
     color: const Color(0xFFBF4520),
     subcategories: [],
   ),
   _FlavorCategory(
+    key: 'sourFermented',
     label: (l) => l.flavorCatSourFermented,
     color: const Color(0xFFBFC820),
     subcategories: [],
   ),
   _FlavorCategory(
+    key: 'greenVegetative',
     label: (l) => l.flavorCatGreenVegetative,
     color: const Color(0xFF3E9B40),
     subcategories: [],
   ),
 ];
 
+// Built lazily on first use; maps every localized label across all supported
+// locales to its canonical key so that legacy reviews (which stored the
+// rendered label rather than the key) can still be resolved to a key.
+Map<String, String>? _legacyLabelToKeyCache;
+
+Map<String, String> _legacyLabelToKey() {
+  if (_legacyLabelToKeyCache != null) return _legacyLabelToKeyCache!;
+  final map = <String, String>{};
+  for (final locale in AppLocalizations.supportedLocales) {
+    try {
+      final l = lookupAppLocalizations(locale);
+      for (final cat in _kCategories) {
+        map[cat.label(l)] = cat.key;
+        for (final sub in cat.subcategories) {
+          map[sub.label(l)] = sub.key;
+        }
+      }
+    } catch (_) {
+      // Locale not available at runtime — skip.
+    }
+  }
+  _legacyLabelToKeyCache = map;
+  return map;
+}
+
 // ── Public helpers ────────────────────────────────────────────────────────────
 
-/// Returns the SCA-matched color for a stored flavor tag string,
-/// using subcategory-level precision where available.
-Color? flavorTagColor(String tag, AppLocalizations l10n) {
+/// Resolves a stored tag (either a canonical key or a legacy localized label
+/// from a pre-key version of the picker) to its canonical key. Returns the
+/// original string when the tag matches no known category or label.
+String resolveFlavorTagKey(String storedTag) {
   for (final cat in _kCategories) {
-    if (cat.label(l10n) == tag) return cat.color;
+    if (cat.key == storedTag) return storedTag;
     for (final sub in cat.subcategories) {
-      if (sub.label(l10n) == tag) return sub.color;
+      if (sub.key == storedTag) return storedTag;
+    }
+  }
+  return _legacyLabelToKey()[storedTag] ?? storedTag;
+}
+
+/// Returns the localized label for a stored tag in the current locale.
+/// Falls back to the stored string if no key match is found.
+String flavorTagLabel(String storedTag, AppLocalizations l10n) {
+  final key = resolveFlavorTagKey(storedTag);
+  for (final cat in _kCategories) {
+    if (cat.key == key) return cat.label(l10n);
+    for (final sub in cat.subcategories) {
+      if (sub.key == key) return sub.label(l10n);
+    }
+  }
+  return storedTag;
+}
+
+/// Returns the SCA-matched color for a stored flavor tag,
+/// using subcategory-level precision where available.
+Color? flavorTagColor(String storedTag) {
+  final key = resolveFlavorTagKey(storedTag);
+  for (final cat in _kCategories) {
+    if (cat.key == key) return cat.color;
+    for (final sub in cat.subcategories) {
+      if (sub.key == key) return sub.color;
     }
   }
   return null;
@@ -121,29 +188,29 @@ Color adaptFlavorColor(Color color, Brightness brightness) {
   return color;
 }
 
-/// Returns [tags] sorted by category order, each paired with its display color.
-/// Tags unknown to the wheel are appended with a neutral grey.
+/// Returns [tags] sorted by category order, each paired with its localized
+/// display label and SCA-matched color. Accepts canonical keys or legacy
+/// localized labels (translated and recolored on the fly). Tags unknown to
+/// the wheel are appended as-is with a neutral grey.
 List<({String tag, Color color})> sortedFlavorTagsWithColors(
   List<String> tags,
   AppLocalizations l10n,
 ) {
   final result = <({String tag, Color color})>[];
-  final remaining = List<String>.from(tags);
+  final remainingKeys = tags.map(resolveFlavorTagKey).toList();
 
   for (final cat in _kCategories) {
-    final catLabel = cat.label(l10n);
-    if (remaining.remove(catLabel)) {
-      result.add((tag: catLabel, color: cat.color));
+    if (remainingKeys.remove(cat.key)) {
+      result.add((tag: cat.label(l10n), color: cat.color));
     }
     for (final sub in cat.subcategories) {
-      final subLabel = sub.label(l10n);
-      if (remaining.remove(subLabel)) {
-        result.add((tag: subLabel, color: sub.color));
+      if (remainingKeys.remove(sub.key)) {
+        result.add((tag: sub.label(l10n), color: sub.color));
       }
     }
   }
-  for (final tag in remaining) {
-    result.add((tag: tag, color: const Color(0xFF9E9E9E)));
+  for (final unresolved in remainingKeys) {
+    result.add((tag: unresolved, color: const Color(0xFF9E9E9E)));
   }
   return result;
 }
@@ -165,12 +232,14 @@ class FlavorNotesPicker extends StatefulWidget {
 }
 
 class _FlavorNotesPickerState extends State<FlavorNotesPicker> {
-  void _toggleTag(String tag) {
-    final updated = List<String>.from(widget.selectedTags);
-    if (updated.contains(tag)) {
-      updated.remove(tag);
+  void _toggleTag(String key) {
+    // Normalize any legacy localized labels in the existing selection to keys
+    // so that re-saving an old review writes canonical keys to the DB.
+    final updated = widget.selectedTags.map(resolveFlavorTagKey).toList();
+    if (updated.contains(key)) {
+      updated.remove(key);
     } else {
-      updated.add(tag);
+      updated.add(key);
     }
     widget.onChanged(updated);
   }
@@ -185,6 +254,10 @@ class _FlavorNotesPickerState extends State<FlavorNotesPicker> {
 
     final dividerColor = Theme.of(context).colorScheme.outlineVariant.withAlpha(64);
     const dividerIndent = AppSpacing.sm;
+
+    // Compare against keys, recognizing both canonical keys and legacy labels.
+    final selectedKeys =
+        widget.selectedTags.map(resolveFlavorTagKey).toSet();
 
     final groups = <Widget>[];
     for (var i = 0; i < parentCats.length; i++) {
@@ -211,14 +284,12 @@ class _FlavorNotesPickerState extends State<FlavorNotesPicker> {
           spacing: AppSpacing.xs,
           runSpacing: AppSpacing.xs,
           children: cat.subcategories.map((sub) {
-            final subLabel = sub.label(l10n);
-            final selected = widget.selectedTags.contains(subLabel);
             return _coloredFilterChip(
-              label: subLabel,
-              selected: selected,
+              label: sub.label(l10n),
+              selected: selectedKeys.contains(sub.key),
               color: sub.color,
               brightness: brightness,
-              onSelected: (_) => _toggleTag(subLabel),
+              onSelected: (_) => _toggleTag(sub.key),
             );
           }).toList(),
         ),
@@ -236,14 +307,12 @@ class _FlavorNotesPickerState extends State<FlavorNotesPicker> {
         spacing: AppSpacing.xs,
         runSpacing: AppSpacing.xs,
         children: leafCats.map((cat) {
-          final catLabel = cat.label(l10n);
-          final selected = widget.selectedTags.contains(catLabel);
           return _coloredFilterChip(
-            label: catLabel,
-            selected: selected,
+            label: cat.label(l10n),
+            selected: selectedKeys.contains(cat.key),
             color: cat.color,
             brightness: brightness,
-            onSelected: (_) => _toggleTag(catLabel),
+            onSelected: (_) => _toggleTag(cat.key),
           );
         }).toList(),
       ));

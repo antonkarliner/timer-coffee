@@ -31,12 +31,16 @@ class AppSwitchListTile extends StatelessWidget {
       visualDensity: const VisualDensity(vertical: -1),
       // Lock horizontal padding to the app baseline (16 dp).
       contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.base),
-      title: Text(title),
+      title: Text(title, style: textTheme.bodyMedium),
       subtitle: subtitle != null
-          ? Text(
-              subtitle!,
-              style: textTheme.bodySmall?.copyWith(
-                color: colorScheme.onSurfaceVariant.withValues(alpha: 1),
+          ? Padding(
+              padding: const EdgeInsets.only(top: AppSpacing.xs),
+              child: Text(
+                subtitle!,
+                style: textTheme.labelSmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant.withValues(alpha: 1),
+                  height: 1.2,
+                ),
               ),
             )
           : null,

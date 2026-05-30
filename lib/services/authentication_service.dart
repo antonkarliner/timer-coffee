@@ -27,7 +27,10 @@ enum SignInMethod { apple, google, email, cancel }
 class AuthenticationService {
   /// Prompts the user to sign in with a modal bottom sheet
   /// Returns true if sign-in was successful, false otherwise
-  static Future<bool> promptSignIn(BuildContext context) async {
+  static Future<bool> promptSignIn(
+    BuildContext context, {
+    String? bodyText,
+  }) async {
     AppLogger.debug("AuthenticationService.promptSignIn() called");
     final l10n = AppLocalizations.of(context)!;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -41,15 +44,24 @@ class AuthenticationService {
       builder: (BuildContext context) {
         return SafeArea(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0,
-                16.0 + MediaQuery.of(context).viewInsets.bottom),
+            padding: EdgeInsets.fromLTRB(
+              16.0,
+              16.0,
+              16.0,
+              16.0 + MediaQuery.of(context).viewInsets.bottom,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(l10n.signInRequiredTitle,
-                    style: Theme.of(context).textTheme.titleLarge),
+                Text(
+                  l10n.signInRequiredTitle,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
                 const SizedBox(height: 8),
-                Text(l10n.signInRequiredBodyShare, textAlign: TextAlign.center),
+                Text(
+                  bodyText ?? l10n.signInRequiredBodyShare,
+                  textAlign: TextAlign.center,
+                ),
                 const SizedBox(height: 24),
                 if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) ...[
                   SignInButton(
@@ -69,8 +81,9 @@ class AuthenticationService {
                   text: l10n.signInWithEmail,
                   icon: Icons.email,
                   onPressed: () => Navigator.pop(context, SignInMethod.email),
-                  backgroundColor:
-                      isDarkMode ? Colors.white : Colors.blueGrey.shade700,
+                  backgroundColor: isDarkMode
+                      ? Colors.white
+                      : Colors.blueGrey.shade700,
                   textColor: isDarkMode ? Colors.black87 : Colors.white,
                   iconColor: isDarkMode ? Colors.black87 : Colors.white,
                 ),
@@ -157,25 +170,32 @@ class AuthenticationService {
   /// Returns true if sign-in was successful, false otherwise
   static Future<bool> showSignInOptionsAndExecute(BuildContext context) async {
     AppLogger.debug(
-        "AuthenticationService.showSignInOptionsAndExecute() called");
+      "AuthenticationService.showSignInOptionsAndExecute() called",
+    );
     final l10n = AppLocalizations.of(context)!;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     AppLogger.debug(
-        "DEBUG: Showing second modal bottom sheet for sign-in execution");
+      "DEBUG: Showing second modal bottom sheet for sign-in execution",
+    );
     final SignInMethod? chosenMethod = await showModalBottomSheet<SignInMethod>(
       context: context,
       builder: (BuildContext context) {
         return SafeArea(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0,
-                16.0 + MediaQuery.of(context).viewInsets.bottom),
+            padding: EdgeInsets.fromLTRB(
+              16.0,
+              16.0,
+              16.0,
+              16.0 + MediaQuery.of(context).viewInsets.bottom,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(l10n.signInCreate,
-                    style:
-                        Theme.of(context).textTheme.titleLarge), // Reuse title
+                Text(
+                  l10n.signInCreate,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ), // Reuse title
                 const SizedBox(height: 24),
                 if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) ...[
                   SignInButton(
@@ -195,8 +215,9 @@ class AuthenticationService {
                   text: l10n.signInWithEmail,
                   icon: Icons.email,
                   onPressed: () => Navigator.pop(context, SignInMethod.email),
-                  backgroundColor:
-                      isDarkMode ? Colors.white : Colors.blueGrey.shade700,
+                  backgroundColor: isDarkMode
+                      ? Colors.white
+                      : Colors.blueGrey.shade700,
                   textColor: isDarkMode ? Colors.black87 : Colors.white,
                   iconColor: isDarkMode ? Colors.black87 : Colors.white,
                 ),
@@ -277,7 +298,8 @@ class AuthenticationService {
     final idToken = credential.identityToken;
     if (idToken == null) {
       throw const AuthException(
-          'Could not find ID Token from generated credential.');
+        'Could not find ID Token from generated credential.',
+      );
     }
 
     await Supabase.instance.client.auth.signInWithIdToken(
@@ -351,17 +373,20 @@ class AuthenticationService {
 
   /// Signs in with email using OTP
   static Future<void> signInWithEmail(
-      BuildContext context, String email) async {
+    BuildContext context,
+    String email,
+  ) async {
     final l10n = AppLocalizations.of(context)!;
 
     // Validate and sanitize email
-    final String? validatedEmail =
-        InputValidator.validateAndSanitizeEmail(email);
+    final String? validatedEmail = InputValidator.validateAndSanitizeEmail(
+      email,
+    );
     if (validatedEmail == null) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Invalid email format')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Invalid email format')));
       }
       return;
     }
@@ -380,16 +405,19 @@ class AuthenticationService {
     } catch (e) {
       if (context.mounted) {
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.otpSendError)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.otpSendError)));
       }
     }
   }
 
   /// Verifies OTP for email sign-in
   static Future<void> verifyOTP(
-      BuildContext context, String email, String token) async {
+    BuildContext context,
+    String email,
+    String token,
+  ) async {
     final l10n = AppLocalizations.of(context)!;
 
     // Sanitize email input
@@ -405,22 +433,22 @@ class AuthenticationService {
 
       if (res.session != null) {
         if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.signInSuccessfulEmail)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.signInSuccessfulEmail)));
         }
       } else {
         if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.invalidOTP)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.invalidOTP)));
         }
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.otpVerificationError)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.otpVerificationError)));
       }
     }
   }
@@ -428,32 +456,48 @@ class AuthenticationService {
   /// Syncs data after successful login
   /// Handles user ID changes and synchronizes all user data
   static Future<void> syncDataAfterLogin(
-      BuildContext context, String? oldUserId, String newUserId) async {
+    BuildContext context,
+    String? oldUserId,
+    String newUserId,
+  ) async {
     final l10n = AppLocalizations.of(context)!;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     try {
       AppLogger.debug(
-          'syncDataAfterLogin - Initial User ID: ${AppLogger.sanitize(oldUserId)}');
+        'syncDataAfterLogin - Initial User ID: ${AppLogger.sanitize(oldUserId)}',
+      );
       AppLogger.debug(
-          'syncDataAfterLogin - New User ID: ${AppLogger.sanitize(newUserId)}');
+        'syncDataAfterLogin - New User ID: ${AppLogger.sanitize(newUserId)}',
+      );
 
       final dbProvider = Provider.of<DatabaseProvider>(context, listen: false);
-      final userRecipeProvider =
-          Provider.of<UserRecipeProvider>(context, listen: false);
-      final recipeProvider =
-          Provider.of<RecipeProvider>(context, listen: false);
-      final userStatProvider =
-          Provider.of<UserStatProvider>(context, listen: false);
-      final coffeeBeansProvider =
-          Provider.of<CoffeeBeansProvider>(context, listen: false);
+      final userRecipeProvider = Provider.of<UserRecipeProvider>(
+        context,
+        listen: false,
+      );
+      final recipeProvider = Provider.of<RecipeProvider>(
+        context,
+        listen: false,
+      );
+      final userStatProvider = Provider.of<UserStatProvider>(
+        context,
+        listen: false,
+      );
+      final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+        context,
+        listen: false,
+      );
 
       if (oldUserId != null && oldUserId != newUserId) {
         AppLogger.debug(
-            'User ID changed from ${AppLogger.sanitize(oldUserId)} to ${AppLogger.sanitize(newUserId)}. Updating local recipe IDs...');
+          'User ID changed from ${AppLogger.sanitize(oldUserId)} to ${AppLogger.sanitize(newUserId)}. Updating local recipe IDs...',
+        );
         // Update local recipe IDs BEFORE calling the edge function or syncing
         await userRecipeProvider.updateUserRecipeIdsAfterLogin(
-            oldUserId, newUserId);
+          oldUserId,
+          newUserId,
+        );
 
         AppLogger.debug('Attempting to update user ID via Edge Function...');
         // Invoke the Supabase Edge Function to update user ID
@@ -463,7 +507,8 @@ class AuthenticationService {
         );
 
         AppLogger.debug(
-            'Edge Function Response: ${AppLogger.sanitize(res.data)}');
+          'Edge Function Response: ${AppLogger.sanitize(res.data)}',
+        );
 
         if (res.status != 200) {
           throw Exception('Failed to update user ID: ${res.data}');
@@ -491,9 +536,7 @@ class AuthenticationService {
       AppLogger.debug('RecipeProvider state refreshed.');
 
       AppLogger.debug('Data synchronization completed successfully');
-      scaffoldMessenger.showSnackBar(
-        SnackBar(content: Text(l10n.syncSuccess)),
-      );
+      scaffoldMessenger.showSnackBar(SnackBar(content: Text(l10n.syncSuccess)));
     } catch (e) {
       AppLogger.error('Error syncing user data', errorObject: e);
       scaffoldMessenger.showSnackBar(

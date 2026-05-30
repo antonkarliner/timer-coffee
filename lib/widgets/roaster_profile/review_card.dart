@@ -169,15 +169,17 @@ class _ReviewCardState extends State<ReviewCard> {
                 // Author actions
                 if (_isAuthor) ...[
                   const SizedBox(height: AppSpacing.sm),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                  OverflowBar(
+                    alignment: MainAxisAlignment.end,
+                    overflowAlignment: OverflowBarAlignment.end,
+                    spacing: AppSpacing.xs,
+                    overflowSpacing: AppSpacing.xs,
                     children: [
                       AppTextButton(
                         label: l10n.editReview,
                         onPressed: widget.onEdit,
                         isFullWidth: false,
                       ),
-                      const SizedBox(width: AppSpacing.xs),
                       AppTextButton(
                         label: l10n.deleteReview,
                         onPressed: () => _confirmDelete(context),

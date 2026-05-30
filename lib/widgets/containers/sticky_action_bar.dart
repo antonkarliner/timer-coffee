@@ -180,9 +180,13 @@ class StickyActionBar extends StatelessWidget {
   }
 }
 
-/// A wrapper widget that provides keyboard-aware positioning for the StickyActionBar
-/// This ensures the action bar stays above the keyboard when it appears
-class KeyboardAwareStickyActionBar extends StatefulWidget {
+/// Wraps a [StickyActionBar] so the bar stays above the soft keyboard.
+///
+/// Reads `MediaQuery.viewInsetsOf(context).bottom` directly on every build,
+/// so there is no cached keyboard-visibility flag that can desync from the
+/// real inset across app pause/resume cycles (Android edge-to-edge in
+/// particular has produced that desync in the wild).
+class KeyboardAwareStickyActionBar extends StatelessWidget {
   final StickyActionBar child;
 
   const KeyboardAwareStickyActionBar({
@@ -191,50 +195,13 @@ class KeyboardAwareStickyActionBar extends StatefulWidget {
   });
 
   @override
-  State<KeyboardAwareStickyActionBar> createState() =>
-      _KeyboardAwareStickyActionBarState();
-}
-
-class _KeyboardAwareStickyActionBarState
-    extends State<KeyboardAwareStickyActionBar> with WidgetsBindingObserver {
-  double _keyboardHeight = 0.0;
-  bool _isKeyboardVisible = false;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeMetrics() {
-    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-    final wasKeyboardVisible = _isKeyboardVisible;
-    _isKeyboardVisible = keyboardHeight > 0;
-
-    if (wasKeyboardVisible != _isKeyboardVisible ||
-        _keyboardHeight != keyboardHeight) {
-      setState(() {
-        _keyboardHeight = keyboardHeight;
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 250),
+    final keyboardInset = MediaQuery.viewInsetsOf(context).bottom;
+    return AnimatedPadding(
+      duration: const Duration(milliseconds: 200),
       curve: Curves.easeOutCubic,
-      margin: EdgeInsets.only(
-        bottom: _isKeyboardVisible ? _keyboardHeight : 0,
-      ),
-      child: widget.child,
+      padding: EdgeInsets.only(bottom: keyboardInset),
+      child: child,
     );
   }
 }

@@ -24,16 +24,21 @@ import '../utils/roaster_background_color.dart';
 @RoutePage()
 class CoffeeBeansDetailScreen extends StatefulWidget {
   final String uuid;
+  final String? focusSection;
 
-  const CoffeeBeansDetailScreen({Key? key, required this.uuid})
-    : super(key: key);
+  const CoffeeBeansDetailScreen({
+    Key? key,
+    @PathParam('beanId') required this.uuid,
+    @QueryParam('focus') this.focusSection,
+  }) : super(key: key);
 
   @override
   State<CoffeeBeansDetailScreen> createState() =>
       _CoffeeBeansDetailScreenState();
 }
 
-class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
+class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen>
+    with SingleTickerProviderStateMixin {
   late final CoffeeBeansDetailController _controller;
 
   BeanReviewModel? _userReview;
@@ -41,6 +46,11 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
   String? _resolvedBrewMethodName;
   bool _reviewLoading = false;
   bool _reviewDataLoaded = false;
+
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey _reviewSectionKey = GlobalKey();
+  late final AnimationController _highlightController;
+  bool _focusHandled = false;
 
   // Held so we can add/remove the listener safely across rebuilds.
   BeanReviewProvider? _reviewProvider;
@@ -51,6 +61,10 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
     _controller = CoffeeBeansDetailController();
     _controller.addListener(_onControllerChanged);
     _controller.initialize(context, widget.uuid);
+    _highlightController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
   }
 
   @override
@@ -119,6 +133,30 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
       _resolvedBrewMethodName = resolvedBrewMethodName;
       _reviewLoading = false;
     });
+    _maybeFocusReviewSection();
+  }
+
+  void _maybeFocusReviewSection() {
+    if (_focusHandled) return;
+    if (widget.focusSection != 'review') return;
+    if (_userReview != null) return;
+    _focusHandled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      final ctx = _reviewSectionKey.currentContext;
+      if (ctx != null) {
+        await Scrollable.ensureVisible(
+          ctx,
+          duration: const Duration(milliseconds: 400),
+          alignment: 0.1,
+          curve: Curves.easeInOut,
+        );
+      }
+      if (!mounted) return;
+      await _highlightController.forward(from: 0);
+      if (!mounted) return;
+      await _highlightController.reverse();
+    });
   }
 
   @override
@@ -126,6 +164,8 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
     _reviewProvider?.removeListener(_onReviewProviderChanged);
     _controller.removeListener(_onControllerChanged);
     _controller.dispose();
+    _scrollController.dispose();
+    _highlightController.dispose();
     super.dispose();
   }
 
@@ -312,6 +352,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
     // Loading state
     if (_reviewLoading) {
       return Card(
+        key: _reviewSectionKey,
         margin: EdgeInsets.zero,
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.cardPadding),
@@ -331,6 +372,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
     }
 
     return Card(
+      key: _reviewSectionKey,
       margin: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.cardPadding),
@@ -340,7 +382,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
             Text(loc.yourReview, style: AppTextStyles.sectionHeader),
 
             if (_userReview != null) ...[
-              const SizedBox(height: AppSpacing.sm),
+              const SizedBox(height: AppSpacing.base),
               const Divider(height: 1),
               const SizedBox(height: AppSpacing.sm),
 
@@ -350,10 +392,13 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
               ),
 
               const SizedBox(height: AppSpacing.sm),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+              OverflowBar(
+                alignment: MainAxisAlignment.end,
+                overflowAlignment: OverflowBarAlignment.end,
+                spacing: AppSpacing.xs,
+                overflowSpacing: AppSpacing.xs,
                 children: [
-                  if (_roasterProfileId != null) ...[
+                  if (_roasterProfileId != null)
                     AppTextButton(
                       label: loc.editReview,
                       isFullWidth: false,
@@ -364,6 +409,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
                           roasterName: bean.roaster,
                           existingReview: _userReview,
                           preselectedBean: bean,
+                          sourceScreen: 'coffee_beans_detail',
                         );
                         if (updated && mounted) {
                           _reviewDataLoaded = false;
@@ -371,8 +417,6 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
                         }
                       },
                     ),
-                    const SizedBox(width: AppSpacing.xs),
-                  ],
                   AppTextButton(
                     label: loc.deleteReview,
                     isFullWidth: false,
@@ -408,21 +452,34 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
                 ],
               ),
             ] else ...[
-              const SizedBox(height: AppSpacing.sm),
-              AppElevatedButton(
-                label: loc.addReview,
-                onPressed: () async {
-                  final added = await showReviewForm(
-                    context,
-                    roasterProfileId: _roasterProfileId,
-                    roasterName: bean.roaster,
-                    preselectedBean: bean,
+              const SizedBox(height: AppSpacing.base),
+              AnimatedBuilder(
+                animation: _highlightController,
+                builder: (context, child) {
+                  final v = _highlightController.value;
+                  final pulse = v <= 0.5 ? v * 2 : (1 - v) * 2;
+                  final eased = Curves.easeInOut.transform(pulse);
+                  return Transform.scale(
+                    scale: 1.0 + 0.06 * eased,
+                    child: child,
                   );
-                  if (added && mounted) {
-                    _reviewDataLoaded = false;
-                    await _loadReviewData();
-                  }
                 },
+                child: AppElevatedButton(
+                  label: loc.addReview,
+                  onPressed: () async {
+                    final added = await showReviewForm(
+                      context,
+                      roasterProfileId: _roasterProfileId,
+                      roasterName: bean.roaster,
+                      preselectedBean: bean,
+                      sourceScreen: 'coffee_beans_detail',
+                    );
+                    if (added && mounted) {
+                      _reviewDataLoaded = false;
+                      await _loadReviewData();
+                    }
+                  },
+                ),
               ),
             ],
           ],
@@ -443,6 +500,7 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
     );
 
     return SingleChildScrollView(
+      controller: _scrollController,
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -490,35 +548,35 @@ class _CoffeeBeansDetailScreenState extends State<CoffeeBeansDetailScreen> {
             ),
           ],
 
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.base),
 
           // Basic Info Card
           CoffeeBeansInfoCard(
             type: CoffeeBeansInfoCardType.basicInfo,
             bean: bean,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.base),
 
           // Geography & Terroir Card
           CoffeeBeansInfoCard(
             type: CoffeeBeansInfoCardType.geography,
             bean: bean,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.base),
 
           // Processing & Roasting Card
           CoffeeBeansInfoCard(
             type: CoffeeBeansInfoCardType.processing,
             bean: bean,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.base),
 
           // Inventory Card
           CoffeeBeansInfoCard(
             type: CoffeeBeansInfoCardType.inventory,
             bean: bean,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.base),
 
           // Flavor Profile Card
           CoffeeBeansInfoCard(type: CoffeeBeansInfoCardType.flavor, bean: bean),

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../../theme/design_tokens.dart';
+import '../base_buttons.dart';
 
 /// Displays taste-profile sliders for a bean review.
 ///
@@ -53,35 +54,109 @@ class TasteProfileSliders extends StatelessWidget {
         (label: l10n.tasteFruity, value: fruitiness, key: 'fruitiness'),
     ];
 
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: dimensions.map((dim) {
-        final interacted =
-            readOnly || (interactedKeys?.contains(dim.key) ?? false);
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                l10n.tasteProfileScaLabel,
+                style: AppTextStyles.caption.copyWith(
+                  color: colorScheme.onSurface.withOpacity(0.7),
+                ),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.info_outline),
+              iconSize: AppIconSize.small,
+              visualDensity: VisualDensity.compact,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(
+                minWidth: AppIconSize.medium,
+                minHeight: AppIconSize.medium,
+              ),
+              color: colorScheme.onSurface.withOpacity(0.7),
+              tooltip: l10n.tasteProfileInfoTooltip,
+              onPressed: () => _showTasteProfileInfoDialog(context, l10n),
+            ),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        ...dimensions.map((dim) {
+          final interacted =
+              readOnly || (interactedKeys?.contains(dim.key) ?? false);
 
-        return _TasteDimensionRow(
-          label: dim.label,
-          value: dim.value ?? 0.5,
-          hasValue: dim.value != null,
-          readOnly: readOnly,
-          interacted: interacted,
-          onChanged: readOnly
-              ? null
-              : (v) {
-                  onSliderInteracted?.call(dim.key);
-                  onChanged?.call({
-                    'sweetness': sweetness,
-                    'acidity': acidity,
-                    'body': body,
-                    'bitterness': bitterness,
-                    'aftertaste': aftertaste,
-                    dim.key: v,
-                  });
-                },
-        );
-      }).toList(),
+          return _TasteDimensionRow(
+            label: dim.label,
+            value: dim.value ?? 0.5,
+            hasValue: dim.value != null,
+            readOnly: readOnly,
+            interacted: interacted,
+            onChanged: readOnly
+                ? null
+                : (v) {
+                    onSliderInteracted?.call(dim.key);
+                    onChanged?.call({
+                      'sweetness': sweetness,
+                      'acidity': acidity,
+                      'body': body,
+                      'bitterness': bitterness,
+                      'aftertaste': aftertaste,
+                      dim.key: v,
+                    });
+                  },
+          );
+        }),
+      ],
     );
   }
+}
+
+void _showTasteProfileInfoDialog(BuildContext context, AppLocalizations l10n) {
+  final dimensions = <({String name, String description})>[
+    (name: l10n.tasteSweet, description: l10n.tasteInfoSweetness),
+    (name: l10n.tasteBrightness, description: l10n.tasteInfoBrightness),
+    (name: l10n.tasteBody, description: l10n.tasteInfoBody),
+    (name: l10n.tasteBitterness, description: l10n.tasteInfoBitterness),
+    (name: l10n.tasteAftertaste, description: l10n.tasteInfoAftertaste),
+  ];
+
+  showDialog<void>(
+    context: context,
+    builder: (dialogContext) => AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadius.card),
+      ),
+      title: Text(l10n.tasteProfileInfoTitle),
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l10n.tasteProfileInfoIntro, style: AppTextStyles.body),
+            const SizedBox(height: AppSpacing.base),
+            for (var i = 0; i < dimensions.length; i++) ...[
+              if (i > 0) const SizedBox(height: AppSpacing.sm),
+              Text(dimensions[i].name, style: AppTextStyles.fieldLabel),
+              const SizedBox(height: AppSpacing.xs),
+              Text(dimensions[i].description, style: AppTextStyles.body),
+            ],
+          ],
+        ),
+      ),
+      actions: [
+        AppTextButton(
+          label: l10n.dialogClose,
+          isFullWidth: false,
+          onPressed: () => Navigator.of(dialogContext).pop(),
+        ),
+      ],
+    ),
+  );
 }
 
 class _TasteDimensionRow extends StatelessWidget {
@@ -110,14 +185,19 @@ class _TasteDimensionRow extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: 80,
-            child: Text(
-              label,
-              style: AppTextStyles.caption.copyWith(
-                color: colorScheme.onSurface.withOpacity(0.7),
+            width: 92,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                label,
+                style: AppTextStyles.caption.copyWith(
+                  color: colorScheme.onSurface.withOpacity(0.7),
+                ),
               ),
             ),
           ),
+          const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: readOnly
                 ? _SegmentedDotTrack(value: hasValue ? value : null)

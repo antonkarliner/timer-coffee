@@ -21,14 +21,18 @@ import '../providers/coffee_beans_provider.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/design_tokens.dart';
 import '../utils/app_logger.dart';
+import '../utils/country_names.dart';
 import '../widgets/notification_permission_dialog.dart';
-import '../services/notification_permission_ab_service.dart';
 import '../widgets/base_buttons.dart';
 import '../services/onboarding_service.dart';
 import '../services/analytics_service.dart';
 import '../services/region_service.dart';
 import '../services/local_notification_scheduler_service.dart';
 import '../database/database.dart';
+import '../services/moments_service.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
+import '../widgets/anniversary_celebration.dart';
+import '../widgets/falling_beans_overlay.dart';
 import '../widgets/first_brew_celebration.dart';
 
 const String _nativeAppUrl = 'https://www.timer.coffee/get/';
@@ -65,6 +69,23 @@ class _FinishScreenState extends State<FinishScreen> {
   bool _permissionRequestInProgress = false;
   bool _showPromoCard = false;
 
+  // Approximate moment the brew finished — used as the anchor for the
+  // in-sync window query.
+  final DateTime _brewCompletedAt = DateTime.now();
+
+  // In-sync detection state.
+  int? _inSyncCount;
+  List<String> _inSyncCountries = const [];
+  bool _inSyncResolved = false;
+  int _inSyncThreshold = 3; // resolved per current UTC hour in initState
+
+  // Anniversary state — resolved asynchronously since the first-brew lookup
+  // may need a DAO hit.
+  bool _showAnniversary = false;
+
+  // Falling beans cameo. Toggled true when anniversary or in-sync fires.
+  bool _showFallingBeans = false;
+
   @override
   void initState() {
     super.initState();
@@ -89,17 +110,232 @@ class _FinishScreenState extends State<FinishScreen> {
       context,
       listen: false,
     ).getRandomCoffeeFactFromDB();
-    _recordBrewForOnboarding();
+    _inSyncThreshold =
+        kInSyncThresholdByHour[_brewCompletedAt.toUtc().hour] ?? 3;
     requestReview();
-    insertBrewingDataToSupabase();
     insertBrewingDataToAppDatabase();
     _updateBeanWeightAfterBrew();
     _checkAndRequestNotificationPermission();
+    _resolveAnniversary();
+    _queryInSync();
+    // Both `_recordBrewForOnboarding` and `insertBrewingDataToSupabase`
+    // touch `Localizations.localeOf(context)`, which registers an
+    // InheritedWidget dependency and is therefore illegal during initState.
+    // Defer them until after the first frame, when the inherited tree is
+    // fully attached.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _recordBrewForOnboarding();
+      insertBrewingDataToSupabase();
+    });
     if (kIsWeb &&
         (defaultTargetPlatform == TargetPlatform.iOS ||
             defaultTargetPlatform == TargetPlatform.android)) {
       _checkWebPromoCounter();
     }
+  }
+
+  /// Loads the user's first-brew timestamp and decides whether to show the
+  /// anniversary card today. Idempotent: per-year shown flag prevents the card
+  /// from re-showing on subsequent brews the same day.
+  Future<void> _resolveAnniversary() async {
+    final moments = Provider.of<MomentsService>(context, listen: false);
+    await moments.earliestBrewAt();
+    if (!mounted) return;
+    final shouldShow = moments.isFirstBrewAnniversary &&
+        !moments.isAnniversaryShownThisYear();
+    if (!shouldShow) return;
+    setState(() => _showAnniversary = true);
+    await moments.markDiscovered('anniversary');
+    await moments.markAnniversaryShownThisYear();
+    _maybeFireFallingBeans();
+  }
+
+  /// Counts other users' brews in a ±60s window around this brew's completion
+  /// time. If the count clears the per-UTC-hour threshold, fires the in-sync
+  /// celebration in place of the coffee facts card.
+  Future<void> _queryInSync() async {
+    final moments = Provider.of<MomentsService>(context, listen: false);
+
+    // Debug short-circuit: if the user pressed "force in-sync next brew" on
+    // the Moments debug screen, honour it without touching Supabase.
+    final forced = moments.consumeForcedInSync();
+    if (forced != null) {
+      if (!mounted) return;
+      setState(() {
+        _inSyncCount = forced.count;
+        _inSyncCountries = forced.countries;
+        _inSyncResolved = true;
+      });
+      if (forced.count >= _inSyncThreshold) {
+        await moments.markDiscovered('in_sync');
+      }
+      return;
+    }
+
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) {
+      if (mounted) setState(() => _inSyncResolved = true);
+      return;
+    }
+
+    final start = _brewCompletedAt
+        .subtract(const Duration(seconds: 60))
+        .toUtc()
+        .toIso8601String();
+    final end = _brewCompletedAt.toUtc().toIso8601String();
+
+    try {
+      final res = await Supabase.instance.client
+          .from('global_stats')
+          .select('user_id, country_code')
+          .gte('created_at', start)
+          .lte('created_at', end)
+          .neq('user_id', user.id)
+          .timeout(const Duration(seconds: 3));
+
+      // Dedupe by user_id so a peer with two brews in the window counts once.
+      // Also build a frequency tally of country codes for the "from …" line.
+      final rows = (res as List).cast<Map<String, dynamic>>();
+      final firstCountryByUser = <String, String?>{};
+      for (final row in rows) {
+        final uid = row['user_id']?.toString();
+        if (uid == null || uid.isEmpty) continue;
+        final raw = row['country_code']?.toString().trim();
+        final code = (raw == null || raw.isEmpty) ? null : raw.toUpperCase();
+        firstCountryByUser.putIfAbsent(uid, () => code);
+      }
+      final count = firstCountryByUser.length;
+      final countryTally = <String, int>{};
+      for (final code in firstCountryByUser.values) {
+        if (code == null) continue;
+        countryTally[code] = (countryTally[code] ?? 0) + 1;
+      }
+      final countries = countryTally.entries.toList()
+        ..sort((a, b) => b.value.compareTo(a.value));
+
+      if (!mounted) return;
+      setState(() {
+        _inSyncCount = count;
+        _inSyncCountries = countries.map((e) => e.key).toList(growable: false);
+        _inSyncResolved = true;
+      });
+
+      if (count >= _inSyncThreshold) {
+        await moments.markDiscovered('in_sync');
+      }
+    } on TimeoutException catch (e) {
+      AppLogger.error('In-sync query timed out', errorObject: e);
+      if (mounted) setState(() => _inSyncResolved = true);
+    } catch (e) {
+      AppLogger.error('Error querying in-sync brews', errorObject: e);
+      if (mounted) setState(() => _inSyncResolved = true);
+    }
+  }
+
+  void _maybeFireFallingBeans() {
+    if (!mounted || _showFallingBeans) return;
+    setState(() => _showFallingBeans = true);
+  }
+
+  Widget _buildInSyncCard(
+    BuildContext context,
+    int count,
+    List<String> countries,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final locale = Localizations.localeOf(context);
+    final fromLine = _formatInSyncCountriesLine(
+      l10n: l10n,
+      locale: locale,
+      countries: countries,
+      maxNamed: 3,
+    );
+
+    return Semantics(
+      identifier: 'inSyncCard',
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.base),
+        child: Card(
+          margin: EdgeInsets.zero,
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.base),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0.5, end: 1.0),
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.elasticOut,
+                  builder: (context, scale, child) =>
+                      Transform.scale(scale: scale, child: child),
+                  child: Icon(
+                    Symbols.globe,
+                    color: theme.colorScheme.primary,
+                    size: AppIconSize.large + 8,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                Text(
+                  l10n.mts_inSyncCelebration(count),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                if (fromLine != null) ...[
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    fromLine,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Builds the "from USA, Germany and Russia" subtitle (or a "and N others"
+  /// variant when the list is long). Returns null if no countries are known.
+  String? _formatInSyncCountriesLine({
+    required AppLocalizations l10n,
+    required Locale locale,
+    required List<String> countries,
+    required int maxNamed,
+  }) {
+    if (countries.isEmpty) return null;
+
+    String? nameFor(String code) =>
+        localizedCountryNameGenitive(code, locale) ??
+        localizedCountryName(code, locale);
+
+    final names = <String>[
+      for (final c in countries.take(maxNamed))
+        if (nameFor(c) != null) nameFor(c)!,
+    ];
+    if (names.isEmpty) return null;
+
+    final connector = l10n.mts_inSyncCountriesConnector;
+    final joined = _joinNames(names, connector);
+    final extras = countries.length - names.length;
+    if (extras <= 0) {
+      return l10n.mts_inSyncFromCountries(joined);
+    }
+    return l10n.mts_inSyncFromCountriesWithOthers(joined, extras);
+  }
+
+  String _joinNames(List<String> names, String connector) {
+    if (names.length == 1) return names.first;
+    if (names.length == 2) return '${names[0]} $connector ${names[1]}';
+    final head = names.sublist(0, names.length - 1).join(', ');
+    return '$head $connector ${names.last}';
   }
 
   void _recordBrewForOnboarding() {
@@ -186,6 +422,17 @@ class _FinishScreenState extends State<FinishScreen> {
               'brewing_method_id': widget.recipe.brewingMethodId,
             },
           );
+          if (mounted) {
+            final database =
+                Provider.of<AppDatabase>(context, listen: false);
+            final locale = Localizations.localeOf(context).languageCode;
+            unawaited(LocalNotificationSchedulerService.instance
+                .maybeScheduleBeanReviewNudge(
+              database: database,
+              beansUuid: coffeeBeansUuid,
+              locale: locale,
+            ));
+          }
         }
         AppLogger.debug(
           'Inserted new stat with UUID: $statUuid and Coffee Beans UUID: $coffeeBeansUuid',
@@ -241,17 +488,27 @@ class _FinishScreenState extends State<FinishScreen> {
   }
 
   void _checkAndRequestNotificationPermission() async {
-    final prefs = await SharedPreferences.getInstance();
-    final abService = NotificationPermissionAbService(prefs);
+    if (kIsWeb) return;
 
-    final shouldShow = await abService.recordBrewAndCheckShouldShow();
-    if (!shouldShow) return;
+    const shownKey = 'notif_perm_ab_shown';
+    const legacyKey = 'firstfinishscreen';
+
+    final prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getBool(shownKey) ?? false) return;
+
+    // Migration: users who saw the dialog under the pre-experiment code
+    // (legacy `firstfinishscreen == false`) should never be re-prompted.
+    if (prefs.containsKey(legacyKey) && !(prefs.getBool(legacyKey) ?? true)) {
+      await prefs.setBool(shownKey, true);
+      return;
+    }
 
     // Skip if the user already has permission — no need to ask again.
     final alreadyGranted =
         await NotificationService.instance.permissions.hasNotificationPermission;
     if (alreadyGranted) {
-      await abService.markShown();
+      await prefs.setBool(shownKey, true);
       return;
     }
 
@@ -261,13 +518,9 @@ class _FinishScreenState extends State<FinishScreen> {
 
     AnalyticsService.instance.track(
       'notification_permission_shown',
-      properties: {
-        'variant': abService.variant,
-        'threshold': abService.threshold,
-        'brew_count': abService.brewCount,
-      },
+      properties: {'brew_count': 1},
     );
-    await abService.markShown();
+    await prefs.setBool(shownKey, true);
 
     final result = await showDialog<bool>(
       context: context,
@@ -286,11 +539,7 @@ class _FinishScreenState extends State<FinishScreen> {
           final granted = await _requestSystemPermissionAndUpdateSettings();
           AnalyticsService.instance.track(
             'notification_permission_result',
-            properties: {
-              'variant': abService.variant,
-              'threshold': abService.threshold,
-              'result': granted ? 'granted' : 'denied',
-            },
+            properties: {'result': granted ? 'granted' : 'denied'},
           );
         }
         _permissionRequestInProgress = false;
@@ -298,11 +547,7 @@ class _FinishScreenState extends State<FinishScreen> {
     } else if (result == false) {
       AnalyticsService.instance.track(
         'notification_permission_result',
-        properties: {
-          'variant': abService.variant,
-          'threshold': abService.threshold,
-          'result': 'skipped',
-        },
+        properties: {'result': 'skipped'},
       );
     }
   }
@@ -444,6 +689,9 @@ class _FinishScreenState extends State<FinishScreen> {
         .clamp(200.0, 240.0)
         .toDouble();
 
+    final showInSync =
+        _inSyncResolved && _inSyncCount != null && _inSyncCount! >= _inSyncThreshold;
+
     return Scaffold(
       appBar: AppBar(
         title: Semantics(
@@ -451,82 +699,96 @@ class _FinishScreenState extends State<FinishScreen> {
           child: Text(AppLocalizations.of(context)!.finishbrew),
         ),
       ),
-      body: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight:
-                MediaQuery.of(context).size.height -
-                kToolbarHeight -
-                MediaQuery.of(context).padding.top -
-                MediaQuery.of(context).padding.bottom,
-          ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Semantics(
-                    identifier: 'finishMessage',
-                    child: Text(
-                      '${AppLocalizations.of(context)!.finishmsg} ${widget.brewingMethodName}!',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 24),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight:
+                    MediaQuery.of(context).size.height -
+                    kToolbarHeight -
+                    MediaQuery.of(context).padding.top -
+                    MediaQuery.of(context).padding.bottom,
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Semantics(
+                        identifier: 'finishMessage',
+                        child: Text(
+                          '${AppLocalizations.of(context)!.finishmsg} ${widget.brewingMethodName}!',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                FirstBrewCelebration(
-                  brewingMethodId: widget.recipe.brewingMethodId,
-                ),
-                if (kIsWeb && _showPromoCard)
-                  _buildNativeAppPromoCard(context)
-                else
-                  Semantics(
-                    identifier: 'coffeeFactCard',
-                    child: FutureBuilder<String>(
-                      future: coffeeFact,
-                      builder:
-                          (
-                            BuildContext context,
-                            AsyncSnapshot<String> snapshot,
-                          ) {
-                            if (snapshot.hasData) {
-                              return Card(
-                                margin: const EdgeInsets.all(10),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: RichText(
-                                    textAlign: TextAlign.center,
-                                    text: TextSpan(
-                                      style: DefaultTextStyle.of(context).style,
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text:
-                                              '${AppLocalizations.of(context)!.coffeefact}: ',
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
-                                          ),
+                    const SizedBox(height: 20),
+                    FirstBrewCelebration(
+                      brewingMethodId: widget.recipe.brewingMethodId,
+                    ),
+                    // Same UI slot for promo / anniversary / in-sync /
+                    // coffee fact. Priority: promo > anniversary > in-sync >
+                    // coffee fact. Each "moment" REPLACES the default fact
+                    // card so the screen stays single-card.
+                    if (kIsWeb && _showPromoCard)
+                      _buildNativeAppPromoCard(context)
+                    else if (_showAnniversary)
+                      const AnniversaryCelebration(shouldShow: true)
+                    else if (showInSync)
+                      _buildInSyncCard(
+                        context,
+                        _inSyncCount!,
+                        _inSyncCountries,
+                      )
+                    else
+                      Semantics(
+                        identifier: 'coffeeFactCard',
+                        child: FutureBuilder<String>(
+                          future: coffeeFact,
+                          builder:
+                              (
+                                BuildContext context,
+                                AsyncSnapshot<String> snapshot,
+                              ) {
+                                if (snapshot.hasData) {
+                                  return Card(
+                                    margin: const EdgeInsets.all(10),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: RichText(
+                                        textAlign: TextAlign.center,
+                                        text: TextSpan(
+                                          style: DefaultTextStyle.of(context).style,
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text:
+                                                  '${AppLocalizations.of(context)!.coffeefact}: ',
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: '${snapshot.data}',
+                                              style: const TextStyle(fontSize: 20),
+                                            ),
+                                          ],
                                         ),
-                                        TextSpan(
-                                          text: '${snapshot.data}',
-                                          style: const TextStyle(fontSize: 20),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}');
-                            } else {
-                              return const CircularProgressIndicator();
-                            }
-                          },
-                    ),
-                  ),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                } else {
+                                  return const CircularProgressIndicator();
+                                }
+                              },
+                        ),
+                      ),
                 const SizedBox(height: 20),
                 Semantics(
                   identifier: 'homeButton',
@@ -571,6 +833,16 @@ class _FinishScreenState extends State<FinishScreen> {
             ),
           ),
         ),
+      ),
+          if (_showFallingBeans)
+            Positioned.fill(
+              child: FallingBeansOverlay(
+                onComplete: () {
+                  if (mounted) setState(() => _showFallingBeans = false);
+                },
+              ),
+            ),
+        ],
       ),
     );
   }

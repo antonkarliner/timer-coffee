@@ -25,7 +25,7 @@ import '../services/date_time_format_service.dart';
 @RoutePage()
 class BrewDiaryScreen extends StatefulWidget {
   const BrewDiaryScreen({Key? key, this.initialExpandedStatUuid})
-      : super(key: key);
+    : super(key: key);
 
   final String? initialExpandedStatUuid;
 
@@ -79,6 +79,47 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     });
   }
 
+  /// Illustrated empty-state for a diary with no entries. Shown both when the
+  /// query returns an empty list and when it returns no data at all.
+  Widget _buildEmptyCharm(BuildContext context, {required String semanticsId}) {
+    final loc = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    return Center(
+      child: Semantics(
+        identifier: semanticsId,
+        label: loc.mts_emptyDiaryTitle,
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.local_cafe_outlined,
+                size: 64,
+                color: theme.colorScheme.primary,
+              ),
+              const SizedBox(height: AppSpacing.base),
+              Text(
+                loc.mts_emptyDiaryTitle,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: AppSpacing.base),
+              AppTextButton(
+                label: loc.mts_emptyDiaryAction,
+                icon: Icons.local_cafe,
+                onPressed: () => context.router.navigate(const HomeRoute()),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildGroupedList(List<UserStatsModel> stats) {
     final loc = AppLocalizations.of(context)!;
     final fmtSvc = Provider.of<DateTimeFormatService>(context);
@@ -103,11 +144,13 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     List<String> sortedDates = groupedStats.keys.toList();
     sortedDates.sort((a, b) {
       DateTime dateA = DateFormat(
-              activeDatePattern, Localizations.localeOf(context).toString())
-          .parse(a);
+        activeDatePattern,
+        Localizations.localeOf(context).toString(),
+      ).parse(a);
       DateTime dateB = DateFormat(
-              activeDatePattern, Localizations.localeOf(context).toString())
-          .parse(b);
+        activeDatePattern,
+        Localizations.localeOf(context).toString(),
+      ).parse(b);
       return dateB.compareTo(dateA); // Descending order
     });
 
@@ -177,8 +220,10 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     });
   }
 
-  int _calculateTotalItems(Map<String, List<UserStatsModel>> groupedStats,
-      List<String> sortedDates) {
+  int _calculateTotalItems(
+    Map<String, List<UserStatsModel>> groupedStats,
+    List<String> sortedDates,
+  ) {
     int totalItems = 0;
     for (String date in sortedDates) {
       totalItems += 1; // Date separator
@@ -187,8 +232,11 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     return totalItems;
   }
 
-  Widget _buildListItem(Map<String, List<UserStatsModel>> groupedStats,
-      List<String> sortedDates, int index) {
+  Widget _buildListItem(
+    Map<String, List<UserStatsModel>> groupedStats,
+    List<String> sortedDates,
+    int index,
+  ) {
     int currentIndex = 0;
 
     for (String date in sortedDates) {
@@ -203,13 +251,11 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
       for (int i = 0; i < statsForDate.length; i++) {
         if (currentIndex == index) {
           final card = buildUserStatCard(context, statsForDate[i]);
-          final isTarget = statsForDate[i].statUuid ==
-              widget.initialExpandedStatUuid;
+          final isTarget =
+              statsForDate[i].statUuid == widget.initialExpandedStatUuid;
           return Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
-            child: isTarget
-                ? KeyedSubtree(key: _targetKey, child: card)
-                : card,
+            child: isTarget ? KeyedSubtree(key: _targetKey, child: card) : card,
           );
         }
         currentIndex++;
@@ -225,28 +271,18 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Row(
         children: [
-          const Expanded(
-            child: Divider(
-              thickness: 1,
-              color: Colors.grey,
-            ),
-          ),
+          const Expanded(child: Divider(thickness: 1, color: Colors.grey)),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
               date,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
           ),
-          const Expanded(
-            child: Divider(
-              thickness: 1,
-              color: Colors.grey,
-            ),
-          ),
+          const Expanded(child: Divider(thickness: 1, color: Colors.grey)),
         ],
       ),
     );
@@ -291,8 +327,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 child: IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: () async {
-                    final result = await context.router
-                        .push(const ManualBrewEntryRoute());
+                    final result = await context.router.push(
+                      const ManualBrewEntryRoute(),
+                    );
                     if (result == true) {
                       setState(() {});
                     }
@@ -324,22 +361,13 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                   ),
                 );
               } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-                return Center(
-                  child: Semantics(
-                    identifier: 'brewDiaryEmpty',
-                    label: loc.brewdiarynotfound,
-                    child: Text(loc.brewdiarynotfound),
-                  ),
-                );
+                return _buildEmptyCharm(context, semanticsId: 'brewDiaryEmpty');
               } else if (snapshot.hasData) {
                 return _buildGroupedList(snapshot.data!);
               } else {
-                return Center(
-                  child: Semantics(
-                    identifier: 'brewDiaryEmptyFallback',
-                    label: loc.brewdiarynotfound,
-                    child: Text(loc.brewdiarynotfound),
-                  ),
+                return _buildEmptyCharm(
+                  context,
+                  semanticsId: 'brewDiaryEmptyFallback',
                 );
               }
             },
@@ -354,9 +382,12 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
     final recipeProvider = Provider.of<RecipeProvider>(context);
     final userStatProvider = Provider.of<UserStatProvider>(context);
     final databaseProvider = Provider.of<DatabaseProvider>(
-        context); // Ensure this provider is available
+      context,
+    ); // Ensure this provider is available
     final fmtSvc = Provider.of<DateTimeFormatService>(context);
-    final is24h = fmtSvc.use24Hour(MediaQuery.of(context).alwaysUse24HourFormat);
+    final is24h = fmtSvc.use24Hour(
+      MediaQuery.of(context).alwaysUse24HourFormat,
+    );
     final timePattern = is24h ? 'HH:mm' : 'hh:mm a';
     DateFormat dateFormat = DateFormat(
       '${fmtSvc.datePattern(loc.dateFormat)} $timePattern',
@@ -397,25 +428,32 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                       ? Semantics(
                           identifier: 'deleteUserStatButton_${stat.statUuid}',
                           child: IconButton(
-                            icon: const Icon(Icons.remove_circle_outline,
-                                color: Colors.red),
+                            icon: const Icon(
+                              Icons.remove_circle_outline,
+                              color: Colors.red,
+                            ),
                             onPressed: () async {
                               final confirmed = await showDialog<bool>(
                                 context: context,
                                 builder: (context) => ConfirmDeleteDialog(
-                                  title: AppLocalizations.of(context)!
-                                      .confirmDeleteTitle,
-                                  content: AppLocalizations.of(context)!
-                                      .confirmDeleteMessage,
-                                  confirmLabel:
-                                      AppLocalizations.of(context)!.delete,
-                                  cancelLabel:
-                                      AppLocalizations.of(context)!.cancel,
+                                  title: AppLocalizations.of(
+                                    context,
+                                  )!.confirmDeleteTitle,
+                                  content: AppLocalizations.of(
+                                    context,
+                                  )!.confirmDeleteMessage,
+                                  confirmLabel: AppLocalizations.of(
+                                    context,
+                                  )!.delete,
+                                  cancelLabel: AppLocalizations.of(
+                                    context,
+                                  )!.cancel,
                                 ),
                               );
                               if (confirmed == true) {
-                                await userStatProvider
-                                    .deleteUserStat(stat.statUuid);
+                                await userStatProvider.deleteUserStat(
+                                  stat.statUuid,
+                                );
                                 notifier.setExpansion(stat.statUuid, false);
                               }
                             },
@@ -428,19 +466,16 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                             if (stat.rating != null)
                               Text(
                                 '★ ${stat.rating!.toStringAsFixed(1)}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
+                                style: Theme.of(context).textTheme.bodySmall
                                     ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
                                       fontWeight: FontWeight.w600,
                                     ),
                               ),
                             Semantics(
-                              identifier:
-                                  'markBrewButton_${stat.statUuid}',
+                              identifier: 'markBrewButton_${stat.statUuid}',
                               child: IconButton(
                                 icon: Icon(
                                   stat.isMarked
@@ -455,9 +490,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                 constraints: const BoxConstraints(),
                                 onPressed: () =>
                                     userStatProvider.updateUserStat(
-                                  statUuid: stat.statUuid,
-                                  isMarked: !stat.isMarked,
-                                ),
+                                      statUuid: stat.statUuid,
+                                      isMarked: !stat.isMarked,
+                                    ),
                               ),
                             ),
                           ],
@@ -481,7 +516,8 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             identifier: 'brewDiaryCardError_${stat.statUuid}',
             label: 'Error Loading User Stat Card',
             child: const Card(
-                child: ListTile(title: Text("Error fetching records"))),
+              child: ListTile(title: Text("Error fetching records")),
+            ),
           );
         }
       },
@@ -495,21 +531,22 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
       fontSize: 18,
       fontWeight: FontWeight.bold,
     );
-    TextStyle valueStyle = detailTextStyle.copyWith(
-      fontSize: 18,
-    );
+    TextStyle valueStyle = detailTextStyle.copyWith(fontSize: 18);
     final userStatProvider = Provider.of<UserStatProvider>(context);
     final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(context);
     final databaseProvider = Provider.of<DatabaseProvider>(context);
 
-    TextEditingController notesController =
-        TextEditingController(text: stat.notes);
+    TextEditingController notesController = TextEditingController(
+      text: stat.notes,
+    );
     FocusNode notesFocusNode = FocusNode();
 
     notesFocusNode.addListener(() {
       if (!notesFocusNode.hasFocus) {
-        Provider.of<UserStatProvider>(context, listen: false).updateUserStat(
-            statUuid: stat.statUuid, notes: notesController.text);
+        Provider.of<UserStatProvider>(
+          context,
+          listen: false,
+        ).updateUserStat(statUuid: stat.statUuid, notes: notesController.text);
       }
     });
 
@@ -517,8 +554,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
       identifier: 'userStatDetail_${stat.statUuid}',
       label: 'User Stat Details',
       child: Padding(
-        padding:
-            const EdgeInsets.all(16.0), // Increased padding for better spacing
+        padding: const EdgeInsets.all(
+          16.0,
+        ), // Increased padding for better spacing
         child: Column(
           crossAxisAlignment:
               CrossAxisAlignment.start, // Align children to start
@@ -529,14 +567,8 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
               label: '${loc.coffeeamount}: ${stat.coffeeAmount}',
               child: Row(
                 children: [
-                  Text(
-                    "${loc.coffeeamount}: ",
-                    style: labelStyle,
-                  ),
-                  Text(
-                    stat.coffeeAmount.toString(),
-                    style: valueStyle,
-                  ),
+                  Text("${loc.coffeeamount}: ", style: labelStyle),
+                  Text(stat.coffeeAmount.toString(), style: valueStyle),
                 ],
               ),
             ),
@@ -547,14 +579,8 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
               label: '${loc.wateramount}: ${stat.waterAmount}',
               child: Row(
                 children: [
-                  Text(
-                    "${loc.wateramount}: ",
-                    style: labelStyle,
-                  ),
-                  Text(
-                    stat.waterAmount.toString(),
-                    style: valueStyle,
-                  ),
+                  Text("${loc.wateramount}: ", style: labelStyle),
+                  Text(stat.waterAmount.toString(), style: valueStyle),
                 ],
               ),
             ),
@@ -566,14 +592,8 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 label: '${loc.grindsize}: ${stat.grindSize}',
                 child: Row(
                   children: [
-                    Text(
-                      "${loc.grindsize}: ",
-                      style: labelStyle,
-                    ),
-                    Text(
-                      stat.grindSize!,
-                      style: valueStyle,
-                    ),
+                    Text("${loc.grindsize}: ", style: labelStyle),
+                    Text(stat.grindSize!, style: valueStyle),
                   ],
                 ),
               ),
@@ -586,23 +606,22 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 label:
                     "${getSweeetnessLabel(stat.sweetnessSliderPosition)}, ${getStrengthLabel(stat.strengthSliderPosition)}",
                 child: Text(
-                    "${getSweeetnessLabel(stat.sweetnessSliderPosition)}, ${getStrengthLabel(stat.strengthSliderPosition)}",
-                    style: detailTextStyle,
-                    textAlign: TextAlign.start),
+                  "${getSweeetnessLabel(stat.sweetnessSliderPosition)}, ${getStrengthLabel(stat.strengthSliderPosition)}",
+                  style: detailTextStyle,
+                  textAlign: TextAlign.start,
+                ),
               ),
             const SizedBox(height: 8),
             // Divider
-            const Divider(
-              thickness: 0.5,
-              indent: 10,
-              endIndent: 10,
-            ),
+            const Divider(thickness: 0.5, indent: 10, endIndent: 10),
             const SizedBox(height: 8),
             // Beans Section Title
             if (stat.coffeeBeansUuid == null)
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 16.0,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -623,10 +642,12 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                           isFullWidth: false,
                           height: 56,
                           padding: AppButton.paddingSmall,
-                          backgroundColor:
-                              Theme.of(context).colorScheme.surface,
-                          foregroundColor:
-                              Theme.of(context).colorScheme.primary,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.surface,
+                          foregroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
                           elevation: 2,
                         ),
                       ),
@@ -645,16 +666,18 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             // Beans Details or Selection Button
             if (stat.coffeeBeansUuid != null)
               FutureBuilder<CoffeeBeansModel?>(
-                future: coffeeBeansProvider
-                    .fetchCoffeeBeansByUuid(stat.coffeeBeansUuid!),
+                future: coffeeBeansProvider.fetchCoffeeBeansByUuid(
+                  stat.coffeeBeansUuid!,
+                ),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (snapshot.hasData && snapshot.data != null) {
                     final bean = snapshot.data!;
                     return FutureBuilder<Map<String, String?>>(
-                      future: databaseProvider
-                          .fetchCachedRoasterLogoUrls(bean.roaster),
+                      future: databaseProvider.fetchCachedRoasterLogoUrls(
+                        bean.roaster,
+                      ),
                       builder: (context, logoSnapshot) {
                         const double logoHeight = 80.0;
                         const double maxWidthFactor = 2.0;
@@ -666,8 +689,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                             children: [
                               // Row with logo and details
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -681,8 +705,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                     const SizedBox(width: 12),
                                     Expanded(
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
+                                        padding: const EdgeInsets.only(
+                                          left: 8.0,
+                                        ),
                                         child: Table(
                                           columnWidths: {
                                             0: IntrinsicColumnWidth(),
@@ -696,32 +721,17 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          right: 8.0),
-                                                  child: Text('${loc.name}: ',
-                                                      style: labelStyle),
-                                                ),
-                                                Text(bean.name,
-                                                    style: valueStyle),
-                                              ],
-                                            ),
-                                            TableRow(
-                                              children: [
-                                                SizedBox(height: 8),
-                                                SizedBox(height: 8),
-                                              ],
-                                            ),
-                                            TableRow(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 8.0),
+                                                        right: 8.0,
+                                                      ),
                                                   child: Text(
-                                                      '${loc.roaster}: ',
-                                                      style: labelStyle),
+                                                    '${loc.name}: ',
+                                                    style: labelStyle,
+                                                  ),
                                                 ),
-                                                Text(bean.roaster,
-                                                    style: valueStyle),
+                                                Text(
+                                                  bean.name,
+                                                  style: valueStyle,
+                                                ),
                                               ],
                                             ),
                                             TableRow(
@@ -735,12 +745,41 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          right: 8.0),
-                                                  child: Text('${loc.origin}: ',
-                                                      style: labelStyle),
+                                                        right: 8.0,
+                                                      ),
+                                                  child: Text(
+                                                    '${loc.roaster}: ',
+                                                    style: labelStyle,
+                                                  ),
                                                 ),
-                                                Text(bean.origin,
-                                                    style: valueStyle),
+                                                Text(
+                                                  bean.roaster,
+                                                  style: valueStyle,
+                                                ),
+                                              ],
+                                            ),
+                                            TableRow(
+                                              children: [
+                                                SizedBox(height: 8),
+                                                SizedBox(height: 8),
+                                              ],
+                                            ),
+                                            TableRow(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                        right: 8.0,
+                                                      ),
+                                                  child: Text(
+                                                    '${loc.origin}: ',
+                                                    style: labelStyle,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  bean.origin,
+                                                  style: valueStyle,
+                                                ),
                                               ],
                                             ),
                                           ],
@@ -751,111 +790,116 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                                 ),
                               ),
                               const SizedBox(height: 16),
-                              // Buttons Row
+                              // Keep bean actions on one row and scale down on narrow cards.
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      height: 56,
-                                      child: AppElevatedButton(
-                                        label: loc.details,
-                                        onPressed: () {
-                                          context.router.push(
-                                            CoffeeBeansDetailRoute(
-                                                uuid: bean.beansUuid!),
-                                          );
-                                        },
-                                        isFullWidth: false,
-                                        height: 56,
-                                        padding: AppButton.paddingSmall,
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .surface,
-                                        foregroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        elevation: 2,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    SizedBox(
-                                      height: 56,
-                                      child: AppElevatedButton(
-                                        label: loc.removeBeans,
-                                        onPressed: () async {
-                                          AppLogger.debug(
-                                              'Remove beans button pressed for stat: ${stat.statUuid}');
-                                          AppLogger.debug(
-                                              'Current coffeeBeansUuid: ${stat.coffeeBeansUuid}');
-
-                                          // Add weight back to beans before removing the reference
-                                          if (stat.coffeeBeansUuid != null) {
-                                            final coffeeBeansProvider = Provider
-                                                .of<CoffeeBeansProvider>(
-                                                    context,
-                                                    listen: false);
-
-                                            // Fetch bean data to get the bean name
-                                            final bean =
-                                                await coffeeBeansProvider
-                                                    .fetchCoffeeBeansByUuid(
-                                                        stat.coffeeBeansUuid!);
-                                            final beanName =
-                                                bean?.name ?? 'Unknown beans';
-
-                                            final newWeight =
-                                                await coffeeBeansProvider
-                                                    .updateBeanWeightAfterBrewModification(
-                                              stat.coffeeBeansUuid!,
-                                              stat.coffeeAmount,
-                                            );
-
-                                            if (newWeight != null) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                      loc.beansWeightAddedBack(
-                                                    stat.coffeeAmount
-                                                        .toString(),
-                                                    beanName,
-                                                    newWeight
-                                                        .toStringAsFixed(1),
-                                                    loc.unitGramsShort,
-                                                  )),
-                                                  duration:
-                                                      Duration(seconds: 2),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
+                                child: SizedBox(
+                                  height: 56,
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SizedBox(
+                                          height: 56,
+                                          child: AppElevatedButton(
+                                            label: loc.details,
+                                            onPressed: () {
+                                              context.router.push(
+                                                CoffeeBeansDetailRoute(
+                                                  uuid: bean.beansUuid!,
                                                 ),
                                               );
-                                            }
-                                          }
+                                            },
+                                            isFullWidth: false,
+                                            height: 56,
+                                            padding: AppButton.paddingSmall,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        SizedBox(
+                                          height: 56,
+                                          child: AppTextButton(
+                                            label: loc.removeFromEntry,
+                                            onPressed: () async {
+                                              AppLogger.debug(
+                                                'Remove beans button pressed for stat: ${stat.statUuid}',
+                                              );
+                                              AppLogger.debug(
+                                                'Current coffeeBeansUuid: ${stat.coffeeBeansUuid}',
+                                              );
 
-                                          await Provider.of<UserStatProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .updateUserStat(
-                                            statUuid: stat.statUuid,
-                                            clearBeans: true,
-                                          );
-                                          AppLogger.debug(
-                                              'updateUserStat called');
-                                        },
-                                        isFullWidth: false,
-                                        height: 56,
-                                        padding: AppButton.paddingSmall,
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .surface,
-                                        foregroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        elevation: 2,
-                                      ),
+                                              // Add weight back to beans before removing the reference
+                                              if (stat.coffeeBeansUuid !=
+                                                  null) {
+                                                final coffeeBeansProvider =
+                                                    Provider.of<
+                                                      CoffeeBeansProvider
+                                                    >(context, listen: false);
+
+                                                // Fetch bean data to get the bean name
+                                                final bean =
+                                                    await coffeeBeansProvider
+                                                        .fetchCoffeeBeansByUuid(
+                                                          stat.coffeeBeansUuid!,
+                                                        );
+                                                final beanName =
+                                                    bean?.name ??
+                                                    'Unknown beans';
+
+                                                final newWeight =
+                                                    await coffeeBeansProvider
+                                                        .updateBeanWeightAfterBrewModification(
+                                                          stat.coffeeBeansUuid!,
+                                                          stat.coffeeAmount,
+                                                        );
+
+                                                if (newWeight != null) {
+                                                  ScaffoldMessenger.of(
+                                                    context,
+                                                  ).showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        loc.beansWeightAddedBack(
+                                                          stat.coffeeAmount
+                                                              .toString(),
+                                                          beanName,
+                                                          newWeight
+                                                              .toStringAsFixed(
+                                                                1,
+                                                              ),
+                                                          loc.unitGramsShort,
+                                                        ),
+                                                      ),
+                                                      duration: Duration(
+                                                        seconds: 2,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                              }
+
+                                              await Provider.of<
+                                                    UserStatProvider
+                                                  >(context, listen: false)
+                                                  .updateUserStat(
+                                                    statUuid: stat.statUuid,
+                                                    clearBeans: true,
+                                                  );
+                                              AppLogger.debug(
+                                                'updateUserStat called',
+                                              );
+                                            },
+                                            isFullWidth: false,
+                                            height: 56,
+                                            padding: AppButton.paddingSmall,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -870,11 +914,7 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
               )
             else
               const SizedBox.shrink(),
-            const Divider(
-              thickness: 0.5,
-              indent: 10,
-              endIndent: 10,
-            ),
+            const Divider(thickness: 0.5, indent: 10, endIndent: 10),
             const SizedBox(height: 8),
             // Notes Section
             Padding(
@@ -894,11 +934,10 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                 onChanged: (value) {
                   // Debounce the updates to avoid too many calls
                   Future.delayed(const Duration(milliseconds: 2000), () {
-                    Provider.of<UserStatProvider>(context, listen: false)
-                        .updateUserStat(
-                      statUuid: stat.statUuid,
-                      notes: value,
-                    );
+                    Provider.of<UserStatProvider>(
+                      context,
+                      listen: false,
+                    ).updateUserStat(statUuid: stat.statUuid, notes: value);
                   });
                 },
               ),
@@ -917,50 +956,62 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
           onSelect: (String selectedBeanUuid) async {
             final loc = AppLocalizations.of(context)!;
             // Get the current stat to know the coffee amount
-            final userStatProvider =
-                Provider.of<UserStatProvider>(context, listen: false);
-            final currentStat =
-                await userStatProvider.fetchUserStatByUuid(statUuid);
+            final userStatProvider = Provider.of<UserStatProvider>(
+              context,
+              listen: false,
+            );
+            final currentStat = await userStatProvider.fetchUserStatByUuid(
+              statUuid,
+            );
 
             if (currentStat != null) {
               // Subtract weight from the selected beans
-              final coffeeBeansProvider =
-                  Provider.of<CoffeeBeansProvider>(context, listen: false);
-
-              final newWeight =
-                  await coffeeBeansProvider.updateBeanWeightWhenBeansAdded(
-                selectedBeanUuid,
-                currentStat.coffeeAmount,
+              final coffeeBeansProvider = Provider.of<CoffeeBeansProvider>(
+                context,
+                listen: false,
               );
+
+              final newWeight = await coffeeBeansProvider
+                  .updateBeanWeightWhenBeansAdded(
+                    selectedBeanUuid,
+                    currentStat.coffeeAmount,
+                  );
 
               if (newWeight != null) {
                 // Fetch bean data to get the bean name
-                final bean = await coffeeBeansProvider
-                    .fetchCoffeeBeansByUuid(selectedBeanUuid);
+                final bean = await coffeeBeansProvider.fetchCoffeeBeansByUuid(
+                  selectedBeanUuid,
+                );
                 final beanName = bean?.name ?? 'Unknown beans';
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(loc.beansWeightSubtracted(
-                      currentStat.coffeeAmount.toString(),
-                      beanName,
-                      newWeight.toStringAsFixed(1),
-                      loc.unitGramsShort,
-                    )),
+                    content: Text(
+                      loc.beansWeightSubtracted(
+                        currentStat.coffeeAmount.toString(),
+                        beanName,
+                        newWeight.toStringAsFixed(1),
+                        loc.unitGramsShort,
+                      ),
+                    ),
                     duration: Duration(seconds: 2),
                   ),
                 );
               }
             }
 
-            await Provider.of<UserStatProvider>(context, listen: false)
-                .updateUserStat(
+            await Provider.of<UserStatProvider>(
+              context,
+              listen: false,
+            ).updateUserStat(
               statUuid: statUuid,
               coffeeBeansUuid: selectedBeanUuid,
             );
             Navigator.of(context).pop(); // Close the dialog
-            Provider.of<CardExpansionNotifier>(context, listen: false)
-                .addBean(statUuid); // Update the notifier
+            Provider.of<CardExpansionNotifier>(
+              context,
+              listen: false,
+            ).addBean(statUuid); // Update the notifier
           },
         );
       },
@@ -986,8 +1037,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
             final hasLogo = originalUrl != null || mirrorUrl != null;
 
             // Make plate responsive: square for square logos, wider for horizontal logos
-            final plateWidth =
-                _isLogoHorizontal ? logoHeight * maxWidthFactor : logoHeight;
+            final plateWidth = _isLogoHorizontal
+                ? logoHeight * maxWidthFactor
+                : logoHeight;
             final plateHeight = logoHeight;
 
             return AnimatedContainer(
@@ -998,8 +1050,8 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
               decoration: BoxDecoration(
                 color: hasLogo
                     ? (Theme.of(context).brightness == Brightness.light
-                        ? Colors.grey.shade400
-                        : Colors.grey.shade700)
+                          ? Colors.grey.shade400
+                          : Colors.grey.shade700)
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(11),
               ),
@@ -1039,10 +1091,9 @@ class _BrewDiaryScreenState extends State<BrewDiaryScreen> {
                         child: Icon(
                           Coffeico.bag_with_bean,
                           size: logoHeight - 8, // Account for padding
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withOpacity(0.55),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withOpacity(0.55),
                         ),
                       ),
               ),

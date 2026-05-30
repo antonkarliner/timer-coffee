@@ -15,9 +15,11 @@ import '../../models/brewing_method_model.dart';
 import '../../models/coffee_beans_model.dart';
 import '../../providers/bean_review_provider.dart';
 import '../../providers/coffee_beans_provider.dart';
+import '../../services/analytics_service.dart';
 import '../../services/authentication_service.dart';
 import '../../theme/design_tokens.dart';
 import '../../widgets/base_buttons.dart';
+import '../../widgets/unsaved_changes_dialog.dart';
 import '../containers/section_card.dart';
 import 'flavor_notes_picker.dart';
 import 'star_rating.dart';
@@ -32,11 +34,26 @@ Future<bool> showReviewForm(
   required String roasterName,
   BeanReviewModel? existingReview,
   CoffeeBeansModel? preselectedBean,
+  String sourceScreen = 'unknown',
 }) async {
+  AnalyticsService.instance.track(
+    'review_form_opened',
+    properties: {
+      'mode': existingReview != null ? 'edit' : 'create',
+      'source_screen': sourceScreen,
+    },
+  );
+  // Drag-to-dismiss and scrim-tap on showModalBottomSheet bypass PopScope
+  // (Flutter calls Navigator.pop directly in BottomSheet.onClosing), so the
+  // unsaved-changes guard would silently fail for swipe-down. Disable both
+  // gestures and require dismissal via the in-sheet close button or system
+  // back — both routes through PopScope.onPopInvoked.
   final result = await showModalBottomSheet<bool>(
     context: context,
     isScrollControlled: true,
     useSafeArea: true,
+    isDismissible: false,
+    enableDrag: false,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(AppRadius.large),
@@ -98,6 +115,18 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
   // the selector is locked — the user cannot change which bean they review.
   bool get _beanLocked => widget.preselectedBean != null && !_isEditing;
 
+  // Snapshot of initial field values for unsaved-change detection.
+  late double _initialRating;
+  late String _initialReviewText;
+  double? _initialSweetness;
+  double? _initialAcidity;
+  double? _initialBody;
+  double? _initialBitterness;
+  double? _initialAftertaste;
+  String? _initialBrewingMethodId;
+  bool? _initialWouldBuyAgain;
+  late List<String> _initialFlavorTags;
+
   @override
   void initState() {
     super.initState();
@@ -123,7 +152,22 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
     // New fields
     _selectedBrewingMethodId = existing?.brewingMethodId;
     _wouldBuyAgain = existing?.wouldBuyAgain;
-    _flavorTags = existing?.flavorTags ?? [];
+    _flavorTags =
+        (existing?.flavorTags ?? []).map(resolveFlavorTagKey).toList();
+
+    // Snapshot baseline for unsaved-change detection.
+    _initialRating = _rating;
+    _initialReviewText = _reviewController.text;
+    _initialSweetness = _sweetness;
+    _initialAcidity = _acidity;
+    _initialBody = _body;
+    _initialBitterness = _bitterness;
+    _initialAftertaste = _aftertaste;
+    _initialBrewingMethodId = _selectedBrewingMethodId;
+    _initialWouldBuyAgain = _wouldBuyAgain;
+    _initialFlavorTags = List<String>.from(_flavorTags);
+
+    _reviewController.addListener(_onReviewTextChanged);
 
     _loadBeans();
     _loadBrewMethods();
@@ -131,9 +175,37 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
 
   @override
   void dispose() {
+    _reviewController.removeListener(_onReviewTextChanged);
     _reviewController.dispose();
     _brewMethodController.dispose();
     super.dispose();
+  }
+
+  void _onReviewTextChanged() {
+    // PopScope.canPop is read on each build, so we just need to flip the
+    // dirty bit when it changes. Avoid calling setState on every keystroke
+    // unless the dirty state actually flipped.
+    final dirty = _hasUnsavedChanges();
+    if (dirty != _lastDirty && mounted) {
+      setState(() => _lastDirty = dirty);
+    }
+  }
+
+  bool _lastDirty = false;
+
+  bool _hasUnsavedChanges() {
+    final tagsChanged = _initialFlavorTags.length != _flavorTags.length ||
+        !_initialFlavorTags.toSet().containsAll(_flavorTags);
+    return _rating != _initialRating ||
+        _reviewController.text != _initialReviewText ||
+        _sweetness != _initialSweetness ||
+        _acidity != _initialAcidity ||
+        _body != _initialBody ||
+        _bitterness != _initialBitterness ||
+        _aftertaste != _initialAftertaste ||
+        _selectedBrewingMethodId != _initialBrewingMethodId ||
+        _wouldBuyAgain != _initialWouldBuyAgain ||
+        tagsChanged;
   }
 
   Future<void> _loadBeans() async {
@@ -382,30 +454,73 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
         (widget.existingReview!.hasTasteProfile ||
             widget.existingReview!.flavorTags?.isNotEmpty == true);
 
-    return Padding(
-      padding: EdgeInsets.only(
-        left: AppSpacing.base,
-        right: AppSpacing.base,
-        top: AppSpacing.base,
-        bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.base,
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Handle bar
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.only(bottom: AppSpacing.base),
-                decoration: BoxDecoration(
-                  color: colorScheme.onSurface.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(2),
+    return PopScope(
+      canPop: !_hasUnsavedChanges() || _submitting,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+        final shouldDiscard = await showDialog<bool>(
+          context: context,
+          builder: (_) => const UnsavedChangesDialog(),
+        );
+        if (shouldDiscard == true && mounted) {
+          Navigator.of(context).pop(false);
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: AppSpacing.base,
+          right: AppSpacing.base,
+          top: AppSpacing.base,
+          bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.base,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Handle bar + close button.
+              //
+              // Flutter's built-in BottomSheet drag-to-dismiss calls
+              // Navigator.pop directly (bypassing PopScope), so enableDrag
+              // is off at the route level. To still support swipe-down,
+              // the handle row owns its own vertical-drag detector that
+              // routes through Navigator.maybePop — which DOES fire
+              // PopScope.onPopInvoked and our discard guard.
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onVerticalDragEnd: (details) {
+                  final v = details.primaryVelocity ?? 0;
+                  if (v > 200) {
+                    Navigator.of(context).maybePop();
+                  }
+                },
+                child: SizedBox(
+                  height: 40,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: colorScheme.onSurface.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                          icon: const Icon(Icons.close),
+                          iconSize: AppIconSize.medium,
+                          tooltip: l10n.dialogCancel,
+                          // maybePop so PopScope still runs the discard guard.
+                          onPressed: () => Navigator.of(context).maybePop(),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
 
             Text(
               _isEditing ? l10n.editReview : l10n.writeReview,
@@ -666,6 +781,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
           ],
         ),
       ),
+    ),
     );
   }
 }

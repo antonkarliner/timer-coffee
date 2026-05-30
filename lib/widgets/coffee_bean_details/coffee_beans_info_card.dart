@@ -5,6 +5,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:coffee_timer/services/date_time_format_service.dart';
+import 'package:coffee_timer/theme/design_tokens.dart';
 
 import '../../controllers/coffee_beans_detail_controller.dart';
 
@@ -98,12 +99,12 @@ class CoffeeBeansInfoCard extends StatelessWidget {
         margin: margin ?? EdgeInsets.zero,
         shape: shape,
         child: Padding(
-          padding: padding ?? const EdgeInsets.all(16.0),
+          padding: padding ?? const EdgeInsets.all(AppSpacing.cardPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHeader(context, loc),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.base),
               ..._buildContent(context, loc, fmtSvc),
             ],
           ),
@@ -320,7 +321,7 @@ class CoffeeBeansInfoCard extends StatelessWidget {
         value: '${bean.validatedPackageWeightGrams!.toStringAsFixed(1)}g',
       ));
 
-      items.add(const SizedBox(height: 8));
+      items.add(const SizedBox(height: AppSpacing.sm));
 
       items.add(AppTextButton(
         label: loc.setToZeroButton,

@@ -4,10 +4,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:provider/provider.dart';
+import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/services/notification_service.dart';
 import 'package:coffee_timer/services/fcm_service.dart';
 import 'package:coffee_timer/services/permission_service.dart';
 import 'package:coffee_timer/services/notification_settings_service.dart';
+import 'package:coffee_timer/services/local_notification_scheduler_service.dart';
 import 'package:coffee_timer/providers/fcm_provider.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -166,6 +169,46 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
     }
   }
 
+  Future<void> _testBeanReviewNudge() async {
+    try {
+      final database = Provider.of<AppDatabase>(context, listen: false);
+      final locale = Localizations.localeOf(context).languageCode;
+      final beans = await database.coffeeBeansDao.fetchAllCoffeeBeans();
+      final candidates =
+          beans.where((b) => !b.isDeleted).toList();
+      if (candidates.isEmpty) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content:
+                    Text('No beans available — add a bean first to test.')),
+          );
+        }
+        return;
+      }
+      final picked = candidates[math.Random().nextInt(candidates.length)];
+      await LocalNotificationSchedulerService.instance
+          .debugFireBeanReviewNudge(
+        database: database,
+        beansUuid: picked.beansUuid,
+        locale: locale,
+      );
+      if (mounted) {
+        final label = picked.name.isNotEmpty ? picked.name : picked.roaster;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Fired bean review nudge for: $label')),
+        );
+      }
+    } catch (e) {
+      AppLogger.error('Error firing bean review nudge', errorObject: e);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
+    }
+  }
+
   Future<void> _refreshPermissions() async {
     setState(() {
       _isLoadingPermissions = true;
@@ -262,6 +305,21 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
             subtitle: const Text(
                 'Requests notification permissions with Firebase-first approach'),
             onTap: () => widget._notificationService.requestPermissions(),
+          ),
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              'Engagement Notifications',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.rate_review_outlined),
+            title: const Text('Test Bean Review Nudge'),
+            subtitle: const Text(
+                'Picks a random bean from your library and fires the review nudge immediately (bypasses 5-brew + once-only gates).'),
+            onTap: _testBeanReviewNudge,
           ),
           ListTile(
             title: const Text('Refresh Permission Status'),

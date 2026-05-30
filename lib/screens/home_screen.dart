@@ -265,7 +265,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Future<void> _fetchCountryAndBanner() async {
     try {
       // Use HTTPS endpoint from country.is
-      final response = await http.get(Uri.parse('https://api.country.is/'));
+      final response = await http
+          .get(Uri.parse('https://api.country.is/'))
+          .timeout(const Duration(seconds: 4));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final detected = data['country']?.toString() ?? '';

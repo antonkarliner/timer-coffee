@@ -84,24 +84,31 @@ class _ReviewReplyState extends State<ReviewReply> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.xs,
             children: [
-              Icon(
-                Icons.storefront_outlined,
-                size: AppIconSize.small,
-                color: colorScheme.primary,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.storefront_outlined,
+                    size: AppIconSize.small,
+                    color: colorScheme.primary,
+                  ),
+                  const SizedBox(width: AppSpacing.xs),
+                  Text(
+                    l10n.roasterResponse,
+                    style: AppTextStyles.caption.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: colorScheme.primary,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: AppSpacing.xs),
-              Text(
-                l10n.roasterResponse,
-                style: AppTextStyles.caption.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: colorScheme.primary,
-                ),
-              ),
-              const Spacer(),
               if (widget.isRoasterAdmin)
-                AppTextButton(
+                AppElevatedButton(
                   label: hasReply ? l10n.editReply : l10n.replyToReview,
                   onPressed: () =>
                       setState(() => _isEditing = !_isEditing),

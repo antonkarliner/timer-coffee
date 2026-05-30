@@ -171,10 +171,12 @@ class NewBeansImageController {
           }
         }
         if (shots.length < 2) {
+          // If the user cancelled the first capture, there's nothing to preview — exit.
+          if (shots.isEmpty) break;
           // Ask user if they'd like to take another photo. The controller itself doesn't own UI,
           // so callers must provide a dialog in onChooseMoreCameraShots.
           final bool takeAnother =
-              await _onAskTakeAnotherPhoto?.call() ?? false;
+              await _onAskTakeAnotherPhoto?.call(shots.last) ?? false;
           if (!takeAnother) break;
 
           // If user wants to take another photo, capture it and start OCR
@@ -211,11 +213,12 @@ class NewBeansImageController {
   }
 
   /// Callback used internally to ask the user if they want to take another camera shot (for multi-shot loop).
-  /// Must be wired by the caller via [setAskTakeAnotherPhotoCallback].
-  Future<bool> Function()? _onAskTakeAnotherPhoto;
+  /// Must be wired by the caller via [setAskTakeAnotherPhotoCallback]. Receives the just-captured photo
+  /// so the UI can show a preview thumbnail.
+  Future<bool> Function(XFile lastPhoto)? _onAskTakeAnotherPhoto;
 
   /// Set the callback used to ask the user to take another photo when using the camera.
-  void setAskTakeAnotherPhotoCallback(Future<bool> Function() cb) {
+  void setAskTakeAnotherPhotoCallback(Future<bool> Function(XFile lastPhoto) cb) {
     _onAskTakeAnotherPhoto = cb;
   }
 

@@ -396,7 +396,18 @@ class _InfoScreenState extends State<InfoScreen> {
             ),
           ),
           const SizedBox(height: 12),
-          // App version and build number
+          // Debug entry: visible in debug builds, OR in any build started
+          // with `--dart-define=MOMENTS_DEBUG=true`. The deep link
+          // `/debug/moments` also works in any build regardless of flags.
+          if (kDebugMode ||
+              const bool.fromEnvironment('MOMENTS_DEBUG'))
+            ListTile(
+              leading: const Icon(Icons.bug_report_outlined),
+              title: const Text('Debug: Moments'),
+              subtitle: const Text('Trigger easter eggs without waiting'),
+              onTap: () => context.router.push(const MomentsDebugRoute()),
+            ),
+          // App version and build number.
           FutureBuilder<PackageInfo>(
             future: PackageInfo.fromPlatform(),
             builder: (context, snapshot) {
