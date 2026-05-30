@@ -2,7 +2,7 @@ Timer.Coffee je besplatna aplikacija otvorenog koda za mjerenje vremena i izrač
 
 Ključne značajke
 
-- 22 metoda kuhanja: Upute korak po korak za Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch i još mnogo toga.
+- 27 metoda kuhanja: Upute korak po korak za Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch i još mnogo toga.
 - Kalkulator kave: Prilagodite količine kave i vode u hodu.
 - Prilagođena veličina mljevenja: Spremite postavke mljevenja po receptu — nikada više ne zaboravite svoje postavke.
 - Kuhanje u pozadini: Mjerač vremena nastavlja točno raditi kada minimizirate aplikaciju — prebacite aplikacije ili provjerite poruku bez gubitka mjesta.

@@ -2,7 +2,7 @@ Timer.Coffee on ilmainen ja avoimen lähdekoodin kahvinuuttoajastin ja -laskuri,
 
 Keskeiset ominaisuudet
 
-- Yli 40 uuttomenetelmää: yksityiskohtaiset vaiheittaiset ohjeet mm. Hario V60:lle, AeroPressille, Chemexille, French Pressille, Clever Dripperille, Kalita Wavelle, Wilfa Svart Pour Overille, Origami Dripperille ja Hario Switchille.
+- 27 uuttomenetelmää: yksityiskohtaiset vaiheittaiset ohjeet mm. Hario V60:lle, AeroPressille, Chemexille, French Pressille, Clever Dripperille, Kalita Wavelle, Wilfa Svart Pour Overille, Origami Dripperille ja Hario Switchille.
 - Kahvilaskuri: säädä kahvin ja veden määrät nopeasti lennossa.
 - Mukautettu jauhinkoko: tallenna jauhimasettingit reseptikohtaisesti.
 - Taustauutto: ajastin toimii tarkasti, kun minimoit sovelluksen — vaihda sovellusta tai tarkista viesti menettämättä paikkaasi.

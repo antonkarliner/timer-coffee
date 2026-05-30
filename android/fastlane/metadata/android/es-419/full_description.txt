@@ -2,7 +2,7 @@ Timer.Coffee es un temporizador y calculadora de preparación de café, gratuito
 
 Características clave
 
-- Más de 40 métodos de preparación: instrucciones detalladas paso a paso para Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch y más.
+- 27 métodos de preparación: instrucciones detalladas paso a paso para Hario V60, AeroPress, Chemex, French Press, Clever Dripper, Kalita Wave, Wilfa Svart Pour Over, Origami Dripper, Hario Switch y más.
 - Calculadora de café: ajusta las cantidades de café y agua sobre la marcha.
 - Tamaño de molido personalizado: guarda tu ajuste de molido por receta — nunca olvides tus ajustes.
 - Preparación en segundo plano: el temporizador sigue funcionando con precisión cuando minimizas la app — cambia de app o revisa un mensaje sin perder tu lugar.

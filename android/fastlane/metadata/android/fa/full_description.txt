@@ -2,7 +2,7 @@ Timer.Coffee یک تایمر و ماشین‌حساب دم‌آوری قهوه�
 
 ویژگی‌های کلیدی
 
-- بیش از 40 روش دم‌آوری: راهنمای دقیقِ مرحله‌به‌مرحله برای Hario V60، AeroPress، Chemex، French Press، Clever Dripper، Kalita Wave، Wilfa Svart Pour Over، Origami Dripper، Hario Switch و بیشتر.
+- 27 روش دم‌آوری: راهنمای دقیقِ مرحله‌به‌مرحله برای Hario V60، AeroPress، Chemex، French Press، Clever Dripper، Kalita Wave، Wilfa Svart Pour Over، Origami Dripper، Hario Switch و بیشتر.
 - ماشین‌حساب قهوه: مقدار قهوه و آب را در حین دم‌آوری سریع تنظیم کنید.
 - درجه‌ی آسیاب سفارشی: تنظیمات آسیاب را برای هر دستور ذخیره کنید — دیگر تنظیماتتان را فراموش نکنید.
 - دم‌آوری در پس‌زمینه: تایمر هنگام کوچک کردن برنامه به‌دقت ادامه می‌دهد — بدون از دست دادن مرحله‌تان به برنامه‌های دیگر بروید یا پیام‌هایتان را چک کنید.
