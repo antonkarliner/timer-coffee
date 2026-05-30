@@ -46,6 +46,10 @@ class AppRouter extends RootStackRouter {
           path: '/recipes/:brewingMethodId/:recipeId',
         ),
         AutoRoute(
+          page: CollectionDetailRoute.page,
+          path: '/collections/:collectionId',
+        ),
+        AutoRoute(
           page: DonationRoute.page,
           path: '/donate',
         ),
@@ -114,6 +118,10 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           page: NotificationDebugRoute.page,
           path: '/debug/notifications',
+        ),
+        AutoRoute(
+          page: MomentsDebugRoute.page,
+          path: '/debug/moments',
         ),
         AutoRoute(
           page: PulseRoute.page,
