@@ -254,6 +254,7 @@
   "homescreenmore": "More",
   "addBeans": "Add beans",
   "removeBeans": "Remove beans",
+  "removeFromEntry": "Remove from entry",
   "name": "Name",
   "origin": "Origin",
   "details": "Details",
@@ -285,6 +286,7 @@
   "flavorProfile": "Flavor Profile",
   "tastingNotes": "Tasting Notes",
   "additionalNotes": "Additional Notes",
+  "beanNotesPreferences": "Notes & Preferences",
   "noCoffeeBeans": "No coffee beans found",
   "editCoffeeBeans": "Edit Coffee Beans",
   "addCoffeeBeans": "Add Coffee Beans",
@@ -864,6 +866,43 @@
     }
   },
   "noRecipesFound": "No recipes found",
+  "collectionEmpty": "No recipes in this collection yet.",
+  "collectionsTitle": "Collections",
+  "collectionsCollapseTooltip": "Collapse collections",
+  "@collectionsCollapseTooltip": {
+    "description": "Tooltip for the chevron that collapses the Collections section on the home screen"
+  },
+  "collectionsExpandTooltip": "Expand collections",
+  "@collectionsExpandTooltip": {
+    "description": "Tooltip for the chevron that expands the Collections section on the home screen"
+  },
+  "collectionsHideTooltip": "Hide collections",
+  "@collectionsHideTooltip": {
+    "description": "Tooltip for the close icon that dismisses the Collections section"
+  },
+  "collectionsHideDialogTitle": "Hide collections?",
+  "@collectionsHideDialogTitle": {
+    "description": "Title of the confirmation dialog when dismissing the Collections section"
+  },
+  "collectionsHideDialogContent": "The Collections section will be hidden from the home screen. You can turn it back on in Settings.",
+  "@collectionsHideDialogContent": {
+    "description": "Body of the confirmation dialog when dismissing the Collections section"
+  },
+  "collectionsHideDialogConfirm": "Hide",
+  "@collectionsHideDialogConfirm": {
+    "description": "Confirm button label in the dismiss-collections dialog"
+  },
+  "settingsHomeScreenTitle": "Home Screen",
+  "settingsHomeScreenSubtitle": "Collections",
+  "collectionsShowOnHomeTitle": "Show Collections on Home",
+  "@collectionsShowOnHomeTitle": {
+    "description": "Settings toggle title that controls visibility of the Collections section on the home screen"
+  },
+  "collectionsShowOnHomeDescription": "Display recipe collections on the Home screen.",
+  "collectionShareTooltip": "Share collection",
+  "@collectionShareTooltip": {
+    "description": "Tooltip for the share button in the collection detail app bar"
+  },
   "recipeLoadError": "Failed to load recipe: {error}",
   "@recipeLoadError": {
     "placeholders": {
@@ -1030,6 +1069,7 @@
   "deletePictureTooltip": "Delete Picture",
   "account": "Account",
   "settingsBrewingMethodsTitle": "Home Screen Brewing Methods",
+  "settingsBrewingMethodsSubtitle": "Choose which methods appear on Home",
   "filter": "Filter",
   "@filter": {
     "description": "Label for the filter button in the coffee beans screen"
@@ -1074,6 +1114,7 @@
   "farm": "Farm",
   "enterFarmer": "Enter farmer (optional)",
   "enterFarm": "Enter farm (optional)",
+  "enterBeanGrindSize": "Enter grind size (optional)",
   "requiredInformation": "Required Information",
   "basicDetails": "Basic Details",
   "qualityMeasurements": "Quality & Measurements",
@@ -1316,11 +1357,9 @@
   "brewEntrySaved": "Brew entry saved",
   "brewingMethodRequired": "Please select a brewing method",
   "recipeRequired": "Please select a recipe",
-
   "onboardingTitle": "Welcome to Timer.Coffee",
   "onboardingSubtitle": "What do you brew with?",
   "onboardingShowAll": "Show All Methods",
-
   "coffeeJourneyTitle": "First Steps",
   "coffeeJourneyMilestoneFirstBrew": "Complete your first brew",
   "coffeeJourneyMilestoneTryMethod": "Try another recipe",
@@ -1333,10 +1372,8 @@
   "coffeeJourneyDismissHint": "You can always check your progress in the More tab.",
   "coffeeJourneyDismissConfirm": "Would you like to hide your Coffee Journey progress?",
   "coffeeJourneyHideButton": "Hide",
-
   "firstBrewCongrats": "Congratulations on your first brew! It has been saved to your Brew Diary.",
   "firstBrewDiaryLink": "View Brew Diary",
-
   "beanCoverPhoto": "Cover photo",
   "beanCoverPhotoAdd": "Add cover photo",
   "beanCoverPhotoChange": "Change photo",
@@ -1347,13 +1384,19 @@
   "beanCoverPhotoError": "Failed to upload photo",
   "beanCoverPhotoSignInPrompt": "Sign in to add a cover photo",
   "settingsAnalyticsTitle": "Privacy & Analytics",
+  "settingsAnalyticsSubtitle": "Control usage data sharing",
   "settingsAnalyticsBrews": "Share brewing analytics",
   "settingsAnalyticsBeans": "Share bean analytics",
   "settingsAnalyticsGeneral": "Share general usage analytics",
-
+  "advancedFeatures": "Advanced / Beta Features",
+  "advancedFeaturesSubtitle": "Manual step control",
+  "advancedFeaturesDescription": "These features are experimental and may sometimes be unstable.",
+  "manualStepControl": "Manual step control",
+  "manualStepControlDescription": "Show back and skip arrows during brewing.",
+  "previousStep": "Previous step",
+  "nextStep": "Next step",
   "done": "Done",
   "saving": "Saving…",
-
   "notifBrewReminderTitle": "Missing your coffee ritual?",
   "notifBrewReminderBody": "It's been a few days. Ready for another brew?",
   "notifBrewReminderTitle2": "Time for a brew?",
@@ -1366,12 +1409,10 @@
   "notifBrewEscalationBody2": "No rush. Your setup is ready when you are.",
   "notifBrewEscalationTitle3": "Coffee time again?",
   "notifBrewEscalationBody3": "A really good cup can start in just a few minutes.",
-
   "notifDiscoverBeansTitle": "Keep track of your beans",
   "notifDiscoverBeansBody": "Log your beans and remember the ones you loved.",
   "notifDiscoverPulseTitle": "See what others are brewing",
   "notifDiscoverPulseBody": "Open Pulse to see live brews from around the world.",
-
   "notifBrewMilestoneTitle": "You hit a milestone",
   "notifBrewMilestoneBody": "You've brewed {count} times. Tap to see your progress.",
   "@notifBrewMilestoneBody": {
@@ -1381,7 +1422,6 @@
       }
     }
   },
-
   "notifExploreRecipesTitle": "Try a new {methodName} recipe",
   "@notifExploreRecipesTitle": {
     "placeholders": {
@@ -1398,7 +1438,6 @@
       }
     }
   },
-
   "notifMorningTitle": "Good morning. Ready to brew?",
   "notifMorningBody": "Start the day with a good cup.",
   "notifMorningTitle2": "Rise and brew",
@@ -1421,7 +1460,6 @@
       }
     }
   },
-
   "notifBeanFreshnessTitle": "Time for fresh beans?",
   "notifBeanFreshnessBody": "Your {beanName} was roasted {days} days ago. It may be past its peak.",
   "@notifBeanFreshnessBody": {
@@ -1434,7 +1472,28 @@
       }
     }
   },
-
+  "notifBeanReviewNudgeTitle": "How was {beanName} by {roaster}?",
+  "@notifBeanReviewNudgeTitle": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      },
+      "roaster": {
+        "type": "String"
+      }
+    }
+  },
+  "notifBeanReviewNudgeTitleNoRoaster": "How was {beanName}?",
+  "@notifBeanReviewNudgeTitleNoRoaster": {
+    "placeholders": {
+      "beanName": {
+        "type": "String"
+      }
+    }
+  },
+  "notifBeanReviewNudgeBody": "Tap to add your review.",
+  "settingsBeanReviewNudge": "Bean review reminders",
+  "settingsBeanReviewNudgeSubtitle": "Once you've brewed a bag 5 times, nudge you to leave a review",
   "settingsNotificationsToggle": "Enable notifications",
   "settingsMorningReminder": "Morning brew reminder",
   "settingsMorningReminderSubtitle": "Daily reminder for your morning brew",
@@ -1446,14 +1505,18 @@
   "daysAgo": "{count, plural, one{1 day ago} other{{count} days ago}}",
   "@daysAgo": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "approxBrewsLeft": "{count, plural, one{≈ 1 brew left} other{≈ {count} brews left}}",
   "@approxBrewsLeft": {
     "description": "Subtitle on Amount Left chip showing estimated remaining brews based on user's median dose",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "roasterProfile": "Roaster Profile",
@@ -1469,6 +1532,10 @@
   "yourReview": "Your Review",
   "addReview": "Add Review",
   "writeReview": "Write a Review",
+  "translateReview": "Translate",
+  "translateAllReviews": "Translate all reviews",
+  "showOriginal": "Show original",
+  "translationFailed": "Translation failed",
   "editReview": "Edit Review",
   "deleteReview": "Delete Review",
   "myReviews": "My Reviews",
@@ -1496,7 +1563,9 @@
   "reviewsCount": "{count, plural, one{1 review} other{{count} reviews}}",
   "@reviewsCount": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "reviewBrewMethodLabel": "Brew Method",
@@ -1507,6 +1576,16 @@
   "tasteBrightness": "Brightness",
   "tasteBitterness": "Bitterness",
   "tasteAftertaste": "Finish",
+  "tasteProfileScaLabel": "SCA taste dimensions",
+  "tasteProfileInfoTooltip": "About these taste dimensions",
+  "tasteProfileInfoTitle": "Taste dimensions",
+  "tasteProfileInfoIntro": "These five dimensions come from the Specialty Coffee Association (SCA) cupping vocabulary — the same framework professional cuppers use to describe coffee. They were chosen because they capture the structural taste of a brew (how it feels and tastes in the mouth) and stay meaningful regardless of origin or brew method, unlike specific flavor notes like 'blueberry' or 'cocoa'.",
+  "tasteInfoSweetness": "How much pleasant sweetness comes through — caramel, honey, or fruit sugar. Higher sweetness usually indicates ripe, well-developed beans.",
+  "tasteInfoBrightness": "The lively, refreshing acidity that makes a coffee feel crisp and clean — like the tang of an apple or citrus. Not the same as harsh sourness.",
+  "tasteInfoBody": "The weight and texture of the coffee on your tongue — from light and tea-like to heavy and syrupy. Independent of strength or caffeine.",
+  "tasteInfoBitterness": "The bitter element of the cup. Some bitterness adds depth and balance; too much usually points to over-extraction or dark roasting.",
+  "tasteInfoAftertaste": "What lingers after you swallow — the length and character of the finish. A long, pleasant aftertaste is a hallmark of high-quality coffee.",
+  "dialogClose": "Close",
   "flavorCatFruity": "Fruity",
   "flavorSubBerry": "Berry",
   "flavorSubCitrus": "Citrus",
@@ -1596,5 +1675,183 @@
   "retry": "Retry",
   "@retry": {
     "description": "Generic retry button label"
+  },
+  "mts_anniversaryTitle": "One year of great brews ☕️",
+  "@mts_anniversaryTitle": {
+    "description": "Title shown on Finish screen on the anniversary of the user's first brew"
+  },
+  "mts_anniversarySubtitle": "It's been a year since your first cup here.",
+  "@mts_anniversarySubtitle": {
+    "description": "Subtitle for the first-brew anniversary card"
+  },
+  "mts_anniversaryDiaryLink": "Open Brew Diary",
+  "@mts_anniversaryDiaryLink": {
+    "description": "Action link on the anniversary card"
+  },
+  "mts_coffeeDayBanner": "Happy International Coffee Day ☕️",
+  "@mts_coffeeDayBanner": {
+    "description": "Banner shown on the brewing methods screen on October 1st"
+  },
+  "mts_coffeeDayBannerDismiss": "Dismiss",
+  "@mts_coffeeDayBannerDismiss": {
+    "description": "Tooltip / accessibility label for closing the Coffee Day banner"
+  },
+  "mts_inSyncCelebration": "{count, plural, =1{1 coffee lover brewed alongside you in the last minute ☕️} other{{count} coffee lovers brewed alongside you in the last minute ☕️}}",
+  "@mts_inSyncCelebration": {
+    "description": "Celebration shown on Finish when other users brewed in the same minute",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mts_emptyDiaryTitle": "Your first page awaits ☕️",
+  "@mts_emptyDiaryTitle": {
+    "description": "Empty-state title for the Brew Diary"
+  },
+  "mts_emptyDiaryAction": "Brew something",
+  "@mts_emptyDiaryAction": {
+    "description": "CTA on the empty Brew Diary state, links to brewing methods"
+  },
+  "mts_momentTitle_anniversary": "First-brew anniversary",
+  "@mts_momentTitle_anniversary": {
+    "description": "Moment title in the discovery sheet"
+  },
+  "mts_momentTitle_coffee_day": "International Coffee Day",
+  "@mts_momentTitle_coffee_day": {
+    "description": "Moment title in the discovery sheet"
+  },
+  "mts_momentTitle_steam_puff": "Steam puff",
+  "@mts_momentTitle_steam_puff": {
+    "description": "Moment title in the discovery sheet"
+  },
+  "mts_momentTitle_in_sync": "Brewed together",
+  "@mts_momentTitle_in_sync": {
+    "description": "Moment title in the discovery sheet"
+  },
+  "mts_momentLockedHint_anniversary": "Brew on a meaningful date.",
+  "@mts_momentLockedHint_anniversary": {
+    "description": "Locked teaser for the anniversary moment"
+  },
+  "mts_momentLockedHint_coffee_day": "There's one day a year just for coffee.",
+  "@mts_momentLockedHint_coffee_day": {
+    "description": "Locked teaser for the Coffee Day moment"
+  },
+  "mts_momentLockedHint_steam_puff": "Logos enjoy a quick double act.",
+  "@mts_momentLockedHint_steam_puff": {
+    "description": "Locked teaser for the steam puff moment"
+  },
+  "mts_momentLockedHint_in_sync": "When the world brews together…",
+  "@mts_momentLockedHint_in_sync": {
+    "description": "Locked teaser for the in-sync moment"
+  },
+  "mts_momentDescription_anniversary": "A celebratory card on the anniversary of your very first brew.",
+  "@mts_momentDescription_anniversary": {
+    "description": "Unlocked description for the anniversary moment"
+  },
+  "mts_momentDescription_coffee_day": "A warm hello on October 1st — International Coffee Day.",
+  "@mts_momentDescription_coffee_day": {
+    "description": "Unlocked description for the Coffee Day moment"
+  },
+  "mts_momentDescription_steam_puff": "A tiny puff of steam floats up from a roaster's logo.",
+  "@mts_momentDescription_steam_puff": {
+    "description": "Unlocked description for the steam puff moment"
+  },
+  "mts_momentDescription_in_sync": "A salute to the others brewing alongside you in the same moment.",
+  "@mts_momentDescription_in_sync": {
+    "description": "Unlocked description for the in-sync moment"
+  },
+  "mts_inSyncFromCountries": "from {countries}",
+  "@mts_inSyncFromCountries": {
+    "description": "Subtitle on the in-sync card listing the countries of the other brewers (e.g. \"from USA, Germany and Russia\"). The {countries} placeholder is a pre-formatted, locale-joined list.",
+    "placeholders": {
+      "countries": {
+        "type": "String"
+      }
+    }
+  },
+  "mts_inSyncFromCountriesWithOthers": "from {countries} and {others, plural, =1{1 other} other{{others} others}}",
+  "@mts_inSyncFromCountriesWithOthers": {
+    "description": "Variant of the in-sync subtitle when more countries exist than were named (e.g. \"from USA, Germany, Russia and 4 others\").",
+    "placeholders": {
+      "countries": {
+        "type": "String"
+      },
+      "others": {
+        "type": "int"
+      }
+    }
+  },
+  "mts_inSyncCountriesConnector": "and",
+  "@mts_inSyncCountriesConnector": {
+    "description": "Connector word used between the last two countries in the in-sync subtitle list (e.g. \"USA, Germany and Russia\"). Translators: lowercase, no surrounding spaces."
+  },
+  "recipeCreationAiReviewToggle": "Verify recipe with AI",
+  "@recipeCreationAiReviewToggle": {
+    "description": "Toggle label for optional AI review during recipe creation."
+  },
+  "recipeCreationAiReviewConsentInline": "Check the recipe to ensure all amounts auto-adjust correctly",
+  "@recipeCreationAiReviewConsentInline": {
+    "description": "Inline consent summary shown under the AI review toggle."
+  },
+  "recipeCreationAiReviewUnavailable": "Sign in to use AI to check recipe syntax",
+  "@recipeCreationAiReviewUnavailable": {
+    "description": "Message shown when AI review is unavailable because the user is not signed in."
+  },
+  "recipeCreationAiReviewConsentTitle": "Verify recipe with AI?",
+  "@recipeCreationAiReviewConsentTitle": {
+    "description": "Title for first-use AI review consent dialog."
+  },
+  "recipeCreationAiReviewConsentBody": "This is a beta feature. Results may be unstable and can occasionally be incomplete or incorrect. Timer.Coffee will send this recipe's name, amounts, step text, language, and format issues to an AI provider to check recipe syntax and amount scaling. Diagnostic data may be stored to debug and improve recipe creation. Avoid adding sensitive personal data.",
+  "@recipeCreationAiReviewConsentBody": {
+    "description": "Consent and info body explaining beta status, AI provider processing, and diagnostic data."
+  },
+  "recipeCreationAiReviewConsentAgree": "Verify with AI",
+  "@recipeCreationAiReviewConsentAgree": {
+    "description": "Button label for accepting AI recipe review consent."
+  },
+  "recipeCreationAiReviewRunning": "Checking recipe format...",
+  "@recipeCreationAiReviewRunning": {
+    "description": "Snackbar shown while AI recipe review is running."
+  },
+  "recipeCreationAiReviewFailed": "AI review failed. Local validation was used instead.",
+  "@recipeCreationAiReviewFailed": {
+    "description": "Snackbar shown when AI recipe review fails and local validation is used."
+  },
+  "recipeCreationAiReviewApplied": "AI review applied.",
+  "@recipeCreationAiReviewApplied": {
+    "description": "Snackbar shown when AI corrections were applied and locally validated."
+  },
+  "recipeCreationFormatIssuesTitle": "Check recipe step format",
+  "@recipeCreationFormatIssuesTitle": {
+    "description": "Dialog title for invalid or ambiguous recipe step format."
+  },
+  "recipeCreationFormatIssuesBody": "Some step amounts could not be converted into a safe scalable format.",
+  "@recipeCreationFormatIssuesBody": {
+    "description": "Dialog body for invalid or ambiguous recipe step format."
+  },
+  "recipeCreationFormatIssuesFixHint": "Edit the step text, or turn on AI review if you want Timer.Coffee to try a correction.",
+  "@recipeCreationFormatIssuesFixHint": {
+    "description": "Dialog hint explaining how to fix invalid or ambiguous step format."
+  },
+  "recipeCreationFormatIssueUnsupportedPlaceholder": "This step contains an unsupported placeholder.",
+  "@recipeCreationFormatIssueUnsupportedPlaceholder": {
+    "description": "Validation issue message for unsupported placeholders."
+  },
+  "recipeCreationFormatIssueInvalidExpression": "Coffee and water amounts must use a complete multiplier expression.",
+  "@recipeCreationFormatIssueInvalidExpression": {
+    "description": "Validation issue message for malformed scalable amount expressions."
+  },
+  "recipeCreationFormatIssueUnbalancedParentheses": "This step contains unbalanced parentheses.",
+  "@recipeCreationFormatIssueUnbalancedParentheses": {
+    "description": "Validation issue message for unbalanced parentheses."
+  },
+  "recipeCreationFormatIssueAmbiguousAmount": "Clarify whether this amount belongs to coffee or water.",
+  "@recipeCreationFormatIssueAmbiguousAmount": {
+    "description": "Validation issue message for ambiguous coffee or water amount target."
+  },
+  "recipeCreationFormatIssueUnknown": "This step needs a format correction.",
+  "@recipeCreationFormatIssueUnknown": {
+    "description": "Fallback validation issue message."
   }
 }
