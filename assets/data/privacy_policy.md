@@ -1,6 +1,6 @@
 # Privacy Policy for Timer.Coffee
 
-Last Updated: 30.04.2026
+Last Updated: 22.05.2026
 
 1. INTRODUCTION
 
@@ -34,7 +34,7 @@ This is the core data of the product. We store it so the app can remember your b
 - Brew statistics and brew events, such as recipe ID, brewing method, water amount, country of origin (country level only, derived from your IP address at the time of the brew), timestamps, and related identifiers, so your brewing history and aggregate stats work. The country is displayed publicly in the Pulse feed alongside the recipe name; no city or sub-national location is stored or shown.
 - Brew diary content, such as notes, grind size, bean links, favorite or marked state, and sync metadata, so you can keep personal brewing records.
 - Recipes, recipe localizations, and recipe steps, such as amounts, temperatures, brew times, descriptions, visibility state, and moderation flags, so custom recipes can be saved and synced.
-- Bean records, such as roaster, bean name, origin, variety, tasting notes, processing method, elevation, harvest date, roast date, region, roast level, cupping score, notes, farmer, farm, package weight, favorite state, cover photo URL, and sync metadata, so you can track and reuse your bean information.
+- Bean records, such as roaster, bean name, origin, variety, tasting notes, processing method, elevation, harvest date, roast date, region, roast level, grind size, cupping score, notes, farmer, farm, package weight, favorite state, cover photo URL, and sync metadata, so you can track and reuse your bean information.
 - Recipe preferences, such as favorites, last-used timestamps, slider positions, custom amounts, and custom grind size, so the app can remember how you like to brew.
 - Recipe import events, recording your anonymized user identifier, the source recipe identifier, and a timestamp when you import a recipe shared by another user, so creators can see how many people have imported their public recipes.
 
@@ -44,6 +44,7 @@ We use this data only if you enable these optional features.
 
 - If you enable mobile notifications, we may store your push token and related device metadata, such as device type, device model, app version, locale, last-used timestamps, and token metadata so notifications can be sent to the right device and maintained over time.
 - If you use notification preferences, we may store your quiet hours and notification preference settings so the app knows what you want to receive.
+- To schedule local reminders such as a once-per-bean prompt to write a review after about five brews with the same beans, we count brews per bean locally on your device and store a timestamp of when the reminder was scheduled on the bean record. For signed-in users this timestamp is synced with your other bean data so the reminder is not repeated on another device.
 - If you use iOS Live Activities, we may store session data needed to run that feature, such as recipe ID, recipe name, activity identifiers and tokens, step durations, step descriptions, start and end times, session status, and related delivery events.
 
 e. AI-Assisted Features and Content Processing
@@ -57,6 +58,9 @@ We use AI tools mainly to save you manual work, such as reading a coffee bag lab
 - Diagnostic or platform logs may include limited processing information, such as response-format summaries, truncated text where needed, errors, and operational metadata, so we can debug failures and investigate abuse without storing raw recognition results in routine logs.
 - If you upload a profile picture, that image is intentionally stored as part of the profile feature and is separate from temporary recognition input.
 - If you upload a cover photo for a bean record, the image is compressed on your device and stored in Supabase Storage. The resulting URL is saved in your bean record and syncs across your devices. This feature is only available to signed-in, non-anonymous users.
+- When you tap "Translate" (or "Translate all reviews") on a public bean review, the review text is sent to OpenAI to detect its source language and produce a translation in your current app language. Translations are cached on our servers and reused for any reader requesting the same language, so each (review, language) pair is only sent to OpenAI once. Editing your review invalidates the cached translations for that review.
+- If you choose AI recipe review while creating or editing a recipe, Timer.Coffee sends structured recipe data to an AI provider so the app can check and correct scalable coffee and water amount formatting. This may include the recipe name, brewing method, coffee and water amounts, water temperature, grind size, short description, step text, step durations, app locale, source-language hint, and local validation issues. This happens only for signed-in users after you enable the option and accept the consent notice.
+- If you consent to diagnostics for AI recipe review, we may store private diagnostic records containing source and corrected step templates, locale and language hints, validation issues, provider and model details, token or usage metadata, timestamps, and an anonymized or pseudonymous user reference. We use these records to debug failures, improve recipe creation, enforce limits, and investigate abuse. These diagnostics are not exposed to public clients.
 - Because AI-assisted features may involve third-party processing and diagnostic logging, you should avoid submitting sensitive personal data unless it is necessary for the feature you are using.
 
 f. Location and Regionalization Data
@@ -67,7 +71,7 @@ g. Anonymous Usage Analytics
 
 We collect anonymous usage analytics so we can understand which features people actually use, where the brewing flow drops off, and how donation behavior relates to usage patterns. This data helps us improve the app without knowing who you are.
 
-- The app collects anonymous event data such as brew starts and completions, bean additions, recipe creation and sharing, screen views, donation funnel interactions, and onboarding and first-steps journey progress. No personal information such as your name, email, or account ID is included in analytics events.
+- The app collects anonymous event data such as brew starts and completions, bean additions, bean review interactions (creating, editing, deleting, and translating reviews), recipe creation and sharing, screen views, donation funnel interactions, and onboarding and first-steps journey progress. No personal information such as your name, email, or account ID is included in analytics events.
 - Each installation is identified by a randomly generated ID that is not linked to your Supabase account or any other identifying information. A random session ID is generated each time you open the app.
 - Events are buffered on-device and sent in batches to a Supabase Edge Function. Your IP address is stripped server-side before storage.
 - Analytics events are organized into three categories — brewing analytics, bean analytics, and general usage analytics — each of which you can enable or disable independently in the app's Settings screen. All three categories are enabled by default.
@@ -98,7 +102,7 @@ These providers may process data on our behalf so the feature you asked for actu
 - We retain account, sync, and content data for as long as your account remains active or as long as needed to provide the service. We do this so your data is still there when you come back.
 - You can delete your account from within the app or by contacting support@timer.coffee.
 - When you delete your account, we delete profile data, bean data, recipe preferences, recipes, user stats, and push token records associated with your account. Bean cover photo files stored in Supabase Storage are also removed as part of this process.
-- Some analytics and usage records, including brew statistics and AI-recognition invocation records, may be retained in anonymized form by replacing your user ID with a non-identifying placeholder. We keep these records to measure product usage and operate the service without keeping them tied to you.
+- Some analytics and usage records, including brew statistics, AI-recognition invocation records, and AI recipe-review diagnostic records, may be retained in anonymized form by replacing your user ID with a non-identifying placeholder. We keep these records to measure product usage, debug and improve recipe creation, and operate the service without keeping them tied to you.
 - We may retain limited information where required for legal, security, fraud-prevention, or accounting reasons.
 
 7. USER RIGHTS
