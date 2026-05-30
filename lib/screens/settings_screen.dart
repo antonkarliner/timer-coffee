@@ -152,7 +152,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   },
                 ),
               ),
+              const CollectionsSection(),
               const AnalyticsPrivacySection(),
+              const AdvancedFeaturesSection(),
               _buildAboutSection(context, snowEffectProvider),
               if (SettingsController.showNotifDebugPanel && !kIsWeb)
                 const DebugNotificationPanel(),

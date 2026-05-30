@@ -4,6 +4,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 
 import '../../services/analytics_service.dart';
 import '../app_switch_list_tile.dart';
+import 'settings_section_subtitle.dart';
 
 /// Analytics/privacy settings section with three toggles (brews, beans, general).
 ///
@@ -20,6 +21,7 @@ class AnalyticsPrivacySection extends StatelessWidget {
           identifier: 'analyticsPrivacyExpansionTile',
           child: ExpansionTile(
             title: Text(loc.settingsAnalyticsTitle),
+            subtitle: SettingsSectionSubtitle(loc.settingsAnalyticsSubtitle),
             children: [
               AppSwitchListTile(
                 title: loc.settingsAnalyticsBrews,

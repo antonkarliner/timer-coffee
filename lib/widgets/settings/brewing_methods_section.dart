@@ -3,6 +3,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 
 import '../../models/brewing_method_model.dart';
 import '../app_switch_list_tile.dart';
+import 'settings_section_subtitle.dart';
 
 /// Brewing methods visibility settings — lets users show/hide methods.
 class BrewingMethodsSection extends StatelessWidget {
@@ -32,8 +33,11 @@ class BrewingMethodsSection extends StatelessWidget {
       child: ExpansionTile(
         controller: controller,
         title: Text(l10n.settingsBrewingMethodsTitle),
+        subtitle: SettingsSectionSubtitle(l10n.settingsBrewingMethodsSubtitle),
         children: allBrewingMethods.map((method) {
-          final hasRecipes = methodsWithRecipes.contains(method.brewingMethodId);
+          final hasRecipes = methodsWithRecipes.contains(
+            method.brewingMethodId,
+          );
           final isShownByUser = shownIds.contains(method.brewingMethodId);
           final isHiddenByUser = hiddenIds.contains(method.brewingMethodId);
 
