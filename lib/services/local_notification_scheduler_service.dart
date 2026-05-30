@@ -1,10 +1,14 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/coffee_beans_model.dart';
+import 'package:coffee_timer/services/analytics_service.dart';
+import 'package:coffee_timer/services/notification_image_helper.dart';
 import 'package:coffee_timer/services/notification_service.dart';
 import 'package:coffee_timer/services/notification_settings_service.dart';
 import 'package:coffee_timer/services/onboarding_service.dart';
@@ -24,6 +28,7 @@ class LocalNotificationSchedulerService {
   static const _idWeeklySummary = 1301;
   static const _idBeanFreshness = 1401;
   static const _idBrewMilestone = 1501;
+  static const _idBeanReviewNudge = 1601;
   static const _idRecipeExplore = 1701;
 
   static const _allIds = [
@@ -35,6 +40,7 @@ class LocalNotificationSchedulerService {
     _idWeeklySummary,
     _idBeanFreshness,
     _idBrewMilestone,
+    _idBeanReviewNudge,
     _idRecipeExplore,
   ];
 
@@ -47,6 +53,11 @@ class LocalNotificationSchedulerService {
   // so casual brewers with ~weekly cadence aren't repeatedly nagged.
   static const _keyBrewReminderLastScheduled =
       'notif_brew_reminder_last_scheduled';
+  static const _keyBeanReviewBacklogScanned =
+      'notif_bean_review_backlog_scanned_v1';
+  static const _keyBeanReviewBacklogQueue = 'notif_bean_review_backlog_uuids';
+  static const _keyBeanReviewLastScheduledMs =
+      'notif_bean_review_last_scheduled_ms';
 
   // --- Milestone thresholds ---
   static const _milestoneThresholds = [10, 25, 50, 100, 250, 500];
@@ -104,6 +115,8 @@ class LocalNotificationSchedulerService {
         _scheduleMorningReminder(settings, l10n),
         _scheduleWeeklyReminder(settings, userStatsDao, l10n),
         _scheduleBeanFreshnessAlert(settings, coffeeBeansDao, l10n, prefs),
+        _scheduleBeanReviewBacklog(
+            settings, coffeeBeansDao, userStatsDao, l10n, prefs),
       ]);
 
       AppLogger.debug('Engagement notifications rescheduled');
@@ -137,6 +150,7 @@ class LocalNotificationSchedulerService {
     required String body,
     required DateTime at,
     String? payload,
+    String? imagePath,
   }) async {
     if (at.isBefore(DateTime.now())) return;
     if (testMode) {
@@ -149,6 +163,7 @@ class LocalNotificationSchedulerService {
       body: body,
       scheduledDate: at,
       payload: payload,
+      imagePath: imagePath,
     );
   }
 
@@ -509,6 +524,281 @@ class LocalNotificationSchedulerService {
       at: _atTime(DateTime.now().add(const Duration(days: 1)), 11, 0),
       payload: '/beans/${candidate.beansUuid}',
     );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Tier 3 — Bean review nudge
+  // ---------------------------------------------------------------------------
+
+  static const int _beanReviewMinBrews = 5;
+
+  /// Reactive entry point — called after a brew is persisted. Schedules a
+  /// one-time review nudge if this bean just crossed the 5-brew threshold,
+  /// has no review yet, and has never been nudged.
+  Future<void> maybeScheduleBeanReviewNudge({
+    required AppDatabase database,
+    required String beansUuid,
+    required String locale,
+  }) async {
+    try {
+      final settings = NotificationSettingsService.instance;
+      if (!await settings.isBeanReviewNudgeEnabled()) return;
+      if (!testMode && !await _canSchedule()) return;
+
+      final coffeeBeansDao = CoffeeBeansDao(database);
+      final userStatsDao = UserStatsDao(database);
+      final bean = await coffeeBeansDao.fetchCoffeeBeansByUuid(beansUuid);
+      if (bean == null || bean.isDeleted) return;
+      if (bean.reviewNudgeScheduledAt != null) return;
+
+      final stats = await userStatsDao.fetchStatsByBeanUuid(beansUuid);
+      if (stats.length < _beanReviewMinBrews) return;
+
+      if (await _hasExistingBeanReview(beansUuid)) return;
+
+      final l10n = lookupAppLocalizations(Locale(locale));
+      final prefs = await SharedPreferences.getInstance();
+      await _scheduleNudgeFor(
+          bean: bean, dao: coffeeBeansDao, prefs: prefs, l10n: l10n);
+    } catch (e) {
+      AppLogger.error('Failed to schedule bean review nudge', errorObject: e);
+    }
+  }
+
+  /// One-shot backlog scan + 7-day drip for existing eligible beans.
+  Future<void> _scheduleBeanReviewBacklog(
+    NotificationSettingsService settings,
+    CoffeeBeansDao coffeeBeansDao,
+    UserStatsDao userStatsDao,
+    AppLocalizations l10n,
+    SharedPreferences prefs,
+  ) async {
+    if (!await settings.isBeanReviewNudgeEnabled()) return;
+
+    final alreadyScanned =
+        prefs.getBool(_keyBeanReviewBacklogScanned) ?? false;
+
+    if (!alreadyScanned) {
+      final candidates = await coffeeBeansDao.fetchBeanReviewBacklogCandidates(
+        activeWithinDays: 30,
+        minBrews: _beanReviewMinBrews,
+        limit: 3,
+      );
+
+      // Skip beans where the user already has a review.
+      final filtered = <CoffeeBeansModel>[];
+      for (final c in candidates) {
+        if (await _hasExistingBeanReview(c.beansUuid)) continue;
+        filtered.add(c);
+      }
+
+      await prefs.setBool(_keyBeanReviewBacklogScanned, true);
+      if (filtered.isEmpty) {
+        await prefs.setString(_keyBeanReviewBacklogQueue, jsonEncode([]));
+        return;
+      }
+
+      final first = filtered.first;
+      await _scheduleNudgeFor(
+          bean: first, dao: coffeeBeansDao, prefs: prefs, l10n: l10n);
+      final remaining = filtered.skip(1).map((b) => b.beansUuid).toList();
+      await prefs.setString(_keyBeanReviewBacklogQueue, jsonEncode(remaining));
+      return;
+    }
+
+    // Drip path: schedule one more from the queue every 7 days.
+    final queueJson = prefs.getString(_keyBeanReviewBacklogQueue);
+    if (queueJson == null) return;
+    final queue = (jsonDecode(queueJson) as List).cast<String>();
+    if (queue.isEmpty) return;
+
+    final lastMs = prefs.getInt(_keyBeanReviewLastScheduledMs) ?? 0;
+    if (DateTime.now().millisecondsSinceEpoch - lastMs <
+        const Duration(days: 7).inMilliseconds) {
+      return;
+    }
+
+    while (queue.isNotEmpty) {
+      final uuid = queue.first;
+      final bean = await coffeeBeansDao.fetchCoffeeBeansByUuid(uuid);
+      queue.removeAt(0);
+      if (bean == null ||
+          bean.isDeleted ||
+          bean.reviewNudgeScheduledAt != null) {
+        continue;
+      }
+      final stats = await userStatsDao.fetchStatsByBeanUuid(uuid);
+      if (stats.length < _beanReviewMinBrews) continue;
+      if (await _hasExistingBeanReview(uuid)) continue;
+
+      await _scheduleNudgeFor(
+          bean: bean, dao: coffeeBeansDao, prefs: prefs, l10n: l10n);
+      await prefs.setString(_keyBeanReviewBacklogQueue, jsonEncode(queue));
+      return;
+    }
+    await prefs.setString(_keyBeanReviewBacklogQueue, jsonEncode(queue));
+  }
+
+  Future<void> _scheduleNudgeFor({
+    required CoffeeBeansModel bean,
+    required CoffeeBeansDao dao,
+    required SharedPreferences prefs,
+    required AppLocalizations l10n,
+  }) async {
+    String? imagePath;
+    if (!testMode && bean.roaster.isNotEmpty) {
+      try {
+        final url = await _resolveRoasterLogoUrl(bean.roaster);
+        if (url != null) {
+          imagePath = await NotificationImageHelper.downloadLogoToCache(url);
+        }
+      } catch (e) {
+        AppLogger.debug('Roaster logo resolve failed: $e');
+      }
+    }
+
+    final title = _beanReviewNudgeTitle(l10n, bean);
+    final body = l10n.notifBeanReviewNudgeBody;
+
+    final scheduledAt = DateTime.now();
+    await dao.updateReviewNudgeScheduledAt(bean.beansUuid, scheduledAt);
+    await prefs.setInt(
+        _keyBeanReviewLastScheduledMs, scheduledAt.millisecondsSinceEpoch);
+
+    await _schedule(
+      id: _idBeanReviewNudge,
+      title: title,
+      body: body,
+      at: _atTime(DateTime.now().add(const Duration(days: 1)), 10, 0),
+      payload: '/beans/${bean.beansUuid}?focus=review',
+      imagePath: imagePath,
+    );
+
+    if (!testMode) {
+      AnalyticsService.instance.track(
+        'notification_scheduled',
+        properties: {
+          'notification_type': 'bean_review_nudge',
+          'bean_uuid': bean.beansUuid,
+          'has_image': imagePath != null,
+        },
+      );
+    }
+  }
+
+  /// Test-only: builds and fires the bean review nudge for the given bean,
+  /// bypassing all gating (brew count, existing review, prior nudge, master
+  /// toggle, permission). Used by the notification debug tooling.
+  ///
+  /// When [delay] is zero the notification is shown immediately; otherwise it
+  /// is scheduled for `now + delay` (so the tester can background the app).
+  /// Returns the deeplink payload that was used.
+  Future<String> debugFireBeanReviewNudge({
+    required AppDatabase database,
+    required String beansUuid,
+    required String locale,
+    Duration delay = Duration.zero,
+  }) async {
+    final coffeeBeansDao = CoffeeBeansDao(database);
+    final bean = await coffeeBeansDao.fetchCoffeeBeansByUuid(beansUuid);
+    if (bean == null) {
+      throw StateError('Bean not found: $beansUuid');
+    }
+
+    String? imagePath;
+    if (bean.roaster.isNotEmpty) {
+      try {
+        final url = await _resolveRoasterLogoUrl(bean.roaster);
+        if (url != null) {
+          imagePath = await NotificationImageHelper.downloadLogoToCache(url);
+        }
+      } catch (e) {
+        AppLogger.debug('Roaster logo resolve failed (debug): $e');
+      }
+    }
+
+    final l10n = lookupAppLocalizations(Locale(locale));
+    final title = _beanReviewNudgeTitle(l10n, bean);
+    final body = l10n.notifBeanReviewNudgeBody;
+    final payload = '/beans/${bean.beansUuid}?focus=review';
+
+    if (delay == Duration.zero) {
+      await NotificationService.instance.showLocalNotification(
+        id: _idBeanReviewNudge,
+        title: title,
+        body: body,
+        payload: payload,
+        imagePath: imagePath,
+      );
+    } else {
+      await NotificationService.instance.scheduleLocalNotification(
+        id: _idBeanReviewNudge,
+        title: title,
+        body: body,
+        scheduledDate: DateTime.now().add(delay),
+        payload: payload,
+        imagePath: imagePath,
+      );
+    }
+    return payload;
+  }
+
+  Future<bool> _hasExistingBeanReview(String beansUuid) async {
+    if (testMode) return false;
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user == null) return false;
+      final response = await Supabase.instance.client
+          .from('bean_reviews')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('coffee_beans_uuid', beansUuid)
+          .maybeSingle();
+      return response != null;
+    } catch (e) {
+      AppLogger.debug('Bean review existence check failed: $e');
+      return false;
+    }
+  }
+
+  Future<String?> _resolveRoasterLogoUrl(String roasterName) async {
+    try {
+      final response = await Supabase.instance.client
+          .rpc('search_roaster_unaccent', params: {'search_name': roasterName})
+          .maybeSingle();
+      if (response == null) return null;
+      final original = (response['roaster_logo_url'] as String?)?.trim();
+      final mirror = (response['roaster_logo_mirror_url'] as String?)?.trim();
+      final hasOriginal = original != null && original.isNotEmpty;
+      final hasMirror = mirror != null && mirror.isNotEmpty;
+      if (hasOriginal && hasMirror && _looksLikeGifUrl(original)) {
+        return mirror;
+      }
+      if (hasOriginal) return original;
+      if (hasMirror) return mirror;
+      return null;
+    } catch (e) {
+      AppLogger.debug('Roaster logo lookup failed: $e');
+      return null;
+    }
+  }
+
+  static bool _looksLikeGifUrl(String url) {
+    final lower = url.toLowerCase();
+    final path = lower.split('?').first;
+    if (path.endsWith('.gif')) return true;
+    return lower.contains('format=gif') || lower.contains('fm=gif');
+  }
+
+  /// Builds the review-nudge title: includes the roaster when both the bean
+  /// name and roaster are present ("How was X by Y?"), otherwise falls back to
+  /// the name-only variant ("How was X?").
+  String _beanReviewNudgeTitle(AppLocalizations l10n, CoffeeBeansModel bean) {
+    if (bean.name.isNotEmpty && bean.roaster.isNotEmpty) {
+      return l10n.notifBeanReviewNudgeTitle(bean.name, bean.roaster);
+    }
+    final displayName = bean.name.isNotEmpty ? bean.name : bean.roaster;
+    return l10n.notifBeanReviewNudgeTitleNoRoaster(displayName);
   }
 
   // ---------------------------------------------------------------------------

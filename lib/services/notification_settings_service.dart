@@ -10,6 +10,7 @@ const String KEY_MORNING_REMINDER_MINUTE =
     'notifications_morning_reminder_minute';
 const String KEY_WEEKLY_SUMMARY = 'notifications_weekly_summary_enabled';
 const String KEY_BEAN_FRESHNESS = 'notifications_bean_freshness_enabled';
+const String KEY_BEAN_REVIEW_NUDGE = 'notif_settings_bean_review_nudge';
 
 class NotificationSettingsService {
   static final NotificationSettingsService instance =
@@ -28,6 +29,8 @@ class NotificationSettingsService {
       BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<bool> _beanFreshnessSubject =
       BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> _beanReviewNudgeSubject =
+      BehaviorSubject<bool>.seeded(true);
 
   Stream<bool> get masterChanges => _masterSubject.stream.distinct();
   Stream<bool> get morningChanges => _morningSubject.stream.distinct();
@@ -36,6 +39,8 @@ class NotificationSettingsService {
   Stream<bool> get weeklyChanges => _weeklySubject.stream.distinct();
   Stream<bool> get beanFreshnessChanges =>
       _beanFreshnessSubject.stream.distinct();
+  Stream<bool> get beanReviewNudgeChanges =>
+      _beanReviewNudgeSubject.stream.distinct();
 
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -47,6 +52,8 @@ class NotificationSettingsService {
     ));
     _weeklySubject.add(_prefs!.getBool(KEY_WEEKLY_SUMMARY) ?? false);
     _beanFreshnessSubject.add(_prefs!.getBool(KEY_BEAN_FRESHNESS) ?? false);
+    _beanReviewNudgeSubject
+        .add(_prefs!.getBool(KEY_BEAN_REVIEW_NUDGE) ?? true);
   }
 
   Future<bool> isMasterEnabled() async {
@@ -114,12 +121,25 @@ class NotificationSettingsService {
     AppLogger.debug('Bean freshness setting updated: $enabled');
   }
 
+  Future<bool> isBeanReviewNudgeEnabled() async {
+    await _ensureInitialized();
+    return _prefs!.getBool(KEY_BEAN_REVIEW_NUDGE) ?? true;
+  }
+
+  Future<void> setBeanReviewNudgeEnabled(bool enabled) async {
+    await _ensureInitialized();
+    await _prefs!.setBool(KEY_BEAN_REVIEW_NUDGE, enabled);
+    _beanReviewNudgeSubject.add(enabled);
+    AppLogger.debug('Bean review nudge setting updated: $enabled');
+  }
+
   void dispose() {
     _masterSubject.close();
     _morningSubject.close();
     _morningTimeSubject.close();
     _weeklySubject.close();
     _beanFreshnessSubject.close();
+    _beanReviewNudgeSubject.close();
   }
 
   Future<void> _ensureInitialized() async {

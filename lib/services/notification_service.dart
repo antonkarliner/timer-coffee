@@ -209,6 +209,7 @@ class NotificationService {
     required String title,
     required String body,
     String? payload,
+    String? imagePath,
   }) async {
     // Check master setting first - if disabled, don't show notification
     if (!await _settingsService.isMasterEnabled()) {
@@ -230,6 +231,7 @@ class NotificationService {
       title: title,
       body: body,
       payload: payload,
+      imagePath: imagePath,
     );
   }
 
@@ -253,6 +255,7 @@ class NotificationService {
     required String body,
     required DateTime scheduledDate,
     String? payload,
+    String? imagePath,
   }) async {
     // Check master setting first - if disabled, don't schedule notification
     if (!await _settingsService.isMasterEnabled()) {
@@ -285,6 +288,7 @@ class NotificationService {
       body: body,
       scheduledDate: scheduledDate,
       payload: payload,
+      imagePath: imagePath,
     );
   }
 

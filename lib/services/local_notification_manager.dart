@@ -91,26 +91,48 @@ class LocalNotificationManager {
     await androidPlugin.createNotificationChannel(generalChannel);
   }
 
+  NotificationDetails _buildDetails({
+    required String title,
+    required String body,
+    String? imagePath,
+  }) {
+    final hasImage = imagePath != null && imagePath.isNotEmpty;
+    return NotificationDetails(
+      android: AndroidNotificationDetails(
+        CHANNEL_ID_GENERAL,
+        CHANNEL_NAME_GENERAL,
+        channelDescription: CHANNEL_DESC_GENERAL,
+        importance: Importance.defaultImportance,
+        largeIcon: hasImage ? FilePathAndroidBitmap(imagePath) : null,
+        styleInformation: hasImage
+            ? BigPictureStyleInformation(
+                FilePathAndroidBitmap(imagePath),
+                largeIcon: FilePathAndroidBitmap(imagePath),
+                contentTitle: title,
+                summaryText: body,
+                hideExpandedLargeIcon: true,
+              )
+            : null,
+      ),
+      iOS: DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+        attachments: hasImage ? [DarwinNotificationAttachment(imagePath)] : null,
+      ),
+    );
+  }
+
   Future<void> showNotification({
     required int id,
     required String title,
     required String body,
     String? payload,
+    String? imagePath,
   }) async {
     try {
-      final details = NotificationDetails(
-        android: AndroidNotificationDetails(
-          CHANNEL_ID_GENERAL,
-          CHANNEL_NAME_GENERAL,
-          channelDescription: CHANNEL_DESC_GENERAL,
-          importance: Importance.defaultImportance,
-        ),
-        iOS: const DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-        ),
-      );
+      final details =
+          _buildDetails(title: title, body: body, imagePath: imagePath);
 
       await _plugin.show(
         id,
@@ -132,21 +154,11 @@ class LocalNotificationManager {
     required String body,
     required DateTime scheduledDate,
     String? payload,
+    String? imagePath,
   }) async {
     try {
-      final details = NotificationDetails(
-        android: AndroidNotificationDetails(
-          CHANNEL_ID_GENERAL,
-          CHANNEL_NAME_GENERAL,
-          channelDescription: CHANNEL_DESC_GENERAL,
-          importance: Importance.defaultImportance,
-        ),
-        iOS: const DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-        ),
-      );
+      final details =
+          _buildDetails(title: title, body: body, imagePath: imagePath);
 
       await _plugin.zonedSchedule(
         id,

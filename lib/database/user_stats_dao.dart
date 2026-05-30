@@ -117,6 +117,13 @@ class UserStatsDao extends DatabaseAccessor<AppDatabase>
     return result != null ? _userStatFromRow(result) : null;
   }
 
+  /// Returns the user's earliest brew timestamp, or null if there are no
+  /// non-deleted brews yet. Thin convenience wrapper over [fetchEarliestStat].
+  Future<DateTime?> earliestBrewAt() async {
+    final stat = await fetchEarliestStat();
+    return stat?.createdAt;
+  }
+
   Future<List<String>> fetchDistinctBrewingMethodsForBean(
       String beansUuid) async {
     final query = customSelect(
