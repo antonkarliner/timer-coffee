@@ -8,6 +8,7 @@ import 'package:coffee_timer/providers/recipe_provider.dart';
 import 'package:coffee_timer/providers/user_stat_provider.dart';
 import 'package:coffee_timer/services/stats_realtime_service.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
+import 'package:coffee_timer/widgets/account_avatar_inline.dart';
 import 'package:coffeico/coffeico.dart';
 import 'package:coffee_timer/widgets/stats/time_period_selector.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +17,6 @@ import '../app_router.gr.dart';
 import 'package:coffee_timer/models/beans_stats_models.dart';
 import 'package:coffee_timer/widgets/stats/beans_stat_list_card.dart';
 import 'package:coffee_timer/widgets/roaster_logo.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/onboarding_service.dart';
 
 /// Custom plate widget for RoasterLogo with fixed-size background styling.
@@ -48,8 +46,8 @@ class _StatsRoasterLogoPlate extends StatelessWidget {
       decoration: BoxDecoration(
         color: hasLogo
             ? (Theme.of(context).brightness == Brightness.light
-                ? Colors.grey.shade400
-                : Colors.grey.shade700)
+                  ? Colors.grey.shade400
+                  : Colors.grey.shade700)
             : Colors.transparent,
         borderRadius: BorderRadius.circular(borderRadius),
       ),
@@ -69,10 +67,9 @@ class _StatsRoasterLogoPlate extends StatelessWidget {
           : Icon(
               Coffeico.bag_with_bean,
               size: height * 0.7,
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurface
-                  .withValues(alpha: 0.55),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.55),
             ),
     );
   }
@@ -108,8 +105,10 @@ class _StatsScreenState extends State<StatsScreen> {
 
     // Initialize default period and totals after first frame so providers are ready
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final userStatProvider =
-          Provider.of<UserStatProvider>(context, listen: false);
+      final userStatProvider = Provider.of<UserStatProvider>(
+        context,
+        listen: false,
+      );
 
       // Ensure default window and includesToday are set
       _controller.selectPeriod(userStatProvider, _controller.selectedPeriod);
@@ -119,35 +118,44 @@ class _StatsScreenState extends State<StatsScreen> {
 
       // Mark stats milestone for onboarding
       if (mounted) {
-        Provider.of<OnboardingService>(context, listen: false)
-            .completeMilestoneStats();
+        Provider.of<OnboardingService>(
+          context,
+          listen: false,
+        ).completeMilestoneStats();
       }
 
       // Start realtime updates
-      _realtime.start(onEvent: ({
-        required String recipeId,
-        required DateTime createdAt,
-        required double liters,
-      }) {
-        // Update total if event within current range
-        _controller.addToTotalIfInRange(
-          userStatProvider,
-          createdAt,
-          liters,
-        );
-        // Inform the user about a brew event
-        _showRecipeBrewedSnackbar(recipeId);
-      });
+      _realtime.start(
+        onEvent:
+            ({
+              required String recipeId,
+              required DateTime createdAt,
+              required double liters,
+            }) {
+              // Update total if event within current range
+              _controller.addToTotalIfInRange(
+                userStatProvider,
+                createdAt,
+                liters,
+              );
+              // Inform the user about a brew event
+              _showRecipeBrewedSnackbar(recipeId);
+            },
+      );
     });
   }
 
   Future<void> _refreshGlobalTotal() async {
-    final userStatProvider =
-        Provider.of<UserStatProvider>(context, listen: false);
+    final userStatProvider = Provider.of<UserStatProvider>(
+      context,
+      listen: false,
+    );
     final start = _controller.getStartDate(userStatProvider);
     final end = _controller.getEndDate();
-    final initial =
-        await _db.fetchGlobalBrewedCoffeeAmountAggregated(start, end);
+    final initial = await _db.fetchGlobalBrewedCoffeeAmountAggregated(
+      start,
+      end,
+    );
     if (mounted) {
       _controller.setInitialTotal(initial);
     }
@@ -156,8 +164,10 @@ class _StatsScreenState extends State<StatsScreen> {
   Future<void> _showRecipeBrewedSnackbar(String recipeId) async {
     if (!mounted) return;
     final ctx = context;
-    final recipeName = await Provider.of<RecipeProvider>(ctx, listen: false)
-        .getLocalizedRecipeName(recipeId);
+    final recipeName = await Provider.of<RecipeProvider>(
+      ctx,
+      listen: false,
+    ).getLocalizedRecipeName(recipeId);
 
     if (!mounted) return;
     ScaffoldMessenger.of(ctx).hideCurrentSnackBar();
@@ -209,10 +219,7 @@ class _StatsScreenState extends State<StatsScreen> {
                   padding: const EdgeInsets.fromLTRB(32.0, 16.0, 16.0, 16.0),
                   child: Row(
                     children: [
-                      Text(
-                        l10n.statsFor,
-                        style: const TextStyle(fontSize: 20),
-                      ),
+                      Text(l10n.statsFor, style: const TextStyle(fontSize: 20)),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Align(
@@ -247,112 +254,10 @@ class _StatsScreenState extends State<StatsScreen> {
 
   void _openRecipeDetail(RecipeModel recipe) {
     if (!mounted) return;
-    context.router.push(RecipeDetailRoute(
-      brewingMethodId: recipe.brewingMethodId,
-      recipeId: recipe.id,
-    ));
-  }
-}
-
-class _AccountAvatarInline extends StatefulWidget {
-  final double size;
-  const _AccountAvatarInline({Key? key, this.size = 24}) : super(key: key);
-
-  @override
-  State<_AccountAvatarInline> createState() => _AccountAvatarInlineState();
-}
-
-class _AccountAvatarInlineState extends State<_AccountAvatarInline> {
-  String? _imageUrl;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadImageUrl();
-  }
-
-  Future<void> _loadImageUrl() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final user = Supabase.instance.client.auth.currentUser;
-
-      // If no authenticated user, clear any cached user-specific avatar to avoid
-      // showing another user's avatar after sign out.
-      if (user == null || (user.id == null || user.id!.isEmpty)) {
-        final cachedUserId = prefs.getString('user_profile_picture_user_id');
-        if (cachedUserId != null) {
-          await prefs.remove('user_profile_picture_user_id');
-          await prefs.remove('user_profile_picture_url');
-        } else {
-          // Also remove orphaned url-only cache (pre-existing installs)
-          if (prefs.getString('user_profile_picture_url') != null) {
-            await prefs.remove('user_profile_picture_url');
-          }
-        }
-        return;
-      }
-
-      // Use cache only if it was stored for the current user id
-      final cachedUserId = prefs.getString('user_profile_picture_user_id');
-      final cachedUrl = prefs.getString('user_profile_picture_url');
-
-      if (cachedUrl != null &&
-          cachedUrl.isNotEmpty &&
-          cachedUserId != null &&
-          cachedUserId == user.id) {
-        if (mounted) setState(() => _imageUrl = cachedUrl);
-        return;
-      }
-
-      // If cache belongs to another user or is incomplete, clear it
-      if (cachedUserId != null && cachedUserId != user.id) {
-        await prefs.remove('user_profile_picture_user_id');
-        await prefs.remove('user_profile_picture_url');
-      } else if (cachedUserId == null && cachedUrl != null) {
-        // Orphaned url without user id - clear to avoid cross-user leakage
-        await prefs.remove('user_profile_picture_url');
-      }
-
-      // Fetch from DB for the current user
-      final response = await Supabase.instance.client
-          .from('user_public_profiles')
-          .select('profile_picture_url')
-          .eq('user_id', user.id)
-          .maybeSingle();
-
-      if (response != null) {
-        final url = response['profile_picture_url'] as String?;
-        if (url != null && url.isNotEmpty) {
-          await prefs.setString('user_profile_picture_url', url);
-          await prefs.setString('user_profile_picture_user_id', user.id!);
-          if (mounted) setState(() => _imageUrl = url);
-        }
-      }
-    } catch (_) {
-      // Silently ignore errors here; we fall back to the icon
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final iconColor = IconTheme.of(context).color ??
-        Theme.of(context).colorScheme.onSurface.withAlpha((255 * 0.6).round());
-    final size = widget.size;
-    if (_imageUrl == null) {
-      return Icon(Icons.person, size: size, color: iconColor);
-    }
-    return ClipOval(
-      child: SizedBox(
-        width: size,
-        height: size,
-        child: CachedNetworkImage(
-          imageUrl: _imageUrl!,
-          fit: BoxFit.cover,
-          placeholder: (ctx, url) =>
-              Icon(Icons.person, size: size, color: iconColor),
-          errorWidget: (ctx, url, err) =>
-              Icon(Icons.person, size: size, color: iconColor),
-        ),
+    context.router.push(
+      RecipeDetailRoute(
+        brewingMethodId: recipe.brewingMethodId,
+        recipeId: recipe.id,
       ),
     );
   }
@@ -367,8 +272,10 @@ class _YourStatsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final controller = context.watch<StatsController>();
-    final userStatProvider =
-        Provider.of<UserStatProvider>(context, listen: false);
+    final userStatProvider = Provider.of<UserStatProvider>(
+      context,
+      listen: false,
+    );
     final startDate = controller.getStartDate(userStatProvider);
     final endDate = controller.getEndDate();
 
@@ -380,17 +287,19 @@ class _YourStatsSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(children: [
-                _AccountAvatarInline(size: 24),
-                const SizedBox(width: 8),
-                Text(
-                  l10n.yourStats,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+              Row(
+                children: [
+                  const AccountAvatarInline(size: 24),
+                  const SizedBox(width: 8),
+                  Text(
+                    l10n.yourStats,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ]),
+                ],
+              ),
               const SizedBox(height: 12),
 
               // Brew Stats (personal)
@@ -400,7 +309,7 @@ class _YourStatsSection extends StatelessWidget {
               ),
               const SizedBox(height: 8),
 
-              // Coffee Brewed (personal) - card
+              // Coffee Brewed (personal) - card.
               Card(
                 elevation: 0.5,
                 child: Padding(
@@ -413,42 +322,46 @@ class _YourStatsSection extends StatelessWidget {
                         children: [
                           Text(
                             l10n.coffeeBrewed,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 6),
-                          FutureBuilder<double>(
-                            future: userStatProvider
-                                .fetchBrewedCoffeeAmountForPeriod(
-                              startDate,
-                              endDate,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                if (snapshot.hasError) {
-                                  return Text('Error: ${snapshot.error}');
-                                } else if (snapshot.hasData) {
-                                  final liters = (snapshot.data ?? 0) / 1000.0;
-                                  return Text(
-                                      '${liters.toStringAsFixed(2)} ${l10n.litersUnit}');
+                            const SizedBox(height: 6),
+                            FutureBuilder<double>(
+                              future: userStatProvider
+                                  .fetchBrewedCoffeeAmountForPeriod(
+                                    startDate,
+                                    endDate,
+                                  ),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  if (snapshot.hasError) {
+                                    return Text('Error: ${snapshot.error}');
+                                  } else if (snapshot.hasData) {
+                                    final liters =
+                                        (snapshot.data ?? 0) / 1000.0;
+                                    return Text(
+                                      '${liters.toStringAsFixed(2)} ${l10n.litersUnit}',
+                                    );
+                                  }
                                 }
-                              }
-                              return const SizedBox(
-                                height: 24,
-                                width: 24,
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
+                                return const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
               const SizedBox(height: 8),
-
               // Most Used Recipes (personal) - card
               Card(
                 elevation: 0.5,
@@ -464,7 +377,9 @@ class _YourStatsSection extends StatelessWidget {
                       const SizedBox(height: 8),
                       FutureBuilder<List<String>>(
                         future: userStatProvider.fetchTopRecipeIdsForPeriod(
-                            startDate, endDate),
+                          startDate,
+                          endDate,
+                        ),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.done) {
@@ -497,8 +412,8 @@ class _YourStatsSection extends StatelessWidget {
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                  vertical: 4.0,
-                                                ),
+                                                      vertical: 4.0,
+                                                    ),
                                                 child: Row(
                                                   children: [
                                                     icon,
@@ -528,7 +443,8 @@ class _YourStatsSection extends StatelessWidget {
                                           height: 24,
                                           width: 24,
                                           child: CircularProgressIndicator(
-                                              strokeWidth: 2),
+                                            strokeWidth: 2,
+                                          ),
                                         );
                                       },
                                     ),
@@ -576,14 +492,16 @@ class _YourStatsSection extends StatelessWidget {
                       listen: false,
                     ).getTopBeansFull(startDate, endDate, limit: 999),
                     itemBuilder: (ctx, bean, {isPreview = false}) => InkWell(
-                      onTap: () => context.router
-                          .push(CoffeeBeansDetailRoute(uuid: bean.beansUuid)),
+                      onTap: () => context.router.push(
+                        CoffeeBeansDetailRoute(uuid: bean.beansUuid),
+                      ),
                       child: Row(
                         children: [
                           FutureBuilder<Map<String, String?>>(
-                            future: Provider.of<DatabaseProvider>(ctx,
-                                    listen: false)
-                                .fetchCachedRoasterLogoUrls(bean.roaster),
+                            future: Provider.of<DatabaseProvider>(
+                              ctx,
+                              listen: false,
+                            ).fetchCachedRoasterLogoUrls(bean.roaster),
                             builder: (ctx2, snap) {
                               if (snap.connectionState ==
                                   ConnectionState.waiting) {
@@ -595,7 +513,8 @@ class _YourStatsSection extends StatelessWidget {
                                       height: 16,
                                       width: 16,
                                       child: CircularProgressIndicator(
-                                          strokeWidth: 2),
+                                        strokeWidth: 2,
+                                      ),
                                     ),
                                   ),
                                 );
@@ -616,8 +535,11 @@ class _YourStatsSection extends StatelessWidget {
                                   .colorScheme
                                   .onSurface
                                   .withAlpha((255 * 0.6).round());
-                              return Icon(Coffeico.bag_with_bean,
-                                  size: isPreview ? 28 : 48, color: iconColor);
+                              return Icon(
+                                Coffeico.bag_with_bean,
+                                size: isPreview ? 28 : 48,
+                                color: iconColor,
+                              );
                             },
                           ),
                           const SizedBox(width: 8),
@@ -654,14 +576,16 @@ class _YourStatsSection extends StatelessWidget {
                       listen: false,
                     ).getNewBeansList(startDate, endDate, limit: 999),
                     itemBuilder: (ctx, bean, {isPreview = false}) => InkWell(
-                      onTap: () => context.router
-                          .push(CoffeeBeansDetailRoute(uuid: bean.beansUuid)),
+                      onTap: () => context.router.push(
+                        CoffeeBeansDetailRoute(uuid: bean.beansUuid),
+                      ),
                       child: Row(
                         children: [
                           FutureBuilder<Map<String, String?>>(
-                            future: Provider.of<DatabaseProvider>(ctx,
-                                    listen: false)
-                                .fetchCachedRoasterLogoUrls(bean.roaster),
+                            future: Provider.of<DatabaseProvider>(
+                              ctx,
+                              listen: false,
+                            ).fetchCachedRoasterLogoUrls(bean.roaster),
                             builder: (ctx2, snap) {
                               if (snap.connectionState ==
                                   ConnectionState.waiting) {
@@ -673,7 +597,8 @@ class _YourStatsSection extends StatelessWidget {
                                       height: 16,
                                       width: 16,
                                       child: CircularProgressIndicator(
-                                          strokeWidth: 2),
+                                        strokeWidth: 2,
+                                      ),
                                     ),
                                   ),
                                 );
@@ -694,8 +619,11 @@ class _YourStatsSection extends StatelessWidget {
                                   .colorScheme
                                   .onSurface
                                   .withAlpha((255 * 0.6).round());
-                              return Icon(Coffeico.bag_with_bean,
-                                  size: isPreview ? 28 : 48, color: iconColor);
+                              return Icon(
+                                Coffeico.bag_with_bean,
+                                size: isPreview ? 28 : 48,
+                                color: iconColor,
+                              );
                             },
                           ),
                           const SizedBox(width: 8),
@@ -723,23 +651,20 @@ class _YourStatsSection extends StatelessWidget {
                       ctx,
                       listen: false,
                     ).getOriginsExploredCount(startDate, endDate),
-                    previewListFuture: (ctx) =>
-                        Provider.of<BeansStatsProvider>(ctx, listen: false)
-                            .getDistinctOriginsList(startDate, endDate,
-                                limit: 10),
-                    fullListFuture: (ctx) =>
-                        Provider.of<BeansStatsProvider>(ctx, listen: false)
-                            .getDistinctOriginsList(startDate, endDate,
-                                limit: 999),
+                    previewListFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                      ctx,
+                      listen: false,
+                    ).getDistinctOriginsList(startDate, endDate, limit: 10),
+                    fullListFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                      ctx,
+                      listen: false,
+                    ).getDistinctOriginsList(startDate, endDate, limit: 999),
                     itemBuilder: (ctx, origin, {isPreview = false}) => Row(
                       children: [
                         const Icon(Icons.public, size: 20),
                         const SizedBox(width: 8),
                         Flexible(
-                          child: Text(
-                            origin,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                          child: Text(origin, overflow: TextOverflow.ellipsis),
                         ),
                       ],
                     ),
@@ -754,23 +679,20 @@ class _YourStatsSection extends StatelessWidget {
                       ctx,
                       listen: false,
                     ).getRegionsExploredCount(startDate, endDate),
-                    previewListFuture: (ctx) =>
-                        Provider.of<BeansStatsProvider>(ctx, listen: false)
-                            .getDistinctRegionsList(startDate, endDate,
-                                limit: 10),
-                    fullListFuture: (ctx) =>
-                        Provider.of<BeansStatsProvider>(ctx, listen: false)
-                            .getDistinctRegionsList(startDate, endDate,
-                                limit: 999),
+                    previewListFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                      ctx,
+                      listen: false,
+                    ).getDistinctRegionsList(startDate, endDate, limit: 10),
+                    fullListFuture: (ctx) => Provider.of<BeansStatsProvider>(
+                      ctx,
+                      listen: false,
+                    ).getDistinctRegionsList(startDate, endDate, limit: 999),
                     itemBuilder: (ctx, region, {isPreview = false}) => Row(
                       children: [
                         const Icon(Icons.place, size: 20),
                         const SizedBox(width: 8),
                         Flexible(
-                          child: Text(
-                            region,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                          child: Text(region, overflow: TextOverflow.ellipsis),
                         ),
                       ],
                     ),
@@ -786,19 +708,30 @@ class _YourStatsSection extends StatelessWidget {
                       listen: false,
                     ).getNewRoastersDiscovered(startDate, endDate),
                     previewListFuture: (ctx) =>
-                        Provider.of<BeansStatsProvider>(ctx, listen: false)
-                            .getNewRoastersDiscoveredList(startDate, endDate,
-                                limit: 10),
+                        Provider.of<BeansStatsProvider>(
+                          ctx,
+                          listen: false,
+                        ).getNewRoastersDiscoveredList(
+                          startDate,
+                          endDate,
+                          limit: 10,
+                        ),
                     fullListFuture: (ctx) =>
-                        Provider.of<BeansStatsProvider>(ctx, listen: false)
-                            .getNewRoastersDiscoveredList(startDate, endDate,
-                                limit: 999),
+                        Provider.of<BeansStatsProvider>(
+                          ctx,
+                          listen: false,
+                        ).getNewRoastersDiscoveredList(
+                          startDate,
+                          endDate,
+                          limit: 999,
+                        ),
                     itemBuilder: (ctx, roaster, {isPreview = false}) => Row(
                       children: [
                         FutureBuilder<Map<String, String?>>(
-                          future:
-                              Provider.of<DatabaseProvider>(ctx, listen: false)
-                                  .fetchCachedRoasterLogoUrls(roaster),
+                          future: Provider.of<DatabaseProvider>(
+                            ctx,
+                            listen: false,
+                          ).fetchCachedRoasterLogoUrls(roaster),
                           builder: (ctx2, snap) {
                             if (snap.connectionState ==
                                 ConnectionState.waiting) {
@@ -810,7 +743,8 @@ class _YourStatsSection extends StatelessWidget {
                                     height: 16,
                                     width: 16,
                                     child: CircularProgressIndicator(
-                                        strokeWidth: 2),
+                                      strokeWidth: 2,
+                                    ),
                                   ),
                                 ),
                               );
@@ -831,14 +765,17 @@ class _YourStatsSection extends StatelessWidget {
                                 .colorScheme
                                 .onSurface
                                 .withAlpha((255 * 0.6).round());
-                            return Icon(Coffeico.bag_with_bean,
-                                size: isPreview ? 28 : 40, color: iconColor);
+                            return Icon(
+                              Coffeico.bag_with_bean,
+                              size: isPreview ? 28 : 40,
+                              color: iconColor,
+                            );
                           },
                         ),
                         const SizedBox(width: 8),
                         Flexible(
-                            child:
-                                Text(roaster, overflow: TextOverflow.ellipsis)),
+                          child: Text(roaster, overflow: TextOverflow.ellipsis),
+                        ),
                       ],
                     ),
                     emptyText: l10n.noData,
@@ -863,8 +800,10 @@ class _GlobalStatsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final controller = context.watch<StatsController>();
-    final userStatProvider =
-        Provider.of<UserStatProvider>(context, listen: false);
+    final userStatProvider = Provider.of<UserStatProvider>(
+      context,
+      listen: false,
+    );
     final startDate = controller.getStartDate(userStatProvider);
     final endDate = controller.getEndDate();
     final db = Provider.of<DatabaseProvider>(context, listen: false);
@@ -877,26 +816,33 @@ class _GlobalStatsSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(children: [
-                const Icon(Icons.public),
-                const SizedBox(width: 8),
-                Text(
-                  l10n.globalStats,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+              Row(
+                children: [
+                  const Icon(Icons.public),
+                  const SizedBox(width: 8),
+                  Text(
+                    l10n.globalStats,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ]),
+                ],
+              ),
               const SizedBox(height: 8),
 
-              // Global Coffee Brewed
-              Text(
-                l10n.coffeeBrewed,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                '${controller.totalGlobalCoffeeBrewed.toStringAsFixed(2)} ${l10n.litersUnit}',
+              // Global Coffee Brewed.
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.coffeeBrewed,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '${controller.totalGlobalCoffeeBrewed.toStringAsFixed(2)} ${l10n.litersUnit}',
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
 
@@ -906,8 +852,7 @@ class _GlobalStatsSection extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               FutureBuilder<List<String>>(
-                future:
-                    db.fetchGlobalTopRecipesAggregated(startDate, endDate),
+                future: db.fetchGlobalTopRecipesAggregated(startDate, endDate),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {
@@ -948,9 +893,9 @@ class _GlobalStatsSection extends StatelessWidget {
                                               child: Text(
                                                 recipe.name,
                                                 style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .secondary,
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.secondary,
                                                   fontSize: 14,
                                                 ),
                                                 overflow: TextOverflow.ellipsis,
@@ -967,8 +912,9 @@ class _GlobalStatsSection extends StatelessWidget {
                                 return const SizedBox(
                                   height: 24,
                                   width: 24,
-                                  child:
-                                      CircularProgressIndicator(strokeWidth: 2),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 );
                               },
                             ),
@@ -990,3 +936,4 @@ class _GlobalStatsSection extends StatelessWidget {
     );
   }
 }
+

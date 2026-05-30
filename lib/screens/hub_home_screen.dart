@@ -20,6 +20,7 @@ import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
 import '../theme/design_tokens.dart'; // Import design tokens for AppRadius
 import '../utils/app_logger.dart'; // Import AppLogger
 import '../widgets/base_buttons.dart';
+import '../widgets/account_avatar_inline.dart';
 import '../widgets/coffee_journey_card.dart';
 import '../services/onboarding_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -326,6 +327,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
             identifier: 'account',
             label: l10n.account,
             icon: Icons.account_circle,
+            leading: const AccountAvatarInline(size: 24),
             title: l10n.account,
             subtitle: l10n.hubAccountSubtitle,
             onTap: () {
@@ -800,6 +802,7 @@ class _HubListTile extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.onTap,
+    this.leading,
     this.subtitle,
     this.isCompact = false,
   });
@@ -807,6 +810,7 @@ class _HubListTile extends StatelessWidget {
   final String identifier;
   final String label;
   final IconData icon;
+  final Widget? leading;
   final String title;
   final String? subtitle;
   final VoidCallback onTap;
@@ -822,7 +826,7 @@ class _HubListTile extends StatelessWidget {
       child: ListTile(
         dense: isCompact,
         visualDensity: isCompact ? VisualDensity.compact : null,
-        leading: Icon(icon),
+        leading: leading ?? Icon(icon),
         title: Text(
           title,
           style: theme.textTheme.bodyLarge?.copyWith(
