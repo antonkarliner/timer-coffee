@@ -130,6 +130,118 @@ class DatabaseProvider {
         },
       ),
     ]);
+
+    // Collections sync depends on recipes already existing locally
+    // (RecipeCollectionMembers has a FK on recipes.id), so run it after the
+    // parallel batch above completes.
+    await _fetchAndStoreCollections(isFirstLaunch: isFirstLaunch);
+  }
+
+  Future<void> _fetchAndStoreCollections({required bool isFirstLaunch}) async {
+    try {
+      final base = Supabase.instance.client.from('recipe_collections').select(
+            '*, recipe_collection_localization(*), recipe_collection_members(*)',
+          );
+      final response = isFirstLaunch
+          ? await base
+          : await base.timeout(const Duration(seconds: 5));
+
+      final rows = (response as List<dynamic>).cast<Map<String, dynamic>>();
+
+      // RLS filters to is_published = TRUE rows on the server, so anything we
+      // receive is publishable.
+      final remoteIds = rows.map((r) => r['id'] as String).toSet();
+
+      final collectionRows = <RecipeCollectionsCompanion>[];
+      final localizationRows = <RecipeCollectionLocalizationsCompanion>[];
+      final membersByCollection =
+          <String, List<RecipeCollectionMembersCompanion>>{};
+
+      for (final row in rows) {
+        final id = row['id'] as String;
+        final lastModifiedStr = row['last_modified'] as String?;
+
+        collectionRows.add(RecipeCollectionsCompanion(
+          id: drift.Value(id),
+          emoji: drift.Value(row['emoji'] as String? ?? ''),
+          displayOrder: drift.Value(row['display_order'] as int? ?? 0),
+          isPublished: drift.Value(row['is_published'] as bool? ?? true),
+          lastModified: drift.Value(
+            lastModifiedStr != null ? DateTime.parse(lastModifiedStr) : null,
+          ),
+        ));
+
+        final locs = (row['recipe_collection_localization']
+                as List<dynamic>? ??
+            const [])
+            .cast<Map<String, dynamic>>();
+        for (final l in locs) {
+          localizationRows.add(RecipeCollectionLocalizationsCompanion(
+            collectionId: drift.Value(l['collection_id'] as String? ?? id),
+            locale: drift.Value(l['locale'] as String),
+            name: drift.Value(l['name'] as String? ?? ''),
+            description: drift.Value(l['description'] as String?),
+          ));
+        }
+
+        final members = (row['recipe_collection_members'] as List<dynamic>? ??
+                const [])
+            .cast<Map<String, dynamic>>();
+        membersByCollection[id] = [
+          for (final m in members)
+            RecipeCollectionMembersCompanion(
+              collectionId: drift.Value(m['collection_id'] as String? ?? id),
+              recipeId: drift.Value(m['recipe_id'] as String),
+              sortOrder: drift.Value(m['sort_order'] as int? ?? 0),
+            ),
+        ];
+      }
+
+      // Local recipe ids — used to skip member rows pointing at unknown recipes
+      // (e.g. user-only recipes deleted server-side, or recipes that haven't
+      // been synced yet for some reason).
+      final localRecipeIds =
+          (await _db.recipesDao.fetchIdsAndLastModifiedDates()).keys.toSet();
+
+      await _db.transaction(() async {
+        // Layer 2: full-list reconciliation — drop local collections no longer
+        // present remotely. Cascades remove their localizations + members.
+        await _db.recipeCollectionsDao.deleteCollectionsNotIn(remoteIds);
+
+        // Upsert collections themselves first (FKs depend on them).
+        if (collectionRows.isNotEmpty) {
+          await _db.batch((b) {
+            b.insertAllOnConflictUpdate(
+                _db.recipeCollections, collectionRows);
+          });
+        }
+
+        // Replace localizations per collection (in lieu of fragile id-based
+        // upsert from a server-generated SERIAL).
+        for (final id in remoteIds) {
+          await _db.recipeCollectionsDao
+              .deleteLocalizationsForCollection(id);
+        }
+        for (final loc in localizationRows) {
+          await _db.recipeCollectionsDao.upsertLocalization(loc);
+        }
+
+        // Layer 3: per-collection member replacement, filtering out any
+        // members whose recipe doesn't exist locally yet.
+        for (final entry in membersByCollection.entries) {
+          final filtered = entry.value
+              .where((m) => localRecipeIds.contains(m.recipeId.value))
+              .toList();
+          await _db.recipeCollectionsDao
+              .replaceMembersForCollection(entry.key, filtered);
+        }
+      });
+    } catch (error) {
+      AppLogger.error(
+        'Error fetching and storing recipe collections',
+        errorObject: AppLogger.sanitize(error),
+      );
+    }
   }
 
   // ---------------------------------------------------------------------------
