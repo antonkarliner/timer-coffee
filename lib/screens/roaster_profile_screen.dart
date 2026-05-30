@@ -12,6 +12,7 @@ import '../l10n/app_localizations.dart';
 import '../models/bean_review_model.dart';
 import '../models/roaster_profile_model.dart';
 import '../providers/bean_review_provider.dart';
+import '../providers/recipe_provider.dart';
 import '../providers/roaster_profile_provider.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/base_buttons.dart';
@@ -51,6 +52,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
   bool _loadingReviews = true;
   bool _loadingMore = false;
   bool _hasMorePages = true;
+  bool _translatingAll = false;
   static const int _pageSize = 20;
 
   final ScrollController _scrollController = ScrollController();
@@ -175,6 +177,7 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
       roasterProfileId: _profile!.id,
       roasterName: _profile!.roasterName,
       existingReview: existingReview,
+      sourceScreen: 'roaster_profile',
     );
     if (submitted && mounted) {
       // Reload reviews and ratings
@@ -189,6 +192,43 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
       await reviewProvider.fetchAggregateRating(_profile!.id);
       if (mounted) setState(() => _loadingReviews = false);
     }
+  }
+
+  /// Filters the visible reviews down to those that need translation
+  /// (non-empty text, source language unknown or different from reader,
+  /// no cached translation result yet).
+  List<String> _collectTranslatableReviewIds(
+    List<BeanReviewModel> reviews,
+    BeanReviewProvider provider,
+    String readerLocale,
+  ) {
+    final reader = readerLocale.toLowerCase();
+    final ids = <String>[];
+    for (final r in reviews) {
+      if (r.reviewText == null || r.reviewText!.isEmpty) continue;
+      final detected = r.detectedSourceLocale?.toLowerCase();
+      if (detected != null && detected == reader) continue;
+      final cached = provider.cachedTranslation(
+        reviewId: r.id,
+        targetLocale: readerLocale,
+      );
+      if (cached != null) continue;
+      ids.add(r.id);
+    }
+    return ids;
+  }
+
+  Future<void> _translateAllReviews(
+    BeanReviewProvider provider,
+    List<String> reviewIds,
+    String readerLocale,
+  ) async {
+    setState(() => _translatingAll = true);
+    await provider.fetchTranslationsBatch(
+      reviewIds: reviewIds,
+      targetLocale: readerLocale,
+    );
+    if (mounted) setState(() => _translatingAll = false);
   }
 
   @override
@@ -404,6 +444,16 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                       reviewProvider.ratingSummary(profile.id);
                   final reviews =
                       reviewProvider.reviewsForRoaster(profile.id);
+                  final readerLocale = context
+                      .watch<RecipeProvider>()
+                      .currentLocale
+                      .languageCode
+                      .toLowerCase();
+                  final translatableIds = _collectTranslatableReviewIds(
+                    reviews,
+                    reviewProvider,
+                    readerLocale,
+                  );
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -419,6 +469,34 @@ class _RoasterProfileScreenState extends State<RoasterProfileScreen> {
                           reviewCount: summary?.reviewCount ?? 0,
                         ),
                       ),
+                      if (translatableIds.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            AppSpacing.cardPadding,
+                            0,
+                            AppSpacing.cardPadding,
+                            AppSpacing.sm,
+                          ),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: _translatingAll
+                                ? const SizedBox(
+                                    width: AppIconSize.small,
+                                    height: AppIconSize.small,
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: 2),
+                                  )
+                                : AppTextButton(
+                                    label: l10n.translateAllReviews,
+                                    onPressed: () => _translateAllReviews(
+                                      reviewProvider,
+                                      translatableIds,
+                                      readerLocale,
+                                    ),
+                                    isFullWidth: false,
+                                  ),
+                          ),
+                        ),
                       if (_loadingReviews)
                         const Padding(
                           padding: EdgeInsets.all(AppSpacing.base),

@@ -31,6 +31,9 @@ class BeanReviewModel {
   final DateTime? beanRoastDate;
   // Joined read-only: brewing method display name from the RPC
   final String? brewingMethodName;
+  // BCP-47 source language detected by the translate-bean-review edge function.
+  // Null until first translation is requested for this review.
+  final String? detectedSourceLocale;
 
   const BeanReviewModel({
     required this.id,
@@ -60,6 +63,7 @@ class BeanReviewModel {
     this.beanOrigin,
     this.beanRoastDate,
     this.brewingMethodName,
+    this.detectedSourceLocale,
   });
 
   factory BeanReviewModel.fromJson(Map<String, dynamic> json) {
@@ -97,6 +101,7 @@ class BeanReviewModel {
           ? DateTime.parse(json['bean_roast_date'] as String)
           : null,
       brewingMethodName: json['brewing_method_name'] as String?,
+      detectedSourceLocale: json['detected_source_locale'] as String?,
     );
   }
 

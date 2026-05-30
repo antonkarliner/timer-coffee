@@ -1,8 +1,12 @@
 // lib/providers/bean_review_provider.dart
 
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/models/bean_review_model.dart';
+import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
 
 class RatingsSummary {
@@ -12,12 +16,46 @@ class RatingsSummary {
   const RatingsSummary({this.avgRating, required this.reviewCount});
 }
 
+/// Result of an OpenAI translation call for a single (review, target locale).
+/// `sameLanguage = true` means the source already matches the target — no
+/// translated text was produced and the UI should hide the Translate button.
+class ReviewTranslation {
+  final String reviewId;
+  final String targetLocale;
+  final String? translatedText;
+  final String sourceLocale;
+  final String? model;
+  final bool sameLanguage;
+
+  const ReviewTranslation({
+    required this.reviewId,
+    required this.targetLocale,
+    required this.sourceLocale,
+    this.translatedText,
+    this.model,
+    this.sameLanguage = false,
+  });
+}
+
 class BeanReviewProvider extends ChangeNotifier {
   // Paginated reviews per roaster profile, keyed by roasterProfileId
   final Map<String, List<BeanReviewModel>> _reviewsCache = {};
   final Map<String, RatingsSummary> _ratingsCache = {};
   // User's own review per bean UUID (null value means "fetched, no review")
   final Map<String, BeanReviewModel?> _userBeanReviewCache = {};
+  // In-memory translation cache, keyed by "$reviewId|$targetLocale".
+  // The server holds the durable cache; this avoids re-invoking the edge
+  // function within a single session.
+  final Map<String, ReviewTranslation> _translationCache = {};
+
+  String _translationKey(String reviewId, String targetLocale) =>
+      '$reviewId|$targetLocale';
+
+  ReviewTranslation? cachedTranslation({
+    required String reviewId,
+    required String targetLocale,
+  }) =>
+      _translationCache[_translationKey(reviewId, targetLocale)];
 
   List<BeanReviewModel> reviewsForRoaster(String roasterProfileId) =>
       _reviewsCache[roasterProfileId] ?? [];
@@ -172,6 +210,35 @@ class BeanReviewProvider extends ChangeNotifier {
       });
       if (roasterProfileId != null) _invalidateCacheForRoaster(roasterProfileId);
       if (coffeeBeansUuid != null) _userBeanReviewCache.remove(coffeeBeansUuid);
+
+      final hasTasteProfile = sweetness != null ||
+          acidity != null ||
+          fruitiness != null ||
+          body != null ||
+          bitterness != null ||
+          aftertaste != null;
+      AnalyticsService.instance.track(
+        'review_added',
+        properties: {
+          if (coffeeBeansUuid != null) 'bean_uuid': coffeeBeansUuid,
+          'has_roaster_profile': roasterProfileId != null,
+          'has_text': reviewText != null && reviewText.isNotEmpty,
+          'rating': rating.round(),
+          'has_taste_profile': hasTasteProfile,
+          'has_flavor_tags': flavorTags != null && flavorTags.isNotEmpty,
+          'flavor_tags_count': flavorTags?.length ?? 0,
+          'has_brewing_method': brewingMethodId != null,
+          'would_buy_again': wouldBuyAgain == null
+              ? 'unset'
+              : (wouldBuyAgain ? 'yes' : 'no'),
+        },
+      );
+
+      // Attribute to a recent bean review nudge tap if within 60 minutes.
+      if (coffeeBeansUuid != null) {
+        unawaited(_maybeTrackReviewAfterNotification(coffeeBeansUuid));
+      }
+
       return true;
     } catch (error) {
       AppLogger.error(
@@ -179,6 +246,32 @@ class BeanReviewProvider extends ChangeNotifier {
         errorObject: AppLogger.sanitize(error),
       );
       return false;
+    }
+  }
+
+  Future<void> _maybeTrackReviewAfterNotification(String beansUuid) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final key = 'notif_bean_review_tap_ms_$beansUuid';
+      final tapMs = prefs.getInt(key);
+      if (tapMs == null) return;
+      final secondsSinceTap =
+          (DateTime.now().millisecondsSinceEpoch - tapMs) ~/ 1000;
+      if (secondsSinceTap < 0 || secondsSinceTap > 60 * 60) {
+        await prefs.remove(key);
+        return;
+      }
+      AnalyticsService.instance.track(
+        'review_added_after_notification',
+        properties: {
+          'bean_uuid': beansUuid,
+          'notification_type': 'bean_review_nudge',
+          'seconds_since_tap': secondsSinceTap,
+        },
+      );
+      await prefs.remove(key);
+    } catch (e) {
+      AppLogger.debug('Review attribution check failed: $e');
     }
   }
 
@@ -220,8 +313,30 @@ class BeanReviewProvider extends ChangeNotifier {
           })
           .eq('id', reviewId)
           .eq('user_id', user.id);
+
+      final hasTasteProfile = sweetness != null ||
+          acidity != null ||
+          fruitiness != null ||
+          body != null ||
+          bitterness != null ||
+          aftertaste != null;
+      AnalyticsService.instance.track(
+        'review_edited',
+        properties: {
+          if (coffeeBeansUuid != null) 'bean_uuid': coffeeBeansUuid,
+          'rating': rating.round(),
+          'has_text': reviewText != null && reviewText.isNotEmpty,
+          'has_taste_profile': hasTasteProfile,
+          'has_flavor_tags': flavorTags != null && flavorTags.isNotEmpty,
+          'has_would_buy_again': wouldBuyAgain != null,
+        },
+      );
+
       _invalidateCacheForRoaster(roasterProfileId);
       if (coffeeBeansUuid != null) _userBeanReviewCache.remove(coffeeBeansUuid);
+      // Server trigger has already cleared `bean_review_translations` for this
+      // review; mirror that in the in-memory cache so listeners reload.
+      _invalidateTranslationsForReview(reviewId);
       return true;
     } catch (error) {
       AppLogger.error(
@@ -246,6 +361,15 @@ class BeanReviewProvider extends ChangeNotifier {
           .delete()
           .eq('id', reviewId)
           .eq('user_id', user.id);
+
+      AnalyticsService.instance.track(
+        'review_deleted',
+        properties: {
+          if (coffeeBeansUuid != null) 'bean_uuid': coffeeBeansUuid,
+          'has_roaster_profile': roasterProfileId != null,
+        },
+      );
+
       if (roasterProfileId != null) {
         // Splice the deleted review out of the cached list rather than nuking
         // the whole cache — keeps the remaining reviews visible immediately.
@@ -258,6 +382,7 @@ class BeanReviewProvider extends ChangeNotifier {
         _ratingsCache.remove(roasterProfileId);
       }
       if (coffeeBeansUuid != null) _userBeanReviewCache.remove(coffeeBeansUuid);
+      _invalidateTranslationsForReview(reviewId);
       notifyListeners();
       return true;
     } catch (error) {
@@ -372,10 +497,171 @@ class BeanReviewProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void _invalidateTranslationsForReview(String reviewId) {
+    _translationCache.removeWhere((key, _) => key.startsWith('$reviewId|'));
+  }
+
+  /// Invokes the `translate-bean-review` edge function for a single review.
+  /// Returns null on error; callers should show a generic failure message.
+  Future<ReviewTranslation?> fetchTranslation({
+    required String reviewId,
+    required String targetLocale,
+  }) async {
+    final key = _translationKey(reviewId, targetLocale);
+    final cached = _translationCache[key];
+    if (cached != null) return cached;
+    try {
+      final response = await Supabase.instance.client.functions.invoke(
+        'translate-bean-review',
+        body: {'review_id': reviewId, 'target_locale': targetLocale},
+      );
+      final data = response.data;
+      if (data is! Map) {
+        AnalyticsService.instance.track(
+          'review_translated',
+          properties: {
+            'target_locale': targetLocale,
+            'status': 'error',
+          },
+        );
+        return null;
+      }
+      final dataMap = Map<String, dynamic>.from(data);
+      final result = _translationFromMap(
+        reviewId: reviewId,
+        targetLocale: targetLocale,
+        data: dataMap,
+      );
+      if (result != null) {
+        _translationCache[key] = result;
+        notifyListeners();
+      }
+      AnalyticsService.instance.track(
+        'review_translated',
+        properties: {
+          'target_locale': targetLocale,
+          'status': (dataMap['status'] as String?) ?? 'unknown',
+          if (dataMap['source_locale'] is String)
+            'source_locale': dataMap['source_locale'],
+        },
+      );
+      return result;
+    } catch (error) {
+      AppLogger.error(
+        'Error fetching review translation',
+        errorObject: AppLogger.sanitize(error),
+      );
+      AnalyticsService.instance.track(
+        'review_translated',
+        properties: {
+          'target_locale': targetLocale,
+          'status': 'error',
+        },
+      );
+      return null;
+    }
+  }
+
+  /// Invokes the `translate-bean-review` edge function in batch mode for the
+  /// "Translate all reviews" action. Already-cached entries are skipped.
+  Future<void> fetchTranslationsBatch({
+    required List<String> reviewIds,
+    required String targetLocale,
+  }) async {
+    final pending = reviewIds
+        .where((id) => !_translationCache.containsKey(_translationKey(id, targetLocale)))
+        .toList();
+    if (pending.isEmpty) return;
+    var succeeded = 0;
+    try {
+      final response = await Supabase.instance.client.functions.invoke(
+        'translate-bean-review',
+        body: {'review_ids': pending, 'target_locale': targetLocale},
+      );
+      final data = response.data;
+      if (data is! Map) {
+        AnalyticsService.instance.track(
+          'reviews_translated_batch',
+          properties: {
+            'target_locale': targetLocale,
+            'requested_count': pending.length,
+            'succeeded_count': 0,
+          },
+        );
+        return;
+      }
+      final results = (data['results'] as List?) ?? const [];
+      var changed = false;
+      for (final raw in results) {
+        if (raw is! Map) continue;
+        final entry = Map<String, dynamic>.from(raw);
+        final reviewId = entry['review_id'] as String?;
+        if (reviewId == null) continue;
+        final result = _translationFromMap(
+          reviewId: reviewId,
+          targetLocale: targetLocale,
+          data: entry,
+        );
+        if (result != null) {
+          _translationCache[_translationKey(reviewId, targetLocale)] = result;
+          succeeded++;
+          changed = true;
+        }
+      }
+      if (changed) notifyListeners();
+    } catch (error) {
+      AppLogger.error(
+        'Error fetching review translations batch',
+        errorObject: AppLogger.sanitize(error),
+      );
+    } finally {
+      AnalyticsService.instance.track(
+        'reviews_translated_batch',
+        properties: {
+          'target_locale': targetLocale,
+          'requested_count': pending.length,
+          'succeeded_count': succeeded,
+        },
+      );
+    }
+  }
+
+  ReviewTranslation? _translationFromMap({
+    required String reviewId,
+    required String targetLocale,
+    required Map<String, dynamic> data,
+  }) {
+    final status = data['status'] as String?;
+    if (status == 'translated' || status == 'cached') {
+      final text = data['translated_text'] as String?;
+      final source = data['source_locale'] as String?;
+      if (text == null || source == null) return null;
+      return ReviewTranslation(
+        reviewId: reviewId,
+        targetLocale: targetLocale,
+        translatedText: text,
+        sourceLocale: source,
+        model: data['model'] as String?,
+      );
+    }
+    if (status == 'same_language') {
+      final source = data['source_locale'] as String? ?? targetLocale;
+      return ReviewTranslation(
+        reviewId: reviewId,
+        targetLocale: targetLocale,
+        sourceLocale: source,
+        sameLanguage: true,
+      );
+    }
+    // empty / forbidden / not_found / error / unknown — don't cache.
+    return null;
+  }
+
   void clearAll() {
     _reviewsCache.clear();
     _ratingsCache.clear();
     _userBeanReviewCache.clear();
+    _translationCache.clear();
     notifyListeners();
   }
 }
