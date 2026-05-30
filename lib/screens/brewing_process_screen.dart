@@ -6,6 +6,7 @@ import 'dart:math' as math; // Added for math functions
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Added for system UI constants
+import 'package:provider/provider.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter_animate/flutter_animate.dart'; // Added for animations
 import 'package:uuid/uuid.dart';
@@ -24,6 +25,9 @@ import '../services/android_live_update_service.dart';
 import '../services/live_activity_sync_service.dart';
 import '../services/ios_background_task_service.dart';
 import '../services/analytics_service.dart';
+import '../services/advanced_features_service.dart';
+import '../services/recipe_expression_service.dart';
+import '../theme/design_tokens.dart';
 
 class LocalizedNumberText extends StatelessWidget {
   final int currentNumber;
@@ -113,6 +117,13 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   bool _backendLiveActivitySessionStarted = false;
   bool _isStartingLiveActivityBackendSession = false;
   bool _isResyncInProgress = false;
+  // Manual step control (Advanced/Beta feature) is read reactively in build()
+  // from AdvancedFeaturesService so it reflects the persisted value as soon as
+  // the service finishes its async init (and any later toggle changes).
+  // Set true the first time the user uses a manual override in this session.
+  // Once engaged, Live Activities / backend sync / resync are suppressed
+  // because a manual jump invalidates the wall-clock projection they rely on.
+  bool _manualOverrideEngaged = false;
   static const Duration _liveActivitySessionRetryInterval = Duration(
     seconds: 4,
   );
@@ -130,67 +141,60 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     int? strengthSliderPosition,
     int? coffeeChroniclerSliderPosition,
   ) {
-    Map<String, double> allValues = {
-      'coffee_amount': coffeeAmount,
-      'water_amount': waterAmount,
-      'final_coffee_amount': coffeeAmount,
-      'final_water_amount': waterAmount,
-    };
+    return RecipeExpressionService.renderDescription(
+      _replaceLegacyPlaceholders(
+        description,
+        sweetnessSliderPosition,
+        strengthSliderPosition,
+        coffeeChroniclerSliderPosition,
+      ),
+      coffeeAmount: coffeeAmount,
+      waterAmount: waterAmount,
+    );
+  }
 
-    // Handle sweetness values if applicable
+  String _replaceLegacyPlaceholders(
+    String description,
+    int? sweetnessSliderPosition,
+    int? strengthSliderPosition,
+    int? coffeeChroniclerSliderPosition,
+  ) {
+    final allValues = <String, double>{};
+
     if (sweetnessSliderPosition != null) {
-      List<Map<String, double>> sweetnessValues = [
-        {"m1": 0.16, "m2": 0.4}, // Sweetness
-        {"m1": 0.20, "m2": 0.4}, // Balance
-        {"m1": 0.24, "m2": 0.4}, // Acidity
+      final sweetnessValues = [
+        {"m1": 0.16, "m2": 0.4},
+        {"m1": 0.20, "m2": 0.4},
+        {"m1": 0.24, "m2": 0.4},
       ];
       allValues.addAll(sweetnessValues[sweetnessSliderPosition]);
     }
 
-    // Handle strength values if applicable
     if (strengthSliderPosition != null) {
-      List<Map<String, double>> strengthValues = [
-        {"m3": 1.0, "m4": 0, "m5": 0}, // Light
-        {"m3": 0.7, "m4": 1.0, "m5": 0}, // Balanced
-        {"m3": 0.6, "m4": 0.8, "m5": 1.0}, // Strong
+      final strengthValues = [
+        {"m3": 1.0, "m4": 0.0, "m5": 0.0},
+        {"m3": 0.7, "m4": 1.0, "m5": 0.0},
+        {"m3": 0.6, "m4": 0.8, "m5": 1.0},
       ];
       allValues.addAll(strengthValues[strengthSliderPosition]);
     }
 
-    // Handle coffeeChroniclerSwitchSlider values if applicable
     if (coffeeChroniclerSliderPosition != null) {
-      List<Map<String, double>> coffeeChroniclerValues = [
-        {'t7': 30.0, 't8': 55.0}, // Standard
-        {'t7': 45.0, 't8': 70.0}, // Medium
-        {'t7': 75.0, 't8': 55.0}, // XL
+      final coffeeChroniclerValues = [
+        {'t7': 30.0, 't8': 55.0},
+        {'t7': 45.0, 't8': 70.0},
+        {'t7': 75.0, 't8': 55.0},
       ];
       allValues.addAll(coffeeChroniclerValues[coffeeChroniclerSliderPosition]);
     }
 
-    // Replace placeholders in the description
-    RegExp exp = RegExp(r'<([\w_]+)>');
-    String replacedText = description.replaceAllMapped(exp, (match) {
-      String variable = match.group(1)!.toLowerCase(); // Convert to lowercase
+    return description.replaceAllMapped(RegExp(r'<([\w_]+)>'), (match) {
+      final variable = match.group(1)!.toLowerCase();
       if (allValues.containsKey(variable)) {
         return allValues[variable]!.toStringAsFixed(2);
-      } else {
-        // Using AppLogger for simple logging
-        AppLogger.warning(
-          "Unrecognized placeholder '${match.group(0)}' in step description. Raw description: '$description'",
-        );
-        return match.group(0)!; // Keep original placeholder
       }
+      return match.group(0)!;
     });
-
-    // Handle mathematical expressions like (multiplier x value)
-    RegExp mathExp = RegExp(r'\(([\d.]+)\s*(?:x|×)\s*([\d.]+)\)');
-    replacedText = replacedText.replaceAllMapped(mathExp, (match) {
-      double multiplier = double.parse(match.group(1)!);
-      double value = double.parse(match.group(2)!);
-      return (multiplier * value).toStringAsFixed(1);
-    });
-
-    return replacedText;
   }
 
   Duration replaceTimePlaceholder(
@@ -261,12 +265,15 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
     super.initState();
     WakelockPlus.enable();
 
-    AnalyticsService.instance.track('brew_started', properties: {
-      'recipe_id': widget.recipe.id,
-      'brewing_method_id': widget.recipe.brewingMethodId,
-      'coffee_amount': widget.coffeeAmount,
-      'water_amount': widget.waterAmount,
-    });
+    AnalyticsService.instance.track(
+      'brew_started',
+      properties: {
+        'recipe_id': widget.recipe.id,
+        'brewing_method_id': widget.recipe.brewingMethodId,
+        'coffee_amount': widget.coffeeAmount,
+        'water_amount': widget.waterAmount,
+      },
+    );
 
     if (!kIsWeb && Platform.isIOS) {
       _activateLiveActivityPlanB(trigger: 'session_start');
@@ -352,11 +359,14 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   @override
   void dispose() {
     if (!_navigatedToFinish) {
-      AnalyticsService.instance.track('brew_abandoned', properties: {
-        'recipe_id': widget.recipe.id,
-        'step_reached': currentStepIndex,
-        'total_steps': brewingSteps.length,
-      });
+      AnalyticsService.instance.track(
+        'brew_abandoned',
+        properties: {
+          'recipe_id': widget.recipe.id,
+          'step_reached': currentStepIndex,
+          'total_steps': brewingSteps.length,
+        },
+      );
     }
     timer.cancel();
     unawaited(IosBackgroundTaskService.instance.stopBrewingTask());
@@ -625,7 +635,7 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   }
 
   void _updateLiveActivity({bool isTimerTick = false}) {
-    if (!_isLiveActivitySupported) return;
+    if (!_isLiveActivitySupported || _manualOverrideEngaged) return;
     final args = _liveActivityArgs();
     if (!kIsWeb && Platform.isIOS) {
       // iOS 18 throttles Live Activity re-renders to every 5-15 seconds.
@@ -887,7 +897,11 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
   }
 
   Future<void> _resyncFromLocalAndServer({required String trigger}) async {
-    if (!mounted || _isPaused || _isEndBrewAnimating || brewingSteps.isEmpty) {
+    if (!mounted ||
+        _isPaused ||
+        _isEndBrewAnimating ||
+        brewingSteps.isEmpty ||
+        _manualOverrideEngaged) {
       return;
     }
     if (_isResyncInProgress) return;
@@ -1102,6 +1116,84 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
         !_isEndBrewAnimating;
   }
 
+  // Tear the Live Activity / backend session down once, the first time the
+  // user takes manual control. A manual jump invalidates the wall-clock
+  // projection that the Live Activity, backend push, and resync rely on.
+  void _engageManualOverride() {
+    if (_manualOverrideEngaged) return;
+    _manualOverrideEngaged = true;
+    _endLiveActivity(reason: 'manual_control');
+  }
+
+  void _recomputeAnchorsForStep(int stepIndex, DateTime nowUtc) {
+    _currentStepStartedAtUtc = nowUtc;
+    final elapsedBeforeStep = brewingSteps
+        .take(stepIndex)
+        .fold<int>(0, (sum, step) => sum + step.time.inSeconds);
+    _brewAnchorUtc = nowUtc.subtract(Duration(seconds: elapsedBeforeStep));
+  }
+
+  void _goToNextStepManually() {
+    if (_isEndBrewAnimating) return;
+    _engageManualOverride();
+
+    if (currentStepIndex < brewingSteps.length - 1) {
+      timer.cancel();
+      setState(() {
+        currentStepIndex++;
+        currentStepTime = 0;
+      });
+      _recomputeAnchorsForStep(currentStepIndex, DateTime.now().toUtc());
+      if (!_isPaused) {
+        startTimer();
+      }
+    } else {
+      // Next on the last step finishes the brew (same path as auto-finish).
+      timer.cancel();
+      setState(() {
+        _isEndBrewAnimating = true;
+      });
+      _endBrewAnimationController.forward(from: 0.0);
+    }
+  }
+
+  void _goToPreviousStepManually() {
+    if (_isEndBrewAnimating || currentStepIndex == 0) return;
+    _engageManualOverride();
+
+    timer.cancel();
+    final nowUtc = DateTime.now().toUtc();
+    setState(() {
+      currentStepIndex--;
+      currentStepTime = 0;
+      _isPaused = true;
+    });
+    _recomputeAnchorsForStep(currentStepIndex, nowUtc);
+    _pausedAtUtc = nowUtc;
+  }
+
+  Widget _buildManualStepArrow({required bool isBack}) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final loc = AppLocalizations.of(context)!;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+    // In RTL the chevrons are visually mirrored.
+    final pointsLeft = isBack ? !isRtl : isRtl;
+    final isDisabled = isBack && currentStepIndex == 0;
+    return Semantics(
+      identifier: isBack ? 'previousStepButton' : 'nextStepButton',
+      child: IconButton(
+        tooltip: isBack ? loc.previousStep : loc.nextStep,
+        iconSize: AppIconSize.large,
+        color: colorScheme.onSurface.withOpacity(0.5),
+        disabledColor: colorScheme.onSurface.withOpacity(0.2),
+        onPressed: isDisabled
+            ? null
+            : (isBack ? _goToPreviousStepManually : _goToNextStepManually),
+        icon: Icon(pointsLeft ? Icons.chevron_left : Icons.chevron_right),
+      ),
+    );
+  }
+
   void _navigateToFinishScreenSkip() {
     // Ensure it only navigates once and if mounted
     if (!mounted) return;
@@ -1125,6 +1217,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
 
   @override
   Widget build(BuildContext context) {
+    final manualStepControlEnabled = context
+        .watch<AdvancedFeaturesService>()
+        .manualStepControlEnabled;
     return Scaffold(
       appBar: AppBar(
         title: Semantics(
@@ -1152,6 +1247,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                if (manualStepControlEnabled &&
+                                    !_isEndBrewAnimating)
+                                  _buildManualStepArrow(isBack: true),
                                 Semantics(
                                   identifier: 'circularProgressIndicator',
                                   child: AnimatedBuilder(
@@ -1400,6 +1498,9 @@ class _BrewingProcessScreenState extends State<BrewingProcessScreen>
                                     },
                                   ),
                                 ),
+                                if (manualStepControlEnabled &&
+                                    !_isEndBrewAnimating)
+                                  _buildManualStepArrow(isBack: false),
                               ],
                             ),
                             SizedBox(

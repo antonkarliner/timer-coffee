@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/recipe_model.dart';
 import '../models/brew_step_model.dart';
 import '../models/notification_mode.dart';
@@ -8,6 +9,10 @@ import 'package:just_audio/just_audio.dart';
 import 'package:vibration/vibration.dart';
 import 'package:vibration/vibration_presets.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
+import '../services/recipe_expression_service.dart';
+import '../services/advanced_features_service.dart';
+import '../services/analytics_service.dart';
+import '../widgets/app_switch_list_tile.dart';
 
 class PreparationScreen extends StatefulWidget {
   final RecipeModel recipe;
@@ -91,6 +96,66 @@ class _PreparationScreenState extends State<PreparationScreen> {
     }
   }
 
+  void _setManualStepControl(
+    AdvancedFeaturesService advancedFeatures,
+    bool enabled,
+  ) {
+    advancedFeatures.setManualStepControlEnabled(enabled);
+    AnalyticsService.instance.track(
+      'beta_feature_toggled',
+      properties: {
+        'feature': 'manual_step_control',
+        'enabled': enabled,
+        'source': 'preparation_settings_sheet',
+      },
+    );
+  }
+
+  void _openAdvancedFeaturesSheet(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context)!;
+
+    showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Consumer<AdvancedFeaturesService>(
+            builder: (context, advancedFeatures, _) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        appLocalizations.advancedFeatures,
+                        style: Theme.of(sheetContext).textTheme.titleLarge,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Semantics(
+                      identifier: 'manualStepControlToggleButton',
+                      toggled: advancedFeatures.manualStepControlEnabled,
+                      child: AppSwitchListTile(
+                        title: appLocalizations.manualStepControl,
+                        subtitle: appLocalizations.manualStepControlDescription,
+                        value: advancedFeatures.manualStepControlEnabled,
+                        onChanged: (value) =>
+                            _setManualStepControl(advancedFeatures, value),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
@@ -104,6 +169,16 @@ class _PreparationScreenState extends State<PreparationScreen> {
           identifier: 'preparationScreenTitle',
           child: Text(appLocalizations.preparation),
         ),
+        actions: [
+          Semantics(
+            identifier: 'preparationAdvancedFeaturesButton',
+            child: IconButton(
+              icon: const Icon(Icons.settings),
+              tooltip: appLocalizations.advancedFeatures,
+              onPressed: () => _openAdvancedFeaturesSheet(context),
+            ),
+          ),
+        ],
       ),
       body: Semantics(
         identifier: 'preparationBody',
@@ -121,23 +196,26 @@ class _PreparationScreenState extends State<PreparationScreen> {
     final preparationSteps = widget.recipe.steps
         .where((step) => step.order == 1 && step.time.inSeconds == 0)
         .map((step) {
-      return BrewStepModel(
-        id: step.id,
-        order: step.order,
-        description: replacePlaceholders(
-            step.description,
-            widget.recipe.coffeeAmount,
-            widget.recipe.waterAmount,
-            widget.recipe.sweetnessSliderPosition,
-            widget.recipe.strengthSliderPosition,
-            widget.recipe.coffeeChroniclerSliderPosition),
-        time: replaceTimePlaceholder(
-            step.time,
-            widget.recipe.sweetnessSliderPosition,
-            widget.recipe.strengthSliderPosition,
-            widget.recipe.coffeeChroniclerSliderPosition),
-      );
-    }).toList();
+          return BrewStepModel(
+            id: step.id,
+            order: step.order,
+            description: replacePlaceholders(
+              step.description,
+              widget.recipe.coffeeAmount,
+              widget.recipe.waterAmount,
+              widget.recipe.sweetnessSliderPosition,
+              widget.recipe.strengthSliderPosition,
+              widget.recipe.coffeeChroniclerSliderPosition,
+            ),
+            time: replaceTimePlaceholder(
+              step.time,
+              widget.recipe.sweetnessSliderPosition,
+              widget.recipe.strengthSliderPosition,
+              widget.recipe.coffeeChroniclerSliderPosition,
+            ),
+          );
+        })
+        .toList();
 
     return Center(
       child: Semantics(
@@ -147,19 +225,22 @@ class _PreparationScreenState extends State<PreparationScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: preparationSteps
-                .map((step) => Semantics(
-                      identifier: 'preparationStep_${step.order}',
-                      child: Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.only(
-                            bottom: 16), // Add space between text widgets
-                        child: Text(
-                          step.description,
-                          style: const TextStyle(fontSize: 24, height: 1.3),
-                          textAlign: TextAlign.left,
-                        ),
+                .map(
+                  (step) => Semantics(
+                    identifier: 'preparationStep_${step.order}',
+                    child: Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(
+                        bottom: 16,
+                      ), // Add space between text widgets
+                      child: Text(
+                        step.description,
+                        style: const TextStyle(fontSize: 24, height: 1.3),
+                        textAlign: TextAlign.left,
                       ),
-                    ))
+                    ),
+                  ),
+                )
                 .toList(),
           ),
         ),
@@ -242,61 +323,59 @@ class _PreparationScreenState extends State<PreparationScreen> {
     int? strengthSliderPosition,
     int? coffeeChroniclerSliderPosition,
   ) {
-    Map<String, double> allValues = {
-      'coffee_amount': coffeeAmount,
-      'water_amount': waterAmount,
-      'final_coffee_amount': coffeeAmount,
-      'final_water_amount': waterAmount,
-    };
+    return RecipeExpressionService.renderDescription(
+      _replaceLegacyPlaceholders(
+        description,
+        sweetnessSliderPosition,
+        strengthSliderPosition,
+        coffeeChroniclerSliderPosition,
+      ),
+      coffeeAmount: coffeeAmount,
+      waterAmount: waterAmount,
+    );
+  }
 
-    // Handle sweetness values if applicable
+  String _replaceLegacyPlaceholders(
+    String description,
+    int? sweetnessSliderPosition,
+    int? strengthSliderPosition,
+    int? coffeeChroniclerSliderPosition,
+  ) {
+    final allValues = <String, double>{};
+
     if (sweetnessSliderPosition != null) {
-      List<Map<String, double>> sweetnessValues = [
-        {"m1": 0.16, "m2": 0.24}, // Sweetness
-        {"m1": 0.20, "m2": 0.20}, // Balance
-        {"m1": 0.24, "m2": 0.16}, // Acidity
+      final sweetnessValues = [
+        {"m1": 0.16, "m2": 0.24},
+        {"m1": 0.20, "m2": 0.20},
+        {"m1": 0.24, "m2": 0.16},
       ];
       allValues.addAll(sweetnessValues[sweetnessSliderPosition]);
     }
 
-    // Handle strength values if applicable
     if (strengthSliderPosition != null) {
-      List<Map<String, double>> strengthValues = [
-        {"m3": 0.6, "m4": 0, "m5": 0}, // Light
-        {"m3": 0.3, "m4": 0.3, "m5": 0}, // Balanced
-        {"m3": 0.2, "m4": 0.2, "m5": 0.2}, // Strong
+      final strengthValues = [
+        {"m3": 0.6, "m4": 0.0, "m5": 0.0},
+        {"m3": 0.3, "m4": 0.3, "m5": 0.0},
+        {"m3": 0.2, "m4": 0.2, "m5": 0.2},
       ];
       allValues.addAll(strengthValues[strengthSliderPosition]);
     }
 
-    // Handle coffeeChroniclerSwitchSlider values if applicable
     if (coffeeChroniclerSliderPosition != null) {
-      List<Map<String, double>> coffeeChroniclerValues = [
-        {'t7': 30.0, 't8': 55.0}, // Standard
-        {'t7': 45.0, 't8': 70.0}, // Medium
-        {'t7': 75.0, 't8': 55.0}, // XL
+      final coffeeChroniclerValues = [
+        {'t7': 30.0, 't8': 55.0},
+        {'t7': 45.0, 't8': 70.0},
+        {'t7': 75.0, 't8': 55.0},
       ];
       allValues.addAll(coffeeChroniclerValues[coffeeChroniclerSliderPosition]);
     }
 
-    // Replace placeholders in the description
-    RegExp exp = RegExp(r'<([\w_]+)>');
-    String replacedText = description.replaceAllMapped(exp, (match) {
-      String variable = match.group(1)!;
+    return description.replaceAllMapped(RegExp(r'<([\w_]+)>'), (match) {
+      final variable = match.group(1)!.toLowerCase();
       return allValues.containsKey(variable)
           ? allValues[variable]!.toStringAsFixed(2)
           : match.group(0)!;
     });
-
-    // Handle mathematical expressions like (multiplier x value)
-    RegExp mathExp = RegExp(r'\(([\d.]+)\s*(?:x|×)\s*([\d.]+)\)');
-    replacedText = replacedText.replaceAllMapped(mathExp, (match) {
-      double multiplier = double.parse(match.group(1)!);
-      double value = double.parse(match.group(2)!);
-      return (multiplier * value).toStringAsFixed(1);
-    });
-
-    return replacedText;
   }
 
   Duration replaceTimePlaceholder(
@@ -326,24 +405,9 @@ class _PreparationScreenState extends State<PreparationScreen> {
     // Handle strength time values if applicable
     if (strengthSliderPosition != null) {
       List<Map<String, int>> strengthTimeValues = [
-        {
-          "t3": 0,
-          "t4": 0,
-          "t5": 0,
-          "t6": 0,
-        }, // Light
-        {
-          "t3": 10,
-          "t4": 35,
-          "t5": 0,
-          "t6": 0,
-        }, // Balanced
-        {
-          "t3": 10,
-          "t4": 35,
-          "t5": 10,
-          "t6": 35,
-        }, // Strong
+        {"t3": 0, "t4": 0, "t5": 0, "t6": 0}, // Light
+        {"t3": 10, "t4": 35, "t5": 0, "t6": 0}, // Balanced
+        {"t3": 10, "t4": 35, "t5": 10, "t6": 35}, // Strong
       ];
       allTimeValues.addAll(strengthTimeValues[strengthSliderPosition]);
     }
@@ -355,8 +419,9 @@ class _PreparationScreenState extends State<PreparationScreen> {
         {'t7': 45, 't8': 70}, // Medium
         {'t7': 75, 't8': 55}, // XL
       ];
-      allTimeValues
-          .addAll(coffeeChroniclerTimeValues[coffeeChroniclerSliderPosition]);
+      allTimeValues.addAll(
+        coffeeChroniclerTimeValues[coffeeChroniclerSliderPosition],
+      );
     }
 
     // Replace time placeholders
