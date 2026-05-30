@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -7,17 +8,14 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 import '../models/recipe_model.dart';
 import '../models/brew_step_model.dart';
 import '../models/brewing_method_model.dart';
-import '../providers/user_recipe_provider.dart';
-import '../providers/recipe_provider.dart';
-import '../providers/database_provider.dart'; // Import DatabaseProvider
 import '../database/database.dart';
-import '../app_router.gr.dart'; // Import generated routes
-import 'package:intl/intl.dart'; // Added for locale
 import '../widgets/recipe_creation/recipe_details_form.dart';
 import '../widgets/recipe_creation/recipe_steps_form.dart';
 import '../services/recipe_expression_service.dart';
 import '../services/recipe_save_service.dart';
 import '../services/recipe_navigation_service.dart';
+import '../services/recipe_verification_client.dart';
+import '../services/authentication_service.dart';
 import '../widgets/unsaved_changes_dialog.dart';
 import '../utils/app_logger.dart'; // Import AppLogger
 import '../theme/design_tokens.dart';
@@ -45,6 +43,10 @@ class RecipeCreationScreen extends StatefulWidget {
 
 class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     with AutomaticKeepAliveClientMixin {
+  static const _aiReviewConsentPreferenceKey =
+      'recipe_ai_review_consent_accepted';
+  static const _aiReviewEnabledPreferenceKey = 'recipe_ai_review_enabled';
+
   final PageController _pageController = PageController();
   final _formKey = GlobalKey<FormState>();
   final _uuid = Uuid();
@@ -71,6 +73,8 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
   bool _isLoading = true;
   final ScrollController _scrollController = ScrollController();
   bool _isSaving = false; // Added saving flag
+  bool _useAiReview = false;
+  bool _aiReviewConsentAccepted = false;
 
   // Form change detection
   bool _hasUnsavedChanges = false;
@@ -152,7 +156,10 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
             order: step.order,
             description:
                 RecipeExpressionService.convertExpressionsToNumericValues(
-                    step.description, _coffeeAmount, _waterAmount),
+                  step.description,
+                  _coffeeAmount,
+                  _waterAmount,
+                ),
             time: step.time,
             timePlaceholder: step.timePlaceholder,
           );
@@ -182,6 +189,7 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     _shortDescriptionController.addListener(_trackChanges);
 
     _loadBrewingMethods();
+    _loadAiReviewConsent();
 
     // Validate pages if editing
     if (widget.recipe != null) {
@@ -226,7 +234,8 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       // If editing, use the recipe's brewing method as before.
       if (widget.recipe != null) {
         // Check if the pre-selected ID (from widget.recipe) is valid among loaded methods
-        bool preselectedIdIsValid = _selectedBrewingMethodId != null &&
+        bool preselectedIdIsValid =
+            _selectedBrewingMethodId != null &&
             methods.any((m) => m.brewingMethodId == _selectedBrewingMethodId);
 
         if (!preselectedIdIsValid && methods.isNotEmpty) {
@@ -236,8 +245,9 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         }
       } else if (widget.brewingMethodId != null) {
         // If creating and brewingMethodId is provided, use it if valid
-        final found =
-            methods.any((m) => m.brewingMethodId == widget.brewingMethodId);
+        final found = methods.any(
+          (m) => m.brewingMethodId == widget.brewingMethodId,
+        );
         if (found) {
           _selectedBrewingMethodId = widget.brewingMethodId;
         } else if (methods.isNotEmpty) {
@@ -257,9 +267,24 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     _validateFirstPage();
   }
 
+  Future<void> _loadAiReviewConsent() async {
+    final prefs = await SharedPreferences.getInstance();
+    final consentAccepted =
+        prefs.getBool(_aiReviewConsentPreferenceKey) ?? false;
+    final aiReviewEnabled =
+        prefs.getBool(_aiReviewEnabledPreferenceKey) ?? false;
+    if (!mounted) return;
+
+    setState(() {
+      _aiReviewConsentAccepted = consentAccepted;
+      _useAiReview = consentAccepted && aiReviewEnabled;
+    });
+  }
+
   void _validateFirstPage() {
     setState(() {
-      _isFirstPageValid = _recipeNameController.text.isNotEmpty &&
+      _isFirstPageValid =
+          _recipeNameController.text.isNotEmpty &&
           _shortDescriptionController.text.isNotEmpty &&
           _selectedBrewingMethodId != null &&
           _coffeeAmount > 0 &&
@@ -339,6 +364,163 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     return widget.recipe!.vendorId == userVendorId;
   }
 
+  bool _isAiReviewAvailable() {
+    final currentUser = Supabase.instance.client.auth.currentUser;
+    return currentUser != null && !currentUser.isAnonymous;
+  }
+
+  Future<void> _handleAiReviewChanged(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    if (!value) {
+      setState(() => _useAiReview = false);
+      await prefs.setBool(_aiReviewEnabledPreferenceKey, false);
+      _trackChanges();
+      return;
+    }
+
+    if (!_isAiReviewAvailable()) {
+      final l10n = AppLocalizations.of(context)!;
+      final signedIn = await AuthenticationService.promptSignIn(
+        context,
+        bodyText: l10n.recipeCreationAiReviewUnavailable,
+      );
+      if (!mounted || !signedIn || !_isAiReviewAvailable()) {
+        return;
+      }
+    }
+
+    if (!_aiReviewConsentAccepted) {
+      final accepted = await _showAiReviewConsentDialog();
+      if (accepted != true) {
+        return;
+      }
+
+      await prefs.setBool(_aiReviewConsentPreferenceKey, true);
+      if (!mounted) return;
+    }
+
+    setState(() {
+      _aiReviewConsentAccepted = true;
+      _useAiReview = true;
+    });
+    await prefs.setBool(_aiReviewEnabledPreferenceKey, true);
+    _trackChanges();
+  }
+
+  Future<bool?> _showAiReviewConsentDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    return showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.card),
+        ),
+        title: Text(l10n.recipeCreationAiReviewConsentTitle),
+        content: Text(l10n.recipeCreationAiReviewConsentBody),
+        actions: [
+          AppTextButton(
+            label: l10n.cancel,
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            isFullWidth: false,
+            height: AppButton.heightSmall,
+            padding: AppButton.paddingSmall,
+          ),
+          AppElevatedButton(
+            label: l10n.recipeCreationAiReviewConsentAgree,
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            isFullWidth: false,
+            height: AppButton.heightSmall,
+            padding: AppButton.paddingSmall,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showAiReviewInfoDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    return showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.card),
+        ),
+        title: Text(l10n.recipeCreationAiReviewConsentTitle),
+        content: Text(l10n.recipeCreationAiReviewConsentBody),
+        actions: [
+          AppTextButton(
+            label: l10n.ok,
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            isFullWidth: false,
+            height: AppButton.heightSmall,
+            padding: AppButton.paddingSmall,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showExpressionIssuesDialog(
+    RecipeExpressionProcessingResult processing,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+    final issueRows = processing.stepResults
+        .where((result) => result.issues.isNotEmpty)
+        .map(
+          (result) =>
+              '${l10n.step} ${result.step.order}: '
+              '${result.issues.map((issue) => _localizedExpressionIssue(l10n, issue)).join(' ')}',
+        )
+        .join('\n\n');
+
+    return showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.card),
+        ),
+        title: Text(l10n.recipeCreationFormatIssuesTitle),
+        content: SingleChildScrollView(
+          child: Text(
+            [
+              l10n.recipeCreationFormatIssuesBody,
+              if (issueRows.isNotEmpty) issueRows,
+              l10n.recipeCreationFormatIssuesFixHint,
+            ].join('\n\n'),
+          ),
+        ),
+        actions: [
+          AppTextButton(
+            label: l10n.ok,
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            isFullWidth: false,
+            height: AppButton.heightSmall,
+            padding: AppButton.paddingSmall,
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _localizedExpressionIssue(
+    AppLocalizations l10n,
+    RecipeExpressionIssue issue,
+  ) {
+    switch (issue.code) {
+      case 'unsupported_placeholder':
+        return l10n.recipeCreationFormatIssueUnsupportedPlaceholder;
+      case 'invalid_scalable_expression':
+        return l10n.recipeCreationFormatIssueInvalidExpression;
+      case 'unbalanced_parentheses':
+        return l10n.recipeCreationFormatIssueUnbalancedParentheses;
+      case 'ambiguous_amount':
+        return l10n.recipeCreationFormatIssueAmbiguousAmount;
+      default:
+        return l10n.recipeCreationFormatIssueUnknown;
+    }
+  }
+
   /// Show confirmation dialog before duplicating recipe
   Future<bool?> _showDuplicateConfirmationDialog() async {
     final l10n = AppLocalizations.of(context)!;
@@ -379,20 +561,22 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
   Future<void> _duplicateRecipe() async {
     if (widget.recipe == null || !_isUserOwnedRecipe()) return;
 
+    final navigationContext = context;
     final confirmed = await _showDuplicateConfirmationDialog();
 
     if (confirmed != true) return; // User cancelled
+    if (!navigationContext.mounted) return;
 
     try {
       await RecipeNavigationService.navigateToCopyRecipe(
-        context: context,
+        context: navigationContext,
         recipeToCopy: widget.recipe!,
       );
     } catch (e) {
       AppLogger.error("Error duplicating recipe", errorObject: e);
-      if (mounted) {
-        final l10n = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context).showSnackBar(
+      if (navigationContext.mounted) {
+        final l10n = AppLocalizations.of(navigationContext)!;
+        ScaffoldMessenger.of(navigationContext).showSnackBar(
           SnackBar(content: Text(l10n.recipeCopyError(e.toString()))),
         );
       }
@@ -403,6 +587,10 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
     if (!_isFirstPageValid || !_isSecondPageValid || _isSaving) {
       return;
     }
+    final selectedBrewingMethodId = _selectedBrewingMethodId;
+    if (selectedBrewingMethodId == null) {
+      return;
+    }
     // Update the order based on list index to reflect UI order
     for (int i = 0; i < _steps.length; i++) {
       _steps[i] = _steps[i].copyWith(order: i + 1);
@@ -410,36 +598,36 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
 
     setState(() => _isSaving = true);
 
-    final l10n = AppLocalizations.of(context)!;
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final saveContext = context;
+    final l10n = AppLocalizations.of(saveContext)!;
+    final scaffoldMessenger = ScaffoldMessenger.of(saveContext);
     final currentUser = Supabase.instance.client.auth.currentUser;
+    final currentLocale = Localizations.localeOf(saveContext);
+    final appLocale = currentLocale.toLanguageTag();
+    final sourceLanguageHint = currentLocale.languageCode;
 
     final totalBrewTime = Duration(
       minutes: _brewMinutes,
       seconds: _brewSeconds,
     );
 
-    // Process steps to convert numeric values to expressions before saving
-    final processedSteps = RecipeExpressionService.processStepsForSaving(
-        _steps, _coffeeAmount, _waterAmount, l10n);
-
     try {
       final bool isUpdate = widget.recipe != null;
       final String recipeId = isUpdate
-          ? widget.recipe!.id!
+          ? widget.recipe!.id
           : 'usr-${currentUser?.id ?? 'anonymous'}-${DateTime.now().millisecondsSinceEpoch}';
 
-      final recipeData = RecipeModel(
+      final rawRecipeData = RecipeModel(
         id: recipeId,
         name: _recipeNameController.text,
-        brewingMethodId: _selectedBrewingMethodId!,
+        brewingMethodId: selectedBrewingMethodId,
         coffeeAmount: _coffeeAmount,
         waterAmount: _waterAmount,
         waterTemp: _waterTemp,
         grindSize: _grindSize,
         brewTime: totalBrewTime,
         shortDescription: _shortDescriptionController.text,
-        steps: processedSteps,
+        steps: _steps,
         vendorId: isUpdate
             ? widget.recipe!.vendorId
             : 'usr-${currentUser?.id ?? 'anonymous'}',
@@ -447,18 +635,76 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
         isImported: isUpdate ? widget.recipe!.isImported : false,
       );
 
+      RecipeExpressionProcessingResult processing =
+          RecipeExpressionService.processStepsForSavingDetailed(
+            rawRecipeData.steps,
+            _coffeeAmount,
+            _waterAmount,
+          );
+
+      if (_useAiReview && _isAiReviewAvailable()) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.recipeCreationAiReviewRunning)),
+        );
+        try {
+          final verified =
+              await RecipeVerificationClient(
+                Supabase.instance.client,
+              ).verifyRecipe(
+                recipe: rawRecipeData,
+                appLocale: appLocale,
+                sourceLanguageHint: sourceLanguageHint,
+                consentToDiagnostics: _aiReviewConsentAccepted,
+              );
+          processing = RecipeExpressionService.processStepsForSavingDetailed(
+            verified.steps,
+            _coffeeAmount,
+            _waterAmount,
+          );
+          if (!processing.hasBlockingIssues && mounted) {
+            scaffoldMessenger.showSnackBar(
+              SnackBar(content: Text(l10n.recipeCreationAiReviewApplied)),
+            );
+          }
+        } catch (e) {
+          AppLogger.warning(
+            'AI recipe review failed; falling back to local validation: ${AppLogger.sanitize(e)}',
+          );
+          if (mounted) {
+            scaffoldMessenger.showSnackBar(
+              SnackBar(content: Text(l10n.recipeCreationAiReviewFailed)),
+            );
+          }
+        }
+      }
+
+      if (processing.hasBlockingIssues) {
+        if (mounted) {
+          await _showExpressionIssuesDialog(processing);
+        }
+        return;
+      }
+
+      final recipeData = rawRecipeData.copyWith(steps: processing.steps);
+
+      if (!saveContext.mounted) {
+        return;
+      }
       await RecipeSaveService.save(
         recipeData,
-        context,
+        saveContext,
         isUpdate: isUpdate,
         redirectToNewDetailOnSave: widget.redirectToNewDetailOnSave,
         popWithResultOnSave: widget.popWithResultOnSave,
       );
 
-      AnalyticsService.instance.track('recipe_created', properties: {
-        'brewing_method_id': _selectedBrewingMethodId,
-        'steps_count': _steps.length,
-      });
+      AnalyticsService.instance.track(
+        'recipe_created',
+        properties: {
+          'brewing_method_id': _selectedBrewingMethodId,
+          'steps_count': _steps.length,
+        },
+      );
 
       // Reset unsaved changes flag after successful save
       if (mounted) {
@@ -472,7 +718,8 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
       if (mounted) {
         scaffoldMessenger.showSnackBar(
           SnackBar(
-              content: Text(l10n.recipeCreationScreenSaveError(e.toString()))),
+            content: Text(l10n.recipeCreationScreenSaveError(e.toString())),
+          ),
         );
       }
     } finally {
@@ -521,11 +768,13 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
             children: [
               Icon(_currentPage == 0 ? Icons.edit : Icons.format_list_numbered),
               const SizedBox(width: 8),
-              Text(_currentPage == 0
-                  ? (widget.recipe != null
-                      ? l10n.recipeCreationScreenEditRecipeTitle
-                      : l10n.recipeCreationScreenCreateRecipeTitle)
-                  : l10n.recipeCreationScreenRecipeStepsTitle),
+              Text(
+                _currentPage == 0
+                    ? (widget.recipe != null
+                          ? l10n.recipeCreationScreenEditRecipeTitle
+                          : l10n.recipeCreationScreenCreateRecipeTitle)
+                    : l10n.recipeCreationScreenRecipeStepsTitle,
+              ),
             ],
           ),
           leading: _currentPage == 1
@@ -636,6 +885,10 @@ class _RecipeCreationScreenState extends State<RecipeCreationScreen>
                           });
                           _trackChanges();
                         },
+                        aiReviewEnabled: _useAiReview,
+                        aiReviewAvailable: _isAiReviewAvailable(),
+                        onAiReviewChanged: _handleAiReviewChanged,
+                        onAiReviewInfoPressed: _showAiReviewInfoDialog,
                         onContinue: _isFirstPageValid
                             ? () {
                                 _pageController.nextPage(

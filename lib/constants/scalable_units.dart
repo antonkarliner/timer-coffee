@@ -31,7 +31,7 @@ const Set<String> scalableUnits = {
 
   // Persian
   'گرم', 'گرم.',
-  'میلی‌لیتر',
+  'میلی‌لیتر', 'میلی لیتر',
   'اونس',
   'لیتر',
 
@@ -60,6 +60,13 @@ const Set<String> scalableUnits = {
   '온스',
   '리터',
 
+  // Greek
+  'γρ', 'γρ.',
+  'γραμμάριο', 'γραμμάρια',
+  'χιλιοστόλιτρο', 'χιλιοστόλιτρα',
+  'ουγγιά', 'ουγγιές',
+  'λίτρο', 'λίτρα',
+
   // Dutch
 
   // Polish
@@ -70,6 +77,7 @@ const Set<String> scalableUnits = {
 
   // Portuguese
   'grama', 'gramas',
+  'onça', 'onças',
 
   // Romanian
   'mililitru', 'mililitri',
@@ -77,6 +85,8 @@ const Set<String> scalableUnits = {
   'litru', 'litri',
 
   // Russian
+  'г', 'г.', 'гр', 'гр.',
+  'мл', 'мл.',
   'грамм', 'граммы',
   'миллилитр', 'миллилитры',
   'унция', 'унции',

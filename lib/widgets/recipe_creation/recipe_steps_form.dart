@@ -110,8 +110,9 @@ class _RecipeStepsFormState extends State<RecipeStepsForm> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 16),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).padding.bottom + 16,
+      ),
       child: Column(
         children: [
           Expanded(
@@ -150,7 +151,9 @@ class _RecipeStepsFormState extends State<RecipeStepsForm> {
                     icon: Icons.add,
                     height: 50,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 15),
+                      horizontal: 20,
+                      vertical: 15,
+                    ),
                   ),
                 ),
               ],
@@ -167,7 +170,9 @@ class _RecipeStepsFormState extends State<RecipeStepsForm> {
                     isLoading: widget.isSaving,
                     height: 50,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 15),
+                      horizontal: 20,
+                      vertical: 15,
+                    ),
                   ),
                 ),
               ],
@@ -270,9 +275,7 @@ class StepCard extends StatelessWidget {
                         border: OutlineInputBorder(),
                       ),
                       keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       onChanged: (value) {
                         final seconds = int.tryParse(value) ?? 0;
                         onTimeChanged?.call(Duration(seconds: seconds));
