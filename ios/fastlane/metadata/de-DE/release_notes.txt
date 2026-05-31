@@ -1,15 +1,15 @@
-Neu:
-• Seiten für Röstereien! Jede Rösterei hat jetzt eine Seite mit Informationen, Links und Bewertungen.
-• Bewerte Kaffeebohnen, die du gebrüht hast. Bewerte sie, füge Geschmacksnotizen und Kommentare hinzu. Rezensionen erscheinen auf den Röstereiprofil-Seiten.
-• Sieh dir alle Brühvorgänge an, die mit einer bestimmten Tüte Bohnen gemacht wurden.
-• Markiere Einträge, die dem Brühtagebuch hinzugefügt wurden.
+Dieses Update bietet neue Möglichkeiten, deine Kaffeerezepte zu entdecken, zu brühen und zu verwalten.
 
+Neu:
+• Sammlungen: Durchsuche kuratierte Rezeptsammlungen, wie Eiskaffee-Rezepte für heiße Tage.
+• Manuelle Brühsteuerung: Wechsle beim Brühen vor oder zurück, wenn du mehr Kontrolle benötigst.
+• Mahlgrad pro Packung: Speichere eine Mahleinstellung für jede Packung Bohnen.
+• Zwei neue Brühmethoden: Timemore B75 und Espro Bloom Brewer.
+• Automatische Übersetzung für Bohnenbewertungen.
 
 Verbessert:
-• Der Ablauf zum Rezept importieren ist natürlicher.
-• Das Onboarding wird beim Rezept importieren übersprungen.
-• Der Bildschirm Details zu den Kaffeebohnen ist informativer.
-• Verschiedene UI-Verbesserungen.
+• Zuverlässigere Einheitenumrechnung bei der Rezepterstellung, mit optionaler KI-Überprüfung.
+• Verschiedene UI- und UX-Verbesserungen in der gesamten App.
 
-Fehlerbehebung:
-• Ein Problem mit Benachrichtigungen zur Wochenzusammenfassung wurde behoben.
+Behoben:
+• Mehrere kleine Fehler.

@@ -1,0 +1,13 @@
+Nouveau :
+• Collections
+• Contrôle manuel de l’infusion
+• Taille de mouture par sachet
+• Timemore B75 et Espro Bloom Brewer
+• Traduction automatique des avis sur les grains.
+
+Amélioré :
+• Conversion d’unités plus fiable avec vérification IA facultative.
+• Améliorations UI/UX.
+
+Corrigé :
+• Plusieurs petits bugs.

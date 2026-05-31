@@ -1,0 +1,13 @@
+Nou:
+• Colecții
+• Control manual al preparării
+• Mărimea Măcinăturii per pungă
+• Timemore B75 și Espro Bloom Brewer
+• Traducere automată pentru recenziile boabelor.
+
+Îmbunătățit:
+• Conversie a unităților mai fiabilă, cu verificare AI opțională.
+• Îmbunătățiri UI/UX.
+
+Remediat:
+• Câteva buguri mici.

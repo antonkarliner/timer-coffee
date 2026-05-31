@@ -1,0 +1,13 @@
+Neu:
+• Sammlungen
+• Manuelle Brühsteuerung
+• Mahlgrad pro Bohnenbeutel
+• Timemore B75 und Espro Bloom Brewer
+• Automatische Übersetzung für Bohnenbewertungen
+
+Verbessert:
+• Zuverlässigere Einheitenumrechnung mit optionaler KI-Prüfung
+• UI/UX-Verbesserungen
+
+Behoben:
+• Mehrere kleine Fehler

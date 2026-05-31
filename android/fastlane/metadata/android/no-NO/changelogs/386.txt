@@ -1,0 +1,13 @@
+Nytt:
+• Samlinger
+• Manuell bryggekontroll
+• Malingsgrad per pose
+• Timemore B75 og Espro Bloom Brewer
+• Automatisk oversettelse av bønneanmeldelser.
+
+Forbedret:
+• Mer pålitelig enhetskonvertering med valgfri KI-verifisering.
+• UI/UX-forbedringer.
+
+Fikset:
+• Flere små feil.

@@ -1,0 +1,13 @@
+Novo:
+• Zbirke
+• Ručno upravljanje pripremom
+• Finoća mljevenja po vrećici
+• Timemore B75 i Espro Bloom Brewer
+• Automatski prijevod recenzija zrna
+
+Poboljšano:
+• Pouzdanija pretvorba jedinica uz neobaveznu AI provjeru
+• Poboljšanja sučelja i UX-a
+
+Ispravljeno:
+• Nekoliko manjih grešaka.

@@ -1,15 +1,15 @@
+Esta actualización añade nuevas formas de descubrir, preparar y gestionar tus recetas de café.
+
 Nuevo:
-• ¡Páginas de Tostaduría! Cada tostaduría ahora tiene una página con información, enlaces y reseñas.
-• Reseña los granos de café con los que preparaste. Califica, añade notas de sabor y comentarios. Las reseñas aparecen en las páginas de Perfil de la tostaduría.
-• Ve todas las preparaciones hechas con una bolsa específica de granos.
-• Marca las entradas añadidas al Diario de preparaciones.
+• Colecciones: explora colecciones de recetas seleccionadas, como recetas de café frío para días calurosos.
+• Controles manuales de preparación: retrocede o avanza durante la preparación cuando necesites más control.
+• Tamaño de molienda por bolsa: guarda un ajuste de molienda para cada bolsa de granos.
+• Dos nuevos métodos de preparación: Timemore B75 y Espro Bloom Brewer.
+• Traducción automática para reseñas de granos.
 
+Mejoras:
+• Conversión de unidades más confiable durante la creación de recetas, con verificación opcional por IA.
+• Varias mejoras de interfaz y experiencia de usuario en toda la app.
 
-Mejorado:
-• El flujo para Importar receta es más natural.
-• La incorporación se omite al importar la receta.
-• La pantalla de Detalles de los granos es más informativa.
-• Diferentes mejoras de la interfaz de usuario.
-
-Corrección de errores:
-• Se corrigió un error con las notificaciones del Resumen semanal.
+Correcciones:
+• Varios errores pequeños.

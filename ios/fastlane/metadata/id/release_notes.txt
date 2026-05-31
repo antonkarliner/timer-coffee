@@ -1,15 +1,15 @@
-Baru:
-• Halaman roaster! Setiap roaster kini memiliki halaman dengan informasi, tautan, dan ulasan.
-• Ulas kopi yang Anda seduh. Beri rating, tambahkan catatan profil rasa dan komentar. Ulasan akan muncul di halaman Profil roaster.
-• Lihat semua seduhan yang dibuat dengan satu kantong biji tertentu.
-• Tandai entri yang ditambahkan ke Diari seduhan.
+Pembaruan ini menambahkan cara baru untuk menemukan, menyeduh, dan mengelola resep kopi Anda.
 
+Baru:
+• Koleksi: jelajahi koleksi resep pilihan, seperti resep kopi es untuk hari yang panas.
+• Kontrol seduhan manual: maju atau mundur selama penyeduhan saat Anda membutuhkan kontrol lebih.
+• Tingkat kehalusan gilingan per kantong: simpan pengaturan gilingan untuk setiap kantong biji kopi.
+• Dua metode seduh baru: Timemore B75 dan Espro Bloom Brewer.
+• Terjemahan otomatis untuk ulasan biji kopi.
 
 Ditingkatkan:
-• Alur impor resep lebih alami.
-• Onboarding dilewati saat mengimpor resep.
-• Layar Detail kopi lebih informatif.
-• Berbagai peningkatan UI.
+• Konversi satuan yang lebih andal selama pembuatan resep, dengan verifikasi AI opsional.
+• Berbagai peningkatan UI dan UX di seluruh aplikasi.
 
-Perbaikan bug:
-• Memperbaiki bug pada notifikasi Ringkasan mingguan.
+Diperbaiki:
+• Beberapa bug kecil.

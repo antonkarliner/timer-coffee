@@ -1,0 +1,13 @@
+Baru:
+• Koleksi
+• Kontrol seduh manual
+• Tingkat kehalusan gilingan per kantong
+• Timemore B75 dan Espro Bloom Brewer
+• Terjemahan otomatis untuk ulasan biji kopi.
+
+Ditingkatkan:
+• Konversi satuan lebih andal dengan verifikasi AI opsional.
+• Peningkatan UI/UX.
+
+Diperbaiki:
+• Beberapa bug kecil.

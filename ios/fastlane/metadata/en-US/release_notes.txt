@@ -1,15 +1,15 @@
-New:
-• Roaster pages! Every roaster now has a page with information, links and reviews.
-• Review coffee beans you brewed with. Rate, add taste notes and commentaries. Reviews appear on roaster profile pages.
-• See all brews made with specific bag of beans.
-• Mark entries added to Brew Diary.
+This update adds new ways to discover, brew, and manage your coffee recipes.
 
+New:
+• Collections: browse curated recipe collections, like iced coffee recipes for hot days.
+• Manual brew controls: move backward or forward during brewing when you need more control.
+• Per-bag grind size: save a grind setting for each bag of beans.
+• Two new brewing methods: Timemore B75 and Espro Bloom Brewer.
+• Automatic translation for bean reviews.
 
 Improved:
-• Recipe import flow is more natural.
-• Onboarding is skipped when importing recipe.
-• Coffee beans detail screen is more informative.
-• Different UI imporvements.
+• More reliable unit conversion during recipe creation, with optional AI verification.
+• Various UI and UX improvements throughout the app.
 
-Bugfix:
-• Fixed a bug with weekly summary notifications.
+Fixed:
+• Several small bugs.

@@ -1,0 +1,13 @@
+New:
+• Collections
+• Manual brew controls
+• Per-bag grind size
+• Timemore B75 and Espro Bloom Brewer
+• Auto-translation for bean reviews.
+
+Improved:
+• More reliable unit conversion with optional AI verification.
+• UI/UX improvements.
+
+Fixed:
+• Several small bugs.

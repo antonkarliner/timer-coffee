@@ -1,15 +1,15 @@
+Cette mise à jour ajoute de nouvelles façons de découvrir, préparer et gérer vos recettes de café.
+
 Nouveau :
-• Pages de torréfacteurs ! Chaque torréfacteur dispose désormais d’une page avec des informations, des liens et des avis.
-• Donnez votre avis sur les grains de café avec lesquels vous avez préparé du café. Notez, ajoutez des notes de dégustation et des commentaires. Les avis apparaissent sur les pages Profil du torréfacteur.
-• Voir toutes les infusions réalisées avec un sac de grains spécifique.
-• Marquer les entrées ajoutées au Journal de préparation.
+• Collections : parcourez des collections de recettes sélectionnées, comme des recettes de café glacé pour les journées chaudes.
+• Commandes manuelles de préparation : reculez ou avancez pendant la préparation lorsque vous avez besoin de plus de contrôle.
+• Taille de mouture par paquet : enregistrez un réglage de mouture pour chaque paquet de grains.
+• Deux nouvelles méthodes d'extraction : Timemore B75 et Espro Bloom Brewer.
+• Traduction automatique des avis sur les grains.
 
+Améliorations :
+• Conversion d'unités plus fiable lors de la création de recettes, avec vérification facultative par IA.
+• Diverses améliorations de l'interface utilisateur et de l'expérience utilisateur dans toute l'application.
 
-Amélioré :
-• Le flux Importer la recette est plus naturel.
-• L’onboarding est ignoré lors de l’importation d’une recette.
-• L’écran Détails des grains de café est plus informatif.
-• Diverses améliorations de l’interface utilisateur.
-
-Correctif :
-• Correction d’un bug lié aux notifications du Résumé hebdomadaire.
+Corrections :
+• Plusieurs petits bugs corrigés.

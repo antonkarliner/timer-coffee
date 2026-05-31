@@ -1,15 +1,15 @@
-Nytt:
-• Brennerisider! Hvert brenneri har nå en side med informasjon, lenker og anmeldelser.
-• Anmeld kaffebønner du har brygget med. Gi vurdering, legg til smaksnotater og kommentarer. Anmeldelser vises på Brenneriprofil-sider.
-• Se alle brygg laget med en spesifikk pose bønner.
-• Merk oppføringer lagt til i Bryggdagbok.
+Denne oppdateringen legger til nye måter å oppdage, brygge og administrere kaffeoppskriftene dine på.
 
+Nytt:
+• Samlinger: bla gjennom kuraterte oppskriftssamlinger, som iskaffeoppskrifter for varme dager.
+• Manuelle bryggekontroller: gå bakover eller fremover under bryggingen når du trenger mer kontroll.
+• Malingsgrad per pose: lagre en kverninnstilling for hver pose med bønner.
+• To nye bryggemetoder: Timemore B75 og Espro Bloom Brewer.
+• Automatisk oversettelse av bønneanmeldelser.
 
 Forbedret:
-• Flyten for å importere oppskrift er mer naturlig.
-• Onboarding hoppes over ved import av oppskrift.
-• Kaffebønnedetaljer-skjermen er mer informativ.
-• Ulike UI-forbedringer.
+• Mer pålitelig enhetskonvertering under oppretting av oppskrifter, med valgfri AI-verifisering.
+• Ulike forbedringer av brukergrensesnitt og brukeropplevelse i hele appen.
 
-Feilretting:
-• Rettet en feil med varsler for ukentlig oppsummering.
+Rettet:
+• Flere små feil.

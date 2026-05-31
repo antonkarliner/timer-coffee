@@ -1,15 +1,15 @@
-Nowości:
-• Strony palarni! Każda palarnia ma teraz stronę z informacjami, linkami i recenzjami.
-• Recenzuj ziarna kawy, z których zaparzyłeś kawę. Oceniaj, dodawaj notatki smakowe i komentarze. Recenzje pojawiają się na stronach Profilu palarni.
-• Zobacz wszystkie Parzenia z tą kawą dla konkretnej paczki ziaren.
-• Oznaczaj wpisy dodane do Dziennika parzeń.
+Ta aktualizacja dodaje nowe sposoby odkrywania, parzenia i zarządzania przepisami na kawę.
 
+Nowości:
+• Kolekcje: przeglądaj wyselekcjonowane kolekcje przepisów, np. przepisy na kawę mrożoną na gorące dni.
+• Ręczne sterowanie parzeniem: przechodź wstecz lub do przodu podczas parzenia, gdy potrzebujesz większej kontroli.
+• Stopień mielenia dla każdej paczki: zapisuj ustawienie mielenia dla każdej paczki ziaren.
+• Dwie nowe metody parzenia: Timemore B75 i Espro Bloom Brewer.
+• Automatyczne tłumaczenie recenzji ziaren.
 
 Ulepszenia:
-• Proces Importu przepisu jest bardziej naturalny.
-• Onboarding jest pomijany podczas importowania przepisu.
-• Ekran Szczegóły ziaren kawy jest bardziej informacyjny.
-• Różne ulepszenia interfejsu.
+• Bardziej niezawodne przeliczanie jednostek podczas tworzenia przepisu, z opcjonalną weryfikacją AI.
+• Różne ulepszenia UI i UX w całej aplikacji.
 
-Poprawki błędów:
-• Naprawiono błąd związany z powiadomieniami Podsumowania tygodnia.
+Naprawiono:
+• Kilka drobnych błędów.

@@ -1,15 +1,15 @@
-Novità:
-• Pagine della Torrefazione! Ogni torrefazione ora ha una pagina con informazioni, link e recensioni.
-• Recensisci i chicchi di caffè con cui hai preparato. Valuta, aggiungi note di degustazione e commenti. Le recensioni compaiono nelle pagine del Profilo della torrefazione.
-• Vedi tutte le preparazioni effettuate con uno specifico sacchetto di chicchi.
-• Contrassegna le voci aggiunte al Diario del caffè.
+Questo aggiornamento aggiunge nuovi modi per scoprire, preparare e gestire le tue ricette di caffè.
 
+Novità:
+• Raccolte: sfoglia raccolte di ricette curate, come ricette di caffè freddo per le giornate calde.
+• Controlli manuali di preparazione: vai indietro o avanti durante la preparazione quando hai bisogno di più controllo.
+• Grado di macinatura per sacchetto: salva un’impostazione di macinatura per ogni sacchetto di chicchi.
+• Due nuovi metodi di preparazione: Timemore B75 ed Espro Bloom Brewer.
+• Traduzione automatica per le recensioni dei chicchi.
 
 Miglioramenti:
-• Il flusso di Importa ricetta è più naturale.
-• L’onboarding viene saltato durante l’importazione della ricetta.
-• La schermata Dettagli sui chicchi di caffè è più informativa.
-• Varie migliorie dell’interfaccia utente.
+• Conversione delle unità più affidabile durante la creazione delle ricette, con verifica IA facoltativa.
+• Vari miglioramenti dell’interfaccia utente e dell’esperienza utente in tutta l’app.
 
 Correzioni:
-• Risolto un bug con le notifiche del Riepilogo settimanale.
+• Diversi piccoli bug.

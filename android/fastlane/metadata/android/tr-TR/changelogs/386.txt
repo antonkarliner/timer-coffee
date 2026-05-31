@@ -1,0 +1,13 @@
+Yeni:
+• Koleksiyonlar
+• Manuel demleme kontrolleri
+• Paket başına öğütme boyutu
+• Timemore B75 ve Espro Bloom Brewer
+• Çekirdek yorumları için otomatik çeviri
+
+İyileştirildi:
+• İsteğe bağlı yapay zekâ doğrulamasıyla daha güvenilir birim dönüşümü
+• Arayüz/kullanıcı deneyimi iyileştirmeleri
+
+Düzeltildi:
+• Çeşitli küçük hatalar.

@@ -1,0 +1,13 @@
+Nieuw:
+• Collecties
+• Handmatige zetbediening
+• Maalgraad per zak
+• Timemore B75 en Espro Bloom Brewer
+• Automatische vertaling voor boonreviews.
+
+Verbeterd:
+• Betrouwbaardere eenhedenconversie met optionele AI-verificatie.
+• UI/UX-verbeteringen.
+
+Opgelost:
+• Enkele kleine bugs.

@@ -1,15 +1,15 @@
-Nou:
-• Pagini ale prăjitoriilor! Fiecare prăjitorie are acum o pagină cu informații, linkuri și recenzii.
-• Recenzează boabele de cafea cu care ai preparat. Evaluează, adaugă note de gust și comentarii. Recenziile apar pe paginile Profilul prăjitoriei.
-• Vezi toate preparările făcute cu un anumit pachet de boabe.
-• Marchează intrările adăugate în Jurnal de Preparare.
+Această actualizare adaugă noi modalități de a descoperi, prepara și gestiona rețetele tale de cafea.
 
+Nou:
+• Colecții: răsfoiește colecții de rețete atent selectate, precum rețete de cafea cu gheață pentru zilele călduroase.
+• Controale manuale pentru preparare: mergi înapoi sau înainte în timpul preparării atunci când ai nevoie de mai mult control.
+• Mărimea Măcinăturii per pungă: salvează o setare de măcinare pentru fiecare pungă de boabe.
+• Două metode de preparare noi: Timemore B75 și Espro Bloom Brewer.
+• Traducere automată pentru recenziile boabelor.
 
 Îmbunătățit:
-• Fluxul de Importă rețeta este mai natural.
-• Onboarding-ul este sărit la importarea rețetei.
-• Ecranul Detalii boabe de cafea este mai informativ.
-• Diferite îmbunătățiri ale interfeței.
+• Conversie a unităților mai fiabilă în timpul creării rețetelor, cu verificare AI opțională.
+• Diverse îmbunătățiri ale interfeței și experienței utilizatorului în întreaga aplicație.
 
-Remediere erori:
-• S-a rezolvat o eroare legată de notificările pentru Rezumat săptămânal.
+Remediat:
+• Câteva erori minore.

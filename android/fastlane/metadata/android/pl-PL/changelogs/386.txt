@@ -1,0 +1,13 @@
+Nowości:
+• Kolekcje
+• Ręczne sterowanie parzeniem
+• Stopień mielenia dla każdej paczki
+• Timemore B75 i Espro Bloom Brewer
+• Automatyczne tłumaczenie recenzji ziaren
+
+Ulepszenia:
+• Bardziej niezawodne przeliczanie jednostek z opcjonalną weryfikacją AI
+• Usprawnienia UI/UX
+
+Poprawki:
+• Kilka drobnych błędów.

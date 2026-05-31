@@ -1,15 +1,15 @@
-Nieuw:
-• Branderijpagina's! Elke branderij heeft nu een pagina met informatie, links en reviews.
-• Review koffiebonen die je hebt gezet. Beoordeel, voeg smaaknotities en opmerkingen toe. Reviews verschijnen op branderijprofielpagina's.
-• Bekijk alle zetsessies die zijn gemaakt met een specifieke zak bonen.
-• Markeer items die zijn toegevoegd aan het Brouwdagboek.
+Deze update voegt nieuwe manieren toe om je koffierecepten te ontdekken, te zetten en te beheren.
 
+Nieuw:
+• Collecties: blader door samengestelde receptcollecties, zoals ijskoffierecepten voor warme dagen.
+• Handmatige zetbediening: ga achteruit of vooruit tijdens het zetten wanneer je meer controle nodig hebt.
+• Maalgraad per zak: sla een maalinstelling op voor elke zak bonen.
+• Twee nieuwe zetmethoden: Timemore B75 en Espro Bloom Brewer.
+• Automatische vertaling voor boonreviews.
 
 Verbeterd:
-• Het Recept importeren-proces is natuurlijker.
-• Onboarding wordt overgeslagen bij het importeren van een recept.
-• Het scherm Koffiebonendetails is informatiever.
-• Verschillende UI-verbeteringen.
+• Betrouwbaardere omrekening van eenheden tijdens het maken van recepten, met optionele AI-verificatie.
+• Diverse UI- en UX-verbeteringen in de hele app.
 
-Bugfix:
-• Een bug met wekelijkse samenvatting-notificaties opgelost.
+Opgelost:
+• Enkele kleine bugs.

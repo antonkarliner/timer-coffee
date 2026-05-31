@@ -1,15 +1,15 @@
-Novo:
-• Páginas de Torrefação! Agora, cada torrefação tem uma página com informações, links e avaliações.
-• Avalie os grãos de café que você preparou. Dê uma nota, adicione notas de sabor e comentários. As avaliações aparecem nas páginas de Perfil da torrefação.
-• Veja todos os preparos feitos com um saco específico de grãos.
-• Marque entradas adicionadas ao Diário de Preparo.
+Esta atualização adiciona novas maneiras de descobrir, preparar e gerenciar suas receitas de café.
 
+Novidades:
+• Coleções: explore coleções de receitas selecionadas, como receitas de café gelado para dias quentes.
+• Controles manuais de preparo: avance ou volte durante o preparo quando precisar de mais controle.
+• Tamanho da moagem por pacote: salve uma configuração de moagem para cada pacote de grãos.
+• Dois novos métodos de preparo: Timemore B75 e Espro Bloom Brewer.
+• Tradução automática para avaliações de grãos.
 
 Melhorias:
-• O fluxo de Importar Receita está mais natural.
-• O onboarding é pulado ao importar uma receita.
-• A tela de Detalhes dos Grãos de Café está mais informativa.
-• Diferentes melhorias na interface.
+• Conversão de unidades mais confiável durante a criação de receitas, com verificação opcional por IA.
+• Várias melhorias de interface e experiência do usuário em todo o app.
 
-Correção de bugs:
-• Corrigido um bug nas notificações do Resumo semanal.
+Correções:
+• Vários pequenos bugs.

@@ -1,15 +1,15 @@
-Novo:
-• Stranice pržionica! Svaka pržionica sada ima stranicu s informacijama, poveznicama i recenzijama.
-• Recenziraj zrna kave s kojima si pripremao/la. Ocijeni, dodaj bilješke o okusu i komentare. Recenzije se prikazuju na stranicama profila pržionice.
-• Pogledaj sve pripreme napravljene s određenom vrećicom zrna.
-• Označi unose dodane u Dnevnik pripreme.
+Ovo ažuriranje dodaje nove načine za otkrivanje, pripremu i upravljanje tvojim receptima za kavu.
 
+Novo:
+• Zbirke: pregledavaj odabrane zbirke recepata, poput recepata za ledenu kavu za vruće dane.
+• Ručne kontrole pripreme: pomiči se unatrag ili naprijed tijekom pripreme kada ti treba više kontrole.
+• Finoća mljevenja po vrećici: spremi postavku mljevenja za svaku vrećicu zrna.
+• Dvije nove metode pripreme: Timemore B75 i Espro Bloom Brewer.
+• Automatski prijevod recenzija zrna.
 
 Poboljšano:
-• Tijek uvoza recepta je prirodniji.
-• Uvodno postavljanje se preskače pri uvozu recepta.
-• Zaslon Detalji o zrnima kave je informativniji.
-• Razna poboljšanja korisničkog sučelja.
+• Pouzdanija pretvorba jedinica tijekom izrade recepta, uz neobaveznu AI provjeru.
+• Razna poboljšanja korisničkog sučelja i korisničkog iskustva u cijeloj aplikaciji.
 
-Ispravci grešaka:
-• Ispravljena je greška s obavijestima tjednog sažetka.
+Ispravljeno:
+• Nekoliko manjih pogrešaka.

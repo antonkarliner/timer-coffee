@@ -1,0 +1,13 @@
+Novità:
+• Raccolte
+• Controllo manuale dei passaggi
+• Grado di macinatura per sacchetto
+• Timemore B75 ed Espro Bloom Brewer
+• Traduzione automatica delle recensioni dei chicchi.
+
+Migliorato:
+• Conversione delle unità più affidabile con verifica AI facoltativa.
+• Migliorie UI/UX.
+
+Risolto:
+• Diversi piccoli bug.

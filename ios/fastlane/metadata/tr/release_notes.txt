@@ -1,15 +1,15 @@
-Yeni:
-• Kahve kavurucusu sayfaları! Artık her kahve kavurucusunun bilgi, bağlantılar ve yorumlar içeren bir sayfası var.
-• Demlediğiniz kahve çekirdeklerine yorum yapın. Puan verin, tat notları ve yorumlar ekleyin. Yorumlar kavurucu profili sayfalarında görünür.
-• Belirli bir çekirdek paketinden yapılan tüm demlemeleri görün.
-• Demleme Günlüğü'ne eklenen kayıtları işaretleyin.
+Bu güncelleme, kahve tariflerini keşfetmek, demlemek ve yönetmek için yeni yollar ekler.
 
+Yeni:
+• Koleksiyonlar: sıcak günler için soğuk kahve tarifleri gibi özenle seçilmiş tarif koleksiyonlarına göz at.
+• Manuel demleme kontrolleri: daha fazla kontrole ihtiyaç duyduğunda demleme sırasında geri veya ileri git.
+• Paket başına öğütme boyutu: her çekirdek paketi için bir öğütme ayarı kaydet.
+• İki yeni demleme yöntemi: Timemore B75 ve Espro Bloom Brewer.
+• Çekirdek yorumları için otomatik çeviri.
 
 İyileştirildi:
-• Tarifi İçe Aktar akışı daha doğal.
-• Tarif içe aktarırken onboarding atlanır.
-• Kahve Çekirdeği Detayları ekranı daha bilgilendirici.
-• Farklı UI iyileştirmeleri.
+• Tarif oluşturma sırasında, isteğe bağlı AI doğrulamasıyla daha güvenilir birim dönüştürme.
+• Uygulama genelinde çeşitli UI ve UX iyileştirmeleri.
 
-Hata düzeltmesi:
-• Haftalık özet bildirimleriyle ilgili bir hata düzeltildi.
+Düzeltildi:
+• Birkaç küçük hata.

@@ -301,11 +301,11 @@ packages:
     dependency: "direct main"
     description:
       path: flutter
-      ref: a6276617df40ae09efae915306a38a18fad8c73b
-      resolved-ref: a6276617df40ae09efae915306a38a18fad8c73b
+      ref: "816e21748606986ab4db290eb99081a88e850767"
+      resolved-ref: "816e21748606986ab4db290eb99081a88e850767"
       url: "https://github.com/antonkarliner/coffeico.git"
     source: git
-    version: "0.4.0"
+    version: "0.6.0"
   collection:
     dependency: "direct main"
     description:

@@ -22,7 +22,7 @@ platform :ios do
       master_locale: 'en-US',
       platform: 'ios',
       context: 'Timer.Coffee is a coffee brew timer app, please pay special attention to correct usage of coffee-related terms. Do not include the symbols count or any warnings/observations in your response',
-      model_name: 'gpt-5.2',
+      model_name: 'gpt-5.5',
       temperature: 1.0,
       service_tier: "flex",
       glossary_dir: '../lib/l10n',

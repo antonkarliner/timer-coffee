@@ -1,0 +1,13 @@
+Novidades:
+• Coleções
+• Controle manual de preparo
+• Tamanho da moagem por saco
+• Timemore B75 e Espro Bloom Brewer
+• Tradução automática das avaliações de grãos
+
+Melhorias:
+• Conversão de unidades mais fiável, com verificação por IA opcional
+• Melhorias na UI/UX
+
+Correções:
+• Vários pequenos erros.

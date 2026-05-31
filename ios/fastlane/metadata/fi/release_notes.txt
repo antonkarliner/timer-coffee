@@ -1,15 +1,15 @@
-Uutta:
-• Paahtimosivut! Jokaisella paahtimolla on nyt oma sivu, jossa on tietoja, linkkejä ja arvosteluja.
-• Arvostele kahvipapuja, joilla olet uuttanut. Anna arvosana, lisää makumuistiinpanoja ja kommentteja. Arvostelut näkyvät Paahtimon profiili -sivuilla.
-• Katso kaikki Uutot, jotka on tehty tietyllä papupussilla.
-• Merkitse Uuttopäiväkirjaasi lisätyt merkinnät.
+Tämä päivitys lisää uusia tapoja löytää, uuttaa ja hallita kahvireseptejäsi.
 
+Uutta:
+• Kokoelmat: selaa kuratoituja reseptikokoelmia, kuten jääkahvireseptejä kuumille päiville.
+• Manuaaliset uuton hallintatoiminnot: siirry taaksepäin tai eteenpäin uuton aikana, kun tarvitset enemmän hallintaa.
+• Pussikohtainen Jauhatuksen karkeus: tallenna jauhatusasetus jokaiselle papupussille.
+• Kaksi uutta valmistusmenetelmää: Timemore B75 ja Espro Bloom Brewer.
+• Papuarvostelujen automaattinen käännös.
 
 Parannettu:
-• Reseptin tuontiprosessi on luontevampi.
-• Aloitusohjeistus ohitetaan, kun resepti tuodaan.
-• Kahvipapujen tiedot -näkymä on informatiivisempi.
-• Erilaisia käyttöliittymäparannuksia.
+• Luotettavampi yksikkömuunnos reseptiä luotaessa, valinnaisella tekoälytarkistuksella.
+• Erilaisia käyttöliittymän ja käyttökokemuksen parannuksia kaikkialla sovelluksessa.
 
-Bugikorjaukset:
-• Korjattiin bugi viikkoyhteenvetoilmoituksissa.
+Korjattu:
+• Useita pieniä virheitä.

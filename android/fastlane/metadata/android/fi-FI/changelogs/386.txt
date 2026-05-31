@@ -1,0 +1,13 @@
+Uutta:
+• Kokoelmat
+• Manuaalinen vaiheohjaus
+• Jauhatuskoko pusseittain
+• Timemore B75 ja Espro Bloom Brewer
+• Kahvipapuarvostelujen automaattinen käännös.
+
+Parannettu:
+• Luotettavampi yksikkömuunnos valinnaisella tekoälyvarmennuksella.
+• UI/UX-parannuksia.
+
+Korjattu:
+• Useita pieniä bugeja.

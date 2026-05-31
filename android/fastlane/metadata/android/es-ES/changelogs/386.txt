@@ -1,0 +1,13 @@
+Nuevo:
+• Colecciones
+• Control manual de preparación
+• Tamaño de molienda por bolsa
+• Timemore B75 y Espro Bloom Brewer
+• Traducción automática de reseñas de granos
+
+Mejorado:
+• Conversión de unidades más fiable con verificación opcional por IA
+• Mejoras de UI/UX
+
+Corregido:
+• Varios errores menores.
