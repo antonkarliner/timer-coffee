@@ -344,7 +344,7 @@ class _InfoScreenState extends State<InfoScreen> {
                         onPressed: () => _launchURL(
                           'https://www.instagram.com/timercoffeeapp',
                         ),
-                        icon: FontAwesomeIcons.instagram,
+                        iconWidget: const FaIcon(FontAwesomeIcons.instagram),
                         backgroundColor: Theme.of(context).colorScheme.surface,
                         foregroundColor: Theme.of(context).colorScheme.primary,
                         height: AppButton.heightSmall,
