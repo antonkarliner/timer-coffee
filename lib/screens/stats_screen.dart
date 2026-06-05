@@ -337,7 +337,18 @@ class _YourStatsSection extends StatelessWidget {
                                 if (snapshot.connectionState ==
                                     ConnectionState.done) {
                                   if (snapshot.hasError) {
-                                    return Text('Error: ${snapshot.error}');
+                                    return Text(
+                                      l10n.noData,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface
+                                                .withValues(alpha: 0.5),
+                                          ),
+                                    );
                                   } else if (snapshot.hasData) {
                                     final liters =
                                         (snapshot.data ?? 0) / 1000.0;
@@ -384,7 +395,18 @@ class _YourStatsSection extends StatelessWidget {
                           if (snapshot.connectionState ==
                               ConnectionState.done) {
                             if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}');
+                              return Text(
+                                l10n.noData,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withValues(alpha: 0.5),
+                                    ),
+                              );
                             }
                             final ids = snapshot.data ?? const <String>[];
                             if (ids.isEmpty) {
@@ -856,7 +878,15 @@ class _GlobalStatsSection extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
+                      return Text(
+                        l10n.noData,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withValues(alpha: 0.5),
+                            ),
+                      );
                     }
                     final ids = snapshot.data ?? const <String>[];
                     if (ids.isEmpty) {

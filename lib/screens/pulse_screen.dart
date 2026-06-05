@@ -5,9 +5,9 @@ import 'package:coffee_timer/app_router.gr.dart';
 import 'package:coffee_timer/l10n/app_localizations.dart';
 import 'package:coffee_timer/models/recipe_model.dart';
 import 'package:coffee_timer/providers/recipe_provider.dart';
+import 'package:coffee_timer/utils/app_material_symbols.dart';
 import 'package:coffee_timer/utils/icon_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/onboarding_service.dart';
@@ -56,20 +56,14 @@ class _PulseSection {
   final _PulseTimeBucket bucket;
   final List<_PulseEntry> entries;
 
-  const _PulseSection({
-    required this.bucket,
-    required this.entries,
-  });
+  const _PulseSection({required this.bucket, required this.entries});
 }
 
 class _PulseSummary {
   final int brews;
   final double liters;
 
-  const _PulseSummary({
-    required this.brews,
-    required this.liters,
-  });
+  const _PulseSummary({required this.brews, required this.liters});
 }
 
 class _PinnedPulseHeaderDelegate extends SliverPersistentHeaderDelegate {
@@ -91,13 +85,16 @@ class _PinnedPulseHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     final range = (maxHeaderExtent - minHeaderExtent).abs();
     final double collapseT = range <= 0
         ? 0.0
         : (shrinkOffset / (maxHeaderExtent - minHeaderExtent))
-            .clamp(0.0, 1.0)
-            .toDouble();
+              .clamp(0.0, 1.0)
+              .toDouble();
     final double currentExtent = (maxHeaderExtent - shrinkOffset)
         .clamp(minHeaderExtent, maxHeaderExtent)
         .toDouble();
@@ -143,9 +140,9 @@ class _PulseScreenState extends State<PulseScreen>
   final ScrollController _scrollController = ScrollController();
   final Map<_PulseTimeBucket, GlobalKey> _sectionKeys =
       <_PulseTimeBucket, GlobalKey>{
-    for (final bucket in _PulseTimeBucket.values)
-      bucket: GlobalKey(debugLabel: 'pulse-${bucket.name}'),
-  };
+        for (final bucket in _PulseTimeBucket.values)
+          bucket: GlobalKey(debugLabel: 'pulse-${bucket.name}'),
+      };
 
   RealtimeChannel? _channel;
   Timer? _relativeTimeTicker;
@@ -153,6 +150,7 @@ class _PulseScreenState extends State<PulseScreen>
   bool _isLoading = true;
   bool _isLoadingMore = false;
   bool _hasMore = true;
+  bool _hasNetworkError = false;
   _PulseTimeBucket _activeSummaryBucket = _PulseTimeBucket.recent;
   final Map<_PulseTimeBucket, _PulseSummary> _backendSummary =
       <_PulseTimeBucket, _PulseSummary>{};
@@ -187,14 +185,8 @@ class _PulseScreenState extends State<PulseScreen>
       ),
     ]).animate(pulseCurve);
     _summaryDotOpacity = TweenSequence<double>([
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 0.0, end: 0.6),
-        weight: 45,
-      ),
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 0.6, end: 0.0),
-        weight: 55,
-      ),
+      TweenSequenceItem(tween: Tween<double>(begin: 0.0, end: 0.6), weight: 45),
+      TweenSequenceItem(tween: Tween<double>(begin: 0.6, end: 0.0), weight: 55),
     ]).animate(pulseCurve);
     _scrollController.addListener(_onScroll);
     _loadInitialFeed();
@@ -214,8 +206,10 @@ class _PulseScreenState extends State<PulseScreen>
   }
 
   void _completePulseMilestone() {
-    Provider.of<OnboardingService>(context, listen: false)
-        .completeMilestonePulse();
+    Provider.of<OnboardingService>(
+      context,
+      listen: false,
+    ).completeMilestonePulse();
   }
 
   @override
@@ -256,6 +250,7 @@ class _PulseScreenState extends State<PulseScreen>
         _hasMore = parsed.length >= _pageSize;
         _isLoading = false;
         _isLoadingMore = false;
+        _hasNetworkError = false;
         _activeSummaryBucket = _defaultActiveBucketForCurrentData();
       });
       _scheduleSummaryBucketSync();
@@ -270,6 +265,7 @@ class _PulseScreenState extends State<PulseScreen>
       setState(() {
         _isLoading = false;
         _isLoadingMore = false;
+        _hasNetworkError = true;
       });
     }
   }
@@ -305,17 +301,20 @@ class _PulseScreenState extends State<PulseScreen>
 
       final createdAt = _parseCreatedAt(createdAtRaw);
       if (createdAt == null) continue;
-      final waterAmount = (waterRaw as num?)?.toDouble() ??
+      final waterAmount =
+          (waterRaw as num?)?.toDouble() ??
           double.tryParse(waterRaw.toString());
       if (waterAmount == null) continue;
 
-      parsed.add(_PulseEntry(
-        id: (row['id'] as num?)?.toInt(),
-        recipeId: recipeId,
-        createdAt: createdAt,
-        waterAmount: waterAmount,
-        countryCode: row['country_code']?.toString(),
-      ));
+      parsed.add(
+        _PulseEntry(
+          id: (row['id'] as num?)?.toInt(),
+          recipeId: recipeId,
+          createdAt: createdAt,
+          waterAmount: waterAmount,
+          countryCode: row['country_code']?.toString(),
+        ),
+      );
     }
 
     return parsed;
@@ -472,8 +471,9 @@ class _PulseScreenState extends State<PulseScreen>
     final recipeProvider = Provider.of<RecipeProvider>(context, listen: false);
 
     try {
-      final RecipeModel? localRecipe =
-          await recipeProvider.getRecipeById(recipeId);
+      final RecipeModel? localRecipe = await recipeProvider.getRecipeById(
+        recipeId,
+      );
       if (localRecipe != null) {
         if (!mounted) return;
         final resolved = _RecipeResolution(
@@ -498,7 +498,8 @@ class _PulseScreenState extends State<PulseScreen>
       final response = await Supabase.instance.client
           .from('user_recipes')
           .select(
-              'id, ispublic, is_deleted, brewing_method_id, user_recipe_localizations(name, locale)')
+            'id, ispublic, is_deleted, brewing_method_id, user_recipe_localizations(name, locale)',
+          )
           .eq('id', recipeId)
           .eq('ispublic', true)
           .eq('is_deleted', false)
@@ -508,20 +509,21 @@ class _PulseScreenState extends State<PulseScreen>
       if (response is Map<String, dynamic>) {
         final List<dynamic> localizations =
             (response['user_recipe_localizations'] as List<dynamic>?) ??
-                const <dynamic>[];
+            const <dynamic>[];
 
         String title = pulseUserRecipeLabel;
-        final localizedFirst =
-            localizations.cast<Map<String, dynamic>?>().firstWhere(
-                  (row) => row?['locale']?.toString() == locale,
-                  orElse: () => null,
-                );
-        final fallbackFirst =
-            localizations.cast<Map<String, dynamic>?>().firstWhere(
-                  (row) =>
-                      (row?['name']?.toString().trim().isNotEmpty ?? false),
-                  orElse: () => null,
-                );
+        final localizedFirst = localizations
+            .cast<Map<String, dynamic>?>()
+            .firstWhere(
+              (row) => row?['locale']?.toString() == locale,
+              orElse: () => null,
+            );
+        final fallbackFirst = localizations
+            .cast<Map<String, dynamic>?>()
+            .firstWhere(
+              (row) => (row?['name']?.toString().trim().isNotEmpty ?? false),
+              orElse: () => null,
+            );
 
         final maybeName = (localizedFirst?['name'] ?? fallbackFirst?['name'])
             ?.toString()
@@ -556,10 +558,12 @@ class _PulseScreenState extends State<PulseScreen>
 
   void _openRecipe(_PulseEntry entry, _RecipeResolution recipe) {
     if (!recipe.isOpenable) return;
-    context.router.push(RecipeDetailRoute(
-      brewingMethodId: recipe.brewingMethodId!,
-      recipeId: entry.recipeId,
-    ));
+    context.router.push(
+      RecipeDetailRoute(
+        brewingMethodId: recipe.brewingMethodId!,
+        recipeId: entry.recipeId,
+      ),
+    );
   }
 
   void _animateEntry(String key) {
@@ -638,9 +642,10 @@ class _PulseScreenState extends State<PulseScreen>
     if (parsed == null) return null;
     if (parsed.isUtc) return parsed.toUtc();
 
-    final hasTimezoneSuffix =
-        RegExp(r'(Z|[+-]\d{2}(?::?\d{2})?)$', caseSensitive: false)
-            .hasMatch(rawText);
+    final hasTimezoneSuffix = RegExp(
+      r'(Z|[+-]\d{2}(?::?\d{2})?)$',
+      caseSensitive: false,
+    ).hasMatch(rawText);
     if (hasTimezoneSuffix) return parsed.toUtc();
 
     // Treat timezone-less backend timestamps as UTC for consistent bucketing.
@@ -682,8 +687,11 @@ class _PulseScreenState extends State<PulseScreen>
       return _PulseTimeBucket.yesterday;
     }
 
-    final startOfWeek =
-        DateTime(now.year, now.month, now.day - (now.weekday - 1));
+    final startOfWeek = DateTime(
+      now.year,
+      now.month,
+      now.day - (now.weekday - 1),
+    );
     if (!localCreated.isBefore(startOfWeek)) {
       return _PulseTimeBucket.thisWeek;
     }
@@ -728,21 +736,20 @@ class _PulseScreenState extends State<PulseScreen>
       brews += 1;
       liters += entry.waterAmount / 1000.0;
     }
-    return _PulseSummary(
-      brews: brews,
-      liters: liters,
-    );
+    return _PulseSummary(brews: brews, liters: liters);
   }
 
   Future<void> _loadBackendSummary() async {
     try {
-      final response = await Supabase.instance.client.rpc(
-        'global_stats_live_summary',
-        params: {
-          'p_now': DateTime.now().toUtc().toIso8601String(),
-          'p_utc_offset_minutes': DateTime.now().timeZoneOffset.inMinutes,
-        },
-      ).timeout(const Duration(seconds: 4));
+      final response = await Supabase.instance.client
+          .rpc(
+            'global_stats_live_summary',
+            params: {
+              'p_now': DateTime.now().toUtc().toIso8601String(),
+              'p_utc_offset_minutes': DateTime.now().timeZoneOffset.inMinutes,
+            },
+          )
+          .timeout(const Duration(seconds: 4));
 
       if (response is! List) return;
 
@@ -781,10 +788,12 @@ class _PulseScreenState extends State<PulseScreen>
         }
         if (bucket == null) continue;
 
-        final brews = (row['brew_count'] as num?)?.toInt() ??
+        final brews =
+            (row['brew_count'] as num?)?.toInt() ??
             int.tryParse(row['brew_count']?.toString() ?? '') ??
             0;
-        final liters = (row['water_liters'] as num?)?.toDouble() ??
+        final liters =
+            (row['water_liters'] as num?)?.toDouble() ??
             double.tryParse(row['water_liters']?.toString() ?? '') ??
             0.0;
 
@@ -811,8 +820,11 @@ class _PulseScreenState extends State<PulseScreen>
     final diff = now.difference(localCreated);
     final startOfToday = DateTime(now.year, now.month, now.day);
     final startOfYesterday = DateTime(now.year, now.month, now.day - 1);
-    final startOfWeek =
-        DateTime(now.year, now.month, now.day - (now.weekday - 1));
+    final startOfWeek = DateTime(
+      now.year,
+      now.month,
+      now.day - (now.weekday - 1),
+    );
     final startOfMonth = DateTime(now.year, now.month);
     final startOfYear = DateTime(now.year);
 
@@ -838,14 +850,14 @@ class _PulseScreenState extends State<PulseScreen>
   }
 
   double _summaryHeaderMaxExtentForContext(BuildContext context) {
-    final textScale =
-        (MediaQuery.textScalerOf(context).scale(14.0) / 14.0).clamp(1.0, 1.4);
+    final textScale = (MediaQuery.textScalerOf(context).scale(14.0) / 14.0)
+        .clamp(1.0, 1.4);
     return 128 + ((textScale - 1.0) * 36);
   }
 
   double _summaryHeaderMinExtentForContext(BuildContext context) {
-    final textScale =
-        (MediaQuery.textScalerOf(context).scale(14.0) / 14.0).clamp(1.0, 1.4);
+    final textScale = (MediaQuery.textScalerOf(context).scale(14.0) / 14.0)
+        .clamp(1.0, 1.4);
     return 72 + ((textScale - 1.0) * 18);
   }
 
@@ -874,7 +886,8 @@ class _PulseScreenState extends State<PulseScreen>
 
     final media = MediaQuery.maybeOf(context);
     final topInset = media?.padding.top ?? 0;
-    final anchorY = topInset +
+    final anchorY =
+        topInset +
         kToolbarHeight +
         _summaryHeaderMinExtentForContext(context) +
         2;
@@ -953,29 +966,39 @@ class _PulseScreenState extends State<PulseScreen>
     return from + ((to - from) * t);
   }
 
-  Widget _buildSummaryHeader(BuildContext context,
-      {required double collapseT}) {
+  Widget _buildSummaryHeader(
+    BuildContext context, {
+    required double collapseT,
+  }) {
     final summary = _summaryForBucket(_activeSummaryBucket);
     final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final double t = collapseT.clamp(0.0, 1.0).toDouble();
-    final double metricsVisibility =
-        (1.0 - (t * 1.25)).clamp(0.0, 1.0).toDouble();
-    final double compactVisibility =
-        ((t - 0.45) / 0.55).clamp(0.0, 1.0).toDouble();
+    final double metricsVisibility = (1.0 - (t * 1.25))
+        .clamp(0.0, 1.0)
+        .toDouble();
+    final double compactVisibility = ((t - 0.45) / 0.55)
+        .clamp(0.0, 1.0)
+        .toDouble();
     final outerVerticalPadding = _lerp(8, 3, t);
     final cardVerticalPadding = _lerp(10, 7, t);
     final rowSpacing = _lerp(8, 4, t);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
-          16, outerVerticalPadding, 16, outerVerticalPadding),
+        16,
+        outerVerticalPadding,
+        16,
+        outerVerticalPadding,
+      ),
       child: Card(
         margin: EdgeInsets.zero,
         child: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: 10, vertical: cardVerticalPadding),
+            horizontal: 10,
+            vertical: cardVerticalPadding,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -998,11 +1021,13 @@ class _PulseScreenState extends State<PulseScreen>
                               height: 10,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color:
-                                    colorScheme.primary.withValues(alpha: 0.1),
+                                color: colorScheme.primary.withValues(
+                                  alpha: 0.1,
+                                ),
                                 border: Border.all(
-                                  color: colorScheme.primary
-                                      .withValues(alpha: 0.9),
+                                  color: colorScheme.primary.withValues(
+                                    alpha: 0.9,
+                                  ),
                                   width: 1.4,
                                 ),
                               ),
@@ -1156,26 +1181,30 @@ class _PulseScreenState extends State<PulseScreen>
       child: Text(
         _bucketLabel(context, bucket),
         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: Theme.of(context).colorScheme.onSurface.withValues(
-                    alpha: 0.72,
-                  ),
-            ),
+          fontWeight: FontWeight.w700,
+          color: Theme.of(
+            context,
+          ).colorScheme.onSurface.withValues(alpha: 0.72),
+        ),
       ),
     );
   }
 
   List<Widget> _buildGroupedFeedChildren(
-      BuildContext context, List<_PulseSection> sections) {
+    BuildContext context,
+    List<_PulseSection> sections,
+  ) {
     final widgets = <Widget>[];
     for (var i = 0; i < sections.length; i++) {
       final section = sections[i];
       widgets.add(_buildSectionHeader(context, section.bucket));
       for (final entry in section.entries) {
-        widgets.add(Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: _buildAnimatedEntryCard(context, entry),
-        ));
+        widgets.add(
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: _buildAnimatedEntryCard(context, entry),
+          ),
+        );
       }
       if (i != sections.length - 1) {
         widgets.add(const SizedBox(height: 4));
@@ -1203,7 +1232,8 @@ class _PulseScreenState extends State<PulseScreen>
     final l10n = AppLocalizations.of(context)!;
     final isEntering = _enteringKeys.contains(entry.dedupeKey);
     final isHighlighted = _highlightedKeys.contains(entry.dedupeKey);
-    final recipe = _recipeCache[entry.recipeId] ??
+    final recipe =
+        _recipeCache[entry.recipeId] ??
         _RecipeResolution(title: l10n.loadingEllipsis, brewingMethodId: null);
 
     return AnimatedSlide(
@@ -1225,10 +1255,9 @@ class _PulseScreenState extends State<PulseScreen>
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: isHighlighted
-                  ? Theme.of(context)
-                      .colorScheme
-                      .secondaryContainer
-                      .withValues(alpha: 0.35)
+                  ? Theme.of(
+                      context,
+                    ).colorScheme.secondaryContainer.withValues(alpha: 0.35)
                   : Colors.transparent,
             ),
             child: Card(
@@ -1259,11 +1288,10 @@ class _PulseScreenState extends State<PulseScreen>
                     Text(
                       _formatRelativeTime(entry.createdAt),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.65),
-                          ),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.65),
+                      ),
                     ),
                   ],
                 ),
@@ -1277,30 +1305,44 @@ class _PulseScreenState extends State<PulseScreen>
 
   Widget _buildEmptyState(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isOffline = _hasNetworkError;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              Icons.timeline,
-              size: 44,
-              color: Theme.of(context).colorScheme.onSurface.withValues(
-                    alpha: 0.5,
-                  ),
+              isOffline ? Icons.wifi_off_rounded : Icons.timeline,
+              size: 52,
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.35),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             Text(
-              l10n.noData,
+              isOffline ? l10n.noInternetConnection : l10n.noData,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            const SizedBox(height: 10),
+            if (isOffline) ...[
+              const SizedBox(height: 8),
+              Text(
+                l10n.noInternetConnectionDesc,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.6),
+                ),
+              ),
+            ],
+            const SizedBox(height: 20),
             OutlinedButton.icon(
               onPressed: () {
                 setState(() {
                   _isLoading = true;
+                  _hasNetworkError = false;
                 });
                 _loadInitialFeed();
                 _loadBackendSummary();
@@ -1327,7 +1369,7 @@ class _PulseScreenState extends State<PulseScreen>
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Symbols.vital_signs),
+            const VitalSignsIcon(),
             const SizedBox(width: 8),
             Text(AppLocalizations.of(context)!.pulseTitle),
           ],
@@ -1336,32 +1378,31 @@ class _PulseScreenState extends State<PulseScreen>
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _entries.isEmpty
-              ? _buildEmptyState(context)
-              : RefreshIndicator(
-                  onRefresh: _handlePullToRefresh,
-                  child: CustomScrollView(
-                    controller: _scrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    slivers: [
-                      SliverPersistentHeader(
-                        pinned: true,
-                        delegate: _PinnedPulseHeaderDelegate(
-                          minHeaderExtent: summaryHeaderMinExtent,
-                          maxHeaderExtent: summaryHeaderMaxExtent,
-                          builder: (context, collapseT) => _buildSummaryHeader(
-                              context,
-                              collapseT: collapseT),
-                        ),
-                      ),
-                      SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                        sliver: SliverList(
-                          delegate: SliverChildListDelegate(groupedChildren),
-                        ),
-                      ),
-                    ],
+          ? _buildEmptyState(context)
+          : RefreshIndicator(
+              onRefresh: _handlePullToRefresh,
+              child: CustomScrollView(
+                controller: _scrollController,
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: [
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _PinnedPulseHeaderDelegate(
+                      minHeaderExtent: summaryHeaderMinExtent,
+                      maxHeaderExtent: summaryHeaderMaxExtent,
+                      builder: (context, collapseT) =>
+                          _buildSummaryHeader(context, collapseT: collapseT),
+                    ),
                   ),
-                ),
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate(groupedChildren),
+                    ),
+                  ),
+                ],
+              ),
+            ),
     );
   }
 
@@ -1372,8 +1413,10 @@ class _PulseScreenState extends State<PulseScreen>
   ) {
     final l10n = AppLocalizations.of(context)!;
     const marker = '__recipe_name__';
-    final String? localizedCountry =
-        localizedCountryNameGenitive(entry.countryCode, Localizations.localeOf(context));
+    final String? localizedCountry = localizedCountryNameGenitive(
+      entry.countryCode,
+      Localizations.localeOf(context),
+    );
     final template = localizedCountry != null
         ? l10n.pulseSomeoneFromBrewed(localizedCountry, marker)
         : l10n.pulseSomeoneBrewed(marker);

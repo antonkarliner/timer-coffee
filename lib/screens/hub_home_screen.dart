@@ -19,6 +19,7 @@ import '../providers/user_stat_provider.dart';
 import '../providers/user_recipe_provider.dart'; // Import UserRecipeProvider
 import '../theme/design_tokens.dart'; // Import design tokens for AppRadius
 import '../utils/app_logger.dart'; // Import AppLogger
+import '../utils/app_material_symbols.dart';
 import '../widgets/base_buttons.dart';
 import '../widgets/account_avatar_inline.dart';
 import '../widgets/coffee_journey_card.dart';
@@ -26,7 +27,6 @@ import '../services/onboarding_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../database/database.dart';
 import 'pulse_screen.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
 // Added import
 // Import http package
 // Import for RecipeCreationScreen
@@ -260,7 +260,7 @@ class _HubHomeScreenState extends State<HubHomeScreen> {
               _HubListTile(
                 identifier: 'pulse',
                 label: l10n.pulseTitle,
-                icon: Symbols.vital_signs,
+                iconWidget: const VitalSignsIcon(),
                 title: l10n.pulseTitle,
                 subtitle: l10n.hubPulseSubtitle,
                 onTap: () {
@@ -799,9 +799,10 @@ class _HubListTile extends StatelessWidget {
   const _HubListTile({
     required this.identifier,
     required this.label,
-    required this.icon,
     required this.title,
     required this.onTap,
+    this.icon,
+    this.iconWidget,
     this.leading,
     this.subtitle,
     this.isCompact = false,
@@ -809,7 +810,8 @@ class _HubListTile extends StatelessWidget {
 
   final String identifier;
   final String label;
-  final IconData icon;
+  final IconData? icon;
+  final Widget? iconWidget;
   final Widget? leading;
   final String title;
   final String? subtitle;
@@ -826,7 +828,7 @@ class _HubListTile extends StatelessWidget {
       child: ListTile(
         dense: isCompact,
         visualDensity: isCompact ? VisualDensity.compact : null,
-        leading: leading ?? Icon(icon),
+        leading: leading ?? iconWidget ?? Icon(icon),
         title: Text(
           title,
           style: theme.textTheme.bodyLarge?.copyWith(

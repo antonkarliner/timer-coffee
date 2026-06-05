@@ -135,23 +135,46 @@ class _RoastersScreenState extends State<RoastersScreen> {
 
     if (provider.error != null && provider.roasters.isEmpty) {
       return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              provider.error!,
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: AppSpacing.base),
-            AppElevatedButton(
-              label: loc.retry,
-              onPressed: () => provider.loadInitial(),
-              isFullWidth: false,
-              height: AppButton.heightMedium,
-              padding: AppButton.paddingMedium,
-            ),
-          ],
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.wifi_off_rounded,
+                size: 56,
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.35),
+              ),
+              SizedBox(height: AppSpacing.base),
+              Text(
+                loc.noInternetConnection,
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: AppSpacing.sm),
+              Text(
+                loc.noInternetConnectionDesc,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withValues(alpha: 0.6),
+                    ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: AppSpacing.lg),
+              AppElevatedButton(
+                label: loc.retry,
+                onPressed: () => provider.loadInitial(),
+                isFullWidth: false,
+                height: AppButton.heightMedium,
+                padding: AppButton.paddingMedium,
+              ),
+            ],
+          ),
         ),
       );
     }
