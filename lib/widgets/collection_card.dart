@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../app_router.gr.dart';
 import '../models/recipe_collection_model.dart';
+import '../services/analytics_service.dart';
 import '../theme/design_tokens.dart';
 
 /// Full-width collection card shown on the Brewing Methods home.
@@ -12,11 +13,15 @@ import '../theme/design_tokens.dart';
 /// the app's discovery surfaces.
 class CollectionCard extends StatelessWidget {
   final RecipeCollectionModel collection;
+  final int cardIndex;
+  final int collectionCount;
 
   const CollectionCard({
-    Key? key,
+    super.key,
     required this.collection,
-  }) : super(key: key);
+    required this.cardIndex,
+    required this.collectionCount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +39,18 @@ class CollectionCard extends StatelessWidget {
       label: collection.name,
       child: GestureDetector(
         onTap: () {
-          context.router
-              .push(CollectionDetailRoute(collectionId: collection.id));
+          AnalyticsService.instance.track(
+            'collection_card_tapped',
+            properties: {
+              'collection_id': collection.id,
+              'source': 'home_carousel',
+              'card_index': cardIndex,
+              'collection_count': collectionCount,
+            },
+          );
+          context.router.push(
+            CollectionDetailRoute(collectionId: collection.id),
+          );
         },
         child: Card(
           shape: RoundedRectangleBorder(
@@ -65,8 +80,9 @@ class CollectionCard extends StatelessWidget {
                       height: emojiBoxSize,
                       width: emojiBoxSize,
                       alignment: Alignment.center,
-                      color: theme.colorScheme.surface
-                          .withAlpha((255 * 0.6).round()),
+                      color: theme.colorScheme.surface.withAlpha(
+                        (255 * 0.6).round(),
+                      ),
                       child: Text(
                         collection.emoji,
                         style: const TextStyle(fontSize: 48),

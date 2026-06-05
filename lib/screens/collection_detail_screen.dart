@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, TargetPlatform;
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -10,6 +11,7 @@ import '../models/recipe_collection_model.dart';
 import '../models/recipe_model.dart';
 import '../providers/recipe_collection_provider.dart';
 import '../providers/recipe_provider.dart';
+import '../services/analytics_service.dart';
 import '../theme/design_tokens.dart';
 import '../utils/icon_utils.dart';
 import '../widgets/favorite_button.dart';
@@ -21,13 +23,12 @@ class CollectionDetailScreen extends StatefulWidget {
   final String collectionId;
 
   const CollectionDetailScreen({
-    Key? key,
+    super.key,
     @PathParam('collectionId') required this.collectionId,
-  }) : super(key: key);
+  });
 
   @override
-  State<CollectionDetailScreen> createState() =>
-      _CollectionDetailScreenState();
+  State<CollectionDetailScreen> createState() => _CollectionDetailScreenState();
 }
 
 class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
@@ -36,10 +37,21 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
 
   Future<_CollectionView> _load(String locale) async {
     final provider = context.read<RecipeCollectionProvider>();
-    final collection =
-        await provider.getCollectionById(widget.collectionId, locale);
-    final recipes =
-        await provider.fetchRecipesFor(widget.collectionId, locale);
+    final collection = await provider.getCollectionById(
+      widget.collectionId,
+      locale,
+    );
+    final recipes = await provider.fetchRecipesFor(widget.collectionId, locale);
+    if (collection != null) {
+      AnalyticsService.instance.track(
+        'collection_detail_viewed',
+        properties: {
+          'collection_id': widget.collectionId,
+          'locale': locale,
+          'recipe_count': recipes.length,
+        },
+      );
+    }
     return _CollectionView(collection: collection, recipes: recipes);
   }
 
@@ -47,10 +59,7 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     // Watch the locale so we reload contents when the user changes language.
-    final locale = context
-        .watch<RecipeProvider>()
-        .currentLocale
-        .languageCode;
+    final locale = context.watch<RecipeProvider>().currentLocale.languageCode;
     if (_future == null || _loadedForLocale != locale) {
       _loadedForLocale = locale;
       _future = _load(locale);
@@ -69,9 +78,7 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
               children: [
                 Text(c.emoji, style: const TextStyle(fontSize: 22)),
                 const SizedBox(width: AppSpacing.sm),
-                Flexible(
-                  child: Text(c.name, overflow: TextOverflow.ellipsis),
-                ),
+                Flexible(child: Text(c.name, overflow: TextOverflow.ellipsis)),
               ],
             );
           },
@@ -80,9 +87,11 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
           Builder(
             builder: (buttonContext) => IconButton(
               tooltip: loc.collectionShareTooltip,
-              icon: Icon(defaultTargetPlatform == TargetPlatform.iOS
-                  ? CupertinoIcons.share
-                  : Icons.share),
+              icon: Icon(
+                defaultTargetPlatform == TargetPlatform.iOS
+                    ? CupertinoIcons.share
+                    : Icons.share,
+              ),
               onPressed: () => _shareCollection(buttonContext),
             ),
           ),
@@ -114,8 +123,8 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
                   child: Text(
                     view.collection!.description!,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               Expanded(
@@ -126,15 +135,29 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
                         itemBuilder: (context, index) {
                           final recipe = recipes[index];
                           return ListTile(
-                            leading:
-                                getIconByBrewingMethod(recipe.brewingMethodId),
+                            leading: getIconByBrewingMethod(
+                              recipe.brewingMethodId,
+                            ),
                             title: Text(recipe.name),
                             trailing: FavoriteButton(recipeId: recipe.id),
                             onTap: () {
-                              context.router.push(RecipeDetailRoute(
-                                brewingMethodId: recipe.brewingMethodId,
-                                recipeId: recipe.id,
-                              ));
+                              AnalyticsService.instance.track(
+                                'collection_recipe_tapped',
+                                properties: {
+                                  'collection_id': widget.collectionId,
+                                  'recipe_id': recipe.id,
+                                  'brewing_method_id': recipe.brewingMethodId,
+                                  'locale': locale,
+                                  'recipe_index': index,
+                                  'recipe_count': recipes.length,
+                                },
+                              );
+                              context.router.push(
+                                RecipeDetailRoute(
+                                  brewingMethodId: recipe.brewingMethodId,
+                                  recipeId: recipe.id,
+                                ),
+                              );
                             },
                           );
                         },
@@ -148,8 +171,14 @@ class _CollectionDetailScreenState extends State<CollectionDetailScreen> {
   }
 
   Future<void> _shareCollection(BuildContext buttonContext) async {
-    final url =
-        'https://app.timer.coffee/collections/${widget.collectionId}';
+    AnalyticsService.instance.track(
+      'collection_shared',
+      properties: {
+        'collection_id': widget.collectionId,
+        'source': 'collection_detail',
+      },
+    );
+    final url = 'https://app.timer.coffee/collections/${widget.collectionId}';
     final box = buttonContext.findRenderObject() as RenderBox?;
     final mediaQuery = MediaQuery.of(buttonContext);
     Rect? origin;

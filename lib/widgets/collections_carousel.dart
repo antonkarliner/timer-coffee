@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/recipe_collection_provider.dart';
 import '../providers/recipe_provider.dart';
+import '../services/analytics_service.dart';
 import '../services/collections_preferences_service.dart';
 import '../theme/design_tokens.dart';
 import '../widgets/base_buttons.dart';
@@ -16,7 +17,7 @@ import 'package:coffee_timer/l10n/app_localizations.dart';
 /// no collections have synced yet, when the user collapses it (header
 /// stays), or when the user dismisses it (re-enable from Settings).
 class CollectionsCarousel extends StatefulWidget {
-  const CollectionsCarousel({Key? key}) : super(key: key);
+  const CollectionsCarousel({super.key});
 
   @override
   State<CollectionsCarousel> createState() => _CollectionsCarouselState();
@@ -41,7 +42,10 @@ class _CollectionsCarouselState extends State<CollectionsCarousel> {
     super.dispose();
   }
 
-  Future<void> _confirmDismiss(BuildContext context) async {
+  Future<void> _confirmDismiss(
+    BuildContext context,
+    int collectionCount,
+  ) async {
     final l10n = AppLocalizations.of(context)!;
     final prefs = context.read<CollectionsPreferencesService>();
     final confirmed = await showDialog<bool>(
@@ -73,8 +77,32 @@ class _CollectionsCarouselState extends State<CollectionsCarousel> {
       },
     );
     if (confirmed == true) {
+      AnalyticsService.instance.track(
+        'collections_visibility_changed',
+        properties: {
+          'visible': false,
+          'source': 'home_carousel',
+          'collection_count': collectionCount,
+        },
+      );
       await prefs.setDismissed(true);
     }
+  }
+
+  Future<void> _toggleCollapsed(
+    CollectionsPreferencesService prefs,
+    bool collapsed,
+    int collectionCount,
+  ) async {
+    final nextCollapsed = !collapsed;
+    AnalyticsService.instance.track(
+      'collections_section_toggled',
+      properties: {
+        'collapsed': nextCollapsed,
+        'collection_count': collectionCount,
+      },
+    );
+    await prefs.setCollapsed(nextCollapsed);
   }
 
   @override
@@ -83,10 +111,7 @@ class _CollectionsCarouselState extends State<CollectionsCarousel> {
     if (prefs.dismissed) return const SizedBox.shrink();
 
     // Watch the locale so we re-fetch when the user changes language.
-    final locale = context
-        .watch<RecipeProvider>()
-        .currentLocale
-        .languageCode;
+    final locale = context.watch<RecipeProvider>().currentLocale.languageCode;
     if (locale != _lastLocale) {
       _lastLocale = locale;
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -95,8 +120,7 @@ class _CollectionsCarouselState extends State<CollectionsCarousel> {
       });
     }
 
-    final collections =
-        context.watch<RecipeCollectionProvider>().collections;
+    final collections = context.watch<RecipeCollectionProvider>().collections;
     if (collections.isEmpty) return const SizedBox.shrink();
 
     final l10n = AppLocalizations.of(context)!;
@@ -111,7 +135,7 @@ class _CollectionsCarouselState extends State<CollectionsCarousel> {
           identifier: 'collectionsHeader',
           button: true,
           child: InkWell(
-            onTap: () => prefs.setCollapsed(!collapsed),
+            onTap: () => _toggleCollapsed(prefs, collapsed, collections.length),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppSpacing.base,
@@ -159,7 +183,8 @@ class _CollectionsCarouselState extends State<CollectionsCarousel> {
                       AppSpacing.base,
                       AppSpacing.sm,
                     ),
-                    onPressed: () => _confirmDismiss(context),
+                    onPressed: () =>
+                        _confirmDismiss(context, collections.length),
                   ),
                 ],
               ),
@@ -186,16 +211,20 @@ class _CollectionsCarouselState extends State<CollectionsCarousel> {
                           left: isFirst ? AppSpacing.base : AppSpacing.xs,
                           right: isLast ? AppSpacing.base : AppSpacing.xs,
                         ),
-                        child: CollectionCard(collection: collections[index]),
+                        child: CollectionCard(
+                          collection: collections[index],
+                          cardIndex: index,
+                          collectionCount: collections.length,
+                        ),
                       );
                     },
                   ),
                 ),
         ),
         // Section separator below the carousel (matches the divider further
-        // down the screen, above the brewing methods list).
+        // down the screen, beneath the quick-actions band).
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
           child: Divider(
             color: theme.dividerColor.withAlpha((255 * 0.3).round()),
             thickness: 0.7,

@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io' show Platform;
 
-import 'package:flutter/foundation.dart' show kIsWeb, ChangeNotifier;
+import 'package:flutter/foundation.dart'
+    show ChangeNotifier, kIsWeb, visibleForTesting;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -22,8 +23,8 @@ import '../utils/app_logger.dart';
 ///   review_edited, review_deleted, review_translated,
 ///   reviews_translated_batch
 /// - **general**: app_opened, screen_viewed, recipe_created, recipe_shared,
-///   donation_screen_viewed, donation_button_tapped, donation_completed,
-///   donation_failed
+///   collection interactions and sharing, donation_screen_viewed,
+///   donation_button_tapped, donation_completed, donation_failed
 class AnalyticsService extends ChangeNotifier {
   AnalyticsService._();
 
@@ -31,7 +32,10 @@ class AnalyticsService extends ChangeNotifier {
 
   /// The singleton instance. Call [initialize] before accessing.
   static AnalyticsService get instance {
-    assert(_instance != null, 'AnalyticsService.initialize() must be called first');
+    assert(
+      _instance != null,
+      'AnalyticsService.initialize() must be called first',
+    );
     return _instance!;
   }
 
@@ -71,6 +75,12 @@ class AnalyticsService extends ChangeNotifier {
     'screen_viewed': 'general',
     'recipe_created': 'general',
     'recipe_shared': 'general',
+    'collection_card_tapped': 'general',
+    'collection_detail_viewed': 'general',
+    'collection_recipe_tapped': 'general',
+    'collection_shared': 'general',
+    'collections_section_toggled': 'general',
+    'collections_visibility_changed': 'general',
     'donation_screen_viewed': 'general',
     'donation_button_tapped': 'general',
     'donation_completed': 'general',
@@ -181,6 +191,22 @@ class AnalyticsService extends ChangeNotifier {
 
   /// Number of events currently buffered (for testing/debugging).
   int get bufferLength => _buffer.length;
+
+  @visibleForTesting
+  List<Map<String, dynamic>> get bufferedEventsForTesting {
+    return List.unmodifiable(
+      _buffer.map((event) {
+        final snapshot = <String, dynamic>{};
+        for (final entry in event.entries) {
+          final value = entry.value;
+          snapshot[entry.key] = value is Map
+              ? Map<String, dynamic>.unmodifiable(value.cast<String, dynamic>())
+              : value;
+        }
+        return Map<String, dynamic>.unmodifiable(snapshot);
+      }),
+    );
+  }
 
   // ──────────────────── Public API ────────────────────
 
