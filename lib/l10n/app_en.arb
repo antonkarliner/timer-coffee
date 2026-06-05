@@ -130,6 +130,14 @@
   "unknownRecipe": "Unknown Recipe",
   "pulseUserRecipe": "User recipe",
   "noData": "No data",
+  "noInternetConnection": "No internet connection",
+  "@noInternetConnection": {
+    "description": "Title shown when content cannot be loaded due to no network"
+  },
+  "noInternetConnectionDesc": "Connect to the internet to view this content.",
+  "@noInternetConnectionDesc": {
+    "description": "Body text shown when content cannot be loaded due to no network"
+  },
   "refresh": "Refresh",
   "error": "Error: {error}",
   "@error": {
@@ -293,7 +301,7 @@
   "showImagePicker": "Show Image Picker",
   "aiScanLabel": "AI Scan",
   "pleaseNote": "Please note",
-  "firstTimePopupMessage": "1. We use external services to process images. By continuing, you agree to this.\n2. While we do not store your images, please avoid including any personal details.\n3. Image recognition is currently limited to 10 tokens per month (1 token = 1 image). This limit may change in the future.",
+  "firstTimePopupMessage": "1. We use external services to process images. By continuing, you agree to this.\n2. While we do not store your images, please avoid including any personal details.\n3. Image recognition is currently limited to 20 tokens per month (1 token = 1 image). This limit may change in the future.",
   "ok": "OK",
   "takePhoto": "Take a photo",
   "selectFromPhotos": "Select from photos",

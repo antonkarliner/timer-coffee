@@ -129,6 +129,8 @@
   "globalStats": "Global statistikk",
   "unknownRecipe": "Ukjent oppskrift",
   "noData": "Ingen data",
+  "noInternetConnection": "Ingen internettforbindelse",
+  "noInternetConnectionDesc": "Koble til internett for å se dette innholdet.",
   "error": "Feil: {error}",
   "@error": {
     "description": "Generic error message label combined with the specific error description",
@@ -192,7 +194,7 @@
   "addCoffeeBeans": "Legg til kaffebønner",
   "showImagePicker": "Åpne bildevalg",
   "pleaseNote": "Vennligst merk",
-  "firstTimePopupMessage": "1. Vi bruker eksterne tjenester for å behandle bilder. Ved å fortsette godtar du dette.\n2. Selv om vi ikke lagrer bildene dine, vennligst unngå å inkludere personlige detaljer.\n3. Bildegjenkjenning er for øyeblikket begrenset til 10 tokens per måned (1 token = 1 bilde). Denne grensen kan endres i fremtiden.",
+  "firstTimePopupMessage": "1. Vi bruker eksterne tjenester for å behandle bilder. Ved å fortsette godtar du dette.\n2. Selv om vi ikke lagrer bildene dine, vennligst unngå å inkludere personlige detaljer.\n3. Bildegjenkjenning er for øyeblikket begrenset til 20 tokens per måned (1 token = 1 bilde). Denne grensen kan endres i fremtiden.",
   "ok": "OK",
   "takePhoto": "Ta et bilde",
   "selectFromPhotos": "Velg fra bilder",
