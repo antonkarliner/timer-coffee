@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:coffee_timer/database/database.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:coffee_timer/database/extensions.dart';
 import 'package:diacritic/diacritic.dart';
@@ -74,39 +76,115 @@ class DatabaseProvider {
     required bool isFirstLaunch,
     String? locale,
   }) async {
-    if (isFirstLaunch) {
-      // No timeout on the first launch to ensure all essential data is loaded
-      try {
-        await _initializeDatabaseInternal(
-          isFirstLaunch: isFirstLaunch,
-          locale: locale,
-        );
-      } catch (error) {
-        AppLogger.error(
-          'Error initializing database on first launch: ${AppLogger.sanitize(error)}',
-        );
-        // Optionally, handle the error appropriately
-      }
-    } else {
-      // Apply a 10-second timeout to the entire initialization process
-      try {
-        await _initializeDatabaseInternal(
-          isFirstLaunch: isFirstLaunch,
-          locale: locale,
-        ).timeout(
-          const Duration(seconds: 10),
-          onTimeout: () {
-            AppLogger.warning('initializeDatabase timed out');
-            // Proceed with partial data or notify the user
-            return;
-          },
-        );
-      } catch (error) {
-        AppLogger.error(
-          'Error initializing database: ${AppLogger.sanitize(error)}',
-        );
-        // Optionally, handle other errors
-      }
+    // 1. Network sync first. Online users get the freshest data and never touch the
+    //    bundled seed. A bounded timeout (generous on first launch so a normal online
+    //    first launch can complete a real full sync) guarantees we never hang offline.
+    try {
+      await _initializeDatabaseInternal(
+        isFirstLaunch: isFirstLaunch,
+        locale: locale,
+      ).timeout(
+        Duration(seconds: isFirstLaunch ? 15 : 10),
+        onTimeout: () {
+          AppLogger.warning(
+            'initializeDatabase timed out; will seed from bundle if DB is empty',
+          );
+          return;
+        },
+      );
+    } catch (error) {
+      AppLogger.error(
+        'Error initializing database: ${AppLogger.sanitize(error)}',
+      );
+    }
+
+    // 2. Offline fallback. If the sync produced no recipes (no network / failure),
+    //    seed the local DB from the bundled assets so the app is usable. On a
+    //    successful online sync the table is non-empty and this is skipped entirely.
+    if (await _shouldSeed()) {
+      await _seedFromBundledAssets();
+    }
+  }
+
+  /// True when the local recipes table is empty — the single signal that the
+  /// network sync failed to deliver (offline or timed out), regardless of cause.
+  Future<bool> _shouldSeed() async {
+    final ids = await _db.recipesDao.fetchIdsAndLastModifiedDates();
+    return ids.isEmpty;
+  }
+
+  /// Seeds the local Drift DB from the bundled JSON snapshot under
+  /// `assets/data/seed/`. The JSON mirrors the Supabase nested-select response
+  /// shape, so the same `*CompanionExtension.fromJson` parsers used by the network
+  /// path are reused verbatim. Best-effort: never throws into the init flow.
+  Future<void> _seedFromBundledAssets() async {
+    const dir = 'assets/data/seed';
+    try {
+      final recipesJson = (jsonDecode(
+        await rootBundle.loadString('$dir/recipes.json'),
+      ) as List)
+          .cast<Map<String, dynamic>>();
+      final brewingJson = (jsonDecode(
+        await rootBundle.loadString('$dir/brewing_methods.json'),
+      ) as List)
+          .cast<Map<String, dynamic>>();
+      final localesJson = (jsonDecode(
+        await rootBundle.loadString('$dir/supported_locales.json'),
+      ) as List)
+          .cast<Map<String, dynamic>>();
+      final factsJson = (jsonDecode(
+        await rootBundle.loadString('$dir/coffee_facts.json'),
+      ) as List)
+          .cast<Map<String, dynamic>>();
+
+      final recipes = recipesJson
+          .map((j) => RecipesCompanionExtension.fromJson(j))
+          .toList();
+      final localizations = recipesJson
+          .expand((j) => (j['recipe_localization'] as List? ?? const []))
+          .cast<Map<String, dynamic>>()
+          .map((j) => RecipeLocalizationsCompanionExtension.fromJson(j))
+          .toList();
+      final steps = recipesJson
+          .expand((j) => (j['steps'] as List? ?? const []))
+          .cast<Map<String, dynamic>>()
+          .map((j) => StepsCompanionExtension.fromJson(j))
+          .toList();
+      final brewingMethods = brewingJson
+          .map((j) => BrewingMethodsCompanionExtension.fromJson(j))
+          .toList();
+      final supportedLocales = localesJson
+          .map((j) => SupportedLocalesCompanionExtension.fromJson(j))
+          .toList();
+      final coffeeFacts = factsJson
+          .map((j) => CoffeeFactsCompanionExtension.fromJson(j))
+          .toList();
+
+      await _db.transaction(() async {
+        await _db.batch((batch) {
+          // Reference data first, then recipes, then their dependent rows — correct
+          // FK order even though constraints are disabled during first launch.
+          batch.insertAllOnConflictUpdate(_db.brewingMethods, brewingMethods);
+          batch.insertAllOnConflictUpdate(_db.supportedLocales, supportedLocales);
+          batch.insertAllOnConflictUpdate(_db.recipes, recipes);
+          batch.insertAllOnConflictUpdate(
+            _db.recipeLocalizations,
+            localizations,
+          );
+          batch.insertAllOnConflictUpdate(_db.steps, steps);
+          batch.insertAllOnConflictUpdate(_db.coffeeFacts, coffeeFacts);
+        });
+      });
+
+      AppLogger.warning(
+        'Seeded local DB from bundled assets: ${recipes.length} recipes, '
+        '${coffeeFacts.length} coffee facts',
+      );
+    } catch (error) {
+      AppLogger.error(
+        'Error seeding from bundled assets',
+        errorObject: AppLogger.sanitize(error),
+      );
     }
   }
 

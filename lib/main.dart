@@ -355,12 +355,25 @@ void main() async {
   // Check if there is an existing session or logged-in user
   final session = Supabase.instance.client.auth.currentSession;
   if (session == null) {
-    // No session found, proceed with anonymous sign-in
-    final authResult = await Supabase.instance.client.auth.signInAnonymously();
-    if (authResult.user == null) {
-      // Handle error
-    } else {
-      // Successfully signed in
+    // No session found, proceed with anonymous sign-in.
+    // Bounded with a timeout: on a fresh install with no network (e.g. airplane
+    // mode), this network call would otherwise block startup indefinitely and
+    // hang the splash screen. On failure/timeout we continue offline — remote
+    // features degrade gracefully and the local DB is seeded from bundled assets.
+    try {
+      final authResult = await Supabase.instance.client.auth
+          .signInAnonymously()
+          .timeout(const Duration(seconds: 10));
+      if (authResult.user == null) {
+        // Handle error
+      } else {
+        // Successfully signed in
+      }
+    } catch (e) {
+      AppLogger.error(
+        'Anonymous sign-in failed or timed out; continuing offline',
+        errorObject: e,
+      );
     }
   }
 
