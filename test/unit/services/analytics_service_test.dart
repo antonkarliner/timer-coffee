@@ -106,10 +106,10 @@ void main() {
       service.track('review_edited', properties: {'rating': 4});
       service.track('review_deleted');
       service.track('review_translated', properties: {'status': 'translated'});
-      service.track('reviews_translated_batch', properties: {
-        'requested_count': 3,
-        'succeeded_count': 2,
-      });
+      service.track(
+        'reviews_translated_batch',
+        properties: {'requested_count': 3, 'succeeded_count': 2},
+      );
       // All five are known beans events, so all should buffer.
       expect(service.bufferLength, 5);
     });
@@ -122,14 +122,88 @@ void main() {
       service.track('notification_scheduled');
       service.track('notification_tapped');
       service.track('beta_feature_toggled');
+      service.track('collection_card_tapped');
+      service.track('collection_detail_viewed');
+      service.track('collection_recipe_tapped');
+      service.track('collection_shared');
+      service.track('collections_section_toggled');
+      service.track('collections_visibility_changed');
       expect(service.bufferLength, 0);
     });
 
+    test('registers collection funnel events (general category)', () {
+      service.track(
+        'collection_card_tapped',
+        properties: {
+          'collection_id': 'summer-iced',
+          'source': 'home_carousel',
+          'card_index': 0,
+          'collection_count': 3,
+        },
+      );
+      service.track(
+        'collection_detail_viewed',
+        properties: {
+          'collection_id': 'summer-iced',
+          'locale': 'en',
+          'recipe_count': 4,
+        },
+      );
+      service.track(
+        'collection_recipe_tapped',
+        properties: {
+          'collection_id': 'summer-iced',
+          'recipe_id': 'recipe-123',
+          'brewing_method_id': 'v60',
+          'locale': 'en',
+          'recipe_index': 1,
+          'recipe_count': 4,
+        },
+      );
+      service.track(
+        'collection_shared',
+        properties: {
+          'collection_id': 'summer-iced',
+          'source': 'collection_detail',
+        },
+      );
+      service.track(
+        'collections_section_toggled',
+        properties: {'collapsed': true, 'collection_count': 3},
+      );
+      service.track(
+        'collections_visibility_changed',
+        properties: {'visible': false, 'source': 'settings_home_screen'},
+      );
+
+      final events = service.bufferedEventsForTesting;
+      expect(events.map((event) => event['event_name']).toList(), [
+        'collection_card_tapped',
+        'collection_detail_viewed',
+        'collection_recipe_tapped',
+        'collection_shared',
+        'collections_section_toggled',
+        'collections_visibility_changed',
+      ]);
+      expect(events.every((event) => event['category'] == 'general'), isTrue);
+
+      final cardProperties = events.first['properties'] as Map<String, dynamic>;
+      expect(cardProperties['collection_id'], 'summer-iced');
+      expect(cardProperties['source'], 'home_carousel');
+      expect(cardProperties['card_index'], 0);
+      expect(cardProperties['collection_count'], 3);
+
+      final recipeProperties = events[2]['properties'] as Map<String, dynamic>;
+      expect(recipeProperties['recipe_id'], 'recipe-123');
+      expect(recipeProperties['brewing_method_id'], 'v60');
+      expect(recipeProperties['recipe_index'], 1);
+    });
+
     test('buffers beta_feature_toggled under general category', () {
-      service.track('beta_feature_toggled', properties: {
-        'feature': 'manual_step_control',
-        'enabled': true,
-      });
+      service.track(
+        'beta_feature_toggled',
+        properties: {'feature': 'manual_step_control', 'enabled': true},
+      );
       expect(service.bufferLength, 1);
     });
 
