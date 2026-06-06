@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:coffee_timer/config/network_timeouts.dart';
 import 'package:coffee_timer/database/database.dart';
 import 'package:coffee_timer/env/env.dart';
 import 'package:coffee_timer/models/supported_locale_model.dart';
@@ -272,12 +273,12 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     ).timeout(
-      const Duration(seconds: 10),
+      NetworkTimeouts.handshake,
       onTimeout: () {
         AppLogger.warning('Firebase initialization timed out');
         throw TimeoutException(
-          'Firebase initialization timed out after 10 seconds',
-          const Duration(seconds: 10),
+          'Firebase initialization timed out',
+          NetworkTimeouts.handshake,
         );
       },
     );
@@ -333,12 +334,12 @@ void main() async {
   // Initialize Supabase with timeout protection
   try {
     await Supabase.initialize(url: Env.supaUrl, anonKey: Env.supaKey).timeout(
-      const Duration(seconds: 10),
+      NetworkTimeouts.handshake,
       onTimeout: () {
         AppLogger.warning('Supabase initialization timed out');
         throw TimeoutException(
-          'Supabase initialization timed out after 10 seconds',
-          const Duration(seconds: 10),
+          'Supabase initialization timed out',
+          NetworkTimeouts.handshake,
         );
       },
     );
@@ -363,7 +364,7 @@ void main() async {
     try {
       final authResult = await Supabase.instance.client.auth
           .signInAnonymously()
-          .timeout(const Duration(seconds: 10));
+          .timeout(NetworkTimeouts.handshake);
       if (authResult.user == null) {
         // Handle error
       } else {
@@ -409,7 +410,7 @@ void main() async {
     local: LocalFeatureFlagsStore(prefs),
     platform: platform,
     buildNumber: buildNumber,
-    fetchTimeout: const Duration(seconds: 3),
+    fetchTimeout: NetworkTimeouts.handshake,
   );
   // Kick off refresh but don't block startup
   unawaited(featureFlagsRepository.refresh());
@@ -514,8 +515,8 @@ void main() async {
   try {
     await Future.wait([
       databaseProvider
-          .fetchAndInsertUserPreferencesFromSupabase()
-          .timeout(const Duration(seconds: 10))
+          .reconcileUserPreferences()
+          .timeout(NetworkTimeouts.smallSync)
           .catchError(
             (e) => AppLogger.error(
               'User preferences sync timed out',
@@ -524,13 +525,13 @@ void main() async {
           ),
       userStatProvider
           .syncNewUserStats()
-          .timeout(const Duration(seconds: 10))
+          .timeout(NetworkTimeouts.handshake)
           .catchError(
             (e) => AppLogger.error('User stats sync timed out', errorObject: e),
           ),
       coffeeBeansProvider
           .syncNewCoffeeBeans()
-          .timeout(const Duration(seconds: 10))
+          .timeout(NetworkTimeouts.handshake)
           .catchError(
             (e) =>
                 AppLogger.error('Coffee beans sync timed out', errorObject: e),

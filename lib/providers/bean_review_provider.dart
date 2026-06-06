@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:coffee_timer/config/network_timeouts.dart';
 import 'package:coffee_timer/models/bean_review_model.dart';
 import 'package:coffee_timer/services/analytics_service.dart';
 import 'package:coffee_timer/utils/app_logger.dart';
@@ -82,7 +83,7 @@ class BeanReviewProvider extends ChangeNotifier {
           'p_offset': offset,
           'p_limit': limit,
         },
-      );
+      ).timeout(NetworkTimeouts.smallSync);
       if (response == null) return [];
       final fetched = (response as List)
           .map((e) => BeanReviewModel.fromJson(Map<String, dynamic>.from(e as Map)))
@@ -116,7 +117,7 @@ class BeanReviewProvider extends ChangeNotifier {
       final response = await Supabase.instance.client.rpc(
         'get_roaster_rating_summary',
         params: {'p_roaster_profile_id': roasterProfileId},
-      );
+      ).timeout(NetworkTimeouts.handshake);
       if (response == null) return null;
       final data = Map<String, dynamic>.from(response as Map);
       final summary = RatingsSummary(
@@ -149,7 +150,8 @@ class BeanReviewProvider extends ChangeNotifier {
           .select()
           .eq('user_id', user.id)
           .eq('coffee_beans_uuid', beansUuid)
-          .maybeSingle();
+          .maybeSingle()
+          .timeout(NetworkTimeouts.handshake);
       final review = response != null
           ? BeanReviewModel.fromJson(Map<String, dynamic>.from(response as Map))
           : null;
@@ -207,7 +209,7 @@ class BeanReviewProvider extends ChangeNotifier {
         if (bitterness != null) 'bitterness': bitterness,
         if (aftertaste != null) 'aftertaste': aftertaste,
         'is_public': true,
-      });
+      }).timeout(NetworkTimeouts.handshake);
       if (roasterProfileId != null) _invalidateCacheForRoaster(roasterProfileId);
       if (coffeeBeansUuid != null) _userBeanReviewCache.remove(coffeeBeansUuid);
 
@@ -312,7 +314,8 @@ class BeanReviewProvider extends ChangeNotifier {
             'updated_at': DateTime.now().toUtc().toIso8601String(),
           })
           .eq('id', reviewId)
-          .eq('user_id', user.id);
+          .eq('user_id', user.id)
+          .timeout(NetworkTimeouts.handshake);
 
       final hasTasteProfile = sweetness != null ||
           acidity != null ||
@@ -360,7 +363,8 @@ class BeanReviewProvider extends ChangeNotifier {
           .from('bean_reviews')
           .delete()
           .eq('id', reviewId)
-          .eq('user_id', user.id);
+          .eq('user_id', user.id)
+          .timeout(NetworkTimeouts.handshake);
 
       AnalyticsService.instance.track(
         'review_deleted',
@@ -403,7 +407,8 @@ class BeanReviewProvider extends ChangeNotifier {
           .from('bean_reviews')
           .select()
           .eq('user_id', user.id)
-          .order('created_at', ascending: false);
+          .order('created_at', ascending: false)
+          .timeout(NetworkTimeouts.smallSync);
       return (response as List)
           .map((e) => BeanReviewModel.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList();
@@ -430,7 +435,8 @@ class BeanReviewProvider extends ChangeNotifier {
           .eq('user_id', user.id)
           .eq('roaster_profile_id', roasterProfileId)
           .eq('bean_name', beanName)
-          .maybeSingle();
+          .maybeSingle()
+          .timeout(NetworkTimeouts.handshake);
       if (response == null) return null;
       return BeanReviewModel.fromJson(Map<String, dynamic>.from(response as Map));
     } catch (error) {
@@ -455,7 +461,7 @@ class BeanReviewProvider extends ChangeNotifier {
         'user_id': user.id,
         'reply_text': replyText,
         'updated_at': DateTime.now().toUtc().toIso8601String(),
-      });
+      }).timeout(NetworkTimeouts.handshake);
       // Invalidate all roaster caches so replies reload
       _reviewsCache.clear();
       notifyListeners();
@@ -478,7 +484,8 @@ class BeanReviewProvider extends ChangeNotifier {
           .from('review_replies')
           .delete()
           .eq('review_id', reviewId)
-          .eq('user_id', user.id);
+          .eq('user_id', user.id)
+          .timeout(NetworkTimeouts.handshake);
       _reviewsCache.clear();
       notifyListeners();
       return true;
@@ -514,7 +521,7 @@ class BeanReviewProvider extends ChangeNotifier {
       final response = await Supabase.instance.client.functions.invoke(
         'translate-bean-review',
         body: {'review_id': reviewId, 'target_locale': targetLocale},
-      );
+      ).timeout(NetworkTimeouts.smallSync);
       final data = response.data;
       if (data is! Map) {
         AnalyticsService.instance.track(
@@ -577,7 +584,7 @@ class BeanReviewProvider extends ChangeNotifier {
       final response = await Supabase.instance.client.functions.invoke(
         'translate-bean-review',
         body: {'review_ids': pending, 'target_locale': targetLocale},
-      );
+      ).timeout(NetworkTimeouts.smallSync);
       final data = response.data;
       if (data is! Map) {
         AnalyticsService.instance.track(

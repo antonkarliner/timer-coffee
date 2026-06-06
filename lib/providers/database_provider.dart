@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:coffee_timer/config/network_timeouts.dart';
 import 'package:coffee_timer/database/database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -38,6 +39,10 @@ class DatabaseProvider {
   static const String _lastSyncTimestampKey = 'lastUserRecipeSyncTimestamp';
   static const String _lastDeferredModerationCheckKey =
       'lastDeferredModerationCheckTimestamp';
+  // Recipe ids whose per-edit preference sync to Supabase failed (offline/timeout).
+  // Flushed by reconcileUserPreferences() at startup before the download, so a
+  // missed fire-and-forget upload can't be clobbered by stale remote data.
+  static const String _pendingPrefSyncKey = 'pendingPrefSyncRecipeIds';
 
   DatabaseProvider(this._db);
 
@@ -70,6 +75,33 @@ class DatabaseProvider {
     );
   }
 
+  Future<Set<String>> _getPendingPrefSyncIds() async {
+    final prefs = await SharedPreferences.getInstance();
+    return (prefs.getStringList(_pendingPrefSyncKey) ?? const <String>[])
+        .toSet();
+  }
+
+  Future<void> _markPendingPrefSync(String recipeId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final ids = (prefs.getStringList(_pendingPrefSyncKey) ?? <String>[]).toSet();
+    if (ids.add(recipeId)) {
+      await prefs.setStringList(_pendingPrefSyncKey, ids.toList());
+    }
+  }
+
+  Future<void> _clearPendingPrefSync(String recipeId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final ids = (prefs.getStringList(_pendingPrefSyncKey) ?? <String>[]).toSet();
+    if (ids.remove(recipeId)) {
+      await prefs.setStringList(_pendingPrefSyncKey, ids.toList());
+    }
+  }
+
+  Future<void> _clearAllPendingPrefSync() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_pendingPrefSyncKey);
+  }
+
   // --- End SharedPreferences Helpers ---
 
   Future<void> initializeDatabase({
@@ -84,7 +116,9 @@ class DatabaseProvider {
         isFirstLaunch: isFirstLaunch,
         locale: locale,
       ).timeout(
-        Duration(seconds: isFirstLaunch ? 15 : 10),
+        isFirstLaunch
+            ? NetworkTimeouts.firstLaunchBulk
+            : NetworkTimeouts.subsequentBulk,
         onTimeout: () {
           AppLogger.warning(
             'initializeDatabase timed out; will seed from bundle if DB is empty',
@@ -201,7 +235,7 @@ class DatabaseProvider {
         _fetchAndStoreLaunchPopup(locale), // Pass locale to fetch popup
       // Perform deferred moderation checks after main sync, but don't block forever if offline
       _performDeferredModerationChecks().timeout(
-        const Duration(seconds: 5),
+        NetworkTimeouts.handshake,
         onTimeout: () {
           AppLogger.warning('Deferred moderation checks timed out');
           return;
@@ -222,7 +256,7 @@ class DatabaseProvider {
           );
       final response = isFirstLaunch
           ? await base
-          : await base.timeout(const Duration(seconds: 5));
+          : await base.timeout(NetworkTimeouts.smallSync);
 
       final rows = (response as List<dynamic>).cast<Map<String, dynamic>>();
 
@@ -341,7 +375,7 @@ class DatabaseProvider {
           // Higher priority value should float to the top; fetch in that order.
           .order('priority', ascending: false)
           .order('updated_at', ascending: false)
-          .timeout(const Duration(seconds: 8));
+          .timeout(NetworkTimeouts.smallSync);
 
       final rawList = (response as List<dynamic>).cast<Map<String, dynamic>>();
       final offers = rawList.map((row) => GiftOffer.fromMap(row, locale)).where(
@@ -373,7 +407,7 @@ class DatabaseProvider {
           .eq('id', id)
           .limit(1)
           .single()
-          .timeout(const Duration(seconds: 6));
+          .timeout(NetworkTimeouts.smallSync);
 
       final offer = GiftOffer.fromMap(
         (response as Map<String, dynamic>),
@@ -402,7 +436,7 @@ class DatabaseProvider {
           .eq('is_active', true)
           .limit(1)
           .single()
-          .timeout(const Duration(seconds: 6));
+          .timeout(NetworkTimeouts.smallSync);
 
       final offer = GiftOffer.fromMap(
         (response as Map<String, dynamic>),
@@ -466,10 +500,10 @@ class DatabaseProvider {
       // Apply timeouts if it's not the first launch
       final brewingMethodsRequest = isFirstLaunch
           ? brewingMethodsFuture
-          : brewingMethodsFuture.timeout(const Duration(seconds: 5));
+          : brewingMethodsFuture.timeout(NetworkTimeouts.handshake);
       final supportedLocalesRequest = isFirstLaunch
           ? supportedLocalesFuture
-          : supportedLocalesFuture.timeout(const Duration(seconds: 5));
+          : supportedLocalesFuture.timeout(NetworkTimeouts.handshake);
 
       // Run all requests in parallel
       final responses = await Future.wait([
@@ -528,7 +562,7 @@ class DatabaseProvider {
       // Apply timeout if it's not the first launch
       final response = isFirstLaunch
           ? await request
-          : await request.timeout(const Duration(seconds: 5));
+          : await request.timeout(NetworkTimeouts.smallSync);
 
       final recipes = (response as List<dynamic>)
           .map((json) => RecipesCompanionExtension.fromJson(json))
@@ -559,7 +593,7 @@ class DatabaseProvider {
         final allRecipesResponse = await Supabase.instance.client
             .from('recipes')
             .select('id')
-            .timeout(const Duration(seconds: 5));
+            .timeout(NetworkTimeouts.handshake);
         supabaseRecipeIds = (allRecipesResponse as List<dynamic>)
             .map((json) => json['id'] as String)
             .toSet();
@@ -664,7 +698,8 @@ class DatabaseProvider {
               'id, last_modified, is_deleted, ispublic, needs_moderation_review',
             )
             .eq('id', recipe.id)
-            .maybeSingle();
+            .maybeSingle()
+            .timeout(NetworkTimeouts.handshake);
 
         // Skip if marked deleted remotely
         if (remoteData != null && remoteData['is_deleted'] == true) {
@@ -731,7 +766,8 @@ class DatabaseProvider {
           .from('user_recipes')
           .select('id')
           .eq('vendor_id', 'usr-$userId')
-          .eq('is_deleted', true);
+          .eq('is_deleted', true)
+          .timeout(NetworkTimeouts.handshake);
 
       final remotelyDeletedIds = (deletedResponse as List<dynamic>? ?? [])
           .map((e) => e['id'] as String)
@@ -783,7 +819,7 @@ class DatabaseProvider {
       }
 
       final downloadResponse = await downloadQuery.timeout(
-        const Duration(seconds: 3),
+        NetworkTimeouts.smallSync,
       );
 
       if (downloadResponse == null || (downloadResponse as List).isEmpty) {
@@ -983,7 +1019,8 @@ class DatabaseProvider {
           .from('user_recipes')
           .select('id')
           .eq('id', recipe.id)
-          .maybeSingle();
+          .maybeSingle()
+          .timeout(NetworkTimeouts.handshake);
 
       if (existingRecipe == null) {
         // Recipe doesn't exist, perform INSERT
@@ -991,7 +1028,10 @@ class DatabaseProvider {
           'Recipe not found remotely, performing INSERT',
           errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
         );
-        await Supabase.instance.client.from('user_recipes').insert(recipeJson);
+        await Supabase.instance.client
+            .from('user_recipes')
+            .insert(recipeJson)
+            .timeout(NetworkTimeouts.smallSync);
       } else {
         // Recipe exists, perform UPDATE
         AppLogger.debug(
@@ -1001,7 +1041,8 @@ class DatabaseProvider {
         await Supabase.instance.client
             .from('user_recipes')
             .update(recipeJson)
-            .eq('id', recipe.id);
+            .eq('id', recipe.id)
+            .timeout(NetworkTimeouts.smallSync);
       }
       // --- End Explicit Insert/Update Logic ---
 
@@ -1014,7 +1055,8 @@ class DatabaseProvider {
       await Supabase.instance.client
           .from('user_recipe_localizations')
           .delete()
-          .eq('recipe_id', recipe.id);
+          .eq('recipe_id', recipe.id)
+          .timeout(NetworkTimeouts.handshake);
 
       // Upload localizations (Batch Upsert)
       final localizationsJsonList = localizations
@@ -1032,14 +1074,16 @@ class DatabaseProvider {
       if (localizationsJsonList.isNotEmpty) {
         await Supabase.instance.client
             .from('user_recipe_localizations')
-            .upsert(localizationsJsonList);
+            .upsert(localizationsJsonList)
+            .timeout(NetworkTimeouts.smallSync);
       }
 
       // Delete existing steps before upload to prevent accumulation
       final deletedStepsCount = await Supabase.instance.client
           .from('user_steps')
           .delete()
-          .eq('recipe_id', recipe.id);
+          .eq('recipe_id', recipe.id)
+          .timeout(NetworkTimeouts.handshake);
       AppLogger.debug(
         'Deleted existing steps for recipe before upload',
         errorObject: {
@@ -1062,7 +1106,10 @@ class DatabaseProvider {
           )
           .toList();
       if (stepsJsonList.isNotEmpty) {
-        await Supabase.instance.client.from('user_steps').upsert(stepsJsonList);
+        await Supabase.instance.client
+            .from('user_steps')
+            .upsert(stepsJsonList)
+            .timeout(NetworkTimeouts.smallSync);
         AppLogger.debug(
           'Uploaded steps for recipe',
           errorObject: {
@@ -1111,7 +1158,7 @@ class DatabaseProvider {
             .eq('ispublic', true)
             .eq('is_deleted', false) // Only get non-deleted recipes
             .maybeSingle()
-            .timeout(const Duration(seconds: 3));
+            .timeout(NetworkTimeouts.smallSync);
 
         if (response == null) {
           // Original recipe not found, not public, or deleted
@@ -1269,7 +1316,7 @@ class DatabaseProvider {
           .order('created_at', ascending: false)
           .limit(1)
           .maybeSingle()
-          .timeout(const Duration(seconds: 2));
+          .timeout(NetworkTimeouts.handshake);
 
       if (response != null) {
         _launchPopupModel = LaunchPopupModel.fromMap(
@@ -1301,7 +1348,7 @@ class DatabaseProvider {
           .select();
       final coffeeFactsRequest = isFirstLaunch
           ? coffeeFactsFuture
-          : coffeeFactsFuture.timeout(const Duration(seconds: 5));
+          : coffeeFactsFuture.timeout(NetworkTimeouts.smallSync);
 
       // Run all requests in parallel
       final responses = await Future.wait([coffeeFactsRequest]);
@@ -1343,7 +1390,7 @@ class DatabaseProvider {
           'water_amount',
           5000,
         ) // Filter out impossibly high values (> 5000ml)
-        .timeout(const Duration(seconds: 5));
+        .timeout(NetworkTimeouts.handshake);
     final data = response as List<dynamic>;
     return data.fold<double>(
       0.0,
@@ -1373,7 +1420,7 @@ class DatabaseProvider {
               'p_end_date': endDate,
             },
           )
-          .timeout(const Duration(seconds: 5));
+          .timeout(NetworkTimeouts.handshake);
       final maybe = _extractTotalLiters(response);
       if (maybe != null) return maybe;
       return 0.0;
@@ -1404,7 +1451,7 @@ class DatabaseProvider {
             'global_stats_daily_range_count',
             params: {'p_start_date': startDate, 'p_end_date': endDate},
           )
-          .timeout(const Duration(seconds: 5));
+          .timeout(NetworkTimeouts.handshake);
       final count = _extractCount(response);
       if (count != null) return count;
       return 0;
@@ -1434,7 +1481,7 @@ class DatabaseProvider {
           'water_amount',
           5000,
         ) // Filter out impossibly high values (> 5000ml)
-        .timeout(const Duration(seconds: 5));
+        .timeout(NetworkTimeouts.handshake);
 
     // Aggregate counts of recipe_id
     final Map<String, int> recipeCounts = {};
@@ -1472,7 +1519,7 @@ class DatabaseProvider {
               'p_top_n': topN,
             },
           )
-          .timeout(const Duration(seconds: 5));
+          .timeout(NetworkTimeouts.handshake);
       final recipes = _extractRecipeIds(response);
       if (recipes != null) return recipes;
       return const <String>[];
@@ -1501,7 +1548,7 @@ class DatabaseProvider {
               if (liters != null) 'p_liters': liters,
             },
           )
-          .timeout(const Duration(seconds: 5));
+          .timeout(NetworkTimeouts.handshake);
       if (response is List && response.isNotEmpty && response.first is Map) {
         final row = response.first as Map;
         return YearlyPercentileResult(
@@ -1608,7 +1655,7 @@ class DatabaseProvider {
           .from('coffee_countries')
           .select('country_name')
           .eq('locale', locale)
-          .timeout(const Duration(seconds: 2));
+          .timeout(NetworkTimeouts.handshake);
 
       final data = response as List<dynamic>;
       return data.map((e) => e['country_name'] as String).toList();
@@ -1631,7 +1678,7 @@ class DatabaseProvider {
           .from('coffee_descriptors')
           .select('descriptor_name')
           .eq('locale', locale)
-          .timeout(const Duration(seconds: 2));
+          .timeout(NetworkTimeouts.handshake);
 
       final data = response as List<dynamic>;
       return data.map((e) => e['descriptor_name'] as String).toList();
@@ -1654,7 +1701,7 @@ class DatabaseProvider {
           .from('coffee_processing_methods')
           .select('method_name')
           .eq('locale', locale)
-          .timeout(const Duration(seconds: 2));
+          .timeout(NetworkTimeouts.handshake);
 
       final data = response as List<dynamic>;
       return data.map((e) => e['method_name'] as String).toList();
@@ -1677,7 +1724,7 @@ class DatabaseProvider {
           .from('roaster_profiles')
           .select('roaster_name')
           .eq('is_active', true)
-          .timeout(const Duration(seconds: 2));
+          .timeout(NetworkTimeouts.handshake);
 
       final data = response as List<dynamic>;
       return data.map((e) => e['roaster_name'] as String).toList();
@@ -1727,7 +1774,8 @@ class DatabaseProvider {
 
       final response = await Supabase.instance.client
           .rpc('search_roaster_unaccent', params: {'search_name': searchTerm})
-          .maybeSingle();
+          .maybeSingle()
+          .timeout(NetworkTimeouts.handshake);
       // maybeSingle() means: if multiple rows are returned, pick the first, else null.
 
       if (response != null) {
@@ -1752,11 +1800,14 @@ class DatabaseProvider {
     }
   }
 
-  Future<void> uploadUserPreferencesToSupabase() async {
+  /// Uploads all local preferences to Supabase. Returns true on success (or when
+  /// there is nothing to do, e.g. anonymous user), false when the upload failed —
+  /// callers use this to decide whether it is safe to pull remote data down.
+  Future<bool> uploadUserPreferencesToSupabase() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null || user.isAnonymous) {
       AppLogger.debug('No user logged in or user is anonymous');
-      return;
+      return true;
     }
 
     final localPreferences = await _db.userRecipePreferencesDao
@@ -1780,17 +1831,43 @@ class DatabaseProvider {
     try {
       await Supabase.instance.client
           .from('user_recipe_preferences')
-          .upsert(preferencesData);
+          .upsert(preferencesData)
+          .timeout(NetworkTimeouts.smallSync);
 
       AppLogger.debug(
         'Successfully uploaded preferences',
         errorObject: {'count': preferencesData.length},
       );
+      return true;
     } catch (e) {
       AppLogger.error('Error uploading preferences', errorObject: e);
-      // You might want to handle this error more gracefully,
-      // perhaps by showing a message to the user or implementing a retry mechanism
+      return false;
     }
+  }
+
+  /// Startup preference reconcile. If earlier per-edit syncs failed (tracked in
+  /// the pending set), push local prefs up FIRST so the subsequent download can't
+  /// overwrite them with stale remote values. When that upload fails we skip the
+  /// download entirely, preserving the local edits until the next reconcile.
+  Future<void> reconcileUserPreferences() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null || user.isAnonymous) return;
+
+    final pending = await _getPendingPrefSyncIds();
+    if (pending.isNotEmpty) {
+      final uploaded = await uploadUserPreferencesToSupabase();
+      if (!uploaded) {
+        AppLogger.warning(
+          'Pending preference upload failed; skipping download to avoid '
+          'clobbering local edits',
+          errorObject: {'pendingCount': pending.length},
+        );
+        return; // preserve local edits; retry on next launch
+      }
+      await _clearAllPendingPrefSync();
+    }
+
+    await fetchAndInsertUserPreferencesFromSupabase();
   }
 
   Future<void> updateUserPreferenceInSupabase(
@@ -1827,18 +1904,23 @@ class DatabaseProvider {
       if (customGrindSize != null) 'custom_grind_size': customGrindSize,
     };
 
+    // This runs fire-and-forget from the caller's perspective, but the method
+    // still observes its own outcome here: on success clear any pending marker,
+    // on failure record the recipe id so reconcileUserPreferences() re-uploads it
+    // before the next startup download can overwrite the local edit.
     try {
       await Supabase.instance.client
           .from('user_recipe_preferences')
           .upsert(data)
-          .timeout(const Duration(seconds: 2));
+          .timeout(NetworkTimeouts.handshake);
       AppLogger.debug('Preference updated successfully');
+      await _clearPendingPrefSync(recipeId);
     } on TimeoutException catch (e) {
       AppLogger.warning('Supabase request timed out', errorObject: e);
-      // Optionally, handle the timeout, e.g., by retrying or queuing the request
+      await _markPendingPrefSync(recipeId);
     } catch (e) {
       AppLogger.error('Error updating preference', errorObject: e);
-      // Handle other exceptions as needed
+      await _markPendingPrefSync(recipeId);
     }
   }
 
@@ -1875,7 +1957,7 @@ class DatabaseProvider {
           .eq('ispublic', true)
           .eq('is_deleted', false)
           .maybeSingle()
-          .timeout(const Duration(seconds: 2));
+          .timeout(NetworkTimeouts.handshake);
 
       if (recipeResponse == null) {
         AppLogger.debug(
@@ -1891,7 +1973,7 @@ class DatabaseProvider {
             .select('id, ispublic, is_deleted')
             .eq('id', recipeId)
             .maybeSingle()
-            .timeout(const Duration(seconds: 2));
+            .timeout(NetworkTimeouts.handshake);
         if (checkResponse != null) {
           AppLogger.debug(
             'Recipe exists but with flags',
@@ -1928,7 +2010,7 @@ class DatabaseProvider {
           .eq('recipe_id', recipeId)
           .limit(1) // Get just one name
           .maybeSingle()
-          .timeout(const Duration(seconds: 2));
+          .timeout(NetworkTimeouts.handshake);
 
       String recipeName = "Unnamed Recipe"; // Default name
       if (localizationResponse != null &&
@@ -2014,7 +2096,7 @@ class DatabaseProvider {
           .eq('ispublic', true)
           .eq('is_deleted', false)
           .maybeSingle()
-          .timeout(const Duration(seconds: 2));
+          .timeout(NetworkTimeouts.smallSync);
 
       if (response != null) {
         AppLogger.debug(
@@ -2058,7 +2140,7 @@ class DatabaseProvider {
             .select('id, ispublic, is_deleted')
             .eq('id', recipeId)
             .maybeSingle()
-            .timeout(const Duration(seconds: 2));
+            .timeout(NetworkTimeouts.handshake);
 
         if (checkResponse != null) {
           AppLogger.debug(
@@ -2077,7 +2159,7 @@ class DatabaseProvider {
               .eq('recipe_id', recipeId)
               .limit(1)
               .maybeSingle()
-              .timeout(const Duration(seconds: 2));
+              .timeout(NetworkTimeouts.handshake);
 
           AppLogger.debug(
             'Localizations exist',
@@ -2091,7 +2173,7 @@ class DatabaseProvider {
               .eq('recipe_id', recipeId)
               .limit(1)
               .maybeSingle()
-              .timeout(const Duration(seconds: 2));
+              .timeout(NetworkTimeouts.handshake);
 
           AppLogger.debug(
             'Steps exist',
@@ -2141,7 +2223,8 @@ class DatabaseProvider {
                   'ispublic': false, // Set ispublic to false on deletion
                   'last_modified': DateTime.now().toUtc().toIso8601String(),
                 }) // Also update timestamp
-                .eq('id', recipeId);
+                .eq('id', recipeId)
+                .timeout(NetworkTimeouts.handshake);
             AppLogger.debug(
               'Marked recipe as deleted and private in Supabase',
               errorObject: {'recipeId': AppLogger.sanitize(recipeId)},
@@ -2188,7 +2271,7 @@ class DatabaseProvider {
           .from('user_recipe_preferences')
           .select()
           .eq('user_id', user.id)
-          .timeout(const Duration(seconds: 3));
+          .timeout(NetworkTimeouts.handshake);
 
       final preferences = (response as List<dynamic>)
           .map((json) {
@@ -2343,7 +2426,7 @@ class DatabaseProvider {
           final moderationResponse = await Supabase.instance.client.functions
               .invoke('content-moderation', body: {'text': combinedText})
               .timeout(
-                const Duration(seconds: 10),
+                NetworkTimeouts.smallSync,
               ); // Timeout for moderation call
 
           if (moderationResponse.status != 200 ||
@@ -2406,7 +2489,8 @@ class DatabaseProvider {
                 'needs_moderation_review': false,
                 'last_modified': DateTime.now().toUtc().toIso8601String(),
               })
-              .eq('id', recipe.id);
+              .eq('id', recipe.id)
+              .timeout(NetworkTimeouts.handshake);
           AppLogger.debug(
             'Updated moderation status in Supabase for recipe',
             errorObject: {'recipeId': AppLogger.sanitize(recipe.id)},
@@ -2462,7 +2546,8 @@ class DatabaseProvider {
           .from('user_public_profiles')
           .select('user_id')
           .eq('user_id', userId)
-          .maybeSingle();
+          .maybeSingle()
+          .timeout(NetworkTimeouts.handshake);
 
       // If no profile exists, create a default one
       if (existingProfile == null) {
@@ -2474,11 +2559,14 @@ class DatabaseProvider {
             'https://mprokbemdullwezwwscn.supabase.co/storage/v1/object/public/user-profile-pictures//avatar_default.webp';
         // Format default display name as User-<first 5 chars of ID>
         final defaultDisplayName = 'User-${userId.substring(0, 5)}';
-        await supabase.from('user_public_profiles').insert({
-          'user_id': userId,
-          'display_name': defaultDisplayName,
-          'profile_picture_url': defaultAvatarUrl,
-        });
+        await supabase
+            .from('user_public_profiles')
+            .insert({
+              'user_id': userId,
+              'display_name': defaultDisplayName,
+              'profile_picture_url': defaultAvatarUrl,
+            })
+            .timeout(NetworkTimeouts.handshake);
         AppLogger.debug(
           'Default profile created for user',
           errorObject: {

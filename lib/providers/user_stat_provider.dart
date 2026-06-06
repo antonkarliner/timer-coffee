@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:coffee_timer/config/network_timeouts.dart';
 import 'package:coffee_timer/models/user_stat_model.dart';
 import 'package:coffee_timer/utils/version_vector.dart';
 import 'package:drift/drift.dart';
@@ -65,23 +66,26 @@ class UserStatProvider extends ChangeNotifier {
 
     await db.userStatsDao.insertUserStat(newStat);
 
+    // Remote sync is best-effort and fire-and-forget: the local DB is the source
+    // of truth, and the brew-finish flow (and any other caller) must never block
+    // on the network. A failed/slow sync is reconciled later by syncNewUserStats().
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null && !user.isAnonymous) {
-      try {
-        final supabaseData = _userStatModelToJson(newStat);
-        supabaseData['user_id'] = user.id;
-        await Supabase.instance.client
-            .from('user_stats')
-            .upsert(supabaseData)
-            .timeout(const Duration(seconds: 2));
-      } on TimeoutException catch (e) {
-        AppLogger.error('Supabase request timed out', errorObject: e);
-        // Optionally, handle the timeout, e.g., by retrying or queuing the request
-      } catch (e) {
-        AppLogger.error('Error syncing new user stat to Supabase',
-            errorObject: e);
-        // Handle other exceptions as needed
-      }
+      final supabaseData = _userStatModelToJson(newStat);
+      supabaseData['user_id'] = user.id;
+      unawaited(() async {
+        try {
+          await Supabase.instance.client
+              .from('user_stats')
+              .upsert(supabaseData)
+              .timeout(NetworkTimeouts.handshake);
+        } on TimeoutException catch (e) {
+          AppLogger.error('Supabase request timed out', errorObject: e);
+        } catch (e) {
+          AppLogger.error('Error syncing new user stat to Supabase',
+              errorObject: e);
+        }
+      }());
     }
 
     notifyListeners();
@@ -174,23 +178,26 @@ class UserStatProvider extends ChangeNotifier {
     AppLogger.debug(
         'Refreshed stat after update: ${AppLogger.sanitize(refreshedStat)}');
 
+    // Remote sync is best-effort and fire-and-forget — never block the caller on
+    // the network. Local DB is the source of truth; syncNewUserStats() reconciles.
     final user = Supabase.instance.client.auth.currentUser;
-    if (user != null && !user.isAnonymous) {
-      try {
-        final supabaseData = _userStatModelToJson(refreshedStat!);
-        supabaseData['user_id'] = user.id;
-        await Supabase.instance.client
-            .from('user_stats')
-            .upsert(supabaseData, onConflict: 'user_id,stat_uuid')
-            .timeout(const Duration(seconds: 3));
-        AppLogger.debug('Supabase updated');
-      } on TimeoutException catch (e) {
-        AppLogger.error('Supabase request timed out', errorObject: e);
-        // Optionally, handle the timeout here
-      } catch (e) {
-        AppLogger.error('Error syncing updated user stat to Supabase',
-            errorObject: e);
-      }
+    if (user != null && !user.isAnonymous && refreshedStat != null) {
+      final supabaseData = _userStatModelToJson(refreshedStat);
+      supabaseData['user_id'] = user.id;
+      unawaited(() async {
+        try {
+          await Supabase.instance.client
+              .from('user_stats')
+              .upsert(supabaseData, onConflict: 'user_id,stat_uuid')
+              .timeout(NetworkTimeouts.handshake);
+          AppLogger.debug('Supabase updated');
+        } on TimeoutException catch (e) {
+          AppLogger.error('Supabase request timed out', errorObject: e);
+        } catch (e) {
+          AppLogger.error('Error syncing updated user stat to Supabase',
+              errorObject: e);
+        }
+      }());
     }
 
     notifyListeners();
@@ -217,26 +224,25 @@ class UserStatProvider extends ChangeNotifier {
     // Update the stat locally (to mark it as deleted)
     await db.userStatsDao.updateUserStat(updatedStat);
 
+    // Remote sync is best-effort and fire-and-forget — never block the caller on
+    // the network. Local DB is the source of truth; syncNewUserStats() reconciles.
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null && !user.isAnonymous) {
-      try {
-        final supabaseData = _userStatModelToJson(updatedStat);
-        supabaseData['user_id'] = user.id;
-        await Supabase.instance.client
-            .from('user_stats')
-            .upsert(supabaseData, onConflict: 'user_id,stat_uuid')
-            .timeout(const Duration(seconds: 2)); // Added 2-second timeout
-      } catch (e) {
-        if (e is TimeoutException) {
+      final supabaseData = _userStatModelToJson(updatedStat);
+      supabaseData['user_id'] = user.id;
+      unawaited(() async {
+        try {
+          await Supabase.instance.client
+              .from('user_stats')
+              .upsert(supabaseData, onConflict: 'user_id,stat_uuid')
+              .timeout(NetworkTimeouts.handshake);
+        } on TimeoutException catch (e) {
           AppLogger.error('Supabase operation timed out', errorObject: e);
-          // You might want to handle the timeout specifically here
-        } else {
+        } catch (e) {
           AppLogger.error('Error marking user stat as deleted in Supabase',
               errorObject: e);
-          // Handle other exceptions
         }
-        // Decide if you want to handle this error differently
-      }
+      }());
     }
 
     notifyListeners();
@@ -312,7 +318,7 @@ class UserStatProvider extends ChangeNotifier {
         await Supabase.instance.client
             .from('user_stats')
             .upsert(batch)
-            .timeout(const Duration(seconds: 5));
+            .timeout(NetworkTimeouts.smallSync);
         AppLogger.debug('Uploaded batch ${i ~/ batchSize + 1}');
       } on TimeoutException catch (e) {
         AppLogger.error('Supabase batch upload timed out', errorObject: e);
@@ -343,7 +349,7 @@ class UserStatProvider extends ChangeNotifier {
             .select()
             .eq('user_id', user.id)
             .range(from, from + _supabasePageSize - 1)
-            .timeout(const Duration(seconds: 5));
+            .timeout(NetworkTimeouts.smallSync);
 
         final batch = (response as List<dynamic>)
             .map((json) => _jsonToUserStatsModel(json))
@@ -513,7 +519,7 @@ class UserStatProvider extends ChangeNotifier {
             .select('stat_uuid, version_vector, is_deleted')
             .eq('user_id', user.id)
             .range(from, from + _supabasePageSize - 1)
-            .timeout(const Duration(seconds: 5));
+            .timeout(NetworkTimeouts.smallSync);
 
         final batch = (response as List<dynamic>)
             .map((json) => (
@@ -736,7 +742,7 @@ class UserStatProvider extends ChangeNotifier {
               .from('user_stats')
               .select()
               .inFilter('stat_uuid', chunk)
-              .timeout(const Duration(seconds: 5));
+              .timeout(NetworkTimeouts.smallSync);
 
           results.addAll((response as List<dynamic>)
               .map((json) => _jsonToUserStatsModel(json))
@@ -773,7 +779,7 @@ class UserStatProvider extends ChangeNotifier {
         await Supabase.instance.client
             .from('user_stats')
             .upsert(updates)
-            .timeout(const Duration(seconds: 3)); // Added 3-second timeout
+            .timeout(NetworkTimeouts.smallSync);
 
         AppLogger.debug(
             'Uploaded ${chunk.length} stats to Supabase (chunk ${(i ~/ chunkSize) + 1})');

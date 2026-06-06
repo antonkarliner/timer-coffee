@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:coffee_timer/models/coffee_fact_model.dart';
 import 'package:coffee_timer/models/launch_popup_model.dart';
 import 'package:coffee_timer/providers/database_provider.dart';
@@ -140,9 +142,11 @@ class RecipeProvider extends ChangeNotifier {
       await db.userRecipePreferencesDao
           .updatePreferences(recipeId, isFavorite: isFavorite);
 
-      // Update Supabase
-      await databaseProvider.updateUserPreferenceInSupabase(recipeId,
-          isFavorite: isFavorite);
+      // Sync to Supabase fire-and-forget: the local DB is the source of truth and
+      // a missed write is reconciled by uploadUserPreferencesToSupabase(). Never
+      // block the UI (or brew-prep navigation) on this network call.
+      unawaited(databaseProvider.updateUserPreferenceInSupabase(recipeId,
+          isFavorite: isFavorite));
 
       _recipes[index] = recipe.copyWith(isFavorite: isFavorite);
 
@@ -172,13 +176,15 @@ class RecipeProvider extends ChangeNotifier {
       customGrindSize: customGrindSize,
     );
 
-    // Update Supabase
-    await databaseProvider.updateUserPreferenceInSupabase(
+    // Sync to Supabase fire-and-forget so navigating to the preparation screen is
+    // never blocked on the network. Local DB is the source of truth; a missed write
+    // is reconciled by uploadUserPreferencesToSupabase().
+    unawaited(databaseProvider.updateUserPreferenceInSupabase(
       recipeId,
       customCoffeeAmount: coffeeAmount,
       customWaterAmount: waterAmount,
       customGrindSize: customGrindSize,
-    );
+    ));
 
     await fetchAllRecipes();
   }
@@ -196,14 +202,16 @@ class RecipeProvider extends ChangeNotifier {
           coffeeChroniclerSliderPosition, // Add this line
     );
 
-    // Update Supabase
-    await databaseProvider.updateUserPreferenceInSupabase(
+    // Sync to Supabase fire-and-forget so navigating to the preparation screen is
+    // never blocked on the network. Local DB is the source of truth; a missed write
+    // is reconciled by uploadUserPreferencesToSupabase().
+    unawaited(databaseProvider.updateUserPreferenceInSupabase(
       recipeId,
       sweetnessSliderPosition: sweetnessSliderPosition,
       strengthSliderPosition: strengthSliderPosition,
       coffeeChroniclerSliderPosition:
           coffeeChroniclerSliderPosition, // Add this line
-    );
+    ));
 
     await fetchAllRecipes();
   }

@@ -5,6 +5,7 @@ import 'package:drift/drift.dart' as drift;
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:coffee_timer/config/network_timeouts.dart';
 import '../utils/app_logger.dart';
 
 class UserRecipeProvider with ChangeNotifier {
@@ -224,7 +225,7 @@ class UserRecipeProvider with ChangeNotifier {
             }).match({
               'user_id': userId,
               'recipe_id': recipeId,
-            });
+            }).timeout(NetworkTimeouts.handshake);
             AppLogger.debug(
                 'Marked related user_stats as deleted for recipe ${AppLogger.sanitize(recipeId)}.');
           } catch (e) {
@@ -242,7 +243,7 @@ class UserRecipeProvider with ChangeNotifier {
                 .match({
               'user_id': userId,
               'recipe_id': recipeId,
-            });
+            }).timeout(NetworkTimeouts.handshake);
             AppLogger.debug(
                 'Deleted related user_recipe_preferences for recipe ${AppLogger.sanitize(recipeId)}.');
           } catch (e) {
@@ -260,7 +261,7 @@ class UserRecipeProvider with ChangeNotifier {
               'last_modified': DateTime.now()
                   .toUtc()
                   .toIso8601String() // Also update timestamp
-            }).eq('id', recipeId);
+            }).eq('id', recipeId).timeout(NetworkTimeouts.handshake);
             AppLogger.debug(
                 'Marked recipe ${AppLogger.sanitize(recipeId)} as deleted and private in Supabase.');
           } catch (e) {
@@ -311,7 +312,7 @@ class UserRecipeProvider with ChangeNotifier {
         await Supabase.instance.client.from('user_recipes').update({
           'ispublic': false,
           'last_modified': DateTime.now().toUtc().toIso8601String()
-        }).eq('id', recipeId);
+        }).eq('id', recipeId).timeout(NetworkTimeouts.handshake);
         AppLogger.debug(
             'Successfully unpublished recipe ${AppLogger.sanitize(recipeId)} in Supabase.');
       } catch (e) {
